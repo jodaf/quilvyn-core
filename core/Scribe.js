@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.82 2005/02/23 19:38:15 Jim Exp $ */
+/* $Id: Scribe.js,v 1.83 2005/02/27 13:29:29 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var ABOUT_TEXT =
@@ -145,9 +145,10 @@ function EditorHtml() {
   var editorElements = [
     ['', 'about', 'button', ['About']],
     ['', 'help', 'button', ['Help']],
+    [' ', 'file', 'select-one', ChoicesForFileInput()],
+    [' ', 'validate', 'button', ['Validate']],
     ['', 'view', 'button', ['View Html']],
-    ['', 'file', 'select-one', ChoicesForFileInput()],
-    ['', 'clear', 'select-one',
+    [' ', 'clear', 'select-one',
       ['--Clear--', 'alignment', 'armor', 'charisma', 'constitution', 'deity',
        'dexterity', 'domains', 'feats', 'gender', 'hitPoints', 'intelligence',
        'languages', 'levels', 'name', 'race', 'shield', 'skills', 'spells',
@@ -157,7 +158,6 @@ function EditorHtml() {
        'deity', 'dexterity', 'domains', 'feats', 'gender', 'hitPoints',
        'intelligence', 'languages', 'levels', 'name', 'race', 'shield',
        'skills', 'spells', 'strength', 'weapons', 'wisdom']],
-    ['', 'validate', 'button', ['Validate']],
     ['Name', 'name', 'text', [20]],
     ['Race', 'race', 'select-one', DndCharacter.races],
     ['Experience', 'experience', 'text', [8]],
@@ -206,17 +206,15 @@ function EditorHtml() {
     ['Notes', 'notes', 'textarea', [40,10]]
   ];
   var htmlBits = ['<form name="frm"><table>\n'];
-  var newRow = true;
   for(var i = 0; i < editorElements.length; i++) {
     var element = editorElements[i];
-    var html =
-      (newRow ? '<tr><th>' + element[0] + '</th><td>' : '') +
-      InputHtml(element[1], element[2], element[3]);
-    newRow = element[1].indexOf('_sel') < 0;
-    htmlBits[htmlBits.length] = html + (newRow ? '</td></tr>\n' : '');
+    htmlBits[htmlBits.length] =
+      '<tr><th>' + element[0] + '</th><td>' +
+      InputHtml(element[1], element[2], element[3]) + '</td></tr>\n';
   }
   htmlBits[htmlBits.length] = '</table></form>';
   var result = htmlBits.join('');
+  result = result.replace(/<\/td><\/tr>\n<tr><th><\/th><td>/g, '');
   return result;
 }
 
