@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.60 2004/12/21 06:41:58 Jim Exp $ */
+/* $Id: Scribe.js,v 1.61 2004/12/23 08:00:50 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.12.20\n' +
+'Scribe Character Editor version 0.12.22\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -18,21 +18,27 @@ var ABOUT_TEXT =
 
 var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
-var TIMEOUT_DELAY = 1000;
+var TIMEOUT_DELAY = 1000; /* One second */
 
-var character;
-var cookieInfo = {
-  recent: ''
+var character;      /* Current DndCharacter */
+var cookieInfo = {  /* What we store in the cookie */
+  recent: '' /* Comma-separated and -terminated list of recent opens */
 };
-var editor;
-var editWindow;
-var loadingPopup = null;
-var loadingWindow;
-var rules;
-var sheetWindow;
-var urlLoading = null;
-var viewer;
+var editor;         /* FormController for editor window */
+var editWindow;     /* Window (popup) that contains editing form */
+var loadingPopup = null; /* Current "loading" message popup window */
+var loadingWindow;  /* Window used to load character HTML files */
+var rules;          /* RuleEngine with standard + user rules */
+var sheetWindow;    /* Window displaying character sheet */
+var urlLoading = null;   /* Character URL presently loading */
+var viewer;         /* ObjectViewer to translate character attrs into HTML */
 
+/*
+ * Callback for CustomizeScribe's AddChoices parameter.  Add each #item# to the
+ * set of valid selections for #name#.  For some values of #name# (e.g.,
+ * 'weapons'), data associated with each item is interspersed in the parameter
+ * list.  See help.html for details.
+ */
 function AddUserChoices(name, item /*, item ... */) {
   var nameObjects = {
     'classes':'classesHitDie', 'deities':'deitiesDomains',
@@ -55,10 +61,12 @@ function AddUserChoices(name, item /*, item ... */) {
       o[arguments[i - 1]] = arguments[i];
 };
 
+/* Callback for CustomizeScribe's AddRules parameter. */
 function AddUserRules() {
   rules.AddRules.apply(rules, arguments);
 }
 
+/* Callback for CustomizeScribe's AddToSheet parameter. */
 function AddUserView(name, within, before, format) {
   name = name.replace(/([a-z])([A-Z])/g, '$1 $2').
          replace(/(^|[ ._])[a-z]/g, function(c) {return c.toUpperCase();});
@@ -67,37 +75,24 @@ function AddUserView(name, within, before, format) {
   );
 }
 
-function FullUrl(url) {
-  if(url.match(/^\w*:/) == null)
-    url = URL_PREFIX + url;
-  if(url.match(/\.\w*$/) == null)
-    url += URL_SUFFIX;
-  return url;
-}
-
+/* Returns a sorted array containing all keys from object #o#. */
 function GetKeys(o) {
   var result = [];
   for(var a in o)
     result.push(a);
+  result.sort();
   return result;
 }
 
+/* Returns a FormContoller loaded with the default editing fields. */
 function InitialEditor() {
-  var a;
   var result = new FormController();
   var spellsCategoryOptions = [];
-  var skills = [];
-  var weapons = [];
-  for(a in DndCharacter.skillsAbility)
-    skills.push(a);
-  skills.sort();
-  for(a in DndCharacter.spellsCategoryCodes)
+  var weapons = GetKeys(DndCharacter.weaponsDamage);
+  for(var a in DndCharacter.spellsCategoryCodes)
     spellsCategoryOptions.push
       (a + '(' + DndCharacter.spellsCategoryCodes[a] + ')');
   spellsCategoryOptions.sort();
-  for(a in DndCharacter.weaponsDamage)
-    weapons.push(a);
-  result.setCallback(Update);
   result.addElements(
     '', 'about', 'button', ['About'],
     '', 'help', 'button', ['Help'],
@@ -130,7 +125,7 @@ function InitialEditor() {
     'Deity', 'deity', 'select', GetKeys(DndCharacter.deitiesDomains),
     'Origin', 'origin', 'text', [20],
     'Feats', 'feats', 'bag', DndCharacter.feats,
-    'Skills', 'skills', 'bag', skills,
+    'Skills', 'skills', 'bag', GetKeys(DndCharacter.skillsAbility),
     'Languages', 'languages', 'set', DndCharacter.languages,
     'Hit Points', 'hitPoints', 'range', [0,999],
     'Armor', 'armor', 'select', GetKeys(DndCharacter.armorsArmorClassBonuses),
@@ -147,9 +142,11 @@ function InitialEditor() {
     'Wizard Prohibition', 'prohibit', 'set', DndCharacter.schools,
     'Notes', 'notes', 'text', [40,10]
   );
+  result.setCallback(Update);
   return result;
 }
 
+/* Returns a RuleEngine loaded with the default DndCharacter rules. */
 function InitialRuleEngine() {
   var i;
   var result = new RuleEngine();
@@ -167,6 +164,7 @@ function InitialRuleEngine() {
   return result;
 }
 
+/* Returns an ObjectViewer loaded with the default character sheet format. */
 function InitialViewer() {
   var result = new ObjectViewer();
   result.addElements(
@@ -289,24 +287,34 @@ function InitialViewer() {
   return result;
 }
 
+/*
+ * Starts the process of loading #name# (a full or partial URL) into the editor
+ * and character sheet windows.  Schedules repeated calls of itself, ignoring
+ * new calls, until either the character is loaded or the user cancels.
+ */
 function LoadCharacter(name) {
-  url = FullUrl(name);
+  var url = name;
+  if(url.match(/^\w*:/) == null)
+    url = URL_PREFIX + url;
+  if(url.match(/\.\w*$/) == null)
+    url += URL_SUFFIX;
   if(urlLoading == url && loadingWindow.attributes != null) {
     /* Character done loading. */
     var i;
     var names = cookieInfo.recent.split(',');
+    names.pop(); /* Trim trailing empty element */
     for(i = 0; i < names.length && names[i] != name; i++)
       ; /* empty */
     if(i < names.length)
       names.splice(i, 1);
     names.unshift(name);
     names.splice(MAX_RECENT_OPENS);
-    cookieInfo.recent = names.join(',');
+    cookieInfo.recent = names.join(',') + ',';
     StoreCookie();
     RefreshRecentOpens();
     character = new DndCharacter(null);
-    for(var e in loadingWindow.attributes) {
-      var value = loadingWindow.attributes[e];
+    for(var a in loadingWindow.attributes) {
+      var value = loadingWindow.attributes[a];
       /*
        * Turn objects into "dot" attributes and convert values from prior
        * versions of Scribe.
@@ -314,25 +322,25 @@ function LoadCharacter(name) {
       if(typeof value == 'object') {
         for(var x in value) {
           var convertedName = x;
-          if(e == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
+          if(a == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
             convertedName = convertedName.substring(0, i);
-          else if(e == 'feats' && x == 'Expertise')
+          else if(a == 'feats' && x == 'Expertise')
             convertedName = 'Combat Expertise';
-          else if(e == 'skills' && x == 'Pick Pocket')
+          else if(a == 'skills' && x == 'Pick Pocket')
             convertedName = 'Sleight Of Hand';
-          else if(e == 'skills' && x == 'Wilderness Lore')
+          else if(a == 'skills' && x == 'Wilderness Lore')
             convertedName = 'Survival';
-          else if(e == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
+          else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
             convertedName = convertedName.substring(0, i);
-          character.attributes[e + '.' + convertedName] = value[x];
+          character.attributes[a + '.' + convertedName] = value[x];
         }
       }
-      else if(e == 'shield' && value.indexOf('Large') == 0)
-        character.attributes[e] = 'Heavy' + value.substring(5);
-      else if(e == 'shield' && value.indexOf('Small') == 0)
-        character.attributes[e] = 'Light' + value.substring(5);
+      else if(a == 'shield' && value.indexOf('Large') == 0)
+        character.attributes[a] = 'Heavy' + value.substring(5);
+      else if(a == 'shield' && value.indexOf('Small') == 0)
+        character.attributes[a] = 'Light' + value.substring(5);
       else
-        character.attributes[e] = value;
+        character.attributes[a] = value;
     }
     RefreshEditor(false);
     RefreshSheet();
@@ -364,18 +372,23 @@ function LoadCharacter(name) {
     setTimeout('LoadCharacter("' + name + '")', TIMEOUT_DELAY);
 }
 
+/* Prompts the user for a character URL and starts the load. */
 function OpenDialog() {
   if(loadingPopup != null && !loadingPopup.closed)
     return; /* Ignore during load. */
   var name = prompt('Enter URL to Edit (Blank for Random Character)', '');
   if(name == null)
     return; /* User cancel. */
-  else if(name == '')
+  if(name == '')
     RandomizeCharacter();
   else
     LoadCharacter(name);
 }
 
+/*
+ * Returns a popup window containing #html# and the optional set of #buttons#,
+ * each associated with an #action#.
+ */
 function PopUp(html, button, action /* ... */) {
   var popup = window.open
     ('about:blank', 'pop' + PopUp.next++, 'height=200,width=400');
@@ -393,19 +406,23 @@ function PopUp(html, button, action /* ... */) {
 }
 PopUp.next = 0;
 
+/*
+ * Replaces the current character with one that has all randomized attributes.
+ * Allows the user to specify race and class level(s).
+ */
 function RandomizeCharacter() {
   var i;
   if(urlLoading == 'random' && loadingPopup.closed)
     /* User cancel. */
     urlLoading = null;
   else if(urlLoading == 'random' && loadingPopup.okay != null) {
+    /* Ready to generate. */
     var totalLevels = 0;
     var value;
     character = new DndCharacter(null);
     for(var a in DndCharacter.classesHitDie) {
       var attr = 'levels.' + a;
-      if((value = loadingPopup.fc.getElementValue(attr)) != null &&
-         value > 0) {
+      if((value = loadingPopup.fc.getElementValue(attr)) != null && value > 0) {
         character.attributes[attr] = value;
         totalLevels += character.attributes[attr];
       }
@@ -465,6 +482,10 @@ function RandomizeCharacter() {
     setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
 }
 
+/*
+ * Sets the editing window form fields to the values found in the current
+ * character, redrawing the window from scratch if #redraw# is true.
+ */
 function RefreshEditor(redraw) {
   if(redraw) {
     editWindow.document.write(
@@ -481,15 +502,15 @@ function RefreshEditor(redraw) {
   RefreshSpellSelections(true);
 }
 
+/* Uses the cookie contents to reset the options in the editor New/Open menu. */
 function RefreshRecentOpens() {
   var names = cookieInfo.recent.split(',');
-  for(var i = names.length - 1; i >= 0; i--)
-    if(names[i] == '')
-      names.splice(i, 1);
+  names.pop(); /* Trim trailing empty element */
   names.unshift('--New/Open--', 'New...', 'Open...');
   editor.setElementSelections('file', names);
 }
 
+/* Draws the sheet for the current character in the character sheet window. */
 function RefreshSheet() {
   if(sheetWindow == null || sheetWindow.closed)
     sheetWindow = window.open('about:blank', 'scribeSheet');
@@ -497,25 +518,30 @@ function RefreshSheet() {
   sheetWindow.document.close();
 }
 
+/*
+ * Changes the spells editor menu to contain only spells in categories selected
+ * in the spells category editor menu. If #resetToCharacter# is true, first
+ * changes the spells category editor menu to select only those categories that
+ * reflect spells known by the current character.
+ */
 function RefreshSpellSelections(resetToCharacter) {
+
   var a;
-  var i;
   var code;
   var codesToDisplay = {};
   var matchInfo;
   var option;
+  var spells = [];
+
   if(resetToCharacter) {
     for(a in DndCharacter.spellsCategoryCodes)
       codesToDisplay[DndCharacter.spellsCategoryCodes[a]] = 0;
     for(a in character.attributes) {
       if((matchInfo = a.match(/^spells\..*\((\D+)\d+\)$/)) != null)
         codesToDisplay[matchInfo[1]] = 1;
-      else if((matchInfo = a.match(/^domains\.(.*)$/)) != null &&
-              DndCharacter.spellsCategoryCodes[matchInfo[1]] != null)
-        codesToDisplay[DndCharacter.spellsCategoryCodes[matchInfo[1]]] = 1;
-      else if((matchInfo = a.match(/^levels\.(.*)$/)) != null &&
-              DndCharacter.spellsCategoryCodes[matchInfo[1]] != null)
-        codesToDisplay[DndCharacter.spellsCategoryCodes[matchInfo[1]]] = 1;
+      else if((matchInfo = a.match(/^(domains|levels)\.(.*)$/)) != null &&
+              DndCharacter.spellsCategoryCodes[matchInfo[2]] != null)
+        codesToDisplay[DndCharacter.spellsCategoryCodes[matchInfo[2]]] = 1;
     }
     for(a in DndCharacter.spellsCategoryCodes) {
       code = DndCharacter.spellsCategoryCodes[a];
@@ -530,10 +556,10 @@ function RefreshSpellSelections(resetToCharacter) {
       codesToDisplay[code] = editor.getElementValue('spellcats.' + option);
     }
   }
-  var spells = [];
+
   for(a in DndCharacter.spellsLevels) {
     var spellLevels = DndCharacter.spellsLevels[a].split('/');
-    for(i = 0; i < spellLevels.length; i++)
+    for(var i = 0; i < spellLevels.length; i++)
       if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
          codesToDisplay[matchInfo[1]])
         spells.push(a + '(' + spellLevels[i] + ')');
@@ -542,9 +568,11 @@ function RefreshSpellSelections(resetToCharacter) {
     spells.push('--- No spell categories selected ---');
   spells.sort();
   editor.setElementSelections('spells', spells);
+
 }
 
-function ScribeLoaded() {
+/* Launch routine called after all Scribe scripts are loaded. */
+function ScribeStart() {
 
   var defaults = {
     'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
@@ -553,14 +581,12 @@ function ScribeLoaded() {
     'URL_SUFFIX':'.html'
   };
 
-  if(window.DndCharacter == null ||
-     window.FormController == null ||
-     window.ObjectViewer == null ||
-     window.RuleEngine == null) {
+  if(window.DndCharacter == null || window.FormController == null ||
+     window.ObjectViewer == null || window.RuleEngine == null) {
     alert('JavaScript functions required by Scribe are missing; exiting');
     return;
   }
-  if(window.opener == null || window.opener.ScribeLoaded == null) {
+  if(window.opener == null || window.opener.ScribeStart == null) {
     if(window.frames[0] == null || window.frames[1] == null)
       alert('Scribe must be embedded in a document that defines at least ' +
             'two frames; exiting');
@@ -580,7 +606,7 @@ function ScribeLoaded() {
       end = document.cookie.length;
     var cookie = document.cookie.substring(i + COOKIE_NAME.length + 1, end);
     var settings = unescape(cookie).split(COOKIE_FIELD_SEPARATOR);
-    for(i = 0; i < settings.length && settings[i] != ''; i += 2)
+    for(i = 0; i < settings.length; i += 2)
       if(cookieInfo[settings[i]] != null)
         cookieInfo[settings[i]] = settings[i + 1];
   }
@@ -607,58 +633,71 @@ function ScribeLoaded() {
 
 }
 
+/* Returns the character sheet HTML for the current character. */
 function SheetHtml() {
+
   var a;
   var codeAttributes = {};
   var computedAttributes = rules.Apply(character.attributes);
   var displayAttributes = {};
   var i;
+
   for(a in character.attributes) {
     if(character.attributes[a] == DndCharacter.defaults[a])
-      continue;
+      continue; /* No point in storing default attr values. */
+    /* Turn "dot" attributes into objects. */
     if((i = a.indexOf('.')) < 0)
       codeAttributes[a] = character.attributes[a];
     else {
-      var group = a.substring(0, i);
-      if(codeAttributes[group] == null)
-        codeAttributes[group] = {};
-      codeAttributes[group][a.substring(i + 1)] = character.attributes[a];
+      var object = a.substring(0, i);
+      if(codeAttributes[object] == null)
+        codeAttributes[object] = {};
+      codeAttributes[object][a.substring(i + 1)] = character.attributes[a];
     }
   }
+
+  /*
+   * NOTE: The ObjectFormatter doesn't support interspersing values in a list
+   * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
+   * of displayAttributes' names and values here to get the sheet to look right.
+   */
   for(a in computedAttributes) {
+    /* Split name into separate words with initial caps. */
     var name = a.replace(/([a-z])([A-Z])/g, '$1 $2').
                replace(/(^|[ ._])[a-z]/g, function(c){return c.toUpperCase();});
     var value = computedAttributes[a];
+    /* Add entered value in brackets if it differs from computed value. */
     if(character.attributes[a] != null && character.attributes[a] != value)
       value += '[' + character.attributes[a] + ']';
     if((i = name.indexOf('.')) < 0) {
-      if(name == 'Unarmed Damage' && computedAttributes.meleeDamage != 0)
-        value += (computedAttributes.meleeDamage > 0 ? '+' : '') +
-                 computedAttributes.meleeDamage;
+      if(name == 'Unarmed Damage')
+        value += Signed(computedAttributes.meleeDamage);
       displayAttributes[name] = value;
     }
     else {
-      var group = name.substring(0, i);
+      var object = name.substring(0, i);
       name = name.substring(i + 1);
-      if(group.indexOf('Notes') >= 0 && typeof(value) == 'number') {
+      if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
           continue; /* Suppress notes with zero value. */
-        else if(DndCharacter.notes[a] == null && value > 0)
-          value = '+' + value;
+        else if(DndCharacter.notes[a] == null)
+          value = Signed(value); /* Make signed if not otherwise formatted. */
       }
       if(DndCharacter.notes[a] != null)
         value = DndCharacter.notes[a].replace(/%V/, value);
-      if(group == 'Skills') {
+      if(object == 'Skills') {
         var skill = name;
         if(DndCharacter.skillsAbility[skill] != null)
           name += ' (' + DndCharacter.skillsAbility[name] + ')';
         if(computedAttributes['classSkills.' + skill] == null)
           name += '(X)';
       }
-      else if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
+      else if(object == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
         var damages = DndCharacter.weaponsDamage[name];
-        var extraDamage =
-          name.indexOf('bow') < 0 ? computedAttributes.meleeDamage : 0;
+        var extraDamage = computedAttributes.meleeDamage;
+        if(name.indexOf('bow') >= 0 &&
+           (name.indexOf('Composite') < 0 || extraDamage > 0))
+          extraDamage = 0;
         if(computedAttributes['specialization.' + name] != null)
           extraDamage += 2;
         damages = damages == null ? ['0'] : damages.split('/');
@@ -666,33 +705,34 @@ function SheetHtml() {
           var pieces = damages[i].match(/^(d\d+) *(x(\d+))? *(@(\d+))?$/);
           var damage = pieces == null ? 'd6' : pieces[1];
           var multiplier =
-            pieces == null || pieces[3] == null ? 2 : (pieces[3]-0);
+            pieces != null && pieces[3] != null ? pieces[3] - 0 : 2;
           var smallDamage = DndCharacter.weaponsSmallDamage[damage];
-          var threat = pieces == null || pieces[5] == null ? 20 : (pieces[5]-0);
+          var threat = pieces != null && pieces[5] != null ? pieces[5] - 0 : 20;
           if(computedAttributes['feats.Improved Critical'] != null)
             threat = 21 - (21 - threat) * 2;
           if(computedAttributes.isSmall && smallDamage != null)
             damage = smallDamage;
-          if(extraDamage != 0)
-            damage += (extraDamage > 0 ? '+' : '') + extraDamage;
+          damage += Signed(extraDamage);
           damages[i] = damage + ' x' + multiplier + '@' + threat;
         }
         name += '(' + damages.join('/') + ')';
       }
       value = name + (value == '1' ? '' : (': ' + value));
-      if(group.indexOf('Notes') > 0 && rules.IsSource(a))
+      if(object.indexOf('Notes') > 0 && rules.IsSource(a))
         value = '<i>' + value + '</i>';
-      if(displayAttributes[group] == null)
-        displayAttributes[group] = [];
-      displayAttributes[group].push(value);
+      if(displayAttributes[object] == null)
+        displayAttributes[object] = [];
+      displayAttributes[object].push(value);
     }
   }
+
   for(a in displayAttributes) {
     if(typeof displayAttributes[a] == 'object') {
       displayAttributes[a].sort();
       displayAttributes[a] = displayAttributes[a].join(' * ');
     }
   }
+
   return '<html>\n' +
          '<head>\n' +
          '  <title>' + character.attributes.name + '</title>\n' +
@@ -704,8 +744,10 @@ function SheetHtml() {
          viewer.getHtml(displayAttributes) +
          '</body>\n' +
          '</html>\n';
+
 }
 
+/* Opens a window that contains HTML for #html# in readable/copyable format. */
 function ShowHtml(html) {
   if(ShowHtml.htmlWindow == null || ShowHtml.htmlWindow.closed)
     ShowHtml.htmlWindow = window.open('about:blank', 'html');
@@ -718,6 +760,12 @@ function ShowHtml(html) {
   ShowHtml.htmlWindow.document.close();
 }
 
+/* Returns an empty string if #value# is 0, otherwise a string with a sign. */
+function Signed(value) {
+  return value == 0 ? '' : value > 0 ? '+' + value : value;
+}
+
+/* Stores the current values of cookieInfo in the browser cookie. */
 function StoreCookie() {
   var cookie = '';
   for(var p in cookieInfo) {
@@ -731,6 +779,10 @@ function StoreCookie() {
   document.cookie = cookie;
 }
 
+/*
+ * Callback invoked when the user makes a change in the editing window that
+ * sets field #name# to #value#.
+ */
 function Update(name, value) {
 
   if(name == 'about') {
@@ -808,6 +860,10 @@ function Update(name, value) {
 
 }
 
+/*
+ * Returns HTML showing the results of applying validation rules to the current
+ * character's attributes.
+ */
 function ValidationHtml() {
   var computedAttributes = rules.Apply(character.attributes);
   var errors;
