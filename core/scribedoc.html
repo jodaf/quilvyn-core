@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.42 2005/03/12 07:16:54 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.43 2005/03/14 19:51:33 Jim Exp $ -->
 <html>
 
 <head>
@@ -533,6 +533,12 @@ new items.
   <li>You can only select the feats "Extra Turning" and "Toughness" once.
       Multiple selections of these feats can be handled by defining custom
       feats (e.g., "Improved Toughness").</li>
+  <li>Scribe has problems dealing with options containing an uncapitalized
+      word.  This is why, e.g., Scribe defines the skills "Sleight Of Hand" and
+      "Knowledge (Arcana)" instead of "Sleight of Hand" and "Knowledge
+      (arcana)". There are other occasions when Scribe is picky about case;
+      when defining your own options, it's safest to follow the conventions
+      Scribe uses.</li>
 </ul>
 </p>
 
@@ -550,10 +556,6 @@ new items.
   <li>It's easy to overlook when characters have a bonus in untrained skills,
       e.g., an elf's +2 on <i>Listen</i> when no skill points are allocated to
       that skill.</li>
-  <li>Scribe has problems dealing with options containing an uncapitalized
-      word.  This is why, e.g., Scribe defines the skills "Sleight Of Hand" and
-      "Knowledge (Arcana)" instead of "Sleight of Hand" and "Knowledge
-      (arcana)". There are other occasions when Scribe is picky about case.</li>
   <li>The editor should indicate cross/class skills.</li>
 </ul>
 </p>
