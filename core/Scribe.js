@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.45 2004/09/14 12:42:54 Jim Exp $ */
+/* $Id: Scribe.js,v 1.46 2004/09/14 16:18:53 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -271,6 +271,8 @@ function LoadCharacter(name) {
           var convertedName = x;
           if(e == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
             convertedName = convertedName.substring(0, i);
+          else if(e == 'feats' && x == 'Expertise')
+            convertedName = 'Combat Expertise';
           else if(e == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
             convertedName = convertedName.substring(0, i);
           character.attributes[e + '.' + convertedName] = value[x];
@@ -573,8 +575,12 @@ function SheetHtml() {
     var value = computedAttributes[a];
     if(character.attributes[a] != null && character.attributes[a] != value)
       value += '[' + character.attributes[a] + ']';
-    if((i = name.indexOf('.')) < 0)
+    if((i = name.indexOf('.')) < 0) {
+      if(name == 'Unarmed Damage' && computedAttributes.meleeDamage != 0)
+        value += (computedAttributes.meleeDamage > 0 ? '+' : '') +
+                 computedAttributes.meleeDamage;
       displayAttributes[name] = value;
+    }
     else {
       var group = name.substring(0, i);
       name = name.substring(i + 1);
