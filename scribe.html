@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.15 2004/09/14 16:25:11 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.16 2004/12/13 06:35:01 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2004, James J. Hayes
 
@@ -37,12 +37,24 @@ var SOURCE_URL = '';
 </script>
 
 <!--
+A few user preferences you may want to change: the background color for
+Scribe's windows, the number of recent opens shown in the file menu, and the
+prefix and suffix used to expand abbreviated character file urls.
+-->
+<script>
+var BACKGROUND = 'wheat';
+var MAX_RECENT_OPENS = 20;
+var URL_PREFIX = 'http://www.jodaf.com/dnd/bt/';
+var URL_SUFFIX = '.html';
+</script>
+
+<!--
 These definitions determine whether Scribe uses rules from v3.0 or v3.5 of the
 Players' Manual. CLASS_RULES_VERSION determines the version of the class and
 race rules, FEAT_RULES_VERSION the version of the feat and skill rules, along
 with the list of feats and skills, and MAGIC_RULES_VERSION the version of magic
 rules, along with the list of spells.  Each value can be '3.0' or '3.5',
-indicating a single version, or '3.0;3.5' or '3.5;3.0', indicating that both
+indicating a single version, or '3.0/3.5' or '3.5/3.0', indicating that both
 sets of rules should be used.  In the latter case, the second version listed
 takes precedence for rules that are incompatible between the versions.
 -->
@@ -53,66 +65,20 @@ var MAGIC_RULES_VERSION = '3.5';
 </script>
 
 <!--
-A few user preferences you may want to change: the background color for
-Scribe's windows, the number of recent opens shown in the file menu, and the
-prefix and suffix used to expand abbreviated character file urls.
--->
-<script>
-var BACKGROUND = 'wheat';
-var MAX_RECENT_OPENS = 10;
-var URL_PREFIX = 'http://www.jodaf.com/dnd/bt/';
-var URL_SUFFIX = '.html';
-</script>
-
-<!--
 If this file defines a CustomizeScribe function, Scribe calls it after loading,
 allowing you to add custom behavior to the program.  Each of CustomizeScribe's
 parameters is a function that you can use to perform one type of customization.
-These functions allow you to:
-
-Add new choices to one of the editor's selection lists.  The editor defines the
-lists 'alignments', 'classes', 'domains' (cleric spell domains), 'feats',
-'genders', 'languages', 'races', 'schools' (wizard spell schools),
-'shields', 'skills', 'spells', and 'weapons'.  For example, this line would add
-'Latin' to the list of languages that characters can learn:
-
-  AddChoices('languages', 'Latin');
-
-Add rules to compute new character attributes or modify existing ones. Each
-call to AddRules requires the name of the attribute to modify, followed by one
-or more sets of values that specify the name of the attribute that affect the
-one modified, the type of effect it has, and an expression used to calculate
-the effect.  For example, this set of rules would compute an attribute called
-elvenInsight based on race and intelligence:
-
-  AddRules('elvenInsight',
-    'race', '=', 'source == "Elf" ? 2 : source == "Half Elf" ? 1 : null',
-    'intelligence', '+', 'source > 14 ? source - 14 : 0'
-  );
-
-Add information to the character sheet.  For each attribute to be added, list
-its name, the section where it should appear, the attribute it should be appear
-before, and the format for the display.  This line would insert the
-elvenInsight attribute computed above into the character sheet before the
-language list.
-
-  AddToSheet('elvenInsight', 'FeatsAndSkills', 'Languages', null);
-
-Instead of placing all your customization code here, you can modularize your
-customizastions by using additional script tags to load functions from other
-JavaScript files, then have CustomizeScribe invoke each function in turn.
+See help.html for details.  Instead of placing all your customization code in
+this file, you can modularize your customizastions by using additional script
+tags to load functions from other JavaScript files, then have CustomizeScribe
+invoke each function in turn.  An example of this is shown below.
 -->
-<script>
-var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
-}
-</script>
-
 <script src="CustomizeDeities.js"></script>
 <script src="CustomizeGoodies.js"></script>
 <script src="CustomizeSkills.js"></script>
 <script src="CustomizeSpellPoints.js"></script>
 <script>
-var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
+function CustomizeScribe(AddElement, AddRules, AddToSheet) {
   if(window.CustomizeDeities == null)
     alert('Unabled to load CustomizeDeities.js');
   else
