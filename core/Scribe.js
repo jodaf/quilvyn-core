@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.7 2004/03/29 21:02:00 Jim Exp $ */
+/* $Id: Scribe.js,v 1.8 2004/03/29 21:11:02 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -24,6 +24,7 @@ var TIMEOUT_DELAY = 1000;
 
 var character = null;
 var cookieInfo = {
+  background : 'bisque',
   lastUrl: '',
   prefix: '',
   ruleUrls: '',
@@ -45,7 +46,8 @@ function PopUp(html, button, action /* ... */) {
   var popup = window.open
     ('about:blank', 'pop' + PopUp.next++, 'height=200,width=400');
   var content = '<html><head><title>Scribe Message</title></head>\n' +
-                '<body bgcolor="bisque">' + html + '<br/>\n<form>\n';
+                '<body bgcolor="' + cookieInfo.background + '">' + html +
+                '<br/>\n<form>\n';
   for(var i = 1; i < arguments.length; i += 2)
     content +=
       '<input type="button" value="' + arguments[i] + '" ' +
@@ -225,7 +227,8 @@ function RefreshEditor() {
   );
   editWindow.document.write(
     '<html><head><title>Editor</title></head>\n' +
-    '<body bgcolor="bisque"><img src="scribe.gif"/><br/>' + editor +
+    '<body bgcolor="' + cookieInfo.background + '">' +
+    '<img src="scribe.gif"/><br/>' + editor +
     '</body></html>\n'
   );
   editWindow.document.close();
