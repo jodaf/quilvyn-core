@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.93 2005/03/29 21:50:18 Jim Exp $ */
+/* $Id: Scribe.js,v 1.94 2005/04/01 06:21:39 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.15.29';
@@ -677,7 +677,8 @@ function ScribeStart() {
 
   var defaults = {
     'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
-    'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'help.html', 'LOGO_URL':'scribe.gif',
+    'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'help.html',
+    'INCLUDE_ITALICIZED_NOTES':true, 'LOGO_URL':'scribe.gif',
     'MAGIC_RULES_VERSION':'3.5', 'MAX_RECENT_OPENS':15, 'URL_PREFIX':'',
     'URL_SUFFIX':'.html', 'WARN_ABOUT_DISCARD':true
   };
@@ -837,8 +838,12 @@ function SheetHtml() {
         name += '(' + Signed(attack) + ' ' + damages.join('/') + ')';
       }
       value = name + (value == '1' ? '' : (': ' + value));
-      if(object.indexOf('Notes') > 0 && rules.IsSource(a))
-        value = '<i>' + value + '</i>';
+      if(object.indexOf('Notes') > 0 && rules.IsSource(a)) {
+        if(INCLUDE_ITALICIZED_NOTES)
+          value = '<i>' + value + '</i>';
+        else
+          continue;
+      }
       if(displayAttributes[object] == null)
         displayAttributes[object] = [];
       displayAttributes[object][displayAttributes[object].length] = value;
