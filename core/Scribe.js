@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.25 2004/07/13 14:22:10 Jim Exp $ */
+/* $Id: Scribe.js,v 1.26 2004/07/15 18:02:24 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -309,18 +309,21 @@ function RandomizeCharacter() {
     /* User cancel. */
     urlLoading = null;
   else if(urlLoading == 'random' && loadingPopup.okay != null) {
-    var classSet = false;
+    var totalLevels = 0;
     var value;
     character = new DndCharacter(null);
     for(i = 0; i < DndCharacter.classes.length; i++) {
       var attr = 'levels.' + DndCharacter.classes[i];
       if((value = loadingPopup.fc.getElementValue(attr)) != null) {
         character.attributes[attr] = value;
-        classSet = true;
+        totalLevels += character.attributes[attr];
       }
     }
-    if(!classSet)
+    if(totalLevels == 0) {
       character.Randomize(rules, 'class');
+      totalLevels = 1;
+    }
+    character.attributes.experience = totalLevels * (totalLevels-1) * 1000 / 2;
     for(var a in DndCharacter.defaults)
       character.Randomize(rules, a);
     if((value = loadingPopup.fc.getElementValue('race')) != '(Random)')
