@@ -20,7 +20,7 @@ function CustomizeSpellPoints(AddElement, AddRules, AddToSheet) {
   AddRules('spellPoints', 'sPoints', '=', 'source <= 0 ? null : source');
   AddRules('sPoints',
     null, '=', '0',
-    'levels.Bard', '+', 'source > 2 ? (source - 2) * (source - 1) / 2 : null',
+    'levels.Bard', '+', 'source * (source + 1) / 2',
     'levels.Cleric', '+', 'source * (source + 1) / 2',
     'levels.Druid', '+', 'source * (source + 1) / 2',
     'levels.Paladin', '+', 'source > 3 ? (source-3) * (source-2) / 2 : null',
@@ -31,7 +31,7 @@ function CustomizeSpellPoints(AddElement, AddRules, AddToSheet) {
   );
   AddRules('chaSPModifier',
     null, '=', '0',
-    'levels.Bard', '+', 'source > 2 ? source - 2 : null',
+    'levels.Bard', '+', null,
     'levels.Sorcerer', '+', null,
     'charismaModifier', '*', null
   );
