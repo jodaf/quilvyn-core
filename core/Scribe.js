@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.78 2005/02/04 01:48:59 Jim Exp $ */
+/* $Id: Scribe.js,v 1.79 2005/02/19 06:36:41 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var ABOUT_TEXT =
@@ -187,10 +187,6 @@ function EditorHtml() {
     ['Shield', 'shield', 'select-one', DndCharacter.shields],
     ['Weapons', 'weapons_sel', 'select-one', weapons],
     ['', 'weapons', 'text', [3]],
-    ['Weapon Focus', 'focus_sel', 'select-one', weapons],
-    ['', 'focus', 'checkbox', null],
-    ['Weapon Specialization', 'specialization_sel', 'select-one', weapons],
-    ['', 'specialization', 'checkbox', null],
     ['Ranger Combat Style', 'combatStyle_sel', 'select-one',
      DndCharacter.combatStyles],
     ['', 'combatStyle', 'checkbox', null],
@@ -417,19 +413,27 @@ function LoadCharacter(name) {
        */
       if(typeof value == 'object') {
         for(var x in value) {
-          var convertedName = x;
-          if(a == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
-            convertedName = convertedName.substring(0, i);
-          else if(a == 'feats' && x == 'Expertise')
-            convertedName = 'Combat Expertise';
-          else if(a == 'skills' && x == 'Pick Pocket')
-            convertedName = 'Sleight Of Hand';
-          else if(a == 'skills' && x == 'Wilderness Lore')
-            convertedName = 'Survival';
-          else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
-            convertedName = convertedName.substring(0, i);
-          convertedName = SheetName(convertedName);
-          character.attributes[a + '.' + convertedName] = value[x];
+          if(a == 'focus')
+            character.attributes
+              ['feats.Weapon Focus (' + x.toLowerCase() + ')'] = '1';
+          else if(a == 'specialization')
+            character.attributes
+              ['feats.Weapon Specialization (' + x.toLowerCase() + ')'] = '1';
+          else {
+            var convertedName = x;
+            if(a == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
+              convertedName = convertedName.substring(0, i);
+            else if(a == 'feats' && x == 'Expertise')
+              convertedName = 'Combat Expertise';
+            else if(a == 'skills' && x == 'Pick Pocket')
+              convertedName = 'Sleight Of Hand';
+            else if(a == 'skills' && x == 'Wilderness Lore')
+              convertedName = 'Survival';
+            else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
+              convertedName = convertedName.substring(0, i);
+            convertedName = SheetName(convertedName);
+            character.attributes[a + '.' + convertedName] = value[x];
+          }
         }
       }
       else if(a == 'shield' && value.indexOf('Large') == 0)
@@ -757,7 +761,10 @@ function SheetHtml() {
         if(name.indexOf('bow') >= 0 &&
            (name.indexOf('Composite') < 0 || extraDamage > 0))
           extraDamage = 0;
-        if(computedAttributes['specialization.' + name] != null)
+        if(computedAttributes['feats.Weapon Specialization (' +
+                              name.toLowerCase() + ')'] != null ||
+           computedAttributes['features.Weapon Specialization (' +
+                              name.toLowerCase() + ')'] != null)
           extraDamage += 2;
         damages = damages == null ? ['0'] : damages.split('/');
         for(i = 0; i < damages.length; i++) {
