@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.39 2004/09/05 21:43:39 Jim Exp $ */
+/* $Id: Scribe.js,v 1.40 2004/09/07 06:06:07 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -203,9 +203,10 @@ function InitialViewer() {
       {name: 'Melee Attack', within: 'Melee'},
       {name: 'Ranged Attack', within: 'Melee'},
       {name: 'Unarmed Damage', within: 'Melee'},
-      {name: 'Turning Bonus Break', within: 'Melee', format: '\n'},
-      {name: 'Turning Bonus', within: 'Melee'},
+      {name: 'Turning Frequency Break', within: 'Melee', format: '\n'},
       {name: 'Turning Frequency', within: 'Melee'},
+      {name: 'Turning Damage Modifier', within: 'Melee',
+        format: '<b>Turning Damage</b>: 2d6+%V'},
       {name: 'Weapons Break', within: 'Melee', format: '\n'},
       {name: 'Weapons', within: 'Melee'},
       {name: 'Melee Notes Break', within: 'Melee', format: '\n'},
@@ -568,10 +569,14 @@ function SheetHtml() {
     else {
       var group = name.substring(0, i);
       name = name.substring(i + 1);
+      if(group.indexOf('Notes') >= 0 && typeof(value) == 'number') {
+        if(value == 0)
+          continue; /* Suppress notes with zero value. */
+        else if(DndCharacter.formats[a] == null && value > 0)
+          value = '+' + value;
+      }
       if(DndCharacter.formats[a] != null)
-        value = DndCharacter.formats[a].replace(/%v/, value);
-      if(group.indexOf('Notes') > 0 && typeof value == 'number' && value >= 0)
-        value = '+' + value;
+        value = DndCharacter.formats[a].replace(/%V/, value);
       if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
         var damages = DndCharacter.weaponsDamage[name];
         var multipliers = DndCharacter.weaponsCriticalMultiplier[name];
