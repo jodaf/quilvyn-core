@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.4 2004/03/29 20:59:04 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.5 2004/04/14 06:49:37 Jim Exp $ -->
 
 <html>
 <head>
@@ -23,7 +23,8 @@
   <li><a href="#save">Saving Characters</a></li>
   <li><a href="#preferences">Changing User Preferences</a></li>
   <li><a href="#custom">Customization</a></li>
-  <li><a href="#bugs">Bugs &amp; Limitations</a></li>
+  <li><a href="#limitations">Limitations</a></li>
+  <li><a href="#todo">Bugs/To-do List</a></li>
 </ul>
 </p>
 
@@ -69,14 +70,13 @@ like strength and intelligence.  These editing objects give you a pull-down
 menu that contain all the possible values.  Simply select the correct one to
 change the attribute.  <i>Set menus</i> are used for collections of related
 attributes like skills, feats, weapons, and class levels.  Along with a
-pull-down menu, these editing objects include one ("toggle") or two
-("increment" and "decrement") buttons.  A single button is used for attributes
-like spells where the character either has an attribute or not, while two
-buttons are used with attributes (e.g., skills, class levels) where the
+pull-down menu, these editing objects include either a checkbox or a small
+text field where you can enter a value.  A checkbox is used for attributes,
+like spells, where the character either has an attribute or not, while the
+text field is used with attributes (e.g., skills, class levels) where the
 character has a variable score associated with the attribute.  To change one of
 these attributes, first use the pull-down menu to select a particular
-attribute, then press one of the associated buttons to change the attribute
-value.
+attribute, then click the checkbox or enter a value in the text field.
 </p>
 
 <p>
@@ -260,23 +260,51 @@ these pages to the list of custom URLs in your user preferences.  See the
 section on <a href="#preferences">Changing User Preferences</a> for details.
 </p>
 
-<a name="bugs"><h3>Bugs &amp; Limitations</h3></a>
+<a name="limitations"><h3>Limitations</h3></a>
 <p>
 <ul>
   <li>In general, Scribe only calculates and displays attributes that have
-      effects during a campaign, not those that only are important between
+      effects during a campaign, not those that are important only between
       campaigns.  For example, characters get an ability increase every fourth
       level, but Scribe assumes that you handle this by increasing the desired
       ability number.</li>
-  <li>Weight load is not calculated.</li>
-  <li>Armor-based spell failure percentages are not calculated.</li>
-  <li>Spell schools are not calculated.  It would be particularly nice to flag
-      spells within a Wizard's specialization.</li>
   <li>Rule restrictions are not enforced.  For example, the fact that your
       character has only six skill points does not prevent you from
       distributing eight points (or eighty) among various skills.</li>
   <li>Half ranks for skills (e.g., a single point allocated to a cross-class
       skill) are not supported.</li>
+  <li>The "Craft" and "Profession" skills are so general as to be useless.  DMs
+      will likely want to set up a customization page listing particular crafts
+      (e.g. carpentery) and professions (e.g. lawyer).
+</ul>
+</p>
+
+<a name="todo"><h3>Bugs/To-do List</h3></a>
+<p>
+<ul>
+  <li>Weight load is not calculated.</li>
+  <li>Armor-based spell failure percentages are not calculated.</li>
+  <li>Spell schools are not calculated.  It would be particularly nice to flag
+      spells within a Wizard's specialization.</li>
+  <li>Some way to enter DM notes for inclusion on the character sheet is
+      needed.</li>
+  <li>When an character ability score is modified, Scribe recalculates
+      attributes based on that ability from scratch.  For example, bumping
+      intelligence when a character reaches fourth level causes Scribe to
+      recompute the number of skill points awarded at first level.  This
+      might be considered a feature.</li>
+  <li>The spell chooser in the editor is too bloody long.  How might it be
+      split up to make it easier to use?</li>
+  <li>Redrawing the whole editor window in response to a randomize/reset
+      request is obnoxious.</li>
+  <li>The "Magic" section header appears on the character sheet even if there's
+      no information there.</li>
+  <li>Weapon damage should be computed instead of fixed.</li>
+  <li>Need some explanation of the attribute value format on the sheet.  What
+      does "Strength 12[10] (1)" mean? Why are some notes italicized?</li>
+  <li>Discuss how goodies are expected to work.</li>
+  <li>Use a single form for modifying user preferences.</li>
+  <li>The AddToSheet customization function syntax is overly arcane.</li>
 </ul>
 </p>
 
