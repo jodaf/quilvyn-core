@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.54 2004/12/08 18:03:47 Jim Exp $ */
+/* $Id: Scribe.js,v 1.55 2004/12/10 07:50:32 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -279,7 +279,7 @@ function LoadCharacter(name) {
           else if(e == 'feats' && x == 'Expertise')
             convertedName = 'Combat Expertise';
           else if(e == 'skills' && x == 'Pick Pocket')
-            convertedName = 'Sleight of Hand';
+            convertedName = 'Sleight Of Hand';
           else if(e == 'skills' && x == 'Wilderness Lore')
             convertedName = 'Survival';
           else if(e == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
