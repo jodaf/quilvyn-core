@@ -16,7 +16,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 
-function CustomizeSpellPoints(DndCharacter, AddElement, AddRules, AddToSheet) {
+function CustomizeSpellPoints(AddElement, AddRules, AddToSheet) {
   AddRules('spellPoints', 'sPoints', '=', 'source <= 0 ? null : source');
   AddRules('sPoints',
     null, '=', '0',
