@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.9 2004/03/29 21:24:48 Jim Exp $ */
+/* $Id: Scribe.js,v 1.10 2004/03/30 22:30:53 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -237,6 +237,8 @@ function RefreshEditor() {
 function RefreshSheet() {
   if(character == null)
     return;
+  if(sheetWindow == null || sheetWindow.closed)
+    sheetWindow = window.open('about:blank', 'scribeSheet');
   sheetWindow.document.write(SheetHtml());
   sheetWindow.document.close();
 }
