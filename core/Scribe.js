@@ -1,8 +1,9 @@
-/* $Id: Scribe.js,v 1.20 2004/06/22 00:09:42 Jim Exp $ */
+/* $Id: Scribe.js,v 1.21 2004/06/22 13:48:17 Jim Exp $ */
 
+var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.9.9\n' +
-'The Scribe Character Editor is Copyright 2004, James J. Hayes\n' +
+'Scribe Character Editor version 0.9.10\n' +
+'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
 'Software Foundation; either version 2 of the License, or (at your option) ' +
@@ -11,21 +12,17 @@ var ABOUT_TEXT =
 'ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or ' +
 'FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for ' +
 'more details.\n' +
-' You should have received a copy of the GNU General Public License along ' +
+'You should have received a copy of the GNU General Public License along ' +
 'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
 'Temple Place, Suite 330, Boston, MA 02111-1307 USA.';
 
 var COOKIE_FIELD_SEPARATOR = '\n';
-var COOKIE_NAME = 'scribePrefs';
-var COPYRIGHT = 'Copyright 2004 James J. Hayes';
+var COOKIE_NAME = 'ScribeCookie';
 var TIMEOUT_DELAY = 1000;
 
 var character = null;
 var cookieInfo = {
-  background : 'bisque',
-  lastUrl: '',
-  prefix: '',
-  suffix: '.html'
+  lastUrl: ''
 };
 var editor;
 var editWindow;
@@ -49,31 +46,11 @@ function AddUserView(name, within, before, format) {
   );
 }
 
-function ChangeUserPreferences() {
-  var prefsWindow;
-  var html =
-    '<html><head><title>Scribe User Preferences</title></head><body><form>\n';
-  for(var p in cookieInfo) {
-    if(p == 'lastUrl')
-      continue;
-    html += p + ': <input type="text" id="' + p + '" value="' + cookieInfo[p] +
-            '" onchange="o.' + p + ' = this.value;"/><br/>\n';
-  }
-  html +=
-    '<input type="button" value="Cancel" onclick="window.close();"/>\n' +
-    '<input type="button" value="Ok" onclick="window.opener.StoreCookie(o); window.close();"/>\n' +
-    '</form></body></html>\n';
-  prefsWindow = window.open('about:blank', 'prefs');
-  prefsWindow.document.write(html);
-  prefsWindow.document.close();
-  prefsWindow.o = {};
-}
-
 function FullUrl(url) {
   if(url.match(/^[a-zA-Z0-9]*:/) == null)
-    url = cookieInfo.prefix + url;
+    url = URL_PREFIX + url;
   if(url.match(/\.[a-zA-Z0-9]*$/) == null)
-    url += cookieInfo.suffix;
+    url += URL_SUFFIX;
   return url;
 }
 
@@ -107,7 +84,6 @@ function InitialEditor() {
   result.addElements(
     '', 'about', 'button', ['About'],
     '', 'help', 'button', ['Help'],
-    '', 'preferences', 'button', ['Preferences'],
     '', 'open', 'button', ['New/Open'],
     '', 'view', 'button', ['View Html'],
     '', 'clear', 'select',
@@ -274,7 +250,7 @@ function LoadCharacter(url) {
       loadingPopup.close();
     if(cookieInfo.lastUrl != url) {
       cookieInfo.lastUrl = url;
-      StoreCookie(null);
+      StoreCookie();
     }
     character = new DndCharacter(null);
     for(var e in loadingWindow.attributes) {
@@ -333,7 +309,7 @@ function PopUp(html, button, action /* ... */) {
   var popup = window.open
     ('about:blank', 'pop' + PopUp.next++, 'height=200,width=400');
   var content = '<html><head><title>Scribe Message</title></head>\n' +
-                '<body bgcolor="' + cookieInfo.background + '">' + html +
+                '<body bgcolor="' + BACKGROUND + '">' + html +
                 '<br/>\n<form>\n';
   for(var i = 1; i < arguments.length; i += 2)
     content +=
@@ -350,7 +326,7 @@ function RefreshEditor(redraw) {
   if(redraw) {
     editWindow.document.write(
       '<html><head><title>Editor</title></head>\n' +
-      '<body bgcolor="' + cookieInfo.background + '">' +
+      '<body bgcolor="' + BACKGROUND + '">' +
       '<img src="' + LOGO_URL + ' "/><br/>');
     editor.writeToWindow(editWindow, 'ched');
     editWindow.document.write(
@@ -434,14 +410,22 @@ function ScribeLoaded() {
       if(cookieInfo[settings[i]] != null)
         cookieInfo[settings[i]] = settings[i + 1];
   }
-  PopUp(COPYRIGHT + '<br/>' +
-        'Press the "About" button for more info',
-        'Ok', 'window.close();');
 
+  if(BACKGROUND == null)
+    BACKGROUND = 'wheat';
   if(HELP_URL == null)
     HELP_URL = 'help.html';
   if(LOGO_URL == null)
     LOGO_URL = 'scribe.gif';
+  if(URL_PREFIX == null)
+    URL_PREFIX = '';
+  if(URL_SUFFIX == null)
+    URL_SUFFIX = '.html';
+
+  PopUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
+        COPYRIGHT + '<br/>' +
+        'Press the "About" button for more info',
+        'Ok', 'window.close();');
   editWindow = window.frames[0];
   loadingWindow = window.frames[1];
   sheetWindow = window.opener;
@@ -529,11 +513,9 @@ function ShowHtml(html) {
   htmlWindow.document.close();
 }
 
-function StoreCookie(o) {
+function StoreCookie() {
   var cookie = '';
   for(var p in cookieInfo) {
-    if(o != null && o[p] != null)
-      cookieInfo[p] = o[p];
     cookie +=
       p + COOKIE_FIELD_SEPARATOR + cookieInfo[p] + COOKIE_FIELD_SEPARATOR;
   }
@@ -542,8 +524,6 @@ function StoreCookie(o) {
   nextYear.setFullYear(nextYear.getFullYear() + 1);
   cookie += ';expires=' + nextYear.toGMTString();
   document.cookie = cookie;
-  if(editWindow != null)
-    editWindow.document.bgColor = cookieInfo.background;
 }
 
 function Update(name, value) {
@@ -552,7 +532,8 @@ function Update(name, value) {
     var aboutWindow = window.open('about:blank', 'about');
     aboutWindow.document.write(
       '<html><head><title>About Scribe</title></head>\n' +
-      '<body bgcolor="' + cookieInfo.background + '"><p>' +
+      '<body bgcolor="' + BACKGROUND + '"><p>' +
+      '<img src="' + LOGO_URL + '" alt="Scribe"/>' +
        ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>') +
       '</p></body></html>\n'
     );
@@ -560,8 +541,6 @@ function Update(name, value) {
   }
   else if(name == 'help')
     window.open(HELP_URL, 'help');
-  else if(name == 'preferences')
-    ChangeUserPreferences();
   else if(name == 'open')
     OpenDialog();
   else if(name == 'view')

@@ -1,4 +1,21 @@
-<!-- $Id: scribe.html,v 1.7 2004/06/22 00:09:42 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.8 2004/06/22 13:48:17 Jim Exp $ -->
+<!--
+The Scribe Character Editor is Copyright 2004, James J. Hayes
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc., 59
+Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+-->
 <html>
 
 <head>
@@ -6,37 +23,35 @@
 <title>Scribe DND Character Sheet</title>
 
 <!--
-This set of script tags retrieves the functions Scribe needs from local copies
-of the scribe sources.  You can instead retrieve them from the Scribe web site
-by prepending "http://home.nethere.com/dulcimer/dnd/" to each src attribute
-(e.g., src="http://home.nethere.com/dulcimer/dnd/Scribe.js"). The advantage to
-using the Scribe web site is that you automatically get software updates every
-time you run the program; the disadvantage is that you have to wait for the
-code to download.
--->
-<script src="FormController.js"></script>
-<script src="DndCharacter.js"></script>
-<script src="ObjectViewer.js"></script>
-<script src="RuleEngine.js"></script>
-<script src="Scribe.js"></script>
-<script src="ScribeHelp.js"></script>
-
-<!--
-These definitions tell Scribe where to find its logo and the page to display
-when the user presses the "Help" button.  The values below grab local copies;
-prepending 'http://home.nethere.com/dulcimer/dnd/' to either will direct Scribe
-to retrieve it from the Scribe web site.
+These definitions determine where your browser looks for the Scribe source
+files; the values below direct it to retrieve local copies.  If you change the
+second line to read "var SOURCE_URL = SCRIBE_HOME;", then all other Scribe
+source files will be downloaded from the Scribe web site each time the program
+runs.  If you make this change you automatically get software updates every
+time you run the program; however, the disadvantage is that you have to wait
+for the code to download each time.
 -->
 <script>
-var LOGO_URL = 'scribe.gif';
-var HELP_URL = 'help.html';
+var SCRIBE_HOME = 'http://home.nethere.com/dulcimer/dnd/';
+var SOURCE_URL = '';
 </script>
 
 <!--
-If a CustomizeScribe function is defined, Scribe calls it after loading,
+A few user preferences you may want to change: the background color for
+Scribe's windows and the prefix and suffix used to expand abbreviated character
+file names.
+-->
+<script>
+var BACKGROUND = 'wheat';
+var URL_PREFIX = 'file:///home/jhayes/Scribe/';
+var URL_SUFFIX = '.html';
+</script>
+
+<!--
+If this file defines a CustomizeScribe function, Scribe calls it after loading,
 allowing you to add custom behavior to the program.  Each of CustomizeScribe's
-parameters is a function that you can invoke to perform one type of
-customization.  These functions allow you to:
+parameters is a function that you can use to perform one type of customization.
+These functions allow you to:
 
 Add new choices to one of the editor's selection lists.  The editor defines the
 lists 'alignments', 'armors', 'classes', 'domains' (cleric spell domains),
@@ -65,36 +80,46 @@ language list.
 
  AddToSheet('languageCount', 'FeatsAndSkills', 'Languages', null);
 
+Alternatively, you can modularize your customizations by using additional
+script tags to load multiple functions, then have CustomizeScribe invoke each
+of them in turn.
 -->
 <script>
 var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
 }
 </script>
 
-<!--
-Instead of putting all your customization code into the CustomizeScribe
-function, you can use additional script tags to load multiple functions that
-each perform a part of the customization, then have CustomizeScribe invoke each
-of them in turn.
--->
 <script src="CustomizeGoodies.js"></script>
 <script src="CustomizeSkills.js"></script>
 <script src="CustomizeSpellPoints.js"></script>
 <script>
-var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
+var CustomizeScribe =
+function(DndCharacter, AddElement, AddRules, AddToSheet) {
   if(window.CustomizeGoodies == null)
     alert('Unabled to load CustomizeGoodies.js');
   else
-    window.CustomizeGoodies(AddElement, AddRules, AddToSheet);
+    window.CustomizeGoodies(DndCharacter, AddElement, AddRules, AddToSheet);
   if(window.CustomizeSkills == null)
     alert('Unabled to load CustomizeSkills.js');
   else
-    window.CustomizeSkills(AddElement, AddRules, AddToSheet);
+    window.CustomizeSkills(DndCharacter, AddElement, AddRules, AddToSheet);
   if(window.CustomizeSpellPoints == null)
     alert('Unabled to load CustomizeSpellPoints.js');
   else
-    window.CustomizeSpellPoints(AddElement, AddRules, AddToSheet);
+    window.CustomizeSpellPoints(DndCharacter, AddElement, AddRules, AddToSheet);
 }
+</script>
+
+<!-- Commands that load the Scribe software.  Do not modify. -->
+<script>
+var CLOSE_TAG = '</' + 'script>\n';
+var LOGO_URL = SOURCE_URL + 'scribe.gif';
+var HELP_URL = SOURCE_URL + 'help.html';
+document.write('<script src="' + SOURCE_URL + 'FormController.js">' +CLOSE_TAG);
+document.write('<script src="' + SOURCE_URL + 'DndCharacter.js">' + CLOSE_TAG);
+document.write('<script src="' + SOURCE_URL + 'ObjectViewer.js">' + CLOSE_TAG);
+document.write('<script src="' + SOURCE_URL + 'RuleEngine.js">' + CLOSE_TAG);
+document.write('<script src="' + SOURCE_URL + 'Scribe.js">' + CLOSE_TAG);
 </script>
 
 </head>
