@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.92 2005/03/29 20:40:22 Jim Exp $ */
+/* $Id: Scribe.js,v 1.93 2005/03/29 21:50:18 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.15.16';
+var VERSION = '0.15.29';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -798,7 +798,7 @@ function SheetHtml() {
       if(object == 'Skills') {
         var skill = name;
         if(DndCharacter.skillsAbility[skill] != null)
-          name += ' (' + DndCharacter.skillsAbility[name] + ')';
+          name += ' (' + DndCharacter.skillsAbility[skill].substring(0,3) + ')';
         if(computedAttributes['classSkills.' + skill] == null)
           name += '(X)';
       }
