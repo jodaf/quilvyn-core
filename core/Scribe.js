@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.26 2004/07/15 18:02:24 Jim Exp $ */
+/* $Id: Scribe.js,v 1.27 2004/07/16 22:19:40 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -78,12 +78,12 @@ function InitialEditor() {
       ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
        'constitution', 'deity', 'dexterity', 'feats', 'gender', 'helm',
        'hitPoints', 'intelligence', 'languages', 'name', 'race', 'shield',
-       'skills', 'spells', 'strength', 'wisdom'],
+       'skills', 'spells', 'strength', 'weapons', 'wisdom'],
     '', 'randomize', 'select',
       ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
        'constitution', 'deity', 'dexterity', 'feats', 'gender', 'helm',
        'hitPoints', 'intelligence', 'languages', 'name', 'race', 'shield',
-       'skills', 'spells', 'strength', 'wisdom'],
+       'skills', 'spells', 'strength', 'weapons', 'wisdom'],
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
     'Experience', 'experience', 'range', [0,9999999],
@@ -332,6 +332,7 @@ function RandomizeCharacter() {
     character.Randomize(rules, 'languages');
     character.Randomize(rules, 'skills');
     character.Randomize(rules, 'spells');
+    character.Randomize(rules, 'weapons');
     RefreshEditor(false);
     RefreshSheet();
     loadingPopup.close();
