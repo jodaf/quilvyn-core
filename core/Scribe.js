@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.63 2004/12/28 13:54:50 Jim Exp $ */
+/* $Id: Scribe.js,v 1.64 2004/12/28 23:54:40 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -14,7 +14,7 @@ var ABOUT_TEXT =
 'more details.\n' +
 'You should have received a copy of the GNU General Public License along ' +
 'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
-'Temple Place, Suite 330, Boston, MA 02111-1307 USA.\n'
+'Temple Place, Suite 330, Boston, MA 02111-1307 USA.\n' +
 'Thanks to my dungeon crew, especially fellow DM Rich Hakesley, for patient ' +
 'testing of the program and for making suggestions that greatly improved it.';
 
@@ -114,8 +114,8 @@ function InitialEditor() {
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
     'Experience', 'experience', 'range', [0,9999999],
-    'Image', 'image', 'text', [20],
     'Levels', 'levels', 'bag', GetKeys(DndCharacter.classesHitDie),
+    'Image URL', 'imageUrl', 'text', [20],
     'Strength', 'strength', 'range', [3,18],
     'Intelligence', 'intelligence', 'range', [3,18],
     'Wisdom', 'wisdom', 'range', [3,18],
@@ -172,13 +172,13 @@ function InitialViewer() {
   var result = new ObjectViewer();
   result.addElements(
     {name: '_top', borders: 1},
+    {name: 'Image Url', within: '_top', format: '<img src="%V">'},
     {name: 'Header', within: '_top', compact: 1},
       {name: 'Name', within: 'Header', format: '<b>%V</b>'},
       {name: 'Race', within: 'Header', format: ' -- <b>%V</b>'},
       {name: 'Levels', within: 'Header', format: ' <b>%V</b>'},
     {name: 'Attributes Break', within: '_top', format: '\n'},
     {name: 'Attributes', within: '_top'},
-      {name: 'Image', within: 'Attributes', format: '<img src="%V">'},
       {name: 'Str Break', within: 'Attributes', format: '\n'},
       {name: 'StrSection', within: 'Attributes', compact: 1},
         {name: 'Strength', within: 'StrSection'},
@@ -677,12 +677,8 @@ function SheetHtml() {
     if(character.attributes[a] != null && character.attributes[a] != value)
       value += '[' + character.attributes[a] + ']';
     if((i = name.indexOf('.')) < 0) {
-      if(name == 'Image') {
-        if(value.match(/^\w*:/) == null)
-          value = URL_PREFIX + value;
-        if(value.match(/\.\w*$/) == null)
-          value += URL_SUFFIX;
-      }
+      if(name == 'Image Url' && value.match(/^\w*:/) == null)
+        value = URL_PREFIX + value;
       else if(name == 'Unarmed Damage')
         value += Signed(computedAttributes.meleeDamage);
       displayAttributes[name] = value;
