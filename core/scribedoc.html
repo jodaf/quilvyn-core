@@ -1,8 +1,8 @@
-<!-- $Id: scribedoc.html,v 1.38 2005/02/19 15:13:04 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.39 2005/02/23 20:52:15 Jim Exp $ -->
 <html>
 
 <head>
-  <title>Scribe Help Window</title>
+  <title>Scribe User's Guide</title>
 </head>
 
 <body>
@@ -53,12 +53,14 @@ rules" into both the editor and character sheet.
 <p>
 A tar file containing the Scribe code can be obtained from
 <a href='http://www.jodaf.com/dnd/scribe/scribe.tar'>www.jodaf.com/dnd/scribe/scribe.tar</a>.
-The Scribe program consists of eight files: DndCharacter.js, ObjectViewer.js,
-RuleEngine.js, Scribe.js, gpl.txt, help.html, scribe.gif, and scribe.html.  It
-is possible to install only scribe.html and direct Scribe to download the other
-files when the program runs.  Doing so ensures that you get the latest version
-of Scribe every time you run the program; however, it also means that you have
-to wait for the download each time. See scribe.html for details.
+The Scribe program consists of nine files: DndCharacter.js, ObjectViewer.js,
+RuleEngine.js, Scribe.js, gpl.txt, help.html, helpattrs.html, scribe.gif, and
+scribe.html.  (Several sample customization files are included in the download,
+but using these is optional.) It is possible to install only scribe.html and
+direct Scribe to download the other files when the program runs.  Doing so
+ensures that you get the latest version of Scribe every time you run the
+program; however, it also means that you have to wait for the download each
+time. See scribe.html for details.
 </p>
 
 <p>
@@ -66,6 +68,7 @@ Scribe has been successfully tested using these browers
 <ul>
   <li>Linux Galeon v1.2 and v1.3</li>
   <li>Linux Mozilla v1.0 and v1.7</li>
+  <li>Macintosh OS X Firefox v1.0</li>
   <li>Macintosh OS X Internet Explorer v5.2</li>
   <li>Macintosh OS X Safari v1.2</li>
   <li>Windows Firefox v1.0</li>
@@ -238,15 +241,15 @@ sheet should be clear, a few aspects of the format require explanation.
   <li>Some attribute notes appear in italics; others in plain text.  The
       italicized notes describe the effects of rules that Scribe used in
       computing attributes. For example, a sheet for a halfling character will
-      include an italicized note reading "<i>Halfling Ability: +2 dex/-2
-      str</i>". Italicized notes can normally be ignored during play, since
-      Scribe has already incorporated the effect on the character sheet. Plain
-      text notes, on the other hand, describe rule effects that need to be
-      applied during the game, so the DM should examine these closely.  For
+      include an italicized note reading "<i>Halfling Ability Adjustment: +2
+      dex/-2 str</i>". Italicized notes can normally be ignored during play,
+      since Scribe has already incorporated the effect on the character sheet.
+      Plain text notes, on the other hand, describe rule effects that need to
+      be applied during the game, so the DM should examine these closely.  For
       example, the Melee section of a halfling's character sheet will include
-      the plain text note "Halfling Save: +3 fear/+1 others." When rolling a
-      spell saving throw for this character, the DM will have to add either 1
-      or 3 to the rolled value.</li>
+      the plain text note "Unafraid Feature: +2 vs. fear".  When rolling a
+      fear saving throw for this character, the DM will have to add either 2
+      to the rolled value.</li>
 </ul>
 </p>
 
@@ -339,9 +342,9 @@ CustomizeScribe lines to do this would be:
  
 <p><code><pre>
 ScribeCustomChoices('races', 'Goblin');
-ScribeCustomRules('abilityNotes.goblinAbility', 'race', '=', 'source == "Goblin" ? "+2 constitution/-2 strength" : null');
-ScribeCustomRules('strength', 'abilityNotes.goblinAbility', '+', '2');
-ScribeCustomRules('dexterity', 'abilityNotes.goblinAbility', '+', '2');
+ScribeCustomRules('abilityNotes.goblinAbilityAdjustment', 'race', '=', 'source == "Goblin" ? "+2 constitution/-2 strength" : null');
+ScribeCustomRules('strength', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
+ScribeCustomRules('dexterity', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
 </pre></code></p>
 
 <p>
@@ -356,19 +359,20 @@ calculates the value of the effect.
 
 <p>
 For example, the first invocation of ScribeCustomRules above computes a
-value for the abilityNotes.goblinAbility attribute based on the value of the
-race attribute. The third parameter ('=') indicates that race sets the value of
-abilityNotes.goblinAbility to a specific value; other possibilities are '+'
-(adds to the attribute value), '*' (multiplies the attribute value), '^'
-(raises the attribute value to a minimum level), and 'v' (lowers the attribute
-value to a maximum level).  The final parameter in the first
-ScribeCustomRules call tests to see if the race attribute's value is
+value for the abilityNotes.goblinAbilityAdjustment attribute based on the value
+of the race attribute. The third parameter ('=') indicates that race sets the
+value of abilityNotes.goblinAbilityAdjustment to a specific value; other
+possibilities are '+' (adds to the attribute value), '*' (multiplies the
+attribute value), '^' (raises the attribute value to a minimum level), and 'v'
+(lowers the attribute value to a maximum level).  The final parameter in the
+first ScribeCustomRules call tests to see if the race attribute's value is
 "Goblin".  If so, it returns a string as the value of the
-abilityNotes.goblinAbility attribute; otherwise, it returns null, a value which
-indicates that the abilityNotes.goblinAbility attribute does not apply to this
-character.  Within this piece of JavaScript, the variable 'source' always
-refers to the attribute specified in the second parameter.  So, in the first
-call above, 'source' refers to the value of the race attribute.
+abilityNotes.goblinAbilityAdjustment attribute; otherwise, it returns null, a
+value which indicates that the abilityNotes.goblinAbilityAdjustment attribute
+does not apply to this character.  Within this piece of JavaScript, the
+variable 'source' always refers to the attribute specified in the second
+parameter.  So, in the first call above, 'source' refers to the value of the
+race attribute.
 </p>
 
 <p>
@@ -388,8 +392,14 @@ However, Scribe only retains one rule for each pair of modified/modifying
 attributes, so this approach would work only for the first race you add.  If
 you later added another rule that modified strength or dexterity based on race,
 the new rule would replace the rule for goblins.  In general, it's best to add
-rules that set new attributes (like abilityNotes.goblinAbility), then use these
-new attributes to modify existing ones via a '+' rule.
+rules that set new attributes (like abilityNotes.goblinAbilityAdjustment), then
+use these new attributes to modify existing ones via a '+' rule.
+</p>
+
+<p>
+<a href='helpattrs.html'>helpattrs.html</a> lists all the attributes that
+Scribe knows about.  You can use any of these attributes, as well as new ones
+you calculate, in calls to ScribeCustomRules.
 </p>
 
 <p>
@@ -429,6 +439,52 @@ attribute at the end of the section by giving <b>null</b> as the third
 parameter.
 </p>
 
+<p>
+Adding attributes to the character sheet notes sections is done differently.
+The six notes lists Scribe knows about are abilityNotes, featNotes, skillNotes,
+meleeNotes, saveNotes, and magicNotes.  To add an attribute to one of these
+lists, simply give the attribute a name consisting of the list name followed by
+a period and a description. 'abilityNotes.goblinAbilityAdjustment' used above
+is one example of this&#151;Scribe would automatically include this attribute
+in the ability notes.  If you want to specify a display format for a note
+attribute (e.g., to include descriptive text), you can call ScribeCustomNotes
+specifying the name of the attribute and its format, like this
+</p>
+
+<p><code><pre>
+ScribeCustomNotes('abilityNotes.goblinAbilityAdjustment', '-2 str/+2 dex');
+</pre></code></p>
+
+<p>
+ScribeCustomNotes treats some attributes specially.  If the attribute name ends
+with one of "Domain", "Feat", "Feature", or "Synergy", ScribeCustomNotes will
+automatically generate common rules related to the attribute.  For "Domain",
+"Feat", and "Feature" attributes, ScribeCustomNotes will add a rule specifying
+that the note will appear only if the corresponding domain, feat, or feature is
+in the character's list of attributes (e.g., 'skillNotes.agileFeat' only
+appears if the character has the Agile feat).  "Synergy" attributes only appear
+if the character has at least five ranks in the corresponding skill.  In
+addition, ScribeCustomNotes automatically generates rules to adjust skill 
+values based on skillNotes attributes.  If the format of a skillNotes attribute
+gives a bonus value followed by a slash-separated list of skill names,
+ScribeCustomNotes generates rules to increase each of the skills in the list if
+the attribute is present.  For example, given this call
+</p>
+
+<p><code><pre>
+ScribeCustomNotes('skillNotes.agileFeat', '+2 Balance/Escape Artist');
+</pre></code></p>
+
+<p>
+ScribeCustomNotes will generate rules to increase the Balance and Escape Artist
+skills by two if the character has the Agile feat.
+</p>
+
+<p>
+<b>TODO</b>
+Discussion of ScribeCustomClass.
+</p>
+
 <a name="magicitems"><h3>Adding Magic Items</h3></a>
 <p>
 The Dungeon Master's guide contains a large selection of magic items, and most
@@ -445,17 +501,16 @@ new items.
 <p>
 <ul>
   <li>The "Craft" and "Profession" skills are not very useful, since you need
-      to know which craft or skill the character is skilled in.  It is
-      assumed that DMs will use customization to add particular crafts (e.g.,
-      "Craft (carpentery)") and professions (e.g., "Profession (lawyer)").
-      The same goes for the feats that require you to select a weapon, skill,
-      or spell school that the feat applies to, e.g., instead of selecting
-      "Weapon Focus", "Spell Mastery", or "Skill Focus", define the custom
-      feats "Weapon Focus (crossbow)", "Spell Mastery (divination)" or "Skill
-      Focus (listen)".</li>
+      to know which craft or skill the character is skilled in.  DMs should use
+      customization to add particular crafts (e.g., "Craft (carpentery)") and
+      professions (e.g., "Profession (lawyer)").  The same goes for the feats
+      that require you to select a weapon, skill, or spell school that the feat
+      applies to, e.g., instead of selecting "Weapon Focus", "Spell Mastery",
+      or "Skill Focus", define the custom feats "Weapon Focus (crossbow)",
+      "Spell Mastery (divination)" or "Skill Focus (listen)".</li>
   <li>When an character ability score is modified, Scribe recalculates
       attributes based on that ability from scratch.  For example, bumping
-      intelligence when a character reaches fourth level causes Scribe to
+      intelligence when a character reaches 4th level causes Scribe to
       recompute the number of skill points awarded at first level.  This
       might be considered a feature.</li>
   <li>Race- and class-based weapon proficiencies are not reported.</li>
@@ -496,7 +551,11 @@ new items.
       character when opening a new one or exiting Scribe.</li>
   <li>Scribe has problems dealing with options containing a space followed by
       an uncapitalized word.  This is why, e.g., the skill "Sleight Of Hand"
-      doesn't appear as "Sleight of Hand".</li>
+      doesn't appear as "Sleight of Hand". There are other occasions when
+      Scribe is picky about case.</li>
+  <li>Scribe provides no way to indicate per-weapon bonuses to attack and
+      damage.</li>
+  <li>The editor should indicate cross/class skills.</li>
 </ul>
 </p>
 
