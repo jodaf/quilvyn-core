@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.3 2005/02/04 05:19:16 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.4 2005/02/20 19:03:16 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -53,7 +53,7 @@ function ScribeCustomClass
   for(i = 0; i < classSkills.length; i++)
     rules.AddRules('classSkills.' + classSkills[i], 'levels.' + name, '=', '1');
   DndCharacter.LoadClassFeatureRules
-    (rules, name, 'featNotes.' + name + 'Features', features);
+    (rules, name, 'featNotes.' + name.toLowerCase() + 'Features', features);
 }
 
 function ScribeCustomNotes(notes) {
