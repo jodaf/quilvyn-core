@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.67 2005/01/07 06:32:51 Jim Exp $ */
+/* $Id: Scribe.js,v 1.68 2005/01/10 21:08:11 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.13.05\n' +
+'Scribe Character Editor version 0.13.10\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -47,6 +47,15 @@ function AddUserChoices(name, item /*, item ... */) {
     'skills': 'skillsAbility', 'spells':'spellsLevels',
     'weapons': 'weaponsDamage'
   };
+  var nameWidgets = {
+    'alignments':'alignment', 'classesHitDie':'levels',
+    'deitiesDomains':'deity', 'feats':'feats',
+    'genders':'gender', 'goodies':'goodies',
+    'languages':'languages', 'race':'race',
+    'schools':'prohibit/specialize', 'shields':'shield',
+    'skillsAbility':'skills', 'spellsLevels':'spells',
+    'weaponsDamage':'focus/specialization/weapons'
+  };
   if(nameObjects[name] != null)
     name = nameObjects[name];
   var i;
@@ -61,6 +70,13 @@ function AddUserChoices(name, item /*, item ... */) {
   else 
     for(i = 2; i < arguments.length; i += 2)
       o[arguments[i - 1]] = arguments[i];
+  var widgets = nameWidgets[name];
+  if(widgets != null) {
+    widgets = widgets.split('/');
+    for(i = 0; i < widgets.length; i++)
+      editor.setElementSelections
+        (widgets[i], o.constructor == Array ? o : GetKeys(o));
+  }
 };
 
 /* Callback for CustomizeScribe's AddRules parameter. */
@@ -95,21 +111,21 @@ function InitialEditor() {
     spellsCategoryOptions[spellsCategoryOptions.length] =
       a + '(' + DndCharacter.spellsCategoryCodes[a] + ')';
   spellsCategoryOptions.sort();
-  result.addElements(
+  result.addElements(null,
     '', 'about', 'button', ['About'],
     '', 'help', 'button', ['Help'],
     '', 'view', 'button', ['View Html'],
     '', 'file', 'select', ['--New/Open--'],
     '', 'clear', 'select',
-      ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
-       'constitution', 'deity', 'dexterity', 'feats', 'gender',
-       'domains', 'hitPoints', 'intelligence', 'languages', 'name', 'race',
-       'shield', 'skills', 'spells', 'strength', 'weapons', 'wisdom'],
+      ['--Clear--', 'alignment', 'armor', 'charisma', 'constitution', 'deity',
+       'dexterity', 'domains', 'feats', 'gender', 'hitPoints', 'intelligence',
+       'languages', 'levels', 'name', 'race', 'shield', 'skills', 'spells',
+       'strength', 'weapons', 'wisdom'],
     '', 'randomize', 'select',
-      ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
-       'constitution', 'deity', 'dexterity', 'domains', 'feats', 'gender',
-       'hitPoints', 'intelligence', 'languages', 'name', 'race',
-       'shield', 'skills', 'spells', 'strength', 'weapons', 'wisdom'],
+      ['--Randomize--', 'alignment', 'armor', 'charisma', 'constitution',
+       'deity', 'dexterity', 'domains', 'feats', 'gender', 'hitPoints',
+       'intelligence', 'languages', 'levels', 'name', 'race', 'shield',
+       'skills', 'spells', 'strength', 'weapons', 'wisdom'],
     '', 'validate', 'button', ['Validate'],
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
@@ -145,7 +161,6 @@ function InitialEditor() {
     'Wizard Prohibition', 'prohibit', 'set', DndCharacter.schools,
     'Notes', 'notes', 'text', [40,10]
   );
-  result.setCallback(Update);
   return result;
 }
 
@@ -349,7 +364,7 @@ function LoadCharacter(name) {
       else
         character.attributes[a] = value;
     }
-    RefreshEditor(false);
+    RefreshEditor();
     RefreshSheet();
     urlLoading = null;
     if(!loadingPopup.closed)
@@ -428,19 +443,22 @@ function RandomizeCharacter() {
     character = new DndCharacter(null);
     for(var a in DndCharacter.classesHitDie) {
       var attr = 'levels.' + a;
-      if((value = loadingPopup.fc.getElementValue(attr)) != null && value > 0) {
+      if((value =
+            loadingPopup.fc.getElementValue(loadingPopup,'red',attr)) != null &&
+         value > 0) {
         character.attributes[attr] = value;
         totalLevels += character.attributes[attr] - 0;
       }
     }
     if(totalLevels == 0) {
-      character.Randomize(rules, 'class');
+      character.Randomize(rules, 'levels');
       totalLevels = 1;
     }
     character.attributes.experience = totalLevels * (totalLevels-1) * 1000 / 2;
     for(var a in DndCharacter.defaults)
       character.Randomize(rules, a);
-    if((value = loadingPopup.fc.getElementValue('race')) != '(Random)')
+    if((value = loadingPopup.fc.getElementValue(loadingPopup, 'red', 'race')) !=
+       '(Random)')
       character.attributes.race = value;
     character.Randomize(rules, 'domains');
     character.Randomize(rules, 'feats');
@@ -448,7 +466,7 @@ function RandomizeCharacter() {
     character.Randomize(rules, 'skills');
     character.Randomize(rules, 'spells');
     character.Randomize(rules, 'weapons');
-    RefreshEditor(false);
+    RefreshEditor();
     RefreshSheet();
     loadingPopup.close();
     urlLoading = null;
@@ -458,7 +476,7 @@ function RandomizeCharacter() {
     var fixedAttributes = new FormController();
     var races = ['(Random)'];
     races = races.concat(DndCharacter.races);
-    fixedAttributes.addElements(
+    fixedAttributes.addElements(null,
       'Race', 'race', 'select', races,
       'Levels', 'levels', 'bag', GetKeys(DndCharacter.classesHitDie)
     );
@@ -468,17 +486,16 @@ function RandomizeCharacter() {
       '<html><head><title>Editor</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
       '<img src="' + LOGO_URL + ' "/><br/>\n' +
-      '<h2>Fixed Attributes</h2>'
-    );
-    fixedAttributes.writeToWindow(loadingPopup, 'red');
-    loadingPopup.document.write(
+      '<h2>Fixed Attributes</h2>',
+      fixedAttributes.getHtml('red'),
       '<form>\n' +
       '<input type="button" value="Ok" onclick="okay=1;"/>\n' +
       '<input type="button" value="Cancel" onclick="window.close();"/>\n' +
       '</form></body></html>\n'
     );
     loadingPopup.document.close();
-    fixedAttributes.setElementValue('race', '(Random)');
+    fixedAttributes.registerWindow(loadingPopup, 'red', null);
+    fixedAttributes.setElementValue(loadingPopup, 'red', 'race', '(Random)');
     loadingPopup.fc = fixedAttributes;
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
@@ -488,23 +505,12 @@ function RandomizeCharacter() {
     setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
 }
 
-/*
- * Sets the editing window form fields to the values found in the current
- * character, redrawing the window from scratch if #redraw# is true.
- */
-function RefreshEditor(redraw) {
-  if(redraw) {
-    editWindow.document.write(
-      '<html><head><title>Editor</title></head>\n' +
-      '<body bgcolor="' + BACKGROUND + '">' +
-      '<img src="' + LOGO_URL + ' "/><br/>');
-    editor.writeToWindow(editWindow, 'ched');
-    editWindow.document.write(
-      '</body></html>\n'
-    );
-    editWindow.document.close();
-  }
-  editor.setElementValues(character.attributes);
+/* Sets the editing window fields to the values of the current character. */
+function RefreshEditor() {
+  editor.reset(editWindow, 'ched');
+  for(var attr in character.attributes)
+    editor.setElementValue
+      (editWindow, 'ched', attr, character.attributes[attr]);
   RefreshSpellSelections(true);
 }
 
@@ -552,14 +558,16 @@ function RefreshSpellSelections(resetToCharacter) {
     for(a in DndCharacter.spellsCategoryCodes) {
       code = DndCharacter.spellsCategoryCodes[a];
       option = a + '(' + code + ')';
-      editor.setElementValue('spellcats.' + option, codesToDisplay[code]);
+      editor.setElementValue
+        (editWindow, 'ched', 'spellcats.' + option, codesToDisplay[code]);
     }
   }
   else {
     for(a in DndCharacter.spellsCategoryCodes) {
       code = DndCharacter.spellsCategoryCodes[a];
       option = a + '(' + code + ')';
-      codesToDisplay[code] = editor.getElementValue('spellcats.' + option);
+      codesToDisplay[code] =
+        editor.getElementValue(editWindow, 'ched', 'spellcats.' + option);
     }
   }
 
@@ -631,9 +639,16 @@ function ScribeStart() {
   viewer = InitialViewer();
   if(CustomizeScribe != null)
     CustomizeScribe(AddUserChoices, AddUserRules, AddUserView);
-  /* TODO: Allow user to make editor changes w/out losing option changes. */
-  editor = InitialEditor();
-  RefreshEditor(true);
+  var editHtml =
+    '<html><head><title>Editor</title></head>\n' +
+    '<body bgcolor="' + BACKGROUND + '">' +
+    '<img src="' + LOGO_URL + ' "/><br/>\n' +
+    editor.getHtml('ched') +
+    '\n</body></html>\n';
+  editWindow.document.write(editHtml);
+  editWindow.document.close();
+  editor.registerWindow(editWindow, 'ched', Update);
+  RefreshEditor();
   RefreshSheet();
   RefreshRecentOpens();
 
@@ -815,6 +830,24 @@ function Update(name, value) {
     );
     Update.aboutWindow.document.close();
   }
+  else if(name == 'clear' || name == 'randomize') {
+    editor.setElementValue(editWindow, 'ched', 'clear', '--Clear--');
+    editor.setElementValue(editWindow, 'ched', 'randomize', '--Randomize--');
+    var attr;
+    var pat = '^' + value + '(\\.|$)';
+    for(attr in character.attributes)
+      if(attr.search(pat) >= 0)
+        editor.setElementValue(editWindow, 'ched', attr, null);
+    if(name == 'clear')
+      character.Clear(value);
+    else
+      character.Randomize(rules, value);
+    for(attr in character.attributes)
+      if(attr.search(pat) >= 0)
+        editor.setElementValue
+          (editWindow, 'ched', attr, character.attributes[attr]);
+    RefreshSheet();
+  }
   else if(name == 'file') {
     if(value == 'Open...')
       OpenDialog();
@@ -822,25 +855,11 @@ function Update(name, value) {
       RandomizeCharacter();
     else
       LoadCharacter(value);
-    editor.setElementValue('file', '--New/Open--');
+    editor.setElementValue(editWindow, 'ched', 'file', '--New/Open--');
   }
   else if(name == 'help') {
     if(Update.helpWindow == null || Update.helpWindow.closed)
       Update.helpWindow = window.open(HELP_URL, 'help');
-  }
-  else if(name == 'view')
-    ShowHtml(SheetHtml());
-  else if(name == 'clear') {
-    character.Clear(value);
-    RefreshEditor(false);
-    RefreshSheet();
-    editor.setElementValue('clear', '--Clear--');
-  }
-  else if(name == 'randomize') {
-    character.Randomize(rules, value);
-    RefreshEditor(false);
-    RefreshSheet();
-    editor.setElementValue('randomize', '--Randomize--');
   }
   else if(name == 'validate') {
     if(Update.validateWindow != null && !Update.validateWindow.closed)
@@ -855,10 +874,12 @@ function Update(name, value) {
     );
     Update.validateWindow.document.close();
   }
+  else if(name == 'view')
+    ShowHtml(SheetHtml());
   else if(name.match(/^spellcats\./))
     RefreshSpellSelections(false);
   else if(name == 'spells.--- No spell categories selected ---')
-    editor.setElementValue(name, 0);
+    editor.setElementValue(editWindow, 'ched', name, 0);
   else {
     if(!value && DndCharacter.defaults[name] == null)
       delete character.attributes[name];
@@ -868,7 +889,8 @@ function Update(name, value) {
             character.attributes[name].match(/^\d+$/)) {
       character.attributes[name] =
         ((character.attributes[name] - 0) + (value.substring(1) - 0)) + '';
-      editor.setElementValue(name, character.attributes[name]);
+      editor.setElementValue
+        (editWindow, 'ched', name, character.attributes[name]);
     }
     else
       character.attributes[name] = value;
