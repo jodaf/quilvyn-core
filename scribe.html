@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.8 2004/06/22 13:48:17 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.9 2004/06/23 17:31:04 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2004, James J. Hayes
 
@@ -20,7 +20,7 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
 <head>
 
-<title>Scribe DND Character Sheet</title>
+<title>Scribe DND Character Editor</title>
 
 <!--
 These definitions determine where your browser looks for the Scribe source
@@ -54,10 +54,10 @@ parameters is a function that you can use to perform one type of customization.
 These functions allow you to:
 
 Add new choices to one of the editor's selection lists.  The editor defines the
-lists 'alignments', 'armors', 'classes', 'domains' (cleric spell domains),
-'feats', 'genders', 'helms', 'languages', 'races', 'schools' (wizard spell
-schools), 'shields', 'skills', 'spells', and 'weapons'.  For example, this line
-would add 'Aquan' to the list of languages that characters can learn:
+lists 'alignments', 'classes', 'domains' (cleric spell domains), 'feats',
+'genders', 'helms', 'languages', 'races', 'schools' (wizard spell schools),
+'shields', 'skills', 'spells', and 'weapons'.  For example, this line would add
+'Aquan' to the list of languages that characters can learn:
 
  AddChoices('languages', 'Aquan');
 
@@ -80,9 +80,9 @@ language list.
 
  AddToSheet('languageCount', 'FeatsAndSkills', 'Languages', null);
 
-Alternatively, you can modularize your customizations by using additional
-script tags to load multiple functions, then have CustomizeScribe invoke each
-of them in turn.
+Instead of placing all your customization code here, you can modularize your
+customizastions by using additional script tags to load functions from other
+JavaScript files, then have CustomizeScribe invoke each function in turn.
 -->
 <script>
 var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
@@ -93,28 +93,27 @@ var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
 <script src="CustomizeSkills.js"></script>
 <script src="CustomizeSpellPoints.js"></script>
 <script>
-var CustomizeScribe =
-function(DndCharacter, AddElement, AddRules, AddToSheet) {
+var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
   if(window.CustomizeGoodies == null)
     alert('Unabled to load CustomizeGoodies.js');
   else
-    window.CustomizeGoodies(DndCharacter, AddElement, AddRules, AddToSheet);
+    window.CustomizeGoodies(AddElement, AddRules, AddToSheet);
   if(window.CustomizeSkills == null)
     alert('Unabled to load CustomizeSkills.js');
   else
-    window.CustomizeSkills(DndCharacter, AddElement, AddRules, AddToSheet);
+    window.CustomizeSkills(AddElement, AddRules, AddToSheet);
   if(window.CustomizeSpellPoints == null)
     alert('Unabled to load CustomizeSpellPoints.js');
   else
-    window.CustomizeSpellPoints(DndCharacter, AddElement, AddRules, AddToSheet);
+    window.CustomizeSpellPoints(AddElement, AddRules, AddToSheet);
 }
 </script>
 
 <!-- Commands that load the Scribe software.  Do not modify. -->
 <script>
 var CLOSE_TAG = '</' + 'script>\n';
-var LOGO_URL = SOURCE_URL + 'scribe.gif';
 var HELP_URL = SOURCE_URL + 'help.html';
+var LOGO_URL = SOURCE_URL + 'scribe.gif';
 document.write('<script src="' + SOURCE_URL + 'FormController.js">' +CLOSE_TAG);
 document.write('<script src="' + SOURCE_URL + 'DndCharacter.js">' + CLOSE_TAG);
 document.write('<script src="' + SOURCE_URL + 'ObjectViewer.js">' + CLOSE_TAG);

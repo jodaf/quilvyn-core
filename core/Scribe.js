@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.21 2004/06/22 13:48:17 Jim Exp $ */
+/* $Id: Scribe.js,v 1.22 2004/06/23 17:29:25 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.9.10\n' +
+'Scribe Character Editor version 0.9.11\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -286,16 +286,12 @@ function LoadCharacter(url) {
 }
 
 function OpenDialog() {
-  if(loadingPopup != null && !loadingPopup.closed) {
-    /* Try again after character or rules have loaded. */
-    setTimeout('OpenDialog();', TIMEOUT_DELAY);
-    return;
-  }
+  if(loadingPopup != null && !loadingPopup.closed)
+    return; /* Ignore during load. */
   var url = prompt
     ('Enter URL to Edit (Blank for Random Character)', cookieInfo.lastUrl);
   if(url == null && character != null)
-    /* User cancel. */
-    return;
+    return; /* User cancel. */
   if(url == null || url == '') {
     character = InitialCharacter();
     RefreshEditor(false);
@@ -387,7 +383,7 @@ function ScribeLoaded() {
      window.FormController == null ||
      window.ObjectViewer == null ||
      window.RuleEngine == null) {
-    alert('JavaScript script(s) required by Scribe are missing; exiting');
+    alert('JavaScript functions required by Scribe are missing; exiting');
     return;
   }
   if(window.opener == null || window.opener.ScribeLoaded == null) {
