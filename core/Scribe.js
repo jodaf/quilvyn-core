@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.55 2004/12/10 07:50:32 Jim Exp $ */
+/* $Id: Scribe.js,v 1.56 2004/12/13 06:37:49 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -33,6 +33,29 @@ var sheetWindow;
 var urlLoading = null;
 var viewer;
 
+function AddChoices(name, item /*, item ... */) {
+  var nameObjects = {
+    'deities':'deitiesDomains', 'skills': 'skillsAbilities',
+    'spells':'spellsLevels', 'weapons': 'weaponsDamage'
+  };
+  if(nameObjects[name] != null)
+    name = nameObjects[name];
+  var i;
+  var o = DndCharacter[name];
+  if(o == null)
+    return;
+  if(o instanceof Array) {
+    for(i = 1; i < arguments.length; i++)
+      o.push(arguments[i]);
+    o.sort();
+  }
+  else {
+    /* TODO Is there a better way to allow modification of non-arrays? */
+    for(i = 2; i < arguments.length; i += 2)
+      o[arguments[i - 1]] = arguments[i];
+  }
+};
+
 function AddUserRules() {
   rules.AddRules.apply(rules, arguments);
 }
@@ -51,6 +74,13 @@ function FullUrl(url) {
   if(url.match(/\.\w*$/) == null)
     url += URL_SUFFIX;
   return url;
+}
+
+function GetKeys(o) {
+  var result = [];
+  for(var a in o)
+    result.push(a);
+  return result;
 }
 
 function InitialEditor() {
@@ -88,7 +118,7 @@ function InitialEditor() {
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
     'Experience', 'experience', 'range', [0,9999999],
-    'Levels', 'levels', 'bag', DndCharacter.classes,
+    'Levels', 'levels', 'bag', GetKeys(DndCharacter.classesHitDie),
     'Strength', 'strength', 'range', [3,18],
     'Intelligence', 'intelligence', 'range', [3,18],
     'Wisdom', 'wisdom', 'range', [3,18],
@@ -98,13 +128,13 @@ function InitialEditor() {
     'Player', 'player', 'text', [20],
     'Alignment', 'alignment', 'select', DndCharacter.alignments,
     'Gender', 'gender', 'select', DndCharacter.genders,
-    'Deity', 'deity', 'select', DndCharacter.deities,
+    'Deity', 'deity', 'select', GetKeys(DndCharacter.deitiesDomains),
     'Origin', 'origin', 'text', [20],
     'Feats', 'feats', 'bag', DndCharacter.feats,
     'Skills', 'skills', 'bag', skills,
     'Languages', 'languages', 'set', DndCharacter.languages,
     'Hit Points', 'hitPoints', 'range', [0,999],
-    'Armor', 'armor', 'select', DndCharacter.armors,
+    'Armor', 'armor', 'select', GetKeys(DndCharacter.armorsArmorClassBonuses),
     'Shield', 'shield', 'select', DndCharacter.shields,
     'Weapons', 'weapons', 'bag', weapons,
     'Weapon Focus', 'focus', 'set', weapons,
@@ -125,13 +155,13 @@ function InitialRuleEngine() {
   var result = new RuleEngine();
   var versions;
   DndCharacter.LoadVersion3Rules(result);
-  versions = CLASS_RULES_VERSION.split(';');
+  versions = CLASS_RULES_VERSION.split('/');
   for(i = 0; i < versions.length; i++)
     DndCharacter.LoadVersion3PointRules(result, versions[i], 'class');
-  versions = FEAT_RULES_VERSION.split(';');
+  versions = FEAT_RULES_VERSION.split('/');
   for(i = 0; i < versions.length; i++)
     DndCharacter.LoadVersion3PointRules(result, versions[i], 'feat');
-  versions = MAGIC_RULES_VERSION.split(';');
+  versions = MAGIC_RULES_VERSION.split('/');
   for(i = 0; i < versions.length; i++)
     DndCharacter.LoadVersion3PointRules(result, versions[i], 'magic');
   return result;
@@ -362,8 +392,8 @@ function RandomizeCharacter() {
     var totalLevels = 0;
     var value;
     character = new DndCharacter(null);
-    for(i = 0; i < DndCharacter.classes.length; i++) {
-      var attr = 'levels.' + DndCharacter.classes[i];
+    for(var a in DndCharacter.classesHitDie) {
+      var attr = 'levels.' + a;
       if((value = loadingPopup.fc.getElementValue(attr)) != null &&
          value > 0) {
         character.attributes[attr] = value;
@@ -397,7 +427,7 @@ function RandomizeCharacter() {
     races = races.concat(DndCharacter.races);
     fixedAttributes.addElements(
       'Race', 'race', 'select', races,
-      'Levels', 'levels', 'bag', DndCharacter.classes
+      'Levels', 'levels', 'bag', GetKeys(DndCharacter.classesHitDie)
     );
     urlLoading = 'random';
     loadingPopup = window.open('about:blank', 'randomWin');
@@ -558,7 +588,7 @@ function ScribeLoaded() {
   rules = InitialRuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
-    CustomizeScribe(DndCharacter.AddChoices, AddUserRules, AddUserView);
+    CustomizeScribe(AddChoices, AddUserRules, AddUserView);
   /* TODO: Allow user to make editor changes w/out losing option changes. */
   editor = InitialEditor();
   RefreshEditor(true);
@@ -619,28 +649,23 @@ function SheetHtml() {
         var damages = DndCharacter.weaponsDamage[name];
         var extraDamage =
           name.indexOf('bow') < 0 ? computedAttributes.meleeDamage : 0;
-        var multipliers = DndCharacter.weaponsCriticalMultiplier[name];
-        var threats = DndCharacter.weaponsCriticalThreat[name];
-        damages = damages == null ? ['0'] : damages.split('/');
         if(computedAttributes['specialization.' + name] != null)
           extraDamage += 2;
-        multipliers = multipliers == null ? [2] :
-                      typeof multipliers == 'number' ? [multipliers] :
-                      multipliers.split('/');
-        threats = threats == null ? [1] :
-                  typeof threats == 'number' ? [threats] :
-                  threats.split('/');
+        damages = damages == null ? ['0'] : damages.split('/');
         for(i = 0; i < damages.length; i++) {
-          var multiplier = multipliers[i < multipliers.length ? i : 0];
-          var smallDamage = DndCharacter.weaponsSmallDamage[damages[i]];
-          var threat = threats[i < threats.length ? i : 0];
+          var pieces = damages[i].match(/^(d\d+) *(x(\d+))? *(@(\d+))?$/);
+          var damage = pieces == null ? 'd6' : pieces[1];
+          var multiplier =
+            pieces == null || pieces[3] == null ? 2 : (pieces[3]-0);
+          var smallDamage = DndCharacter.weaponsSmallDamage[damage];
+          var threat = pieces == null || pieces[5] == null ? 20 : (pieces[5]-0);
           if(computedAttributes['feats.Improved Critical'] != null)
-            threat *= 2;
+            threat = 21 - (21 - threat) * 2;
           if(computedAttributes.isSmall && smallDamage != null)
-            damages[i] = smallDamage;
+            damage = smallDamage;
           if(extraDamage != 0)
-            damages[i] += (extraDamage > 0 ? '+' : '') + extraDamage;
-          damages[i] += ' x' + multiplier + '@' + (21 - threat);
+            damage += (extraDamage > 0 ? '+' : '') + extraDamage;
+          damages[i] = damage + ' x' + multiplier + '@' + threat;
         }
         name += '(' + damages.join('/') + ')';
       }
