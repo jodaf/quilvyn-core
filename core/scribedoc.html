@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.41 2005/03/05 05:36:02 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.42 2005/03/12 07:16:54 Jim Exp $ -->
 <html>
 
 <head>
@@ -319,8 +319,8 @@ ScribeCustomChoices('deities',
   'Glennor (NG Healing)', 'Air/Animal/Healing'
 );
 ScribeCustomChoices('skills'
-  'Craft (alchemy)', 'int', 'Craft (carpentery)', 'int',
-  'Craft (glassworking)', 'int', 'Herbalism', 'int', 'Mediation', 'wis'
+  'Craft (Alchemy)', 'int', 'Craft (Carpentery)', 'int',
+  'Craft (Glassworking)', 'int', 'Herbalism', 'int', 'Mediation', 'wis'
 );
 ScribeCustomChoices('spells' 'Calm Water', 'W6/Wa5', 'Darkstorm', 'C4/W4');
 ScribeCustomChoices('weapons' 'Shillelagh', 'd6');
@@ -502,14 +502,15 @@ new items.
 <a name="limitations"><h3>Limitations</h3></a>
 <p>
 <ul>
-  <li>The "Craft" and "Profession" skills are not very useful, since you need
-      to know which craft or skill the character is skilled in.  DMs should use
-      customization to add particular crafts (e.g., "Craft (carpentery)") and
-      professions (e.g., "Profession (lawyer)").  The same goes for the feats
-      that require you to select a weapon, skill, or spell school that the feat
-      applies to, e.g., instead of selecting "Weapon Focus", "Spell Mastery",
-      or "Skill Focus", define the custom feats "Weapon Focus (crossbow)",
-      "Spell Mastery (divination)" or "Skill Focus (listen)".</li>
+  <li>The skills and feats that require you to pick a subject (e.g., "Craft",
+      "Weapon Focus") are not very useful.  DMs should use customization to add
+      particular instances of these skills and feats, e.g., "Craft
+      (Carpentery)", "Weapon Focus (Longsword)".  This applies to: the skills
+      "Craft" and "Profession"; the weapon feats "Greater Weapon Focus",
+      "Greater Weapon Specialization", "Improved Critical", "Weapon Focus",
+      "Weapon Proficiency Exotic", "Weapon Proficiency Martial", and "Weapon
+      Specialization"; the spell feats "Greater Spell Focus", "Spell Focus" and
+      "Spell Mastery"; the skill feat "Skill Mastery".</li>
   <li>When an character ability score is modified, Scribe recalculates
       attributes based on that ability from scratch.  For example, bumping
       intelligence when a character reaches 4th level causes Scribe to
@@ -549,10 +550,10 @@ new items.
   <li>It's easy to overlook when characters have a bonus in untrained skills,
       e.g., an elf's +2 on <i>Listen</i> when no skill points are allocated to
       that skill.</li>
-  <li>Scribe has problems dealing with options containing a space followed by
-      an uncapitalized word.  This is why, e.g., the skill "Sleight Of Hand"
-      doesn't appear as "Sleight of Hand". There are other occasions when
-      Scribe is picky about case.</li>
+  <li>Scribe has problems dealing with options containing an uncapitalized
+      word.  This is why, e.g., Scribe defines the skills "Sleight Of Hand" and
+      "Knowledge (Arcana)" instead of "Sleight of Hand" and "Knowledge
+      (arcana)". There are other occasions when Scribe is picky about case.</li>
   <li>The editor should indicate cross/class skills.</li>
 </ul>
 </p>
