@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.13 2004/08/18 23:32:15 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.14 2004/09/05 21:42:22 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2004, James J. Hayes
 
@@ -34,6 +34,22 @@ for the code to download each time.
 <script>
 var SCRIBE_HOME = 'http://www.jodaf.com/dnd/scribe/';
 var SOURCE_URL = '';
+</script>
+
+<!--
+These definitions determine whether Scribe uses rules from v3.0 or v3.5 of the
+Players' Manual. CLASS_RULES_VERSION determines the version of the class and
+race rules, FEAT_RULES_VERSION the version of the feat and skill rules, along
+with the list of feats and skills, and MAGIC_RULES_VERSION the version of magic
+rules, along with the list of spells.  Each value can be '3.0' or '3.5',
+indicating a single version, or '3.0;3.5' or '3.5;3.0', indicating that both
+sets of rules should be used.  In the latter case, the second version listed
+takes precedence for rules that are incompatible between the versions.
+-->
+<script>
+var CLASS_RULES_VERSION = '3.5';
+var FEAT_RULES_VERSION = '3.5';
+var MAGIC_RULES_VERSION = '3.5';
 </script>
 
 <!--
