@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.74 2005/01/17 13:41:46 Jim Exp $ */
+/* $Id: Scribe.js,v 1.75 2005/01/29 23:19:17 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -108,15 +108,14 @@ function InputSetValue(input, value) {
 
 /*=== ===*/
 
-/*=== Customization callbacks ===*/
+/*=== CustomizeScribe callbacks ===*/
 
 /*
- * Callback for CustomizeScribe's AddChoices parameter.  Add each #item# to the
- * set of valid selections for #name#.  For some values of #name# (e.g.,
- * 'weapons'), data associated with each item is interspersed in the parameter
- * list.  See help.html for details.
+ * Add each #item# to the set of valid selections for #name#.  For some values
+ * of #name# (e.g., 'weapons'), data associated with each item is interspersed
+ * in the parameter list.  See help.html for details.
  */
-function AddUserChoices(name, item /*, item ... */) {
+function CustomizeScribeChoices(name, item /*, item ... */) {
   var nameObjects = {
     'classes':'classesHitDie', 'deities':'deitiesDomains',
     'skills': 'skillsAbility', 'spells':'spellsLevels',
@@ -137,14 +136,14 @@ function AddUserChoices(name, item /*, item ... */) {
       o[arguments[i - 1]] = arguments[i];
 };
 
-/* Callback for CustomizeScribe's AddRules parameter. */
-function AddUserRules(target, source, type, expr /*, source, type, expr ... */){
+function CustomizeScribeRules
+  (target, source, type, expr /*, source, type, expr ... */){
   for(var i = 3; i < arguments.length; i += 3)
     rules.AddRules(target, arguments[i - 2], arguments[i - 1], arguments[i]);
 }
 
 /* Callback for CustomizeScribe's AddToSheet parameter. */
-function AddUserView(name, within, before, format) {
+function CustomizeScribeSheet(name, within, before, format) {
   viewer.addElements(
     {name: SheetName(name), within: within, before: before, format: format}
   );
@@ -729,7 +728,7 @@ function ScribeStart() {
   rules = InitialRuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
-    CustomizeScribe(AddUserChoices, AddUserRules, AddUserView);
+    CustomizeScribe();
   RedrawEditor();
   RefreshEditor();
   RedrawSheet();

@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.34 2005/01/14 15:24:40 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.35 2005/01/29 23:19:17 Jim Exp $ -->
 <html>
 
 <head>
@@ -267,9 +267,9 @@ expert.
 <p>
 To add custom rules and information to Scribe, you need to fill in the
 CustomizeScribe function found in scribe.html with commands that perform your
-modifications.  Scribe invokes this function after loading.  CustomizeScribe
-has three parameters, each of which is a function that you can invoke to
-perform one type of customization.
+modifications.  Scribe invokes this function after loading.  From within
+CustomizeScribe you can call several functions, each of which performs one type
+of customization.
 </p>
 
 <p>
@@ -282,7 +282,7 @@ this code in your CustomizeScribe function:
 </p>
 
 <p><code>
-AddChoices('languages', 'Dolphin', 'Whale');
+CustomizeScribeChoices('languages', 'Dolphin', 'Whale');
 </code></p>
 
 <p>
@@ -296,10 +296,10 @@ modify in this fashion are 'alignments', 'domains' (cleric spell domains),
 Other lists that you can modify require you to supply additional information
 about the new choices.  For example, if you add new skills to Scribe's Skills
 list, you must also supply the key ability associated with each skill.  When
-you invoke AddChoice to modify these lists, give the information associated
-with each choice immediately after the choice.  The lists you can modify in
-this fashion are 'deities' (include a slash-separated set of domains after
-each new deity), 'skills' (include the key ability), 'spells' (include a
+you invoke CustomizeScribeChoices to modify these lists, give the information
+associated with each choice immediately after the choice.  The lists you can
+modify in this fashion are 'deities' (include a slash-separated set of domains
+after each new deity), 'skills' (include the key ability), 'spells' (include a
 slash-separated set of spell levels).  and 'weapons' (include a damage die
 for medium-sized creatures).  (The damage value for weapons can also include a
 critical multiplier, preceded by 'x', and/or a minumum threat roll, preceded by
@@ -309,17 +309,17 @@ are examples of adding choices to these lists:
 </p>
 
 <p><code><pre>
-AddChoices('deities',
+CustomizeScribeChoices('deities',
   'Draum (CG Elf Dreams)', 'Air/Chaos/Good/Luck',
   'Glennor (NG Healing)', 'Air/Animal/Healing'
 );
-AddChoices('skills'
+CustomizeScribeChoices('skills'
   'Craft (alchemy)', 'int', 'Craft (carpentery)', 'int',
   'Craft (glassworking)', 'int', 'Herbalism', 'int', 'Mediation', 'wis'
 );
-AddChoices('spells' 'Calm Water', 'W6/Wa5', 'Darkstorm', 'C4/W4');
-AddChoices('weapons' 'Shillelagh', 'd6');
-AddChoices('weapons' 'Orc Kirak', 'd6x3@19');
+CustomizeScribeChoices('spells' 'Calm Water', 'W6/Wa5', 'Darkstorm', 'C4/W4');
+CustomizeScribeChoices('weapons' 'Shillelagh', 'd6');
+CustomizeScribeChoices('weapons' 'Orc Kirak', 'd6x3@19');
 </pre></code></p>
 
 <p>
@@ -327,8 +327,8 @@ Attributes like languages, skills, and spells generally don't affect other
 attributes, so adding new choices to the lists users pick from is usually
 sufficient.  When adding new choices to attributes like race, however, you will
 probably want to add rules to reflect the effect selecting the new choice has
-on other attributes.  You can do this by invoking the AddRules function from
-within your CustomizeScribe function.
+on other attributes.  You can do this by invoking the CustomizeScribeRules
+function from within your CustomizeScribe function.
 </p>
 
 <p>
@@ -338,37 +338,37 @@ CustomizeScribe lines to do this would be:
 </p>
  
 <p><code><pre>
-AddChoices('races', 'Goblin');
-AddRules('abilityNotes.goblinAbility', 'race', '=', 'source == "Goblin" ? "+2 constitution/-2 strength" : null');
-AddRules('strength', 'abilityNotes.goblinAbility', '+', '2');
-AddRules('dexterity', 'abilityNotes.goblinAbility', '+', '2');
+CustomizeScribeChoices('races', 'Goblin');
+CustomizeScribeRules('abilityNotes.goblinAbility', 'race', '=', 'source == "Goblin" ? "+2 constitution/-2 strength" : null');
+CustomizeScribeRules('strength', 'abilityNotes.goblinAbility', '+', '2');
+CustomizeScribeRules('dexterity', 'abilityNotes.goblinAbility', '+', '2');
 </pre></code></p>
 
 <p>
 The first line simply adds 'Goblin' to the list of races available.  The next
 line computes a new attribute that will be included in the notes of the
 Attributes section of the character sheet, and the last two lines use this
-attribute to modify the character abilities.  The parameters to AddRules are
-the attribute affected, the attribute on which the first attribute depends, the
-type of affect, and a JavaScript expression that calculates the value of the
-effect.
+attribute to modify the character abilities.  The parameters to
+CustomizeScribeRules are the attribute affected, the attribute on which the
+first attribute depends, the type of affect, and a JavaScript expression that
+calculates the value of the effect.
 </p>
 
 <p>
-For example, the first invocation of AddRules above computes a value for the
-abilityNotes.goblinAbility attribute based on the value of the race attribute.
-The third parameter ('=') indicates that race sets the value of
+For example, the first invocation of CustomizeScribeRules above computes a
+value for the abilityNotes.goblinAbility attribute based on the value of the
+race attribute. The third parameter ('=') indicates that race sets the value of
 abilityNotes.goblinAbility to a specific value; other possibilities are '+'
 (adds to the attribute value), '*' (multiplies the attribute value), '^'
 (raises the attribute value to a minimum level), and 'v' (lowers the attribute
-value to a maximum level).  The final parameter in the first AddRules call
-tests to see if the race attribute's value is "Goblin".  If so, it returns a
-string as the value of the abilityNotes.goblinAbility attribute; otherwise, it
-returns null, a value which indicates that the abilityNotes.goblinAbility
-attribute does not apply to this character.  Within this piece of JavaScript,
-the variable 'source' always refers to the attribute specified in the second
-parameter.  So, in the first call above, 'source' refers to the value of the
-race attribute.
+value to a maximum level).  The final parameter in the first
+CustomizeScribeRules call tests to see if the race attribute's value is
+"Goblin".  If so, it returns a string as the value of the
+abilityNotes.goblinAbility attribute; otherwise, it returns null, a value which
+indicates that the abilityNotes.goblinAbility attribute does not apply to this
+character.  Within this piece of JavaScript, the variable 'source' always
+refers to the attribute specified in the second parameter.  So, in the first
+call above, 'source' refers to the value of the race attribute.
 </p>
 
 <p>
@@ -378,9 +378,9 @@ lines to these three:
 </p>
 
 <p><code><pre>
-AddChoices('races', 'Goblin');
-AddRules('strength', 'race', '+', 'source == "Goblin" ? -2 : 0');
-AddRules('dexterity', 'race', '+', 'source == "Goblin" ? 2 : 0');
+CustomizeScribeChoices('races', 'Goblin');
+CustomizeScribeRules('strength', 'race', '+', 'source == "Goblin" ? -2 : 0');
+CustomizeScribeRules('dexterity', 'race', '+', 'source == "Goblin" ? 2 : 0');
 </pre></code></p>
 
 <p>
@@ -395,16 +395,16 @@ new attributes to modify existing ones via a '+' rule.
 <p>
 Once you've computed new attributes for your character, you'll probably want to
 include some of them on your character sheet.  You can do this through the
-AddToSheet function, which takes four parameters: the name of the attribute,
-the section it should appear in, the attribute it should appear before, and the
-format to use in the display.  For example, suppose you had made calls to
-AddRules that computed a new character attribute called 'spellPoints'. This
-code would insert the attribute into the Magic section of the character sheet,
-just before cleric domains:
+CustomizeScribeSheet function, which takes four parameters: the name of the
+attribute, the section it should appear in, the attribute it should appear
+before, and the format to use in the display.  For example, suppose you had
+made calls to CustomizeScribeRules that computed a new character attribute
+called 'spellPoints'. This code would insert the attribute into the Magic
+section of the character sheet, just before cleric domains:
 </p>
 
 <p><code><pre>
-AddToSheet('spellPoints', 'Magic', 'Domains', null)
+CustomizeScribeSheet('spellPoints', 'Magic', 'Domains', null)
 </pre></code></p>
 
 <p>
@@ -421,11 +421,12 @@ value, so the default format is '&lt;b&gt;%N&lt;/b&gt;: %V'.
 The predefined character sheet has six sections: 'Header', 'Attributes',
 'FeatsAndSkills', 'Melee', 'Magic', and 'Notes'.  You can add attributes to any
 of these five by giving its name as the second parameter. (You can also add a
-new section by calling AddToSheet with a second parameter of '_top'.) The third
-parameter indicates where, within the section, the new attribute should be
-displayed.  This will usually be the name of one of the attributes as displayed
-on the character sheet.  Alternatively, you can place your new attribute at the
-end of the section by giving <b>null</b> as the third parameter.
+new section by calling CustomizeScribeSheet with a second parameter of '_top'.)
+The third parameter indicates where, within the section, the new attribute
+should be displayed.  This will usually be the name of one of the attributes as
+displayed on the character sheet.  Alternatively, you can place your new
+attribute at the end of the section by giving <b>null</b> as the third
+parameter.
 </p>
 
 <a name="magicitems"><h3>Adding Magic Items</h3></a>
@@ -477,7 +478,8 @@ new items.
       other tables that can/must be modified&#151;classesClassSkills/HitDie,
       weaponsRangeIncrement, and all the garbage that goes with armor. Also,
       there should be discussion of the names of the entered and computed
-      character attributes so that users know what to pass to AddRules.</li>
+      character attributes so that users know what to pass to
+      CustomizeScribeRules.</li>
   <li>It's easy to overlook when characters have a bonus in untrained skills,
       e.g., an elf's +2 on <i>Listen</i> when no skill points are allocated to
       that skill.</li>

@@ -1,6 +1,6 @@
-<!-- $Id: scribe.html,v 1.20 2005/01/12 23:58:12 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.21 2005/01/29 23:19:17 Jim Exp $ -->
 <!--
-The Scribe Character Editor is Copyright 2004, James J. Hayes
+The Scribe Character Editor is Copyright 2005, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
@@ -22,91 +22,104 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
 <title>Scribe DND Character Editor</title>
 
-<!--
-These definitions determine where your browser looks for the Scribe source
-files; the values below direct it to retrieve local copies.  If you change the
-second line to read "var SOURCE_URL = SCRIBE_HOME;", then all other Scribe
-source files will be downloaded from the Scribe web site each time the program
-runs.  If you make this change you automatically get software updates every
-time you run the program; however, the disadvantage is that you have to wait
-for the code to download each time.
--->
 <script>
+<!--
+
+/*
+ * These definitions determine where your browser looks for the Scribe source
+ * files; the values below direct it to retrieve local copies.  If you change
+ * the second line to read "var SOURCE_URL = SCRIBE_HOME;", then all other
+ * Scribe source files will be downloaded from the Scribe web site each time
+ * the program runs.  If you make this change you automatically get software
+ * updates every time you run the program; however, the disadvantage is that
+ * you have to wait for the code to download each time.
+ */
 var SCRIBE_HOME = 'http://www.jodaf.com/dnd/scribe/';
 var SOURCE_URL = '';
-</script>
 
-<!--
-A few user preferences you may want to change: the background color for
-Scribe's windows, the number of recent opens shown in the file menu, and the
-prefix and suffix used to expand abbreviated character file urls.
--->
-<script>
+/*
+ * A few user preferences you may want to change: the background color for
+ * Scribe's windows, the number of recent opens shown in the file menu, and the
+ * prefix and suffix used to expand abbreviated character file urls.
+ */
 var BACKGROUND = 'wheat';
 var MAX_RECENT_OPENS = 20;
 var URL_PREFIX = 'http://www.jodaf.com/dnd/bt/';
 var URL_SUFFIX = '.html';
-</script>
 
-<!--
-These definitions determine whether Scribe uses rules from v3.0 or v3.5 of the
-Players' Manual. CLASS_RULES_VERSION determines the version of the class and
-race rules, FEAT_RULES_VERSION the version of the feat and skill rules, along
-with the list of feats and skills, and MAGIC_RULES_VERSION the version of magic
-rules, along with the list of spells.  Each value can be '3.0' or '3.5',
-indicating a single version, or '3.0/3.5' or '3.5/3.0', indicating that both
-sets of rules should be used.  In the latter case, the second version listed
-takes precedence for rules that are incompatible between the versions.
--->
-<script>
+/*
+ * These definitions determine whether Scribe uses rules from v3.0 or v3.5 of
+ * the Players' Manual. CLASS_RULES_VERSION determines the version of the class
+ * and race rules, FEAT_RULES_VERSION the version of the feat and skill rules,
+ * along with the list of feats and skills, and MAGIC_RULES_VERSION the version
+ * of magic rules, along with the list of spells.  Each value can be '3.0' or
+ * '3.5', indicating a single version, or '3.0/3.5' or '3.5/3.0', indicating
+ * that both sets of rules should be used.  In the latter case, the second
+ * version listed takes precedence for rules that are incompatible between the
+ * versions.
+ */
 var CLASS_RULES_VERSION = '3.5';
 var FEAT_RULES_VERSION = '3.5';
 var MAGIC_RULES_VERSION = '3.5';
-</script>
 
-<!--
-If this file defines a CustomizeScribe function, Scribe calls it after loading,
-allowing you to add custom behavior to the program.  See help.html for details.
-Instead of placing all your customization code in this file, you can modularize
-your customizations by using additional script tags to load functions from
-other JavaScript files, then have CustomizeScribe invoke each function in turn.
-An example of this is shown below.
--->
-<script src="CustomizeDeities.js"></script>
-<script src="CustomizeGoodies.js"></script>
-<script src="CustomizeSkills.js"></script>
-<script src="CustomizeSpellPoints.js"></script>
-<script>
+/*
+ * If this file defines a CustomizeScribe function, Scribe calls it after
+ * loading, allowing you to add custom behavior to the program.  See help.html
+ * for details.  Instead of putting the code directly into CustomizeScribe, you
+ * can place URLs for scripts you want to load from external files into
+ * CUSTOMIZATION_URLS, and the default implementation of CustomizeScribe below
+ * will load them.  A set of sample customization scripts, listed below, comes
+ * packaged with the Scribe software; remove the comment markers from around
+ * any of these that you would like Scribe to use.
+ */
+var CUSTOMIZATION_URLS = [
+  /* 'ClassMageslayer.js', */
+  /* 'CustomizeDeities.js', */
+  /* 'CustomizeGoodies.js', */
+  /* 'CustomizeSkills.js', */
+  /* 'CustomizeSpellPoints.js', */
+  null
+];
+
 function CustomizeScribe(AddChoices, AddRules, AddToSheet) {
-  if(window.CustomizeDeities == null)
-    alert('Unabled to load CustomizeDeities.js');
-  else
-    window.CustomizeDeities(AddChoices, AddRules, AddToSheet);
-  if(window.CustomizeGoodies == null)
-    alert('Unabled to load CustomizeGoodies.js');
-  else
-    window.CustomizeGoodies(AddChoices, AddRules, AddToSheet);
-  if(window.CustomizeSkills == null)
-    alert('Unabled to load CustomizeSkills.js');
-  else
-    window.CustomizeSkills(AddChoices, AddRules, AddToSheet);
-  if(window.CustomizeSpellPoints == null)
-    alert('Unabled to load CustomizeSpellPoints.js');
-  else
-    window.CustomizeSpellPoints(AddChoices, AddRules, AddToSheet);
+  for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
+    var pos;
+    var url = CUSTOMIZATION_URLS[i];
+    if(url == null)
+      continue;
+    while((pos = url.indexOf('/')) >= 0)
+      url = url.substring(pos + 1);
+    if((pos = url.indexOf('.')) >= 0)
+      url = url.substring(0, pos);
+    if(window[url] == null)
+      alert('Unable to invoke ' + url + ' from ' + CUSTOMIZATION_URLS[i]);
+    else
+      window[url](AddChoices, AddRules, AddToSheet);
+  }
 }
-</script>
 
-<!-- Commands that load the Scribe software.  Do not modify. -->
-<script>
-<!--
+/**** Commands that load the Scribe software.  Do not modify. ****/
+
 var CLOSE_TAG = '<' + '/' + 'script>\n';
 var HELP_URL = SOURCE_URL + 'help.html';
 var LOGO_URL = SOURCE_URL + 'scribe.gif';
-document.write('<script src="' + SOURCE_URL + 'DndCharacter.js">' + CLOSE_TAG);
-document.write('<script src="' + SOURCE_URL + 'ObjectViewer.js">' + CLOSE_TAG);
-document.write('<script src="' + SOURCE_URL + 'RuleEngine.js">' + CLOSE_TAG);
-document.write('<script src="' + SOURCE_URL + 'Scribe.js">' + CLOSE_TAG);
+var scribeUrls = [
+  'DndCharacter.js', 'ObjectViewer.js', 'RuleEngine.js', 'Scribe.js'
+];
+
+for(var i = 0; i < scribeUrls.length; i++)
+  document.write
+    ('<script src="' + SOURCE_URL + scribeUrls[i] + '">' + CLOSE_TAG);
+for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
+  var url = CUSTOMIZATION_URLS[i];
+  if(url == null)
+    continue;
+  if(url.match(/\w+:/) == null)
+    url = SOURCE_URL + url;
+  document.write('<script src="' + url + '">' + CLOSE_TAG);
+
+}
+
 -->
 </script>
 

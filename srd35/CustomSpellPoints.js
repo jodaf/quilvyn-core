@@ -16,13 +16,13 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 
-function CustomizeSpellPoints(AddChoices, AddRules, AddToSheet) {
-  AddRules('spellPoints',
+function CustomizeSpellPoints() {
+  CustomizeScribeRules('spellPoints',
     'casterLevel', '?', null,
     null, '=', '0'
   );
   for(var i = 1; i <= 9; i++) {
-    AddRules('spellPoints',
+    CustomizeScribeRules('spellPoints',
       'spellsPerDay.C' + i, '+', 'source * ' + i,
       'spellsPerDay.D' + i, '+', 'source * ' + i,
       'spellsPerDay.Dom' + i, '+', 'source * ' + i,
@@ -30,11 +30,14 @@ function CustomizeSpellPoints(AddChoices, AddRules, AddToSheet) {
       'spellsPerDay.W' + i, '+', 'source * ' + i
     );
     if(i <= 6)
-      AddRules('spellPoints', 'spellsPerDay.B' + i, '+', 'source * ' + i);
+      CustomizeScribeRules
+        ('spellPoints', 'spellsPerDay.B' + i, '+', 'source * ' + i);
     if(i <= 4) {
-      AddRules('spellPoints', 'spellsPerDay.P' + i, '+', 'source * ' + i);
-      AddRules('spellPoints', 'spellsPerDay.R' + i, '+', 'source * ' + i);
+      CustomizeScribeRules
+        ('spellPoints', 'spellsPerDay.P' + i, '+', 'source * ' + i);
+      CustomizeScribeRules
+        ('spellPoints', 'spellsPerDay.R' + i, '+', 'source * ' + i);
     }
   }
-  AddToSheet('spellPoints', 'Magic', 'Spells Per Day');
+  CustomizeScribeSheet('spellPoints', 'Magic', 'Spells Per Day');
 }
