@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.52 2004/12/05 07:26:00 Jim Exp $ */
+/* $Id: Scribe.js,v 1.53 2004/12/08 18:03:23 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -608,8 +608,13 @@ function SheetHtml() {
       }
       if(DndCharacter.notes[a] != null)
         value = DndCharacter.notes[a].replace(/%V/, value);
-      if(group == 'Skills' && DndCharacter.skillsAbility[name] != null)
-        name += ' (' + DndCharacter.skillsAbility[name] + ')';
+      if(group == 'Skills') {
+        var skill = name;
+        if(DndCharacter.skillsAbility[skill] != null)
+          name += ' (' + DndCharacter.skillsAbility[name] + ')';
+        if(computedAttributes['classSkills.' + skill] == null)
+          name += '(X)';
+      }
       else if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
         var damages = DndCharacter.weaponsDamage[name];
         var extraDamage =
@@ -770,10 +775,30 @@ function Update(name, value) {
 
 function ValidationHtml() {
   var computedAttributes = rules.Apply(character.attributes);
+  var errors;
+  var i;
   var invalid = DndCharacter.Validate(computedAttributes);
   var result = '';
-  for(var i = 0; i < invalid.length; i += 2)
+  for(i = 0; i < invalid.length; i += 2)
     result += invalid[i] + ' does not pass test ' + invalid[i + 1] + '<br/>';
-  result += invalid.length / 2 + ' validation errors<br/>';
+  var maxRanks = computedAttributes.classSkillMaxRanks;
+  var skillPointsAssigned = 0;
+  for(var a in character.attributes) {
+    if(a.substring(0, 7) != 'skills.')
+      continue;
+    var skill = a.substring(7);
+    var isCross = computedAttributes['classSkills.' + skill] == null;
+    var maxAllowed = maxRanks / (isCross ? 2 : 1);
+    if(character.attributes[a] > maxAllowed)
+      result += 'Skill points assigned to ' + skill +
+                ' exceeds allowed maximum of ' + maxAllowed + '<br/>';
+    skillPointsAssigned += character.attributes[a] * (isCross ? 2 : 1);
+  }
+  if(skillPointsAssigned != computedAttributes.skillPoints)
+    result += skillPointsAssigned + ' assigned skill points does not equal ' +
+              computedAttributes.skillPoints + ' available<br/>';
+  for(i = -1, errors = 0; (i = result.indexOf('<br/>', i + 1)) >= 0; errors++)
+    ; /* empty */
+  result += errors + ' validation error' + (errors == 1 ? '' : 's') + '<br/>';
   return result;
 }
