@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.7 2004/04/24 18:28:20 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.8 2004/05/06 19:30:40 Jim Exp $ -->
 
 <html>
 <head>
@@ -21,6 +21,7 @@
   <li><a href="#edit">Editing Characters</a></li>
   <li><a href="#random">Randomizing Attributes</a></li>
   <li><a href="#save">Saving Characters</a></li>
+  <li><a href="#sheet">The Character Sheet</a></li>
   <li><a href="#preferences">Changing User Preferences</a></li>
   <li><a href="#custom">Customization</a></li>
   <li><a href="#limitations">Limitations</a></li>
@@ -124,6 +125,39 @@ changes to the character.  You can also load the file directly into your
 browser to view and print the character sheet.
 </p>
 
+
+<a name="sheet"><h3>The Character Sheet</h3></a>
+<p>
+The default character sheet format that Scribe produces contains five sections:
+Header; Basic Attributes; Feats and Skills; Melee; and Magic.  Each of these
+lists related character attribute values, both entered and computed, along with
+notes about the attributes.  Although most of the information on the sheet
+should be clear, a few aspects of the format require explanation.
+<ul>
+  <li>In the Basic Attributes section, the computed modifier values for
+      strength, wisdom, etc. are shown in parentheses after the attribute
+      value.</li>
+  <li>Whenever a computed attribute value differs from the one entered in the
+      editor window, Scribe includes both values on the character
+      sheet&#151;the computed value first, followed by the entered value in
+      brackets.  For example, since a halfling gets a +2 bonus on dexterity,
+      the sheet for a halfling character with an entered dexterity of 12 will
+      show "Dexterity: 14[12]". The first number is the one that will usually
+      be used during play.</li>
+  <li>Some attribute notes appear in italics; others in plain text.  The
+      italicized notes describe the effects of rules that Scribe used in
+      computing attributes. For example, a sheet for a halfling character will
+      include an italicized note reading "<i>Halfling Dexterity: +2</i>".
+      Italicized notes can normally be ignored during play, since Scribe has
+      already incorporated the effect on the character sheet. Plain text notes,
+      on the other hand, describe rule effects that need to be applied during
+      the game, so the DM should examine these closely.  For example, the Melee
+      section of a halfling's character sheet will include the plain text note
+      "Halfling Save: +3 Fear/+1 All Others." When rolling a spell saving throw
+      for this character, the DM will have to add either 1 or 3 to the rolled
+      value.</li>
+</ul>
+</p>
 
 <a name="preferences"><h3>Changing User Preferences</h3></a>
 <p>
@@ -247,11 +281,43 @@ these new attributes to modify existing ones via a '+' rule.
 </p>
 
 <p>
-Adding basic attributes to the editor.  TODO
+Once you've computed new attributes for your character, you'll probably want to
+include some of them on your character sheet.  You can do this through the
+AddToSheet function, which takes four parameters: the name of the attribute,
+the section where it should appear, the attribute it should appear before, and
+the format to use in the display.  For example, suppose you had made calls to
+AddRules that computed a new character attribute called 'spellPoints'. This
+code would insert the attribute into the Magic section of the character sheet,
+just before cleric domains:
+</p>
+
+<p><code><pre>
+AddToSheet('spellPoints', 'Magic', 'Domains', null)
+</pre></code></p>
+
+<p>
+Note that the final parameter here is <b>null</b>.  This indicates that Scribe
+should use its default format to display the attribute, which is the attribute
+name in boldface followed by a colon and the attribute value.  Chances are good
+that this will usually be the format you want to use.  If you want to customize
+the format, though, you can pass a string containing HTML that represents the
+format.  Within this HTML the text %N represents the attribute name and %V its
+value, so the default format is '&lt;b&gt;%N&lt;/b&gt;: %V'.
 </p>
 
 <p>
-Adding attributes to the character sheet.  TODO
+The predefined character sheet has five sections: 'Header', 'Attributes',
+'FeatsAndSkills', 'Melee', and 'Magic'.  You can add attributes to any of these
+five by giving its name as the second parameter. (You can also add a new
+section by calling AddToSheet with a second parameter of '_top'.)  The third
+parameter indicates where, within the section, the new attribute should be
+displayed.  This will usually be the name of one of the attributes as displayed
+on the character sheet.  Alternatively, you can place your new attribute at the
+end of the section by giving <b>null</b> as the third parameter.
+</p>
+
+<p>
+Adding basic attributes to the editor.  TODO
 </p>
 
 <p>
@@ -284,7 +350,7 @@ section on <a href="#preferences">Changing User Preferences</a> for details.
 <ul>
   <li>Weight load is not calculated.</li>
   <li>Armor-based spell failure percentages are not calculated.</li>
-  <li>Spell schools are not calculated.  It would be particularly nice to flag
+  <li>Spell schools are not indicated.  It would be particularly nice to flag
       spells within a Wizard's specialization.</li>
   <li>Some way to enter DM notes for inclusion on the character sheet is
       needed.</li>
@@ -295,14 +361,9 @@ section on <a href="#preferences">Changing User Preferences</a> for details.
       might be considered a feature.</li>
   <li>The spell chooser in the editor is too bloody long.  How might it be
       split up to make it easier to use?</li>
-  <li>The "Magic" section header appears on the character sheet even if there's
-      no information there.</li>
   <li>Weapon damage should be computed instead of fixed.</li>
-  <li>Need some explanation of the attribute value format on the sheet.  What
-      does "Strength 12[10] (1)" mean? Why are some notes italicized?</li>
   <li>Discuss how goodies are expected to work.</li>
   <li>Use a single form for modifying user preferences.</li>
-  <li>The AddToSheet customization function syntax is overly arcane.</li>
 </ul>
 </p>
 
