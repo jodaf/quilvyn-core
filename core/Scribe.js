@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.13 2004/04/14 07:06:04 Jim Exp $ */
+/* $Id: Scribe.js,v 1.14 2004/04/24 18:30:11 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -30,16 +30,156 @@ var cookieInfo = {
   ruleUrls: '',
   suffix: '.html'
 };
+var editor;
 var editWindow;
+var loadingPopup = null;
 var loadingWindow;
 var rules = null;
 var rulesInProgress = null;
-var loadingPopup = null;
 var sheetWindow;
 var urlLoading = null;
 
 function AddRules() {
   rulesInProgress.AddRules.apply(rulesInProgress, arguments);
+}
+
+function ChangePreferences() {
+  var value;
+  for(var p in cookieInfo) {
+    if(p == 'lastUrl')
+      continue;
+    if((value = prompt('Enter value for ' + p, cookieInfo[p])) == null)
+      return;
+    cookieInfo[p] = value;
+  }
+  StoreCookie();
+}
+
+function FullUrl(url) {
+  if(url.match(/^[a-zA-Z0-9]*:/) == null)
+    url = cookieInfo.prefix + url;
+  if(url.match(/\.[a-zA-Z0-9]*$/) == null)
+    url += cookieInfo.suffix;
+  return url;
+}
+
+function LoadCharacter(url) {
+  url = FullUrl(url);
+  if(urlLoading == url && loadingWindow.attributes != null) {
+    /* Character done loading. */
+    if(!loadingPopup.closed)
+      loadingPopup.close();
+    if(cookieInfo.lastUrl != url) {
+      cookieInfo.lastUrl = url;
+      StoreCookie();
+    }
+    character = new DndCharacter(loadingWindow.attributes);
+    RefreshEditor();
+    RefreshSheet();
+    urlLoading = null;
+  }
+  else if(urlLoading == url && loadingPopup.closed)
+    /* User cancel. */
+    urlLoading = null;
+  else if(urlLoading == null) {
+    /* Nothing presently loading. */
+    urlLoading = url;
+    loadingPopup =
+      PopUp('Loading character from ' + url, 'Cancel', 'window.close();');
+    loadingWindow.attributes = null;
+    loadingWindow.location = url;
+    setTimeout
+      ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
+  }
+  else
+    /* Something (possibly this character) loading; try again later. */
+    setTimeout
+      ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
+}
+
+function LoadRules(urls) {
+
+  var splitUrls = urls.split(';');
+
+  while(splitUrls.length > 0 && splitUrls[0] == '')
+    splitUrls.shift();
+  if(splitUrls.length == 0) {
+    /* All rule sets done loading. */
+    if(rulesInProgress != null) {
+      rules = rulesInProgress;
+      rulesInProgress = null;
+      RedrawEditWindow();
+      RefreshSheet();
+    }
+    return;
+  }
+
+  var url = FullUrl(splitUrls[0]);
+  if(urlLoading == url && loadingWindow.CustomizeScribe != null) {
+    /* Current rule set done loading. */
+    loadingWindow.CustomizeScribe
+      (DndCharacter,DndCharacter.AddChoices,AddRules,DndCharacter.AddToSheet);
+    loadingPopup.close();
+    urlLoading = null;
+    splitUrls.shift();
+    LoadRules(splitUrls.join(';'));
+  }
+  else if(urlLoading == url && loadingPopup.closed) {
+    /* User cancel. */
+    urlLoading = null;
+    rulesInProgress = null;
+  }
+  else if(urlLoading == null) {
+    /* Nothing presently loading. */
+    urlLoading = url;
+    loadingWindow.CustomizeScribe = null;
+    loadingWindow.location = url;
+    loadingPopup =
+      PopUp('Loading rules from ' + url, 'Cancel', 'window.close();');
+    if(rulesInProgress == null) {
+      rulesInProgress = new RuleEngine();
+      DndCharacter.AddThirdEditionRules(rulesInProgress);
+    }
+    setTimeout
+      ('LoadRules("' + splitUrls.join(';').replace(/\\/g, "\\\\") + '");',
+       TIMEOUT_DELAY);
+  }
+  else
+    /* Something (possibly this rule set) loading; try again later. */
+    setTimeout
+      ('LoadRules("' + splitUrls.join(';').replace(/\\/g, "\\\\") + '");',
+       TIMEOUT_DELAY);
+
+}
+
+function NewCharacter() {
+  character = new DndCharacter(null);
+  character.Randomize(rules, 'class');
+  for(var a in DndCharacter.defaults)
+    character.Randomize(rules, a);
+  character.Randomize(rules, 'feats');
+  character.Randomize(rules, 'languages');
+  character.Randomize(rules, 'skills');
+  character.Randomize(rules, 'spells');
+  RefreshEditor();
+  RefreshSheet();
+}
+
+function OpenDialog() {
+  if(loadingPopup != null && !loadingPopup.closed) {
+    /* Try again after character or rules have loaded. */
+    setTimeout('OpenDialog();', TIMEOUT_DELAY);
+    return;
+  }
+  var url = prompt
+    ('Enter URL to Edit (Blank for Random Character)', cookieInfo.lastUrl);
+  if(url == null && character != null)
+    /* User cancel. */
+    return;
+  if(url == null || url == '')
+    NewCharacter();
+  else
+    LoadCharacter(url);
 }
 
 function PopUp(html, button, action /* ... */) {
@@ -59,186 +199,69 @@ function PopUp(html, button, action /* ... */) {
 }
 PopUp.next = 0;
 
-function FullUrl(url) {
-  if(url.match(/^[a-zA-Z0-9]*:/) == null)
-    url = cookieInfo.prefix + url;
-  if(url.match(/\.[a-zA-Z0-9]*$/) == null)
-    url += cookieInfo.suffix;
-  return url;
-}
-
-function ChangePreferences() {
-  var value;
-  for(var p in cookieInfo) {
-    if(p == 'lastUrl')
-      continue;
-    if((value = prompt('Enter value for ' + p, cookieInfo[p])) == null)
-      return;
-    cookieInfo[p] = value;
-  }
-  StoreCookie();
-}
-
-function LoadCharacter(url) {
-  url = FullUrl(url);
-  if(urlLoading == url && loadingWindow.attributes != null) {
-    loadingPopup.close();
-    cookieInfo.lastUrl = url;
-    StoreCookie();
-    character = new DndCharacter(loadingWindow.attributes);
-    RefreshSheet();
-    RefreshEditor();
-    urlLoading = null;
-  }
-  else if(urlLoading == url && loadingPopup.closed)
-    urlLoading = null;
-  else if(urlLoading == null) {
-    urlLoading = url;
-    loadingPopup =
-      PopUp('Loading character from ' + url, 'Cancel', 'window.close();');
-    loadingWindow.attributes = null;
-    loadingWindow.location = url;
-    setTimeout
-      ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
-  }
-  else
-    setTimeout
-      ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
-}
-
-function LoadRules(urls) {
-
-  var splitUrls = urls.split(';');
-
-  while(splitUrls.length > 0 && splitUrls[0] == '')
-    splitUrls.shift();
-  if(splitUrls.length == 0) {
-    if(rulesInProgress != null) {
-      rules = rulesInProgress;
-      rulesInProgress = null;
-      RefreshSheet();
-    }
-    return;
-  }
-
-  var url = FullUrl(splitUrls[0]);
-  if(urlLoading == url && loadingWindow.CustomizeScribe != null) {
-    loadingWindow.CustomizeScribe
-      (DndCharacter, DndCharacter.AddChoices, AddRules, DndCharacter.AddToSheet);
-    loadingPopup.close();
-    urlLoading = null;
-    splitUrls.shift();
-    LoadRules(splitUrls.join(';'));
-  }
-  else if(urlLoading == url && loadingPopup.closed) {
-    urlLoading = null;
-    rulesInProgress = null;
-  }
-  else if(urlLoading == null) {
-    urlLoading = url;
-    loadingWindow.CustomizeScribe = null;
-    loadingWindow.location = url;
-    loadingPopup =
-      PopUp('Loading rules from ' + url, 'Cancel', 'window.close();');
-    if(rulesInProgress == null) {
-      rulesInProgress = new RuleEngine();
-      DndCharacter.AddThirdEditionRules(rulesInProgress);
-    }
-    setTimeout
-      ('LoadRules("' + splitUrls.join(';').replace(/\\/g, "\\\\") + '");',
-       TIMEOUT_DELAY);
-  }
-  else
-    setTimeout
-      ('LoadRules("' + splitUrls.join(';').replace(/\\/g, "\\\\") + '");',
-       TIMEOUT_DELAY);
-
-}
-
-function NewCharacter() {
-  character = new DndCharacter(null);
-  character.Randomize(rules, 'class');
-  for(var a in DndCharacter.defaults)
-    character.Randomize(rules, a);
-  character.Randomize(rules, 'feats');
-  character.Randomize(rules, 'skills');
-  character.Randomize(rules, 'spells');
-  RefreshSheet();
-  RefreshEditor();
-}
-
-function OpenDialog() {
-  if(loadingPopup != null && !loadingPopup.closed) {
-    setTimeout('OpenDialog();', TIMEOUT_DELAY);
-    return;
-  }
-  var url = prompt
-    ('Enter URL to Edit (Blank for Random Character)', cookieInfo.lastUrl);
-  if(url == null && character != null)
-    return;
-  if(url == null || url == '')
-    NewCharacter()
-  else
-    LoadCharacter(url);
+function RedrawEditWindow() {
+  editor = new FormController();
+  editor.setCallback(Update);
+  editor.addElements(
+    '', 'about', 'button', ['About'],
+    '', 'help', 'button', ['Help'],
+    '', 'preferences', 'button', ['Preferences'],
+    '', 'open', 'button', ['New/Open'],
+    '', 'view', 'button', ['View Html'],
+    '', 'clear', 'select',
+      ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
+       'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
+       'intelligence', 'languages', 'name', 'race', 'shield', 'skills',
+       'spells', 'strength', 'wisdom'],
+    '', 'randomize', 'select',
+      ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
+       'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
+       'intelligence', 'languages', 'name', 'race', 'shield', 'skills',
+       'spells', 'strength', 'wisdom'],
+    'Name', 'name', 'text', [20],
+    'Race', 'race', 'select', DndCharacter.races,
+    'Experience', 'experience', 'range', [0,9999999],
+    'Levels', 'levels', 'bag', DndCharacter.classes,
+    'Strength', 'strength', 'range', [3,18],
+    'Intelligence', 'intelligence', 'range', [3,18],
+    'Wisdom', 'wisdom', 'range', [3,18],
+    'Dexterity', 'dexterity', 'range', [3,18],
+    'Constitution', 'constitution', 'range', [3,18],
+    'Charisma', 'charisma', 'range', [3,18],
+    'Player', 'player', 'text', [20],
+    'Alignment', 'alignment', 'select', DndCharacter.alignments,
+    'Gender', 'gender', 'select', DndCharacter.genders,
+    'Deity', 'deity', 'text', [20],
+    'Origin', 'origin', 'text', [20],
+    'Feats', 'feats', 'bag', DndCharacter.feats,
+    'Skills', 'skills', 'bag', DndCharacter.skills,
+    'Languages', 'languages', 'set', DndCharacter.languages,
+    'Hit Points', 'hitPoints', 'range', [0,999],
+    'Armor', 'armor', 'select', DndCharacter.armors,
+    'Shield', 'shield', 'select', DndCharacter.shields,
+    'Helm', 'helm', 'select', DndCharacter.helms,
+    'Weapons', 'weapons', 'bag', DndCharacter.weapons,
+    'Spells', 'spells', 'set', DndCharacter.spells,
+    'Goodies', 'goodies', 'bag', DndCharacter.goodies,
+    'Cleric Domains', 'domains', 'set', DndCharacter.domains,
+    'Wizard Specialization', 'specialize', 'set', DndCharacter.schools,
+    'Wizard Prohibition', 'prohibit', 'set', DndCharacter.schools
+  );
+  editWindow.document.write(
+    '<html><head><title>Editor</title></head>\n' +
+    '<body bgcolor="' + cookieInfo.background + '">' +
+    '<img src="scribe.gif"/><br/>');
+  editor.writeToWindow(editWindow, 'ched');
+  editWindow.document.write(
+    '</body></html>\n'
+  );
+  editWindow.document.close();
 }
 
 function RefreshEditor() {
   if(character == null)
     return;
-  var editor = ObjectEditor(
-    character.attributes,
-    'parent.Update',
-    [['', 'meta', 'button', ['About']],
-     ['', 'meta', 'button', ['Help']],
-     ['', 'meta', 'button', ['Preferences']],
-     ['', 'meta', 'button', ['New/Open']],
-     ['', 'meta', 'button', ['View Html']],
-     ['', 'clear', 'select',
-      ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
-       'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
-       'intelligence', 'languages', 'name', 'race', 'shield', 'skills',
-       'spells', 'strength', 'wisdom']],
-     ['', 'randomize', 'select',
-      ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
-       'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
-       'intelligence', 'languages', 'name', 'race', 'shield', 'skills',
-       'spells', 'strength', 'wisdom']],
-     ['Name', 'name', 'text', [20]],
-     ['Race', 'race', 'select', DndCharacter.races],
-     ['Experience', 'experience', 'range', [0,9999999]],
-     ['Levels', 'levels', 'bag', DndCharacter.classes],
-     ['Strength', 'strength', 'range', [3,18]],
-     ['Intelligence', 'intelligence', 'range', [3,18]],
-     ['Wisdom', 'wisdom', 'range', [3,18]],
-     ['Dexterity', 'dexterity', 'range', [3,18]],
-     ['Constitution', 'constitution', 'range', [3,18]],
-     ['Charisma', 'charisma', 'range', [3,18]],
-     ['Player', 'player', 'text', [20]],
-     ['Alignment', 'alignment', 'select', DndCharacter.alignments],
-     ['Gender', 'gender', 'select', DndCharacter.genders],
-     ['Deity', 'deity', 'text', [20]],
-     ['Origin', 'origin', 'text', [20]],
-     ['Feats', 'feats', 'bag', DndCharacter.feats],
-     ['Skills', 'skills', 'bag', DndCharacter.skills],
-     ['Languages', 'languages', 'set', DndCharacter.languages],
-     ['Hit Points', 'hitPoints', 'range', [0,999]],
-     ['Armor', 'armor', 'select', DndCharacter.armors],
-     ['Shield', 'shield', 'select', DndCharacter.shields],
-     ['Helm', 'helm', 'select', DndCharacter.helms],
-     ['Weapons', 'weapons', 'bag', DndCharacter.weapons],
-     ['Spells', 'spells', 'set', DndCharacter.spells],
-     ['Goodies', 'goodies', 'bag', DndCharacter.goodies],
-     ['Cleric Domains', 'domains', 'set', DndCharacter.domains],
-     ['Wizard Specialization', 'specialize', 'set', DndCharacter.schools],
-     ['Wizard Prohibition', 'prohibit', 'set', DndCharacter.schools]]
-  );
-  editWindow.document.write(
-    '<html><head><title>Editor</title></head>\n' +
-    '<body bgcolor="' + cookieInfo.background + '">' +
-    '<img src="scribe.gif"/><br/>' + editor +
-    '</body></html>\n'
-  );
-  editWindow.document.close();
+  editor.setElementValues(character.attributes);
 }
 
 function RefreshSheet() {
@@ -253,7 +276,7 @@ function RefreshSheet() {
 function ScribeLoaded() {
 
   if(window.DndCharacter == null ||
-     window.ObjectEditor == null ||
+     window.FormController == null ||
      window.RuleEngine == null) {
     alert('JavaScript script(s) required by Scribe are missing; exiting');
     return;
@@ -285,6 +308,7 @@ function ScribeLoaded() {
   sheetWindow = window.opener;
   rules = new RuleEngine();
   DndCharacter.AddThirdEditionRules(rules);
+  RedrawEditWindow();
   LoadRules(cookieInfo.ruleUrls);
   OpenDialog();
 
@@ -334,53 +358,52 @@ function StoreCookie() {
   document.cookie = cookie;
 }
 
-function Update(attr, value) {
+function Update(name, value) {
 
-  if(attr == 'meta') {
-    if(value == 'About')
-      window.open('about.html', 'about');
-    else if(value == 'Help')
-      window.open('help.html', 'help');
-    else if(value == 'Preferences') {
-      var oldUrls = cookieInfo.ruleUrls;
-      ChangePreferences();
-      if(cookieInfo.ruleUrls != oldUrls) {
-        rules = new RuleEngine();
-        DndCharacter.AddThirdEditionRules(rules);
-        LoadRules(cookieInfo.ruleUrls);
-        RefreshSheet();
-      }
+  if(name == 'about')
+    window.open('about.html', 'about');
+  else if(name == 'help')
+    window.open('help.html', 'help');
+  else if(name == 'preferences') {
+    var oldUrls = cookieInfo.ruleUrls;
+    ChangePreferences();
+    if(cookieInfo.ruleUrls != oldUrls) {
+      rules = new RuleEngine();
+      DndCharacter.AddThirdEditionRules(rules);
+      LoadRules(cookieInfo.ruleUrls);
     }
-    else if(value == 'New/Open')
-      OpenDialog();
-    else if(value == 'View Html') {
-      var html = SheetHtml();
-      var htmlWindow = window.open('about:blank', 'html');
-      html = html.replace(/</g, '&lt;');
-      html = html.replace(/>/g, '&gt;');
-      htmlWindow.document.write(
-        '<html><head><title>HTML</title></head>\n' +
-        '<body><pre>' + html + '</pre></body></html>\n'
-      );
-      htmlWindow.document.close();
-    }
-    return;
   }
-
-  if(attr == 'clear') {
+  else if(name == 'open')
+    OpenDialog();
+  else if(name == 'view') {
+    var html = SheetHtml();
+    var htmlWindow = window.open('about:blank', 'html');
+    html = html.replace(/</g, '&lt;');
+    html = html.replace(/>/g, '&gt;');
+    htmlWindow.document.write(
+      '<html><head><title>HTML</title></head>\n' +
+      '<body><pre>' + html + '</pre></body></html>\n'
+    );
+    htmlWindow.document.close();
+  }
+  else if(name == 'clear') {
     character.Clear(value);
-    RefreshSheet();
     RefreshEditor();
+    RefreshSheet();
+    editor.setElementValue('clear', '--Clear--');
   }
-  else if(attr == 'randomize') {
+  else if(name == 'randomize') {
     character.Randomize(rules, value);
-    RefreshSheet();
     RefreshEditor();
+    RefreshSheet();
+    editor.setElementValue('randomize', '--Randomize--');
   }
-  else if(attr.indexOf('.') >= 0 && !value)
-    delete character.attributes[attr];
-  else
-    character.attributes[attr] = value;
-  RefreshSheet();
+  else {
+    if(!value && DndCharacter.defaults[name] == null)
+      delete character.attributes[name];
+    else
+      character.attributes[name] = value;
+    RefreshSheet();
+  }
 
 }
