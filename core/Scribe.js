@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.24 2004/07/13 12:29:04 Jim Exp $ */
+/* $Id: Scribe.js,v 1.25 2004/07/13 14:22:10 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -304,17 +304,18 @@ function PopUp(html, button, action /* ... */) {
 PopUp.next = 0;
 
 function RandomizeCharacter() {
+  var i;
   if(urlLoading == 'random' && loadingPopup.closed)
     /* User cancel. */
     urlLoading = null;
   else if(urlLoading == 'random' && loadingPopup.okay != null) {
     var classSet = false;
+    var value;
     character = new DndCharacter(null);
-    for(var i = 0; i < DndCharacter.classes.length; i++) {
+    for(i = 0; i < DndCharacter.classes.length; i++) {
       var attr = 'levels.' + DndCharacter.classes[i];
-      var val = loadingPopup.fc.getElementValue(attr);
-      if(val != null) {
-        character.attributes[attr] = val;
+      if((value = loadingPopup.fc.getElementValue(attr)) != null) {
+        character.attributes[attr] = value;
         classSet = true;
       }
     }
@@ -322,6 +323,8 @@ function RandomizeCharacter() {
       character.Randomize(rules, 'class');
     for(var a in DndCharacter.defaults)
       character.Randomize(rules, a);
+    if((value = loadingPopup.fc.getElementValue('race')) != '(Random)')
+      character.attributes.race = value;
     character.Randomize(rules, 'feats');
     character.Randomize(rules, 'languages');
     character.Randomize(rules, 'skills');
@@ -334,7 +337,11 @@ function RandomizeCharacter() {
   else if(urlLoading == null) {
     /* Nothing presently loading. */
     var fixedAttributes = new FormController();
+    var races = ['(Random)'];
+    for(i = 0; i < DndCharacter.races.length; i++)
+      races.push(DndCharacter.races[i]);
     fixedAttributes.addElements(
+      'Race', 'race', 'select', races,
       'Levels', 'levels', 'bag', DndCharacter.classes
     );
     urlLoading = 'random';
@@ -353,6 +360,7 @@ function RandomizeCharacter() {
       '</form></body></html>\n'
     );
     loadingPopup.document.close();
+    fixedAttributes.setElementValue('race', '(Random)');
     loadingPopup.fc = fixedAttributes;
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
