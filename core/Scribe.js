@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.62 2004/12/27 17:28:48 Jim Exp $ */
+/* $Id: Scribe.js,v 1.63 2004/12/28 13:54:50 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.12.27\n' +
+'Scribe Character Editor version 0.12.28\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -14,7 +14,9 @@ var ABOUT_TEXT =
 'more details.\n' +
 'You should have received a copy of the GNU General Public License along ' +
 'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
-'Temple Place, Suite 330, Boston, MA 02111-1307 USA.';
+'Temple Place, Suite 330, Boston, MA 02111-1307 USA.\n'
+'Thanks to my dungeon crew, especially fellow DM Rich Hakesley, for patient ' +
+'testing of the program and for making suggestions that greatly improved it.';
 
 var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
@@ -112,6 +114,7 @@ function InitialEditor() {
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
     'Experience', 'experience', 'range', [0,9999999],
+    'Image', 'image', 'text', [20],
     'Levels', 'levels', 'bag', GetKeys(DndCharacter.classesHitDie),
     'Strength', 'strength', 'range', [3,18],
     'Intelligence', 'intelligence', 'range', [3,18],
@@ -175,6 +178,8 @@ function InitialViewer() {
       {name: 'Levels', within: 'Header', format: ' <b>%V</b>'},
     {name: 'Attributes Break', within: '_top', format: '\n'},
     {name: 'Attributes', within: '_top'},
+      {name: 'Image', within: 'Attributes', format: '<img src="%V">'},
+      {name: 'Str Break', within: 'Attributes', format: '\n'},
       {name: 'StrSection', within: 'Attributes', compact: 1},
         {name: 'Strength', within: 'StrSection'},
         {name: 'Strength Modifier', within: 'StrSection', format: ' (%V)'},
@@ -672,7 +677,13 @@ function SheetHtml() {
     if(character.attributes[a] != null && character.attributes[a] != value)
       value += '[' + character.attributes[a] + ']';
     if((i = name.indexOf('.')) < 0) {
-      if(name == 'Unarmed Damage')
+      if(name == 'Image') {
+        if(value.match(/^\w*:/) == null)
+          value = URL_PREFIX + value;
+        if(value.match(/\.\w*$/) == null)
+          value += URL_SUFFIX;
+      }
+      else if(name == 'Unarmed Damage')
         value += Signed(computedAttributes.meleeDamage);
       displayAttributes[name] = value;
     }
