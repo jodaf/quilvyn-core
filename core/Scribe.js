@@ -1,8 +1,9 @@
-/* $Id: Scribe.js,v 1.88 2005/03/10 23:48:43 Jim Exp $ */
+/* $Id: Scribe.js,v 1.89 2005/03/12 07:22:23 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
+var VERSION = '0.15.11';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.15.10\n' +
+'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -435,13 +436,17 @@ function LoadCharacter(name) {
       if(typeof value == 'object') {
         for(var x in value) {
           if(a == 'focus')
-            character.attributes
-              ['feats.Weapon Focus (' + x.toLowerCase() + ')'] = '1';
+            character.attributes['feats.Weapon Focus (' + x + ')'] = '1';
           else if(a == 'specialization')
             character.attributes
-              ['feats.Weapon Specialization (' + x.toLowerCase() + ')'] = '1';
+              ['feats.Weapon Specialization (' + x + ')'] = '1';
           else {
             var convertedName = x;
+            while((i = convertedName.search(/\([a-z]/)) >= 0)
+              convertedName =
+                convertedName.substring(0, i + 1) +
+                convertedName.substring(i + 1, i + 2).toUpperCase() +
+                convertedName.substring(i + 2);
             if(a == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
               convertedName = convertedName.substring(0, i);
             else if(a == 'feats' && x == 'Expertise')
@@ -452,7 +457,6 @@ function LoadCharacter(name) {
               convertedName = 'Survival';
             else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
               convertedName = convertedName.substring(0, i);
-            convertedName = SheetName(convertedName);
             character.attributes[a + '.' + convertedName] = value[x];
           }
         }
@@ -781,7 +785,7 @@ function SheetHtml() {
     }
     else {
       var object = name.substring(0, i);
-      name = name.substring(i + 1);
+      name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
       if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
           continue; /* Suppress notes with zero value. */
@@ -799,11 +803,10 @@ function SheetHtml() {
       }
       else if(object == 'Weapons') {
         var damages = DndCharacter.weaponsDamage[name];
-        var lcName = name.toLowerCase();
         var attack =
           DndCharacter.weaponsRangeIncrement[name] == null ||
-          lcName.match
-            (/^(club|dagger|light hammer|shortspear|spear|trident)$/) != null ?
+          name.match
+            (/^(Club|Dagger|Light Hammer|Shortspear|Spear|Trident)$/) != null ?
           computedAttributes.meleeAttack : computedAttributes.rangedAttack;
         if(computedAttributes['weaponAttackAdjustment.' + name] != null)
           attack += computedAttributes['weaponAttackAdjustment.' + name];
@@ -822,8 +825,9 @@ function SheetHtml() {
           var multiplier = pieces[3] ? pieces[3] - 0 : 2;
           var smallDamage = DndCharacter.weaponsSmallDamage[damage];
           var threat = pieces[5] ? pieces[5] - 0 : 20;
-          if(computedAttributes['feats.Improved Critical'] != null)
-            threat = 21 - (21 - threat) * 2;
+          if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
+            threat = 21 - (21 - threat) -
+                     computedAttributes['weaponCriticalAdjustment.' + name];
           if(computedAttributes.isSmall && smallDamage != null)
             damage = smallDamage;
           damage += Signed(extraDamage);
@@ -847,7 +851,9 @@ function SheetHtml() {
     }
   }
 
-  return '<html>\n' +
+  return '<' + '!' + '-- Generated ' + new Date().toString() +
+           ' by Scribe version ' + VERSION + ' --' + '>\n' +
+         '<html>\n' +
          '<head>\n' +
          '  <title>' + character.attributes.name + '</title>\n' +
          '  <script>\n' +
@@ -864,10 +870,8 @@ function SheetHtml() {
 /* Returns #name# formatted for character sheet display. */
 function SheetName(name) {
   var matchInfo;
-  var result = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+  var result = name.replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
   result = result.substring(0, 1).toUpperCase() + result.substring(1);
-  while((matchInfo = result.match(/^(.*)([ ._][a-z])(.*)$/)) != null)
-    result = matchInfo[1] + matchInfo[2].toUpperCase() + matchInfo[3];
   return result;
 }
 
