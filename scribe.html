@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.14 2004/09/05 21:42:22 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.15 2004/09/14 16:25:11 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2004, James J. Hayes
 
@@ -60,7 +60,7 @@ prefix and suffix used to expand abbreviated character file urls.
 <script>
 var BACKGROUND = 'wheat';
 var MAX_RECENT_OPENS = 10;
-var URL_PREFIX = 'file://c:/Documents and Settings/Jim/My Documents/Dnd/bt/';
+var URL_PREFIX = 'http://www.jodaf.com/dnd/bt/';
 var URL_SUFFIX = '.html';
 </script>
 
@@ -74,28 +74,29 @@ Add new choices to one of the editor's selection lists.  The editor defines the
 lists 'alignments', 'classes', 'domains' (cleric spell domains), 'feats',
 'genders', 'languages', 'races', 'schools' (wizard spell schools),
 'shields', 'skills', 'spells', and 'weapons'.  For example, this line would add
-'Aquan' to the list of languages that characters can learn:
+'Latin' to the list of languages that characters can learn:
 
- AddChoices('languages', 'Aquan');
+  AddChoices('languages', 'Latin');
 
 Add rules to compute new character attributes or modify existing ones. Each
 call to AddRules requires the name of the attribute to modify, followed by one
 or more sets of values that specify the name of the attribute that affect the
 one modified, the type of effect it has, and an expression used to calculate
 the effect.  For example, this set of rules would compute an attribute called
-languageCount based on race and intelligence:
+elvenInsight based on race and intelligence:
 
- AddRules('languageCount',
-   'race', '=', 'source == "Elf" ? 3 : source == "Half Elf" ? 2 : 1',
-   'intelligence', '+', 'source > 14 ? source - 14 : 0');
+  AddRules('elvenInsight',
+    'race', '=', 'source == "Elf" ? 2 : source == "Half Elf" ? 1 : null',
+    'intelligence', '+', 'source > 14 ? source - 14 : 0'
+  );
 
 Add information to the character sheet.  For each attribute to be added, list
 its name, the section where it should appear, the attribute it should be appear
 before, and the format for the display.  This line would insert the
-languageCount attribute computed above into the character sheet before the
+elvenInsight attribute computed above into the character sheet before the
 language list.
 
- AddToSheet('languageCount', 'FeatsAndSkills', 'Languages', null);
+  AddToSheet('elvenInsight', 'FeatsAndSkills', 'Languages', null);
 
 Instead of placing all your customization code here, you can modularize your
 customizastions by using additional script tags to load functions from other
