@@ -27,7 +27,7 @@ function CustomizeSpellPoints(AddElement, AddRules, AddToSheet) {
     'levels.Ranger', '+', 'source > 3 ? (source - 3) * (source - 2) / 2 : null',
     'levels.Sorcerer', '+', 'source * (source + 1) / 2',
     'levels.Wizard', '+', 'source * (source + 1) / 2',
-    'spellNotes.abilitySpellPointsBonus', '+', null
+    'magicNotes.abilitySpellPointsBonus', '+', null
   );
   AddRules('chaSPModifier',
     null, '=', '0',
@@ -42,13 +42,12 @@ function CustomizeSpellPoints(AddElement, AddRules, AddToSheet) {
   );
   AddRules('wisSPModifier',
     null, '=', '0',
-    'levels.Bard', '+', null,
     'levels.Cleric', '+', null,
     'levels.Paladin', '+', 'source > 3 ? source - 3 : null',
     'levels.Ranger', '+', 'source > 3 ? source - 3 : null',
     'wisdomModifier', '*', null
   );
-  AddRules('spellNotes.abilitySpellPointsBonus',
+  AddRules('magicNotes.abilitySpellPointsBonus',
     null, '=', '0',
     'chaSPModifier', '+', null,
     'intSPModifier', '+', null,

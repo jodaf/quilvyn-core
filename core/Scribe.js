@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.37 2004/09/01 15:36:43 Jim Exp $ */
+/* $Id: Scribe.js,v 1.38 2004/09/02 00:18:40 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -554,7 +554,7 @@ function SheetHtml() {
         var threats = DndCharacter.weaponsCriticalThreat[name];
         damages = damages == null ? ['0'] : damages.split('/');
         multipliers = multipliers == null ? [2] :
-                      typeof multipliers == 'number' ? [multiplers] :
+                      typeof multipliers == 'number' ? [multipliers] :
                       multipliers.split('/');
         threats = threats == null ? [1] :
                   typeof threats == 'number' ? [threats] :
