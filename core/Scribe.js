@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.87 2005/03/07 13:32:40 Jim Exp $ */
+/* $Id: Scribe.js,v 1.88 2005/03/10 23:48:43 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.15.07\n' +
+'Scribe Character Editor version 0.15.10\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -935,7 +935,7 @@ function SummarizeCachedAttrs() {
     spells.sort();
     allAttrs[a]['spells'] = spells.length==0 ? '&nbsp;' : spells.join('<br/>');
   }
-  inTable['spells'] = 1;
+  inTable['notes'] = inTable['spells'] = 1;
   inTable = GetKeys(inTable);
   inTable.sort();
   for(var i = 0; i < inTable.length; i++) {
