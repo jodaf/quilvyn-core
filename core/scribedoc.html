@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.9 2004/05/11 19:56:17 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.10 2004/06/22 00:07:05 Jim Exp $ -->
 
 <html>
 <head>
@@ -6,11 +6,7 @@
 </head>
 
 
-<body bgcolor="bisque">
-
-<p>
-<img src="scribe.gif"/>
-</p>
+<body>
 
 <h1>Scribe DND Third Edition Character Editor</h1>
 
@@ -24,6 +20,7 @@
   <li><a href="#sheet">The Character Sheet</a></li>
   <li><a href="#preferences">Changing User Preferences</a></li>
   <li><a href="#custom">Customization</a></li>
+  <li><a href="#magicitems">Adding Magic Items</a></li>
   <li><a href="#limitations">Limitations</a></li>
   <li><a href="#todo">Bugs/To-do List</a></li>
 </ul>
@@ -161,7 +158,14 @@ should be clear, a few aspects of the format require explanation.
 
 <a name="preferences"><h3>Changing User Preferences</h3></a>
 <p>
-TODO
+Pressing Scribe's "Preferences" button opens a small window that allows you to
+modify some aspects of the program's operation.  You can set the background
+color of the editor or change the default URL prefix and suffix.  Scribe uses
+the latter two values with the Open dialogue.  If the value you enter in the
+dialogue box doesn't begin with a prefix such as "http:" or "file:", Scribe
+prepends the default URL prefix.  Similarly, if the value you enter doesn't end
+with an extension such as ".html", Scribe appends the default URL suffix.
+Setting these values can save you a considerable amount of typing.
 </p>
 
 
@@ -179,12 +183,11 @@ expert.
 </p>
 
 <p>
-To add custom rules and information to Scribe, you need to produce one or more
-web pages that contain your modifications.  Each of these web pages must define
-a JavaScript function called CustomizeScribe; Scribe will invoke these
-functions to load your customizations.  The web page
-<a href="custom.html">custom.html</a> can be used as a template for creating
-these pages.
+To add custom rules and information to Scribe, you need to fill in the
+CustomizeScribe function found in scribe.html with commands that perform your
+modifications.  Scribe invokes this function after loading.  CustomizeScribe
+has three parameters, each of which is a function that you can invoke to
+perform one type of customization.
 </p>
 
 <p>
@@ -201,10 +204,11 @@ AddChoices('languages', 'Aquan', 'Avian');
 </code></p>
 
 <p>
-Scribe will sort your choice(s) into the list.  The lists you can modify in
-this fashion are 'alignments', 'armors', 'classes', 'domains' (cleric spell
-domains), 'feats', 'genders', 'helms', 'languages', 'races', 'schools' (wizard
-spell schools), 'shields', 'skills', 'spells', and 'weapons'.
+Scribe will sort your additional choice(s) into the list.  The lists you can
+modify in this fashion are 'alignments', 'armors', 'classes', 'domains' (cleric
+spell domains), 'feats', 'genders', 'goodies' (magic items), 'helms',
+'languages', 'races', 'schools' (wizard spell schools), 'shields', 'skills',
+'spells', and 'weapons'.
 </p>
 
 <p>
@@ -233,7 +237,7 @@ AddRules('dexterity', 'abilityNotes.goblinDexterity', '+', 'source');
 <p>
 The first line simply adds 'Goblin' to the list of races available.  The next
 two lines compute new attributes that will be included in the notes at the
-bottom of the abilities section of the character sheet, and the last two lines
+bottom of the Attributes section of the character sheet, and the last two lines
 use these attributes to modify the character abilities.  The parameters to
 AddRules are the attribute affected, the attribute on which the first attribute
 depends, the type of affect, and a short piece of JavaScript that calculates
@@ -284,8 +288,8 @@ these new attributes to modify existing ones via a '+' rule.
 Once you've computed new attributes for your character, you'll probably want to
 include some of them on your character sheet.  You can do this through the
 AddToSheet function, which takes four parameters: the name of the attribute,
-the section where it should appear, the attribute it should appear before, and
-the format to use in the display.  For example, suppose you had made calls to
+the section it should appear in, the attribute it should appear before, and the
+format to use in the display.  For example, suppose you had made calls to
 AddRules that computed a new character attribute called 'spellPoints'. This
 code would insert the attribute into the Magic section of the character sheet,
 just before cleric domains:
@@ -316,14 +320,16 @@ on the character sheet.  Alternatively, you can place your new attribute at the
 end of the section by giving <b>null</b> as the third parameter.
 </p>
 
+<a name="magicitems"><h3>Adding Magic Items</h3></a>
 <p>
-Adding basic attributes to the editor.  TODO
-</p>
-
-<p>
-Once you have created your customization web pages, you can add the URLs of
-these pages to the list of custom URLs in your user preferences.  See the
-section on <a href="#preferences">Changing User Preferences</a> for details.
+The Dungeon Master's guide contains a large selection of magic items, and most
+DMs generate their own additional magic items from time to time.  Because of
+this, Scribe presents only a minimal selection of magic items in its "Goodies"
+menu, leaving it to the DM to customize the list to include the specific items
+that appear in his or her campaign.  See the
+<a href='#custom'>Customization</a> section for information on how to add
+additional items to the Goodies list and the rules that specify the effects of
+new items.
 </p>
 
 <a name="limitations"><h3>Limitations</h3></a>
@@ -342,6 +348,11 @@ section on <a href="#preferences">Changing User Preferences</a> for details.
   <li>The "Craft" and "Profession" skills are so general as to be useless.  DMs
       will likely want to set up a customization page listing particular crafts
       (e.g., carpentery) and professions (e.g., lawyer).
+  <li>When an character ability score is modified, Scribe recalculates
+      attributes based on that ability from scratch.  For example, bumping
+      intelligence when a character reaches fourth level causes Scribe to
+      recompute the number of skill points awarded at first level.  This
+      might be considered a feature.</li>
 </ul>
 </p>
 
@@ -352,14 +363,7 @@ section on <a href="#preferences">Changing User Preferences</a> for details.
   <li>Armor-based spell failure percentages are not calculated.</li>
   <li>Spell schools are not indicated.  It would be particularly nice to flag
       spells within a Wizard's specialization.</li>
-  <li>When an character ability score is modified, Scribe recalculates
-      attributes based on that ability from scratch.  For example, bumping
-      intelligence when a character reaches fourth level causes Scribe to
-      recompute the number of skill points awarded at first level.  This
-      might be considered a feature.</li>
   <li>Weapon damage should be computed instead of fixed.</li>
-  <li>Discuss how goodies are expected to work.</li>
-  <li>Use a single form for modifying user preferences.</li>
 </ul>
 </p>
 
