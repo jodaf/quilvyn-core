@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.5 2004/08/25 21:29:12 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.6 2005/01/17 06:57:12 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -25,6 +25,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function RuleEngine() {
   this.sources = { };
   this.targets = { };
+  this.seq = 0;
 }
 
 
@@ -63,7 +64,7 @@ RuleEngine.prototype.AddRules =
     if(this.targets[source] == null)
       this.targets[source] = { };
     this.sources[target][source] = this.targets[source][target] =
-      {type: type, fn: expr};
+      {source:source, target: target, type: type, fn: expr, seq: this.seq++};
   }
 };
 
@@ -93,53 +94,58 @@ RuleEngine.prototype.DeleteRule = function(target, source) {
 };
 
 
-/* Returns true iff the value of #attribute# affects other attributes. */
-RuleEngine.prototype.IsSource = function(attribute) {
-  return this.targets[attribute] != null;
+/* Returns true iff the value of #attr# affects other attributes. */
+RuleEngine.prototype.IsSource = function(attr) {
+  return this.targets[attr] != null;
 }
 
 
-/* Returns true iff the value of #attribute# is affected by other attributes. */
-RuleEngine.prototype.IsTarget = function(attribute) {
-  return this.sources[attribute] != null;
+/* Returns true iff the value of #attr# is affected by other attributes. */
+RuleEngine.prototype.IsTarget = function(attr) {
+  return this.sources[attr] != null;
 }
 
 
 /*
- * A "private" function.  Invokes the rules that have #attribute# as their
- * target, drawing the initial value for #attribute# from #initial# and storing
- * the computed result in #computed#.  If the computed value changes,
- * recursively recomputes other attributes that #attribute# affects.
+ * A "private" function.  Invokes the rules that have #attr# as their target,
+ * drawing the initial value for #attr# from #initial# and storing the computed
+ * result in #computed#.  If the computed value changes, recursively recomputes
+ * other attributes that #attr# affects.
  */
-RuleEngine.prototype._Recompute = function(initial, computed, attribute) {
-
-  var addition = 0;
-  var max = null;
-  var min = null;
-  var multiplier = 1;
-  var value = initial[attribute];
-
-  var sources = this.sources[attribute];
-  if(sources != null) {
-    for(var source in sources) {
-      var attr = computed[source];
-      if(attr == null)
-        attr = initial[source];
-      if(typeof(attr) == 'string' && attr.length > 0 && !isNaN(attr - 0))
-        attr -= 0; /* Convert string to number. */
-      var fn = sources[source].fn;
-      var type = sources[source].type;
-      var amount = fn != null && (attr!=null || source=='') ? fn(attr) : attr;
+RuleEngine.prototype._Recompute = function(initial, computed, attr) {
+  var computedValue = initial[attr];
+  if(this.sources[attr] != null) {
+    var addition = 0;
+    var max = null;
+    var min = null;
+    var multiplier = 1;
+    var sources = [];
+    for(var a in this.sources[attr])
+      sources[sources.length] = this.sources[attr][a];
+    var sortfn = function(a, b) {return a.seq - b.seq;};
+    sources.sort(sortfn);
+    for(var i = 0; i < sources.length; i++) {
+      var fn = sources[i].fn;
+      var source = sources[i].source;
+      var sourceValue =
+        computed[source] != null ? computed[source] : initial[source];
+      var type = sources[i].type;
+      if(typeof(sourceValue) == 'string' &&
+         sourceValue != '' &&
+         !isNaN(sourceValue - 0))
+        sourceValue -= 0; /* Convert string to number. */
+      var amount = fn != null && (source == '' || sourceValue != null) ?
+        fn(sourceValue) : sourceValue;
       if(type == '?') {
         if(!amount) {
-          value = null;
+          computedValue = null;
           break;
         }
       }
       else if(amount == null)
         continue;
       else if(type == '=')
-        value = amount;
+        computedValue = amount;
       else if(type == '+')
         addition += amount - 0;
       else if(type == '*')
@@ -149,28 +155,25 @@ RuleEngine.prototype._Recompute = function(initial, computed, attribute) {
       else if(type == '^' && (min == null || min < amount))
         min = amount;
     }
+    if(computedValue != null) {
+      if(addition != 0)
+        computedValue = (computedValue - 0) + addition;
+      if(multiplier != 1)
+        computedValue *= multiplier;
+      if(max != null && computedValue > max)
+        computedValue = max;
+      if(min != null && computedValue < min)
+        computedValue = min;
+    }
   }
-
-  if(value != null) {
-    if(addition != 0)
-      value = (value - 0) + addition;
-    if(multiplier != 1)
-      value *= multiplier;
-    if(max != null && value > max)
-      value = max;
-    if(min != null && value < min)
-      value = min;
-  }
-
-  if(value != computed[attribute]) {
-    if(value == null)
-      delete computed[attribute];
+  if(computedValue != computed[attr]) {
+    if(computedValue == null)
+      delete computed[attr];
     else
-      computed[attribute] = value;
-    if(this.targets[attribute] != null) {
-      for(var target in this.targets[attribute])
+      computed[attr] = computedValue;
+    if(this.targets[attr] != null) {
+      for(var target in this.targets[attr])
         this._Recompute(initial, computed, target);
     }
   }
-
 };
