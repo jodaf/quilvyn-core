@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.2 2004/05/11 19:54:28 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.3 2004/05/11 20:25:06 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -101,7 +101,7 @@ ObjectViewer.toCode =
   for(var a in o) {
     var value = o[a];
     value = typeof value == 'object' ? ObjectViewer.toCode(value) :
-      ('"'+value.toString().replace(/\"/g, '\\"').replace(/\n/g, '\\n')+'"');
+      ('"'+value.toString().replace(/\"/g, '\\"').replace(/\r?\n/g, '\\n')+'"');
     var image = '"' + a + '":' + value + ',';
     if(lineLength + image.length >= 80) {
       /* Minimal pretty-printing for legibility. */
