@@ -27,31 +27,46 @@ function CustomizeSpellPoints(AddElement, AddRules, AddToSheet) {
     'levels.Ranger', '+', 'source > 3 ? (source - 3) * (source - 2) / 2 : null',
     'levels.Sorcerer', '+', 'source * (source + 1) / 2',
     'levels.Wizard', '+', 'source * (source + 1) / 2',
+    'magicNotes.bardChaSPModifier', '+', null,
+    'magicNotes.clericWisSPModifier', '+', null,
+    'magicNotes.paladinWisSPModifier', '+', null,
+    'magicNotes.rangerWisSPModifier', '+', null,
+    'magicNotes.sorcererChaSPModifier', '+', null,
+    'magicNotes.wizardIntSPModifier', '+', null,
     'magicNotes.abilitySpellPointsBonus', '+', null
   );
-  AddRules('chaSPModifier',
-    null, '=', '0',
-    'levels.Bard', '+', null,
-    'levels.Sorcerer', '+', null,
+  AddRules('chaMod', 'charismaModifier', '=', 'source == 0 ? null : 1');
+  AddRules('intMod', 'intelligenceModifier', '=', 'source == 0 ? null : 1');
+  AddRules('wisMod', 'wisdomModifier', '=', 'source == 0 ? null : 1');
+  AddRules('magicNotes.bardChaSPModifier',
+    'chaMod', '?', null,
+    'levels.Bard', '=', null,
     'charismaModifier', '*', null
   );
-  AddRules('intSPModifier',
-    null, '=', '0',
-    'levels.Wizard', '+', null,
+  AddRules('magicNotes.sorcererChaSPModifier',
+    'chaMod', '?', null,
+    'levels.Sorcerer', '=', null,
+    'charismaModifier', '*', null
+  );
+  AddRules('magicNotes.wizardIntSPModifier',
+    'intMod', '?', null,
+    'levels.Wizard', '=', null,
     'intelligenceModifier', '*', null
   );
-  AddRules('wisSPModifier',
-    null, '=', '0',
-    'levels.Cleric', '+', null,
-    'levels.Paladin', '+', 'source > 3 ? source - 3 : null',
-    'levels.Ranger', '+', 'source > 3 ? source - 3 : null',
+  AddRules('magicNotes.clericWisSPModifier',
+    'wisMod', '?', null,
+    'levels.Cleric', '=', null,
     'wisdomModifier', '*', null
   );
-  AddRules('magicNotes.abilitySpellPointsBonus',
-    null, '=', '0',
-    'chaSPModifier', '+', null,
-    'intSPModifier', '+', null,
-    'wisSPModifier', '+', null
+  AddRules('magicNotes.paladinWisSPModifier',
+    'wisMod', '?', null,
+    'levels.Paladin', '=', null,
+    'wisdomModifier', '*', null
+  );
+  AddRules('magicNotes.rangerWisSPModifier',
+    'wisMod', '?', null,
+    'levels.Ranger', '=', null,
+    'wisdomModifier', '*', null
   );
   AddToSheet('spellPoints', 'Magic', 'Domains', null);
 }
