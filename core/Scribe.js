@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.86 2005/03/05 05:36:02 Jim Exp $ */
+/* $Id: Scribe.js,v 1.87 2005/03/07 13:32:40 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.15.04\n' +
+'Scribe Character Editor version 0.15.07\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -22,8 +22,9 @@ var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
 var TIMEOUT_DELAY = 1000; /* One second */
 
-var attrsUnchanged; /* Current DndCharacter attrs before any user changes */
+var cachedAttrs = {}; /* Unchanged attrs of all characters opened so far */
 var character;      /* Current DndCharacter */
+var characterUrl;   /* URL of current DndCharacter */
 var cookieInfo = {  /* What we store in the cookie */
   recent: '' /* Comma-separated and -terminated list of recent opens */
 };
@@ -157,6 +158,7 @@ function EditorHtml() {
     ['', 'about', 'button', ['About']],
     ['', 'help', 'button', ['Help']],
     [' ', 'file', 'select-one', ChoicesForFileInput()],
+    ['', 'summary', 'button', ['Summary']],
     [' ', 'validate', 'button', ['Validate']],
     ['', 'view', 'button', ['View Html']],
     [' ', 'clear', 'select-one',
@@ -462,10 +464,11 @@ function LoadCharacter(name) {
       else
         character.attributes[a] = value;
     }
-    attrsUnchanged = CopyObject(character.attributes);
     ResetShowCodes();
     RefreshEditor();
     RedrawSheet();
+    currentUrl = name;
+    cachedAttrs[currentUrl] = CopyObject(character.attributes);
     urlLoading = null;
     if(!loadingPopup.closed)
       loadingPopup.close();
@@ -560,10 +563,11 @@ function RandomizeCharacter() {
     character.Randomize(rules, 'skills');
     character.Randomize(rules, 'spells');
     character.Randomize(rules, 'weapons');
-    attrsUnchanged = CopyObject(character.attributes);
     ResetShowCodes();
     RefreshEditor();
     RedrawSheet();
+    currentUrl = 'random';
+    cachedAttrs[currentUrl] = CopyObject(character.attributes);
     loadingPopup.close();
     urlLoading = null;
   }
@@ -707,7 +711,8 @@ function ScribeStart() {
         'Press the "About" button for more info',
         'Ok', 'window.close();');
   character = new DndCharacter(null);
-  attrsUnchanged = CopyObject(character.attributes);
+  currentUrl = 'random';
+  cachedAttrs[currentUrl] = CopyObject(character.attributes);
   rules = InitialRuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
@@ -900,6 +905,58 @@ function StoreCookie() {
   document.cookie = cookie;
 }
 
+function SummarizeCachedAttrs() {
+  var allAttrs = {};
+  for(var a in cachedAttrs)
+    if(a != 'random')
+      allAttrs[a] = rules.Apply(cachedAttrs[a]);
+  var urls = GetKeys(allAttrs);
+  urls.sort();
+  var htmlBits = [
+    '<html>',
+    '<head><title>Scribe Charcter Attribute Summary</title></head>',
+    '<body bgcolor="' + BACKGROUND + '">',
+    '<h1>Scribe Character Attribute Summary</h1>',
+    '<table border="1">'
+  ];
+  var rowHtml = '<tr><td></td>';
+  for(var i = 0; i < urls.length; i++)
+    rowHtml += '<td align="center"><b>' + urls[i] + '</b></th>';
+  htmlBits[htmlBits.length] = rowHtml;
+  var inTable = {};
+  for(var a in allAttrs) {
+    var spells = [];
+    for(var b in allAttrs[a]) {
+      if(b.match(/^(feats|features|skills|languages)\./))
+        inTable[b] = 1;
+      else if(b.match(/^spells\./))
+        spells[spells.length] = b.substring(b.indexOf('.') + 1);
+    }
+    spells.sort();
+    allAttrs[a]['spells'] = spells.length==0 ? '&nbsp;' : spells.join('<br/>');
+  }
+  inTable['spells'] = 1;
+  inTable = GetKeys(inTable);
+  inTable.sort();
+  for(var i = 0; i < inTable.length; i++) {
+    rowHtml = '<tr><td><b>' + inTable[i] + '</b></td>';
+    for(var j = 0; j < urls.length; j++) {
+      var value = allAttrs[urls[j]][inTable[i]];
+      if(value == null)
+        value = '&nbsp;';
+      rowHtml += '<td align="center">' + value + '</td>';
+    }
+    htmlBits[htmlBits.length] = rowHtml;
+  }
+  htmlBits[htmlBits.length] = '</table>';
+  htmlBits[htmlBits.length] = '</body></html>\n';
+  SummarizeCachedAttrs.win = window.open('', 'sumwin');
+  SummarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
+  SummarizeCachedAttrs.win.document.close();
+  SummarizeCachedAttrs.urls = null;
+  SummarizeCachedAttrs.attrs = null;
+}
+
 /* Callback invoked when the user changes the editor value of Input #input#. */
 function Update(input) {
 
@@ -934,8 +991,8 @@ function Update(input) {
   else if(name == 'file') {
     input.selectedIndex = 0;
     if(WARN_ABOUT_DISCARD &&
-       !(HasSameValues(character.attributes, attrsUnchanged) &&
-         HasSameValues(attrsUnchanged, character.attributes)) &&
+       !(HasSameValues(character.attributes, cachedAttrs[currentUrl]) &&
+         HasSameValues(cachedAttrs[currentUrl], character.attributes)) &&
        !confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Open...')
@@ -960,6 +1017,8 @@ function Update(input) {
       RefreshEditor();
     }
   }
+  else if(name == 'summary')
+    SummarizeCachedAttrs();
   else if(name == 'validate') {
     if(Update.validateWindow == null || Update.validateWindow.closed)
       Update.validateWindow = window.open('', 'vdate', 'height=400,width=400');
@@ -976,7 +1035,7 @@ function Update(input) {
   }
   else if(name == 'view') {
     ShowHtml(SheetHtml());
-    attrsUnchanged = CopyObject(character.attributes);
+    cachedAttrs[currentUrl] = CopyObject(character.attributes);
   }
   else if(name.indexOf('_sel') >= 0) {
     name = name.substring(0, name.length - 4);
