@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.38 2004/09/02 00:18:40 Jim Exp $ */
+/* $Id: Scribe.js,v 1.39 2004/09/05 21:43:39 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.9.12\n' +
+'Scribe Character Editor version 0.10.1\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -30,7 +30,6 @@ var loadingPopup = null;
 var loadingWindow;
 var rules;
 var sheetWindow;
-var spellCats = [];
 var urlLoading = null;
 var viewer;
 
@@ -54,24 +53,14 @@ function FullUrl(url) {
   return url;
 }
 
-function GetSpellCats() {
-  var catsSeen = {};
-  var matchInfo;
-  for(var a in DndCharacter.spellsLevels) {
-    var spellLevels = DndCharacter.spellsLevels[a].split('/');
-    for(var i = 0; i < spellLevels.length; i++)
-      if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null)
-        catsSeen[matchInfo[1]] = '1';
-  }
-  spellCats = [];
-  for(var e in catsSeen)
-    spellCats.push(e);
-  spellCats.sort();
-}
-
 function InitialEditor() {
   var result = new FormController();
+  var spellsCategoryOptions = [];
   var weapons = [];
+  for(var a in DndCharacter.spellsCategoryCodes)
+    spellsCategoryOptions.push
+      (a + '(' + DndCharacter.spellsCategoryCodes[a] + ')');
+  spellsCategoryOptions.sort();
   for(var a in DndCharacter.weaponsDamage)
     weapons.push(a);
   result.setCallback(Update);
@@ -112,7 +101,7 @@ function InitialEditor() {
     'Armor', 'armor', 'select', DndCharacter.armors,
     'Shield', 'shield', 'select', DndCharacter.shields,
     'Weapons', 'weapons', 'bag', weapons,
-    'Spell Categories', 'spellcats', 'set', spellCats,
+    'Spell Categories', 'spellcats', 'set', spellsCategoryOptions,
     'Spells', 'spells', 'set', [],
     'Goodies', 'goodies', 'bag', DndCharacter.goodies,
     'Cleric Domains', 'domains', 'set', DndCharacter.domains,
@@ -124,11 +113,19 @@ function InitialEditor() {
 }
 
 function InitialRuleEngine() {
+  var i;
   var result = new RuleEngine();
+  var versions;
   DndCharacter.LoadVersion3Rules(result);
-  DndCharacter.LoadVersion3_0ClassAndRaceRules(result);
-  DndCharacter.LoadVersion3_0FeatAndSkillRules(result);
-  DndCharacter.LoadVersion3_0MagicRules(result);
+  versions = CLASS_RULES_VERSION.split(';');
+  for(i = 0; i < versions.length; i++)
+    DndCharacter.LoadVersion3PointRules(result, versions[i], 'class');
+  versions = FEAT_RULES_VERSION.split(';');
+  for(i = 0; i < versions.length; i++)
+    DndCharacter.LoadVersion3PointRules(result, versions[i], 'feat');
+  versions = MAGIC_RULES_VERSION.split(';');
+  for(i = 0; i < versions.length; i++)
+    DndCharacter.LoadVersion3PointRules(result, versions[i], 'magic');
   return result;
 }
 
@@ -255,10 +252,24 @@ function LoadCharacter(name) {
     character = new DndCharacter(null);
     for(var e in loadingWindow.attributes) {
       var value = loadingWindow.attributes[e];
+      /*
+       * Turn objects into "dot" attributes and convert values from prior
+       * versions of Scribe.
+       */
       if(typeof value == 'object') {
-        for(var x in value)
-          character.attributes[e + '.' + x] = value[x];
+        for(var x in value) {
+          var convertedName = x;
+          if(e == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
+            convertedName = convertedName.substring(0, i);
+          else if(e == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
+            convertedName = convertedName.substring(0, i);
+          character.attributes[e + '.' + convertedName] = value[x];
+        }
       }
+      else if(e == 'shield' && value.indexOf('Large') == 0)
+        character.attributes[e] = 'Heavy' + value.substring(5);
+      else if(e == 'shield' && value.indexOf('Small') == 0)
+        character.attributes[e] = 'Light' + value.substring(5);
       else
         character.attributes[e] = value;
     }
@@ -419,38 +430,60 @@ function RefreshSheet() {
 }
 
 function RefreshSpellSelections(resetToCharacter) {
+  var a;
   var i;
-  var catsToDisplay = {};
+  var code;
+  var codesToDisplay = {};
   var matchInfo;
+  var option;
   if(resetToCharacter) {
-    for(i = 0; i < spellCats.length; i++)
-      editor.setElementValue('spellcats.' + spellCats[i], 0);
-    for(var e in character.attributes) {
-      if((matchInfo = e.match(/^spells\..*\((\D+)\d+\)$/)) != null)
-        editor.setElementValue('spellcats.' + matchInfo[1], 1);
-      else if((matchInfo = e.match(/^domains\.(.*)$/)) != null)
-        editor.setElementValue('spellcats.' + matchInfo[1].substring(0,2), 1);
-        else if((matchInfo = e.match(/^levels\.(.*)$/)) != null)
-        editor.setElementValue('spellcats.' + matchInfo[1].substring(0,1), 1);
+    for(a in DndCharacter.spellsCategoryCodes)
+      codesToDisplay[DndCharacter.spellsCategoryCodes[a]] = 0;
+    for(a in character.attributes) {
+      if((matchInfo = a.match(/^spells\..*\((\D+)\d+\)$/)) != null)
+        codesToDisplay[matchInfo[1]] = 1;
+      else if((matchInfo = a.match(/^domains\.(.*)$/)) != null &&
+              DndCharacter.spellsCategoryCodes[matchInfo[1]] != null)
+        codesToDisplay[DndCharacter.spellsCategoryCodes[matchInfo[1]]] = 1;
+      else if((matchInfo = a.match(/^levels\.(.*)$/)) != null &&
+              DndCharacter.spellsCategoryCodes[matchInfo[1]] != null)
+        codesToDisplay[DndCharacter.spellsCategoryCodes[matchInfo[1]]] = 1;
+    }
+    for(a in DndCharacter.spellsCategoryCodes) {
+      code = DndCharacter.spellsCategoryCodes[a];
+      option = a + '(' + code + ')';
+      editor.setElementValue('spellcats.' + option, codesToDisplay[code]);
     }
   }
-  for(i = 0; i < spellCats.length; i++)
-    if(editor.getElementValue('spellcats.' + spellCats[i]))
-      catsToDisplay[spellCats[i]] = '1';
+  else {
+    for(a in DndCharacter.spellsCategoryCodes) {
+      code = DndCharacter.spellsCategoryCodes[a];
+      option = a + '(' + code + ')';
+      codesToDisplay[code] = editor.getElementValue('spellcats.' + option);
+    }
+  }
   var spells = [];
-  for(var a in DndCharacter.spellsLevels) {
+  for(a in DndCharacter.spellsLevels) {
     var spellLevels = DndCharacter.spellsLevels[a].split('/');
     for(i = 0; i < spellLevels.length; i++)
       if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
-         catsToDisplay[matchInfo[1]] != null)
-        spells.push(a + '(' + spellLevels[i] + ')');
+         codesToDisplay[matchInfo[1]])
+        spells.push('(' + spellLevels[i] + ')' + a);
   }
   if(spells.length == 0)
     spells.push('--- No spell categories selected ---');
+  spells.sort();
   editor.setElementSelections('spells', spells);
 }
 
 function ScribeLoaded() {
+
+  var defaults = {
+    'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
+    'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'help.html', 'LOGO_URL':'scribe.gif',
+    'MAGIC_RULES_VERSION':'3.5', 'MAX_RECENT_OPENS':15, 'URL_PREFIX':'',
+    'URL_SUFFIX':'.html'
+  };
 
   if(window.DndCharacter == null ||
      window.FormController == null ||
@@ -468,6 +501,10 @@ function ScribeLoaded() {
     return;
   }
 
+  for(var a in defaults)
+    if(window[a] == null)
+      window[a] = defaults[a];
+
   var i = document.cookie.indexOf(COOKIE_NAME + '=');
   if(i >= 0) {
     var end = document.cookie.indexOf(';', i);
@@ -480,18 +517,6 @@ function ScribeLoaded() {
         cookieInfo[settings[i]] = settings[i + 1];
   }
 
-  if(BACKGROUND == null)
-    BACKGROUND = 'wheat';
-  if(HELP_URL == null)
-    HELP_URL = 'help.html';
-  if(LOGO_URL == null)
-    LOGO_URL = 'scribe.gif';
-  if(MAX_RECENT_OPENS == null)
-    MAX_RECENT_OPENS = 15;
-  if(URL_PREFIX == null)
-    URL_PREFIX = '';
-  if(URL_SUFFIX == null)
-    URL_SUFFIX = '.html';
 
   PopUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
         COPYRIGHT + '<br/>' +
@@ -506,7 +531,6 @@ function ScribeLoaded() {
   viewer = InitialViewer();
   if(CustomizeScribe != null)
     CustomizeScribe(DndCharacter.AddChoices, AddUserRules, AddUserView);
-  GetSpellCats();
   /* TODO: Allow user to make editor changes w/out losing option changes. */
   editor = InitialEditor();
   RefreshEditor(true);
@@ -567,6 +591,9 @@ function SheetHtml() {
             threat *= 2;
           if(computedAttributes.isSmall && smallDamage != null)
             damages[i] = smallDamage;
+          if(computedAttributes.strengthModifier!=0 && name.indexOf('bow')<0)
+            damages[i] += (computedAttributes.strengthModifier > 0 ? '+' : '') +
+                          computedAttributes.strengthModifier;
           if(multiplier != 2 || threat != 1) {
             damages[i] += 'x' + multiplier;
             if(threat != 1)
