@@ -1,21 +1,19 @@
-/* $Id: Scribe.js,v 1.18 2004/05/18 05:19:18 Jim Exp $ */
+/* $Id: Scribe.js,v 1.19 2004/06/19 15:52:46 Jim Exp $ */
 
-/*
-Copyright 2004, James J. Hayes
-
-This program is free software; you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program; if not, write to the Free Software Foundation, Inc., 59 Temple
-Place, Suite 330, Boston, MA 02111-1307 USA.
-*/
+var ABOUT_TEXT =
+'Scribe Character Editor version 0.9.7\n' +
+'The Scribe Character Editor is Copyright 2004, James J. Hayes\n' +
+'This program is free software; you can redistribute it and/or modify it ' +
+'under the terms of the GNU General Public License as published by the Free ' +
+'Software Foundation; either version 2 of the License, or (at your option) ' +
+'any later version.\n' +
+'This program is distributed in the hope that it will be useful, but WITHOUT ' +
+'ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or ' +
+'FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for ' +
+'more details.\n' +
+' You should have received a copy of the GNU General Public License along ' +
+'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
+'Temple Place, Suite 330, Boston, MA 02111-1307 USA.';
 
 var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'scribePrefs';
@@ -27,16 +25,12 @@ var cookieInfo = {
   background : 'bisque',
   lastUrl: '',
   prefix: '',
-  ruleUrls: '',
   suffix: '.html'
 };
 var editor;
 var editWindow;
 var loadingPopup = null;
 var loadingWindow;
-var pendingEditor = null;
-var pendingRules = null;
-var pendingViewer = null;
 var rules = null;
 var sheetWindow;
 var spellCats = [];
@@ -44,33 +38,27 @@ var urlLoading = null;
 var viewer;
 
 function AddUserRules() {
-  pendingRules.AddRules.apply(pendingRules, arguments);
+  rules.AddRules.apply(rules, arguments);
 }
 
 function AddUserView(name, within, before, format) {
   name = name.replace(/([a-z])([A-Z])/g, '$1 $2').
          replace(/\b[a-z]/g, function(c) {return c.toUpperCase();});
-  pendingViewer.addElements(
+  viewer.addElements(
     {name: name, within: within, before: before, format: format}
   );
 }
 
 function ChangeUserPreferences() {
-  var oldUrls = cookieInfo.ruleUrls;
   var value;
   for(var p in cookieInfo) {
-    if(p == 'lastUrl')
+    if(p == 'lastUrl' || p == 'ruleUrls')
       continue;
     if((value = prompt('Enter value for ' + p, cookieInfo[p])) == null)
       return;
     cookieInfo[p] = value;
   }
   StoreCookie();
-  if(cookieInfo.ruleUrls != oldUrls) {
-    rules = InitialRuleEngine();
-    viewer = InitialViewer();
-    LoadRules(cookieInfo.ruleUrls);
-  }
 }
 
 function FullUrl(url) {
@@ -225,7 +213,7 @@ function InitialViewer() {
       {name: 'Hit Points', within: 'Melee'},
       {name: 'ArmSection', within: 'Melee', compact: 1},
         {name: 'Armor', within: 'ArmSection'},
-        {name: 'Armor Class', within: 'ArmSection', format: ' (%V)'},
+        {name: 'Armor Class', within: 'ArmSection', format: ' (A.C. %V)'},
       {name: 'Shield', within: 'Melee'},
       {name: 'Helm', within: 'Melee'},
       {name: 'Speed', within: 'Melee'},
@@ -311,70 +299,6 @@ function LoadCharacter(url) {
     /* Something (possibly this character) loading; try again later. */
     setTimeout
       ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
-}
-
-function LoadRules(urls) {
-
-  var splitUrls = urls.split(';');
-
-  while(splitUrls.length > 0 && splitUrls[0] == '')
-    splitUrls.shift();
-  if(splitUrls.length == 0) {
-    /* All rule sets done loading. */
-    if(pendingRules != null) {
-      GetSpellCats();
-      /* TODO: Allow user to make editor changes w/out losing option changes. */
-      editor = InitialEditor();
-      pendingEditor = null;
-      rules = pendingRules;
-      pendingRules = null;
-      viewer = pendingViewer;
-      pendingViewer = null;
-      RefreshEditor(true);
-      RefreshSheet();
-    }
-    return;
-  }
-
-  var url = FullUrl(splitUrls[0]);
-  if(urlLoading == url && loadingWindow.CustomizeScribe != null) {
-    /* Current rule set done loading. */
-    loadingWindow.CustomizeScribe
-      (DndCharacter, DndCharacter.AddChoices, AddUserRules, AddUserView);
-    loadingPopup.close();
-    urlLoading = null;
-    splitUrls.shift();
-    LoadRules(splitUrls.join(';'));
-  }
-  else if(urlLoading == url && loadingPopup.closed) {
-    /* User cancel. */
-    urlLoading = null;
-    pendingEditor = null;
-    pendingRules = null;
-    pendingViewer = null;
-  }
-  else if(urlLoading == null) {
-    /* Nothing presently loading. */
-    urlLoading = url;
-    loadingWindow.CustomizeScribe = null;
-    loadingWindow.location = url;
-    loadingPopup =
-      PopUp('Loading rules from ' + url, 'Cancel', 'window.close();');
-    if(pendingRules == null) {
-      pendingEditor = InitialEditor();
-      pendingRules = InitialRuleEngine();
-      pendingViewer = InitialViewer();
-    }
-    setTimeout
-      ('LoadRules("' + splitUrls.join(';').replace(/\\/g, "\\\\") + '");',
-       TIMEOUT_DELAY);
-  }
-  else
-    /* Something (possibly this rule set) loading; try again later. */
-    setTimeout
-      ('LoadRules("' + splitUrls.join(';').replace(/\\/g, "\\\\") + '");',
-       TIMEOUT_DELAY);
-
 }
 
 function OpenDialog() {
@@ -499,19 +423,27 @@ function ScribeLoaded() {
     var cookie = document.cookie.substring(i + COOKIE_NAME.length + 1, end);
     var settings = unescape(cookie).split(COOKIE_FIELD_SEPARATOR);
     for(i = 0; i < settings.length && settings[i] != ''; i += 2)
-      cookieInfo[settings[i]] = settings[i + 1];
+      if(settings[i] != 'ruleUrls')
+        cookieInfo[settings[i]] = settings[i + 1];
   }
   PopUp(COPYRIGHT + '<br/>' +
         'Press the "About" button for more info',
         'Ok', 'window.close();');
+
   editWindow = window.frames[0];
   loadingWindow = window.frames[1];
   sheetWindow = window.opener;
   editor = InitialEditor();
   rules = InitialRuleEngine();
   viewer = InitialViewer();
+  if(CustomizeScribe != null)
+    CustomizeScribe
+      (DndCharacter, DndCharacter.AddChoices, AddUserRules, AddUserView);
+  GetSpellCats();
+  /* TODO: Allow user to make editor changes w/out losing option changes. */
+  editor = InitialEditor();
   RefreshEditor(true);
-  LoadRules(cookieInfo.ruleUrls);
+  RefreshSheet();
   OpenDialog();
 
 }
@@ -590,10 +522,18 @@ function StoreCookie() {
 
 function Update(name, value) {
 
-  if(name == 'about')
-    window.open('about.html', 'about');
+  if(name == 'about') {
+    var aboutWindow = window.open('about:blank', 'about');
+    aboutWindow.document.write(
+      '<html><head><title>About Scribe</title></head>\n' +
+      '<body bgcolor="bisque"><p>' +
+       ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>') +
+      '</p></body></html>\n'
+    );
+    aboutWindow.document.close();
+  }
   else if(name == 'help')
-    window.open('help.html', 'help');
+    window.open(HELP_URL == null ? 'help.html' : HELP_URL, 'help');
   else if(name == 'preferences')
     ChangeUserPreferences();
   else if(name == 'open')

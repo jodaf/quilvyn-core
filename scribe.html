@@ -1,15 +1,103 @@
-<!-- $Id: scribe.html,v 1.5 2004/05/06 19:30:40 Jim Exp $ -->
-
+<!-- $Id: scribe.html,v 1.6 2004/06/19 15:52:46 Jim Exp $ -->
 <html>
 
 <head>
 
 <title>Scribe DND Character Sheet</title>
+
+<!--
+This set of script tags retrieves the functions Scribe needs from local copies
+of the scribe sources.  You can instead retrieve them from the Scribe web site
+by prepending "http://home.nethere.com/dulcimer/dnd/" to each src attribute
+(e.g., src="http://home.nethere.com/dulcimer/dnd/Scribe.js"). The advantage to
+using the Scribe web site is that you automatically get software updates every
+time you run the program; the disadvantage is that you have to wait for the
+code to download.
+-->
 <script src="FormController.js"></script>
 <script src="DndCharacter.js"></script>
 <script src="ObjectViewer.js"></script>
 <script src="RuleEngine.js"></script>
 <script src="Scribe.js"></script>
+
+<!--
+This definition tells Scribe where to find the page to display when the user
+presses the "Help" button.  The value below grabs a local copy of the page;
+changing it to 'http://home.nethere.com/dulcimer/dnd/help.html' will direct
+Scribe to retrieve it from the Scribe web site.
+-->
+<script>
+var HELP_URL = 'help.html';
+</script>
+
+<!--
+If a CustomizeScribe function is defined, Scribe calls it after loading,
+allowing you to add custom behavior to the program.  Each of CustomizeScribe's
+four parameters is a function that you can invoke to perform one type of
+customization.  These functions allow you to:
+
+Add new choices to one of the editor's selection lists.  The editor defines the
+lists 'alignments', 'armors', 'classes', 'domains' (cleric spell domains),
+'feats', 'genders', 'helms', 'languages', 'races', 'schools' (wizard spell
+schools), 'shields', 'skills', 'spells', and 'weapons'.  For example, this line
+would add 'Aquan' to the list of languages that characters can learn:
+
+ AddChoices('languages', 'Aquan');
+
+Add rules to compute new character attributes or modify existing ones. Each
+call to AddRules requires the name of the attribute to modify, followed by one
+or more sets of values that specify the name of the attribute that affect the
+one modified, the type of effect it has, and an expression used to calculate
+the effect.  For example, this set of rules would compute an attribute called
+languageCount based on race and intelligence:
+
+ AddRules('languageCount',
+   'race', '=', 'source == "Elf" ? 3 : source == "Half Elf" ? 2 : 1',
+   'intelligence', '+', 'source > 14 ? source - 14 : 0');
+
+Add information to the character sheet.  For each attribute to be added, list
+its name, the section where it should appear, the attribute it should be appear
+before, and the format for the display.  This line would insert the
+languageCount attribute computed above into the character sheet before the
+language list.
+
+ AddToSheet('languageCount', 'FeatsAndSkills', 'Languages', null);
+
+Add attributes that the Scribe user can modify.  TODO
+
+-->
+<script>
+var CustomizeScribe =
+function(DndCharacter, AddElement, AddRules, AddToSheet) {
+}
+</script>
+
+<!--
+Instead of putting all your customization code into the CustomizeScribe
+function, you can use additional script tags to load multiple functions that
+each perform a part of the customization, then have CustomizeScribe invoke each
+of them in turn.
+-->
+<script src="CustomizeGoodies.js"></script>
+<script src="CustomizeSkills.js"></script>
+<script src="CustomizeSpellPoints.js"></script>
+<script>
+var CustomizeScribe =
+function(DndCharacter, AddElement, AddRules, AddToSheet) {
+  if(window.CustomizeGoodies == null)
+    alert('Unabled to load CustomizeGoodies.js');
+  else
+    window.CustomizeGoodies(DndCharacter, AddElement, AddRules, AddToSheet);
+  if(window.CustomizeSkills == null)
+    alert('Unabled to load CustomizeSkills.js');
+  else
+    window.CustomizeSkills(DndCharacter, AddElement, AddRules, AddToSheet);
+  if(window.CustomizeSpellPoints == null)
+    alert('Unabled to load CustomizeSpellPoints.js');
+  else
+    window.CustomizeSpellPoints(DndCharacter, AddElement, AddRules, AddToSheet);
+}
+</script>
 
 </head>
 
