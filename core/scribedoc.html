@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.30 2004/12/23 07:53:13 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.31 2004/12/28 14:05:04 Jim Exp $ -->
 <html>
 
 <head>
@@ -433,7 +433,7 @@ new items.
 <ul>
   <li>Neither "Craft" nor "Profession" appears in Scribe's skill list; it is
       assumed that DMs will use customization to add particular crafts (e.g.,
-      'Craft (carpentery)') and professions (e.g., 'Profession (lawyer)').
+      'Craft (carpentery)') and professions (e.g., 'Profession (lawyer)').</li>
   <li>When an character ability score is modified, Scribe recalculates
       attributes based on that ability from scratch.  For example, bumping
       intelligence when a character reaches fourth level causes Scribe to
@@ -444,14 +444,15 @@ new items.
       expanded language list, the updated armor and weapon information,
       the +4 A.C. bonus for tower shields; the renaming of the feat "Expertise"
       to "Combat Expertise"; the renaming of the skills "Pick Pocket" and
-      "Wilderness Lore" to "Sleight of Hand" and "Survival".</li>
+      "Wilderness Lore" to "Sleight Of Hand" and "Survival".</li>
   <li>Racial favored class is not reported.</li>
   <li>Large/tiny damage is not reported.  Characters are assumed to be small
       (gnomes, halflings) or medium (all others).</li>
   <li>Spells per day computations are off by one for some high-level (19-20)
       characters.</li>
   <li>Scribe provides no place other than the notes section to enter mundane
-      possessions like lanterns and rope.</li>
+      possessions like lanterns and rope. The same goes for physical
+      description.</li>
 </ul>
 </p>
 
@@ -467,9 +468,12 @@ new items.
       character attributes so that users know what to pass to AddRules.</li>
   <li>It's easy to overlook when characters have a bonus in untrained skills,
       e.g., an elf's +2 on <i>Listen</i> when no skill points are allocated to
-      that skill.</i>
+      that skill.</li>
   <li>It might be nice to ask the user about discarding changes to the current
       character when opening a new one or exiting Scribe.</li>
+  <li>Scribe has problems dealing with options containing a space followed by
+      an uncapitalized word.  This is why, e.g., the skill "Sleight Of Hand"
+      doesn't appear as "Sleight of Hand".</li>
 </ul>
 </p>
 
