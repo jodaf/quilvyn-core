@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.73 2005/01/17 06:59:23 Jim Exp $ */
+/* $Id: Scribe.js,v 1.74 2005/01/17 13:41:46 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -26,11 +26,11 @@ var character;      /* Current DndCharacter */
 var cookieInfo = {  /* What we store in the cookie */
   recent: '' /* Comma-separated and -terminated list of recent opens */
 };
-var editForm;       /* Character editing form (window.frames[0]).forms[0] */
+var editForm;       /* Character editing form (window.frames[0].forms[0]) */
 var loadingPopup = null; /* Current "loading" message popup window */
 var rules;          /* RuleEngine with standard + user rules */
 var showCodes = {}; /* Display status of spell category codes */
-var urlLoading = null;   /* Character URL presently loading */
+var urlLoading=null;/* Character URL presently loading */
 var viewer;         /* ObjectViewer to translate character attrs into HTML */
 
 /*=== Convenience functions for the Input pseudo-class. ===*/
@@ -438,6 +438,7 @@ function LoadCharacter(name) {
   else if(urlLoading == url && loadingWindow.attributes != null) {
     /* Character done loading. */
     var i;
+    /* Place loaded name at head of New/Open list */
     var names = cookieInfo.recent.split(',');
     names.length--; /* Trim trailing empty element */
     for(i = 0; i < names.length && names[i] != name; i++)
@@ -604,9 +605,9 @@ function RandomizeCharacter() {
         InputHtml('levels.' + classes[i], 'text', [2]) + '</td></tr>\n';
     htmlBits = htmlBits.concat([
       '</table></form>\n',
-      '<form>\n' +
-      '<input type="button" value="Ok" onclick="okay=1;"/>\n' +
-      '<input type="button" value="Cancel" onclick="window.close();"/>\n' +
+      '<form>\n',
+      '<input type="button" value="Ok" onclick="okay=1;"/>\n',
+      '<input type="button" value="Cancel" onclick="window.close();"/>\n',
       '</form></body></html>\n'
     ]);
     var html = htmlBits.join('');
