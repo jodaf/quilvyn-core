@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.48 2004/09/20 02:53:08 Jim Exp $ */
+/* $Id: Scribe.js,v 1.49 2004/10/20 01:47:36 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -275,6 +275,10 @@ function LoadCharacter(name) {
             convertedName = convertedName.substring(0, i);
           else if(e == 'feats' && x == 'Expertise')
             convertedName = 'Combat Expertise';
+          else if(e == 'skills' && x == 'Pick Pocket')
+            convertedName = 'Sleight of Hand';
+          else if(e == 'skills' && x == 'Wilderness Lore')
+            convertedName = 'Survival';
           else if(e == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
             convertedName = convertedName.substring(0, i);
           character.attributes[e + '.' + convertedName] = value[x];
@@ -594,7 +598,9 @@ function SheetHtml() {
       }
       if(DndCharacter.notes[a] != null)
         value = DndCharacter.notes[a].replace(/%V/, value);
-      if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
+      if(group == 'Skills' && DndCharacter.skillsAbility[name] != null)
+        name += ' (' + DndCharacter.skillsAbility[name] + ')';
+      else if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
         var damages = DndCharacter.weaponsDamage[name];
         var extraDamage =
           name.indexOf('bow') < 0 ? computedAttributes.meleeDamage : 0;
@@ -619,11 +625,7 @@ function SheetHtml() {
             damages[i] = smallDamage;
           if(extraDamage != 0)
             damages[i] += (extraDamage > 0 ? '+' : '') + extraDamage;
-          if(multiplier != 2 || threat != 1) {
-            damages[i] += 'x' + multiplier;
-            if(threat != 1)
-              damages[i] += '@' + (21 - threat);
-          }
+          damages[i] += ' x' + multiplier + '@' + (21 - threat);
         }
         name += '(' + damages.join('/') + ')';
       }
