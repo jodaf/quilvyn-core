@@ -205,7 +205,7 @@ function Update(attr, value) {
     sheetWindow.attributes = character.attributes;
     RefreshDisplay();
   }
-  else if(value == '0' && attr.indexOf('.') >= 0)
+  else if(attr.indexOf('.') >= 0 && !value)
     delete character.attributes[attr];
   else
     character.attributes[attr] = value;
