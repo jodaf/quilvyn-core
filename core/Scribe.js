@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.72 2005/01/14 15:24:58 Jim Exp $ */
+/* $Id: Scribe.js,v 1.73 2005/01/17 06:59:23 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.13.14\n' +
+'Scribe Character Editor version 0.13.16\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -864,6 +864,8 @@ function SheetName(name) {
 function ShowHtml(html) {
   if(ShowHtml.htmlWindow == null || ShowHtml.htmlWindow.closed)
     ShowHtml.htmlWindow = window.open('', 'html');
+  else
+    ShowHtml.htmlWindow.focus();
   html = html.replace(/</g, '&lt;');
   html = html.replace(/>/g, '&gt;');
   ShowHtml.htmlWindow.document.write(
