@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.22 2004/06/23 17:29:25 Jim Exp $ */
+/* $Id: Scribe.js,v 1.23 2004/07/10 01:49:37 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -88,14 +88,14 @@ function InitialEditor() {
     '', 'view', 'button', ['View Html'],
     '', 'clear', 'select',
       ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
-       'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
-       'intelligence', 'languages', 'name', 'race', 'shield', 'skills',
-       'spells', 'strength', 'wisdom'],
+       'constitution', 'deity', 'dexterity', 'feats', 'gender', 'helm',
+       'hitPoints', 'intelligence', 'languages', 'name', 'race', 'shield',
+       'skills', 'spells', 'strength', 'wisdom'],
     '', 'randomize', 'select',
       ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
-       'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
-       'intelligence', 'languages', 'name', 'race', 'shield', 'skills',
-       'spells', 'strength', 'wisdom'],
+       'constitution', 'deity', 'dexterity', 'feats', 'gender', 'helm',
+       'hitPoints', 'intelligence', 'languages', 'name', 'race', 'shield',
+       'skills', 'spells', 'strength', 'wisdom'],
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
     'Experience', 'experience', 'range', [0,9999999],
@@ -109,7 +109,7 @@ function InitialEditor() {
     'Player', 'player', 'text', [20],
     'Alignment', 'alignment', 'select', DndCharacter.alignments,
     'Gender', 'gender', 'select', DndCharacter.genders,
-    'Deity', 'deity', 'text', [20],
+    'Deity', 'deity', 'select', DndCharacter.deities,
     'Origin', 'origin', 'text', [20],
     'Feats', 'feats', 'bag', DndCharacter.feats,
     'Skills', 'skills', 'bag', DndCharacter.skills,
@@ -461,6 +461,8 @@ function SheetHtml() {
     var name = a.replace(/([a-z])([A-Z])/g, '$1 $2').
                replace(/\b[a-z]/g, function(c) {return c.toUpperCase();});
     var value = computedAttributes[a];
+    if(value == '(none)')
+      continue;
     if(character.attributes[a] != null && character.attributes[a] != value)
       value += '[' + character.attributes[a] + ']';
     if((i = name.indexOf('.')) < 0)
