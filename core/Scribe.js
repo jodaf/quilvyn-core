@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.68 2005/01/10 21:08:11 Jim Exp $ */
+/* $Id: Scribe.js,v 1.69 2005/01/12 23:58:12 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.13.10\n' +
+'Scribe Character Editor version 0.13.12\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -26,14 +26,87 @@ var character;      /* Current DndCharacter */
 var cookieInfo = {  /* What we store in the cookie */
   recent: '' /* Comma-separated and -terminated list of recent opens */
 };
-var editor;         /* FormController for editor window */
-var editWindow;     /* Window (popup) that contains editing form */
+var editForm;       /* Character editing form */
 var loadingPopup = null; /* Current "loading" message popup window */
 var loadingWindow;  /* Window used to load character HTML files */
 var rules;          /* RuleEngine with standard + user rules */
-var sheetWindow;    /* Window displaying character sheet */
+var sheetWindow;    /* Window that contains character sheet */
+var spellcats = {}; /* Display status of spell categories */
 var urlLoading = null;   /* Character URL presently loading */
 var viewer;         /* ObjectViewer to translate character attrs into HTML */
+
+/*=== Convenience functions for the Input pseudo-class. ===*/
+
+/* Returns the value of #input#. */
+function InputGetValue(input) {
+  return input.type == 'checkbox' ? (input.checked ? 1 : 0) :
+         input.type == 'select-one' ? input.options[input.selectedIndex].text :
+         input.value;
+}
+
+/*
+ * Returns HTML for an Input named #name# of type #type#.  #params# is an array
+ * of type-specific attributes--label for button Inputs, options for select
+ * Inputs, columns for text Inputs, and columns and rows for textarea Inputs.
+ */
+function InputHtml(name, type, params) {
+  var result;
+  if(type == 'button')
+    result =
+      '<input name="' + name + '" type="button" value="' + params[0] + '"/>'
+  else if(type == 'checkbox')
+    result = '<input name="' + name + '" type="checkbox"/>';
+  else if(type == 'select-one') {
+    var opts = new Array();
+    for(var i = 0; i < params.length; i++)
+      opts[opts.length] = '<option>' + params[i] + '</option>';
+    result =
+      '<select name="' + name + '">\n' + opts.join('\n') + '</select>';
+  }
+  else if(type == 'text')
+    result =
+      '<input name="' + name + '" type="text" size="' + params[0] + '"/>';
+  else if(type == 'textarea')
+    result =
+      '<textarea name="' + name + '" rows="' + params[1] + '" cols="' +
+      params[0] + '"/></textarea>';
+  return result;
+};
+
+/* Sets #input# to invoke #fn# when it is changed/pressed. */
+function InputSetCallback(input, fn) {
+  var method =
+    input.type == 'button' || input.type == 'checkbox' ? 'onclick' : 'onchange';
+  input[method] = fn;
+}
+
+/* Replaces the options in a select #input# with the array #selections#. */
+function InputSetOptions(input, options) {
+  input.options.length = 0;
+  for(var i = 0; i < options.length; i++)
+    input.options[input.options.length] = new Option(options[i], '', 0, 0);
+};
+
+/* Sets the value of #input# to #value#. */
+function InputSetValue(input, value) {
+  var i;
+  if(input.type == 'checkbox')
+    input.checked = value;
+  else if(input.type == 'select-one') {
+    for(i = 0; i < input.options.length && input.options[i].text != value; i++)
+      ; /* empty */
+    if(i >= input.options.length)
+      return false;
+    input.selectedIndex = i;
+  }
+  else
+    input.value = value == null ? '' : value;
+  return true;
+}
+
+/*=== ===*/
+
+/*=== Customization callbacks ===*/
 
 /*
  * Callback for CustomizeScribe's AddChoices parameter.  Add each #item# to the
@@ -46,15 +119,6 @@ function AddUserChoices(name, item /*, item ... */) {
     'classes':'classesHitDie', 'deities':'deitiesDomains',
     'skills': 'skillsAbility', 'spells':'spellsLevels',
     'weapons': 'weaponsDamage'
-  };
-  var nameWidgets = {
-    'alignments':'alignment', 'classesHitDie':'levels',
-    'deitiesDomains':'deity', 'feats':'feats',
-    'genders':'gender', 'goodies':'goodies',
-    'languages':'languages', 'race':'race',
-    'schools':'prohibit/specialize', 'shields':'shield',
-    'skillsAbility':'skills', 'spellsLevels':'spells',
-    'weaponsDamage':'focus/specialization/weapons'
   };
   if(nameObjects[name] != null)
     name = nameObjects[name];
@@ -70,13 +134,6 @@ function AddUserChoices(name, item /*, item ... */) {
   else 
     for(i = 2; i < arguments.length; i += 2)
       o[arguments[i - 1]] = arguments[i];
-  var widgets = nameWidgets[name];
-  if(widgets != null) {
-    widgets = widgets.split('/');
-    for(i = 0; i < widgets.length; i++)
-      editor.setElementSelections
-        (widgets[i], o.constructor == Array ? o : GetKeys(o));
-  }
 };
 
 /* Callback for CustomizeScribe's AddRules parameter. */
@@ -93,74 +150,105 @@ function AddUserView(name, within, before, format) {
   );
 }
 
+/*=== ===*/
+
+/* Returns HTML for the character editor form. */
+function EditorHtml() {
+  var abilityChoices=[3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+  var spellsCategoryOptions = [];
+  for(var a in DndCharacter.spellsCategoryCodes)
+    spellsCategoryOptions[spellsCategoryOptions.length] =
+      a + '(' + DndCharacter.spellsCategoryCodes[a] + ')';
+  spellsCategoryOptions.sort();
+  var weapons = GetKeys(DndCharacter.weaponsDamage);
+  var editorElements = [
+    ['', 'about', 'button', ['About']],
+    ['', 'help', 'button', ['Help']],
+    ['', 'view', 'button', ['View Html']],
+    ['', 'file', 'select-one', ['--New/Open--']],
+    ['', 'clear', 'select-one',
+      ['--Clear--', 'alignment', 'armor', 'charisma', 'constitution', 'deity',
+       'dexterity', 'domains', 'feats', 'gender', 'hitPoints', 'intelligence',
+       'languages', 'levels', 'name', 'race', 'shield', 'skills', 'spells',
+       'strength', 'weapons', 'wisdom']],
+    ['', 'randomize', 'select-one',
+      ['--Randomize--', 'alignment', 'armor', 'charisma', 'constitution',
+       'deity', 'dexterity', 'domains', 'feats', 'gender', 'hitPoints',
+       'intelligence', 'languages', 'levels', 'name', 'race', 'shield',
+       'skills', 'spells', 'strength', 'weapons', 'wisdom']],
+    ['', 'validate', 'button', ['Validate']],
+    ['Name', 'name', 'text', [20]],
+    ['Race', 'race', 'select-one', DndCharacter.races],
+    ['Experience', 'experience', 'text', [8]],
+    ['Levels', 'levels_sel', 'select-one', GetKeys(DndCharacter.classesHitDie)],
+    ['', 'levels', 'text', [3]],
+    ['Image URL', 'imageUrl', 'text', [20]],
+    ['Strength', 'strength', 'select-one', abilityChoices],
+    ['Intelligence', 'intelligence', 'select-one', abilityChoices],
+    ['Wisdom', 'wisdom', 'select-one', abilityChoices],
+    ['Dexterity', 'dexterity', 'select-one', abilityChoices],
+    ['Constitution', 'constitution', 'select-one', abilityChoices],
+    ['Charisma', 'charisma', 'select-one', abilityChoices],
+    ['Player', 'player', 'text', [20]],
+    ['Alignment', 'alignment', 'select-one', DndCharacter.alignments],
+    ['Gender', 'gender', 'select-one', DndCharacter.genders],
+    ['Deity', 'deity', 'select-one', GetKeys(DndCharacter.deitiesDomains)],
+    ['Origin', 'origin', 'text', [20]],
+    ['Feats', 'feats_sel', 'select-one', DndCharacter.feats],
+    ['', 'feats', 'checkbox', null],
+    ['Skills', 'skills_sel', 'select-one', GetKeys(DndCharacter.skillsAbility)],
+    ['', 'skills', 'text', [3]],
+    ['Languages', 'languages_sel', 'select-one', DndCharacter.languages],
+    ['', 'languages', 'checkbox', null],
+    ['Hit Points', 'hitPoints', 'text', [4]],
+    ['Armor', 'armor', 'select-one',
+     GetKeys(DndCharacter.armorsArmorClassBonuses)],
+    ['Shield', 'shield', 'select-one', DndCharacter.shields],
+    ['Weapons', 'weapons_sel', 'select-one', weapons],
+    ['', 'weapons', 'text', [3]],
+    ['Weapon Focus', 'focus_sel', 'select-one', weapons],
+    ['', 'focus', 'checkbox', null],
+    ['Weapon Specialization', 'specialization_sel', 'select-one', weapons],
+    ['', 'specialization', 'checkbox', null],
+    ['Ranger Combat Style', 'combatStyle_sel', 'select-one',
+     DndCharacter.combatStyles],
+    ['', 'combatStyle', 'checkbox', null],
+    ['Spell Categories', 'spellcats_sel', 'select-one', spellsCategoryOptions],
+    ['', 'spellcats', 'checkbox', null],
+    ['Spells', 'spells_sel', 'select-one', []],
+    ['', 'spells', 'checkbox', null],
+    ['Goodies', 'goodies_sel', 'select-one', DndCharacter.goodies],
+    ['', 'goodies', 'text', [2]],
+    ['Cleric Domains', 'domains_sel', 'select-one', DndCharacter.domains],
+    ['', 'domains', 'checkbox', null],
+    ['Wizard Specialization', 'specialize_sel', 'select-one',
+     DndCharacter.schools],
+    ['', 'specialize', 'checkbox', null],
+    ['Wizard Prohibition', 'prohibit_sel', 'select-one', DndCharacter.schools],
+    ['', 'prohibit', 'checkbox', null],
+    ['Notes', 'notes', 'textarea', [40,10]]
+  ];
+  var htmlBits = ['<form name="frm"><table>\n'];
+  var newRow = true;
+  for(var i = 0; i < editorElements.length; i++) {
+    var element = editorElements[i];
+    var html =
+      (newRow ? '<tr><th>' + element[0] + '</th><td>' : '') +
+      InputHtml(element[1], element[2], element[3]);
+    newRow = element[1].indexOf('_sel') < 0;
+    htmlBits[htmlBits.length] = html + (newRow ? '</td></tr>\n' : '');
+  }
+  htmlBits[htmlBits.length] = '</table></form>';
+  var result = htmlBits.join('');
+  return result;
+}
+
 /* Returns a sorted array containing all keys from object #o#. */
 function GetKeys(o) {
   var result = [];
   for(var a in o)
     result[result.length] = a;
   result.sort();
-  return result;
-}
-
-/* Returns a FormContoller loaded with the default editing fields. */
-function InitialEditor() {
-  var result = new FormController();
-  var spellsCategoryOptions = [];
-  var weapons = GetKeys(DndCharacter.weaponsDamage);
-  for(var a in DndCharacter.spellsCategoryCodes)
-    spellsCategoryOptions[spellsCategoryOptions.length] =
-      a + '(' + DndCharacter.spellsCategoryCodes[a] + ')';
-  spellsCategoryOptions.sort();
-  result.addElements(null,
-    '', 'about', 'button', ['About'],
-    '', 'help', 'button', ['Help'],
-    '', 'view', 'button', ['View Html'],
-    '', 'file', 'select', ['--New/Open--'],
-    '', 'clear', 'select',
-      ['--Clear--', 'alignment', 'armor', 'charisma', 'constitution', 'deity',
-       'dexterity', 'domains', 'feats', 'gender', 'hitPoints', 'intelligence',
-       'languages', 'levels', 'name', 'race', 'shield', 'skills', 'spells',
-       'strength', 'weapons', 'wisdom'],
-    '', 'randomize', 'select',
-      ['--Randomize--', 'alignment', 'armor', 'charisma', 'constitution',
-       'deity', 'dexterity', 'domains', 'feats', 'gender', 'hitPoints',
-       'intelligence', 'languages', 'levels', 'name', 'race', 'shield',
-       'skills', 'spells', 'strength', 'weapons', 'wisdom'],
-    '', 'validate', 'button', ['Validate'],
-    'Name', 'name', 'text', [20],
-    'Race', 'race', 'select', DndCharacter.races,
-    'Experience', 'experience', 'range', [0,9999999],
-    'Levels', 'levels', 'bag', GetKeys(DndCharacter.classesHitDie),
-    'Image URL', 'imageUrl', 'text', [20],
-    'Strength', 'strength', 'range', [3,18],
-    'Intelligence', 'intelligence', 'range', [3,18],
-    'Wisdom', 'wisdom', 'range', [3,18],
-    'Dexterity', 'dexterity', 'range', [3,18],
-    'Constitution', 'constitution', 'range', [3,18],
-    'Charisma', 'charisma', 'range', [3,18],
-    'Player', 'player', 'text', [20],
-    'Alignment', 'alignment', 'select', DndCharacter.alignments,
-    'Gender', 'gender', 'select', DndCharacter.genders,
-    'Deity', 'deity', 'select', GetKeys(DndCharacter.deitiesDomains),
-    'Origin', 'origin', 'text', [20],
-    'Feats', 'feats', 'bag', DndCharacter.feats,
-    'Skills', 'skills', 'bag', GetKeys(DndCharacter.skillsAbility),
-    'Languages', 'languages', 'set', DndCharacter.languages,
-    'Hit Points', 'hitPoints', 'range', [0,999],
-    'Armor', 'armor', 'select', GetKeys(DndCharacter.armorsArmorClassBonuses),
-    'Shield', 'shield', 'select', DndCharacter.shields,
-    'Weapons', 'weapons', 'bag', weapons,
-    'Weapon Focus', 'focus', 'set', weapons,
-    'Weapon Specialization', 'specialization', 'set', weapons,
-    'Ranger Combat Style', 'combatStyle', 'set', DndCharacter.combatStyles,
-    'Spell Categories', 'spellcats', 'set', spellsCategoryOptions,
-    'Spells', 'spells', 'set', [],
-    'Goodies', 'goodies', 'bag', DndCharacter.goodies,
-    'Cleric Domains', 'domains', 'set', DndCharacter.domains,
-    'Wizard Specialization', 'specialize', 'set', DndCharacter.schools,
-    'Wizard Prohibition', 'prohibit', 'set', DndCharacter.schools,
-    'Notes', 'notes', 'text', [40,10]
-  );
   return result;
 }
 
@@ -432,7 +520,6 @@ PopUp.next = 0;
  * Allows the user to specify race and class level(s).
  */
 function RandomizeCharacter() {
-  var i;
   if(urlLoading == 'random' && loadingPopup.closed)
     /* User cancel. */
     urlLoading = null;
@@ -443,8 +530,7 @@ function RandomizeCharacter() {
     character = new DndCharacter(null);
     for(var a in DndCharacter.classesHitDie) {
       var attr = 'levels.' + a;
-      if((value =
-            loadingPopup.fc.getElementValue(loadingPopup,'red',attr)) != null &&
+      if((value = InputGetValue(loadingPopup.document.frm[attr])) != null &&
          value > 0) {
         character.attributes[attr] = value;
         totalLevels += character.attributes[attr] - 0;
@@ -457,9 +543,7 @@ function RandomizeCharacter() {
     character.attributes.experience = totalLevels * (totalLevels-1) * 1000 / 2;
     for(var a in DndCharacter.defaults)
       character.Randomize(rules, a);
-    if((value = loadingPopup.fc.getElementValue(loadingPopup, 'red', 'race')) !=
-       '(Random)')
-      character.attributes.race = value;
+    character.attributes.race = InputGetValue(loadingPopup.document.frm.race);
     character.Randomize(rules, 'domains');
     character.Randomize(rules, 'feats');
     character.Randomize(rules, 'languages');
@@ -473,30 +557,35 @@ function RandomizeCharacter() {
   }
   else if(urlLoading == null) {
     /* Nothing presently loading. */
-    var fixedAttributes = new FormController();
-    var races = ['(Random)'];
-    races = races.concat(DndCharacter.races);
-    fixedAttributes.addElements(null,
-      'Race', 'race', 'select', races,
-      'Levels', 'levels', 'bag', GetKeys(DndCharacter.classesHitDie)
-    );
     urlLoading = 'random';
+    var classes = GetKeys(DndCharacter.classesHitDie);
+    var htmlBits = [
+      '<html><head><title>New Character</title></head>',
+      '<body bgcolor="' + BACKGROUND + '">',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h2>New Character Attributes</h2>',
+      '<form name="frm"><table>',
+      '<tr><th>Race</th><td>' +
+      InputHtml('race', 'select-one', DndCharacter.races) + '</td></tr>'
+    ];
+    for(var i = 0; i < classes.length; i++)
+      htmlBits[htmlBits.length] =
+        '<tr><th>' + classes[i] + ' Level' + '</th><td>' +
+        InputHtml('levels.' + classes[i], 'text', [2]) + '</td></tr>';
+    htmlBits = htmlBits.concat([
+      '</table></form>',
+      '<form>' +
+      '<input type="button" value="Ok" onclick="okay=1;"/>' +
+      '<input type="button" value="Cancel" onclick="window.close();"/>' +
+      '</form></body></html>'
+    ]);
+    var html = htmlBits.join('\n') + '\n';
     loadingPopup = window.open('', 'randomWin');
-    loadingPopup.document.write(
-      '<html><head><title>Editor</title></head>\n' +
-      '<body bgcolor="' + BACKGROUND + '">\n' +
-      '<img src="' + LOGO_URL + ' "/><br/>\n' +
-      '<h2>Fixed Attributes</h2>',
-      fixedAttributes.getHtml('red'),
-      '<form>\n' +
-      '<input type="button" value="Ok" onclick="okay=1;"/>\n' +
-      '<input type="button" value="Cancel" onclick="window.close();"/>\n' +
-      '</form></body></html>\n'
-    );
+    loadingPopup.document.write(html);
     loadingPopup.document.close();
-    fixedAttributes.registerWindow(loadingPopup, 'red', null);
-    fixedAttributes.setElementValue(loadingPopup, 'red', 'race', '(Random)');
-    loadingPopup.fc = fixedAttributes;
+    InputSetValue
+      (loadingPopup.document.frm.race,
+       DndCharacter.races[DndCharacter.Random(0, DndCharacter.races.length)]);
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
   }
@@ -507,10 +596,19 @@ function RandomizeCharacter() {
 
 /* Sets the editing window fields to the values of the current character. */
 function RefreshEditor() {
-  editor.reset(editWindow, 'ched');
-  for(var attr in character.attributes)
-    editor.setElementValue
-      (editWindow, 'ched', attr, character.attributes[attr]);
+  editForm.reset();
+  for(var attr in character.attributes) {
+    var i = attr.indexOf('.');
+    if(i < 0)
+      InputSetValue(editForm[attr], character.attributes[attr]);
+    else {
+      var sel = editForm[attr.substring(0, i) + '_sel'];
+      var val = editForm[attr.substring(0, i)];
+      if(sel != null && InputSetValue(sel, attr.substring(i + 1)) &&
+         val != null)
+        InputSetValue(val, character.attributes[attr]);
+    }
+  }
   RefreshSpellSelections(true);
 }
 
@@ -519,7 +617,7 @@ function RefreshRecentOpens() {
   var names = cookieInfo.recent.split(',');
   names.length--; /* Trim trailing empty element */
   names = ['--New/Open--', 'New...', 'Open...'].concat(names);
-  editor.setElementSelections('file', names);
+  InputSetOptions(editForm.file, names);
 }
 
 /* Draws the sheet for the current character in the character sheet window. */
@@ -547,27 +645,25 @@ function RefreshSpellSelections(resetToCharacter) {
 
   if(resetToCharacter) {
     for(a in DndCharacter.spellsCategoryCodes)
-      codesToDisplay[DndCharacter.spellsCategoryCodes[a]] = 0;
+      codesToDisplay[DndCharacter.spellsCategoryCodes[a]] = false;
     for(a in character.attributes) {
       if((matchInfo = a.match(/^spells\..*\((\D+)\d+\)$/)) != null)
         codesToDisplay[matchInfo[1]] = 1;
       else if((matchInfo = a.match(/^(domains|levels)\.(.*)$/)) != null &&
               DndCharacter.spellsCategoryCodes[matchInfo[2]] != null)
-        codesToDisplay[DndCharacter.spellsCategoryCodes[matchInfo[2]]] = 1;
+        codesToDisplay[DndCharacter.spellsCategoryCodes[matchInfo[2]]] = true;
     }
     for(a in DndCharacter.spellsCategoryCodes) {
       code = DndCharacter.spellsCategoryCodes[a];
       option = a + '(' + code + ')';
-      editor.setElementValue
-        (editWindow, 'ched', 'spellcats.' + option, codesToDisplay[code]);
+      spellcats[option] = codesToDisplay[code];
     }
   }
   else {
     for(a in DndCharacter.spellsCategoryCodes) {
       code = DndCharacter.spellsCategoryCodes[a];
       option = a + '(' + code + ')';
-      codesToDisplay[code] =
-        editor.getElementValue(editWindow, 'ched', 'spellcats.' + option);
+      codesToDisplay[code] = spellcats[option];
     }
   }
 
@@ -581,7 +677,7 @@ function RefreshSpellSelections(resetToCharacter) {
   if(spells.length == 0)
     spells[spells.length] = '--- No spell categories selected ---';
   spells.sort();
-  editor.setElementSelections('spells', spells);
+  InputSetOptions(editForm.spells_sel, spells);
 
 }
 
@@ -594,9 +690,10 @@ function ScribeStart() {
     'MAGIC_RULES_VERSION':'3.5', 'MAX_RECENT_OPENS':15, 'URL_PREFIX':'',
     'URL_SUFFIX':'.html'
   };
+  var editWindow;
 
-  if(window.DndCharacter == null || window.FormController == null ||
-     window.ObjectViewer == null || window.RuleEngine == null) {
+  if(window.DndCharacter == null || window.ObjectViewer == null ||
+     window.RuleEngine == null) {
     alert('JavaScript functions required by Scribe are missing; exiting');
     return;
   }
@@ -625,7 +722,6 @@ function ScribeStart() {
         cookieInfo[settings[i]] = settings[i + 1];
   }
 
-
   PopUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
         COPYRIGHT + '<br/>' +
         'Press the "About" button for more info',
@@ -634,7 +730,6 @@ function ScribeStart() {
   loadingWindow = window.frames[1];
   sheetWindow = window.opener;
   character = new DndCharacter(null);
-  editor = InitialEditor();
   rules = InitialRuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
@@ -643,11 +738,14 @@ function ScribeStart() {
     '<html><head><title>Editor</title></head>\n' +
     '<body bgcolor="' + BACKGROUND + '">' +
     '<img src="' + LOGO_URL + ' "/><br/>\n' +
-    editor.getHtml('ched') +
+    EditorHtml() +
     '\n</body></html>\n';
   editWindow.document.write(editHtml);
   editWindow.document.close();
-  editor.registerWindow(editWindow, 'ched', Update);
+  editForm = editWindow.document.frm;
+  var callback = function() {Update(this);};
+  for(i = 0; i < editForm.elements.length; i++)
+    InputSetCallback(editForm.elements[i], callback);
   RefreshEditor();
   RefreshSheet();
   RefreshRecentOpens();
@@ -811,12 +909,11 @@ function StoreCookie() {
   document.cookie = cookie;
 }
 
-/*
- * Callback invoked when the user makes a change in the editing window that
- * sets field #name# to #value#.
- */
-function Update(name, value) {
+/* Callback invoked when the user changes the editor value of Input #input#. */
+function Update(input) {
 
+  var name = input.name;
+  var value = InputGetValue(input);
   if(name == 'about') {
     if(Update.aboutWindow != null && !Update.aboutWindow.closed)
       return;
@@ -831,21 +928,23 @@ function Update(name, value) {
     Update.aboutWindow.document.close();
   }
   else if(name == 'clear' || name == 'randomize') {
-    editor.setElementValue(editWindow, 'ched', 'clear', '--Clear--');
-    editor.setElementValue(editWindow, 'ched', 'randomize', '--Randomize--');
+    InputSetValue(editForm.clear, '--Clear--');
+    InputSetValue(editForm.randomize, '--Randomize--');
     var attr;
     var pat = '^' + value + '(\\.|$)';
-    for(attr in character.attributes)
-      if(attr.search(pat) >= 0)
-        editor.setElementValue(editWindow, 'ched', attr, null);
     if(name == 'clear')
       character.Clear(value);
     else
       character.Randomize(rules, value);
+    input = editForm[value];
+    InputSetValue(input, null);
     for(attr in character.attributes)
-      if(attr.search(pat) >= 0)
-        editor.setElementValue
-          (editWindow, 'ched', attr, character.attributes[attr]);
+      if(attr.search(pat) >= 0) {
+        InputSetValue(input, character.attributes[attr]);
+        if((input = editForm[value + '_sel']) != null)
+          InputSetValue(input, attr.substring(attr.indexOf('.') + 1));
+        break;
+      }
     RefreshSheet();
   }
   else if(name == 'file') {
@@ -855,11 +954,15 @@ function Update(name, value) {
       RandomizeCharacter();
     else
       LoadCharacter(value);
-    editor.setElementValue(editWindow, 'ched', 'file', '--New/Open--');
+    InputSetValue(editForm.file, '--New/Open--');
   }
   else if(name == 'help') {
     if(Update.helpWindow == null || Update.helpWindow.closed)
       Update.helpWindow = window.open(HELP_URL, 'help');
+  }
+  else if(name == 'spellcats') {
+    spellcats[InputGetValue(editForm.spellcats_sel)] = value;
+    RefreshSpellSelections(false);
   }
   else if(name == 'validate') {
     if(Update.validateWindow != null && !Update.validateWindow.closed)
@@ -876,11 +979,20 @@ function Update(name, value) {
   }
   else if(name == 'view')
     ShowHtml(SheetHtml());
-  else if(name.match(/^spellcats\./))
-    RefreshSpellSelections(false);
-  else if(name == 'spells.--- No spell categories selected ---')
-    editor.setElementValue(editWindow, 'ched', name, 0);
+  else if(name.indexOf('_sel') >= 0) {
+    name = name.substring(0, name.length - 4);
+    input = editForm[name]
+    if(input != null) {
+      if(name == 'spellcats')
+        InputSetValue(input, spellcats[value]);
+      else
+        InputSetValue(input, character.attributes[name + '.' + value]);
+    }
+  }
   else {
+    var selector = editForm[name + '_sel'];
+    if(selector != null)
+      name += '.' + InputGetValue(selector);
     if(!value && DndCharacter.defaults[name] == null)
       delete character.attributes[name];
     else if(typeof(value) == 'string' &&
@@ -889,8 +1001,7 @@ function Update(name, value) {
             character.attributes[name].match(/^\d+$/)) {
       character.attributes[name] =
         ((character.attributes[name] - 0) + (value.substring(1) - 0)) + '';
-      editor.setElementValue
-        (editWindow, 'ched', name, character.attributes[name]);
+      InputSetValue(input, character.attributes[name]);
     }
     else
       character.attributes[name] = value;
