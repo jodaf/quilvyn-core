@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.7 2005/04/01 06:52:07 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.8 2005/04/01 07:15:02 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -111,4 +111,13 @@ function ScribeCustomSheet(name, within, before, format) {
   viewer.addElements(
     {name: SheetName(name), within: within, before: before, format: format}
   );
+}
+
+/*
+ * Adds each #test# to the checks Scribe performs when validating a character.
+ */
+function ScribeCustomTests(test /*, test ... */) {
+  for(var i = 0; i < arguments.length; i++)
+    DndCharacter.validityTests[DndCharacter.validityTests.length] =
+      arguments[i];
 }
