@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.11 2004/04/01 08:05:49 Jim Exp $ */
+/* $Id: Scribe.js,v 1.12 2004/04/14 06:48:49 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -193,13 +193,16 @@ function RefreshEditor() {
      ['', 'meta', 'button', ['Preferences']],
      ['', 'meta', 'button', ['New/Open']],
      ['', 'meta', 'button', ['View Html']],
+     ['', 'clear', 'select',
+      ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
+       'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
+       'intelligence', 'languages', 'name', 'race', 'shield', 'skills',
+       'spells', 'strength', 'wisdom']],
      ['', 'randomize', 'select',
       ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
        'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
-       'intelligence', 'name', 'race', 'shield', 'skills', 'spells',
-       'strength', 'wisdom']],
-     ['', 'reset', 'select',
-      ['--Reset--', 'feats', 'languages', 'skills', 'spells']],
+       'intelligence', 'languages', 'name', 'race', 'shield', 'skills',
+       'spells', 'strength', 'wisdom']],
      ['Name', 'name', 'text', [20]],
      ['Race', 'race', 'select', DndCharacter.races],
      ['Experience', 'experience', 'range', [0,9999999]],
@@ -364,13 +367,13 @@ function Update(attr, value) {
     return;
   }
 
-  if(attr == 'randomize') {
-    character.Randomize(rules, value);
+  if(attr == 'clear') {
+    character.Clear(value);
     RefreshSheet();
     RefreshEditor();
   }
-  else if(attr == 'reset') {
-    character.Reset(value);
+  else if(attr == 'randomize') {
+    character.Randomize(rules, value);
     RefreshSheet();
     RefreshEditor();
   }
