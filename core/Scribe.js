@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.28 2004/07/16 23:44:11 Jim Exp $ */
+/* $Id: Scribe.js,v 1.29 2004/07/26 05:54:50 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -77,13 +77,13 @@ function InitialEditor() {
     '', 'clear', 'select',
       ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
        'constitution', 'deity', 'dexterity', 'feats', 'gender', 'helm',
-       'hitPoints', 'intelligence', 'languages', 'name', 'race', 'shield',
-       'skills', 'spells', 'strength', 'weapons', 'wisdom'],
+       'domains', 'hitPoints', 'intelligence', 'languages', 'name', 'race',
+       'shield', 'skills', 'spells', 'strength', 'weapons', 'wisdom'],
     '', 'randomize', 'select',
       ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
-       'constitution', 'deity', 'dexterity', 'feats', 'gender', 'helm',
-       'hitPoints', 'intelligence', 'languages', 'name', 'race', 'shield',
-       'skills', 'spells', 'strength', 'weapons', 'wisdom'],
+       'constitution', 'deity', 'dexterity', 'domains', 'feats', 'gender',
+       'helm', 'hitPoints', 'intelligence', 'languages', 'name', 'race',
+       'shield', 'skills', 'spells', 'strength', 'weapons', 'wisdom'],
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
     'Experience', 'experience', 'range', [0,9999999],
@@ -328,6 +328,7 @@ function RandomizeCharacter() {
       character.Randomize(rules, a);
     if((value = loadingPopup.fc.getElementValue('race')) != '(Random)')
       character.attributes.race = value;
+    character.Randomize(rules, 'domains');
     character.Randomize(rules, 'feats');
     character.Randomize(rules, 'languages');
     character.Randomize(rules, 'skills');
