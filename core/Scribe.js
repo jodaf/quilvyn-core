@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.85 2005/03/01 13:22:14 Jim Exp $ */
+/* $Id: Scribe.js,v 1.86 2005/03/05 05:36:02 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.15.01\n' +
+'Scribe Character Editor version 0.15.04\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -22,6 +22,7 @@ var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
 var TIMEOUT_DELAY = 1000; /* One second */
 
+var attrsUnchanged; /* Current DndCharacter attrs before any user changes */
 var character;      /* Current DndCharacter */
 var cookieInfo = {  /* What we store in the cookie */
   recent: '' /* Comma-separated and -terminated list of recent opens */
@@ -133,6 +134,16 @@ function ChoicesForSpellInput() {
   return result;
 }
 
+/* Returns a recursively-copied clone of #o#. */
+function CopyObject(o) {
+  if(typeof o != "object" || o == null)
+    return o;
+  var result = new Object();
+  for(var a in o)
+    result[a] = CopyObject(o[a]);
+  return result;
+}
+
 /* Returns HTML for the character editor form. */
 function EditorHtml() {
   var abilityChoices=[3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
@@ -225,6 +236,16 @@ function GetKeys(o) {
     result[result.length] = a;
   result.sort();
   return result;
+}
+
+/* Returns true iff all attributes of #o1# have the same values in #o2#. */
+function HasSameValues(o1, o2) {
+  if(typeof o1 != "object" || typeof o2 != "object")
+    return o1 == o2;
+  for(var a in o1)
+    if(!HasSameValues(o2[a], o1[a]))
+      return false;
+  return true;
 }
 
 /* Returns a RuleEngine loaded with the default DndCharacter rules. */
@@ -441,6 +462,7 @@ function LoadCharacter(name) {
       else
         character.attributes[a] = value;
     }
+    attrsUnchanged = CopyObject(character.attributes);
     ResetShowCodes();
     RefreshEditor();
     RedrawSheet();
@@ -538,6 +560,7 @@ function RandomizeCharacter() {
     character.Randomize(rules, 'skills');
     character.Randomize(rules, 'spells');
     character.Randomize(rules, 'weapons');
+    attrsUnchanged = CopyObject(character.attributes);
     ResetShowCodes();
     RefreshEditor();
     RedrawSheet();
@@ -647,7 +670,7 @@ function ScribeStart() {
     'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
     'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'help.html', 'LOGO_URL':'scribe.gif',
     'MAGIC_RULES_VERSION':'3.5', 'MAX_RECENT_OPENS':15, 'URL_PREFIX':'',
-    'URL_SUFFIX':'.html'
+    'URL_SUFFIX':'.html', 'WARN_ABOUT_DISCARD':true
   };
 
   if(DndCharacter == null || ObjectViewer == null || RuleEngine == null) {
@@ -684,6 +707,7 @@ function ScribeStart() {
         'Press the "About" button for more info',
         'Ok', 'window.close();');
   character = new DndCharacter(null);
+  attrsUnchanged = CopyObject(character.attributes);
   rules = InitialRuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
@@ -909,7 +933,12 @@ function Update(input) {
   }
   else if(name == 'file') {
     input.selectedIndex = 0;
-    if(value == 'Open...')
+    if(WARN_ABOUT_DISCARD &&
+       !(HasSameValues(character.attributes, attrsUnchanged) &&
+         HasSameValues(attrsUnchanged, character.attributes)) &&
+       !confirm("Discard changes to character?"))
+      ; /* empty */
+    else if(value == 'Open...')
       OpenDialog();
     else if(value == 'New...')
       RandomizeCharacter();
@@ -945,8 +974,10 @@ function Update(input) {
     );
     Update.validateWindow.document.close();
   }
-  else if(name == 'view')
+  else if(name == 'view') {
     ShowHtml(SheetHtml());
+    attrsUnchanged = CopyObject(character.attributes);
+  }
   else if(name.indexOf('_sel') >= 0) {
     name = name.substring(0, name.length - 4);
     input = editForm[name]

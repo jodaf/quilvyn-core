@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.40 2005/02/27 13:50:37 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.41 2005/03/05 05:36:02 Jim Exp $ -->
 <html>
 
 <head>
@@ -86,9 +86,11 @@ URL_PREFIX is "file:///home/farquar/Scribe/charcters/" and URL_SUFFIX is
 ".html", than you can simply enter "jorash" into the open dialogue to open the
 character file "file:///home/farquar/Scribe/characters/jorash.html".  The value
 of MAX_RECENT_OPENS determines how many recently-opened character URLs appear
-in the New/Open menu.  You can also add character sheet and editor
-customizations in scribe.html.  See the <a href="#custom">customization
-section</a> for details.
+in the New/Open menu.  WARN_ABOUT_DISCARD determines whether or not Scribe
+warns you when ask to open a new character after making changes to the current
+one without saving.  You can also add character sheet and editor customizations
+in scribe.html.  See the <a href="#custom">customization section</a> for
+details.
 </p>
 
 <p>
@@ -547,8 +549,6 @@ new items.
   <li>It's easy to overlook when characters have a bonus in untrained skills,
       e.g., an elf's +2 on <i>Listen</i> when no skill points are allocated to
       that skill.</li>
-  <li>It might be nice to ask the user about discarding changes to the current
-      character when opening a new one or exiting Scribe.</li>
   <li>Scribe has problems dealing with options containing a space followed by
       an uncapitalized word.  This is why, e.g., the skill "Sleight Of Hand"
       doesn't appear as "Sleight of Hand". There are other occasions when
