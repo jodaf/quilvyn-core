@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.16 2004/05/11 19:56:16 Jim Exp $ */
+/* $Id: Scribe.js,v 1.17 2004/05/13 14:04:14 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -426,9 +426,9 @@ function RefreshEditor(redraw) {
     );
     editWindow.document.close();
   }
-  RefreshSpellSelections(true);
   if(character != null)
     editor.setElementValues(character.attributes);
+  RefreshSpellSelections(true);
 }
 
 function RefreshSheet() {
