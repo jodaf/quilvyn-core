@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.58 2004/12/17 05:34:55 Jim Exp $ */
+/* $Id: Scribe.js,v 1.59 2004/12/21 00:00:10 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -246,6 +246,10 @@ function InitialViewer() {
       {name: 'Unarmed Damage', within: 'Melee'},
       {name: 'Turning Frequency Break', within: 'Melee', format: '\n'},
       {name: 'Turning Frequency', within: 'Melee', format: '<b>%N</b>: %V/Day'},
+      {name: 'TurningSection', within: 'Melee', compact: 1},
+        {name: 'Turning Min', within: 'TurningSection',
+          format: '<b>Turning Min/Max HD</b>: %V'},
+        {name: 'Turning Max', within: 'TurningSection', format: '/%V'},
       {name: 'Turning Damage Modifier', within: 'Melee',
         format: '<b>Turning Damage</b>: 2d6+%V'},
       {name: 'Weapons Break', within: 'Melee', format: '\n'},
