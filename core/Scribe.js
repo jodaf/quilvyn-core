@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.81 2005/02/21 03:40:03 Jim Exp $ */
+/* $Id: Scribe.js,v 1.82 2005/02/23 19:38:15 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.14.20\n' +
+'Scribe Character Editor version 0.14.23\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -281,7 +281,7 @@ function InitialViewer() {
       {name: 'Experience Break', within: 'Attributes', format: '\n'},
       {name: 'ExpSection', within: 'Attributes', compact: 1},
         {name: 'Experience', within: 'ExpSection'},
-        {name: 'Needs', within: 'ExpSection', format: '/%V'},
+        {name: 'Experience Needed', within: 'ExpSection', format: '/%V'},
       {name: 'Level', within: 'Attributes'},
       {name: 'Alignment', within: 'Attributes'},
       {name: 'Deity', within: 'Attributes'},
@@ -321,7 +321,7 @@ function InitialViewer() {
       {name: 'Shield', within: 'Melee'},
       {name: 'Armor Class', within: 'Melee'},
       {name: 'Speed', within: 'Melee'},
-      {name: 'Run', within: 'Melee'},
+      {name: 'Run Speed', within: 'Melee'},
       {name: 'Armor Proficiency Break', within: 'Melee', format: '\n'},
       {name: 'Armor Proficiency', within: 'Melee'},
       {name: 'Shield Proficiency', within: 'Melee'},
@@ -693,6 +693,19 @@ function ScribeStart() {
   RedrawEditor();
   RefreshEditor();
   RedrawSheet();
+  /*
+  if(SCRIBE_DEBUG != null) {
+    var html = '<html><head><title>Scribe Attributes</title></head>\n<body>\n';
+    var attrs = rules.AllSources();
+    html += '<h2>Sources</h2>\n' + attrs.join('<br/>\n') + '\n';
+    attrs = rules.AllTargets();
+    html += '<h2>Targets</h2>\n' + attrs.join('<br/>\n') + '\n';
+    html += '</body></html>/n';
+    var w = window.open('', 'attrwin');
+    w.document.write(html);
+    w.document.close();
+  }
+  */
 
 }
 
@@ -724,6 +737,8 @@ function SheetHtml() {
    * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
    * of displayAttributes' names and values here to get the sheet to look right.
    */
+  var damageAdjustment =
+    computedAttributes['meleeNotes.strengthDamageAdjustment'];
   for(a in computedAttributes) {
     var name = SheetName(a);
     var value = computedAttributes[a];
@@ -734,7 +749,7 @@ function SheetHtml() {
       if(name == 'Image Url' && value.match(/^\w*:/) == null)
         value = URL_PREFIX + value;
       else if(name == 'Unarmed Damage')
-        value += Signed(computedAttributes.meleeDamage);
+        value += Signed(damageAdjustment);
       displayAttributes[name] = value;
     }
     else {
@@ -755,22 +770,41 @@ function SheetHtml() {
         if(computedAttributes['classSkills.' + skill] == null)
           name += '(X)';
       }
-      else if(object == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
+      else if(object == 'Weapons') {
         var damages = DndCharacter.weaponsDamage[name];
-        var extraDamage = computedAttributes.meleeDamage;
+        var lcName = name.toLowerCase();
+        var attack =
+          DndCharacter.weaponsRangeIncrement[name] == null ||
+          lcName.match
+            (/^(club|dagger|light hammer|shortspear|spear|trident)$/) != null ?
+          computedAttributes.meleeAttack : computedAttributes.rangedAttack;
+        if(computedAttributes['feats.Weapon Focus (' + lcName + ')'] != null ||
+           computedAttributes['features.Weapon Focus (' + lcName + ')'] != null)
+          attack = attack - 0 + 1;
+        if(computedAttributes
+             ['feats.Greater Weapon Focus (' + lcName + ')'] != null ||
+           computedAttributes
+             ['features.Greater Weapon Focus (' + lcName + ')'] != null)
+          attack = attack - 0 + 1;
+        var extraDamage = damageAdjustment;
         if(name.indexOf('bow') >= 0 &&
            (name.indexOf('Composite') < 0 || extraDamage > 0))
           extraDamage = 0;
-        if(computedAttributes['feats.Weapon Specialization (' +
-                              name.toLowerCase() + ')'] != null ||
-           computedAttributes['features.Weapon Specialization (' +
-                              name.toLowerCase() + ')'] != null)
+        if(computedAttributes
+             ['feats.Weapon Specialization (' + lcName + ')'] != null ||
+           computedAttributes
+             ['features.Weapon Specialization (' + lcName + ')'] != null)
+          extraDamage += 2;
+        if(computedAttributes
+             ['feats.Greater Weapon Specialization (' + lcName + ')'] != null ||
+           computedAttributes
+             ['features.Greater Weapon Specialization ('+lcName+')'] != null)
           extraDamage += 2;
         damages = damages == null ? ['0'] : damages.split('/');
         for(i = 0; i < damages.length; i++) {
-          var pieces = damages[i].match(/^(d\d+) *(x(\d+))? *(@(\d+))?$/);
+          var pieces = damages[i].match(/^(\d*d\d+) *(x(\d+))? *(@(\d+))?$/);
           if(pieces == null)
-            pieces = ['d6', '2', '20'];
+            pieces = ['d6', 'd6'];
           var damage = pieces[1];
           var multiplier = pieces[3] ? pieces[3] - 0 : 2;
           var smallDamage = DndCharacter.weaponsSmallDamage[damage];
@@ -782,7 +816,7 @@ function SheetHtml() {
           damage += Signed(extraDamage);
           damages[i] = damage + ' x' + multiplier + '@' + threat;
         }
-        name += '(' + damages.join('/') + ')';
+        name += '(' + Signed(attack) + ' ' + damages.join('/') + ')';
       }
       value = name + (value == '1' ? '' : (': ' + value));
       if(object.indexOf('Notes') > 0 && rules.IsSource(a))
@@ -841,7 +875,7 @@ function ShowHtml(html) {
 
 /* Returns an empty string if #value# is 0, otherwise a string with a sign. */
 function Signed(value) {
-  return value == 0 ? '' : value > 0 ? '+' + value : value;
+  return value == null || value == 0 ? '' : value > 0 ? '+' + value : value;
 }
 
 /* Stores the current values of cookieInfo in the browser cookie. */
