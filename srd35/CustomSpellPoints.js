@@ -1,5 +1,5 @@
 /*
-Copyright 2004, James J. Hayes
+Copyright 2005, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
