@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.66 2005/01/05 18:36:12 Jim Exp $ */
+/* $Id: Scribe.js,v 1.67 2005/01/07 06:32:51 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -53,9 +53,9 @@ function AddUserChoices(name, item /*, item ... */) {
   var o = DndCharacter[name];
   if(o == null)
     return;
-  if(o instanceof Array) {
+  if(o.constructor == Array) {
     for(i = 1; i < arguments.length; i++)
-      o.push(arguments[i]);
+      o[o.length] = arguments[i];
     o.sort();
   }
   else 
@@ -65,7 +65,9 @@ function AddUserChoices(name, item /*, item ... */) {
 
 /* Callback for CustomizeScribe's AddRules parameter. */
 function AddUserRules() {
-  rules.AddRules.apply(rules, arguments);
+  for(var i = 3; i < arguments.length; i += 3)
+    rules.AddRules
+      (arguments[0], arguments[i - 2], arguments[i - 1], arguments[i]);
 }
 
 /* Callback for CustomizeScribe's AddToSheet parameter. */
@@ -79,7 +81,7 @@ function AddUserView(name, within, before, format) {
 function GetKeys(o) {
   var result = [];
   for(var a in o)
-    result.push(a);
+    result[result.length] = a;
   result.sort();
   return result;
 }
@@ -90,8 +92,8 @@ function InitialEditor() {
   var spellsCategoryOptions = [];
   var weapons = GetKeys(DndCharacter.weaponsDamage);
   for(var a in DndCharacter.spellsCategoryCodes)
-    spellsCategoryOptions.push
-      (a + '(' + DndCharacter.spellsCategoryCodes[a] + ')');
+    spellsCategoryOptions[spellsCategoryOptions.length] =
+      a + '(' + DndCharacter.spellsCategoryCodes[a] + ')';
   spellsCategoryOptions.sort();
   result.addElements(
     '', 'about', 'button', ['About'],
@@ -305,13 +307,14 @@ function LoadCharacter(name) {
     /* Character done loading. */
     var i;
     var names = cookieInfo.recent.split(',');
-    names.pop(); /* Trim trailing empty element */
+    names.length--; /* Trim trailing empty element */
     for(i = 0; i < names.length && names[i] != name; i++)
       ; /* empty */
     if(i < names.length)
-      names.splice(i, 1);
-    names.unshift(name);
-    names.splice(MAX_RECENT_OPENS);
+      names = names.slice(0, i).concat(names.slice(i + 1));
+    names = [name].concat(names);
+    if(names.length >= MAX_RECENT_OPENS)
+      names.length = MAX_RECENT_OPENS - 1;
     cookieInfo.recent = names.join(',') + ',';
     StoreCookie();
     RefreshRecentOpens();
@@ -508,8 +511,8 @@ function RefreshEditor(redraw) {
 /* Uses the cookie contents to reset the options in the editor New/Open menu. */
 function RefreshRecentOpens() {
   var names = cookieInfo.recent.split(',');
-  names.pop(); /* Trim trailing empty element */
-  names.unshift('--New/Open--', 'New...', 'Open...');
+  names.length--; /* Trim trailing empty element */
+  names = ['--New/Open--', 'New...', 'Open...'].concat(names);
   editor.setElementSelections('file', names);
 }
 
@@ -565,10 +568,10 @@ function RefreshSpellSelections(resetToCharacter) {
     for(var i = 0; i < spellLevels.length; i++)
       if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
          codesToDisplay[matchInfo[1]])
-        spells.push(a + '(' + spellLevels[i] + ')');
+        spells[spells.length] = a + '(' + spellLevels[i] + ')';
   }
   if(spells.length == 0)
-    spells.push('--- No spell categories selected ---');
+    spells[spells.length] = '--- No spell categories selected ---';
   spells.sort();
   editor.setElementSelections('spells', spells);
 
@@ -726,7 +729,7 @@ function SheetHtml() {
         value = '<i>' + value + '</i>';
       if(displayAttributes[object] == null)
         displayAttributes[object] = [];
-      displayAttributes[object].push(value);
+      displayAttributes[object][displayAttributes[object].length] = value;
     }
   }
 

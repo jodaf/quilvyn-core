@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.3 2004/05/11 20:25:06 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.4 2005/01/07 06:32:51 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -53,19 +53,21 @@ ObjectViewer._getHtml =
     for(e = element.elements; e != null; e = e.next) {
       if(e.format == '\n') {
         if(!newRow)
-          pieces.push(element.compact ? '<br/>' : '</tr></table></td></tr>')
+          pieces[pieces.length] =
+            element.compact ? '<br/>' : '</tr></table></td></tr>';
         newRow = true;
         continue;
       }
       if((piece=ObjectViewer._getHtml(e,o,nestedIndent,!element.compact)) == '')
         continue;
       if(!element.compact && newRow)
-        pieces.push('<tr><td><table width="100%"><tr align="center">');
-      pieces.push(piece);
+        pieces[pieces.length] =
+          '<tr><td><table width="100%"><tr align="center">';
+      pieces[pieces.length] = piece;
       newRow = false;
     }
     if(!element.compact && !newRow)
-      pieces.push('</tr></table></td></tr>')
+      pieces[pieces.length] = '</tr></table></td></tr>';
     elementHtml =
       pieces.length == 0 ? '' : element.compact ? pieces.join('') :
       ('<table' + (element.borders ? ' border="1"' : '') + ' width="100%">' +
@@ -78,7 +80,7 @@ ObjectViewer._getHtml =
     if(typeof memberValue == 'object') {
       var all = [];
       for(e in memberValue)
-        all.push(e + ': ' + value[e]);
+        all[all.length] = e + ': ' + value[e];
       memberValue = all.join(' * ');
     }
     elementHtml = ('' + memberValue).replace(/\n/g, '<br/>');
