@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.90 2005/03/14 19:51:33 Jim Exp $ */
+/* $Id: Scribe.js,v 1.91 2005/03/17 00:47:07 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.15.14';
+var VERSION = '0.15.16';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -353,6 +353,7 @@ function InitialViewer() {
       {name: 'Combat Style', within: 'Melee'},
       {name: 'Initiative Break', within: 'Melee', format: '\n'},
       {name: 'Initiative', within: 'Melee'},
+      {name: 'Base Attack', within: 'Melee'},
       {name: 'Melee Attack', within: 'Melee'},
       {name: 'Ranged Attack', within: 'Melee'},
       {name: 'Unarmed Damage', within: 'Melee'},
