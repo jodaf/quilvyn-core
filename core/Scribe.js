@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.49 2004/10/20 01:47:36 Jim Exp $ */
+/* $Id: Scribe.js,v 1.50 2004/12/04 06:08:40 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -84,6 +84,7 @@ function InitialEditor() {
        'constitution', 'deity', 'dexterity', 'domains', 'feats', 'gender',
        'hitPoints', 'intelligence', 'languages', 'name', 'race',
        'shield', 'skills', 'spells', 'strength', 'weapons', 'wisdom'],
+    '', 'validate', 'button', ['Validate'],
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
     'Experience', 'experience', 'range', [0,9999999],
@@ -723,6 +724,19 @@ function Update(name, value) {
     RefreshSheet();
     editor.setElementValue('randomize', '--Randomize--');
   }
+  else if(name == 'validate') {
+    if(Update.validateWindow != null && !Update.validateWindow.closed)
+      Update.validateWindow.close();
+    Update.validateWindow = window.open('about:blank', 'validate');
+    Update.validateWindow.document.write(
+      '<html><head><title>Character Validation Check</title></head>\n' +
+      '<body bgcolor="' + BACKGROUND + '">\n' +
+      '<h2>Validation Results</h2>\n<p>\n' +
+      ValidationHtml() +
+      '\n</p>\n</body></html>\n'
+    );
+    Update.validateWindow.document.close();
+  }
   else if(name.match(/^spellcats\./))
     RefreshSpellSelections(false);
   else if(name == 'spells.--- No spell categories selected ---')
@@ -743,4 +757,14 @@ function Update(name, value) {
     RefreshSheet();
   }
 
+}
+
+function ValidationHtml() {
+  var computedAttributes = rules.Apply(character.attributes);
+  var invalid = DndCharacter.Validate(computedAttributes);
+  var result = '';
+  for(var i = 0; i < invalid.length; i += 2)
+    result += invalid[i] + ' does not pass test ' + invalid[i + 1] + '<br/>';
+  result += invalid.length / 2 + ' validation errors<br/>';
+  return result;
 }
