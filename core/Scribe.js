@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.43 2004/09/09 05:15:11 Jim Exp $ */
+/* $Id: Scribe.js,v 1.44 2004/09/10 15:59:52 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -572,11 +572,11 @@ function SheetHtml() {
       if(group.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
           continue; /* Suppress notes with zero value. */
-        else if(DndCharacter.formats[a] == null && value > 0)
+        else if(DndCharacter.notes[a] == null && value > 0)
           value = '+' + value;
       }
-      if(DndCharacter.formats[a] != null)
-        value = DndCharacter.formats[a].replace(/%V/, value);
+      if(DndCharacter.notes[a] != null)
+        value = DndCharacter.notes[a].replace(/%V/, value);
       if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
         var damages = DndCharacter.weaponsDamage[name];
         var multipliers = DndCharacter.weaponsCriticalMultiplier[name];
@@ -708,7 +708,9 @@ function Update(name, value) {
   else {
     if(!value && DndCharacter.defaults[name] == null)
       delete character.attributes[name];
-    else if(value.match(/^\+-?\d+$/) &&
+    else if(typeof(value) == 'string' &&
+            value.match(/^\+-?\d+$/) &&
+            typeof(character.attributes[name]) == 'string' &&
             character.attributes[name].match(/^\d+$/)) {
       character.attributes[name] =
         ((character.attributes[name] - 0) + (value.substring(1) - 0)) + '';
