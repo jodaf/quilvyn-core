@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.33 2004/08/29 22:47:49 Jim Exp $ */
+/* $Id: Scribe.js,v 1.34 2004/08/31 05:44:34 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -57,9 +57,12 @@ function FullUrl(url) {
 function GetSpellCats() {
   var catsSeen = {};
   var matchInfo;
-  for(var i = 0; i < DndCharacter.spells.length; i++)
-    if((matchInfo = DndCharacter.spells[i].match(/\((\D+)\d+/)) != null)
-      catsSeen[matchInfo[1]] = '1';
+  for(var a in DndCharacter.spellsLevels) {
+    var spellLevels = DndCharacter.spellsLevels[a].split('/');
+    for(var i = 0; i < spellLevels.length; i++)
+      if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null)
+        catsSeen[matchInfo[1]] = '1';
+  }
   spellCats = [];
   for(var e in catsSeen)
     spellCats.push(e);
@@ -430,11 +433,12 @@ function RefreshSpellSelections(resetToCharacter) {
     if(editor.getElementValue('spellcats.' + spellCats[i]))
       catsToDisplay[spellCats[i]] = '1';
   var spells = [];
-  for(i = 0; i < DndCharacter.spells.length; i++) {
-    var spell = DndCharacter.spells[i];
-    if((matchInfo = spell.match(/\((\D+)\d+\)$/)) == null ||
-       catsToDisplay[matchInfo[1]] != null)
-      spells.push(spell);
+  for(var a in DndCharacter.spellsLevels) {
+    var spellLevels = DndCharacter.spellsLevels[a].split('/');
+    for(i = 0; i < spellLevels.length; i++)
+      if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
+         catsToDisplay[matchInfo[1]] != null)
+        spells.push(a + '(' + spellLevels[i] + ')');
   }
   if(spells.length == 0)
     spells.push('--- No spell categories selected ---');
