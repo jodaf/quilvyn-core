@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.35 2004/08/31 06:50:23 Jim Exp $ */
+/* $Id: Scribe.js,v 1.36 2004/08/31 17:45:34 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -71,6 +71,9 @@ function GetSpellCats() {
 
 function InitialEditor() {
   var result = new FormController();
+  var weapons = [];
+  for(var a in DndCharacter.weaponsDamage)
+    weapons.push(a);
   result.setCallback(Update);
   result.addElements(
     '', 'about', 'button', ['About'],
@@ -108,7 +111,7 @@ function InitialEditor() {
     'Hit Points', 'hitPoints', 'range', [0,999],
     'Armor', 'armor', 'select', DndCharacter.armors,
     'Shield', 'shield', 'select', DndCharacter.shields,
-    'Weapons', 'weapons', 'bag', DndCharacter.weapons,
+    'Weapons', 'weapons', 'bag', weapons,
     'Spell Categories', 'spellcats', 'set', spellCats,
     'Spells', 'spells', 'set', [],
     'Goodies', 'goodies', 'bag', DndCharacter.goodies,
@@ -123,7 +126,6 @@ function InitialEditor() {
 function InitialRuleEngine() {
   var result = new RuleEngine();
   DndCharacter.LoadVersion3Rules(result);
-  DndCharacter.LoadVersion3_0BaseRules(result);
   DndCharacter.LoadVersion3_0ClassAndRaceRules(result);
   DndCharacter.LoadVersion3_0FeatAndSkillRules(result);
   DndCharacter.LoadVersion3_0MagicRules(result);
@@ -541,11 +543,26 @@ function SheetHtml() {
       displayAttributes[name] = value;
     else {
       var group = name.substring(0, i);
+      name = name.substring(i + 1);
       if(DndCharacter.formats[a] != null)
         value = DndCharacter.formats[a].replace(/%v/, value);
       if(group.indexOf('Notes') > 0 && typeof value == 'number' && value >= 0)
         value = '+' + value;
-      value = name.substring(i + 1) + (value == '1' ? '' : (': ' + value));
+      if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
+        var damage = DndCharacter.weaponsDamage[name];
+        var multiplier = DndCharacter.weaponsCriticalMultiplier[name];
+        var smallDamage = DndCharacter.weaponsSmallDamage[damage];
+        var threat = DndCharacter.weaponsCriticalThreat[name];
+        if(computedAttributes.isSmall && smallDamage != null)
+          damage = smallDamage;
+        if(multiplier != null || threat != null) {
+          damage += 'x' + (multiplier == null ? '2' : multiplier);
+          if(threat != null)
+            damage += '@' + (20 - threat);
+        }
+        name += '(' + damage + ')';
+      }
+      value = name + (value == '1' ? '' : (': ' + value));
       if(group.indexOf('Notes') > 0 && rules.IsSource(a))
         value = '<i>' + value + '</i>';
       if(displayAttributes[group] == null)
