@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.1 2004/05/06 19:30:39 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.2 2004/05/11 19:54:28 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -81,14 +81,14 @@ ObjectViewer._getHtml =
         all.push(e + ': ' + value[e]);
       memberValue = all.join(' * ');
     }
-    elementHtml += memberValue;
+    elementHtml = ('' + memberValue).replace(/\n/g, '<br/>');
   }
 
   if(elementHtml == '')
     return '';
   format = element.format != null ? element.format :
            memberValue != null ? '<b>%N</b>: %V' : '%V';
-  format = format.replace(/%N/, element.name).replace(/%V/, elementHtml);
+  format = format.replace(/%N/g, element.name).replace(/%V/g, elementHtml);
   return isTd ? ('\n' + indent + '<td>' + format + '</td>') : (indent + format);
 
 }
@@ -101,7 +101,7 @@ ObjectViewer.toCode =
   for(var a in o) {
     var value = o[a];
     value = typeof value == 'object' ? ObjectViewer.toCode(value) :
-            ('"' + value.toString().replace(/\"/g, '\\"') + '"');
+      ('"'+value.toString().replace(/\"/g, '\\"').replace(/\n/g, '\\n')+'"');
     var image = '"' + a + '":' + value + ',';
     if(lineLength + image.length >= 80) {
       /* Minimal pretty-printing for legibility. */
