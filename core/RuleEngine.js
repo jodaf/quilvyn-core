@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.4 2004/04/14 07:06:04 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.5 2004/08/25 21:29:12 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -77,6 +77,11 @@ RuleEngine.prototype.Apply = function(initial) {
   var computed = { };
   for(var a in initial)
     this._Recompute(initial, computed, a);
+  /* Compute attributes that require no initial attribute value. */
+  for(var a in this.targets['']) {
+    if(computed[a] == null)
+      this._Recompute(initial, computed, a);
+  }
   return computed;
 };
 
