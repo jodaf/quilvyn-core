@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.26 2004/12/13 06:25:41 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.27 2004/12/14 06:54:56 Jim Exp $ -->
 <html>
 
 <head>
@@ -278,12 +278,6 @@ Scribe will sort your additional choice(s) into the list.  The lists you can
 modify in this fashion are 'alignments', 'domains' (cleric spell domains),
 'feats', 'genders', 'goodies' (magic items), 'languages', 'races', 'schools'
 (wizard spell schools), and 'shields'.
-<!--
-TODO
-armorsArcaneSpellFailurePercentage/ArmorClassBonuses/CheckPenalties/MaxDexBonuses/WeightClasses
-classesClassSkills/HitDie
-weaponsCriticalMultiplier/CriticalThreat/RangeIncrement
--->
 </p>
 
 <p>
@@ -298,8 +292,8 @@ slash-separated set of spell levels).  and 'weapons' (include a damage die
 for medium-sized creatures).  (The damage value for weapons can also include a
 critical multiplier, preceded by 'x', and/or a minumum threat roll, preceded by
 '@'.  If you don't include information about critical hits, Scribe assumes
-'x2@20'&#141;the weapon does double damage on a roll of 20.)  Here are examples
-of adding choices to these lists:
+'x2@20'&#151;the weapon potentially does double damage on a roll of 20.)  Here
+are examples of adding choices to these lists:
 </p>
 
 <p><code><pre>
@@ -320,8 +314,8 @@ AddChoices('weapons' 'Orc Kirak', 'd6x3@19');
 Attributes like languages, skills, and spells generally don't affect other
 attributes, so adding new choices to the lists users pick from is usually
 sufficient.  When adding new choices to attributes like race, however, you will
-probably want to add rules to reflect the affect choosing the new choice has on
-other attributes.  You can do this by invoking the AddRules function from
+probably want to add rules to reflect the effect selecting the new choice has
+on other attributes.  You can do this by invoking the AddRules function from
 within your CustomizeScribe function.
 </p>
 
@@ -462,6 +456,9 @@ new items.
       (gnomes, halflings) or medium (all others).</li>
   <li>Spells per day computations are off by one for some high-level (19-20)
       characters.</li>
+  <li>Ranger Combat Style is not fully supported.  Scribe gives rangers the
+      features of both archery and two-weapon combat as they move up in
+      level.</li>
 </ul>
 </p>
 
@@ -470,8 +467,11 @@ new items.
 <ul>
   <li>Spell schools are not indicated.  It would be particularly nice to flag
       spells within a Wizard's specialization.</li>
-  <li>Need a way to indicate cross-class skills and test the distributed skill
-      points against the skillPoints attribute.</li>
+  <li>The customization section of the help file needs descriptions of the
+      other tables that can/must be modified&#151;classesClassSkills/HitDie,
+      weaponsRangeIncrement, and all the garbage that goes with armor. Also,
+      there should be discussion of the names of the entered and computed
+      character attributes so that users know what to pass to AddRules.</li>
 </ul>
 </p>
 
