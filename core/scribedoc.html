@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.43 2005/03/14 19:51:33 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.44 2005/03/16 07:10:17 Jim Exp $ -->
 <html>
 
 <head>
@@ -82,7 +82,7 @@ scribe.html contains a section of definitions that allow you to set some user
 preferences.  Scribe uses the BACKGROUND setting as the background color for
 its windows, and the program uses the URL_PREFIX and URL_SUFFIX values to
 expand abbreviated values entered in the open dialogue.  For example, if
-URL_PREFIX is "file:///home/farquar/Scribe/charcters/" and URL_SUFFIX is
+URL_PREFIX is "file:///home/farquar/Scribe/characters/" and URL_SUFFIX is
 ".html", than you can simply enter "jorash" into the open dialogue to open the
 character file "file:///home/farquar/Scribe/characters/jorash.html".  The value
 of MAX_RECENT_OPENS determines how many recently-opened character URLs appear
@@ -167,12 +167,16 @@ document, and the "About" button opens one with the usual text describing the
 program.  The "Validate" button checks the current character values against
 restrictions from the Player's Handbook.  Scribe allows you to enter a
 character that doesn't meet these restrictions (e.g., a chaotic monk), but will
-warn you when you press this button.  Finally, the "Spell Categories" set menu
-allows you to determine which spells appear in the "Spells" set menu.  Since
-hundreds of spells and variations are available, this menu allows you to select
-the categories of spells (e.g. cleric spells, air domain spells) of interest.
-Whenever a character is loaded or generated, Scribe resets this menu to include
-only those spells (if any) that the character may know.
+warn you when you press this button.  The "Summary" button opens a window with
+a table that summarizes attributes from all characters that you've opened since
+starting Scribe.  This is intended to assist DMs in planning and running
+campaigns by providing a compact summary of the abilities of all the characters
+in a party.  Finally, the "Spell Categories" set menu allows you to determine
+which spells appear in the "Spells" set menu.  Since hundreds of spells and
+variations are available, this menu allows you to select the categories of
+spells (e.g. cleric spells, air domain spells) of interest.  Whenever a
+character is loaded or generated, Scribe resets this menu to include only those
+spells (if any) that the character may know.
 </p>
 
 
@@ -187,7 +191,7 @@ sheet.
 <p>
 The "Randomize" menu allows you to let Scribe randomly determine most basic
 Scribe character attributes.  The editor will select a random value for the
-attribute you select and update both the editing display and the character
+attribute you choose and update both the editing display and the character
 sheet.  For the six basic attributes&#151;strength, intelligence, wisdom,
 constitution, dexterity, and charisma&#151;Scribe generates the random value by
 "rolling" four six-sided dice, throwing out the lowest number, and summing the
@@ -250,8 +254,8 @@ sheet should be clear, a few aspects of the format require explanation.
       be applied during the game, so the DM should examine these closely.  For
       example, the Melee section of a halfling's character sheet will include
       the plain text note "Unafraid Feature: +2 vs. fear".  When rolling a
-      fear saving throw for this character, the DM will have to add either 2
-      to the rolled value.</li>
+      fear saving throw for this character, the DM will have to add two to the
+      rolled value.</li>
 </ul>
 </p>
 
@@ -322,9 +326,9 @@ ScribeCustomChoices('skills'
   'Craft (Alchemy)', 'int', 'Craft (Carpentery)', 'int',
   'Craft (Glassworking)', 'int', 'Herbalism', 'int', 'Mediation', 'wis'
 );
-ScribeCustomChoices('spells' 'Calm Water', 'W6/Wa5', 'Darkstorm', 'C4/W4');
-ScribeCustomChoices('weapons' 'Shillelagh', 'd6');
-ScribeCustomChoices('weapons' 'Orc Kirak', 'd6x3@19');
+ScribeCustomChoices('spells', 'Calm Water', 'W6/Wa5', 'Darkstorm', 'C4/W4');
+ScribeCustomChoices('weapons', 'Shillelagh', 'd6');
+ScribeCustomChoices('weapons', 'Orc Kirak', 'd6x3@19');
 </pre></code></p>
 
 <p>
@@ -338,14 +342,14 @@ function from within your CustomizeScribe function.
 
 <p>
 For example, suppose you decide to allow players to play goblin characters,
-subtracting two from their strength score but adding two to constitution.  The
+subtracting two from their strength score but adding two to dexterity.  The
 CustomizeScribe lines to do this would be:
 </p>
  
 <p><code><pre>
 ScribeCustomChoices('races', 'Goblin');
-ScribeCustomRules('abilityNotes.goblinAbilityAdjustment', 'race', '=', 'source == "Goblin" ? "+2 constitution/-2 strength" : null');
-ScribeCustomRules('strength', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
+ScribeCustomRules('abilityNotes.goblinAbilityAdjustment', 'race', '=', 'source == "Goblin" ? "+2 dex/-2 str" : null');
+ScribeCustomRules('strength', 'abilityNotes.goblinAbilityAdjustment', '+', '-2');
 ScribeCustomRules('dexterity', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
 </pre></code></p>
 
@@ -484,7 +488,8 @@ skills by two if the character has the Agile feat.
 
 <p>
 <b>TODO</b>
-Discussion of ScribeCustomClass.
+Discussion of ScribeCustomClass(name, hitDie, prerequisites, classSkills,
+features).
 </p>
 
 <a name="magicitems"><h3>Adding Magic Items</h3></a>
@@ -547,16 +552,20 @@ new items.
 <ul>
   <li>Spell schools are not indicated.  It would be particularly nice to flag
       spells within a Wizard's specialization.</li>
-  <li>The customization section of the help file needs descriptions of the
-      other tables that can/must be modified&#151;classesClassSkills/HitDie,
-      weaponsRangeIncrement, and all the garbage that goes with armor. Also,
-      there should be discussion of the names of the entered and computed
-      character attributes so that users know what to pass to
-      ScribeCustomRules.</li>
+  <li>ScribeCustomChoices for weapons should include range increment for
+      ranged weapons.</li>
+  <li>Scribe presently defines no way to add additional types of armor, because
+      of all the extra information that would need to be specified&#151;arcane
+      spell failure percentage, a.c. bonus, maximum dex bonus, skill check
+      penalties, etc.</li>
+  <li>Discussion of the names of the entered and computed character attributes
+      needs to be added to helpattrs.html.</li>
   <li>It's easy to overlook when characters have a bonus in untrained skills,
       e.g., an elf's +2 on <i>Listen</i> when no skill points are allocated to
       that skill.</li>
   <li>The editor should indicate cross/class skills.</li>
+  <li>Need to write and document ScribeCustomEditor&#151;a function that allows
+      the user to add fields to the editor for, e.g., possessions.</li>
 </ul>
 </p>
 
