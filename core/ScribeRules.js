@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.4 2005/02/20 19:03:16 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.5 2005/02/23 20:52:43 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -56,10 +56,16 @@ function ScribeCustomClass
     (rules, name, 'featNotes.' + name.toLowerCase() + 'Features', features);
 }
 
-function ScribeCustomNotes(notes) {
+function ScribeCustomNotes(attribute, format /*, attribute, format ... */) {
   var o = {};
-  for(var i = 1; i < notes.length; i += 2)
-    o[notes[i - 1]] = notes[i];
+  for(var i = 0; i < arguments.length; i++) {
+    var arg = arguments[i];
+    if(typeof(arg) == 'object' && arg.constructor == Array)
+      for(var j = 1; j < arg.length; j += 2)
+        o[arg[j - 1]] = arg[j];
+    else
+      o[arg] = arguments[++i];
+  }
   DndCharacter.LoadRulesFromNotes(rules, o);
 }
 
