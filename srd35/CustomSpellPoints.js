@@ -17,38 +17,24 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 
 function CustomizeSpellPoints(AddElement, AddRules, AddToSheet) {
-  AddRules('magicNotes.charismaSpellPointsModifier',
-    null, '=', '0',
-    'levels.Bard', '+', null,
-    'levels.Sorcerer', '+', null,
-    'charismaModifier', '*', null
+  AddRules('spellPoints',
+    'casterLevel', '?', null,
+    null, '=', '0'
   );
-  AddRules('magicNotes.intelligenceSpellPointsModifier',
-    null, '=', '0',
-    'levels.Wizard', '+', null,
-    'intelligenceModifier', '*', null
-  );
-  AddRules('magicNotes.wisdomSpellPointsModifier',
-    null, '=', '0',
-    'levels.Cleric', '+', null,
-    'levels.Druid', '+', null,
-    'levels.Paladin', '+', 'source > 3 ? (source - 3) : null',
-    'levels.Ranger', '+', 'source > 3 ? (source - 3) : null',
-    'wisdomModifier', '*', null
-  );
-  AddRules('_spellPoints',
-    null, '=', '0',
-    'levels.Bard', '+', 'source * (source + 1) / 2',
-    'levels.Cleric', '+', 'source * (source + 1) / 2',
-    'levels.Druid', '+', 'source * (source + 1) / 2',
-    'levels.Paladin', '+', 'source > 3 ? (source-3) * (source-2) / 2 : null',
-    'levels.Ranger', '+', 'source > 3 ? (source - 3) * (source - 2) / 2 : null',
-    'levels.Sorcerer', '+', 'source * (source + 1) / 2',
-    'levels.Wizard', '+', 'source * (source + 1) / 2',
-    'magicNotes.charismaSpellPointsModifier', '+', null,
-    'magicNotes.intelligenceSpellPointsModifier', '+', null,
-    'magicNotes.wisdomSpellPointsModifier', '+', null
-  );
-  AddRules('spellPoints', '_spellPoints', '=', 'source == 0 ? null : source');
-  AddToSheet('spellPoints', 'Magic', 'Domains', null);
+  for(var i = 1; i <= 9; i++) {
+    AddRules('spellPoints',
+      'spellsPerDay.C' + i, '+', 'source * ' + i,
+      'spellsPerDay.D' + i, '+', 'source * ' + i,
+      'spellsPerDay.Dom' + i, '+', 'source * ' + i,
+      'spellsPerDay.S' + i, '+', 'source * ' + i,
+      'spellsPerDay.W' + i, '+', 'source * ' + i
+    );
+    if(i <= 6)
+      AddRules('spellPoints', 'spellsPerDay.B' + i, '+', 'source * ' + i);
+    if(i <= 4) {
+      AddRules('spellPoints', 'spellsPerDay.P' + i, '+', 'source * ' + i);
+      AddRules('spellPoints', 'spellsPerDay.R' + i, '+', 'source * ' + i);
+    }
+  }
+  AddToSheet('spellPoints', 'Magic', 'Spells Per Day');
 }
