@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.41 2004/09/08 01:09:56 Jim Exp $ */
+/* $Id: Scribe.js,v 1.42 2004/09/09 04:59:53 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -708,6 +708,12 @@ function Update(name, value) {
   else {
     if(!value && DndCharacter.defaults[name] == null)
       delete character.attributes[name];
+    else if(value.match(/^+-?\d+$/) &&
+            character.attributes[name].match(/^\d+$/)) {
+      character.attributes[name] =
+        ((character.attributes[name] - 0) + (value.substring(1) - 0)) + '';
+      editor.setElementValue(name, character.attributes[name]);
+    }
     else
       character.attributes[name] = value;
     RefreshSheet();
