@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.36 2004/08/31 17:45:34 Jim Exp $ */
+/* $Id: Scribe.js,v 1.37 2004/09/01 15:36:43 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -549,18 +549,31 @@ function SheetHtml() {
       if(group.indexOf('Notes') > 0 && typeof value == 'number' && value >= 0)
         value = '+' + value;
       if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
-        var damage = DndCharacter.weaponsDamage[name];
-        var multiplier = DndCharacter.weaponsCriticalMultiplier[name];
-        var smallDamage = DndCharacter.weaponsSmallDamage[damage];
-        var threat = DndCharacter.weaponsCriticalThreat[name];
-        if(computedAttributes.isSmall && smallDamage != null)
-          damage = smallDamage;
-        if(multiplier != null || threat != null) {
-          damage += 'x' + (multiplier == null ? '2' : multiplier);
-          if(threat != null)
-            damage += '@' + (20 - threat);
+        var damages = DndCharacter.weaponsDamage[name];
+        var multipliers = DndCharacter.weaponsCriticalMultiplier[name];
+        var threats = DndCharacter.weaponsCriticalThreat[name];
+        damages = damages == null ? ['0'] : damages.split('/');
+        multipliers = multipliers == null ? [2] :
+                      typeof multipliers == 'number' ? [multiplers] :
+                      multipliers.split('/');
+        threats = threats == null ? [1] :
+                  typeof threats == 'number' ? [threats] :
+                  threats.split('/');
+        for(i = 0; i < damages.length; i++) {
+          var multiplier = multipliers[i < multipliers.length ? i : 0];
+          var smallDamage = DndCharacter.weaponsSmallDamage[damages[i]];
+          var threat = threats[i < threats.length ? i : 0];
+          if(computedAttributes['feats.Improved Critical'] != null)
+            threat *= 2;
+          if(computedAttributes.isSmall && smallDamage != null)
+            damages[i] = smallDamage;
+          if(multiplier != 2 || threat != 1) {
+            damages[i] += 'x' + multiplier;
+            if(threat != 1)
+              damages[i] += '@' + (21 - threat);
+          }
         }
-        name += '(' + damage + ')';
+        name += '(' + damages.join('/') + ')';
       }
       value = name + (value == '1' ? '' : (': ' + value));
       if(group.indexOf('Notes') > 0 && rules.IsSource(a))
