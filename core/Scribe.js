@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.32 2004/08/24 18:18:26 Jim Exp $ */
+/* $Id: Scribe.js,v 1.33 2004/08/29 22:47:49 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -120,6 +120,7 @@ function InitialEditor() {
 function InitialRuleEngine() {
   var result = new RuleEngine();
   DndCharacter.AddThirdEditionRules(result);
+  DndCharacter.AddVersion3_0Rules(result);
   return result;
 }
 
@@ -184,9 +185,8 @@ function InitialViewer() {
     {name: 'Melee', within: '_top', title: 'Melee'},
       {name: 'Hit Points', within: 'Melee'},
       {name: 'Armor', within: 'Melee'},
-      {name: 'Armor Class', within: 'Melee'},
       {name: 'Shield', within: 'Melee'},
-      {name: 'Helm', within: 'Melee'},
+      {name: 'Armor Class', within: 'Melee'},
       {name: 'Speed', within: 'Melee'},
       {name: 'Run', within: 'Melee'},
       {name: 'Armor Proficiency Break', within: 'Melee', format: '\n'},
@@ -528,8 +528,6 @@ function SheetHtml() {
     var name = a.replace(/([a-z])([A-Z])/g, '$1 $2').
                replace(/\b[a-z]/g, function(c) {return c.toUpperCase();});
     var value = computedAttributes[a];
-    if(value == 'None')
-      continue;
     if(character.attributes[a] != null && character.attributes[a] != value)
       value += '[' + character.attributes[a] + ']';
     if((i = name.indexOf('.')) < 0)
