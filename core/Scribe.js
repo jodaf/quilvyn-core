@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.47 2004/09/18 00:47:22 Jim Exp $ */
+/* $Id: Scribe.js,v 1.48 2004/09/20 02:53:08 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -228,6 +228,8 @@ function InitialViewer() {
       {name: 'Save Notes', within: 'Melee'},
     {name: 'Magic Break', within: '_top', format: '\n'},
     {name: 'Magic', within: '_top', title: 'Magic'},
+      {name: 'Spells Per Day', within: 'Magic'},
+      {name: 'Spells Break', within: 'Magic', format: '\n'},
       {name: 'Spells', within: 'Magic'},
       {name: 'Domains Break', within: 'Magic', format: '\n'},
       {name: 'Domains', within: 'Magic'},
