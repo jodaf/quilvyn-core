@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.50 2004/12/04 06:08:40 Jim Exp $ */
+/* $Id: Scribe.js,v 1.51 2004/12/04 16:19:45 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -178,13 +178,15 @@ function InitialViewer() {
       {name: 'Ability Notes Break', within: 'Attributes', format: '\n'},
       {name: 'Ability Notes', within: 'Attributes'},
     {name: 'FeatsAndSkills Break', within: '_top', format: '\n'},
-    {name: 'FeatsAndSkills', within: '_top', title: 'Feats/Skills'},
+    {name: 'FeatsAndSkills', within: '_top', title: 'Feats/Features/Skills'},
       {name: 'Feat Count', within: 'FeatsAndSkills'},
       {name: 'Skill Points', within: 'FeatsAndSkills'},
       {name: 'Class Skill Max Ranks', within: 'FeatsAndSkills'},
       {name: 'Cross Skill Max Ranks', within: 'FeatsAndSkills'},
       {name: 'Feats Break', within: 'FeatsAndSkills', format: '\n'},
       {name: 'Feats', within: 'FeatsAndSkills'},
+      {name: 'Features Break', within: 'FeatsAndSkills', format: '\n'},
+      {name: 'Features', within: 'FeatsAndSkills'},
       {name: 'Feat Notes Break', within: 'FeatsAndSkills', format: '\n'},
       {name: 'Feat Notes', within: 'FeatsAndSkills'},
       {name: 'Skills Break', within: 'FeatsAndSkills', format: '\n'},
