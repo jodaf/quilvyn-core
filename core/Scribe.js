@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.29 2004/07/26 05:54:50 Jim Exp $ */
+/* $Id: Scribe.js,v 1.30 2004/07/26 20:02:58 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -20,15 +20,15 @@ var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
 var TIMEOUT_DELAY = 1000;
 
-var character = null;
+var character;
 var cookieInfo = {
-  lastUrl: ''
+  recent: ''
 };
 var editor;
 var editWindow;
 var loadingPopup = null;
 var loadingWindow;
-var rules = null;
+var rules;
 var sheetWindow;
 var spellCats = [];
 var urlLoading = null;
@@ -47,9 +47,9 @@ function AddUserView(name, within, before, format) {
 }
 
 function FullUrl(url) {
-  if(url.match(/^[a-zA-Z0-9]*:/) == null)
+  if(url.match(/^\w*:/) == null)
     url = URL_PREFIX + url;
-  if(url.match(/\.[a-zA-Z0-9]*$/) == null)
+  if(url.match(/\.\w*$/) == null)
     url += URL_SUFFIX;
   return url;
 }
@@ -58,7 +58,7 @@ function GetSpellCats() {
   var catsSeen = {};
   var matchInfo;
   for(var i = 0; i < DndCharacter.spells.length; i++)
-    if((matchInfo = DndCharacter.spells[i].match(/\((\D+)\d+\)$/)) != null)
+    if((matchInfo = DndCharacter.spells[i].match(/\((\D+)\d+/)) != null)
       catsSeen[matchInfo[1]] = '1';
   spellCats = [];
   for(var e in catsSeen)
@@ -72,8 +72,8 @@ function InitialEditor() {
   result.addElements(
     '', 'about', 'button', ['About'],
     '', 'help', 'button', ['Help'],
-    '', 'open', 'button', ['New/Open'],
     '', 'view', 'button', ['View Html'],
+    '', 'file', 'select', ['--New/Open--'],
     '', 'clear', 'select',
       ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
        'constitution', 'deity', 'dexterity', 'feats', 'gender', 'helm',
@@ -230,16 +230,21 @@ function InitialViewer() {
   return result;
 }
 
-function LoadCharacter(url) {
-  url = FullUrl(url);
+function LoadCharacter(name) {
+  url = FullUrl(name);
   if(urlLoading == url && loadingWindow.attributes != null) {
     /* Character done loading. */
-    if(!loadingPopup.closed)
-      loadingPopup.close();
-    if(cookieInfo.lastUrl != url) {
-      cookieInfo.lastUrl = url;
-      StoreCookie();
-    }
+    var i;
+    var names = cookieInfo.recent.split(',');
+    for(i = 0; i < names.length && names[i] != name; i++)
+      ; /* empty */
+    if(i < names.length)
+      names.splice(i, 1);
+    names.unshift(name);
+    names.splice(MAX_RECENT_OPENS);
+    cookieInfo.recent = names.join(',');
+    StoreCookie();
+    RefreshRecentOpens();
     character = new DndCharacter(null);
     for(var e in loadingWindow.attributes) {
       var value = loadingWindow.attributes[e];
@@ -253,6 +258,8 @@ function LoadCharacter(url) {
     RefreshEditor(false);
     RefreshSheet();
     urlLoading = null;
+    if(!loadingPopup.closed)
+      loadingPopup.close();
   }
   else if(urlLoading == url && loadingPopup.closed)
     /* User cancel. */
@@ -264,26 +271,23 @@ function LoadCharacter(url) {
       PopUp('Loading character from ' + url, 'Cancel', 'window.close();');
     loadingWindow.attributes = null;
     loadingWindow.location = url;
-    setTimeout
-      ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
+    setTimeout('LoadCharacter("' + name + '")', TIMEOUT_DELAY);
   }
   else
     /* Something (possibly this function) in progress; try again later. */
-    setTimeout
-      ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
+    setTimeout('LoadCharacter("' + name + '")', TIMEOUT_DELAY);
 }
 
 function OpenDialog() {
   if(loadingPopup != null && !loadingPopup.closed)
     return; /* Ignore during load. */
-  var url = prompt
-    ('Enter URL to Edit (Blank for Random Character)', cookieInfo.lastUrl);
-  if(url == null && character != null)
+  var name = prompt('Enter URL to Edit (Blank for Random Character)', '');
+  if(name == null)
     return; /* User cancel. */
-  if(url == null || url == '')
+  if(name == null || name == '')
     RandomizeCharacter();
   else
-    LoadCharacter(url);
+    LoadCharacter(name);
 }
 
 function PopUp(html, button, action /* ... */) {
@@ -387,14 +391,20 @@ function RefreshEditor(redraw) {
     );
     editWindow.document.close();
   }
-  if(character != null)
-    editor.setElementValues(character.attributes);
+  editor.setElementValues(character.attributes);
   RefreshSpellSelections(true);
 }
 
+function RefreshRecentOpens() {
+  var names = cookieInfo.recent.split(',');
+  for(var i = names.length - 1; i >= 0; i--)
+    if(names[i] == '')
+      names.splice(i, 1);
+  names.unshift('--New/Open--', 'New...', 'Open...');
+  editor.setElementSelections('file', names);
+}
+
 function RefreshSheet() {
-  if(character == null)
-    return;
   if(sheetWindow == null || sheetWindow.closed)
     sheetWindow = window.open('about:blank', 'scribeSheet');
   sheetWindow.document.write(SheetHtml());
@@ -408,15 +418,13 @@ function RefreshSpellSelections(resetToCharacter) {
   if(resetToCharacter) {
     for(i = 0; i < spellCats.length; i++)
       editor.setElementValue('spellcats.' + spellCats[i], 0);
-    if(character != null) {
-      for(var e in character.attributes) {
-        if((matchInfo = e.match(/^spells\..*\((\D+)\d+\)$/)) != null)
-          editor.setElementValue('spellcats.' + matchInfo[1], 1);
-        else if((matchInfo = e.match(/^domains\.(.*)$/)) != null)
-          editor.setElementValue('spellcats.' + matchInfo[1].substring(0,2), 1);
-          else if((matchInfo = e.match(/^levels\.(.*)$/)) != null)
-          editor.setElementValue('spellcats.' + matchInfo[1].substring(0,1), 1);
-      }
+    for(var e in character.attributes) {
+      if((matchInfo = e.match(/^spells\..*\((\D+)\d+\)$/)) != null)
+        editor.setElementValue('spellcats.' + matchInfo[1], 1);
+      else if((matchInfo = e.match(/^domains\.(.*)$/)) != null)
+        editor.setElementValue('spellcats.' + matchInfo[1].substring(0,2), 1);
+        else if((matchInfo = e.match(/^levels\.(.*)$/)) != null)
+        editor.setElementValue('spellcats.' + matchInfo[1].substring(0,1), 1);
     }
   }
   for(i = 0; i < spellCats.length; i++)
@@ -470,6 +478,8 @@ function ScribeLoaded() {
     HELP_URL = 'help.html';
   if(LOGO_URL == null)
     LOGO_URL = 'scribe.gif';
+  if(MAX_RECENT_OPENS == null)
+    MAX_RECENT_OPENS = 15;
   if(URL_PREFIX == null)
     URL_PREFIX = '';
   if(URL_SUFFIX == null)
@@ -482,6 +492,7 @@ function ScribeLoaded() {
   editWindow = window.frames[0];
   loadingWindow = window.frames[1];
   sheetWindow = window.opener;
+  character = new DndCharacter(null);
   editor = InitialEditor();
   rules = InitialRuleEngine();
   viewer = InitialViewer();
@@ -492,7 +503,7 @@ function ScribeLoaded() {
   editor = InitialEditor();
   RefreshEditor(true);
   RefreshSheet();
-  OpenDialog();
+  RefreshRecentOpens();
 
 }
 
@@ -594,10 +605,17 @@ function Update(name, value) {
     );
     aboutWindow.document.close();
   }
+  else if(name == 'file') {
+    if(value == 'Open...')
+      OpenDialog();
+    else if(value == 'New...')
+      RandomizeCharacter();
+    else
+      LoadCharacter(value);
+    editor.setElementValue('file', '--New/Open--');
+  }
   else if(name == 'help')
     window.open(HELP_URL, 'help');
-  else if(name == 'open')
-    OpenDialog();
   else if(name == 'view')
     ShowHtml(SheetHtml());
   else if(name == 'clear') {
