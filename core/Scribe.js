@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.71 2005/01/14 07:43:34 Jim Exp $ */
+/* $Id: Scribe.js,v 1.72 2005/01/14 15:24:58 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.13.13\n' +
+'Scribe Character Editor version 0.13.14\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -805,11 +805,12 @@ function SheetHtml() {
         damages = damages == null ? ['0'] : damages.split('/');
         for(i = 0; i < damages.length; i++) {
           var pieces = damages[i].match(/^(d\d+) *(x(\d+))? *(@(\d+))?$/);
-          var damage = pieces == null ? 'd6' : pieces[1];
-          var multiplier =
-            pieces != null && pieces[3] != null ? pieces[3] - 0 : 2;
+          if(pieces == null)
+            pieces = ['d6', '2', '20'];
+          var damage = pieces[1];
+          var multiplier = pieces[3] ? pieces[3] - 0 : 2;
           var smallDamage = DndCharacter.weaponsSmallDamage[damage];
-          var threat = pieces != null && pieces[5] != null ? pieces[5] - 0 : 20;
+          var threat = pieces[5] ? pieces[5] - 0 : 20;
           if(computedAttributes['feats.Improved Critical'] != null)
             threat = 21 - (21 - threat) * 2;
           if(computedAttributes.isSmall && smallDamage != null)
@@ -947,9 +948,10 @@ function Update(input) {
     }
   }
   else if(name == 'validate') {
-    if(Update.validateWindow != null && !Update.validateWindow.closed)
-      Update.validateWindow.close();
-    Update.validateWindow = window.open('', 'validate', 'height=400,width=400');
+    if(Update.validateWindow == null || Update.validateWindow.closed)
+      Update.validateWindow = window.open('', 'vdate', 'height=400,width=400');
+    else
+      Update.validateWindow.focus();
     Update.validateWindow.document.write(
       '<html><head><title>Character Validation Check</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
