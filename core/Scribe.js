@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.30 2004/07/26 20:02:58 Jim Exp $ */
+/* $Id: Scribe.js,v 1.31 2004/08/18 23:32:55 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -76,13 +76,13 @@ function InitialEditor() {
     '', 'file', 'select', ['--New/Open--'],
     '', 'clear', 'select',
       ['--Clear--', 'alignment', 'armor', 'charisma', 'class',
-       'constitution', 'deity', 'dexterity', 'feats', 'gender', 'helm',
+       'constitution', 'deity', 'dexterity', 'feats', 'gender',
        'domains', 'hitPoints', 'intelligence', 'languages', 'name', 'race',
        'shield', 'skills', 'spells', 'strength', 'weapons', 'wisdom'],
     '', 'randomize', 'select',
       ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
        'constitution', 'deity', 'dexterity', 'domains', 'feats', 'gender',
-       'helm', 'hitPoints', 'intelligence', 'languages', 'name', 'race',
+       'hitPoints', 'intelligence', 'languages', 'name', 'race',
        'shield', 'skills', 'spells', 'strength', 'weapons', 'wisdom'],
     'Name', 'name', 'text', [20],
     'Race', 'race', 'select', DndCharacter.races,
@@ -105,7 +105,6 @@ function InitialEditor() {
     'Hit Points', 'hitPoints', 'range', [0,999],
     'Armor', 'armor', 'select', DndCharacter.armors,
     'Shield', 'shield', 'select', DndCharacter.shields,
-    'Helm', 'helm', 'select', DndCharacter.helms,
     'Weapons', 'weapons', 'bag', DndCharacter.weapons,
     'Spell Categories', 'spellcats', 'set', spellCats,
     'Spells', 'spells', 'set', [],
@@ -529,8 +528,6 @@ function SheetHtml() {
     var name = a.replace(/([a-z])([A-Z])/g, '$1 $2').
                replace(/\b[a-z]/g, function(c) {return c.toUpperCase();});
     var value = computedAttributes[a];
-    if(value == '(none)')
-      continue;
     if(character.attributes[a] != null && character.attributes[a] != value)
       value += '[' + character.attributes[a] + ']';
     if((i = name.indexOf('.')) < 0)
