@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.8 2004/03/29 21:11:02 Jim Exp $ */
+/* $Id: Scribe.js,v 1.9 2004/03/29 21:24:48 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -258,9 +258,6 @@ function ScribeLoaded() {
     return;
   }
 
-  PopUp(COPYRIGHT + '<br/>' +
-        'Press the "About" button for more info',
-        'Ok', 'window.close();');
   var i = document.cookie.indexOf(COOKIE_NAME + '=');
   if(i >= 0) {
     var end = document.cookie.indexOf(';', i);
@@ -271,6 +268,9 @@ function ScribeLoaded() {
     for(i = 0; i < settings.length && settings[i] != ''; i += 2)
       cookieInfo[settings[i]] = settings[i + 1];
   }
+  PopUp(COPYRIGHT + '<br/>' +
+        'Press the "About" button for more info',
+        'Ok', 'window.close();');
   editWindow = window.frames[0];
   loadingWindow = window.frames[1];
   sheetWindow = window.opener;
@@ -338,7 +338,7 @@ function Update(attr, value) {
       if(cookieInfo.ruleUrls != oldUrls) {
         rules = new RuleEngine();
         DndCharacter.AddThirdEditionRules(rules);
-        LoadRules(cookieInfo[ruleUrls]);
+        LoadRules(cookieInfo.ruleUrls);
         RefreshSheet();
       }
     }
