@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.6 2005/03/29 20:40:22 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.7 2005/04/01 06:52:07 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -38,25 +38,43 @@ function ScribeCustomChoices(name, item /*, item ... */) {
       o[o.length] = arguments[i];
     o.sort();
   }
-  else 
+  else
     for(var i = 2; i < arguments.length; i += 2)
       o[arguments[i - 1]] = arguments[i];
 };
 
+/*
+ * Add #name# to the list of valid classes.  Characters of class #name# roll
+ * #hitDice# (either a number of sides or NdS, where N is the number of dice
+ * and S the number of sides) more hit points each level.  #prerequisites# is
+ * an array of validity tests that must be passed in order to qualify for the
+ * class, #classSkills# an array of skills that are class skills (as oppsed to
+ * cross-class) for the class, and #features# an array of level/feature name
+ * pairs indicating features that the class acquires when advancing levels.
+ */
 function ScribeCustomClass
-  (name, hitDie, prerequisites, classSkills, features) {
+  (name, hitDice, prerequisites, classSkills, features) {
   var i;
-  ScribeCustomChoices('classes', name, hitDie);
-  for(i = 0; i < prerequisites.length; i++)
-    DndCharacter.validityTests[DndCharacter.validityTests.length] =
-      '{levels.' + name + '} == null || ' + prerequisites[i];
-  for(i = 0; i < classSkills.length; i++)
-    rules.AddRules('classSkills.' + classSkills[i], 'levels.' + name, '=', '1');
-  DndCharacter.LoadClassFeatureRules
-    (rules, name, 'featNotes.' + name.toLowerCase() + 'Features', features);
+  ScribeCustomChoices('classes', name, hitDice + '' /* Convert int to str */);
+  if(prerequisites != null) {
+    for(i = 0; i < prerequisites.length; i++)
+      DndCharacter.validityTests[DndCharacter.validityTests.length] =
+        '{levels.' + name + '} == null || ' + prerequisites[i];
+  }
+  if(classSkills != null)
+    for(i = 0; i < classSkills.length; i++)
+      rules.AddRules('classSkills.'+classSkills[i], 'levels.'+name, '=', '1');
+  if(features != null)
+    DndCharacter.LoadClassFeatureRules
+      (rules, name, 'featNotes.' + name.toLowerCase() + 'Features', features);
 }
 
-function ScribeCustomNotes(attribute, format /*, attribute, format ... */) {
+/*
+ * Add an HTML #format# for including attribute #attr# on the character sheet.
+ * #attr# will typically be a new attribute to be included in one of the notes
+ * sections of the character sheet.
+ */
+function ScribeCustomNotes(attr, format /*, attr, format ... */) {
   var o = {};
   for(var i = 0; i < arguments.length; i++) {
     var arg = arguments[i];
@@ -69,12 +87,26 @@ function ScribeCustomNotes(attribute, format /*, attribute, format ... */) {
   DndCharacter.LoadRulesFromNotes(rules, o);
 }
 
+/*
+ * Add a rule indicating the effect that the value of the attribute #source#
+ * has on the attribute #target#.  #type# indicates how #source# affects
+ * #target#--'=' for assignment, '+' for increment, '^' for minimum, 'v' for
+ * maximum, and '?' for a prerequisite.  The optional JavaScript #expr#
+ * computes the amount for the assignment, increment, etc; if it is null, the
+ * value of #source# is used.
+ */
 function ScribeCustomRules
   (target, source, type, expr /*, source, type, expr ... */) {
   for(var i = 3; i < arguments.length; i += 3)
     rules.AddRules(target, arguments[i - 2], arguments[i - 1], arguments[i]);
 }
 
+/*
+ * Include attribute #name# on the character sheet in section #within# before
+ * attribute #before# (or at the end of the section if #before# is null).  The
+ * optional HTML #format# may be supplied to indicate how #name# should be
+ * formatted on the sheet.
+ */
 function ScribeCustomSheet(name, within, before, format) {
   viewer.addElements(
     {name: SheetName(name), within: within, before: before, format: format}
