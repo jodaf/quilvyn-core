@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.5 2005/02/23 20:52:43 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.6 2005/03/29 20:40:22 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -48,8 +48,8 @@ function ScribeCustomClass
   var i;
   ScribeCustomChoices('classes', name, hitDie);
   for(i = 0; i < prerequisites.length; i++)
-    DndCharacter.validityTests =
-      DndCharacter.validityTests.concat(['levels.' + name, prerequisites[i]]);
+    DndCharacter.validityTests[DndCharacter.validityTests.length] =
+      '{levels.' + name + '} == null || ' + prerequisites[i];
   for(i = 0; i < classSkills.length; i++)
     rules.AddRules('classSkills.' + classSkills[i], 'levels.' + name, '=', '1');
   DndCharacter.LoadClassFeatureRules

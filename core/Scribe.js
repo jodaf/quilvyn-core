@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.91 2005/03/17 00:47:07 Jim Exp $ */
+/* $Id: Scribe.js,v 1.92 2005/03/29 20:40:22 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.15.16';
@@ -1087,8 +1087,8 @@ function ValidationHtml() {
   var i;
   var invalid = DndCharacter.Validate(computedAttributes);
   var result = '';
-  for(i = 0; i < invalid.length; i += 2)
-    result += invalid[i] + ' does not pass test ' + invalid[i + 1] + '<br/>';
+  for(i = 0; i < invalid.length; i++)
+    result += 'Failed test: ' + invalid[i] + '<br/>';
   /*
    * Because of cross-class skills, we can't write a simple validation test for
    * the number of assigned skill points; we have to compute it here.
@@ -1102,13 +1102,12 @@ function ValidationHtml() {
     var isCross = computedAttributes['classSkills.' + skill] == null;
     var maxAllowed = maxRanks / (isCross ? 2 : 1);
     if(character.attributes[a] > maxAllowed)
-      result += 'Skill points assigned to ' + skill +
-                ' exceeds allowed maximum of ' + maxAllowed + '<br/>';
+      result += 'Failed test: {' + skill + '} <= ' + maxAllowed + '<br/>';
     skillPointsAssigned += character.attributes[a] * (isCross ? 2 : 1);
   }
   if(skillPointsAssigned != computedAttributes.skillPoints)
-    result += skillPointsAssigned + ' assigned skill points does not equal ' +
-              computedAttributes.skillPoints + ' available<br/>';
+    result += 'Failed test: Sum(/^skills\\.*) == ' +
+              computedAttributes.skillPoints + '<br/>';
   for(i = -1, errors = 0; (i = result.indexOf('<br/>', i + 1)) >= 0; errors++)
     ; /* empty */
   result += errors + ' validation error' + (errors == 1 ? '' : 's') + '<br/>';
