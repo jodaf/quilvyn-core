@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.17 2004/05/13 14:04:14 Jim Exp $ */
+/* $Id: Scribe.js,v 1.18 2004/05/18 05:19:18 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -469,7 +469,7 @@ function RefreshSpellSelections(resetToCharacter) {
       spells.push(spell);
   }
   if(spells.length == 0)
-    spells.push(DndCharacter.spells[0]);
+    spells.push('--- No spell categories selected ---');
   editor.setElementSelections('spells', spells);
 }
 
@@ -623,6 +623,8 @@ function Update(name, value) {
   }
   else if(name.match(/^spellcats\./))
     RefreshSpellSelections(false);
+  else if(name == 'spells.--- No spell categories selected ---')
+    editor.setElementValue(name, 0);
   else {
     if(!value && DndCharacter.defaults[name] == null)
       delete character.attributes[name];
