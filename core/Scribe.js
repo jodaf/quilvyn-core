@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.69 2005/01/12 23:58:12 Jim Exp $ */
+/* $Id: Scribe.js,v 1.70 2005/01/13 01:01:08 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -85,6 +85,7 @@ function InputSetOptions(input, options) {
   input.options.length = 0;
   for(var i = 0; i < options.length; i++)
     input.options[input.options.length] = new Option(options[i], '', 0, 0);
+  input.selectedIndex = 0;
 };
 
 /* Sets the value of #input# to #value#. */
@@ -93,13 +94,16 @@ function InputSetValue(input, value) {
   if(input.type == 'checkbox')
     input.checked = value;
   else if(input.type == 'select-one') {
-    for(i = 0; i < input.options.length && input.options[i].text != value; i++)
-      ; /* empty */
+    if(value == null)
+      i = 0;
+    else
+      for(i=0; i < input.options.length && input.options[i].text != value; i++)
+        ; /* empty */
     if(i >= input.options.length)
       return false;
     input.selectedIndex = i;
   }
-  else
+  else if(input.type != 'button')
     input.value = value == null ? '' : value;
   return true;
 }
@@ -596,9 +600,11 @@ function RandomizeCharacter() {
 
 /* Sets the editing window fields to the values of the current character. */
 function RefreshEditor() {
-  editForm.reset();
+  var i;
+  for(i = 0; i < editForm.elements.length; i++)
+    InputSetValue(editForm.elements[i], null);
   for(var attr in character.attributes) {
-    var i = attr.indexOf('.');
+    i = attr.indexOf('.');
     if(i < 0)
       InputSetValue(editForm[attr], character.attributes[attr]);
     else {
