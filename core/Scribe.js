@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.23 2004/07/10 01:49:37 Jim Exp $ */
+/* $Id: Scribe.js,v 1.24 2004/07/13 12:29:04 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -64,18 +64,6 @@ function GetSpellCats() {
   for(var e in catsSeen)
     spellCats.push(e);
   spellCats.sort();
-}
-
-function InitialCharacter() {
-  var result = new DndCharacter(null);
-  result.Randomize(rules, 'class');
-  for(var a in DndCharacter.defaults)
-    result.Randomize(rules, a);
-  result.Randomize(rules, 'feats');
-  result.Randomize(rules, 'languages');
-  result.Randomize(rules, 'skills');
-  result.Randomize(rules, 'spells');
-  return result;
 }
 
 function InitialEditor() {
@@ -280,7 +268,7 @@ function LoadCharacter(url) {
       ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
   }
   else
-    /* Something (possibly this character) loading; try again later. */
+    /* Something (possibly this function) in progress; try again later. */
     setTimeout
       ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
 }
@@ -292,11 +280,8 @@ function OpenDialog() {
     ('Enter URL to Edit (Blank for Random Character)', cookieInfo.lastUrl);
   if(url == null && character != null)
     return; /* User cancel. */
-  if(url == null || url == '') {
-    character = InitialCharacter();
-    RefreshEditor(false);
-    RefreshSheet();
-  }
+  if(url == null || url == '')
+    RandomizeCharacter();
   else
     LoadCharacter(url);
 }
@@ -317,6 +302,65 @@ function PopUp(html, button, action /* ... */) {
   return popup;
 }
 PopUp.next = 0;
+
+function RandomizeCharacter() {
+  if(urlLoading == 'random' && loadingPopup.closed)
+    /* User cancel. */
+    urlLoading = null;
+  else if(urlLoading == 'random' && loadingPopup.okay != null) {
+    var classSet = false;
+    character = new DndCharacter(null);
+    for(var i = 0; i < DndCharacter.classes.length; i++) {
+      var attr = 'levels.' + DndCharacter.classes[i];
+      var val = loadingPopup.fc.getElementValue(attr);
+      if(val != null) {
+        character.attributes[attr] = val;
+        classSet = true;
+      }
+    }
+    if(!classSet)
+      character.Randomize(rules, 'class');
+    for(var a in DndCharacter.defaults)
+      character.Randomize(rules, a);
+    character.Randomize(rules, 'feats');
+    character.Randomize(rules, 'languages');
+    character.Randomize(rules, 'skills');
+    character.Randomize(rules, 'spells');
+    RefreshEditor(false);
+    RefreshSheet();
+    loadingPopup.close();
+    urlLoading = null;
+  }
+  else if(urlLoading == null) {
+    /* Nothing presently loading. */
+    var fixedAttributes = new FormController();
+    fixedAttributes.addElements(
+      'Levels', 'levels', 'bag', DndCharacter.classes
+    );
+    urlLoading = 'random';
+    loadingPopup = window.open('about:blank', 'randomWin');
+    loadingPopup.document.write(
+      '<html><head><title>Editor</title></head>\n' +
+      '<body bgcolor="' + BACKGROUND + '">\n' +
+      '<img src="' + LOGO_URL + ' "/><br/>\n' +
+      '<h2>Fixed Attributes</h2>'
+    );
+    fixedAttributes.writeToWindow(loadingPopup, 'red');
+    loadingPopup.document.write(
+      '<form>\n' +
+      '<input type="button" value="Ok" onclick="okay=1;"/>\n' +
+      '<input type="button" value="Cancel" onclick="window.close();"/>\n' +
+      '</form></body></html>\n'
+    );
+    loadingPopup.document.close();
+    loadingPopup.fc = fixedAttributes;
+    loadingPopup.okay = null;
+    setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
+  }
+  else
+    /* Something (possibly this function) in progress; try again later. */
+    setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
+}
 
 function RefreshEditor(redraw) {
   if(redraw) {
