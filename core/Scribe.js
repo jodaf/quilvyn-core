@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.64 2004/12/28 23:54:40 Jim Exp $ */
+/* $Id: Scribe.js,v 1.65 2005/01/05 06:04:23 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -397,8 +397,7 @@ function OpenDialog() {
  * each associated with an #action#.
  */
 function PopUp(html, button, action /* ... */) {
-  var popup = window.open
-    ('about:blank', 'pop' + PopUp.next++, 'height=200,width=400');
+  var popup = window.open('', 'pop' + PopUp.next++, 'height=200,width=400');
   var content = '<html><head><title>Scribe Message</title></head>\n' +
                 '<body bgcolor="' + BACKGROUND + '">' + html +
                 '<br/>\n<form>\n';
@@ -431,7 +430,7 @@ function RandomizeCharacter() {
       var attr = 'levels.' + a;
       if((value = loadingPopup.fc.getElementValue(attr)) != null && value > 0) {
         character.attributes[attr] = value;
-        totalLevels += character.attributes[attr];
+        totalLevels += character.attributes[attr] - 0;
       }
     }
     if(totalLevels == 0) {
@@ -464,7 +463,7 @@ function RandomizeCharacter() {
       'Levels', 'levels', 'bag', GetKeys(DndCharacter.classesHitDie)
     );
     urlLoading = 'random';
-    loadingPopup = window.open('about:blank', 'randomWin');
+    loadingPopup = window.open('', 'randomWin');
     loadingPopup.document.write(
       '<html><head><title>Editor</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
@@ -520,7 +519,7 @@ function RefreshRecentOpens() {
 /* Draws the sheet for the current character in the character sheet window. */
 function RefreshSheet() {
   if(sheetWindow == null || sheetWindow.closed)
-    sheetWindow = window.open('about:blank', 'scribeSheet');
+    sheetWindow = window.open('', 'scribeSheet');
   sheetWindow.document.write(SheetHtml());
   sheetWindow.document.close();
 }
@@ -759,7 +758,7 @@ function SheetHtml() {
 /* Opens a window that contains HTML for #html# in readable/copyable format. */
 function ShowHtml(html) {
   if(ShowHtml.htmlWindow == null || ShowHtml.htmlWindow.closed)
-    ShowHtml.htmlWindow = window.open('about:blank', 'html');
+    ShowHtml.htmlWindow = window.open('', 'html');
   html = html.replace(/</g, '&lt;');
   html = html.replace(/>/g, '&gt;');
   ShowHtml.htmlWindow.document.write(
@@ -797,7 +796,7 @@ function Update(name, value) {
   if(name == 'about') {
     if(Update.aboutWindow != null && !Update.aboutWindow.closed)
       return;
-    Update.aboutWindow = window.open('about:blank', 'about');
+    Update.aboutWindow = window.open('', 'about');
     Update.aboutWindow.document.write(
       '<html><head><title>About Scribe</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '"><p>' +
@@ -837,7 +836,7 @@ function Update(name, value) {
   else if(name == 'validate') {
     if(Update.validateWindow != null && !Update.validateWindow.closed)
       Update.validateWindow.close();
-    Update.validateWindow = window.open('about:blank', 'validate');
+    Update.validateWindow = window.open('', 'validate');
     Update.validateWindow.document.write(
       '<html><head><title>Character Validation Check</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
