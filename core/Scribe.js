@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.12 2004/04/14 06:48:49 Jim Exp $ */
+/* $Id: Scribe.js,v 1.13 2004/04/14 07:06:04 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
