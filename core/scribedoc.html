@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.11 2004/06/22 00:14:18 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.12 2004/06/22 13:47:43 Jim Exp $ -->
 
 <html>
 <head>
@@ -8,17 +8,25 @@
 
 <body>
 
+<script>
+  document.bgColor =
+    window.opener != null && window.opener.BACKGROUND != null ?
+    window.opener.BACKGROUND : 'wheat';
+  if(window.opener != null && window.opener.LOGO_URL != null)
+    document.write('<img src="' + window.opener.LOGO_URL + '" alt="Scribe"/>');
+</script>
+
 <h1>Scribe DND Third Edition Character Editor</h1>
 
 <p>
 <ul>
   <li><a href="#intro">Introduction</a></li>
+  <li><a href="#install">Installing and Running Scribe</a></li>
   <li><a href="#open">Generating and Loading Characters</a></li>
   <li><a href="#edit">Editing Characters</a></li>
   <li><a href="#random">Randomizing Attributes</a></li>
   <li><a href="#save">Saving Characters</a></li>
   <li><a href="#sheet">The Character Sheet</a></li>
-  <li><a href="#preferences">Changing User Preferences</a></li>
   <li><a href="#custom">Customization</a></li>
   <li><a href="#magicitems">Adding Magic Items</a></li>
   <li><a href="#limitations">Limitations</a></li>
@@ -41,6 +49,34 @@ character's attributes.  Customization features allow you to incorporate "house
 rules" into both the editor and character sheet.
 </p>
 
+
+<a name="install"><h3>Installing and Running Scribe</h3></a>
+<p>
+The Scribe program consists of nine files: DndCharacter.js, FormController.js,
+ObjectViewer.js, RuleEngine.js, Scribe.js, gpl.txt, help.html, scribe.gif, and
+scribe.html.  These can be downloaded from the Scribe website, either
+individually or together in a tar ball.  It is possible to install only
+scribe.html and direct Scribe to download the other files during installation.
+Doing so ensures that you get the latest version of Scribe every time you run
+the program; however, it also means that you have to wait for the download each
+time.  See scribe.html for details.
+</p>
+
+<p>
+scribe.html contains a section of definitions that allow you to set some user
+preferences.  Scribe uses the BACKGROUND setting as the background color for
+its windows, and the program uses the URL_PREFIX and URL_SUFFIX settings to
+expand abbreviated values entered in the open dialogue.  For example, if
+URL_PREFIX is "file:///home/farquar/Scribe/charcters/" and URL_SUFFIX is
+".html", than you can simply enter "jorash" into the open dialogue to open the
+character file "file:///home/farquar/Scribe/characters/jorash.html".  You can
+also add character sheet and editor customizations in scribe.html.  See the
+<a href="#custom">customization section</a> for details.
+</p>
+
+<p>
+To run Scribe, simply use your favorite web browser to open scribe.html.
+</p>
 
 <a name="open"><h3>Generating and Loading Characters</h3></a>
 <p>
@@ -125,11 +161,11 @@ browser to view and print the character sheet.
 
 <a name="sheet"><h3>The Character Sheet</h3></a>
 <p>
-The default character sheet format that Scribe produces contains five sections:
-Header; Basic Attributes; Feats and Skills; Melee; and Magic.  Each of these
-lists related character attribute values, both entered and computed, along with
-notes about the attributes.  Although most of the information on the sheet
-should be clear, a few aspects of the format require explanation.
+The default character sheet format that Scribe produces contains six sections:
+Header; Basic Attributes; Feats and Skills; Melee; Magic; and Notes.  Each of
+these lists related character attribute values, both entered and computed,
+along with notes about the attributes.  Although most of the information on the
+sheet should be clear, a few aspects of the format require explanation.
 <ul>
   <li>In the Basic Attributes section, the computed modifier values for
       strength, wisdom, etc. are shown in parentheses after the attribute
@@ -155,19 +191,6 @@ should be clear, a few aspects of the format require explanation.
       value.</li>
 </ul>
 </p>
-
-<a name="preferences"><h3>Changing User Preferences</h3></a>
-<p>
-Pressing Scribe's "Preferences" button opens a small window that allows you to
-modify some aspects of the program's operation.  You can set the background
-color of the editor or change the default URL prefix and suffix.  Scribe uses
-the latter two values with the Open dialogue.  If the value you enter in the
-dialogue box doesn't begin with a prefix such as "http:" or "file:", Scribe
-prepends the default URL prefix.  Similarly, if the value you enter doesn't end
-with an extension such as ".html", Scribe appends the default URL suffix.
-Setting these values can save you a considerable amount of typing.
-</p>
-
 
 <a name="custom"><h3>Customization</h3></a>
 <p>
@@ -346,8 +369,8 @@ new items.
   <li>Half ranks for skills (a single point allocated to a cross-class skill)
       are not supported.</li>
   <li>The "Craft" and "Profession" skills are so general as to be useless.  DMs
-      will likely want to set up a customization function that adds particular
-      crafts (e.g., carpentery) and professions (e.g., lawyer).
+      will likely want to use customization to add particular crafts (e.g.,
+      carpentery) and professions (e.g., lawyer).
   <li>When an character ability score is modified, Scribe recalculates
       attributes based on that ability from scratch.  For example, bumping
       intelligence when a character reaches fourth level causes Scribe to
