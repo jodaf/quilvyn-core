@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.51 2004/12/04 16:19:45 Jim Exp $ */
+/* $Id: Scribe.js,v 1.52 2004/12/05 07:26:00 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -309,8 +309,15 @@ function LoadCharacter(name) {
     loadingPopup =
       PopUp('Loading character from ' + url, 'Cancel', 'window.close();');
     loadingWindow.attributes = null;
-    loadingWindow.location = url;
-    setTimeout('LoadCharacter("' + name + '")', TIMEOUT_DELAY);
+    try {
+      loadingWindow.location = url;
+    } catch(e) {
+      loadingPopup.close();
+      urlLoading = null;
+      alert('Attempt to load ' + url + ' failed');
+    }
+    if(urlLoading != null)
+      setTimeout('LoadCharacter("' + name + '")', TIMEOUT_DELAY);
   }
   else
     /* Something (possibly this function) in progress; try again later. */
