@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.15 2004/07/16 23:44:20 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.16 2004/07/23 13:49:10 Jim Exp $ -->
 
 <html>
 <head>
@@ -57,9 +57,9 @@ A tar file containing the Scribe code can be obtained from
 The Scribe program consists of nine files: DndCharacter.js, FormController.js,
 ObjectViewer.js, RuleEngine.js, Scribe.js, gpl.txt, help.html, scribe.gif, and
 scribe.html.  It is possible to install only scribe.html and direct Scribe to
-download the other files during installation.  Doing so ensures that you get
+download the other files when the program runs.  Doing so ensures that you get
 the latest version of Scribe every time you run the program; however, it also
-means that you have to wait for the download each time.  See scribe.html for
+means that you have to wait for the download each time. See scribe.html for
 details.
 </p>
 
@@ -84,12 +84,15 @@ To run Scribe, simply use your favorite web browser to open scribe.html.
 Generating new characters and loading previously saved ones are both handled
 through Scribe's New/Open dialogue box.  Press the "New/Open" button.  Scribe
 opens a dialogue box that asks for the URL of a character file you would
-like to edit.  To generate a new character, leave the URL box blank and
-press "OK".  Scribe will generate a character with random values selected for
-all editable attributes.  To make changes to an existing character, enter the
-URL to the HTML file you previously saved (see <a href="#save">Saving
-Characters</a> below).  Normally, this URL will begin with "file://",
-followed by the path to your HTML file.
+like to edit.  To make changes to an existing character, enter the URL to the
+HTML file you previously saved (see <a href="#save">Saving Characters</a>
+below).  Normally, this URL will begin with "file://", followed by the path to
+your HTML file.  To generate a new character, leave the URL box blank and press
+"Ok".  To make it easier for DMs to use Scribe to generate NPCs, the program
+opens a form that allows you to specify the new character's race and/or
+class level(s).  You can either specify these attributes, or leave the form
+blank to have Scribe generate them randomly.  When you hit the "Ok" button on
+the form, Scribe will generate a character with random values selected.
 </p>
 
 
@@ -97,21 +100,21 @@ followed by the path to your HTML file.
 <p>
 The Scribe editing window contains editing objects that allow you to change
 basic character attributes.  The editor uses three different types of editing
-objects.  <i>Text fields</i> are used for attributes such as name, deity, and
-player that have a wide range of possible values.  To modify one of these
-attributes, simply type the new value into the text field. <i>Selection
-menus</i> are used with attributes like alignment, class, race, and abilities
-like strength and intelligence.  These editing objects give you a pull-down
-menu that contain all the possible values.  Simply select the correct one to
-change the attribute.  <i>Set menus</i> are used for collections of related
-attributes like skills, feats, weapons, and class levels.  Along with a
-pull-down menu, these editing objects include either a checkbox or a small
-text field where you can enter a value.  A checkbox is used for attributes,
-like spells, where the character either has an attribute or not, while the
-text field is used with attributes (e.g., skills, class levels) where the
-character has a variable score associated with the attribute.  To change one of
-these attributes, first use the pull-down menu to select a particular
-attribute, then click the checkbox or enter a value in the text field.
+objects.  <i>Text fields</i> are used for attributes, such as name and player,
+that have an infinite number of possible values.  To modify one of these
+attributes, simply type the new value into the text field.
+<i>Selection menus</i> are used with attributes like alignment, race, and
+abilities like strength and intelligence.  These editing objects give you a
+pull-down menu that contain all the possible values.  Simply select the correct
+one to change the attribute. <i>Set menus</i> are used for collections of
+related attributes like skills, feats, weapons, and class levels.  Along with a
+pull-down menu, these editing objects include either a checkbox or a small text
+field where you can enter a value.  A checkbox is used for attributes, such as
+spells, where the character either has an attribute or not, while the text
+field is used with attributes (e.g., skills, class levels) where the character
+has a variable score associated with the attribute.  To change one of these
+attributes, first use the pull-down menu to select a particular attribute, then
+click the checkbox or enter a value in the text field.
 </p>
 
 <p>
@@ -121,6 +124,19 @@ window, Scribe applies the rules from the AD&amp;D third edition Players'
 Handbook, then updates the character sheet to show you any computed changes.
 </p>
 
+<p>
+A few items in the editor window don't relate directly to the character sheet.
+The "New/Open" button is discussed in in <a href='#open'>Generating and
+Loading Characters</a> and the "View HTML" button in <a href='#save'>Saving
+Characters</a>.  The "Help" button opens a window that contains this
+document, and the "About" button opens one with the usual text describing the
+program.  Finally, the "Spell Categories" set menu allows you to determine
+which spells appear in the "Spells" set menu.  Since hundreds of spells and
+variations are available, this menu allows you to select the categories of
+spells (e.g. Cleric spells, Air Domain spells) of interest.  Whenever a
+character is loaded or generated, Scribe resets this menu to include only those
+spells (if any) that the character may know.
+</p>
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
 <p>
@@ -132,7 +148,9 @@ the six basic attributes&#151;strength, intelligence, wisdom, constitution,
 dexterity, and charisma&#151;Scribe generates the random value by "rolling"
 four six-sided dice, throwing out the lowest number, and summing the remaining
 three.  For other selection attributes, Scribe randomly selects one of the
-possible values.  The only non-selection attribute that Scribe knows how to
+possible values.  When selecting set values such as spells and feats, Scribe
+uses other information about the character (e.g., feat count) to randomly
+select the attribute values. The only text attribute that Scribe knows how to
 randomize is the character name.  The names that the editor generates are more
 often amusing than useful, but you can usually get a pretty decent name from
 them with a little creative editing.
@@ -229,10 +247,10 @@ AddChoices('languages', 'Aquan', 'Avian');
 
 <p>
 Scribe will sort your additional choice(s) into the list.  The lists you can
-modify in this fashion are 'alignments', 'classes', 'domains' (cleric spell
-domains), 'feats', 'genders', 'goodies' (magic items), 'helms', 'languages',
-'races', 'schools' (wizard spell schools), 'shields', 'skills', 'spells', and
-'weapons'.
+modify in this fashion are 'alignments', 'classes', 'deities', 'domains'
+(cleric spell domains), 'feats', 'genders', 'goodies' (magic items), 'helms',
+'languages', 'races', 'schools' (wizard spell schools), 'shields', 'skills',
+'spells', and 'weapons'.
 </p>
 
 <p>
@@ -260,12 +278,12 @@ AddRules('dexterity', 'abilityNotes.goblinDexterity', '+', 'source');
 
 <p>
 The first line simply adds 'Goblin' to the list of races available.  The next
-two lines compute new attributes that will be included in the notes at the
-bottom of the Attributes section of the character sheet, and the last two lines
-use these attributes to modify the character abilities.  The parameters to
-AddRules are the attribute affected, the attribute on which the first attribute
-depends, the type of affect, and a short piece of JavaScript that calculates
-the amount of the affect.
+two lines compute new attributes that will be included in the notes of the
+Attributes section of the character sheet, and the last two lines use these
+attributes to modify the character abilities.  The parameters to AddRules are
+the attribute affected, the attribute on which the first attribute depends, the
+type of affect, and a short piece of JavaScript that calculates the amount of
+the affect.
 </p>
 
 <p>
@@ -334,10 +352,10 @@ value, so the default format is '&lt;b&gt;%N&lt;/b&gt;: %V'.
 </p>
 
 <p>
-The predefined character sheet has five sections: 'Header', 'Attributes',
-'FeatsAndSkills', 'Melee', and 'Magic'.  You can add attributes to any of these
-five by giving its name as the second parameter. (You can also add a new
-section by calling AddToSheet with a second parameter of '_top'.)  The third
+The predefined character sheet has six sections: 'Header', 'Attributes',
+'FeatsAndSkills', 'Melee', 'Magic', and 'Notes'.  You can add attributes to any
+of these five by giving its name as the second parameter. (You can also add a
+new section by calling AddToSheet with a second parameter of '_top'.) The third
 parameter indicates where, within the section, the new attribute should be
 displayed.  This will usually be the name of one of the attributes as displayed
 on the character sheet.  Alternatively, you can place your new attribute at the
@@ -386,6 +404,7 @@ new items.
   <li>Spell schools are not indicated.  It would be particularly nice to flag
       spells within a Wizard's specialization.</li>
   <li>Weapon damage should be computed instead of fixed.</li>
+  <li>Add reset and/or undo features to editor.</li>
 </ul>
 </p>
 
