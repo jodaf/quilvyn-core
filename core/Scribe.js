@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.15 2004/05/06 19:30:39 Jim Exp $ */
+/* $Id: Scribe.js,v 1.16 2004/05/11 19:56:16 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -39,6 +39,7 @@ var pendingRules = null;
 var pendingViewer = null;
 var rules = null;
 var sheetWindow;
+var spellCats = [];
 var urlLoading = null;
 var viewer;
 
@@ -55,6 +56,7 @@ function AddUserView(name, within, before, format) {
 }
 
 function ChangeUserPreferences() {
+  var oldUrls = cookieInfo.ruleUrls;
   var value;
   for(var p in cookieInfo) {
     if(p == 'lastUrl')
@@ -64,6 +66,11 @@ function ChangeUserPreferences() {
     cookieInfo[p] = value;
   }
   StoreCookie();
+  if(cookieInfo.ruleUrls != oldUrls) {
+    rules = InitialRuleEngine();
+    viewer = InitialViewer();
+    LoadRules(cookieInfo.ruleUrls);
+  }
 }
 
 function FullUrl(url) {
@@ -72,6 +79,18 @@ function FullUrl(url) {
   if(url.match(/\.[a-zA-Z0-9]*$/) == null)
     url += cookieInfo.suffix;
   return url;
+}
+
+function GetSpellCats() {
+  var catsSeen = {};
+  var matchInfo;
+  for(var i = 0; i < DndCharacter.spells.length; i++)
+    if((matchInfo = DndCharacter.spells[i].match(/\((\D+)\d+\)$/)) != null)
+      catsSeen[matchInfo[1]] = '1';
+  spellCats = [];
+  for(var e in catsSeen)
+    spellCats.push(e);
+  spellCats.sort();
 }
 
 function InitialCharacter() {
@@ -128,11 +147,13 @@ function InitialEditor() {
     'Shield', 'shield', 'select', DndCharacter.shields,
     'Helm', 'helm', 'select', DndCharacter.helms,
     'Weapons', 'weapons', 'bag', DndCharacter.weapons,
-    'Spells', 'spells', 'set', DndCharacter.spells,
+    'Spell Categories', 'spellcats', 'set', spellCats,
+    'Spells', 'spells', 'set', [],
     'Goodies', 'goodies', 'bag', DndCharacter.goodies,
     'Cleric Domains', 'domains', 'set', DndCharacter.domains,
     'Wizard Specialization', 'specialize', 'set', DndCharacter.schools,
-    'Wizard Prohibition', 'prohibit', 'set', DndCharacter.schools
+    'Wizard Prohibition', 'prohibit', 'set', DndCharacter.schools,
+    'Notes', 'notes', 'text', [40,10]
   );
   return result;
 }
@@ -241,7 +262,10 @@ function InitialViewer() {
       {name: 'Goodies Break', within: 'Magic', format: '\n'},
       {name: 'Goodies', within: 'Magic'},
       {name: 'Magic Notes Break', within: 'Magic', format: '\n'},
-      {name: 'Magic Notes', within: 'Magic'}
+      {name: 'Magic Notes', within: 'Magic'},
+    {name: 'Notes Break', within: '_top', format: '\n'},
+    {name: 'NotesSection', within: '_top', title: 'Notes'},
+      {name: 'Notes', within: 'NotesSection', format: '%V'}
   );
   return result;
 }
@@ -298,6 +322,7 @@ function LoadRules(urls) {
   if(splitUrls.length == 0) {
     /* All rule sets done loading. */
     if(pendingRules != null) {
+      GetSpellCats();
       /* TODO: Allow user to make editor changes w/out losing option changes. */
       editor = InitialEditor();
       pendingEditor = null;
@@ -401,6 +426,7 @@ function RefreshEditor(redraw) {
     );
     editWindow.document.close();
   }
+  RefreshSpellSelections(true);
   if(character != null)
     editor.setElementValues(character.attributes);
 }
@@ -412,6 +438,39 @@ function RefreshSheet() {
     sheetWindow = window.open('about:blank', 'scribeSheet');
   sheetWindow.document.write(SheetHtml());
   sheetWindow.document.close();
+}
+
+function RefreshSpellSelections(resetToCharacter) {
+  var i;
+  var catsToDisplay = {};
+  var matchInfo;
+  if(resetToCharacter) {
+    for(i = 0; i < spellCats.length; i++)
+      editor.setElementValue('spellcats.' + spellCats[i], 0);
+    if(character != null) {
+      for(var e in character.attributes) {
+        if((matchInfo = e.match(/^spells\..*\((\D+)\d+\)$/)) != null)
+          editor.setElementValue('spellcats.' + matchInfo[1], 1);
+        else if((matchInfo = e.match(/^domains\.(.*)$/)) != null)
+          editor.setElementValue('spellcats.' + matchInfo[1].substring(0,2), 1);
+          else if((matchInfo = e.match(/^levels\.(.*)$/)) != null)
+          editor.setElementValue('spellcats.' + matchInfo[1].substring(0,1), 1);
+      }
+    }
+  }
+  for(i = 0; i < spellCats.length; i++)
+    if(editor.getElementValue('spellcats.' + spellCats[i]))
+      catsToDisplay[spellCats[i]] = '1';
+  var spells = [];
+  for(i = 0; i < DndCharacter.spells.length; i++) {
+    var spell = DndCharacter.spells[i];
+    if((matchInfo = spell.match(/\((\D+)\d+\)$/)) == null ||
+       catsToDisplay[matchInfo[1]] != null)
+      spells.push(spell);
+  }
+  if(spells.length == 0)
+    spells.push(DndCharacter.spells[0]);
+  editor.setElementSelections('spells', spells);
 }
 
 function ScribeLoaded() {
@@ -535,15 +594,8 @@ function Update(name, value) {
     window.open('about.html', 'about');
   else if(name == 'help')
     window.open('help.html', 'help');
-  else if(name == 'preferences') {
-    var oldUrls = cookieInfo.ruleUrls;
+  else if(name == 'preferences')
     ChangeUserPreferences();
-    if(cookieInfo.ruleUrls != oldUrls) {
-      rules = InitialRuleEngine();
-      viewer = InitialViewer();
-      LoadRules(cookieInfo.ruleUrls);
-    }
-  }
   else if(name == 'open')
     OpenDialog();
   else if(name == 'view') {
@@ -569,6 +621,8 @@ function Update(name, value) {
     RefreshSheet();
     editor.setElementValue('randomize', '--Randomize--');
   }
+  else if(name.match(/^spellcats\./))
+    RefreshSpellSelections(false);
   else {
     if(!value && DndCharacter.defaults[name] == null)
       delete character.attributes[name];
