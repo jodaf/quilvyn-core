@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.7 2005/01/29 23:20:21 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.8 2005/02/19 07:11:57 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -68,6 +68,24 @@ RuleEngine.prototype.AddRules =
   }
 };
 
+
+/* Returns a sorted array containing all attributes that are rule sources. */
+RuleEngine.prototype.AllSources = function() {
+  var result = [];
+  for(var attr in this.targets)
+    result[result.length] = attr;
+  result.sort();
+  return result;
+}
+
+/* Returns a sorted array containing all attributes that are rule targets. */
+RuleEngine.prototype.AllTargets = function() {
+  var result = [];
+  for(var attr in this.sources)
+    result[result.length] = attr;
+  result.sort();
+  return result;
+}
 
 /*
  * Invokes the rules that are affected directly or indirectly by the attributes
