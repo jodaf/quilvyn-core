@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.83 2005/02/27 13:29:29 Jim Exp $ */
+/* $Id: Scribe.js,v 1.84 2005/02/27 13:50:37 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var ABOUT_TEXT =
@@ -242,6 +242,8 @@ function InitialRuleEngine() {
   versions = MAGIC_RULES_VERSION.split('/');
   for(i = 0; i < versions.length; i++)
     DndCharacter.LoadVersion3PointRules(result, versions[i], 'magic');
+  /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
+  result.AddRules('ignored', 'meleeNotes.strengthDamageAdjustment', '=', null);
   return result;
 }
 
@@ -340,8 +342,6 @@ function InitialViewer() {
         format: '<b>Turning Damage</b>: 2d6+%V'},
       {name: 'Weapons Break', within: 'Melee', format: '\n'},
       {name: 'Weapons', within: 'Melee'},
-      {name: 'Focus', within: 'Melee'},
-      {name: 'Specialization', within: 'Melee'},
       {name: 'Melee Notes Break', within: 'Melee', format: '\n'},
       {name: 'Melee Notes', within: 'Melee'},
       {name: 'Save Fortitude Break', within: 'Melee', format: '\n'},
@@ -776,28 +776,14 @@ function SheetHtml() {
           lcName.match
             (/^(club|dagger|light hammer|shortspear|spear|trident)$/) != null ?
           computedAttributes.meleeAttack : computedAttributes.rangedAttack;
-        if(computedAttributes['feats.Weapon Focus (' + lcName + ')'] != null ||
-           computedAttributes['features.Weapon Focus (' + lcName + ')'] != null)
-          attack = attack - 0 + 1;
-        if(computedAttributes
-             ['feats.Greater Weapon Focus (' + lcName + ')'] != null ||
-           computedAttributes
-             ['features.Greater Weapon Focus (' + lcName + ')'] != null)
-          attack = attack - 0 + 1;
+        if(computedAttributes['weaponAttackAdjustment.' + name] != null)
+          attack += computedAttributes['weaponAttackAdjustment.' + name];
         var extraDamage = damageAdjustment;
         if(name.indexOf('bow') >= 0 &&
            (name.indexOf('Composite') < 0 || extraDamage > 0))
           extraDamage = 0;
-        if(computedAttributes
-             ['feats.Weapon Specialization (' + lcName + ')'] != null ||
-           computedAttributes
-             ['features.Weapon Specialization (' + lcName + ')'] != null)
-          extraDamage += 2;
-        if(computedAttributes
-             ['feats.Greater Weapon Specialization (' + lcName + ')'] != null ||
-           computedAttributes
-             ['features.Greater Weapon Specialization ('+lcName+')'] != null)
-          extraDamage += 2;
+        if(computedAttributes['weaponDamageAdjustment.' + name] != null)
+          extraDamage += computedAttributes['weaponDamageAdjustment.' + name];
         damages = damages == null ? ['0'] : damages.split('/');
         for(i = 0; i < damages.length; i++) {
           var pieces = damages[i].match(/^(\d*d\d+) *(x(\d+))? *(@(\d+))?$/);
