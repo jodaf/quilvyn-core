@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.6 2004/03/29 17:12:57 Jim Exp $ */
+/* $Id: Scribe.js,v 1.7 2004/03/29 21:02:00 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 var COOKIE_FIELD_SEPARATOR = '\n';
-var COOKIE_NAME = "scribePrefs";
+var COOKIE_NAME = 'scribePrefs';
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var TIMEOUT_DELAY = 1000;
 
@@ -45,7 +45,7 @@ function PopUp(html, button, action /* ... */) {
   var popup = window.open
     ('about:blank', 'pop' + PopUp.next++, 'height=200,width=400');
   var content = '<html><head><title>Scribe Message</title></head>\n' +
-                '<body>' + html + '<br/>\n<form>\n';
+                '<body bgcolor="bisque">' + html + '<br/>\n<form>\n';
   for(var i = 1; i < arguments.length; i += 2)
     content +=
       '<input type="button" value="' + arguments[i] + '" ' +
@@ -80,26 +80,28 @@ function ChangePreferences() {
 function LoadCharacter(url) {
   url = FullUrl(url);
   if(urlLoading == url && loadingWindow.attributes != null) {
+    loadingPopup.close();
     cookieInfo.lastUrl = url;
     StoreCookie();
     character = new DndCharacter(loadingWindow.attributes);
     RefreshSheet();
     RefreshEditor();
-    loadingPopup.close();
     urlLoading = null;
   }
   else if(urlLoading == url && loadingPopup.closed)
     urlLoading = null;
   else if(urlLoading == null) {
     urlLoading = url;
-    loadingWindow.attributes = null;
-    loadingWindow.location = url;
     loadingPopup =
       PopUp('Loading character from ' + url, 'Cancel', 'window.close();');
-    setTimeout('LoadCharacter("' + url + '")', TIMEOUT_DELAY);
+    loadingWindow.attributes = null;
+    loadingWindow.location = url;
+    setTimeout
+      ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
   }
   else
-    setTimeout('LoadCharacter("' + url + '")', TIMEOUT_DELAY);
+    setTimeout
+      ('LoadCharacter("' + url.replace(/\\/g, "\\\\") + '")', TIMEOUT_DELAY);
 }
 
 function LoadRules(urls) {
@@ -112,7 +114,7 @@ function LoadRules(urls) {
     if(rulesInProgress != null) {
       rules = rulesInProgress;
       rulesInProgress = null;
-      UpdateSheet();
+      RefreshSheet();
     }
     return;
   }
@@ -120,7 +122,7 @@ function LoadRules(urls) {
   var url = FullUrl(splitUrls[0]);
   if(urlLoading == url && loadingWindow.CustomizeScribe != null) {
     loadingWindow.CustomizeScribe
-      (DndCharacter.AddChoices, AddRules, DndCharacter.AddToSheet);
+      (DndCharacter, DndCharacter.AddChoices, AddRules, DndCharacter.AddToSheet);
     loadingPopup.close();
     urlLoading = null;
     splitUrls.shift();
@@ -140,10 +142,14 @@ function LoadRules(urls) {
       rulesInProgress = new RuleEngine();
       DndCharacter.AddThirdEditionRules(rulesInProgress);
     }
-    setTimeout('LoadRules("' + splitUrls.join(';') + '");', TIMEOUT_DELAY);
+    setTimeout
+      ('LoadRules("' + splitUrls.join(';').replace(/\\/g, "\\\\") + '");',
+       TIMEOUT_DELAY);
   }
   else
-    setTimeout('LoadRules("' + splitUrls.join(';') + '");', TIMEOUT_DELAY);
+    setTimeout
+      ('LoadRules("' + splitUrls.join(';').replace(/\\/g, "\\\\") + '");',
+       TIMEOUT_DELAY);
 
 }
 
@@ -155,7 +161,6 @@ function NewCharacter() {
   character.Randomize(rules, 'feats');
   character.Randomize(rules, 'skills');
   character.Randomize(rules, 'spells');
-  sheetWindow.attributes = character.attributes;
   RefreshSheet();
   RefreshEditor();
 }
@@ -163,7 +168,7 @@ function NewCharacter() {
 function OpenDialog() {
   var url = prompt
     ('Enter URL to Edit (Blank for Random Character)', cookieInfo.lastUrl);
-  if(url == null && sheetWindow.attributes != null)
+  if(url == null && character != null)
     return;
   if(url == null || url == '')
     NewCharacter()
@@ -172,6 +177,8 @@ function OpenDialog() {
 }
 
 function RefreshEditor() {
+  if(character == null)
+    return;
   var editor = ObjectEditor(
     character.attributes,
     'parent.Update',
@@ -218,12 +225,15 @@ function RefreshEditor() {
   );
   editWindow.document.write(
     '<html><head><title>Editor</title></head>\n' +
-    '<body>' + editor + '</body></html>\n'
+    '<body bgcolor="bisque"><img src="scribe.gif"/><br/>' + editor +
+    '</body></html>\n'
   );
   editWindow.document.close();
 }
 
 function RefreshSheet() {
+  if(character == null)
+    return;
   sheetWindow.document.write(SheetHtml());
   sheetWindow.document.close();
 }
@@ -270,15 +280,27 @@ function ScribeLoaded() {
 
 function SheetHtml() {
   var attrImage = '';
-  for(var a in character.attributes)
-    if(character.attributes[a] != DndCharacter.defaults[a])
-      attrImage += '"' + a + '":"' + character.attributes[a] + '",';
-  attrImage = '{' + attrImage.replace(/,$/, '') + '}';
+  var line = '';
+  for(var a in character.attributes) {
+    if(character.attributes[a] == DndCharacter.defaults[a])
+      continue;
+    var image = '"' + a + '":"' + character.attributes[a] + '",';
+    if(line.length + image.length >= 80) {
+      attrImage += '\n' + line;
+      line = '';
+    }
+    line += image;
+  }
+  if(line.length > 0)
+    attrImage += '\n' + line;
+  attrImage = attrImage.substring(0, attrImage.length - 1);
   return '<html>\n' +
          '<head>\n' +
          '  <title>' + character.attributes.name + '</title>\n' +
          '  <script>\n' +
-         '    var attributes = ' + attrImage + ';\n' +
+         '    var attributes = {' +
+         attrImage + '\n' +
+         '    };\n' +
          '  </' + 'script>\n' +
          '</head>\n' +
          '<body>\n' +
@@ -335,12 +357,12 @@ function Update(attr, value) {
 
   if(attr == 'randomize') {
     character.Randomize(rules, value);
-    sheetWindow.attributes = character.attributes;
+    RefreshSheet();
     RefreshEditor();
   }
   else if(attr == 'reset') {
     character.Reset(value);
-    sheetWindow.attributes = character.attributes;
+    RefreshSheet();
     RefreshEditor();
   }
   else if(attr.indexOf('.') >= 0 && !value)
