@@ -16,7 +16,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 
-function CustomizeSpellPoints(AddElement, AddRules, AddToSheet) {
+function CustomizeSpellPoints(AddChoices, AddRules, AddToSheet) {
   AddRules('spellPoints',
     'casterLevel', '?', null,
     null, '=', '0'
