@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.56 2004/12/13 06:37:49 Jim Exp $ */
+/* $Id: Scribe.js,v 1.57 2004/12/16 06:56:31 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -33,10 +33,11 @@ var sheetWindow;
 var urlLoading = null;
 var viewer;
 
-function AddChoices(name, item /*, item ... */) {
+function AddUserChoices(name, item /*, item ... */) {
   var nameObjects = {
-    'deities':'deitiesDomains', 'skills': 'skillsAbilities',
-    'spells':'spellsLevels', 'weapons': 'weaponsDamage'
+    'classes':'classesHitDie', 'deities':'deitiesDomains',
+    'skills': 'skillsAbilities', 'spells':'spellsLevels',
+    'weapons': 'weaponsDamage'
   };
   if(nameObjects[name] != null)
     name = nameObjects[name];
@@ -49,11 +50,9 @@ function AddChoices(name, item /*, item ... */) {
       o.push(arguments[i]);
     o.sort();
   }
-  else {
-    /* TODO Is there a better way to allow modification of non-arrays? */
+  else 
     for(i = 2; i < arguments.length; i += 2)
       o[arguments[i - 1]] = arguments[i];
-  }
 };
 
 function AddUserRules() {
@@ -139,6 +138,7 @@ function InitialEditor() {
     'Weapons', 'weapons', 'bag', weapons,
     'Weapon Focus', 'focus', 'set', weapons,
     'Weapon Specialization', 'specialization', 'set', weapons,
+    'Ranger Combat Style', 'combatStyle', 'set', DndCharacter.combatStyles,
     'Spell Categories', 'spellcats', 'set', spellsCategoryOptions,
     'Spells', 'spells', 'set', [],
     'Goodies', 'goodies', 'bag', DndCharacter.goodies,
@@ -238,6 +238,7 @@ function InitialViewer() {
       {name: 'Armor Proficiency', within: 'Melee'},
       {name: 'Shield Proficiency', within: 'Melee'},
       {name: 'Weapon Proficiency', within: 'Melee'},
+      {name: 'Combat Style', within: 'Melee'},
       {name: 'Initiative Break', within: 'Melee', format: '\n'},
       {name: 'Initiative', within: 'Melee'},
       {name: 'Melee Attack', within: 'Melee'},
@@ -588,7 +589,7 @@ function ScribeLoaded() {
   rules = InitialRuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
-    CustomizeScribe(AddChoices, AddUserRules, AddUserView);
+    CustomizeScribe(AddUserChoices, AddUserRules, AddUserView);
   /* TODO: Allow user to make editor changes w/out losing option changes. */
   editor = InitialEditor();
   RefreshEditor(true);
