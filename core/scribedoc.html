@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.24 2004/10/20 01:48:01 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.25 2004/12/04 16:49:54 Jim Exp $ -->
 
 <html>
 <head>
@@ -66,20 +66,22 @@ details.
 <p>
 scribe.html contains a section of definitions that allow you to set some user
 preferences.  Scribe uses the BACKGROUND setting as the background color for
-its windows, and the program uses the URL_PREFIX and URL_SUFFIX settings to
+its windows, and the program uses the URL_PREFIX and URL_SUFFIX values to
 expand abbreviated values entered in the open dialogue.  For example, if
 URL_PREFIX is "file:///home/farquar/Scribe/charcters/" and URL_SUFFIX is
 ".html", than you can simply enter "jorash" into the open dialogue to open the
-character file "file:///home/farquar/Scribe/characters/jorash.html".  You can
-also add character sheet and editor customizations in scribe.html.  See the
-<a href="#custom">customization section</a> for details.
+character file "file:///home/farquar/Scribe/characters/jorash.html".  The value
+of MAX_RECENT_OPENS determines how many recently-opened character URLs appear
+in the New/Open menu.  You can also add character sheet and editor
+customizations in scribe.html.  See the <a href="#custom">customization
+section</a> for details.
 </p>
 
 <p>
 Other definitions in scribe.html allow you to select the rules from the v3.0 or
-v3.5 version of the Player's Handbook.  The setting of CLASS_RULES_VERSION
-determines which class and race rules Scribe uses, the setting of
-FEAT_RULES_VERSION determines the feat and skills rules, and the setting of
+v3.5 version of the Player's Handbook.  The value of CLASS_RULES_VERSION
+determines which class and race rules Scribe uses, the value of
+FEAT_RULES_VERSION determines the feat and skills rules, and the value of
 MAGIC_RULES_VERSION determines the rules for magic spells and domains.  You
 should set each of these to either '3.0' or '3.5', depending on your version
 preference.  Scribe also allows you to combine rules from the two versions
@@ -115,20 +117,19 @@ objects.  <i>Text fields</i> are used for attributes, such as name and player,
 that have an infinite number of possible values.  To modify one of these
 attributes, simply type the new value into the text field.  For text fields
 that contain a number (e.g., experience points) you can also enter a '+'
-followed by a number.  In this case, Scribe will add the number to the existing
-value of the field.  <i>Selection menus</i> are used with attributes like
-alignment, race, and abilities like strength and intelligence.  These editing
-objects give you a pull-down menu that contain all the possible values.  Simply
-select the correct one to change the attribute. <i>Set menus</i> are used for
-collections of related attributes like skills, feats, weapons, and class
-levels.  Along with a pull-down menu, these editing objects include either a
-checkbox or a small text field where you can enter a value.  A checkbox is used
-for attributes, such as spells, where the character either has an attribute or
-not, while the text field is used with attributes (e.g., skills, class levels)
-where the character has a variable score associated with the attribute.  To
-change one of these attributes, first use the pull-down menu to select a
-particular attribute, then click the checkbox or enter a value in the text
-field.
+followed by a number.  Scribe will add the number to the existing value of the
+field.  <i>Selection menus</i> are used with attributes like alignment, race,
+and abilities like strength and intelligence.  These editing objects give you a
+pull-down menu that contains all the possible values.  Simply select the
+correct one to change the attribute. <i>Set menus</i> are used for collections
+of related attributes like skills, feats, weapons, and class levels.  Along
+with a pull-down menu, these editing objects include either a checkbox or a
+small text field where you can enter a value.  A checkbox is used for
+attributes, such as spells, where the character either has an attribute or not;
+the text field is used with attributes (e.g., skills, class levels) where the
+character has a variable score associated with the attribute.  To change one of
+these attributes, first use the pull-down menu to select a particular
+attribute, then click the checkbox or enter a value in the text field.
 </p>
 
 <p>
@@ -144,30 +145,39 @@ The "New/Open" button is discussed in in <a href='#open'>Generating and
 Loading Characters</a> and the "View HTML" button in <a href='#save'>Saving
 Characters</a>.  The "Help" button opens a window that contains this
 document, and the "About" button opens one with the usual text describing the
-program.  Finally, the "Spell Categories" set menu allows you to determine
-which spells appear in the "Spells" set menu.  Since hundreds of spells and
-variations are available, this menu allows you to select the categories of
-spells (e.g. Cleric spells, Air Domain spells) of interest.  Whenever a
-character is loaded or generated, Scribe resets this menu to include only those
-spells (if any) that the character may know.
+program.  The "Validate" button checks the current character values against
+restrictions from the Player's Handbook.  Scribe allows you to enter a
+character that doesn't meet these restrictions (e.g., a chaotic Monk), but will
+warn you when you press this button.  Finally, the "Spell Categories" set menu
+allows you to determine which spells appear in the "Spells" set menu.  Since
+hundreds of spells and variations are available, this menu allows you to select
+the categories of spells (e.g. Cleric spells, Air Domain spells) of interest.
+Whenever a character is loaded or generated, Scribe resets this menu to include
+only those spells (if any) that the character may know.
 </p>
 
-<a name="random"><h3>Randomizing Attributes</h3></a>
+<a name="random"><h3>Clearing and Randomizing Attributes</h3></a>
+<p>
+The "Clear" menu gives you a quick way to reset attributes to their default
+values.  For example, selecting "Spells" in the "Clear" menu will uncheck all
+options in the Spells editing menu and remove all spells from the character
+sheet.
+</p>
+
 <p>
 The "Randomize" menu allows you to let Scribe randomly determine most basic
-character attributes.  Using the menu, select the attribute that you would like
-Scribe to randomize.  The editor will select a random value for the attribute
-you select and update both the editing display and the character sheet.  For
-the six basic attributes&#151;strength, intelligence, wisdom, constitution,
-dexterity, and charisma&#151;Scribe generates the random value by "rolling"
-four six-sided dice, throwing out the lowest number, and summing the remaining
-three.  For other selection attributes, Scribe randomly selects one of the
-possible values.  When selecting set values such as spells and feats, Scribe
-uses other information about the character (e.g., feat count) to randomly
-select the attribute values. The only text attribute that Scribe knows how to
-randomize is the character name.  The names that the editor generates are more
-often amusing than useful, but you can usually get a pretty decent name from
-them with a little creative editing.
+Scribe character attributes.  The editor will select a random value for the
+attribute you select and update both the editing display and the character
+sheet.  For the six basic attributes&#151;strength, intelligence, wisdom,
+constitution, dexterity, and charisma&#151;Scribe generates the random value by
+"rolling" four six-sided dice, throwing out the lowest number, and summing the
+remaining three.  For other selection attributes, Scribe randomly selects one
+of the possible values.  When selecting set values such as spells and feats,
+Scribe uses other information about the character (e.g., feat count) to
+randomly select the attribute values. The only text attribute that Scribe knows
+how to randomize is the character name.  The names that the editor generates
+are more often amusing than useful, but you can usually get a pretty decent
+name from them with a little creative editing.
 </p>
 
 
@@ -219,8 +229,8 @@ sheet should be clear, a few aspects of the format require explanation.
       on the other hand, describe rule effects that need to be applied during
       the game, so the DM should examine these closely.  For example, the Melee
       section of a halfling's character sheet will include the plain text note
-      "Halfling Save: +3 Fear/+1 All Others." When rolling a spell saving throw
-      for this character, the DM will have to add either 1 or 3 to the rolled
+      "Halfling Save: +3 fear/+1 others." When rolling a spell saving throw for
+      this character, the DM will have to add either 1 or 3 to the rolled
       value.</li>
 </ul>
 </p>
@@ -248,15 +258,14 @@ perform one type of customization.
 
 <p>
 The easiest customization you can make is to add a choice to one of the basic
-attribute lists Scribe displays.  For example, you might invent languages
-called "Aquan", and "Avian", spoken by denizens of the sea and air,
-respectively.  To add these two languages to Scribe's Languages list, thereby
-allowing users to select them for their characters, you would include this code
-in your CustomizeScribe function:
+attribute lists Scribe displays.  For example, you might want to allow
+characters to learn Latin.  To add this languages to Scribe's Languages list,
+thereby allowing users to select them for their characters, you would include
+this code in your CustomizeScribe function:
 </p>
 
 <p><code>
-AddChoices('languages', 'Aquan', 'Avian');
+AddChoices('languages', 'Latin');
 </code></p>
 
 <p>
@@ -396,9 +405,6 @@ new items.
       campaigns.  For example, characters get an ability increase every fourth
       level, but Scribe assumes that you handle this by increasing the desired
       ability number.</li>
-  <li>Rule restrictions are not enforced.  For example, the fact that your
-      character has only six skill points does not prevent you from
-      distributing eight points (or eighty) among various skills.</li>
   <li>The "Craft" and "Profession" skills are so general as to be useless.  DMs
       will likely want to use customization to add particular crafts (e.g.,
       carpentery) and professions (e.g., lawyer).
@@ -427,6 +433,8 @@ new items.
 <ul>
   <li>Spell schools are not indicated.  It would be particularly nice to flag
       spells within a Wizard's specialization.</li>
+  <li>Need a way to indicate cross-class skills and test the distributed skill
+      points against the skillPoints attribute.</li>
   <li>Need a mechanism for allowing customization of associated DndCharacter
       tables, such as armorsWeightClasses, classesSkills, deitiesDomains, etc.
       The help file customization instructions are somewhat out of date,
