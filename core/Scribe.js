@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.4 2004/01/04 03:23:11 Jim Exp $ */
+/* $Id: Scribe.js,v 1.5 2004/01/17 17:29:49 Jim Exp $ */
 
 /*
-Copyright 2002, James J. Hayes
+Copyright 2004, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -128,7 +128,7 @@ function RefreshDisplay() {
 
 function ScribeLoaded() {
   if(window.opener == null || window.opener.ScribeLoaded == null) {
-    alert('Copyright 2003 James J. Hayes\n' +
+    alert('Copyright 2004 James J. Hayes\n' +
           'Press the "About" button for more info');
     window.open(document.location, 'scribeEditor');
   }
