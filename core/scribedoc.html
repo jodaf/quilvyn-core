@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.21 2004/09/07 06:06:40 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.22 2004/09/14 12:42:54 Jim Exp $ -->
 
 <html>
 <head>
@@ -40,7 +40,7 @@
 Scribe is a web-based editor for AD&amp;D characters.  It allows you to enter
 and modify basic information about a character&#151;race, class levels,
 attributes like strength, and so on&#151;and applies the rules from the third
-edition Players' Handbook to modify these basic attributes and calculate
+edition Player's Handbook to modify these basic attributes and calculate
 generated attributes like saving throw bonuses and armor class.  The program
 formats character attributes into a compact (typically one page) character
 sheet web page that you can print for reference during game play.  You can save
@@ -76,6 +76,18 @@ also add character sheet and editor customizations in scribe.html.  See the
 </p>
 
 <p>
+Other definitions in scribe.html allow you to select the rules from the v3.0 or
+v3.5 version of the Player's Handbook.  The setting of CLASS_RULES_VERSION
+determines which class and race rules Scribe uses, the setting of
+FEAT_RULES_VERSION determines the feat and skills rules, and the setting of
+MAGIC_RULES_VERSION determines the rules for magic spells and domains.  You
+should set each of these to either '3.0' or '3.5', depending on your version
+preference.  Scribe also allows you to combine rules from the two versions
+(e.g., use feats from both the v3.0 and v3.5 Player's Handbooks); see
+scribe.html for details.
+</p>
+
+<p>
 To run Scribe, simply use your favorite web browser to open scribe.html.
 </p>
 
@@ -101,25 +113,28 @@ The Scribe editing window contains editing objects that allow you to change
 basic character attributes.  The editor uses three different types of editing
 objects.  <i>Text fields</i> are used for attributes, such as name and player,
 that have an infinite number of possible values.  To modify one of these
-attributes, simply type the new value into the text field.
-<i>Selection menus</i> are used with attributes like alignment, race, and
-abilities like strength and intelligence.  These editing objects give you a
-pull-down menu that contain all the possible values.  Simply select the correct
-one to change the attribute. <i>Set menus</i> are used for collections of
-related attributes like skills, feats, weapons, and class levels.  Along with a
-pull-down menu, these editing objects include either a checkbox or a small text
-field where you can enter a value.  A checkbox is used for attributes, such as
-spells, where the character either has an attribute or not, while the text
-field is used with attributes (e.g., skills, class levels) where the character
-has a variable score associated with the attribute.  To change one of these
-attributes, first use the pull-down menu to select a particular attribute, then
-click the checkbox or enter a value in the text field.
+attributes, simply type the new value into the text field.  For text fields
+that contain a number (e.g., experience points) you can also enter a '+'
+followed by a number.  In this case, Scribe will add the number to the existing
+value of the field.  <i>Selection menus</i> are used with attributes like
+alignment, race, and abilities like strength and intelligence.  These editing
+objects give you a pull-down menu that contain all the possible values.  Simply
+select the correct one to change the attribute. <i>Set menus</i> are used for
+collections of related attributes like skills, feats, weapons, and class
+levels.  Along with a pull-down menu, these editing objects include either a
+checkbox or a small text field where you can enter a value.  A checkbox is used
+for attributes, such as spells, where the character either has an attribute or
+not, while the text field is used with attributes (e.g., skills, class levels)
+where the character has a variable score associated with the attribute.  To
+change one of these attributes, first use the pull-down menu to select a
+particular attribute, then click the checkbox or enter a value in the text
+field.
 </p>
 
 <p>
 In your main browser window, Scribe displays a character sheet based on the
 values of the editing window.  Every time you change a value in the editing
-window, Scribe applies the rules from the AD&amp;D third edition Players'
+window, Scribe applies the rules from the AD&amp;D third edition Player's
 Handbook, then updates the character sheet to show you any computed changes.
 </p>
 
@@ -395,8 +410,12 @@ new items.
   <li>Weight load is not calculated.</li>
   <li>Race- and class-based weapon proficiencies are not reported.</li>
   <li>Some v3.5 modifications are used even if you select v3.0 rules: the
-      expanded language list, the updated armor and weapon information, and
-      the +4 A.C. bonus for tower shields.</li>
+      expanded language list, the updated armor and weapon information,
+      the +4 A.C. bonus for tower shields; the renaming of the "Expertise"
+      feat to "Combat Expertise".</li>
+  <li>Racial favored class is not reported.</li>
+  <li>Large/tiny damage is not reported.  Characters are assumed to be small
+      (gnomes, halflings) or medium (all others).</li>
 </ul>
 </p>
 
@@ -407,6 +426,8 @@ new items.
       spells within a Wizard's specialization.</li>
   <li>Need a mechanism for allowing customization of associated DndCharacter
       tables, such as armorsWeightClasses, classesSkills, deitiesDomains, etc.
+      The help file customization instructions are somewhat out of date,
+      especially for skills.</li>
 </ul>
 </p>
 

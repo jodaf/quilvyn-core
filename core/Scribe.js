@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.44 2004/09/10 15:59:52 Jim Exp $ */
+/* $Id: Scribe.js,v 1.45 2004/09/14 12:42:54 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -54,14 +54,19 @@ function FullUrl(url) {
 }
 
 function InitialEditor() {
+  var a;
   var result = new FormController();
   var spellsCategoryOptions = [];
+  var skills = [];
   var weapons = [];
-  for(var a in DndCharacter.spellsCategoryCodes)
+  for(a in DndCharacter.skillsAbility)
+    skills.push(a);
+  skills.sort();
+  for(a in DndCharacter.spellsCategoryCodes)
     spellsCategoryOptions.push
       (a + '(' + DndCharacter.spellsCategoryCodes[a] + ')');
   spellsCategoryOptions.sort();
-  for(var a in DndCharacter.weaponsDamage)
+  for(a in DndCharacter.weaponsDamage)
     weapons.push(a);
   result.setCallback(Update);
   result.addElements(
@@ -95,12 +100,14 @@ function InitialEditor() {
     'Deity', 'deity', 'select', DndCharacter.deities,
     'Origin', 'origin', 'text', [20],
     'Feats', 'feats', 'bag', DndCharacter.feats,
-    'Skills', 'skills', 'bag', DndCharacter.skills,
+    'Skills', 'skills', 'bag', skills,
     'Languages', 'languages', 'set', DndCharacter.languages,
     'Hit Points', 'hitPoints', 'range', [0,999],
     'Armor', 'armor', 'select', DndCharacter.armors,
     'Shield', 'shield', 'select', DndCharacter.shields,
     'Weapons', 'weapons', 'bag', weapons,
+    'Weapon Focus', 'focus', 'set', weapons,
+    'Weapon Specialization', 'specialization', 'set', weapons,
     'Spell Categories', 'spellcats', 'set', spellsCategoryOptions,
     'Spells', 'spells', 'set', [],
     'Goodies', 'goodies', 'bag', DndCharacter.goodies,
@@ -204,11 +211,13 @@ function InitialViewer() {
       {name: 'Ranged Attack', within: 'Melee'},
       {name: 'Unarmed Damage', within: 'Melee'},
       {name: 'Turning Frequency Break', within: 'Melee', format: '\n'},
-      {name: 'Turning Frequency', within: 'Melee'},
+      {name: 'Turning Frequency', within: 'Melee', format: '<b>%N</b>: %V/Day'},
       {name: 'Turning Damage Modifier', within: 'Melee',
         format: '<b>Turning Damage</b>: 2d6+%V'},
       {name: 'Weapons Break', within: 'Melee', format: '\n'},
       {name: 'Weapons', within: 'Melee'},
+      {name: 'Focus', within: 'Melee'},
+      {name: 'Specialization', within: 'Melee'},
       {name: 'Melee Notes Break', within: 'Melee', format: '\n'},
       {name: 'Melee Notes', within: 'Melee'},
       {name: 'Save Fortitude Break', within: 'Melee', format: '\n'},
@@ -579,9 +588,13 @@ function SheetHtml() {
         value = DndCharacter.notes[a].replace(/%V/, value);
       if(group == 'Weapons' && DndCharacter.weaponsDamage[name] != null) {
         var damages = DndCharacter.weaponsDamage[name];
+        var extraDamage =
+          name.indexOf('bow') < 0 ? computedAttributes.meleeDamage : 0;
         var multipliers = DndCharacter.weaponsCriticalMultiplier[name];
         var threats = DndCharacter.weaponsCriticalThreat[name];
         damages = damages == null ? ['0'] : damages.split('/');
+        if(computedAttributes['specialization.' + name] != null)
+          extraDamage += 2;
         multipliers = multipliers == null ? [2] :
                       typeof multipliers == 'number' ? [multipliers] :
                       multipliers.split('/');
@@ -596,9 +609,8 @@ function SheetHtml() {
             threat *= 2;
           if(computedAttributes.isSmall && smallDamage != null)
             damages[i] = smallDamage;
-          if(computedAttributes.strengthModifier!=0 && name.indexOf('bow')<0)
-            damages[i] += (computedAttributes.strengthModifier > 0 ? '+' : '') +
-                          computedAttributes.strengthModifier;
+          if(extraDamage != 0)
+            damages[i] += (extraDamage > 0 ? '+' : '') + extraDamage;
           if(multiplier != 2 || threat != 1) {
             damages[i] += 'x' + multiplier;
             if(threat != 1)
