@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.59 2004/12/21 00:00:10 Jim Exp $ */
+/* $Id: Scribe.js,v 1.60 2004/12/21 06:41:58 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.13.0\n' +
+'Scribe Character Editor version 0.12.20\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -36,7 +36,7 @@ var viewer;
 function AddUserChoices(name, item /*, item ... */) {
   var nameObjects = {
     'classes':'classesHitDie', 'deities':'deitiesDomains',
-    'skills': 'skillsAbilities', 'spells':'spellsLevels',
+    'skills': 'skillsAbility', 'spells':'spellsLevels',
     'weapons': 'weaponsDamage'
   };
   if(nameObjects[name] != null)
@@ -226,6 +226,11 @@ function InitialViewer() {
       {name: 'Languages Break', within: 'FeatsAndSkills', format: '\n'},
       {name: 'Language Count', within: 'FeatsAndSkills'},
       {name: 'Languages', within: 'FeatsAndSkills'},
+      {name: 'LoadSection', within: 'FeatsAndSkills', compact: 1},
+        {name: 'Load Light', within: 'LoadSection',
+          format: '<b>Light/Med/Max Load:</b> %V'},
+        {name: 'Load Medium', within: 'LoadSection', format: '/%V'},
+        {name: 'Load Max', within: 'LoadSection', format: '/%V'},
     {name: 'Melee Break', within: '_top', format: '\n'},
     {name: 'Melee', within: '_top', title: 'Melee'},
       {name: 'Hit Points', within: 'Melee'},
