@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.40 2004/09/07 06:06:07 Jim Exp $ */
+/* $Id: Scribe.js,v 1.41 2004/09/08 01:09:56 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -39,7 +39,7 @@ function AddUserRules() {
 
 function AddUserView(name, within, before, format) {
   name = name.replace(/([a-z])([A-Z])/g, '$1 $2').
-         replace(/\b[a-z]/g, function(c) {return c.toUpperCase();});
+         replace(/(^|[ ._])[a-z]/g, function(c) {return c.toUpperCase();});
   viewer.addElements(
     {name: name, within: within, before: before, format: format}
   );
@@ -303,7 +303,7 @@ function OpenDialog() {
   var name = prompt('Enter URL to Edit (Blank for Random Character)', '');
   if(name == null)
     return; /* User cancel. */
-  if(name == null || name == '')
+  else if(name == '')
     RandomizeCharacter();
   else
     LoadCharacter(name);
@@ -337,7 +337,8 @@ function RandomizeCharacter() {
     character = new DndCharacter(null);
     for(i = 0; i < DndCharacter.classes.length; i++) {
       var attr = 'levels.' + DndCharacter.classes[i];
-      if((value = loadingPopup.fc.getElementValue(attr)) != null) {
+      if((value = loadingPopup.fc.getElementValue(attr)) != null &&
+         value > 0) {
         character.attributes[attr] = value;
         totalLevels += character.attributes[attr];
       }
@@ -366,8 +367,7 @@ function RandomizeCharacter() {
     /* Nothing presently loading. */
     var fixedAttributes = new FormController();
     var races = ['(Random)'];
-    for(i = 0; i < DndCharacter.races.length; i++)
-      races.push(DndCharacter.races[i]);
+    races = races.concat(DndCharacter.races);
     fixedAttributes.addElements(
       'Race', 'race', 'select', races,
       'Levels', 'levels', 'bag', DndCharacter.classes
@@ -469,7 +469,7 @@ function RefreshSpellSelections(resetToCharacter) {
     for(i = 0; i < spellLevels.length; i++)
       if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
          codesToDisplay[matchInfo[1]])
-        spells.push('(' + spellLevels[i] + ')' + a);
+        spells.push(a + '(' + spellLevels[i] + ')');
   }
   if(spells.length == 0)
     spells.push('--- No spell categories selected ---');
@@ -547,20 +547,20 @@ function SheetHtml() {
   var displayAttributes = {};
   var i;
   for(a in character.attributes) {
-    if(character.attributes[a] != DndCharacter.defaults[a]) {
-      if((i = a.indexOf('.')) < 0)
-        codeAttributes[a] = character.attributes[a];
-      else {
-        var group = a.substring(0, i);
-        if(codeAttributes[group] == null)
-          codeAttributes[group] = {};
-        codeAttributes[group][a.substring(i + 1)] = character.attributes[a];
-      }
+    if(character.attributes[a] == DndCharacter.defaults[a])
+      continue;
+    if((i = a.indexOf('.')) < 0)
+      codeAttributes[a] = character.attributes[a];
+    else {
+      var group = a.substring(0, i);
+      if(codeAttributes[group] == null)
+        codeAttributes[group] = {};
+      codeAttributes[group][a.substring(i + 1)] = character.attributes[a];
     }
   }
   for(a in computedAttributes) {
     var name = a.replace(/([a-z])([A-Z])/g, '$1 $2').
-               replace(/\b[a-z]/g, function(c) {return c.toUpperCase();});
+               replace(/(^|[ ._])[a-z]/g, function(c){return c.toUpperCase();});
     var value = computedAttributes[a];
     if(character.attributes[a] != null && character.attributes[a] != value)
       value += '[' + character.attributes[a] + ']';
@@ -635,14 +635,15 @@ function SheetHtml() {
 }
 
 function ShowHtml(html) {
-  var htmlWindow = window.open('about:blank', 'html');
+  if(ShowHtml.htmlWindow == null || ShowHtml.htmlWindow.closed)
+    ShowHtml.htmlWindow = window.open('about:blank', 'html');
   html = html.replace(/</g, '&lt;');
   html = html.replace(/>/g, '&gt;');
-  htmlWindow.document.write(
+  ShowHtml.htmlWindow.document.write(
     '<html><head><title>HTML</title></head>\n' +
     '<body><pre>' + html + '</pre></body></html>\n'
   );
-  htmlWindow.document.close();
+  ShowHtml.htmlWindow.document.close();
 }
 
 function StoreCookie() {
@@ -661,15 +662,17 @@ function StoreCookie() {
 function Update(name, value) {
 
   if(name == 'about') {
-    var aboutWindow = window.open('about:blank', 'about');
-    aboutWindow.document.write(
+    if(Update.aboutWindow != null && !Update.aboutWindow.closed)
+      return;
+    Update.aboutWindow = window.open('about:blank', 'about');
+    Update.aboutWindow.document.write(
       '<html><head><title>About Scribe</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '"><p>' +
       '<img src="' + LOGO_URL + '" alt="Scribe"/>' +
        ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>') +
       '</p></body></html>\n'
     );
-    aboutWindow.document.close();
+    Update.aboutWindow.document.close();
   }
   else if(name == 'file') {
     if(value == 'Open...')
@@ -680,8 +683,10 @@ function Update(name, value) {
       LoadCharacter(value);
     editor.setElementValue('file', '--New/Open--');
   }
-  else if(name == 'help')
-    window.open(HELP_URL, 'help');
+  else if(name == 'help') {
+    if(Update.helpWindow == null || Update.helpWindow.closed)
+      Update.helpWindow = window.open(HELP_URL, 'help');
+  }
   else if(name == 'view')
     ShowHtml(SheetHtml());
   else if(name == 'clear') {
