@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.34 2004/08/31 05:44:34 Jim Exp $ */
+/* $Id: Scribe.js,v 1.35 2004/08/31 06:50:23 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
@@ -122,8 +122,11 @@ function InitialEditor() {
 
 function InitialRuleEngine() {
   var result = new RuleEngine();
-  DndCharacter.AddThirdEditionRules(result);
-  DndCharacter.AddVersion3_0Rules(result);
+  DndCharacter.LoadVersion3Rules(result);
+  DndCharacter.LoadVersion3_0BaseRules(result);
+  DndCharacter.LoadVersion3_0ClassAndRaceRules(result);
+  DndCharacter.LoadVersion3_0FeatAndSkillRules(result);
+  DndCharacter.LoadVersion3_0MagicRules(result);
   return result;
 }
 
