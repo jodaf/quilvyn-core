@@ -25,14 +25,14 @@ var preferences = {
   ruleUrls: '',
   suffix: '.html'
 };
-var sheetFrame;
+var sheetWindow;
 
 function AddRules() {
   DndCharacter.rules.AddRules.apply(DndCharacter.rules, arguments);
 }
 
 function FullUrl(url) {
-  if(url.match(/[a-zA-Z0-9]*:/) == null)
+  if(url.match(/^[a-zA-Z0-9]*:/) == null)
     url = preferences.prefix + url;
   if(url.match(/\.[a-zA-Z0-9]*$/) == null)
     url += preferences.suffix;
@@ -99,23 +99,23 @@ function OpenDialog() {
     character.Randomize('feats');
     character.Randomize('skills');
     character.Randomize('spells');
-    sheetFrame.attributes = character.attributes;
+    sheetWindow.attributes = character.attributes;
   }
   else {
-    sheetFrame.attributes = null;
-    sheetFrame.location = FullUrl(url);
+    sheetWindow.attributes = null;
+    sheetWindow.location = FullUrl(url);
   }
   RefreshDisplay();
 }
 
 function RefreshDisplay() {
-  if(sheetFrame.attributes == null) {
+  if(sheetWindow.attributes == null) {
     setTimeout("RefreshDisplay();", 1000);
     return;
   }
-  character = new DndCharacter(sheetFrame.attributes);
-  sheetFrame.document.write(SheetHtml());
-  sheetFrame.document.close();
+  character = new DndCharacter(sheetWindow.attributes);
+  sheetWindow.document.write(SheetHtml());
+  sheetWindow.document.close();
   editFrame.document.write(
     '<html><head><title>Editor</title></head>\n' +
     '<body>' + character.CharacterEditor(ObjectEditor, 'parent.Update') +
@@ -126,7 +126,7 @@ function RefreshDisplay() {
 
 function ScribeLoaded() {
   if(window.opener == null || window.opener.ScribeLoaded == null) {
-    alert('Copyright 2002 James J. Hayes\n' +
+    alert('Copyright 2003 James J. Hayes\n' +
           'Press the "About" button for more info');
     window.open(document.location, 'scribeEditor');
   }
@@ -143,7 +143,7 @@ function ScribeLoaded() {
     }
     editFrame = window.frames[0];
     loadFrame = window.frames[1];
-    sheetFrame = window.opener.frames[0];
+    sheetWindow = window.opener;
     ReloadRules();
     OpenDialog();
   }
@@ -195,15 +195,20 @@ function Update(attr, value) {
     }
     return;
   }
-  else if(attr == 'randomize') {
+  if(attr == 'randomize') {
     character.Randomize(value);
-    sheetFrame.attributes = character.attributes;
+    sheetWindow.attributes = character.attributes;
+    RefreshDisplay();
+  }
+  else if(attr == 'reset') {
+    character.Reset(value);
+    sheetWindow.attributes = character.attributes;
     RefreshDisplay();
   }
   else if(value == '0' && attr.indexOf('.') >= 0)
     delete character.attributes[attr];
   else
     character.attributes[attr] = value;
-  sheetFrame.document.write(SheetHtml());
-  sheetFrame.document.close();
+  sheetWindow.document.write(SheetHtml());
+  sheetWindow.document.close();
 }
