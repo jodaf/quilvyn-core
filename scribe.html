@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.6 2004/06/19 15:52:46 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.7 2004/06/22 00:09:42 Jim Exp $ -->
 <html>
 
 <head>
@@ -19,21 +19,23 @@ code to download.
 <script src="ObjectViewer.js"></script>
 <script src="RuleEngine.js"></script>
 <script src="Scribe.js"></script>
+<script src="ScribeHelp.js"></script>
 
 <!--
-This definition tells Scribe where to find the page to display when the user
-presses the "Help" button.  The value below grabs a local copy of the page;
-changing it to 'http://home.nethere.com/dulcimer/dnd/help.html' will direct
-Scribe to retrieve it from the Scribe web site.
+These definitions tell Scribe where to find its logo and the page to display
+when the user presses the "Help" button.  The values below grab local copies;
+prepending 'http://home.nethere.com/dulcimer/dnd/' to either will direct Scribe
+to retrieve it from the Scribe web site.
 -->
 <script>
+var LOGO_URL = 'scribe.gif';
 var HELP_URL = 'help.html';
 </script>
 
 <!--
 If a CustomizeScribe function is defined, Scribe calls it after loading,
 allowing you to add custom behavior to the program.  Each of CustomizeScribe's
-four parameters is a function that you can invoke to perform one type of
+parameters is a function that you can invoke to perform one type of
 customization.  These functions allow you to:
 
 Add new choices to one of the editor's selection lists.  The editor defines the
@@ -63,12 +65,9 @@ language list.
 
  AddToSheet('languageCount', 'FeatsAndSkills', 'Languages', null);
 
-Add attributes that the Scribe user can modify.  TODO
-
 -->
 <script>
-var CustomizeScribe =
-function(DndCharacter, AddElement, AddRules, AddToSheet) {
+var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
 }
 </script>
 
@@ -82,20 +81,19 @@ of them in turn.
 <script src="CustomizeSkills.js"></script>
 <script src="CustomizeSpellPoints.js"></script>
 <script>
-var CustomizeScribe =
-function(DndCharacter, AddElement, AddRules, AddToSheet) {
+var CustomizeScribe = function(AddElement, AddRules, AddToSheet) {
   if(window.CustomizeGoodies == null)
     alert('Unabled to load CustomizeGoodies.js');
   else
-    window.CustomizeGoodies(DndCharacter, AddElement, AddRules, AddToSheet);
+    window.CustomizeGoodies(AddElement, AddRules, AddToSheet);
   if(window.CustomizeSkills == null)
     alert('Unabled to load CustomizeSkills.js');
   else
-    window.CustomizeSkills(DndCharacter, AddElement, AddRules, AddToSheet);
+    window.CustomizeSkills(AddElement, AddRules, AddToSheet);
   if(window.CustomizeSpellPoints == null)
     alert('Unabled to load CustomizeSpellPoints.js');
   else
-    window.CustomizeSpellPoints(DndCharacter, AddElement, AddRules, AddToSheet);
+    window.CustomizeSpellPoints(AddElement, AddRules, AddToSheet);
 }
 </script>
 

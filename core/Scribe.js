@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.19 2004/06/19 15:52:46 Jim Exp $ */
+/* $Id: Scribe.js,v 1.20 2004/06/22 00:09:42 Jim Exp $ */
 
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.9.7\n' +
+'Scribe Character Editor version 0.9.9\n' +
 'The Scribe Character Editor is Copyright 2004, James J. Hayes\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -50,15 +50,23 @@ function AddUserView(name, within, before, format) {
 }
 
 function ChangeUserPreferences() {
-  var value;
+  var prefsWindow;
+  var html =
+    '<html><head><title>Scribe User Preferences</title></head><body><form>\n';
   for(var p in cookieInfo) {
-    if(p == 'lastUrl' || p == 'ruleUrls')
+    if(p == 'lastUrl')
       continue;
-    if((value = prompt('Enter value for ' + p, cookieInfo[p])) == null)
-      return;
-    cookieInfo[p] = value;
+    html += p + ': <input type="text" id="' + p + '" value="' + cookieInfo[p] +
+            '" onchange="o.' + p + ' = this.value;"/><br/>\n';
   }
-  StoreCookie();
+  html +=
+    '<input type="button" value="Cancel" onclick="window.close();"/>\n' +
+    '<input type="button" value="Ok" onclick="window.opener.StoreCookie(o); window.close();"/>\n' +
+    '</form></body></html>\n';
+  prefsWindow = window.open('about:blank', 'prefs');
+  prefsWindow.document.write(html);
+  prefsWindow.document.close();
+  prefsWindow.o = {};
 }
 
 function FullUrl(url) {
@@ -266,7 +274,7 @@ function LoadCharacter(url) {
       loadingPopup.close();
     if(cookieInfo.lastUrl != url) {
       cookieInfo.lastUrl = url;
-      StoreCookie();
+      StoreCookie(null);
     }
     character = new DndCharacter(null);
     for(var e in loadingWindow.attributes) {
@@ -343,7 +351,7 @@ function RefreshEditor(redraw) {
     editWindow.document.write(
       '<html><head><title>Editor</title></head>\n' +
       '<body bgcolor="' + cookieInfo.background + '">' +
-      '<img src="scribe.gif"/><br/>');
+      '<img src="' + LOGO_URL + ' "/><br/>');
     editor.writeToWindow(editWindow, 'ched');
     editWindow.document.write(
       '</body></html>\n'
@@ -423,13 +431,17 @@ function ScribeLoaded() {
     var cookie = document.cookie.substring(i + COOKIE_NAME.length + 1, end);
     var settings = unescape(cookie).split(COOKIE_FIELD_SEPARATOR);
     for(i = 0; i < settings.length && settings[i] != ''; i += 2)
-      if(settings[i] != 'ruleUrls')
+      if(cookieInfo[settings[i]] != null)
         cookieInfo[settings[i]] = settings[i + 1];
   }
   PopUp(COPYRIGHT + '<br/>' +
         'Press the "About" button for more info',
         'Ok', 'window.close();');
 
+  if(HELP_URL == null)
+    HELP_URL = 'help.html';
+  if(LOGO_URL == null)
+    LOGO_URL = 'scribe.gif';
   editWindow = window.frames[0];
   loadingWindow = window.frames[1];
   sheetWindow = window.opener;
@@ -437,8 +449,7 @@ function ScribeLoaded() {
   rules = InitialRuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
-    CustomizeScribe
-      (DndCharacter, DndCharacter.AddChoices, AddUserRules, AddUserView);
+    CustomizeScribe(DndCharacter.AddChoices, AddUserRules, AddUserView);
   GetSpellCats();
   /* TODO: Allow user to make editor changes w/out losing option changes. */
   editor = InitialEditor();
@@ -507,9 +518,22 @@ function SheetHtml() {
          '</html>\n';
 }
 
-function StoreCookie() {
+function ShowHtml(html) {
+  var htmlWindow = window.open('about:blank', 'html');
+  html = html.replace(/</g, '&lt;');
+  html = html.replace(/>/g, '&gt;');
+  htmlWindow.document.write(
+    '<html><head><title>HTML</title></head>\n' +
+    '<body><pre>' + html + '</pre></body></html>\n'
+  );
+  htmlWindow.document.close();
+}
+
+function StoreCookie(o) {
   var cookie = '';
   for(var p in cookieInfo) {
+    if(o != null && o[p] != null)
+      cookieInfo[p] = o[p];
     cookie +=
       p + COOKIE_FIELD_SEPARATOR + cookieInfo[p] + COOKIE_FIELD_SEPARATOR;
   }
@@ -518,6 +542,8 @@ function StoreCookie() {
   nextYear.setFullYear(nextYear.getFullYear() + 1);
   cookie += ';expires=' + nextYear.toGMTString();
   document.cookie = cookie;
+  if(editWindow != null)
+    editWindow.document.bgColor = cookieInfo.background;
 }
 
 function Update(name, value) {
@@ -526,29 +552,20 @@ function Update(name, value) {
     var aboutWindow = window.open('about:blank', 'about');
     aboutWindow.document.write(
       '<html><head><title>About Scribe</title></head>\n' +
-      '<body bgcolor="bisque"><p>' +
+      '<body bgcolor="' + cookieInfo.background + '"><p>' +
        ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>') +
       '</p></body></html>\n'
     );
     aboutWindow.document.close();
   }
   else if(name == 'help')
-    window.open(HELP_URL == null ? 'help.html' : HELP_URL, 'help');
+    window.open(HELP_URL, 'help');
   else if(name == 'preferences')
     ChangeUserPreferences();
   else if(name == 'open')
     OpenDialog();
-  else if(name == 'view') {
-    var html = SheetHtml();
-    var htmlWindow = window.open('about:blank', 'html');
-    html = html.replace(/</g, '&lt;');
-    html = html.replace(/>/g, '&gt;');
-    htmlWindow.document.write(
-      '<html><head><title>HTML</title></head>\n' +
-      '<body><pre>' + html + '</pre></body></html>\n'
-    );
-    htmlWindow.document.close();
-  }
+  else if(name == 'view')
+    ShowHtml(SheetHtml());
   else if(name == 'clear') {
     character.Clear(value);
     RefreshEditor(false);
