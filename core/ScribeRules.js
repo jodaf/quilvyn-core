@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.1 2005/02/01 07:39:02 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.2 2005/02/04 01:48:59 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -54,8 +54,20 @@ function ScribeCustomClass
     rules.AddRules('classSkills.' + classSkills[i], 'levels.' + name, '=', '1');
   var code = '';
   var note = 'featNotes.' + name + 'Features';
+  var featureLevels = []
+  var featureNotes = {};
+  for(i = 3; i < features.length; i += 4) {
+     var level = features[i - 3];
+     var feature = features[i - 2];
+     var noteName = features[i - 1];
+     var note = features[i];
+     featureLevels = featureLevels.concat([level, feature]);
+     if(noteName != null)
+       featureNotes[noteName] = note;
+  }
   DndCharacter.LoadClassFeatureRules
-    (rules, name, 'featNotes.' + name + 'Features', features);
+    (rules, name, 'featNotes.' + name + 'Features', featureLevels);
+  DndCharacter.LoadRulesFromNotes(rules, featureNotes);
 }
 
 function ScribeCustomRules
