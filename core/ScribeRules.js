@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.8 2005/04/01 07:15:02 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.9 2005/04/01 23:30:06 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -46,14 +46,15 @@ function ScribeCustomChoices(name, item /*, item ... */) {
 /*
  * Add #name# to the list of valid classes.  Characters of class #name# roll
  * #hitDice# (either a number of sides or NdS, where N is the number of dice
- * and S the number of sides) more hit points each level.  #prerequisites# is
- * an array of validity tests that must be passed in order to qualify for the
- * class, #classSkills# an array of skills that are class skills (as oppsed to
- * cross-class) for the class, and #features# an array of level/feature name
- * pairs indicating features that the class acquires when advancing levels.
+ * and S the number of sides) more hit points each level.
+ # #classSkills# is an array of skills that are class skills (as oppsed to
+ * cross-class) for the class, #features# an array of level/feature name pairs
+ * indicating features that the class acquires when advancing levels, and
+ * #prerequisites# an array of validity tests that must be passed in order to
+ * qualify for the class,
  */
 function ScribeCustomClass
-  (name, hitDice, prerequisites, classSkills, features) {
+  (name, hitDice, classSkills, features, prerequisites) {
   var i;
   ScribeCustomChoices('classes', name, hitDice + '' /* Convert int to str */);
   if(prerequisites != null) {
