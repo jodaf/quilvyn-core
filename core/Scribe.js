@@ -1,8 +1,8 @@
-/* $Id: Scribe.js,v 1.65 2005/01/05 06:04:23 Jim Exp $ */
+/* $Id: Scribe.js,v 1.66 2005/01/05 18:36:12 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2004 James J. Hayes';
 var ABOUT_TEXT =
-'Scribe Character Editor version 0.12.28\n' +
+'Scribe Character Editor version 0.13.05\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
@@ -70,10 +70,8 @@ function AddUserRules() {
 
 /* Callback for CustomizeScribe's AddToSheet parameter. */
 function AddUserView(name, within, before, format) {
-  name = name.replace(/([a-z])([A-Z])/g, '$1 $2').
-         replace(/(^|[ ._])[a-z]/g, function(c) {return c.toUpperCase();});
   viewer.addElements(
-    {name: name, within: within, before: before, format: format}
+    {name: SheetName(name), within: within, before: before, format: format}
   );
 }
 
@@ -337,8 +335,7 @@ function LoadCharacter(name) {
             convertedName = 'Survival';
           else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
             convertedName = convertedName.substring(0, i);
-          convertedName = convertedName.replace
-            (/ ([a-z])/g, function(c){return c.toUpperCase();});
+          convertedName = SheetName(convertedName);
           character.attributes[a + '.' + convertedName] = value[x];
         }
       }
@@ -669,8 +666,7 @@ function SheetHtml() {
    */
   for(a in computedAttributes) {
     /* Split name into separate words with initial caps. */
-    var name = a.replace(/([a-z])([A-Z])/g, '$1 $2').
-               replace(/(^|[ ._])[a-z]/g, function(c){return c.toUpperCase();});
+    var name = SheetName(a);
     var value = computedAttributes[a];
     /* Add entered value in brackets if it differs from computed value. */
     if(character.attributes[a] != null && character.attributes[a] != value)
@@ -753,6 +749,16 @@ function SheetHtml() {
          '</body>\n' +
          '</html>\n';
 
+}
+
+/* Returns #name# formatted for character sheet display. */
+function SheetName(name) {
+  var matchInfo;
+  var result = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+  result = result.substring(0, 1).toUpperCase() + result.substring(1);
+  while((matchInfo = result.match(/^(.*)([ ._][a-z])(.*)$/)) != null)
+    result = matchInfo[1] + matchInfo[2].toUpperCase() + matchInfo[3];
+  return result;
 }
 
 /* Opens a window that contains HTML for #html# in readable/copyable format. */
