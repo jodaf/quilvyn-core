@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.17 2004/12/14 06:58:33 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.18 2004/12/23 07:52:50 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2004, James J. Hayes
 
@@ -77,23 +77,23 @@ An example of this is shown below.
 <script src="CustomizeSkills.js"></script>
 <script src="CustomizeSpellPoints.js"></script>
 <script>
-function CustomizeScribe(AddElement, AddRules, AddToSheet) {
+function CustomizeScribe(AddChoices, AddRules, AddToSheet) {
   if(window.CustomizeDeities == null)
     alert('Unabled to load CustomizeDeities.js');
   else
-    window.CustomizeDeities(AddElement, AddRules, AddToSheet);
+    window.CustomizeDeities(AddChoices, AddRules, AddToSheet);
   if(window.CustomizeGoodies == null)
     alert('Unabled to load CustomizeGoodies.js');
   else
-    window.CustomizeGoodies(AddElement, AddRules, AddToSheet);
+    window.CustomizeGoodies(AddChoices, AddRules, AddToSheet);
   if(window.CustomizeSkills == null)
     alert('Unabled to load CustomizeSkills.js');
   else
-    window.CustomizeSkills(AddElement, AddRules, AddToSheet);
+    window.CustomizeSkills(AddChoices, AddRules, AddToSheet);
   if(window.CustomizeSpellPoints == null)
     alert('Unabled to load CustomizeSpellPoints.js');
   else
-    window.CustomizeSpellPoints(AddElement, AddRules, AddToSheet);
+    window.CustomizeSpellPoints(AddChoices, AddRules, AddToSheet);
 }
 </script>
 
@@ -111,7 +111,7 @@ document.write('<script src="' + SOURCE_URL + 'Scribe.js">' + CLOSE_TAG);
 
 </head>
 
-<frameset rows="100%,*" onload="ScribeLoaded();">
+<frameset rows="100%,*" onload="ScribeStart();">
   <frame src="about:blank"/>
   <frame src="about:blank"/>
 </frameset>
