@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.5 2004/01/17 17:29:49 Jim Exp $ */
+/* $Id: Scribe.js,v 1.6 2004/03/29 17:12:57 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -17,145 +17,262 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
+var COOKIE_FIELD_SEPARATOR = '\n';
+var COOKIE_NAME = "scribePrefs";
+var COPYRIGHT = 'Copyright 2004 James J. Hayes';
+var TIMEOUT_DELAY = 1000;
+
 var character = null;
-var cookieName = "scribePrefs";
-var editFrame;
-var loadFrame;
-var loadFrameContents = '';
-var preferences = {
+var cookieInfo = {
+  lastUrl: '',
   prefix: '',
   ruleUrls: '',
   suffix: '.html'
 };
+var editWindow;
+var loadingWindow;
+var rules = null;
+var rulesInProgress = null;
+var loadingPopup = null;
 var sheetWindow;
+var urlLoading = null;
 
 function AddRules() {
-  DndCharacter.rules.AddRules.apply(DndCharacter.rules, arguments);
+  rulesInProgress.AddRules.apply(rulesInProgress, arguments);
 }
+
+function PopUp(html, button, action /* ... */) {
+  var popup = window.open
+    ('about:blank', 'pop' + PopUp.next++, 'height=200,width=400');
+  var content = '<html><head><title>Scribe Message</title></head>\n' +
+                '<body>' + html + '<br/>\n<form>\n';
+  for(var i = 1; i < arguments.length; i += 2)
+    content +=
+      '<input type="button" value="' + arguments[i] + '" ' +
+                           'onclick="' + arguments[i + 1] + '"/>\n';
+  content += '</form>\n</body></html>';
+  popup.document.write(content);
+  popup.document.close();
+  return popup;
+}
+PopUp.next = 0;
 
 function FullUrl(url) {
   if(url.match(/^[a-zA-Z0-9]*:/) == null)
-    url = preferences.prefix + url;
+    url = cookieInfo.prefix + url;
   if(url.match(/\.[a-zA-Z0-9]*$/) == null)
-    url += preferences.suffix;
+    url += cookieInfo.suffix;
   return url;
 }
 
 function ChangePreferences() {
-  var cookie = '';
   var value;
-  for(var p in preferences) {
-    if((value = prompt('Enter value for ' + p, preferences[p])) != null)
-      preferences[p] = value;
-    cookie += p + '\n' + preferences[p] + '\n';
-  }
-  cookie = cookieName + '=' + escape(cookie);
-  var nextYear = new Date();
-  nextYear.setFullYear(nextYear.getFullYear() + 1);
-  cookie += ';expires=' + nextYear.toGMTString();
-  document.cookie = cookie;
-}
-
-function LoadRuleUrls(urls) {
-  var end, url;
-  for( ; urls != ''; urls = urls.substring(end + 1)) {
-    if((end = urls.indexOf(';')) < 0)
-      end = urls.length;
-    if((url = urls.substring(0, end)) == '')
+  for(var p in cookieInfo) {
+    if(p == 'lastUrl')
       continue;
-    url = FullUrl(url);
-    if(loadFrameContents != url) {
-      loadFrame.CustomizeScribe = null;
-      loadFrame.location = loadFrameContents = url;
-      if(loadFrame.CustomizeScribe == null) {
-        setTimeout('LoadRuleUrls("' + urls + '");', 1000);
-        return;
-      }
-    }
-    if(loadFrame.CustomizeScribe == null)
-      alert('Unable to load customizations from "' + url + '"');
-    else {
-      loadFrame.CustomizeScribe
-        (DndCharacter, DndCharacter.AddChoices, AddRules,
-         DndCharacter.AddToSheet);
-      alert('Finished loading customizations from "' + url + '"');
-    }
-    loadFrameContents = '';
+    if((value = prompt('Enter value for ' + p, cookieInfo[p])) == null)
+      return;
+    cookieInfo[p] = value;
   }
-  RefreshDisplay();
+  StoreCookie();
 }
 
-function ReloadRules() {
-  DndCharacter.rules = new RuleEngine();
-  DndCharacter.ThirdEditionRules();
-  LoadRuleUrls(preferences.ruleUrls);
+function LoadCharacter(url) {
+  url = FullUrl(url);
+  if(urlLoading == url && loadingWindow.attributes != null) {
+    cookieInfo.lastUrl = url;
+    StoreCookie();
+    character = new DndCharacter(loadingWindow.attributes);
+    RefreshSheet();
+    RefreshEditor();
+    loadingPopup.close();
+    urlLoading = null;
+  }
+  else if(urlLoading == url && loadingPopup.closed)
+    urlLoading = null;
+  else if(urlLoading == null) {
+    urlLoading = url;
+    loadingWindow.attributes = null;
+    loadingWindow.location = url;
+    loadingPopup =
+      PopUp('Loading character from ' + url, 'Cancel', 'window.close();');
+    setTimeout('LoadCharacter("' + url + '")', TIMEOUT_DELAY);
+  }
+  else
+    setTimeout('LoadCharacter("' + url + '")', TIMEOUT_DELAY);
+}
+
+function LoadRules(urls) {
+
+  var splitUrls = urls.split(';');
+
+  while(splitUrls.length > 0 && splitUrls[0] == '')
+    splitUrls.shift();
+  if(splitUrls.length == 0) {
+    if(rulesInProgress != null) {
+      rules = rulesInProgress;
+      rulesInProgress = null;
+      UpdateSheet();
+    }
+    return;
+  }
+
+  var url = FullUrl(splitUrls[0]);
+  if(urlLoading == url && loadingWindow.CustomizeScribe != null) {
+    loadingWindow.CustomizeScribe
+      (DndCharacter.AddChoices, AddRules, DndCharacter.AddToSheet);
+    loadingPopup.close();
+    urlLoading = null;
+    splitUrls.shift();
+    LoadRules(splitUrls.join(';'));
+  }
+  else if(urlLoading == url && loadingPopup.closed) {
+    urlLoading = null;
+    rulesInProgress = null;
+  }
+  else if(urlLoading == null) {
+    urlLoading = url;
+    loadingWindow.CustomizeScribe = null;
+    loadingWindow.location = url;
+    loadingPopup =
+      PopUp('Loading rules from ' + url, 'Cancel', 'window.close();');
+    if(rulesInProgress == null) {
+      rulesInProgress = new RuleEngine();
+      DndCharacter.AddThirdEditionRules(rulesInProgress);
+    }
+    setTimeout('LoadRules("' + splitUrls.join(';') + '");', TIMEOUT_DELAY);
+  }
+  else
+    setTimeout('LoadRules("' + splitUrls.join(';') + '");', TIMEOUT_DELAY);
+
+}
+
+function NewCharacter() {
+  character = new DndCharacter(null);
+  character.Randomize(rules, 'class');
+  for(var a in DndCharacter.defaults)
+    character.Randomize(rules, a);
+  character.Randomize(rules, 'feats');
+  character.Randomize(rules, 'skills');
+  character.Randomize(rules, 'spells');
+  sheetWindow.attributes = character.attributes;
+  RefreshSheet();
+  RefreshEditor();
 }
 
 function OpenDialog() {
-  var url = prompt('Enter URL to Edit (Blank for Random Character)', '');
-  if(url == '') {
-    character = new DndCharacter(null);
-    for(var a in DndCharacter.defaults)
-      character.Randomize(a);
-    character.Randomize('class');
-    character.Randomize('feats');
-    character.Randomize('skills');
-    character.Randomize('spells');
-    sheetWindow.attributes = character.attributes;
-  }
-  else {
-    sheetWindow.attributes = null;
-    sheetWindow.location = FullUrl(url);
-  }
-  RefreshDisplay();
+  var url = prompt
+    ('Enter URL to Edit (Blank for Random Character)', cookieInfo.lastUrl);
+  if(url == null && sheetWindow.attributes != null)
+    return;
+  if(url == null || url == '')
+    NewCharacter()
+  else
+    LoadCharacter(url);
 }
 
-function RefreshDisplay() {
-  if(sheetWindow.attributes == null) {
-    setTimeout("RefreshDisplay();", 1000);
-    return;
-  }
-  character = new DndCharacter(sheetWindow.attributes);
+function RefreshEditor() {
+  var editor = ObjectEditor(
+    character.attributes,
+    'parent.Update',
+    [['', 'meta', 'button', ['About']],
+     ['', 'meta', 'button', ['Help']],
+     ['', 'meta', 'button', ['Preferences']],
+     ['', 'meta', 'button', ['New/Open']],
+     ['', 'meta', 'button', ['View Html']],
+     ['', 'randomize', 'select',
+      ['--Randomize--', 'alignment', 'armor', 'charisma', 'class',
+       'constitution', 'dexterity', 'feats', 'gender', 'helm', 'hitPoints',
+       'intelligence', 'name', 'race', 'shield', 'skills', 'spells',
+       'strength', 'wisdom']],
+     ['', 'reset', 'select',
+      ['--Reset--', 'feats', 'languages', 'skills', 'spells']],
+     ['Name', 'name', 'text', [20]],
+     ['Race', 'race', 'select', DndCharacter.races],
+     ['Experience', 'experience', 'range', [0,9999999]],
+     ['Levels', 'levels', 'bag', DndCharacter.classes],
+     ['Strength', 'strength', 'range', [3,18]],
+     ['Intelligence', 'intelligence', 'range', [3,18]],
+     ['Wisdom', 'wisdom', 'range', [3,18]],
+     ['Dexterity', 'dexterity', 'range', [3,18]],
+     ['Constitution', 'constitution', 'range', [3,18]],
+     ['Charisma', 'charisma', 'range', [3,18]],
+     ['Player', 'player', 'text', [20]],
+     ['Alignment', 'alignment', 'select', DndCharacter.alignments],
+     ['Gender', 'gender', 'select', DndCharacter.genders],
+     ['Deity', 'deity', 'text', [20]],
+     ['Origin', 'origin', 'text', [20]],
+     ['Feats', 'feats', 'bag', DndCharacter.feats],
+     ['Skills', 'skills', 'bag', DndCharacter.skills],
+     ['Languages', 'languages', 'set', DndCharacter.languages],
+     ['Hit Points', 'hitPoints', 'range', [0,999]],
+     ['Armor', 'armor', 'select', DndCharacter.armors],
+     ['Shield', 'shield', 'select', DndCharacter.shields],
+     ['Helm', 'helm', 'select', DndCharacter.helms],
+     ['Weapons', 'weapons', 'bag', DndCharacter.weapons],
+     ['Spells', 'spells', 'set', DndCharacter.spells],
+     ['Goodies', 'goodies', 'bag', DndCharacter.goodies],
+     ['Cleric Domains', 'domains', 'set', DndCharacter.domains],
+     ['Wizard Specialization', 'specialize', 'set', DndCharacter.schools],
+     ['Wizard Prohibition', 'prohibit', 'set', DndCharacter.schools]]
+  );
+  editWindow.document.write(
+    '<html><head><title>Editor</title></head>\n' +
+    '<body>' + editor + '</body></html>\n'
+  );
+  editWindow.document.close();
+}
+
+function RefreshSheet() {
   sheetWindow.document.write(SheetHtml());
   sheetWindow.document.close();
-  editFrame.document.write(
-    '<html><head><title>Editor</title></head>\n' +
-    '<body>' + character.CharacterEditor(ObjectEditor, 'parent.Update') +
-    '</body></html>\n'
-  );
-  editFrame.document.close();
 }
 
 function ScribeLoaded() {
+
+  if(window.DndCharacter == null ||
+     window.ObjectEditor == null ||
+     window.RuleEngine == null) {
+    alert('JavaScript script(s) required by Scribe are missing; exiting');
+    return;
+  }
   if(window.opener == null || window.opener.ScribeLoaded == null) {
-    alert('Copyright 2004 James J. Hayes\n' +
-          'Press the "About" button for more info');
-    window.open(document.location, 'scribeEditor');
+    if(window.frames[0] == null || window.frames[1] == null)
+      alert('Scribe must be embedded in a document that defines at least ' +
+            'two frames; exiting');
+    else
+      window.open(document.location, 'scribeEditor');
+    return;
   }
-  else {
-    var i = document.cookie.indexOf(cookieName + '=');
-    if(i >= 0) {
-      var end = document.cookie.indexOf(';', i);
-      if(end < 0)
-        end = document.cookie.length;
-      var cookie = document.cookie.substring(i + cookieName.length + 1, end);
-      var settings = unescape(cookie).split('\n');
-      for(i = 0; i < settings.length && settings[i] != ''; i += 2)
-        preferences[settings[i]] = settings[i + 1];
-    }
-    editFrame = window.frames[0];
-    loadFrame = window.frames[1];
-    sheetWindow = window.opener;
-    ReloadRules();
-    OpenDialog();
+
+  PopUp(COPYRIGHT + '<br/>' +
+        'Press the "About" button for more info',
+        'Ok', 'window.close();');
+  var i = document.cookie.indexOf(COOKIE_NAME + '=');
+  if(i >= 0) {
+    var end = document.cookie.indexOf(';', i);
+    if(end < 0)
+      end = document.cookie.length;
+    var cookie = document.cookie.substring(i + COOKIE_NAME.length + 1, end);
+    var settings = unescape(cookie).split(COOKIE_FIELD_SEPARATOR);
+    for(i = 0; i < settings.length && settings[i] != ''; i += 2)
+      cookieInfo[settings[i]] = settings[i + 1];
   }
+  editWindow = window.frames[0];
+  loadingWindow = window.frames[1];
+  sheetWindow = window.opener;
+  rules = new RuleEngine();
+  DndCharacter.AddThirdEditionRules(rules);
+  LoadRules(cookieInfo.ruleUrls);
+  OpenDialog();
+
 }
 
 function SheetHtml() {
   var attrImage = '';
   for(var a in character.attributes)
     if(character.attributes[a] != DndCharacter.defaults[a])
-      attrImage += '"' + a + '":"' + character.attributes[a] + '",'
+      attrImage += '"' + a + '":"' + character.attributes[a] + '",';
   attrImage = '{' + attrImage.replace(/,$/, '') + '}';
   return '<html>\n' +
          '<head>\n' +
@@ -165,22 +282,40 @@ function SheetHtml() {
          '  </' + 'script>\n' +
          '</head>\n' +
          '<body>\n' +
-         character.CharacterSheet() +
+         character.CharacterSheet(rules) +
          '</body>\n' +
          '</html>\n';
 }
 
+function StoreCookie() {
+  var cookie = '';
+  for(var p in cookieInfo) {
+    cookie +=
+      p + COOKIE_FIELD_SEPARATOR + cookieInfo[p] + COOKIE_FIELD_SEPARATOR;
+  }
+  cookie = COOKIE_NAME + '=' + escape(cookie);
+  var nextYear = new Date();
+  nextYear.setFullYear(nextYear.getFullYear() + 1);
+  cookie += ';expires=' + nextYear.toGMTString();
+  document.cookie = cookie;
+}
+
 function Update(attr, value) {
+
   if(attr == 'meta') {
     if(value == 'About')
       window.open('about.html', 'about');
     else if(value == 'Help')
       window.open('help.html', 'help');
     else if(value == 'Preferences') {
-      var oldUrls = preferences.ruleUrls;
+      var oldUrls = cookieInfo.ruleUrls;
       ChangePreferences();
-      if(preferences.ruleUrls != oldUrls)
-        ReloadRules();
+      if(cookieInfo.ruleUrls != oldUrls) {
+        rules = new RuleEngine();
+        DndCharacter.AddThirdEditionRules(rules);
+        LoadRules(cookieInfo[ruleUrls]);
+        RefreshSheet();
+      }
     }
     else if(value == 'New/Open')
       OpenDialog();
@@ -197,20 +332,21 @@ function Update(attr, value) {
     }
     return;
   }
+
   if(attr == 'randomize') {
-    character.Randomize(value);
+    character.Randomize(rules, value);
     sheetWindow.attributes = character.attributes;
-    RefreshDisplay();
+    RefreshEditor();
   }
   else if(attr == 'reset') {
     character.Reset(value);
     sheetWindow.attributes = character.attributes;
-    RefreshDisplay();
+    RefreshEditor();
   }
   else if(attr.indexOf('.') >= 0 && !value)
     delete character.attributes[attr];
   else
     character.attributes[attr] = value;
-  sheetWindow.document.write(SheetHtml());
-  sheetWindow.document.close();
+  RefreshSheet();
+
 }
