@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.10 2004/03/30 22:30:53 Jim Exp $ */
+/* $Id: Scribe.js,v 1.11 2004/04/01 08:05:49 Jim Exp $ */
 
 /*
 Copyright 2004, James J. Hayes
@@ -168,6 +168,10 @@ function NewCharacter() {
 }
 
 function OpenDialog() {
+  if(loadingPopup != null && !loadingPopup.closed) {
+    setTimeout('OpenDialog();', TIMEOUT_DELAY);
+    return;
+  }
   var url = prompt
     ('Enter URL to Edit (Blank for Random Character)', cookieInfo.lastUrl);
   if(url == null && character != null)
