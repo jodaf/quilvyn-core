@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.45 2005/03/29 21:50:18 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.46 2005/04/07 05:35:34 Jim Exp $ -->
 <html>
 
 <head>
@@ -26,8 +26,13 @@
   <li><a href="#random">Randomizing Attributes</a></li>
   <li><a href="#save">Saving Characters</a></li>
   <li><a href="#sheet">The Character Sheet</a></li>
-  <li><a href="#custom">Customization</a></li>
-  <li><a href="#magicitems">Adding Magic Items</a></li>
+  <li><a href="#custom">Customization - Intro</a></li>
+  <li><a href="#customchoices">Customization - Adding Choices</a></li>
+  <li><a href="#customrules">Customization - Adding Rules</a></li>
+  <li><a href="#customsheet">Customization - Adding to the Character Sheet</a></li>
+  <li><a href="#customclass">Customization - Adding Validation Tests</a></li>
+  <li><a href="#customclass">Customization - Adding Classes</a></li>
+  <li><a href="#custommagic">Customization - Adding Magic Items</a></li>
   <li><a href="#limitations">Limitations</a></li>
   <li><a href="#todo">Bugs/To-do List</a></li>
 </ul>
@@ -86,11 +91,12 @@ URL_PREFIX is "file:///home/farquar/Scribe/characters/" and URL_SUFFIX is
 ".html", than you can simply enter "jorash" into the open dialogue to open the
 character file "file:///home/farquar/Scribe/characters/jorash.html".  The value
 of MAX_RECENT_OPENS determines how many recently-opened character URLs appear
-in the New/Open menu.  WARN_ABOUT_DISCARD determines whether or not Scribe
-warns you when ask to open a new character after making changes to the current
-one without saving.  You can also add character sheet and editor customizations
-in scribe.html.  See the <a href="#custom">customization section</a> for
-details.
+in the New/Open menu.  INCLUDE_ITALICIZED_NOTES determines whether or not
+Scribe includes notes about rules that it has applied on the character sheet,
+and WARN_ABOUT_DISCARD determines whether or not Scribe warns you when ask to
+open a new character after making changes to the current one without saving.
+You can also add character sheet and editor customizations in scribe.html.  See
+the <a href="#custom">customization section</a> for details.
 </p>
 
 <p>
@@ -248,14 +254,16 @@ sheet should be clear, a few aspects of the format require explanation.
       italicized notes describe the effects of rules that Scribe used in
       computing attributes. For example, a sheet for a halfling character will
       include an italicized note reading "<i>Halfling Ability Adjustment: +2
-      dex/-2 str</i>". Italicized notes can normally be ignored during play,
-      since Scribe has already incorporated the effect on the character sheet.
-      Plain text notes, on the other hand, describe rule effects that need to
-      be applied during the game, so the DM should examine these closely.  For
-      example, the Melee section of a halfling's character sheet will include
-      the plain text note "Unafraid Feature: +2 vs. fear".  When rolling a
-      fear saving throw for this character, the DM will have to add two to the
-      rolled value.</li>
+      dexterity/-2 strength</i>". Italicized notes can normally be ignored
+      during play, since Scribe has already incorporated the effect on the
+      character sheet.  Plain text notes, on the other hand, describe rule
+      effects that need to be applied during the game, so the DM should examine
+      these closely.  For example, the Melee section of a halfling's character
+      sheet will include the plain text note "Unafraid Feature: +2 vs. fear".
+      When rolling a fear saving throw for this character, the DM will have to
+      add two to the rolled value.  Italicized notes can be eliminated from the
+      character sheet by setting INCLUDE_ITALICIZED_NOTES to false in
+      scribe.html.</li>
 </ul>
 </p>
 
@@ -281,6 +289,7 @@ CustomizeScribe you can call several functions, each of which performs one type
 of customization.
 </p>
 
+<a name="customchoices"><h3>Customization - Adding Choices</h3></a>
 <p>
 The easiest customization you can make is to add a choice to one of the basic
 attribute lists Scribe displays.  For example, you might want to allow
@@ -332,6 +341,7 @@ ScribeCustomChoices('weapons', 'Shillelagh', 'd6');
 ScribeCustomChoices('weapons', 'Orc Kirak', 'd6x3@19');
 </pre></code></p>
 
+<a name="customrules"><h3>Customization - Adding Rules</h3></a>
 <p>
 Attributes like languages, skills, and spells generally don't affect other
 attributes, so adding new choices to the lists users pick from is usually
@@ -349,7 +359,7 @@ CustomizeScribe lines to do this would be:
  
 <p><code><pre>
 ScribeCustomChoices('races', 'Goblin');
-ScribeCustomRules('abilityNotes.goblinAbilityAdjustment', 'race', '=', 'source == "Goblin" ? "+2 dex/-2 str" : null');
+ScribeCustomRules('abilityNotes.goblinAbilityAdjustment', 'race', '=', 'source == "Goblin" ? "+2 dexterity/-2 strength" : null');
 ScribeCustomRules('strength', 'abilityNotes.goblinAbilityAdjustment', '+', '-2');
 ScribeCustomRules('dexterity', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
 </pre></code></p>
@@ -409,6 +419,12 @@ Scribe knows about.  You can use any of these attributes, as well as new ones
 you calculate, in calls to ScribeCustomRules.
 </p>
 
+<a name="customrules"><h3>Customization - Adding Validation Tests</h3></a>
+<p>
+TODO Document ScribeCustomTests(test /* , test ... */)
+</p>
+
+<a name="customsheet"><h3>Customization - Adding to the Character Sheet</h3></a>
 <p>
 Once you've computed new attributes for your character, you'll probably want to
 include some of them on your character sheet.  You can do this through the
@@ -459,7 +475,8 @@ specifying the name of the attribute and its format, like this
 </p>
 
 <p><code><pre>
-ScribeCustomNotes('abilityNotes.goblinAbilityAdjustment', '-2 str/+2 dex');
+ScribeCustomNotes
+  ('abilityNotes.goblinAbilityAdjustment', '-2 strength/+2 dexterity');
 </pre></code></p>
 
 <p>
@@ -487,22 +504,27 @@ ScribeCustomNotes will generate rules to increase the Balance and Escape Artist
 skills by two if the character has the Agile feat.
 </p>
 
+<a name="customclass"><h3>Customization - Adding Validation Tests</h3></a>
 <p>
 <b>TODO</b>
-Discussion of ScribeCustomClass(name, hitDie, prerequisites, classSkills,
-features).
+Document ScribeCustomClass(name, hitDie, classSkills, features, prerequisites)
 </p>
 
-<a name="magicitems"><h3>Adding Magic Items</h3></a>
+<a name="customclass"><h3>Customization - Adding Classes</h3></a>
+<p>
+<b>TODO</b>
+Document ScribeCustomClass(name, hitDie, classSkills, features, prerequisites)
+</p>
+
+<a name="custommagic"><h3>Customization - Adding Magic Items</h3></a>
 <p>
 The Dungeon Master's guide contains a large selection of magic items, and most
 DMs generate their own additional magic items from time to time.  Because of
 this, Scribe presents only a minimal selection of magic items in its "Goodies"
 menu, leaving it to the DM to customize the list to include the specific items
-that appear in his or her campaign.  See the
-<a href='#custom'>Customization</a> section for information on how to add
-additional items to the Goodies list and the rules that specify the effects of
-new items.
+that appear in his or her campaign.  See the other customization sections for
+information on how to add additional items to the Goodies list and the rules
+that specify the effects of new items.
 </p>
 
 <a name="limitations"><h3>Limitations</h3></a>
@@ -531,20 +553,12 @@ new items.
   <li>Racial favored class is not reported.</li>
   <li>Large/tiny damage is not reported.  Characters are assumed to be small
       (gnomes, halflings) or medium (all others).</li>
-  <li>Spells per day computations are off by one for some high-level (19-20)
-      characters.</li>
   <li>Scribe provides no place other than the notes section to enter mundane
       possessions like lanterns and rope. The same goes for physical
       description.</li>
   <li>You can only select the feats "Extra Turning" and "Toughness" once.
       Multiple selections of these feats can be handled by defining custom
       feats (e.g., "Improved Toughness").</li>
-  <li>Scribe has problems dealing with options containing an uncapitalized
-      word.  This is why, e.g., Scribe defines the skills "Sleight Of Hand" and
-      "Knowledge (Arcana)" instead of "Sleight of Hand" and "Knowledge
-      (arcana)". There are other occasions when Scribe is picky about case;
-      when defining your own options, it's safest to follow the conventions
-      Scribe uses.</li>
 </ul>
 </p>
 
@@ -553,12 +567,14 @@ new items.
 <ul>
   <li>Spell schools are not indicated.  It would be particularly nice to flag
       spells within a Wizard's specialization.</li>
+  <li>Spells per day computations are off by one for some high-level (19-20)
+      characters.</li>
   <li>ScribeCustomChoices for weapons should include range increment for
       ranged weapons.</li>
   <li>Scribe presently defines no way to add additional types of armor, because
       of all the extra information that would need to be specified&#151;arcane
-      spell failure percentage, a.c. bonus, maximum dex bonus, skill check
-      penalties, etc.</li>
+      spell failure percentage, a.c. bonus, maximum dexterity bonus, skill
+      check penalty, etc.</li>
   <li>Discussion of the names of the entered and computed character attributes
       needs to be added to helpattrs.html.</li>
   <li>It's easy to overlook when characters have a bonus in untrained skills,
@@ -567,6 +583,12 @@ new items.
   <li>The editor should indicate cross/class skills.</li>
   <li>Need to write and document ScribeCustomEditor&#151;a function that allows
       the user to add fields to the editor for, e.g., possessions.</li>
+  <li>Scribe has problems dealing with options containing an uncapitalized
+      word.  This is why, e.g., Scribe defines the skills "Sleight Of Hand" and
+      "Knowledge (Arcana)" instead of "Sleight of Hand" and "Knowledge
+      (arcana)". There are other occasions when Scribe is picky about case;
+      when defining your own options, it's safest to follow the conventions
+      Scribe uses.</li>
 </ul>
 </p>
 
