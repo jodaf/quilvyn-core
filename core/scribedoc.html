@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.47 2005/04/08 05:56:31 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.48 2005/04/10 05:46:03 Jim Exp $ -->
 <html>
 
 <head>
@@ -318,7 +318,8 @@ list, you must also supply the key ability associated with each skill.  When
 you invoke ScribeCustomChoices to modify these lists, give the information
 associated with each choice immediately after the choice.  The lists you can
 modify in this fashion are 'deities' (include a slash-separated set of domains
-after each new deity), 'skills' (include the key ability), 'spells' (include a
+after each new deity), 'skills' (include the key ability, optionally followed
+by ';trained' if the skill cannot be used untrained), 'spells' (include a
 slash-separated set of spell levels).  and 'weapons' (include a damage die
 for medium-sized creatures).  (The damage value for weapons can also include a
 critical multiplier, preceded by 'x', and/or a minumum threat roll, preceded by
@@ -334,8 +335,8 @@ ScribeCustomChoices('deities',
 );
 ScribeCustomChoices('skills'
   'Craft (Alchemy)', 'intelligence', 'Craft (Carpentery)', 'intelligence',
-  'Craft (Glassworking)', 'intelligence', 'Herbalism', 'intelligence',
-  'Mediation', 'wisdom'
+  'Craft (Glassworking)', 'intelligence', 'Herbalism', 'intelligence;trained',
+  'Mediation', 'wisdom;trained'
 );
 ScribeCustomChoices('spells', 'Calm Water', 'W6/Wa5', 'Darkstorm', 'C4/W4');
 ScribeCustomChoices('weapons', 'Shillelagh', 'd6');
@@ -578,8 +579,6 @@ that specify the effects of new items.
       check penalty, etc.</li>
   <li>Discussion of the names of the entered and computed character attributes
       needs to be added to helpattrs.html.</li>
-  <li>Scribe assumes that all custom skills are untrained skills and provides
-      no way to indicate this isn't so.</li>
   <li>The editor should indicate cross/class skills.</li>
   <li>Need to write and document ScribeCustomEditor&#151;a function that allows
       the user to add fields to the editor for, e.g., possessions.</li>

@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.95 2005/04/07 05:34:44 Jim Exp $ */
+/* $Id: Scribe.js,v 1.96 2005/04/10 05:46:03 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.16.06';
+var VERSION = '0.16.07';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -678,9 +678,10 @@ function ScribeStart() {
   var defaults = {
     'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
     'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'help.html',
-    'INCLUDE_ITALICIZED_NOTES':true, 'LOGO_URL':'scribe.gif',
-    'MAGIC_RULES_VERSION':'3.5', 'MAX_RECENT_OPENS':15, 'URL_PREFIX':'',
-    'URL_SUFFIX':'.html', 'WARN_ABOUT_DISCARD':true
+    'INCLUDE_ITALICIZED_NOTES':true, 'INCLUDE_UNTRAINED_SKILLS':false,
+    'LOGO_URL':'scribe.gif', 'MAGIC_RULES_VERSION':'3.5',
+    'MAX_RECENT_OPENS':15, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
+    'WARN_ABOUT_DISCARD':true
   };
 
   if(DndCharacter == null || ObjectViewer == null || RuleEngine == null) {
@@ -746,25 +747,40 @@ function ScribeStart() {
 function SheetHtml() {
 
   var a;
+  var attrs = CopyObject(character.attributes);
   var codeAttributes = {};
-  var computedAttributes = rules.Apply(character.attributes);
+  var computedAttributes;
   var displayAttributes = {};
   var i;
 
   for(a in character.attributes) {
-    if(character.attributes[a] == DndCharacter.defaults[a])
+    if(attrs[a] == DndCharacter.defaults[a])
       continue; /* No point in storing default attr values. */
     /* Turn "dot" attributes into objects. */
     if((i = a.indexOf('.')) < 0)
-      codeAttributes[a] = character.attributes[a];
+      codeAttributes[a] = attrs[a];
     else {
       var object = a.substring(0, i);
       if(codeAttributes[object] == null)
         codeAttributes[object] = {};
-      codeAttributes[object][a.substring(i + 1)] = character.attributes[a];
+      codeAttributes[object][a.substring(i + 1)] = attrs[a];
     }
   }
 
+  if(INCLUDE_UNTRAINED_SKILLS) {
+    for(a in DndCharacter.skillsAbility)
+      if(character.attributes['skills.' + a] == null &&
+         DndCharacter.skillsAbility[a].indexOf(';trained') < 0)
+        attrs['skills.' + a] = 0;
+  }
+  computedAttributes = rules.Apply(attrs);
+  if(INCLUDE_UNTRAINED_SKILLS) {
+    for(a in DndCharacter.skillsAbility) {
+      if(character.attributes['skills.' + a] == null &&
+         computedAttributes['skills.' + a] == 0)
+        delete computedAttributes['skills.' + a];
+    }
+  }
   /*
    * NOTE: The ObjectFormatter doesn't support interspersing values in a list
    * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
@@ -776,8 +792,8 @@ function SheetHtml() {
     var name = SheetName(a);
     var value = computedAttributes[a];
     /* Add entered value in brackets if it differs from computed value. */
-    if(character.attributes[a] != null && character.attributes[a] != value)
-      value += '[' + character.attributes[a] + ']';
+    if(attrs[a] != null && attrs[a] != value)
+      value += '[' + attrs[a] + ']';
     if((i = name.indexOf('.')) < 0) {
       if(name == 'Image Url' && value.match(/^\w*:/) == null)
         value = URL_PREFIX + value;
@@ -861,7 +877,7 @@ function SheetHtml() {
            ' by Scribe version ' + VERSION + ' --' + '>\n' +
          '<html>\n' +
          '<head>\n' +
-         '  <title>' + character.attributes.name + '</title>\n' +
+         '  <title>' + attrs.name + '</title>\n' +
          '  <script>\n' +
          '    var attributes = ' + ObjectViewer.toCode(codeAttributes) + ';\n' +
          '  </' + 'script>\n' +
