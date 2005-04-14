@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.26 2005/04/08 05:56:57 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.27 2005/04/14 19:51:15 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -89,7 +89,7 @@ var CUSTOMIZATION_URLS = [
   null
 ];
 
-function CustomizeScribe(AddChoices, AddRules, AddToSheet) {
+function CustomizeScribe() {
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
     var pos;
     var url = CUSTOMIZATION_URLS[i];
@@ -102,7 +102,7 @@ function CustomizeScribe(AddChoices, AddRules, AddToSheet) {
     if(window[url] == null)
       alert('Unable to invoke ' + url + ' from ' + CUSTOMIZATION_URLS[i]);
     else
-      window[url](AddChoices, AddRules, AddToSheet);
+      window[url]();
   }
 }
 
@@ -112,21 +112,17 @@ var CLOSE_TAG = '<' + '/' + 'script>\n';
 var HELP_URL = SOURCE_URL + 'help.html';
 var LOGO_URL = SOURCE_URL + 'scribe.gif';
 var scribeUrls = [
-  'DndCharacter.js', 'ObjectViewer.js', 'RuleEngine.js', 'Scribe.js',
-  'ScribeCustom.js'
-];
+  'DndCharacter.js', 'Input.js', 'ObjectViewer.js', 'RuleEngine.js',
+  'Scribe.js', 'ScribeCustom.js'
+].concat(CUSTOMIZATION_URLS);
 
-for(var i = 0; i < scribeUrls.length; i++)
-  document.write
-    ('<script src="' + SOURCE_URL + scribeUrls[i] + '">' + CLOSE_TAG);
-for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
-  var url = CUSTOMIZATION_URLS[i];
+for(var i = 0; i < scribeUrls.length; i++) {
+  var url = scribeUrls[i];
   if(url == null)
     continue;
   if(url.match(/\w+:/) == null)
     url = SOURCE_URL + url;
   document.write('<script src="' + url + '">' + CLOSE_TAG);
-
 }
 
 -->
@@ -134,7 +130,7 @@ for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
 
 </head>
 
-<frameset rows="100%,*" onload="ScribeStart();">
+<frameset rows="100%,*" onload="Scribe();">
   <frame src="about:blank"/>
   <frame src="about:blank"/>
 </frameset>

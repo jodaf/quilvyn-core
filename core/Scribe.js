@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.96 2005/04/10 05:46:03 Jim Exp $ */
+/* $Id: Scribe.js,v 1.97 2005/04/14 19:51:15 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.16.07';
+var VERSION = '0.16.14';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -35,81 +35,6 @@ var rules;          /* RuleEngine with standard + user rules */
 var showCodes = {}; /* Display status of spell category codes */
 var urlLoading=null;/* Character URL presently loading */
 var viewer;         /* ObjectViewer to translate character attrs into HTML */
-
-/*=== Convenience functions for the Input pseudo-class. ===*/
-
-/* Returns the value of #input#. */
-function InputGetValue(input) {
-  return input.type == 'checkbox' ? (input.checked ? 1 : 0) :
-         input.type == 'select-one' ? input.options[input.selectedIndex].text :
-         input.value;
-}
-
-/*
- * Returns HTML for an Input named #name# of type #type#.  #params# is an array
- * of type-specific attributes--label for button Inputs, options for select
- * Inputs, columns for text Inputs, and columns and rows for textarea Inputs.
- */
-function InputHtml(name, type, params) {
-  var result;
-  if(type == 'button')
-    result =
-      '<input name="' + name + '" type="button" value="' + params[0] + '"/>'
-  else if(type == 'checkbox')
-    result = '<input name="' + name + '" type="checkbox"/>';
-  else if(type == 'select-one') {
-    var opts = new Array();
-    for(var i = 0; i < params.length; i++)
-      opts[opts.length] = '<option>' + params[i] + '</option>';
-    result =
-      '<select name="' + name + '">\n' + opts.join('\n') + '\n</select>';
-  }
-  else if(type == 'text')
-    result =
-      '<input name="' + name + '" type="text" size="' + params[0] + '"/>';
-  else if(type == 'textarea')
-    result =
-      '<textarea name="' + name + '" rows="' + params[1] + '" cols="' +
-      params[0] + '"/></textarea>';
-  return result;
-};
-
-/* Directs #input# to invoke #fn# when it is changed/pressed. */
-function InputSetCallback(input, fn) {
-  var method =
-    input.type == 'button' || input.type == 'checkbox' ? 'onclick' : 'onchange';
-  input[method] = fn;
-}
-
-/* Replaces the options in a select #input# with the array #selections#. */
-function InputSetOptions(input, options) {
-  input.options.length = 0;
-  for(var i = 0; i < options.length; i++)
-    input.options[input.options.length] = new Option(options[i], '', 0, 0);
-  input.selectedIndex = 0;
-};
-
-/* Sets the value of #input# to #value#. */
-function InputSetValue(input, value) {
-  var i;
-  if(input.type == 'checkbox')
-    input.checked = value;
-  else if(input.type == 'select-one') {
-    if(value == null)
-      i = 0;
-    else
-      for(i=0; i < input.options.length && input.options[i].text != value; i++)
-        ; /* empty */
-    if(i >= input.options.length)
-      return false;
-    input.selectedIndex = i;
-  }
-  else if(input.type != 'button')
-    input.value = value == null ? '' : value;
-  return true;
-}
-
-/*=== ===*/
 
 /* Returns an array of choices for the editor's New/Open select input. */
 function ChoicesForFileInput() {
@@ -673,7 +598,7 @@ function ResetShowCodes() {
 }
 
 /* Launch routine called after all Scribe scripts are loaded. */
-function ScribeStart() {
+function Scribe() {
 
   var defaults = {
     'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
@@ -688,7 +613,7 @@ function ScribeStart() {
     alert('JavaScript functions required by Scribe are missing; exiting');
     return;
   }
-  if(window.opener == null || window.opener.ScribeStart == null) {
+  if(window.opener == null || window.opener.Scribe == null) {
     if(window.frames[0] == null || window.frames[1] == null)
       alert('Scribe must be embedded in a document that defines at least ' +
             'two frames; exiting');
