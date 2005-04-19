@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.49 2005/04/14 19:51:15 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.50 2005/04/19 05:51:53 Jim Exp $ -->
 <html>
 
 <head>
@@ -91,13 +91,11 @@ URL_PREFIX is "file:///home/farquar/Scribe/characters/" and URL_SUFFIX is
 ".html", than you can simply enter "jorash" into the open dialogue to open the
 character file "file:///home/farquar/Scribe/characters/jorash.html".  The value
 of MAX_RECENT_OPENS determines how many recently-opened character URLs appear
-in the New/Open menu.  INCLUDE_ITALICIZED_NOTES and INCLUDE_UNTRAINED_SKILLS
-determine whether or not Scribe includes on the character sheet notes about
-rules that it has applied and non-zero skill rankings for untrained skills.
-Finally, WARN_ABOUT_DISCARD determines whether or not Scribe warns you when ask
-to open a new character after making changes to the current one without saving.
-You can also add character sheet and editor customizations in scribe.html.  See
-the <a href="#custom">customization section</a> for details.
+in the New/Open menu, and WARN_ABOUT_DISCARD determines whether or not Scribe
+warns you when ask to open a new character after making changes to the current
+one without saving. You can also add character sheet and editor customizations
+in scribe.html.  See the <a href="#custom">customization section</a> for
+details.
 </p>
 
 <p>
@@ -163,6 +161,19 @@ In your main browser window, Scribe displays a character sheet based on the
 values of the editing window.  Every time you change a value in the editing
 window, Scribe applies the rules from the AD&amp;D third edition Player's
 Handbook, then updates the character sheet to show you any computed changes.
+</p>
+
+<p>
+The three "Show" checkboxes provide some control over what attributes the
+character sheet displays.  The "Italic Notes" checkbox determines whether or
+not italicized notes are included on the sheet.  See <a href='#sheet'>the
+discussion of the character sheet</a> for an explanation as to why some notes
+are italicized and others are not.  The "Untrained Skills" checkbox determines
+whether Scribe includes in the character's skill list those skills that may be
+used even when no skill points have been allocated to them.  The "DM Info" box
+determines whether or not the character sheet includes any information marked
+for the Dungeon Master only.  This includes any notes entered in the editor's
+"DM Notes" box and any attributes that depend on the "dmonly" attribute.
 </p>
 
 <p>
@@ -262,9 +273,7 @@ sheet should be clear, a few aspects of the format require explanation.
       these closely.  For example, the Melee section of a halfling's character
       sheet will include the plain text note "Unafraid Feature: +2 vs. fear".
       When rolling a fear saving throw for this character, the DM will have to
-      add two to the rolled value.  Italicized notes can be eliminated from the
-      character sheet by setting INCLUDE_ITALICIZED_NOTES to false in
-      scribe.html.</li>
+      add two to the rolled value.</li>
 </ul>
 </p>
 

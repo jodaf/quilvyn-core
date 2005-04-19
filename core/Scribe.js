@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.98 2005/04/19 05:36:00 Jim Exp $ */
+/* $Id: Scribe.js,v 1.99 2005/04/19 05:51:53 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.16.14';
+var VERSION = '0.16.18';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -92,7 +92,7 @@ function EditorHtml() {
     ['', 'view', 'button', ['View Html']],
     ['Show: ', 'italics', 'checkbox', ['Italic Notes']],
     ['', 'untrained', 'checkbox', ['Untrained Skills']],
-    ['', 'dmonly', 'checkbox', ['DM Only Info']],
+    ['', 'dmonly', 'checkbox', ['DM Info']],
     [' ', 'clear', 'select-one',
       ['--Clear--', 'alignment', 'armor', 'charisma', 'constitution', 'deity',
        'dexterity', 'domains', 'feats', 'gender', 'hitPoints', 'intelligence',
