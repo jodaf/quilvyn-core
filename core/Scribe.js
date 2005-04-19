@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.97 2005/04/14 19:51:15 Jim Exp $ */
+/* $Id: Scribe.js,v 1.98 2005/04/19 05:36:00 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.16.14';
@@ -27,7 +27,10 @@ var cachedAttrs = {}; /* Unchanged attrs of all characters opened so far */
 var character;      /* Current DndCharacter */
 var characterUrl;   /* URL of current DndCharacter */
 var cookieInfo = {  /* What we store in the cookie */
-  recent: '' /* Comma-separated and -terminated list of recent opens */
+  dmonly: '0',     /* Show information marked "dmonly" on sheet? */
+  italics: '1',    /* Show italicized notes on sheet? */
+  recent: '',      /* Comma-separated and -terminated list of recent opens */
+  untrained: '0'   /* Show untrained skills on sheet? */
 };
 var editForm;       /* Character editing form (window.frames[0].forms[0]) */
 var loadingPopup = null; /* Current "loading" message popup window */
@@ -87,6 +90,9 @@ function EditorHtml() {
     ['', 'summary', 'button', ['Summary']],
     [' ', 'validate', 'button', ['Validate']],
     ['', 'view', 'button', ['View Html']],
+    ['Show: ', 'italics', 'checkbox', ['Italic Notes']],
+    ['', 'untrained', 'checkbox', ['Untrained Skills']],
+    ['', 'dmonly', 'checkbox', ['DM Only Info']],
     [' ', 'clear', 'select-one',
       ['--Clear--', 'alignment', 'armor', 'charisma', 'constitution', 'deity',
        'dexterity', 'domains', 'feats', 'gender', 'hitPoints', 'intelligence',
@@ -142,7 +148,8 @@ function EditorHtml() {
     ['', 'specialize', 'checkbox', null],
     ['Wizard Prohibition', 'prohibit_sel', 'select-one', DndCharacter.schools],
     ['', 'prohibit', 'checkbox', null],
-    ['Notes', 'notes', 'textarea', [40,10]]
+    ['Notes', 'notes', 'textarea', [40,10]],
+    ['DM Notes', 'dmNotes', 'textarea', [40,10]]
   ];
   var htmlBits = ['<form name="frm"><table>\n'];
   for(var i = 0; i < editorElements.length; i++) {
@@ -191,6 +198,7 @@ function InitialRuleEngine() {
   versions = MAGIC_RULES_VERSION.split('/');
   for(i = 0; i < versions.length; i++)
     DndCharacter.LoadVersion3PointRules(result, versions[i], 'magic');
+  result.AddRules('dmNotes', 'dmonly', '?', null);
   /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
   result.AddRules('ignored', 'meleeNotes.strengthDamageAdjustment', '=', null);
   return result;
@@ -315,7 +323,9 @@ function InitialViewer() {
       {name: 'Magic Notes', within: 'Magic'},
     {name: 'Notes Break', within: '_top', format: '\n'},
     {name: 'NotesSection', within: '_top', title: 'Notes'},
-      {name: 'Notes', within: 'NotesSection', format: '%V'}
+      {name: 'Notes', within: 'NotesSection', format: '%V'},
+      {name: 'Dm Notes Break', within: 'NotesSection', format: '\n'},
+      {name: 'Dm Notes', within: 'NotesSection', format: '%V'}
   );
   return result;
 }
@@ -579,6 +589,9 @@ function RefreshEditor() {
     if(val != null)
       InputSetValue(val, character.attributes[attr]);
   }
+  InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
+  InputSetValue(editForm.italics, cookieInfo.italics - 0);
+  InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
 }
 
 /* Recomputes the showCodes global to reflect the current character's spells. */
@@ -603,7 +616,6 @@ function Scribe() {
   var defaults = {
     'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
     'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'help.html',
-    'INCLUDE_ITALICIZED_NOTES':true, 'INCLUDE_UNTRAINED_SKILLS':false,
     'LOGO_URL':'scribe.gif', 'MAGIC_RULES_VERSION':'3.5',
     'MAX_RECENT_OPENS':15, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
     'WARN_ABOUT_DISCARD':true
@@ -692,14 +704,15 @@ function SheetHtml() {
     }
   }
 
-  if(INCLUDE_UNTRAINED_SKILLS) {
+  attrs.dmonly = cookieInfo.dmonly - 0;
+  if(cookieInfo.untrained == '1') {
     for(a in DndCharacter.skillsAbility)
       if(character.attributes['skills.' + a] == null &&
          DndCharacter.skillsAbility[a].indexOf(';trained') < 0)
         attrs['skills.' + a] = 0;
   }
   computedAttributes = rules.Apply(attrs);
-  if(INCLUDE_UNTRAINED_SKILLS) {
+  if(cookieInfo.untrained == '1') {
     for(a in DndCharacter.skillsAbility) {
       if(character.attributes['skills.' + a] == null &&
          computedAttributes['skills.' + a] == 0)
@@ -780,7 +793,7 @@ function SheetHtml() {
       }
       value = name + (value == '1' ? '' : (': ' + value));
       if(object.indexOf('Notes') > 0 && rules.IsSource(a)) {
-        if(INCLUDE_ITALICIZED_NOTES)
+        if(cookieInfo.italics == '1')
           value = '<i>' + value + '</i>';
         else
           continue;
@@ -920,7 +933,7 @@ function Update(input) {
     else
       Update.aboutWindow.focus();
   }
-  else if(name == 'clear' || name == 'randomize') {
+  else if('clear randomize'.indexOf(name) >= 0) {
     input.selectedIndex = 0;
     var attr;
     var pat = '^' + value + '(\\.|$)';
@@ -937,6 +950,11 @@ function Update(input) {
           InputSetValue(input, attr.substring(attr.indexOf('.') + 1));
         break;
       }
+    RedrawSheet();
+  }
+  else if('dmonly italics untrained'.indexOf(name) >= 0) {
+    cookieInfo[name] = value + '';
+    StoreCookie();
     RedrawSheet();
   }
   else if(name == 'file') {
