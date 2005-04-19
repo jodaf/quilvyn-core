@@ -1,4 +1,4 @@
-/* $Id: Input.js,v 1.1 2005/04/14 19:51:15 Jim Exp $ */
+/* $Id: Input.js,v 1.2 2005/04/19 05:35:23 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -21,7 +21,8 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /* Returns the value of #input#. */
 function InputGetValue(input) {
-  return input.type == 'checkbox' ? (input.checked ? 1 : 0) :
+  return input.type == 'checkbox' || input.type == 'radio' ?
+           (input.checked ? 1 : 0) :
          input.type == 'select-one' ? input.options[input.selectedIndex].text :
          input.value;
 }
@@ -36,8 +37,11 @@ function InputHtml(name, type, params) {
   if(type == 'button')
     result =
       '<input name="' + name + '" type="button" value="' + params[0] + '"/>'
-  else if(type == 'checkbox')
-    result = '<input name="' + name + '" type="checkbox"/>';
+  else if(type == 'checkbox' || type == 'radio') {
+    result = '<input name="' + name + '" type="' + type + '"/>';
+    if(params != null)
+      result += params[0];
+  }
   else if(type == 'select-one') {
     var opts = new Array();
     for(var i = 0; i < params.length; i++)
@@ -57,8 +61,9 @@ function InputHtml(name, type, params) {
 
 /* Directs #input# to invoke #fn# when it is changed/pressed. */
 function InputSetCallback(input, fn) {
-  var method =
-    input.type == 'button' || input.type == 'checkbox' ? 'onclick' : 'onchange';
+  var method = input.type == 'button' ||
+               input.type == 'checkbox' ||
+               input.type == 'radio' ? 'onclick' : 'onchange';
   input[method] = fn;
 }
 
@@ -73,7 +78,7 @@ function InputSetOptions(input, options) {
 /* Sets the value of #input# to #value#. */
 function InputSetValue(input, value) {
   var i;
-  if(input.type == 'checkbox')
+  if(input.type == 'checkbox' || input.type == 'radio')
     input.checked = value;
   else if(input.type == 'select-one') {
     if(value == null)
