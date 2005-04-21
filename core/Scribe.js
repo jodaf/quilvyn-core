@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.100 2005/04/20 00:54:44 Jim Exp $ */
+/* $Id: Scribe.js,v 1.101 2005/04/21 18:03:49 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.16.19';
+var VERSION = '0.16.21';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -784,7 +784,7 @@ function SheetHtml() {
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
             threat = 21 - (21 - threat) -
                      computedAttributes['weaponCriticalAdjustment.' + name];
-          if(computedAttributes.isSmall && smallDamage != null)
+          if(computedAttributes['features.Small'] && smallDamage != null)
             damage = smallDamage;
           damage += Signed(extraDamage);
           damages[i] = damage + ' x' + multiplier + '@' + threat;

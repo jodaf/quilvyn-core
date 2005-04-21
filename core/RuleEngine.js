@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.8 2005/02/19 07:11:57 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.9 2005/04/21 18:03:49 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -143,11 +143,16 @@ RuleEngine.prototype._Recompute = function(initial, computed, attr) {
     var sortfn = function(a, b) {return a.seq - b.seq;};
     sources.sort(sortfn);
     for(var i = 0; i < sources.length; i++) {
+      var assign = false;
       var fn = sources[i].fn;
       var source = sources[i].source;
       var sourceValue =
         computed[source] != null ? computed[source] : initial[source];
       var type = sources[i].type;
+      if(type.substring(1, 2) == '=') {
+        assign = true;
+        type = type.substring(0, 1);
+      }
       if(typeof(sourceValue) == 'string' &&
          sourceValue != '' &&
          !isNaN(sourceValue - 0))
@@ -163,6 +168,8 @@ RuleEngine.prototype._Recompute = function(initial, computed, attr) {
       else if(amount == null)
         continue;
       else if(type == '=')
+        computedValue = amount;
+      else if(assign && computedValue == null)
         computedValue = amount;
       else if(type == '+')
         addition += amount - 0;
