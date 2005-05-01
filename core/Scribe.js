@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.101 2005/04/21 18:03:49 Jim Exp $ */
+/* $Id: Scribe.js,v 1.102 2005/05/01 14:57:04 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.16.21';
+var VERSION = '0.17.01';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -200,7 +200,7 @@ function InitialRuleEngine() {
     DndCharacter.LoadVersion3PointRules(result, versions[i], 'magic');
   result.AddRules('dmNotes', 'dmonly', '?', null);
   /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
-  result.AddRules('ignored', 'meleeNotes.strengthDamageAdjustment', '=', null);
+  result.AddRules('name', 'meleeNotes.strengthDamageAdjustment', '=', 'null');
   return result;
 }
 
@@ -522,11 +522,12 @@ function RandomizeCharacter() {
       '<h2>New Character Attributes</h2>\n',
       '<form name="frm"><table>\n',
       '<tr><th>Race</th><td>' +
-      InputHtml('race', 'select-one', DndCharacter.races) + '</td></tr>\n'
+      InputHtml('race', 'select-one', DndCharacter.races) + '</td></tr>\n',
+      '<tr><th>Level(s)</th></tr>\n'
     ];
     for(var i = 0; i < classes.length; i++)
       htmlBits[htmlBits.length] =
-        '<tr><th>' + classes[i] + ' Level' + '</th><td>' +
+        '<tr><th>' + classes[i] + '</th><td>' +
         InputHtml('levels.' + classes[i], 'text', [2]) + '</td></tr>\n';
     htmlBits = htmlBits.concat([
       '</table></form>\n',
