@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.9 2005/04/01 23:30:06 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.10 2005/05/02 23:14:31 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -24,9 +24,9 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  */
 function ScribeCustomChoices(name, item /*, item ... */) {
   var nameObjects = {
-    'classes':'classesHitDie', 'deities':'deitiesDomains',
-    'skills': 'skillsAbility', 'spells':'spellsLevels',
-    'weapons': 'weaponsDamage'
+    'armors':'armorsArmorClassBonuses', 'classes':'classesHitDie',
+    'deities':'deitiesDomains', 'skills': 'skillsAbility',
+    'spells':'spellsLevels', 'weapons': 'weaponsDamage'
   };
   if(nameObjects[name] != null)
     name = nameObjects[name];
