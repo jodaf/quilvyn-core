@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.102 2005/05/01 14:57:04 Jim Exp $ */
+/* $Id: Scribe.js,v 1.103 2005/05/02 23:13:49 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.17.01';
+var VERSION = '0.17.02';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -775,19 +775,21 @@ function SheetHtml() {
           extraDamage += computedAttributes['weaponDamageAdjustment.' + name];
         damages = damages == null ? ['0'] : damages.split('/');
         for(i = 0; i < damages.length; i++) {
-          var pieces = damages[i].match(/^(\d*d\d+) *(x(\d+))? *(@(\d+))?$/);
+          var pieces =
+            damages[i].match(/^(\d*d\d+)([\+\-]\d+)? *(x(\d+))? *(@(\d+))?$/);
           if(pieces == null)
             pieces = ['d6', 'd6'];
           var damage = pieces[1];
-          var multiplier = pieces[3] ? pieces[3] - 0 : 2;
+          var extra = pieces[2] ? pieces[2] - 0 : 0;
+          var multiplier = pieces[4] ? pieces[4] - 0 : 2;
           var smallDamage = DndCharacter.weaponsSmallDamage[damage];
-          var threat = pieces[5] ? pieces[5] - 0 : 20;
+          var threat = pieces[6] ? pieces[6] - 0 : 20;
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
             threat = 21 - (21 - threat) -
                      computedAttributes['weaponCriticalAdjustment.' + name];
           if(computedAttributes['features.Small'] && smallDamage != null)
             damage = smallDamage;
-          damage += Signed(extraDamage);
+          damage += Signed(extra + extraDamage);
           damages[i] = damage + ' x' + multiplier + '@' + threat;
         }
         name += '(' + Signed(attack) + ' ' + damages.join('/') + ')';
