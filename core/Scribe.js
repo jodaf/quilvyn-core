@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.103 2005/05/02 23:13:49 Jim Exp $ */
+/* $Id: Scribe.js,v 1.104 2005/05/06 13:00:36 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.17.02';
+var VERSION = '0.17.06';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -1053,9 +1053,7 @@ function ValidationHtml() {
   var errors;
   var i;
   var invalid = DndCharacter.Validate(computedAttributes);
-  var result = '';
-  for(i = 0; i < invalid.length; i++)
-    result += 'Failed test: ' + invalid[i] + '<br/>';
+  var result;
   /*
    * Because of cross-class skills, we can't write a simple validation test for
    * the number of assigned skill points; we have to compute it here.
@@ -1069,14 +1067,20 @@ function ValidationHtml() {
     var isCross = computedAttributes['classSkills.' + skill] == null;
     var maxAllowed = maxRanks / (isCross ? 2 : 1);
     if(character.attributes[a] > maxAllowed)
-      result += 'Failed test: {' + skill + '} <= ' + maxAllowed + '<br/>';
+      invalid[invalid.length] =
+        '{' + a + '} <= {' + (isCross ? 'cross' : 'class') + 'SkillMax} ' +
+        '[' + character.attributes[a] + ' > ' + maxAllowed + ']';
     skillPointsAssigned += character.attributes[a] * (isCross ? 2 : 1);
   }
   if(skillPointsAssigned != computedAttributes.skillPoints)
-    result += 'Failed test: Sum(/^skills\\.*) == ' +
-              computedAttributes.skillPoints + '<br/>';
-  for(i = -1, errors = 0; (i = result.indexOf('<br/>', i + 1)) >= 0; errors++)
-    ; /* empty */
-  result += errors + ' validation error' + (errors == 1 ? '' : 's') + '<br/>';
+    invalid[invalid.length] =
+      '{skills}+ == {skillPoints} [' + skillPointsAssigned + ' != ' +
+      computedAttributes.skillPoints + ']';
+  if(invalid.length == 0)
+    result = 'No validation errors<br/>\n';
+  else
+    result =
+      'Failed: ' + invalid.join('<br/>\nFailed:') + '<br/>\n' + invalid.length +
+      ' validation error' + (invalid.length == 1 ? '' : 's') + '<br/>\n';
   return result;
 }
