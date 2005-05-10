@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.104 2005/05/06 13:00:36 Jim Exp $ */
+/* $Id: Scribe.js,v 1.105 2005/05/10 16:04:32 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.17.06';
+var VERSION = '0.17.10';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -727,6 +727,8 @@ function SheetHtml() {
    */
   var damageAdjustment =
     computedAttributes['meleeNotes.strengthDamageAdjustment'];
+  if(damageAdjustment == null)
+    damageAdjustment = 0;
   for(a in computedAttributes) {
     var name = SheetName(a);
     var value = computedAttributes[a];
@@ -736,7 +738,7 @@ function SheetHtml() {
     if((i = name.indexOf('.')) < 0) {
       if(name == 'Image Url' && value.match(/^\w*:/) == null)
         value = URL_PREFIX + value;
-      else if(name == 'Unarmed Damage')
+      else if(name == 'Unarmed Damage' && damageAdjustment != 0)
         value += Signed(damageAdjustment);
       displayAttributes[name] = value;
     }
@@ -746,17 +748,20 @@ function SheetHtml() {
       if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
           continue; /* Suppress notes with zero value. */
-        else if(DndCharacter.notes[a] == null)
-          value = Signed(value); /* Make signed if not otherwise formatted. */
+        else if(DndCharacter.notes[a] == null && value >= 0)
+          value = '+' + value; /* Make signed if not otherwise formatted. */
       }
       if(DndCharacter.notes[a] != null)
         value = DndCharacter.notes[a].replace(/%V/, value);
       if(object == 'Skills') {
-        var skill = name;
-        if(DndCharacter.skillsAbility[skill] != null)
-          name += ' (' + DndCharacter.skillsAbility[skill].substring(0,3) + ')';
-        if(computedAttributes['classSkills.' + skill] == null)
-          name += '(X)';
+        var ability = DndCharacter.skillsAbility[name];
+        var skillInfo = new Array();
+        if(ability != null && ability != '' && ability.substring(0, 1) != ';')
+          skillInfo[skillInfo.length] = ability.substring(0, 3);
+        if(computedAttributes['classSkills.' + name] == null)
+          skillInfo[skillInfo.length] = 'cc';
+        if(skillInfo.length > 0)
+          name += ' (' + skillInfo.join(';') + ')';
       }
       else if(object == 'Weapons') {
         var damages = DndCharacter.weaponsDamage[name];
@@ -767,20 +772,20 @@ function SheetHtml() {
           computedAttributes.meleeAttack : computedAttributes.rangedAttack;
         if(computedAttributes['weaponAttackAdjustment.' + name] != null)
           attack += computedAttributes['weaponAttackAdjustment.' + name];
-        var extraDamage = damageAdjustment;
+        var addedDamage = damageAdjustment;
         if(name.indexOf('bow') >= 0 &&
-           (name.indexOf('Composite') < 0 || extraDamage > 0))
-          extraDamage = 0;
+           (name.indexOf('Composite') < 0 || addedDamage > 0))
+          addedDamage = 0;
         if(computedAttributes['weaponDamageAdjustment.' + name] != null)
-          extraDamage += computedAttributes['weaponDamageAdjustment.' + name];
+          addedDamage += computedAttributes['weaponDamageAdjustment.'+name] - 0;
         damages = damages == null ? ['0'] : damages.split('/');
         for(i = 0; i < damages.length; i++) {
           var pieces =
             damages[i].match(/^(\d*d\d+)([\+\-]\d+)? *(x(\d+))? *(@(\d+))?$/);
           if(pieces == null)
             pieces = ['d6', 'd6'];
+          var additional = (pieces[2] ? pieces[2] - 0 : 0) + addedDamage;
           var damage = pieces[1];
-          var extra = pieces[2] ? pieces[2] - 0 : 0;
           var multiplier = pieces[4] ? pieces[4] - 0 : 2;
           var smallDamage = DndCharacter.weaponsSmallDamage[damage];
           var threat = pieces[6] ? pieces[6] - 0 : 20;
@@ -789,7 +794,8 @@ function SheetHtml() {
                      computedAttributes['weaponCriticalAdjustment.' + name];
           if(computedAttributes['features.Small'] && smallDamage != null)
             damage = smallDamage;
-          damage += Signed(extra + extraDamage);
+          if(additional != 0)
+            damage += Signed(additional);
           damages[i] = damage + ' x' + multiplier + '@' + threat;
         }
         name += '(' + Signed(attack) + ' ' + damages.join('/') + ')';
@@ -853,9 +859,9 @@ function ShowHtml(html) {
   ShowHtml.htmlWindow.document.close();
 }
 
-/* Returns an empty string if #value# is 0, otherwise a string with a sign. */
+/* Returns #value# with a leading sign. */
 function Signed(value) {
-  return value == null || value == 0 ? '' : value > 0 ? '+' + value : value;
+  return (value >= 0 ? '+' : '') + value;
 }
 
 /* Stores the current values of cookieInfo in the browser cookie. */
@@ -1074,7 +1080,7 @@ function ValidationHtml() {
   }
   if(skillPointsAssigned != computedAttributes.skillPoints)
     invalid[invalid.length] =
-      '{skills}+ == {skillPoints} [' + skillPointsAssigned + ' != ' +
+      '+/{skills} == {skillPoints} [' + skillPointsAssigned + ' != ' +
       computedAttributes.skillPoints + ']';
   if(invalid.length == 0)
     result = 'No validation errors<br/>\n';
