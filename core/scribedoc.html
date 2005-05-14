@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.51 2005/05/01 14:57:04 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.52 2005/05/14 06:09:50 Jim Exp $ -->
 <html>
 
 <head>
@@ -331,10 +331,11 @@ after each new deity), 'skills' (include the key ability, optionally followed
 by ';trained' if the skill cannot be used untrained), 'spells' (include a
 slash-separated set of spell levels).  and 'weapons' (include a damage die
 for medium-sized creatures).  (The damage value for weapons can also include a
-critical multiplier, preceded by 'x', and/or a minumum threat roll, preceded by
-'@'.  If you don't include information about critical hits, Scribe assumes
-'x2@20'&#151;the weapon potentially does double damage on a roll of 20.)  Here
-are examples of adding choices to these lists:
+critical multiplier, preceded by 'x', a minumum threat roll, preceded by '@',
+and/or a range increment, preceded by 'r'.  If you don't include information
+about critical hits, Scribe assumes 'x2@20'&#151;the weapon potentially does
+double damage on a roll of 20 and is not ranged.)  Here are examples of adding
+choices to these lists:
 </p>
 
 <p><code><pre>
@@ -348,6 +349,7 @@ ScribeCustomChoices('skills'
   'Mediation', 'wisdom;trained'
 );
 ScribeCustomChoices('spells', 'Calm Water', 'W6/Wa5', 'Darkstorm', 'C4/W4');
+ScribeCustomChoices('weapons', 'Catapult', 'd12r240');
 ScribeCustomChoices('weapons', 'Shillelagh', 'd6');
 ScribeCustomChoices('weapons', 'Orc Kirak', 'd6x3@19');
 </pre></code></p>
@@ -571,6 +573,10 @@ that specify the effects of new items.
   <li>You can only select the feats "Extra Turning" and "Toughness" once.
       Multiple selections of these feats can be handled by defining custom
       feats (e.g., "Improved Toughness").</li>
+  <li>Although they have a range increment, the weapons Club, Dagger, Light
+      Hammer, Shortspear, Spear, and Trident are all considered melee weapons.
+      Substitute the ranged attack attribute for the melee attack attribute
+      given on the character sheet when any of these is thrown.</li>
 </ul>
 </p>
 
@@ -581,8 +587,6 @@ that specify the effects of new items.
       spells within a Wizard's specialization.</li>
   <li>Spells per day computations are off by one for some high-level (19-20)
       characters.</li>
-  <li>ScribeCustomChoices for weapons should include range increment for
-      ranged weapons.</li>
   <li>Scribe presently defines no way to add additional types of armor, because
       of all the extra information that would need to be specified&#151;arcane
       spell failure percentage, a.c. bonus, maximum dexterity bonus, skill

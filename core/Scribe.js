@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.105 2005/05/10 16:04:32 Jim Exp $ */
+/* $Id: Scribe.js,v 1.106 2005/05/14 06:09:49 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.17.10';
+var VERSION = '0.17.13';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -764,9 +764,18 @@ function SheetHtml() {
           name += ' (' + skillInfo.join(';') + ')';
       }
       else if(object == 'Weapons') {
-        var damages = DndCharacter.weaponsDamage[name];
+        var damages = DndCharacter.weaponsDamage[name].replace(/ /g, '');
+        var range;
+        if((i = damages.search(/[rR]/)) < 0)
+          range = 0;
+        else {
+          range = damages.substring(i + 1) - 0;
+          damages = damages.substring(0, i);
+        }
+        if(computedAttributes['weaponRangeAdjustment.' + name] != null)
+          range += computedAttributes['weaponRangeAdjustment.' + name] - 0;
         var attack =
-          DndCharacter.weaponsRangeIncrement[name] == null ||
+          range == 0 ||
           name.match
             (/^(Club|Dagger|Light Hammer|Shortspear|Spear|Trident)$/) != null ?
           computedAttributes.meleeAttack : computedAttributes.rangedAttack;
@@ -798,7 +807,8 @@ function SheetHtml() {
             damage += Signed(additional);
           damages[i] = damage + ' x' + multiplier + '@' + threat;
         }
-        name += '(' + Signed(attack) + ' ' + damages.join('/') + ')';
+        name += '(' + Signed(attack) + ' ' + damages.join('/') +
+                (range != 0 ? ' R' + range : '') + ')';
       }
       value = name + (value == '1' ? '' : (': ' + value));
       if(object.indexOf('Notes') > 0 && rules.IsSource(a)) {
