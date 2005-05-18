@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.29 2005/04/20 00:54:44 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.30 2005/05/18 22:23:53 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -88,17 +88,17 @@ var CUSTOMIZATION_URLS = [
 function CustomizeScribe() {
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
     var pos;
-    var url = CUSTOMIZATION_URLS[i];
-    if(url == null)
+    var func = CUSTOMIZATION_URLS[i];
+    if(func == null)
       continue;
-    while((pos = url.indexOf('/')) >= 0)
-      url = url.substring(pos + 1);
-    if((pos = url.indexOf('.')) >= 0)
-      url = url.substring(0, pos);
-    if(window[url] == null)
-      alert('Unable to invoke ' + url + ' from ' + CUSTOMIZATION_URLS[i]);
+    if((pos = func.lastIndexOf('/')) >= 0)
+      func = func.substring(pos + 1);
+    if((pos = func.indexOf('.')) >= 0)
+      func = func.substring(0, pos);
+    if(window[func] == null)
+      alert('Unable to invoke ' + func + ' from ' + CUSTOMIZATION_URLS[i]);
     else
-      window[url]();
+      window[func]();
   }
 }
 

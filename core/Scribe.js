@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.106 2005/05/14 06:09:49 Jim Exp $ */
+/* $Id: Scribe.js,v 1.107 2005/05/18 22:23:53 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.17.13';
+var VERSION = '0.17.18';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -622,7 +622,8 @@ function Scribe() {
     'WARN_ABOUT_DISCARD':true
   };
 
-  if(DndCharacter == null || ObjectViewer == null || RuleEngine == null) {
+  if(DndCharacter == null || InputGetValue == null || ObjectViewer == null ||
+     RuleEngine == null) {
     alert('JavaScript functions required by Scribe are missing; exiting');
     return;
   }
@@ -725,12 +726,13 @@ function SheetHtml() {
    * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
    * of displayAttributes' names and values here to get the sheet to look right.
    */
-  var damageAdjustment =
+  var strengthDamageAdjustment =
     computedAttributes['meleeNotes.strengthDamageAdjustment'];
-  if(damageAdjustment == null)
-    damageAdjustment = 0;
+  if(strengthDamageAdjustment == null)
+    strengthDamageAdjustment = 0;
   for(a in computedAttributes) {
-    var name = SheetName(a);
+    var name = a.replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
+    name = name.substring(0, 1).toUpperCase() + name.substring(1);
     var value = computedAttributes[a];
     /* Add entered value in brackets if it differs from computed value. */
     if(attrs[a] != null && attrs[a] != value)
@@ -738,8 +740,8 @@ function SheetHtml() {
     if((i = name.indexOf('.')) < 0) {
       if(name == 'Image Url' && value.match(/^\w*:/) == null)
         value = URL_PREFIX + value;
-      else if(name == 'Unarmed Damage' && damageAdjustment != 0)
-        value += Signed(damageAdjustment);
+      else if(name == 'Unarmed Damage' && strengthDamageAdjustment != 0)
+        value += Signed(strengthDamageAdjustment);
       displayAttributes[name] = value;
     }
     else {
@@ -748,8 +750,8 @@ function SheetHtml() {
       if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
           continue; /* Suppress notes with zero value. */
-        else if(DndCharacter.notes[a] == null && value >= 0)
-          value = '+' + value; /* Make signed if not otherwise formatted. */
+        else if(DndCharacter.notes[a] == null)
+          value = Signed(value); /* Make signed if not otherwise formatted. */
       }
       if(DndCharacter.notes[a] != null)
         value = DndCharacter.notes[a].replace(/%V/, value);
@@ -771,9 +773,11 @@ function SheetHtml() {
         else {
           range = damages.substring(i + 1) - 0;
           damages = damages.substring(0, i);
+          if(computedAttributes['weaponRangeAdjustment.' + name] != null)
+            range += computedAttributes['weaponRangeAdjustment.' + name] - 0;
+          if(computedAttributes['feats.Far Shot'] != null)
+            range *= name.indexOf('bow') < 0 ? 2 : 1.5;
         }
-        if(computedAttributes['weaponRangeAdjustment.' + name] != null)
-          range += computedAttributes['weaponRangeAdjustment.' + name] - 0;
         var attack =
           range == 0 ||
           name.match
@@ -781,7 +785,7 @@ function SheetHtml() {
           computedAttributes.meleeAttack : computedAttributes.rangedAttack;
         if(computedAttributes['weaponAttackAdjustment.' + name] != null)
           attack += computedAttributes['weaponAttackAdjustment.' + name];
-        var addedDamage = damageAdjustment;
+        var addedDamage = strengthDamageAdjustment;
         if(name.indexOf('bow') >= 0 &&
            (name.indexOf('Composite') < 0 || addedDamage > 0))
           addedDamage = 0;
@@ -799,8 +803,7 @@ function SheetHtml() {
           var smallDamage = DndCharacter.weaponsSmallDamage[damage];
           var threat = pieces[6] ? pieces[6] - 0 : 20;
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
-            threat = 21 - (21 - threat) -
-                     computedAttributes['weaponCriticalAdjustment.' + name];
+            threat -= computedAttributes['weaponCriticalAdjustment.' + name];
           if(computedAttributes['features.Small'] && smallDamage != null)
             damage = smallDamage;
           if(additional != 0)
@@ -846,14 +849,6 @@ function SheetHtml() {
 
 }
 
-/* Returns #name# formatted for character sheet display. */
-function SheetName(name) {
-  var matchInfo;
-  var result = name.replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
-  result = result.substring(0, 1).toUpperCase() + result.substring(1);
-  return result;
-}
-
 /* Opens a window that contains HTML for #html# in readable/copyable format. */
 function ShowHtml(html) {
   if(ShowHtml.htmlWindow == null || ShowHtml.htmlWindow.closed)
@@ -888,6 +883,10 @@ function StoreCookie() {
   document.cookie = cookie;
 }
 
+/*
+ * Opens a window that displays a summary of the attributes of all characters
+ * that have been loaded into the editor.
+ */
 function SummarizeCachedAttrs() {
   var allAttrs = {};
   for(var a in cachedAttrs)
@@ -904,7 +903,7 @@ function SummarizeCachedAttrs() {
   ];
   var rowHtml = '<tr><td></td>';
   for(var i = 0; i < urls.length; i++)
-    rowHtml += '<td align="center"><b>' + urls[i] + '</b></th>';
+    rowHtml += '<th>' + urls[i] + '</th>';
   htmlBits[htmlBits.length] = rowHtml;
   var inTable = {};
   for(var a in allAttrs) {
@@ -915,10 +914,12 @@ function SummarizeCachedAttrs() {
       else if(b.match(/^spells\./))
         spells[spells.length] = b.substring(b.indexOf('.') + 1);
     }
-    spells.sort();
-    allAttrs[a]['spells'] = spells.length==0 ? '&nbsp;' : spells.join('<br/>');
+    if(spells.length > 0) {
+      spells.sort();
+      allAttrs[a]['spells'] = spells.join('<br/>');
+    }
   }
-  inTable['notes'] = inTable['spells'] = 1;
+  inTable['notes'] = inTable['dmNotes'] = inTable['spells'] = 1;
   inTable = GetKeys(inTable);
   inTable.sort();
   for(var i = 0; i < inTable.length; i++) {
@@ -933,11 +934,12 @@ function SummarizeCachedAttrs() {
   }
   htmlBits[htmlBits.length] = '</table>';
   htmlBits[htmlBits.length] = '</body></html>\n';
-  SummarizeCachedAttrs.win = window.open('', 'sumwin');
+  if(SummarizeCachedAttrs.win == null || SummarizeCachedAttrs.win.closed)
+    SummarizeCachedAttrs.win = window.open('', 'sumwin');
+  else
+    SummarizeCachedAttrs.win.focus();
   SummarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
   SummarizeCachedAttrs.win.document.close();
-  SummarizeCachedAttrs.urls = null;
-  SummarizeCachedAttrs.attrs = null;
 }
 
 /* Callback invoked when the user changes the editor value of Input #input#. */
@@ -952,7 +954,7 @@ function Update(input) {
     else
       Update.aboutWindow.focus();
   }
-  else if('clear randomize'.indexOf(name) >= 0) {
+  else if(name.search(/clear|randomize/) >= 0) {
     input.selectedIndex = 0;
     var attr;
     var pat = '^' + value + '(\\.|$)';
@@ -971,7 +973,7 @@ function Update(input) {
       }
     RedrawSheet();
   }
-  else if('dmonly italics untrained'.indexOf(name) >= 0) {
+  else if(name.search(/dmonly|italics|untrained/) >= 0) {
     cookieInfo[name] = value + '';
     StoreCookie();
     RedrawSheet();

@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.10 2005/05/02 23:14:31 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.11 2005/05/18 22:23:53 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -45,13 +45,12 @@ function ScribeCustomChoices(name, item /*, item ... */) {
 
 /*
  * Add #name# to the list of valid classes.  Characters of class #name# roll
- * #hitDice# (either a number of sides or NdS, where N is the number of dice
- * and S the number of sides) more hit points each level.
- # #classSkills# is an array of skills that are class skills (as oppsed to
- * cross-class) for the class, #features# an array of level/feature name pairs
- * indicating features that the class acquires when advancing levels, and
- * #prerequisites# an array of validity tests that must be passed in order to
- * qualify for the class,
+ * #hitDice# ([N[d]]S, where N is the number of dice and S the number of sides)
+ * more hit points each level. The other parameters are optional. #classSkills#
+ * is an array of skills that are class skills (not cross-class) for the class,
+ * #features# an array of level/feature name pairs indicating features that the
+ * class acquires when advancing levels, and #prerequisites# an array of
+ * validity tests that must be passed in order to qualify for the class.
  */
 function ScribeCustomClass
   (name, hitDice, classSkills, features, prerequisites) {
@@ -65,9 +64,12 @@ function ScribeCustomClass
   if(classSkills != null)
     for(i = 0; i < classSkills.length; i++)
       rules.AddRules('classSkills.'+classSkills[i], 'levels.'+name, '=', '1');
-  if(features != null)
+  if(features != null) {
+    var noteName = name.substring(0, 1).toLowerCase() + name.substring(1);
+    noteName = noteName.replace(/ /g, '');
     DndCharacter.LoadClassFeatureRules
-      (rules, name, 'featNotes.' + name.toLowerCase() + 'Features', features);
+      (rules, name, 'featNotes.' + noteName + 'Features', features);
+  }
 }
 
 /*
@@ -109,14 +111,14 @@ function ScribeCustomRules
  * formatted on the sheet.
  */
 function ScribeCustomSheet(name, within, before, format) {
+  name = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+  name = name.substring(0, 1).toUpperCase() + name.substring(1);
   viewer.addElements(
-    {name: SheetName(name), within: within, before: before, format: format}
+    {name: name, within: within, before: before, format: format}
   );
 }
 
-/*
- * Adds each #test# to the checks Scribe performs when validating a character.
- */
+/* Adds each #test# to the checks Scribe uses when validating a character. */
 function ScribeCustomTests(test /*, test ... */) {
   for(var i = 0; i < arguments.length; i++)
     DndCharacter.validityTests[DndCharacter.validityTests.length] =
