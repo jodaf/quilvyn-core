@@ -1,4 +1,4 @@
-/* $Id: Input.js,v 1.2 2005/04/19 05:35:23 Jim Exp $ */
+/* $Id: Input.js,v 1.3 2005/05/31 05:44:46 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -23,7 +23,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function InputGetValue(input) {
   return input.type == 'checkbox' || input.type == 'radio' ?
            (input.checked ? 1 : 0) :
-         input.type == 'select-one' ? input.options[input.selectedIndex].text :
+         input.type == 'select-one' ? input.options[input.selectedIndex].value :
          input.value;
 }
 
@@ -45,7 +45,8 @@ function InputHtml(name, type, params) {
   else if(type == 'select-one') {
     var opts = new Array();
     for(var i = 0; i < params.length; i++)
-      opts[opts.length] = '<option>' + params[i] + '</option>';
+      opts[opts.length] =
+        '<option value="' + params[i] + '">' + params[i] + '</option>';
     result =
       '<select name="' + name + '">\n' + opts.join('\n') + '\n</select>';
   }
@@ -71,7 +72,8 @@ function InputSetCallback(input, fn) {
 function InputSetOptions(input, options) {
   input.options.length = 0;
   for(var i = 0; i < options.length; i++)
-    input.options[input.options.length] = new Option(options[i], '', 0, 0);
+    input.options[input.options.length] =
+      new Option(options[i], options[i], 0, 0);
   input.selectedIndex = 0;
 };
 
@@ -84,7 +86,7 @@ function InputSetValue(input, value) {
     if(value == null)
       i = 0;
     else
-      for(i=0; i < input.options.length && input.options[i].text != value; i++)
+      for(i=0; i < input.options.length && input.options[i].value != value; i++)
         ; /* empty */
     if(i >= input.options.length)
       return false;
