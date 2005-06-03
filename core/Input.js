@@ -1,4 +1,4 @@
-/* $Id: Input.js,v 1.3 2005/05/31 05:44:46 Jim Exp $ */
+/* $Id: Input.js,v 1.4 2005/06/03 19:29:05 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -70,10 +70,13 @@ function InputSetCallback(input, fn) {
 
 /* Replaces the options in a select #input# with the array #selections#. */
 function InputSetOptions(input, options) {
-  input.options.length = 0;
-  for(var i = 0; i < options.length; i++)
-    input.options[input.options.length] =
-      new Option(options[i], options[i], 0, 0);
+  var i;
+  if(input.options.length > options.length)
+    input.options.length = options.length;
+  for(i = 0; i < input.options.length; i++)
+    input.options[i].text = input.options[i].value = options[i];
+  for( ; i < options.length; i++)
+    input.options[i] = new Option(options[i], options[i], 0, 0);
   input.selectedIndex = 0;
 };
 
