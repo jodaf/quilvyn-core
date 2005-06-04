@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.107 2005/05/18 22:23:53 Jim Exp $ */
+/* $Id: Scribe.js,v 1.108 2005/06/04 18:06:29 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.17.18';
+var VERSION = '0.18.04';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -21,6 +21,7 @@ var ABOUT_TEXT =
 
 var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
+var EMPTY_SPELL_LIST = '--- No spell categories selected ---';
 var TIMEOUT_DELAY = 1000; /* One second */
 
 var cachedAttrs = {}; /* Unchanged attrs of all characters opened so far */
@@ -35,7 +36,7 @@ var cookieInfo = {  /* What we store in the cookie */
 var editForm;       /* Character editing form (window.frames[0].forms[0]) */
 var loadingPopup = null; /* Current "loading" message popup window */
 var rules;          /* RuleEngine with standard + user rules */
-var showCodes = {}; /* Display status of spell category codes */
+var showCodes;      /* Display status of spell category codes */
 var urlLoading=null;/* Character URL presently loading */
 var viewer;         /* ObjectViewer to translate character attrs into HTML */
 
@@ -44,23 +45,6 @@ function ChoicesForFileInput() {
   var result = cookieInfo.recent.split(',');
   result.length--; /* Trim trailing empty element */
   result = ['--New/Open--', 'New...', 'Open...'].concat(result);
-  return result;
-}
-
-/* Returns an array of choices for the editor's Spells select input. */
-function ChoicesForSpellInput() {
-  var matchInfo;
-  var result = [];
-  for(var a in DndCharacter.spellsLevels) {
-    var spellLevels = DndCharacter.spellsLevels[a].split('/');
-    for(var i = 0; i < spellLevels.length; i++)
-      if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
-         showCodes[matchInfo[1]])
-        result[result.length] = a + '(' + spellLevels[i] + ')';
-  }
-  if(result.length == 0)
-    result[result.length] = '--- No spell categories selected ---';
-  result.sort();
   return result;
 }
 
@@ -137,7 +121,7 @@ function EditorHtml() {
     ['', 'combatStyle', 'checkbox', null],
     ['Spell Categories', 'spellcats_sel', 'select-one', spellsCategoryOptions],
     ['', 'spellcats', 'checkbox', null],
-    ['Spells', 'spells_sel', 'select-one', ChoicesForSpellInput()],
+    ['Spells', 'spells_sel', 'select-one', GetKeys(DndCharacter.spellsLevels)],
     ['', 'spells', 'checkbox', null],
     ['Goodies', 'goodies_sel', 'select-one', DndCharacter.goodies],
     ['', 'goodies', 'text', [2]],
@@ -164,6 +148,21 @@ function EditorHtml() {
   return result;
 }
 
+/* Returns true iff all attributes of #o1# have the same values in #o2#. */
+function EqualObjects(o1, o2) {
+  if(typeof o1 != "object" || typeof o2 != "object")
+    return o1 == o2;
+  var o1Keys = GetKeys(o1), o2Keys = GetKeys(o2);
+  if(o1Keys.length != o2Keys.length)
+    return false;
+  for(var i = 0; i < o1Keys.length; i++) {
+    var key = o1Keys[i];
+    if(o2Keys[i] != key || !EqualObjects(o1[key], o2[key]))
+      return false;
+  }
+  return true;
+}
+
 /* Returns a sorted array containing all keys from object #o#. */
 function GetKeys(o) {
   var result = [];
@@ -171,16 +170,6 @@ function GetKeys(o) {
     result[result.length] = a;
   result.sort();
   return result;
-}
-
-/* Returns true iff all attributes of #o1# have the same values in #o2#. */
-function HasSameValues(o1, o2) {
-  if(typeof o1 != "object" || typeof o2 != "object")
-    return o1 == o2;
-  for(var a in o1)
-    if(!HasSameValues(o2[a], o1[a]))
-      return false;
-  return true;
 }
 
 /* Returns a RuleEngine loaded with the default DndCharacter rules. */
@@ -200,7 +189,7 @@ function InitialRuleEngine() {
     DndCharacter.LoadVersion3PointRules(result, versions[i], 'magic');
   result.AddRules('dmNotes', 'dmonly', '?', null);
   /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
-  result.AddRules('name', 'meleeNotes.strengthDamageAdjustment', '=', 'null');
+  result.AddRules('level', 'meleeNotes.strengthDamageAdjustment', '=', 'null');
   return result;
 }
 
@@ -360,8 +349,6 @@ function LoadCharacter(name) {
       names.length = MAX_RECENT_OPENS - 1;
     cookieInfo.recent = names.join(',') + ',';
     StoreCookie();
-    InputSetOptions(editForm.file, ChoicesForFileInput());
-    /* NOTE: No redraw here for Opera; ResetShowCodes will do it later. */
     character = new DndCharacter(null);
     for(var a in loadingWindow.attributes) {
       var value = loadingWindow.attributes[a];
@@ -404,9 +391,9 @@ function LoadCharacter(name) {
       else
         character.attributes[a] = value;
     }
-    ResetShowCodes();
-    RefreshEditor();
-    RedrawSheet();
+    RefreshShowCodes();
+    RefreshEditor(false);
+    RefreshSheet();
     currentUrl = name;
     cachedAttrs[currentUrl] = CopyObject(character.attributes);
     urlLoading = null;
@@ -503,9 +490,9 @@ function RandomizeCharacter() {
     character.Randomize(rules, 'skills');
     character.Randomize(rules, 'spells');
     character.Randomize(rules, 'weapons');
-    ResetShowCodes();
-    RefreshEditor();
-    RedrawSheet();
+    RefreshShowCodes();
+    RefreshEditor(false);
+    RefreshSheet();
     currentUrl = 'random';
     cachedAttrs[currentUrl] = CopyObject(character.attributes);
     loadingPopup.close();
@@ -550,25 +537,101 @@ function RandomizeCharacter() {
     setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
 }
 
-/* Draws the character editor in the editor frame. */
-function RedrawEditor() {
-  var editHtml =
-    '<html><head><title>Editor</title></head>\n' +
-    '<body bgcolor="' + BACKGROUND + '">\n' +
-    '<img src="' + LOGO_URL + ' "/><br/>\n' +
-    EditorHtml() + '\n' +
-    '</body></html>\n';
-  var editWindow = window.frames[0];
-  editWindow.document.write(editHtml);
-  editWindow.document.close();
-  editForm = editWindow.document.frm;
-  var callback = function() {Update(this);};
-  for(i = 0; i < editForm.elements.length; i++)
-    InputSetCallback(editForm.elements[i], callback);
+/*
+ * Resets the editing window fields to the values of the current character.
+ * First redraws the editor if #redraw# is true.
+ */
+function RefreshEditor(redraw) {
+
+  var i;
+
+  if(redraw) {
+    var editHtml =
+      '<html><head><title>Editor</title></head>\n' +
+      '<body bgcolor="' + BACKGROUND + '">\n' +
+      '<img src="' + LOGO_URL + ' "/><br/>\n' +
+      EditorHtml() + '\n' +
+      '</body></html>\n';
+    var editWindow = window.frames[0];
+    editWindow.document.write(editHtml);
+    editWindow.document.close();
+    editForm = editWindow.document.frm;
+    var callback = function() {Update(this);};
+    for(i = 0; i < editForm.elements.length; i++)
+      InputSetCallback(editForm.elements[i], callback);
+  }
+
+  var fileOpts = ChoicesForFileInput();
+  var spellOpts = [];
+  for(var a in DndCharacter.spellsLevels) {
+    var matchInfo;
+    var spellLevels = DndCharacter.spellsLevels[a].split('/');
+    for(i = 0; i < spellLevels.length; i++)
+      if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
+         showCodes[matchInfo[1]])
+        spellOpts[spellOpts.length] = a + '(' + spellLevels[i] + ')';
+  }
+  if(spellOpts.length == 0)
+    spellOpts[spellOpts.length] = EMPTY_SPELL_LIST;
+  spellOpts.sort();
+
+  InputSetOptions(editForm.file, fileOpts);
+  InputSetOptions(editForm.spells_sel, spellOpts);
+  if(!redraw &&
+     (editForm.file.options.length != fileOpts.length ||
+      editForm.spells_sel.options.length != spellOpts.length)) /* Opera bug */
+    return RefreshEditor(true);
+
+  /* Skip to first character-related editor input */
+  for(i = 0;
+      i < editForm.elements.length && editForm.elements[i].name != 'name';
+      i++)
+    ; /* empty */
+  for( ; i < editForm.elements.length; i++) {
+    var input = editForm.elements[i];
+    var name = input.name;
+    var sel = editForm[name + '_sel'];
+    var value = null;
+    if(name.indexOf('_sel') >= 0) {
+      var prefix = name.substring(0, name.indexOf('_sel')) + '.';
+      for(var a in character.attributes) {
+        if(a.substring(0, prefix.length) == prefix) {
+          value = a.substring(prefix.length);
+          break;
+        }
+      }
+    }
+    else if(sel == null)
+      value = character.attributes[name];
+    else
+      value = character.attributes[name + '.' + InputGetValue(sel)];
+    if(InputGetValue(input) != value)
+      InputSetValue(input, value);
+  }
+  var attrs = rules.Apply(character.attributes);
+  for(i = 0; i < editForm.skills_sel.options.length; i++) {
+    var opt = editForm.skills_sel.options[i];
+    opt.text =
+      opt.value + (attrs['classSkills.' + opt.value] == null ? ' (cc)' : '');
+  }
+
+  InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
+  InputSetValue(editForm.italics, cookieInfo.italics - 0);
+  InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
+  var codeOpts = GetKeys(DndCharacter.spellsCategoryCodes);
+  codeOpts.sort();
+  for(i = 0;
+      i < codeOpts.length &&
+      !showCodes[DndCharacter.spellsCategoryCodes[codeOpts[i]]];
+      i++)
+    ; /* empty */
+  editForm.spellcats_sel.selectedIndex = i < codeOpts.length ? i : 0;
+  InputSetValue(editForm.spellcats, i < codeOpts.length);
+
 }
 
 /* Draws the sheet for the current character in the character sheet window. */
-function RedrawSheet() {
+function RefreshSheet() {
   var sheetWindow = window.opener;
   if(sheetWindow == null || sheetWindow.closed)
     sheetWindow = window.open('', 'scribeSheet');
@@ -576,29 +639,12 @@ function RedrawSheet() {
   sheetWindow.document.close();
 }
 
-/* Sets the editing window fields to the values of the current character. */
-function RefreshEditor() {
-  var i;
-  for(i = 0; i < editForm.elements.length; i++)
-    InputSetValue(editForm.elements[i], null);
-  for(var attr in character.attributes) {
-    i = attr.indexOf('.');
-    var sel = i < 0 ? null : editForm[attr.substring(0, i) + '_sel'];
-    var val = i < 0 ? editForm[attr] : editForm[attr.substring(0, i)];
-    if(sel != null)
-      InputSetValue(sel, attr.substring(i + 1));
-    if(val != null)
-      InputSetValue(val, character.attributes[attr]);
-  }
-  InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
-  InputSetValue(editForm.italics, cookieInfo.italics - 0);
-  InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
-}
-
 /* Recomputes the showCodes global to reflect the current character's spells. */
-function ResetShowCodes() {
+function RefreshShowCodes() {
   var matchInfo;
   showCodes = {};
+  for(var a in DndCharacter.spellsCategoryCodes)
+    showCodes[DndCharacter.spellsCategoryCodes[a]] = false;
   for(var a in character.attributes) {
     if((matchInfo = a.match(/^spells\..*\((\D+)\d+\)$/)) != null)
       showCodes[matchInfo[1]] = true;
@@ -606,9 +652,6 @@ function ResetShowCodes() {
             DndCharacter.spellsCategoryCodes[matchInfo[2]] != null)
       showCodes[DndCharacter.spellsCategoryCodes[matchInfo[2]]] = true;
   }
-  InputSetOptions(editForm.spells_sel, ChoicesForSpellInput());
-  if(editForm.spells_sel.options.length == 0) /* Stupid bug in Opera */
-    RedrawEditor();
 }
 
 /* Launch routine called after all Scribe scripts are loaded. */
@@ -618,7 +661,7 @@ function Scribe() {
     'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
     'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'help.html',
     'LOGO_URL':'scribe.gif', 'MAGIC_RULES_VERSION':'3.5',
-    'MAX_RECENT_OPENS':15, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
+    'MAX_RECENT_OPENS':20, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
     'WARN_ABOUT_DISCARD':true
   };
 
@@ -663,9 +706,9 @@ function Scribe() {
   viewer = InitialViewer();
   if(CustomizeScribe != null)
     CustomizeScribe();
-  RedrawEditor();
-  RefreshEditor();
-  RedrawSheet();
+  RefreshShowCodes();
+  RefreshEditor(true);
+  RefreshSheet();
   /*
   if(SCRIBE_DEBUG != null) {
     var html = '<html><head><title>Scribe Attributes</title></head>\n<body>\n';
@@ -784,7 +827,7 @@ function SheetHtml() {
             (/^(Club|Dagger|Light Hammer|Shortspear|Spear|Trident)$/) != null ?
           computedAttributes.meleeAttack : computedAttributes.rangedAttack;
         if(computedAttributes['weaponAttackAdjustment.' + name] != null)
-          attack += computedAttributes['weaponAttackAdjustment.' + name];
+          attack += computedAttributes['weaponAttackAdjustment.' + name] - 0;
         var addedDamage = strengthDamageAdjustment;
         if(name.indexOf('bow') >= 0 &&
            (name.indexOf('Composite') < 0 || addedDamage > 0))
@@ -954,35 +997,24 @@ function Update(input) {
     else
       Update.aboutWindow.focus();
   }
-  else if(name.search(/clear|randomize/) >= 0) {
+  else if(name == 'clear' || name == 'randomize') {
     input.selectedIndex = 0;
-    var attr;
-    var pat = '^' + value + '(\\.|$)';
     if(name == 'clear')
       character.Clear(value);
     else
       character.Randomize(rules, value);
-    input = editForm[value];
-    InputSetValue(input, null);
-    for(attr in character.attributes)
-      if(attr.search(pat) >= 0) {
-        InputSetValue(input, character.attributes[attr]);
-        if((input = editForm[value + '_sel']) != null)
-          InputSetValue(input, attr.substring(attr.indexOf('.') + 1));
-        break;
-      }
-    RedrawSheet();
+    RefreshEditor(false);
+    RefreshSheet();
   }
   else if(name.search(/dmonly|italics|untrained/) >= 0) {
     cookieInfo[name] = value + '';
     StoreCookie();
-    RedrawSheet();
+    RefreshSheet();
   }
   else if(name == 'file') {
     input.selectedIndex = 0;
     if(WARN_ABOUT_DISCARD &&
-       !(HasSameValues(character.attributes, cachedAttrs[currentUrl]) &&
-         HasSameValues(cachedAttrs[currentUrl], character.attributes)) &&
+       !EqualObjects(character.attributes, cachedAttrs[currentUrl]) &&
        !confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Open...')
@@ -999,13 +1031,9 @@ function Update(input) {
       Update.helpWindow.focus();
   }
   else if(name == 'spellcats') {
-    var matchInfo = InputGetValue(editForm.spellcats_sel).match(/\((\D+)\)/);
+    var matchInfo = InputGetValue(editForm.spellcats_sel).match(/\((.+)\)/);
     showCodes[matchInfo[1]] = value;
-    InputSetOptions(editForm.spells_sel, ChoicesForSpellInput());
-    if(editForm.spells_sel.options.length == 0) { /* Stupid bug in Opera */
-      RedrawEditor();
-      RefreshEditor();
-    }
+    RefreshEditor(false);
   }
   else if(name == 'summary')
     SummarizeCachedAttrs();
@@ -1032,7 +1060,7 @@ function Update(input) {
     input = editForm[name]
     if(input != null) {
       if(name == 'spellcats') {
-        var matchInfo=InputGetValue(editForm.spellcats_sel).match(/\((\D+)\)/);
+        var matchInfo=InputGetValue(editForm.spellcats_sel).match(/\((.+)\)/);
         InputSetValue(input, showCodes[matchInfo[1]]);
       }
       else
@@ -1053,11 +1081,13 @@ function Update(input) {
         ((character.attributes[name] - 0) + (value.substring(1) - 0)) + '';
       InputSetValue(input, character.attributes[name]);
     }
-    else if(name == 'spells.--- No spell categories selected ---')
+    else if(name == 'spells.' + EMPTY_SPELL_LIST)
       InputSetValue(input, 0);
     else
       character.attributes[name] = value;
-    RedrawSheet();
+    RefreshSheet();
+    if(name.search(/^(levels|domains)\./) >= 0)
+      RefreshEditor(false);
   }
 
 }
@@ -1086,7 +1116,7 @@ function ValidationHtml() {
     var maxAllowed = maxRanks / (isCross ? 2 : 1);
     if(character.attributes[a] > maxAllowed)
       invalid[invalid.length] =
-        '{' + a + '} <= {' + (isCross ? 'cross' : 'class') + 'SkillMax} ' +
+        '{' + a + '} <= {' + (isCross ? 'cross' : 'class') + 'SkillMaxRanks} ' +
         '[' + character.attributes[a] + ' > ' + maxAllowed + ']';
     skillPointsAssigned += character.attributes[a] * (isCross ? 2 : 1);
   }

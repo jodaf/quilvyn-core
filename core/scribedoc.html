@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.53 2005/05/18 22:23:53 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.54 2005/06/04 18:06:29 Jim Exp $ -->
 <html>
 
 <head>
@@ -572,6 +572,11 @@ that specify the effects of new items.
       Hammer, Shortspear, Spear, and Trident are all considered melee weapons.
       Substitute the ranged attack attribute for the melee attack attribute
       given on the character sheet when any of these is thrown.</li>
+  <li>Scribe updates the cross-class skill indicators in the editor skill
+      pull-down menu whenever a character is generated or loaded and when class
+      levels or cleric domains change.  This is sufficient for the PH rules,
+      but the menu may not reflect any custom rules that make the
+      class/cross-class determination depend on other attributes.</li>
 </ul>
 </p>
 
@@ -588,14 +593,13 @@ that specify the effects of new items.
       check penalty, etc.</li>
   <li>Discussion of the names of the entered and computed character attributes
       needs to be added to helpattrs.html.</li>
-  <li>The editor should indicate cross/class skills.</li>
   <li>Need to write and document ScribeCustomEditor&#151;a function that allows
       the user to add fields to the editor for, e.g., possessions.</li>
-  <li>Scribe has problems dealing with options containing an uncapitalized
+  <li>Scribe has problems dealing with attributes containing an uncapitalized
       word.  This is why, e.g., Scribe defines the skills "Sleight Of Hand" and
       "Knowledge (Arcana)" instead of "Sleight of Hand" and "Knowledge
       (arcana)". There are other occasions when Scribe is picky about case;
-      when defining your own options, it's safest to follow the conventions
+      when defining your own attributes, it's safest to follow the conventions
       Scribe uses.</li>
 </ul>
 </p>
