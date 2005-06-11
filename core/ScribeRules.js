@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.11 2005/05/18 22:23:53 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.12 2005/06/11 15:54:34 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -33,7 +33,23 @@ function ScribeCustomChoices(name, item /*, item ... */) {
   var o = DndCharacter[name];
   if(o == null)
     return;
-  if(o.constructor == Array) {
+  if(o == DndCharacter.spellsLevels) {
+    for(var i = 2; i < arguments.length; i += 2) {
+      var spell = arguments[i - 1];
+      var levels = arguments[i];
+      var existingLevels = DndCharacter.spellsLevels[spell];
+      if(existingLevels != null) {
+        var newLevels = levels.split('/');
+        var oldLevels = existingLevels.split('/');
+        newLevels = newLevels.concat(oldLevels);
+        newLevels.sort();
+        levels = newLevels.join('/');
+        /* TODO Replacement of existing levels */
+      }
+      DndCharacter.spellsLevels[spell] = levels;
+    }
+  }
+  else if(o.constructor == Array) {
     for(var i = 1; i < arguments.length; i++)
       o[o.length] = arguments[i];
     o.sort();
@@ -41,29 +57,58 @@ function ScribeCustomChoices(name, item /*, item ... */) {
   else
     for(var i = 2; i < arguments.length; i += 2)
       o[arguments[i - 1]] = arguments[i];
-};
+}
 
 /*
  * Add #name# to the list of valid classes.  Characters of class #name# roll
  * #hitDice# ([N[d]]S, where N is the number of dice and S the number of sides)
- * more hit points each level. The other parameters are optional. #classSkills#
- * is an array of skills that are class skills (not cross-class) for the class,
- * #features# an array of level/feature name pairs indicating features that the
- * class acquires when advancing levels, and #prerequisites# an array of
- * validity tests that must be passed in order to qualify for the class.
+ * more hit points at each level.  The other parameters are optional.
+ * #skillPointsBonus#, #baseAttackBonus#, #saveFortitudeBonus#,
+ * #saveReflexBonus# and #saveWillBonus# are JavaScript expressions that
+ * compute the amount of additional skill points and attack and saving throw
+ * bonuses the character acumulates each class level; #armorProficiencyLevel#,
+ * #shieldProficiencyLevel# and #weaponProficiencyLevel# indicate any
+ * proficiency in these categories that characters of the class gain;
+ * #classSkills# is an array of skills that are class (not cross-class) skills
+ * for the class, #features# an array of level/feature name pairs indicating
+ * features that the class acquires when advancing levels, and #prerequisites#
+ * an array of validity tests that must be passed in order to qualify for the
+ * class.
  */
 function ScribeCustomClass
-  (name, hitDice, classSkills, features, prerequisites) {
-  var i;
+  (name, hitDice, skillPointsBonus, baseAttackBonus, saveFortitudeBonus,
+   saveReflexBonus, saveWillBonus, armorProficiencyLevel,
+   shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
+   prerequisites) {
+  var classLevel = 'levels.' + name;
   ScribeCustomChoices('classes', name, hitDice + '' /* Convert int to str */);
+  if(skillPointsBonus != null)
+    ScribeCustomRules('skillPoints', classLevel, '+', skillPointsBonus);
+  if(baseAttackBonus != null)
+    ScribeCustomRules('baseAttack', classLevel, '+', baseAttackBonus);
+  if(saveFortitudeBonus != null)
+    ScribeCustomRules('saveFortitude', classLevel, '^', saveFortitudeBonus);
+  if(saveReflexBonus != null)
+    ScribeCustomRules('saveReflex', classLevel, '^', saveReflexBonus);
+  if(saveWillBonus != null)
+    ScribeCustomRules('saveWill', classLevel, '^', saveWillBonus);
+  if(armorProficiencyLevel != null)
+    ScribeCustomRules
+      ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
+  if(shieldProficiencyLevel != null)
+    ScribeCustomRules
+      ('shieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
+  if(weaponProficiencyLevel != null)
+    ScribeCustomRules
+      ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
   if(prerequisites != null) {
-    for(i = 0; i < prerequisites.length; i++)
+    for(var i = 0; i < prerequisites.length; i++)
       DndCharacter.validityTests[DndCharacter.validityTests.length] =
-        '{levels.' + name + '} == null || ' + prerequisites[i];
+        '{' + classLevel + '} == null || ' + prerequisites[i];
   }
   if(classSkills != null)
-    for(i = 0; i < classSkills.length; i++)
-      rules.AddRules('classSkills.'+classSkills[i], 'levels.'+name, '=', '1');
+    for(var i = 0; i < classSkills.length; i++)
+      rules.AddRules('classSkills.' + classSkills[i], classLevel, '=', '1');
   if(features != null) {
     var noteName = name.substring(0, 1).toLowerCase() + name.substring(1);
     noteName = noteName.replace(/ /g, '');
