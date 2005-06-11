@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.9 2005/04/21 18:03:49 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.10 2005/06/11 15:52:46 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -57,7 +57,7 @@ RuleEngine.prototype.AddRules =
     expr = arguments[i];
     if(source == null)
       source = '';
-    if(typeof(expr) == 'string')
+    if(expr != null && typeof(expr) != 'object')
       expr = new Function('source', 'return ' + expr + ';');
     if(this.sources[target] == null)
       this.sources[target] = { };
