@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.108 2005/06/04 18:06:29 Jim Exp $ */
+/* $Id: Scribe.js,v 1.109 2005/06/17 12:39:25 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.18.04';
+var VERSION = '0.18.17';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -116,9 +116,6 @@ function EditorHtml() {
     ['Shield', 'shield', 'select-one', DndCharacter.shields],
     ['Weapons', 'weapons_sel', 'select-one', weapons],
     ['', 'weapons', 'text', [3]],
-    ['Ranger Combat Style', 'combatStyle_sel', 'select-one',
-     DndCharacter.combatStyles],
-    ['', 'combatStyle', 'checkbox', null],
     ['Spell Categories', 'spellcats_sel', 'select-one', spellsCategoryOptions],
     ['', 'spellcats', 'checkbox', null],
     ['Spells', 'spells_sel', 'select-one', GetKeys(DndCharacter.spellsLevels)],
@@ -272,7 +269,6 @@ function InitialViewer() {
       {name: 'Armor Proficiency', within: 'Melee'},
       {name: 'Shield Proficiency', within: 'Melee'},
       {name: 'Weapon Proficiency', within: 'Melee'},
-      {name: 'Combat Style', within: 'Melee'},
       {name: 'Initiative Break', within: 'Melee', format: '\n'},
       {name: 'Initiative', within: 'Melee'},
       {name: 'Base Attack', within: 'Melee'},
@@ -358,7 +354,9 @@ function LoadCharacter(name) {
        */
       if(typeof value == 'object') {
         for(var x in value) {
-          if(a == 'focus')
+          if(a == 'combatStyle')
+            character.attributes['feats.Combat Style (' + x + ')'] = '1';
+          else if(a == 'focus')
             character.attributes['feats.Weapon Focus (' + x + ')'] = '1';
           else if(a == 'specialization')
             character.attributes
