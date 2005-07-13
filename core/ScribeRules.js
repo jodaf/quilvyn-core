@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.12 2005/06/11 15:54:34 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.13 2005/07/13 04:21:20 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -50,9 +50,16 @@ function ScribeCustomChoices(name, item /*, item ... */) {
     }
   }
   else if(o.constructor == Array) {
+    var allArgs = [];
     for(var i = 1; i < arguments.length; i++)
-      o[o.length] = arguments[i];
+      allArgs = allArgs.concat(arguments[i]);
+    o = DndCharacter[name] = o.concat(allArgs);
     o.sort();
+    if(o == DndCharacter.feats) {
+      for(var i = 0; i < allArgs.length; i++)
+        rules.AddRules
+          ('features.' + allArgs[i], 'feats.' + allArgs[i], '=', '1');
+    }
   }
   else
     for(var i = 2; i < arguments.length; i += 2)

@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.109 2005/06/17 12:39:25 Jim Exp $ */
+/* $Id: Scribe.js,v 1.110 2005/07/13 04:21:20 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.18.17';
+var VERSION = '0.19.12';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -243,8 +243,8 @@ function InitialViewer() {
       {name: 'Feats', within: 'FeatsAndSkills'},
       {name: 'Features Break', within: 'FeatsAndSkills', format: '\n'},
       {name: 'Features', within: 'FeatsAndSkills'},
-      {name: 'Feat Notes Break', within: 'FeatsAndSkills', format: '\n'},
-      {name: 'Feat Notes', within: 'FeatsAndSkills'},
+      {name: 'Feature Notes Break', within: 'FeatsAndSkills', format: '\n'},
+      {name: 'Feature Notes', within: 'FeatsAndSkills'},
       {name: 'Skills Break', within: 'FeatsAndSkills', format: '\n'},
       {name: 'Skills', within: 'FeatsAndSkills'},
       {name: 'Skill Notes Break', within: 'FeatsAndSkills', format: '\n'},
@@ -816,7 +816,7 @@ function SheetHtml() {
           damages = damages.substring(0, i);
           if(computedAttributes['weaponRangeAdjustment.' + name] != null)
             range += computedAttributes['weaponRangeAdjustment.' + name] - 0;
-          if(computedAttributes['feats.Far Shot'] != null)
+          if(computedAttributes['features.Far Shot'] != null)
             range *= name.indexOf('bow') < 0 ? 2 : 1.5;
         }
         var attack =
@@ -950,7 +950,7 @@ function SummarizeCachedAttrs() {
   for(var a in allAttrs) {
     var spells = [];
     for(var b in allAttrs[a]) {
-      if(b.match(/^(feats|features|skills|languages)\./))
+      if(b.match(/^(features|skills|languages)\./))
         inTable[b] = 1;
       else if(b.match(/^spells\./))
         spells[spells.length] = b.substring(b.indexOf('.') + 1);
