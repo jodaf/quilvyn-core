@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.111 2005/07/19 21:17:58 Jim Exp $ */
+/* $Id: Scribe.js,v 1.112 2005/07/19 23:50:19 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.19.19';
@@ -241,7 +241,7 @@ function InitialViewer() {
       {name: 'Cross Skill Max Ranks', within: 'FeaturesAndSkills'},
       {name: 'Feats Break', within: 'FeaturesAndSkills', format: '\n'},
       {name: 'Feats', within: 'FeaturesAndSkills',
-        format: '<b>Selected Feats</b>: %V'},
+        format: '<b>Selected Feats/Features</b>: %V'},
       {name: 'Features Break', within: 'FeaturesAndSkills', format: '\n'},
       {name: 'Features', within: 'FeaturesAndSkills',
         format: '<b>Acquired Features</b>: %V'},
