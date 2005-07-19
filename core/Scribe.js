@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.110 2005/07/13 04:21:20 Jim Exp $ */
+/* $Id: Scribe.js,v 1.111 2005/07/19 21:17:58 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.19.12';
+var VERSION = '0.19.19';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -233,26 +233,28 @@ function InitialViewer() {
       {name: 'Player', within: 'Attributes'},
       {name: 'Ability Notes Break', within: 'Attributes', format: '\n'},
       {name: 'Ability Notes', within: 'Attributes'},
-    {name: 'FeatsAndSkills Break', within: '_top', format: '\n'},
-    {name: 'FeatsAndSkills', within: '_top', title: 'Feats/Features/Skills'},
-      {name: 'Feat Count', within: 'FeatsAndSkills'},
-      {name: 'Skill Points', within: 'FeatsAndSkills'},
-      {name: 'Class Skill Max Ranks', within: 'FeatsAndSkills'},
-      {name: 'Cross Skill Max Ranks', within: 'FeatsAndSkills'},
-      {name: 'Feats Break', within: 'FeatsAndSkills', format: '\n'},
-      {name: 'Feats', within: 'FeatsAndSkills'},
-      {name: 'Features Break', within: 'FeatsAndSkills', format: '\n'},
-      {name: 'Features', within: 'FeatsAndSkills'},
-      {name: 'Feature Notes Break', within: 'FeatsAndSkills', format: '\n'},
-      {name: 'Feature Notes', within: 'FeatsAndSkills'},
-      {name: 'Skills Break', within: 'FeatsAndSkills', format: '\n'},
-      {name: 'Skills', within: 'FeatsAndSkills'},
-      {name: 'Skill Notes Break', within: 'FeatsAndSkills', format: '\n'},
-      {name: 'Skill Notes', within: 'FeatsAndSkills'},
-      {name: 'Languages Break', within: 'FeatsAndSkills', format: '\n'},
-      {name: 'Language Count', within: 'FeatsAndSkills'},
-      {name: 'Languages', within: 'FeatsAndSkills'},
-      {name: 'LoadSection', within: 'FeatsAndSkills', compact: 1},
+    {name: 'FeaturesAndSkills Break', within: '_top', format: '\n'},
+    {name: 'FeaturesAndSkills', within: '_top', title: 'Features/Skills'},
+      {name: 'Feat Count', within: 'FeaturesAndSkills'},
+      {name: 'Skill Points', within: 'FeaturesAndSkills'},
+      {name: 'Class Skill Max Ranks', within: 'FeaturesAndSkills'},
+      {name: 'Cross Skill Max Ranks', within: 'FeaturesAndSkills'},
+      {name: 'Feats Break', within: 'FeaturesAndSkills', format: '\n'},
+      {name: 'Feats', within: 'FeaturesAndSkills',
+        format: '<b>Selected Feats</b>: %V'},
+      {name: 'Features Break', within: 'FeaturesAndSkills', format: '\n'},
+      {name: 'Features', within: 'FeaturesAndSkills',
+        format: '<b>Acquired Features</b>: %V'},
+      {name: 'Feature Notes Break', within: 'FeaturesAndSkills', format: '\n'},
+      {name: 'Feature Notes', within: 'FeaturesAndSkills'},
+      {name: 'Skills Break', within: 'FeaturesAndSkills', format: '\n'},
+      {name: 'Skills', within: 'FeaturesAndSkills'},
+      {name: 'Skill Notes Break', within: 'FeaturesAndSkills', format: '\n'},
+      {name: 'Skill Notes', within: 'FeaturesAndSkills'},
+      {name: 'Languages Break', within: 'FeaturesAndSkills', format: '\n'},
+      {name: 'Language Count', within: 'FeaturesAndSkills'},
+      {name: 'Languages', within: 'FeaturesAndSkills'},
+      {name: 'LoadSection', within: 'FeaturesAndSkills', compact: 1},
         {name: 'Load Light', within: 'LoadSection',
           format: '<b>Light/Med/Max Load:</b> %V'},
         {name: 'Load Medium', within: 'LoadSection', format: '/%V'},
@@ -762,6 +764,10 @@ function SheetHtml() {
         delete computedAttributes['skills.' + a];
     }
   }
+  for(a in computedAttributes) {
+    if(a.search(/^feats\./) >= 0)
+      delete computedAttributes['features.' + a.substring(6)];
+  }
   /*
    * NOTE: The ObjectFormatter doesn't support interspersing values in a list
    * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
@@ -884,7 +890,7 @@ function SheetHtml() {
          '  </' + 'script>\n' +
          '</head>\n' +
          '<body>\n' +
-         viewer.getHtml(displayAttributes) +
+         viewer.getHtml(displayAttributes) + '\n' +
          '</body>\n' +
          '</html>\n';
 
