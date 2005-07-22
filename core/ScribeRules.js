@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.13 2005/07/13 04:21:20 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.14 2005/07/22 05:40:31 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -120,7 +120,7 @@ function ScribeCustomClass
     var noteName = name.substring(0, 1).toLowerCase() + name.substring(1);
     noteName = noteName.replace(/ /g, '');
     DndCharacter.LoadClassFeatureRules
-      (rules, name, 'featNotes.' + noteName + 'Features', features);
+      (rules, name, 'featureNotes.' + noteName + 'Features', features);
   }
 }
 
