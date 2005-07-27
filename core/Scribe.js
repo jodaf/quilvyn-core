@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.114 2005/07/26 17:43:17 Jim Exp $ */
+/* $Id: Scribe.js,v 1.115 2005/07/27 14:30:50 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.19.26';
@@ -659,7 +659,7 @@ function Scribe() {
 
   var defaults = {
     'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
-    'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'help.html',
+    'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'scribedoc.html',
     'LOGO_URL':'scribe.gif', 'MAGIC_RULES_VERSION':'3.5',
     'MAX_RECENT_OPENS':20, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
     'WARN_ABOUT_DISCARD':true
@@ -716,7 +716,7 @@ function Scribe() {
     html += '<h2>Sources</h2>\n' + attrs.join('<br/>\n') + '\n';
     attrs = rules.AllTargets();
     html += '<h2>Targets</h2>\n' + attrs.join('<br/>\n') + '\n';
-    html += '</body></html>/n';
+    html += '</body></html>\n';
     var w = window.open('', 'attrwin');
     w.document.write(html);
     w.document.close();

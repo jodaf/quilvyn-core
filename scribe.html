@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.31 2005/07/14 05:11:58 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.32 2005/07/27 14:30:50 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -45,7 +45,7 @@ var SOURCE_URL = '';
  * character because you're opening a new one.
  */
 var BACKGROUND = 'wheat';
-var MAX_RECENT_OPENS = 20;
+var MAX_RECENT_OPENS = 40;
 var URL_PREFIX = 'http://www.jodaf.com/dnd/bt/';
 var URL_SUFFIX = '.html';
 var WARN_ABOUT_DISCARD = true;
@@ -67,13 +67,13 @@ var MAGIC_RULES_VERSION = '3.5';
 
 /*
  * If this file defines a CustomizeScribe function, Scribe calls it after
- * loading, allowing you to add custom behavior to the program.  See help.html
- * for details.  Instead of putting the code directly into CustomizeScribe, you
- * can place URLs for scripts you want to load from external files into
- * CUSTOMIZATION_URLS, and the default implementation of CustomizeScribe below
- * will load them.  A set of sample customization scripts, listed below, comes
- * packaged with the Scribe software; remove the comment markers from around
- * any of these that you would like Scribe to use.
+ * loading, allowing you to add custom behavior to the program.  See
+ * scribedoc.html for details.  Instead of putting the code directly into
+ * CustomizeScribe, you can place URLs for scripts you want to load from
+ * external files into CUSTOMIZATION_URLS, and the default implementation of
+ * CustomizeScribe below will load them.  A set of sample customization
+ * scripts, listed below, comes packaged with the Scribe software; remove the
+ * comment markers from around any of these that you would like Scribe to use.
  */
 var CUSTOMIZATION_URLS = [
   /* 'ScribeCustomDeities.js', */
@@ -87,8 +87,8 @@ var CUSTOMIZATION_URLS = [
 
 function CustomizeScribe() {
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
-    var pos;
     var func = CUSTOMIZATION_URLS[i];
+    var pos;
     if(func == null)
       continue;
     if((pos = func.lastIndexOf('/')) >= 0)
@@ -105,7 +105,7 @@ function CustomizeScribe() {
 /**** Commands that load the Scribe software.  Do not modify. ****/
 
 var CLOSE_TAG = '<' + '/' + 'script>\n';
-var HELP_URL = SOURCE_URL + 'help.html';
+var HELP_URL = SOURCE_URL + 'scribedoc.html';
 var LOGO_URL = SOURCE_URL + 'scribe.gif';
 var scribeUrls = [
   'DndCharacter.js', 'Input.js', 'ObjectViewer.js', 'RuleEngine.js',

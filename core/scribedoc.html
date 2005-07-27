@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.57 2005/07/26 17:43:06 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.58 2005/07/27 14:30:50 Jim Exp $ -->
 <html>
 
 <head>
@@ -59,12 +59,12 @@ rules" into both the editor and character sheet.
 A tar file containing the Scribe code can be obtained from
 <a href='http://www.jodaf.com/dnd/scribe/scribe.tar'>www.jodaf.com/dnd/scribe/scribe.tar</a>.
 The Scribe program consists of 10 files: DndCharacter.js, Input.js,
-ObjectViewer.js, RuleEngine.js, Scribe.js, gpl.txt, help.html, helpattrs.html,
-scribe.gif, and scribe.html.  (Several sample customization files are included
-in the download, but using these is optional.) It is possible to install only
-scribe.html and direct Scribe to download the other files when the program
-runs.  Doing so ensures that you get the latest version of Scribe every time
-you run the program; however, it also means that you have to wait for the
+ObjectViewer.js, RuleEngine.js, Scribe.js, gpl.txt, scribe.gif, scribe.html,
+scribedoc.html, and scribeattrs.html.  (Several sample customization files are
+included in the download, but using these is optional.) It is possible to
+install only scribe.html and direct Scribe to download the other files when the
+program runs.  Doing so ensures that you get the latest version of Scribe every
+time you run the program; however, it also means that you have to wait for the
 download each time. See scribe.html for details.
 </p>
 
@@ -427,7 +427,7 @@ use these new attributes to modify existing ones via a '+' rule.
 </p>
 
 <p>
-<a href='helpattrs.html'>helpattrs.html</a> lists all the attributes that
+<a href='scribeattrs.html'>scribeattrs.html</a> lists all the attributes that
 Scribe knows about.  You can use any of these attributes, as well as new ones
 you calculate, in calls to ScribeCustomRules.
 </p>
@@ -577,12 +577,13 @@ that specify the effects of new items.
       levels or cleric domains change.  This is sufficient for the PH rules,
       but the menu may not reflect any custom rules that make the
       class/cross-class determination depend on other attributes.</li>
-  <li>Rogue special abilities and ranger combat style are lumped into Scribe's
-      list of feats.  This works pretty well, and it makes good sense for the
-      rogue special feats since taking an extra feat instead of a special
-      ability is an option.  However, the large number of special abilities
-      defined by a couple of of the prestige classes (Hierophant, Horizon
-      Walker) tend to clutter up the feat list when those classes are used.</li>
+  <li>Selectable class-based features (e.g., rogue special abilities, ranger
+      combat style) are lumped into Scribe's list of feats.  This works pretty
+      well, and it makes good sense for the rogue special feats since taking an
+      extra feat instead of a special ability is an option.  However, the large
+      number of selectable features defined by a couple of of the prestige
+      classes (Hierophant, Horizon Walker) tend to clutter up the feat list
+      when those classes are used.</li>
 </ul>
 </p>
 
@@ -595,12 +596,12 @@ that specify the effects of new items.
       spells within a Wizard's specialization.</li>
   <li>Spells per day computations are off by one for some high-level (19-20)
       characters.</li>
-  <li>Scribe presently defines no way to add additional types of armor, because
+  <li>Scribe presently defines no way to add additional types of armor because
       of all the extra information that would need to be specified&#151;arcane
       spell failure percentage, a.c. bonus, maximum dexterity bonus, skill
       check penalty, etc.</li>
   <li>Discussion of the names of the entered and computed character attributes
-      needs to be added to helpattrs.html.</li>
+      needs to be added to scribeattrs.html.</li>
   <li>Need to write and document ScribeCustomEditor&#151;a function that allows
       the user to add fields to the editor for, e.g., possessions.</li>
   <li>Scribe has problems dealing with attributes containing an uncapitalized
