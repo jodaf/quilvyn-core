@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.14 2005/07/22 05:40:31 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.15 2005/08/01 05:23:30 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -20,7 +20,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*
  * Add each #item# to the set of valid selections for #name#.  For some values
  * of #name# (e.g., 'weapons'), data associated with each item is interspersed
- * in the parameter list.  See help.html for details.
+ * in the parameter list.  See scribedoc.html for details.
  */
 function ScribeCustomChoices(name, item /*, item ... */) {
   var nameObjects = {
