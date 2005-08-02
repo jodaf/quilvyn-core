@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.6 2005/05/18 22:23:53 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.7 2005/08/02 06:11:17 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -79,9 +79,13 @@ ObjectViewer._getHtml =
   if(memberValue != null) {
     if(typeof memberValue == 'object') {
       var all = [];
-      for(e in memberValue)
-        all[all.length] = e + ': ' + value[e];
-      memberValue = all.join(' * ');
+      var sep = element.separator == null ? ' * ' : element.separator;
+      if(memberValue.constructor == Array)
+        all = memberValue;
+      else
+        for(e in memberValue)
+          all[all.length] = e + ': ' + memberValue[e];
+      memberValue = all.join(sep);
     }
     elementHtml = ('' + memberValue).replace(/\n/g, '<br/>\n');
   }

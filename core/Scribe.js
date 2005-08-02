@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.116 2005/08/01 05:23:29 Jim Exp $ */
+/* $Id: Scribe.js,v 1.117 2005/08/02 06:11:17 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.19.31';
@@ -874,10 +874,8 @@ function SheetHtml() {
   }
 
   for(a in displayAttributes) {
-    if(typeof displayAttributes[a] == 'object') {
+    if(typeof displayAttributes[a] == 'object')
       displayAttributes[a].sort();
-      displayAttributes[a] = displayAttributes[a].join(' * ');
-    }
   }
 
   return '<' + '!' + '-- Generated ' + new Date().toString() +
