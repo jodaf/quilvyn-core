@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.15 2005/08/01 05:23:30 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.16 2005/08/04 05:27:56 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -70,27 +70,27 @@ function ScribeCustomChoices(name, item /*, item ... */) {
  * Add #name# to the list of valid classes.  Characters of class #name# roll
  * #hitDice# ([N[d]]S, where N is the number of dice and S the number of sides)
  * more hit points at each level.  The other parameters are optional.
- * #skillPointsBonus#, #baseAttackBonus#, #saveFortitudeBonus#,
+ * #skillPoints# is the number of skill points a character of the class
+ * receives each level; #baseAttackBonus#, #saveFortitudeBonus#,
  * #saveReflexBonus# and #saveWillBonus# are JavaScript expressions that
- * compute the amount of additional skill points and attack and saving throw
- * bonuses the character acumulates each class level; #armorProficiencyLevel#,
- * #shieldProficiencyLevel# and #weaponProficiencyLevel# indicate any
- * proficiency in these categories that characters of the class gain;
- * #classSkills# is an array of skills that are class (not cross-class) skills
- * for the class, #features# an array of level/feature name pairs indicating
- * features that the class acquires when advancing levels, and #prerequisites#
- * an array of validity tests that must be passed in order to qualify for the
- * class.
+ * compute the attack and saving throw bonuses the character acumulates each
+ * class level; #armorProficiencyLevel#, #shieldProficiencyLevel# and
+ * #weaponProficiencyLevel# indicate any proficiency in these categories that
+ * characters of the class gain; #classSkills# is an array of skills that are
+ * class (not cross-class) skills for the class, #features# an array of
+ * level/feature name pairs indicating features that the class acquires when
+ * advancing levels, and #prerequisites# an array of validity tests that must
+ * be passed in order to qualify for the class.
  */
 function ScribeCustomClass
-  (name, hitDice, skillPointsBonus, baseAttackBonus, saveFortitudeBonus,
+  (name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
    saveReflexBonus, saveWillBonus, armorProficiencyLevel,
    shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
    prerequisites) {
   var classLevel = 'levels.' + name;
   ScribeCustomChoices('classes', name, hitDice + '' /* Convert int to str */);
-  if(skillPointsBonus != null)
-    ScribeCustomRules('skillPoints', classLevel, '+', skillPointsBonus);
+  if(skillPoints != null)
+    ScribeCustomRules('skillPoints', classLevel, '+', 'source * '+skillPoints);
   if(baseAttackBonus != null)
     ScribeCustomRules('baseAttack', classLevel, '+', baseAttackBonus);
   if(saveFortitudeBonus != null)
