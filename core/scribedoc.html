@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.58 2005/07/27 14:30:50 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.59 2005/08/04 05:20:04 Jim Exp $ -->
 <html>
 
 <head>
@@ -53,22 +53,19 @@ character's attributes.  Customization features allow you to incorporate "house
 rules" into both the editor and character sheet.
 </p>
 
-
 <a name="install"><h3>Installing and Running Scribe</h3></a>
 <p>
 A tar file containing the Scribe code can be obtained from
-<a href='http://www.jodaf.com/dnd/scribe/scribe.tar'>www.jodaf.com/dnd/scribe/scribe.tar</a>.
-The Scribe program consists of 10 files: DndCharacter.js, Input.js,
-ObjectViewer.js, RuleEngine.js, Scribe.js, gpl.txt, scribe.gif, scribe.html,
-scribedoc.html, and scribeattrs.html.  (Several sample customization files are
-included in the download, but using these is optional.) It is possible to
-install only scribe.html and direct Scribe to download the other files when the
-program runs.  Doing so ensures that you get the latest version of Scribe every
-time you run the program; however, it also means that you have to wait for the
-download each time. See scribe.html for details.
-</p>
-
-<p>
+<a href='http://www.jodaf.com/software/scribe/scribe.tar'>www.jodaf.com/software/scribe/scribe.tar</a>.
+The Scribe program consists of 11 files: DndCharacter.js, Input.js,
+ObjectViewer.js, RuleEngine.js, Scribe.js, ScribeCustom.js, gpl.txt,
+scribe.gif, scribe.html, scribedoc.html, and scribeattrs.html.  (Several sample
+customization files are included in the download, but using them is optional.)
+It is possible to install only scribe.html and direct Scribe to download the
+other files when the program runs.  Doing so ensures that you get the latest
+version of Scribe every time you run the program; however, it also means that
+you have to wait for the download each time. See scribe.html for details.
+</p><p>
 Scribe has been successfully tested using these browers
 <ul>
   <li>Linux Galeon v1.2 and v1.3</li>
@@ -80,9 +77,7 @@ Scribe has been successfully tested using these browers
   <li>Windows Internet Explorer v6.0</li>
   <li>Windows Opera v7.54</li>
 </ul>
-</p>
-
-<p>
+</p><p>
 scribe.html contains a section of definitions that allow you to set some user
 preferences.  Scribe uses the BACKGROUND setting as the background color for
 its windows, and the program uses the URL_PREFIX and URL_SUFFIX values to
@@ -96,9 +91,7 @@ warns you when ask to open a new character after making changes to the current
 one without saving. You can also add character sheet and editor customizations
 in scribe.html.  See the <a href="#custom">customization section</a> for
 details.
-</p>
-
-<p>
+</p><p>
 Other definitions in scribe.html allow you to select the rules from the v3.0 or
 v3.5 version of the Player's Handbook.  The value of CLASS_RULES_VERSION
 determines which class and race rules Scribe uses, the value of
@@ -110,12 +103,9 @@ preference.  Scribe also allows you to combine rules from the two versions
 both versions separated by a slash (e.g., '3.0/3.5').  If you do this, the
 version listed last takes precedence for any rules that are incompatible
 between the versions.
-</p>
-
-<p>
+</p><p>
 To run Scribe, simply use your favorite web browser to open scribe.html.
 </p>
-
 
 <a name="open"><h3>Generating and Loading Characters</h3></a>
 <p>
@@ -131,7 +121,6 @@ level(s).  This helps DMs to use Scribe to generate NPCs.  You can either
 specify these attributes, or leave the form blank to have Scribe generate them
 randomly.
 </p>
-
 
 <a name="edit"><h3>Editing Characters</h3></a>
 <p>
@@ -154,16 +143,12 @@ the text field is used with attributes (e.g., skills, class levels) where the
 character has a variable score associated with the attribute.  To change one of
 these attributes, first use the pull-down menu to select a particular
 attribute, then click the checkbox or enter a value in the text field.
-</p>
-
-<p>
+</p><p>
 In your main browser window, Scribe displays a character sheet based on the
 values of the editing window.  Every time you change a value in the editing
 window, Scribe applies the rules from the AD&amp;D third edition Player's
 Handbook, then updates the character sheet to show you any computed changes.
-</p>
-
-<p>
+</p><p>
 The three "Show" checkboxes provide some control over what attributes the
 character sheet displays.  The "Italic Notes" checkbox determines whether or
 not italicized notes are included on the sheet.  See <a href='#sheet'>the
@@ -174,9 +159,7 @@ used even when no skill points have been allocated to them.  The "DM Info" box
 determines whether or not the character sheet includes any information marked
 for the Dungeon Master only.  This includes any notes entered in the editor's
 "DM Notes" box and any attributes that depend on the "dmonly" attribute.
-</p>
-
-<p>
+</p><p>
 A few items in the editor window don't relate directly to the character sheet.
 The "New/Open" button is discussed in in <a href='#open'>Generating and
 Loading Characters</a> and the "View HTML" button in <a href='#save'>Saving
@@ -197,16 +180,13 @@ character is loaded or generated, Scribe resets this menu to include only those
 spells (if any) that the character may know.
 </p>
 
-
 <a name="random"><h3>Clearing and Randomizing Attributes</h3></a>
 <p>
 The "Clear" menu gives you a quick way to reset attributes to their default
 values.  For example, selecting "Spells" in the "Clear" menu will uncheck all
 options in the Spells editing menu and remove all spells from the character
 sheet.
-</p>
-
-<p>
+</p><p>
 The "Randomize" menu allows you to let Scribe randomly determine most basic
 Scribe character attributes.  The editor will select a random value for the
 attribute you choose and update both the editing display and the character
@@ -222,7 +202,6 @@ are more often amusing than useful, but you can usually get a pretty decent
 name from them with a little creative editing.
 </p>
 
-
 <a name="save"><h3>Saving Characters</h3></a>
 <p>
 For security purposes, web programs like Scribe are prohibited from creating
@@ -230,9 +209,7 @@ files on your hard disk.  This prevents Scribe from saving your character
 directly; instead, the program displays the information that needs to be saved
 in a separate window.  You can copy this information into your favorite file
 editor and use it to save the character for later retrieval.
-</p>
-
-<p>
+</p><p>
 To save your character information, press the "View Html" button.  Scribe
 opens a new window that contains the HTML for the character sheet; it also
 contains the data Scribe needs to begin editing the character again later.
@@ -242,7 +219,6 @@ you can enter the URL of this file into Scribe's Open dialogue box to make
 changes to the character.  You can also load the file directly into your
 browser to view and print the character sheet.
 </p>
-
 
 <a name="sheet"><h3>The Character Sheet</h3></a>
 <p>
@@ -289,9 +265,7 @@ get it working with the special modifications of your game.  Doing so involves
 writing a bit of JavaScript code, but Scribe provides easy-to-use facilities
 that allow you to apply significant customization without becoming a JavaScript
 expert.
-</p>
-
-<p>
+</p><p>
 To add custom rules and information to Scribe, you need to fill in the
 CustomizeScribe function found in scribe.html with commands that perform your
 modifications.  Scribe invokes this function after loading.  From within
@@ -307,20 +281,14 @@ characters to learn to speak the clicks and whistles used by dolphins and the
 songs of whales.  To add these as languages to Scribe's Languages list,
 thereby allowing users to select them for their characters, you would include
 this code in your CustomizeScribe function:
-</p>
-
-<p><code>
+</p><p><code>
 ScribeCustomChoices('languages', 'Dolphin', 'Whale');
-</code></p>
-
-<p>
+</code></p><p>
 Scribe will sort your additional choice(s) into the list.  The lists you can
 modify in this fashion are 'alignments', 'domains' (cleric spell domains),
 'feats', 'genders', 'goodies' (magic items), 'languages', 'races', 'schools'
 (wizard spell schools), and 'shields'.
-</p>
-
-<p>
+</p><p>
 Other lists that you can modify require you to supply additional information
 about the new choices.  For example, if you add new skills to Scribe's Skills
 list, you must also supply the key ability associated with each skill.  When
@@ -336,9 +304,7 @@ and/or a range increment, preceded by 'r'.  If you don't include information
 about critical hits, Scribe assumes 'x2@20'&#151;the weapon potentially does
 double damage on a roll of 20 and is not ranged.)  Here are examples of adding
 choices to these lists:
-</p>
-
-<p><code><pre>
+</p><p><code><pre>
 ScribeCustomChoices('deities',
   'Draum (CG Elf Dreams)', 'Air/Chaos/Good/Luck',
   'Glennor (NG Healing)', 'Air/Animal/Healing'
@@ -362,22 +328,16 @@ sufficient.  When adding new choices to attributes like race, however, you will
 probably want to add rules to reflect the effect selecting the new choice has
 on other attributes.  You can do this by invoking the ScribeCustomRules
 function from within your CustomizeScribe function.
-</p>
-
-<p>
+</p><p>
 For example, suppose you decide to allow players to play goblin characters,
 subtracting two from their strength score but adding two to dexterity.  The
 CustomizeScribe lines to do this would be:
-</p>
- 
-<p><code><pre>
+</p><p><code><pre>
 ScribeCustomChoices('races', 'Goblin');
 ScribeCustomRules('abilityNotes.goblinAbilityAdjustment', 'race', '=', 'source == "Goblin" ? "+2 dexterity/-2 strength" : null');
 ScribeCustomRules('strength', 'abilityNotes.goblinAbilityAdjustment', '+', '-2');
 ScribeCustomRules('dexterity', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
-</pre></code></p>
-
-<p>
+</pre></code></p><p>
 The first line simply adds 'Goblin' to the list of races available.  The next
 line computes a new attribute that will be included in the notes of the
 Attributes section of the character sheet, and the last two lines use this
@@ -385,9 +345,7 @@ attribute to modify the character abilities.  The parameters to
 ScribeCustomRules are the attribute affected, the attribute on which the
 first attribute depends, the type of affect, and a JavaScript expression that
 calculates the value of the effect.
-</p>
-
-<p>
+</p><p>
 For example, the first invocation of ScribeCustomRules above computes a
 value for the abilityNotes.goblinAbilityAdjustment attribute based on the value
 of the race attribute. The third parameter ('=') indicates that race sets the
@@ -403,30 +361,22 @@ does not apply to this character.  Within this piece of JavaScript, the
 variable 'source' always refers to the attribute specified in the second
 parameter.  So, in the first call above, 'source' refers to the value of the
 race attribute.
-</p>
-
-<p>
+</p><p>
 Note that, if you didn't care about adding notes to the character sheet that
 explain the race-based ability modifications, you could shorten the above four
 lines to these three:
-</p>
-
-<p><code><pre>
+</p><p><code><pre>
 ScribeCustomChoices('races', 'Goblin');
 ScribeCustomRules('strength', 'race', '+', 'source == "Goblin" ? -2 : 0');
 ScribeCustomRules('dexterity', 'race', '+', 'source == "Goblin" ? 2 : 0');
-</pre></code></p>
-
-<p>
+</pre></code></p><p>
 However, Scribe only retains one rule for each pair of modified/modifying
 attributes, so this approach would work only for the first race you add.  If
 you later added another rule that modified strength or dexterity based on race,
 the new rule would replace the rule for goblins.  In general, it's best to add
 rules that set new attributes (like abilityNotes.goblinAbilityAdjustment), then
 use these new attributes to modify existing ones via a '+' rule.
-</p>
-
-<p>
+</p><p>
 <a href='scribeattrs.html'>scribeattrs.html</a> lists all the attributes that
 Scribe knows about.  You can use any of these attributes, as well as new ones
 you calculate, in calls to ScribeCustomRules.
@@ -447,13 +397,9 @@ before, and the format to use in the display.  For example, suppose you had
 made calls to ScribeCustomRules that computed a new character attribute
 called 'spellPoints'. This code would insert the attribute into the Magic
 section of the character sheet, just before cleric domains:
-</p>
-
-<p><code><pre>
+</p><p><code><pre>
 ScribeCustomSheet('spellPoints', 'Magic', 'Domains', null)
-</pre></code></p>
-
-<p>
+</pre></code></p><p>
 Note that the final parameter here is <b>null</b>.  This indicates that Scribe
 should use its default format to display the attribute, which is the attribute
 name in boldface followed by a colon and the attribute value.  Chances are good
@@ -461,9 +407,7 @@ that this will usually be the format you want to use.  If you want to customize
 the format, though, you can pass a string containing HTML that represents the
 format.  Within this HTML the text %N represents the attribute name and %V its
 value, so the default format is '&lt;b&gt;%N&lt;/b&gt;: %V'.
-</p>
-
-<p>
+</p><p>
 The predefined character sheet has six sections: 'Header', 'Attributes',
 'FeatsAndSkills', 'Melee', 'Magic', and 'Notes'.  You can add attributes to any
 of these five by giving its name as the second parameter. (You can also add a
@@ -473,9 +417,7 @@ should be displayed.  This will usually be the name of one of the attributes as
 displayed on the character sheet.  Alternatively, you can place your new
 attribute at the end of the section by giving <b>null</b> as the third
 parameter.
-</p>
-
-<p>
+</p><p>
 Adding attributes to the character sheet notes sections is done differently.
 The six notes lists Scribe knows about are abilityNotes, featNotes, skillNotes,
 meleeNotes, saveNotes, and magicNotes.  To add an attribute to one of these
@@ -485,42 +427,99 @@ is one example of this&#151;Scribe would automatically include this attribute
 in the ability notes.  If you want to specify a display format for a note
 attribute (e.g., to include descriptive text), you can call ScribeCustomNotes
 specifying the name of the attribute and its format, like this
-</p>
-
-<p><code><pre>
+</p><p><code><pre>
 ScribeCustomNotes
   ('abilityNotes.goblinAbilityAdjustment', '-2 strength/+2 dexterity');
-</pre></code></p>
-
-<p>
+</pre></code></p><p>
 ScribeCustomNotes treats some attributes specially.  If the attribute name ends
-with one of "Domain", "Feat", "Feature", or "Synergy", ScribeCustomNotes will
-automatically generate common rules related to the attribute.  For "Domain",
-"Feat", and "Feature" attributes, ScribeCustomNotes will add a rule specifying
-that the note will appear only if the corresponding domain, feat, or feature is
-in the character's list of attributes (e.g., 'skillNotes.agileFeat' only
-appears if the character has the Agile feat).  "Synergy" attributes only appear
-if the character has at least five ranks in the corresponding skill.  In
-addition, ScribeCustomNotes automatically generates rules to adjust skill 
-values based on skillNotes attributes.  If the format of a skillNotes attribute
-gives a bonus value followed by a slash-separated list of skill names,
-ScribeCustomNotes generates rules to increase each of the skills in the list if
-the attribute is present.  For example, given this call
-</p>
-
-<p><code><pre>
-ScribeCustomNotes('skillNotes.agileFeat', '+2 Balance/Escape Artist');
-</pre></code></p>
-
-<p>
+with one of "Domain", "Feature", or "Synergy", ScribeCustomNotes will
+automatically generate common rules related to the attribute.  For "Domain" and
+"Feature" attributes, ScribeCustomNotes will add a rule specifying that the
+note will appear only if the corresponding domain or feature is in the
+character's list of attributes (e.g., 'skillNotes.agileFeature' only appears if
+the character has the Agile feature).  "Synergy" attributes only appear if the
+character has at least five ranks in the corresponding skill.  In addition,
+ScribeCustomNotes automatically generates rules to adjust skill values based on
+skillNotes attributes.  If the format of a skillNotes attribute gives a bonus
+value followed by a slash-separated list of skill names, ScribeCustomNotes
+generates rules to increase each of the skills in the list if the attribute is
+present.  For example, given this call
+</p><p><code><pre>
+ScribeCustomNotes('skillNotes.agileFeature', '+2 Balance/Escape Artist');
+</pre></code></p><p>
 ScribeCustomNotes will generate rules to increase the Balance and Escape Artist
-skills by two if the character has the Agile feat.
+skills by two if the character has the Agile feature.
 </p>
 
 <a name="customclass"><h3>Customization - Adding Classes</h3></a>
 <p>
-<b>TODO</b>
-Document ScribeCustomClass(name, hitDie, classSkills, features, prerequisites)
+Although the customization functions described above are sufficient to define
+new character classes, Scribe provides the ScribeCustomClass function as a
+convenience.  This function takes 13 parameters: the name of the class; the
+number of sides on the hit die; the number of skill points acquired each
+level; JavaScript expressions to calculate the base attack bonus and fortitude,
+reflex, and will saving throw bonuses; armor, shield, and weapon proficiency
+levels; an array of class skills; an array of interspersed class features and
+the class levels at which they are acquired; an optional array of tests for
+class prerequisites.  Here is an example of code that defines the Dwarven
+Defender prestige class defined in the Dungeon Master's Guide.
+</p><p><code><pre>
+  (classSkills, features, prerequisites) {
+  var features = [
+    1, 'Defensive Stance', 2, 'Uncanny Dodge', 4, 'Trap Sense',
+    6, 'Damage Reduction', 6, 'Improved Uncanny Dodge', 8, 'Mobile Defense'
+  ];
+  var notes = [
+    'featureNotes.defensiveStanceFeature',
+      '+2 strength/+4 constitution/+2 saves/+4 dodge AC while unmoving for conMod+3 rounds %V/day',
+    'meleeNotes.mobileDefenseFeature',
+      'Allowed 5 ft. step during Defensive Stance'
+  ];
+  var prerequisites = [
+    '"{race}" == "Dwarf"',
+    '"{alignment}".indexOf("Lawful") &gt;= 0',
+    '{baseAttack} &gt;= 7',
+    '{features.Dodge} != null',
+    '{features.Endurance} != null',
+    '{features.Toughness} != null'
+  ];
+  var skills = ['Craft', 'Listen', 'Sense Motive', 'Spot'];
+  ScribeCustomClass(
+    'Dwarven Defender', 12, 2, DndCharacter.ATTACK_BONUS_GOOD,
+    DndCharacter.SAVE_BONUS_GOOD, DndCharacter.SAVE_BONUS_POOR,
+    DndCharacter.SAVE_BONUS_POOR, DndCharacter.ARMOR_PROFICIENCY_HEAVY,
+    DndCharacter.SHIELD_PROFICIENCY_HEAVY,
+    DndCharacter.WEAPON_PROFICIENCY_MARTIAL, skills, features, prerequisistes);
+  );
+  ScribeCustomNotes(notes);
+  ScribeCustomRules('featureNotes.defensiveStanceFeature',
+    'levels.Dwarven Defender', '+=', 'Math.floor((source + 1) / 2)'
+  );
+  ScribeCustomRules('meleeNotes.classArmorClassAdjustment',
+    'levels.Dwarven Defender', '+=', 'Math.floor((source + 2) / 3)'
+  );
+  ScribeCustomRules('meleeNotes.damageReductionFeature',
+    'levels.Dwarven Defender', '+=', 'source&lt;6 ? null : source&lt;10 ? 3 : 6'
+  );
+  ScribeCustomRules('meleeNotes.trapSenseFeature',
+    'levels.Dwarven Defender', '+=',
+      'source &gt;= 4 ? Math.floor(source / 4) : null'
+  );
+</pre></code></p><p>
+As shown in this example, you will usually follow a call to ScribeCustomClass
+with one or more calls to the other customization functions to compute
+class-related attributes. Scribe provides a set of constants you can use for
+the JavaScript parameters to ScribeCustomClass that correspond to the values 
+used in the Player's Handbook for the base classes:
+DndCharacter.ATTACK_BONUS_GOOD, DndCharacter.ATTACK_BONUS_AVERAGE,
+DndCharacter.ATTACK_BONUS_POOR, DndCharacter.ARMOR_PROFICIENCY_HEAVY,
+DndCharacter.ARMOR_PROFICIENCY_LIGHT, DndCharacter.ARMOR_PROFICIENCY_MEDIUM,
+DndCharacter.ARMOR_PROFICIENCY_NONE, DndCharacter.SAVE_BONUS_GOOD,
+DndCharacter.SAVE_BONUS_POOR, DndCharacter.SHIELD_PROFICIENCY_HEAVY,
+DndCharacter.SHIELD_PROFICIENCY_LIGHT, DndCharacter.SHIELD_PROFICIENCY_NONE,
+DndCharacter.SHIELD_PROFICIENCY_TOWER, DndCharacter.WEAPON_PROFICIENCY_NONE,
+DndCharacter.WEAPON_PROFICIENCY_MARTIAL, and
+DndCharacter.WEAPON_PROFICIENCY_SIMPLE.
 </p>
 
 <a name="custommagic"><h3>Customization - Adding Magic Items</h3></a>
