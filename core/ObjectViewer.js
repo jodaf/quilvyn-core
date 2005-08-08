@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.7 2005/08/02 06:11:17 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.8 2005/08/08 23:36:49 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -34,8 +34,7 @@ function ObjectViewer() {
  * minimal legibility formatting of the returned HTML.  #isTd# indicates
  * whether or not the returned HTML should be enclosed in a <td></td> pair.
  */
-ObjectViewer._getHtml =
-  function(element, o, indent, isTd) {
+ObjectViewer._getHtml = function(element, o, indent, isTd) {
 
   if(element == null)
     return '';
@@ -100,31 +99,56 @@ ObjectViewer._getHtml =
 }
 
 /* Returns JavaScript code that represents the contents of #o#. */
-ObjectViewer.toCode =
-  function(o) {
-  var result = '';
-  var lineLength = 0;
-  for(var a in o) {
-    var value = o[a];
-    value = typeof value == 'object' ? ObjectViewer.toCode(value) :
-      ('"'+value.toString().replace(/\"/g, '\\"').replace(/\r?\n/g, '\\n')+'"');
-    var image = '"' + a + '":' + value + ',';
-    if(lineLength + image.length >= 80) {
-      /* Minimal pretty-printing for legibility. */
-      result += '\n';
-      lineLength = 0;
+ObjectViewer.toCode = function(o, indent, maxLen) {
+  var result;
+  var type = typeof o;
+  if(indent == null)
+    indent = '';
+  if(maxLen == null)
+    maxLen = 80;
+  if(o == null)
+    result = 'null';
+  else if(type == 'boolean')
+    result = o ? 'true' : 'false';
+  else if(type == 'number' || (type == 'string' && o.search(/^\d+$/) == 0))
+    result = o + '';
+  else if(type == 'string')
+    result = '"' + o.replace(/\"/g, '\\"').replace(/\r?\n/g,'\\n') + '"';
+  else {
+    var isArray = o.constructor == Array;
+    var bits = [];
+    var lineLen = 1; /* Account for opening brace/bracket */
+    var indexes = [];
+    indent += '  ';
+    for(var a in o)
+      indexes[indexes.length] = a;
+    indexes.sort();
+    for(var i = 0; i < indexes.length; i++) {
+      var index = indexes[i];
+      var element = isArray ? '' : ('"' + index + '":');
+      element += ObjectViewer.toCode(o[index], indent, maxLen);
+      if(i < indexes.length - 1)
+        element += ', ';
+      if(element.indexOf('\n') >= 0)
+        lineLen = element.length - element.lastIndexOf('\n');
+      else if(lineLen + element.length >= maxLen) {
+        bits[bits.length] = '\n' + indent;
+        lineLen = indent.length;
+      } else
+        lineLen += element.length;
+      bits[bits.length] = element;
     }
-    result += image;
-    lineLength += image.length;
+    result = bits.join('');
+    if(result.indexOf('\n') >= 0)
+      result = (isArray ? '[' : '{') + '\n' + indent + result + '\n' +
+               indent.substring(2) + (isArray ? ']' : '}');
+    else
+      result = (isArray ? '[' : '{') + result + (isArray ? ']' : '}');
   }
-  result = result.substring(0, result.length - 1); /* Drop trailing comma. */
-  if(result.length >= 80)
-    result = '\n' + result + '\n';
-  return '{' + result + '}';
+  return result;
 };
 
-ObjectViewer.prototype.addElements =
-  function(element /* ... */) {
+ObjectViewer.prototype.addElements = function(element /* ... */) {
   for(var i = 0; i < arguments.length; i++) {
     var e = arguments[i];
     var parent = e.within == null ? null : this.names[e.within];
@@ -147,7 +171,6 @@ ObjectViewer.prototype.addElements =
 };
 
 /* Returns HTML for a table that shows the contents of #o#. */
-ObjectViewer.prototype.getHtml =
-  function(o) {
+ObjectViewer.prototype.getHtml = function(o) {
   return ObjectViewer._getHtml(this.elements, o, '', false);
 };

@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.117 2005/08/02 06:11:17 Jim Exp $ */
+/* $Id: Scribe.js,v 1.118 2005/08/08 23:36:49 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.19.31';
@@ -884,7 +884,7 @@ function SheetHtml() {
          '<head>\n' +
          '  <title>' + attrs.name + '</title>\n' +
          '  <script>\n' +
-         '    var attributes = ' + ObjectViewer.toCode(codeAttributes) + ';\n' +
+         'var attributes = ' + ObjectViewer.toCode(codeAttributes) + ';\n' +
          '  </' + 'script>\n' +
          '</head>\n' +
          '<body>\n' +
