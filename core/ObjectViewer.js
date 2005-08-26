@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.8 2005/08/08 23:36:49 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.9 2005/08/26 19:46:08 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -18,82 +18,76 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*
- * Returns an object that can be used to format an object for inclusion in a
- * web page as a formatted table.
+ * Returns an object that can be used to format objects for inclusion in a
+ * web page as nested tables.
  */
 function ObjectViewer() {
-  this.names = {};
-  this.elements = null;
+  this.elements = [];
 }
 
 /*
  * An internal function.  Returns an HTML table that represents the contents of
- * #o#, formatted according to #element# and its sub-elements. Returns an empty
- * string if #element# and its sub-elements select no portion of #o#.  #indent#
+ * #o#, formatted according to #top# and its sub-elements. Returns an empty
+ * string if #top# and its sub-elements select no portion of #o#.  #indent#
  * indicates how deeply nested the returned table is; this is used for some
  * minimal legibility formatting of the returned HTML.  #isTd# indicates
  * whether or not the returned HTML should be enclosed in a <td></td> pair.
  */
-ObjectViewer._getHtml = function(element, o, indent, isTd) {
+ObjectViewer.prototype._getHtml = function(top, o, indent, isTd) {
 
-  if(element == null)
-    return '';
-
-  var e;
-  var elementHtml = '';
   var format;
-  var nestedIndent = element.compact ? '' : (indent + '  ');
-  var memberValue = element.name == null ? null : o[element.name];
+  var html;
+  var nestedIndent = top.compact ? '' : (indent + '  ');
+  var memberValue = o[top.name];
+  var newRow = true;
+  var piece;
+  var pieces = [];
 
-  if(element.elements != null) {
-    var newRow = true;
-    var piece;
-    var pieces = [];
-    for(e = element.elements; e != null; e = e.next) {
-      if(e.format == '\n') {
-        if(!newRow)
-          pieces[pieces.length] =
-            element.compact ? '<br/>' : '</tr></table></td></tr>';
-        newRow = true;
-        continue;
-      }
-      if((piece=ObjectViewer._getHtml(e,o,nestedIndent,!element.compact)) == '')
-        continue;
-      if(!element.compact && newRow)
-        pieces[pieces.length] =
-          '<tr><td><table width="100%"><tr align="center">';
-      pieces[pieces.length] = piece;
-      newRow = false;
+  for(var i = 0; i < this.elements.length; i++) {
+    var e = this.elements[i];
+    if(e.within != top.name)
+      continue;
+    if(e.format == '\n') {
+      if(!newRow)
+        pieces[pieces.length] = top.compact?'<br/>':'</tr></table></td></tr>';
+      newRow = true;
+      continue;
     }
-    if(!element.compact && !newRow)
-      pieces[pieces.length] = '</tr></table></td></tr>';
-    elementHtml =
-      pieces.length == 0 ? '' : element.compact ? pieces.join('') :
-      ('<table' + (element.borders ? ' border="1"' : '') + ' width="100%">' +
-       (element.title != null? '<tr><th>' + element.title + '</th></tr>' : '') +
-       pieces.join('') +
-       '</table>');
+    if((piece=this._getHtml(e, o, nestedIndent, !top.compact)) == '')
+      continue;
+    if(!top.compact && newRow)
+      pieces[pieces.length] = '<tr><td><table width="100%"><tr align="center">';
+    pieces[pieces.length] = piece;
+    newRow = false;
   }
+  if(!top.compact && !newRow)
+    pieces[pieces.length] = '</tr></table></td></tr>';
+  html =
+    pieces.length == 0 ? '' : top.compact ? pieces.join('') :
+    ('<table' + (top.borders ? ' border="1"' : '') + ' width="100%">' +
+     (top.title != null? '<tr><th>' + top.title + '</th></tr>' : '') +
+     pieces.join('') +
+     '</table>');
 
   if(memberValue != null) {
     if(typeof memberValue == 'object') {
       var all = [];
-      var sep = element.separator == null ? ' * ' : element.separator;
+      var sep = top.separator == null ? ' * ' : top.separator;
       if(memberValue.constructor == Array)
         all = memberValue;
       else
-        for(e in memberValue)
+        for(var e in memberValue)
           all[all.length] = e + ': ' + memberValue[e];
       memberValue = all.join(sep);
     }
-    elementHtml = ('' + memberValue).replace(/\n/g, '<br/>\n');
+    html = ('' + memberValue).replace(/\n/g, '<br/>\n');
   }
 
-  if(elementHtml == '')
+  if(html == '')
     return '';
-  format = element.format != null ? element.format :
+  format = top.format != null ? top.format :
            memberValue != null ? '<b>%N</b>: %V' : '%V';
-  format = format.replace(/%N/g, element.name).replace(/%V/g, elementHtml);
+  format = format.replace(/%N/g, top.name).replace(/%V/g, html);
   return isTd ? ('\n' + indent + '<td>' + format + '</td>') : (indent + format);
 
 }
@@ -148,29 +142,18 @@ ObjectViewer.toCode = function(o, indent, maxLen) {
   return result;
 };
 
-ObjectViewer.prototype.addElements = function(element /* ... */) {
-  for(var i = 0; i < arguments.length; i++) {
-    var e = arguments[i];
-    var parent = e.within == null ? null : this.names[e.within];
-    var sib;
-    var next = e.before == null ? null : this.names[e.before];
-    this.names[e.name] = e;
-    if(parent == null)
-      parent = this;
-    if(parent.elements == null || parent.elements == next) {
-      e.next = parent.elements;
-      parent.elements = e;
-    }
-    else {
-      for(sib=parent.elements; sib.next!=null && sib.next!=next; sib=sib.next)
-        ; /* empty */
-      e.next = sib.next;
-      sib.next = e;
-    }
-  }
+ObjectViewer.prototype.addElements = function(element /*, element ... */) {
+  for(var i = 0; i < arguments.length; i++)
+    this.elements = this.elements.concat(arguments[i]);
 };
 
 /* Returns HTML for a table that shows the contents of #o#. */
 ObjectViewer.prototype.getHtml = function(o) {
-  return ObjectViewer._getHtml(this.elements, o, '', false);
+  var result = '';
+  for(var i = 0; i < this.elements.length; i++) {
+    var e = this.elements[i];
+    if(e.within == null)
+      result += this._getHtml(e, o, '', false);
+  }
+  return result;
 };
