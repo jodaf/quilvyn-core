@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.16 2005/08/04 05:27:56 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.17 2005/09/08 01:13:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -68,7 +68,7 @@ function ScribeCustomChoices(name, item /*, item ... */) {
 
 /*
  * Add #name# to the list of valid classes.  Characters of class #name# roll
- * #hitDice# ([N[d]]S, where N is the number of dice and S the number of sides)
+ * #hitDice# ([Nd]S, where N is the number of dice and S the number of sides)
  * more hit points at each level.  The other parameters are optional.
  * #skillPoints# is the number of skill points a character of the class
  * receives each level; #baseAttackBonus#, #saveFortitudeBonus#,
