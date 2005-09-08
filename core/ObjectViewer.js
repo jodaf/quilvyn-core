@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.9 2005/08/26 19:46:08 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.10 2005/09/08 01:13:12 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -143,8 +143,21 @@ ObjectViewer.toCode = function(o, indent, maxLen) {
 };
 
 ObjectViewer.prototype.addElements = function(element /*, element ... */) {
-  for(var i = 0; i < arguments.length; i++)
-    this.elements = this.elements.concat(arguments[i]);
+  for(var i = 0; i < arguments.length; i++) {
+    var e = arguments[i];
+    var j = this.elements.length;
+    if(e.before != null) {
+      for(j = 0;
+          j < this.elements.length && this.elements[j].name != e.before;
+          j++)
+        ; /* empty */
+    }
+    if(j >= this.elements.length)
+      this.elements[j] = e;
+    else
+      this.elements =
+       this.elements.slice(0, j).concat(e).concat(this.elements.slice(j));
+  }
 };
 
 /* Returns HTML for a table that shows the contents of #o#. */

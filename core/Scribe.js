@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.119 2005/08/31 17:50:14 Jim Exp $ */
+/* $Id: Scribe.js,v 1.120 2005/09/08 01:13:12 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.20.31';
@@ -1077,8 +1077,9 @@ function Update(input) {
       delete character.attributes[name];
     else if(typeof(value) == 'string' &&
             value.match(/^\+-?\d+$/) &&
-            typeof(character.attributes[name]) == 'string' &&
-            character.attributes[name].match(/^\d+$/)) {
+            (typeof(character.attributes[name]) == 'number' ||
+             (typeof(character.attributes[name]) == 'string' &&
+              character.attributes[name].match(/^\d+$/)))) {
       character.attributes[name] =
         ((character.attributes[name] - 0) + (value.substring(1) - 0)) + '';
       InputSetValue(input, character.attributes[name]);
