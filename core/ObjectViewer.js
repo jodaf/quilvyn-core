@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.10 2005/09/08 01:13:12 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.11 2005/09/16 05:28:23 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -30,65 +30,51 @@ function ObjectViewer() {
  * #o#, formatted according to #top# and its sub-elements. Returns an empty
  * string if #top# and its sub-elements select no portion of #o#.  #indent#
  * indicates how deeply nested the returned table is; this is used for some
- * minimal legibility formatting of the returned HTML.  #isTd# indicates
- * whether or not the returned HTML should be enclosed in a <td></td> pair.
+ * minimal legibility formatting of the returned HTML.
  */
-ObjectViewer.prototype._getHtml = function(top, o, indent, isTd) {
+ObjectViewer.prototype._getHtml = function(top, o, indent) {
 
   var format;
   var html;
-  var nestedIndent = top.compact ? '' : (indent + '  ');
+  var inner = [];
   var memberValue = o[top.name];
-  var newRow = true;
-  var piece;
-  var pieces = [];
+  var prefix = '';
+  var separator = top.separator;
+  var suffix = '';
 
   for(var i = 0; i < this.elements.length; i++) {
     var e = this.elements[i];
     if(e.within != top.name)
       continue;
-    if(e.format == '\n') {
-      if(!newRow)
-        pieces[pieces.length] = top.compact?'<br/>':'</tr></table></td></tr>';
-      newRow = true;
+    if((html = this._getHtml(e, o, indent + '  ')) == '')
       continue;
-    }
-    if((piece=this._getHtml(e, o, nestedIndent, !top.compact)) == '')
-      continue;
-    if(!top.compact && newRow)
-      pieces[pieces.length] = '<tr><td><table width="100%"><tr align="center">';
-    pieces[pieces.length] = piece;
-    newRow = false;
+    inner[inner.length] = html;
   }
-  if(!top.compact && !newRow)
-    pieces[pieces.length] = '</tr></table></td></tr>';
-  html =
-    pieces.length == 0 ? '' : top.compact ? pieces.join('') :
-    ('<table' + (top.borders ? ' border="1"' : '') + ' width="100%">' +
-     (top.title != null? '<tr><th>' + top.title + '</th></tr>' : '') +
-     pieces.join('') +
-     '</table>');
-
   if(memberValue != null) {
-    if(typeof memberValue == 'object') {
-      var all = [];
-      var sep = top.separator == null ? ' * ' : top.separator;
-      if(memberValue.constructor == Array)
-        all = memberValue;
-      else
-        for(var e in memberValue)
-          all[all.length] = e + ': ' + memberValue[e];
-      memberValue = all.join(sep);
-    }
-    html = ('' + memberValue).replace(/\n/g, '<br/>\n');
+    if(typeof memberValue != 'object')
+      inner[inner.length] = '' + memberValue;
+    else if(memberValue.constructor == Array)
+      inner = inner.concat(memberValue);
+    else
+      for(var e in memberValue)
+        inner[inner.length] = e + ': ' + memberValue[e];
   }
-
-  if(html == '')
+  if(inner.length == 0)
     return '';
+  if(inner.length > 1 && (separator == null || separator == '\n')) {
+    var align = 'align="' + (separator == '\n' ? 'left' : 'center') + '"';
+    prefix = '<table id="' + top.name + '"' +
+             (top.borders != null ? ' border="' + top.borders + '"' : '') +
+             ' width="100%"><tr ' + align + '>\n' + indent + '  <td>';
+    separator = '</td>' + (separator == '\n' ? '\n' + indent +
+                           '</tr><tr ' + align + '>' : '') + '\n' + indent + '  <td>';
+    suffix = '</td>\n' + indent + '</tr></table>';
+  }
+  html = inner.join(separator);
   format = top.format != null ? top.format :
            memberValue != null ? '<b>%N</b>: %V' : '%V';
   format = format.replace(/%N/g, top.name).replace(/%V/g, html);
-  return isTd ? ('\n' + indent + '<td>' + format + '</td>') : (indent + format);
+  return prefix + format + suffix;
 
 }
 
@@ -166,7 +152,15 @@ ObjectViewer.prototype.getHtml = function(o) {
   for(var i = 0; i < this.elements.length; i++) {
     var e = this.elements[i];
     if(e.within == null)
-      result += this._getHtml(e, o, '', false);
+      result += this._getHtml(e, o, '');
   }
   return result;
 };
+
+ObjectViewer.prototype.removeElements = function(name /*, name ... */) {
+  for(var i = 0; i < arguments.length; i++)
+    for(var j = this.elements.length - 1; j >= 0; j--)
+      if(this.elements[j].name == arguments[i])
+        this.elements =
+          this.elements.slice(0, j).concat(this.elements.slice(j + 1));
+}
