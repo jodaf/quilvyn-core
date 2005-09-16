@@ -39,5 +39,6 @@ function ScribeCustomSpellPoints() {
         ('spellPoints', 'spellsPerDay.R' + i, '+', 'source * ' + i);
     }
   }
-  ScribeCustomSheet('spellPoints', 'Magic', 'Spells Per Day');
+  ScribeCustomSheet
+    ('spellPoints', 'Magic', '<b>Spell Points</b>: %V', 'Spells Per Day');
 }

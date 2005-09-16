@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.17 2005/09/08 01:13:04 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.18 2005/09/16 05:27:42 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -162,11 +162,10 @@ function ScribeCustomRules
  * optional HTML #format# may be supplied to indicate how #name# should be
  * formatted on the sheet.
  */
-function ScribeCustomSheet(name, within, before, format) {
-  name = name.replace(/([a-z])([A-Z])/g, '$1 $2');
-  name = name.substring(0, 1).toUpperCase() + name.substring(1);
+function ScribeCustomSheet(name, within, format, before, separator) {
+  viewer.removeElements(name);
   viewer.addElements(
-    {name: name, within: within, before: before, format: format}
+    {name: name, within: within, before: before, format: format, separator: separator}
   );
 }
 
