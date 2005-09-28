@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.122 2005/09/28 23:58:30 Jim Exp $ */
+/* $Id: Scribe.js,v 1.123 2005/09/28 23:59:42 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.20.31';
+var VERSION = '0.21.28';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
