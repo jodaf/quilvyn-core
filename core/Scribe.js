@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.121 2005/09/16 05:28:23 Jim Exp $ */
+/* $Id: Scribe.js,v 1.122 2005/09/28 23:58:30 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.20.31';
@@ -221,21 +221,22 @@ function InitialViewer() {
         {name: 'ChaInfo', within: 'Abilities', separator: ''},
           {name: 'Charisma', within: 'ChaInfo'},
           {name: 'Charisma Modifier', within: 'ChaInfo', format: ' (%V)'},
-      {name: 'Others', within: 'Attributes'},
-        {name: 'ExperienceInfo', within: 'Others', separator: ''},
+      {name: 'Description', within: 'Attributes'},
+        {name: 'Alignment', within: 'Description'},
+        {name: 'Deity', within: 'Description'},
+        {name: 'Origin', within: 'Description'},
+        {name: 'Gender', within: 'Description'},
+        {name: 'Player', within: 'Description'},
+      {name: 'Statistics', within: 'Attributes'},
+        {name: 'ExperienceInfo', within: 'Statistics', separator: ''},
           {name: 'Experience', within: 'ExperienceInfo'},
           {name: 'Experience Needed', within: 'ExperienceInfo', format: '/%V'},
-        {name: 'Level', within: 'Others'},
-        {name: 'Alignment', within: 'Others'},
-        {name: 'Deity', within: 'Others'},
-        {name: 'Origin', within: 'Others'},
-        {name: 'Gender', within: 'Others'},
-        {name: 'Player', within: 'Others'},
-        {name: 'SpeedInfo', within: 'Others', separator: ''},
+        {name: 'Level', within: 'Statistics'},
+        {name: 'SpeedInfo', within: 'Statistics', separator: ''},
           {name: 'Speed', within: 'SpeedInfo',
             format: '<b>Speed/Run</b>: %V'},
           {name: 'Run Speed', within: 'SpeedInfo', format: '/%V'},
-        {name: 'LoadInfo', within: 'Others', separator: ''},
+        {name: 'LoadInfo', within: 'Statistics', separator: ''},
           {name: 'Load Light', within: 'LoadInfo',
             format: '<b>Light/Med/Max Load:</b> %V'},
           {name: 'Load Medium', within: 'LoadInfo', format: '/%V'},
@@ -281,15 +282,13 @@ function InitialViewer() {
           {name: 'Turning Max', within: 'TurningMinMaxInfo', format: '/%V'},
         {name: 'Turning Damage Modifier', within: 'TurningStats',
           format: '<b>Turning Damage</b>: 2d6+%V'},
+      {name: 'Weapons', within: 'Melee', separator: ' * '},
       {name: 'Geer', within: 'Melee'},
-        {name: 'Weapons', within: 'Geer', separator: ' * '},
-        {name: 'Unarmed Damage', within: 'Geer'},
+        {name: 'Armor Proficiency', within: 'Geer'},
         {name: 'Armor', within: 'Geer'},
+        {name: 'Shield Proficiency', within: 'Geer'},
         {name: 'Shield', within: 'Geer'},
-      {name: 'Proficiency', within: 'Melee'},
-        {name: 'Armor Proficiency', within: 'Proficiency'},
-        {name: 'Shield Proficiency', within: 'Proficiency'},
-        {name: 'Weapon Proficiency', within: 'Proficiency'},
+        {name: 'Weapon Proficiency', within: 'Geer'},
       {name: 'Melee Notes', within: 'Melee', separator: ' * '},
       {name: 'Saves', within: 'Melee'},
         {name: 'Save Fortitude', within: 'Saves'},
@@ -297,8 +296,8 @@ function InitialViewer() {
         {name: 'Save Will', within: 'Saves'},
       {name: 'Save Notes', within: 'Melee', separator: ' * '},
     {name: 'Magic', within: '_top', separator: '\n',
-      format: '<b>Magic</b><br/>%V}'},
-      {name: 'Spells Per Day', within: 'Magic'},
+      format: '<b>Magic</b><br/>%V'},
+      {name: 'Spells Per Day', within: 'Magic', separator: ' * '},
       {name: 'Spells', within: 'Magic', separator: ' * '},
       {name: 'Specialties', within: 'Magic'},
         {name: 'Domains', within: 'Specialties', separator: ' * '},
@@ -765,6 +764,8 @@ function SheetHtml() {
     if(a.search(/^feats\./) >= 0)
       delete computedAttributes['features.' + a.substring(6)];
   }
+  /* Add "Unarmed" to the weapon list of every character. */
+  computedAttributes['weapons.Unarmed'] = 1;
   /*
    * NOTE: The ObjectFormatter doesn't support interspersing values in a list
    * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
@@ -782,10 +783,8 @@ function SheetHtml() {
     if(attrs[a] != null && attrs[a] != value)
       value += '[' + attrs[a] + ']';
     if((i = name.indexOf('.')) < 0) {
-      if(name == 'Image Url' && value.match(/^\w*:/) == null)
+      if(name == 'imageUrl' && value.match(/^\w*:/) == null)
         value = URL_PREFIX + value;
-      else if(name == 'Unarmed Damage' && strengthDamageAdjustment != 0)
-        value += Signed(strengthDamageAdjustment);
       displayAttributes[name] = value;
     }
     else {
@@ -810,7 +809,9 @@ function SheetHtml() {
           name += ' (' + skillInfo.join(';') + ')';
       }
       else if(object == 'Weapons') {
-        var damages = DndCharacter.weaponsDamage[name].replace(/ /g, '');
+        var damages = name == 'Unarmed' ? computedAttributes['unarmedDamage'] :
+          DndCharacter.weaponsDamage[name];
+        damages = damages == null ? 'd6' : damages.replace(/ /g, '');
         var range;
         if((i = damages.search(/[rR]/)) < 0)
           range = 0;

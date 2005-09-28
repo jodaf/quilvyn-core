@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.11 2005/09/16 05:28:23 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.12 2005/09/28 23:58:30 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -52,7 +52,7 @@ ObjectViewer.prototype._getHtml = function(top, o, indent) {
   }
   if(memberValue != null) {
     if(typeof memberValue != 'object')
-      inner[inner.length] = '' + memberValue;
+      inner[inner.length] = ('' + memberValue).replace(/\n/g, '<br/>\n');
     else if(memberValue.constructor == Array)
       inner = inner.concat(memberValue);
     else
@@ -62,7 +62,7 @@ ObjectViewer.prototype._getHtml = function(top, o, indent) {
   if(inner.length == 0)
     return '';
   if(inner.length > 1 && (separator == null || separator == '\n')) {
-    var align = 'align="' + (separator == '\n' ? 'left' : 'center') + '"';
+    var align = 'align="' + 'center' + '"';
     prefix = '<table id="' + top.name + '"' +
              (top.borders != null ? ' border="' + top.borders + '"' : '') +
              ' width="100%"><tr ' + align + '>\n' + indent + '  <td>';

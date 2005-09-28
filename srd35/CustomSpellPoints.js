@@ -17,12 +17,12 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 
 function ScribeCustomSpellPoints() {
-  ScribeCustomRules('spellPoints',
+  ScribeCustomRules('Spell Points',
     'casterLevel', '?', null,
     null, '=', '0'
   );
   for(var i = 1; i <= 9; i++) {
-    ScribeCustomRules('spellPoints',
+    ScribeCustomRules('Spell Points',
       'spellsPerDay.C' + i, '+', 'source * ' + i,
       'spellsPerDay.D' + i, '+', 'source * ' + i,
       'spellsPerDay.Dom' + i, '+', 'source * ' + i,
@@ -31,14 +31,14 @@ function ScribeCustomSpellPoints() {
     );
     if(i <= 6)
       ScribeCustomRules
-        ('spellPoints', 'spellsPerDay.B' + i, '+', 'source * ' + i);
+        ('Spell Points', 'spellsPerDay.B' + i, '+', 'source * ' + i);
     if(i <= 4) {
       ScribeCustomRules
-        ('spellPoints', 'spellsPerDay.P' + i, '+', 'source * ' + i);
+        ('Spell Points', 'spellsPerDay.P' + i, '+', 'source * ' + i);
       ScribeCustomRules
-        ('spellPoints', 'spellsPerDay.R' + i, '+', 'source * ' + i);
+        ('Spell Points', 'spellsPerDay.R' + i, '+', 'source * ' + i);
     }
   }
   ScribeCustomSheet
-    ('spellPoints', 'Magic', '<b>Spell Points</b>: %V', 'Spells Per Day');
+    ('Spell Points', 'Magic', '<b>Spell Points</b>: %V', 'Spells Per Day');
 }
