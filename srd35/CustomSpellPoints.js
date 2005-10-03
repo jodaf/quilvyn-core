@@ -40,5 +40,5 @@ function ScribeCustomSpellPoints() {
     }
   }
   ScribeCustomSheet
-    ('Spell Points', 'Magic', '<b>Spell Points</b>: %V', 'Spells Per Day');
+    ('Spell Points', 'SpellStats', '<b>Spell Points</b>: %V', 'Spells Per Day');
 }

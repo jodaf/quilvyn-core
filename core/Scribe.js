@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.123 2005/09/28 23:59:42 Jim Exp $ */
+/* $Id: Scribe.js,v 1.124 2005/10/03 06:17:44 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.21.28';
+var VERSION = '0.22.02';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -260,7 +260,8 @@ function InitialViewer() {
             format: '/%V'},
       {name: 'Skills', within: 'FeaturesAndSkills', separator: ' * '},
       {name: 'Skill Notes', within: 'FeaturesAndSkills', separator: ' * '},
-      {name: 'Language Count', within: 'FeaturesAndSkills'},
+      {name: 'LanguageStats', within: 'FeaturesAndSkills'},
+        {name: 'Language Count', within: 'LanguageStats'},
       {name: 'Languages', within: 'FeaturesAndSkills', separator: ' * '},
     {name: 'Melee', within: '_top', separator: '\n',
       format: '<b>Melee</b><br/>%V'},
@@ -273,14 +274,14 @@ function InitialViewer() {
             format: '<b>Base/Melee/Ranged Attack</b>: %V'},
           {name: 'Melee Attack', within: 'AttackInfo', format: '/%V'},
           {name: 'Ranged Attack', within: 'AttackInfo', format: '/%V'},
-      {name: 'TurningStats', within: 'Melee'},
-        {name: 'Turning Frequency', within: 'TurningStats',
+      {name: 'Turning', within: 'Melee'},
+        {name: 'Turning Frequency', within: 'Turning',
           format: '<b>%N</b>: %V/Day'},
-        {name: 'TurningMinMaxInfo', within: 'TurningStats', separator: ''},
+        {name: 'TurningMinMaxInfo', within: 'Turning', separator: ''},
           {name: 'Turning Min', within: 'TurningMinMaxInfo',
             format: '<b>Turning Min/Max HD</b>: %V'},
           {name: 'Turning Max', within: 'TurningMinMaxInfo', format: '/%V'},
-        {name: 'Turning Damage Modifier', within: 'TurningStats',
+        {name: 'Turning Damage Modifier', within: 'Turning',
           format: '<b>Turning Damage</b>: 2d6+%V'},
       {name: 'Weapons', within: 'Melee', separator: ' * '},
       {name: 'Geer', within: 'Melee'},
@@ -297,12 +298,12 @@ function InitialViewer() {
       {name: 'Save Notes', within: 'Melee', separator: ' * '},
     {name: 'Magic', within: '_top', separator: '\n',
       format: '<b>Magic</b><br/>%V'},
-      {name: 'Spells Per Day', within: 'Magic', separator: ' * '},
+      {name: 'SpellStats', within: 'Magic'},
+        {name: 'Spells Per Day', within: 'SpellStats', separator: ' * '},
+        {name: 'Domains', within: 'SpellStats', separator: ' * '},
+        {name: 'Specialize', within: 'SpellStats'},
+        {name: 'Prohibit', within: 'SpellStats', separator: ' * '},
       {name: 'Spells', within: 'Magic', separator: ' * '},
-      {name: 'Specialties', within: 'Magic'},
-        {name: 'Domains', within: 'Specialties', separator: ' * '},
-        {name: 'Specialize', within: 'Specialties'},
-        {name: 'Prohibit', within: 'Specialties', separator: ' * '},
       {name: 'Goodies', within: 'Magic', separator: ' * '},
       {name: 'Magic Notes', within: 'Magic', separator: ' * '},
     {name: 'Notes Area', within: '_top', separator: '\n',
@@ -886,7 +887,7 @@ function SheetHtml() {
          '  </' + 'script>\n' +
          '</head>\n' +
          '<body>\n' +
-         viewer.getHtml(displayAttributes) + '\n' +
+         viewer.getHtml(displayAttributes, '_top') + '\n' +
          '</body>\n' +
          '</html>\n';
 
