@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.18 2005/09/16 05:27:42 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.19 2005/10/03 06:17:12 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -160,7 +160,8 @@ function ScribeCustomRules
  * Include attribute #name# on the character sheet in section #within# before
  * attribute #before# (or at the end of the section if #before# is null).  The
  * optional HTML #format# may be supplied to indicate how #name# should be
- * formatted on the sheet.
+ * formatted on the sheet.  #separator# is a bit of HTML used to separate
+ * elements for items that have multiple values.
  */
 function ScribeCustomSheet(name, within, format, before, separator) {
   viewer.removeElements(name);
