@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.12 2005/09/28 23:58:30 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.13 2005/10/03 06:14:23 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -35,42 +35,47 @@ function ObjectViewer() {
 ObjectViewer.prototype._getHtml = function(top, o, indent) {
 
   var format;
+  var hasNested;
   var html;
-  var inner = [];
   var memberValue = o[top.name];
   var prefix = '';
   var separator = top.separator;
   var suffix = '';
+  var values = [];
 
+  if(top.format != null && top.format.replace(/%N|%V/, '') == top.format)
+    return top.format;
   for(var i = 0; i < this.elements.length; i++) {
     var e = this.elements[i];
     if(e.within != top.name)
       continue;
     if((html = this._getHtml(e, o, indent + '  ')) == '')
       continue;
-    inner[inner.length] = html;
+    values[values.length] = html;
   }
+  hasNested = values.length > 0;
   if(memberValue != null) {
     if(typeof memberValue != 'object')
-      inner[inner.length] = ('' + memberValue).replace(/\n/g, '<br/>\n');
+      values[values.length] = ('' + memberValue).replace(/\n/g, '<br/>\n');
     else if(memberValue.constructor == Array)
-      inner = inner.concat(memberValue);
+      values = values.concat(memberValue);
     else
       for(var e in memberValue)
-        inner[inner.length] = e + ': ' + memberValue[e];
+        values[values.length] = e + ': ' + memberValue[e];
   }
-  if(inner.length == 0)
+  if(values.length == 0)
     return '';
-  if(inner.length > 1 && (separator == null || separator == '\n')) {
-    var align = 'align="' + 'center' + '"';
+  if((hasNested || values.length > 1) &&
+     (separator == null || separator == '\n')) {
     prefix = '<table id="' + top.name + '"' +
              (top.borders != null ? ' border="' + top.borders + '"' : '') +
-             ' width="100%"><tr ' + align + '>\n' + indent + '  <td>';
-    separator = '</td>' + (separator == '\n' ? '\n' + indent +
-                           '</tr><tr ' + align + '>' : '') + '\n' + indent + '  <td>';
+             ' width="100%"><tr align="center">\n' + indent + '  <td>';
+    separator =
+      '</td>' + (separator == '\n' ? '\n' + indent +
+      '</tr><tr align="center">' : '') + '\n' + indent + '  <td>';
     suffix = '</td>\n' + indent + '</tr></table>';
   }
-  html = inner.join(separator);
+  html = values.join(separator);
   format = top.format != null ? top.format :
            memberValue != null ? '<b>%N</b>: %V' : '%V';
   format = format.replace(/%N/g, top.name).replace(/%V/g, html);
@@ -146,15 +151,17 @@ ObjectViewer.prototype.addElements = function(element /*, element ... */) {
   }
 };
 
-/* Returns HTML for a table that shows the contents of #o#. */
-ObjectViewer.prototype.getHtml = function(o) {
-  var result = '';
+/*
+ * Returns HTML for a table that shows the contents of the elements of #o#
+ * that are contained within element #root#.
+ */
+ObjectViewer.prototype.getHtml = function(o, root) {
   for(var i = 0; i < this.elements.length; i++) {
     var e = this.elements[i];
-    if(e.within == null)
-      result += this._getHtml(e, o, '');
+    if(e.name == root)
+      return this._getHtml(e, o, '');
   }
-  return result;
+  return '';
 };
 
 ObjectViewer.prototype.removeElements = function(name /*, name ... */) {
