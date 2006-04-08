@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.19 2005/10/03 06:17:12 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.20 2006/04/08 13:52:11 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -90,7 +90,8 @@ function ScribeCustomClass
   var classLevel = 'levels.' + name;
   ScribeCustomChoices('classes', name, hitDice + '' /* Convert int to str */);
   if(skillPoints != null)
-    ScribeCustomRules('skillPoints', classLevel, '+', 'source * '+skillPoints);
+    ScribeCustomRules
+      ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
   if(baseAttackBonus != null)
     ScribeCustomRules('baseAttack', classLevel, '+', baseAttackBonus);
   if(saveFortitudeBonus != null)
@@ -115,7 +116,7 @@ function ScribeCustomClass
   }
   if(classSkills != null)
     for(var i = 0; i < classSkills.length; i++)
-      rules.AddRules('classSkills.' + classSkills[i], classLevel, '=', '1');
+      ScribeCustomRules('classSkills.' + classSkills[i], classLevel, '=', '1');
   if(features != null) {
     var noteName = name.substring(0, 1).toLowerCase() + name.substring(1);
     noteName = noteName.replace(/ /g, '');
@@ -140,6 +141,31 @@ function ScribeCustomNotes(attr, format /*, attr, format ... */) {
       o[arg] = arguments[++i];
   }
   DndCharacter.LoadRulesFromNotes(rules, o);
+}
+
+function ScribeCustomRace(name, features) {
+  ScribeCustomChoices('races', name);
+  if(features != null) {
+    var code = '[]';
+    var note = name.substring(0, 1).toLowerCase() + name.substring(1);
+    note = note.replace(/ /g, '');
+    note = 'featureNotes.' + note + 'Features';
+    for(var i = 1; i < features.length; i += 2) {
+      var feature = features[i];
+      var level = features[i - 1];
+      if(level <= 1)
+        code += '.concat(["' + feature + '"])';
+      else
+        code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
+      ScribeCustomRules('features.' + feature,
+        note, '=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
+      );
+    }
+    ScribeCustomRules(note,
+      'race', '?', 'source == "' + name + '"',
+      'level', '=', code + '.sort().join("/")'
+    );
+  }
 }
 
 /*
