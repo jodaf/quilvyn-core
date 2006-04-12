@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.126 2005/12/28 22:53:30 Jim Exp $ */
+/* $Id: Scribe.js,v 1.127 2006/04/12 04:57:16 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.24.28';
@@ -174,6 +174,7 @@ function InitialRuleEngine() {
   var i;
   var result = new RuleEngine();
   var versions;
+/*
   DndCharacter.LoadVersion3Rules(result);
   versions = CLASS_RULES_VERSION.split('/');
   for(i = 0; i < versions.length; i++)
@@ -184,6 +185,7 @@ function InitialRuleEngine() {
   versions = MAGIC_RULES_VERSION.split('/');
   for(i = 0; i < versions.length; i++)
     DndCharacter.LoadVersion3PointRules(result, versions[i], 'magic');
+*/
   result.AddRules('dmNotes', 'dmonly', '?', null);
   /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
   result.AddRules('level', 'meleeNotes.strengthDamageAdjustment', '=', 'null');

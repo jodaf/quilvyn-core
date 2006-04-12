@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.2 2006/04/08 13:50:38 Jim Exp $ */
+/* $Id: SRD35.js,v 1.3 2006/04/12 04:57:16 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -23,16 +23,21 @@ function PH35() {
   if(PH35.AbilityRules != null) PH35.AbilityRules();
   if(PH35.RaceRules != null) PH35.RaceRules();
   if(PH35.ClassRules != null) PH35.ClassRules();
-  if(PH35.FeatRules != null) PH35.FeatRules();
-  if(PH35.MeleeRules != null) PH35.MeleeRules();
   if(PH35.SkillRules != null) PH35.SkillRules();
+  if(PH35.FeatRules != null) PH35.FeatRules();
+  if(PH35.DescriptionRules != null) PH35.DescriptionRules();
+  if(PH35.EquipmentRules != null) PH35.EquipmentRules();
+  if(PH35.CombatRules != null) PH35.CombatRules();
   if(PH35.MagicRules != null) PH35.MagicRules();
   PH35.AbilityRules = null;
   PH35.RaceRules = null;
   PH35.ClassRules = null;
-  PH35.FeatRules = null;
-  PH35.MeleeRules = null;
   PH35.SkillRules = null;
+  PH35.FeatRules = null;
+  PH35.DescriptionRules = null;
+  PH35.EquipmentRules = null;
+  PH35.CombatRules = null;
+  PH35.MeleeRules = null;
   PH35.MagicRules = null;
 }
 PH35.CLASSES = [
@@ -83,7 +88,6 @@ PH35.FEATS = [
   'Crippling Strike', 'Defensive Roll', 'Improved Evasion', 'Opportunist',
   'Skill Mastery', 'Slippery Mind'
 ];
-
 PH35.RACES = [
   'Dwarf',
   'Elf',
@@ -93,6 +97,27 @@ PH35.RACES = [
   'Halfling',
   'Human',
   null
+];
+PH35.SKILLS = [
+  'Appraise:int', 'Balance:dex', 'Bluff:cha', 'Climb:str', 'Concentration:con',
+  'Decipher Script:int:trained', 'Diplomacy:cha', 'Disable Device:int:trained',
+  'Disguise:cha', 'Escape Artist:dex', 'Forgery:int', 'Gather Information:cha',
+  'Handle Animal:cha:trained', 'Heal:wis', 'Hide:dex', 'Intimidate:cha',
+  'Jump:str', 'Knowledge (Arcana):int:trained',
+  'Knowledge (Dungeoneering):int:trained',
+  'Knowledge (Engineering):int:trained', 'Knowledge (Geography):int:trained',
+  'Knowledge (History):int:trained', 'Knowledge (Local):int:trained',
+  'Knowledge (Nature):int:trained', 'Knowledge (Nobility):int:trained',
+  'Knowledge (Planes):int:trained', 'Knowledge (Religion):int:trained',
+  'Listen:wis', 'Move Silently:dex', 'Open Lock:dex:trained',
+  'Perform (Act):cha:trained', 'Perform (Comedy):cha:trained',
+  'Perform (Dance):cha:trained', 'Perform (Keyboard):cha:trained',
+  'Perform (Oratory):cha:trained', 'Perform (Percussion):cha:trained',
+  'Perform (Sing):cha:trained', 'Perform (String):cha:trained',
+  'Perform (Wind):cha:trained', 'Ride:dex', 'Search:int', 'Sense Motive:wis',
+  'Sleight Of Hand:dex:trained', 'Speak Language::trained',
+  'Spellcraft:int:trained', 'Spot:wis', 'Survival:wis', 'Swim:str',
+  'Tumble:dex:trained', 'Use Magic Device:cha:trained', 'Use Rope:dex'
 ];
 PH35.STRENGTH_MAX_LOADS = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
@@ -188,12 +213,11 @@ PH35.AbilityRules = function() {
   ScribeCustomRules
     ('loadMax','strength','=','PH35.STRENGTH_MAX_LOADS[source]');
   ScribeCustomRules('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
-  ScribeCustomRules('runSpeed',
-    'speed', '=', null,
-    'runSpeedMultiplier', '*', null
-  );
+  ScribeCustomRules('runSpeed', 'speed', '=', null);
+  ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
 
   /* Effects of other attributes */
+  ScribeCustomRules('runSpeed', 'runSpeedMultipler', '*', null);
 
 }
 
@@ -928,9 +952,125 @@ PH35.ClassRules = function() {
 
   }
 
+  ScribeCustomChoices('domains',
+    'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
+    'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
+    'Protection', 'Strength', 'Sun', 'Travel', 'Trickery', 'War', 'Water'
+  );
   ScribeCustomRules
     ('featCount', 'featureNotes.classFeatCountBonus', '+', null);
 
+}
+
+PH35.CombatRules = function() {
+
+  ScribeCustomRules('armorClass',
+    null, '=', '10',
+    'armor', '+', 'DndCharacter.armorsArmorClassBonuses[source]',
+    'shield', '+', 'source=="None" ? null : ' +
+                   'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
+  );
+  ScribeCustomRules
+    ('armorProficiencyLevel', null, '=', DndCharacter.ARMOR_PROFICIENCY_NONE);
+  ScribeCustomRules('baseAttack', null, '=', '0');
+  ScribeCustomRules('meleeAttack', 'baseAttack', '=', null);
+  ScribeCustomRules('rangedAttack', 'baseAttack', '=', null);
+  ScribeCustomRules('saveReflex', null, '=', '0');
+  ScribeCustomRules('saveFortitude', null, '=', '0');
+  ScribeCustomRules('saveWill', null, '=', '0');
+  ScribeCustomRules
+    ('shieldProficiencyLevel', null, '=', DndCharacter.SHIELD_PROFICIENCY_NONE);
+  ScribeCustomRules('turningBase', 'turningLevel', '=', null)
+  ScribeCustomRules('turningDamageModifier', 'turningLevel', '=', null);
+  ScribeCustomRules('turningFrequency', 'turningLevel', '=', '3');
+  ScribeCustomRules('turningMax',
+    'turningBase', '=', 'Math.floor(source + 10 / 3)',
+    'turningLevel', 'v', 'source + 4'
+  );
+  ScribeCustomRules('turningMin',
+    'turningBase', '=', 'Math.floor(source - 3)',
+    'turningLevel', '^', 'source - 4'
+  );
+  ScribeCustomRules('unarmedDamageMedium', null, '=', '"d3"');
+  ScribeCustomRules('unarmedDamage',
+    'unarmedDamageMedium', '=', null,
+    'unarmedDamageSmall', '=', null
+  );
+  ScribeCustomRules('unarmedDamageSmall',
+    'features.Small', '?', null,
+    'unarmedDamageMedium', '=', 'DndCharacter.weaponsSmallDamage[source]'
+  );
+  ScribeCustomRules
+    ('weaponProficiencyLevel', null, '=', DndCharacter.WEAPON_PROFICIENCY_NONE);
+
+}
+
+PH35.DescriptionRules = function() {
+  ScribeCustomChoices('alignments',
+    'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral Evil',
+    'Neutral', 'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
+  );
+  ScribeCustomChoices('deities',
+    'Boccob (N Magic)', 'Knowledge/Magic/Trickery',
+    'Corellon Larethian (CG Elves)', 'Chaos/Good/Protection/War',
+    'Ehlonna (NG Woodlands)', 'Animal/Good/Plant/Sun',
+    'Erythnul (CE Slaughter)', 'Chaos/Evil/Trickery/War',
+    'Fharlanghn (N Roads)', 'Luck/Protection/Travel',
+    'Garl Glittergold (NG Gnomes)', 'Good/Protection/Trickery',
+    'Gruumsh (CE Orcs)', 'Chaos/Evil/Strength/War',
+    'Heironeous (LG Valor)', 'Good/Law/War',
+    'Hextor (LE Tyranny)', 'Destruction/Evil/Law/War',
+    'Kord (CG Strength)', 'Chaos/Good/Luck/Strength',
+    'Moradin (LG Dwarves)', 'Earth/Good/Law/Protection',
+    'Nerull (NE Death)', 'Death/Evil/Trickery',
+    'None', '',
+    'Obad-Hai (N Nature)', 'Air/Animal/Earth/Fire/Plant/Water',
+    'Olidammara (CN Theives)', 'Chaos/Luck/Trickery',
+    'Pelor (NG Sun)', 'Good/Healing/Strength/Sun',
+    'St. Cuthbert (LN Retribution)', 'Destruction/Law/Protection/Strength',
+    'Wee Jas (LN Death And Magic)', 'Death/Law/Magic',
+    'Yondalla (LG Halflings)', 'Good/Law/Protection',
+    'Vecna (NE Secrets)', 'Evil/Knowledge/Magic'
+  );
+  ScribeCustomChoices('genders', 'Female', 'Male');
+}
+
+PH35.EquipmentRules = function() {
+  ScribeCustomChoices('goodies',
+    'Ring Of Protection +1', 'Ring Of Protection +2', 'Ring Of Protection +3',
+    'Ring Of Protection +4'
+  );
+  ScribeCustomChoices('weapons',
+    'Bastard Sword', 'd10@19', 'Battleaxe', 'd8x3', 'Bolas', 'd4r10',
+    'Club', 'd6r10', 'Composite Longbow', 'd8x3r110',
+    'Composite Shortbow', 'd6x3r70', 'Dagger', 'd4@19r10', 'Dart', 'd4r20',
+    'Dire Flail', 'd8/d8', 'Dwarven Urgosh', 'd8x3/d6x3',
+    'Dwarven Waraxe', 'd10x3', 'Falchion', '2d4@18', 'Gauntlet', 'd3',
+    'Glaive', 'd10x3', 'Gnome Hooked Hammer', 'd8x3/d6x4', 'Greataxe', 'd12x3',
+    'Greatclub', 'd10', 'Greatsword', '2d6@19', 'Guisarme', '2d4x3',
+    'Halberd', 'd10x3', 'Handaxe', 'd6x3', 'Hand Crossbow', 'd4@19r30',
+    'Heavy Crossbow', 'd10@19r120', 'Heavy Flail', 'd10@19',
+    'Heavy Mace', 'd8', 'Heavy Pick', 'd6', 'Heavy Shield', 'd4',
+    'Heavy Spiked Shield', 'd6', 'Javelin', 'd6r30', 'Kama', 'd6',
+    'Kukri', 'd4@18', 'Lance', 'd8x3', 'Light Crossbow', 'd8@19r80',
+    'Light Flail', 'd8', 'Light Hammer', 'd4r20', 'Light Mace', 'd6',
+    'Light Pick', 'd4x4', 'Light Shield', 'd3', 'Light Spiked Shield', 'd4',
+    'Longbow', 'd8x3r100', 'Longspear', 'd8x3', 'Longsword', 'd8@19',
+    'Morningstar', 'd8', 'Net', 'd0r10', 'Nunchaku', 'd6',
+    'Orc Double Axe', 'd8/d8', 'Punching Dagger', 'd4x3',
+    'Quarterstaff', 'd6/d6', 'Rapier', 'd6@18', 'Ranseur', '2d4x3',
+    'Repeating Heavy Crossbow', 'd10@19r120',
+    'Repeating Light Crossbow', 'd8@19r80', 'Sai', 'd4r10', 'Sap', 'd6',
+    'Scimitar', 'd6@18', 'Scythe', '2d4x4', 'Short Sword', 'd6@19',
+    'Shortbow', 'd6x3r60', 'Shortspear', 'd6r20', 'Shuriken', 'd2r10',
+    'Siangham', 'd6', 'Sickle', 'd6', 'Sling', 'd4r50', 'Spear', 'd8r20',
+    'Spiked Chain', '2d4', 'Spiked Gauntlet', 'd4', 'Throwing Axe', 'd6r10',
+    'Trident', 'd8r10', 'Two-Bladed Sword', 'd8@19/d8@19', 'Warhammer', 'd8x3',
+    'Whip', 'd3'
+  );
+  ScribeCustomRules('runSpeedMultiplier',
+    'armorWeightClass', '=', 'source == "Heavy" ? 3 : null'
+  );
 }
 
 PH35.FeatRules = function() {
@@ -1055,6 +1195,7 @@ PH35.FeatRules = function() {
   ];
   ScribeCustomNotes(notes);
 
+  ScribeCustomChoices('feats', PH35.FEATS);
   for(var i = 0; i < PH35.FEATS.length; i++) {
     ScribeCustomRules
       ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', '1');
@@ -1132,49 +1273,10 @@ PH35.MagicRules = function() {
     'casterLevelArcane', '^=', null,
     'casterLevelDivine', '^=', null
   );
-
-}
-
-PH35.MeleeRules = function() {
-
-  ScribeCustomRules('armorClass',
-    null, '=', '10',
-    'armor', '+', 'DndCharacter.armorsArmorClassBonuses[source]',
-    'shield', '+', 'source=="None" ? null : ' +
-                   'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
+  ScribeCustomChoices('schools',
+    'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
+    'Illusion', 'Necromancy', 'Transmutation'
   );
-  ScribeCustomRules
-    ('armorProficiencyLevel', null, '=', DndCharacter.ARMOR_PROFICIENCY_NONE);
-  ScribeCustomRules('baseAttack', null, '=', '0');
-  ScribeCustomRules('meleeAttack', 'baseAttack', '=', null);
-  ScribeCustomRules('rangedAttack', 'baseAttack', '=', null);
-  ScribeCustomRules('saveReflex', null, '=', '0');
-  ScribeCustomRules('saveFortitude', null, '=', '0');
-  ScribeCustomRules('saveWill', null, '=', '0');
-  ScribeCustomRules
-    ('shieldProficiencyLevel', null, '=', DndCharacter.SHIELD_PROFICIENCY_NONE);
-  ScribeCustomRules('turningBase', 'turningLevel', '=', null)
-  ScribeCustomRules('turningDamageModifier', 'turningLevel', '=', null);
-  ScribeCustomRules('turningFrequency', 'turningLevel', '=', '3');
-  ScribeCustomRules('turningMax',
-    'turningBase', '=', 'Math.floor(source + 10 / 3)',
-    'turningLevel', 'v', 'source + 4'
-  );
-  ScribeCustomRules('turningMin',
-    'turningBase', '=', 'Math.floor(source - 3)',
-    'turningLevel', '^', 'source - 4'
-  );
-  ScribeCustomRules('unarmedDamageMedium', null, '=', '"d3"');
-  ScribeCustomRules('unarmedDamage',
-    'unarmedDamageMedium', '=', null,
-    'unarmedDamageSmall', '=', null
-  );
-  ScribeCustomRules('unarmedDamageSmall',
-    'features.Small', '?', null,
-    'unarmedDamageMedium', '=', 'DndCharacter.weaponsSmallDamage[source]'
-  );
-  ScribeCustomRules
-    ('weaponProficiencyLevel', null, '=', DndCharacter.WEAPON_PROFICIENCY_NONE);
 
 }
 
@@ -1385,4 +1487,47 @@ PH35.RaceRules = function() {
 }
 
 PH35.SkillRules = function() {
+
+  var abilityNames = {
+    'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
+    'int':'intelligence', 'str':'strength', 'wis':'wisdom'
+  };
+  var notes = [
+    'skillNotes.bluffSynergy2', '+2 Disguise (acting)',
+    'skillNotes.handleAnimalSynergy', '+2 Ride/Wild Empathy',
+    'skillNotes.knowledge(Arcana)Synergy', '+2 Spellcraft',
+    'skillNotes.knowledge(Dungeoneering)Synergy', '+2 Survival (underground)',
+    'skillNotes.knowledge(Engineering)Synergy', '+2 Search (secret doors)',
+    'skillNotes.knowledge(Geography)Synergy', '+2 Survival (lost/hazards)',
+    'skillNotes.knowledge(Local)Synergy', '+2 Gather Information',
+    'skillNotes.knowledge(Nature)Synergy', '+2 Survival (outdoors)',
+    'skillNotes.knowledge(Nobility)Synergy', '+2 Diplomacy',
+    'skillNotes.knowledge(Planes)Synergy', '+2 Survival (other planes)',
+    'skillNotes.knowledge(Religion)Synergy', '+2 Turning Frequency',
+    'skillNotes.searchSynergy', '+2 Survival (tracking)',
+    'skillNotes.survivalSynergy', '+2 Knowledge (Nature)',
+    'skillNotes.useMagicDeviceSynergy', '+2 Decipher Script (scrolls)'
+  ];
+  ScribeCustomNotes(notes);
+  ScribeCustomChoices('languages',
+    'Abyssal', 'Aquan', 'Avian', 'Celestial', 'Common', 'Draconic', 'Druidic',
+    'Dwarven', 'Elven', 'Giant', 'Gnoll', 'Gnome', 'Goblin', 'Halfling',
+    'Ignan', 'Infernal', 'Orc', 'Sylvan', 'Terran', 'Undercommon'
+  );
+
+  ScribeCustomRules('languageCount', 'skills.Speak Language', '+', null);
+  ScribeCustomRules
+    ('skillNotes.bluffSynergy2', 'skills.Bluff', '=', 'source >= 5 ? 1 : null');
+  for(var i = 0; i < PH35.SKILLS.length; i ++) {
+    var pieces = PH35.SKILLS[i].split(/:/);
+    var skill = pieces[0];
+    var ability = pieces.length >= 2 ? pieces[1] : '';
+    if(abilityNames[ability] != null)
+      ability = abilityNames[ability];
+    var trained = pieces.length >= 3 && pieces[2] == 'trained';
+    ScribeCustomChoices
+      ('skills', skill, ability + (trained ? ';trained' : ''));
+    ScribeCustomRules('skills.' + skill, ability + 'Modifier', '+', null);
+  }
+
 }
