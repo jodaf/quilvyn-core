@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.127 2006/04/12 04:57:16 Jim Exp $ */
+/* $Id: Scribe.js,v 1.128 2006/04/13 14:13:24 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.24.28';
@@ -66,7 +66,7 @@ function EditorHtml() {
     spellsCategoryOptions[spellsCategoryOptions.length] =
       a + '(' + DndCharacter.spellsCategoryCodes[a] + ')';
   spellsCategoryOptions.sort();
-  var weapons = GetKeys(DndCharacter.weaponsDamage);
+  var weapons = GetKeys(DndCharacter.weapons);
   var editorElements = [
     ['', 'about', 'button', ['About']],
     ['', 'help', 'button', ['Help']],
@@ -90,7 +90,7 @@ function EditorHtml() {
     ['Name', 'name', 'text', [20]],
     ['Race', 'race', 'select-one', DndCharacter.races],
     ['Experience', 'experience', 'text', [8]],
-    ['Levels', 'levels_sel', 'select-one', GetKeys(DndCharacter.classesHitDie)],
+    ['Levels', 'levels_sel', 'select-one', GetKeys(DndCharacter.classes)],
     ['', 'levels', 'text', [3]],
     ['Image URL', 'imageUrl', 'text', [20]],
     ['Strength', 'strength', 'select-one', abilityChoices],
@@ -102,11 +102,11 @@ function EditorHtml() {
     ['Player', 'player', 'text', [20]],
     ['Alignment', 'alignment', 'select-one', DndCharacter.alignments],
     ['Gender', 'gender', 'select-one', DndCharacter.genders],
-    ['Deity', 'deity', 'select-one', GetKeys(DndCharacter.deitiesDomains)],
+    ['Deity', 'deity', 'select-one', GetKeys(DndCharacter.deities)],
     ['Origin', 'origin', 'text', [20]],
     ['Feats', 'feats_sel', 'select-one', DndCharacter.feats],
     ['', 'feats', 'checkbox', null],
-    ['Skills', 'skills_sel', 'select-one', GetKeys(DndCharacter.skillsAbility)],
+    ['Skills', 'skills_sel', 'select-one', GetKeys(DndCharacter.skills)],
     ['', 'skills', 'text', [3]],
     ['Languages', 'languages_sel', 'select-one', DndCharacter.languages],
     ['', 'languages', 'checkbox', null],
@@ -118,7 +118,7 @@ function EditorHtml() {
     ['', 'weapons', 'text', [3]],
     ['Spell Categories', 'spellcats_sel', 'select-one', spellsCategoryOptions],
     ['', 'spellcats', 'checkbox', null],
-    ['Spells', 'spells_sel', 'select-one', GetKeys(DndCharacter.spellsLevels)],
+    ['Spells', 'spells_sel', 'select-one', GetKeys(DndCharacter.spells)],
     ['', 'spells', 'checkbox', null],
     ['Goodies', 'goodies_sel', 'select-one', DndCharacter.goodies],
     ['', 'goodies', 'text', [2]],
@@ -467,7 +467,7 @@ function RandomizeCharacter() {
     var totalLevels = 0;
     var value;
     character = new DndCharacter(null);
-    for(var a in DndCharacter.classesHitDie) {
+    for(var a in DndCharacter.classes) {
       var attr = 'levels.' + a;
       if((value = InputGetValue(loadingPopup.document.frm[attr])) != null &&
          value > 0) {
@@ -500,7 +500,7 @@ function RandomizeCharacter() {
   else if(urlLoading == null) {
     /* Nothing presently loading. */
     urlLoading = 'random';
-    var classes = GetKeys(DndCharacter.classesHitDie);
+    var classes = GetKeys(DndCharacter.classes);
     var htmlBits = [
       '<html><head><title>New Character</title></head>\n',
       '<body bgcolor="' + BACKGROUND + '">\n',
@@ -562,9 +562,9 @@ function RefreshEditor(redraw) {
 
   var fileOpts = ChoicesForFileInput();
   var spellOpts = [];
-  for(var a in DndCharacter.spellsLevels) {
+  for(var a in DndCharacter.spells) {
     var matchInfo;
-    var spellLevels = DndCharacter.spellsLevels[a].split('/');
+    var spellLevels = DndCharacter.spells[a].split('/');
     for(i = 0; i < spellLevels.length; i++)
       if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
          showCodes[matchInfo[1]])
@@ -750,14 +750,14 @@ function SheetHtml() {
 
   attrs.dmonly = cookieInfo.dmonly - 0;
   if(cookieInfo.untrained == '1') {
-    for(a in DndCharacter.skillsAbility)
+    for(a in DndCharacter.skills)
       if(character.attributes['skills.' + a] == null &&
-         DndCharacter.skillsAbility[a].indexOf(';trained') < 0)
+         DndCharacter.skills[a].indexOf(';trained') < 0)
         attrs['skills.' + a] = 0;
   }
   computedAttributes = rules.Apply(attrs);
   if(cookieInfo.untrained == '1') {
-    for(a in DndCharacter.skillsAbility) {
+    for(a in DndCharacter.skills) {
       if(character.attributes['skills.' + a] == null &&
          computedAttributes['skills.' + a] == 0)
         delete computedAttributes['skills.' + a];
@@ -802,7 +802,7 @@ function SheetHtml() {
       if(DndCharacter.notes[a] != null)
         value = DndCharacter.notes[a].replace(/%V/, value);
       if(object == 'Skills') {
-        var ability = DndCharacter.skillsAbility[name];
+        var ability = DndCharacter.skills[name];
         var skillInfo = new Array();
         if(ability != null && ability != '' && ability.substring(0, 1) != ';')
           skillInfo[skillInfo.length] = ability.substring(0, 3);
@@ -813,7 +813,7 @@ function SheetHtml() {
       }
       else if(object == 'Weapons') {
         var damages = name == 'Unarmed' ? computedAttributes['unarmedDamage'] :
-          DndCharacter.weaponsDamage[name];
+          DndCharacter.weapons[name];
         damages = damages == null ? 'd6' : damages.replace(/ /g, '');
         var range;
         if((i = damages.search(/[rR]/)) < 0)

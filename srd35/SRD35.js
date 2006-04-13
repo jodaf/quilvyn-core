@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.3 2006/04/12 04:57:16 Jim Exp $ */
+/* $Id: SRD35.js,v 1.4 2006/04/13 14:13:24 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -40,6 +40,17 @@ function PH35() {
   PH35.MeleeRules = null;
   PH35.MagicRules = null;
 }
+PH35.ALIGNMENTS = [
+  'Chaotic Evil',
+  'Chaotic Good',
+  'Chaotic Neutral',
+  'Neutral',
+  'Neutral Evil',
+  'Neutral Good',
+  'Lawful Evil',
+  'Lawful Good',
+  'Lawful Neutral'
+];
 PH35.CLASSES = [
   'Barbarian',
   'Bard',
@@ -53,6 +64,27 @@ PH35.CLASSES = [
   'Sorcerer',
   'Wizard',
   null
+];
+PH35.DEITIES = [
+  'Boccob (N Magic):Knowledge/Magic/Trickery',
+  'Corellon Larethian (CG Elves):Chaos/Good/Protection/War',
+  'Ehlonna (NG Woodlands):Animal/Good/Plant/Sun',
+  'Erythnul (CE Slaughter):Chaos/Evil/Trickery/War',
+  'Fharlanghn (N Roads):Luck/Protection/Travel',
+  'Garl Glittergold (NG Gnomes):Good/Protection/Trickery',
+  'Gruumsh (CE Orcs):Chaos/Evil/Strength/War',
+  'Heironeous (LG Valor):Good/Law/War',
+  'Hextor (LE Tyranny):Destruction/Evil/Law/War',
+  'Kord (CG Strength):Chaos/Good/Luck/Strength',
+  'Moradin (LG Dwarves):Earth/Good/Law/Protection',
+  'Nerull (NE Death):Death/Evil/Trickery',
+  'Obad-Hai (N Nature):Air/Animal/Earth/Fire/Plant/Water',
+  'Olidammara (CN Theives):Chaos/Luck/Trickery',
+  'Pelor (NG Sun):Good/Healing/Strength/Sun',
+  'St. Cuthbert (LN Retribution):Destruction/Law/Protection/Strength',
+  'Wee Jas (LN Death And Magic):Death/Law/Magic',
+  'Yondalla (LG Halflings):Good/Law/Protection',
+  'Vecna (NE Secrets):Evil/Knowledge/Magic'
 ];
 PH35.FEATS = [
   'Acrobatic', 'Agile', 'Alertness', 'Animal Affinity',
@@ -88,6 +120,12 @@ PH35.FEATS = [
   'Crippling Strike', 'Defensive Roll', 'Improved Evasion', 'Opportunist',
   'Skill Mastery', 'Slippery Mind'
 ];
+PH35.GOODIES = [
+  'Ring Of Protection +1',
+  'Ring Of Protection +2',
+  'Ring Of Protection +3',
+  'Ring Of Protection +4'
+];
 PH35.RACES = [
   'Dwarf',
   'Elf',
@@ -110,20 +148,40 @@ PH35.SKILLS = [
   'Knowledge (Nature):int:trained', 'Knowledge (Nobility):int:trained',
   'Knowledge (Planes):int:trained', 'Knowledge (Religion):int:trained',
   'Listen:wis', 'Move Silently:dex', 'Open Lock:dex:trained',
-  'Perform (Act):cha:trained', 'Perform (Comedy):cha:trained',
-  'Perform (Dance):cha:trained', 'Perform (Keyboard):cha:trained',
-  'Perform (Oratory):cha:trained', 'Perform (Percussion):cha:trained',
-  'Perform (Sing):cha:trained', 'Perform (String):cha:trained',
-  'Perform (Wind):cha:trained', 'Ride:dex', 'Search:int', 'Sense Motive:wis',
-  'Sleight Of Hand:dex:trained', 'Speak Language::trained',
-  'Spellcraft:int:trained', 'Spot:wis', 'Survival:wis', 'Swim:str',
-  'Tumble:dex:trained', 'Use Magic Device:cha:trained', 'Use Rope:dex'
+  'Perform (Act):cha', 'Perform (Comedy):cha', 'Perform (Dance):cha',
+  'Perform (Keyboard):cha', 'Perform (Oratory):cha', 'Perform (Percussion):cha',
+  'Perform (Sing):cha', 'Perform (String):cha', 'Perform (Wind):cha',
+  'Ride:dex', 'Search:int', 'Sense Motive:wis', 'Sleight Of Hand:dex:trained',
+  'Speak Language::trained', 'Spellcraft:int:trained', 'Spot:wis',
+  'Survival:wis', 'Swim:str', 'Tumble:dex:trained',
+  'Use Magic Device:cha:trained', 'Use Rope:dex'
 ];
 PH35.STRENGTH_MAX_LOADS = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
 ];
-
+PH35.WEAPONS = [
+  'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
+  'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70',
+  'Dagger:d4@19r10:Dart:d4r20', 'Dire Flail:d8/d8', 'Dwarven Urgosh:d8x3/d6x3',
+  'Dwarven Waraxe:d10x3', 'Falchion:2d4@18', 'Gauntlet:d3', 'Glaive:d10x3',
+  'Gnome Hooked Hammer:d8x3/d6x4', 'Greataxe:d12x3', 'Greatclub:d10',
+  'Greatsword:2d6@19', 'Guisarme:2d4x3', 'Halberd:d10x3', 'Handaxe:d6x3',
+  'Hand Crossbow:d4@19r30', 'Heavy Crossbow:d10@19r120', 'Heavy Flail:d10@19',
+  'Heavy Mace:d8', 'Heavy Pick:d6', 'Heavy Shield:d4',
+  'Heavy Spiked Shield:d6', 'Javelin:d6r30', 'Kama:d6', 'Kukri:d4@18',
+  'Lance:d8x3', 'Light Crossbow:d8@19r80', 'Light Flail:d8',
+  'Light Hammer:d4r20', 'Light Mace:d6', 'Light Pick:d4x4', 'Light Shield:d3',
+  'Light Spiked Shield:d4', 'Longbow:d8x3r100', 'Longspear:d8x3',
+  'Longsword:d8@19', 'Morningstar:d8', 'Net:d0r10', 'Nunchaku:d6',
+  'Orc Double Axe:d8/d8', 'Punching Dagger:d4x3', 'Quarterstaff:d6/d6',
+  'Rapier:d6@18', 'Ranseur:2d4x3', 'Repeating Heavy Crossbow:d10@19r120',
+  'Repeating Light Crossbow:d8@19r80', 'Sai:d4r10', 'Sap:d6', 'Scimitar:d6@18',
+  'Scythe:2d4x4', 'Short Sword:d6@19', 'Shortbow:d6x3r60', 'Shortspear:d6r20',
+  'Shuriken:d2r10', 'Siangham:d6', 'Sickle:d6', 'Sling:d4r50', 'Spear:d8r20',
+  'Spiked Chain:2d4', 'Spiked Gauntlet:d4', 'Throwing Axe:d6r10',
+  'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19', 'Warhammer:d8x3', 'Whip:d3'
+];
 
 PH35.AbilityRules = function() {
 
@@ -312,8 +370,7 @@ PH35.ClassRules = function() {
         'magicNotes.suggestionFeature',
           'Make suggestion to a fascinated creature',
         'skillNotes.bardicKnowledgeFeature',
-          '+%V Knowledge checks on local history',
-        'skillNotes.knowledge(History)Synergy', '+2 Bardic Knowledge'
+          '+%V Knowledge checks on local history'
       ];
       profArmor = DndCharacter.ARMOR_PROFICIENCY_LIGHT;
       profShield = DndCharacter.SHIELD_PROFICIENCY_HEAVY;
@@ -379,8 +436,7 @@ PH35.ClassRules = function() {
       ScribeCustomRules('skillNotes.bardicKnowledgeFeature',
         'features.Bardic Knowledge', '?', null,
         'levels.Bard', '+=', null,
-        'intelligenceModifier', '+', null,
-        'skillNotes.knowledge(History)Synergy', '+', '2'
+        'intelligenceModifier', '+', null
       );
       ScribeCustomRules('spellsPerDay.B0',
         'spellsPerDayLevels.Bard', '=', 'source == 1 ? 2 : source < 14 ? 3 : 4'
@@ -1006,68 +1062,22 @@ PH35.CombatRules = function() {
 }
 
 PH35.DescriptionRules = function() {
-  ScribeCustomChoices('alignments',
-    'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral Evil',
-    'Neutral', 'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
-  );
-  ScribeCustomChoices('deities',
-    'Boccob (N Magic)', 'Knowledge/Magic/Trickery',
-    'Corellon Larethian (CG Elves)', 'Chaos/Good/Protection/War',
-    'Ehlonna (NG Woodlands)', 'Animal/Good/Plant/Sun',
-    'Erythnul (CE Slaughter)', 'Chaos/Evil/Trickery/War',
-    'Fharlanghn (N Roads)', 'Luck/Protection/Travel',
-    'Garl Glittergold (NG Gnomes)', 'Good/Protection/Trickery',
-    'Gruumsh (CE Orcs)', 'Chaos/Evil/Strength/War',
-    'Heironeous (LG Valor)', 'Good/Law/War',
-    'Hextor (LE Tyranny)', 'Destruction/Evil/Law/War',
-    'Kord (CG Strength)', 'Chaos/Good/Luck/Strength',
-    'Moradin (LG Dwarves)', 'Earth/Good/Law/Protection',
-    'Nerull (NE Death)', 'Death/Evil/Trickery',
-    'None', '',
-    'Obad-Hai (N Nature)', 'Air/Animal/Earth/Fire/Plant/Water',
-    'Olidammara (CN Theives)', 'Chaos/Luck/Trickery',
-    'Pelor (NG Sun)', 'Good/Healing/Strength/Sun',
-    'St. Cuthbert (LN Retribution)', 'Destruction/Law/Protection/Strength',
-    'Wee Jas (LN Death And Magic)', 'Death/Law/Magic',
-    'Yondalla (LG Halflings)', 'Good/Law/Protection',
-    'Vecna (NE Secrets)', 'Evil/Knowledge/Magic'
-  );
+  ScribeCustomChoices('alignments', PH35.ALIGNMENTS);
+  for(var i = 0; i < PH35.DEITIES.length; i++) {
+    var pieces = PH35.DEITIES[i].split(/:/);
+    ScribeCustomChoices('deities', pieces[0], pieces[1]==null ? '' : pieces[1]);
+  }
+  ScribeCustomChoices('deities', 'None', '');
   ScribeCustomChoices('genders', 'Female', 'Male');
 }
 
 PH35.EquipmentRules = function() {
-  ScribeCustomChoices('goodies',
-    'Ring Of Protection +1', 'Ring Of Protection +2', 'Ring Of Protection +3',
-    'Ring Of Protection +4'
-  );
-  ScribeCustomChoices('weapons',
-    'Bastard Sword', 'd10@19', 'Battleaxe', 'd8x3', 'Bolas', 'd4r10',
-    'Club', 'd6r10', 'Composite Longbow', 'd8x3r110',
-    'Composite Shortbow', 'd6x3r70', 'Dagger', 'd4@19r10', 'Dart', 'd4r20',
-    'Dire Flail', 'd8/d8', 'Dwarven Urgosh', 'd8x3/d6x3',
-    'Dwarven Waraxe', 'd10x3', 'Falchion', '2d4@18', 'Gauntlet', 'd3',
-    'Glaive', 'd10x3', 'Gnome Hooked Hammer', 'd8x3/d6x4', 'Greataxe', 'd12x3',
-    'Greatclub', 'd10', 'Greatsword', '2d6@19', 'Guisarme', '2d4x3',
-    'Halberd', 'd10x3', 'Handaxe', 'd6x3', 'Hand Crossbow', 'd4@19r30',
-    'Heavy Crossbow', 'd10@19r120', 'Heavy Flail', 'd10@19',
-    'Heavy Mace', 'd8', 'Heavy Pick', 'd6', 'Heavy Shield', 'd4',
-    'Heavy Spiked Shield', 'd6', 'Javelin', 'd6r30', 'Kama', 'd6',
-    'Kukri', 'd4@18', 'Lance', 'd8x3', 'Light Crossbow', 'd8@19r80',
-    'Light Flail', 'd8', 'Light Hammer', 'd4r20', 'Light Mace', 'd6',
-    'Light Pick', 'd4x4', 'Light Shield', 'd3', 'Light Spiked Shield', 'd4',
-    'Longbow', 'd8x3r100', 'Longspear', 'd8x3', 'Longsword', 'd8@19',
-    'Morningstar', 'd8', 'Net', 'd0r10', 'Nunchaku', 'd6',
-    'Orc Double Axe', 'd8/d8', 'Punching Dagger', 'd4x3',
-    'Quarterstaff', 'd6/d6', 'Rapier', 'd6@18', 'Ranseur', '2d4x3',
-    'Repeating Heavy Crossbow', 'd10@19r120',
-    'Repeating Light Crossbow', 'd8@19r80', 'Sai', 'd4r10', 'Sap', 'd6',
-    'Scimitar', 'd6@18', 'Scythe', '2d4x4', 'Short Sword', 'd6@19',
-    'Shortbow', 'd6x3r60', 'Shortspear', 'd6r20', 'Shuriken', 'd2r10',
-    'Siangham', 'd6', 'Sickle', 'd6', 'Sling', 'd4r50', 'Spear', 'd8r20',
-    'Spiked Chain', '2d4', 'Spiked Gauntlet', 'd4', 'Throwing Axe', 'd6r10',
-    'Trident', 'd8r10', 'Two-Bladed Sword', 'd8@19/d8@19', 'Warhammer', 'd8x3',
-    'Whip', 'd3'
-  );
+  ScribeCustomChoices('goodies', PH35.GOODIES);
+  for(var i = 0; i < PH35.WEAPONS.length; i++) {
+    var pieces = PH35.WEAPONS[i].split(/:/);
+    if(pieces[1] != null)
+      ScribeCustomChoices('weapons', pieces[0], pieces[1]);
+  }
   ScribeCustomRules('runSpeedMultiplier',
     'armorWeightClass', '=', 'source == "Heavy" ? 3 : null'
   );
@@ -1166,6 +1176,11 @@ PH35.FeatRules = function() {
       'Reduce on-hand penalty by 2/off-hand by 6',
     'meleeNotes.weaponFinesseFeature',
       'Light weapons use dexterity mod instead of strength mod on attacks',
+    'meleeNotes.weaponFocus(HeavyFlail)Feature', '+1 attack',
+    'meleeNotes.weaponFocus(LightFlail)Feature', '+1 attack',
+    'meleeNotes.weaponFocus(Longsword)Feature', '+1 attack',
+    'meleeNotes.weaponFocus(Morningstar)Feature', '+1 attack',
+    'meleeNotes.weaponFocus(Spear)Feature', '+1 attack',
     'meleeNotes.whirlwindAttackFeature', 'Attack all foes w/in reach',
     'saveNotes.enduranceFeature', '+4 extended physical action',
     'saveNotes.greatFortitudeFeature', '+2 Fortitude',
@@ -1269,14 +1284,78 @@ PH35.FeatRules = function() {
 
 PH35.MagicRules = function() {
 
-  ScribeCustomRules('casterLevel',
-    'casterLevelArcane', '^=', null,
-    'casterLevelDivine', '^=', null
-  );
+  var notes = [
+    'featureNotes.warDomain', 'Weapon Proficiency/Weapon Focus (%V)',
+    'magicNotes.animalDomain', '<i>Speak With Animals</i> 1/Day',
+    'magicNotes.arcaneSpellFailure', '%V%',
+    'magicNotes.chaosDomain', '+1 caster level chaos spells',
+    'magicNotes.deathDomain', '<i>Death Touch</i> 1/Day',
+    'magicNotes.evilDomain', '+1 caster level evil spells',
+    'magicNotes.goodDomain', '+1 caster level good spells',
+    'magicNotes.healingDomain', '+1 caster level heal spells',
+    'magicNotes.knowledgeDomain', '+1 caster level divination spells',
+    'magicNotes.lawDomain', '+1 caster level law spells',
+    'magicNotes.protectionDomain', 'Protective ward 1/day',
+    'magicNotes.strengthDomain', 'Add level to strength 1 round/day',
+    'magicNotes.travelDomain', '<i>Freedom of Movement</i> 1 round/level/day',
+    'magicNotes.wizardSpecialization', 'Extra %V spell/day each spell level',
+    'meleeNotes.airDomain', 'Turn earth/rebuke air',
+    'meleeNotes.destructionDomain', 'Smite (+4 attack/+level damage) 1/day',
+    'meleeNotes.earthDomain', 'Turn air/rebuke earth',
+    'meleeNotes.fireDomain', 'Turn water/rebuke fire',
+    'meleeNotes.plantDomain', 'Rebuke plants',
+    'meleeNotes.sunDomain', 'Destroy turned undead 1/day',
+    'meleeNotes.waterDomain', 'Turn fire/rebuke water',
+    'saveNotes.luckDomain', 'Reroll 1/day',
+    'skillNotes.animalDomain', 'Knowledge (Nature) is a class skill',
+    'skillNotes.knowledgeDomain', 'All Knowledge skills are class skills',
+    'skillNotes.magicDomain', 'Use Magic Device at level/2',
+    'skillNotes.plantDomain', 'Knowledge (Nature) is a class skill',
+    'skillNotes.travelDomain', 'Survival is a class skill',
+    'skillNotes.trickeryDomain', 'Bluff/Disguise/Hide are class skills',
+    'skillNotes.wizardSpecialization', '+2 Spellcraft (%V)'
+  ];
+  ScribeCustomNotes(notes);
   ScribeCustomChoices('schools',
     'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
     'Illusion', 'Necromancy', 'Transmutation'
   );
+  ScribeCustomRules('casterLevel',
+    'casterLevelArcane', '^=', null,
+    'casterLevelDivine', '^=', null
+  );
+  ScribeCustomRules
+    ('classSkills.Knowledge (Nature)', 'skillNotes.animalDomain', '=', '1');
+  ScribeCustomRules
+    ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
+  ScribeCustomRules('featureNotes.warDomain',
+    'deity', '=', 'DndCharacter.deitiesFavoredWeapons[source]'
+  );
+  ScribeCustomRules('features.Weapon Focus (Heavy Flail)',
+    'featureNotes.warDomain', '=', 'source.indexOf("Heavy Flail")>=0? 1 : null'
+  );
+  ScribeCustomRules('features.Weapon Focus (Light Flail)',
+    'featureNotes.warDomain', '=', 'source.indexOf("Light Flail")>=0 ? 1 : null'
+  );
+  ScribeCustomRules('features.Weapon Focus (Longsword)',
+    'featureNotes.warDomain', '=', 'source.indexOf("Longsword") >= 0 ? 1 : null'
+  );
+  ScribeCustomRules('features.Weapon Focus (Morningstar)',
+    'featureNotes.warDomain', '=', 'source.indexOf("Morningstar")>=0 ? 1 : null'
+  );
+  ScribeCustomRules('features.Weapon Focus (Spear)',
+    'featureNotes.warDomain', '=', 'source.indexOf("Spear") >= 0 ? 1 : null'
+  );
+  for(var a in DndCharacter.skillsAbility)
+    if(a.substring(0, 9) == "Knowledge")
+      ScribeCustomRules
+        ('classSkills.' + a, 'skillNotes.knowledgeDomain', '=', '1');
+  ScribeCustomRules
+    ('classSkills.Knowledge (Nature)', 'skillNotes.plantDomain', '=', '1');
+  ScribeCustomRules('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
+  ScribeCustomRules
+    ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
+  ScribeCustomRules('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
 
 }
 
@@ -1493,20 +1572,29 @@ PH35.SkillRules = function() {
     'int':'intelligence', 'str':'strength', 'wis':'wisdom'
   };
   var notes = [
+    'skillNotes.bluffSynergy', '+2 Diplomacy/Intimidate/Sleight Of Hand',
     'skillNotes.bluffSynergy2', '+2 Disguise (acting)',
+    'skillNotes.decipherScriptSynergy', '+2 Use Magic Device (scrolls)',
+    'skillNotes.escapeArtistSynergy', '+2 Use Rope (bindings)',
     'skillNotes.handleAnimalSynergy', '+2 Ride/Wild Empathy',
+    'skillNotes.jumpSynergy', '+2 Tumble',
     'skillNotes.knowledge(Arcana)Synergy', '+2 Spellcraft',
     'skillNotes.knowledge(Dungeoneering)Synergy', '+2 Survival (underground)',
     'skillNotes.knowledge(Engineering)Synergy', '+2 Search (secret doors)',
     'skillNotes.knowledge(Geography)Synergy', '+2 Survival (lost/hazards)',
+    'skillNotes.knowledge(History)Synergy', '+2 Bardic Knowledge',
     'skillNotes.knowledge(Local)Synergy', '+2 Gather Information',
     'skillNotes.knowledge(Nature)Synergy', '+2 Survival (outdoors)',
     'skillNotes.knowledge(Nobility)Synergy', '+2 Diplomacy',
     'skillNotes.knowledge(Planes)Synergy', '+2 Survival (other planes)',
-    'skillNotes.knowledge(Religion)Synergy', '+2 Turning Frequency',
+    'skillNotes.knowledge(Religion)Synergy', '+2 Turning Check',
     'skillNotes.searchSynergy', '+2 Survival (tracking)',
+    'skillNotes.senseMotiveSynergy', '+2 Diplomacy',
+    'skillNotes.spellcraftSynergy', '+2 Use Magic Device (scroll)',
     'skillNotes.survivalSynergy', '+2 Knowledge (Nature)',
-    'skillNotes.useMagicDeviceSynergy', '+2 Decipher Script (scrolls)'
+    'skillNotes.tumbleSynergy', '+2 Balance/Jump',
+    'skillNotes.useMagicDeviceSynergy', '+2 Spellcraft (scrolls)',
+    'skillNotes.useRopeSynergy', '+2 Climb (rope)/Escape Artist (rope)'
   ];
   ScribeCustomNotes(notes);
   ScribeCustomChoices('languages',
@@ -1516,8 +1604,17 @@ PH35.SkillRules = function() {
   );
 
   ScribeCustomRules('languageCount', 'skills.Speak Language', '+', null);
+  ScribeCustomRules('skillNotes.bardicKnowledgeFeature',
+    'skillNotes.knowledge(History)Synergy', '+', '2'
+  );
   ScribeCustomRules
     ('skillNotes.bluffSynergy2', 'skills.Bluff', '=', 'source >= 5 ? 1 : null');
+  ScribeCustomRules('skillNotes.wildEmpathyFeature',
+    'skillNotes.handleAnimalSynergy', '+', '2'
+  );
+  ScribeCustomRules('turningBase',
+    'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
+  );
   for(var i = 0; i < PH35.SKILLS.length; i ++) {
     var pieces = PH35.SKILLS[i].split(/:/);
     var skill = pieces[0];
@@ -1527,7 +1624,8 @@ PH35.SkillRules = function() {
     var trained = pieces.length >= 3 && pieces[2] == 'trained';
     ScribeCustomChoices
       ('skills', skill, ability + (trained ? ';trained' : ''));
-    ScribeCustomRules('skills.' + skill, ability + 'Modifier', '+', null);
+    if(ability != '')
+      ScribeCustomRules('skills.' + skill, ability + 'Modifier', '+', null);
   }
 
 }

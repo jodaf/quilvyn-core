@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.20 2006/04/08 13:52:11 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.21 2006/04/13 14:13:24 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -23,21 +23,14 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * in the parameter list.  See scribedoc.html for details.
  */
 function ScribeCustomChoices(name, item /*, item ... */) {
-  var nameObjects = {
-    'armors':'armorsArmorClassBonuses', 'classes':'classesHitDie',
-    'deities':'deitiesDomains', 'skills': 'skillsAbility',
-    'spells':'spellsLevels', 'weapons': 'weaponsDamage'
-  };
-  if(nameObjects[name] != null)
-    name = nameObjects[name];
   var o = DndCharacter[name];
   if(o == null)
     return;
-  if(o == DndCharacter.spellsLevels) {
+  if(o == DndCharacter.spells) {
     for(var i = 2; i < arguments.length; i += 2) {
       var spell = arguments[i - 1];
       var levels = arguments[i];
-      var existingLevels = DndCharacter.spellsLevels[spell];
+      var existingLevels = DndCharacter.spells[spell];
       if(existingLevels != null) {
         var newLevels = levels.split('/');
         var oldLevels = existingLevels.split('/');
@@ -46,7 +39,7 @@ function ScribeCustomChoices(name, item /*, item ... */) {
         levels = newLevels.join('/');
         /* TODO Replacement of existing levels */
       }
-      DndCharacter.spellsLevels[spell] = levels;
+      DndCharacter.spells[spell] = levels;
     }
   }
   else if(o.constructor == Array) {
@@ -55,11 +48,6 @@ function ScribeCustomChoices(name, item /*, item ... */) {
       allArgs = allArgs.concat(arguments[i]);
     o = DndCharacter[name] = o.concat(allArgs);
     o.sort();
-    if(o == DndCharacter.feats) {
-      for(var i = 0; i < allArgs.length; i++)
-        rules.AddRules
-          ('features.' + allArgs[i], 'feats.' + allArgs[i], '=', '1');
-    }
   }
   else
     for(var i = 2; i < arguments.length; i += 2)
@@ -87,6 +75,7 @@ function ScribeCustomClass
    saveReflexBonus, saveWillBonus, armorProficiencyLevel,
    shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
    prerequisites) {
+
   var classLevel = 'levels.' + name;
   ScribeCustomChoices('classes', name, hitDice + '' /* Convert int to str */);
   if(skillPoints != null)
@@ -123,6 +112,7 @@ function ScribeCustomClass
     DndCharacter.LoadClassFeatureRules
       (rules, name, 'featureNotes.' + noteName + 'Features', features);
   }
+
 }
 
 /*
