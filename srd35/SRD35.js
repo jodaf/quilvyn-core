@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.4 2006/04/13 14:13:24 Jim Exp $ */
+/* $Id: SRD35.js,v 1.5 2006/04/14 03:42:48 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -182,6 +182,7 @@ PH35.WEAPONS = [
   'Spiked Chain:2d4', 'Spiked Gauntlet:d4', 'Throwing Axe:d6r10',
   'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19', 'Warhammer:d8x3', 'Whip:d3'
 ];
+
 
 PH35.AbilityRules = function() {
 
@@ -1062,6 +1063,7 @@ PH35.CombatRules = function() {
 }
 
 PH35.DescriptionRules = function() {
+
   ScribeCustomChoices('alignments', PH35.ALIGNMENTS);
   for(var i = 0; i < PH35.DEITIES.length; i++) {
     var pieces = PH35.DEITIES[i].split(/:/);
@@ -1069,9 +1071,11 @@ PH35.DescriptionRules = function() {
   }
   ScribeCustomChoices('deities', 'None', '');
   ScribeCustomChoices('genders', 'Female', 'Male');
+
 }
 
 PH35.EquipmentRules = function() {
+
   ScribeCustomChoices('goodies', PH35.GOODIES);
   for(var i = 0; i < PH35.WEAPONS.length; i++) {
     var pieces = PH35.WEAPONS[i].split(/:/);
@@ -1081,6 +1085,7 @@ PH35.EquipmentRules = function() {
   ScribeCustomRules('runSpeedMultiplier',
     'armorWeightClass', '=', 'source == "Heavy" ? 3 : null'
   );
+
 }
 
 PH35.FeatRules = function() {
@@ -1111,7 +1116,6 @@ PH35.FeatRules = function() {
     'magicNotes.quickenSpellFeature', 'Cast spell as free action 1/round',
     'magicNotes.scribeScrollFeature', 'Create scroll of any known spell',
     'magicNotes.silentSpellFeature', 'Cast designated spell w/out speech',
-    'magicNotes.spellMasteryFeature', 'No book needed for designated spells',
     'magicNotes.spellPenetrationFeature',
       '+2 caster level vs. resistance checks',
     'magicNotes.stillSpellFeature', 'Cast designated spell w/out movement',
@@ -1161,7 +1165,7 @@ PH35.FeatRules = function() {
       'Reload light/heavy crossbow as free/move action',
     'meleeNotes.rapidShotFeature', 'Normal and extra ranged -2 attacks',
     'meleeNotes.rideByAttackFeature', 'Move before and after mounted attack',
-    'meleeNotes.runFeature', 'Add 1 to speed multiplier',
+    'meleeNotes.runFeature', 'Add 1 to speed multiplier; +4 running jump',
     'meleeNotes.shotOnTheRunFeature', 'Move before and after ranged attack',
     'meleeNotes.snatchArrowsFeature', 'Catch ranged weapons',
     'meleeNotes.spiritedChargeFeature',
