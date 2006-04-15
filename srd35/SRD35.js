@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.5 2006/04/14 03:42:48 Jim Exp $ */
+/* $Id: SRD35.js,v 1.6 2006/04/15 15:25:09 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -136,6 +136,10 @@ PH35.RACES = [
   'Human',
   null
 ];
+PH35.SHIELDS = [
+  'Buckler', 'Heavy Steel', 'Heavy Wooden', 'Light Steel', 'Light Wooden',
+  'None', 'Tower'
+];
 PH35.SKILLS = [
   'Appraise:int', 'Balance:dex', 'Bluff:cha', 'Climb:str', 'Concentration:con',
   'Decipher Script:int:trained', 'Diplomacy:cha', 'Disable Device:int:trained',
@@ -185,6 +189,14 @@ PH35.WEAPONS = [
 
 
 PH35.AbilityRules = function() {
+
+  var tests = [
+    '{strengthModifier} + {intelligenceModifier} + {wisdomModifier} + ' +
+      '{dexterityModifier} + {constitutionModifier} + {charismaModifier} > 0',
+    '{strength} > 13 || {intelligence} > 13 || {wisdom} > 13 || ' +
+      '{dexterity} > 13 || {constitution} > 13 || {charisma} > 13'
+  ];
+  ScribeCustomTests(tests);
 
   /* Ability modifier computation */
   ScribeCustomRules
@@ -266,6 +278,7 @@ PH35.AbilityRules = function() {
     ('meleeNotes.constitutionHitPointsAdjustment', 'level', '*', null);
 
   /* Computation of other attributes */
+  ScribeCustomRules('dmNotes', 'dmonly', '?', null);
   ScribeCustomRules('languageCount', null, '=', '1');
   ScribeCustomRules('languages.Common', null, '=', '1');
   ScribeCustomRules('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
@@ -281,6 +294,15 @@ PH35.AbilityRules = function() {
 }
 
 PH35.ClassRules = function() {
+
+  var tests = [
+    '{levels.Barbarian} == null || "{alignment}".indexOf("Lawful") < 0',
+    '{levels.Bard} == null || "{alignment}".indexOf("Lawful") < 0',
+    '{levels.Druid} == null || "{alignment}".indexOf("Neutral") >= 0',
+    '{levels.Monk} == null || "{alignment}".indexOf("Lawful") >= 0',
+    '{levels.Paladin} == null || "{alignment}" == "Lawful Good"'
+  ];
+  ScribeCustomTests(tests);
 
   var baseAttack, features, hitDie, notes, profArmor,
       profShield, profWeapon, saveFortitude, saveReflex, saveWill,
@@ -1077,6 +1099,7 @@ PH35.DescriptionRules = function() {
 PH35.EquipmentRules = function() {
 
   ScribeCustomChoices('goodies', PH35.GOODIES);
+  ScribeCustomChoices('shields', PH35.SHIELDS);
   for(var i = 0; i < PH35.WEAPONS.length; i++) {
     var pieces = PH35.WEAPONS[i].split(/:/);
     if(pieces[1] != null)
@@ -1085,6 +1108,9 @@ PH35.EquipmentRules = function() {
   ScribeCustomRules('runSpeedMultiplier',
     'armorWeightClass', '=', 'source == "Heavy" ? 3 : null'
   );
+  /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
+  ScribeCustomRules
+    ('level', 'meleeNotes.strengthDamageAdjustment', '=', 'null');
 
 }
 
@@ -1213,6 +1239,111 @@ PH35.FeatRules = function() {
     'skillNotes.trackFeature', 'Survival to follow creatures at 1/2 speed'
   ];
   ScribeCustomNotes(notes);
+  var tests = [
+    '{feats.Armor Proficiency Medium} == null || {armorProficiencyLevel} > 0',
+    '{feats.Armor Proficiency Heavy} == null || {armorProficiencyLevel} > 1',
+    '{feats.Brew Potion} == null || {casterLevel} >= 3',
+    '{feats.Cleave} == null || {features.Power Attack} != null',
+    '{feats.Combat Style (Archery)} == null || {levels.Ranger} >= 2',
+    '{feats.Combat Style (Two Weapon Combat)} == null || {levels.Ranger} >= 2',
+    '{feats.Combat Expertise} == null || {intelligence} >= 13',
+    '{feats.Craft Magic Arms And Armor} == null || {casterLevel} >= 5',
+    '{feats.Craft Rod} == null || {casterLevel} >= 9',
+    '{feats.Craft Staff} == null || {casterLevel} >= 12',
+    '{feats.Craft Wand} == null || {casterLevel} >= 5',
+    '{feats.Craft Wondrous Item} == null || {casterLevel} >= 3',
+    '{feats.Crippling Strike} == null || {levels.Rogue} >= 10',
+    '{feats.Defensive Roll} == null || {levels.Rogue} >= 10',
+    '{feats.Deflect Arrows} == null || {dexterity} >= 13',
+    '{feats.Deflect Arrows}==null || {features.Improved Unarmed Strike}!=null',
+    '{feats.Diehard} == null || {features.Endurance} != null',
+    '{feats.Dodge} == null || {dexterity} >= 13',
+    '{feats.Empower Spell} == null || {casterLevel} >= 1',
+    '{feats.Enlarge Spell} == null || {casterLevel} >= 1',
+    '{feats.Extend Spell} == null || {casterLevel} >= 1',
+    '{feats.Extra Turning} == null || {turningLevel} >= 1',
+    '{feats.Far Shot} == null || {features.Point Blank Shot} != null',
+    '{feats.Forge Ring} == null || {casterLevel} >= 12',
+    '{feats.Great Cleave} == null || {baseAttack} >= 4',
+    '{feats.Great Cleave} == null || {features.Cleave} != null',
+    '{feats.Greater Spell Penetration} == null || ' +
+      '{features.Spell Penetration} != null',
+    '{feats.Greater Two Weapon Fighting} == null || {baseAttack} >= 11',
+    '{feats.Greater Two Weapon Fighting} == null || {dexterity} >= 19',
+    '{feats.Greater Two Weapon Fighting} == null || ' +
+      '{features.Improved Two Weapon Fighting} != null',
+    '{feats.Heighten Spell} == null || {casterLevel} >= 1',
+    '{feats.Improved Bull Rush} == null || {features.Power Attack} != null',
+    '{feats.Improved Disarm} == null || ' +
+      '{levels.Monk} >= 6 || {features.Combat Expertise} != null',
+    '{feats.Improved Evasion} == null || {levels.Rogue} >= 10',
+    '{feats.Improved Feint} == null || {features.Combat Expertise} != null',
+    '{feats.Improved Grapple} == null || ' + 
+      '{levels.Monk} >= 1 || ' +
+      '({dexterity} >= 13 && {features.Improved Unarmed Strike} != null)',
+    '{feats.Improved Overrun} == null || {features.Power Attack} != null',
+    '{feats.Improved Precise Shot} == null || {dexterity} >= 19',
+    '{feats.Improved Precise Shot} == null || {baseAttack} >= 11',
+    '{feats.Improved Precise Shot} == null || {features.Precise Shot} != null',
+    '{feats.Improved Shield Bash} == null || ' +
+      '{features.Shield Proficiency} != null',
+    '{feats.Improved Sunder} == null || {features.Power Attack} != null',
+    '{feats.Improved Trip} == null || ' +
+      '{levels.Monk} >= 6 || {features.Combat Expertise} != null',
+    '{feats.Improved Two Weapon Fighting} == null || {baseAttack} >= 6',
+    '{feats.Improved Two Weapon Fighting} == null || {dexterity} >= 17',
+    '{feats.Improved Two Weapon Fighting} == null || ' +
+      '{features.Two Weapon Fighting} != null',
+    '{feats.Improved Turning} == null || {turningLevel} >= 1',
+    '{feats.Leadership} == null || {level} >= 6',
+    '{feats.Manyshot} == null || {dexterity} >= 17',
+    '{feats.Manyshot} == null || {baseAttack} >= 6',
+    '{feats.Manyshot} == null || {features.Rapid Shot} != null',
+    '{feats.Maximize Spell} == null || {casterLevel} >= 1',
+    '{feats.Mobility} == null || {features.Dodge} != null',
+    '{feats.Mounted Archery} == null || {features.Mounted Combat} != null',
+    '{feats.Mounted Combat} == null || {skills.Ride} >= 1',
+    '{feats.Natural Spell} == null || {wisdom} >= 13',
+    '{feats.Natural Spell} == null || {features.Wild Shape} != null',
+    '{feats.Opportunist} == null || {levels.Rogue} >= 10',
+    '{feats.Power Attack} == null || {strength} >= 13',
+    '{feats.Precise Shot} == null || {features.Point Blank Shot} != null',
+    '{feats.Quick Draw} == null || {baseAttack} >= 1',
+    '{feats.Quicken Spell} == null || {casterLevel} >= 1',
+    '{feats.Rapid Shot} == null || {dexterity} >= 13',
+    '{feats.Rapid Shot} == null || {features.Point Blank Shot} != null',
+    '{feats.Ride By Attack} == null || {features.Mounted Combat} != null',
+    '{feats.Scribe Scroll} == null || {casterLevel} >= 1',
+    '{feats.Shield Proficiency Tower} == null || {shieldProficiencyLevel} > 0',
+    '{feats.Shot On The Run} == null || {features.Mobility} != null',
+    '{feats.Shot On The Run} == null || {features.Point Blank Shot} != null',
+    '{feats.Shot On The Run} == null || {baseAttack} >= 4',
+    '{feats.Silent Spell} == null || {casterLevel} >= 1',
+    '{feats.Skill Mastery} == null || {levels.Rogue} >= 10',
+    '{feats.Slippery Mind} == null || {levels.Rogue} >= 10',
+    '{feats.Snatch Arrows} == null || {dexterity} >= 15',
+    '{feats.Snatch Arrows} == null || {features.Deflect Arrows} != null',
+    '{feats.Spell Penetration} == null || {casterLevel} >= 1',
+    '{feats.Spirited Charge} == null || {features.Ride By Attack} != null',
+    '{feats.Spring Attack} == null || {baseAttack} >= 4',
+    '{feats.Spring Attack} == null || {features.Mobility} != null',
+    '{feats.Still Spell} == null || {casterLevel} >= 1',
+    '{feats.Stunning Fist} == null || {dexterity} >= 13',
+    '{feats.Stunning Fist} == null || {wisdom} >= 13',
+    '{feats.Stunning Fist} == null || {features.Improved Unarmed Strike}!=null',
+    '{feats.Trample} == null || {features.Mounted Combat} != null',
+    '{feats.Two Weapon Defense} == null || ' +
+      '{features.Two Weapon Fighting} != null',
+    '{feats.Two Weapon Defense} == null || ' +
+      '{features.Two Weapon Fighting} != null',
+    '{feats.Two Weapon Fighting} == null || {dexterity} >= 15',
+    '{feats.Weapon Finesse} == null || {baseAttack} >= 1',
+    '{feats.Whirlwind Attack} == null || {features.Combat Expertise} != null',
+    '{feats.Whirlwind Attack} == null || {features.Spring Attack} != null',
+    '{feats.Widen Spell} == null || {casterLevel} >= 1',
+    '+/{feats} == {featCount}'
+  ];
+  ScribeCustomTests(tests);
 
   ScribeCustomChoices('feats', PH35.FEATS);
   for(var i = 0; i < PH35.FEATS.length; i++) {
@@ -1601,6 +1732,10 @@ PH35.SkillRules = function() {
     'skillNotes.useRopeSynergy', '+2 Climb (rope)/Escape Artist (rope)'
   ];
   ScribeCustomNotes(notes);
+  var tests = [
+    '+/{languages} == {languageCount}'
+  ];
+  ScribeCustomTests(tests);
   ScribeCustomChoices('languages',
     'Abyssal', 'Aquan', 'Avian', 'Celestial', 'Common', 'Draconic', 'Druidic',
     'Dwarven', 'Elven', 'Giant', 'Gnoll', 'Gnome', 'Goblin', 'Halfling',

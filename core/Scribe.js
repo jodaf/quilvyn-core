@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.128 2006/04/13 14:13:24 Jim Exp $ */
+/* $Id: Scribe.js,v 1.129 2006/04/15 15:25:09 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.24.28';
@@ -166,29 +166,6 @@ function GetKeys(o) {
   for(var a in o)
     result[result.length] = a;
   result.sort();
-  return result;
-}
-
-/* Returns a RuleEngine loaded with the default DndCharacter rules. */
-function InitialRuleEngine() {
-  var i;
-  var result = new RuleEngine();
-  var versions;
-/*
-  DndCharacter.LoadVersion3Rules(result);
-  versions = CLASS_RULES_VERSION.split('/');
-  for(i = 0; i < versions.length; i++)
-    DndCharacter.LoadVersion3PointRules(result, versions[i], 'class');
-  versions = FEAT_RULES_VERSION.split('/');
-  for(i = 0; i < versions.length; i++)
-    DndCharacter.LoadVersion3PointRules(result, versions[i], 'feat');
-  versions = MAGIC_RULES_VERSION.split('/');
-  for(i = 0; i < versions.length; i++)
-    DndCharacter.LoadVersion3PointRules(result, versions[i], 'magic');
-*/
-  result.AddRules('dmNotes', 'dmonly', '?', null);
-  /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
-  result.AddRules('level', 'meleeNotes.strengthDamageAdjustment', '=', 'null');
   return result;
 }
 
@@ -701,7 +678,7 @@ function Scribe() {
   character = new DndCharacter(null);
   currentUrl = 'random';
   cachedAttrs[currentUrl] = CopyObject(character.attributes);
-  rules = InitialRuleEngine();
+  rules = new RuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
     CustomizeScribe();

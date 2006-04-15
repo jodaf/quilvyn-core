@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.21 2006/04/13 14:13:24 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.22 2006/04/15 15:25:09 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -100,7 +100,7 @@ function ScribeCustomClass
       ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
   if(prerequisites != null) {
     for(var i = 0; i < prerequisites.length; i++)
-      DndCharacter.validityTests[DndCharacter.validityTests.length] =
+      DndCharacter.tests[DndCharacter.tests.length] =
         '{' + classLevel + '} == null || ' + prerequisites[i];
   }
   if(classSkills != null)
@@ -189,6 +189,5 @@ function ScribeCustomSheet(name, within, format, before, separator) {
 /* Adds each #test# to the checks Scribe uses when validating a character. */
 function ScribeCustomTests(test /*, test ... */) {
   for(var i = 0; i < arguments.length; i++)
-    DndCharacter.validityTests[DndCharacter.validityTests.length] =
-      arguments[i];
+    DndCharacter.tests = DndCharacter.tests.concat(arguments[i]);
 }
