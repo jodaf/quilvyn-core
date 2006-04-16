@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.22 2006/04/15 15:25:09 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.23 2006/04/16 06:08:32 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -107,10 +107,25 @@ function ScribeCustomClass
     for(var i = 0; i < classSkills.length; i++)
       ScribeCustomRules('classSkills.' + classSkills[i], classLevel, '=', '1');
   if(features != null) {
-    var noteName = name.substring(0, 1).toLowerCase() + name.substring(1);
-    noteName = noteName.replace(/ /g, '');
-    DndCharacter.LoadClassFeatureRules
-      (rules, name, 'featureNotes.' + noteName + 'Features', features);
+    var code = '';
+    var initial = [];
+    var note = name.substring(0, 1).toLowerCase() + name.substring(1);
+    note = note.replace(/ /g, '');
+    note = 'featureNotes.' + note + 'Features';
+    for(var i = 1; i < features.length; i += 2) {
+      var feature = features[i];
+      var level = features[i - 1];
+      if(level <= 1)
+        initial[initial.length] = '"' + feature + '"';
+      else
+        code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
+      ScribeCustomRules('features.' + feature,
+        note, '=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
+      );
+    }
+    ScribeCustomRules(note, 'levels.' + name, '=',
+      '[' + initial.join(',') + ']' + code + '.sort().join("/")'
+    );
   }
 
 }
@@ -121,22 +136,53 @@ function ScribeCustomClass
  * sections of the character sheet.
  */
 function ScribeCustomNotes(attr, format /*, attr, format ... */) {
-  var o = {};
+  var notes = {};
   for(var i = 0; i < arguments.length; i++) {
     var arg = arguments[i];
     if(typeof(arg) == 'object' && arg.constructor == Array)
       for(var j = 1; j < arg.length; j += 2)
-        o[arg[j - 1]] = arg[j];
+        notes[arg[j - 1]] = arg[j];
     else
-      o[arg] = arguments[++i];
+      notes[arg] = arguments[++i];
   }
-  DndCharacter.LoadRulesFromNotes(rules, o);
+  for(var a in notes) {
+    var matchInfo;
+    var note = notes[a];
+    DndCharacter.notes[a] = note;
+    if((matchInfo =
+          a.match(/^(\w+)Notes\.(\w)(.*)(Domain|Feature|Synergy)$/)) != null) {
+      var name = matchInfo[2].toUpperCase() +
+                 matchInfo[3].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
+      if(matchInfo[4] == 'Synergy')
+        ScribeCustomRules(a, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
+      else if(note.indexOf('%V') < 0)
+        ScribeCustomRules
+          (a, matchInfo[4].toLowerCase() + 's.' + name, '=', '1');
+      else
+        ScribeCustomRules
+          (a, matchInfo[4].toLowerCase() + 's.' + name, '?', null);
+    }
+    if(a.match(/^skillNotes\./) &&
+       (matchInfo = note.match(/^\+(\d+) (.+)$/)) != null) {
+      var affected = matchInfo[2].split('/');
+      var bump = matchInfo[1];
+      var i;
+      for(i = 0;
+          i<affected.length && DndCharacter.skills[affected[i]]!=null;
+          i++)
+        ; /* empty */
+      if(i == affected.length)
+        for(i = 0; i < affected.length; i++)
+          ScribeCustomRules('skills.' + affected[i], a, '+', bump);
+    }
+  }
 }
 
 function ScribeCustomRace(name, features) {
   ScribeCustomChoices('races', name);
   if(features != null) {
-    var code = '[]';
+    var code = '';
+    var initial = [];
     var note = name.substring(0, 1).toLowerCase() + name.substring(1);
     note = note.replace(/ /g, '');
     note = 'featureNotes.' + note + 'Features';
@@ -144,7 +190,7 @@ function ScribeCustomRace(name, features) {
       var feature = features[i];
       var level = features[i - 1];
       if(level <= 1)
-        code += '.concat(["' + feature + '"])';
+        initial[initial.length] = '"' + feature + '"';
       else
         code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
       ScribeCustomRules('features.' + feature,
@@ -153,7 +199,7 @@ function ScribeCustomRace(name, features) {
     }
     ScribeCustomRules(note,
       'race', '?', 'source == "' + name + '"',
-      'level', '=', code + '.sort().join("/")'
+      'level', '=', '[' + initial.join(',') + ']' + code + '.sort().join("/")'
     );
   }
 }
