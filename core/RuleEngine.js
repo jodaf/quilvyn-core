@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.10 2005/06/11 15:52:46 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.11 2006/04/17 13:54:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -167,8 +167,11 @@ RuleEngine.prototype._Recompute = function(initial, computed, attr) {
       }
       else if(amount == null)
         continue;
-      else if(type == '=')
-        computedValue = amount;
+      else if(type == '=') {
+        // Apply default assignments only if no other has been applied.
+        if(computedValue == null || source != '')
+          computedValue = amount;
+      }
       else if(assign && computedValue == null)
         computedValue = amount;
       else if(type == '+')

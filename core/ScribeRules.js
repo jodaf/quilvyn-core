@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.23 2006/04/16 06:08:32 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.24 2006/04/17 13:54:05 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -84,11 +84,11 @@ function ScribeCustomClass
   if(baseAttackBonus != null)
     ScribeCustomRules('baseAttack', classLevel, '+', baseAttackBonus);
   if(saveFortitudeBonus != null)
-    ScribeCustomRules('saveFortitude', classLevel, '^', saveFortitudeBonus);
+    ScribeCustomRules('saveFortitude', classLevel, '+', saveFortitudeBonus);
   if(saveReflexBonus != null)
-    ScribeCustomRules('saveReflex', classLevel, '^', saveReflexBonus);
+    ScribeCustomRules('saveReflex', classLevel, '+', saveReflexBonus);
   if(saveWillBonus != null)
-    ScribeCustomRules('saveWill', classLevel, '^', saveWillBonus);
+    ScribeCustomRules('saveWill', classLevel, '+', saveWillBonus);
   if(armorProficiencyLevel != null)
     ScribeCustomRules
       ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
@@ -168,7 +168,8 @@ function ScribeCustomNotes(attr, format /*, attr, format ... */) {
       var bump = matchInfo[1];
       var i;
       for(i = 0;
-          i<affected.length && DndCharacter.skills[affected[i]]!=null;
+          i<affected.length &&
+          affected[i].match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*\))?$/) != null;
           i++)
         ; /* empty */
       if(i == affected.length)

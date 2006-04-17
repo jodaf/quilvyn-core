@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.129 2006/04/15 15:25:09 Jim Exp $ */
+/* $Id: Scribe.js,v 1.130 2006/04/17 13:54:05 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.24.28';
+var VERSION = '0.28.17';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -220,7 +220,7 @@ function InitialViewer() {
             format: '<b>Light/Med/Max Load:</b> %V'},
           {name: 'Load Medium', within: 'LoadInfo', format: '/%V'},
           {name: 'Load Max', within: 'LoadInfo', format: '/%V'},
-      {name: 'Ability Notes', within: 'Attributes'},
+      {name: 'Ability Notes', within: 'Attributes', separator: ' * '},
     {name: 'FeaturesAndSkills', within: '_top', separator: '\n',
       format: '<b>Features/Skills</b><br/>%V'},
       {name: 'FeatStats', within: 'FeaturesAndSkills'},
@@ -825,7 +825,7 @@ function SheetHtml() {
           var additional = (pieces[2] ? pieces[2] - 0 : 0) + addedDamage;
           var damage = pieces[1];
           var multiplier = pieces[4] ? pieces[4] - 0 : 2;
-          var smallDamage = DndCharacter.weaponsSmallDamage[damage];
+          var smallDamage = DndCharacter.smallDamage[damage];
           var threat = pieces[6] ? pieces[6] - 0 : 20;
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
             threat -= computedAttributes['weaponCriticalAdjustment.' + name];
