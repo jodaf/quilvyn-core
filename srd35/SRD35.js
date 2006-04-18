@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.8 2006/04/17 13:54:04 Jim Exp $ */
+/* $Id: SRD35.js,v 1.9 2006/04/18 05:37:15 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -637,7 +637,7 @@ PH35.ClassRules = function() {
         'Spellcraft', 'Swim', 'Tumble', 'Use Magic Device'
       ];
       ScribeCustomRules
-        ('casterLevelArcane', 'spellsPerDayLevel.Bard', '^=', null);
+        ('casterLevelArcane', 'spellsPerDayLevels.Bard', '^=', null);
       ScribeCustomRules
         ('features.Countersong', 'performRanks', '?', 'source >= 3');
       ScribeCustomRules
