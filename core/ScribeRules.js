@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.24 2006/04/17 13:54:05 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.25 2006/04/21 21:09:22 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -18,40 +18,21 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*
- * Add each #item# to the set of valid selections for #name#.  For some values
- * of #name# (e.g., 'weapons'), data associated with each item is interspersed
- * in the parameter list.  See scribedoc.html for details.
+ * Add each #item# to the set of valid selections for #name#.  Each value of
+ * #name# may contain data associated with the selection.  See scribedoc.html
+ * for details.
  */
 function ScribeCustomChoices(name, item /*, item ... */) {
-  var o = DndCharacter[name];
-  if(o == null)
-    return;
-  if(o == DndCharacter.spells) {
-    for(var i = 2; i < arguments.length; i += 2) {
-      var spell = arguments[i - 1];
-      var levels = arguments[i];
-      var existingLevels = DndCharacter.spells[spell];
-      if(existingLevels != null) {
-        var newLevels = levels.split('/');
-        var oldLevels = existingLevels.split('/');
-        newLevels = newLevels.concat(oldLevels);
-        newLevels.sort();
-        levels = newLevels.join('/');
-        /* TODO Replacement of existing levels */
-      }
-      DndCharacter.spells[spell] = levels;
-    }
+  if(Scribe[name] == null)
+    Scribe[name] = {};
+  var o = Scribe[name];
+  var allArgs = [];
+  for(var i = 1; i < arguments.length; i++)
+    allArgs = allArgs.concat(arguments[i]);
+  for(var i = 0; i < allArgs.length; i++) {
+    var pieces = allArgs[i].split(/:/);
+    o[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
   }
-  else if(o.constructor == Array) {
-    var allArgs = [];
-    for(var i = 1; i < arguments.length; i++)
-      allArgs = allArgs.concat(arguments[i]);
-    o = DndCharacter[name] = o.concat(allArgs);
-    o.sort();
-  }
-  else
-    for(var i = 2; i < arguments.length; i += 2)
-      o[arguments[i - 1]] = arguments[i];
 }
 
 /*
@@ -131,54 +112,67 @@ function ScribeCustomClass
 }
 
 /*
+ * TODO Comment
+ */
+function ScribeCustomDefaults(default /*, default ... */) {
+  var allArgs = [];
+  for(var i = 0; i < arguments.length; i++)
+    allArgs = allArgs.concat(arguments[i]);
+  for(var i = 0; i < allArgs.length; i++) {
+    var pieces = allArgs[i].split(/:/);
+    Scribe.defaults[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
+  }
+}
+
+/*
  * Add an HTML #format# for including attribute #attr# on the character sheet.
  * #attr# will typically be a new attribute to be included in one of the notes
  * sections of the character sheet.
  */
-function ScribeCustomNotes(attr, format /*, attr, format ... */) {
-  var notes = {};
-  for(var i = 0; i < arguments.length; i++) {
-    var arg = arguments[i];
-    if(typeof(arg) == 'object' && arg.constructor == Array)
-      for(var j = 1; j < arg.length; j += 2)
-        notes[arg[j - 1]] = arg[j];
-    else
-      notes[arg] = arguments[++i];
-  }
-  for(var a in notes) {
-    var matchInfo;
-    var note = notes[a];
-    DndCharacter.notes[a] = note;
-    if((matchInfo =
-          a.match(/^(\w+)Notes\.(\w)(.*)(Domain|Feature|Synergy)$/)) != null) {
+function ScribeCustomNotes(note /*, note ... */) {
+  var allArgs = [];
+  for(var i = 0; i < arguments.length; i++)
+    allArgs = allArgs.concat(arguments[i]);
+  for(var i = 0; i < allArgs.length; i++) {
+    ScribeCustomChoices('notes', allArgs[i]);
+    var pieces = allArgs[i].split(/:/);
+    var attribute = pieces[0];
+    var format = pieces[1];
+    var matchInfo =
+      attribute.match(/^(\w+)Notes\.(\w)(.*)(Domain|Feature|Synergy)$/);
+    if(matchInfo != null) {
       var name = matchInfo[2].toUpperCase() +
                  matchInfo[3].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
       if(matchInfo[4] == 'Synergy')
-        ScribeCustomRules(a, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
-      else if(note.indexOf('%V') < 0)
         ScribeCustomRules
-          (a, matchInfo[4].toLowerCase() + 's.' + name, '=', '1');
+          (attribute, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
+      else if(format.indexOf('%V') < 0)
+        ScribeCustomRules
+          (attribute, matchInfo[4].toLowerCase() + 's.' + name, '=', '1');
       else
         ScribeCustomRules
-          (a, matchInfo[4].toLowerCase() + 's.' + name, '?', null);
+          (attribute, matchInfo[4].toLowerCase() + 's.' + name, '?', null);
     }
-    if(a.match(/^skillNotes\./) &&
-       (matchInfo = note.match(/^\+(\d+) (.+)$/)) != null) {
+    if(attribute.match(/^skillNotes\./) &&
+       (matchInfo = format.match(/^\+(\d+) (.+)$/)) != null) {
       var affected = matchInfo[2].split('/');
       var bump = matchInfo[1];
-      var i;
-      for(i = 0;
-          i<affected.length &&
-          affected[i].match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*\))?$/) != null;
-          i++)
+      var j;
+      for(j = 0;
+          j<affected.length &&
+          affected[j].match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*\))?$/) != null;
+          j++)
         ; /* empty */
-      if(i == affected.length)
-        for(i = 0; i < affected.length; i++)
-          ScribeCustomRules('skills.' + affected[i], a, '+', bump);
+      if(j == affected.length)
+        for(j = 0; j < affected.length; j++)
+          ScribeCustomRules('skills.' + affected[j], attribute, '+', bump);
     }
   }
 }
 
+/*
+ * TODO Comment
+ */
 function ScribeCustomRace(name, features) {
   ScribeCustomChoices('races', name);
   if(features != null) {

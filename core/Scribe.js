@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.130 2006/04/17 13:54:05 Jim Exp $ */
+/* $Id: Scribe.js,v 1.131 2006/04/21 21:09:22 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -48,6 +48,18 @@ function ChoicesForFileInput() {
   return result;
 }
 
+/* Resets the character's #attribute# attribute to its default value. */
+function Clear(attribute) {
+  var withDot = attribute + '.';
+  for(var a in character.attributes)
+    if(a.substring(0, withDot.length) == withDot)
+      delete character.attributes[a];
+  if(Scribe.defaults[attribute] != null)
+    character.attributes[attribute] = Scribe.defaults[attribute];
+  else
+    delete character.attributes[attribute];
+};
+
 /* Returns a recursively-copied clone of #o#. */
 function CopyObject(o) {
   if(typeof o != "object" || o == null)
@@ -66,7 +78,7 @@ function EditorHtml() {
     spellsCategoryOptions[spellsCategoryOptions.length] =
       a + '(' + DndCharacter.spellsCategoryCodes[a] + ')';
   spellsCategoryOptions.sort();
-  var weapons = GetKeys(DndCharacter.weapons);
+  var weapons = GetKeys(Scribe.weapons);
   var editorElements = [
     ['', 'about', 'button', ['About']],
     ['', 'help', 'button', ['Help']],
@@ -88,9 +100,9 @@ function EditorHtml() {
        'intelligence', 'languages', 'levels', 'name', 'race', 'shield',
        'skills', 'spells', 'strength', 'weapons', 'wisdom']],
     ['Name', 'name', 'text', [20]],
-    ['Race', 'race', 'select-one', DndCharacter.races],
+    ['Race', 'race', 'select-one', GetKeys(Scribe.races)],
     ['Experience', 'experience', 'text', [8]],
-    ['Levels', 'levels_sel', 'select-one', GetKeys(DndCharacter.classes)],
+    ['Levels', 'levels_sel', 'select-one', GetKeys(Scribe.classes)],
     ['', 'levels', 'text', [3]],
     ['Image URL', 'imageUrl', 'text', [20]],
     ['Strength', 'strength', 'select-one', abilityChoices],
@@ -100,34 +112,35 @@ function EditorHtml() {
     ['Constitution', 'constitution', 'select-one', abilityChoices],
     ['Charisma', 'charisma', 'select-one', abilityChoices],
     ['Player', 'player', 'text', [20]],
-    ['Alignment', 'alignment', 'select-one', DndCharacter.alignments],
-    ['Gender', 'gender', 'select-one', DndCharacter.genders],
-    ['Deity', 'deity', 'select-one', GetKeys(DndCharacter.deities)],
+    ['Alignment', 'alignment', 'select-one', GetKeys(Scribe.alignments)],
+    ['Gender', 'gender', 'select-one', GetKeys(Scribe.genders)],
+    ['Deity', 'deity', 'select-one', GetKeys(Scribe.deities)],
     ['Origin', 'origin', 'text', [20]],
-    ['Feats', 'feats_sel', 'select-one', DndCharacter.feats],
+    ['Feats', 'feats_sel', 'select-one', GetKeys(Scribe.feats)],
     ['', 'feats', 'checkbox', null],
-    ['Skills', 'skills_sel', 'select-one', GetKeys(DndCharacter.skills)],
+    ['Skills', 'skills_sel', 'select-one', GetKeys(Scribe.skills)],
     ['', 'skills', 'text', [3]],
-    ['Languages', 'languages_sel', 'select-one', DndCharacter.languages],
+    ['Languages', 'languages_sel', 'select-one', GetKeys(Scribe.languages)],
     ['', 'languages', 'checkbox', null],
     ['Hit Points', 'hitPoints', 'text', [4]],
     ['Armor', 'armor', 'select-one',
      GetKeys(DndCharacter.armorsArmorClassBonuses)],
-    ['Shield', 'shield', 'select-one', DndCharacter.shields],
+    ['Shield', 'shield', 'select-one', GetKeys(Scribe.shields)],
     ['Weapons', 'weapons_sel', 'select-one', weapons],
     ['', 'weapons', 'text', [3]],
     ['Spell Categories', 'spellcats_sel', 'select-one', spellsCategoryOptions],
     ['', 'spellcats', 'checkbox', null],
-    ['Spells', 'spells_sel', 'select-one', GetKeys(DndCharacter.spells)],
+    ['Spells', 'spells_sel', 'select-one', GetKeys(Scribe.spells)],
     ['', 'spells', 'checkbox', null],
-    ['Goodies', 'goodies_sel', 'select-one', DndCharacter.goodies],
+    ['Goodies', 'goodies_sel', 'select-one', GetKeys(Scribe.goodies)],
     ['', 'goodies', 'text', [2]],
-    ['Cleric Domains', 'domains_sel', 'select-one', DndCharacter.domains],
+    ['Cleric Domains', 'domains_sel', 'select-one', GetKeys(Scribe.domains)],
     ['', 'domains', 'checkbox', null],
     ['Wizard Specialization', 'specialize_sel', 'select-one',
-     DndCharacter.schools],
+     GetKeys(Scribe.schools)],
     ['', 'specialize', 'checkbox', null],
-    ['Wizard Prohibition', 'prohibit_sel', 'select-one', DndCharacter.schools],
+    ['Wizard Prohibition', 'prohibit_sel', 'select-one',
+     GetKeys(Scribe.schools)],
     ['', 'prohibit', 'checkbox', null],
     ['Notes', 'notes', 'textarea', [40,10]],
     ['DM Notes', 'dmNotes', 'textarea', [40,10]]
@@ -324,6 +337,8 @@ function LoadCharacter(name) {
     cookieInfo.recent = names.join(',') + ',';
     StoreCookie();
     character = new DndCharacter(null);
+    for(var a in Scribe.defaults)
+      character.attributes[a] = Scribe.defaults[a];
     for(var a in loadingWindow.attributes) {
       var value = loadingWindow.attributes[a];
       /*
@@ -444,7 +459,9 @@ function RandomizeCharacter() {
     var totalLevels = 0;
     var value;
     character = new DndCharacter(null);
-    for(var a in DndCharacter.classes) {
+    for(var a in Scribe.defaults)
+      character.attributes[a] = Scribe.defaults[a];
+    for(var a in Scribe.classes) {
       var attr = 'levels.' + a;
       if((value = InputGetValue(loadingPopup.document.frm[attr])) != null &&
          value > 0) {
@@ -457,7 +474,7 @@ function RandomizeCharacter() {
       totalLevels = 1;
     }
     character.attributes.experience = totalLevels * (totalLevels-1) * 1000 / 2;
-    for(var a in DndCharacter.defaults)
+    for(var a in Scribe.defaults)
       character.Randomize(rules, a);
     character.attributes.race = InputGetValue(loadingPopup.document.frm.race);
     character.Randomize(rules, 'domains');
@@ -477,7 +494,7 @@ function RandomizeCharacter() {
   else if(urlLoading == null) {
     /* Nothing presently loading. */
     urlLoading = 'random';
-    var classes = GetKeys(DndCharacter.classes);
+    var classes = GetKeys(Scribe.classes);
     var htmlBits = [
       '<html><head><title>New Character</title></head>\n',
       '<body bgcolor="' + BACKGROUND + '">\n',
@@ -485,7 +502,7 @@ function RandomizeCharacter() {
       '<h2>New Character Attributes</h2>\n',
       '<form name="frm"><table>\n',
       '<tr><th>Race</th><td>' +
-      InputHtml('race', 'select-one', DndCharacter.races) + '</td></tr>\n',
+      InputHtml('race', 'select-one', GetKeys(Scribe.races)) + '</td></tr>\n',
       '<tr><th>Level(s)</th></tr>\n'
     ];
     for(var i = 0; i < classes.length; i++)
@@ -504,7 +521,7 @@ function RandomizeCharacter() {
     loadingPopup.document.write(html);
     loadingPopup.document.close();
     loadingPopup.document.frm.race.selectedIndex =
-      DndCharacter.Random(0, DndCharacter.races.length - 1);
+      DndCharacter.Random(0, GetKeys(Scribe.races).length - 1);
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
   }
@@ -539,9 +556,9 @@ function RefreshEditor(redraw) {
 
   var fileOpts = ChoicesForFileInput();
   var spellOpts = [];
-  for(var a in DndCharacter.spells) {
+  for(var a in Scribe.spells) {
     var matchInfo;
-    var spellLevels = DndCharacter.spells[a].split('/');
+    var spellLevels = Scribe.spells[a].split('/');
     for(i = 0; i < spellLevels.length; i++)
       if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
          showCodes[matchInfo[1]])
@@ -676,6 +693,8 @@ function Scribe() {
         'Press the "About" button for more info',
         'Ok', 'window.close();');
   character = new DndCharacter(null);
+  for(var a in Scribe.defaults)
+    character.attributes[a] = Scribe.defaults[a];
   currentUrl = 'random';
   cachedAttrs[currentUrl] = CopyObject(character.attributes);
   rules = new RuleEngine();
@@ -700,6 +719,7 @@ function Scribe() {
   */
 
 }
+SCRIBE.DEFAULTS = { };
 
 /* Returns the character sheet HTML for the current character. */
 function SheetHtml() {
@@ -712,7 +732,7 @@ function SheetHtml() {
   var i;
 
   for(a in character.attributes) {
-    if(attrs[a] == DndCharacter.defaults[a])
+    if(attrs[a] == Scribe.defaults[a])
       continue; /* No point in storing default attr values. */
     /* Turn "dot" attributes into objects. */
     if((i = a.indexOf('.')) < 0)
@@ -727,14 +747,14 @@ function SheetHtml() {
 
   attrs.dmonly = cookieInfo.dmonly - 0;
   if(cookieInfo.untrained == '1') {
-    for(a in DndCharacter.skills)
+    for(a in Scribe.skills)
       if(character.attributes['skills.' + a] == null &&
-         DndCharacter.skills[a].indexOf(';trained') < 0)
+         Scribe.skills[a].indexOf(';trained') < 0)
         attrs['skills.' + a] = 0;
   }
   computedAttributes = rules.Apply(attrs);
   if(cookieInfo.untrained == '1') {
-    for(a in DndCharacter.skills) {
+    for(a in Scribe.skills) {
       if(character.attributes['skills.' + a] == null &&
          computedAttributes['skills.' + a] == 0)
         delete computedAttributes['skills.' + a];
@@ -773,13 +793,13 @@ function SheetHtml() {
       if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
           continue; /* Suppress notes with zero value. */
-        else if(DndCharacter.notes[a] == null)
+        else if(Scribe.notes[a] == null)
           value = Signed(value); /* Make signed if not otherwise formatted. */
       }
-      if(DndCharacter.notes[a] != null)
-        value = DndCharacter.notes[a].replace(/%V/, value);
+      if(Scribe.notes[a] != null)
+        value = Scribe.notes[a].replace(/%V/, value);
       if(object == 'Skills') {
-        var ability = DndCharacter.skills[name];
+        var ability = Scribe.skills[name];
         var skillInfo = new Array();
         if(ability != null && ability != '' && ability.substring(0, 1) != ';')
           skillInfo[skillInfo.length] = ability.substring(0, 3);
@@ -790,7 +810,7 @@ function SheetHtml() {
       }
       else if(object == 'Weapons') {
         var damages = name == 'Unarmed' ? computedAttributes['unarmedDamage'] :
-          DndCharacter.weapons[name];
+          Scribe.weapons[name];
         damages = damages == null ? 'd6' : damages.replace(/ /g, '');
         var range;
         if((i = damages.search(/[rR]/)) < 0)
@@ -1051,7 +1071,7 @@ function Update(input) {
     var selector = editForm[name + '_sel'];
     if(selector != null)
       name += '.' + InputGetValue(selector);
-    if(!value && DndCharacter.defaults[name] == null)
+    if(!value && Scribe.defaults[name] == null)
       delete character.attributes[name];
     else if(typeof(value) == 'string' &&
             value.match(/^\+-?\d+$/) &&
