@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.131 2006/04/21 21:09:22 Jim Exp $ */
+/* $Id: Scribe.js,v 1.132 2006/04/23 05:26:06 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -27,6 +27,7 @@ var TIMEOUT_DELAY = 1000; /* One second */
 var cachedAttrs = {}; /* Unchanged attrs of all characters opened so far */
 var character;      /* Current DndCharacter */
 var characterUrl;   /* URL of current DndCharacter */
+var defaultCharacter;
 var cookieInfo = {  /* What we store in the cookie */
   dmonly: '0',     /* Show information marked "dmonly" on sheet? */
   italics: '1',    /* Show italicized notes on sheet? */
@@ -40,6 +41,80 @@ var showCodes;      /* Display status of spell category codes */
 var urlLoading=null;/* Character URL presently loading */
 var viewer;         /* ObjectViewer to translate character attrs into HTML */
 
+/* Launch routine called after all Scribe scripts are loaded. */
+function Scribe() {
+
+  var defaults = {
+    'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
+    'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'scribedoc.html',
+    'LOGO_URL':'scribe.gif', 'MAGIC_RULES_VERSION':'3.5',
+    'MAX_RECENT_OPENS':20, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
+    'WARN_ABOUT_DISCARD':true
+  };
+
+  if(DndCharacter == null || InputGetValue == null || ObjectViewer == null ||
+     RuleEngine == null) {
+    alert('JavaScript functions required by Scribe are missing; exiting');
+    return;
+  }
+  if(window.opener == null || window.opener.Scribe == null) {
+    if(window.frames[0] == null || window.frames[1] == null)
+      alert('Scribe must be embedded in a document that defines at least ' +
+            'two frames; exiting');
+    else
+      window.open(document.location, 'scribeEditor');
+    return;
+  }
+
+  for(var a in defaults)
+    if(window[a] == null)
+      window[a] = defaults[a];
+
+  var i = document.cookie.indexOf(COOKIE_NAME + '=');
+  if(i >= 0) {
+    var end = document.cookie.indexOf(';', i);
+    if(end < 0)
+      end = document.cookie.length;
+    var cookie = document.cookie.substring(i + COOKIE_NAME.length + 1, end);
+    var settings = unescape(cookie).split(COOKIE_FIELD_SEPARATOR);
+    for(i = 0; i < settings.length; i += 2)
+      if(cookieInfo[settings[i]] != null)
+        cookieInfo[settings[i]] = settings[i + 1];
+  }
+
+  PopUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
+        COPYRIGHT + '<br/>' +
+        'Press the "About" button for more info',
+        'Ok', 'window.close();');
+  rules = new RuleEngine();
+  viewer = InitialViewer();
+  if(CustomizeScribe != null)
+    CustomizeScribe();
+  defaultCharacter = new DndCharacter();
+  defaultCharacter.attributes['clear'] = 1;
+  defaultCharacter.attributes = rules.Apply(defaultCharacter.attributes);
+  character = CopyObject(defaultCharacter);
+  currentUrl = 'random';
+  cachedAttrs[currentUrl] = CopyObject(character.attributes);
+  RefreshShowCodes();
+  RefreshEditor(true);
+  RefreshSheet();
+  /*
+  if(SCRIBE_DEBUG != null) {
+    var html = '<html><head><title>Scribe Attributes</title></head>\n<body>\n';
+    var attrs = rules.AllSources();
+    html += '<h2>Sources</h2>\n' + attrs.join('<br/>\n') + '\n';
+    attrs = rules.AllTargets();
+    html += '<h2>Targets</h2>\n' + attrs.join('<br/>\n') + '\n';
+    html += '</body></html>\n';
+    var w = window.open('', 'attrwin');
+    w.document.write(html);
+    w.document.close();
+  }
+  */
+
+}
+
 /* Returns an array of choices for the editor's New/Open select input. */
 function ChoicesForFileInput() {
   var result = cookieInfo.recent.split(',');
@@ -47,18 +122,6 @@ function ChoicesForFileInput() {
   result = ['--New/Open--', 'New...', 'Open...'].concat(result);
   return result;
 }
-
-/* Resets the character's #attribute# attribute to its default value. */
-function Clear(attribute) {
-  var withDot = attribute + '.';
-  for(var a in character.attributes)
-    if(a.substring(0, withDot.length) == withDot)
-      delete character.attributes[a];
-  if(Scribe.defaults[attribute] != null)
-    character.attributes[attribute] = Scribe.defaults[attribute];
-  else
-    delete character.attributes[attribute];
-};
 
 /* Returns a recursively-copied clone of #o#. */
 function CopyObject(o) {
@@ -90,15 +153,9 @@ function EditorHtml() {
     ['', 'untrained', 'checkbox', ['Untrained Skills']],
     ['', 'dmonly', 'checkbox', ['DM Info']],
     [' ', 'clear', 'select-one',
-      ['--Clear--', 'alignment', 'armor', 'charisma', 'constitution', 'deity',
-       'dexterity', 'domains', 'feats', 'gender', 'hitPoints', 'intelligence',
-       'languages', 'levels', 'name', 'race', 'shield', 'skills', 'spells',
-       'strength', 'weapons', 'wisdom']],
+      ['--Clear--'].concat(rules.AllTargets('clear'))],
     ['', 'randomize', 'select-one',
-      ['--Randomize--', 'alignment', 'armor', 'charisma', 'constitution',
-       'deity', 'dexterity', 'domains', 'feats', 'gender', 'hitPoints',
-       'intelligence', 'languages', 'levels', 'name', 'race', 'shield',
-       'skills', 'spells', 'strength', 'weapons', 'wisdom']],
+      ['--Randomize--'].concat(rules.AllTargets('random'))],
     ['Name', 'name', 'text', [20]],
     ['Race', 'race', 'select-one', GetKeys(Scribe.races)],
     ['Experience', 'experience', 'text', [8]],
@@ -336,9 +393,7 @@ function LoadCharacter(name) {
       names.length = MAX_RECENT_OPENS - 1;
     cookieInfo.recent = names.join(',') + ',';
     StoreCookie();
-    character = new DndCharacter(null);
-    for(var a in Scribe.defaults)
-      character.attributes[a] = Scribe.defaults[a];
+    character = CopyObject(defaultCharacter);
     for(var a in loadingWindow.attributes) {
       var value = loadingWindow.attributes[a];
       /*
@@ -458,9 +513,7 @@ function RandomizeCharacter() {
     /* Ready to generate. */
     var totalLevels = 0;
     var value;
-    character = new DndCharacter(null);
-    for(var a in Scribe.defaults)
-      character.attributes[a] = Scribe.defaults[a];
+    character = CopyObject(defaultCharacter);
     for(var a in Scribe.classes) {
       var attr = 'levels.' + a;
       if((value = InputGetValue(loadingPopup.document.frm[attr])) != null &&
@@ -474,8 +527,7 @@ function RandomizeCharacter() {
       totalLevels = 1;
     }
     character.attributes.experience = totalLevels * (totalLevels-1) * 1000 / 2;
-    for(var a in Scribe.defaults)
-      character.Randomize(rules, a);
+    SetRandomAttributes();
     character.attributes.race = InputGetValue(loadingPopup.document.frm.race);
     character.Randomize(rules, 'domains');
     character.Randomize(rules, 'feats');
@@ -647,80 +699,6 @@ function RefreshShowCodes() {
   }
 }
 
-/* Launch routine called after all Scribe scripts are loaded. */
-function Scribe() {
-
-  var defaults = {
-    'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
-    'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'scribedoc.html',
-    'LOGO_URL':'scribe.gif', 'MAGIC_RULES_VERSION':'3.5',
-    'MAX_RECENT_OPENS':20, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
-    'WARN_ABOUT_DISCARD':true
-  };
-
-  if(DndCharacter == null || InputGetValue == null || ObjectViewer == null ||
-     RuleEngine == null) {
-    alert('JavaScript functions required by Scribe are missing; exiting');
-    return;
-  }
-  if(window.opener == null || window.opener.Scribe == null) {
-    if(window.frames[0] == null || window.frames[1] == null)
-      alert('Scribe must be embedded in a document that defines at least ' +
-            'two frames; exiting');
-    else
-      window.open(document.location, 'scribeEditor');
-    return;
-  }
-
-  for(var a in defaults)
-    if(window[a] == null)
-      window[a] = defaults[a];
-
-  var i = document.cookie.indexOf(COOKIE_NAME + '=');
-  if(i >= 0) {
-    var end = document.cookie.indexOf(';', i);
-    if(end < 0)
-      end = document.cookie.length;
-    var cookie = document.cookie.substring(i + COOKIE_NAME.length + 1, end);
-    var settings = unescape(cookie).split(COOKIE_FIELD_SEPARATOR);
-    for(i = 0; i < settings.length; i += 2)
-      if(cookieInfo[settings[i]] != null)
-        cookieInfo[settings[i]] = settings[i + 1];
-  }
-
-  PopUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
-        COPYRIGHT + '<br/>' +
-        'Press the "About" button for more info',
-        'Ok', 'window.close();');
-  character = new DndCharacter(null);
-  for(var a in Scribe.defaults)
-    character.attributes[a] = Scribe.defaults[a];
-  currentUrl = 'random';
-  cachedAttrs[currentUrl] = CopyObject(character.attributes);
-  rules = new RuleEngine();
-  viewer = InitialViewer();
-  if(CustomizeScribe != null)
-    CustomizeScribe();
-  RefreshShowCodes();
-  RefreshEditor(true);
-  RefreshSheet();
-  /*
-  if(SCRIBE_DEBUG != null) {
-    var html = '<html><head><title>Scribe Attributes</title></head>\n<body>\n';
-    var attrs = rules.AllSources();
-    html += '<h2>Sources</h2>\n' + attrs.join('<br/>\n') + '\n';
-    attrs = rules.AllTargets();
-    html += '<h2>Targets</h2>\n' + attrs.join('<br/>\n') + '\n';
-    html += '</body></html>\n';
-    var w = window.open('', 'attrwin');
-    w.document.write(html);
-    w.document.close();
-  }
-  */
-
-}
-SCRIBE.DEFAULTS = { };
-
 /* Returns the character sheet HTML for the current character. */
 function SheetHtml() {
 
@@ -732,7 +710,7 @@ function SheetHtml() {
   var i;
 
   for(a in character.attributes) {
-    if(attrs[a] == Scribe.defaults[a])
+    if(attrs[a] == defaultCharacter.attributes[a])
       continue; /* No point in storing default attr values. */
     /* Turn "dot" attributes into objects. */
     if((i = a.indexOf('.')) < 0)
@@ -749,7 +727,7 @@ function SheetHtml() {
   if(cookieInfo.untrained == '1') {
     for(a in Scribe.skills)
       if(character.attributes['skills.' + a] == null &&
-         Scribe.skills[a].indexOf(';trained') < 0)
+         Scribe.skills[a].indexOf('/trained') < 0)
         attrs['skills.' + a] = 0;
   }
   computedAttributes = rules.Apply(attrs);
@@ -801,7 +779,7 @@ function SheetHtml() {
       if(object == 'Skills') {
         var ability = Scribe.skills[name];
         var skillInfo = new Array();
-        if(ability != null && ability != '' && ability.substring(0, 1) != ';')
+        if(ability != null && ability != '' && ability.substring(0, 1) != '/')
           skillInfo[skillInfo.length] = ability.substring(0, 3);
         if(computedAttributes['classSkills.' + name] == null)
           skillInfo[skillInfo.length] = 'cc';
@@ -1000,7 +978,7 @@ function Update(input) {
   else if(name == 'clear' || name == 'randomize') {
     input.selectedIndex = 0;
     if(name == 'clear')
-      character.Clear(value);
+      character.attributes[value] = defaultCharacter.attributes[value];
     else
       character.Randomize(rules, value);
     RefreshEditor(false);
@@ -1071,7 +1049,7 @@ function Update(input) {
     var selector = editForm[name + '_sel'];
     if(selector != null)
       name += '.' + InputGetValue(selector);
-    if(!value && Scribe.defaults[name] == null)
+    if(!value && defaultCharacter.attributes[name] == null)
       delete character.attributes[name];
     else if(typeof(value) == 'string' &&
             value.match(/^\+-?\d+$/) &&

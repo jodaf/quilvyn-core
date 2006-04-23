@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.25 2006/04/21 21:09:22 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.26 2006/04/23 05:26:06 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -58,7 +58,7 @@ function ScribeCustomClass
    prerequisites) {
 
   var classLevel = 'levels.' + name;
-  ScribeCustomChoices('classes', name, hitDice + '' /* Convert int to str */);
+  ScribeCustomChoices('classes', name + ':' + hitDice);
   if(skillPoints != null)
     ScribeCustomRules
       ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
@@ -109,19 +109,6 @@ function ScribeCustomClass
     );
   }
 
-}
-
-/*
- * TODO Comment
- */
-function ScribeCustomDefaults(default /*, default ... */) {
-  var allArgs = [];
-  for(var i = 0; i < arguments.length; i++)
-    allArgs = allArgs.concat(arguments[i]);
-  for(var i = 0; i < allArgs.length; i++) {
-    var pieces = allArgs[i].split(/:/);
-    Scribe.defaults[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
-  }
 }
 
 /*

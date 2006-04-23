@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.11 2006/04/17 13:54:04 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.12 2006/04/23 05:26:06 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -70,19 +70,21 @@ RuleEngine.prototype.AddRules =
 
 
 /* Returns a sorted array containing all attributes that are rule sources. */
-RuleEngine.prototype.AllSources = function() {
+RuleEngine.prototype.AllSources = function(target) {
   var result = [];
   for(var attr in this.targets)
-    result[result.length] = attr;
+    if(target == null || this.targets[attr][target] != null)
+      result[result.length] = attr;
   result.sort();
   return result;
 }
 
 /* Returns a sorted array containing all attributes that are rule targets. */
-RuleEngine.prototype.AllTargets = function() {
+RuleEngine.prototype.AllTargets = function(source) {
   var result = [];
   for(var attr in this.sources)
-    result[result.length] = attr;
+    if(source == null || this.sources[attr][source] != null)
+      result[result.length] = attr;
   result.sort();
   return result;
 }
