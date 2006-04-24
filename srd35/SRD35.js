@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.11 2006/04/23 05:26:06 Jim Exp $ */
+/* $Id: SRD35.js,v 1.12 2006/04/24 13:27:38 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -411,17 +411,11 @@ PH35.AbilityRules = function() {
   ScribeCustomTests(tests);
 
   /* Default ability values */
-  ScribeCustomRules('charisma', 'clear', '=', '10');
   ScribeCustomRules('charisma', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('constitution', 'clear', '=', '10');
   ScribeCustomRules('constitution', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('dexterity', 'clear', '=', '10');
   ScribeCustomRules('dexterity', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('intelligence', 'clear', '=', '10');
   ScribeCustomRules('intelligence', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('strength', 'clear', '=', '10');
   ScribeCustomRules('strength', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('wisdom', 'clear', '=', '10');
   ScribeCustomRules('wisdom', 'random', '=', 'PH35.RandomAbility()');
 
   /* Ability modifier computation */
@@ -480,9 +474,6 @@ PH35.AbilityRules = function() {
   ScribeCustomRules('turningBase', 'charismaModifier', '+', 'source / 3')
   ScribeCustomRules('turningDamageModifier', 'charismaModifier', '+', null);
   ScribeCustomRules('turningFrequency', 'charismaModifier', '+', null);
-
-  /* Default experience-dependent attribute values */
-  ScribeCustomRules('experience', 'clear', '=', '0');
 
   /* Experience-dependent attributes */
   ScribeCustomRules('classSkillMaxRanks', 'level', '=', 'source + 3');
@@ -1288,7 +1279,6 @@ PH35.ClassRules = function() {
 
 PH35.CombatRules = function() {
 
-  ScribeCustomRules('hitPoints', 'clear', '=', '0');
   ScribeCustomRules('armorClass',
     null, '=', '10',
     'armor', '+', 'DndCharacter.armorsArmorClassBonuses[source]',
@@ -1332,16 +1322,12 @@ PH35.CombatRules = function() {
 
 PH35.DescriptionRules = function() {
 
-  ScribeCustomRules('alignment', 'clear', '=', '"Neutral Good"');
   ScribeCustomRules
     ('alignment', 'random', '=', 'PH35.RandomChoice(Scribe.alignments)');
-  ScribeCustomRules('deity', 'clear', '=', '"None"');
   ScribeCustomRules
     ('deity', 'random', '=', 'PH35.RandomChoice(Scribe.deities)');
-  ScribeCustomRules('gender', 'clear', '=', '"Male"');
   ScribeCustomRules
-    ('gender', 'clear', '=', 'PH35.RandomChoice(Scribe.genders)');
-  ScribeCustomRules('name', 'clear', '=', '"New Character"');
+    ('gender', 'random', '=', 'PH35.RandomChoice(Scribe.genders)');
   ScribeCustomRules('name', 'random', '=', 'PH35.RandomName("Human")');
   ScribeCustomChoices('alignments', PH35.ALIGNMENTS);
   ScribeCustomChoices('deities', PH35.DEITIES, 'None:');
@@ -1351,9 +1337,6 @@ PH35.DescriptionRules = function() {
 
 PH35.EquipmentRules = function() {
 
-  /* TODO clear weapons */
-  ScribeCustomRules('armor', 'clear', '=', '"None"');
-  ScribeCustomRules('shield', 'clear', '=', '"None"');
   ScribeCustomChoices('goodies', PH35.GOODIES);
   ScribeCustomChoices('shields', PH35.SHIELDS);
   ScribeCustomChoices('weapons', PH35.WEAPONS);
@@ -1962,7 +1945,6 @@ PH35.RaceRules = function() {
     ScribeCustomRace(race, features);
     if(notes != null)
       ScribeCustomNotes(notes);
-    ScribeCustomRules('race', 'clear', '=', '"' + race + '"');
 
   }
 
