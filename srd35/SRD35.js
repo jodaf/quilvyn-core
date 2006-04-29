@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.12 2006/04/24 13:27:38 Jim Exp $ */
+/* $Id: SRD35.js,v 1.13 2006/04/29 06:02:06 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -39,6 +39,12 @@ function PH35() {
   PH35.CombatRules = null;
   PH35.MeleeRules = null;
   PH35.MagicRules = null;
+  ScribeCustomRandomizers(PH35.Randomize,
+    'alignment', 'armor', 'charisma', 'constitution', 'deity', 'dexterity',
+    'domains', 'feats', 'gender', 'hitPoints', 'intelligence', 'languages',
+    'levels', 'race', 'shield', 'skills', 'specialization', 'spells',
+    'strength', 'weapons', 'wisdom'
+  );
 }
 /* JavaScript expressions for several (mostly class-based) attributes. */
 PH35.ATTACK_BONUS_GOOD = 'source';
@@ -61,6 +67,42 @@ PH35.ALIGNMENTS = [
   'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral', 'Neutral Evil',
   'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
 ];
+PH35.ARMORS = [
+  'None', 'Padded', 'Leather', 'Studded Leather', 'Chain Shirt', 'Hide',
+  'Scale Mail', 'Chainmail', 'Breastplate', 'Splint Mail', 'Banded Mail',
+  'Half Plate', 'Full Plate'
+];
+PH35.armorsArcaneSpellFailurePercentages = {
+  'None': null, 'Padded': 5, 'Leather': 10, 'Studded Leather': 15,
+  'Chain Shirt': 20, 'Hide': 20, 'Scale Mail': 25, 'Chainmail': 30,
+  'Breastplate': 25, 'Splint Mail': 40, 'Banded Mail': 35, 'Half Plate': 40,
+  'Full Plate': 35
+};
+PH35.armorsArmorClassBonuses = {
+  'None': null, 'Padded': 1, 'Leather': 2, 'Studded Leather': 3,
+  'Chain Shirt': 4, 'Hide': 3, 'Scale Mail': 4, 'Chainmail': 5,
+  'Breastplate': 5, 'Splint Mail': 6, 'Banded Mail': 6, 'Half Plate': 7,
+  'Full Plate': 8
+};
+PH35.armorsMaxDexBonuses = {
+  'None': null, 'Padded': 8, 'Leather': 6, 'Studded Leather': 5,
+  'Chain Shirt': 4, 'Hide': 4, 'Scale Mail': 3, 'Chainmail': 2,
+  'Breastplate': 3, 'Splint Mail': 0, 'Banded Mail': 1, 'Half Plate': 0,
+  'Full Plate': 1
+};
+PH35.armorsSkillCheckPenalties = {
+  'None': null, 'Padded': null, 'Leather': null, 'Studded Leather': -1,
+  'Chain Shirt': -2, 'Hide': -3, 'Scale Mail': -4, 'Chainmail': -5,
+  'Breastplate': -4, 'Splint Mail': -7, 'Banded Mail': -6, 'Half Plate': -7,
+  'Full Plate': -6
+};
+PH35.armorsWeightClasses = {
+  'None': 'Light', 'Padded': 'Light', 'Leather': 'Light',
+  'Studded Leather': 'Light', 'Chain Shirt': 'Light', 'Hide': 'Medium',
+  'Scale Mail': 'Medium', 'Chainmail': 'Medium', 'Breastplate': 'Medium',
+  'Splint Mail': 'Heavy', 'Banded Mail': 'Heavy', 'Half Plate': 'Heavy',
+  'Full Plate': 'Heavy'
+};
 PH35.CLASSES = [
   'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin',
   'Ranger', 'Rogue', 'Sorcerer', 'Wizard'
@@ -86,6 +128,13 @@ PH35.DEITIES = [
   'Yondalla (LG Halflings):Good/Law/Protection',
   'Vecna (NE Secrets):Evil/Knowledge/Magic'
 ];
+PH35.deitiesFavoredWeapons = {
+  'Corellon Larethian (CG Elves)': 'Longsword',
+  'Erythnul (CE Slaughter)': 'Morningstar',
+  'Gruumsh (CE Orcs)': 'Spear',
+  'Heironeous (LG Valor)': 'Longsword',
+  'Hextor (LE Tyranny)': 'Heavy Flail/Light Flail'
+};
 PH35.DOMAINS = [
   'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
   'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
@@ -521,7 +570,6 @@ PH35.ClassRules = function() {
     '{levels.Paladin} == null || "{alignment}" == "Lawful Good"'
   ];
   ScribeCustomTests(tests);
-  /* TODO clear levels */
 
   var baseAttack, features, hitDie, notes, profArmor,
       profShield, profWeapon, saveFortitude, saveReflex, saveWill,
@@ -1281,7 +1329,7 @@ PH35.CombatRules = function() {
 
   ScribeCustomRules('armorClass',
     null, '=', '10',
-    'armor', '+', 'DndCharacter.armorsArmorClassBonuses[source]',
+    'armor', '+', 'PH35.armorsArmorClassBonuses[source]',
     'shield', '+', 'source=="None" ? null : ' +
                    'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
   );
@@ -1337,6 +1385,7 @@ PH35.DescriptionRules = function() {
 
 PH35.EquipmentRules = function() {
 
+  ScribeCustomChoices('armors', PH35.ARMORS);
   ScribeCustomChoices('goodies', PH35.GOODIES);
   ScribeCustomChoices('shields', PH35.SHIELDS);
   ScribeCustomChoices('weapons', PH35.WEAPONS);
@@ -1345,11 +1394,11 @@ PH35.EquipmentRules = function() {
   );
   ScribeCustomRules('armorWeightClass',
     'armor', '=',
-      'DndCharacter.armorsWeightClasses[source] != null ? ' +
-      'DndCharacter.armorsWeightClasses[source] : "Light"'
+      'PH35.armorsWeightClasses[source] != null ? ' +
+      'PH35.armorsWeightClasses[source] : "Light"'
   );
   ScribeCustomRules('magicNotes.arcaneSpellFailure',
-    'armor', '+=', 'DndCharacter.armorsArcaneSpellFailurePercentages[source]',
+    'armor', '+=', 'PH35.armorsArcaneSpellFailurePercentages[source]',
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? 50 : ' +
                     'source.indexOf("Heavy") >= 0 ? 15 : 5'
@@ -1359,7 +1408,7 @@ PH35.EquipmentRules = function() {
     null, '=', '-10'
   );
   ScribeCustomRules('meleeNotes.dexterityArmorClassAdjustment',
-    'armor', 'v', 'DndCharacter.armorsMaxDexBonuses[source]'
+    'armor', 'v', 'PH35.armorsMaxDexBonuses[source]'
   );
   ScribeCustomRules('meleeNotes.goodiesArmorClassAdjustment',
     'goodies.Ring Of Protection +1', '+=', null,
@@ -1371,7 +1420,7 @@ PH35.EquipmentRules = function() {
     'armorWeightClass', '=', 'source == "Heavy" ? 3 : null'
   );
   ScribeCustomRules('skillNotes.armorSkillCheckPenalty',
-    'armor', '=', 'DndCharacter.armorsSkillCheckPenalties[source]'
+    'armor', '=', 'PH35.armorsSkillCheckPenalties[source]'
   );
   ScribeCustomRules('speed', 'meleeNotes.armorSpeedAdjustment', '+', null);
   /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
@@ -1611,7 +1660,6 @@ PH35.FeatRules = function() {
   ];
   ScribeCustomTests(tests);
 
-  /* TODO clear feats */
   ScribeCustomChoices('feats', PH35.FEATS);
   for(var i = 0; i < PH35.FEATS.length; i++) {
     ScribeCustomRules
@@ -1717,7 +1765,6 @@ PH35.MagicRules = function() {
     'skillNotes.wizardSpecialization:+2 Spellcraft (%V)'
   ];
   ScribeCustomNotes(notes);
-  /* TODO Clear domains, spells */
   ScribeCustomChoices('domains', PH35.DOMAINS);
   ScribeCustomChoices('schools', PH35.SCHOOLS);
   ScribeCustomChoices('spells', PH35.SPELLS);
@@ -1730,7 +1777,7 @@ PH35.MagicRules = function() {
   ScribeCustomRules
     ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
   ScribeCustomRules('featureNotes.warDomain',
-    'deity', '=', 'DndCharacter.deitiesFavoredWeapons[source]'
+    'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
   );
   ScribeCustomRules('features.Weapon Focus (Heavy Flail)',
     'featureNotes.warDomain', '=', 'source.indexOf("Heavy Flail")>=0? 1 : null'
@@ -2007,7 +2054,6 @@ PH35.SkillRules = function() {
     'skillNotes.useMagicDeviceSynergy:+2 Spellcraft (scrolls)',
     'skillNotes.useRopeSynergy:+2 Climb (rope)/Escape Artist (rope)'
   ];
-  /* TODO clear languages, skills */
   ScribeCustomNotes(notes);
   var tests = [
     '+/{languages} == {languageCount}'
@@ -2130,7 +2176,7 @@ PH35.RandomName = function(race) {
  * the RuleEngine used to produce computed values; the function sometimes needs
  * to apply the rules to determine valid values for some attributes.
  */
-PH35.Randomize = function(rules, attribute) {
+PH35.Randomize = function(rules, attributes, attribute) {
 
   /*
    * Randomly selects #howMany# elements of the array #choices#, prepends
@@ -2145,6 +2191,15 @@ PH35.Randomize = function(rules, attribute) {
     }
   }
 
+  /* Returns a random key of the object #o#. */
+  function RandomKey(o) {
+    var keys = [];
+    for(var a in o) {
+      keys[keys.length] = a;
+    }
+    return keys[ScribeRandom(0, keys.length - 1)];
+  }
+
   /* Returns the sum of all #attr# elements that match #pat#. */
   function SumMatching(attrs, pat) {
     var result = 0;
@@ -2154,14 +2209,31 @@ PH35.Randomize = function(rules, attribute) {
     return result;
   }
 
+  var abilities = {
+    'charisma': '', 'constitution': '', 'dexterity': '', 'intelligence': '',
+    'strength': '', 'wisdom': ''
+  };
+  var selections = {
+    'alignment': Scribe.alignments, 'armor': Scribe.armors,
+    'gender': Scribe.genders, 'race': Scribe.races, 'shield': Scribe.shields
+  };
+
   var attr;
   var attrs;
   var choices;
   var i;
 
-  if(attribute == 'deity') {
+  if(abilities[attribute] != null) {
+    var rolls = [];
+    for(i = 0; i < 4; i++)
+      rolls[i] = ScribeRandom(1, 6);
+    rolls.sort();
+    attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
+  } else if(selections[attribute] != null) {
+    attributes[attribute] = RandomKey(selections[attribute]);
+  } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
-    var aliInfo = this.attributes.alignment.match(/^([CLN]).* ([GEN])/);
+    var aliInfo = attributes.alignment.match(/^([CLN]).* ([GEN])/);
     var aliPat;
     if(aliInfo == null) /* Neutral character */
       aliPat = '\\((N |N.|.N)';
@@ -2175,22 +2247,20 @@ PH35.Randomize = function(rules, attribute) {
     for(var a in Scribe.deities)
       if(a.match(aliPat))
         choices[choices.length] = a;
-    this.attributes['deity'] = RandomElement(choices);
-    this.Randomize(rules, 'domains');
-  }
-  else if(attribute == 'domains') {
-    if(this.attributes['levels.Cleric'] != null) {
-      if((choices = Scribe.deities[this.attributes.deity]) == null)
+    attributes['deity'] = choices[ScribeRandom(0, choices.length - 1)];
+    PH35.Randomize(rules, attributes, 'domains');
+  } else if(attribute == 'domains') {
+    if(attributes['levels.Cleric'] != null) {
+      if((choices = Scribe.deities[attributes.deity]) == null)
         choices = Scribe.domains;
       else
         choices = choices.split('/');
       PickAttrs
-        (this.attributes, 'domains.', choices, 2-SumMatching(/^domains\./), 1);
+        (attributes, 'domains.', choices, 2-SumMatching(/^domains\./), 1);
     }
-  }
-  else if(attribute == 'feats') {
-    attrs = rules.Apply(this.attributes);
-    for(i = SumMatching(this.attributes, /^feats\./);
+  } else if(attribute == 'feats') {
+    attrs = rules.Apply(attributes);
+    for(i = SumMatching(attributes, /^feats\./);
         i < attrs.featCount;
         i++) {
       choices = [];
@@ -2201,54 +2271,53 @@ PH35.Randomize = function(rules, attribute) {
         break;
       while(true) {
         var attr = 'feats.' + choices[PH35.Random(0, choices.length - 1)];
-        attrs[attr] = this.attributes[attr] = 1;
+        attrs[attr] = attributes[attr] = 1;
         var invalid = DndCharacter.Validate(attrs);
         for(var j = 0; j < invalid.length && invalid[j].indexOf(attr) < 0; j++)
           ; /* empty */
         if(j >= invalid.length)
           break;
         delete attrs[attr];
-        delete this.attributes[attr];
+        delete attributes[attr];
       }
     }
-  }
-  else if(attribute == 'hitPoints') {
-    this.attributes.hitPoints = 0;
+  } else if(attribute == 'hitPoints') {
+    attributes.hitPoints = 0;
     for(var klass in Scribe.classes) {
-      if((attr = this.attributes['levels.' + klass]) == null)
+      if((attr = attributes['levels.' + klass]) == null)
         continue;
       var matchInfo =
         Scribe.classes[klass].match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ? 1 : matchInfo[2];
       var sides = matchInfo == null || matchInfo[3] == null ? 6 : matchInfo[3];
-      this.attributes.hitPoints += number * sides;
+      attributes.hitPoints += number * sides;
       while(--attr > 0)
-        this.attributes.hitPoints += PH35.Random(number, number*sides);
+        attributes.hitPoints += PH35.Random(number, number*sides);
     }
-  }
-  else if(attribute == 'languages') {
-    attrs = rules.Apply(this.attributes);
-    var race = this.attributes.race.replace(/Half /, '');
-    this.attributes['languages.Common'] = 1;
+  } else if(attribute == 'languages') {
+    attrs = rules.Apply(attributes);
+    var race = attributes.race.replace(/Half /, '');
+    attributes['languages.Common'] = 1;
     if(race != 'Human')
-      this.attributes['languages.' + race] = 1;
+      attributes['languages.' + race] = 1;
     choices = [];
     for(i = 0; i < Scribe.languages.length; i++) {
       attr = Scribe.languages[i];
-      if(this.attributes['languages.' + attr] == null)
+      if(attributes['languages.' + attr] == null)
         choices[choices.length] = attr;
     }
-    PickAttrs(this.attributes, 'languages.', choices, attrs.languageCount -                   SumMatching(this.attributes, /^languages\./), 1);
-  }
-  else if(attribute == 'levels') {
-    this.Clear('levels');
+    PickAttrs(attributes, 'languages.', choices, attrs.languageCount -                   SumMatching(attributes, /^languages\./), 1);
+  } else if(attribute == 'levels') {
+    for(var a in attributes) {
+      if(a.indexOf('levels.') == 0)
+        delete attributes[a];
+    }
     choices = [];
     for(attr in Scribe.classes)
       choices[choices.length] = attr;
-    PickAttrs(this.attributes, 'levels.', choices, 1, 1);
-  }
-  else if(attribute == 'skills') {
-    attrs = rules.Apply(this.attributes);
+    PickAttrs(attributes, 'levels.', choices, 1, 1);
+  } else if(attribute == 'skills') {
+    attrs = rules.Apply(attributes);
     var maxRanks = attrs.classSkillMaxRanks;
     var skillPoints = attrs.skillPoints;
     choices = [];
@@ -2270,13 +2339,13 @@ PH35.Randomize = function(rules, attribute) {
       if(points > skillPoints)
         points = skillPoints;
       if(pickClassSkill)
-        this.attributes['skills.' + attr] = points;
+        attributes['skills.' + attr] = points;
       else {
         if(points % 2 == 1)
           points--;
         if(points == 0)
           continue;
-        this.attributes['skills.' + attr] = points / 2;
+        attributes['skills.' + attr] = points / 2;
       }
       skillPoints -= points;
       choices = choices.slice(0, i).concat(choices.slice(i + 1));
@@ -2288,22 +2357,24 @@ PH35.Randomize = function(rules, attribute) {
             choices = choices.slice(0, i).concat(choices.slice(i + 1));
       }
     }
-  }
-  else if(attribute == 'specialization') {
-    this.Clear('prohibit');
-    this.Clear('specialize');
-    if(this.attributes['levels.Wizard'] != null) {
-      var specialty = RandomElement(Scribe.schools);
-      this.attributes['specialize.' + specialty] = 1;
+  } else if(attribute == 'name') {
+    attributes.name = PH35.RandomName(attributes.race);
+  } else if(attribute == 'specialization') {
+    for(var a in attributes) {
+      if(a.indexOf('prohibit.') == 0 || a.indexOf('specialize.') == 0)
+        delete attributes[a];
+    }
+    if(attributes['levels.Wizard'] != null) {
+      var specialty = RandomKey(Scribe.schools);
+      attributes['specialize.' + specialty] = 1;
       choices = [];
       for(i = 0; i < Scribe.schools.length; i++)
         if(Scribe.schools[i] != specialty)
           choices[choices.length] = Scribe.schools[i];
-      PickAttrs(this.attributes, 'prohibit.', choices,
+      PickAttrs(attributes, 'prohibit.', choices,
                 specialty == 'Divination' ? 1 : 2, 1);
     }
-  }
-  else if(attribute == 'spells') {
+  } else if(attribute == 'spells') {
 
     var category;
     var howMany;
@@ -2321,14 +2392,14 @@ PH35.Randomize = function(rules, attribute) {
         spellsByLevel[spellLevel][spellsByLevel[spellLevel].length] = attr;
       }
     }
-    attrs = rules.Apply(this.attributes);
-    for(attr in this.attributes) {
+    attrs = rules.Apply(attributes);
+    for(attr in attributes) {
       if((matchInfo = attr.match(/^spells\.(.*)\((.*)\)/)) != null)
         spells[matchInfo[1]] = matchInfo[2];
     }
     for(i = 0; i < Scribe.domains.length; i++) {
       attr = Scribe.domains[i];
-      if(this.attributes['domains.' + attr] == null)
+      if(attributes['domains.' + attr] == null)
         continue;
       category = DndCharacter.spellsCategoryCodes[attr];
       for(var level = 0; level < 10; level++) {
@@ -2340,7 +2411,7 @@ PH35.Randomize = function(rules, attribute) {
       }
     }
     for(attr in Scribe.classes) {
-      if(this.attributes['levels.' + attr] == null ||
+      if(attributes['levels.' + attr] == null ||
          (category = DndCharacter.spellsCategoryCodes[attr]) == null)
         continue;
       for(var level = 0; level < 10; level++) {
@@ -2352,20 +2423,19 @@ PH35.Randomize = function(rules, attribute) {
           if(spells[choices[i]] != null)
             choices = choices.slice(0, i).concat(choices.slice(i + 1));
         PickAttrs(spells, '', choices, howMany -
-                  SumMatching(this.attributes, '^spells\\..*('+spellLevel+')'),
+                  SumMatching(attributes, '^spells\\..*('+spellLevel+')'),
                   spellLevel);
       }
     }
     for(attr in spells)
-      this.attributes['spells.' + attr + '(' + spells[attr] + ')'] = 1;
+      attributes['spells.' + attr + '(' + spells[attr] + ')'] = 1;
 
-  }
-  else if(attribute == 'weapons') {
+  } else if(attribute == 'weapons') {
     choices = [];
     for(attr in Scribe.weapons)
       choices[choices.length] = attr;
-    PickAttrs(this.attributes, 'weapons.', choices,
-              2 - SumMatching(this.attributes, /^weapons\./), 1);
+    PickAttrs(attributes, 'weapons.', choices,
+              2 - SumMatching(attributes, /^weapons\./), 1);
   }
 
 };

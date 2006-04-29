@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.26 2006/04/23 05:26:06 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.27 2006/04/29 06:02:07 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -186,6 +186,11 @@ function ScribeCustomRace(name, features) {
   }
 }
 
+function ScribeCustomRandomizers(fn, attr /*, attr ... */) {
+  for(var i = 1; i < arguments.length; i++)
+    Scribe.randomizers[arguments[i]] = fn;
+}
+
 /*
  * Add a rule indicating the effect that the value of the attribute #source#
  * has on the attribute #target#.  #type# indicates how #source# affects
@@ -219,3 +224,8 @@ function ScribeCustomTests(test /*, test ... */) {
   for(var i = 0; i < arguments.length; i++)
     DndCharacter.tests = DndCharacter.tests.concat(arguments[i]);
 }
+
+/* Returns a random integer in the range low .. high, inclusive. */
+function ScribeRandom(low, hi) {
+  return Math.floor(Math.random() * (hi - low + 1) + low);
+};

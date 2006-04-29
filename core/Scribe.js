@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.133 2006/04/24 13:27:38 Jim Exp $ */
+/* $Id: Scribe.js,v 1.134 2006/04/29 06:02:07 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -111,6 +111,7 @@ function Scribe() {
   */
 
 }
+Scribe.randomizers = {};
 
 /* Returns an array of choices for the editor's New/Open select input. */
 function ChoicesForFileInput() {
@@ -151,8 +152,8 @@ function EditorHtml() {
     ['Show: ', 'italics', 'checkbox', ['Italic Notes']],
     ['', 'untrained', 'checkbox', ['Untrained Skills']],
     ['', 'dmonly', 'checkbox', ['DM Info']],
-    ['', 'randomize', 'select-one',
-      ['--Randomize--'].concat(rules.AllTargets('random'))],
+    [' ', 'randomize', 'select-one',
+      ['--Randomize--'].concat(GetKeys(Scribe.randomizers))],
     ['Name', 'name', 'text', [20]],
     ['Race', 'race', 'select-one', GetKeys(Scribe.races)],
     ['Experience', 'experience', 'text', [8]],
@@ -180,8 +181,7 @@ function EditorHtml() {
     ['', 'languages', 'checkbox', null],
     ['', 'languages_clear', 'button', ['Clear All']],
     ['Hit Points', 'hitPoints', 'text', [4]],
-    ['Armor', 'armor', 'select-one',
-     GetKeys(DndCharacter.armorsArmorClassBonuses)],
+    ['Armor', 'armor', 'select-one', GetKeys(Scribe.armors)],
     ['Shield', 'shield', 'select-one', GetKeys(Scribe.shields)],
     ['Weapons', 'weapons_sel', 'select-one', weapons],
     ['', 'weapons', 'text', [3]],
@@ -539,18 +539,15 @@ function RandomizeCharacter() {
       }
     }
     if(totalLevels == 0) {
-      character.Randomize(rules, 'levels');
+      Scribe.randomizers['levels'](rules, character.attributes, 'levels');
       totalLevels = 1;
     }
     character.attributes.experience = totalLevels * (totalLevels-1) * 1000 / 2;
-    SetRandomAttributes();
     character.attributes.race = InputGetValue(loadingPopup.document.frm.race);
-    character.Randomize(rules, 'domains');
-    character.Randomize(rules, 'feats');
-    character.Randomize(rules, 'languages');
-    character.Randomize(rules, 'skills');
-    character.Randomize(rules, 'spells');
-    character.Randomize(rules, 'weapons');
+    for(var a in Scribe.randomizers) {
+      if(a != 'race' && a != 'class')
+        Scribe.randomizers[a](rules, character.attributes, a);
+    }
     RefreshShowCodes();
     RefreshEditor(false);
     RefreshSheet();
@@ -588,7 +585,7 @@ function RandomizeCharacter() {
     loadingPopup.document.write(html);
     loadingPopup.document.close();
     loadingPopup.document.frm.race.selectedIndex =
-      DndCharacter.Random(0, GetKeys(Scribe.races).length - 1);
+      ScribeRandom(0, GetKeys(Scribe.races).length - 1);
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
   } else {
@@ -1014,9 +1011,11 @@ function Update(input) {
       Update.helpWindow.focus();
   } else if(name == 'randomize') {
     input.selectedIndex = 0;
-    character.Randomize(rules, value);
-    RefreshEditor(false);
-    RefreshSheet();
+    if(Scribe.randomizers[value] != null) {
+      Scribe.randomizers[value](rules, character.attributes, value);
+      RefreshEditor(false);
+      RefreshSheet();
+    }
   } else if(name == 'spellcats') {
     var matchInfo = InputGetValue(editForm.spellcats_sel).match(/\((.+)\)/);
     showCodes[matchInfo[1]] = value;
