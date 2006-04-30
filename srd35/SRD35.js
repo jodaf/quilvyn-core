@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.13 2006/04/29 06:02:06 Jim Exp $ */
+/* $Id: SRD35.js,v 1.14 2006/04/30 18:21:20 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -29,6 +29,13 @@ function PH35() {
   if(PH35.EquipmentRules != null) PH35.EquipmentRules();
   if(PH35.CombatRules != null) PH35.CombatRules();
   if(PH35.MagicRules != null) PH35.MagicRules();
+  if(PH35.Randomize != null)
+    ScribeCustomRandomizers(PH35.Randomize,
+      'alignment', 'armor', 'charisma', 'constitution', 'deity', 'dexterity',
+      'domains', 'feats', 'gender', 'hitPoints', 'intelligence', 'languages',
+      'levels', 'name', 'race', 'shield', 'skills', 'specialization', 'spells',
+      'strength', 'weapons', 'wisdom'
+    );
   PH35.AbilityRules = null;
   PH35.RaceRules = null;
   PH35.ClassRules = null;
@@ -37,14 +44,7 @@ function PH35() {
   PH35.DescriptionRules = null;
   PH35.EquipmentRules = null;
   PH35.CombatRules = null;
-  PH35.MeleeRules = null;
   PH35.MagicRules = null;
-  ScribeCustomRandomizers(PH35.Randomize,
-    'alignment', 'armor', 'charisma', 'constitution', 'deity', 'dexterity',
-    'domains', 'feats', 'gender', 'hitPoints', 'intelligence', 'languages',
-    'levels', 'race', 'shield', 'skills', 'specialization', 'spells',
-    'strength', 'weapons', 'wisdom'
-  );
 }
 /* JavaScript expressions for several (mostly class-based) attributes. */
 PH35.ATTACK_BONUS_GOOD = 'source';
@@ -63,6 +63,7 @@ PH35.SHIELD_PROFICIENCY_TOWER = '3';
 PH35.WEAPON_PROFICIENCY_NONE = '0';
 PH35.WEAPON_PROFICIENCY_MARTIAL = '2';
 PH35.WEAPON_PROFICIENCY_SIMPLE = '1';
+/* Choice lists */
 PH35.ALIGNMENTS = [
   'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral', 'Neutral Evil',
   'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
@@ -447,7 +448,7 @@ PH35.WEAPONS = [
   'Spiked Chain:2d4', 'Spiked Gauntlet:d4', 'Throwing Axe:d6r10',
   'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19', 'Warhammer:d8x3', 'Whip:d3'
 ];
-
+PH35.PROFICIENCY_LEVEL_NAMES = ["None", "Light", "Medium", "Heavy"];
 
 PH35.AbilityRules = function() {
 
@@ -458,14 +459,6 @@ PH35.AbilityRules = function() {
       '{dexterity} > 13 || {constitution} > 13 || {charisma} > 13'
   ];
   ScribeCustomTests(tests);
-
-  /* Default ability values */
-  ScribeCustomRules('charisma', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('constitution', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('dexterity', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('intelligence', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('strength', 'random', '=', 'PH35.RandomAbility()');
-  ScribeCustomRules('wisdom', 'random', '=', 'PH35.RandomAbility()');
 
   /* Ability modifier computation */
   ScribeCustomRules
@@ -482,8 +475,6 @@ PH35.AbilityRules = function() {
     ('wisdomModifier', 'wisdom', '=', 'Math.floor((source - 10) / 2)');
 
   /* Effects of ability modifiers */
-  ScribeCustomRules
-    ('armorClass', 'meleeNotes.dexterityArmorClassAdjustment', '+', null);
   ScribeCustomRules('initiative', 'dexterityModifier', '=', null);
   ScribeCustomRules('languageCount',
     'intelligenceModifier', '+', 'source > 0 ? source : null'
@@ -491,13 +482,9 @@ PH35.AbilityRules = function() {
   ScribeCustomRules('meleeNotes.constitutionHitPointsAdjustment',
     'constitutionModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeCustomRules
-    ('hitPoints', 'meleeNotes.constitutionHitPointsAdjustment', '+', null);
   ScribeCustomRules('meleeNotes.dexterityArmorClassAdjustment',
     'dexterityModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeCustomRules
-    ('meleeAttack', 'meleeNotes.dexterityMeleeAttackAdjustment', '+', null);
   ScribeCustomRules('meleeNotes.dexterityRangedAttackAdjustment',
     'dexterityModifier', '=', 'source == 0 ? null : source'
   );
@@ -507,10 +494,6 @@ PH35.AbilityRules = function() {
   ScribeCustomRules('meleeNotes.strengthMeleeAttackAdjustment',
     'strengthModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeCustomRules
-    ('meleeAttack', 'meleeNotes.strengthMeleeAttackAdjustment', '+', null);
-  ScribeCustomRules
-    ('rangedAttack', 'meleeNotes.dexterityRangedAttackAdjustment', '+', null);
   ScribeCustomRules('saveFortitude', 'constitutionModifier', '+', null);
   ScribeCustomRules('saveReflex', 'dexterityModifier', '+', null);
   ScribeCustomRules('saveWill', 'wisdomModifier', '+', null);
@@ -518,31 +501,42 @@ PH35.AbilityRules = function() {
     'intelligenceModifier', '=', null,
     'level', '*', 'source + 3'
   );
-  ScribeCustomRules
-    ('skillPoints', 'skillNotes.intelligenceSkillPointsAdjustment', '+', null);
   ScribeCustomRules('turningBase', 'charismaModifier', '+', 'source / 3')
   ScribeCustomRules('turningDamageModifier', 'charismaModifier', '+', null);
   ScribeCustomRules('turningFrequency', 'charismaModifier', '+', null);
 
-  /* Experience-dependent attributes */
-  ScribeCustomRules('classSkillMaxRanks', 'level', '=', 'source + 3');
+  /* Effects of the notes computed above. */
   ScribeCustomRules
-    ('crossSkillMaxRanks', 'classSkillMaxRanks', '=', 'source / 2');
+    ('armorClass', 'meleeNotes.dexterityArmorClassAdjustment', '+', null);
+  ScribeCustomRules
+    ('hitPoints', 'meleeNotes.constitutionHitPointsAdjustment', '+', null);
+  ScribeCustomRules
+    ('meleeAttack', 'meleeNotes.strengthMeleeAttackAdjustment', '+', null);
+  ScribeCustomRules
+    ('meleeAttack', 'meleeNotes.dexterityMeleeAttackAdjustment', '+', null);
+  ScribeCustomRules
+    ('rangedAttack', 'meleeNotes.dexterityRangedAttackAdjustment', '+', null);
+  ScribeCustomRules
+    ('skillPoints', 'skillNotes.intelligenceSkillPointsAdjustment', '+', null);
+
+  /* Experience- and level-dependent attributes */
+  ScribeCustomRules('classSkillMaxRanks', 'level', '=', 'source + 3');
   ScribeCustomRules
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
   ScribeCustomRules('level',
     'experience', '=', 'Math.floor((1 + Math.sqrt(1 + source / 125)) / 2)'
   );
-  ScribeCustomRules
-    ('featCount', 'level', '=', '1 + Math.floor(source / 3)');
+  ScribeCustomRules('featCount', 'level', '=', '1 + Math.floor(source / 3)');
   ScribeCustomRules('skillPoints',
     null, '=', '0',
     'level', '^', 'source + 3'
   );
-
-  /* Effects of experience-dependent attributes */
   ScribeCustomRules
     ('meleeNotes.constitutionHitPointsAdjustment', 'level', '*', null);
+
+  /* Effects of experience- and level-dependent attributes */
+  ScribeCustomRules
+    ('crossSkillMaxRanks', 'classSkillMaxRanks', '=', 'source / 2');
 
   /* Computation of other attributes */
   ScribeCustomRules('dmNotes', 'dmonly', '?', null);
@@ -552,8 +546,6 @@ PH35.AbilityRules = function() {
   ScribeCustomRules
     ('loadMax','strength','=','PH35.STRENGTH_MAX_LOADS[source]');
   ScribeCustomRules('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
-  ScribeCustomRules('runSpeed', 'speed', '=', null);
-  ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
 
   /* Effects of other attributes */
   ScribeCustomRules('runSpeed', 'runSpeedMultiplier', '*', null);
@@ -1370,13 +1362,6 @@ PH35.CombatRules = function() {
 
 PH35.DescriptionRules = function() {
 
-  ScribeCustomRules
-    ('alignment', 'random', '=', 'PH35.RandomChoice(Scribe.alignments)');
-  ScribeCustomRules
-    ('deity', 'random', '=', 'PH35.RandomChoice(Scribe.deities)');
-  ScribeCustomRules
-    ('gender', 'random', '=', 'PH35.RandomChoice(Scribe.genders)');
-  ScribeCustomRules('name', 'random', '=', 'PH35.RandomName("Human")');
   ScribeCustomChoices('alignments', PH35.ALIGNMENTS);
   ScribeCustomChoices('deities', PH35.DEITIES, 'None:');
   ScribeCustomChoices('genders', PH35.GENDERS);
@@ -1389,13 +1374,14 @@ PH35.EquipmentRules = function() {
   ScribeCustomChoices('goodies', PH35.GOODIES);
   ScribeCustomChoices('shields', PH35.SHIELDS);
   ScribeCustomChoices('weapons', PH35.WEAPONS);
+
   ScribeCustomRules('armorClass',
     'meleeNotes.goodiesArmorClassAdjustment', '+', null
   );
   ScribeCustomRules('armorWeightClass',
     'armor', '=',
-      'PH35.armorsWeightClasses[source] != null ? ' +
-      'PH35.armorsWeightClasses[source] : "Light"'
+      'PH35.armorsWeightClasses[source] == null ? "Light" : ' +
+      'PH35.armorsWeightClasses[source]'
   );
   ScribeCustomRules('magicNotes.arcaneSpellFailure',
     'armor', '+=', 'PH35.armorsArcaneSpellFailurePercentages[source]',
@@ -1550,6 +1536,7 @@ PH35.FeatRules = function() {
     'skillNotes.persuasiveFeature:+2 Bluff/Intimidate',
     'skillNotes.selfSufficientFeature:+2 Heal/Survival',
     'skillNotes.skillMasteryFeature:Never distracted from designated skills',
+    'skillNotes.smallSkillAdjustment:+4 Hide',
     'skillNotes.stealthyFeature:+2 Hide/Move Silently',
     'skillNotes.trackFeature:Survival to follow creatures at 1/2 speed'
   ];
@@ -1659,38 +1646,42 @@ PH35.FeatRules = function() {
     '+/{feats} == {featCount}'
   ];
   ScribeCustomTests(tests);
-
   ScribeCustomChoices('feats', PH35.FEATS);
-  for(var i = 0; i < PH35.FEATS.length; i++) {
-    ScribeCustomRules
-      ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', '1');
-  }
+
+  ScribeCustomRules('armorClass',
+    'meleeNotes.dodgeFeature', '+', '1',
+    'meleeNotes.smallArmorClassAdjustment', '+', null
+  );
   ScribeCustomRules('armorProficiency',
-    'armorProficiencyLevel', '=',
-      'source == ' + PH35.ARMOR_PROFICIENCY_LIGHT + ' ? "Light" : ' +
-      'source == ' + PH35.ARMOR_PROFICIENCY_MEDIUM + ' ? "Medium" : ' +
-      'source == ' + PH35.ARMOR_PROFICIENCY_HEAVY + ' ? "Heavy" : ' +
-      '"None"'
+    'armorProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
   ScribeCustomRules('armorProficiencyLevel',
     'features.Armor Proficiency Light', '^', PH35.ARMOR_PROFICIENCY_LIGHT,
     'features.Armor Proficiency Medium', '^', PH35.ARMOR_PROFICIENCY_MEDIUM,
     'features.Armor Proficiency Heavy', '^', PH35.ARMOR_PROFICIENCY_HEAVY
   );
-  ScribeCustomRules('armorClass', 'meleeNotes.dodgeFeature', '+', '1');
-  ScribeCustomRules('hitPoints',
-    'meleeNotes.toughnessFeature', '+', '3 * source'
-  );
+  ScribeCustomRules
+    ('baseAttack', 'meleeNotes.smallBaseAttackAdjustment', '+', null);
+  for(var i = 0; i < PH35.FEATS.length; i++) {
+    ScribeCustomRules
+      ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', '1');
+  }
+  ScribeCustomRules
+    ('hitPoints', 'meleeNotes.toughnessFeature', '+', '3 * source');
+  ScribeCustomRules
+    ('initiative', 'meleeNotes.improvedInitiativeFeature', '+', '4');
   ScribeCustomRules
     ('magicNotes.arcaneSpellFailure', 'features.Still Spell', 'v', '0');
+  ScribeCustomRules
+    ('meleeNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
   ScribeCustomRules('meleeNotes.dexterityMeleeAttackAdjustment',
     'meleeNotes.weaponFinesseFeature', '?', null,
     'dexterityModifier', '=', 'source == 0 ? null : source'
   );
   ScribeCustomRules
-    ('initiative', 'meleeNotes.improvedInitiativeFeature', '+', '4');
+    ('meleeNotes.smallArmorClassAdjustment', 'features.Small', '=', '1');
   ScribeCustomRules
-    ('meleeNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
+    ('meleeNotes.smallBaseAttackAdjustment', 'features.Small', '=', '1');
   ScribeCustomRules('meleeNotes.strengthMeleeAttackAdjustment',
     'meleeNotes.weaponFinesseFeature', '*', '0'
   );
@@ -1705,16 +1696,14 @@ PH35.FeatRules = function() {
     ('saveReflex', 'saveNotes.lightningReflexesFeature', '+', '2');
   ScribeCustomRules('saveWill', 'saveNotes.ironWillFeature', '+', '2');
   ScribeCustomRules('shieldProficiency',
-    'shieldProficiencyLevel', '=',
-      'source==' + PH35.SHIELD_PROFICIENCY_LIGHT + '?"Light":' +
-      'source==' + PH35.SHIELD_PROFICIENCY_HEAVY + '?"Heavy":' +
-      'source==' + PH35.SHIELD_PROFICIENCY_TOWER + '?"Tower":' +
-      '"None"'
+    'shieldProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
   ScribeCustomRules('shieldProficiencyLevel',
     'features.Shield Proficiency', '^', PH35.SHIELD_PROFICIENCY_HEAVY,
     'features.Shield Proficiency Tower', '^', PH35.SHIELD_PROFICIENCY_TOWER
   );
+  ScribeCustomRules
+    ('skillNotes.smallSkillAdjustment', 'features.Small', '=', '1');
   ScribeCustomRules
     ('turningFrequency', 'meleeNotes.extraTurningFeature', '+', '4 * source');
   ScribeCustomRules
@@ -1768,12 +1757,24 @@ PH35.MagicRules = function() {
   ScribeCustomChoices('domains', PH35.DOMAINS);
   ScribeCustomChoices('schools', PH35.SCHOOLS);
   ScribeCustomChoices('spells', PH35.SPELLS);
+
   ScribeCustomRules('casterLevel',
     'casterLevelArcane', '^=', null,
     'casterLevelDivine', '^=', null
   );
+  ScribeCustomRules('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
   ScribeCustomRules
-    ('classSkills.Knowledge (Nature)', 'skillNotes.animalDomain', '=', '1');
+    ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
+  ScribeCustomRules('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
+  for(var a in Scribe.skills) {
+    if(a.substring(0, 9) == "Knowledge")
+      ScribeCustomRules
+        ('classSkills.' + a, 'skillNotes.knowledgeDomain', '=', '1');
+  }
+  ScribeCustomRules('classSkills.Knowledge (Nature)',
+    'skillNotes.animalDomain', '=', '1',
+    'skillNotes.plantDomain', '=', '1'
+  );
   ScribeCustomRules
     ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
   ScribeCustomRules('featureNotes.warDomain',
@@ -1796,16 +1797,6 @@ PH35.MagicRules = function() {
   );
   ScribeCustomRules
     ('magicNotes.arcaneSpellFailure', 'casterLevelArcane', '?', null);
-  for(var a in Scribe.skills)
-    if(a.substring(0, 9) == "Knowledge")
-      ScribeCustomRules
-        ('classSkills.' + a, 'skillNotes.knowledgeDomain', '=', '1');
-  ScribeCustomRules
-    ('classSkills.Knowledge (Nature)', 'skillNotes.plantDomain', '=', '1');
-  ScribeCustomRules('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
-  ScribeCustomRules
-    ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
-  ScribeCustomRules('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
   for(var a in Scribe.schools)
     ScribeCustomRules
       ('magicNotes.wizardSpecialization', 'specialize.' + a, '=', '"'+a+'"');
@@ -1995,31 +1986,10 @@ PH35.RaceRules = function() {
 
   }
 
-  /* General race-based rules that apply to multiple races. */
-  notes = [
-    'skillNotes.smallSkillAdjustment:+4 Hide'
-  ];
-  ScribeCustomNotes(notes);
-
-  ScribeCustomRules('armorClass',
-    'meleeNotes.smallArmorClassAdjustment', '+', null
-  );
-  ScribeCustomRules('baseAttack',
-    'meleeNotes.smallBaseAttackAdjustment', '+', null
-  );
-  ScribeCustomRules('languageCount', 'race', '+', 'source == "Human" ? 0 : 1');
-  ScribeCustomRules
-    ('meleeNotes.smallArmorClassAdjustment', 'features.Small', '=', '1');
-  ScribeCustomRules
-    ('meleeNotes.smallBaseAttackAdjustment', 'features.Small', '=', '1');
-  ScribeCustomRules
-    ('skillNotes.smallSkillAdjustment', 'features.Small', '=', '1');
-  ScribeCustomRules
-    ('skills.Hide', 'skillNotes.smallSkillAdjustment', '+', '4');
-  ScribeCustomRules('speed',
-    null, '=', '30',
-    'features.Slow', '+', '-10'
-  );
+  ScribeCustomRules('speed', null, '=', '30');
+  ScribeCustomRules('speed', 'features.Slow', '+', '-10');
+  ScribeCustomRules('runSpeed', 'speed', '=', null);
+  ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
 
 }
 
@@ -2055,6 +2025,7 @@ PH35.SkillRules = function() {
     'skillNotes.useRopeSynergy:+2 Climb (rope)/Escape Artist (rope)'
   ];
   ScribeCustomNotes(notes);
+  ScribeCustomChoices('skills', PH35.SKILLS);
   var tests = [
     '+/{languages} == {languageCount}'
   ];
@@ -2070,18 +2041,17 @@ PH35.SkillRules = function() {
   ScribeCustomRules('skillNotes.wildEmpathyFeature',
     'skillNotes.handleAnimalSynergy', '+', '2'
   );
+  ScribeCustomRules('skills.Hide', 'skillNotes.smallSkillAdjustment', '+', '4');
   ScribeCustomRules('turningBase',
     'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
   );
   for(var i = 0; i < PH35.SKILLS.length; i ++) {
-    var skill = PH35.SKILLS[i];
-    ScribeCustomChoices('skills', skill);
-    var ability = skill.split(/:/)[1];
-    ability = ability == null ? '' : ability.split(/\//)[0];
-    if(abilityNames[ability] != null)
-      ScribeCustomRules('skills.' + skill.split(/:/)[0],
-        abilityNames[ability] + 'Modifier', '+', null
-      );
+    var pieces = PH35.SKILLS[i].split(/[:\/]/);
+    var ability = pieces[1] == null ? '' : pieces[1];
+    if(abilityNames[ability] != null) {
+      var modifier = abilityNames[ability] + 'Modifier';
+      ScribeCustomRules('skills.' + pieces[0], modifier, '+', null);
+    }
   }
 
 }
@@ -2272,7 +2242,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
       while(true) {
         var attr = 'feats.' + choices[PH35.Random(0, choices.length - 1)];
         attrs[attr] = attributes[attr] = 1;
-        var invalid = DndCharacter.Validate(attrs);
+        var invalid = Validate(attrs);
         for(var j = 0; j < invalid.length && invalid[j].indexOf(attr) < 0; j++)
           ; /* empty */
         if(j >= invalid.length)
@@ -2316,6 +2286,8 @@ PH35.Randomize = function(rules, attributes, attribute) {
     for(attr in Scribe.classes)
       choices[choices.length] = attr;
     PickAttrs(attributes, 'levels.', choices, 1, 1);
+  } else if(attribute == 'name') {
+    attributes['name'] = PH35.RandomName(attributes['race']);
   } else if(attribute == 'skills') {
     attrs = rules.Apply(attributes);
     var maxRanks = attrs.classSkillMaxRanks;

@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.134 2006/04/29 06:02:07 Jim Exp $ */
+/* $Id: Scribe.js,v 1.135 2006/04/30 18:21:20 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -91,11 +91,9 @@ function Scribe() {
   if(CustomizeScribe != null)
     CustomizeScribe();
   character = new DndCharacter();
-  currentUrl = 'random';
-  cachedAttrs[currentUrl] = CopyObject(character.attributes);
   RefreshShowCodes();
   RefreshEditor(true);
-  RefreshSheet();
+  RandomizeCharacter(false);
   /*
   if(SCRIBE_DEBUG != null) {
     var html = '<html><head><title>Scribe Attributes</title></head>\n<body>\n';
@@ -112,6 +110,7 @@ function Scribe() {
 
 }
 Scribe.randomizers = {};
+Scribe.tests = [];
 
 /* Returns an array of choices for the editor's New/Open select input. */
 function ChoicesForFileInput() {
@@ -492,7 +491,7 @@ function OpenDialog() {
   if(name == null)
     return; /* User cancel. */
   if(name == '')
-    RandomizeCharacter();
+    RandomizeCharacter(true);
   else
     LoadCharacter(name);
 }
@@ -522,30 +521,32 @@ PopUp.next = 0;
  * Replaces the current character with one that has all randomized attributes.
  * Allows the user to specify race and class level(s).
  */
-function RandomizeCharacter() {
-  if(urlLoading == 'random' && loadingPopup.closed) {
-    urlLoading = null; /* User cancel. */
-  } else if(urlLoading == 'random' && loadingPopup.okay != null) {
+function RandomizeCharacter(prompt) {
+  if(!prompt || (urlLoading == 'random' && loadingPopup.okay != null)) {
     /* Ready to generate. */
     var totalLevels = 0;
     var value;
     character = new DndCharacter();
-    for(var a in Scribe.classes) {
-      var attr = 'levels.' + a;
-      if((value = InputGetValue(loadingPopup.document.frm[attr])) != null &&
-         value > 0) {
-        character.attributes[attr] = value;
-        totalLevels += character.attributes[attr] - 0;
+    if(prompt) {
+      character.attributes.race = InputGetValue(loadingPopup.document.frm.race);
+      for(var a in Scribe.classes) {
+        var attr = 'levels.' + a;
+        if((value = InputGetValue(loadingPopup.document.frm[attr])) != null &&
+           value > 0) {
+          character.attributes[attr] = value;
+          totalLevels += character.attributes[attr] - 0;
+        }
       }
+    } else {
+      Scribe.randomizers['race'](rules, character.attributes, 'race');
     }
     if(totalLevels == 0) {
       Scribe.randomizers['levels'](rules, character.attributes, 'levels');
       totalLevels = 1;
     }
     character.attributes.experience = totalLevels * (totalLevels-1) * 1000 / 2;
-    character.attributes.race = InputGetValue(loadingPopup.document.frm.race);
     for(var a in Scribe.randomizers) {
-      if(a != 'race' && a != 'class')
+      if(a != 'race' && a != 'levels')
         Scribe.randomizers[a](rules, character.attributes, a);
     }
     RefreshShowCodes();
@@ -555,6 +556,8 @@ function RandomizeCharacter() {
     cachedAttrs[currentUrl] = CopyObject(character.attributes);
     loadingPopup.close();
     urlLoading = null;
+  } else if(urlLoading == 'random' && loadingPopup.closed) {
+    urlLoading = null; /* User cancel. */
   } else if(urlLoading == null) {
     /* Nothing presently loading. */
     urlLoading = 'random';
@@ -587,10 +590,10 @@ function RandomizeCharacter() {
     loadingPopup.document.frm.race.selectedIndex =
       ScribeRandom(0, GetKeys(Scribe.races).length - 1);
     loadingPopup.okay = null;
-    setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
+    setTimeout('RandomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   } else {
     /* Something (possibly this function) in progress; try again later. */
-    setTimeout('RandomizeCharacter()', TIMEOUT_DELAY);
+    setTimeout('RandomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   }
 }
 
@@ -1001,7 +1004,7 @@ function Update(input) {
     else if(value == 'Open...')
       OpenDialog();
     else if(value == 'New...')
-      RandomizeCharacter();
+      RandomizeCharacter(true);
     else
       LoadCharacter(value);
   } else if(name == 'help') {
@@ -1090,6 +1093,51 @@ function Update(input) {
 }
 
 /*
+ * Tests #attributes# against the PH validation rules. Returns an array
+ * containing any failed rules.
+ */
+function Validate(attributes) {
+  var reverseOps = {
+    '==': '!=', '!=': '==', '<': '>=', '>=': '<', '>': '<=', '<=': '>',
+    '&&': '||', '||': '&&'
+  };
+  var result = [];
+  for(var i = 0; i < Scribe.tests.length; i++) {
+    var matchInfo;
+    var test = Scribe.tests[i];
+    var resolved = '';
+    while((matchInfo = test.match(/(\+\/)?\{([^\}]+)\}/)) != null) {
+      var value;
+      if(matchInfo[1] == '+/') {
+        value = 0;
+        var pattern = '^' + matchInfo[2];
+        for(var a in attributes)
+          if(a.match(pattern))
+            value += attributes[a] - 0;
+      }
+      else
+        value = attributes[matchInfo[2]];
+      resolved += test.substring(0, matchInfo.index) +
+                  (value == null ? 'null' : value);
+      test = test.substring(matchInfo.index + matchInfo[0].length);
+    }
+    resolved += test;
+    if(!eval(resolved)) {
+      var reversed = '';
+      while((matchInfo = resolved.match(/==|!=|<|>=|>|<=|&&|\|\|/)) != null) {
+        reversed +=
+          resolved.substring(0, matchInfo.index) + reverseOps[matchInfo[0]];
+        resolved = resolved.substring(matchInfo.index + matchInfo[0].length);
+      }
+      reversed += resolved;
+      result[result.length] =
+        Scribe.tests[i] + '  [' + reversed + ']';
+    }
+  }
+  return result;
+}
+
+/*
  * Returns HTML showing the results of applying validation rules to the current
  * character's attributes.
  */
@@ -1097,7 +1145,7 @@ function ValidationHtml() {
   var computedAttributes = rules.Apply(character.attributes);
   var errors;
   var i;
-  var invalid = DndCharacter.Validate(computedAttributes);
+  var invalid = Validate(computedAttributes);
   var result;
   /*
    * Because of cross-class skills, we can't write a simple validation test for
