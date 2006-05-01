@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.14 2006/04/30 18:21:20 Jim Exp $ */
+/* $Id: SRD35.js,v 1.15 2006/05/01 05:14:01 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -550,7 +550,7 @@ PH35.AbilityRules = function() {
   /* Effects of other attributes */
   ScribeCustomRules('runSpeed', 'runSpeedMultiplier', '*', null);
 
-}
+};
 
 PH35.ClassRules = function() {
 
@@ -1315,7 +1315,7 @@ PH35.ClassRules = function() {
   ScribeCustomRules
     ('featCount', 'featureNotes.classFeatCountBonus', '+', null);
 
-}
+};
 
 PH35.CombatRules = function() {
 
@@ -1358,7 +1358,7 @@ PH35.CombatRules = function() {
   ScribeCustomRules
     ('weaponProficiencyLevel', null, '=', PH35.WEAPON_PROFICIENCY_NONE);
 
-}
+};
 
 PH35.DescriptionRules = function() {
 
@@ -1366,7 +1366,7 @@ PH35.DescriptionRules = function() {
   ScribeCustomChoices('deities', PH35.DEITIES, 'None:');
   ScribeCustomChoices('genders', PH35.GENDERS);
 
-}
+};
 
 PH35.EquipmentRules = function() {
 
@@ -1413,7 +1413,7 @@ PH35.EquipmentRules = function() {
   ScribeCustomRules
     ('level', 'meleeNotes.strengthDamageAdjustment', '=', 'null');
 
-}
+};
 
 PH35.FeatRules = function() {
 
@@ -1718,7 +1718,7 @@ PH35.FeatRules = function() {
     'features.Weapon Proficiency Simple', '^', PH35.WEAPON_PROFICIENCY_SIMPLE
   );
 
-}
+};
 
 PH35.MagicRules = function() {
 
@@ -1805,7 +1805,7 @@ PH35.MagicRules = function() {
     'maxSpellLevelDivine', '^=', null
   );
 
-}
+};
 
 PH35.RaceRules = function() {
 
@@ -1948,7 +1948,7 @@ PH35.RaceRules = function() {
         'saveNotes.luckyFeature:+1 all saves',
         'saveNotes.unafraidFeature:+2 vs. fear',
         'skillNotes.keenEarsFeature:+2 Listen',
-        'skillNotes.spryFeature:+2 Climb/Jump/Listen/Move Silently'
+        'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
       ];
       ScribeCustomRules('dexterity',
         'abilityNotes.halflingAbilityAdjustmentFeature', '+', '2'
@@ -1991,7 +1991,7 @@ PH35.RaceRules = function() {
   ScribeCustomRules('runSpeed', 'speed', '=', null);
   ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
 
-}
+};
 
 PH35.SkillRules = function() {
 
@@ -2054,7 +2054,7 @@ PH35.SkillRules = function() {
     }
   }
 
-}
+};
 
 /* Returns a random integer in the range low .. high, inclusive. */
 PH35.Random = function(low, hi) {
