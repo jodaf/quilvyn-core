@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.135 2006/04/30 18:21:20 Jim Exp $ */
+/* $Id: Scribe.js,v 1.136 2006/05/02 05:42:07 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -25,8 +25,8 @@ var EMPTY_SPELL_LIST = '--- No spell categories selected ---';
 var TIMEOUT_DELAY = 1000; /* One second */
 
 var cachedAttrs = {}; /* Unchanged attrs of all characters opened so far */
-var character;      /* Current DndCharacter */
-var characterUrl;   /* URL of current DndCharacter */
+var character;      /* Current RPG Character */
+var characterUrl;   /* URL of current RPG Character */
 var cookieInfo = {  /* What we store in the cookie */
   dmonly: '0',     /* Show information marked "dmonly" on sheet? */
   italics: '1',    /* Show italicized notes on sheet? */
@@ -90,7 +90,7 @@ function Scribe() {
   viewer = InitialViewer();
   if(CustomizeScribe != null)
     CustomizeScribe();
-  character = new DndCharacter();
+  character = {};
   RefreshShowCodes();
   RefreshEditor(true);
   RandomizeCharacter(false);
@@ -111,6 +111,22 @@ function Scribe() {
 }
 Scribe.randomizers = {};
 Scribe.tests = [];
+
+/* Mapping of medium damage to small damage. */
+Scribe.smallDamage = {
+  'd2':'d1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', '2d4':'d6', 'd10':'d8',
+  'd12':'d10', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
+};
+
+Scribe.spellsCategoryCodes = {
+  'Bard': 'B', 'Cleric': 'C', 'Druid': 'D', 'Paladin': 'P', 'Ranger': 'R',
+  'Sorcerer': 'W', 'Wizard': 'W',
+  'Air':'Ai', 'Animal':'An', 'Chaos':'Ch', 'Death':'De', 'Destruction':'Dn',
+  'Earth':'Ea', 'Evil':'Ev', 'Fire':'Fi', 'Good':'Go', 'Healing':'He',
+  'Knowledge':'Kn', 'Law':'La', 'Luck':'Lu', 'Magic':'Ma', 'Plant':'Pl',
+  'Protection':'Pr', 'Strength':'St', 'Sun':'Su', 'Travel':'Tl',
+  'Trickery':'Ty', 'War':'Wr', 'Water':'Wa'
+};
 
 /* Returns an array of choices for the editor's New/Open select input. */
 function ChoicesForFileInput() {
@@ -135,9 +151,9 @@ function CopyObject(o) {
 function EditorHtml() {
   var abilityChoices=[3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
   var spellsCategoryOptions = [];
-  for(var a in DndCharacter.spellsCategoryCodes) {
+  for(var a in Scribe.spellsCategoryCodes) {
     spellsCategoryOptions[spellsCategoryOptions.length] =
-      a + '(' + DndCharacter.spellsCategoryCodes[a] + ')';
+      a + '(' + Scribe.spellsCategoryCodes[a] + ')';
   }
   spellsCategoryOptions.sort();
   var weapons = GetKeys(Scribe.weapons);
@@ -405,7 +421,7 @@ function LoadCharacter(name) {
       names.length = MAX_RECENT_OPENS - 1;
     cookieInfo.recent = names.join(',') + ',';
     StoreCookie();
-    character = new DndCharacter();
+    character = {};
     /*
      * Turn objects into "dot" attributes and convert values from prior
      * versions of Scribe.
@@ -415,12 +431,11 @@ function LoadCharacter(name) {
       if(typeof value == 'object') {
         for(var x in value) {
           if(a == 'combatStyle') {
-            character.attributes['feats.Combat Style (' + x + ')'] = '1';
+            character['feats.Combat Style (' + x + ')'] = '1';
           } else if(a == 'focus')
-            character.attributes['feats.Weapon Focus (' + x + ')'] = '1';
+            character['feats.Weapon Focus (' + x + ')'] = '1';
           else if(a == 'specialization') {
-            character.attributes
-              ['feats.Weapon Specialization (' + x + ')'] = '1';
+            character['feats.Weapon Specialization (' + x + ')'] = '1';
           } else {
             var convertedName = x;
             while((i = convertedName.search(/\([a-z]/)) >= 0)
@@ -438,26 +453,26 @@ function LoadCharacter(name) {
               convertedName = 'Survival';
             else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
               convertedName = convertedName.substring(0, i);
-            character.attributes[a + '.' + convertedName] = value[x];
+            character[a + '.' + convertedName] = value[x];
           }
         }
       } else if(a == 'shield' && value.indexOf('Large') == 0) {
-        character.attributes[a] = 'Heavy' + value.substring(5);
+        character[a] = 'Heavy' + value.substring(5);
       } else if(a == 'shield' && value.indexOf('Small') == 0) {
-        character.attributes[a] = 'Light' + value.substring(5);
+        character[a] = 'Light' + value.substring(5);
       } else {
-        character.attributes[a] = value;
+        character[a] = value;
       }
     }
     for(var a in OLD_DEFAULTS) {
-      if(character.attributes[a] == null)
-        character.attributes[a] = OLD_DEFAULTS[a];
+      if(character[a] == null)
+        character[a] = OLD_DEFAULTS[a];
     }
     RefreshShowCodes();
     RefreshEditor(false);
     RefreshSheet();
     currentUrl = name;
-    cachedAttrs[currentUrl] = CopyObject(character.attributes);
+    cachedAttrs[currentUrl] = CopyObject(character);
     urlLoading = null;
     if(!loadingPopup.closed)
       loadingPopup.close();
@@ -526,34 +541,34 @@ function RandomizeCharacter(prompt) {
     /* Ready to generate. */
     var totalLevels = 0;
     var value;
-    character = new DndCharacter();
+    character = {};
     if(prompt) {
-      character.attributes.race = InputGetValue(loadingPopup.document.frm.race);
+      character.race = InputGetValue(loadingPopup.document.frm.race);
       for(var a in Scribe.classes) {
         var attr = 'levels.' + a;
         if((value = InputGetValue(loadingPopup.document.frm[attr])) != null &&
            value > 0) {
-          character.attributes[attr] = value;
-          totalLevels += character.attributes[attr] - 0;
+          character[attr] = value;
+          totalLevels += character[attr] - 0;
         }
       }
     } else {
-      Scribe.randomizers['race'](rules, character.attributes, 'race');
+      Scribe.randomizers['race'](rules, character, 'race');
     }
     if(totalLevels == 0) {
-      Scribe.randomizers['levels'](rules, character.attributes, 'levels');
+      Scribe.randomizers['levels'](rules, character, 'levels');
       totalLevels = 1;
     }
-    character.attributes.experience = totalLevels * (totalLevels-1) * 1000 / 2;
+    character.experience = totalLevels * (totalLevels-1) * 1000 / 2;
     for(var a in Scribe.randomizers) {
       if(a != 'race' && a != 'levels')
-        Scribe.randomizers[a](rules, character.attributes, a);
+        Scribe.randomizers[a](rules, character, a);
     }
     RefreshShowCodes();
     RefreshEditor(false);
     RefreshSheet();
     currentUrl = 'random';
-    cachedAttrs[currentUrl] = CopyObject(character.attributes);
+    cachedAttrs[currentUrl] = CopyObject(character);
     loadingPopup.close();
     urlLoading = null;
   } else if(urlLoading == 'random' && loadingPopup.closed) {
@@ -656,21 +671,21 @@ function RefreshEditor(redraw) {
     var value = null;
     if(name.indexOf('_sel') >= 0) {
       var prefix = name.substring(0, name.indexOf('_sel')) + '.';
-      for(var a in character.attributes) {
+      for(var a in character) {
         if(a.substring(0, prefix.length) == prefix) {
           value = a.substring(prefix.length);
           break;
         }
       }
     } else if(sel == null) {
-      value = character.attributes[name];
+      value = character[name];
     } else {
-      value = character.attributes[name + '.' + InputGetValue(sel)];
+      value = character[name + '.' + InputGetValue(sel)];
     }
     if(InputGetValue(input) != value)
       InputSetValue(input, value);
   }
-  var attrs = rules.Apply(character.attributes);
+  var attrs = rules.Apply(character);
   for(i = 0; i < editForm.skills_sel.options.length; i++) {
     var opt = editForm.skills_sel.options[i];
     opt.text =
@@ -680,11 +695,11 @@ function RefreshEditor(redraw) {
   InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
-  var codeOpts = GetKeys(DndCharacter.spellsCategoryCodes);
+  var codeOpts = GetKeys(Scribe.spellsCategoryCodes);
   codeOpts.sort();
   for(i = 0;
       i < codeOpts.length &&
-      !showCodes[DndCharacter.spellsCategoryCodes[codeOpts[i]]];
+      !showCodes[Scribe.spellsCategoryCodes[codeOpts[i]]];
       i++)
     ; /* empty */
   editForm.spellcats_sel.selectedIndex = i < codeOpts.length ? i : 0;
@@ -705,15 +720,15 @@ function RefreshSheet() {
 function RefreshShowCodes() {
   var matchInfo;
   showCodes = {};
-  for(var a in DndCharacter.spellsCategoryCodes) {
-    showCodes[DndCharacter.spellsCategoryCodes[a]] = false;
+  for(var a in Scribe.spellsCategoryCodes) {
+    showCodes[Scribe.spellsCategoryCodes[a]] = false;
   }
-  for(var a in character.attributes) {
+  for(var a in character) {
     if((matchInfo = a.match(/^spells\..*\((\D+)\d+\)$/)) != null)
       showCodes[matchInfo[1]] = true;
     else if((matchInfo = a.match(/^(domains|levels)\.(.*)$/)) != null &&
-            DndCharacter.spellsCategoryCodes[matchInfo[2]] != null)
-      showCodes[DndCharacter.spellsCategoryCodes[matchInfo[2]]] = true;
+            Scribe.spellsCategoryCodes[matchInfo[2]] != null)
+      showCodes[Scribe.spellsCategoryCodes[matchInfo[2]]] = true;
   }
 }
 
@@ -721,13 +736,13 @@ function RefreshShowCodes() {
 function SheetHtml() {
 
   var a;
-  var attrs = CopyObject(character.attributes);
+  var attrs = CopyObject(character);
   var codeAttributes = {};
   var computedAttributes;
   var displayAttributes = {};
   var i;
 
-  for(a in character.attributes) {
+  for(a in character) {
     /* Turn "dot" attributes into objects. */
     if((i = a.indexOf('.')) < 0) {
       codeAttributes[a] = attrs[a];
@@ -742,7 +757,7 @@ function SheetHtml() {
   attrs.dmonly = cookieInfo.dmonly - 0;
   if(cookieInfo.untrained == '1') {
     for(a in Scribe.skills) {
-      if(character.attributes['skills.' + a] == null &&
+      if(character['skills.' + a] == null &&
          Scribe.skills[a].indexOf('/trained') < 0)
         attrs['skills.' + a] = 0;
     }
@@ -750,7 +765,7 @@ function SheetHtml() {
   computedAttributes = rules.Apply(attrs);
   if(cookieInfo.untrained == '1') {
     for(a in Scribe.skills) {
-      if(character.attributes['skills.' + a] == null &&
+      if(character['skills.' + a] == null &&
          computedAttributes['skills.' + a] == 0)
         delete computedAttributes['skills.' + a];
     }
@@ -802,8 +817,7 @@ function SheetHtml() {
         if(skillInfo.length > 0)
           name += ' (' + skillInfo.join(';') + ')';
       } else if(object == 'Weapons') {
-        var damages = name == 'Unarmed' ? computedAttributes['unarmedDamage'] :
-          Scribe.weapons[name];
+        var damages = Scribe.weapons[name];
         damages = damages == null ? 'd6' : damages.replace(/ /g, '');
         var range;
         if((i = damages.search(/[rR]/)) < 0) {
@@ -838,7 +852,7 @@ function SheetHtml() {
           var additional = (pieces[2] ? pieces[2] - 0 : 0) + addedDamage;
           var damage = pieces[1];
           var multiplier = pieces[4] ? pieces[4] - 0 : 2;
-          var smallDamage = DndCharacter.smallDamage[damage];
+          var smallDamage = Scribe.smallDamage[damage];
           var threat = pieces[6] ? pieces[6] - 0 : 20;
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
             threat -= computedAttributes['weaponCriticalAdjustment.' + name];
@@ -998,7 +1012,7 @@ function Update(input) {
   } else if(name == 'file') {
     input.selectedIndex = 0;
     if(WARN_ABOUT_DISCARD &&
-       !EqualObjects(character.attributes, cachedAttrs[currentUrl]) &&
+       !EqualObjects(character, cachedAttrs[currentUrl]) &&
        !confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Open...')
@@ -1015,7 +1029,7 @@ function Update(input) {
   } else if(name == 'randomize') {
     input.selectedIndex = 0;
     if(Scribe.randomizers[value] != null) {
-      Scribe.randomizers[value](rules, character.attributes, value);
+      Scribe.randomizers[value](rules, character, value);
       RefreshEditor(false);
       RefreshSheet();
     }
@@ -1040,12 +1054,12 @@ function Update(input) {
     Update.validateWindow.document.close();
   } else if(name == 'view') {
     ShowHtml(SheetHtml());
-    cachedAttrs[currentUrl] = CopyObject(character.attributes);
+    cachedAttrs[currentUrl] = CopyObject(character);
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
-    for(var a in character.attributes) {
+    for(var a in character) {
       if(a.indexOf(name + '.') == 0)
-        delete character.attributes[a];
+        delete character[a];
     }
     input = editForm[name]
     if(input != null)
@@ -1064,27 +1078,26 @@ function Update(input) {
         InputSetValue(input, showCodes[matchInfo[1]]);
       }
       else
-        InputSetValue(input, character.attributes[name + '.' + value]);
+        InputSetValue(input, character[name + '.' + value]);
     }
   } else {
     var selector = editForm[name + '_sel'];
     if(selector != null)
       name += '.' + InputGetValue(selector);
     if(!value)
-      delete character.attributes[name];
+      delete character[name];
     else if(typeof(value) == 'string' &&
             value.match(/^\+-?\d+$/) &&
-            (typeof(character.attributes[name]) == 'number' ||
-             (typeof(character.attributes[name]) == 'string' &&
-              character.attributes[name].match(/^\d+$/)))) {
-      character.attributes[name] =
-        ((character.attributes[name] - 0) + (value.substring(1) - 0)) + '';
-      InputSetValue(input, character.attributes[name]);
+            (typeof(character[name]) == 'number' ||
+             (typeof(character[name]) == 'string' &&
+              character[name].match(/^\d+$/)))) {
+      character[name] = ((character[name] - 0) + (value.substring(1) - 0)) + '';
+      InputSetValue(input, character[name]);
     }
     else if(name == 'spells.' + EMPTY_SPELL_LIST)
       InputSetValue(input, 0);
     else
-      character.attributes[name] = value;
+      character[name] = value;
     RefreshSheet();
     if(name.search(/^(levels|domains)\./) >= 0)
       RefreshEditor(false);
@@ -1142,7 +1155,7 @@ function Validate(attributes) {
  * character's attributes.
  */
 function ValidationHtml() {
-  var computedAttributes = rules.Apply(character.attributes);
+  var computedAttributes = rules.Apply(character);
   var errors;
   var i;
   var invalid = Validate(computedAttributes);
@@ -1153,17 +1166,17 @@ function ValidationHtml() {
    */
   var maxRanks = computedAttributes.classSkillMaxRanks;
   var skillPointsAssigned = 0;
-  for(var a in character.attributes) {
+  for(var a in character) {
     if(a.substring(0, 7) != 'skills.')
       continue;
     var skill = a.substring(7);
     var isCross = computedAttributes['classSkills.' + skill] == null;
     var maxAllowed = maxRanks / (isCross ? 2 : 1);
-    if(character.attributes[a] > maxAllowed)
+    if(character[a] > maxAllowed)
       invalid[invalid.length] =
         '{' + a + '} <= {' + (isCross ? 'cross' : 'class') + 'SkillMaxRanks} ' +
-        '[' + character.attributes[a] + ' > ' + maxAllowed + ']';
-    skillPointsAssigned += character.attributes[a] * (isCross ? 2 : 1);
+        '[' + character[a] + ' > ' + maxAllowed + ']';
+    skillPointsAssigned += character[a] * (isCross ? 2 : 1);
   }
   if(skillPointsAssigned != computedAttributes.skillPoints)
     invalid[invalid.length] =

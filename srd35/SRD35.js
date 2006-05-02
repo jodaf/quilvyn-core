@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.15 2006/05/01 05:14:01 Jim Exp $ */
+/* $Id: SRD35.js,v 1.16 2006/05/02 05:42:07 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -446,7 +446,8 @@ PH35.WEAPONS = [
   'Scythe:2d4x4', 'Short Sword:d6@19', 'Shortbow:d6x3r60', 'Shortspear:d6r20',
   'Shuriken:d2r10', 'Siangham:d6', 'Sickle:d6', 'Sling:d4r50', 'Spear:d8r20',
   'Spiked Chain:2d4', 'Spiked Gauntlet:d4', 'Throwing Axe:d6r10',
-  'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19', 'Warhammer:d8x3', 'Whip:d3'
+  'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19', 'Unarmed:d3',
+  'Warhammer:d8x3', 'Whip:d3'
 ];
 PH35.PROFICIENCY_LEVEL_NAMES = ["None", "Light", "Medium", "Heavy"];
 
@@ -1346,17 +1347,9 @@ PH35.CombatRules = function() {
     'turningBase', '=', 'Math.floor(source - 3)',
     'turningLevel', '^', 'source - 4'
   );
-  ScribeCustomRules('unarmedDamageMedium', null, '=', '"d3"');
-  ScribeCustomRules('unarmedDamage',
-    'unarmedDamageMedium', '=', null,
-    'unarmedDamageSmall', '=', null
-  );
-  ScribeCustomRules('unarmedDamageSmall',
-    'features.Small', '?', null,
-    'unarmedDamageMedium', '=', 'DndCharacter.smallDamage[source]'
-  );
   ScribeCustomRules
     ('weaponProficiencyLevel', null, '=', PH35.WEAPON_PROFICIENCY_NONE);
+  ScribeCustomRules('weapons.Unarmed', null, '=', '1');
 
 };
 
@@ -2373,7 +2366,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
       attr = Scribe.domains[i];
       if(attributes['domains.' + attr] == null)
         continue;
-      category = DndCharacter.spellsCategoryCodes[attr];
+      category = Scribe.spellsCategoryCodes[attr];
       for(var level = 0; level < 10; level++) {
         spellLevel = category + level;
         if((choices = spellsByLevel[spellLevel]) == null ||
@@ -2384,7 +2377,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
     }
     for(attr in Scribe.classes) {
       if(attributes['levels.' + attr] == null ||
-         (category = DndCharacter.spellsCategoryCodes[attr]) == null)
+         (category = Scribe.spellsCategoryCodes[attr]) == null)
         continue;
       for(var level = 0; level < 10; level++) {
         spellLevel = category + level;
