@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.16 2006/05/02 05:42:07 Jim Exp $ */
+/* $Id: SRD35.js,v 1.17 2006/05/04 13:44:54 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2077,6 +2077,18 @@ PH35.RandomName = function(race) {
 
   if(race == 'Half Elf')
     race = PH35.Random(0, 99) < 50 ? 'Elf' : 'Human';
+  else if(race.indexOf('Dwarf') >= 0)
+    race = 'Dwarf';
+  else if(race.indexOf('Elf') >= 0)
+    race = 'Elf';
+  else if(race.indexOf('Gnome') >= 0)
+    race = 'Gnome';
+  else if(race.indexOf('Halfling') >= 0)
+    race = 'Halfling';
+  else if(race.indexOf('Orc') >= 0)
+    race = 'Orc';
+  else
+    race = 'Human';
 
   var clusters = {
     B:'lr', C:'hlr', D:'r', F:'lr', G:'lnr', K:'lnr', P:'lr', S:'chklt', T:'hr',
@@ -2085,13 +2097,13 @@ PH35.RandomName = function(race) {
   };
   var consonants =
     {'Dwarf': 'dgkmnprst', 'Elf': 'fhlmnpqswy', 'Gnome': 'bdghjlmnprstw',
-     'Half Orc': 'dgjkprtvxz', 'Halfling': 'bdfghlmnprst',
-     'Human': 'bcdfghjklmnprstvwz'}[race];
+     'Halfling': 'bdfghlmnprst', 'Human': 'bcdfghjklmnprstvwz',
+     'Orc': 'dgjkprtvxz'}[race];
   var endConsonant = '';
   var leading = 'ghjqvwy';
   var vowels =
-    {Dwarf: 'aeiou', Elf: 'aeioy', Gnome: 'aeiou', 'Half Orc': 'aou',
-     Halfling: 'aeiou', Human: 'aeiou'}[race];
+    {'Dwarf': 'aeiou', 'Elf': 'aeioy', 'Gnome': 'aeiou',
+     'Halfling': 'aeiou', 'Human': 'aeiou', 'Orc': 'aou'}[race];
   var dipthongs = {a:'wy', e:'aei', o: 'aiouy', u: 'ae'};
   var syllables = PH35.Random(0, 99);
   syllables = syllables < 50 ? 2 :
