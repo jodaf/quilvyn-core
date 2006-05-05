@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.28 2006/04/30 18:21:20 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.29 2006/05/05 23:04:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -224,8 +224,3 @@ function ScribeCustomTests(test /*, test ... */) {
   for(var i = 0; i < arguments.length; i++)
     Scribe.tests = Scribe.tests.concat(arguments[i]);
 }
-
-/* Returns a random integer in the range low .. high, inclusive. */
-function ScribeRandom(low, hi) {
-  return Math.floor(Math.random() * (hi - low + 1) + low);
-};

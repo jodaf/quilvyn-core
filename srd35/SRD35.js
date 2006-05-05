@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.17 2006/05/04 13:44:54 Jim Exp $ */
+/* $Id: SRD35.js,v 1.18 2006/05/05 23:04:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2049,15 +2049,10 @@ PH35.SkillRules = function() {
 
 };
 
-/* Returns a random integer in the range low .. high, inclusive. */
-PH35.Random = function(low, hi) {
-  return Math.floor(Math.random() * (hi - low + 1) + low);
-};
-
 PH35.RandomAbility = function() {
   var rolls = [];
   for(i = 0; i < 4; i++)
-    rolls[i] = PH35.Random(1, 6);
+    rolls[i] = Scribe.Random(1, 6);
   rolls.sort();
   return rolls[1] + rolls[2] + rolls[3];
 };
@@ -2065,18 +2060,18 @@ PH35.RandomAbility = function() {
 PH35.RandomChoice = function(fromSet) {
   if(fromSet.constructor != Array)
     fromSet = GetKeys(fromSet);
-  return fromSet[PH35.Random(0, fromSet.length - 1)];
+  return fromSet[Scribe.Random(0, fromSet.length - 1)];
 };
 
 /* Returns a random name for a charater of race #race#. */
 PH35.RandomName = function(race) {
 
   function RandomChar(string) {
-    return string.charAt(PH35.Random(0, string.length - 1));
+    return string.charAt(Scribe.Random(0, string.length - 1));
   }
 
   if(race == 'Half Elf')
-    race = PH35.Random(0, 99) < 50 ? 'Elf' : 'Human';
+    race = Scribe.Random(0, 99) < 50 ? 'Elf' : 'Human';
   else if(race.indexOf('Dwarf') >= 0)
     race = 'Dwarf';
   else if(race.indexOf('Elf') >= 0)
@@ -2105,7 +2100,7 @@ PH35.RandomName = function(race) {
     {'Dwarf': 'aeiou', 'Elf': 'aeioy', 'Gnome': 'aeiou',
      'Halfling': 'aeiou', 'Human': 'aeiou', 'Orc': 'aou'}[race];
   var dipthongs = {a:'wy', e:'aei', o: 'aiouy', u: 'ae'};
-  var syllables = PH35.Random(0, 99);
+  var syllables = Scribe.Random(0, 99);
   syllables = syllables < 50 ? 2 :
               syllables < 75 ? 3 :
               syllables < 90 ? 4 :
@@ -2115,28 +2110,28 @@ PH35.RandomName = function(race) {
   var vowel;
 
   for(var i = 0; i < syllables; i++) {
-    if(PH35.Random(0, 99) <= 80) {
+    if(Scribe.Random(0, 99) <= 80) {
       endConsonant = RandomChar(consonants).toUpperCase();
-      if(clusters[endConsonant] != null && PH35.Random(0, 99) < 15)
+      if(clusters[endConsonant] != null && Scribe.Random(0, 99) < 15)
         endConsonant += RandomChar(clusters[endConsonant]);
       result += endConsonant;
       if(endConsonant == 'Q')
         result += 'u';
     }
-    else if(endConsonant.length == 1 && PH35.Random(0, 99) < 10) {
+    else if(endConsonant.length == 1 && Scribe.Random(0, 99) < 10) {
       result += endConsonant;
       endConsonant += endConsonant;
     }
     vowel = RandomChar(vowels);
     if(endConsonant.length > 0 && dipthongs[vowel] != null &&
-       PH35.Random(0, 99) < 15)
+       Scribe.Random(0, 99) < 15)
       vowel += RandomChar(dipthongs[vowel]);
     result += vowel;
     endConsonant = '';
-    if(PH35.Random(0, 99) <= 60) {
+    if(Scribe.Random(0, 99) <= 60) {
       while(leading.indexOf((endConsonant = RandomChar(consonants))) >= 0)
         ; /* empty */
-      if(clusters[endConsonant] != null && PH35.Random(0, 99) < 15)
+      if(clusters[endConsonant] != null && Scribe.Random(0, 99) < 15)
         endConsonant += RandomChar(clusters[endConsonant]);
       result += endConsonant;
     }
@@ -2160,7 +2155,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
   function PickAttrs(attributes, prefix, choices, howMany, value) {
     var remaining = [].concat(choices);
     for(var i = 0; i < howMany && remaining.length > 0; i++) {
-      var which = PH35.Random(0, remaining.length - 1);
+      var which = Scribe.Random(0, remaining.length - 1);
       attributes[prefix + remaining[which]] = value;
       remaining = remaining.slice(0, which).concat(remaining.slice(which + 1));
     }
@@ -2168,11 +2163,8 @@ PH35.Randomize = function(rules, attributes, attribute) {
 
   /* Returns a random key of the object #o#. */
   function RandomKey(o) {
-    var keys = [];
-    for(var a in o) {
-      keys[keys.length] = a;
-    }
-    return keys[ScribeRandom(0, keys.length - 1)];
+    var keys = Scribe.GetKeys(o);
+    return keys[Scribe.Random(0, keys.length - 1)];
   }
 
   /* Returns the sum of all #attr# elements that match #pat#. */
@@ -2201,7 +2193,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
   if(abilities[attribute] != null) {
     var rolls = [];
     for(i = 0; i < 4; i++)
-      rolls[i] = ScribeRandom(1, 6);
+      rolls[i] = Scribe.Random(1, 6);
     rolls.sort();
     attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
   } else if(selections[attribute] != null) {
@@ -2222,7 +2214,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
     for(var a in Scribe.deities)
       if(a.match(aliPat))
         choices[choices.length] = a;
-    attributes['deity'] = choices[ScribeRandom(0, choices.length - 1)];
+    attributes['deity'] = choices[Scribe.Random(0, choices.length - 1)];
     PH35.Randomize(rules, attributes, 'domains');
   } else if(attribute == 'domains') {
     if(attributes['levels.Cleric'] != null) {
@@ -2245,7 +2237,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
       if(choices.length == 0)
         break;
       while(true) {
-        var attr = 'feats.' + choices[PH35.Random(0, choices.length - 1)];
+        var attr = 'feats.' + choices[Scribe.Random(0, choices.length - 1)];
         attrs[attr] = attributes[attr] = 1;
         var invalid = Validate(attrs);
         for(var j = 0; j < invalid.length && invalid[j].indexOf(attr) < 0; j++)
@@ -2267,7 +2259,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
       var sides = matchInfo == null || matchInfo[3] == null ? 6 : matchInfo[3];
       attributes.hitPoints += number * sides;
       while(--attr > 0)
-        attributes.hitPoints += PH35.Random(number, number*sides);
+        attributes.hitPoints += Scribe.Random(number, number*sides);
     }
   } else if(attribute == 'languages') {
     attrs = rules.Apply(attributes);
@@ -2306,13 +2298,13 @@ PH35.Randomize = function(rules, attributes, attribute) {
                        (attrs['classSkills.' + attr] != null ? 1 : 2);
     }
     while(skillPoints > 0 && choices.length > 0) {
-      var pickClassSkill = PH35.Random(0, 99) >= 15;
-      i = PH35.Random(0, choices.length - 1);
+      var pickClassSkill = Scribe.Random(0, 99) >= 15;
+      i = Scribe.Random(0, choices.length - 1);
       attr = choices[i];
       if((attrs['classSkills.' + attr] != null) != pickClassSkill)
         continue;
-      var points = PH35.Random(0, 99) < 60 ?
-        maxRanks : PH35.Random(1, maxRanks - 1);
+      var points = Scribe.Random(0, 99) < 60 ?
+        maxRanks : Scribe.Random(1, maxRanks - 1);
       if(points > skillPoints)
         points = skillPoints;
       if(pickClassSkill)

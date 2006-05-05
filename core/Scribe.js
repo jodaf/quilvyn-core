@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.136 2006/05/02 05:42:07 Jim Exp $ */
+/* $Id: Scribe.js,v 1.137 2006/05/05 23:04:04 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -128,6 +128,21 @@ Scribe.spellsCategoryCodes = {
   'Trickery':'Ty', 'War':'Wr', 'Water':'Wa'
 };
 
+/* Returns a sorted array containing all keys from object #o#. */
+Scribe.GetKeys = function(o) {
+  var result = [];
+  for(var a in o) {
+    result[result.length] = a;
+  }
+  result.sort();
+  return result;
+}
+
+/* Returns a random integer in the range low .. high, inclusive. */
+Scribe.Random = function(low, hi) {
+  return Math.floor(Math.random() * (hi - low + 1) + low);
+};
+
 /* Returns an array of choices for the editor's New/Open select input. */
 function ChoicesForFileInput() {
   var result = cookieInfo.recent.split(',');
@@ -156,7 +171,7 @@ function EditorHtml() {
       a + '(' + Scribe.spellsCategoryCodes[a] + ')';
   }
   spellsCategoryOptions.sort();
-  var weapons = GetKeys(Scribe.weapons);
+  var weapons = Scribe.GetKeys(Scribe.weapons);
   var editorElements = [
     ['', 'about', 'button', ['About']],
     ['', 'help', 'button', ['Help']],
@@ -168,11 +183,11 @@ function EditorHtml() {
     ['', 'untrained', 'checkbox', ['Untrained Skills']],
     ['', 'dmonly', 'checkbox', ['DM Info']],
     [' ', 'randomize', 'select-one',
-      ['--Randomize--'].concat(GetKeys(Scribe.randomizers))],
+      ['--Randomize--'].concat(Scribe.GetKeys(Scribe.randomizers))],
     ['Name', 'name', 'text', [20]],
-    ['Race', 'race', 'select-one', GetKeys(Scribe.races)],
+    ['Race', 'race', 'select-one', Scribe.GetKeys(Scribe.races)],
     ['Experience', 'experience', 'text', [8]],
-    ['Levels', 'levels_sel', 'select-one', GetKeys(Scribe.classes)],
+    ['Levels', 'levels_sel', 'select-one', Scribe.GetKeys(Scribe.classes)],
     ['', 'levels', 'text', [3]],
     ['Image URL', 'imageUrl', 'text', [20]],
     ['Strength', 'strength', 'select-one', abilityChoices],
@@ -182,47 +197,60 @@ function EditorHtml() {
     ['Constitution', 'constitution', 'select-one', abilityChoices],
     ['Charisma', 'charisma', 'select-one', abilityChoices],
     ['Player', 'player', 'text', [20]],
-    ['Alignment', 'alignment', 'select-one', GetKeys(Scribe.alignments)],
-    ['Gender', 'gender', 'select-one', GetKeys(Scribe.genders)],
-    ['Deity', 'deity', 'select-one', GetKeys(Scribe.deities)],
+    ['Alignment', 'alignment', 'select-one', Scribe.GetKeys(Scribe.alignments)],
+    ['Gender', 'gender', 'select-one', Scribe.GetKeys(Scribe.genders)],
+    ['Deity', 'deity', 'select-one', Scribe.GetKeys(Scribe.deities)],
     ['Origin', 'origin', 'text', [20]],
-    ['Feats', 'feats_sel', 'select-one', GetKeys(Scribe.feats)],
+    ['Feats', 'feats_sel', 'select-one', Scribe.GetKeys(Scribe.feats)],
     ['', 'feats', 'checkbox', null],
     ['', 'feats_clear', 'button', ['Clear All']],
-    ['Skills', 'skills_sel', 'select-one', GetKeys(Scribe.skills)],
+    ['Skills', 'skills_sel', 'select-one', Scribe.GetKeys(Scribe.skills)],
     ['', 'skills', 'text', [3]],
     ['', 'skills_clear', 'button', ['Clear All']],
-    ['Languages', 'languages_sel', 'select-one', GetKeys(Scribe.languages)],
+    ['Languages', 'languages_sel', 'select-one',
+     Scribe.GetKeys(Scribe.languages)],
     ['', 'languages', 'checkbox', null],
     ['', 'languages_clear', 'button', ['Clear All']],
     ['Hit Points', 'hitPoints', 'text', [4]],
-    ['Armor', 'armor', 'select-one', GetKeys(Scribe.armors)],
-    ['Shield', 'shield', 'select-one', GetKeys(Scribe.shields)],
+    ['Armor', 'armor', 'select-one', Scribe.GetKeys(Scribe.armors)],
+    ['Shield', 'shield', 'select-one', Scribe.GetKeys(Scribe.shields)],
     ['Weapons', 'weapons_sel', 'select-one', weapons],
     ['', 'weapons', 'text', [3]],
     ['', 'weapons_clear', 'button', ['Clear All']],
     ['Spell Categories', 'spellcats_sel', 'select-one', spellsCategoryOptions],
     ['', 'spellcats', 'checkbox', null],
-    ['Spells', 'spells_sel', 'select-one', GetKeys(Scribe.spells)],
+    ['Spells', 'spells_sel', 'select-one', Scribe.GetKeys(Scribe.spells)],
     ['', 'spells', 'checkbox', null],
     ['', 'spells_clear', 'button', ['Clear All']],
-    ['Goodies', 'goodies_sel', 'select-one', GetKeys(Scribe.goodies)],
+    ['Goodies', 'goodies_sel', 'select-one', Scribe.GetKeys(Scribe.goodies)],
     ['', 'goodies', 'text', [2]],
     ['', 'goodies_clear', 'button', ['Clear All']],
-    ['Cleric Domains', 'domains_sel', 'select-one', GetKeys(Scribe.domains)],
+    ['Cleric Domains', 'domains_sel', 'select-one',
+     Scribe.GetKeys(Scribe.domains)],
     ['', 'domains', 'checkbox', null],
     ['', 'domains_clear', 'button', ['Clear All']],
     ['Wizard Specialization', 'specialize_sel', 'select-one',
-     GetKeys(Scribe.schools)],
+     Scribe.GetKeys(Scribe.schools)],
     ['', 'specialize', 'checkbox', null],
     ['', 'specialize_clear', 'button', ['Clear All']],
     ['Wizard Prohibition', 'prohibit_sel', 'select-one',
-     GetKeys(Scribe.schools)],
+     Scribe.GetKeys(Scribe.schools)],
     ['', 'prohibit', 'checkbox', null],
     ['', 'prohibit_clear', 'button', ['Clear All']],
     ['Notes', 'notes', 'textarea', [40,10]],
     ['DM Notes', 'dmNotes', 'textarea', [40,10]]
   ];
+  // TODO Define a way to add editor fields and move to MN2E.js.
+  if(Scribe.heroicPaths != null) {
+    var hp = [['Heroic Path', 'heroicPath', 'select-one', Scribe.GetKeys(Scribe.heroicPaths)]];
+    for(var i = 0; i < editorElements.length; i++) {
+      if(editorElements[i][0] == 'Experience') {
+        editorElements =
+         editorElements.slice(0, i).concat(hp).concat(editorElements.slice(i));
+        break;
+      }
+    }
+  }
   var htmlBits = ['<form name="frm"><table>\n'];
   for(var i = 0; i < editorElements.length; i++) {
     var element = editorElements[i];
@@ -240,7 +268,7 @@ function EditorHtml() {
 function EqualObjects(o1, o2) {
   if(typeof o1 != "object" || typeof o2 != "object")
     return o1 == o2;
-  var o1Keys = GetKeys(o1), o2Keys = GetKeys(o2);
+  var o1Keys = Scribe.GetKeys(o1), o2Keys = Scribe.GetKeys(o2);
   if(o1Keys.length != o2Keys.length)
     return false;
   for(var i = 0; i < o1Keys.length; i++) {
@@ -249,16 +277,6 @@ function EqualObjects(o1, o2) {
       return false;
   }
   return true;
-}
-
-/* Returns a sorted array containing all keys from object #o#. */
-function GetKeys(o) {
-  var result = [];
-  for(var a in o) {
-    result[result.length] = a;
-  }
-  result.sort();
-  return result;
 }
 
 /* Returns an ObjectViewer loaded with the default character sheet format. */
@@ -569,14 +587,15 @@ function RandomizeCharacter(prompt) {
     RefreshSheet();
     currentUrl = 'random';
     cachedAttrs[currentUrl] = CopyObject(character);
-    loadingPopup.close();
+    if(loadingPopup != null)
+      loadingPopup.close();
     urlLoading = null;
   } else if(urlLoading == 'random' && loadingPopup.closed) {
     urlLoading = null; /* User cancel. */
   } else if(urlLoading == null) {
     /* Nothing presently loading. */
     urlLoading = 'random';
-    var classes = GetKeys(Scribe.classes);
+    var classes = Scribe.GetKeys(Scribe.classes);
     var htmlBits = [
       '<html><head><title>New Character</title></head>\n',
       '<body bgcolor="' + BACKGROUND + '">\n',
@@ -584,7 +603,7 @@ function RandomizeCharacter(prompt) {
       '<h2>New Character Attributes</h2>\n',
       '<form name="frm"><table>\n',
       '<tr><th>Race</th><td>' +
-      InputHtml('race', 'select-one', GetKeys(Scribe.races)) + '</td></tr>\n',
+      InputHtml('race', 'select-one', Scribe.GetKeys(Scribe.races)) + '</td></tr>\n',
       '<tr><th>Level(s)</th></tr>\n'
     ];
     for(var i = 0; i < classes.length; i++)
@@ -603,7 +622,7 @@ function RandomizeCharacter(prompt) {
     loadingPopup.document.write(html);
     loadingPopup.document.close();
     loadingPopup.document.frm.race.selectedIndex =
-      ScribeRandom(0, GetKeys(Scribe.races).length - 1);
+      Scribe.Random(0, Scribe.GetKeys(Scribe.races).length - 1);
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   } else {
@@ -695,7 +714,7 @@ function RefreshEditor(redraw) {
   InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
-  var codeOpts = GetKeys(Scribe.spellsCategoryCodes);
+  var codeOpts = Scribe.GetKeys(Scribe.spellsCategoryCodes);
   codeOpts.sort();
   for(i = 0;
       i < codeOpts.length &&
@@ -943,7 +962,7 @@ function SummarizeCachedAttrs() {
     if(a != 'random')
       allAttrs[a] = rules.Apply(cachedAttrs[a]);
   }
-  var urls = GetKeys(allAttrs);
+  var urls = Scribe.GetKeys(allAttrs);
   urls.sort();
   var htmlBits = [
     '<html>',
@@ -972,7 +991,7 @@ function SummarizeCachedAttrs() {
     }
   }
   inTable['notes'] = inTable['dmNotes'] = inTable['spells'] = 1;
-  inTable = GetKeys(inTable);
+  inTable = Scribe.GetKeys(inTable);
   inTable.sort();
   for(var i = 0; i < inTable.length; i++) {
     rowHtml = '<tr><td><b>' + inTable[i] + '</b></td>';
