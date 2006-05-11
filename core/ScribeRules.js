@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.29 2006/05/05 23:04:04 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.30 2006/05/11 05:41:46 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -88,27 +88,34 @@ function ScribeCustomClass
     for(var i = 0; i < classSkills.length; i++)
       ScribeCustomRules('classSkills.' + classSkills[i], classLevel, '=', '1');
   if(features != null) {
-    var code = '';
-    var initial = [];
     var note = name.substring(0, 1).toLowerCase() + name.substring(1);
     note = note.replace(/ /g, '');
     note = 'featureNotes.' + note + 'Features';
-    for(var i = 1; i < features.length; i += 2) {
-      var feature = features[i];
-      var level = features[i - 1];
-      if(level <= 1)
-        initial[initial.length] = '"' + feature + '"';
-      else
-        code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
-      ScribeCustomRules('features.' + feature,
-        note, '=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
-      );
-    }
-    ScribeCustomRules(note, 'levels.' + name, '=',
-      '[' + initial.join(',') + ']' + code + '.sort().join("/")'
-    );
+    ScribeCustomFeatures('levels.' + name, note, features);
   }
 
+}
+
+/*
+ * TODO Comment
+ */
+function ScribeCustomFeatures(levelName, noteName, features) {
+  var code = '';
+  var initial = [];
+  for(var i = 1; i < features.length; i += 2) {
+    var feature = features[i];
+    var level = features[i - 1];
+    if(level <= 1)
+      initial[initial.length] = '"' + feature + '"';
+    else
+      code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
+    ScribeCustomRules('features.' + feature,
+      noteName, '=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
+    );
+  }
+  ScribeCustomRules(noteName,
+    levelName, '=', '[' + initial.join(',') + ']' + code + '.sort().join("/")'
+  );
 }
 
 /*
@@ -163,29 +170,17 @@ function ScribeCustomNotes(note /*, note ... */) {
 function ScribeCustomRace(name, features) {
   ScribeCustomChoices('races', name);
   if(features != null) {
-    var code = '';
-    var initial = [];
     var note = name.substring(0, 1).toLowerCase() + name.substring(1);
     note = note.replace(/ /g, '');
     note = 'featureNotes.' + note + 'Features';
-    for(var i = 1; i < features.length; i += 2) {
-      var feature = features[i];
-      var level = features[i - 1];
-      if(level <= 1)
-        initial[initial.length] = '"' + feature + '"';
-      else
-        code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
-      ScribeCustomRules('features.' + feature,
-        note, '=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
-      );
-    }
-    ScribeCustomRules(note,
-      'race', '?', 'source == "' + name + '"',
-      'level', '=', '[' + initial.join(',') + ']' + code + '.sort().join("/")'
-    );
+    ScribeCustomFeatures('level', note, features);
+    ScribeCustomRules(note, 'race', '?', 'source == "' + name + '"');
   }
 }
 
+/*
+ * TODO Comment
+ */
 function ScribeCustomRandomizers(fn, attr /*, attr ... */) {
   for(var i = 1; i < arguments.length; i++)
     Scribe.randomizers[arguments[i]] = fn;

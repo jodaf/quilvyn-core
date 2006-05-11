@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.18 2006/05/05 23:04:04 Jim Exp $ */
+/* $Id: SRD35.js,v 1.19 2006/05/11 05:41:46 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1064,13 +1064,19 @@ PH35.ClassRules = function() {
       features = [
         1, 'Favored Enemy', 1, 'Track', 1, 'Wild Empathy', 3, 'Endurance',
         4, 'Animal Companion', 7, 'Woodland Stride', 8, 'Swift Tracker',
-        9, 'Evasion', 13, 'Camouflage', 17, 'Hide In Plain Sight'
+        13, 'Camouflage', 17, 'Hide In Plain Sight'
+      ];
+      var unencumberedFeatures = [2, 'Combat Style', 9, 'Evasion'];
+      var styleArcheryFeatures = [
+        2, 'Rapid Shot', 6 , 'Manyshot', 11, 'ImprovedPrecise Shot'
+      ];
+      var styleTwoWeaponFeatures = [
+        2, 'Two Weapon Fighting', 6 , 'Improved Two Weapon Fighting',
+        11, 'Greater Two Weapon Fighting'
       ];
       hitDie = 8;
       notes = [
         'featureNotes.animalCompanionFeature:Special bond/abilities',
-        'featureNotes.combatStyle(Archery)Features:%V (light armor)',
-        'featureNotes.combatStyle(TwoWeaponCombat)Features:%V (light armor)',
         'featureNotes.woodlandStrideFeature:' +
           'Normal movement through undergrowth',
         'meleeNotes.favoredEnemyFeature:' +
@@ -1096,53 +1102,27 @@ PH35.ClassRules = function() {
         'Knowledge (Nature)', 'Listen', 'Move Silently', 'Ride', 'Search',
         'Spot', 'Survival', 'Swim', 'Use Rope'
       ];
+      ScribeCustomFeatures
+        ('levels.Ranger', 'featureNotes.combatStyle(Archery)Features',
+         styleArcheryFeatures);
+      ScribeCustomFeatures
+        ('levels.Ranger', 'featureNotes.combatStyle(TwoWeaponCombat)Features',
+         styleTwoWeaponFeatures);
+      ScribeCustomFeatures
+        ('levels.Ranger', 'featureNotes.unencumberedRangerFeatures',
+         unencumberedFeatures);
       ScribeCustomRules('casterLevelDivine',
         'spellsPerDayLevels.Ranger', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
-      ScribeCustomRules('featureNotes.classFeatCountBonus',
-        'levels.Ranger', '+=', 'source >= 2 ? 1 : null'
-      );
+      ScribeCustomRules
+        ('featureNotes.classFeatCountBonus', 'features.Combat Syle', '+=', '1');
       ScribeCustomRules('featureNotes.combatStyle(Archery)Features',
-        'feats.Combat Style (Archery)', '?', null,
-        'levels.Ranger', '=',
-        '["Rapid Shot"].concat(source >= 6 ? ["Manyshot"] : []).concat' +
-        '(source >= 11 ? ["Improved Precise Shot"] : []).sort().join("/")'
+        'features.Combat Style (Archery)', '?', null
       );
       ScribeCustomRules('featureNotes.combatStyle(TwoWeaponCombat)Features',
-        'feats.Combat Style (Two Weapon Combat)', '?', null,
-        'levels.Ranger', '=',
-        '["Two WeaponFighting"].concat' +
-        '(source >= 6 ? ["Improved Two Weapon Fighting"] : []).concat' +
-        '(source >= 11 ? ["Greater Two Weapon Fighting"] : []).sort().join("/")'
+        'features.Combat Style (Two Weapon Combat)', '?', null
       );
-      ScribeCustomRules('features.Improved Precise Shot',
-        'featureNotes.combatStyle(Archery)Features', '=',
-        'source.indexOf("Improved Precise Shot") >= 0 ? 1 : null'
-      );
-      ScribeCustomRules('features.Manyshot',
-        'featureNotes.combatStyle(Archery)Features', '=',
-        'source.indexOf("Manyshot") >= 0 ? 1 : null'
-      );
-      ScribeCustomRules('features.Rapid Shot',
-        'featureNotes.combatStyle(Archery)Features', '=',
-        'source.indexOf("Rapid Shot") >= 0 ? 1 : null'
-      );
-      ScribeCustomRules('features.Greater Two Weapon Fighting',
-        'featureNotes.combatStyle(TwoWeaponCombat)Features', '=',
-        'source.indexOf("Greater Two Weapon Fighting") >= 0 ? 1 : null'
-      );
-      ScribeCustomRules('features.Improved Two Weapon Fighting',
-        'featureNotes.combatStyle(TwoWeaponCombat)Features', '=',
-        'source.indexOf("Improved Two Weapon Fighting") >= 0 ? 1 : null'
-      );
-      ScribeCustomRules('features.Two Weapon Fighting',
-        'featureNotes.combatStyle(TwoWeaponCombat)Features', '=',
-        'source.indexOf("Two Weapon Fighting") >= 0 ? 1 : null'
-      );
-/* TODO
-  Evasion only if unencumbered
-*/
       ScribeCustomRules('meleeNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
