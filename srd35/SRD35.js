@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.19 2006/05/11 05:41:46 Jim Exp $ */
+/* $Id: SRD35.js,v 1.20 2006/05/12 15:50:12 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1348,6 +1348,10 @@ PH35.EquipmentRules = function() {
   ScribeCustomChoices('shields', PH35.SHIELDS);
   ScribeCustomChoices('weapons', PH35.WEAPONS);
 
+  ScribeCustomRules('abilityNotes.armorSpeedAdjustment',
+    'armorWeightClass', '?', 'source != "Light"',
+    null, '=', '-10'
+  );
   ScribeCustomRules('armorClass',
     'meleeNotes.goodiesArmorClassAdjustment', '+', null
   );
@@ -1361,10 +1365,6 @@ PH35.EquipmentRules = function() {
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? 50 : ' +
                     'source.indexOf("Heavy") >= 0 ? 15 : 5'
-  );
-  ScribeCustomRules('meleeNotes.armorSpeedAdjustment',
-    'armorWeightClass', '?', 'source != "Light"',
-    null, '=', '-10'
   );
   ScribeCustomRules('meleeNotes.dexterityArmorClassAdjustment',
     'armor', 'v', 'PH35.armorsMaxDexBonuses[source]'
@@ -1381,7 +1381,7 @@ PH35.EquipmentRules = function() {
   ScribeCustomRules('skillNotes.armorSkillCheckPenalty',
     'armor', '=', 'PH35.armorsSkillCheckPenalties[source]'
   );
-  ScribeCustomRules('speed', 'meleeNotes.armorSpeedAdjustment', '+', null);
+  ScribeCustomRules('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
   /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
   ScribeCustomRules
     ('level', 'meleeNotes.strengthDamageAdjustment', '=', 'null');
@@ -1621,6 +1621,8 @@ PH35.FeatRules = function() {
   ScribeCustomTests(tests);
   ScribeCustomChoices('feats', PH35.FEATS);
 
+  ScribeCustomRules
+    ('abilityNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
   ScribeCustomRules('armorClass',
     'meleeNotes.dodgeFeature', '+', '1',
     'meleeNotes.smallArmorClassAdjustment', '+', null
@@ -1645,8 +1647,6 @@ PH35.FeatRules = function() {
     ('initiative', 'meleeNotes.improvedInitiativeFeature', '+', '4');
   ScribeCustomRules
     ('magicNotes.arcaneSpellFailure', 'features.Still Spell', 'v', '0');
-  ScribeCustomRules
-    ('meleeNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
   ScribeCustomRules('meleeNotes.dexterityMeleeAttackAdjustment',
     'meleeNotes.weaponFinesseFeature', '?', null,
     'dexterityModifier', '=', 'source == 0 ? null : source'
@@ -1782,159 +1782,121 @@ PH35.MagicRules = function() {
 
 PH35.RaceRules = function() {
 
-  var features = null;
-  var notes = null;
+  /* Notes and rules that apply to multiple races */
+  var notes = [
+    'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
+    'skillNotes.keenEarsFeature:+2 Listen',
+    'featureNotes.lowLightVisionFeature:Double normal distance in poor light',
+    'meleeNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
+    'saveNotes.enchantmentResistanceFeature:' +
+      '+2 vs. enchantments; immune sleep'
+  ];
+  ScribeCustomNotes(notes);
+  ScribeCustomRules('speed', null, '=', '30');
+  ScribeCustomRules('speed', 'features.Slow', '+', '-10');
+  ScribeCustomRules('runSpeed', 'speed', '=', null);
+  ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
 
   for(var i = 0; i < PH35.RACES.length; i++) {
 
+    var adjustment = null;
+    var features = null;
+    var notes = null;
     var race = PH35.RACES[i];
 
     if(race == 'Dwarf') {
 
+      adjustment = '+2 constitution/-2 charisma';
       features = [
-        1, 'Darkvision', 1, 'Dodge Giants', 1, 'Dwarf Ability Adjustment',
-        1, 'Dwarf Favored Enemy', 1, 'Hardiness', 1, 'Know Depth',
-        1, 'Magic Resistance', 1, 'Slow', 1, 'Stability', 1, 'Stonecunning'
+        1, 'Darkvision', 1, 'Dodge Giants', 1, 'Dwarf Favored Enemy',
+        1, 'Hardy', 1, 'Know Depth', 1, 'Magic Resistance', 1, 'Slow',
+        1, 'Stability', 1, 'Stonecunning'
       ];
       notes = [
-        'abilityNotes.dwarfAbilityAdjustmentFeature:' +
-          '+2 constitution/-2 charisma',
-        'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
-        'meleeNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'meleeNotes.dwarfFavoredEnemyFeature:' +
           '+1 vs. bugbear/goblin/hobgoblin/orc',
-        'saveNotes.hardinessFeature:+2 vs. poison',
+        'saveNotes.hardyFeature:+2 vs. poison',
         'saveNotes.magicResistanceFeature:+2 vs. spells',
         'saveNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
         'skillNotes.stonecunningFeature:' +
           '+2 Appraise/Craft/Search involving stone or metal'
       ];
-      ScribeCustomRules('charisma',
-        'abilityNotes.dwarfAbilityAdjustmentFeature', '+', '-2'
-      );
-      ScribeCustomRules('constitution',
-        'abilityNotes.dwarfAbilityAdjustmentFeature', '+', '2'
-      );
-      ScribeCustomRules('meleeNotes.armorSpeedAdjustment',
+      ScribeCustomRules('abilityNotes.armorSpeedAdjustment',
         'race', '^', 'source == "Dwarf" ? 0 : null'
       );
 
     } else if(race == 'Elf') {
 
+      adjustment = '+2 dexterity/-2 constitution';
       features = [
-        1, 'Elf Ability Adjustment', 1, 'Enchantment Resistance',
-        1, 'Keen Senses', 1, 'Low Light Vision', 1, 'Sense Secret Doors'
+        1, 'Enchantment Resistance', 1, 'Keen Senses', 1, 'Low Light Vision',
+        1, 'Sense Secret Doors'
       ];
       notes = [
-        'abilityNotes.elfAbilityAdjustmentFeature:' +
-          '+2 dexterity/-2 constitution',
-        'featureNotes.lowLightVisionFeature:' +
-          'Double normal distance in poor light',
         'featureNotes.senseSecretDoorsFeature:' +
           'Automatic Search when within 5 ft',
-        'saveNotes.enchantmentResistanceFeature:' +
-          '+2 vs. enchantments; immune sleep',
         'skillNotes.keenSensesFeature:+2 Listen/Search/Spot'
       ];
-      ScribeCustomRules('constitution',
-        'abilityNotes.elfAbilityAdjustmentFeature', '+', '-2'
-      );
-      ScribeCustomRules('dexterity',
-        'abilityNotes.elfAbilityAdjustmentFeature', '+', '2'
-      );
 
     } else if(race == 'Gnome') {
 
+      adjustment = '+2 constitution/-2 strength';
       features = [
-        1, 'Dodge Giants', 1, 'Gnome Ability Adjustment',
-        1, 'Gnome Favored Enemy', 1, 'Gnome Spells', 1, 'Illusion Resistance',
-        1, 'Keen Ears', 1, 'Keen Nose', 1, 'Low Light Vision', 1, 'Slow',               1, 'Small'
+        1, 'Dodge Giants', 1, 'Gnome Favored Enemy', 1, 'Gnome Spells',
+        1, 'Illusion Resistance', 1, 'Keen Ears', 1, 'Keen Nose',
+        1, 'Low Light Vision', 1, 'Slow', 1, 'Small'
       ];
       notes = [
-        'abilityNotes.gnomeAbilityAdjustmentFeature:' +
-          '+2 constitution/-2 strength',
-        'featureNotes.lowLightVisionFeature:' +
-          'Double normal distance in poor light',
         'magicNotes.gnomeSpellsFeature:' +
           '<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
           '<i>Speak With Animals</i> 1/day',
-        'meleeNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'meleeNotes.gnomeFavoredEnemyFeature:' +
            '+1 vs. bugbear/goblin/hobgoblin/kobold',
         'saveNotes.illusionResistanceFeature:+2 vs. illusions',
-        'skillNotes.keenEarsFeature:+2 Listen',
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)'
       ];
-      ScribeCustomRules('constitution',
-        'abilityNotes.gnomeAbilityAdjustmentFeature', '+', '2'
-      );
       ScribeCustomRules
         ('magicNotes.gnomeSpellsFeature', 'charisma', '?', 'source >= 10');
-      ScribeCustomRules('strength',
-        'abilityNotes.gnomeAbilityAdjustmentFeature', '+', '-2'
-      );
 
     } else if(race == 'Half Elf') {
 
+      adjustment = null;
       features = [
           1, 'Alert Senses', 1, 'Enchantment Resistance',
           1, 'Low Light Vision', 1, 'Tolerance'
       ];
       notes = [
-        'featureNotes.lowLightVisionFeature:' +
-          'Double normal distance in poor light',
-        'saveNotes.enchantmentResistanceFeature:' +
-          '+2 vs. enchantments; immune sleep',
         'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
         'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information'
       ];
 
     } else if(race == 'Half Orc') {
 
-      features = [1, 'Darkvision', 1, 'Half Orc Ability Adjustment'];
-      notes = [
-        'abilityNotes.halfOrcAbilityAdjustmentFeature:' +
-          '+2 strength/-2 intelligence/-2 charisma',
-        'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
-      ];
-      ScribeCustomRules('charisma',
-        'abilityNotes.halfOrcAbilityAdjustmentFeature', '+', '-2'
-      );
-      ScribeCustomRules('intelligence',
-        'abilityNotes.halfOrcAbilityAdjustmentFeature', '+', '-2'
-      );
-      ScribeCustomRules('strength',
-        'abilityNotes.halfOrcAbilityAdjustmentFeature', '+', '2'
-      );
+      adjustment = '+2 strength/-2 intelligence/-2 charisma';
+      features = [1, 'Darkvision'];
+      notes = null;
 
     } else if(race == 'Halfling') {
 
+      adjustment = '+2 dexterity/-2 strength';
       features = [
-        1, 'Accurate', 1, 'Halfling Ability Adjustment', 1, 'Keen Ears',
-        1, 'Lucky', 1, 'Slow', 1, 'Small', 1, 'Spry', 1, 'Unafraid'
+        1, 'Accurate', 1, 'Keen Ears', 1, 'Lucky', 1, 'Slow', 1, 'Small',
+        1, 'Spry', 1, 'Unafraid'
       ];
       notes = [
-        'abilityNotes.halflingAbilityAdjustmentFeature:' +
-          '+2 dexterity/-2 strength',
         'meleeNotes.accurateFeature:+1 attack with slings/thrown',
         'saveNotes.luckyFeature:+1 all saves',
         'saveNotes.unafraidFeature:+2 vs. fear',
-        'skillNotes.keenEarsFeature:+2 Listen',
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
       ];
-      ScribeCustomRules('dexterity',
-        'abilityNotes.halflingAbilityAdjustmentFeature', '+', '2'
-      );
       ScribeCustomRules('saveFortitude', 'saveNotes.luckyFeature', '+', '1');
       ScribeCustomRules('saveReflex', 'saveNotes.luckyFeature', '+', '1');
       ScribeCustomRules('saveWill', 'saveNotes.luckyFeature', '+', '1');
-      ScribeCustomRules('strength',
-        'abilityNotes.halflingAbilityAdjustmentFeature', '+', '-2'
-      );
 
     } else if(race == 'Human') {
 
+      adjustment = null;
       features = null;
       notes = null;
       ScribeCustomRules('featCount',
@@ -1953,16 +1915,11 @@ PH35.RaceRules = function() {
     } else
       continue;
 
-    ScribeCustomRace(race, features);
+    ScribeCustomRace(race, adjustment, features);
     if(notes != null)
       ScribeCustomNotes(notes);
 
   }
-
-  ScribeCustomRules('speed', null, '=', '30');
-  ScribeCustomRules('speed', 'features.Slow', '+', '-10');
-  ScribeCustomRules('runSpeed', 'speed', '=', null);
-  ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
 
 };
 

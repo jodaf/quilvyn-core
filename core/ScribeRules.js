@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.30 2006/05/11 05:41:46 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.31 2006/05/12 15:50:12 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -167,14 +167,26 @@ function ScribeCustomNotes(note /*, note ... */) {
 /*
  * TODO Comment
  */
-function ScribeCustomRace(name, features) {
+function ScribeCustomRace(name, abilityAdjustment, features) {
   ScribeCustomChoices('races', name);
+  var prefix = name.substring(0, 1).toLowerCase() + name.substring(1);
+  prefix = prefix.replace(/ /g, '');
+  if(abilityAdjustment != null) {
+    var abilityNote = 'abilityNotes.' + prefix + 'AbilityAdjustment';
+    ScribeCustomNotes(abilityNote + ':' + abilityAdjustment);
+    var adjustments = abilityAdjustment.split(/\//);
+    for(var i = 0; i < adjustments.length; i++) {
+      var amountAndAbility = adjustments[i].split(/ +/);
+      ScribeCustomRules
+        (amountAndAbility[1], abilityNote, '+', amountAndAbility[0]);
+    }
+    ScribeCustomRules
+      (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
+  }
   if(features != null) {
-    var note = name.substring(0, 1).toLowerCase() + name.substring(1);
-    note = note.replace(/ /g, '');
-    note = 'featureNotes.' + note + 'Features';
-    ScribeCustomFeatures('level', note, features);
-    ScribeCustomRules(note, 'race', '?', 'source == "' + name + '"');
+    var featureNote = 'featureNotes.' + prefix + 'Features';
+    ScribeCustomFeatures('level', featureNote, features);
+    ScribeCustomRules(featureNote, 'race', '?', 'source == "' + name + '"');
   }
 }
 
