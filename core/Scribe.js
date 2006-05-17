@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.137 2006/05/05 23:04:04 Jim Exp $ */
+/* $Id: Scribe.js,v 1.138 2006/05/17 06:14:11 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -793,8 +793,6 @@ function SheetHtml() {
     if(a.search(/^feats\./) >= 0)
       delete computedAttributes['features.' + a.substring(6)];
   }
-  /* Add "Unarmed" to the weapon list of every character. */
-  computedAttributes['weapons.Unarmed'] = 1;
   /*
    * NOTE: The ObjectFormatter doesn't support interspersing values in a list
    * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
@@ -869,7 +867,9 @@ function SheetHtml() {
           if(pieces == null)
             pieces = ['d6', 'd6'];
           var additional = (pieces[2] ? pieces[2] - 0 : 0) + addedDamage;
-          var damage = pieces[1];
+          var damage = computedAttributes['weaponDamage.' + name];
+          if(damage == null)
+            damage = pieces[1];
           var multiplier = pieces[4] ? pieces[4] - 0 : 2;
           var smallDamage = Scribe.smallDamage[damage];
           var threat = pieces[6] ? pieces[6] - 0 : 20;
