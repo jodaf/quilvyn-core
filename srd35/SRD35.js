@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.20 2006/05/12 15:50:12 Jim Exp $ */
+/* $Id: SRD35.js,v 1.21 2006/05/19 03:54:49 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2200,7 +2200,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
     }
   } else if(attribute == 'languages') {
     attrs = rules.Apply(attributes);
-    var race = attributes.race.replace(/Half /, '');
+    var race = attributes.race.replace(/.* /, '');
     attributes['languages.Common'] = 1;
     if(race != 'Human')
       attributes['languages.' + race] = 1;
