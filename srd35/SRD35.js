@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.21 2006/05/19 03:54:49 Jim Exp $ */
+/* $Id: SRD35.js,v 1.22 2006/05/19 20:12:38 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -50,19 +50,13 @@ function PH35() {
 PH35.ATTACK_BONUS_GOOD = 'source';
 PH35.ATTACK_BONUS_AVERAGE = 'source - Math.floor((source + 3) / 4)';
 PH35.ATTACK_BONUS_POOR = 'Math.floor(source / 2)'
-PH35.ARMOR_PROFICIENCY_HEAVY = '3';
-PH35.ARMOR_PROFICIENCY_LIGHT = '1';
-PH35.ARMOR_PROFICIENCY_MEDIUM = '2';
-PH35.ARMOR_PROFICIENCY_NONE = '0';
+PH35.PROFICIENCY_HEAVY = '3';
+PH35.PROFICIENCY_LIGHT = '1';
+PH35.PROFICIENCY_MEDIUM = '2';
+PH35.PROFICIENCY_NONE = '0';
+PH35.PROFICIENCY_TOWER = '4';
 PH35.SAVE_BONUS_GOOD = '2 + Math.floor(source / 2)';
 PH35.SAVE_BONUS_POOR = 'Math.floor(source / 3)';
-PH35.SHIELD_PROFICIENCY_HEAVY = '2';
-PH35.SHIELD_PROFICIENCY_LIGHT = '1';
-PH35.SHIELD_PROFICIENCY_NONE = '0';
-PH35.SHIELD_PROFICIENCY_TOWER = '3';
-PH35.WEAPON_PROFICIENCY_NONE = '0';
-PH35.WEAPON_PROFICIENCY_MARTIAL = '2';
-PH35.WEAPON_PROFICIENCY_SIMPLE = '1';
 /* Choice lists */
 PH35.ALIGNMENTS = [
   'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral', 'Neutral Evil',
@@ -596,9 +590,9 @@ PH35.ClassRules = function() {
         'saveNotes.indomitableWillFeature:+4 Will save while raging',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_MEDIUM;
-      profShield = PH35.SHIELD_PROFICIENCY_HEAVY;
-      profWeapon = PH35.WEAPON_PROFICIENCY_MARTIAL;
+      profArmor = PH35.PROFICIENCY_MEDIUM;
+      profShield = PH35.PROFICIENCY_HEAVY;
+      profWeapon = PH35.PROFICIENCY_MEDIUM;
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_POOR;
@@ -653,9 +647,9 @@ PH35.ClassRules = function() {
         'skillNotes.bardicKnowledgeFeature:' +
           '+%V Knowledge checks on local history'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_LIGHT;
-      profShield = PH35.SHIELD_PROFICIENCY_HEAVY;
-      profWeapon = PH35.WEAPON_PROFICIENCY_SIMPLE;
+      profArmor = PH35.PROFICIENCY_LIGHT;
+      profShield = PH35.PROFICIENCY_HEAVY;
+      profWeapon = PH35.PROFICIENCY_LIGHT;
       saveFortitude = PH35.SAVE_BONUS_POOR;
       saveReflex = PH35.SAVE_BONUS_GOOD;
       saveWill = PH35.SAVE_BONUS_GOOD;
@@ -750,9 +744,9 @@ PH35.ClassRules = function() {
         'meleeNotes.turnUndeadFeature:' +
           'Turn (good) or rebuke (evil) undead creatures'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_HEAVY;
-      profShield = PH35.SHIELD_PROFICIENCY_HEAVY;
-      profWeapon = PH35.WEAPON_PROFICIENCY_SIMPLE;
+      profArmor = PH35.PROFICIENCY_HEAVY;
+      profShield = PH35.PROFICIENCY_HEAVY;
+      profWeapon = PH35.PROFICIENCY_LIGHT;
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
@@ -813,9 +807,9 @@ PH35.ClassRules = function() {
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
         'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_MEDIUM;
-      profShield = PH35.SHIELD_PROFICIENCY_HEAVY;
-      profWeapon = PH35.WEAPON_PROFICIENCY_NONE;
+      profArmor = PH35.PROFICIENCY_MEDIUM;
+      profShield = PH35.PROFICIENCY_HEAVY;
+      profWeapon = PH35.PROFICIENCY_NONE;
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
@@ -873,9 +867,9 @@ PH35.ClassRules = function() {
       features = null;
       hitDie = 10;
       notes = null;
-      profArmor = PH35.ARMOR_PROFICIENCY_HEAVY;
-      profShield = PH35.SHIELD_PROFICIENCY_TOWER;
-      profWeapon = PH35.WEAPON_PROFICIENCY_MARTIAL;
+      profArmor = PH35.PROFICIENCY_HEAVY;
+      profShield = PH35.PROFICIENCY_TOWER;
+      profWeapon = PH35.PROFICIENCY_MEDIUM;
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_POOR;
@@ -923,9 +917,9 @@ PH35.ClassRules = function() {
           'Subtract %V ft from falling distance damage:',
         'saveNotes.stillMindFeature:+2 vs. enchantments'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_NONE;
-      profShield = PH35.SHIELD_PROFICIENCY_NONE;
-      profWeapon = PH35.WEAPON_PROFICIENCY_NONE;
+      profArmor = PH35.PROFICIENCY_NONE;
+      profShield = PH35.PROFICIENCY_NONE;
+      profWeapon = PH35.PROFICIENCY_NONE;
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_GOOD;
       saveWill = PH35.SAVE_BONUS_GOOD;
@@ -975,10 +969,10 @@ PH35.ClassRules = function() {
         'levels.Monk', '=', 'source < 20 ? Math.floor(source / 2) * 10 : "all"'
       );
       ScribeCustomRules('speed', 'abilityNotes.fastMovementFeature', '+', null);
-      ScribeCustomRules('unarmedDamageMedium',
+      ScribeCustomRules('weaponDamage.Unarmed',
         'levels.Monk', '=',
-          'source < 12 ? ("d" + (6 + Math.floor(source / 4) * 2)) : ' +
-          '              ("2d" + (6 + Math.floor((source - 12) / 4) * 2))'
+        'source < 12 ? ("d" + (6 + Math.floor(source / 4) * 2)) : ' +
+        '              ("2d" + (6 + Math.floor((source - 12) / 4) * 2))'
       );
 
     } else if(klass == 'Paladin') {
@@ -1006,9 +1000,9 @@ PH35.ClassRules = function() {
         'saveNotes.divineGraceFeature:Add %V to saves',
         'saveNotes.divineHealthFeature:Immune to disease'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_HEAVY;
-      profShield = PH35.SHIELD_PROFICIENCY_HEAVY;
-      profWeapon = PH35.WEAPON_PROFICIENCY_MARTIAL;
+      profArmor = PH35.PROFICIENCY_HEAVY;
+      profShield = PH35.PROFICIENCY_HEAVY;
+      profWeapon = PH35.PROFICIENCY_MEDIUM;
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_POOR;
@@ -1089,9 +1083,9 @@ PH35.ClassRules = function() {
         'skillNotes.swiftTrackerFeature:Track at full speed',
         'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_LIGHT;
-      profShield = PH35.SHIELD_PROFICIENCY_HEAVY;
-      profWeapon = PH35.WEAPON_PROFICIENCY_MARTIAL;
+      profArmor = PH35.PROFICIENCY_LIGHT;
+      profShield = PH35.PROFICIENCY_HEAVY;
+      profWeapon = PH35.PROFICIENCY_MEDIUM;
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_GOOD;
       saveWill = PH35.SAVE_BONUS_POOR;
@@ -1115,8 +1109,9 @@ PH35.ClassRules = function() {
         'spellsPerDayLevels.Ranger', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
-      ScribeCustomRules
-        ('featureNotes.classFeatCountBonus', 'features.Combat Syle', '+=', '1');
+      ScribeCustomRules('featureNotes.classFeatCountBonus',
+        'features.Combat Style', '+=', '1'
+      );
       ScribeCustomRules('featureNotes.combatStyle(Archery)Features',
         'features.Combat Style (Archery)', '?', null
       );
@@ -1170,9 +1165,9 @@ PH35.ClassRules = function() {
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
         'skillNotes.trapfindingFeature:Search to find/remove DC 20+ traps'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_LIGHT;
-      profShield = PH35.SHIELD_PROFICIENCY_NONE;
-      profWeapon = PH35.WEAPON_PROFICIENCY_SIMPLE;
+      profArmor = PH35.PROFICIENCY_LIGHT;
+      profShield = PH35.PROFICIENCY_NONE;
+      profWeapon = PH35.PROFICIENCY_LIGHT;
       saveFortitude = PH35.SAVE_BONUS_POOR;
       saveReflex = PH35.SAVE_BONUS_GOOD;
       saveWill = PH35.SAVE_BONUS_POOR;
@@ -1206,9 +1201,9 @@ PH35.ClassRules = function() {
       notes = [
         'magicNotes.summonFamiliarFeature:Special bond/abilities'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_NONE;
-      profShield = PH35.SHIELD_PROFICIENCY_NONE;
-      profWeapon = PH35.WEAPON_PROFICIENCY_SIMPLE;
+      profArmor = PH35.PROFICIENCY_NONE;
+      profShield = PH35.PROFICIENCY_NONE;
+      profWeapon = PH35.PROFICIENCY_LIGHT;
       saveFortitude = PH35.SAVE_BONUS_POOR;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
@@ -1243,9 +1238,9 @@ PH35.ClassRules = function() {
       notes = [
         'magicNotes.summonFamiliarFeature:Special bond/abilities'
       ];
-      profArmor = PH35.ARMOR_PROFICIENCY_NONE;
-      profShield = PH35.SHIELD_PROFICIENCY_NONE;
-      profWeapon = PH35.WEAPON_PROFICIENCY_NONE;
+      profArmor = PH35.PROFICIENCY_NONE;
+      profShield = PH35.PROFICIENCY_NONE;
+      profWeapon = PH35.PROFICIENCY_NONE;
       saveFortitude = PH35.SAVE_BONUS_POOR;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
@@ -1307,15 +1302,14 @@ PH35.CombatRules = function() {
                    'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
   );
   ScribeCustomRules
-    ('armorProficiencyLevel', null, '=', PH35.ARMOR_PROFICIENCY_NONE);
+    ('armorProficiencyLevel', null, '=', PH35.PROFICIENCY_NONE);
   ScribeCustomRules('baseAttack', null, '=', '0');
   ScribeCustomRules('meleeAttack', 'baseAttack', '=', null);
   ScribeCustomRules('rangedAttack', 'baseAttack', '=', null);
   ScribeCustomRules('saveReflex', null, '=', '0');
   ScribeCustomRules('saveFortitude', null, '=', '0');
   ScribeCustomRules('saveWill', null, '=', '0');
-  ScribeCustomRules
-    ('shieldProficiencyLevel', null, '=', PH35.SHIELD_PROFICIENCY_NONE);
+  ScribeCustomRules('shieldProficiencyLevel', null, '=', PH35.PROFICIENCY_NONE);
   ScribeCustomRules('turningBase', 'turningLevel', '=', null)
   ScribeCustomRules('turningDamageModifier', 'turningLevel', '=', null);
   ScribeCustomRules('turningFrequency', 'turningLevel', '=', '3');
@@ -1327,8 +1321,7 @@ PH35.CombatRules = function() {
     'turningBase', '=', 'Math.floor(source - 3)',
     'turningLevel', '^', 'source - 4'
   );
-  ScribeCustomRules
-    ('weaponProficiencyLevel', null, '=', PH35.WEAPON_PROFICIENCY_NONE);
+  ScribeCustomRules('weaponProficiencyLevel', null, '=', PH35.PROFICIENCY_NONE);
   ScribeCustomRules('weapons.Unarmed', null, '=', '1');
 
 };
@@ -1631,9 +1624,9 @@ PH35.FeatRules = function() {
     'armorProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
   ScribeCustomRules('armorProficiencyLevel',
-    'features.Armor Proficiency Light', '^', PH35.ARMOR_PROFICIENCY_LIGHT,
-    'features.Armor Proficiency Medium', '^', PH35.ARMOR_PROFICIENCY_MEDIUM,
-    'features.Armor Proficiency Heavy', '^', PH35.ARMOR_PROFICIENCY_HEAVY
+    'features.Armor Proficiency Light', '^', PH35.PROFICIENCY_LIGHT,
+    'features.Armor Proficiency Medium', '^', PH35.PROFICIENCY_MEDIUM,
+    'features.Armor Proficiency Heavy', '^', PH35.PROFICIENCY_HEAVY
   );
   ScribeCustomRules
     ('baseAttack', 'meleeNotes.smallBaseAttackAdjustment', '+', null);
@@ -1672,8 +1665,8 @@ PH35.FeatRules = function() {
     'shieldProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
   ScribeCustomRules('shieldProficiencyLevel',
-    'features.Shield Proficiency', '^', PH35.SHIELD_PROFICIENCY_HEAVY,
-    'features.Shield Proficiency Tower', '^', PH35.SHIELD_PROFICIENCY_TOWER
+    'features.Shield Proficiency', '^', PH35.PROFICIENCY_HEAVY,
+    'features.Shield Proficiency Tower', '^', PH35.PROFICIENCY_TOWER
   );
   ScribeCustomRules
     ('skillNotes.smallSkillAdjustment', 'features.Small', '=', '1');
@@ -1683,12 +1676,12 @@ PH35.FeatRules = function() {
     ('turningLevel', 'meleeNotes.improvedTurningFeature', '+', '1');
   ScribeCustomRules('weaponProficiency',
     'weaponProficiencyLevel', '=',
-      'source==' + PH35.WEAPON_PROFICIENCY_SIMPLE + ' ? "Simple" : ' +
-      'source==' + PH35.WEAPON_PROFICIENCY_MARTIAL + ' ? "Martial" : ' +
+      'source==' + PH35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
+      'source==' + PH35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
       '"None"'
   );
   ScribeCustomRules('weaponProficiencyLevel',
-    'features.Weapon Proficiency Simple', '^', PH35.WEAPON_PROFICIENCY_SIMPLE
+    'features.Weapon Proficiency Simple', '^', PH35.PROFICIENCY_LIGHT
   );
 
 };
@@ -1770,9 +1763,12 @@ PH35.MagicRules = function() {
   );
   ScribeCustomRules
     ('magicNotes.arcaneSpellFailure', 'casterLevelArcane', '?', null);
-  for(var a in Scribe.schools)
+  for(var a in Scribe.schools) {
     ScribeCustomRules
       ('magicNotes.wizardSpecialization', 'specialize.' + a, '=', '"'+a+'"');
+    ScribeCustomRules
+      ('skillNotes.wizardSpecialization', 'specialize.' + a, '=', '"'+a+'"');
+  }
   ScribeCustomRules('maxSpellLevel',
     'maxSpellLevelArcane', '^=', null,
     'maxSpellLevelDivine', '^=', null
@@ -1792,6 +1788,7 @@ PH35.RaceRules = function() {
       '+2 vs. enchantments; immune sleep'
   ];
   ScribeCustomNotes(notes);
+  ScribeCustomRules('languageCount', 'race', '+', 'source != "Human" ? 1 : 0');
   ScribeCustomRules('speed', null, '=', '30');
   ScribeCustomRules('speed', 'features.Slow', '+', '-10');
   ScribeCustomRules('runSpeed', 'speed', '=', null);
