@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.138 2006/05/17 06:14:11 Jim Exp $ */
+/* $Id: Scribe.js,v 1.139 2006/05/19 20:12:18 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -288,7 +288,8 @@ function InitialViewer() {
       {name: 'Identity', within: 'Header', separator: ''},
         {name: 'Name', within: 'Identity', format: '<b>%V</b>'},
         {name: 'Race', within: 'Identity', format: ' -- <b>%V</b>'},
-        {name: 'Levels', within: 'Identity', format: ' <b>%V</b>'},
+        {name: 'Levels', within: 'Identity', format: ' <b>%V</b>',
+         separator: '/'},
       {name: 'Image Url', within: 'Header', format: '<img src="%V">'},
     {name: 'Attributes', within: '_top', separator: '\n'},
       {name: 'Abilities', within: 'Attributes'},
