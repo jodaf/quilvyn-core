@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.139 2006/05/19 20:12:18 Jim Exp $ */
+/* $Id: Scribe.js,v 1.140 2006/05/21 07:43:05 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -353,18 +353,18 @@ function InitialViewer() {
       {name: 'LanguageStats', within: 'FeaturesAndSkills'},
         {name: 'Language Count', within: 'LanguageStats'},
       {name: 'Languages', within: 'FeaturesAndSkills', separator: ' * '},
-    {name: 'Melee', within: '_top', separator: '\n',
-      format: '<b>Melee</b><br/>%V'},
-      {name: 'Combat', within: 'Melee'},
-        {name: 'Hit Points', within: 'Combat'},
-        {name: 'Initiative', within: 'Combat'},
-        {name: 'Armor Class', within: 'Combat'},
-        {name: 'AttackInfo', within: 'Combat', separator: ''},
+    {name: 'Combat', within: '_top', separator: '\n',
+      format: '<b>Combat</b><br/>%V'},
+      {name: 'CombatInfo', within: 'Combat'},
+        {name: 'Hit Points', within: 'CombatInfo'},
+        {name: 'Initiative', within: 'CombatInfo'},
+        {name: 'Armor Class', within: 'CombatInfo'},
+        {name: 'AttackInfo', within: 'CombatInfo', separator: ''},
           {name: 'Base Attack', within: 'AttackInfo',
             format: '<b>Base/Melee/Ranged Attack</b>: %V'},
           {name: 'Melee Attack', within: 'AttackInfo', format: '/%V'},
           {name: 'Ranged Attack', within: 'AttackInfo', format: '/%V'},
-      {name: 'Turning', within: 'Melee'},
+      {name: 'Turning', within: 'Combat'},
         {name: 'Turning Frequency', within: 'Turning',
           format: '<b>%N</b>: %V/Day'},
         {name: 'TurningMinMaxInfo', within: 'Turning', separator: ''},
@@ -373,19 +373,19 @@ function InitialViewer() {
           {name: 'Turning Max', within: 'TurningMinMaxInfo', format: '/%V'},
         {name: 'Turning Damage Modifier', within: 'Turning',
           format: '<b>Turning Damage</b>: 2d6+%V'},
-      {name: 'Weapons', within: 'Melee', separator: ' * '},
-      {name: 'Geer', within: 'Melee'},
+      {name: 'Weapons', within: 'Combat', separator: ' * '},
+      {name: 'Geer', within: 'Combat'},
         {name: 'Armor Proficiency', within: 'Geer'},
         {name: 'Armor', within: 'Geer'},
         {name: 'Shield Proficiency', within: 'Geer'},
         {name: 'Shield', within: 'Geer'},
         {name: 'Weapon Proficiency', within: 'Geer'},
-      {name: 'Melee Notes', within: 'Melee', separator: ' * '},
-      {name: 'Saves', within: 'Melee'},
+      {name: 'Combat Notes', within: 'Combat', separator: ' * '},
+      {name: 'Saves', within: 'Combat'},
         {name: 'Save Fortitude', within: 'Saves'},
         {name: 'Save Reflex', within: 'Saves'},
         {name: 'Save Will', within: 'Saves'},
-      {name: 'Save Notes', within: 'Melee', separator: ' * '},
+      {name: 'Save Notes', within: 'Combat', separator: ' * '},
     {name: 'Magic', within: '_top', separator: '\n',
       format: '<b>Magic</b><br/>%V'},
       {name: 'SpellStats', within: 'Magic'},
@@ -800,7 +800,7 @@ function SheetHtml() {
    * of displayAttributes' names and values here to get the sheet to look right.
    */
   var strengthDamageAdjustment =
-    computedAttributes['meleeNotes.strengthDamageAdjustment'];
+    computedAttributes['combatNotes.strengthDamageAdjustment'];
   if(strengthDamageAdjustment == null)
     strengthDamageAdjustment = 0;
   for(a in computedAttributes) {

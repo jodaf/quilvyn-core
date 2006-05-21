@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.22 2006/05/19 20:12:38 Jim Exp $ */
+/* $Id: SRD35.js,v 1.23 2006/05/21 07:43:05 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -443,7 +443,7 @@ PH35.WEAPONS = [
   'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19', 'Unarmed:d3',
   'Warhammer:d8x3', 'Whip:d3'
 ];
-PH35.PROFICIENCY_LEVEL_NAMES = ["None", "Light", "Medium", "Heavy"];
+PH35.PROFICIENCY_LEVEL_NAMES = ["None", "Light", "Medium", "Heavy", "Tower"];
 
 PH35.AbilityRules = function() {
 
@@ -470,24 +470,24 @@ PH35.AbilityRules = function() {
     ('wisdomModifier', 'wisdom', '=', 'Math.floor((source - 10) / 2)');
 
   /* Effects of ability modifiers */
+  ScribeCustomRules('combatNotes.constitutionHitPointsAdjustment',
+    'constitutionModifier', '=', 'source == 0 ? null : source'
+  );
+  ScribeCustomRules('combatNotes.dexterityArmorClassAdjustment',
+    'dexterityModifier', '=', 'source == 0 ? null : source'
+  );
+  ScribeCustomRules('combatNotes.dexterityRangedAttackAdjustment',
+    'dexterityModifier', '=', 'source == 0 ? null : source'
+  );
+  ScribeCustomRules('combatNotes.strengthDamageAdjustment',
+    'strengthModifier', '=', 'source == 0 ? null : source'
+  );
+  ScribeCustomRules('combatNotes.strengthMeleeAttackAdjustment',
+    'strengthModifier', '=', 'source == 0 ? null : source'
+  );
   ScribeCustomRules('initiative', 'dexterityModifier', '=', null);
   ScribeCustomRules('languageCount',
     'intelligenceModifier', '+', 'source > 0 ? source : null'
-  );
-  ScribeCustomRules('meleeNotes.constitutionHitPointsAdjustment',
-    'constitutionModifier', '=', 'source == 0 ? null : source'
-  );
-  ScribeCustomRules('meleeNotes.dexterityArmorClassAdjustment',
-    'dexterityModifier', '=', 'source == 0 ? null : source'
-  );
-  ScribeCustomRules('meleeNotes.dexterityRangedAttackAdjustment',
-    'dexterityModifier', '=', 'source == 0 ? null : source'
-  );
-  ScribeCustomRules('meleeNotes.strengthDamageAdjustment',
-    'strengthModifier', '=', 'source == 0 ? null : source'
-  );
-  ScribeCustomRules('meleeNotes.strengthMeleeAttackAdjustment',
-    'strengthModifier', '=', 'source == 0 ? null : source'
   );
   ScribeCustomRules('saveFortitude', 'constitutionModifier', '+', null);
   ScribeCustomRules('saveReflex', 'dexterityModifier', '+', null);
@@ -502,20 +502,22 @@ PH35.AbilityRules = function() {
 
   /* Effects of the notes computed above. */
   ScribeCustomRules
-    ('armorClass', 'meleeNotes.dexterityArmorClassAdjustment', '+', null);
+    ('armorClass', 'combatNotes.dexterityArmorClassAdjustment', '+', null);
   ScribeCustomRules
-    ('hitPoints', 'meleeNotes.constitutionHitPointsAdjustment', '+', null);
+    ('hitPoints', 'combatNotes.constitutionHitPointsAdjustment', '+', null);
   ScribeCustomRules
-    ('meleeAttack', 'meleeNotes.strengthMeleeAttackAdjustment', '+', null);
+    ('meleeAttack', 'combatNotes.strengthMeleeAttackAdjustment', '+', null);
   ScribeCustomRules
-    ('meleeAttack', 'meleeNotes.dexterityMeleeAttackAdjustment', '+', null);
+    ('meleeAttack', 'combatNotes.dexterityMeleeAttackAdjustment', '+', null);
   ScribeCustomRules
-    ('rangedAttack', 'meleeNotes.dexterityRangedAttackAdjustment', '+', null);
+    ('rangedAttack', 'combatNotes.dexterityRangedAttackAdjustment', '+', null);
   ScribeCustomRules
     ('skillPoints', 'skillNotes.intelligenceSkillPointsAdjustment', '+', null);
 
   /* Experience- and level-dependent attributes */
   ScribeCustomRules('classSkillMaxRanks', 'level', '=', 'source + 3');
+  ScribeCustomRules
+    ('combatNotes.constitutionHitPointsAdjustment', 'level', '*', null);
   ScribeCustomRules
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
   ScribeCustomRules('level',
@@ -526,8 +528,6 @@ PH35.AbilityRules = function() {
     null, '=', '0',
     'level', '^', 'source + 3'
   );
-  ScribeCustomRules
-    ('meleeNotes.constitutionHitPointsAdjustment', 'level', '*', null);
 
   /* Effects of experience- and level-dependent attributes */
   ScribeCustomRules
@@ -578,15 +578,15 @@ PH35.ClassRules = function() {
       hitDie = 12;
       notes = [
         'abilityNotes.fastMovementFeature:+%V speed',
-        'meleeNotes.damageReductionFeature:%V subtracted from damage taken',
-        'meleeNotes.greaterRageFeature:+6 strength/constitution; +3 Will',
-        'meleeNotes.improvedUncannyDodgeFeature:' +
+        'combatNotes.damageReductionFeature:%V subtracted from damage taken',
+        'combatNotes.greaterRageFeature:+6 strength/constitution; +3 Will',
+        'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
-        'meleeNotes.mightyRageFeature:+8 strength/constitution; +4 Will save',
-        'meleeNotes.rageFeature:' +
+        'combatNotes.mightyRageFeature:+8 strength/constitution; +4 Will save',
+        'combatNotes.rageFeature:' +
           '+4 strength/constitution/+2 Will save/-2 AC 5+conMod rounds %V/day',
-        'meleeNotes.tirelessRageFeature:Not exhausted after rage',
-        'meleeNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
+        'combatNotes.tirelessRageFeature:Not exhausted after rage',
+        'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'saveNotes.indomitableWillFeature:+4 Will save while raging',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps'
       ];
@@ -604,10 +604,10 @@ PH35.ClassRules = function() {
       ScribeCustomRules('abilityNotes.fastMovementFeature',
         'levels.Barbarian', '+=', '10'
       );
-      ScribeCustomRules('meleeNotes.rageFeature',
+      ScribeCustomRules('combatNotes.rageFeature',
         'levels.Barbarian', '+=', '1 + Math.floor(source / 4)'
       );
-      ScribeCustomRules('meleeNotes.damageReductionFeature',
+      ScribeCustomRules('combatNotes.damageReductionFeature',
         'levels.Barbarian', '+=', 'source>=7 ? Math.floor((source-4)/3) : null'
       );
       ScribeCustomRules('saveNotes.trapSenseFeature',
@@ -740,9 +740,9 @@ PH35.ClassRules = function() {
       features = [1, 'Spontaneous Cleric Spell', 1, 'Turn Undead'];
       hitDie = 8;
       notes = [
-        'magicNotes.spontaneousClericSpellFeature:%V',
-        'meleeNotes.turnUndeadFeature:' +
-          'Turn (good) or rebuke (evil) undead creatures'
+        'combatNotes.turnUndeadFeature:' +
+          'Turn (good) or rebuke (evil) undead creatures',
+        'magicNotes.spontaneousClericSpellFeature:%V'
       ];
       profArmor = PH35.PROFICIENCY_HEAVY;
       profShield = PH35.PROFICIENCY_HEAVY;
@@ -895,19 +895,19 @@ PH35.ClassRules = function() {
       hitDie = 8;
       notes = [
         'abilityNotes.fastMovementFeature:+%V speed',
+        'combatNotes.flurryOfBlowsFeature:Take %V penalty for extra attack',
+        'combatNotes.greaterFlurryFeature:Extra attack',
+        'combatNotes.kiStrikeFeature:Treat unarmed attacks as magic weapons',
+        'combatNotes.perfectSelfFeature:' +
+          'Ignore first 10 points of non-magical damage',
+        'combatNotes.quiveringPalmFeature:' +
+          'Foe makes DC %V Fortitude save or dies 1/week',
         'featureNotes.timelessBodyFeature:No aging penalties',
         'featureNotes.tongueOfTheSunAndMoonFeature:Speak w/any creature',
         'magicNotes.abundantStepFeature:' +
           '<i>Dimension Door</i> at level %V 1/day',
         'magicNotes.emptyBodyFeature:Ethereal %V rounds/day',
         'magicNotes.wholenessOfBodyFeature:Heal %V damage to self/day',
-        'meleeNotes.flurryOfBlowsFeature:Take %V penalty for extra attack',
-        'meleeNotes.greaterFlurryFeature:Extra attack',
-        'meleeNotes.kiStrikeFeature:Treat unarmed attacks as magic weapons',
-        'meleeNotes.perfectSelfFeature:' +
-          'Ignore first 10 points of non-magical damage',
-        'meleeNotes.quiveringPalmFeature:' +
-          'Foe makes DC %V Fortitude save or dies 1/week',
         'saveNotes.diamondBodyFeature:Immune to poison',
         'saveNotes.diamondSoulFeature:DC %V spell resistance',
         'saveNotes.evasionFeature:Save yields no damage instead of 1/2',
@@ -936,8 +936,22 @@ PH35.ClassRules = function() {
         'levels.Monk', '+=', '10 * Math.floor(source / 3)'
       );
       ScribeCustomRules('armorClass',
-        'meleeNotes.classArmorClassAdjustment', '+', null,
-        'meleeNotes.wisdomArmorClassAdjustment', '+', null
+        'combatNotes.classArmorClassAdjustment', '+', null,
+        'combatNotes.wisdomArmorClassAdjustment', '+', null
+      );
+      ScribeCustomRules('combatNotes.classArmorClassAdjustment',
+        'levels.Monk', '+=', 'Math.floor(source / 5)'
+      );
+      ScribeCustomRules('combatNotes.flurryOfBlowsFeature',
+        'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
+      );
+      ScribeCustomRules('combatNotes.quiveringPalmFeature',
+        'levels.Monk', '+=', '10 + Math.floor(source / 2)',
+        'wisdomModifier', '+', null
+      );
+      ScribeCustomRules('combatNotes.wisdomArmorClassAdjustment',
+        'levels.Monk', '?', null,
+        'wisdomModifier', '+=', 'source <= 0 ? 0 : source'
       );
       ScribeCustomRules('featureNotes.classFeatCountBonus',
         'levels.Monk', '+=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
@@ -947,22 +961,8 @@ PH35.ClassRules = function() {
       );
       ScribeCustomRules
         ('magicNotes.emptyBodyFeature', 'levels.Monk', '+=', null);
-      ScribeCustomRules('meleeNotes.classArmorClassAdjustment',
-        'levels.Monk', '+=', 'Math.floor(source / 5)'
-      );
-      ScribeCustomRules('meleeNotes.flurryOfBlowsFeature',
-        'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
-      );
-      ScribeCustomRules('meleeNotes.quiveringPalmFeature',
-        'levels.Monk', '+=', '10 + Math.floor(source / 2)',
-        'wisdomModifier', '+', null
-      );
       ScribeCustomRules
         ('magicNotes.wholenessOfBodyFeature', 'levels.Monk', '+=', '2*source');
-      ScribeCustomRules('meleeNotes.wisdomArmorClassAdjustment',
-        'levels.Monk', '?', null,
-        'wisdomModifier', '+=', 'source <= 0 ? 0 : source'
-      );
       ScribeCustomRules
         ('saveNotes.diamondSoulFeature', 'levels.Monk', '+=', '10 + source');
       ScribeCustomRules('saveNotes.slowFallFeature',
@@ -986,15 +986,15 @@ PH35.ClassRules = function() {
       ];
       hitDie = 10;
       notes = [
+        'combatNotes.smiteEvilFeature:' +
+          '%V/day add conMod to attack, paladin level to damage vs. evil',
+        'combatNotes.turnUndeadFeature:' +
+          'Turn (good) or rebuke (evil) undead creatures',
         'featureNotes.specialMountFeature:Magical mount w/special abilities',
         'magicNotes.auraOfGoodFeature:Visible to <i>Detect Good</i>',
         'magicNotes.detectEvilFeature:<i>Detect Evil</i> at will',
         'magicNotes.layOnHandsFeature:Harm undead or heal %V HP/day',
         'magicNotes.removeDiseaseFeature:<i>Remove Disease</i> %V/week',
-        'meleeNotes.smiteEvilFeature:' +
-          '%V/day add conMod to attack, paladin level to damage vs. evil',
-        'meleeNotes.turnUndeadFeature:' +
-          'Turn (good) or rebuke (evil) undead creatures',
         'saveNotes.auraOfCourageFeature:' +
           'Immune fear; +4 to allies w/in 30 ft',
         'saveNotes.divineGraceFeature:Add %V to saves',
@@ -1015,15 +1015,15 @@ PH35.ClassRules = function() {
         'spellsPerDayLevels.Paladin', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
+      ScribeCustomRules('combatNotes.smiteEvilFeature',
+        'levels.Paladin', '=', '1 + Math.floor(source / 5)'
+      );
       ScribeCustomRules('magicNotes.layOnHandsFeature',
         'levels.Paladin', '+=', null,
         'charismaModifier', '*', null
       );
       ScribeCustomRules('magicNotes.removeDiseaseFeature',
         'levels.Paladin', '+=', 'Math.floor((source - 3) / 3)'
-      );
-      ScribeCustomRules('meleeNotes.smiteEvilFeature',
-        'levels.Paladin', '=', '1 + Math.floor(source / 5)'
       );
       ScribeCustomRules
         ('saveNotes.divineGraceFeature', 'charismaModifier', '=', null);
@@ -1070,11 +1070,11 @@ PH35.ClassRules = function() {
       ];
       hitDie = 8;
       notes = [
+        'combatNotes.favoredEnemyFeature:' +
+          '+2 or more damage vs. %V type(s) of creatures',
         'featureNotes.animalCompanionFeature:Special bond/abilities',
         'featureNotes.woodlandStrideFeature:' +
           'Normal movement through undergrowth',
-        'meleeNotes.favoredEnemyFeature:' +
-          '+2 or more damage vs. %V type(s) of creatures',
         'saveNotes.evasionFeature:Save yields no damage instead of 1/2',
         'skillNotes.camouflageFeature:Hide in any natural terrain',
         'skillNotes.favoredEnemyFeature:' +
@@ -1109,6 +1109,9 @@ PH35.ClassRules = function() {
         'spellsPerDayLevels.Ranger', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
+      ScribeCustomRules('combatNotes.favoredEnemyFeature',
+        'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
+      );
       ScribeCustomRules('featureNotes.classFeatCountBonus',
         'features.Combat Style', '+=', '1'
       );
@@ -1117,9 +1120,6 @@ PH35.ClassRules = function() {
       );
       ScribeCustomRules('featureNotes.combatStyle(TwoWeaponCombat)Features',
         'features.Combat Style (Two Weapon Combat)', '?', null
-      );
-      ScribeCustomRules('meleeNotes.favoredEnemyFeature',
-        'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
       ScribeCustomRules('skillNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
@@ -1155,11 +1155,11 @@ PH35.ClassRules = function() {
       ];
       hitDie = 6;
       notes = [
-        'meleeNotes.sneakAttackFeature:' +
+        'combatNotes.sneakAttackFeature:' +
           '%Vd6 extra damage when surprising or flanking',
-        'meleeNotes.uncannyDodgeFeature:' +
+        'combatNotes.uncannyDodgeFeature:' +
           'Always adds dexterity modifier to AC',
-        'meleeNotes.improvedUncannyDodgeFeature:' +
+        'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
         'saveNotes.evasionFeature:Save yields no damage instead of 1/2',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
@@ -1183,11 +1183,11 @@ PH35.ClassRules = function() {
         'Sense Motive', 'Sleight Of Hand', 'Spot', 'Swim', 'Tumble',
         'Use Magic Device', 'Use Rope'
       ];
+      ScribeCustomRules('combatNotes.sneakAttackFeature',
+        'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
+      );
       ScribeCustomRules('featureNotes.classFeatCountBonus',
         'levels.Rogue', '+=', 'source>=10 ? Math.floor((source-7)/3) : null'
-      );
-      ScribeCustomRules('meleeNotes.sneakAttackFeature',
-        'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
       );
       ScribeCustomRules('saveNotes.trapSenseFeature',
         'levels.Rogue', '+=', 'source >= 3 ? Math.floor(source / 3) : null'
@@ -1346,27 +1346,27 @@ PH35.EquipmentRules = function() {
     null, '=', '-10'
   );
   ScribeCustomRules('armorClass',
-    'meleeNotes.goodiesArmorClassAdjustment', '+', null
+    'combatNotes.goodiesArmorClassAdjustment', '+', null
   );
   ScribeCustomRules('armorWeightClass',
     'armor', '=',
       'PH35.armorsWeightClasses[source] == null ? "Light" : ' +
       'PH35.armorsWeightClasses[source]'
   );
+  ScribeCustomRules('combatNotes.dexterityArmorClassAdjustment',
+    'armor', 'v', 'PH35.armorsMaxDexBonuses[source]'
+  );
+  ScribeCustomRules('combatNotes.goodiesArmorClassAdjustment',
+    'goodies.Ring Of Protection +1', '+=', null,
+    'goodies.Ring Of Protection +2', '+=', 'source * 2',
+    'goodies.Ring Of Protection +3', '+=', 'source * 3',
+    'goodies.Ring Of Protection +4', '+=', 'source * 4'
+  );
   ScribeCustomRules('magicNotes.arcaneSpellFailure',
     'armor', '+=', 'PH35.armorsArcaneSpellFailurePercentages[source]',
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? 50 : ' +
                     'source.indexOf("Heavy") >= 0 ? 15 : 5'
-  );
-  ScribeCustomRules('meleeNotes.dexterityArmorClassAdjustment',
-    'armor', 'v', 'PH35.armorsMaxDexBonuses[source]'
-  );
-  ScribeCustomRules('meleeNotes.goodiesArmorClassAdjustment',
-    'goodies.Ring Of Protection +1', '+=', null,
-    'goodies.Ring Of Protection +2', '+=', 'source * 2',
-    'goodies.Ring Of Protection +3', '+=', 'source * 3',
-    'goodies.Ring Of Protection +4', '+=', 'source * 4'
   );
   ScribeCustomRules('runSpeedMultiplier',
     'armorWeightClass', '=', 'source == "Heavy" ? 3 : null'
@@ -1375,15 +1375,81 @@ PH35.EquipmentRules = function() {
     'armor', '=', 'PH35.armorsSkillCheckPenalties[source]'
   );
   ScribeCustomRules('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
-  /* Hack to get meleeNotes.strengthDamageAdjustment to appear in italics. */
+  /* Hack to get combatNotes.strengthDamageAdjustment to appear in italics. */
   ScribeCustomRules
-    ('level', 'meleeNotes.strengthDamageAdjustment', '=', 'null');
+    ('level', 'combatNotes.strengthDamageAdjustment', '=', 'null');
 
 };
 
 PH35.FeatRules = function() {
 
   var notes = [
+    'combatNotes.blindFightFeature:' +
+      'Reroll concealed miss/no bonus to invisible foe/half penalty for impared vision',
+    'combatNotes.cleaveFeature:Extra attack when foe drops',
+    'combatNotes.combatExpertiseFeature:Up to -5 attack/+5 AC',
+    'combatNotes.combatReflexesFeature:Add dexterity mod to AOO count',
+    'combatNotes.cripplingStrikeFeature: ' +
+      '2 points strength damage from sneak attack',
+    'combatNotes.defensiveRollFeature:' +
+      'DC damage Reflex save vs. lethal blow for half damage',
+    'combatNotes.deflectArrowsFeature:Deflect ranged 1/round',
+    'combatNotes.diehardFeature:Remain conscious w/HP <= 0',
+    'combatNotes.dodgeFeature:+1 AC vs. designated foe',
+    'combatNotes.extraTurningFeature:+4/day',
+    'combatNotes.farShotFeature:x1.5 projectile range; x2 thrown',
+    'combatNotes.greatCleaveFeature:Cleave w/out limit',
+    'combatNotes.greaterTwoWeaponFightingFeature:Second off-hand -10 attack',
+    'combatNotes.improvedBullRushFeature:Bull rush w/out foe AOO; +4 strength',
+    'combatNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
+    'combatNotes.improvedFeintFeature:Bluff check to feint as move action',
+    'combatNotes.improvedGrappleFeature:Grapple w/out foe AOO; +4 grapple',
+    'combatNotes.improvedInitiativeFeature:+4 initiative',
+    'combatNotes.improvedOverrunFeature:Foe cannot avoid; +4 strength',
+    'combatNotes.improvedPreciseShotFeature:' +
+      'No foe bonus for partial concealment; attack grappling w/out penalty',
+    'combatNotes.improvedShieldBashFeature:Shield bash w/out AC penalty',
+    'combatNotes.improvedSunderFeature:Sunder w/out foe AOO; +4 attack',
+    'combatNotes.improvedTripFeature:' +
+      'Trip w/out foe AOO; +4 strength; attack immediately after trip',
+    'combatNotes.improvedTurningFeature:+1 turning level',
+    'combatNotes.improvedTwoWeaponFightingFeature:Additional -5 attack',
+    'combatNotes.improvedUnarmedStrikeFeature:Unarmed attack w/out foe AOO',
+    'combatNotes.manyshotFeature:Fire multiple arrows simultaneously',
+    'combatNotes.mobilityFeature:+4 AC vs. movement AOO',
+    'combatNotes.mountedArcheryFeature:x.5 mounted ranged penalty',
+    'combatNotes.mountedCombatFeature:' +
+      'Ride skill save vs. mount damage 1/round',
+    'combatNotes.opportunistFeature:AOO vs. any struck foe',
+    'combatNotes.pointBlankShotFeature:+1 ranged attack/damage w/in 30 ft',
+    'combatNotes.powerAttackFeature:Attack base -attack/+damage',
+    'combatNotes.preciseShotFeature:Shoot into melee w/out penalty',
+    'combatNotes.quickDrawFeature:Draw weapon as free action',
+    'combatNotes.rapidReloadFeature:' +
+      'Reload light/heavy crossbow as free/move action',
+    'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
+    'combatNotes.rideByAttackFeature:Move before and after mounted attack',
+    'combatNotes.runFeature:Add 1 to speed multiplier; +4 running jump',
+    'combatNotes.shotOnTheRunFeature:Move before and after ranged attack',
+    'combatNotes.snatchArrowsFeature:Catch ranged weapons',
+    'combatNotes.spiritedChargeFeature:' +
+      'x2 damage (x3 lance) from mounted charge',
+    'combatNotes.springAttackFeature:Move before and after melee attack',
+    'combatNotes.stunningFistFeature:' +
+      'Foe %V Fortitude save or stunned 1/4 level/day',
+    'combatNotes.toughnessFeature:+3 HP',
+    'combatNotes.trampleFeature:Mounted overrun unavoidable/bonus hoof attack',
+    'combatNotes.twoWeaponDefenseFeature:+1 AC w/two weapons',
+    'combatNotes.twoWeaponFightingFeature:' +
+      'Reduce on-hand penalty by 2/off-hand by 6',
+    'combatNotes.weaponFinesseFeature:' +
+      'Light weapons use dexterity mod instead of strength mod on attacks',
+    'combatNotes.weaponFocus(HeavyFlail)Feature:+1 attack',
+    'combatNotes.weaponFocus(LightFlail)Feature:+1 attack',
+    'combatNotes.weaponFocus(Longsword)Feature:+1 attack',
+    'combatNotes.weaponFocus(Morningstar)Feature:+1 attack',
+    'combatNotes.weaponFocus(Spear)Feature:+1 attack',
+    'combatNotes.whirlwindAttackFeature:Attack all foes w/in reach',
     'featureNotes.leadershipFeature:Attract followers',
     'magicNotes.augmentSummoningFeature:' +
       'Summoned creatures +4 strength/constitution',
@@ -1413,72 +1479,6 @@ PH35.FeatRules = function() {
       '+2 caster level vs. resistance checks',
     'magicNotes.stillSpellFeature:Cast designated spell w/out movement',
     'magicNotes.widenSpellFeature:Double area of affect',
-    'meleeNotes.blindFightFeature:' +
-      'Reroll concealed miss/no bonus to invisible foe/half penalty for impared vision',
-    'meleeNotes.cleaveFeature:Extra attack when foe drops',
-    'meleeNotes.combatExpertiseFeature:Up to -5 attack/+5 AC',
-    'meleeNotes.combatReflexesFeature:Add dexterity mod to AOO count',
-    'meleeNotes.cripplingStrikeFeature: ' +
-      '2 points strength damage from sneak attack',
-    'meleeNotes.defensiveRollFeature:' +
-      'DC damage Reflex save vs. lethal blow for half damage',
-    'meleeNotes.deflectArrowsFeature:Deflect ranged 1/round',
-    'meleeNotes.diehardFeature:Remain conscious w/HP <= 0',
-    'meleeNotes.dodgeFeature:+1 AC vs. designated foe',
-    'meleeNotes.extraTurningFeature:+4/day',
-    'meleeNotes.farShotFeature:x1.5 projectile range; x2 thrown',
-    'meleeNotes.greatCleaveFeature:Cleave w/out limit',
-    'meleeNotes.greaterTwoWeaponFightingFeature:Second off-hand -10 attack',
-    'meleeNotes.improvedBullRushFeature:Bull rush w/out foe AOO; +4 strength',
-    'meleeNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
-    'meleeNotes.improvedFeintFeature:Bluff check to feint as move action',
-    'meleeNotes.improvedGrappleFeature:Grapple w/out foe AOO; +4 grapple',
-    'meleeNotes.improvedInitiativeFeature:+4 initiative',
-    'meleeNotes.improvedOverrunFeature:Foe cannot avoid; +4 strength',
-    'meleeNotes.improvedPreciseShotFeature:' +
-      'No foe bonus for partial concealment; attack grappling w/out penalty',
-    'meleeNotes.improvedShieldBashFeature:Shield bash w/out AC penalty',
-    'meleeNotes.improvedSunderFeature:Sunder w/out foe AOO; +4 attack',
-    'meleeNotes.improvedTripFeature:' +
-      'Trip w/out foe AOO; +4 strength; attack immediately after trip',
-    'meleeNotes.improvedTurningFeature:+1 turning level',
-    'meleeNotes.improvedTwoWeaponFightingFeature:Additional -5 attack',
-    'meleeNotes.improvedUnarmedStrikeFeature:Unarmed attack w/out foe AOO',
-    'meleeNotes.manyshotFeature:Fire multiple arrows simultaneously',
-    'meleeNotes.mobilityFeature:+4 AC vs. movement AOO',
-    'meleeNotes.mountedArcheryFeature:x.5 mounted ranged penalty',
-    'meleeNotes.mountedCombatFeature:' +
-      'Ride skill save vs. mount damage 1/round',
-    'meleeNotes.opportunistFeature:AOO vs. any struck foe',
-    'meleeNotes.pointBlankShotFeature:+1 ranged attack/damage w/in 30 ft',
-    'meleeNotes.powerAttackFeature:Attack base -attack/+damage',
-    'meleeNotes.preciseShotFeature:Shoot into melee w/out penalty',
-    'meleeNotes.quickDrawFeature:Draw weapon as free action',
-    'meleeNotes.rapidReloadFeature:' +
-      'Reload light/heavy crossbow as free/move action',
-    'meleeNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
-    'meleeNotes.rideByAttackFeature:Move before and after mounted attack',
-    'meleeNotes.runFeature:Add 1 to speed multiplier; +4 running jump',
-    'meleeNotes.shotOnTheRunFeature:Move before and after ranged attack',
-    'meleeNotes.snatchArrowsFeature:Catch ranged weapons',
-    'meleeNotes.spiritedChargeFeature:' +
-      'x2 damage (x3 lance) from mounted charge',
-    'meleeNotes.springAttackFeature:Move before and after melee attack',
-    'meleeNotes.stunningFistFeature:' +
-      'Foe %V Fortitude save or stunned 1/4 level/day',
-    'meleeNotes.toughnessFeature:+3 HP',
-    'meleeNotes.trampleFeature:Mounted overrun unavoidable/bonus hoof attack',
-    'meleeNotes.twoWeaponDefenseFeature:+1 AC w/two weapons',
-    'meleeNotes.twoWeaponFightingFeature:' +
-      'Reduce on-hand penalty by 2/off-hand by 6',
-    'meleeNotes.weaponFinesseFeature:' +
-      'Light weapons use dexterity mod instead of strength mod on attacks',
-    'meleeNotes.weaponFocus(HeavyFlail)Feature:+1 attack',
-    'meleeNotes.weaponFocus(LightFlail)Feature:+1 attack',
-    'meleeNotes.weaponFocus(Longsword)Feature:+1 attack',
-    'meleeNotes.weaponFocus(Morningstar)Feature:+1 attack',
-    'meleeNotes.weaponFocus(Spear)Feature:+1 attack',
-    'meleeNotes.whirlwindAttackFeature:Attack all foes w/in reach',
     'saveNotes.enduranceFeature:+4 extended physical action',
     'saveNotes.greatFortitudeFeature:+2 Fortitude',
     'saveNotes.improvedEvasionFeature:Failed save yields 1/2 damage',
@@ -1617,8 +1617,8 @@ PH35.FeatRules = function() {
   ScribeCustomRules
     ('abilityNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
   ScribeCustomRules('armorClass',
-    'meleeNotes.dodgeFeature', '+', '1',
-    'meleeNotes.smallArmorClassAdjustment', '+', null
+    'combatNotes.dodgeFeature', '+', '1',
+    'combatNotes.smallArmorClassAdjustment', '+', null
   );
   ScribeCustomRules('armorProficiency',
     'armorProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
@@ -1629,33 +1629,33 @@ PH35.FeatRules = function() {
     'features.Armor Proficiency Heavy', '^', PH35.PROFICIENCY_HEAVY
   );
   ScribeCustomRules
-    ('baseAttack', 'meleeNotes.smallBaseAttackAdjustment', '+', null);
+    ('baseAttack', 'combatNotes.smallBaseAttackAdjustment', '+', null);
+  ScribeCustomRules('combatNotes.dexterityMeleeAttackAdjustment',
+    'combatNotes.weaponFinesseFeature', '?', null,
+    'dexterityModifier', '=', 'source == 0 ? null : source'
+  );
+  ScribeCustomRules
+    ('combatNotes.smallArmorClassAdjustment', 'features.Small', '=', '1');
+  ScribeCustomRules
+    ('combatNotes.smallBaseAttackAdjustment', 'features.Small', '=', '1');
+  ScribeCustomRules('combatNotes.strengthMeleeAttackAdjustment',
+    'combatNotes.weaponFinesseFeature', '*', '0'
+  );
+  ScribeCustomRules('combatNotes.stunningFistFeature',
+    'level', '=', '10 + Math.floor(source / 2)',
+    'wisdomModifier', '+', null
+  );
   for(var i = 0; i < PH35.FEATS.length; i++) {
     ScribeCustomRules
       ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', '1');
   }
   ScribeCustomRules
-    ('hitPoints', 'meleeNotes.toughnessFeature', '+', '3 * source');
+    ('hitPoints', 'combatNotes.toughnessFeature', '+', '3 * source');
   ScribeCustomRules
-    ('initiative', 'meleeNotes.improvedInitiativeFeature', '+', '4');
+    ('initiative', 'combatNotes.improvedInitiativeFeature', '+', '4');
   ScribeCustomRules
     ('magicNotes.arcaneSpellFailure', 'features.Still Spell', 'v', '0');
-  ScribeCustomRules('meleeNotes.dexterityMeleeAttackAdjustment',
-    'meleeNotes.weaponFinesseFeature', '?', null,
-    'dexterityModifier', '=', 'source == 0 ? null : source'
-  );
-  ScribeCustomRules
-    ('meleeNotes.smallArmorClassAdjustment', 'features.Small', '=', '1');
-  ScribeCustomRules
-    ('meleeNotes.smallBaseAttackAdjustment', 'features.Small', '=', '1');
-  ScribeCustomRules('meleeNotes.strengthMeleeAttackAdjustment',
-    'meleeNotes.weaponFinesseFeature', '*', '0'
-  );
-  ScribeCustomRules('meleeNotes.stunningFistFeature',
-    'level', '=', '10 + Math.floor(source / 2)',
-    'wisdomModifier', '+', null
-  );
-  ScribeCustomRules('runSpeedMultiplier', 'meleeNotes.runFeature', '+', '1');
+  ScribeCustomRules('runSpeedMultiplier', 'combatNotes.runFeature', '+', '1');
   ScribeCustomRules
     ('saveFortitude', 'saveNotes.greatFortitudeFeature', '+', '2');
   ScribeCustomRules
@@ -1671,9 +1671,9 @@ PH35.FeatRules = function() {
   ScribeCustomRules
     ('skillNotes.smallSkillAdjustment', 'features.Small', '=', '1');
   ScribeCustomRules
-    ('turningFrequency', 'meleeNotes.extraTurningFeature', '+', '4 * source');
+    ('turningFrequency', 'combatNotes.extraTurningFeature', '+', '4 * source');
   ScribeCustomRules
-    ('turningLevel', 'meleeNotes.improvedTurningFeature', '+', '1');
+    ('turningLevel', 'combatNotes.improvedTurningFeature', '+', '1');
   ScribeCustomRules('weaponProficiency',
     'weaponProficiencyLevel', '=',
       'source==' + PH35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
@@ -1689,6 +1689,13 @@ PH35.FeatRules = function() {
 PH35.MagicRules = function() {
 
   var notes = [
+    'combatNotes.airDomain:Turn earth/rebuke air',
+    'combatNotes.destructionDomain:Smite (+4 attack/+level damage) 1/day',
+    'combatNotes.earthDomain:Turn air/rebuke earth',
+    'combatNotes.fireDomain:Turn water/rebuke fire',
+    'combatNotes.plantDomain:Rebuke plants',
+    'combatNotes.sunDomain:Destroy turned undead 1/day',
+    'combatNotes.waterDomain:Turn fire/rebuke water',
     'featureNotes.warDomain:Weapon Proficiency/Weapon Focus (%V)',
     'magicNotes.animalDomain:<i>Speak With Animals</i> 1/Day',
     'magicNotes.arcaneSpellFailure:%V%',
@@ -1703,13 +1710,6 @@ PH35.MagicRules = function() {
     'magicNotes.strengthDomain:Add level to strength 1 round/day',
     'magicNotes.travelDomain:<i>Freedom of Movement</i> 1 round/level/day',
     'magicNotes.wizardSpecialization:Extra %V spell/day each spell level',
-    'meleeNotes.airDomain:Turn earth/rebuke air',
-    'meleeNotes.destructionDomain:Smite (+4 attack/+level damage) 1/day',
-    'meleeNotes.earthDomain:Turn air/rebuke earth',
-    'meleeNotes.fireDomain:Turn water/rebuke fire',
-    'meleeNotes.plantDomain:Rebuke plants',
-    'meleeNotes.sunDomain:Destroy turned undead 1/day',
-    'meleeNotes.waterDomain:Turn fire/rebuke water',
     'saveNotes.luckDomain:Reroll 1/day',
     'skillNotes.animalDomain:Knowledge (Nature) is a class skill',
     'skillNotes.knowledgeDomain:All Knowledge skills are class skills',
@@ -1780,10 +1780,10 @@ PH35.RaceRules = function() {
 
   /* Notes and rules that apply to multiple races */
   var notes = [
+    'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
     'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
     'skillNotes.keenEarsFeature:+2 Listen',
     'featureNotes.lowLightVisionFeature:Double normal distance in poor light',
-    'meleeNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
     'saveNotes.enchantmentResistanceFeature:' +
       '+2 vs. enchantments; immune sleep'
   ];
@@ -1810,9 +1810,9 @@ PH35.RaceRules = function() {
         1, 'Stability', 1, 'Stonecunning'
       ];
       notes = [
-        'featureNotes.knowDepthFeature:Intuit approximate depth underground',
-        'meleeNotes.dwarfFavoredEnemyFeature:' +
+        'combatNotes.dwarfFavoredEnemyFeature:' +
           '+1 vs. bugbear/goblin/hobgoblin/orc',
+        'featureNotes.knowDepthFeature:Intuit approximate depth underground',
         'saveNotes.hardyFeature:+2 vs. poison',
         'saveNotes.magicResistanceFeature:+2 vs. spells',
         'saveNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
@@ -1845,11 +1845,11 @@ PH35.RaceRules = function() {
         1, 'Low Light Vision', 1, 'Slow', 1, 'Small'
       ];
       notes = [
+        'combatNotes.gnomeFavoredEnemyFeature:' +
+           '+1 vs. bugbear/goblin/hobgoblin/kobold',
         'magicNotes.gnomeSpellsFeature:' +
           '<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
           '<i>Speak With Animals</i> 1/day',
-        'meleeNotes.gnomeFavoredEnemyFeature:' +
-           '+1 vs. bugbear/goblin/hobgoblin/kobold',
         'saveNotes.illusionResistanceFeature:+2 vs. illusions',
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)'
       ];
@@ -1882,7 +1882,7 @@ PH35.RaceRules = function() {
         1, 'Spry', 1, 'Unafraid'
       ];
       notes = [
-        'meleeNotes.accurateFeature:+1 attack with slings/thrown',
+        'combatNotes.accurateFeature:+1 attack with slings/thrown',
         'saveNotes.luckyFeature:+1 all saves',
         'saveNotes.unafraidFeature:+2 vs. fear',
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'

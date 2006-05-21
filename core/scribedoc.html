@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.61 2005/12/28 22:53:30 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.62 2006/05/21 07:43:05 Jim Exp $ -->
 <html>
 
 <head>
@@ -420,7 +420,7 @@ parameter.
 </p><p>
 Adding attributes to the character sheet notes sections is done differently.
 The six notes lists Scribe knows about are abilityNotes, featNotes, skillNotes,
-meleeNotes, saveNotes, and magicNotes.  To add an attribute to one of these
+combatNotes, saveNotes, and magicNotes.  To add an attribute to one of these
 lists, simply give the attribute a name consisting of the list name followed by
 a period and a description. 'abilityNotes.goblinAbilityAdjustment' used above
 is one example of this&#151;Scribe would automatically include this attribute
@@ -472,7 +472,7 @@ Defender prestige class defined in the Dungeon Master's Guide.
   var notes = [
     'featureNotes.defensiveStanceFeature',
       '+2 strength/+4 constitution/+2 saves/+4 dodge AC while unmoving for conMod+3 rounds %V/day',
-    'meleeNotes.mobileDefenseFeature',
+    'combatNotes.mobileDefenseFeature',
       'Allowed 5 ft. step during Defensive Stance'
   ];
   var prerequisites = [
@@ -495,13 +495,13 @@ Defender prestige class defined in the Dungeon Master's Guide.
   ScribeCustomRules('featureNotes.defensiveStanceFeature',
     'levels.Dwarven Defender', '+=', 'Math.floor((source + 1) / 2)'
   );
-  ScribeCustomRules('meleeNotes.classArmorClassAdjustment',
+  ScribeCustomRules('combatNotes.classArmorClassAdjustment',
     'levels.Dwarven Defender', '+=', 'Math.floor((source + 2) / 3)'
   );
-  ScribeCustomRules('meleeNotes.damageReductionFeature',
+  ScribeCustomRules('combatNotes.damageReductionFeature',
     'levels.Dwarven Defender', '+=', 'source&lt;6 ? null : source&lt;10 ? 3 : 6'
   );
-  ScribeCustomRules('meleeNotes.trapSenseFeature',
+  ScribeCustomRules('combatNotes.trapSenseFeature',
     'levels.Dwarven Defender', '+=',
       'source &gt;= 4 ? Math.floor(source / 4) : null'
   );
