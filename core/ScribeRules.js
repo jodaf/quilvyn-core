@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.31 2006/05/12 15:50:12 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.32 2006/05/24 13:47:19 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -109,9 +109,11 @@ function ScribeCustomFeatures(levelName, noteName, features) {
       initial[initial.length] = '"' + feature + '"';
     else
       code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
-    ScribeCustomRules('features.' + feature,
-      noteName, '=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
-    );
+    if(noteName.indexOf('featureNotes.') == 0) {
+      ScribeCustomRules('features.' + feature,
+        noteName, '=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
+      );
+    }
   }
   ScribeCustomRules(noteName,
     levelName, '=', '[' + initial.join(',') + ']' + code + '.sort().join("/")'
@@ -148,7 +150,7 @@ function ScribeCustomNotes(note /*, note ... */) {
           (attribute, matchInfo[4].toLowerCase() + 's.' + name, '?', null);
     }
     if(attribute.match(/^skillNotes\./) &&
-       (matchInfo = format.match(/^\+(\d+) (.+)$/)) != null) {
+       (matchInfo = format.match(/^([+-]\d+) (.+)$/)) != null) {
       var affected = matchInfo[2].split('/');
       var bump = matchInfo[1];
       var j;
