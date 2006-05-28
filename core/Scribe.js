@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.140 2006/05/21 07:43:05 Jim Exp $ */
+/* $Id: Scribe.js,v 1.141 2006/05/28 06:23:32 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -247,6 +247,18 @@ function EditorHtml() {
       if(editorElements[i][0] == 'Experience') {
         editorElements =
          editorElements.slice(0, i).concat(hp).concat(editorElements.slice(i));
+        break;
+      }
+    }
+  }
+  if(Scribe.selectableFeatures != null) {
+    var sf = [['Selectable Features', 'selectableFeatures_sel', 'select-one', Scribe.GetKeys(Scribe.selectableFeatures)],
+              ['', 'selectableFeatures', 'checkbox', null],
+              ['', 'selectableFeatures_clear', 'button', ['Clear All']]];
+    for(var i = 0; i < editorElements.length; i++) {
+      if(editorElements[i][0] == 'Skills') {
+        editorElements =
+         editorElements.slice(0, i).concat(sf).concat(editorElements.slice(i));
         break;
       }
     }
