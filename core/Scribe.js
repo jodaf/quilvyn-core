@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.141 2006/05/28 06:23:32 Jim Exp $ */
+/* $Id: Scribe.js,v 1.142 2006/06/12 06:00:26 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -109,7 +109,52 @@ function Scribe() {
   */
 
 }
-Scribe.randomizers = {};
+var abilityChoices= [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+Scribe.editorElements = [
+  ['about', ' ', 'button', ['About']],
+  ['help', '', 'button', ['Help']],
+  ['file', ' ', 'select-one', ChoicesForFileInput()],
+  ['summary', '', 'button', ['Summary']],
+  ['validate', ' ', 'button', ['Validate']],
+  ['view', '', 'button', ['View Html']],
+  ['italics', 'Show', 'checkbox', ['Italic Notes']],
+  ['untrained', '', 'checkbox', ['Untrained Skills']],
+  ['dmonly', '', 'checkbox', ['DM Info']],
+  ['randomize', ' ', 'select-one', 'randomizers'],
+  ['name', 'Name', 'text', [20]],
+  ['race', 'Race', 'select-one', 'races'],
+  ['experience', 'Experience', 'text', [8]],
+  ['levels', 'Levels', 'bag', 'classes'],
+  ['imageUrl', 'Image URL', 'text', [20]],
+  ['strength', 'Strength', 'select-one', abilityChoices],
+  ['intelligence', 'Intelligence', 'select-one', abilityChoices],
+  ['wisdom', 'Wisdom', 'select-one', abilityChoices],
+  ['dexterity', 'Dexterity', 'select-one', abilityChoices],
+  ['constitution', 'Constitution', 'select-one', abilityChoices],
+  ['charisma', 'Charisma', 'select-one', abilityChoices],
+  ['player', 'Player', 'text', [20]],
+  ['alignment', 'Alignment', 'select-one', 'alignments'],
+  ['gender', 'Gender', 'select-one', 'genders'],
+  ['deity', 'Deity', 'select-one', 'deities'],
+  ['origin', 'Origin', 'text', [20]],
+  ['feats', 'Feats', 'set', 'feats'],
+  ['selectableFeatures', 'Selectable Features', 'bag', 'selectableFeatures'],
+  ['skills', 'Skills', 'bag', 'skills'],
+  ['languages', 'Languages', 'set', 'languages'],
+  ['hitPoints', 'Hit Points', 'text', [4]],
+  ['armor', 'Armor', 'select-one', 'armors'],
+  ['shield', 'Shield', 'select-one', 'shields'],
+  ['weapons', 'Weapons', 'bag', 'weapons'],
+  ['spellcats', 'Spell Categories', 'set', 'spellsCategoryOptions'],
+  ['spells', 'Spells', 'set', 'spells'],
+  ['goodies', 'Goodies', 'bag', 'goodies'],
+  ['domains', 'Cleric Domains', 'set', 'domains'],
+  ['specialize', 'Wizard Specialization', 'set', 'schools'],
+  ['prohibit', 'Wizard Prohibition', 'set', 'schools'],
+  ['notes', 'Notes', 'textarea', [40,10]],
+  ['dmNotes', 'DM Notes', 'textarea', [40,10]]
+];
+Scribe.randomizers = {'--randomize--': null};
 Scribe.tests = [];
 
 /* Mapping of medium damage to small damage. */
@@ -164,115 +209,40 @@ function CopyObject(o) {
 
 /* Returns HTML for the character editor form. */
 function EditorHtml() {
-  var abilityChoices=[3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
-  var spellsCategoryOptions = [];
+  Scribe.spellsCategoryOptions = {};
   for(var a in Scribe.spellsCategoryCodes) {
-    spellsCategoryOptions[spellsCategoryOptions.length] =
-      a + '(' + Scribe.spellsCategoryCodes[a] + ')';
+    Scribe.spellsCategoryOptions[a + '(' + Scribe.spellsCategoryCodes[a] + ')'] = null;
   }
-  spellsCategoryOptions.sort();
-  var weapons = Scribe.GetKeys(Scribe.weapons);
-  var editorElements = [
-    ['', 'about', 'button', ['About']],
-    ['', 'help', 'button', ['Help']],
-    [' ', 'file', 'select-one', ChoicesForFileInput()],
-    ['', 'summary', 'button', ['Summary']],
-    [' ', 'validate', 'button', ['Validate']],
-    ['', 'view', 'button', ['View Html']],
-    ['Show: ', 'italics', 'checkbox', ['Italic Notes']],
-    ['', 'untrained', 'checkbox', ['Untrained Skills']],
-    ['', 'dmonly', 'checkbox', ['DM Info']],
-    [' ', 'randomize', 'select-one',
-      ['--Randomize--'].concat(Scribe.GetKeys(Scribe.randomizers))],
-    ['Name', 'name', 'text', [20]],
-    ['Race', 'race', 'select-one', Scribe.GetKeys(Scribe.races)],
-    ['Experience', 'experience', 'text', [8]],
-    ['Levels', 'levels_sel', 'select-one', Scribe.GetKeys(Scribe.classes)],
-    ['', 'levels', 'text', [3]],
-    ['Image URL', 'imageUrl', 'text', [20]],
-    ['Strength', 'strength', 'select-one', abilityChoices],
-    ['Intelligence', 'intelligence', 'select-one', abilityChoices],
-    ['Wisdom', 'wisdom', 'select-one', abilityChoices],
-    ['Dexterity', 'dexterity', 'select-one', abilityChoices],
-    ['Constitution', 'constitution', 'select-one', abilityChoices],
-    ['Charisma', 'charisma', 'select-one', abilityChoices],
-    ['Player', 'player', 'text', [20]],
-    ['Alignment', 'alignment', 'select-one', Scribe.GetKeys(Scribe.alignments)],
-    ['Gender', 'gender', 'select-one', Scribe.GetKeys(Scribe.genders)],
-    ['Deity', 'deity', 'select-one', Scribe.GetKeys(Scribe.deities)],
-    ['Origin', 'origin', 'text', [20]],
-    ['Feats', 'feats_sel', 'select-one', Scribe.GetKeys(Scribe.feats)],
-    ['', 'feats', 'checkbox', null],
-    ['', 'feats_clear', 'button', ['Clear All']],
-    ['Skills', 'skills_sel', 'select-one', Scribe.GetKeys(Scribe.skills)],
-    ['', 'skills', 'text', [3]],
-    ['', 'skills_clear', 'button', ['Clear All']],
-    ['Languages', 'languages_sel', 'select-one',
-     Scribe.GetKeys(Scribe.languages)],
-    ['', 'languages', 'checkbox', null],
-    ['', 'languages_clear', 'button', ['Clear All']],
-    ['Hit Points', 'hitPoints', 'text', [4]],
-    ['Armor', 'armor', 'select-one', Scribe.GetKeys(Scribe.armors)],
-    ['Shield', 'shield', 'select-one', Scribe.GetKeys(Scribe.shields)],
-    ['Weapons', 'weapons_sel', 'select-one', weapons],
-    ['', 'weapons', 'text', [3]],
-    ['', 'weapons_clear', 'button', ['Clear All']],
-    ['Spell Categories', 'spellcats_sel', 'select-one', spellsCategoryOptions],
-    ['', 'spellcats', 'checkbox', null],
-    ['Spells', 'spells_sel', 'select-one', Scribe.GetKeys(Scribe.spells)],
-    ['', 'spells', 'checkbox', null],
-    ['', 'spells_clear', 'button', ['Clear All']],
-    ['Goodies', 'goodies_sel', 'select-one', Scribe.GetKeys(Scribe.goodies)],
-    ['', 'goodies', 'text', [2]],
-    ['', 'goodies_clear', 'button', ['Clear All']],
-    ['Cleric Domains', 'domains_sel', 'select-one',
-     Scribe.GetKeys(Scribe.domains)],
-    ['', 'domains', 'checkbox', null],
-    ['', 'domains_clear', 'button', ['Clear All']],
-    ['Wizard Specialization', 'specialize_sel', 'select-one',
-     Scribe.GetKeys(Scribe.schools)],
-    ['', 'specialize', 'checkbox', null],
-    ['', 'specialize_clear', 'button', ['Clear All']],
-    ['Wizard Prohibition', 'prohibit_sel', 'select-one',
-     Scribe.GetKeys(Scribe.schools)],
-    ['', 'prohibit', 'checkbox', null],
-    ['', 'prohibit_clear', 'button', ['Clear All']],
-    ['Notes', 'notes', 'textarea', [40,10]],
-    ['DM Notes', 'dmNotes', 'textarea', [40,10]]
-  ];
-  // TODO Define a way to add editor fields and move to MN2E.js.
-  if(Scribe.heroicPaths != null) {
-    var hp = [['Heroic Path', 'heroicPath', 'select-one', Scribe.GetKeys(Scribe.heroicPaths)]];
-    for(var i = 0; i < editorElements.length; i++) {
-      if(editorElements[i][0] == 'Experience') {
-        editorElements =
-         editorElements.slice(0, i).concat(hp).concat(editorElements.slice(i));
-        break;
-      }
+  var htmlBits = ['<form name="frm"><table><tr><td>\n'];
+  for(var i = 0; i < Scribe.editorElements.length; i++) {
+    var element = Scribe.editorElements[i];
+    var label = element[1];
+    var name = element[0];
+    var params = element[3];
+    var type = element[2];
+    if(typeof(params) == 'string') {
+      if(Scribe[params] == null)
+        continue;
+      else
+        params = Scribe.GetKeys(Scribe[params]);
+    }
+    if(label != '') {
+      htmlBits[htmlBits.length] = '</td></tr><tr><th>' + label + '</th><td>';
+    }
+    if(type == 'bag' | type == 'set') {
+      var widget = type == 'bag' ? InputHtml(name, 'text', [3]) :
+                                   InputHtml(name, 'checkbox', null);
+      htmlBits[htmlBits.length] =
+        InputHtml(name + '_sel', 'select-one', params) +
+        widget +
+        InputHtml(name + '_clear', 'button', ['Clear All']);
+    } else {
+      htmlBits[htmlBits.length] = InputHtml(name, type, params);
     }
   }
-  if(Scribe.selectableFeatures != null) {
-    var sf = [['Selectable Features', 'selectableFeatures_sel', 'select-one', Scribe.GetKeys(Scribe.selectableFeatures)],
-              ['', 'selectableFeatures', 'checkbox', null],
-              ['', 'selectableFeatures_clear', 'button', ['Clear All']]];
-    for(var i = 0; i < editorElements.length; i++) {
-      if(editorElements[i][0] == 'Skills') {
-        editorElements =
-         editorElements.slice(0, i).concat(sf).concat(editorElements.slice(i));
-        break;
-      }
-    }
-  }
-  var htmlBits = ['<form name="frm"><table>\n'];
-  for(var i = 0; i < editorElements.length; i++) {
-    var element = editorElements[i];
-    htmlBits[htmlBits.length] =
-      '<tr><th>' + element[0] + '</th><td>' +
-      InputHtml(element[1], element[2], element[3]) + '</td></tr>\n';
-  }
-  htmlBits[htmlBits.length] = '</table></form>';
+  htmlBits[htmlBits.length] = '</td></tr></table></form>';
   var result = htmlBits.join('');
-  result = result.replace(/<\/td><\/tr>\n<tr><th><\/th><td>/g, '');
+  /* result = result.replace(/<\/td><\/tr>\n<tr><th><\/th><td>/g, ''); */
   return result;
 }
 
@@ -592,7 +562,7 @@ function RandomizeCharacter(prompt) {
     }
     character.experience = totalLevels * (totalLevels-1) * 1000 / 2;
     for(var a in Scribe.randomizers) {
-      if(a != 'race' && a != 'levels')
+      if(Scribe.randomizers[a] != null && a != 'race' && a != 'levels')
         Scribe.randomizers[a](rules, character, a);
     }
     RefreshShowCodes();

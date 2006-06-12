@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.32 2006/05/24 13:47:19 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.33 2006/06/12 06:00:26 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -99,12 +99,46 @@ function ScribeCustomClass
 /*
  * TODO Comment
  */
+function ScribeCustomEditor(name, label, type, params, before) {
+  if(type == null) {
+    for(var i = Scribe.editorElements.length - 1; i >= 0; i--) {
+      if(Scribe.editorElements[i][0] == name) {
+        Scribe.editorElements = Scribe.editorElements.slice(0, i).
+          concat(Scribe.editorElements.slice(i + 1));
+      }
+    }
+  } else {
+    var i = Scribe.editorElements.length;
+    if(before != null) {
+      for(i = 0; i < Scribe.editorElements.length; i++) {
+        if(Scribe.editorElements[i][0] == before) {
+          break;
+        }
+      }
+    }
+    var element = [name, label, type, params];
+    if(i == Scribe.editorElements.length) {
+      Scribe.editorElements[i] = element;
+    } else {
+      Scribe.editorElements = Scribe.editorElements.slice(0, i).
+        concat([element]).concat(Scribe.editorElements.slice(i));
+    }
+  }
+}
+
+/*
+ * TODO Comment
+ */
 function ScribeCustomFeatures(levelName, noteName, features) {
   var code = '';
   var initial = [];
+  var lowestLevel = 100;
   for(var i = 1; i < features.length; i += 2) {
     var feature = features[i];
     var level = features[i - 1];
+    if(level < lowestLevel) {
+      lowestLevel = level;
+    }
     if(level <= 1)
       initial[initial.length] = '"' + feature + '"';
     else
@@ -116,7 +150,9 @@ function ScribeCustomFeatures(levelName, noteName, features) {
     }
   }
   ScribeCustomRules(noteName,
-    levelName, '=', '[' + initial.join(',') + ']' + code + '.sort().join("/")'
+    levelName, '=',
+    'source < ' + lowestLevel + ' ? null : ' +
+    '[' + initial.join(',') + ']' + code + '.sort().join("/")'
   );
 }
 
