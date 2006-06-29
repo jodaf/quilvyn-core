@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.23 2006/05/21 07:43:05 Jim Exp $ */
+/* $Id: SRD35.js,v 1.24 2006/06/29 22:41:21 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1431,6 +1431,7 @@ PH35.FeatRules = function() {
     'combatNotes.rideByAttackFeature:Move before and after mounted attack',
     'combatNotes.runFeature:Add 1 to speed multiplier; +4 running jump',
     'combatNotes.shotOnTheRunFeature:Move before and after ranged attack',
+    'combatNotes.smallFeature:+1 AC/base attack',
     'combatNotes.snatchArrowsFeature:Catch ranged weapons',
     'combatNotes.spiritedChargeFeature:' +
       'x2 damage (x3 lance) from mounted charge',
@@ -1502,7 +1503,7 @@ PH35.FeatRules = function() {
     'skillNotes.persuasiveFeature:+2 Bluff/Intimidate',
     'skillNotes.selfSufficientFeature:+2 Heal/Survival',
     'skillNotes.skillMasteryFeature:Never distracted from designated skills',
-    'skillNotes.smallSkillAdjustment:+4 Hide',
+    'skillNotes.smallFeature:+4 Hide',
     'skillNotes.stealthyFeature:+2 Hide/Move Silently',
     'skillNotes.trackFeature:Survival to follow creatures at 1/2 speed'
   ];
@@ -1609,7 +1610,8 @@ PH35.FeatRules = function() {
     '{feats.Whirlwind Attack} == null || {features.Combat Expertise} != null',
     '{feats.Whirlwind Attack} == null || {features.Spring Attack} != null',
     '{feats.Widen Spell} == null || {casterLevel} >= 1',
-    '+/{feats} == {featCount}'
+    '+/{feats} == {featCount}',
+    '+/{selectableFeatures} == +/{selectableFeatureCount}'
   ];
   ScribeCustomTests(tests);
   ScribeCustomChoices('feats', PH35.FEATS);
@@ -1618,7 +1620,7 @@ PH35.FeatRules = function() {
     ('abilityNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
   ScribeCustomRules('armorClass',
     'combatNotes.dodgeFeature', '+', '1',
-    'combatNotes.smallArmorClassAdjustment', '+', null
+    'combatNotes.smallFeature', '+', '1'
   );
   ScribeCustomRules('armorProficiency',
     'armorProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
@@ -1628,16 +1630,11 @@ PH35.FeatRules = function() {
     'features.Armor Proficiency Medium', '^', PH35.PROFICIENCY_MEDIUM,
     'features.Armor Proficiency Heavy', '^', PH35.PROFICIENCY_HEAVY
   );
-  ScribeCustomRules
-    ('baseAttack', 'combatNotes.smallBaseAttackAdjustment', '+', null);
+  ScribeCustomRules('baseAttack', 'combatNotes.smallFeature', '+', '1');
   ScribeCustomRules('combatNotes.dexterityMeleeAttackAdjustment',
     'combatNotes.weaponFinesseFeature', '?', null,
     'dexterityModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeCustomRules
-    ('combatNotes.smallArmorClassAdjustment', 'features.Small', '=', '1');
-  ScribeCustomRules
-    ('combatNotes.smallBaseAttackAdjustment', 'features.Small', '=', '1');
   ScribeCustomRules('combatNotes.strengthMeleeAttackAdjustment',
     'combatNotes.weaponFinesseFeature', '*', '0'
   );
@@ -1647,7 +1644,7 @@ PH35.FeatRules = function() {
   );
   for(var i = 0; i < PH35.FEATS.length; i++) {
     ScribeCustomRules
-      ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', '1');
+      ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', null);
   }
   ScribeCustomRules
     ('hitPoints', 'combatNotes.toughnessFeature', '+', '3 * source');
@@ -1668,8 +1665,6 @@ PH35.FeatRules = function() {
     'features.Shield Proficiency', '^', PH35.PROFICIENCY_HEAVY,
     'features.Shield Proficiency Tower', '^', PH35.PROFICIENCY_TOWER
   );
-  ScribeCustomRules
-    ('skillNotes.smallSkillAdjustment', 'features.Small', '=', '1');
   ScribeCustomRules
     ('turningFrequency', 'combatNotes.extraTurningFeature', '+', '4 * source');
   ScribeCustomRules
@@ -1968,7 +1963,6 @@ PH35.SkillRules = function() {
   ScribeCustomRules('skillNotes.wildEmpathyFeature',
     'skillNotes.handleAnimalSynergy', '+', '2'
   );
-  ScribeCustomRules('skills.Hide', 'skillNotes.smallSkillAdjustment', '+', '4');
   ScribeCustomRules('turningBase',
     'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
   );

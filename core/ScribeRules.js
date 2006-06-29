@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.33 2006/06/12 06:00:26 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.34 2006/06/29 22:41:22 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -145,7 +145,7 @@ function ScribeCustomFeatures(levelName, noteName, features) {
       code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
     if(noteName.indexOf('featureNotes.') == 0) {
       ScribeCustomRules('features.' + feature,
-        noteName, '=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
+        noteName, '+=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
       );
     }
   }
