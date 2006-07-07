@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.143 2006/06/29 22:41:21 Jim Exp $ */
+/* $Id: Scribe.js,v 1.144 2006/07/07 13:31:12 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -157,10 +157,18 @@ Scribe.editorElements = [
 Scribe.randomizers = {'--randomize--': null};
 Scribe.tests = [];
 
-/* Mapping of medium damage to small damage. */
+/* Mapping of medium damage to large/small/tiny damage. */
+Scribe.largeDamage = {
+  'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
+  'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
+};
 Scribe.smallDamage = {
-  'd2':'d1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', '2d4':'d6', 'd10':'d8',
-  'd12':'d10', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
+  'd2':'d1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
+  'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
+};
+Scribe.tinyDamage = {
+  'd2':'0', 'd3':'1', 'd4':'d2', 'd6':'d8', 'd8':'d4', 'd10':'d6',
+  'd12':'d8', '2d4':'1d4', '2d6':'1d8', '2d8':'1d10', '2d10':'2d6'
 };
 
 Scribe.spellsCategoryCodes = {
@@ -855,12 +863,19 @@ function SheetHtml() {
           if(damage == null)
             damage = pieces[1];
           var multiplier = pieces[4] ? pieces[4] - 0 : 2;
-          var smallDamage = Scribe.smallDamage[damage];
           var threat = pieces[6] ? pieces[6] - 0 : 20;
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
             threat -= computedAttributes['weaponCriticalAdjustment.' + name];
-          if(computedAttributes['features.Small'] && smallDamage != null)
-            damage = smallDamage;
+          if(computedAttributes['features.Small'] &&
+             Scribe.smallDamage[damage] != null) {
+            damage = Scribe.smallDamage[damage];
+          } else if(computedAttributes['features.Large'] &&
+                    Scribe.largeDamage[damage] != null) {
+            damage = Scribe.largeDamage[damage];
+          } else if(computedAttributes['features.Tiny'] &&
+                    Scribe.tinyDamage[damage] != null) {
+            damage = Scribe.tinyDamage[damage];
+          }
           if(additional != 0)
             damage += Signed(additional);
           damages[i] = damage + ' x' + multiplier + '@' + threat;
