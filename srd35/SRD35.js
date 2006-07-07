@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.24 2006/06/29 22:41:21 Jim Exp $ */
+/* $Id: SRD35.js,v 1.25 2006/07/07 13:31:50 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -987,7 +987,7 @@ PH35.ClassRules = function() {
       hitDie = 10;
       notes = [
         'combatNotes.smiteEvilFeature:' +
-          '%V/day add conMod to attack, paladin level to damage vs. evil',
+          '%V/day add conMod to attack, paladin level to damage vs. evil foe',
         'combatNotes.turnUndeadFeature:' +
           'Turn (good) or rebuke (evil) undead creatures',
         'featureNotes.specialMountFeature:Magical mount w/special abilities',
