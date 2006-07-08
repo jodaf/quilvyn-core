@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.34 2006/06/29 22:41:22 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.35 2006/07/08 14:40:54 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -65,11 +65,11 @@ function ScribeCustomClass
   if(baseAttackBonus != null)
     ScribeCustomRules('baseAttack', classLevel, '+', baseAttackBonus);
   if(saveFortitudeBonus != null)
-    ScribeCustomRules('saveFortitude', classLevel, '+', saveFortitudeBonus);
+    ScribeCustomRules('save.Fortitude', classLevel, '+', saveFortitudeBonus);
   if(saveReflexBonus != null)
-    ScribeCustomRules('saveReflex', classLevel, '+', saveReflexBonus);
+    ScribeCustomRules('save.Reflex', classLevel, '+', saveReflexBonus);
   if(saveWillBonus != null)
-    ScribeCustomRules('saveWill', classLevel, '+', saveWillBonus);
+    ScribeCustomRules('save.Will', classLevel, '+', saveWillBonus);
   if(armorProficiencyLevel != null)
     ScribeCustomRules
       ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
@@ -88,10 +88,19 @@ function ScribeCustomClass
     for(var i = 0; i < classSkills.length; i++)
       ScribeCustomRules('classSkills.' + classSkills[i], classLevel, '=', '1');
   if(features != null) {
-    var note = name.substring(0, 1).toLowerCase() + name.substring(1);
-    note = note.replace(/ /g, '');
-    note = 'featureNotes.' + note + 'Features';
-    ScribeCustomFeatures('levels.' + name, note, features);
+    var prefix =
+      name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+    for(var i = 1; i < features.length; i += 2) {
+      var feature = features[i];
+      var level = features[i - 1];
+      ScribeCustomRules(prefix + 'Features.' + feature,
+        'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
+      );
+      ScribeCustomRules
+        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
+    }
+    ScribeCustomSheet
+      (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
   }
 
 }
@@ -207,8 +216,8 @@ function ScribeCustomNotes(note /*, note ... */) {
  */
 function ScribeCustomRace(name, abilityAdjustment, features) {
   ScribeCustomChoices('races', name);
-  var prefix = name.substring(0, 1).toLowerCase() + name.substring(1);
-  prefix = prefix.replace(/ /g, '');
+  var prefix =
+    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
   if(abilityAdjustment != null) {
     var abilityNote = 'abilityNotes.' + prefix + 'AbilityAdjustment';
     ScribeCustomNotes(abilityNote + ':' + abilityAdjustment);
@@ -222,9 +231,18 @@ function ScribeCustomRace(name, abilityAdjustment, features) {
       (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
   }
   if(features != null) {
-    var featureNote = 'featureNotes.' + prefix + 'Features';
-    ScribeCustomFeatures('level', featureNote, features);
-    ScribeCustomRules(featureNote, 'race', '?', 'source == "' + name + '"');
+    for(var i = 1; i < features.length; i += 2) {
+      var feature = features[i];
+      var level = features[i - 1];
+      ScribeCustomRules(prefix + 'Features.' + feature,
+        'race', '?', 'source == "' + name + '"',
+        'level', '=', 'source >= ' + level
+      );
+      ScribeCustomRules
+        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
+    }
+    ScribeCustomSheet
+      (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
   }
 }
 

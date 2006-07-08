@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.144 2006/07/07 13:31:12 Jim Exp $ */
+/* $Id: Scribe.js,v 1.145 2006/07/08 14:40:54 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -327,10 +327,7 @@ function InitialViewer() {
       {name: 'FeatStats', within: 'FeaturesAndSkills'},
         {name: 'Feat Count', within: 'FeatStats'},
         {name: 'Selectable Feature Count', within: 'FeatStats'},
-      {name: 'Feats', within: 'FeaturesAndSkills',
-        format: '<b>Selected Feats/Features</b>: %V', separator: ' * '},
-      {name: 'Features', within: 'FeaturesAndSkills',
-        format: '<b>Acquired Features</b>: %V', separator: ' * '},
+      {name: 'Feats', within: 'FeaturesAndSkills', separator: ' * '},
       {name: 'Feature Notes', within: 'FeaturesAndSkills', separator: ' * '},
       {name: 'SkillStats', within: 'FeaturesAndSkills'},
         {name: 'Skill Points', within: 'SkillStats'},
@@ -372,10 +369,9 @@ function InitialViewer() {
         {name: 'Shield', within: 'Geer'},
         {name: 'Weapon Proficiency', within: 'Geer'},
       {name: 'Combat Notes', within: 'Combat', separator: ' * '},
-      {name: 'Saves', within: 'Combat'},
-        {name: 'Save Fortitude', within: 'Saves'},
-        {name: 'Save Reflex', within: 'Saves'},
-        {name: 'Save Will', within: 'Saves'},
+      {name: 'SaveAndResistance', within: 'Combat'},
+        {name: 'Save', within: 'SaveAndResistance', separator: ' * '},
+        {name: 'Resistance', within: 'SaveAndResistance', separator: ' * '},
       {name: 'Save Notes', within: 'Combat', separator: ' * '},
     {name: 'Magic', within: '_top', separator: '\n',
       format: '<b>Magic</b><br/>%V'},
@@ -780,10 +776,6 @@ function SheetHtml() {
          computedAttributes['skills.' + a] == 0)
         delete computedAttributes['skills.' + a];
     }
-  }
-  for(a in computedAttributes) {
-    if(a.search(/^feats\./) >= 0)
-      delete computedAttributes['features.' + a.substring(6)];
   }
   /*
    * NOTE: The ObjectFormatter doesn't support interspersing values in a list

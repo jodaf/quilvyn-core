@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.25 2006/07/07 13:31:50 Jim Exp $ */
+/* $Id: SRD35.js,v 1.26 2006/07/08 14:40:54 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -489,9 +489,9 @@ PH35.AbilityRules = function() {
   ScribeCustomRules('languageCount',
     'intelligenceModifier', '+', 'source > 0 ? source : null'
   );
-  ScribeCustomRules('saveFortitude', 'constitutionModifier', '+', null);
-  ScribeCustomRules('saveReflex', 'dexterityModifier', '+', null);
-  ScribeCustomRules('saveWill', 'wisdomModifier', '+', null);
+  ScribeCustomRules('save.Fortitude', 'constitutionModifier', '+', null);
+  ScribeCustomRules('save.Reflex', 'dexterityModifier', '+', null);
+  ScribeCustomRules('save.Will', 'wisdomModifier', '+', null);
   ScribeCustomRules('skillNotes.intelligenceSkillPointsAdjustment',
     'intelligenceModifier', '=', null,
     'level', '*', 'source + 3'
@@ -915,7 +915,7 @@ PH35.ClassRules = function() {
         'saveNotes.purityOfBodyFeature:Immune to disease',
         'saveNotes.slowFallFeature:' +
           'Subtract %V ft from falling distance damage:',
-        'saveNotes.stillMindFeature:+2 vs. enchantments'
+        'saveNotes.stillMindFeature:+2 vs. enchantment'
       ];
       profArmor = PH35.PROFICIENCY_NONE;
       profShield = PH35.PROFICIENCY_NONE;
@@ -963,6 +963,8 @@ PH35.ClassRules = function() {
         ('magicNotes.emptyBodyFeature', 'levels.Monk', '+=', null);
       ScribeCustomRules
         ('magicNotes.wholenessOfBodyFeature', 'levels.Monk', '+=', '2*source');
+      ScribeCustomRules
+        ('resistance.Enchantment', 'saveNotes.stillMindFeature', '+=', '2');
       ScribeCustomRules
         ('saveNotes.diamondSoulFeature', 'levels.Monk', '+=', '10 + source');
       ScribeCustomRules('saveNotes.slowFallFeature',
@@ -1306,9 +1308,9 @@ PH35.CombatRules = function() {
   ScribeCustomRules('baseAttack', null, '=', '0');
   ScribeCustomRules('meleeAttack', 'baseAttack', '=', null);
   ScribeCustomRules('rangedAttack', 'baseAttack', '=', null);
-  ScribeCustomRules('saveReflex', null, '=', '0');
-  ScribeCustomRules('saveFortitude', null, '=', '0');
-  ScribeCustomRules('saveWill', null, '=', '0');
+  ScribeCustomRules('save.Reflex', null, '=', '0');
+  ScribeCustomRules('save.Fortitude', null, '=', '0');
+  ScribeCustomRules('save.Will', null, '=', '0');
   ScribeCustomRules('shieldProficiencyLevel', null, '=', PH35.PROFICIENCY_NONE);
   ScribeCustomRules('turningBase', 'turningLevel', '=', null)
   ScribeCustomRules('turningDamageModifier', 'turningLevel', '=', null);
@@ -1485,7 +1487,7 @@ PH35.FeatRules = function() {
     'saveNotes.improvedEvasionFeature:Failed save yields 1/2 damage',
     'saveNotes.ironWillFeature:+2 Will',
     'saveNotes.lightningReflexesFeature:+2 Reflex',
-    'saveNotes.slipperyMindFeature:Second save vs. enchantments',
+    'saveNotes.slipperyMindFeature:Second save vs. enchantment',
     'skillNotes.acrobaticFeature:+2 Jump/Tumble',
     'skillNotes.agileFeature:+2 Balance/Escape Artist',
     'skillNotes.alertnessFeature:+2 Listen/Spot',
@@ -1654,10 +1656,10 @@ PH35.FeatRules = function() {
     ('magicNotes.arcaneSpellFailure', 'features.Still Spell', 'v', '0');
   ScribeCustomRules('runSpeedMultiplier', 'combatNotes.runFeature', '+', '1');
   ScribeCustomRules
-    ('saveFortitude', 'saveNotes.greatFortitudeFeature', '+', '2');
+    ('save.Fortitude', 'saveNotes.greatFortitudeFeature', '+', '2');
   ScribeCustomRules
-    ('saveReflex', 'saveNotes.lightningReflexesFeature', '+', '2');
-  ScribeCustomRules('saveWill', 'saveNotes.ironWillFeature', '+', '2');
+    ('save.Reflex', 'saveNotes.lightningReflexesFeature', '+', '2');
+  ScribeCustomRules('save.Will', 'saveNotes.ironWillFeature', '+', '2');
   ScribeCustomRules('shieldProficiency',
     'shieldProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
@@ -1779,11 +1781,13 @@ PH35.RaceRules = function() {
     'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
     'skillNotes.keenEarsFeature:+2 Listen',
     'featureNotes.lowLightVisionFeature:Double normal distance in poor light',
-    'saveNotes.enchantmentResistanceFeature:' +
-      '+2 vs. enchantments; immune sleep'
+    'saveNotes.enchantmentResistanceFeature:+2 vs. enchantment; immune sleep'
   ];
   ScribeCustomNotes(notes);
   ScribeCustomRules('languageCount', 'race', '+', 'source != "Human" ? 1 : 0');
+  ScribeCustomRules('resistance.Enchantment',
+    'saveNotes.enchantmentResistanceFeature', '+=', '2'
+  );
   ScribeCustomRules('speed', null, '=', '30');
   ScribeCustomRules('speed', 'features.Slow', '+', '-10');
   ScribeCustomRules('runSpeed', 'speed', '=', null);
@@ -1817,6 +1821,8 @@ PH35.RaceRules = function() {
       ScribeCustomRules('abilityNotes.armorSpeedAdjustment',
         'race', '^', 'source == "Dwarf" ? 0 : null'
       );
+      ScribeCustomRules
+        ('resistance.Poison', 'saveNotes.hardyFeature', '+=', '2');
 
     } else if(race == 'Elf') {
 
@@ -1850,6 +1856,9 @@ PH35.RaceRules = function() {
       ];
       ScribeCustomRules
         ('magicNotes.gnomeSpellsFeature', 'charisma', '?', 'source >= 10');
+      ScribeCustomRules('resistance.Illusion',
+        'saveNotes.illusionResistanceFeature', '+=', '2'
+      );
 
     } else if(race == 'Half Elf') {
 
@@ -1882,9 +1891,11 @@ PH35.RaceRules = function() {
         'saveNotes.unafraidFeature:+2 vs. fear',
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
       ];
-      ScribeCustomRules('saveFortitude', 'saveNotes.luckyFeature', '+', '1');
-      ScribeCustomRules('saveReflex', 'saveNotes.luckyFeature', '+', '1');
-      ScribeCustomRules('saveWill', 'saveNotes.luckyFeature', '+', '1');
+      ScribeCustomRules
+        ('resistance.Fear', 'saveNotes.unafraidFeature', '+=', '2');
+      ScribeCustomRules('save.Fortitude', 'saveNotes.luckyFeature', '+', '1');
+      ScribeCustomRules('save.Reflex', 'saveNotes.luckyFeature', '+', '1');
+      ScribeCustomRules('save.Will', 'saveNotes.luckyFeature', '+', '1');
 
     } else if(race == 'Human') {
 
