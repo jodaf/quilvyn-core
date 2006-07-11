@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.26 2006/07/08 14:40:54 Jim Exp $ */
+/* $Id: SRD35.js,v 1.27 2006/07/11 04:44:16 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -162,12 +162,7 @@ PH35.FEATS = [
   'Spring Attack', 'Stealthy', 'Still Spell', 'Stunning Fist', 'Toughness',
   'Track', 'Trample', 'Two Weapon Defense', 'Two Weapon Fighting',
   'Weapon Finesse', 'Weapon Proficiency Simple', 'Whirlwind Attack',
-  'Widen Spell',
-  /* Ranger combat styles */
-  'Combat Style (Archery)', 'Combat Style (Two Weapon Combat)',
-  /* Rogue special abilities (PM 51) */
-  'Crippling Strike', 'Defensive Roll', 'Improved Evasion', 'Opportunist',
-  'Skill Mastery', 'Slippery Mind'
+  'Widen Spell'
 ];
 PH35.GENDERS = ['Female', 'Male'];
 PH35.GOODIES = [
@@ -187,6 +182,11 @@ PH35.SCHOOLS = [
   'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
   'Illusion', 'Necromancy', 'Transmutation'
 ];
+PH35.SELECTABLE_FEATURES = {
+  'Ranger':'Combat Style (Archery)/Combat Style (Two Weapon Combat)',
+  'Rogue':'Bonus Feat/Crippling Strike/Defensive Roll/Improved Evasion/' +
+    'Opportunist/Skill Mastery/Slippery Mind'
+};
 PH35.SHIELDS = [
   'Buckler', 'Heavy Steel', 'Heavy Wooden', 'Light Steel', 'Light Wooden',
   'None', 'Tower'
@@ -1058,17 +1058,12 @@ PH35.ClassRules = function() {
 
       baseAttack = PH35.ATTACK_BONUS_GOOD;
       features = [
-        1, 'Favored Enemy', 1, 'Track', 1, 'Wild Empathy', 3, 'Endurance',
-        4, 'Animal Companion', 7, 'Woodland Stride', 8, 'Swift Tracker',
-        13, 'Camouflage', 17, 'Hide In Plain Sight'
-      ];
-      var unencumberedFeatures = [2, 'Combat Style', 9, 'Evasion'];
-      var styleArcheryFeatures = [
-        2, 'Rapid Shot', 6 , 'Manyshot', 11, 'ImprovedPrecise Shot'
-      ];
-      var styleTwoWeaponFeatures = [
-        2, 'Two Weapon Fighting', 6 , 'Improved Two Weapon Fighting',
-        11, 'Greater Two Weapon Fighting'
+        1, 'Favored Enemy', 1, 'Track', 1, 'Wild Empathy', 2, 'Rapid Shot',
+        2, 'Two Weapon Fighting', 3, 'Endurance', 4, 'Animal Companion',
+        6, 'Manyshot', 6, 'Improved Two Weapon Fighting', 7, 'Woodland Stride',
+        8, 'Swift Tracker', 9, 'Evasion', 11, 'Improved Precise Shot',
+        11, 'Greater Two Weapon Fighting', 13, 'Camouflage',
+        17, 'Hide In Plain Sight'
       ];
       hitDie = 8;
       notes = [
@@ -1098,15 +1093,6 @@ PH35.ClassRules = function() {
         'Knowledge (Nature)', 'Listen', 'Move Silently', 'Ride', 'Search',
         'Spot', 'Survival', 'Swim', 'Use Rope'
       ];
-      ScribeCustomFeatures
-        ('levels.Ranger', 'featureNotes.combatStyle(Archery)Features',
-         styleArcheryFeatures);
-      ScribeCustomFeatures
-        ('levels.Ranger', 'featureNotes.combatStyle(TwoWeaponCombat)Features',
-         styleTwoWeaponFeatures);
-      ScribeCustomFeatures
-        ('levels.Ranger', 'featureNotes.unencumberedRangerFeatures',
-         unencumberedFeatures);
       ScribeCustomRules('casterLevelDivine',
         'spellsPerDayLevels.Ranger', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
@@ -1114,14 +1100,32 @@ PH35.ClassRules = function() {
       ScribeCustomRules('combatNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
-      ScribeCustomRules('featureNotes.classFeatCountBonus',
-        'features.Combat Style', '+=', '1'
+      ScribeCustomRules('selectableFeatureCount.Ranger',
+        'levels.Ranger', '=', 'source >= 2 ? 1 : null'
       );
-      ScribeCustomRules('featureNotes.combatStyle(Archery)Features',
-        'features.Combat Style (Archery)', '?', null
+      var selectable = PH35.SELECTABLE_FEATURES['Ranger'].split('/');
+      for(var j = 0; j < selectable.length; j++) {
+        ScribeCustomRules('rangerFeatures.' + selectable[j],
+          'selectableFeatures.' + selectable[j], '=', null
+        );
+      }
+      ScribeCustomRules('rangerFeatures.Rapid Shot',
+        'rangerFeatures.Combat Style (Archery)', '?', null
       );
-      ScribeCustomRules('featureNotes.combatStyle(TwoWeaponCombat)Features',
-        'features.Combat Style (Two Weapon Combat)', '?', null
+      ScribeCustomRules('rangerFeatures.Manyshot',
+        'rangerFeatures.Combat Style (Archery)', '?', null
+      );
+      ScribeCustomRules('rangerFeatures.Improved Precise Shot',
+        'rangerFeatures.Combat Style (Archery)', '?', null
+      );
+      ScribeCustomRules('rangerFeatures.Two Weapon Fighting',
+        'rangerFeatures.Combat Style (Two Weapon Combat)', '?', null
+      );
+      ScribeCustomRules('rangerFeatures.Improved Two Weapon Fighting',
+        'rangerFeatures.Combat Style (Two Weapon Combat)', '?', null
+      );
+      ScribeCustomRules('rangerFeatures.Greater Two Weapon Fighting',
+        'rangerFeatures.Combat Style (Two Weapon Combat)', '?', null
       );
       ScribeCustomRules('skillNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
@@ -1185,10 +1189,17 @@ PH35.ClassRules = function() {
         'Sense Motive', 'Sleight Of Hand', 'Spot', 'Swim', 'Tumble',
         'Use Magic Device', 'Use Rope'
       ];
+      var selectable = PH35.SELECTABLE_FEATURES['Rogue'].split('/');
+      for(var j = 0; j < selectable.length; j++) {
+        ScribeCustomRules('rogueFeatures.' + selectable[j],
+          'selectableFeatures.' + selectable[j], '=', null
+        );
+      }
       ScribeCustomRules('combatNotes.sneakAttackFeature',
         'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
       );
-      ScribeCustomRules('featureNotes.classFeatCountBonus',
+      ScribeCustomRules('featCount', 'rogueFeatures.Bonus Feat', '+=', 'null');
+      ScribeCustomRules('selectableFeatureCount.Rogue',
         'levels.Rogue', '+=', 'source>=10 ? Math.floor((source-7)/3) : null'
       );
       ScribeCustomRules('saveNotes.trapSenseFeature',
@@ -1515,16 +1526,12 @@ PH35.FeatRules = function() {
     '{feats.Armor Proficiency Heavy} == null || {armorProficiencyLevel} > 1',
     '{feats.Brew Potion} == null || {casterLevel} >= 3',
     '{feats.Cleave} == null || {features.Power Attack} != null',
-    '{feats.Combat Style (Archery)} == null || {levels.Ranger} >= 2',
-    '{feats.Combat Style (Two Weapon Combat)} == null || {levels.Ranger} >= 2',
     '{feats.Combat Expertise} == null || {intelligence} >= 13',
     '{feats.Craft Magic Arms And Armor} == null || {casterLevel} >= 5',
     '{feats.Craft Rod} == null || {casterLevel} >= 9',
     '{feats.Craft Staff} == null || {casterLevel} >= 12',
     '{feats.Craft Wand} == null || {casterLevel} >= 5',
     '{feats.Craft Wondrous Item} == null || {casterLevel} >= 3',
-    '{feats.Crippling Strike} == null || {levels.Rogue} >= 10',
-    '{feats.Defensive Roll} == null || {levels.Rogue} >= 10',
     '{feats.Deflect Arrows} == null || {dexterity} >= 13',
     '{feats.Deflect Arrows}==null || {features.Improved Unarmed Strike}!=null',
     '{feats.Diehard} == null || {features.Endurance} != null',
@@ -1547,7 +1554,6 @@ PH35.FeatRules = function() {
     '{feats.Improved Bull Rush} == null || {features.Power Attack} != null',
     '{feats.Improved Disarm} == null || ' +
       '{levels.Monk} >= 6 || {features.Combat Expertise} != null',
-    '{feats.Improved Evasion} == null || {levels.Rogue} >= 10',
     '{feats.Improved Feint} == null || {features.Combat Expertise} != null',
     '{feats.Improved Grapple} == null || ' + 
       '{levels.Monk} >= 1 || ' +
@@ -1576,7 +1582,6 @@ PH35.FeatRules = function() {
     '{feats.Mounted Combat} == null || {skills.Ride} >= 1',
     '{feats.Natural Spell} == null || {wisdom} >= 13',
     '{feats.Natural Spell} == null || {features.Wild Shape} != null',
-    '{feats.Opportunist} == null || {levels.Rogue} >= 10',
     '{feats.Power Attack} == null || {strength} >= 13',
     '{feats.Precise Shot} == null || {features.Point Blank Shot} != null',
     '{feats.Quick Draw} == null || {baseAttack} >= 1',
@@ -1590,8 +1595,6 @@ PH35.FeatRules = function() {
     '{feats.Shot On The Run} == null || {features.Point Blank Shot} != null',
     '{feats.Shot On The Run} == null || {baseAttack} >= 4',
     '{feats.Silent Spell} == null || {casterLevel} >= 1',
-    '{feats.Skill Mastery} == null || {levels.Rogue} >= 10',
-    '{feats.Slippery Mind} == null || {levels.Rogue} >= 10',
     '{feats.Snatch Arrows} == null || {dexterity} >= 15',
     '{feats.Snatch Arrows} == null || {features.Deflect Arrows} != null',
     '{feats.Spell Penetration} == null || {casterLevel} >= 1',
@@ -1612,11 +1615,34 @@ PH35.FeatRules = function() {
     '{feats.Whirlwind Attack} == null || {features.Combat Expertise} != null',
     '{feats.Whirlwind Attack} == null || {features.Spring Attack} != null',
     '{feats.Widen Spell} == null || {casterLevel} >= 1',
+    '{selectableFeatures.Combat Style (Archery)}==null || {levels.Ranger}>=2',
+    '{selectableFeatures.Combat Style (Two Weapon Combat)} == null || ' +
+      '{levels.Ranger} >= 2',
+    '{selectableFeatures.Crippling Strike} == null || {levels.Rogue} >= 10',
+    '{selectableFeatures.Defensive Roll} == null || {levels.Rogue} >= 10',
+    '{selectableFeatures.Improved Evasion} == null || {levels.Rogue} >= 10',
+    '{selectableFeatures.Opportunist} == null || {levels.Rogue} >= 10',
+    '{selectableFeatures.Skill Mastery} == null || {levels.Rogue} >= 10',
+    '{selectableFeatures.Slippery Mind} == null || {levels.Rogue} >= 10',
     '+/{feats} == {featCount}',
     '+/{selectableFeatures} == +/{selectableFeatureCount}'
   ];
   ScribeCustomTests(tests);
   ScribeCustomChoices('feats', PH35.FEATS);
+  var uniquifier = {};
+  for(var attr in PH35.SELECTABLE_FEATURES) {
+    var features = PH35.SELECTABLE_FEATURES[attr].split('/');
+    for(var i = 0; i < features.length; i++) {
+      uniquifier[features[i]] = '';
+    }
+  }
+  var selectable = Scribe.GetKeys(uniquifier);
+  ScribeCustomChoices('selectableFeatures', selectable);
+  for(var i = 0; i < selectable.length; i++) {
+    ScribeCustomRules('features.' + selectable[i],
+      'selectableFeatures.' + selectable[i], '=', null
+    );
+  }
 
   ScribeCustomRules
     ('abilityNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
@@ -1781,7 +1807,8 @@ PH35.RaceRules = function() {
     'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
     'skillNotes.keenEarsFeature:+2 Listen',
     'featureNotes.lowLightVisionFeature:Double normal distance in poor light',
-    'saveNotes.enchantmentResistanceFeature:+2 vs. enchantment; immune sleep'
+    'saveNotes.enchantmentResistanceFeature:+2 vs. enchantment',
+    'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>'
   ];
   ScribeCustomNotes(notes);
   ScribeCustomRules('languageCount', 'race', '+', 'source != "Human" ? 1 : 0');
@@ -1829,7 +1856,7 @@ PH35.RaceRules = function() {
       adjustment = '+2 dexterity/-2 constitution';
       features = [
         1, 'Enchantment Resistance', 1, 'Keen Senses', 1, 'Low Light Vision',
-        1, 'Sense Secret Doors'
+        1, 'Sense Secret Doors', 1, 'Sleep Immunity'
       ];
       notes = [
         'featureNotes.senseSecretDoorsFeature:' +
@@ -1865,7 +1892,7 @@ PH35.RaceRules = function() {
       adjustment = null;
       features = [
           1, 'Alert Senses', 1, 'Enchantment Resistance',
-          1, 'Low Light Vision', 1, 'Tolerance'
+          1, 'Low Light Vision', 1, 'Sleep Immunity', 1, 'Tolerance'
       ];
       notes = [
         'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',

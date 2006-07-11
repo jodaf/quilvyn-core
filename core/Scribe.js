@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.145 2006/07/08 14:40:54 Jim Exp $ */
+/* $Id: Scribe.js,v 1.146 2006/07/11 04:44:16 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -437,7 +437,9 @@ function LoadCharacter(name) {
       if(typeof value == 'object') {
         for(var x in value) {
           if(a == 'combatStyle') {
-            character['feats.Combat Style (' + x + ')'] = '1';
+            character['selectableFeatures.Combat Style (' + x + ')'] = '1';
+          } else if(a == 'feats' && '/Combat Style (Archery)/Combat Style (Two Weapon Combat)/Crippling Strike/Defensive Roll/Improved Evasion/Opportunist/Slippery Mind/'.indexOf('/' + x + '/') >= 0) {
+            character['selectableFeatures.' + x] = '1';
           } else if(a == 'focus')
             character['feats.Weapon Focus (' + x + ')'] = '1';
           else if(a == 'specialization') {

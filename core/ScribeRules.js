@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.35 2006/07/08 14:40:54 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.36 2006/07/11 04:44:16 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -133,36 +133,6 @@ function ScribeCustomEditor(name, label, type, params, before) {
         concat([element]).concat(Scribe.editorElements.slice(i));
     }
   }
-}
-
-/*
- * TODO Comment
- */
-function ScribeCustomFeatures(levelName, noteName, features) {
-  var code = '';
-  var initial = [];
-  var lowestLevel = 100;
-  for(var i = 1; i < features.length; i += 2) {
-    var feature = features[i];
-    var level = features[i - 1];
-    if(level < lowestLevel) {
-      lowestLevel = level;
-    }
-    if(level <= 1)
-      initial[initial.length] = '"' + feature + '"';
-    else
-      code += '.concat(source >= ' + level + ' ? ["' + feature + '"] : [])';
-    if(noteName.indexOf('featureNotes.') == 0) {
-      ScribeCustomRules('features.' + feature,
-        noteName, '+=', 'source.indexOf("' + feature + '") >= 0 ? 1 : null'
-      );
-    }
-  }
-  ScribeCustomRules(noteName,
-    levelName, '=',
-    'source < ' + lowestLevel + ' ? null : ' +
-    '[' + initial.join(',') + ']' + code + '.sort().join("/")'
-  );
 }
 
 /*
