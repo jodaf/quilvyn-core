@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.36 2006/07/11 04:44:16 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.37 2006/07/13 05:50:26 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes

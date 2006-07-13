@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.27 2006/07/11 04:44:16 Jim Exp $ */
+/* $Id: SRD35.js,v 1.28 2006/07/13 05:50:26 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -33,8 +33,8 @@ function PH35() {
     ScribeCustomRandomizers(PH35.Randomize,
       'alignment', 'armor', 'charisma', 'constitution', 'deity', 'dexterity',
       'domains', 'feats', 'gender', 'hitPoints', 'intelligence', 'languages',
-      'levels', 'name', 'race', 'shield', 'skills', 'specialization', 'spells',
-      'strength', 'weapons', 'wisdom'
+      'levels', 'name', 'race', 'selectableFeatures', 'shield', 'skills',
+      'specialization', 'spells', 'strength', 'weapons', 'wisdom'
     );
   PH35.AbilityRules = null;
   PH35.RaceRules = null;
@@ -182,11 +182,11 @@ PH35.SCHOOLS = [
   'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
   'Illusion', 'Necromancy', 'Transmutation'
 ];
-PH35.SELECTABLE_FEATURES = {
-  'Ranger':'Combat Style (Archery)/Combat Style (Two Weapon Combat)',
-  'Rogue':'Bonus Feat/Crippling Strike/Defensive Roll/Improved Evasion/' +
+PH35.SELECTABLE_FEATURES = [
+  'Ranger:Combat Style (Archery)/Combat Style (Two Weapon Combat)',
+  'Rogue:Bonus Feat/Crippling Strike/Defensive Roll/Improved Evasion/' +
     'Opportunist/Skill Mastery/Slippery Mind'
-};
+];
 PH35.SHIELDS = [
   'Buckler', 'Heavy Steel', 'Heavy Wooden', 'Light Steel', 'Light Wooden',
   'None', 'Tower'
@@ -1103,12 +1103,6 @@ PH35.ClassRules = function() {
       ScribeCustomRules('selectableFeatureCount.Ranger',
         'levels.Ranger', '=', 'source >= 2 ? 1 : null'
       );
-      var selectable = PH35.SELECTABLE_FEATURES['Ranger'].split('/');
-      for(var j = 0; j < selectable.length; j++) {
-        ScribeCustomRules('rangerFeatures.' + selectable[j],
-          'selectableFeatures.' + selectable[j], '=', null
-        );
-      }
       ScribeCustomRules('rangerFeatures.Rapid Shot',
         'rangerFeatures.Combat Style (Archery)', '?', null
       );
@@ -1189,12 +1183,6 @@ PH35.ClassRules = function() {
         'Sense Motive', 'Sleight Of Hand', 'Spot', 'Swim', 'Tumble',
         'Use Magic Device', 'Use Rope'
       ];
-      var selectable = PH35.SELECTABLE_FEATURES['Rogue'].split('/');
-      for(var j = 0; j < selectable.length; j++) {
-        ScribeCustomRules('rogueFeatures.' + selectable[j],
-          'selectableFeatures.' + selectable[j], '=', null
-        );
-      }
       ScribeCustomRules('combatNotes.sneakAttackFeature',
         'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
       );
@@ -1629,19 +1617,25 @@ PH35.FeatRules = function() {
   ];
   ScribeCustomTests(tests);
   ScribeCustomChoices('feats', PH35.FEATS);
-  var uniquifier = {};
-  for(var attr in PH35.SELECTABLE_FEATURES) {
-    var features = PH35.SELECTABLE_FEATURES[attr].split('/');
-    for(var i = 0; i < features.length; i++) {
-      uniquifier[features[i]] = '';
-    }
+  for(var i = 0; i < PH35.FEATS.length; i++) {
+    ScribeCustomRules
+      ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', null);
   }
-  var selectable = Scribe.GetKeys(uniquifier);
-  ScribeCustomChoices('selectableFeatures', selectable);
-  for(var i = 0; i < selectable.length; i++) {
-    ScribeCustomRules('features.' + selectable[i],
-      'selectableFeatures.' + selectable[i], '=', null
-    );
+  ScribeCustomChoices('selectableFeatures', PH35.SELECTABLE_FEATURES);
+  for(var i = 0; i < PH35.SELECTABLE_FEATURES.length; i++) {
+    var pieces = PH35.SELECTABLE_FEATURES[i].split(':');
+    var prefix = pieces[0].substring(0, 1).toLowerCase() +
+                 pieces[0].substring(1).replace(/ /g, '');
+    var selectables = pieces[1].split('/');
+    for(var j = 0; j < selectables.length; j++) {
+      var selectable = selectables[j];
+      ScribeCustomRules('features.' + selectable,
+        'selectableFeatures.' + selectable, '=', null
+      );
+      ScribeCustomRules(prefix + 'Features.' + selectable,
+        'selectableFeatures.' + selectable, '=', null
+      );
+    }
   }
 
   ScribeCustomRules
@@ -1670,10 +1664,6 @@ PH35.FeatRules = function() {
     'level', '=', '10 + Math.floor(source / 2)',
     'wisdomModifier', '+', null
   );
-  for(var i = 0; i < PH35.FEATS.length; i++) {
-    ScribeCustomRules
-      ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', null);
-  }
   ScribeCustomRules
     ('hitPoints', 'combatNotes.toughnessFeature', '+', '3 * source');
   ScribeCustomRules
@@ -1769,19 +1759,19 @@ PH35.MagicRules = function() {
   ScribeCustomRules('featureNotes.warDomain',
     'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
   );
-  ScribeCustomRules('features.Weapon Focus (Heavy Flail)',
+  ScribeCustomRules('clericFeatures.Weapon Focus (Heavy Flail)',
     'featureNotes.warDomain', '=', 'source.indexOf("Heavy Flail")>=0? 1 : null'
   );
-  ScribeCustomRules('features.Weapon Focus (Light Flail)',
+  ScribeCustomRules('clericFeatures.Weapon Focus (Light Flail)',
     'featureNotes.warDomain', '=', 'source.indexOf("Light Flail")>=0 ? 1 : null'
   );
-  ScribeCustomRules('features.Weapon Focus (Longsword)',
+  ScribeCustomRules('clericFeatures.Weapon Focus (Longsword)',
     'featureNotes.warDomain', '=', 'source.indexOf("Longsword") >= 0 ? 1 : null'
   );
-  ScribeCustomRules('features.Weapon Focus (Morningstar)',
+  ScribeCustomRules('clericFeatures.Weapon Focus (Morningstar)',
     'featureNotes.warDomain', '=', 'source.indexOf("Morningstar")>=0 ? 1 : null'
   );
-  ScribeCustomRules('features.Weapon Focus (Spear)',
+  ScribeCustomRules('clericFeatures.Weapon Focus (Spear)',
     'featureNotes.warDomain', '=', 'source.indexOf("Spear") >= 0 ? 1 : null'
   );
   ScribeCustomRules
@@ -2018,26 +2008,20 @@ PH35.SkillRules = function() {
 PH35.RandomAbility = function() {
   var rolls = [];
   for(i = 0; i < 4; i++)
-    rolls[i] = Scribe.Random(1, 6);
+    rolls[i] = ScribeUtils.Random(1, 6);
   rolls.sort();
   return rolls[1] + rolls[2] + rolls[3];
-};
-
-PH35.RandomChoice = function(fromSet) {
-  if(fromSet.constructor != Array)
-    fromSet = GetKeys(fromSet);
-  return fromSet[Scribe.Random(0, fromSet.length - 1)];
 };
 
 /* Returns a random name for a charater of race #race#. */
 PH35.RandomName = function(race) {
 
   function RandomChar(string) {
-    return string.charAt(Scribe.Random(0, string.length - 1));
+    return string.charAt(ScribeUtils.Random(0, string.length - 1));
   }
 
   if(race == 'Half Elf')
-    race = Scribe.Random(0, 99) < 50 ? 'Elf' : 'Human';
+    race = ScribeUtils.Random(0, 99) < 50 ? 'Elf' : 'Human';
   else if(race.indexOf('Dwarf') >= 0)
     race = 'Dwarf';
   else if(race.indexOf('Elf') >= 0)
@@ -2066,7 +2050,7 @@ PH35.RandomName = function(race) {
     {'Dwarf': 'aeiou', 'Elf': 'aeioy', 'Gnome': 'aeiou',
      'Halfling': 'aeiou', 'Human': 'aeiou', 'Orc': 'aou'}[race];
   var dipthongs = {a:'wy', e:'aei', o: 'aiouy', u: 'ae'};
-  var syllables = Scribe.Random(0, 99);
+  var syllables = ScribeUtils.Random(0, 99);
   syllables = syllables < 50 ? 2 :
               syllables < 75 ? 3 :
               syllables < 90 ? 4 :
@@ -2076,28 +2060,28 @@ PH35.RandomName = function(race) {
   var vowel;
 
   for(var i = 0; i < syllables; i++) {
-    if(Scribe.Random(0, 99) <= 80) {
+    if(ScribeUtils.Random(0, 99) <= 80) {
       endConsonant = RandomChar(consonants).toUpperCase();
-      if(clusters[endConsonant] != null && Scribe.Random(0, 99) < 15)
+      if(clusters[endConsonant] != null && ScribeUtils.Random(0, 99) < 15)
         endConsonant += RandomChar(clusters[endConsonant]);
       result += endConsonant;
       if(endConsonant == 'Q')
         result += 'u';
     }
-    else if(endConsonant.length == 1 && Scribe.Random(0, 99) < 10) {
+    else if(endConsonant.length == 1 && ScribeUtils.Random(0, 99) < 10) {
       result += endConsonant;
       endConsonant += endConsonant;
     }
     vowel = RandomChar(vowels);
     if(endConsonant.length > 0 && dipthongs[vowel] != null &&
-       Scribe.Random(0, 99) < 15)
+       ScribeUtils.Random(0, 99) < 15)
       vowel += RandomChar(dipthongs[vowel]);
     result += vowel;
     endConsonant = '';
-    if(Scribe.Random(0, 99) <= 60) {
+    if(ScribeUtils.Random(0, 99) <= 60) {
       while(leading.indexOf((endConsonant = RandomChar(consonants))) >= 0)
         ; /* empty */
-      if(clusters[endConsonant] != null && Scribe.Random(0, 99) < 15)
+      if(clusters[endConsonant] != null && ScribeUtils.Random(0, 99) < 15)
         endConsonant += RandomChar(clusters[endConsonant]);
       result += endConsonant;
     }
@@ -2121,16 +2105,10 @@ PH35.Randomize = function(rules, attributes, attribute) {
   function PickAttrs(attributes, prefix, choices, howMany, value) {
     var remaining = [].concat(choices);
     for(var i = 0; i < howMany && remaining.length > 0; i++) {
-      var which = Scribe.Random(0, remaining.length - 1);
+      var which = ScribeUtils.Random(0, remaining.length - 1);
       attributes[prefix + remaining[which]] = value;
       remaining = remaining.slice(0, which).concat(remaining.slice(which + 1));
     }
-  }
-
-  /* Returns a random key of the object #o#. */
-  function RandomKey(o) {
-    var keys = Scribe.GetKeys(o);
-    return keys[Scribe.Random(0, keys.length - 1)];
   }
 
   /* Returns the sum of all #attr# elements that match #pat#. */
@@ -2159,11 +2137,11 @@ PH35.Randomize = function(rules, attributes, attribute) {
   if(abilities[attribute] != null) {
     var rolls = [];
     for(i = 0; i < 4; i++)
-      rolls[i] = Scribe.Random(1, 6);
+      rolls[i] = ScribeUtils.Random(1, 6);
     rolls.sort();
     attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
   } else if(selections[attribute] != null) {
-    attributes[attribute] = RandomKey(selections[attribute]);
+    attributes[attribute] = ScribeUtils.RandomKey(selections[attribute]);
   } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
     var aliInfo = attributes.alignment.match(/^([CLN]).* ([GEN])/);
@@ -2177,10 +2155,10 @@ PH35.Randomize = function(rules, attributes, attribute) {
     else
       aliPat = '\\(([N' + aliInfo[1] + '][N' + aliInfo[2] + '])';
     choices = [];
-    for(var a in Scribe.deities)
-      if(a.match(aliPat))
-        choices[choices.length] = a;
-    attributes['deity'] = choices[Scribe.Random(0, choices.length - 1)];
+    for(attr in Scribe.deities)
+      if(attr.match(aliPat))
+        choices[choices.length] = attr;
+    attributes['deity'] = choices[ScribeUtils.Random(0, choices.length - 1)];
     PH35.Randomize(rules, attributes, 'domains');
   } else if(attribute == 'domains') {
     if(attributes['levels.Cleric'] != null) {
@@ -2197,13 +2175,14 @@ PH35.Randomize = function(rules, attributes, attribute) {
         i < attrs.featCount;
         i++) {
       choices = [];
-      for(var j = 0; j < Scribe.feats.length; j++)
-        if(attrs['features.' + Scribe.feats[j]] == null)
-          choices[choices.length] = Scribe.feats[j];
+      for(attr in Scribe.feats) {
+        if(attrs['features.' + attr] == null)
+          choices[choices.length] = attr;
+      }
       if(choices.length == 0)
         break;
       while(true) {
-        var attr = 'feats.' + choices[Scribe.Random(0, choices.length - 1)];
+        var attr = 'feats.' + choices[ScribeUtils.Random(0,choices.length - 1)];
         attrs[attr] = attributes[attr] = 1;
         var invalid = Validate(attrs);
         for(var j = 0; j < invalid.length && invalid[j].indexOf(attr) < 0; j++)
@@ -2225,7 +2204,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
       var sides = matchInfo == null || matchInfo[3] == null ? 6 : matchInfo[3];
       attributes.hitPoints += number * sides;
       while(--attr > 0)
-        attributes.hitPoints += Scribe.Random(number, number*sides);
+        attributes.hitPoints += ScribeUtils.Random(number, number * sides);
     }
   } else if(attribute == 'languages') {
     attrs = rules.Apply(attributes);
@@ -2234,16 +2213,16 @@ PH35.Randomize = function(rules, attributes, attribute) {
     if(race != 'Human')
       attributes['languages.' + race] = 1;
     choices = [];
-    for(i = 0; i < Scribe.languages.length; i++) {
-      attr = Scribe.languages[i];
+    for(attr in Scribe.languages) {
       if(attributes['languages.' + attr] == null)
         choices[choices.length] = attr;
     }
-    PickAttrs(attributes, 'languages.', choices, attrs.languageCount -                   SumMatching(attributes, /^languages\./), 1);
+    PickAttrs(attributes, 'languages.', choices,
+              attrs.languageCount - SumMatching(attributes, /^languages\./), 1);
   } else if(attribute == 'levels') {
-    for(var a in attributes) {
-      if(a.indexOf('levels.') == 0)
-        delete attributes[a];
+    for(attr in attributes) {
+      if(attr.indexOf('levels.') == 0)
+        delete attributes[attr];
     }
     choices = [];
     for(attr in Scribe.classes)
@@ -2251,6 +2230,19 @@ PH35.Randomize = function(rules, attributes, attribute) {
     PickAttrs(attributes, 'levels.', choices, 1, 1);
   } else if(attribute == 'name') {
     attributes['name'] = PH35.RandomName(attributes['race']);
+  } else if(attribute == 'selectableFeatures') {
+    attrs = rules.Apply(attributes);
+    for(attr in attrs) {
+      if(attr.indexOf('selectableFeatureCount.') != 0)
+        continue;
+      var howMany = attrs[attr] - 0;
+      attr = attr.substring(attr.indexOf('.') + 1);
+      alert("Choose " + howMany + " " + attr + " features");
+      if((choices = Scribe.selectableFeatures[attr]) == null)
+        continue;
+      choices = choices.split('/');
+      PickAttrs(attributes, 'selectableFeatures.', choices, howMany, 1);
+    }
   } else if(attribute == 'skills') {
     attrs = rules.Apply(attributes);
     var maxRanks = attrs.classSkillMaxRanks;
@@ -2264,13 +2256,13 @@ PH35.Randomize = function(rules, attributes, attribute) {
                        (attrs['classSkills.' + attr] != null ? 1 : 2);
     }
     while(skillPoints > 0 && choices.length > 0) {
-      var pickClassSkill = Scribe.Random(0, 99) >= 15;
-      i = Scribe.Random(0, choices.length - 1);
+      var pickClassSkill = ScribeUtils.Random(0, 99) >= 15;
+      i = ScribeUtils.Random(0, choices.length - 1);
       attr = choices[i];
       if((attrs['classSkills.' + attr] != null) != pickClassSkill)
         continue;
-      var points = Scribe.Random(0, 99) < 60 ?
-        maxRanks : Scribe.Random(1, maxRanks - 1);
+      var points = ScribeUtils.Random(0, 99) < 60 ?
+        maxRanks : ScribeUtils.Random(1, maxRanks - 1);
       if(points > skillPoints)
         points = skillPoints;
       if(pickClassSkill)
@@ -2292,20 +2284,19 @@ PH35.Randomize = function(rules, attributes, attribute) {
             choices = choices.slice(0, i).concat(choices.slice(i + 1));
       }
     }
-  } else if(attribute == 'name') {
-    attributes.name = PH35.RandomName(attributes.race);
   } else if(attribute == 'specialization') {
-    for(var a in attributes) {
-      if(a.indexOf('prohibit.') == 0 || a.indexOf('specialize.') == 0)
-        delete attributes[a];
+    for(attr in attributes) {
+      if(attr.indexOf('prohibit.') == 0 || attr.indexOf('specialize.') == 0)
+        delete attributes[attr];
     }
     if(attributes['levels.Wizard'] != null) {
-      var specialty = RandomKey(Scribe.schools);
+      var specialty = ScribeUtils.RandomKey(Scribe.schools);
       attributes['specialize.' + specialty] = 1;
       choices = [];
-      for(i = 0; i < Scribe.schools.length; i++)
-        if(Scribe.schools[i] != specialty)
-          choices[choices.length] = Scribe.schools[i];
+      for(attr in Scribe.schools) {
+        if(attr != specialty)
+          choices[choices.length] = attr;
+      }
       PickAttrs(attributes, 'prohibit.', choices,
                 specialty == 'Divination' ? 1 : 2, 1);
     }
@@ -2332,8 +2323,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
       if((matchInfo = attr.match(/^spells\.(.*)\((.*)\)/)) != null)
         spells[matchInfo[1]] = matchInfo[2];
     }
-    for(i = 0; i < Scribe.domains.length; i++) {
-      attr = Scribe.domains[i];
+    for(attr in Scribe.domains) {
       if(attributes['domains.' + attr] == null)
         continue;
       category = Scribe.spellsCategoryCodes[attr];
