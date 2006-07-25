@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.28 2006/07/13 05:50:26 Jim Exp $ */
+/* $Id: SRD35.js,v 1.29 2006/07/25 20:43:02 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2237,7 +2237,6 @@ PH35.Randomize = function(rules, attributes, attribute) {
         continue;
       var howMany = attrs[attr] - 0;
       attr = attr.substring(attr.indexOf('.') + 1);
-      alert("Choose " + howMany + " " + attr + " features");
       if((choices = Scribe.selectableFeatures[attr]) == null)
         continue;
       choices = choices.split('/');

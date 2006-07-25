@@ -1,4 +1,4 @@
-/* $Id: ScribeUtils.js,v 1.1 2006/07/13 05:50:26 Jim Exp $ */
+/* $Id: ScribeUtils.js,v 1.2 2006/07/25 20:43:02 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -26,6 +26,16 @@ ScribeUtils.GetKeys = function(o) {
   var result = [];
   for(var a in o) {
     result[result.length] = a;
+  }
+  result.sort();
+  return result;
+}
+
+/* Returns a sorted array containing all values from object #o#. */
+ScribeUtils.GetValues = function(o) {
+  var result = [];
+  for(var a in o) {
+    result[result.length] = o[a];
   }
   result.sort();
   return result;
