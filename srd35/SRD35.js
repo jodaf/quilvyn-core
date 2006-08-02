@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.29 2006/07/25 20:43:02 Jim Exp $ */
+/* $Id: SRD35.js,v 1.30 2006/08/02 06:34:14 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2239,8 +2239,28 @@ PH35.Randomize = function(rules, attributes, attribute) {
       attr = attr.substring(attr.indexOf('.') + 1);
       if((choices = Scribe.selectableFeatures[attr]) == null)
         continue;
-      choices = choices.split('/');
-      PickAttrs(attributes, 'selectableFeatures.', choices, howMany, 1);
+      var selectable = choices.split('/');
+      choices = [];
+      for(i = 0; i < selectable.length; i++) {
+        if(attrs['selectableFeatures.' + selectable[i]] == null)
+          choices[choices.length] = selectable[i];
+        else
+          howMany--;
+      }
+      if(howMany <= 0 || choices.length == 0)
+        continue;
+      while(true) {
+        var attr = 'selectableFeatures.' +
+                   choices[ScribeUtils.Random(0, choices.length - 1)];
+        attrs[attr] = attributes[attr] = 1;
+        var invalid = Validate(attrs);
+        for(var j = 0; j < invalid.length && invalid[j].indexOf(attr) < 0; j++)
+          ; /* empty */
+        if(j >= invalid.length)
+          break;
+        delete attrs[attr];
+        delete attributes[attr];
+      }
     }
   } else if(attribute == 'skills') {
     attrs = rules.Apply(attributes);
