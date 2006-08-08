@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.30 2006/08/02 06:34:14 Jim Exp $ */
+/* $Id: SRD35.js,v 1.31 2006/08/08 07:29:16 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2167,30 +2167,31 @@ PH35.Randomize = function(rules, attributes, attribute) {
       else
         choices = choices.split('/');
       PickAttrs
-        (attributes, 'domains.', choices, 2-SumMatching(/^domains\./), 1);
+        (attributes, 'domains.', choices, 2 - SumMatching(/^domains\./), 1);
     }
   } else if(attribute == 'feats') {
     attrs = rules.Apply(attributes);
-    for(i = SumMatching(attributes, /^feats\./);
-        i < attrs.featCount;
-        i++) {
-      choices = [];
-      for(attr in Scribe.feats) {
-        if(attrs['features.' + attr] == null)
-          choices[choices.length] = attr;
-      }
-      if(choices.length == 0)
-        break;
-      while(true) {
-        var attr = 'feats.' + choices[ScribeUtils.Random(0,choices.length - 1)];
-        attrs[attr] = attributes[attr] = 1;
-        var invalid = Validate(attrs);
-        for(var j = 0; j < invalid.length && invalid[j].indexOf(attr) < 0; j++)
-          ; /* empty */
-        if(j >= invalid.length)
-          break;
+    var howMany = attrs.featCount;
+    var selections = {};
+    for(attr in Scribe.feats) {
+      if(attrs['feats.' + attr] != null)
+        howMany--;
+      else if(attrs['features.' + attr] == null)
+        selections['feats.' + attr] = 1;
+    }
+    while(howMany > 0 &&
+          (choices = ScribeUtils.GetKeys(selections)).length > 0) {
+      attr = choices[ScribeUtils.Random(0, choices.length - 1)];
+      attrs[attr] = 1;
+      var invalid = Validate(attrs);
+      for(i = 0; i < invalid.length && invalid[i].indexOf(attr) < 0; i++)
+        ; /* empty */
+      if(i < invalid.length) {
         delete attrs[attr];
-        delete attributes[attr];
+      } else {
+        attributes[attr] = 1;
+        delete selections[attr];
+        howMany--;
       }
     }
   } else if(attribute == 'hitPoints') {
@@ -2233,33 +2234,35 @@ PH35.Randomize = function(rules, attributes, attribute) {
   } else if(attribute == 'selectableFeatures') {
     attrs = rules.Apply(attributes);
     for(attr in attrs) {
-      if(attr.indexOf('selectableFeatureCount.') != 0)
+      if(!attr.match(/^selectableFeatureCount\./))
         continue;
-      var howMany = attrs[attr] - 0;
-      attr = attr.substring(attr.indexOf('.') + 1);
-      if((choices = Scribe.selectableFeatures[attr]) == null)
+      choices = Scribe.selectableFeatures[attr.substring(attr.indexOf('.')+1)];
+      if(choices == null)
         continue;
-      var selectable = choices.split('/');
-      choices = [];
-      for(i = 0; i < selectable.length; i++) {
-        if(attrs['selectableFeatures.' + selectable[i]] == null)
-          choices[choices.length] = selectable[i];
-        else
+      choices = choices.split('/');
+      var howMany = attrs[attr];
+      var selections = {};
+      for(i = 0; i < choices.length; i++) {
+        attr = choices[i];
+        if(attrs['selectableFeatures.' + attr] != null)
           howMany--;
+        else if(attrs['features.' + attr] == null)
+          selections['selectableFeatures.' + attr] = 1;
       }
-      if(howMany <= 0 || choices.length == 0)
-        continue;
-      while(true) {
-        var attr = 'selectableFeatures.' +
-                   choices[ScribeUtils.Random(0, choices.length - 1)];
-        attrs[attr] = attributes[attr] = 1;
+      while(howMany > 0 &&
+            (choices = ScribeUtils.GetKeys(selections)).length > 0) {
+        attr = choices[ScribeUtils.Random(0, choices.length - 1)];
+        attrs[attr] = 1;
         var invalid = Validate(attrs);
-        for(var j = 0; j < invalid.length && invalid[j].indexOf(attr) < 0; j++)
+        for(i = 0; i < invalid.length && invalid[i].indexOf(attr) < 0; i++)
           ; /* empty */
-        if(j >= invalid.length)
-          break;
-        delete attrs[attr];
-        delete attributes[attr];
+        if(i < invalid.length) {
+          delete attrs[attr];
+        } else {
+          attributes[attr] = 1;
+          delete selections[attr];
+          howMany--;
+        }
       }
     }
   } else if(attribute == 'skills') {
