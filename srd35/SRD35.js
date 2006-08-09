@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.31 2006/08/08 07:29:16 Jim Exp $ */
+/* $Id: SRD35.js,v 1.32 2006/08/09 00:39:08 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -758,6 +758,7 @@ PH35.ClassRules = function() {
       ];
       ScribeCustomRules
         ('casterLevelDivine', 'spellsPerDayLevels.Cleric', '^=', null);
+      ScribeCustomRules('domainCount', 'levels.Cleric', '+=', '2');
       ScribeCustomRules('magicNotes.spontaneousClericSpellFeature',
         'alignment', '=', 'source.indexOf("Evil") >= 0 ? "Inflict" : "Heal"'
       );
@@ -1313,7 +1314,7 @@ PH35.CombatRules = function() {
   ScribeCustomRules('shieldProficiencyLevel', null, '=', PH35.PROFICIENCY_NONE);
   ScribeCustomRules('turningBase', 'turningLevel', '=', null)
   ScribeCustomRules('turningDamageModifier', 'turningLevel', '=', null);
-  ScribeCustomRules('turningFrequency', 'turningLevel', '=', '3');
+  ScribeCustomRules('turningFrequency', 'turningLevel', '+=', '3');
   ScribeCustomRules('turningMax',
     'turningBase', '=', 'Math.floor(source + 10 / 3)',
     'turningLevel', 'v', 'source + 4'
@@ -1612,8 +1613,8 @@ PH35.FeatRules = function() {
     '{selectableFeatures.Opportunist} == null || {levels.Rogue} >= 10',
     '{selectableFeatures.Skill Mastery} == null || {levels.Rogue} >= 10',
     '{selectableFeatures.Slippery Mind} == null || {levels.Rogue} >= 10',
-    '+/{feats} == {featCount}',
-    '+/{selectableFeatures} == +/{selectableFeatureCount}'
+    '+/{^feats} == {featCount}',
+    '+/{^selectableFeatures} == +/{^selectableFeatureCount}'
   ];
   ScribeCustomTests(tests);
   ScribeCustomChoices('feats', PH35.FEATS);
@@ -1977,7 +1978,7 @@ PH35.SkillRules = function() {
   ScribeCustomNotes(notes);
   ScribeCustomChoices('skills', PH35.SKILLS);
   var tests = [
-    '+/{languages} == {languageCount}'
+    '+/{^languages} == {languageCount}'
   ];
   ScribeCustomTests(tests);
   ScribeCustomChoices('languages', PH35.LANGUAGES);
@@ -2132,6 +2133,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
   var attr;
   var attrs;
   var choices;
+  var howMany;
   var i;
 
   if(abilities[attribute] != null) {
@@ -2159,19 +2161,20 @@ PH35.Randomize = function(rules, attributes, attribute) {
       if(attr.match(aliPat))
         choices[choices.length] = attr;
     attributes['deity'] = choices[ScribeUtils.Random(0, choices.length - 1)];
-    PH35.Randomize(rules, attributes, 'domains');
   } else if(attribute == 'domains') {
-    if(attributes['levels.Cleric'] != null) {
+    attrs = rules.Apply(attributes);
+    howMany = attrs.domainCount;
+    if(howMany != null) {
       if((choices = Scribe.deities[attributes.deity]) == null)
         choices = Scribe.domains;
       else
         choices = choices.split('/');
       PickAttrs
-        (attributes, 'domains.', choices, 2 - SumMatching(/^domains\./), 1);
+        (attributes, 'domains.', choices, howMany-SumMatching(/^domains\./), 1);
     }
   } else if(attribute == 'feats') {
     attrs = rules.Apply(attributes);
-    var howMany = attrs.featCount;
+    howMany = attrs.featCount;
     var selections = {};
     for(attr in Scribe.feats) {
       if(attrs['feats.' + attr] != null)
@@ -2240,7 +2243,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
       if(choices == null)
         continue;
       choices = choices.split('/');
-      var howMany = attrs[attr];
+      howMany = attrs[attr];
       var selections = {};
       for(i = 0; i < choices.length; i++) {
         attr = choices[i];
@@ -2325,7 +2328,6 @@ PH35.Randomize = function(rules, attributes, attribute) {
   } else if(attribute == 'spells') {
 
     var category;
-    var howMany;
     var matchInfo;
     var spellLevel;
     var spells = {};
