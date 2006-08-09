@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.38 2006/07/25 20:43:02 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.39 2006/08/09 00:37:14 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -247,9 +247,11 @@ function ScribeCustomRules
  */
 function ScribeCustomSheet(name, within, format, before, separator) {
   viewer.removeElements(name);
-  viewer.addElements(
-    {name: name, within: within, before: before, format: format, separator: separator}
-  );
+  if(within != null) {
+    viewer.addElements(
+      {name: name, within: within, before: before, format: format, separator: separator}
+    );
+  }
 }
 
 /* Adds each #test# to the checks Scribe uses when validating a character. */
