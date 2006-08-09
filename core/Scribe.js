@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.149 2006/07/25 20:43:02 Jim Exp $ */
+/* $Id: Scribe.js,v 1.150 2006/08/09 00:38:07 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -1130,7 +1130,7 @@ function Validate(attributes) {
       var value;
       if(matchInfo[1] == '+/') {
         value = 0;
-        var pattern = '^' + matchInfo[2];
+        var pattern = matchInfo[2];
         for(var a in attributes)
           if(a.match(pattern))
             value += attributes[a] - 0;
@@ -1187,7 +1187,7 @@ function ValidationHtml() {
   }
   if(skillPointsAssigned != computedAttributes.skillPoints)
     invalid[invalid.length] =
-      '+/{skills} == {skillPoints} [' + skillPointsAssigned + ' != ' +
+      '+/{^skills} == {skillPoints} [' + skillPointsAssigned + ' != ' +
       computedAttributes.skillPoints + ']';
   if(invalid.length == 0)
     result = 'No validation errors<br/>\n';
