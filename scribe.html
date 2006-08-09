@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.35 2006/07/13 05:50:26 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.36 2006/08/09 00:41:05 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -92,6 +92,9 @@ function CustomizeScribe() {
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
     if(CUSTOMIZATION_URLS[i] == 'MN2E.js') {
       PH35.CLASSES = ['Barbarian', 'Fighter', 'Rogue'];
+      PH35.DEITIES = ['Izrador (NE):Death/Destruction/Evil/Magic/War'];
+      PH35.deitiesFavoredWeapons = {'Izrador (LE)': 'Longsword'};
+      PH35.LANGUAGES = [];
       PH35.RACES = [];
     }
   }
