@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.150 2006/08/09 00:38:07 Jim Exp $ */
+/* $Id: Scribe.js,v 1.151 2006/08/11 04:40:30 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -1135,10 +1135,15 @@ function Validate(attributes) {
           if(a.match(pattern))
             value += attributes[a] - 0;
       }
-      else
+      else {
         value = attributes[matchInfo[2]];
-      resolved += test.substring(0, matchInfo.index) +
-                  (value == null ? 'null' : value);
+        if(value == null) {
+          value = 'null';
+        } else if(value + 0 != value) { // Numeric check
+          value = '"' + value + '"';
+        }
+      }
+      resolved += test.substring(0, matchInfo.index) + value;
       test = test.substring(matchInfo.index + matchInfo[0].length);
     }
     resolved += test;

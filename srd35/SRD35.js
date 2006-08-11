@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.32 2006/08/09 00:39:08 Jim Exp $ */
+/* $Id: SRD35.js,v 1.33 2006/08/11 04:40:30 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -550,11 +550,11 @@ PH35.AbilityRules = function() {
 PH35.ClassRules = function() {
 
   var tests = [
-    '{levels.Barbarian} == null || "{alignment}".indexOf("Lawful") < 0',
-    '{levels.Bard} == null || "{alignment}".indexOf("Lawful") < 0',
-    '{levels.Druid} == null || "{alignment}".indexOf("Neutral") >= 0',
-    '{levels.Monk} == null || "{alignment}".indexOf("Lawful") >= 0',
-    '{levels.Paladin} == null || "{alignment}" == "Lawful Good"'
+    '{levels.Barbarian} == null || {alignment}.indexOf("Lawful") < 0',
+    '{levels.Bard} == null || {alignment}.indexOf("Lawful") < 0',
+    '{levels.Druid} == null || {alignment}.indexOf("Neutral") >= 0',
+    '{levels.Monk} == null || {alignment}.indexOf("Lawful") >= 0',
+    '{levels.Paladin} == null || {alignment} == "Lawful Good"'
   ];
   ScribeCustomTests(tests);
 
