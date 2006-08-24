@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.151 2006/08/11 04:40:30 Jim Exp $ */
+/* $Id: Scribe.js,v 1.152 2006/08/24 14:10:47 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -323,6 +323,7 @@ function InitialViewer() {
         {name: 'Feat Count', within: 'FeatStats'},
         {name: 'Selectable Feature Count', within: 'FeatStats'},
       {name: 'Feats', within: 'FeaturesAndSkills', separator: ' * '},
+      {name:'Selectable Features', within:'FeaturesAndSkills', separator:' * '},
       {name: 'Feature Notes', within: 'FeaturesAndSkills', separator: ' * '},
       {name: 'SkillStats', within: 'FeaturesAndSkills'},
         {name: 'Skill Points', within: 'SkillStats'},
