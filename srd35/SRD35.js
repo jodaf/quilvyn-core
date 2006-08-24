@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.33 2006/08/11 04:40:30 Jim Exp $ */
+/* $Id: SRD35.js,v 1.34 2006/08/24 14:11:47 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1633,9 +1633,6 @@ PH35.FeatRules = function() {
       ScribeCustomRules('features.' + selectable,
         'selectableFeatures.' + selectable, '=', null
       );
-      ScribeCustomRules(prefix + 'Features.' + selectable,
-        'selectableFeatures.' + selectable, '=', null
-      );
     }
   }
 
@@ -2166,7 +2163,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
     howMany = attrs.domainCount;
     if(howMany != null) {
       if((choices = Scribe.deities[attributes.deity]) == null)
-        choices = Scribe.domains;
+        choices = ScribeUtils.GetKeys(Scribe.domains);
       else
         choices = choices.split('/');
       PickAttrs
