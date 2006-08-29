@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.39 2006/08/09 00:37:14 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.40 2006/08/29 06:50:03 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -97,7 +97,7 @@ function ScribeCustomClass
         'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
       );
       ScribeCustomRules
-        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
+        ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
     ScribeCustomSheet
       (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
@@ -165,9 +165,13 @@ function ScribeCustomNotes(note /*, note ... */) {
           (attribute, matchInfo[4].toLowerCase() + 's.' + name, '?', null);
     }
     if(attribute.match(/^skillNotes\./) &&
-       (matchInfo = format.match(/^([+-]\d+) (.+)$/)) != null) {
-      var affected = matchInfo[2].split('/');
+       (matchInfo = format.match(/^([+-](%V|\d+)) (.+)$/)) != null) {
+      var affected = matchInfo[3].split('/');
       var bump = matchInfo[1];
+      if(bump == '+%V')
+        bump = 'source';
+      else if(bump == '-%V')
+        bump = '-source';
       var j;
       for(j = 0;
           j<affected.length &&
@@ -209,7 +213,7 @@ function ScribeCustomRace(name, abilityAdjustment, features) {
         'level', '=', 'source >= ' + level
       );
       ScribeCustomRules
-        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
+        ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
     ScribeCustomSheet
       (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
