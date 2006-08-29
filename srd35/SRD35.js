@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.34 2006/08/24 14:11:47 Jim Exp $ */
+/* $Id: SRD35.js,v 1.35 2006/08/29 06:49:21 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -803,6 +803,7 @@ PH35.ClassRules = function() {
         'magicNotes.spontaneousDruidSpellFeature:' +
           '<i>Summon Nature\'s Ally</i>',
         'magicNotes.thousandFacesFeature:<i>Alter Self</i> at will',
+        'magicNotes.wildShapeFeature:Change into creature of size %V',
         'saveNotes.resistNatureFeature:+4 vs. spells of feys',
         'saveNotes.venomImmunityFeature:Immune to organic poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
@@ -825,18 +826,18 @@ PH35.ClassRules = function() {
       ScribeCustomRules('magicNotes.wildShapeFeature',
         'levels.Druid', '=',
           'source <  5 ? null : ' +
-          'source == 5 ? "Small-medium 1/day" : ' +
-          'source == 6 ? "Small-medium 2/day" : ' +
-          'source == 7 ? "Small-medium 3/day" : ' +
-          'source <  10 ? "Small-large 3/day" : ' +
-          'source == 10 ? "Small-large 4/day" : ' +
-          'source == 11 ? "Tiny-large 4/day" : ' +
-          'source <  14 ? "Tiny-large/plant 4/day" : ' +
-          'source == 14 ? "Tiny-large/plant 5/day" : ' +
-          'source == 15 ? "Tiny-huge/plant 5/day" : ' +
-          'source <  18 ? "Tiny-huge/plant 5/day; elemental 1/day" : ' +
-          'source <  20 ? "Tiny-huge/plant 6/Day; elemental 2/day" : ' +
-          '"Tiny-huge/plant 6/day; elemental 3/day"'
+          'source == 5 ? "small-medium 1/day" : ' +
+          'source == 6 ? "small-medium 2/day" : ' +
+          'source == 7 ? "small-medium 3/day" : ' +
+          'source <  10 ? "small-large 3/day" : ' +
+          'source == 10 ? "small-large 4/day" : ' +
+          'source == 11 ? "tiny-large 4/day" : ' +
+          'source <  14 ? "tiny-large/plant 4/day" : ' +
+          'source == 14 ? "tiny-large/plant 5/day" : ' +
+          'source == 15 ? "tiny-huge/plant 5/day" : ' +
+          'source <  18 ? "tiny-huge/plant 5/day; elemental 1/day" : ' +
+          'source <  20 ? "tiny-huge/plant 6/Day; elemental 2/day" : ' +
+          '"tiny-huge/plant 6/day; elemental 3/day"'
       );
       ScribeCustomRules('languageCount', 'levels.Druid', '+', '1');
       ScribeCustomRules('languages.Druidic', 'levels.Druid', '=', '1');
