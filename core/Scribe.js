@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.152 2006/08/24 14:10:47 Jim Exp $ */
+/* $Id: Scribe.js,v 1.153 2006/08/30 15:20:03 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -216,18 +216,7 @@ function EditorHtml() {
     if(typeof(params) == 'string') {
       if(Scribe[params] == null)
         continue;
-      else if(params == 'selectableFeatures') {
-        var selectable = {};
-        for(var a in Scribe[params]) {
-          split = Scribe[params][a].split('/');
-          for(var j = 0; j < split.length; j++) {
-            selectable[split[j]] = '';
-          }
-        }
-        params = ScribeUtils.GetKeys(selectable);
-      }
-      else
-        params = ScribeUtils.GetKeys(Scribe[params]);
+      params = ScribeUtils.GetKeys(Scribe[params]);
     }
     if(label != '') {
       htmlBits[htmlBits.length] = '</td></tr><tr><th>' + label + '</th><td>';

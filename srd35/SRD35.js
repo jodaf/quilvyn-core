@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.35 2006/08/29 06:49:21 Jim Exp $ */
+/* $Id: SRD35.js,v 1.36 2006/08/30 15:20:03 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -46,7 +46,8 @@ function PH35() {
   PH35.CombatRules = null;
   PH35.MagicRules = null;
 }
-/* JavaScript expressions for several (mostly class-based) attributes. */
+
+// JavaScript expressions for several (mostly class-based) attributes.
 PH35.ATTACK_BONUS_GOOD = 'source';
 PH35.ATTACK_BONUS_AVERAGE = 'source - Math.floor((source + 3) / 4)';
 PH35.ATTACK_BONUS_POOR = 'Math.floor(source / 2)'
@@ -57,7 +58,10 @@ PH35.PROFICIENCY_NONE = '0';
 PH35.PROFICIENCY_TOWER = '4';
 PH35.SAVE_BONUS_GOOD = '2 + Math.floor(source / 2)';
 PH35.SAVE_BONUS_POOR = 'Math.floor(source / 3)';
-/* Choice lists */
+
+// Arrays of choices passed to Scribe.  Removing elements from these before
+// calling the rules functions will limit the user's options and eliminate
+// rules associated with the removed choices.
 PH35.ALIGNMENTS = [
   'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral', 'Neutral Evil',
   'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
@@ -67,37 +71,6 @@ PH35.ARMORS = [
   'Scale Mail', 'Chainmail', 'Breastplate', 'Splint Mail', 'Banded Mail',
   'Half Plate', 'Full Plate'
 ];
-PH35.armorsArcaneSpellFailurePercentages = {
-  'None': null, 'Padded': 5, 'Leather': 10, 'Studded Leather': 15,
-  'Chain Shirt': 20, 'Hide': 20, 'Scale Mail': 25, 'Chainmail': 30,
-  'Breastplate': 25, 'Splint Mail': 40, 'Banded Mail': 35, 'Half Plate': 40,
-  'Full Plate': 35
-};
-PH35.armorsArmorClassBonuses = {
-  'None': null, 'Padded': 1, 'Leather': 2, 'Studded Leather': 3,
-  'Chain Shirt': 4, 'Hide': 3, 'Scale Mail': 4, 'Chainmail': 5,
-  'Breastplate': 5, 'Splint Mail': 6, 'Banded Mail': 6, 'Half Plate': 7,
-  'Full Plate': 8
-};
-PH35.armorsMaxDexBonuses = {
-  'None': null, 'Padded': 8, 'Leather': 6, 'Studded Leather': 5,
-  'Chain Shirt': 4, 'Hide': 4, 'Scale Mail': 3, 'Chainmail': 2,
-  'Breastplate': 3, 'Splint Mail': 0, 'Banded Mail': 1, 'Half Plate': 0,
-  'Full Plate': 1
-};
-PH35.armorsSkillCheckPenalties = {
-  'None': null, 'Padded': null, 'Leather': null, 'Studded Leather': -1,
-  'Chain Shirt': -2, 'Hide': -3, 'Scale Mail': -4, 'Chainmail': -5,
-  'Breastplate': -4, 'Splint Mail': -7, 'Banded Mail': -6, 'Half Plate': -7,
-  'Full Plate': -6
-};
-PH35.armorsWeightClasses = {
-  'None': 'Light', 'Padded': 'Light', 'Leather': 'Light',
-  'Studded Leather': 'Light', 'Chain Shirt': 'Light', 'Hide': 'Medium',
-  'Scale Mail': 'Medium', 'Chainmail': 'Medium', 'Breastplate': 'Medium',
-  'Splint Mail': 'Heavy', 'Banded Mail': 'Heavy', 'Half Plate': 'Heavy',
-  'Full Plate': 'Heavy'
-};
 PH35.CLASSES = [
   'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin',
   'Ranger', 'Rogue', 'Sorcerer', 'Wizard'
@@ -123,13 +96,6 @@ PH35.DEITIES = [
   'Yondalla (LG Halflings):Good/Law/Protection',
   'Vecna (NE Secrets):Evil/Knowledge/Magic'
 ];
-PH35.deitiesFavoredWeapons = {
-  'Corellon Larethian (CG Elves)': 'Longsword',
-  'Erythnul (CE Slaughter)': 'Morningstar',
-  'Gruumsh (CE Orcs)': 'Spear',
-  'Heironeous (LG Valor)': 'Longsword',
-  'Hextor (LE Tyranny)': 'Heavy Flail/Light Flail'
-};
 PH35.DOMAINS = [
   'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
   'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
@@ -181,11 +147,6 @@ PH35.RACES =
 PH35.SCHOOLS = [
   'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
   'Illusion', 'Necromancy', 'Transmutation'
-];
-PH35.SELECTABLE_FEATURES = [
-  'Ranger:Combat Style (Archery)/Combat Style (Two Weapon Combat)',
-  'Rogue:Bonus Feat/Crippling Strike/Defensive Roll/Improved Evasion/' +
-    'Opportunist/Skill Mastery/Slippery Mind'
 ];
 PH35.SHIELDS = [
   'Buckler', 'Heavy Steel', 'Heavy Wooden', 'Light Steel', 'Light Wooden',
@@ -415,10 +376,6 @@ PH35.SPELLS = [
   'Word Of Chaos:C7/Ch7', 'Word Of Recall:C6/D8', 'Zone Of Silence:B4',
   'Zone Of Truth:C2/P2'
 ];
-PH35.STRENGTH_MAX_LOADS = [0,
-  10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
-  300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
-];
 PH35.WEAPONS = [
   'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
   'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70',
@@ -444,6 +401,52 @@ PH35.WEAPONS = [
   'Warhammer:d8x3', 'Whip:d3'
 ];
 PH35.PROFICIENCY_LEVEL_NAMES = ["None", "Light", "Medium", "Heavy", "Tower"];
+
+// Related information used internally by PH35
+PH35.armorsArcaneSpellFailurePercentages = {
+  'None': null, 'Padded': 5, 'Leather': 10, 'Studded Leather': 15,
+  'Chain Shirt': 20, 'Hide': 20, 'Scale Mail': 25, 'Chainmail': 30,
+  'Breastplate': 25, 'Splint Mail': 40, 'Banded Mail': 35, 'Half Plate': 40,
+  'Full Plate': 35
+};
+PH35.armorsArmorClassBonuses = {
+  'None': null, 'Padded': 1, 'Leather': 2, 'Studded Leather': 3,
+  'Chain Shirt': 4, 'Hide': 3, 'Scale Mail': 4, 'Chainmail': 5,
+  'Breastplate': 5, 'Splint Mail': 6, 'Banded Mail': 6, 'Half Plate': 7,
+  'Full Plate': 8
+};
+PH35.armorsMaxDexBonuses = {
+  'None': null, 'Padded': 8, 'Leather': 6, 'Studded Leather': 5,
+  'Chain Shirt': 4, 'Hide': 4, 'Scale Mail': 3, 'Chainmail': 2,
+  'Breastplate': 3, 'Splint Mail': 0, 'Banded Mail': 1, 'Half Plate': 0,
+  'Full Plate': 1
+};
+PH35.armorsSkillCheckPenalties = {
+  'None': null, 'Padded': null, 'Leather': null, 'Studded Leather': -1,
+  'Chain Shirt': -2, 'Hide': -3, 'Scale Mail': -4, 'Chainmail': -5,
+  'Breastplate': -4, 'Splint Mail': -7, 'Banded Mail': -6, 'Half Plate': -7,
+  'Full Plate': -6
+};
+PH35.armorsWeightClasses = {
+  'None': 'Light', 'Padded': 'Light', 'Leather': 'Light',
+  'Studded Leather': 'Light', 'Chain Shirt': 'Light', 'Hide': 'Medium',
+  'Scale Mail': 'Medium', 'Chainmail': 'Medium', 'Breastplate': 'Medium',
+  'Splint Mail': 'Heavy', 'Banded Mail': 'Heavy', 'Half Plate': 'Heavy',
+  'Full Plate': 'Heavy'
+};
+PH35.deitiesFavoredWeapons = {
+  'Corellon Larethian (CG Elves)': 'Longsword',
+  'Erythnul (CE Slaughter)': 'Morningstar',
+  'Gruumsh (CE Orcs)': 'Spear',
+  'Heironeous (LG Valor)': 'Longsword',
+  'Hextor (LE Tyranny)': 'Heavy Flail/Light Flail'
+};
+PH35.selectableFeatures = {
+};
+PH35.strengthMaxLoads = [0,
+  10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
+  300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
+];
 
 PH35.AbilityRules = function() {
 
@@ -539,7 +542,7 @@ PH35.AbilityRules = function() {
   ScribeCustomRules('languages.Common', null, '=', '1');
   ScribeCustomRules('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
   ScribeCustomRules
-    ('loadMax','strength','=','PH35.STRENGTH_MAX_LOADS[source]');
+    ('loadMax','strength','=','PH35.strengthMaxLoads[source]');
   ScribeCustomRules('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
 
   /* Effects of other attributes */
@@ -1058,6 +1061,8 @@ PH35.ClassRules = function() {
 
     } else if(klass == 'Ranger') {
 
+      PH35.selectableFeatures[klass] =
+        'Combat Style (Archery)/Combat Style (Two Weapon Combat)';
       baseAttack = PH35.ATTACK_BONUS_GOOD;
       features = [
         1, 'Favored Enemy', 1, 'Track', 1, 'Wild Empathy', 2, 'Rapid Shot',
@@ -1150,6 +1155,9 @@ PH35.ClassRules = function() {
 
     } else if(klass == 'Rogue') {
 
+      PH35.selectableFeatures[klass] =
+        'Bonus Feat/Crippling Strike/Defensive Roll/Improved Evasion/' +
+        'Opportunist/Skill Mastery/Slippery Mind';
       baseAttack = PH35.ATTACK_BONUS_AVERAGE;
       features = [
         1, 'Sneak Attack', 1, 'Trapfinding', 2, 'Evasion', 3, 'Trap Sense',
@@ -1623,19 +1631,20 @@ PH35.FeatRules = function() {
     ScribeCustomRules
       ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', null);
   }
-  ScribeCustomChoices('selectableFeatures', PH35.SELECTABLE_FEATURES);
-  for(var i = 0; i < PH35.SELECTABLE_FEATURES.length; i++) {
-    var pieces = PH35.SELECTABLE_FEATURES[i].split(':');
-    var prefix = pieces[0].substring(0, 1).toLowerCase() +
-                 pieces[0].substring(1).replace(/ /g, '');
-    var selectables = pieces[1].split('/');
-    for(var j = 0; j < selectables.length; j++) {
-      var selectable = selectables[j];
+  var allSelectable = {};
+  for(var a in PH35.selectableFeatures) {
+    var prefix = a.substring(0, 1).toLowerCase() +
+                 a.substring(1).replace(/ /g, '');
+    var features = PH35.selectableFeatures[a].split('/');
+    for(var i = 0; i < features.length; i++) {
+      selectable = features[i];
       ScribeCustomRules('features.' + selectable,
-        'selectableFeatures.' + selectable, '=', null
+        'selectableFeatures.' + selectable, '+=', null
       );
+      allSelectable[selectable] = '';
     }
   }
+  ScribeCustomChoices('selectableFeatures', ScribeUtils.GetKeys(allSelectable));
 
   ScribeCustomRules
     ('abilityNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
@@ -2237,7 +2246,7 @@ PH35.Randomize = function(rules, attributes, attribute) {
     for(attr in attrs) {
       if(!attr.match(/^selectableFeatureCount\./))
         continue;
-      choices = Scribe.selectableFeatures[attr.substring(attr.indexOf('.')+1)];
+      choices = PH35.selectableFeatures[attr.substring(attr.indexOf('.') + 1)];
       if(choices == null)
         continue;
       choices = choices.split('/');
