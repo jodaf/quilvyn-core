@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.153 2006/08/30 15:20:03 Jim Exp $ */
+/* $Id: Scribe.js,v 1.154 2006/09/19 03:53:24 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -361,6 +361,7 @@ function InitialViewer() {
     {name: 'Magic', within: '_top', separator: '\n',
       format: '<b>Magic</b><br/>%V'},
       {name: 'SpellStats', within: 'Magic'},
+        {name: 'Spells Known', within: 'SpellStats', separator: ' * '},
         {name: 'Spells Per Day', within: 'SpellStats', separator: ' * '},
         {name: 'Domains', within: 'SpellStats', separator: ' * '},
         {name: 'Specialize', within: 'SpellStats'},
