@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.36 2006/08/30 15:20:03 Jim Exp $ */
+/* $Id: SRD35.js,v 1.37 2006/09/19 03:54:05 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -544,8 +544,12 @@ PH35.AbilityRules = function() {
   ScribeCustomRules
     ('loadMax','strength','=','PH35.strengthMaxLoads[source]');
   ScribeCustomRules('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
+  ScribeCustomRules('runSpeed', 'speed', '=', null);
+  ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
+  ScribeCustomRules('speed', null, '=', '30');
 
   /* Effects of other attributes */
+  ScribeCustomRules('speed', 'features.Slow', '+', '-10');
   ScribeCustomRules('runSpeed', 'runSpeedMultiplier', '*', null);
 
 };
@@ -563,7 +567,7 @@ PH35.ClassRules = function() {
 
   var baseAttack, features, hitDie, notes, profArmor,
       profShield, profWeapon, saveFortitude, saveReflex, saveWill,
-      skillPoints, skills;
+      skillPoints, skills, spellsKnown, spellsPerDay, spellsPerDayModifier;
   var prerequisites = null;  /* No base class has prerequisites */
 
   for(var i = 0; i < PH35.CLASSES.length; i++) {
@@ -604,6 +608,9 @@ PH35.ClassRules = function() {
         'Climb', 'Handle Animal', 'Intimidate', 'Jump', 'Listen', 'Ride',
         'Survival', 'Swim'
       ];
+      spellsKnown = null;
+      spellsPerDay = null;
+      spellsPerDayModifier = null;
       ScribeCustomRules('abilityNotes.fastMovementFeature',
         'levels.Barbarian', '+=', '10'
       );
@@ -671,8 +678,27 @@ PH35.ClassRules = function() {
         'Perform (Wind)', 'Sense Motive', 'Sleight Of Hand', 'Speak Language',
         'Spellcraft', 'Swim', 'Tumble', 'Use Magic Device'
       ];
+      spellsKnown = [
+        'B0:1:4/2:5/3:6',
+        'B1:2:1/3:2/5:3/16:4',
+        'B2:4:1/5:2/7:3/17:4',
+        'B3:7:1/8:2/10:3/18:4',
+        'B4:10:1/11:2/13:3/19:4',
+        'B5:13:1/14:2/16:3/20:4',
+        'B6:16:1/17:2/19:3'
+      ];
+      spellsPerDay = [
+        'B0:1:2/2:3/14:4',
+        'B1:2:0/3:1/4:2/5:3/15:4',
+        'B2:4:0/5:1/6:2/8:3/16:4',
+        'B3:7:0/8:1/9:2/11:3/17:4',
+        'B4:10:0/11:1/12:2/14:3/18:4',
+        'B5:13:0/14:1/15:2/17:3/19:4',
+        'B6:16:0/17:1/18:2/19:3/20:4'
+      ];
+      spellsPerDayModifier = 'charismaModifier';
       ScribeCustomRules
-        ('casterLevelArcane', 'spellsPerDayLevels.Bard', '^=', null);
+        ('casterLevelArcane', 'spellsPerDayLevels.Bard', '+=', null);
       ScribeCustomRules
         ('features.Countersong', 'performRanks', '?', 'source >= 3');
       ScribeCustomRules
@@ -716,26 +742,6 @@ PH35.ClassRules = function() {
         'levels.Bard', '+=', null,
         'intelligenceModifier', '+', null
       );
-      ScribeCustomRules('spellsPerDay.B0',
-        'spellsPerDayLevels.Bard', '=', 'source == 1 ? 2 : source < 14 ? 3 : 4'
-      );
-      for(var j = 1; j <= 6; j++) {
-        var none = (j - 1) * 3 + (j == 1 ? 1 : 0);
-        var n2 = j == 1 || j == 6 ? 1 : 2;
-        var n3 = j == 6 ? 1 : ((6 - j) * 2);
-        ScribeCustomRules('spellsPerDay.B' + j,
-          'spellsPerDayLevels.Bard', '=',
-             'source <= ' + none + ' ? null : ' +
-             'source <= ' + (none + 1) + ' ? 0 : ' +
-             'source <= ' + (none + 2) + ' ? 1 : ' +
-             'source <= ' + (none + 2 + n2) + ' ? 2 : ' +
-             'source <= ' + (none + 2 + n2 + n3) + ' ? 3 : 4',
-          'charismaModifier', '+',
-             'source >= ' + j + ' ? Math.floor((source+' + (4-j) + ')/4) : null'
-        );
-        ScribeCustomRules('maxSpellLevelArcane', 'spellsPerDay.B' + j, '^=', j);
-      }
-      ScribeCustomRules('spellsPerDayLevels.Bard', 'levels.Bard', '=', null);
 
     } else if(klass == 'Cleric') {
 
@@ -759,32 +765,38 @@ PH35.ClassRules = function() {
         'Knowledge (History)', 'Knowledge (Planes)', 'Knowledge (Religion)',
         'Spellcraft'
       ];
+      spellsKnown = [
+        'C0:1:"all"', 'C1:1:"all"', 'C2:3:"all"', 'C3:5:"all"',
+        'C4:7:"all"', 'C5:9:"all"', 'C6:11:"all"', 'C7:13:"all"',
+        'C8:15:"all"', 'C9:17:"all"',
+        'Dom1:1:"all"', 'Dom2:3:"all"', 'Dom3:5:"all"', 'Dom4:7:"all"',
+        'Dom5:9:"all"', 'Dom6:11:"all"', 'Dom7:13:"all"', 'Dom8:15:"all"',
+        'Dom9:17:"all"',
+      ];
+      spellsPerDay = [
+        'C0:1:3/2:4/4:5/7:6',
+        'C1:1:1/2:2/4:3/7:4/11:5',
+        'C2:3:1/4:2/6:3/9:4/13:5',
+        'C3:5:1/6:2/8:3/11:4/15:5',
+        'C4:7:1/8:2/10:3/13:4/17:5',
+        'C5:9:1/10:2/12:3/15:4/19:5',
+        'C6:11:1/12:2/14:3/17:4',
+        'C7:13:1/14:2/16:3/19:4',
+        'C8:15:1/16:2/18:3/20:4',
+        'C9:17:1/18:2/19:3/20:4'
+      ];
+      spellsPerDayModifier = 'wisdomModifier';
       ScribeCustomRules
-        ('casterLevelDivine', 'spellsPerDayLevels.Cleric', '^=', null);
+        ('casterLevelDivine', 'spellsPerDayLevels.Cleric', '+=', null);
       ScribeCustomRules('domainCount', 'levels.Cleric', '+=', '2');
       ScribeCustomRules('magicNotes.spontaneousClericSpellFeature',
         'alignment', '=', 'source.indexOf("Evil") >= 0 ? "Inflict" : "Heal"'
       );
-      ScribeCustomRules('spellsPerDay.C0',
-        'spellsPerDayLevels.Cleric', '=',
-          'source == 1 ? 3 : source <= 3 ? 4 : source <= 6 ? 5 : 6'
-      );
-      for(var j = 1; j <= 9; j++) {
-        var none = (j - 1) * 2;
-        ScribeCustomRules('spellsPerDay.C' + j,
+      for(var j = 1; j < 10; j++) {
+        ScribeCustomRules('spellsPerDay.Dom' + j,
           'spellsPerDayLevels.Cleric', '=',
-             'source<=' + none + ' ? null : source<=' + (none+1) + ' ? 1 : ' +
-             'source<=' + (none+3) + ' ? 2 : source<=' + (none+6) + ' ? 3 : ' +
-             'source<=' + (none+10) + ' ? 4 : 5',
-          'wisdomModifier', '+',
-             'source>=' + j + ' ? Math.floor((source+' + (4-j) + ')/4) : null'
-        );
-        ScribeCustomRules('maxSpellLevelDivine', 'spellsPerDay.C' + j, '^=', j);
-        ScribeCustomRules
-          ('spellsPerDay.Dom' + j, 'spellsPerDay.C' + j, '=', '1');
+          'source >= ' + (j * 2 - 1) + ' ? 1 : null');
       }
-      ScribeCustomRules
-        ('spellsPerDayLevels.Cleric', 'levels.Cleric', '=', null);
       ScribeCustomRules('turningLevel', 'levels.Cleric', '+=', null);
 
     } else if(klass == 'Druid') {
@@ -824,8 +836,26 @@ PH35.ClassRules = function() {
         'Knowledge (Nature)', 'Listen', 'Ride', 'Spellcraft', 'Spot',
         'Survival', 'Swim'
       ];
+      spellsKnown = [
+        'D0:1:"all"', 'D1:1:"all"', 'D2:3:"all"', 'D3:5:"all"',
+        'D4:7:"all"', 'D5:9:"all"', 'D6:11:"all"', 'D7:13:"all"',
+        'D8:15:"all"', 'D9:17:"all"'
+      ];
+      spellsPerDay = [
+        'D0:1:3/2:4/4:5/7:6',
+        'D1:1:1/2:2/4:3/7:4/11:5',
+        'D2:3:1/4:2/6:3/9:4/13:5',
+        'D3:5:1/6:2/8:3/11:4/15:5',
+        'D4:7:1/8:2/10:3/13:4/17:5',
+        'D5:9:1/10:2/12:3/15:4/19:5',
+        'D6:11:1/12:2/14:3/17:4',
+        'D7:13:1/14:2/16:3/19:4',
+        'D8:15:1/16:2/18:3/20:4',
+        'D9:17:1/18:2/19:3/20:4'
+      ];
+      spellsPerDayModifier = 'wisdomModifier';
       ScribeCustomRules
-        ('casterLevelDivine', 'spellsPerDayLevels.Druid', '^=', null);
+        ('casterLevelDivine', 'spellsPerDayLevels.Druid', '+=', null);
       ScribeCustomRules('magicNotes.wildShapeFeature',
         'levels.Druid', '=',
           'source <  5 ? null : ' +
@@ -848,23 +878,6 @@ PH35.ClassRules = function() {
         'levels.Druid', '+=', null,
         'charismaModifier', '+', null
       );
-      ScribeCustomRules('spellsPerDay.D0',
-        'spellsPerDayLevels.Druid', '=',
-          'source == 1 ? 3 : source <= 3 ? 4 : source <= 6 ? 5 : 6'
-      );
-      for(var j = 1; j <= 9; j++) {
-        var none = (j - 1) * 2;
-        ScribeCustomRules('spellsPerDay.D' + j,
-          'spellsPerDayLevels.Druid', '=',
-             'source<=' + none + ' ? null : source<=' + (none+1) + ' ? 1 : ' +
-             'source<=' + (none+3) + ' ? 2 : source<=' + (none+6) + ' ? 3 : ' +
-             'source<=' + (none+10) + ' ? 4 : 5',
-          'wisdomModifier', '+',
-             'source>=' + j + ' ? Math.floor((source+' + (4-j) + ')/4) : null'
-        );
-        ScribeCustomRules('maxSpellLevelDivine', 'spellsPerDay.D' + j, '^=', j);
-      }
-      ScribeCustomRules('spellsPerDayLevels.Druid', 'levels.Druid', '=', null);
 
     } else if(klass == 'Fighter') {
 
@@ -882,6 +895,8 @@ PH35.ClassRules = function() {
       skills = [
         'Climb', 'Handle Animal', 'Intimidate', 'Jump', 'Ride', 'Swim'
       ];
+      spellsKnown = null;
+      spellsPerDay = null;
       ScribeCustomRules('featureNotes.classFeatCountBonus',
         'levels.Fighter', '+=', '1 + Math.floor(source / 2)'
       );
@@ -937,6 +952,9 @@ PH35.ClassRules = function() {
         'Perform (Percussion)', 'Perform (Sing)', 'Perform (String)',
         'Perform (Wind)', 'Sense Motive', 'Spot', 'Swim', 'Tumble'
       ];
+      spellsKnown = null;
+      spellsPerDay = null;
+      spellsPerDayModifier = null;
       ScribeCustomRules('abilityNotes.fastMovementFeature',
         'levels.Monk', '+=', '10 * Math.floor(source / 3)'
       );
@@ -1018,8 +1036,18 @@ PH35.ClassRules = function() {
         'Concentration', 'Diplomacy', 'Handle Animal', 'Heal',
         'Knowledge (Nobility)', 'Knowledge (Religion)', 'Ride', 'Sense Motive'
       ];
+      spellsKnown = [
+        'P1:4:"all"', 'P2:8:"all"', 'P3:11:"all"', 'P4:14:"all"'
+      ];
+      spellsPerDay = [
+        'P1:4:0/6:1/14:2/18:3',
+        'P2:8:0/10:1/16:2/19:3',
+        'P3:11:0/12:1/17:2/19:3',
+        'P4:14:0/15:1/19:2/20:3'
+      ];
+      spellsPerDayModifier = 'wisdomModifier';
       ScribeCustomRules('casterLevelDivine',
-        'spellsPerDayLevels.Paladin', '^=',
+        'spellsPerDayLevels.Paladin', '+=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
       ScribeCustomRules('combatNotes.smiteEvilFeature',
@@ -1039,23 +1067,6 @@ PH35.ClassRules = function() {
       ScribeCustomRules
         ('saveReflex', 'saveNotes.divineGraceFeature', '+', null);
       ScribeCustomRules('saveWill', 'saveNotes.divineGraceFeature', '+', null);
-      for(var j = 1; j <= 4; j++) {
-        none = 3 * j + (j == 1 ? 0 : 1);
-        var n0 = j <= 2 ? 2 : 1;
-        var n1 = 8 - j + (j == 1 ? 1 : 0);
-        var n2 = 5 - j;
-        ScribeCustomRules('spellsPerDay.P' + j,
-          'spellsPerDayLevels.Paladin', '=',
-            'source<=' + none + ' ? null : source<=' + (none+n0) + ' ? 0 : ' +
-            'source<=' + (none + n0 + n1) + ' ? 1 : ' +
-            'source<=' + (none + n0 + n1 + n2) + ' ? 2 : 3',
-          'wisdomModifier', '+',
-             'source>=' + j + ' ? Math.floor((source + ' + (4-j) + ')/4) : null'
-        );
-        ScribeCustomRules('maxSpellLevelDivine', 'spellsPerDay.P' + j, '^=', j);
-      }
-      ScribeCustomRules
-        ('spellsPerDayLevels.Paladin', 'levels.Paladin', '=', 'source');
       ScribeCustomRules
         ('turningLevel', 'levels.Paladin', '+=', 'source>3 ? source-3 : null');
 
@@ -1100,8 +1111,18 @@ PH35.ClassRules = function() {
         'Knowledge (Nature)', 'Listen', 'Move Silently', 'Ride', 'Search',
         'Spot', 'Survival', 'Swim', 'Use Rope'
       ];
+      spellsKnown = [
+        'R1:4:"all"', 'R2:8:"all"', 'R3:11:"all"', 'R4:14:"all"'
+      ];
+      spellsModidier = 'wisdomModifier';
+      spellsPerDay = [
+        'R1:4:0/6:1/14:2/18:3',
+        'R2:8:0/10:1/16:2/19:3',
+        'R3:11:0/12:1/17:2/19:3',
+        'R4:14:0/15:1/19:2/20:3'
+      ];
       ScribeCustomRules('casterLevelDivine',
-        'spellsPerDayLevels.Ranger', '^=',
+        'spellsPerDayLevels.Ranger', '+=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
       ScribeCustomRules('combatNotes.favoredEnemyFeature',
@@ -1135,23 +1156,6 @@ PH35.ClassRules = function() {
         'levels.Ranger', '+=', null,
         'charismaModifier', '+', null
       );
-      for(var j = 1; j <= 4; j++) {
-        var none = 3 * j + (j == 1 ? 0 : 1);
-        var n0 = j <= 2 ? 2 : 1;
-        var n1 = 8 - j + (j == 1 ? 1 : 0);
-        var n2 = 5 - j;
-        ScribeCustomRules('spellsPerDay.R' + j,
-          'spellsPerDayLevels.Ranger', '=',
-            'source<=' + none + ' ? null : source<=' + (none+n0) + ' ? 0 : ' +
-            'source<=' + (none + n0 + n1) + ' ? 1 : ' +
-            'source<=' + (none + n0 + n1 + n2) + ' ? 2 : 3',
-          'wisdomModifier', '+',
-             'source>=' + j + ' ? Math.floor((source + ' + (4-j) + ')/4) : null'
-        );
-        ScribeCustomRules('maxSpellLevelDivine', 'spellsPerDay.R' + j, '^=', j);
-      }
-      ScribeCustomRules
-        ('spellsPerDayLevels.Ranger', 'levels.Ranger', '=', null);
 
     } else if(klass == 'Rogue') {
 
@@ -1193,6 +1197,9 @@ PH35.ClassRules = function() {
         'Sense Motive', 'Sleight Of Hand', 'Spot', 'Swim', 'Tumble',
         'Use Magic Device', 'Use Rope'
       ];
+      spellsKnown = null;
+      spellsPerDay = null;
+      spellsPerDayModifier = null;
       ScribeCustomRules('combatNotes.sneakAttackFeature',
         'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
       );
@@ -1222,24 +1229,33 @@ PH35.ClassRules = function() {
       skills = [
         'Bluff', 'Concentration', 'Knowledge (Arcana)', 'Spellcraft'
       ];
+      spellsKnown = [
+        'W0:1:4/2:5/4:6/6:7/8:8/10:9',
+        'W1:1:2/3:3/5:4/7:5',
+        'W2:4:1/5:2/7:3/9:4/11:5',
+        'W3:6:1/7:2/9:3/11:4',
+        'W4:8:1/9:2/11:3/13:4',
+        'W5:10:1/11:2/13:3/15:4',
+        'W6:12:1/13:2/15:3',
+        'W7:14:1/15:2/17:3',
+        'W8:16:1/17:2/19:3',
+        'W9:18:1/19:2/20:3'
+      ];
+      spellsPerDay = [
+        'S0:1:5/2:6',
+        'S1:1:3/2:4/3:5/4:6',
+        'S2:4:3/5:4/6:5/7:6',
+        'S3:6:3/7:4/8:5/9:6',
+        'S4:8:3/9:4/10:5/11:6',
+        'S5:10:3/11:4/12:5/13:6',
+        'S6:12:3/13:4/14:5/15:6',
+        'S7:14:3/15:4/16:5/17:6',
+        'S8:16:3/17:4/18:5/19:6',
+        'S9:18:3/19:4/20:6'
+      ];
+      spellsPerDayModifier = 'charismaModifier';
       ScribeCustomRules
-        ('casterLevelArcane', 'spellsPerDayLevels.Sorcerer', '^=', null);
-      ScribeCustomRules('spellsPerDay.S0',
-        'spellsPerDayLevels.Sorcerer', '=', 'source == 1 ? 5 : 6'
-      );
-      for(var j = 1; j <= 9; j++) {
-        var none = (j - 1) * 2 + (j == 1 ? 0 : 1);
-        ScribeCustomRules('spellsPerDay.S' + j,
-          'spellsPerDayLevels.Sorcerer', '=',
-             'source<=' + none + ' ? null : source>=' + (none + 5) + ' ? 6 : ' +
-             '(source - ' + none + ' + 2)',
-          'charismaModifier', '+',
-             'source>=' + j + ' ? Math.floor((source+' + (4-j) + ')/4) : null'
-        );
-        ScribeCustomRules('maxSpellLevelArcane', 'spellsPerDay.S' + j, '^=', j);
-      }
-      ScribeCustomRules
-        ('spellsPerDayLevels.Sorcerer', 'levels.Sorcerer', '=', null);
+        ('casterLevelArcane', 'spellsPerDayLevels.Sorcerer', '+=', null);
 
     } else if(klass == 'Wizard') {
 
@@ -1263,29 +1279,33 @@ PH35.ClassRules = function() {
         'Knowledge (Nature)', 'Knowledge (Nobility)', 'Knowledge (Planes)',
         'Knowledge (Religion)', 'Spellcraft'
       ];
+      spellsKnown = [
+        'W0:1:"all"', 'W1:1:3/2:5', 'W2:3:2/4:4', 'W3:5:2/6:4',
+        'W4:7:2/8:4', 'W5:9:2/10:4', 'W6:11:2/12:4', 'W7:13:2/14:4',
+        'W8:15:2/16:4', 'W9:17:2/18:4/19:6/20:8'
+      ];
+      spellsPerDay = [
+        'W0:1:3/2:4',
+        'W1:1:1/2:2/4:3/7:4',
+        'W2:3:1/4:2/6:3/9:4',
+        'W3:5:1/6:2/8:3/11:4',
+        'W4:7:1/8:2/10:3/13:4',
+        'W5:9:1/10:2/12:3/15:4',
+        'W6:11:1/12:2/14:3/17:4',
+        'W7:13:1/14:2/16:3/19:4',
+        'W8:15:1/16:2/18:3/20:4',
+        'W9:17:1/18:2/19:3/20:4'
+      ];
+      spellsPerDayModifier = 'intelligenceModifier';
       ScribeCustomRules
-        ('casterLevelArcane', 'spellsPerDayLevels.Wizard', '^=', null);
+        ('casterLevelArcane', 'spellsPerDayLevels.Wizard', '+=', null);
       ScribeCustomRules('featureNotes.classFeatCountBonus',
         'levels.Wizard', '+=', 'source >= 5 ? Math.floor(source / 5) : null'
       );
-      ScribeCustomRules('spellsPerDay.W0',
-        'spellsPerDayLevels.Wizard', '=', 'source == 1 ? 3 : 4',
-        'magicNotes.wizardSpecialization', '+', '1'
-      );
-      for(var j = 1; j <= 9; j++) {
-        var none = (j - 1) * 2;
-        ScribeCustomRules('spellsPerDay.W' + j,
-          'spellsPerDayLevels.Wizard', '=',
-             'source<=' + none + ' ? null : source<=' + (none+1) + ' ? 1 : ' +
-             'source<=' + (none+3) + ' ? 2 : source<=' + (none+6) + ' ? 3 : 4',
-          'intelligenceModifier', '+',
-             'source>=' + j + ' ? Math.floor((source+' + (4-j) + ')/4) : null',
-          'magicNotes.wizardSpecialization', '+', '1'
-        );
-        ScribeCustomRules('maxSpellLevelArcane', 'spellsPerDay.W' + j, '^=', j);
+      for(var j = 0; j < 10; j++) {
+        ScribeCustomRules
+          ('spellsPerDay.W' + j, 'magicNotes.wizardSpecialization', '+', '1');
       }
-      ScribeCustomRules
-        ('spellsPerDayLevels.Wizard', 'levels.Wizard', '=', null);
 
     } else
       continue;
@@ -1296,6 +1316,45 @@ PH35.ClassRules = function() {
        prerequisites);
     if(notes != null)
       ScribeCustomNotes(notes);
+    if(spellsKnown != null) {
+      for(var j = 0; j < spellsKnown.length; j++) {
+        var typeAndLevel = spellsKnown[j].split(/:/)[0];
+        var code = spellsKnown[j].substring(typeAndLevel.length + 1).
+                   split(/\//).reverse().join('source >= ');
+        code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
+        code = 'source >= ' + code + ' : null';
+        if(code.indexOf('source >= 1 ?') >= 0) {
+          code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
+        }
+        ScribeCustomRules
+          ('spellsKnown.' + typeAndLevel, 'levels.' + klass, '=', code);
+      }
+    }
+    if(spellsPerDay != null) {
+      for(var j = 0; j < spellsPerDay.length; j++) {
+        var typeAndLevel = spellsPerDay[j].split(/:/)[0];
+        var code = spellsPerDay[j].substring(typeAndLevel.length + 1).
+                   split(/\//).reverse().join('source >= ');
+        code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
+        code = 'source >= ' + code + ' : null';
+        if(code.indexOf('source >= 1 ?') >= 0) {
+          code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
+        }
+        ScribeCustomRules
+          ('spellsPerDay.' + typeAndLevel, 'levels.' + klass, '=', code);
+        if(spellsPerDayModifier != null) {
+          var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
+          if(level > 0) {
+            code = 'source >= ' + level + ' ? 1 + Math.floor((source - ' + level + ') / 4) : null';
+            ScribeCustomRules
+              ('spellsPerDay.' + typeAndLevel, spellsPerDayModifier, '+', code);
+          }
+        }
+      }
+      // TODO: maxSpellLevel{Arcane,Divine}
+      ScribeCustomRules
+        ('spellsPerDayLevels.' + klass, 'levels.' + klass, '=', null);
+    }
 
   }
 
@@ -1813,10 +1872,6 @@ PH35.RaceRules = function() {
   ScribeCustomRules('resistance.Enchantment',
     'saveNotes.enchantmentResistanceFeature', '+=', '2'
   );
-  ScribeCustomRules('speed', null, '=', '30');
-  ScribeCustomRules('speed', 'features.Slow', '+', '-10');
-  ScribeCustomRules('runSpeed', 'speed', '=', null);
-  ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
 
   for(var i = 0; i < PH35.RACES.length; i++) {
 
@@ -2361,8 +2416,10 @@ PH35.Randomize = function(rules, attributes, attribute) {
       for(var level = 0; level < 10; level++) {
         spellLevel = category + level;
         if((choices = spellsByLevel[spellLevel]) == null ||
-           (howMany = attrs['spellsPerDay.Dom' + level]) == null)
+           (howMany = attrs['spellsKnown.Dom' + level]) == null)
           continue;
+        if(howMany == 'all')
+          howMany = choices.length;
         PickAttrs(spells, '', choices, howMany, spellLevel);
       }
     }
@@ -2373,11 +2430,13 @@ PH35.Randomize = function(rules, attributes, attribute) {
       for(var level = 0; level < 10; level++) {
         spellLevel = category + level;
         if((choices = spellsByLevel[spellLevel]) == null ||
-           (howMany = attrs['spellsPerDay.' + spellLevel]) == null)
+           (howMany = attrs['spellsKnown.' + spellLevel]) == null)
           continue;
         for(i = choices.length - 1; i >= 0; i--)
           if(spells[choices[i]] != null)
             choices = choices.slice(0, i).concat(choices.slice(i + 1));
+        if(howMany == 'all')
+          howMany = choices.length;
         PickAttrs(spells, '', choices, howMany -
                   SumMatching(attributes, '^spells\\..*('+spellLevel+')'),
                   spellLevel);
