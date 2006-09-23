@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.40 2006/08/29 06:50:03 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.41 2006/09/23 14:28:13 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -90,9 +90,10 @@ function ScribeCustomClass
   if(features != null) {
     var prefix =
       name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
-    for(var i = 1; i < features.length; i += 2) {
-      var feature = features[i];
-      var level = features[i - 1];
+    for(var i = 0; i < features.length; i++) {
+      var levelAndFeature = features[i].split(/:/);
+      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
+      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
       ScribeCustomRules(prefix + 'Features.' + feature,
         'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
       );
@@ -205,9 +206,10 @@ function ScribeCustomRace(name, abilityAdjustment, features) {
       (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
   }
   if(features != null) {
-    for(var i = 1; i < features.length; i += 2) {
-      var feature = features[i];
-      var level = features[i - 1];
+    for(var i = 0; i < features.length; i++) {
+      var levelAndFeature = features[i].split(/:/);
+      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
+      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
       ScribeCustomRules(prefix + 'Features.' + feature,
         'race', '?', 'source == "' + name + '"',
         'level', '=', 'source >= ' + level
