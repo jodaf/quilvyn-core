@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.38 2006/09/23 14:23:38 Jim Exp $ */
+/* $Id: SRD35.js,v 1.39 2006/09/24 16:07:00 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -36,6 +36,7 @@ function PH35() {
   if(PH35.DescriptionRules != null) PH35.DescriptionRules();
   if(PH35.EquipmentRules != null) PH35.EquipmentRules();
   if(PH35.CombatRules != null) PH35.CombatRules();
+  if(PH35.AdventuringRules != null) PH35.AdventuringRules();
   if(PH35.MagicRules != null) PH35.MagicRules();
   if(PH35.Randomize != null) {
     ScribeCustomRandomizers(PH35.Randomize,
@@ -53,6 +54,7 @@ function PH35() {
   PH35.DescriptionRules = null;
   PH35.EquipmentRules = null;
   PH35.CombatRules = null;
+  PH35.AdventuringRules = null;
   PH35.MagicRules = null;
   // A rule for handling DM-only information
   ScribeCustomRules('dmNotes', 'dmonly', '?', null);
@@ -497,6 +499,32 @@ PH35.deitiesFavoredWeapons = {
   'Heironeous (LG Valor)': 'Longsword',
   'Hextor (LE Tyranny)': 'Heavy Flail/Light Flail'
 };
+PH35.skillsSynergies = {
+  // TODO: Split this first one to allow automated computation of first 3?
+  'Bluff': 'Diplomacy/Intimidate/Sleight Of Hand/Disguise (acting)',
+  'Decipher Script': 'Use Magic Device (scrolls)',
+  'Escape Artist': 'Use Rope (bindings)',
+   // TODO: Wild Empathy isn't a skill
+  'Handle Animal': 'Ride/Wild Empathy',
+  'Jump': 'Tumble',
+  'Knowledge (Arcana)': 'Spellcraft',
+  'Knowledge (Dungeoneering)': 'Survival (underground)',
+  'Knowledge (Engineering)': 'Search (secret doors)',
+  'Knowledge (Geography)': 'Survival (lost/hazards)',
+  'Knowledge (History)': 'Bardic knowledge',
+  'Knowledge (Local)': 'Gather Information',
+  'knowledge (Nature)': 'Survival (outdoors)',
+  'Knowledge (Nobility)': 'Diplomacy',
+  'Knowledge (Planes)': 'Survival (other planes)',
+  'Knowledge (Religion)': 'Turning check',
+  'Search': 'Survival (tracking)',
+  'Sense Motive': 'Diplomacy',
+  'Spellcraft': 'Use Magic Device (scroll)',
+  'Survival': 'Knowledge (Nature)',
+  'Tumble': 'Balance/Jump',
+  'Use Magic Device': 'Spellcraft (scrolls)',
+  'Use Rope': 'Climb (rope)/Escape Artist (rope)'
+};
 // Filled in by the classes that define selectable features.
 PH35.selectableFeatures = {
 };
@@ -554,9 +582,6 @@ PH35.AbilityRules = function() {
   ScribeCustomRules('languageCount',
     'intelligenceModifier', '+', 'source > 0 ? source : null'
   );
-  ScribeCustomRules('save.Fortitude', 'constitutionModifier', '+', null);
-  ScribeCustomRules('save.Reflex', 'dexterityModifier', '+', null);
-  ScribeCustomRules('save.Will', 'wisdomModifier', '+', null);
   ScribeCustomRules('turningBase', 'charismaModifier', '+', 'source / 3')
   ScribeCustomRules('turningDamageModifier', 'charismaModifier', '+', null);
   ScribeCustomRules('turningFrequency', 'charismaModifier', '+', null);
@@ -574,8 +599,10 @@ PH35.AbilityRules = function() {
     ('skillPoints', 'skillNotes.intelligenceSkillPointsAdjustment', '+', null);
   // TODO strengthDamageAdjustment handled directly by Scribe
 
-  // TODO NOT VERIFIED
-  // Attributes taken from Chapter 9, Adventuring
+};
+
+/* Defines the rules related to PH Chapter 9, Adventuring. */
+PH35.ClassRules = function() {
   ScribeCustomRules('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
   ScribeCustomRules
     ('loadMax','strength','=','PH35.strengthMaxLoads[source]');
@@ -586,8 +613,6 @@ PH35.AbilityRules = function() {
   );
   ScribeCustomRules('runSpeedMultiplier', null, '=', '4');
   ScribeCustomRules('speed', null, '=', '30');
-  // TODO END
-
 };
 
 /* Defines the rules related to PH Chapter 3, Classes. */
@@ -1464,23 +1489,19 @@ PH35.ClassRules = function() {
 
 /* Defines the rules related to PH Chapter 8, Combat. */
 PH35.CombatRules = function() {
-
   ScribeCustomRules('armorClass',
     null, '=', '10',
     'armor', '+', 'PH35.armorsArmorClassBonuses[source]',
     'shield', '+', 'source=="None" ? null : ' +
                    'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
   );
-  ScribeCustomRules
-    ('armorProficiencyLevel', null, '=', PH35.PROFICIENCY_NONE);
   ScribeCustomRules('baseAttack', null, '=', '0');
   ScribeCustomRules('initiative', 'dexterityModifier', '=', null);
   ScribeCustomRules('meleeAttack', 'baseAttack', '=', null);
   ScribeCustomRules('rangedAttack', 'baseAttack', '=', null);
-  ScribeCustomRules('save.Reflex', null, '=', '0');
-  ScribeCustomRules('save.Fortitude', null, '=', '0');
-  ScribeCustomRules('save.Will', null, '=', '0');
-  ScribeCustomRules('shieldProficiencyLevel', null, '=', PH35.PROFICIENCY_NONE);
+  ScribeCustomRules('save.Fortitude', 'constitutionModifier', '=', null);
+  ScribeCustomRules('save.Reflex', 'dexterityModifier', '=', null);
+  ScribeCustomRules('save.Will', 'wisdomModifier', '=', null);
   ScribeCustomRules('turningBase', 'turningLevel', '=', null)
   ScribeCustomRules('turningDamageModifier', 'turningLevel', '=', null);
   ScribeCustomRules('turningFrequency', 'turningLevel', '+=', '3');
@@ -1492,9 +1513,7 @@ PH35.CombatRules = function() {
     'turningBase', '=', 'Math.floor(source - 3)',
     'turningLevel', '^', 'source - 4'
   );
-  ScribeCustomRules('weaponProficiencyLevel', null, '=', PH35.PROFICIENCY_NONE);
   ScribeCustomRules('weapons.Unarmed', null, '=', '1');
-
 };
 
 /* Defines the rules related to PH Chapter 6, Description. */
@@ -1515,11 +1534,8 @@ PH35.EquipmentRules = function() {
   ScribeCustomChoices('weapons', PH35.WEAPONS);
 
   ScribeCustomRules('abilityNotes.armorSpeedAdjustment',
-    'armorWeightClass', '?', 'source != "Light"',
-    null, '=', '-10'
-  );
-  ScribeCustomRules('armorClass',
-    'combatNotes.goodiesArmorClassAdjustment', '+', null
+    'armorWeightClass', '=', 'source == "Light" ? null : -10',
+    'features.Slow', '+', '5'
   );
   ScribeCustomRules('armorWeightClass',
     'armor', '=',
@@ -1529,18 +1545,13 @@ PH35.EquipmentRules = function() {
   ScribeCustomRules('combatNotes.dexterityArmorClassAdjustment',
     'armor', 'v', 'PH35.armorsMaxDexBonuses[source]'
   );
-  ScribeCustomRules('combatNotes.goodiesArmorClassAdjustment',
-    'goodies.Ring Of Protection +1', '+=', null,
-    'goodies.Ring Of Protection +2', '+=', 'source * 2',
-    'goodies.Ring Of Protection +3', '+=', 'source * 3',
-    'goodies.Ring Of Protection +4', '+=', 'source * 4'
-  );
   ScribeCustomRules('magicNotes.arcaneSpellFailure',
     'armor', '+=', 'PH35.armorsArcaneSpellFailurePercentages[source]',
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? 50 : ' +
                     'source.indexOf("Heavy") >= 0 ? 15 : 5'
   );
+  // TODO: Where does this rule belong?
   ScribeCustomRules('runSpeedMultiplier',
     'armorWeightClass', '+', 'source == "Heavy" ? -1 : null'
   );
@@ -1548,7 +1559,7 @@ PH35.EquipmentRules = function() {
     'armor', '=', 'PH35.armorsSkillCheckPenalties[source]'
   );
   ScribeCustomRules('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
-  /* Hack to get combatNotes.strengthDamageAdjustment to appear in italics. */
+  // Hack to get combatNotes.strengthDamageAdjustment to appear in italics
   ScribeCustomRules
     ('level', 'combatNotes.strengthDamageAdjustment', '=', 'null');
 
@@ -1799,15 +1810,12 @@ PH35.FeatRules = function() {
   }
   ScribeCustomChoices('selectableFeatures', ScribeUtils.GetKeys(allSelectable));
 
-  ScribeCustomRules
-    ('abilityNotes.armorSpeedAdjustment', 'features.Slow', '+', '5');
-  ScribeCustomRules('armorClass',
-    'combatNotes.dodgeFeature', '+', '1'
-  );
+  ScribeCustomRules('armorClass', 'combatNotes.dodgeFeature', '+', '1');
   ScribeCustomRules('armorProficiency',
     'armorProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
   ScribeCustomRules('armorProficiencyLevel',
+    null, '=', PH35.PROFICIENCY_NONE,
     'features.Armor Proficiency Light', '^', PH35.PROFICIENCY_LIGHT,
     'features.Armor Proficiency Medium', '^', PH35.PROFICIENCY_MEDIUM,
     'features.Armor Proficiency Heavy', '^', PH35.PROFICIENCY_HEAVY
@@ -1841,6 +1849,7 @@ PH35.FeatRules = function() {
     'shieldProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
   ScribeCustomRules('shieldProficiencyLevel',
+    null, '=', PH35.PROFICIENCY_NONE,
     'features.Shield Proficiency', '^', PH35.PROFICIENCY_HEAVY,
     'features.Shield Proficiency Tower', '^', PH35.PROFICIENCY_TOWER
   );
@@ -1855,6 +1864,7 @@ PH35.FeatRules = function() {
       '"None"'
   );
   ScribeCustomRules('weaponProficiencyLevel',
+    null, '=', PH35.PROFICIENCY_NONE,
     'features.Weapon Proficiency Simple', '^', PH35.PROFICIENCY_LIGHT
   );
 
@@ -1899,9 +1909,18 @@ PH35.MagicRules = function() {
   ScribeCustomChoices('schools', PH35.SCHOOLS);
   ScribeCustomChoices('spells', PH35.SPELLS);
 
+  ScribeCustomRules('armorClass',
+    'combatNotes.goodiesArmorClassAdjustment', '+', null
+  );
   ScribeCustomRules('casterLevel',
     'casterLevelArcane', '^=', null,
     'casterLevelDivine', '^=', null
+  );
+  ScribeCustomRules('combatNotes.goodiesArmorClassAdjustment',
+    'goodies.Ring Of Protection +1', '+=', null,
+    'goodies.Ring Of Protection +2', '+=', 'source * 2',
+    'goodies.Ring Of Protection +3', '+=', 'source * 3',
+    'goodies.Ring Of Protection +4', '+=', 'source * 4'
   );
   ScribeCustomRules('featureNotes.warDomain',
     'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
@@ -2125,47 +2144,16 @@ PH35.SkillRules = function() {
     'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
     'int':'intelligence', 'str':'strength', 'wis':'wisdom'
   };
-  var notes = [
-    'skillNotes.bluffSynergy:+2 Diplomacy/Intimidate/Sleight Of Hand',
-    'skillNotes.bluffSynergy2:+2 Disguise (acting)',
-    'skillNotes.decipherScriptSynergy:+2 Use Magic Device (scrolls)',
-    'skillNotes.escapeArtistSynergy:+2 Use Rope (bindings)',
-    'skillNotes.handleAnimalSynergy:+2 Ride/Wild Empathy',
-    'skillNotes.jumpSynergy:+2 Tumble',
-    'skillNotes.knowledge(Arcana)Synergy:+2 Spellcraft',
-    'skillNotes.knowledge(Dungeoneering)Synergy:+2 Survival (underground)',
-    'skillNotes.knowledge(Engineering)Synergy:+2 Search (secret doors)',
-    'skillNotes.knowledge(Geography)Synergy:+2 Survival (lost/hazards)',
-    'skillNotes.knowledge(History)Synergy:+2 Bardic Knowledge',
-    'skillNotes.knowledge(Local)Synergy:+2 Gather Information',
-    'skillNotes.knowledge(Nature)Synergy:+2 Survival (outdoors)',
-    'skillNotes.knowledge(Nobility)Synergy:+2 Diplomacy',
-    'skillNotes.knowledge(Planes)Synergy:+2 Survival (other planes)',
-    'skillNotes.knowledge(Religion)Synergy:+2 Turning Check',
-    'skillNotes.searchSynergy:+2 Survival (tracking)',
-    'skillNotes.senseMotiveSynergy:+2 Diplomacy',
-    'skillNotes.spellcraftSynergy:+2 Use Magic Device (scroll)',
-    'skillNotes.survivalSynergy:+2 Knowledge (Nature)',
-    'skillNotes.tumbleSynergy:+2 Balance/Jump',
-    'skillNotes.useMagicDeviceSynergy:+2 Spellcraft (scrolls)',
-    'skillNotes.useRopeSynergy:+2 Climb (rope)/Escape Artist (rope)'
-  ];
-  ScribeCustomNotes(notes);
   ScribeCustomChoices('skills', PH35.SKILLS);
-
-  // Languge-related rules
-  var tests = [
-    '+/{^languages} == {languageCount}'
-  ];
-  ScribeCustomTests(tests);
-  ScribeCustomChoices('languages', PH35.LANGUAGES);
-  ScribeCustomRules('languageCount', 'skills.Speak Language', '+', null);
-
+  for(var a in PH35.skillsSynergies) {
+    var prefix = a.substring(0, 1).toLowerCase() +
+                 a.substring(1).replace(/ /g, '');
+    ScribeCustomNotes
+      ('skillNotes.' + prefix + 'Synergy:+2 ' + PH35.skillsSynergies[a]);
+  }
   ScribeCustomRules('skillNotes.bardicKnowledgeFeature',
     'skillNotes.knowledge(History)Synergy', '+', '2'
   );
-  ScribeCustomRules
-    ('skillNotes.bluffSynergy2', 'skills.Bluff', '=', 'source >= 5 ? 1 : null');
   ScribeCustomRules('skillNotes.wildEmpathyFeature',
     'skillNotes.handleAnimalSynergy', '+', '2'
   );
@@ -2180,6 +2168,11 @@ PH35.SkillRules = function() {
       ScribeCustomRules('skills.' + pieces[0], modifier, '+', null);
     }
   }
+
+  // Speak Languge-related rules
+  ScribeCustomChoices('languages', PH35.LANGUAGES);
+  ScribeCustomTests('+/{^languages} == {languageCount}');
+  ScribeCustomRules('languageCount', 'skills.Speak Language', '+', null);
 
 };
 
