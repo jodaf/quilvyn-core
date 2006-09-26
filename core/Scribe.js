@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.155 2006/09/26 04:47:13 Jim Exp $ */
+/* $Id: Scribe.js,v 1.156 2006/09/26 15:17:46 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -216,7 +216,7 @@ function EditorHtml() {
     if(typeof(params) == 'string') {
       if(Scribe[params] == null)
         continue;
-      params = ScribeUtils.GetKeys(Scribe[params]);
+      params = ScribeUtils.getKeys(Scribe[params]);
     }
     if(label != '') {
       htmlBits[htmlBits.length] = '</td></tr><tr><th>' + label + '</th><td>';
@@ -242,7 +242,7 @@ function EditorHtml() {
 function EqualObjects(o1, o2) {
   if(typeof o1 != "object" || typeof o2 != "object")
     return o1 == o2;
-  var o1Keys = ScribeUtils.GetKeys(o1), o2Keys = ScribeUtils.GetKeys(o2);
+  var o1Keys = ScribeUtils.getKeys(o1), o2Keys = ScribeUtils.getKeys(o2);
   if(o1Keys.length != o2Keys.length)
     return false;
   for(var i = 0; i < o1Keys.length; i++) {
@@ -575,7 +575,7 @@ function RandomizeCharacter(prompt) {
   } else if(urlLoading == null) {
     /* Nothing presently loading. */
     urlLoading = 'random';
-    var classes = ScribeUtils.GetKeys(Scribe.classes);
+    var classes = ScribeUtils.getKeys(Scribe.classes);
     var htmlBits = [
       '<html><head><title>New Character</title></head>\n',
       '<body bgcolor="' + BACKGROUND + '">\n',
@@ -583,7 +583,7 @@ function RandomizeCharacter(prompt) {
       '<h2>New Character Attributes</h2>\n',
       '<form name="frm"><table>\n',
       '<tr><th>Race</th><td>' +
-      InputHtml('race', 'select-one', ScribeUtils.GetKeys(Scribe.races)) + '</td></tr>\n',
+      InputHtml('race', 'select-one', ScribeUtils.getKeys(Scribe.races)) + '</td></tr>\n',
       '<tr><th>Level(s)</th></tr>\n'
     ];
     for(var i = 0; i < classes.length; i++)
@@ -602,7 +602,7 @@ function RandomizeCharacter(prompt) {
     loadingPopup.document.write(html);
     loadingPopup.document.close();
     loadingPopup.document.frm.race.selectedIndex =
-      ScribeUtils.Random(0, ScribeUtils.GetKeys(Scribe.races).length - 1);
+      ScribeUtils.Random(0, ScribeUtils.getKeys(Scribe.races).length - 1);
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   } else {
@@ -694,7 +694,7 @@ function RefreshEditor(redraw) {
   InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
-  var codeOpts = ScribeUtils.GetKeys(Scribe.spellsCategoryCodes);
+  var codeOpts = ScribeUtils.getKeys(Scribe.spellsCategoryCodes);
   codeOpts.sort();
   for(i = 0;
       i < codeOpts.length &&
@@ -945,7 +945,7 @@ function SummarizeCachedAttrs() {
     if(a != 'random')
       allAttrs[a] = rules.Apply(cachedAttrs[a]);
   }
-  var urls = ScribeUtils.GetKeys(allAttrs);
+  var urls = ScribeUtils.getKeys(allAttrs);
   urls.sort();
   var htmlBits = [
     '<html>',
@@ -974,7 +974,7 @@ function SummarizeCachedAttrs() {
     }
   }
   inTable['notes'] = inTable['dmNotes'] = inTable['spells'] = 1;
-  inTable = ScribeUtils.GetKeys(inTable);
+  inTable = ScribeUtils.getKeys(inTable);
   inTable.sort();
   for(var i = 0; i < inTable.length; i++) {
     rowHtml = '<tr><td><b>' + inTable[i] + '</b></td>';

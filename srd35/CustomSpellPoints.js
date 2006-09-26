@@ -17,12 +17,12 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 
 function ScribeCustomSpellPoints() {
-  ScribeCustomRules('Spell Points',
+  ScribeRules.defineRule('Spell Points',
     'casterLevel', '?', null,
     null, '=', '0'
   );
   for(var i = 1; i <= 9; i++) {
-    ScribeCustomRules('Spell Points',
+    ScribeRules.defineRule('Spell Points',
       'spellsPerDay.C' + i, '+', 'source * ' + i,
       'spellsPerDay.D' + i, '+', 'source * ' + i,
       'spellsPerDay.Dom' + i, '+', 'source * ' + i,
@@ -30,15 +30,15 @@ function ScribeCustomSpellPoints() {
       'spellsPerDay.W' + i, '+', 'source * ' + i
     );
     if(i <= 6)
-      ScribeCustomRules
+      ScribeRules.defineRule
         ('Spell Points', 'spellsPerDay.B' + i, '+', 'source * ' + i);
     if(i <= 4) {
-      ScribeCustomRules
+      ScribeRules.defineRule
         ('Spell Points', 'spellsPerDay.P' + i, '+', 'source * ' + i);
-      ScribeCustomRules
+      ScribeRules.defineRule
         ('Spell Points', 'spellsPerDay.R' + i, '+', 'source * ' + i);
     }
   }
-  ScribeCustomSheet
+  ScribeRules.defineSheetElement
     ('Spell Points', 'SpellStats', '<b>Spell Points</b>: %V', 'Spells Known');
 }

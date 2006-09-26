@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.41 2006/09/23 14:28:13 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.42 2006/09/26 15:17:46 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -17,12 +17,16 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
+/* Placeholder for functions that define Scribe rule sets. */
+function ScribeRules() {
+}
+
 /*
  * Add each #item# to the set of valid selections for #name#.  Each value of
  * #name# may contain data associated with the selection.  See scribedoc.html
  * for details.
  */
-function ScribeCustomChoices(name, item /*, item ... */) {
+ScribeRules.defineChoices = function(name, item /*, item ... */) {
   if(Scribe[name] == null)
     Scribe[name] = {};
   var o = Scribe[name];
@@ -33,7 +37,7 @@ function ScribeCustomChoices(name, item /*, item ... */) {
     var pieces = allArgs[i].split(/:/);
     o[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
   }
-}
+};
 
 /*
  * Add #name# to the list of valid classes.  Characters of class #name# roll
@@ -51,33 +55,34 @@ function ScribeCustomChoices(name, item /*, item ... */) {
  * advancing levels, and #prerequisites# an array of validity tests that must
  * be passed in order to qualify for the class.
  */
-function ScribeCustomClass
+ScribeRules.defineClass = function
   (name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
    saveReflexBonus, saveWillBonus, armorProficiencyLevel,
    shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
    prerequisites) {
 
   var classLevel = 'levels.' + name;
-  ScribeCustomChoices('classes', name + ':' + hitDice);
+  ScribeRules.defineChoices('classes', name + ':' + hitDice);
   if(skillPoints != null)
-    ScribeCustomRules
+    ScribeRules.defineRule
       ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
   if(baseAttackBonus != null)
-    ScribeCustomRules('baseAttack', classLevel, '+', baseAttackBonus);
+    ScribeRules.defineRule('baseAttack', classLevel, '+', baseAttackBonus);
   if(saveFortitudeBonus != null)
-    ScribeCustomRules('save.Fortitude', classLevel, '+', saveFortitudeBonus);
+    ScribeRules.defineRule
+      ('save.Fortitude', classLevel, '+', saveFortitudeBonus);
   if(saveReflexBonus != null)
-    ScribeCustomRules('save.Reflex', classLevel, '+', saveReflexBonus);
+    ScribeRules.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
   if(saveWillBonus != null)
-    ScribeCustomRules('save.Will', classLevel, '+', saveWillBonus);
+    ScribeRules.defineRule('save.Will', classLevel, '+', saveWillBonus);
   if(armorProficiencyLevel != null)
-    ScribeCustomRules
+    ScribeRules.defineRule
       ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
   if(shieldProficiencyLevel != null)
-    ScribeCustomRules
+    ScribeRules.defineRule
       ('shieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
   if(weaponProficiencyLevel != null)
-    ScribeCustomRules
+    ScribeRules.defineRule
       ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
   if(prerequisites != null) {
     for(var i = 0; i < prerequisites.length; i++)
@@ -86,7 +91,8 @@ function ScribeCustomClass
   }
   if(classSkills != null)
     for(var i = 0; i < classSkills.length; i++)
-      ScribeCustomRules('classSkills.' + classSkills[i], classLevel, '=', '1');
+      ScribeRules.defineRule
+        ('classSkills.' + classSkills[i], classLevel, '=', '1');
   if(features != null) {
     var prefix =
       name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
@@ -94,30 +100,35 @@ function ScribeCustomClass
       var levelAndFeature = features[i].split(/:/);
       var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
       var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      ScribeCustomRules(prefix + 'Features.' + feature,
+      ScribeRules.defineRule(prefix + 'Features.' + feature,
         'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
       );
-      ScribeCustomRules
+      ScribeRules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    ScribeCustomSheet
+    ScribeRules.defineSheetElement
       (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
   }
 
-}
+};
 
 /*
- * TODO Comment
+ * Defines an element for the scribe character editor display.  #name# is the
+ * name of the element; #label# is a string label displayed before the element;
+ * #type# is one of "bag", "button", "checkbox", "select-one", "set", "text",
+ * or "textarea", indicating the type of element; #params# is an array of
+ * configuration information, and #before# is the name of an existing editor
+ * element that the new one should be placed before.  If #type# is null, an
+ * existing element named #name# is removed.
  */
-function ScribeCustomEditor(name, label, type, params, before) {
-  if(type == null) {
-    for(var i = Scribe.editorElements.length - 1; i >= 0; i--) {
-      if(Scribe.editorElements[i][0] == name) {
-        Scribe.editorElements = Scribe.editorElements.slice(0, i).
-          concat(Scribe.editorElements.slice(i + 1));
-      }
+ScribeRules.defineEditorElement = function(name, label, type, params, before) {
+  for(var i = Scribe.editorElements.length - 1; i >= 0; i--) {
+    if(Scribe.editorElements[i][0] == name) {
+      Scribe.editorElements = Scribe.editorElements.slice(0, i).
+        concat(Scribe.editorElements.slice(i + 1));
     }
-  } else {
+  }
+  if(type != null) {
     var i = Scribe.editorElements.length;
     if(before != null) {
       for(i = 0; i < Scribe.editorElements.length; i++) {
@@ -134,19 +145,19 @@ function ScribeCustomEditor(name, label, type, params, before) {
         concat([element]).concat(Scribe.editorElements.slice(i));
     }
   }
-}
+};
 
 /*
  * Add an HTML #format# for including attribute #attr# on the character sheet.
  * #attr# will typically be a new attribute to be included in one of the notes
  * sections of the character sheet.
  */
-function ScribeCustomNotes(note /*, note ... */) {
+ScribeRules.defineNotes = function(note /*, note ... */) {
   var allArgs = [];
   for(var i = 0; i < arguments.length; i++)
     allArgs = allArgs.concat(arguments[i]);
   for(var i = 0; i < allArgs.length; i++) {
-    ScribeCustomChoices('notes', allArgs[i]);
+    ScribeRules.defineChoices('notes', allArgs[i]);
     var pieces = allArgs[i].split(/:/);
     var attribute = pieces[0];
     var format = pieces[1];
@@ -156,13 +167,13 @@ function ScribeCustomNotes(note /*, note ... */) {
       var name = matchInfo[2].toUpperCase() +
                  matchInfo[3].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
       if(matchInfo[4] == 'Synergy')
-        ScribeCustomRules
+        ScribeRules.defineRule
           (attribute, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
       else if(format.indexOf('%V') < 0)
-        ScribeCustomRules
+        ScribeRules.defineRule
           (attribute, matchInfo[4].toLowerCase() + 's.' + name, '=', '1');
       else
-        ScribeCustomRules
+        ScribeRules.defineRule
           (attribute, matchInfo[4].toLowerCase() + 's.' + name, '?', null);
     }
     if(attribute.match(/^skillNotes\./) &&
@@ -181,28 +192,33 @@ function ScribeCustomNotes(note /*, note ... */) {
         ; /* empty */
       if(j == affected.length)
         for(j = 0; j < affected.length; j++)
-          ScribeCustomRules('skills.' + affected[j], attribute, '+', bump);
+          ScribeRules.defineRule('skills.' + affected[j], attribute, '+', bump);
     }
   }
-}
+};
 
 /*
- * TODO Comment
+ * Add #name# to the list of valid races.  #abilityAdjustment# is either null
+ * or a note of the form "[+-]n Ability[/[+-]n Ability]*", indicating ability
+ * adjustments for the race.  #features# is either null or an array of strings
+ * of the form "[level:]Feature", indicating a list of features associated with
+ * the race and the character levels at which they're acquired.  If no level is
+ * include with a feature, the feature is acquired at level 1.
  */
-function ScribeCustomRace(name, abilityAdjustment, features) {
-  ScribeCustomChoices('races', name);
+ScribeRules.defineRace = function(name, abilityAdjustment, features) {
+  ScribeRules.defineChoices('races', name);
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
   if(abilityAdjustment != null) {
     var abilityNote = 'abilityNotes.' + prefix + 'AbilityAdjustment';
-    ScribeCustomNotes(abilityNote + ':' + abilityAdjustment);
+    ScribeRules.defineNotes(abilityNote + ':' + abilityAdjustment);
     var adjustments = abilityAdjustment.split(/\//);
     for(var i = 0; i < adjustments.length; i++) {
       var amountAndAbility = adjustments[i].split(/ +/);
-      ScribeCustomRules
+      ScribeRules.defineRule
         (amountAndAbility[1], abilityNote, '+', amountAndAbility[0]);
     }
-    ScribeCustomRules
+    ScribeRules.defineRule
       (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
   }
   if(features != null) {
@@ -210,22 +226,20 @@ function ScribeCustomRace(name, abilityAdjustment, features) {
       var levelAndFeature = features[i].split(/:/);
       var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
       var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      ScribeCustomRules(prefix + 'Features.' + feature,
+      ScribeRules.defineRule(prefix + 'Features.' + feature,
         'race', '?', 'source == "' + name + '"',
         'level', '=', 'source >= ' + level
       );
-      ScribeCustomRules
+      ScribeRules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    ScribeCustomSheet
+    ScribeRules.defineSheetElement
       (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
   }
-}
+};
 
-/*
- * TODO Comment
- */
-function ScribeCustomRandomizers(fn, attr /*, attr ... */) {
+/* Add the function #fn# as a randomizer for each of the listed attributes. */
+ScribeRules.defineRandomizer = function(fn, attr /*, attr ... */) {
   for(var i = 1; i < arguments.length; i++)
     Scribe.randomizers[arguments[i]] = fn;
 }
@@ -238,11 +252,11 @@ function ScribeCustomRandomizers(fn, attr /*, attr ... */) {
  * computes the amount for the assignment, increment, etc; if it is null, the
  * value of #source# is used.
  */
-function ScribeCustomRules
+ScribeRules.defineRule = function
   (target, source, type, expr /*, source, type, expr ... */) {
   for(var i = 3; i < arguments.length; i += 3)
     rules.AddRules(target, arguments[i - 2], arguments[i - 1], arguments[i]);
-}
+};
 
 /*
  * Include attribute #name# on the character sheet in section #within# before
@@ -251,7 +265,8 @@ function ScribeCustomRules
  * formatted on the sheet.  #separator# is a bit of HTML used to separate
  * elements for items that have multiple values.
  */
-function ScribeCustomSheet(name, within, format, before, separator) {
+ScribeRules.defineSheetElement = function
+  (name, within, format, before, separator) {
   viewer.removeElements(name);
   if(within != null) {
     viewer.addElements(
@@ -261,7 +276,7 @@ function ScribeCustomSheet(name, within, format, before, separator) {
 }
 
 /* Adds each #test# to the checks Scribe uses when validating a character. */
-function ScribeCustomTests(test /*, test ... */) {
+ScribeRules.defineTest = function(test /*, test ... */) {
   for(var i = 0; i < arguments.length; i++)
     Scribe.tests = Scribe.tests.concat(arguments[i]);
-}
+};
