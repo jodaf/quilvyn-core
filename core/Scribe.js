@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.154 2006/09/19 03:53:24 Jim Exp $ */
+/* $Id: Scribe.js,v 1.155 2006/09/26 04:47:13 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.28.17';
@@ -332,6 +332,7 @@ function InitialViewer() {
         {name: 'Hit Points', within: 'CombatInfo'},
         {name: 'Initiative', within: 'CombatInfo'},
         {name: 'Armor Class', within: 'CombatInfo'},
+        {name: 'Attacks Per Round', within: 'CombatInfo'},
         {name: 'AttackInfo', within: 'CombatInfo', separator: ''},
           {name: 'Base Attack', within: 'AttackInfo',
             format: '<b>Base/Melee/Ranged Attack</b>: %V'},
@@ -363,9 +364,12 @@ function InitialViewer() {
       {name: 'SpellStats', within: 'Magic'},
         {name: 'Spells Known', within: 'SpellStats', separator: ' * '},
         {name: 'Spells Per Day', within: 'SpellStats', separator: ' * '},
-        {name: 'Domains', within: 'SpellStats', separator: ' * '},
-        {name: 'Specialize', within: 'SpellStats'},
-        {name: 'Prohibit', within: 'SpellStats', separator: ' * '},
+        {name: 'Spell Difficulty Class', within: 'SpellStats',
+         format: '<b>Spell DC</b>: %V', separator: ' * '},
+      {name: 'SpellSpecialties', within: 'Magic'},
+        {name: 'Domains', within: 'SpellSpecialties', separator: ' * '},
+        {name: 'Specialize', within: 'SpellSpecialties'},
+        {name: 'Prohibit', within: 'SpellSpecialties', separator: ' * '},
       {name: 'Spells', within: 'Magic', separator: ' * '},
       {name: 'Goodies', within: 'Magic', separator: ' * '},
       {name: 'Magic Notes', within: 'Magic', separator: ' * '},
