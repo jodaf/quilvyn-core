@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.39 2006/09/24 16:07:00 Jim Exp $ */
+/* $Id: SRD35.js,v 1.40 2006/09/26 04:48:56 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -21,44 +21,36 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*
  * This module loads the rules from the Player's Handbook v3.5 Edition.
  * The PH35 function contains methods that load rules for particular
- * parts/chapters of the PH; RaceRules for character races, MagicRules for
+ * parts/chapters of the PH; raceRules for character races, magicRules for
  * spells, etc.  Any of these member methods can be set to null or overridden
  * before calling PH35 in order to use a subset of the PH v3.5 rules.
  * Similarly, the constant fields of PH35--ALIGNMENTS, FEATS, etc.--can be
  * manipulated in order to trim the choices offered.
  */
 function PH35() {
-  if(PH35.AbilityRules != null) PH35.AbilityRules();
-  if(PH35.RaceRules != null) PH35.RaceRules();
-  if(PH35.ClassRules != null) PH35.ClassRules();
-  if(PH35.SkillRules != null) PH35.SkillRules();
-  if(PH35.FeatRules != null) PH35.FeatRules();
-  if(PH35.DescriptionRules != null) PH35.DescriptionRules();
-  if(PH35.EquipmentRules != null) PH35.EquipmentRules();
-  if(PH35.CombatRules != null) PH35.CombatRules();
-  if(PH35.AdventuringRules != null) PH35.AdventuringRules();
-  if(PH35.MagicRules != null) PH35.MagicRules();
-  if(PH35.Randomize != null) {
-    ScribeCustomRandomizers(PH35.Randomize,
+  if(PH35.abilityRules != null) PH35.abilityRules();
+  if(PH35.raceRules != null) PH35.raceRules();
+  if(PH35.classRules != null) PH35.classRules();
+  if(PH35.skillRules != null) PH35.skillRules();
+  if(PH35.featRules != null) PH35.featRules();
+  if(PH35.descriptionRules != null) PH35.descriptionRules();
+  if(PH35.equipmentRules != null) PH35.equipmentRules();
+  if(PH35.combatRules != null) PH35.combatRules();
+  if(PH35.adventuringRules != null) PH35.adventuringRules();
+  if(PH35.magicRules != null) PH35.magicRules();
+  if(PH35.randomize != null) {
+    ScribeCustomRandomizers(PH35.randomize,
       'alignment', 'armor', 'charisma', 'constitution', 'deity', 'dexterity',
       'domains', 'feats', 'gender', 'hitPoints', 'intelligence', 'languages',
       'levels', 'name', 'race', 'selectableFeatures', 'shield', 'skills',
       'specialization', 'spells', 'strength', 'weapons', 'wisdom'
     );
   }
-  PH35.AbilityRules = null;
-  PH35.RaceRules = null;
-  PH35.ClassRules = null;
-  PH35.SkillRules = null;
-  PH35.FeatRules = null;
-  PH35.DescriptionRules = null;
-  PH35.EquipmentRules = null;
-  PH35.CombatRules = null;
-  PH35.AdventuringRules = null;
-  PH35.MagicRules = null;
+  PH35.abilityRules = PH35.raceRules = PH35.classRules = PH35.skillRules = 
+    PH35.featRules = PH35.descriptionRules = PH35.equipmentRules = 
+    PH35.combatRules = PH35.adventuringRules = PH35.magicRules = null;
   // A rule for handling DM-only information
   ScribeCustomRules('dmNotes', 'dmonly', '?', null);
-  // TODO attacks/round, spell DC
 }
 
 // JavaScript expressions for several (mostly class-based) attributes.
@@ -499,9 +491,236 @@ PH35.deitiesFavoredWeapons = {
   'Heironeous (LG Valor)': 'Longsword',
   'Hextor (LE Tyranny)': 'Heavy Flail/Light Flail'
 };
+PH35.domainsNotes = [
+  'combatNotes.airDomain:Turn earth/rebuke air',
+  'combatNotes.destructionDomain:Smite (+4 attack/+level damage) 1/day',
+  'combatNotes.earthDomain:Turn air/rebuke earth',
+  'combatNotes.fireDomain:Turn water/rebuke fire',
+  'combatNotes.plantDomain:Rebuke plants',
+  'combatNotes.sunDomain:Destroy turned undead 1/day',
+  'combatNotes.waterDomain:Turn fire/rebuke water',
+  'featureNotes.warDomain:Weapon Proficiency/Weapon Focus (%V)',
+  'magicNotes.animalDomain:<i>Speak With Animals</i> 1/Day',
+  'magicNotes.chaosDomain:+1 caster level chaos spells',
+  'magicNotes.deathDomain:<i>Death Touch</i> 1/Day',
+  'magicNotes.evilDomain:+1 caster level evil spells',
+  'magicNotes.goodDomain:+1 caster level good spells',
+  'magicNotes.healingDomain:+1 caster level heal spells',
+  'magicNotes.knowledgeDomain:+1 caster level divination spells',
+  'magicNotes.lawDomain:+1 caster level law spells',
+  'magicNotes.protectionDomain:Protective ward 1/day',
+  'magicNotes.strengthDomain:Add level to strength 1 round/day',
+  'magicNotes.travelDomain:<i>Freedom of Movement</i> 1 round/level/day',
+  'saveNotes.luckDomain:Reroll 1/day',
+  'skillNotes.animalDomain:Knowledge (Nature) is a class skill',
+  'skillNotes.knowledgeDomain:All Knowledge skills are class skills',
+  'skillNotes.magicDomain:Use Magic Device at level/2',
+  'skillNotes.plantDomain:Knowledge (Nature) is a class skill',
+  'skillNotes.travelDomain:Survival is a class skill',
+  'skillNotes.trickeryDomain:Bluff/Disguise/Hide are class skills'
+];
+PH35.featsNotes = [
+  'combatNotes.blindFightFeature:' +
+    'Reroll concealed miss/no bonus to invisible foe/half penalty for impared vision',
+  'combatNotes.cleaveFeature:Extra attack when foe drops',
+  'combatNotes.combatExpertiseFeature:Up to -5 attack/+5 AC',
+  'combatNotes.combatReflexesFeature:Add dexterity mod to AOO count',
+  'combatNotes.deflectArrowsFeature:Deflect ranged 1/round',
+  'combatNotes.diehardFeature:Remain conscious w/HP <= 0',
+  'combatNotes.dodgeFeature:+1 AC vs. designated foe',
+  'combatNotes.extraTurningFeature:+4/day',
+  'combatNotes.farShotFeature:x1.5 projectile range; x2 thrown',
+  'combatNotes.greatCleaveFeature:Cleave w/out limit',
+  'combatNotes.greaterTwoWeaponFightingFeature:Second off-hand -10 attack',
+  'combatNotes.improvedBullRushFeature:Bull rush w/out foe AOO; +4 strength',
+  'combatNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
+  'combatNotes.improvedFeintFeature:Bluff check to feint as move action',
+  'combatNotes.improvedGrappleFeature:Grapple w/out foe AOO; +4 grapple',
+  'combatNotes.improvedInitiativeFeature:+4 initiative',
+  'combatNotes.improvedOverrunFeature:Foe cannot avoid; +4 strength',
+  'combatNotes.improvedPreciseShotFeature:' +
+    'No foe bonus for partial concealment; attack grappling w/no penalty',
+  'combatNotes.improvedShieldBashFeature:Shield bash w/out AC penalty',
+  'combatNotes.improvedSunderFeature:Sunder w/out foe AOO; +4 attack',
+  'combatNotes.improvedTripFeature:' +
+    'Trip w/out foe AOO; +4 strength; attack immediately after trip',
+  'combatNotes.improvedTurningFeature:+1 turning level',
+  'combatNotes.improvedTwoWeaponFightingFeature:Additional -5 attack',
+  'combatNotes.improvedUnarmedStrikeFeature:Unarmed attack w/out foe AOO',
+  'combatNotes.manyshotFeature:Fire multiple arrows simultaneously',
+  'combatNotes.mobilityFeature:+4 AC vs. movement AOO',
+  'combatNotes.mountedArcheryFeature:x.5 mounted ranged penalty',
+  'combatNotes.mountedCombatFeature:Ride skill save vs. mount damage 1/round',
+  'combatNotes.pointBlankShotFeature:+1 ranged attack/damage w/in 30 ft',
+  'combatNotes.powerAttackFeature:Attack base -attack/+damage',
+  'combatNotes.preciseShotFeature:Shoot into melee w/out penalty',
+  'combatNotes.quickDrawFeature:Draw weapon as free action',
+  'combatNotes.rapidReloadFeature:' +
+    'Reload light/heavy crossbow as free/move action',
+  'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
+  'combatNotes.rideByAttackFeature:Move before and after mounted attack',
+  'combatNotes.runFeature:Add 1 to speed multiplier; +4 running jump',
+  'combatNotes.shotOnTheRunFeature:Move before and after ranged attack',
+  'combatNotes.snatchArrowsFeature:Catch ranged weapons',
+  'combatNotes.spiritedChargeFeature:x2 damage (x3 lance) from mounted charge',
+  'combatNotes.springAttackFeature:Move before and after melee attack',
+  'combatNotes.stunningFistFeature:' +
+    'Foe %V Fortitude save or stunned 1/4 level/day',
+  'combatNotes.toughnessFeature:+3 HP',
+  'combatNotes.trampleFeature:Mounted overrun unavoidable/bonus hoof attack',
+  'combatNotes.twoWeaponDefenseFeature:+1 AC w/two weapons',
+  'combatNotes.twoWeaponFightingFeature:' +
+    'Reduce on-hand penalty by 2/off-hand by 6',
+  'combatNotes.weaponFinesseFeature:' +
+    'Light weapons use dexterity mod instead of strength mod on attacks',
+  'combatNotes.whirlwindAttackFeature:Attack all foes w/in reach',
+  'featureNotes.leadershipFeature:Attract followers',
+  'magicNotes.augmentSummoningFeature:' +
+    'Summoned creatures +4 strength/constitution',
+  'magicNotes.brewPotionFeature:Create potion for up to 3rd level spell',
+  'magicNotes.craftMagicArmsAndArmorFeature:Create magic weapon/armor/shield',
+  'magicNotes.craftRodFeature:Create magic rod',
+  'magicNotes.craftStaffFeature:Create magic staff',
+  'magicNotes.craftWandFeature:Create wand for up to 4th level spell',
+  'magicNotes.craftWondrousItemFeature:Create miscellaneous magic item',
+  'magicNotes.empowerSpellFeature:x1.5 designated spell variable effects',
+  'magicNotes.enlargeSpellFeature:x2 designated spell range',
+  'magicNotes.extendSpellFeature:x2 designated spell duration',
+  'magicNotes.eschewMaterialsFeature:Cast spells w/out materials',
+  'magicNotes.forgeRingFeature:Create magic ring',
+  'magicNotes.greaterSpellPenetrationFeature:' +
+    '+2 caster level vs. resistance checks',
+  'magicNotes.heightenSpellFeature:Increase designated spell level',
+  'magicNotes.improvedCounterspellFeature:Counter w/higher-level spell',
+  'magicNotes.maximizeSpellFeature:' +
+    'Maximize all designated spell variable effects',
+  'magicNotes.naturalSpellFeature:Cast spell during <i>Wild Shape</i>',
+  'magicNotes.quickenSpellFeature:Cast spell as free action 1/round',
+  'magicNotes.scribeScrollFeature:Create scroll of any known spell',
+  'magicNotes.silentSpellFeature:Cast designated spell w/out speech',
+  'magicNotes.spellPenetrationFeature:+2 caster level vs. resistance checks',
+  'magicNotes.stillSpellFeature:Cast designated spell w/out movement',
+  'magicNotes.widenSpellFeature:Double area of affect',
+  'saveNotes.enduranceFeature:+4 extended physical action',
+  'saveNotes.greatFortitudeFeature:+2 Fortitude',
+  'saveNotes.ironWillFeature:+2 Will',
+  'saveNotes.lightningReflexesFeature:+2 Reflex',
+  'skillNotes.acrobaticFeature:+2 Jump/Tumble',
+  'skillNotes.agileFeature:+2 Balance/Escape Artist',
+  'skillNotes.alertnessFeature:+2 Listen/Spot',
+  'skillNotes.animalAffinityFeature:+2 Handle Animal/Ride',
+  'skillNotes.athleticFeature:+2 Climb/Swim',
+  'skillNotes.combatCastingFeature:+4 Concentration when casting on defensive',
+  'skillNotes.deceitfulFeature:+2 Disguise/Forgery',
+  'skillNotes.deftHandsFeature:+2 Sleight Of Hand/Use Rope',
+  'skillNotes.diligentFeature:+2 Appraise/Decipher Script',
+  'skillNotes.investigatorFeature:+2 Gather Information/Search',
+  'skillNotes.magicalAptitudeFeature:+2 Spellcraft/Use Magic Device',
+  'skillNotes.negotiatorFeature:+2 Diplomacy/Sense Motive',
+  'skillNotes.nimbleFingersFeature:+2 Disable Device/Open Lock',
+  'skillNotes.persuasiveFeature:+2 Bluff/Intimidate',
+  'skillNotes.selfSufficientFeature:+2 Heal/Survival',
+  'skillNotes.stealthyFeature:+2 Hide/Move Silently',
+  'skillNotes.trackFeature:Survival to follow creatures at 1/2 speed'
+];
+PH35.featsPrerequisites = [
+  '{feats.Armor Proficiency Medium} == null || {armorProficiencyLevel} > 0',
+  '{feats.Armor Proficiency Heavy} == null || {armorProficiencyLevel} > 1',
+  '{feats.Brew Potion} == null || {casterLevel} >= 3',
+  '{feats.Cleave} == null || {features.Power Attack} != null',
+  '{feats.Combat Expertise} == null || {intelligence} >= 13',
+  '{feats.Craft Magic Arms And Armor} == null || {casterLevel} >= 5',
+  '{feats.Craft Rod} == null || {casterLevel} >= 9',
+  '{feats.Craft Staff} == null || {casterLevel} >= 12',
+  '{feats.Craft Wand} == null || {casterLevel} >= 5',
+  '{feats.Craft Wondrous Item} == null || {casterLevel} >= 3',
+  '{feats.Deflect Arrows} == null || {dexterity} >= 13',
+  '{feats.Deflect Arrows}==null || {features.Improved Unarmed Strike}!=null',
+  '{feats.Diehard} == null || {features.Endurance} != null',
+  '{feats.Dodge} == null || {dexterity} >= 13',
+  '{feats.Empower Spell} == null || {casterLevel} >= 1',
+  '{feats.Enlarge Spell} == null || {casterLevel} >= 1',
+  '{feats.Extend Spell} == null || {casterLevel} >= 1',
+  '{feats.Extra Turning} == null || {turningLevel} >= 1',
+  '{feats.Far Shot} == null || {features.Point Blank Shot} != null',
+  '{feats.Forge Ring} == null || {casterLevel} >= 12',
+  '{feats.Great Cleave} == null || {baseAttack} >= 4',
+  '{feats.Great Cleave} == null || {features.Cleave} != null',
+  '{feats.Greater Spell Penetration} == null || ' +
+    '{features.Spell Penetration} != null',
+  '{feats.Greater Two Weapon Fighting} == null || {baseAttack} >= 11',
+  '{feats.Greater Two Weapon Fighting} == null || {dexterity} >= 19',
+  '{feats.Greater Two Weapon Fighting} == null || ' +
+    '{features.Improved Two Weapon Fighting} != null',
+  '{feats.Heighten Spell} == null || {casterLevel} >= 1',
+  '{feats.Improved Bull Rush} == null || {features.Power Attack} != null',
+  '{feats.Improved Disarm} == null || ' +
+    '{levels.Monk} >= 6 || {features.Combat Expertise} != null',
+  '{feats.Improved Feint} == null || {features.Combat Expertise} != null',
+  '{feats.Improved Grapple} == null || ' + 
+    '{levels.Monk} >= 1 || ' +
+    '({dexterity} >= 13 && {features.Improved Unarmed Strike} != null)',
+  '{feats.Improved Overrun} == null || {features.Power Attack} != null',
+  '{feats.Improved Precise Shot} == null || {dexterity} >= 19',
+  '{feats.Improved Precise Shot} == null || {baseAttack} >= 11',
+  '{feats.Improved Precise Shot} == null || {features.Precise Shot} != null',
+  '{feats.Improved Shield Bash} == null || ' +
+    '{features.Shield Proficiency} != null',
+  '{feats.Improved Sunder} == null || {features.Power Attack} != null',
+  '{feats.Improved Trip} == null || ' +
+    '{levels.Monk} >= 6 || {features.Combat Expertise} != null',
+  '{feats.Improved Two Weapon Fighting} == null || {baseAttack} >= 6',
+  '{feats.Improved Two Weapon Fighting} == null || {dexterity} >= 17',
+  '{feats.Improved Two Weapon Fighting} == null || ' +
+    '{features.Two Weapon Fighting} != null',
+  '{feats.Improved Turning} == null || {turningLevel} >= 1',
+  '{feats.Leadership} == null || {level} >= 6',
+  '{feats.Manyshot} == null || {dexterity} >= 17',
+  '{feats.Manyshot} == null || {baseAttack} >= 6',
+  '{feats.Manyshot} == null || {features.Rapid Shot} != null',
+  '{feats.Maximize Spell} == null || {casterLevel} >= 1',
+  '{feats.Mobility} == null || {features.Dodge} != null',
+  '{feats.Mounted Archery} == null || {features.Mounted Combat} != null',
+  '{feats.Mounted Combat} == null || {skills.Ride} >= 1',
+  '{feats.Natural Spell} == null || {wisdom} >= 13',
+  '{feats.Natural Spell} == null || {features.Wild Shape} != null',
+  '{feats.Power Attack} == null || {strength} >= 13',
+  '{feats.Precise Shot} == null || {features.Point Blank Shot} != null',
+  '{feats.Quick Draw} == null || {baseAttack} >= 1',
+  '{feats.Quicken Spell} == null || {casterLevel} >= 1',
+  '{feats.Rapid Shot} == null || {dexterity} >= 13',
+  '{feats.Rapid Shot} == null || {features.Point Blank Shot} != null',
+  '{feats.Ride By Attack} == null || {features.Mounted Combat} != null',
+  '{feats.Scribe Scroll} == null || {casterLevel} >= 1',
+  '{feats.Shield Proficiency Tower} == null || {shieldProficiencyLevel} > 0',
+  '{feats.Shot On The Run} == null || {features.Mobility} != null',
+  '{feats.Shot On The Run} == null || {features.Point Blank Shot} != null',
+  '{feats.Shot On The Run} == null || {baseAttack} >= 4',
+  '{feats.Silent Spell} == null || {casterLevel} >= 1',
+  '{feats.Snatch Arrows} == null || {dexterity} >= 15',
+  '{feats.Snatch Arrows} == null || {features.Deflect Arrows} != null',
+  '{feats.Spell Penetration} == null || {casterLevel} >= 1',
+  '{feats.Spirited Charge} == null || {features.Ride By Attack} != null',
+  '{feats.Spring Attack} == null || {baseAttack} >= 4',
+  '{feats.Spring Attack} == null || {features.Mobility} != null',
+  '{feats.Still Spell} == null || {casterLevel} >= 1',
+  '{feats.Stunning Fist} == null || {dexterity} >= 13',
+  '{feats.Stunning Fist} == null || {wisdom} >= 13',
+  '{feats.Stunning Fist} == null || {features.Improved Unarmed Strike}!=null',
+  '{feats.Trample} == null || {features.Mounted Combat} != null',
+  '{feats.Two Weapon Defense} == null || ' +
+    '{features.Two Weapon Fighting} != null',
+  '{feats.Two Weapon Defense} == null || ' +
+    '{features.Two Weapon Fighting} != null',
+  '{feats.Two Weapon Fighting} == null || {dexterity} >= 15',
+  '{feats.Weapon Finesse} == null || {baseAttack} >= 1',
+  '{feats.Whirlwind Attack} == null || {features.Combat Expertise} != null',
+  '{feats.Whirlwind Attack} == null || {features.Spring Attack} != null',
+  '{feats.Widen Spell} == null || {casterLevel} >= 1'
+];
 PH35.skillsSynergies = {
-  // TODO: Split this first one to allow automated computation of first 3?
-  'Bluff': 'Diplomacy/Intimidate/Sleight Of Hand/Disguise (acting)',
+  'Bluff': 'Diplomacy/Intimidate/Sleight Of Hand',
+  // TODO: Bluff also synergies Disguise (acting)
   'Decipher Script': 'Use Magic Device (scrolls)',
   'Escape Artist': 'Use Rope (bindings)',
    // TODO: Wild Empathy isn't a skill
@@ -534,7 +753,7 @@ PH35.strengthMaxLoads = [0,
 ];
 
 /* Defines the rules related to PH Chapter 1, Abilities. */
-PH35.AbilityRules = function() {
+PH35.abilityRules = function() {
 
   var tests = [
     '{strengthModifier} + {intelligenceModifier} + {wisdomModifier} + ' +
@@ -602,7 +821,7 @@ PH35.AbilityRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 9, Adventuring. */
-PH35.ClassRules = function() {
+PH35.adventuringRules = function() {
   ScribeCustomRules('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
   ScribeCustomRules
     ('loadMax','strength','=','PH35.strengthMaxLoads[source]');
@@ -616,7 +835,7 @@ PH35.ClassRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 3, Classes. */
-PH35.ClassRules = function() {
+PH35.classRules = function() {
 
   // Experience- and level-dependent attributes
   ScribeCustomRules('classSkillMaxRanks', 'level', '=', 'source + 3');
@@ -770,7 +989,7 @@ PH35.ClassRules = function() {
       ];
       spellsPerDayModifier = 'charismaModifier';
       ScribeCustomRules
-        ('casterLevelArcane', 'spellsPerDayLevels.Bard', '+=', null);
+        ('casterLevelArcane', 'spellsPerDayLevels.Bard', '^=', null);
       ScribeCustomRules
         ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
       ScribeCustomRules
@@ -861,7 +1080,7 @@ PH35.ClassRules = function() {
         'Spellcraft'
       ];
       ScribeCustomRules
-        ('casterLevelDivine', 'spellsPerDayLevels.Cleric', '+=', null);
+        ('casterLevelDivine', 'spellsPerDayLevels.Cleric', '^=', null);
       ScribeCustomRules
         ('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
       ScribeCustomRules
@@ -948,7 +1167,7 @@ PH35.ClassRules = function() {
       ];
       spellsPerDayModifier = 'wisdomModifier';
       ScribeCustomRules
-        ('casterLevelDivine', 'spellsPerDayLevels.Druid', '+=', null);
+        ('casterLevelDivine', 'spellsPerDayLevels.Druid', '^=', null);
       ScribeCustomRules('languageCount', 'levels.Druid', '+', '1');
       ScribeCustomRules('languages.Druidic', 'levels.Druid', '=', '1');
       ScribeCustomRules('magicNotes.wildShapeFeature',
@@ -1146,7 +1365,7 @@ PH35.ClassRules = function() {
       ];
       spellsPerDayModifier = 'wisdomModifier';
       ScribeCustomRules('casterLevelDivine',
-        'spellsPerDayLevels.Paladin', '+=',
+        'spellsPerDayLevels.Paladin', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
       ScribeCustomRules('combatNotes.smiteEvilFeature',
@@ -1234,7 +1453,7 @@ PH35.ClassRules = function() {
       ];
       spellsPerDayModifier = 'wisdomModifier';
       ScribeCustomRules('casterLevelDivine',
-        'spellsPerDayLevels.Ranger', '+=',
+        'spellsPerDayLevels.Ranger', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
       ScribeCustomRules('combatNotes.favoredEnemyFeature',
@@ -1378,7 +1597,7 @@ PH35.ClassRules = function() {
       ];
       spellsPerDayModifier = 'charismaModifier';
       ScribeCustomRules
-        ('casterLevelArcane', 'spellsPerDayLevels.Sorcerer', '+=', null);
+        ('casterLevelArcane', 'spellsPerDayLevels.Sorcerer', '^=', null);
 
     } else if(klass == 'Wizard') {
 
@@ -1387,7 +1606,9 @@ PH35.ClassRules = function() {
       hitDie = 4;
       notes = [
         'magicNotes.scribeScrollFeature:Create scroll of any known spell',
-        'magicNotes.summonFamiliarFeature:Special bond/abilities'
+        'magicNotes.summonFamiliarFeature:Special bond/abilities',
+        'magicNotes.wizardSpecialization:Extra %V spell/day each spell level',
+        'skillNotes.wizardSpecialization:+2 Spellcraft (%V)'
       ];
       prerequisites = null;
       profArmor = PH35.PROFICIENCY_NONE;
@@ -1423,12 +1644,21 @@ PH35.ClassRules = function() {
       ];
       spellsPerDayModifier = 'intelligenceModifier';
       ScribeCustomRules
-        ('casterLevelArcane', 'spellsPerDayLevels.Wizard', '+=', null);
+        ('casterLevelArcane', 'spellsPerDayLevels.Wizard', '^=', null);
       ScribeCustomRules
         ('featCount', 'featureNotes.wizardFeatCountBonus', '+', null);
       ScribeCustomRules('featureNotes.wizardFeatCountBonus',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
       );
+      for(var j = 0; j < PH35.SCHOOLS.length; j++) {
+        var school = PH35.SCHOOLS[j];
+        ScribeCustomRules('magicNotes.wizardSpecialization',
+         'specialize.' + school, '=', '"' + school + '"'
+        );
+        ScribeCustomRules('skillNotes.wizardSpecialization',
+          'specialize.' + school, '=', '"' + school + '"'
+        );
+      }
       for(var j = 0; j < 10; j++) {
         ScribeCustomRules
           ('spellsPerDay.W' + j, 'magicNotes.wizardSpecialization', '+', '1');
@@ -1460,6 +1690,7 @@ PH35.ClassRules = function() {
     if(spellsPerDay != null) {
       for(var j = 0; j < spellsPerDay.length; j++) {
         var typeAndLevel = spellsPerDay[j].split(/:/)[0];
+        var level = typeAndLevel.replace(/[A-Z]*/, '');
         var code = spellsPerDay[j].substring(typeAndLevel.length + 1).
                    split(/\//).reverse().join('source >= ');
         code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
@@ -1477,8 +1708,11 @@ PH35.ClassRules = function() {
               ('spellsPerDay.' + typeAndLevel, spellsPerDayModifier, '+', code);
           }
         }
+        ScribeCustomRules('spellDifficultyClass.' + typeAndLevel,
+          'spellsPerDay.' + typeAndLevel, '?', null,
+          spellsPerDayModifier, '=', '10 + source + ' + level
+        );
       }
-      // TODO: maxSpellLevel{Arcane,Divine}
       ScribeCustomRules
         ('spellsPerDayLevels.' + klass, 'levels.' + klass, '=', null);
     }
@@ -1488,13 +1722,15 @@ PH35.ClassRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 8, Combat. */
-PH35.CombatRules = function() {
+PH35.combatRules = function() {
   ScribeCustomRules('armorClass',
     null, '=', '10',
     'armor', '+', 'PH35.armorsArmorClassBonuses[source]',
     'shield', '+', 'source=="None" ? null : ' +
                    'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
   );
+  ScribeCustomRules
+    ('attacksPerRound', 'baseAttack', '=', 'Math.floor((source + 5) / 5)');
   ScribeCustomRules('baseAttack', null, '=', '0');
   ScribeCustomRules('initiative', 'dexterityModifier', '=', null);
   ScribeCustomRules('meleeAttack', 'baseAttack', '=', null);
@@ -1517,7 +1753,7 @@ PH35.CombatRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 6, Description. */
-PH35.DescriptionRules = function() {
+PH35.descriptionRules = function() {
 
   ScribeCustomChoices('alignments', PH35.ALIGNMENTS);
   ScribeCustomChoices('deities', PH35.DEITIES, 'None:');
@@ -1526,13 +1762,13 @@ PH35.DescriptionRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 7, Equipment. */
-PH35.EquipmentRules = function() {
+PH35.equipmentRules = function() {
 
   ScribeCustomChoices('armors', PH35.ARMORS);
   ScribeCustomChoices('goodies', PH35.GOODIES);
   ScribeCustomChoices('shields', PH35.SHIELDS);
   ScribeCustomChoices('weapons', PH35.WEAPONS);
-
+  ScribeCustomNotes('magicNotes.arcaneSpellFailure:%V%'),
   ScribeCustomRules('abilityNotes.armorSpeedAdjustment',
     'armorWeightClass', '=', 'source == "Light" ? null : -10',
     'features.Slow', '+', '5'
@@ -1546,6 +1782,7 @@ PH35.EquipmentRules = function() {
     'armor', 'v', 'PH35.armorsMaxDexBonuses[source]'
   );
   ScribeCustomRules('magicNotes.arcaneSpellFailure',
+    'casterLevelArcane', '?', null,
     'armor', '+=', 'PH35.armorsArcaneSpellFailurePercentages[source]',
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? 50 : ' +
@@ -1566,235 +1803,15 @@ PH35.EquipmentRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 5, Feats. */
-PH35.FeatRules = function() {
+PH35.featRules = function() {
 
-  var notes = [
-    'combatNotes.blindFightFeature:' +
-      'Reroll concealed miss/no bonus to invisible foe/half penalty for impared vision',
-    'combatNotes.cleaveFeature:Extra attack when foe drops',
-    'combatNotes.combatExpertiseFeature:Up to -5 attack/+5 AC',
-    'combatNotes.combatReflexesFeature:Add dexterity mod to AOO count',
-    'combatNotes.deflectArrowsFeature:Deflect ranged 1/round',
-    'combatNotes.diehardFeature:Remain conscious w/HP <= 0',
-    'combatNotes.dodgeFeature:+1 AC vs. designated foe',
-    'combatNotes.extraTurningFeature:+4/day',
-    'combatNotes.farShotFeature:x1.5 projectile range; x2 thrown',
-    'combatNotes.greatCleaveFeature:Cleave w/out limit',
-    'combatNotes.greaterTwoWeaponFightingFeature:Second off-hand -10 attack',
-    'combatNotes.improvedBullRushFeature:Bull rush w/out foe AOO; +4 strength',
-    'combatNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
-    'combatNotes.improvedFeintFeature:Bluff check to feint as move action',
-    'combatNotes.improvedGrappleFeature:Grapple w/out foe AOO; +4 grapple',
-    'combatNotes.improvedInitiativeFeature:+4 initiative',
-    'combatNotes.improvedOverrunFeature:Foe cannot avoid; +4 strength',
-    'combatNotes.improvedPreciseShotFeature:' +
-      'No foe bonus for partial concealment; attack grappling w/no penalty',
-    'combatNotes.improvedShieldBashFeature:Shield bash w/out AC penalty',
-    'combatNotes.improvedSunderFeature:Sunder w/out foe AOO; +4 attack',
-    'combatNotes.improvedTripFeature:' +
-      'Trip w/out foe AOO; +4 strength; attack immediately after trip',
-    'combatNotes.improvedTurningFeature:+1 turning level',
-    'combatNotes.improvedTwoWeaponFightingFeature:Additional -5 attack',
-    'combatNotes.improvedUnarmedStrikeFeature:Unarmed attack w/out foe AOO',
-    'combatNotes.manyshotFeature:Fire multiple arrows simultaneously',
-    'combatNotes.mobilityFeature:+4 AC vs. movement AOO',
-    'combatNotes.mountedArcheryFeature:x.5 mounted ranged penalty',
-    'combatNotes.mountedCombatFeature:' +
-      'Ride skill save vs. mount damage 1/round',
-    'combatNotes.pointBlankShotFeature:+1 ranged attack/damage w/in 30 ft',
-    'combatNotes.powerAttackFeature:Attack base -attack/+damage',
-    'combatNotes.preciseShotFeature:Shoot into melee w/out penalty',
-    'combatNotes.quickDrawFeature:Draw weapon as free action',
-    'combatNotes.rapidReloadFeature:' +
-      'Reload light/heavy crossbow as free/move action',
-    'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
-    'combatNotes.rideByAttackFeature:Move before and after mounted attack',
-    'combatNotes.runFeature:Add 1 to speed multiplier; +4 running jump',
-    'combatNotes.shotOnTheRunFeature:Move before and after ranged attack',
-    'combatNotes.snatchArrowsFeature:Catch ranged weapons',
-    'combatNotes.spiritedChargeFeature:' +
-      'x2 damage (x3 lance) from mounted charge',
-    'combatNotes.springAttackFeature:Move before and after melee attack',
-    'combatNotes.stunningFistFeature:' +
-      'Foe %V Fortitude save or stunned 1/4 level/day',
-    'combatNotes.toughnessFeature:+3 HP',
-    'combatNotes.trampleFeature:Mounted overrun unavoidable/bonus hoof attack',
-    'combatNotes.twoWeaponDefenseFeature:+1 AC w/two weapons',
-    'combatNotes.twoWeaponFightingFeature:' +
-      'Reduce on-hand penalty by 2/off-hand by 6',
-    'combatNotes.weaponFinesseFeature:' +
-      'Light weapons use dexterity mod instead of strength mod on attacks',
-    'combatNotes.weaponFocus(HeavyFlail)Feature:+1 attack',
-    'combatNotes.weaponFocus(LightFlail)Feature:+1 attack',
-    'combatNotes.weaponFocus(Longsword)Feature:+1 attack',
-    'combatNotes.weaponFocus(Morningstar)Feature:+1 attack',
-    'combatNotes.weaponFocus(Spear)Feature:+1 attack',
-    'combatNotes.whirlwindAttackFeature:Attack all foes w/in reach',
-    'featureNotes.leadershipFeature:Attract followers',
-    'magicNotes.augmentSummoningFeature:' +
-      'Summoned creatures +4 strength/constitution',
-    'magicNotes.brewPotionFeature:Create potion for up to 3rd level spell',
-    'magicNotes.craftMagicArmsAndArmorFeature:' +
-      'Create magic weapon/armor/shield',
-    'magicNotes.craftRodFeature:Create magic rod',
-    'magicNotes.craftStaffFeature:Create magic staff',
-    'magicNotes.craftWandFeature:Create wand for up to 4th level spell',
-    'magicNotes.craftWondrousItemFeature:Create miscellaneous magic item',
-    'magicNotes.empowerSpellFeature:x1.5 designated spell variable effects',
-    'magicNotes.enlargeSpellFeature:x2 designated spell range',
-    'magicNotes.extendSpellFeature:x2 designated spell duration',
-    'magicNotes.eschewMaterialsFeature:Cast spells w/out materials',
-    'magicNotes.forgeRingFeature:Create magic ring',
-    'magicNotes.greaterSpellPenetrationFeature:' +
-      '+2 caster level vs. resistance checks',
-    'magicNotes.heightenSpellFeature:Increase designated spell level',
-    'magicNotes.improvedCounterspellFeature:Counter w/higher-level spell',
-    'magicNotes.maximizeSpellFeature:' +
-      'Maximize all designated spell variable effects',
-    'magicNotes.naturalSpellFeature:Cast spell during <i>Wild Shape</i>',
-    'magicNotes.quickenSpellFeature:Cast spell as free action 1/round',
-    'magicNotes.scribeScrollFeature:Create scroll of any known spell',
-    'magicNotes.silentSpellFeature:Cast designated spell w/out speech',
-    'magicNotes.spellPenetrationFeature:' +
-      '+2 caster level vs. resistance checks',
-    'magicNotes.stillSpellFeature:Cast designated spell w/out movement',
-    'magicNotes.widenSpellFeature:Double area of affect',
-    'saveNotes.enduranceFeature:+4 extended physical action',
-    'saveNotes.greatFortitudeFeature:+2 Fortitude',
-    'saveNotes.ironWillFeature:+2 Will',
-    'saveNotes.lightningReflexesFeature:+2 Reflex',
-    'skillNotes.acrobaticFeature:+2 Jump/Tumble',
-    'skillNotes.agileFeature:+2 Balance/Escape Artist',
-    'skillNotes.alertnessFeature:+2 Listen/Spot',
-    'skillNotes.animalAffinityFeature:+2 Handle Animal/Ride',
-    'skillNotes.athleticFeature:+2 Climb/Swim',
-    'skillNotes.combatCastingFeature:' +
-      '+4 Concentration when casting on defensive',
-    'skillNotes.deceitfulFeature:+2 Disguise/Forgery',
-    'skillNotes.deftHandsFeature:+2 Sleight Of Hand/Use Rope',
-    'skillNotes.diligentFeature:+2 Appraise/Decipher Script',
-    'skillNotes.investigatorFeature:+2 Gather Information/Search',
-    'skillNotes.magicalAptitudeFeature:+2 Spellcraft/Use Magic Device',
-    'skillNotes.negotiatorFeature:+2 Diplomacy/Sense Motive',
-    'skillNotes.nimbleFingersFeature:+2 Disable Device/Open Lock',
-    'skillNotes.persuasiveFeature:+2 Bluff/Intimidate',
-    'skillNotes.selfSufficientFeature:+2 Heal/Survival',
-    'skillNotes.stealthyFeature:+2 Hide/Move Silently',
-    'skillNotes.trackFeature:Survival to follow creatures at 1/2 speed'
-  ];
-  ScribeCustomNotes(notes);
-  var tests = [
-    '{feats.Armor Proficiency Medium} == null || {armorProficiencyLevel} > 0',
-    '{feats.Armor Proficiency Heavy} == null || {armorProficiencyLevel} > 1',
-    '{feats.Brew Potion} == null || {casterLevel} >= 3',
-    '{feats.Cleave} == null || {features.Power Attack} != null',
-    '{feats.Combat Expertise} == null || {intelligence} >= 13',
-    '{feats.Craft Magic Arms And Armor} == null || {casterLevel} >= 5',
-    '{feats.Craft Rod} == null || {casterLevel} >= 9',
-    '{feats.Craft Staff} == null || {casterLevel} >= 12',
-    '{feats.Craft Wand} == null || {casterLevel} >= 5',
-    '{feats.Craft Wondrous Item} == null || {casterLevel} >= 3',
-    '{feats.Deflect Arrows} == null || {dexterity} >= 13',
-    '{feats.Deflect Arrows}==null || {features.Improved Unarmed Strike}!=null',
-    '{feats.Diehard} == null || {features.Endurance} != null',
-    '{feats.Dodge} == null || {dexterity} >= 13',
-    '{feats.Empower Spell} == null || {casterLevel} >= 1',
-    '{feats.Enlarge Spell} == null || {casterLevel} >= 1',
-    '{feats.Extend Spell} == null || {casterLevel} >= 1',
-    '{feats.Extra Turning} == null || {turningLevel} >= 1',
-    '{feats.Far Shot} == null || {features.Point Blank Shot} != null',
-    '{feats.Forge Ring} == null || {casterLevel} >= 12',
-    '{feats.Great Cleave} == null || {baseAttack} >= 4',
-    '{feats.Great Cleave} == null || {features.Cleave} != null',
-    '{feats.Greater Spell Penetration} == null || ' +
-      '{features.Spell Penetration} != null',
-    '{feats.Greater Two Weapon Fighting} == null || {baseAttack} >= 11',
-    '{feats.Greater Two Weapon Fighting} == null || {dexterity} >= 19',
-    '{feats.Greater Two Weapon Fighting} == null || ' +
-      '{features.Improved Two Weapon Fighting} != null',
-    '{feats.Heighten Spell} == null || {casterLevel} >= 1',
-    '{feats.Improved Bull Rush} == null || {features.Power Attack} != null',
-    '{feats.Improved Disarm} == null || ' +
-      '{levels.Monk} >= 6 || {features.Combat Expertise} != null',
-    '{feats.Improved Feint} == null || {features.Combat Expertise} != null',
-    '{feats.Improved Grapple} == null || ' + 
-      '{levels.Monk} >= 1 || ' +
-      '({dexterity} >= 13 && {features.Improved Unarmed Strike} != null)',
-    '{feats.Improved Overrun} == null || {features.Power Attack} != null',
-    '{feats.Improved Precise Shot} == null || {dexterity} >= 19',
-    '{feats.Improved Precise Shot} == null || {baseAttack} >= 11',
-    '{feats.Improved Precise Shot} == null || {features.Precise Shot} != null',
-    '{feats.Improved Shield Bash} == null || ' +
-      '{features.Shield Proficiency} != null',
-    '{feats.Improved Sunder} == null || {features.Power Attack} != null',
-    '{feats.Improved Trip} == null || ' +
-      '{levels.Monk} >= 6 || {features.Combat Expertise} != null',
-    '{feats.Improved Two Weapon Fighting} == null || {baseAttack} >= 6',
-    '{feats.Improved Two Weapon Fighting} == null || {dexterity} >= 17',
-    '{feats.Improved Two Weapon Fighting} == null || ' +
-      '{features.Two Weapon Fighting} != null',
-    '{feats.Improved Turning} == null || {turningLevel} >= 1',
-    '{feats.Leadership} == null || {level} >= 6',
-    '{feats.Manyshot} == null || {dexterity} >= 17',
-    '{feats.Manyshot} == null || {baseAttack} >= 6',
-    '{feats.Manyshot} == null || {features.Rapid Shot} != null',
-    '{feats.Maximize Spell} == null || {casterLevel} >= 1',
-    '{feats.Mobility} == null || {features.Dodge} != null',
-    '{feats.Mounted Archery} == null || {features.Mounted Combat} != null',
-    '{feats.Mounted Combat} == null || {skills.Ride} >= 1',
-    '{feats.Natural Spell} == null || {wisdom} >= 13',
-    '{feats.Natural Spell} == null || {features.Wild Shape} != null',
-    '{feats.Power Attack} == null || {strength} >= 13',
-    '{feats.Precise Shot} == null || {features.Point Blank Shot} != null',
-    '{feats.Quick Draw} == null || {baseAttack} >= 1',
-    '{feats.Quicken Spell} == null || {casterLevel} >= 1',
-    '{feats.Rapid Shot} == null || {dexterity} >= 13',
-    '{feats.Rapid Shot} == null || {features.Point Blank Shot} != null',
-    '{feats.Ride By Attack} == null || {features.Mounted Combat} != null',
-    '{feats.Scribe Scroll} == null || {casterLevel} >= 1',
-    '{feats.Shield Proficiency Tower} == null || {shieldProficiencyLevel} > 0',
-    '{feats.Shot On The Run} == null || {features.Mobility} != null',
-    '{feats.Shot On The Run} == null || {features.Point Blank Shot} != null',
-    '{feats.Shot On The Run} == null || {baseAttack} >= 4',
-    '{feats.Silent Spell} == null || {casterLevel} >= 1',
-    '{feats.Snatch Arrows} == null || {dexterity} >= 15',
-    '{feats.Snatch Arrows} == null || {features.Deflect Arrows} != null',
-    '{feats.Spell Penetration} == null || {casterLevel} >= 1',
-    '{feats.Spirited Charge} == null || {features.Ride By Attack} != null',
-    '{feats.Spring Attack} == null || {baseAttack} >= 4',
-    '{feats.Spring Attack} == null || {features.Mobility} != null',
-    '{feats.Still Spell} == null || {casterLevel} >= 1',
-    '{feats.Stunning Fist} == null || {dexterity} >= 13',
-    '{feats.Stunning Fist} == null || {wisdom} >= 13',
-    '{feats.Stunning Fist} == null || {features.Improved Unarmed Strike}!=null',
-    '{feats.Trample} == null || {features.Mounted Combat} != null',
-    '{feats.Two Weapon Defense} == null || ' +
-      '{features.Two Weapon Fighting} != null',
-    '{feats.Two Weapon Defense} == null || ' +
-      '{features.Two Weapon Fighting} != null',
-    '{feats.Two Weapon Fighting} == null || {dexterity} >= 15',
-    '{feats.Weapon Finesse} == null || {baseAttack} >= 1',
-    '{feats.Whirlwind Attack} == null || {features.Combat Expertise} != null',
-    '{feats.Whirlwind Attack} == null || {features.Spring Attack} != null',
-    '{feats.Widen Spell} == null || {casterLevel} >= 1',
-    '{selectableFeatures.Combat Style (Archery)}==null || {levels.Ranger}>=2',
-    '{selectableFeatures.Combat Style (Two Weapon Combat)} == null || ' +
-      '{levels.Ranger} >= 2',
-    '{selectableFeatures.Crippling Strike} == null || {levels.Rogue} >= 10',
-    '{selectableFeatures.Defensive Roll} == null || {levels.Rogue} >= 10',
-    '{selectableFeatures.Improved Evasion} == null || {levels.Rogue} >= 10',
-    '{selectableFeatures.Opportunist} == null || {levels.Rogue} >= 10',
-    '{selectableFeatures.Skill Mastery} == null || {levels.Rogue} >= 10',
-    '{selectableFeatures.Slippery Mind} == null || {levels.Rogue} >= 10',
-    '+/{^feats} == {featCount}',
-    '+/{^selectableFeatures} == +/{^selectableFeatureCount}'
-  ];
-  ScribeCustomTests(tests);
   ScribeCustomChoices('feats', PH35.FEATS);
+  ScribeCustomNotes(PH35.featsNotes);
   for(var i = 0; i < PH35.FEATS.length; i++) {
     ScribeCustomRules
       ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', null);
   }
+  ScribeCustomTests(PH35.featsPrerequisites, '+/{^feats} == {featCount}');
   var allSelectable = {};
   for(var a in PH35.selectableFeatures) {
     var prefix = a.substring(0, 1).toLowerCase() +
@@ -1809,7 +1826,9 @@ PH35.FeatRules = function() {
     }
   }
   ScribeCustomChoices('selectableFeatures', ScribeUtils.GetKeys(allSelectable));
+  ScribeCustomTests('+/{^selectableFeatures} == +/{^selectableFeatureCount}');
 
+  // TODO Find a way to test whether the feats these rules implement are def'd
   ScribeCustomRules('armorClass', 'combatNotes.dodgeFeature', '+', '1');
   ScribeCustomRules('armorProficiency',
     'armorProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
@@ -1870,48 +1889,14 @@ PH35.FeatRules = function() {
 
 };
 
-/* Defines the rules related to PH Chapter 10, Magic. */
-PH35.MagicRules = function() {
-
-  var notes = [
-    'combatNotes.airDomain:Turn earth/rebuke air',
-    'combatNotes.destructionDomain:Smite (+4 attack/+level damage) 1/day',
-    'combatNotes.earthDomain:Turn air/rebuke earth',
-    'combatNotes.fireDomain:Turn water/rebuke fire',
-    'combatNotes.plantDomain:Rebuke plants',
-    'combatNotes.sunDomain:Destroy turned undead 1/day',
-    'combatNotes.waterDomain:Turn fire/rebuke water',
-    'featureNotes.warDomain:Weapon Proficiency/Weapon Focus (%V)',
-    'magicNotes.animalDomain:<i>Speak With Animals</i> 1/Day',
-    'magicNotes.arcaneSpellFailure:%V%',
-    'magicNotes.chaosDomain:+1 caster level chaos spells',
-    'magicNotes.deathDomain:<i>Death Touch</i> 1/Day',
-    'magicNotes.evilDomain:+1 caster level evil spells',
-    'magicNotes.goodDomain:+1 caster level good spells',
-    'magicNotes.healingDomain:+1 caster level heal spells',
-    'magicNotes.knowledgeDomain:+1 caster level divination spells',
-    'magicNotes.lawDomain:+1 caster level law spells',
-    'magicNotes.protectionDomain:Protective ward 1/day',
-    'magicNotes.strengthDomain:Add level to strength 1 round/day',
-    'magicNotes.travelDomain:<i>Freedom of Movement</i> 1 round/level/day',
-    'magicNotes.wizardSpecialization:Extra %V spell/day each spell level',
-    'saveNotes.luckDomain:Reroll 1/day',
-    'skillNotes.animalDomain:Knowledge (Nature) is a class skill',
-    'skillNotes.knowledgeDomain:All Knowledge skills are class skills',
-    'skillNotes.magicDomain:Use Magic Device at level/2',
-    'skillNotes.plantDomain:Knowledge (Nature) is a class skill',
-    'skillNotes.travelDomain:Survival is a class skill',
-    'skillNotes.trickeryDomain:Bluff/Disguise/Hide are class skills',
-    'skillNotes.wizardSpecialization:+2 Spellcraft (%V)'
-  ];
-  ScribeCustomNotes(notes);
+/* Defines the rules related to PH Chapter 10, Magic and Chapter 11, Spells. */
+PH35.magicRules = function() {
   ScribeCustomChoices('domains', PH35.DOMAINS);
   ScribeCustomChoices('schools', PH35.SCHOOLS);
   ScribeCustomChoices('spells', PH35.SPELLS);
-
-  ScribeCustomRules('armorClass',
-    'combatNotes.goodiesArmorClassAdjustment', '+', null
-  );
+  ScribeCustomNotes(PH35.domainsNotes);
+  ScribeCustomRules
+    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
   ScribeCustomRules('casterLevel',
     'casterLevelArcane', '^=', null,
     'casterLevelDivine', '^=', null
@@ -1922,41 +1907,30 @@ PH35.MagicRules = function() {
     'goodies.Ring Of Protection +3', '+=', 'source * 3',
     'goodies.Ring Of Protection +4', '+=', 'source * 4'
   );
-  ScribeCustomRules('featureNotes.warDomain',
-    'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
-  );
-  ScribeCustomRules('clericFeatures.Weapon Focus (Heavy Flail)',
-    'featureNotes.warDomain', '=', 'source.indexOf("Heavy Flail")>=0? 1 : null'
-  );
-  ScribeCustomRules('clericFeatures.Weapon Focus (Light Flail)',
-    'featureNotes.warDomain', '=', 'source.indexOf("Light Flail")>=0 ? 1 : null'
-  );
-  ScribeCustomRules('clericFeatures.Weapon Focus (Longsword)',
-    'featureNotes.warDomain', '=', 'source.indexOf("Longsword") >= 0 ? 1 : null'
-  );
-  ScribeCustomRules('clericFeatures.Weapon Focus (Morningstar)',
-    'featureNotes.warDomain', '=', 'source.indexOf("Morningstar")>=0 ? 1 : null'
-  );
-  ScribeCustomRules('clericFeatures.Weapon Focus (Spear)',
-    'featureNotes.warDomain', '=', 'source.indexOf("Spear") >= 0 ? 1 : null'
-  );
-  ScribeCustomRules
-    ('magicNotes.arcaneSpellFailure', 'casterLevelArcane', '?', null);
-  for(var a in Scribe.schools) {
-    ScribeCustomRules
-      ('magicNotes.wizardSpecialization', 'specialize.' + a, '=', '"'+a+'"');
-    ScribeCustomRules
-      ('skillNotes.wizardSpecialization', 'specialize.' + a, '=', '"'+a+'"');
+  for(var i = 0; i < PH35.DOMAINS.length; i++) {
+    if(PH35.DOMAINS[i] != 'War')
+      continue;
+    ScribeCustomRules('featureNotes.warDomain',
+      'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
+    );
+    for(var a in PH35.deitiesFavoredWeapons) {
+      var weapons = a.split(/\//);
+      for(var j = 0; j < weapons.length; j++) {
+        var weapon = weapons[j];
+        var weaponNoSpace = weapon.replace(/ /g, '');
+        ScribeCustomNotes
+          ('combatNotes.weaponFocus(' + weaponNoSpace + ')Feature:+1 attack');
+        ScribeCustomRules('clericFeatures.Weapon Focus (' + weapon + ')',
+          'featureNotes.warDomain', '=',
+          'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
+        );
+      }
+    }
   }
-  ScribeCustomRules('maxSpellLevel',
-    'maxSpellLevelArcane', '^=', null,
-    'maxSpellLevelDivine', '^=', null
-  );
-
 };
 
 /* Defines the rules related to PH Chapter 2, Races. */
-PH35.RaceRules = function() {
+PH35.raceRules = function() {
 
   ScribeCustomRules('languageCount', 'race', '=', 'source != "Human" ? 2 : 1');
   ScribeCustomRules('languages.Common', null, '=', '1');
@@ -2138,7 +2112,7 @@ PH35.RaceRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 4, Skills. */
-PH35.SkillRules = function() {
+PH35.skillRules = function() {
 
   var abilityNames = {
     'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
@@ -2268,7 +2242,7 @@ PH35.RandomName = function(race) {
  * the RuleEngine used to produce computed values; the function sometimes needs
  * to apply the rules to determine valid values for some attributes.
  */
-PH35.Randomize = function(rules, attributes, attribute) {
+PH35.randomize = function(rules, attributes, attribute) {
 
   /*
    * Randomly selects #howMany# elements of the array #choices#, prepends
