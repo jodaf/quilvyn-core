@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.42 2006/09/29 17:37:52 Jim Exp $ */
+/* $Id: SRD35.js,v 1.43 2006/09/29 20:31:33 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1291,8 +1291,8 @@ PH35.classRules = function() {
         'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
       );
       ScribeRules.defineRule('combatNotes.monkArmorClassAdjustment',
-        'levels.Monk', '+=', 'source >= 5 ? Math.floor(source / 5) : null',
-        'wisdomModifier', '+=', 'source > 0 ? source : null'
+        'levels.Monk', '=', 'source >= 5 ? Math.floor(source / 5) : null',
+        'wisdomModifier', '+', 'source > 0 ? source : null'
       );
       ScribeRules.defineRule('combatNotes.quiveringPalmFeature',
         'levels.Monk', '+=', '10 + Math.floor(source / 2)',
@@ -1385,13 +1385,13 @@ PH35.classRules = function() {
         'levels.Paladin', '+=', 'Math.floor((source - 3) / 3)'
       );
       ScribeRules.defineRule
-        ('saveFortitude', 'saveNotes.divineGraceFeature', '+', null);
+        ('save.Fortitude', 'saveNotes.divineGraceFeature', '+', null);
       ScribeRules.defineRule
         ('saveNotes.divineGraceFeature', 'charismaModifier', '=', null);
       ScribeRules.defineRule
-        ('saveReflex', 'saveNotes.divineGraceFeature', '+', null);
+        ('save.Reflex', 'saveNotes.divineGraceFeature', '+', null);
       ScribeRules.defineRule
-        ('saveWill', 'saveNotes.divineGraceFeature', '+', null);
+        ('save.Will', 'saveNotes.divineGraceFeature', '+', null);
       ScribeRules.defineRule
         ('turningLevel', 'levels.Paladin', '+=', 'source>3 ? source-3 : null');
 
@@ -1467,22 +1467,22 @@ PH35.classRules = function() {
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
       ScribeRules.defineRule('rangerFeatures.Rapid Shot',
-        'rangerFeatures.Combat Style (Archery)', '?', null
+        'selectableFeatures.Combat Style (Archery)', '?', null
       );
       ScribeRules.defineRule('rangerFeatures.Manyshot',
-        'rangerFeatures.Combat Style (Archery)', '?', null
+        'selectableFeatures.Combat Style (Archery)', '?', null
       );
       ScribeRules.defineRule('rangerFeatures.Improved Precise Shot',
-        'rangerFeatures.Combat Style (Archery)', '?', null
+        'selectableFeatures.Combat Style (Archery)', '?', null
       );
       ScribeRules.defineRule('rangerFeatures.Two Weapon Fighting',
-        'rangerFeatures.Combat Style (Two Weapon Combat)', '?', null
+        'selectableFeatures.Combat Style (Two Weapon Combat)', '?', null
       );
       ScribeRules.defineRule('rangerFeatures.Improved Two Weapon Fighting',
-        'rangerFeatures.Combat Style (Two Weapon Combat)', '?', null
+        'selectableFeatures.Combat Style (Two Weapon Combat)', '?', null
       );
       ScribeRules.defineRule('rangerFeatures.Greater Two Weapon Fighting',
-        'rangerFeatures.Combat Style (Two Weapon Combat)', '?', null
+        'selectableFeatures.Combat Style (Two Weapon Combat)', '?', null
       );
       ScribeRules.defineRule('selectableFeatureCount.Ranger',
         'levels.Ranger', '=', 'source >= 2 ? 1 : null'
@@ -1679,7 +1679,7 @@ PH35.classRules = function() {
        saveWill, profArmor, profShield, profWeapon, skills, features,
        prerequisites);
     if(notes != null)
-      ScribeRules.defineNotes(notes);
+      ScribeRules.defineNote(notes);
     if(spellsKnown != null) {
       for(var j = 0; j < spellsKnown.length; j++) {
         var typeAndLevel = spellsKnown[j].split(/:/)[0];
@@ -1761,19 +1761,19 @@ PH35.combatRules = function() {
 
 /* Defines the rules related to PH Chapter 6, Description. */
 PH35.descriptionRules = function() {
-  ScribeRules.defineChoices('alignments', PH35.ALIGNMENTS);
-  ScribeRules.defineChoices('deities', PH35.DEITIES, 'None:');
-  ScribeRules.defineChoices('genders', PH35.GENDERS);
+  ScribeRules.defineChoice('alignments', PH35.ALIGNMENTS);
+  ScribeRules.defineChoice('deities', PH35.DEITIES, 'None:');
+  ScribeRules.defineChoice('genders', PH35.GENDERS);
 };
 
 /* Defines the rules related to PH Chapter 7, Equipment. */
 PH35.equipmentRules = function() {
 
-  ScribeRules.defineChoices('armors', PH35.ARMORS);
-  ScribeRules.defineChoices('goodies', PH35.GOODIES);
-  ScribeRules.defineChoices('shields', PH35.SHIELDS);
-  ScribeRules.defineChoices('weapons', PH35.WEAPONS);
-  ScribeRules.defineNotes('magicNotes.arcaneSpellFailure:%V%'),
+  ScribeRules.defineChoice('armors', PH35.ARMORS);
+  ScribeRules.defineChoice('goodies', PH35.GOODIES);
+  ScribeRules.defineChoice('shields', PH35.SHIELDS);
+  ScribeRules.defineChoice('weapons', PH35.WEAPONS);
+  ScribeRules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
   ScribeRules.defineRule('abilityNotes.armorSpeedAdjustment',
     'armorWeightClass', '=', 'source == "Light" ? null : -10',
     'features.Slow', '+', '5'
@@ -1807,8 +1807,8 @@ PH35.equipmentRules = function() {
 /* Defines the rules related to PH Chapter 5, Feats. */
 PH35.featRules = function() {
 
-  ScribeRules.defineChoices('feats', PH35.FEATS);
-  ScribeRules.defineNotes(PH35.featsNotes);
+  ScribeRules.defineChoice('feats', PH35.FEATS);
+  ScribeRules.defineNote(PH35.featsNotes);
   for(var i = 0; i < PH35.FEATS.length; i++) {
     ScribeRules.defineRule
       ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', null);
@@ -1827,7 +1827,7 @@ PH35.featRules = function() {
       allSelectable[selectable] = '';
     }
   }
-  ScribeRules.defineChoices
+  ScribeRules.defineChoice
     ('selectableFeatures', ScribeUtils.getKeys(allSelectable));
   ScribeRules.defineTest
     ('+/{^selectableFeatures} == +/{^selectableFeatureCount}');
@@ -1896,10 +1896,10 @@ PH35.featRules = function() {
 
 /* Defines the rules related to PH Chapter 10, Magic and Chapter 11, Spells. */
 PH35.magicRules = function() {
-  ScribeRules.defineChoices('domains', PH35.DOMAINS);
-  ScribeRules.defineChoices('schools', PH35.SCHOOLS);
-  ScribeRules.defineChoices('spells', PH35.SPELLS);
-  ScribeRules.defineNotes(PH35.domainsNotes);
+  ScribeRules.defineChoice('domains', PH35.DOMAINS);
+  ScribeRules.defineChoice('schools', PH35.SCHOOLS);
+  ScribeRules.defineChoice('spells', PH35.SPELLS);
+  ScribeRules.defineNote(PH35.domainsNotes);
   ScribeRules.defineRule
     ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
   ScribeRules.defineRule('casterLevel',
@@ -1923,7 +1923,7 @@ PH35.magicRules = function() {
       for(var j = 0; j < weapons.length; j++) {
         var weapon = weapons[j];
         var weaponNoSpace = weapon.replace(/ /g, '');
-        ScribeRules.defineNotes
+        ScribeRules.defineNote
           ('combatNotes.weaponFocus(' + weaponNoSpace + ')Feature:+1 attack');
         ScribeRules.defineRule('clericFeatures.Weapon Focus (' + weapon + ')',
           'featureNotes.warDomain', '=',
@@ -2117,7 +2117,7 @@ PH35.raceRules = function() {
 
     ScribeRules.defineRace(race, adjustment, features);
     if(notes != null) {
-      ScribeRules.defineNotes(notes);
+      ScribeRules.defineNote(notes);
     }
 
   }
@@ -2131,11 +2131,11 @@ PH35.skillRules = function() {
     'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
     'int':'intelligence', 'str':'strength', 'wis':'wisdom'
   };
-  ScribeRules.defineChoices('skills', PH35.SKILLS);
+  ScribeRules.defineChoice('skills', PH35.SKILLS);
   for(var a in PH35.skillsSynergies) {
     var prefix = a.substring(0, 1).toLowerCase() +
                  a.substring(1).replace(/ /g, '');
-    ScribeRules.defineNotes
+    ScribeRules.defineNote
       ('skillNotes.' + prefix + 'Synergy:+2 ' + PH35.skillsSynergies[a]);
   }
   ScribeRules.defineRule('skillNotes.bardicKnowledgeFeature',
@@ -2157,7 +2157,7 @@ PH35.skillRules = function() {
   }
 
   // Speak Languge-related rules
-  ScribeRules.defineChoices('languages', PH35.LANGUAGES);
+  ScribeRules.defineChoice('languages', PH35.LANGUAGES);
   ScribeRules.defineTest('+/{^languages} == {languageCount}');
   ScribeRules.defineRule('languageCount', 'skills.Speak Language', '+', null);
 

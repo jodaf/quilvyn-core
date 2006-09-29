@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.42 2006/09/26 15:17:46 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.43 2006/09/29 20:31:33 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -26,7 +26,7 @@ function ScribeRules() {
  * #name# may contain data associated with the selection.  See scribedoc.html
  * for details.
  */
-ScribeRules.defineChoices = function(name, item /*, item ... */) {
+ScribeRules.defineChoice = function(name, item /*, item ... */) {
   if(Scribe[name] == null)
     Scribe[name] = {};
   var o = Scribe[name];
@@ -62,7 +62,7 @@ ScribeRules.defineClass = function
    prerequisites) {
 
   var classLevel = 'levels.' + name;
-  ScribeRules.defineChoices('classes', name + ':' + hitDice);
+  ScribeRules.defineChoice('classes', name + ':' + hitDice);
   if(skillPoints != null)
     ScribeRules.defineRule
       ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
@@ -152,12 +152,12 @@ ScribeRules.defineEditorElement = function(name, label, type, params, before) {
  * #attr# will typically be a new attribute to be included in one of the notes
  * sections of the character sheet.
  */
-ScribeRules.defineNotes = function(note /*, note ... */) {
+ScribeRules.defineNote = function(note /*, note ... */) {
   var allArgs = [];
   for(var i = 0; i < arguments.length; i++)
     allArgs = allArgs.concat(arguments[i]);
   for(var i = 0; i < allArgs.length; i++) {
-    ScribeRules.defineChoices('notes', allArgs[i]);
+    ScribeRules.defineChoice('notes', allArgs[i]);
     var pieces = allArgs[i].split(/:/);
     var attribute = pieces[0];
     var format = pieces[1];
@@ -206,12 +206,12 @@ ScribeRules.defineNotes = function(note /*, note ... */) {
  * include with a feature, the feature is acquired at level 1.
  */
 ScribeRules.defineRace = function(name, abilityAdjustment, features) {
-  ScribeRules.defineChoices('races', name);
+  ScribeRules.defineChoice('races', name);
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
   if(abilityAdjustment != null) {
     var abilityNote = 'abilityNotes.' + prefix + 'AbilityAdjustment';
-    ScribeRules.defineNotes(abilityNote + ':' + abilityAdjustment);
+    ScribeRules.defineNote(abilityNote + ':' + abilityAdjustment);
     var adjustments = abilityAdjustment.split(/\//);
     for(var i = 0; i < adjustments.length; i++) {
       var amountAndAbility = adjustments[i].split(/ +/);
