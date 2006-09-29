@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.41 2006/09/26 15:17:46 Jim Exp $ */
+/* $Id: SRD35.js,v 1.42 2006/09/29 17:37:52 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1063,7 +1063,7 @@ PH35.classRules = function() {
         'C8:15:"all"', 'C9:17:"all"',
         'Dom1:1:"all"', 'Dom2:3:"all"', 'Dom3:5:"all"', 'Dom4:7:"all"',
         'Dom5:9:"all"', 'Dom6:11:"all"', 'Dom7:13:"all"', 'Dom8:15:"all"',
-        'Dom9:17:"all"',
+        'Dom9:17:"all"'
       ];
       spellsPerDay = [
         'C0:1:3/2:4/4:5/7:6',
