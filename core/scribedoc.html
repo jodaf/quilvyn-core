@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.63 2006/09/23 14:22:05 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.64 2006/09/29 18:06:41 Jim Exp $ -->
 <html>
 
 <head>
@@ -57,8 +57,8 @@ rules" into both the editor and character sheet.
 <p>
 A tar file containing the Scribe code can be obtained from
 <a href='http://www.jodaf.com/software/scribe/scribe.tar'>www.jodaf.com/software/scribe/scribe.tar</a>.
-The Scribe program consists of 11 files: DndCharacter.js, Input.js,
-ObjectViewer.js, RuleEngine.js, Scribe.js, ScribeCustom.js, gpl.txt,
+The Scribe program consists of 11 files: Input.js, ObjectViewer.js,
+RuleEngine.js, Scribe.js, ScribeRules.js, ScribeUtils.js, gpl.txt,
 scribe.gif, scribe.html, scribedoc.html, and scribeattrs.html.  (Several sample
 customization files are included in the download, but using them is optional.)
 It is possible to install only scribe.html and direct Scribe to download the
@@ -91,18 +91,6 @@ warns you when ask to open a new character after making changes to the current
 one without saving. You can also add character sheet and editor customizations
 in scribe.html.  See the <a href="#custom">customization section</a> for
 details.
-</p><p>
-Other definitions in scribe.html allow you to select the rules from the v3.0 or
-v3.5 version of the Player's Handbook.  The value of CLASS_RULES_VERSION
-determines which class and race rules Scribe uses, the value of
-FEAT_RULES_VERSION determines the feat and skills rules, and the value of
-MAGIC_RULES_VERSION determines the rules for magic spells and domains.  You
-should set each of these to either '3.0' or '3.5', depending on your version
-preference.  Scribe also allows you to combine rules from the two versions
-(e.g., use feats from both the v3.0 and v3.5 Player's Handbooks) by listing
-both versions separated by a slash (e.g., '3.0/3.5').  If you do this, the
-version listed last takes precedence for any rules that are incompatible
-between the versions.
 </p><p>
 To run Scribe, simply use your favorite web browser to open scribe.html.
 </p>
@@ -142,7 +130,9 @@ attributes, such as spells, where the character either has an attribute or not;
 the text field is used with attributes (e.g., skills, class levels) where the
 character has a variable score associated with the attribute.  To change one of
 these attributes, first use the pull-down menu to select a particular
-attribute, then click the checkbox or enter a value in the text field.
+attribute, then click the checkbox or enter a value in the text field.  A
+"Clear" button next to each of these menues lets you unset all related
+attributes.
 </p><p>
 In your main browser window, Scribe displays a character sheet based on the
 values of the editing window.  Every time you change a value in the editing
@@ -180,13 +170,8 @@ character is loaded or generated, Scribe resets this menu to include only those
 spells (if any) that the character may know.
 </p>
 
-<a name="random"><h3>Clearing and Randomizing Attributes</h3></a>
+<a name="random"><h3>Randomizing Attributes</h3></a>
 <p>
-The "Clear" menu gives you a quick way to reset attributes to their default
-values.  For example, selecting "Spells" in the "Clear" menu will uncheck all
-options in the Spells editing menu and remove all spells from the character
-sheet.
-</p><p>
 The "Randomize" menu allows you to let Scribe randomly determine most basic
 Scribe character attributes.  The editor will select a random value for the
 attribute you choose and update both the editing display and the character
@@ -282,7 +267,7 @@ songs of whales.  To add these as languages to Scribe's Languages list,
 thereby allowing users to select them for their characters, you would include
 this code in your CustomizeScribe function:
 </p><p><code>
-ScribeCustomChoices('languages', 'Dolphin', 'Whale');
+ScribeRules.defineChoices('languages', 'Dolphin', 'Whale');
 </code></p><p>
 Scribe will sort your additional choice(s) into the list.  The lists you can
 modify in this fashion are 'alignments', 'domains' (cleric spell domains),
@@ -292,32 +277,32 @@ modify in this fashion are 'alignments', 'domains' (cleric spell domains),
 Other lists that you can modify require you to supply additional information
 about the new choices.  For example, if you add new skills to Scribe's Skills
 list, you must also supply the key ability associated with each skill.  When
-you invoke ScribeCustomChoices to modify these lists, give the information
-associated with each choice immediately after the choice.  The lists you can
-modify in this fashion are 'deities' (include a slash-separated set of domains
-after each new deity), 'skills' (include the key ability, optionally followed
-by ';trained' if the skill cannot be used untrained), 'spells' (include a
-slash-separated set of spell levels).  and 'weapons' (include a damage die
-for medium-sized creatures).  (The damage value for weapons can also include a
-critical multiplier, preceded by 'x', a minumum threat roll, preceded by '@',
-and/or a range increment, preceded by 'r'.  If you don't include information
-about critical hits, Scribe assumes 'x2@20'&#151;the weapon potentially does
-double damage on a roll of 20 and is not ranged.)  Here are examples of adding
-choices to these lists:
+you invoke ScribeRules.defineChoices to modify these lists, follow each choice
+in the list with a colon and the information associated with that choice.  The
+lists you can modify in this fashion are 'deities' (include a slash-separated
+set of domains after each new deity), 'skills' (include the key ability,
+optionally followed by ';trained' if the skill cannot be used untrained),
+'spells' (include a slash-separated set of spell levels).  and 'weapons'
+(include a damage die for medium-sized creatures).  (The damage value for
+weapons can also include a critical multiplier, preceded by 'x', a minumum
+threat roll, preceded by '@', and/or a range increment, preceded by 'r'.  If
+you don't include information about critical hits, Scribe assumes
+'x2@20'&#151;the weapon potentially does double damage on a roll of 20 and is
+not ranged.)  Here are examples of adding choices to these lists:
 </p><p><code><pre>
-ScribeCustomChoices('deities',
-  'Draum (CG Elf Dreams)', 'Air/Chaos/Good/Luck',
-  'Glennor (NG Healing)', 'Air/Animal/Healing'
+ScribeRules.defineChoices('deities',
+  'Draum (CG Elf Dreams):Air/Chaos/Good/Luck',
+  'Glennor (NG Healing):Air/Animal/Healing'
 );
-ScribeCustomChoices('skills'
-  'Craft (Alchemy)', 'intelligence', 'Craft (Carpentery)', 'intelligence',
-  'Craft (Glassworking)', 'intelligence', 'Herbalism', 'intelligence;trained',
-  'Mediation', 'wisdom;trained'
+ScribeRules.defineChoices('skills'
+  'Craft (Alchemy):intelligence', 'Craft (Carpentery):intelligence',
+  'Craft (Glassworking):intelligence', 'Herbalism:intelligence;trained',
+  'Mediation:wisdom;trained'
 );
-ScribeCustomChoices('spells', 'Calm Water', 'W6/Wa5', 'Darkstorm', 'C4/W4');
-ScribeCustomChoices('weapons', 'Catapult', 'd12r240');
-ScribeCustomChoices('weapons', 'Shillelagh', 'd6');
-ScribeCustomChoices('weapons', 'Orc Kirak', 'd6x3@19');
+ScribeRules.defineChoices('spells', 'Calm Water:W6/Wa5', 'Darkstorm:C4/W4');
+ScribeRules.defineChoices('weapons', 'Catapult:d12r240');
+ScribeRules.defineChoices('weapons', 'Shillelagh:d6');
+ScribeRules.defineChoices('weapons', 'Orc Kirak:d6x3@19');
 </pre></code></p>
 
 <a name="customrules"><h3>Customization - Adding Rules</h3></a>
@@ -326,34 +311,34 @@ Attributes like languages, skills, and spells generally don't affect other
 attributes, so adding new choices to the lists users pick from is usually
 sufficient.  When adding new choices to attributes like race, however, you will
 probably want to add rules to reflect the effect selecting the new choice has
-on other attributes.  You can do this by invoking the ScribeCustomRules
+on other attributes.  You can do this by invoking the ScribeRules.defineRule
 function from within your CustomizeScribe function.
 </p><p>
 For example, suppose you decide to allow players to play goblin characters,
 subtracting two from their strength score but adding two to dexterity.  The
 CustomizeScribe lines to do this would be:
 </p><p><code><pre>
-ScribeCustomChoices('races', 'Goblin');
-ScribeCustomRules('abilityNotes.goblinAbilityAdjustment', 'race', '=', 'source == "Goblin" ? "+2 dexterity/-2 strength" : null');
-ScribeCustomRules('strength', 'abilityNotes.goblinAbilityAdjustment', '+', '-2');
-ScribeCustomRules('dexterity', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
+ScribeRules.defineChoices('races', 'Goblin');
+ScribeRules.defineRule('abilityNotes.goblinAbilityAdjustment', 'race', '=', 'source == "Goblin" ? "+2 dexterity/-2 strength" : null');
+ScribeRules.defineRule('strength', 'abilityNotes.goblinAbilityAdjustment', '+', '-2');
+ScribeRules.defineRule('dexterity', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
 </pre></code></p><p>
 The first line simply adds 'Goblin' to the list of races available.  The next
 line computes a new attribute that will be included in the notes of the
 Attributes section of the character sheet, and the last two lines use this
 attribute to modify the character abilities.  The parameters to
-ScribeCustomRules are the attribute affected, the attribute on which the
+ScribeRules.defineRule are the attribute affected, the attribute on which the
 first attribute depends, the type of affect, and a JavaScript expression that
 calculates the value of the effect.
 </p><p>
-For example, the first invocation of ScribeCustomRules above computes a
+For example, the first invocation of ScribeRules.defineRule above computes a
 value for the abilityNotes.goblinAbilityAdjustment attribute based on the value
 of the race attribute. The third parameter ('=') indicates that race sets the
 value of abilityNotes.goblinAbilityAdjustment to a specific value; other
 possibilities are '+' (adds to the attribute value), '*' (multiplies the
 attribute value), '^' (raises the attribute value to a minimum level), and 'v'
 (lowers the attribute value to a maximum level).  The final parameter in the
-first ScribeCustomRules call tests to see if the race attribute's value is
+first ScribeRules.defineRule call tests to see if the race attribute's value is
 "Goblin".  If so, it returns a string as the value of the
 abilityNotes.goblinAbilityAdjustment attribute; otherwise, it returns null, a
 value which indicates that the abilityNotes.goblinAbilityAdjustment attribute
@@ -366,9 +351,9 @@ Note that, if you didn't care about adding notes to the character sheet that
 explain the race-based ability modifications, you could shorten the above four
 lines to these three:
 </p><p><code><pre>
-ScribeCustomChoices('races', 'Goblin');
-ScribeCustomRules('strength', 'race', '+', 'source == "Goblin" ? -2 : 0');
-ScribeCustomRules('dexterity', 'race', '+', 'source == "Goblin" ? 2 : 0');
+ScribeRules.defineChoices('races', 'Goblin');
+ScribeRules.defineRule('strength', 'race', '+', 'source == "Goblin" ? -2 : 0');
+ScribeRules.defineRule('dexterity', 'race', '+', 'source == "Goblin" ? 2 : 0');
 </pre></code></p><p>
 However, Scribe only retains one rule for each pair of modified/modifying
 attributes, so this approach would work only for the first race you add.  If
@@ -379,26 +364,26 @@ use these new attributes to modify existing ones via a '+' rule.
 </p><p>
 <a href='scribeattrs.html'>scribeattrs.html</a> lists all the attributes that
 Scribe knows about.  You can use any of these attributes, as well as new ones
-you calculate, in calls to ScribeCustomRules.
+you calculate, in calls to ScribeRules.defineRule.
 </p>
 
 <a name="customrules"><h3>Customization - Adding Validation Tests</h3></a>
 <p>
-TODO Document ScribeCustomTests(test /* , test ... */)
+TODO Document ScribeRules.defineTest(test /* , test ... */)
 </p>
 
 <a name="customsheet"><h3>Customization - Adding to the Character Sheet</h3></a>
 <p>
 Once you've computed new attributes for your character, you'll probably want to
 include some of them on your character sheet.  You can do this through the
-ScribeCustomSheet function, which takes four parameters: the name of the
-attribute, the section it should appear in, the attribute it should appear
-before, and the format to use in the display.  For example, suppose you had
-made calls to ScribeCustomRules that computed a new character attribute
+ScribeRules.defineSheetElement function, which takes four parameters: the name
+of the attribute, the section it should appear in, the attribute it should
+appear before, and the format to use in the display.  For example, suppose you
+had made calls to ScribeRules.defineRule that computed a new character attribute
 called 'spellPoints'. This code would insert the attribute into the Magic
 section of the character sheet, just before cleric domains:
 </p><p><code><pre>
-ScribeCustomSheet('spellPoints', 'Magic', 'Domains', null)
+ScribeRules.defineSheetElement('spellPoints', 'Magic', 'Domains', null)
 </pre></code></p><p>
 Note that the final parameter here is <b>null</b>.  This indicates that Scribe
 should use its default format to display the attribute, which is the attribute
@@ -425,37 +410,39 @@ lists, simply give the attribute a name consisting of the list name followed by
 a period and a description. 'abilityNotes.goblinAbilityAdjustment' used above
 is one example of this&#151;Scribe would automatically include this attribute
 in the ability notes.  If you want to specify a display format for a note
-attribute (e.g., to include descriptive text), you can call ScribeCustomNotes
-specifying the name of the attribute and its format, like this
+attribute (e.g., to include descriptive text), you can call
+ScribeRules.defineNotes specifying the name of the attribute and its format,
+like this
 </p><p><code><pre>
-ScribeCustomNotes
+ScribeRules.defineNotes
   ('abilityNotes.goblinAbilityAdjustment', '-2 strength/+2 dexterity');
 </pre></code></p><p>
-ScribeCustomNotes treats some attributes specially.  If the attribute name ends
-with one of "Domain", "Feature", or "Synergy", ScribeCustomNotes will
-automatically generate common rules related to the attribute.  For "Domain" and
-"Feature" attributes, ScribeCustomNotes will add a rule specifying that the
-note will appear only if the corresponding domain or feature is in the
-character's list of attributes (e.g., 'skillNotes.agileFeature' only appears if
-the character has the Agile feature).  "Synergy" attributes only appear if the
-character has at least five ranks in the corresponding skill.  In addition,
-ScribeCustomNotes automatically generates rules to adjust skill values based on
-skillNotes attributes.  If the format of a skillNotes attribute gives a bonus
-value followed by a slash-separated list of skill names, ScribeCustomNotes
-generates rules to increase each of the skills in the list if the attribute is
-present.  For example, given this call
+ScribeRules.defineNotes treats some attributes specially.  If the attribute
+name ends with one of "Domain", "Feature", or "Synergy",
+ScribeRules.defineNotes will automatically generate common rules related to the
+attribute.  For "Domain" and "Feature" attributes, ScribeRules.defineNotes will
+add a rule specifying that the note will appear only if the corresponding
+domain or feature is in the character's list of attributes (e.g.,
+'skillNotes.agileFeature' only appears if the character has the Agile feature).
+"Synergy" attributes only appear if the character has at least five ranks in
+the corresponding skill.  In addition, ScribeRules.defineNotes automatically
+generates rules to adjust skill values based on skillNotes attributes.  If the
+format of a skillNotes attribute gives a bonus value followed by a
+slash-separated list of skill names, ScribeRules.defineNotes generates rules to
+increase each of the skills in the list if the attribute is present.  For
+example, given this call
 </p><p><code><pre>
-ScribeCustomNotes('skillNotes.agileFeature', '+2 Balance/Escape Artist');
+ScribeRules.defineNotes('skillNotes.agileFeature', '+2 Balance/Escape Artist');
 </pre></code></p><p>
-ScribeCustomNotes will generate rules to increase the Balance and Escape Artist
-skills by two if the character has the Agile feature.
+ScribeRules.defineNotes will generate rules to increase the Balance and Escape
+Artist skills by two if the character has the Agile feature.
 </p>
 
 <a name="customclass"><h3>Customization - Adding Classes</h3></a>
 <p>
 Although the customization functions described above are sufficient to define
-new character classes, Scribe provides the ScribeCustomClass function as a
-convenience.  This function takes 13 parameters: the name of the class; the
+new character classes, Scribe provides the ScribeRules.defineClass function as
+a convenience.  This function takes 13 parameters: the name of the class; the
 number of sides on the hit die; the number of skill points acquired each
 level; JavaScript expressions to calculate the base attack bonus and fortitude,
 reflex, and will saving throw bonuses; armor, shield, and weapon proficiency
@@ -464,14 +451,14 @@ the class levels at which they are acquired; an optional array of tests for
 class prerequisites.  Here is an example of code that defines the Dwarven
 Defender prestige class defined in the Dungeon Master's Guide.
 </p><p><code><pre>
-  (classSkills, features, prerequisites) {
   var features = [
-    1, 'Defensive Stance', 2, 'Uncanny Dodge', 4, 'Trap Sense',
-    6, 'Damage Reduction', 6, 'Improved Uncanny Dodge', 8, 'Mobile Defense'
+    '1:Defensive Stance', '2:Uncanny Dodge', '4:Trap Sense',
+    '6:Damage Reduction', '6:Improved Uncanny Dodge', '8:Mobile Defense'
   ];
   var notes = [
     'featureNotes.defensiveStanceFeature',
-      '+2 strength/+4 constitution/+2 saves/+4 dodge AC while unmoving for conMod+3 rounds %V/day',
+      '+2 strength/+4 constitution/+2 saves/+4 dodge AC while unmoving for ' +
+      'conMod+3 rounds %V/day',
     'combatNotes.mobileDefenseFeature',
       'Allowed 5 ft. step during Defensive Stance'
   ];
@@ -506,20 +493,21 @@ Defender prestige class defined in the Dungeon Master's Guide.
       'source &gt;= 4 ? Math.floor(source / 4) : null'
   );
 </pre></code></p><p>
-As shown in this example, you will usually follow a call to ScribeCustomClass
-with one or more calls to the other customization functions to compute
-class-related attributes. Scribe provides a set of constants you can use for
-the JavaScript parameters to ScribeCustomClass that correspond to the values 
-used in the Player's Handbook for the base classes:
-DndCharacter.ATTACK_BONUS_GOOD, DndCharacter.ATTACK_BONUS_AVERAGE,
-DndCharacter.ATTACK_BONUS_POOR, DndCharacter.ARMOR_PROFICIENCY_HEAVY,
-DndCharacter.ARMOR_PROFICIENCY_LIGHT, DndCharacter.ARMOR_PROFICIENCY_MEDIUM,
-DndCharacter.ARMOR_PROFICIENCY_NONE, DndCharacter.SAVE_BONUS_GOOD,
-DndCharacter.SAVE_BONUS_POOR, DndCharacter.SHIELD_PROFICIENCY_HEAVY,
-DndCharacter.SHIELD_PROFICIENCY_LIGHT, DndCharacter.SHIELD_PROFICIENCY_NONE,
-DndCharacter.SHIELD_PROFICIENCY_TOWER, DndCharacter.WEAPON_PROFICIENCY_NONE,
-DndCharacter.WEAPON_PROFICIENCY_MARTIAL, and
-DndCharacter.WEAPON_PROFICIENCY_SIMPLE.
+As shown in this example, you will usually follow a call to
+ScribeRules.defineClass with one or more calls to the other customization
+functions to compute class-related attributes. Scribe provides a set of
+constants you can use for the JavaScript parameters to ScribeRules.defineClass
+that correspond to the values used in the Player's Handbook for the base
+classes:
+PH35.ATTACK_BONUS_GOOD, PH35.ATTACK_BONUS_AVERAGE,
+PH35.ATTACK_BONUS_POOR, PH35.ARMOR_PROFICIENCY_HEAVY,
+PH35.ARMOR_PROFICIENCY_LIGHT, PH35.ARMOR_PROFICIENCY_MEDIUM,
+PH35.ARMOR_PROFICIENCY_NONE, PH35.SAVE_BONUS_GOOD,
+PH35.SAVE_BONUS_POOR, PH35.SHIELD_PROFICIENCY_HEAVY,
+PH35.SHIELD_PROFICIENCY_LIGHT, PH35.SHIELD_PROFICIENCY_NONE,
+PH35.SHIELD_PROFICIENCY_TOWER, PH35.WEAPON_PROFICIENCY_NONE,
+PH35.WEAPON_PROFICIENCY_MARTIAL, and
+PH35.WEAPON_PROFICIENCY_SIMPLE.
 </p>
 
 <a name="custommagic"><h3>Customization - Adding Magic Items</h3></a>
