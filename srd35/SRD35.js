@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.43 2006/09/29 20:31:33 Jim Exp $ */
+/* $Id: SRD35.js,v 1.44 2006/10/01 03:45:44 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -341,7 +341,8 @@ PH35.SPELLS = [
   'Phantom Steed:B3/W3', 'Phase Door:Tl8/W7', 'Planar Ally:C6',
   'Planar Binding:W6', 'Plane Shift:C5/W7', 'Plant Growth:D3/Pl3/R3',
   'Poison:C4/D3', 'Polar Ray:W8', 'Polymorph Any Object:Ty8/W8',
-  'Polymorph:W4', 'Power Word, Blind', 'Power Word, Kill', 'Power Word, Stun',
+  'Polymorph:W4', 'Power Word, Blind:W7', 'Power Word, Kill:W9',
+    'Power Word, Stun:W8',
   'Prayer:C3/P3', 'Prestidigitation:B0/W0', 'Prismatic Sphere:Pr9/Su9/W9',
   'Prismatic Spray:W7', 'Prismatic Wall:W8', 'Produce Flame:D1/Fi2',
   'Programmed Image:B6/W6', 'Project Image:B6/W7', 'Protection From Arrows:W2',
@@ -519,6 +520,13 @@ PH35.domainsNotes = [
   'skillNotes.travelDomain:Survival is a class skill',
   'skillNotes.trickeryDomain:Bluff/Disguise/Hide are class skills'
 ];
+PH35.domainsSpellCodes = {
+  'Air': 'Ai', 'Animal': 'An', 'Chaos': 'Ch', 'Death': 'De',
+  'Destruction': 'Dn', 'Earth': 'Ea', 'Evil': 'Ev', 'Fire': 'Fi', 'Good': 'Go',
+  'Healing': 'He', 'Knowledge': 'Kn', 'Law': 'La', 'Luck': 'Lu', 'Magic': 'Ma',
+  'Plant': 'Pl', 'Protection': 'Pr', 'Strength': 'St', 'Sun': 'Su',
+  'Travel': 'Tl', 'Trickery': 'Ty', 'War': 'Wr', 'Water': 'Wa'
+};
 PH35.featsNotes = [
   'combatNotes.blindFightFeature:' +
     'Reroll concealed miss/no bonus to invisible foe/half penalty for impared vision',
@@ -720,7 +728,6 @@ PH35.featsPrerequisites = [
 ];
 PH35.skillsSynergies = {
   'Bluff': 'Diplomacy/Intimidate/Sleight Of Hand',
-  // TODO: Bluff also synergies Disguise (acting)
   'Decipher Script': 'Use Magic Device (scrolls)',
   'Escape Artist': 'Use Rope (bindings)',
    // TODO: Wild Empathy isn't a skill
@@ -2137,6 +2144,14 @@ PH35.skillRules = function() {
                  a.substring(1).replace(/ /g, '');
     ScribeRules.defineNote
       ('skillNotes.' + prefix + 'Synergy:+2 ' + PH35.skillsSynergies[a]);
+    if(a == 'Bluff') {
+      // A second note for Bluff synergy to distinguish bonuses automatically
+      // applied by Scribe from those the DM must apply.
+      ScribeRules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
+      ScribeRules.defineRule('skillNotes.bluffSynergy2',
+        'skills.Bluff', '=', 'source >= 5 ? 1 : null'
+      );
+    }
   }
   ScribeRules.defineRule('skillNotes.bardicKnowledgeFeature',
     'skillNotes.knowledge(History)Synergy', '+', '2'
@@ -2476,62 +2491,53 @@ PH35.randomize = function(rules, attributes, attribute) {
                 specialty == 'Divination' ? 1 : 2, 1);
     }
   } else if(attribute == 'spells') {
-
-    var category;
     var matchInfo;
     var spellLevel;
-    var spells = {};
-    var spellsByLevel = {};
-
+    var unknownSpellsByLevel = {};
+    attrs = rules.Apply(attributes);
     for(attr in Scribe.spells) {
       var spellLevels = Scribe.spells[attr].split('/');
       for(i = 0; i < spellLevels.length; i++) {
         spellLevel = spellLevels[i];
-        if(spellsByLevel[spellLevel] == null)
-          spellsByLevel[spellLevel] = [];
-        spellsByLevel[spellLevel][spellsByLevel[spellLevel].length] = attr;
-      }
-    }
-    attrs = rules.Apply(attributes);
-    for(attr in attributes) {
-      if((matchInfo = attr.match(/^spells\.(.*)\((.*)\)/)) != null)
-        spells[matchInfo[1]] = matchInfo[2];
-    }
-    for(attr in Scribe.domains) {
-      if(attributes['domains.' + attr] == null)
-        continue;
-      category = Scribe.spellsCategoryCodes[attr];
-      for(var level = 0; level < 10; level++) {
-        spellLevel = category + level;
-        if((choices = spellsByLevel[spellLevel]) == null ||
-           (howMany = attrs['spellsKnown.Dom' + level]) == null)
+        var spell = attr + ' (' + spellLevel + ')';
+        if(attrs['spells.' + spell] != null) {
           continue;
-        if(howMany == 'all')
-          howMany = choices.length;
-        pickAttrs(spells, '', choices, howMany, spellLevel);
+        }
+        if(unknownSpellsByLevel[spellLevel] == null)
+          unknownSpellsByLevel[spellLevel] = [];
+        unknownSpellsByLevel[spellLevel]
+          [unknownSpellsByLevel[spellLevel].length] = spell;
       }
     }
-    for(attr in Scribe.classes) {
-      if(attributes['levels.' + attr] == null ||
-         (category = Scribe.spellsCategoryCodes[attr]) == null)
+    for(attr in attrs) {
+      if((matchInfo = attr.match(/^spellsKnown.(.*)/)) == null) {
         continue;
-      for(var level = 0; level < 10; level++) {
-        spellLevel = category + level;
-        if((choices = spellsByLevel[spellLevel]) == null ||
-           (howMany = attrs['spellsKnown.' + spellLevel]) == null)
-          continue;
-        for(i = choices.length - 1; i >= 0; i--)
-          if(spells[choices[i]] != null)
-            choices = choices.slice(0, i).concat(choices.slice(i + 1));
-        if(howMany == 'all')
+      }
+      spellLevel = matchInfo[1];
+      howMany = attrs[attr];
+      if(spellLevel.substring(0, 3) == 'Dom') {
+        choices = [];
+        for(var a in Scribe.domains) {
+          if(attrs['domains.' + a] != null) {
+            var domainLevel =
+              PH35.domainsSpellCodes[a] + spellLevel.substring(3);
+            if(unknownSpellsByLevel[domainLevel] != null) {
+              choices = choices.concat(unknownSpellsByLevel[domainLevel]);
+            }
+          }
+        }
+      } else {
+        choices = unknownSpellsByLevel[spellLevel];
+      }
+      if(choices != null) {
+        if(howMany == 'all') {
           howMany = choices.length;
-        pickAttrs(spells, '', choices, howMany -
-                  sumMatching(attributes, '^spells\\..*('+spellLevel+')'),
-                  spellLevel);
+        }
+        pickAttrs(attributes, 'spells.', choices, howMany -
+                  sumMatching(attributes, '^spells\\..*(' + spellLevel + ')'),
+                  1);
       }
     }
-    for(attr in spells)
-      attributes['spells.' + attr + '(' + spells[attr] + ')'] = 1;
 
   } else if(attribute == 'weapons') {
     choices = [];

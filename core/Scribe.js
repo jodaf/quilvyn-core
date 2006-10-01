@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.157 2006/09/29 20:31:33 Jim Exp $ */
+/* $Id: Scribe.js,v 1.158 2006/10/01 03:45:44 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.33.29';
@@ -171,16 +171,6 @@ Scribe.tinyDamage = {
   'd12':'d8', '2d4':'1d4', '2d6':'1d8', '2d8':'1d10', '2d10':'2d6'
 };
 
-Scribe.spellsCategoryCodes = {
-  'Bard': 'B', 'Cleric': 'C', 'Druid': 'D', 'Paladin': 'P', 'Ranger': 'R',
-  'Sorcerer': 'W', 'Wizard': 'W',
-  'Air':'Ai', 'Animal':'An', 'Chaos':'Ch', 'Death':'De', 'Destruction':'Dn',
-  'Earth':'Ea', 'Evil':'Ev', 'Fire':'Fi', 'Good':'Go', 'Healing':'He',
-  'Knowledge':'Kn', 'Law':'La', 'Luck':'Lu', 'Magic':'Ma', 'Plant':'Pl',
-  'Protection':'Pr', 'Strength':'St', 'Sun':'Su', 'Travel':'Tl',
-  'Trickery':'Ty', 'War':'Wr', 'Water':'Wa'
-};
-
 /* Returns an array of choices for the editor's New/Open select input. */
 function ChoicesForFileInput() {
   var result = cookieInfo.recent.split(',');
@@ -203,8 +193,11 @@ function CopyObject(o) {
 /* Returns HTML for the character editor form. */
 function EditorHtml() {
   Scribe.spellsCategoryOptions = {};
-  for(var a in Scribe.spellsCategoryCodes) {
-    Scribe.spellsCategoryOptions[a + '(' + Scribe.spellsCategoryCodes[a] + ')'] = null;
+  for(var a in Scribe.spells) {
+    var codes = Scribe.spells[a].replace(/[0-9]+/g, '').split('/');
+    for(var i = 0; i < codes.length; i++) {
+      Scribe.spellsCategoryOptions[codes[i]] = '';
+    }
   }
   var htmlBits = ['<form name="frm"><table><tr><td>\n'];
   for(var i = 0; i < Scribe.editorElements.length; i++) {
@@ -602,7 +595,7 @@ function RandomizeCharacter(prompt) {
     loadingPopup.document.write(html);
     loadingPopup.document.close();
     loadingPopup.document.frm.race.selectedIndex =
-      ScribeUtils.Random(0, ScribeUtils.getKeys(Scribe.races).length - 1);
+      ScribeUtils.random(0, ScribeUtils.getKeys(Scribe.races).length - 1);
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   } else {
@@ -639,12 +632,11 @@ function RefreshEditor(redraw) {
   var fileOpts = ChoicesForFileInput();
   var spellOpts = [];
   for(var a in Scribe.spells) {
-    var matchInfo;
     var spellLevels = Scribe.spells[a].split('/');
     for(i = 0; i < spellLevels.length; i++) {
-      if((matchInfo = spellLevels[i].match(/^(\D+)\d+$/)) != null &&
-         showCodes[matchInfo[1]])
-        spellOpts[spellOpts.length] = a + '(' + spellLevels[i] + ')';
+      if(showCodes[spellLevels[i].replace(/[0-9]+/, '')]) {
+        spellOpts[spellOpts.length] = a + ' (' + spellLevels[i] + ')';
+      }
     }
   }
   if(spellOpts.length == 0)
@@ -694,15 +686,14 @@ function RefreshEditor(redraw) {
   InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
-  var codeOpts = ScribeUtils.getKeys(Scribe.spellsCategoryCodes);
-  codeOpts.sort();
-  for(i = 0;
-      i < codeOpts.length &&
-      !showCodes[Scribe.spellsCategoryCodes[codeOpts[i]]];
-      i++)
-    ; /* empty */
-  editForm.spellcats_sel.selectedIndex = i < codeOpts.length ? i : 0;
-  InputSetValue(editForm.spellcats, i < codeOpts.length);
+  InputSetValue(editForm.spellcats, false);
+  for(i = 0; i < editForm.spellcats_sel.options.length; i++) {
+    if(showCodes[editForm.spellcats_sel.options[i].value]) {
+      editForm.spellcats_sel.selectedIndex = i;
+      InputSetValue(editForm.spellcats, true);
+      break;
+    }
+  }
 
 }
 
@@ -719,15 +710,12 @@ function RefreshSheet() {
 function RefreshShowCodes() {
   var matchInfo;
   showCodes = {};
-  for(var a in Scribe.spellsCategoryCodes) {
-    showCodes[Scribe.spellsCategoryCodes[a]] = false;
-  }
   for(var a in character) {
-    if((matchInfo = a.match(/^spells\..*\((\D+)\d+\)$/)) != null)
+    if((matchInfo = a.match(/^spells\..*\((\D+)\d+\)$/)) != null) {
       showCodes[matchInfo[1]] = true;
-    else if((matchInfo = a.match(/^(domains|levels)\.(.*)$/)) != null &&
-            Scribe.spellsCategoryCodes[matchInfo[2]] != null)
-      showCodes[Scribe.spellsCategoryCodes[matchInfo[2]]] = true;
+    } else if((matchInfo = a.match(/^spellsKnown\.(\D+)\d+$/)) != null) {
+      showCodes[matchInfo[1]] = true;
+    }
   }
 }
 
@@ -1036,8 +1024,7 @@ function Update(input) {
       RefreshSheet();
     }
   } else if(name == 'spellcats') {
-    var matchInfo = InputGetValue(editForm.spellcats_sel).match(/\((.+)\)/);
-    showCodes[matchInfo[1]] = value;
+    showCodes[InputGetValue(editForm.spellcats_sel)] = value;
     RefreshEditor(false);
   } else if(name == 'summary') {
     SummarizeCachedAttrs();
@@ -1059,9 +1046,13 @@ function Update(input) {
     cachedAttrs[currentUrl] = CopyObject(character);
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
-    for(var a in character) {
-      if(a.indexOf(name + '.') == 0)
-        delete character[a];
+    if(name == 'spellcats') {
+      showCodes = {};
+    } else {
+      for(var a in character) {
+        if(a.indexOf(name + '.') == 0)
+          delete character[a];
+      }
     }
     input = editForm[name]
     if(input != null)
@@ -1076,11 +1067,10 @@ function Update(input) {
     input = editForm[name]
     if(input != null) {
       if(name == 'spellcats') {
-        var matchInfo=InputGetValue(editForm.spellcats_sel).match(/\((.+)\)/);
-        InputSetValue(input, showCodes[matchInfo[1]]);
-      }
-      else
+        InputSetValue(input, showCodes[InputGetValue(editForm.spellcats_sel)]);
+      } else {
         InputSetValue(input, character[name + '.' + value]);
+      }
     }
   } else {
     var selector = editForm[name + '_sel'];
