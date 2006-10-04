@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.158 2006/10/01 03:45:44 Jim Exp $ */
+/* $Id: Scribe.js,v 1.159 2006/10/04 14:28:13 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.33.29';
@@ -35,7 +35,8 @@ var cookieInfo = {  /* What we store in the cookie */
 };
 var editForm;       /* Character editing form (window.frames[0].forms[0]) */
 var loadingPopup = null; /* Current "loading" message popup window */
-var rules;          /* RuleEngine with standard + user rules */
+var ruleSets = {};  /* RuleEngine with standard + user rules */
+var ruleSet = null; /* The rule set currently in use */
 var showCodes;      /* Display status of spell category codes */
 var urlLoading=null;/* Character URL presently loading */
 var viewer;         /* ObjectViewer to translate character attrs into HTML */
@@ -51,8 +52,9 @@ function Scribe() {
     'WARN_ABOUT_DISCARD':true
   };
 
-  if(InputGetValue == null || ObjectViewer == null || RuleEngine == null) {
-    alert('JavaScript functions required by Scribe are missing; exiting');
+  if(InputGetValue == null || ObjectViewer == null || RuleEngine == null ||
+     ScribeRules == null || ScribeUtils == null) {
+    alert('JavaScript modules needed by Scribe are missing; exiting');
     return;
   }
   if(window.opener == null || window.opener.Scribe == null) {
@@ -86,7 +88,6 @@ function Scribe() {
         COPYRIGHT + '<br/>' +
         'Press the "About" button for more info',
         'Ok', 'window.close();');
-  rules = new RuleEngine();
   viewer = InitialViewer();
   if(CustomizeScribe != null)
     CustomizeScribe();
@@ -97,9 +98,9 @@ function Scribe() {
   /*
   if(SCRIBE_DEBUG != null) {
     var html = '<html><head><title>Scribe Attributes</title></head>\n<body>\n';
-    var attrs = rules.AllSources();
+    var attrs = ruleSet.allSources();
     html += '<h2>Sources</h2>\n' + attrs.join('<br/>\n') + '\n';
-    attrs = rules.AllTargets();
+    attrs = ruleSet.allTargets();
     html += '<h2>Targets</h2>\n' + attrs.join('<br/>\n') + '\n';
     html += '</body></html>\n';
     var w = window.open('', 'attrwin');
@@ -145,7 +146,7 @@ Scribe.editorElements = [
   ['armor', 'Armor', 'select-one', 'armors'],
   ['shield', 'Shield', 'select-one', 'shields'],
   ['weapons', 'Weapons', 'bag', 'weapons'],
-  ['spellcats', 'Spell Categories', 'set', 'spellsCategoryOptions'],
+  ['spellcats', 'Spell Categories', 'set', 'spellsCategoryCodes'],
   ['spells', 'Spells', 'set', 'spells'],
   ['goodies', 'Goodies', 'bag', 'goodies'],
   ['domains', 'Cleric Domains', 'set', 'domains'],
@@ -154,21 +155,24 @@ Scribe.editorElements = [
   ['notes', 'Notes', 'textarea', [40,10]],
   ['dmNotes', 'DM Notes', 'textarea', [40,10]]
 ];
-Scribe.randomizers = {'--randomize--': null};
-Scribe.tests = [];
 
 /* Mapping of medium damage to large/small/tiny damage. */
-Scribe.largeDamage = {
+Scribe.LARGE_DAMAGE = {
   'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
   'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
 };
-Scribe.smallDamage = {
+Scribe.SMALL_DAMAGE = {
   'd2':'d1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
   'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
 };
-Scribe.tinyDamage = {
+Scribe.TINY_DAMAGE = {
   'd2':'0', 'd3':'1', 'd4':'d2', 'd6':'d8', 'd8':'d4', 'd10':'d6',
   'd12':'d8', '2d4':'1d4', '2d6':'1d8', '2d8':'1d10', '2d10':'2d6'
+};
+
+Scribe.addRuleSet = function(name, rs) {
+  ruleSets[name] = rs;
+  ruleSet = rs;
 };
 
 /* Returns an array of choices for the editor's New/Open select input. */
@@ -179,26 +183,8 @@ function ChoicesForFileInput() {
   return result;
 }
 
-/* Returns a recursively-copied clone of #o#. */
-function CopyObject(o) {
-  if(typeof o != 'object' || o == null)
-    return o;
-  var result = new Object();
-  for(var a in o) {
-    result[a] = CopyObject(o[a]);
-  }
-  return result;
-}
-
 /* Returns HTML for the character editor form. */
 function EditorHtml() {
-  Scribe.spellsCategoryOptions = {};
-  for(var a in Scribe.spells) {
-    var codes = Scribe.spells[a].replace(/[0-9]+/g, '').split('/');
-    for(var i = 0; i < codes.length; i++) {
-      Scribe.spellsCategoryOptions[codes[i]] = '';
-    }
-  }
   var htmlBits = ['<form name="frm"><table><tr><td>\n'];
   for(var i = 0; i < Scribe.editorElements.length; i++) {
     var element = Scribe.editorElements[i];
@@ -207,9 +193,9 @@ function EditorHtml() {
     var params = element[3];
     var type = element[2];
     if(typeof(params) == 'string') {
-      if(Scribe[params] == null)
+      if(ruleSet.getChoices(params) == null)
         continue;
-      params = ScribeUtils.getKeys(Scribe[params]);
+      params = ScribeUtils.getKeys(ruleSet.getChoices(params));
     }
     if(label != '') {
       htmlBits[htmlBits.length] = '</td></tr><tr><th>' + label + '</th><td>';
@@ -229,21 +215,6 @@ function EditorHtml() {
   var result = htmlBits.join('');
   /* result = result.replace(/<\/td><\/tr>\n<tr><th><\/th><td>/g, ''); */
   return result;
-}
-
-/* Returns true iff all attributes of #o1# have the same values in #o2#. */
-function EqualObjects(o1, o2) {
-  if(typeof o1 != "object" || typeof o2 != "object")
-    return o1 == o2;
-  var o1Keys = ScribeUtils.getKeys(o1), o2Keys = ScribeUtils.getKeys(o2);
-  if(o1Keys.length != o2Keys.length)
-    return false;
-  for(var i = 0; i < o1Keys.length; i++) {
-    var key = o1Keys[i];
-    if(o2Keys[i] != key || !EqualObjects(o1[key], o2[key]))
-      return false;
-  }
-  return true;
 }
 
 /* Returns an ObjectViewer loaded with the default character sheet format. */
@@ -463,7 +434,7 @@ function LoadCharacter(name) {
     RefreshEditor(false);
     RefreshSheet();
     currentUrl = name;
-    cachedAttrs[currentUrl] = CopyObject(character);
+    cachedAttrs[currentUrl] = ScribeUtils.clone(character);
     urlLoading = null;
     if(!loadingPopup.closed)
       loadingPopup.close();
@@ -530,36 +501,40 @@ PopUp.next = 0;
 function RandomizeCharacter(prompt) {
   if(!prompt || (urlLoading == 'random' && loadingPopup.okay != null)) {
     /* Ready to generate. */
+    var randomizers = ruleSet.getChoices('randomizers');
     var totalLevels = 0;
-    var value;
-    character = {};
+    character = { };
     if(prompt) {
-      character.race = InputGetValue(loadingPopup.document.frm.race);
-      for(var a in Scribe.classes) {
-        var attr = 'levels.' + a;
-        if((value = InputGetValue(loadingPopup.document.frm[attr])) != null &&
-           value > 0) {
-          character[attr] = value;
-          totalLevels += character[attr] - 0;
+      for(i = 0; i < loadingPopup.document.frm.elements.length; i++) {
+        var element = loadingPopup.document.frm.elements[i];
+        var value = InputGetValue(element);;
+        if(element.type == 'button' ||
+           element.name == null ||
+           (value = InputGetValue(element)) == null ||
+           value == '')
+          continue;
+        character[element.name] = value;
+        if(element.name.match(/^levels/)) {
+          totalLevels += value - 0;
         }
       }
     } else {
-      Scribe.randomizers['race'](rules, character, 'race');
+      randomizers['race'](ruleSet, character, 'race');
     }
     if(totalLevels == 0) {
-      Scribe.randomizers['levels'](rules, character, 'levels');
+      randomizers['levels'](ruleSet, character, 'levels');
       totalLevels = 1;
     }
-    character.experience = totalLevels * (totalLevels-1) * 1000 / 2;
-    for(var a in Scribe.randomizers) {
-      if(Scribe.randomizers[a] != null && a != 'race' && a != 'levels')
-        Scribe.randomizers[a](rules, character, a);
+    character.experience = totalLevels * (totalLevels - 1) * 1000 / 2;
+    for(var a in randomizers) {
+      if(a != 'race' && a != 'levels' && randomizers[a] != null)
+        randomizers[a](ruleSet, character, a);
     }
     RefreshShowCodes();
     RefreshEditor(false);
     RefreshSheet();
     currentUrl = 'random';
-    cachedAttrs[currentUrl] = CopyObject(character);
+    cachedAttrs[currentUrl] = ScribeUtils.clone(character);
     if(loadingPopup != null)
       loadingPopup.close();
     urlLoading = null;
@@ -568,34 +543,35 @@ function RandomizeCharacter(prompt) {
   } else if(urlLoading == null) {
     /* Nothing presently loading. */
     urlLoading = 'random';
-    var classes = ScribeUtils.getKeys(Scribe.classes);
+    var classes = ScribeUtils.getKeys(ruleSet.getChoices('classes'));
     var htmlBits = [
-      '<html><head><title>New Character</title></head>\n',
-      '<body bgcolor="' + BACKGROUND + '">\n',
-      '<img src="' + LOGO_URL + ' "/><br/>\n',
-      '<h2>New Character Attributes</h2>\n',
-      '<form name="frm"><table>\n',
+      '<html><head><title>New Character</title></head>',
+      '<body bgcolor="' + BACKGROUND + '">',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h2>New Character Attributes</h2>',
+      '<form name="frm"><table>',
       '<tr><th>Race</th><td>' +
-      InputHtml('race', 'select-one', ScribeUtils.getKeys(Scribe.races)) + '</td></tr>\n',
-      '<tr><th>Level(s)</th></tr>\n'
+      InputHtml('race', 'select-one',
+                ScribeUtils.getKeys(ruleSet.getChoices('races')))+'</td></tr>',
+      '<tr><th>Level(s)</th></tr>'
     ];
     for(var i = 0; i < classes.length; i++)
       htmlBits[htmlBits.length] =
         '<tr><th>' + classes[i] + '</th><td>' +
-        InputHtml('levels.' + classes[i], 'text', [2]) + '</td></tr>\n';
+        InputHtml('levels.' + classes[i], 'text', [2]) + '</td></tr>';
     htmlBits = htmlBits.concat([
-      '</table></form>\n',
-      '<form>\n',
-      '<input type="button" value="Ok" onclick="okay=1;"/>\n',
-      '<input type="button" value="Cancel" onclick="window.close();"/>\n',
-      '</form></body></html>\n'
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=1;"/>',
+      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '</form></body></html>'
     ]);
-    var html = htmlBits.join('');
+    var html = htmlBits.join('\n') + '\n';
     loadingPopup = window.open('', 'randomWin');
     loadingPopup.document.write(html);
     loadingPopup.document.close();
     loadingPopup.document.frm.race.selectedIndex =
-      ScribeUtils.random(0, ScribeUtils.getKeys(Scribe.races).length - 1);
+      ScribeUtils.random(0, loadingPopup.document.frm.race.options.length - 1);
     loadingPopup.okay = null;
     setTimeout('RandomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   } else {
@@ -631,8 +607,9 @@ function RefreshEditor(redraw) {
 
   var fileOpts = ChoicesForFileInput();
   var spellOpts = [];
-  for(var a in Scribe.spells) {
-    var spellLevels = Scribe.spells[a].split('/');
+  var spells = ruleSet.getChoices('spells');
+  for(var a in spells) {
+    var spellLevels = spells[a].split('/');
     for(i = 0; i < spellLevels.length; i++) {
       if(showCodes[spellLevels[i].replace(/[0-9]+/, '')]) {
         spellOpts[spellOpts.length] = a + ' (' + spellLevels[i] + ')';
@@ -676,7 +653,7 @@ function RefreshEditor(redraw) {
     if(InputGetValue(input) != value)
       InputSetValue(input, value);
   }
-  var attrs = rules.Apply(character);
+  var attrs = ruleSet.applyRules(character);
   for(i = 0; i < editForm.skills_sel.options.length; i++) {
     var opt = editForm.skills_sel.options[i];
     opt.text =
@@ -723,7 +700,7 @@ function RefreshShowCodes() {
 function SheetHtml() {
 
   var a;
-  var attrs = CopyObject(character);
+  var attrs = ScribeUtils.clone(character);
   var codeAttributes = {};
   var computedAttributes;
   var displayAttributes = {};
@@ -743,15 +720,16 @@ function SheetHtml() {
 
   attrs.dmonly = cookieInfo.dmonly - 0;
   if(cookieInfo.untrained == '1') {
-    for(a in Scribe.skills) {
-      if(character['skills.' + a] == null &&
-         Scribe.skills[a].indexOf('/trained') < 0)
+    var skills = ruleEngine.getChoices('skills');
+    for(a in skills) {
+      if(character['skills.' + a] == null && skills[a].indexOf('/trained') < 0)
         attrs['skills.' + a] = 0;
     }
   }
-  computedAttributes = rules.Apply(attrs);
+  computedAttributes = ruleSet.applyRules(attrs);
   if(cookieInfo.untrained == '1') {
-    for(a in Scribe.skills) {
+    var skills = ruleSet.getChoices('skills');
+    for(a in skills) {
       if(character['skills.' + a] == null &&
          computedAttributes['skills.' + a] == 0)
         delete computedAttributes['skills.' + a];
@@ -762,6 +740,7 @@ function SheetHtml() {
    * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
    * of displayAttributes' names and values here to get the sheet to look right.
    */
+  var notes = ruleSet.getChoices('notes');
   var strengthDamageAdjustment =
     computedAttributes['combatNotes.strengthDamageAdjustment'];
   if(strengthDamageAdjustment == null)
@@ -783,13 +762,13 @@ function SheetHtml() {
       if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
           continue; /* Suppress notes with zero value. */
-        else if(Scribe.notes[a] == null)
+        else if(notes[a] == null)
           value = Signed(value); /* Make signed if not otherwise formatted. */
       }
-      if(Scribe.notes[a] != null)
-        value = Scribe.notes[a].replace(/%V/, value);
+      if(notes[a] != null)
+        value = notes[a].replace(/%V/, value);
       if(object == 'Skills') {
-        var ability = Scribe.skills[name];
+        var ability = ruleSet.getChoices('skills')[name];
         var skillInfo = new Array();
         if(ability != null && ability != '' && ability.substring(0, 1) != '/')
           skillInfo[skillInfo.length] = ability.substring(0, 3);
@@ -798,7 +777,7 @@ function SheetHtml() {
         if(skillInfo.length > 0)
           name += ' (' + skillInfo.join(';') + ')';
       } else if(object == 'Weapons') {
-        var damages = Scribe.weapons[name];
+        var damages = ruleSet.getChoices('weapons')[name];
         damages = damages == null ? 'd6' : damages.replace(/ /g, '');
         var range;
         if((i = damages.search(/[rR]/)) < 0) {
@@ -839,14 +818,14 @@ function SheetHtml() {
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
             threat -= computedAttributes['weaponCriticalAdjustment.' + name];
           if(computedAttributes['features.Small'] &&
-             Scribe.smallDamage[damage] != null) {
-            damage = Scribe.smallDamage[damage];
+             Scribe.SMALL_DAMAGE[damage] != null) {
+            damage = Scribe.SMALL_DAMAGE[damage];
           } else if(computedAttributes['features.Large'] &&
-                    Scribe.largeDamage[damage] != null) {
-            damage = Scribe.largeDamage[damage];
+                    Scribe.LARGE_DAMAGE[damage] != null) {
+            damage = Scribe.LARGE_DAMAGE[damage];
           } else if(computedAttributes['features.Tiny'] &&
-                    Scribe.tinyDamage[damage] != null) {
-            damage = Scribe.tinyDamage[damage];
+                    Scribe.TINY_DAMAGE[damage] != null) {
+            damage = Scribe.TINY_DAMAGE[damage];
           }
           if(additional != 0)
             damage += Signed(additional);
@@ -856,7 +835,7 @@ function SheetHtml() {
                 (range != 0 ? ' R' + range : '') + ')';
       }
       value = name + (value == '1' ? '' : (': ' + value));
-      if(object.indexOf('Notes') > 0 && rules.IsSource(a)) {
+      if(object.indexOf('Notes') > 0 && ruleSet.isSource(a)) {
         if(cookieInfo.italics == '1')
           value = '<i>' + value + '</i>';
         else
@@ -931,7 +910,7 @@ function SummarizeCachedAttrs() {
   var allAttrs = {};
   for(var a in cachedAttrs) {
     if(a != 'random')
-      allAttrs[a] = rules.Apply(cachedAttrs[a]);
+      allAttrs[a] = ruleSet.applyRules(cachedAttrs[a]);
   }
   var urls = ScribeUtils.getKeys(allAttrs);
   urls.sort();
@@ -1002,7 +981,7 @@ function Update(input) {
   } else if(name == 'file') {
     input.selectedIndex = 0;
     if(WARN_ABOUT_DISCARD &&
-       !EqualObjects(character, cachedAttrs[currentUrl]) &&
+       !ScribeUtils.clones(character, cachedAttrs[currentUrl]) &&
        !confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Open...')
@@ -1018,11 +997,9 @@ function Update(input) {
       Update.helpWindow.focus();
   } else if(name == 'randomize') {
     input.selectedIndex = 0;
-    if(Scribe.randomizers[value] != null) {
-      Scribe.randomizers[value](rules, character, value);
-      RefreshEditor(false);
-      RefreshSheet();
-    }
+    ruleSet.getChoices('randomizers')[value](ruleSet, character, value);
+    RefreshEditor(false);
+    RefreshSheet();
   } else if(name == 'spellcats') {
     showCodes[InputGetValue(editForm.spellcats_sel)] = value;
     RefreshEditor(false);
@@ -1043,7 +1020,7 @@ function Update(input) {
     Update.validateWindow.document.close();
   } else if(name == 'view') {
     ShowHtml(SheetHtml());
-    cachedAttrs[currentUrl] = CopyObject(character);
+    cachedAttrs[currentUrl] = ScribeUtils.clone(character);
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
     if(name == 'spellcats') {
@@ -1107,9 +1084,10 @@ function Validate(attributes) {
     '&&': '||', '||': '&&'
   };
   var result = [];
-  for(var i = 0; i < Scribe.tests.length; i++) {
+  var tests = ruleSet.getTests();
+  for(var i = 0; i < tests.length; i++) {
     var matchInfo;
-    var test = Scribe.tests[i];
+    var test = tests[i];
     var resolved = '';
     while((matchInfo = test.match(/(\+\/)?\{([^\}]+)\}/)) != null) {
       var value;
@@ -1140,8 +1118,7 @@ function Validate(attributes) {
         resolved = resolved.substring(matchInfo.index + matchInfo[0].length);
       }
       reversed += resolved;
-      result[result.length] =
-        Scribe.tests[i] + '  [' + reversed + ']';
+      result[result.length] = tests[i] + '  [' + reversed + ']';
     }
   }
   return result;
@@ -1152,7 +1129,7 @@ function Validate(attributes) {
  * character's attributes.
  */
 function ValidationHtml() {
-  var computedAttributes = rules.Apply(character);
+  var computedAttributes = ruleSet.applyRules(character);
   var errors;
   var i;
   var invalid = Validate(computedAttributes);

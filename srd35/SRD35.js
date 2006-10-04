@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.44 2006/10/01 03:45:44 Jim Exp $ */
+/* $Id: SRD35.js,v 1.45 2006/10/04 14:28:12 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -28,18 +28,19 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * manipulated in order to trim the choices offered.
  */
 function PH35() {
-  if(PH35.abilityRules != null) PH35.abilityRules();
-  if(PH35.raceRules != null) PH35.raceRules();
-  if(PH35.classRules != null) PH35.classRules();
-  if(PH35.skillRules != null) PH35.skillRules();
-  if(PH35.featRules != null) PH35.featRules();
-  if(PH35.descriptionRules != null) PH35.descriptionRules();
-  if(PH35.equipmentRules != null) PH35.equipmentRules();
-  if(PH35.combatRules != null) PH35.combatRules();
-  if(PH35.adventuringRules != null) PH35.adventuringRules();
-  if(PH35.magicRules != null) PH35.magicRules();
+  var rules = new ScribeRules();
+  if(PH35.abilityRules != null) PH35.abilityRules(rules);
+  if(PH35.raceRules != null) PH35.raceRules(rules);
+  if(PH35.classRules != null) PH35.classRules(rules);
+  if(PH35.skillRules != null) PH35.skillRules(rules);
+  if(PH35.featRules != null) PH35.featRules(rules);
+  if(PH35.descriptionRules != null) PH35.descriptionRules(rules);
+  if(PH35.equipmentRules != null) PH35.equipmentRules(rules);
+  if(PH35.combatRules != null) PH35.combatRules(rules);
+  if(PH35.adventuringRules != null) PH35.adventuringRules(rules);
+  if(PH35.magicRules != null) PH35.magicRules(rules);
   if(PH35.randomize != null) {
-    ScribeRules.defineRandomizer(PH35.randomize,
+    rules.defineRandomizer(PH35.randomize,
       'alignment', 'armor', 'charisma', 'constitution', 'deity', 'dexterity',
       'domains', 'feats', 'gender', 'hitPoints', 'intelligence', 'languages',
       'levels', 'name', 'race', 'selectableFeatures', 'shield', 'skills',
@@ -50,7 +51,9 @@ function PH35() {
     PH35.featRules = PH35.descriptionRules = PH35.equipmentRules = 
     PH35.combatRules = PH35.adventuringRules = PH35.magicRules = null;
   // A rule for handling DM-only information
-  ScribeRules.defineRule('dmNotes', 'dmonly', '?', null);
+  rules.defineRule('dmNotes', 'dmonly', '?', null);
+  Scribe.addRuleSet('PH35', rules);
+  PH35.rules = rules;
 }
 
 // JavaScript expressions for several (mostly class-based) attributes.
@@ -760,7 +763,7 @@ PH35.strengthMaxLoads = [0,
 ];
 
 /* Defines the rules related to PH Chapter 1, Abilities. */
-PH35.abilityRules = function() {
+PH35.abilityRules = function(rules) {
 
   var tests = [
     '{strengthModifier} + {intelligenceModifier} + {wisdomModifier} + ' +
@@ -768,98 +771,92 @@ PH35.abilityRules = function() {
     '{strength} > 13 || {intelligence} > 13 || {wisdom} > 13 || ' +
       '{dexterity} > 13 || {constitution} > 13 || {charisma} > 13'
   ];
-  ScribeRules.defineTest(tests);
+  rules.defineTest(tests);
 
   // Ability modifier computation
-  ScribeRules.defineRule
+  rules.defineRule
     ('charismaModifier', 'charisma', '=', 'Math.floor((source - 10) / 2)');
-  ScribeRules.defineRule
+  rules.defineRule
     ('constitutionModifier', 'constitution', '=', 'Math.floor((source-10)/2)');
-  ScribeRules.defineRule
+  rules.defineRule
     ('dexterityModifier', 'dexterity', '=', 'Math.floor((source - 10) / 2)');
-  ScribeRules.defineRule
+  rules.defineRule
     ('intelligenceModifier', 'intelligence', '=', 'Math.floor((source-10)/2)');
-  ScribeRules.defineRule
+  rules.defineRule
     ('strengthModifier', 'strength', '=', 'Math.floor((source - 10) / 2)');
-  ScribeRules.defineRule
+  rules.defineRule
     ('wisdomModifier', 'wisdom', '=', 'Math.floor((source - 10) / 2)');
 
   // Effects of ability modifiers
-  ScribeRules.defineRule('combatNotes.constitutionHitPointsAdjustment',
+  rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
     'constitutionModifier', '=', 'source == 0 ? null : source',
     'level', '*', null
   );
-  ScribeRules.defineRule('combatNotes.dexterityArmorClassAdjustment',
+  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
     'dexterityModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeRules.defineRule('combatNotes.dexterityRangedAttackAdjustment',
+  rules.defineRule('combatNotes.dexterityRangedAttackAdjustment',
     'dexterityModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeRules.defineRule('skillNotes.intelligenceSkillPointsAdjustment',
+  rules.defineRule('skillNotes.intelligenceSkillPointsAdjustment',
     'intelligenceModifier', '=', null,
     'level', '*', 'source + 3'
   );
-  ScribeRules.defineRule('combatNotes.strengthDamageAdjustment',
+  rules.defineRule('combatNotes.strengthDamageAdjustment',
     'strengthModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeRules.defineRule('combatNotes.strengthMeleeAttackAdjustment',
+  rules.defineRule('combatNotes.strengthMeleeAttackAdjustment',
     'strengthModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeRules.defineRule('languageCount',
+  rules.defineRule('languageCount',
     'intelligenceModifier', '+', 'source > 0 ? source : null'
   );
-  ScribeRules.defineRule('turningBase', 'charismaModifier', '+', 'source / 3')
-  ScribeRules.defineRule
-    ('turningDamageModifier', 'charismaModifier', '+', null);
-  ScribeRules.defineRule('turningFrequency', 'charismaModifier', '+', null);
+  rules.defineRule('turningBase', 'charismaModifier', '+', 'source / 3');
+  rules.defineRule('turningDamageModifier', 'charismaModifier', '+', null);
+  rules.defineRule('turningFrequency', 'charismaModifier', '+', null);
 
   // Effects of the notes computed above
-  ScribeRules.defineRule
+  rules.defineRule
     ('armorClass', 'combatNotes.dexterityArmorClassAdjustment', '+', null);
-  ScribeRules.defineRule
+  rules.defineRule
     ('hitPoints', 'combatNotes.constitutionHitPointsAdjustment', '+', null);
-  ScribeRules.defineRule
+  rules.defineRule
     ('meleeAttack', 'combatNotes.strengthMeleeAttackAdjustment', '+', null);
-  ScribeRules.defineRule
+  rules.defineRule
     ('rangedAttack', 'combatNotes.dexterityRangedAttackAdjustment', '+', null);
-  ScribeRules.defineRule
+  rules.defineRule
     ('skillPoints', 'skillNotes.intelligenceSkillPointsAdjustment', '+', null);
-  // TODO strengthDamageAdjustment handled directly by Scribe
 
 };
 
 /* Defines the rules related to PH Chapter 9, Adventuring. */
-PH35.adventuringRules = function() {
-  ScribeRules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
-  ScribeRules.defineRule
-    ('loadMax','strength','=','PH35.strengthMaxLoads[source]');
-  ScribeRules.defineRule
-    ('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
-  ScribeRules.defineRule('runSpeed',
+PH35.adventuringRules = function(rules) {
+  rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
+  rules.defineRule('loadMax','strength','=','PH35.strengthMaxLoads[source]');
+  rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
+  rules.defineRule('runSpeed',
     'speed', '=', null,
     'runSpeedMultiplier', '*', null
   );
-  ScribeRules.defineRule('runSpeedMultiplier',
+  rules.defineRule('runSpeedMultiplier',
     'armorWeightClass', '=', 'source == "Heavy" ? 3 : 4'
   );
-  ScribeRules.defineRule('speed', null, '=', '30');
+  rules.defineRule('speed', null, '=', '30');
 };
 
 /* Defines the rules related to PH Chapter 3, Classes. */
-PH35.classRules = function() {
+PH35.classRules = function(rules) {
 
   // Experience- and level-dependent attributes
-  ScribeRules.defineRule('classSkillMaxRanks', 'level', '=', 'source + 3');
-  ScribeRules.defineRule
-    ('crossSkillMaxRanks', 'classSkillMaxRanks', '=', 'source / 2');
-  ScribeRules.defineRule
+  rules.defineRule('classSkillMaxRanks', 'level', '=', 'source + 3');
+  rules.defineRule('crossSkillMaxRanks', 'classSkillMaxRanks', '=', 'source/2');
+  rules.defineRule
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
-  ScribeRules.defineRule
-    ('featCount', 'level', '=', '1 + Math.floor(source / 3)');
-  ScribeRules.defineRule('level',
+  rules.defineRule('featCount', 'level', '=', '1 + Math.floor(source / 3)');
+  rules.defineRule('level',
     'experience', '=', 'Math.floor((1 + Math.sqrt(1 + source / 125)) / 2)'
   );
-  ScribeRules.defineRule('skillPoints',
+  rules.defineRule('skillPoints',
     null, '=', '0',
     'level', '^', 'source + 3'
   );
@@ -868,7 +865,7 @@ PH35.classRules = function() {
 
     var baseAttack, features, hitDie, notes, prerequisites, profArmor,
         profShield, profWeapon, saveFortitude, saveReflex, saveWill,
-        skillPoints, skills, spellsKnown, spellsPerDay, spellsPerDayModifier;
+        skillPoints, skills, spellsKnown, spellsPerDay, spellsPerDayAbility;
     var klass = PH35.CLASSES[i];
 
     if(klass == 'Barbarian') {
@@ -911,21 +908,19 @@ PH35.classRules = function() {
       ];
       spellsKnown = null;
       spellsPerDay = null;
-      spellsPerDayModifier = null;
-      ScribeRules.defineRule('abilityNotes.fastMovementFeature',
-        'levels.Barbarian', '+=', '10'
-      );
-      ScribeRules.defineRule('combatNotes.damageReductionFeature',
+      spellsPerDayAbility = null;
+      rules.defineRule
+        ('abilityNotes.fastMovementFeature', 'levels.Barbarian', '+=', '10');
+      rules.defineRule('combatNotes.damageReductionFeature',
         'levels.Barbarian', '+=', 'source>=7 ? Math.floor((source-4)/3) : null'
       );
-      ScribeRules.defineRule('combatNotes.rageFeature',
+      rules.defineRule('combatNotes.rageFeature',
         'levels.Barbarian', '+=', '1 + Math.floor(source / 4)'
       );
-      ScribeRules.defineRule('saveNotes.trapSenseFeature',
+      rules.defineRule('saveNotes.trapSenseFeature',
         'levels.Barbarian', '+=', 'source >= 3 ? Math.floor(source / 3) : null'
       );
-      ScribeRules.defineRule
-        ('speed', 'abilityNotes.fastMovementFeature', '+', null);
+      rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
 
     } else if(klass == 'Bard') {
 
@@ -999,39 +994,39 @@ PH35.classRules = function() {
         'B5:13:0/14:1/15:2/17:3/19:4',
         'B6:16:0/17:1/18:2/19:3/20:4'
       ];
-      spellsPerDayModifier = 'charismaModifier';
-      ScribeRules.defineRule
+      spellsPerDayAbility = 'charisma';
+      rules.defineRule
         ('casterLevelArcane', 'spellsPerDayLevels.Bard', '^=', null);
-      ScribeRules.defineRule
+      rules.defineRule
         ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Countersong', 'performRanks', '?', 'source >= 3');
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Fascinate', 'performRanks', '?', 'source >= 3');
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Inspire Competence', 'performRanks', '?', 'source >= 6');
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Inspire Courage', 'performRanks', '?', 'source >= 3');
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Inspire Greatness', 'performRanks', '?', 'source >= 12');
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Inspire Heroics', 'performRanks', '?', 'source >= 18');
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Mass Suggestion', 'performRanks', '?', 'source >= 21');
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Song Of Freedom', 'performRanks', '?', 'source >= 15');
-      ScribeRules.defineRule
+      rules.defineRule
         ('features.Suggestion', 'performRanks', '?', 'source >= 9');
-      ScribeRules.defineRule('magicNotes.fascinateFeature',
+      rules.defineRule('magicNotes.fascinateFeature',
         'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
       );
-      ScribeRules.defineRule('magicNotes.inspireCourageFeature',
+      rules.defineRule('magicNotes.inspireCourageFeature',
         'levels.Bard', '+=', 'source >= 8 ? Math.floor((source + 4) / 6) : 1'
       );
-      ScribeRules.defineRule('magicNotes.inspireGreatnessFeature',
+      rules.defineRule('magicNotes.inspireGreatnessFeature',
         'levels.Bard', '+=', 'source >= 9 ? Math.floor((source - 6) / 3) : null'
       );
-      ScribeRules.defineRule('performRanks',
+      rules.defineRule('performRanks',
         'skills.Perform (Act)', '^=', null,
         'skills.Perform (Comedy)', '^=', null,
         'skills.Perform (Dance)', '^=', null,
@@ -1042,7 +1037,7 @@ PH35.classRules = function() {
         'skills.Perform (String)', '^=', null,
         'skills.Perform (Wind)', '^=', null
       );
-      ScribeRules.defineRule('skillNotes.bardicKnowledgeFeature',
+      rules.defineRule('skillNotes.bardicKnowledgeFeature',
         'levels.Bard', '+=', null,
         'intelligenceModifier', '+', null
       );
@@ -1084,43 +1079,43 @@ PH35.classRules = function() {
         'C8:15:1/16:2/18:3/20:4',
         'C9:17:1/18:2/19:3/20:4'
       ];
-      spellsPerDayModifier = 'wisdomModifier';
+      spellsPerDayAbility = 'wisdom';
       skillPoints = 2;
       skills = [
         'Concentration', 'Diplomacy', 'Heal', 'Knowledge (Arcana)',
         'Knowledge (History)', 'Knowledge (Planes)', 'Knowledge (Religion)',
         'Spellcraft'
       ];
-      ScribeRules.defineRule
+      rules.defineRule
         ('casterLevelDivine', 'spellsPerDayLevels.Cleric', '^=', null);
-      ScribeRules.defineRule
+      rules.defineRule
         ('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
-      ScribeRules.defineRule
+      rules.defineRule
         ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
-      ScribeRules.defineRule
+      rules.defineRule
         ('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
       for(var j = 0; j < PH35.SKILLS.length; j++) {
         var skill = PH35.SKILLS[j].split(/:/)[0];
         if(skill.substring(0, 9) == "Knowledge")
-          ScribeRules.defineRule
+          rules.defineRule
             ('classSkills.' + skill, 'skillNotes.knowledgeDomain', '=', '1');
       }
-      ScribeRules.defineRule('classSkills.Knowledge (Nature)',
+      rules.defineRule('classSkills.Knowledge (Nature)',
         'skillNotes.animalDomain', '=', '1',
         'skillNotes.plantDomain', '=', '1'
       );
-      ScribeRules.defineRule
+      rules.defineRule
         ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
-      ScribeRules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
-      ScribeRules.defineRule('magicNotes.spontaneousClericSpellFeature',
+      rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
+      rules.defineRule('magicNotes.spontaneousClericSpellFeature',
         'alignment', '=', 'source.indexOf("Evil") >= 0 ? "Inflict" : "Heal"'
       );
       for(var j = 1; j < 10; j++) {
-        ScribeRules.defineRule('spellsPerDay.Dom' + j,
+        rules.defineRule('spellsPerDay.Dom' + j,
           'spellsPerDayLevels.Cleric', '=',
           'source >= ' + (j * 2 - 1) + ' ? 1 : null');
       }
-      ScribeRules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
+      rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
 
     } else if(klass == 'Druid') {
 
@@ -1177,12 +1172,12 @@ PH35.classRules = function() {
         'D8:15:1/16:2/18:3/20:4',
         'D9:17:1/18:2/19:3/20:4'
       ];
-      spellsPerDayModifier = 'wisdomModifier';
-      ScribeRules.defineRule
+      spellsPerDayAbility = 'wisdom';
+      rules.defineRule
         ('casterLevelDivine', 'spellsPerDayLevels.Druid', '^=', null);
-      ScribeRules.defineRule('languageCount', 'levels.Druid', '+', '1');
-      ScribeRules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
-      ScribeRules.defineRule('magicNotes.wildShapeFeature',
+      rules.defineRule('languageCount', 'levels.Druid', '+', '1');
+      rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
+      rules.defineRule('magicNotes.wildShapeFeature',
         'levels.Druid', '=',
           'source <  5 ? null : ' +
           'source == 5 ? "small-medium 1/day" : ' +
@@ -1198,7 +1193,7 @@ PH35.classRules = function() {
           'source <  20 ? "tiny-huge/plant 6/Day; elemental 2/day" : ' +
           '"tiny-huge/plant 6/day; elemental 3/day"'
       );
-      ScribeRules.defineRule('skillNotes.wildEmpathyFeature',
+      rules.defineRule('skillNotes.wildEmpathyFeature',
         'levels.Druid', '+=', null,
         'charismaModifier', '+', null
       );
@@ -1222,10 +1217,10 @@ PH35.classRules = function() {
       ];
       spellsKnown = null;
       spellsPerDay = null;
-      spellsPerDayModifier = null;
-      ScribeRules.defineRule
+      spellsPerDayAbility = null;
+      rules.defineRule
         ('featCount', 'featureNotes.fighterFeatCountBonus', '+', null);
-      ScribeRules.defineRule('featureNotes.fighterFeatCountBonus',
+      rules.defineRule('featureNotes.fighterFeatCountBonus',
         'levels.Fighter', '=', '1 + Math.floor(source / 2)'
       );
 
@@ -1288,45 +1283,44 @@ PH35.classRules = function() {
       ];
       spellsKnown = null;
       spellsPerDay = null;
-      spellsPerDayModifier = null;
-      ScribeRules.defineRule('abilityNotes.fastMovementFeature',
+      spellsPerDayAbility = null;
+      rules.defineRule('abilityNotes.fastMovementFeature',
         'levels.Monk', '+=', '10 * Math.floor(source / 3)'
       );
-      ScribeRules.defineRule
+      rules.defineRule
         ('armorClass', 'combatNotes.monkArmorClassAdjustment', '+', null);
-      ScribeRules.defineRule('combatNotes.flurryOfBlowsFeature',
+      rules.defineRule('combatNotes.flurryOfBlowsFeature',
         'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
       );
-      ScribeRules.defineRule('combatNotes.monkArmorClassAdjustment',
+      rules.defineRule('combatNotes.monkArmorClassAdjustment',
         'levels.Monk', '=', 'source >= 5 ? Math.floor(source / 5) : null',
         'wisdomModifier', '+', 'source > 0 ? source : null'
       );
-      ScribeRules.defineRule('combatNotes.quiveringPalmFeature',
+      rules.defineRule('combatNotes.quiveringPalmFeature',
         'levels.Monk', '+=', '10 + Math.floor(source / 2)',
         'wisdomModifier', '+', null
       );
-      ScribeRules.defineRule
+      rules.defineRule
         ('featCount', 'featureNotes.monkFeatCountBonus', '+', null);
-      ScribeRules.defineRule('featureNotes.monkFeatCountBonus',
+      rules.defineRule('featureNotes.monkFeatCountBonus',
         'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
       );
-      ScribeRules.defineRule
+      rules.defineRule
         ('magicNotes.emptyBodyFeature', 'levels.Monk', '+=', null);
-      ScribeRules.defineRule
+      rules.defineRule
         ('magicNotes.wholenessOfBodyFeature', 'levels.Monk', '+=', '2*source');
-      ScribeRules.defineRule
+      rules.defineRule
         ('resistance.Enchantment', 'saveNotes.stillMindFeature', '+=', '2');
-      ScribeRules.defineRule
+      rules.defineRule
         ('resistance.Magic', 'saveNotes.diamondSoulFeature', '+=', null);
-      ScribeRules.defineRule
+      rules.defineRule
         ('saveNotes.diamondSoulFeature', 'levels.Monk', '+=', '10 + source');
-      ScribeRules.defineRule('saveNotes.slowFallFeature',
+      rules.defineRule('saveNotes.slowFallFeature',
         'levels.Monk', '=',
         'source < 4 ? null : source < 20 ? Math.floor(source / 2) * 10 : "all"'
       );
-      ScribeRules.defineRule
-        ('speed', 'abilityNotes.fastMovementFeature', '+', null);
-      ScribeRules.defineRule('weaponDamage.Unarmed',
+      rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
+      rules.defineRule('weaponDamage.Unarmed',
         'levels.Monk', '=',
         'source < 12 ? ("d" + (6 + Math.floor(source / 4) * 2)) : ' +
         '              ("2d" + (6 + Math.floor((source - 12) / 4) * 2))'
@@ -1376,30 +1370,29 @@ PH35.classRules = function() {
         'P3:11:0/12:1/17:2/19:3',
         'P4:14:0/15:1/19:2/20:3'
       ];
-      spellsPerDayModifier = 'wisdomModifier';
-      ScribeRules.defineRule('casterLevelDivine',
+      spellsPerDayAbility = 'wisdom';
+      rules.defineRule('casterLevelDivine',
         'spellsPerDayLevels.Paladin', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
-      ScribeRules.defineRule('combatNotes.smiteEvilFeature',
+      rules.defineRule('combatNotes.smiteEvilFeature',
         'levels.Paladin', '=', '1 + Math.floor(source / 5)'
       );
-      ScribeRules.defineRule('magicNotes.layOnHandsFeature',
+      rules.defineRule('magicNotes.layOnHandsFeature',
         'levels.Paladin', '+=', null,
         'charismaModifier', '*', null
       );
-      ScribeRules.defineRule('magicNotes.removeDiseaseFeature',
+      rules.defineRule('magicNotes.removeDiseaseFeature',
         'levels.Paladin', '+=', 'Math.floor((source - 3) / 3)'
       );
-      ScribeRules.defineRule
+      rules.defineRule
         ('save.Fortitude', 'saveNotes.divineGraceFeature', '+', null);
-      ScribeRules.defineRule
-        ('saveNotes.divineGraceFeature', 'charismaModifier', '=', null);
-      ScribeRules.defineRule
+      rules.defineRule
         ('save.Reflex', 'saveNotes.divineGraceFeature', '+', null);
-      ScribeRules.defineRule
-        ('save.Will', 'saveNotes.divineGraceFeature', '+', null);
-      ScribeRules.defineRule
+      rules.defineRule('save.Will', 'saveNotes.divineGraceFeature', '+', null);
+      rules.defineRule
+        ('saveNotes.divineGraceFeature', 'charismaModifier', '=', null);
+      rules.defineRule
         ('turningLevel', 'levels.Paladin', '+=', 'source>3 ? source-3 : null');
 
     } else if(klass == 'Ranger') {
@@ -1465,39 +1458,39 @@ PH35.classRules = function() {
         'R3:11:0/12:1/17:2/19:3',
         'R4:14:0/15:1/19:2/20:3'
       ];
-      spellsPerDayModifier = 'wisdomModifier';
-      ScribeRules.defineRule('casterLevelDivine',
+      spellsPerDayAbility = 'wisdom';
+      rules.defineRule('casterLevelDivine',
         'spellsPerDayLevels.Ranger', '^=',
         'source < 4 ? null : Math.floor(source / 2)'
       );
-      ScribeRules.defineRule('combatNotes.favoredEnemyFeature',
+      rules.defineRule('combatNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
-      ScribeRules.defineRule('rangerFeatures.Rapid Shot',
+      rules.defineRule('rangerFeatures.Rapid Shot',
         'selectableFeatures.Combat Style (Archery)', '?', null
       );
-      ScribeRules.defineRule('rangerFeatures.Manyshot',
+      rules.defineRule('rangerFeatures.Manyshot',
         'selectableFeatures.Combat Style (Archery)', '?', null
       );
-      ScribeRules.defineRule('rangerFeatures.Improved Precise Shot',
+      rules.defineRule('rangerFeatures.Improved Precise Shot',
         'selectableFeatures.Combat Style (Archery)', '?', null
       );
-      ScribeRules.defineRule('rangerFeatures.Two Weapon Fighting',
+      rules.defineRule('rangerFeatures.Two Weapon Fighting',
         'selectableFeatures.Combat Style (Two Weapon Combat)', '?', null
       );
-      ScribeRules.defineRule('rangerFeatures.Improved Two Weapon Fighting',
+      rules.defineRule('rangerFeatures.Improved Two Weapon Fighting',
         'selectableFeatures.Combat Style (Two Weapon Combat)', '?', null
       );
-      ScribeRules.defineRule('rangerFeatures.Greater Two Weapon Fighting',
+      rules.defineRule('rangerFeatures.Greater Two Weapon Fighting',
         'selectableFeatures.Combat Style (Two Weapon Combat)', '?', null
       );
-      ScribeRules.defineRule('selectableFeatureCount.Ranger',
+      rules.defineRule('selectableFeatureCount.Ranger',
         'levels.Ranger', '=', 'source >= 2 ? 1 : null'
       );
-      ScribeRules.defineRule('skillNotes.favoredEnemyFeature',
+      rules.defineRule('skillNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
-      ScribeRules.defineRule('skillNotes.wildEmpathyFeature',
+      rules.defineRule('skillNotes.wildEmpathyFeature',
         'levels.Ranger', '+=', null,
         'charismaModifier', '+', null
       );
@@ -1554,15 +1547,15 @@ PH35.classRules = function() {
       ];
       spellsKnown = null;
       spellsPerDay = null;
-      spellsPerDayModifier = null;
-      ScribeRules.defineRule('combatNotes.sneakAttackFeature',
+      spellsPerDayAbility = null;
+      rules.defineRule('combatNotes.sneakAttackFeature',
         'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
       );
-      ScribeRules.defineRule('featCount', 'features.Feat Bonus', '+=', 'null');
-      ScribeRules.defineRule('saveNotes.trapSenseFeature',
+      rules.defineRule('featCount', 'features.Feat Bonus', '+=', 'null');
+      rules.defineRule('saveNotes.trapSenseFeature',
         'levels.Rogue', '+=', 'source >= 3 ? Math.floor(source / 3) : null'
       );
-      ScribeRules.defineRule('selectableFeatureCount.Rogue',
+      rules.defineRule('selectableFeatureCount.Rogue',
         'levels.Rogue', '+=', 'source>=10 ? Math.floor((source-7)/3) : null'
       );
 
@@ -1609,8 +1602,8 @@ PH35.classRules = function() {
         'S8:16:3/17:4/18:5/19:6',
         'S9:18:3/19:4/20:6'
       ];
-      spellsPerDayModifier = 'charismaModifier';
-      ScribeRules.defineRule
+      spellsPerDayAbility = 'charisma';
+      rules.defineRule
         ('casterLevelArcane', 'spellsPerDayLevels.Sorcerer', '^=', null);
 
     } else if(klass == 'Wizard') {
@@ -1656,171 +1649,128 @@ PH35.classRules = function() {
         'W8:15:1/16:2/18:3/20:4',
         'W9:17:1/18:2/19:3/20:4'
       ];
-      spellsPerDayModifier = 'intelligenceModifier';
-      ScribeRules.defineRule
+      spellsPerDayAbility = 'intelligence';
+      rules.defineRule
         ('casterLevelArcane', 'spellsPerDayLevels.Wizard', '^=', null);
-      ScribeRules.defineRule
+      rules.defineRule
         ('featCount', 'featureNotes.wizardFeatCountBonus', '+', null);
-      ScribeRules.defineRule('featureNotes.wizardFeatCountBonus',
+      rules.defineRule('featureNotes.wizardFeatCountBonus',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
       );
       for(var j = 0; j < PH35.SCHOOLS.length; j++) {
         var school = PH35.SCHOOLS[j];
-        ScribeRules.defineRule('magicNotes.wizardSpecialization',
+        rules.defineRule('magicNotes.wizardSpecialization',
          'specialize.' + school, '=', '"' + school + '"'
         );
-        ScribeRules.defineRule('skillNotes.wizardSpecialization',
+        rules.defineRule('skillNotes.wizardSpecialization',
           'specialize.' + school, '=', '"' + school + '"'
         );
       }
       for(var j = 0; j < 10; j++) {
-        ScribeRules.defineRule
+        rules.defineRule
           ('spellsPerDay.W' + j, 'magicNotes.wizardSpecialization', '+', '1');
       }
 
     } else
       continue;
 
-    ScribeRules.defineClass
+    rules.defineClass
       (klass, hitDie, skillPoints, baseAttack, saveFortitude, saveReflex,
        saveWill, profArmor, profShield, profWeapon, skills, features,
-       prerequisites);
+       prerequisites, spellsKnown, spellsPerDay, spellsPerDayAbility);
     if(notes != null)
-      ScribeRules.defineNote(notes);
-    if(spellsKnown != null) {
-      for(var j = 0; j < spellsKnown.length; j++) {
-        var typeAndLevel = spellsKnown[j].split(/:/)[0];
-        var code = spellsKnown[j].substring(typeAndLevel.length + 1).
-                   split(/\//).reverse().join('source >= ');
-        code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
-        code = 'source >= ' + code + ' : null';
-        if(code.indexOf('source >= 1 ?') >= 0) {
-          code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
-        }
-        ScribeRules.defineRule
-          ('spellsKnown.' + typeAndLevel, 'levels.' + klass, '=', code);
-      }
-    }
-    if(spellsPerDay != null) {
-      for(var j = 0; j < spellsPerDay.length; j++) {
-        var typeAndLevel = spellsPerDay[j].split(/:/)[0];
-        var level = typeAndLevel.replace(/[A-Z]*/, '');
-        var code = spellsPerDay[j].substring(typeAndLevel.length + 1).
-                   split(/\//).reverse().join('source >= ');
-        code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
-        code = 'source >= ' + code + ' : null';
-        if(code.indexOf('source >= 1 ?') >= 0) {
-          code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
-        }
-        ScribeRules.defineRule
-          ('spellsPerDay.' + typeAndLevel, 'levels.' + klass, '=', code);
-        if(spellsPerDayModifier != null) {
-          var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
-          if(level > 0) {
-            code = 'source >= ' + level + ' ? 1 + Math.floor((source - ' + level + ') / 4) : null';
-            ScribeRules.defineRule
-              ('spellsPerDay.' + typeAndLevel, spellsPerDayModifier, '+', code);
-          }
-        }
-        ScribeRules.defineRule('spellDifficultyClass.' + typeAndLevel,
-          'spellsPerDay.' + typeAndLevel, '?', null,
-          spellsPerDayModifier, '=', '10 + source + ' + level
-        );
-      }
-      ScribeRules.defineRule
-        ('spellsPerDayLevels.' + klass, 'levels.' + klass, '=', null);
-    }
+      rules.defineNote(notes);
 
   }
 
 };
 
 /* Defines the rules related to PH Chapter 8, Combat. */
-PH35.combatRules = function() {
-  ScribeRules.defineRule('armorClass',
+PH35.combatRules = function(rules) {
+  rules.defineRule('armorClass',
     null, '=', '10',
     'armor', '+', 'PH35.armorsArmorClassBonuses[source]',
     'shield', '+', 'source=="None" ? null : ' +
                    'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
   );
-  ScribeRules.defineRule
+  rules.defineRule
     ('attacksPerRound', 'baseAttack', '=', 'Math.floor((source + 5) / 5)');
-  ScribeRules.defineRule('baseAttack', null, '=', '0');
-  ScribeRules.defineRule('initiative', 'dexterityModifier', '=', null);
-  ScribeRules.defineRule('meleeAttack', 'baseAttack', '=', null);
-  ScribeRules.defineRule('rangedAttack', 'baseAttack', '=', null);
-  ScribeRules.defineRule('save.Fortitude', 'constitutionModifier', '=', null);
-  ScribeRules.defineRule('save.Reflex', 'dexterityModifier', '=', null);
-  ScribeRules.defineRule('save.Will', 'wisdomModifier', '=', null);
-  ScribeRules.defineRule('turningBase', 'turningLevel', '=', null)
-  ScribeRules.defineRule('turningDamageModifier', 'turningLevel', '=', null);
-  ScribeRules.defineRule('turningFrequency', 'turningLevel', '+=', '3');
-  ScribeRules.defineRule('turningMax',
+  rules.defineRule('baseAttack', null, '=', '0');
+  rules.defineRule('initiative', 'dexterityModifier', '=', null);
+  rules.defineRule('meleeAttack', 'baseAttack', '=', null);
+  rules.defineRule('rangedAttack', 'baseAttack', '=', null);
+  rules.defineRule('save.Fortitude', 'constitutionModifier', '=', null);
+  rules.defineRule('save.Reflex', 'dexterityModifier', '=', null);
+  rules.defineRule('save.Will', 'wisdomModifier', '=', null);
+  rules.defineRule('turningBase', 'turningLevel', '=', null)
+  rules.defineRule('turningDamageModifier', 'turningLevel', '=', null);
+  rules.defineRule('turningFrequency', 'turningLevel', '+=', '3');
+  rules.defineRule('turningMax',
     'turningBase', '=', 'Math.floor(source + 10 / 3)',
     'turningLevel', 'v', 'source + 4'
   );
-  ScribeRules.defineRule('turningMin',
+  rules.defineRule('turningMin',
     'turningBase', '=', 'Math.floor(source - 3)',
     'turningLevel', '^', 'source - 4'
   );
-  ScribeRules.defineRule('weapons.Unarmed', null, '=', '1');
+  rules.defineRule('weapons.Unarmed', null, '=', '1');
 };
 
 /* Defines the rules related to PH Chapter 6, Description. */
-PH35.descriptionRules = function() {
-  ScribeRules.defineChoice('alignments', PH35.ALIGNMENTS);
-  ScribeRules.defineChoice('deities', PH35.DEITIES, 'None:');
-  ScribeRules.defineChoice('genders', PH35.GENDERS);
+PH35.descriptionRules = function(rules) {
+  rules.defineChoice('alignments', PH35.ALIGNMENTS);
+  rules.defineChoice('deities', PH35.DEITIES, 'None:');
+  rules.defineChoice('genders', PH35.GENDERS);
 };
 
 /* Defines the rules related to PH Chapter 7, Equipment. */
-PH35.equipmentRules = function() {
+PH35.equipmentRules = function(rules) {
 
-  ScribeRules.defineChoice('armors', PH35.ARMORS);
-  ScribeRules.defineChoice('goodies', PH35.GOODIES);
-  ScribeRules.defineChoice('shields', PH35.SHIELDS);
-  ScribeRules.defineChoice('weapons', PH35.WEAPONS);
-  ScribeRules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
-  ScribeRules.defineRule('abilityNotes.armorSpeedAdjustment',
+  rules.defineChoice('armors', PH35.ARMORS);
+  rules.defineChoice('goodies', PH35.GOODIES);
+  rules.defineChoice('shields', PH35.SHIELDS);
+  rules.defineChoice('weapons', PH35.WEAPONS);
+  rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
+  rules.defineRule('abilityNotes.armorSpeedAdjustment',
     'armorWeightClass', '=', 'source == "Light" ? null : -10',
     'features.Slow', '+', '5'
   );
-  ScribeRules.defineRule('armorWeightClass',
+  rules.defineRule('armorWeightClass',
     'armor', '=',
       'PH35.armorsWeightClasses[source] == null ? "Light" : ' +
       'PH35.armorsWeightClasses[source]'
   );
-  ScribeRules.defineRule('combatNotes.dexterityArmorClassAdjustment',
+  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
     'armor', 'v', 'PH35.armorsMaxDexBonuses[source]'
   );
-  ScribeRules.defineRule('magicNotes.arcaneSpellFailure',
+  rules.defineRule('magicNotes.arcaneSpellFailure',
     'casterLevelArcane', '?', null,
     'armor', '+=', 'PH35.armorsArcaneSpellFailurePercentages[source]',
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? 50 : ' +
                     'source.indexOf("Heavy") >= 0 ? 15 : 5'
   );
-  ScribeRules.defineRule('skillNotes.armorSkillCheckPenalty',
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', 'PH35.armorsSkillCheckPenalties[source]'
   );
-  ScribeRules.defineRule
-    ('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
-  // Hack to get combatNotes.strengthDamageAdjustment to appear in italics
-  ScribeRules.defineRule
+  rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
+  // TODO combatNotes.strengthDamageAdjustment handled directly by Scribe
+  // Hack to get it to appear in italics
+  rules.defineRule
     ('level', 'combatNotes.strengthDamageAdjustment', '=', 'null');
 
 };
 
 /* Defines the rules related to PH Chapter 5, Feats. */
-PH35.featRules = function() {
+PH35.featRules = function(rules) {
 
-  ScribeRules.defineChoice('feats', PH35.FEATS);
-  ScribeRules.defineNote(PH35.featsNotes);
+  rules.defineChoice('feats', PH35.FEATS);
+  rules.defineNote(PH35.featsNotes);
   for(var i = 0; i < PH35.FEATS.length; i++) {
-    ScribeRules.defineRule
+    rules.defineRule
       ('features.' + PH35.FEATS[i], 'feats.' + PH35.FEATS[i], '=', null);
   }
-  ScribeRules.defineTest(PH35.featsPrerequisites, '+/{^feats} == {featCount}');
+  rules.defineTest(PH35.featsPrerequisites, '+/{^feats} == {featCount}');
   var allSelectable = {};
   for(var a in PH35.selectableFeatures) {
     var prefix = a.substring(0, 1).toLowerCase() +
@@ -1828,73 +1778,70 @@ PH35.featRules = function() {
     var features = PH35.selectableFeatures[a].split('/');
     for(var i = 0; i < features.length; i++) {
       selectable = features[i];
-      ScribeRules.defineRule('features.' + selectable,
+      rules.defineRule('features.' + selectable,
         'selectableFeatures.' + selectable, '+=', null
       );
       allSelectable[selectable] = '';
     }
   }
-  ScribeRules.defineChoice
-    ('selectableFeatures', ScribeUtils.getKeys(allSelectable));
-  ScribeRules.defineTest
-    ('+/{^selectableFeatures} == +/{^selectableFeatureCount}');
+  rules.defineChoice('selectableFeatures', ScribeUtils.getKeys(allSelectable));
+  rules.defineTest('+/{^selectableFeatures} == +/{^selectableFeatureCount}');
 
   // TODO Find a way to test whether the feats these rules implement are def'd
-  ScribeRules.defineRule('armorClass', 'combatNotes.dodgeFeature', '+', '1');
-  ScribeRules.defineRule('armorProficiency',
+  rules.defineRule('armorClass', 'combatNotes.dodgeFeature', '+', '1');
+  rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
-  ScribeRules.defineRule('armorProficiencyLevel',
+  rules.defineRule('armorProficiencyLevel',
     null, '=', PH35.PROFICIENCY_NONE,
     'features.Armor Proficiency Light', '^', PH35.PROFICIENCY_LIGHT,
     'features.Armor Proficiency Medium', '^', PH35.PROFICIENCY_MEDIUM,
     'features.Armor Proficiency Heavy', '^', PH35.PROFICIENCY_HEAVY
   );
-  ScribeRules.defineRule('combatNotes.dexterityMeleeAttackAdjustment',
+  rules.defineRule('combatNotes.dexterityMeleeAttackAdjustment',
     'combatNotes.weaponFinesseFeature', '?', null,
     'dexterityModifier', '=', 'source == 0 ? null : source'
   );
-  ScribeRules.defineRule('combatNotes.strengthMeleeAttackAdjustment',
+  rules.defineRule('combatNotes.strengthMeleeAttackAdjustment',
     'combatNotes.weaponFinesseFeature', '*', '0'
   );
-  ScribeRules.defineRule('combatNotes.stunningFistFeature',
+  rules.defineRule('combatNotes.stunningFistFeature',
     'level', '=', '10 + Math.floor(source / 2)',
     'wisdomModifier', '+', null
   );
-  ScribeRules.defineRule
+  rules.defineRule
     ('hitPoints', 'combatNotes.toughnessFeature', '+', '3 * source');
-  ScribeRules.defineRule
+  rules.defineRule
     ('initiative', 'combatNotes.improvedInitiativeFeature', '+', '4');
-  ScribeRules.defineRule
+  rules.defineRule
     ('magicNotes.arcaneSpellFailure', 'features.Still Spell', 'v', '0');
-  ScribeRules.defineRule
+  rules.defineRule
     ('meleeAttack', 'combatNotes.dexterityMeleeAttackAdjustment', '+', null);
-  ScribeRules.defineRule
-    ('runSpeedMultiplier', 'combatNotes.runFeature', '+', '1');
-  ScribeRules.defineRule
+  rules.defineRule('runSpeedMultiplier', 'combatNotes.runFeature', '+', '1');
+  rules.defineRule
     ('save.Fortitude', 'saveNotes.greatFortitudeFeature', '+', '2');
-  ScribeRules.defineRule
+  rules.defineRule
     ('save.Reflex', 'saveNotes.lightningReflexesFeature', '+', '2');
-  ScribeRules.defineRule('save.Will', 'saveNotes.ironWillFeature', '+', '2');
-  ScribeRules.defineRule('shieldProficiency',
+  rules.defineRule('save.Will', 'saveNotes.ironWillFeature', '+', '2');
+  rules.defineRule('shieldProficiency',
     'shieldProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
   );
-  ScribeRules.defineRule('shieldProficiencyLevel',
+  rules.defineRule('shieldProficiencyLevel',
     null, '=', PH35.PROFICIENCY_NONE,
     'features.Shield Proficiency', '^', PH35.PROFICIENCY_HEAVY,
     'features.Shield Proficiency Tower', '^', PH35.PROFICIENCY_TOWER
   );
-  ScribeRules.defineRule
+  rules.defineRule
     ('turningFrequency', 'combatNotes.extraTurningFeature', '+', '4 * source');
-  ScribeRules.defineRule
+  rules.defineRule
     ('turningLevel', 'combatNotes.improvedTurningFeature', '+', '1');
-  ScribeRules.defineRule('weaponProficiency',
+  rules.defineRule('weaponProficiency',
     'weaponProficiencyLevel', '=',
       'source==' + PH35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
       'source==' + PH35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
       '"None"'
   );
-  ScribeRules.defineRule('weaponProficiencyLevel',
+  rules.defineRule('weaponProficiencyLevel',
     null, '=', PH35.PROFICIENCY_NONE,
     'features.Weapon Proficiency Simple', '^', PH35.PROFICIENCY_LIGHT
   );
@@ -1902,18 +1849,18 @@ PH35.featRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 10, Magic and Chapter 11, Spells. */
-PH35.magicRules = function() {
-  ScribeRules.defineChoice('domains', PH35.DOMAINS);
-  ScribeRules.defineChoice('schools', PH35.SCHOOLS);
-  ScribeRules.defineChoice('spells', PH35.SPELLS);
-  ScribeRules.defineNote(PH35.domainsNotes);
-  ScribeRules.defineRule
+PH35.magicRules = function(rules) {
+  rules.defineChoice('domains', PH35.DOMAINS);
+  rules.defineChoice('schools', PH35.SCHOOLS);
+  rules.defineChoice('spells', PH35.SPELLS);
+  rules.defineNote(PH35.domainsNotes);
+  rules.defineRule
     ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
-  ScribeRules.defineRule('casterLevel',
+  rules.defineRule('casterLevel',
     'casterLevelArcane', '^=', null,
     'casterLevelDivine', '^=', null
   );
-  ScribeRules.defineRule('combatNotes.goodiesArmorClassAdjustment',
+  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
     'goodies.Ring Of Protection +1', '+=', null,
     'goodies.Ring Of Protection +2', '+=', 'source * 2',
     'goodies.Ring Of Protection +3', '+=', 'source * 3',
@@ -1922,7 +1869,7 @@ PH35.magicRules = function() {
   for(var i = 0; i < PH35.DOMAINS.length; i++) {
     if(PH35.DOMAINS[i] != 'War')
       continue;
-    ScribeRules.defineRule('featureNotes.warDomain',
+    rules.defineRule('featureNotes.warDomain',
       'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
     );
     for(var a in PH35.deitiesFavoredWeapons) {
@@ -1930,9 +1877,9 @@ PH35.magicRules = function() {
       for(var j = 0; j < weapons.length; j++) {
         var weapon = weapons[j];
         var weaponNoSpace = weapon.replace(/ /g, '');
-        ScribeRules.defineNote
+        rules.defineNote
           ('combatNotes.weaponFocus(' + weaponNoSpace + ')Feature:+1 attack');
-        ScribeRules.defineRule('clericFeatures.Weapon Focus (' + weapon + ')',
+        rules.defineRule('clericFeatures.Weapon Focus (' + weapon + ')',
           'featureNotes.warDomain', '=',
           'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
         );
@@ -1942,11 +1889,10 @@ PH35.magicRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 2, Races. */
-PH35.raceRules = function() {
+PH35.raceRules = function(rules) {
 
-  ScribeRules.defineRule
-    ('languageCount', 'race', '=', 'source != "Human" ? 2 : 1');
-  ScribeRules.defineRule('languages.Common', null, '=', '1');
+  rules.defineRule('languageCount', 'race', '=', 'source != "Human" ? 2 : 1');
+  rules.defineRule('languages.Common', null, '=', '1');
 
   for(var i = 0; i < PH35.RACES.length; i++) {
 
@@ -1976,17 +1922,17 @@ PH35.raceRules = function() {
         'skillNotes.stonecunningFeature:' +
           '+2 Search involving stone or metal/automatic check w/in 10 ft'
       ];
-      ScribeRules.defineRule('abilityNotes.armorSpeedAdjustment',
+      rules.defineRule('abilityNotes.armorSpeedAdjustment',
         'abilityNotes.dwarfArmorSpeedAdjustment', '^', '0'
       );
-      ScribeRules.defineRule('abilityNotes.dwarfArmorSpeedAdjustment',
+      rules.defineRule('abilityNotes.dwarfArmorSpeedAdjustment',
         'race', '=', 'source == "Dwarf" ? 1 : null'
       );
-      ScribeRules.defineRule
+      rules.defineRule
         ('resistance.Magic', 'saveNotes.magicResistanceFeature', '+=', '2');
-      ScribeRules.defineRule
+      rules.defineRule
         ('resistance.Poison', 'saveNotes.poisonResistanceFeature', '+=', '2');
-      ScribeRules.defineRule('speed', 'features.Slow', '+', '-10');
+      rules.defineRule('speed', 'features.Slow', '+', '-10');
 
     } else if(race == 'Elf') {
 
@@ -2004,7 +1950,7 @@ PH35.raceRules = function() {
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.keenSensesFeature:+2 Listen/Search/Spot'
       ];
-      ScribeRules.defineRule('resistance.Enchantment',
+      rules.defineRule('resistance.Enchantment',
         'saveNotes.enchantmentResistanceFeature', '+=', '2'
       );
 
@@ -2030,19 +1976,17 @@ PH35.raceRules = function() {
         'skillNotes.smallFeature:+4 Hide',
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)'
       ];
-      ScribeRules.defineRule
-        ('armorClass', 'combatNotes.smallFeature', '+', '1');
-      ScribeRules.defineRule
-        ('baseAttack', 'combatNotes.smallFeature', '+', '1');
-      ScribeRules.defineRule('magicNotes.gnomeSpellsFeature',
+      rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('baseAttack', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('magicNotes.gnomeSpellsFeature',
         'charisma', '=',
         '(source >= 10 ? "<i>Dancing Lights</i>/<i>Ghost Sound</i>/' +
         '<i>Prestidigitation</i>/" : "") + "<i>Speak With Animals</i>"'
       );
-      ScribeRules.defineRule('resistance.Illusion',
+      rules.defineRule('resistance.Illusion',
         'saveNotes.illusionResistanceFeature', '+=', '2'
       );
-      ScribeRules.defineRule('speed', 'features.Slow', '+', '-10');
+      rules.defineRule('speed', 'features.Slow', '+', '-10');
 
     } else if(race == 'Half Elf') {
 
@@ -2059,7 +2003,7 @@ PH35.raceRules = function() {
         'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
         'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information'
       ];
-      ScribeRules.defineRule('resistance.Enchantment',
+      rules.defineRule('resistance.Enchantment',
         'saveNotes.enchantmentResistanceFeature', '+=', '2'
       );
 
@@ -2087,44 +2031,38 @@ PH35.raceRules = function() {
         'skillNotes.smallFeature:+4 Hide',
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
       ];
-      ScribeRules.defineRule
-        ('armorClass', 'combatNotes.smallFeature', '+', '1');
-      ScribeRules.defineRule
-        ('baseAttack', 'combatNotes.smallFeature', '+', '1');
-      ScribeRules.defineRule
+      rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('baseAttack', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule
         ('resistance.Fear', 'saveNotes.unafraidFeature', '+=', '2');
-      ScribeRules.defineRule('speed', 'features.Slow', '+', '-10');
-      ScribeRules.defineRule
-        ('save.Fortitude','saveNotes.fortunateFeature','+','1');
-      ScribeRules.defineRule
-        ('save.Reflex', 'saveNotes.fortunateFeature', '+', '1');
-      ScribeRules.defineRule
-        ('save.Will', 'saveNotes.fortunateFeature', '+', '1');
+      rules.defineRule('speed', 'features.Slow', '+', '-10');
+      rules.defineRule('save.Fortitude','saveNotes.fortunateFeature','+','1');
+      rules.defineRule('save.Reflex', 'saveNotes.fortunateFeature', '+', '1');
+      rules.defineRule('save.Will', 'saveNotes.fortunateFeature', '+', '1');
 
     } else if(race == 'Human') {
 
       adjustment = null;
       features = null;
       notes = null;
-      ScribeRules.defineRule('featCount',
-        'featureNotes.humanFeatCountBonus', '+', null
-      );
-      ScribeRules.defineRule('featureNotes.humanFeatCountBonus',
+      rules.defineRule
+        ('featCount', 'featureNotes.humanFeatCountBonus', '+', null);
+      rules.defineRule('featureNotes.humanFeatCountBonus',
         'race', '+=', 'source == "Human" ? 1 : null'
       );
-      ScribeRules.defineRule('skillNotes.humanSkillPointsBonus',
+      rules.defineRule('skillNotes.humanSkillPointsBonus',
         'race', '?', 'source == "Human"',
         'level', '=', 'source + 3'
       );
-      ScribeRules.defineRule
+      rules.defineRule
         ('skillPoints', 'skillNotes.humanSkillPointsBonus', '+', null);
 
     } else
       continue;
 
-    ScribeRules.defineRace(race, adjustment, features);
+    rules.defineRace(race, adjustment, features);
     if(notes != null) {
-      ScribeRules.defineNote(notes);
+      rules.defineNote(notes);
     }
 
   }
@@ -2132,34 +2070,34 @@ PH35.raceRules = function() {
 };
 
 /* Defines the rules related to PH Chapter 4, Skills. */
-PH35.skillRules = function() {
+PH35.skillRules = function(rules) {
 
   var abilityNames = {
     'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
     'int':'intelligence', 'str':'strength', 'wis':'wisdom'
   };
-  ScribeRules.defineChoice('skills', PH35.SKILLS);
+  rules.defineChoice('skills', PH35.SKILLS);
   for(var a in PH35.skillsSynergies) {
     var prefix = a.substring(0, 1).toLowerCase() +
                  a.substring(1).replace(/ /g, '');
-    ScribeRules.defineNote
+    rules.defineNote
       ('skillNotes.' + prefix + 'Synergy:+2 ' + PH35.skillsSynergies[a]);
     if(a == 'Bluff') {
       // A second note for Bluff synergy to distinguish bonuses automatically
       // applied by Scribe from those the DM must apply.
-      ScribeRules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
-      ScribeRules.defineRule('skillNotes.bluffSynergy2',
+      rules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
+      rules.defineRule('skillNotes.bluffSynergy2',
         'skills.Bluff', '=', 'source >= 5 ? 1 : null'
       );
     }
   }
-  ScribeRules.defineRule('skillNotes.bardicKnowledgeFeature',
+  rules.defineRule('skillNotes.bardicKnowledgeFeature',
     'skillNotes.knowledge(History)Synergy', '+', '2'
   );
-  ScribeRules.defineRule('skillNotes.wildEmpathyFeature',
+  rules.defineRule('skillNotes.wildEmpathyFeature',
     'skillNotes.handleAnimalSynergy', '+', '2'
   );
-  ScribeRules.defineRule('turningBase',
+  rules.defineRule('turningBase',
     'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
   );
   for(var i = 0; i < PH35.SKILLS.length; i ++) {
@@ -2167,14 +2105,14 @@ PH35.skillRules = function() {
     var ability = pieces[1] == null ? '' : pieces[1];
     if(abilityNames[ability] != null) {
       var modifier = abilityNames[ability] + 'Modifier';
-      ScribeRules.defineRule('skills.' + pieces[0], modifier, '+', null);
+      rules.defineRule('skills.' + pieces[0], modifier, '+', null);
     }
   }
 
   // Speak Languge-related rules
-  ScribeRules.defineChoice('languages', PH35.LANGUAGES);
-  ScribeRules.defineTest('+/{^languages} == {languageCount}');
-  ScribeRules.defineRule('languageCount', 'skills.Speak Language', '+', null);
+  rules.defineChoice('languages', PH35.LANGUAGES);
+  rules.defineTest('+/{^languages} == {languageCount}');
+  rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
 
 };
 
@@ -2258,7 +2196,7 @@ PH35.randomName = function(race) {
 };
 
 /*
- * Sets the character's #attribute# attribute to a random value.  #rules# is
+ * Sets #attributes#'s #attribute# attribute to a random value.  #rules# is
  * the RuleEngine used to produce computed values; the function sometimes needs
  * to apply the rules to determine valid values for an attribute.
  */
@@ -2291,8 +2229,7 @@ PH35.randomize = function(rules, attributes, attribute) {
     'strength': '', 'wisdom': ''
   };
   var selections = {
-    'alignment': Scribe.alignments, 'armor': Scribe.armors,
-    'gender': Scribe.genders, 'race': Scribe.races, 'shield': Scribe.shields
+    'alignment': '', 'armor': '', 'gender': '', 'race': '', 'shield': ''
   };
 
   var attr;
@@ -2308,7 +2245,8 @@ PH35.randomize = function(rules, attributes, attribute) {
     rolls.sort();
     attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
   } else if(selections[attribute] != null) {
-    attributes[attribute] = ScribeUtils.randomKey(selections[attribute]);
+    attributes[attribute] =
+      ScribeUtils.randomKey(rules.getChoices(attribute + 's'));
   } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
     var aliInfo = attributes.alignment.match(/^([CLN]).* ([GEN])/);
@@ -2322,26 +2260,26 @@ PH35.randomize = function(rules, attributes, attribute) {
     else
       aliPat = '\\(([N' + aliInfo[1] + '][N' + aliInfo[2] + '])';
     choices = [];
-    for(attr in Scribe.deities)
+    for(attr in rules.getChoices('deities'))
       if(attr.match(aliPat))
         choices[choices.length] = attr;
     attributes['deity'] = choices[ScribeUtils.random(0, choices.length - 1)];
   } else if(attribute == 'domains') {
-    attrs = rules.Apply(attributes);
+    attrs = rules.applyRules(attributes);
     howMany = attrs.domainCount;
     if(howMany != null) {
-      if((choices = Scribe.deities[attributes.deity]) == null)
-        choices = ScribeUtils.getKeys(Scribe.domains);
+      if((choices = rules.getChoices('deities')[attributes.deity]) == null)
+        choices = ScribeUtils.getKeys(Rules.getChoices('domains'));
       else
         choices = choices.split('/');
       pickAttrs
         (attributes, 'domains.', choices, howMany-sumMatching(/^domains\./), 1);
     }
   } else if(attribute == 'feats') {
-    attrs = rules.Apply(attributes);
+    attrs = rules.applyRules(attributes);
     howMany = attrs.featCount;
     var selections = {};
-    for(attr in Scribe.feats) {
+    for(attr in rules.getChoices('feats')) {
       if(attrs['feats.' + attr] != null)
         howMany--;
       else if(attrs['features.' + attr] == null)
@@ -2364,11 +2302,11 @@ PH35.randomize = function(rules, attributes, attribute) {
     }
   } else if(attribute == 'hitPoints') {
     attributes.hitPoints = 0;
-    for(var klass in Scribe.classes) {
+    for(var klass in rules.getChoices('classes')) {
       if((attr = attributes['levels.' + klass]) == null)
         continue;
       var matchInfo =
-        Scribe.classes[klass].match(/^((\d+)?d)?(\d+)$/);
+        rules.getChoices('classes')[klass].match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ? 1 : matchInfo[2];
       var sides = matchInfo == null || matchInfo[3] == null ? 6 : matchInfo[3];
       attributes.hitPoints += number * sides;
@@ -2376,13 +2314,13 @@ PH35.randomize = function(rules, attributes, attribute) {
         attributes.hitPoints += ScribeUtils.random(number, number * sides);
     }
   } else if(attribute == 'languages') {
-    attrs = rules.Apply(attributes);
+    attrs = rules.applyRules(attributes);
     var race = attributes.race.replace(/.* /, '');
     attributes['languages.Common'] = 1;
     if(race != 'Human')
       attributes['languages.' + race] = 1;
     choices = [];
-    for(attr in Scribe.languages) {
+    for(attr in rules.getChoices('languages')) {
       if(attributes['languages.' + attr] == null)
         choices[choices.length] = attr;
     }
@@ -2394,13 +2332,13 @@ PH35.randomize = function(rules, attributes, attribute) {
         delete attributes[attr];
     }
     choices = [];
-    for(attr in Scribe.classes)
+    for(attr in rules.getChoices('classes'))
       choices[choices.length] = attr;
     pickAttrs(attributes, 'levels.', choices, 1, 1);
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
   } else if(attribute == 'selectableFeatures') {
-    attrs = rules.Apply(attributes);
+    attrs = rules.applyRules(attributes);
     for(attr in attrs) {
       if(!attr.match(/^selectableFeatureCount\./))
         continue;
@@ -2434,11 +2372,11 @@ PH35.randomize = function(rules, attributes, attribute) {
       }
     }
   } else if(attribute == 'skills') {
-    attrs = rules.Apply(attributes);
+    attrs = rules.applyRules(attributes);
     var maxRanks = attrs.classSkillMaxRanks;
     var skillPoints = attrs.skillPoints;
     choices = [];
-    for(attr in Scribe.skills) {
+    for(attr in rules.getChoices('skills')) {
       if(attrs['skills.' + attr] == null)
         choices[choices.length] = attr;
       else
@@ -2480,10 +2418,10 @@ PH35.randomize = function(rules, attributes, attribute) {
         delete attributes[attr];
     }
     if(attributes['levels.Wizard'] != null) {
-      var specialty = ScribeUtils.randomKey(Scribe.schools);
+      var specialty = ScribeUtils.randomKey(rules.getChoices('schools'));
       attributes['specialize.' + specialty] = 1;
       choices = [];
-      for(attr in Scribe.schools) {
+      for(attr in rules.getChoices('schools')) {
         if(attr != specialty)
           choices[choices.length] = attr;
       }
@@ -2494,9 +2432,9 @@ PH35.randomize = function(rules, attributes, attribute) {
     var matchInfo;
     var spellLevel;
     var unknownSpellsByLevel = {};
-    attrs = rules.Apply(attributes);
-    for(attr in Scribe.spells) {
-      var spellLevels = Scribe.spells[attr].split('/');
+    attrs = rules.applyRules(attributes);
+    for(attr in rules.getChoices('spells')) {
+      var spellLevels = rules.getChoices('spells')[attr].split('/');
       for(i = 0; i < spellLevels.length; i++) {
         spellLevel = spellLevels[i];
         var spell = attr + ' (' + spellLevel + ')';
@@ -2517,7 +2455,7 @@ PH35.randomize = function(rules, attributes, attribute) {
       howMany = attrs[attr];
       if(spellLevel.substring(0, 3) == 'Dom') {
         choices = [];
-        for(var a in Scribe.domains) {
+        for(var a in rules.getChoices('domains')) {
           if(attrs['domains.' + a] != null) {
             var domainLevel =
               PH35.domainsSpellCodes[a] + spellLevel.substring(3);
@@ -2541,10 +2479,59 @@ PH35.randomize = function(rules, attributes, attribute) {
 
   } else if(attribute == 'weapons') {
     choices = [];
-    for(attr in Scribe.weapons)
+    for(attr in rules.getChoices('weapons'))
       choices[choices.length] = attr;
     pickAttrs(attributes, 'weapons.', choices,
               2 - sumMatching(attributes, /^weapons\./), 1);
   }
 
+};
+
+/* Convenience functions that invoke ScribeRules methods on the PH35 rules. */
+PH35.defineChoice = function() {
+  return ScribeRules.prototype.defineChoice.apply(PH35.rules, arguments);
+};
+
+PH35.defineClass = function() {
+  return ScribeRules.prototype.defineClass.apply(PH35.rules, arguments);
+};
+
+PH35.defineEditorElement = function() {
+  return ScribeRules.prototype.defineEditorElement.apply(PH35.rules, arguments);
+};
+
+PH35.defineNote = function() {
+  return ScribeRules.prototype.defineNote.apply(PH35.rules, arguments);
+};
+
+PH35.defineRace = function() {
+  return ScribeRules.prototype.defineRace.apply(PH35.rules, arguments);
+};
+
+PH35.defineRandomizer = function() {
+  return ScribeRules.prototype.defineRandomizer.apply(PH35.rules, arguments);
+};
+
+PH35.defineRule = function() {
+  return ScribeRules.prototype.defineRule.apply(PH35.rules, arguments);
+};
+
+PH35.defineSheetElement = function() {
+  return ScribeRules.prototype.defineSheetElement.apply(PH35.rules, arguments);
+};
+
+PH35.defineTest = function() {
+  return ScribeRules.prototype.defineTest.apply(PH35.rules, arguments);
+};
+
+PH35.getChoices = function() {
+  return ScribeRules.prototype.getChoices.apply(PH35.rules, arguments);
+};
+
+PH35.getTests = function() {
+  return ScribeRules.prototype.getTests.apply(PH35.rules, arguments);
+};
+
+PH35.isSource = function() {
+  return ScribeRules.prototype.isSource.apply(PH35.rules, arguments);
 };

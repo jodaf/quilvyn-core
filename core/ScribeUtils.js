@@ -1,4 +1,4 @@
-/* $Id: ScribeUtils.js,v 1.3 2006/09/26 15:17:46 Jim Exp $ */
+/* $Id: ScribeUtils.js,v 1.4 2006/10/04 14:28:13 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -19,6 +19,47 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /* A placeholder for some generally useful utility functions. */
 function ScribeUtils() {
+}
+
+/* Returns a recursively-copied clone of #o#. */
+ScribeUtils.clone = function clone(o) {
+  if(typeof o != 'object' || o == null)
+    return o;
+  var result = new Object();
+  for(var a in o) {
+    result[a] = ScribeUtils.clone(o[a]);
+  }
+  return result;
+};
+
+/* Returns true iff all attributes of #o1# have the same values in #o2#. */
+ScribeUtils.clones = function(o1, o2) {
+  if(typeof o1 != "object" || typeof o2 != "object")
+    return o1 == o2;
+  var o1Keys = ScribeUtils.getKeys(o1), o2Keys = ScribeUtils.getKeys(o2);
+  if(o1Keys.length != o2Keys.length)
+    return false;
+  for(var i = 0; i < o1Keys.length; i++) {
+    var key = o1Keys[i];
+    if(o2Keys[i] != key || !ScribeUtils.clones(o1[key], o2[key]))
+      return false;
+  }
+  return true;
+};
+
+/* Returns the elements of #array# with any array elements expanded. */
+ScribeUtils.flatten = function(array, start, end) {
+  if(start == null) {
+    start = 0;
+  }
+  if(end == null) {
+    end = array.length;
+  }
+  var result = [];
+  for(var i = start; i < end; i++) {
+    result = result.concat(array[i]);
+  }
+  return result;
 }
 
 /*

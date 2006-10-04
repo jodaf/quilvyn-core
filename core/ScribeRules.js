@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.43 2006/09/29 20:31:33 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.44 2006/10/04 14:28:13 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -17,25 +17,42 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
-/* Placeholder for functions that define Scribe rule sets. */
+/* TODO */
 function ScribeRules() {
+  this.choices = {};
+  this.choices['randomizers'] = {'--randomize--': null};
+  this.choices['spellsCategoryCodes'] = {};
+  this.rules = new RuleEngine();
+  this.tests = [];
 }
+
+/*
+ * Applies to #attributes# the rules previously defined for this rule set via
+ * addRule and returns the expanded attribute set.
+ */
+ScribeRules.prototype.applyRules = function(attributes) {
+  return this.rules.applyRules(attributes);
+};
 
 /*
  * Add each #item# to the set of valid selections for #name#.  Each value of
  * #name# may contain data associated with the selection.  See scribedoc.html
  * for details.
  */
-ScribeRules.defineChoice = function(name, item /*, item ... */) {
-  if(Scribe[name] == null)
-    Scribe[name] = {};
-  var o = Scribe[name];
-  var allArgs = [];
-  for(var i = 1; i < arguments.length; i++)
-    allArgs = allArgs.concat(arguments[i]);
+ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
+  if(this.choices[name] == null)
+    this.choices[name] = {};
+  var o = this.choices[name];
+  var allArgs = ScribeUtils.flatten(arguments, 1);
   for(var i = 0; i < allArgs.length; i++) {
     var pieces = allArgs[i].split(/:/);
     o[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
+    if(name == 'spells') {
+      var codes = o[pieces[0]].replace(/[0-9]+/g, '').split('/');
+      for(var j = 0; j < codes.length; j++) {
+        this.choices['spellsCategoryCodes'][codes[j]] = '';
+      }
+    }
   }
 };
 
@@ -52,47 +69,52 @@ ScribeRules.defineChoice = function(name, item /*, item ... */) {
  * characters of the class gain; #classSkills# is an array of skills that are
  * class (not cross-class) skills for the class, #features# an array of
  * level/feature name pairs indicating features that the class acquires when
- * advancing levels, and #prerequisites# an array of validity tests that must
- * be passed in order to qualify for the class.
+ * advancing levels, #prerequisites# an array of validity tests that must be
+ * be passed in order to qualify for the class, #spellsKnown# an array of
+ * information about the type, number, and level of spells known at each
+ * class level, #spellsPerDay# an array of information about the type, number,
+ * and level of spells castable per day at each class level, and 
+ * #spellsPerDayAbility# the attribute that, if sufficiently high, gives bonus
+ * spells per day for the class.
  */
-ScribeRules.defineClass = function
+ScribeRules.prototype.defineClass = function
   (name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
    saveReflexBonus, saveWillBonus, armorProficiencyLevel,
    shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
-   prerequisites) {
+   prerequisites, spellsKnown, spellsPerDay, spellsPerDayAbility) {
 
   var classLevel = 'levels.' + name;
-  ScribeRules.defineChoice('classes', name + ':' + hitDice);
+  this.defineChoice('classes', name + ':' + hitDice);
   if(skillPoints != null)
-    ScribeRules.defineRule
+    this.defineRule
       ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
   if(baseAttackBonus != null)
-    ScribeRules.defineRule('baseAttack', classLevel, '+', baseAttackBonus);
+    this.defineRule('baseAttack', classLevel, '+', baseAttackBonus);
   if(saveFortitudeBonus != null)
-    ScribeRules.defineRule
-      ('save.Fortitude', classLevel, '+', saveFortitudeBonus);
+    this.defineRule('save.Fortitude', classLevel, '+', saveFortitudeBonus);
   if(saveReflexBonus != null)
-    ScribeRules.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
+    this.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
   if(saveWillBonus != null)
-    ScribeRules.defineRule('save.Will', classLevel, '+', saveWillBonus);
+    this.defineRule('save.Will', classLevel, '+', saveWillBonus);
   if(armorProficiencyLevel != null)
-    ScribeRules.defineRule
+    this.defineRule
       ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
   if(shieldProficiencyLevel != null)
-    ScribeRules.defineRule
+    this.defineRule
       ('shieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
   if(weaponProficiencyLevel != null)
-    ScribeRules.defineRule
+    this.defineRule
       ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
   if(prerequisites != null) {
-    for(var i = 0; i < prerequisites.length; i++)
-      Scribe.tests[Scribe.tests.length] =
-        '{' + classLevel + '} == null || ' + prerequisites[i];
+    for(var i = 0; i < prerequisites.length; i++) {
+      this.defineTest('{' + classLevel + '} == null || ' + prerequisites[i]);
+    }
   }
-  if(classSkills != null)
-    for(var i = 0; i < classSkills.length; i++)
-      ScribeRules.defineRule
-        ('classSkills.' + classSkills[i], classLevel, '=', '1');
+  if(classSkills != null) {
+    for(var i = 0; i < classSkills.length; i++) {
+      this.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');
+    }
+  }
   if(features != null) {
     var prefix =
       name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
@@ -100,14 +122,62 @@ ScribeRules.defineClass = function
       var levelAndFeature = features[i].split(/:/);
       var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
       var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      ScribeRules.defineRule(prefix + 'Features.' + feature,
+      this.defineRule(prefix + 'Features.' + feature,
         'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
       );
-      ScribeRules.defineRule
+      this.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    ScribeRules.defineSheetElement
+    this.defineSheetElement
       (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
+  }
+  if(spellsKnown != null) {
+    for(var j = 0; j < spellsKnown.length; j++) {
+      var typeAndLevel = spellsKnown[j].split(/:/)[0];
+      var code = spellsKnown[j].substring(typeAndLevel.length + 1).
+                 split(/\//).reverse().join('source >= ');
+      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
+      code = 'source >= ' + code + ' : null';
+      if(code.indexOf('source >= 1 ?') >= 0) {
+        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
+      }
+      this.defineRule
+        ('spellsKnown.' + typeAndLevel, 'levels.' + name, '=', code);
+    }
+  }
+  if(spellsPerDay != null) {
+    for(var j = 0; j < spellsPerDay.length; j++) {
+      var typeAndLevel = spellsPerDay[j].split(/:/)[0];
+      var level = typeAndLevel.replace(/[A-Z]*/, '');
+      var code = spellsPerDay[j].substring(typeAndLevel.length + 1).
+                 split(/\//).reverse().join('source >= ');
+      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
+      code = 'source >= ' + code + ' : null';
+      if(code.indexOf('source >= 1 ?') >= 0) {
+        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
+      }
+      this.defineRule
+        ('spellsPerDay.' + typeAndLevel, 'levels.' + name, '=', code);
+      this.defineRule('spellDifficultyClass.' + typeAndLevel,
+        'spellsPerDay.' + typeAndLevel, '?', null,
+        null, '=', 10 + (level - 0)
+      );
+      if(spellsPerDayAbility != null) {
+        var spellsPerDayModifier = spellsPerDayAbility + 'Modifier';
+        var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
+        if(level > 0) {
+          code = 'source >= ' + level +
+                 ' ? 1 + Math.floor((source - ' + level + ') / 4) : null';
+          this.defineRule
+            ('spellsPerDay.' + typeAndLevel, spellsPerDayModifier, '+', code);
+        }
+        this.defineRule('spellDifficultyClass.' + typeAndLevel,
+          spellsPerDayModifier, '+', null
+        );
+      }
+    }
+    this.defineRule
+      ('spellsPerDayLevels.' + name, 'levels.' + name, '=', null);
   }
 
 };
@@ -121,7 +191,8 @@ ScribeRules.defineClass = function
  * element that the new one should be placed before.  If #type# is null, an
  * existing element named #name# is removed.
  */
-ScribeRules.defineEditorElement = function(name, label, type, params, before) {
+ScribeRules.prototype.defineEditorElement = function
+  (name, label, type, params, before) {
   for(var i = Scribe.editorElements.length - 1; i >= 0; i--) {
     if(Scribe.editorElements[i][0] == name) {
       Scribe.editorElements = Scribe.editorElements.slice(0, i).
@@ -152,12 +223,10 @@ ScribeRules.defineEditorElement = function(name, label, type, params, before) {
  * #attr# will typically be a new attribute to be included in one of the notes
  * sections of the character sheet.
  */
-ScribeRules.defineNote = function(note /*, note ... */) {
-  var allArgs = [];
-  for(var i = 0; i < arguments.length; i++)
-    allArgs = allArgs.concat(arguments[i]);
+ScribeRules.prototype.defineNote = function(note /*, note ... */) {
+  var allArgs = ScribeUtils.flatten(arguments);
   for(var i = 0; i < allArgs.length; i++) {
-    ScribeRules.defineChoice('notes', allArgs[i]);
+    this.defineChoice('notes', allArgs[i]);
     var pieces = allArgs[i].split(/:/);
     var attribute = pieces[0];
     var format = pieces[1];
@@ -167,13 +236,13 @@ ScribeRules.defineNote = function(note /*, note ... */) {
       var name = matchInfo[2].toUpperCase() +
                  matchInfo[3].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
       if(matchInfo[4] == 'Synergy')
-        ScribeRules.defineRule
+        this.defineRule
           (attribute, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
       else if(format.indexOf('%V') < 0)
-        ScribeRules.defineRule
+        this.defineRule
           (attribute, matchInfo[4].toLowerCase() + 's.' + name, '=', '1');
       else
-        ScribeRules.defineRule
+        this.defineRule
           (attribute, matchInfo[4].toLowerCase() + 's.' + name, '?', null);
     }
     if(attribute.match(/^skillNotes\./) &&
@@ -186,13 +255,13 @@ ScribeRules.defineNote = function(note /*, note ... */) {
         bump = '-source';
       var j;
       for(j = 0;
-          j<affected.length &&
+          j < affected.length &&
           affected[j].match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*\))?$/) != null;
           j++)
         ; /* empty */
       if(j == affected.length)
         for(j = 0; j < affected.length; j++)
-          ScribeRules.defineRule('skills.' + affected[j], attribute, '+', bump);
+          this.defineRule('skills.' + affected[j], attribute, '+', bump);
     }
   }
 };
@@ -205,20 +274,20 @@ ScribeRules.defineNote = function(note /*, note ... */) {
  * the race and the character levels at which they're acquired.  If no level is
  * include with a feature, the feature is acquired at level 1.
  */
-ScribeRules.defineRace = function(name, abilityAdjustment, features) {
-  ScribeRules.defineChoice('races', name);
+ScribeRules.prototype.defineRace = function(name, abilityAdjustment, features) {
+  this.defineChoice('races', name);
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
   if(abilityAdjustment != null) {
     var abilityNote = 'abilityNotes.' + prefix + 'AbilityAdjustment';
-    ScribeRules.defineNote(abilityNote + ':' + abilityAdjustment);
+    this.defineNote(abilityNote + ':' + abilityAdjustment);
     var adjustments = abilityAdjustment.split(/\//);
     for(var i = 0; i < adjustments.length; i++) {
       var amountAndAbility = adjustments[i].split(/ +/);
-      ScribeRules.defineRule
+      this.defineRule
         (amountAndAbility[1], abilityNote, '+', amountAndAbility[0]);
     }
-    ScribeRules.defineRule
+    this.defineRule
       (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
   }
   if(features != null) {
@@ -226,23 +295,23 @@ ScribeRules.defineRace = function(name, abilityAdjustment, features) {
       var levelAndFeature = features[i].split(/:/);
       var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
       var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      ScribeRules.defineRule(prefix + 'Features.' + feature,
+      this.defineRule(prefix + 'Features.' + feature,
         'race', '?', 'source == "' + name + '"',
         'level', '=', 'source >= ' + level
       );
-      ScribeRules.defineRule
+      this.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    ScribeRules.defineSheetElement
+    this.defineSheetElement
       (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
   }
 };
 
 /* Add the function #fn# as a randomizer for each of the listed attributes. */
-ScribeRules.defineRandomizer = function(fn, attr /*, attr ... */) {
+ScribeRules.prototype.defineRandomizer = function(fn, attr /*, attr ... */) {
   for(var i = 1; i < arguments.length; i++)
-    Scribe.randomizers[arguments[i]] = fn;
-}
+    this.choices['randomizers'][arguments[i]] = fn;
+};
 
 /*
  * Add a rule indicating the effect that the value of the attribute #source#
@@ -252,10 +321,11 @@ ScribeRules.defineRandomizer = function(fn, attr /*, attr ... */) {
  * computes the amount for the assignment, increment, etc; if it is null, the
  * value of #source# is used.
  */
-ScribeRules.defineRule = function
+ScribeRules.prototype.defineRule = function
   (target, source, type, expr /*, source, type, expr ... */) {
   for(var i = 3; i < arguments.length; i += 3)
-    rules.AddRules(target, arguments[i - 2], arguments[i - 1], arguments[i]);
+    this.rules.addRules
+      (target, arguments[i - 2], arguments[i - 1], arguments[i]);
 };
 
 /*
@@ -265,7 +335,7 @@ ScribeRules.defineRule = function
  * formatted on the sheet.  #separator# is a bit of HTML used to separate
  * elements for items that have multiple values.
  */
-ScribeRules.defineSheetElement = function
+ScribeRules.prototype.defineSheetElement = function
   (name, within, format, before, separator) {
   viewer.removeElements(name);
   if(within != null) {
@@ -273,10 +343,34 @@ ScribeRules.defineSheetElement = function
       {name: name, within: within, before: before, format: format, separator: separator}
     );
   }
-}
+};
 
 /* Adds each #test# to the checks Scribe uses when validating a character. */
-ScribeRules.defineTest = function(test /*, test ... */) {
+ScribeRules.prototype.defineTest = function(test /*, test ... */) {
   for(var i = 0; i < arguments.length; i++)
-    Scribe.tests = Scribe.tests.concat(arguments[i]);
+    this.tests = this.tests.concat(arguments[i]);
+};
+
+/*
+ * Returns an object that contains all the choices for #name# previously
+ * defined for this rule set via addChoice.
+ */
+ScribeRules.prototype.getChoices = function(name) {
+  return this.choices[name];
+};
+
+/*
+ * Returns an array that contains all the rules previously defined for this
+ * rule set via addRule.
+ */
+ScribeRules.prototype.getTests = function() {
+  return this.tests;
+};
+
+/*
+ * Returns true iff #attr# is the source in a rule previously defined for this
+ * rule set via addRule.
+ */
+ScribeRules.prototype.isSource = function(attr) {
+  return this.rules.isSource(attr);
 };

@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.12 2006/04/23 05:26:06 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.13 2006/10/04 14:28:12 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -49,7 +49,7 @@ function RuleEngine() {
  * the value of the target to null and suppress application of other rules if
  * #expr# is false.
  */
-RuleEngine.prototype.AddRules =
+RuleEngine.prototype.addRules =
   function(target, source, type, expr /*, source, type, expr ... */) {
   for(var i = 3; i < arguments.length; i += 3) {
     source = arguments[i - 2];
@@ -70,7 +70,7 @@ RuleEngine.prototype.AddRules =
 
 
 /* Returns a sorted array containing all attributes that are rule sources. */
-RuleEngine.prototype.AllSources = function(target) {
+RuleEngine.prototype.allSources = function(target) {
   var result = [];
   for(var attr in this.targets)
     if(target == null || this.targets[attr][target] != null)
@@ -80,7 +80,7 @@ RuleEngine.prototype.AllSources = function(target) {
 }
 
 /* Returns a sorted array containing all attributes that are rule targets. */
-RuleEngine.prototype.AllTargets = function(source) {
+RuleEngine.prototype.allTargets = function(source) {
   var result = [];
   for(var attr in this.sources)
     if(source == null || this.sources[attr][source] != null)
@@ -94,34 +94,34 @@ RuleEngine.prototype.AllTargets = function(source) {
  * in the object #initial#.  Returns an object that contains the attributes in
  * #initial# plus any computed attributes.
  */
-RuleEngine.prototype.Apply = function(initial) {
+RuleEngine.prototype.applyRules = function(initial) {
   var computed = { };
   for(var a in initial)
-    this._Recompute(initial, computed, a);
+    this._recompute(initial, computed, a);
   /* Compute attributes that require no initial attribute value. */
   for(var a in this.targets['']) {
     if(computed[a] == null)
-      this._Recompute(initial, computed, a);
+      this._recompute(initial, computed, a);
   }
   return computed;
 };
 
 
 /* Removes the rule specifying how #source# affects #target#. */
-RuleEngine.prototype.DeleteRule = function(target, source) {
+RuleEngine.prototype.deleteRule = function(target, source) {
   delete this.targets[source][target];
   delete this.sources[target][source];
 };
 
 
 /* Returns true iff the value of #attr# affects other attributes. */
-RuleEngine.prototype.IsSource = function(attr) {
+RuleEngine.prototype.isSource = function(attr) {
   return this.targets[attr] != null;
 }
 
 
 /* Returns true iff the value of #attr# is affected by other attributes. */
-RuleEngine.prototype.IsTarget = function(attr) {
+RuleEngine.prototype.isTarget = function(attr) {
   return this.sources[attr] != null;
 }
 
@@ -132,7 +132,7 @@ RuleEngine.prototype.IsTarget = function(attr) {
  * result in #computed#.  If the computed value changes, recursively recomputes
  * other attributes that #attr# affects.
  */
-RuleEngine.prototype._Recompute = function(initial, computed, attr) {
+RuleEngine.prototype._recompute = function(initial, computed, attr) {
   var computedValue = initial[attr];
   if(this.sources[attr] != null) {
     var addition = 0;
@@ -203,7 +203,7 @@ RuleEngine.prototype._Recompute = function(initial, computed, attr) {
       computed[attr] = computedValue;
     if(this.targets[attr] != null) {
       for(var target in this.targets[attr])
-        this._Recompute(initial, computed, target);
+        this._recompute(initial, computed, target);
     }
   }
 };
