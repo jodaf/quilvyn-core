@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.44 2006/10/04 14:28:13 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.45 2006/10/06 14:42:24 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -22,17 +22,10 @@ function ScribeRules() {
   this.choices = {};
   this.choices['randomizers'] = {'--randomize--': null};
   this.choices['spellsCategoryCodes'] = {};
-  this.rules = new RuleEngine();
   this.tests = [];
+  this.viewers = {};
 }
-
-/*
- * Applies to #attributes# the rules previously defined for this rule set via
- * addRule and returns the expanded attribute set.
- */
-ScribeRules.prototype.applyRules = function(attributes) {
-  return this.rules.applyRules(attributes);
-};
+ScribeRules.prototype = new RuleEngine();
 
 /*
  * Add each #item# to the set of valid selections for #name#.  Each value of
@@ -324,8 +317,7 @@ ScribeRules.prototype.defineRandomizer = function(fn, attr /*, attr ... */) {
 ScribeRules.prototype.defineRule = function
   (target, source, type, expr /*, source, type, expr ... */) {
   for(var i = 3; i < arguments.length; i += 3)
-    this.rules.addRules
-      (target, arguments[i - 2], arguments[i - 1], arguments[i]);
+    this.addRules(target, arguments[i - 2], arguments[i - 1], arguments[i]);
 };
 
 /*
@@ -337,11 +329,14 @@ ScribeRules.prototype.defineRule = function
  */
 ScribeRules.prototype.defineSheetElement = function
   (name, within, format, before, separator) {
-  viewer.removeElements(name);
-  if(within != null) {
-    viewer.addElements(
-      {name: name, within: within, before: before, format: format, separator: separator}
-    );
+  for(var a in this.viewers) {
+    viewer = this.viewers[a];
+    viewer.removeElements(name);
+    if(within != null) {
+      viewer.addElements(
+        {name: name, within: within, before: before, format: format, separator: separator}
+      );
+    }
   }
 };
 
@@ -349,6 +344,10 @@ ScribeRules.prototype.defineSheetElement = function
 ScribeRules.prototype.defineTest = function(test /*, test ... */) {
   for(var i = 0; i < arguments.length; i++)
     this.tests = this.tests.concat(arguments[i]);
+};
+
+ScribeRules.prototype.defineViewer = function(name, viewer) {
+  this.viewers[name] = viewer;
 };
 
 /*
@@ -367,10 +366,13 @@ ScribeRules.prototype.getTests = function() {
   return this.tests;
 };
 
-/*
- * Returns true iff #attr# is the source in a rule previously defined for this
- * rule set via addRule.
- */
-ScribeRules.prototype.isSource = function(attr) {
-  return this.rules.isSource(attr);
+ScribeRules.prototype.getViewer = function(name) {
+  if(name == null) {
+    name = this.getViewerNames()[0];
+  }
+  return this.viewers[name];
+};
+
+ScribeRules.prototype.getViewerNames = function() {
+  return ScribeUtils.getKeys(this.viewers);
 };

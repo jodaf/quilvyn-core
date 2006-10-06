@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.160 2006/10/04 15:26:31 Jim Exp $ */
+/* $Id: Scribe.js,v 1.161 2006/10/06 14:42:24 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.34.04';
@@ -28,10 +28,11 @@ var cachedAttrs = {}; /* Unchanged attrs of all characters opened so far */
 var character;      /* Current RPG Character */
 var characterUrl;   /* URL of current RPG Character */
 var cookieInfo = {  /* What we store in the cookie */
-  dmonly: '0',     /* Show information marked "dmonly" on sheet? */
-  italics: '1',    /* Show italicized notes on sheet? */
-  recent: '',      /* Comma-separated and -terminated list of recent opens */
-  untrained: '0'   /* Show untrained skills on sheet? */
+  dmonly: '0',      /* Show information marked "dmonly" on sheet? */
+  italics: '1',     /* Show italicized notes on sheet? */
+  recent: '',       /* Comma-separated and -terminated list of recent opens */
+  untrained: '0',   /* Show untrained skills on sheet? */
+  viewer: ''        /* Arrangement of character sheet */
 };
 var editForm;       /* Character editing form (window.frames[0].forms[0]) */
 var loadingPopup = null; /* Current "loading" message popup window */
@@ -39,7 +40,6 @@ var ruleSets = {};  /* RuleEngine with standard + user rules */
 var ruleSet = null; /* The rule set currently in use */
 var showCodes;      /* Display status of spell category codes */
 var urlLoading=null;/* Character URL presently loading */
-var viewer;         /* ObjectViewer to translate character attrs into HTML */
 
 /* Launch routine called after all Scribe scripts are loaded. */
 function Scribe() {
@@ -88,7 +88,6 @@ function Scribe() {
         COPYRIGHT + '<br/>' +
         'Press the "About" button for more info',
         'Ok', 'window.close();');
-  viewer = InitialViewer();
   if(CustomizeScribe != null)
     CustomizeScribe();
   character = {};
@@ -121,6 +120,7 @@ Scribe.editorElements = [
   ['italics', 'Show', 'checkbox', ['Italic Notes']],
   ['untrained', '', 'checkbox', ['Untrained Skills']],
   ['dmonly', '', 'checkbox', ['DM Info']],
+  ['viewer', '', 'select-one', []],
   ['randomize', ' ', 'select-one', 'randomizers'],
   ['name', 'Name', 'text', [20]],
   ['race', 'Race', 'select-one', 'races'],
@@ -214,134 +214,6 @@ function EditorHtml() {
   htmlBits[htmlBits.length] = '</td></tr></table></form>';
   var result = htmlBits.join('');
   /* result = result.replace(/<\/td><\/tr>\n<tr><th><\/th><td>/g, ''); */
-  return result;
-}
-
-/* Returns an ObjectViewer loaded with the default character sheet format. */
-function InitialViewer() {
-  var result = new ObjectViewer();
-  result.addElements(
-    {name: '_top', borders: 1, separator: '\n'},
-    {name: 'Header', within: '_top'},
-      {name: 'Identity', within: 'Header', separator: ''},
-        {name: 'Name', within: 'Identity', format: '<b>%V</b>'},
-        {name: 'Race', within: 'Identity', format: ' -- <b>%V</b>'},
-        {name: 'Levels', within: 'Identity', format: ' <b>%V</b>',
-         separator: '/'},
-      {name: 'Image Url', within: 'Header', format: '<img src="%V">'},
-    {name: 'Attributes', within: '_top', separator: '\n'},
-      {name: 'Abilities', within: 'Attributes'},
-        {name: 'StrInfo', within: 'Abilities', separator: ''},
-          {name: 'Strength', within: 'StrInfo'},
-          {name: 'Strength Modifier', within: 'StrInfo', format: ' (%V)'},
-        {name: 'IntInfo', within: 'Abilities', separator: ''},
-          {name: 'Intelligence', within: 'IntInfo'},
-          {name: 'Intelligence Modifier', within: 'IntInfo',format: ' (%V)'},
-        {name: 'WisInfo', within: 'Abilities', separator: ''},
-          {name: 'Wisdom', within: 'WisInfo'},
-          {name: 'Wisdom Modifier', within: 'WisInfo', format: ' (%V)'},
-        {name: 'DexInfo', within: 'Abilities', separator: ''},
-          {name: 'Dexterity', within: 'DexInfo'},
-          {name: 'Dexterity Modifier', within: 'DexInfo', format: ' (%V)'},
-        {name: 'ConInfo', within: 'Abilities', separator: ''},
-          {name: 'Constitution', within: 'ConInfo'},
-          {name: 'Constitution Modifier', within: 'ConInfo',format: ' (%V)'},
-        {name: 'ChaInfo', within: 'Abilities', separator: ''},
-          {name: 'Charisma', within: 'ChaInfo'},
-          {name: 'Charisma Modifier', within: 'ChaInfo', format: ' (%V)'},
-      {name: 'Description', within: 'Attributes'},
-        {name: 'Alignment', within: 'Description'},
-        {name: 'Deity', within: 'Description'},
-        {name: 'Origin', within: 'Description'},
-        {name: 'Gender', within: 'Description'},
-        {name: 'Player', within: 'Description'},
-      {name: 'Statistics', within: 'Attributes'},
-        {name: 'ExperienceInfo', within: 'Statistics', separator: ''},
-          {name: 'Experience', within: 'ExperienceInfo'},
-          {name: 'Experience Needed', within: 'ExperienceInfo', format: '/%V'},
-        {name: 'Level', within: 'Statistics'},
-        {name: 'SpeedInfo', within: 'Statistics', separator: ''},
-          {name: 'Speed', within: 'SpeedInfo',
-            format: '<b>Speed/Run</b>: %V'},
-          {name: 'Run Speed', within: 'SpeedInfo', format: '/%V'},
-        {name: 'LoadInfo', within: 'Statistics', separator: ''},
-          {name: 'Load Light', within: 'LoadInfo',
-            format: '<b>Light/Med/Max Load:</b> %V'},
-          {name: 'Load Medium', within: 'LoadInfo', format: '/%V'},
-          {name: 'Load Max', within: 'LoadInfo', format: '/%V'},
-      {name: 'Ability Notes', within: 'Attributes', separator: ' * '},
-    {name: 'FeaturesAndSkills', within: '_top', separator: '\n',
-      format: '<b>Features/Skills</b><br/>%V'},
-      {name: 'FeatStats', within: 'FeaturesAndSkills'},
-        {name: 'Feat Count', within: 'FeatStats'},
-        {name: 'Selectable Feature Count', within: 'FeatStats'},
-      {name: 'Feats', within: 'FeaturesAndSkills', separator: ' * '},
-      {name:'Selectable Features', within:'FeaturesAndSkills', separator:' * '},
-      {name: 'Feature Notes', within: 'FeaturesAndSkills', separator: ' * '},
-      {name: 'SkillStats', within: 'FeaturesAndSkills'},
-        {name: 'Skill Points', within: 'SkillStats'},
-        {name: 'SkillRanksInfo', within: 'SkillStats', separator: ''},
-          {name: 'Class Skill Max Ranks', within: 'SkillRanksInfo',
-            format: '<b>Class/Cross Skill Max Ranks</b>: %V'},
-          {name: 'Cross Skill Max Ranks', within: 'SkillRanksInfo',
-            format: '/%V'},
-      {name: 'Skills', within: 'FeaturesAndSkills', separator: ' * '},
-      {name: 'Skill Notes', within: 'FeaturesAndSkills', separator: ' * '},
-      {name: 'LanguageStats', within: 'FeaturesAndSkills'},
-        {name: 'Language Count', within: 'LanguageStats'},
-      {name: 'Languages', within: 'FeaturesAndSkills', separator: ' * '},
-    {name: 'Combat', within: '_top', separator: '\n',
-      format: '<b>Combat</b><br/>%V'},
-      {name: 'CombatInfo', within: 'Combat'},
-        {name: 'Hit Points', within: 'CombatInfo'},
-        {name: 'Initiative', within: 'CombatInfo'},
-        {name: 'Armor Class', within: 'CombatInfo'},
-        {name: 'Attacks Per Round', within: 'CombatInfo'},
-        {name: 'AttackInfo', within: 'CombatInfo', separator: ''},
-          {name: 'Base Attack', within: 'AttackInfo',
-            format: '<b>Base/Melee/Ranged Attack</b>: %V'},
-          {name: 'Melee Attack', within: 'AttackInfo', format: '/%V'},
-          {name: 'Ranged Attack', within: 'AttackInfo', format: '/%V'},
-      {name: 'Turning', within: 'Combat'},
-        {name: 'Turning Frequency', within: 'Turning',
-          format: '<b>%N</b>: %V/Day'},
-        {name: 'TurningMinMaxInfo', within: 'Turning', separator: ''},
-          {name: 'Turning Min', within: 'TurningMinMaxInfo',
-            format: '<b>Turning Min/Max HD</b>: %V'},
-          {name: 'Turning Max', within: 'TurningMinMaxInfo', format: '/%V'},
-        {name: 'Turning Damage Modifier', within: 'Turning',
-          format: '<b>Turning Damage</b>: 2d6+%V'},
-      {name: 'Weapons', within: 'Combat', separator: ' * '},
-      {name: 'Geer', within: 'Combat'},
-        {name: 'Armor Proficiency', within: 'Geer'},
-        {name: 'Armor', within: 'Geer'},
-        {name: 'Shield Proficiency', within: 'Geer'},
-        {name: 'Shield', within: 'Geer'},
-        {name: 'Weapon Proficiency', within: 'Geer'},
-      {name: 'Combat Notes', within: 'Combat', separator: ' * '},
-      {name: 'SaveAndResistance', within: 'Combat'},
-        {name: 'Save', within: 'SaveAndResistance', separator: ' * '},
-        {name: 'Resistance', within: 'SaveAndResistance', separator: ' * '},
-      {name: 'Save Notes', within: 'Combat', separator: ' * '},
-    {name: 'Magic', within: '_top', separator: '\n',
-      format: '<b>Magic</b><br/>%V'},
-      {name: 'SpellStats', within: 'Magic'},
-        {name: 'Spells Known', within: 'SpellStats', separator: ' * '},
-        {name: 'Spells Per Day', within: 'SpellStats', separator: ' * '},
-        {name: 'Spell Difficulty Class', within: 'SpellStats',
-         format: '<b>Spell DC</b>: %V', separator: ' * '},
-      {name: 'SpellSpecialties', within: 'Magic'},
-        {name: 'Domains', within: 'SpellSpecialties', separator: ' * '},
-        {name: 'Specialize', within: 'SpellSpecialties'},
-        {name: 'Prohibit', within: 'SpellSpecialties', separator: ' * '},
-      {name: 'Spells', within: 'Magic', separator: ' * '},
-      {name: 'Goodies', within: 'Magic', separator: ' * '},
-      {name: 'Magic Notes', within: 'Magic', separator: ' * '},
-    {name: 'Notes Area', within: '_top', separator: '\n',
-      format: '<b>Notes</b><br/>%V'},
-      {name: 'Notes', within: 'Notes Area', format: '%V'},
-      {name: 'Dm Notes', within: 'Notes Area', format: '%V'}
-  );
   return result;
 }
 
@@ -622,6 +494,7 @@ function RefreshEditor(redraw) {
 
   InputSetOptions(editForm.file, fileOpts);
   InputSetOptions(editForm.spells_sel, spellOpts);
+  InputSetOptions(editForm.viewer, ruleSet.getViewerNames());
   if(!redraw &&
      (editForm.file.options.length != fileOpts.length ||
       editForm.spells_sel.options.length != spellOpts.length)) /* Opera bug */
@@ -663,6 +536,7 @@ function RefreshEditor(redraw) {
   InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
+  InputSetValue(editForm.viewer, cookieInfo.viewer);
   InputSetValue(editForm.spellcats, false);
   for(i = 0; i < editForm.spellcats_sel.options.length; i++) {
     if(showCodes[editForm.spellcats_sel.options[i].value]) {
@@ -862,7 +736,8 @@ function SheetHtml() {
          '  </' + 'script>\n' +
          '</head>\n' +
          '<body>\n' +
-         viewer.getHtml(displayAttributes, '_top') + '\n' +
+         ruleSet.getViewer(InputGetValue(editForm.viewer)).
+           getHtml(displayAttributes, '_top') + '\n' +
          '</body>\n' +
          '</html>\n';
 
@@ -974,7 +849,7 @@ function Update(input) {
         (ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>'), 'Ok', 'window.close();');
     else
       Update.aboutWindow.focus();
-  } else if(name.search(/dmonly|italics|untrained/) >= 0) {
+  } else if(name.search(/dmonly|italics|untrained|viewer/) >= 0) {
     cookieInfo[name] = value + '';
     StoreCookie();
     RefreshSheet();
