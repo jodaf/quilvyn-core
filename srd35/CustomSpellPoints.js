@@ -17,28 +17,18 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 
 function SpellPoints() {
-  PH35.defineRule('Spell Points',
+  PH35.defineRule('spellPoints',
     'casterLevel', '?', null,
     null, '=', '0'
   );
-  for(var i = 1; i <= 9; i++) {
-    PH35.defineRule('Spell Points',
-      'spellsPerDay.C' + i, '+', 'source * ' + i,
-      'spellsPerDay.D' + i, '+', 'source * ' + i,
-      'spellsPerDay.Dom' + i, '+', 'source * ' + i,
-      'spellsPerDay.S' + i, '+', 'source * ' + i,
-      'spellsPerDay.W' + i, '+', 'source * ' + i
-    );
-    if(i <= 6)
-      PH35.defineRule
-        ('Spell Points', 'spellsPerDay.B' + i, '+', 'source * ' + i);
-    if(i <= 4) {
-      PH35.defineRule
-        ('Spell Points', 'spellsPerDay.P' + i, '+', 'source * ' + i);
-      PH35.defineRule
-        ('Spell Points', 'spellsPerDay.R' + i, '+', 'source * ' + i);
+  var ruleSources = PH35.rules.allSources();
+  for(var i = 0; i < ruleSources.length; i++) {
+    var attr = ruleSources[i];
+    var matchInfo = attr.match(/^spellsPerDay\.[A-Za-z]+([0-9]+)/);
+    if(matchInfo != null) {
+      PH35.defineRule('spellPoints', attr, '+', 'source * ' + matchInfo[1]);
     }
   }
-  PH35.defineSheetElement
-    ('Spell Points', 'SpellStats', '<b>Spell Points</b>: %V', 'Spells Known');
+  PH35.defineSheetElement('Spell Points', 'SpellStats', null, 'Spells Known');
+  PH35.defineSheetElement('Spells Per Day', null, null, null);
 }
