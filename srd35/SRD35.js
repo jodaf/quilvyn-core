@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.46 2006/10/06 14:42:24 Jim Exp $ */
+/* $Id: SRD35.js,v 1.47 2006/10/07 21:27:02 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2422,7 +2422,7 @@ PH35.randomize = function(rules, attributes, attribute) {
           (choices = ScribeUtils.getKeys(selections)).length > 0) {
       attr = choices[ScribeUtils.random(0, choices.length - 1)];
       attrs[attr] = 1;
-      var invalid = Validate(attrs);
+      var invalid = Scribe.validate(attrs);
       for(i = 0; i < invalid.length && invalid[i].indexOf(attr) < 0; i++)
         ; /* empty */
       if(i < invalid.length) {
@@ -2492,7 +2492,7 @@ PH35.randomize = function(rules, attributes, attribute) {
             (choices = ScribeUtils.getKeys(selections)).length > 0) {
         attr = choices[ScribeUtils.random(0, choices.length - 1)];
         attrs[attr] = 1;
-        var invalid = Validate(attrs);
+        var invalid = Scribe.validate(attrs);
         for(i = 0; i < invalid.length && invalid[i].indexOf(attr) < 0; i++)
           ; /* empty */
         if(i < invalid.length) {
