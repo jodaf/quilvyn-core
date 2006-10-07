@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.66 2006/10/04 15:50:07 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.67 2006/10/07 21:47:03 Jim Exp $ -->
 <html>
 
 <head>
@@ -281,7 +281,7 @@ you invoke PH35.defineChoice to modify these lists, follow each choice
 in the list with a colon and the information associated with that choice.  The
 lists you can modify in this fashion are 'deities' (include a slash-separated
 set of domains after each new deity), 'skills' (include the key ability,
-optionally followed by ';trained' if the skill cannot be used untrained),
+optionally followed by '/trained' if the skill cannot be used untrained),
 'spells' (include a slash-separated set of spell levels).  and 'weapons'
 (include a damage die for medium-sized creatures).  (The damage value for
 weapons can also include a critical multiplier, preceded by 'x', a minumum
@@ -296,8 +296,8 @@ PH35.defineChoice('deities',
 );
 PH35.defineChoice('skills'
   'Craft (Alchemy):intelligence', 'Craft (Carpentery):intelligence',
-  'Craft (Glassworking):intelligence', 'Herbalism:intelligence;trained',
-  'Mediation:wisdom;trained'
+  'Craft (Glassworking):intelligence', 'Herbalism:intelligence/trained',
+  'Mediation:wisdom/trained'
 );
 PH35.defineChoice('spells', 'Calm Water:W6/Wa5', 'Darkstorm:C4/W4');
 PH35.defineChoice('weapons', 'Catapult:d12r240');
