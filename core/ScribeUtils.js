@@ -1,4 +1,4 @@
-/* $Id: ScribeUtils.js,v 1.4 2006/10/04 14:28:13 Jim Exp $ */
+/* $Id: ScribeUtils.js,v 1.5 2006/10/07 21:26:27 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -102,3 +102,8 @@ ScribeUtils.randomKey = function(o) {
   var keys = ScribeUtils.getKeys(o);
   return keys[ScribeUtils.random(0, keys.length - 1)];
 }
+
+/* Returns #value# with a leading sign. */
+ScribeUtils.signed = function(value) {
+  return (value >= 0 ? '+' : '') + value;
+};
