@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.161 2006/10/06 14:42:24 Jim Exp $ */
+/* $Id: Scribe.js,v 1.162 2006/10/07 21:27:48 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.34.04';
+var VERSION = '0.34.07';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -22,32 +22,30 @@ var ABOUT_TEXT =
 var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
 var EMPTY_SPELL_LIST = '--- No spell categories selected ---';
-var TIMEOUT_DELAY = 1000; /* One second */
+var TIMEOUT_DELAY = 1000; // One second
 
-var cachedAttrs = {}; /* Unchanged attrs of all characters opened so far */
-var character;      /* Current RPG Character */
-var characterUrl;   /* URL of current RPG Character */
-var cookieInfo = {  /* What we store in the cookie */
-  dmonly: '0',      /* Show information marked "dmonly" on sheet? */
-  italics: '1',     /* Show italicized notes on sheet? */
-  recent: '',       /* Comma-separated and -terminated list of recent opens */
-  untrained: '0',   /* Show untrained skills on sheet? */
-  viewer: ''        /* Arrangement of character sheet */
+var cachedAttrs = {}; // Unchanged attrs of all characters opened so far
+var character;      // Current character
+var characterUrl;   // URL of current character
+var cookieInfo = {  // What we store in the cookie
+  dmonly: '0',      // Show information marked "dmonly" on sheet?
+  italics: '1',     // Show italicized notes on sheet?
+  recent: '',       // Comma-separated and -terminated list of recent opens
+  untrained: '0',   // Show untrained skills on sheet?
+  viewer: ''        // Preferred arrangement of character sheet
 };
-var editForm;       /* Character editing form (window.frames[0].forms[0]) */
-var loadingPopup = null; /* Current "loading" message popup window */
-var ruleSets = {};  /* RuleEngine with standard + user rules */
-var ruleSet = null; /* The rule set currently in use */
-var showCodes;      /* Display status of spell category codes */
-var urlLoading=null;/* Character URL presently loading */
+var editForm;       // Character editing form (window.frames[0].forms[0])
+var loadingPopup = null; // Current "loading" message popup window
+var ruleSets = {};  // ScribeRules with standard + user rules
+var ruleSet = null; // The rule set currently in use
+var showCodes;      // Display status of spell category codes
+var urlLoading=null;// Character URL presently loading
 
 /* Launch routine called after all Scribe scripts are loaded. */
 function Scribe() {
 
   var defaults = {
-    'BACKGROUND':'wheat', 'CLASS_RULES_VERSION':'3.5',
-    'FEAT_RULES_VERSION':'3.5', 'HELP_URL':'scribedoc.html',
-    'LOGO_URL':'scribe.gif', 'MAGIC_RULES_VERSION':'3.5',
+    'BACKGROUND':'wheat', 'HELP_URL':'scribedoc.html', 'LOGO_URL':'scribe.gif',
     'MAX_RECENT_OPENS':20, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
     'WARN_ABOUT_DISCARD':true
   };
@@ -84,36 +82,44 @@ function Scribe() {
     }
   }
 
-  PopUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
-        COPYRIGHT + '<br/>' +
-        'Press the "About" button for more info',
-        'Ok', 'window.close();');
+  Scribe.popUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
+              COPYRIGHT + '<br/>' +
+              'Press the "About" button for more info',
+              'Ok', 'window.close();');
   if(CustomizeScribe != null)
     CustomizeScribe();
   character = {};
-  RefreshShowCodes();
-  RefreshEditor(true);
-  RandomizeCharacter(false);
-  /*
-  if(SCRIBE_DEBUG != null) {
-    var html = '<html><head><title>Scribe Attributes</title></head>\n<body>\n';
-    var attrs = ruleSet.allSources();
-    html += '<h2>Sources</h2>\n' + attrs.join('<br/>\n') + '\n';
-    attrs = ruleSet.allTargets();
-    html += '<h2>Targets</h2>\n' + attrs.join('<br/>\n') + '\n';
-    html += '</body></html>\n';
-    var w = window.open('', 'attrwin');
-    w.document.write(html);
-    w.document.close();
-  }
-  */
+  Scribe.refreshShowCodes();
+  Scribe.refreshEditor(true);
+  Scribe.randomizeCharacter(false);
 
 }
-var abilityChoices= [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
+
+// Choices for the ability fields in the editor
+// TODO Move to PH35
+Scribe.ABILITY_CHOICES = [
+  3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+];
+// Mapping of medium damage to large/small/tiny damage
+// TODO Move to PH35
+Scribe.LARGE_DAMAGE = {
+  'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
+  'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
+};
+Scribe.SMALL_DAMAGE = {
+  'd2':'d1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
+  'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
+};
+Scribe.TINY_DAMAGE = {
+  'd2':'0', 'd3':'1', 'd4':'d2', 'd6':'d8', 'd8':'d4', 'd10':'d6',
+  'd12':'d8', '2d4':'1d4', '2d6':'1d8', '2d8':'1d10', '2d10':'2d6'
+};
+
+// TODO Move to ScribeRules/PH35
 Scribe.editorElements = [
   ['about', ' ', 'button', ['About']],
   ['help', '', 'button', ['Help']],
-  ['file', ' ', 'select-one', ChoicesForFileInput()],
+  ['file', ' ', 'select-one', []],
   ['summary', '', 'button', ['Summary']],
   ['validate', ' ', 'button', ['Validate']],
   ['view', '', 'button', ['View Html']],
@@ -127,12 +133,12 @@ Scribe.editorElements = [
   ['experience', 'Experience', 'text', [8]],
   ['levels', 'Levels', 'bag', 'classes'],
   ['imageUrl', 'Image URL', 'text', [20]],
-  ['strength', 'Strength', 'select-one', abilityChoices],
-  ['intelligence', 'Intelligence', 'select-one', abilityChoices],
-  ['wisdom', 'Wisdom', 'select-one', abilityChoices],
-  ['dexterity', 'Dexterity', 'select-one', abilityChoices],
-  ['constitution', 'Constitution', 'select-one', abilityChoices],
-  ['charisma', 'Charisma', 'select-one', abilityChoices],
+  ['strength', 'Strength', 'select-one', Scribe.ABILITY_CHOICES],
+  ['intelligence', 'Intelligence', 'select-one', Scribe.ABILITY_CHOICES],
+  ['wisdom', 'Wisdom', 'select-one', Scribe.ABILITY_CHOICES],
+  ['dexterity', 'Dexterity', 'select-one', Scribe.ABILITY_CHOICES],
+  ['constitution', 'Constitution', 'select-one', Scribe.ABILITY_CHOICES],
+  ['charisma', 'Charisma', 'select-one', Scribe.ABILITY_CHOICES],
   ['player', 'Player', 'text', [20]],
   ['alignment', 'Alignment', 'select-one', 'alignments'],
   ['gender', 'Gender', 'select-one', 'genders'],
@@ -156,36 +162,18 @@ Scribe.editorElements = [
   ['dmNotes', 'DM Notes', 'textarea', [40,10]]
 ];
 
-/* Mapping of medium damage to large/small/tiny damage. */
-Scribe.LARGE_DAMAGE = {
-  'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
-  'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
-};
-Scribe.SMALL_DAMAGE = {
-  'd2':'d1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
-  'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
-};
-Scribe.TINY_DAMAGE = {
-  'd2':'0', 'd3':'1', 'd4':'d2', 'd6':'d8', 'd8':'d4', 'd10':'d6',
-  'd12':'d8', '2d4':'1d4', '2d6':'1d8', '2d8':'1d10', '2d10':'2d6'
-};
-
+/*
+ * Associates the ScribeRules instance #rs# with the name #name# in Scribe's
+ * list of supported rule sets.
+ */
 Scribe.addRuleSet = function(name, rs) {
   ruleSets[name] = rs;
   ruleSet = rs;
 };
 
-/* Returns an array of choices for the editor's New/Open select input. */
-function ChoicesForFileInput() {
-  var result = cookieInfo.recent.split(',');
-  result.length--; /* Trim trailing empty element */
-  result = ['--New/Open--', 'New...', 'Open...'].concat(result);
-  return result;
-}
-
 /* Returns HTML for the character editor form. */
-function EditorHtml() {
-  var htmlBits = ['<form name="frm"><table><tr><td>\n'];
+Scribe.editorHtml = function() {
+  var htmlBits = ['<form name="frm"><table>'];
   for(var i = 0; i < Scribe.editorElements.length; i++) {
     var element = Scribe.editorElements[i];
     var label = element[1];
@@ -193,43 +181,41 @@ function EditorHtml() {
     var params = element[3];
     var type = element[2];
     if(typeof(params) == 'string') {
-      if(ruleSet.getChoices(params) == null)
+      if(ruleSet.getChoices(params) == null) {
+        alert("No choices for '" + params + "' available from rule set.");
         continue;
+      }
       params = ScribeUtils.getKeys(ruleSet.getChoices(params));
     }
-    if(label != '') {
-      htmlBits[htmlBits.length] = '</td></tr><tr><th>' + label + '</th><td>';
+    if(label != '' || i == 0) {
+      if(i > 0) {
+        htmlBits[htmlBits.length] = '</td></tr>';
+      }
+      htmlBits[htmlBits.length] = '<tr><th>' + label + '</th><td>';
     }
     if(type == 'bag' | type == 'set') {
       var widget = type == 'bag' ? InputHtml(name, 'text', [3]) :
                                    InputHtml(name, 'checkbox', null);
       htmlBits[htmlBits.length] =
+        '  ' +
         InputHtml(name + '_sel', 'select-one', params) +
         widget +
         InputHtml(name + '_clear', 'button', ['Clear All']);
     } else {
-      htmlBits[htmlBits.length] = InputHtml(name, type, params);
+      htmlBits[htmlBits.length] = '  ' + InputHtml(name, type, params);
     }
   }
-  htmlBits[htmlBits.length] = '</td></tr></table></form>';
-  var result = htmlBits.join('');
-  /* result = result.replace(/<\/td><\/tr>\n<tr><th><\/th><td>/g, ''); */
+  htmlBits = htmlBits.concat(['</td></tr>', '</table></form>']);
+  var result = htmlBits.join('\n');
   return result;
-}
+};
 
 /*
  * Starts the process of loading #name# (a full or partial URL) into the editor
  * and character sheet windows.  Schedules repeated calls of itself, ignoring
  * new calls, until either the character is loaded or the user cancels.
  */
-function LoadCharacter(name) {
-  var OLD_DEFAULTS = {
-    'alignment': 'Neutral Good', 'armor': 'None', 'charisma': 10,
-    'constitution': 10, 'deity': 'None', 'dexterity': 10, 'experience': 0,
-    'gender': 'Male', 'hitPoints': 0, 'intelligence': 10,
-    'name': 'New Character', 'race': 'Human', 'shield': 'None', 'strength': 10,
-    'wisdom': 10
-  };
+Scribe.loadCharacter = function(name) {
   var loadingWindow = window.frames[1];
   var url = name;
   if(url.match(/^\w*:/) == null)
@@ -237,27 +223,25 @@ function LoadCharacter(name) {
   if(url.match(/\.\w*$/) == null)
     url += URL_SUFFIX;
   if(urlLoading == url && loadingPopup.closed) {
-    urlLoading = null; /* User cancel. */
+    urlLoading = null; // User cancel
   } else if(urlLoading == url && loadingWindow.attributes != null) {
-    /* Character done loading. */
+    // Character done loading
     var i;
-    /* Place loaded name at head of New/Open list */
+    // Place loaded name at head of New/Open list
     var names = cookieInfo.recent.split(',');
-    names.length--; /* Trim trailing empty element */
+    names.length--; // Trim trailing empty element
     for(i = 0; i < names.length && names[i] != name; i++)
-      ; /* empty */
+      ; // empty
     if(i < names.length)
       names = names.slice(0, i).concat(names.slice(i + 1));
     names = [name].concat(names);
-    if(names.length >= MAX_RECENT_OPENS)
-      names.length = MAX_RECENT_OPENS - 1;
+    if(names.length > MAX_RECENT_OPENS)
+      names.length = MAX_RECENT_OPENS;
     cookieInfo.recent = names.join(',') + ',';
-    StoreCookie();
+    Scribe.storeCookie();
     character = {};
-    /*
-     * Turn objects into "dot" attributes and convert values from prior
-     * versions of Scribe.
-     */
+    // Turn objects into "dot" attributes and convert values from prior
+    // versions of Scribe.
     for(var a in loadingWindow.attributes) {
       var value = loadingWindow.attributes[a];
       if(typeof value == 'object') {
@@ -272,11 +256,12 @@ function LoadCharacter(name) {
             character['feats.Weapon Specialization (' + x + ')'] = '1';
           } else {
             var convertedName = x;
-            while((i = convertedName.search(/\([a-z]/)) >= 0)
+            while((i = convertedName.search(/\([a-z]/)) >= 0) {
               convertedName =
                 convertedName.substring(0, i + 1) +
                 convertedName.substring(i + 1, i + 2).toUpperCase() +
                 convertedName.substring(i + 2);
+            }
             if(a == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
               convertedName = convertedName.substring(0, i);
             else if(a == 'feats' && x == 'Expertise')
@@ -298,24 +283,32 @@ function LoadCharacter(name) {
         character[a] = value;
       }
     }
+    // Previous Scribe versions assumed some defaults that we no longer assume
+    var OLD_DEFAULTS = {
+      'alignment': 'Neutral Good', 'armor': 'None', 'charisma': 10,
+      'constitution': 10, 'deity': 'None', 'dexterity': 10, 'experience': 0,
+      'gender': 'Male', 'hitPoints': 0, 'intelligence': 10,
+      'name': 'New Character', 'race': 'Human', 'shield': 'None',
+      'strength': 10, 'wisdom': 10
+    };
     for(var a in OLD_DEFAULTS) {
       if(character[a] == null)
         character[a] = OLD_DEFAULTS[a];
     }
-    RefreshShowCodes();
-    RefreshEditor(false);
-    RefreshSheet();
-    currentUrl = name;
+    Scribe.refreshShowCodes();
+    Scribe.refreshEditor(false);
+    Scribe.refreshSheet();
+    currentUrl = url;
     cachedAttrs[currentUrl] = ScribeUtils.clone(character);
     urlLoading = null;
     if(!loadingPopup.closed)
       loadingPopup.close();
   } else if(urlLoading == null) {
-    /* Nothing presently loading. */
+    // Nothing presently loading
     urlLoading = url;
     loadingPopup =
-      PopUp('Loading character from ' + url, 'Cancel', 'window.close();');
-    if(loadingWindow.location != 'about:blank') /* Opera pukes w/o this test */
+      Scribe.popUp('Loading character from '+url, 'Cancel', 'window.close();');
+    if(loadingWindow.location != 'about:blank') // Opera pukes w/o this test
       loadingWindow.attributes = null;
     try {
       loadingWindow.location = url;
@@ -325,32 +318,33 @@ function LoadCharacter(name) {
       alert('Attempt to load ' + url + ' failed');
     }
     if(urlLoading != null)
-      setTimeout('LoadCharacter("' + name + '")', TIMEOUT_DELAY);
+      setTimeout('Scribe.loadCharacter("' + name + '")', TIMEOUT_DELAY);
   } else {
-    /* Something (possibly this function) in progress; try again later. */
-    setTimeout('LoadCharacter("' + name + '")', TIMEOUT_DELAY);
+    // Something (possibly this function) in progress; try again later
+    setTimeout('Scribe.loadCharacter("' + name + '")', TIMEOUT_DELAY);
   }
-}
+};
 
 /* Prompts the user for a character URL and starts the load. */
-function OpenDialog() {
+Scribe.openDialog = function() {
   if(loadingPopup != null && !loadingPopup.closed)
-    return; /* Ignore during load. */
+    return; // Ignore during load
   var name = prompt('Enter URL to Edit (Blank for Random Character)', '');
   if(name == null)
-    return; /* User cancel. */
-  if(name == '')
-    RandomizeCharacter(true);
+    return; // User cancel
+  else if(name == '')
+    Scribe.randomizeCharacter(true);
   else
-    LoadCharacter(name);
-}
+    Scribe.loadCharacter(name);
+};
 
 /*
  * Returns a popup window containing #html# and the optional set of #buttons#,
  * each associated with an #action#.
  */
-function PopUp(html, button, action /*, button, action ... */) {
-  var popup = window.open('', 'pop' + PopUp.next++, 'height=200,width=400');
+Scribe.popUp = function(html, button, action /*, button, action ... */) {
+  var popup = window.open
+    ('', 'pop' + Scribe.popUp.next++, 'height=200,width=400');
   var content = '<html><head><title>Scribe Message</title></head>\n' +
                 '<body bgcolor="' + BACKGROUND + '">' + html +
                 '<br/>\n<form>\n';
@@ -363,30 +357,28 @@ function PopUp(html, button, action /*, button, action ... */) {
   popup.document.write(content);
   popup.document.close();
   return popup;
-}
-PopUp.next = 0;
+};
+Scribe.popUp.next = 0;
 
 /*
  * Replaces the current character with one that has all randomized attributes.
- * Allows the user to specify race and class level(s).
+ * If #prompt# is true, allows the user to specify race and class level(s).
  */
-function RandomizeCharacter(prompt) {
+Scribe.randomizeCharacter = function(prompt) {
   if(!prompt || (urlLoading == 'random' && loadingPopup.okay != null)) {
-    /* Ready to generate. */
+    // Ready to generate
     var randomizers = ruleSet.getChoices('randomizers');
     var totalLevels = 0;
-    character = { };
+    character = {};
     if(prompt) {
       for(i = 0; i < loadingPopup.document.frm.elements.length; i++) {
         var element = loadingPopup.document.frm.elements[i];
-        var value = InputGetValue(element);;
-        if(element.type == 'button' ||
-           element.name == null ||
-           (value = InputGetValue(element)) == null ||
-           value == '')
+        var name = element.name;
+        var value = InputGetValue(element);
+        if(element.type=='button' || name==null || value==null || value=='')
           continue;
-        character[element.name] = value;
-        if(element.name.match(/^levels/)) {
+        character[name] = value;
+        if(name.match(/^levels/)) {
           totalLevels += value - 0;
         }
       }
@@ -394,6 +386,7 @@ function RandomizeCharacter(prompt) {
       randomizers['race'](ruleSet, character, 'race');
     }
     if(totalLevels == 0) {
+      // TODO Randomly generate high/multilevel characters
       randomizers['levels'](ruleSet, character, 'levels');
       totalLevels = 1;
     }
@@ -402,18 +395,18 @@ function RandomizeCharacter(prompt) {
       if(a != 'race' && a != 'levels' && randomizers[a] != null)
         randomizers[a](ruleSet, character, a);
     }
-    RefreshShowCodes();
-    RefreshEditor(false);
-    RefreshSheet();
+    Scribe.refreshShowCodes();
+    Scribe.refreshEditor(false);
+    Scribe.refreshSheet();
     currentUrl = 'random';
     cachedAttrs[currentUrl] = ScribeUtils.clone(character);
     if(loadingPopup != null)
       loadingPopup.close();
     urlLoading = null;
   } else if(urlLoading == 'random' && loadingPopup.closed) {
-    urlLoading = null; /* User cancel. */
+    urlLoading = null; // User cancel
   } else if(urlLoading == null) {
-    /* Nothing presently loading. */
+    // Nothing presently loading
     urlLoading = 'random';
     var classes = ScribeUtils.getKeys(ruleSet.getChoices('classes'));
     var htmlBits = [
@@ -427,10 +420,17 @@ function RandomizeCharacter(prompt) {
                 ScribeUtils.getKeys(ruleSet.getChoices('races')))+'</td></tr>',
       '<tr><th>Level(s)</th></tr>'
     ];
-    for(var i = 0; i < classes.length; i++)
-      htmlBits[htmlBits.length] =
-        '<tr><th>' + classes[i] + '</th><td>' +
-        InputHtml('levels.' + classes[i], 'text', [2]) + '</td></tr>';
+    // Make the window compact by listing at most 10 classes per column
+    var classesPerLine = Math.ceil(classes.length / 10) + 1;
+    for(var i = 0; i < classes.length; i += classesPerLine) {
+      var lineHtml = '<tr>';
+      for(var j = i; j < i + classesPerLine && j < classes.length; j++) {
+        lineHtml += '<th>' + classes[j] + '</th><td>' +
+                    InputHtml('levels.' + classes[j], 'text', [2]) + '</td>';
+      }
+      lineHtml += '</tr>';
+      htmlBits[htmlBits.length] = lineHtml;
+    }
     htmlBits = htmlBits.concat([
       '</table></form>',
       '<form>',
@@ -442,21 +442,22 @@ function RandomizeCharacter(prompt) {
     loadingPopup = window.open('', 'randomWin');
     loadingPopup.document.write(html);
     loadingPopup.document.close();
+    // Randomize race; the user can change it if desired
     loadingPopup.document.frm.race.selectedIndex =
       ScribeUtils.random(0, loadingPopup.document.frm.race.options.length - 1);
     loadingPopup.okay = null;
-    setTimeout('RandomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
+    setTimeout('Scribe.randomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   } else {
-    /* Something (possibly this function) in progress; try again later. */
-    setTimeout('RandomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
+    // Something (possibly this function) in progress; try again later
+    setTimeout('Scribe.randomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   }
-}
+};
 
 /*
  * Resets the editing window fields to the values of the current character.
  * First redraws the editor if #redraw# is true.
  */
-function RefreshEditor(redraw) {
+Scribe.refreshEditor = function(redraw) {
 
   var i;
 
@@ -465,19 +466,21 @@ function RefreshEditor(redraw) {
       '<html><head><title>Editor</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
       '<img src="' + LOGO_URL + ' "/><br/>\n' +
-      EditorHtml() + '\n' +
+      Scribe.editorHtml() + '\n' +
       '</body></html>\n';
     var editWindow = window.frames[0];
     editWindow.document.write(editHtml);
     editWindow.document.close();
     editForm = editWindow.document.frm;
-    var callback = function() {Update(this);};
+    var callback = function() {Scribe.update(this);};
     for(i = 0; i < editForm.elements.length; i++) {
       InputSetCallback(editForm.elements[i], callback);
     }
   }
 
-  var fileOpts = ChoicesForFileInput();
+  var fileOpts = cookieInfo.recent.split(',');
+  fileOpts.length--; /* Trim trailing empty element */
+  fileOpts = ['--New/Open--', 'New...', 'Open...'].concat(fileOpts);
   var spellOpts = [];
   var spells = ruleSet.getChoices('spells');
   for(var a in spells) {
@@ -497,10 +500,10 @@ function RefreshEditor(redraw) {
   InputSetOptions(editForm.viewer, ruleSet.getViewerNames());
   if(!redraw &&
      (editForm.file.options.length != fileOpts.length ||
-      editForm.spells_sel.options.length != spellOpts.length)) /* Opera bug */
-    return RefreshEditor(true);
+      editForm.spells_sel.options.length != spellOpts.length)) // Opera bug
+    return Scribe.refreshEditor(true);
 
-  /* Skip to first character-related editor input */
+  // Skip to first character-related editor input
   for(i = 0;
       i < editForm.elements.length && editForm.elements[i].name != 'name';
       i++)
@@ -511,6 +514,8 @@ function RefreshEditor(redraw) {
     var sel = editForm[name + '_sel'];
     var value = null;
     if(name.indexOf('_sel') >= 0) {
+      // For bags/sets, display the first option for which the character has
+      // a non-null value
       var prefix = name.substring(0, name.indexOf('_sel')) + '.';
       for(var a in character) {
         if(a.substring(0, prefix.length) == prefix) {
@@ -526,6 +531,7 @@ function RefreshEditor(redraw) {
     if(InputGetValue(input) != value)
       InputSetValue(input, value);
   }
+  // Regenerate the skill options to reflect the characters cross/class skills
   var attrs = ruleSet.applyRules(character);
   for(i = 0; i < editForm.skills_sel.options.length; i++) {
     var opt = editForm.skills_sel.options[i];
@@ -537,6 +543,7 @@ function RefreshEditor(redraw) {
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
   InputSetValue(editForm.viewer, cookieInfo.viewer);
+  // Find the first spell category checked for this character, if any
   InputSetValue(editForm.spellcats, false);
   for(i = 0; i < editForm.spellcats_sel.options.length; i++) {
     if(showCodes[editForm.spellcats_sel.options[i].value]) {
@@ -546,19 +553,22 @@ function RefreshEditor(redraw) {
     }
   }
 
-}
+};
 
 /* Draws the sheet for the current character in the character sheet window. */
-function RefreshSheet() {
+Scribe.refreshSheet = function() {
   var sheetWindow = window.opener;
   if(sheetWindow == null || sheetWindow.closed)
     sheetWindow = window.open('', 'scribeSheet');
-  sheetWindow.document.write(SheetHtml());
+  sheetWindow.document.write(Scribe.sheetHtml());
   sheetWindow.document.close();
-}
+};
 
-/* Recomputes the showCodes global to reflect the current character's spells. */
-function RefreshShowCodes() {
+/*
+ * Recomputes the showCodes global to reflect the current character's known and
+ * permitted spells.
+ */
+Scribe.refreshShowCodes = function() {
   var matchInfo;
   showCodes = {};
   for(var a in character) {
@@ -568,10 +578,10 @@ function RefreshShowCodes() {
       showCodes[matchInfo[1]] = true;
     }
   }
-}
+};
 
 /* Returns the character sheet HTML for the current character. */
-function SheetHtml() {
+Scribe.sheetHtml = function() {
 
   var a;
   var attrs = ScribeUtils.clone(character);
@@ -580,8 +590,8 @@ function SheetHtml() {
   var displayAttributes = {};
   var i;
 
+  // Turn "dot" attributes into objects
   for(a in character) {
-    /* Turn "dot" attributes into objects. */
     if((i = a.indexOf('.')) < 0) {
       codeAttributes[a] = attrs[a];
     } else {
@@ -593,6 +603,7 @@ function SheetHtml() {
   }
 
   attrs.dmonly = cookieInfo.dmonly - 0;
+  // If so directed, add computed non-zero values for untrained skills
   if(cookieInfo.untrained == '1') {
     var skills = ruleEngine.getChoices('skills');
     for(a in skills) {
@@ -609,11 +620,9 @@ function SheetHtml() {
         delete computedAttributes['skills.' + a];
     }
   }
-  /*
-   * NOTE: The ObjectFormatter doesn't support interspersing values in a list
-   * (e.g., skill ability, weapon damage), so we do some inelegant manipulation
-   * of displayAttributes' names and values here to get the sheet to look right.
-   */
+  // NOTE: ObjectFormatter doesn't support interspersing values in a list
+  // (e.g., skill ability, weapon damage), so we do some inelegant manipulation
+  // of displayAttributes' names and values here to get the sheet to look right.
   var notes = ruleSet.getChoices('notes');
   var strengthDamageAdjustment =
     computedAttributes['combatNotes.strengthDamageAdjustment'];
@@ -623,7 +632,7 @@ function SheetHtml() {
     var name = a.replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
     name = name.substring(0, 1).toUpperCase() + name.substring(1);
     var value = computedAttributes[a];
-    /* Add entered value in brackets if it differs from computed value. */
+    // Add entered value in brackets if it differs from computed value
     if(attrs[a] != null && attrs[a] != value)
       value += '[' + attrs[a] + ']';
     if((i = name.indexOf('.')) < 0) {
@@ -635,15 +644,15 @@ function SheetHtml() {
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
       if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
-          continue; /* Suppress notes with zero value. */
+          continue; // Suppress notes with zero value
         else if(notes[a] == null)
-          value = Signed(value); /* Make signed if not otherwise formatted. */
+          value = ScribeUtils.signed(value); // Make signed if not formatted
       }
       if(notes[a] != null)
         value = notes[a].replace(/%V/, value);
       if(object == 'Skills') {
         var ability = ruleSet.getChoices('skills')[name];
-        var skillInfo = new Array();
+        var skillInfo = [];
         if(ability != null && ability != '' && ability.substring(0, 1) != '/')
           skillInfo[skillInfo.length] = ability.substring(0, 3);
         if(computedAttributes['classSkills.' + name] == null)
@@ -677,7 +686,7 @@ function SheetHtml() {
           addedDamage = 0;
         if(computedAttributes['weaponDamageAdjustment.' + name] != null)
           addedDamage += computedAttributes['weaponDamageAdjustment.'+name] - 0;
-        damages = damages == null ? ['0'] : damages.split('/');
+        damages = damages.split('/');
         for(i = 0; i < damages.length; i++) {
           var pieces =
             damages[i].match(/^(\d*d\d+)([\+\-]\d+)? *(x(\d+))? *(@(\d+))?$/);
@@ -702,12 +711,14 @@ function SheetHtml() {
             damage = Scribe.TINY_DAMAGE[damage];
           }
           if(additional != 0)
-            damage += Signed(additional);
+            damage += ScribeUtils.signed(additional);
           damages[i] = damage + ' x' + multiplier + '@' + threat;
         }
-        name += '(' + Signed(attack) + ' ' + damages.join('/') +
+        name += '(' + ScribeUtils.signed(attack) + ' ' + damages.join('/') +
                 (range != 0 ? ' R' + range : '') + ')';
       }
+      // TODO This suppresses values of 1, which is great for things like
+      // weapons and spells but bad for, e.g., saves
       value = name + (value == '1' ? '' : (': ' + value));
       if(object.indexOf('Notes') > 0 && ruleSet.isSource(a)) {
         if(cookieInfo.italics == '1')
@@ -733,6 +744,7 @@ function SheetHtml() {
          '  <title>' + attrs.name + '</title>\n' +
          '  <script>\n' +
          'var attributes = ' + ObjectViewer.toCode(codeAttributes) + ';\n' +
+         // Careful: don't want to close scribe.html's script tag here!
          '  </' + 'script>\n' +
          '</head>\n' +
          '<body>\n' +
@@ -741,30 +753,25 @@ function SheetHtml() {
          '</body>\n' +
          '</html>\n';
 
-}
+};
 
 /* Opens a window that contains HTML for #html# in readable/copyable format. */
-function ShowHtml(html) {
-  if(ShowHtml.htmlWindow == null || ShowHtml.htmlWindow.closed)
-    ShowHtml.htmlWindow = window.open('', 'html');
+Scribe.showHtml = function(html) {
+  if(Scribe.showHtml.htmlWindow == null || Scribe.showHtml.htmlWindow.closed)
+    Scribe.showHtml.htmlWindow = window.open('', 'html');
   else
-    ShowHtml.htmlWindow.focus();
+    Scribe.showHtml.htmlWindow.focus();
   html = html.replace(/</g, '&lt;');
   html = html.replace(/>/g, '&gt;');
-  ShowHtml.htmlWindow.document.write(
+  Scribe.showHtml.htmlWindow.document.write(
     '<html><head><title>HTML</title></head>\n' +
     '<body><pre>' + html + '</pre></body></html>\n'
   );
-  ShowHtml.htmlWindow.document.close();
-}
-
-/* Returns #value# with a leading sign. */
-function Signed(value) {
-  return (value >= 0 ? '+' : '') + value;
-}
+  Scribe.showHtml.htmlWindow.document.close();
+};
 
 /* Stores the current values of cookieInfo in the browser cookie. */
-function StoreCookie() {
+Scribe.storeCookie = function() {
   var cookie = '';
   for(var p in cookieInfo) {
     cookie +=
@@ -775,13 +782,13 @@ function StoreCookie() {
   nextYear.setFullYear(nextYear.getFullYear() + 1);
   cookie += ';expires=' + nextYear.toGMTString();
   document.cookie = cookie;
-}
+};
 
 /*
  * Opens a window that displays a summary of the attributes of all characters
  * that have been loaded into the editor.
  */
-function SummarizeCachedAttrs() {
+Scribe.summarizeCachedAttrs = function() {
   var allAttrs = {};
   for(var a in cachedAttrs) {
     if(a != 'random')
@@ -830,29 +837,30 @@ function SummarizeCachedAttrs() {
   }
   htmlBits[htmlBits.length] = '</table>';
   htmlBits[htmlBits.length] = '</body></html>\n';
-  if(SummarizeCachedAttrs.win == null || SummarizeCachedAttrs.win.closed)
-    SummarizeCachedAttrs.win = window.open('', 'sumwin');
+  if(Scribe.summarizeCachedAttrs.win == null ||
+     Scribe.summarizeCachedAttrs.win.closed)
+    Scribe.summarizeCachedAttrs.win = window.open('', 'sumwin');
   else
-    SummarizeCachedAttrs.win.focus();
-  SummarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
-  SummarizeCachedAttrs.win.document.close();
-}
+    Scribe.summarizeCachedAttrs.win.focus();
+  Scribe.summarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
+  Scribe.summarizeCachedAttrs.win.document.close();
+};
 
 /* Callback invoked when the user changes the editor value of Input #input#. */
-function Update(input) {
+Scribe.update = function(input) {
 
   var name = input.name;
   var value = InputGetValue(input);
   if(name == 'about') {
-    if(Update.aboutWindow == null || Update.aboutWindow.closed)
-      Update.aboutWindow = PopUp
+    if(Scribe.aboutWindow == null || Scribe.aboutWindow.closed)
+      Scribe.aboutWindow = Scribe.popUp
         (ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>'), 'Ok', 'window.close();');
     else
-      Update.aboutWindow.focus();
+      Scribe.aboutWindow.focus();
   } else if(name.search(/dmonly|italics|untrained|viewer/) >= 0) {
     cookieInfo[name] = value + '';
-    StoreCookie();
-    RefreshSheet();
+    Scribe.storeCookie();
+    Scribe.refreshSheet();
   } else if(name == 'file') {
     input.selectedIndex = 0;
     if(WARN_ABOUT_DISCARD &&
@@ -860,41 +868,41 @@ function Update(input) {
        !confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Open...')
-      OpenDialog();
+      Scribe.openDialog();
     else if(value == 'New...')
-      RandomizeCharacter(true);
+      Scribe.randomizeCharacter(true);
     else
-      LoadCharacter(value);
+      Scribe.loadCharacter(value);
   } else if(name == 'help') {
-    if(Update.helpWindow == null || Update.helpWindow.closed)
-      Update.helpWindow = window.open(HELP_URL, 'help');
+    if(Scribe.helpWindow == null || Scribe.helpWindow.closed)
+      Scribe.helpWindow = window.open(HELP_URL, 'help');
     else
-      Update.helpWindow.focus();
+      Scribe.helpWindow.focus();
   } else if(name == 'randomize') {
     input.selectedIndex = 0;
     ruleSet.getChoices('randomizers')[value](ruleSet, character, value);
-    RefreshEditor(false);
-    RefreshSheet();
+    Scribe.refreshEditor(false);
+    Scribe.refreshSheet();
   } else if(name == 'spellcats') {
     showCodes[InputGetValue(editForm.spellcats_sel)] = value;
-    RefreshEditor(false);
+    Scribe.refreshEditor(false);
   } else if(name == 'summary') {
-    SummarizeCachedAttrs();
+    Scribe.summarizeCachedAttrs();
   } else if(name == 'validate') {
-    if(Update.validateWindow == null || Update.validateWindow.closed)
-      Update.validateWindow = window.open('', 'vdate', 'height=400,width=400');
+    if(Scribe.validateWindow == null || Scribe.validateWindow.closed)
+      Scribe.validateWindow = window.open('', 'vdate', 'height=400,width=400');
     else
-      Update.validateWindow.focus();
-    Update.validateWindow.document.write(
+      Scribe.validateWindow.focus();
+    Scribe.validateWindow.document.write(
       '<html><head><title>Character Validation Check</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
       '<h2>Validation Results</h2>\n<p>\n' +
-      ValidationHtml() +
+      Scribe.validationHtml() +
       '\n</p>\n</body></html>\n'
     );
-    Update.validateWindow.document.close();
+    Scribe.validateWindow.document.close();
   } else if(name == 'view') {
-    ShowHtml(SheetHtml());
+    Scribe.showHtml(Scribe.sheetHtml());
     cachedAttrs[currentUrl] = ScribeUtils.clone(character);
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
@@ -912,8 +920,8 @@ function Update(input) {
     input = editForm[name + '_sel']
     if(input != null)
       input.selectedIndex = 0;
-    RefreshEditor(false);
-    RefreshSheet();
+    Scribe.refreshEditor(false);
+    Scribe.refreshSheet();
   } else if(name.indexOf('_sel') >= 0) {
     name = name.replace(/_sel/, '');
     input = editForm[name]
@@ -942,18 +950,18 @@ function Update(input) {
       InputSetValue(input, 0);
     else
       character[name] = value;
-    RefreshSheet();
+    Scribe.refreshSheet();
     if(name.search(/^(levels|domains)\./) >= 0)
-      RefreshEditor(false);
+      Scribe.refreshEditor(false);
   }
 
-}
+};
 
 /*
  * Tests #attributes# against the PH validation rules. Returns an array
  * containing any failed rules.
  */
-function Validate(attributes) {
+Scribe.validate = function(attributes) {
   var reverseOps = {
     '==': '!=', '!=': '==', '<': '>=', '>=': '<', '>': '<=', '<=': '>',
     '&&': '||', '||': '&&'
@@ -997,22 +1005,20 @@ function Validate(attributes) {
     }
   }
   return result;
-}
+};
 
 /*
  * Returns HTML showing the results of applying validation rules to the current
  * character's attributes.
  */
-function ValidationHtml() {
+Scribe.validationHtml = function() {
   var computedAttributes = ruleSet.applyRules(character);
   var errors;
   var i;
-  var invalid = Validate(computedAttributes);
+  var invalid = Scribe.validate(computedAttributes);
   var result;
-  /*
-   * Because of cross-class skills, we can't write a simple validation test for
-   * the number of assigned skill points; we have to compute it here.
-   */
+  // Because of cross-class skills, we can't write a simple validation test for
+  // the number of assigned skill points; we have to compute it here.
   var maxRanks = computedAttributes.classSkillMaxRanks;
   var skillPointsAssigned = 0;
   for(var a in character) {
@@ -1038,4 +1044,4 @@ function ValidationHtml() {
       'Failed: ' + invalid.join('<br/>\nFailed:') + '<br/>\n' + invalid.length +
       ' validation error' + (invalid.length == 1 ? '' : 's') + '<br/>\n';
   return result;
-}
+};
