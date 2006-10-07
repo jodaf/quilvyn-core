@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.47 2006/10/07 21:27:02 Jim Exp $ */
+/* $Id: SRD35.js,v 1.48 2006/10/07 22:34:03 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -29,6 +29,11 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  */
 function PH35() {
   var rules = new ScribeRules();
+  if(PH35.createViewer != null) {
+    PH35.viewer = new ObjectViewer();
+    PH35.createViewer(PH35.viewer);
+    rules.defineViewer("Standard", PH35.viewer);
+  }
   if(PH35.abilityRules != null) PH35.abilityRules(rules);
   if(PH35.raceRules != null) PH35.raceRules(rules);
   if(PH35.classRules != null) PH35.classRules(rules);
@@ -47,15 +52,10 @@ function PH35() {
       'specialization', 'spells', 'strength', 'weapons', 'wisdom'
     );
   }
-  if(PH35.createViewer != null) {
-    PH35.viewer = new ObjectViewer();
-    PH35.createViewer(PH35.viewer);
-    rules.defineViewer("Standard", PH35.viewer);
-  }
-  PH35.abilityRules = PH35.raceRules = PH35.classRules = PH35.skillRules = 
-    PH35.featRules = PH35.descriptionRules = PH35.equipmentRules = 
-    PH35.combatRules = PH35.adventuringRules = PH35.magicRules =
-    PH35.createViewer = null;
+  PH35.createViewer = PH35.abilityRules = PH35.raceRules = PH35.classRules =
+    PH35.skillRules = PH35.featRules = PH35.descriptionRules =
+    PH35.equipmentRules = PH35.combatRules = PH35.adventuringRules =
+    PH35.magicRules = PH35.createViewer = null;
   // A rule for handling DM-only information
   rules.defineRule('dmNotes', 'dmonly', '?', null);
   Scribe.addRuleSet('PH35', rules);
@@ -2048,7 +2048,7 @@ PH35.raceRules = function(rules) {
         'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
         'saveNotes.magicResistanceFeature:+2 vs. spells',
-        'saveNotes.poisonResistanceFeature:+2 vs. poison',
+        'saveNotes.poisonResistanceFeature:+%V vs. poison',
         'saveNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
         'skillNotes.naturalSmithFeature:' +
            '+2 Appraise/Craft involving stone or metal',
@@ -2064,7 +2064,12 @@ PH35.raceRules = function(rules) {
       rules.defineRule
         ('resistance.Magic', 'saveNotes.magicResistanceFeature', '+=', '2');
       rules.defineRule
-        ('resistance.Poison', 'saveNotes.poisonResistanceFeature', '+=', '2');
+        ('resistance.Poison', 'saveNotes.poisonResistanceFeature', '+=', null);
+      // TODO This cooperates with the Assassin's variable poison resistance,
+      // but preclues another race with poison resistance
+      rules.defineRule('saveNotes.poisonResistanceFeature',
+        'race', '+=', 'source == "Dwarf" ? 2 : null'
+      );
       rules.defineRule('speed', 'features.Slow', '+', '-10');
 
     } else if(race == 'Elf') {
