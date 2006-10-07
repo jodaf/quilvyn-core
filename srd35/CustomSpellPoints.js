@@ -21,9 +21,9 @@ function SpellPoints() {
     'casterLevel', '?', null,
     null, '=', '0'
   );
-  var ruleSources = PH35.rules.allSources();
-  for(var i = 0; i < ruleSources.length; i++) {
-    var attr = ruleSources[i];
+  var ruleTargets = PH35.rules.allTargets();
+  for(var i = 0; i < ruleTargets.length; i++) {
+    var attr = ruleTargets[i];
     var matchInfo = attr.match(/^spellsPerDay\.[A-Za-z]+([0-9]+)/);
     if(matchInfo != null) {
       PH35.defineRule('spellPoints', attr, '+', 'source * ' + matchInfo[1]);
