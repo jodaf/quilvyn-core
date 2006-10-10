@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.45 2006/10/06 14:42:24 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.46 2006/10/10 10:36:47 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -290,7 +290,7 @@ ScribeRules.prototype.defineRace = function(name, abilityAdjustment, features) {
       var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
       this.defineRule(prefix + 'Features.' + feature,
         'race', '?', 'source == "' + name + '"',
-        'level', '=', 'source >= ' + level
+        'level', '=', 'source >= ' + level + ' ? 1 : null'
       );
       this.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
