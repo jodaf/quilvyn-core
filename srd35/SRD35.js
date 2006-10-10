@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.48 2006/10/07 22:34:03 Jim Exp $ */
+/* $Id: SRD35.js,v 1.49 2006/10/10 10:37:42 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -52,10 +52,6 @@ function PH35() {
       'specialization', 'spells', 'strength', 'weapons', 'wisdom'
     );
   }
-  PH35.createViewer = PH35.abilityRules = PH35.raceRules = PH35.classRules =
-    PH35.skillRules = PH35.featRules = PH35.descriptionRules =
-    PH35.equipmentRules = PH35.combatRules = PH35.adventuringRules =
-    PH35.magicRules = PH35.createViewer = null;
   // A rule for handling DM-only information
   rules.defineRule('dmNotes', 'dmonly', '?', null);
   Scribe.addRuleSet('PH35', rules);
@@ -2407,7 +2403,7 @@ PH35.randomize = function(rules, attributes, attribute) {
     howMany = attrs.domainCount;
     if(howMany != null) {
       if((choices = rules.getChoices('deities')[attributes.deity]) == null)
-        choices = ScribeUtils.getKeys(Rules.getChoices('domains'));
+        choices = ScribeUtils.getKeys(rules.getChoices('domains'));
       else
         choices = choices.split('/');
       pickAttrs
@@ -2469,10 +2465,15 @@ PH35.randomize = function(rules, attributes, attribute) {
       if(attr.indexOf('levels.') == 0)
         delete attributes[attr];
     }
-    choices = [];
-    for(attr in rules.getChoices('classes'))
-      choices[choices.length] = attr;
-    pickAttrs(attributes, 'levels.', choices, 1, 1);
+    choices = ScribeUtils.getKeys(rules.getChoices('classes'));
+    var classes = ScribeUtils.random(1, 100);
+    classes = classes <= 85 ? 1 : classes <= 95 ? 2 : 3;
+    for(i = 0; i < classes; i++) {
+      var level = ScribeUtils.random(1, 100);
+      level = level<=50 ? 1 : level<=75 ? 2 : level<=87 ? 3 :
+              level<=93 ? 4 : level<=96 ? 5 : level<=98 ? 6 : level<=99 ? 7 : 8;
+      pickAttrs(attributes, 'levels.', choices, 1, level);
+    }
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
   } else if(attribute == 'selectableFeatures') {

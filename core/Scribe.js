@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.162 2006/10/07 21:27:48 Jim Exp $ */
+/* $Id: Scribe.js,v 1.163 2006/10/10 10:37:42 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.34.07';
+var VERSION = '0.34.10';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -378,7 +378,7 @@ Scribe.randomizeCharacter = function(prompt) {
         if(element.type=='button' || name==null || value==null || value=='')
           continue;
         character[name] = value;
-        if(name.match(/^levels/)) {
+        if(name.match(/^levels\./)) {
           totalLevels += value - 0;
         }
       }
@@ -386,9 +386,12 @@ Scribe.randomizeCharacter = function(prompt) {
       randomizers['race'](ruleSet, character, 'race');
     }
     if(totalLevels == 0) {
-      // TODO Randomly generate high/multilevel characters
       randomizers['levels'](ruleSet, character, 'levels');
-      totalLevels = 1;
+      for(var a in character) {
+        if(a.match(/^levels\./)) {
+          totalLevels += character[a] - 0;
+        }
+      }
     }
     character.experience = totalLevels * (totalLevels - 1) * 1000 / 2;
     for(var a in randomizers) {
@@ -805,14 +808,15 @@ Scribe.summarizeCachedAttrs = function() {
   ];
   var rowHtml = '<tr><td></td>';
   for(var i = 0; i < urls.length; i++) {
-    rowHtml += '<th>' + urls[i] + '</th>';
+    var name = urls[i].replace(/.*\//, '').replace(/\..*/, '');
+    rowHtml += '<th>' + name + '</th>';
   }
   htmlBits[htmlBits.length] = rowHtml;
   var inTable = {};
   for(var a in allAttrs) {
     var spells = [];
     for(var b in allAttrs[a]) {
-      if(b.match(/^(features|skills|languages)\./))
+      if(b.match(/^(features|skills|selectableFeatures|languages)\./))
         inTable[b] = 1;
       else if(b.match(/^spells\./))
         spells[spells.length] = b.substring(b.indexOf('.') + 1);
