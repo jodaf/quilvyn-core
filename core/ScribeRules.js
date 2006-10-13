@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.46 2006/10/10 10:36:47 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.47 2006/10/13 10:21:17 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -18,10 +18,11 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /* TODO */
-function ScribeRules() {
+function ScribeRules(name) {
   this.choices = {};
   this.choices['randomizers'] = {'--randomize--': null};
   this.choices['spellsCategoryCodes'] = {};
+  this.name = name;
   this.tests = [];
   this.viewers = {};
 }
@@ -356,6 +357,11 @@ ScribeRules.prototype.defineViewer = function(name, viewer) {
  */
 ScribeRules.prototype.getChoices = function(name) {
   return this.choices[name];
+};
+
+/* Returns the name of this rule set. */
+ScribeRules.prototype.getName = function() {
+  return this.name;
 };
 
 /*

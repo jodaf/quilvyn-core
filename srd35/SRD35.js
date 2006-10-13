@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.49 2006/10/10 10:37:42 Jim Exp $ */
+/* $Id: SRD35.js,v 1.50 2006/10/13 10:21:41 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -28,7 +28,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * manipulated in order to trim the choices offered.
  */
 function PH35() {
-  var rules = new ScribeRules();
+  var rules = new ScribeRules('PH35');
   if(PH35.createViewer != null) {
     PH35.viewer = new ObjectViewer();
     PH35.createViewer(PH35.viewer);
@@ -54,7 +54,7 @@ function PH35() {
   }
   // A rule for handling DM-only information
   rules.defineRule('dmNotes', 'dmonly', '?', null);
-  Scribe.addRuleSet('PH35', rules);
+  Scribe.addRuleSet(rules);
   PH35.rules = rules;
 }
 
