@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.163 2006/10/10 10:37:42 Jim Exp $ */
+/* $Id: Scribe.js,v 1.164 2006/10/13 10:23:05 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.34.10';
+var VERSION = '0.34.13';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -119,6 +119,7 @@ Scribe.TINY_DAMAGE = {
 Scribe.editorElements = [
   ['about', ' ', 'button', ['About']],
   ['help', '', 'button', ['Help']],
+  ['rules', 'Rule Set', 'select-one', []],
   ['file', ' ', 'select-one', []],
   ['summary', '', 'button', ['Summary']],
   ['validate', ' ', 'button', ['Validate']],
@@ -162,12 +163,9 @@ Scribe.editorElements = [
   ['dmNotes', 'DM Notes', 'textarea', [40,10]]
 ];
 
-/*
- * Associates the ScribeRules instance #rs# with the name #name# in Scribe's
- * list of supported rule sets.
- */
-Scribe.addRuleSet = function(name, rs) {
-  ruleSets[name] = rs;
+/* Adds #rs# to Scribe's * list of supported rule sets. */
+Scribe.addRuleSet = function(rs) {
+  ruleSets[rs.getName()] = rs;
   ruleSet = rs;
 };
 
@@ -499,6 +497,7 @@ Scribe.refreshEditor = function(redraw) {
   spellOpts.sort();
 
   InputSetOptions(editForm.file, fileOpts);
+  InputSetOptions(editForm.rules, ScribeUtils.getKeys(ruleSets));
   InputSetOptions(editForm.spells_sel, spellOpts);
   InputSetOptions(editForm.viewer, ruleSet.getViewerNames());
   if(!redraw &&
@@ -544,6 +543,7 @@ Scribe.refreshEditor = function(redraw) {
 
   InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
+  InputSetValue(editForm.rules, ruleSet.getName());
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
   InputSetValue(editForm.viewer, cookieInfo.viewer);
   // Find the first spell category checked for this character, if any
@@ -886,6 +886,10 @@ Scribe.update = function(input) {
     input.selectedIndex = 0;
     ruleSet.getChoices('randomizers')[value](ruleSet, character, value);
     Scribe.refreshEditor(false);
+    Scribe.refreshSheet();
+  } else if(name == 'rules') {
+    ruleSet = ruleSets[value];
+    Scribe.refreshEditor(true);
     Scribe.refreshSheet();
   } else if(name == 'spellcats') {
     showCodes[InputGetValue(editForm.spellcats_sel)] = value;
