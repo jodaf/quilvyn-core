@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.50 2006/10/13 10:21:41 Jim Exp $ */
+/* $Id: SRD35.js,v 1.51 2006/10/14 07:07:37 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -28,7 +28,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * manipulated in order to trim the choices offered.
  */
 function PH35() {
-  var rules = new ScribeRules('PH35');
+  var rules = new ScribeRules('Core v3.5');
   if(PH35.createViewer != null) {
     PH35.viewer = new ObjectViewer();
     PH35.createViewer(PH35.viewer);
@@ -862,6 +862,7 @@ PH35.classRules = function(rules) {
     null, '=', '0',
     'level', '^', 'source + 3'
   );
+  rules.defineTest('+/{^levels} == {level}');
 
   for(var i = 0; i < PH35.CLASSES.length; i++) {
 
