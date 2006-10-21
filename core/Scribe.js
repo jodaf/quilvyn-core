@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.165 2006/10/14 22:10:15 Jim Exp $ */
+/* $Id: Scribe.js,v 1.166 2006/10/21 00:39:17 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.34.14';
+var VERSION = '0.34.20';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -119,7 +119,7 @@ Scribe.TINY_DAMAGE = {
 Scribe.editorElements = [
   ['about', ' ', 'button', ['About']],
   ['help', '', 'button', ['Help']],
-  ['rules', 'Rule Set', 'select-one', []],
+  ['rules', 'Rules', 'select-one', []],
   ['file', ' ', 'select-one', []],
   ['summary', '', 'button', ['Summary']],
   ['validate', ' ', 'button', ['Validate']],
