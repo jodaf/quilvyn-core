@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.51 2006/10/14 07:07:37 Jim Exp $ */
+/* $Id: SRD35.js,v 1.52 2006/10/26 04:39:54 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1697,7 +1697,7 @@ PH35.combatRules = function(rules) {
                    'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
   );
   rules.defineRule
-    ('attacksPerRound', 'baseAttack', '=', 'Math.floor((source + 5) / 5)');
+    ('attacksPerRound', 'baseAttack', '=', '1 + Math.floor((source - 1) / 5)');
   rules.defineRule('baseAttack', null, '=', '0');
   rules.defineRule('initiative', 'dexterityModifier', '=', null);
   rules.defineRule('meleeAttack', 'baseAttack', '=', null);
