@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.52 2006/10/26 04:39:54 Jim Exp $ */
+/* $Id: SRD35.js,v 1.53 2006/10/27 23:17:57 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -735,8 +735,7 @@ PH35.skillsSynergies = {
   'Bluff': 'Diplomacy/Intimidate/Sleight Of Hand',
   'Decipher Script': 'Use Magic Device (scrolls)',
   'Escape Artist': 'Use Rope (bindings)',
-   // TODO: Wild Empathy isn't a skill
-  'Handle Animal': 'Ride/Wild Empathy',
+  'Handle Animal': 'Ride',
   'Jump': 'Tumble',
   'Knowledge (Arcana)': 'Spellcraft',
   'Knowledge (Dungeoneering)': 'Survival (underground)',
@@ -2217,12 +2216,18 @@ PH35.skillRules = function(rules) {
                  a.substring(1).replace(/ /g, '');
     rules.defineNote
       ('skillNotes.' + prefix + 'Synergy:+2 ' + PH35.skillsSynergies[a]);
+    // Second notes for a couple synergies to distinguish bonuses automatically
+    // applied by Scribe from those the DM must apply.
     if(a == 'Bluff') {
-      // A second note for Bluff synergy to distinguish bonuses automatically
-      // applied by Scribe from those the DM must apply.
       rules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
       rules.defineRule('skillNotes.bluffSynergy2',
         'skills.Bluff', '=', 'source >= 5 ? 1 : null'
+      );
+    } else if(a == 'Handle Animal') {
+      rules.defineNote
+        ('skillNotes.handleAnimalSynergy2:+2 Wild Empathy checks');
+      rules.defineRule('skillNotes.handleAnimalSynergy2',
+        'skills.Handle Animal', '=', 'source >= 5 ? 1 : null'
       );
     }
   }
