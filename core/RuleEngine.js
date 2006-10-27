@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.13 2006/10/04 14:28:12 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.14 2006/10/27 23:18:27 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -51,6 +51,16 @@ function RuleEngine() {
  */
 RuleEngine.prototype.addRules =
   function(target, source, type, expr /*, source, type, expr ... */) {
+  // Reset the member variables the first time addRules is called.  This
+  // supports inheritance, since the reset variables will be placed in the
+  // inheriting object, rather than the RuleEngine used in the class prototype.
+  // (Since addRules is the only method that modifies the member variables,
+  // it's the only one that needs to include this code.)
+  if(this.seq == 0) {
+    this.sources = { };
+    this.targets = { };
+    this.seq = 0;
+  }
   for(var i = 3; i < arguments.length; i += 3) {
     source = arguments[i - 2];
     type = arguments[i - 1];
