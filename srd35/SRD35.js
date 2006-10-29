@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.53 2006/10/27 23:17:57 Jim Exp $ */
+/* $Id: SRD35.js,v 1.54 2006/10/29 07:32:29 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -98,7 +98,7 @@ PH35.DEITIES = [
   'Moradin (LG Dwarves):Earth/Good/Law/Protection',
   'Nerull (NE Death):Death/Evil/Trickery',
   'Obad-Hai (N Nature):Air/Animal/Earth/Fire/Plant/Water',
-  'Olidammara (CN Theives):Chaos/Luck/Trickery',
+  'Olidammara (CN Thieves):Chaos/Luck/Trickery',
   'Pelor (NG Sun):Good/Healing/Strength/Sun',
   'St. Cuthbert (LN Retribution):Destruction/Law/Protection/Strength',
   'Wee Jas (LN Death And Magic):Death/Law/Magic',
@@ -187,7 +187,7 @@ PH35.SPELLS = [
   'Alter Self:B2/W2', 'Analyze Dweomer:B6/W6', 'Animal Growth:D5/R4/W5',
   'Animal Messenger:B2/D2/R1', 'Animal Shapes:An7/D8', 'Animal Trance:B2/D2',
   'Animate Dead:C3/De3/W4', 'Animate Objects:B6/C6/Ch6','Animate Plants:D7/Pl7',
-  'Animate Rope:B1/W1', 'Anipathy:D9/W8', 'Antilife Shell:An6/C6/D6',
+  'Animate Rope:B1/W1', 'Antipathy:D9/W8', 'Antilife Shell:An6/C6/D6',
   'Antimagic Field:C8/Ma6/Pr6/W6', 'Antiplant Shell:D4', 'Arcane Eye:W4',
   'Arcane Lock:W2', 'Arcane Mark:W0', 'Arcane Sight:W3',
   'Astral Projection:C9/Tl9/W9', 'Atonement:C5/D5', 'Augury:C2',
@@ -219,7 +219,7 @@ PH35.SPELLS = [
     'Control Winds:Ai5/D5',
   'Create Food And Water:C3', 'Create Greater Undead:C8/De8/W8',
     'Create Undead:C6/De6/Ev6/W6',
-  'Create Water:C0/D0/P1', 'Creeping Doom:D7', 'Crushing Dispair:B3/W4',
+  'Create Water:C0/D0/P1', 'Creeping Doom:D7', 'Crushing Despair:B3/W4',
   'Cure Critical Wounds:B4/C4/D5/He4', 'Cure Light Wounds:B1/C1/D1/He1/P1/R2',
     'Cure Minor Wounds:C0/D0',
   'Cure Moderate Wounds:B2/C2/D3/He2/P3/R3',
@@ -244,7 +244,7 @@ PH35.SPELLS = [
   'Disrupting Weapon:C5', 'Divination:C4/Kn4', 'Divine Favor:C1/P1',
   'Divine Power:C4/Wr4', 'Dominate Animal:An3/D3', 'Dominate Monster:W9',
   'Dominate Person:B4/W5', 'Doom:C1', 'Drawmij\'s Instant Summons:W7',
-  'Dream:B5/W5', 'Eagle\'s Spendor:B2/C2/P2/W2', 'Earthquake:C8/Dn8/D8/Ea7',
+  'Dream:B5/W5', 'Eagle\'s Splendor:B2/C2/P2/W2', 'Earthquake:C8/Dn8/D8/Ea7',
   'Elemental Swarm:Ai9/D9/Ea9/Fi9/Wa9', 'Endure Elements:C1/D1/P1/R1/Su1/W1',
     'Energy Drain:C9/W9',
   'Enervation:W4', 'Enlarge Person:St1/W1', 'Entangle:D1/Pl1/R1',
@@ -391,7 +391,7 @@ PH35.SPELLS = [
   'Spike Stones:D4/Ea4', 'Spiritual Weapon:C2/Wr2', 'Statue:W7',
   'Status:C2', 'Stinking Cloud:W3', 'Stone Shape:C3/D3/Ea3/W5',
   'Stone Tell:D6', 'Stone To Flesh:W6', 'Stoneskin:D5/Ea6/St6/W4',
-  'Storm Of Vengence:C9/D9', 'Suggestion:B2/W3', 'Summon Instrument:B0',
+  'Storm Of Vengeance:C9/D9', 'Suggestion:B2/W3', 'Summon Instrument:B0',
   'Summon Monster I:B1/C1/W1', 'Summon Monster II:B2/C2/W2',
     'Summon Monster III:B3/C3/W3',
   'Summon Monster IV:B4/C4/W4', 'Summon Monster IX:C9/Ch9/Ev9/Go9/La9/W9',
@@ -534,7 +534,7 @@ PH35.domainsSpellCodes = {
 };
 PH35.featsNotes = [
   'combatNotes.blindFightFeature:' +
-    'Reroll concealed miss/no bonus to invisible foe/half penalty for impared vision',
+    'Reroll concealed miss/no bonus to invisible foe/half penalty for impaired vision',
   'combatNotes.cleaveFeature:Extra attack when foe drops',
   'combatNotes.combatExpertiseFeature:Up to -5 attack/+5 AC',
   'combatNotes.combatReflexesFeature:Add dexterity mod to AOO count',
@@ -1813,12 +1813,12 @@ PH35.createViewer = function(viewer) {
         {name: 'Turning Damage Modifier', within: 'Turning',
           format: '<b>Turning Damage</b>: 2d6+%V'},
       {name: 'Weapons', within: 'Combat', separator: ' * '},
-      {name: 'Geer', within: 'Combat'},
-        {name: 'Armor Proficiency', within: 'Geer'},
-        {name: 'Armor', within: 'Geer'},
-        {name: 'Shield Proficiency', within: 'Geer'},
-        {name: 'Shield', within: 'Geer'},
-        {name: 'Weapon Proficiency', within: 'Geer'},
+      {name: 'Gear', within: 'Combat'},
+        {name: 'Armor Proficiency', within: 'Gear'},
+        {name: 'Armor', within: 'Gear'},
+        {name: 'Shield Proficiency', within: 'Gear'},
+        {name: 'Shield', within: 'Gear'},
+        {name: 'Weapon Proficiency', within: 'Gear'},
       {name: 'Combat Notes', within: 'Combat', separator: ' * '},
       {name: 'SaveAndResistance', within: 'Combat'},
         {name: 'Save', within: 'SaveAndResistance', separator: ' * '},
@@ -2062,7 +2062,7 @@ PH35.raceRules = function(rules) {
       rules.defineRule
         ('resistance.Poison', 'saveNotes.poisonResistanceFeature', '+=', null);
       // TODO This cooperates with the Assassin's variable poison resistance,
-      // but preclues another race with poison resistance
+      // but precludes another race with poison resistance
       rules.defineRule('saveNotes.poisonResistanceFeature',
         'race', '+=', 'source == "Dwarf" ? 2 : null'
       );
@@ -2249,14 +2249,14 @@ PH35.skillRules = function(rules) {
     }
   }
 
-  // Speak Languge-related rules
+  // Speak Langauge-related rules
   rules.defineChoice('languages', PH35.LANGUAGES);
   rules.defineTest('+/{^languages} == {languageCount}');
   rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
 
 };
 
-/* Returns a random name for a charater of race #race#. */
+/* Returns a random name for a character of race #race#. */
 PH35.randomName = function(race) {
 
   /* Return a random character from #string#. */
@@ -2293,7 +2293,7 @@ PH35.randomName = function(race) {
   var vowels =
     {'Dwarf': 'aeiou', 'Elf': 'aeioy', 'Gnome': 'aeiou',
      'Halfling': 'aeiou', 'Human': 'aeiou', 'Orc': 'aou'}[race];
-  var dipthongs = {a:'wy', e:'aei', o: 'aiouy', u: 'ae'};
+  var diphthongs = {a:'wy', e:'aei', o: 'aiouy', u: 'ae'};
   var syllables = ScribeUtils.random(0, 99);
   syllables = syllables < 50 ? 2 :
               syllables < 75 ? 3 :
@@ -2317,9 +2317,9 @@ PH35.randomName = function(race) {
       endConsonant += endConsonant;
     }
     vowel = randomChar(vowels);
-    if(endConsonant.length > 0 && dipthongs[vowel] != null &&
+    if(endConsonant.length > 0 && diphthongs[vowel] != null &&
        ScribeUtils.random(0, 99) < 15)
-      vowel += randomChar(dipthongs[vowel]);
+      vowel += randomChar(diphthongs[vowel]);
     result += vowel;
     endConsonant = '';
     if(ScribeUtils.random(0, 99) <= 60) {

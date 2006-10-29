@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.47 2006/10/13 10:21:17 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.48 2006/10/29 07:32:29 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -57,7 +57,7 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
  * #skillPoints# is the number of skill points a character of the class
  * receives each level; #baseAttackBonus#, #saveFortitudeBonus#,
  * #saveReflexBonus# and #saveWillBonus# are JavaScript expressions that
- * compute the attack and saving throw bonuses the character acumulates each
+ * compute the attack and saving throw bonuses the character accumulates each
  * class level; #armorProficiencyLevel#, #shieldProficiencyLevel# and
  * #weaponProficiencyLevel# indicate any proficiency in these categories that
  * characters of the class gain; #classSkills# is an array of skills that are

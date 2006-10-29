@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.166 2006/10/21 00:39:17 Jim Exp $ */
+/* $Id: Scribe.js,v 1.167 2006/10/29 07:32:29 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.34.20';
@@ -801,7 +801,7 @@ Scribe.summarizeCachedAttrs = function() {
   urls.sort();
   var htmlBits = [
     '<html>',
-    '<head><title>Scribe Charcter Attribute Summary</title></head>',
+    '<head><title>Scribe Character Attribute Summary</title></head>',
     '<body bgcolor="' + BACKGROUND + '">',
     '<h1>Scribe Character Attribute Summary</h1>',
     '<table border="1">'

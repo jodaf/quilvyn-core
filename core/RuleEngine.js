@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.14 2006/10/27 23:18:27 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.15 2006/10/29 07:32:29 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -44,7 +44,7 @@ function RuleEngine() {
  * the #expr# value.  Addition rules (type '+') add the #expr# value to the
  * target.  Multiplication rules (type '*') multiply the target by the #expr#
  * value.  Maximum rules (type 'v') lower the value of the target to the #expr#
- * value if it is greater.  Minumum rules (type '^') raise the value of the
+ * value if it is greater.  Minimum rules (type '^') raise the value of the
  * target to the #expr# value if it is less.  Prerequisite rules (type '?') set
  * the value of the target to null and suppress application of other rules if
  * #expr# is false.
