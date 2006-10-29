@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.54 2006/10/29 07:32:29 Jim Exp $ */
+/* $Id: SRD35.js,v 1.55 2006/10/29 13:31:20 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2249,7 +2249,7 @@ PH35.skillRules = function(rules) {
     }
   }
 
-  // Speak Langauge-related rules
+  // Speak Language-related rules
   rules.defineChoice('languages', PH35.LANGUAGES);
   rules.defineTest('+/{^languages} == {languageCount}');
   rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
