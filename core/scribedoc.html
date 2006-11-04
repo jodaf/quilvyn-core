@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.68 2006/10/29 13:37:18 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.69 2006/11/04 14:55:52 Jim Exp $ -->
 <html>
 
 <head>
@@ -30,7 +30,7 @@
   <li><a href="#customchoices">Customization - Adding Choices</a></li>
   <li><a href="#customrules">Customization - Adding Rules</a></li>
   <li><a href="#customsheet">Customization - Adding to the Character Sheet</a></li>
-  <li><a href="#customclass">Customization - Adding Validation Tests</a></li>
+  <li><a href="#customtest">Customization - Adding Validation Tests</a></li>
   <li><a href="#customclass">Customization - Adding Classes</a></li>
   <li><a href="#custommagic">Customization - Adding Magic Items</a></li>
   <li><a href="#limitations">Limitations</a></li>
@@ -49,22 +49,25 @@ generated attributes like saving throw bonuses and armor class.  The program
 formats character attributes into a compact (typically one page) character
 sheet web page that you can print for reference during game play.  You can save
 this web page in a file and later reload it into Scribe to update the
-character's attributes.  Customization features allow you to incorporate "house
-rules" into both the editor and character sheet.
+character's attributes.  Customization features allow you to incorporate house
+rules into both the editor and character sheet.
 </p>
 
 <a name="install"><h3>Installing and Running Scribe</h3></a>
 <p>
 A tar file containing the Scribe code can be obtained from
 <a href='http://www.jodaf.com/software/scribe/scribe.tar'>www.jodaf.com/software/scribe/scribe.tar</a>.
-The Scribe program consists of 13 files: DMG35.js, Input.js, ObjectViewer.js,
+The Scribe program consists of 12 files: Input.js, ObjectViewer.js,
 PH35.js, RuleEngine.js, Scribe.js, ScribeRules.js, ScribeUtils.js, gpl.txt,
-scribe.gif, scribe.html, scribedoc.html, and scribeattrs.html.  (Several sample
-customization files are included in the download, but using them is optional.)
-It is possible to install only scribe.html and direct Scribe to download the
-other files when the program runs.  Doing so ensures that you get the latest
-version of Scribe every time you run the program; however, it also means that
-you have to wait for the download each time. See scribe.html for details.
+scribe.gif, scribe.html, scribeattrs.html, and scribedoc.html.  In addition,
+the download contains DMG35.js, which defines the prestige and non-player
+classes from the Dungeon Masters guide, MN2E.js and MN2EPrestige.js, which
+define the rules for the Midnight role playing game, and several customization
+files.  Using any of these is optional.  It is possible to install only
+scribe.html and direct Scribe to download the other files when the program
+runs.  Doing so ensures that you get the latest version of Scribe every time
+you run the program; however, it also means that you have to wait for the
+download each time. See scribe.html for details.
 </p><p>
 Scribe has been successfully tested using these browsers
 <ul>
@@ -73,7 +76,7 @@ Scribe has been successfully tested using these browsers
   <li>Macintosh OS X Firefox v1.0</li>
   <li>Macintosh OS X Internet Explorer v5.2</li>
   <li>Macintosh OS X Safari v1.2</li>
-  <li>Windows Firefox v1.0</li>
+  <li>Windows Firefox v2.0</li>
   <li>Windows Internet Explorer v6.0</li>
   <li>Windows Opera v7.54</li>
 </ul>
@@ -92,7 +95,8 @@ one without saving. You can also add character sheet and editor customizations
 in scribe.html.  See the <a href="#custom">customization section</a> for
 details.
 </p><p>
-To run Scribe, simply use your favorite web browser to open scribe.html.
+To run Scribe, simply use one of the web browsers listed above to open
+scribe.html.
 </p>
 
 <a name="open"><h3>Generating and Loading Characters</h3></a>
@@ -208,8 +212,8 @@ browser to view and print the character sheet.
 <a name="sheet"><h3>The Character Sheet</h3></a>
 <p>
 The default character sheet format that Scribe produces contains six sections:
-Header; Basic Attributes; Feats and Skills; Combat; Magic; and Notes.  Each of
-these lists related character attribute values, both entered and computed,
+Header; Basic Attributes; Features and Skills; Combat; Magic; and Notes.  Each
+of these lists related character attribute values, both entered and computed,
 along with notes about the attributes.  Although most of the information on the
 sheet should be clear, a few aspects of the format require explanation.
 <ul>
@@ -300,7 +304,7 @@ PH35.defineChoice('skills'
   'Mediation:wisdom/trained'
 );
 PH35.defineChoice('spells', 'Calm Water:W6/Wa5', 'Darkstorm:C4/W4');
-PH35.defineChoice('weapons', 'Catapult:d12r240');
+PH35.defineChoice('weapons', 'Catapult:4d12r240');
 PH35.defineChoice('weapons', 'Shillelagh:d6');
 PH35.defineChoice('weapons', 'Orc Kirak:d6x3@19');
 </pre></code></p>
@@ -326,10 +330,10 @@ PH35.defineRule('dexterity', 'abilityNotes.goblinAbilityAdjustment', '+', '2');
 The first line simply adds 'Goblin' to the list of races available.  The next
 line computes a new attribute that will be included in the notes of the
 Attributes section of the character sheet, and the last two lines use this
-attribute to modify the character abilities.  The parameters to
-PH35.defineRule are the attribute affected, the attribute on which the
-first attribute depends, the type of affect, and a JavaScript expression that
-calculates the value of the effect.
+attribute to modify the character abilities.  The parameters to PH35.defineRule
+are the attribute affected, the attribute on which the first attribute depends,
+the type of affect, and a JavaScript expression that calculates the value of
+the effect.
 </p><p>
 For example, the first invocation of PH35.defineRule above computes a
 value for the abilityNotes.goblinAbilityAdjustment attribute based on the value
@@ -367,7 +371,7 @@ Scribe knows about.  You can use any of these attributes, as well as new ones
 you calculate, in calls to PH35.defineRule.
 </p>
 
-<a name="customrules"><h3>Customization - Adding Validation Tests</h3></a>
+<a name="customtest"><h3>Customization - Adding Validation Tests</h3></a>
 <p>
 TODO Document PH35.defineTest(test /* , test ... */)
 </p>
@@ -394,14 +398,14 @@ format.  Within this HTML the text %N represents the attribute name and %V its
 value, so the default format is '&lt;b&gt;%N&lt;/b&gt;: %V'.
 </p><p>
 The predefined character sheet has six sections: 'Header', 'Attributes',
-'FeatsAndSkills', 'Melee', 'Magic', and 'Notes'.  You can add attributes to any
-of these five by giving its name as the second parameter. (You can also add a
-new section by calling PH35.defineSheetElement with a second parameter
-of '_top'.) The third parameter indicates where, within the section, the new
-attribute should be displayed.  This will usually be the name of one of the
-attributes as displayed on the character sheet.  Alternatively, you can place
-your new attribute at the end of the section by giving <b>null</b> as the third
-parameter.
+'FeaturesAndSkills', 'Combat', 'Magic', and 'NotesArea'.  You can add
+attributes to any of these five by giving its name as the second parameter.
+(You can also add a new section by calling PH35.defineSheetElement with a
+second parameter of '_top'.) The third parameter indicates where, within the
+section, the new attribute should be displayed.  This will usually be the name
+of one of the attributes as displayed on the character sheet.  Alternatively,
+you can place your new attribute at the end of the section by giving
+<b>null</b> as the third parameter.
 </p><p>
 Adding attributes to the character sheet notes sections is done differently.
 The six notes lists Scribe knows about are abilityNotes, featNotes, skillNotes,
@@ -446,21 +450,26 @@ a convenience.  This function takes 13 parameters: the name of the class; the
 number of sides on the hit die; the number of skill points acquired each
 level; JavaScript expressions to calculate the base attack bonus and fortitude,
 reflex, and will saving throw bonuses; armor, shield, and weapon proficiency
-levels; an array of class skills; an array of interspersed class features and
-the class levels at which they are acquired; an optional array of tests for
-class prerequisites.  Here is an example of code that defines the Dwarven
-Defender prestige class defined in the Dungeon Master's Guide.
+levels; an array of class skills; an array of class features and the class
+levels at which they are acquired; an optional array of tests for class
+prerequisites.  Here is an example of code that defines the Dwarven Defender
+prestige class defined in the Dungeon Master's Guide.
 </p><p><code><pre>
   var features = [
     '1:Defensive Stance', '2:Uncanny Dodge', '4:Trap Sense',
     '6:Damage Reduction', '6:Improved Uncanny Dodge', '8:Mobile Defense'
   ];
   var notes = [
-    'featureNotes.defensiveStanceFeature',
-      '+2 strength/+4 constitution/+2 saves/+4 dodge AC while unmoving for ' +
-      'conMod+3 rounds %V/day',
-    'combatNotes.mobileDefenseFeature',
-      'Allowed 5 ft. step during Defensive Stance'
+    'combatNotes.damageReductionFeature:%V subtracted from damage taken',
+    'combatNotes.improvedUncannyDodgeFeature:' +
+      'Flanked only by rogue four levels higher',
+    'combatNotes.mobileDefenseFeature:' +
+      'Allowed 5 ft. step during Defensive Stance',
+    'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
+    'featureNotes.defensiveStanceFeature:' +
+      '+2 strength/+4 constitution/+2 saves/+4 dodge AC while unmoving ' +
+      'for conMod+3 rounds %V/day',
+    'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps'
   ];
   var prerequisites = [
     '"{race}" == "Dwarf"',
@@ -478,11 +487,11 @@ Defender prestige class defined in the Dungeon Master's Guide.
     features, prerequisites);
   );
   PH35.defineNote(notes);
-  PH35.defineRule('featureNotes.defensiveStanceFeature',
-    'levels.Dwarven Defender', '+=', 'Math.floor((source + 1) / 2)'
+  PH35.defineRule('armorClass',
+    'combatNotes.dwarvenDefenderArmorClassAdjustment', '+', null
   );
-  PH35.defineRule('combatNotes.classArmorClassAdjustment',
-    'levels.Dwarven Defender', '+=', 'Math.floor((source + 2) / 3)'
+  PH35.defineRule('combatNotes.dwarvenDefenderArmorClassAdjustment',
+    'levels.Dwarven Defender', '=', 'Math.floor((source + 2) / 3)'
   );
   PH35.defineRule('combatNotes.damageReductionFeature',
     'levels.Dwarven Defender', '+=', 'source&lt;6 ? null : source&lt;10 ? 3 : 6'
@@ -490,6 +499,9 @@ Defender prestige class defined in the Dungeon Master's Guide.
   PH35.defineRule('combatNotes.trapSenseFeature',
     'levels.Dwarven Defender', '+=',
       'source &gt;= 4 ? Math.floor(source / 4) : null'
+  );
+  PH35.defineRule('featureNotes.defensiveStanceFeature',
+    'levels.Dwarven Defender', '+=', 'Math.floor((source + 1) / 2)'
   );
 </pre></code></p><p>
 As shown in this example, you will usually follow a call to
