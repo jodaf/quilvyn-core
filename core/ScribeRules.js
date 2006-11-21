@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.48 2006/10/29 07:32:29 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.49 2006/11/21 04:21:07 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -21,7 +21,6 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function ScribeRules(name) {
   this.choices = {};
   this.choices['randomizers'] = {'--randomize--': null};
-  this.choices['spellsCategoryCodes'] = {};
   this.name = name;
   this.tests = [];
   this.viewers = {};
@@ -40,12 +39,13 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
   var allArgs = ScribeUtils.flatten(arguments, 1);
   for(var i = 0; i < allArgs.length; i++) {
     var pieces = allArgs[i].split(/:/);
-    o[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
     if(name == 'spells') {
-      var codes = o[pieces[0]].replace(/[0-9]+/g, '').split('/');
-      for(var j = 0; j < codes.length; j++) {
-        this.choices['spellsCategoryCodes'][codes[j]] = '';
+      var codes = pieces[1].split('/');
+      for(var j = 0; j < codes.length - 1; j++) {
+        o[pieces[0] + ' (' + codes[j] + ' ' + codes[codes.length - 1] + ')'] = '';
       }
+    } else {
+      o[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
     }
   }
 };

@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.169 2006/11/04 14:57:07 Jim Exp $ */
+/* $Id: Scribe.js,v 1.170 2006/11/21 04:21:07 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.35.04';
+var VERSION = '0.34.20';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -36,9 +36,9 @@ var cookieInfo = {  // What we store in the cookie
 };
 var editForm;       // Character editing form (window.frames[0].forms[0])
 var loadingPopup = null; // Current "loading" message popup window
+var spellPat = "";
 var ruleSets = {};  // ScribeRules with standard + user rules
 var ruleSet = null; // The rule set currently in use
-var showCodes;      // Display status of spell category codes
 var urlLoading=null;// Character URL presently loading
 
 /* Launch routine called after all Scribe scripts are loaded. */
@@ -89,7 +89,6 @@ function Scribe() {
   if(CustomizeScribe != null)
     CustomizeScribe();
   character = {};
-  Scribe.refreshShowCodes();
   Scribe.refreshEditor(true);
   Scribe.randomizeCharacter(false);
 
@@ -153,7 +152,7 @@ Scribe.editorElements = [
   ['armor', 'Armor', 'select-one', 'armors'],
   ['shield', 'Shield', 'select-one', 'shields'],
   ['weapons', 'Weapons', 'bag', 'weapons'],
-  ['spellcats', 'Spell Categories', 'set', 'spellsCategoryCodes'],
+  ['spellpat', 'Spell Selection', 'text', [20]],
   ['spells', 'Spells', 'set', 'spells'],
   ['goodies', 'Goodies', 'bag', 'goodies'],
   ['domains', 'Cleric Domains', 'set', 'domains'],
@@ -293,7 +292,6 @@ Scribe.loadCharacter = function(name) {
       if(character[a] == null)
         character[a] = OLD_DEFAULTS[a];
     }
-    Scribe.refreshShowCodes();
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
     currentUrl = url;
@@ -396,7 +394,6 @@ Scribe.randomizeCharacter = function(prompt) {
       if(a != 'race' && a != 'levels' && randomizers[a] != null)
         randomizers[a](ruleSet, character, a);
     }
-    Scribe.refreshShowCodes();
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
     currentUrl = 'random';
@@ -485,11 +482,8 @@ Scribe.refreshEditor = function(redraw) {
   var spellOpts = [];
   var spells = ruleSet.getChoices('spells');
   for(var a in spells) {
-    var spellLevels = spells[a].split('/');
-    for(i = 0; i < spellLevels.length; i++) {
-      if(showCodes[spellLevels[i].replace(/[0-9]+/, '')]) {
-        spellOpts[spellOpts.length] = a + ' (' + spellLevels[i] + ')';
-      }
+    if(spellPat == "" || a.match(spellPat)) {
+      spellOpts[spellOpts.length] = a;
     }
   }
   if(spellOpts.length == 0)
@@ -544,17 +538,9 @@ Scribe.refreshEditor = function(redraw) {
   InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
   InputSetValue(editForm.rules, ruleSet.getName());
+  InputSetValue(editForm.spellpat, spellPat);
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
   InputSetValue(editForm.viewer, cookieInfo.viewer);
-  // Find the first spell category checked for this character, if any
-  InputSetValue(editForm.spellcats, false);
-  for(i = 0; i < editForm.spellcats_sel.options.length; i++) {
-    if(showCodes[editForm.spellcats_sel.options[i].value]) {
-      editForm.spellcats_sel.selectedIndex = i;
-      InputSetValue(editForm.spellcats, true);
-      break;
-    }
-  }
 
 };
 
@@ -565,22 +551,6 @@ Scribe.refreshSheet = function() {
     sheetWindow = window.open('', 'scribeSheet');
   sheetWindow.document.write(Scribe.sheetHtml());
   sheetWindow.document.close();
-};
-
-/*
- * Recomputes the showCodes global to reflect the current character's known and
- * permitted spells.
- */
-Scribe.refreshShowCodes = function() {
-  var matchInfo;
-  showCodes = {};
-  for(var a in character) {
-    if((matchInfo = a.match(/^spells\..*\((\D+)\d+\)$/)) != null) {
-      showCodes[matchInfo[1]] = true;
-    } else if((matchInfo = a.match(/^spellsKnown\.(\D+)\d+$/)) != null) {
-      showCodes[matchInfo[1]] = true;
-    }
-  }
 };
 
 /* Returns the character sheet HTML for the current character. */
@@ -891,8 +861,8 @@ Scribe.update = function(input) {
     ruleSet = ruleSets[value];
     Scribe.refreshEditor(true);
     Scribe.refreshSheet();
-  } else if(name == 'spellcats') {
-    showCodes[InputGetValue(editForm.spellcats_sel)] = value;
+  } else if(name == 'spellpat') {
+    spellPat = value;
     Scribe.refreshEditor(false);
   } else if(name == 'summary') {
     Scribe.summarizeCachedAttrs();
@@ -914,13 +884,9 @@ Scribe.update = function(input) {
     cachedAttrs[currentUrl] = ScribeUtils.clone(character);
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
-    if(name == 'spellcats') {
-      showCodes = {};
-    } else {
-      for(var a in character) {
-        if(a.indexOf(name + '.') == 0)
-          delete character[a];
-      }
+    for(var a in character) {
+      if(a.indexOf(name + '.') == 0)
+        delete character[a];
     }
     input = editForm[name]
     if(input != null)
@@ -934,11 +900,7 @@ Scribe.update = function(input) {
     name = name.replace(/_sel/, '');
     input = editForm[name]
     if(input != null) {
-      if(name == 'spellcats') {
-        InputSetValue(input, showCodes[InputGetValue(editForm.spellcats_sel)]);
-      } else {
-        InputSetValue(input, character[name + '.' + value]);
-      }
+      InputSetValue(input, character[name + '.' + value]);
     }
   } else {
     var selector = editForm[name + '_sel'];
