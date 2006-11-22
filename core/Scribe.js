@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.170 2006/11/21 04:21:07 Jim Exp $ */
+/* $Id: Scribe.js,v 1.171 2006/11/22 04:35:00 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.34.20';
@@ -36,7 +36,7 @@ var cookieInfo = {  // What we store in the cookie
 };
 var editForm;       // Character editing form (window.frames[0].forms[0])
 var loadingPopup = null; // Current "loading" message popup window
-var spellPat = "";
+var spellFilter = "";
 var ruleSets = {};  // ScribeRules with standard + user rules
 var ruleSet = null; // The rule set currently in use
 var urlLoading=null;// Character URL presently loading
@@ -152,7 +152,7 @@ Scribe.editorElements = [
   ['armor', 'Armor', 'select-one', 'armors'],
   ['shield', 'Shield', 'select-one', 'shields'],
   ['weapons', 'Weapons', 'bag', 'weapons'],
-  ['spellpat', 'Spell Selection', 'text', [20]],
+  ['spellfilter', 'Spell Filter', 'text', [20]],
   ['spells', 'Spells', 'set', 'spells'],
   ['goodies', 'Goodies', 'bag', 'goodies'],
   ['domains', 'Cleric Domains', 'set', 'domains'],
@@ -267,7 +267,15 @@ Scribe.loadCharacter = function(name) {
               convertedName = 'Sleight Of Hand';
             else if(a == 'skills' && x == 'Wilderness Lore')
               convertedName = 'Survival';
-            else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
+            else if(a == 'spells' && !x.match(/\(.* .*\)/)) {
+              var prefix = x.replace(/\)/, '');
+              for(var b in ruleSet.getChoices('spells')) {
+                if(b.indexOf(prefix) == 0) {
+                  convertedName = b;
+                  break;
+                }
+              }
+            } else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
               convertedName = convertedName.substring(0, i);
             character[a + '.' + convertedName] = value[x];
           }
@@ -482,7 +490,7 @@ Scribe.refreshEditor = function(redraw) {
   var spellOpts = [];
   var spells = ruleSet.getChoices('spells');
   for(var a in spells) {
-    if(spellPat == "" || a.match(spellPat)) {
+    if(spellFilter == "" || a.indexOf(spellFilter) >= 0) {
       spellOpts[spellOpts.length] = a;
     }
   }
@@ -538,7 +546,7 @@ Scribe.refreshEditor = function(redraw) {
   InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
   InputSetValue(editForm.italics, cookieInfo.italics - 0);
   InputSetValue(editForm.rules, ruleSet.getName());
-  InputSetValue(editForm.spellpat, spellPat);
+  InputSetValue(editForm.spellfilter, spellFilter);
   InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
   InputSetValue(editForm.viewer, cookieInfo.viewer);
 
@@ -861,8 +869,8 @@ Scribe.update = function(input) {
     ruleSet = ruleSets[value];
     Scribe.refreshEditor(true);
     Scribe.refreshSheet();
-  } else if(name == 'spellpat') {
-    spellPat = value;
+  } else if(name == 'spellfilter') {
+    spellFilter = value;
     Scribe.refreshEditor(false);
   } else if(name == 'summary') {
     Scribe.summarizeCachedAttrs();

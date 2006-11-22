@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.49 2006/11/21 04:21:07 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.50 2006/11/22 04:35:00 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -42,7 +42,9 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
     if(name == 'spells') {
       var codes = pieces[1].split('/');
       for(var j = 0; j < codes.length - 1; j++) {
-        o[pieces[0] + ' (' + codes[j] + ' ' + codes[codes.length - 1] + ')'] = '';
+        var spell =
+          pieces[0] + '(' + codes[j] + ' ' + codes[codes.length - 1] + ')';
+        o[spell] = '';
       }
     } else {
       o[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
