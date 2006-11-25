@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.171 2006/11/22 04:35:00 Jim Exp $ */
+/* $Id: Scribe.js,v 1.172 2006/11/25 09:12:41 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2005 James J. Hayes';
 var VERSION = '0.34.20';
@@ -55,12 +55,9 @@ function Scribe() {
     alert('JavaScript modules needed by Scribe are missing; exiting');
     return;
   }
-  if(window.opener == null || window.opener.Scribe == null) {
-    if(window.frames[0] == null || window.frames[1] == null)
-      alert('Scribe must be embedded in a document that defines at least ' +
-            'two frames; exiting');
-    else
-      window.open(document.location, 'scribeEditor');
+  if(window.frames[0] == null || window.frames[1] == null) {
+    alert('Scribe must be embedded in a document that defines at least ' +
+          'two frames; exiting');
     return;
   }
 
@@ -553,8 +550,8 @@ Scribe.refreshEditor = function(redraw) {
 };
 
 /* Draws the sheet for the current character in the character sheet window. */
+var sheetWindow = null;
 Scribe.refreshSheet = function() {
-  var sheetWindow = window.opener;
   if(sheetWindow == null || sheetWindow.closed)
     sheetWindow = window.open('', 'scribeSheet');
   sheetWindow.document.write(Scribe.sheetHtml());
