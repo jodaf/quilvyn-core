@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.42 2006/10/14 22:10:15 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.43 2006/11/25 09:12:14 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -76,16 +76,17 @@ var CUSTOMIZATION_URLS = [
 
 function CustomizeScribe() {
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
-    var func = CUSTOMIZATION_URLS[i];
+    var url = CUSTOMIZATION_URLS[i];
     var pos;
-    if(func == null)
+    if(url == null)
       continue;
+    var func = url;
     if((pos = func.lastIndexOf('/')) >= 0)
       func = func.substring(pos + 1);
     if((pos = func.indexOf('.')) >= 0)
       func = func.substring(0, pos);
     if(window[func] == null)
-      alert('Unable to invoke ' + func + ' from ' + CUSTOMIZATION_URLS[i]);
+      alert('Unable to invoke ' + func + ' from ' + url);
     else
       window[func]();
   }
@@ -107,6 +108,15 @@ for(var i = 0; i < scribeUrls.length; i++) {
     continue;
   if(url.match(/\w+:/) == null)
     url = SOURCE_URL + url;
+  if(url.substring(0, 1) == '?') {
+    url = url.substring(1);
+    if(!confirm("Use " + url + "?")) {
+      url = null;
+    }
+    CUSTOMIZATION_URLS[i - scribeUrls.length + CUSTOMIZATION_URLS.length] = url;
+    if(url == null)
+      continue;
+  }
   document.write('<script src="' + url + '">' + CLOSE_TAG);
 }
 
