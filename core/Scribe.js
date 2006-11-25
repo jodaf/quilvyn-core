@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.172 2006/11/25 09:12:41 Jim Exp $ */
+/* $Id: Scribe.js,v 1.173 2006/11/25 15:36:35 Jim Exp $ */
 
-var COPYRIGHT = 'Copyright 2005 James J. Hayes';
-var VERSION = '0.34.20';
+var COPYRIGHT = 'Copyright 2006 James J. Hayes';
+var VERSION = '0.35.25';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -79,15 +79,15 @@ function Scribe() {
     }
   }
 
-  Scribe.popUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
-              COPYRIGHT + '<br/>' +
-              'Press the "About" button for more info',
-              'Ok', 'window.close();');
   if(CustomizeScribe != null)
     CustomizeScribe();
   character = {};
   Scribe.refreshEditor(true);
   Scribe.randomizeCharacter(false);
+  Scribe.popUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
+               COPYRIGHT + '<br/>' +
+               'Press the "About" button for more info',
+               'Ok', 'window.close();');
 
 }
 
