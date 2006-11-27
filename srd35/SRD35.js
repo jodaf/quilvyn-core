@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.59 2006/11/27 05:45:04 Jim Exp $ */
+/* $Id: SRD35.js,v 1.60 2006/11/27 06:38:14 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2464,7 +2464,7 @@ PH35.raceRules = function(rules) {
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'combatNotes.gnomeFavoredEnemyFeature:' +
            '+1 vs. bugbear/goblin/hobgoblin/kobold',
-        'combatNotes.smallFeature:+1 AC/base attack',
+        'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.lowLightVisionFeature:' +
           'Double normal distance in poor light',
         'magicNotes.gnomeSpellsFeature:%V 1/day',
@@ -2475,12 +2475,13 @@ PH35.raceRules = function(rules) {
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('baseAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('magicNotes.gnomeSpellsFeature',
         'charisma', '=',
         '(source >= 10 ? "<i>Dancing Lights</i>/<i>Ghost Sound</i>/' +
         '<i>Prestidigitation</i>/" : "") + "<i>Speak With Animals</i>"'
       );
+      rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('resistance.Illusion',
         'saveNotes.illusionResistanceFeature', '+=', '2'
       );
@@ -2522,7 +2523,7 @@ PH35.raceRules = function(rules) {
       ];
       notes = [
         'combatNotes.accurateFeature:+1 attack with slings/thrown',
-        'combatNotes.smallFeature:+1 AC/base attack',
+        'combatNotes.smallFeature:+1 AC/attack',
         'saveNotes.fortunateFeature:+1 all saves',
         'saveNotes.unafraidFeature:+2 vs. fear',
         'skillNotes.keenEarsFeature:+2 Listen',
@@ -2530,7 +2531,8 @@ PH35.raceRules = function(rules) {
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('baseAttack', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
         ('resistance.Fear', 'saveNotes.unafraidFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
