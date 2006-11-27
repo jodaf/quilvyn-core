@@ -15,12 +15,18 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
-
+/*
+ * Defines an alternate approach to learning and casting spells that allocates
+ * one spell point for each level of spell that can be cast in a day (i.e., 1
+ * point for a first level spell, 2 for a second level spell, etc.)
+ */
 function SpellPoints() {
+  // Define the spell point attribute.
   PH35.defineRule('spellPoints',
     'casterLevel', '?', null,
     null, '=', '0'
   );
+  // Define rules to add the spellsPerDay values to the spellPoints attribute.
   var ruleTargets = PH35.rules.allTargets();
   for(var i = 0; i < ruleTargets.length; i++) {
     var attr = ruleTargets[i];
@@ -29,6 +35,7 @@ function SpellPoints() {
       PH35.defineRule('spellPoints', attr, '+', 'source * ' + matchInfo[1]);
     }
   }
+  // Add spell point and remove spells per day from the character sheet.
   PH35.defineSheetElement('Spell Points', 'SpellStats', null, 'Spells Known');
   PH35.defineSheetElement('Spells Per Day', null, null, null);
 }

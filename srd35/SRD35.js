@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.58 2006/11/25 09:12:41 Jim Exp $ */
+/* $Id: SRD35.js,v 1.59 2006/11/27 05:45:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
-
 
 /*
  * This module loads the rules from the Player's Handbook v3.5 Edition.

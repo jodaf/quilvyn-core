@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.173 2006/11/25 15:36:35 Jim Exp $ */
+/* $Id: Scribe.js,v 1.174 2006/11/27 05:45:04 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
-var VERSION = '0.35.25';
+var VERSION = '0.35.27';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -159,7 +159,7 @@ Scribe.editorElements = [
   ['dmNotes', 'DM Notes', 'textarea', [40,10]]
 ];
 
-/* Adds #rs# to Scribe's * list of supported rule sets. */
+/* Adds #rs# to Scribe's list of supported rule sets. */
 Scribe.addRuleSet = function(rs) {
   ruleSets[rs.getName()] = rs;
   ruleSet = rs;
