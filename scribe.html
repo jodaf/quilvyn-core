@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.43 2006/11/25 09:12:14 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.44 2006/11/27 03:29:20 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -59,6 +59,12 @@ var WARN_ABOUT_DISCARD = true;
  * CustomizeScribe below will load them.  A set of sample customization
  * scripts, listed below, comes packaged with the Scribe software; remove the
  * comment markers from around any of these that you would like Scribe to use.
+ * If any of the elements of CUSTOMIZATION_URLS begins with a question mark
+ * (e.g., '?DMG35.js'), Scribe will prompt the user on start-up to ask whether
+ * to include the rules from that script.  This can be useful for rules that
+ * you use occasionally but don't want always present.  For example, you might
+ * want to put a question mark before DMG35.js to occasionally use the rules
+ * to define NPC- or prestige-class NPCs.
  */
 var CUSTOMIZATION_URLS = [
   'PH35.js',
@@ -110,7 +116,7 @@ for(var i = 0; i < scribeUrls.length; i++) {
     url = SOURCE_URL + url;
   if(url.substring(0, 1) == '?') {
     url = url.substring(1);
-    if(!confirm("Use " + url + "?")) {
+    if(!confirm('Use rules from ' + url + '?')) {
       url = null;
     }
     CUSTOMIZATION_URLS[i - scribeUrls.length + CUSTOMIZATION_URLS.length] = url;
