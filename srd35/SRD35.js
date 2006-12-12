@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.61 2006/12/12 02:43:21 Jim Exp $ */
+/* $Id: SRD35.js,v 1.62 2006/12/12 15:44:32 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -147,11 +147,12 @@ PH35.LANGUAGES = [
 ];
 PH35.RACES =
   ['Dwarf', 'Elf', 'Gnome', 'Half Elf', 'Half Orc', 'Halfling', 'Human'];
+// Note: the order here handles dependencies among attributes when generating
+// random characters
 PH35.RANDOMIZABLE_ATTRIBUTES = [
-  'name', 'race', 'gender', 'charisma', 'constitution', 'dexterity',
-  'intelligence', 'strength', 'wisdom', 'levels', 'selectableFeatures',
-  'alignment', 'deity', 'feats', 'skills', 'languages', 'hitPoints', 'armor',
-  'shield', 'weapons', 'spells'
+  'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
+  'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'features', 'feats',
+  'skills', 'languages', 'hitPoints', 'armor', 'shield', 'weapons', 'spells'
 ];
 PH35.SCHOOLS = [
   'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
@@ -2764,10 +2765,13 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     else
       aliPat = '\\(([N' + aliInfo[1] + '][N' + aliInfo[2] + '])';
     choices = [];
-    for(attr in PH35.rules.getChoices('deities'))
+    for(attr in PH35.rules.getChoices('deities')) {
       if(attr.match(aliPat))
         choices[choices.length] = attr;
-    attributes['deity'] = choices[ScribeUtils.random(0, choices.length - 1)];
+    }
+    if(choices.length > 0) {
+      attributes['deity'] = choices[ScribeUtils.random(0, choices.length - 1)];
+    }
   } else if(attribute == 'feats') {
     attrs = PH35.rules.applyRules(attributes);
     howMany = attrs.featCount;
@@ -2847,7 +2851,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
-  } else if(attribute == 'selectableFeatures') {
+  } else if(attribute == 'features') {
     attrs = PH35.rules.applyRules(attributes);
     for(attr in attrs) {
       if(!attr.match(/^selectableFeatureCount\./))
