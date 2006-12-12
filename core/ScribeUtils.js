@@ -1,4 +1,4 @@
-/* $Id: ScribeUtils.js,v 1.5 2006/10/07 21:26:27 Jim Exp $ */
+/* $Id: ScribeUtils.js,v 1.6 2006/12/12 02:43:21 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -107,3 +107,12 @@ ScribeUtils.randomKey = function(o) {
 ScribeUtils.signed = function(value) {
   return (value >= 0 ? '+' : '') + value;
 };
+
+/* Returns the sum of all #attr# elements that match #pat#. */
+ScribeUtils.sumMatching = function(attrs, pat) {
+  var result = 0;
+  for(var a in attrs)
+    if(a.search(pat) >= 0)
+      result += attrs[a] - 0;
+  return result;
+}

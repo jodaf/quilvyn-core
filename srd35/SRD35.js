@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.60 2006/11/27 06:38:14 Jim Exp $ */
+/* $Id: SRD35.js,v 1.61 2006/12/12 02:43:21 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -43,16 +43,11 @@ function PH35() {
   if(PH35.combatRules != null) PH35.combatRules(rules);
   if(PH35.adventuringRules != null) PH35.adventuringRules(rules);
   if(PH35.magicRules != null) PH35.magicRules(rules);
-  if(PH35.randomize != null) {
-    rules.defineRandomizer(PH35.randomize,
-      'alignment', 'armor', 'charisma', 'constitution', 'deity', 'dexterity',
-      'domains', 'feats', 'gender', 'hitPoints', 'intelligence', 'languages',
-      'levels', 'name', 'race', 'selectableFeatures', 'shield', 'skills',
-      'spells', 'strength', 'weapons', 'wisdom'
-    );
-  }
+  rules.defineChoice('random', PH35.RANDOMIZABLE_ATTRIBUTES);
   // A rule for handling DM-only information
   rules.defineRule('dmNotes', 'dmonly', '?', null);
+  rules.randomizeAllAttributes = PH35.randomizeAllAttributes;
+  rules.randomizeOneAttribute = PH35.randomizeOneAttribute;
   Scribe.addRuleSet(rules);
   PH35.rules = rules;
 }
@@ -152,6 +147,12 @@ PH35.LANGUAGES = [
 ];
 PH35.RACES =
   ['Dwarf', 'Elf', 'Gnome', 'Half Elf', 'Half Orc', 'Halfling', 'Human'];
+PH35.RANDOMIZABLE_ATTRIBUTES = [
+  'name', 'race', 'gender', 'charisma', 'constitution', 'dexterity',
+  'intelligence', 'strength', 'wisdom', 'levels', 'selectableFeatures',
+  'alignment', 'deity', 'feats', 'skills', 'languages', 'hitPoints', 'armor',
+  'shield', 'weapons', 'spells'
+];
 PH35.SCHOOLS = [
   'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
   'Illusion', 'Necromancy', 'Transmutation'
@@ -2630,7 +2631,9 @@ PH35.randomName = function(race) {
     return string.charAt(ScribeUtils.random(0, string.length - 1));
   }
 
-  if(race == 'Half Elf')
+  if(race == null)
+    race = 'Human';
+  else if(race == 'Half Elf')
     race = ScribeUtils.random(0, 99) < 50 ? 'Elf' : 'Human';
   else if(race.indexOf('Dwarf') >= 0)
     race = 'Dwarf';
@@ -2702,11 +2705,32 @@ PH35.randomName = function(race) {
 };
 
 /*
- * Sets #attributes#'s #attribute# attribute to a random value.  #rules# is
- * the RuleEngine used to produce computed values; the function sometimes needs
- * to apply the rules to determine valid values for an attribute.
+ * Returns a character with randomized settings for all randomizable attributes
+ * except for those in #fixedAttributes#, which are copied to the result.
  */
-PH35.randomize = function(rules, attributes, attribute) {
+PH35.randomizeAllAttributes = function(fixedAttributes) {
+  var result = { };
+  for(var a in fixedAttributes) {
+    result[a] = fixedAttributes[a];
+  }
+  for(var i = 0; i < PH35.RANDOMIZABLE_ATTRIBUTES.length; i++) {
+    var a = PH35.RANDOMIZABLE_ATTRIBUTES[i];
+    if(a == 'levels') {
+      var totalLevels = ScribeUtils.sumMatching(result, /^levels\./);
+      if(ScribeUtils.sumMatching(result, /^levels\./) == 0) {
+        PH35.randomizeOneAttribute(result, a);
+      }
+      var totalLevels = ScribeUtils.sumMatching(result, /^levels\./);
+      result.experience = totalLevels * (totalLevels - 1) * 1000 / 2;
+    } else if(result[a] == null) {
+      PH35.randomizeOneAttribute(result, a);
+    }
+  }
+  return result;
+};
+
+/* Sets #attributes#'s #attribute# attribute to a random value. */
+PH35.randomizeOneAttribute = function(attributes, attribute) {
 
   /*
    * Randomly selects #howMany# elements of the array #choices#, prepends
@@ -2721,39 +2745,13 @@ PH35.randomize = function(rules, attributes, attribute) {
     }
   }
 
-  /* Returns the sum of all #attr# elements that match #pat#. */
-  function sumMatching(attrs, pat) {
-    var result = 0;
-    for(var a in attrs)
-      if(a.search(pat) >= 0)
-        result += attrs[a] - 0;
-    return result;
-  }
-
-  var abilities = {
-    'charisma': '', 'constitution': '', 'dexterity': '', 'intelligence': '',
-    'strength': '', 'wisdom': ''
-  };
-  var selections = {
-    'alignment': '', 'armor': '', 'gender': '', 'race': '', 'shield': ''
-  };
-
   var attr;
   var attrs;
   var choices;
   var howMany;
   var i;
 
-  if(abilities[attribute] != null) {
-    var rolls = [];
-    for(i = 0; i < 4; i++)
-      rolls[i] = ScribeUtils.random(1, 6);
-    rolls.sort();
-    attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
-  } else if(selections[attribute] != null) {
-    attributes[attribute] =
-      ScribeUtils.randomKey(rules.getChoices(attribute + 's'));
-  } else if(attribute == 'deity') {
+  if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
     var aliInfo = attributes.alignment.match(/^([CLN]).* ([GEN])/);
     var aliPat;
@@ -2766,26 +2764,15 @@ PH35.randomize = function(rules, attributes, attribute) {
     else
       aliPat = '\\(([N' + aliInfo[1] + '][N' + aliInfo[2] + '])';
     choices = [];
-    for(attr in rules.getChoices('deities'))
+    for(attr in PH35.rules.getChoices('deities'))
       if(attr.match(aliPat))
         choices[choices.length] = attr;
     attributes['deity'] = choices[ScribeUtils.random(0, choices.length - 1)];
-  } else if(attribute == 'domains') {
-    attrs = rules.applyRules(attributes);
-    howMany = attrs.domainCount;
-    if(howMany != null) {
-      if((choices = rules.getChoices('deities')[attributes.deity]) == null)
-        choices = ScribeUtils.getKeys(rules.getChoices('domains'));
-      else
-        choices = choices.split('/');
-      pickAttrs
-        (attributes, 'domains.', choices, howMany-sumMatching(/^domains\./), 1);
-    }
   } else if(attribute == 'feats') {
-    attrs = rules.applyRules(attributes);
+    attrs = PH35.rules.applyRules(attributes);
     howMany = attrs.featCount;
     var selections = {};
-    for(attr in rules.getChoices('feats')) {
+    for(attr in PH35.rules.getChoices('feats')) {
       if(attrs['feats.' + attr] != null)
         howMany--;
       else if(attrs['features.' + attr] == null)
@@ -2808,11 +2795,11 @@ PH35.randomize = function(rules, attributes, attribute) {
     }
   } else if(attribute == 'hitPoints') {
     attributes.hitPoints = 0;
-    for(var klass in rules.getChoices('classes')) {
+    for(var klass in PH35.rules.getChoices('classes')) {
       if((attr = attributes['levels.' + klass]) == null)
         continue;
       var matchInfo =
-        rules.getChoices('classes')[klass].match(/^((\d+)?d)?(\d+)$/);
+        PH35.rules.getChoices('classes')[klass].match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ? 1 : matchInfo[2];
       var sides = matchInfo == null || matchInfo[3] == null ? 6 : matchInfo[3];
       attributes.hitPoints += number * sides;
@@ -2820,24 +2807,26 @@ PH35.randomize = function(rules, attributes, attribute) {
         attributes.hitPoints += ScribeUtils.random(number, number * sides);
     }
   } else if(attribute == 'languages') {
-    attrs = rules.applyRules(attributes);
-    var race = attributes.race.replace(/.* /, '');
+    attrs = PH35.rules.applyRules(attributes);
+    var race = attributes.race;
+    race = race == null ? '' : attributes.race.replace(/.* /, '');
     attributes['languages.Common'] = 1;
     if(race != 'Human')
       attributes['languages.' + race] = 1;
     choices = [];
-    for(attr in rules.getChoices('languages')) {
+    for(attr in PH35.rules.getChoices('languages')) {
       if(attributes['languages.' + attr] == null)
         choices[choices.length] = attr;
     }
+    howMany = attrs.languageCount;
     pickAttrs(attributes, 'languages.', choices,
-              attrs.languageCount - sumMatching(attributes, /^languages\./), 1);
+              howMany - ScribeUtils.sumMatching(attributes, /^languages\./), 1);
   } else if(attribute == 'levels') {
     for(attr in attributes) {
       if(attr.indexOf('levels.') == 0)
         delete attributes[attr];
     }
-    choices = ScribeUtils.getKeys(rules.getChoices('classes'));
+    choices = ScribeUtils.getKeys(PH35.rules.getChoices('classes'));
     var classes = ScribeUtils.random(1, 100);
     classes = classes <= 85 ? 1 : classes <= 95 ? 2 : 3;
     for(i = 0; i < classes; i++) {
@@ -2846,10 +2835,20 @@ PH35.randomize = function(rules, attributes, attribute) {
               level<=93 ? 4 : level<=96 ? 5 : level<=98 ? 6 : level<=99 ? 7 : 8;
       pickAttrs(attributes, 'levels.', choices, 1, level);
     }
+    attrs = PH35.rules.applyRules(attributes);
+    howMany = attrs.domainCount;
+    if(howMany != null) {
+      if((choices = PH35.rules.getChoices('deities')[attributes.deity]) == null)
+        choices = ScribeUtils.getKeys(PH35.rules.getChoices('domains'));
+      else
+        choices = choices.split('/');
+      pickAttrs(attributes, 'domains.', choices,
+                howMany - ScribeUtils.sumMatching(/^domains\./), 1);
+    }
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
   } else if(attribute == 'selectableFeatures') {
-    attrs = rules.applyRules(attributes);
+    attrs = PH35.rules.applyRules(attributes);
     for(attr in attrs) {
       if(!attr.match(/^selectableFeatureCount\./))
         continue;
@@ -2883,11 +2882,11 @@ PH35.randomize = function(rules, attributes, attribute) {
       }
     }
   } else if(attribute == 'skills') {
-    attrs = rules.applyRules(attributes);
+    attrs = PH35.rules.applyRules(attributes);
     var maxRanks = attrs.classSkillMaxRanks;
     var skillPoints = attrs.skillPoints;
     choices = [];
-    for(attr in rules.getChoices('skills')) {
+    for(attr in PH35.rules.getChoices('skills')) {
       if(attrs['skills.' + attr] == null)
         choices[choices.length] = attr;
       else
@@ -2928,13 +2927,13 @@ PH35.randomize = function(rules, attributes, attribute) {
     var prohibitPat = ' (xxxx';
     var spellLevel;
     var unknownSpellsByLevel = {};
-    attrs = rules.applyRules(attributes);
-    for(attr in rules.getChoices('schools')) {
-      if(attrs['prohibit.' + attr] != null)
+    attrs = PH35.rules.applyRules(attributes);
+    for(attr in PH35.rules.getChoices('schools')) {
+      if(attrs['prohibit.' + attr])
          prohibitPat += '|' + attr.substring(0, 4);
     }
     prohibitPat += ')\\)';
-    for(attr in rules.getChoices('spells')) {
+    for(attr in PH35.rules.getChoices('spells')) {
       if(attrs['spells.' + attr] != null || attr.match(prohibitPat)) {
         continue;
       }
@@ -2952,7 +2951,7 @@ PH35.randomize = function(rules, attributes, attribute) {
       howMany = attrs[attr];
       if(spellLevel.substring(0, 3) == 'Dom') {
         choices = [];
-        for(var a in rules.getChoices('domains')) {
+        for(var a in PH35.rules.getChoices('domains')) {
           if(attrs['domains.' + a] != null) {
             var domainLevel =
               PH35.domainsSpellCodes[a] + spellLevel.substring(3);
@@ -2968,18 +2967,29 @@ PH35.randomize = function(rules, attributes, attribute) {
         if(howMany == 'all') {
           howMany = choices.length;
         }
-        pickAttrs(attributes, 'spells.', choices, howMany -
-                  sumMatching(attributes, '^spells\\..*' + spellLevel),
-                  1);
+        pickAttrs
+          (attributes, 'spells.', choices, howMany -
+           ScribeUtils.sumMatching(attributes, '^spells\\..*' + spellLevel), 1);
       }
     }
 
   } else if(attribute == 'weapons') {
     choices = [];
-    for(attr in rules.getChoices('weapons'))
+    for(attr in PH35.rules.getChoices('weapons'))
       choices[choices.length] = attr;
     pickAttrs(attributes, 'weapons.', choices,
-              2 - sumMatching(attributes, /^weapons\./), 1);
+              2 - ScribeUtils.sumMatching(attributes, /^weapons\./), 1);
+  } else if(attribute == 'charisma' || attribute == 'constitution' ||
+     attribute == 'dexterity' || attribute == 'intelligence' ||
+     attribute == 'strength' || attribute == 'wisdom') {
+    var rolls = [];
+    for(i = 0; i < 4; i++)
+      rolls[i] = ScribeUtils.random(1, 6);
+    rolls.sort();
+    attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
+  } else if(PH35.rules.getChoices(attribute + 's') != null) {
+    attributes[attribute] =
+      ScribeUtils.randomKey(PH35.rules.getChoices(attribute + 's'));
   }
 
 };
@@ -3003,10 +3013,6 @@ PH35.defineNote = function() {
 
 PH35.defineRace = function() {
   return ScribeRules.prototype.defineRace.apply(PH35.rules, arguments);
-};
-
-PH35.defineRandomizer = function() {
-  return ScribeRules.prototype.defineRandomizer.apply(PH35.rules, arguments);
 };
 
 PH35.defineRule = function() {

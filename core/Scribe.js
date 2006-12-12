@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.174 2006/11/27 05:45:04 Jim Exp $ */
+/* $Id: Scribe.js,v 1.175 2006/12/12 02:43:21 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
-var VERSION = '0.35.27';
+var VERSION = '0.36.11';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -124,7 +124,7 @@ Scribe.editorElements = [
   ['untrained', '', 'checkbox', ['Untrained Skills']],
   ['dmonly', '', 'checkbox', ['DM Info']],
   ['viewer', '', 'select-one', []],
-  ['randomize', ' ', 'select-one', 'randomizers'],
+  ['randomize', ' ', 'select-one', 'random'],
   ['name', 'Name', 'text', [20]],
   ['race', 'Race', 'select-one', 'races'],
   ['experience', 'Experience', 'text', [8]],
@@ -180,6 +180,8 @@ Scribe.editorHtml = function() {
         continue;
       }
       params = ScribeUtils.getKeys(ruleSet.getChoices(params));
+      if(name == 'randomize')
+        params = ['---randomize---'].concat(params);
     }
     if(label != '' || i == 0) {
       if(i > 0) {
@@ -368,9 +370,7 @@ Scribe.popUp.next = 0;
 Scribe.randomizeCharacter = function(prompt) {
   if(!prompt || (urlLoading == 'random' && loadingPopup.okay != null)) {
     // Ready to generate
-    var randomizers = ruleSet.getChoices('randomizers');
-    var totalLevels = 0;
-    character = {};
+    var fixedAttributes = {};
     if(prompt) {
       for(i = 0; i < loadingPopup.document.frm.elements.length; i++) {
         var element = loadingPopup.document.frm.elements[i];
@@ -378,27 +378,10 @@ Scribe.randomizeCharacter = function(prompt) {
         var value = InputGetValue(element);
         if(element.type=='button' || name==null || value==null || value=='')
           continue;
-        character[name] = value;
-        if(name.match(/^levels\./)) {
-          totalLevels += value - 0;
-        }
-      }
-    } else {
-      randomizers['race'](ruleSet, character, 'race');
-    }
-    if(totalLevels == 0) {
-      randomizers['levels'](ruleSet, character, 'levels');
-      for(var a in character) {
-        if(a.match(/^levels\./)) {
-          totalLevels += character[a] - 0;
-        }
+        fixedAttributes[name] = value;
       }
     }
-    character.experience = totalLevels * (totalLevels - 1) * 1000 / 2;
-    for(var a in randomizers) {
-      if(a != 'race' && a != 'levels' && randomizers[a] != null)
-        randomizers[a](ruleSet, character, a);
-    }
+    character = ruleSet.randomizeAllAttributes(fixedAttributes);
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
     currentUrl = 'random';
@@ -859,7 +842,7 @@ Scribe.update = function(input) {
       Scribe.helpWindow.focus();
   } else if(name == 'randomize') {
     input.selectedIndex = 0;
-    ruleSet.getChoices('randomizers')[value](ruleSet, character, value);
+    ruleSet.randomizeOneAttribute(character, value);
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
   } else if(name == 'rules') {

@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.51 2006/11/25 09:12:41 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.52 2006/12/12 02:43:21 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -20,7 +20,6 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /* TODO */
 function ScribeRules(name) {
   this.choices = {};
-  this.choices['randomizers'] = {'--randomize--': null};
   this.name = name;
   this.tests = [];
   this.viewers = {};
@@ -292,12 +291,6 @@ ScribeRules.prototype.defineRace = function(name, abilityAdjustment, features) {
     this.defineSheetElement
       (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
   }
-};
-
-/* Add the function #fn# as a randomizer for each of the listed attributes. */
-ScribeRules.prototype.defineRandomizer = function(fn, attr /*, attr ... */) {
-  for(var i = 1; i < arguments.length; i++)
-    this.choices['randomizers'][arguments[i]] = fn;
 };
 
 /*
