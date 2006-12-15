@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.175 2006/12/12 02:43:21 Jim Exp $ */
+/* $Id: Scribe.js,v 1.176 2006/12/15 06:01:42 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
-var VERSION = '0.36.11';
+var VERSION = '0.36.14';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -678,9 +678,7 @@ Scribe.sheetHtml = function() {
         name += '(' + ScribeUtils.signed(attack) + ' ' + damages.join('/') +
                 (range != 0 ? ' R' + range : '') + ')';
       }
-      // TODO This suppresses values of 1, which is great for things like
-      // weapons and spells but bad for, e.g., saves
-      value = name + (value == '1' ? '' : (': ' + value));
+      value = name + ': ' + value;
       if(object.indexOf('Notes') > 0 && ruleSet.isSource(a)) {
         if(cookieInfo.italics == '1')
           value = '<i>' + value + '</i>';
@@ -694,8 +692,16 @@ Scribe.sheetHtml = function() {
   }
 
   for(a in displayAttributes) {
-    if(typeof displayAttributes[a] == 'object')
-      displayAttributes[a].sort();
+    var attr = displayAttributes[a];
+    if(typeof attr == 'object') {
+      attr.sort();
+      // If all values in the array are 1|true, assume that it's a set and
+      // suppress display of the values
+      if(attr.join(',').replace(/: (1|true)(,|$)/g, '').indexOf(':') < 0)
+        for(i = 0; i < attr.length; i++)
+          attr[i] = attr[i].replace(/:.*/, '');
+      displayAttributes[a] = attr;
+    }
   }
 
   return '<' + '!' + '-- Generated ' + new Date().toString() +

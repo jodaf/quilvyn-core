@@ -1,4 +1,4 @@
-/* $Id: Input.js,v 1.4 2005/06/03 19:29:05 Jim Exp $ */
+/* $Id: Input.js,v 1.5 2006/12/15 06:01:42 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -21,8 +21,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /* Returns the value of #input#. */
 function InputGetValue(input) {
-  return input.type == 'checkbox' || input.type == 'radio' ?
-           (input.checked ? 1 : 0) :
+  return input.type == 'checkbox' || input.type == 'radio' ? input.checked :
          input.type == 'select-one' ? input.options[input.selectedIndex].value :
          input.value;
 }

@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.62 2006/12/12 15:44:32 Jim Exp $ */
+/* $Id: SRD35.js,v 1.63 2006/12/15 06:01:42 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2792,7 +2792,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       if(i < invalid.length) {
         delete attrs[attr];
       } else {
-        attributes[attr] = 1;
+        attributes[attr] = true;
         delete selections[attr];
         howMany--;
       }
@@ -2824,7 +2824,8 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     }
     howMany = attrs.languageCount;
     pickAttrs(attributes, 'languages.', choices,
-              howMany - ScribeUtils.sumMatching(attributes, /^languages\./), 1);
+              howMany - ScribeUtils.sumMatching(attributes, /^languages\./),
+              true);
   } else if(attribute == 'levels') {
     for(attr in attributes) {
       if(attr.indexOf('levels.') == 0)
@@ -2847,7 +2848,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       else
         choices = choices.split('/');
       pickAttrs(attributes, 'domains.', choices,
-                howMany - ScribeUtils.sumMatching(/^domains\./), 1);
+                howMany - ScribeUtils.sumMatching(/^domains\./), true);
     }
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
@@ -2973,7 +2974,8 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         }
         pickAttrs
           (attributes, 'spells.', choices, howMany -
-           ScribeUtils.sumMatching(attributes, '^spells\\..*' + spellLevel), 1);
+           ScribeUtils.sumMatching(attributes, '^spells\\..*' + spellLevel),
+           true);
       }
     }
 
