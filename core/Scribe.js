@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.177 2006/12/21 18:47:10 Jim Exp $ */
+/* $Id: Scribe.js,v 1.178 2006/12/21 23:30:30 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
 var VERSION = '0.36.14';
@@ -22,6 +22,7 @@ var ABOUT_TEXT =
 var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
 var EMPTY_SPELL_LIST = '--- No spell categories selected ---';
+var FEATURES_OF_OTHER_WINDOWS = 'height=750,width=750,resizable,scrollbars';
 var TIMEOUT_DELAY = 1000; // One second
 
 var cachedAttrs = {}; // Unchanged attrs of all characters opened so far
@@ -34,19 +35,27 @@ var cookieInfo = {  // What we store in the cookie
   untrained: '0',   // Show untrained skills on sheet?
   viewer: ''        // Preferred arrangement of character sheet
 };
-var editForm;       // Character editing form (window.forms[0])
+var editForm;       // Character editing form (editWindow.document.forms[0])
+var editWindow = null; // Window where editor is shown
 var loadingPopup = null; // Current "loading" message popup window
 var spellFilter = "";
 var ruleSets = {};  // ScribeRules with standard + user rules
 var ruleSet = null; // The rule set currently in use
+var sheetWindow = null; // Window where character sheet is shown
 var urlLoading=null;// Character URL presently loading
 
 /* Launch routine called after all Scribe scripts are loaded. */
 function Scribe() {
 
   var defaults = {
-    'BACKGROUND':'wheat', 'HELP_URL':'scribedoc.html', 'LOGO_URL':'scribe.gif',
-    'MAX_RECENT_OPENS':20, 'URL_PREFIX':'', 'URL_SUFFIX':'.html',
+    'BACKGROUND':'wheat',
+    'FEATURES_OF_EDIT_WINDOW':'height=750,width=500,resizable,scrollbars',
+    'FEATURES_OF_SHEET_WINDOW':'height=750,width=750,resizable,scrollbars',
+    'HELP_URL':'scribedoc.html',
+    'LOGO_URL':'scribe.gif',
+    'MAX_RECENT_OPENS':20,
+    'URL_PREFIX':'',
+    'URL_SUFFIX':'.html',
     'WARN_ABOUT_DISCARD':true
   };
 
@@ -307,8 +316,7 @@ Scribe.loadCharacter = function(name) {
     loadingPopup =
       Scribe.popUp('Loading character from '+url, 'Cancel', 'window.close();');
     if(sheetWindow == null || sheetWindow.closed)
-      sheetWindow = window.open
-        ('', 'scribeSheet', 'height=750,width=750,resizable,scrollbars');
+      sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
     if(sheetWindow.location != 'about:blank') // Opera pukes w/o this test
       sheetWindow.attributes = null;
     try {
@@ -424,7 +432,7 @@ Scribe.randomizeCharacter = function(prompt) {
       '</form></body></html>'
     ]);
     var html = htmlBits.join('\n') + '\n';
-    loadingPopup = window.open('', 'randomWin');
+    loadingPopup = window.open('', 'randomWin', FEATURES_OF_OTHER_WINDOWS);
     loadingPopup.document.write(html);
     loadingPopup.document.close();
     // Randomize race; the user can change it if desired
@@ -442,14 +450,12 @@ Scribe.randomizeCharacter = function(prompt) {
  * Resets the editing window fields to the values of the current character.
  * First redraws the editor if #redraw# is true.
  */
-var editWindow = null;
 Scribe.refreshEditor = function(redraw) {
 
   var i;
 
   if(editWindow == null || editWindow.closed) {
-    editWindow = window.open
-      ('', 'scribeEditor', 'height=750,width=500,resizable,scrollbars');
+    editWindow = window.open('', 'scribeEditor', FEATURES_OF_EDIT_WINDOW);
     redraw = true;
   }
   if(redraw) {
@@ -461,7 +467,7 @@ Scribe.refreshEditor = function(redraw) {
       '</body></html>\n';
     editWindow.document.write(editHtml);
     editWindow.document.close();
-    editForm = editWindow.document.frm;
+    editForm = editWindow.document.forms[0];
     var callback = function() {Scribe.update(this);};
     for(i = 0; i < editForm.elements.length; i++) {
       InputSetCallback(editForm.elements[i], callback);
@@ -537,11 +543,9 @@ Scribe.refreshEditor = function(redraw) {
 };
 
 /* Draws the sheet for the current character in the character sheet window. */
-var sheetWindow = null;
 Scribe.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed)
-    sheetWindow = window.open
-      ('', 'scribeSheet', 'height=750,width=750,resizable,scrollbars');
+    sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
   sheetWindow.document.write(Scribe.sheetHtml());
   sheetWindow.document.close();
 };
@@ -730,7 +734,8 @@ Scribe.sheetHtml = function() {
 /* Opens a window that contains HTML for #html# in readable/copyable format. */
 Scribe.showHtml = function(html) {
   if(Scribe.showHtml.htmlWindow == null || Scribe.showHtml.htmlWindow.closed)
-    Scribe.showHtml.htmlWindow = window.open('', 'html');
+    Scribe.showHtml.htmlWindow =
+      window.open('', 'html', FEATURES_OF_OTHER_WINDOWS);
   else
     Scribe.showHtml.htmlWindow.focus();
   html = html.replace(/</g, '&lt;');
@@ -812,7 +817,8 @@ Scribe.summarizeCachedAttrs = function() {
   htmlBits[htmlBits.length] = '</body></html>\n';
   if(Scribe.summarizeCachedAttrs.win == null ||
      Scribe.summarizeCachedAttrs.win.closed)
-    Scribe.summarizeCachedAttrs.win = window.open('', 'sumwin');
+    Scribe.summarizeCachedAttrs.win =
+      window.open('', 'sumwin', FEATURES_OF_OTHER_WINDOWS);
   else
     Scribe.summarizeCachedAttrs.win.focus();
   Scribe.summarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
@@ -848,7 +854,8 @@ Scribe.update = function(input) {
       Scribe.loadCharacter(value);
   } else if(name == 'help') {
     if(Scribe.helpWindow == null || Scribe.helpWindow.closed)
-      Scribe.helpWindow = window.open(HELP_URL, 'help');
+      Scribe.helpWindow =
+        window.open(HELP_URL, 'help', FEATURES_OF_OTHER_WINDOWS);
     else
       Scribe.helpWindow.focus();
   } else if(name == 'randomize') {
@@ -867,7 +874,8 @@ Scribe.update = function(input) {
     Scribe.summarizeCachedAttrs();
   } else if(name == 'validate') {
     if(Scribe.validateWindow == null || Scribe.validateWindow.closed)
-      Scribe.validateWindow = window.open('', 'vdate', 'height=400,width=400');
+      Scribe.validateWindow =
+        window.open('', 'vdate', FEATURES_OF_OTHER_WINDOWS);
     else
       Scribe.validateWindow.focus();
     Scribe.validateWindow.document.write(
