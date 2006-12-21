@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.176 2006/12/15 06:01:42 Jim Exp $ */
+/* $Id: Scribe.js,v 1.177 2006/12/21 18:47:10 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
 var VERSION = '0.36.14';
@@ -34,7 +34,7 @@ var cookieInfo = {  // What we store in the cookie
   untrained: '0',   // Show untrained skills on sheet?
   viewer: ''        // Preferred arrangement of character sheet
 };
-var editForm;       // Character editing form (window.frames[0].forms[0])
+var editForm;       // Character editing form (window.forms[0])
 var loadingPopup = null; // Current "loading" message popup window
 var spellFilter = "";
 var ruleSets = {};  // ScribeRules with standard + user rules
@@ -53,11 +53,6 @@ function Scribe() {
   if(InputGetValue == null || ObjectViewer == null || RuleEngine == null ||
      ScribeRules == null || ScribeUtils == null) {
     alert('JavaScript modules needed by Scribe are missing; exiting');
-    return;
-  }
-  if(window.frames[0] == null || window.frames[1] == null) {
-    alert('Scribe must be embedded in a document that defines at least ' +
-          'two frames; exiting');
     return;
   }
 
@@ -212,7 +207,6 @@ Scribe.editorHtml = function() {
  * new calls, until either the character is loaded or the user cancels.
  */
 Scribe.loadCharacter = function(name) {
-  var loadingWindow = window.frames[1];
   var url = name;
   if(url.match(/^\w*:/) == null)
     url = URL_PREFIX + url;
@@ -220,7 +214,8 @@ Scribe.loadCharacter = function(name) {
     url += URL_SUFFIX;
   if(urlLoading == url && loadingPopup.closed) {
     urlLoading = null; // User cancel
-  } else if(urlLoading == url && loadingWindow.attributes != null) {
+    Scribe.refreshSheet();
+  } else if(urlLoading == url && sheetWindow.attributes != null) {
     // Character done loading
     var i;
     // Place loaded name at head of New/Open list
@@ -238,8 +233,8 @@ Scribe.loadCharacter = function(name) {
     character = {};
     // Turn objects into "dot" attributes and convert values from prior
     // versions of Scribe.
-    for(var a in loadingWindow.attributes) {
-      var value = loadingWindow.attributes[a];
+    for(var a in sheetWindow.attributes) {
+      var value = sheetWindow.attributes[a];
       if(typeof value == 'object') {
         for(var x in value) {
           if(a == 'combatStyle') {
@@ -311,13 +306,17 @@ Scribe.loadCharacter = function(name) {
     urlLoading = url;
     loadingPopup =
       Scribe.popUp('Loading character from '+url, 'Cancel', 'window.close();');
-    if(loadingWindow.location != 'about:blank') // Opera pukes w/o this test
-      loadingWindow.attributes = null;
+    if(sheetWindow == null || sheetWindow.closed)
+      sheetWindow = window.open
+        ('', 'scribeSheet', 'height=750,width=750,resizable,scrollbars');
+    if(sheetWindow.location != 'about:blank') // Opera pukes w/o this test
+      sheetWindow.attributes = null;
     try {
-      loadingWindow.location = url;
+      sheetWindow.location = url;
     } catch(e) {
       loadingPopup.close();
       urlLoading = null;
+      Scribe.refreshSheet();
       alert('Attempt to load ' + url + ' failed');
     }
     if(urlLoading != null)
@@ -443,18 +442,23 @@ Scribe.randomizeCharacter = function(prompt) {
  * Resets the editing window fields to the values of the current character.
  * First redraws the editor if #redraw# is true.
  */
+var editWindow = null;
 Scribe.refreshEditor = function(redraw) {
 
   var i;
 
+  if(editWindow == null || editWindow.closed) {
+    editWindow = window.open
+      ('', 'scribeEditor', 'height=750,width=500,resizable,scrollbars');
+    redraw = true;
+  }
   if(redraw) {
     var editHtml =
-      '<html><head><title>Editor</title></head>\n' +
+      '<html><head><title>Scribe Editor Window</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
       '<img src="' + LOGO_URL + ' "/><br/>\n' +
       Scribe.editorHtml() + '\n' +
       '</body></html>\n';
-    var editWindow = window.frames[0];
     editWindow.document.write(editHtml);
     editWindow.document.close();
     editForm = editWindow.document.frm;
@@ -536,7 +540,8 @@ Scribe.refreshEditor = function(redraw) {
 var sheetWindow = null;
 Scribe.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed)
-    sheetWindow = window.open('', 'scribeSheet');
+    sheetWindow = window.open
+      ('', 'scribeSheet', 'height=750,width=750,resizable,scrollbars');
   sheetWindow.document.write(Scribe.sheetHtml());
   sheetWindow.document.close();
 };

@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.44 2006/11/27 03:29:20 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.45 2006/12/21 18:47:12 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -20,7 +20,7 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
 <head>
 
-<title>Scribe DND Character Editor</title>
+<title>Scribe Program Window</title>
 
 <script>
 <!--
@@ -68,9 +68,9 @@ var WARN_ABOUT_DISCARD = true;
  */
 var CUSTOMIZATION_URLS = [
   'PH35.js',
-  /* 'DMG35.js', */
-  /* 'MN2E.js', */
-  /* 'MN2EPrestige.js', */
+  '?DMG35.js',
+  '?MN2E.js',
+  '?MN2EPrestige.js',
   /* 'CustomDeities.js', */
   /* 'CustomFeats.js', */
   /* 'CustomGoodies.js', */
@@ -130,10 +130,12 @@ for(var i = 0; i < scribeUrls.length; i++) {
 </script>
 
 </head>
+<body onload="window.resizeTo(400,200);document.bgColor=BACKGROUND;Scribe();">
 
-<frameset rows="100%,*" onload="Scribe();">
-  <frame src="about:blank"/>
-  <frame src="about:blank"/>
-</frameset>
+<script>
+  document.write('<img src="' + LOGO_URL + '"/><br/>');
+</script>
+Scribe is running from this window.  Please leave it open until you are done
+using Scribe.
 
 </html>
