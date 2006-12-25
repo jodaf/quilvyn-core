@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.179 2006/12/21 23:30:54 Jim Exp $ */
+/* $Id: Scribe.js,v 1.180 2006/12/25 15:44:05 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
 var VERSION = '0.36.21';
@@ -632,11 +632,10 @@ Scribe.sheetHtml = function() {
       } else if(object == 'Weapons') {
         var damages = ruleSet.getChoices('weapons')[name];
         damages = damages == null ? 'd6' : damages.replace(/ /g, '');
-        var range;
-        if((i = damages.search(/[rR]/)) < 0) {
-          range = 0;
-        } else {
-          range = damages.substring(i + 1) - 0;
+        var range = computedAttributes['weaponRange.' + name];
+        if((i = damages.search(/[rR]/)) >= 0) {
+          if(range == null)
+            range = damages.substring(i + 1) - 0;
           damages = damages.substring(0, i);
           if(computedAttributes['weaponRangeAdjustment.' + name] != null)
             range += computedAttributes['weaponRangeAdjustment.' + name] - 0;
@@ -644,7 +643,7 @@ Scribe.sheetHtml = function() {
             range *= name.indexOf('bow') < 0 ? 2 : 1.5;
         }
         var attack =
-          range == 0 ||
+          range == null ||
           name.match
             (/^(Club|Dagger|Light Hammer|Shortspear|Spear|Trident)$/) != null ?
           computedAttributes.meleeAttack : computedAttributes.rangedAttack;
@@ -685,7 +684,7 @@ Scribe.sheetHtml = function() {
           damages[i] = damage + ' x' + multiplier + '@' + threat;
         }
         name += '(' + ScribeUtils.signed(attack) + ' ' + damages.join('/') +
-                (range != 0 ? ' R' + range : '') + ')';
+                (range != null ? ' R' + range : '') + ')';
       }
       value = name + ': ' + value;
       if(object.indexOf('Notes') > 0 && ruleSet.isSource(a)) {
