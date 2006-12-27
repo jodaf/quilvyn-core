@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.180 2006/12/25 15:44:05 Jim Exp $ */
+/* $Id: Scribe.js,v 1.181 2006/12/27 15:40:25 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
 var VERSION = '0.36.21';
@@ -86,7 +86,6 @@ function Scribe() {
   if(CustomizeScribe != null)
     CustomizeScribe();
   character = {};
-  Scribe.refreshEditor(true);
   Scribe.randomizeCharacter(false);
   Scribe.popUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
                COPYRIGHT + '<br/>' +
