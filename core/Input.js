@@ -1,4 +1,4 @@
-/* $Id: Input.js,v 1.5 2006/12/15 06:01:42 Jim Exp $ */
+/* $Id: Input.js,v 1.6 2006/12/27 17:32:34 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -76,7 +76,8 @@ function InputSetOptions(input, options) {
     input.options[i].text = input.options[i].value = options[i];
   for( ; i < options.length; i++)
     input.options[i] = new Option(options[i], options[i], 0, 0);
-  input.selectedIndex = 0;
+  if(options.length > 0)
+    input.selectedIndex = 0;
 };
 
 /* Sets the value of #input# to #value#. */
