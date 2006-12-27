@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.63 2006/12/15 06:01:42 Jim Exp $ */
+/* $Id: SRD35.js,v 1.64 2006/12/27 15:38:41 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1245,7 +1245,7 @@ PH35.classRules = function(rules) {
           'Flanked only by rogue four levels higher',
         'combatNotes.mightyRageFeature:+8 strength/constitution; +4 Will save',
         'combatNotes.rageFeature:' +
-          '+4 strength/constitution/+2 Will save/-2 AC 5+conMod rounds %V/day',
+          '+4 strength/constitution/+2 Will save/-2 AC 5+ConMod rounds %V/day',
         'combatNotes.tirelessRageFeature:Not fatigued after rage',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
@@ -1696,7 +1696,7 @@ PH35.classRules = function(rules) {
       hitDie = 10;
       notes = [
         'combatNotes.smiteEvilFeature:' +
-          '%V/day add conMod to attack, paladin level to damage vs. evil foe',
+          '%V/day add ChaMod to attack, paladin level to damage vs. evil foe',
         'combatNotes.turnUndeadFeature:' +
           'Turn (good) or rebuke (evil) undead creatures',
         'featureNotes.specialMountFeature:Magical mount w/special abilities',
