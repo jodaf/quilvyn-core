@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.181 2006/12/27 15:40:25 Jim Exp $ */
+/* $Id: Scribe.js,v 1.182 2006/12/27 17:44:59 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
-var VERSION = '0.36.21';
+var VERSION = '0.36.27';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -316,8 +316,6 @@ Scribe.loadCharacter = function(name) {
       Scribe.popUp('Loading character from '+url, 'Cancel', 'window.close();');
     if(sheetWindow == null || sheetWindow.closed)
       sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
-    if(sheetWindow.location != 'about:blank') // Opera pukes w/o this test
-      sheetWindow.attributes = null;
     try {
       sheetWindow.location = url;
     } catch(e) {
@@ -491,10 +489,6 @@ Scribe.refreshEditor = function(redraw) {
   InputSetOptions(editForm.rules, ScribeUtils.getKeys(ruleSets));
   InputSetOptions(editForm.spells_sel, spellOpts);
   InputSetOptions(editForm.viewer, ruleSet.getViewerNames());
-  if(!redraw &&
-     (editForm.file.options.length != fileOpts.length ||
-      editForm.spells_sel.options.length != spellOpts.length)) // Opera bug
-    return Scribe.refreshEditor(true);
 
   // Skip to first character-related editor input
   for(i = 0;
