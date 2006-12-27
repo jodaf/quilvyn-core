@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.182 2006/12/27 17:44:59 Jim Exp $ */
+/* $Id: Scribe.js,v 1.183 2006/12/27 19:39:17 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
 var VERSION = '0.36.27';
@@ -119,6 +119,7 @@ Scribe.editorElements = [
   ['about', ' ', 'button', ['About']],
   ['help', '', 'button', ['Help']],
   ['rules', 'Rules', 'select-one', []],
+  ['ruleattributes', '', 'button', ['Attributes']],
   ['file', ' ', 'select-one', []],
   ['summary', '', 'button', ['Summary']],
   ['validate', ' ', 'button', ['Validate']],
@@ -859,6 +860,29 @@ Scribe.update = function(input) {
     ruleSet = ruleSets[value];
     Scribe.refreshEditor(true);
     Scribe.refreshSheet();
+  } else if(name == 'ruleattributes') {
+    if(Scribe.attributesWindow != null && !Scribe.attributesWindow.closed)
+      Scribe.attributesWindow.close();
+    Scribe.attributesWindow =
+      window.open('', 'attrwin', FEATURES_OF_OTHER_WINDOWS);
+    Scribe.attributesWindow.document.write(
+      '<html>\n',
+      '<head>\n',
+      '<title>Attributes of ' + InputGetValue(editForm.rules) + '</title>\n',
+      '</head>\n',
+      '<body>\n'
+    );
+    var attrs = ruleSet.allSources().concat(ruleSet.allTargets());
+    attrs.sort();
+    for(var i = 0; i < attrs.length; i++) {
+      if(i > 0 && attrs[i] != '' && attrs[i] != attrs[i - 1])
+        Scribe.attributesWindow.document.write(attrs[i] + '<br/>\n');
+    }
+    Scribe.attributesWindow.document.write(
+      '</body>\n',
+      '</html>\n'
+    );
+    Scribe.attributesWindow.document.close();
   } else if(name == 'spellfilter') {
     spellFilter = value;
     Scribe.refreshEditor(false);
