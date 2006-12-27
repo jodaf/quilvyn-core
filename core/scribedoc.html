@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.72 2006/12/27 15:39:00 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.73 2006/12/27 19:39:00 Jim Exp $ -->
 <html>
 
 <head>
@@ -33,8 +33,7 @@
   <li><a href="#customtest">Customization - Adding Validation Tests</a></li>
   <li><a href="#customclass">Customization - Adding Classes</a></li>
   <li><a href="#custommagic">Customization - Adding Magic Items</a></li>
-  <li><a href="#limitations">Limitations</a></li>
-  <li><a href="#todo">Bugs/To-do List</a></li>
+  <li><a href="#issues">Bugs/Limitations</a></li>
 </ul>
 </p>
 
@@ -59,7 +58,7 @@ A tar file containing the Scribe code can be obtained from
 <a href='http://www.jodaf.com/software/scribe/scribe.tar'>www.jodaf.com/software/scribe/scribe.tar</a>.
 The Scribe program consists of 12 files: Input.js, ObjectViewer.js,
 PH35.js, RuleEngine.js, Scribe.js, ScribeRules.js, ScribeUtils.js, gpl.txt,
-scribe.gif, scribe.html, scribeattrs.html, and scribedoc.html.  In addition,
+scribe.gif, scribe.html, scribedoc.html, and scribeissues.html.  In addition,
 the download contains DMG35.js, which defines the prestige and non-player
 classes from the Dungeon Masters guide, MN2E.js and MN2EPrestige.js, which
 define the rules for the Midnight role playing game, and several customization
@@ -71,14 +70,11 @@ download each time. See scribe.html for details.
 </p><p>
 Scribe has been successfully tested using these browsers
 <ul>
-  <li>Linux Galeon v1.2 and v1.3</li>
-  <li>Linux Mozilla v1.0 and v1.7</li>
-  <li>Macintosh OS X Firefox v1.0 and v2.0</li>
-  <li>Macintosh OS X Internet Explorer v5.2</li>
-  <li>Macintosh OS X Safari v1.2</li>
+  <li>Macintosh OS X Firefox v2.0</li>
+  <li>Macintosh OS X Safari v1.3.2</li>
   <li>Windows Firefox v2.0</li>
   <li>Windows Internet Explorer v6.0</li>
-  <li>Windows Opera v7.54</li>
+  <li>Windows Opera v9.10</li>
 </ul>
 </p><p>
 scribe.html contains a section of definitions that allow you to set some user
@@ -87,13 +83,15 @@ its windows, and the program uses the URL_PREFIX and URL_SUFFIX values to
 expand abbreviated values entered in the open dialogue.  For example, if
 URL_PREFIX is "file:///home/farquar/Scribe/characters/" and URL_SUFFIX is
 ".html", than you can simply enter "jorash" into the open dialogue to open the
-character file "file:///home/farquar/Scribe/characters/jorash.html".  The value
-of MAX_RECENT_OPENS determines how many recently-opened character URLs appear
-in the New/Open menu, and WARN_ABOUT_DISCARD determines whether or not Scribe
-warns you when ask to open a new character after making changes to the current
-one without saving. You can also add character sheet and editor customizations
-in scribe.html.  See the <a href="#custom">customization section</a> for
-details.
+character file "file:///home/farquar/Scribe/characters/jorash.html".  The
+FEATURES_OF_EDIT_WINDOW and FEATURES_OF_SHEET_WINDOW definitions allow you to
+customize the size and placement of Scribe's editor and character sheet
+windows.  The value of MAX_RECENT_OPENS determines how many recently-opened
+character URLs appear in the New/Open menu, and WARN_ABOUT_DISCARD determines
+whether or not Scribe warns you when ask to open a new character after making
+changes to the current one without saving. You can also add character sheet and
+editor customizations in scribe.html.  See the <a href="#custom">customization
+section</a> for details.
 </p><p>
 To run Scribe, simply use one of the web browsers listed above to open
 scribe.html.
@@ -110,8 +108,8 @@ file where you previously saved the character (see <a href="#save">Saving
 Characters</a> below).  When you ask for a new, randomized character, Scribe
 opens a form that allows you to specify the character's race and/or class
 level(s).  This helps DMs to use Scribe to generate NPCs.  You can either
-specify these attributes, or leave the form blank to have Scribe generate them
-randomly.
+specify these attributes, or leave the form unchanged to have Scribe generate
+them randomly.
 </p>
 
 <a name="edit"><h3>Editing Characters</h3></a>
@@ -140,12 +138,12 @@ single click.
 </p><p>
 In your main browser window, Scribe displays a character sheet based on the
 values of the editing window.  Every time you change a value in the editing
-window, Scribe applies the rules from the AD&amp;D v3.5 Player's Handbook, then
-updates the character sheet to show you any computed changes.
+window, Scribe applies the rules from the selected rule set, then updates the
+character sheet to show you any computed changes.
 </p><p>
-The three "Show" checkboxes provide some control over what attributes the
-character sheet displays.  The "Italic Notes" checkbox determines whether or
-not italicized notes are included on the sheet.  See <a href='#sheet'>the
+Three "Show" checkboxes provide some control over what attributes the character
+sheet displays.  The "Italic Notes" checkbox determines whether or not
+italicized notes are included on the sheet.  See <a href='#sheet'>the
 discussion of the character sheet</a> for an explanation as to why some notes
 are italicized and others are not.  The "Untrained Skills" checkbox determines
 whether Scribe includes in the character's skill list those skills that may be
@@ -155,22 +153,26 @@ for the Dungeon Master only.  This includes any notes entered in the editor's
 "DM Notes" box and any attributes that depend on the "dmonly" attribute.
 </p><p>
 A few items in the editor window don't relate directly to the character sheet.
-The "New/Open" button is discussed in in <a href='#open'>Generating and
-Loading Characters</a> and the "View HTML" button in <a href='#save'>Saving
-Characters</a>.  The "Help" button opens a window that contains this
-document, and the "About" button opens one with text describing Scribe.  The
-"Validate" button checks the current character values against restrictions from
-the Player's Handbook.  Scribe allows you to enter a character that doesn't
-meet these restrictions (e.g., a chaotic monk), but will warn you when you
-press this button.  The "Summary" button opens a window with a table that
+The "About" button opens a window with text describing Scribe, and the "Help"
+button opens one that contains this document.  The "Rules" pull-down allows you
+to change between different character-creation rule sets&#151;Scribe comes with
+support for the v3.5 core rules and for the Midnight 2nd edition rules.  The
+"Rule Attributes" button opens a window that lists the attributes generated by
+the current rule set; this is used in developing your own custom rules.  The
+"New/Open" button is discussed in in <a href='#open'>Generating and Loading
+Characters</a>.  The "Summary" button opens a window with a table that
 summarizes attributes from all characters that you've opened since starting
 Scribe.  This is intended to assist DMs in planning and running campaigns by
 providing a compact summary of the abilities of all the characters in a party.
-Finally, the "Spell Filter" text box allows you to determine which spells
-appear in the "Spells" set menu.  Since hundreds of spells and variations are
-available, this menu allows you to limit the spells (e.g. cleric spells, air
-domain spells) of interest.  Only those spells that match the text in this box
-are included in the spells set menu.
+The "Validate" button checks the current character values against restrictions
+from the Player's Handbook.  Scribe allows you to enter a character that
+doesn't meet these restrictions (e.g., a chaotic monk), but will warn you when
+you press this button.  The "View HTML" button is described in
+<a href='#save'>Saving Characters</a>.  Finally, the "Spell Filter" text box
+allows you to determine which spells appear in the "Spells" set menu.  Since
+hundreds of spells and variations are available, this menu allows you to limit
+the spells (e.g. cleric spells, air domain spells) of interest.  Only those
+spells that match the text in this box are included in the spells set menu.
 </p>
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
@@ -365,8 +367,8 @@ the new rule would replace the rule for goblins.  In general, it's best to add
 rules that set new attributes (like abilityNotes.goblinAbilityAdjustment), then
 use these new attributes to modify existing ones via a '+' rule.
 </p><p>
-<a href='scribeattrs.html'>scribeattrs.html</a> lists all the attributes that
-Scribe knows about.  You can use any of these attributes, as well as new ones
+The "Rule Attribute" button opens a window that contains all the attributes in
+the current rule set.  You can use any of these attributes, as well as new ones
 you calculate, in calls to PH35.defineRule.
 </p>
 
@@ -526,64 +528,10 @@ information on how to add additional items to the Goodies list and the rules
 that specify the effects of new items.
 </p>
 
-<a name="limitations"><h3>Limitations</h3></a>
+<a name="issues"><h3>Bugs/Limitations</h3></a>
 <p>
-<ul>
-  <li>The skills and feats that require you to pick a subject (e.g., "Craft",
-      "Weapon Focus") are not included in the skill and feat lists.  DMs should
-      use customization to add particular instances of these skills and feats,
-      e.g., "Craft (Carpentery)", "Weapon Focus (Longsword)".  This applies to:
-      the skills "Craft" and "Profession"; the weapon feats "Greater Weapon
-      Focus", "Greater Weapon Specialization", "Improved Critical", "Weapon
-      Focus", "Weapon Proficiency Exotic", "Weapon Proficiency Martial", and
-      "Weapon Specialization"; the spell feats "Greater Spell Focus", "Spell
-      Focus" and "Spell Mastery"; the skill feat "Skill Focus".
-  <li>When an character ability score is modified, Scribe recalculates
-      attributes based on that ability from scratch.  For example, bumping
-      intelligence when a character reaches 4th level causes Scribe to
-      recompute the number of skill points awarded at first level.  This
-      might be considered a feature.</li>
-  <li>Race- and class-based proficiencies for specific weapons are not
-      reported.</li>
-  <li>Scribe uses the dexterity modifier to attack throws for all weapons of
-      characters with the "Weapon Finesse" feat, not just light weapons.</li>
-  <li>The armor class of characters with the "Dodge" feat includes a +1 bonus
-      that doesn't apply to more than one foe at a time.</li>
-  <li>Racial favored class is not reported.</li>
-  <li>Scribe provides no place other than the notes section to enter mundane
-      possessions like lanterns and rope. The same goes for physical
-      description.</li>
-  <li>You can only select the feats "Extra Turning" and "Toughness" once.
-      Multiple selections of these feats can be handled by defining custom
-      feats (e.g., "Improved Toughness").</li>
-  <li>Although they have a range increment, the weapons Club, Dagger, Light
-      Hammer, Shortspear, Spear, and Trident are all considered melee weapons.
-      Substitute the ranged attack attribute for the melee attack attribute
-      given on the character sheet when any of these is thrown.</li>
-  <li>Scribe updates the cross-class skill indicators in the editor skill
-      pull-down menu whenever a character is generated or loaded and when class
-      levels or cleric domains change.  This is sufficient for the PH rules,
-      but the menu may not reflect any custom rules that make the
-      class/cross-class determination depend on other attributes.</li>
-</ul>
-</p>
-
-<a name="todo"><h3>Bugs/To-do List</h3></a>
-<p>
-<ul>
-  <li>Scribe gives multi-class characters quadruple spell points for the first
-      level in each class, instead of just one class.</li>
-  <li>Scribe presently defines no way to add additional types of armor because
-      of all the extra information that would need to be specified&#151;arcane
-      spell failure percentage, a.c. bonus, maximum dexterity bonus, skill
-      check penalty, etc.</li>
-  <li>Scribe has problems dealing with attributes containing an uncapitalized
-      word.  This is why, e.g., Scribe defines the skills "Sleight Of Hand" and
-      "Knowledge (Arcana)" instead of "Sleight of Hand" and "Knowledge
-      (arcana)". There are other occasions when Scribe is picky about case;
-      when defining your own attributes, it's safest to follow the conventions
-      Scribe uses.</li>
-</ul>
+Please see <a href='scribeissues.html'>Scribe issues list</a> for a list of
+known bugs, limitations, and items on the Scribe development in-basket.
 </p>
 
 </body>
