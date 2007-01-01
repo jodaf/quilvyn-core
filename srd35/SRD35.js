@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.64 2006/12/27 15:38:41 Jim Exp $ */
+/* $Id: SRD35.js,v 1.65 2007/01/01 17:15:36 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -114,6 +114,10 @@ PH35.FEATS = [
   'Deft Hands', 'Diehard', 'Diligent', 'Dodge', 'Empower Spell', 'Endurance',
   'Enlarge Spell', 'Eschew Materials', 'Extend Spell', 'Extra Turning',
   'Far Shot', 'Forge Ring', 'Great Cleave', 'Great Fortitude',
+  'Greater Spell Focus (Abjuration)', 'Greater Spell Focus (Conjuration)',
+  'Greater Spell Focus (Divination)', 'Greater Spell Focus (Enchantment)',
+  'Greater Spell Focus (Evocation)', 'Greater Spell Focus (Illusion)',
+  'Greater Spell Focus (Necromancy)', 'Greater Spell Focus (Transmutation)',
   'Greater Spell Penetration', 'Greater Two Weapon Fighting', 'Heighten Spell',
   'Improved Bull Rush', 'Improved Counterspell', 'Improved Disarm',
   'Improved Feint', 'Improved Grapple', 'Improved Initiative',
@@ -127,7 +131,11 @@ PH35.FEATS = [
   'Quick Draw', 'Quicken Spell', 'Rapid Reload', 'Rapid Shot',
   'Ride By Attack', 'Run', 'Scribe Scroll', 'Self Sufficient',
   'Shield Proficiency', 'Shield Proficiency Tower', 'Shot On The Run',
-  'Silent Spell', 'Snatch Arrows', 'Spell Penetration', 'Spirited Charge',
+  'Silent Spell', 'Snatch Arrows', 'Spell Mastery', 'Spell Focus (Abjuration)',
+  'Spell Focus (Conjuration)', 'Spell Focus (Divination)',
+  'Spell Focus (Enchantment)', 'Spell Focus (Evocation)',
+  'Spell Focus (Illusion)', 'Spell Focus (Necromancy)',
+  'Spell Focus (Transmutation)', 'Spell Penetration', 'Spirited Charge',
   'Spring Attack', 'Stealthy', 'Still Spell', 'Stunning Fist', 'Toughness',
   'Track', 'Trample', 'Two Weapon Defense', 'Two Weapon Fighting',
   'Weapon Finesse', 'Weapon Proficiency Simple', 'Whirlwind Attack',
@@ -958,6 +966,17 @@ PH35.featsNotes = [
   'magicNotes.extendSpellFeature:x2 designated spell duration',
   'magicNotes.eschewMaterialsFeature:Cast spells w/out materials',
   'magicNotes.forgeRingFeature:Create magic ring',
+  'magicNotes.greaterSpellFocus(Abjuration)Feature:+1 DC on Abjuration spells',
+  'magicNotes.greaterSpellFocus(Conjuration)Feature:' +
+    '+1 DC on Conjuration spells',
+  'magicNotes.greaterSpellFocus(Divination)Feature:+1 DC on Divination spells',
+  'magicNotes.greaterSpellFocus(Enchantment)Feature:' +
+    '+1 DC on Enchantment spells',
+  'magicNotes.greaterSpellFocus(Evocation)Feature:+1 DC on Evocation spells',
+  'magicNotes.greaterSpellFocus(Illusion)Feature:+1 DC on Illusion spells',
+  'magicNotes.greaterSpellFocus(Necromancy)Feature:+1 DC on Necromancy spells',
+  'magicNotes.greaterSpellFocus(Transmutation)Feature:' +
+    '+1 DC on Transmutation spells',
   'magicNotes.greaterSpellPenetrationFeature:' +
     '+2 caster level vs. resistance checks',
   'magicNotes.heightenSpellFeature:Increase designated spell level',
@@ -968,6 +987,15 @@ PH35.featsNotes = [
   'magicNotes.quickenSpellFeature:Cast spell as free action 1/round',
   'magicNotes.scribeScrollFeature:Create scroll of any known spell',
   'magicNotes.silentSpellFeature:Cast designated spell w/out speech',
+  'magicNotes.spellFocus(Abjuration)Feature:+1 DC on Abjuration spells',
+  'magicNotes.spellFocus(Conjuration)Feature:+1 DC on Conjuration spells',
+  'magicNotes.spellFocus(Divination)Feature:+1 DC on Divination spells',
+  'magicNotes.spellFocus(Enchantment)Feature:+1 DC on Enchantment spells',
+  'magicNotes.spellFocus(Evocation)Feature:+1 DC on Evocation spells',
+  'magicNotes.spellFocus(Illusion)Feature:+1 DC on Illusion spells',
+  'magicNotes.spellFocus(Necromancy)Feature:+1 DC on Necromancy spells',
+  'magicNotes.spellFocus(Transmutation)Feature:+1 DC on Transmutation spells',
+  'magicNotes.spellMasteryFeature:Prepare %V spells w/out spellbook',
   'magicNotes.spellPenetrationFeature:+2 caster level vs. resistance checks',
   'magicNotes.stillSpellFeature:Cast designated spell w/out movement',
   'magicNotes.widenSpellFeature:Double area of affect',
@@ -2301,6 +2329,9 @@ PH35.featRules = function(rules) {
     ('initiative', 'combatNotes.improvedInitiativeFeature', '+', '4');
   rules.defineRule
     ('magicNotes.arcaneSpellFailure', 'features.Still Spell', 'v', '0');
+  rules.defineRule('magicNotes.spellMasteryFeature',
+    'intelligenceModifier', '=', '3 * source'
+  );
   rules.defineRule
     ('meleeAttack', 'combatNotes.dexterityMeleeAttackAdjustment', '+', null);
   rules.defineRule('runSpeedMultiplier', 'combatNotes.runFeature', '+', '1');
