@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.65 2007/01/01 17:15:36 Jim Exp $ */
+/* $Id: SRD35.js,v 1.66 2007/01/04 16:43:28 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2441,7 +2441,7 @@ PH35.raceRules = function(rules) {
         'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
         'saveNotes.magicResistanceFeature:+2 vs. spells',
-        'saveNotes.poisonResistanceFeature:+%V vs. poison',
+        'saveNotes.poisonResistanceFeature:+2 vs. poison',
         'saveNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
         'skillNotes.naturalSmithFeature:' +
            '+2 Appraise/Craft involving stone or metal',
@@ -2457,12 +2457,7 @@ PH35.raceRules = function(rules) {
       rules.defineRule
         ('resistance.Magic', 'saveNotes.magicResistanceFeature', '+=', '2');
       rules.defineRule
-        ('resistance.Poison', 'saveNotes.poisonResistanceFeature', '+=', null);
-      // TODO This cooperates with the Assassin's variable poison resistance,
-      // but precludes another race with poison resistance
-      rules.defineRule('saveNotes.poisonResistanceFeature',
-        'race', '+=', 'source == "Dwarf" ? 2 : null'
-      );
+        ('resistance.Poison', 'saveNotes.poisonResistanceFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
 
     } else if(race == 'Elf') {
