@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.52 2006/12/12 02:43:21 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.53 2007/01/15 15:44:21 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -55,19 +55,17 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
  * characters of the class gain; #classSkills# is an array of skills that are
  * class (not cross-class) skills for the class, #features# an array of
  * level/feature name pairs indicating features that the class acquires when
- * advancing levels, #prerequisites# an array of validity tests that must be
- * be passed in order to qualify for the class, #spellsKnown# an array of
- * information about the type, number, and level of spells known at each
- * class level, #spellsPerDay# an array of information about the type, number,
- * and level of spells castable per day at each class level, and 
- * #spellsPerDayAbility# the attribute that, if sufficiently high, gives bonus
- * spells per day for the class.
+ * advancing levels, #spellsKnown# an array of information about the type,
+ * number, and level of spells known at each class level, #spellsPerDay# an
+ * array of information about the type, number, and level of spells castable
+ * per day at each class level, and #spellsPerDayAbility# the attribute that,
+ * if sufficiently high, gives bonus spells per day for the class.
  */
 ScribeRules.prototype.defineClass = function
   (name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
    saveReflexBonus, saveWillBonus, armorProficiencyLevel,
    shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
-   prerequisites, spellsKnown, spellsPerDay, spellsPerDayAbility) {
+   spellsKnown, spellsPerDay, spellsPerDayAbility) {
 
   var classLevel = 'levels.' + name;
   this.defineChoice('classes', name + ':' + hitDice);
@@ -91,11 +89,6 @@ ScribeRules.prototype.defineClass = function
   if(weaponProficiencyLevel != null)
     this.defineRule
       ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
-  if(prerequisites != null) {
-    for(var i = 0; i < prerequisites.length; i++) {
-      this.defineTest('{' + classLevel + '} == null || ' + prerequisites[i]);
-    }
-  }
   if(classSkills != null) {
     for(var i = 0; i < classSkills.length; i++) {
       this.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');
@@ -327,12 +320,9 @@ ScribeRules.prototype.defineSheetElement = function
   }
 };
 
-/* Adds each #test# to the checks Scribe uses when validating a character. */
-ScribeRules.prototype.defineTest = function(test /*, test ... */) {
-  for(var i = 0; i < arguments.length; i++)
-    this.tests = this.tests.concat(arguments[i]);
-};
-
+/*
+ * TODO
+ */
 ScribeRules.prototype.defineViewer = function(name, viewer) {
   this.viewers[name] = viewer;
 };
@@ -351,13 +341,8 @@ ScribeRules.prototype.getName = function() {
 };
 
 /*
- * Returns an array that contains all the rules previously defined for this
- * rule set via addRule.
+ * TODO
  */
-ScribeRules.prototype.getTests = function() {
-  return this.tests;
-};
-
 ScribeRules.prototype.getViewer = function(name) {
   if(name == null) {
     name = this.getViewerNames()[0];

@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.184 2007/01/01 17:16:16 Jim Exp $ */
+/* $Id: Scribe.js,v 1.185 2007/01/15 15:44:21 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2006 James J. Hayes';
 var VERSION = '0.37.01';
@@ -122,7 +122,6 @@ Scribe.editorElements = [
   ['ruleattributes', '', 'button', ['Attributes']],
   ['file', ' ', 'select-one', []],
   ['summary', '', 'button', ['Summary']],
-  ['validate', ' ', 'button', ['Validate']],
   ['view', '', 'button', ['View Html']],
   ['italics', 'Show', 'checkbox', ['Italic Notes']],
   ['untrained', '', 'checkbox', ['Untrained Skills']],
@@ -888,20 +887,6 @@ Scribe.update = function(input) {
     Scribe.refreshEditor(false);
   } else if(name == 'summary') {
     Scribe.summarizeCachedAttrs();
-  } else if(name == 'validate') {
-    if(Scribe.validateWindow == null || Scribe.validateWindow.closed)
-      Scribe.validateWindow =
-        window.open('', 'vdate', FEATURES_OF_OTHER_WINDOWS);
-    else
-      Scribe.validateWindow.focus();
-    Scribe.validateWindow.document.write(
-      '<html><head><title>Character Validation Check</title></head>\n' +
-      '<body bgcolor="' + BACKGROUND + '">\n' +
-      '<h2>Validation Results</h2>\n<p>\n' +
-      Scribe.validationHtml() +
-      '\n</p>\n</body></html>\n'
-    );
-    Scribe.validateWindow.document.close();
   } else if(name == 'view') {
     Scribe.showHtml(Scribe.sheetHtml());
     cachedAttrs[currentUrl] = ScribeUtils.clone(character);
@@ -948,93 +933,4 @@ Scribe.update = function(input) {
       Scribe.refreshEditor(false);
   }
 
-};
-
-/*
- * Tests #attributes# against the PH validation rules. Returns an array
- * containing any failed rules.
- */
-Scribe.validate = function(attributes) {
-  var reverseOps = {
-    '==': '!=', '!=': '==', '<': '>=', '>=': '<', '>': '<=', '<=': '>',
-    '&&': '||', '||': '&&'
-  };
-  var result = [];
-  var tests = ruleSet.getTests();
-  for(var i = 0; i < tests.length; i++) {
-    var matchInfo;
-    var test = tests[i];
-    var resolved = '';
-    while((matchInfo = test.match(/(\+\/)?\{([^\}]+)\}/)) != null) {
-      var value;
-      if(matchInfo[1] == '+/') {
-        value = 0;
-        var pattern = matchInfo[2];
-        for(var a in attributes)
-          if(a.match(pattern))
-            value += attributes[a] - 0;
-      }
-      else {
-        value = attributes[matchInfo[2]];
-        if(value == null) {
-          value = 'null';
-        } else if(value + 0 != value) { // Numeric check
-          value = '"' + value + '"';
-        }
-      }
-      resolved += test.substring(0, matchInfo.index) + value;
-      test = test.substring(matchInfo.index + matchInfo[0].length);
-    }
-    resolved += test;
-    if(!eval(resolved)) {
-      var reversed = '';
-      while((matchInfo = resolved.match(/==|!=|<|>=|>|<=|&&|\|\|/)) != null) {
-        reversed +=
-          resolved.substring(0, matchInfo.index) + reverseOps[matchInfo[0]];
-        resolved = resolved.substring(matchInfo.index + matchInfo[0].length);
-      }
-      reversed += resolved;
-      result[result.length] = tests[i] + '  [' + reversed + ']';
-    }
-  }
-  return result;
-};
-
-/*
- * Returns HTML showing the results of applying validation rules to the current
- * character's attributes.
- */
-Scribe.validationHtml = function() {
-  var computedAttributes = ruleSet.applyRules(character);
-  var errors;
-  var i;
-  var invalid = Scribe.validate(computedAttributes);
-  var result;
-  // Because of cross-class skills, we can't write a simple validation test for
-  // the number of assigned skill points; we have to compute it here.
-  var maxRanks = computedAttributes.classSkillMaxRanks;
-  var skillPointsAssigned = 0;
-  for(var a in character) {
-    if(a.substring(0, 7) != 'skills.')
-      continue;
-    var skill = a.substring(7);
-    var isCross = computedAttributes['classSkills.' + skill] == null;
-    var maxAllowed = maxRanks / (isCross ? 2 : 1);
-    if(character[a] > maxAllowed)
-      invalid[invalid.length] =
-        '{' + a + '} <= {' + (isCross ? 'cross' : 'class') + 'SkillMaxRanks} ' +
-        '[' + character[a] + ' > ' + maxAllowed + ']';
-    skillPointsAssigned += character[a] * (isCross ? 2 : 1);
-  }
-  if(skillPointsAssigned != computedAttributes.skillPoints)
-    invalid[invalid.length] =
-      '+/{^skills} == {skillPoints} [' + skillPointsAssigned + ' != ' +
-      computedAttributes.skillPoints + ']';
-  if(invalid.length == 0)
-    result = 'No validation errors<br/>\n';
-  else
-    result =
-      'Failed: ' + invalid.join('<br/>\nFailed:') + '<br/>\n' + invalid.length +
-      ' validation error' + (invalid.length == 1 ? '' : 's') + '<br/>\n';
-  return result;
 };

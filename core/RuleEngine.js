@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.15 2006/10/29 07:32:29 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.16 2007/01/15 15:44:21 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -26,6 +26,8 @@ function RuleEngine() {
   this.sources = { };
   this.targets = { };
   this.seq = 0;
+  this.patterns = [ ];
+  this.needToExpandPattern = false;
 }
 
 
@@ -60,6 +62,8 @@ RuleEngine.prototype.addRules =
     this.sources = { };
     this.targets = { };
     this.seq = 0;
+    this.patterns = [ ];
+    this.needToExpandPatterns = false;
   }
   for(var i = 3; i < arguments.length; i += 3) {
     source = arguments[i - 2];
@@ -69,13 +73,19 @@ RuleEngine.prototype.addRules =
       source = '';
     if(expr != null && typeof(expr) != 'object')
       expr = new Function('source', 'return ' + expr + ';');
+    if(typeof source != 'string') {
+      this.patterns[this.patterns.length] =
+        {source:source, target:target, type:type, fn:expr, seq:0};
+      continue;
+    }
     if(this.sources[target] == null)
       this.sources[target] = { };
     if(this.targets[source] == null)
       this.targets[source] = { };
     this.sources[target][source] = this.targets[source][target] =
-      {source:source, target: target, type: type, fn: expr, seq: this.seq++};
+      {source:source, target:target, type:type, fn:expr, seq:this.seq++};
   }
+  this.needToExpandPatterns = true;
 };
 
 
@@ -106,6 +116,23 @@ RuleEngine.prototype.allTargets = function(source) {
  */
 RuleEngine.prototype.applyRules = function(initial) {
   var computed = { };
+  var allAttrs = ScribeUtils.getKeys(initial);
+  if(this.needToExpandPatterns) {
+    allAttrs = allAttrs.concat(this.allTargets()).concat(this.allSources());
+  }
+  for(var i = 0; i < this.patterns.length; i++) {
+    var pat = this.patterns[i].source;
+    var target = this.patterns[i].target;
+    for(var j = 0; j < allAttrs.length; j++) {
+      var source = allAttrs[j];
+      if(!source.match(pat)) {
+        continue;
+      }
+      this.addRules
+        (target, source, this.patterns[i].type, this.patterns[i].expr);
+    }
+  }
+  this.needToExpandPatterns = false;
   for(var a in initial)
     this._recompute(initial, computed, a);
   /* Compute attributes that require no initial attribute value. */
