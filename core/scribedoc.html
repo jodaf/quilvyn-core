@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.73 2006/12/27 19:39:00 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.74 2007/01/20 06:49:39 Jim Exp $ -->
 <html>
 
 <head>
@@ -30,7 +30,6 @@
   <li><a href="#customchoices">Customization - Adding Choices</a></li>
   <li><a href="#customrules">Customization - Adding Rules</a></li>
   <li><a href="#customsheet">Customization - Adding to the Character Sheet</a></li>
-  <li><a href="#customtest">Customization - Adding Validation Tests</a></li>
   <li><a href="#customclass">Customization - Adding Classes</a></li>
   <li><a href="#custommagic">Customization - Adding Magic Items</a></li>
   <li><a href="#issues">Bugs/Limitations</a></li>
@@ -164,15 +163,12 @@ Characters</a>.  The "Summary" button opens a window with a table that
 summarizes attributes from all characters that you've opened since starting
 Scribe.  This is intended to assist DMs in planning and running campaigns by
 providing a compact summary of the abilities of all the characters in a party.
-The "Validate" button checks the current character values against restrictions
-from the Player's Handbook.  Scribe allows you to enter a character that
-doesn't meet these restrictions (e.g., a chaotic monk), but will warn you when
-you press this button.  The "View HTML" button is described in
-<a href='#save'>Saving Characters</a>.  Finally, the "Spell Filter" text box
-allows you to determine which spells appear in the "Spells" set menu.  Since
-hundreds of spells and variations are available, this menu allows you to limit
-the spells (e.g. cleric spells, air domain spells) of interest.  Only those
-spells that match the text in this box are included in the spells set menu.
+The "View HTML" button is described in <a href='#save'>Saving Characters</a>.
+Finally, the "Spell Filter" text box allows you to determine which spells
+appear in the "Spells" set menu.  Since hundreds of spells and variations are
+available, this menu allows you to limit the spells (e.g. cleric spells, air
+domain spells) of interest.  Only those spells that match the text in this box
+are included in the spells set menu.
 </p>
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
@@ -370,11 +366,6 @@ use these new attributes to modify existing ones via a '+' rule.
 The "Rule Attribute" button opens a window that contains all the attributes in
 the current rule set.  You can use any of these attributes, as well as new ones
 you calculate, in calls to PH35.defineRule.
-</p>
-
-<a name="customtest"><h3>Customization - Adding Validation Tests</h3></a>
-<p>
-TODO Document PH35.defineTest(test /* , test ... */)
 </p>
 
 <a name="customsheet"><h3>Customization - Adding to the Character Sheet</h3></a>
