@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.67 2007/01/15 15:44:21 Jim Exp $ */
+/* $Id: SRD35.js,v 1.68 2007/01/27 06:11:53 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -105,21 +105,18 @@ PH35.DOMAINS = [
   'Protection', 'Strength', 'Sun', 'Travel', 'Trickery', 'War', 'Water'
 ];
 PH35.FEATS = [
-  'Acrobatic', 'Agile', 'Alertness', 'Animal Affinity',
-  'Armor Proficiency Heavy', 'Armor Proficiency Light',
-  'Armor Proficiency Medium', 'Athletic', 'Augment Summoning', 'Blind Fight',
+  'Acrobatic', 'Agile', 'Alertness', 'Animal Affinity', 'Armor Proficiency',
+  'Athletic', 'Augment Summoning', 'Blind Fight',
   'Brew Potion', 'Cleave', 'Combat Casting', 'Combat Expertise',
   'Combat Reflexes', 'Craft Magic Arms And Armor', 'Craft Rod', 'Craft Staff',
   'Craft Wand', 'Craft Wondrous Item', 'Deceitful', 'Deflect Arrows',
   'Deft Hands', 'Diehard', 'Diligent', 'Dodge', 'Empower Spell', 'Endurance',
   'Enlarge Spell', 'Eschew Materials', 'Extend Spell', 'Extra Turning',
   'Far Shot', 'Forge Ring', 'Great Cleave', 'Great Fortitude',
-  'Greater Spell Focus (Abjuration)', 'Greater Spell Focus (Conjuration)',
-  'Greater Spell Focus (Divination)', 'Greater Spell Focus (Enchantment)',
-  'Greater Spell Focus (Evocation)', 'Greater Spell Focus (Illusion)',
-  'Greater Spell Focus (Necromancy)', 'Greater Spell Focus (Transmutation)',
-  'Greater Spell Penetration', 'Greater Two Weapon Fighting', 'Heighten Spell',
-  'Improved Bull Rush', 'Improved Counterspell', 'Improved Disarm',
+  'Greater Spell Focus', 'Greater Spell Penetration',
+  'Greater Two Weapon Fighting', 'Greater Weapon Focus',
+  'Greater Weapon Specialization', 'Heighten Spell', 'Improved Bull Rush',
+  'Improved Counterspell', 'Improved Critical', 'Improved Disarm',
   'Improved Feint', 'Improved Grapple', 'Improved Initiative',
   'Improved Overrun', 'Improved Precise Shot', 'Improved Shield Bash',
   'Improved Sunder', 'Improved Trip', 'Improved Turning',
@@ -130,15 +127,12 @@ PH35.FEATS = [
   'Persuasive', 'Point Blank Shot', 'Power Attack', 'Precise Shot',
   'Quick Draw', 'Quicken Spell', 'Rapid Reload', 'Rapid Shot',
   'Ride By Attack', 'Run', 'Scribe Scroll', 'Self Sufficient',
-  'Shield Proficiency', 'Shield Proficiency Tower', 'Shot On The Run',
-  'Silent Spell', 'Snatch Arrows', 'Spell Mastery', 'Spell Focus (Abjuration)',
-  'Spell Focus (Conjuration)', 'Spell Focus (Divination)',
-  'Spell Focus (Enchantment)', 'Spell Focus (Evocation)',
-  'Spell Focus (Illusion)', 'Spell Focus (Necromancy)',
-  'Spell Focus (Transmutation)', 'Spell Penetration', 'Spirited Charge',
-  'Spring Attack', 'Stealthy', 'Still Spell', 'Stunning Fist', 'Toughness',
-  'Track', 'Trample', 'Two Weapon Defense', 'Two Weapon Fighting',
-  'Weapon Finesse', 'Weapon Proficiency Simple', 'Whirlwind Attack',
+  'Shield Proficiency', 'Shot On The Run', 'Silent Spell', 'Skill Focus',
+  'Snatch Arrows', 'Spell Focus', 'Spell Mastery', 'Spell Penetration',
+  'Spirited Charge', 'Spring Attack', 'Stealthy', 'Still Spell',
+  'Stunning Fist', 'Toughness', 'Track', 'Trample', 'Two Weapon Defense',
+  'Two Weapon Fighting', 'Weapon Finesse', 'Weapon Focus',
+  'Weapon Proficiency', 'Weapon Specialization', 'Whirlwind Attack',
   'Widen Spell'
 ];
 PH35.GENDERS = ['Female', 'Male'];
@@ -172,20 +166,13 @@ PH35.SHIELDS = [
 ];
 PH35.SKILLS = [
   'Appraise:int', 'Balance:dex', 'Bluff:cha', 'Climb:str', 'Concentration:con',
-  'Decipher Script:int/trained', 'Diplomacy:cha', 'Disable Device:int/trained',
-  'Disguise:cha', 'Escape Artist:dex', 'Forgery:int', 'Gather Information:cha',
-  'Handle Animal:cha/trained', 'Heal:wis', 'Hide:dex', 'Intimidate:cha',
-  'Jump:str', 'Knowledge (Arcana):int/trained',
-  'Knowledge (Dungeoneering):int/trained',
-  'Knowledge (Engineering):int/trained', 'Knowledge (Geography):int/trained',
-  'Knowledge (History):int/trained', 'Knowledge (Local):int/trained',
-  'Knowledge (Nature):int/trained', 'Knowledge (Nobility):int/trained',
-  'Knowledge (Planes):int/trained', 'Knowledge (Religion):int/trained',
-  'Listen:wis', 'Move Silently:dex', 'Open Lock:dex/trained',
-  'Perform (Act):cha', 'Perform (Comedy):cha', 'Perform (Dance):cha',
-  'Perform (Keyboard):cha', 'Perform (Oratory):cha', 'Perform (Percussion):cha',
-  'Perform (Sing):cha', 'Perform (String):cha', 'Perform (Wind):cha',
-  'Ride:dex', 'Search:int', 'Sense Motive:wis', 'Sleight Of Hand:dex/trained',
+  'Craft:int', 'Decipher Script:int/trained', 'Diplomacy:cha',
+  'Disable Device:int/trained', 'Disguise:cha', 'Escape Artist:dex',
+  'Forgery:int', 'Gather Information:cha', 'Handle Animal:cha/trained',
+  'Heal:wis', 'Hide:dex', 'Intimidate:cha', 'Jump:str',
+  'Knowledge:int/trained', 'Listen:wis', 'Move Silently:dex',
+  'Open Lock:dex/trained', 'Perform:cha', 'Profession:wis/trained', 'Ride:dex',
+  'Search:int', 'Sense Motive:wis', 'Sleight Of Hand:dex/trained',
   'Speak Language:/trained', 'Spellcraft:int/trained', 'Spot:wis',
   'Survival:wis', 'Swim:str', 'Tumble:dex/trained',
   'Use Magic Device:cha/trained', 'Use Rope:dex'
@@ -897,29 +884,27 @@ PH35.domainsSpellCodes = {
   'Plant': 'Pl', 'Protection': 'Pr', 'Strength': 'St', 'Sun': 'Su',
   'Travel': 'Tl', 'Trickery': 'Ty', 'War': 'Wr', 'Water': 'Wa'
 };
-PH35.skillsSynergies = {
-  'Bluff': 'Diplomacy/Intimidate/Sleight Of Hand',
-  'Decipher Script': 'Use Magic Device (scrolls)',
-  'Escape Artist': 'Use Rope (bindings)',
-  'Handle Animal': 'Ride',
-  'Jump': 'Tumble',
-  'Knowledge (Arcana)': 'Spellcraft',
-  'Knowledge (Dungeoneering)': 'Survival (underground)',
-  'Knowledge (Engineering)': 'Search (secret doors)',
-  'Knowledge (Geography)': 'Survival (lost/hazards)',
-  'Knowledge (History)': 'Bardic knowledge',
-  'Knowledge (Local)': 'Gather Information',
-  'knowledge (Nature)': 'Survival (outdoors)',
-  'Knowledge (Nobility)': 'Diplomacy',
-  'Knowledge (Planes)': 'Survival (other planes)',
-  'Knowledge (Religion)': 'Turning check',
-  'Search': 'Survival (tracking)',
-  'Sense Motive': 'Diplomacy',
-  'Spellcraft': 'Use Magic Device (scroll)',
-  'Survival': 'Knowledge (Nature)',
-  'Tumble': 'Balance/Jump',
-  'Use Magic Device': 'Spellcraft (scrolls)',
-  'Use Rope': 'Climb (rope)/Escape Artist (rope)'
+PH35.featsSubfeats = {
+  'Armor Proficiency':'Heavy/Light/Medium',
+  'Greater Spell Focus':'Abjuration/Conjuration/Divination/Enchantment/' +
+                        'Evocation/Illusion/Necromancy/Transmutation',
+  'Greater Weapon Focus':'',
+  'Greater Weapon Specialization':'',
+  'Improved Critical':'',
+  'Shield Proficiency':'Normal/Tower',
+  'Skill Focus':'',
+  'Spell Focus':'Abjuration/Conjuration/Divination/Enchantment/' +
+                'Evocation/Illusion/Necromancy/Transmutation',
+  'Weapon Focus':'',
+  'Weapon Proficiency':'Simple',
+  'Weapon Specialization':''
+};
+PH35.skillsSubskills = {
+  'Craft':'',
+  'Knowledge':'Arcana/Architecture/Dungeoneering/Engineering/Geography/' +
+              'History/Local/Nature/Nobility/Planes/Religion',
+  'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
+  'Profession':''
 };
 // Filled in by the classes that define selectable features.
 PH35.selectableFeatures = {
@@ -1102,8 +1087,8 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_POOR;
       skillPoints = 4;
       skills = [
-        'Climb', 'Handle Animal', 'Intimidate', 'Jump', 'Listen', 'Ride',
-        'Survival', 'Swim'
+        'Climb', 'Craft', 'Handle Animal', 'Intimidate', 'Jump', 'Listen',
+        'Ride', 'Survival', 'Swim'
       ];
       spellsKnown = null;
       spellsPerDay = null;
@@ -1167,17 +1152,11 @@ PH35.classRules = function(rules) {
       skillPoints = 6;
       skills = [
         'Appraise', 'Balance', 'Bluff', 'Climb', 'Concentration',
-        'Decipher Script', 'Diplomacy', 'Disguise', 'Escape Artist',
-        'Gather Information', 'Hide', 'Jump', 'Knowledge (Arcana)',
-        'Knowledge (Architecture)', 'Knowledge (Engineering)',
-        'Knowledge (Dungeoneering)', 'Knowledge (Geography)',
-        'Knowledge (History)', 'Knowledge (Local)', 'Knowledge (Nature)',
-        'Knowledge (Nobility)', 'Knowledge (Planes)', 'Knowledge (Religion)',
-        'Listen', 'Move Silently', 'Perform (Act)', 'Perform (Comedy)',
-        'Perform (Dance)', 'Perform (Keyboard)', 'Perform (Oratory)',
-        'Perform (Percussion)', 'Perform (Sing)', 'Perform (String)',
-        'Perform (Wind)', 'Sense Motive', 'Sleight Of Hand', 'Speak Language',
-        'Spellcraft', 'Swim', 'Tumble', 'Use Magic Device'
+        'Craft', 'Decipher Script', 'Diplomacy', 'Disguise', 'Escape Artist',
+        'Gather Information', 'Hide', 'Jump', 'Knowledge', 'Listen',
+        'Move Silently', 'Perform', 'Profession', 'Sense Motive',
+        'Sleight Of Hand', 'Speak Language', 'Spellcraft', 'Swim', 'Tumble',
+        'Use Magic Device'
       ];
       spellsKnown = [
         'B0:1:4/2:5/3:6',
@@ -1202,24 +1181,33 @@ PH35.classRules = function(rules) {
         ('casterLevelArcane', 'spellsPerDayLevels.Bard', '^=', null);
       rules.defineRule
         ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
-      rules.defineRule
-        ('features.Countersong', 'performRanks', '?', 'source >= 3');
-      rules.defineRule
-        ('features.Fascinate', 'performRanks', '?', 'source >= 3');
-      rules.defineRule
-        ('features.Inspire Competence', 'performRanks', '?', 'source >= 6');
-      rules.defineRule
-        ('features.Inspire Courage', 'performRanks', '?', 'source >= 3');
-      rules.defineRule
-        ('features.Inspire Greatness', 'performRanks', '?', 'source >= 12');
-      rules.defineRule
-        ('features.Inspire Heroics', 'performRanks', '?', 'source >= 18');
-      rules.defineRule
-        ('features.Mass Suggestion', 'performRanks', '?', 'source >= 21');
-      rules.defineRule
-        ('features.Song Of Freedom', 'performRanks', '?', 'source >= 15');
-      rules.defineRule
-        ('features.Suggestion', 'performRanks', '?', 'source >= 9');
+      rules.defineRule('features.Countersong',
+        'subskillRankTotal.Perform', '?', 'source >= 3'
+      );
+      rules.defineRule('features.Fascinate',
+        'subskillRankTotal.Perform', '?', 'source >= 3'
+      );
+      rules.defineRule('features.Inspire Competence',
+        'subskillRankTotal.Perform', '?', 'source >= 6'
+      );
+      rules.defineRule('features.Inspire Courage',
+        'subskillRankTotal.Perform', '?', 'source >= 3'
+      );
+      rules.defineRule('features.Inspire Greatness',
+        'subskillRankTotal.Perform', '?', 'source >= 12'
+      );
+      rules.defineRule('features.Inspire Heroics',
+        'subskillRankTotal.Perform', '?', 'source >= 18'
+      );
+      rules.defineRule('features.Mass Suggestion',
+        'subskillRankTotal.Perform', '?', 'source >= 21'
+      );
+      rules.defineRule('features.Song Of Freedom',
+        'subskillRankTotal.Perform', '?', 'source >= 15'
+      );
+      rules.defineRule('features.Suggestion',
+        'subskillRankTotal.Perform', '?', 'source >= 9'
+      );
       rules.defineRule('magicNotes.fascinateFeature',
         'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
       );
@@ -1229,7 +1217,6 @@ PH35.classRules = function(rules) {
       rules.defineRule('magicNotes.inspireGreatnessFeature',
         'levels.Bard', '+=', 'source >= 9 ? Math.floor((source - 6) / 3) : null'
       );
-      rules.defineRule('performRanks', /^skills\.Perform /, '^=', null);
       rules.defineRule('skillNotes.bardicKnowledgeFeature',
         'levels.Bard', '+=', null,
         'intelligenceModifier', '+', null
@@ -1278,9 +1265,9 @@ PH35.classRules = function(rules) {
       spellsPerDayAbility = 'wisdom';
       skillPoints = 2;
       skills = [
-        'Concentration', 'Diplomacy', 'Heal', 'Knowledge (Arcana)',
+        'Concentration', 'Craft', 'Diplomacy', 'Heal', 'Knowledge (Arcana)',
         'Knowledge (History)', 'Knowledge (Planes)', 'Knowledge (Religion)',
-        'Spellcraft'
+        'Profession', 'Spellcraft'
       ];
       rules.defineRule
         ('casterLevelDivine', 'spellsPerDayLevels.Cleric', '^=', null);
@@ -1290,12 +1277,8 @@ PH35.classRules = function(rules) {
         ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
       rules.defineRule
         ('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
-      for(var j = 0; j < PH35.SKILLS.length; j++) {
-        var skill = PH35.SKILLS[j].split(/:/)[0];
-        if(skill.substring(0, 9) == "Knowledge")
-          rules.defineRule
-            ('classSkills.' + skill, 'skillNotes.knowledgeDomain', '=', '1');
-      }
+      rules.defineRule
+        ('classSkills.Knowledge', 'skillNotes.knowledgeDomain', '=', '1');
       rules.defineRule('classSkills.Knowledge (Nature)',
         'skillNotes.animalDomain', '=', '1',
         'skillNotes.plantDomain', '=', '1'
@@ -1347,9 +1330,9 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_GOOD;
       skillPoints = 4;
       skills = [
-        'Concentration', 'Diplomacy', 'Handle Animal', 'Heal',
-        'Knowledge (Nature)', 'Listen', 'Ride', 'Spellcraft', 'Spot',
-        'Survival', 'Swim'
+        'Concentration', 'Craft', 'Diplomacy', 'Handle Animal', 'Heal',
+        'Knowledge (Nature)', 'Listen', 'Profession', 'Ride', 'Spellcraft',
+        'Spot', 'Survival', 'Swim'
       ];
       spellsKnown = [
         'D0:1:"all"', 'D1:1:"all"', 'D2:3:"all"', 'D3:5:"all"',
@@ -1412,7 +1395,7 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_POOR;
       skillPoints = 2;
       skills = [
-        'Climb', 'Handle Animal', 'Intimidate', 'Jump', 'Ride', 'Swim'
+        'Climb', 'Craft', 'Handle Animal', 'Intimidate', 'Jump', 'Ride', 'Swim'
       ];
       spellsKnown = null;
       spellsPerDay = null;
@@ -1473,12 +1456,10 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_GOOD;
       skillPoints = 4;
       skills = [
-        'Balance', 'Climb', 'Concentration', 'Diplomacy', 'Escape Artist',
-        'Hide', 'Jump', 'Knowledge (Arcana)', 'Knowledge (Religion)', 'Listen',
-        'Move Silently', 'Perform (Act)', 'Perform (Comedy)',
-        'Perform (Dance)', 'Perform (Keyboard)', 'Perform (Oratory)',
-        'Perform (Percussion)', 'Perform (Sing)', 'Perform (String)',
-        'Perform (Wind)', 'Sense Motive', 'Spot', 'Swim', 'Tumble'
+        'Balance', 'Climb', 'Concentration', 'Craft', 'Diplomacy',
+        'Escape Artist', 'Hide', 'Jump', 'Knowledge (Arcana)',
+        'Knowledge (Religion)', 'Listen', 'Move Silently', 'Perform',
+        'Profession', 'Sense Motive', 'Spot', 'Swim', 'Tumble'
       ];
       spellsKnown = null;
       spellsPerDay = null;
@@ -1561,8 +1542,9 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_POOR;
       skillPoints = 2;
       skills = [
-        'Concentration', 'Diplomacy', 'Handle Animal', 'Heal',
-        'Knowledge (Nobility)', 'Knowledge (Religion)', 'Ride', 'Sense Motive'
+        'Concentration', 'Craft', 'Diplomacy', 'Handle Animal', 'Heal',
+        'Knowledge (Nobility)', 'Knowledge (Religion)', 'Profession', 'Ride',
+        'Sense Motive'
       ];
       spellsKnown = [
         'P1:4:"all"', 'P2:8:"all"', 'P3:11:"all"', 'P4:14:"all"'
@@ -1650,10 +1632,10 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_POOR;
       skillPoints = 6;
       skills = [
-        'Climb', 'Concentration', 'Handle Animal', 'Heal', 'Hide', 'Jump',
-        'Knowledge (Dungeoneering)', 'Knowledge (Geography)',
-        'Knowledge (Nature)', 'Listen', 'Move Silently', 'Ride', 'Search',
-        'Spot', 'Survival', 'Swim', 'Use Rope'
+        'Climb', 'Concentration', 'Craft', 'Handle Animal', 'Heal', 'Hide',
+        'Jump', 'Knowledge (Dungeoneering)', 'Knowledge (Geography)',
+        'Knowledge (Nature)', 'Listen', 'Move Silently', 'Profession', 'Ride',
+        'Search', 'Spot', 'Survival', 'Swim', 'Use Rope'
       ];
       spellsKnown = [
         'R1:4:"all"', 'R2:8:"all"', 'R3:11:"all"', 'R4:14:"all"'
@@ -1740,15 +1722,12 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_POOR;
       skillPoints = 8;
       skills = [
-        'Appraise', 'Balance', 'Bluff', 'Climb', 'Decipher Script',
+        'Appraise', 'Balance', 'Bluff', 'Climb', 'Craft', 'Decipher Script',
         'Diplomacy', 'Disable Device', 'Disguise', 'Escape Artist', 'Forgery',
         'Gather Information', 'Hide', 'Intimidate', 'Jump',
         'Knowledge (Local)', 'Listen', 'Move Silently', 'Open Lock',
-        'Perform (Act)', 'Perform (Comedy)', 'Perform (Dance)',
-        'Perform (Keyboard)', 'Perform (Oratory)', 'Perform (Percussion)',
-        'Perform (Sing)', 'Perform (String)', 'Perform (Wind)', 'Search',
-        'Sense Motive', 'Sleight Of Hand', 'Spot', 'Swim', 'Tumble',
-        'Use Magic Device', 'Use Rope'
+        'Perform', 'Profession', 'Search', 'Sense Motive', 'Sleight Of Hand',
+        'Spot', 'Swim', 'Tumble', 'Use Magic Device', 'Use Rope'
       ];
       spellsKnown = null;
       spellsPerDay = null;
@@ -1780,7 +1759,8 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_GOOD;
       skillPoints = 2;
       skills = [
-        'Bluff', 'Concentration', 'Knowledge (Arcana)', 'Spellcraft'
+        'Bluff', 'Concentration', 'Craft', 'Knowledge (Arcana)', 'Profession',
+        'Spellcraft'
       ];
       spellsKnown = [
         'W0:1:4/2:5/4:6/6:7/8:8/10:9',
@@ -1829,11 +1809,8 @@ PH35.classRules = function(rules) {
       saveWill = PH35.SAVE_BONUS_GOOD;
       skillPoints = 2;
       skills = [
-        'Concentration', 'Decipher Script', 'Knowledge (Arcana)',
-        'Knowledge (Dungeoneering)', 'Knowledge (Engineering)',
-        'Knowledge (Geography)', 'Knowledge (History)', 'Knowledge (Local)',
-        'Knowledge (Nature)', 'Knowledge (Nobility)', 'Knowledge (Planes)',
-        'Knowledge (Religion)', 'Spellcraft'
+        'Concentration', 'Craft', 'Decipher Script', 'Knowledge', 'Profession',
+        'Spellcraft'
       ];
       spellsKnown = [
         'W0:1:"all"', 'W1:1:3/2:5', 'W2:3:2/4:4', 'W3:5:2/6:4',
@@ -2095,8 +2072,23 @@ PH35.equipmentRules = function(rules) {
 /* Defines the rules related to PH Chapter 5, Feats. */
 PH35.featRules = function(rules) {
 
+  var allFeats = [];
   for(var i = 0; i < PH35.FEATS.length; i++) {
     var feat = PH35.FEATS[i];
+    var subfeats = PH35.featsSubfeats[feat];
+    if(subfeats == null) {
+      allFeats[allFeats.length] = feat;
+    } else if(subfeats != '') {
+      subfeats = subfeats.split(/\//);
+      for(var j = 0; j < subfeats.length; j++) {
+        allFeats[allFeats.length] = feat + ' (' + subfeats[j] + ')';
+      }
+    }
+  }
+
+  for(var i = 0; i < allFeats.length; i++) {
+    var feat = allFeats[i];
+    var matchInfo;
     var notes;
     if(feat == 'Acrobatic') {
       notes = ['skillNotes.acrobaticFeature:+2 Jump/Tumble'];
@@ -2106,33 +2098,33 @@ PH35.featRules = function(rules) {
       notes = ['skillNotes.alertnessFeature:+2 Listen/Spot'];
     } else if(feat == 'Animal Affinity') {
       notes = ['skillNotes.animalAffinityFeature:+2 Handle Animal/Ride'];
-    } else if(feat == 'Armor Proficiency Heavy') {
+    } else if(feat == 'Armor Proficiency (Heavy)') {
       notes = [
-        'validationNotes.armorProficiencyHeavyFeat:Requires Armor ' +
-          'Proficiency Medium'
+        'validationNotes.armorProficiency(Heavy)Feat:Requires Armor ' +
+          'Proficiency (Medium)'
       ];
       rules.defineRule('armorProficiencyLevel',
-        'features.Armor Proficiency Heavy', '^', PH35.PROFICIENCY_HEAVY
+        'features.Armor Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
       );
-      rules.defineRule('validationNotes.armorProficiencyHeavyFeat',
-        'feats.Armor Proficiency Heavy', '=', '1',
-        'features.Armor Proficiency Medium', '+', '-1'
+      rules.defineRule('validationNotes.armorProficiency(Heavy)Feat',
+        'feats.Armor Proficiency (Heavy)', '=', '1',
+        'features.Armor Proficiency (Medium)', '+', '-1'
       );
-    } else if(feat == 'Armor Proficiency Light') {
+    } else if(feat == 'Armor Proficiency (Light)') {
       rules.defineRule('armorProficiencyLevel',
-        'features.Armor Proficiency Light', '^', PH35.PROFICIENCY_LIGHT
+        'features.Armor Proficiency (Light)', '^', PH35.PROFICIENCY_LIGHT
       );
-    } else if(feat == 'Armor Proficiency Medium') {
+    } else if(feat == 'Armor Proficiency (Medium)') {
       notes = [
-        'validationNotes.armorProficiencyMediumFeat:Requires Armor ' +
-          'Proficiency Light'
+        'validationNotes.armorProficiency(Medium)Feat:Requires Armor ' +
+          'Proficiency (Light)'
       ];
       rules.defineRule('armorProficiencyLevel',
-        'features.Armor Proficiency Medium', '^', PH35.PROFICIENCY_MEDIUM
+        'features.Armor Proficiency (Medium)', '^', PH35.PROFICIENCY_MEDIUM
       );
-      rules.defineRule('validationNotes.armorProficiencyMediumFeat',
-        'features.Armor Proficiency Medium', '=', '1',
-        'features.Armor Proficiency Light', '+', '-1'
+      rules.defineRule('validationNotes.armorProficiency(Medium)Feat',
+        'features.Armor Proficiency (Medium)', '=', '1',
+        'features.Armor Proficiency (Light)', '+', '-1'
       );
     } else if(feat == 'Athletic') {
       notes = ['skillNotes.athleticFeature:+2 Climb/Swim'];
@@ -2340,38 +2332,12 @@ PH35.featRules = function(rules) {
       notes = ['saveNotes.greatFortitudeFeature:+2 Fortitude'];
       rules.defineRule
         ('save.Fortitude', 'saveNotes.greatFortitudeFeature', '+', '2');
-    } else if(feat == 'Greater Spell Focus (Abjuration)') {
-      notes =
-        ['magicNotes.greaterSpellFocus(Abjuration)Feature:+1 DC on ' +
-         'Abjuration spells'];
-    } else if(feat == 'Greater Spell Focus (Conjuration)') {
-      notes =
-        ['magicNotes.greaterSpellFocus(Conjuration)Feature:+1 DC on ' +
-         'Conjuration spells'];
-    } else if(feat == 'Greater Spell Focus (Divination)') {
-      notes =
-        ['magicNotes.greaterSpellFocus(Conjuration)Feature:+1 DC on ' +
-         'Divination spells'];
-    } else if(feat == 'Greater Spell Focus (Enchantment)') {
-      notes =
-        ['magicNotes.greaterSpellFocus(Conjuration)Feature:+1 DC on ' +
-         'Enchantment spells'];
-    } else if(feat == 'Greater Spell Focus (Evocation)') {
-      notes =
-        ['magicNotes.greaterSpellFocus(Conjuration)Feature:+1 DC on ' +
-         'Evocation spells'];
-    } else if(feat == 'Greater Spell Focus (Illusion)') {
-      notes =
-        ['magicNotes.greaterSpellFocus(Conjuration)Feature:+1 DC on ' +
-         'Illusion spells'];
-    } else if(feat == 'Greater Spell Focus (Necromancy)') {
-      notes =
-        ['magicNotes.greaterSpellFocus(Conjuration)Feature:+1 DC on ' +
-         'Necromancy spells'];
-    } else if(feat == 'Greater Spell Focus (Transmutation)') {
-      notes =
-        ['magicNotes.greaterSpellFocus(Conjuration)Feature:+1 DC on ' +
-         'Transmutation spells'];
+    } else if(feat.match(/^Greater Spell Focus/)) {
+      notes = [
+        'magicNotes.greaterSpellFocusFeature:+1 DC on spells from chosen school'
+      ];
+      rules.defineRule
+        ('combatNotes.greaterSpellFocusFeature', 'feats.' + feat, '=', '1');
     } else if(feat == 'Greater Spell Penetration') {
       notes = [
         'magicNotes.greaterSpellPenetrationFeature:+2 caster level vs. ' +
@@ -2395,6 +2361,23 @@ PH35.featRules = function(rules) {
         'dexterity', '+', 'source >= 19 ? -1 : null',
         'features.Two Weapon Fighting', '+', '-1'
       );
+    } else if((matchInfo =
+               feat.match(/^Greater Weapon Focus \((.*)\)/)) != null) {
+      var weapon = matchInfo[1];
+      notes = ['combatNotes.greaterWeaponFocusFeature:+1 attack'];
+      rules.defineRule
+        ('combatNotes.greaterWeaponFocusFeature', 'feats.' + feat, '=', '1');
+      PH35.defineRule
+        ('weaponAttackAdjustment.' + weapon, 'feats.' + feat, '+=', '1');
+    } else if((matchInfo =
+               feat.match(/^Greater Weapon Specialization \((.*)\)/)) != null) {
+      var weapon = matchInfo[1];
+      notes = ['combatNotes.greaterWeaponSpecializationFeature:+2 damage'];
+      rules.defineRule('combatNotes.greaterWeaponSpecializationFeature',
+        'feats.' + feat, '=', '1'
+      );
+      PH35.defineRule
+        ('weaponDamageAdjustment.' + weapon, 'feats.' + feat, '+=', '2');
     } else if(feat == 'Heighten Spell') {
       notes = [
         'magicNotes.heightenSpellFeature:Increase designated spell level',
@@ -2417,6 +2400,14 @@ PH35.featRules = function(rules) {
     } else if(feat == 'Improved Counterspell') {
       notes =
         ['magicNotes.improvedCounterspellFeature:Counter w/higher-level spell'];
+    } else if((matchInfo = feat.match(/^Improved Critical \((.*)\)/)) != null) {
+      var weapon = matchInfo[1];
+      notes = ['combatNotes.improvedCriticalFeature:x2 critical threat range'];
+      rules.defineRule
+        ('combatNotes.improvedCriticalFeature', 'feats.' + feat, '=', '1');
+      // TODO This just adds one--should double
+      PH35.defineRule
+        ('weaponCriticalAdjustment.' + weapon, 'feats.' + feat, '+=', '1');
     } else if(feat == 'Improved Disarm') {
       notes = [
         'combatNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
@@ -2479,11 +2470,12 @@ PH35.featRules = function(rules) {
     } else if(feat == 'Improved Shield Bash') {
       notes = [
         'combatNotes.improvedShieldBashFeature:Shield bash w/out AC penalty',
-        'validationNotes.improvedShieldBashFeat:Requires Shield Proficiency'
+        'validationNotes.improvedShieldBashFeat:' +
+          'Requires Shield Proficiency (Normal)'
       ];
       rules.defineRule('validationNotes.improvedShieldBashFeat',
         'feats.Improved Shield Bash', '=', '1',
-        'features.Shield Proficiency', '+', '-1'
+        'features.Shield Proficiency (Normal)', '+', '-1'
       );
     } else if(feat == 'Improved Sunder') {
       notes = [
@@ -2698,20 +2690,21 @@ PH35.featRules = function(rules) {
       );
     } else if(feat == 'Self Sufficient') {
       notes = ['skillNotes.selfSufficientFeature:+2 Heal/Survival'];
-    } else if(feat == 'Shield Proficiency') {
+    } else if(feat == 'Shield Proficiency (Normal)') {
       rules.defineRule('shieldProficiencyLevel',
-        'features.Shield Proficiency', '^', PH35.PROFICIENCY_HEAVY
+        'features.Shield Proficiency (Normal)', '^', PH35.PROFICIENCY_HEAVY
       );
-    } else if(feat == 'Shield Proficiency Tower') {
+    } else if(feat == 'Shield Proficiency (Tower)') {
       notes = [
-        'validationNotes.shieldProficiencyTowerFeat:Requires Shield Proficiency'
+        'validationNotes.shieldProficiency(Tower)Feat:' +
+          'Requires Shield Proficiency (Normal)'
       ];
       rules.defineRule('shieldProficiencyLevel',
-        'features.Shield Proficiency Tower', '^', PH35.PROFICIENCY_TOWER
+        'features.Shield Proficiency (Tower)', '^', PH35.PROFICIENCY_TOWER
       );
-      rules.defineRule('validationNotes.shieldProficiencyTowerFeat',
-        'feats.Shield Proficiency Tower', '=', '1',
-        'features.Shield Proficiency', '+', '-1'
+      rules.defineRule('validationNotes.shieldProficiency(Tower)Feat',
+        'feats.Shield Proficiency (Tower)', '=', '1',
+        'features.Shield Proficiency (Normal)', '+', 'source > 0 ? -1 : null'
       );
     } else if(feat == 'Shot On The Run') {
       notes = [
@@ -2734,6 +2727,12 @@ PH35.featRules = function(rules) {
         'feats.Silent Spell', '=', '1',
         'casterLevel', '+', 'source >= 1 ? -1 : null'
       );
+    } else if((matchInfo = feat.match(/^Skill Focus \((.*)\)/)) != null) {
+      skill = matchInfo[1];
+      notes = ['skillNotes.skillFocusFeature:+3 checks on chosen skill'];
+      rules.defineRule
+        ('skillNotes.skillFocusFeature', 'feats.' + feat, '=', '1');
+      rules.defineRule('skills.' + skill, 'feats.' + feat, '=', '3');
     } else if(feat == 'Snatch Arrows') {
       notes = [
         'combatNotes.snatchArrowsFeature:Catch ranged weapons',
@@ -2744,39 +2743,18 @@ PH35.featRules = function(rules) {
         'dexterity', '+', 'source >= 15 ? -1 : null',
         'features.Deflect Arrows', '+', '-1'
       );
+    } else if(feat.match(/^Spell Focus/)) {
+      notes = [
+        'magicNotes.spellFocusFeature:+1 DC on spells from chosen school'
+      ];
+      rules.defineRule
+        ('combatNotes.spellFocusFeature', 'feats.' + feat, '=', '1');
     } else if(feat == 'Spell Mastery') {
       notes =
         ['magicNotes.spellMasteryFeature:Prepare %V spells w/out spellbook'];
       rules.defineRule('magicNotes.spellMasteryFeature',
         'intelligenceModifier', '=', '3 * source'
       );
-    } else if(feat == 'Spell Focus (Abjuration)') {
-      notes =
-        ['magicNotes.spellFocus(Abjuration)Feature:+1 DC on Abjuration spells'];
-    } else if(feat == 'Spell Focus (Conjuration)') {
-      notes =
-        ['magicNotes.spellFocus(Conjuration)Feature:+1 DC on Conjuration ' +
-         'spells'];
-    } else if(feat == 'Spell Focus (Divination)') {
-      notes =
-        ['magicNotes.spellFocus(Divination)Feature:+1 DC on Divination spells'];
-    } else if(feat == 'Spell Focus (Enchantment)') {
-      notes =
-        ['magicNotes.spellFocus(Enchantment)Feature:+1 DC on Enchantment ' +
-         'spells'];
-    } else if(feat == 'Spell Focus (Evocation)') {
-      notes =
-        ['magicNotes.spellFocus(Evocation)Feature:+1 DC on Evocation spells'];
-    } else if(feat == 'Spell Focus (Illusion)') {
-      notes =
-        ['magicNotes.spellFocus(Illusion)Feature:+1 DC on Illusion spells'];
-    } else if(feat == 'Spell Focus (Necromancy)') {
-      notes =
-        ['magicNotes.spellFocus(Necromancy)Feature:+1 DC on Necromancy spells'];
-    } else if(feat == 'Spell Focus (Transmutation)') {
-      notes =
-        ['magicNotes.spellFocus(Transmutation)Feature:+1 DC on Transmutation ' +
-         'spells'];
     } else if(feat == 'Spell Penetration') {
       notes = [
         'magicNotes.spellPenetrationFeature:+2 caster level vs. resistance ' +
@@ -2893,10 +2871,27 @@ PH35.featRules = function(rules) {
       rules.defineRule('meleeAttack',
         'combatNotes.dexterityMeleeAttackAdjustment', '+', null
       );
-    } else if(feat == 'Weapon Proficiency Simple') {
+    } else if((matchInfo = feat.match(/^Weapon Focus \((.*)\)/)) != null) {
+      var weapon = matchInfo[1];
+      notes = ['combatNotes.weaponFocusFeature:+1 attack'];
+      rules.defineRule
+        ('combatNotes.weaponFocusFeature', 'feats.' + feat, '=', '1');
+      PH35.defineRule
+        ('weaponAttackAdjustment.' + weapon, 'feats.' + feat, '+=', '1');
+    } else if(feat == 'Weapon Proficiency (Simple)') {
       rules.defineRule('weaponProficiencyLevel',
         'features.Weapon Proficiency Simple', '^', PH35.PROFICIENCY_LIGHT
       );
+    } else if(feat.match(/^Weapon Proficiency/)) {
+      // empty
+    } else if((matchInfo =
+               feat.match(/^Weapon Specialization \((.*)\)/)) != null) {
+      var weapon = matchInfo[1];
+      notes = ['combatNotes.weaponSpecializationFeature:+2 damage'];
+      rules.defineRule
+        ('combatNotes.weaponSpecializationFeature', 'feats.' + feat, '=', '1');
+      PH35.defineRule
+        ('weaponDamageAdjustment.' + weapon, 'feats.' + feat, '+=', '2');
     } else if(feat == 'Whirlwind Attack') {
       notes = [
         'combatNotes.whirlwindAttackFeature:Attack all foes w/in reach',
@@ -3013,8 +3008,6 @@ PH35.magicRules = function(rules) {
       for(var j = 0; j < weapons.length; j++) {
         var weapon = weapons[j];
         var weaponNoSpace = weapon.replace(/ /g, '');
-        rules.defineNote
-          ('combatNotes.weaponFocus(' + weaponNoSpace + ')Feature:+1 attack');
         rules.defineRule('clericFeatures.Weapon Focus (' + weapon + ')',
           'featureNotes.warDomain', '=',
           'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
@@ -3214,44 +3207,100 @@ PH35.skillRules = function(rules) {
     'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
     'int':'intelligence', 'str':'strength', 'wis':'wisdom'
   };
-  rules.defineChoice('skills', PH35.SKILLS);
-  for(var a in PH35.skillsSynergies) {
-    var prefix = a.substring(0, 1).toLowerCase() +
-                 a.substring(1).replace(/ /g, '');
-    rules.defineNote
-      ('skillNotes.' + prefix + 'Synergy:+2 ' + PH35.skillsSynergies[a]);
-    // Second notes for a couple synergies to distinguish bonuses automatically
-    // applied by Scribe from those the DM must apply.
-    if(a == 'Bluff') {
-      rules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
-      rules.defineRule('skillNotes.bluffSynergy2',
-        'skills.Bluff', '=', 'source >= 5 ? 1 : null'
-      );
-    } else if(a == 'Handle Animal') {
-      rules.defineNote
-        ('skillNotes.handleAnimalSynergy2:+2 Wild Empathy checks');
-      rules.defineRule('skillNotes.handleAnimalSynergy2',
-        'skills.Handle Animal', '=', 'source >= 5 ? 1 : null'
-      );
+  var synergies = {
+    'Bluff':'Diplomacy/Intimidate/Sleight Of Hand',
+    'Decipher Script':'Use Magic Device (scrolls)',
+    'Escape Artist':'Use Rope (bindings)',
+    'Handle Animal':'Ride',
+    'Jump':'Tumble',
+    'Knowledge (Arcana)':'Spellcraft',
+    'Knowledge (Dungeoneering)':'Survival (underground)',
+    'Knowledge (Engineering)':'Search (secret doors)',
+    'Knowledge (Geography)':'Survival (lost/hazards)',
+    'Knowledge (History)':'Bardic knowledge',
+    'Knowledge (Local)':'Gather Information',
+    'knowledge (Nature)':'Survival (outdoors)',
+    'Knowledge (Nobility)':'Diplomacy',
+    'Knowledge (Planes)':'Survival (other planes)',
+    'Knowledge (Religion)':'Turning check',
+    'Search':'Survival (tracking)',
+    'Sense Motive':'Diplomacy',
+    'Spellcraft':'Use Magic Device (scroll)',
+    'Survival':'Knowledge (Nature)',
+    'Tumble':'Balance/Jump',
+    'Use Magic Device':'Spellcraft (scrolls)',
+    'Use Rope':'Climb (rope)/Escape Artist (rope)'
+  };
+
+  for(var i = 0; i < PH35.SKILLS.length; i++) {
+    var pieces = PH35.SKILLS[i].split(/:/);
+    var skill = pieces[0];
+    var ability = pieces[1].replace(/\/.*/, '');
+    var subskills = PH35.skillsSubskills[skill];
+    if(subskills == null) {
+      var synergy = synergies[skill];
+      rules.defineChoice('skills', skill + ':' + pieces[1]);
+      if(abilityNames[ability] != null) {
+        var modifier = abilityNames[ability] + 'Modifier';
+        rules.defineRule('skills.' + skill, modifier, '+', null);
+      }
+      if(synergy != null) {
+        var prefix = skill.substring(0, 1).toLowerCase() +
+                     skill.substring(1).replace(/ /g, '');
+        rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergy);
+        // Second notes for a couple synergies to distinguish bonuses
+        // automatically applied by Scribe from those the DM must apply.
+        if(skill == 'Bluff') {
+          rules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
+          rules.defineRule('skillNotes.bluffSynergy2',
+            'skills.Bluff', '=', 'source >= 5 ? 1 : null'
+          );
+        } else if(skill == 'Handle Animal') {
+          rules.defineNote
+            ('skillNotes.handleAnimalSynergy2:+2 Wild Empathy checks');
+          rules.defineRule('skillNotes.handleAnimalSynergy2',
+            'skills.Handle Animal', '=', 'source >= 5 ? 1 : null'
+          );
+          rules.defineRule('skillNotes.wildEmpathyFeature',
+            'skillNotes.handleAnimalSynergy', '+', '2'
+          );
+        }
+      }
+    } else if(subskills != '') {
+      subskills = subskills.split(/\//);
+      for(var j = 0; j < subskills.length; j++) {
+        var subskill = skill + ' (' + subskills[j] + ')';
+        var synergy = synergies[subskill];
+        rules.defineChoice('skills', subskill + ':' + pieces[1]);
+        rules.defineRule
+          ('classSkills.' + subskill, 'classSkills.' + skill, '=', '1');
+        rules.defineRule('subskillCount.' + skill, subskill, '+=', '1');
+        rules.defineRule('subskillRankMax.' + skill, subskill, '^=', null);
+        rules.defineRule('subskillRankTotal.' + skill, subskill, '+=', null);
+        if(abilityNames[ability] != null) {
+          var modifier = abilityNames[ability] + 'Modifier';
+          rules.defineRule('skills.' + subskill, modifier, '+', null);
+        }
+        if(synergy != null) {
+          var prefix = subskill.substring(0, 1).toLowerCase() +
+                       subskill.substring(1).replace(/ /g, '');
+          rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergy);
+          if(subskill == 'Knowledge (History)') {
+            rules.defineRule('skillNotes.bardicKnowledgeFeature',
+              'skillNotes.knowledge(History)Synergy', '+', '2'
+            );
+          } else if(subskill == 'Knowledge (Religion)') {
+            rules.defineRule('turningBase',
+              'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
+            );
+          }
+        }
+      }
     }
   }
-  rules.defineRule('skillNotes.bardicKnowledgeFeature',
-    'skillNotes.knowledge(History)Synergy', '+', '2'
-  );
-  rules.defineRule('skillNotes.wildEmpathyFeature',
-    'skillNotes.handleAnimalSynergy', '+', '2'
-  );
-  rules.defineRule('turningBase',
-    'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
-  );
-  for(var i = 0; i < PH35.SKILLS.length; i ++) {
-    var pieces = PH35.SKILLS[i].split(/[:\/]/);
-    var ability = pieces[1] == null ? '' : pieces[1];
-    if(abilityNames[ability] != null) {
-      var modifier = abilityNames[ability] + 'Modifier';
-      rules.defineRule('skills.' + pieces[0], modifier, '+', null);
-    }
-  }
+  rules.defineNote
+    ('validationNotes.totalSkillPoints:Allocated skill points differ from ' +
+     'skill point total by %V');
 
   // Speak Language-related rules
   rules.defineChoice('languages', PH35.LANGUAGES);
