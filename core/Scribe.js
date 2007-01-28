@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.187 2007/01/27 06:11:53 Jim Exp $ */
+/* $Id: Scribe.js,v 1.188 2007/01/28 15:44:58 Jim Exp $ */
 
-var COPYRIGHT = 'Copyright 2006 James J. Hayes';
-var VERSION = '0.37.26';
+var COPYRIGHT = 'Copyright 2007 James J. Hayes';
+var VERSION = '0.37.27';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -539,6 +539,7 @@ Scribe.refreshEditor = function(redraw) {
 Scribe.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed)
     sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
+  sheetWindow.focus();
   sheetWindow.document.write(Scribe.sheetHtml());
   sheetWindow.document.close();
 };
