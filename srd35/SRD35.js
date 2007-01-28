@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.69 2007/01/28 07:42:00 Jim Exp $ */
+/* $Id: SRD35.js,v 1.70 2007/01/28 15:45:26 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -888,16 +888,16 @@ PH35.featsSubfeats = {
   'Armor Proficiency':'Heavy/Light/Medium',
   'Greater Spell Focus':'Abjuration/Conjuration/Divination/Enchantment/' +
                         'Evocation/Illusion/Necromancy/Transmutation',
-  'Greater Weapon Focus':'',
-  'Greater Weapon Specialization':'',
-  'Improved Critical':'',
+  'Greater Weapon Focus':'Dwarven Waraxe/Longsword',
+  'Greater Weapon Specialization':'Dwarven Waraxe/Longsword',
+  'Improved Critical':'Dwarven Waraxe/Longsword',
   'Shield Proficiency':'Normal/Tower',
   'Skill Focus':'',
   'Spell Focus':'Abjuration/Conjuration/Divination/Enchantment/' +
                 'Evocation/Illusion/Necromancy/Transmutation',
-  'Weapon Focus':'',
+  'Weapon Focus':'Dwarven Waraxe/Longsword',
   'Weapon Proficiency':'Simple',
-  'Weapon Specialization':''
+  'Weapon Specialization':'Dwarven Waraxe/Longsword'
 };
 PH35.skillsSubskills = {
   'Craft':'',
@@ -1182,31 +1182,31 @@ PH35.classRules = function(rules) {
       rules.defineRule
         ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
       rules.defineRule('features.Countersong',
-        'subskillRankTotal.Perform', '?', 'source >= 3'
+        'subskillTotal.Perform', '?', 'source >= 3'
       );
       rules.defineRule('features.Fascinate',
-        'subskillRankTotal.Perform', '?', 'source >= 3'
+        'subskillTotal.Perform', '?', 'source >= 3'
       );
       rules.defineRule('features.Inspire Competence',
-        'subskillRankTotal.Perform', '?', 'source >= 6'
+        'subskillTotal.Perform', '?', 'source >= 6'
       );
       rules.defineRule('features.Inspire Courage',
-        'subskillRankTotal.Perform', '?', 'source >= 3'
+        'subskillTotal.Perform', '?', 'source >= 3'
       );
       rules.defineRule('features.Inspire Greatness',
-        'subskillRankTotal.Perform', '?', 'source >= 12'
+        'subskillTotal.Perform', '?', 'source >= 12'
       );
       rules.defineRule('features.Inspire Heroics',
-        'subskillRankTotal.Perform', '?', 'source >= 18'
+        'subskillTotal.Perform', '?', 'source >= 18'
       );
       rules.defineRule('features.Mass Suggestion',
-        'subskillRankTotal.Perform', '?', 'source >= 21'
+        'subskillTotal.Perform', '?', 'source >= 21'
       );
       rules.defineRule('features.Song Of Freedom',
-        'subskillRankTotal.Perform', '?', 'source >= 15'
+        'subskillTotal.Perform', '?', 'source >= 15'
       );
       rules.defineRule('features.Suggestion',
-        'subskillRankTotal.Perform', '?', 'source >= 9'
+        'subskillTotal.Perform', '?', 'source >= 9'
       );
       rules.defineRule('magicNotes.fascinateFeature',
         'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
@@ -2367,7 +2367,7 @@ PH35.featRules = function(rules) {
       notes = ['combatNotes.greaterWeaponFocusFeature:+1 attack'];
       rules.defineRule
         ('combatNotes.greaterWeaponFocusFeature', 'feats.' + feat, '=', '1');
-      PH35.defineRule
+      rules.defineRule
         ('weaponAttackAdjustment.' + weapon, 'feats.' + feat, '+=', '1');
     } else if((matchInfo =
                feat.match(/^Greater Weapon Specialization \((.*)\)/)) != null) {
@@ -2376,7 +2376,7 @@ PH35.featRules = function(rules) {
       rules.defineRule('combatNotes.greaterWeaponSpecializationFeature',
         'feats.' + feat, '=', '1'
       );
-      PH35.defineRule
+      rules.defineRule
         ('weaponDamageAdjustment.' + weapon, 'feats.' + feat, '+=', '2');
     } else if(feat == 'Heighten Spell') {
       notes = [
@@ -2406,8 +2406,11 @@ PH35.featRules = function(rules) {
       rules.defineRule
         ('combatNotes.improvedCriticalFeature', 'feats.' + feat, '=', '1');
       // TODO This just adds one--should double
-      PH35.defineRule
-        ('weaponCriticalAdjustment.' + weapon, 'feats.' + feat, '+=', '1');
+      // TODO Fix this hack
+      rules.defineRule('weaponCriticalAdjustment.' + weapon,
+        'feats.' + feat, '+=', '1',
+        'combatNotes.improvedCriticalFeature', '+', '0'
+      );
     } else if(feat == 'Improved Disarm') {
       notes = [
         'combatNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
@@ -2876,8 +2879,11 @@ PH35.featRules = function(rules) {
       notes = ['combatNotes.weaponFocusFeature:+1 attack'];
       rules.defineRule
         ('combatNotes.weaponFocusFeature', 'feats.' + feat, '=', '1');
-      PH35.defineRule
-        ('weaponAttackAdjustment.' + weapon, 'feats.' + feat, '+=', '1');
+      // TODO Fix this hack
+      rules.defineRule('weaponAttackAdjustment.' + weapon,
+        'feats.' + feat, '+=', '1',
+        'combatNotes.weaponFocusFeature', '+', '0'
+      );
     } else if(feat == 'Weapon Proficiency (Simple)') {
       rules.defineRule('weaponProficiencyLevel',
         'features.Weapon Proficiency Simple', '^', PH35.PROFICIENCY_LIGHT
@@ -2890,7 +2896,7 @@ PH35.featRules = function(rules) {
       notes = ['combatNotes.weaponSpecializationFeature:+2 damage'];
       rules.defineRule
         ('combatNotes.weaponSpecializationFeature', 'feats.' + feat, '=', '1');
-      PH35.defineRule
+      rules.defineRule
         ('weaponDamageAdjustment.' + weapon, 'feats.' + feat, '+=', '2');
     } else if(feat == 'Whirlwind Attack') {
       notes = [
@@ -3265,33 +3271,41 @@ PH35.skillRules = function(rules) {
           );
         }
       }
-    } else if(subskills != '') {
-      subskills = subskills.split(/\//);
-      for(var j = 0; j < subskills.length; j++) {
-        var subskill = skill + ' (' + subskills[j] + ')';
-        var synergy = synergies[subskill];
-        rules.defineChoice('skills', subskill + ':' + pieces[1]);
-        rules.defineRule
-          ('classSkills.' + subskill, 'classSkills.' + skill, '=', '1');
-        rules.defineRule('subskillCount.' + skill, subskill, '+=', '1');
-        rules.defineRule('subskillRankMax.' + skill, subskill, '^=', null);
-        rules.defineRule('subskillRankTotal.' + skill, subskill, '+=', null);
-        if(abilityNames[ability] != null) {
-          var modifier = abilityNames[ability] + 'Modifier';
-          rules.defineRule('skills.' + subskill, modifier, '+', null);
-        }
-        if(synergy != null) {
-          var prefix = subskill.substring(0, 1).toLowerCase() +
-                       subskill.substring(1).replace(/ /g, '');
-          rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergy);
-          if(subskill == 'Knowledge (History)') {
-            rules.defineRule('skillNotes.bardicKnowledgeFeature',
-              'skillNotes.knowledge(History)Synergy', '+', '2'
-            );
-          } else if(subskill == 'Knowledge (Religion)') {
-            rules.defineRule('turningBase',
-              'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
-            );
+    } else {
+      rules.defineRule('subskillCount.' + skill,
+        new RegExp('^skills\\.' + skill + ' \\('), '+=', '1'
+      );
+      rules.defineRule('subskillMax.' + skill,
+        new RegExp('^skills\\.' + skill + ' \\('), '^=', null
+      );
+      rules.defineRule('subskillTotal.' + skill,
+        new RegExp('^skills\\.' + skill + ' \\('), '+=', null
+      );
+      if(subskills != '') {
+        subskills = subskills.split(/\//);
+        for(var j = 0; j < subskills.length; j++) {
+          var subskill = skill + ' (' + subskills[j] + ')';
+          var synergy = synergies[subskill];
+          rules.defineChoice('skills', subskill + ':' + pieces[1]);
+          rules.defineRule
+            ('classSkills.' + subskill, 'classSkills.' + skill, '=', '1');
+          if(abilityNames[ability] != null) {
+            var modifier = abilityNames[ability] + 'Modifier';
+            rules.defineRule('skills.' + subskill, modifier, '+', null);
+          }
+          if(synergy != null) {
+            var prefix = subskill.substring(0, 1).toLowerCase() +
+                         subskill.substring(1).replace(/ /g, '');
+            rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergy);
+            if(subskill == 'Knowledge (History)') {
+              rules.defineRule('skillNotes.bardicKnowledgeFeature',
+                'skillNotes.knowledge(History)Synergy', '+', '2'
+              );
+            } else if(subskill == 'Knowledge (Religion)') {
+              rules.defineRule('turningBase',
+                'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
+              );
+            }
           }
         }
       }
