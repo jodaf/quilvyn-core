@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.16 2007/01/15 15:44:21 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.17 2007/01/28 07:41:08 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -71,7 +71,7 @@ RuleEngine.prototype.addRules =
     expr = arguments[i];
     if(source == null)
       source = '';
-    if(expr != null && typeof(expr) != 'object')
+    if(expr != null && typeof(expr) != 'object' && typeof(expr) != 'function')
       expr = new Function('source', 'return ' + expr + ';');
     if(typeof source != 'string') {
       this.patterns[this.patterns.length] =
@@ -128,8 +128,7 @@ RuleEngine.prototype.applyRules = function(initial) {
       if(!source.match(pat)) {
         continue;
       }
-      this.addRules
-        (target, source, this.patterns[i].type, this.patterns[i].expr);
+      this.addRules(target, source, this.patterns[i].type, this.patterns[i].fn);
     }
   }
   this.needToExpandPatterns = false;
