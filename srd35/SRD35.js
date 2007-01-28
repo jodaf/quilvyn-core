@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.68 2007/01/27 06:11:53 Jim Exp $ */
+/* $Id: SRD35.js,v 1.69 2007/01/28 07:42:00 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1041,8 +1041,8 @@ PH35.classRules = function(rules) {
     ('validationNotes.totalLevels:Allocated levels differ from level total ' +
      'by %V');
   rules.defineRule('validationNotes.totalLevels',
-    'level', '=', '-source',
-    /^levels\./, '+', null
+    'level', '+=', '-source',
+    /^levels\./, '+=', null
   );
 
   for(var i = 0; i < PH35.CLASSES.length; i++) {
@@ -2494,8 +2494,8 @@ PH35.featRules = function(rules) {
       ];
       rules.defineRule('validationNotes.improvedTripFeat',
         'feats.Improved Trip', '=', '1',
-        'levels.Monk', '*', 'source >= 6 ? 01 : null',
-        'features.Combat Expertise', '+', '-1'
+        'levels.Monk', '*', 'source >= 6 ? 0 : null',
+        'features.Combat Expertise', '*', '0'
       );
     } else if(feat == 'Improved Turning') {
       notes = [
@@ -2942,8 +2942,8 @@ PH35.featRules = function(rules) {
     ('validationNotes.totalFeats:Allocated feats differ from feat count ' +
      'total by %V');
   rules.defineRule('validationNotes.totalFeats',
-    'featCount', '=', '-source',
-    /^feats\./, '+', null
+    'featCount', '+=', '-source',
+    /^feats\./, '+=', null
   );
   var allSelectable = {};
   for(var a in PH35.selectableFeatures) {
@@ -2963,9 +2963,8 @@ PH35.featRules = function(rules) {
     ('validationNotes.totalSelectableFeatures:Allocated selectable features ' +
      'differ from selectable features count total by %V');
   rules.defineRule('validationNotes.totalSelectableFeatures',
-    '', '=', '0',
-    /^selectableFeatureCount\./, '+', '-source',
-    /^selectableFeatures\./, '+', null
+    /^selectableFeatureCount\./, '+=', '-source',
+    /^selectableFeatures\./, '+=', 'source'
   );
 
 };
@@ -3219,7 +3218,7 @@ PH35.skillRules = function(rules) {
     'Knowledge (Geography)':'Survival (lost/hazards)',
     'Knowledge (History)':'Bardic knowledge',
     'Knowledge (Local)':'Gather Information',
-    'knowledge (Nature)':'Survival (outdoors)',
+    'Knowledge (Nature)':'Survival (outdoors)',
     'Knowledge (Nobility)':'Diplomacy',
     'Knowledge (Planes)':'Survival (other planes)',
     'Knowledge (Religion)':'Turning check',
@@ -3308,8 +3307,8 @@ PH35.skillRules = function(rules) {
     ('validationNotes.totalLanguages:Allocated languages differ from ' +
      'language total by %V');
   rules.defineRule('validationNotes.totalLanguages',
-    'languageCount', '=', '-source',
-    /^languages\./, '+', null
+    'languageCount', '+=', '-source',
+    /^languages\./, '+=', null
   );
   rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
 
