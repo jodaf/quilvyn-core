@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.53 2007/01/15 15:44:21 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.54 2007/01/30 06:12:35 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -17,19 +17,21 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
-/* TODO */
+/*
+ * A Scribe extension to RuleEngine.  Adds an associated name, named choice
+ * sets (e.g., classes, weapons), and named object viewers.
+ */
 function ScribeRules(name) {
   this.choices = {};
   this.name = name;
-  this.tests = [];
   this.viewers = {};
 }
 ScribeRules.prototype = new RuleEngine();
 
 /*
- * Add each #item# to the set of valid selections for #name#.  Each value of
- * #name# may contain data associated with the selection.  See scribedoc.html
- * for details.
+ * Add each #item# to the set of valid selections for choice set #name#.  Each
+ * value of #item# may contain data associated with the selection.  See
+ * scribedoc.html for details.
  */
 ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
   if(this.choices[name] == null)
@@ -43,23 +45,24 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
 };
 
 /*
- * Add #name# to the list of valid classes.  Characters of class #name# roll
- * #hitDice# ([Nd]S, where N is the number of dice and S the number of sides)
- * more hit points at each level.  The other parameters are optional.
- * #skillPoints# is the number of skill points a character of the class
- * receives each level; #baseAttackBonus#, #saveFortitudeBonus#,
- * #saveReflexBonus# and #saveWillBonus# are JavaScript expressions that
- * compute the attack and saving throw bonuses the character accumulates each
- * class level; #armorProficiencyLevel#, #shieldProficiencyLevel# and
- * #weaponProficiencyLevel# indicate any proficiency in these categories that
- * characters of the class gain; #classSkills# is an array of skills that are
- * class (not cross-class) skills for the class, #features# an array of
- * level/feature name pairs indicating features that the class acquires when
- * advancing levels, #spellsKnown# an array of information about the type,
- * number, and level of spells known at each class level, #spellsPerDay# an
- * array of information about the type, number, and level of spells castable
- * per day at each class level, and #spellsPerDayAbility# the attribute that,
- * if sufficiently high, gives bonus spells per day for the class.
+ * A convenience function that adds #name# to the list of valid classes.
+ * Characters of class #name# roll #hitDice# ([Nd]S, where N is the number of
+ * dice and S the number of sides) more hit points at each level.  All other
+ * parameters are optional.  #skillPoints# is the number of skill points a
+ * character of the class receives each level; #baseAttackBonus#,
+ * #saveFortitudeBonus#, #saveReflexBonus# and #saveWillBonus# are JavaScript
+ * expressions that compute the attack and saving throw bonuses the character
+ * accumulates each class level; #armorProficiencyLevel#,
+ * #shieldProficiencyLevel# and #weaponProficiencyLevel# indicate any
+ * proficiency in these categories that characters of the class gain;
+ * #classSkills# is an array of skills that are class skills (as opposed to
+ * cross-class) for the class, #features# an array of level:feature name pairs
+ * indicating features that the class acquires when advancing levels,
+ * #spellsKnown# an array of information about the type, number, and level of
+ * spells known at each class level, #spellsPerDay# an array of information
+ * about the type, number, and level of spells castable per day at each class
+ * level, and #spellsPerDayAbility# the attribute that, if sufficiently high,
+ * gives bonus spells per day for the class.
  */
 ScribeRules.prototype.defineClass = function
   (name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
@@ -162,7 +165,7 @@ ScribeRules.prototype.defineClass = function
 };
 
 /*
- * Defines an element for the scribe character editor display.  #name# is the
+ * Defines an element for the Scribe character editor display.  #name# is the
  * name of the element; #label# is a string label displayed before the element;
  * #type# is one of "bag", "button", "checkbox", "select-one", "set", "text",
  * or "textarea", indicating the type of element; #params# is an array of
@@ -302,10 +305,11 @@ ScribeRules.prototype.defineRule = function
 
 /*
  * Include attribute #name# on the character sheet in section #within# before
- * attribute #before# (or at the end of the section if #before# is null).  The
- * optional HTML #format# may be supplied to indicate how #name# should be
- * formatted on the sheet.  #separator# is a bit of HTML used to separate
- * elements for items that have multiple values.
+ * attribute #before# (or at the end of the section if #before# is null) in all
+ * viewers associated with this ScribeRules.  The optional HTML #format# may be
+ * supplied to indicate how #name# should be formatted on the sheet.
+ * #separator# is a bit of HTML used to separate elements for items that have
+ * multiple values.
  */
 ScribeRules.prototype.defineSheetElement = function
   (name, within, format, before, separator) {
@@ -320,9 +324,7 @@ ScribeRules.prototype.defineSheetElement = function
   }
 };
 
-/*
- * TODO
- */
+/* Associates ObjectViewer #viewer# with name #name# in this ScribeRules. */
 ScribeRules.prototype.defineViewer = function(name, viewer) {
   this.viewers[name] = viewer;
 };
@@ -340,9 +342,7 @@ ScribeRules.prototype.getName = function() {
   return this.name;
 };
 
-/*
- * TODO
- */
+/* Returns the ObjectViewer associated with #name#, null if none. */
 ScribeRules.prototype.getViewer = function(name) {
   if(name == null) {
     name = this.getViewerNames()[0];
@@ -350,6 +350,10 @@ ScribeRules.prototype.getViewer = function(name) {
   return this.viewers[name];
 };
 
+/*
+ * Returns an array of all the names associated with ObjectViewers in this
+ * ScribeRules.
+ */
 ScribeRules.prototype.getViewerNames = function() {
   return ScribeUtils.getKeys(this.viewers);
 };
