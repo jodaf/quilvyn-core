@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.70 2007/01/28 15:45:26 Jim Exp $ */
+/* $Id: SRD35.js,v 1.71 2007/01/30 06:14:30 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -913,6 +913,15 @@ PH35.strengthMaxLoads = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
 ];
+// Mapping of medium damage to large/small/tiny damage
+PH35.weaponsLargeDamage = {
+  'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
+  'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
+};
+PH35.weaponsSmallDamage = {
+  'd2':'1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
+  'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
+};
 
 /* Defines the rules related to PH Chapter 1, Abilities. */
 PH35.abilityRules = function(rules) {
@@ -2364,20 +2373,18 @@ PH35.featRules = function(rules) {
     } else if((matchInfo =
                feat.match(/^Greater Weapon Focus \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      notes = ['combatNotes.greaterWeaponFocusFeature:+1 attack'];
-      rules.defineRule
-        ('combatNotes.greaterWeaponFocusFeature', 'feats.' + feat, '=', '1');
-      rules.defineRule
-        ('weaponAttackAdjustment.' + weapon, 'feats.' + feat, '+=', '1');
+      var note = 'combatNotes.greaterWeaponFocus(' + weapon + ')Feature';
+      notes = [note + ':+1 attack'];
+      rules.defineRule(note, 'features.' + feat, '=', '1');
+      rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', '1');
     } else if((matchInfo =
                feat.match(/^Greater Weapon Specialization \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      notes = ['combatNotes.greaterWeaponSpecializationFeature:+2 damage'];
-      rules.defineRule('combatNotes.greaterWeaponSpecializationFeature',
-        'feats.' + feat, '=', '1'
-      );
-      rules.defineRule
-        ('weaponDamageAdjustment.' + weapon, 'feats.' + feat, '+=', '2');
+      var note =
+        'combatNotes.greaterWeaponSpecialization(' + weapon + ')Feature';
+      notes = [note + ':+2 damage'];
+      rules.defineRule(note, 'features.' + feat, '=', '1');
+      rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
     } else if(feat == 'Heighten Spell') {
       notes = [
         'magicNotes.heightenSpellFeature:Increase designated spell level',
@@ -2402,15 +2409,21 @@ PH35.featRules = function(rules) {
         ['magicNotes.improvedCounterspellFeature:Counter w/higher-level spell'];
     } else if((matchInfo = feat.match(/^Improved Critical \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      notes = ['combatNotes.improvedCriticalFeature:x2 critical threat range'];
-      rules.defineRule
-        ('combatNotes.improvedCriticalFeature', 'feats.' + feat, '=', '1');
-      // TODO This just adds one--should double
-      // TODO Fix this hack
-      rules.defineRule('weaponCriticalAdjustment.' + weapon,
-        'feats.' + feat, '+=', '1',
-        'combatNotes.improvedCriticalFeature', '+', '0'
-      );
+      var note = 'combatNotes.improvedCritical(' + weapon + ')Feature';
+      notes = [note + ':x2 critical threat range'];
+      rules.defineRule(note, 'features.' + feat, '=', '1');
+      var weaponPat = new RegExp('^' + weapon + ':');
+      var bump = 1;
+      for(var j = 0; j < PH35.WEAPONS.length; j++) {
+        var spec = PH35.WEAPONS[j];
+        var matchInfo;
+        if(weapon == null || !spec.match(weaponPat))
+          continue;
+        if((matchInfo = spec.match(/@(\d+)/)) != null)
+          bump = 21 - matchInfo[1];
+        break;
+      }
+      rules.defineRule('weaponCriticalAdjustment.' + weapon, note, '+=', bump);
     } else if(feat == 'Improved Disarm') {
       notes = [
         'combatNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
@@ -2876,14 +2889,10 @@ PH35.featRules = function(rules) {
       );
     } else if((matchInfo = feat.match(/^Weapon Focus \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      notes = ['combatNotes.weaponFocusFeature:+1 attack'];
-      rules.defineRule
-        ('combatNotes.weaponFocusFeature', 'feats.' + feat, '=', '1');
-      // TODO Fix this hack
-      rules.defineRule('weaponAttackAdjustment.' + weapon,
-        'feats.' + feat, '+=', '1',
-        'combatNotes.weaponFocusFeature', '+', '0'
-      );
+      var note = 'combatNotes.weaponFocus(' + weapon + ')Feature';
+      notes = [note + ':+1 attack'];
+      rules.defineRule(note, 'features.' + feat, '=', '1');
+      rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', '1');
     } else if(feat == 'Weapon Proficiency (Simple)') {
       rules.defineRule('weaponProficiencyLevel',
         'features.Weapon Proficiency Simple', '^', PH35.PROFICIENCY_LIGHT
@@ -2893,11 +2902,10 @@ PH35.featRules = function(rules) {
     } else if((matchInfo =
                feat.match(/^Weapon Specialization \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      notes = ['combatNotes.weaponSpecializationFeature:+2 damage'];
-      rules.defineRule
-        ('combatNotes.weaponSpecializationFeature', 'feats.' + feat, '=', '1');
-      rules.defineRule
-        ('weaponDamageAdjustment.' + weapon, 'feats.' + feat, '+=', '2');
+      var note = 'combatNotes.weaponSpecialization(' + weapon + ')Feature';
+      notes = [note + ':+2 damage'];
+      rules.defineRule(note, 'features.' + feat, '=', '1');
+      rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
     } else if(feat == 'Whirlwind Attack') {
       notes = [
         'combatNotes.whirlwindAttackFeature:Attack all foes w/in reach',
