@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.188 2007/01/28 15:44:58 Jim Exp $ */
+/* $Id: Scribe.js,v 1.189 2007/01/30 06:13:10 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.37.27';
+var VERSION = '0.37.29';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -94,27 +94,10 @@ function Scribe() {
 
 }
 
-// Choices for the ability fields in the editor
-// TODO Move to PH35
+// TODO Move to ScribeRules/PH35
 Scribe.ABILITY_CHOICES = [
   3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
 ];
-// Mapping of medium damage to large/small/tiny damage
-// TODO Move to PH35
-Scribe.LARGE_DAMAGE = {
-  'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
-  'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
-};
-Scribe.SMALL_DAMAGE = {
-  'd2':'d1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
-  'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
-};
-Scribe.TINY_DAMAGE = {
-  'd2':'0', 'd3':'1', 'd4':'d2', 'd6':'d8', 'd8':'d4', 'd10':'d6',
-  'd12':'d8', '2d4':'1d4', '2d6':'1d8', '2d8':'1d10', '2d10':'2d6'
-};
-
-// TODO Move to ScribeRules/PH35
 Scribe.editorElements = [
   ['about', ' ', 'button', ['About']],
   ['help', '', 'button', ['Help']],
@@ -178,10 +161,8 @@ Scribe.editorHtml = function() {
     var params = element[3];
     var type = element[2];
     if(typeof(params) == 'string') {
-      if(ruleSet.getChoices(params) == null) {
-        alert("No choices for '" + params + "' available from rule set.");
+      if(ruleSet.getChoices(params) == null)
         continue;
-      }
       params = ScribeUtils.getKeys(ruleSet.getChoices(params));
       if(name == 'randomize')
         params = ['---randomize---'].concat(params);
@@ -539,7 +520,6 @@ Scribe.refreshEditor = function(redraw) {
 Scribe.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed)
     sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
-  sheetWindow.focus();
   sheetWindow.document.write(Scribe.sheetHtml());
   sheetWindow.document.close();
 };
@@ -664,14 +644,11 @@ Scribe.sheetHtml = function() {
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
             threat -= computedAttributes['weaponCriticalAdjustment.' + name];
           if(computedAttributes['features.Small'] &&
-             Scribe.SMALL_DAMAGE[damage] != null) {
-            damage = Scribe.SMALL_DAMAGE[damage];
+             PH35.weaponsSmallDamage[damage] != null) {
+            damage = PH35.weaponsSmallDamage[damage];
           } else if(computedAttributes['features.Large'] &&
-                    Scribe.LARGE_DAMAGE[damage] != null) {
-            damage = Scribe.LARGE_DAMAGE[damage];
-          } else if(computedAttributes['features.Tiny'] &&
-                    Scribe.TINY_DAMAGE[damage] != null) {
-            damage = Scribe.TINY_DAMAGE[damage];
+                    PH35.weaponsLargeDamage[damage] != null) {
+            damage = PH35.weaponsLargeDamage[damage];
           }
           if(additional != 0)
             damage += ScribeUtils.signed(additional);
