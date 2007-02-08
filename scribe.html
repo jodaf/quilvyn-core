@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.48 2007/01/27 06:13:17 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.49 2007/02/08 00:00:57 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -54,35 +54,72 @@ var URL_SUFFIX = '.html';
 var WARN_ABOUT_DISCARD = true;
 
 /*
- * If this file defines a CustomizeScribe function, Scribe calls it after
- * loading, allowing you to add custom behavior to the program.  See
- * scribedoc.html for details.  Instead of putting the code directly into
- * CustomizeScribe, you can place URLs for scripts you want to load from
- * external files into CUSTOMIZATION_URLS, and the default implementation of
- * CustomizeScribe below will load them.  A set of sample customization
- * scripts, listed below, comes packaged with the Scribe software; remove the
- * comment markers from around any of these that you would like Scribe to use.
- * If any of the elements of CUSTOMIZATION_URLS begins with a question mark
- * (e.g., '?DMG35.js'), Scribe will prompt the user on start-up to ask whether
- * to include the rules from that script.  This can be useful for rules that
- * you use occasionally but don't want always present.  For example, you might
- * want to put a question mark before DMG35.js to occasionally use the rules
- * to define NPC- or prestige-class NPCs.
+ * Scribe incorporates the modules listed in CUSTOMIZATION_URLS as part of its
+ * initial loading; you should uncomment those elements that you want to make
+ * part of your Scribe installation and comment or delete the ones you don't
+ * want.  If any of the elements of CUSTOMIZATION_URLS begins with a question
+ * mark (e.g., '?DMG35.js'), Scribe will prompt the user on start-up to ask
+ * whether to include the rules from that module.  This can be useful for rules
+ * that you use occasionally but don't want always present.  For example, you
+ * might want to put a question mark before DMG35.js to occasionally use the
+ * rules to define NPC- or prestige-class NPCs.  null elements are ignored, so
+ * the null value at the end of the array makes it easy to add and remove
+ * elements without worrying about a trailing comma.
  */
 var CUSTOMIZATION_URLS = [
   'PH35.js',
   '?DMG35.js',
-  '?MN2E.js',
-  '?MN2EPrestige.js',
-  /* 'CustomDeities.js', */
-  /* 'CustomGoodies.js', */
-  /* 'CustomSkills.js', */
-  /* 'VerticalSheet.js', */
-  /* 'SpellPoints.js', */
+  // 'MN2E.js',
+  // 'MN2EPrestige.js',
+  // 'CustomDeities.js',
+  // 'CustomGoodies.js',
+  // 'CustomSkills.js',
+  // 'VerticalSheet.js',
+  // 'SpellPoints.js',
   null
 ];
 
+/*
+ * If this file defines a CustomizeScribe function, Scribe calls it after
+ * loading, allowing you to add custom behavior to the program.  See
+ * scribedoc.html for details.  The default implementation below can be used
+ * without modification or can be tailored for your installation.
+ */
 function CustomizeScribe() {
+  // The first part of this implementation provides an easy way to define
+  // subfeats and subskills (e.g., Weapon Focus (Longsword)), Perform (Sing))
+  // in the PH35 rule set.  Each element of the subfeats/subskills variables
+  // gives a feat/skill, followed by a colon and a slash-delimited list of
+  // subfeat targets.  Modify the values in each list to determine which
+  // subfeats/subskills are defined in your Scribe installation.
+  var subfeats = [
+    'Greater Spell Focus:' + PH35.SCHOOLS.join('/'),
+    'Greater Weapon Focus:',
+    'Greater Weapon Specialization:',
+    'Improved Critical:Dwarven Waraxe/Longsword',
+    'Skill Focus:',
+    'Spell Focus:' + PH35.SCHOOLS.join('/'),
+    'Weapon Focus:Dwarven Waraxe/Longsword',
+    'Weapon Specialization:Dwarven Waraxe/Longsword'
+  ];
+  var subskills = [
+    'Craft:',
+    'Knowledge:Arcana/Architecture/Dungeoneering/Engineering/Geography/' +
+              'History/Local/Nature/Nobility/Planes/Religion',
+    'Perform:Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
+    'Profession:'
+  ];
+  for(var i = 0; i < subfeats.length; i++) {
+    var pieces = subfeats[i].split(/:/);
+    PH35.featsSubfeats[pieces[0]] = pieces[1];
+  };
+  for(var i = 0; i < subskills.length; i++) {
+    var pieces = subskills[i].split(/:/);
+    PH35.skillsSubskills[pieces[0]] = pieces[1];
+  };
+  // The remaining lines load the modules listed in CUSTOMIZATION_URLS by
+  // calling a function with the same name as the module (e.g., it calls PH35()
+  // for PH35.js).
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
     var url = CUSTOMIZATION_URLS[i];
     var pos;
