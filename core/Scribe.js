@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.190 2007/02/08 00:00:35 Jim Exp $ */
+/* $Id: Scribe.js,v 1.191 2007/02/10 21:01:38 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.38.07';
+var VERSION = '0.38.10';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -42,7 +42,7 @@ var spellFilter = "";
 var ruleSets = {};  // ScribeRules with standard + user rules
 var ruleSet = null; // The rule set currently in use
 var sheetWindow = null; // Window where character sheet is shown
-var urlLoading=null;// Character URL presently loading
+var urlLoading = null; // Character URL presently loading
 
 /* Launch routine called after all Scribe scripts are loaded. */
 function Scribe() {
@@ -77,9 +77,9 @@ function Scribe() {
       end = document.cookie.length;
     var cookie = document.cookie.substring(i + COOKIE_NAME.length + 1, end);
     var settings = unescape(cookie).split(COOKIE_FIELD_SEPARATOR);
-    for(i = 0; i < settings.length; i += 2) {
-      if(cookieInfo[settings[i]] != null)
-        cookieInfo[settings[i]] = settings[i + 1];
+    for(i = 1; i < settings.length; i += 2) {
+      if(cookieInfo[settings[i - 1]] != null)
+        cookieInfo[settings[i - 1]] = settings[i];
     }
   }
 
@@ -90,7 +90,7 @@ function Scribe() {
   Scribe.popUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
                COPYRIGHT + '<br/>' +
                'Press the "About" button for more info',
-               'Ok', 'window.close();');
+               'Ok:window.close();');
 
 }
 
@@ -197,9 +197,9 @@ Scribe.editorHtml = function() {
  */
 Scribe.loadCharacter = function(name) {
   var url = name;
-  if(url.match(/^\w*:/) == null)
+  if(!url.match(/^\w*:/))
     url = URL_PREFIX + url;
-  if(url.match(/\.\w*$/) == null)
+  if(!url.match(/\.\w*$/))
     url += URL_SUFFIX;
   if(urlLoading == url && loadingPopup.closed) {
     urlLoading = null; // User cancel
@@ -271,13 +271,13 @@ Scribe.loadCharacter = function(name) {
         character[a] = value;
       }
     }
-    // Previous Scribe versions assumed some defaults that we no longer assume
+    // Prior Scribe versions assumed some defaults that we no longer assume
     var OLD_DEFAULTS = {
-      'alignment': 'Neutral Good', 'armor': 'None', 'charisma': 10,
-      'constitution': 10, 'deity': 'None', 'dexterity': 10, 'experience': 0,
-      'gender': 'Male', 'hitPoints': 0, 'intelligence': 10,
-      'name': 'New Character', 'race': 'Human', 'shield': 'None',
-      'strength': 10, 'wisdom': 10
+      'alignment':'Neutral Good', 'armor':'None', 'charisma':10,
+      'constitution':10, 'deity':'None', 'dexterity':10, 'experience':0,
+      'gender':'Male', 'hitPoints':0, 'intelligence':10,
+      'name':'New Character', 'race':'Human', 'shield':'None', 'strength':10,
+      'wisdom':10
     };
     for(var a in OLD_DEFAULTS) {
       if(character[a] == null)
@@ -285,8 +285,8 @@ Scribe.loadCharacter = function(name) {
     }
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
-    currentUrl = url;
-    cachedAttrs[currentUrl] = ScribeUtils.clone(character);
+    characterUrl = url;
+    cachedAttrs[characterUrl] = ScribeUtils.clone(character);
     urlLoading = null;
     if(!loadingPopup.closed)
       loadingPopup.close();
@@ -294,7 +294,7 @@ Scribe.loadCharacter = function(name) {
     // Nothing presently loading
     urlLoading = url;
     loadingPopup =
-      Scribe.popUp('Loading character from '+url, 'Cancel', 'window.close();');
+      Scribe.popUp('Loading character from ' + url, 'Cancel:window.close();');
     if(sheetWindow == null || sheetWindow.closed)
       sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
     try {
@@ -327,19 +327,20 @@ Scribe.openDialog = function() {
 };
 
 /*
- * Returns a popup window containing #html# and the optional set of #buttons#,
- * each associated with an #action#.
+ * Returns a popup window containing #html# and an optional set of #buttons#,
+ * each of which has the form label:action.
  */
-Scribe.popUp = function(html, button, action /*, button, action ... */) {
+Scribe.popUp = function(html, button /*, button ... */) {
   var popup = window.open
     ('', 'pop' + Scribe.popUp.next++, 'height=200,width=400');
   var content = '<html><head><title>Scribe Message</title></head>\n' +
                 '<body bgcolor="' + BACKGROUND + '">' + html +
                 '<br/>\n<form>\n';
-  for(var i = 2; i < arguments.length; i += 2) {
+  for(var i = 1; i < arguments.length; i++) {
+    pieces = arguments[i].split(/:/);
     content +=
-      '<input type="button" value="' + arguments[i - 1] + '" ' +
-                           'onclick="' + arguments[i] + '"/>\n';
+      '<input type="button" value="' + pieces[0] + '" ' +
+                           'onclick="' + pieces[1] + '"/>\n';
   }
   content += '</form>\n</body></html>';
   popup.document.write(content);
@@ -369,8 +370,8 @@ Scribe.randomizeCharacter = function(prompt) {
     character = ruleSet.randomizeAllAttributes(fixedAttributes);
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
-    currentUrl = 'random';
-    cachedAttrs[currentUrl] = ScribeUtils.clone(character);
+    characterUrl = 'random';
+    cachedAttrs[characterUrl] = ScribeUtils.clone(character);
     if(loadingPopup != null)
       loadingPopup.close();
     urlLoading = null;
@@ -499,7 +500,7 @@ Scribe.refreshEditor = function(redraw) {
     if(InputGetValue(input) != value)
       InputSetValue(input, value);
   }
-  // Regenerate the skill options to reflect the characters cross/class skills
+  // Regenerate the skill options to reflect the character's cross/class skills
   var attrs = ruleSet.applyRules(character);
   for(i = 0; i < editForm.skills_sel.options.length; i++) {
     var opt = editForm.skills_sel.options[i];
@@ -507,11 +508,11 @@ Scribe.refreshEditor = function(redraw) {
       opt.value + (attrs['classSkills.' + opt.value] == null ? ' (cc)' : '');
   }
 
-  InputSetValue(editForm.dmonly, cookieInfo.dmonly - 0);
-  InputSetValue(editForm.italics, cookieInfo.italics - 0);
+  InputSetValue(editForm.dmonly, cookieInfo.dmonly == '1');
+  InputSetValue(editForm.italics, cookieInfo.italics == '1');
   InputSetValue(editForm.rules, ruleSet.getName());
   InputSetValue(editForm.spellfilter, spellFilter);
-  InputSetValue(editForm.untrained, cookieInfo.untrained - 0);
+  InputSetValue(editForm.untrained, cookieInfo.untrained == '1');
   InputSetValue(editForm.viewer, cookieInfo.viewer);
 
 };
@@ -528,34 +529,34 @@ Scribe.refreshSheet = function() {
 Scribe.sheetHtml = function() {
 
   var a;
-  var attrs = ScribeUtils.clone(character);
   var codeAttributes = {};
   var computedAttributes;
-  var displayAttributes = {};
+  var enteredAttributes = ScribeUtils.clone(character);
   var i;
+  var sheetAttributes = {};
 
   // Turn "dot" attributes into objects
   for(a in character) {
     if((i = a.indexOf('.')) < 0) {
-      codeAttributes[a] = attrs[a];
+      codeAttributes[a] = enteredAttributes[a];
     } else {
       var object = a.substring(0, i);
       if(codeAttributes[object] == null)
         codeAttributes[object] = {};
-      codeAttributes[object][a.substring(i + 1)] = attrs[a];
+      codeAttributes[object][a.substring(i + 1)] = enteredAttributes[a];
     }
   }
 
-  attrs.dmonly = cookieInfo.dmonly - 0;
   // If so directed, add computed non-zero values for untrained skills
   if(cookieInfo.untrained == '1') {
-    var skills = ruleEngine.getChoices('skills');
+    var skills = ruleSet.getChoices('skills');
     for(a in skills) {
       if(character['skills.' + a] == null && skills[a].indexOf('/trained') < 0)
-        attrs['skills.' + a] = 0;
+        enteredAttributes['skills.' + a] = 0;
     }
   }
-  computedAttributes = ruleSet.applyRules(attrs);
+  enteredAttributes.dmonly = cookieInfo.dmonly;
+  computedAttributes = ruleSet.applyRules(enteredAttributes);
   if(cookieInfo.untrained == '1') {
     var skills = ruleSet.getChoices('skills');
     for(a in skills) {
@@ -566,7 +567,7 @@ Scribe.sheetHtml = function() {
   }
   // NOTE: ObjectFormatter doesn't support interspersing values in a list
   // (e.g., skill ability, weapon damage), so we do some inelegant manipulation
-  // of displayAttributes' names and values here to get the sheet to look right.
+  // of sheetAttributes' names and values here to get the sheet to look right.
   var notes = ruleSet.getChoices('notes');
   var strengthDamageAdjustment =
     computedAttributes['combatNotes.strengthDamageAdjustment'];
@@ -577,12 +578,12 @@ Scribe.sheetHtml = function() {
     name = name.substring(0, 1).toUpperCase() + name.substring(1);
     var value = computedAttributes[a];
     // Add entered value in brackets if it differs from computed value
-    if(attrs[a] != null && attrs[a] != value)
-      value += '[' + attrs[a] + ']';
+    if(enteredAttributes[a] != null && enteredAttributes[a] != value)
+      value += '[' + enteredAttributes[a] + ']';
     if((i = name.indexOf('.')) < 0) {
-      if(name == 'imageUrl' && value.match(/^\w*:/) == null)
+      if(name == 'imageUrl' && !value.match(/^\w*:/))
         value = URL_PREFIX + value;
-      displayAttributes[name] = value;
+      sheetAttributes[name] = value;
     } else {
       var object = name.substring(0, i);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
@@ -664,14 +665,14 @@ Scribe.sheetHtml = function() {
         else
           continue;
       }
-      if(displayAttributes[object] == null)
-        displayAttributes[object] = [];
-      displayAttributes[object][displayAttributes[object].length] = value;
+      if(sheetAttributes[object] == null)
+        sheetAttributes[object] = [];
+      sheetAttributes[object][sheetAttributes[object].length] = value;
     }
   }
 
-  for(a in displayAttributes) {
-    var attr = displayAttributes[a];
+  for(a in sheetAttributes) {
+    var attr = sheetAttributes[a];
     if(typeof attr == 'object') {
       attr.sort();
       // If all values in the array are 1|true, assume that it's a set and
@@ -679,7 +680,7 @@ Scribe.sheetHtml = function() {
       if(attr.join(',').replace(/: (1|true)(,|$)/g, '').indexOf(':') < 0)
         for(i = 0; i < attr.length; i++)
           attr[i] = attr[i].replace(/:.*/, '');
-      displayAttributes[a] = attr;
+      sheetAttributes[a] = attr;
     }
   }
 
@@ -687,7 +688,7 @@ Scribe.sheetHtml = function() {
            ' by Scribe version ' + VERSION + ' --' + '>\n' +
          '<html>\n' +
          '<head>\n' +
-         '  <title>' + attrs.name + '</title>\n' +
+         '  <title>' + sheetAttributes.Name + '</title>\n' +
          '  <script>\n' +
          'var attributes = ' + ObjectViewer.toCode(codeAttributes) + ';\n' +
          // Careful: don't want to close scribe.html's script tag here!
@@ -695,7 +696,7 @@ Scribe.sheetHtml = function() {
          '</head>\n' +
          '<body>\n' +
          ruleSet.getViewer(InputGetValue(editForm.viewer)).
-           getHtml(displayAttributes, '_top') + '\n' +
+           getHtml(sheetAttributes, '_top') + '\n' +
          '</body>\n' +
          '</html>\n';
 
@@ -742,9 +743,7 @@ Scribe.summarizeCachedAttrs = function() {
       allAttrs[a] = ruleSet.applyRules(cachedAttrs[a]);
   }
   var urls = ScribeUtils.getKeys(allAttrs);
-  urls.sort();
   var htmlBits = [
-    '<html>',
     '<head><title>Scribe Character Attribute Summary</title></head>',
     '<body bgcolor="' + BACKGROUND + '">',
     '<h1>Scribe Character Attribute Summary</h1>',
@@ -772,7 +771,6 @@ Scribe.summarizeCachedAttrs = function() {
   }
   inTable['notes'] = inTable['dmNotes'] = inTable['spells'] = 1;
   inTable = ScribeUtils.getKeys(inTable);
-  inTable.sort();
   for(var i = 0; i < inTable.length; i++) {
     rowHtml = '<tr><td><b>' + inTable[i] + '</b></td>';
     for(var j = 0; j < urls.length; j++) {
@@ -803,17 +801,17 @@ Scribe.update = function(input) {
   if(name == 'about') {
     if(Scribe.aboutWindow == null || Scribe.aboutWindow.closed)
       Scribe.aboutWindow = Scribe.popUp
-        (ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>'), 'Ok', 'window.close();');
+        (ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>'), 'Ok:window.close();');
     else
       Scribe.aboutWindow.focus();
-  } else if(name.search(/dmonly|italics|untrained|viewer/) >= 0) {
-    cookieInfo[name] = value + '';
+  } else if(name.match(/^(dmonly|italics|untrained)$/)) {
+    cookieInfo[name] = value ? '1' : '0';
     Scribe.storeCookie();
     Scribe.refreshSheet();
   } else if(name == 'file') {
     input.selectedIndex = 0;
     if(WARN_ABOUT_DISCARD &&
-       !ScribeUtils.clones(character, cachedAttrs[currentUrl]) &&
+       !ScribeUtils.clones(character, cachedAttrs[characterUrl]) &&
        !confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Open...')
@@ -867,7 +865,11 @@ Scribe.update = function(input) {
     Scribe.summarizeCachedAttrs();
   } else if(name == 'view') {
     Scribe.showHtml(Scribe.sheetHtml());
-    cachedAttrs[currentUrl] = ScribeUtils.clone(character);
+    cachedAttrs[characterUrl] = ScribeUtils.clone(character);
+  } else if(name == 'viewer') {
+    cookieInfo[name] = value;
+    Scribe.storeCookie();
+    Scribe.refreshSheet();
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
     for(var a in character) {

@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.73 2007/02/08 00:00:16 Jim Exp $ */
+/* $Id: SRD35.js,v 1.74 2007/02/10 21:03:02 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2063,7 +2063,7 @@ PH35.featRules = function(rules) {
       allFeats[allFeats.length] = feat;
     } else {
       rules.defineRule('subfeatCount.' + feat,
-        new RegExp('^feats\\.' + feat + ' \\('), '+=', '1'
+        new RegExp('^features\\.' + feat + ' \\('), '+=', '1'
       );
       if(subfeats != '') {
         subfeats = subfeats.split(/\//);
@@ -3261,19 +3261,18 @@ PH35.skillRules = function(rules) {
         rules.defineRule('skillNotes.wildEmpathyFeature',
           'skillNotes.handleAnimalSynergy', '+', '2'
         );
-      } else if(subskill == 'Knowledge (History)') {
+      } else if(skill == 'Knowledge (History)') {
         rules.defineRule('skillNotes.bardicKnowledgeFeature',
           'skillNotes.knowledge(History)Synergy', '+', '2'
        );
-      } else if(subskill == 'Knowledge (Religion)') {
+      } else if(skill == 'Knowledge (Religion)') {
         rules.defineRule('turningBase',
           'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
         );
-      } else if(subskill == 'Speak Language') {
-        rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
       }
     }
   }
+  rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
   rules.defineNote
     ('validationNotes.totalSkillPoints:Allocated skill points differ from ' +
      'skill point total by %V');
