@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.75 2007/02/13 00:49:30 Jim Exp $ */
+/* $Id: SRD35.js,v 1.76 2007/02/14 08:13:49 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -3408,7 +3408,7 @@ PH35.skillRules = function(rules) {
       if(subskills != '') {
         subskills = subskills.split(/\//);
         for(var j = 0; j < subskills.length; j++) {
-          var subskill = skill + '(' + subskills[j] + ')';
+          var subskill = skill + ' (' + subskills[j] + ')';
           allSkills[allSkills.length] = subskill + ':' + pieces[1];
           rules.defineRule
             ('classSkills.' + subskill, 'classSkills.' + skill, '=', '1');
