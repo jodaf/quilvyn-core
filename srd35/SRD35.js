@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.76 2007/02/14 08:13:49 Jim Exp $ */
+/* $Id: SRD35.js,v 1.77 2007/02/16 06:37:15 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -34,20 +34,19 @@ function PH35() {
     rules.defineViewer("Standard", PH35.viewer);
   }
   if(PH35.abilityRules != null) PH35.abilityRules(rules);
-  if(PH35.raceRules != null) PH35.raceRules(rules);
-  if(PH35.classRules != null) PH35.classRules(rules);
   if(PH35.skillRules != null) PH35.skillRules(rules);
-  if(PH35.featRules != null) PH35.featRules(rules);
+  if(PH35.classRules != null) PH35.classRules(rules);
   if(PH35.descriptionRules != null) PH35.descriptionRules(rules);
+  if(PH35.featRules != null) PH35.featRules(rules);
+  if(PH35.raceRules != null) PH35.raceRules(rules);
   if(PH35.equipmentRules != null) PH35.equipmentRules(rules);
   if(PH35.combatRules != null) PH35.combatRules(rules);
   if(PH35.adventuringRules != null) PH35.adventuringRules(rules);
   if(PH35.magicRules != null) PH35.magicRules(rules);
   rules.defineChoice('random', PH35.RANDOMIZABLE_ATTRIBUTES);
+  rules.randomizeOneAttribute = PH35.randomizeOneAttribute;
   // A rule for handling DM-only information
   rules.defineRule('dmNotes', 'dmonly', '?', null);
-  rules.randomizeAllAttributes = PH35.randomizeAllAttributes;
-  rules.randomizeOneAttribute = PH35.randomizeOneAttribute;
   Scribe.addRuleSet(rules);
   PH35.rules = rules;
 }
@@ -107,53 +106,42 @@ PH35.DOMAINS = [
 PH35.FEATS = [
   'Acrobatic:', 'Agile:', 'Alertness:', 'Animal Affinity:',
   'Armor Proficiency:', 'Athletic:', 'Augment Summoning:',
-  'Blind Fight:Fighter Bonus', 'Brew Potion:Item Creation/Wizard Bonus',
-  'Cleave:Fighter Bonus', 'Combat Casting:', 'Combat Expertise:Fighter Bonus',
-  'Combat Reflexes:Fighter Bonus',
-  'Craft Magic Arms And Armor:Item Creation/Wizard Bonus',
-  'Craft Rod:Item Creation/Wizard Bonus',
-  'Craft Staff:Item Creation/Wizard Bonus',
-  'Craft Wand:Item Creation/Wizard Bonus',
-  'Craft Wondrous Item:Item Creation/Wizard Bonus', 'Deceitful:',
-  'Deflect Arrows:Fighter Bonus', 'Deft Hands:', 'Diehard:', 'Diligent:',
-  'Dodge:Fighter Bonus', 'Empower Spell:Metamagic/Wizard Bonus', 'Endurance:',
-  'Enlarge Spell:Metamagic/Wizard Bonus', 'Eschew Materials:',
-  'Extend Spell:Metamagic/Wizard Bonus', 'Extra Turning:',
-  'Far Shot:Figher Bonus', 'Forge Ring:Item Creation/Wizard Bonus',
-  'Great Cleave:Fighter Bonus', 'Great Fortitude:', 'Greater Spell Focus:',
-  'Greater Spell Penetration:', 'Greater Two Weapon Fighting:Fighter Bonus',
-  'Greater Weapon Focus:Fighter Bonus',
-  'Greater Weapon Specialization:Fighter Bonus',
-  'Heighten Spell:Metamagic/Wizard Bonus', 'Improved Bull Rush:Fighter Bonus',
-  'Improved Counterspell:', 'Improved Critical:Fighter Bonus',
-  'Improved Disarm:Fighter Bonus', 'Improved Feint:Fighter Bonus',
-  'Improved Grapple:Fighter Bonus', 'Improved Initiative:Fighter Bonus',
-  'Improved Overrun:Fighter Bonus', 'Improved Precise Shot:Fighter Bonus',
-  'Improved Shield Bash:Fighter Bonus', 'Improved Sunder:Fighter Bonus',
-  'Improved Trip:Fighter Bonus', 'Improved Turning:',
-  'Improved Two Weapon Fighting:Fighter Bonus',
-  'Improved Unarmed Strike:Fighter Bonus',
+  'Blind Fight:Fighter', 'Brew Potion:Item Creation', 'Cleave:Fighter',
+  'Combat Casting:', 'Combat Expertise:Fighter', 'Combat Reflexes:Fighter',
+  'Craft Magic Arms And Armor:Item Creation', 'Craft Rod:Item Creation',
+  'Craft Staff:Item Creation', 'Craft Wand:Item Creation',
+  'Craft Wondrous Item:Item Creation', 'Deceitful:', 'Deflect Arrows:Fighter',
+  'Deft Hands:', 'Diehard:', 'Diligent:', 'Dodge:Fighter',
+  'Empower Spell:Metamagic', 'Endurance:', 'Enlarge Spell:Metamagic',
+  'Eschew Materials:', 'Extend Spell:Metamagic', 'Extra Turning:',
+  'Far Shot:Figher Bonus', 'Forge Ring:Item Creation', 'Great Cleave:Fighter',
+  'Great Fortitude:', 'Greater Spell Focus:', 'Greater Spell Penetration:',
+  'Greater Two Weapon Fighting:Fighter', 'Greater Weapon Focus:Fighter',
+  'Greater Weapon Specialization:Fighter', 'Heighten Spell:Metamagic',
+  'Improved Bull Rush:Fighter', 'Improved Counterspell:',
+  'Improved Critical:Fighter', 'Improved Disarm:Fighter',
+  'Improved Feint:Fighter', 'Improved Grapple:Fighter',
+  'Improved Initiative:Fighter', 'Improved Overrun:Fighter',
+  'Improved Precise Shot:Fighter', 'Improved Shield Bash:Fighter',
+  'Improved Sunder:Fighter', 'Improved Trip:Fighter', 'Improved Turning:',
+  'Improved Two Weapon Fighting:Fighter', 'Improved Unarmed Strike:Fighter',
   'Investigator:', 'Iron Will:', 'Leadership:', 'Lightning Reflexes:',
-  'Magical Aptitude:', 'Manyshot:Fighter Bonus',
-  'Maximize Spell:Metamagic/Wizard Bonus', 'Mobility:Fighter Bonus',
-  'Mounted Archery:Fighter Bonus', 'Mounted Combat:Fighter Bonus',
+  'Magical Aptitude:', 'Manyshot:Fighter', 'Maximize Spell:Metamagic',
+  'Mobility:Fighter', 'Mounted Archery:Fighter', 'Mounted Combat:Fighter',
   'Natural Spell:', 'Negotiator:', 'Nimble Fingers:', 'Persuasive:',
-  'Point Blank Shot:Fighter Bonus', 'Power Attack:Fighter Bonus',
-  'Precise Shot:Fighter Bonus', 'Quick Draw:Fighter Bonus',
-  'Quicken Spell:Metamagic/Wizard Bonus', 'Rapid Reload:Fighter Bonus',
-  'Rapid Shot:Fighter Bonus', 'Ride By Attack:Fighter Bonus', 'Run:',
-  'Scribe Scroll:Item Creation/Wizard Bonus', 'Self Sufficient:',
-  'Shield Proficiency:', 'Shot On The Run:Fighter Bonus',
-  'Silent Spell:Metamagic/Wizard Bonus', 'Skill Focus:',
-  'Snatch Arrows:Fighter Bonus', 'Spell Focus:',
-  'Spell Mastery:Metamagic/Wizard Bonus', 'Spell Penetration:',
-  'Spirited Charge:Fighter Bonus', 'Spring Attack:Fighter Bonus', 'Stealthy:',
-  'Still Spell:Metamagic/Wizard Bonus', 'Stunning Fist:Fighter Bonus',
-  'Toughness:', 'Track:', 'Trample:Fighter Bonus',
-  'Two Weapon Defense:Fighter Bonus', 'Two Weapon Fighting:Fighter Bonus',
-  'Weapon Finesse:Fighter Bonus', 'Weapon Focus:Fighter Bonus',
-  'Weapon Proficiency:', 'Weapon Specialization:Fighter Bonus',
-  'Whirlwind Attack:Fighter Bonus', 'Widen Spell:Metamagic/Wizard Bonus'
+  'Point Blank Shot:Fighter', 'Power Attack:Fighter', 'Precise Shot:Fighter',
+  'Quick Draw:Fighter', 'Quicken Spell:Metamagic', 'Rapid Reload:Fighter',
+  'Rapid Shot:Fighter', 'Ride By Attack:Fighter', 'Run:',
+  'Scribe Scroll:Item Creation', 'Self Sufficient:', 'Shield Proficiency:',
+  'Shot On The Run:Fighter', 'Silent Spell:Metamagic', 'Skill Focus:',
+  'Snatch Arrows:Fighter', 'Spell Focus:', 'Spell Mastery:Metamagic',
+  'Spell Penetration:', 'Spirited Charge:Fighter', 'Spring Attack:Fighter',
+  'Stealthy:', 'Still Spell:Metamagic', 'Stunning Fist:Fighter', 'Toughness:',
+  'Track:', 'Trample:Fighter', 'Two Weapon Defense:Fighter',
+  'Two Weapon Fighting:Fighter', 'Weapon Finesse:Fighter',
+  'Weapon Focus:Fighter', 'Weapon Proficiency:',
+  'Weapon Specialization:Fighter', 'Whirlwind Attack:Fighter',
+  'Widen Spell:Metamagic'
 ];
 PH35.GENDERS = ['Female', 'Male'];
 PH35.GOODIES = [
@@ -916,9 +904,6 @@ PH35.skillsSubskills = {
               'History/Local/Nature/Nobility/Planes/Religion',
   'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind'
 };
-// Filled in by the classes that define selectable features.
-PH35.selectableFeatures = {
-};
 PH35.strengthMaxLoads = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
@@ -1039,7 +1024,8 @@ PH35.classRules = function(rules) {
   rules.defineRule('crossSkillMaxRanks', 'classSkillMaxRanks', '=', 'source/2');
   rules.defineRule
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
-  rules.defineRule('featCount.Any', 'level', '=', '1 + Math.floor(source / 3)');
+  rules.defineRule
+    ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
   rules.defineRule('level',
     'experience', '=', 'Math.floor((1 + Math.sqrt(1 + source / 125)) / 2)'
   );
@@ -1057,14 +1043,15 @@ PH35.classRules = function(rules) {
 
   for(var i = 0; i < PH35.CLASSES.length; i++) {
 
-    var baseAttack, features, hitDie, notes, profArmor, profShield, profWeapon,
-        saveFortitude, saveReflex, saveWill, skillPoints, skills, spellsKnown,
-        spellsPerDay, spellsPerDayAbility;
+    var baseAttack, feats, features, hitDie, notes, profArmor, profShield,
+        profWeapon, saveFortitude, saveReflex, saveWill, selectableFeatures,
+        skillPoints, skills, spellsKnown, spellsPerDay, spellsPerDayAbility;
     var klass = PH35.CLASSES[i];
 
     if(klass == 'Barbarian') {
 
       baseAttack = PH35.ATTACK_BONUS_GOOD;
+      feats = null;
       features = [
         '1:Fast Movement', '1:Illiteracy', '1:Rage', '2:Uncanny Dodge',
         '3:Trap Sense', '5:Improved Uncanny Dodge', '7:Damage Reduction',
@@ -1095,6 +1082,7 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_POOR;
+      selectableFeatures = null;
       skillPoints = 4;
       skills = [
         'Climb', 'Craft', 'Handle Animal', 'Intimidate', 'Jump', 'Listen',
@@ -1124,6 +1112,7 @@ PH35.classRules = function(rules) {
     } else if(klass == 'Bard') {
 
       baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      feats = null;
       features = [
         '1:Bardic Knowledge', '1:Bardic Music', '1:Countersong', '1:Fascinate',
         '1:Inspire Courage', '3:Inspire Competence', '6:Suggestion',
@@ -1160,6 +1149,7 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_POOR;
       saveReflex = PH35.SAVE_BONUS_GOOD;
       saveWill = PH35.SAVE_BONUS_GOOD;
+      selectableFeatures = null;
       skillPoints = 6;
       skills = [
         'Appraise', 'Balance', 'Bluff', 'Climb', 'Concentration',
@@ -1239,6 +1229,7 @@ PH35.classRules = function(rules) {
     } else if(klass == 'Cleric') {
 
       baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      feats = null;
       features = ['1:Spontaneous Cleric Spell', '1:Turn Undead'];
       hitDie = 8;
       notes = [
@@ -1252,6 +1243,7 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
+      selectableFeatures = null;
       spellsKnown = [
         'C0:1:"all"', 'C1:1:"all"', 'C2:3:"all"', 'C3:5:"all"',
         'C4:7:"all"', 'C5:9:"all"', 'C6:11:"all"', 'C7:13:"all"',
@@ -1308,6 +1300,7 @@ PH35.classRules = function(rules) {
     } else if(klass == 'Druid') {
 
       baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      feats = null;
       features = [
         '1:Animal Companion', '1:Nature Sense', '1:Spontaneous Druid Spell',
         '1:Wild Empathy', '2:Woodland Stride', '3:Trackless Step',
@@ -1337,6 +1330,7 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
+      selectableFeatures = null;
       skillPoints = 4;
       skills = [
         'Concentration', 'Craft', 'Diplomacy', 'Handle Animal', 'Heal',
@@ -1392,6 +1386,7 @@ PH35.classRules = function(rules) {
     } else if(klass == 'Fighter') {
 
       baseAttack = PH35.ATTACK_BONUS_GOOD;
+      feats = null;
       features = null;
       hitDie = 10;
       notes = null;
@@ -1401,6 +1396,7 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_POOR;
+      selectableFeatures = null;
       skillPoints = 2;
       skills = [
         'Climb', 'Craft', 'Handle Animal', 'Intimidate', 'Jump', 'Ride', 'Swim'
@@ -1408,16 +1404,14 @@ PH35.classRules = function(rules) {
       spellsKnown = null;
       spellsPerDay = null;
       spellsPerDayAbility = null;
-      rules.defineRule('featCount.Fighter Bonus',
+      rules.defineRule('featCount.Fighter',
         'levels.Fighter', '=', '1 + Math.floor(source / 2)'
       );
 
     } else if(klass == 'Monk') {
 
-      PH35.selectableFeatures[klass] =
-        'Combat Reflexes/Deflect Arrows/Improved Disarm/Improved Grapple/' +
-        'Improved Trip/Stunning Fist'
       baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      feats = null;
       features = [
         '1:Flurry Of Blows', '1:Improved Unarmed Strike', '2:Evasion',
         '3:Fast Movement', '3:Still Mind', '4:Ki Strike', '4:Slow Fall',
@@ -1469,6 +1463,10 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_GOOD;
       saveWill = PH35.SAVE_BONUS_GOOD;
+      selectableFeatures = [
+        'Combat Reflexes', 'Deflect Arrows', 'Improved Disarm',
+        'Improved Grapple', 'Improved Trip', 'Stunning Fist'
+      ];
       skillPoints = 4;
       skills = [
         'Balance', 'Climb', 'Concentration', 'Craft', 'Diplomacy',
@@ -1550,6 +1548,7 @@ PH35.classRules = function(rules) {
     } else if(klass == 'Paladin') {
 
       baseAttack = PH35.ATTACK_BONUS_GOOD;
+      feats = null;
       features = [
         '1:Aura Of Good', '1:Detect Evil', '1:Smite Evil', '2:Divine Grace',
         '2:Lay On Hands', '3:Aura Of Courage', '3:Divine Health',
@@ -1577,6 +1576,7 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_POOR;
+      selectableFeatures = null;
       skillPoints = 2;
       skills = [
         'Concentration', 'Craft', 'Diplomacy', 'Handle Animal', 'Heal',
@@ -1622,9 +1622,8 @@ PH35.classRules = function(rules) {
 
     } else if(klass == 'Ranger') {
 
-      PH35.selectableFeatures[klass] =
-        'Combat Style (Archery)/Combat Style (Two Weapon Combat)';
       baseAttack = PH35.ATTACK_BONUS_GOOD;
+      feats = null;
       features = [
         '1:Favored Enemy', '1:Track', '1:Wild Empathy', '2:Rapid Shot',
         '2:Two Weapon Fighting', '3:Endurance', '4:Animal Companion',
@@ -1666,6 +1665,9 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_GOOD;
       saveReflex = PH35.SAVE_BONUS_GOOD;
       saveWill = PH35.SAVE_BONUS_POOR;
+      selectableFeatures = [
+        'Combat Style (Archery)', 'Combat Style (Two Weapon Combat)'
+      ];
       skillPoints = 6;
       skills = [
         'Climb', 'Concentration', 'Craft', 'Handle Animal', 'Heal', 'Hide',
@@ -1720,10 +1722,8 @@ PH35.classRules = function(rules) {
 
     } else if(klass == 'Rogue') {
 
-      PH35.selectableFeatures[klass] =
-        'Crippling Strike/Defensive Roll/Feat Bonus/Improved Evasion/' +
-        'Opportunist/Skill Mastery/Slippery Mind';
       baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      feats = null;
       features = [
         '1:Sneak Attack', '1:Trapfinding', '2:Evasion', '3:Trap Sense',
         '4:Uncanny Dodge', '8:Improved Uncanny Dodge'
@@ -1755,6 +1755,10 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_POOR;
       saveReflex = PH35.SAVE_BONUS_GOOD;
       saveWill = PH35.SAVE_BONUS_POOR;
+      selectableFeatures = [
+        'Crippling Strike', 'Defensive Roll', 'Feat Bonus', 'Improved Evasion',
+        'Opportunist', 'Skill Mastery', 'Slippery Mind'
+      ];
       skillPoints = 8;
       skills = [
         'Appraise', 'Balance', 'Bluff', 'Climb', 'Craft', 'Decipher Script',
@@ -1770,7 +1774,8 @@ PH35.classRules = function(rules) {
       rules.defineRule('combatNotes.sneakAttackFeature',
         'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
       );
-      rules.defineRule('featCount.Any', 'features.Feat Bonus', '+=', 'null');
+      rules.defineRule
+        ('featCount.General', 'features.Feat Bonus', '+=', 'null');
       rules.defineRule('saveNotes.trapSenseFeature',
         'levels.Rogue', '+=', 'source >= 3 ? Math.floor(source / 3) : null'
       );
@@ -1781,6 +1786,7 @@ PH35.classRules = function(rules) {
     } else if(klass == 'Sorcerer') {
 
       baseAttack = PH35.ATTACK_BONUS_POOR;
+      feats = null;
       features = ['1:Summon Familiar'];
       hitDie = 4;
       notes = [
@@ -1792,6 +1798,7 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_POOR;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
+      selectableFeatures = null;
       skillPoints = 2;
       skills = [
         'Bluff', 'Concentration', 'Craft', 'Knowledge (Arcana)', 'Profession',
@@ -1827,6 +1834,13 @@ PH35.classRules = function(rules) {
     } else if(klass == 'Wizard') {
 
       baseAttack = PH35.ATTACK_BONUS_POOR;
+      feats = ['Spell Mastery'];
+      for(var j = 0; j < PH35.FEATS.length; j++) {
+        var pieces = PH35.FEATS[j].split(':');
+        if(pieces[1].match(/Item Creation|Metamagic/)) {
+          feats[feats.length] = pieces[0];
+        }
+      }
       features = ['1:Scribe Scroll', '1:Summon Familiar'];
       hitDie = 4;
       notes = [
@@ -1841,6 +1855,7 @@ PH35.classRules = function(rules) {
       saveFortitude = PH35.SAVE_BONUS_POOR;
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
+      selectableFeatures = null;
       skillPoints = 2;
       skills = [
         'Concentration', 'Craft', 'Decipher Script', 'Knowledge', 'Profession',
@@ -1865,7 +1880,7 @@ PH35.classRules = function(rules) {
       ];
       spellsPerDayAbility = 'intelligence';
       rules.defineRule('casterLevelArcane', 'levels.Wizard', '+=', null);
-      rules.defineRule('featCount.Wizard Bonus',
+      rules.defineRule('featCount.Wizard',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
       );
       for(var j = 0; j < PH35.SCHOOLS.length; j++) {
@@ -1891,8 +1906,30 @@ PH35.classRules = function(rules) {
        spellsKnown, spellsPerDay, spellsPerDayAbility);
     if(notes != null)
       rules.defineNote(notes);
+    if(feats != null) {
+      for(var j = 0; j < feats.length; j++) {
+        rules.defineChoice('feats', feats[j] + ':' + klass);
+      }
+    }
+    if(selectableFeatures != null) {
+      for(var j = 0; j < selectableFeatures.length; j++) {
+        var selectable = selectableFeatures[j];
+        rules.defineChoice('selectableFeatures', selectable + ':' + klass);
+        rules.defineRule('features.' + selectable,
+          'selectableFeatures.' + selectable, '+=', null
+        );
+      }
+    }
 
   }
+
+  rules.defineNote
+    ('validationNotes.totalSelectableFeatures:Allocated selectable features ' +
+     'differ from selectable features count total by %V');
+  rules.defineRule('validationNotes.totalSelectableFeatures',
+    /^selectableFeatureCount\./, '+=', '-source',
+    /^selectableFeatures\./, '+=', 'source'
+  );
 
 };
 
@@ -2105,7 +2142,7 @@ PH35.featRules = function(rules) {
 
   var allFeats = [];
   for(var i = 0; i < PH35.FEATS.length; i++) {
-    var pieces = PH35.FEATS[i].split(/:/);
+    var pieces = PH35.FEATS[i].split(':');
     var feat = pieces[0];
     var subfeats = PH35.featsSubfeats[feat];
     if(subfeats == null) {
@@ -2115,7 +2152,7 @@ PH35.featRules = function(rules) {
         new RegExp('^feats\\.' + feat + ' \\('), '+=', '1'
       );
       if(subfeats != '') {
-        subfeats = subfeats.split(/\//);
+        subfeats = subfeats.split('/');
         for(var j = 0; j < subfeats.length; j++) {
           allFeats[allFeats.length] =
             feat + ' (' + subfeats[j] + '):' + pieces[1];
@@ -2130,7 +2167,7 @@ PH35.featRules = function(rules) {
   // However, class armor proficiencies are reflected in armorProficiencyLevel
   // instead of the feature, so this test would yield false positives.
   for(var i = 0; i < allFeats.length; i++) {
-    var pieces = allFeats[i].split(/:/);
+    var pieces = allFeats[i].split(':');
     var feat = pieces[0];
     var matchInfo;
     var notes;
@@ -2427,14 +2464,16 @@ PH35.featRules = function(rules) {
     } else if((matchInfo =
                feat.match(/^Greater Weapon Focus \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      var note = 'combatNotes.greaterWeaponFocus(' + weapon + ')Feature';
+      var weaponNoSpace = weapon.replace(/ /g, '');
+      var note = 'combatNotes.greaterWeaponFocus(' + weaponNoSpace + ')Feature';
+      var valid =
+        'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')Feat';
       notes = [
         note + ':+1 attack',
-        'validationNotes.greaterWeaponFocus(' + weapon + ')Feat:' +
-          'Requires Fighter 8/Weapon Focus (' + weapon + ')'
+        valid + ':Requires Fighter 8/Weapon Focus (' + weapon + ')'
       ];
       rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', '1');
-      rules.defineRule('validationNotes.greaterWeaponFocus(' + weapon + ')Feat',
+      rules.defineRule(valid,
         'feats.' + feat, '=', '-2',
         'features.Weapon Focus (' + weapon + ')', '+', '1',
         'levels.Fighter', '+', 'source >= 8 ? 1 : null'
@@ -2442,17 +2481,19 @@ PH35.featRules = function(rules) {
     } else if((matchInfo =
                feat.match(/^Greater Weapon Specialization \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
+      var weaponNoSpace = weapon.replace(/ /g, '');
       var note =
-        'combatNotes.greaterWeaponSpecialization(' + weapon + ')Feature';
+        'combatNotes.greaterWeaponSpecialization(' + weaponNoSpace + ')Feature';
+      var valid =
+        'validationNotes.greaterWeaponSpecialization('+weaponNoSpace+')Feat';
       notes = [
         note + ':+2 damage',
-        'validationNotes.greaterWeaponSpecialization(' + weapon + ')Feat:' +
-          'Requires Fighter 12/Weapon Focus (' + weapon + ')/Greater Weapon ' +
+        valid +
+          ':Requires Fighter 12/Weapon Focus (' + weapon + ')/Greater Weapon ' +
           'Focus (' + weapon + ')/Weapon Specialization (' + weapon + ')'
       ];
       rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
-      rules.defineRule(
-        'validationNotes.greaterWeaponSpecialization(' + weapon + ')Feat',
+      rules.defineRule(valid,
         'feats.' + feat, '=', '-4',
         'features.Greater Weapon Focus (' + weapon + ')', '+', '1',
         'features.Greater Weapon Specialization (' + weapon + ')', '+', '1',
@@ -2490,11 +2531,12 @@ PH35.featRules = function(rules) {
       );
     } else if((matchInfo = feat.match(/^Improved Critical \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      var note = 'combatNotes.improvedCritical(' + weapon + ')Feature';
+      var weaponNoSpace = weapon.replace(/ /g, '');
+      var note = 'combatNotes.improvedCritical(' + weaponNoSpace + ')Feature';
+      var valid = 'validationNotes.improvedCritical(' + weaponNoSpace + ')Feat';
       notes = [
         note + ':x2 critical threat range',
-        'validationNotes.improvedCritical(' + weapon + ')Feat:' +
-          'Requires base attack 8'
+        valid + ':Requires base attack 8'
       ];
       var weaponPat = new RegExp('^' + weapon + ':');
       var bump = 1;
@@ -2508,7 +2550,7 @@ PH35.featRules = function(rules) {
         break;
       }
       rules.defineRule('weaponCriticalAdjustment.' + weapon, note, '+=', bump);
-      rules.defineRule('validationNotes.improvedCritical(' + weapon + ')Feat',
+      rules.defineRule(valid,
         'feats.' + feat, '=', '-1',
         'baseAttack', '+', 'source >= 8 ? 1 : null'
       );
@@ -2785,10 +2827,10 @@ PH35.featRules = function(rules) {
       );
     } else if(feat == 'Ride By Attack') {
       notes = [
-        'combatNotes.ride ByAttackFeature:Move before and after mounted attack',
-        'validationNotes.ride ByAttackFeat:Requires Mounted Combat/Ride 1'
+        'combatNotes.rideByAttackFeature:Move before and after mounted attack',
+        'validationNotes.rideByAttackFeat:Requires Mounted Combat/Ride 1'
       ];
-      rules.defineRule('validationNotes.ride ByAttackFeat',
+      rules.defineRule('validationNotes.rideByAttackFeat',
         'feats.Ride By Attack', '=', '-2',
         'features.Mounted Combat', '+', '1',
         'skills.Ride', '+', 'source >= 1 ? 1 : null'
@@ -2843,7 +2885,8 @@ PH35.featRules = function(rules) {
       );
     } else if((matchInfo = feat.match(/^Skill Focus \((.*)\)/)) != null) {
       var skill = matchInfo[1];
-      var note = 'skillNotes.skillFocus(' + skill + ')Feature';
+      var skillNoSpace = skill.replace(/ /g, '');
+      var note = 'skillNotes.skillFocus(' + skillNoSpace + ')Feature';
       notes = [note + ':+3 checks'];
       rules.defineRule('skills.' + skill, note, '+', '3');
     } else if(feat == 'Snatch Arrows') {
@@ -3011,13 +3054,15 @@ PH35.featRules = function(rules) {
       );
     } else if((matchInfo = feat.match(/^Weapon Focus \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      var note = 'combatNotes.weaponFocus(' + weapon + ')Feature';
+      var weaponNoSpace = weapon.replace(/ /g, '');
+      var note = 'combatNotes.weaponFocus(' + weaponNoSpace + ')Feature';
+      var valid = 'validationNotes.weaponFocus(' + weaponNoSpace + ')Feat';
       notes = [
         note + ':+1 attack',
-        'validationNotes.weaponFocus(' + weapon + ')Feat:Requires base attack 1'
+        valid + ':Requires base attack 1'
       ];
       rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', '1');
-      rules.defineRule('validationNotes.weaponFocus(' + weapon + ')Feat',
+      rules.defineRule(valid,
         'feats.' + feat, '=', '-1',
         'baseAttack', '+', 'source >= 1 ? 1 : null'
       );
@@ -3030,15 +3075,16 @@ PH35.featRules = function(rules) {
     } else if((matchInfo =
                feat.match(/^Weapon Specialization \((.*)\)/)) != null) {
       var weapon = matchInfo[1];
-      var note = 'combatNotes.weaponSpecialization(' + weapon + ')Feature';
+      var weaponNoSpace = weapon.replace(/ /g, '');
+      var note = 'combatNotes.weaponSpecialization('+weaponNoSpace+')Feature';
+      var valid =
+        'validationNotes.weaponSpecialization(' + weaponNoSpace + ')Feat';
       notes = [
         note + ':+2 damage',
-        'validationNotes.weaponSpecialization(' + weapon + ')Feat:' +
-          'Requires Fighter 4/Weapon Focus (' + weapon + ')'
+        valid + ':Requires Fighter 4/Weapon Focus (' + weapon + ')'
       ];
       rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
-      rules.defineRule(
-        'validationNotes.weaponSpecialization(' + weapon + ')Feat',
+      rules.defineRule(valid,
         'feats.' + feat, '=', '-2',
         'features.Weapon Focus (' + weapon + ')', '+', '1',
         'levels.Fighter', '+', 'source >= 4 ? 1 : null'
@@ -3074,9 +3120,8 @@ PH35.featRules = function(rules) {
     }
     rules.defineChoice('feats', feat + ':' + pieces[1]);
     rules.defineRule('features.' + feat, 'feats.' + feat, '=', null);
-    if(notes != null) {
+    if(notes != null)
       rules.defineNote(notes);
-    }
   }
 
   rules.defineRule('armorProficiency',
@@ -3101,25 +3146,6 @@ PH35.featRules = function(rules) {
   rules.defineRule('validationNotes.totalFeats',
     /^featCount\./, '+=', '-source',
     /^feats\./, '+=', null
-  );
-  var allSelectable = {};
-  for(var a in PH35.selectableFeatures) {
-    var features = PH35.selectableFeatures[a].split('/');
-    for(var i = 0; i < features.length; i++) {
-      selectable = features[i];
-      rules.defineRule('features.' + selectable,
-        'selectableFeatures.' + selectable, '+=', null
-      );
-      allSelectable[selectable] = '';
-    }
-  }
-  rules.defineChoice('selectableFeatures', ScribeUtils.getKeys(allSelectable));
-  rules.defineNote
-    ('validationNotes.totalSelectableFeatures:Allocated selectable features ' +
-     'differ from selectable features count total by %V');
-  rules.defineRule('validationNotes.totalSelectableFeatures',
-    /^selectableFeatureCount\./, '+=', '-source',
-    /^selectableFeatures\./, '+=', 'source'
   );
 
 };
@@ -3158,7 +3184,7 @@ PH35.magicRules = function(rules) {
       'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
     );
     for(var a in PH35.deitiesFavoredWeapons) {
-      var weapons = a.split(/\//);
+      var weapons = a.split('/');
       for(var j = 0; j < weapons.length; j++) {
         var weapon = weapons[j];
         rules.defineRule('clericFeatures.Weapon Focus (' + weapon + ')',
@@ -3333,7 +3359,7 @@ PH35.raceRules = function(rules) {
       features = null;
       notes = null;
       rules.defineRule
-        ('featCount.Any', 'featureNotes.humanFeatCountBonus', '+', null);
+        ('featCount.General', 'featureNotes.humanFeatCountBonus', '+', null);
       rules.defineRule('featureNotes.humanFeatCountBonus',
         'race', '+=', 'source == "Human" ? 1 : null'
       );
@@ -3390,7 +3416,7 @@ PH35.skillRules = function(rules) {
 
   var allSkills = [];
   for(var i = 0; i < PH35.SKILLS.length; i++) {
-    var pieces = PH35.SKILLS[i].split(/:/);
+    var pieces = PH35.SKILLS[i].split(':');
     var skill = pieces[0];
     var subskills = PH35.skillsSubskills[skill];
     if(subskills == null) {
@@ -3406,7 +3432,7 @@ PH35.skillRules = function(rules) {
         new RegExp('^skills\\.' + skill + ' \\('), '+=', null
       );
       if(subskills != '') {
-        subskills = subskills.split(/\//);
+        subskills = subskills.split('/');
         for(var j = 0; j < subskills.length; j++) {
           var subskill = skill + ' (' + subskills[j] + ')';
           allSkills[allSkills.length] = subskill + ':' + pieces[1];
@@ -3417,7 +3443,7 @@ PH35.skillRules = function(rules) {
     }
   }
   for(var i = 0; i < allSkills.length; i++) {
-    var pieces = allSkills[i].split(/:/);
+    var pieces = allSkills[i].split(':');
     var skill = pieces[0];
     var ability = pieces[1].replace(/\/.*/, '');
     var synergy = synergies[skill];
@@ -3557,31 +3583,6 @@ PH35.randomName = function(race) {
 
 };
 
-/*
- * Returns a character with randomized settings for all randomizable attributes
- * except for those in #fixedAttributes#, which are copied to the result.
- */
-PH35.randomizeAllAttributes = function(fixedAttributes) {
-  var result = { };
-  for(var a in fixedAttributes) {
-    result[a] = fixedAttributes[a];
-  }
-  for(var i = 0; i < PH35.RANDOMIZABLE_ATTRIBUTES.length; i++) {
-    var a = PH35.RANDOMIZABLE_ATTRIBUTES[i];
-    if(a == 'levels') {
-      var totalLevels = ScribeUtils.sumMatching(result, /^levels\./);
-      if(ScribeUtils.sumMatching(result, /^levels\./) == 0) {
-        PH35.randomizeOneAttribute(result, a);
-      }
-      var totalLevels = ScribeUtils.sumMatching(result, /^levels\./);
-      result.experience = totalLevels * (totalLevels - 1) * 1000 / 2;
-    } else if(result[a] == null) {
-      PH35.randomizeOneAttribute(result, a);
-    }
-  }
-  return result;
-};
-
 /* Sets #attributes#'s #attribute# attribute to a random value. */
 PH35.randomizeOneAttribute = function(attributes, attribute) {
 
@@ -3617,103 +3618,75 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     else
       aliPat = '\\(([N' + aliInfo[1] + '][N' + aliInfo[2] + '])';
     choices = [];
-    for(attr in PH35.getChoices('deities')) {
+    for(attr in this.getChoices('deities')) {
       if(attr.match(aliPat))
         choices[choices.length] = attr;
     }
     if(choices.length > 0) {
       attributes['deity'] = choices[ScribeUtils.random(0, choices.length - 1)];
     }
-  } else if(attribute == 'feats') {
-    attrs = PH35.applyRules(attributes);
-    var allFeatCounts = {};
+  } else if(attribute == 'feats' || attribute == 'features') {
+    attrs = this.applyRules(attributes);
+    var toAllocateByType = {};
+    var countPat = new RegExp
+      ('^' + (attribute=='feats' ? 'feat' : 'selectableFeature') + 'Count\\.');
+    var prefix = attribute == 'feats' ? 'feats' : 'selectableFeatures';
+    var suffix = attribute == 'feats' ? 'Feat' : 'SelectableFeature';
     for(attr in attrs) {
-      if(attr.match(/^featCount\./))
-        allFeatCounts[attr.replace(/^featCount\./, '')] = attrs[attr];
+      if(attr.match(countPat))
+        toAllocateByType[attr.replace(countPat, '')] = attrs[attr];
     }
-    var allFeats = PH35.getChoices('feats');
-    var availableFeats = {};
-    for(attr in allFeats) {
-      if(attrs['feats.' + attr] != null) {
-        var types = allFeats[attr].split(/\//);
-        for(i = 0;
-            i < types.length &&
-            (allFeatCounts[types[i]] == null || allFeatCounts[types[i]] == 0);
-            i++)
-          ; // empty
-        allFeatCounts[i < types.length ? types[i] : 'Any']--;
+    var availableChoices = {};
+    var allChoices = this.getChoices(prefix);
+    for(attr in allChoices) {
+      if(attrs[prefix + '.' + attr] != null) {
+        var type = 'General';
+        for(var a in toAllocateByType) {
+          if(allChoices[a].indexOf(a) >= 0 && toAllocateByType[a] > 0) {
+            type = a;
+            break;
+          }
+        }
+        toAllocateByType[type]--;
       } else if(attrs['features.' + attr] == null) {
-        availableFeats['feats.' + attr] = allFeats[attr];
+        availableChoices[attr] = allChoices[attr];
       }
     }
-    for(attr in allFeatCounts) {
-      howMany = allFeatCounts[attr];
-      var typeFeats = {};
-      for(var a in availableFeats) {
-        if(attr == 'Any' || availableFeats[a].indexOf(attr) >= 0) {
-          typeFeats[a] = 1;
+    for(attr in toAllocateByType) {
+      howMany = toAllocateByType[attr];
+      var availableChoicesInType = {};
+      for(var a in availableChoices) {
+        if(attr == 'General' || availableChoices[a].indexOf(attr) >= 0) {
+          availableChoicesInType[a] = '';
         }
       }
+      alert("Choose " + howMany + " " + attr + " " + prefix + " from ['" + ScribeUtils.getKeys(availableChoicesInType).join("', '") + "']");
       while(howMany > 0 &&
-            (choices = ScribeUtils.getKeys(typeFeats)).length > 0) {
-        var feat = choices[ScribeUtils.random(0, choices.length - 1)];
-        attributes[feat] = 1;
-        delete typeFeats[feat];
-        var name = feat.replace(/^feats\./, '');
-        name = name.substring(0, 1).toLowerCase() +
-               name.substring(1).replace(/ /g, '');
-        var validation = PH35.applyRules(attributes);
-        if(validation['validationNotes.' + name + 'Feat'] == null ||
-           validation['validationNotes.' + name + 'Feat'] == 0) {
+            (choices=ScribeUtils.getKeys(availableChoicesInType)).length > 0) {
+        var choice = choices[ScribeUtils.random(0, choices.length - 1)];
+        attributes[prefix + '.' + choice] = 1;
+        delete availableChoicesInType[choice];
+        var name = choice.substring(0, 1).toLowerCase() +
+                   choice.substring(1).replace(/ /g, '');
+        var validation = this.applyRules(attributes);
+        if(validation['validationNotes.' + name + suffix] == null ||
+           validation['validationNotes.' + name + suffix] == 0) {
+          alert('validationNotes.' + name + suffix + ' not set');
           howMany--;
+          delete availableChoices[choice];
         } else {
-          delete attributes[feat];
+          alert('validationNotes.' + name + suffix + ' set');
+          delete attributes[prefix + '.' + choice];
         }
-        delete availableFeats[feat];
-      }
-    }
-  } else if(attribute == 'features') {
-    attrs = PH35.applyRules(attributes);
-    for(attr in attrs) {
-      if(!attr.match(/^selectableFeatureCount\./))
-        continue;
-      choices = PH35.selectableFeatures[attr.substring(attr.indexOf('.') + 1)];
-      if(choices == null)
-        continue;
-      choices = choices.split('/');
-      howMany = attrs[attr];
-      var selections = {};
-      for(i = 0; i < choices.length; i++) {
-        attr = choices[i];
-        if(attrs['selectableFeatures.' + attr] != null)
-          howMany--;
-        else if(attrs['features.' + attr] == null)
-          selections['selectableFeatures.' + attr] = 1;
-      }
-      while(howMany > 0 &&
-            (choices = ScribeUtils.getKeys(selections)).length > 0) {
-        attr = choices[ScribeUtils.random(0, choices.length - 1)];
-        attributes[attr] = 1;
-        var name = attr.replace(/^selectableFeatures\./, '');
-        name = name.substring(0, 1).toLowerCase() +
-               name.substring(1).replace(/ /g, '');
-        var validation = PH35.applyRules(attributes);
-        if(validation['validationNotes.' + name + 'SelectableFeature']==null ||
-           validation['validationNotes.' + name + 'SelectableFeature']==0) {
-          howMany--;
-        } else {
-          delete attributes[attr];
-        }
-        delete selections[attr];
       }
     }
   } else if(attribute == 'hitPoints') {
     attributes.hitPoints = 0;
-    for(var klass in PH35.getChoices('classes')) {
+    for(var klass in this.getChoices('classes')) {
       if((attr = attributes['levels.' + klass]) == null)
         continue;
       var matchInfo =
-        PH35.getChoices('classes')[klass].match(/^((\d+)?d)?(\d+)$/);
+        this.getChoices('classes')[klass].match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ? 1 : matchInfo[2];
       var sides = matchInfo == null || matchInfo[3] == null ? 6 : matchInfo[3];
       attributes.hitPoints += number * sides;
@@ -3721,14 +3694,14 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         attributes.hitPoints += ScribeUtils.random(number, number * sides);
     }
   } else if(attribute == 'languages') {
-    attrs = PH35.applyRules(attributes);
+    attrs = this.applyRules(attributes);
     var race = attributes.race;
     race = race == null ? '' : attributes.race.replace(/.* /, '');
     attributes['languages.Common'] = 1;
     if(race != 'Human')
       attributes['languages.' + race] = 1;
     choices = [];
-    for(attr in PH35.getChoices('languages')) {
+    for(attr in this.getChoices('languages')) {
       if(attributes['languages.' + attr] == null)
         choices[choices.length] = attr;
     }
@@ -3741,7 +3714,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       if(attr.indexOf('levels.') == 0)
         delete attributes[attr];
     }
-    choices = ScribeUtils.getKeys(PH35.getChoices('classes'));
+    choices = ScribeUtils.getKeys(this.getChoices('classes'));
     var classes = ScribeUtils.random(1, 100);
     classes = classes <= 85 ? 1 : classes <= 95 ? 2 : 3;
     for(i = 0; i < classes; i++) {
@@ -3753,7 +3726,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     attrs = PH35.applyRules(attributes);
     howMany = attrs.domainCount;
     if(howMany != null) {
-      if((choices = PH35.getChoices('deities')[attributes.deity]) == null)
+      if((choices = this.getChoices('deities')[attributes.deity]) == null)
         choices = ScribeUtils.getKeys(PH35.getChoices('domains'));
       else
         choices = choices.split('/');
@@ -3763,11 +3736,11 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
   } else if(attribute == 'skills') {
-    attrs = PH35.applyRules(attributes);
+    attrs = this.applyRules(attributes);
     var maxRanks = attrs.classSkillMaxRanks;
     var skillPoints = attrs.skillPoints;
     choices = [];
-    for(attr in PH35.getChoices('skills')) {
+    for(attr in this.getChoices('skills')) {
       if(attrs['skills.' + attr] == null)
         choices[choices.length] = attr;
       else
@@ -3804,25 +3777,25 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
   } else if(attribute == 'spells') {
+    var availableSpellsByLevel = {};
     var matchInfo;
     var prohibitPat = ' (xxxx';
     var spellLevel;
-    var unknownSpellsByLevel = {};
-    attrs = PH35.applyRules(attributes);
-    for(attr in PH35.getChoices('schools')) {
+    attrs = this.applyRules(attributes);
+    for(attr in this.getChoices('schools')) {
       if(attrs['prohibit.' + attr])
          prohibitPat += '|' + attr.substring(0, 4);
     }
     prohibitPat += ')\\)';
-    for(attr in PH35.getChoices('spells')) {
+    for(attr in this.getChoices('spells')) {
       if(attrs['spells.' + attr] != null || attr.match(prohibitPat)) {
         continue;
       }
-      spellLevel = attr.split(/\(/)[1].split(/ /)[0];
-      if(unknownSpellsByLevel[spellLevel] == null)
-        unknownSpellsByLevel[spellLevel] = [];
-      unknownSpellsByLevel[spellLevel]
-        [unknownSpellsByLevel[spellLevel].length] = attr;
+      spellLevel = attr.split('(')[1].split(' ')[0];
+      if(availableSpellsByLevel[spellLevel] == null)
+        availableSpellsByLevel[spellLevel] = [];
+      availableSpellsByLevel[spellLevel]
+        [availableSpellsByLevel[spellLevel].length] = attr;
     }
     for(attr in attrs) {
       if((matchInfo = attr.match(/^spellsKnown.(.*)/)) == null) {
@@ -3832,17 +3805,17 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       howMany = attrs[attr];
       if(spellLevel.substring(0, 3) == 'Dom') {
         choices = [];
-        for(var a in PH35.getChoices('domains')) {
+        for(var a in this.getChoices('domains')) {
           if(attrs['domains.' + a] != null) {
             var domainLevel =
               PH35.domainsSpellCodes[a] + spellLevel.substring(3);
-            if(unknownSpellsByLevel[domainLevel] != null) {
-              choices = choices.concat(unknownSpellsByLevel[domainLevel]);
+            if(availableSpellsByLevel[domainLevel] != null) {
+              choices = choices.concat(availableSpellsByLevel[domainLevel]);
             }
           }
         }
       } else {
-        choices = unknownSpellsByLevel[spellLevel];
+        choices = availableSpellsByLevel[spellLevel];
       }
       if(choices != null) {
         if(howMany == 'all') {
@@ -3856,7 +3829,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'weapons') {
     choices = [];
-    for(attr in PH35.getChoices('weapons'))
+    for(attr in this.getChoices('weapons'))
       choices[choices.length] = attr;
     pickAttrs(attributes, 'weapons.', choices,
               2 - ScribeUtils.sumMatching(attributes, /^weapons\./), 1);
@@ -3868,50 +3841,50 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       rolls[i] = ScribeUtils.random(1, 6);
     rolls.sort();
     attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
-  } else if(PH35.getChoices(attribute + 's') != null) {
+  } else if(this.getChoices(attribute + 's') != null) {
     attributes[attribute] =
-      ScribeUtils.randomKey(PH35.getChoices(attribute + 's'));
+      ScribeUtils.randomKey(this.getChoices(attribute + 's'));
   }
 
 };
 
 /* Convenience functions that invoke ScribeRules methods on the PH35 rules. */
 PH35.applyRules = function() {
-  return ScribeRules.prototype.applyRules.apply(PH35.rules, arguments);
+  return PH35.rules.applyRules.apply(PH35.rules, arguments);
 };
 
 PH35.defineChoice = function() {
-  return ScribeRules.prototype.defineChoice.apply(PH35.rules, arguments);
+  return PH35.rules.defineChoice.apply(PH35.rules, arguments);
 };
 
 PH35.defineClass = function() {
-  return ScribeRules.prototype.defineClass.apply(PH35.rules, arguments);
+  return PH35.rules.defineClass.apply(PH35.rules, arguments);
 };
 
 PH35.defineEditorElement = function() {
-  return ScribeRules.prototype.defineEditorElement.apply(PH35.rules, arguments);
+  return PH35.rules.defineEditorElement.apply(PH35.rules, arguments);
 };
 
 PH35.defineNote = function() {
-  return ScribeRules.prototype.defineNote.apply(PH35.rules, arguments);
+  return PH35.rules.defineNote.apply(PH35.rules, arguments);
 };
 
 PH35.defineRace = function() {
-  return ScribeRules.prototype.defineRace.apply(PH35.rules, arguments);
+  return PH35.rules.defineRace.apply(PH35.rules, arguments);
 };
 
 PH35.defineRule = function() {
-  return ScribeRules.prototype.defineRule.apply(PH35.rules, arguments);
+  return PH35.rules.defineRule.apply(PH35.rules, arguments);
 };
 
 PH35.defineSheetElement = function() {
-  return ScribeRules.prototype.defineSheetElement.apply(PH35.rules, arguments);
+  return PH35.rules.defineSheetElement.apply(PH35.rules, arguments);
 };
 
 PH35.getChoices = function() {
-  return ScribeRules.prototype.getChoices.apply(PH35.rules, arguments);
+  return PH35.rules.getChoices.apply(PH35.rules, arguments);
 };
 
 PH35.isSource = function() {
-  return ScribeRules.prototype.isSource.apply(PH35.rules, arguments);
+  return PH35.rules.isSource.apply(PH35.rules, arguments);
 };
