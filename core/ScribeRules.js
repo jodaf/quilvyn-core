@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.54 2007/01/30 06:12:35 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.55 2007/02/16 06:36:47 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -40,7 +40,11 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
   var allArgs = ScribeUtils.flatten(arguments, 1);
   for(var i = 0; i < allArgs.length; i++) {
     var pieces = allArgs[i].split(/:/);
-    o[pieces[0]] = pieces.length < 2 ? '' : pieces[1];
+    var choice = pieces[0];
+    var associated = pieces.length < 2 ? '' : pieces[1];
+    var existing = o[choice];
+    o[choice] = existing != null && existing != '' ?
+                existing + '/' + associated : associated;
   }
 };
 
@@ -356,4 +360,37 @@ ScribeRules.prototype.getViewer = function(name) {
  */
 ScribeRules.prototype.getViewerNames = function() {
   return ScribeUtils.getKeys(this.viewers);
+};
+
+/*
+ * Returns a character with randomized settings for all randomizable attributes
+ * except for those in #fixedAttributes#, which are copied to the result.
+ */
+ScribeRules.prototype.randomizeAllAttributes = function(fixedAttributes) {
+  var result = { };
+  for(var a in fixedAttributes) {
+    result[a] = fixedAttributes[a];
+  }
+  var attributes = this.getChoices('random');
+  for(var a in attributes) {
+    if(a == 'levels') {
+      var totalLevels = ScribeUtils.sumMatching(result, /^levels\./);
+      if(totalLevels == 0) {
+        this.randomizeOneAttribute(result, a);
+      }
+      totalLevels = ScribeUtils.sumMatching(result, /^levels\./);
+      result.experience = totalLevels * (totalLevels - 1) * 1000 / 2;
+    } else if(result[a] == null) {
+      this.randomizeOneAttribute(result, a);
+    }
+  }
+  return result;
+};
+
+/* Sets #attributes#'s #attribute# attribute to a random value. */
+ScribeRules.prototype.randomizeOneAttribute = function(attributes, attribute) {
+  if(this.getChoices(attribute + 's') != null) {
+    attributes[attribute] =
+      ScribeUtils.randomKey(this.getChoices(attribute + 's'));
+  }
 };
