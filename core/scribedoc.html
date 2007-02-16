@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.74 2007/01/20 06:49:39 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.75 2007/02/16 06:30:25 Jim Exp $ -->
 <html>
 
 <head>
@@ -272,7 +272,7 @@ PH35.defineChoice('languages', 'Dolphin', 'Whale');
 </code></p><p>
 Scribe will sort your additional choice(s) into the list.  The lists you can
 modify in this fashion are 'alignments', 'domains' (cleric spell domains),
-'feats', 'genders', 'goodies' (magic items), 'languages', 'races', 'schools'
+'genders', 'goodies' (magic items), 'languages', 'races', 'schools'
 (wizard spell schools), and 'shields'.
 </p><p>
 Other lists that you can modify require you to supply additional information
@@ -281,19 +281,24 @@ list, you must also supply the key ability associated with each skill.  When
 you invoke PH35.defineChoice to modify these lists, follow each choice
 in the list with a colon and the information associated with that choice.  The
 lists you can modify in this fashion are 'deities' (include a slash-separated
-set of domains after each new deity), 'skills' (include the key ability,
-optionally followed by '/trained' if the skill cannot be used untrained),
-'spells' (include a slash-separated set of spell levels).  and 'weapons'
-(include a damage die for medium-sized creatures).  (The damage value for
-weapons can also include a critical multiplier, preceded by 'x', a minimum
-threat roll, preceded by '@', and/or a range increment, preceded by 'r'.  If
-you don't include information about critical hits, Scribe assumes
-'x2@20'&#151;the weapon potentially does double damage on a roll of 20 and is
-not ranged.)  Here are examples of adding choices to these lists:
+set of domains after each new deity), 'feats' (include a slash-separated list
+of feat types), 'skills' (include the key ability, optionally followed by
+'/trained' if the skill cannot be used untrained), 'spells' (include a
+slash-separated set of spell levels).  and 'weapons' (include a damage die for
+medium-sized creatures).  (The damage value for weapons can also include a
+critical multiplier, preceded by 'x', a minimum threat roll, preceded by '@',
+and/or a range increment, preceded by 'r'.  If you don't include information
+about critical hits, Scribe assumes 'x2@20'&#151;the weapon potentially does
+double damage on a roll of 20 and is not ranged.)  Here are examples of adding
+choices to these lists:
 </p><p><code><pre>
 PH35.defineChoice('deities',
   'Draum (CG Elf Dreams):Air/Chaos/Good/Luck',
   'Glennor (NG Healing):Air/Animal/Healing'
+);
+PH35.defineChoice('feats',
+  'Lucky:',
+  'Ranged Disarm:Fighter'
 );
 PH35.defineChoice('skills'
   'Craft (Alchemy):intelligence', 'Craft (Carpentery):intelligence',
