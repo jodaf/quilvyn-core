@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.77 2007/02/16 06:37:15 Jim Exp $ */
+/* $Id: SRD35.js,v 1.78 2007/02/17 00:33:41 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2161,11 +2161,6 @@ PH35.featRules = function(rules) {
     }
   }
 
-  // NOTE: Validation tests for armor & shield proficiencies are not computed
-  // because of the way we handle class-based proficiencies.  For example,
-  // Armor Proficiency (Heavy) should test features.Armor Proficiency (Medium).
-  // However, class armor proficiencies are reflected in armorProficiencyLevel
-  // instead of the feature, so this test would yield false positives.
   for(var i = 0; i < allFeats.length; i++) {
     var pieces = allFeats[i].split(':');
     var feat = pieces[0];
@@ -2180,16 +2175,47 @@ PH35.featRules = function(rules) {
     } else if(feat == 'Animal Affinity') {
       notes = ['skillNotes.animalAffinityFeature:+2 Handle Animal/Ride'];
     } else if(feat == 'Armor Proficiency (Heavy)') {
+      notes = [
+        'validationNotes.armorProficiency(Heavy)Feat:' +
+          'Requires Armor Proficiency (Medium) or class proficiency medium'
+      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
       );
+      rules.defineRule('validationNotes.armorProficiency(Heavy)Feat',
+        'feats.Armor Proficiency (Heavy)', '=', '-1',
+        'features.Armor Proficiency (Medium)', '+', '1',
+        'classArmorProficiencyLevel', '+',
+          'source == ' + PH35.PROFICIENCY_MEDIUM + ' ? 1 : null',
+        '', 'v', '0'
+      );
     } else if(feat == 'Armor Proficiency (Light)') {
+      notes = [
+        'validationNotes.armorProficiency(Light)Feat:' +
+          'Requires class proficiency none'
+      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Light)', '^', PH35.PROFICIENCY_LIGHT
       );
+      rules.defineRule('validationNotes.armorProficiency(Light)Feat',
+        'feats.Armor Proficiency (Light)', '=', '-1',
+        'classArmorProficiencyLevel', '+',
+          'source == ' + PH35.PROFICIENCY_NONE + ' ? 1 : null'
+      );
     } else if(feat == 'Armor Proficiency (Medium)') {
+      notes = [
+        'validationNotes.armorProficiency(Medium)Feat:' +
+          'Requires Armor Proficiency (Light) or class proficiency light'
+      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Medium)', '^', PH35.PROFICIENCY_MEDIUM
+      );
+      rules.defineRule('validationNotes.armorProficiency(Medium)Feat',
+        'feats.Armor Proficiency (Medium)', '=', '-1',
+        'features.Armor Proficiency (Light)', '+', '1',
+        'classArmorProficiencyLevel', '+',
+          'source == ' + PH35.PROFICIENCY_LIGHT + ' ? 1 : null',
+        '', 'v', '0'
       );
     } else if(feat == 'Athletic') {
       notes = ['skillNotes.athleticFeature:+2 Climb/Swim'];
@@ -2853,12 +2879,32 @@ PH35.featRules = function(rules) {
     } else if(feat == 'Self Sufficient') {
       notes = ['skillNotes.selfSufficientFeature:+2 Heal/Survival'];
     } else if(feat == 'Shield Proficiency (Heavy)') {
+      notes = [
+        'validationNotes.shieldProficiency(Heavy)Feat:' +
+          'Requires class proficiency none'
+      ];
       rules.defineRule('shieldProficiencyLevel',
         'features.Shield Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
       );
+      rules.defineRule('validationNotes.shieldProficiency(Heavy)Feat',
+        'feats.Shield Proficiency (Heavy)', '=', '-1',
+        'classShieldProficiencyLevel', '+',
+          'source == ' + PH35.PROFICIENCY_NONE + ' ? 1 : null'
+      );
     } else if(feat == 'Shield Proficiency (Tower)') {
+      notes = [
+        'validationNotes.shieldProficiency(Tower)Feat:' +
+          'Requires Shield Proficiency (Heavy) or class proficiency heavy'
+      ];
       rules.defineRule('shieldProficiencyLevel',
         'features.Shield Proficiency (Tower)', '^', PH35.PROFICIENCY_TOWER
+      );
+      rules.defineRule('validationNotes.shieldProficiency(Tower)Feat',
+        'feats.Shield Proficiency (Tower)', '=', '-1',
+        'features.Shield Proficiency (Heavy)', '+', '1',
+        'classShieldProficiencyLevel', '+',
+          'source == ' + PH35.PROFICIENCY_HEAVY + ' ? 1 : null',
+        '', 'v', '0'
       );
     } else if(feat == 'Shot On The Run') {
       notes = [
@@ -3067,8 +3113,17 @@ PH35.featRules = function(rules) {
         'baseAttack', '+', 'source >= 1 ? 1 : null'
       );
     } else if(feat == 'Weapon Proficiency (Simple)') {
+      notes = [
+        'validationNotes.weaponProficiency(Simple)Feat:' +
+          'Requires class proficiency none'
+      ];
+      rules.defineRule('validationNotes.weaponProficiency(Simple)Feat',
+        'features.Weapon Proficiency (Simple)', '=', '-1',
+        'classWeaponProficiencyLevel', '+',
+          'source == ' + PH35.PROFICIENCY_NONE + ' ? 1 : null'
+      );
       rules.defineRule('weaponProficiencyLevel',
-        'features.Weapon Proficiency Simple', '^', PH35.PROFICIENCY_LIGHT
+        'features.Weapon Proficiency (Simple)', '^', PH35.PROFICIENCY_LIGHT
       );
     } else if(feat.match(/^Weapon Proficiency/)) {
       // empty
