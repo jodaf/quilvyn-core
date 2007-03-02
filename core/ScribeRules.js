@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.56 2007/02/17 00:33:41 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.57 2007/03/02 04:05:59 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -41,10 +41,10 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
   for(var i = 0; i < allArgs.length; i++) {
     var pieces = allArgs[i].split(/:/);
     var choice = pieces[0];
-    var added = pieces[1] == null ? '' : pieces[1];
+    var associated = pieces.length < 2 ? '' : pieces[1];
     var existing = o[choice];
-    o[choice] = existing != null && existing != '' && existing != added ?
-                existing + '/' + added : added;
+    o[choice] = existing != null && existing != '' && existing != associated ?
+                existing + '/' + associated : associated;
   }
 };
 
@@ -87,24 +87,15 @@ ScribeRules.prototype.defineClass = function
     this.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
   if(saveWillBonus != null)
     this.defineRule('save.Will', classLevel, '+', saveWillBonus);
-  if(armorProficiencyLevel != null) {
+  if(armorProficiencyLevel != null)
     this.defineRule
-      ('classArmorProficiencyLevel', classLevel, '^=', armorProficiencyLevel);
+      ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
+  if(shieldProficiencyLevel != null)
     this.defineRule
-      ('armorProficiencyLevel', 'classArmorProficiencyLevel', '^=', null);
-  }
-  if(shieldProficiencyLevel != null) {
+      ('shieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
+  if(weaponProficiencyLevel != null)
     this.defineRule
-      ('classShieldProficiencyLevel', classLevel, '^=', shieldProficiencyLevel);
-    this.defineRule
-      ('shieldProficiencyLevel', 'classShieldProficiencyLevel', '^=', null);
-  }
-  if(weaponProficiencyLevel != null) {
-    this.defineRule
-      ('classWeaponProficiencyLevel', classLevel, '^=', weaponProficiencyLevel);
-    this.defineRule
-      ('weaponProficiencyLevel', 'classWeaponProficiencyLevel', '^=', null);
-  }
+      ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
   if(classSkills != null) {
     for(var i = 0; i < classSkills.length; i++) {
       this.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');
