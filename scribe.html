@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.49 2007/02/08 00:00:57 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.50 2007/03/02 04:04:27 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -111,11 +111,11 @@ function CustomizeScribe() {
   ];
   for(var i = 0; i < subfeats.length; i++) {
     var pieces = subfeats[i].split(/:/);
-    PH35.featsSubfeats[pieces[0]] = pieces[1];
+    PH35.SUBFEATS[pieces[0]] = pieces[1];
   };
   for(var i = 0; i < subskills.length; i++) {
     var pieces = subskills[i].split(/:/);
-    PH35.skillsSubskills[pieces[0]] = pieces[1];
+    PH35.SUBSKILLS[pieces[0]] = pieces[1];
   };
   // The remaining lines load the modules listed in CUSTOMIZATION_URLS by
   // calling a function with the same name as the module (e.g., it calls PH35()
