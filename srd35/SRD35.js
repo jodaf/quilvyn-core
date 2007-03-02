@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.78 2007/02/17 00:33:41 Jim Exp $ */
+/* $Id: SRD35.js,v 1.79 2007/03/02 04:07:41 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -21,32 +21,29 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * This module loads the rules from the Player's Handbook v3.5 Edition.
  * The PH35 function contains methods that load rules for particular
  * parts/chapters of the PH; raceRules for character races, magicRules for
- * spells, etc.  Any of these member methods can be set to null or overridden
- * before calling PH35 in order to use a subset of the PH v3.5 rules.
- * Similarly, the constant fields of PH35--ALIGNMENTS, FEATS, etc.--can be
- * manipulated in order to trim the choices offered.
+ * spells, etc.  Any of these member methods can be called independently in
+ * order to use a subset of the PH v3.5 rules.  Similarly, the constant fields
+ * of PH35--ALIGNMENTS, FEATS, etc.--can be manipulated in order to modify the
+ * choices offered.
  */
 function PH35() {
   var rules = new ScribeRules('Core v3.5');
-  if(PH35.createViewer != null) {
-    PH35.viewer = new ObjectViewer();
-    PH35.createViewer(PH35.viewer);
-    rules.defineViewer("Standard", PH35.viewer);
-  }
-  if(PH35.abilityRules != null) PH35.abilityRules(rules);
-  if(PH35.skillRules != null) PH35.skillRules(rules);
-  if(PH35.classRules != null) PH35.classRules(rules);
-  if(PH35.descriptionRules != null) PH35.descriptionRules(rules);
-  if(PH35.featRules != null) PH35.featRules(rules);
-  if(PH35.raceRules != null) PH35.raceRules(rules);
-  if(PH35.equipmentRules != null) PH35.equipmentRules(rules);
-  if(PH35.combatRules != null) PH35.combatRules(rules);
-  if(PH35.adventuringRules != null) PH35.adventuringRules(rules);
-  if(PH35.magicRules != null) PH35.magicRules(rules);
+  PH35.viewer = new ObjectViewer();
+  PH35.createViewer(PH35.viewer);
+  rules.defineViewer("Standard", PH35.viewer);
+  PH35.abilityRules(rules);
+  PH35.raceRules(rules, PH35.LANGUAGES, PH35.RACES);
+  PH35.classRules(rules, PH35.CLASSES);
+  PH35.skillRules(rules, PH35.SKILLS, PH35.SUBSKILLS);
+  PH35.featRules(rules, PH35.FEATS, PH35.SUBFEATS);
+  PH35.descriptionRules(rules, PH35.ALIGNMENTS, PH35.DEITIES, PH35.GENDERS);
+  PH35.equipmentRules
+    (rules, PH35.ARMORS, PH35.GOODIES, PH35.SHIELDS, PH35.WEAPONS);
+  PH35.combatRules(rules);
+  PH35.adventuringRules(rules);
+  PH35.magicRules(rules, PH35.DOMAINS, PH35.SCHOOLS, PH35.SPELLS);
   rules.defineChoice('random', PH35.RANDOMIZABLE_ATTRIBUTES);
   rules.randomizeOneAttribute = PH35.randomizeOneAttribute;
-  // A rule for handling DM-only information
-  rules.defineRule('dmNotes', 'dmonly', '?', null);
   Scribe.addRuleSet(rules);
   PH35.rules = rules;
 }
@@ -96,7 +93,8 @@ PH35.DEITIES = [
   'St. Cuthbert (LN Retribution):Destruction/Law/Protection/Strength',
   'Wee Jas (LN Death And Magic):Death/Law/Magic',
   'Yondalla (LG Halflings):Good/Law/Protection',
-  'Vecna (NE Secrets):Evil/Knowledge/Magic'
+  'Vecna (NE Secrets):Evil/Knowledge/Magic',
+  'None:'
 ];
 PH35.DOMAINS = [
   'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
@@ -792,6 +790,18 @@ PH35.SPELLS = [
   'Zone Of Silence:B4/Illusion',
   'Zone Of Truth:C2/P2/Enchantment'
 ];
+PH35.SUBFEATS = {
+  'Armor Proficiency':'Heavy/Light/Medium',
+  'Rapid Reload':'Hand/Heavy/Light',
+  'Shield Proficiency':'Heavy/Tower',
+  'Weapon Proficiency':'Simple',
+  'Weapon Specialization':'Dwarven Waraxe/Longsword'
+};
+PH35.SUBSKILLS = {
+  'Knowledge':'Arcana/Architecture/Dungeoneering/Engineering/Geography/' +
+              'History/Local/Nature/Nobility/Planes/Religion',
+  'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind'
+};
 PH35.WEAPONS = [
   'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
   'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70',
@@ -816,7 +826,6 @@ PH35.WEAPONS = [
   'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19', 'Unarmed:d3',
   'Warhammer:d8x3', 'Whip:d3'
 ];
-PH35.PROFICIENCY_LEVEL_NAMES = ["None", "Light", "Medium", "Heavy", "Tower"];
 
 // Related information used internally by PH35
 PH35.armorsArcaneSpellFailurePercentages = {
@@ -892,18 +901,7 @@ PH35.domainsSpellCodes = {
   'Plant': 'Pl', 'Protection': 'Pr', 'Strength': 'St', 'Sun': 'Su',
   'Travel': 'Tl', 'Trickery': 'Ty', 'War': 'Wr', 'Water': 'Wa'
 };
-PH35.featsSubfeats = {
-  'Armor Proficiency':'Heavy/Light/Medium',
-  'Rapid Reload':'Hand/Heavy/Light',
-  'Shield Proficiency':'Heavy/Tower',
-  'Weapon Proficiency':'Simple',
-  'Weapon Specialization':'Dwarven Waraxe/Longsword'
-};
-PH35.skillsSubskills = {
-  'Knowledge':'Arcana/Architecture/Dungeoneering/Engineering/Geography/' +
-              'History/Local/Nature/Nobility/Planes/Religion',
-  'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind'
-};
+PH35.proficiencyLevelNames = ["None", "Light", "Medium", "Heavy", "Tower"];
 PH35.strengthMaxLoads = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
@@ -982,7 +980,7 @@ PH35.abilityRules = function(rules) {
   ];
   rules.defineNote(notes);
   rules.defineRule('validationNotes.abilityModifierSum',
-    'charisma', '=', '-2',
+    'charisma', '=', '-1',
     'charismaModifier', '+', null,
     'constitutionModifier', '+', null,
     'dexterityModifier', '+', null,
@@ -1017,7 +1015,7 @@ PH35.adventuringRules = function(rules) {
 };
 
 /* Defines the rules related to PH Chapter 3, Classes. */
-PH35.classRules = function(rules) {
+PH35.classRules = function(rules, classes) {
 
   // Experience- and level-dependent attributes
   rules.defineRule('classSkillMaxRanks', 'level', '=', 'source + 3');
@@ -1041,12 +1039,12 @@ PH35.classRules = function(rules) {
     /^levels\./, '+=', null
   );
 
-  for(var i = 0; i < PH35.CLASSES.length; i++) {
+  for(var i = 0; i < classes.length; i++) {
 
     var baseAttack, feats, features, hitDie, notes, profArmor, profShield,
         profWeapon, saveFortitude, saveReflex, saveWill, selectableFeatures,
         skillPoints, skills, spellsKnown, spellsPerDay, spellsPerDayAbility;
-    var klass = PH35.CLASSES[i];
+    var klass = classes[i];
 
     if(klass == 'Barbarian') {
 
@@ -1102,7 +1100,8 @@ PH35.classRules = function(rules) {
       rules.defineRule('saveNotes.trapSenseFeature',
         'levels.Barbarian', '+=', 'source >= 3 ? Math.floor(source / 3) : null'
       );
-      rules.defineRule('skills.Speak Language', 'levels.Barbarian', '+', '-2');
+      rules.defineRule
+        ('skills.Speak Language', 'skillNotes.illiteracyFeature', '+', '-2');
       rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
       rules.defineRule('validationNotes.barbarianAlignment',
         'levels.Barbarian', '=', '-1',
@@ -1125,7 +1124,7 @@ PH35.classRules = function(rules) {
         'magicNotes.countersongFeature:' +
           'Perform check vs. sonic magic w/in 30 ft for 10 rounds',
         'magicNotes.fascinateFeature:' +
-          'Hold %V creatures within 90 ft spellbound 1 round/bard level',
+          'Hold %V creatures w/in 90 ft spellbound 1 round/bard level',
         'magicNotes.inspireCompetenceFeature:' +
           '+2 allies skill checks while performing up to 2 minutes',
         'magicNotes.inspireCourageFeature:' +
@@ -2093,19 +2092,19 @@ PH35.createViewer = function(viewer) {
 };
 
 /* Defines the rules related to PH Chapter 6, Description. */
-PH35.descriptionRules = function(rules) {
-  rules.defineChoice('alignments', PH35.ALIGNMENTS);
-  rules.defineChoice('deities', PH35.DEITIES, 'None:');
-  rules.defineChoice('genders', PH35.GENDERS);
+PH35.descriptionRules = function(rules, alignments, deities, genders) {
+  rules.defineChoice('alignments', alignments);
+  rules.defineChoice('deities', deities);
+  rules.defineChoice('genders', genders);
 };
 
 /* Defines the rules related to PH Chapter 7, Equipment. */
-PH35.equipmentRules = function(rules) {
+PH35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
 
-  rules.defineChoice('armors', PH35.ARMORS);
-  rules.defineChoice('goodies', PH35.GOODIES);
-  rules.defineChoice('shields', PH35.SHIELDS);
-  rules.defineChoice('weapons', PH35.WEAPONS);
+  rules.defineChoice('armors', armors);
+  rules.defineChoice('goodies', goodies);
+  rules.defineChoice('shields', shields);
+  rules.defineChoice('weapons', weapons);
   rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
     'armorWeightClass', '=', 'source == "Light" ? null : -10',
@@ -2138,29 +2137,34 @@ PH35.equipmentRules = function(rules) {
 };
 
 /* Defines the rules related to PH Chapter 5, Feats. */
-PH35.featRules = function(rules) {
+PH35.featRules = function(rules, feats, subfeats) {
 
   var allFeats = [];
-  for(var i = 0; i < PH35.FEATS.length; i++) {
-    var pieces = PH35.FEATS[i].split(':');
+  for(var i = 0; i < feats.length; i++) {
+    var pieces = feats[i].split(':');
     var feat = pieces[0];
-    var subfeats = PH35.featsSubfeats[feat];
-    if(subfeats == null) {
+    var featSubfeats = subfeats[feat];
+    if(featSubfeats == null) {
       allFeats[allFeats.length] = feat + ':' + pieces[1];
     } else {
       rules.defineRule('subfeatCount.' + feat,
         new RegExp('^feats\\.' + feat + ' \\('), '+=', '1'
       );
-      if(subfeats != '') {
-        subfeats = subfeats.split('/');
-        for(var j = 0; j < subfeats.length; j++) {
+      if(featSubfeats != '') {
+        featSubfeats = featSubfeats.split('/');
+        for(var j = 0; j < featSubfeats.length; j++) {
           allFeats[allFeats.length] =
-            feat + ' (' + subfeats[j] + '):' + pieces[1];
+            feat + ' (' + featSubfeats[j] + '):' + pieces[1];
         }
       }
     }
   }
 
+  // NOTE: Validation tests for armor & shield proficiencies are not computed
+  // because of the way we handle class-based proficiencies.  For example,
+  // Armor Proficiency (Heavy) should test features.Armor Proficiency (Medium).
+  // However, class armor proficiencies are reflected in armorProficiencyLevel
+  // instead of the feature, so this test would yield false positives.
   for(var i = 0; i < allFeats.length; i++) {
     var pieces = allFeats[i].split(':');
     var feat = pieces[0];
@@ -2175,47 +2179,16 @@ PH35.featRules = function(rules) {
     } else if(feat == 'Animal Affinity') {
       notes = ['skillNotes.animalAffinityFeature:+2 Handle Animal/Ride'];
     } else if(feat == 'Armor Proficiency (Heavy)') {
-      notes = [
-        'validationNotes.armorProficiency(Heavy)Feat:' +
-          'Requires Armor Proficiency (Medium) or class proficiency medium'
-      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
       );
-      rules.defineRule('validationNotes.armorProficiency(Heavy)Feat',
-        'feats.Armor Proficiency (Heavy)', '=', '-1',
-        'features.Armor Proficiency (Medium)', '+', '1',
-        'classArmorProficiencyLevel', '+',
-          'source == ' + PH35.PROFICIENCY_MEDIUM + ' ? 1 : null',
-        '', 'v', '0'
-      );
     } else if(feat == 'Armor Proficiency (Light)') {
-      notes = [
-        'validationNotes.armorProficiency(Light)Feat:' +
-          'Requires class proficiency none'
-      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Light)', '^', PH35.PROFICIENCY_LIGHT
       );
-      rules.defineRule('validationNotes.armorProficiency(Light)Feat',
-        'feats.Armor Proficiency (Light)', '=', '-1',
-        'classArmorProficiencyLevel', '+',
-          'source == ' + PH35.PROFICIENCY_NONE + ' ? 1 : null'
-      );
     } else if(feat == 'Armor Proficiency (Medium)') {
-      notes = [
-        'validationNotes.armorProficiency(Medium)Feat:' +
-          'Requires Armor Proficiency (Light) or class proficiency light'
-      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Medium)', '^', PH35.PROFICIENCY_MEDIUM
-      );
-      rules.defineRule('validationNotes.armorProficiency(Medium)Feat',
-        'feats.Armor Proficiency (Medium)', '=', '-1',
-        'features.Armor Proficiency (Light)', '+', '1',
-        'classArmorProficiencyLevel', '+',
-          'source == ' + PH35.PROFICIENCY_LIGHT + ' ? 1 : null',
-        '', 'v', '0'
       );
     } else if(feat == 'Athletic') {
       notes = ['skillNotes.athleticFeature:+2 Climb/Swim'];
@@ -2879,32 +2852,12 @@ PH35.featRules = function(rules) {
     } else if(feat == 'Self Sufficient') {
       notes = ['skillNotes.selfSufficientFeature:+2 Heal/Survival'];
     } else if(feat == 'Shield Proficiency (Heavy)') {
-      notes = [
-        'validationNotes.shieldProficiency(Heavy)Feat:' +
-          'Requires class proficiency none'
-      ];
       rules.defineRule('shieldProficiencyLevel',
         'features.Shield Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
       );
-      rules.defineRule('validationNotes.shieldProficiency(Heavy)Feat',
-        'feats.Shield Proficiency (Heavy)', '=', '-1',
-        'classShieldProficiencyLevel', '+',
-          'source == ' + PH35.PROFICIENCY_NONE + ' ? 1 : null'
-      );
     } else if(feat == 'Shield Proficiency (Tower)') {
-      notes = [
-        'validationNotes.shieldProficiency(Tower)Feat:' +
-          'Requires Shield Proficiency (Heavy) or class proficiency heavy'
-      ];
       rules.defineRule('shieldProficiencyLevel',
         'features.Shield Proficiency (Tower)', '^', PH35.PROFICIENCY_TOWER
-      );
-      rules.defineRule('validationNotes.shieldProficiency(Tower)Feat',
-        'feats.Shield Proficiency (Tower)', '=', '-1',
-        'features.Shield Proficiency (Heavy)', '+', '1',
-        'classShieldProficiencyLevel', '+',
-          'source == ' + PH35.PROFICIENCY_HEAVY + ' ? 1 : null',
-        '', 'v', '0'
       );
     } else if(feat == 'Shot On The Run') {
       notes = [
@@ -3113,15 +3066,6 @@ PH35.featRules = function(rules) {
         'baseAttack', '+', 'source >= 1 ? 1 : null'
       );
     } else if(feat == 'Weapon Proficiency (Simple)') {
-      notes = [
-        'validationNotes.weaponProficiency(Simple)Feat:' +
-          'Requires class proficiency none'
-      ];
-      rules.defineRule('validationNotes.weaponProficiency(Simple)Feat',
-        'features.Weapon Proficiency (Simple)', '=', '-1',
-        'classWeaponProficiencyLevel', '+',
-          'source == ' + PH35.PROFICIENCY_NONE + ' ? 1 : null'
-      );
       rules.defineRule('weaponProficiencyLevel',
         'features.Weapon Proficiency (Simple)', '^', PH35.PROFICIENCY_LIGHT
       );
@@ -3180,11 +3124,11 @@ PH35.featRules = function(rules) {
   }
 
   rules.defineRule('armorProficiency',
-    'armorProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
+    'armorProficiencyLevel', '=', 'PH35.proficiencyLevelNames[source]'
   );
   rules.defineRule('armorProficiencyLevel', '', '=', PH35.PROFICIENCY_NONE);
   rules.defineRule('shieldProficiency',
-    'shieldProficiencyLevel', '=', 'PH35.PROFICIENCY_LEVEL_NAMES[source]'
+    'shieldProficiencyLevel', '=', 'PH35.proficiencyLevelNames[source]'
   );
   rules.defineRule('shieldProficiencyLevel', '', '=', PH35.PROFICIENCY_NONE);
   rules.defineRule('weaponProficiency',
@@ -3206,11 +3150,11 @@ PH35.featRules = function(rules) {
 };
 
 /* Defines the rules related to PH Chapter 10, Magic and Chapter 11, Spells. */
-PH35.magicRules = function(rules) {
-  rules.defineChoice('domains', PH35.DOMAINS);
-  rules.defineChoice('schools', PH35.SCHOOLS);
-  for(var i = 0; i < PH35.SPELLS.length; i++) {
-    var pieces = PH35.SPELLS[i].split(':');
+PH35.magicRules = function(rules, domains, schools, spells) {
+  rules.defineChoice('domains', domains);
+  rules.defineChoice('schools', schools);
+  for(var i = 0; i < spells.length; i++) {
+    var pieces = spells[i].split(':');
     var codes = pieces[1].split('/');
     var school = codes[codes.length - 1].substring(0, 4);
     for(var j = 0; j < codes.length - 1; j++) {
@@ -3232,8 +3176,8 @@ PH35.magicRules = function(rules) {
     'goodies.Ring Of Protection +3', '+=', 'source * 3',
     'goodies.Ring Of Protection +4', '+=', 'source * 4'
   );
-  for(var i = 0; i < PH35.DOMAINS.length; i++) {
-    if(PH35.DOMAINS[i] != 'War')
+  for(var i = 0; i < domains.length; i++) {
+    if(domains[i] != 'War')
       continue;
     rules.defineRule('featureNotes.warDomain',
       'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
@@ -3255,15 +3199,26 @@ PH35.magicRules = function(rules) {
 };
 
 /* Defines the rules related to PH Chapter 2, Races. */
-PH35.raceRules = function(rules) {
+PH35.raceRules = function(rules, languages, races) {
 
+  rules.defineChoice('languages', languages);
+  for(var i = 0; i < languages.length; i++) {
+    if(languages[i] == 'Common')
+      rules.defineRule('languages.Common', '', '=', '1');
+  }
   rules.defineRule('languageCount', 'race', '=', 'source != "Human" ? 2 : 1');
-  rules.defineRule('languages.Common', '', '=', '1');
+  rules.defineNote
+    ('validationNotes.totalLanguages:Allocated languages differ from ' +
+     'language total by %V');
+  rules.defineRule('validationNotes.totalLanguages',
+    'languageCount', '+=', '-source',
+    /^languages\./, '+=', null
+  );
 
-  for(var i = 0; i < PH35.RACES.length; i++) {
+  for(var i = 0; i < races.length; i++) {
 
     var adjustment, features, notes;
-    var race = PH35.RACES[i];
+    var race = races[i];
 
     if(race == 'Dwarf') {
 
@@ -3294,6 +3249,9 @@ PH35.raceRules = function(rules) {
       rules.defineRule('abilityNotes.dwarfArmorSpeedAdjustment',
         'race', '=', 'source == "Dwarf" ? 1 : null'
       );
+      rules.defineRule('languages.Dwarven',
+        'race', '=', 'source.indexOf("Dwarf") >= 0 ? 1 : null'
+      );
       rules.defineRule
         ('resistance.Magic', 'saveNotes.magicResistanceFeature', '+=', '2');
       rules.defineRule
@@ -3310,12 +3268,14 @@ PH35.raceRules = function(rules) {
       notes = [
         'featureNotes.lowLightVisionFeature:' +
           'Double normal distance in poor light',
-        'featureNotes.senseSecretDoorsFeature:' +
-          'Automatic Search when within 5 ft',
+        'featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5 ft',
         'saveNotes.enchantmentResistanceFeature:+2 vs. enchantment',
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.keenSensesFeature:+2 Listen/Search/Spot'
       ];
+      rules.defineRule('languages.Elven',
+        'race', '=', 'source.indexOf("Elf") >= 0 ? 1 : null'
+      );
       rules.defineRule('resistance.Enchantment',
         'saveNotes.enchantmentResistanceFeature', '+=', '2'
       );
@@ -3343,6 +3303,9 @@ PH35.raceRules = function(rules) {
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('languages.Gnome',
+        'race', '=', 'source.indexOf("Gnome") >= 0 ? 1 : null'
+      );
       rules.defineRule('magicNotes.gnomeSpellsFeature',
         'charisma', '=',
         '(source >= 10 ? "<i>Dancing Lights</i>/<i>Ghost Sound</i>/' +
@@ -3370,6 +3333,9 @@ PH35.raceRules = function(rules) {
         'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
         'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information'
       ];
+      rules.defineRule('languages.Elven',
+        'race', '=', 'source.indexOf("Elf") >= 0 ? 1 : null'
+      );
       rules.defineRule('resistance.Enchantment',
         'saveNotes.enchantmentResistanceFeature', '+=', '2'
       );
@@ -3381,6 +3347,9 @@ PH35.raceRules = function(rules) {
       notes = [
         'featureNotes.darkvisionFeature:60 ft b/w vision in darkness'
       ];
+      rules.defineRule('languages.Orc',
+        'race', '=', 'source.indexOf("Orc") >= 0 ? 1 : null'
+      );
 
     } else if(race == 'Halfling') {
 
@@ -3399,6 +3368,9 @@ PH35.raceRules = function(rules) {
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('languages.Halfling',
+        'race', '=', 'source.indexOf("Halfling") >= 0 ? 1 : null'
+      );
       rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
@@ -3438,7 +3410,7 @@ PH35.raceRules = function(rules) {
 };
 
 /* Defines the rules related to PH Chapter 4, Skills. */
-PH35.skillRules = function(rules) {
+PH35.skillRules = function(rules, skills, subskills) {
 
   var abilityNames = {
     'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
@@ -3470,11 +3442,11 @@ PH35.skillRules = function(rules) {
   };
 
   var allSkills = [];
-  for(var i = 0; i < PH35.SKILLS.length; i++) {
-    var pieces = PH35.SKILLS[i].split(':');
+  for(var i = 0; i < skills.length; i++) {
+    var pieces = skills[i].split(':');
     var skill = pieces[0];
-    var subskills = PH35.skillsSubskills[skill];
-    if(subskills == null) {
+    var skillSubskills = subskills[skill];
+    if(skillSubskills == null) {
       allSkills[allSkills.length] = skill + ':' + pieces[1];
     } else {
       rules.defineRule('subskillCount.' + skill,
@@ -3486,10 +3458,10 @@ PH35.skillRules = function(rules) {
       rules.defineRule('subskillTotal.' + skill,
         new RegExp('^skills\\.' + skill + ' \\('), '+=', null
       );
-      if(subskills != '') {
-        subskills = subskills.split('/');
-        for(var j = 0; j < subskills.length; j++) {
-          var subskill = skill + ' (' + subskills[j] + ')';
+      if(skillSubskills != '') {
+        skillSubskills = skillSubskills.split('/');
+        for(var j = 0; j < skillSubskills.length; j++) {
+          var subskill = skill + ' (' + skillSubskills[j] + ')';
           allSkills[allSkills.length] = subskill + ':' + pieces[1];
           rules.defineRule
             ('classSkills.' + subskill, 'classSkills.' + skill, '=', '1');
@@ -3497,6 +3469,7 @@ PH35.skillRules = function(rules) {
       }
     }
   }
+
   for(var i = 0; i < allSkills.length; i++) {
     var pieces = allSkills[i].split(':');
     var skill = pieces[0];
@@ -3536,24 +3509,16 @@ PH35.skillRules = function(rules) {
         rules.defineRule('turningBase',
           'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
         );
+      } else if(skill == 'Speak Language') {
+        rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
       }
     }
   }
-  rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
+
   rules.defineNote
     ('validationNotes.totalSkillPoints:Allocated skill points differ from ' +
      'skill point total by %V');
   // TODO Test skill points
-
-  // Language-related rules
-  rules.defineChoice('languages', PH35.LANGUAGES);
-  rules.defineNote
-    ('validationNotes.totalLanguages:Allocated languages differ from ' +
-     'language total by %V');
-  rules.defineRule('validationNotes.totalLanguages',
-    'languageCount', '+=', '-source',
-    /^languages\./, '+=', null
-  );
 
 };
 
@@ -3688,8 +3653,9 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     var prefix = attribute == 'feats' ? 'feats' : 'selectableFeatures';
     var suffix = attribute == 'feats' ? 'Feat' : 'SelectableFeature';
     for(attr in attrs) {
-      if(attr.match(countPat))
+      if(attr.match(countPat)) {
         toAllocateByType[attr.replace(countPat, '')] = attrs[attr];
+      }
     }
     var availableChoices = {};
     var allChoices = this.getChoices(prefix);
@@ -3697,7 +3663,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       if(attrs[prefix + '.' + attr] != null) {
         var type = 'General';
         for(var a in toAllocateByType) {
-          if(allChoices[a].indexOf(a) >= 0 && toAllocateByType[a] > 0) {
+          if(allChoices[attr].indexOf(a) >= 0 && toAllocateByType[a] > 0) {
             type = a;
             break;
           }
@@ -3715,7 +3681,6 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
           availableChoicesInType[a] = '';
         }
       }
-      alert("Choose " + howMany + " " + attr + " " + prefix + " from ['" + ScribeUtils.getKeys(availableChoicesInType).join("', '") + "']");
       while(howMany > 0 &&
             (choices=ScribeUtils.getKeys(availableChoicesInType)).length > 0) {
         var choice = choices[ScribeUtils.random(0, choices.length - 1)];
@@ -3726,11 +3691,9 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         var validation = this.applyRules(attributes);
         if(validation['validationNotes.' + name + suffix] == null ||
            validation['validationNotes.' + name + suffix] == 0) {
-          alert('validationNotes.' + name + suffix + ' not set');
           howMany--;
           delete availableChoices[choice];
         } else {
-          alert('validationNotes.' + name + suffix + ' set');
           delete attributes[prefix + '.' + choice];
         }
       }
@@ -3750,20 +3713,16 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'languages') {
     attrs = this.applyRules(attributes);
-    var race = attributes.race;
-    race = race == null ? '' : attributes.race.replace(/.* /, '');
-    attributes['languages.Common'] = 1;
-    if(race != 'Human')
-      attributes['languages.' + race] = 1;
     choices = [];
-    for(attr in this.getChoices('languages')) {
-      if(attributes['languages.' + attr] == null)
-        choices[choices.length] = attr;
-    }
     howMany = attrs.languageCount;
-    pickAttrs(attributes, 'languages.', choices,
-              howMany - ScribeUtils.sumMatching(attributes, /^languages\./),
-              true);
+    for(attr in this.getChoices('languages')) {
+      if(attrs['languages.' + attr] == null) {
+        choices[choices.length] = attr;
+      } else {
+        howMany--;
+      }
+    }
+    pickAttrs(attributes, 'languages.', choices, howMany, 1);
   } else if(attribute == 'levels') {
     for(attr in attributes) {
       if(attr.indexOf('levels.') == 0)
