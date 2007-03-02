@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.193 2007/02/16 06:30:37 Jim Exp $ */
+/* $Id: Scribe.js,v 1.194 2007/03/02 04:04:49 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.38.15';
+var VERSION = '0.39.01';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -147,6 +147,8 @@ Scribe.editorElements = [
 
 /* Adds #rs# to Scribe's list of supported rule sets. */
 Scribe.addRuleSet = function(rs) {
+  // Add a  rule for handling DM-only information
+  rs.defineRule('dmNotes', 'dmonly', '?', null);
   ruleSets[rs.getName()] = rs;
   ruleSet = rs;
 };
