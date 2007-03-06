@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.80 2007/03/04 00:25:21 Jim Exp $ */
+/* $Id: SRD35.js,v 1.81 2007/03/06 02:33:19 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1669,7 +1669,8 @@ PH35.classRules = function(rules, classes) {
           'Reflex save yields no damage instead of 1/2',
         'helperNotes.helperImprovedEvasionFeature:' +
           'Failed save yields 1/2 damage',
-        'helperNotes.commandLikeCreaturesFeature:TODO',
+        'helperNotes.commandLikeCreaturesFeature:' +
+          'DC %V <i>Command</i> vs. similar creatures paladin level/2/day',
         'helperNotes.empathicLinkFeature:Share emotions up to 1 mile',
         'helperNotes.improvedSpeedFeature:+10 speed',
         'helperNotes.shareSavingThrowsFeature:' +
@@ -1769,6 +1770,10 @@ PH35.classRules = function(rules, classes) {
       );
       rules.defineRule('companionLevel',
         'levels.Ranger', '+=', 'source<4 ? null : Math.floor((source + 6) / 6)'
+      );
+      rules.defineRule('helperNotes.commandLikeCreaturesFeature',
+        'levels.Paladin', '=', '10 + Math.floor(source / 2)',
+        'charismaModifier', '+', null
       );
       rules.defineRule('rangerFeatures.Rapid Shot',
         'selectableFeatures.Combat Style (Archery)', '?', null
@@ -3637,6 +3642,9 @@ PH35.skillRules = function(rules, skills, subskills) {
       var modifier = abilityNames[ability] + 'Modifier';
       rules.defineRule('skills.' + skill, modifier, '+', null);
     }
+    if(skill == 'Speak Language') {
+      rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
+    }
     if(synergy != null) {
       var prefix = skill.substring(0, 1).toLowerCase() +
                    skill.substring(1).replace(/ /g, '');
@@ -3666,8 +3674,6 @@ PH35.skillRules = function(rules, skills, subskills) {
         rules.defineRule('turningBase',
           'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
         );
-      } else if(skill == 'Speak Language') {
-        rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
       }
     }
   }
