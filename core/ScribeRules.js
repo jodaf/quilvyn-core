@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.57 2007/03/02 04:05:59 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.58 2007/03/09 14:47:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -46,126 +46,6 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
     o[choice] = existing != null && existing != '' && existing != associated ?
                 existing + '/' + associated : associated;
   }
-};
-
-/*
- * A convenience function that adds #name# to the list of valid classes.
- * Characters of class #name# roll #hitDice# ([Nd]S, where N is the number of
- * dice and S the number of sides) more hit points at each level.  All other
- * parameters are optional.  #skillPoints# is the number of skill points a
- * character of the class receives each level; #baseAttackBonus#,
- * #saveFortitudeBonus#, #saveReflexBonus# and #saveWillBonus# are JavaScript
- * expressions that compute the attack and saving throw bonuses the character
- * accumulates each class level; #armorProficiencyLevel#,
- * #shieldProficiencyLevel# and #weaponProficiencyLevel# indicate any
- * proficiency in these categories that characters of the class gain;
- * #classSkills# is an array of skills that are class skills (as opposed to
- * cross-class) for the class, #features# an array of level:feature name pairs
- * indicating features that the class acquires when advancing levels,
- * #spellsKnown# an array of information about the type, number, and level of
- * spells known at each class level, #spellsPerDay# an array of information
- * about the type, number, and level of spells castable per day at each class
- * level, and #spellsPerDayAbility# the attribute that, if sufficiently high,
- * gives bonus spells per day for the class.
- */
-ScribeRules.prototype.defineClass = function
-  (name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
-   saveReflexBonus, saveWillBonus, armorProficiencyLevel,
-   shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
-   spellsKnown, spellsPerDay, spellsPerDayAbility) {
-
-  var classLevel = 'levels.' + name;
-  this.defineChoice('classes', name + ':' + hitDice);
-  if(skillPoints != null)
-    this.defineRule
-      ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
-  if(baseAttackBonus != null)
-    this.defineRule('baseAttack', classLevel, '+', baseAttackBonus);
-  if(saveFortitudeBonus != null)
-    this.defineRule('save.Fortitude', classLevel, '+', saveFortitudeBonus);
-  if(saveReflexBonus != null)
-    this.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
-  if(saveWillBonus != null)
-    this.defineRule('save.Will', classLevel, '+', saveWillBonus);
-  if(armorProficiencyLevel != null)
-    this.defineRule
-      ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
-  if(shieldProficiencyLevel != null)
-    this.defineRule
-      ('shieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
-  if(weaponProficiencyLevel != null)
-    this.defineRule
-      ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
-  if(classSkills != null) {
-    for(var i = 0; i < classSkills.length; i++) {
-      this.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');
-    }
-  }
-  if(features != null) {
-    var prefix =
-      name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
-    for(var i = 0; i < features.length; i++) {
-      var levelAndFeature = features[i].split(/:/);
-      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      this.defineRule(prefix + 'Features.' + feature,
-        'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
-      );
-      this.defineRule
-        ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
-    }
-    this.defineSheetElement
-      (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
-  }
-  if(spellsKnown != null) {
-    for(var j = 0; j < spellsKnown.length; j++) {
-      var typeAndLevel = spellsKnown[j].split(/:/)[0];
-      var code = spellsKnown[j].substring(typeAndLevel.length + 1).
-                 split(/\//).reverse().join('source >= ');
-      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
-      code = 'source >= ' + code + ' : null';
-      if(code.indexOf('source >= 1 ?') >= 0) {
-        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
-      }
-      this.defineRule
-        ('spellsKnown.' + typeAndLevel, 'levels.' + name, '=', code);
-    }
-  }
-  if(spellsPerDay != null) {
-    for(var j = 0; j < spellsPerDay.length; j++) {
-      var typeAndLevel = spellsPerDay[j].split(/:/)[0];
-      var level = typeAndLevel.replace(/[A-Z]*/, '');
-      var code = spellsPerDay[j].substring(typeAndLevel.length + 1).
-                 split(/\//).reverse().join('source >= ');
-      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
-      code = 'source >= ' + code + ' : null';
-      if(code.indexOf('source >= 1 ?') >= 0) {
-        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
-      }
-      this.defineRule
-        ('spellsPerDay.' + typeAndLevel, 'levels.' + name, '=', code);
-      this.defineRule('spellDifficultyClass.' + typeAndLevel,
-        'spellsPerDay.' + typeAndLevel, '?', null,
-        null, '=', 10 + (level - 0)
-      );
-      if(spellsPerDayAbility != null) {
-        var spellsPerDayModifier = spellsPerDayAbility + 'Modifier';
-        var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
-        if(level > 0) {
-          code = 'source >= ' + level +
-                 ' ? 1 + Math.floor((source - ' + level + ') / 4) : null';
-          this.defineRule
-            ('spellsPerDay.' + typeAndLevel, spellsPerDayModifier, '+', code);
-        }
-        this.defineRule('spellDifficultyClass.' + typeAndLevel,
-          spellsPerDayModifier, '+', null
-        );
-      }
-    }
-    this.defineRule
-      ('spellsPerDayLevels.' + name, 'levels.' + name, '=', null);
-  }
-
 };
 
 /*
@@ -249,47 +129,6 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
         for(j = 0; j < affected.length; j++)
           this.defineRule('skills.' + affected[j], attribute, '+', bump);
     }
-  }
-};
-
-/*
- * Add #name# to the list of valid races.  #abilityAdjustment# is either null
- * or a note of the form "[+-]n Ability[/[+-]n Ability]*", indicating ability
- * adjustments for the race.  #features# is either null or an array of strings
- * of the form "[level:]Feature", indicating a list of features associated with
- * the race and the character levels at which they're acquired.  If no level is
- * include with a feature, the feature is acquired at level 1.
- */
-ScribeRules.prototype.defineRace = function(name, abilityAdjustment, features) {
-  this.defineChoice('races', name);
-  var prefix =
-    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
-  if(abilityAdjustment != null) {
-    var abilityNote = 'abilityNotes.' + prefix + 'AbilityAdjustment';
-    this.defineNote(abilityNote + ':' + abilityAdjustment);
-    var adjustments = abilityAdjustment.split(/\//);
-    for(var i = 0; i < adjustments.length; i++) {
-      var amountAndAbility = adjustments[i].split(/ +/);
-      this.defineRule
-        (amountAndAbility[1], abilityNote, '+', amountAndAbility[0]);
-    }
-    this.defineRule
-      (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
-  }
-  if(features != null) {
-    for(var i = 0; i < features.length; i++) {
-      var levelAndFeature = features[i].split(/:/);
-      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      this.defineRule(prefix + 'Features.' + feature,
-        'race', '?', 'source == "' + name + '"',
-        'level', '=', 'source >= ' + level + ' ? 1 : null'
-      );
-      this.defineRule
-        ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
-    }
-    this.defineSheetElement
-      (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
   }
 };
 
