@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.81 2007/03/06 02:33:19 Jim Exp $ */
+/* $Id: SRD35.js,v 1.82 2007/03/09 14:55:22 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -18,13 +18,12 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*
- * This module loads the rules from the Player's Handbook v3.5 Edition.
- * The PH35 function contains methods that load rules for particular
- * parts/chapters of the PH; raceRules for character races, magicRules for
- * spells, etc.  Any of these member methods can be called independently in
- * order to use a subset of the PH v3.5 rules.  Similarly, the constant fields
- * of PH35--ALIGNMENTS, FEATS, etc.--can be manipulated in order to modify the
- * choices offered.
+ * This module loads the rules from the Player's Handbook v3.5 Edition.  The
+ * PH35 function contains methods that load rules for particular parts/chapters
+ * of the PH; raceRules for character races, magicRules for spells, etc.  These
+ * member methods can be called independently in order to use a subset of the
+ * PH v3.5 rules.  Similarly, the constant fields of PH35 (ALIGNMENTS, FEATS,
+ * etc.) can be manipulated to modify the choices.
  */
 function PH35() {
   var rules = new ScribeRules('Core v3.5');
@@ -34,6 +33,7 @@ function PH35() {
   PH35.abilityRules(rules);
   PH35.raceRules(rules, PH35.LANGUAGES, PH35.RACES);
   PH35.classRules(rules, PH35.CLASSES);
+  PH35.helperRules(rules, PH35.HELPERS);
   PH35.skillRules(rules, PH35.SKILLS, PH35.SUBSKILLS);
   PH35.featRules(rules, PH35.FEATS, PH35.SUBFEATS);
   PH35.descriptionRules(rules, PH35.ALIGNMENTS, PH35.DEITIES, PH35.GENDERS);
@@ -132,7 +132,7 @@ PH35.FEATS = [
   'Rapid Shot:Fighter', 'Ride By Attack:Fighter', 'Run:',
   'Scribe Scroll:Item Creation', 'Self Sufficient:', 'Shield Proficiency:',
   'Shot On The Run:Fighter', 'Silent Spell:Metamagic', 'Skill Focus:',
-  'Snatch Arrows:Fighter', 'Spell Focus:', 'Spell Mastery:Metamagic',
+  'Snatch Arrows:Fighter', 'Spell Focus:', 'Spell Mastery:',
   'Spell Penetration:', 'Spirited Charge:Fighter', 'Spring Attack:Fighter',
   'Stealthy:', 'Still Spell:Metamagic', 'Stunning Fist:Fighter', 'Toughness:',
   'Track:', 'Trample:Fighter', 'Two Weapon Defense:Fighter',
@@ -148,6 +148,7 @@ PH35.GOODIES = [
   'Ring Of Protection +3',
   'Ring Of Protection +4'
 ];
+PH35.HELPERS = ['Animal Companion', 'Familiar', 'Mount'];
 PH35.LANGUAGES = [
   'Abyssal', 'Aquan', 'Avian', 'Celestial', 'Common', 'Draconic', 'Druidic',
   'Dwarven', 'Elven', 'Giant', 'Gnoll', 'Gnome', 'Goblin', 'Halfling',
@@ -159,8 +160,9 @@ PH35.RACES =
 // random characters
 PH35.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
-  'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'features', 'feats',
-  'skills', 'languages', 'hitPoints', 'armor', 'shield', 'weapons', 'spells'
+  'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'domains',
+  'features', 'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield',
+  'weapons', 'spells'
 ];
 PH35.SCHOOLS = [
   'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
@@ -1043,7 +1045,7 @@ PH35.classRules = function(rules, classes) {
 
     var baseAttack, feats, features, hitDie, notes, profArmor, profShield,
         profWeapon, saveFortitude, saveReflex, saveWill, selectableFeatures,
-        skillPoints, skills, spellsKnown, spellsPerDay, spellsPerDayAbility;
+        skillPoints, skills, spellAbility, spellsKnown, spellsPerDay;
     var klass = classes[i];
 
     if(klass == 'Barbarian') {
@@ -1086,9 +1088,9 @@ PH35.classRules = function(rules, classes) {
         'Climb', 'Craft', 'Handle Animal', 'Intimidate', 'Jump', 'Listen',
         'Ride', 'Survival', 'Swim'
       ];
+      spellAbility = null;
       spellsKnown = null;
       spellsPerDay = null;
-      spellsPerDayAbility = null;
       rules.defineRule
         ('abilityNotes.fastMovementFeature', 'levels.Barbarian', '+=', '10');
       rules.defineRule('combatNotes.damageReductionFeature',
@@ -1158,6 +1160,7 @@ PH35.classRules = function(rules, classes) {
         'Sleight Of Hand', 'Speak Language', 'Spellcraft', 'Swim', 'Tumble',
         'Use Magic Device'
       ];
+      spellAbility = 'charisma';
       spellsKnown = [
         'B0:1:4/2:5/3:6',
         'B1:2:1/3:2/5:3/16:4',
@@ -1176,7 +1179,6 @@ PH35.classRules = function(rules, classes) {
         'B5:13:0/14:1/15:2/17:3/19:4',
         'B6:16:0/17:1/18:2/19:3/20:4'
       ];
-      spellsPerDayAbility = 'charisma';
       rules.defineRule('casterLevelArcane', 'levels.Bard', '+=', null);
       rules.defineRule
         ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
@@ -1243,6 +1245,7 @@ PH35.classRules = function(rules, classes) {
       saveReflex = PH35.SAVE_BONUS_POOR;
       saveWill = PH35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
+      spellAbility = 'wisdom';
       spellsKnown = [
         'C0:1:"all"', 'C1:1:"all"', 'C2:3:"all"', 'C3:5:"all"',
         'C4:7:"all"', 'C5:9:"all"', 'C6:11:"all"', 'C7:13:"all"',
@@ -1263,7 +1266,6 @@ PH35.classRules = function(rules, classes) {
         'C8:15:1/16:2/18:3/20:4',
         'C9:17:1/18:2/19:3/20:4'
       ];
-      spellsPerDayAbility = 'wisdom';
       skillPoints = 2;
       skills = [
         'Concentration', 'Craft', 'Diplomacy', 'Heal', 'Knowledge (Arcana)',
@@ -1336,6 +1338,7 @@ PH35.classRules = function(rules, classes) {
         'Knowledge (Nature)', 'Listen', 'Profession', 'Ride', 'Spellcraft',
         'Spot', 'Survival', 'Swim'
       ];
+      spellAbility = 'wisdom';
       spellsKnown = [
         'D0:1:"all"', 'D1:1:"all"', 'D2:3:"all"', 'D3:5:"all"',
         'D4:7:"all"', 'D5:9:"all"', 'D6:11:"all"', 'D7:13:"all"',
@@ -1353,10 +1356,12 @@ PH35.classRules = function(rules, classes) {
         'D8:15:1/16:2/18:3/20:4',
         'D9:17:1/18:2/19:3/20:4'
       ];
-      spellsPerDayAbility = 'wisdom';
-      rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
+      rules.defineRule('animalCompanionLevel',
+        'levels.Druid', '+=', 'Math.floor((source + 2) / 3)'
+      );
       rules.defineRule
-        ('companionLevel', 'levels.Druid', '+=', 'Math.floor((source+2) / 3)');
+        ('animalCompanionMasterLevel', 'levels.Druid', '+=', null);
+      rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
       rules.defineRule('languageCount', 'levels.Druid', '+', '1');
       rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
       rules.defineRule('magicNotes.wildShapeFeature',
@@ -1383,40 +1388,6 @@ PH35.classRules = function(rules, classes) {
         'levels.Druid', '=', '-1',
         'alignment', '+', 'source.indexOf("Neutral") >= 0 ? 1 : null'
       );
-      var companionFeatures = [
-        '1:Link', '1:Share Spells', '2:Helper Evasion', '3:Devotion',
-        '4:Multiattack', '6:Helper Improved Evasion'
-      ];
-      var companionNotes = [
-        'helperNotes.helperEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'helperNotes.helperImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'helperNotes.devotionFeature:+4 Will vs. enchantment',
-        'helperNotes.linkFeature:+4 Handle Animal/Wild Empathy w/helper',
-        'helperNotes.multiattackFeature:' +
-          'Reduce additional attack penalty to -2 or second attack at -5',
-        'helperNotes.shareSpellsFeature:Share self spell w/helper w/in 5 ft'
-      ];
-      for(var j = 0; j < companionFeatures.length; j++) {
-        var levelAndFeature = companionFeatures[j].split(/:/);
-        var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-        var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-        rules.defineRule('companionFeatures.' + feature,
-          'companionLevel', '=', 'source >= ' + level + ' ? 1 : null'
-        );
-        rules.defineRule
-          ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
-      }
-      rules.defineRule
-        ('companionArmorClass', 'companionLevel', '=', '(source-1) * 2');
-      rules.defineRule
-        ('companionDexterity', 'companionLevel', '=', 'source-1');
-      rules.defineRule
-        ('companionHitDice', 'companionLevel', '=', '(source - 1) * 2');
-      rules.defineRule('companionStrength', 'companionLevel', '=', 'source-1');
-      rules.defineRule('companionTricks', 'companionLevel', '=', null);
-      notes = notes.concat(companionNotes);
 
     } else if(klass == 'Fighter') {
 
@@ -1436,9 +1407,9 @@ PH35.classRules = function(rules, classes) {
       skills = [
         'Climb', 'Craft', 'Handle Animal', 'Intimidate', 'Jump', 'Ride', 'Swim'
       ];
+      spellAbility = null;
       spellsKnown = null;
       spellsPerDay = null;
-      spellsPerDayAbility = null;
       rules.defineRule('featCount.Fighter',
         'levels.Fighter', '=', '1 + Math.floor(source / 2)'
       );
@@ -1509,9 +1480,9 @@ PH35.classRules = function(rules, classes) {
         'Knowledge (Religion)', 'Listen', 'Move Silently', 'Perform',
         'Profession', 'Sense Motive', 'Spot', 'Swim', 'Tumble'
       ];
+      spellAbility = null;
       spellsKnown = null;
       spellsPerDay = null;
-      spellsPerDayAbility = null;
       rules.defineRule('abilityNotes.fastMovementFeature',
         'levels.Monk', '+=', '10 * Math.floor(source / 3)'
       );
@@ -1618,6 +1589,7 @@ PH35.classRules = function(rules, classes) {
         'Knowledge (Nobility)', 'Knowledge (Religion)', 'Profession', 'Ride',
         'Sense Motive'
       ];
+      spellAbility = 'wisdom';
       spellsKnown = [
         'P1:4:"all"', 'P2:8:"all"', 'P3:11:"all"', 'P4:14:"all"'
       ];
@@ -1627,12 +1599,6 @@ PH35.classRules = function(rules, classes) {
         'P3:11:0/12:1/17:2/19:3',
         'P4:14:0/15:1/19:2/20:3'
       ];
-      spellsPerDayAbility = 'wisdom';
-      rules.defineRule('mountLevel',
-        'levels.Paladin', '+=',
-        'source < 5 ? null : source < 8 ? 1 : source < 11 ? 2 : ' +
-        'source < 15 ? 3 : 4'
-      );
       rules.defineRule('casterLevelDivine',
         'levels.Paladin', '+=', 'source < 4 ? null : Math.floor(source / 2)'
       );
@@ -1646,6 +1612,12 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('magicNotes.removeDiseaseFeature',
         'levels.Paladin', '+=', 'Math.floor((source - 3) / 3)'
       );
+      rules.defineRule('mountLevel',
+        'levels.Paladin', '+=',
+        'source < 5 ? null : source < 8 ? 1 : source < 11 ? 2 : ' +
+        'source < 15 ? 3 : 4'
+      );
+      rules.defineRule('mountMasterLevel', 'levels.Paladin', '+=', null);
       rules.defineRule
         ('save.Fortitude', 'saveNotes.divineGraceFeature', '+', null);
       rules.defineRule
@@ -1659,43 +1631,6 @@ PH35.classRules = function(rules, classes) {
         'levels.Paladin', '=', '-1',
         'alignment', '+', 'source == "Lawful Good" ? 1 : null'
       );
-      var mountFeatures = [
-        '1:Empathic Link',  '1:Helper Evasion', '1:Helper Improved Evasion',
-        '1:Share Spells', '1:Share Saving Throws', '2:Improved Speed',
-        '2:Command Like Creatures'
-      ];
-      var mountNotes = [
-        'helperNotes.helperEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'helperNotes.helperImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'helperNotes.commandLikeCreaturesFeature:' +
-          'DC %V <i>Command</i> vs. similar creatures paladin level/2/day',
-        'helperNotes.empathicLinkFeature:Share emotions up to 1 mile',
-        'helperNotes.improvedSpeedFeature:+10 speed',
-        'helperNotes.shareSavingThrowsFeature:' +
-          'Mount uses higher of own or master\'s saving throws',
-        'helperNotes.shareSpellsFeature:Share self spell w/helper w/in 5 ft'
-      ];
-      for(var j = 0; j < mountFeatures.length; j++) {
-        var levelAndFeature = mountFeatures[j].split(/:/);
-        var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-        var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-        rules.defineRule('mountFeatures.' + feature,
-          'mountLevel', '=', 'source >= ' + level + ' ? 1 : null'
-        );
-        rules.defineRule
-          ('features.' + feature, 'mountFeatures.' + feature, '=', '1');
-      }
-      rules.defineRule('mountArmorClass', 'mountLevel', '=', 'source*2');
-      rules.defineRule('mountHitDice', 'mountLevel', '=', 'source * 2');
-      rules.defineRule('mountIntelligence', 'mountLevel', '=', 'source + 5');
-      rules.defineRule('mountSpellResistance',
-        'mountLevel', '?', 'source >= 4',
-        'levels.Paladin', '+=', 'source + 5'
-      );
-      rules.defineRule('mountStrengthBonus', 'mountLevel', '=', null);
-      notes = notes.concat(mountNotes);
 
     } else if(klass == 'Ranger') {
 
@@ -1752,6 +1687,7 @@ PH35.classRules = function(rules, classes) {
         'Knowledge (Nature)', 'Listen', 'Move Silently', 'Profession', 'Ride',
         'Search', 'Spot', 'Survival', 'Swim', 'Use Rope'
       ];
+      spellAbility = 'wisdom';
       spellsKnown = [
         'R1:4:"all"', 'R2:8:"all"', 'R3:11:"all"', 'R4:14:"all"'
       ];
@@ -1761,19 +1697,16 @@ PH35.classRules = function(rules, classes) {
         'R3:11:0/12:1/17:2/19:3',
         'R4:14:0/15:1/19:2/20:3'
       ];
-      spellsPerDayAbility = 'wisdom';
+      rules.defineRule('animalCompanionLevel',
+        'levels.Ranger', '+=', 'source<4 ? null : Math.floor((source + 6) / 6)'
+      );
+      rules.defineRule
+        ('animalCompanionMasterLevel', 'levels.Ranger', '+=', null);
       rules.defineRule('casterLevelDivine',
         'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
       );
       rules.defineRule('combatNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
-      );
-      rules.defineRule('companionLevel',
-        'levels.Ranger', '+=', 'source<4 ? null : Math.floor((source + 6) / 6)'
-      );
-      rules.defineRule('helperNotes.commandLikeCreaturesFeature',
-        'levels.Paladin', '=', '10 + Math.floor(source / 2)',
-        'charismaModifier', '+', null
       );
       rules.defineRule('rangerFeatures.Rapid Shot',
         'selectableFeatures.Combat Style (Archery)', '?', null
@@ -1852,9 +1785,9 @@ PH35.classRules = function(rules, classes) {
         'Perform', 'Profession', 'Search', 'Sense Motive', 'Sleight Of Hand',
         'Spot', 'Swim', 'Tumble', 'Use Magic Device', 'Use Rope'
       ];
+      spellAbility = null;
       spellsKnown = null;
       spellsPerDay = null;
-      spellsPerDayAbility = null;
       rules.defineRule('combatNotes.sneakAttackFeature',
         'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
       );
@@ -1888,17 +1821,18 @@ PH35.classRules = function(rules, classes) {
         'Bluff', 'Concentration', 'Craft', 'Knowledge (Arcana)', 'Profession',
         'Spellcraft'
       ];
+      spellAbility = 'charisma';
       spellsKnown = [
-        'W0:1:4/2:5/4:6/6:7/8:8/10:9',
-        'W1:1:2/3:3/5:4/7:5',
-        'W2:4:1/5:2/7:3/9:4/11:5',
-        'W3:6:1/7:2/9:3/11:4',
-        'W4:8:1/9:2/11:3/13:4',
-        'W5:10:1/11:2/13:3/15:4',
-        'W6:12:1/13:2/15:3',
-        'W7:14:1/15:2/17:3',
-        'W8:16:1/17:2/19:3',
-        'W9:18:1/19:2/20:3'
+        'S0:1:4/2:5/4:6/6:7/8:8/10:9',
+        'S1:1:2/3:3/5:4/7:5',
+        'S2:4:1/5:2/7:3/9:4/11:5',
+        'S3:6:1/7:2/9:3/11:4',
+        'S4:8:1/9:2/11:3/13:4',
+        'S5:10:1/11:2/13:3/15:4',
+        'S6:12:1/13:2/15:3',
+        'S7:14:1/15:2/17:3',
+        'S8:16:1/17:2/19:3',
+        'S9:18:1/19:2/20:3'
       ];
       spellsPerDay = [
         'S0:1:5/2:6',
@@ -1912,10 +1846,10 @@ PH35.classRules = function(rules, classes) {
         'S8:16:3/17:4/18:5/19:6',
         'S9:18:3/19:4/20:6'
       ];
-      spellsPerDayAbility = 'charisma';
       rules.defineRule('casterLevelArcane', 'levels.Sorcerer', '+=', null);
       rules.defineRule
         ('familiarLevel', 'levels.Sorcerer', '+=', 'Math.floor(source / 2)');
+      rules.defineRule('familiarMasterLevel', 'levels.Sorcerer', '+=', null);
 
     } else if(klass == 'Wizard') {
 
@@ -1947,6 +1881,7 @@ PH35.classRules = function(rules, classes) {
         'Concentration', 'Craft', 'Decipher Script', 'Knowledge', 'Profession',
         'Spellcraft'
       ];
+      spellAbility = 'intelligence';
       spellsKnown = [
         'W0:1:"all"', 'W1:1:3/2:5', 'W2:3:2/4:4', 'W3:5:2/6:4',
         'W4:7:2/8:4', 'W5:9:2/10:4', 'W6:11:2/12:4', 'W7:13:2/14:4',
@@ -1964,10 +1899,10 @@ PH35.classRules = function(rules, classes) {
         'W8:15:1/16:2/18:3/20:4',
         'W9:17:1/18:2/19:3/20:4'
       ];
-      spellsPerDayAbility = 'intelligence';
       rules.defineRule('casterLevelArcane', 'levels.Wizard', '+=', null);
       rules.defineRule
         ('familiarLevel', 'levels.Wizard', '+=', 'Math.floor(source / 2)');
+      rules.defineRule('familiarMasterLevel', 'levels.Wizard', '+=', null);
       rules.defineRule('featCount.Wizard',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
       );
@@ -1984,54 +1919,14 @@ PH35.classRules = function(rules, classes) {
         rules.defineRule
           ('spellsPerDay.W' + j, 'magicNotes.wizardSpecialization', '+', '1');
       }
-      var familiarFeatures = [
-        '1:Empathic Link', '1:Helper Alertness', '1:Helper Evasion',
-        '1:Helper Improved Evasion', '1:Share Spells', '2:Deliver Touch Spells',
-        '3:Speak With Master', '4:Speak With Like Animals',
-        '6:Helper Spell Resistance', '7:Scry'
-      ];
-      var familiarNotes = [
-        'helperNotes.helperAlertnessFeature:' +
-          'Master+2 listen/spot when w/in reach',
-        'helperNotes.helperEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'helperNotes.helperImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'helperNotes.deliverTouchSpellsFeature:' +
-          'Deliver touch spells if in contact w/master when cast',
-        'helperNotes.empathicLinkFeature:Share emotions up to 1 mile',
-        'helperNotes.scryFeature:Master views helper 1/day',
-        'helperNotes.shareSpellsFeature:Share self spell w/helper w/in 5 ft',
-        'helperNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
-        'helperNotes.speakWithMasterFeature:Talk w/master in secret language'
-      ];
-      for(var j = 0; j < familiarFeatures.length; j++) {
-        var levelAndFeature = familiarFeatures[j].split(/:/);
-        var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-        var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-        rules.defineRule('familiarFeatures.' + feature,
-          'familiarLevel', '=', 'source >= ' + level + ' ? 1 : null'
-        );
-        rules.defineRule
-          ('features.' + feature, 'familiarFeatures.' + feature, '=', '1');
-      }
-      rules.defineRule('familiarArmorClass', 'familiarLevel', '=', null);
-      rules.defineRule
-        ('familiarIntelligence', 'familiarLevel', '=', 'source + 5');
-      rules.defineRule('familiarSpellResistance',
-        'familiarLevel', '?', 'source >= 5',
-        'levels.Sorcerer', '+=', 'source + 5',
-        'levels.Wizard', '+=', 'source + 5'
-      );
-      notes = notes.concat(familiarNotes);
 
     } else
       continue;
 
-    rules.defineClass
-      (klass, hitDie, skillPoints, baseAttack, saveFortitude, saveReflex,
+    PH35.defineClass
+      (rules, klass, hitDie, skillPoints, baseAttack, saveFortitude, saveReflex,
        saveWill, profArmor, profShield, profWeapon, skills, features,
-       spellsKnown, spellsPerDay, spellsPerDayAbility);
+       spellsKnown, spellsPerDay, spellAbility);
     if(notes != null)
       rules.defineNote(notes);
     if(feats != null) {
@@ -2214,39 +2109,8 @@ PH35.createViewer = function(viewer) {
       {name: 'Magic Notes', within: 'Magic', separator: ' * '},
     {name: 'Notes Area', within: '_top', separator: '\n',
       format: '<b>Notes</b><br/>%V'},
-      {name: 'CompanionStats', within: 'Notes Area'},
-        {name: 'Companion Armor Class', within: 'CompanionStats',
-         format: '<b>%N</b>: +%V'},
-        {name: 'Companion Dexterity', within: 'CompanionStats',
-         format: '<b>%N</b>: +%V'},
-        {name: 'Companion Hit Dice', within: 'CompanionStats',
-         format: '<b>%N</b>: +%Vd8'},
-        {name: 'Companion Strength', within: 'CompanionStats',
-         format: '<b>%N</b>: +%V'},
-        {name: 'Companion Tricks', within: 'CompanionStats',
-         format: '<b>%N</b>: +%V'},
-      {name: 'Companion Features', within: 'Notes Area', separator: ' * '},
-      {name: 'FamiliarStats', within: 'Notes Area'},
-        {name: 'Familiar Armor Class', within: 'FamiliarStats',
-         format: '<b>%N</b>: +%V'},
-        {name: 'Familiar Hit Dice', within: 'FamiliarStats',
-         format: '<b>%N</b>: +%Vd8'},
-        {name: 'Familiar Intelligence', within: 'FamiliarStats'},
-        {name: 'Familiar Spell Resistance', within: 'FamiliarStats',
-         format: '<b>%N</b>: +%V'},
-      {name: 'Familiar Features', within: 'Notes Area', separator: ' * '},
-      {name: 'MountStats', within: 'Notes Area'},
-        {name: 'Mount Armor Class', within: 'MountStats',
-         format: '<b>%N</b>: +%V'},
-        {name: 'Mount Hit Dice', within: 'MountStats',
-         format: '<b>%N</b>: +%Vd8'},
-        {name: 'Mount Intelligence', within: 'MountStats'},
-        {name: 'Mount Strength', within: 'MountStats',
-         format: '<b>%N</b>: +%V'},
-        {name: 'Mount Spell Resistance', within: 'MountStats',
-         format: '<b>%N</b>: +%V'},
-      {name: 'Mount Features', within: 'Notes Area', separator: ' * '},
-      {name: 'Helper Notes', within: 'Notes Area', separator: ' * '},
+      {name: 'Helper Area', within: 'Notes Area', separator: '\n'},
+        {name: 'Helper Notes', within: 'Helper Area', separator: ' * '},
       {name: 'Notes', within: 'Notes Area', format: '%V'},
       {name: 'Dm Notes', within: 'Notes Area', format: '%V'},
       {name: 'Validation Notes', within: 'Notes Area', separator: ' * '}
@@ -3311,6 +3175,152 @@ PH35.featRules = function(rules, feats, subfeats) {
 
 };
 
+/* Defines the PHB Chapter 3 rules related to helper creatures. */
+PH35.helperRules = function(rules, helpers) {
+
+  for(var i = 0; i < helpers.length; i++) {
+
+    var features, notes, prefix;
+    var helper = helpers[i];
+
+    if(helper == 'Animal Companion') {
+      features = [
+        '1:Link', '1:Share Spells', '2:Helper Evasion', '3:Devotion',
+        '4:Multiattack', '6:Helper Improved Evasion'
+      ];
+      notes = [
+        'animalCompanionStats.armorClass:+%V',
+        'animalCompanionStats.dexterity:+%V',
+        'animalCompanionStats.hitDice:+%Vd8',
+        'animalCompanionStats.strength:+%V',
+        'animalCompanionStats.tricks:+%V',
+        'helperNotes.devotionFeature:+4 Will vs. enchantment',
+        'helperNotes.helperEvasionFeature:' +
+          'Reflex save yields no damage instead of 1/2',
+        'helperNotes.helperImprovedEvasionFeature:' +
+          'Failed save yields 1/2 damage',
+        'helperNotes.linkFeature:Master +4 Handle Animal/Wild Empathy w/helper',
+        'helperNotes.multiattackFeature:' +
+          'Reduce additional attack penalty to -2 or second attack at -5',
+        'helperNotes.shareSpellsFeature:' +
+          'Master share self spell w/helper w/in 5 ft'
+      ];
+      prefix = 'animalCompanion';
+      rules.defineRule('animalCompanionStats.armorClass',
+        'animalCompanionLevel', '=', '(source-1) * 2'
+      );
+      rules.defineRule('animalCompanionStats.dexterity',
+        'animalCompanionLevel', '=', 'source - 1'
+      );
+      rules.defineRule('animalCompanionStats.hitDice',
+        'animalCompanionLevel', '=', '(source - 1) * 2'
+      );
+      rules.defineRule('animalCompanionStats.strength',
+        'animalCompanionLevel', '=', 'source - 1'
+      );
+      rules.defineRule
+        ('animalCompanionStats.tricks', 'animalCompanionLevel', '=', null);
+    } else if(helper == 'Familiar') {
+      features = [
+        '1:Empathic Link', '1:Helper Alertness', '1:Helper Evasion',
+        '1:Helper Improved Evasion', '1:Share Spells', '2:Deliver Touch Spells',
+        '3:Speak With Master', '4:Speak With Like Animals',
+        '6:Helper Spell Resistance', '7:Scry'
+      ];
+      notes = [
+        'familiarStats.armorClass:+%V',
+        'familiarStats.intelligence:%V',
+        'familiarStats.spellResistance:DC %V',
+        'helperNotes.deliverTouchSpellsFeature:' +
+          'Deliver touch spells if in contact w/master when cast',
+        'helperNotes.empathicLinkFeature:' +
+          'Master/helper share emotions up to 1 mile',
+        'helperNotes.helperAlertnessFeature:' +
+          'Master +2 listen/spot when w/in reach',
+        'helperNotes.helperEvasionFeature:' +
+          'Reflex save yields no damage instead of 1/2',
+        'helperNotes.helperImprovedEvasionFeature:' +
+          'Failed save yields 1/2 damage',
+        'helperNotes.scryFeature:Master views helper 1/day',
+        'helperNotes.shareSpellsFeature:' +
+          'Master share self spell w/helper w/in 5 ft',
+        'helperNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
+        'helperNotes.speakWithMasterFeature:Talk w/master in secret language'
+      ];
+      prefix = 'familiar';
+      rules.defineRule('familiarStats.armorClass', 'familiarLevel', '=', null);
+      rules.defineRule
+        ('familiarStats.intelligence', 'familiarLevel', '=', 'source + 5');
+      rules.defineRule('familiarStats.spellResistance',
+        'familiarLevel', '?', 'source >= 5',
+        'familiarMasterLevel', '+=', 'source + 5'
+      );
+    } else if(helper == 'Mount') {
+      features = [
+        '1:Empathic Link',  '1:Helper Evasion', '1:Helper Improved Evasion',
+        '1:Share Saving Throws', '1:Share Spells', '2:Command Like Creatures',
+        '2:Improved Speed'
+      ];
+      notes = [
+        'helperNotes.commandLikeCreaturesFeature:' +
+          'DC %V <i>Command</i> vs. similar creatures master level/2/day',
+        'helperNotes.empathicLinkFeature:' +
+          'Master/helper share emotions up to 1 mile',
+        'helperNotes.helperEvasionFeature:' +
+          'Reflex save yields no damage instead of 1/2',
+        'helperNotes.helperImprovedEvasionFeature:' +
+          'Failed save yields 1/2 damage',
+        'helperNotes.improvedSpeedFeature:+10 speed',
+        'helperNotes.shareSavingThrowsFeature:' +
+          'Helper uses higher of own or master\'s saving throws',
+        'helperNotes.shareSpellsFeature:' +
+          'Master share self spell w/helper w/in 5 ft',
+        'mountStats.armorClass:+%V',
+        'mountStats.hitDice:+%Vd8',
+        'mountStats.intelligence:%V',
+        'mountStats.spellResistance:DC %V',
+        'mountStats.strength:+%V'
+      ];
+      prefix = 'mount';
+      rules.defineRule('helperNotes.commandLikeCreaturesFeature',
+        'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
+        'charismaModifier', '+', null
+      );
+      rules.defineRule('mountStats.armorClass', 'mountLevel', '=', 'source*2');
+      rules.defineRule('mountStats.hitDice', 'mountLevel', '=', 'source * 2');
+      rules.defineRule
+        ('mountStats.intelligence', 'mountLevel', '=', 'source + 5');
+      rules.defineRule('mountStats.spellResistance',
+        'mountLevel', '?', 'source >= 4',
+        'mountMasterLevel', '+=', 'source + 5'
+      );
+      rules.defineRule('mountStats.strength', 'mountLevel', '=', null);
+    } else
+      continue;
+
+    for(var j = 0; j < features.length; j++) {
+      var levelAndFeature = features[j].split(/:/);
+      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
+      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+      rules.defineRule(prefix + 'Features.' + feature,
+        prefix + 'Level', '=', 'source >= ' + level + ' ? 1 : null'
+      );
+      rules.defineRule
+        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
+    }
+
+    if(notes != null)
+      rules.defineNote(notes);
+
+    rules.defineSheetElement
+      (helper + ' Features', 'Helper Area', null, 'Helper Notes', ' * ');
+    rules.defineSheetElement
+      (helper + ' Stats', 'Helper Area', null, helper + ' Features', ' * ');
+
+  }
+
+};
+
 /* Defines the rules related to PH Chapter 10, Magic and Chapter 11, Spells. */
 PH35.magicRules = function(rules, domains, schools, spells) {
   rules.defineChoice('domains', domains);
@@ -3345,15 +3355,12 @@ PH35.magicRules = function(rules, domains, schools, spells) {
       'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
     );
     for(var a in PH35.deitiesFavoredWeapons) {
-      var weapons = a.split('/');
+      var weapons = PH35.deitiesFavoredWeapons[a].split('/');
       for(var j = 0; j < weapons.length; j++) {
         var weapon = weapons[j];
-        rules.defineRule('clericFeatures.Weapon Focus (' + weapon + ')',
+        rules.defineRule('features.Weapon Focus (' + weapon + ')',
           'featureNotes.warDomain', '=',
           'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
-        );
-        rules.defineRule('features.Weapon Focus (' + weapon + ')',
-          'clericFeatures.Weapon Focus (' + weapon + ')', '=', '1'
         );
       }
     }
@@ -3562,7 +3569,7 @@ PH35.raceRules = function(rules, languages, races) {
     } else
       continue;
 
-    rules.defineRace(race, adjustment, features);
+    PH35.defineRace(rules, race, adjustment, features);
     if(notes != null) {
       rules.defineNote(notes);
     }
@@ -3808,6 +3815,17 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     if(choices.length > 0) {
       attributes['deity'] = choices[ScribeUtils.random(0, choices.length - 1)];
     }
+  } else if(attribute == 'domains') {
+    attrs = this.applyRules(attributes);
+    howMany = attrs.domainCount;
+    if(howMany != null) {
+      if((choices = this.getChoices('deities')[attributes.deity]) == null)
+        choices = ScribeUtils.getKeys(PH35.getChoices('domains'));
+      else
+        choices = choices.split('/');
+      pickAttrs(attributes, 'domains.', choices, howMany -
+                ScribeUtils.sumMatching(attributes, /^domains\./), 1);
+    }
   } else if(attribute == 'feats' || attribute == 'features') {
     attrs = this.applyRules(attributes);
     var toAllocateByType = {};
@@ -3901,15 +3919,6 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       pickAttrs(attributes, 'levels.', choices, 1, level);
     }
     attrs = PH35.applyRules(attributes);
-    howMany = attrs.domainCount;
-    if(howMany != null) {
-      if((choices = this.getChoices('deities')[attributes.deity]) == null)
-        choices = ScribeUtils.getKeys(PH35.getChoices('domains'));
-      else
-        choices = choices.split('/');
-      pickAttrs(attributes, 'domains.', choices,
-                howMany - ScribeUtils.sumMatching(/^domains\./), true);
-    }
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
   } else if(attribute == 'skills') {
@@ -3980,6 +3989,16 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       }
       spellLevel = matchInfo[1];
       howMany = attrs[attr];
+      if(spellLevel.match(/^S\d+$/)) {
+        spellLevel = spellLevel.replace(/S/, 'W');
+        var additional = attrs['spellsKnown.' + spellLevel];
+        if(additional == null)
+          ; // empty
+        else if(additional == 'all')
+          howMany = 'all';
+        else
+          howMany += additional;
+      }
       if(spellLevel.substring(0, 3) == 'Dom') {
         choices = [];
         for(var a in this.getChoices('domains')) {
@@ -4001,7 +4020,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         pickAttrs
           (attributes, 'spells.', choices, howMany -
            ScribeUtils.sumMatching(attributes, '^spells\\..*' + spellLevel),
-           true);
+           1);
       }
     }
   } else if(attribute == 'weapons') {
@@ -4025,6 +4044,165 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
 
 };
 
+/*
+ * A convenience function that adds #name# to the list of valid classes in
+ * #rules#.  Characters of class #name# roll #hitDice# ([Nd]S, where N is the
+ * number of dice and S the number of sides) more hit points at each level.
+ * All other parameters are optional.  #skillPoints# is the number of skill
+ * points a character of the class receives each level; #baseAttackBonus#,
+ * #saveFortitudeBonus#, #saveReflexBonus# and #saveWillBonus# are JavaScript
+ * expressions that compute the attack and saving throw bonuses the character
+ * accumulates each class level; #armorProficiencyLevel#,
+ * #shieldProficiencyLevel# and #weaponProficiencyLevel# indicate any
+ * proficiency in these categories that characters of the class gain;
+ * #classSkills# is an array of skills that are class skills (as opposed to
+ * cross-class) for the class, #features# an array of level:feature name pairs
+ * indicating features that the class acquires when advancing levels,
+ * #spellsKnown# an array of information about the type, number, and level of
+ * spells known at each class level, #spellsPerDay# an array of information
+ * about the type, number, and level of spells castable per day at each class
+ * level, and #spellAbility# the ability that pertains to this class' spells.
+ */
+PH35.defineClass = function
+  (rules, name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
+   saveReflexBonus, saveWillBonus, armorProficiencyLevel,
+   shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
+   spellsKnown, spellsPerDay, spellAbility) {
+
+  var classLevel = 'levels.' + name;
+  rules.defineChoice('classes', name + ':' + hitDice);
+  if(skillPoints != null)
+    rules.defineRule
+      ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
+  if(baseAttackBonus != null)
+    rules.defineRule('baseAttack', classLevel, '+', baseAttackBonus);
+  if(saveFortitudeBonus != null)
+    rules.defineRule('save.Fortitude', classLevel, '+', saveFortitudeBonus);
+  if(saveReflexBonus != null)
+    rules.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
+  if(saveWillBonus != null)
+    rules.defineRule('save.Will', classLevel, '+', saveWillBonus);
+  if(armorProficiencyLevel != null)
+    rules.defineRule
+      ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
+  if(shieldProficiencyLevel != null)
+    rules.defineRule
+      ('shieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
+  if(weaponProficiencyLevel != null)
+    rules.defineRule
+      ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
+  if(classSkills != null) {
+    for(var i = 0; i < classSkills.length; i++) {
+      rules.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');
+    }
+  }
+  if(features != null) {
+    var prefix =
+      name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+    for(var i = 0; i < features.length; i++) {
+      var levelAndFeature = features[i].split(/:/);
+      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
+      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+      rules.defineRule(prefix + 'Features.' + feature,
+        'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
+      );
+      rules.defineRule
+        ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
+    }
+    rules.defineSheetElement
+      (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
+  }
+  if(spellAbility != null) {
+      rules.defineRule('spellDifficultyClass.' + name,
+        'levels.' + name, '?', null,
+        spellAbility + 'Modifier', '=', '10 + source'
+      );
+  }
+  if(spellsKnown != null) {
+    for(var j = 0; j < spellsKnown.length; j++) {
+      var typeAndLevel = spellsKnown[j].split(/:/)[0];
+      var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
+      var code = spellsKnown[j].substring(typeAndLevel.length + 1).
+                 split(/\//).reverse().join('source >= ');
+      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
+      code = 'source >= ' + code + ' : null';
+      if(code.indexOf('source >= 1 ?') >= 0) {
+        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
+      }
+      rules.defineRule
+        ('spellsKnown.' + typeAndLevel, 'levels.' + name, '=', code);
+    }
+  }
+  if(spellsPerDay != null) {
+    for(var j = 0; j < spellsPerDay.length; j++) {
+      var typeAndLevel = spellsPerDay[j].split(/:/)[0];
+      var level = typeAndLevel.replace(/[A-Z]*/, '');
+      var code = spellsPerDay[j].substring(typeAndLevel.length + 1).
+                 split(/\//).reverse().join('source >= ');
+      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
+      code = 'source >= ' + code + ' : null';
+      if(code.indexOf('source >= 1 ?') >= 0) {
+        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
+      }
+      rules.defineRule
+        ('spellsPerDay.' + typeAndLevel, 'levels.' + name, '=', code);
+      if(spellAbility != null) {
+        var modifiier = spellAbility + 'Modifier';
+        var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
+        if(level > 0) {
+          code = 'source >= ' + level +
+                 ' ? 1 + Math.floor((source - ' + level + ') / 4) : null';
+          rules.defineRule
+            ('spellsPerDay.' + typeAndLevel, modifiier, '+', code);
+        }
+      }
+    }
+  }
+
+};
+
+/*
+ * A convenience function that adds #name# to the list of valid races in
+ * #rules#.  #abilityAdjustment# is either null or a note of the form "[+-]n
+ * Ability[/[+-]n Ability]*", indicating ability adjustments for the race.
+ * #features# is either null or an array of strings of the form
+ * "[level:]Feature", indicating a list of features associated with the race
+ * and the character levels at which they're acquired.  If no level is included
+ * with a feature, the feature is acquired at level 1.
+ */
+PH35.defineRace = function(rules, name, abilityAdjustment, features) {
+  rules.defineChoice('races', name);
+  var prefix =
+    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+  if(abilityAdjustment != null) {
+    var abilityNote = 'abilityNotes.' + prefix + 'AbilityAdjustment';
+    rules.defineNote(abilityNote + ':' + abilityAdjustment);
+    var adjustments = abilityAdjustment.split(/\//);
+    for(var i = 0; i < adjustments.length; i++) {
+      var amountAndAbility = adjustments[i].split(/ +/);
+      rules.defineRule
+        (amountAndAbility[1], abilityNote, '+', amountAndAbility[0]);
+    }
+    rules.defineRule
+      (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
+  }
+  if(features != null) {
+    for(var i = 0; i < features.length; i++) {
+      var levelAndFeature = features[i].split(/:/);
+      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
+      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+      rules.defineRule(prefix + 'Features.' + feature,
+        'race', '?', 'source == "' + name + '"',
+        'level', '=', 'source >= ' + level + ' ? 1 : null'
+      );
+      rules.defineRule
+        ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
+    }
+    rules.defineSheetElement
+      (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
+  }
+};
+
 /* Convenience functions that invoke ScribeRules methods on the PH35 rules. */
 PH35.applyRules = function() {
   return PH35.rules.applyRules.apply(PH35.rules, arguments);
@@ -4034,20 +4212,12 @@ PH35.defineChoice = function() {
   return PH35.rules.defineChoice.apply(PH35.rules, arguments);
 };
 
-PH35.defineClass = function() {
-  return PH35.rules.defineClass.apply(PH35.rules, arguments);
-};
-
 PH35.defineEditorElement = function() {
   return PH35.rules.defineEditorElement.apply(PH35.rules, arguments);
 };
 
 PH35.defineNote = function() {
   return PH35.rules.defineNote.apply(PH35.rules, arguments);
-};
-
-PH35.defineRace = function() {
-  return PH35.rules.defineRace.apply(PH35.rules, arguments);
 };
 
 PH35.defineRule = function() {
