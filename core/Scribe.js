@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.195 2007/03/06 07:11:45 Jim Exp $ */
+/* $Id: Scribe.js,v 1.196 2007/03/09 14:46:28 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.39.05';
+var VERSION = '0.39.09';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -800,6 +800,10 @@ Scribe.update = function(input) {
 
   var name = input.name;
   var value = InputGetValue(input);
+  if(value === true)
+    value = 1;
+  else if(value === false)
+    value = 0;
   if(name == 'about') {
     if(Scribe.aboutWindow == null || Scribe.aboutWindow.closed)
       Scribe.aboutWindow = Scribe.popUp
