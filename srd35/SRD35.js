@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.84 2007/03/15 05:17:34 Jim Exp $ */
+/* $Id: SRD35.js,v 1.85 2007/03/15 14:51:00 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -33,7 +33,7 @@ function PH35() {
   PH35.abilityRules(rules);
   PH35.raceRules(rules, PH35.LANGUAGES, PH35.RACES);
   PH35.classRules(rules, PH35.CLASSES);
-  PH35.helperRules(rules, PH35.HELPERS);
+  PH35.companionRules(rules, PH35.COMPANIONS);
   PH35.skillRules(rules, PH35.SKILLS, PH35.SUBSKILLS);
   PH35.featRules(rules, PH35.FEATS, PH35.SUBFEATS);
   PH35.descriptionRules(rules, PH35.ALIGNMENTS, PH35.DEITIES, PH35.GENDERS);
@@ -75,6 +75,7 @@ PH35.CLASSES = [
   'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin',
   'Ranger', 'Rogue', 'Sorcerer', 'Wizard'
 ];
+PH35.COMPANIONS = ['Animal Companion', 'Familiar', 'Mount'];
 PH35.DEITIES = [
   'Boccob (N Magic):Knowledge/Magic/Trickery',
   'Corellon Larethian (CG Elves):Chaos/Good/Protection/War',
@@ -149,7 +150,6 @@ PH35.GOODIES = [
   'Ring Of Protection +3',
   'Ring Of Protection +4'
 ];
-PH35.HELPERS = ['Animal Companion', 'Familiar', 'Mount'];
 PH35.LANGUAGES = [
   'Abyssal', 'Aquan', 'Avian', 'Celestial', 'Common', 'Draconic', 'Druidic',
   'Dwarven', 'Elven', 'Giant', 'Gnoll', 'Gnome', 'Goblin', 'Halfling',
@@ -1988,6 +1988,154 @@ PH35.combatRules = function(rules) {
   rules.defineRule('weapons.Unarmed', null, '=', '1');
 };
 
+/* Defines the PHB Chapter 3 rules related to companion creatures. */
+PH35.companionRules = function(rules, companions) {
+
+  for(var i = 0; i < companions.length; i++) {
+
+    var features, notes, prefix;
+    var companion = companions[i];
+
+    if(companion == 'Animal Companion') {
+      features = [
+        '1:Link', '1:Share Spells', '2:Companion Evasion', '3:Devotion',
+        '4:Multiattack', '6:Companion Improved Evasion'
+      ];
+      notes = [
+        'animalCompanionStats.armorClass:+%V',
+        'animalCompanionStats.dexterity:+%V',
+        'animalCompanionStats.hitDice:+%Vd8',
+        'animalCompanionStats.strength:+%V',
+        'animalCompanionStats.tricks:+%V',
+        'companionNotes.companionEvasionFeature:' +
+          'Reflex save yields no damage instead of 1/2',
+        'companionNotes.companionImprovedEvasionFeature:' +
+          'Failed save yields 1/2 damage',
+        'companionNotes.devotionFeature:+4 Will vs. enchantment',
+        'companionNotes.linkFeature:Master +4 Handle Animal/Wild Empathy w/companion',
+        'companionNotes.multiattackFeature:' +
+          'Reduce additional attack penalty to -2 or second attack at -5',
+        'companionNotes.shareSpellsFeature:' +
+          'Master share self spell w/companion w/in 5 ft'
+      ];
+      prefix = 'animalCompanion';
+      rules.defineRule('animalCompanionStats.armorClass',
+        'animalCompanionLevel', '=', '(source-1) * 2'
+      );
+      rules.defineRule('animalCompanionStats.dexterity',
+        'animalCompanionLevel', '=', 'source - 1'
+      );
+      rules.defineRule('animalCompanionStats.hitDice',
+        'animalCompanionLevel', '=', '(source - 1) * 2'
+      );
+      rules.defineRule('animalCompanionStats.strength',
+        'animalCompanionLevel', '=', 'source - 1'
+      );
+      rules.defineRule
+        ('animalCompanionStats.tricks', 'animalCompanionLevel', '=', null);
+    } else if(companion == 'Familiar') {
+      features = [
+        '1:Companion Alertness', '1:Companion Evasion',
+        '1:Companion Improved Evasion', '1:Empathic Link', '1:Share Spells',
+        '2:Deliver Touch Spells', '3:Speak With Master',
+        '4:Speak With Like Animals', '6:Companion Spell Resistance', '7:Scry'
+      ];
+      notes = [
+        'familiarStats.armorClass:+%V',
+        'familiarStats.intelligence:%V',
+        'familiarStats.spellResistance:DC %V',
+        'companionNotes.companionAlertnessFeature:' +
+          'Master +2 listen/spot when w/in reach',
+        'companionNotes.companionEvasionFeature:' +
+          'Reflex save yields no damage instead of 1/2',
+        'companionNotes.companionImprovedEvasionFeature:' +
+          'Failed save yields 1/2 damage',
+        'companionNotes.deliverTouchSpellsFeature:' +
+          'Deliver touch spells if in contact w/master when cast',
+        'companionNotes.empathicLinkFeature:' +
+          'Master/companion share emotions up to 1 mile',
+        'companionNotes.scryFeature:Master views companion 1/day',
+        'companionNotes.shareSpellsFeature:' +
+          'Master share self spell w/companion w/in 5 ft',
+        'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
+        'companionNotes.speakWithMasterFeature:Talk w/master in secret language'
+      ];
+      prefix = 'familiar';
+      rules.defineRule('familiarStats.armorClass', 'familiarLevel', '=', null);
+      rules.defineRule
+        ('familiarStats.intelligence', 'familiarLevel', '=', 'source + 5');
+      rules.defineRule('familiarStats.spellResistance',
+        'familiarLevel', '?', 'source >= 5',
+        'familiarMasterLevel', '+=', 'source + 5'
+      );
+    } else if(companion == 'Mount') {
+      features = [
+        '1:Companion Evasion', '1:Companion Improved Evasion',
+        '1:Empathic Link', '1:Share Saving Throws', '1:Share Spells',
+        '2:Command Like Creatures', '2:Improved Speed'
+      ];
+      notes = [
+        'companionNotes.commandLikeCreaturesFeature:' +
+          'DC %V <i>Command</i> vs. similar creatures master level/2/day',
+        'companionNotes.companionEvasionFeature:' +
+          'Reflex save yields no damage instead of 1/2',
+        'companionNotes.companionImprovedEvasionFeature:' +
+          'Failed save yields 1/2 damage',
+        'companionNotes.empathicLinkFeature:' +
+          'Master/companion share emotions up to 1 mile',
+        'companionNotes.improvedSpeedFeature:+10 speed',
+        'companionNotes.shareSavingThrowsFeature:' +
+          'Companion uses higher of own or master\'s saving throws',
+        'companionNotes.shareSpellsFeature:' +
+          'Master share self spell w/companion w/in 5 ft',
+        'mountStats.armorClass:+%V',
+        'mountStats.hitDice:+%Vd8',
+        'mountStats.intelligence:%V',
+        'mountStats.spellResistance:DC %V',
+        'mountStats.strength:+%V'
+      ];
+      prefix = 'mount';
+      rules.defineRule('companionNotes.commandLikeCreaturesFeature',
+        'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
+        'charismaModifier', '+', null
+      );
+      rules.defineRule('mountStats.armorClass', 'mountLevel', '=', 'source*2');
+      rules.defineRule('mountStats.hitDice', 'mountLevel', '=', 'source * 2');
+      rules.defineRule
+        ('mountStats.intelligence', 'mountLevel', '=', 'source + 5');
+      rules.defineRule('mountStats.spellResistance',
+        'mountLevel', '?', 'source >= 4',
+        'mountMasterLevel', '+=', 'source + 5'
+      );
+      rules.defineRule('mountStats.strength', 'mountLevel', '=', null);
+    } else
+      continue;
+
+    for(var j = 0; j < features.length; j++) {
+      var levelAndFeature = features[j].split(/:/);
+      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
+      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+      rules.defineRule(prefix + 'Features.' + feature,
+        prefix + 'Level', '=', 'source >= ' + level + ' ? 1 : null'
+      );
+      rules.defineRule
+        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
+    }
+
+    if(notes != null)
+      rules.defineNote(notes);
+
+    rules.defineSheetElement
+      (companion + ' Features', 'Companion Area', null, 'Companion Notes',
+       ' * ');
+    rules.defineSheetElement
+      (companion + ' Stats', 'Companion Area', null, companion + ' Features',
+       ' * ');
+
+  }
+
+};
+
 /* Returns an ObjectViewer loaded with the default character sheet format. */
 PH35.createViewer = function(viewer) {
   viewer.addElements(
@@ -2110,8 +2258,8 @@ PH35.createViewer = function(viewer) {
       {name: 'Magic Notes', within: 'Magic', separator: ' * '},
     {name: 'Notes Area', within: '_top', separator: '\n',
       format: '<b>Notes</b><br/>%V'},
-      {name: 'Helper Area', within: 'Notes Area', separator: '\n'},
-        {name: 'Helper Notes', within: 'Helper Area', separator: ' * '},
+      {name: 'Companion Area', within: 'Notes Area', separator: '\n'},
+        {name: 'Companion Notes', within: 'Companion Area', separator: ' * '},
       {name: 'Notes', within: 'Notes Area', format: '%V'},
       {name: 'Dm Notes', within: 'Notes Area', format: '%V'},
       {name: 'Validation Notes', within: 'Notes Area', separator: ' * '}
@@ -2650,7 +2798,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
       rules.defineRule('validationNotes.improvedShieldBashFeat',
         'feats.Improved Shield Bash', '=', '-1',
-        // Note: class-based proficiency doesn't set features.Shield Proficiency
+        // Note: features.Shield Proficiency unaffected by class proficiency
         'shieldProficiencyLevel', '+',
         'source > ' + PH35.PROFICIENCY_NONE + ' ? 1 : null'
       );
@@ -3173,152 +3321,6 @@ PH35.featRules = function(rules, feats, subfeats) {
     /^featCount\./, '+=', '-source',
     /^feats\./, '+=', null
   );
-
-};
-
-/* Defines the PHB Chapter 3 rules related to helper creatures. */
-PH35.helperRules = function(rules, helpers) {
-
-  for(var i = 0; i < helpers.length; i++) {
-
-    var features, notes, prefix;
-    var helper = helpers[i];
-
-    if(helper == 'Animal Companion') {
-      features = [
-        '1:Link', '1:Share Spells', '2:Helper Evasion', '3:Devotion',
-        '4:Multiattack', '6:Helper Improved Evasion'
-      ];
-      notes = [
-        'animalCompanionStats.armorClass:+%V',
-        'animalCompanionStats.dexterity:+%V',
-        'animalCompanionStats.hitDice:+%Vd8',
-        'animalCompanionStats.strength:+%V',
-        'animalCompanionStats.tricks:+%V',
-        'helperNotes.devotionFeature:+4 Will vs. enchantment',
-        'helperNotes.helperEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'helperNotes.helperImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'helperNotes.linkFeature:Master +4 Handle Animal/Wild Empathy w/helper',
-        'helperNotes.multiattackFeature:' +
-          'Reduce additional attack penalty to -2 or second attack at -5',
-        'helperNotes.shareSpellsFeature:' +
-          'Master share self spell w/helper w/in 5 ft'
-      ];
-      prefix = 'animalCompanion';
-      rules.defineRule('animalCompanionStats.armorClass',
-        'animalCompanionLevel', '=', '(source-1) * 2'
-      );
-      rules.defineRule('animalCompanionStats.dexterity',
-        'animalCompanionLevel', '=', 'source - 1'
-      );
-      rules.defineRule('animalCompanionStats.hitDice',
-        'animalCompanionLevel', '=', '(source - 1) * 2'
-      );
-      rules.defineRule('animalCompanionStats.strength',
-        'animalCompanionLevel', '=', 'source - 1'
-      );
-      rules.defineRule
-        ('animalCompanionStats.tricks', 'animalCompanionLevel', '=', null);
-    } else if(helper == 'Familiar') {
-      features = [
-        '1:Empathic Link', '1:Helper Alertness', '1:Helper Evasion',
-        '1:Helper Improved Evasion', '1:Share Spells', '2:Deliver Touch Spells',
-        '3:Speak With Master', '4:Speak With Like Animals',
-        '6:Helper Spell Resistance', '7:Scry'
-      ];
-      notes = [
-        'familiarStats.armorClass:+%V',
-        'familiarStats.intelligence:%V',
-        'familiarStats.spellResistance:DC %V',
-        'helperNotes.deliverTouchSpellsFeature:' +
-          'Deliver touch spells if in contact w/master when cast',
-        'helperNotes.empathicLinkFeature:' +
-          'Master/helper share emotions up to 1 mile',
-        'helperNotes.helperAlertnessFeature:' +
-          'Master +2 listen/spot when w/in reach',
-        'helperNotes.helperEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'helperNotes.helperImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'helperNotes.scryFeature:Master views helper 1/day',
-        'helperNotes.shareSpellsFeature:' +
-          'Master share self spell w/helper w/in 5 ft',
-        'helperNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
-        'helperNotes.speakWithMasterFeature:Talk w/master in secret language'
-      ];
-      prefix = 'familiar';
-      rules.defineRule('familiarStats.armorClass', 'familiarLevel', '=', null);
-      rules.defineRule
-        ('familiarStats.intelligence', 'familiarLevel', '=', 'source + 5');
-      rules.defineRule('familiarStats.spellResistance',
-        'familiarLevel', '?', 'source >= 5',
-        'familiarMasterLevel', '+=', 'source + 5'
-      );
-    } else if(helper == 'Mount') {
-      features = [
-        '1:Empathic Link',  '1:Helper Evasion', '1:Helper Improved Evasion',
-        '1:Share Saving Throws', '1:Share Spells', '2:Command Like Creatures',
-        '2:Improved Speed'
-      ];
-      notes = [
-        'helperNotes.commandLikeCreaturesFeature:' +
-          'DC %V <i>Command</i> vs. similar creatures master level/2/day',
-        'helperNotes.empathicLinkFeature:' +
-          'Master/helper share emotions up to 1 mile',
-        'helperNotes.helperEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'helperNotes.helperImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'helperNotes.improvedSpeedFeature:+10 speed',
-        'helperNotes.shareSavingThrowsFeature:' +
-          'Helper uses higher of own or master\'s saving throws',
-        'helperNotes.shareSpellsFeature:' +
-          'Master share self spell w/helper w/in 5 ft',
-        'mountStats.armorClass:+%V',
-        'mountStats.hitDice:+%Vd8',
-        'mountStats.intelligence:%V',
-        'mountStats.spellResistance:DC %V',
-        'mountStats.strength:+%V'
-      ];
-      prefix = 'mount';
-      rules.defineRule('helperNotes.commandLikeCreaturesFeature',
-        'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
-        'charismaModifier', '+', null
-      );
-      rules.defineRule('mountStats.armorClass', 'mountLevel', '=', 'source*2');
-      rules.defineRule('mountStats.hitDice', 'mountLevel', '=', 'source * 2');
-      rules.defineRule
-        ('mountStats.intelligence', 'mountLevel', '=', 'source + 5');
-      rules.defineRule('mountStats.spellResistance',
-        'mountLevel', '?', 'source >= 4',
-        'mountMasterLevel', '+=', 'source + 5'
-      );
-      rules.defineRule('mountStats.strength', 'mountLevel', '=', null);
-    } else
-      continue;
-
-    for(var j = 0; j < features.length; j++) {
-      var levelAndFeature = features[j].split(/:/);
-      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      rules.defineRule(prefix + 'Features.' + feature,
-        prefix + 'Level', '=', 'source >= ' + level + ' ? 1 : null'
-      );
-      rules.defineRule
-        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
-    }
-
-    if(notes != null)
-      rules.defineNote(notes);
-
-    rules.defineSheetElement
-      (helper + ' Features', 'Helper Area', null, 'Helper Notes', ' * ');
-    rules.defineSheetElement
-      (helper + ' Stats', 'Helper Area', null, helper + ' Features', ' * ');
-
-  }
 
 };
 
