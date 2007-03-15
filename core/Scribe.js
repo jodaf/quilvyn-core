@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.196 2007/03/09 14:46:28 Jim Exp $ */
+/* $Id: Scribe.js,v 1.197 2007/03/15 05:04:08 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.39.09';
+var VERSION = '0.39.14';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -381,29 +381,53 @@ Scribe.randomizeCharacter = function(prompt) {
     urlLoading = null; // User cancel
   } else if(urlLoading == null) {
     // Nothing presently loading
+    var presets = ruleSet.getChoices('preset');
+    if(presets == null) {
+      return Scribe.randomizeCharacter(false);
+    }
     urlLoading = 'random';
-    var classes = ScribeUtils.getKeys(ruleSet.getChoices('classes'));
     var htmlBits = [
       '<html><head><title>New Character</title></head>',
       '<body bgcolor="' + BACKGROUND + '">',
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h2>New Character Attributes</h2>',
-      '<form name="frm"><table>',
-      '<tr><th>Race</th><td>' +
-      InputHtml('race', 'select-one',
-                ScribeUtils.getKeys(ruleSet.getChoices('races')))+'</td></tr>',
-      '<tr><th>Level(s)</th></tr>'
-    ];
-    // Make the window compact by listing at most 10 classes per column
-    var classesPerLine = Math.ceil(classes.length / 10) + 1;
-    for(var i = 0; i < classes.length; i += classesPerLine) {
-      var lineHtml = '<tr>';
-      for(var j = i; j < i + classesPerLine && j < classes.length; j++) {
-        lineHtml += '<th>' + classes[j] + '</th><td>' +
-                    InputHtml('levels.' + classes[j], 'text', [2]) + '</td>';
+      '<form name="frm"><table>'];
+    presets = ScribeUtils.getKeys(presets);
+    // Copy info for each potential preset from the editor form to the loading
+    // popup so that the user can specify the value
+    for(var i = 0; i < presets.length; i++) {
+      var preset = presets[i];
+      var name = preset.replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
+      name = name.substring(0, 1).toUpperCase() + name.substring(1);
+      var presetHtml = '<tr><td><b>' + name + '</b></td>';
+      var widget = editForm[preset];
+      var selWidget = editForm[preset + '_sel'];
+      if(widget != null) {
+        if(selWidget == null) {
+          presetHtml += '<td>' +
+                        InputHtml(preset, widget.type, InputGetParams(widget)) +
+                        '</td></tr>';
+        } else {
+          // Sets and bags are difficult to manage, so we just provide a
+          // separate entry field for each value, putting multiple ones on each
+          // line to keep the popup compact
+          presetHtml += '</tr>';
+          var options = selWidget.options;
+          var optionsPerLine = Math.ceil(options.length / 10) + 1;
+          for(var j = 0; j < options.length; j += optionsPerLine) {
+            var lineHtml = '<tr>';
+            for(var k = j; k < j + optionsPerLine && k < options.length; k++) {
+              var option = options[k].value;
+              lineHtml += '<td><b>' + option + '</b></td><td>' +
+                          InputHtml(preset + '.' + option, 'text', [2]) +
+                          '</td>';
+            }
+            lineHtml += '</tr>';
+            presetHtml += lineHtml;
+          }
+        }
       }
-      lineHtml += '</tr>';
-      htmlBits[htmlBits.length] = lineHtml;
+      htmlBits[htmlBits.length] = presetHtml;
     }
     htmlBits = htmlBits.concat([
       '</table></form>',
@@ -416,9 +440,14 @@ Scribe.randomizeCharacter = function(prompt) {
     loadingPopup = window.open('', 'randomWin', FEATURES_OF_OTHER_WINDOWS);
     loadingPopup.document.write(html);
     loadingPopup.document.close();
-    // Randomize race; the user can change it if desired
-    loadingPopup.document.frm.race.selectedIndex =
-      ScribeUtils.random(0, loadingPopup.document.frm.race.options.length - 1);
+    // Randomize the value of each pull-down menu in the loading window
+    for(var a in loadingPopup.document.frm) {
+      var widget = loadingPopup.document.frm[a];
+      if(typeof widget == 'object' && widget != null &&
+         widget.selectedIndex != null) {
+        widget.selectedIndex = ScribeUtils.random(0, widget.options.length - 1);
+      }
+    }
     loadingPopup.okay = null;
     setTimeout('Scribe.randomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
   } else {
