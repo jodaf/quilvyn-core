@@ -1,4 +1,4 @@
-/* $Id: Input.js,v 1.8 2007/02/10 19:26:00 Jim Exp $ */
+/* $Id: Input.js,v 1.9 2007/03/15 05:02:15 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -18,6 +18,28 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*=== Convenience functions for the Input pseudo-class. ===*/
+
+/* Returns the array of parameters associated with #input# (see InputHtml). */
+function InputGetParams(input) {
+  var result = null;
+  var type = input.type;
+  if(type == 'button') {
+    result = [input.value];
+  } else if(type == 'checkbox' || type == 'radio') {
+    result = null; // TODO
+  } else if(type == 'select-one') {
+    var options = input.options;
+    result = [];
+    for(var i = 0; i < options.length; i++) {
+      result[i] = options[i].value;
+    }
+  } else if(type == 'text') {
+    result = [input.size];
+  } else if(type == 'textarea') {
+    result = [input.cols, input.rows];
+  }
+  return result;
+}
 
 /* Returns the value of #input#. */
 function InputGetValue(input) {
