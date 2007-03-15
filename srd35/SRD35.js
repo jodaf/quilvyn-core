@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.83 2007/03/15 05:03:06 Jim Exp $ */
+/* $Id: SRD35.js,v 1.84 2007/03/15 05:17:34 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -4114,10 +4114,10 @@ PH35.defineClass = function
       (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
   }
   if(spellAbility != null) {
-      rules.defineRule('spellDifficultyClass.' + name,
-        'levels.' + name, '?', null,
-        spellAbility + 'Modifier', '=', '10 + source'
-      );
+    rules.defineRule('spellDifficultyClass.' + name,
+      'levels.' + name, '?', null,
+      spellAbility + 'Modifier', '=', '10 + source'
+    );
   }
   if(spellsKnown != null) {
     for(var j = 0; j < spellsKnown.length; j++) {
