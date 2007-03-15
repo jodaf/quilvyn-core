@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.82 2007/03/09 14:55:22 Jim Exp $ */
+/* $Id: SRD35.js,v 1.83 2007/03/15 05:03:06 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -42,6 +42,7 @@ function PH35() {
   PH35.combatRules(rules);
   PH35.adventuringRules(rules);
   PH35.magicRules(rules, PH35.DOMAINS, PH35.SCHOOLS, PH35.SPELLS);
+  rules.defineChoice('preset', 'race', 'levels');
   rules.defineChoice('random', PH35.RANDOMIZABLE_ATTRIBUTES);
   rules.randomizeOneAttribute = PH35.randomizeOneAttribute;
   Scribe.addRuleSet(rules);
