@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.197 2007/03/15 05:04:08 Jim Exp $ */
+/* $Id: Scribe.js,v 1.198 2007/03/16 19:09:21 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.39.14';
+var VERSION = '0.39.16';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -441,8 +441,8 @@ Scribe.randomizeCharacter = function(prompt) {
     loadingPopup.document.write(html);
     loadingPopup.document.close();
     // Randomize the value of each pull-down menu in the loading window
-    for(var a in loadingPopup.document.frm) {
-      var widget = loadingPopup.document.frm[a];
+    for(var i = 0; i < presets.length; i++) {
+      var widget = loadingPopup.document.frm[presets[i]];
       if(typeof widget == 'object' && widget != null &&
          widget.selectedIndex != null) {
         widget.selectedIndex = ScribeUtils.random(0, widget.options.length - 1);
