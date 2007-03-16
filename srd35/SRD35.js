@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.85 2007/03/15 14:51:00 Jim Exp $ */
+/* $Id: SRD35.js,v 1.86 2007/03/16 19:09:43 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2595,7 +2595,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       notes = ['saveNotes.greatFortitudeFeature:+2 Fortitude'];
       rules.defineRule
         ('save.Fortitude', 'saveNotes.greatFortitudeFeature', '+', '2');
-    } else if((matchInfo = feat.match(/^Greater Spell Focus \((.*)\)/))!=null) {
+    } else if((matchInfo = feat.match(/^Greater Spell Focus \((.*)\)$/))!=null){
       var school = matchInfo[1];
       var note = 'magicNotes.spellFocus(' + school + ')Feature';
       notes = [
@@ -2636,7 +2636,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'features.Improved Two Weapon Fighting', '+', '1'
       );
     } else if((matchInfo =
-               feat.match(/^Greater Weapon Focus \((.*)\)/)) != null) {
+               feat.match(/^Greater Weapon Focus \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.greaterWeaponFocus(' + weaponNoSpace + ')Feature';
@@ -2653,7 +2653,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'levels.Fighter', '+', 'source >= 8 ? 1 : null'
       );
     } else if((matchInfo =
-               feat.match(/^Greater Weapon Specialization \((.*)\)/)) != null) {
+               feat.match(/^Greater Weapon Specialization \((.*)\)$/))!=null) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note =
@@ -2703,7 +2703,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'feats.Improved Counterspell', '=', '-1',
         'casterLevel', '+', '1'
       );
-    } else if((matchInfo = feat.match(/^Improved Critical \((.*)\)/)) != null) {
+    } else if((matchInfo = feat.match(/^Improved Critical \((.*)\)$/)) != null){
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.improvedCritical(' + weaponNoSpace + ')Feature';
@@ -2716,11 +2716,11 @@ PH35.featRules = function(rules, feats, subfeats) {
       var bump = 1;
       for(var j = 0; j < PH35.WEAPONS.length; j++) {
         var spec = PH35.WEAPONS[j];
-        var matchInfo;
+        var criticalMatchInfo;
         if(weapon == null || !spec.match(weaponPat))
           continue;
-        if((matchInfo = spec.match(/@(\d+)/)) != null)
-          bump = 21 - matchInfo[1];
+        if((criticalMatchInfo = spec.match(/@(\d+)/)) != null)
+          bump = 21 - criticalMatchInfo[1];
         break;
       }
       rules.defineRule('weaponCriticalAdjustment.' + weapon, note, '+=', bump);
@@ -2982,7 +2982,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'feats.Quicken Spell', '=', '-1',
         'casterLevel', '+', 'source >= 1 ? 1 : null'
       );
-    } else if((matchInfo = feat.match(/^Rapid Reload \((.*)\)/)) != null) {
+    } else if((matchInfo = feat.match(/^Rapid Reload \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
       var note = 'combatNotes.rapidReload(' + weapon + ')Feature';
       notes = [
@@ -3057,7 +3057,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'feats.Silent Spell', '=', '-1',
         'casterLevel', '+', 'source >= 1 ? 1 : null'
       );
-    } else if((matchInfo = feat.match(/^Skill Focus \((.*)\)/)) != null) {
+    } else if((matchInfo = feat.match(/^Skill Focus \((.*)\)$/)) != null) {
       var skill = matchInfo[1];
       var skillNoSpace = skill.replace(/ /g, '');
       var note = 'skillNotes.skillFocus(' + skillNoSpace + ')Feature';
@@ -3075,7 +3075,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'features.Deflect Arrows', '+', '1',
         'features.Improved Unarmed Strike', '+', '1'
       );
-    } else if((matchInfo = feat.match(/^Spell Focus \((.*)\)/)) != null) {
+    } else if((matchInfo = feat.match(/^Spell Focus \((.*)\)$/)) != null) {
       var school = matchInfo[1];
       var note = 'magicNotes.spellFocus(' + school + ')Feature';
       notes = [
@@ -3226,7 +3226,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'feats.Weapon Finesse', '=', '-1',
         'baseAttack', '+', 'source >= 1 ? 1 : null'
       );
-    } else if((matchInfo = feat.match(/^Weapon Focus \((.*)\)/)) != null) {
+    } else if((matchInfo = feat.match(/^Weapon Focus \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.weaponFocus(' + weaponNoSpace + ')Feature';
@@ -3247,7 +3247,7 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat.match(/^Weapon Proficiency/)) {
       // empty
     } else if((matchInfo =
-               feat.match(/^Weapon Specialization \((.*)\)/)) != null) {
+               feat.match(/^Weapon Specialization \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.weaponSpecialization('+weaponNoSpace+')Feature';
