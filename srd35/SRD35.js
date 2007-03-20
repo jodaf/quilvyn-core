@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.87 2007/03/20 00:06:33 Jim Exp $ */
+/* $Id: SRD35.js,v 1.88 2007/03/20 05:49:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2225,8 +2225,8 @@ PH35.createViewer = function(viewer) {
         {name: 'Turning Max', within: 'Turning',
           format: '<b>Turning Max HD</b>: (d20 + %V) / 3'},
         {name: 'Turning Damage Modifier', within: 'Turning',
-          format: '<b>Turning Damage</b>: 2d6 + %V', separator : ' * '},
-      {name: 'Weapons', within: 'Combat'},
+          format: '<b>Turning Damage</b>: 2d6 + %V'},
+      {name: 'Weapons', within: 'Combat', separator: ' * '},
       {name: 'Gear', within: 'Combat'},
         {name: 'Armor Proficiency', within: 'Gear'},
         {name: 'Armor', within: 'Gear'},
