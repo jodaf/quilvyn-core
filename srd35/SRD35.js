@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.86 2007/03/16 19:09:43 Jim Exp $ */
+/* $Id: SRD35.js,v 1.87 2007/03/20 00:06:33 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -960,9 +960,6 @@ PH35.abilityRules = function(rules) {
   rules.defineRule('languageCount',
     'intelligenceModifier', '+', 'source > 0 ? source : null'
   );
-  rules.defineRule('turningBase', 'charismaModifier', '+', 'source / 3');
-  rules.defineRule('turningDamageModifier', 'charismaModifier', '+', null);
-  rules.defineRule('turningFrequency', 'charismaModifier', '+', null);
 
   // Effects of the notes computed above
   rules.defineRule
@@ -1974,16 +1971,17 @@ PH35.combatRules = function(rules) {
   rules.defineRule('save.Fortitude', 'constitutionModifier', '=', null);
   rules.defineRule('save.Reflex', 'dexterityModifier', '=', null);
   rules.defineRule('save.Will', 'wisdomModifier', '=', null);
-  rules.defineRule('turningBase', 'turningLevel', '=', null)
-  rules.defineRule('turningDamageModifier', 'turningLevel', '=', null);
-  rules.defineRule('turningFrequency', 'turningLevel', '+=', '3');
-  rules.defineRule('turningMax',
-    'turningBase', '=', 'Math.floor(source + 10 / 3)',
-    'turningLevel', 'v', 'source + 4'
+  rules.defineRule('turningDamageModifier',
+    'turningLevel', '=', null,
+    'charismaModifier', '+', null
   );
-  rules.defineRule('turningMin',
-    'turningBase', '=', 'Math.floor(source - 3)',
-    'turningLevel', '^', 'source - 4'
+  rules.defineRule('turningFrequency',
+    'turningLevel', '=', '3',
+    'charismaModifier', '+', null
+  );
+  rules.defineRule('turningMax',
+    'turningLevel', '=', 'source * 3 - 10',
+    'charismaModifier', '+', null
   );
   rules.defineRule('weapons.Unarmed', null, '=', '1');
 };
@@ -2224,13 +2222,11 @@ PH35.createViewer = function(viewer) {
       {name: 'Turning', within: 'Combat'},
         {name: 'Turning Frequency', within: 'Turning',
           format: '<b>%N</b>: %V/Day'},
-        {name: 'TurningMinMaxInfo', within: 'Turning', separator: ''},
-          {name: 'Turning Min', within: 'TurningMinMaxInfo',
-            format: '<b>Turning Min/Max HD</b>: %V'},
-          {name: 'Turning Max', within: 'TurningMinMaxInfo', format: '/%V'},
+        {name: 'Turning Max', within: 'Turning',
+          format: '<b>Turning Max HD</b>: (d20 + %V) / 3'},
         {name: 'Turning Damage Modifier', within: 'Turning',
-          format: '<b>Turning Damage</b>: 2d6+%V'},
-      {name: 'Weapons', within: 'Combat', separator: ' * '},
+          format: '<b>Turning Damage</b>: 2d6 + %V', separator : ' * '},
+      {name: 'Weapons', within: 'Combat'},
       {name: 'Gear', within: 'Combat'},
         {name: 'Armor Proficiency', within: 'Gear'},
         {name: 'Armor', within: 'Gear'},
@@ -3603,7 +3599,7 @@ PH35.skillRules = function(rules, skills, subskills) {
     'Knowledge (Nature)':'Survival (outdoors)',
     'Knowledge (Nobility)':'Diplomacy',
     'Knowledge (Planes)':'Survival (other planes)',
-    'Knowledge (Religion)':'Turning check',
+    'Knowledge (Religion)':'undead turning check',
     'Search':'Survival (tracking)',
     'Sense Motive':'Diplomacy',
     'Spellcraft':'Use Magic Device (scroll)',
@@ -3681,9 +3677,8 @@ PH35.skillRules = function(rules, skills, subskills) {
           'skillNotes.knowledge(History)Synergy', '+', '2'
        );
       } else if(skill == 'Knowledge (Religion)') {
-        rules.defineRule('turningBase',
-          'skillNotes.knowledge(Religion)Synergy', '+', '2/3'
-        );
+        rules.defineRule
+          ('turningMax', 'skillNotes.knowledge(Religion)Synergy', '+', '2');
       }
     }
   }
