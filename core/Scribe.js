@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.199 2007/03/20 05:48:51 Jim Exp $ */
+/* $Id: Scribe.js,v 1.200 2007/03/23 12:06:12 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.39.19';
+var VERSION = '0.39.20';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -110,7 +110,7 @@ Scribe.editorElements = [
   ['untrained', '', 'checkbox', ['Untrained Skills']],
   ['dmonly', '', 'checkbox', ['DM Info']],
   ['viewer', '', 'select-one', []],
-  ['randomize', ' ', 'select-one', 'random'],
+  ['randomize', 'Randomize', 'select-one', 'random'],
   ['name', 'Name', 'text', [20]],
   ['race', 'Race', 'select-one', 'races'],
   ['experience', 'Experience', 'text', [8]],
@@ -167,7 +167,7 @@ Scribe.editorHtml = function() {
         continue;
       params = ScribeUtils.getKeys(ruleSet.getChoices(params));
       if(name == 'randomize')
-        params = ['---randomize---'].concat(params);
+        params = ['---choose one---'].concat(params);
     }
     if(label != '' || i == 0) {
       if(i > 0) {
