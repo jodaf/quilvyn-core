@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.17 2007/01/28 07:41:08 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.18 2007/03/23 23:37:44 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -73,7 +73,7 @@ RuleEngine.prototype.addRules =
       source = '';
     if(expr != null && typeof(expr) != 'object' && typeof(expr) != 'function')
       expr = new Function('source', 'return ' + expr + ';');
-    if(typeof source != 'string') {
+    if(typeof source != 'string' || typeof target != 'string') {
       this.patterns[this.patterns.length] =
         {source:source, target:target, type:type, fn:expr, seq:0};
       continue;
@@ -121,14 +121,30 @@ RuleEngine.prototype.applyRules = function(initial) {
     allAttrs = allAttrs.concat(this.allTargets()).concat(this.allSources());
   }
   for(var i = 0; i < this.patterns.length; i++) {
-    var pat = this.patterns[i].source;
+    var sources = { };
+    var targets = { };
+    var source = this.patterns[i].source;
     var target = this.patterns[i].target;
-    for(var j = 0; j < allAttrs.length; j++) {
-      var source = allAttrs[j];
-      if(!source.match(pat)) {
-        continue;
+    if(typeof source == 'string') {
+      sources[source] = '';
+    } else {
+      for(var j = 0; j < allAttrs.length; j++) {
+        if(allAttrs[j].match(source))
+          sources[allAttrs[j]] = '';
       }
-      this.addRules(target, source, this.patterns[i].type, this.patterns[i].fn);
+    }
+    if(typeof target == 'string') {
+      targets[target] = '';
+    } else {
+      for(var j = 0; j < allAttrs.length; j++) {
+        if(allAttrs[j].match(target))
+          targets[allAttrs[j]] = '';
+      }
+    }
+    for(var a in sources) {
+      for(var b in targets) {
+        this.addRules(b, a, this.patterns[i].type, this.patterns[i].fn);
+      }
     }
   }
   this.needToExpandPatterns = false;
