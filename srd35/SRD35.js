@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.88 2007/03/20 05:49:04 Jim Exp $ */
+/* $Id: SRD35.js,v 1.89 2007/03/23 23:38:47 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1294,7 +1294,7 @@ PH35.classRules = function(rules, classes) {
           'levels.Cleric', '=',
           'source >= ' + (j * 2 - 1) + ' ? 1 : null');
       }
-      rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
+      rules.defineRule('turnUndead.level', 'levels.Cleric', '+=', null);
 
     } else if(klass == 'Druid') {
 
@@ -1623,8 +1623,9 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('save.Will', 'saveNotes.divineGraceFeature', '+', null);
       rules.defineRule
         ('saveNotes.divineGraceFeature', 'charismaModifier', '=', null);
-      rules.defineRule
-        ('turningLevel', 'levels.Paladin', '+=', 'source>3 ? source-3 : null');
+      rules.defineRule('turnUndead.level',
+        'levels.Paladin', '+=', 'source > 3 ? source - 3 : null'
+      );
       rules.defineRule('validationNotes.paladinAlignment',
         'levels.Paladin', '=', '-1',
         'alignment', '+', 'source == "Lawful Good" ? 1 : null'
@@ -1956,6 +1957,11 @@ PH35.classRules = function(rules, classes) {
 
 /* Defines the rules related to PH Chapter 8, Combat. */
 PH35.combatRules = function(rules) {
+  rules.defineNote([
+    'turnUndead.damageModifier:2d6 + %V',
+    'turnUndead.frequency:%V/day',
+    'turnUndead.maxHitDice:(d20 + %V) / 3'
+  ]);
   rules.defineRule('armorClass',
     null, '=', '10',
     'armor', '+', 'PH35.armorsArmorClassBonuses[source]',
@@ -1971,16 +1977,16 @@ PH35.combatRules = function(rules) {
   rules.defineRule('save.Fortitude', 'constitutionModifier', '=', null);
   rules.defineRule('save.Reflex', 'dexterityModifier', '=', null);
   rules.defineRule('save.Will', 'wisdomModifier', '=', null);
-  rules.defineRule('turningDamageModifier',
-    'turningLevel', '=', null,
+  rules.defineRule('turnUndead.damageModifier',
+    'turnUndead.level', '=', null,
     'charismaModifier', '+', null
   );
-  rules.defineRule('turningFrequency',
-    'turningLevel', '=', '3',
+  rules.defineRule('turnUndead.frequency',
+    'turnUndead.level', '=', '3',
     'charismaModifier', '+', null
   );
-  rules.defineRule('turningMax',
-    'turningLevel', '=', 'source * 3 - 10',
+  rules.defineRule('turnUndead.maxHitDice',
+    'turnUndead.level', '=', 'source * 3 - 10',
     'charismaModifier', '+', null
   );
   rules.defineRule('weapons.Unarmed', null, '=', '1');
@@ -2219,13 +2225,13 @@ PH35.createViewer = function(viewer) {
             format: '<b>Base/Melee/Ranged Attack</b>: %V'},
           {name: 'Melee Attack', within: 'AttackInfo', format: '/%V'},
           {name: 'Ranged Attack', within: 'AttackInfo', format: '/%V'},
-      {name: 'Turning', within: 'Combat'},
-        {name: 'Turning Frequency', within: 'Turning',
-          format: '<b>%N</b>: %V/Day'},
-        {name: 'Turning Max', within: 'Turning',
-          format: '<b>Turning Max HD</b>: (d20 + %V) / 3'},
-        {name: 'Turning Damage Modifier', within: 'Turning',
-          format: '<b>Turning Damage</b>: 2d6 + %V'},
+      {name: 'Turn Air', within: 'Combat', separator: ' * '},
+      {name: 'Turn Animal', within: 'Combat', separator: ' * '},
+      {name: 'Turn Earth', within: 'Combat', separator: ' * '},
+      {name: 'Turn Fire', within: 'Combat', separator: ' * '},
+      {name: 'Turn Plant', within: 'Combat', separator: ' * '},
+      {name: 'Turn Undead', within: 'Combat', separator: ' * '},
+      {name: 'Turn Water', within: 'Combat', separator: ' * '},
       {name: 'Weapons', within: 'Combat', separator: ' * '},
       {name: 'Gear', within: 'Combat'},
         {name: 'Armor Proficiency', within: 'Gear'},
@@ -2549,12 +2555,13 @@ PH35.featRules = function(rules, feats, subfeats) {
         'combatNotes.extraTurningFeature:+4/day',
         'validationNotes.extraTurningFeat:Requires turning level 1'
       ];
-      rules.defineRule('turningFrequency',
+      rules.defineRule(/^turn.*\.frequency$/,
         'combatNotes.extraTurningFeature', '+', '4 * source'
       );
       rules.defineRule('validationNotes.extraTurningFeat',
         'feats.Extra Turning', '=', '-1',
-        'turningLevel', '+', 'source >= 1 ? 1 : null'
+        /^turn.*\.level$/, '+', 'source >= 1 ? 1 : null',
+        '', 'v', '0'
       );
     } else if(feat == 'Far Shot') {
       notes = [
@@ -2826,10 +2833,11 @@ PH35.featRules = function(rules, feats, subfeats) {
         'validationNotes.improvedTurningFeat:Requires turning level 1'
       ];
       rules.defineRule
-        ('turningLevel', 'combatNotes.improvedTurningFeature', '+', '1');
+        (/^turn.*\.level$/, 'combatNotes.improvedTurningFeature', '+', '1');
       rules.defineRule('validationNotes.improvedTurningFeat',
         'feats.Improved Turning', '=', '-1',
-        'turningLevel', '+', 'source >= 1 ? 1 : null'
+        /^turn.*\.level$/, '+', 'source >= 1 ? 1 : null',
+        '', 'v', '0'
       );
     } else if(feat == 'Improved Two Weapon Fighting') {
       notes = [
@@ -3323,6 +3331,13 @@ PH35.featRules = function(rules, feats, subfeats) {
 /* Defines the rules related to PH Chapter 10, Magic and Chapter 11, Spells. */
 PH35.magicRules = function(rules, domains, schools, spells) {
   rules.defineChoice('domains', domains);
+  rules.defineNote
+    ('validationNotes.totalDomains:Allocated domains differ from ' +
+     'domains total by %V');
+  rules.defineRule('validationNotes.totalDomains',
+    'domainCount', '+=', '-source',
+    /^domains\./, '+=', null
+  );
   rules.defineChoice('schools', schools);
   for(var i = 0; i < spells.length; i++) {
     var pieces = spells[i].split(':');
@@ -3348,19 +3363,48 @@ PH35.magicRules = function(rules, domains, schools, spells) {
     'goodies.Ring Of Protection +4', '+=', 'source * 4'
   );
   for(var i = 0; i < domains.length; i++) {
-    if(domains[i] != 'War')
-      continue;
-    rules.defineRule('featureNotes.warDomain',
-      'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
-    );
-    for(var a in PH35.deitiesFavoredWeapons) {
-      var weapons = PH35.deitiesFavoredWeapons[a].split('/');
-      for(var j = 0; j < weapons.length; j++) {
-        var weapon = weapons[j];
-        rules.defineRule('features.Weapon Focus (' + weapon + ')',
-          'featureNotes.warDomain', '=',
-          'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
-        );
+    var domain = domains[i];
+    if(domain.match(/^(Air|Earth|Fire|Plant|Water)$/)) {
+      var domainLevel = 'domainLevel.' + domain;
+      var prefix = domain == 'Air' ? 'turnEarth' :
+                   domain == 'Earth' ? 'turnAir' :
+                   domain == 'Fire' ? 'turnWater' :
+                   domain == 'Plant' ? 'turnPlant' : 'turnFire';
+      rules.defineRule(domainLevel,
+        'domains.' + domain, '?', null,
+        'levels.Cleric', '=', null
+      );
+      rules.defineRule(prefix + '.level', domainLevel, '+=', null);
+      rules.defineRule(prefix + '.damageModifier',
+        prefix + '.level', '=', null,
+        'charismaModifier', '+', null
+      );
+      rules.defineRule(prefix + '.frequency',
+        prefix + '.level', '=', '3',
+        'charismaModifier', '+', null
+      );
+      rules.defineRule(prefix + '.maxHitDice',
+        prefix + '.level', '=', 'source * 3 - 10',
+        'charismaModifier', '+', null
+      );
+      rules.defineNote([
+        prefix + '.damageModifier:2d6 + %V',
+        prefix + '.frequency:%V/day',
+        prefix + '.maxHitDice:(d20 + %V) / 3'
+      ]);
+    } else if(domain == 'War') {
+      rules.defineRule('featureNotes.warDomain',
+        'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
+      );
+      for(var a in PH35.deitiesFavoredWeapons) {
+        var weapons = PH35.deitiesFavoredWeapons[a].split('/');
+        for(var j = 0; j < weapons.length; j++) {
+          var weapon = weapons[j];
+          rules.defineRule('features.Weapon Focus (' + weapon + ')',
+            'featureNotes.warDomain', '=',
+            'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
+          );
+        }
       }
     }
   }
@@ -3677,8 +3721,9 @@ PH35.skillRules = function(rules, skills, subskills) {
           'skillNotes.knowledge(History)Synergy', '+', '2'
        );
       } else if(skill == 'Knowledge (Religion)') {
-        rules.defineRule
-          ('turningMax', 'skillNotes.knowledge(Religion)Synergy', '+', '2');
+        rules.defineRule('turnUndead.maxHitDice',
+          'skillNotes.knowledge(Religion)Synergy', '+', '2'
+        );
       }
     }
   }
