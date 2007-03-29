@@ -1,4 +1,4 @@
-/* $Id: Input.js,v 1.9 2007/03/15 05:02:15 Jim Exp $ */
+/* $Id: Input.js,v 1.10 2007/03/29 23:27:39 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -26,7 +26,7 @@ function InputGetParams(input) {
   if(type == 'button') {
     result = [input.value];
   } else if(type == 'checkbox' || type == 'radio') {
-    result = null; // TODO
+    result = [input.name];
   } else if(type == 'select-one') {
     var options = input.options;
     result = [];
