@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.201 2007/03/23 23:51:41 Jim Exp $ */
+/* $Id: Scribe.js,v 1.202 2007/03/29 23:28:42 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.39.23';
+var VERSION = '0.39.29';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -102,7 +102,7 @@ Scribe.editorElements = [
   ['about', ' ', 'button', ['About']],
   ['help', '', 'button', ['Help']],
   ['rules', 'Rules', 'select-one', []],
-  ['ruleattributes', '', 'button', ['Attributes']],
+  ['ruleAttributes', '', 'button', ['Attributes']],
   ['file', ' ', 'select-one', []],
   ['summary', '', 'button', ['Summary']],
   ['view', '', 'button', ['View Html']],
@@ -135,7 +135,7 @@ Scribe.editorElements = [
   ['armor', 'Armor', 'select-one', 'armors'],
   ['shield', 'Shield', 'select-one', 'shields'],
   ['weapons', 'Weapons', 'bag', 'weapons'],
-  ['spellfilter', 'Spell Filter', 'text', [20]],
+  ['spellFilter', 'Spell Filter', 'text', [20]],
   ['spells', 'Spells', 'set', 'spells'],
   ['goodies', 'Goodies', 'bag', 'goodies'],
   ['domains', 'Cleric Domains', 'set', 'domains'],
@@ -542,7 +542,7 @@ Scribe.refreshEditor = function(redraw) {
   InputSetValue(editForm.dmonly, cookieInfo.dmonly == '1');
   InputSetValue(editForm.italics, cookieInfo.italics == '1');
   InputSetValue(editForm.rules, ruleSet.getName());
-  InputSetValue(editForm.spellfilter, spellFilter);
+  InputSetValue(editForm.spellFilter, spellFilter);
   InputSetValue(editForm.untrained, cookieInfo.untrained == '1');
   InputSetValue(editForm.viewer, cookieInfo.viewer);
 
@@ -870,7 +870,7 @@ Scribe.update = function(input) {
     ruleSet = ruleSets[value];
     Scribe.refreshEditor(true);
     Scribe.refreshSheet();
-  } else if(name == 'ruleattributes') {
+  } else if(name == 'ruleAttributes') {
     if(Scribe.attributesWindow != null && !Scribe.attributesWindow.closed)
       Scribe.attributesWindow.close();
     Scribe.attributesWindow =
@@ -893,7 +893,7 @@ Scribe.update = function(input) {
       '</html>\n'
     );
     Scribe.attributesWindow.document.close();
-  } else if(name == 'spellfilter') {
+  } else if(name == 'spellFilter') {
     spellFilter = value;
     Scribe.refreshEditor(false);
   } else if(name == 'summary') {
