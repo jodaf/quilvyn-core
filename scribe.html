@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.51 2007/03/23 12:05:37 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.52 2007/03/29 23:27:18 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -95,12 +95,12 @@ function CustomizeScribe() {
   // subfeat targets.  Modify the values in each list to determine which
   // subfeats/subskills are defined in your Scribe installation.
   var subfeats = [
-    'Greater Spell Focus:' + PH35.SCHOOLS.join('/'),
+    'Greater Spell Focus:' + PH35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
     'Greater Weapon Focus:',
     'Greater Weapon Specialization:',
     'Improved Critical:Dwarven Waraxe/Longsword',
     'Skill Focus:',
-    'Spell Focus:' + PH35.SCHOOLS.join('/'),
+    'Spell Focus:' + PH35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
     'Weapon Focus:Dwarven Waraxe/Longsword',
     'Weapon Specialization:Dwarven Waraxe/Longsword'
   ];
