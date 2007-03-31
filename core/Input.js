@@ -1,4 +1,4 @@
-/* $Id: Input.js,v 1.10 2007/03/29 23:27:39 Jim Exp $ */
+/* $Id: Input.js,v 1.11 2007/03/31 18:02:31 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -94,8 +94,10 @@ function InputSetOptions(input, options) {
   var i;
   if(input.options.length > options.length)
     input.options.length = options.length;
-  for(i = 0; i < input.options.length; i++)
-    input.options[i].text = input.options[i].value = options[i];
+  for(i = 0; i < input.options.length; i++) {
+    if(input.options[i].text != options[i])
+      input.options[i].text = input.options[i].value = options[i];
+  }
   for( ; i < options.length; i++) {
     var opt = new Option(options[i], options[i], 0, 0);
     try {
