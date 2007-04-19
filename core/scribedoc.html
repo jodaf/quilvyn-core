@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.77 2007/03/29 23:26:35 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.78 2007/04/19 05:09:36 Jim Exp $ -->
 <html>
 
 <head>
@@ -28,6 +28,7 @@
   <li><a href="#random">Randomizing Attributes</a></li>
   <li><a href="#save">Saving Characters</a></li>
   <li><a href="#sheet">The Character Sheet</a></li>
+  <li><a href="#validation">Character Validation</a></li>
   <li><a href="#custom">Customization - Intro</a></li>
   <li><a href="#customChoices">Customization - Adding Choices</a></li>
   <li><a href="#customRules">Customization - Adding Rules</a></li>
@@ -242,6 +243,19 @@ sheet should be clear, a few aspects of the format require explanation.
 </p>
 
 
+<a name="validation"><h3>Character Validation</h3></a>
+<p>
+Many feats have prerequisites that the character must meet before selecting
+that feat.  A few base classes have alignment restrictions, and all prestige
+classes have prerequisites.  Scribe doesn't enforce these requirements; you're
+free to enter, say, a chaotic neutral monk if you want to.  However, in the
+notes section of the character sheet, the program includes validation notes
+about any restrictions that the character violates.  These informational notes
+make you aware of any unmet restrictions, giving you the information you need
+to correct mistakes in the character attributes.
+</p>
+
+
 <a name="custom"><h3>Customization</h3></a>
 <p>
 Part of the fun of being the dungeon master is being able to customize the game
@@ -299,10 +313,7 @@ PH35.defineChoice('deities',
   'Glennor (NG Healing):Air/Animal/Healing'
 );
 PH35.defineChoice('domains', 'Desert:Ds', 'Mountain:Mt');
-PH35.defineChoice('feats',
-  'Lucky:',
-  'Ranged Disarm:Fighter'
-);
+PH35.defineChoice('feats', 'Lucky:', 'Ranged Disarm:Fighter');
 PH35.defineChoice('skills'
   'Craft (Alchemy):intelligence', 'Craft (Carpentry):intelligence',
   'Craft (Glassworking):intelligence', 'Herbalism:intelligence/trained',
@@ -447,14 +458,16 @@ Artist skills by two if the character has the Agile feature.
 <p>
 Although the customization functions described above are sufficient to define
 new character classes, Scribe provides the PH35.defineClass function as
-a convenience.  This function takes 13 parameters: the name of the class; the
-number of sides on the hit die; the number of skill points acquired each
-level; JavaScript expressions to calculate the base attack bonus and fortitude,
+a convenience.  This function takes 16 parameters: the rule set to modify (this
+will always be PH35.rules for your modifications); the name of the class; the
+number of sides on the hit die; the number of skill points acquired each level;
+JavaScript expressions to calculate the base attack bonus and fortitude,
 reflex, and will saving throw bonuses; armor, shield, and weapon proficiency
 levels; an array of class skills; an array of class features and the class
-levels at which they are acquired; an optional array of tests for class
-prerequisites.  Here is an example of code that defines the Dwarven Defender
-prestige class defined in the Dungeon Master's Guide.
+levels at which they are acquired; optional arrays indicating the number of
+spells known and the spells per day at each level; the name of the ability that
+affects spells per day and difficulty class.  Here is an example of code that
+defines the Dwarven Defender prestige class defined in the DM's Guide.
 </p><p><code><pre>
   var features = [
     '1:Defensive Stance', '2:Uncanny Dodge', '4:Trap Sense',
@@ -469,24 +482,21 @@ prestige class defined in the Dungeon Master's Guide.
     'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
     'featureNotes.defensiveStanceFeature:' +
       '+2 strength/+4 constitution/+2 saves/+4 dodge AC while unmoving ' +
-      'for ConMod+3 rounds %V/day',
-    'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps'
-  ];
-  var prerequisites = [
-    '"{race}" == "Dwarf"',
-    '"{alignment}".indexOf("Lawful") &gt;= 0',
-    '{baseAttack} &gt;= 7',
-    '{features.Dodge} != null',
-    '{features.Endurance} != null',
-    '{features.Toughness} != null'
+      'for ConMod+3 rounds %V/day', 
+    'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
+    'validationNotes.dwarvenDefenderAlignment:Requires Lawful',
+    'validationNotes.dwarvenDefenderCombat:Requires base attack 7',
+    'validationNotes.dwarvenDefenderFeatures:' +
+      'Requires Dodge/Endurance/Toughness',
+    'validationNotes.dwarvenDefenderRace:Requires Dwarf'
   ];
   var skills = ['Craft', 'Listen', 'Sense Motive', 'Spot'];
-  PH35.defineClass(
-    'Dwarven Defender', 12, 2, PH35.ATTACK_BONUS_GOOD, PH35.SAVE_BONUS_GOOD,
-    PH35.SAVE_BONUS_POOR, PH35.SAVE_BONUS_POOR, PH35.ARMOR_PROFICIENCY_HEAVY,
-    PH35.SHIELD_PROFICIENCY_HEAVY, PH35.WEAPON_PROFICIENCY_MEDIUM, skills,
-    features, prerequisites);
-  );
+  PH35.defineClass
+    (PH35.rules, 'Dwarven Defender', 12, 2, PH35.ATTACK_BONUS_GOOD,
+     PH35.SAVE_BONUS_GOOD, PH35.SAVE_BONUS_POOR, PH35.SAVE_BONUS_POOR,
+     PH35.PROFICIENCY_HEAVY, PH35.PROFICIENCY_HEAVY, PH35.PROFICIENCY_MEDIUM,
+     skills, features, null, null, null);
+
   PH35.defineNote(notes);
   PH35.defineRule('armorClass',
     'combatNotes.dwarvenDefenderArmorClassAdjustment', '+', null
@@ -497,20 +507,38 @@ prestige class defined in the Dungeon Master's Guide.
   PH35.defineRule('combatNotes.damageReductionFeature',
     'levels.Dwarven Defender', '+=', 'source&lt;6 ? null : source&lt;10 ? 3 : 6'
   );
-  PH35.defineRule('combatNotes.trapSenseFeature',
-    'levels.Dwarven Defender', '+=',
-      'source &gt;= 4 ? Math.floor(source / 4) : null'
-  );
   PH35.defineRule('featureNotes.defensiveStanceFeature',
     'levels.Dwarven Defender', '+=', 'Math.floor((source + 1) / 2)'
   );
+  PH35.defineRule('saveNotes.trapSenseFeature',
+    'levels.Dwarven Defender', '+=',
+      'source &gt;= 4 ? Math.floor(source / 4) : null'
+  );
+  rules.defineRule('validationNotes.dwarvenDefenderAlignment',
+    'levels.Dwarven Defender', '=', '-1',
+    'alignment', '+', 'source.indexOf("Lawful") &gt;= 0 ? 1 : null'
+  );
+  rules.defineRule('validationNotes.dwarvenDefenderCombat',
+    'levels.Dwarven Defender', '=', '-1',
+    'baseAttack', '+', 'source &gt;= 7 ? 1 : null'
+  );
+  rules.defineRule('validationNotes.dwarvenDefenderFeatures',
+    'levels.Dwarven Defender', '=', '-3',
+    'features.Dodge', '+', '1',
+    'features.Endurance', '+', '1',
+    'features.Toughness', '+', '1'
+  );
+  rules.defineRule('validationNotes.dwarvenDefenderRace',
+    'levels.Dwarven Defender', '=', '-1',
+    'race', '+', 'source.indexOf("Dwarf") &gt;= 0 ? 1 : null'
+  );
+
 </pre></code></p><p>
-As shown in this example, you will usually follow a call to
-PH35.defineClass with one or more calls to the other customization
-functions to compute class-related attributes. Scribe provides a set of
-constants you can use for the JavaScript parameters to PH35.defineClass
-that correspond to the values used in the Player's Handbook for the base
-classes:
+As shown in this example, you will usually follow a call to PH35.defineClass
+with one or more calls to the other customization functions to compute
+class-related attributes. Scribe provides a set of constants you can use for
+the JavaScript expression parameters to PH35.defineClass that correspond to the
+values used in the Player's Handbook for the base classes:
 PH35.ATTACK_BONUS_GOOD, PH35.ATTACK_BONUS_AVERAGE, PH35.ATTACK_BONUS_POOR,
 PH35.PROFICIENCY_HEAVY, PH35.PROFICIENCY_LIGHT, PH35.PROFICIENCY_MEDIUM,
 PH35.PROFICIENCY_NONE, PH35.PROFICIENCY_TOWER, PH35.SAVE_BONUS_GOOD,
