@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.89 2007/03/23 23:38:47 Jim Exp $ */
+/* $Id: SRD35.js,v 1.90 2007/04/19 05:09:56 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -166,8 +166,8 @@ PH35.RANDOMIZABLE_ATTRIBUTES = [
   'weapons', 'spells'
 ];
 PH35.SCHOOLS = [
-  'Abjuration', 'Conjuration', 'Divination', 'Enchantment', 'Evocation',
-  'Illusion', 'Necromancy', 'Transmutation'
+  'Abjuration:Abju', 'Conjuration:Conj', 'Divination:Divi', 'Enchantment:Ench',
+  'Evocation:Evoc', 'Illusion:Illu', 'Necromancy:Necr', 'Transmutation:Tran'
 ];
 PH35.SHIELDS = [
   'Buckler', 'Heavy Steel', 'Heavy Wooden', 'Light Steel', 'Light Wooden',
@@ -1906,7 +1906,7 @@ PH35.classRules = function(rules, classes) {
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
       );
       for(var j = 0; j < PH35.SCHOOLS.length; j++) {
-        var school = PH35.SCHOOLS[j];
+        var school = PH35.SCHOOLS[j].split(':')[0];
         rules.defineRule('magicNotes.wizardSpecialization',
          'specialize.' + school, '=', '"' + school + '"'
         );
@@ -3339,10 +3339,12 @@ PH35.magicRules = function(rules, domains, schools, spells) {
     /^domains\./, '+=', null
   );
   rules.defineChoice('schools', schools);
+  schools = rules.getChoices('schools');
   for(var i = 0; i < spells.length; i++) {
     var pieces = spells[i].split(':');
     var codes = pieces[1].split('/');
-    var school = codes[codes.length - 1].substring(0, 4);
+    var school = codes[codes.length - 1];
+    school = schools[school] != null ? schools[school] : school.substring(0, 4);
     for(var j = 0; j < codes.length - 1; j++) {
       var spell =
         pieces[0] + '(' + codes[j] + ' ' + school + ')';
@@ -3970,10 +3972,10 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     var skillPoints = attrs.skillPoints;
     choices = [];
     for(attr in this.getChoices('skills')) {
-      if(attrs['skills.' + attr] == null)
+      if(attributes['skills.' + attr] == null)
         choices[choices.length] = attr;
       else
-        skillPoints -= attrs['skills.' + attr] *
+        skillPoints -= attributes['skills.' + attr] *
                        (attrs['classSkills.' + attr] != null ? 1 : 2);
     }
     while(skillPoints > 0 && choices.length > 0) {
@@ -4009,11 +4011,12 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     var availableSpellsByLevel = {};
     var matchInfo;
     var prohibitPat = ' (xxxx';
+    var schools = this.getChoices('schools');
     var spellLevel;
     attrs = this.applyRules(attributes);
-    for(attr in this.getChoices('schools')) {
+    for(attr in schools) {
       if(attrs['prohibit.' + attr])
-         prohibitPat += '|' + attr.substring(0, 4);
+         prohibitPat += '|' + schools[attr];
     }
     prohibitPat += ')\\)';
     for(attr in this.getChoices('spells')) {
@@ -4027,7 +4030,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         [availableSpellsByLevel[spellLevel].length] = attr;
     }
     for(attr in attrs) {
-      if((matchInfo = attr.match(/^spellsKnown.(.*)/)) == null) {
+      if((matchInfo = attr.match(/^spellsKnown\.(.*)/)) == null) {
         continue;
       }
       spellLevel = matchInfo[1];
@@ -4037,7 +4040,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         var additional = attrs['spellsKnown.' + spellLevel];
         if(additional == null)
           ; // empty
-        else if(additional == 'all')
+        else if(additional == 'all' || howMany == 'all')
           howMany = 'all';
         else
           howMany += additional;
@@ -4059,6 +4062,10 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       if(choices != null) {
         if(howMany == 'all') {
           howMany = choices.length;
+        }
+        var perDay = attrs['spellsPerDay.' + spellLevel];
+        if(perDay != null && perDay < howMany) {
+          howMany = perDay;
         }
         pickAttrs
           (attributes, 'spells.', choices, howMany -
