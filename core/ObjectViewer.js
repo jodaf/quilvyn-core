@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.13 2005/10/03 06:14:23 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.14 2007/04/29 15:00:09 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -137,17 +137,22 @@ ObjectViewer.prototype.addElements = function(element /*, element ... */) {
   for(var i = 0; i < arguments.length; i++) {
     var e = arguments[i];
     var j = this.elements.length;
-    if(e.before != null) {
+    var nextTo = e.after != null ? e.after : e.before != null ? e.before : null;
+    if(nextTo != null) {
       for(j = 0;
-          j < this.elements.length && this.elements[j].name != e.before;
+          j < this.elements.length && this.elements[j].name != nextTo;
           j++)
         ; /* empty */
     }
-    if(j >= this.elements.length)
+    if(j >= this.elements.length) {
       this.elements[j] = e;
-    else
+    } else {
+      e.within = this.elements[j].within;
+      if(nextTo == e.after)
+        j++;
       this.elements =
-       this.elements.slice(0, j).concat(e).concat(this.elements.slice(j));
+        this.elements.slice(0, j).concat(e).concat(this.elements.slice(j));
+    }
   }
 };
 
