@@ -36,6 +36,6 @@ function SpellPoints() {
     }
   }
   // Add spell point and remove spells per day from the character sheet.
-  PH35.defineSheetElement('Spell Points', 'SpellStats', null, 'Spells Known');
-  PH35.defineSheetElement('Spells Per Day', null, null, null);
+  PH35.defineSheetElement('Spell Points', 'Spells Known');
+  PH35.defineSheetElement('Spells Per Day');
 }

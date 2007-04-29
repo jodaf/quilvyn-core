@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.90 2007/04/19 05:09:56 Jim Exp $ */
+/* $Id: SRD35.js,v 1.91 2007/04/29 15:26:27 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2130,11 +2130,9 @@ PH35.companionRules = function(rules, companions) {
       rules.defineNote(notes);
 
     rules.defineSheetElement
-      (companion + ' Features', 'Companion Area', null, 'Companion Notes',
-       ' * ');
+      (companion + ' Features', 'Companion Notes', null, null, ' * ');
     rules.defineSheetElement
-      (companion + ' Stats', 'Companion Area', null, companion + ' Features',
-       ' * ');
+      (companion + ' Stats', companion + ' Features', null, null, ' * ');
 
   }
 
@@ -4159,8 +4157,7 @@ PH35.defineClass = function
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    rules.defineSheetElement
-      (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
+    rules.defineSheetElement(name + ' Features', 'Feats', null, null, ' * ');
   }
   if(spellAbility != null) {
     rules.defineRule('spellDifficultyClass.' + name,
@@ -4248,8 +4245,7 @@ PH35.defineRace = function(rules, name, abilityAdjustment, features) {
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    rules.defineSheetElement
-      (name + ' Features', 'FeaturesAndSkills', null, 'Feats', ' * ');
+    rules.defineSheetElement(name + ' Features', 'Feats', null, null, ' * ');
   }
 };
 
