@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.59 2007/04/29 15:01:35 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.60 2007/04/29 20:05:59 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -25,6 +25,7 @@ function ScribeRules(name) {
   this.choices = {};
   this.name = name;
   this.viewers = {};
+  this.viewerAdditions = [];
 }
 ScribeRules.prototype = new RuleEngine();
 
@@ -156,21 +157,28 @@ ScribeRules.prototype.defineRule = function
  */
 ScribeRules.prototype.defineSheetElement = function
   (name, before, within, format, separator) {
+  var element = {
+    name: name, before: before, within: within, format: format,
+    separator: separator
+  };
   for(var a in this.viewers) {
     viewer = this.viewers[a];
     viewer.removeElements(name);
-    if(before != null || within != null) {
-      viewer.addElements({
-        name: name, within: within, before: before, format: format,
-        separator: separator
-      });
-    }
+    if(before != null || within != null)
+      viewer.addElements(element);
   }
+  this.viewerAdditions[this.viewerAdditions.length] = element;
 };
 
 /* Associates ObjectViewer #viewer# with name #name# in this ScribeRules. */
 ScribeRules.prototype.defineViewer = function(name, viewer) {
   this.viewers[name] = viewer;
+  for(var i = 0; i < this.viewerAdditions.length; i++) {
+    var element = this.viewerAdditions[i];
+    viewer.removeElements(element.name);
+    if(element.before != null || element.within != null)
+      viewer.addElements(element);
+  }
 };
 
 /*
