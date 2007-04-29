@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.18 2007/03/23 23:37:44 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.19 2007/04/29 15:00:54 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -238,10 +238,10 @@ RuleEngine.prototype._recompute = function(initial, computed, attr) {
         min = amount;
     }
     if(computedValue != null) {
-      if(addition != 0)
-        computedValue = (computedValue - 0) + addition;
       if(multiplier != 1)
         computedValue *= multiplier;
+      if(addition != 0)
+        computedValue = (computedValue - 0) + addition;
       if(max != null && computedValue > max)
         computedValue = max;
       if(min != null && computedValue < min)
