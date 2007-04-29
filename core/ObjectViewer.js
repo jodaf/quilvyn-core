@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.14 2007/04/29 15:00:09 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.15 2007/04/29 20:04:00 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -135,7 +135,10 @@ ObjectViewer.toCode = function(o, indent, maxLen) {
 
 ObjectViewer.prototype.addElements = function(element /*, element ... */) {
   for(var i = 0; i < arguments.length; i++) {
-    var e = arguments[i];
+    var arg = arguments[i];
+    var e = {};
+    for(var a in arg)
+      e[a] = arg[a];
     var j = this.elements.length;
     var nextTo = e.after != null ? e.after : e.before != null ? e.before : null;
     if(nextTo != null) {
