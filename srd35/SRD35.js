@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.92 2007/04/29 20:06:31 Jim Exp $ */
+/* $Id: SRD35.js,v 1.93 2007/04/30 23:43:29 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1100,8 +1100,9 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('saveNotes.trapSenseFeature',
         'levels.Barbarian', '+=', 'source >= 3 ? Math.floor(source / 3) : null'
       );
-      rules.defineRule
-        ('skills.Speak Language', 'skillNotes.illiteracyFeature', '+', '-2');
+      rules.defineRule('skillModifier.Speak Language',
+        'skillNotes.illiteracyFeature', '+', '-2'
+      );
       rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
       rules.defineRule('validationNotes.barbarianAlignment',
         'levels.Barbarian', '=', '-1',
@@ -2915,7 +2916,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('validationNotes.mountedArcheryFeat',
         'feats.Mounted Archery', '=', '-2',
         'features.Mounted Combat', '+', '1',
-        'skills.Ride', '+', 'source >= 1 ? 1 : null'
+        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
       );
     } else if(feat == 'Mounted Combat') {
       notes = [
@@ -2925,7 +2926,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
       rules.defineRule('validationNotes.mountedCombatFeat',
         'feats.Mounted Combat', '=', '-1',
-        'skills.Ride', '+', 'source >= 1 ? 1 : null'
+        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
       );
     } else if(feat == 'Natural Spell') {
       notes = [
@@ -3008,7 +3009,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('validationNotes.rideByAttackFeat',
         'feats.Ride By Attack', '=', '-2',
         'features.Mounted Combat', '+', '1',
-        'skills.Ride', '+', 'source >= 1 ? 1 : null'
+        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
       );
     } else if(feat == 'Run') {
       notes = [
@@ -3063,7 +3064,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       var skillNoSpace = skill.replace(/ /g, '');
       var note = 'skillNotes.skillFocus(' + skillNoSpace + ')Feature';
       notes = [note + ':+3 checks'];
-      rules.defineRule('skills.' + skill, note, '+', '3');
+      rules.defineRule('skillModifier.' + skill, note, '+', '3');
     } else if(feat == 'Snatch Arrows') {
       notes = [
         'combatNotes.snatchArrowsFeature:Catch ranged weapons',
@@ -3120,7 +3121,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'feats.Spirited Charge', '=', '-3',
         'features.Mounted Combat', '+', '1',
         'features.Ride By Attack', '+', '1',
-        'skills.Ride', '+', 'source >= 1 ? 1 : null'
+        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
       );
     } else if(feat == 'Spring Attack') {
       notes = [
@@ -3184,7 +3185,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('validationNotes.trampleFeat',
         'feats.Trample', '=', '-2',
         'features.Mounted Combat', '+', '1',
-        'skills.Ride', '+', 'source >= 1 ? 1 : null'
+        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
       );
     } else if(feat == 'Two Weapon Defense') {
       notes = [
@@ -3661,13 +3662,13 @@ PH35.skillRules = function(rules, skills, subskills) {
       allSkills[allSkills.length] = skill + ':' + pieces[1];
     } else {
       rules.defineRule('subskillCount.' + skill,
-        new RegExp('^skills\\.' + skill + ' \\('), '+=', '1'
+        new RegExp('^skillModifier\\.' + skill + ' \\('), '+=', '1'
       );
       rules.defineRule('subskillMax.' + skill,
-        new RegExp('^skills\\.' + skill + ' \\('), '^=', null
+        new RegExp('^skillModifier\\.' + skill + ' \\('), '^=', null
       );
       rules.defineRule('subskillTotal.' + skill,
-        new RegExp('^skills\\.' + skill + ' \\('), '+=', null
+        new RegExp('^skillModifier\\.' + skill + ' \\('), '+=', null
       );
       if(skillSubskills != '') {
         skillSubskills = skillSubskills.split('/');
@@ -3687,12 +3688,17 @@ PH35.skillRules = function(rules, skills, subskills) {
     var ability = pieces[1].replace(/\/.*/, '');
     var synergy = synergies[skill];
     rules.defineChoice('skills', skill + ':' + pieces[1]);
+    rules.defineRule('skillModifier.' + skill,
+      'skills.' + skill, '=', 'source / 2',
+      'classSkills.' + skill, '*', '2'
+    );
     if(abilityNames[ability] != null) {
       var modifier = abilityNames[ability] + 'Modifier';
-      rules.defineRule('skills.' + skill, modifier, '+', null);
+      rules.defineRule('skillModifier.' + skill, modifier, '+', null);
     }
     if(skill == 'Speak Language') {
-      rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
+      rules.defineRule
+        ('languageCount', 'skillModifier.Speak Language', '+', null);
     }
     if(synergy != null) {
       var prefix = skill.substring(0, 1).toLowerCase() +
@@ -3704,13 +3710,13 @@ PH35.skillRules = function(rules, skills, subskills) {
       if(skill == 'Bluff') {
         rules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
         rules.defineRule('skillNotes.bluffSynergy2',
-          'skills.Bluff', '=', 'source >= 5 ? 1 : null'
+          'skillModifier.Bluff', '=', 'source >= 5 ? 1 : null'
         );
       } else if(skill == 'Handle Animal') {
         rules.defineNote
           ('skillNotes.handleAnimalSynergy2:+2 Wild Empathy checks');
         rules.defineRule('skillNotes.handleAnimalSynergy2',
-          'skills.Handle Animal', '=', 'source >= 5 ? 1 : null'
+          'skillModifier.Handle Animal', '=', 'source >= 5 ? 1 : null'
         );
         rules.defineRule('skillNotes.wildEmpathyFeature',
           'skillNotes.handleAnimalSynergy', '+', '2'
@@ -3730,7 +3736,10 @@ PH35.skillRules = function(rules, skills, subskills) {
   rules.defineNote
     ('validationNotes.totalSkillPoints:Allocated skill points differ from ' +
      'skill point total by %V');
-  // TODO Test skill points
+  rules.defineRule('validationNotes.totalSkillPoints',
+    'skillPoints', '+=', '-source',
+    /^skills\./, '+=', null
+  );
 
 };
 
@@ -3965,39 +3974,28 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     attributes['name'] = PH35.randomName(attributes['race']);
   } else if(attribute == 'skills') {
     attrs = this.applyRules(attributes);
-    var maxRanks = attrs.classSkillMaxRanks;
-    var skillPoints = attrs.skillPoints;
-    choices = [];
-    for(attr in this.getChoices('skills')) {
-      if(attributes['skills.' + attr] == null)
-        choices[choices.length] = attr;
-      else
-        skillPoints -= attributes['skills.' + attr] *
-                       (attrs['classSkills.' + attr] != null ? 1 : 2);
-    }
-    while(skillPoints > 0 && choices.length > 0) {
+    var maxPoints = attrs.classSkillMaxRanks;
+    howMany =
+      attrs.skillPoints - ScribeUtils.sumMatching(attributes, '^skills\\.'),
+    choices = ScribeUtils.getKeys(this.getChoices('skills'));
+    while(howMany > 0 && choices.length > 0) {
       var pickClassSkill = ScribeUtils.random(0, 99) >= 15;
       i = ScribeUtils.random(0, choices.length - 1);
       attr = choices[i];
       if((attrs['classSkills.' + attr] != null) != pickClassSkill)
         continue;
-      var points = ScribeUtils.random(0, 99) < 60 ?
-        maxRanks : ScribeUtils.random(1, maxRanks - 1);
-      if(points > skillPoints)
-        points = skillPoints;
-      if(pickClassSkill)
-        attributes['skills.' + attr] = points;
-      else {
-        if(points % 2 == 1)
-          points--;
-        if(points == 0)
-          continue;
-        attributes['skills.' + attr] = points / 2;
+      if(attributes['skills.' + attr] != null &&
+         attributes['skills.' + attr] >= maxPoints) {
+        choices = choices.slice(0, i).concat(choices.slice(i + 1));
+        continue;
       }
-      skillPoints -= points;
-      choices = choices.slice(0, i).concat(choices.slice(i + 1));
+      if(attributes['skills.' + attr] == null)
+        attributes['skills.' + attr] = 1;
+      else
+        attributes['skills.' + attr]++;
+      howMany--;
+      // Select only one of a set of subskills (Craft, Perform, etc.)
       if((i = attr.indexOf(' (')) >= 0) {
-        /* Select only one of a set of subskills (Craft, Perform, etc.) */
         attr = attr.substring(0, i);
         for(i = choices.length - 1; i >= 0; i--)
           if(choices[i].search(attr) == 0)

@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.60 2007/04/29 20:05:59 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.61 2007/04/30 23:43:29 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -104,7 +104,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
                  matchInfo[3].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
       if(matchInfo[4] == 'Synergy')
         this.defineRule
-          (attribute, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
+          (attribute, 'skillModifier.' + name, '=', 'source >= 5 ? 1 : null');
       else if(format.indexOf('%V') < 0)
         this.defineRule
           (attribute, matchInfo[4].toLowerCase() + 's.' + name, '=', '1');
@@ -128,7 +128,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
         ; /* empty */
       if(j == affected.length)
         for(j = 0; j < affected.length; j++)
-          this.defineRule('skills.' + affected[j], attribute, '+', bump);
+          this.defineRule('skillModifier.' + affected[j], attribute, '+', bump);
     }
   }
 };

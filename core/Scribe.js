@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.204 2007/04/29 15:28:25 Jim Exp $ */
+/* $Id: Scribe.js,v 1.205 2007/04/30 23:43:29 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
 var VERSION = '0.40.29';
@@ -592,8 +592,10 @@ Scribe.sheetHtml = function() {
     var skills = ruleSet.getChoices('skills');
     for(a in skills) {
       if(character['skills.' + a] == null &&
-         computedAttributes['skills.' + a] == 0)
+         computedAttributes['skillModifier.' + a] == 0) {
         delete computedAttributes['skills.' + a];
+        delete computedAttributes['skillModifier.' + a];
+      }
     }
   }
   // NOTE: ObjectFormatter doesn't support interspersing values in a list
@@ -627,6 +629,9 @@ Scribe.sheetHtml = function() {
       if(notes[a] != null)
         value = notes[a].replace(/%V/, value);
       if(object == 'Skills') {
+        var modifier = computedAttributes['skillModifier.' + name];
+        if(modifier != null)
+          value += ' (' + modifier + ')';
         var ability = ruleSet.getChoices('skills')[name];
         var skillInfo = [];
         if(ability != null && ability != '' && ability.substring(0, 1) != '/')
