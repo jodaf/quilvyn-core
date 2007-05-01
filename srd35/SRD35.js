@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.93 2007/04/30 23:43:29 Jim Exp $ */
+/* $Id: SRD35.js,v 1.94 2007/05/01 15:12:53 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1019,7 +1019,6 @@ PH35.classRules = function(rules, classes) {
 
   // Experience- and level-dependent attributes
   rules.defineRule('classSkillMaxRanks', 'level', '=', 'source + 3');
-  rules.defineRule('crossSkillMaxRanks', 'classSkillMaxRanks', '=', 'source/2');
   rules.defineRule
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
   rules.defineRule
@@ -2202,11 +2201,7 @@ PH35.createViewer = function(viewer) {
       {name: 'Feature Notes', within: 'FeaturesAndSkills', separator: ' * '},
       {name: 'SkillStats', within: 'FeaturesAndSkills'},
         {name: 'Skill Points', within: 'SkillStats'},
-        {name: 'SkillRanksInfo', within: 'SkillStats', separator: ''},
-          {name: 'Class Skill Max Ranks', within: 'SkillRanksInfo',
-           format: '<b>Class/Cross Skill Max Ranks</b>: %V'},
-          {name: 'Cross Skill Max Ranks', within: 'SkillRanksInfo',
-           format: '/%V'},
+        {name: 'Class Skill Max Ranks', within: 'SkillStats'},
       {name: 'Skills', within: 'FeaturesAndSkills', separator: ' * '},
       {name: 'Skill Notes', within: 'FeaturesAndSkills', separator: ' * '},
       {name: 'LanguageStats', within: 'FeaturesAndSkills'},
@@ -3981,24 +3976,31 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     while(howMany > 0 && choices.length > 0) {
       var pickClassSkill = ScribeUtils.random(0, 99) >= 15;
       i = ScribeUtils.random(0, choices.length - 1);
-      attr = choices[i];
-      if((attrs['classSkills.' + attr] != null) != pickClassSkill)
+      var skill = choices[i];
+      if((attrs['classSkills.' + skill] != null) != pickClassSkill)
         continue;
-      if(attributes['skills.' + attr] != null &&
-         attributes['skills.' + attr] >= maxPoints) {
+      attr = 'skills.' + skill;
+      var current = attributes[attr];
+      if(current != null && current >= maxPoints) {
         choices = choices.slice(0, i).concat(choices.slice(i + 1));
         continue;
       }
-      if(attributes['skills.' + attr] == null)
-        attributes['skills.' + attr] = 1;
-      else
-        attributes['skills.' + attr]++;
-      howMany--;
+      if(current == null)
+        attributes[attr] = 0;
+      var toAssign =
+        ScribeUtils.random(0, 99) >= 66 ? maxPoints :
+        ScribeUtils.random(0, 99) >= 50 ? Math.floor(maxPoints / 2) : 2;
+      if(toAssign > howMany)
+        toAssign = howMany;
+      if(current + toAssign > maxPoints)
+        toAssign = maxPoints - current;
+      attributes[attr] += toAssign;
+      howMany -= toAssign;
       // Select only one of a set of subskills (Craft, Perform, etc.)
-      if((i = attr.indexOf(' (')) >= 0) {
-        attr = attr.substring(0, i);
+      if((i = skill.indexOf(' (')) >= 0) {
+        skill = skill.substring(0, i);
         for(i = choices.length - 1; i >= 0; i--)
-          if(choices[i].search(attr) == 0)
+          if(choices[i].search(skill) == 0)
             choices = choices.slice(0, i).concat(choices.slice(i + 1));
       }
     }
