@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.94 2007/05/01 15:12:53 Jim Exp $ */
+/* $Id: SRD35.js,v 1.95 2007/05/02 00:03:21 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -3729,11 +3729,20 @@ PH35.skillRules = function(rules, skills, subskills) {
   }
 
   rules.defineNote
-    ('validationNotes.totalSkillPoints:Allocated skill points differ from ' +
-     'skill point total by %V');
+    ('validationNotes.totalSkillPoints:' +
+     'Total allocated skill points differ from skill point total by %V');
   rules.defineRule('validationNotes.totalSkillPoints',
     'skillPoints', '+=', '-source',
     /^skills\./, '+=', null
+  );
+  rules.defineNote
+    ('validationNotes.maxAllocatedSkillPoints:' +
+     'Points allocated to one or more skills exceed maximum');
+  rules.defineRule('maxAllocatedSkillPoints', /^skills\./, '^=', null);
+  rules.defineRule('validationNotes.maxAllocatedSkillPoints',
+    'maxAllocatedSkillPoints', '=', '-source',
+    'classSkillMaxRanks', '+', 'source',
+    '', 'v', '0'
   );
 
 };
