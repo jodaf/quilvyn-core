@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.95 2007/05/02 00:03:21 Jim Exp $ */
+/* $Id: SRD35.js,v 1.96 2007/06/04 02:57:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2130,9 +2130,9 @@ PH35.companionRules = function(rules, companions) {
       rules.defineNote(notes);
 
     rules.defineSheetElement
-      (companion + ' Features', 'Companion Notes', null, null, ' * ');
+      (companion + ' Features', 'Companion Notes', null, ' * ');
     rules.defineSheetElement
-      (companion + ' Stats', companion + ' Features', null, null, ' * ');
+      (companion + ' Stats', companion + ' Features', null, ' * ');
 
   }
 
@@ -4165,12 +4165,18 @@ PH35.defineClass = function
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    rules.defineSheetElement(name + ' Features', 'Feats', null, null, ' * ');
+    rules.defineSheetElement(name + ' Features', 'Feats', null, ' * ');
   }
   if(spellAbility != null) {
     rules.defineRule('spellDifficultyClass.' + name,
       'levels.' + name, '?', null,
       spellAbility + 'Modifier', '=', '10 + source'
+    );
+  }
+  if(spellsKnown != null || spellsPerDay != null) {
+    rules.defineRule('casterSpellLevel.' + name,
+      'levels.' + name, '=', null,
+      'magicNotes.casterLevelBonusFeature', '+', null
     );
   }
   if(spellsKnown != null) {
@@ -4185,7 +4191,7 @@ PH35.defineClass = function
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
       rules.defineRule
-        ('spellsKnown.' + typeAndLevel, 'levels.' + name, '=', code);
+        ('spellsKnown.' + typeAndLevel, 'casterSpellLevel.' + name, '=', code);
     }
   }
   if(spellsPerDay != null) {
@@ -4200,7 +4206,7 @@ PH35.defineClass = function
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
       rules.defineRule
-        ('spellsPerDay.' + typeAndLevel, 'levels.' + name, '=', code);
+        ('spellsPerDay.' + typeAndLevel, 'casterSpellLevel.' + name, '=', code);
       if(spellAbility != null) {
         var modifiier = spellAbility + 'Modifier';
         var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
@@ -4253,7 +4259,7 @@ PH35.defineRace = function(rules, name, abilityAdjustment, features) {
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    rules.defineSheetElement(name + ' Features', 'Feats', null, null, ' * ');
+    rules.defineSheetElement(name + ' Features', 'Feats', null, ' * ');
   }
 };
 

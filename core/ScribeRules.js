@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.61 2007/04/30 23:43:29 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.62 2007/06/04 02:57:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -148,23 +148,25 @@ ScribeRules.prototype.defineRule = function
 };
 
 /*
- * Include attribute #name# on the character sheet before attribute #before#
- * (or at the end of section #within# if #before# is null) in all viewers
+ * Include attribute #name# on the character sheet before attribute #position#
+ * (or at the end of section #position# if it ends with '/') in all viewers
  * associated with this ScribeRules.  The optional HTML #format# may be
  * supplied to indicate how #name# should be formatted on the sheet.
  * #separator# is a bit of HTML used to separate elements for items that have
  * multiple values.
  */
 ScribeRules.prototype.defineSheetElement = function
-  (name, before, within, format, separator) {
-  var element = {
-    name: name, before: before, within: within, format: format,
-    separator: separator
-  };
+  (name, position, format, separator) {
+  var element = {name: name, format: format, separator: separator};
+  if(position != null && position.match(/\/$/)) {
+    element.within = position.substring(0, position.length() - 1);
+  } else {
+    element.before = position;
+  }
   for(var a in this.viewers) {
     viewer = this.viewers[a];
     viewer.removeElements(name);
-    if(before != null || within != null)
+    if(position != null)
       viewer.addElements(element);
   }
   this.viewerAdditions[this.viewerAdditions.length] = element;
