@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.206 2007/05/01 17:04:10 Jim Exp $ */
+/* $Id: Scribe.js,v 1.207 2007/06/04 02:55:11 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.41.01';
+var VERSION = '0.42.03';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -22,7 +22,8 @@ var ABOUT_TEXT =
 var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
 var EMPTY_SPELL_LIST = '--- No spell categories selected ---';
-var FEATURES_OF_OTHER_WINDOWS = 'height=750,width=750,resizable,scrollbars';
+var FEATURES_OF_OTHER_WINDOWS =
+  'height=750,width=750,resizable,scrollbars,toolbar';
 var TIMEOUT_DELAY = 1000; // One second
 
 var cachedAttrs = {}; // Unchanged attrs of all characters opened so far
@@ -109,7 +110,7 @@ Scribe.editorElements = [
   ['italics', 'Show', 'checkbox', ['Italic Notes']],
   ['untrained', '', 'checkbox', ['Untrained Skills']],
   ['dmonly', '', 'checkbox', ['DM Info']],
-  ['viewer', '', 'select-one', []],
+  ['viewer', 'Sheet Style', 'select-one', []],
   ['randomize', 'Randomize', 'select-one', 'random'],
   ['name', 'Name', 'text', [20]],
   ['race', 'Race', 'select-one', 'races'],
@@ -334,7 +335,7 @@ Scribe.openDialog = function() {
  */
 Scribe.popUp = function(html, button /*, button ... */) {
   var popup = window.open
-    ('', 'pop' + Scribe.popUp.next++, 'height=200,width=400');
+    ('', 'pop' + Scribe.popUp.next++, 'height=200,width=400,scrollbars');
   var content = '<html><head><title>Scribe Message</title></head>\n' +
                 '<body bgcolor="' + BACKGROUND + '">' + html +
                 '<br/>\n<form>\n';
