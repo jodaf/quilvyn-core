@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.62 2007/06/04 02:57:04 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.63 2007/06/07 13:50:05 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -19,10 +19,11 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /*
  * A Scribe extension to RuleEngine.  Adds an associated name, named choice
- * sets (e.g., classes, weapons), and named object viewers.
+ * sets (e.g., classes, weapons), editor elements, and named object viewers.
  */
 function ScribeRules(name) {
   this.choices = {};
+  this.editorElements = [];
   this.name = name;
   this.viewers = {};
   this.viewerAdditions = [];
@@ -60,27 +61,27 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
  */
 ScribeRules.prototype.defineEditorElement = function
   (name, label, type, params, before) {
-  for(var i = Scribe.editorElements.length - 1; i >= 0; i--) {
-    if(Scribe.editorElements[i][0] == name) {
-      Scribe.editorElements = Scribe.editorElements.slice(0, i).
-        concat(Scribe.editorElements.slice(i + 1));
+  for(var i = this.editorElements.length - 1; i >= 0; i--) {
+    if(this.editorElements[i][0] == name) {
+      this.editorElements =
+        this.editorElements.slice(0, i).concat(this.editorElements.slice(i+1));
     }
   }
   if(type != null) {
-    var i = Scribe.editorElements.length;
+    var i = this.editorElements.length;
     if(before != null) {
-      for(i = 0; i < Scribe.editorElements.length; i++) {
-        if(Scribe.editorElements[i][0] == before) {
+      for(i = 0; i < this.editorElements.length; i++) {
+        if(this.editorElements[i][0] == before) {
           break;
         }
       }
     }
     var element = [name, label, type, params];
-    if(i == Scribe.editorElements.length) {
-      Scribe.editorElements[i] = element;
+    if(i == this.editorElements.length) {
+      this.editorElements[i] = element;
     } else {
-      Scribe.editorElements = Scribe.editorElements.slice(0, i).
-        concat([element]).concat(Scribe.editorElements.slice(i));
+      this.editorElements = this.editorElements.slice(0, i).
+        concat([element]).concat(this.editorElements.slice(i));
     }
   }
 };
@@ -189,6 +190,11 @@ ScribeRules.prototype.defineViewer = function(name, viewer) {
  */
 ScribeRules.prototype.getChoices = function(name) {
   return this.choices[name];
+};
+
+/* Returns the array of editor elements associated with this rule set. */
+ScribeRules.prototype.getEditorElements = function() {
+  return this.editorElements;
 };
 
 /* Returns the name of this rule set. */
