@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.207 2007/06/04 02:55:11 Jim Exp $ */
+/* $Id: Scribe.js,v 1.208 2007/06/07 13:50:47 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.42.03';
+var VERSION = '0.42.07';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -95,57 +95,6 @@ function Scribe() {
 
 }
 
-// TODO Move to ScribeRules/PH35
-Scribe.ABILITY_CHOICES = [
-  3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
-];
-Scribe.editorElements = [
-  ['about', ' ', 'button', ['About']],
-  ['help', '', 'button', ['Help']],
-  ['rules', 'Rules', 'select-one', []],
-  ['ruleAttributes', '', 'button', ['Attributes']],
-  ['file', ' ', 'select-one', []],
-  ['summary', '', 'button', ['Summary']],
-  ['view', '', 'button', ['View Html']],
-  ['italics', 'Show', 'checkbox', ['Italic Notes']],
-  ['untrained', '', 'checkbox', ['Untrained Skills']],
-  ['dmonly', '', 'checkbox', ['DM Info']],
-  ['viewer', 'Sheet Style', 'select-one', []],
-  ['randomize', 'Randomize', 'select-one', 'random'],
-  ['name', 'Name', 'text', [20]],
-  ['race', 'Race', 'select-one', 'races'],
-  ['experience', 'Experience', 'text', [8]],
-  ['levels', 'Levels', 'bag', 'classes'],
-  ['imageUrl', 'Image URL', 'text', [20]],
-  ['strength', 'Strength', 'select-one', Scribe.ABILITY_CHOICES],
-  ['intelligence', 'Intelligence', 'select-one', Scribe.ABILITY_CHOICES],
-  ['wisdom', 'Wisdom', 'select-one', Scribe.ABILITY_CHOICES],
-  ['dexterity', 'Dexterity', 'select-one', Scribe.ABILITY_CHOICES],
-  ['constitution', 'Constitution', 'select-one', Scribe.ABILITY_CHOICES],
-  ['charisma', 'Charisma', 'select-one', Scribe.ABILITY_CHOICES],
-  ['player', 'Player', 'text', [20]],
-  ['alignment', 'Alignment', 'select-one', 'alignments'],
-  ['gender', 'Gender', 'select-one', 'genders'],
-  ['deity', 'Deity', 'select-one', 'deities'],
-  ['origin', 'Origin', 'text', [20]],
-  ['feats', 'Feats', 'set', 'feats'],
-  ['selectableFeatures', 'Selectable Features', 'bag', 'selectableFeatures'],
-  ['skills', 'Skills', 'bag', 'skills'],
-  ['languages', 'Languages', 'set', 'languages'],
-  ['hitPoints', 'Hit Points', 'text', [4]],
-  ['armor', 'Armor', 'select-one', 'armors'],
-  ['shield', 'Shield', 'select-one', 'shields'],
-  ['weapons', 'Weapons', 'bag', 'weapons'],
-  ['spellFilter', 'Spell Filter', 'text', [20]],
-  ['spells', 'Spells', 'set', 'spells'],
-  ['goodies', 'Goodies', 'bag', 'goodies'],
-  ['domains', 'Cleric Domains', 'set', 'domains'],
-  ['specialize', 'Wizard Specialization', 'set', 'schools'],
-  ['prohibit', 'Wizard Prohibition', 'set', 'schools'],
-  ['notes', 'Notes', 'textarea', [40,10]],
-  ['dmNotes', 'DM Notes', 'textarea', [40,10]]
-];
-
 /* Adds #rs# to Scribe's list of supported rule sets. */
 Scribe.addRuleSet = function(rs) {
   // Add a  rule for handling DM-only information
@@ -156,9 +105,32 @@ Scribe.addRuleSet = function(rs) {
 
 /* Returns HTML for the character editor form. */
 Scribe.editorHtml = function() {
+  var scribeElements = [
+    ['about', ' ', 'button', ['About']],
+    ['help', '', 'button', ['Help']],
+    ['rules', 'Rules', 'select-one', []],
+    ['ruleAttributes', '', 'button', ['Attributes']],
+    ['file', ' ', 'select-one', []],
+    ['summary', '', 'button', ['Summary']],
+    ['view', '', 'button', ['View Html']],
+    ['italics', 'Show', 'checkbox', ['Italic Notes']],
+    ['untrained', '', 'checkbox', ['Untrained Skills']],
+    ['dmonly', '', 'checkbox', ['DM Info']],
+    ['viewer', 'Sheet Style', 'select-one', []],
+    ['randomize', 'Randomize', 'select-one', 'random'],
+  ];
+  var elements = scribeElements.concat(ruleSet.getEditorElements());
+  for(var i = 0; i < elements.length; i++) {
+    if(elements[i][0] != 'spells')
+      continue;
+    elements = elements.slice(0, i).
+      concat([['spellFilter', 'Spell Filter', 'text', [20]]]).
+      concat(elements.slice(i));
+    break;
+  }
   var htmlBits = ['<form name="frm"><table>'];
-  for(var i = 0; i < Scribe.editorElements.length; i++) {
-    var element = Scribe.editorElements[i];
+  for(var i = 0; i < elements.length; i++) {
+    var element = elements[i];
     var label = element[1];
     var name = element[0];
     var params = element[3];
