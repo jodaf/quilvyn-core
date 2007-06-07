@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.96 2007/06/04 02:57:04 Jim Exp $ */
+/* $Id: SRD35.js,v 1.97 2007/06/07 13:51:28 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -44,6 +44,7 @@ function PH35() {
   PH35.magicRules(rules, PH35.DOMAINS, PH35.SCHOOLS, PH35.SPELLS);
   rules.defineChoice('preset', 'race', 'levels');
   rules.defineChoice('random', PH35.RANDOMIZABLE_ATTRIBUTES);
+  rules.editorElements = PH35.initialEditorElements();
   rules.randomizeOneAttribute = PH35.randomizeOneAttribute;
   Scribe.addRuleSet(rules);
   PH35.rules = rules;
@@ -61,7 +62,7 @@ PH35.PROFICIENCY_TOWER = '4';
 PH35.SAVE_BONUS_GOOD = '2 + Math.floor(source / 2)';
 PH35.SAVE_BONUS_POOR = 'Math.floor(source / 3)';
 
-// Arrays of choices passed to Scribe.
+// Arrays of choices
 PH35.ALIGNMENTS = [
   'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral', 'Neutral Evil',
   'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
@@ -3828,6 +3829,46 @@ PH35.randomName = function(race) {
 
 };
 
+PH35.initialEditorElements = function() {
+  var abilityChoices = [
+    3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+  ];
+  var editorElements = [
+    ['name', 'Name', 'text', [20]],
+    ['race', 'Race', 'select-one', 'races'],
+    ['experience', 'Experience', 'text', [8]],
+    ['levels', 'Levels', 'bag', 'classes'],
+    ['imageUrl', 'Image URL', 'text', [20]],
+    ['strength', 'Strength', 'select-one', abilityChoices],
+    ['intelligence', 'Intelligence', 'select-one', abilityChoices],
+    ['wisdom', 'Wisdom', 'select-one', abilityChoices],
+    ['dexterity', 'Dexterity', 'select-one', abilityChoices],
+    ['constitution', 'Constitution', 'select-one', abilityChoices],
+    ['charisma', 'Charisma', 'select-one', abilityChoices],
+    ['player', 'Player', 'text', [20]],
+    ['alignment', 'Alignment', 'select-one', 'alignments'],
+    ['gender', 'Gender', 'select-one', 'genders'],
+    ['deity', 'Deity', 'select-one', 'deities'],
+    ['origin', 'Origin', 'text', [20]],
+    ['feats', 'Feats', 'set', 'feats'],
+    ['selectableFeatures', 'Selectable Features', 'bag', 'selectableFeatures'],
+    ['skills', 'Skills', 'bag', 'skills'],
+    ['languages', 'Languages', 'set', 'languages'],
+    ['hitPoints', 'Hit Points', 'text', [4]],
+    ['armor', 'Armor', 'select-one', 'armors'],
+    ['shield', 'Shield', 'select-one', 'shields'],
+    ['weapons', 'Weapons', 'bag', 'weapons'],
+    ['spells', 'Spells', 'set', 'spells'],
+    ['goodies', 'Goodies', 'bag', 'goodies'],
+    ['domains', 'Cleric Domains', 'set', 'domains'],
+    ['specialize', 'Wizard Specialization', 'set', 'schools'],
+    ['prohibit', 'Wizard Prohibition', 'set', 'schools'],
+    ['notes', 'Notes', 'textarea', [40,10]],
+    ['dmNotes', 'DM Notes', 'textarea', [40,10]]
+  ];
+  return editorElements;
+};
+
 /* Sets #attributes#'s #attribute# attribute to a random value. */
 PH35.randomizeOneAttribute = function(attributes, attribute) {
 
@@ -3875,7 +3916,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     howMany = attrs.domainCount;
     if(howMany != null) {
       if((choices = this.getChoices('deities')[attributes.deity]) == null)
-        choices = ScribeUtils.getKeys(PH35.getChoices('domains'));
+        choices = ScribeUtils.getKeys(this.getChoices('domains'));
       else
         choices = choices.split('/');
       pickAttrs(attributes, 'domains.', choices, howMany -
@@ -3973,7 +4014,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
               level<=93 ? 4 : level<=96 ? 5 : level<=98 ? 6 : level<=99 ? 7 : 8;
       pickAttrs(attributes, 'levels.', choices, 1, level);
     }
-    attrs = PH35.applyRules(attributes);
+    attrs = this.applyRules(attributes);
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
   } else if(attribute == 'skills') {
