@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.97 2007/06/07 13:51:28 Jim Exp $ */
+/* $Id: SRD35.js,v 1.98 2007/06/26 06:03:15 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1065,7 +1065,7 @@ PH35.classRules = function(rules, classes) {
           'Flanked only by rogue four levels higher',
         'combatNotes.mightyRageFeature:+8 strength/constitution; +4 Will save',
         'combatNotes.rageFeature:' +
-          '+4 strength/constitution/+2 Will save/-2 AC 5+ConMod rounds %V/day',
+          '+4 strength/constitution/+2 Will save/-2 AC for %V rounds %1/day',
         'combatNotes.tirelessRageFeature:Not fatigued after rage',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'saveNotes.indomitableWillFeature:' +
@@ -1095,6 +1095,9 @@ PH35.classRules = function(rules, classes) {
         'levels.Barbarian', '+=', 'source>=7 ? Math.floor((source-4)/3) : null'
       );
       rules.defineRule('combatNotes.rageFeature',
+        'constitutionModifier', '=', '5 + source'
+      );
+      rules.defineRule('combatNotes.rageFeature.1',
         'levels.Barbarian', '+=', '1 + Math.floor(source / 4)'
       );
       rules.defineRule('saveNotes.trapSenseFeature',
@@ -1125,7 +1128,7 @@ PH35.classRules = function(rules, classes) {
         'magicNotes.countersongFeature:' +
           'Perform check vs. sonic magic w/in 30 ft for 10 rounds',
         'magicNotes.fascinateFeature:' +
-          'Hold %V creatures w/in 90 ft spellbound 1 round/bard level',
+          'Hold %V creatures w/in 90 ft spellbound for %1 rounds',
         'magicNotes.inspireCompetenceFeature:' +
           '+2 allies skill checks while performing up to 2 minutes',
         'magicNotes.inspireCourageFeature:' +
@@ -1211,6 +1214,8 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('magicNotes.fascinateFeature',
         'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
       );
+      rules.defineRule
+        ('magicNotes.fascinateFeature.1', 'levels.Bard', '+=', null);
       rules.defineRule('magicNotes.inspireCourageFeature',
         'levels.Bard', '+=', 'source >= 8 ? Math.floor((source + 4) / 6) : 1'
       );
@@ -1314,10 +1319,11 @@ PH35.classRules = function(rules, classes) {
         'featureNotes.tracklessStepFeature:Untrackable outdoors',
         'featureNotes.woodlandStrideFeature:' +
           'Normal movement through undergrowth',
+        'magicNotes.elementalShapeFeature:Wild Shape to elemental %V/day',
         'magicNotes.spontaneousDruidSpellFeature:' +
           '<i>Summon Nature\'s Ally</i>',
         'magicNotes.thousandFacesFeature:<i>Alter Self</i> at will',
-        'magicNotes.wildShapeFeature:Change into creature of size %V',
+        'magicNotes.wildShapeFeature:Change into creature of size %V %1/day',
         'saveNotes.resistNatureFeature:+4 vs. spells of feys',
         'saveNotes.venomImmunityFeature:Immune to poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
@@ -1363,21 +1369,25 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
       rules.defineRule('languageCount', 'levels.Druid', '+', '1');
       rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
+      rules.defineRule('magicNotes.elementalShapeFeature',
+        'levels.Druid', '=', 'source < 16 ? null : source < 18 ? 1 : 2'
+      );
       rules.defineRule('magicNotes.wildShapeFeature',
         'levels.Druid', '=',
-          'source <  5 ? null : ' +
-          'source == 5 ? "small-medium 1/day" : ' +
-          'source == 6 ? "small-medium 2/day" : ' +
-          'source == 7 ? "small-medium 3/day" : ' +
-          'source <  10 ? "small-large 3/day" : ' +
-          'source == 10 ? "small-large 4/day" : ' +
-          'source == 11 ? "tiny-large 4/day" : ' +
-          'source <  14 ? "tiny-large/plant 4/day" : ' +
-          'source == 14 ? "tiny-large/plant 5/day" : ' +
-          'source == 15 ? "tiny-huge/plant 5/day" : ' +
-          'source <  18 ? "tiny-huge/plant 5/day; elemental 1/day" : ' +
-          'source <  20 ? "tiny-huge/plant 6/Day; elemental 2/day" : ' +
-          '"tiny-huge/plant 6/day; elemental 3/day"'
+          'source < 5 ? null : ' +
+          'source < 8 ? "small-medium" : ' +
+          'source < 11 ? "small-large" : ' +
+          'source == 11 ? "tiny-large" : ' +
+          'source < 15 ? "tiny-large/plant" : "tiny-huge/plant";'
+      );
+      rules.defineRule('magicNotes.wildShapeFeature.1',
+        'levels.Druid', '=',
+           'source < 5 ? null : ' +
+           'source == 5 ? 1 : ' +
+           'source == 6 ? 2 : ' +
+           'source < 10 ? 3 : ' +
+           'source < 14 ? 4 : ' +
+           'source < 18 ? 5 : 6'
       );
       rules.defineRule('skillNotes.wildEmpathyFeature',
         'levels.Druid', '+=', null,
@@ -1498,6 +1508,9 @@ PH35.classRules = function(rules, classes) {
         'levels.Monk', '+=', '10 + Math.floor(source / 2)',
         'wisdomModifier', '+', null
       );
+      rules.defineRule('combatNotes.stunningFistFeature.1',
+        'levels.Monk', '+=', 'source - Math.floor(source / 4)'
+      );
       rules.defineRule
         ('magicNotes.emptyBodyFeature', 'levels.Monk', '+=', null);
       rules.defineRule
@@ -1562,7 +1575,7 @@ PH35.classRules = function(rules, classes) {
       hitDie = 10;
       notes = [
         'combatNotes.smiteEvilFeature:' +
-          '%V/day add ChaMod to attack, paladin level to damage vs. evil foe',
+          '%V/day add %1 to attack, %2 to damage vs. evil foe',
         'combatNotes.turnUndeadFeature:' +
           'Turn (good) or rebuke (evil) undead creatures',
         'featureNotes.specialMountFeature:Magical mount w/special abilities',
@@ -1604,6 +1617,10 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('combatNotes.smiteEvilFeature',
         'levels.Paladin', '=', '1 + Math.floor(source / 5)'
       );
+      rules.defineRule
+        ('combatNotes.smiteEvilFeature.1', 'charismaModifier', '=', null);
+      rules.defineRule
+        ('combatNotes.smiteEvilFeature.2', 'levels.Paladin', '=', null);
       rules.defineRule('magicNotes.layOnHandsFeature',
         'levels.Paladin', '+=', null,
         'charismaModifier', '*', null
@@ -1959,9 +1976,9 @@ PH35.classRules = function(rules, classes) {
 /* Defines the rules related to PH Chapter 8, Combat. */
 PH35.combatRules = function(rules) {
   rules.defineNote([
-    'turnUndead.damageModifier:2d6 + %V',
+    'turnUndead.damageModifier:2d6+%V',
     'turnUndead.frequency:%V/day',
-    'turnUndead.maxHitDice:(d20 + %V) / 3'
+    'turnUndead.maxHitDice:(d20+%V)/3'
   ]);
   rules.defineRule('armorClass',
     null, '=', '10',
@@ -2081,7 +2098,7 @@ PH35.companionRules = function(rules, companions) {
       ];
       notes = [
         'companionNotes.commandLikeCreaturesFeature:' +
-          'DC %V <i>Command</i> vs. similar creatures master level/2/day',
+          'DC %V <i>Command</i> vs. similar creatures %1/day',
         'companionNotes.companionEvasionFeature:' +
           'Reflex save yields no damage instead of 1/2',
         'companionNotes.companionImprovedEvasionFeature:' +
@@ -2103,6 +2120,9 @@ PH35.companionRules = function(rules, companions) {
       rules.defineRule('companionNotes.commandLikeCreaturesFeature',
         'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
         'charismaModifier', '+', null
+      );
+      rules.defineRule('companionNotes.commandLikeCreaturesFeature.1',
+        'mountMasterLevel', '=', 'Math.floor(source / 2)'
       );
       rules.defineRule('mountStats.armorClass', 'mountLevel', '=', 'source*2');
       rules.defineRule('mountStats.hitDice', 'mountLevel', '=', 'source * 2');
@@ -3148,7 +3168,7 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Stunning Fist') {
       notes = [
         'combatNotes.stunningFistFeature:' +
-          'Foe %V Fortitude save or stunned 1/4 level/day',
+          'Foe %V Fortitude save or stunned %1/day',
         'validationNotes.stunningFistFeat:' +
           'Requires base attack 8/dexterity 13/wisdom 13/' +
           'Improved Unarmed Strike'
@@ -3156,6 +3176,9 @@ PH35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('combatNotes.stunningFistFeature',
         'level', '=', '10 + Math.floor(source / 2)',
         'wisdomModifier', '+', null
+      );
+      rules.defineRule('combatNotes.stunningFistFeature.1',
+        'level', '+=', 'Math.floor(source / 4)'
       );
       rules.defineRule('validationNotes.stunningFistFeat',
         'feats.Stunning Fist', '=', '-4',
@@ -3384,9 +3407,9 @@ PH35.magicRules = function(rules, domains, schools, spells) {
         'charismaModifier', '+', null
       );
       rules.defineNote([
-        prefix + '.damageModifier:2d6 + %V',
+        prefix + '.damageModifier:2d6+%V',
         prefix + '.frequency:%V/day',
-        prefix + '.maxHitDice:(d20 + %V) / 3'
+        prefix + '.maxHitDice:(d20+%V)/3'
       ]);
     } else if(domain == 'War') {
       rules.defineRule('featureNotes.warDomain',
