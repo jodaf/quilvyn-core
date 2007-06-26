@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.208 2007/06/07 13:50:47 Jim Exp $ */
+/* $Id: Scribe.js,v 1.209 2007/06/26 06:01:36 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.42.07';
+var VERSION = '0.42.25';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -593,14 +593,20 @@ Scribe.sheetHtml = function() {
     } else {
       var object = name.substring(0, i);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
+      if(name.match(/\.\d+$/))
+        continue; // Ignore note multi-values
       if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
         if(value == 0)
           continue; // Suppress notes with zero value
         else if(notes[a] == null)
           value = ScribeUtils.signed(value); // Make signed if not formatted
       }
-      if(notes[a] != null)
+      if(notes[a] != null) {
         value = notes[a].replace(/%V/, value);
+        for(var j=1; computedAttributes[a + '.' + j] != null; j++) {
+          value = value.replace('%' + j, computedAttributes[a + '.' + j]);
+        }
+      }
       if(object == 'Skills') {
         var modifier = computedAttributes['skillModifier.' + name];
         if(modifier != null)
