@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.98 2007/06/26 06:03:15 Jim Exp $ */
+/* $Id: SRD35.js,v 1.99 2007/07/02 05:20:23 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -3715,7 +3715,14 @@ PH35.skillRules = function(rules, skills, subskills) {
       var modifier = abilityNames[ability] + 'Modifier';
       rules.defineRule('skillModifier.' + skill, modifier, '+', null);
     }
-    if(skill == 'Speak Language') {
+    if(skill == 'Heal') {
+      rules.defineChoice('goodies', 'Healer\'s Kit');
+      rules.defineRule('skillNotes.goodiesHealAdjustment',
+        'goodies.Healer\'s Kit', '+=', '2'
+      );
+      rules.defineRule
+        ('skillModifier.Heal', 'skillNotes.goodiesHealAdjustment', '+', null);
+    } else if(skill == 'Speak Language') {
       rules.defineRule
         ('languageCount', 'skillModifier.Speak Language', '+', null);
     }
