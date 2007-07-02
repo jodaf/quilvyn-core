@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.209 2007/06/26 06:01:36 Jim Exp $ */
+/* $Id: Scribe.js,v 1.210 2007/07/02 05:19:45 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
 var VERSION = '0.42.25';
@@ -117,7 +117,7 @@ Scribe.editorHtml = function() {
     ['untrained', '', 'checkbox', ['Untrained Skills']],
     ['dmonly', '', 'checkbox', ['DM Info']],
     ['viewer', 'Sheet Style', 'select-one', []],
-    ['randomize', 'Randomize', 'select-one', 'random'],
+    ['randomize', 'Randomize', 'select-one', 'random']
   ];
   var elements = scribeElements.concat(ruleSet.getEditorElements());
   for(var i = 0; i < elements.length; i++) {
