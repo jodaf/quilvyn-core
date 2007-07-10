@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.210 2007/07/02 05:19:45 Jim Exp $ */
+/* $Id: Scribe.js,v 1.211 2007/07/10 05:07:39 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
 var VERSION = '0.42.25';
@@ -23,7 +23,7 @@ var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
 var EMPTY_SPELL_LIST = '--- No spell categories selected ---';
 var FEATURES_OF_OTHER_WINDOWS =
-  'height=750,width=750,resizable,scrollbars,toolbar';
+  'height=750,width=750,menubar,resizable,scrollbars,toolbar';
 var TIMEOUT_DELAY = 1000; // One second
 
 var cachedAttrs = {}; // Unchanged attrs of all characters opened so far
@@ -50,8 +50,10 @@ function Scribe() {
 
   var defaults = {
     'BACKGROUND':'wheat',
-    'FEATURES_OF_EDIT_WINDOW':'height=750,width=500,resizable,scrollbars',
-    'FEATURES_OF_SHEET_WINDOW':'height=750,width=750,resizable,scrollbars',
+    'FEATURES_OF_EDIT_WINDOW':
+      'height=750,width=500,menubar,resizable,scrollbars',
+    'FEATURES_OF_SHEET_WINDOW':
+      'height=750,width=750,menubar,resizable,scrollbars',
     'HELP_URL':'scribedoc.html',
     'LOGO_URL':'scribe.gif',
     'MAX_RECENT_OPENS':20,
