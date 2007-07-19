@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.102 2007/07/19 06:31:15 Jim Exp $ */
+/* $Id: SRD35.js,v 1.103 2007/07/19 23:27:06 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2917,7 +2917,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       notes = [
         'combatNotes.improvedTripFeature:' +
           'Trip w/out foe AOO; +4 strength; attack immediately after trip',
-        'validationNotes.improvedTripFeatAbilities:Requires Intelligence 13',
+        'validationNotes.improvedTripFeatAbilities:Requires Intelligence >= 13',
         'validationNotes.improvedTripFeatFeats:Requires Combat Expertise'
       ];
       rules.defineRule('validationNotes.improvedTripFeatAbilities',
@@ -3277,7 +3277,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'features.Ride By Attack', '+', '1'
       );
       rules.defineRule('validationNotes.spiritedChargeFeatSkills',
-        'feats.Spirited Charge', '=', '-3',
+        'feats.Spirited Charge', '=', '-1',
         'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
       );
     } else if(feat == 'Spring Attack') {
@@ -4366,8 +4366,8 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
 PH35.makeValid = function(attributes) {
   var attributesFixed = {};
   var choices;
+  var debug = [];
   var fixCount;
-  var fixes = [];
   var matchInfo;
   var notes = this.getChoices('notes');
   do {
@@ -4383,9 +4383,12 @@ PH35.makeValid = function(attributes) {
       var notePrefix = matchInfo[1];
       var noteSuffix = matchInfo[2].substring(0, 1).toLowerCase() +
                        matchInfo[2].substring(1).replace(/ /g, '');
-      var requireds = notes[attr].replace(/^Requires /, '').split(/\//);
+      if(noteSuffix == 'features') {
+        noteSuffix = 'selectableFeatures';
+      }
+      var requireds = notes[attr].replace(/^Requires /, '').split(/\s*\/\s*/);
       for(var i = 0; i < requireds.length; i++) {
-        choices = requireds[i].split(/\|/);
+        choices = requireds[i].split(/\s*\|\s*/);
         matchInfo = choices[ScribeUtils.random(0, choices.length - 1)].
                     match(/^([^<>!=]+)([<>!=]+)?(.*)?/);
         if(matchInfo == null) {
@@ -4427,7 +4430,7 @@ PH35.makeValid = function(attributes) {
         }
         if((choices != null || attributes[toFixAttr] != null) &&
            attributesFixed[toFixAttr] == null)  {
-          fixes[fixes.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
+          debug[debug.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
           attributes[toFixAttr] = toFixValue;
           attributesFixed[toFixAttr] = toFixValue;
           fixCount++;
@@ -4444,23 +4447,23 @@ PH35.makeValid = function(attributes) {
             toFixAttr = possibilities[index];
             possibilities =
               possibilities.slice(0,index).concat(possibilities.slice(index+1));
-            var present = attributes[toFixAttr];
-            toFixValue = present > noteValue ? present - noteValue : 0;
-            fixes[fixes.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
+            var current = attributes[toFixAttr];
+            toFixValue = current > noteValue ? current - noteValue : 0;
+            debug[debug.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
             attributes[toFixAttr] = toFixValue;
-            noteValue -= present - toFixValue;
+            noteValue -= current - toFixValue;
             if(toFixValue == 0) {
               delete attributes[toFixAttr];
             }
-            // Don't do this: attributesFixed[toFixValue] = requiredValue;
+            // Don't do this: attributesFixed[toFixAttr] = toFixValue;
             fixCount++;
           }
         }
       }
     }
-    fixes[fixes.length] = '-----';
+    debug[debug.length] = '-----';
   } while(fixCount > 0);
-  // DEBUG attributes['notes'] = fixes.join('<br/>');
+  // DEBUG attributes['notes'] = debug.join('<br/>');
 };
 
 /*
