@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.63 2007/06/07 13:50:05 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.64 2007/07/19 05:14:47 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -219,6 +219,13 @@ ScribeRules.prototype.getViewerNames = function() {
 };
 
 /*
+ * Fixes as many validation errors in #attributes# as possible.  This null
+ * implementation should be replaced by inheriting classes/instances.
+ */
+ScribeRules.prototype.makeValid = function(attributes) {
+};
+
+/*
  * Returns a character with randomized settings for all randomizable attributes
  * except for those in #fixedAttributes#, which are copied to the result.
  */
@@ -229,17 +236,11 @@ ScribeRules.prototype.randomizeAllAttributes = function(fixedAttributes) {
   }
   var attributes = this.getChoices('random');
   for(var a in attributes) {
-    if(a == 'levels') {
-      var totalLevels = ScribeUtils.sumMatching(result, /^levels\./);
-      if(totalLevels == 0) {
-        this.randomizeOneAttribute(result, a);
-      }
-      totalLevels = ScribeUtils.sumMatching(result, /^levels\./);
-      result.experience = totalLevels * (totalLevels - 1) * 1000 / 2;
-    } else if(result[a] == null) {
+    if(result[a] == null) {
       this.randomizeOneAttribute(result, a);
     }
   }
+  this.makeValid(result);
   return result;
 };
 
