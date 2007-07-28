@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.104 2007/07/25 00:31:47 Jim Exp $ */
+/* $Id: SRD35.js,v 1.105 2007/07/28 00:43:22 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -398,7 +398,7 @@ PH35.spellsSchools = {
   'Holy Word':'Evocation', 'Horrid Wilting':'Necromancy',
   'Hypnotic Pattern':'Illusion', 'Hypnotism':'Enchantment',
   'Ice Storm':'Evocation', 'Identify':'Divination',
-  'Illusionary Script':'Illusion', 'Illusionary Wall':'Illusion',
+  'Illusory Script':'Illusion', 'Illusionary Wall':'Illusion',
   'Imbue With Spell Ability':'Evocation', 'Implosion':'Evocation',
   'Imprisonment':'Abjuration', 'Incendiary Cloud':'Conjuration',
   'Inflict Critical Wounds':'Necromancy', 'Inflict Light Wounds':'Necromancy',
@@ -2067,8 +2067,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Brew Potion') {
       notes = [
-        'magicNotes.brewPotionFeature:' +
-          'Create potion for up to 3rd level spell',
+        'magicNotes.brewPotionFeature:Create potion for up to 3rd level spell',
         'validationNotes.brewPotionFeatLevels:Requires Caster Level >= 3'
       ];
       rules.defineRule('validationNotes.brewPotionFeatLevels',
@@ -3187,22 +3186,8 @@ PH35.featRules = function(rules, feats, subfeats) {
 /* Defines the rules related to PH Chapter 10, Magic, and Chapter 11, Spells. */
 PH35.magicRules = function(rules, classes, domains, schools) {
 
-  rules.defineRule('casterLevel',
-    'casterLevelArcane', '+=', null,
-    'casterLevelDivine', '+=', null
-  );
-
   rules.defineChoice('schools', schools);
   schools = rules.getChoices('schools');
-
-  rules.defineRule
-    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
-  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
-    'goodies.Ring Of Protection +1', '+=', null,
-    'goodies.Ring Of Protection +2', '+=', 'source * 2',
-    'goodies.Ring Of Protection +3', '+=', 'source * 3',
-    'goodies.Ring Of Protection +4', '+=', 'source * 4'
-  );
 
   for(var i = 0; i < classes.length; i++) {
     var klass = classes[i];
@@ -3230,7 +3215,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'B3:Blink:Charm Monster:Clairaudience/Clairvoyance:Confusion:' +
         'Crushing Despair:Cure Serious Wounds:Daylight:Deep Slumber:' +
         'Dispel Magic:Displacement:Fear:Gaseous Form:Glibness:Good Hope:' +
-        'Haste:Illusionary Script:Invisibility Sphere:Leomund\'s Tiny Hut:' +
+        'Haste:Illusory Script:Invisibility Sphere:Leomund\'s Tiny Hut:' +
         'Lesser Geas:Major Image:Phantom Steed:Remove Curse:Scrying:' +
         'Sculpt Sound:Secret Page:See Invisibility:Sepia Snake Sigil:Slow:' +
         'Speak With Animals:Summon Monster III',
@@ -3428,7 +3413,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'W3:Arcane Sight:Blink:Clairaudience/Clairvoyance:Daylight:' +
         'Deep Slumber:Dispel Magic:Displacement:Explosive Runes:Fireball:' +
         'Flame Arrow:Fly:Gaseous Form:Gentle Repose:Greater Magic Weapon:' +
-        'Halt Undead:Haste:Heroism:Hold Person:Illusionary Script:' +
+        'Halt Undead:Haste:Heroism:Hold Person:Illusory Script:' +
         'Invisibility Sphere:Keen Edge:Leomund\'s Tiny Hut:Lightning Bolt:' +
         'Magic Circle Against Chaos:Magic Circle Against Evil:' +
         'Magic Circle Against Good:Magic Circle Against Law:Major Image:' +
@@ -3503,9 +3488,11 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         var pieces = spells[j].split(':');
         for(var k = 1; k < pieces.length; k++) {
           var spell = pieces[k];
-          var school =
-            PH35.spellsSchools[spell]==null?'Univ':PH35.spellsSchools[spell];
-          spell += '(' + pieces[0] + ' ' + school.substring(0, 4) + ')';
+          var school = PH35.spellsSchools[spell];
+          if(school == null) {
+            continue;
+          }
+          spell += '(' + pieces[0] + ' ' + schools[school] + ')';
           rules.defineChoice('spells', spell);
         }
       }
@@ -3565,7 +3552,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
     } else if(domain == 'Earth') {
       notes = ['combatNotes.earthDomain:Turn air/rebuke earth'];
       spells = [
-        'Magic Stone', 'Soften Earth And Stone', 'Stone Shpae', 'Spike Stones',
+        'Magic Stone', 'Soften Earth And Stone', 'Stone Shape', 'Spike Stones',
         'Wall Of Stone', 'Stoneskin', 'Earthquake', 'Iron Body',
         'Elemental Swarm'
       ];
@@ -3719,7 +3706,8 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'Elemental Swarm'
       ];
       turn = 'Fire';
-    }
+    } else
+      continue;
     rules.defineChoice('domains', domain);
     if(notes != null) {
       rules.defineNote(notes);
@@ -3727,8 +3715,10 @@ PH35.magicRules = function(rules, classes, domains, schools) {
     if(spells != null) {
       for(var j = 0; j < spells.length; j++) {
         var spell = spells[j];
-        var school =
-          PH35.spellsSchools[spell]==null ? 'Univ' : PH35.spellsSchools[spell];
+        var school = PH35.spellsSchools[spell];
+        if(school == null) {
+          continue;
+        }
         spell += '(' + domain + (j + 1) + ' ' + school.substring(0, 4) + ')';
         rules.defineChoice('spells', spell);
       }
@@ -3766,6 +3756,19 @@ PH35.magicRules = function(rules, classes, domains, schools) {
   rules.defineRule('validationNotes.domainsTotal',
     'domainCount', '+=', '-source',
     /^domains\./, '+=', null
+  );
+
+  rules.defineRule
+    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
+  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
+    'goodies.Ring Of Protection +1', '+=', null,
+    'goodies.Ring Of Protection +2', '+=', 'source * 2',
+    'goodies.Ring Of Protection +3', '+=', 'source * 3',
+    'goodies.Ring Of Protection +4', '+=', 'source * 4'
+  );
+  rules.defineRule('casterLevel',
+    'casterLevelArcane', '+=', null,
+    'casterLevelDivine', '+=', null
   );
 
 };
