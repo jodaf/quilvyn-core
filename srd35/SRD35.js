@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.106 2007/08/04 16:13:10 Jim Exp $ */
+/* $Id: SRD35.js,v 1.107 2007/08/04 19:38:59 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -4626,7 +4626,9 @@ PH35.makeValid = function(attributes) {
           }
         } else if(noteSuffix == 'total' && noteValue < 0 &&
                   (choices = this.getChoices(notePrefix)) != null) {
-          this.randomizeOneAttribute(attributes, notePrefix);
+          this.randomizeOneAttribute(attributes,
+            notePrefix == 'selectableFeatures' ? 'features' : notePrefix
+          );
           debug[debug.length] = 'Allocate additional ' + notePrefix;
           fixCount++;
         } else if(attr == 'validationNotes.abilityModifierSum') {
