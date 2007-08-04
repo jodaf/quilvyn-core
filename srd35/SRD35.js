@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.105 2007/07/28 00:43:22 Jim Exp $ */
+/* $Id: SRD35.js,v 1.106 2007/08/04 16:13:10 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -3724,13 +3724,11 @@ PH35.magicRules = function(rules, classes, domains, schools) {
       }
     }
     if(turn != null) {
-      var domainLevel = 'domainLevel.' + domain;
       var prefix = 'turn' + turn;
-      rules.defineRule(domainLevel,
+      rules.defineRule(prefix + '.level',
         'domains.' + domain, '?', null,
-        'levels.Cleric', '=', null
+        'levels.Cleric', '+=', null
       );
-      rules.defineRule(prefix + '.level', domainLevel, '+=', null);
       rules.defineRule(prefix + '.damageModifier',
         prefix + '.level', '=', null,
         'charismaModifier', '+', null
@@ -4270,11 +4268,11 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     var aliInfo = attributes.alignment.match(/^([CLN]).* ([GEN])/);
     var aliPat;
     if(aliInfo == null) /* Neutral character */
-      aliPat = '\\((N |N.|.N)';
+      aliPat = '\\((N[ \\)]|N.|.N)';
     else if(aliInfo[1] == 'N')
-      aliPat = '\\((N |.' + aliInfo[2] + ')';
+      aliPat = '\\((N[ \\)]|.' + aliInfo[2] + ')';
     else if(aliInfo[2] == 'N')
-      aliPat = '\\((N |' + aliInfo[1] + '.)';
+      aliPat = '\\((N[ \\)]|' + aliInfo[1] + '.)';
     else
       aliPat = '\\(([N' + aliInfo[1] + '][N' + aliInfo[2] + '])';
     choices = [];
@@ -4537,6 +4535,7 @@ PH35.makeValid = function(attributes) {
   var fixCount;
   var matchInfo;
   var notes = this.getChoices('notes');
+  var passes = 5;
   do {
     var applied = this.applyRules(attributes);
     fixCount = 0;
@@ -4625,10 +4624,33 @@ PH35.makeValid = function(attributes) {
             // Don't do this: attributesFixed[toFixAttr] = toFixValue;
             fixCount++;
           }
+        } else if(noteSuffix == 'total' && noteValue < 0 &&
+                  (choices = this.getChoices(notePrefix)) != null) {
+          this.randomizeOneAttribute(attributes, notePrefix);
+          debug[debug.length] = 'Allocate additional ' + notePrefix;
+          fixCount++;
+        } else if(attr == 'validationNotes.abilityModifierSum') {
+          var abilities = {
+            'charisma':'', 'constitution':'', 'dexterity':'',
+            'intelligence':'', 'strength':'', 'wisdom':''
+          };
+          for(toFixAttr in abilities) {
+            if(applied[toFixAttr + 'Modifier'] <= 0) {
+              toFixValue = attributes[toFixAttr] + 2;
+              debug[debug.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
+              attributes[toFixAttr] = toFixValue;
+              // Don't do this: attributesFixed[toFixAttr] = toFixValue;
+              fixCount++;
+            }
+          }
         }
       }
     }
     debug[debug.length] = '-----';
+    if(--passes <= 0) {
+      alert('makeValid:Giving up\n' + debug.join('\n'));
+      break;
+    }
   } while(fixCount > 0);
   // DEBUG attributes['notes'] = debug.join('<br/>');
 };
