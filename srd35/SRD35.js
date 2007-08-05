@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.107 2007/08/04 19:38:59 Jim Exp $ */
+/* $Id: SRD35.js,v 1.108 2007/08/05 16:10:32 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2899,7 +2899,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         note + ':+1 DC on ' + school + ' spells',
         valid + 'Levels:Requires Caster Level >= 1'
       ];
-      rules.defineRule(valid + 'Class',
+      rules.defineRule(valid + 'Levels',
         'feats.' + feat, '=', '-1',
         'casterLevel', '+', 'source >= 1 ? 1 : null'
       );
@@ -3492,7 +3492,8 @@ PH35.magicRules = function(rules, classes, domains, schools) {
           if(school == null) {
             continue;
           }
-          spell += '(' + pieces[0] + ' ' + schools[school] + ')';
+          spell += '(' + pieces[0] + ' ' +
+                    (school == 'Universal' ? 'Univ' : schools[school]) + ')';
           rules.defineChoice('spells', spell);
         }
       }
@@ -3719,7 +3720,8 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         if(school == null) {
           continue;
         }
-        spell += '(' + domain + (j + 1) + ' ' + school.substring(0, 4) + ')';
+        spell += '(' + domain + (j + 1) + ' ' +
+                  (school == 'Universal' ? 'Univ' : schools[school]) + ')';
         rules.defineChoice('spells', spell);
       }
     }

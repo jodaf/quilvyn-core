@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.215 2007/08/04 16:10:15 Jim Exp $ */
+/* $Id: Scribe.js,v 1.216 2007/08/05 16:09:43 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.44.04';
+var VERSION = '0.44.05';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -21,7 +21,7 @@ var ABOUT_TEXT =
 
 var COOKIE_FIELD_SEPARATOR = '\n';
 var COOKIE_NAME = 'ScribeCookie';
-var EMPTY_SPELL_LIST = '--- No spell categories selected ---';
+var EMPTY_SPELL_LIST = '--- No matching spells found ---';
 var FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
 var TIMEOUT_DELAY = 1000; // One second
