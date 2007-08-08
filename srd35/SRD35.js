@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.108 2007/08/05 16:10:32 Jim Exp $ */
+/* $Id: SRD35.js,v 1.109 2007/08/08 05:15:13 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -967,7 +967,7 @@ PH35.classRules = function(rules, classes) {
       features = [
         '1:Animal Companion', '1:Nature Sense', '1:Spontaneous Druid Spell',
         '1:Wild Empathy', '2:Woodland Stride', '3:Trackless Step',
-        '4:Resist Nature', '5:Wild Shape', '9:Venom Immunity',
+        '4:Resist Nature\'s Lure', '5:Wild Shape', '9:Venom Immunity',
         '13:Thousand Faces', '15:Timeless Body'
       ];
       hitDie = 8;
@@ -982,7 +982,7 @@ PH35.classRules = function(rules, classes) {
           '<i>Summon Nature\'s Ally</i>',
         'magicNotes.thousandFacesFeature:<i>Alter Self</i> at will',
         'magicNotes.wildShapeFeature:Change into creature of size %V %1/day',
-        'saveNotes.resistNatureFeature:+4 vs. spells of feys',
+        'saveNotes.resistNature\'sLureFeature:+4 vs. spells of feys',
         'saveNotes.venomImmunityFeature:Immune to poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
         'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals',
@@ -1114,7 +1114,7 @@ PH35.classRules = function(rules, classes) {
         'magicNotes.emptyBodyFeature:Ethereal %V rounds/day',
         'magicNotes.wholenessOfBodyFeature:Heal %V damage to self/day',
         'saveNotes.diamondBodyFeature:Immune to poison',
-        'saveNotes.diamondSoulFeature:+%V spell resistance',
+        'saveNotes.diamondSoulFeature:+%V vs. spells',
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
         'saveNotes.improvedEvasionFeature:Failed save yields 1/2 damage',
         'saveNotes.perfectSelfFeature:Treat as outsider for magic saves',
@@ -1725,7 +1725,7 @@ PH35.companionRules = function(rules, companions) {
         '1:Companion Alertness', '1:Companion Evasion',
         '1:Companion Improved Evasion', '1:Empathic Link', '1:Share Spells',
         '2:Deliver Touch Spells', '3:Speak With Master',
-        '4:Speak With Like Animals', '6:Companion Spell Resistance', '7:Scry'
+        '4:Speak With Like Animals', '6:Companion Resist Spells', '7:Scry'
       ];
       notes = [
         'familiarStats.armorClass:+%V',
@@ -1752,14 +1752,15 @@ PH35.companionRules = function(rules, companions) {
       rules.defineRule
         ('familiarStats.intelligence', 'familiarLevel', '=', 'source + 5');
       rules.defineRule('familiarStats.spellResistance',
-        'familiarLevel', '?', 'source >= 5',
+        'features.Companion Resist Spells', '?', null,
         'familiarMasterLevel', '+=', 'source + 5'
       );
     } else if(companion == 'Mount') {
       features = [
         '1:Companion Evasion', '1:Companion Improved Evasion',
         '1:Empathic Link', '1:Share Saving Throws', '1:Share Spells',
-        '2:Command Like Creatures', '2:Improved Speed'
+        '2:Command Like Creatures', '2:Improved Speed',
+        '3:Command Like Creatures', '4:Companion Resist Spells'
       ];
       notes = [
         'companionNotes.commandLikeCreaturesFeature:' +
@@ -1794,7 +1795,7 @@ PH35.companionRules = function(rules, companions) {
       rules.defineRule
         ('mountStats.intelligence', 'mountLevel', '=', 'source + 5');
       rules.defineRule('mountStats.spellResistance',
-        'mountLevel', '?', 'source >= 4',
+        'features.Companion Resist Spells', '?', null,
         'mountMasterLevel', '+=', 'source + 5'
       );
       rules.defineRule('mountStats.strength', 'mountLevel', '=', null);
@@ -3800,7 +3801,7 @@ PH35.raceRules = function(rules, languages, races) {
       adjustment = '+2 constitution/-2 charisma';
       features = [
         'Darkvision', 'Dodge Giants', 'Dwarf Favored Enemy', 'Know Depth',
-        'Natural Smith', 'Poison Resistance', 'Slow', 'Spell Resistance',
+        'Natural Smith', 'Resist Poison', 'Slow', 'Resist Spells',
         'Stability', 'Stonecunning'
       ];
       notes = [
@@ -3810,8 +3811,8 @@ PH35.raceRules = function(rules, languages, races) {
           '+1 vs. bugbear/goblin/hobgoblin/orc',
         'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
-        'saveNotes.poisonResistanceFeature:+2 vs. poison',
-        'saveNotes.spellResistanceFeature:+2 vs. spells',
+        'saveNotes.resistPoisonFeature:+2 vs. poison',
+        'saveNotes.resistSpellsFeature:+2 vs. spells',
         'saveNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
         'skillNotes.naturalSmithFeature:' +
            '+2 Appraise/Craft involving stone or metal',
@@ -3828,23 +3829,23 @@ PH35.raceRules = function(rules, languages, races) {
         'race', '=', 'source.indexOf("Dwarf") >= 0 ? 1 : null'
       );
       rules.defineRule
-        ('resistance.Poison', 'saveNotes.poisonResistanceFeature', '+=', '2');
+        ('resistance.Poison', 'saveNotes.resistPoisonFeature', '+=', '2');
       rules.defineRule
-        ('resistance.Spell', 'saveNotes.spellResistanceFeature', '+=', '2');
+        ('resistance.Spell', 'saveNotes.resistSpellsFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
 
     } else if(race == 'Elf') {
 
       adjustment = '+2 dexterity/-2 constitution';
       features = [
-        'Enchantment Resistance', 'Keen Senses', 'Low Light Vision',
+        'Resist Enchantment', 'Keen Senses', 'Low Light Vision',
         'Sense Secret Doors', 'Sleep Immunity'
       ];
       notes = [
         'featureNotes.lowLightVisionFeature:' +
           'Double normal distance in poor light',
         'featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5 ft',
-        'saveNotes.enchantmentResistanceFeature:+2 vs. enchantment',
+        'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.keenSensesFeature:+2 Listen/Search/Spot'
       ];
@@ -3852,7 +3853,7 @@ PH35.raceRules = function(rules, languages, races) {
         'race', '=', 'source.indexOf("Elf") >= 0 ? 1 : null'
       );
       rules.defineRule('resistance.Enchantment',
-        'saveNotes.enchantmentResistanceFeature', '+=', '2'
+        'saveNotes.resistEnchantmentFeature', '+=', '2'
       );
 
     } else if(race == 'Gnome') {
@@ -3860,7 +3861,7 @@ PH35.raceRules = function(rules, languages, races) {
       adjustment = '+2 constitution/-2 strength';
       features = [
         'Dodge Giants', 'Gnome Favored Enemy', 'Gnome Spells',
-        'Illusion Resistance', 'Keen Ears', 'Keen Nose', 'Low Light Vision',
+        'Resist Illusion', 'Keen Ears', 'Keen Nose', 'Low Light Vision',
         'Natural Illusionist', 'Slow', 'Small'
       ];
       notes = [
@@ -3872,7 +3873,7 @@ PH35.raceRules = function(rules, languages, races) {
           'Double normal distance in poor light',
         'magicNotes.gnomeSpellsFeature:%V 1/day',
         'magicNotes.naturalIllusionistFeature:+1 DC on illusion spells',
-        'saveNotes.illusionResistanceFeature:+2 vs. illusions',
+        'saveNotes.resistIllusionFeature:+2 vs. illusions',
         'skillNotes.keenEarsFeature:+2 Listen',
         'skillNotes.smallFeature:+4 Hide',
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)'
@@ -3888,22 +3889,21 @@ PH35.raceRules = function(rules, languages, races) {
       );
       rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('resistance.Illusion',
-        'saveNotes.illusionResistanceFeature', '+=', '2'
-      );
+      rules.defineRule
+        ('resistance.Illusion', 'saveNotes.resistIllusionFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
 
     } else if(race == 'Half Elf') {
 
       adjustment = null;
       features = [
-        'Alert Senses', 'Enchantment Resistance', 'Low Light Vision',
+        'Alert Senses', 'Resist Enchantment', 'Low Light Vision',
         'Sleep Immunity', 'Tolerance'
       ];
       notes = [
         'featureNotes.lowLightVisionFeature:' +
           'Double normal distance in poor light',
-        'saveNotes.enchantmentResistanceFeature:+2 vs. enchantment',
+        'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
         'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information'
@@ -3912,7 +3912,7 @@ PH35.raceRules = function(rules, languages, races) {
         'race', '=', 'source.indexOf("Elf") >= 0 ? 1 : null'
       );
       rules.defineRule('resistance.Enchantment',
-        'saveNotes.enchantmentResistanceFeature', '+=', '2'
+        'saveNotes.resistEnchantmentFeature', '+=', '2'
       );
 
     } else if(race == 'Half Orc') {
@@ -3931,13 +3931,13 @@ PH35.raceRules = function(rules, languages, races) {
       adjustment = '+2 dexterity/-2 strength';
       features = [
         'Accurate', 'Fortunate', 'Keen Ears', 'Slow', 'Small', 'Spry',
-        'Unafraid'
+        'Resist Fear'
       ];
       notes = [
         'combatNotes.accurateFeature:+1 attack with slings/thrown',
         'combatNotes.smallFeature:+1 AC/attack',
         'saveNotes.fortunateFeature:+1 all saves',
-        'saveNotes.unafraidFeature:+2 vs. fear',
+        'saveNotes.resistFearFeature:+2 vs. fear',
         'skillNotes.keenEarsFeature:+2 Listen',
         'skillNotes.smallFeature:+4 Hide',
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
@@ -3949,7 +3949,7 @@ PH35.raceRules = function(rules, languages, races) {
       rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
-        ('resistance.Fear', 'saveNotes.unafraidFeature', '+=', '2');
+        ('resistance.Fear', 'saveNotes.resistFearFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
       rules.defineRule('save.Fortitude','saveNotes.fortunateFeature','+','1');
       rules.defineRule('save.Reflex', 'saveNotes.fortunateFeature', '+', '1');
@@ -4314,7 +4314,8 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       if(attrs[prefix + '.' + attr] != null) {
         var type = 'General';
         for(var a in toAllocateByType) {
-          if(allChoices[attr].indexOf(a) >= 0 && toAllocateByType[a] > 0) {
+          if(ScribeUtils.findElement(allChoices[attr].split('/'), a) >= 0 &&
+             toAllocateByType[a] > 0) {
             type = a;
             break;
           }
@@ -4328,7 +4329,8 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       howMany = toAllocateByType[attr];
       var availableChoicesInType = {};
       for(var a in availableChoices) {
-        if(attr == 'General' || availableChoices[a].indexOf(attr) >= 0) {
+        if(attr == 'General' ||
+           ScribeUtils.findElement(availableChoices[a].split('/'), attr) >= 0) {
           availableChoicesInType[a] = '';
         }
       }
