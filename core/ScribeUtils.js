@@ -1,4 +1,4 @@
-/* $Id: ScribeUtils.js,v 1.6 2006/12/12 02:43:21 Jim Exp $ */
+/* $Id: ScribeUtils.js,v 1.7 2007/08/08 05:08:50 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -45,6 +45,16 @@ ScribeUtils.clones = function(o1, o2) {
       return false;
   }
   return true;
+};
+
+/* Returns the first index of #element# in #array#, -1 if none. */
+ScribeUtils.findElement = function(array, element) {
+  for(var i = 0; i < array.length; i++) {
+    if(array[i] == element) {
+      return i;
+    }
+  }
+  return -1;
 };
 
 /* Returns the elements of #array# with any array elements expanded. */
