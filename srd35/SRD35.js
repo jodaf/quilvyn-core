@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.109 2007/08/08 05:15:13 Jim Exp $ */
+/* $Id: SRD35.js,v 1.110 2007/08/13 04:02:14 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2419,7 +2419,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'validationNotes.improvedBullRushFeatFeats:Requires Power Attack'
       ];
       rules.defineRule('validationNotes.improvedBullRushFeatAbilities',
-        'feats.Improved Bull Rush', '=', '-2',
+        'feats.Improved Bull Rush', '=', '-1',
         'strength', '+', 'source >= 13 ? 1 : null'
       );
       rules.defineRule('validationNotes.improvedBullRushFeatFeats',
@@ -4602,6 +4602,9 @@ PH35.makeValid = function(attributes) {
            attributesFixed[toFixAttr] == null)  {
           debug[debug.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
           attributes[toFixAttr] = toFixValue;
+          if(toFixValue == 0) {
+            delete attributes[toFixAttr];
+          }
           attributesFixed[toFixAttr] = toFixValue;
           fixCount++;
         } else if(noteSuffix == 'total' && noteValue > 0 &&
@@ -4653,7 +4656,7 @@ PH35.makeValid = function(attributes) {
       }
     }
     debug[debug.length] = '-----';
-    if(--passes <= 0) {
+    if(--passes <= 0 && fixCount > 0) {
       alert('makeValid:Giving up\n' + debug.join('\n'));
       break;
     }
