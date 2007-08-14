@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.64 2007/07/19 05:14:47 Jim Exp $ */
+/* $Id: ScribeRules.js,v 1.65 2007/08/14 17:44:30 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -160,7 +160,7 @@ ScribeRules.prototype.defineSheetElement = function
   (name, position, format, separator) {
   var element = {name: name, format: format, separator: separator};
   if(position != null && position.match(/\/$/)) {
-    element.within = position.substring(0, position.length() - 1);
+    element.within = position.substring(0, position.length - 1);
   } else {
     element.before = position;
   }
