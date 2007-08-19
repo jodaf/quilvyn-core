@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.110 2007/08/13 04:02:14 Jim Exp $ */
+/* $Id: SRD35.js,v 1.111 2007/08/19 06:09:35 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -165,7 +165,7 @@ PH35.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'domains',
   'features', 'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield',
-  'weapons', 'spells'
+  'weapons', 'spells', 'goodies'
 ];
 PH35.SCHOOLS = [
   'Abjuration:Abju', 'Conjuration:Conj', 'Divination:Divi', 'Enchantment:Ench',
@@ -4358,6 +4358,12 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         }
       }
     }
+  } else if(attribute == 'goodies') {
+    attrs = this.applyRules(attributes);
+    choices = ScribeUtils.getKeys(this.getChoices('goodies'));
+    howMany = Math.floor((attrs.level + 1) / 3);
+    pickAttrs(attributes, 'goodies.', choices, howMany -
+              ScribeUtils.sumMatching(attrs, /^goodies\./), 1);
   } else if(attribute == 'hitPoints') {
     attributes.hitPoints = 0;
     for(var klass in this.getChoices('levels')) {
