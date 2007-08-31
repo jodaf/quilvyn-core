@@ -1,4 +1,4 @@
-/* $Id: ScribeRules.js,v 1.65 2007/08/14 17:44:30 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.66 2007/08/31 23:27:32 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -130,6 +130,57 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
       if(j == affected.length)
         for(j = 0; j < affected.length; j++)
           this.defineRule('skillModifier.' + affected[j], attribute, '+', bump);
+    } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|SelectableFeature)([A-Za-z]+)/)) != null &&
+              !format.match(/[ \(/][a-z]/)) {
+      var group = matchInfo[4] == 'Feats' ? 'features.' :
+                  matchInfo[4] == 'Skills' ? 'skillModifier.' :
+                  matchInfo[4].match(/s$/) ?
+                  matchInfo[4].substring(0, 1).toLowerCase() +
+                  matchInfo[4].substring(1) + '.' : '';
+      var requirements = format.replace(/^Requires /, '').split('/');
+      var target = matchInfo[3] == 'Class' ? 'Levels' : (matchInfo[3] + 's');
+      target = target.substring(0, 1).toLowerCase() + target.substring(1);
+      target += '.' + matchInfo[2].substring(0, 1).toUpperCase() +
+                matchInfo[2].substring(1).replace(/([a-z])([A-Z])/g, "$1 $2");
+      var currentValue = 1;
+      var totalValue = 0;
+      for(var j = 0; j < requirements.length; j++) {
+        var choices = requirements[j].split(/\|/);
+        for(var k = 0; k < choices.length; k++) {
+          var source = choices[k].replace(/(^\s+)|(\s+$)/g, '');
+          var op = '>=';
+          var value = '1';
+          if((matchInfo=source.match(/^(.*)(<=?|>=?|==|[!=]~)(.*)/)) != null) {
+            source = matchInfo[1].replace(/\s+$/, '');
+            op = matchInfo[2];
+            value = matchInfo[3].replace(/^\s+/, '');
+          }
+          if(group == '') {
+            source = source.substring(0, 1).toLowerCase() +
+                     source.substring(1).replace(/ /g, '');
+          }
+          var expr;
+          if(op.match(/[!=]~/)) {
+            expr = (op == '!~' ? '!' : '') + 'source.match(/' + value + '/)';
+          } else if(value.match(/^\d+$/)) {
+            expr = 'source ' + op + ' ' + value;
+          } else {
+            expr = 'source ' + op + ' "' + value + '"';
+          }
+          expr += ' ? ' + currentValue + ' : null';
+          if(attribute.match(/^(Max|Sum)( |$)/)) {
+            attribute = '/^' + attribute.substring(4) + '/';
+            // TODO
+          }
+          this.defineRule(attribute, group + source, '+', expr);
+        }
+        totalValue += currentValue;
+        currentValue *= 10;
+      }
+      this.defineRule(attribute, target, '=', '-' + totalValue);
+      if(format.indexOf('|') >= 0) {
+        this.defineRule(attribute, '', 'v', '0');
+      }
     }
   }
 };

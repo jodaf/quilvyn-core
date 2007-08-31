@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.19 2007/04/29 15:00:54 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.20 2007/08/31 23:27:32 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -165,6 +165,20 @@ RuleEngine.prototype.deleteRule = function(target, source) {
   delete this.sources[target][source];
 };
 
+
+RuleEngine.prototype.dump = function() {
+  var result = '';
+  var sources = ScribeUtils.getKeys(this.sources);
+  for(var i = 0; i < sources.length; i++) {
+    var a = sources[i];
+    result += '<b>' + a + '</b>\n';
+    for(var b in this.sources[a]) {
+      var source = this.sources[a][b];
+      result += ' "' + b + '" "' + source.type + '" "' + source.fn + '"\n';
+    }
+  }
+  return result;
+}
 
 /* Returns true iff the value of #attr# affects other attributes. */
 RuleEngine.prototype.isSource = function(attr) {

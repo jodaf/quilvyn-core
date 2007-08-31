@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.111 2007/08/19 06:09:35 Jim Exp $ */
+/* $Id: SRD35.js,v 1.112 2007/08/31 23:27:32 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -190,15 +190,24 @@ PH35.SKILLS = [
 ];
 PH35.SUBFEATS = {
   'Armor Proficiency':'Heavy/Light/Medium',
+  'Greater Spell Focus':'',
+  'Greater Weapon Focus':'',
+  'Greater Weapon Specialization':'',
+  'Improved Critical':'',
   'Rapid Reload':'Hand/Heavy/Light',
   'Shield Proficiency':'Heavy/Tower',
+  'Skill Focus':'',
+  'Spell Focus':'',
+  'Weapon Focus':'',
   'Weapon Proficiency':'Simple',
   'Weapon Specialization':'Dwarven Waraxe/Longsword'
 };
 PH35.SUBSKILLS = {
+  'Craft':'',
   'Knowledge':'Arcana/Architecture/Dungeoneering/Engineering/Geography/' +
               'History/Local/Nature/Nobility/Planes/Religion',
-  'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind'
+  'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
+  'Profession':''
 };
 PH35.WEAPONS = [
   'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
@@ -640,20 +649,18 @@ PH35.abilityRules = function(rules) {
 
   // Validation tests
   var notes = [
-    'validationNotes.abilityMinimum:' +
-      'Requires charisma >= 14|constitution >= 14|dexterity >= 14|' +
-      'intelligence >= 14|strength >= 14|wisdom >= 14',
+    'validationNotes.abilityMinimum:Requires Charisma >= 14|Constitution >= 14|Dexterity >= 14|Intelligence >= 14|Strength >= 14|Wisdom >= 14',
     'validationNotes.abilityModifierSum:Requires ability modifier sum >= 1'
   ];
   rules.defineNote(notes);
   rules.defineRule('validationNotes.abilityMinimum',
-    'charisma', '=', '-1',
-    /^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/,
+    '', '=', '-1',
+    /^charisma|constitution|dexterity|intelligence|strength|wisdom$/,
     '^', 'source >= 14 ? 0 : null'
   );
   rules.defineRule('validationNotes.abilityModifierSum',
-    'charisma', '=', '-1',
-    /^(charisma|constitution|dexterity|intelligence|strength|wisdom)Modifier$/,
+    'charismaModifier', '=', 'source - 1',
+    /^(constitution|dexterity|intelligence|strength|wisdom)Modifier$/,
     '+', null,
     '', 'v', '0'
   );
@@ -690,8 +697,7 @@ PH35.classRules = function(rules, classes) {
     'level', '^', 'source + 3'
   );
   rules.defineNote
-    ('validationNotes.levelsTotal:Allocated levels differ from level total ' +
-     'by %V');
+    ('validationNotes.levelsTotal:Allocated levels differ from level total by %V');
   rules.defineRule('validationNotes.levelsTotal',
     'level', '+=', '-source',
     /^levels\./, '+=', null
@@ -730,7 +736,7 @@ PH35.classRules = function(rules, classes) {
           '+4 enchantment resistance during rage',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
         'skillNotes.illiteracyFeature:Must spend 2 skill points to read/write',
-        'validationNotes.barbarianClassAlignment:Requires Alignment != Lawful'
+        'validationNotes.barbarianClassAlignment:Requires Alignment !~ Lawful'
       ];
       profArmor = PH35.PROFICIENCY_MEDIUM;
       profShield = PH35.PROFICIENCY_HEAVY;
@@ -765,10 +771,6 @@ PH35.classRules = function(rules, classes) {
         'skillNotes.illiteracyFeature', '+', '-2'
       );
       rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
-      rules.defineRule('validationNotes.barbarianClassAlignment',
-        'levels.Barbarian', '=', '-1',
-        'alignment', '+', 'source.indexOf("Lawful") < 0 ? 1 : null'
-      );
 
     } else if(klass == 'Bard') {
 
@@ -802,7 +804,7 @@ PH35.classRules = function(rules, classes) {
           'Make suggestion to a fascinated creature',
         'skillNotes.bardicKnowledgeFeature:' +
           '+%V Knowledge checks on local history',
-        'validationNotes.bardClassAlignment:Requires Alignment != Lawful'
+        'validationNotes.bardClassAlignment:Requires Alignment !~ Lawful'
       ];
       profArmor = PH35.PROFICIENCY_LIGHT;
       profShield = PH35.PROFICIENCY_HEAVY;
@@ -884,10 +886,6 @@ PH35.classRules = function(rules, classes) {
         'levels.Bard', '+=', null,
         'intelligenceModifier', '+', null
       );
-      rules.defineRule('validationNotes.bardClassAlignment',
-        'levels.Bard', '=', '-1',
-        'alignment', '+', 'source.indexOf("Lawful") < 0 ? 1 : null'
-      );
 
     } else if(klass == 'Cleric') {
 
@@ -959,6 +957,7 @@ PH35.classRules = function(rules, classes) {
           'source >= ' + (j * 2 - 1) + ' ? 1 : null');
       }
       rules.defineRule('turnUndead.level', 'levels.Cleric', '+=', null);
+      rules.defineRule('turningLevel', 'turnUndead.level', '^=', null);
 
     } else if(klass == 'Druid') {
 
@@ -986,7 +985,7 @@ PH35.classRules = function(rules, classes) {
         'saveNotes.venomImmunityFeature:Immune to poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
         'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals',
-        'validationNotes.druidClassAlignment:Requires Alignment == Neutral'
+        'validationNotes.druidClassAlignment:Requires Alignment =~ Neutral'
       ];
       profArmor = PH35.PROFICIENCY_MEDIUM;
       profShield = PH35.PROFICIENCY_HEAVY;
@@ -1050,10 +1049,6 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('skillNotes.wildEmpathyFeature',
         'levels.Druid', '+=', null,
         'charismaModifier', '+', null
-      );
-      rules.defineRule('validationNotes.druidClassAlignment',
-        'levels.Druid', '=', '-1',
-        'alignment', '+', 'source.indexOf("Neutral") >= 0 ? 1 : null'
       );
 
     } else if(klass == 'Fighter') {
@@ -1122,17 +1117,12 @@ PH35.classRules = function(rules, classes) {
         'saveNotes.slowFallFeature:' +
           'Subtract %V ft from falling damage distance',
         'saveNotes.stillMindFeature:+2 vs. enchantment',
-        'validationNotes.combatReflexesSelectableFeatureLevels:' +
-          'Requires Monk >= 2',
-        'validationNotes.deflectArrowsSelectableFeatureLevels:' +
-          'Requires Monk >= 2',
-        'validationNotes.improvedDisarmSelectableFeatureLevels:' +
-          'Requires Monk >= 6',
-        'validationNotes.improvedGrappleSelectableFeatureLevels:' +
-          'Requires Monk >= 1',
-        'validationNotes.improvedTripSelectableFeatureLevels:' +
-          'Requires Monk >= 6',
-        'validationNotes.monkClassAlignment:Requires Alignment == Lawful',
+        'validationNotes.combatReflexesSelectableFeatureLevels:Requires Monk >= 2',
+        'validationNotes.deflectArrowsSelectableFeatureLevels:Requires Monk >= 2',
+        'validationNotes.improvedDisarmSelectableFeatureLevels:Requires Monk >= 6',
+        'validationNotes.improvedGrappleSelectableFeatureLevels:Requires Monk >= 1',
+        'validationNotes.improvedTripSelectableFeatureLevels:Requires Monk >= 6',
+        'validationNotes.monkClassAlignment:Requires Alignment =~ Lawful',
         'validationNotes.stunningFistSelectableFeatureLevels:Requires Monk >= 1'
       ];
       profArmor = PH35.PROFICIENCY_NONE;
@@ -1192,34 +1182,6 @@ PH35.classRules = function(rules, classes) {
         'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
       );
       rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
-      rules.defineRule('validationNotes.combatReflexesSelectableFeatureLevels',
-        'selectableFeatures.Combat Reflexes', '=', '-1',
-        'levels.Monk', '+', 'source >= 2 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.deflectArrowsSelectableFeatureLevels',
-        'selectableFeatures.Deflect Arrows', '=', '-1',
-        'levels.Monk', '+', 'source >= 2 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedDisarmSelectableFeatureLevels',
-        'selectableFeatures.Improved Disarm', '=', '-1',
-        'levels.Monk', '+', 'source >= 6 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedGrappleSelectableFeatureLevels',
-        'selectableFeatures.Improved Grapple', '=', '-1',
-        'levels.Monk', '+', '1'
-      );
-      rules.defineRule('validationNotes.improvedTripSelectableFeatureLevels',
-        'selectableFeatures.Improved Trip', '=', '-1',
-        'levels.Monk', '+', 'source >= 6 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.monkClassAlignment',
-        'levels.Monk', '=', '-1',
-        'alignment', '+', 'source.indexOf("Lawful") >= 0 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.stunningFistSelectableFeatureLevels',
-        'selectableFeatures.Stunning Fist', '=', '-1',
-        'levels.Monk', '+', '1'
-      );
       rules.defineRule('weaponDamage.Unarmed',
         'levels.Monk', '=',
         'source < 12 ? ("d" + (6 + Math.floor(source / 4) * 2)) : ' +
@@ -1249,8 +1211,7 @@ PH35.classRules = function(rules, classes) {
         'saveNotes.auraOfCourageFeature:Immune fear; +4 to allies w/in 30 ft',
         'saveNotes.divineGraceFeature:Add %V to saves',
         'saveNotes.divineHealthFeature:Immune to disease',
-        'validationNotes.paladinClassAlignment:' +
-          'Requires Alignment == Lawful Good'
+        'validationNotes.paladinClassAlignment:Requires Alignment == Lawful Good'
       ];
       profArmor = PH35.PROFICIENCY_HEAVY;
       profShield = PH35.PROFICIENCY_HEAVY;
@@ -1308,10 +1269,7 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('turnUndead.level',
         'levels.Paladin', '+=', 'source > 3 ? source - 3 : null'
       );
-      rules.defineRule('validationNotes.paladinClassAlignment',
-        'levels.Paladin', '=', '-1',
-        'alignment', '+', 'source == "Lawful Good" ? 1 : null'
-      );
+      rules.defineRule('turningLevel', 'turnUndead.level', '^=', null);
 
     } else if(klass == 'Ranger') {
 
@@ -1628,8 +1586,7 @@ PH35.classRules = function(rules, classes) {
   }
 
   rules.defineNote
-    ('validationNotes.selectableFeaturesTotal:Allocated selectable features ' +
-     'differ from selectable features count total by %V');
+    ('validationNotes.selectableFeaturesTotal:Allocated selectable features differ from selectable features count total by %V');
   rules.defineRule('validationNotes.selectableFeaturesTotal',
     /^selectableFeatureCount\./, '+=', '-source',
     /^selectableFeatures\./, '+=', 'source'
@@ -1944,6 +1901,7 @@ PH35.createViewer = function(viewer) {
       {name: 'Companion Notes', within: 'Notes Area', separator: ' * '},
       {name: 'Notes', within: 'Notes Area', format: '%V'},
       {name: 'Dm Notes', within: 'Notes Area', format: '%V'},
+      {name: 'Sanity Notes', within: 'Notes Area', separator: ' * '},
       {name: 'Validation Notes', within: 'Notes Area', separator: ' * '}
   );
 };
@@ -2003,63 +1961,72 @@ PH35.featRules = function(rules, feats, subfeats) {
     var featSubfeats = subfeats[feat];
     if(featSubfeats == null) {
       allFeats[allFeats.length] = feat + ':' + pieces[1];
-    } else {
-      rules.defineRule('subfeatCount.' + feat,
-        new RegExp('^feats\\.' + feat + ' \\('), '+=', '1'
-      );
-      if(featSubfeats != '') {
-        featSubfeats = featSubfeats.split('/');
-        for(var j = 0; j < featSubfeats.length; j++) {
-          allFeats[allFeats.length] =
-            feat + ' (' + featSubfeats[j] + '):' + pieces[1];
-        }
+    } else if(featSubfeats != '') {
+      featSubfeats = featSubfeats.split('/');
+      for(var j = 0; j < featSubfeats.length; j++) {
+        allFeats[allFeats.length] =
+          feat + ' (' + featSubfeats[j] + '):' + pieces[1];
       }
     }
   }
 
-  // NOTE: Validation tests for armor & shield proficiencies are not computed
-  // because of the way we handle class-based proficiencies.  For example,
-  // Armor Proficiency (Heavy) should test features.Armor Proficiency (Medium).
-  // However, class armor proficiencies are reflected in armorProficiencyLevel
-  // instead of the feature, so this test would yield false positives.
   for(var i = 0; i < allFeats.length; i++) {
     var pieces = allFeats[i].split(':');
     var feat = pieces[0];
     var matchInfo;
-    var notes;
+    var notes = null;
     if(feat == 'Acrobatic') {
-      notes = ['skillNotes.acrobaticFeature:+2 Jump/Tumble'];
+      notes = [
+        'sanityNotes.acrobaticFeatSkills:Requires Jump|Tumble',
+        'skillNotes.acrobaticFeature:+2 Jump/Tumble'
+      ];
     } else if(feat == 'Agile') {
-      notes = ['skillNotes.agileFeature:+2 Balance/Escape Artist'];
+      notes = [
+        'sanityNotes.agileFeatSkills:Requires Balance|Escape Artist',
+        'skillNotes.agileFeature:+2 Balance/Escape Artist'
+      ];
     } else if(feat == 'Alertness') {
-      notes = ['skillNotes.alertnessFeature:+2 Listen/Spot'];
+      notes = [
+        'sanityNotes.alertnessFeatSkills:Requires Listen|Spot',
+        'skillNotes.alertnessFeature:+2 Listen/Spot'
+      ];
     } else if(feat == 'Animal Affinity') {
-      notes = ['skillNotes.animalAffinityFeature:+2 Handle Animal/Ride'];
+      notes = [
+        'sanityNotes.animalAffinityFeatSkills:Requires Handle Animal|Ride',
+        'skillNotes.animalAffinityFeature:+2 Handle Animal/Ride'
+      ];
     } else if(feat == 'Armor Proficiency (Heavy)') {
+      notes = [
+        'sanityNotes.armorProficiency(Heavy)FeatProficiency:Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_MEDIUM
+      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
       );
     } else if(feat == 'Armor Proficiency (Light)') {
+      notes = [
+        'sanityNotes.armorProficiency(Light)FeatProficiency:Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_NONE
+      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Light)', '^', PH35.PROFICIENCY_LIGHT
       );
     } else if(feat == 'Armor Proficiency (Medium)') {
+      notes = [
+        'sanityNotes.armorProficiency(Medium)FeatProficiency:Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_LIGHT
+      ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Medium)', '^', PH35.PROFICIENCY_MEDIUM
       );
     } else if(feat == 'Athletic') {
-      notes = ['skillNotes.athleticFeature:+2 Climb/Swim'];
+      notes = [
+        'sanityNotes.athleticFeatSkills:Requires Climb|Swim',
+        'skillNotes.athleticFeature:+2 Climb/Swim'
+      ];
     } else if(feat == 'Augment Summoning') {
       notes = [
         'magicNotes.augmentSummoningFeature:' +
           'Summoned creatures +4 strength/constitution',
-        'validationNotes.augmentSummoningFeatFeats:' +
-          'Requires Spell Focus (Conjuration)'
+        'validationNotes.augmentSummoningFeatFeats:Requires Spell Focus (Conjuration)'
       ];
-      rules.defineRule('validationNotes.augmentSummoningFeatFeats',
-        'feats.Augment Summoning', '=', '-1',
-        'features.Spell Focus (Conjuration)', '+', '1'
-      );
     } else if(feat == 'Blind Fight') {
       notes = [
         'combatNotes.blindFightFeature:' +
@@ -2069,227 +2036,136 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Brew Potion') {
       notes = [
         'magicNotes.brewPotionFeature:Create potion for up to 3rd level spell',
-        'validationNotes.brewPotionFeatLevels:Requires Caster Level >= 3'
+        'validationNotes.brewPotionFeatCasterLevel:Requires Caster Level >= 3'
       ];
-      rules.defineRule('validationNotes.brewPotionFeatLevels',
-        'feats.Brew Potion', '=', '-1',
-        'casterLevel', '+', 'source >= 3 ? 1 : null'
-      );
     } else if(feat == 'Cleave') {
       notes = [
         'combatNotes.cleaveFeature:Extra attack when foe drops',
-        'validationNotes.cleaveFeatAbilities:Requires Strength >= 13',
+        'validationNotes.cleaveFeatAbility:Requires Strength >= 13',
         'validationNotes.cleaveFeatFeats:Requires Power Attack'
       ];
-      rules.defineRule('validationNotes.cleaveFeatAbilities',
-        'feats.Cleave', '=', '-1',
-        'strength', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.cleaveFeatFeats',
-        'feats.Cleave', '=', '-1',
-        'features.Power Attack', '+', '1'
-      );
     } else if(feat == 'Combat Casting') {
       notes = [
+        'sanityNotes.combatCastingFeatCasterLevel:Requires Caster Level >= 1',
         'skillNotes.combatCastingFeature:' +
-          '+4 Concentration when casting on defensive',
-        'validationNotes.combatCastingFeatLevels:Requires Caster Level >= 1'
+          '+4 Concentration when casting on defensive'
       ];
-      rules.defineRule('validationNotes.combatCastingFeatLevels',
-        'feats.Combat Casting', '=', '-1',
-        'casterLevel', '+', '1'
-      );
     } else if(feat == 'Combat Expertise') {
       notes = [
         'combatNotes.combatExpertiseFeature:Up to -5 attack/+5 AC',
-        'validationNotes.combatExpertiseFeatAbilities:' +
-          'Requires Intelligence >= 13'
+        'validationNotes.combatExpertiseFeatAbility:Requires Intelligence >= 13'
       ];
-      rules.defineRule('validationNotes.combatExpertiseFeatAbilities',
-        'feats.Combat Expertise', '=', '-1',
-        'intelligence', '+', 'source >= 13 ? 1 : null'
-      );
     } else if(feat == 'Combat Reflexes') {
       notes = [
-        'combatNotes.combatReflexesFeature:Add dexterity mod to AOO count'
+        'combatNotes.combatReflexesFeature:Add dexterity mod to AOO count',
+        'sanityNotes.combatReflexesFeatAbility:Requires Dexterity >= 12'
       ];
     } else if(feat == 'Craft Magic Arms And Armor') {
       notes = [
         'magicNotes.craftMagicArmsAndArmorFeature:' +
           'Create magic weapon/armor/shield',
-        'validationNotes.craftMagicArmsAndArmorFeatLevels:' +
-          'Requires Caster Level >= 5'
+        'validationNotes.craftMagicArmsAndArmorFeatCasterLevel:Requires Caster Level >= 5'
       ];
-      rules.defineRule('validationNotes.craftMagicArmsAndArmorFeatLevels',
-        'feats.Craft Magic Arms And Armor', '=', '-1',
-        'casterLevel', '+', 'source >= 5 ? 1 : null'
-      );
     } else if(feat == 'Craft Rod') {
       notes = [
         'magicNotes.craftRodFeature:Create magic rod',
-        'validationNotes.craftRodFeatLevels:Requires Caster Level >= 9'
+        'validationNotes.craftRodFeatCasterLevel:Requires Caster Level >= 9'
       ];
-      rules.defineRule('validationNotes.craftRodFeatLevels',
-        'feats.Craft Rod', '=', '-1',
-        'casterLevel', '+', 'source >= 9 ? 1 : null'
-      );
     } else if(feat == 'Craft Staff') {
       notes = [
         'magicNotes.craftStaffFeature:Create magic staff',
-        'validationNotes.craftStaffFeatLevels:Requires Caster Level >= 12'
+        'validationNotes.craftStaffFeatCasterLevel:Requires Caster Level >= 12'
       ];
-      rules.defineRule('validationNotes.craftStaffFeatLevels',
-        'feats.Craft Staff', '=', '-1',
-        'casterLevel', '+', 'source >= 12 ? 1 : null'
-      );
     } else if(feat == 'Craft Wand') {
       notes = [
         'magicNotes.craftWandFeature:Create wand for up to 4th level spell',
-        'validationNotes.craftWandFeatLevels:Requires Caster Level >= 5'
+        'validationNotes.craftWandFeatCasterLevel:Requires Caster Level >= 5'
       ];
-      rules.defineRule('validationNotes.craftWandFeatLevels',
-        'feats.Craft Wand', '=', '-1',
-        'casterLevel', '+', 'source >= 5 ? 1 : null'
-      );
     } else if(feat == 'Craft Wondrous Item') {
       notes = [
         'magicNotes.craftWondrousItemFeature:Create miscellaneous magic item',
-        'validationNotes.craftWondrousItemFeatLevels:Requires Caster Level >= 3'
+        'validationNotes.craftWondrousItemFeatCasterLevel:Requires Caster Level >= 3'
       ];
-      rules.defineRule('validationNotes.craftWondrousItemFeatLevels',
-        'feats.Craft Wondrous Item', '=', '-1',
-        'casterLevel', '+', 'source >= 3 ? 1 : null'
-      );
     } else if(feat == 'Deceitful') {
-      notes = ['skillNotes.deceitfulFeature:+2 Disguise/Forgery'];
+      notes = [
+        'sanityNotes.deceitfulFeatSkills:Requires Disguise|Forgery',
+        'skillNotes.deceitfulFeature:+2 Disguise/Forgery'
+      ];
     } else if(feat == 'Deflect Arrows') {
       notes = [
         'combatNotes.deflectArrowsFeature:Deflect ranged 1/round',
-        'validationNotes.deflectArrowsFeatAbilities:Requires Dexterity >= 13',
-        'validationNotes.deflectArrowsFeatFeats:' +
-          'Requires Improved Unarmed Strike'
+        'validationNotes.deflectArrowsFeatAbility:Requires Dexterity >= 13',
+        'validationNotes.deflectArrowsFeatFeats:Requires Improved Unarmed Strike'
       ];
-      rules.defineRule('validationNotes.deflectArrowsFeatAbilities',
-        'feats.Deflect Arrows', '=', '-1',
-        'dexterity', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.deflectArrowsFeatFeats',
-        'feats.Deflect Arrows', '=', '-1',
-        'features.Improved Unarmed Strike', '+', '1'
-      );
     } else if(feat == 'Deft Hands') {
-      notes = ['skillNotes.deftHandsFeature:+2 Sleight Of Hand/Use Rope'];
+      notes = [
+        'sanityNotes.deftHandsFeatSkills:Requires Sleight Of Hand|Use Rope',
+        'skillNotes.deftHandsFeature:+2 Sleight Of Hand/Use Rope'
+      ];
     } else if(feat == 'Diehard') {
       notes = [
         'combatNotes.diehardFeature:Remain conscious w/HP <= 0',
         'validationNotes.diehardFeatFeats:Requires Endurance'
       ];
-      rules.defineRule('validationNotes.diehardFeatFeats',
-        'feats.Diehard', '=', '-1',
-        'features.Endurance', '+', '1'
-      );
     } else if(feat == 'Diligent') {
-      notes = ['skillNotes.diligentFeature:+2 Appraise/Decipher Script'];
+      notes = [
+        'sanityNotes.diligentFeatSkills:Requires Appraise|Decipher Script',
+        'skillNotes.diligentFeature:+2 Appraise/Decipher Script'
+      ];
     } else if(feat == 'Dodge') {
       notes = [
         'combatNotes.dodgeFeature:+1 AC vs. designated foe',
-        'validationNotes.dodgeFeatAbilities:Requires Dexterity >= 13'
+        'validationNotes.dodgeFeatAbility:Requires Dexterity >= 13'
       ];
-      rules.defineRule('validationNotes.dodgeFeatAbilities',
-        'feats.Dodge', '=', '-1',
-        'dexterity', '+', 'source >= 13 ? 1 : null'
-      );
       rules.defineRule('armorClass', 'combatNotes.dodgeFeature', '+', '1');
     } else if(feat == 'Empower Spell') {
       notes = [
         'magicNotes.empowerSpellFeature:' +
           'x1.5 designated spell variable effects',
-        'validationNotes.empowerSpellFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.empowerSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.empowerSpellFeatLevels',
-        'feats.Empower Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Endurance') {
       notes = ['saveNotes.enduranceFeature:+4 extended physical action'];
     } else if(feat == 'Enlarge Spell') {
       notes = [
         'magicNotes.enlargeSpellFeature:x2 designated spell range',
-        'validationNotes.enlargeSpellFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.enlargeSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.enlargeSpellFeatLevels',
-        'feats.Enlarge Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Eschew Materials') {
       notes = [
         'magicNotes.eschewMaterialsFeature:Cast spells w/out materials',
-        'validationNotes.eschewMaterialsFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.eschewMaterialsFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.eschewMaterialsFeatLevels',
-        'feats.Eschew Materials', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Extend Spell') {
       notes = [
         'magicNotes.extendSpellFeature:x2 designated spell duration',
-        'validationNotes.extendSpellFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.extendSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.extendSpellFeatLevels',
-        'feats.Extend Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Extra Turning') {
       notes = [
         'combatNotes.extraTurningFeature:+4/day',
-        'validationNotes.extraTurningFeatLevels:Requires Turning Level >= 1'
+        'validationNotes.extraTurningFeatTurningLevel:Requires Turning Level >= 1'
       ];
       rules.defineRule(/^turn.*\.frequency$/,
         'combatNotes.extraTurningFeature', '+', '4 * source'
-      );
-      rules.defineRule('validationNotes.extraTurningFeatLevels',
-        'feats.Extra Turning', '=', '-1',
-        /^turn.*\.level$/, '+', 'source >= 1 ? 1 : null',
-        '', 'v', '0'
       );
     } else if(feat == 'Far Shot') {
       notes = [
         'combatNotes.farShotFeature:x1.5 projectile range; x2 thrown',
         'validationNotes.farShotFeatFeats:Requires Point Blank Shot'
       ];
-      rules.defineRule('validationNotes.farShotFeatFeats',
-        'feats.Far Shot', '=', '-1',
-        'features.Point Blank Shot', '+', '1'
-      );
     } else if(feat == 'Forge Ring') {
       notes = [
         'magicNotes.forgeRingFeature:Create magic ring',
-        'validationNotes.forgeRingFeatLevels:Requires Caster Level >= 12'
+        'validationNotes.forgeRingFeatCasterLevel:Requires Caster Level >= 12'
       ];
-      rules.defineRule('validationNotes.forgeRingFeatLevels',
-        'feats.Forge Ring', '=', '-1',
-        'casterLevel', '+', 'source >= 12 ? 1 : null'
-      );
     } else if(feat == 'Great Cleave') {
       notes = [
         'combatNotes.greatCleaveFeature:Cleave w/out limit',
-        'validationNotes.greatCleaveFeatAbilities:Requires Strength >= 13',
-        'validationNotes.greatCleaveFeatCombat:Requires Base Attack >= 4',
+        'validationNotes.greatCleaveFeatAbility:Requires Strength >= 13',
+        'validationNotes.greatCleaveFeatBaseAttack:Requires Base Attack >= 4',
         'validationNotes.greatCleaveFeatFeats:Requires Cleave/Power Attack'
       ];
-      rules.defineRule('validationNotes.greatCleaveFeatAbilities',
-        'feats.Great Cleave', '=', '-1',
-        'strength', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.greatCleaveFeatCombat',
-        'feats.Great Cleave', '=', '-1',
-        'baseAttack', '+', 'source >= 4 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.greatCleaveFeatFeats',
-        'feats.Great Cleave', '=', '-2',
-        'features.Cleave', '+', '1',
-        'features.Power Attack', '+', '1'
-      );
     } else if(feat == 'Great Fortitude') {
       notes = ['saveNotes.greatFortitudeFeature:+2 Fortitude'];
       rules.defineRule
@@ -2299,152 +2175,72 @@ PH35.featRules = function(rules, feats, subfeats) {
       var note = 'magicNotes.spellFocus(' + school + ')Feat';
       notes = [
         note + ':+1 DC on ' + school + ' spells',
-        'validationNotes.greaterSpellFocus(' + school + ')FeatLevels:' +
-          'Requires Caster Level >= 1',
-        'validationNotes.greaterSpellFocus(' + school + ')FeatFeats:' +
-          'Requires Spell Focus (' + school + ')'
+        'sanityNotes.greaterSpellFocus(' + school + ')FeatCasterLevel:Requires Caster Level >= 1',
+        'validationNotes.greaterSpellFocus(' + school + ')FeatFeats:Requires Spell Focus (' + school + ')'
       ];
-      rules.defineRule(
-        'validationNotes.greaterSpellFocus(' + school + ')FeatLevels',
-        'feats.' + feat, '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
-      rules.defineRule(
-        'validationNotes.greaterSpellFocus(' + school + ')FeatFeats',
-        'feats.' + feat, '=', '-1',
-        'features.Spell Focus (' + school + ')', '+', '1'
-      );
     } else if(feat == 'Greater Spell Penetration') {
       notes = [
         'magicNotes.greaterSpellPenetrationFeature:' +
           '+2 caster level vs. resistance checks',
-        'validationNotes.greaterSpellPenetrationFeatLevels:' +
-          'Requires Caster Level >= 1',
-        'validationNotes.greaterSpellPenetrationFeatFeats:' +
-          'Requires Spell Penetration'
+        'sanityNotes.greaterSpellPenetrationFeatCasterLevel:Requires Caster Level >= 1',
+        'validationNotes.greaterSpellPenetrationFeatFeats:Requires Spell Penetration'
       ];
-      rules.defineRule('validationNotes.greaterSpellPenetrationFeatLevels',
-        'feats.Greater Spell Penetration', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.greaterSpellPenetrationFeatFeats',
-        'feats.Greater Spell Penetration', '=', '-1',
-        'features.Spell Penetration', '+', '1'
-      );
     } else if(feat == 'Greater Two Weapon Fighting') {
       notes = [
         'combatNotes.greaterTwoWeaponFightingFeature:' +
           'Second off-hand -10 attack',
-        'validationNotes.greaterTwoWeaponFightingFeatAbilities:' +
-          'Requires Dexterity >= 19',
-        'validationNotes.greaterTwoWeaponFightingFeatCombat:' +
-          'Requires Base Attack >= 11',
-        'validationNotes.greaterTwoWeaponFightingFeatFeats:' +
-          'Requires Two Weapon Fighting/Improved Two Weapon Fighting'
+        'validationNotes.greaterTwoWeaponFightingFeatAbility:Requires Dexterity >= 19',
+        'validationNotes.greaterTwoWeaponFightingFeatBaseAttack:Requires Base Attack >= 11',
+        'validationNotes.greaterTwoWeaponFightingFeatFeats:Requires Two Weapon Fighting/Improved Two Weapon Fighting'
       ];
-      rules.defineRule('validationNotes.greaterTwoWeaponFightingFeatAbilities',
-        'feats.Greater Two Weapon Fighting', '=', '-1',
-        'dexterity', '+', 'source >= 19 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.greaterTwoWeaponFightingFeatCombat',
-        'feats.Greater Two Weapon Fighting', '=', '-1',
-        'baseAttack', '+', 'source >= 11 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.greaterTwoWeaponFightingFeatFeats',
-        'feats.Greater Two Weapon Fighting', '=', '-2',
-        'features.Two Weapon Fighting', '+', '1',
-        'features.Improved Two Weapon Fighting', '+', '1'
-      );
     } else if((matchInfo =
                feat.match(/^Greater Weapon Focus \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.greaterWeaponFocus(' + weaponNoSpace + ')Feature';
-      var valid =
-        'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')Feat';
       notes = [
         note + ':+1 attack',
-        valid + 'Feats:Requires Weapon Focus (' + weapon + ')',
-        valid + 'Levels:Requires Fighter >= 8'
+        'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatFeats:Requires Weapon Focus (' + weapon + ')',
+        'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatLevels:Requires Fighter >= 8'
       ];
       rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', '1');
-      rules.defineRule(valid + 'Feats',
-        'feats.' + feat, '=', '-1',
-        'features.Weapon Focus (' + weapon + ')', '+', '1'
-      );
-      rules.defineRule(valid + 'Levels',
-        'feats.' + feat, '=', '-1',
-        'levels.Fighter', '+', 'source >= 8 ? 1 : null'
-      );
     } else if((matchInfo =
                feat.match(/^Greater Weapon Specialization \((.*)\)$/))!=null) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note =
         'combatNotes.greaterWeaponSpecialization(' + weaponNoSpace + ')Feature';
-      var valid =
-        'validationNotes.greaterWeaponSpecialization('+weaponNoSpace+')Feat';
       notes = [
         note + ':+2 damage',
-        valid + 'Feats:' +
-          'Requires Weapon Focus (' + weapon + ')/Greater Weapon ' +
-          'Focus (' + weapon + ')/Weapon Specialization (' + weapon + ')',
-        valid + 'Levels:Requires Fighter >= 12'
+        'validationNotes.greaterWeaponSpecialization('+weaponNoSpace+')FeatFeats:Requires Weapon Focus (' + weapon + ')/Greater Weapon Focus (' + weapon + ')/Weapon Specialization (' + weapon + ')',
+        'validationNotes.greaterWeaponSpecialization('+weaponNoSpace+')FeatLevels:Requires Fighter >= 12'
       ];
       rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
-      rules.defineRule(valid + 'Feats',
-        'feats.' + feat, '=', '-3',
-        'features.Greater Weapon Focus (' + weapon + ')', '+', '1',
-        'features.Greater Weapon Specialization (' + weapon + ')', '+', '1',
-        'features.Weapon Focus (' + weapon + ')', '+', '1'
-      );
-      rules.defineRule(valid + 'Levels',
-        'feats.' + feat, '=', '-1',
-        'levels.Fighter', '+', 'source >= 12 ? 1 : null'
-      );
     } else if(feat == 'Heighten Spell') {
       notes = [
         'magicNotes.heightenSpellFeature:Increase designated spell level',
-        'validationNotes.heightenSpellFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.heightenSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.heightenSpellFeatLevels',
-        'feats.Heighten Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Improved Bull Rush') {
       notes = [
         'combatNotes.improvedBullRushFeature:' +
           'Bull rush w/out foe AOO; +4 strength',
-        'validationNotes.improvedBullRushFeatAbilities:Requires Strength >= 13',
+        'validationNotes.improvedBullRushFeatAbility:Requires Strength >= 13',
         'validationNotes.improvedBullRushFeatFeats:Requires Power Attack'
       ];
-      rules.defineRule('validationNotes.improvedBullRushFeatAbilities',
-        'feats.Improved Bull Rush', '=', '-1',
-        'strength', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedBullRushFeatFeats',
-        'feats.Improved Bull Rush', '=', '-1',
-        'features.Power Attack', '+', '1'
-      );
     } else if(feat == 'Improved Counterspell') {
       notes = [
         'magicNotes.improvedCounterspellFeature:Counter w/higher-level spell',
-        'validationNotes.improvedCounterspellFeatLevels:' +
-          'Requires Caster Level >= 1'
+        'sanityNotes.improvedCounterspellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.improvedCounterspellFeatLevels',
-        'feats.Improved Counterspell', '=', '-1',
-        'casterLevel', '+', '1'
-      );
     } else if((matchInfo = feat.match(/^Improved Critical \((.*)\)$/)) != null){
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.improvedCritical(' + weaponNoSpace + ')Feature';
-      var valid =
-        'validationNotes.improvedCritical(' + weaponNoSpace + ')Feat';
       notes = [
         note + ':x2 critical threat range',
-        valid + 'Combat:Requires Base Attack >= 8'
+        'sanityNotes.improvedCritical(' + weaponNoSpace + ')FeatWeapons:Requires ' + weapon,
+        'validationNotes.improvedCritical(' + weaponNoSpace + ')FeatBaseAttack:Requires Base Attack >= 8'
       ];
       var weaponPat = new RegExp('^' + weapon + ':');
       var bump = 1;
@@ -2458,56 +2254,25 @@ PH35.featRules = function(rules, feats, subfeats) {
         break;
       }
       rules.defineRule('weaponCriticalAdjustment.' + weapon, note, '+=', bump);
-      rules.defineRule(valid + 'Combat',
-        'feats.' + feat, '=', '-1',
-        'baseAttack', '+', 'source >= 8 ? 1 : null'
-      );
     } else if(feat == 'Improved Disarm') {
       notes = [
         'combatNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
-        'validationNotes.improvedDisarmFeatAbilities:' +
-          'Requires Intelligence >= 13',
+        'validationNotes.improvedDisarmFeatAbility:Requires Intelligence >= 13',
         'validationNotes.improvedDisarmFeatFeats:Requires Combat Expertise'
       ];
-      rules.defineRule('validationNotes.improvedDisarmFeatAbilities',
-        'feats.Improved Disarm', '=', '-1',
-        'intelligence', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedDisarmFeatFeats',
-        'feats.Improved Disarm', '=', '-1',
-        'features.Combat Expertise', '+', '1'
-      );
     } else if(feat == 'Improved Feint') {
       notes = [
         'combatNotes.improvedFeintFeature:' +
           'Bluff check to feint as move action',
-        'validationNotes.improvedFeintFeatAbilities:' +
-          'Requires Intelligence >= 13',
+        'validationNotes.improvedFeintFeatAbility:Requires Intelligence >= 13',
         'validationNotes.improvedFeintFeatFeats:Requires Combat Expertise'
       ];
-      rules.defineRule('validationNotes.improvedFeintFeatAbilities',
-        'feats.Improved Feint', '=', '-1',
-        'intelligence', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedFeintFeatFeats',
-        'feats.Improved Feint', '=', '-1',
-        'features.Combat Expertise', '+', '1'
-      );
     } else if(feat == 'Improved Grapple') {
       notes = [
         'combatNotes.improvedGrappleFeature:Grapple w/out foe AOO; +4 grapple',
-        'validationNotes.improvedGrappleFeatAbilities:Requires Dexterity >= 13',
-        'validationNotes.improvedGrappleFeatFeats:' +
-          'Requires Improved Unarmed Strike'
+        'validationNotes.improvedGrappleFeatAbility:Requires Dexterity >= 13',
+        'validationNotes.improvedGrappleFeatFeats:Requires Improved Unarmed Strike'
       ];
-      rules.defineRule('validationNotes.improvedGrappleFeatAbilities',
-        'feats.Improved Grapple', '=', '-1',
-        'dexterity', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedGrappleFeatFeats',
-        'feats.Improved Grapple', '=', '-1',
-        'features.Improved Unarmed Strike', '+', '1'
-      );
     } else if(feat == 'Improved Initiative') {
       notes = ['combatNotes.improvedInitiativeFeature:+4 initiative'];
       rules.defineRule
@@ -2515,230 +2280,128 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Improved Overrun') {
       notes = [
         'combatNotes.improvedOverrunFeature:Foe cannot avoid; +4 strength',
-        'validationNotes.improvedOverrunFeatAbilities:Requires Strength >= 13',
+        'validationNotes.improvedOverrunFeatAbility:Requires Strength >= 13',
         'validationNotes.improvedOverrunFeatFeats:Requires Power Attack'
       ];
-      rules.defineRule('validationNotes.improvedOverrunFeatAbilities',
-        'feats.Improved Overrun', '=', '-1',
-        'strength', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedOverrunFeatFeats',
-        'feats.Improved Overrun', '=', '-2',
-        'features.Power Attack', '+', '1'
-      );
     } else if(feat == 'Improved Precise Shot') {
       notes = [
         'combatNotes.improvedPreciseShotFeature:' +
           'No foe bonus for partial concealment; attack grappling w/no penalty',
-        'validationNotes.improvedPreciseShotFeatAbilities:' +
-          'Requires Dexterity >= 19',
-        'validationNotes.improvedPreciseShotFeatCombat:' +
-          'Requires Base Attack >= 11',
-        'validationNotes.improvedPreciseShotFeatFeats:' +
-          'Requires Point Blank Shot/Precise Shot'
+        'validationNotes.improvedPreciseShotFeatAbility:Requires Dexterity >= 19',
+        'validationNotes.improvedPreciseShotFeatBaseAttack:Requires Base Attack >= 11',
+        'validationNotes.improvedPreciseShotFeatFeats:Requires Point Blank Shot/Precise Shot'
       ];
-      rules.defineRule('validationNotes.improvedPreciseShotFeatAbilities',
-        'feats.Improved Precise Shot', '=', '-1',
-        'dexterity', '+', 'source >= 19 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedPreciseShotFeatCombat',
-        'feats.Improved Precise Shot', '=', '-1',
-        'baseAttack', '+', 'source >= 11 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedPreciseShotFeatFeats',
-        'feats.Improved Precise Shot', '=', '-4',
-        'features.Point Blank Shot', '+', '1',
-        'features.Precise Shot', '+', '1'
-      );
     } else if(feat == 'Improved Shield Bash') {
       notes = [
         'combatNotes.improvedShieldBashFeature:Shield bash w/out AC penalty',
-        'validationNotes.improvedShieldBashFeatFeature:' +
-          'Requires Shield Proficiency (Heavy)'
+        'sanityNotes.improvedShieldBashShield:Requires Shield != None',
+        'validationNotes.improvedShieldBashFeatFeatures:Requires Shield Proficiency (Heavy)'
       ];
-      rules.defineRule('validationNotes.improvedShieldBashFeatFeature',
-        'feats.Improved Shield Bash', '=', '-1',
-        // Note: features.Shield Proficiency unaffected by class proficiency
-        'shieldProficiencyLevel', '+',
-        'source > ' + PH35.PROFICIENCY_NONE + ' ? 1 : null'
-      );
     } else if(feat == 'Improved Sunder') {
       notes = [
         'combatNotes.improvedSunderFeature:Sunder w/out foe AOO; +4 attack',
-        'validationNotes.improvedSunderFeatAbilities:Requires Strength >= 13',
+        'validationNotes.improvedSunderFeatAbility:Requires Strength >= 13',
         'validationNotes.improvedSunderFeatFeats:Requires Power Attack'
       ];
-      rules.defineRule('validationNotes.improvedSunderFeatAbilities',
-        'feats.Improved Sunder', '=', '-1',
-        'strength', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedSunderFeatFeats',
-        'feats.Improved Sunder', '=', '-1',
-        'features.Power Attack', '+', '1'
-      );
     } else if(feat == 'Improved Trip') {
       notes = [
         'combatNotes.improvedTripFeature:' +
           'Trip w/out foe AOO; +4 strength; attack immediately after trip',
-        'validationNotes.improvedTripFeatAbilities:Requires Intelligence >= 13',
+        'validationNotes.improvedTripFeatAbility:Requires Intelligence >= 13',
         'validationNotes.improvedTripFeatFeats:Requires Combat Expertise'
       ];
-      rules.defineRule('validationNotes.improvedTripFeatAbilities',
-        'feats.Improved Trip', '=', '-1',
-        'intelligence', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedTripFeatFeats',
-        'feats.Improved Trip', '=', '-1',
-        'features.Combat Expertise', '+', '1'
-      );
     } else if(feat == 'Improved Turning') {
       notes = [
         'combatNotes.improvedTurningFeature:+1 turning level',
-        'validationNotes.improvedTurningFeatLevels:Requires Turning Level >= 1'
+        'validationNotes.improvedTurningFeatTurningLevel:Requires Turning Level >= 1'
       ];
       rules.defineRule
         (/^turn.*\.level$/, 'combatNotes.improvedTurningFeature', '+', '1');
-      rules.defineRule('validationNotes.improvedTurningFeatLevels',
-        'feats.Improved Turning', '=', '-1',
-        /^turn.*\.level$/, '+', 'source >= 1 ? 1 : null',
-        '', 'v', '0'
-      );
     } else if(feat == 'Improved Two Weapon Fighting') {
       notes = [
         'combatNotes.improvedTwoWeaponFightingFeature:Additional -5 attack',
-        'validationNotes.improvedTwoWeaponFightingFeatAbilities:' +
-          'Requires Dexterity >= 17',
-        'validationNotes.improvedTwoWeaponFightingFeatCombat:' +
-          'Requires Base Attack >= 6',
-        'validationNotes.improvedTwoWeaponFightingFeatFeats:' +
-          'Requires Two Weapon Fighting'
+        'validationNotes.improvedTwoWeaponFightingFeatAbility:Requires Dexterity >= 17',
+        'validationNotes.improvedTwoWeaponFightingFeatBaseAttack:Requires Base Attack >= 6',
+        'validationNotes.improvedTwoWeaponFightingFeatFeats:Requires Two Weapon Fighting'
       ];
-      rules.defineRule('validationNotes.improvedTwoWeaponFightingFeatAbilities',
-        'feats.Improved Two Weapon Fighting', '=', '-1',
-        'dexterity', '+', 'source >= 17 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedTwoWeaponFightingFeatCombat',
-        'feats.Improved Two Weapon Fighting', '=', '-1',
-        'baseAttack', '+', 'source >= 6 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.improvedTwoWeaponFightingFeatFeats',
-        'feats.Improved Two Weapon Fighting', '=', '-1',
-        'features.Two Weapon Fighting', '+', '1'
-      );
     } else if(feat == 'Improved Unarmed Strike') {
       notes = [
         'combatNotes.improvedUnarmedStrikeFeature:Unarmed attack w/out foe AOO'
       ];
     } else if(feat == 'Investigator') {
-      notes = ['skillNotes.investigatorFeature:+2 Gather Information/Search'];
+      notes = [
+        'sanityNotes.investigatorFeatSkills:Requires Gather Information|Search',
+        'skillNotes.investigatorFeature:+2 Gather Information/Search'
+      ];
     } else if(feat == 'Iron Will') {
       notes = ['saveNotes.ironWillFeature:+2 Will'];
       rules.defineRule('save.Will', 'saveNotes.ironWillFeature', '+', '2');
     } else if(feat == 'Leadership') {
       notes = [
         'featureNotes.leadershipFeature:Attract followers',
-        'validationNotes.leadershipFeatLevels:Requires level >= 6'
+        'validationNotes.leadershipFeatLevel:Requires Level >= 6'
       ];
-      rules.defineRule('validationNotes.leadershipFeatLevels',
-        'feats.Leadership', '=', '-1',
-        'level', '+', 'source >= 6 ? 1 : null'
-      );
     } else if(feat == 'Lightning Reflexes') {
       notes = ['saveNotes.lightningReflexesFeature:+2 Reflex'];
       rules.defineRule
         ('save.Reflex', 'saveNotes.lightningReflexesFeature', '+', '2');
     } else if(feat == 'Magical Aptitude') {
       notes = [
+        'sanityNotes.magicalAptitudeFeatSkills:Requires Spellcraft|Use Magic Device',
         'skillNotes.magicalAptitudeFeature:+2 Spellcraft/Use Magic Device'
       ];
     } else if(feat == 'Manyshot') {
       notes = [
         'combatNotes.manyshotFeature:Fire multiple arrows simultaneously',
-        'validationNotes.manyshotFeatAbilities:Requires Dexterity >= 17',
-        'validationNotes.manyshotFeatCombat:Requires Base Attack >= 6',
+        'validationNotes.manyshotFeatAbility:Requires Dexterity >= 17',
+        'validationNotes.manyshotFeatBaseAttack:Requires Base Attack >= 6',
         'validationNotes.manyshotFeatFeats:Requires Point Blank Shot/Rapid Shot'
       ];
-      rules.defineRule('validationNotes.manyshotFeatAbilities',
-        'feats.Manyshot', '=', '-1',
-        'dexterity', '+', 'source >= 17 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.manyshotFeatCombat',
-        'feats.Manyshot', '=', '-1',
-        'baseAttack', '+', 'source >= 6 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.manyshotFeatFeats',
-        'feats.Manyshot', '=', '-2',
-        'features.Point Blank Shot', '+', '1',
-        'features.Rapid Shot', '+', '1'
-      );
     } else if(feat == 'Maximize Spell') {
       notes = [
         'magicNotes.maximizeSpellFeature:' +
           'Maximize all designated spell variable effects',
-        'validationNotes.maximizeSpellFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.maximizeSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.maximizeSpellFeatLevels',
-        'feats.Maximize Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Mobility') {
       notes = [
         'combatNotes.mobilityFeature:+4 AC vs. movement AOO',
-        'validationNotes.mobilityFeatAbilities:Requires Dexterity >= 13',
+        'validationNotes.mobilityFeatAbility:Requires Dexterity >= 13',
         'validationNotes.mobilityFeatFeats:Requires Dodge'
       ];
-      rules.defineRule('validationNotes.mobilityFeatAbilities',
-        'feats.Mobility', '=', '-1',
-        'dexterity', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.mobilityFeatFeats',
-        'feats.Mobility', '=', '-1',
-        'features.Dodge', '+', '1'
-      );
     } else if(feat == 'Mounted Archery') {
       notes = [
         'combatNotes.mountedArcheryFeature:x.5 mounted ranged penalty',
         'validationNotes.mountedArcheryFeatFeats:Requires Mounted Combat',
         'validationNotes.mountedArcheryFeatSkills:Requires Ride'
       ];
-      rules.defineRule('validationNotes.mountedArcheryFeatFeats',
-        'feats.Mounted Archery', '=', '-1',
-        'features.Mounted Combat', '+', '1'
-      );
-      rules.defineRule('validationNotes.mountedArcheryFeatSkills',
-        'feats.Mounted Archery', '=', '-1',
-        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Mounted Combat') {
       notes = [
         'combatNotes.mountedCombatFeature:' +
           'Ride skill save vs. mount damage 1/round',
         'validationNotes.mountedCombatFeatSkills:Requires Ride'
       ];
-      rules.defineRule('validationNotes.mountedCombatFeatSkills',
-        'feats.Mounted Combat', '=', '-1',
-        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Natural Spell') {
       notes = [
         'magicNotes.naturalSpellFeature:Cast spell during <i>Wild Shape</i>',
-        'validationNotes.naturalSpellFeatAbilities:Requires Wisdom >= 13',
-        'validationNotes.naturalSpellFeatFeature:Requires Wild Shape'
+        'validationNotes.naturalSpellFeatAbility:Requires Wisdom >= 13',
+        'validationNotes.naturalSpellFeatFeatures:Requires Wild Shape'
       ];
-      rules.defineRule('validationNotes.naturalSpellFeatAbilities',
-        'feats.Natural Spell', '=', '-1',
-        'wisdom', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.naturalSpellFeatFeature',
-        'feats.Natural Spell', '=', '-1',
-        'features.Wild Shape', '+', '1'
-      );
     } else if(feat == 'Negotiator') {
-      notes = ['skillNotes.negotiatorFeature:+2 Diplomacy/Sense Motive'];
+      notes = [
+        'sanityNotes.negotiatorFeatSkills:Requires Diplomacy|Sense Motive',
+        'skillNotes.negotiatorFeature:+2 Diplomacy/Sense Motive'
+      ];
     } else if(feat == 'Nimble Fingers') {
-      notes = ['skillNotes.nimbleFingersFeature:+2 Disable Device/Open Lock'];
+      notes = [
+        'sanityNotes.nimbleFingersFeatSkills:Requires Disable Device|Open Lock',
+        'skillNotes.nimbleFingersFeature:+2 Disable Device/Open Lock'
+      ];
     } else if(feat == 'Persuasive') {
-      notes = ['skillNotes.persuasiveFeature:+2 Bluff/Intimidate'];
+      notes = [
+        'sanityNotes.persuasiveFeatSkills:Requires Bluff|Intimidate',
+        'skillNotes.persuasiveFeature:+2 Bluff/Intimidate'
+      ];
     } else if(feat == 'Point Blank Shot') {
       notes = [
         'combatNotes.pointBlankShotFeature:+1 ranged attack/damage w/in 30 ft'
@@ -2746,74 +2409,43 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Power Attack') {
       notes = [
         'combatNotes.powerAttackFeature:Attack base -attack/+damage',
-        'validationNotes.powerAttackFeatAbilities:Requires Strength >= 13'
+        'validationNotes.powerAttackFeatAbility:Requires Strength >= 13'
       ];
-      rules.defineRule('validationNotes.powerAttackFeatAbilities',
-        'feats.Power Attack', '=', '-1',
-        'strength', '+', 'source >= 13 ? 1 : null'
-      );
     } else if(feat == 'Precise Shot') {
       notes = [
         'combatNotes.preciseShotFeature:Shoot into melee w/out penalty',
         'validationNotes.preciseShotFeatFeats:Requires Point Blank Shot'
       ];
-      rules.defineRule('validationNotes.preciseShotFeatFeats',
-        'feats.Precise Shot', '=', '-1',
-        'features.Point Blank Shot', '+', '1'
-      );
     } else if(feat == 'Quick Draw') {
       notes = [
         'combatNotes.quickDrawFeature:Draw weapon as free action',
-        'validationNotes.quickDrawFeatCombat:Requires Base Attack >= 1'
+        'validationNotes.quickDrawFeatBaseAttack:Requires Base Attack >= 1'
       ];
-      rules.defineRule('validationNotes.quickDrawFeatCombat',
-        'feats.Quick Draw', '=', '-1',
-        'baseAttack', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Quicken Spell') {
       notes = [
         'magicNotes.quickenSpellFeature:Cast spell as free action 1/round',
-        'validationNotes.quickenSpellFeatlevels:Requires Caster Level >= 1'
+        'sanityNotes.quickenSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.quickenSpellFeatLevels',
-        'feats.Quicken Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if((matchInfo = feat.match(/^Rapid Reload \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
       var note = 'combatNotes.rapidReload(' + weapon + ')Feature';
       notes = [
         note + ':Reload ' + weapon + ' Crossbow as ' +
-        (weapon == 'Heavy' ? 'move' : 'free') + ' action'
+        (weapon == 'Heavy' ? 'move' : 'free') + ' action',
+        'sanityNotes.rapidReload(' + weapon + ')FeatWeapons:Requires ' + weapon + ' Crossbow'
       ];
     } else if(feat == 'Rapid Shot') {
       notes = [
         'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
-        'validationNotes.rapidShotFeatAbilities:Requires Dexterity >= 13',
+        'validationNotes.rapidShotFeatAbility:Requires Dexterity >= 13',
         'validationNotes.rapidShotFeatFeats:Requires Point Blank Shot'
       ];
-      rules.defineRule('validationNotes.rapidShotFeatAbilities',
-        'feats.Rapid Shot', '=', '-1',
-        'dexterity', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.rapidShotFeatFeats',
-        'feats.Rapid Shot', '=', '-1',
-        'features.Point Blank Shot', '+', '1'
-      );
     } else if(feat == 'Ride By Attack') {
       notes = [
         'combatNotes.rideByAttackFeature:Move before and after mounted attack',
         'validationNotes.rideByAttackFeatFeats:Requires Mounted Combat',
-        'validationNotes.rideByAttackFeatSkilsl:Requires Ride'
+        'validationNotes.rideByAttackFeatSkills:Requires Ride'
       ];
-      rules.defineRule('validationNotes.rideByAttackFeatFeats',
-        'feats.Ride By Attack', '=', '-1',
-        'features.Mounted Combat', '+', '1'
-      );
-      rules.defineRule('validationNotes.rideByAttackFeatSkills',
-        'feats.Ride By Attack', '=', '-1',
-        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Run') {
       notes = [
         'combatNotes.runFeature:Add 1 to speed multiplier; +4 running jump'
@@ -2823,87 +2455,61 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Scribe Scroll') {
       notes = [
         'magicNotes.scribeScrollFeature:Create scroll of any known spell',
-        'validationNotes.scribeScrollFeatlevels:Requires Caster Level >= 1'
+        'validationNotes.scribeScrollFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.scribeScrollFeatLevels',
-        'feats.Scribe Scroll', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Self Sufficient') {
-      notes = ['skillNotes.selfSufficientFeature:+2 Heal/Survival'];
+      notes = [
+        'sanityNotes.selfSufficientFeatSkills:Requires Heal|Survival',
+        'skillNotes.selfSufficientFeature:+2 Heal/Survival'
+      ];
     } else if(feat == 'Shield Proficiency (Heavy)') {
+      notes = [
+        'sanityNotes.shieldProficiency(Heavy)FeatProficiency:Requires Class Shield Proficiency Level <= ' + PH35.PROFICIENCY_MEDIUM
+      ];
       rules.defineRule('shieldProficiencyLevel',
         'features.Shield Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
       );
     } else if(feat == 'Shield Proficiency (Tower)') {
+      notes = [
+        'sanityNotes.shieldProficiency(Tower)FeatProficiency:Requires Class Shield Proficiency Level <= ' + PH35.PROFICIENCY_HEAVY
+      ];
       rules.defineRule('shieldProficiencyLevel',
         'features.Shield Proficiency (Tower)', '^', PH35.PROFICIENCY_TOWER
       );
     } else if(feat == 'Shot On The Run') {
       notes = [
         'combatNotes.shotOnTheRunFeature:Move before and after ranged attack',
-        'validationNotes.shotOnTheRunFeatAbilities:Requires Dexterity >= 13',
-        'validationNotes.shotOnTheRunFeatCombat:Requires Base Attack >= 4',
-        'validationNotes.shotOnTheRunFeatFeats:' +
-          'Requires Dodge/Mobility/Point Blank Shot'
+        'validationNotes.shotOnTheRunFeatAbility:Requires Dexterity >= 13',
+        'validationNotes.shotOnTheRunFeatBaseAttack:Requires Base Attack >= 4',
+        'validationNotes.shotOnTheRunFeatFeats:Requires Dodge/Mobility/Point Blank Shot'
       ];
-      rules.defineRule('validationNotes.shotOnTheRunFeatAbilities',
-        'feats.Shot On The Run', '=', '-1',
-        'dexterity', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.shotOnTheRunFeatCombat',
-        'feats.Shot On The Run', '=', '-1',
-        'baseAttack', '+', 'source >= 4 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.shotOnTheRunFeatFeats',
-        'feats.Shot On The Run', '=', '-3',
-        'features.Dodge', '+', '1',
-        'features.Mobility', '+', '1',
-        'features.Point Blank Shot', '+', '1'
-      );
     } else if(feat == 'Silent Spell') {
       notes = [
         'magicNotes.silentSpellFeature:Cast designated spell w/out speech',
-        'validationNotes.silentSpellFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.silentSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.silentSpellFeatLevels',
-        'feats.Silent Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if((matchInfo = feat.match(/^Skill Focus \((.*)\)$/)) != null) {
       var skill = matchInfo[1];
       var skillNoSpace = skill.replace(/ /g, '');
       var note = 'skillNotes.skillFocus(' + skillNoSpace + ')Feature';
-      notes = [note + ':+3 checks'];
+      notes = [
+        note + ':+3 checks',
+        'sanityNotes.skillFocus(' + skillNoSpace + ')FeatSkills:Requires ' + skill
+      ];
       rules.defineRule('skillModifier.' + skill, note, '+', '3');
     } else if(feat == 'Snatch Arrows') {
       notes = [
         'combatNotes.snatchArrowsFeature:Catch ranged weapons',
-        'validationNotes.snatchArrowsFeatAbilities:Requires Dexterity >= 15',
-        'validationNotes.snatchArrowsFeatFeats:' +
-          'Requires Deflect Arrows/Improved Unarmed Strike'
+        'validationNotes.snatchArrowsFeatAbility:Requires Dexterity >= 15',
+        'validationNotes.snatchArrowsFeatFeats:Requires Deflect Arrows/Improved Unarmed Strike'
       ];
-      rules.defineRule('validationNotes.snatchArrowsFeatAbilities',
-        'feats.Snatch Arrows', '=', '-1',
-        'dexterity', '+', 'source >= 15 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.snatchArrowsFeatFeats',
-        'feats.Snatch Arrows', '=', '-2',
-        'features.Deflect Arrows', '+', '1',
-        'features.Improved Unarmed Strike', '+', '1'
-      );
     } else if((matchInfo = feat.match(/^Spell Focus \((.*)\)$/)) != null) {
       var school = matchInfo[1];
       var note = 'magicNotes.spellFocus(' + school + ')Feature';
-      var valid = 'validationNotes.spellFocus(' + school + ')Feat';
       notes = [
         note + ':+1 DC on ' + school + ' spells',
-        valid + 'Levels:Requires Caster Level >= 1'
+        'sanityNotes.spellFocus(' + school + ')FeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule(valid + 'Levels',
-        'feats.' + feat, '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Spell Mastery') {
       notes = [
         'magicNotes.spellMasteryFeature:Prepare %V spells w/out spellbook',
@@ -2912,77 +2518,44 @@ PH35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('magicNotes.spellMasteryFeature',
         'intelligenceModifier', '=', '3 * source'
       );
-      rules.defineRule('validationNotes.spellMasteryFeatLevels',
-        'feats.Spell Mastery', '=', '-1',
-        'levels.Wizard', '+', '1'
-      );
     } else if(feat == 'Spell Penetration') {
       notes = [
         'magicNotes.spellPenetrationFeature:+2 caster level vs. resistance ' +
           'checks',
-        'validationNotes.spellPenetrationFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.spellPenetrationFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.spellPenetrationFeatLevels',
-        'feats.Spell Penetration', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Spirited Charge') {
       notes = [
         'combatNotes.spiritedChargeFeature:' +
           'x2 damage (x3 lance) from mounted charge',
-        'validationNotes.spiritedChargeFeatFeats:' +
-          'Requires Mounted Combat/Ride By Attack',
+        'validationNotes.spiritedChargeFeatFeats:Requires Mounted Combat/Ride By Attack',
         'validationNotes.spiritedChargeFeatSkills:Requires Ride'
       ];
-      rules.defineRule('validationNotes.spiritedChargeFeatFeats',
-        'feats.Spirited Charge', '=', '-2',
-        'features.Mounted Combat', '+', '1',
-        'features.Ride By Attack', '+', '1'
-      );
-      rules.defineRule('validationNotes.spiritedChargeFeatSkills',
-        'feats.Spirited Charge', '=', '-1',
-        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Spring Attack') {
       notes = [
         'combatNotes.springAttackFeature:Move before and after melee attack',
-        'validationNotes.springAttackFeatAbilities:Requires Dexterity >= 13',
-        'validationNotes.springAttackFeatCombat:Requires Base Attack >= 4',
+        'validationNotes.springAttackFeatAbility:Requires Dexterity >= 13',
+        'validationNotes.springAttackFeatBaseAttack:Requires Base Attack >= 4',
         'validationNotes.springAttackFeatFeats:Requires Dodge/Mobility'
       ];
-      rules.defineRule('validationNotes.springAttackFeatAbilities',
-        'feats.Spring Attack', '=', '-1',
-        'dexterity', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.springAttackFeatCombat',
-        'feats.Spring Attack', '=', '-1',
-        'baseAttack', '+', 'source >= 4 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.springAttackFeatFeats',
-        'feats.Spring Attack', '=', '-2',
-        'features.Dodge', '+', '1',
-        'features.Mobility', '+', '1'
-      );
     } else if(feat == 'Stealthy') {
-      notes = ['skillNotes.stealthyFeature:+2 Hide/Move Silently'];
+      notes = [
+        'sanityNotes.stealthyFeatSkills:Requires Hide|Move Silently',
+        'skillNotes.stealthyFeature:+2 Hide/Move Silently'
+      ];
     } else if(feat == 'Still Spell') {
       notes = [
         'magicNotes.stillSpellFeature:Cast designated spell w/out movement',
-        'validationNotes.stillSpellFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.stillSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.stillSpellFeatLevels',
-        'feats.Still Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
       rules.defineRule
         ('magicNotes.arcaneSpellFailure', 'features.Still Spell', 'v', '0');
     } else if(feat == 'Stunning Fist') {
       notes = [
         'combatNotes.stunningFistFeature:' +
           'Foe %V Fortitude save or stunned %1/day',
-        'validationNotes.stunningFistFeatAbilities:' +
-          'Requires Dexterity >= 13/Wisdom >= 13',
-        'validationNotes.stunningFistFeatCombat:Requires Base Attack >= 8',
+        'validationNotes.stunningFistFeatAbility:Requires Dexterity >= 13/Wisdom >= 13',
+        'validationNotes.stunningFistFeatBaseAttack:Requires Base Attack >= 8',
         'validationNotes.stunningFistFeatFeats:Requires Improved Unarmed Strike'
       ];
       rules.defineRule('combatNotes.stunningFistFeature',
@@ -2992,25 +2565,13 @@ PH35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('combatNotes.stunningFistFeature.1',
         'level', '+=', 'Math.floor(source / 4)'
       );
-      rules.defineRule('validationNotes.stunningFistFeatAbilities',
-        'feats.Stunning Fist', '=', '-2',
-        'dexterity', '+', 'source >= 13 ? 1 : null',
-        'wisdom', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.stunningFistFeatCombat',
-        'feats.Stunning Fist', '=', '-1',
-        'baseAttack', '+', 'source >= 8 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.stunningFistFeatFeats',
-        'feats.Stunning Fist', '=', '-1',
-        'features.Improved Unarmed Strike', '+', '1'
-      );
     } else if(feat == 'Toughness') {
       notes = ['combatNotes.toughnessFeature:+3 HP'];
       rules.defineRule
         ('hitPoints', 'combatNotes.toughnessFeature', '+', '3 * source');
     } else if(feat == 'Track') {
       notes = [
+        'sanityNotes.trackFeatSkills:Requires Survival',
         'skillNotes.trackFeature:Survival to follow creatures at 1/2 speed'
       ];
     } else if(feat == 'Trample') {
@@ -3020,45 +2581,24 @@ PH35.featRules = function(rules, feats, subfeats) {
         'validationNotes.trampleFeatFeats:Requires Mounted Combat',
         'validationNotes.trampleFeatSkills:Requires Ride'
       ];
-      rules.defineRule('validationNotes.trampleFeatFeats',
-        'feats.Trample', '=', '-1',
-        'features.Mounted Combat', '+', '1'
-      );
-      rules.defineRule('validationNotes.trampleFeatSkills',
-        'feats.Trample', '=', '-1',
-        'skillModifier.Ride', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Two Weapon Defense') {
       notes = [
         'combatNotes.twoWeaponDefenseFeature:+1 AC w/two weapons',
-        'validationNotes.twoWeaponDefenseFeatAbilities:Requires Dexterity >= 15',
-        'validationNotes.twoWeaponDefenseFeatFeats:' +
-          'Requires Two Weapon Fighting'
+        'validationNotes.twoWeaponDefenseFeatAbility:Requires Dexterity >= 15',
+        'validationNotes.twoWeaponDefenseFeatFeats:Requires Two Weapon Fighting'
       ];
-      rules.defineRule('validationNotes.twoWeaponDefenseFeatAbilities',
-        'feats.Two Weapon Defense', '=', '-1',
-        'dexterity', '+', 'source >= 15 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.twoWeaponDefenseFeatFeats',
-        'feats.Two Weapon Defense', '=', '-1',
-        'features.Two Weapon Fighting', '+', '1'
-      );
     } else if(feat == 'Two Weapon Fighting') {
       notes = [
         'combatNotes.twoWeaponFightingFeature:' +
           'Reduce on-hand penalty by 2/off-hand by 6',
-        'validationNotes.twoWeaponFightingFeatAbilities:' +
-           'Requires Dexterity >= 15'
+        'validationNotes.twoWeaponFightingFeatAbility:Requires Dexterity >= 15'
       ];
-      rules.defineRule('validationNotes.twoWeaponFightingFeatAbilities',
-        'feats.Two Weapon Fighting', '=', '-1',
-        'dexterity', '+', 'source >= 15 ? 1 : null'
-      );
     } else if(feat == 'Weapon Finesse') {
       notes = [
         'combatNotes.weaponFinesseFeature:' +
           'Light weapon attacks use dexterity mod instead of strength mod',
-        'validationNotes.weaponFinesseFeatCombat:Requires Base Attack >= 1'
+        'sanityNotes.weaponFinesseFeatAbility:Requires Dexterity Modifier > Strength Modifier',
+        'validationNotes.weaponFinesseFeatBaseAttack:Requires Base Attack >= 1'
       ];
       rules.defineRule('combatNotes.dexterityMeleeAttackAdjustment',
         'combatNotes.weaponFinesseFeature', '?', null,
@@ -3067,28 +2607,29 @@ PH35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('combatNotes.strengthMeleeAttackAdjustment',
         'combatNotes.weaponFinesseFeature', '*', '0'
       );
+      rules.defineRule('sanityNotes.weaponFinesseFeatAbility',
+        'feats.Weapon Finesse', '=', '0',
+        'dexterityModifier', '+', 'source',
+        'strengthModifier', '+', '-source',
+        '', 'v', '0'
+      );
       rules.defineRule('meleeAttack',
         'combatNotes.dexterityMeleeAttackAdjustment', '+', null
-      );
-      rules.defineRule('validationNotes.weaponFinesseFeatCombat',
-        'feats.Weapon Finesse', '=', '-1',
-        'baseAttack', '+', 'source >= 1 ? 1 : null'
       );
     } else if((matchInfo = feat.match(/^Weapon Focus \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.weaponFocus(' + weaponNoSpace + ')Feature';
-      var valid = 'validationNotes.weaponFocus(' + weaponNoSpace + ')Feat';
       notes = [
         note + ':+1 attack',
-        valid + 'Combat:Requires Base Attack >= 1'
+        'sanityNotes.weaponFocus(' + weaponNoSpace + ')FeatWeapons:Requires ' + weapon,
+        'validationNotes.weaponFocus(' + weaponNoSpace + ')FeatBaseAttack:Requires Base Attack >= 1'
       ];
       rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', '1');
-      rules.defineRule(valid + 'Combat',
-        'feats.' + feat, '=', '-1',
-        'baseAttack', '+', 'source >= 1 ? 1 : null'
-      );
     } else if(feat == 'Weapon Proficiency (Simple)') {
+      notes = [
+        'sanityNotes.weaponProficiency(Simple)FeatProficiency:Requires Class Weapon Proficiency Level <= ' + PH35.PROFICIENCY_NONE
+      ];
       rules.defineRule('weaponProficiencyLevel',
         'features.Weapon Proficiency (Simple)', '^', PH35.PROFICIENCY_LIGHT
       );
@@ -3099,56 +2640,25 @@ PH35.featRules = function(rules, feats, subfeats) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.weaponSpecialization('+weaponNoSpace+')Feature';
-      var valid =
-        'validationNotes.weaponSpecialization(' + weaponNoSpace + ')Feat';
       notes = [
         note + ':+2 damage',
-        valid + 'Feats:Requires Weapon Focus (' + weapon + ')',
-        valid + 'Levels:Requires Fighter >= 4'
+        'sanityNotes.weaponSpecialization(' + weaponNoSpace + ')FeatWeapons:Requires ' + weapon,
+        'validationNotes.weaponSpecialization(' + weaponNoSpace + ')FeatFeats:Requires Weapon Focus (' + weapon + ')',
+        'validationNotes.weaponSpecialization(' + weaponNoSpace + ')FeatLevels:Requires Fighter >= 4'
       ];
       rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
-      rules.defineRule(valid + 'Feats',
-        'feats.' + feat, '=', '-1',
-        'features.Weapon Focus (' + weapon + ')', '+', '1'
-      );
-      rules.defineRule(valid + 'Levels',
-        'feats.' + feat, '=', '-1',
-        'levels.Fighter', '+', 'source >= 4 ? 1 : null'
-      );
     } else if(feat == 'Whirlwind Attack') {
       notes = [
         'combatNotes.whirlwindAttackFeature:Attack all foes w/in reach',
-        'validationNotes.whirlwindAttackFeatAbilities:' +
-          'Requires Dexterity >= 13/Intelligence >= 13',
-        'validationNotes.whirlwindAttackFeatCombat:Requires Base Attack >= 4',
-        'validationNotes.whirlwindAttackFeatFeats:' +
-          'Requires Combat Expertise/Dodge/Mobility/Spring Attack'
+        'validationNotes.whirlwindAttackFeatAbility:Requires Dexterity >= 13/Intelligence >= 13',
+        'validationNotes.whirlwindAttackFeatBaseAttack:Requires Base Attack >= 4',
+        'validationNotes.whirlwindAttackFeatFeats:Requires Combat Expertise/Dodge/Mobility/Spring Attack'
       ];
-      rules.defineRule('validationNotes.whirlwindAttackFeatAbilities',
-        'feats.Whirlwind Attack', '=', '-2',
-        'dexterity', '+', 'source >= 13 ? 1 : null',
-        'intelligence', '+', 'source >= 13 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.whirlwindAttackFeatCombat',
-        'feats.Whirlwind Attack', '=', '-1',
-        'baseAttack', '+', 'source >= 4 ? 1 : null'
-      );
-      rules.defineRule('validationNotes.whirlwindAttackFeatFeats',
-        'feats.Whirlwind Attack', '=', '-4',
-        'features.Combat Expertise', '+', '1',
-        'features.Dodge', '+', '1',
-        'features.Mobility', '+', '1',
-        'features.Spring Attack', '+', '1'
-      );
     } else if(feat == 'Widen Spell') {
       notes = [
         'magicNotes.widenSpellFeature:Double area of affect',
-        'validationNotes.widenSpellFeatLevels:Requires Caster Level >= 1'
+        'sanityNotes.widenSpellFeatCasterLevel:Requires Caster Level >= 1'
       ];
-      rules.defineRule('validationNotes.widenSpellFeatLevels',
-        'feats.Widen Spell', '=', '-1',
-        'casterLevel', '+', 'source >= 1 ? 1 : null'
-      );
     } else {
       continue;
     }
@@ -3161,22 +2671,30 @@ PH35.featRules = function(rules, feats, subfeats) {
   rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'PH35.proficiencyLevelNames[source]'
   );
-  rules.defineRule('armorProficiencyLevel', '', '=', PH35.PROFICIENCY_NONE);
+  rules.defineRule('armorProficiencyLevel',
+    '', '=', PH35.PROFICIENCY_NONE,
+    'classArmorProficiencyLevel', '^=', null
+  );
   rules.defineRule('shieldProficiency',
     'shieldProficiencyLevel', '=', 'PH35.proficiencyLevelNames[source]'
   );
-  rules.defineRule('shieldProficiencyLevel', '', '=', PH35.PROFICIENCY_NONE);
+  rules.defineRule('shieldProficiencyLevel',
+    '', '=', PH35.PROFICIENCY_NONE,
+    'classShieldProficiencyLevel', '^', null
+  );
   rules.defineRule('weaponProficiency',
     'weaponProficiencyLevel', '=',
       'source==' + PH35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
       'source==' + PH35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
       '"None"'
   );
-  rules.defineRule('weaponProficiencyLevel', '', '=', PH35.PROFICIENCY_NONE);
+  rules.defineRule('weaponProficiencyLevel',
+    '', '=', PH35.PROFICIENCY_NONE,
+    'classWeaponProficiencyLevel', '^', null
+  );
 
   rules.defineNote
-    ('validationNotes.featsTotal:Allocated feats differ from feat count ' +
-     'total by %V');
+    ('validationNotes.featsTotal:Allocated feats differ from feat count total by %V');
   rules.defineRule('validationNotes.featsTotal',
     /^featCount\./, '+=', '-source',
     /^feats\./, '+=', null
@@ -3732,6 +3250,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'domains.' + domain, '?', null,
         'levels.Cleric', '+=', null
       );
+      rules.defineRule('turningLevel', prefix + '.level', '^=', null);
       rules.defineRule(prefix + '.damageModifier',
         prefix + '.level', '=', null,
         'charismaModifier', '+', null
@@ -3752,8 +3271,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
     }
   }
   rules.defineNote
-    ('validationNotes.domainsTotal:Allocated domains differ from ' +
-     'domains total by %V');
+    ('validationNotes.domainsTotal:Allocated domains differ from domains total by %V');
   rules.defineRule('validationNotes.domainsTotal',
     'domainCount', '+=', '-source',
     /^domains\./, '+=', null
@@ -3784,8 +3302,7 @@ PH35.raceRules = function(rules, languages, races) {
   }
   rules.defineRule('languageCount', 'race', '=', 'source != "Human" ? 2 : 1');
   rules.defineNote
-    ('validationNotes.languagesTotal:Allocated languages differ from ' +
-     'language total by %V');
+    ('validationNotes.languagesTotal:Allocated languages differ from language total by %V');
   rules.defineRule('validationNotes.languagesTotal',
     'languageCount', '+=', '-source',
     /^languages\./, '+=', null
@@ -4024,12 +3541,6 @@ PH35.skillRules = function(rules, skills, subskills) {
     if(skillSubskills == null) {
       allSkills[allSkills.length] = skill + ':' + pieces[1];
     } else {
-      rules.defineRule('subskillCount.' + skill,
-        new RegExp('^skillModifier\\.' + skill + ' \\('), '+=', '1'
-      );
-      rules.defineRule('subskillMax.' + skill,
-        new RegExp('^skillModifier\\.' + skill + ' \\('), '^=', null
-      );
       rules.defineRule('subskillTotal.' + skill,
         new RegExp('^skillModifier\\.' + skill + ' \\('), '+=', null
       );
@@ -4104,15 +3615,13 @@ PH35.skillRules = function(rules, skills, subskills) {
   }
 
   rules.defineNote
-    ('validationNotes.skillsTotal:' +
-     'Allocated skill points differ from skill point total by %V');
+    ('validationNotes.skillsTotal:Allocated skill points differ from skill point total by %V');
   rules.defineRule('validationNotes.skillsTotal',
     'skillPoints', '+=', '-source',
     /^skills\./, '+=', null
   );
   rules.defineNote
-    ('validationNotes.skillMaximum:' +
-     'Points allocated to one or more skills exceed maximum');
+    ('validationNotes.skillMaximum:Points allocated to one or more skills exceed maximum');
   rules.defineRule('maxAllocatedSkillPoints', /^skills\./, '^=', null);
   rules.defineRule('validationNotes.skillMaximum',
     'maxAllocatedSkillPoints', '=', '-source',
@@ -4551,14 +4060,15 @@ PH35.makeValid = function(attributes) {
     fixCount = 0;
     for(var attr in applied) {
       var noteValue = applied[attr];
-      if((matchInfo=attr.match(/^validationNotes\.(.*)([A-Z][a-z]+)/))==null ||
+      if((matchInfo=
+          attr.match(/^(sanity|validation)Notes\.(.*)([A-Z][a-z]+)/))==null ||
          !noteValue ||
          notes[attr] == null) {
         continue;
       }
-      var notePrefix = matchInfo[1];
-      var noteSuffix = matchInfo[2].substring(0, 1).toLowerCase() +
-                       matchInfo[2].substring(1).replace(/ /g, '');
+      var notePrefix = matchInfo[2];
+      var noteSuffix = matchInfo[3].substring(0, 1).toLowerCase() +
+                       matchInfo[3].substring(1).replace(/ /g, '');
       if(noteSuffix == 'features') {
         noteSuffix = 'selectableFeatures';
       }
@@ -4667,7 +4177,9 @@ PH35.makeValid = function(attributes) {
       break;
     }
   } while(fixCount > 0);
-  // DEBUG attributes['notes'] = debug.join('<br/>');
+  if(window.DEBUG) {
+    attributes['notes'] = debug.join('<br/>');
+  }
 };
 
 /*
@@ -4708,15 +4220,18 @@ PH35.defineClass = function
     rules.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
   if(saveWillBonus != null)
     rules.defineRule('save.Will', classLevel, '+', saveWillBonus);
-  if(armorProficiencyLevel != null)
+  if(armorProficiencyLevel != null &&
+     armorProficiencyLevel != PH35.PROFICIENCY_NONE)
     rules.defineRule
-      ('armorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
-  if(shieldProficiencyLevel != null)
+      ('classArmorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
+  if(shieldProficiencyLevel != null &&
+     shieldProficiencyLevel != PH35.PROFICIENCY_NONE)
     rules.defineRule
-      ('shieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
-  if(weaponProficiencyLevel != null)
+      ('classShieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
+  if(weaponProficiencyLevel != null &&
+     weaponProficiencyLevel != PH35.PROFICIENCY_NONE)
     rules.defineRule
-      ('weaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
+      ('classWeaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
   if(classSkills != null) {
     for(var i = 0; i < classSkills.length; i++) {
       rules.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');

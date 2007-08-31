@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.217 2007/08/13 04:01:44 Jim Exp $ */
+/* $Id: Scribe.js,v 1.218 2007/08/31 23:27:32 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.44.12';
+var VERSION = '0.44.30';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -94,6 +94,13 @@ function Scribe() {
                COPYRIGHT + '<br/>' +
                'Press the "About" button for more info',
                'Ok:window.close();');
+  if(window.DEBUG) {
+    var awin = window.open('', 'scribeDebug', FEATURES_OF_OTHER_WINDOWS);
+    awin.document.write('<html><head><title>RULES</title></head><body><pre>\n');
+    awin.document.write(ruleSet.dump());
+    awin.document.write('</pre></body></html>');
+    awin.document.close();
+  }
 
 }
 
