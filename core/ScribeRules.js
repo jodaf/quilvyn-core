@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.66 2007/08/31 23:27:32 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.67 2007/09/04 05:46:14 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -98,20 +98,19 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
     var pieces = allArgs[i].split(/:/);
     var attribute = pieces[0];
     var format = pieces[1];
-    var matchInfo =
-      attribute.match(/^(\w+)Notes\.(\w)(.*)(Domain|Feature|Synergy)$/);
+    var matchInfo = attribute.match(/Notes\.(\w)(.*)(Domain|Feature|Synergy)$/);
     if(matchInfo != null) {
-      var name = matchInfo[2].toUpperCase() +
-                 matchInfo[3].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
-      if(matchInfo[4] == 'Synergy')
+      var name = matchInfo[1].toUpperCase() +
+                 matchInfo[2].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
+      if(matchInfo[3] == 'Synergy')
         this.defineRule
           (attribute, 'skillModifier.' + name, '=', 'source >= 5 ? 1 : null');
       else if(format.indexOf('%V') < 0)
         this.defineRule
-          (attribute, matchInfo[4].toLowerCase() + 's.' + name, '=', '1');
+          (attribute, matchInfo[3].toLowerCase() + 's.' + name, '=', '1');
       else
         this.defineRule
-          (attribute, matchInfo[4].toLowerCase() + 's.' + name, '?', null);
+          (attribute, matchInfo[3].toLowerCase() + 's.' + name, '?', null);
     }
     if(attribute.match(/^skillNotes\./) &&
        (matchInfo = format.match(/^([+-](%V|\d+)) (.+)$/)) != null) {
@@ -127,16 +126,17 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
           affected[j].match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*\))?$/) != null;
           j++)
         ; /* empty */
-      if(j == affected.length)
+      if(j == affected.length) {
         for(j = 0; j < affected.length; j++)
           this.defineRule('skillModifier.' + affected[j], attribute, '+', bump);
+      }
     } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|SelectableFeature)([A-Za-z]+)/)) != null &&
               !format.match(/[ \(/][a-z]/)) {
-      var group = matchInfo[4] == 'Feats' ? 'features.' :
-                  matchInfo[4] == 'Skills' ? 'skillModifier.' :
+      var group = matchInfo[4] == 'Feats' ? 'features' :
+                  matchInfo[4] == 'Skills' ? 'skillModifier' :
                   matchInfo[4].match(/s$/) ?
                   matchInfo[4].substring(0, 1).toLowerCase() +
-                  matchInfo[4].substring(1) + '.' : '';
+                  matchInfo[4].substring(1) : '';
       var requirements = format.replace(/^Requires /, '').split('/');
       var target = matchInfo[3] == 'Class' ? 'Levels' : (matchInfo[3] + 's');
       target = target.substring(0, 1).toLowerCase() + target.substring(1);
@@ -158,6 +158,16 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
           if(group == '') {
             source = source.substring(0, 1).toLowerCase() +
                      source.substring(1).replace(/ /g, '');
+          } else if(source.match(/^(Max|Sum)( |$)/)) {
+            var summaryAttr =
+              source.substring(0, 1).toLowerCase() + source.substring(1, 3);
+            var summaryOp = summaryAttr == 'max' ? '^=' : '+=';
+            summaryAttr += group + '.' + source.substring(4);
+            var re = '^' + group + '.' + source.substring(4);
+            this.defineRule(summaryAttr, new RegExp(re), summaryOp, null);
+            source = summaryAttr;
+          } else {
+            source = group + '.' + source;
           }
           var expr;
           if(op.match(/[!=]~/)) {
@@ -168,11 +178,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
             expr = 'source ' + op + ' "' + value + '"';
           }
           expr += ' ? ' + currentValue + ' : null';
-          if(attribute.match(/^(Max|Sum)( |$)/)) {
-            attribute = '/^' + attribute.substring(4) + '/';
-            // TODO
-          }
-          this.defineRule(attribute, group + source, '+', expr);
+          this.defineRule(attribute, source, '+', expr);
         }
         totalValue += currentValue;
         currentValue *= 10;
