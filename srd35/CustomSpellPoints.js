@@ -21,21 +21,24 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * point for a first level spell, 2 for a second level spell, etc.)
  */
 function SpellPoints() {
-  // Define the spell point attribute.
-  PH35.defineRule('spellPoints',
-    'casterLevel', '?', null,
-    null, '=', '0'
-  );
-  // Define rules to add the spellsPerDay values to the spellPoints attribute.
-  var ruleTargets = PH35.rules.allTargets();
-  for(var i = 0; i < ruleTargets.length; i++) {
-    var attr = ruleTargets[i];
-    var matchInfo = attr.match(/^spellsPerDay\.[A-Za-z]+([0-9]+)/);
-    if(matchInfo != null) {
-      PH35.defineRule('spellPoints', attr, '+', 'source * ' + matchInfo[1]);
+  var ruleSets = ['PH35', 'Eberron'];
+  for(var i = 0; i < ruleSets.length; i++) {
+    if(window[ruleSets[i]] == null)
+      continue;
+    var rules = window[ruleSets[i]].rules;
+    // Define the spell point attribute
+    rules.defineRule('spellPoints', 'casterLevel', '=', '0');
+    // Define rules to add the spellsPerDay values to the spellPoints attribute
+    var ruleTargets = rules.allTargets();
+    for(var j = 0; j < ruleTargets.length; j++) {
+      var attr = ruleTargets[j];
+      var matchInfo = attr.match(/^spellsPerDay\.[A-Za-z]+([1-9])/);
+      if(matchInfo != null) {
+        rules.defineRule('spellPoints', attr, '+', 'source * ' + matchInfo[1]);
+      }
     }
+    // Add spell point and remove spells per day from the character sheet.
+    rules.defineSheetElement('Spell Points', 'Spell Difficulty Class');
+    rules.defineSheetElement('Spells Per Day');
   }
-  // Add spell point and remove spells per day from the character sheet.
-  PH35.defineSheetElement('Spell Points', 'Spell Difficulty Class');
-  PH35.defineSheetElement('Spells Per Day');
 }
