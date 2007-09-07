@@ -1,4 +1,4 @@
-/* $Id: RuleEngine.js,v 1.20 2007/08/31 23:27:32 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.21 2007/09/07 16:11:57 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -17,7 +17,6 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
-
 /*
  * The RuleEngine class applies a set of client-defined rules that generate a
  * set of attributes from an initial set.
@@ -29,7 +28,6 @@ function RuleEngine() {
   this.patterns = [ ];
   this.needToExpandPattern = false;
 }
-
 
 /*
  * Adds a rule to the RuleSet.  #target# is the attribute affected by the rule,
@@ -87,7 +85,6 @@ RuleEngine.prototype.addRules =
   }
   this.needToExpandPatterns = true;
 };
-
 
 /* Returns a sorted array containing all attributes that are rule sources. */
 RuleEngine.prototype.allSources = function(target) {
@@ -158,15 +155,24 @@ RuleEngine.prototype.applyRules = function(initial) {
   return computed;
 };
 
-
 /* Removes the rule specifying how #source# affects #target#. */
 RuleEngine.prototype.deleteRule = function(target, source) {
   delete this.targets[source][target];
   delete this.sources[target][source];
 };
 
+/* Returns true iff the value of #attr# affects other attributes. */
+RuleEngine.prototype.isSource = function(attr) {
+  return this.targets[attr] != null;
+}
 
-RuleEngine.prototype.dump = function() {
+/* Returns true iff the value of #attr# is affected by other attributes. */
+RuleEngine.prototype.isTarget = function(attr) {
+  return this.sources[attr] != null;
+}
+
+/* A debugging function that returns an HTML representation of the rules. */
+RuleEngine.prototype.toHtml = function() {
   var result = '';
   var sources = ScribeUtils.getKeys(this.sources);
   for(var i = 0; i < sources.length; i++) {
@@ -179,18 +185,6 @@ RuleEngine.prototype.dump = function() {
   }
   return result;
 }
-
-/* Returns true iff the value of #attr# affects other attributes. */
-RuleEngine.prototype.isSource = function(attr) {
-  return this.targets[attr] != null;
-}
-
-
-/* Returns true iff the value of #attr# is affected by other attributes. */
-RuleEngine.prototype.isTarget = function(attr) {
-  return this.sources[attr] != null;
-}
-
 
 /*
  * A "private" function.  Invokes the rules that have #attr# as their target,

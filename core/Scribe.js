@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.219 2007/09/04 05:46:58 Jim Exp $ */
+/* $Id: Scribe.js,v 1.220 2007/09/07 16:11:57 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.45.03';
+var VERSION = '0.45.07';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -48,6 +48,12 @@ var urlLoading = null; // Character URL presently loading
 /* Launch routine called after all Scribe scripts are loaded. */
 function Scribe() {
 
+  if(InputGetValue == null || ObjectViewer == null || RuleEngine == null ||
+     ScribeRules == null || ScribeUtils == null) {
+    alert('JavaScript modules needed by Scribe are missing; exiting');
+    return;
+  }
+
   var defaults = {
     'BACKGROUND':'wheat',
     'FEATURES_OF_EDIT_WINDOW':
@@ -61,12 +67,6 @@ function Scribe() {
     'URL_SUFFIX':'.html',
     'WARN_ABOUT_DISCARD':true
   };
-
-  if(InputGetValue == null || ObjectViewer == null || RuleEngine == null ||
-     ScribeRules == null || ScribeUtils == null) {
-    alert('JavaScript modules needed by Scribe are missing; exiting');
-    return;
-  }
 
   for(var a in defaults) {
     if(window[a] == null)
@@ -94,13 +94,6 @@ function Scribe() {
                COPYRIGHT + '<br/>' +
                'Press the "About" button for more info',
                'Ok:window.close();');
-  if(window.DEBUG) {
-    var awin = window.open('', 'scribeDebug', FEATURES_OF_OTHER_WINDOWS);
-    awin.document.write('<html><head><title>RULES</title></head><body><pre>\n');
-    awin.document.write(ruleSet.dump());
-    awin.document.write('</pre></body></html>');
-    awin.document.close();
-  }
 
 }
 
@@ -204,68 +197,16 @@ Scribe.loadCharacter = function(name) {
     cookieInfo.recent = names.join(',') + ',';
     Scribe.storeCookie();
     character = {};
-    // Turn objects into "dot" attributes and convert values from prior
-    // versions of Scribe.
+    // Turn objects into "dot" attributes
     for(var a in sheetWindow.attributes) {
       var value = sheetWindow.attributes[a];
       if(typeof value == 'object') {
         for(var x in value) {
-          if(a == 'combatStyle') {
-            character['selectableFeatures.Combat Style (' + x + ')'] = '1';
-          } else if(a == 'feats' && '/Combat Style (Archery)/Combat Style (Two Weapon Combat)/Crippling Strike/Defensive Roll/Improved Evasion/Opportunist/Slippery Mind/'.indexOf('/' + x + '/') >= 0) {
-            character['selectableFeatures.' + x] = '1';
-          } else if(a == 'focus')
-            character['feats.Weapon Focus (' + x + ')'] = '1';
-          else if(a == 'specialization') {
-            character['feats.Weapon Specialization (' + x + ')'] = '1';
-          } else {
-            var convertedName = x;
-            while((i = convertedName.search(/\([a-z]/)) >= 0) {
-              convertedName =
-                convertedName.substring(0, i + 1) +
-                convertedName.substring(i + 1, i + 2).toUpperCase() +
-                convertedName.substring(i + 2);
-            }
-            if(a == 'domains' && (i = convertedName.indexOf(' Domain')) >= 0)
-              convertedName = convertedName.substring(0, i);
-            else if(a == 'feats' && x == 'Expertise')
-              convertedName = 'Combat Expertise';
-            else if(a == 'skills' && x == 'Pick Pocket')
-              convertedName = 'Sleight Of Hand';
-            else if(a == 'skills' && x == 'Wilderness Lore')
-              convertedName = 'Survival';
-            else if(a == 'spells' && !x.match(/\(.* .*\)/)) {
-              var prefix = x.replace(/\)/, '');
-              for(var b in ruleSet.getChoices('spells')) {
-                if(b.indexOf(prefix) == 0) {
-                  convertedName = b;
-                  break;
-                }
-              }
-            } else if(a == 'weapons' && (i = convertedName.indexOf(' (')) >= 0)
-              convertedName = convertedName.substring(0, i);
-            character[a + '.' + convertedName] = value[x];
-          }
+          character[a + '.' + x] = value[x];
         }
-      } else if(a == 'shield' && value.indexOf('Large') == 0) {
-        character[a] = 'Heavy' + value.substring(5);
-      } else if(a == 'shield' && value.indexOf('Small') == 0) {
-        character[a] = 'Light' + value.substring(5);
       } else {
         character[a] = value;
       }
-    }
-    // Prior Scribe versions assumed some defaults that we no longer assume
-    var OLD_DEFAULTS = {
-      'alignment':'Neutral Good', 'armor':'None', 'charisma':10,
-      'constitution':10, 'deity':'None', 'dexterity':10, 'experience':0,
-      'gender':'Male', 'hitPoints':0, 'intelligence':10,
-      'name':'New Character', 'race':'Human', 'shield':'None', 'strength':10,
-      'wisdom':10
-    };
-    for(var a in OLD_DEFAULTS) {
-      if(character[a] == null)
-        character[a] = OLD_DEFAULTS[a];
     }
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
@@ -335,7 +276,7 @@ Scribe.popUp.next = 0;
 
 /*
  * Replaces the current character with one that has all randomized attributes.
- * If #prompt# is true, allows the user to specify race and class level(s).
+ * If #prompt# is true, allows the user to specify certain attributes.
  */
 Scribe.randomizeCharacter = function(prompt) {
   if(!prompt || (urlLoading == 'random' && loadingPopup.okay != null)) {
@@ -783,7 +724,7 @@ Scribe.summarizeCachedAttrs = function() {
   for(var a in allAttrs) {
     var spells = [];
     for(var b in allAttrs[a]) {
-      if(b.match(/^(features|skills|selectableFeatures|languages)\./))
+      if(b.match(/^(features|skills|selectableFeatures)\./))
         inTable[b] = 1;
       else if(b.match(/^spells\./))
         spells[spells.length] = b.substring(b.indexOf('.') + 1);
@@ -863,6 +804,14 @@ Scribe.update = function(input) {
     ruleSet = ruleSets[value];
     Scribe.refreshEditor(true);
     Scribe.refreshSheet();
+    if(window.DEBUG) {
+      var awin = window.open('', 'scribeDebug', FEATURES_OF_OTHER_WINDOWS);
+      awin.document.write
+        ('<html><head><title>RULES</title></head><body><pre>\n');
+      awin.document.write(ruleSet.dump());
+      awin.document.write('</pre></body></html>');
+      awin.document.close();
+    }
   } else if(name == 'ruleAttributes') {
     if(Scribe.attributesWindow != null && !Scribe.attributesWindow.closed)
       Scribe.attributesWindow.close();
