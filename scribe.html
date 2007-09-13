@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.54 2007/07/19 06:26:38 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.55 2007/09/13 14:29:12 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -71,9 +71,9 @@ var WARN_ABOUT_DISCARD = true;
 var CUSTOMIZATION_URLS = [
   'PH35.js',
   '?DMG35.js',
-  // 'MN2E.js',
+  '?MN2E.js',
   // 'MN2EPrestige.js',
-  // 'Eberron.js',
+  '?Eberron.js',
   // 'CustomDeities.js',
   // 'CustomGoodies.js',
   // 'CustomSkills.js',
@@ -97,13 +97,17 @@ function CustomizeScribe() {
   // subfeat targets.  Modify the values in each list to determine which
   // subfeats/subskills are defined in your Scribe installation.
   var subfeats = [
+    'Armor Proficiency:Heavy/Light/Medium',
     'Greater Spell Focus:' + PH35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
     'Greater Weapon Focus:',
     'Greater Weapon Specialization:',
     'Improved Critical:Dwarven Waraxe/Longsword',
+    'Rapid Reload:Hand/Heavy/Light',
+    'Shield Proficiency:Heavy/Tower',
     'Skill Focus:',
     'Spell Focus:' + PH35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
     'Weapon Focus:Dwarven Waraxe/Longsword',
+    'Weapon Proficiency:Simple',
     'Weapon Specialization:Dwarven Waraxe/Longsword'
   ];
   var subskills = [
@@ -126,14 +130,9 @@ function CustomizeScribe() {
   // for PH35.js).
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
     var url = CUSTOMIZATION_URLS[i];
-    var pos;
     if(url == null)
       continue;
-    var func = url;
-    if((pos = func.lastIndexOf('/')) >= 0)
-      func = func.substring(pos + 1);
-    if((pos = func.indexOf('.')) >= 0)
-      func = func.substring(0, pos);
+    var func = url.replace(/.*\/|\..*/g, '');
     if(window[func] == null)
       alert('Unable to invoke ' + func + ' from ' + url);
     else
