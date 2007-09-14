@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.113 2007/09/04 05:46:14 Jim Exp $ */
+/* $Id: SRD35.js,v 1.114 2007/09/14 22:29:31 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -28,8 +28,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function PH35() {
   var rules = new ScribeRules('Core v3.5');
   PH35.viewer = new ObjectViewer();
-  PH35.createViewer(PH35.viewer);
-  rules.defineViewer("Standard", PH35.viewer);
+  PH35.createViewers(rules, PH35.VIEWERS);
   PH35.abilityRules(rules);
   PH35.raceRules(rules, PH35.LANGUAGES, PH35.RACES);
   PH35.classRules(rules, PH35.CLASSES);
@@ -209,6 +208,7 @@ PH35.SUBSKILLS = {
   'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
   'Profession':''
 };
+PH35.VIEWERS = ['Compact', 'Standard', 'Vertical'];
 PH35.WEAPONS = [
   'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
   'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70',
@@ -1798,127 +1798,203 @@ PH35.companionRules = function(rules, companions) {
 };
 
 /* Returns an ObjectViewer loaded with the default character sheet format. */
-PH35.createViewer = function(viewer) {
-  viewer.addElements(
-    {name: '_top', borders: 1, separator: '\n'},
-    {name: 'Header', within: '_top'},
-      {name: 'Identity', within: 'Header', separator: ''},
-        {name: 'Name', within: 'Identity', format: '<b>%V</b>'},
-        {name: 'Race', within: 'Identity', format: ' -- <b>%V</b>'},
-        {name: 'Levels', within: 'Identity', format: ' <b>%V</b>',
-         separator: '/'},
-      {name: 'Image Url', within: 'Header', format: '<img src="%V">'},
-    {name: 'Attributes', within: '_top', separator: '\n'},
-      {name: 'Abilities', within: 'Attributes'},
-        {name: 'StrInfo', within: 'Abilities', separator: ''},
-          {name: 'Strength', within: 'StrInfo'},
-          {name: 'Strength Modifier', within: 'StrInfo', format: ' (%V)'},
-        {name: 'IntInfo', within: 'Abilities', separator: ''},
-          {name: 'Intelligence', within: 'IntInfo'},
-          {name: 'Intelligence Modifier', within: 'IntInfo',format: ' (%V)'},
-        {name: 'WisInfo', within: 'Abilities', separator: ''},
-          {name: 'Wisdom', within: 'WisInfo'},
-          {name: 'Wisdom Modifier', within: 'WisInfo', format: ' (%V)'},
-        {name: 'DexInfo', within: 'Abilities', separator: ''},
-          {name: 'Dexterity', within: 'DexInfo'},
-          {name: 'Dexterity Modifier', within: 'DexInfo', format: ' (%V)'},
-        {name: 'ConInfo', within: 'Abilities', separator: ''},
-          {name: 'Constitution', within: 'ConInfo'},
-          {name: 'Constitution Modifier', within: 'ConInfo',format: ' (%V)'},
-        {name: 'ChaInfo', within: 'Abilities', separator: ''},
-          {name: 'Charisma', within: 'ChaInfo'},
-          {name: 'Charisma Modifier', within: 'ChaInfo', format: ' (%V)'},
-      {name: 'Description', within: 'Attributes'},
-        {name: 'Alignment', within: 'Description'},
-        {name: 'Deity', within: 'Description'},
-        {name: 'Origin', within: 'Description'},
-        {name: 'Gender', within: 'Description'},
-        {name: 'Player', within: 'Description'},
-      {name: 'AbilityStats', within: 'Attributes'},
-        {name: 'ExperienceInfo', within: 'AbilityStats', separator: ''},
-          {name: 'Experience', within: 'ExperienceInfo'},
-          {name: 'Experience Needed', within: 'ExperienceInfo', format: '/%V'},
-        {name: 'Level', within: 'AbilityStats'},
-        {name: 'SpeedInfo', within: 'AbilityStats', separator: ''},
-          {name: 'Speed', within: 'SpeedInfo',
-           format: '<b>Speed/Run</b>: %V'},
-          {name: 'Run Speed', within: 'SpeedInfo', format: '/%V'},
-        {name: 'LoadInfo', within: 'AbilityStats', separator: ''},
-          {name: 'Load Light', within: 'LoadInfo',
-           format: '<b>Light/Med/Max Load:</b> %V'},
-          {name: 'Load Medium', within: 'LoadInfo', format: '/%V'},
-          {name: 'Load Max', within: 'LoadInfo', format: '/%V'},
-      {name: 'Ability Notes', within: 'Attributes', separator: ' * '},
-    {name: 'FeaturesAndSkills', within: '_top', separator: '\n',
-     format: '<b>Features/Skills</b><br/>%V'},
-      {name: 'FeatStats', within: 'FeaturesAndSkills'},
-        {name: 'Feat Count', within: 'FeatStats', separator: ' * '},
-        {name: 'Selectable Feature Count', within: 'FeatStats',
-         separator: ' * '},
-      {name: 'Feats', within: 'FeaturesAndSkills', separator: ' * '},
-      {name:'Selectable Features', within:'FeaturesAndSkills', separator:' * '},
-      {name: 'Feature Notes', within: 'FeaturesAndSkills', separator: ' * '},
-      {name: 'SkillStats', within: 'FeaturesAndSkills'},
-        {name: 'Skill Points', within: 'SkillStats'},
-        {name: 'Class Skill Max Ranks', within: 'SkillStats'},
-      {name: 'Skills', within: 'FeaturesAndSkills', separator: ' * '},
-      {name: 'Skill Notes', within: 'FeaturesAndSkills', separator: ' * '},
-      {name: 'LanguageStats', within: 'FeaturesAndSkills'},
-        {name: 'Language Count', within: 'LanguageStats'},
-      {name: 'Languages', within: 'FeaturesAndSkills', separator: ' * '},
-    {name: 'Combat', within: '_top', separator: '\n',
-     format: '<b>Combat</b><br/>%V'},
-      {name: 'CombatStats', within: 'Combat'},
-        {name: 'Hit Points', within: 'CombatStats'},
-        {name: 'Initiative', within: 'CombatStats'},
-        {name: 'Armor Class', within: 'CombatStats'},
-        {name: 'Attacks Per Round', within: 'CombatStats'},
-        {name: 'AttackInfo', within: 'CombatStats', separator: ''},
-          {name: 'Base Attack', within: 'AttackInfo',
-           format: '<b>Base/Melee/Ranged Attack</b>: %V'},
-          {name: 'Melee Attack', within: 'AttackInfo', format: '/%V'},
-          {name: 'Ranged Attack', within: 'AttackInfo', format: '/%V'},
-      {name: 'Turn Air', within: 'Combat', separator: ' * '},
-      {name: 'Turn Animal', within: 'Combat', separator: ' * '},
-      {name: 'Turn Earth', within: 'Combat', separator: ' * '},
-      {name: 'Turn Fire', within: 'Combat', separator: ' * '},
-      {name: 'Turn Plant', within: 'Combat', separator: ' * '},
-      {name: 'Turn Undead', within: 'Combat', separator: ' * '},
-      {name: 'Turn Water', within: 'Combat', separator: ' * '},
-      {name: 'Weapons', within: 'Combat', separator: ' * '},
-      {name: 'Gear', within: 'Combat'},
-        {name: 'Armor Proficiency', within: 'Gear'},
-        {name: 'Armor', within: 'Gear'},
-        {name: 'Shield Proficiency', within: 'Gear'},
-        {name: 'Shield', within: 'Gear'},
-        {name: 'Weapon Proficiency', within: 'Gear'},
-      {name: 'Combat Notes', within: 'Combat', separator: ' * '},
-      {name: 'SaveAndResistance', within: 'Combat'},
-        {name: 'Save', within: 'SaveAndResistance', separator: ' * '},
-        {name: 'Resistance', within: 'SaveAndResistance', separator: ' * '},
-      {name: 'Save Notes', within: 'Combat', separator: ' * '},
-    {name: 'Magic', within: '_top', separator: '\n',
-     format: '<b>Magic</b><br/>%V'},
-      {name: 'SpellStats', within: 'Magic'},
-        {name: 'Spells Known', within: 'SpellStats', separator: ' * '},
-        {name: 'Spells Per Day', within: 'SpellStats', separator: ' * '},
-        {name: 'Spell Difficulty Class', within: 'SpellStats',
-         format: '<b>Spell DC</b>: %V', separator: ' * '},
-      {name: 'SpellSpecialties', within: 'Magic'},
-        {name: 'Domains', within: 'SpellSpecialties', separator: ' * '},
-        {name: 'Specialize', within: 'SpellSpecialties'},
-        {name: 'Prohibit', within: 'SpellSpecialties', separator: ' * '},
-      {name: 'Spells', within: 'Magic', separator: ' * '},
-      {name: 'Goodies', within: 'Magic', separator: ' * '},
-      {name: 'Magic Notes', within: 'Magic', separator: ' * '},
-    {name: 'Notes Area', within: '_top', separator: '\n',
-     format: '<b>Notes</b><br/>%V'},
-      {name: 'Companion Notes', within: 'Notes Area', separator: ' * '},
-      {name: 'Notes', within: 'Notes Area', format: '%V'},
-      {name: 'Dm Notes', within: 'Notes Area', format: '%V'},
-      {name: 'Sanity Notes', within: 'Notes Area', separator: ' * '},
-      {name: 'Validation Notes', within: 'Notes Area', separator: ' * '}
-  );
+PH35.createViewers = function(rules, viewers) {
+  for(var i = 0; i < viewers.length; i++) {
+    var name = viewers[i];
+    var viewer = new ObjectViewer();
+    if(name == 'Compact') {
+      viewer.addElements(
+        {name: '_top', separator: '\n'},
+          {name: 'Section 1', within: '_top', separator: '; '},
+            {name: 'Identity', within: 'Section 1', format: '%V',
+             separator: ''},
+              {name: 'Name', within: 'Identity', format: '<b>%V</b>'},
+              {name: 'Gender', within: 'Identity', format: ' -- <b>%V</b>'},
+              {name: 'Race', within: 'Identity', format: ' <b>%V</b>'},
+              {name: 'Levels', within: 'Identity', format: ' <b>%V</b>',
+               separator: '/'},
+            {name: 'Hit Points', within: 'Section 1', format: '<b>HP</b> %V'},
+            {name: 'Initiative', within: 'Section 1', format: '<b>Init</b> %V'},
+            {name: 'Speeds', within: 'Section 1', format: '%V', separator: ''},
+              {name: 'Speed', within: 'Speeds', format: '<b>Speed</b> %V'},
+              {name: 'Run Speed', within: 'Speeds', format: '/%V'},
+            {name: 'Armor Class', within: 'Section 1', format: '<b>AC</b> %V'},
+            {name: 'Weapons', within: 'Section 1', format: '<b>%N</b> %V',
+             separator: '/'},
+            {name: 'Turn Undead', within: 'Section 1', separator: '/'},
+            {name: 'Alignment', within: 'Section 1', format: '<b>Ali</b> %V'},
+            {name: 'Saves', within: 'Section 1', format: '<b>Save F/R/W</b> %V',
+             separator: '/'},
+              {name: 'save.Fortitude', within: 'Saves', format: '%V'},
+              {name: 'save.Reflex', within: 'Saves', format: '%V'},
+              {name: 'save.Will', within: 'Saves', format: '%V'},
+            {name: 'Resistance', within: 'Section 1', separator: '/'},
+            {name: 'Abilities', within: 'Section 1',
+             format: '<b>Str/Int/Wis/Dex/Con/Cha</b> %V', separator: '/'},
+              {name: 'Strength', within: 'Abilities', format: '%V'},
+              {name: 'Intelligence', within: 'Abilities', format: '%V'},
+              {name: 'Wisdom', within: 'Abilities', format: '%V'},
+              {name: 'Dexterity', within: 'Abilities', format: '%V'},
+              {name: 'Constitution', within: 'Abilities', format: '%V'},
+              {name: 'Charisma', within: 'Abilities', format: '%V'},
+          {name: 'Section 2', within: '_top', separator: '; '},
+            {name: 'Skill Modifier', within: 'Section 2', separator: '/'},
+            {name: 'Feats', within: 'Section 2', separator: '/'},
+            {name: 'Selectable Features', within: 'Section 2', separator: '/'},
+            {name: 'Languages', within: 'Section 2', separator: '/'},
+            {name: 'Spells', within: 'Section 2', separator: '/'},
+            {name: 'Spell Difficulty Class', within: 'Section 2',
+             separator: '/'},
+            {name: 'Domains', within: 'Section 2', separator: '/'},
+            {name: 'Goodies', within: 'Section 2', separator: '/'},
+            {name: 'Companion Notes', within: 'Section 2', format: ''},
+            {name: 'Notes', within: 'Section 2'},
+            {name: 'Dm Notes', within: 'Section 2', format: '%V'}
+      );
+    } else if(name == 'Standard' || name == 'Vertical') {
+      var innerSep = name == 'Standard' ? null : '\n';
+      var listSep = name == 'Standard' ? ' * ' : '\n';
+      var outerSep = name == 'Standard' ? '\n' : null;
+      viewer.addElements(
+        {name: '_top', borders: 1, separator: '\n'},
+        {name: 'Header', within: '_top'},
+          {name: 'Identity', within: 'Header', separator: ''},
+            {name: 'Name', within: 'Identity', format: '<b>%V</b>'},
+            {name: 'Race', within: 'Identity', format: ' -- <b>%V</b>'},
+            {name: 'Levels', within: 'Identity', format: ' <b>%V</b>',
+             separator: '/'},
+          {name: 'Image Url', within: 'Header', format: '<img src="%V">'},
+        {name: 'Attributes', within: '_top', separator: outerSep},
+          {name: 'Abilities', within: 'Attributes', separator: innerSep},
+            {name: 'StrInfo', within: 'Abilities', separator: ''},
+              {name: 'Strength', within: 'StrInfo'},
+              {name: 'Strength Modifier', within: 'StrInfo', format: ' (%V)'},
+            {name: 'IntInfo', within: 'Abilities', separator: ''},
+              {name: 'Intelligence', within: 'IntInfo'},
+              {name: 'Intelligence Modifier', within: 'IntInfo',
+               format: ' (%V)'},
+            {name: 'WisInfo', within: 'Abilities', separator: ''},
+              {name: 'Wisdom', within: 'WisInfo'},
+              {name: 'Wisdom Modifier', within: 'WisInfo', format: ' (%V)'},
+            {name: 'DexInfo', within: 'Abilities', separator: ''},
+              {name: 'Dexterity', within: 'DexInfo'},
+              {name: 'Dexterity Modifier', within: 'DexInfo', format: ' (%V)'},
+            {name: 'ConInfo', within: 'Abilities', separator: ''},
+              {name: 'Constitution', within: 'ConInfo'},
+              {name: 'Constitution Modifier', within: 'ConInfo',
+               format: ' (%V)'},
+            {name: 'ChaInfo', within: 'Abilities', separator: ''},
+              {name: 'Charisma', within: 'ChaInfo'},
+              {name: 'Charisma Modifier', within: 'ChaInfo', format: ' (%V)'},
+          {name: 'Description', within: 'Attributes', separator: innerSep},
+            {name: 'Alignment', within: 'Description'},
+            {name: 'Deity', within: 'Description'},
+            {name: 'Origin', within: 'Description'},
+            {name: 'Gender', within: 'Description'},
+            {name: 'Player', within: 'Description'},
+          {name: 'AbilityStats', within: 'Attributes', separator: innerSep},
+            {name: 'ExperienceInfo', within: 'AbilityStats', separator: ''},
+              {name: 'Experience', within: 'ExperienceInfo'},
+              {name: 'Experience Needed', within: 'ExperienceInfo',
+               format: '/%V'},
+            {name: 'Level', within: 'AbilityStats'},
+            {name: 'SpeedInfo', within: 'AbilityStats', separator: ''},
+              {name: 'Speed', within: 'SpeedInfo',
+               format: '<b>Speed/Run</b>: %V'},
+              {name: 'Run Speed', within: 'SpeedInfo', format: '/%V'},
+            {name: 'LoadInfo', within: 'AbilityStats', separator: ''},
+              {name: 'Load Light', within: 'LoadInfo',
+               format: '<b>Light/Med/Max Load:</b> %V'},
+              {name: 'Load Medium', within: 'LoadInfo', format: '/%V'},
+              {name: 'Load Max', within: 'LoadInfo', format: '/%V'},
+          {name: 'Ability Notes', within: 'Attributes', separator: listSep},
+        {name: 'FeaturesAndSkills', within: '_top', separator: outerSep,
+         format: '<b>Features/Skills</b><br/>%V'},
+          {name: 'FeaturePart', within: 'FeaturesAndSkills', separator: '\n'},
+            {name: 'FeatStats', within: 'FeaturePart', separator: innerSep},
+              {name: 'Feat Count', within: 'FeatStats', separator: listSep},
+              {name: 'Selectable Feature Count', within: 'FeatStats',
+               separator: listSep},
+            {name: 'Feats', within: 'FeaturePart', separator: listSep},
+            {name: 'Selectable Features', within: 'FeaturePart',
+             separator: listSep},
+            {name: 'Feature Notes', within: 'FeaturePart', separator: listSep},
+          {name: 'SkillPart', within: 'FeaturesAndSkills', separator: '\n'},
+            {name: 'SkillStats', within: 'SkillPart', separator:innerSep},
+              {name: 'Skill Points', within: 'SkillStats'},
+              {name: 'Class Skill Max Ranks', within: 'SkillStats'},
+            {name: 'Skills', within: 'SkillPart', separator: listSep},
+            {name: 'Skill Notes', within: 'SkillPart', separator:listSep},
+          {name: 'LanguagePart', within: 'FeaturesAndSkills', separator: '\n'},
+            {name: 'LanguageStats', within: 'LanguagePart', separtor: innerSep},
+              {name: 'Language Count', within: 'LanguageStats'},
+            {name: 'Languages', within: 'LanguagePart', separator: listSep},
+        {name: 'Combat', within: '_top', separator: outerSep,
+         format: '<b>Combat</b><br/>%V'},
+          {name: 'CombatPart', within: 'Combat', separator: '\n'},
+            {name: 'CombatStats', within: 'CombatPart', separator: innerSep},
+              {name: 'Hit Points', within: 'CombatStats'},
+              {name: 'Initiative', within: 'CombatStats'},
+              {name: 'Armor Class', within: 'CombatStats'},
+              {name: 'Attacks Per Round', within: 'CombatStats'},
+              {name: 'AttackInfo', within: 'CombatStats', separator: ''},
+                {name: 'Base Attack', within: 'AttackInfo',
+                 format: '<b>Base/Melee/Ranged Attack</b>: %V'},
+                {name: 'Melee Attack', within: 'AttackInfo', format: '/%V'},
+                {name: 'Ranged Attack', within: 'AttackInfo', format: '/%V'},
+            {name: 'Proficiencies', within: 'CombatPart', separator: innerSep},
+              {name: 'Armor Proficiency', within: 'Proficiencies'},
+              {name: 'Shield Proficiency', within: 'Proficiencies'},
+              {name: 'Weapon Proficiency', within: 'Proficiencies'},
+            {name: 'Gear', within: 'CombatPart', separator: innerSep},
+              {name: 'Armor', within: 'Gear'},
+              {name: 'Shield', within: 'Gear'},
+              {name: 'Weapons', within: 'Gear', separator: listSep},
+            {name: 'Turning', within: 'CombatPart', separator: innerSep},
+              {name: 'Turn Air', within: 'Turning', separator: listSep},
+              {name: 'Turn Animal', within: 'Turning', separator: listSep},
+              {name: 'Turn Earth', within: 'Turning', separator: listSep},
+              {name: 'Turn Fire', within: 'Turning', separator: listSep},
+              {name: 'Turn Plant', within: 'Turning', separator: listSep},
+              {name: 'Turn Undead', within: 'Turning', separator: listSep},
+              {name: 'Turn Water', within: 'Turning', separator: listSep},
+            {name: 'Combat Notes', within: 'CombatPart', separator: listSep},
+          {name: 'SavePart', within: 'Combat', separator: '\n'},
+            {name: 'SaveAndResistance', within: 'SavePart', separator:innerSep},
+              {name: 'Save', within: 'SaveAndResistance', separator: listSep},
+              {name: 'Resistance', within: 'SaveAndResistance',
+               separator: listSep},
+            {name: 'Save Notes', within: 'SavePart', separator: listSep},
+        {name: 'Magic', within: '_top', separator: outerSep,
+         format: '<b>Magic</b><br/>%V'},
+          {name: 'SpellPart', within: 'Magic', separator: '\n'},
+            {name: 'SpellStats', within: 'SpellPart', separator: innerSep},
+              {name: 'Spells Known', within: 'SpellStats', separator: listSep},
+              {name: 'Spells Per Day', within: 'SpellStats', separator:listSep},
+              {name: 'Spell Difficulty Class', within: 'SpellStats',
+               format: '<b>Spell DC</b>: %V', separator: listSep},
+            {name: 'SpellSpecialties', within: 'SpellPart', separator:innerSep},
+              {name: 'Domains', within: 'SpellSpecialties', separator: listSep},
+              {name: 'Specialize', within: 'SpellSpecialties'},
+              {name: 'Prohibit', within: 'SpellSpecialties', separator:listSep},
+            {name: 'Goodies', within: 'SpellPart', separator: listSep},
+          {name: 'Spells', within: 'Magic', separator: listSep},
+          {name: 'Magic Notes', within: 'Magic', separator: listSep},
+        {name: 'Notes Area', within: '_top', separator: outerSep,
+         format: '<b>Notes</b><br/>%V'},
+          {name: 'NotesPart', within: 'Notes Area', separator: '\n'},
+            {name: 'Notes', within: 'NotesPart', format: '%V'},
+            {name: 'Dm Notes', within: 'NotesPart', format: '%V'},
+            {name: 'Companion Notes', within: 'NotesPart', separator: listSep},
+          {name: 'ValidationPart', within: 'Notes Area', separator: '\n'},
+            {name: 'Sanity Notes', within: 'ValidationPart', separator:listSep},
+            {name: 'Validation Notes', within: 'ValidationPart',
+             separator: listSep}
+      );
+    } else
+      continue;
+    rules.defineViewer(name, viewer);
+  }
 };
 
 /* Defines the rules related to PH Chapter 6, Description. */
@@ -2752,8 +2828,8 @@ PH35.featRules = function(rules, feats, subfeats) {
   );
   rules.defineRule('weaponProficiency',
     'weaponProficiencyLevel', '=',
-      'source==' + PH35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
-      'source==' + PH35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
+      'source == ' + PH35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
+      'source == ' + PH35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
       '"None"'
   );
   rules.defineRule('weaponProficiencyLevel',
@@ -4291,15 +4367,16 @@ PH35.defineClass = function
   if(armorProficiencyLevel != null &&
      armorProficiencyLevel != PH35.PROFICIENCY_NONE)
     rules.defineRule
-      ('classArmorProficiencyLevel', classLevel, '^', armorProficiencyLevel);
+      ('classArmorProficiencyLevel', classLevel, '^=', armorProficiencyLevel);
   if(shieldProficiencyLevel != null &&
      shieldProficiencyLevel != PH35.PROFICIENCY_NONE)
     rules.defineRule
-      ('classShieldProficiencyLevel', classLevel, '^', shieldProficiencyLevel);
+      ('classShieldProficiencyLevel', classLevel, '^=', shieldProficiencyLevel);
   if(weaponProficiencyLevel != null &&
-     weaponProficiencyLevel != PH35.PROFICIENCY_NONE)
+     weaponProficiencyLevel != PH35.PROFICIENCY_NONE) {
     rules.defineRule
-      ('classWeaponProficiencyLevel', classLevel, '^', weaponProficiencyLevel);
+      ('classWeaponProficiencyLevel', classLevel, '^=', weaponProficiencyLevel);
+  }
   if(classSkills != null) {
     for(var i = 0; i < classSkills.length; i++) {
       rules.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');
