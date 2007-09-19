@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.114 2007/09/14 22:29:31 Jim Exp $ */
+/* $Id: SRD35.js,v 1.115 2007/09/19 01:19:51 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2732,7 +2732,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'combatNotes.weaponFinesseFeature:' +
           'Light weapon attacks use dexterity mod instead of strength mod',
         'sanityNotes.weaponFinesseFeatAbility:' +
-          'Requires Dexterity Modifier > Strength Modifier',
+          'Requires Dexterity Modifier exceed Strength Modifier',
         'validationNotes.weaponFinesseFeatBaseAttack:Requires Base Attack >= 1'
       ];
       rules.defineRule('combatNotes.dexterityMeleeAttackAdjustment',
@@ -2743,7 +2743,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'combatNotes.weaponFinesseFeature', '*', '0'
       );
       rules.defineRule('sanityNotes.weaponFinesseFeatAbility',
-        'feats.Weapon Finesse', '=', '0',
+        'feats.Weapon Finesse', '=', '-1',
         'dexterityModifier', '+', 'source',
         'strengthModifier', '+', '-source',
         '', 'v', '0'
