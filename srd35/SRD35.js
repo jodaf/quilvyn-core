@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.115 2007/09/19 01:19:51 Jim Exp $ */
+/* $Id: SRD35.js,v 1.116 2007/09/20 05:07:24 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -41,7 +41,7 @@ function PH35() {
   PH35.combatRules(rules);
   PH35.adventuringRules(rules);
   PH35.magicRules(rules, PH35.CLASSES, PH35.DOMAINS, PH35.SCHOOLS);
-  rules.defineChoice('preset', 'race', 'levels');
+  rules.defineChoice('preset', 'race', 'experience', 'levels');
   rules.defineChoice('random', PH35.RANDOMIZABLE_ATTRIBUTES);
   rules.editorElements = PH35.initialEditorElements();
   rules.randomizeOneAttribute = PH35.randomizeOneAttribute;
@@ -4044,24 +4044,30 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     pickAttrs(attributes, 'languages.', choices, howMany, 1);
   } else if(attribute == 'levels') {
     choices = ScribeUtils.getKeys(this.getChoices('levels'));
-    howMany = ScribeUtils.sumMatching(attributes, /^levels\./);
-    if(howMany == 0) {
-      var classes = ScribeUtils.random(1, 100);
-      classes = classes <= 85 ? 1 : classes <= 95 ? 2 : 3;
-      for(i = 0; i < classes; i++) {
-        var level = ScribeUtils.random(1, 100);
+    var level;
+    if(attributes.experience != null) {
+      level = Math.floor((1 + Math.sqrt(1 + attributes.experience / 125)) / 2);
+    } else {
+      var level = ScribeUtils.sumMatching(attributes, /^levels\./);
+      if(level == 0) {
+        level = ScribeUtils.random(1, 100);
         level = level<=50 ? 1 : level<=75 ? 2 : level<=87 ? 3 : level<=93 ? 4 :
                 level<=96 ? 5 : level<=98 ? 6 : level<=99 ? 7 : 8;
-        pickAttrs(attributes, 'levels.', choices, 1, level);
-        howMany += level;
       }
-    }
-    var min = howMany * (howMany - 1) * 1000 / 2;
-    var max = howMany * (howMany + 1) * 1000 / 2 - 1;
-    if(attributes.experience == null ||
-       attributes.experience < min ||
-       attributes.experience > max) {
+      var min = level * (level - 1) * 1000 / 2;
+      var max = level * (level + 1) * 1000 / 2 - 1;
       attributes.experience = ScribeUtils.random(min, max);
+    }
+    howMany = level - ScribeUtils.sumMatching(attributes, /^levels\./);
+    var classes = ScribeUtils.random(1, 100);
+    classes = classes < 60 ? 1 : classes < 90 ? 2 : 3;
+    if(classes > howMany) {
+      classes = ScribeUtils.random(1, howMany);
+    }
+    for(i = 1; howMany > 0; i++) {
+      var thisLevel = i == classes ? howMany : ScribeUtils.random(1, howMany);
+      pickAttrs(attributes, 'levels.', choices, 1, thisLevel);
+      howMany -= thisLevel;
     }
   } else if(attribute == 'name') {
     attributes['name'] = PH35.randomName(attributes['race']);
