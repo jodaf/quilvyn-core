@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.67 2007/09/04 05:46:14 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.68 2007/09/21 00:15:13 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -141,7 +141,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
       var target = matchInfo[3] == 'Class' ? 'Levels' : (matchInfo[3] + 's');
       target = target.substring(0, 1).toLowerCase() + target.substring(1);
       target += '.' + matchInfo[2].substring(0, 1).toUpperCase() +
-                matchInfo[2].substring(1).replace(/([a-z])([A-Z])/g, "$1 $2");
+        matchInfo[2].substring(1).replace(/([a-z\)])([A-Z\(])/g, "$1 $2");
       var currentValue = 1;
       var totalValue = 0;
       for(var j = 0; j < requirements.length; j++) {
