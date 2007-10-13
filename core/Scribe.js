@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.223 2007/09/21 00:15:13 Jim Exp $ */
+/* $Id: Scribe.js,v 1.224 2007/10/13 15:23:32 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.45.20';
+var VERSION = '0.46.13';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -649,13 +649,20 @@ Scribe.sheetHtml = function() {
     }
   }
 
+  var attrImage = 
+    'var attributes = ' + ObjectViewer.toCode(codeAttributes) + ';\n';
+  if(window.DEBUG) {
+    attrImage +=
+      'var computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
+  }
+
   return '<' + '!' + '-- Generated ' + new Date().toString() +
            ' by Scribe version ' + VERSION + ' --' + '>\n' +
          '<html>\n' +
          '<head>\n' +
          '  <title>' + sheetAttributes.Name + '</title>\n' +
          '  <script>\n' +
-         'var attributes = ' + ObjectViewer.toCode(codeAttributes) + ';\n' +
+         attrImage +
          // Careful: don't want to close scribe.html's script tag here!
          '  </' + 'script>\n' +
          '</head>\n' +
