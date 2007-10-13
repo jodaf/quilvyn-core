@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.116 2007/09/20 05:07:24 Jim Exp $ */
+/* $Id: SRD35.js,v 1.117 2007/10/13 15:26:47 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -650,8 +650,8 @@ PH35.abilityRules = function(rules) {
   // Validation tests
   var notes = [
     'validationNotes.abilityMinimum:' +
-      'Requires Charisma >= 14|Constitution >= 14|Dexterity >= 14|' +
-      'Intelligence >= 14|Strength >= 14|Wisdom >= 14',
+      'Requires Charisma >= 14||Constitution >= 14||Dexterity >= 14||' +
+      'Intelligence >= 14||Strength >= 14||Wisdom >= 14',
     'validationNotes.abilityModifierSum:Requires ability modifier sum >= 1'
   ];
   rules.defineNote(notes);
@@ -2068,28 +2068,28 @@ PH35.featRules = function(rules, feats, subfeats) {
     var notes = null;
     if(feat == 'Acrobatic') {
       notes = [
-        'sanityNotes.acrobaticFeatSkills:Requires Jump|Tumble',
+        'sanityNotes.acrobaticFeatSkills:Requires Jump||Tumble',
         'skillNotes.acrobaticFeature:+2 Jump/Tumble'
       ];
     } else if(feat == 'Agile') {
       notes = [
-        'sanityNotes.agileFeatSkills:Requires Balance|Escape Artist',
+        'sanityNotes.agileFeatSkills:Requires Balance||Escape Artist',
         'skillNotes.agileFeature:+2 Balance/Escape Artist'
       ];
     } else if(feat == 'Alertness') {
       notes = [
-        'sanityNotes.alertnessFeatSkills:Requires Listen|Spot',
+        'sanityNotes.alertnessFeatSkills:Requires Listen||Spot',
         'skillNotes.alertnessFeature:+2 Listen/Spot'
       ];
     } else if(feat == 'Animal Affinity') {
       notes = [
-        'sanityNotes.animalAffinityFeatSkills:Requires Handle Animal|Ride',
+        'sanityNotes.animalAffinityFeatSkills:Requires Handle Animal||Ride',
         'skillNotes.animalAffinityFeature:+2 Handle Animal/Ride'
       ];
     } else if(feat == 'Armor Proficiency (Heavy)') {
       notes = [
         'sanityNotes.armorProficiency(Heavy)FeatProficiency:' +
-        'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_MEDIUM
+          'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_MEDIUM
       ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
@@ -2097,7 +2097,7 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Armor Proficiency (Light)') {
       notes = [
         'sanityNotes.armorProficiency(Light)FeatProficiency:' +
-        'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_NONE
+          'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_NONE
       ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Light)', '^', PH35.PROFICIENCY_LIGHT
@@ -2105,14 +2105,14 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Armor Proficiency (Medium)') {
       notes = [
         'sanityNotes.armorProficiency(Medium)FeatProficiency:' +
-        'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_LIGHT
+          'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_LIGHT
       ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Medium)', '^', PH35.PROFICIENCY_MEDIUM
       );
     } else if(feat == 'Athletic') {
       notes = [
-        'sanityNotes.athleticFeatSkills:Requires Climb|Swim',
+        'sanityNotes.athleticFeatSkills:Requires Climb||Swim',
         'skillNotes.athleticFeature:+2 Climb/Swim'
       ];
     } else if(feat == 'Augment Summoning') {
@@ -2120,7 +2120,7 @@ PH35.featRules = function(rules, feats, subfeats) {
         'magicNotes.augmentSummoningFeature:' +
           'Summoned creatures +4 strength/constitution',
         'validationNotes.augmentSummoningFeatFeats:' +
-        'Requires Spell Focus (Conjuration)'
+          'Requires Spell Focus (Conjuration)'
       ];
     } else if(feat == 'Blind Fight') {
       notes = [
@@ -2185,7 +2185,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Deceitful') {
       notes = [
-        'sanityNotes.deceitfulFeatSkills:Requires Disguise|Forgery',
+        'sanityNotes.deceitfulFeatSkills:Requires Disguise||Forgery',
         'skillNotes.deceitfulFeature:+2 Disguise/Forgery'
       ];
     } else if(feat == 'Deflect Arrows') {
@@ -2197,7 +2197,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Deft Hands') {
       notes = [
-        'sanityNotes.deftHandsFeatSkills:Requires Sleight Of Hand|Use Rope',
+        'sanityNotes.deftHandsFeatSkills:Requires Sleight Of Hand||Use Rope',
         'skillNotes.deftHandsFeature:+2 Sleight Of Hand/Use Rope'
       ];
     } else if(feat == 'Diehard') {
@@ -2207,7 +2207,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Diligent') {
       notes = [
-        'sanityNotes.diligentFeatSkills:Requires Appraise|Decipher Script',
+        'sanityNotes.diligentFeatSkills:Requires Appraise||Decipher Script',
         'skillNotes.diligentFeature:+2 Appraise/Decipher Script'
       ];
     } else if(feat == 'Dodge') {
@@ -2454,7 +2454,8 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Investigator') {
       notes = [
-        'sanityNotes.investigatorFeatSkills:Requires Gather Information|Search',
+        'sanityNotes.investigatorFeatSkills:' +
+          'Requires Gather Information||Search',
         'skillNotes.investigatorFeature:+2 Gather Information/Search'
       ];
     } else if(feat == 'Iron Will') {
@@ -2472,7 +2473,7 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Magical Aptitude') {
       notes = [
         'sanityNotes.magicalAptitudeFeatSkills:' +
-          'Requires Spellcraft|Use Magic Device',
+          'Requires Spellcraft||Use Magic Device',
         'skillNotes.magicalAptitudeFeature:+2 Spellcraft/Use Magic Device'
       ];
     } else if(feat == 'Manyshot') {
@@ -2514,17 +2515,18 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Negotiator') {
       notes = [
-        'sanityNotes.negotiatorFeatSkills:Requires Diplomacy|Sense Motive',
+        'sanityNotes.negotiatorFeatSkills:Requires Diplomacy||Sense Motive',
         'skillNotes.negotiatorFeature:+2 Diplomacy/Sense Motive'
       ];
     } else if(feat == 'Nimble Fingers') {
       notes = [
-        'sanityNotes.nimbleFingersFeatSkills:Requires Disable Device|Open Lock',
+        'sanityNotes.nimbleFingersFeatSkills:' +
+          'Requires Disable Device||Open Lock',
         'skillNotes.nimbleFingersFeature:+2 Disable Device/Open Lock'
       ];
     } else if(feat == 'Persuasive') {
       notes = [
-        'sanityNotes.persuasiveFeatSkills:Requires Bluff|Intimidate',
+        'sanityNotes.persuasiveFeatSkills:Requires Bluff||Intimidate',
         'skillNotes.persuasiveFeature:+2 Bluff/Intimidate'
       ];
     } else if(feat == 'Point Blank Shot') {
@@ -2585,7 +2587,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Self Sufficient') {
       notes = [
-        'sanityNotes.selfSufficientFeatSkills:Requires Heal|Survival',
+        'sanityNotes.selfSufficientFeatSkills:Requires Heal||Survival',
         'skillNotes.selfSufficientFeature:+2 Heal/Survival'
       ];
     } else if(feat == 'Shield Proficiency (Heavy)') {
@@ -2673,7 +2675,7 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Stealthy') {
       notes = [
-        'sanityNotes.stealthyFeatSkills:Requires Hide|Move Silently',
+        'sanityNotes.stealthyFeatSkills:Requires Hide||Move Silently',
         'skillNotes.stealthyFeature:+2 Hide/Move Silently'
       ];
     } else if(feat == 'Still Spell') {
@@ -3950,12 +3952,12 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
                 ScribeUtils.sumMatching(attributes, /^domains\./), 1);
     }
   } else if(attribute == 'feats' || attribute == 'features') {
-    attrs = this.applyRules(attributes);
+    attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
+    var countPat = new RegExp('^' + attribute + 'Count\\.');
+    var prefix = attribute + 's'
+    var suffix = prefix.substring(0, 1).toUpperCase() + prefix.substring(1);
     var toAllocateByType = {};
-    var countPat = new RegExp
-      ('^' + (attribute=='feats' ? 'feat' : 'selectableFeature') + 'Count\\.');
-    var prefix = attribute == 'feats' ? 'feats' : 'selectableFeatures';
-    var suffix = attribute == 'feats' ? 'Feat' : 'SelectableFeature';
+    attrs = this.applyRules(attributes);
     for(attr in attrs) {
       if(attr.match(countPat)) {
         toAllocateByType[attr.replace(countPat, '')] = attrs[attr];
@@ -3979,7 +3981,6 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     for(attr in toAllocateByType) {
-      howMany = toAllocateByType[attr];
       var availableChoicesInType = {};
       for(var a in availableChoices) {
         if(attr == 'General' ||
@@ -3987,27 +3988,20 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
           availableChoicesInType[a] = '';
         }
       }
+      howMany = toAllocateByType[attr];
       while(howMany > 0 &&
             (choices=ScribeUtils.getKeys(availableChoicesInType)).length > 0) {
         var choice = choices[ScribeUtils.random(0, choices.length - 1)];
         attributes[prefix + '.' + choice] = 1;
         delete availableChoicesInType[choice];
         var name = choice.substring(0, 1).toLowerCase() +
-                   choice.substring(1).replace(/ /g, '');
-        var validation = this.applyRules(attributes);
-        var validNote = 'validationNotes.' + name + suffix;
-        var isValid = true;
-        for(var a in validation) {
-          if((a.substring(0, validNote.length) == validNote) && validation[a]) {
-            isValid = false;
-            break;
-          }
-        }
-        if(isValid) {
+                   choice.substring(1).replace(/ /g, '').
+                   replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+        if(ScribeUtils.sumMatching(this.applyRules(attributes), new RegExp('^(sanity|validation)Notes.' + name + suffix)) != 0) {
+          delete attributes[prefix + '.' + choice];
+        } else {
           howMany--;
           delete availableChoices[choice];
-        } else {
-          delete attributes[prefix + '.' + choice];
         }
       }
     }
@@ -4198,66 +4192,91 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
  * Fixes as many validation errors in #attributes# as possible.
  */
 PH35.makeValid = function(attributes) {
-  var attributesFixed = {};
-  var choices;
+
+  var attributesChanged = {};
   var debug = [];
-  var fixCount;
-  var matchInfo;
   var notes = this.getChoices('notes');
-  var passes = 5;
-  do {
+
+  // If 8 passes don't get rid of all repairable problems, give up
+  for(var pass = 0; pass < 8; pass++) {
+
     var applied = this.applyRules(attributes);
-    fixCount = 0;
+    var fixedThisPass = 0;
+
+    // Try to fix each sanity/validation note w/a non-zero value
     for(var attr in applied) {
-      var noteValue = applied[attr];
-      if((matchInfo=
-          attr.match(/^(sanity|validation)Notes\.(.*)([A-Z][a-z]+)/))==null ||
-         !noteValue ||
-         notes[attr] == null) {
+
+      var matchInfo =
+        attr.match(/^(sanity|validation)Notes\.(.*)([A-Z][a-z]+)/);
+      var attrValue = applied[attr];
+
+      if(matchInfo == null || !attrValue || notes[attr] == null) {
         continue;
       }
-      var notePrefix = matchInfo[2];
-      var noteSuffix = matchInfo[3].substring(0, 1).toLowerCase() +
-                       matchInfo[3].substring(1).replace(/ /g, '');
-      if(noteSuffix == 'features') {
-        noteSuffix = 'selectableFeatures';
+
+      var problemSource = matchInfo[2];
+      var problemCategory = matchInfo[3].substring(0, 1).toLowerCase() +
+                            matchInfo[3].substring(1).replace(/ /g, '');
+      if(problemCategory == 'features') {
+        problemCategory = 'selectableFeatures';
       }
-      var requireds = notes[attr].replace(/^Requires /, '').split(/\s*\/\s*/);
-      for(var i = 0; i < requireds.length; i++) {
-        choices = requireds[i].split(/\s*\|\s*/);
-        matchInfo = choices[ScribeUtils.random(0, choices.length - 1)].
-                    match(/^([^<>!=]+)([<>!=]+)?(.*)?/);
+      var requirements =
+        notes[attr].replace(/^Requires /, '').split(/\s*\/\s*/);
+
+      for(var i = 0; i < requirements.length; i++) {
+
+        // Find a random requirement choice w/the format "name [op value]"
+        var choices = requirements[i].split(/\s*\|\|\s*/);
+        while(choices.length > 0) {
+          var index = ScribeUtils.random(0, choices.length - 1);
+          matchInfo = choices[index].match(/^([^<>!=]+)(([<>!=~]+)(.*))?/);
+          if(matchInfo != null) {
+            break;
+          }
+          choices = choices.slice(0, index).concat(choice.slice(index + 1));
+        }
         if(matchInfo == null) {
           continue;
         }
+
+        var toFixCombiner = null;
         var toFixName = matchInfo[1].replace(/\s+$/, '');
-        var toFixOp = matchInfo[2] == null ? '>=' : matchInfo[2];
+        var toFixOp = matchInfo[3] == null ? '>=' : matchInfo[3];
         var toFixValue =
-          matchInfo[3] == null ? 1 : matchInfo[3].replace(/^\s+/, '');;
+          matchInfo[4] == null ? 1 : matchInfo[4].replace(/^\s+/, '');;
+        if(toFixName.match(/^(Max|Sum)/)) {
+          toFixCombiner = toFixName.substring(0, 3);
+          toFixName = toFixName.substring(4).replace(/^\s+/, '');
+        }
         var toFixAttr = toFixName.substring(0, 1).toLowerCase() +
                         toFixName.substring(1).replace(/ /g, '');
+
+        // See if this attr has a set of choices (e.g., race) or a category
+        // attribute (e.g., a feat)
         choices = this.getChoices(toFixAttr + 's');
         if(choices == null) {
-           choices = this.getChoices(noteSuffix);
+           choices = this.getChoices(problemCategory);
         }
         if(choices != null) {
+          // Find the set of choices that satisfy the requirement
           var target =
-            this.getChoices(noteSuffix) == null ? toFixValue : toFixName;
+            this.getChoices(problemCategory) == null ? toFixValue : toFixName;
           var possibilities = [];
           for(var choice in choices) {
-            if(toFixOp != '!=' && choice == target) {
-              possibilities = [choice];
-              break;
-            } else if((toFixOp == '!=') != (choice.indexOf(target) >= 0)) {
+            if((toFixOp.match(/[^!]=/) && choice == target) ||
+               (toFixOp == '!=' && choice != target) ||
+               (toFixCombiner != null && choice.indexOf(target) == 0) ||
+               (toFixOp == '=~' && choice.match(new RegExp(target))) ||
+               (toFixOp == '!~' && !choice.match(new RegExp(target)))) {
               possibilities[possibilities.length] = choice;
             }
           }
           if(possibilities.length == 0) {
-            continue;
+            continue; // No fix possible
           }
           if(target == toFixName) {
             toFixAttr =
-              noteSuffix + '.' +
+              problemCategory + '.' +
               possibilities[ScribeUtils.random(0, possibilities.length - 1)];
           } else {
             toFixValue =
@@ -4265,71 +4284,100 @@ PH35.makeValid = function(attributes) {
           }
         }
         if((choices != null || attributes[toFixAttr] != null) &&
-           attributesFixed[toFixAttr] == null)  {
-          debug[debug.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
-          attributes[toFixAttr] = toFixValue;
+           attributesChanged[toFixAttr] == null) {
+          // Directly-fixable problem
+          debug[debug.length] =
+            attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
+            "' => '" + toFixValue + "'";
           if(toFixValue == 0) {
             delete attributes[toFixAttr];
+          } else {
+            attributes[toFixAttr] = toFixValue;
           }
-          attributesFixed[toFixAttr] = toFixValue;
-          fixCount++;
-        } else if(noteSuffix == 'total' && noteValue > 0 &&
-                  (choices = this.getChoices(notePrefix)) != null) {
+          attributesChanged[toFixAttr] = toFixValue;
+          fixedThisPass++;
+        } else if(problemCategory == 'total' && attrValue > 0 &&
+                  (choices = this.getChoices(problemSource)) != null) {
+          // Too many items allocated in a category
           var possibilities = [];
           for(var k in attributes) {
-            if(k.match('^' + notePrefix + '\\.') && attributesFixed[k]==null) {
+            if(k.match('^' + problemSource + '\\.') &&
+               attributesChanged[k] == null) {
                possibilities[possibilities.length] = k;
             }
           }
-          while(possibilities.length > 0 && noteValue > 0) {
+          while(possibilities.length > 0 && attrValue > 0) {
             var index = ScribeUtils.random(0, possibilities.length - 1);
             toFixAttr = possibilities[index];
             possibilities =
               possibilities.slice(0,index).concat(possibilities.slice(index+1));
             var current = attributes[toFixAttr];
-            toFixValue = current > noteValue ? current - noteValue : 0;
-            debug[debug.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
-            attributes[toFixAttr] = toFixValue;
-            noteValue -= current - toFixValue;
+            toFixValue = current > attrValue ? current - attrValue : 0;
+            debug[debug.length] =
+              attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
+              "' => '" + toFixValue + "'";
             if(toFixValue == 0) {
               delete attributes[toFixAttr];
+            } else {
+              attributes[toFixAttr] = toFixValue;
             }
-            // Don't do this: attributesFixed[toFixAttr] = toFixValue;
-            fixCount++;
+            attrValue -= current - toFixValue;
+            // Don't do this: attributesChanged[toFixAttr] = toFixValue;
+            fixedThisPass++;
           }
-        } else if(noteSuffix == 'total' && noteValue < 0 &&
-                  (choices = this.getChoices(notePrefix)) != null) {
+        } else if(problemCategory == 'total' && attrValue < 0 &&
+                  (choices = this.getChoices(problemSource)) != null) {
+          // Too few items allocated in a category
           this.randomizeOneAttribute(attributes,
-            notePrefix == 'selectableFeatures' ? 'features' : notePrefix
+            problemSource == 'selectableFeatures' ? 'features' : problemSource
           );
-          debug[debug.length] = 'Allocate additional ' + notePrefix;
-          fixCount++;
-        } else if(attr == 'validationNotes.abilityModifierSum') {
+          debug[debug.length] = attr + ' Allocate additional ' + problemSource;
+          fixedThisPass++;
+        } else if(attr.match(/validationNotes.abilityModifier(Sum|Minimum)/)) {
+          // Special cases
           var abilities = {
             'charisma':'', 'constitution':'', 'dexterity':'',
             'intelligence':'', 'strength':'', 'wisdom':''
           };
-          for(toFixAttr in abilities) {
-            if(applied[toFixAttr + 'Modifier'] <= 0) {
-              toFixValue = attributes[toFixAttr] + 2;
-              debug[debug.length] = "'" + toFixAttr + "': '" + attributes[toFixAttr] + "' => '" + toFixValue + "'";
-              attributes[toFixAttr] = toFixValue;
-              // Don't do this: attributesFixed[toFixAttr] = toFixValue;
-              fixCount++;
+          if(attr == 'validationNotes.abilityModifierMinimum') {
+            toFixAttr = ScribeUtils.randomKey(abilities);
+            toFixValue = 14;
+            debug[debug.length] =
+              attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
+              "' => '" + toFixValue + "'";
+            attributes[toFixAttr] = toFixValue;
+            // Don't do this: attributesChanged[toFixAttr] = toFixValue;
+            fixedThisPass++;
+          } else {
+            for(toFixAttr in abilities) {
+              if(applied[toFixAttr + 'Modifier'] <= 0) {
+                toFixValue = attributes[toFixAttr] - 0 + 2;
+                debug[debug.length] =
+                  attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
+                  "' => '" + toFixValue + "'";
+                attributes[toFixAttr] = toFixValue;
+                // Don't do this: attributesChanged[toFixAttr] = toFixValue;
+                fixedThisPass++;
+              }
             }
           }
         }
+
       }
+
     }
+
     debug[debug.length] = '-----';
-    if(--passes <= 0 && fixCount > 0) {
-      alert('makeValid:Giving up\n' + debug.join('\n'));
+    if(fixedThisPass == 0) {
       break;
     }
-  } while(fixCount > 0);
+
+  }
+
   if(window.DEBUG) {
     attributes['notes'] = debug.join('<br/>');
   }
+
 };
 
 /*

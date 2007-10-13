@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.68 2007/09/21 00:15:13 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.69 2007/10/13 15:26:47 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -145,12 +145,12 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
       var currentValue = 1;
       var totalValue = 0;
       for(var j = 0; j < requirements.length; j++) {
-        var choices = requirements[j].split(/\|/);
+        var choices = requirements[j].split(/\|\|/);
         for(var k = 0; k < choices.length; k++) {
           var source = choices[k].replace(/(^\s+)|(\s+$)/g, '');
           var op = '>=';
           var value = '1';
-          if((matchInfo=source.match(/^(.*)(<=?|>=?|==|[!=]~)(.*)/)) != null) {
+          if((matchInfo=source.match(/^(.*)(<=?|>=?|[!=][=~])(.*)/)) != null) {
             source = matchInfo[1].replace(/\s+$/, '');
             op = matchInfo[2];
             value = matchInfo[3].replace(/^\s+/, '');
@@ -288,16 +288,26 @@ ScribeRules.prototype.makeValid = function(attributes) {
  */
 ScribeRules.prototype.randomizeAllAttributes = function(fixedAttributes) {
   var result = { };
+  var timings = [];
   for(var a in fixedAttributes) {
     result[a] = fixedAttributes[a];
   }
   var attributes = this.getChoices('random');
   for(var a in attributes) {
     if(result[a] == null) {
+      var before = new Date().getTime();
       this.randomizeOneAttribute(result, a);
+      timings[timings.length] =
+        'Randomize ' + a + ': ' + (new Date().getTime() - before);
     }
   }
+  var before = new Date().getTime();
   this.makeValid(result);
+  timings[timings.length] = 'makeValid: ' + (new Date().getTime() - before);
+  if(window.DEBUG) {
+    result.notes =
+      (result.notes != null ? result.notes + '\n' : '') + timings.join('\n');
+  }
   return result;
 };
 
