@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.117 2007/10/13 15:26:47 Jim Exp $ */
+/* $Id: SRD35.js,v 1.118 2007/10/18 06:13:27 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -2271,12 +2271,13 @@ PH35.featRules = function(rules, feats, subfeats) {
         ('save.Fortitude', 'saveNotes.greatFortitudeFeature', '+', '2');
     } else if((matchInfo = feat.match(/^Greater Spell Focus \((.*)\)$/))!=null){
       var school = matchInfo[1];
-      var note = 'magicNotes.spellFocus(' + school + ')Feat';
+      var schoolNoSpace = school.replace(/ /g, '');
+      var note = 'magicNotes.spellFocus(' + schoolNoSpace + ')Feat';
       notes = [
         note + ':+1 DC on ' + school + ' spells',
-        'sanityNotes.greaterSpellFocus(' + school + ')FeatCasterLevel:' +
+        'sanityNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
           'Requires Caster Level >= 1',
-        'validationNotes.greaterSpellFocus(' + school + ')FeatFeats:' +
+        'validationNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatFeats:' +
           'Requires Spell Focus (' + school + ')'
       ];
     } else if(feat == 'Greater Spell Penetration') {
@@ -2306,6 +2307,8 @@ PH35.featRules = function(rules, feats, subfeats) {
       var note = 'combatNotes.greaterWeaponFocus(' + weaponNoSpace + ')Feature';
       notes = [
         note + ':+1 attack',
+        'sanityNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatWeapons:' +
+          'Requires ' + weapon,
         'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatFeats:' +
           'Requires Weapon Focus (' + weapon + ')',
         'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatLevels:' +
@@ -2320,6 +2323,8 @@ PH35.featRules = function(rules, feats, subfeats) {
         'combatNotes.greaterWeaponSpecialization(' + weaponNoSpace + ')Feature';
       notes = [
         note + ':+2 damage',
+        'sanityNotes.greaterWeaponSpecialization(' + weaponNoSpace + ')FeatWeapons:' +
+          'Requires ' + weapon,
         'validationNotes.greaterWeaponSpecialization('+weaponNoSpace+')FeatFeats:' +
           'Requires Weapon Focus (' + weapon + ')/' +
           'Greater Weapon Focus (' + weapon + ')/' +
@@ -2555,11 +2560,12 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if((matchInfo = feat.match(/^Rapid Reload \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
-      var note = 'combatNotes.rapidReload(' + weapon + ')Feature';
+      var weaponNoSpace = weapon.replace(/ /g, '');
+      var note = 'combatNotes.rapidReload(' + weaponNoSpace + ')Feature';
       notes = [
         note + ':Reload ' + weapon + ' Crossbow as ' +
         (weapon == 'Heavy' ? 'move' : 'free') + ' action',
-        'sanityNotes.rapidReload(' + weapon + ')FeatWeapons:' +
+        'sanityNotes.rapidReload(' + weaponNoSpace + ')FeatWeapons:' +
           'Requires ' + weapon + ' Crossbow'
       ];
     } else if(feat == 'Rapid Shot') {
@@ -2638,10 +2644,11 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
     } else if((matchInfo = feat.match(/^Spell Focus \((.*)\)$/)) != null) {
       var school = matchInfo[1];
-      var note = 'magicNotes.spellFocus(' + school + ')Feature';
+      var schoolNoSpace = school.replace(/ /g, '');
+      var note = 'magicNotes.spellFocus(' + schoolNoSpace + ')Feature';
       notes = [
         note + ':+1 DC on ' + school + ' spells',
-        'sanityNotes.spellFocus(' + school + ')FeatCasterLevel:' +
+        'sanityNotes.spellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
           'Requires Caster Level >= 1'
       ];
     } else if(feat == 'Spell Mastery') {
@@ -2773,8 +2780,13 @@ PH35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('weaponProficiencyLevel',
         'features.Weapon Proficiency (Simple)', '^', PH35.PROFICIENCY_LIGHT
       );
-    } else if(feat.match(/^Weapon Proficiency/)) {
-      // empty
+    } else if((matchInfo = feat.match(/^Weapon Proficiency \((.*)\)$/))!=null) {
+      var weapon = matchInfo[1];
+      var weaponNoSpace = weapon.replace(/ /g, '');
+      notes = [
+        'sanityNotes.weaponProficiency(' + weaponNoSpace + ')FeatWeapons:' +
+          'Requires ' + weapon,
+      ];
     } else if((matchInfo =
                feat.match(/^Weapon Specialization \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
@@ -3955,7 +3967,8 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
     var countPat = new RegExp('^' + attribute + 'Count\\.');
     var prefix = attribute + 's'
-    var suffix = prefix.substring(0, 1).toUpperCase() + prefix.substring(1);
+    var suffix =
+      attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
     var toAllocateByType = {};
     attrs = this.applyRules(attributes);
     for(attr in attrs) {
@@ -3980,6 +3993,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         availableChoices[attr] = allChoices[attr];
       }
     }
+    var debug = [];
     for(attr in toAllocateByType) {
       var availableChoicesInType = {};
       for(var a in availableChoices) {
@@ -3989,21 +4003,42 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
         }
       }
       howMany = toAllocateByType[attr];
+      debug[debug.length] = 'Choose ' + howMany + ' ' + attr + ' ' + prefix;
       while(howMany > 0 &&
             (choices=ScribeUtils.getKeys(availableChoicesInType)).length > 0) {
-        var choice = choices[ScribeUtils.random(0, choices.length - 1)];
-        attributes[prefix + '.' + choice] = 1;
-        delete availableChoicesInType[choice];
-        var name = choice.substring(0, 1).toLowerCase() +
-                   choice.substring(1).replace(/ /g, '').
-                   replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-        if(ScribeUtils.sumMatching(this.applyRules(attributes), new RegExp('^(sanity|validation)Notes.' + name + suffix)) != 0) {
-          delete attributes[prefix + '.' + choice];
-        } else {
-          howMany--;
-          delete availableChoices[choice];
+        debug[debug.length] =
+          'Pick ' + howMany + ' from ' +
+          ScribeUtils.getKeys(availableChoicesInType).length;
+        var picks = {};
+        pickAttrs(picks, '', choices, howMany, 1);
+        debug[debug.length] =
+          'From ' + ScribeUtils.getKeys(picks).join(", ") + ' reject';
+        for(var pick in picks) {
+          attributes[prefix + '.' + pick] = 1;
+          delete availableChoicesInType[pick];
+        }
+        var validate = this.applyRules(attributes);
+        for(var pick in picks) {
+          var name = pick.substring(0, 1).toLowerCase() +
+                     pick.substring(1).replace(/ /g, '').
+                     replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+          if(ScribeUtils.sumMatching
+               (validate,
+                new RegExp('^(sanity|validation)Notes.'+name+suffix)) != 0) {
+            delete attributes[prefix + '.' + pick];
+            debug[debug.length - 1] += ' ' + name;
+          } else {
+            howMany--;
+            delete availableChoices[pick];
+          }
         }
       }
+      debug[debug.length] = 'xxxxxxx';
+    }
+    if(window.DEBUG) {
+      var notes = attributes.notes;
+      attributes.notes =
+        (notes != null ? attributes.notes + '\n' : '') + debug.join('\n');
     }
   } else if(attribute == 'goodies') {
     attrs = this.applyRules(attributes);
@@ -4375,7 +4410,9 @@ PH35.makeValid = function(attributes) {
   }
 
   if(window.DEBUG) {
-    attributes['notes'] = debug.join('<br/>');
+    var notes = attributes.notes;
+    attributes.notes =
+      (notes != null ? attributes.notes + '\n' : '') + debug.join('\n');
   }
 
 };
