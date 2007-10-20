@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.56 2007/09/14 22:29:31 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.57 2007/10/20 01:14:17 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -74,6 +74,7 @@ var CUSTOMIZATION_URLS = [
   '?MN2E.js',
   // 'MN2EPrestige.js',
   '?Eberron.js',
+  '?Realms.js',
   // 'CustomDeities.js',
   // 'CustomGoodies.js',
   // 'CustomSkills.js',
@@ -152,8 +153,6 @@ for(var i = 0; i < scribeUrls.length; i++) {
   var url = scribeUrls[i];
   if(url == null)
     continue;
-  if(url.match(/\w+:/) == null)
-    url = SOURCE_URL + url;
   if(url.substring(0, 1) == '?') {
     url = url.substring(1);
     if(!confirm('Use rules from ' + url + '?')) {
@@ -163,6 +162,8 @@ for(var i = 0; i < scribeUrls.length; i++) {
     if(url == null)
       continue;
   }
+  if(url.match(/\w+:/) == null)
+    url = SOURCE_URL + url;
   document.write('<script src="' + url + '">' + CLOSE_TAG);
 }
 
