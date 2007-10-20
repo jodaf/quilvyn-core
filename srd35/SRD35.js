@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.118 2007/10/18 06:13:27 Jim Exp $ */
+/* $Id: SRD35.js,v 1.119 2007/10/20 01:17:07 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -3474,7 +3474,40 @@ PH35.raceRules = function(rules, languages, races) {
     var adjustment, features, notes;
     var race = races[i];
 
-    if(race == 'Dwarf') {
+    if(race == 'Half Elf') {
+
+      adjustment = null;
+      features = [
+        'Alert Senses', 'Resist Enchantment', 'Low Light Vision',
+        'Sleep Immunity', 'Tolerance'
+      ];
+      notes = [
+        'featureNotes.lowLightVisionFeature:' +
+          'Double normal distance in poor light',
+        'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
+        'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
+        'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
+        'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information'
+      ];
+      rules.defineRule('languages.Elven',
+        'race', '=', 'source.indexOf("Elf") >= 0 ? 1 : null'
+      );
+      rules.defineRule('resistance.Enchantment',
+        'saveNotes.resistEnchantmentFeature', '+=', '2'
+      );
+
+    } else if(race == 'Half Orc') {
+
+      adjustment = '+2 strength/-2 intelligence/-2 charisma';
+      features = ['Darkvision'];
+      notes = [
+        'featureNotes.darkvisionFeature:60 ft b/w vision in darkness'
+      ];
+      rules.defineRule('languages.Orc',
+        'race', '=', 'source.indexOf("Orc") >= 0 ? 1 : null'
+      );
+
+    } else if(race.match(/Dwarf/)) {
 
       adjustment = '+2 constitution/-2 charisma';
       features = [
@@ -3512,7 +3545,7 @@ PH35.raceRules = function(rules, languages, races) {
         ('resistance.Spell', 'saveNotes.resistSpellsFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
 
-    } else if(race == 'Elf') {
+    } else if(race.match(/Elf/)) {
 
       adjustment = '+2 dexterity/-2 constitution';
       features = [
@@ -3534,7 +3567,7 @@ PH35.raceRules = function(rules, languages, races) {
         'saveNotes.resistEnchantmentFeature', '+=', '2'
       );
 
-    } else if(race == 'Gnome') {
+    } else if(race.match(/Gnome/)) {
 
       adjustment = '+2 constitution/-2 strength';
       features = [
@@ -3571,40 +3604,7 @@ PH35.raceRules = function(rules, languages, races) {
         ('resistance.Illusion', 'saveNotes.resistIllusionFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
 
-    } else if(race == 'Half Elf') {
-
-      adjustment = null;
-      features = [
-        'Alert Senses', 'Resist Enchantment', 'Low Light Vision',
-        'Sleep Immunity', 'Tolerance'
-      ];
-      notes = [
-        'featureNotes.lowLightVisionFeature:' +
-          'Double normal distance in poor light',
-        'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
-        'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
-        'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
-        'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information'
-      ];
-      rules.defineRule('languages.Elven',
-        'race', '=', 'source.indexOf("Elf") >= 0 ? 1 : null'
-      );
-      rules.defineRule('resistance.Enchantment',
-        'saveNotes.resistEnchantmentFeature', '+=', '2'
-      );
-
-    } else if(race == 'Half Orc') {
-
-      adjustment = '+2 strength/-2 intelligence/-2 charisma';
-      features = ['Darkvision'];
-      notes = [
-        'featureNotes.darkvisionFeature:60 ft b/w vision in darkness'
-      ];
-      rules.defineRule('languages.Orc',
-        'race', '=', 'source.indexOf("Orc") >= 0 ? 1 : null'
-      );
-
-    } else if(race == 'Halfling') {
+    } else if(race.match(/Halfling/)) {
 
       adjustment = '+2 dexterity/-2 strength';
       features = [
@@ -3633,7 +3633,7 @@ PH35.raceRules = function(rules, languages, races) {
       rules.defineRule('save.Reflex', 'saveNotes.fortunateFeature', '+', '1');
       rules.defineRule('save.Will', 'saveNotes.fortunateFeature', '+', '1');
 
-    } else if(race == 'Human') {
+    } else if(race.match(/Human/)) {
 
       adjustment = null;
       features = null;
