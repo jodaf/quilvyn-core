@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.119 2007/10/20 01:17:07 Jim Exp $ */
+/* $Id: SRD35.js,v 1.120 2007/11/03 06:23:26 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -3501,8 +3501,11 @@ PH35.raceRules = function(rules, languages, races) {
       adjustment = '+2 strength/-2 intelligence/-2 charisma';
       features = ['Darkvision'];
       notes = [
-        'featureNotes.darkvisionFeature:60 ft b/w vision in darkness'
+        'featureNotes.darkvisionFeature:%V ft b/w vision in darkness'
       ];
+      rules.defineRule('featureNotes.darkvisionFeature',
+        'halfOrcFeatures.Darkvision', '^=', '60'
+      );
       rules.defineRule('languages.Orc',
         'race', '=', 'source.indexOf("Orc") >= 0 ? 1 : null'
       );
@@ -3512,7 +3515,7 @@ PH35.raceRules = function(rules, languages, races) {
       adjustment = '+2 constitution/-2 charisma';
       features = [
         'Darkvision', 'Dodge Giants', 'Dwarf Favored Enemy', 'Know Depth',
-        'Natural Smith', 'Resist Poison', 'Slow', 'Resist Spells',
+        'Natural Smith', 'Resist Poison', 'Resist Spells', 'Slow',
         'Stability', 'Stonecunning'
       ];
       notes = [
@@ -3520,7 +3523,7 @@ PH35.raceRules = function(rules, languages, races) {
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'combatNotes.dwarfFavoredEnemyFeature:' +
           '+1 vs. bugbear/goblin/hobgoblin/orc',
-        'featureNotes.darkvisionFeature:60 ft b/w vision in darkness',
+        'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
         'saveNotes.resistPoisonFeature:+2 vs. poison',
         'saveNotes.resistSpellsFeature:+2 vs. spells',
@@ -3535,6 +3538,11 @@ PH35.raceRules = function(rules, languages, races) {
       );
       rules.defineRule('abilityNotes.dwarfArmorSpeedAdjustment',
         'race', '=', 'source == "Dwarf" ? 1 : null'
+      );
+      var raceNoSpace =
+        race.substring(0,1).toLowerCase() + race.substring(1).replace(/ /g, '');
+      rules.defineRule('featureNotes.darkvisionFeature',
+        raceNoSpace + 'Features.Darkvision', '^=', '60'
       );
       rules.defineRule('languages.Dwarven',
         'race', '=', 'source.indexOf("Dwarf") >= 0 ? 1 : null'
@@ -3571,7 +3579,7 @@ PH35.raceRules = function(rules, languages, races) {
 
       adjustment = '+2 constitution/-2 strength';
       features = [
-        'Dodge Giants', 'Gnome Favored Enemy', 'Gnome Spells',
+        'Dodge Giants', 'Gnome Favored Enemy', 'Natural Spells',
         'Resist Illusion', 'Keen Ears', 'Keen Nose', 'Low Light Vision',
         'Natural Illusionist', 'Slow', 'Small'
       ];
@@ -3582,7 +3590,7 @@ PH35.raceRules = function(rules, languages, races) {
         'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.lowLightVisionFeature:' +
           'Double normal distance in poor light',
-        'magicNotes.gnomeSpellsFeature:%V 1/day',
+        'magicNotes.naturalSpellsFeature:%V 1/day at level %1',
         'magicNotes.naturalIllusionistFeature:+1 DC on illusion spells',
         'saveNotes.resistIllusionFeature:+2 vs. illusions',
         'skillNotes.keenEarsFeature:+2 Listen',
@@ -3593,10 +3601,15 @@ PH35.raceRules = function(rules, languages, races) {
       rules.defineRule('languages.Gnome',
         'race', '=', 'source.indexOf("Gnome") >= 0 ? 1 : null'
       );
-      rules.defineRule('magicNotes.gnomeSpellsFeature',
-        'charisma', '=',
-        '(source >= 10 ? "<i>Dancing Lights</i>/<i>Ghost Sound</i>/' +
-        '<i>Prestidigitation</i>/" : "") + "<i>Speak With Animals</i>"'
+      // TODO Only Speak With Animals if charisma < 10
+      rules.defineRule('magicNotes.naturalSpellsFeature',
+        'gnomeFeatures.Natural Spells', '=',
+        '"<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
+        '<i>Speak With Animals</i>"'
+      );
+      rules.defineRule('magicNotes.naturalSpellsFeature.1',
+        'level', '=', null,
+        'gnomeFeatures.Natural Spells', 'v', '1'
       );
       rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
