@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.58 2007/11/08 14:07:47 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.59 2007/11/08 14:22:32 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -91,20 +91,20 @@ var CUSTOMIZATION_URLS = [
 function CustomizeScribe() {
   // The first part of this implementation provides an easy way to define
   // subfeats and subskills (e.g., Weapon Focus (Longsword)), Perform (Sing))
-  // in the PH35 rule set.  Each element of the subfeats/subskills variables
+  // in the SRD35 rule set.  Each element of the subfeats/subskills variables
   // gives a feat/skill, followed by a colon and a slash-delimited list of
   // subfeat targets.  Modify the values in each list to determine which
   // subfeats/subskills are defined in your Scribe installation.
   var subfeats = [
     'Armor Proficiency:Heavy/Light/Medium',
-    'Greater Spell Focus:' + PH35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
+    'Greater Spell Focus:' + SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
     'Greater Weapon Focus:',
     'Greater Weapon Specialization:',
     'Improved Critical:Dwarven Waraxe/Longsword',
     'Rapid Reload:Hand/Heavy/Light',
     'Shield Proficiency:Heavy/Tower',
     'Skill Focus:',
-    'Spell Focus:' + PH35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
+    'Spell Focus:' + SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
     'Weapon Focus:Dwarven Waraxe/Longsword',
     'Weapon Proficiency:Simple',
     'Weapon Specialization:Dwarven Waraxe/Longsword'
@@ -118,15 +118,15 @@ function CustomizeScribe() {
   ];
   for(var i = 0; i < subfeats.length; i++) {
     var pieces = subfeats[i].split(/:/);
-    PH35.SUBFEATS[pieces[0]] = pieces[1];
+    SRD35.SUBFEATS[pieces[0]] = pieces[1];
   };
   for(var i = 0; i < subskills.length; i++) {
     var pieces = subskills[i].split(/:/);
-    PH35.SUBSKILLS[pieces[0]] = pieces[1];
+    SRD35.SUBSKILLS[pieces[0]] = pieces[1];
   };
   // The remaining lines load the modules listed in CUSTOMIZATION_URLS by
-  // calling a function with the same name as the module (e.g., it calls PH35()
-  // for PH35.js).
+  // calling a function with the same name as the module (e.g., it calls SRD35()
+  // for SRD35.js).
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
     var url = CUSTOMIZATION_URLS[i];
     if(url == null)
