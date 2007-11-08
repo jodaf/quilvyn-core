@@ -21,7 +21,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * point for a first level spell, 2 for a second level spell, etc.)
  */
 function SpellPoints() {
-  var ruleSets = ['PH35', 'Eberron'];
+  var ruleSets = ['SRD35', 'Eberron'];
   for(var i = 0; i < ruleSets.length; i++) {
     if(window[ruleSets[i]] == null)
       continue;

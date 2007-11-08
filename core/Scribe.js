@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.227 2007/11/03 06:22:14 Jim Exp $ */
+/* $Id: Scribe.js,v 1.228 2007/11/08 14:07:47 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
 var VERSION = '0.47.02';
@@ -610,11 +610,11 @@ Scribe.sheetHtml = function() {
           if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
             threat -= computedAttributes['weaponCriticalAdjustment.' + name];
           if(computedAttributes['features.Small'] &&
-             PH35.weaponsSmallDamage[damage] != null) {
-            damage = PH35.weaponsSmallDamage[damage];
+             SRD35.weaponsSmallDamage[damage] != null) {
+            damage = SRD35.weaponsSmallDamage[damage];
           } else if(computedAttributes['features.Large'] &&
-                    PH35.weaponsLargeDamage[damage] != null) {
-            damage = PH35.weaponsLargeDamage[damage];
+                    SRD35.weaponsLargeDamage[damage] != null) {
+            damage = SRD35.weaponsLargeDamage[damage];
           }
           if(additional != 0)
             damage += ScribeUtils.signed(additional);

@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.120 2007/11/03 06:23:26 Jim Exp $ */
+/* $Id: SRD35.js,v 1.121 2007/11/08 14:07:47 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -18,66 +18,66 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*
- * This module loads the rules from the Player's Handbook v3.5 Edition.  The
- * PH35 function contains methods that load rules for particular parts/chapters
- * of the PH; raceRules for character races, magicRules for spells, etc.  These
+ * This module loads the rules from the System Reference Documents v3.5.  The
+ * SRD35 function contains methods that load rules for particular parts of the
+ * SRD; raceRules for character races, magicRules for spells, etc.  These
  * member methods can be called independently in order to use a subset of the
- * PH v3.5 rules.  Similarly, the constant fields of PH35 (ALIGNMENTS, FEATS,
+ * SRD v3.5 rules.  Similarly, the constant fields of SRD35 (ALIGNMENTS, FEATS,
  * etc.) can be manipulated to modify the choices.
  */
-function PH35() {
-  var rules = new ScribeRules('Core v3.5');
-  PH35.viewer = new ObjectViewer();
-  PH35.createViewers(rules, PH35.VIEWERS);
-  PH35.abilityRules(rules);
-  PH35.raceRules(rules, PH35.LANGUAGES, PH35.RACES);
-  PH35.classRules(rules, PH35.CLASSES);
-  PH35.companionRules(rules, PH35.COMPANIONS);
-  PH35.skillRules(rules, PH35.SKILLS, PH35.SUBSKILLS);
-  PH35.featRules(rules, PH35.FEATS, PH35.SUBFEATS);
-  PH35.descriptionRules(rules, PH35.ALIGNMENTS, PH35.DEITIES, PH35.GENDERS);
-  PH35.equipmentRules
-    (rules, PH35.ARMORS, PH35.GOODIES, PH35.SHIELDS, PH35.WEAPONS);
-  PH35.combatRules(rules);
-  PH35.adventuringRules(rules);
-  PH35.magicRules(rules, PH35.CLASSES, PH35.DOMAINS, PH35.SCHOOLS);
+function SRD35() {
+  var rules = new ScribeRules('SRD v3.5');
+  SRD35.viewer = new ObjectViewer();
+  SRD35.createViewers(rules, SRD35.VIEWERS);
+  SRD35.abilityRules(rules);
+  SRD35.raceRules(rules, SRD35.LANGUAGES, SRD35.RACES);
+  SRD35.classRules(rules, SRD35.CLASSES);
+  SRD35.companionRules(rules, SRD35.COMPANIONS);
+  SRD35.skillRules(rules, SRD35.SKILLS, SRD35.SUBSKILLS);
+  SRD35.featRules(rules, SRD35.FEATS, SRD35.SUBFEATS);
+  SRD35.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.DEITIES, SRD35.GENDERS);
+  SRD35.equipmentRules
+    (rules, SRD35.ARMORS, SRD35.GOODIES, SRD35.SHIELDS, SRD35.WEAPONS);
+  SRD35.combatRules(rules);
+  SRD35.adventuringRules(rules);
+  SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
   rules.defineChoice('preset', 'race', 'experience', 'levels');
-  rules.defineChoice('random', PH35.RANDOMIZABLE_ATTRIBUTES);
-  rules.editorElements = PH35.initialEditorElements();
-  rules.randomizeOneAttribute = PH35.randomizeOneAttribute;
-  rules.makeValid = PH35.makeValid;
+  rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
+  rules.editorElements = SRD35.initialEditorElements();
+  rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
+  rules.makeValid = SRD35.makeValid;
   Scribe.addRuleSet(rules);
-  PH35.rules = rules;
+  SRD35.rules = rules;
 }
 
 // JavaScript expressions for several (mostly class-based) attributes.
-PH35.ATTACK_BONUS_GOOD = 'source';
-PH35.ATTACK_BONUS_AVERAGE = 'source - Math.floor((source + 3) / 4)';
-PH35.ATTACK_BONUS_POOR = 'Math.floor(source / 2)'
-PH35.PROFICIENCY_HEAVY = '3';
-PH35.PROFICIENCY_LIGHT = '1';
-PH35.PROFICIENCY_MEDIUM = '2';
-PH35.PROFICIENCY_NONE = '0';
-PH35.PROFICIENCY_TOWER = '4';
-PH35.SAVE_BONUS_GOOD = '2 + Math.floor(source / 2)';
-PH35.SAVE_BONUS_POOR = 'Math.floor(source / 3)';
+SRD35.ATTACK_BONUS_GOOD = 'source';
+SRD35.ATTACK_BONUS_AVERAGE = 'source - Math.floor((source + 3) / 4)';
+SRD35.ATTACK_BONUS_POOR = 'Math.floor(source / 2)'
+SRD35.PROFICIENCY_HEAVY = '3';
+SRD35.PROFICIENCY_LIGHT = '1';
+SRD35.PROFICIENCY_MEDIUM = '2';
+SRD35.PROFICIENCY_NONE = '0';
+SRD35.PROFICIENCY_TOWER = '4';
+SRD35.SAVE_BONUS_GOOD = '2 + Math.floor(source / 2)';
+SRD35.SAVE_BONUS_POOR = 'Math.floor(source / 3)';
 
 // Arrays of choices
-PH35.ALIGNMENTS = [
+SRD35.ALIGNMENTS = [
   'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral', 'Neutral Evil',
   'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
 ];
-PH35.ARMORS = [
+SRD35.ARMORS = [
   'None', 'Padded', 'Leather', 'Studded Leather', 'Chain Shirt', 'Hide',
   'Scale Mail', 'Chainmail', 'Breastplate', 'Splint Mail', 'Banded Mail',
   'Half Plate', 'Full Plate'
 ];
-PH35.CLASSES = [
+SRD35.CLASSES = [
   'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin',
   'Ranger', 'Rogue', 'Sorcerer', 'Wizard'
 ];
-PH35.COMPANIONS = ['Animal Companion', 'Familiar', 'Mount'];
-PH35.DEITIES = [
+SRD35.COMPANIONS = ['Animal Companion', 'Familiar', 'Mount'];
+SRD35.DEITIES = [
   'Boccob (N Magic):Knowledge/Magic/Trickery',
   'Corellon Larethian (CG Elves):Chaos/Good/Protection/War',
   'Ehlonna (NG Woodlands):Animal/Good/Plant/Sun',
@@ -99,12 +99,12 @@ PH35.DEITIES = [
   'Vecna (NE Secrets):Evil/Knowledge/Magic',
   'None:'
 ];
-PH35.DOMAINS = [
+SRD35.DOMAINS = [
   'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
   'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
   'Protection', 'Strength', 'Sun', 'Travel', 'Trickery', 'War', 'Water'
 ];
-PH35.FEATS = [
+SRD35.FEATS = [
   'Acrobatic:', 'Agile:', 'Alertness:', 'Animal Affinity:',
   'Armor Proficiency:', 'Athletic:', 'Augment Summoning:',
   'Blind Fight:Fighter', 'Brew Potion:Item Creation', 'Cleave:Fighter',
@@ -144,37 +144,37 @@ PH35.FEATS = [
   'Weapon Specialization:Fighter', 'Whirlwind Attack:Fighter',
   'Widen Spell:Metamagic'
 ];
-PH35.GENDERS = ['Female', 'Male'];
-PH35.GOODIES = [
+SRD35.GENDERS = ['Female', 'Male'];
+SRD35.GOODIES = [
   'Ring Of Protection +1',
   'Ring Of Protection +2',
   'Ring Of Protection +3',
   'Ring Of Protection +4'
 ];
-PH35.LANGUAGES = [
+SRD35.LANGUAGES = [
   'Abyssal', 'Aquan', 'Avian', 'Celestial', 'Common', 'Draconic', 'Druidic',
   'Dwarven', 'Elven', 'Giant', 'Gnoll', 'Gnome', 'Goblin', 'Halfling',
   'Ignan', 'Infernal', 'Orc', 'Sylvan', 'Terran', 'Undercommon'
 ];
-PH35.RACES =
+SRD35.RACES =
   ['Dwarf', 'Elf', 'Gnome', 'Half Elf', 'Half Orc', 'Halfling', 'Human'];
 // Note: the order here handles dependencies among attributes when generating
 // random characters
-PH35.RANDOMIZABLE_ATTRIBUTES = [
+SRD35.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'domains',
   'features', 'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield',
   'weapons', 'spells', 'goodies'
 ];
-PH35.SCHOOLS = [
+SRD35.SCHOOLS = [
   'Abjuration:Abju', 'Conjuration:Conj', 'Divination:Divi', 'Enchantment:Ench',
   'Evocation:Evoc', 'Illusion:Illu', 'Necromancy:Necr', 'Transmutation:Tran'
 ];
-PH35.SHIELDS = [
+SRD35.SHIELDS = [
   'Buckler', 'Heavy Steel', 'Heavy Wooden', 'Light Steel', 'Light Wooden',
   'None', 'Tower'
 ];
-PH35.SKILLS = [
+SRD35.SKILLS = [
   'Appraise:int', 'Balance:dex', 'Bluff:cha', 'Climb:str', 'Concentration:con',
   'Craft:int', 'Decipher Script:int/trained', 'Diplomacy:cha',
   'Disable Device:int/trained', 'Disguise:cha', 'Escape Artist:dex',
@@ -187,7 +187,7 @@ PH35.SKILLS = [
   'Survival:wis', 'Swim:str', 'Tumble:dex/trained',
   'Use Magic Device:cha/trained', 'Use Rope:dex'
 ];
-PH35.SUBFEATS = {
+SRD35.SUBFEATS = {
   'Armor Proficiency':'Heavy/Light/Medium',
   'Greater Spell Focus':'',
   'Greater Weapon Focus':'',
@@ -201,15 +201,15 @@ PH35.SUBFEATS = {
   'Weapon Proficiency':'Simple',
   'Weapon Specialization':'Dwarven Waraxe/Longsword'
 };
-PH35.SUBSKILLS = {
+SRD35.SUBSKILLS = {
   'Craft':'',
   'Knowledge':'Arcana/Architecture/Dungeoneering/Engineering/Geography/' +
               'History/Local/Nature/Nobility/Planes/Religion',
   'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
   'Profession':''
 };
-PH35.VIEWERS = ['Compact', 'Standard', 'Vertical'];
-PH35.WEAPONS = [
+SRD35.VIEWERS = ['Compact', 'Standard', 'Vertical'];
+SRD35.WEAPONS = [
   'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
   'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70',
   'Dagger:d4@19r10', 'Dart:d4r20', 'Dire Flail:d8/d8',
@@ -234,49 +234,50 @@ PH35.WEAPONS = [
   'Warhammer:d8x3', 'Whip:d3'
 ];
 
-// Related information used internally by PH35
-PH35.armorsArcaneSpellFailurePercentages = {
+// Related information used internally by SRD35
+SRD35.armorsArcaneSpellFailurePercentages = {
   'None': null, 'Padded': 5, 'Leather': 10, 'Studded Leather': 15,
   'Chain Shirt': 20, 'Hide': 20, 'Scale Mail': 25, 'Chainmail': 30,
   'Breastplate': 25, 'Splint Mail': 40, 'Banded Mail': 35, 'Half Plate': 40,
   'Full Plate': 35
 };
-PH35.armorsArmorClassBonuses = {
+SRD35.armorsArmorClassBonuses = {
   'None': null, 'Padded': 1, 'Leather': 2, 'Studded Leather': 3,
   'Chain Shirt': 4, 'Hide': 3, 'Scale Mail': 4, 'Chainmail': 5,
   'Breastplate': 5, 'Splint Mail': 6, 'Banded Mail': 6, 'Half Plate': 7,
   'Full Plate': 8
 };
-PH35.armorsMaxDexBonuses = {
+SRD35.armorsMaxDexBonuses = {
   'None': null, 'Padded': 8, 'Leather': 6, 'Studded Leather': 5,
   'Chain Shirt': 4, 'Hide': 4, 'Scale Mail': 3, 'Chainmail': 2,
   'Breastplate': 3, 'Splint Mail': 0, 'Banded Mail': 1, 'Half Plate': 0,
   'Full Plate': 1
 };
-PH35.armorsSkillCheckPenalties = {
+SRD35.armorsSkillCheckPenalties = {
   'None': null, 'Padded': null, 'Leather': null, 'Studded Leather': -1,
   'Chain Shirt': -2, 'Hide': -3, 'Scale Mail': -4, 'Chainmail': -5,
   'Breastplate': -4, 'Splint Mail': -7, 'Banded Mail': -6, 'Half Plate': -7,
   'Full Plate': -6
 };
-PH35.armorsWeightClasses = {
+SRD35.armorsWeightClasses = {
   'None': 'Light', 'Padded': 'Light', 'Leather': 'Light',
   'Studded Leather': 'Light', 'Chain Shirt': 'Light', 'Hide': 'Medium',
   'Scale Mail': 'Medium', 'Chainmail': 'Medium', 'Breastplate': 'Medium',
   'Splint Mail': 'Heavy', 'Banded Mail': 'Heavy', 'Half Plate': 'Heavy',
   'Full Plate': 'Heavy'
 };
-PH35.deitiesFavoredWeapons = {
+SRD35.deitiesFavoredWeapons = {
   'Corellon Larethian (CG Elves)': 'Longsword',
   'Erythnul (CE Slaughter)': 'Morningstar',
   'Gruumsh (CE Orcs)': 'Spear',
   'Heironeous (LG Valor)': 'Longsword',
   'Hextor (LE Tyranny)': 'Heavy Flail/Light Flail'
 };
-PH35.proficiencyLevelNames = ["None", "Light", "Medium", "Heavy", "Tower"];
-PH35.spellsSchools = {
-  'Acid Fog':'Conjuration', 'Acid Splash':'Conjuration',
-  'Aid':'Enchantment', 'Air Walk':'Transmutation',
+SRD35.proficiencyLevelNames = ["None", "Light", "Medium", "Heavy", "Tower"];
+SRD35.spellsSchools = {
+
+  'Acid Arrow':'Conjuration', 'Acid Fog':'Conjuration',
+  'Acid Splash':'Conjuration', 'Aid':'Enchantment', 'Air Walk':'Transmutation',
   'Alarm':'Abjuration', 'Align Weapon':'Transmutation',
   'Alter Self':'Transmutation', 'Analyze Dweomer':'Divination',
   'Animal Growth':'Transmutation', 'Animal Messenger':'Enchantment',
@@ -289,18 +290,17 @@ PH35.spellsSchools = {
   'Arcane Mark':'Universal', 'Arcane Sight':'Divination',
   'Astral Projection':'Necromancy', 'Atonement':'Abjuration',
   'Augury':'Divination', 'Awaken':'Transmutation',
+
   'Baleful Polymorph':'Transmutation', 'Bane':'Enchantment',
   'Banishment':'Abjuration', 'Barkskin':'Transmutation',
   'Bear\'s Endurance':'Transmutation', 'Bestow Curse':'Necromancy',
-  'Bigby\'s Clenched Fist':'Evocation', 'Bigby\'s Crushing Hand':'Evocation',
-  'Bigby\'s Forceful Hand':'Evocation', 'Bigby\'s Grasping Hand':'Evocation',
-  'Bigby\'s Interposing Hand':'Evocation', 'Binding':'Enchantment',
-  'Blade Barrier':'Evocation', 'Blasphemy':'Evocation',
-  'Bless':'Enchantment', 'Bless Water':'Transmutation',
-  'Bless Weapon':'Transmutation', 'Blight':'Necromancy',
-  'Blindness/Deafness':'Necromancy', 'Blink':'Transmutation',
-  'Blur':'Illusion', 'Break Enchantment':'Abjuration',
+  'Binding':'Enchantment', 'Black Tentacles':'Conjuration',
+  'Blade Barrier':'Evocation', 'Blasphemy':'Evocation', 'Bless':'Enchantment',
+  'Bless Water':'Transmutation', 'Bless Weapon':'Transmutation',
+  'Blight':'Necromancy', 'Blindness/Deafness':'Necromancy',
+  'Blink':'Transmutation', 'Blur':'Illusion', 'Break Enchantment':'Abjuration',
   'Bull\'s Strength':'Transmutation', 'Burning Hands':'Evocation',
+
   'Call Lightning':'Evocation', 'Call Lightning Storm':'Evocation',
   'Calm Animals':'Enchantment', 'Calm Emotions':'Enchantment',
   'Cat\'s Grace':'Transmutation', 'Cause Fear':'Necromancy',
@@ -309,8 +309,8 @@ PH35.spellsSchools = {
   'Charm Monster':'Enchantment', 'Charm Person':'Enchantment',
   'Chill Metal':'Transmutation', 'Chill Touch':'Necromancy',
   'Circle Of Death':'Necromancy', 'Clairaudience/Clairvoyance':'Divination',
-  'Cloak Of Chaos':'Abjuration', 'Clone':'Necromancy',
-  'Cloudkill':'Conjuration', 'Color Spray':'Illusion',
+  'Clenched Fist':'Evocation', 'Cloak Of Chaos':'Abjuration',
+  'Clone':'Necromancy', 'Cloudkill':'Conjuration', 'Color Spray':'Illusion',
   'Command':'Enchantment', 'Command Plants':'Transmutation',
   'Command Undead':'Necromancy', 'Commune':'Divination',
   'Commune With Nature':'Divination', 'Comprehend Languages':'Divination',
@@ -323,17 +323,18 @@ PH35.spellsSchools = {
   'Create Food And Water':'Conjuration', 'Create Greater Undead':'Necromancy',
   'Create Undead':'Necromancy', 'Create Water':'Conjuration',
   'Creeping Doom':'Conjuration', 'Crushing Despair':'Enchantment',
-  'Cure Critical Wounds':'Conjuration', 'Cure Light Wounds':'Conjuration',
-  'Cure Minor Wounds':'Conjuration', 'Cure Moderate Wounds':'Conjuration',
-  'Cure Serious Wounds':'Conjuration', 'Curse Water':'Necromancy',
+  'Crushing Hand':'Evocation', 'Cure Critical Wounds':'Conjuration',
+  'Cure Light Wounds':'Conjuration', 'Cure Minor Wounds':'Conjuration',
+  'Cure Moderate Wounds':'Conjuration', 'Cure Serious Wounds':'Conjuration',
+  'Curse Water':'Necromancy',
+
   'Dancing Lights':'Evocation', 'Darkness':'Evocation',
-  'Darkvision':'Transmutation', 'Daylight':'Evocation',
-  'Daze':'Enchantment', 'Daze Monster':'Enchantment',
-  'Death Knell':'Necromancy', 'Death Ward':'Necromancy',
-  'Deathwatch':'Necromancy', 'Deep Slumber':'Enchantment',
-  'Deeper Darkness':'Evocation', 'Delay Poison':'Conjuration',
-  'Delayed Blast Fireball':'Evocation', 'Demand':'Enchantment',
-  'Desecrate':'Evocation', 'Destruction':'Necromancy',
+  'Darkvision':'Transmutation', 'Daylight':'Evocation', 'Daze':'Enchantment',
+  'Daze Monster':'Enchantment', 'Death Knell':'Necromancy',
+  'Death Ward':'Necromancy', 'Deathwatch':'Necromancy',
+  'Deep Slumber':'Enchantment', 'Deeper Darkness':'Evocation',
+  'Delay Poison':'Conjuration', 'Delayed Blast Fireball':'Evocation',
+  'Demand':'Enchantment', 'Desecrate':'Evocation', 'Destruction':'Necromancy',
   'Detect Animals Or Plants':'Divination', 'Detect Chaos':'Divination',
   'Detect Evil':'Divination', 'Detect Good':'Divination',
   'Detect Law':'Divination', 'Detect Magic':'Divination',
@@ -352,37 +353,41 @@ PH35.spellsSchools = {
   'Divination':'Divination', 'Divine Favor':'Evocation',
   'Divine Power':'Evocation', 'Dominate Animal':'Enchantment',
   'Dominate Monster':'Enchantment', 'Dominate Person':'Enchantment',
-  'Doom':'Necromancy', 'Drawmij\'s Instant Summons':'Conjuration',
-  'Dream':'Illusion', 'Eagle\'s Splendor':'Transmutation',
-  'Earthquake':'Evocation', 'Elemental Swarm':'Conjuration',
-  'Endure Elements':'Abjuration', 'Energy Drain':'Necromancy',
-  'Enervation':'Necromancy', 'Enlarge Person':'Transmutation',
-  'Entangle':'Transmutation', 'Enthrall':'Enchantment',
-  'Entropic Shield':'Abjuration', 'Erase':'Transmutation',
-  'Ethereal Jaunt':'Transmutation', 'Etherealness':'Transmutation',
-  'Evard\'s Black Tentacles':'Conjuration', 'Expeditious Retreat':'Transmutation',
+  'Doom':'Necromancy', 'Dream':'Illusion',
+
+  'Eagle\'s Splendor':'Transmutation', 'Earthquake':'Evocation',
+  'Elemental Swarm':'Conjuration', 'Endure Elements':'Abjuration',
+  'Energy Drain':'Necromancy', 'Enervation':'Necromancy',
+  'Enlarge Person':'Transmutation', 'Entangle':'Transmutation',
+  'Enthrall':'Enchantment', 'Entropic Shield':'Abjuration',
+  'Erase':'Transmutation', 'Ethereal Jaunt':'Transmutation',
+  'Etherealness':'Transmutation', 'Expeditious Retreat':'Transmutation',
   'Explosive Runes':'Abjuration', 'Eyebite':'Necromancy',
+
   'Fabricate':'Transmutation', 'Faerie Fire':'Evocation',
-  'False Life':'Necromancy', 'False Vision':'Illusion',
-  'Fear':'Necromancy', 'Feather Fall':'Transmutation',
-  'Feeblemind':'Enchantment', 'Find The Path':'Divination',
-  'Find Traps':'Divination', 'Finger Of Death':'Necromancy',
-  'Fire Seeds':'Conjuration', 'Fire Shield':'Evocation',
-  'Fire Storm':'Evocation', 'Fire Trap':'Abjuration',
-  'Fireball':'Evocation', 'Flame Arrow':'Transmutation',
-  'Flame Blade':'Evocation', 'Flame Strike':'Evocation',
-  'Flaming Sphere':'Evocation', 'Flare':'Evocation',
-  'Flesh To Stone':'Transmutation', 'Fly':'Transmutation',
+  'False Life':'Necromancy', 'False Vision':'Illusion', 'Fear':'Necromancy',
+  'Feather Fall':'Transmutation', 'Feeblemind':'Enchantment',
+  'Find The Path':'Divination', 'Find Traps':'Divination',
+  'Finger Of Death':'Necromancy', 'Fire Seeds':'Conjuration',
+  'Fire Shield':'Evocation', 'Fire Storm':'Evocation',
+  'Fire Trap':'Abjuration', 'Fireball':'Evocation',
+  'Flame Arrow':'Transmutation', 'Flame Blade':'Evocation',
+  'Flame Strike':'Evocation', 'Flaming Sphere':'Evocation',
+  'Flare':'Evocation', 'Flesh To Stone':'Transmutation',
+  'Floating Disk':'Evocation', 'Fly':'Transmutation',
   'Fog Cloud':'Conjuration', 'Forbiddance':'Abjuration',
-  'Forcecage':'Evocation', 'Foresight':'Divination',
-  'Fox\'s Cunning':'Transmutation', 'Freedom':'Abjuration',
-  'Freedom Of Movement':'Abjuration', 'Gaseous Form':'Transmutation',
-  'Gate':'Conjuration', 'Geas/Quest':'Enchantment',
-  'Gentle Repose':'Necromancy', 'Ghost Sound':'Illusion',
-  'Ghoul Touch':'Necromancy', 'Giant Vermin':'Transmutation',
-  'Glibness':'Transmutation', 'Glitterdust':'Conjuration',
-  'Globe Of Invulnerability':'Abjuration', 'Glyph Of Warding':'Abjuration',
-  'Good Hope':'Enchantment', 'Goodberry':'Transmutation',
+  'Forcecage':'Evocation', 'Forceful Hand':'Evocation',
+  'Foresight':'Divination', 'Fox\'s Cunning':'Transmutation',
+  'Freedom':'Abjuration', 'Freedom Of Movement':'Abjuration',
+  'Freezing Sphere':'Evocation',
+
+  'Gaseous Form':'Transmutation', 'Gate':'Conjuration',
+  'Geas/Quest':'Enchantment', 'Gentle Repose':'Necromancy',
+  'Ghost Sound':'Illusion', 'Ghoul Touch':'Necromancy',
+  'Giant Vermin':'Transmutation', 'Glibness':'Transmutation',
+  'Glitterdust':'Conjuration', 'Globe Of Invulnerability':'Abjuration',
+  'Glyph Of Warding':'Abjuration', 'Good Hope':'Enchantment',
+  'Goodberry':'Transmutation', 'Grasping Hand':'Evocation',
   'Grease':'Conjuration', 'Greater Arcane Sight':'Divination',
   'Greater Command':'Enchantment', 'Greater Dispel Magic':'Abjuration',
   'Greater Glyph Of Warding':'Abjuration', 'Greater Heroism':'Enchantment',
@@ -390,105 +395,121 @@ PH35.spellsSchools = {
   'Greater Magic Weapon':'Transmutation', 'Greater Planar Ally':'Conjuration',
   'Greater Planar Binding':'Conjuration', 'Greater Prying Eyes':'Divination',
   'Greater Restoration':'Conjuration', 'Greater Scrying':'Divination',
-  'Greater Shadow Conjuration':'Illusion', 'Greater Shadow Evocation':'Illusion',
+  'Greater Shadow Conjuration':'Illusion','Greater Shadow Evocation':'Illusion',
   'Greater Shout':'Evocation', 'Greater Spell Immunity':'Abjuration',
   'Greater Teleport':'Conjuration', 'Guards And Wards':'Abjuration',
   'Guidance':'Divination', 'Gust Of Wind':'Evocation',
+
   'Hallow':'Evocation', 'Hallucinatory Terrain':'Illusion',
-  'Halt Undead':'Necromancy', 'Harm':'Necromancy',
-  'Haste':'Transmutation', 'Heal':'Conjuration',
-  'Heal Mount':'Conjuration', 'Heat Metal':'Transmutation',
-  'Helping Hand':'Evocation', 'Heroes\' Feast':'Conjuration',
-  'Heroism':'Enchantment', 'Hide From Animals':'Abjuration',
-  'Hide From Undead':'Abjuration', 'Hold Animal':'Enchantment',
+  'Halt Undead':'Necromancy', 'Harm':'Necromancy', 'Haste':'Transmutation',
+  'Heal':'Conjuration', 'Heal Mount':'Conjuration',
+  'Heat Metal':'Transmutation', 'Helping Hand':'Evocation',
+  'Heroes\' Feast':'Conjuration', 'Heroism':'Enchantment',
+  'Hide From Animals':'Abjuration', 'Hide From Undead':'Abjuration',
+  'Hideous Laughter':'Enchantment', 'Hold Animal':'Enchantment',
   'Hold Monster':'Enchantment', 'Hold Person':'Enchantment',
   'Hold Portal':'Abjuration', 'Holy Aura':'Abjuration',
-  'Holy Smite':'Evocation', 'Holy Sword':'Evocation',
-  'Holy Word':'Evocation', 'Horrid Wilting':'Necromancy',
-  'Hypnotic Pattern':'Illusion', 'Hypnotism':'Enchantment',
+  'Holy Smite':'Evocation', 'Holy Sword':'Evocation', 'Holy Word':'Evocation',
+  'Horrid Wilting':'Necromancy', 'Hypnotic Pattern':'Illusion',
+  'Hypnotism':'Enchantment',
+
   'Ice Storm':'Evocation', 'Identify':'Divination',
-  'Illusory Script':'Illusion', 'Illusionary Wall':'Illusion',
+  'Illusory Script':'Illusion', 'Illusory Wall':'Illusion',
   'Imbue With Spell Ability':'Evocation', 'Implosion':'Evocation',
   'Imprisonment':'Abjuration', 'Incendiary Cloud':'Conjuration',
   'Inflict Critical Wounds':'Necromancy', 'Inflict Light Wounds':'Necromancy',
   'Inflict Minor Wounds':'Necromancy', 'Inflict Moderate Wounds':'Necromancy',
   'Inflict Serious Wounds':'Necromancy', 'Insanity':'Enchantment',
-  'Insect Plague':'Conjuration', 'Invisibility':'Illusion',
+  'Insect Plague':'Conjuration', 'Instant Summons':'Conjuration',
+  'Interposing Hand':'Evocation', 'Invisibility':'Illusion',
   'Invisibility Purge':'Evocation', 'Invisibility Sphere':'Illusion',
   'Iron Body':'Transmutation', 'Ironwood':'Transmutation',
-  'Jump':'Transmutation', 'Keen Edge':'Transmutation',
-  'Knock':'Transmutation', 'Know Direction':'Divination',
-  'Legend Lore':'Divination', 'Leomund\'s Secret Chest':'Conjuration',
-  'Leomund\'s Secure Shelter':'Conjuration', 'Leomund\'s Tiny Hut':'Evocation',
-  'Leomund\'s Trap':'Illusion', 'Lesser Confusion':'Enchantment',
+  'Irresistible Dance':'Enchantment',
+
+  'Jump':'Transmutation',
+
+  'Keen Edge':'Transmutation', 'Knock':'Transmutation',
+  'Know Direction':'Divination',
+
+  'Legend Lore':'Divination', 'Lesser Confusion':'Enchantment',
   'Lesser Geas':'Enchantment', 'Lesser Globe Of Invulnerability':'Abjuration',
   'Lesser Planar Ally':'Conjuration', 'Lesser Planar Binding':'Conjuration',
   'Lesser Restoration':'Conjuration', 'Levitate':'Transmutation',
-  'Light':'Evocation', 'Lightning Bolt':'Evocation',
-  'Limited Wish':'Universal', 'Liveoak':'Transmutation',
-  'Locate Creature':'Divination', 'Locate Object':'Divination',
-  'Longstrider':'Transmutation', 'Lullaby':'Enchantment',
+  'Light':'Evocation', 'Lightning Bolt':'Evocation', 'Limited Wish':'Universal',
+  'Liveoak':'Transmutation', 'Locate Creature':'Divination',
+  'Locate Object':'Divination', 'Longstrider':'Transmutation',
+  'Lullaby':'Enchantment',
+
   'Mage Armor':'Conjuration', 'Mage Hand':'Transmutation',
-  'Magic Circle Against Chaos':'Abjuration', 'Magic Circle Against Evil':'Abjuration',
-  'Magic Circle Against Good':'Abjuration', 'Magic Circle Against Law':'Abjuration',
-  'Magic Fang':'Transmutation', 'Magic Jar':'Necromancy',
-  'Magic Missile':'Evocation', 'Magic Mouth':'Illusion',
-  'Magic Stone':'Transmutation', 'Magic Vestment':'Transmutation',
-  'Magic Weapon':'Transmutation', 'Major Creation':'Conjuration',
-  'Major Image':'Illusion', 'Make Whole':'Transmutation',
-  'Mark Of Justice':'Necromancy', 'Mass Bear\'s Endurance':'Transmutation',
+  'Mage\'s Disjunction':'Abjuration', 'Mage\'s Faithful Hound':'Conjuration',
+  'Mage\'s Lucubration':'Transmutation',
+  'Mage\'s Magnificent Mansion':'Conjuration',
+  'Mage\'s Private Sanctum':'Abjuration', 'Mage\'s Sword':'Evocation',
+  'Magic Aura':'Illusion', 'Magic Circle Against Chaos':'Abjuration',
+  'Magic Circle Against Evil':'Abjuration',
+  'Magic Circle Against Good':'Abjuration',
+  'Magic Circle Against Law':'Abjuration', 'Magic Fang':'Transmutation',
+  'Magic Jar':'Necromancy', 'Magic Missile':'Evocation',
+  'Magic Mouth':'Illusion', 'Magic Stone':'Transmutation',
+  'Magic Vestment':'Transmutation', 'Magic Weapon':'Transmutation',
+  'Major Creation':'Conjuration', 'Major Image':'Illusion',
+  'Make Whole':'Transmutation', 'Mark Of Justice':'Necromancy',
+  'Mass Bear\'s Endurance':'Transmutation',
   'Mass Bull\'s Strength':'Transmutation', 'Mass Cat\'s Grace':'Transmutation',
   'Mass Charm Monster':'Enchantment', 'Mass Cure Critical Wounds':'Conjuration',
-  'Mass Cure Light Wounds':'Conjuration', 'Mass Cure Moderate Wounds':'Conjuration',
-  'Mass Cure Serious Wounds':'Conjuration', 'Mass Eagle\'s Splendor':'Transmutation',
+  'Mass Cure Light Wounds':'Conjuration',
+  'Mass Cure Moderate Wounds':'Conjuration',
+  'Mass Cure Serious Wounds':'Conjuration',
+  'Mass Eagle\'s Splendor':'Transmutation',
   'Mass Enlarge Person':'Transmutation', 'Mass Fox\'s Cunning':'Transmutation',
   'Mass Heal':'Conjuration', 'Mass Hold Monster':'Enchantment',
   'Mass Hold Person':'Enchantment', 'Mass Inflict Critical Wounds':'Necromancy',
-  'Mass Inflict Light Wounds':'Necromancy', 'Mass Inflict Moderate Wounds':'Necromancy',
+  'Mass Inflict Light Wounds':'Necromancy',
+  'Mass Inflict Moderate Wounds':'Necromancy',
   'Mass Inflict Serious Wounds':'Necromancy', 'Mass Invisibility':'Illusion',
   'Mass Owl\'s Wisdom':'Transmutation', 'Mass Reduce Person':'Transmutation',
   'Mass Suggestion':'Enchantment', 'Maze':'Conjuration',
-  'Meld Into Stone':'Transmutation', 'Melf\'s Acid Arrow':'Conjuration',
-  'Mending':'Transmutation', 'Message':'Transmutation',
-  'Meteor Swarm':'Evocation', 'Mind Blank':'Abjuration',
-  'Mind Fog':'Enchantment', 'Minor Creation':'Conjuration',
-  'Minor Image':'Illusion', 'Miracle':'Evocation',
-  'Mirage Arcana':'Illusion', 'Mirror Image':'Illusion',
+  'Meld Into Stone':'Transmutation', 'Mending':'Transmutation',
+  'Message':'Transmutation', 'Meteor Swarm':'Evocation',
+  'Mind Blank':'Abjuration', 'Mind Fog':'Enchantment',
+  'Minor Creation':'Conjuration', 'Minor Image':'Illusion',
+  'Miracle':'Evocation', 'Mirage Arcana':'Illusion', 'Mirror Image':'Illusion',
   'Misdirection':'Illusion', 'Mislead':'Illusion',
-  'Modify Memory':'Enchantment', 'Moment Of Prescience':'Divination',
-  'Mordenkainen\'s Disjunction':'Abjuration', 'Mordenkainen\'s Faithful Hound':'Conjuration',
-  'Mordenkainen\'s Lucubration':'Transmutation', 'Mordenkainen\'s Magnificent Mansion':'Conjuration',
-  'Mordenkainen\'s Private Sanctum':'Abjuration', 'Mordenkainen\'s Sword':'Evocation',
-  'Mount':'Conjuration', 'Move Earth':'Transmutation',
+  'Mnemonic Enhancer':'Transmutation', 'Modify Memory':'Enchantment',
+  'Moment Of Prescience':'Divination', 'Mount':'Conjuration',
+  'Move Earth':'Transmutation',
+
   'Neutralize Poison':'Conjuration', 'Nightmare':'Illusion',
-  'Nondetection':'Abjuration', 'Nystul\'s Magic Aura':'Illusion',
+  'Nondetection':'Abjuration',
+
   'Obscure Object':'Abjuration', 'Obscuring Mist':'Conjuration',
   'Open/Close':'Transmutation', 'Order\'s Wrath':'Evocation',
-  'Otiluke\'s Freezing Sphere':'Evocation', 'Otiluke\'s Resilient Sphere':'Evocation',
-  'Otiluke\'s Telekinetic Sphere':'Evocation', 'Otto\'s Irresistible Dance':'Enchantment',
   'Overland Flight':'Transmutation', 'Owl\'s Wisdom':'Transmutation',
+
   'Pass Without Trace':'Transmutation', 'Passwall':'Transmutation',
   'Permanency':'Universal', 'Permanent Image':'Illusion',
   'Persistent Image':'Illusion', 'Phantasmal Killer':'Illusion',
-  'Phantom Steed':'Conjuration', 'Phase Door':'Conjuration',
-  'Planar Ally':'Conjuration', 'Planar Binding':'Conjuration',
-  'Plane Shift':'Conjuration', 'Plant Growth':'Transmutation',
-  'Poison':'Necromancy', 'Polar Ray':'Evocation',
-  'Polymorph':'Transmutation', 'Polymorph Any Object':'Transmutation',
-  'Power Word, Blind':'Enchantment', 'Power Word, Kill':'Enchantment',
-  'Power Word, Stun':'Enchantment', 'Prayer':'Enchantment',
-  'Prestidigitation':'Universal', 'Prismatic Sphere':'Abjuration',
-  'Prismatic Spray':'Evocation', 'Prismatic Wall':'Abjuration',
-  'Produce Flame':'Evocation', 'Programmed Image':'Illusion',
-  'Project Image':'Illusion', 'Protection From Arrows':'Abjuration',
-  'Protection From Chaos':'Abjuration', 'Protection From Energy':'Abjuration',
-  'Protection From Evil':'Abjuration', 'Protection From Good':'Abjuration',
-  'Protection From Law':'Abjuration', 'Protection From Spells':'Abjuration',
-  'Prying Eyes':'Divination', 'Purify Food And Drink':'Transmutation',
-  'Pyrotechnics':'Transmutation', 'Quench':'Transmutation',
+  'Phantom Steed':'Conjuration', 'Phantom Trap':'Illusion',
+  'Phase Door':'Conjuration', 'Planar Ally':'Conjuration',
+  'Planar Binding':'Conjuration', 'Plane Shift':'Conjuration',
+  'Plant Growth':'Transmutation', 'Poison':'Necromancy',
+  'Polar Ray':'Evocation', 'Polymorph':'Transmutation',
+  'Polymorph Any Object':'Transmutation', 'Power Word Blind':'Enchantment',
+  'Power Word Kill':'Enchantment', 'Power Word Stun':'Enchantment',
+  'Prayer':'Enchantment', 'Prestidigitation':'Universal',
+  'Prismatic Sphere':'Abjuration', 'Prismatic Spray':'Evocation',
+  'Prismatic Wall':'Abjuration', 'Produce Flame':'Evocation',
+  'Programmed Image':'Illusion', 'Project Image':'Illusion',
+  'Protection From Arrows':'Abjuration', 'Protection From Chaos':'Abjuration',
+  'Protection From Energy':'Abjuration', 'Protection From Evil':'Abjuration',
+  'Protection From Good':'Abjuration', 'Protection From Law':'Abjuration',
+  'Protection From Spells':'Abjuration', 'Prying Eyes':'Divination',
+  'Purify Food And Drink':'Transmutation', 'Pyrotechnics':'Transmutation',
+
+  'Quench':'Transmutation',
+
   'Rage':'Enchantment', 'Rainbow Pattern':'Illusion',
-  'Raise Dead':'Conjuration', 'Rary\'s Mnemonic Enhancer':'Transmutation',
-  'Rary\'s Telepathic Bond':'Divination', 'Ray Of Enfeeblement':'Necromancy',
+  'Raise Dead':'Conjuration', 'Ray Of Enfeeblement':'Necromancy',
   'Ray Of Exhaustion':'Necromancy', 'Ray Of Frost':'Evocation',
   'Read Magic':'Divination', 'Reduce Animal':'Transmutation',
   'Reduce Person':'Transmutation', 'Refuge':'Conjuration',
@@ -497,29 +518,29 @@ PH35.spellsSchools = {
   'Remove Disease':'Conjuration', 'Remove Fear':'Abjuration',
   'Remove Paralysis':'Conjuration', 'Repel Metal Or Stone':'Abjuration',
   'Repel Vermin':'Abjuration', 'Repel Wood':'Transmutation',
-  'Repulsion':'Abjuration', 'Resist Energy':'Abjuration',
-  'Resistance':'Abjuration', 'Restoration':'Conjuration',
-  'Resurrection':'Conjuration', 'Reverse Gravity':'Transmutation',
-  'Righteous Might':'Transmutation', 'Rope Trick':'Transmutation',
-  'Rusting Grasp':'Transmutation', 'Sanctuary':'Abjuration',
-  'Scare':'Necromancy', 'Scintillating Pattern':'Illusion',
-  'Scorching Ray':'Evocation', 'Screen':'Illusion',
-  'Scrying':'Divination', 'Sculpt Sound':'Transmutation',
-  'Searing Light':'Evocation', 'Secret Page':'Transmutation',
-  'See Invisibility':'Divination', 'Seeming':'Illusion',
-  'Sending':'Evocation', 'Sepia Snake Sigil':'Conjuration',
-  'Sequester':'Abjuration', 'Shades':'Illusion',
-  'Shadow Conjuration':'Illusion', 'Shadow Evocation':'Illusion',
-  'Shadow Walk':'Illusion', 'Shambler':'Conjuration',
-  'Shapechange':'Transmutation', 'Shatter':'Evocation',
-  'Shield':'Abjuration', 'Shield Of Faith':'Abjuration',
+  'Repulsion':'Abjuration', 'Resilient Sphere':'Evocation',
+  'Resist Energy':'Abjuration', 'Resistance':'Abjuration',
+  'Restoration':'Conjuration', 'Resurrection':'Conjuration',
+  'Reverse Gravity':'Transmutation', 'Righteous Might':'Transmutation',
+  'Rope Trick':'Transmutation', 'Rusting Grasp':'Transmutation',
+
+  'Sanctuary':'Abjuration', 'Scare':'Necromancy',
+  'Scintillating Pattern':'Illusion', 'Scorching Ray':'Evocation',
+  'Screen':'Illusion', 'Scrying':'Divination', 'Sculpt Sound':'Transmutation',
+  'Searing Light':'Evocation', 'Secret Chest':'Conjuration',
+  'Secret Page':'Transmutation', 'Secure Shelter':'Conjuration',
+  'See Invisibility':'Divination', 'Seeming':'Illusion', 'Sending':'Evocation',
+  'Sepia Snake Sigil':'Conjuration', 'Sequester':'Abjuration',
+  'Shades':'Illusion', 'Shadow Conjuration':'Illusion',
+  'Shadow Evocation':'Illusion', 'Shadow Walk':'Illusion',
+  'Shambler':'Conjuration', 'Shapechange':'Transmutation',
+  'Shatter':'Evocation', 'Shield':'Abjuration', 'Shield Of Faith':'Abjuration',
   'Shield Of Law':'Abjuration', 'Shield Other':'Abjuration',
   'Shillelagh':'Transmutation', 'Shocking Grasp':'Evocation',
-  'Shout':'Evocation', 'Shrink Item':'Transmutation',
-  'Silence':'Illusion', 'Silent Image':'Illusion',
-  'Simulacrum':'Illusion', 'Slay Living':'Necromancy',
-  'Sleep':'Enchantment', 'Sleet Storm':'Conjuration',
-  'Slow':'Transmutation', 'Snare':'Transmutation',
+  'Shout':'Evocation', 'Shrink Item':'Transmutation', 'Silence':'Illusion',
+  'Silent Image':'Illusion', 'Simulacrum':'Illusion',
+  'Slay Living':'Necromancy', 'Sleep':'Enchantment',
+  'Sleet Storm':'Conjuration', 'Slow':'Transmutation', 'Snare':'Transmutation',
   'Soften Earth And Stone':'Transmutation', 'Solid Fog':'Conjuration',
   'Song Of Discord':'Enchantment', 'Soul Bind':'Necromancy',
   'Sound Burst':'Evocation', 'Speak With Animals':'Divination',
@@ -538,63 +559,72 @@ PH35.spellsSchools = {
   'Summon Monster IV':'Conjuration', 'Summon Monster IX':'Conjuration',
   'Summon Monster V':'Conjuration', 'Summon Monster VI':'Conjuration',
   'Summon Monster VII':'Conjuration', 'Summon Monster VIII':'Conjuration',
-  'Summon Nature\'s Ally I':'Conjuration', 'Summon Nature\'s Ally II':'Conjuration',
-  'Summon Nature\'s Ally III':'Conjuration', 'Summon Nature\'s Ally IV':'Conjuration',
-  'Summon Nature\'s Ally IX':'Conjuration', 'Summon Nature\'s Ally V':'Conjuration',
-  'Summon Nature\'s Ally VI':'Conjuration', 'Summon Nature\'s Ally VII':'Conjuration',
+  'Summon Nature\'s Ally I':'Conjuration',
+  'Summon Nature\'s Ally II':'Conjuration',
+  'Summon Nature\'s Ally III':'Conjuration',
+  'Summon Nature\'s Ally IV':'Conjuration',
+  'Summon Nature\'s Ally IX':'Conjuration',
+  'Summon Nature\'s Ally V':'Conjuration',
+  'Summon Nature\'s Ally VI':'Conjuration',
+  'Summon Nature\'s Ally VII':'Conjuration',
   'Summon Nature\'s Ally VIII':'Conjuration', 'Summon Swarm':'Conjuration',
-  'Sunbeam':'Evocation', 'Sunburst':'Evocation',
-  'Symbol Of Death':'Necromancy', 'Symbol Of Fear':'Necromancy',
-  'Symbol Of Insanity':'Enchantment', 'Symbol Of Pain':'Necromancy',
-  'Symbol Of Persuasion':'Enchantment', 'Symbol Of Sleep':'Enchantment',
-  'Symbol Of Stunning':'Enchantment', 'Symbol Of Weakness':'Necromancy',
-  'Sympathetic Vibration':'Evocation', 'Sympathy':'Enchantment',
-  'Tasha\'s Hideous Laughter':'Enchantment', 'Telekinesis':'Transmutation',
-  'Teleport':'Conjuration', 'Teleport Object':'Conjuration',
-  'Teleportation Circle':'Conjuration', 'Temporal Stasis':'Transmutation',
-  'Tenser\'s Floating Disk':'Evocation', 'Tenser\'s Transformation':'Transmutation',
-  'Time Stop':'Transmutation', 'Tongues':'Divination',
+  'Sunbeam':'Evocation', 'Sunburst':'Evocation', 'Symbol Of Death':'Necromancy',
+  'Symbol Of Fear':'Necromancy', 'Symbol Of Insanity':'Enchantment',
+  'Symbol Of Pain':'Necromancy', 'Symbol Of Persuasion':'Enchantment',
+  'Symbol Of Sleep':'Enchantment', 'Symbol Of Stunning':'Enchantment',
+  'Symbol Of Weakness':'Necromancy', 'Sympathetic Vibration':'Evocation',
+  'Sympathy':'Enchantment',
+
+  'Telekinesis':'Transmutation', 'Telekinetic Sphere':'Evocation',
+  'Telepathic Bond':'Divination', 'Teleport':'Conjuration',
+  'Teleport Object':'Conjuration', 'Teleportation Circle':'Conjuration',
+  'Temporal Stasis':'Transmutation', 'Time Stop':'Transmutation',
+  'Tiny Hut':'Evocation', 'Tongues':'Divination',
   'Touch Of Fatigue':'Necromancy', 'Touch Of Idiocy':'Enchantment',
-  'Transmute Metal To Wood':'Transmutation', 'Transmute Mud To Rock':'Transmutation',
-  'Transmute Rock To Mud':'Transmutation', 'Transport Via Plants':'Transmutation',
+  'Transformation':'Transmutation', 'Transmute Metal To Wood':'Transmutation',
+  'Transmute Mud To Rock':'Transmutation',
+  'Transmute Rock To Mud':'Transmutation', 'Transport Via Plants':'Conjuration',
   'Trap The Soul':'Conjuration', 'Tree Shape':'Transmutation',
   'Tree Stride':'Conjuration', 'True Resurrection':'Conjuration',
   'True Seeing':'Divination', 'True Strike':'Divination',
+
   'Undeath To Death':'Necromancy', 'Undetectable Alignment':'Abjuration',
   'Unhallow':'Evocation', 'Unholy Aura':'Abjuration',
   'Unholy Blight':'Evocation', 'Unseen Servant':'Conjuration',
-  'Vampiric Touch':'Necromancy', 'Veil':'Illusion',
-  'Ventriloquism':'Illusion', 'Virtue':'Transmutation',
-  'Vision':'Divination', 'Wail Of The Banshee':'Necromancy',
-  'Wall Of Fire':'Evocation', 'Wall Of Force':'Evocation',
-  'Wall Of Ice':'Evocation', 'Wall Of Iron':'Conjuration',
-  'Wall Of Stone':'Conjuration', 'Wall Of Thorns':'Conjuration',
-  'Warp Wood':'Transmutation', 'Water Breathing':'Transmutation',
-  'Water Walk':'Transmutation', 'Waves Of Exhaustion':'Necromancy',
-  'Waves Of Fatigue':'Necromancy', 'Web':'Conjuration',
-  'Weird':'Illusion', 'Whirlwind':'Evocation',
+
+  'Vampiric Touch':'Necromancy', 'Veil':'Illusion', 'Ventriloquism':'Illusion',
+  'Virtue':'Transmutation', 'Vision':'Divination',
+
+  'Wail Of The Banshee':'Necromancy', 'Wall Of Fire':'Evocation',
+  'Wall Of Force':'Evocation', 'Wall Of Ice':'Evocation',
+  'Wall Of Iron':'Conjuration', 'Wall Of Stone':'Conjuration',
+  'Wall Of Thorns':'Conjuration', 'Warp Wood':'Transmutation',
+  'Water Breathing':'Transmutation', 'Water Walk':'Transmutation',
+  'Waves Of Exhaustion':'Necromancy', 'Waves Of Fatigue':'Necromancy',
+  'Web':'Conjuration', 'Weird':'Illusion', 'Whirlwind':'Evocation',
   'Whispering Wind':'Transmutation', 'Wind Walk':'Transmutation',
-  'Wind Wall':'Evocation', 'Wish':'Universal',
-  'Wood Shape':'Transmutation', 'Word Of Chaos':'Evocation',
-  'Word Of Recall':'Conjuration', 'Zone Of Silence':'Illusion',
-  'Zone Of Truth':'Enchantment'
+  'Wind Wall':'Evocation', 'Wish':'Universal', 'Wood Shape':'Transmutation',
+  'Word Of Chaos':'Evocation', 'Word Of Recall':'Conjuration',
+
+  'Zone Of Silence':'Illusion', 'Zone Of Truth':'Enchantment'
+
 };
-PH35.strengthMaxLoads = [0,
+SRD35.strengthMaxLoads = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
 ];
 // Mapping of medium damage to large/small/tiny damage
-PH35.weaponsLargeDamage = {
+SRD35.weaponsLargeDamage = {
   'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
   'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
 };
-PH35.weaponsSmallDamage = {
+SRD35.weaponsSmallDamage = {
   'd2':'1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
   'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
 };
 
 /* Defines the rules related to PH Chapter 1, Abilities. */
-PH35.abilityRules = function(rules) {
+SRD35.abilityRules = function(rules) {
 
   // Ability modifier computation
   rules.defineRule
@@ -669,9 +699,9 @@ PH35.abilityRules = function(rules) {
 };
 
 /* Defines the rules related to PH Chapter 9, Adventuring. */
-PH35.adventuringRules = function(rules) {
+SRD35.adventuringRules = function(rules) {
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
-  rules.defineRule('loadMax','strength','=','PH35.strengthMaxLoads[source]');
+  rules.defineRule('loadMax','strength','=','SRD35.strengthMaxLoads[source]');
   rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
   rules.defineRule('runSpeed',
     'speed', '=', null,
@@ -683,7 +713,7 @@ PH35.adventuringRules = function(rules) {
 };
 
 /* Defines the rules related to PH Chapter 3, Classes. */
-PH35.classRules = function(rules, classes) {
+SRD35.classRules = function(rules, classes) {
 
   // Experience- and level-dependent attributes
   rules.defineRule('classSkillMaxRanks', 'level', '=', 'source + 3');
@@ -715,7 +745,7 @@ PH35.classRules = function(rules, classes) {
 
     if(klass == 'Barbarian') {
 
-      baseAttack = PH35.ATTACK_BONUS_GOOD;
+      baseAttack = SRD35.ATTACK_BONUS_GOOD;
       feats = null;
       features = [
         '1:Fast Movement', '1:Illiteracy', '1:Rage', '2:Uncanny Dodge',
@@ -741,12 +771,12 @@ PH35.classRules = function(rules, classes) {
         'skillNotes.illiteracyFeature:Must spend 2 skill points to read/write',
         'validationNotes.barbarianClassAlignment:Requires Alignment !~ Lawful'
       ];
-      profArmor = PH35.PROFICIENCY_MEDIUM;
-      profShield = PH35.PROFICIENCY_HEAVY;
-      profWeapon = PH35.PROFICIENCY_MEDIUM;
-      saveFortitude = PH35.SAVE_BONUS_GOOD;
-      saveReflex = PH35.SAVE_BONUS_POOR;
-      saveWill = PH35.SAVE_BONUS_POOR;
+      profArmor = SRD35.PROFICIENCY_MEDIUM;
+      profShield = SRD35.PROFICIENCY_HEAVY;
+      profWeapon = SRD35.PROFICIENCY_MEDIUM;
+      saveFortitude = SRD35.SAVE_BONUS_GOOD;
+      saveReflex = SRD35.SAVE_BONUS_POOR;
+      saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = null;
       skillPoints = 4;
       skills = [
@@ -777,7 +807,7 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Bard') {
 
-      baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       feats = null;
       features = [
         '1:Bardic Knowledge', '1:Bardic Music', '1:Countersong', '1:Fascinate',
@@ -809,12 +839,12 @@ PH35.classRules = function(rules, classes) {
           '+%V Knowledge checks on local history',
         'validationNotes.bardClassAlignment:Requires Alignment !~ Lawful'
       ];
-      profArmor = PH35.PROFICIENCY_LIGHT;
-      profShield = PH35.PROFICIENCY_HEAVY;
-      profWeapon = PH35.PROFICIENCY_LIGHT;
-      saveFortitude = PH35.SAVE_BONUS_POOR;
-      saveReflex = PH35.SAVE_BONUS_GOOD;
-      saveWill = PH35.SAVE_BONUS_GOOD;
+      profArmor = SRD35.PROFICIENCY_LIGHT;
+      profShield = SRD35.PROFICIENCY_HEAVY;
+      profWeapon = SRD35.PROFICIENCY_LIGHT;
+      saveFortitude = SRD35.SAVE_BONUS_POOR;
+      saveReflex = SRD35.SAVE_BONUS_GOOD;
+      saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 6;
       skills = [
@@ -895,7 +925,7 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Cleric') {
 
-      baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       feats = null;
       features = ['1:Spontaneous Cleric Spell', '1:Turn Undead'];
       hitDie = 8;
@@ -904,12 +934,12 @@ PH35.classRules = function(rules, classes) {
           'Turn (good) or rebuke (evil) undead creatures',
         'magicNotes.spontaneousClericSpellFeature:%V'
       ];
-      profArmor = PH35.PROFICIENCY_HEAVY;
-      profShield = PH35.PROFICIENCY_HEAVY;
-      profWeapon = PH35.PROFICIENCY_LIGHT;
-      saveFortitude = PH35.SAVE_BONUS_GOOD;
-      saveReflex = PH35.SAVE_BONUS_POOR;
-      saveWill = PH35.SAVE_BONUS_GOOD;
+      profArmor = SRD35.PROFICIENCY_HEAVY;
+      profShield = SRD35.PROFICIENCY_HEAVY;
+      profWeapon = SRD35.PROFICIENCY_LIGHT;
+      saveFortitude = SRD35.SAVE_BONUS_GOOD;
+      saveReflex = SRD35.SAVE_BONUS_POOR;
+      saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       spellAbility = 'wisdom';
       spellsKnown = [
@@ -939,20 +969,6 @@ PH35.classRules = function(rules, classes) {
         'Profession', 'Spellcraft'
       ];
       rules.defineRule('casterLevelDivine', 'levels.Cleric', '+=', null);
-      rules.defineRule
-        ('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
-      rules.defineRule
-        ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
-      rules.defineRule
-        ('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
-      rules.defineRule
-        ('classSkills.Knowledge', 'skillNotes.knowledgeDomain', '=', '1');
-      rules.defineRule('classSkills.Knowledge (Nature)',
-        'skillNotes.animalDomain', '=', '1',
-        'skillNotes.plantDomain', '=', '1'
-      );
-      rules.defineRule
-        ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
       rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
       rules.defineRule('magicNotes.spontaneousClericSpellFeature',
         'alignment', '=', 'source.indexOf("Evil") >= 0 ? "Inflict" : "Heal"'
@@ -967,7 +983,7 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Druid') {
 
-      baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       feats = null;
       features = [
         '1:Animal Companion', '1:Nature Sense', '1:Spontaneous Druid Spell',
@@ -993,12 +1009,12 @@ PH35.classRules = function(rules, classes) {
         'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals',
         'validationNotes.druidClassAlignment:Requires Alignment =~ Neutral'
       ];
-      profArmor = PH35.PROFICIENCY_MEDIUM;
-      profShield = PH35.PROFICIENCY_HEAVY;
-      profWeapon = PH35.PROFICIENCY_NONE;
-      saveFortitude = PH35.SAVE_BONUS_GOOD;
-      saveReflex = PH35.SAVE_BONUS_POOR;
-      saveWill = PH35.SAVE_BONUS_GOOD;
+      profArmor = SRD35.PROFICIENCY_MEDIUM;
+      profShield = SRD35.PROFICIENCY_HEAVY;
+      profWeapon = SRD35.PROFICIENCY_NONE;
+      saveFortitude = SRD35.SAVE_BONUS_GOOD;
+      saveReflex = SRD35.SAVE_BONUS_POOR;
+      saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 4;
       skills = [
@@ -1059,17 +1075,17 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Fighter') {
 
-      baseAttack = PH35.ATTACK_BONUS_GOOD;
+      baseAttack = SRD35.ATTACK_BONUS_GOOD;
       feats = null;
       features = null;
       hitDie = 10;
       notes = null;
-      profArmor = PH35.PROFICIENCY_HEAVY;
-      profShield = PH35.PROFICIENCY_TOWER;
-      profWeapon = PH35.PROFICIENCY_MEDIUM;
-      saveFortitude = PH35.SAVE_BONUS_GOOD;
-      saveReflex = PH35.SAVE_BONUS_POOR;
-      saveWill = PH35.SAVE_BONUS_POOR;
+      profArmor = SRD35.PROFICIENCY_HEAVY;
+      profShield = SRD35.PROFICIENCY_TOWER;
+      profWeapon = SRD35.PROFICIENCY_MEDIUM;
+      saveFortitude = SRD35.SAVE_BONUS_GOOD;
+      saveReflex = SRD35.SAVE_BONUS_POOR;
+      saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = null;
       skillPoints = 2;
       skills = [
@@ -1084,7 +1100,7 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Monk') {
 
-      baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       feats = null;
       features = [
         '1:Flurry Of Blows', '1:Improved Unarmed Strike', '2:Evasion',
@@ -1136,12 +1152,12 @@ PH35.classRules = function(rules, classes) {
         'validationNotes.monkClassAlignment:Requires Alignment =~ Lawful',
         'validationNotes.stunningFistSelectableFeatureLevels:Requires Monk >= 1'
       ];
-      profArmor = PH35.PROFICIENCY_NONE;
-      profShield = PH35.PROFICIENCY_NONE;
-      profWeapon = PH35.PROFICIENCY_NONE;
-      saveFortitude = PH35.SAVE_BONUS_GOOD;
-      saveReflex = PH35.SAVE_BONUS_GOOD;
-      saveWill = PH35.SAVE_BONUS_GOOD;
+      profArmor = SRD35.PROFICIENCY_NONE;
+      profShield = SRD35.PROFICIENCY_NONE;
+      profWeapon = SRD35.PROFICIENCY_NONE;
+      saveFortitude = SRD35.SAVE_BONUS_GOOD;
+      saveReflex = SRD35.SAVE_BONUS_GOOD;
+      saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = [
         'Combat Reflexes', 'Deflect Arrows', 'Improved Disarm',
         'Improved Grapple', 'Improved Trip', 'Stunning Fist'
@@ -1201,7 +1217,7 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Paladin') {
 
-      baseAttack = PH35.ATTACK_BONUS_GOOD;
+      baseAttack = SRD35.ATTACK_BONUS_GOOD;
       feats = null;
       features = [
         '1:Aura Of Good', '1:Detect Evil', '1:Smite Evil', '2:Divine Grace',
@@ -1225,12 +1241,12 @@ PH35.classRules = function(rules, classes) {
         'validationNotes.paladinClassAlignment:' +
           'Requires Alignment == Lawful Good'
       ];
-      profArmor = PH35.PROFICIENCY_HEAVY;
-      profShield = PH35.PROFICIENCY_HEAVY;
-      profWeapon = PH35.PROFICIENCY_MEDIUM;
-      saveFortitude = PH35.SAVE_BONUS_GOOD;
-      saveReflex = PH35.SAVE_BONUS_POOR;
-      saveWill = PH35.SAVE_BONUS_POOR;
+      profArmor = SRD35.PROFICIENCY_HEAVY;
+      profShield = SRD35.PROFICIENCY_HEAVY;
+      profWeapon = SRD35.PROFICIENCY_MEDIUM;
+      saveFortitude = SRD35.SAVE_BONUS_GOOD;
+      saveReflex = SRD35.SAVE_BONUS_POOR;
+      saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = null;
       skillPoints = 2;
       skills = [
@@ -1285,7 +1301,7 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Ranger') {
 
-      baseAttack = PH35.ATTACK_BONUS_GOOD;
+      baseAttack = SRD35.ATTACK_BONUS_GOOD;
       feats = null;
       features = [
         '1:Favored Enemy', '1:Track', '1:Wild Empathy', '2:Rapid Shot',
@@ -1322,12 +1338,12 @@ PH35.classRules = function(rules, classes) {
         'skillNotes.trackFeature:Survival to follow creatures at 1/2 speed',
         'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals'
       ];
-      profArmor = PH35.PROFICIENCY_LIGHT;
-      profShield = PH35.PROFICIENCY_HEAVY;
-      profWeapon = PH35.PROFICIENCY_MEDIUM;
-      saveFortitude = PH35.SAVE_BONUS_GOOD;
-      saveReflex = PH35.SAVE_BONUS_GOOD;
-      saveWill = PH35.SAVE_BONUS_POOR;
+      profArmor = SRD35.PROFICIENCY_LIGHT;
+      profShield = SRD35.PROFICIENCY_HEAVY;
+      profWeapon = SRD35.PROFICIENCY_MEDIUM;
+      saveFortitude = SRD35.SAVE_BONUS_GOOD;
+      saveReflex = SRD35.SAVE_BONUS_GOOD;
+      saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = [
         'Combat Style (Archery)', 'Combat Style (Two Weapon Combat)'
       ];
@@ -1390,7 +1406,7 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Rogue') {
 
-      baseAttack = PH35.ATTACK_BONUS_AVERAGE;
+      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       feats = null;
       features = [
         '1:Sneak Attack', '1:Trapfinding', '2:Evasion', '3:Trap Sense',
@@ -1417,12 +1433,12 @@ PH35.classRules = function(rules, classes) {
         'skillNotes.trapfindingFeature:' +
           'Use Search/Disable Device to find/remove DC 20+ traps'
       ];
-      profArmor = PH35.PROFICIENCY_LIGHT;
-      profShield = PH35.PROFICIENCY_NONE;
-      profWeapon = PH35.PROFICIENCY_LIGHT;
-      saveFortitude = PH35.SAVE_BONUS_POOR;
-      saveReflex = PH35.SAVE_BONUS_GOOD;
-      saveWill = PH35.SAVE_BONUS_POOR;
+      profArmor = SRD35.PROFICIENCY_LIGHT;
+      profShield = SRD35.PROFICIENCY_NONE;
+      profWeapon = SRD35.PROFICIENCY_LIGHT;
+      saveFortitude = SRD35.SAVE_BONUS_POOR;
+      saveReflex = SRD35.SAVE_BONUS_GOOD;
+      saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = [
         'Crippling Strike', 'Defensive Roll', 'Feat Bonus', 'Improved Evasion',
         'Opportunist', 'Skill Mastery', 'Slippery Mind'
@@ -1453,19 +1469,19 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Sorcerer') {
 
-      baseAttack = PH35.ATTACK_BONUS_POOR;
+      baseAttack = SRD35.ATTACK_BONUS_POOR;
       feats = null;
       features = ['1:Summon Familiar'];
       hitDie = 4;
       notes = [
         'magicNotes.summonFamiliarFeature:Special bond/abilities'
       ];
-      profArmor = PH35.PROFICIENCY_NONE;
-      profShield = PH35.PROFICIENCY_NONE;
-      profWeapon = PH35.PROFICIENCY_LIGHT;
-      saveFortitude = PH35.SAVE_BONUS_POOR;
-      saveReflex = PH35.SAVE_BONUS_POOR;
-      saveWill = PH35.SAVE_BONUS_GOOD;
+      profArmor = SRD35.PROFICIENCY_NONE;
+      profShield = SRD35.PROFICIENCY_NONE;
+      profWeapon = SRD35.PROFICIENCY_LIGHT;
+      saveFortitude = SRD35.SAVE_BONUS_POOR;
+      saveReflex = SRD35.SAVE_BONUS_POOR;
+      saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 2;
       skills = [
@@ -1504,10 +1520,10 @@ PH35.classRules = function(rules, classes) {
 
     } else if(klass == 'Wizard') {
 
-      baseAttack = PH35.ATTACK_BONUS_POOR;
+      baseAttack = SRD35.ATTACK_BONUS_POOR;
       feats = ['Spell Mastery'];
-      for(var j = 0; j < PH35.FEATS.length; j++) {
-        var pieces = PH35.FEATS[j].split(':');
+      for(var j = 0; j < SRD35.FEATS.length; j++) {
+        var pieces = SRD35.FEATS[j].split(':');
         if(pieces[1].match(/Item Creation|Metamagic/)) {
           feats[feats.length] = pieces[0];
         }
@@ -1520,12 +1536,12 @@ PH35.classRules = function(rules, classes) {
         'magicNotes.wizardSpecialization:Extra %V spell/day each spell level',
         'skillNotes.wizardSpecialization:+2 Spellcraft (%V)'
       ];
-      profArmor = PH35.PROFICIENCY_NONE;
-      profShield = PH35.PROFICIENCY_NONE;
-      profWeapon = PH35.PROFICIENCY_NONE;
-      saveFortitude = PH35.SAVE_BONUS_POOR;
-      saveReflex = PH35.SAVE_BONUS_POOR;
-      saveWill = PH35.SAVE_BONUS_GOOD;
+      profArmor = SRD35.PROFICIENCY_NONE;
+      profShield = SRD35.PROFICIENCY_NONE;
+      profWeapon = SRD35.PROFICIENCY_NONE;
+      saveFortitude = SRD35.SAVE_BONUS_POOR;
+      saveReflex = SRD35.SAVE_BONUS_POOR;
+      saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 2;
       skills = [
@@ -1557,8 +1573,8 @@ PH35.classRules = function(rules, classes) {
       rules.defineRule('featCount.Wizard',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
       );
-      for(var j = 0; j < PH35.SCHOOLS.length; j++) {
-        var school = PH35.SCHOOLS[j].split(':')[0];
+      for(var j = 0; j < SRD35.SCHOOLS.length; j++) {
+        var school = SRD35.SCHOOLS[j].split(':')[0];
         rules.defineRule('magicNotes.wizardSpecialization',
          'specialize.' + school, '=', '"' + school + '"'
         );
@@ -1574,7 +1590,7 @@ PH35.classRules = function(rules, classes) {
     } else
       continue;
 
-    PH35.defineClass
+    SRD35.defineClass
       (rules, klass, hitDie, skillPoints, baseAttack, saveFortitude, saveReflex,
        saveWill, profArmor, profShield, profWeapon, skills, features,
        spellsKnown, spellsPerDay, spellAbility);
@@ -1609,7 +1625,7 @@ PH35.classRules = function(rules, classes) {
 };
 
 /* Defines the rules related to PH Chapter 8, Combat. */
-PH35.combatRules = function(rules) {
+SRD35.combatRules = function(rules) {
   rules.defineNote([
     'turnUndead.damageModifier:2d6+%V',
     'turnUndead.frequency:%V/day',
@@ -1617,7 +1633,7 @@ PH35.combatRules = function(rules) {
   ]);
   rules.defineRule('armorClass',
     null, '=', '10',
-    'armor', '+', 'PH35.armorsArmorClassBonuses[source]',
+    'armor', '+', 'SRD35.armorsArmorClassBonuses[source]',
     'shield', '+', 'source=="None" ? null : ' +
                    'source=="Tower" ? 4 : source.indexOf("Light") >= 0 ? 1 : 2'
   );
@@ -1647,7 +1663,7 @@ PH35.combatRules = function(rules) {
 };
 
 /* Defines the PHB Chapter 3 rules related to companion creatures. */
-PH35.companionRules = function(rules, companions) {
+SRD35.companionRules = function(rules, companions) {
 
   for(var i = 0; i < companions.length; i++) {
 
@@ -1798,7 +1814,7 @@ PH35.companionRules = function(rules, companions) {
 };
 
 /* Returns an ObjectViewer loaded with the default character sheet format. */
-PH35.createViewers = function(rules, viewers) {
+SRD35.createViewers = function(rules, viewers) {
   for(var i = 0; i < viewers.length; i++) {
     var name = viewers[i];
     var viewer = new ObjectViewer();
@@ -1998,14 +2014,14 @@ PH35.createViewers = function(rules, viewers) {
 };
 
 /* Defines the rules related to PH Chapter 6, Description. */
-PH35.descriptionRules = function(rules, alignments, deities, genders) {
+SRD35.descriptionRules = function(rules, alignments, deities, genders) {
   rules.defineChoice('alignments', alignments);
   rules.defineChoice('deities', deities);
   rules.defineChoice('genders', genders);
 };
 
 /* Defines the rules related to PH Chapter 7, Equipment. */
-PH35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
+SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
 
   rules.defineChoice('armors', armors);
   rules.defineChoice('goodies', goodies);
@@ -2018,21 +2034,21 @@ PH35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   );
   rules.defineRule('armorWeightClass',
     'armor', '=',
-      'PH35.armorsWeightClasses[source] == null ? "Light" : ' +
-      'PH35.armorsWeightClasses[source]'
+      'SRD35.armorsWeightClasses[source] == null ? "Light" : ' +
+      'SRD35.armorsWeightClasses[source]'
   );
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
-    'armor', 'v', 'PH35.armorsMaxDexBonuses[source]'
+    'armor', 'v', 'SRD35.armorsMaxDexBonuses[source]'
   );
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'casterLevelArcane', '?', null,
-    'armor', '+=', 'PH35.armorsArcaneSpellFailurePercentages[source]',
+    'armor', '+=', 'SRD35.armorsArcaneSpellFailurePercentages[source]',
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? 50 : ' +
                     'source.indexOf("Heavy") >= 0 ? 15 : 5'
   );
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'armor', '=', 'PH35.armorsSkillCheckPenalties[source]'
+    'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
   // TODO combatNotes.strengthDamageAdjustment handled directly by Scribe
@@ -2043,7 +2059,7 @@ PH35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
 };
 
 /* Defines the rules related to PH Chapter 5, Feats. */
-PH35.featRules = function(rules, feats, subfeats) {
+SRD35.featRules = function(rules, feats, subfeats) {
 
   var allFeats = [];
   for(var i = 0; i < feats.length; i++) {
@@ -2089,26 +2105,26 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Armor Proficiency (Heavy)') {
       notes = [
         'sanityNotes.armorProficiency(Heavy)FeatProficiency:' +
-          'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_MEDIUM
+          'Requires Class Armor Proficiency Level <= ' + SRD35.PROFICIENCY_MEDIUM
       ];
       rules.defineRule('armorProficiencyLevel',
-        'features.Armor Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
+        'features.Armor Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY
       );
     } else if(feat == 'Armor Proficiency (Light)') {
       notes = [
         'sanityNotes.armorProficiency(Light)FeatProficiency:' +
-          'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_NONE
+          'Requires Class Armor Proficiency Level <= ' + SRD35.PROFICIENCY_NONE
       ];
       rules.defineRule('armorProficiencyLevel',
-        'features.Armor Proficiency (Light)', '^', PH35.PROFICIENCY_LIGHT
+        'features.Armor Proficiency (Light)', '^', SRD35.PROFICIENCY_LIGHT
       );
     } else if(feat == 'Armor Proficiency (Medium)') {
       notes = [
         'sanityNotes.armorProficiency(Medium)FeatProficiency:' +
-          'Requires Class Armor Proficiency Level <= ' + PH35.PROFICIENCY_LIGHT
+          'Requires Class Armor Proficiency Level <= ' + SRD35.PROFICIENCY_LIGHT
       ];
       rules.defineRule('armorProficiencyLevel',
-        'features.Armor Proficiency (Medium)', '^', PH35.PROFICIENCY_MEDIUM
+        'features.Armor Proficiency (Medium)', '^', SRD35.PROFICIENCY_MEDIUM
       );
     } else if(feat == 'Athletic') {
       notes = [
@@ -2364,8 +2380,8 @@ PH35.featRules = function(rules, feats, subfeats) {
       ];
       var weaponPat = new RegExp('^' + weapon + ':');
       var bump = 1;
-      for(var j = 0; j < PH35.WEAPONS.length; j++) {
-        var spec = PH35.WEAPONS[j];
+      for(var j = 0; j < SRD35.WEAPONS.length; j++) {
+        var spec = SRD35.WEAPONS[j];
         var criticalMatchInfo;
         if(weapon == null || !spec.match(weaponPat))
           continue;
@@ -2599,18 +2615,18 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Shield Proficiency (Heavy)') {
       notes = [
         'sanityNotes.shieldProficiency(Heavy)FeatProficiency:' +
-          'Requires Class Shield Proficiency Level <= '+PH35.PROFICIENCY_MEDIUM
+          'Requires Class Shield Proficiency Level <= '+SRD35.PROFICIENCY_MEDIUM
       ];
       rules.defineRule('shieldProficiencyLevel',
-        'features.Shield Proficiency (Heavy)', '^', PH35.PROFICIENCY_HEAVY
+        'features.Shield Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY
       );
     } else if(feat == 'Shield Proficiency (Tower)') {
       notes = [
         'sanityNotes.shieldProficiency(Tower)FeatProficiency:' +
-          'Requires Class Shield Proficiency Level <= ' + PH35.PROFICIENCY_HEAVY
+          'Requires Class Shield Proficiency Level <= ' + SRD35.PROFICIENCY_HEAVY
       ];
       rules.defineRule('shieldProficiencyLevel',
-        'features.Shield Proficiency (Tower)', '^', PH35.PROFICIENCY_TOWER
+        'features.Shield Proficiency (Tower)', '^', SRD35.PROFICIENCY_TOWER
       );
     } else if(feat == 'Shot On The Run') {
       notes = [
@@ -2775,10 +2791,10 @@ PH35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Weapon Proficiency (Simple)') {
       notes = [
         'sanityNotes.weaponProficiency(Simple)FeatProficiency:' +
-          'Requires Class Weapon Proficiency Level <= ' + PH35.PROFICIENCY_NONE
+          'Requires Class Weapon Proficiency Level <= ' + SRD35.PROFICIENCY_NONE
       ];
       rules.defineRule('weaponProficiencyLevel',
-        'features.Weapon Proficiency (Simple)', '^', PH35.PROFICIENCY_LIGHT
+        'features.Weapon Proficiency (Simple)', '^', SRD35.PROFICIENCY_LIGHT
       );
     } else if((matchInfo = feat.match(/^Weapon Proficiency \((.*)\)$/))!=null) {
       var weapon = matchInfo[1];
@@ -2827,27 +2843,27 @@ PH35.featRules = function(rules, feats, subfeats) {
   }
 
   rules.defineRule('armorProficiency',
-    'armorProficiencyLevel', '=', 'PH35.proficiencyLevelNames[source]'
+    'armorProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
   );
   rules.defineRule('armorProficiencyLevel',
-    '', '=', PH35.PROFICIENCY_NONE,
+    '', '=', SRD35.PROFICIENCY_NONE,
     'classArmorProficiencyLevel', '^=', null
   );
   rules.defineRule('shieldProficiency',
-    'shieldProficiencyLevel', '=', 'PH35.proficiencyLevelNames[source]'
+    'shieldProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
   );
   rules.defineRule('shieldProficiencyLevel',
-    '', '=', PH35.PROFICIENCY_NONE,
+    '', '=', SRD35.PROFICIENCY_NONE,
     'classShieldProficiencyLevel', '^', null
   );
   rules.defineRule('weaponProficiency',
     'weaponProficiencyLevel', '=',
-      'source == ' + PH35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
-      'source == ' + PH35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
+      'source == ' + SRD35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
+      'source == ' + SRD35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
       '"None"'
   );
   rules.defineRule('weaponProficiencyLevel',
-    '', '=', PH35.PROFICIENCY_NONE,
+    '', '=', SRD35.PROFICIENCY_NONE,
     'classWeaponProficiencyLevel', '^', null
   );
 
@@ -2862,7 +2878,7 @@ PH35.featRules = function(rules, feats, subfeats) {
 };
 
 /* Defines the rules related to PH Chapter 10, Magic, and Chapter 11, Spells. */
-PH35.magicRules = function(rules, classes, domains, schools) {
+SRD35.magicRules = function(rules, classes, domains, schools) {
 
   rules.defineChoice('schools', schools);
   schools = rules.getChoices('schools');
@@ -2877,11 +2893,10 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'Prestidigitation:Read Magic:Resistance:Summon Instrument',
         'B1:Alarm:Animate Rope:Cause Fear:Charm Person:Comprehend Languages:' +
         'Cure Light Wounds:Detect Secret Doors:Disguise Self:Erase:' +
-        'Expeditious Retreat:Feather Fall:Grease:Hypnotism:Identify:' +
-        'Lesser Confusion:Magic Mouth:Nystul\'s Magic Aura:Obscure Object:' +
+        'Expeditious Retreat:Feather Fall:Grease:Hideous Laughter:Hypnotism:' +
+        'Identify:Lesser Confusion:Magic Mouth:Magic Aura:Obscure Object:' +
         'Remove Fear:Silent Image:Sleep:Summon Monster I:' +
-        'Tasha\'s Hideous Laughter:Undetectable Alignment:Unseen Servant:' +
-        'Ventriloquism',
+        'Undetectable Alignment:Unseen Servant:Ventriloquism',
         'B2:Alter Self:Animal Messenger:Animal Trance:Blindness/Deafness:' +
         'Blur:Calm Emotions:Cat\'s Grace:Cure Moderate Wounds:Darkness:' +
         'Daze Monster:Delay Poison:Detect Thoughts:Eagle\'s Splendor:' +
@@ -2893,24 +2908,24 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'B3:Blink:Charm Monster:Clairaudience/Clairvoyance:Confusion:' +
         'Crushing Despair:Cure Serious Wounds:Daylight:Deep Slumber:' +
         'Dispel Magic:Displacement:Fear:Gaseous Form:Glibness:Good Hope:' +
-        'Haste:Illusory Script:Invisibility Sphere:Leomund\'s Tiny Hut:' +
-        'Lesser Geas:Major Image:Phantom Steed:Remove Curse:Scrying:' +
-        'Sculpt Sound:Secret Page:See Invisibility:Sepia Snake Sigil:Slow:' +
-        'Speak With Animals:Summon Monster III',
+        'Haste:Illusory Script:Invisibility Sphere:Lesser Geas:Major Image:' +
+        'Phantom Steed:Remove Curse:Scrying:Sculpt Sound:Secret Page:' +
+        'See Invisibility:Sepia Snake Sigil:Slow:Speak With Animals:' +
+        'Summon Monster III:Tiny Hut',
         'B4:Break Enchantment:Cure Critical Wounds:Detect Scrying:' +
         'Dimension Door:Dominate Person:Freedom Of Movement:' +
         'Greater Invisibility:Hallucinatory Terrain:Hold Monster:Legend Lore:' +
-        'Leomund\'s Secure Shelter:Locate Creature:Modify Memory:' +
-        'Neutralize Poison:Rainbow Pattern:Repel Vermin:Shadow Conjuration:' +
-        'Shout:Speak With Plants:Summon Monster IV:Zone Of Silence',
+        'Locate Creature:Modify Memory:Neutralize Poison:Rainbow Pattern:' +
+        'Repel Vermin:Secure Shelter:Shadow Conjuration:Shout:' +
+        'Speak With Plants:Summon Monster IV:Zone Of Silence',
         'B5:Dream:False Vision:Greater Dispel Magic:Greater Heroism:' +
         'Mass Cure Light Wounds:Mass Suggestion:Mind Fog:Mirage Arcana:' +
         'Mislead:Nightmare:Persistent Image:Seeming:Shadow Evocation:' +
         'Shadow Walk:Song Of Discord:Summon Monster V',
         'B6:Analyze Dweomer:Animate Objects:Eyebite:Find The Path:Geas/Quest:' +
-        'Greater Scrying:Greater Shout:Heroes\' Feast:Mass Cat\'s Grace:' +
-        'Mass Charm Monster:Mass Cure Moderate Wounds:Mass Eagle\'s Splendor:' +
-        'Mass Fox\'s Cunning:Otto\'s Irresistible Dance:Permanent Image:' +
+        'Greater Scrying:Greater Shout:Heroes\' Feast:Irresistible Dance:' +
+        'Mass Cat\'s Grace:Mass Charm Monster:Mass Cure Moderate Wounds:' +
+        'Mass Eagle\'s Splendor:' + 'Mass Fox\'s Cunning:Permanent Image:' +
         'Programmed Image:Project Image:Summon Monster VI:' +
         'Sympathetic Vibration:Veil'
       ];
@@ -2957,7 +2972,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'Mass Cure Light Wounds:Mass Inflict Light Wounds:Plane Shift:' +
         'Raise Dead:Righteous Might:Scrying:Slay Living:Spell Resistance:' +
         'Summon Monster V:Symbol Of Pain:Symbol Of Sleep:True Seeing:' +
-        'Unhallow',
+        'Unhallow:Wall Of Stone',
         'C6:Animate Objects:Antilife Shell:Banishment:Blade Barrier:' +
         'Create Undead:Find The Path:Forbiddance:Geas/Quest:' +
         'Greater Dispel Magic:Greater Glyph Of Warding:Harm:Heal:' +
@@ -3070,93 +3085,91 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'W1:Alarm:Animate Rope:Burning Hands:Cause Fear:Charm Person:' +
         'Chill Touch:Color Spray:Comprehend Languages:Detect Secret Doors:' +
         'Detect Undead:Disguise Self:Endure Elements:Enlarge Person:Erase:' +
-        'Expeditious Retreat:Feather Fall:Grease:Hold Portal:Hypnotism:' +
-        'Identify:Jump:Mage Armor:Magic Missile:Magic Weapon:Mount:' +
-        'Nystul\'s Magic Aura:Obscuring Mist:Protection From Chaos:' +
+        'Expeditious Retreat:Feather Fall:Floating Disk:Grease:Hold Portal:' +
+        'Hypnotism:Identify:Jump:Mage Armor:Magic Missile:Magic Weapon:' +
+        'Magic Aura:Mount:Obscuring Mist:Protection From Chaos:' +
         'Protection From Evil:Protection From Good:Protection From Law:' +
         'Ray Of Enfeeblement:Reduce Person:Shield:Shocking Grasp:' +
-        'Silent Image:Sleep:Summon Monster I:Tenser\'s Floating Disk:' +
+        'Silent Image:Sleep:Summon Monster I:' +
         'True Strike:Unseen Servant:Ventriloquism',
-        'W2:Alter Self:Arcane Lock:Bear\'s Endurance:Blindness/Deafness:' +
-        'Blur:Bull\'s Strength:Cat\'s Grace:Command Undead:Continual Flame:' +
-        'Darkness:Darkvision:Daze Monster:Detect Thoughts:Eagle\'s Splendor:' +
-        'False Life:Flaming Sphere:Fog Cloud:Fox\'s Cunning:Ghoul Touch:' +
-        'Glitterdust:Gust Of Wind:Hypnotic Pattern:Invisibility:Knock:' +
-        'Leomund\'s Trap:Levitate:Locate Object:Magic Mouth:' +
-        'Melf\'s Acid Arrow:Minor Image:Mirror Image:Misdirection:' +
-        'Obscure Object:Owl\'s Wisdom:Protection From Arrows:Pyrotechnics:' +
-        'Resist Energy:Rope Trick:Scare:Scorching Ray:See Invisibility:' +
-        'Shatter:Spectral Hand:Spider Climb:Summon Monster II:Summon Swarm:' +
-        'Tasha\'s Hideous Laughter:Touch Of Idiocy:Web:Whispering Wind',
+        'W2:Acid Arrow:Alter Self:Arcane Lock:Bear\'s Endurance:' +
+        'Blindness/Deafness:Blur:Bull\'s Strength:Cat\'s Grace:' +
+        'Command Undead:Continual Flame:Darkness:Darkvision:Daze Monster:' +
+        'Detect Thoughts:Eagle\'s Splendor:False Life:Flaming Sphere:' +
+        'Fog Cloud:Fox\'s Cunning:Ghoul Touch:Glitterdust:Gust Of Wind:' +
+        'Hideous Laughter:Hypnotic Pattern:Invisibility:Knock:Levitate:' +
+        'Locate Object:Magic Mouth:Minor Image:Mirror Image:Misdirection:' +
+        'Obscure Object:Owl\'s Wisdom:Phantom Trap:Protection From Arrows:' +
+        'Pyrotechnics:Resist Energy:Rope Trick:Scare:Scorching Ray:' +
+        'See Invisibility:Shatter:Spectral Hand:Spider Climb:' +
+        'Summon Monster II:Summon Swarm:Touch Of Idiocy:Web:Whispering Wind',
         'W3:Arcane Sight:Blink:Clairaudience/Clairvoyance:Daylight:' +
         'Deep Slumber:Dispel Magic:Displacement:Explosive Runes:Fireball:' +
         'Flame Arrow:Fly:Gaseous Form:Gentle Repose:Greater Magic Weapon:' +
         'Halt Undead:Haste:Heroism:Hold Person:Illusory Script:' +
-        'Invisibility Sphere:Keen Edge:Leomund\'s Tiny Hut:Lightning Bolt:' +
+        'Invisibility Sphere:Keen Edge:Lightning Bolt:' +
         'Magic Circle Against Chaos:Magic Circle Against Evil:' +
         'Magic Circle Against Good:Magic Circle Against Law:Major Image:' +
         'Nondetection:Phantom Steed:Protection From Energy:Rage:' +
         'Ray Of Exhaustion:Secret Page:Sepia Snake Sigil:Shrink Item:' +
         'Sleet Storm:Slow:Stinking Cloud:Suggestion:Summon Monster III:' +
-        'Tongues:Vampiric Touch:Water Breathing:Wind Wall',
-        'W4:Animate Dead:Arcane Eye:Bestow Curse:Charm Monster:Confusion:' +
-        'Contagion:Crushing Despair:Detect Scrying:Dimension Door:' +
-        'Dimensional Anchor:Enervation:Evard\'s Black Tentacles:Fear:' +
-        'Fire Shield:Fire Trap:Greater Invisibility:Hallucinatory Terrain:' +
-        'Ice Storm:Illusionary Wall:Leomund\'s Secure Shelter:Lesser Geas:' +
-        'Lesser Globe Of Invulnerability:Locate Creature:Mass Enlarge Person:' +
-        'Mass Reduce Person:Minor Creation:Otiluke\'s Resilient Sphere:' +
-        'Phantasmal Killer:Polymorph:Rainbow Pattern:' +
-        'Rary\'s Mnemonic Enhancer:Remove Curse:Scrying:Shadow Conjuration:' +
-        'Shout:Solid Fog:Stoneskin:Summon Monster IV:Wall Of Fire:Wall Of Ice',
-        'W5:Animal Growth:Baleful Polymorph:Bigby\'s Interposing Hand:Blight:' +
-        'Break Enchantment:Cloudkill:Cone Of Cold:Contact Other Plane:' +
-        'Dismissal:Dominate Person:Dream:Fabricate:False Vision:Feeblemind:' +
-        'Hold Monster:Leomund\'s Secret Chest:Lesser Planar Binding:' +
-        'Magic Jar:Major Creation:Mind Fog:Mirage Arcana:' +
-        'Mordenkainen\'s Faithful Hound:Mordenkainen\'s Private Sanctum:' +
-        'Nightmare:Overland Flight:Passwall:Permanency:Persistent Image:' +
-        'Prying Eyes:Rary\'s Telepathic Bond:Seeming:Sending:' +
-        'Shadow Evocation:Stone Shape:Summon Monster V:Symbol Of Pain:' +
-        'Symbol Of Sleep:Telekinesis:Teleport:Transmute Mud To Rock:' +
-        'Transmute Rock To Mud:Wall Of Force:Wall Of Stone:Waves Of Fatigue',
-        'W6:Acid Fog:Analyze Dweomer:Antimagic Field:Bigby\'s Forceful Hand:' +
-        'Chain Lightning:Circle Of Death:Contingency:Control Water:' +
-        'Create Undead:Disintegrate:Eyebite:Flesh To Stone:Geas/Quest:' +
-        'Globe Of Invulnerability:Greater Dispel Magic:Greater Heroism:' +
-        'Guards And Wards:Legend Lore:Mass Bear\'s Endurance:' +
-        'Mass Bull\'s Strength:Mass Cat\'s Grace:Mass Eagle\'s Splendor:' +
-        'Mass Fox\'s Cunning:Mass Owl\'s Wisdom:Mass Suggestion:Mislead:' +
-        'Mordenkainen\'s Lucubration:Move Earth:Otiluke\'s Freezing Sphere:' +
-        'Permanent Image:Planar Binding:Programmed Image:Repulsion:' +
-        'Shadow Walk:Stone To Flesh:Summon Monster VI:Symbol Of Fear:' +
-        'Symbol Of Persuasion:Tenser\'s Transformation:True Seeing:' +
-        'Undeath To Death:Veil:Wall Of Iron',
-        'W7:Banishment:Bigby\'s Grasping Hand:Control Undead:Control Weather:' +
-        'Delayed Blast Fireball:Drawmij\'s Instant Summons:Ethereal Jaunt:' +
-        'Finger Of Death:Forcecage:Greater Arcane Sight:Greater Scrying:' +
-        'Greater Shadow Conjuration:Greater Teleport:Insanity:Limited Wish:' +
-        'Mass Hold Person:Mass Invisibility:' +
-        'Mordenkainen\'s Magnificent Mansion:Mordenkainen\'s Sword:' +
-        'Phase Door:Plane Shift:Power Word, Blind:Prismatic Spray:' +
-        'Project Image:Reverse Gravity:Sequester:Simulacrum:Spell Turning:' +
-        'Statue:Summon Monster VII:Symbol Of Stunning:Symbol Of Weakness:' +
-        'Teleport Object:Vision:Waves Of Exhaustion',
-        'W8:Antipathy:Bigby\'s Clenched Fist:Binding:Clone:' +
-        'Create Greater Undead:Demand:Dimensional Lock:Discern Location:' +
-        'Greater Planar Binding:Greater Prying Eyes:Greater Shadow Evocation:' +
-        'Greater Shout:Horrid Wilting:Incendiary Cloud:Iron Body:' +
-        'Mass Charm Monster:Maze:Mind Blank:Moment Of Prescience:' +
-        'Otiluke\'s Telekinetic Sphere:Otto\'s Irresistible Dance:Polar Ray:' +
-        'Polymorph Any Object:Power Word, Stun:Prismatic Wall:' +
+        'Tiny Hut:Tongues:Vampiric Touch:Water Breathing:Wind Wall',
+        'W4:Animate Dead:Arcane Eye:Bestow Curse:Black Tentacles:' +
+        'Charm Monster:Confusion:Contagion:Crushing Despair:Detect Scrying:' +
+        'Dimension Door:Dimensional Anchor:Enervation:Fear:Fire Shield:' +
+        'Fire Trap:Greater Invisibility:Hallucinatory Terrain:Ice Storm:' +
+        'Illusory Wall:Lesser Geas:Lesser Globe Of Invulnerability:' +
+        'Locate Creature:Mass Enlarge Person:Mass Reduce Person:' +
+        'Minor Creation:Mnemonic Enhancer:Phantasmal Killer:Polymorph:' +
+        'Rainbow Pattern:Remove Curse:Resilient Sphere:Scrying:' +
+        'Secure Shelter:Shadow Conjuration:Shout:Solid Fog:Stone Shape:' +
+        'Stoneskin:Summon Monster IV:Wall Of Fire:Wall Of Ice',
+        'W5:Animal Growth:Baleful Polymorph:Blight:Break Enchantment:' +
+        'Cloudkill:Cone Of Cold:Contact Other Plane:Dismissal:' +
+        'Dominate Person:Dream:Fabricate:False Vision:Feeblemind:' +
+        'Hold Monster:Interposing Hand:Lesser Planar Binding:' +
+        'Mage\'s Faithful Hound:Mage\'s Private Sanctum:Magic Jar:' +
+        'Major Creation:Mind Fog:Mirage Arcana:Nightmare:Overland Flight:' +
+        'Passwall:Permanency:Persistent Image:Prying Eyes:Secret Chest:' +
+        'Seeming:Sending:Shadow Evocation:Summon Monster V:Symbol Of Pain:' +
+        'Symbol Of Sleep:Telekinesis:Telepathic Bond:Teleport:' +
+        'Transmute Mud To Rock:Transmute Rock To Mud:Wall Of Force:' +
+        'Wall Of Stone:Waves Of Fatigue',
+        'W6:Acid Fog:Analyze Dweomer:Antimagic Field:Chain Lightning:' +
+        'Circle Of Death:Contingency:Control Water:Create Undead:' +
+        'Disintegrate:Eyebite:Flesh To Stone:Forceful Hand:Freezing Sphere:' +
+        'Geas/Quest:Globe Of Invulnerability:Greater Dispel Magic:' +
+        'Greater Heroism:Guards And Wards:Legend Lore:Mage\'s Lucubration:' +
+        'Mass Bear\'s Endurance:Mass Bull\'s Strength:Mass Cat\'s Grace:' +
+        'Mass Eagle\'s Splendor:Mass Fox\'s Cunning:Mass Owl\'s Wisdom:' +
+        'Mass Suggestion:Mislead:Move Earth:Permanent Image:Planar Binding:' +
+        'Programmed Image:Repulsion:Shadow Walk:Stone To Flesh:' +
+        'Summon Monster VI:Symbol Of Fear:Symbol Of Persuasion:' +
+        'Transformation:True Seeing:Undeath To Death:Veil:Wall Of Iron',
+        'W7:Banishment:Grasping Hand:Control Undead:Control Weather:' +
+        'Delayed Blast Fireball:Ethereal Jaunt:Finger Of Death:Forcecage:' +
+        'Greater Arcane Sight:Greater Scrying:Greater Shadow Conjuration:' +
+        'Greater Teleport:Insanity:Instant Summons:Limited Wish:' +
+        'Mage\'s Magnificent Mansion:Mage\'s Sword:Mass Hold Person:' +
+        'Mass Invisibility:Phase Door:Plane Shift:Power Word Blind:' +
+        'Prismatic Spray:Project Image:Reverse Gravity:Sequester:' +
+        'Simulacrum:Spell Turning:Statue:Summon Monster VII:' +
+        'Symbol Of Stunning:Symbol Of Weakness:Teleport Object:Vision:' +
+        'Waves Of Exhaustion',
+        'W8:Antipathy:Binding:Clenched Fist:Clone:Create Greater Undead:' +
+        'Demand:Dimensional Lock:Discern Location:Greater Planar Binding:' +
+        'Greater Prying Eyes:Greater Shadow Evocation:Greater Shout:' +
+        'Horrid Wilting:Incendiary Cloud:Iron Body:Irresistible Dance:' +
+        'Mass Charm Monster:Maze:Mind Blank:Moment Of Prescience:Polar Ray:' +
+        'Polymorph Any Object:Power Word Stun:Prismatic Wall:' +
         'Protection From Spells:Scintillating Pattern:Screen:' +
         'Summon Monster VIII:Sunburst:Symbol Of Death:Symbol Of Insanity:' +
-        'Sympathy:Temporal Stasis:Trap The Soul',
-        'W9:Astral Projection:Bigby\'s Crushing Hand:Dominate Monster:' +
-        'Energy Drain:Etherealness:Foresight:Freedom:Gate:Imprisonment:' +
-        'Mass Hold Monster:Meteor Swarm:Mordenkainen\'s Disjunction:' +
-        'Power Word, Kill:Prismatic Sphere:Refuge:Shades:Shapechange:' +
-        'Soul Bind:Summon Monster IX:Teleportation Circle:Time Stop:' +
+        'Sympathy:Telekinetic Sphere:Temporal Stasis:Trap The Soul',
+        'W9:Astral Projection:Crushing Hand:Dominate Monster:Energy Drain:' +
+        'Etherealness:Foresight:Freedom:Gate:Imprisonment:' +
+        'Mage\'s Disjunction:Mass Hold Monster:Meteor Swarm:Power Word Kill:' +
+        'Prismatic Sphere:Refuge:Shades:Shapechange:Soul Bind:' +
+        'Summon Monster IX:Teleportation Circle:Time Stop:' +
         'Wail Of The Banshee:Weird:Wish'
       ];
     } else
@@ -3166,7 +3179,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         var pieces = spells[j].split(':');
         for(var k = 1; k < pieces.length; k++) {
           var spell = pieces[k];
-          var school = PH35.spellsSchools[spell];
+          var school = SRD35.spellsSchools[spell];
           if(school == null) {
             continue;
           }
@@ -3202,6 +3215,8 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'Animal Shapes', 'Summon Nature\'s Ally VIII', 'Shapechange'
       ];
       turn = null;
+      rules.defineRule
+        ('classSkills.Knowledge (Nature)', 'skillNotes.animalDomain', '=', '1');
     } else if(domain == 'Chaos') {
       notes = ['magicNotes.chaosDomain:+1 caster level chaos spells'];
       spells = [
@@ -3220,7 +3235,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
       turn = null;
     } else if(domain == 'Destruction') {
       notes = [
-        'combatNotes.destructionDomain:Smite (+4 attack/+level damage) 1/day'
+        'combatNotes.destructionDomain:+4 attack/+%V damage smite 1/day'
       ];
       spells = [
         'Inflict Light Wounds', 'Shatter', 'Contagion',
@@ -3228,6 +3243,8 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'Disintegrate', 'Earthquake', 'Implosion'
       ];
       turn = null;
+      rules.defineRule
+        ('combatNotes.destructionDomain', 'levels.Cleric', '=', null);
     } else if(domain == 'Earth') {
       notes = ['combatNotes.earthDomain:Turn air/rebuke earth'];
       spells = [
@@ -3279,6 +3296,8 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'Discern Location', 'Foresight'
       ];
       turn = null;
+      rules.defineRule
+        (/^classSkills.Knowledge/, 'skillNotes.knowledgeDomain', '=', '1');
     } else if(domain == 'Law') {
       notes = ['magicNotes.lawDomain:+1 caster level law spells'];
       spells = [
@@ -3296,13 +3315,17 @@ PH35.magicRules = function(rules, classes, domains, schools) {
       ];
       turn = null;
     } else if(domain == 'Magic') {
-      notes = ['skillNotes.magicDomain:Use Magic Device at level/2'];
+      notes = ['skillNotes.magicDomain:Use Magic Device at level %V'];
       spells = [
-        'Nystul\'s Magic Aura', 'Identify', 'Dispel Magic',
+        'Magic Aura', 'Identify', 'Dispel Magic',
         'Imbue With Spell Ability', 'Spell Resistance', 'Antimagic Field',
-        'Spell Turning', 'Protection From Spells', 'Mordenkainen\'s Disjunction'
+        'Spell Turning', 'Protection From Spells', 'Mage\'s Disjunction'
       ];
       turn = null;
+      rules.defineRule('skillNotes.magicDomain',
+        'levels.Cleric', '=', 'Math.floor(source / 2)',
+        'levels.Wizard', '+', null
+      );
     } else if(domain == 'Plant') {
       notes = [
         'combatNotes.plantDomain:Rebuke plants',
@@ -3314,23 +3337,31 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'Shambler'
       ];
       turn = 'Plant';
+      rules.defineRule
+        ('classSkills.Knowledge (Nature)', 'skillNotes.plantDomain', '=', '1');
     } else if(domain == 'Protection') {
-      notes = ['magicNotes.protectionDomain:Protective ward 1/day'];
+      notes = [
+        'magicNotes.protectionDomain:' +
+          '<i>Protective Ward</i> +%V bonus to next save w/in 1 hour 1/day'
+      ];
       spells = [
         'Sanctuary', 'Shield Other', 'Protection From Energy',
         'Spell Immunity', 'Spell Resistance', 'Antimagic Field', 'Repulsion',
         'Mind Blank', 'Prismatic Sphere'
       ];
       turn = null;
+      rules.defineRule
+        ('magicNotes.protectionDomain', 'levels.Cleric', '=', null);
     } else if(domain == 'Strength') {
-      notes = ['magicNotes.strengthDomain:Add level to strength 1 round/day'];
+      notes = ['abilityNotes.strengthDomain:Add %V to strength 1 round/day'];
       spells = [
         'Enlarge Person', 'Bull\'s Strength', 'Magic Vestment',
-        'Spell Immunity', 'Righteous Might', 'Stoneskin',
-        'Bigby\'s Grasping Hand', 'Bigby\'s Clenched Fist',
-        'Bigby\'s Crushing Hand'
+        'Spell Immunity', 'Righteous Might', 'Stoneskin', 'Grasping Hand',
+        'Clenched Fist', 'Crushing Hand'
       ];
       turn = null;
+      rules.defineRule
+        ('abilityNotes.strengthDomain', 'levels.Cleric', '=', null);
     } else if(domain == 'Sun') {
       notes = ['combatNotes.sunDomain:Destroy turned undead 1/day'];
       spells = [
@@ -3340,7 +3371,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
       turn = null;
     } else if(domain == 'Travel') {
       notes = [
-        'magicNotes.travelDomain:<i>Freedom of Movement</i> 1 round/level/day',
+        'magicNotes.travelDomain:<i>Freedom of Movement</i> %V rounds/day',
         'skillNotes.travelDomain:Survival is a class skill'
       ];
       spells = [
@@ -3348,6 +3379,9 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'Find The Path', 'Greater Teleport', 'Phase Door', 'Astral Projection'
       ];
       turn = null;
+      rules.defineRule
+        ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
+      rules.defineRule('magicNotes.travelDomain', 'levels.Cleric', '=', null);
     } else if(domain == 'Trickery') {
       notes =
         ['skillNotes.trickeryDomain:Bluff/Disguise/Hide are class skills'];
@@ -3356,19 +3390,25 @@ PH35.magicRules = function(rules, classes, domains, schools) {
         'False Vision', 'Mislead', 'Screen', 'Polymorph Any Object', 'Time Stop'
       ];
       turn = null;
+      rules.defineRule
+        ('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
+      rules.defineRule
+        ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
+      rules.defineRule
+        ('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
     } else if(domain == 'War') {
       notes = ['featureNotes.warDomain:Weapon Proficiency/Weapon Focus (%V)'];
       spells = [
         'Magic Weapon', 'Spiritual Weapon', 'Magic Vestment', 'Divine Power',
-        'Flame Strike', 'Blade Barrier', 'Power Word, Blind',
-        'Power Word, Stun', 'Power Word, Kill'
+        'Flame Strike', 'Blade Barrier', 'Power Word Blind', 'Power Word Stun',
+        'Power Word Kill'
       ];
       turn = null;
       rules.defineRule('featureNotes.warDomain',
-        'deity', '=', 'PH35.deitiesFavoredWeapons[source]'
+        'deity', '=', 'SRD35.deitiesFavoredWeapons[source]'
       );
-      for(var a in PH35.deitiesFavoredWeapons) {
-        var weapons = PH35.deitiesFavoredWeapons[a].split('/');
+      for(var a in SRD35.deitiesFavoredWeapons) {
+        var weapons = SRD35.deitiesFavoredWeapons[a].split('/');
         for(var j = 0; j < weapons.length; j++) {
           var weapon = weapons[j];
           rules.defineRule('features.Weapon Focus (' + weapon + ')',
@@ -3394,7 +3434,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
     if(spells != null) {
       for(var j = 0; j < spells.length; j++) {
         var spell = spells[j];
-        var school = PH35.spellsSchools[spell];
+        var school = SRD35.spellsSchools[spell];
         if(school == null) {
           continue;
         }
@@ -3453,7 +3493,7 @@ PH35.magicRules = function(rules, classes, domains, schools) {
 };
 
 /* Defines the rules related to PH Chapter 2, Races. */
-PH35.raceRules = function(rules, languages, races) {
+SRD35.raceRules = function(rules, languages, races) {
 
   rules.defineChoice('languages', languages);
   for(var i = 0; i < languages.length; i++) {
@@ -3473,6 +3513,8 @@ PH35.raceRules = function(rules, languages, races) {
 
     var adjustment, features, notes;
     var race = races[i];
+    var raceNoSpace =
+      race.substring(0,1).toLowerCase() + race.substring(1).replace(/ /g, '');
 
     if(race == 'Half Elf') {
 
@@ -3482,13 +3524,16 @@ PH35.raceRules = function(rules, languages, races) {
         'Sleep Immunity', 'Tolerance'
       ];
       notes = [
-        'featureNotes.lowLightVisionFeature:' +
-          'Double normal distance in poor light',
+        'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
         'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
         'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information'
       ];
+      rules.defineRule('featureNotes.lowLightVisionFeature',
+        '', '=', '1',
+        raceNoSpace + 'Features.Low Light Vision', '+', null
+      );
       rules.defineRule('languages.Elven',
         'race', '=', 'source.indexOf("Elf") >= 0 ? 1 : null'
       );
@@ -3504,7 +3549,7 @@ PH35.raceRules = function(rules, languages, races) {
         'featureNotes.darkvisionFeature:%V ft b/w vision in darkness'
       ];
       rules.defineRule('featureNotes.darkvisionFeature',
-        'halfOrcFeatures.Darkvision', '^=', '60'
+        'halfOrcFeatures.Darkvision', '+=', '60'
       );
       rules.defineRule('languages.Orc',
         'race', '=', 'source.indexOf("Orc") >= 0 ? 1 : null'
@@ -3539,10 +3584,8 @@ PH35.raceRules = function(rules, languages, races) {
       rules.defineRule('abilityNotes.dwarfArmorSpeedAdjustment',
         'race', '=', 'source == "Dwarf" ? 1 : null'
       );
-      var raceNoSpace =
-        race.substring(0,1).toLowerCase() + race.substring(1).replace(/ /g, '');
       rules.defineRule('featureNotes.darkvisionFeature',
-        raceNoSpace + 'Features.Darkvision', '^=', '60'
+        raceNoSpace + 'Features.Darkvision', '+=', '60'
       );
       rules.defineRule('languages.Dwarven',
         'race', '=', 'source.indexOf("Dwarf") >= 0 ? 1 : null'
@@ -3561,13 +3604,16 @@ PH35.raceRules = function(rules, languages, races) {
         'Sense Secret Doors', 'Sleep Immunity'
       ];
       notes = [
-        'featureNotes.lowLightVisionFeature:' +
-          'Double normal distance in poor light',
+        'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
         'featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5 ft',
         'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.keenSensesFeature:+2 Listen/Search/Spot'
       ];
+      rules.defineRule('featureNotes.lowLightVisionFeature',
+        '', '=', '1',
+        raceNoSpace + 'Features.Low Light Vision', '+', null
+      );
       rules.defineRule('languages.Elven',
         'race', '=', 'source.indexOf("Elf") >= 0 ? 1 : null'
       );
@@ -3588,8 +3634,7 @@ PH35.raceRules = function(rules, languages, races) {
         'combatNotes.gnomeFavoredEnemyFeature:' +
            '+1 vs. bugbear/goblin/hobgoblin/kobold',
         'combatNotes.smallFeature:+1 AC/attack',
-        'featureNotes.lowLightVisionFeature:' +
-          'Double normal distance in poor light',
+        'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
         'magicNotes.naturalSpellsFeature:%V 1/day at level %1',
         'magicNotes.naturalIllusionistFeature:+1 DC on illusion spells',
         'saveNotes.resistIllusionFeature:+2 vs. illusions',
@@ -3598,6 +3643,10 @@ PH35.raceRules = function(rules, languages, races) {
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('featureNotes.lowLightVisionFeature',
+        '', '=', '1',
+        raceNoSpace + 'Features.Low Light Vision', '+', null
+      );
       rules.defineRule('languages.Gnome',
         'race', '=', 'source.indexOf("Gnome") >= 0 ? 1 : null'
       );
@@ -3666,7 +3715,7 @@ PH35.raceRules = function(rules, languages, races) {
     } else
       continue;
 
-    PH35.defineRace(rules, race, adjustment, features);
+    SRD35.defineRace(rules, race, adjustment, features);
     if(notes != null) {
       rules.defineNote(notes);
     }
@@ -3676,7 +3725,7 @@ PH35.raceRules = function(rules, languages, races) {
 };
 
 /* Defines the rules related to PH Chapter 4, Skills. */
-PH35.skillRules = function(rules, skills, subskills) {
+SRD35.skillRules = function(rules, skills, subskills) {
 
   var abilityNames = {
     'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
@@ -3803,7 +3852,7 @@ PH35.skillRules = function(rules, skills, subskills) {
 };
 
 /* Returns a random name for a character of race #race#. */
-PH35.randomName = function(race) {
+SRD35.randomName = function(race) {
 
   /* Return a random character from #string#. */
   function randomChar(string) {
@@ -3883,7 +3932,7 @@ PH35.randomName = function(race) {
 
 };
 
-PH35.initialEditorElements = function() {
+SRD35.initialEditorElements = function() {
   var abilityChoices = [
     3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
   ];
@@ -3924,7 +3973,7 @@ PH35.initialEditorElements = function() {
 };
 
 /* Sets #attributes#'s #attribute# attribute to a random value. */
-PH35.randomizeOneAttribute = function(attributes, attribute) {
+SRD35.randomizeOneAttribute = function(attributes, attribute) {
 
   /*
    * Randomly selects #howMany# elements of the array #choices#, prepends
@@ -4112,7 +4161,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
       howMany -= thisLevel;
     }
   } else if(attribute == 'name') {
-    attributes['name'] = PH35.randomName(attributes['race']);
+    attributes['name'] = SRD35.randomName(attributes['race']);
   } else if(attribute == 'skills') {
     attrs = this.applyRules(attributes);
     var maxPoints = attrs.classSkillMaxRanks;
@@ -4239,7 +4288,7 @@ PH35.randomizeOneAttribute = function(attributes, attribute) {
 /*
  * Fixes as many validation errors in #attributes# as possible.
  */
-PH35.makeValid = function(attributes) {
+SRD35.makeValid = function(attributes) {
 
   var attributesChanged = {};
   var debug = [];
@@ -4449,7 +4498,7 @@ PH35.makeValid = function(attributes) {
  * about the type, number, and level of spells castable per day at each class
  * level, and #spellAbility# the ability that pertains to this class' spells.
  */
-PH35.defineClass = function
+SRD35.defineClass = function
   (rules, name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
    saveReflexBonus, saveWillBonus, armorProficiencyLevel,
    shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
@@ -4469,15 +4518,15 @@ PH35.defineClass = function
   if(saveWillBonus != null)
     rules.defineRule('save.Will', classLevel, '+', saveWillBonus);
   if(armorProficiencyLevel != null &&
-     armorProficiencyLevel != PH35.PROFICIENCY_NONE)
+     armorProficiencyLevel != SRD35.PROFICIENCY_NONE)
     rules.defineRule
       ('classArmorProficiencyLevel', classLevel, '^=', armorProficiencyLevel);
   if(shieldProficiencyLevel != null &&
-     shieldProficiencyLevel != PH35.PROFICIENCY_NONE)
+     shieldProficiencyLevel != SRD35.PROFICIENCY_NONE)
     rules.defineRule
       ('classShieldProficiencyLevel', classLevel, '^=', shieldProficiencyLevel);
   if(weaponProficiencyLevel != null &&
-     weaponProficiencyLevel != PH35.PROFICIENCY_NONE) {
+     weaponProficiencyLevel != SRD35.PROFICIENCY_NONE) {
     rules.defineRule
       ('classWeaponProficiencyLevel', classLevel, '^=', weaponProficiencyLevel);
   }
@@ -4565,7 +4614,7 @@ PH35.defineClass = function
  * and the character levels at which they're acquired.  If no level is included
  * with a feature, the feature is acquired at level 1.
  */
-PH35.defineRace = function(rules, name, abilityAdjustment, features) {
+SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
   rules.defineChoice('races', name);
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
@@ -4597,35 +4646,35 @@ PH35.defineRace = function(rules, name, abilityAdjustment, features) {
   }
 };
 
-/* Convenience functions that invoke ScribeRules methods on the PH35 rules. */
-PH35.applyRules = function() {
-  return PH35.rules.applyRules.apply(PH35.rules, arguments);
+/* Convenience functions that invoke ScribeRules methods on the SRD35 rules. */
+SRD35.applyRules = function() {
+  return SRD35.rules.applyRules.apply(SRD35.rules, arguments);
 };
 
-PH35.defineChoice = function() {
-  return PH35.rules.defineChoice.apply(PH35.rules, arguments);
+SRD35.defineChoice = function() {
+  return SRD35.rules.defineChoice.apply(SRD35.rules, arguments);
 };
 
-PH35.defineEditorElement = function() {
-  return PH35.rules.defineEditorElement.apply(PH35.rules, arguments);
+SRD35.defineEditorElement = function() {
+  return SRD35.rules.defineEditorElement.apply(SRD35.rules, arguments);
 };
 
-PH35.defineNote = function() {
-  return PH35.rules.defineNote.apply(PH35.rules, arguments);
+SRD35.defineNote = function() {
+  return SRD35.rules.defineNote.apply(SRD35.rules, arguments);
 };
 
-PH35.defineRule = function() {
-  return PH35.rules.defineRule.apply(PH35.rules, arguments);
+SRD35.defineRule = function() {
+  return SRD35.rules.defineRule.apply(SRD35.rules, arguments);
 };
 
-PH35.defineSheetElement = function() {
-  return PH35.rules.defineSheetElement.apply(PH35.rules, arguments);
+SRD35.defineSheetElement = function() {
+  return SRD35.rules.defineSheetElement.apply(SRD35.rules, arguments);
 };
 
-PH35.getChoices = function() {
-  return PH35.rules.getChoices.apply(PH35.rules, arguments);
+SRD35.getChoices = function() {
+  return SRD35.rules.getChoices.apply(SRD35.rules, arguments);
 };
 
-PH35.isSource = function() {
-  return PH35.rules.isSource.apply(PH35.rules, arguments);
+SRD35.isSource = function() {
+  return SRD35.rules.isSource.apply(SRD35.rules, arguments);
 };
