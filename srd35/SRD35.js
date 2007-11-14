@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.121 2007/11/08 14:07:47 Jim Exp $ */
+/* $Id: SRD35.js,v 1.122 2007/11/14 01:03:30 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -152,7 +152,7 @@ SRD35.GOODIES = [
   'Ring Of Protection +4'
 ];
 SRD35.LANGUAGES = [
-  'Abyssal', 'Aquan', 'Avian', 'Celestial', 'Common', 'Draconic', 'Druidic',
+  'Abyssal', 'Aquan', 'Auran', 'Celestial', 'Common', 'Draconic', 'Druidic',
   'Dwarven', 'Elven', 'Giant', 'Gnoll', 'Gnome', 'Goblin', 'Halfling',
   'Ignan', 'Infernal', 'Orc', 'Sylvan', 'Terran', 'Undercommon'
 ];
@@ -211,27 +211,26 @@ SRD35.SUBSKILLS = {
 SRD35.VIEWERS = ['Compact', 'Standard', 'Vertical'];
 SRD35.WEAPONS = [
   'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
-  'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70',
-  'Dagger:d4@19r10', 'Dart:d4r20', 'Dire Flail:d8/d8',
-  'Dwarven Urgosh:d8x3/d6x3', 'Dwarven Waraxe:d10x3', 'Falchion:2d4@18',
-  'Gauntlet:d3', 'Glaive:d10x3', 'Gnome Hooked Hammer:d8x3/d6x4',
-  'Greataxe:d12x3', 'Greatclub:d10', 'Greatsword:2d6@19', 'Guisarme:2d4x3',
-  'Halberd:d10x3', 'Handaxe:d6x3', 'Hand Crossbow:d4@19r30',
-  'Heavy Crossbow:d10@19r120', 'Heavy Flail:d10@19', 'Heavy Mace:d8',
-  'Heavy Pick:d6', 'Heavy Shield:d4', 'Heavy Spiked Shield:d6',
-  'Javelin:d6r30', 'Kama:d6', 'Kukri:d4@18', 'Lance:d8x3',
-  'Light Crossbow:d8@19r80', 'Light Flail:d8', 'Light Hammer:d4r20',
+  'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70', 'Dagger:d4@19r10',
+  'Dart:d4r20', 'Dire Flail:d8/d8', 'Dwarven Urgosh:d8x3/d6x3',
+  'Dwarven Waraxe:d10x3', 'Falchion:2d4@18', 'Flail:d8', 'Gauntlet:d3',
+  'Glaive:d10x3', 'Gnome Hooked Hammer:d8x3/d6x4', 'Greataxe:d12x3',
+  'Greatclub:d10', 'Greatsword:2d6@19', 'Guisarme:2d4x3', 'Halberd:d10x3',
+  'Hand Crossbow:d4@19r30', 'Handaxe:d6x3', 'Heavy Crossbow:d10@19r120',
+  'Heavy Flail:d10@19', 'Heavy Mace:d8', 'Heavy Pick:d6x4', 'Heavy Shield:d4',
+  'Heavy Spiked Shield:d6', 'Javelin:d6r30', 'Kama:d6', 'Kukri:d4@18',
+  'Lance:d8x3', 'Light Crossbow:d8@19r80', 'Light Hammer:d4r20',
   'Light Mace:d6', 'Light Pick:d4x4', 'Light Shield:d3',
   'Light Spiked Shield:d4', 'Longbow:d8x3r100', 'Longspear:d8x3',
   'Longsword:d8@19', 'Morningstar:d8', 'Net:d0r10', 'Nunchaku:d6',
-  'Orc Double Axe:d8/d8', 'Punching Dagger:d4x3', 'Quarterstaff:d6/d6',
-  'Rapier:d6@18', 'Ranseur:2d4x3', 'Repeating Heavy Crossbow:d10@19r120',
+  'Orc Double Axe:d8x3/d8x3', 'Punching Dagger:d4x3', 'Quarterstaff:d6/d6',
+  'Ranseur:2d4x3', 'Rapier:d6@18', 'Repeating Heavy Crossbow:d10@19r120',
   'Repeating Light Crossbow:d8@19r80', 'Sai:d4r10', 'Sap:d6', 'Scimitar:d6@18',
   'Scythe:2d4x4', 'Short Sword:d6@19', 'Shortbow:d6x3r60', 'Shortspear:d6r20',
-  'Shuriken:d2r10', 'Siangham:d6', 'Sickle:d6', 'Sling:d4r50', 'Spear:d8r20',
-  'Spiked Chain:2d4', 'Spiked Gauntlet:d4', 'Throwing Axe:d6r10',
-  'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19', 'Unarmed:d3',
-  'Warhammer:d8x3', 'Whip:d3'
+  'Shuriken:d2r10', 'Siangham:d6', 'Sickle:d6', 'Sling:d4r50', 'Spear:d8x3r20',
+  'Spiked Armor:d6', 'Spiked Chain:2d4', 'Spiked Gauntlet:d4',
+  'Throwing Axe:d6r10', 'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19',
+  'Unarmed:d3', 'Warhammer:d8x3', 'Whip:d3'
 ];
 
 // Related information used internally by SRD35
@@ -273,7 +272,7 @@ SRD35.deitiesFavoredWeapons = {
   'Heironeous (LG Valor)': 'Longsword',
   'Hextor (LE Tyranny)': 'Heavy Flail/Light Flail'
 };
-SRD35.proficiencyLevelNames = ["None", "Light", "Medium", "Heavy", "Tower"];
+SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
 SRD35.spellsSchools = {
 
   'Acid Arrow':'Conjuration', 'Acid Fog':'Conjuration',
@@ -610,7 +609,7 @@ SRD35.spellsSchools = {
 
 };
 SRD35.strengthMaxLoads = [0,
-  10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175,  200, 230, 260,
+  10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
 ];
 // Mapping of medium damage to large/small/tiny damage
@@ -701,7 +700,10 @@ SRD35.abilityRules = function(rules) {
 /* Defines the rules related to PH Chapter 9, Adventuring. */
 SRD35.adventuringRules = function(rules) {
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
-  rules.defineRule('loadMax','strength','=','SRD35.strengthMaxLoads[source]');
+  rules.defineRule('loadMax',
+    'strength', '=', 'SRD35.strengthMaxLoads[source]',
+    'features.Small', '*', '0.75'
+  );
   rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
   rules.defineRule('runSpeed',
     'speed', '=', null,
@@ -2048,7 +2050,10 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
                     'source.indexOf("Heavy") >= 0 ? 15 : 5'
   );
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]'
+    'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
+    'shield', '+=', 'source == "None" ? 0 : ' +
+                    'source == "Tower" ? -10 : ' +
+                    'source.indexOf("Heavy") >= 0 ? -2 : -1'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
   // TODO combatNotes.strengthDamageAdjustment handled directly by Scribe
@@ -3560,14 +3565,13 @@ SRD35.raceRules = function(rules, languages, races) {
       adjustment = '+2 constitution/-2 charisma';
       features = [
         'Darkvision', 'Dodge Giants', 'Dwarf Favored Enemy', 'Know Depth',
-        'Natural Smith', 'Resist Poison', 'Resist Spells', 'Slow',
-        'Stability', 'Stonecunning'
+        'Natural Smith', 'Resist Poison', 'Resist Spells', 'Slow', 'Stability',
+        'Stonecunning'
       ];
       notes = [
         'abilityNotes.dwarfArmorSpeedAdjustment:No speed penalty in armor',
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
-        'combatNotes.dwarfFavoredEnemyFeature:' +
-          '+1 vs. bugbear/goblin/hobgoblin/orc',
+        'combatNotes.dwarfFavoredEnemyFeature:+1 vs. goblinoid/orc',
         'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
         'saveNotes.resistPoisonFeature:+2 vs. poison',
@@ -3578,6 +3582,7 @@ SRD35.raceRules = function(rules, languages, races) {
         'skillNotes.stonecunningFeature:' +
           '+2 Search involving stone or metal/automatic check w/in 10 ft'
       ];
+
       rules.defineRule('abilityNotes.armorSpeedAdjustment',
         'abilityNotes.dwarfArmorSpeedAdjustment', '^', '0'
       );
@@ -3625,22 +3630,21 @@ SRD35.raceRules = function(rules, languages, races) {
 
       adjustment = '+2 constitution/-2 strength';
       features = [
-        'Dodge Giants', 'Gnome Favored Enemy', 'Natural Spells',
-        'Resist Illusion', 'Keen Ears', 'Keen Nose', 'Low Light Vision',
-        'Natural Illusionist', 'Slow', 'Small'
+        'Dodge Giants', 'Gnome Favored Enemy', 'Keen Ears', 'Keen Nose',
+        'Low Light Vision', 'Natural Illusionist', 'Natural Spells',
+        'Resist Illusion', 'Slow', 'Small'
       ];
       notes = [
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
-        'combatNotes.gnomeFavoredEnemyFeature:' +
-           '+1 vs. bugbear/goblin/hobgoblin/kobold',
+        'combatNotes.gnomeFavoredEnemyFeature:+1 vs. goblinoid/kobold',
         'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
-        'magicNotes.naturalSpellsFeature:%V 1/day at level %1',
         'magicNotes.naturalIllusionistFeature:+1 DC on illusion spells',
+        'magicNotes.naturalSpellsFeature:%V 1/day at level %1',
         'saveNotes.resistIllusionFeature:+2 vs. illusions',
         'skillNotes.keenEarsFeature:+2 Listen',
-        'skillNotes.smallFeature:+4 Hide',
-        'skillNotes.keenNoseFeature:+2 Craft (Alchemy)'
+        'skillNotes.keenNoseFeature:+2 Craft (Alchemy)',
+        'skillNotes.smallFeature:+4 Hide'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('featureNotes.lowLightVisionFeature',
@@ -3778,6 +3782,7 @@ SRD35.skillRules = function(rules, skills, subskills) {
     var pieces = allSkills[i].split(':');
     var skill = pieces[0];
     var ability = pieces[1].replace(/\/.*/, '');
+    var matchInfo;
     var synergy = synergies[skill];
     rules.defineChoice('skills', skill + ':' + pieces[1]);
     rules.defineRule('skillModifier.' + skill,
@@ -3788,7 +3793,11 @@ SRD35.skillRules = function(rules, skills, subskills) {
       var modifier = abilityNames[ability] + 'Modifier';
       rules.defineRule('skillModifier.' + skill, modifier, '+', null);
     }
-    if(skill == 'Heal') {
+    if((matchInfo = skill.match(/^Craft \((.*)\)$/)) != null) {
+        var topic = matchInfo[1];
+        var topicNoSpace = topic.replace(/ /g, '');
+        synergy = 'related Appraise';
+    } else if(skill == 'Heal') {
       rules.defineChoice('goodies', 'Healer\'s Kit');
       rules.defineRule('skillNotes.goodiesHealAdjustment',
         'goodies.Healer\'s Kit', '+=', '2'
