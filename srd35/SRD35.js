@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.122 2007/11/14 01:03:30 Jim Exp $ */
+/* $Id: SRD35.js,v 1.123 2007/11/15 06:10:29 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -794,7 +794,9 @@ SRD35.classRules = function(rules, classes) {
         'levels.Barbarian', '+=', 'source>=7 ? Math.floor((source-4)/3) : null'
       );
       rules.defineRule('combatNotes.rageFeature',
-        'constitutionModifier', '=', '5 + source'
+        'constitutionModifier', '=', '5 + source',
+        'features.Greater Rage', '+', '1',
+        'features.Mighty Rage', '+', '1'
       );
       rules.defineRule('combatNotes.rageFeature.1',
         'levels.Barbarian', '+=', '1 + Math.floor(source / 4)'
@@ -829,16 +831,15 @@ SRD35.classRules = function(rules, classes) {
         'magicNotes.inspireCourageFeature:' +
           '+%V attack/damage and charm/fear saves to allies while performing',
         'magicNotes.inspireGreatnessFeature:' +
-           '%V allies get +2 HD/attack/+1 Fortitude save while performing',
+           '+2d10 HP/+2 attack/+1 Fortitude save to %V allies while performing',
         'magicNotes.inspireHeroicsFeature:' +
-          'Single ally +4 AC and saves while performing',
+          '+4 AC/saves to 1 ally while performing',
         'magicNotes.massSuggestionFeature:' +
-          'Make suggestion to all fascinated creatures',
-        'magicNotes.songOfFreedomFeature:Break enchantment through performing',
+          '<i>Suggestion</i> to all fascinated creatures',
+        'magicNotes.songOfFreedomFeature:' +
+          '<i>Break Enchantment</i> through performing',
         'magicNotes.suggestionFeature:' +
-          'Make suggestion to a fascinated creature',
-        'skillNotes.bardicKnowledgeFeature:' +
-          '+%V Knowledge checks on local history',
+          '<i>suggestion</i> to 1 fascinated creature',
         'validationNotes.bardClassAlignment:Requires Alignment !~ Lawful'
       ];
       profArmor = SRD35.PROFICIENCY_LIGHT;
@@ -879,33 +880,32 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('casterLevelArcane', 'levels.Bard', '+=', null);
       rules.defineRule
         ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
-      rules.defineRule
-        ('features.Countersong',
-        'sumskillModifier.Perform', '?', 'source >= 3'
+      rules.defineRule('features.Countersong',
+        'maxSkillModifier.Perform', '?', 'source >= 3'
       );
       rules.defineRule('features.Fascinate',
-        'sumskillModifier.Perform', '?', 'source >= 3'
+        'maxSkillModifier.Perform', '?', 'source >= 3'
       );
       rules.defineRule('features.Inspire Competence',
-        'sumskillModifier.Perform', '?', 'source >= 6'
+        'maxSkillModifier.Perform', '?', 'source >= 6'
       );
       rules.defineRule('features.Inspire Courage',
-        'sumskillModifier.Perform', '?', 'source >= 3'
+        'maxSkillModifier.Perform', '?', 'source >= 3'
       );
       rules.defineRule('features.Inspire Greatness',
-        'sumskillModifier.Perform', '?', 'source >= 12'
+        'maxSkillModifier.Perform', '?', 'source >= 12'
       );
       rules.defineRule('features.Inspire Heroics',
-        'sumskillModifier.Perform', '?', 'source >= 18'
+        'maxSkillModifier.Perform', '?', 'source >= 18'
       );
       rules.defineRule('features.Mass Suggestion',
-        'sumskillModifier.Perform', '?', 'source >= 21'
+        'maxSkillModifier.Perform', '?', 'source >= 21'
       );
       rules.defineRule('features.Song Of Freedom',
-        'sumskillModifier.Perform', '?', 'source >= 15'
+        'maxSkillModifier.Perform', '?', 'source >= 15'
       );
       rules.defineRule('features.Suggestion',
-        'sumskillModifier.Perform', '?', 'source >= 9'
+        'maxSkillModifier.Perform', '?', 'source >= 9'
       );
       rules.defineRule('magicNotes.fascinateFeature',
         'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
@@ -918,22 +918,25 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('magicNotes.inspireGreatnessFeature',
         'levels.Bard', '+=', 'source >= 9 ? Math.floor((source - 6) / 3) : null'
       );
-      rules.defineRule('skillNotes.bardicKnowledgeFeature',
+      rules.defineRule('skills.Bardic Knowledge',
         'levels.Bard', '+=', null,
         'intelligenceModifier', '+', null
       );
       rules.defineRule
-        ('sumskillModifier.Perform', /^skillModifier.Perform/, '+=', null);
+        ('maxSkillModifier.Perform', /^skillModifier.Perform/, '^=', null);
 
     } else if(klass == 'Cleric') {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       feats = null;
-      features = ['1:Spontaneous Cleric Spell', '1:Turn Undead'];
+      features = ['1:Aura', '1:Spontaneous Cleric Spell', '1:Turn Undead'];
       hitDie = 8;
       notes = [
         'combatNotes.turnUndeadFeature:' +
           'Turn (good) or rebuke (evil) undead creatures',
+        'magicNotes.auraFeature:' +
+          'Visible to <i>Detect Chaos/Evil/Good/Law</i> depending on ' +
+          'deity\'s alignment',
         'magicNotes.spontaneousClericSpellFeature:%V'
       ];
       profArmor = SRD35.PROFICIENCY_HEAVY;
@@ -991,7 +994,7 @@ SRD35.classRules = function(rules, classes) {
         '1:Animal Companion', '1:Nature Sense', '1:Spontaneous Druid Spell',
         '1:Wild Empathy', '2:Woodland Stride', '3:Trackless Step',
         '4:Resist Nature\'s Lure', '5:Wild Shape', '9:Venom Immunity',
-        '13:Thousand Faces', '15:Timeless Body'
+        '13:Thousand Faces', '15:Timeless Body', '16:Elemental Shape'
       ];
       hitDie = 8;
       notes = [
@@ -1004,7 +1007,8 @@ SRD35.classRules = function(rules, classes) {
         'magicNotes.spontaneousDruidSpellFeature:' +
           '<i>Summon Nature\'s Ally</i>',
         'magicNotes.thousandFacesFeature:<i>Alter Self</i> at will',
-        'magicNotes.wildShapeFeature:Change into creature of size %V %1/day',
+        'magicNotes.wildShapeFeature:' +
+          'Change into creature of size %V for %1 hours %2/day',
         'saveNotes.resistNature\'sLureFeature:+4 vs. spells of feys',
         'saveNotes.venomImmunityFeature:Immune to poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
@@ -1043,7 +1047,7 @@ SRD35.classRules = function(rules, classes) {
         'D9:17:1/18:2/19:3/20:4'
       ];
       rules.defineRule('animalCompanionLevel',
-        'levels.Druid', '+=', 'Math.floor((source + 2) / 3)'
+        'levels.Druid', '+=', 'Math.floor((source + 3) / 3)'
       );
       rules.defineRule
         ('animalCompanionMasterLevel', 'levels.Druid', '+=', null);
@@ -1051,7 +1055,7 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('languageCount', 'levels.Druid', '+', '1');
       rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
       rules.defineRule('magicNotes.elementalShapeFeature',
-        'levels.Druid', '=', 'source < 16 ? null : source < 18 ? 1 : 2'
+        'levels.Druid', '=', 'source < 16 ? null : Math.floor((source-14) / 2)'
       );
       rules.defineRule('magicNotes.wildShapeFeature',
         'levels.Druid', '=',
@@ -1061,7 +1065,9 @@ SRD35.classRules = function(rules, classes) {
           'source == 11 ? "tiny-large" : ' +
           'source < 15 ? "tiny-large/plant" : "tiny-huge/plant";'
       );
-      rules.defineRule('magicNotes.wildShapeFeature.1',
+      rules.defineRule
+        ('magicNotes.wildShapeFeature.1', 'levels.Druid', '=', null);
+      rules.defineRule('magicNotes.wildShapeFeature.2',
         'levels.Druid', '=',
            'source < 5 ? null : ' +
            'source == 5 ? 1 : ' +
@@ -1129,11 +1135,12 @@ SRD35.classRules = function(rules, classes) {
           'Foe makes DC %V Fortitude save or dies 1/week',
         'featureNotes.timelessBodyFeature:No aging penalties',
         'featureNotes.tongueOfTheSunAndMoonFeature:Speak w/any living creature',
-        'magicNotes.abundantStepFeature:<i>Dimension Door</i> 1/day',
-        'magicNotes.emptyBodyFeature:Ethereal %V rounds/day',
+        'magicNotes.abundantStepFeature:' +
+          '<i>Dimension Door</i> at level %V 1/day',
+        'magicNotes.emptyBodyFeature:<i>Etherealness</i> %V rounds/day',
         'magicNotes.wholenessOfBodyFeature:Heal %V damage to self/day',
         'saveNotes.diamondBodyFeature:Immune to poison',
-        'saveNotes.diamondSoulFeature:+%V vs. spells',
+        'saveNotes.diamondSoulFeature:DC %V spell resistance',
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
         'saveNotes.improvedEvasionFeature:Failed save yields 1/2 damage',
         'saveNotes.perfectSelfFeature:Treat as outsider for magic saves',
@@ -1183,8 +1190,8 @@ SRD35.classRules = function(rules, classes) {
         'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
       );
       rules.defineRule('combatNotes.monkArmorClassAdjustment',
-        'levels.Monk', '=', 'source >= 5 ? Math.floor(source / 5) : null',
-        'wisdomModifier', '+', 'source > 0 ? source : null'
+        'levels.Monk', '+=', 'source >= 5 ? Math.floor(source / 5) : null',
+        'wisdomModifier', '+=', 'source > 0 ? source : null'
       );
       rules.defineRule('combatNotes.quiveringPalmFeature',
         'levels.Monk', '+=', '10 + Math.floor(source / 2)',
@@ -1192,6 +1199,9 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule('combatNotes.stunningFistFeature.1',
         'levels.Monk', '+=', 'source - Math.floor(source / 4)'
+      );
+      rules.defineRule('magicNotes.abundantStepFeature',
+        'levels.Monk', '+=', 'Math.floor(source / 2)'
       );
       rules.defineRule
         ('magicNotes.emptyBodyFeature', 'levels.Monk', '+=', null);
@@ -1229,7 +1239,7 @@ SRD35.classRules = function(rules, classes) {
       hitDie = 10;
       notes = [
         'combatNotes.smiteEvilFeature:' +
-          '%V/day add %1 to attack, %2 to damage vs. evil foe',
+          '+%V attack/+%1 damage vs. evil foe %2/day',
         'combatNotes.turnUndeadFeature:' +
           'Turn (good) or rebuke (evil) undead creatures',
         'featureNotes.specialMountFeature:Magical mount w/special abilities',
@@ -1238,7 +1248,7 @@ SRD35.classRules = function(rules, classes) {
         'magicNotes.layOnHandsFeature:Harm undead or heal %V HP/day',
         'magicNotes.removeDiseaseFeature:<i>Remove Disease</i> %V/week',
         'saveNotes.auraOfCourageFeature:Immune fear; +4 to allies w/in 30 ft',
-        'saveNotes.divineGraceFeature:Add %V to saves',
+        'saveNotes.divineGraceFeature:+%V all saves',
         'saveNotes.divineHealthFeature:Immune to disease',
         'validationNotes.paladinClassAlignment:' +
           'Requires Alignment == Lawful Good'
@@ -1269,16 +1279,17 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('casterLevelDivine',
         'levels.Paladin', '+=', 'source < 4 ? null : Math.floor(source / 2)'
       );
-      rules.defineRule('combatNotes.smiteEvilFeature',
+      rules.defineRule
+        ('combatNotes.smiteEvilFeature', 'charismaModifier', '=', null);
+      rules.defineRule
+        ('combatNotes.smiteEvilFeature.1', 'levels.Paladin', '=', null);
+      rules.defineRule('combatNotes.smiteEvilFeature.2',
         'levels.Paladin', '=', '1 + Math.floor(source / 5)'
       );
-      rules.defineRule
-        ('combatNotes.smiteEvilFeature.1', 'charismaModifier', '=', null);
-      rules.defineRule
-        ('combatNotes.smiteEvilFeature.2', 'levels.Paladin', '=', null);
       rules.defineRule('magicNotes.layOnHandsFeature',
         'levels.Paladin', '+=', null,
-        'charismaModifier', '*', null
+        'charismaModifier', '*', null,
+        'charisma', '?', 'source >= 12'
       );
       rules.defineRule('magicNotes.removeDiseaseFeature',
         'levels.Paladin', '+=', 'Math.floor((source - 3) / 3)'
@@ -1315,7 +1326,6 @@ SRD35.classRules = function(rules, classes) {
       ];
       hitDie = 8;
       notes = [
-        'featureNotes.animalCompanionFeature:Special bond/abilities',
         'combatNotes.favoredEnemyFeature:' +
           '+2 or more damage vs. %V type(s) of creatures',
         'combatNotes.greaterTwoWeaponFightingFeature:' +
@@ -1327,6 +1337,7 @@ SRD35.classRules = function(rules, classes) {
         'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
         'combatNotes.twoWeaponFightingFeature:' +
           'Reduce on-hand penalty by 2/off-hand by 6',
+        'featureNotes.animalCompanionFeature:Special bond/abilities',
         'featureNotes.woodlandStrideFeature:' +
           'Normal movement through undergrowth',
         'saveNotes.enduranceFeature:+4 extended physical action',
@@ -1476,7 +1487,7 @@ SRD35.classRules = function(rules, classes) {
       features = ['1:Summon Familiar'];
       hitDie = 4;
       notes = [
-        'magicNotes.summonFamiliarFeature:Special bond/abilities'
+        'featureNotes.summonFamiliarFeature:Special bond/abilities'
       ];
       profArmor = SRD35.PROFICIENCY_NONE;
       profShield = SRD35.PROFICIENCY_NONE;
@@ -1533,8 +1544,8 @@ SRD35.classRules = function(rules, classes) {
       features = ['1:Scribe Scroll', '1:Summon Familiar'];
       hitDie = 4;
       notes = [
+        'featureNotes.summonFamiliarFeature:Special bond/abilities',
         'magicNotes.scribeScrollFeature:Create scroll of any known spell',
-        'magicNotes.summonFamiliarFeature:Special bond/abilities',
         'magicNotes.wizardSpecialization:Extra %V spell/day each spell level',
         'skillNotes.wizardSpecialization:+2 Spellcraft (%V)'
       ];
@@ -1697,7 +1708,7 @@ SRD35.companionRules = function(rules, companions) {
       ];
       prefix = 'animalCompanion';
       rules.defineRule('animalCompanionStats.armorClass',
-        'animalCompanionLevel', '=', '(source-1) * 2'
+        'animalCompanionLevel', '=', '(source - 1) * 2'
       );
       rules.defineRule('animalCompanionStats.dexterity',
         'animalCompanionLevel', '=', 'source - 1'
@@ -1713,12 +1724,14 @@ SRD35.companionRules = function(rules, companions) {
     } else if(companion == 'Familiar') {
       features = [
         '1:Companion Alertness', '1:Companion Evasion',
-        '1:Companion Improved Evasion', '1:Empathic Link', '1:Share Spells',
-        '2:Deliver Touch Spells', '3:Speak With Master',
-        '4:Speak With Like Animals', '6:Companion Resist Spells', '7:Scry'
+        '1:Companion Improved Evasion', '1:Empathic Link',
+        '1:Share Attributes', '1:Share Spells', '2:Deliver Touch Spells',
+        '3:Speak With Master', '4:Speak With Like Animals',
+        '6:Companion Resist Spells', '7:Scry'
       ];
       notes = [
         'familiarStats.armorClass:+%V',
+        'familiarStats.hitPoints:%V',
         'familiarStats.intelligence:%V',
         'familiarStats.spellResistance:DC %V',
         'companionNotes.companionAlertnessFeature:' +
@@ -1732,6 +1745,8 @@ SRD35.companionRules = function(rules, companions) {
         'companionNotes.empathicLinkFeature:' +
           'Master/companion share emotions up to 1 mile',
         'companionNotes.scryFeature:Master views companion 1/day',
+        'companionNotes.shareAttributesFeature:' +
+          'Use Master\'s HD/base attack/save/skill values',
         'companionNotes.shareSpellsFeature:' +
           'Master share self spell w/companion w/in 5 ft',
         'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
@@ -1739,6 +1754,8 @@ SRD35.companionRules = function(rules, companions) {
       ];
       prefix = 'familiar';
       rules.defineRule('familiarStats.armorClass', 'familiarLevel', '=', null);
+      rules.defineRule
+        ('familiarStats.hitPoints', 'hitPoints', '=', 'Math.floor(source / 2)');
       rules.defineRule
         ('familiarStats.intelligence', 'familiarLevel', '=', 'source + 5');
       rules.defineRule('familiarStats.spellResistance',
@@ -1780,7 +1797,8 @@ SRD35.companionRules = function(rules, companions) {
       rules.defineRule('companionNotes.commandLikeCreaturesFeature.1',
         'mountMasterLevel', '=', 'Math.floor(source / 2)'
       );
-      rules.defineRule('mountStats.armorClass', 'mountLevel', '=', 'source*2');
+      rules.defineRule
+        ('mountStats.armorClass', 'mountLevel', '=', '2 + source * 2');
       rules.defineRule('mountStats.hitDice', 'mountLevel', '=', 'source * 2');
       rules.defineRule
         ('mountStats.intelligence', 'mountLevel', '=', 'source + 5');
@@ -3745,7 +3763,7 @@ SRD35.skillRules = function(rules, skills, subskills) {
     'Knowledge (Dungeoneering)':'Survival (underground)',
     'Knowledge (Engineering)':'Search (secret doors)',
     'Knowledge (Geography)':'Survival (lost/hazards)',
-    'Knowledge (History)':'Bardic knowledge',
+    'Knowledge (History)':'Bardic Knowledge',
     'Knowledge (Local)':'Gather Information',
     'Knowledge (Nature)':'Survival (outdoors)',
     'Knowledge (Nobility)':'Diplomacy',
@@ -3829,10 +3847,6 @@ SRD35.skillRules = function(rules, skills, subskills) {
         rules.defineRule('skillNotes.wildEmpathyFeature',
           'skillNotes.handleAnimalSynergy', '+', '2'
         );
-      } else if(skill == 'Knowledge (History)') {
-        rules.defineRule('skillNotes.bardicKnowledgeFeature',
-          'skillNotes.knowledge(History)Synergy', '+', '2'
-       );
       } else if(skill == 'Knowledge (Religion)') {
         rules.defineRule('turnUndead.maxHitDice',
           'skillNotes.knowledge(Religion)Synergy', '+', '2'
