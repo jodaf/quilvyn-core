@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.123 2007/11/15 06:10:29 Jim Exp $ */
+/* $Id: SRD35.js,v 1.124 2007/11/17 16:15:23 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1754,8 +1754,10 @@ SRD35.companionRules = function(rules, companions) {
       ];
       prefix = 'familiar';
       rules.defineRule('familiarStats.armorClass', 'familiarLevel', '=', null);
-      rules.defineRule
-        ('familiarStats.hitPoints', 'hitPoints', '=', 'Math.floor(source / 2)');
+      rules.defineRule('familiarStats.hitPoints',
+        'familiarLevel', '?', null,
+        'hitPoints', '=', 'Math.floor(source / 2)'
+      );
       rules.defineRule
         ('familiarStats.intelligence', 'familiarLevel', '=', 'source + 5');
       rules.defineRule('familiarStats.spellResistance',
