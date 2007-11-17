@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.124 2007/11/17 16:15:23 Jim Exp $ */
+/* $Id: SRD35.js,v 1.125 2007/11/17 18:43:16 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1191,7 +1191,7 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule('combatNotes.monkArmorClassAdjustment',
         'levels.Monk', '+=', 'source >= 5 ? Math.floor(source / 5) : null',
-        'wisdomModifier', '+=', 'source > 0 ? source : null'
+        'wisdomModifier', '+', 'source > 0 ? source : null'
       );
       rules.defineRule('combatNotes.quiveringPalmFeature',
         'levels.Monk', '+=', '10 + Math.floor(source / 2)',
