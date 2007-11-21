@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.230 2007/11/14 01:03:51 Jim Exp $ */
+/* $Id: Scribe.js,v 1.231 2007/11/21 14:33:44 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.47.13';
+var VERSION = '0.47.21';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -33,7 +33,6 @@ var cookieInfo = {  // What we store in the cookie
   dmonly: '0',      // Show information marked "dmonly" on sheet?
   italics: '1',     // Show italicized notes on sheet?
   recent: '',       // Comma-separated and -terminated list of recent opens
-  untrained: '0',   // Show untrained skills on sheet?
   viewer: ''        // Preferred arrangement of character sheet
 };
 var editForm;       // Character editing form (editWindow.document.forms[0])
@@ -116,7 +115,6 @@ Scribe.editorHtml = function() {
     ['summary', '', 'button', ['Summary']],
     ['view', '', 'button', ['View Html']],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
-    ['untrained', '', 'checkbox', ['Untrained Skills']],
     ['dmonly', '', 'checkbox', ['DM Info']],
     ['viewer', 'Sheet Style', 'select-one', []],
     ['randomize', 'Randomize', 'select-one', 'random']
@@ -325,30 +323,30 @@ Scribe.randomizeCharacter = function(prompt) {
       var presetHtml = '<tr><td><b>' + name + '</b></td>';
       var widget = editForm[preset];
       var selWidget = editForm[preset + '_sel'];
-      if(widget != null) {
-        if(selWidget == null) {
-          presetHtml += '<td>' +
-                        InputHtml(preset, widget.type, InputGetParams(widget)) +
-                        '</td></tr>';
-        } else {
-          // Sets and bags are difficult to manage, so we just provide a
-          // separate entry field for each value, putting multiple ones on each
-          // line to keep the popup compact
-          presetHtml += '</tr>';
-          var options = selWidget.options;
-          var optionsPerLine = Math.ceil(options.length / 10) + 1;
-          for(var j = 0; j < options.length; j += optionsPerLine) {
-            var lineHtml = '<tr>';
-            for(var k = j; k < j + optionsPerLine && k < options.length; k++) {
-              var option = options[k].value;
-              lineHtml += '<td><b>' + option + '</b></td><td>' +
-                          InputHtml(preset + '.' + option, 'text', [2]) +
-                          '</td>';
-            }
-            lineHtml += '</tr>';
-            presetHtml += lineHtml;
+      if(selWidget != null) {
+        // Sets and bags are difficult to manage, so we just provide a
+        // separate entry field for each value, putting multiple ones on each
+        // line to keep the popup compact
+        presetHtml += '</tr>';
+        var options = selWidget.options;
+        var optionsPerLine = Math.ceil(options.length / 10) + 1;
+        for(var j = 0; j < options.length; j += optionsPerLine) {
+          var lineHtml = '<tr>';
+          for(var k = j; k < j + optionsPerLine && k < options.length; k++) {
+            var option = options[k].value;
+            lineHtml += '<td><b>' + option + '</b></td><td>' +
+                        InputHtml(preset + '.' + option, 'text', [2]) +
+                        '</td>';
           }
+          lineHtml += '</tr>';
+          presetHtml += lineHtml;
         }
+      } else if(widget != null) {
+        presetHtml += '<td>' +
+                      InputHtml(preset, widget.type, InputGetParams(widget)) +
+                      '</td></tr>';
+      } else {
+        presetHtml += '<td>' + InputHtml(preset, 'text', [3]) + '</td></tr>';
       }
       htmlBits[htmlBits.length] = presetHtml;
     }
@@ -454,19 +452,11 @@ Scribe.refreshEditor = function(redraw) {
     if(InputGetValue(input) != value)
       InputSetValue(input, value);
   }
-  // Regenerate the skill options to reflect the character's cross/class skills
-  var attrs = ruleSet.applyRules(character);
-  for(i = 0; i < editForm.skills_sel.options.length; i++) {
-    var opt = editForm.skills_sel.options[i];
-    opt.text =
-      opt.value + (attrs['classSkills.' + opt.value] == null ? ' (cc)' : '');
-  }
 
   InputSetValue(editForm.dmonly, cookieInfo.dmonly == '1');
   InputSetValue(editForm.italics, cookieInfo.italics == '1');
   InputSetValue(editForm.rules, ruleSet.getName());
   InputSetValue(editForm.spellFilter, spellFilter);
-  InputSetValue(editForm.untrained, cookieInfo.untrained == '1');
   InputSetValue(editForm.viewer, cookieInfo.viewer);
 
 };
@@ -501,26 +491,8 @@ Scribe.sheetHtml = function() {
     }
   }
 
-  // If so directed, add computed non-zero values for untrained skills
-  if(cookieInfo.untrained == '1') {
-    var skills = ruleSet.getChoices('skills');
-    for(a in skills) {
-      if(character['skills.' + a] == null && skills[a].indexOf('/trained') < 0)
-        enteredAttributes['skills.' + a] = 0;
-    }
-  }
   enteredAttributes.dmonly = cookieInfo.dmonly;
   computedAttributes = ruleSet.applyRules(enteredAttributes);
-  if(cookieInfo.untrained == '1') {
-    var skills = ruleSet.getChoices('skills');
-    for(a in skills) {
-      if(character['skills.' + a] == null &&
-         computedAttributes['skillModifier.' + a] == 0) {
-        delete computedAttributes['skills.' + a];
-        delete computedAttributes['skillModifier.' + a];
-      }
-    }
-  }
   // NOTE: ObjectFormatter doesn't support interspersing values in a list
   // (e.g., skill ability, weapon damage), so we do some inelegant manipulation
   // of sheetAttributes' names and values here to get the sheet to look right.
@@ -780,7 +752,7 @@ Scribe.update = function(input) {
         (ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>'), 'Ok:window.close();');
     else
       Scribe.aboutWindow.focus();
-  } else if(name.match(/^(dmonly|italics|untrained)$/)) {
+  } else if(name.match(/^(dmonly|italics)$/)) {
     cookieInfo[name] = value ? '1' : '0';
     Scribe.storeCookie();
     Scribe.refreshSheet();
