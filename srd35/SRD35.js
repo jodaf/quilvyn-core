@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.125 2007/11/17 18:43:16 Jim Exp $ */
+/* $Id: SRD35.js,v 1.126 2007/11/21 14:36:35 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -41,7 +41,7 @@ function SRD35() {
   SRD35.combatRules(rules);
   SRD35.adventuringRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
-  rules.defineChoice('preset', 'race', 'experience', 'levels');
+  rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
   rules.editorElements = SRD35.initialEditorElements();
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
@@ -77,28 +77,7 @@ SRD35.CLASSES = [
   'Ranger', 'Rogue', 'Sorcerer', 'Wizard'
 ];
 SRD35.COMPANIONS = ['Animal Companion', 'Familiar', 'Mount'];
-SRD35.DEITIES = [
-  'Boccob (N Magic):Knowledge/Magic/Trickery',
-  'Corellon Larethian (CG Elves):Chaos/Good/Protection/War',
-  'Ehlonna (NG Woodlands):Animal/Good/Plant/Sun',
-  'Erythnul (CE Slaughter):Chaos/Evil/Trickery/War',
-  'Fharlanghn (N Roads):Luck/Protection/Travel',
-  'Garl Glittergold (NG Gnomes):Good/Protection/Trickery',
-  'Gruumsh (CE Orcs):Chaos/Evil/Strength/War',
-  'Heironeous (LG Valor):Good/Law/War',
-  'Hextor (LE Tyranny):Destruction/Evil/Law/War',
-  'Kord (CG Strength):Chaos/Good/Luck/Strength',
-  'Moradin (LG Dwarves):Earth/Good/Law/Protection',
-  'Nerull (NE Death):Death/Evil/Trickery',
-  'Obad-Hai (N Nature):Air/Animal/Earth/Fire/Plant/Water',
-  'Olidammara (CN Thieves):Chaos/Luck/Trickery',
-  'Pelor (NG Sun):Good/Healing/Strength/Sun',
-  'St. Cuthbert (LN Retribution):Destruction/Law/Protection/Strength',
-  'Wee Jas (LN Death And Magic):Death/Law/Magic',
-  'Yondalla (LG Halflings):Good/Law/Protection',
-  'Vecna (NE Secrets):Evil/Knowledge/Magic',
-  'None:'
-];
+SRD35.DEITIES = ['None:']; // The SRD defines no deities
 SRD35.DOMAINS = [
   'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
   'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
@@ -264,13 +243,6 @@ SRD35.armorsWeightClasses = {
   'Scale Mail': 'Medium', 'Chainmail': 'Medium', 'Breastplate': 'Medium',
   'Splint Mail': 'Heavy', 'Banded Mail': 'Heavy', 'Half Plate': 'Heavy',
   'Full Plate': 'Heavy'
-};
-SRD35.deitiesFavoredWeapons = {
-  'Corellon Larethian (CG Elves)': 'Longsword',
-  'Erythnul (CE Slaughter)': 'Morningstar',
-  'Gruumsh (CE Orcs)': 'Spear',
-  'Heironeous (LG Valor)': 'Longsword',
-  'Hextor (LE Tyranny)': 'Heavy Flail/Light Flail'
 };
 SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
 SRD35.spellsSchools = {
@@ -3422,26 +3394,16 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       rules.defineRule
         ('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
     } else if(domain == 'War') {
-      notes = ['featureNotes.warDomain:Weapon Proficiency/Weapon Focus (%V)'];
+      notes = [
+        'featureNotes.warDomain:' +
+          'Weapon Proficiency/Weapon Focus in favored weapon'
+      ];
       spells = [
         'Magic Weapon', 'Spiritual Weapon', 'Magic Vestment', 'Divine Power',
         'Flame Strike', 'Blade Barrier', 'Power Word Blind', 'Power Word Stun',
         'Power Word Kill'
       ];
       turn = null;
-      rules.defineRule('featureNotes.warDomain',
-        'deity', '=', 'SRD35.deitiesFavoredWeapons[source]'
-      );
-      for(var a in SRD35.deitiesFavoredWeapons) {
-        var weapons = SRD35.deitiesFavoredWeapons[a].split('/');
-        for(var j = 0; j < weapons.length; j++) {
-          var weapon = weapons[j];
-          rules.defineRule('features.Weapon Focus (' + weapon + ')',
-            'featureNotes.warDomain', '=',
-            'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
-          );
-        }
-      }
     } else if(domain == 'Water') {
       notes = ['combatNotes.waterDomain:Turn fire/rebuke water'];
       spells = [
@@ -4164,7 +4126,12 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     if(attributes.experience != null) {
       level = Math.floor((1 + Math.sqrt(1 + attributes.experience / 125)) / 2);
     } else {
-      var level = ScribeUtils.sumMatching(attributes, /^levels\./);
+      if(attributes.level != null) {
+        level = attributes.level - 0;
+        delete attributes.level;
+      } else {
+        level = ScribeUtils.sumMatching(attributes, /^levels\./);
+      }
       if(level == 0) {
         level = ScribeUtils.random(1, 100);
         level = level<=50 ? 1 : level<=75 ? 2 : level<=87 ? 3 : level<=93 ? 4 :
