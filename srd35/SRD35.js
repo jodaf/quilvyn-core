@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.126 2007/11/21 14:36:35 Jim Exp $ */
+/* $Id: SRD35.js,v 1.127 2007/11/29 02:57:43 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -689,15 +689,10 @@ SRD35.adventuringRules = function(rules) {
 /* Defines the rules related to PH Chapter 3, Classes. */
 SRD35.classRules = function(rules, classes) {
 
-  // Experience- and level-dependent attributes
+  // Level-dependent attributes
   rules.defineRule('classSkillMaxRanks', 'level', '=', 'source + 3');
   rules.defineRule
-    ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
-  rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
-  rules.defineRule('level',
-    'experience', '=', 'Math.floor((1 + Math.sqrt(1 + source / 125)) / 2)'
-  );
   rules.defineRule('skillPoints',
     '', '=', '0',
     'level', '^', 'source + 3'
@@ -1903,10 +1898,6 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Gender', within: 'Description'},
             {name: 'Player', within: 'Description'},
           {name: 'AbilityStats', within: 'Attributes', separator: innerSep},
-            {name: 'ExperienceInfo', within: 'AbilityStats', separator: ''},
-              {name: 'Experience', within: 'ExperienceInfo'},
-              {name: 'Experience Needed', within: 'ExperienceInfo',
-               format: '/%V'},
             {name: 'Level', within: 'AbilityStats'},
             {name: 'SpeedInfo', within: 'AbilityStats', separator: ''},
               {name: 'Speed', within: 'SpeedInfo',
@@ -3926,7 +3917,6 @@ SRD35.initialEditorElements = function() {
   var editorElements = [
     ['name', 'Name', 'text', [20]],
     ['race', 'Race', 'select-one', 'races'],
-    ['experience', 'Experience', 'text', [8]],
     ['levels', 'Levels', 'bag', 'levels'],
     ['imageUrl', 'Image URL', 'text', [20]],
     ['strength', 'Strength', 'select-one', abilityChoices],
@@ -4122,26 +4112,14 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     pickAttrs(attributes, 'languages.', choices, howMany, 1);
   } else if(attribute == 'levels') {
     choices = ScribeUtils.getKeys(this.getChoices('levels'));
-    var level;
-    if(attributes.experience != null) {
-      level = Math.floor((1 + Math.sqrt(1 + attributes.experience / 125)) / 2);
-    } else {
-      if(attributes.level != null) {
-        level = attributes.level - 0;
-        delete attributes.level;
-      } else {
-        level = ScribeUtils.sumMatching(attributes, /^levels\./);
-      }
-      if(level == 0) {
-        level = ScribeUtils.random(1, 100);
-        level = level<=50 ? 1 : level<=75 ? 2 : level<=87 ? 3 : level<=93 ? 4 :
-                level<=96 ? 5 : level<=98 ? 6 : level<=99 ? 7 : 8;
-      }
-      var min = level * (level - 1) * 1000 / 2;
-      var max = level * (level + 1) * 1000 / 2 - 1;
-      attributes.experience = ScribeUtils.random(min, max);
+    var soFar = ScribeUtils.sumMatching(attributes, /^levels\./); 
+    var level = attributes.level != null ? attributes.level - 0 : soFar;
+    if(level == 0) {
+      level = ScribeUtils.random(1, 100);
+      level = level<=50 ? 1 : level<=75 ? 2 : level<=87 ? 3 : level<=93 ? 4 :
+              level<=96 ? 5 : level<=98 ? 6 : level<=99 ? 7 : 8;
     }
-    howMany = level - ScribeUtils.sumMatching(attributes, /^levels\./);
+    howMany = level - soFar;
     var classes = ScribeUtils.random(1, 100);
     classes = classes < 60 ? 1 : classes < 90 ? 2 : 3;
     if(classes > howMany) {
@@ -4152,6 +4130,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       pickAttrs(attributes, 'levels.', choices, 1, thisLevel);
       howMany -= thisLevel;
     }
+    attributes.level = level;
   } else if(attribute == 'name') {
     attributes['name'] = SRD35.randomName(attributes['race']);
   } else if(attribute == 'skills') {
