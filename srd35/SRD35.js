@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.127 2007/11/29 02:57:43 Jim Exp $ */
+/* $Id: SRD35.js,v 1.128 2007/11/30 16:09:57 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -846,6 +846,8 @@ SRD35.classRules = function(rules, classes) {
       ];
       rules.defineRule('casterLevelArcane', 'levels.Bard', '+=', null);
       rules.defineRule
+        ('classSkills.Bardic Knowledge', 'features.Bardic Knowledge', '=', '1');
+      rules.defineRule
         ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
       rules.defineRule('features.Countersong',
         'maxSkillModifier.Perform', '?', 'source >= 3'
@@ -885,12 +887,15 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('magicNotes.inspireGreatnessFeature',
         'levels.Bard', '+=', 'source >= 9 ? Math.floor((source - 6) / 3) : null'
       );
-      rules.defineRule('skills.Bardic Knowledge',
-        'levels.Bard', '+=', null,
+      rules.defineRule
+        ('maxSkillModifier.Perform', /^skillModifier.Perform/, '^=', null);
+      rules.defineRule('skillModifier.Bardic Knowledge',
+        'skills.Bardic Knowledge', '=', null,
+        'levels.Bard', '+', null,
         'intelligenceModifier', '+', null
       );
       rules.defineRule
-        ('maxSkillModifier.Perform', /^skillModifier.Perform/, '^=', null);
+        ('skills.Bardic Knowledge', 'features.Bardic Knowledge', '=', '0');
 
     } else if(klass == 'Cleric') {
 
