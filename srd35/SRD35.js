@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.128 2007/11/30 16:09:57 Jim Exp $ */
+/* $Id: SRD35.js,v 1.129 2007/12/01 07:27:51 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -890,12 +890,10 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule
         ('maxSkillModifier.Perform', /^skillModifier.Perform/, '^=', null);
       rules.defineRule('skillModifier.Bardic Knowledge',
-        'skills.Bardic Knowledge', '=', null,
-        'levels.Bard', '+', null,
+        'levels.Bard', '+=', null,
         'intelligenceModifier', '+', null
       );
-      rules.defineRule
-        ('skills.Bardic Knowledge', 'features.Bardic Knowledge', '=', '0');
+      rules.defineRule('skills.Bardic Knowledge', 'levels.Bard', '=', '0');
 
     } else if(klass == 'Cleric') {
 
