@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.1 2007/12/01 07:27:51 Jim Exp $ */
+/* $Id: SRD35Prestige.js,v 1.2 2007/12/05 03:38:22 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -35,7 +35,7 @@ function SRD35Prestige() {
 SRD35Prestige.CLASSES = [
   'Arcane Archer', 'Arcane Trickster', 'Archmage', 'Assassin', 'Blackguard',
   'Dragon Disciple', 'Duelist', 'Dwarven Defender', 'Eldritch Knight',
-  'Hierophant', 'Horizon Walker', 'Loremaster', 'Mystic Theurge', 'Red Wizard',
+  'Hierophant', 'Horizon Walker', 'Loremaster', 'Mystic Theurge',
   'Shadowdancer', 'Thaumaturgist'
 ];
 SRD35Prestige.COMPANIONS = ['Fiendish Servant'];
@@ -985,88 +985,6 @@ SRD35Prestige.classRules = function(rules, classes) {
       spellsPerDay = null;
       rules.defineRule('magicNotes.casterLevelBonusFeature',
         'levels.Mystic Theurge', '+=', null
-      );
-
-    } else if(klass == 'Red Wizard') {
-
-      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      features = [
-        '1:Caster Level Bonus', '1:Enhanced Specialization',
-        '1:Specialist Defense', '2:Spell Power', '5:Circle Leader',
-        '7:Scribe Tattoo', '10:Great Circle Leader'
-      ];
-      hitDie = 4;
-      notes = [
-        'magicNotes.casterLevelBonusFeature:' +
-          'Add %V to base class level for spells known/per day',
-        'magicNotes.enhancedSpecializationFeature:Additional prohibited school',
-        'magicNotes.circleLeaderFeature:' +
-          '1 hour ritual w/2-5 other members raises caster level, ' +
-          'gives metamagic feats',
-        'magicNotes.greatCircleLeaderFeature:' +
-          'Lead magic circle w/9 other members',
-        'magicNotes.specialistDefenseFeature:' +
-          '+%V bonus on saves vs. specialist school spells',
-        'magicNotes.scribeTattooFeature:Induct novices into circle',
-        'magicNotes.spellPowerFeature:+%V caster level for spell effects',
-        'magicNotes.tattooFocusFeature:' +
-          '+1 DC/+1 caster level vs. resistance w/specialization school spells',
-        'validationNotes.redWizardClassAlignment:Requires Alignment !~ Good',
-        'validationNotes.redWizardClassFeats:' +
-          'Requires Tattoo Focus/any 3 metamagic or item creation',
-        'validationNotes.redWizardClassRace:Requires Race == Human',
-        'validationNotes.redWizardClassSkills:Requires Spellcraft >= 8',
-        'validationNotes.redWizardClassSpells:Requires arcane level 3',
-        'validationNotes.tattooFocusMagic:Requires magic school specialization'
-      ];
-      profArmor = SRD35.PROFICIENCY_NONE;
-      profShield = SRD35.PROFICIENCY_NONE;
-      profWeapon = SRD35.PROFICIENCY_NONE;
-      saveFortitude = SRD35.SAVE_BONUS_POOR;
-      saveReflex = SRD35.SAVE_BONUS_POOR;
-      saveWill = SRD35.SAVE_BONUS_GOOD;
-      selectableFeatures = null;
-      skillPoints = 2;
-      skills = [
-        'Bluff', 'Concentration', 'Craft', 'Intimidate', 'Knowledge',
-        'Profession', 'Spellcraft'
-      ];
-      spellAbility = null;
-      spells = null;
-      spellsKnown = null;
-      spellsPerDay = null;
-      rules.defineChoice('feats', 'Tattoo Focus:General');
-      rules.defineRule
-        ('featCount.Wizard', 'levels.Red Wizard', '+=', 'source>=5 ? 1 : null');
-      rules.defineRule
-        ('features.Tattoo Focus', 'feats.Tattoo Focus', '=', null);
-      rules.defineRule
-        ('magicNotes.casterLevelBonusFeature', 'levels.Red Wizard', '+=', null);
-      rules.defineRule('magicNotes.specialistDefenseFeature',
-        'levels.Red Wizard', '+=',
-        'Math.floor((source + 1) / 2) - (source >= 5 ? 1 : 0)'
-      );
-      rules.defineRule('magicNotes.spellPowerFeature',
-        'levels.Red Wizard', '+=', 'Math.floor(source / 2)'
-      );
-      rules.defineRule('validationNotes.redWizardClassFeats',
-        'levels.Red Wizard', '=', '-13',
-        'features.Tattoo Focus', '+', '10',
-        'features.Spell Mastery', '+', '1',
-        /^features\.(Brew|Craft|Forge|Scribe)/, '+', '1',
-        // NOTE: False valid w/Natural Spell
-        /^features\..*Spell$/, '+', '1',
-        '', 'v', '0'
-      );
-      rules.defineRule('validationNotes.redWizardClassSpells',
-        'levels.Red Wizard', '=', '-1',
-        /^spellsKnown\.(AS|B|W)3/, '+', '1',
-        '', 'v', '0'
-      );
-      rules.defineRule('validationNotes.tattooFocusMagic',
-        'feats.Tattoo Focus', '=', '-1',
-        /^specialize\./, '+', '1',
-        '', 'v', '0'
       );
 
     } else if(klass == 'Shadowdancer') {
