@@ -1,4 +1,4 @@
-/* $Id: CustomSpellPoints.js,v 1.26 2007/11/08 14:22:32 Jim Exp $ */
+/* $Id: CustomSpellPoints.js,v 1.27 2007/12/08 07:00:00 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -22,7 +22,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * one spell point for each level of spell that can be cast in a day (i.e., 1
  * point for a first level spell, 2 for a second level spell, etc.)
  */
-function SpellPoints() {
+function CustomSpellPoints() {
   var ruleSets = ['SRD35', 'Eberron'];
   for(var i = 0; i < ruleSets.length; i++) {
     if(window[ruleSets[i]] == null)
