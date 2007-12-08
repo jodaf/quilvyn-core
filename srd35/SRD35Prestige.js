@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.2 2007/12/05 03:38:22 Jim Exp $ */
+/* $Id: SRD35Prestige.js,v 1.3 2007/12/08 01:26:14 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -62,23 +62,24 @@ SRD35Prestige.classRules = function(rules, classes) {
       hitDie = 8;
       notes = [
         'combatNotes.arrowOfDeathFeature:' +
-          'Special arrow requires DC 20 fortitude check or die',
+          'Special arrow requires foe DC 20 fortitude check or die',
         'combatNotes.enhanceArrowFeature:Arrows treated as +%V magic weapons',
-        'combatNotes.hailOfArrowsFeature:Fire arrows at %V targets 1/day',
+        'combatNotes.hailOfArrowsFeature:' +
+          'Simultaneously fire arrows at %V targets 1/day',
         'combatNotes.phaseArrowFeature:' +
           'Arrow passes through normal obstacles 1/day',
         'combatNotes.seekerArrowFeature:Arrow maneuvers to target 1/day',
         'magicNotes.imbueArrowFeature:Center spell where arrow lands',
         'validationNotes.arcaneArcherClassBaseAttack:Requires Base Attack >= 6',
         'validationNotes.arcaneArcherClassCasterLevel:' +
-          'Requires Caster Level >= 1',
+          'Requires Caster Level Arcane >= 1',
         'validationNotes.arcaneArcherClassFeats:' +
           'Requires Point Blank Shot/Precise Shot/' +
           'Weapon Focus (Longbow)||Weapon Focus (Shortbow)',
         'validationNotes.arcaneArcherClassRace:Requires Race =~ Elf'
       ];
       profArmor = SRD35.PROFICIENCY_MEDIUM;
-      profShield = SRD35.PROFICIENCY_HEAVY;
+      profShield = SRD35.PROFICIENCY_TOWER;
       profWeapon =  SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
@@ -188,8 +189,10 @@ SRD35Prestige.classRules = function(rules, classes) {
         'magicNotes.masteryOfElementsFeature:Change energy type of spell',
         'magicNotes.masteryOfShapingFeature:' +
           'Create holes in spell effect area',
-        'magicNotes.spellPowerFeature:+%V caster level for spell effects',
+        'magicNotes.spellPowerFeature:+1 caster level for spell effects',
         'magicNotes.spellLikeAbilityFeature:Use spell as ability 2+/day',
+        'validationNotes.archmageClassFeatures:' +
+          'Requires Skill Focus (Spellcraft)/2 Spell Focus',
         'validationNotes.archmageClassSkills:' +
           'Requires Knowledge (Arcana) >= 15/Spellcraft >= 15',
         'validationNotes.archmageClassSpells:' +
@@ -218,9 +221,13 @@ SRD35Prestige.classRules = function(rules, classes) {
       rules.defineRule
         ('magicNotes.casterLevelBonusFeature', 'levels.Archmage', '+=', null);
       rules.defineRule
-        ('magicNotes.spellPowerFeature', 'levels.Archmage', '+=', null);
-      rules.defineRule
         ('selectableFeatureCount.Archmage', 'levels.Archmage', '+=', null);
+      rules.defineRule('validationNotes.archmageClassFeatures',
+        'levels.Archmage', '=', '-12',
+        'features.Skill Focus (Spellcraft)', '+', '10',
+        /^features.Spell Focus/, '+', '1',
+        '', 'v', '0'
+      );
       rules.defineRule('validationNotes.archmageClassSpells',
         'levels.Archmage', '=', '-1',
         /^spellsKnown\.(AS|B|S|W)7/, '+', '1',

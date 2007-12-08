@@ -1,4 +1,4 @@
-/* $Id: SRD35NPC.js,v 1.1 2007/12/01 07:27:51 Jim Exp $ */
+/* $Id: SRD35NPC.js,v 1.2 2007/12/08 01:26:14 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -81,7 +81,7 @@ SRD35NPC.classRules = function(rules, classes) {
         'See Invisibility:Web',
         'AD3:Animate Dead:Bestow Curse:Contagion:Continual Flame:' +
         'Cure Serious Wounds:Daylight:Deeper Darkness:Lightning Bolt:' +
-        'Neutralize Poison:Remove Curse:Tongues',
+        'Neutralize Poison:Remove Curse:Remove Disease:Tongues',
         'AD4:Cure Critical Wounds:Minor Creation:Polymorph:Restoration:' +
         'Stoneskin:Wall Of Fire',
         'AD5:Baleful Polymorph:Break Enchantment:Commune:Heal:Major Creation:' +
@@ -97,7 +97,7 @@ SRD35NPC.classRules = function(rules, classes) {
         'AD2:4:0/5:1/7:2/11:3',
         'AD3:8:0/9:1/11:2/15:3',
         'AD4:12:0/13:1/15:2/19:3',
-        'AD5:16:0/16:1/19:2'
+        'AD5:16:0/17:1/19:2'
       ];
       rules.defineRule('casterLevelDivine', 'levels.Adept', '+=', null);
       rules.defineRule
@@ -110,8 +110,8 @@ SRD35NPC.classRules = function(rules, classes) {
       features = null;
       hitDie = 8;
       notes = null;
-      profArmor = SRD35.PROFICIENCY_LIGHT;
-      profShield = SRD35.PROFICIENCY_LIGHT;
+      profArmor = SRD35.PROFICIENCY_HEAVY;
+      profShield = SRD35.PROFICIENCY_TOWER;
       profWeapon =  SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_POOR;
       saveReflex = SRD35.SAVE_BONUS_POOR;
@@ -176,7 +176,7 @@ SRD35NPC.classRules = function(rules, classes) {
       hitDie = 8;
       notes = null;
       profArmor = SRD35.PROFICIENCY_HEAVY;
-      profShield = SRD35.PROFICIENCY_MEDIUM;
+      profShield = SRD35.PROFICIENCY_TOWER;
       profWeapon =  SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
