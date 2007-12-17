@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.3 2007/12/08 01:26:14 Jim Exp $ */
+/* $Id: SRD35Prestige.js,v 1.4 2007/12/17 14:39:45 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -35,7 +35,9 @@ function SRD35Prestige() {
 SRD35Prestige.CLASSES = [
   'Arcane Archer', 'Arcane Trickster', 'Archmage', 'Assassin', 'Blackguard',
   'Dragon Disciple', 'Duelist', 'Dwarven Defender', 'Eldritch Knight',
-  'Hierophant', 'Horizon Walker', 'Loremaster', 'Mystic Theurge',
+  'Hierophant', 'Horizon Walker', 'Loremaster',
+
+  'Mystic Theurge',
   'Shadowdancer', 'Thaumaturgist'
 ];
 SRD35Prestige.COMPANIONS = ['Fiendish Servant'];
@@ -79,7 +81,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'validationNotes.arcaneArcherClassRace:Requires Race =~ Elf'
       ];
       profArmor = SRD35.PROFICIENCY_MEDIUM;
-      profShield = SRD35.PROFICIENCY_TOWER;
+      profShield = SRD35.PROFICIENCY_HEAVY;
       profWeapon =  SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
@@ -127,7 +129,9 @@ SRD35Prestige.classRules = function(rules, classes) {
         'validationNotes.arcaneTricksterClassSpells:' +
           'Requires Mage Hand/arcane level 3'
       ];
-      profArmor = profShield = profWeapon = SRD35.PROFICIENCY_NONE;
+      profArmor = SRD35.PROFICIENCY_NONE;
+      profShield = SRD35.PROFICIENCY_NONE;
+      profWeapon = SRD35.PROFICIENCY_NONE;
       saveFortitude = SRD35.SAVE_BONUS_POOR;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
       saveWill = SRD35.SAVE_BONUS_GOOD;
@@ -246,7 +250,8 @@ SRD35Prestige.classRules = function(rules, classes) {
       hitDie = 6;
       notes = [
         'combatNotes.deathAttackFeature:' +
-          'DC %V save on sneak attack after 3 rounds of study or die/paralyzed',
+          'Foe DC %V fortitude save on successful sneak attack after 3 ' +
+          'rounds of study or die/paralyzed for d6+%1 rounds',
         'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
         'combatNotes.sneakAttackFeature:' +
@@ -261,7 +266,8 @@ SRD35Prestige.classRules = function(rules, classes) {
           'Requires Disguise >= 4/Hide >= 8/Move Silently >= 8'
       ];
       profArmor = SRD35.PROFICIENCY_LIGHT;
-      profShield = profWeapon = SRD35.PROFICIENCY_NONE;
+      profShield = SRD35.PROFICIENCY_NONE;
+      profWeapon = SRD35.PROFICIENCY_NONE;
       saveFortitude = SRD35.SAVE_BONUS_POOR;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
       saveWill = SRD35.SAVE_BONUS_POOR;
@@ -303,6 +309,8 @@ SRD35Prestige.classRules = function(rules, classes) {
         'levels.Assassin', '+=', '10 + source',
         'intelligenceModifier', '+', null
       );
+      rules.defineRule
+        ('combatNotes.deathAttackFeature.1', 'levels.Assassin', '+=', null);
       rules.defineRule('combatNotes.sneakAttackFeature',
         'levels.Assassin', '+=', 'Math.floor((source + 1) / 2)'
       );
@@ -316,17 +324,16 @@ SRD35Prestige.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
       features = [
-        '1:Blackguard Hands', '1:Detect Good', '1:Fiendish Summoning',
-        '1:Poison Use', '2:Dark Blessing', '2:Smite Good', '3:Aura Of Despair',
-        '3:Turn Undead', '4:Sneak Attack', '5:Fiendish Servant',
-        '5:Undead Companion' 
+        '1:Aura Of Evil', '1:Blackguard Hands', '1:Detect Good',
+        '1:Fiendish Summoning', '1:Poison Use', '2:Smite Good',
+        '2:Dark Blessing', '3:Aura Of Despair', '3:Turn Undead',
+        '4:Sneak Attack', '5:Fiendish Servant', '5:Undead Companion' 
       ];
       hitDie = 10;
       notes = [
-        'combatNotes.auraOfDespairFeature:' +
-          'All foes within 10 ft subtract 2 from all saving throws',
+        'combatNotes.auraOfDespairFeature:All foes within 10 ft -2 all saves',
         'combatNotes.smiteGoodFeature:' +
-          '%V/day add %1 to attack, %2 to damage vs. good foe',
+          '+%1 attack/+%2 damage vs. good foe %V/day',
         'combatNotes.sneakAttackFeature:' +
           '%Vd6 extra damage when surprising or flanking',
         'combatNotes.turnUndeadFeature:' +
@@ -337,8 +344,9 @@ SRD35Prestige.classRules = function(rules, classes) {
           'No chance of self-poisoning when applying to blade',
         'featureNotes.undeadCompanionFeature:' +
           'Unturnable undead servant w/fiendish servant abilities',
+        'magicNotes.auraOfEvilFeature:Visible to <i>Detect Evil</i>',
         'magicNotes.blackguardHandsFeature:Heal %V HP/day to self or servant',
-        'magicNotes.detectGoodFeature:At will',
+        'magicNotes.detectGoodFeature:<i>Detect Good</i> at will',
         'magicNotes.fiendishSummoningFeature:' +
           '<i>Summon Monster I</i> as level %V caster 1/day',
         'saveNotes.darkBlessingFeature:+%V on all saves',
@@ -386,8 +394,9 @@ SRD35Prestige.classRules = function(rules, classes) {
       rules.defineRule('combatNotes.smiteGoodFeature',
         'levels.Blackguard', '+=', 'source<2 ? null : 1 + Math.floor(source/5)'
       );
-      rules.defineRule
-        ('combatNotes.smiteGoodFeature.1', 'charismaModifier', '=', null);
+      rules.defineRule('combatNotes.smiteGoodFeature.1',
+        'charismaModifier', '=', 'source > 0 ? source : 0'
+      );
       rules.defineRule
         ('combatNotes.smiteGoodFeature.2', 'levels.Blackguard', '=', null);
       rules.defineRule('combatNotes.sneakAttackFeature',
@@ -430,6 +439,8 @@ SRD35Prestige.classRules = function(rules, classes) {
       rules.defineRule('combatNotes.smiteGoodFeature',
         'levels.Paladin', '+', 'source >= 9 ? 3 : source >= 5 ? 2 : 1'
       );
+      // NOTE: Minor bug: this will also effect the sneak attack feature of
+      // some unlikely combinations, e.g., rogue/paladin
       rules.defineRule('combatNotes.sneakAttackFeature',
         'levels.Paladin', '+', 'source >= 5 ? 1 : null'
       );
@@ -439,21 +450,20 @@ SRD35Prestige.classRules = function(rules, classes) {
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       features = [
         '1:Bonus Spells', '2:Bite Attack', '2:Claw Attack',
-        '2:Strength Boost', '3:Breath Weapon', '4:Improved Strength Boost',
-        '5:Blindsense', '6:Constitution Boost', '8:Intelligence Boost',
-        '9:Wings', '10:Darkvision', '10:Dragon Apotheosis',
-        '10:Low Light Vision'
+        '2:Strength Boost', '3:Breath Weapon', '5:Blindsense',
+        '6:Constitution Boost', '8:Intelligence Boost', '9:Wings',
+        '10:Darkvision', '10:Dragon Apotheosis', '10:Low Light Vision'
       ];
       hitDie = 12;
       notes = [
         'abilityNotes.constitutionBoostFeature:+2 constitution',
         'abilityNotes.dragonApotheosisFeature:+4 strength/+2 charisma',
-        'abilityNotes.improvedStrengthBoostFeature:+2 strength',
         'abilityNotes.intelligenceBoostFeature:+2 intelligence',
-        'abilityNotes.strengthBoostFeature:+2 strength',
+        'abilityNotes.strengthBoostFeature:+%V strength',
         'combatNotes.biteAttackFeature:Attack with bite',
-        'combatNotes.breathWeaponFeature:Breathe for %V damage 1/day; DC %V',
+        'combatNotes.breathWeaponFeature:Breathe for %Vd8 damage 1/day; DC %1',
         'combatNotes.clawAttackFeature:Attack with claws',
+        'combatNotes.dragonDiscipleArmorClassAdjustment:%V',
         'featureNotes.blindsenseFeature:' +
           'Other senses allow detection of unseen objects w/in 30 ft',
         'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
@@ -464,7 +474,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'saveNotes.dragonApotheosisFeature:' +
           'Immune sleep/paralysis/breath weapon energy',
         'validationNotes.dragonDiscipleClassLanguages:Requires Draconic',
-        'validationNotes.dragonDiscipleClassRace:Requires Race =~ Dragon',
+        'validationNotes.dragonDiscipleClassRace:Requires Race !~ Dragon',
         'validationNotes.dragonDiscipleClassSkills:' +
           'Requires Knowledge (Arcana) >= 8',
         'validationNotes.dragonDiscipleClassSpells:' +
@@ -487,14 +497,16 @@ SRD35Prestige.classRules = function(rules, classes) {
       spells = null;
       spellsKnown = null;
       spellsPerDay = null;
+      rules.defineRule('abilityNotes.strengthBoostFeature',
+        'levels.Dragon Disciple', '+=', 'source>=4 ? 4 : source>=2 ? 2 : null'
+      );
       rules.defineRule('armorClass',
         'combatNotes.dragonDiscipleArmorClassAdjustment', '+', null
       );
       rules.defineRule
         ('charisma', 'abilityNotes.dragonApotheosisFeature', '+', '2');
       rules.defineRule('combatNotes.breathWeaponFeature',
-        'levels.Dragon Disciple', '=',
-          'source < 7 ? "2d8" : source < 10 ? "4d8" : "6d8"'
+        'levels.Dragon Disciple', '=', 'source < 7 ? 2 : source < 10 ? 4 : 6'
       );
       rules.defineRule('combatNotes.breathWeaponFeature.1',
         'levels.Dragon Disciple', '=', '10 + source',
@@ -520,8 +532,7 @@ SRD35Prestige.classRules = function(rules, classes) {
       );
       rules.defineRule('strength',
         'abilityNotes.dragonApotheosisFeature', '+', '4',
-        'abilityNotes.improvedStrengthBoostFeature', '+', '2',
-        'abilityNotes.strengthBoostFeature', '+', '2'
+        'abilityNotes.strengthBoostFeature', '+', null
       );
       rules.defineRule('validationNotes.dragonDiscipleClassSpells',
         'levels.Dragon Disciple', '=', '-1',
@@ -563,7 +574,8 @@ SRD35Prestige.classRules = function(rules, classes) {
         'validationNotes.duelistClassSkills:' +
           'Requires Sum Perform >= 3/Tumble >= 5'
       ];
-      profArmor = profShield = SRD35.PROFICIENCY_NONE;
+      profArmor = SRD35.PROFICIENCY_NONE;
+      profShield = SRD35.PROFICIENCY_NONE;
       profWeapon = SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_POOR;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
@@ -579,15 +591,22 @@ SRD35Prestige.classRules = function(rules, classes) {
       spellsKnown = null;
       spellsPerDay = null;
       rules.defineRule
-        ('combatNotes.cannyDefenseFeature', 'levels.Duelist', '+=', null);
+        ('armorClass', 'combatNotes.cannyDefenseFeature', '+', null);
+      rules.defineRule('combatNotes.cannyDefenseFeature',
+        'intelligenceModifier', '+=', null,
+        'levels.Duelist', 'v', null
+      );
       rules.defineRule
         ('combatNotes.elaborateParryFeature', 'levels.Duelist', '+=', null);
       rules.defineRule('combatNotes.improvedReactionFeature',
         'levels.Duelist', '+=', 'source < 2 ? null : source < 8 ? 2 : 4'
       );
       rules.defineRule('combatNotes.preciseStrikeFeature',
-        'levels.Duelist', '=', 'source < 5 ? null : source < 10 ? 1 : 2'
+        'levels.Duelist', '=', 'Math.floor(source / 5)'
       );
+      rules.defineRule
+        ('initiative', 'combatNotes.improvedReactionFeature', '+', null);
+      rules.defineRule('save.Reflex', 'saveNotes.graceFeature', '+', null);
 
     } else if(klass == 'Dwarven Defender') {
 
@@ -599,14 +618,15 @@ SRD35Prestige.classRules = function(rules, classes) {
       hitDie = 12;
       notes = [
         'combatNotes.damageReductionFeature:%V subtracted from damage taken',
+        'combatNotes.dwarvenDefenderArmorClassAdjustment:%V',
         'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
         'combatNotes.mobileDefenseFeature:' +
           'Allowed 5 ft. step during Defensive Stance',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'featureNotes.defensiveStanceFeature:' +
-          '+2 strength/+4 constitution/+2 saves/+4 dodge AC while unmoving ' +
-          'for %V rounds %1/day',
+          '+2 strength/+4 constitution/+2 saves/+4 AC while unmoving for ' +
+          '%V rounds %1/day',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
         'validationNotes.dwarvenDefenderClassAlignment:' +
           'Requires Alignment =~ Lawful',
@@ -614,14 +634,14 @@ SRD35Prestige.classRules = function(rules, classes) {
           'Requires Base Attack >= 7',
         'validationNotes.dwarvenDefenderClassFeats:' +
           'Requires Dodge/Endurance/Toughness',
-        'validationNotes.dwarvenDefenderClassRace:Requires Race == Dwarf'
+        'validationNotes.dwarvenDefenderClassRace:Requires Race =~ Dwarf'
       ];
       profArmor = SRD35.PROFICIENCY_HEAVY;
       profShield = SRD35.PROFICIENCY_HEAVY;
       profWeapon = SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
-      saveWill = SRD35.SAVE_BONUS_POOR;
+      saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 2;
       skills = ['Craft', 'Listen', 'Sense Motive', 'Spot'];
@@ -639,29 +659,30 @@ SRD35Prestige.classRules = function(rules, classes) {
         'levels.Dwarven Defender', '+=', 'Math.floor((source + 2) / 3)'
       );
       rules.defineRule('featureNotes.defensiveStanceFeature',
-        'constitutionModifier', '+=', 'source + 3'
+        'constitutionModifier', '+=', 'source + 5'
       );
       rules.defineRule('featureNotes.defensiveStanceFeature.1',
         'levels.Dwarven Defender', '+=', 'Math.floor((source + 1) / 2)'
       );
       rules.defineRule('saveNotes.trapSenseFeature',
-        'levels.Dwarven Defender', '+=',
-          'source >= 4 ? Math.floor(source / 4) : null'
+        'levels.Dwarven Defender', '+=', 'Math.floor(source / 4)'
       );
 
     } else if(klass == 'Eldritch Knight') {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
-      features = ['1:Caster Level Bonus'];
+      features = ['2:Caster Level Bonus'];
       hitDie = 6;
       notes = [
         'magicNotes.casterLevelBonusFeature:' +
           'Add %V to base class level for spells known/per day',
         'validationNotes.eldritchKnightClassWeaponProficiencyLevel:' +
-          'Requires Class Weapon Proficiency Level >= '+SRD35.PROFICIENCY_MEDIUM,
+          'Requires Class Weapon Proficiency Level>='+SRD35.PROFICIENCY_MEDIUM,
         'validationNotes.eldritchKnightClassSpells:Requires arcane level 3'
       ];
-      profArmor = profShield = profWeapon = SRD35.PROFICIENCY_NONE;
+      profArmor = SRD35.PROFICIENCY_NONE;
+      profShield = SRD35.PROFICIENCY_NONE;
+      profWeapon = SRD35.PROFICIENCY_NONE;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_POOR;
@@ -699,13 +720,13 @@ SRD35Prestige.classRules = function(rules, classes) {
           'Transfer druid feature to another for 1-7 days',
         'featureNotes.spellLikeAbilityFeature:Use spell as ability 2+/day',
         'magicNotes.blastInfidelFeature:' +
-           'Negative energy spells vs. opposite-aligned foe have max effect',
+           'Negative energy spells vs. opposed-alignment foe have max effect',
         'magicNotes.divineReachFeature:Use divine touch spell 30 ft away',
         'magicNotes.faithHealingFeature:' +
           'Healing spells on same-aligned creature have max effect',
         'magicNotes.improvedDivineReachFeature:' +
           'Use divine touch spell 60 ft away',
-        'magicNotes.spellPowerFeature:+%V caster level for spell effects',
+        'magicNotes.spellPowerFeature:+1 caster level for spell effects',
         'validationNotes.hierophantClassFeats:Requires any Metamagic',
         'validationNotes.hierophantClassSkills:' +
           'Requires Knowledge (Religion) >= 15',
@@ -732,8 +753,6 @@ SRD35Prestige.classRules = function(rules, classes) {
       spellsKnown = null;
       spellsPerDay = null;
       rules.defineRule('casterLevelDivine', 'levels.Hierophant', '+=', null);
-      rules.defineRule
-        ('magicNotes.spellPowerFeature', 'levels.Hierophant', '+=', '1');
       rules.defineRule
         ('selectableFeatureCount.Hierophant', 'levels.Hierophant', '=', null);
       rules.defineRule('turnUndead.damageModifier',
@@ -777,19 +796,20 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.terrainMastery(Underground)Feature:' +
           '+1 vs. underground creatures',
         'combatNotes.terrainMastery(Weightless)Feature:' +
-           '+1 vs. astral/ethereal/elemental air creatures',
-        'featureNotes.extendedDarkvisionFeature:' +
-          '120 ft b/w vision in darkness',
+           '+1 vs. astral/elemental air/ethereal creatures',
+        'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
         'featureNotes.terrainMastery(Aligned)Feature:' +
           'Mimic dominant alignment of any plane',
         'featureNotes.terrainMastery(Aquatic)Feature:+10 ft swim speed',
         'featureNotes.terrainMastery(Mountains)Feature:+10 ft climb speed',
-        'featureNotes.terrainMastery(Cavernous)Feature:' +
-          'Detect movement within 30 ft',
+        'featureNotes.terrainMastery(Cavernous)Feature:Tremorsense',
+        'featureNotes.terrainMastery(Underground)Feature:+60 ft Darkvision',
         'featureNotes.terrainMastery(Weightless)Feature:' +
-          '+30 ft fly speed on gravity-less planes',
+          '+30 ft fly speed on gravityless planes',
+        'featureNotes.tremorsenseFeature:' +
+          'Detect creatures in contact w/ground w/in 30 ft',
         'magicNotes.terrainMastery(Shifting)Feature:' +
-          'Dimension Door every d4 rounds',
+          '<i>Dimension Door</i> every d4 rounds',
         'saveNotes.terrainMastery(Cold)Feature:20 DC cold resistance',
         'saveNotes.terrainMastery(Desert)Feature:' +
           'Immune fatigue; resist exhaustion',
@@ -832,18 +852,20 @@ SRD35Prestige.classRules = function(rules, classes) {
         'validationNotes.terrainMastery(Weightless)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 6'
       ];
-      profArmor = profShield = profWeapon = SRD35.PROFICIENCY_NONE;
+      profArmor = SRD35.PROFICIENCY_NONE;
+      profShield = SRD35.PROFICIENCY_NONE;
+      profWeapon = SRD35.PROFICIENCY_NONE;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = [
-        'Terrain Mastery (Aligned)', 'Terrain Mastery (Aquatic)',
-        'Terrain Mastery (Cavernous)', 'Terrain Mastery (Cold)',
-        'Terrain Mastery (Desert)', 'Terrain Mastery (Fiery)',
+        'Terrain Mastery (Aquatic)', 'Terrain Mastery (Desert)',
         'Terrain Mastery (Forest)', 'Terrain Mastery (Hills)',
         'Terrain Mastery (Marsh)', 'Terrain Mastery (Mountains)',
-        'Terrain Mastery (Plains)', 'Terrain Mastery (Shifting)',
-        'Terrain Mastery (Underground)', 'Terrain Mastery (Weightless)'
+        'Terrain Mastery (Plains)', 'Terrain Mastery (Underground)',
+        'Terrain Mastery (Aligned)', 'Terrain Mastery (Cavernous)',
+        'Terrain Mastery (Cold)', 'Terrain Mastery (Fiery)',
+        'Terrain Mastery (Shifting)', 'Terrain Mastery (Weightless)'
       ];
       skillPoints = 4;
       skills = [
@@ -855,9 +877,11 @@ SRD35Prestige.classRules = function(rules, classes) {
       spells = null;
       spellsKnown = null;
       spellsPerDay = null;
-      rules.defineRule('features.extendedDarkvision',
-        'features.Darkvision', '?', null,
-        'features.Terrain Mastery (Underground)', '=', null
+      rules.defineRule('featureNotes.darkvisionFeature',
+        'featureNotes.terrainMastery(Underground)Feature:', '+=', '60'
+      );
+      rules.defineRule('features.Tremorsense',
+        'features.Terrain Mastery (Cavernous)', '=', '1'
       );
       rules.defineRule('selectableFeatureCount.Horizon Walker',
         'levels.Horizon Walker', '+=', null
@@ -867,22 +891,26 @@ SRD35Prestige.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_POOR;
       features = [
-        '2:Lore', '4:Bonus Language', '6:Greater Lore', '10:True Lore'
+        '1:Caster Level Bonus', '2:Lore', '4:Bonus Language', '6:Greater Lore',
+        '10:True Lore'
       ];
       hitDie = 4;
       notes = [
         'combatNotes.dodgeTrickFeature:+1 AC',
         'combatNotes.secretHealthFeature:+3 HP',
         'combatNotes.weaponTrickFeature:+1 Attack',
+        'featureNotes.applicableKnowledgeFeature:Bonus feat',
         'featureNotes.bonusLanguageFeature:%V additional language(s)',
+        'magicNotes.casterLevelBonusFeature:' +
+          'Add %V to base class level for spells known/per day',
         'magicNotes.greaterLoreFeature:<i>Identify</i> at will',
         'magicNotes.moreNewfoundArcanaFeature:Bonus level 2 spell',
         'magicNotes.newfoundArcanaFeature:Bonus level 1 spell',
         'magicNotes.trueLoreFeature:' +
-          '<i>Legend Lore</i>, <i>Analyze Dweomer</i> at will',
-        'saveNotes.loreOfTrueStaminaFeature:+2 Reflex',
+          '<i>Legend Lore</i>, <i>Analyze Dweomer</i> 1/day',
         'saveNotes.secretKnowledgeOfAvoidanceFeature:+2 Reflex',
         'saveNotes.secretsOfInnerStrengthFeature:+2 Will',
+        'saveNotes.theLoreOfTrueStaminaFeature:+2 Fortitude',
         'skillNotes.instantMasteryFeature:4 ranks in untrained skill',
         'skillNotes.loreFeature:+%V Knowledge checks with local history',
         'validationNotes.loremasterClassFeats:' +
@@ -899,10 +927,10 @@ SRD35Prestige.classRules = function(rules, classes) {
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = [
-        'Dodge Trick', 'Instant Mastery', 'Lore Of True Stamina',
+        'Applicable Knowledge', 'Dodge Trick', 'Instant Mastery',
         'More Newfound Arcana', 'Newfound Arcana', 'Secret Health',
         'Secret Knowledge Of Avoidance', 'Secrets Of Inner Strength',
-        'Weapon Trick'
+        'The Lore Of True Stamina', 'Weapon Trick'
       ];
       skillPoints = 4;
       skills = [
@@ -917,14 +945,19 @@ SRD35Prestige.classRules = function(rules, classes) {
       rules.defineRule('armorClass', 'combatNotes.dodgeTrickFeature', '+', '1');
       rules.defineRule('baseAttack', 'combatNotes.weaponTrickFeature', '+','1');
       rules.defineRule('casterLevelArcane', 'levels.Loremaster', '+=', null);
+      rules.defineRule('featCount.General',
+        'featureNotes.applicableKnowledgeFeature', '+', '1'
+      );
       rules.defineRule('featureNotes.bonusLanguageFeature',
-        'levels.Loremaster', '+=', 'source < 4 ? null : source < 8 ? 1 : 2'
+        'levels.Loremaster', '+=', 'Math.floor(source / 4)'
       );
       rules.defineRule('hitPoints', 'combatNotes.secretHealthFeature', '+','3');
       rules.defineRule
         ('languageCount', 'featureNotes.bonusLanguageFeature', '+', null);
       rules.defineRule
-        ('save.Fortitude', 'saveNotes.loreOfTrueStaminaFeature', '+', '2');
+        ('magicNotes.casterLevelBonusFeature', 'levels.Loremaster', '+=', null);
+      rules.defineRule
+        ('save.Fortitude', 'saveNotes.theLoreOfTrueStaminaFeature', '+', '2');
       rules.defineRule
         ('save.Will', 'saveNotes.secretsOfInnerStrengthFeature', '+', '2');
       rules.defineRule('save.Reflex',
@@ -961,7 +994,7 @@ SRD35Prestige.classRules = function(rules, classes) {
 
     } else if(klass == 'Mystic Theurge') {
 
-      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
+      baseAttack = SRD35.ATTACK_BONUS_POOR;
       features = ['1:Caster Level Bonus'];
       hitDie = 4;
       notes = [
@@ -1070,7 +1103,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'magicNotes.extendedSummoningFeature:' +
           'Summoning spells last twice as long',
         'magicNotes.contingentConjurationFeature:' +
-          'Conjuration triggered by specified events',
+          '<i>Contingency</i> on summoning spell',
         'magicNotes.planarCohortFeature:Summoned creature serves as cohort',
         'validationNotes.thaumaturgistClassFeats:' +
           'Requires Spell Focus (Conjuration)',
@@ -1147,7 +1180,7 @@ SRD35Prestige.companionRules = function(rules, companions) {
       features = [
         '1:Companion Evasion', '1:Companion Improved Evasion', 
         '1:Empathic Link', '1:Share Saving Throws', '1:Share Spells',
-        '2:Speak With Master', '3:Blood Bond', '4:Companion Spell Resistance'
+        '2:Speak With Master', '3:Blood Bond', '4:Companion Resist Spells'
       ];
       notes = [
         'fiendishServantStats.armorClass:+%V',
@@ -1156,7 +1189,7 @@ SRD35Prestige.companionRules = function(rules, companions) {
         'fiendishServantStats.strength:+%V',
         'fiendishServantStats.spellResistance:DC %V',
         'companionNotes.bloodBondFeature:' +
-          '+2 attack/check/save when witnessing master in danger',
+          '+2 attack/check/save when seeing master threatened',
         'companionNotes.companionEvasionFeature:' +
           'Reflex save yields no damage instead of 1/2',
         'companionNotes.companionImprovedEvasionFeature:' +
@@ -1166,7 +1199,7 @@ SRD35Prestige.companionRules = function(rules, companions) {
         'companionNotes.shareSavingThrowsFeature:' +
           'Companion uses higher of own or master\'s saving throws',
         'companionNotes.shareSpellsFeature:' +
-           'Master share self spell w/companion w/in 5 ft',
+          'Master share self spell w/companion w/in 5 ft',
         'companionNotes.speakWithMasterFeature:Talk w/master in secret language'
       ];
       prefix = 'fiendishServant';
@@ -1183,7 +1216,7 @@ SRD35Prestige.companionRules = function(rules, companions) {
         'fiendishServantLevel', '=', 'source'
       );
       rules.defineRule('fiendishServantStats.spellResistance',
-        'features.Companion Spell Resistance', '?', null,
+        'features.Companion Resist Spells', '?', null,
         'fiendishServantMasterLevel', '+=', 'source + 5'
       );
       prefix = 'fiendishServant';
