@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.130 2007/12/17 14:39:44 Jim Exp $ */
+/* $Id: SRD35.js,v 1.131 2007/12/18 15:07:33 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1301,14 +1301,15 @@ SRD35.classRules = function(rules, classes) {
       notes = [
         'combatNotes.favoredEnemyFeature:' +
           '+2 or more damage vs. %V type(s) of creatures',
-        'combatNotes.greaterTwoWeaponFightingFeature:' +
+        'combatNotes.greaterTwo-WeaponFightingFeature:' +
           'Second off-hand -10 attack',
         'combatNotes.improvedPreciseShotFeature:' +
           'No foe bonus for partial concealment; attack grappling w/no penalty',
-        'combatNotes.improvedTwoWeaponFightingFeature:Additional -5 attack',
-        'combatNotes.manyshotFeature:Fire multiple arrows simultaneously',
+        'combatNotes.improvedTwo-WeaponFightingFeature:Additional -5 attack',
+        'combatNotes.manyshotFeature:' +
+          'Fire up to %V arrows simultaneously at -2 attack/arrow',
         'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
-        'combatNotes.twoWeaponFightingFeature:' +
+        'combatNotes.two-WeaponFightingFeature:' +
           'Reduce on-hand penalty by 2/off-hand by 6',
         'featureNotes.animalCompanionFeature:Special bond/abilities',
         'featureNotes.woodlandStrideFeature:' +
@@ -1321,7 +1322,7 @@ SRD35.classRules = function(rules, classes) {
           'Bluff/Listen/Sense Motive/Spot/Survival',
         'skillNotes.hideInPlainSightFeature:Hide even when observed',
         'skillNotes.swiftTrackerFeature:Track at full speed',
-        'skillNotes.trackFeature:Survival to follow creatures at 1/2 speed',
+        'skillNotes.trackFeature:Survival to follow creatures\' trail',
         'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals'
       ];
       profArmor = SRD35.PROFICIENCY_LIGHT;
@@ -1360,6 +1361,9 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule('combatNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
+      );
+      rules.defineRule('combatNotes.manyshotFeature',
+        'baseAttack', '=', 'Math.floor((source + 9) / 5)'
       );
       rules.defineRule('rangerFeatures.Rapid Shot',
         'selectableFeatures.Combat Style (Archery)', '?', null
@@ -2309,13 +2313,13 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Greater Two-Weapon Fighting') {
       notes = [
-        'combatNotes.greaterTwoWeaponFightingFeature:' +
+        'combatNotes.greaterTwo-WeaponFightingFeature:' +
           'Second off-hand -10 attack',
-        'validationNotes.greaterTwoWeaponFightingFeatAbility:' +
+        'validationNotes.greaterTwo-WeaponFightingFeatAbility:' +
           'Requires Dexterity >= 19',
-        'validationNotes.greaterTwoWeaponFightingFeatBaseAttack:' +
+        'validationNotes.greaterTwo-WeaponFightingFeatBaseAttack:' +
           'Requires Base Attack >= 11',
-        'validationNotes.greaterTwoWeaponFightingFeatFeats:' +
+        'validationNotes.greaterTwo-WeaponFightingFeatFeats:' +
           'Requires Two-Weapon Fighting/Improved Two-Weapon Fighting'
       ];
     } else if((matchInfo =
@@ -2467,12 +2471,12 @@ SRD35.featRules = function(rules, feats, subfeats) {
         (/^turn.*\.level$/, 'combatNotes.improvedTurningFeature', '+', '1');
     } else if(feat == 'Improved Two-Weapon Fighting') {
       notes = [
-        'combatNotes.improvedTwoWeaponFightingFeature:Additional -5 attack',
-        'validationNotes.improvedTwoWeaponFightingFeatAbility:' +
+        'combatNotes.improvedTwo-WeaponFightingFeature:Additional -5 attack',
+        'validationNotes.improvedTwo-WeaponFightingFeatAbility:' +
           'Requires Dexterity >= 17',
-        'validationNotes.improvedTwoWeaponFightingFeatBaseAttack:' +
+        'validationNotes.improvedTwo-WeaponFightingFeatBaseAttack:' +
           'Requires Base Attack >= 6',
-        'validationNotes.improvedTwoWeaponFightingFeatFeats:' +
+        'validationNotes.improvedTwo-WeaponFightingFeatFeats:' +
           'Requires Two-Weapon Fighting'
       ];
     } else if(feat == 'Improved Unarmed Strike') {
@@ -2512,7 +2516,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'validationNotes.manyshotFeatFeats:Requires Point Blank Shot/Rapid Shot'
       ];
       rules.defineRule('combatNotes.manyshotFeature',
-        'baseAttack', '=', 'Math.floor((source - 1) / 5)'
+        'baseAttack', '=', 'Math.floor((source + 9) / 5)'
       );
     } else if(feat == 'Maximize Spell') {
       notes = [
@@ -2603,9 +2607,9 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Ride-By Attack') {
       notes = [
-        'combatNotes.rideByAttackFeature:Move before and after mounted attack',
-        'validationNotes.rideByAttackFeatFeats:Requires Mounted Combat',
-        'validationNotes.rideByAttackFeatSkills:Requires Ride'
+        'combatNotes.ride-ByAttackFeature:Move before and after mounted attack',
+        'validationNotes.ride-ByAttackFeatFeats:Requires Mounted Combat',
+        'validationNotes.ride-ByAttackFeatSkills:Requires Ride'
       ];
     } else if(feat == 'Run') {
       notes = [
@@ -2752,16 +2756,17 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Two-Weapon Defense') {
       notes = [
-        'combatNotes.twoWeaponDefenseFeature:' +
+        'combatNotes.two-WeaponDefenseFeature:' +
           '+1 AC w/two weapons/+2 when fighting defensively',
-        'validationNotes.twoWeaponDefenseFeatAbility:Requires Dexterity >= 15',
-        'validationNotes.twoWeaponDefenseFeatFeats:Requires Two-Weapon Fighting'
+        'validationNotes.two-WeaponDefenseFeatAbility:Requires Dexterity >= 15',
+        'validationNotes.two-WeaponDefenseFeatFeats:' +
+          'Requires Two-Weapon Fighting'
       ];
     } else if(feat == 'Two-Weapon Fighting') {
       notes = [
-        'combatNotes.twoWeaponFightingFeature:' +
+        'combatNotes.two-WeaponFightingFeature:' +
           'Reduce on-hand penalty by 2/off-hand by 6',
-        'validationNotes.twoWeaponFightingFeatAbility:Requires Dexterity >= 15'
+        'validationNotes.two-WeaponFightingFeatAbility:Requires Dexterity >= 15'
       ];
     } else if(feat == 'Weapon Finesse') {
       notes = [
