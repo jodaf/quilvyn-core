@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.131 2007/12/18 15:07:33 Jim Exp $ */
+/* $Id: SRD35.js,v 1.132 2007/12/31 06:55:41 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -3657,13 +3657,13 @@ SRD35.raceRules = function(rules, languages, races) {
       );
       // TODO Only Speak With Animals if charisma < 10
       rules.defineRule('magicNotes.naturalSpellsFeature',
-        'gnomeFeatures.Natural Spells', '=',
+        raceNoSpace + 'Features.Natural Spells', '=',
         '"<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
         '<i>Speak With Animals</i>"'
       );
       rules.defineRule('magicNotes.naturalSpellsFeature.1',
         'level', '=', null,
-        'gnomeFeatures.Natural Spells', 'v', '1'
+        raceNoSpace + 'Features.Natural Spells', 'v', '1'
       );
       rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
@@ -4590,13 +4590,13 @@ SRD35.defineClass = function
       rules.defineRule
         ('spellsPerDay.' + typeAndLevel, 'casterSpellLevel.' + name, '=', code);
       if(spellAbility != null) {
-        var modifiier = spellAbility + 'Modifier';
+        var modifier = spellAbility + 'Modifier';
         var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
         if(level > 0) {
           code = 'source >= ' + level +
                  ' ? 1 + Math.floor((source - ' + level + ') / 4) : null';
           rules.defineRule
-            ('spellsPerDay.' + typeAndLevel, modifiier, '+', code);
+            ('spellsPerDay.' + typeAndLevel, modifier, '+', code);
         }
       }
     }
