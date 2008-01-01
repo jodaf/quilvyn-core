@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.132 2007/12/31 06:55:41 Jim Exp $ */
+/* $Id: SRD35.js,v 1.133 2008/01/01 06:01:14 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -1962,13 +1962,7 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Shield', within: 'Gear'},
               {name: 'Weapons', within: 'Gear', separator: listSep},
             {name: 'Turning', within: 'CombatPart', separator: innerSep},
-              {name: 'Turn Air', within: 'Turning', separator: listSep},
-              {name: 'Turn Animal', within: 'Turning', separator: listSep},
-              {name: 'Turn Earth', within: 'Turning', separator: listSep},
-              {name: 'Turn Fire', within: 'Turning', separator: listSep},
-              {name: 'Turn Plant', within: 'Turning', separator: listSep},
               {name: 'Turn Undead', within: 'Turning', separator: listSep},
-              {name: 'Turn Water', within: 'Turning', separator: listSep},
             {name: 'Combat Notes', within: 'CombatPart', separator: listSep},
           {name: 'SavePart', within: 'Combat', separator: '\n'},
             {name: 'SaveAndResistance', within: 'SavePart', separator:innerSep},
@@ -3473,6 +3467,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
         prefix + '.frequency:%V/day',
         prefix + '.maxHitDice:(d20+%V)/3'
       ]);
+      rules.defineSheetElement('Turn ' + turn, 'Turn Undead', null, ' * ');
     }
   }
   rules.defineNote
