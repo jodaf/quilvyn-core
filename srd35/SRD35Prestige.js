@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.4 2007/12/17 14:39:45 Jim Exp $ */
+/* $Id: SRD35Prestige.js,v 1.5 2008/01/03 07:58:26 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -118,7 +118,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.sneakAttackFeature:' +
           '%Vd6 extra damage when surprising or flanking',
         'magicNotes.casterLevelBonusFeature:' +
-          'Add %V to base class level for spells known/per day',
+          '+%V base class level for spells known/per day',
         'validationNotes.arcaneTricksterClassAlignment:' +
           'Requires Alignment !~ Lawful',
         'validationNotes.arcaneTricksterClassFeatures:' +
@@ -185,7 +185,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'magicNotes.arcaneFireFeature:Transform arcane spell into bolt of fire',
         'magicNotes.arcaneReachFeature:Use arcane touch spell 30 ft away',
         'magicNotes.casterLevelBonusFeature:' +
-          'Add %V to base class level for spells known/per day',
+          '+%V base class level for spells known/per day',
         'magicNotes.improvedArcaneReachFeature:' +
           'Use arcane touch spell 60 ft away',
         'magicNotes.masteryOfCounterspellingFeature:' +
@@ -675,7 +675,7 @@ SRD35Prestige.classRules = function(rules, classes) {
       hitDie = 6;
       notes = [
         'magicNotes.casterLevelBonusFeature:' +
-          'Add %V to base class level for spells known/per day',
+          '+%V base class level for spells known/per day',
         'validationNotes.eldritchKnightClassWeaponProficiencyLevel:' +
           'Requires Class Weapon Proficiency Level>='+SRD35.PROFICIENCY_MEDIUM,
         'validationNotes.eldritchKnightClassSpells:Requires arcane level 3'
@@ -902,7 +902,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'featureNotes.applicableKnowledgeFeature:Bonus feat',
         'featureNotes.bonusLanguageFeature:%V additional language(s)',
         'magicNotes.casterLevelBonusFeature:' +
-          'Add %V to base class level for spells known/per day',
+          '+%V base class level for spells known/per day',
         'magicNotes.greaterLoreFeature:<i>Identify</i> at will',
         'magicNotes.moreNewfoundArcanaFeature:Bonus level 2 spell',
         'magicNotes.newfoundArcanaFeature:Bonus level 1 spell',
@@ -999,7 +999,7 @@ SRD35Prestige.classRules = function(rules, classes) {
       hitDie = 4;
       notes = [
         'magicNotes.casterLevelBonusFeature:' +
-          'Add %V to base class level for spells known/per day',
+          '+%V base class level for spells known/per day',
         'validationNotes.mysticTheurgeClassCasterLevelArcane:' +
           'Requires Caster Level Arcane >= 2',
         'validationNotes.mysticTheurgeClassCasterLevelDivine:' +
@@ -1098,7 +1098,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'magicNotes.augmentSummoningFeature:' +
           'Summoned creatures +4 strength/constitution',
         'magicNotes.casterLevelBonusFeature:' +
-          'Add %V to base class level for spells known/per day',
+          '+%V base class level for spells known/per day',
         'magicNotes.improvedAllyFeature:Planar ally for 1/2 usual payment',
         'magicNotes.extendedSummoningFeature:' +
           'Summoning spells last twice as long',
