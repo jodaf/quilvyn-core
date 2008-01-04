@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.133 2008/01/01 06:01:14 Jim Exp $ */
+/* $Id: SRD35.js,v 1.134 2008/01/04 03:59:54 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -39,7 +39,7 @@ function SRD35() {
   SRD35.equipmentRules
     (rules, SRD35.ARMORS, SRD35.GOODIES, SRD35.SHIELDS, SRD35.WEAPONS);
   SRD35.combatRules(rules);
-  SRD35.adventuringRules(rules);
+  SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
@@ -594,7 +594,7 @@ SRD35.weaponsSmallDamage = {
   'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
 };
 
-/* Defines the rules related to PH Chapter 1, Abilities. */
+/* Defines the rules related to character abilities. */
 SRD35.abilityRules = function(rules) {
 
   // Ability modifier computation
@@ -669,24 +669,7 @@ SRD35.abilityRules = function(rules) {
   );
 };
 
-/* Defines the rules related to PH Chapter 9, Adventuring. */
-SRD35.adventuringRules = function(rules) {
-  rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
-  rules.defineRule('loadMax',
-    'strength', '=', 'SRD35.strengthMaxLoads[source]',
-    'features.Small', '*', '0.75'
-  );
-  rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
-  rules.defineRule('runSpeed',
-    'speed', '=', null,
-    'runSpeedMultiplier', '*', null
-  );
-  rules.defineRule
-    ('runSpeedMultiplier', 'armorWeightClass', '=', 'source=="Heavy" ? 3 : 4');
-  rules.defineRule('speed', '', '=', '30');
-};
-
-/* Defines the rules related to PH Chapter 3, Classes. */
+/* Defines the rules related to character classes. */
 SRD35.classRules = function(rules, classes) {
 
   // Level-dependent attributes
@@ -1614,7 +1597,7 @@ SRD35.classRules = function(rules, classes) {
 
 };
 
-/* Defines the rules related to PH Chapter 8, Combat. */
+/* Defines the rules related to combat. */
 SRD35.combatRules = function(rules) {
   rules.defineNote([
     'turnUndead.damageModifier:2d6+%V',
@@ -1652,7 +1635,7 @@ SRD35.combatRules = function(rules) {
   rules.defineRule('weapons.Unarmed', null, '=', '1');
 };
 
-/* Defines the PHB Chapter 3 rules related to companion creatures. */
+/* Defines the rules related to companion creatures. */
 SRD35.companionRules = function(rules, companions) {
 
   for(var i = 0; i < companions.length; i++) {
@@ -2002,14 +1985,14 @@ SRD35.createViewers = function(rules, viewers) {
   }
 };
 
-/* Defines the rules related to PH Chapter 6, Description. */
+/* Defines the rules related to character description. */
 SRD35.descriptionRules = function(rules, alignments, deities, genders) {
   rules.defineChoice('alignments', alignments);
   rules.defineChoice('deities', deities);
   rules.defineChoice('genders', genders);
 };
 
-/* Defines the rules related to PH Chapter 7, Equipment. */
+/* Defines the rules related to equipment. */
 SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
 
   rules.defineChoice('armors', armors);
@@ -2050,7 +2033,7 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
 
 };
 
-/* Defines the rules related to PH Chapter 5, Feats. */
+/* Defines the rules related to feats. */
 SRD35.featRules = function(rules, feats, subfeats) {
 
   var allFeats = [];
@@ -2887,7 +2870,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
 
 };
 
-/* Defines the rules related to PH Chapter 10, Magic, and Chapter 11, Spells. */
+/* Defines the rules related to spells and domains. */
 SRD35.magicRules = function(rules, classes, domains, schools) {
 
   rules.defineChoice('schools', schools);
@@ -3493,7 +3476,24 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
 
 };
 
-/* Defines the rules related to PH Chapter 2, Races. */
+/* Defines the rules related to character movement. */
+SRD35.movementRules = function(rules) {
+  rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
+  rules.defineRule('loadMax',
+    'strength', '=', 'SRD35.strengthMaxLoads[source]',
+    'features.Small', '*', '0.75'
+  );
+  rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
+  rules.defineRule('runSpeed',
+    'speed', '=', null,
+    'runSpeedMultiplier', '*', null
+  );
+  rules.defineRule
+    ('runSpeedMultiplier', 'armorWeightClass', '=', 'source=="Heavy" ? 3 : 4');
+  rules.defineRule('speed', '', '=', '30');
+};
+
+/* Defines the rules related to character races. */
 SRD35.raceRules = function(rules, languages, races) {
 
   rules.defineChoice('languages', languages);
@@ -3724,7 +3724,7 @@ SRD35.raceRules = function(rules, languages, races) {
 
 };
 
-/* Defines the rules related to PH Chapter 4, Skills. */
+/* Defines the rules related to character skills. */
 SRD35.skillRules = function(rules, skills, subskills) {
 
   var abilityNames = {
@@ -3933,6 +3933,7 @@ SRD35.randomName = function(race) {
 
 };
 
+/* Returns the elements in a basic SRD character editor. */
 SRD35.initialEditorElements = function() {
   var abilityChoices = [
     3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
@@ -4279,9 +4280,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
 
 };
 
-/*
- * Fixes as many validation errors in #attributes# as possible.
- */
+/* Fixes as many validation errors in #attributes# as possible. */
 SRD35.makeValid = function(attributes) {
 
   var attributesChanged = {};
