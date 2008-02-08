@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.238 2008/01/14 04:31:50 Jim Exp $ */
+/* $Id: Scribe.js,v 1.239 2008/02/08 02:20:29 Jim Exp $ */
 
-var COPYRIGHT = 'Copyright 2007 James J. Hayes';
-var VERSION = '0.49.13';
+var COPYRIGHT = 'Copyright 2008 James J. Hayes';
+var VERSION = '0.50.07';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -15,7 +15,13 @@ var ABOUT_TEXT =
 'more details.\n' +
 'You should have received a copy of the GNU General Public License along ' +
 'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
-'Temple Place, Suite 330, Boston, MA 02111-1307 USA.\n' +
+'Temple Place, Suite 330, Boston, MA 02111-1307 USA. ' +
+'Click <a href="gpl.txt">here</a> to see it.\n' +
+'System Reference Document material is Open Game Content released by Wizards ' +
+'of the Coast under the Open Gaming License.  You should have received a ' +
+'copy of the Open Gaming License with this program; if not, you can obtain ' +
+'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
+'<a href="ogl.txt">here</a> to see the license.\n' +
 'Thanks to my dungeon crew, especially fellow DM Rich Hakesley, for patient ' +
 'testing of the program and for making suggestions that greatly improved it.';
 
@@ -747,10 +753,14 @@ Scribe.update = function(input) {
   else if(value === false)
     value = 0;
   if(name == 'about') {
-    if(Scribe.aboutWindow == null || Scribe.aboutWindow.closed)
-      Scribe.aboutWindow = Scribe.popUp
-        (ABOUT_TEXT.replace(/\n/g, '\n</p>\n<p>'), 'Ok:window.close();');
-    else
+    if(Scribe.aboutWindow == null || Scribe.aboutWindow.closed) {
+      Scribe.aboutWindow =
+        window.open('', 'About Scribe', FEATURES_OF_OTHER_WINDOWS);
+      Scribe.aboutWindow.document.write
+        (ABOUT_TEXT.replace(/\n/g, '<br/>\n<br/>\n'));
+      Scribe.aboutWindow.document.close();
+      Scribe.aboutWindow.document.bgColor = BACKGROUND;
+    } else
       Scribe.aboutWindow.focus();
   } else if(name.match(/^(dmonly|italics)$/)) {
     cookieInfo[name] = value ? '1' : '0';
