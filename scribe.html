@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.67 2008/01/14 04:31:50 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.68 2008/02/08 02:18:59 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -126,9 +126,9 @@ function CustomizeScribe() {
     var pieces = subskills[i].split(/:/);
     SRD35.SUBSKILLS[pieces[0]] = pieces[1];
   };
-  // The remaining lines load the modules listed in CUSTOMIZATION_URLS by
-  // calling a function with the same name as the module (e.g., it calls SRD35()
-  // for SRD35.js).
+  // The second part loads the modules listed in CUSTOMIZATION_URLS by
+  // calling a function with the same name as the module (e.g., it calls
+  // SRD35() for SRD35.js).
   for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
     var url = CUSTOMIZATION_URLS[i];
     if(url == null)
@@ -138,6 +138,10 @@ function CustomizeScribe() {
       alert('Unable to invoke ' + func + ' from ' + url);
     else
       window[func]();
+  }
+  // The third part applies specific customizations to the rules.
+  if(window.CustomSpellPoints != null) {
+    CustomSpellPoints.spellPointRules(SRD35.rules);
   }
 }
 
