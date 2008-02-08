@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.1 2008/01/14 04:31:50 Jim Exp $ */
+/* $Id: CustomExamples.js,v 1.2 2008/02/08 02:20:10 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -18,26 +18,22 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*
- * This module gives some examples of loading custom rules.  The CustomExamples
- * function loads the sample customizations into the SRD35 rule set; it
- * contains member methods that can be called independently to apply the rules
- * to a different rule set.  Similarly, the constant fields of CustomExamples
- * (DEITIES, GOODIES, etc.) can be modified to change the user's choices.
+ * This module provides a placeholder for some examples of custom rules.  The
+ * CustomExamples function contains member methods that can be called
+ * independently to apply that function's rules to a particular rule set.
+ * Similarly, the constant fields of CustomExamples (DEITIES, GOODIES, etc.)
+ * can be modified to change the user's choices.  For example, adding this line
+ * to your CustomizeScribe function will add rules for the items found in
+ * CustomExamples.MAGIC_WEAPONS to the SRD35 rul set:
+ *
+ *    CustomExamples.goodiesRules(SRD35.rules, CustomExamples.MAGIC_WEAPONS);
+ *
  */
 function CustomExamples() {
   if(window.SRD35 == null) {
-    alert('The CustomGoodies module requires use of the SRD35 module');
+    alert('The CustomExamples module requires use of the SRD35 module');
     return;
   }
-  CustomExamples.deityRules(SRD35.rules, CustomExamples.DEITIES);
-  CustomExamples.featRules(SRD35.rules, CustomExamples.FEATS);
-  CustomExamples.domainRules(SRD35.rules, CustomExamples.DOMAINS);
-  CustomExamples.goodiesRules(SRD35.rules, CustomExamples.GOODIES);
-  CustomExamples.languageRules(SRD35.rules, CustomExamples.LANGUAGES);
-  CustomExamples.magicArmorRules(SRD35.rules, CustomExamples.MAGIC_ARMORS);
-  CustomExamples.magicWeaponRules(SRD35.rules, CustomExamples.MAGIC_WEAPONS);
-  CustomExamples.skillRules(SRD35.rules, CustomExamples.SKILLS);
-  CustomExamples.spellRules(SRD35.rules, CustomExamples.SPELLS);
 }
 
 /*
@@ -53,30 +49,12 @@ CustomExamples.DEITIES = [
 ];
 
 /*
- * TODO
- */
-CustomExamples.DOMAINS = [
-];
-
-/*
- * TODO
- */
-CustomExamples.FEATS = [
-];
-
-/*
  * The GOODIES array contains a set of miscellaneous goodies' names.  The
  * goodiesRules method knows how to define rules for "Camouflage Ring" (+10
  * Hide skill) and "* Of Protection +N" (improves AC by N).
  */
 CustomExamples.GOODIES = [
   'Camouflage Ring', 'Medallion Of Protection +4'
-];
-
-/*
- * TODO
- */
-CustomExamples.LANGUAGES = [
 ];
 
 /*
@@ -96,27 +74,17 @@ CustomExamples.MAGIC_WEAPONS = [
 ];
 
 /*
- * Each entry in the SKILLS array has the form "Name:Ability:Classes", giving
- * the skill name, the related ability, and the list of classes for which the
- * skill is a class skill.  "all" for the class list means that the skill is a
- * class skill for every class.
+ * Each entry in the SKILLS array has the form "Name:Ability:Trained:Classes",
+ * giving the skill name, the related ability, trained or untrained, and the
+ * list of classes for which the skill is a class skill.  "all" for the class
+ * list means that the skill is a class skill for every class.
  */
 CustomExamples.SKILLS = [
-  'Herbalism:intelligence/untrained/Druid/Ranger',
-  'Knowledge (Plants):intelligence/trained/Druid/Ranger/Wizard',
-  'Knowledge (Undead):intelligence/trained/Cleric/Wizard',
-  'Linguistics:intelligence/trained/all'
+  'Herbalism:intelligence:untrained:Druid/Ranger',
+  'Knowledge (Plants):intelligence:trained:Druid/Ranger/Wizard',
+  'Knowledge (Undead):intelligence:trained:Cleric/Wizard',
+  'Linguistics:intelligence:trained:all'
 ];
-
-/*
- * TODO
- */
-CustomExamples.SPELLS = [
-];
-
-/* Defines rules for a specified set of custom domains. */
-CustomExamples.domainRules = function(rules, domains) {
-};
 
 /* Defines rules for a clerics of a specified set of custom deities. */
 CustomExamples.deityRules = function(rules, deities) {
@@ -145,10 +113,6 @@ CustomExamples.deityRules = function(rules, deities) {
   }
 };
 
-/* Defines rules for a specified set of custom feats. */
-CustomExamples.featRules = function(rules, feats) {
-};
-
 /* Defines rules for a specified set of custom miscellaneous goodies. */
 CustomExamples.goodiesRules = function(rules, goodies) {
   var matchInfo;
@@ -169,11 +133,6 @@ CustomExamples.goodiesRules = function(rules, goodies) {
       continue;
     rules.defineChoice('goodies', goodie);
   }
-};
-
-/* Defines rules for a specified set of custom languages. */
-CustomExamples.languageRules = function(rules, languages) {
-  rules.defineChoice('languages', languages);
 };
 
 /* Defines rules for a specified set of custom magic armor goodies. */
@@ -226,12 +185,13 @@ CustomExamples.magicWeaponRules = function(rules, weapons) {
 /* Defines rules for a specified set of custom skills. */
 CustomExamples.skillRules = function(rules, skills) {
   for(var i = 0; i < skills.length; i++) {
-    var pieces = skills[i].split(':', 2);
+    var pieces = skills[i].split(':', 4);
+    if(pieces.length != 4)
+      continue;
     var skill = pieces[0];
-    pieces = pieces[1].split('/', 3);
-    var ability = pieces[0];
-    var classes = pieces[2];
-    var trained = pieces[1];
+    var ability = pieces[1];
+    var trained = pieces[2];
+    var classes = pieces[3];
     // Define the skill, with associated ability and trained/untrained setting.
     rules.defineChoice
       ('skills', skill + ':' + ability.substring(0, 3) + '/' + trained);
@@ -258,9 +218,4 @@ CustomExamples.skillRules = function(rules, skills) {
         ('turnUndead.level', 'skillNotes.knowledge(Undead)Synergy', '+', '1');
     }
   }
-};
-
-/* Defines rules for a specified set of custom spells. */
-CustomExamples.spellRules = function(rules, spells) {
-  rules.defineChoice('spells', spells);
 };
