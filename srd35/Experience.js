@@ -1,4 +1,4 @@
-/* $Id: Experience.js,v 1.1 2007/11/29 02:57:42 Jim Exp $ */
+/* $Id: Experience.js,v 1.2 2008/02/08 20:11:38 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -28,7 +28,6 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function Experience() {
   if(window.SRD35 == null)
     return;
-  Experience.experienceRules(SRD35.rules);
 }
 
 /*
