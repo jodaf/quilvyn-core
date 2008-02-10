@@ -1,4 +1,4 @@
-/* $Id: Experience.js,v 1.2 2008/02/08 20:11:38 Jim Exp $ */
+/* $Id: Experience.js,v 1.3 2008/02/10 15:55:09 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -35,8 +35,17 @@ function Experience() {
  * experience to the editor and character sheet.
  */
 Experience.experienceRules = function(rules) {
-  rules.noExperienceRandomizeOneAttribute = rules.randomizeOneAttribute;
-  rules.randomizeOneAttribute = Experience.randomizeOneAttribute;
+  var oldRandomizeOneAttribute = rules.randomizeOneAttribute;
+  newRandomizeOneAttribute = function(attributes, attribute) {
+    arguments.callee.oldRandomizeOneAttribute.apply(this, arguments);
+    var level = ScribeUtils.sumMatching(attributes, /^levels\./); 
+    var max = level * (level + 1) * 1000 / 2 - 1;
+    var min = level * (level - 1) * 1000 / 2;
+    attributes.experience = ScribeUtils.random(min, max);
+    delete attributes.level;
+  }
+  newRandomizeOneAttribute.oldRandomizeOneAttribute = oldRandomizeOneAttribute;
+  rules.randomizeOneAttribute = newRandomizeOneAttribute;
   rules.defineRule
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
   rules.defineRule('level',
@@ -47,18 +56,3 @@ Experience.experienceRules = function(rules) {
   rules.defineSheetElement('Experience', 'ExperienceInfo/');
   rules.defineSheetElement('Experience Needed', 'ExperienceInfo/', '/%V');
 }
-
-/*
- * An attribute randomizer that recomputes the character experience total when
- * class levels are randomized.
- */
-Experience.randomizeOneAttribute = function(attributes, attribute) {
-  this.noExperienceRandomizeOneAttribute(attributes, attribute);
-  if(attribute == 'levels') {
-    var level = ScribeUtils.sumMatching(attributes, /^levels\./); 
-    var max = level * (level + 1) * 1000 / 2 - 1;
-    var min = level * (level - 1) * 1000 / 2;
-    attributes.experience = ScribeUtils.random(min, max);
-    delete attributes.level;
-  }
-};
