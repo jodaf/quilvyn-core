@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.2 2008/02/08 02:20:10 Jim Exp $ */
+/* $Id: CustomExamples.js,v 1.3 2008/02/13 06:43:04 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -104,7 +104,8 @@ CustomExamples.deityRules = function(rules, deities) {
       rules.defineRule('domainFeatures.' + weaponFocusFeat,
         'domains.War', '?', null,
         'deity', '=',
-        'CustomJim.deitiesFavoredWeapons[source] == "' + weapon + '" ? 1 : null'
+        'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
+        '" ? 1 : null'
       );
       rules.defineRule('features.' + weaponFocusFeat,
         'domainFeatures.' + weaponFocusFeat, '=', null
