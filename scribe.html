@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.69 2008/02/08 20:14:04 Jim Exp $ -->
+<!-- $Id: scribe.html,v 1.70 2008/02/14 01:36:42 Jim Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2005, James J. Hayes
 
@@ -140,9 +140,10 @@ function CustomizeScribe() {
       window[func]();
   }
   // The third part applies specific customizations to the rules.
-  if(window.CustomSpellPoints != null) {
+  if(window.Experience != null)
+    Experience.experienceRules(SRD35.rules);
+  if(window.CustomSpellPoints != null)
     CustomSpellPoints.spellPointRules(SRD35.rules);
-  }
   if(window.CustomExamples != null) {
     CustomExamples.deityRules(SRD35.rules, CustomExamples.DEITIES);
     CustomExamples.goodiesRules(SRD35.rules, CustomExamples.GOODIES);
