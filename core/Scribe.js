@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.240 2008/02/12 06:50:06 Jim Exp $ */
+/* $Id: Scribe.js,v 1.241 2008/02/17 06:09:28 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
 var VERSION = '0.50.11';
@@ -776,6 +776,8 @@ Scribe.update = function(input) {
       Scribe.openDialog();
     else if(value == 'New...')
       Scribe.randomizeCharacter(true);
+    else if(value == '--New/Open--')
+      ; /* empty--Safari bug workaround */
     else
       Scribe.loadCharacter(value);
   } else if(name == 'help') {
