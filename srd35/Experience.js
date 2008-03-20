@@ -1,4 +1,4 @@
-/* $Id: Experience.js,v 1.3 2008/02/10 15:55:09 Jim Exp $ */
+/* $Id: Experience.js,v 1.4 2008/03/20 14:52:38 Jim Exp $ */
 
 /*
 Copyright 2005, James J. Hayes
@@ -38,11 +38,13 @@ Experience.experienceRules = function(rules) {
   var oldRandomizeOneAttribute = rules.randomizeOneAttribute;
   newRandomizeOneAttribute = function(attributes, attribute) {
     arguments.callee.oldRandomizeOneAttribute.apply(this, arguments);
-    var level = ScribeUtils.sumMatching(attributes, /^levels\./); 
-    var max = level * (level + 1) * 1000 / 2 - 1;
-    var min = level * (level - 1) * 1000 / 2;
-    attributes.experience = ScribeUtils.random(min, max);
-    delete attributes.level;
+    if(attribute == 'levels') {
+      var level = ScribeUtils.sumMatching(attributes, /^levels\./); 
+      var max = level * (level + 1) * 1000 / 2 - 1;
+      var min = level * (level - 1) * 1000 / 2;
+      attributes.experience = ScribeUtils.random(min, max);
+      delete attributes.level;
+    }
   }
   newRandomizeOneAttribute.oldRandomizeOneAttribute = oldRandomizeOneAttribute;
   rules.randomizeOneAttribute = newRandomizeOneAttribute;
