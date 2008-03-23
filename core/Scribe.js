@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.242 2008/03/20 14:52:38 Jim Exp $ */
+/* $Id: Scribe.js,v 1.243 2008/03/23 23:37:50 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
-var VERSION = '0.50.20';
+var VERSION = '0.50.23';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -25,7 +25,7 @@ var ABOUT_TEXT =
 'Thanks to my dungeon crew, especially fellow DM Rich Hakesley, for patient ' +
 'testing of the program and for making suggestions that greatly improved it.';
 
-var COOKIE_FIELD_SEPARATOR = '\n';
+var COOKIE_FIELD_SEPARATOR = '\t';
 var COOKIE_NAME = 'ScribeCookie';
 var EMPTY_SPELL_LIST = '--- No matching spells found ---';
 var FEATURES_OF_OTHER_WINDOWS =
