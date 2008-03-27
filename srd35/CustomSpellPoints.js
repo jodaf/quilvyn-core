@@ -1,7 +1,7 @@
-/* $Id: CustomSpellPoints.js,v 1.28 2008/02/08 02:19:25 Jim Exp $ */
+/* $Id: CustomSpellPoints.js,v 1.29 2008/03/27 05:12:21 Jim Exp $ */
 
 /*
-Copyright 2005, James J. Hayes
+Copyright 2008, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

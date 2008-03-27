@@ -1,7 +1,7 @@
-/* $Id: RuleEngine.js,v 1.21 2007/09/07 16:11:57 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.22 2008/03/27 05:12:22 Jim Exp $ */
 
 /*
-Copyright 2005, James J. Hayes
+Copyright 2008, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

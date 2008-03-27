@@ -1,7 +1,7 @@
-/* $Id: ScribeUtils.js,v 1.7 2007/08/08 05:08:50 Jim Exp $ */
+/* $Id: ScribeUtils.js,v 1.8 2008/03/27 05:12:23 Jim Exp $ */
 
 /*
-Copyright 2005, James J. Hayes
+Copyright 2008, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

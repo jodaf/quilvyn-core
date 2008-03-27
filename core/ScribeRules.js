@@ -1,7 +1,7 @@
-//* $Id: ScribeRules.js,v 1.69 2007/10/13 15:26:47 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.70 2008/03/27 05:12:23 Jim Exp $ */
 
 /*
-Copyright 2005, James J. Hayes
+Copyright 2008, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

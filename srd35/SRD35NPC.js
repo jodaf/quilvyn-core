@@ -1,7 +1,7 @@
-/* $Id: SRD35NPC.js,v 1.2 2007/12/08 01:26:14 Jim Exp $ */
+/* $Id: SRD35NPC.js,v 1.3 2008/03/27 05:12:22 Jim Exp $ */
 
 /*
-Copyright 2005, James J. Hayes
+Copyright 2008, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

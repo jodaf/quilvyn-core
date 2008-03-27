@@ -1,7 +1,7 @@
-/* $Id: Input.js,v 1.11 2007/03/31 18:02:31 Jim Exp $ */
+/* $Id: Input.js,v 1.12 2008/03/27 05:12:22 Jim Exp $ */
 
 /*
-Copyright 2005, James J. Hayes
+Copyright 2008, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

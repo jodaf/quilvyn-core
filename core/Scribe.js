@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.243 2008/03/23 23:37:50 Jim Exp $ */
+/* $Id: Scribe.js,v 1.244 2008/03/27 05:12:23 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
 var VERSION = '0.50.23';
@@ -22,7 +22,7 @@ var ABOUT_TEXT =
 'copy of the Open Gaming License with this program; if not, you can obtain ' +
 'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
 '<a href="ogl.txt">here</a> to see the license.\n' +
-'Thanks to my dungeon crew, especially fellow DM Rich Hakesley, for patient ' +
+'Thanks to my dungeon crew, especially Rich Hakesley, for patient ' +
 'testing of the program and for making suggestions that greatly improved it.';
 
 var COOKIE_FIELD_SEPARATOR = '\t';
