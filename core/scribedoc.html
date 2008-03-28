@@ -1,4 +1,4 @@
-<!-- $Id: scribedoc.html,v 1.89 2008/03/27 05:12:23 Jim Exp $ -->
+<!-- $Id: scribedoc.html,v 1.90 2008/03/28 01:49:06 Jim Exp $ -->
 <html>
 
 <head>
@@ -40,7 +40,7 @@
 
 <a name="intro"><h3>Introduction</h3></a>
 <p>
-Scribe is a web-based editor for RPG characters, particularly those created
+Scribe is a web-based editor for RPG characters, particularly those generated
 using rules derived from the System Reference Document from Wizards of the
 Coast.  It allows you to enter and modify basic information about a
 character&#151;race, class levels, attributes like strength, and so on&#151;and
@@ -104,14 +104,14 @@ use of pop-up windows, so you must have both of these enabled in your browser.
 <a name="open"><h3>Generating and Loading Characters</h3></a>
 <p>
 Generating new characters and loading previously saved ones are both handled
-through Scribe's New/Open menu.  The choices in this menu allow you to create
+through Scribe's New/Open menu.  The choices in this menu allow you to generate
 a new character with random attribute values, enter the URL of an existing
 character file, or reopen the file of a recently-opened character. The URL for
 character files will usually begin with "file://", followed by the path to the
 file where you previously saved the character (see <a href="#save">Saving
 Characters</a> below).  When you ask for a new character, Scribe opens a form
 that allows you to specify certain attributes, such as race and class level(s).
-This helps DMs to use Scribe to create NPCs.  You can either specify these
+This helps in the generation of NPCs.  You can either specify these
 attributes, or leave the form unchanged to have Scribe choose them randomly.
 </p>
 
@@ -149,15 +149,15 @@ Two "Show" checkboxes provide some control over what attributes the character
 sheet displays.  The "Italic Notes" checkbox determines whether or not
 italicized notes are included on the sheet.  See <a href='#sheet'>the
 discussion of the character sheet</a> for an explanation as to why some notes
-are italicized and others are not.  The "DM Info" box determines whether or not
-the character sheet includes any information marked for the Dungeon Master
-only.  This includes any notes entered in the editor's "DM Notes" box and any
-attributes that depend on the "dmonly" attribute.
+are italicized and others are not.  The "Hidden Info" box allows you to produce
+a character sheet that contains additional information that should not be seen
+by the player.  This includes any notes entered in the editor's "Hidden Notes"
+box and any attributes that depend on the "hidden" attribute.
 </p><p>
 A few items in the editor window don't relate directly to the contents of the
 character sheet.  The "About" button opens a window with text describing
 Scribe, and the "Help" button opens one that contains this document.  The
-"Rules" pull-down allows you to change between different character-creation
+"Rules" pull-down allows you to change between different character-generation
 rule sets&#151;Scribe comes with support for the v3.5 System Reference
 Document, and plug-ins for particular campaign settings are available.  The
 "Attributes" button opens a window that lists the attributes computed by the
@@ -165,7 +165,7 @@ current rule set; this is used in developing your own custom rules.  The
 "New/Open" button is discussed in <a href='#open'>Generating and Loading
 Characters</a>.  The "Summary" button opens a window with a table that
 summarizes attributes from all characters that you've opened since starting
-Scribe.  This is intended to assist DMs in planning and running adventures by
+Scribe.  This is intended to assist in planning and running adventures by
 providing a compact summary of the abilities of all the characters in a party.
 The "View HTML" button is described in <a href='#save'>Saving Characters</a>.
 The "Sheet Style" pull-down allows you to choose between different character
@@ -198,8 +198,8 @@ name from them with a little creative editing.
 
 <a name="save"><h3>Saving Characters</h3></a>
 <p>
-For security purposes, web programs like Scribe are prohibited from creating
-files on your hard disk.  This prevents Scribe from saving your character
+For security purposes, web programs like Scribe are prohibited from writing
+files to your hard disk.  This prevents Scribe from saving your character
 directly; instead, the program displays the information that needs to be saved
 in a separate window.  You can copy this information into your favorite file
 editor and use it to save the character for later retrieval.
@@ -249,11 +249,11 @@ explanation.
     dexterity/-2 strength</i>". Italicized notes can normally be ignored
     during play, since Scribe has already incorporated the effect on the
     character sheet.  Plain text notes, on the other hand, describe rule
-    effects that need to be applied during the game, so the DM should examine
-    these closely.  For example, the Combat section of a halfling's character
-    sheet will include the plain text note "Accurate Feature: +1 attack with
-    slings/thrown".  When rolling a sling attack throw for this character, the
-    DM will have to add one to the rolled value.
+    effects that need to be applied during the game, so these should be
+    examined closely.  For example, the Combat section of a halfling's
+    character sheet will include the plain text note "Accurate Feature: +1
+    attack with slings/thrown".  When rolling a sling attack throw for this
+    character, you'll need to add one to the rolled value.
   </li>
 </ul>
 </p>
@@ -540,11 +540,11 @@ SRD35.SAVE_BONUS_POOR
 
 <a name="customMagic"><h3>Customization - Adding Magic Items</h3></a>
 <p>
-The SRD contains a large selection of magic items, and most DMs create their
-own additional magic items from time to time.  Because of this, Scribe presents
-only a minimal selection of magic items in its "Goodies" menu, leaving it to
-the DM to customize the list to include the specific items that appear in his
-or her campaign.  See the other customization sections for information on how
+The SRD contains a large selection of magic items, and most players invent
+their own additional magic items from time to time.  Because of this, Scribe
+presents only a minimal selection of magic items in its "Goodies" menu, leaving
+it to you to customize the list to include the specific items that appear in
+your campaign.  See the other customization sections for information on how
 to add additional items to the Goodies list and the rules that specify the
 effects of new items.
 </p>

@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.244 2008/03/27 05:12:23 Jim Exp $ */
+/* $Id: Scribe.js,v 1.245 2008/03/28 01:49:06 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
 var VERSION = '0.50.23';
@@ -36,7 +36,7 @@ var cachedAttrs = {}; // Unchanged attrs of all characters opened so far
 var character;      // Current character
 var characterUrl;   // URL of current character
 var cookieInfo = {  // What we store in the cookie
-  dmonly: '0',      // Show information marked "dmonly" on sheet?
+  hidden: '0',      // Show information marked "hidden" on sheet?
   italics: '1',     // Show italicized notes on sheet?
   recent: '',       // Comma-separated and -terminated list of recent opens
   viewer: ''        // Preferred arrangement of character sheet
@@ -104,8 +104,8 @@ function Scribe() {
 
 /* Adds #rs# to Scribe's list of supported rule sets. */
 Scribe.addRuleSet = function(rs) {
-  // Add a  rule for handling DM-only information
-  rs.defineRule('dmNotes', 'dmonly', '?', null);
+  // Add a  rule for handling hidden information
+  rs.defineRule('hiddenNotes', 'hidden', '?', null);
   ruleSets[rs.getName()] = rs;
   ruleSet = rs;
 };
@@ -121,7 +121,7 @@ Scribe.editorHtml = function() {
     ['summary', '', 'button', ['Summary']],
     ['view', '', 'button', ['View Html']],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
-    ['dmonly', '', 'checkbox', ['DM Info']],
+    ['hidden', '', 'checkbox', ['Hidden Info']],
     ['viewer', 'Sheet Style', 'select-one', []],
     ['randomize', 'Randomize', 'select-one', 'random']
   ];
@@ -459,7 +459,7 @@ Scribe.refreshEditor = function(redraw) {
       InputSetValue(input, value);
   }
 
-  InputSetValue(editForm.dmonly, cookieInfo.dmonly == '1');
+  InputSetValue(editForm.hidden, cookieInfo.hidden == '1');
   InputSetValue(editForm.italics, cookieInfo.italics == '1');
   InputSetValue(editForm.rules, ruleSet.getName());
   InputSetValue(editForm.spellFilter, spellFilter);
@@ -497,7 +497,7 @@ Scribe.sheetHtml = function() {
     }
   }
 
-  enteredAttributes.dmonly = cookieInfo.dmonly;
+  enteredAttributes.hidden = cookieInfo.hidden;
   computedAttributes = ruleSet.applyRules(enteredAttributes);
   // NOTE: ObjectFormatter doesn't support interspersing values in a list
   // (e.g., skill ability, weapon damage), so we do some inelegant manipulation
@@ -719,7 +719,7 @@ Scribe.summarizeCachedAttrs = function() {
       allAttrs[a]['spells'] = spells.join('<br/>');
     }
   }
-  inTable['notes'] = inTable['dmNotes'] = inTable['spells'] = 1;
+  inTable['notes'] = inTable['hiddenNotes'] = inTable['spells'] = 1;
   inTable = ScribeUtils.getKeys(inTable);
   for(var i = 0; i < inTable.length; i++) {
     rowHtml = '<tr><td><b>' + inTable[i] + '</b></td>';
@@ -762,7 +762,7 @@ Scribe.update = function(input) {
       Scribe.aboutWindow.document.bgColor = BACKGROUND;
     } else
       Scribe.aboutWindow.focus();
-  } else if(name.match(/^(dmonly|italics)$/)) {
+  } else if(name.match(/^(hidden|italics)$/)) {
     cookieInfo[name] = value ? '1' : '0';
     Scribe.storeCookie();
     Scribe.refreshSheet();

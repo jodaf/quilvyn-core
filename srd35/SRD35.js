@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.135 2008/03/27 05:12:22 Jim Exp $ */
+/* $Id: SRD35.js,v 1.136 2008/03/28 01:49:06 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -1847,7 +1847,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Goodies', within: 'Section 2', separator: '/'},
             {name: 'Companion Notes', within: 'Section 2', format: ''},
             {name: 'Notes', within: 'Section 2'},
-            {name: 'Dm Notes', within: 'Section 2', format: '%V'}
+            {name: 'Hidden Notes', within: 'Section 2', format: '%V'}
       );
     } else if(name == 'Standard' || name == 'Vertical') {
       var innerSep = name == 'Standard' ? null : '\n';
@@ -1972,7 +1972,7 @@ SRD35.createViewers = function(rules, viewers) {
          format: '<b>Notes</b><br/>%V'},
           {name: 'NotesPart', within: 'Notes Area', separator: '\n'},
             {name: 'Notes', within: 'NotesPart', format: '%V'},
-            {name: 'Dm Notes', within: 'NotesPart', format: '%V'},
+            {name: 'Hidden Notes', within: 'NotesPart', format: '%V'},
             {name: 'Companion Notes', within: 'NotesPart', separator: listSep},
           {name: 'ValidationPart', within: 'Notes Area', separator: '\n'},
             {name: 'Sanity Notes', within: 'ValidationPart', separator:listSep},
@@ -3809,8 +3809,8 @@ SRD35.skillRules = function(rules, skills, subskills) {
                    skill.substring(1).replace(/ /g, '');
       rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergy);
       // Second notes for some synergies to distinguish bonuses automatically
-      // applied by Scribe from those the DM must apply.  Also, additional
-      // rules for effects on non-skill attributes.
+      // applied by Scribe from those that must by applied by hand.  Also,
+      // additional rules for effects on non-skill attributes.
       if(skill == 'Bluff') {
         rules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
         rules.defineRule('skillNotes.bluffSynergy2',
@@ -3968,7 +3968,7 @@ SRD35.initialEditorElements = function() {
     ['specialize', 'Wizard Specialization', 'set', 'schools'],
     ['prohibit', 'Wizard Prohibition', 'set', 'schools'],
     ['notes', 'Notes', 'textarea', [40,10]],
-    ['dmNotes', 'DM Notes', 'textarea', [40,10]]
+    ['hiddenNotes', 'Hidden Notes', 'textarea', [40,10]]
   ];
   return editorElements;
 };
