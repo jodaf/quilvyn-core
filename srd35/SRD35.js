@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.137 2008/04/04 05:33:17 Jim Exp $ */
+/* $Id: SRD35.js,v 1.138 2008/04/04 16:19:28 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
+
+var SRD35_VERSION = '1.0beta-080404';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -1302,8 +1304,8 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
         'skillNotes.camouflageFeature:Hide in any natural terrain',
         'skillNotes.favoredEnemyFeature:' +
-          '+2 or more vs. %V type(s) of creatures on ' +
-          'Bluff/Listen/Sense Motive/Spot/Survival',
+          '+2 or more Bluff/Listen/Sense Motive/Spot/Survival ' +
+          'vs. %V type(s) of creatures',
         'skillNotes.hideInPlainSightFeature:Hide even when observed',
         'skillNotes.swiftTrackerFeature:Track at full speed',
         'skillNotes.trackFeature:Survival to follow creatures\' trail',
@@ -3568,7 +3570,7 @@ SRD35.raceRules = function(rules, languages, races) {
       notes = [
         'abilityNotes.dwarfArmorSpeedAdjustment:No speed penalty in armor',
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
-        'combatNotes.dwarfFavoredEnemyFeature:+1 vs. goblinoid/orc',
+        'combatNotes.dwarfFavoredEnemyFeature:+1 attack vs. goblinoid/orc',
         'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
         'saveNotes.resistPoisonFeature:+2 vs. poison',
@@ -3633,7 +3635,7 @@ SRD35.raceRules = function(rules, languages, races) {
       ];
       notes = [
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
-        'combatNotes.gnomeFavoredEnemyFeature:+1 vs. goblinoid/kobold',
+        'combatNotes.gnomeFavoredEnemyFeature:+1 attack vs. goblinoid/kobold',
         'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
         'magicNotes.naturalIllusionistFeature:+1 DC on illusion spells',
@@ -4477,6 +4479,7 @@ SRD35.makeValid = function(attributes) {
 SRD35.ruleNotes = function() {
   return '' +
     '<h2>SRD35 Scribe Module Notes</h2>\n' +
+    'SRD35 Scribe Module Version ' + SRD35_VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
     '<p>\n' +

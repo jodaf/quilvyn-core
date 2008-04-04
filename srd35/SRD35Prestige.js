@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.6 2008/03/27 05:12:22 Jim Exp $ */
+/* $Id: SRD35Prestige.js,v 1.7 2008/04/04 16:19:28 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -779,24 +779,30 @@ SRD35Prestige.classRules = function(rules, classes) {
       features = null;
       hitDie = 8;
       notes = [
-        'combatNotes.terrainMastery(Aquatic)Feature:+1 vs. aquatic creatures',
+        'combatNotes.terrainMastery(Aquatic)Feature:' +
+          '+1 attack/damage vs. aquatic creatures',
         'combatNotes.terrainMastery(Cold)Feature:' +
-          '+1 vs. cold elementals/outsiders',
-        'combatNotes.terrainMastery(Desert)Feature:+1 vs. desert creatures',
+          '+1 attack/damage vs. cold elementals/outsiders',
+        'combatNotes.terrainMastery(Desert)Feature:' +
+          '+1 attack/damage vs. desert creatures',
         'combatNotes.terrainMastery(Fiery)Feature:' +
-          '+1 vs. fire elementals/outsiders',
-        'combatNotes.terrainMastery(Forest)Feature:+1 vs. forest creatures',
-        'combatNotes.terrainMastery(Hills)Feature:+1 vs. hill creatures',
-        'combatNotes.terrainMastery(Marsh)Feature:+1 vs. marsh creatures',
+          '+1 attack/damage vs. fire elementals/outsiders',
+        'combatNotes.terrainMastery(Forest)Feature:' +
+          '+1 attack/damage vs. forest creatures',
+        'combatNotes.terrainMastery(Hills)Feature:' +
+          '+1 attack/damage vs. hill creatures',
+        'combatNotes.terrainMastery(Marsh)Feature:' +
+          '+1 attack/damage vs. marsh creatures',
         'combatNotes.terrainMastery(Mountains)Feature:' +
-          '+1 vs. mountain creatures',
-        'combatNotes.terrainMastery(Plains)Feature:+1 vs. plain creatures',
+          '+1 attack/damage vs. mountain creatures',
+        'combatNotes.terrainMastery(Plains)Feature:' +
+          '+1 attack/damage vs. plain creatures',
         'combatNotes.terrainMastery(Shifting)Feature:' +
-          '+1 vs. shifting plane elementals/outsiders',
+          '+1 attack/damage vs. shifting plane elementals/outsiders',
         'combatNotes.terrainMastery(Underground)Feature:' +
-          '+1 vs. underground creatures',
+          '+1 attack/damage vs. underground creatures',
         'combatNotes.terrainMastery(Weightless)Feature:' +
-           '+1 vs. astral/elemental air/ethereal creatures',
+           '+1 attack/damage vs. astral/elemental air/ethereal creatures',
         'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
         'featureNotes.terrainMastery(Aligned)Feature:' +
           'Mimic dominant alignment of any plane',
