@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.246 2008/04/03 05:21:45 Jim Exp $ */
+/* $Id: Scribe.js,v 1.247 2008/04/04 05:33:17 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
 var VERSION = '0.51.03';
@@ -117,6 +117,7 @@ Scribe.editorHtml = function() {
     ['help', '', 'button', ['Help']],
     ['rules', 'Rules', 'select-one', []],
     ['ruleAttributes', '', 'button', ['Attributes']],
+    ['ruleNotes', '', 'button', ['Notes']],
     ['file', ' ', 'select-one', []],
     ['summary', '', 'button', ['Summary']],
     ['view', '', 'button', ['View Html']],
@@ -826,6 +827,22 @@ Scribe.update = function(input) {
       '</html>\n'
     );
     Scribe.attributesWindow.document.close();
+  } else if(name == 'ruleNotes') {
+    if(Scribe.ruleNotesWindow != null && !Scribe.ruleNotesWindow.closed)
+      Scribe.ruleNotesWindow.close();
+    Scribe.ruleNotesWindow =
+      window.open('', 'rulenotes', FEATURES_OF_OTHER_WINDOWS);
+    Scribe.ruleNotesWindow.document.write(
+      '<html>\n',
+      '<head>\n',
+      '<title>Rule Notes for ' + InputGetValue(editForm.rules) + '</title>\n',
+      '</head>\n',
+      '<body bgcolor="' + BACKGROUND + '">\n',
+      ruleSet.ruleNotes(),
+      '\n</body>\n',
+      '</html>\n'
+    );
+    Scribe.ruleNotesWindow.document.close();
   } else if(name == 'spellFilter') {
     spellFilter = value;
     Scribe.refreshEditor(false);

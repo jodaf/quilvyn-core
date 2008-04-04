@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.70 2008/03/27 05:12:23 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.71 2008/04/04 05:33:17 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -276,8 +276,8 @@ ScribeRules.prototype.getViewerNames = function() {
 };
 
 /*
- * Fixes as many validation errors in #attributes# as possible.  This null
- * implementation should be replaced by inheriting classes/instances.
+ * Fixes as many validation errors in #attributes# as possible.  This stub
+ * implementation should be overridden by inheriting classes/instances.
  */
 ScribeRules.prototype.makeValid = function(attributes) {
 };
@@ -317,4 +317,12 @@ ScribeRules.prototype.randomizeOneAttribute = function(attributes, attribute) {
     attributes[attribute] =
       ScribeUtils.randomKey(this.getChoices(attribute + 's'));
   }
+};
+
+/*
+ * Returns HTML body content for user notes associated with this rule set. This
+ * stub implementation should be overridden by inheriting classes/instances.
+ */
+ScribeRules.prototype.ruleNotes = function() {
+  return "No notes for this rule set\n";
 };

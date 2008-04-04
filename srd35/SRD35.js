@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.136 2008/03/28 01:49:06 Jim Exp $ */
+/* $Id: SRD35.js,v 1.137 2008/04/04 05:33:17 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -46,6 +46,7 @@ function SRD35() {
   rules.editorElements = SRD35.initialEditorElements();
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
   rules.makeValid = SRD35.makeValid;
+  rules.ruleNotes = SRD35.ruleNotes;
   Scribe.addRuleSet(rules);
   SRD35.rules = rules;
 }
@@ -4471,6 +4472,105 @@ SRD35.makeValid = function(attributes) {
   }
 
 };
+
+/* Returns HTML body content for user notes associated with this rule set. */
+SRD35.ruleNotes = function() {
+  return '' +
+    '<h2>SRD35 Scribe Module Notes</h2>\n' +
+    '\n' +
+    '<h3>Usage Notes</h3>\n' +
+    '<p>\n' +
+    '<ul>\n' +
+    '  <li>\n' +
+    '    Although they have a range increment, the weapons Club, Dagger,\n' +
+    '    Light Hammer, Shortspear, Spear, and Trident are all considered\n' +
+    '    melee weapons.  Substitute the ranged attack attribute for the\n' +
+    '    melee attack attribute given on the character sheet when any of\n' +
+    '    these is thrown.\n' +
+    '  </li><li>\n' +
+    '    The armor class of characters with the Dodge feat includes a +1\n' +
+    '    bonus that applies only to one foe at a time.\n' +
+    '  </li><li>\n' +
+    '    A few feats have been renamed to emphasize the relationship\n' +
+    '    between similar feats: "Shield Proficiency" and "Tower Shield\n' +
+    '    Proficiency" to "Shield Proficiency (Heavy)" and "Shield\n' +
+    '    Proficiency (Tower)"; "Simple Weapon Proficiency" to "Weapon\n' +
+    '    Proficiency (Simple)"; "Exotic Weapon Proficiency" and "Martial\n' +
+    '    Weapon Proficiency" to "Weapon Proficiency" (a base feat that\n' +
+    '    should be used to define weapon-specific subfeats).\n' +
+    '  </li><li>\n' +
+    '    The distinction between feats and selectable features is\n' +
+    '    arbitrary.  Selectable features could be treated as feats\n' +
+    '    restricted to specific classes; however, doing so would\n' +
+    '    significantly clutter up the feat selection list.\n' +
+    '  </li><li>\n' +
+    '    Monk bonus feats are instead treated as selectable features,\n' +
+    '    because the selections are so restricted and because monks do not\n' +
+    '    need to meet the normal requirements for the feats.\n' +
+    '  </li>\n' +
+    '</ul>\n' +
+    '</p>\n' +
+    '\n' +
+    '<h3>Limitations</h3>\n' +
+    '<p>\n' +
+    '<ul>\n' +
+    '  <li>\n' +
+    '    Race- and class-based proficiencies for specific weapons are not\n' +
+    '    reported.\n' +
+    '  </li><li>\n' +
+    '    Racial favored class is not reported.\n' +
+    '  </li><li>\n' +
+    '    You can only select the feats Extra Turning, Spell Mastery,\n' +
+    '    and Toughness once.  Multiple selections of these feats can be\n' +
+    '    handled by defining custom feats (e.g., Improved Toughness).\n' +
+    '  </li><li>\n' +
+    '    Scribe provides no place other than the notes section to enter\n' +
+    '    mundane possessions like lanterns and rope. The same goes for\n' +
+    '    physical description.\n' +
+    '  </li><li>\n' +
+    '    Scribe presently defines no way to add additional types of armor\n' +
+    '    because of all the extra information that would need to be\n' +
+    '    specified&#151;arcane spell failure percentage, AC bonus, max\n' +
+    '    dexterity bonus, skill check penalty, etc.\n' +
+    '  </li><li>\n' +
+    '    Scribe has problems dealing with attributes containing an\n' +
+    '    uncapitalized word.  This is why, e.g., Scribe defines the skills\n' +
+    '    "Sleight Of Hand" and "Knowledge (Arcana)" instead of "Sleight of\n' +
+    '    Hand" and "Knowledge (arcana)".  There are other occasions when\n' +
+    '    Scribe is picky about case; when defining your own attributes,\n' +
+    '    it\'s safest to follow the conventions Scribe uses.\n' +
+    '  </li><li>\n' +
+    '    The customRule interface is not very intuitive, making it more\n' +
+    '    confusing to add new rules than it should be.\n' +
+    '  </li><li>\n' +
+    '    The Weapon Proficiency feat for exotic weapons has a prerequisite\n' +
+    '    of a +1 base attack bonus that is not checked.  Weapon Proficiency\n' +
+    '    in Bastard Sword and Dwarven Waraxe has a a further prerequisite\n' +
+    '    of a 13 strength that is also not checked.\n' +
+    '  </li>\n' +
+    '</ul>\n' +
+    '</p>\n' +
+    '\n' +
+    '<h3>Known Bugs</h3>\n' +
+    '<p>\n' +
+    '<ul>\n' +
+    '  <li>\n' +
+    '    Scribe adds the dexterity modifier to attack throws for all\n' +
+    '    weapons of characters with the Weapon Finesse feat, not just\n' +
+    '    light weapons.\n' +
+    '  </li><li>\n' +
+    '    When an character ability score is modified, Scribe recalculates\n' +
+    '    attributes based on that ability from scratch.  For example,\n' +
+    '    bumping intelligence when a character reaches fourth level causes\n' +
+    '    Scribe to recompute the number of skill points awarded at first\n' +
+    '    level.\n' +
+    '  </li><li>\n' +
+    '    Multi-class characters get quadruple spell points for the first\n' +
+    '    level in each class, instead of just the first class.\n' +
+    '  </li>\n' +
+    '</ul>\n' +
+    '</p>\n';
+}
 
 /*
  * A convenience function that adds #name# to the list of valid classes in
