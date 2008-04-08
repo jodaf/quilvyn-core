@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.248 2008/04/04 16:19:29 Jim Exp $ */
+/* $Id: Scribe.js,v 1.249 2008/04/08 00:48:17 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
 var VERSION = '1.0beta-080404';
@@ -25,7 +25,7 @@ var ABOUT_TEXT =
 'Thanks to my dungeon crew, especially Rich Hakesley, for patient ' +
 'testing of the program and for making suggestions that greatly improved it.';
 
-var COOKIE_FIELD_SEPARATOR = '\t';
+var COOKIE_FIELD_SEPARATOR = '+';
 var COOKIE_NAME = 'ScribeCookie';
 var EMPTY_SPELL_LIST = '--- No matching spells found ---';
 var FEATURES_OF_OTHER_WINDOWS =
@@ -414,7 +414,7 @@ Scribe.refreshEditor = function(redraw) {
 
   var fileOpts = cookieInfo.recent.split(',');
   fileOpts.length--; /* Trim trailing empty element */
-  fileOpts = ['--New/Open--', 'New...', 'Open...'].concat(fileOpts);
+  fileOpts = ['--File--', 'New...', 'Open...'].concat(fileOpts);
   var spellOpts = [];
   var spells = ruleSet.getChoices('spells');
   for(var a in spells) {
@@ -769,7 +769,9 @@ Scribe.update = function(input) {
     Scribe.refreshSheet();
   } else if(name == 'file') {
     input.selectedIndex = 0;
-    if(WARN_ABOUT_DISCARD &&
+    if(value == '--File--')
+      ; /* empty--Safari bug workaround */
+    else if(WARN_ABOUT_DISCARD &&
        !ScribeUtils.clones(character, cachedAttrs[characterUrl]) &&
        !confirm("Discard changes to character?"))
       ; /* empty */
@@ -777,8 +779,6 @@ Scribe.update = function(input) {
       Scribe.openDialog();
     else if(value == 'New...')
       Scribe.randomizeCharacter(true);
-    else if(value == '--New/Open--')
-      ; /* empty--Safari bug workaround */
     else
       Scribe.loadCharacter(value);
   } else if(name == 'help') {
