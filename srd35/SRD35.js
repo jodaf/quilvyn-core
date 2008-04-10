@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.138 2008/04/04 16:19:28 Jim Exp $ */
+/* $Id: SRD35.js,v 1.139 2008/04/10 06:13:25 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -2083,11 +2083,19 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Armor Proficiency (Heavy)') {
       notes = [
         'sanityNotes.armorProficiency(Heavy)FeatProficiency:' +
-          'Requires Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_HEAVY
-        // TODO Requires (Class) Armor Proficiency (Medium)
+          'Requires Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_HEAVY,
+        'validationNotes.armorProficiency(Heavy)FeatProficiency:' +
+          'Requires Armor Proficiency (Medium) || ' +
+          'Class Armor Proficiency Level >= ' + SRD35.PROFICIENCY_MEDIUM
       ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY
+      );
+      rules.defineRule('validationNotes.armorProficiency(Heavy)FeatProficiency',
+        'feats.Armor Proficiency (Heavy)', '=', '-1',
+        'features.Armor Proficiency (Medium)', '+', '1',
+        'classArmorProficiencyLevel', '+',
+        'source == ' + SRD35.PROFICIENCY_MEDIUM + ' ? 1 : null'
       );
     } else if(feat == 'Armor Proficiency (Light)') {
       notes = [
@@ -2100,11 +2108,20 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Armor Proficiency (Medium)') {
       notes = [
         'sanityNotes.armorProficiency(Medium)FeatProficiency:' +
-          'Requires Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_MEDIUM
-        // TODO Requires (Class) Armor Proficiency (Light)
+          'Requires Class Armor Proficiency Level < '+SRD35.PROFICIENCY_MEDIUM,
+        'validationNotes.armorProficiency(Medium)FeatProficiency:' +
+          'Requires Armor Proficiency (Light) || ' +
+          'Class Armor Proficiency Level >= ' + SRD35.PROFICIENCY_LIGHT
       ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Medium)', '^', SRD35.PROFICIENCY_MEDIUM
+      );
+      rules.defineRule(
+        'validationNotes.armorProficiency(Medium)FeatProficiency',
+        'feats.Armor Proficiency (Medium)', '=', '-1',
+        'features.Armor Proficiency (Light)', '+', '1',
+        'classArmorProficiencyLevel', '+',
+        'source == ' + SRD35.PROFICIENCY_LIGHT + ' ? 1 : null'
       );
     } else if(feat == 'Athletic') {
       notes = [
@@ -4613,19 +4630,18 @@ SRD35.defineClass = function
     rules.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
   if(saveWillBonus != null)
     rules.defineRule('save.Will', classLevel, '+', saveWillBonus);
-  if(armorProficiencyLevel != null &&
-     armorProficiencyLevel != SRD35.PROFICIENCY_NONE)
-    rules.defineRule
-      ('classArmorProficiencyLevel', classLevel, '^=', armorProficiencyLevel);
-  if(shieldProficiencyLevel != null &&
-     shieldProficiencyLevel != SRD35.PROFICIENCY_NONE)
-    rules.defineRule
-      ('classShieldProficiencyLevel', classLevel, '^=', shieldProficiencyLevel);
-  if(weaponProficiencyLevel != null &&
-     weaponProficiencyLevel != SRD35.PROFICIENCY_NONE) {
-    rules.defineRule
-      ('classWeaponProficiencyLevel', classLevel, '^=', weaponProficiencyLevel);
-  }
+  if(armorProficiencyLevel == null)
+    armorProficiencyLevel = SRD35.PROFICIENCY_NONE;
+  rules.defineRule
+    ('classArmorProficiencyLevel', classLevel, '^=', armorProficiencyLevel);
+  if(shieldProficiencyLevel == null)
+    shieldProficiencyLevel = SRD35.PROFICIENCY_NONE;
+  rules.defineRule
+    ('classShieldProficiencyLevel', classLevel, '^=', shieldProficiencyLevel);
+  if(weaponProficiencyLevel == null)
+    weaponProficiencyLevel = SRD35.PROFICIENCY_NONE;
+  rules.defineRule
+    ('classWeaponProficiencyLevel', classLevel, '^=', weaponProficiencyLevel);
   if(classSkills != null) {
     for(var i = 0; i < classSkills.length; i++) {
       rules.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');
