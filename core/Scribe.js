@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.250 2008/04/08 04:41:43 Jim Exp $ */
+/* $Id: Scribe.js,v 1.251 2008/04/12 15:26:25 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
 var VERSION = '1.0beta-080408';
@@ -213,10 +213,10 @@ Scribe.loadCharacter = function(name) {
         character[a] = value;
       }
     }
-    Scribe.refreshEditor(false);
-    Scribe.refreshSheet();
     characterUrl = url;
     cachedAttrs[characterUrl] = ScribeUtils.clone(character);
+    Scribe.refreshEditor(false);
+    Scribe.refreshSheet();
     urlLoading = null;
     if(!loadingPopup.closed)
       loadingPopup.close();
@@ -298,10 +298,10 @@ Scribe.randomizeCharacter = function(prompt) {
       }
     }
     character = ruleSet.randomizeAllAttributes(fixedAttributes);
-    Scribe.refreshEditor(false);
-    Scribe.refreshSheet();
     characterUrl = 'random';
     cachedAttrs[characterUrl] = ScribeUtils.clone(character);
+    Scribe.refreshEditor(false);
+    Scribe.refreshSheet();
     if(loadingPopup != null)
       loadingPopup.close();
     urlLoading = null;
@@ -472,22 +472,22 @@ Scribe.refreshEditor = function(redraw) {
 Scribe.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed)
     sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
-  sheetWindow.document.write(Scribe.sheetHtml());
+  sheetWindow.document.write(Scribe.sheetHtml(character));
   sheetWindow.document.close();
 };
 
 /* Returns the character sheet HTML for the current character. */
-Scribe.sheetHtml = function() {
+Scribe.sheetHtml = function(attrs) {
 
   var a;
   var codeAttributes = {};
   var computedAttributes;
-  var enteredAttributes = ScribeUtils.clone(character);
+  var enteredAttributes = ScribeUtils.clone(attrs);
   var i;
   var sheetAttributes = {};
 
   // Turn "dot" attributes into objects
-  for(a in character) {
+  for(a in attrs) {
     if((i = a.indexOf('.')) < 0) {
       codeAttributes[a] = enteredAttributes[a];
     } else {
@@ -849,7 +849,7 @@ Scribe.update = function(input) {
   } else if(name == 'summary') {
     Scribe.summarizeCachedAttrs();
   } else if(name == 'view') {
-    Scribe.showHtml(Scribe.sheetHtml());
+    Scribe.showHtml(Scribe.sheetHtml(character));
     cachedAttrs[characterUrl] = ScribeUtils.clone(character);
   } else if(name == 'viewer') {
     cookieInfo[name] = value;
