@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.251 2008/04/12 15:26:25 Jim Exp $ */
+/* $Id: Scribe.js,v 1.252 2008/04/15 16:02:36 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
-var VERSION = '1.0beta-080408';
+var VERSION = '1.0beta-080415';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -233,7 +233,7 @@ Scribe.loadCharacter = function(name) {
       loadingPopup.close();
       urlLoading = null;
       Scribe.refreshSheet();
-      alert('Attempt to load ' + url + ' failed');
+      editWindow.alert('Attempt to load ' + url + ' failed');
     }
     if(urlLoading != null)
       setTimeout('Scribe.loadCharacter("' + name + '")', TIMEOUT_DELAY);
@@ -247,7 +247,8 @@ Scribe.loadCharacter = function(name) {
 Scribe.openDialog = function() {
   if(loadingPopup != null && !loadingPopup.closed)
     return; // Ignore during load
-  var name = prompt('Enter URL to Edit (Blank for Random Character)', '');
+  var name =
+    editWindow.prompt('Enter URL to Edit (Blank for Random Character)', '');
   if(name == null)
     return; // User cancel
   else if(name == '')
@@ -773,7 +774,7 @@ Scribe.update = function(input) {
       ; /* empty--Safari bug workaround */
     else if(WARN_ABOUT_DISCARD &&
        !ScribeUtils.clones(character, cachedAttrs[characterUrl]) &&
-       !confirm("Discard changes to character?"))
+       !editWindow.confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Open...')
       Scribe.openDialog();
