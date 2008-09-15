@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.139 2008/04/10 06:13:25 Jim Exp $ */
+/* $Id: SRD35.js,v 1.140 2008/09/15 00:03:33 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -4136,8 +4136,10 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         continue;
       var matchInfo =
         this.getChoices('levels')[klass].match(/^((\d+)?d)?(\d+)$/);
-      var number = matchInfo == null || matchInfo[2] == null ? 1 : matchInfo[2];
-      var sides = matchInfo == null || matchInfo[3] == null ? 6 : matchInfo[3];
+      var number = matchInfo == null || matchInfo[2] == null ||
+                   matchInfo[2] == '' ? 1 : matchInfo[2];
+      var sides = matchInfo == null || matchInfo[3] == null ||
+                  matchInfo[3] == '' ? 6 : matchInfo[3];
       attributes.hitPoints += number * sides;
       while(--attr > 0)
         attributes.hitPoints += ScribeUtils.random(number, number * sides);
