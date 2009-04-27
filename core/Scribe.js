@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.253 2008/04/26 05:59:16 Jim Exp $ */
+/* $Id: Scribe.js,v 1.254 2009/04/27 14:19:09 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
 var VERSION = '1.0beta-080425';
@@ -598,7 +598,9 @@ Scribe.sheetHtml = function(attrs) {
           }
           if(additional != 0)
             damage += ScribeUtils.signed(additional);
-          damages[i] = damage + ' x' + multiplier + '@' + threat;
+          damages[i] = damage;
+          if(multiplier > 1)
+            damages[i] += ' x' + multiplier + '@' + threat;
         }
         name += '(' + ScribeUtils.signed(attack) + ' ' + damages.join('/') +
                 (range != null ? ' R' + range : '') + ')';
