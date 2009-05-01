@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.71 2008/04/04 05:33:17 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.72 2009/05/01 14:07:23 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -130,7 +130,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
         for(j = 0; j < affected.length; j++)
           this.defineRule('skillModifier.' + affected[j], attribute, '+', bump);
       }
-    } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|SelectableFeature)([A-Za-z]+)/)) != null &&
+    } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Race|SelectableFeature)([A-Za-z]+)/)) != null &&
               !format.match(/[ \(/][a-z]/)) {
       var group = matchInfo[4] == 'Feats' ? 'features' :
                   matchInfo[4] == 'Skills' ? 'skillModifier' :
@@ -183,7 +183,14 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
         totalValue += currentValue;
         currentValue *= 10;
       }
-      this.defineRule(attribute, target, '=', '-' + totalValue);
+      if(target.match(/^races./)) {
+        this.defineRule(attribute,
+          'race', '=',
+          'source == "' + target.substring(6) + '" ? -' + totalValue + ' : null'
+        );
+      } else {
+        this.defineRule(attribute, target, '=', '-' + totalValue);
+      }
       if(format.indexOf('|') >= 0) {
         this.defineRule(attribute, '', 'v', '0');
       }
@@ -218,6 +225,8 @@ ScribeRules.prototype.defineSheetElement = function
   var element = {name: name, format: format, separator: separator};
   if(position != null && position.match(/\/$/)) {
     element.within = position.substring(0, position.length - 1);
+  } else if(position != null && position.match(/\+$/)) {
+    element.after = position.substring(0, position.length - 1);
   } else {
     element.before = position;
   }
