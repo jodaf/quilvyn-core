@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.140 2008/09/15 00:03:33 Jim Exp $ */
+/* $Id: SRD35.js,v 1.141 2009/05/16 21:12:47 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -4173,7 +4173,21 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     for(i = 1; howMany > 0; i++) {
       var thisLevel = i == classes ? howMany : ScribeUtils.random(1, howMany);
-      pickAttrs(attributes, 'levels.', choices, 1, thisLevel);
+      var which = 'levels.' + choices[ScribeUtils.random(0, choices.length-1)];
+      // Find a choice that is valid or can be made so
+      while(attributes[which] == null) {
+        attributes[which] = 1;
+        if(ScribeUtils.sumMatching(this.applyRules(attributes),
+             /^validationNotes.*(BaseAttack|CasterLevel|Spells)/) == 0) {
+          // ok
+          attributes[which] = 0;
+        } else {
+          // try another
+          delete attributes[which];
+          which = 'levels.'+choices[ScribeUtils.random(0, choices.length-1)];
+        }
+      }
+      attributes[which] += thisLevel;
       howMany -= thisLevel;
     }
     attributes.level = level;
