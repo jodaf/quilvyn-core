@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.72 2009/05/01 14:07:23 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.73 2009/05/29 03:52:29 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -18,13 +18,15 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*
- * A Scribe extension to RuleEngine.  Adds an associated name, named choice
- * sets (e.g., classes, weapons), editor elements, and named object viewers.
+ * A Scribe extension to RuleEngine.  Adds an associated name and version,
+ * named choice sets (e.g., classes, weapons), editor elements, and named
+ * object viewers.
  */
-function ScribeRules(name) {
+function ScribeRules(name, version) {
   this.choices = {};
   this.editorElements = [];
   this.name = name;
+  this.version = version;
   this.viewers = {};
   this.viewerAdditions = [];
 }
@@ -266,6 +268,11 @@ ScribeRules.prototype.getEditorElements = function() {
 /* Returns the name of this rule set. */
 ScribeRules.prototype.getName = function() {
   return this.name;
+};
+
+/* Returns the version of this rule set. */
+ScribeRules.prototype.getVersion = function() {
+  return this.version;
 };
 
 /* Returns the ObjectViewer associated with #name#, null if none. */

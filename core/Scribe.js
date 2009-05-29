@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.254 2009/04/27 14:19:09 Jim Exp $ */
+/* $Id: Scribe.js,v 1.255 2009/05/29 03:52:29 Jim Exp $ */
 
 var COPYRIGHT = 'Copyright 2008 James J. Hayes';
 var VERSION = '1.0beta-080425';
@@ -639,7 +639,9 @@ Scribe.sheetHtml = function(attrs) {
   }
 
   return '<' + '!' + '-- Generated ' + new Date().toString() +
-           ' by Scribe version ' + VERSION + ' --' + '>\n' +
+           ' by Scribe version ' + VERSION + '; ' + 
+           ruleSet.getName() + ' version ' + ruleSet.getVersion() +
+           ' --' + '>\n' +
          '<html>\n' +
          '<head>\n' +
          '  <title>' + sheetAttributes.Name + '</title>\n' +

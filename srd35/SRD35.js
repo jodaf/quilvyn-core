@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.141 2009/05/16 21:12:47 Jim Exp $ */
+/* $Id: SRD35.js,v 1.142 2009/05/29 03:52:29 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -28,7 +28,7 @@ var SRD35_VERSION = '1.0beta-080404';
  * etc.) can be manipulated to modify the choices.
  */
 function SRD35() {
-  var rules = new ScribeRules('SRD v3.5');
+  var rules = new ScribeRules('SRD v3.5', SRD35_VERSION);
   SRD35.viewer = new ObjectViewer();
   SRD35.createViewers(rules, SRD35.VIEWERS);
   SRD35.abilityRules(rules);
