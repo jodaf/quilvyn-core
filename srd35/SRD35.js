@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.142 2009/05/29 03:52:29 Jim Exp $ */
+/* $Id: SRD35.js,v 1.143 2009/12/29 01:51:12 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -235,10 +235,10 @@ SRD35.armorsMaxDexBonuses = {
   'Full Plate': 1
 };
 SRD35.armorsSkillCheckPenalties = {
-  'None': null, 'Padded': null, 'Leather': null, 'Studded Leather': -1,
-  'Chain Shirt': -2, 'Hide': -3, 'Scale Mail': -4, 'Chainmail': -5,
-  'Breastplate': -4, 'Splint Mail': -7, 'Banded Mail': -6, 'Half Plate': -7,
-  'Full Plate': -6
+  'None': null, 'Padded': null, 'Leather': null, 'Studded Leather': 1,
+  'Chain Shirt': 2, 'Hide': 3, 'Scale Mail': 4, 'Chainmail': 5,
+  'Breastplate': 4, 'Splint Mail': 7, 'Banded Mail': 6, 'Half Plate': 7,
+  'Full Plate': 6
 };
 SRD35.armorsWeightClasses = {
   'None': 'Light', 'Padded': 'Light', 'Leather': 'Light',
@@ -2003,6 +2003,11 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   rules.defineChoice('shields', shields);
   rules.defineChoice('weapons', weapons);
   rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
+  rules.defineNote('skillNotes.armorSkillCheckPenalty:' +
+    '-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/Slight Of Hand/' +
+    'Tumble'
+  );
+  rules.defineNote('skillNotes.armorSwimCheckPenalty:-%V Swim');
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
     'armorWeightClass', '=', 'source == "Light" ? null : -10',
     'features.Slow', '+', '5'
@@ -2027,6 +2032,9 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? -10 : ' +
                     'source.indexOf("Heavy") >= 0 ? -2 : -1'
+  );
+  rules.defineRule('skillNotes.armorSwimCheckPenalty',
+    'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
   // TODO combatNotes.strengthDamageAdjustment handled directly by Scribe
