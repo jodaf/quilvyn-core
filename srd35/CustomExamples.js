@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.4 2008/03/27 05:12:21 Jim Exp $ */
+/* $Id: CustomExamples.js,v 1.5 2009/12/29 01:49:43 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -167,11 +167,11 @@ CustomExamples.magicWeaponRules = function(rules, weapons) {
     // longswords, both get the bonus.  Ignore this bug for now.
     rules.defineRule(
       'combatNotes.goodies' + baseWeaponNoSpace + 'AttackAdjustment',
-      'goodies.' + weapon, '+=', '2'
+      'goodies.' + weapon, '+=', matchInfo[2]
     );
     rules.defineRule(
       'combatNotes.goodies' + baseWeaponNoSpace + 'DamageAdjustment',
-      'goodies.' + weapon, '+=', '2'
+      'goodies.' + weapon, '+=', matchInfo[2]
     );
     rules.defineRule('weaponAttackAdjustment.' + baseWeapon,
       'combatNotes.goodies' + baseWeaponNoSpace + 'AttackAdjustment', '+=', null
