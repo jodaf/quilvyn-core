@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.143 2009/12/29 01:51:12 Jim Exp $ */
+/* $Id: SRD35.js,v 1.144 2010/01/01 04:06:33 Jim Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -1824,11 +1824,7 @@ SRD35.createViewers = function(rules, viewers) {
              separator: '/'},
             {name: 'Turn Undead', within: 'Section 1', separator: '/'},
             {name: 'Alignment', within: 'Section 1', format: '<b>Ali</b> %V'},
-            {name: 'Saves', within: 'Section 1', format: '<b>Save F/R/W</b> %V',
-             separator: '/'},
-              {name: 'save.Fortitude', within: 'Saves', format: '%V'},
-              {name: 'save.Reflex', within: 'Saves', format: '%V'},
-              {name: 'save.Will', within: 'Saves', format: '%V'},
+            {name: 'Save', within: 'Section 1', separator: '/'},
             {name: 'Resistance', within: 'Section 1', separator: '/'},
             {name: 'Abilities', within: 'Section 1',
              format: '<b>Str/Int/Wis/Dex/Con/Cha</b> %V', separator: '/'},
@@ -2030,8 +2026,8 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
     'shield', '+=', 'source == "None" ? 0 : ' +
-                    'source == "Tower" ? -10 : ' +
-                    'source.indexOf("Heavy") >= 0 ? -2 : -1'
+                    'source == "Tower" ? 10 : ' +
+                    'source.indexOf("Heavy") >= 0 ? 2 : 1'
   );
   rules.defineRule('skillNotes.armorSwimCheckPenalty',
     'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
