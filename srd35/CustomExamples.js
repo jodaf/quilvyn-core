@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.5 2009/12/29 01:49:43 Jim Exp $ */
+/* $Id: CustomExamples.js,v 1.6 2011/01/02 22:04:03 jhayes Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -157,22 +157,31 @@ CustomExamples.magicWeaponRules = function(rules, weapons) {
   var matchInfo;
   for(var i = 0; i < weapons.length; i++) {
     var weapon = weapons[i];
-    if((matchInfo = weapon.match(/(.*?)\s+([+-]\d+)\s*$/)) == null)
+    var attackBonus = 0;
+    var damageBonus = 0;
+    if((matchInfo = weapon.match(/Masterwork\s+(.*)/)) != null) {
+      attackBonus = 1;
+    } else if((matchInfo = weapon.match(/(.*?)\s+([+-]\d+)\s*$/)) != null) {
+      attackBonus = damageBonus = matchInfo[2];
+    } else
       continue;
     var baseWeapon = matchInfo[1];
     var baseWeaponNoSpace = baseWeapon.replace(/\s+/g, '');
-    var bonus = matchInfo[2];
     // Note: these weaponAttack/Damage rules will affect all weapons of a
     // particular type that the character owns--If the character has, say, two
     // longswords, both get the bonus.  Ignore this bug for now.
-    rules.defineRule(
-      'combatNotes.goodies' + baseWeaponNoSpace + 'AttackAdjustment',
-      'goodies.' + weapon, '+=', matchInfo[2]
-    );
-    rules.defineRule(
-      'combatNotes.goodies' + baseWeaponNoSpace + 'DamageAdjustment',
-      'goodies.' + weapon, '+=', matchInfo[2]
-    );
+    if(attackBonus != 0) {
+      rules.defineRule(
+        'combatNotes.goodies' + baseWeaponNoSpace + 'AttackAdjustment',
+        'goodies.' + weapon, '+=', attackBonus
+      );
+    }
+    if(damageBonus != 0) {
+      rules.defineRule(
+        'combatNotes.goodies' + baseWeaponNoSpace + 'DamageAdjustment',
+        'goodies.' + weapon, '+=', damageBonus
+      );
+    }
     rules.defineRule('weaponAttackAdjustment.' + baseWeapon,
       'combatNotes.goodies' + baseWeaponNoSpace + 'AttackAdjustment', '+=', null
     );
