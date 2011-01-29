@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.6 2011/01/02 22:04:03 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.7 2011/01/29 19:20:35 jhayes Exp $ */
 
 /*
 Copyright 2008, James J. Hayes
@@ -67,10 +67,12 @@ CustomExamples.MAGIC_ARMORS = [
 
 /*
  * Each entry in the MAGIC_WEAPONS array has the form "Weapon +N" (improves
- * attack and damage for that weapon by N).
+ * attack and damage for that weapon by N) or "Masterwork Weapon" (improves
+ * attack by 1).
  */
 CustomExamples.MAGIC_WEAPONS = [
-  'Composite Longbow +2', 'Longsword +2', 'Short Sword +2'
+  'Composite Longbow +2', 'Longsword +2', 'Masterwork Longsword',
+  'Short Sword +2'
 ];
 
 /*
