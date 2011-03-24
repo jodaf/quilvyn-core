@@ -1,7 +1,7 @@
-/* $Id: RuleEngine.js,v 1.22 2008/03/27 05:12:22 Jim Exp $ */
+/* $Id: RuleEngine.js,v 1.23 2011/03/24 23:04:14 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -94,7 +94,7 @@ RuleEngine.prototype.allSources = function(target) {
       result[result.length] = attr;
   result.sort();
   return result;
-}
+};
 
 /* Returns a sorted array containing all attributes that are rule targets. */
 RuleEngine.prototype.allTargets = function(source) {
@@ -104,7 +104,7 @@ RuleEngine.prototype.allTargets = function(source) {
       result[result.length] = attr;
   result.sort();
   return result;
-}
+};
 
 /*
  * Invokes the rules that are affected directly or indirectly by the attributes
@@ -164,12 +164,12 @@ RuleEngine.prototype.deleteRule = function(target, source) {
 /* Returns true iff the value of #attr# affects other attributes. */
 RuleEngine.prototype.isSource = function(attr) {
   return this.targets[attr] != null;
-}
+};
 
 /* Returns true iff the value of #attr# is affected by other attributes. */
 RuleEngine.prototype.isTarget = function(attr) {
   return this.sources[attr] != null;
-}
+};
 
 /* A debugging function that returns an HTML representation of the rules. */
 RuleEngine.prototype.toHtml = function() {
@@ -184,7 +184,7 @@ RuleEngine.prototype.toHtml = function() {
     }
   }
   return result;
-}
+};
 
 /*
  * A "private" function.  Invokes the rules that have #attr# as their target,

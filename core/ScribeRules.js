@@ -1,7 +1,7 @@
-//* $Id: ScribeRules.js,v 1.73 2009/05/29 03:52:29 Jim Exp $ */
+//* $Id: ScribeRules.js,v 1.74 2011/03/24 23:04:15 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -133,7 +133,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
           this.defineRule('skillModifier.' + affected[j], attribute, '+', bump);
       }
     } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Race|SelectableFeature)([A-Za-z]+)/)) != null &&
-              !format.match(/[ \(/][a-z]/)) {
+              !format.match(/[ \(\/][a-z]/)) {
       var group = matchInfo[4] == 'Feats' ? 'features' :
                   matchInfo[4] == 'Skills' ? 'skillModifier' :
                   matchInfo[4].match(/s$/) ?

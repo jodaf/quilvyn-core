@@ -1,7 +1,7 @@
-/* $Id: ScribeUtils.js,v 1.8 2008/03/27 05:12:23 Jim Exp $ */
+/* $Id: ScribeUtils.js,v 1.9 2011/03/24 23:04:15 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -23,7 +23,7 @@ function ScribeUtils() {
 
 /* Returns a recursively-copied clone of #o#. */
 ScribeUtils.clone = function clone(o) {
-  if(typeof o != 'object' || o == null)
+  if(o == null || typeof o != 'object')
     return o;
   var result = new Object();
   for(var a in o) {
@@ -34,7 +34,7 @@ ScribeUtils.clone = function clone(o) {
 
 /* Returns true iff all attributes of #o1# have the same values in #o2#. */
 ScribeUtils.clones = function(o1, o2) {
-  if(typeof o1 != "object" || typeof o2 != "object")
+  if(typeof o1 != 'object' || typeof o2 != 'object')
     return o1 == o2;
   var o1Keys = ScribeUtils.getKeys(o1), o2Keys = ScribeUtils.getKeys(o2);
   if(o1Keys.length != o2Keys.length)
@@ -70,7 +70,7 @@ ScribeUtils.flatten = function(array, start, end) {
     result = result.concat(array[i]);
   }
   return result;
-}
+};
 
 /*
  * Returns a sorted array containing keys from object #o#.  If #pattern# is not
@@ -85,7 +85,7 @@ ScribeUtils.getKeys = function(o, pattern) {
   }
   result.sort();
   return result;
-}
+};
 
 /*
  * Returns a sorted array containing all values from object #o#.  If #pattern#
@@ -100,7 +100,7 @@ ScribeUtils.getValues = function(o, pattern) {
   }
   result.sort();
   return result;
-}
+};
 
 /* Returns a random integer in the range low .. high, inclusive. */
 ScribeUtils.random = function(low, hi) {
@@ -111,7 +111,7 @@ ScribeUtils.random = function(low, hi) {
 ScribeUtils.randomKey = function(o) {
   var keys = ScribeUtils.getKeys(o);
   return keys[ScribeUtils.random(0, keys.length - 1)];
-}
+};
 
 /* Returns #value# with a leading sign. */
 ScribeUtils.signed = function(value) {
@@ -125,4 +125,4 @@ ScribeUtils.sumMatching = function(attrs, pat) {
     if(a.search(pat) >= 0)
       result += attrs[a] - 0;
   return result;
-}
+};

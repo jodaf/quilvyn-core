@@ -1,7 +1,7 @@
-/* $Id: SRD35.js,v 1.144 2010/01/01 04:06:33 Jim Exp $ */
+/* $Id: SRD35.js,v 1.145 2011/03/24 23:04:14 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -17,7 +17,7 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
-var SRD35_VERSION = '1.0beta-080404';
+var SRD35_VERSION = '1.0beta-20110210';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -56,7 +56,7 @@ function SRD35() {
 // JavaScript expressions for several (mostly class-based) attributes.
 SRD35.ATTACK_BONUS_GOOD = 'source';
 SRD35.ATTACK_BONUS_AVERAGE = 'source - Math.floor((source + 3) / 4)';
-SRD35.ATTACK_BONUS_POOR = 'Math.floor(source / 2)'
+SRD35.ATTACK_BONUS_POOR = 'Math.floor(source / 2)';
 SRD35.PROFICIENCY_HEAVY = '3';
 SRD35.PROFICIENCY_LIGHT = '1';
 SRD35.PROFICIENCY_MEDIUM = '2';
@@ -616,24 +616,24 @@ SRD35.abilityRules = function(rules) {
 
   // Effects of ability modifiers
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
-    'constitutionModifier', '=', 'source == 0 ? null : source',
+    'constitutionModifier', '=', 'source || null',
     'level', '*', null
   );
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
-    'dexterityModifier', '=', 'source == 0 ? null : source'
+    'dexterityModifier', '=', 'source || null'
   );
   rules.defineRule('combatNotes.dexterityRangedAttackAdjustment',
-    'dexterityModifier', '=', 'source == 0 ? null : source'
+    'dexterityModifier', '=', 'source || null'
   );
   rules.defineRule('skillNotes.intelligenceSkillPointsAdjustment',
-    'intelligenceModifier', '=', null,
+    'intelligenceModifier', '=', 'source || null',
     'level', '*', 'source + 3'
   );
   rules.defineRule('combatNotes.strengthDamageAdjustment',
-    'strengthModifier', '=', 'source == 0 ? null : source'
+    'strengthModifier', '=', 'source || null'
   );
   rules.defineRule('combatNotes.strengthMeleeAttackAdjustment',
-    'strengthModifier', '=', 'source == 0 ? null : source'
+    'strengthModifier', '=', 'source || null'
   );
   rules.defineRule('languageCount',
     'intelligenceModifier', '+', 'source > 0 ? source : null'
@@ -711,7 +711,6 @@ SRD35.classRules = function(rules, classes) {
       hitDie = 12;
       notes = [
         'abilityNotes.fastMovementFeature:+%V speed',
-        'combatNotes.damageReductionFeature:%V subtracted from damage taken',
         'combatNotes.greaterRageFeature:+6 strength/constitution; +3 Will',
         'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
@@ -743,7 +742,7 @@ SRD35.classRules = function(rules, classes) {
       spellsPerDay = null;
       rules.defineRule
         ('abilityNotes.fastMovementFeature', 'levels.Barbarian', '+=', '10');
-      rules.defineRule('combatNotes.damageReductionFeature',
+      rules.defineRule('damageReduction.All',
         'levels.Barbarian', '+=', 'source>=7 ? Math.floor((source-4)/3) : null'
       );
       rules.defineRule('combatNotes.rageFeature',
@@ -1824,6 +1823,8 @@ SRD35.createViewers = function(rules, viewers) {
              separator: '/'},
             {name: 'Turn Undead', within: 'Section 1', separator: '/'},
             {name: 'Alignment', within: 'Section 1', format: '<b>Ali</b> %V'},
+            {name: 'Damage Reduction', within: 'Section 1',
+             format: '<b>DR</b> %V', separator: '/'},
             {name: 'Save', within: 'Section 1', separator: '/'},
             {name: 'Resistance', within: 'Section 1', separator: '/'},
             {name: 'Abilities', within: 'Section 1',
@@ -1948,6 +1949,8 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Combat Notes', within: 'CombatPart', separator: listSep},
           {name: 'SavePart', within: 'Combat', separator: '\n'},
             {name: 'SaveAndResistance', within: 'SavePart', separator:innerSep},
+              {name: 'Damage Reduction', within: 'SaveAndResistance',
+               separator: innerSep},
               {name: 'Save', within: 'SaveAndResistance', separator: listSep},
               {name: 'Resistance', within: 'SaveAndResistance',
                separator: listSep},
@@ -2779,7 +2782,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
       rules.defineRule('combatNotes.dexterityMeleeAttackAdjustment',
         'combatNotes.weaponFinesseFeature', '?', null,
-        'dexterityModifier', '=', 'source == 0 ? null : source'
+        'dexterityModifier', '=', 'source || null'
       );
       rules.defineRule('combatNotes.strengthMeleeAttackAdjustment',
         'combatNotes.weaponFinesseFeature', '*', '0'
@@ -3986,7 +3989,7 @@ SRD35.initialEditorElements = function() {
     ['armor', 'Armor', 'select-one', 'armors'],
     ['shield', 'Shield', 'select-one', 'shields'],
     ['weapons', 'Weapons', 'bag', 'weapons'],
-    ['spells', 'Spells', 'set', 'spells'],
+    ['spells', 'Spells', 'fset', 'spells'],
     ['goodies', 'Goodies', 'bag', 'goodies'],
     ['domains', 'Cleric Domains', 'set', 'domains'],
     ['specialize', 'Wizard Specialization', 'set', 'schools'],
@@ -4053,7 +4056,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   } else if(attribute == 'feats' || attribute == 'features') {
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
     var countPat = new RegExp('^' + attribute + 'Count\\.');
-    var prefix = attribute + 's'
+    var prefix = attribute + 's';
     var suffix =
       attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
     var toAllocateByType = {};
@@ -4203,6 +4206,9 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     howMany =
       attrs.skillPoints - ScribeUtils.sumMatching(attributes, '^skills\\.'),
     choices = ScribeUtils.getKeys(this.getChoices('skills'));
+    for(i = choices.length - 1; i >= 0; i--)
+      if(choices[i].indexOf(' (') >= 0)
+        choices = choices.slice(0, i).concat(choices.slice(i + 1));
     while(howMany > 0 && choices.length > 0) {
       var pickClassSkill = ScribeUtils.random(0, 99) >= 15;
       i = ScribeUtils.random(0, choices.length - 1);
@@ -4610,7 +4616,7 @@ SRD35.ruleNotes = function() {
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n';
-}
+};
 
 /*
  * A convenience function that adds #name# to the list of valid classes in

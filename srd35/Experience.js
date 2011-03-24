@@ -1,7 +1,7 @@
-/* $Id: Experience.js,v 1.5 2008/03/27 05:12:22 Jim Exp $ */
+/* $Id: Experience.js,v 1.6 2011/03/24 23:04:14 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -45,7 +45,7 @@ Experience.experienceRules = function(rules) {
       attributes.experience = ScribeUtils.random(min, max);
       delete attributes.level;
     }
-  }
+  };
   newRandomizeOneAttribute.oldRandomizeOneAttribute = oldRandomizeOneAttribute;
   rules.randomizeOneAttribute = newRandomizeOneAttribute;
   rules.defineRule
@@ -57,4 +57,4 @@ Experience.experienceRules = function(rules) {
   rules.defineSheetElement('ExperienceInfo', 'Level', null, '');
   rules.defineSheetElement('Experience', 'ExperienceInfo/');
   rules.defineSheetElement('Experience Needed', 'ExperienceInfo/', '/%V');
-}
+};

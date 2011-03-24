@@ -1,7 +1,7 @@
-/* $Id: Input.js,v 1.12 2008/03/27 05:12:22 Jim Exp $ */
+/* $Id: Input.js,v 1.13 2011/03/24 23:04:14 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -57,7 +57,7 @@ function InputHtml(name, type, params) {
   var result;
   if(type == 'button')
     result =
-      '<input name="' + name + '" type="button" value="' + params[0] + '"/>'
+      '<input name="' + name + '" type="button" value="' + params[0] + '"/>';
   else if(type == 'checkbox' || type == 'radio') {
     result = '<input name="' + name + '" type="' + type + '"/>';
     if(params != null)
@@ -87,7 +87,7 @@ function InputSetCallback(input, fn) {
                input.type == 'checkbox' ||
                input.type == 'radio' ? 'onclick' : 'onchange';
   input[method] = fn;
-}
+};
 
 /* Replaces the options in a select #input# with the array #selections#. */
 function InputSetOptions(input, options) {
@@ -134,4 +134,4 @@ function InputSetValue(input, value) {
   else if(input.type != 'button')
     input.value = value == null ? '' : value;
   return true;
-}
+};

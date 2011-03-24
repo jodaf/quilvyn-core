@@ -1,7 +1,7 @@
-/* $Id: ObjectViewer.js,v 1.16 2008/03/27 05:12:22 Jim Exp $ */
+/* $Id: ObjectViewer.js,v 1.17 2011/03/24 23:04:14 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

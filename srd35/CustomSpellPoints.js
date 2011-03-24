@@ -1,7 +1,7 @@
-/* $Id: CustomSpellPoints.js,v 1.29 2008/03/27 05:12:21 Jim Exp $ */
+/* $Id: CustomSpellPoints.js,v 1.30 2011/03/24 23:04:14 jhayes Exp $ */
 
 /*
-Copyright 2008, James J. Hayes
+Copyright 2011, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -50,4 +50,4 @@ CustomSpellPoints.spellPointRules = function(rules) {
   // Add spell point and remove spells per day from the character sheet.
   rules.defineSheetElement('Spell Points', 'Spell Difficulty Class');
   rules.defineSheetElement('Spells Per Day');
-}
+};

@@ -1,7 +1,7 @@
-/* $Id: Scribe.js,v 1.257 2009/05/29 04:20:55 Jim Exp $ */
+/* $Id: Scribe.js,v 1.258 2011/03/24 23:04:15 jhayes Exp $ */
 
-var COPYRIGHT = 'Copyright 2008 James J. Hayes';
-var VERSION = '1.0beta-090528';
+var COPYRIGHT = 'Copyright 2011 James J. Hayes';
+var VERSION = '1.0beta-20110210';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -27,13 +27,12 @@ var ABOUT_TEXT =
 
 var COOKIE_FIELD_SEPARATOR = '+';
 var COOKIE_NAME = 'ScribeCookie';
-var EMPTY_SPELL_LIST = '--- No matching spells found ---';
 var FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
 var TIMEOUT_DELAY = 1000; // One second
 
-var cachedAttrs = {}; // Unchanged attrs of all characters opened so far
 var character;      // Current character
+var characterCache={}; // Attrs of all characters opened so far, indexed by url
 var characterUrl;   // URL of current character
 var cookieInfo = {  // What we store in the cookie
   hidden: '0',      // Show information marked "hidden" on sheet?
@@ -44,8 +43,7 @@ var cookieInfo = {  // What we store in the cookie
 var editForm;       // Character editing form (editWindow.document.forms[0])
 var editWindow = null; // Window where editor is shown
 var loadingPopup = null; // Current "loading" message popup window
-var spellFilter = "";
-var ruleSets = {};  // ScribeRules with standard + user rules
+var ruleSets = {};  // ScribeRules with standard + user rules, indexed by name
 var ruleSet = null; // The rule set currently in use
 var sheetWindow = null; // Window where character sheet is shown
 var urlLoading = null; // Character URL presently loading
@@ -118,7 +116,7 @@ Scribe.editorHtml = function() {
     ['rules', 'Rules', 'select-one', []],
     ['ruleAttributes', '', 'button', ['Attributes']],
     ['ruleNotes', '', 'button', ['Notes']],
-    ['file', ' ', 'select-one', []],
+    ['file', 'File', 'select-one', []],
     ['summary', '', 'button', ['Summary']],
     ['view', '', 'button', ['View Html']],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
@@ -127,14 +125,6 @@ Scribe.editorHtml = function() {
     ['randomize', 'Randomize', 'select-one', 'random']
   ];
   var elements = scribeElements.concat(ruleSet.getEditorElements());
-  for(var i = 0; i < elements.length; i++) {
-    if(elements[i][0] != 'spells')
-      continue;
-    elements = elements.slice(0, i).
-      concat([['spellFilter', 'Spell Filter', 'text', [20]]]).
-      concat(elements.slice(i));
-    break;
-  }
   var htmlBits = ['<form name="frm"><table>'];
   for(var i = 0; i < elements.length; i++) {
     var element = elements[i];
@@ -155,14 +145,15 @@ Scribe.editorHtml = function() {
       }
       htmlBits[htmlBits.length] = '<tr><th>' + label + '</th><td>';
     }
-    if(type == 'bag' | type == 'set') {
-      var widget = type == 'bag' ? InputHtml(name, 'text', [3]) :
+    if(type.match(/^f?(bag|set)$/)) {
+      var widget = type.match(/bag/) ? InputHtml(name, 'text', [3]) :
                                    InputHtml(name, 'checkbox', null);
       htmlBits[htmlBits.length] =
         '  ' +
         InputHtml(name + '_sel', 'select-one', params) +
         widget +
-        InputHtml(name + '_clear', 'button', ['Clear All']);
+        InputHtml(name + '_clear', 'button', ['Clear All']) +
+        (type.charAt(0)=='f' ? InputHtml(name + '_filter', 'text', [15]) : '');
     } else {
       htmlBits[htmlBits.length] = '  ' + InputHtml(name, type, params);
     }
@@ -186,13 +177,22 @@ Scribe.loadCharacter = function(name) {
   if(urlLoading == url && loadingPopup.closed) {
     urlLoading = null; // User cancel
     Scribe.refreshSheet();
-  } else if(urlLoading == url && sheetWindow.attributes != null) {
+  } else if(urlLoading == url) {
+    try {
+      if(sheetWindow.attributes == null) {
+        // still loading; try again later
+        setTimeout('Scribe.loadCharacter("' + name + '")', TIMEOUT_DELAY);
+        return;
+      }
+    } catch(e) {
+      alert("Whoops! Caught an exception");
+    }
     // Character done loading
-    var i;
     // Place loaded name at head of New/Open list
     var names = cookieInfo.recent.split(',');
     names.length--; // Trim trailing empty element
-    for(i = 0; i < names.length && names[i] != name; i++)
+    var i = ScribeUtils.findElement(names, name);
+    if(i >= 0)
       ; // empty
     if(i < names.length)
       names = names.slice(0, i).concat(names.slice(i + 1));
@@ -214,7 +214,7 @@ Scribe.loadCharacter = function(name) {
       }
     }
     characterUrl = url;
-    cachedAttrs[characterUrl] = ScribeUtils.clone(character);
+    characterCache[characterUrl] = ScribeUtils.clone(character);
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
     urlLoading = null;
@@ -300,7 +300,7 @@ Scribe.randomizeCharacter = function(prompt) {
     }
     character = ruleSet.randomizeAllAttributes(fixedAttributes);
     characterUrl = 'random';
-    cachedAttrs[characterUrl] = ScribeUtils.clone(character);
+    characterCache[characterUrl] = ScribeUtils.clone(character);
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
     if(loadingPopup != null)
@@ -415,21 +415,10 @@ Scribe.refreshEditor = function(redraw) {
 
   var fileOpts = cookieInfo.recent.split(',');
   fileOpts.length--; /* Trim trailing empty element */
-  fileOpts = ['--File--', 'New...', 'Open...'].concat(fileOpts);
-  var spellOpts = [];
-  var spells = ruleSet.getChoices('spells');
-  for(var a in spells) {
-    if(spellFilter == "" || a.indexOf(spellFilter) >= 0) {
-      spellOpts[spellOpts.length] = a;
-    }
-  }
-  if(spellOpts.length == 0)
-    spellOpts[spellOpts.length] = EMPTY_SPELL_LIST;
-  spellOpts.sort();
+  fileOpts = ['---choose one---', 'New...', 'Open...'].concat(fileOpts);
 
   InputSetOptions(editForm.file, fileOpts);
   InputSetOptions(editForm.rules, ScribeUtils.getKeys(ruleSets));
-  InputSetOptions(editForm.spells_sel, spellOpts);
   InputSetOptions(editForm.viewer, ruleSet.getViewerNames());
 
   // Skip to first character-related editor input
@@ -464,7 +453,6 @@ Scribe.refreshEditor = function(redraw) {
   InputSetValue(editForm.hidden, cookieInfo.hidden == '1');
   InputSetValue(editForm.italics, cookieInfo.italics == '1');
   InputSetValue(editForm.rules, ruleSet.getName());
-  InputSetValue(editForm.spellFilter, spellFilter);
   InputSetValue(editForm.viewer, cookieInfo.viewer);
 
 };
@@ -517,8 +505,6 @@ Scribe.sheetHtml = function(attrs) {
     if(enteredAttributes[a] != null && enteredAttributes[a] != value)
       value += '[' + enteredAttributes[a] + ']';
     if((i = name.indexOf('.')) < 0) {
-      if(name == 'imageUrl' && !value.match(/^\w*:/))
-        value = URL_PREFIX + value;
       sheetAttributes[name] = value;
     } else {
       var object = name.substring(0, i);
@@ -694,9 +680,9 @@ Scribe.storeCookie = function() {
  */
 Scribe.summarizeCachedAttrs = function() {
   var allAttrs = {};
-  for(var a in cachedAttrs) {
+  for(var a in characterCache) {
     if(a != 'random')
-      allAttrs[a] = ruleSet.applyRules(cachedAttrs[a]);
+      allAttrs[a] = ruleSet.applyRules(characterCache[a]);
   }
   var urls = ScribeUtils.getKeys(allAttrs);
   var htmlBits = [
@@ -713,19 +699,12 @@ Scribe.summarizeCachedAttrs = function() {
   htmlBits[htmlBits.length] = rowHtml;
   var inTable = {};
   for(var a in allAttrs) {
-    var spells = [];
     for(var b in allAttrs[a]) {
       if(b.match(/^(features|skills|selectableFeatures)\./))
         inTable[b] = 1;
-      else if(b.match(/^spells\./))
-        spells[spells.length] = b.substring(b.indexOf('.') + 1);
-    }
-    if(spells.length > 0) {
-      spells.sort();
-      allAttrs[a]['spells'] = spells.join('<br/>');
     }
   }
-  inTable['notes'] = inTable['hiddenNotes'] = inTable['spells'] = 1;
+  inTable['notes'] = inTable['hiddenNotes'] = 1;
   inTable = ScribeUtils.getKeys(inTable);
   for(var i = 0; i < inTable.length; i++) {
     rowHtml = '<tr><td><b>' + inTable[i] + '</b></td>';
@@ -774,10 +753,10 @@ Scribe.update = function(input) {
     Scribe.refreshSheet();
   } else if(name == 'file') {
     input.selectedIndex = 0;
-    if(value == '--File--')
+    if(value == '---select one---')
       ; /* empty--Safari bug workaround */
     else if(WARN_ABOUT_DISCARD &&
-       !ScribeUtils.clones(character, cachedAttrs[characterUrl]) &&
+       !ScribeUtils.clones(character, characterCache[characterUrl]) &&
        !editWindow.confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Open...')
@@ -848,14 +827,11 @@ Scribe.update = function(input) {
       '</html>\n'
     );
     Scribe.ruleNotesWindow.document.close();
-  } else if(name == 'spellFilter') {
-    spellFilter = value;
-    Scribe.refreshEditor(false);
   } else if(name == 'summary') {
     Scribe.summarizeCachedAttrs();
   } else if(name == 'view') {
     Scribe.showHtml(Scribe.sheetHtml(character));
-    cachedAttrs[characterUrl] = ScribeUtils.clone(character);
+    characterCache[characterUrl] = ScribeUtils.clone(character);
   } else if(name == 'viewer') {
     cookieInfo[name] = value;
     Scribe.storeCookie();
@@ -866,17 +842,31 @@ Scribe.update = function(input) {
       if(a.indexOf(name + '.') == 0)
         delete character[a];
     }
-    input = editForm[name]
+    input = editForm[name];
     if(input != null)
       InputSetValue(input, null);
-    input = editForm[name + '_sel']
+    input = editForm[name + '_sel'];
     if(input != null)
       input.selectedIndex = 0;
     Scribe.refreshEditor(false);
     Scribe.refreshSheet();
+  } else if(name.indexOf('_filter') >= 0) {
+    name = name.replace(/_filter/, '');
+    var opts = [];
+    for(var a in ruleSet.getChoices(name)) {
+      if(value == "" || a.indexOf(value) >= 0) {
+        opts[opts.length] = a;
+      }
+    }
+    if(opts.length == 0)
+      opts[opts.length] = "---empty===";
+    opts.sort();
+    InputSetOptions(editForm[name + "_sel"], opts);
+    character[name + '_filter'] = value;
+    Scribe.refreshEditor(false);
   } else if(name.indexOf('_sel') >= 0) {
     name = name.replace(/_sel/, '');
-    input = editForm[name]
+    input = editForm[name];
     if(input != null) {
       InputSetValue(input, character[name + '.' + value]);
     }
@@ -894,8 +884,6 @@ Scribe.update = function(input) {
       character[name] = ((character[name] - 0) + (value.substring(1) - 0)) + '';
       InputSetValue(input, character[name]);
     }
-    else if(name == 'spells.' + EMPTY_SPELL_LIST)
-      InputSetValue(input, 0);
     else
       character[name] = value;
     Scribe.refreshSheet();
