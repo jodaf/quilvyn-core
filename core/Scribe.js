@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.258 2011/03/24 23:04:15 jhayes Exp $ */
+/* $Id: Scribe.js,v 1.259 2011/03/24 23:31:33 jhayes Exp $ */
 
 var COPYRIGHT = 'Copyright 2011 James J. Hayes';
 var VERSION = '1.0beta-20110210';
@@ -31,7 +31,7 @@ var FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
 var TIMEOUT_DELAY = 1000; // One second
 
-var character;      // Current character
+var character;      // Attrs of urrent character
 var characterCache={}; // Attrs of all characters opened so far, indexed by url
 var characterUrl;   // URL of current character
 var cookieInfo = {  // What we store in the cookie
@@ -43,8 +43,8 @@ var cookieInfo = {  // What we store in the cookie
 var editForm;       // Character editing form (editWindow.document.forms[0])
 var editWindow = null; // Window where editor is shown
 var loadingPopup = null; // Current "loading" message popup window
-var ruleSets = {};  // ScribeRules with standard + user rules, indexed by name
 var ruleSet = null; // The rule set currently in use
+var ruleSets = {};  // ScribeRules with standard + user rules, indexed by name
 var sheetWindow = null; // Window where character sheet is shown
 var urlLoading = null; // Character URL presently loading
 
@@ -193,8 +193,6 @@ Scribe.loadCharacter = function(name) {
     names.length--; // Trim trailing empty element
     var i = ScribeUtils.findElement(names, name);
     if(i >= 0)
-      ; // empty
-    if(i < names.length)
       names = names.slice(0, i).concat(names.slice(i + 1));
     names = [name].concat(names);
     if(names.length > MAX_RECENT_OPENS)
@@ -859,7 +857,7 @@ Scribe.update = function(input) {
       }
     }
     if(opts.length == 0)
-      opts[opts.length] = "---empty===";
+      opts[opts.length] = "---empty---";
     opts.sort();
     InputSetOptions(editForm[name + "_sel"], opts);
     character[name + '_filter'] = value;

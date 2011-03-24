@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.17 2011/03/24 23:04:14 jhayes Exp $ */
+/* $Id: ObjectViewer.js,v 1.18 2011/03/24 23:31:33 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -81,7 +81,7 @@ ObjectViewer.prototype._getHtml = function(top, o, indent) {
   format = format.replace(/%N/g, top.name).replace(/%V/g, html);
   return prefix + format + suffix;
 
-}
+};
 
 /* Returns JavaScript code that represents the contents of #o#. */
 ObjectViewer.toCode = function(o, indent, maxLen) {
@@ -178,4 +178,4 @@ ObjectViewer.prototype.removeElements = function(name /*, name ... */) {
       if(this.elements[j].name == arguments[i])
         this.elements =
           this.elements.slice(0, j).concat(this.elements.slice(j + 1));
-}
+};
