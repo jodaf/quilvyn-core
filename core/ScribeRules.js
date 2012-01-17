@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.74 2011/03/24 23:04:15 jhayes Exp $ */
+//* $Id: ScribeRules.js,v 1.75 2012/01/17 06:15:02 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -114,23 +114,31 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
         this.defineRule
           (attribute, matchInfo[3].toLowerCase() + 's.' + name, '?', null);
     }
-    if(attribute.match(/^skillNotes\./) &&
-       (matchInfo = format.match(/^([+-](%V|\d+)) (.+)$/)) != null) {
-      var affected = matchInfo[3].split('/');
-      var bump = matchInfo[1];
-      if(bump == '+%V')
-        bump = 'source';
-      else if(bump == '-%V')
-        bump = '-source';
+    if(attribute.match(/^skillNotes\./) && format.match(/^[+-](%[V\d]|\d+)/)) {
+      var skills = format.split('/');
+      var bump;
       var j;
       for(j = 0;
-          j < affected.length &&
-          affected[j].match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*\))?$/) != null;
+          j < skills.length &&
+          skills[j].match(/^([+-](%[\dV]|\d+) )?[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*\))?$/) != null;
           j++)
         ; /* empty */
-      if(j == affected.length) {
-        for(j = 0; j < affected.length; j++)
-          this.defineRule('skillModifier.' + affected[j], attribute, '+', bump);
+      if(j == skills.length) {
+        for(j = 0; j < skills.length; j++) {
+          var skill = skills[j];
+          var source = attribute;
+          if((matchInfo = skill.match(/^([+-](%[\dV]|\d+)) (.*)/)) != null) {
+            bump = matchInfo[1];
+            skill = matchInfo[3];
+            if(bump.charAt(1) == '%') {
+              if(bump.charAt(2) != 'V') {
+                source = attribute + '.' + bump.charAt(2);
+              }
+              bump = bump.charAt(0) + 'source';
+            }
+          }
+          this.defineRule('skillModifier.' + skill, source, '+', bump);
+        }
       }
     } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Race|SelectableFeature)([A-Za-z]+)/)) != null &&
               !format.match(/[ \(\/][a-z]/)) {
