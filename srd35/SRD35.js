@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.145 2011/03/24 23:04:14 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.146 2012/01/17 06:19:03 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -35,7 +35,7 @@ function SRD35() {
   SRD35.raceRules(rules, SRD35.LANGUAGES, SRD35.RACES);
   SRD35.classRules(rules, SRD35.CLASSES);
   SRD35.companionRules(rules, SRD35.COMPANIONS);
-  SRD35.skillRules(rules, SRD35.SKILLS, SRD35.SUBSKILLS);
+  SRD35.skillRules(rules, SRD35.SKILLS, SRD35.SUBSKILLS, SRD35.SYNERGIES);
   SRD35.featRules(rules, SRD35.FEATS, SRD35.SUBFEATS);
   SRD35.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.DEITIES, SRD35.GENDERS);
   SRD35.equipmentRules
@@ -189,6 +189,30 @@ SRD35.SUBSKILLS = {
               'History/Local/Nature/Nobility/Planes/Religion',
   'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
   'Profession':''
+};
+SRD35.SYNERGIES = {
+  'Bluff':'Diplomacy/Intimidate/Sleight Of Hand',
+  'Decipher Script':'Use Magic Device (scrolls)',
+  'Escape Artist':'Use Rope (bindings)',
+  'Handle Animal':'Ride',
+  'Jump':'Tumble',
+  'Knowledge (Arcana)':'Spellcraft',
+  'Knowledge (Dungeoneering)':'Survival (underground)',
+  'Knowledge (Engineering)':'Search (secret doors)',
+  'Knowledge (Geography)':'Survival (lost/hazards)',
+  'Knowledge (History)':'Bardic Knowledge',
+  'Knowledge (Local)':'Gather Information',
+  'Knowledge (Nature)':'Survival (outdoors)',
+  'Knowledge (Nobility)':'Diplomacy',
+  'Knowledge (Planes)':'Survival (other planes)',
+  'Knowledge (Religion)':'undead turning check',
+  'Search':'Survival (tracking)',
+  'Sense Motive':'Diplomacy',
+  'Spellcraft':'Use Magic Device (scroll)',
+  'Survival':'Knowledge (Nature)',
+  'Tumble':'Balance/Jump',
+  'Use Magic Device':'Spellcraft (scrolls)',
+  'Use Rope':'Climb (rope)/Escape Artist (rope)'
 };
 SRD35.VIEWERS = ['Compact', 'Standard', 'Vertical'];
 SRD35.WEAPONS = [
@@ -1789,9 +1813,9 @@ SRD35.companionRules = function(rules, companions) {
       rules.defineNote(notes);
 
     rules.defineSheetElement
-      (companion + ' Features', 'Companion Notes', null, ' * ');
+      (companion + ' Features', 'Companion Notes', null, '; ');
     rules.defineSheetElement
-      (companion + ' Stats', companion + ' Features', null, ' * ');
+      (companion + ' Stats', companion + ' Features', null, '; ');
 
   }
 
@@ -1851,7 +1875,7 @@ SRD35.createViewers = function(rules, viewers) {
       );
     } else if(name == 'Standard' || name == 'Vertical') {
       var innerSep = name == 'Standard' ? null : '\n';
-      var listSep = name == 'Standard' ? ' * ' : '\n';
+      var listSep = name == 'Standard' ? '; ' : '\n';
       var outerSep = name == 'Standard' ? '\n' : null;
       viewer.addElements(
         {name: '_top', borders: 1, separator: '\n'},
@@ -1909,9 +1933,10 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Feat Count', within: 'FeatStats', separator: listSep},
               {name: 'Selectable Feature Count', within: 'FeatStats',
                separator: listSep},
-            {name: 'Feats', within: 'FeaturePart', separator: listSep},
-            {name: 'Selectable Features', within: 'FeaturePart',
-             separator: listSep},
+            {name: 'FeatLists', within: 'FeaturePart', separator: innerSep},
+              {name: 'Feats', within: 'FeatLists', separator: listSep},
+              {name: 'Selectable Features', within: 'FeatLists',
+               separator: listSep},
             {name: 'Feature Notes', within: 'FeaturePart', separator: listSep},
           {name: 'SkillPart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'SkillStats', within: 'SkillPart', separator:innerSep},
@@ -2050,7 +2075,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
   for(var i = 0; i < feats.length; i++) {
     var pieces = feats[i].split(':');
     var feat = pieces[0];
-    var featSubfeats = subfeats[feat];
+    var featSubfeats = subfeats == null ? null : subfeats[feat];
     if(featSubfeats == null) {
       allFeats[allFeats.length] = feat + ':' + pieces[1];
     } else if(featSubfeats != '') {
@@ -2163,7 +2188,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'sanityNotes.combatCastingFeatCasterLevel:Requires Caster Level >= 1',
         'skillNotes.combatCastingFeature:' +
-          '+4 Concentration when casting on defensive'
+          '+4 Concentration when casting on defensive/grappling'
       ];
     } else if(feat == 'Combat Expertise') {
       notes = [
@@ -2172,7 +2197,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Combat Reflexes') {
       notes = [
-        'combatNotes.combatReflexesFeature:Up to %V AOO/round',
+        'combatNotes.combatReflexesFeature:Flatfooted AOO/up to %V AOO/round',
         'sanityNotes.combatReflexesFeatAbility:Requires Dexterity >= 12'
       ];
       rules.defineRule('combatNotes.combatReflexesFeature',
@@ -3477,7 +3502,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
         prefix + '.frequency:%V/day',
         prefix + '.maxHitDice:(d20+%V)/3'
       ]);
-      rules.defineSheetElement('Turn ' + turn, 'Turn Undead', null, ' * ');
+      rules.defineSheetElement('Turn ' + turn, 'Turn Undead', null, '; ');
     }
   }
   rules.defineNote
@@ -3752,35 +3777,11 @@ SRD35.raceRules = function(rules, languages, races) {
 };
 
 /* Defines the rules related to character skills. */
-SRD35.skillRules = function(rules, skills, subskills) {
+SRD35.skillRules = function(rules, skills, subskills, synergies) {
 
   var abilityNames = {
     'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
     'int':'intelligence', 'str':'strength', 'wis':'wisdom'
-  };
-  var synergies = {
-    'Bluff':'Diplomacy/Intimidate/Sleight Of Hand',
-    'Decipher Script':'Use Magic Device (scrolls)',
-    'Escape Artist':'Use Rope (bindings)',
-    'Handle Animal':'Ride',
-    'Jump':'Tumble',
-    'Knowledge (Arcana)':'Spellcraft',
-    'Knowledge (Dungeoneering)':'Survival (underground)',
-    'Knowledge (Engineering)':'Search (secret doors)',
-    'Knowledge (Geography)':'Survival (lost/hazards)',
-    'Knowledge (History)':'Bardic Knowledge',
-    'Knowledge (Local)':'Gather Information',
-    'Knowledge (Nature)':'Survival (outdoors)',
-    'Knowledge (Nobility)':'Diplomacy',
-    'Knowledge (Planes)':'Survival (other planes)',
-    'Knowledge (Religion)':'undead turning check',
-    'Search':'Survival (tracking)',
-    'Sense Motive':'Diplomacy',
-    'Spellcraft':'Use Magic Device (scroll)',
-    'Survival':'Knowledge (Nature)',
-    'Tumble':'Balance/Jump',
-    'Use Magic Device':'Spellcraft (scrolls)',
-    'Use Rope':'Climb (rope)/Escape Artist (rope)'
   };
 
   var allSkills = [];
@@ -3806,7 +3807,7 @@ SRD35.skillRules = function(rules, skills, subskills) {
     var skill = pieces[0];
     var ability = pieces[1].replace(/\/.*/, '');
     var matchInfo;
-    var synergy = synergies[skill];
+    var synergy = synergies == null ? null : synergies[skill];
     rules.defineChoice('skills', skill + ':' + pieces[1]);
     rules.defineRule('skillModifier.' + skill,
       'skills.' + skill, '=', 'source / 2',
@@ -4686,7 +4687,8 @@ SRD35.defineClass = function
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    rules.defineSheetElement(name + ' Features', 'Feats', null, ' * ');
+    rules.defineSheetElement
+      (name + ' Features', 'Selectable Features+', null, '; ');
   }
   if(spellAbility != null) {
     rules.defineRule('spellDifficultyClass.' + name,
@@ -4780,7 +4782,8 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    rules.defineSheetElement(name + ' Features', 'Feats', null, ' * ');
+    rules.defineSheetElement
+      (name + ' Features', 'Selectable Features+', null, '; ');
   }
 };
 
