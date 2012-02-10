@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.146 2012/01/17 06:19:03 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.147 2012/02/10 19:22:52 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -1107,7 +1107,7 @@ SRD35.classRules = function(rules, classes) {
           'Treat unarmed as adamantine weapon',
         'combatNotes.flurryOfBlowsFeature:Take %V penalty for extra attack',
         'combatNotes.greaterFlurryFeature:Extra attack',
-        'combatNotes.improvedUnarmedStrikeFeature:Unarmed attack w/out foe AOO',
+        'combatNotes.improvedUnarmedStrikeFeature:No AOO on unarmed attack',
         'combatNotes.kiStrikeFeature:Treat unarmed as magic weapon',
         'combatNotes.lawfulKiStrikeFeature:Treat unarmed as lawful weapon',
         'combatNotes.perfectSelfFeature:' +
@@ -2164,7 +2164,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'magicNotes.augmentSummoningFeature:' +
           'Summoned creatures +4 strength/constitution',
-        'validationNotes.augmentSummoningFeatFeats:' +
+        'validationNotes.augmentSummoningFeatFeatures:' +
           'Requires Spell Focus (Conjuration)'
       ];
     } else if(feat == 'Blind Fight') {
@@ -2182,7 +2182,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'combatNotes.cleaveFeature:Extra attack when foe drops',
         'validationNotes.cleaveFeatAbility:Requires Strength >= 13',
-        'validationNotes.cleaveFeatFeats:Requires Power Attack'
+        'validationNotes.cleaveFeatFeatures:Requires Power Attack'
       ];
     } else if(feat == 'Combat Casting') {
       notes = [
@@ -2241,7 +2241,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'combatNotes.deflectArrowsFeature:Deflect ranged 1/round',
         'validationNotes.deflectArrowsFeatAbility:Requires Dexterity >= 13',
-        'validationNotes.deflectArrowsFeatFeats:' +
+        'validationNotes.deflectArrowsFeatFeatures:' +
           'Requires Improved Unarmed Strike'
       ];
     } else if(feat == 'Deft Hands') {
@@ -2252,7 +2252,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Diehard') {
       notes = [
         'combatNotes.diehardFeature:Remain conscious/stable w/HP <= 0',
-        'validationNotes.diehardFeatFeats:Requires Endurance'
+        'validationNotes.diehardFeatFeatures:Requires Endurance'
       ];
     } else if(feat == 'Diligent') {
       notes = [
@@ -2302,7 +2302,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Far Shot') {
       notes = [
         'combatNotes.farShotFeature:x1.5 projectile range; x2 thrown',
-        'validationNotes.farShotFeatFeats:Requires Point Blank Shot'
+        'validationNotes.farShotFeatFeatures:Requires Point Blank Shot'
       ];
     } else if(feat == 'Forge Ring') {
       notes = [
@@ -2314,7 +2314,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'combatNotes.greatCleaveFeature:Cleave w/out limit',
         'validationNotes.greatCleaveFeatAbility:Requires Strength >= 13',
         'validationNotes.greatCleaveFeatBaseAttack:Requires Base Attack >= 4',
-        'validationNotes.greatCleaveFeatFeats:Requires Cleave/Power Attack'
+        'validationNotes.greatCleaveFeatFeatures:Requires Cleave/Power Attack'
       ];
     } else if(feat == 'Great Fortitude') {
       notes = ['saveNotes.greatFortitudeFeature:+2 Fortitude'];
@@ -2328,7 +2328,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
           '+1 DC on ' + school + ' spells',
         'sanityNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
           'Requires Caster Level >= 1',
-        'validationNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatFeats:' +
+        'validationNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatFeatures:'+
           'Requires Spell Focus (' + school + ')'
       ];
     } else if(feat == 'Greater Spell Penetration') {
@@ -2337,7 +2337,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
           '+2 caster level vs. resistance checks',
         'sanityNotes.greaterSpellPenetrationFeatCasterLevel:' +
           'Requires Caster Level >= 1',
-        'validationNotes.greaterSpellPenetrationFeatFeats:' +
+        'validationNotes.greaterSpellPenetrationFeatFeatures:' +
           'Requires Spell Penetration'
       ];
     } else if(feat == 'Greater Two-Weapon Fighting') {
@@ -2348,7 +2348,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
           'Requires Dexterity >= 19',
         'validationNotes.greaterTwo-WeaponFightingFeatBaseAttack:' +
           'Requires Base Attack >= 11',
-        'validationNotes.greaterTwo-WeaponFightingFeatFeats:' +
+        'validationNotes.greaterTwo-WeaponFightingFeatFeatures:' +
           'Requires Two-Weapon Fighting/Improved Two-Weapon Fighting'
       ];
     } else if((matchInfo =
@@ -2360,7 +2360,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         note + ':+1 attack',
         'sanityNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatWeapons:' +
           'Requires ' + weapon,
-        'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatFeats:' +
+        'validationNotes.greaterWeaponFocus('+weaponNoSpace+')FeatFeatures:' +
           'Requires Weapon Focus (' + weapon + ')',
         'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatLevels:' +
           'Requires Fighter >= 8'
@@ -2375,7 +2375,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         note + ':+2 damage',
         'sanityNotes.' + lead + 'FeatWeapons:Requires ' + weapon,
-        'validationNotes.' + lead + 'FeatFeats:' +
+        'validationNotes.' + lead + 'FeatFeatures:' +
           'Requires Weapon Focus (' + weapon + ')/' +
           'Greater Weapon Focus (' + weapon + ')/' +
           'Weapon Specialization (' + weapon + ')',
@@ -2390,9 +2390,9 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Improved Bull Rush') {
       notes = [
         'combatNotes.improvedBullRushFeature:' +
-          'Bull rush w/out foe AOO; +4 strength check',
+          'No AOO on Bull Rush; +4 strength check',
         'validationNotes.improvedBullRushFeatAbility:Requires Strength >= 13',
-        'validationNotes.improvedBullRushFeatFeats:Requires Power Attack'
+        'validationNotes.improvedBullRushFeatFeatures:Requires Power Attack'
       ];
     } else if(feat == 'Improved Counterspell') {
       notes = [
@@ -2426,9 +2426,9 @@ SRD35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('weaponCriticalAdjustment.' + weapon, note, '+=', bump);
     } else if(feat == 'Improved Disarm') {
       notes = [
-        'combatNotes.improvedDisarmFeature:Disarm w/out foe AOO; +4 attack',
+        'combatNotes.improvedDisarmFeature:No AOO on Disarm; +4 attack',
         'validationNotes.improvedDisarmFeatAbility:Requires Intelligence >= 13',
-        'validationNotes.improvedDisarmFeatFeats:Requires Combat Expertise'
+        'validationNotes.improvedDisarmFeatFeatures:Requires Combat Expertise'
       ];
     } else if(feat == 'Improved Familiar') {
       notes = [
@@ -2437,15 +2437,15 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Improved Feint') {
       notes = [
-        'combatNotes.improvedFeintFeature:Bluff check to feint as move action',
+        'combatNotes.improvedFeintFeature:Bluff check to Feint as move action',
         'validationNotes.improvedFeintFeatAbility:Requires Intelligence >= 13',
-        'validationNotes.improvedFeintFeatFeats:Requires Combat Expertise'
+        'validationNotes.improvedFeintFeatFeatures:Requires Combat Expertise'
       ];
     } else if(feat == 'Improved Grapple') {
       notes = [
-        'combatNotes.improvedGrappleFeature:Grapple w/out foe AOO; +4 grapple',
+        'combatNotes.improvedGrappleFeature:No AOO on Grapple; +4 Grapple',
         'validationNotes.improvedGrappleFeatAbility:Requires Dexterity >= 13',
-        'validationNotes.improvedGrappleFeatFeats:' +
+        'validationNotes.improvedGrappleFeatFeatures:' +
           'Requires Improved Unarmed Strike'
       ];
     } else if(feat == 'Improved Initiative') {
@@ -2457,7 +2457,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'combatNotes.improvedOverrunFeature:' +
           'Foe cannot avoid; +4 strength check',
         'validationNotes.improvedOverrunFeatAbility:Requires Strength >= 13',
-        'validationNotes.improvedOverrunFeatFeats:Requires Power Attack'
+        'validationNotes.improvedOverrunFeatFeatures:Requires Power Attack'
       ];
     } else if(feat == 'Improved Precise Shot') {
       notes = [
@@ -2467,26 +2467,26 @@ SRD35.featRules = function(rules, feats, subfeats) {
           'Requires Dexterity >= 19',
         'validationNotes.improvedPreciseShotFeatBaseAttack:' +
           'Requires Base Attack >= 11',
-        'validationNotes.improvedPreciseShotFeatFeats:' +
+        'validationNotes.improvedPreciseShotFeatFeatures:' +
           'Requires Point Blank Shot/Precise Shot'
       ];
     } else if(feat == 'Improved Shield Bash') {
       notes = [
-        'combatNotes.improvedShieldBashFeature:Shield bash w/out AC penalty',
+        'combatNotes.improvedShieldBashFeature:No AC penalty on Shield Bash',
         'sanityNotes.improvedShieldBashShield:Requires Shield != None',
         'validationNotes.improvedShieldBashFeatFeatures:' +
           'Requires Shield Proficiency (Heavy)'
       ];
     } else if(feat == 'Improved Sunder') {
       notes = [
-        'combatNotes.improvedSunderFeature:Sunder w/out foe AOO; +4 attack',
+        'combatNotes.improvedSunderFeature:No AOO on Sunder; +4 attack',
         'validationNotes.improvedSunderFeatAbility:Requires Strength >= 13',
-        'validationNotes.improvedSunderFeatFeats:Requires Power Attack'
+        'validationNotes.improvedSunderFeatFeatures:Requires Power Attack'
       ];
     } else if(feat == 'Improved Trip') {
       notes = [
         'combatNotes.improvedTripFeature:' +
-          'Trip w/out foe AOO; +4 strength check; attack after trip',
+          'No AOO on Trip; +4 strength check; attack after trip',
         'validationNotes.improvedTripFeatAbility:Requires Intelligence >= 13',
         'validationNotes.improvedTripFeatFeats:Requires Combat Expertise'
       ];
@@ -2505,12 +2505,13 @@ SRD35.featRules = function(rules, feats, subfeats) {
           'Requires Dexterity >= 17',
         'validationNotes.improvedTwo-WeaponFightingFeatBaseAttack:' +
           'Requires Base Attack >= 6',
-        'validationNotes.improvedTwo-WeaponFightingFeatFeats:' +
+        'validationNotes.improvedTwo-WeaponFightingFeatFeatures:' +
           'Requires Two-Weapon Fighting'
       ];
     } else if(feat == 'Improved Unarmed Strike') {
       notes = [
-        'combatNotes.improvedUnarmedStrikeFeature:Unarmed attack w/out foe AOO'
+        'combatNotes.improvedUnarmedStrikeFeature:' +
+          'No AOO on unarmed attack; unarmed attack may deal lethal damage'
       ];
     } else if(feat == 'Investigator') {
       notes = [
@@ -2542,7 +2543,8 @@ SRD35.featRules = function(rules, feats, subfeats) {
           'Fire up to %V arrows simultaneously at -2 attack/arrow',
         'validationNotes.manyshotFeatAbility:Requires Dexterity >= 17',
         'validationNotes.manyshotFeatBaseAttack:Requires Base Attack >= 6',
-        'validationNotes.manyshotFeatFeats:Requires Point Blank Shot/Rapid Shot'
+        'validationNotes.manyshotFeatFeatures:' +
+          'Requires Point Blank Shot/Rapid Shot'
       ];
       rules.defineRule('combatNotes.manyshotFeature',
         'baseAttack', '=', 'Math.floor((source + 9) / 5)'
@@ -2557,12 +2559,12 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'combatNotes.mobilityFeature:+4 AC vs. movement AOO',
         'validationNotes.mobilityFeatAbility:Requires Dexterity >= 13',
-        'validationNotes.mobilityFeatFeats:Requires Dodge'
+        'validationNotes.mobilityFeatFeatures:Requires Dodge'
       ];
     } else if(feat == 'Mounted Archery') {
       notes = [
         'combatNotes.mountedArcheryFeature:x.5 mounted ranged penalty',
-        'validationNotes.mountedArcheryFeatFeats:Requires Mounted Combat',
+        'validationNotes.mountedArcheryFeatFeatures:Requires Mounted Combat',
         'validationNotes.mountedArcheryFeatSkills:Requires Ride'
       ];
     } else if(feat == 'Mounted Combat') {
@@ -2604,8 +2606,8 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Precise Shot') {
       notes = [
-        'combatNotes.preciseShotFeature:Shoot into melee w/out penalty',
-        'validationNotes.preciseShotFeatFeats:Requires Point Blank Shot'
+        'combatNotes.preciseShotFeature:No penalty on shot into melee',
+        'validationNotes.preciseShotFeatFeatures:Requires Point Blank Shot'
       ];
     } else if(feat == 'Quick Draw') {
       notes = [
@@ -2632,12 +2634,12 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
         'validationNotes.rapidShotFeatAbility:Requires Dexterity >= 13',
-        'validationNotes.rapidShotFeatFeats:Requires Point Blank Shot'
+        'validationNotes.rapidShotFeatFeatures:Requires Point Blank Shot'
       ];
     } else if(feat == 'Ride-By Attack') {
       notes = [
         'combatNotes.ride-ByAttackFeature:Move before and after mounted attack',
-        'validationNotes.ride-ByAttackFeatFeats:Requires Mounted Combat',
+        'validationNotes.ride-ByAttackFeatFeatures:Requires Mounted Combat',
         'validationNotes.ride-ByAttackFeatSkills:Requires Ride'
       ];
     } else if(feat == 'Run') {
@@ -2678,7 +2680,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'combatNotes.shotOnTheRunFeature:Move before and after ranged attack',
         'validationNotes.shotOnTheRunFeatAbility:Requires Dexterity >= 13',
         'validationNotes.shotOnTheRunFeatBaseAttack:Requires Base Attack >= 4',
-        'validationNotes.shotOnTheRunFeatFeats:' +
+        'validationNotes.shotOnTheRunFeatFeatures:' +
           'Requires Dodge/Mobility/Point Blank Shot'
       ];
     } else if(feat == 'Silent Spell') {
@@ -2701,7 +2703,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'combatNotes.snatchArrowsFeature:Catch ranged weapons',
         'validationNotes.snatchArrowsFeatAbility:Requires Dexterity >= 15',
-        'validationNotes.snatchArrowsFeatFeats:' +
+        'validationNotes.snatchArrowsFeatFeatures:' +
           'Requires Deflect Arrows/Improved Unarmed Strike'
       ];
     } else if((matchInfo = feat.match(/^Spell Focus \((.*)\)$/)) != null) {
@@ -2730,7 +2732,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'combatNotes.spiritedChargeFeature:' +
           'x2 damage (x3 lance) from mounted charge',
-        'validationNotes.spiritedChargeFeatFeats:' +
+        'validationNotes.spiritedChargeFeatFeatures:' +
           'Requires Mounted Combat/Ride-By Attack',
         'validationNotes.spiritedChargeFeatSkills:Requires Ride'
       ];
@@ -2739,7 +2741,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'combatNotes.springAttackFeature:Move before and after melee attack',
         'validationNotes.springAttackFeatAbility:Requires Dexterity >= 13',
         'validationNotes.springAttackFeatBaseAttack:Requires Base Attack >= 4',
-        'validationNotes.springAttackFeatFeats:Requires Dodge/Mobility'
+        'validationNotes.springAttackFeatFeatures:Requires Dodge/Mobility'
       ];
     } else if(feat == 'Stealthy') {
       notes = [
@@ -2759,7 +2761,8 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'validationNotes.stunningFistFeatAbility:' +
           'Requires Dexterity >= 13/Wisdom >= 13',
         'validationNotes.stunningFistFeatBaseAttack:Requires Base Attack >= 8',
-        'validationNotes.stunningFistFeatFeats:Requires Improved Unarmed Strike'
+        'validationNotes.stunningFistFeatFeatures:' +
+          'Requires Improved Unarmed Strike'
       ];
       rules.defineRule('combatNotes.stunningFistFeature',
         'level', '=', '10 + Math.floor(source / 2)',
@@ -2780,7 +2783,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'combatNotes.trampleFeature:' +
           'Mounted overrun unavoidable/bonus hoof attack',
-        'validationNotes.trampleFeatFeats:Requires Mounted Combat',
+        'validationNotes.trampleFeatFeatures:Requires Mounted Combat',
         'validationNotes.trampleFeatSkills:Requires Ride'
       ];
     } else if(feat == 'Two-Weapon Defense') {
@@ -2788,7 +2791,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'combatNotes.two-WeaponDefenseFeature:' +
           '+1 AC w/two weapons/+2 when fighting defensively',
         'validationNotes.two-WeaponDefenseFeatAbility:Requires Dexterity >= 15',
-        'validationNotes.two-WeaponDefenseFeatFeats:' +
+        'validationNotes.two-WeaponDefenseFeatFeatures:' +
           'Requires Two-Weapon Fighting'
       ];
     } else if(feat == 'Two-Weapon Fighting') {
@@ -2857,7 +2860,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         note + ':+2 damage',
         'sanityNotes.weaponSpecialization(' + weaponNoSpace + ')FeatWeapons:' +
           'Requires ' + weapon,
-        'validationNotes.weaponSpecialization('+weaponNoSpace+')FeatFeats:' +
+        'validationNotes.weaponSpecialization('+weaponNoSpace+')FeatFeatures:' +
           'Requires Weapon Focus (' + weapon + ')',
         'validationNotes.weaponSpecialization('+weaponNoSpace+')FeatLevels:' +
           'Requires Fighter >= 4'
@@ -2870,7 +2873,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
           'Requires Dexterity >= 13/Intelligence >= 13',
         'validationNotes.whirlwindAttackFeatBaseAttack:' +
           'Requires Base Attack >= 4',
-        'validationNotes.whirlwindAttackFeatFeats:' +
+        'validationNotes.whirlwindAttackFeatFeatures:' +
           'Requires Combat Expertise/Dodge/Mobility/Spring Attack'
       ];
     } else if(feat == 'Widen Spell') {
