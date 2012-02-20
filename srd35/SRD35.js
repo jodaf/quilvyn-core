@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.147 2012/02/10 19:22:52 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.148 2012/02/20 02:22:53 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -705,7 +705,7 @@ SRD35.classRules = function(rules, classes) {
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
   rules.defineRule('skillPoints',
     '', '=', '0',
-    'level', '^', 'source + 3'
+    'level', '^', null
   );
   rules.defineNote
     ('validationNotes.levelsTotal:' +
@@ -3820,7 +3820,8 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
       var modifier = abilityNames[ability] + 'Modifier';
       rules.defineRule('skillModifier.' + skill, modifier, '+', null);
     }
-    if((matchInfo = skill.match(/^Craft \((.*)\)$/)) != null) {
+    if((matchInfo = skill.match(/^Craft \((.*)\)$/)) != null &&
+       synergies != null) {
         var topic = matchInfo[1];
         var topicNoSpace = topic.replace(/ /g, '');
         synergy = 'related Appraise';
@@ -4232,6 +4233,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         ScribeUtils.random(0, 99) >= 50 ? Math.floor(maxPoints / 2) : 2;
       if(toAssign > howMany)
         toAssign = howMany;
+      if(toAssign == 0)
+        toAssign = 1;
       if(current + toAssign > maxPoints)
         toAssign = maxPoints - current;
       attributes[attr] = attributes[attr] - 0 + toAssign;
