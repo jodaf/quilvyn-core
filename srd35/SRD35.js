@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.148 2012/02/20 02:22:53 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.149 2012/02/28 05:47:32 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -1027,9 +1027,6 @@ SRD35.classRules = function(rules, classes) {
         'D8:15:1/16:2/18:3/20:4',
         'D9:17:1/18:2/19:3/20:4'
       ];
-      rules.defineRule('animalCompanionLevel',
-        'levels.Druid', '+=', 'Math.floor((source + 3) / 3)'
-      );
       rules.defineRule
         ('animalCompanionMasterLevel', 'levels.Druid', '+=', null);
       rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
@@ -1360,11 +1357,9 @@ SRD35.classRules = function(rules, classes) {
         'R3:11:0/12:1/17:2/19:3',
         'R4:14:0/15:1/19:2/20:3'
       ];
-      rules.defineRule('animalCompanionLevel',
+      rules.defineRule('animalCompanionMasterLevel',
         'levels.Ranger', '+=', 'source<4 ? null : Math.floor((source + 6) / 6)'
       );
-      rules.defineRule
-        ('animalCompanionMasterLevel', 'levels.Ranger', '+=', null);
       rules.defineRule('casterLevelDivine',
         'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
       );
@@ -1693,6 +1688,9 @@ SRD35.companionRules = function(rules, companions) {
           'Master share self spell w/companion w/in 5 ft'
       ];
       prefix = 'animalCompanion';
+      rules.defineRule('animalCompanionLevel',
+        'animalCompanionMasterLevel', '+=', 'Math.floor((source + 3) / 3)'
+      );
       rules.defineRule('animalCompanionStats.armorClass',
         'animalCompanionLevel', '=', '(source - 1) * 2'
       );
@@ -2942,7 +2940,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
         'B1:Alarm:Animate Rope:Cause Fear:Charm Person:Comprehend Languages:' +
         'Cure Light Wounds:Detect Secret Doors:Disguise Self:Erase:' +
         'Expeditious Retreat:Feather Fall:Grease:Hideous Laughter:Hypnotism:' +
-        'Identify:Lesser Confusion:Magic Mouth:Magic Aura:Obscure Object:' +
+        'Identify:Lesser Confusion:Magic Aura:Magic Mouth:Obscure Object:' +
         'Remove Fear:Silent Image:Sleep:Summon Monster I:' +
         'Undetectable Alignment:Unseen Servant:Ventriloquism',
         'B2:Alter Self:Animal Messenger:Animal Trance:Blindness/Deafness:' +
@@ -3194,16 +3192,16 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
         'Programmed Image:Repulsion:Shadow Walk:Stone To Flesh:' +
         'Summon Monster VI:Symbol Of Fear:Symbol Of Persuasion:' +
         'Transformation:True Seeing:Undeath To Death:Veil:Wall Of Iron',
-        'W7:Banishment:Grasping Hand:Control Undead:Control Weather:' +
+        'W7:Banishment:Control Undead:Control Weather:' +
         'Delayed Blast Fireball:Ethereal Jaunt:Finger Of Death:Forcecage:' +
-        'Greater Arcane Sight:Greater Scrying:Greater Shadow Conjuration:' +
-        'Greater Teleport:Insanity:Instant Summons:Limited Wish:' +
-        'Mage\'s Magnificent Mansion:Mage\'s Sword:Mass Hold Person:' +
-        'Mass Invisibility:Phase Door:Plane Shift:Power Word Blind:' +
-        'Prismatic Spray:Project Image:Reverse Gravity:Sequester:' +
-        'Simulacrum:Spell Turning:Statue:Summon Monster VII:' +
-        'Symbol Of Stunning:Symbol Of Weakness:Teleport Object:Vision:' +
-        'Waves Of Exhaustion',
+        'Grasping Hand:Greater Arcane Sight:Greater Scrying:' +
+        'Greater Shadow Conjuration:Greater Teleport:Insanity:' +
+        'Instant Summons:Limited Wish:Mage\'s Magnificent Mansion:' +
+        'Mage\'s Sword:Mass Hold Person:Mass Invisibility:Phase Door:' +
+        'Plane Shift:Power Word Blind:Prismatic Spray:Project Image:' +
+        'Reverse Gravity:Sequester:Simulacrum:Spell Turning:Statue:' +
+        'Summon Monster VII:Symbol Of Stunning:Symbol Of Weakness:' +
+        'Teleport Object:Vision:Waves Of Exhaustion',
         'W8:Antipathy:Binding:Clenched Fist:Clone:Create Greater Undead:' +
         'Demand:Dimensional Lock:Discern Location:Greater Planar Binding:' +
         'Greater Prying Eyes:Greater Shadow Evocation:Greater Shout:' +
@@ -3239,6 +3237,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
     }
   }
 
+  rules.defineChoice('domains', domains);
   for(var i = 0; i < domains.length; i++) {
     var domain = domains[i];
     var notes;
@@ -3465,7 +3464,6 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       turn = 'Fire';
     } else
       continue;
-    rules.defineChoice('domains', domain);
     if(notes != null) {
       rules.defineNote(notes);
     }
