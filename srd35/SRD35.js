@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.150 2012/03/14 02:35:17 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.151 2012/03/20 02:54:16 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -740,7 +740,7 @@ SRD35.classRules = function(rules, classes) {
           'Flanked only by rogue four levels higher',
         'combatNotes.mightyRageFeature:+8 strength/constitution, +4 Will',
         'combatNotes.rageFeature:' +
-          '+4 strength/constitution/+2 Will save/-2 AC for %V rounds %1/day',
+          '+4 strength/constitution, +2 Will, -2 AC for %V rounds %1/day',
         'combatNotes.tirelessRageFeature:Not fatigued after rage',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'saveNotes.indomitableWillFeature:' +
@@ -805,9 +805,9 @@ SRD35.classRules = function(rules, classes) {
         'magicNotes.inspireCompetenceFeature:' +
           '+2 allies skill checks while performing up to 2 minutes',
         'magicNotes.inspireCourageFeature:' +
-          '+%V attack/damage and charm/fear saves to allies while performing',
+          '+%V attack/damage/charm/fear saves to allies while performing',
         'magicNotes.inspireGreatnessFeature:' +
-           '+2d10 HP/+2 attack/+1 Fortitude save to %V allies while performing',
+           '+2d10 HP, +2 attack, +1 Fortitude save %V allies while performing',
         'magicNotes.inspireHeroicsFeature:' +
           '+4 AC/saves to 1 ally while performing',
         'magicNotes.massSuggestionFeature:' +
@@ -993,7 +993,7 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.resistNature\'sLureFeature:+4 vs. spells of feys',
         'saveNotes.venomImmunityFeature:Immune to poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
-        'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals',
+        'skillNotes.wildEmpathyFeature:+%V Diplomacy w/animals',
         'validationNotes.druidClassAlignment:Requires Alignment =~ Neutral'
       ];
       profArmor = SRD35.PROFICIENCY_MEDIUM;
@@ -1041,7 +1041,7 @@ SRD35.classRules = function(rules, classes) {
           'source < 8 ? "small-medium" : ' +
           'source < 11 ? "small-large" : ' +
           'source == 11 ? "tiny-large" : ' +
-          'source < 15 ? "tiny-large/plant" : "tiny-huge/plant";'
+          'source < 15 ? "tiny-large/plant" : "tiny-huge/plant"'
       );
       rules.defineRule
         ('magicNotes.wildShapeFeature.1', 'levels.Druid', '=', null);
@@ -1314,10 +1314,10 @@ SRD35.classRules = function(rules, classes) {
           'No foe bonus for partial concealment; attack grappling w/no penalty',
         'combatNotes.improvedTwo-WeaponFightingFeature:Additional -5 attack',
         'combatNotes.manyshotFeature:' +
-          'Fire up to %V arrows simultaneously at -2 attack/arrow',
+          'Fire up to %V arrows simultaneously at -2 attack',
         'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
         'combatNotes.two-WeaponFightingFeature:' +
-          'Reduce on-hand penalty by 2/off-hand by 6',
+          'Reduce on-hand penalty by 2, off-hand by 6',
         'featureNotes.animalCompanionFeature:Special bond/abilities',
         'featureNotes.woodlandStrideFeature:' +
           'Normal movement through undergrowth',
@@ -1330,7 +1330,7 @@ SRD35.classRules = function(rules, classes) {
         'skillNotes.hideInPlainSightFeature:Hide even when observed',
         'skillNotes.swiftTrackerFeature:Track at full speed',
         'skillNotes.trackFeature:Survival to follow creatures\' trail',
-        'skillNotes.wildEmpathyFeature:+%V Diplomacy check with animals'
+        'skillNotes.wildEmpathyFeature:+%V Diplomacy w/animals'
       ];
       profArmor = SRD35.PROFICIENCY_LIGHT;
       profShield = SRD35.PROFICIENCY_HEAVY;
@@ -1955,7 +1955,7 @@ SRD35.createViewers = function(rules, viewers) {
           {name: 'SkillPart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'SkillStats', within: 'SkillPart', separator:innerSep},
               {name: 'Skill Points', within: 'SkillStats'},
-              {name: 'Class Skill Max Ranks', within: 'SkillStats'},
+              {name: 'Max Allowed Skill Points', within: 'SkillStats'},
             {name: 'Skills', within: 'SkillPart', separator: listSep},
             {name: 'Skill Notes', within: 'SkillPart', separator:listSep},
           {name: 'LanguagePart', within: 'FeaturesAndSkills', separator: '\n'},
@@ -2041,11 +2041,6 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   rules.defineChoice('shields', shields);
   rules.defineChoice('weapons', weapons);
   rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
-  rules.defineNote('skillNotes.armorSkillCheckPenalty:' +
-    '-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/Slight Of Hand/' +
-    'Tumble'
-  );
-  rules.defineNote('skillNotes.armorSwimCheckPenalty:-%V Swim');
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
     'armorWeightClass', '=', 'source == "Light" ? null : -10',
     'features.Slow', '+', '5'
@@ -2064,15 +2059,6 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
     'shield', '+=', 'source == "None" ? 0 : ' +
                     'source == "Tower" ? 50 : ' +
                     'source.match(/Heavy/) ? 15 : 5'
-  );
-  rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
-    'shield', '+=', 'source == "None" ? 0 : ' +
-                    'source == "Tower" ? 10 : ' +
-                    'source.match(/Heavy/) ? 2 : 1'
-  );
-  rules.defineRule('skillNotes.armorSwimCheckPenalty',
-    'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
   // TODO combatNotes.strengthDamageAdjustment handled directly by Scribe
@@ -2194,8 +2180,8 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Blind Fight') {
       notes = [
         'combatNotes.blindFightFeature:' +
-          'Reroll concealed miss/no bonus to invisible foe/half penalty for ' +
-          'impaired vision'
+          'Reroll concealed miss, no bonus to invisible foe, half penalty ' +
+          'for impaired vision'
       ];
     } else if(feat == 'Brew Potion') {
       notes = [
@@ -2216,12 +2202,12 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Combat Expertise') {
       notes = [
-        'combatNotes.combatExpertiseFeature:Up to -5 attack/+5 AC',
+        'combatNotes.combatExpertiseFeature:Up to -5 attack, +5 AC',
         'validationNotes.combatExpertiseFeatAbility:Requires Intelligence >= 13'
       ];
     } else if(feat == 'Combat Reflexes') {
       notes = [
-        'combatNotes.combatReflexesFeature:Flatfooted AOO/up to %V AOO/round',
+        'combatNotes.combatReflexesFeature:Flatfooted AOO, up to %V AOO/round',
         'sanityNotes.combatReflexesFeatAbility:Requires Dexterity >= 12'
       ];
       rules.defineRule('combatNotes.combatReflexesFeature',
@@ -2564,7 +2550,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Manyshot') {
       notes = [
         'combatNotes.manyshotFeature:' +
-          'Fire up to %V arrows simultaneously at -2 attack/arrow',
+          'Fire up to %V arrows simultaneously at -2 attack',
         'validationNotes.manyshotFeatAbility:Requires Dexterity >= 17',
         'validationNotes.manyshotFeatBaseAttack:Requires Base Attack >= 6',
         'validationNotes.manyshotFeatFeatures:' +
@@ -2806,14 +2792,14 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Trample') {
       notes = [
         'combatNotes.trampleFeature:' +
-          'Mounted overrun unavoidable/bonus hoof attack',
+          'Mounted overrun unavoidable, bonus hoof attack',
         'validationNotes.trampleFeatFeatures:Requires Mounted Combat',
         'validationNotes.trampleFeatSkills:Requires Ride'
       ];
     } else if(feat == 'Two-Weapon Defense') {
       notes = [
         'combatNotes.two-WeaponDefenseFeature:' +
-          '+1 AC w/two weapons/+2 when fighting defensively',
+          '+1 AC w/two weapons, +2 when fighting defensively',
         'validationNotes.two-WeaponDefenseFeatAbility:Requires Dexterity >= 15',
         'validationNotes.two-WeaponDefenseFeatFeatures:' +
           'Requires Two-Weapon Fighting'
@@ -2821,7 +2807,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Two-Weapon Fighting') {
       notes = [
         'combatNotes.two-WeaponFightingFeature:' +
-          'Reduce on-hand penalty by 2/off-hand by 6',
+          'Reduce on-hand penalty by 2, off-hand by 6',
         'validationNotes.two-WeaponFightingFeatAbility:Requires Dexterity >= 15'
       ];
     } else if(feat == 'Weapon Finesse') {
@@ -3233,7 +3219,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
     var spells;
     var turn;
     if(domain == 'Air') {
-      notes = ['combatNotes.airDomain:Turn earth/rebuke air'];
+      notes = ['combatNotes.airDomain:Turn earth, rebuke air'];
       spells = [
         'Obscuring Mist', 'Wind Wall', 'Gaseous Form', 'Air Walk',
         'Control Winds', 'Chain Lightning', 'Control Weather', 'Whirlwind',
@@ -3271,7 +3257,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       turn = null;
     } else if(domain == 'Destruction') {
       notes = [
-        'combatNotes.destructionDomain:+4 attack/+%V damage smite 1/day'
+        'combatNotes.destructionDomain:+4 attack, +%V damage smite 1/day'
       ];
       spells = [
         'Inflict Light Wounds', 'Shatter', 'Contagion',
@@ -3282,7 +3268,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       rules.defineRule
         ('combatNotes.destructionDomain', 'levels.Cleric', '=', null);
     } else if(domain == 'Earth') {
-      notes = ['combatNotes.earthDomain:Turn air/rebuke earth'];
+      notes = ['combatNotes.earthDomain:Turn air, rebuke earth'];
       spells = [
         'Magic Stone', 'Soften Earth And Stone', 'Stone Shape', 'Spike Stones',
         'Wall Of Stone', 'Stoneskin', 'Earthquake', 'Iron Body',
@@ -3298,7 +3284,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       ];
       turn = null;
     } else if(domain == 'Fire') {
-      notes = ['combatNotes.fireDomain:Turn water/rebuke fire'];
+      notes = ['combatNotes.fireDomain:Turn water, rebuke fire'];
       spells = [
         'Burning Hands', 'Produce Flame', 'Resist Energy', 'Wall Of Fire',
         'Fire Shield', 'Fire Seeds', 'Fire Storm', 'Incendiary Cloud',
@@ -3444,7 +3430,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       ];
       turn = null;
     } else if(domain == 'Water') {
-      notes = ['combatNotes.waterDomain:Turn fire/rebuke water'];
+      notes = ['combatNotes.waterDomain:Turn fire, rebuke water'];
       spells = [
         'Obscuring Mist', 'Fog Cloud', 'Water Breathing', 'Control Water',
         'Ice Storm', 'Cone Of Cold', 'Acid Fog', 'Horrid Wilting',
@@ -3564,19 +3550,19 @@ SRD35.raceRules = function(rules, languages, races) {
 
       adjustment = null;
       features = [
-        'Alert Senses', 'Resist Enchantment', 'Low Light Vision',
+        'Alert Senses', 'Resist Enchantment', 'Low-Light Vision',
         'Sleep Immunity', 'Tolerance'
       ];
       notes = [
-        'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
+        'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
         'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information'
       ];
-      rules.defineRule('featureNotes.lowLightVisionFeature',
+      rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
-        raceNoSpace + 'Features.Low Light Vision', '+', null
+        raceNoSpace + 'Features.Low-Light Vision', '+', null
       );
       rules.defineRule
         ('languages.Elven', 'race', '=', 'source.match(/Elf/) ? 1 : null');
@@ -3609,15 +3595,15 @@ SRD35.raceRules = function(rules, languages, races) {
         'abilityNotes.dwarfArmorSpeedAdjustment:No speed penalty in armor',
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'combatNotes.dwarfFavoredEnemyFeature:+1 attack vs. goblinoid/orc',
+        'combatNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
         'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
         'saveNotes.resistPoisonFeature:+2 vs. poison',
         'saveNotes.resistSpellsFeature:+2 vs. spells',
-        'saveNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
         'skillNotes.naturalSmithFeature:' +
            '+2 Appraise/Craft involving stone or metal',
         'skillNotes.stonecunningFeature:' +
-          '+2 Search involving stone or metal/automatic check w/in 10 ft'
+          '+2 Search involving stone or metal, automatic check w/in 10 ft'
       ];
 
       rules.defineRule('abilityNotes.armorSpeedAdjustment',
@@ -3641,19 +3627,19 @@ SRD35.raceRules = function(rules, languages, races) {
 
       adjustment = '+2 dexterity/-2 constitution';
       features = [
-        'Resist Enchantment', 'Keen Senses', 'Low Light Vision',
+        'Resist Enchantment', 'Keen Senses', 'Low-Light Vision',
         'Sense Secret Doors', 'Sleep Immunity'
       ];
       notes = [
-        'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
+        'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5 ft',
         'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.keenSensesFeature:+2 Listen/Search/Spot'
       ];
-      rules.defineRule('featureNotes.lowLightVisionFeature',
+      rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
-        raceNoSpace + 'Features.Low Light Vision', '+', null
+        raceNoSpace + 'Features.Low-Light Vision', '+', null
       );
       rules.defineRule
         ('languages.Elven', 'race', '=', 'source.match(/Elf/) ? 1 : null');
@@ -3666,14 +3652,14 @@ SRD35.raceRules = function(rules, languages, races) {
       adjustment = '+2 constitution/-2 strength';
       features = [
         'Dodge Giants', 'Gnome Favored Enemy', 'Keen Ears', 'Keen Nose',
-        'Low Light Vision', 'Natural Illusionist', 'Natural Spells',
+        'Low-Light Vision', 'Natural Illusionist', 'Natural Spells',
         'Resist Illusion', 'Slow', 'Small'
       ];
       notes = [
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'combatNotes.gnomeFavoredEnemyFeature:+1 attack vs. goblinoid/kobold',
         'combatNotes.smallFeature:+1 AC/attack',
-        'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
+        'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'magicNotes.naturalIllusionistFeature:+1 DC on illusion spells',
         'magicNotes.naturalSpellsFeature:%V 1/day as caster %1',
         'saveNotes.resistIllusionFeature:+2 vs. illusions',
@@ -3683,9 +3669,9 @@ SRD35.raceRules = function(rules, languages, races) {
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('baseAttack', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('featureNotes.lowLightVisionFeature',
+      rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
-        raceNoSpace + 'Features.Low Light Vision', '+', null
+        raceNoSpace + 'Features.Low-Light Vision', '+', null
       );
       rules.defineRule
         ('languages.Gnome', 'race', '=', 'source.match(/Gnome/) ? 1 : null');
@@ -3761,26 +3747,39 @@ SRD35.raceRules = function(rules, languages, races) {
 /* Defines the rules related to character skills. */
 SRD35.skillRules = function(rules, skills, subskills, synergies) {
 
-  rules.defineRule('classSkillMaxRanks', 'level', '=', 'source + 3');
+  rules.defineNote(
+    'skillNotes.armorSkillCheckPenalty:' +
+      '-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/' +
+      'Sleight Of Hand/Tumble',
+    'skillNotes.armorSwimCheckPenalty:-%V Swim',
+    'validationNotes.skillMaximum:' +
+      'Points allocated to one or more skills exceed maximum',
+    'validationNotes.skillsTotal:' +
+      'Allocated skill points differ from skill point total by %V'
+  );
+  rules.defineRule('maxAllowedSkillPoints', 'level', '=', 'source + 3');
+  rules.defineRule('maxAllocatedSkillPoints', /^skills\./, '^=', null);
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
+    'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
+    'shield', '+=', 'source == "None" ? 0 : ' +
+                    'source == "Tower" ? 10 : ' +
+                    'source.match(/Heavy/) ? 2 : 1'
+  );
+  rules.defineRule('skillNotes.armorSwimCheckPenalty',
+    'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
+  );
   rules.defineRule('skillPoints',
     '', '=', '0',
     'level', '^', null
   );
-  rules.defineNote
-    ('validationNotes.skillsTotal:Allocated skill points differ from skill ' +
-     'point total by %V');
+  rules.defineRule('validationNotes.skillMaximum',
+    'maxAllocatedSkillPoints', '=', '-source',
+    'maxAllowedSkillPoints', '+', 'source',
+    '', 'v', '0'
+  );
   rules.defineRule('validationNotes.skillsTotal',
     'skillPoints', '+=', '-source',
     /^skills\./, '+=', null
-  );
-  rules.defineNote
-    ('validationNotes.skillMaximum:Points allocated to one or more skills ' +
-     'exceed maximum');
-  rules.defineRule('maxAllocatedSkillPoints', /^skills\./, '^=', null);
-  rules.defineRule('validationNotes.skillMaximum',
-    'maxAllocatedSkillPoints', '=', '-source',
-    'classSkillMaxRanks', '+', 'source',
-    '', 'v', '0'
   );
 
   var abilityNames = {
@@ -4191,7 +4190,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     attributes['name'] = SRD35.randomName(attributes['race']);
   } else if(attribute == 'skills') {
     attrs = this.applyRules(attributes);
-    var maxPoints = attrs.classSkillMaxRanks;
+    var maxPoints = attrs.maxAllowedSkillPoints;
     howMany =
       attrs.skillPoints - ScribeUtils.sumMatching(attributes, '^skills\\.'),
     choices = ScribeUtils.getKeys(this.getChoices('skills'));
