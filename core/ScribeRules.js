@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.75 2012/01/17 06:15:02 jhayes Exp $ */
+//* $Id: ScribeRules.js,v 1.76 2012/03/20 02:53:08 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -104,15 +104,18 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
     if(matchInfo != null) {
       var name = matchInfo[1].toUpperCase() +
                  matchInfo[2].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
+      var dependsOn = matchInfo[3].toLowerCase() + 's.' + name;
       if(matchInfo[3] == 'Synergy')
         this.defineRule
           (attribute, 'skillModifier.' + name, '=', 'source >= 5 ? 1 : null');
       else if(format.indexOf('%V') < 0)
-        this.defineRule
-          (attribute, matchInfo[3].toLowerCase() + 's.' + name, '=', '1');
-      else
-        this.defineRule
-          (attribute, matchInfo[3].toLowerCase() + 's.' + name, '?', null);
+        this.defineRule(attribute, dependsOn, '=', '1');
+      else {
+        this.defineRule(attribute, dependsOn, '?', null);
+        for(var j = 0; format.indexOf('%' + j) >= 0; j++) {
+          this.defineRule(attribute + '.' + j, dependsOn, '?', null);
+        }
+      }
     }
     if(attribute.match(/^skillNotes\./) && format.match(/^[+-](%[V\d]|\d+)/)) {
       var skills = format.split('/');
