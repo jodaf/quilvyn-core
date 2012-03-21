@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.8 2011/03/24 23:04:14 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.9 2012/03/21 05:52:41 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -102,7 +102,7 @@ CustomExamples.deityRules = function(rules, deities) {
     CustomExamples.deitiesFavoredWeapons[deity] = weapon;
     if(domains.indexOf('War') >= 0) {
       var weaponFocusFeat = 'Weapon Focus (' + weapon + ')';
-      SRD35.featRules(rules, [weaponFocusFeat], {});
+      SRD35.featRules(rules, [weaponFocusFeat + ':'], {});
       rules.defineRule('domainFeatures.' + weaponFocusFeat,
         'domains.War', '?', null,
         'deity', '=',

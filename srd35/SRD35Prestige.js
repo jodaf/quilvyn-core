@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.8 2011/03/24 23:04:15 jhayes Exp $ */
+/* $Id: SRD35Prestige.js,v 1.9 2012/03/21 05:53:50 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -461,7 +461,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'abilityNotes.intelligenceBoostFeature:+2 intelligence',
         'abilityNotes.strengthBoostFeature:+%V strength',
         'combatNotes.biteAttackFeature:Attack with bite',
-        'combatNotes.breathWeaponFeature:Breathe for %Vd8 damage 1/day; DC %1',
+        'combatNotes.breathWeaponFeature:Breathe for %Vd8 damage 1/day, DC %1',
         'combatNotes.clawAttackFeature:Attack with claws',
         'combatNotes.dragonDiscipleArmorClassAdjustment:%V',
         'featureNotes.blindsenseFeature:' +
@@ -818,7 +818,7 @@ SRD35Prestige.classRules = function(rules, classes) {
           '<i>Dimension Door</i> every d4 rounds',
         'saveNotes.terrainMastery(Cold)Feature:20 DC cold resistance',
         'saveNotes.terrainMastery(Desert)Feature:' +
-          'Immune fatigue; resist exhaustion',
+          'Immune fatigue, resist exhaustion',
         'saveNotes.terrainMastery(Fiery)Feature:20 DC fire resistance',
         'skillNotes.terrainMastery(Aquatic)Feature:+4 Swim',
         'skillNotes.terrainMastery(Forest)Feature:+4 Hide',
@@ -1200,8 +1200,7 @@ SRD35Prestige.companionRules = function(rules, companions) {
           'Reflex save yields no damage instead of 1/2',
         'companionNotes.companionImprovedEvasionFeature:' +
           'Failed save yields 1/2 damage',
-        'companionNotes.empathicLinkFeature:' +
-          'Master/companion share emotions up to 1 mile',
+        'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
         'companionNotes.shareSavingThrowsFeature:' +
           'Companion uses higher of own or master\'s saving throws',
         'companionNotes.shareSpellsFeature:' +
