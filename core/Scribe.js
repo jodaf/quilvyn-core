@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.260 2012/01/17 06:27:19 jhayes Exp $ */
+/* $Id: Scribe.js,v 1.261 2012/03/21 05:54:40 jhayes Exp $ */
 
 var COPYRIGHT = 'Copyright 2011 James J. Hayes';
 var VERSION = '1.0beta-20120116';
@@ -499,9 +499,6 @@ Scribe.sheetHtml = function(attrs) {
     var name = a.replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
     name = name.substring(0, 1).toUpperCase() + name.substring(1);
     var value = computedAttributes[a];
-    // Add entered value in brackets if it differs from computed value
-    if(enteredAttributes[a] != null && enteredAttributes[a] != value)
-      value += '[' + enteredAttributes[a] + ']';
     if((i = name.indexOf('.')) < 0) {
       sheetAttributes[name] = value;
     } else {
