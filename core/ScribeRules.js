@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.76 2012/03/20 02:53:08 jhayes Exp $ */
+//* $Id: ScribeRules.js,v 1.77 2012/03/21 05:55:15 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -47,8 +47,11 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
     var choice = pieces[0];
     var associated = pieces.length < 2 ? '' : pieces[1];
     var existing = o[choice];
-    o[choice] = existing != null && existing != '' && existing != associated ?
-                existing + '/' + associated : associated;
+    if(existing == null || existing == '') {
+      o[choice] = associated;
+    } else if(associated!=null && associated!='' && associated!=existing) {
+      o[choice] = existing + '/' + associated;
+    }
   }
 };
 

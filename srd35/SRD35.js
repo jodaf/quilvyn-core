@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.151 2012/03/20 02:54:16 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.152 2012/03/21 05:55:15 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -89,7 +89,7 @@ SRD35.DOMAINS = [
 SRD35.FEATS = [
   'Acrobatic:', 'Agile:', 'Alertness:', 'Animal Affinity:',
   'Armor Proficiency:', 'Athletic:', 'Augment Summoning:',
-  'Blind Fight:Fighter', 'Brew Potion:Item Creation', 'Cleave:Fighter',
+  'Blind-Fight:Fighter', 'Brew Potion:Item Creation', 'Cleave:Fighter',
   'Combat Casting:', 'Combat Expertise:Fighter', 'Combat Reflexes:Fighter',
   'Craft Magic Arms And Armor:Item Creation', 'Craft Rod:Item Creation',
   'Craft Staff:Item Creation', 'Craft Wand:Item Creation',
@@ -1309,10 +1309,11 @@ SRD35.classRules = function(rules, classes) {
         'combatNotes.favoredEnemyFeature:' +
           '+2 or more damage vs. %V type(s) of creatures',
         'combatNotes.greaterTwo-WeaponFightingFeature:' +
-          'Second off-hand -10 attack',
+          'Third off-hand -10 attack',
         'combatNotes.improvedPreciseShotFeature:' +
-          'No foe bonus for partial concealment; attack grappling w/no penalty',
-        'combatNotes.improvedTwo-WeaponFightingFeature:Additional -5 attack',
+          'No foe AC bonus for partial concealment, attack grappling target',
+        'combatNotes.improvedTwo-WeaponFightingFeature:' +
+          'Second off-hand -5 attack',
         'combatNotes.manyshotFeature:' +
           'Fire up to %V arrows simultaneously at -2 attack',
         'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
@@ -1424,7 +1425,7 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.slipperyMindFeature:Second save vs. enchantment',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
         'skillNotes.skillMasteryFeature:' +
-          'Never distracted from designated skills',
+          'Take 10 despite distraction on %V designated skills',
         'skillNotes.trapfindingFeature:' +
           'Use Search/Disable Device to find/remove DC 20+ traps'
       ];
@@ -1460,6 +1461,10 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule('selectableFeatureCount.Rogue',
         'levels.Rogue', '+=', 'source>=10 ? Math.floor((source-7)/3) : null'
+      );
+      rules.defineRule('skillNotes.skillMasteryFeature',
+        'intelligenceModifier', '=', 'source + 3',
+        'selectableFeatures.Skill Mastery', '*', null
       );
 
     } else if(klass == 'Sorcerer') {
@@ -1742,8 +1747,7 @@ SRD35.companionRules = function(rules, companions) {
           'Failed save yields 1/2 damage',
         'companionNotes.deliverTouchSpellsFeature:' +
           'Deliver touch spells if in contact w/master when cast',
-        'companionNotes.empathicLinkFeature:' +
-          'Master/companion share emotions up to 1 mile',
+        'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
         'companionNotes.scryFeature:Master views companion 1/day',
         'companionNotes.shareAttributesFeature:' +
           'Use Master\'s HD/base attack/save/skill values',
@@ -1778,8 +1782,7 @@ SRD35.companionRules = function(rules, companions) {
           'Reflex save yields no damage instead of 1/2',
         'companionNotes.companionImprovedEvasionFeature:' +
           'Failed save yields 1/2 damage',
-        'companionNotes.empathicLinkFeature:' +
-          'Master/companion share emotions up to 1 mile',
+        'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
         'companionNotes.improvedSpeedFeature:+10 speed',
         'companionNotes.shareSavingThrowsFeature:' +
           'Companion uses higher of own or master\'s saving throws',
@@ -2177,9 +2180,9 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'validationNotes.augmentSummoningFeatFeatures:' +
           'Requires Spell Focus (Conjuration)'
       ];
-    } else if(feat == 'Blind Fight') {
+    } else if(feat == 'Blind-Fight') {
       notes = [
-        'combatNotes.blindFightFeature:' +
+        'combatNotes.blind-FightFeature:' +
           'Reroll concealed miss, no bonus to invisible foe, half penalty ' +
           'for impaired vision'
       ];
@@ -2353,7 +2356,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Greater Two-Weapon Fighting') {
       notes = [
         'combatNotes.greaterTwo-WeaponFightingFeature:' +
-          'Second off-hand -10 attack',
+          'Third off-hand -10 attack',
         'validationNotes.greaterTwo-WeaponFightingFeatAbility:' +
           'Requires Dexterity >= 19',
         'validationNotes.greaterTwo-WeaponFightingFeatBaseAttack:' +
@@ -2400,7 +2403,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Improved Bull Rush') {
       notes = [
         'combatNotes.improvedBullRushFeature:' +
-          'No AOO on Bull Rush; +4 strength check',
+          'No AOO on Bull Rush, +4 strength check',
         'validationNotes.improvedBullRushFeatAbility:Requires Strength >= 13',
         'validationNotes.improvedBullRushFeatFeatures:Requires Power Attack'
       ];
@@ -2465,14 +2468,14 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Improved Overrun') {
       notes = [
         'combatNotes.improvedOverrunFeature:' +
-          'Foe cannot avoid; +4 strength check',
+          'Foe cannot avoid, +4 strength check',
         'validationNotes.improvedOverrunFeatAbility:Requires Strength >= 13',
         'validationNotes.improvedOverrunFeatFeatures:Requires Power Attack'
       ];
     } else if(feat == 'Improved Precise Shot') {
       notes = [
         'combatNotes.improvedPreciseShotFeature:' +
-          'No foe AC bonus for partial concealment; always hit grappling foe',
+          'No foe AC bonus for partial concealment, attack grappling target',
         'validationNotes.improvedPreciseShotFeatAbility:' +
           'Requires Dexterity >= 19',
         'validationNotes.improvedPreciseShotFeatBaseAttack:' +
@@ -2496,7 +2499,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Improved Trip') {
       notes = [
         'combatNotes.improvedTripFeature:' +
-          'No AOO on Trip; +4 strength check; attack after trip',
+          'No AOO on Trip, +4 strength check, attack after trip',
         'validationNotes.improvedTripFeatAbility:Requires Intelligence >= 13',
         'validationNotes.improvedTripFeatFeats:Requires Combat Expertise'
       ];
@@ -2510,7 +2513,8 @@ SRD35.featRules = function(rules, feats, subfeats) {
         (/^turn.*\.level$/, 'combatNotes.improvedTurningFeature', '+', '1');
     } else if(feat == 'Improved Two-Weapon Fighting') {
       notes = [
-        'combatNotes.improvedTwo-WeaponFightingFeature:Additional -5 attack',
+        'combatNotes.improvedTwo-WeaponFightingFeature:' +
+          'Second off-hand -5 attack',
         'validationNotes.improvedTwo-WeaponFightingFeatAbility:' +
           'Requires Dexterity >= 17',
         'validationNotes.improvedTwo-WeaponFightingFeatBaseAttack:' +
@@ -2735,7 +2739,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Spell Penetration') {
       notes = [
         'magicNotes.spellPenetrationFeature:' +
-          '+2 caster level vs. resistance checks',
+          '+2 checks to overcome spell resistance',
         'sanityNotes.spellPenetrationFeatCasterLevel:Requires Caster Level >= 1'
       ];
     } else if(feat == 'Spirited Charge') {
@@ -4210,7 +4214,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         continue;
       }
       if(current == null)
-        attributes[attr] = 0;
+        current = attributes[attr] = 0;
       var toAssign =
         ScribeUtils.random(0, 99) >= 66 ? maxPoints :
         ScribeUtils.random(0, 99) >= 50 ? Math.floor(maxPoints / 2) : 2;
