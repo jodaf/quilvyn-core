@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.152 2012/03/21 05:55:15 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.153 2012/03/22 16:09:53 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -1962,7 +1962,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Skills', within: 'SkillPart', separator: listSep},
             {name: 'Skill Notes', within: 'SkillPart', separator:listSep},
           {name: 'LanguagePart', within: 'FeaturesAndSkills', separator: '\n'},
-            {name: 'LanguageStats', within: 'LanguagePart', separtor: innerSep},
+            {name: 'LanguageStats', within: 'LanguagePart', separator:innerSep},
               {name: 'Language Count', within: 'LanguageStats'},
             {name: 'Languages', within: 'LanguagePart', separator: listSep},
         {name: 'Combat', within: '_top', separator: outerSep,
