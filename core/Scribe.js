@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.261 2012/03/21 05:54:40 jhayes Exp $ */
+/* $Id: Scribe.js,v 1.262 2012/04/10 15:54:42 jhayes Exp $ */
 
 var COPYRIGHT = 'Copyright 2011 James J. Hayes';
 var VERSION = '1.0beta-20120116';
@@ -674,42 +674,54 @@ Scribe.storeCookie = function() {
  * that have been loaded into the editor.
  */
 Scribe.summarizeCachedAttrs = function() {
-  var allAttrs = {};
-  for(var a in characterCache) {
-    if(a != 'random')
-      allAttrs[a] = ruleSet.applyRules(characterCache[a]);
-  }
-  var urls = ScribeUtils.getKeys(allAttrs);
+  var combinedAttrs = { };
   var htmlBits = [
     '<head><title>Scribe Character Attribute Summary</title></head>',
     '<body bgcolor="' + BACKGROUND + '">',
     '<h1>Scribe Character Attribute Summary</h1>',
     '<table border="1">'
   ];
-  var rowHtml = '<tr><td></td>';
-  for(var i = 0; i < urls.length; i++) {
-    var name = urls[i].replace(/.*\//, '').replace(/\..*/, '');
-    rowHtml += '<th>' + name + '</th>';
-  }
-  htmlBits[htmlBits.length] = rowHtml;
-  var inTable = {};
-  for(var a in allAttrs) {
-    for(var b in allAttrs[a]) {
-      if(b.match(/^(features|skills|selectableFeatures)\./))
-        inTable[b] = 1;
+  var notes = ruleSet.getChoices('notes');
+  for(var character in characterCache) {
+    if(character == 'random')
+      continue;
+    var attrs = ruleSet.applyRules(characterCache[character]);
+    for(var attr in attrs) {
+      if(ruleSet.isSource(attr) ||
+         attr.indexOf('features.') >= 0 ||
+         attr.match(/\.[0-9]+$/))
+        continue;
+      var value = attrs[attr];
+      if(attr.indexOf('Notes.') >= 0 && value == 0)
+        continue;
+      if(combinedAttrs[attr] == null)
+        combinedAttrs[attr] = [];
+      var format = notes[attr];
+      if(format != null)
+        value = format.replace(/%V/, value);
+      combinedAttrs[attr].push(value);
     }
   }
-  inTable['notes'] = inTable['hiddenNotes'] = 1;
-  inTable = ScribeUtils.getKeys(inTable);
-  for(var i = 0; i < inTable.length; i++) {
-    rowHtml = '<tr><td><b>' + inTable[i] + '</b></td>';
-    for(var j = 0; j < urls.length; j++) {
-      var value = allAttrs[urls[j]][inTable[i]];
-      if(value == null)
-        value = '&nbsp;';
-      rowHtml += '<td align="center">' + value + '</td>';
+  var keys = ScribeUtils.getKeys(combinedAttrs);
+  keys.sort();
+  for(var i = 0; i < keys.length; i++) {
+    var attr = keys[i];
+    var values = combinedAttrs[attr];
+    values.sort();
+    var unique = [];
+    for(var j = 0; j < values.length; j++) {
+      var value = values[j];
+      var count = 1;
+      while(j < values.length && values[j + 1] == value) {
+        count++;
+        j++;
+      }
+      if(count > 1)
+        value = count + '@' + value;
+      unique.push(value);
     }
-    htmlBits[htmlBits.length] = rowHtml;
+    htmlBits[htmlBits.length] =
+      '<tr><th>' + attr + '</th><td>' + unique.join(',') + '</td></tr>';
   }
   htmlBits[htmlBits.length] = '</table>';
   htmlBits[htmlBits.length] = '</body></html>\n';
