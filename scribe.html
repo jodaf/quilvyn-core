@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.72 2011/03/24 23:04:15 jhayes Exp $ -->
+<!-- $Id: scribe.html,v 1.73 2012/04/11 02:03:51 jhayes Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2011, James J. Hayes
 
@@ -40,7 +40,7 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
  * updates every time you run the program; however, the disadvantage is that
  * you have to wait for the code to download each time.
  */
-var SCRIBE_HOME = 'http://www.jodaf.com/software/scribe/';
+var SCRIBE_HOME = 'http://www.jodaf.com/scribe/';
 var SOURCE_URL = '';
 
 /*
@@ -75,10 +75,10 @@ var WARN_ABOUT_DISCARD = true;
  * easy to add and remove elements without worrying about a trailing comma.
  */
 var CUSTOMIZATION_URLS = [
-  'SRD35.js',
-  '?SRD35NPC.js',
-  '?SRD35Prestige.js',
-  'Experience.js',
+  'srd35/SRD35.js',
+  '?srd35/SRD35NPC.js',
+  '?srd35/SRD35Prestige.js',
+  'custom/Experience.js',
   // 'CustomExamples.js',
   // 'CustomSpellPoints.js',
   null
@@ -156,11 +156,11 @@ function CustomizeScribe() {
 /**** Commands that load the Scribe software.  Do not modify. ****/
 
 var CLOSE_TAG = '<' + '/' + 'script>\n';
-var HELP_URL = SOURCE_URL + 'scribedoc.html';
-var LOGO_URL = SOURCE_URL + 'scribe.gif';
+var HELP_URL = SOURCE_URL + 'core/scribedoc.html';
+var LOGO_URL = SOURCE_URL + 'core/scribe.gif';
 var scribeUrls = [
-  'Input.js', 'ObjectViewer.js', 'RuleEngine.js', 'ScribeUtils.js', 'Scribe.js',
-  'ScribeRules.js'
+  'core/Input.js', 'core/ObjectViewer.js', 'core/RuleEngine.js',
+  'core/ScribeUtils.js', 'core/Scribe.js', 'core/ScribeRules.js'
 ].concat(CUSTOMIZATION_URLS);
 
 for(var i = 0; i < scribeUrls.length; i++) {
