@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.74 2012/04/11 04:13:45 jhayes Exp $ -->
+<!-- $Id: scribe.html,v 1.75 2012/04/13 05:25:02 jhayes Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2011, James J. Hayes
 
@@ -57,7 +57,7 @@ var FEATURES_OF_EDIT_WINDOW =
 var FEATURES_OF_SHEET_WINDOW =
   'height=750,width=750,menubar,resizable,scrollbars';
 var MAX_RECENT_OPENS = 40;
-var URL_PREFIX = 'http://www.jodaf.com/dnd/bt/';
+var URL_PREFIX = SOURCE_URL;
 var URL_SUFFIX = '.html';
 var WARN_ABOUT_DISCARD = true;
 
@@ -78,9 +78,18 @@ var CUSTOMIZATION_URLS = [
   'srd35/SRD35.js',
   '?srd35/SRD35NPC.js',
   '?srd35/SRD35Prestige.js',
-  'custom/Experience.js',
-  // 'custom/CustomExamples.js',
-  // 'custom/CustomSpellPoints.js',
+  'srd35/Experience.js',
+  'srd35/CustomExamples.js',
+  // 'srd35/CustomSpellPoints.js',
+  // 'plugins/Eberron.js',
+  // 'plugins/EberronPrestige.js',
+  // 'plugins/FirstEdition.js',
+  // 'plugins/LastAge.js',
+  // 'plugins/LastAgePrestige.js',
+  // 'plugins/Pathfinder.js',
+  // 'plugins/PHB35.js',
+  // 'plugins/Realms.js',
+  // 'plugins/RealmsPrestige.js',
   null
 ];
 
@@ -140,16 +149,42 @@ function CustomizeScribe() {
       window[func]();
   }
   // The third part applies specific customizations to the rules.
-  if(window.Experience != null)
+  if(window.Experience != null) {
     Experience.experienceRules(SRD35.rules);
-  if(window.CustomSpellPoints != null)
+    if(window.Eberron != null)
+      Experience.experienceRules(Eberron.rules);
+    if(window.LastAge != null)
+      Experience.experienceRules(LastAge.rules);
+    if(window.Pathfinder != null)
+      Experience.experienceRules(Pathfinder.rules);
+    if(window.Realms != null)
+      Experience.experienceRules(Realms.rules);
+  }
+  if(window.CustomSpellPoints != null) {
     CustomSpellPoints.spellPointRules(SRD35.rules);
+    if(window.Eberron != null)
+      CustomSpellPoints.spellPointRules(Eberron.rules);
+    if(window.Pathfinder != null)
+      CustomSpellPoints.spellPointRules(Pathfinder.rules);
+    if(window.Realms != null)
+      CustomSpellPoints.spellPointRules(Realms.rules);
+  }
   if(window.CustomExamples != null) {
     CustomExamples.deityRules(SRD35.rules, CustomExamples.DEITIES);
     CustomExamples.goodiesRules(SRD35.rules, CustomExamples.GOODIES);
     CustomExamples.magicArmorRules(SRD35.rules, CustomExamples.MAGIC_ARMORS);
     CustomExamples.magicWeaponRules(SRD35.rules, CustomExamples.MAGIC_WEAPONS);
     CustomExamples.skillRules(SRD35.rules, CustomExamples.SKILLS);
+    if(window.Pathfinder != null)
+      CustomExamples.deityRules(Pathfinder.rules, CustomExamples.DEITIES);
+    if(window.Pathfinder != null)
+      CustomExamples.goodiesRules(Pathfinder.rules, CustomExamples.GOODIES);
+    if(window.Pathfinder != null)
+      CustomExamples.magicArmorRules(Pathfinder.rules, CustomExamples.MAGIC_ARMORS);
+    if(window.Pathfinder != null)
+      CustomExamples.magicWeaponRules(Pathfinder.rules, CustomExamples.MAGIC_WEAPONS);
+    if(window.Pathfinder != null)
+      CustomExamples.skillRules(Pathfinder.rules, CustomExamples.SKILLS);
   }
 }
 
