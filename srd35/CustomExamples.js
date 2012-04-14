@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.9 2012/03/21 05:52:41 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.10 2012/04/14 16:55:47 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -84,8 +84,7 @@ CustomExamples.MAGIC_WEAPONS = [
 CustomExamples.SKILLS = [
   'Herbalism:intelligence:untrained:Druid/Ranger',
   'Knowledge (Plants):intelligence:trained:Druid/Ranger/Wizard',
-  'Knowledge (Undead):intelligence:trained:Cleric/Wizard',
-  'Linguistics:intelligence:trained:all'
+  'Knowledge (Undead):intelligence:trained:Cleric/Wizard'
 ];
 
 /* Defines rules for a clerics of a specified set of custom deities. */
