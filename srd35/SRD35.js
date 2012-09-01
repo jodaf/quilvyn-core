@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.153 2012/03/22 16:09:53 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.154 2012/09/01 05:33:51 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -57,11 +57,11 @@ function SRD35() {
 SRD35.ATTACK_BONUS_GOOD = 'source';
 SRD35.ATTACK_BONUS_AVERAGE = 'source - Math.floor((source + 3) / 4)';
 SRD35.ATTACK_BONUS_POOR = 'Math.floor(source / 2)';
-SRD35.PROFICIENCY_HEAVY = '3';
-SRD35.PROFICIENCY_LIGHT = '1';
-SRD35.PROFICIENCY_MEDIUM = '2';
-SRD35.PROFICIENCY_NONE = '0';
-SRD35.PROFICIENCY_TOWER = '4';
+SRD35.PROFICIENCY_HEAVY = 3;
+SRD35.PROFICIENCY_LIGHT = 1;
+SRD35.PROFICIENCY_MEDIUM = 2;
+SRD35.PROFICIENCY_NONE = 0;
+SRD35.PROFICIENCY_TOWER = 4;
 SRD35.SAVE_BONUS_GOOD = '2 + Math.floor(source / 2)';
 SRD35.SAVE_BONUS_POOR = 'Math.floor(source / 3)';
 
@@ -264,14 +264,26 @@ SRD35.armorsSkillCheckPenalties = {
   'Breastplate': 4, 'Splint Mail': 7, 'Banded Mail': 6, 'Half Plate': 7,
   'Full Plate': 6
 };
-SRD35.armorsWeightClasses = {
-  'None': 'Light', 'Padded': 'Light', 'Leather': 'Light',
-  'Studded Leather': 'Light', 'Chain Shirt': 'Light', 'Hide': 'Medium',
-  'Scale Mail': 'Medium', 'Chainmail': 'Medium', 'Breastplate': 'Medium',
-  'Splint Mail': 'Heavy', 'Banded Mail': 'Heavy', 'Half Plate': 'Heavy',
-  'Full Plate': 'Heavy'
+SRD35.armorsProficiencyLevels = {
+  'None':SRD35.PROFICIENCY_NONE, 'Padded':SRD35.PROFICIENCY_LIGHT,
+  'Leather':SRD35.PROFICIENCY_LIGHT, 'Studded Leather':SRD35.PROFICIENCY_LIGHT,
+  'Chain Shirt':SRD35.PROFICIENCY_LIGHT, 'Hide':SRD35.PROFICIENCY_MEDIUM,
+  'Scale Mail':SRD35.PROFICIENCY_MEDIUM, 'Chainmail':SRD35.PROFICIENCY_MEDIUM,
+  'Breastplate':SRD35.PROFICIENCY_MEDIUM, 'Splint Mail':SRD35.PROFICIENCY_HEAVY,
+  'Banded Mail':SRD35.PROFICIENCY_HEAVY, 'Half Plate':SRD35.PROFICIENCY_HEAVY,
+  'Full Plate': SRD35.PROFICIENCY_HEAVY
 };
 SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
+SRD35.shieldsArcaneSpellFailurePercentages = {
+  'Buckler':5, 'Heavy Steel':15, 'Heavy Wooden':15, 'Light Steel':5,
+  'Light Wooden':5, 'None':0, 'Tower':50
+};
+SRD35.shieldsProficiencyLevels = {
+  'Buckler':SRD35.PROFICIENCY_LIGHT, 'Heavy Steel':SRD35.PROFICIENCY_HEAVY,
+  'Heavy Wooden':SRD35.PROFICIENCY_HEAVY, 'Light Steel':SRD35.PROFICIENCY_LIGHT,
+  'Light Wooden':SRD35.PROFICIENCY_LIGHT, 'None':SRD35.PROFICIENCY_NONE,
+  'Tower':SRD35.PROFICIENCY_TOWER
+};
 SRD35.spellsSchools = {
 
   'Acid Arrow':'Conjuration', 'Acid Fog':'Conjuration',
@@ -611,6 +623,87 @@ SRD35.strengthMaxLoads = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
 ];
+SRD35.weaponsProficiencyLevels = {
+
+  'Gauntlet':SRD35.PROFICIENCY_NONE,
+  'Unarmed':SRD35.PROFICIENCY_NONE,
+
+  'Dagger':SRD35.PROFICIENCY_LIGHT,
+  'Punching Dagger':SRD35.PROFICIENCY_LIGHT,
+  'Spiked Gauntlet':SRD35.PROFICIENCY_LIGHT,
+  'Light Mace':SRD35.PROFICIENCY_LIGHT,
+  'Sickle':SRD35.PROFICIENCY_LIGHT,
+  'Club':SRD35.PROFICIENCY_LIGHT,
+  'Heavy Mace':SRD35.PROFICIENCY_LIGHT,
+  'Morningstar':SRD35.PROFICIENCY_LIGHT,
+  'Shortspear':SRD35.PROFICIENCY_LIGHT,
+  'Longspear':SRD35.PROFICIENCY_LIGHT,
+  'Quarterstaff':SRD35.PROFICIENCY_LIGHT,
+  'Spear':SRD35.PROFICIENCY_LIGHT,
+  'Heavy Crossbow':SRD35.PROFICIENCY_LIGHT,
+  'Light Crossbow':SRD35.PROFICIENCY_LIGHT,
+  'Dart':SRD35.PROFICIENCY_LIGHT,
+  'Javelin':SRD35.PROFICIENCY_LIGHT,
+  'Sling':SRD35.PROFICIENCY_LIGHT,
+
+  'Throwing Axe':SRD35.PROFICIENCY_MEDIUM,
+  'Light Hammer':SRD35.PROFICIENCY_MEDIUM,
+  'Handaxe':SRD35.PROFICIENCY_MEDIUM,
+  'Kukri':SRD35.PROFICIENCY_MEDIUM,
+  'Light Pick':SRD35.PROFICIENCY_MEDIUM,
+  'Sap':SRD35.PROFICIENCY_MEDIUM,
+  'Light Shield':SRD35.PROFICIENCY_MEDIUM,
+  'Spiked Armor':SRD35.PROFICIENCY_MEDIUM,
+  'Light Spiked Shield':SRD35.PROFICIENCY_MEDIUM,
+  'Short Sword':SRD35.PROFICIENCY_MEDIUM,
+  'Battleaxe':SRD35.PROFICIENCY_MEDIUM,
+  'Flail':SRD35.PROFICIENCY_MEDIUM,
+  'Longsword':SRD35.PROFICIENCY_MEDIUM,
+  'Heavy Pick':SRD35.PROFICIENCY_MEDIUM,
+  'Rapier':SRD35.PROFICIENCY_MEDIUM,
+  'Scimitar':SRD35.PROFICIENCY_MEDIUM,
+  'Heavy Shield':SRD35.PROFICIENCY_MEDIUM,
+  'Heavy Spiked Shield':SRD35.PROFICIENCY_MEDIUM,
+  'Trident':SRD35.PROFICIENCY_MEDIUM,
+  'Warhammer':SRD35.PROFICIENCY_MEDIUM,
+
+  'Falchion':SRD35.PROFICIENCY_MEDIUM,
+  'Glaive':SRD35.PROFICIENCY_MEDIUM,
+  'Greataxe':SRD35.PROFICIENCY_MEDIUM,
+  'Greatclub':SRD35.PROFICIENCY_MEDIUM,
+  'Heavy Flail':SRD35.PROFICIENCY_MEDIUM,
+  'Greatsword':SRD35.PROFICIENCY_MEDIUM,
+  'Guisarme':SRD35.PROFICIENCY_MEDIUM,
+  'Halbert':SRD35.PROFICIENCY_MEDIUM,
+  'Lance':SRD35.PROFICIENCY_MEDIUM,
+  'Ranseur':SRD35.PROFICIENCY_MEDIUM,
+  'Scythe':SRD35.PROFICIENCY_MEDIUM,
+  'Longbow':SRD35.PROFICIENCY_MEDIUM,
+  'Composite Longbow':SRD35.PROFICIENCY_MEDIUM,
+  'Shortbow':SRD35.PROFICIENCY_MEDIUM,
+  'Composite Shortbow':SRD35.PROFICIENCY_MEDIUM,
+
+  'Kama':SRD35.PROFICIENCY_HEAVY,
+  'Nunchuku':SRD35.PROFICIENCY_HEAVY,
+  'Sai':SRD35.PROFICIENCY_HEAVY,
+  'Siangham':SRD35.PROFICIENCY_HEAVY,
+  'Bastard Sword':SRD35.PROFICIENCY_HEAVY,
+  'Dwarven Waraxe':SRD35.PROFICIENCY_HEAVY,
+  'Whip':SRD35.PROFICIENCY_HEAVY,
+  'Orc Double Axe':SRD35.PROFICIENCY_HEAVY,
+  'Spiked Chain':SRD35.PROFICIENCY_HEAVY,
+  'Dire Flail':SRD35.PROFICIENCY_HEAVY,
+  'Gnome Hooked Hammer':SRD35.PROFICIENCY_HEAVY,
+  'Two-Bladed Sword':SRD35.PROFICIENCY_HEAVY,
+  'Darven Urgosh':SRD35.PROFICIENCY_HEAVY,
+  'Bolas':SRD35.PROFICIENCY_HEAVY,
+  'Hand Crossbow':SRD35.PROFICIENCY_HEAVY,
+  'Repeating Heavy Crossbow':SRD35.PROFICIENCY_HEAVY,
+  'Repeating Light Crossbow':SRD35.PROFICIENCY_HEAVY,
+  'Net':SRD35.PROFICIENCY_HEAVY,
+  'Shuriken':SRD35.PROFICIENCY_HEAVY
+
+};
 // Mapping of medium damage to large/small damage
 SRD35.weaponsLargeDamage = {
   'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
@@ -791,9 +884,9 @@ SRD35.classRules = function(rules, classes) {
       feats = null;
       features = [
         '1:Bardic Knowledge', '1:Bardic Music', '1:Countersong', '1:Fascinate',
-        '1:Inspire Courage', '3:Inspire Competence', '6:Suggestion',
-        '9:Inspire Greatness', '12:Song Of Freedom', '15:Inspire Heroics',
-        '18:Mass Suggestion'
+        '1:Inspire Courage', '1:Simple Somatics', '3:Inspire Competence',
+        '6:Suggestion', '9:Inspire Greatness', '12:Song Of Freedom',
+        '15:Inspire Heroics', '18:Mass Suggestion'
       ];
       hitDie = 6;
       notes = [
@@ -812,6 +905,7 @@ SRD35.classRules = function(rules, classes) {
           '+4 AC/saves to 1 ally while performing',
         'magicNotes.massSuggestionFeature:' +
           '<i>Suggestion</i> to all fascinated creatures',
+        'magicNotes.simpleSomaticsFeature:Reduce armor casting penalty by %V%',
         'magicNotes.songOfFreedomFeature:' +
           '<i>Break Enchantment</i> through performing',
         'magicNotes.suggestionFeature:' +
@@ -884,6 +978,13 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule('features.Suggestion',
         'maxSkillModifier.Perform', '?', 'source >= 9'
+      );
+      rules.defineRule('magicNotes.simpleSomaticsFeature',
+        'armor', '=', 'source.match(/Padded|Leather|Chain Shirt/) ? ' +
+        'SRD35.armorsArcaneSpellFailurePercentages[source] : null'
+      );
+      rules.defineRule('magicNotes.arcaneSpellFailure',
+        'magicNotes.simpleSomaticsFeature', '+', '-source'
       );
       rules.defineRule('magicNotes.fascinateFeature',
         'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
@@ -994,7 +1095,10 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.venomImmunityFeature:Immune to poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
         'skillNotes.wildEmpathyFeature:+%V Diplomacy w/animals',
-        'validationNotes.druidClassAlignment:Requires Alignment =~ Neutral'
+        'validationNotes.druidClassAlignment:Requires Alignment =~ Neutral',
+        'validationNotes.druidClassArmor:' +
+          'Requires Armor =~ None|Hide|Leather|Padded',
+        'validationNotes.druidClassShield:Requires Shield =~ None|Wooden'
       ];
       profArmor = SRD35.PROFICIENCY_MEDIUM;
       profShield = SRD35.PROFICIENCY_HEAVY;
@@ -1118,6 +1222,8 @@ SRD35.classRules = function(rules, classes) {
           '<i>Dimension Door</i> at level %V 1/day',
         'magicNotes.emptyBodyFeature:<i>Etherealness</i> %V rounds/day',
         'magicNotes.wholenessOfBodyFeature:Heal %V damage to self/day',
+        'sanityNotes.monkClassArmor:Requires Armor == None',
+        'sanityNotes.monkClassShield:Requires Shield == None',
         'saveNotes.diamondBodyFeature:Immune to poison',
         'saveNotes.diamondSoulFeature:DC %V spell resistance',
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
@@ -2045,13 +2151,11 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   rules.defineChoice('weapons', weapons);
   rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
-    'armorWeightClass', '=', 'source == "Light" ? null : -10',
-    'features.Slow', '+', '5'
-  );
-  rules.defineRule('armorWeightClass',
     'armor', '=',
-      'SRD35.armorsWeightClasses[source] == null ? "Light" : ' +
-      'SRD35.armorsWeightClasses[source]'
+    'SRD35.armorsProficiencyLevels[source] != null && ' +
+    'SRD35.armorsProficiencyLevels[source] >= ' + SRD35.PROFICIENCY_MEDIUM +
+    ' ? -10 : null',
+    'features.Slow', '+', '5'
   );
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
     'armor', 'v', 'SRD35.armorsMaxDexBonuses[source]'
@@ -2059,15 +2163,55 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'casterLevelArcane', '?', null,
     'armor', '+=', 'SRD35.armorsArcaneSpellFailurePercentages[source]',
-    'shield', '+=', 'source == "None" ? 0 : ' +
-                    'source == "Tower" ? 50 : ' +
-                    'source.match(/Heavy/) ? 15 : 5'
+    'shield', '+=', 'SRD35.shieldsArcaneSpellFailurePercentages[source]'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
   // TODO combatNotes.strengthDamageAdjustment handled directly by Scribe
   // Hack to get it to appear in italics
   rules.defineRule
     ('level', 'combatNotes.strengthDamageAdjustment', '=', 'null');
+  rules.defineNote(
+    'sanityNotes.casterLevelArcaneArmor:Requires Armor == None',
+    'sanityNotes.casterLevelArcaneShield:Requires Shield == None'
+  );
+  rules.defineRule('sanityNotes.casterLevelArcaneArmor',
+    'magicNotes.arcaneSpellFailure', '?', null,
+    'armor', '=', 'source == "None" ? null : 1'
+  );
+  rules.defineRule('sanityNotes.casterLevelArcaneShield',
+    'magicNotes.arcaneSpellFailure', '?', null,
+    'shield', '=', 'source == "None" ? null : 1'
+  );
+  rules.defineNote
+    ('sanityNotes.armorProficiencyLevelArmor:' +
+     'Armor exceeds proficiency by %V steps');
+  rules.defineRule('sanityNotes.armorProficiencyLevelArmor',
+    'armor', '=', 'SRD35.armorsProficiencyLevels[source]',
+    'armorProficiencyLevel', '+', '-source',
+    '', '^', '0'
+  );
+  rules.defineNote
+    ('sanityNotes.shieldProficiencyLevelShield:' +
+     'Shield exceeds proficiency by %V steps');
+  rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
+    'shield', '=', 'SRD35.shieldsProficiencyLevels[source]',
+    'shieldProficiencyLevel', '+', '-source',
+    '', '^', '0'
+  );
+  for(var i = 0; i < weapons.length; i++) {
+    var weapon = weapons[i].split(':')[0];
+    rules.defineRule('highestRequiredWeaponProficiency',
+      'weapons.' + weapon, '^=', 'SRD35.weaponsProficiencyLevels["'+weapon+'"]'
+    );
+  }
+  rules.defineNote
+    ('sanityNotes.weaponProficiencyLevelWeapons:' +
+     'Weapon exceeds proficiency by %V steps');
+  rules.defineRule('sanityNotes.weaponProficiencyLevelWeapons',
+    'highestRequiredWeaponProficiency', '=', null,
+    'weaponProficiencyLevel', '+', '-source',
+    '', '^', '0'
+  );
 
 };
 
@@ -3520,8 +3664,12 @@ SRD35.movementRules = function(rules) {
     'speed', '=', null,
     'runSpeedMultiplier', '*', null
   );
-  rules.defineRule
-    ('runSpeedMultiplier', 'armorWeightClass', '=', 'source=="Heavy" ? 3 : 4');
+  rules.defineRule('runSpeedMultiplier',
+    'armor', '=',
+    'SRD35.armorsProficiencyLevels[source] != null && ' +
+    'SRD35.armorsProficiencyLevels[source] >= ' + SRD35.PROFICIENCY_HEAVY +
+    ' ? 3 : 4'
+  );
   rules.defineRule('speed', '', '=', '30');
 };
 
