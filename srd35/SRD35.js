@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.154 2012/09/01 05:33:51 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.155 2012/12/16 04:22:14 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -1732,7 +1732,7 @@ SRD35.combatRules = function(rules) {
     '', '=', '10',
     'armor', '+', 'SRD35.armorsArmorClassBonuses[source]',
     'shield', '+', 'source == "None" ? null : ' +
-                   'source == "Tower" ? 4 : source.match(/Light/) ? 1 : 2'
+                   'source == "Tower" ? 4 : source.match(/Heavy/) ? 2 : 1'
   );
   rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
@@ -3820,7 +3820,6 @@ SRD35.raceRules = function(rules, languages, races) {
         'skillNotes.smallFeature:+4 Hide'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('baseAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
         raceNoSpace + 'Features.Low-Light Vision', '+', null
@@ -3835,6 +3834,8 @@ SRD35.raceRules = function(rules, languages, races) {
       );
       rules.defineRule
         ('magicNotes.naturalSpellsFeature.1', 'level', '=', null);
+      rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
         ('resistance.Illusion', 'saveNotes.resistIllusionFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
@@ -3856,10 +3857,11 @@ SRD35.raceRules = function(rules, languages, races) {
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('baseAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('languages.Halfling',
         'race', '=', 'source.match(/Halfling/) ? 1 : null'
       );
+      rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
         ('resistance.Fear', 'saveNotes.resistFearFeature', '+=', '2');
       rules.defineRule('speed', 'features.Slow', '+', '-10');
