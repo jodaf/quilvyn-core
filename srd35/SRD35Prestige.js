@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.9 2012/03/21 05:53:50 jhayes Exp $ */
+/* $Id: SRD35Prestige.js,v 1.10 2014/02/18 01:28:37 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -1148,9 +1148,13 @@ SRD35Prestige.classRules = function(rules, classes) {
     if(selectableFeatures != null) {
       for(var j = 0; j < selectableFeatures.length; j++) {
         var selectable = selectableFeatures[j];
-        rules.defineChoice('selectableFeatures', selectable + ':' + klass);
+        var choice = klass + ' - ' + selectable;
+        rules.defineChoice('selectableFeatures', choice + ':' + klass);
+        rules.defineRule(klass + 'Features.' + selectable,
+          'selectableFeatures.' + choice, '+=', null
+        );
         rules.defineRule('features.' + selectable,
-          'selectableFeatures.' + selectable, '+=', null
+          'selectableFeatures.' + choice, '+=', null
         );
       }
     }
