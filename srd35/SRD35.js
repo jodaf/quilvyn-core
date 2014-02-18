@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.155 2012/12/16 04:22:14 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.156 2014/02/18 00:17:14 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -1985,7 +1985,6 @@ SRD35.createViewers = function(rules, viewers) {
           {name: 'Section 2', within: '_top', separator: '; '},
             {name: 'Skill Modifier', within: 'Section 2', separator: '/'},
             {name: 'Feats', within: 'Section 2', separator: '/'},
-            {name: 'Selectable Features', within: 'Section 2', separator: '/'},
             {name: 'Languages', within: 'Section 2', separator: '/'},
             {name: 'Spells', within: 'Section 2', separator: '/'},
             {name: 'Spell Difficulty Class', within: 'Section 2',
@@ -2058,8 +2057,6 @@ SRD35.createViewers = function(rules, viewers) {
                separator: listSep},
             {name: 'FeatLists', within: 'FeaturePart', separator: innerSep},
               {name: 'Feats', within: 'FeatLists', separator: listSep},
-              {name: 'Selectable Features', within: 'FeatLists',
-               separator: listSep},
             {name: 'Feature Notes', within: 'FeaturePart', separator: listSep},
           {name: 'SkillPart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'SkillStats', within: 'SkillPart', separator:innerSep},
@@ -4830,8 +4827,7 @@ SRD35.defineClass = function
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    rules.defineSheetElement
-      (name + ' Features', 'Selectable Features+', null, '; ');
+    rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   }
   if(spellAbility != null) {
     rules.defineRule('spellDifficultyClass.' + name,
@@ -4925,8 +4921,7 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
-    rules.defineSheetElement
-      (name + ' Features', 'Selectable Features+', null, '; ');
+    rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   }
 };
 
