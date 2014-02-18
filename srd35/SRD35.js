@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.157 2014/02/18 00:25:36 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.158 2014/02/18 01:40:15 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -17,7 +17,7 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
-var SRD35_VERSION = '1.0beta-20110210';
+var SRD35_VERSION = '1.1beta-20140217';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
