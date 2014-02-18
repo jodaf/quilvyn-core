@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.156 2014/02/18 00:17:14 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.157 2014/02/18 00:25:36 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -1478,22 +1478,22 @@ SRD35.classRules = function(rules, classes) {
         'baseAttack', '=', 'Math.floor((source + 9) / 5)'
       );
       rules.defineRule('rangerFeatures.Rapid Shot',
-        'selectableFeatures.Combat Style (Archery)', '?', null
+        'rangerFeatures.Combat Style (Archery)', '?', null
       );
       rules.defineRule('rangerFeatures.Manyshot',
-        'selectableFeatures.Combat Style (Archery)', '?', null
+        'rangerFeatures.Combat Style (Archery)', '?', null
       );
       rules.defineRule('rangerFeatures.Improved Precise Shot',
-        'selectableFeatures.Combat Style (Archery)', '?', null
+        'rangerFeatures.Combat Style (Archery)', '?', null
       );
       rules.defineRule('rangerFeatures.Two-Weapon Fighting',
-        'selectableFeatures.Combat Style (Two-Weapon Combat)', '?', null
+        'rangerFeatures.Combat Style (Two-Weapon Combat)', '?', null
       );
       rules.defineRule('rangerFeatures.Improved Two-Weapon Fighting',
-        'selectableFeatures.Combat Style (Two-Weapon Combat)', '?', null
+        'rangerFeatures.Combat Style (Two-Weapon Combat)', '?', null
       );
       rules.defineRule('rangerFeatures.Greater Two-Weapon Fighting',
-        'selectableFeatures.Combat Style (Two-Weapon Combat)', '?', null
+        'rangerFeatures.Combat Style (Two-Weapon Combat)', '?', null
       );
       rules.defineRule('selectableFeatureCount.Ranger',
         'levels.Ranger', '=', 'source >= 2 ? 1 : null'
@@ -1570,7 +1570,7 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule('skillNotes.skillMasteryFeature',
         'intelligenceModifier', '=', 'source + 3',
-        'selectableFeatures.Skill Mastery', '*', null
+        'rogueFeatures.Skill Mastery', '*', null
       );
 
     } else if(klass == 'Sorcerer') {
@@ -1710,9 +1710,13 @@ SRD35.classRules = function(rules, classes) {
     if(selectableFeatures != null) {
       for(var j = 0; j < selectableFeatures.length; j++) {
         var selectable = selectableFeatures[j];
-        rules.defineChoice('selectableFeatures', selectable + ':' + klass);
+        var choice = klass + ' - ' + selectable;
+        rules.defineChoice('selectableFeatures', choice + ':' + klass);
+        rules.defineRule(klass + 'Features.' + selectable,
+          'selectableFeatures.' + choice, '+=', null
+        );
         rules.defineRule('features.' + selectable,
-          'selectableFeatures.' + selectable, '+=', null
+          'selectableFeatures.' + choice, '+=', null
         );
       }
     }
