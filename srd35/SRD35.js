@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.158 2014/02/18 01:40:15 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.159 2014/03/26 01:37:54 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -277,6 +277,10 @@ SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
 SRD35.shieldsArcaneSpellFailurePercentages = {
   'Buckler':5, 'Heavy Steel':15, 'Heavy Wooden':15, 'Light Steel':5,
   'Light Wooden':5, 'None':0, 'Tower':50
+};
+SRD35.shieldsSkillCheckPenalties = {
+  'Buckler':1, 'Heavy Steel':2, 'Heavy Wooden':2, 'Light Steel':1,
+  'Light Wooden':1, 'None':0, 'Tower':10
 };
 SRD35.shieldsProficiencyLevels = {
   'Buckler':SRD35.PROFICIENCY_LIGHT, 'Heavy Steel':SRD35.PROFICIENCY_HEAVY,
@@ -2183,36 +2187,48 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
     'magicNotes.arcaneSpellFailure', '?', null,
     'shield', '=', 'source == "None" ? null : 1'
   );
-  rules.defineNote
-    ('sanityNotes.armorProficiencyLevelArmor:' +
-     'Armor exceeds proficiency by %V steps');
-  rules.defineRule('sanityNotes.armorProficiencyLevelArmor',
-    'armor', '=', 'SRD35.armorsProficiencyLevels[source]',
-    'armorProficiencyLevel', '+', '-source',
-    '', '^', '0'
+
+  rules.defineNote(
+    'combatNotes.nonproficientArmorPenalty:%V attack',
+    'combatNotes.nonproficientShieldPenalty:%V attack'
   );
-  rules.defineNote
-    ('sanityNotes.shieldProficiencyLevelShield:' +
-     'Shield exceeds proficiency by %V steps');
-  rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
+  rules.defineRule('armorProficiencyLevelShortfall',
+    'armor', '=', 'SRD35.armorsProficiencyLevels[source]',
+    'armorProficiencyLevel', '+', '-source'
+  );
+  rules.defineRule('combatNotes.nonproficientArmorPenalty',
+    'armor', '=', '-SRD35.armorsSkillCheckPenalties[source]',
+    'armorProficiencyLevelShortfall', '?', 'source > 0'
+  );
+  rules.defineRule('shieldProficiencyLevelShortfall',
     'shield', '=', 'SRD35.shieldsProficiencyLevels[source]',
-    'shieldProficiencyLevel', '+', '-source',
-    '', '^', '0'
+    'shieldProficiencyLevel', '+', '-source'
+  );
+  rules.defineRule('combatNotes.nonproficientShieldPenalty',
+    'shield', '=', '-SRD35.shieldsSkillCheckPenalties[source]',
+    'shieldProficiencyLevelShortfall', '?', 'source > 0'
   );
   for(var i = 0; i < weapons.length; i++) {
     var weapon = weapons[i].split(':')[0];
-    rules.defineRule('highestRequiredWeaponProficiency',
-      'weapons.' + weapon, '^=', 'SRD35.weaponsProficiencyLevels["'+weapon+'"]'
+    rules.defineNote(
+      'combatNotes.nonproficientWeaponPenalty.' + weapon + ':%V attack'
+    );
+    rules.defineRule('weaponAttackAdjustment.' + weapon,
+      'combatNotes.nonproficientArmorPenalty', '+=', null,
+      'combatNotes.nonproficientShieldPenalty', '+=', null,
+      'combatNotes.nonproficientWeaponPenalty.' + weapon, '+=', null
+    );
+    rules.defineRule('weaponProficiencyLevelShortfall.' + weapon,
+      'weapons.' + weapon, '=',
+        'SRD35.weaponsProficiencyLevels["' + weapon + '"]',
+      'weaponProficiencyLevel', '+', '-source',
+      'weaponProficiency.' + weapon, '*', '0'
+    );
+    rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + weapon,
+      'weapons.' + weapon, '=', '-4',
+      'weaponProficiencyLevelShortfall.' + weapon, '?', 'source > 0'
     );
   }
-  rules.defineNote
-    ('sanityNotes.weaponProficiencyLevelWeapons:' +
-     'Weapon exceeds proficiency by %V steps');
-  rules.defineRule('sanityNotes.weaponProficiencyLevelWeapons',
-    'highestRequiredWeaponProficiency', '=', null,
-    'weaponProficiencyLevel', '+', '-source',
-    '', '^', '0'
-  );
 
 };
 
@@ -2997,7 +3013,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
           'Requires Class Weapon Proficiency Level < ' + SRD35.PROFICIENCY_LIGHT
       ];
       rules.defineRule('weaponProficiencyLevel',
-        'features.Weapon Proficiency (Simple)', '^', SRD35.PROFICIENCY_LIGHT
+        'features.' + feat, '^', SRD35.PROFICIENCY_LIGHT
       );
     } else if((matchInfo = feat.match(/^Weapon Proficiency \((.*)\)$/))!=null) {
       var weapon = matchInfo[1];
@@ -3006,6 +3022,8 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'sanityNotes.weaponProficiency(' + weaponNoSpace + ')FeatWeapons:' +
           'Requires ' + weapon,
       ];
+      rules.defineRule
+        ('weaponProficiency.' + weapon, 'features.' + feat, '=', '1');
     } else if((matchInfo =
                feat.match(/^Weapon Specialization \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
@@ -3916,9 +3934,7 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
   rules.defineRule('maxAllocatedSkillPoints', /^skills\./, '^=', null);
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
-    'shield', '+=', 'source == "None" ? 0 : ' +
-                    'source == "Tower" ? 10 : ' +
-                    'source.match(/Heavy/) ? 2 : 1'
+    'shield', '+=', 'SRD35.shieldsSkillCheckPenalties[source]'
   );
   rules.defineRule('skillNotes.armorSwimCheckPenalty',
     'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
