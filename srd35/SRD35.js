@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.159 2014/03/26 01:37:54 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.160 2014/03/26 05:55:39 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -287,6 +287,24 @@ SRD35.shieldsProficiencyLevels = {
   'Heavy Wooden':SRD35.PROFICIENCY_HEAVY, 'Light Steel':SRD35.PROFICIENCY_LIGHT,
   'Light Wooden':SRD35.PROFICIENCY_LIGHT, 'None':SRD35.PROFICIENCY_NONE,
   'Tower':SRD35.PROFICIENCY_TOWER
+};
+SRD35.specificWeaponProficiencies = {
+  'Elf':
+    'Composite Longbow/Composite Shortbow/Longbow/Longsword/Rapier/Shortbow',
+  'Assassin':
+    'Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/' +
+    'Rapier/Sap/Shortbow/Composit Shortbow/Short Sword',
+  'Bard':'Longsword/Rapier/Sap/Short Sword/Short Bow/Whip',
+  'Druid':
+    'Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear',
+  'Monk':'Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/' +
+         'Nunchaku/Quaterstaff/Sai/Shuriken/Siangham/Sling',
+  'Rogue':'Hand Crossbow/Rapier/Shortbow/Short Sword',
+  'Shadowdancer':
+    'Club/Composite Shortbow/Dagger/Dart/Hand Crossbow/Heavy Crossbow/' +
+    'Light Crossbow/Mace/Morningstar/Punching Dagger/Quaterstaff/Rapier/' +
+    'Sap/Shortbow/Short Sword',
+  'Wizard':'Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff'
 };
 SRD35.spellsSchools = {
 
@@ -1782,7 +1800,7 @@ SRD35.combatRules = function(rules) {
     'weaponProficiencyLevel', '=',
       'source == ' + SRD35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
       'source == ' + SRD35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
-      '"None"'
+      '"Limited"'
   );
   rules.defineRule('weaponProficiencyLevel',
     '', '=', SRD35.PROFICIENCY_NONE,
@@ -3798,10 +3816,11 @@ SRD35.raceRules = function(rules, languages, races) {
 
       adjustment = '+2 dexterity/-2 constitution';
       features = [
-        'Resist Enchantment', 'Keen Senses', 'Low-Light Vision',
-        'Sense Secret Doors', 'Sleep Immunity'
+        'Elf Weapons', 'Keen Senses', 'Low-Light Vision',
+        'Resist Enchantment', 'Sense Secret Doors', 'Sleep Immunity'
       ];
       notes = [
+        'combatNotes.elfWeapons:Proficiency with swords and bows',
         'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5 ft',
         'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
@@ -3822,13 +3841,14 @@ SRD35.raceRules = function(rules, languages, races) {
 
       adjustment = '+2 constitution/-2 strength';
       features = [
-        'Dodge Giants', 'Gnome Favored Enemy', 'Keen Ears', 'Keen Nose',
-        'Low-Light Vision', 'Natural Illusionist', 'Natural Spells',
-        'Resist Illusion', 'Slow', 'Small'
+        'Dodge Giants', 'Gnome Favored Enemy', 'Gnome Weapons', 'Keen Ears',
+        'Keen Nose', 'Low-Light Vision', 'Natural Illusionist',
+        'Natural Spells', 'Resist Illusion', 'Slow', 'Small'
       ];
       notes = [
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'combatNotes.gnomeFavoredEnemyFeature:+1 attack vs. goblinoid/kobold',
+        'combatNotes.gnomeWeapons:Racial weapons are martial weapons',
         'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'magicNotes.naturalIllusionistFeature:+1 DC on illusion spells',
@@ -4722,9 +4742,6 @@ SRD35.ruleNotes = function() {
     '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '    Race- and class-based proficiencies for specific weapons are not\n' +
-    '    reported.\n' +
-    '  </li><li>\n' +
     '    Racial favored class is not reported.\n' +
     '  </li><li>\n' +
     '    You can only select the feats Extra Turning, Spell Mastery,\n' +
@@ -4901,6 +4918,13 @@ SRD35.defineClass = function
       }
     }
   }
+  if(SRD35.specificWeaponProficiencies[name] != null) {
+    var weapons = SRD35.specificWeaponProficiencies[name].split('/');
+    for(var i = 0; i < weapons.length; i++) {
+      rules.defineRule
+        ('weaponProficiency.' + weapons[i], 'levels.' + name, '=', '1');
+    }
+  }
 
 };
 
@@ -4942,6 +4966,14 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
     }
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
+  }
+  if(SRD35.specificWeaponProficiencies[name] != null) {
+    var weapons = SRD35.specificWeaponProficiencies[name].split('/');
+    for(var i = 0; i < weapons.length; i++) {
+      rules.defineRule('weaponProficiency.' + weapons[i],
+        'race', '=', 'source == "' + name + '" ? 1 : null'
+      );
+    }
   }
 };
 
