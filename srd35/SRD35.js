@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.160 2014/03/26 05:55:39 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.161 2014/03/30 23:37:44 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -287,24 +287,6 @@ SRD35.shieldsProficiencyLevels = {
   'Heavy Wooden':SRD35.PROFICIENCY_HEAVY, 'Light Steel':SRD35.PROFICIENCY_LIGHT,
   'Light Wooden':SRD35.PROFICIENCY_LIGHT, 'None':SRD35.PROFICIENCY_NONE,
   'Tower':SRD35.PROFICIENCY_TOWER
-};
-SRD35.specificWeaponProficiencies = {
-  'Elf':
-    'Composite Longbow/Composite Shortbow/Longbow/Longsword/Rapier/Shortbow',
-  'Assassin':
-    'Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/' +
-    'Rapier/Sap/Shortbow/Composit Shortbow/Short Sword',
-  'Bard':'Longsword/Rapier/Sap/Short Sword/Short Bow/Whip',
-  'Druid':
-    'Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear',
-  'Monk':'Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/' +
-         'Nunchaku/Quaterstaff/Sai/Shuriken/Siangham/Sling',
-  'Rogue':'Hand Crossbow/Rapier/Shortbow/Short Sword',
-  'Shadowdancer':
-    'Club/Composite Shortbow/Dagger/Dart/Hand Crossbow/Heavy Crossbow/' +
-    'Light Crossbow/Mace/Morningstar/Punching Dagger/Quaterstaff/Rapier/' +
-    'Sap/Shortbow/Short Sword',
-  'Wizard':'Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff'
 };
 SRD35.spellsSchools = {
 
@@ -717,7 +699,7 @@ SRD35.weaponsProficiencyLevels = {
   'Dire Flail':SRD35.PROFICIENCY_HEAVY,
   'Gnome Hooked Hammer':SRD35.PROFICIENCY_HEAVY,
   'Two-Bladed Sword':SRD35.PROFICIENCY_HEAVY,
-  'Darven Urgosh':SRD35.PROFICIENCY_HEAVY,
+  'Dwarven Urgosh':SRD35.PROFICIENCY_HEAVY,
   'Bolas':SRD35.PROFICIENCY_HEAVY,
   'Hand Crossbow':SRD35.PROFICIENCY_HEAVY,
   'Repeating Heavy Crossbow':SRD35.PROFICIENCY_HEAVY,
@@ -906,9 +888,11 @@ SRD35.classRules = function(rules, classes) {
       feats = null;
       features = [
         '1:Bardic Knowledge', '1:Bardic Music', '1:Countersong', '1:Fascinate',
-        '1:Inspire Courage', '1:Simple Somatics', '3:Inspire Competence',
-        '6:Suggestion', '9:Inspire Greatness', '12:Song Of Freedom',
-        '15:Inspire Heroics', '18:Mass Suggestion'
+        '1:Inspire Courage', '1:Simple Somatics',
+        '1:Weapon Proficiency ' +
+          '(Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)',
+        '3:Inspire Competence', '6:Suggestion', '9:Inspire Greatness',
+        '12:Song Of Freedom', '15:Inspire Heroics', '18:Mass Suggestion'
       ];
       hitDie = 6;
       notes = [
@@ -1096,9 +1080,12 @@ SRD35.classRules = function(rules, classes) {
       feats = null;
       features = [
         '1:Animal Companion', '1:Nature Sense', '1:Spontaneous Druid Spell',
-        '1:Wild Empathy', '2:Woodland Stride', '3:Trackless Step',
-        '4:Resist Nature\'s Lure', '5:Wild Shape', '9:Venom Immunity',
-        '13:Thousand Faces', '15:Timeless Body', '16:Elemental Shape'
+        '1:Wild Empathy',
+        '1:Weapon Proficiency ' +
+          '(Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear)',
+        '2:Woodland Stride', '3:Trackless Step', '4:Resist Nature\'s Lure',
+        '5:Wild Shape', '9:Venom Immunity', '13:Thousand Faces',
+        '15:Timeless Body', '16:Elemental Shape'
       ];
       hitDie = 8;
       notes = [
@@ -1215,12 +1202,14 @@ SRD35.classRules = function(rules, classes) {
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       feats = null;
       features = [
-        '1:Flurry Of Blows', '1:Improved Unarmed Strike', '2:Evasion',
-        '3:Fast Movement', '3:Still Mind', '4:Ki Strike', '4:Slow Fall',
-        '5:Purity Of Body', '7:Wholeness Of Body', '9:Improved Evasion',
-        '10:Lawful Ki Strike', '11:Diamond Body', '11:Greater Flurry',
-        '12:Abundant Step', '13:Diamond Soul', '15:Quivering Palm',
-        '16:Adamantine Ki Strike', '17:Timeless Body',
+        '1:Flurry Of Blows', '1:Improved Unarmed Strike',
+        '1:Weapon Proficiency ' +
+          '(Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)',
+        '2:Evasion', '3:Fast Movement', '3:Still Mind', '4:Ki Strike',
+        '4:Slow Fall', '5:Purity Of Body', '7:Wholeness Of Body',
+        '9:Improved Evasion', '10:Lawful Ki Strike', '11:Diamond Body',
+        '11:Greater Flurry', '12:Abundant Step', '13:Diamond Soul',
+        '15:Quivering Palm', '16:Adamantine Ki Strike', '17:Timeless Body',
         '17:Tongue Of The Sun And Moon', '19:Empty Body', '20:Perfect Self'
       ];
       hitDie = 8;
@@ -1533,8 +1522,10 @@ SRD35.classRules = function(rules, classes) {
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       feats = null;
       features = [
-        '1:Sneak Attack', '1:Trapfinding', '2:Evasion', '3:Trap Sense',
-        '4:Uncanny Dodge', '8:Improved Uncanny Dodge'
+        '1:Sneak Attack', '1:Trapfinding',
+        '1:Weapon Proficiency (Hand Crossbow/Rapier/Shortbow/Short Sword)',
+        '2:Evasion', '3:Trap Sense', '4:Uncanny Dodge',
+        '8:Improved Uncanny Dodge'
       ];
       hitDie = 6;
       notes = [
@@ -1656,7 +1647,11 @@ SRD35.classRules = function(rules, classes) {
           feats[feats.length] = pieces[0];
         }
       }
-      features = ['1:Scribe Scroll', '1:Summon Familiar'];
+      features = [
+        '1:Scribe Scroll', '1:Summon Familiar',
+        '1:Weapon Proficiency ' +
+          '(Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)'
+      ];
       hitDie = 4;
       notes = [
         'featureNotes.summonFamiliarFeature:Special bond/abilities',
@@ -2239,8 +2234,9 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
     rules.defineRule('weaponProficiencyLevelShortfall.' + weapon,
       'weapons.' + weapon, '=',
         'SRD35.weaponsProficiencyLevels["' + weapon + '"]',
+      'features.Weapon Familiarity (' + weapon + ')', '+', '-1',
       'weaponProficiencyLevel', '+', '-source',
-      'weaponProficiency.' + weapon, '*', '0'
+      'features.Weapon Proficiency (' + weapon + ')', '*', '0'
     );
     rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + weapon,
       'weapons.' + weapon, '=', '-4',
@@ -3040,8 +3036,6 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'sanityNotes.weaponProficiency(' + weaponNoSpace + ')FeatWeapons:' +
           'Requires ' + weapon,
       ];
-      rules.defineRule
-        ('weaponProficiency.' + weapon, 'features.' + feat, '=', '1');
     } else if((matchInfo =
                feat.match(/^Weapon Specialization \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
@@ -3778,7 +3772,7 @@ SRD35.raceRules = function(rules, languages, races) {
       features = [
         'Darkvision', 'Dodge Giants', 'Dwarf Favored Enemy', 'Know Depth',
         'Natural Smith', 'Resist Poison', 'Resist Spells', 'Slow', 'Stability',
-        'Stonecunning'
+        'Stonecunning', 'Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)'
       ];
       notes = [
         'abilityNotes.dwarfArmorSpeedAdjustment:No speed penalty in armor',
@@ -3816,11 +3810,12 @@ SRD35.raceRules = function(rules, languages, races) {
 
       adjustment = '+2 dexterity/-2 constitution';
       features = [
-        'Elf Weapons', 'Keen Senses', 'Low-Light Vision',
-        'Resist Enchantment', 'Sense Secret Doors', 'Sleep Immunity'
+        'Keen Senses', 'Low-Light Vision', 'Resist Enchantment',
+        'Sense Secret Doors', 'Sleep Immunity',
+        'Weapon Proficiency (Composite Longbow/Composite Shortbow/Longsword/' +
+        'Rapier/Longbow/Shortbow)'
       ];
       notes = [
-        'combatNotes.elfWeapons:Proficiency with swords and bows',
         'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5 ft',
         'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
@@ -3843,7 +3838,8 @@ SRD35.raceRules = function(rules, languages, races) {
       features = [
         'Dodge Giants', 'Gnome Favored Enemy', 'Gnome Weapons', 'Keen Ears',
         'Keen Nose', 'Low-Light Vision', 'Natural Illusionist',
-        'Natural Spells', 'Resist Illusion', 'Slow', 'Small'
+        'Natural Spells', 'Resist Illusion', 'Slow', 'Small',
+        'Weapon Familiarity (Gnome Hooked Hammer)'
       ];
       notes = [
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
@@ -4863,6 +4859,13 @@ SRD35.defineClass = function
       );
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
+      if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
+        // Set individual features for each weapon on the list.
+        var weapons = matchInfo[2].split('/');
+        for(var j = 0; j < weapons.length; j++) {
+          rules.defineRule('features.Weapon ' + matchInfo[1] + ' (' + weapons[j] + ')', 'features.' + feature, '=', '1');
+        }
+      }
     }
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   }
@@ -4918,13 +4921,6 @@ SRD35.defineClass = function
       }
     }
   }
-  if(SRD35.specificWeaponProficiencies[name] != null) {
-    var weapons = SRD35.specificWeaponProficiencies[name].split('/');
-    for(var i = 0; i < weapons.length; i++) {
-      rules.defineRule
-        ('weaponProficiency.' + weapons[i], 'levels.' + name, '=', '1');
-    }
-  }
 
 };
 
@@ -4964,16 +4960,15 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
       );
       rules.defineRule
         ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
+      if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
+        // Set individual features for each weapon on the list.
+        var weapons = matchInfo[2].split('/');
+        for(var j = 0; j < weapons.length; j++) {
+          rules.defineRule('features.Weapon ' + matchInfo[1] + ' (' + weapons[j] + ')', 'features.' + feature, '=', '1');
+        }
+      }
     }
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
-  }
-  if(SRD35.specificWeaponProficiencies[name] != null) {
-    var weapons = SRD35.specificWeaponProficiencies[name].split('/');
-    for(var i = 0; i < weapons.length; i++) {
-      rules.defineRule('weaponProficiency.' + weapons[i],
-        'race', '=', 'source == "' + name + '" ? 1 : null'
-      );
-    }
   }
 };
 

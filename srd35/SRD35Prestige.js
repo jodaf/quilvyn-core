@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.10 2014/02/18 01:28:37 jhayes Exp $ */
+/* $Id: SRD35Prestige.js,v 1.11 2014/03/30 23:37:45 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -244,6 +244,8 @@ SRD35Prestige.classRules = function(rules, classes) {
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       features = [
         '1:Death Attack', '1:Poison Use', '1:Sneak Attack',
+        '1:Weapon Proficiency ' +
+          '(Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Composit Shortbow/Short Sword)',
         '2:Poison Tolerance', '2:Uncanny Dodge', '5:Improved Uncanny Dodge',
         '8:Hide In Plain Sight'
       ];
@@ -1037,7 +1039,10 @@ SRD35Prestige.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       features = [
-        '1:Hide In Plain Sight', '2:Darkvision', '2:Evasion',
+        '1:Hide In Plain Sight',
+        '1:Weapon Proficiency ' +
+          '(Club/Composite Shortbow/Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Mace/Morningstar/Punching Dagger/Quaterstaff/Rapier/Sap/Shortbow/Short Sword)',
+        '2:Darkvision', '2:Evasion',
         '2:Uncanny Dodge', '3:Shadow Illusion', '3:Summon Shadow',
         '4:Shadow Jump', '5:Defensive Roll', '5:Improved Uncanny Dodge',
         '7:Slippery Mind', '10:Improved Evasion'
