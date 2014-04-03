@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.161 2014/03/30 23:37:44 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.162 2014/04/03 04:48:48 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -2203,7 +2203,9 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
 
   rules.defineNote(
     'combatNotes.nonproficientArmorPenalty:%V attack',
-    'combatNotes.nonproficientShieldPenalty:%V attack'
+    'combatNotes.nonproficientShieldPenalty:%V attack',
+    'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus',
+    'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus'
   );
   rules.defineRule('armorProficiencyLevelShortfall',
     'armor', '=', 'SRD35.armorsProficiencyLevels[source]',
@@ -2221,10 +2223,17 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
     'shield', '=', '-SRD35.shieldsSkillCheckPenalties[source]',
     'shieldProficiencyLevelShortfall', '?', 'source > 0'
   );
+  rules.defineRule('sanityNotes.armorProficiencyLevelArmor',
+    'combatNotes.nonproficientArmorPenalty', '=', null
+  );
+  rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
+    'combatNotes.nonproficientShieldPenalty', '=', null
+  );
   for(var i = 0; i < weapons.length; i++) {
     var weapon = weapons[i].split(':')[0];
     rules.defineNote(
-      'combatNotes.nonproficientWeaponPenalty.' + weapon + ':%V attack'
+      'combatNotes.nonproficientWeaponPenalty.' + weapon + ':%V attack',
+      'sanityNotes.weaponProficiencyLevelWeapon.' + weapon + ':Lowers attack bonus'
     );
     rules.defineRule('weaponAttackAdjustment.' + weapon,
       'combatNotes.nonproficientArmorPenalty', '+=', null,
@@ -2241,6 +2250,9 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
     rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + weapon,
       'weapons.' + weapon, '=', '-4',
       'weaponProficiencyLevelShortfall.' + weapon, '?', 'source > 0'
+    );
+    rules.defineRule('sanityNotes.weaponProficiencyLevelWeapon.' + weapon,
+      'combatNotes.nonproficientWeaponPenalty.' + weapon, '=', null
     );
   }
 
@@ -4197,7 +4209,24 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   var howMany;
   var i;
 
-  if(attribute == 'deity') {
+  if(attribute == 'armor') {
+    attrs = this.applyRules(attributes);
+    var characterProfLevel = attrs.armorProficiencyLevel;
+    if(characterProfLevel == null) {
+      characterProfLevel = SRD35.PROFICIENCY_NONE;
+    }
+    choices = [];
+    for(attr in this.getChoices('armors')) {
+      if((SRD35.armorsProficiencyLevels[attr] != null &&
+          SRD35.armorsProficiencyLevels[attr] <= characterProfLevel) ||
+         attrs['armorProficiency.' + attr] != null) {
+        choices[choices.length] = attr;
+      }
+    }
+    if(choices.length > 0) {
+      attributes['armor'] = choices[ScribeUtils.random(0, choices.length - 1)];
+    }
+  } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
     var aliInfo = attributes.alignment.match(/^([CLN]).* ([GEN])/);
     var aliPat;
@@ -4375,6 +4404,23 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     attributes.level = level;
   } else if(attribute == 'name') {
     attributes['name'] = SRD35.randomName(attributes['race']);
+  } else if(attribute == 'shield') {
+    attrs = this.applyRules(attributes);
+    var characterProfLevel = attrs.shieldProficiencyLevel;
+    if(characterProfLevel == null) {
+      characterProfLevel = SRD35.PROFICIENCY_NONE;
+    }
+    choices = [];
+    for(attr in this.getChoices('shields')) {
+      if((SRD35.shieldsProficiencyLevels[attr] != null &&
+          SRD35.shieldsProficiencyLevels[attr] <= characterProfLevel) ||
+         attrs['shieldProficiency.' + attr] != null) {
+        choices[choices.length] = attr;
+      }
+    }
+    if(choices.length > 0) {
+      attributes['shield'] = choices[ScribeUtils.random(0, choices.length - 1)];
+    }
   } else if(attribute == 'skills') {
     attrs = this.applyRules(attributes);
     var maxPoints = attrs.maxAllowedSkillPoints;
@@ -4483,9 +4529,19 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
   } else if(attribute == 'weapons') {
+    attrs = this.applyRules(attributes);
+    var characterProfLevel = attrs.weaponProficiencyLevel;
+    if(characterProfLevel == null) {
+      characterProfLevel = SRD35.PROFICIENCY_NONE;
+    }
     choices = [];
-    for(attr in this.getChoices('weapons'))
-      choices[choices.length] = attr;
+    for(attr in this.getChoices('weapons')) {
+      if((SRD35.weaponsProficiencyLevels[attr] != null &&
+          SRD35.weaponsProficiencyLevels[attr] <= characterProfLevel) ||
+         attrs['weaponProficiency.' + attr] != null) {
+        choices[choices.length] = attr;
+      }
+    }
     pickAttrs(attributes, 'weapons.', choices,
               2 - ScribeUtils.sumMatching(attributes, /^weapons\./), 1);
   } else if(attribute == 'charisma' || attribute == 'constitution' ||
