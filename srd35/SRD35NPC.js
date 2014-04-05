@@ -1,4 +1,4 @@
-/* $Id: SRD35NPC.js,v 1.4 2011/03/24 23:04:15 jhayes Exp $ */
+/* $Id: SRD35NPC.js,v 1.5 2014/04/05 16:06:47 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -149,6 +149,8 @@ SRD35NPC.classRules = function(rules, classes) {
       spells = null;
       spellsKnown = null;
       spellsPerDay = null;
+      // Weapon Proficiency feat
+      rules.defineRule('featCount.Commoner', 'levels.Commoner', '=', '1');
 
     } else if(klass == 'Expert') {
 

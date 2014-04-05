@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.162 2014/04/03 04:48:48 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.163 2014/04/05 16:06:47 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -4786,6 +4786,9 @@ SRD35.ruleNotes = function() {
     '    Monk bonus feats are instead treated as selectable features,\n' +
     '    because the selections are so restricted and because monks do not\n' +
     '    need to meet the normal requirements for the feats.\n' +
+    '  </li><li>\n' +
+    '    The Commoner NPC class is given an extra feat to represent the\n' +
+    '    class\'s single simple weapon proficiency.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
