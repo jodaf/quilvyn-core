@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.163 2014/04/05 16:06:47 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.164 2014/04/06 16:43:10 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -3044,10 +3044,27 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if((matchInfo = feat.match(/^Weapon Proficiency \((.*)\)$/))!=null) {
       var weapon = matchInfo[1];
       var weaponNoSpace = weapon.replace(/ /g, '');
+      var familiarityAttr = 'features.Weapon Familiarity (' + weapon + ')';
       notes = [
         'sanityNotes.weaponProficiency(' + weaponNoSpace + ')FeatWeapons:' +
           'Requires ' + weapon,
       ];
+      if(SRD35.weaponsProficiencyLevels[weapon] == SRD35.PROFICIENCY_HEAVY) {
+        notes = notes.concat([
+          'validationNotes.weaponProficiency(' + weaponNoSpace +
+            ')FeatBaseAttack:Requires Base Attack >= 1'
+        ]);
+        rules.defineRule('validationNotes.weaponProficiency(' + weaponNoSpace +
+          ')FeatBaseAttack', familiarityAttr, '^', '0');
+      }
+      if(weapon == 'Bastard Sword' || weapon == 'Dwarven Waraxe') {
+        notes = notes.concat([
+          'validationNotes.weaponProficiency(' + weaponNoSpace +
+            ')FeatStrength:Requires Strength >= 13'
+        ]);
+        rules.defineRule('validationNotes.weaponProficiency(' + weaponNoSpace +
+          ')FeatStrength', familiarityAttr, '^', '0');
+      }
     } else if((matchInfo =
                feat.match(/^Weapon Specialization \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
@@ -4821,11 +4838,6 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    The customRule interface is not very intuitive, making it more\n' +
     '    confusing to add new rules than it should be.\n' +
-    '  </li><li>\n' +
-    '    The Weapon Proficiency feat for exotic weapons has a prerequisite\n' +
-    '    of a +1 base attack bonus that is not checked.  Weapon Proficiency\n' +
-    '    in Bastard Sword and Dwarven Waraxe has a a further prerequisite\n' +
-    '    of a 13 strength that is also not checked.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
