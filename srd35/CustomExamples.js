@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.11 2012/12/16 04:07:44 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.12 2014/04/06 18:02:11 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -100,16 +100,27 @@ CustomExamples.deityRules = function(rules, deities) {
     rules.defineChoice('deities', deity + ':' + domains);
     CustomExamples.deitiesFavoredWeapons[deity] = weapon;
     if(domains.indexOf('War') >= 0) {
-      var weaponFocusFeat = 'Weapon Focus (' + weapon + ')';
-      SRD35.featRules(rules, [weaponFocusFeat + ':'], {});
-      rules.defineRule('clericFeatures.' + weaponFocusFeat,
+      var focusFeature = 'Weapon Focus (' + weapon + ')';
+      var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
+      SRD35.featRules
+        (rules, [focusFeature + ':', proficiencyFeature + ':'], {});
+      rules.defineRule('clericFeatures.' + focusFeature,
         'domains.War', '?', null,
         'deity', '=',
         'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
         '" ? 1 : null'
       );
-      rules.defineRule('features.' + weaponFocusFeat,
-        'clericFeatures.' + weaponFocusFeat, '=', null
+      rules.defineRule('clericFeatures.' + proficiencyFeature,
+        'domains.War', '?', null,
+        'deity', '=',
+        'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
+        '" ? 1 : null'
+      );
+      rules.defineRule('features.' + focusFeature,
+        'clericFeatures.' + focusFeature, '=', null
+      );
+      rules.defineRule('features.' + proficiencyFeature,
+        'clericFeatures.' + proficiencyFeature, '=', null
       );
     }
   }
