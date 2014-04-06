@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.165 2014/04/06 17:19:16 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.166 2014/04/06 18:47:35 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -818,6 +818,8 @@ SRD35.classRules = function(rules, classes) {
         profWeapon, saveFortitude, saveReflex, saveWill, selectableFeatures,
         skillPoints, skills, spellAbility, spellsKnown, spellsPerDay;
     var klass = classes[i];
+    var klassNoSpace =
+      klass.substring(0,1).toLowerCase() + klass.substring(1).replace(/ /g, '');
 
     if(klass == 'Barbarian') {
 
@@ -1729,7 +1731,7 @@ SRD35.classRules = function(rules, classes) {
         var selectable = selectableFeatures[j];
         var choice = klass + ' - ' + selectable;
         rules.defineChoice('selectableFeatures', choice + ':' + klass);
-        rules.defineRule(klass + 'Features.' + selectable,
+        rules.defineRule(klassNoSpace + 'Features.' + selectable,
           'selectableFeatures.' + choice, '+=', null
         );
         rules.defineRule('features.' + selectable,
@@ -2141,6 +2143,7 @@ SRD35.createViewers = function(rules, viewers) {
           {name: 'NotesPart', within: 'Notes Area', separator: '\n'},
             {name: 'Notes', within: 'NotesPart', format: '%V'},
             {name: 'Hidden Notes', within: 'NotesPart', format: '%V'},
+            {name: 'Animal Companion Stats', within: 'NotesPart', separator: listSep},
             {name: 'Companion Notes', within: 'NotesPart', separator: listSep},
           {name: 'ValidationPart', within: 'Notes Area', separator: '\n'},
             {name: 'Sanity Notes', within: 'ValidationPart', separator:listSep},
