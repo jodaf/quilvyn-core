@@ -1,4 +1,4 @@
-<!-- $Id: scribe.html,v 1.76 2012/04/14 16:56:36 jhayes Exp $ -->
+<!-- $Id: scribe.html,v 1.77 2014/04/13 18:28:06 jhayes Exp $ -->
 <!--
 The Scribe Character Editor is Copyright 2011, James J. Hayes
 
@@ -90,6 +90,7 @@ var CUSTOMIZATION_URLS = [
   // 'plugins/PHB35.js',
   // 'plugins/Realms.js',
   // 'plugins/RealmsPrestige.js',
+  // 'plugins/SpellDescriptions.js',
   null
 ];
 
@@ -175,16 +176,19 @@ function CustomizeScribe() {
     CustomExamples.magicArmorRules(SRD35.rules, CustomExamples.MAGIC_ARMORS);
     CustomExamples.magicWeaponRules(SRD35.rules, CustomExamples.MAGIC_WEAPONS);
     CustomExamples.skillRules(SRD35.rules, CustomExamples.SKILLS);
-    if(window.Pathfinder != null)
+    if(window.Pathfinder != null) {
       CustomExamples.deityRules(Pathfinder.rules, CustomExamples.DEITIES);
-    if(window.Pathfinder != null)
       CustomExamples.goodiesRules(Pathfinder.rules, CustomExamples.GOODIES);
-    if(window.Pathfinder != null)
       CustomExamples.magicArmorRules(Pathfinder.rules, CustomExamples.MAGIC_ARMORS);
-    if(window.Pathfinder != null)
       CustomExamples.magicWeaponRules(Pathfinder.rules, CustomExamples.MAGIC_WEAPONS);
-    if(window.Pathfinder != null)
       CustomExamples.skillRules(Pathfinder.rules, CustomExamples.SKILLS);
+    }
+  }
+  if(window.SpellDescriptions != null) {
+    SpellDescriptions.spellRules(SRD35.rules);
+    if(window.Pathfinder != null) {
+      Pathfinder.spellRules(SRD35.rules);
+    }
   }
 }
 
