@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.18 2011/03/24 23:31:33 jhayes Exp $ */
+/* $Id: ObjectViewer.js,v 1.19 2014/05/27 04:04:46 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -34,13 +34,12 @@ function ObjectViewer() {
  */
 ObjectViewer.prototype._getHtml = function(top, o, indent) {
 
+  var columns = top.columns;
   var format;
   var hasNested;
   var html;
   var memberValue = o[top.name];
-  var prefix = '';
   var separator = top.separator;
-  var suffix = '';
   var values = [];
 
   if(top.format != null && top.format.replace(/%N|%V/, '') == top.format)
@@ -65,21 +64,29 @@ ObjectViewer.prototype._getHtml = function(top, o, indent) {
   }
   if(values.length == 0)
     return '';
-  if((hasNested || values.length > 1) &&
-     (separator == null || separator == '\n')) {
-    prefix = '<table id="' + top.name + '"' +
-             (top.borders != null ? ' border="' + top.borders + '"' : '') +
-             ' width="100%"><tr align="center">\n' + indent + '  <td>';
-    separator =
-      '</td>' + (separator == '\n' ? '\n' + indent +
-      '</tr><tr align="center">' : '') + '\n' + indent + '  <td>';
-    suffix = '</td>\n' + indent + '</tr></table>';
+  if(!hasNested && values.length == 1) {
+    html = values[0];
+  } else if(columns == null && separator != null && separator != '\n') {
+    html = values.join(separator);
+  } else {
+    html = '<table id="' + top.name + '"' +
+           (top.borders != null ? ' border="' + top.borders + '"' : '') +
+           ' width="100%"><tr align="center">\n';
+    if(columns == null) {
+      columns = separator == '\n' ? 1 : values.length;
+    }
+    for(var i = 0; i < values.length; i++) {
+      if(i > 0 && i % columns == 0) {
+        html += indent + '</tr><tr align="center">\n';
+      }
+      html += indent + '  <td>' + values[i] + '</td>\n';
+    }
+    html += indent + '</tr></table>\n';
   }
-  html = values.join(separator);
   format = top.format != null ? top.format :
            memberValue != null ? '<b>%N</b>: %V' : '%V';
   format = format.replace(/%N/g, top.name).replace(/%V/g, html);
-  return prefix + format + suffix;
+  return format;
 
 };
 
