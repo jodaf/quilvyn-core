@@ -1,4 +1,4 @@
-/* $Id: ObjectViewer.js,v 1.19 2014/05/27 04:04:46 jhayes Exp $ */
+/* $Id: ObjectViewer.js,v 1.20 2014/05/29 05:45:34 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -69,17 +69,27 @@ ObjectViewer.prototype._getHtml = function(top, o, indent) {
   } else if(columns == null && separator != null && separator != '\n') {
     html = values.join(separator);
   } else {
-    html = '<table id="' + top.name + '"' +
-           (top.borders != null ? ' border="' + top.borders + '"' : '') +
-           ' width="100%"><tr align="center">\n';
+    var align = 'center';
     if(columns == null) {
       columns = separator == '\n' ? 1 : values.length;
+    } else if(/[LCR]$/.test(columns)) {
+      var last = columns.slice(-1);
+      columns = columns.slice(0, -1);
+      align = last == 'L' ? 'left' : last == 'R' ? 'right' : 'center';
     }
-    for(var i = 0; i < values.length; i++) {
-      if(i > 0 && i % columns == 0) {
-        html += indent + '</tr><tr align="center">\n';
+    var rows = Math.ceil(values.length / columns);
+    html = '<table id="' + top.name + '"' +
+           (top.borders != null ? ' border="' + top.borders + '"' : '') +
+           ' width="100%"><tr align="' + align + '">\n';
+    for(var i = 0; i < rows * columns; i++) {
+      var column = i % columns;
+      var row = Math.floor(i / columns);
+      if(i > 0 && column == 0) {
+        html += indent + '</tr><tr align="' + align + '">\n';
       }
-      html += indent + '  <td>' + values[i] + '</td>\n';
+      var index = row + column * rows;
+      var value = index >= values.length ? '' : values[index];
+      html += indent + '  <td>' + value + '</td>\n';
     }
     html += indent + '</tr></table>\n';
   }
