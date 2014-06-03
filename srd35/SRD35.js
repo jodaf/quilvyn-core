@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.166 2014/04/06 18:47:35 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.167 2014/06/03 21:17:34 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -2136,7 +2136,7 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Specialize', within: 'SpellSpecialties'},
               {name: 'Prohibit', within: 'SpellSpecialties', separator:listSep},
             {name: 'Goodies', within: 'SpellPart', separator: listSep},
-          {name: 'Spells', within: 'Magic', separator: listSep},
+          {name: 'Spells', within: 'Magic', columns: '1L', separator: null},
           {name: 'Magic Notes', within: 'Magic', separator: listSep},
         {name: 'Notes Area', within: '_top', separator: outerSep,
          format: '<b>Notes</b><br/>%V'},
