@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.13 2014/08/03 04:47:05 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.14 2014/08/03 06:22:42 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -91,7 +91,6 @@ CustomExamples.SKILLS = [
 
 /* Defines rules for a clerics of a specified set of custom deities. */
 CustomExamples.deityRules = function(rules, deities) {
-  CustomExamples.deitiesFavoredWeapons = {};
   for(var i = 0; i < deities.length; i++) {
     var pieces = deities[i].split(':');
     if(pieces.length < 3)
@@ -127,6 +126,7 @@ CustomExamples.deityRules = function(rules, deities) {
     }
   }
 };
+CustomExamples.deitiesFavoredWeapons = {};
 
 /* Defines rules for a specified set of custom miscellaneous goodies. */
 CustomExamples.goodiesRules = function(rules, goodies) {
