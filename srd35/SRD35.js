@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.168 2014/08/03 04:47:05 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.169 2014/08/03 06:18:44 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -2032,7 +2032,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Race', within: 'Identity', format: ' -- <b>%V</b>'},
             {name: 'Levels', within: 'Identity', format: ' <b>%V</b>',
              separator: '/'},
-          {name: 'Image Url', within: 'Header', format: '<img src="%V">'},
+          {name: 'Image Url', within: 'Header', format: '<img src="%V"/>'},
         {name: 'Attributes', within: '_top', separator: outerSep},
           {name: 'Abilities', within: 'Attributes', separator: innerSep},
             {name: 'StrInfo', within: 'Abilities', separator: ''},
@@ -4930,6 +4930,7 @@ SRD35.defineClass = function
       var levelAndFeature = features[i].split(/:/);
       var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
       var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+      var matchInfo;
       rules.defineRule(prefix + 'Features.' + feature,
         'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
       );
@@ -5030,6 +5031,7 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
       var levelAndFeature = features[i].split(/:/);
       var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
       var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+      var matchInfo;
       rules.defineRule(prefix + 'Features.' + feature,
         'race', '?', 'source == "' + name + '"',
         'level', '=', 'source >= ' + level + ' ? 1 : null'

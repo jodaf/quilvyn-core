@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.78 2014/08/03 04:47:01 jhayes Exp $ */
+//* $Id: ScribeRules.js,v 1.79 2014/08/03 06:18:37 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -249,7 +249,7 @@ ScribeRules.prototype.defineSheetElement = function
     element.before = position;
   }
   for(var a in this.viewers) {
-    viewer = this.viewers[a];
+    var viewer = this.viewers[a];
     viewer.removeElements(name);
     if(position != null)
       viewer.addElements(element);

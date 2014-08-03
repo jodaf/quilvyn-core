@@ -1,4 +1,4 @@
-/* $Id: SRD35Prestige.js,v 1.12 2014/08/03 04:47:05 jhayes Exp $ */
+/* $Id: SRD35Prestige.js,v 1.13 2014/08/03 06:18:45 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -1106,7 +1106,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         '1:Caster Level Bonus', '1:Improved Ally', '2:Augment Summoning',
         '3:Extended Summoning', '4:Contingent Conjuration', '5:Planar Cohort'
       ];
-      hitDice = 4;
+      hitDie = 4;
       notes = [
         'magicNotes.augmentSummoningFeature:' +
           'Summoned creatures +4 strength/constitution',

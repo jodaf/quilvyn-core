@@ -1,4 +1,4 @@
-/* $Id: Scribe.js,v 1.264 2014/08/03 04:47:01 jhayes Exp $ */
+/* $Id: Scribe.js,v 1.265 2014/08/03 06:18:36 jhayes Exp $ */
 
 "use strict";
 
@@ -268,7 +268,7 @@ Scribe.popUp = function(html, button /*, button ... */) {
                 '<body bgcolor="' + BACKGROUND + '">' + html +
                 '<br/>\n<form>\n';
   for(var i = 1; i < arguments.length; i++) {
-    pieces = arguments[i].split(/:/);
+    var pieces = arguments[i].split(/:/);
     content +=
       '<input type="button" value="' + pieces[0] + '" ' +
                            'onclick="' + pieces[1] + '"/>\n';
