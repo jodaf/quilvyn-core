@@ -1,4 +1,6 @@
-/* $Id: Scribe.js,v 1.263 2012/04/13 05:24:29 jhayes Exp $ */
+/* $Id: Scribe.js,v 1.264 2014/08/03 04:47:01 jhayes Exp $ */
+
+"use strict";
 
 var COPYRIGHT = 'Copyright 2011 James J. Hayes';
 var VERSION = '1.0beta-20120412';

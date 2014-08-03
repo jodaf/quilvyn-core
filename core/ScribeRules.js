@@ -1,4 +1,4 @@
-//* $Id: ScribeRules.js,v 1.77 2012/03/21 05:55:15 jhayes Exp $ */
+//* $Id: ScribeRules.js,v 1.78 2014/08/03 04:47:01 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
+
+"use strict";
 
 /*
  * A Scribe extension to RuleEngine.  Adds an associated name and version,

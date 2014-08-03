@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.12 2014/04/06 18:02:11 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.13 2014/08/03 04:47:05 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
+
+"use strict";
 
 /*
  * This module provides a placeholder for some examples of custom rules.  The

@@ -1,4 +1,4 @@
-/* $Id: Experience.js,v 1.6 2011/03/24 23:04:14 jhayes Exp $ */
+/* $Id: Experience.js,v 1.7 2014/08/03 04:47:05 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License along with
 this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
+
+"use strict";
 
 /*
  * The SRD defines no method for level advancement.  This module defines level
