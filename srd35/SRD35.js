@@ -1,4 +1,4 @@
-/* $Id: SRD35.js,v 1.169 2014/08/03 06:18:44 jhayes Exp $ */
+/* $Id: SRD35.js,v 1.170 2014/12/23 15:13:53 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -799,19 +799,32 @@ SRD35.abilityRules = function(rules) {
 SRD35.classRules = function(rules, classes) {
 
   rules.defineNote
-    ('validationNotes.levelsTotal:' +
-     'Allocated levels differ from level total by %V');
-  rules.defineRule('validationNotes.levelsTotal',
-    'level', '+=', '-source',
+    ('validationNotes.levelAllocation:%1 available vs. %2 allocated');
+  rules.defineRule('validationNotes.levelAllocation.1',
+    '', '=', '0',
+    'level', '=', null
+  );
+  rules.defineRule('validationNotes.levelAllocation.2',
+    '', '=', '0',
     /^levels\./, '+=', null
   );
+  rules.defineRule('validationNotes.levelAllocation',
+    'validationNotes.levelAllocation.1', '=', '-source',
+    'validationNotes.levelAllocation.2', '+=', null
+  );
   rules.defineNote
-    ('validationNotes.selectableFeaturesTotal:' +
-     'Allocated selectable features differ from selectable features count ' +
-     'total by %V');
-  rules.defineRule('validationNotes.selectableFeaturesTotal',
-    /^selectableFeatureCount\./, '+=', '-source',
-    /^selectableFeatures\./, '+=', 'source'
+    ('validationNotes.selectableFeatureAllocation: %1 available vs. %2 allocated');
+  rules.defineRule('validationNotes.selectableFeatureAllocation.1',
+    '', '=', '0',
+    /^selectableFeatureCount\./, '+=', null
+  );
+  rules.defineRule('validationNotes.selectableFeatureAllocation.2',
+    '', '=', '0',
+    /^selectableFeatures\./, '+=', null
+  );
+  rules.defineRule('validationNotes.selectableFeatureAllocation',
+    'validationNotes.selectableFeatureAllocation.1', '=', '-source',
+    'validationNotes.selectableFeatureAllocation.2', '+=', null
   );
 
   for(var i = 0; i < classes.length; i++) {
@@ -2269,11 +2282,18 @@ SRD35.featRules = function(rules, feats, subfeats) {
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
   rules.defineNote
-    ('validationNotes.featsTotal:Allocated feats differ from feat count ' +
-     'total by %V');
-  rules.defineRule('validationNotes.featsTotal',
-    /^featCount\./, '+=', '-source',
+    ('validationNotes.featAllocation:%1 available vs. %2 allocated');
+  rules.defineRule('validationNotes.featAllocation.1',
+    '', '=', '0',
+    /^featCount\./, '+=', null
+  );
+  rules.defineRule('validationNotes.featAllocation.2',
+    '', '=', '0',
     /^feats\./, '+=', null
+  );
+  rules.defineRule('validationNotes.featAllocation',
+    'validationNotes.featAllocation.1', '=', '-source',
+    'validationNotes.featAllocation.2', '+=', null
   );
 
   var allFeats = [];
@@ -3695,11 +3715,18 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
     }
   }
   rules.defineNote
-    ('validationNotes.domainsTotal:Allocated domains differ from domains ' +
-     'total by %V');
-  rules.defineRule('validationNotes.domainsTotal',
-    'domainCount', '+=', '-source',
+    ('validationNotes.domainAllocation:%1 available vs. %2 allocated');
+  rules.defineRule('validationNotes.domainAllocation.1',
+    '', '=', '0',
+    'domainCount', '=', null
+  );
+  rules.defineRule('validationNotes.domainAllocation.2',
+    '', '=', '0',
     /^domains\./, '+=', null
+  );
+  rules.defineRule('validationNotes.domainAllocation',
+    'validationNotes.domainAllocation.1', '=', '-source',
+    'validationNotes.domainAllocation.2', '+=', null
   );
 
   rules.defineRule
@@ -3749,11 +3776,18 @@ SRD35.raceRules = function(rules, languages, races) {
   rules.defineRule
     ('languageCount', 'race', '=', 'source.match(/Human/) ? 1 : 2');
   rules.defineNote
-    ('validationNotes.languagesTotal:Allocated languages differ from ' +
-     'language total by %V');
-  rules.defineRule('validationNotes.languagesTotal',
-    'languageCount', '+=', '-source',
+    ('validationNotes.languageAllocation:%1 available vs. %2 allocated');
+  rules.defineRule('validationNotes.languageAllocation.1',
+    '', '=', '0',
+    'languageCount', '=', null
+  );
+  rules.defineRule('validationNotes.languageAllocation.2',
+    '', '=', '0',
     /^languages\./, '+=', null
+  );
+  rules.defineRule('validationNotes.languageAllocation',
+    'validationNotes.languageAllocation.1', '=', '-source',
+    'validationNotes.languageAllocation.2', '+=', null
   );
 
   for(var i = 0; i < races.length; i++) {
@@ -3977,8 +4011,7 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
     'skillNotes.armorSwimCheckPenalty:-%V Swim',
     'validationNotes.skillMaximum:' +
       'Points allocated to one or more skills exceed maximum',
-    'validationNotes.skillsTotal:' +
-      'Allocated skill points differ from skill point total by %V'
+    'validationNotes.skillAllocation:%1 available vs. %2 allocated'
   );
   rules.defineRule('maxAllowedSkillPoints', 'level', '=', 'source + 3');
   rules.defineRule('maxAllocatedSkillPoints', /^skills\./, '^=', null);
@@ -3998,9 +4031,17 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
     'maxAllowedSkillPoints', '+', 'source',
     '', 'v', '0'
   );
-  rules.defineRule('validationNotes.skillsTotal',
-    'skillPoints', '+=', '-source',
+  rules.defineRule('validationNotes.skillAllocation.1',
+    '', '=', '0',
+    'skillPoints', '=', null
+  );
+  rules.defineRule('validationNotes.skillAllocation.2',
+    '', '=', '0',
     /^skills\./, '+=', null
+  );
+  rules.defineRule('validationNotes.skillAllocation',
+    'validationNotes.skillAllocation.1', '=', '-source',
+    'validationNotes.skillAllocation.2', '+=', null
   );
 
   var abilityNames = {
