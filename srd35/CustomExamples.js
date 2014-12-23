@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.14 2014/08/03 06:22:42 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.15 2014/12/23 14:14:53 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -26,7 +26,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * Similarly, the constant fields of CustomExamples (DEITIES, GOODIES, etc.)
  * can be modified to change the user's choices.  For example, adding this line
  * to your CustomizeScribe function will add rules for the items found in
- * CustomExamples.MAGIC_WEAPONS to the SRD35 rul set:
+ * CustomExamples.MAGIC_WEAPONS to the SRD35 rule set:
  *
  *    CustomExamples.goodiesRules(SRD35.rules, CustomExamples.MAGIC_WEAPONS);
  *
@@ -103,8 +103,6 @@ CustomExamples.deityRules = function(rules, deities) {
     if(domains.indexOf('War') >= 0) {
       var focusFeature = 'Weapon Focus (' + weapon + ')';
       var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
-      SRD35.featRules
-        (rules, [focusFeature + ':', proficiencyFeature + ':'], {});
       rules.defineRule('clericFeatures.' + focusFeature,
         'domains.War', '?', null,
         'deity', '=',
