@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.15 2014/12/23 14:14:53 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.16 2015/02/16 04:51:21 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -100,28 +100,28 @@ CustomExamples.deityRules = function(rules, deities) {
     var weapon = pieces[1];
     rules.defineChoice('deities', deity + ':' + domains);
     CustomExamples.deitiesFavoredWeapons[deity] = weapon;
-    if(domains.indexOf('War') >= 0) {
-      var focusFeature = 'Weapon Focus (' + weapon + ')';
-      var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
-      rules.defineRule('clericFeatures.' + focusFeature,
-        'domains.War', '?', null,
-        'deity', '=',
-        'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
-        '" ? 1 : null'
-      );
-      rules.defineRule('clericFeatures.' + proficiencyFeature,
-        'domains.War', '?', null,
-        'deity', '=',
-        'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
-        '" ? 1 : null'
-      );
-      rules.defineRule('features.' + focusFeature,
-        'clericFeatures.' + focusFeature, '=', null
-      );
-      rules.defineRule('features.' + proficiencyFeature,
-        'clericFeatures.' + proficiencyFeature, '=', null
-      );
-    }
+    var focusFeature = 'Weapon Focus (' + weapon + ')';
+    var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
+    rules.defineRule('clericFeatures.' + focusFeature,
+      'domains.War', '?', null,
+      'deity', '=',
+      'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
+      '" ? 1 : null'
+    );
+    rules.defineRule('clericFeatures.' + proficiencyFeature,
+      // Unclear if 3.5 rules require War domain for proficiency;
+      // Pathfinder doesn't
+      // 'domains.War', '?', null,
+      'deity', '=',
+      'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
+      '" ? 1 : null'
+    );
+    rules.defineRule('features.' + focusFeature,
+      'clericFeatures.' + focusFeature, '=', null
+    );
+    rules.defineRule('features.' + proficiencyFeature,
+      'clericFeatures.' + proficiencyFeature, '=', null
+    );
   }
 };
 CustomExamples.deitiesFavoredWeapons = {};
