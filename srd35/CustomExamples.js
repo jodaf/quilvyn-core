@@ -1,4 +1,4 @@
-/* $Id: CustomExamples.js,v 1.16 2015/02/16 04:51:21 jhayes Exp $ */
+/* $Id: CustomExamples.js,v 1.17 2015/05/01 21:27:32 jhayes Exp $ */
 
 /*
 Copyright 2011, James J. Hayes
@@ -104,6 +104,7 @@ CustomExamples.deityRules = function(rules, deities) {
     var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
     rules.defineRule('clericFeatures.' + focusFeature,
       'domains.War', '?', null,
+      'levels.Cleric', '?', null,
       'deity', '=',
       'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
       '" ? 1 : null'
@@ -112,6 +113,7 @@ CustomExamples.deityRules = function(rules, deities) {
       // Unclear if 3.5 rules require War domain for proficiency;
       // Pathfinder doesn't
       // 'domains.War', '?', null,
+      'levels.Cleric', '?', null,
       'deity', '=',
       'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
       '" ? 1 : null'
