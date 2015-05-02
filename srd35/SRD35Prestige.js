@@ -1,7 +1,5 @@
-/* $Id: SRD35Prestige.js,v 1.13 2014/08/03 06:18:45 jhayes Exp $ */
-
 /*
-Copyright 2011, James J. Hayes
+Copyright 2015, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software

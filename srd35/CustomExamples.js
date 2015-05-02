@@ -1,7 +1,5 @@
-/* $Id: CustomExamples.js,v 1.17 2015/05/01 21:27:32 jhayes Exp $ */
-
 /*
-Copyright 2011, James J. Hayes
+Copyright 2015, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
