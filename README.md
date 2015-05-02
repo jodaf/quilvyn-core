@@ -1,4 +1,4 @@
-# Scribe RPG character sheet generator
+## Scribe RPG character sheet generator
 
 Scribe generates character sheets for paper-and-pencil roll playing game
 (RPG) characters.  Using basic values (abilities, class, name, etc.) entered
@@ -11,7 +11,7 @@ functionality and modules that support the v3.5 System Reference Document.
 Additional plugins, available separately, extend the program to cover other
 RPG games and campaign settings.
 
-## Requirements
+### Requirements
 
 Scribe is written in JavaScript and may be run using most popular browsers.
 Javascript and pop-up windows must be enabled.  Scribe has been successfully
@@ -27,7 +27,7 @@ tested using these browser versions:
 
 * Safari (TODO)
 
-## Installation
+### Installation
 
 Unbundling the release package is the only step required to install Scribe.
 
@@ -35,6 +35,6 @@ JavaScript security restrictions require that any saved character files
 reside in the same directory as the program or in a subdirectory.  An attempt
 to open a file stored elsewhere will result in a security exception.
 
-## Usage
+### Usage
 
 To run Scribe, simply use your browser to open scribe.html.
