@@ -81,6 +81,7 @@ var CUSTOMIZATION_URLS = [
   '?srd35/SRD35Prestige.js',
   'srd35/Experience.js',
   'srd35/CustomExamples.js',
+  'srd35/SRD35SpellDescriptions.js',
   // 'srd35/CustomSpellPoints.js',
   // 'plugins/Eberron.js',
   // 'plugins/EberronPrestige.js',
@@ -90,7 +91,6 @@ var CUSTOMIZATION_URLS = [
   // 'plugins/Pathfinder.js',
   // 'plugins/Realms.js',
   // 'plugins/RealmsPrestige.js',
-  // 'plugins/SpellDescriptions.js',
   null
 ];
 
@@ -184,10 +184,10 @@ function CustomizeScribe() {
       CustomExamples.skillRules(Pathfinder.rules, CustomExamples.SKILLS);
     }
   }
-  if(window.SpellDescriptions != null) {
-    SpellDescriptions.spellRules(SRD35.rules);
+  if(window.SRD35SpellDescriptions != null) {
+    SRD35SpellDescriptions.spellRules(SRD35.rules);
     if(window.Pathfinder != null) {
-      SpellDescriptions.spellRules(Pathfinder.rules);
+      SRD35SpellDescriptions.spellRules(Pathfinder.rules);
     }
   }
 }
