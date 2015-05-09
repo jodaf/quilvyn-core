@@ -17,15 +17,15 @@ Scribe is written in JavaScript and may be run using most popular browsers.
 Javascript and pop-up windows must be enabled.  Scribe has been successfully
 tested using these browser versions:
 
-* Google Chrome 42.0.2311.135
+* Firefox 37.0
 
-* Firefox 37.0.2
+* Google Chrome 42.0
 
-* Internet Explorer 11.0.9600.17207 (pull-down menus broken)
+* Internet Explorer 11.0
 
-* Opera (TODO)
+* Opera (29.0)
 
-* Safari (TODO)
+* Safari (8.0.5)
 
 ### Installation
 
