@@ -99,18 +99,9 @@ function InputSetOptions(input, options) {
       input.options[i].text = input.options[i].value = options[i];
   }
   for( ; i < options.length; i++) {
-    var opt = new Option(options[i], options[i], 0, 0);
-    try {
-      input.options[i] = opt;
-    } catch(e) {
-      // Workaround for IE, which throws an exception when adding options
-      // created in one frame/window to a select box in another.
-      if(input.document != null && input.document.createElement != null) {
-        opt = input.document.createElement("OPTION");
-        opt.text = opt.value = options[i];
-        input.options[i] = opt;
-      }
-    }
+    var opt = input.ownerDocument.createElement("OPTION");
+    opt.text = opt.value = options[i];
+    input.options[i] = opt;
   }
   if(options.length > 0)
     input.selectedIndex = 0;
