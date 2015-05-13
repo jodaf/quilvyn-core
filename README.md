@@ -23,9 +23,9 @@ tested using these browser versions:
 
 * Internet Explorer 11.0
 
-* Opera (29.0)
+* Opera 29.0
 
-* Safari (8.0.5)
+* Safari 8.0.5
 
 ### Installation
 
