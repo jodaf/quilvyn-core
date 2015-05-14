@@ -33,18 +33,6 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 // window.DEBUG = 1;
 
 /*
- * These definitions determine where your browser looks for the Scribe source
- * files; the values below direct it to retrieve local copies.  If you change
- * the second line to read "var SOURCE_URL = SCRIBE_HOME;", then all other
- * Scribe source files will be downloaded from the Scribe web site each time
- * the program runs.  If you make this change you automatically get software
- * updates every time you run the program; however, the disadvantage is that
- * you have to wait for the code to download each time.
- */
-var SCRIBE_HOME = 'http://www.jodaf.com/scribe/';
-var SOURCE_URL = '';
-
-/*
  * A few user preferences you may want to change: the background color for
  * Scribe's windows, features of the editor and character sheet windows, the
  * number of recent opens shown in the file menu, the prefix and suffix used to
@@ -58,7 +46,7 @@ var FEATURES_OF_EDIT_WINDOW =
 var FEATURES_OF_SHEET_WINDOW =
   'height=750,width=750,menubar,resizable,scrollbars';
 var MAX_RECENT_OPENS = 40;
-var URL_PREFIX = SOURCE_URL;
+var URL_PREFIX = '';
 var URL_SUFFIX = '.html';
 var WARN_ABOUT_DISCARD = true;
 
@@ -196,8 +184,8 @@ function CustomizeScribe() {
 /**** Commands that load the Scribe software.  Do not modify. ****/
 
 var CLOSE_TAG = '<' + '/' + 'script>\n';
-var HELP_URL = SOURCE_URL + 'core/scribedoc.html';
-var LOGO_URL = SOURCE_URL + 'core/scribe.gif';
+var HELP_URL = 'core/scribedoc.html';
+var LOGO_URL = 'core/scribe.gif';
 var scribeUrls = [
   'core/Input.js', 'core/ObjectViewer.js', 'core/RuleEngine.js',
   'core/ScribeUtils.js', 'core/Scribe.js', 'core/ScribeRules.js'
@@ -216,8 +204,6 @@ for(var i = 0; i < scribeUrls.length; i++) {
     if(url == null)
       continue;
   }
-  if(url.match(/\w+:/) == null)
-    url = SOURCE_URL + url;
   document.write('<script src="' + url + '">' + CLOSE_TAG);
 }
 
