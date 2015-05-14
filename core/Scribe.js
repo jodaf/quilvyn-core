@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2015 James J. Hayes';
-var VERSION = '1.0beta-20120412';
+var VERSION = '1.0';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -22,8 +22,8 @@ var ABOUT_TEXT =
 'copy of the Open Gaming License with this program; if not, you can obtain ' +
 'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
 '<a href="ogl.txt">here</a> to see the license.\n' +
-'Thanks to my dungeon crew, especially Rich Hakesley, for patient ' +
-'testing of the program and for making suggestions that greatly improved it.';
+'Thanks to my dungeon crew, especially Rich Hakesley and Norm Jacobson, for ' +
+'patient testing of Scribe and for suggestions that greatly improved it.';
 
 var COOKIE_FIELD_SEPARATOR = '+';
 var COOKIE_NAME = 'ScribeCookie';
