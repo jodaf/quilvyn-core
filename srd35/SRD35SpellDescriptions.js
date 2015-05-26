@@ -684,10 +684,6 @@ SRD35SpellDescriptions.abbreviations = {
   "RM": "100 + 10 * source",
   "RS": "25 + 5 * Math.floor(source / 2)"
 };
-SRD35SpellDescriptions.classAbbreviations = {
-  "AS": "Assassin", "B": "Bard", "BL": "Blackguard",
-  "C": "Cleric", "D": "Druid", "P": "Paladin", "R": "Ranger", "W": "Wizard"
-};
 /* Replaces spell names with longer descriptions on the character sheet. */
 SRD35SpellDescriptions.spellRules = function(rules, spells, descriptions) {
   if(spells == null) {
@@ -696,6 +692,15 @@ SRD35SpellDescriptions.spellRules = function(rules, spells, descriptions) {
   if(descriptions == null) {
     descriptions = SRD35SpellDescriptions.descriptions;
   }
+  rules.defineRule('casterLevels.AS', 'levels.Assassin', '=', null);
+  rules.defineRule('casterLevels.B', 'levels.Bard', '=', null);
+  rules.defineRule('casterLevels.BL', 'levels.Blackguard', '=', null);
+  rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
+  rules.defineRule('casterLevels.D', 'levels.Druid', '=', null);
+  rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
+  rules.defineRule('casterLevels.R', 'levels.Ranger', '=', null);
+  rules.defineRule('casterLevels.W', 'levels.Sorcerer', '=', null);
+  rules.defineRule('casterLevels.W', 'levels.Wizard', '=', null);
   for(var i = 0; i < spells.length; i++) {
     var spell = spells[i];
     var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z]+)(\d+)\s*\w*\)$/);
@@ -703,18 +708,16 @@ SRD35SpellDescriptions.spellRules = function(rules, spells, descriptions) {
       alert("Bad format for spell " + spell);
       continue;
     }
-    var klass = SRD35SpellDescriptions.classAbbreviations[matchInfo[2]];
+    var abbr = matchInfo[2];
     var level = matchInfo[3];
     var name = matchInfo[1];
     var description = descriptions[name];
-    var wizardSpell = klass == "Wizard";
     if(description == null) {
       alert("No description for spell " + name);
       continue;
     }
-    if(klass == null) {
-      // Assume domain spell
-      klass = "Cleric";
+    if(abbr.length > 2) {
+      abbr = "C"; // Assume domain spell
     }
     var inserts = description.match(/\$(\w+|{[^}]+})/g);
     if(inserts != null) {
@@ -727,11 +730,7 @@ SRD35SpellDescriptions.spellRules = function(rules, spells, descriptions) {
         }
         expr = expr.replace(/lvl/g, "source");
         rules.defineRule
-          ("spells." + spell + "." + index, "levels." + klass, "=", expr);
-        if(wizardSpell) {
-          rules.defineRule
-            ("spells." + spell + "." + index, "levels.Sorcerer", "=", expr);
-        }
+          ("spells." + spell + "." + index, "casterLevels." + abbr, "=", expr);
         description = description.replace(insert, "%" + index);
       }
     }
