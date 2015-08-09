@@ -103,12 +103,12 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
     var pieces = allArgs[i].split(/:/);
     var attribute = pieces[0];
     var format = pieces[1];
-    var matchInfo = attribute.match(/Notes\.(\w)(.*)(Domain|Feature|Synergy)$/);
+    var matchInfo = attribute.match(/Notes\.(.*)(Domain|Feature|Synergy)$/);
     if(matchInfo != null) {
-      var name = matchInfo[1].toUpperCase() +
-                 matchInfo[2].replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
-      var dependsOn = matchInfo[3].toLowerCase() + 's.' + name;
-      if(matchInfo[3] == 'Synergy')
+      var name = matchInfo[1].replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
+      name = name.substring(0, 1).toUpperCase() + name.substring(1);
+      var dependsOn = matchInfo[2].toLowerCase() + 's.' + name;
+      if(matchInfo[2] == 'Synergy')
         this.defineRule
           (attribute, 'skillModifier.' + name, '=', 'source >= 5 ? 1 : null');
       else if(format.indexOf('%V') < 0)
@@ -156,8 +156,8 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
       var requirements = format.replace(/^Requires /, '').split('/');
       var target = matchInfo[3] == 'Class' ? 'Levels' : (matchInfo[3] + 's');
       target = target.substring(0, 1).toLowerCase() + target.substring(1);
-      target += '.' + matchInfo[2].substring(0, 1).toUpperCase() +
-        matchInfo[2].substring(1).replace(/([a-z\)])([A-Z\(])/g, "$1 $2");
+      var subtarget = matchInfo[2].replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
+      target += '.' + subtarget.substring(0, 1).toUpperCase() + subtarget.substring(1);
       var currentValue = 1;
       var totalValue = 0;
       for(var j = 0; j < requirements.length; j++) {

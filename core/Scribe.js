@@ -324,7 +324,7 @@ Scribe.randomizeCharacter = function(prompt) {
     // popup so that the user can specify the value
     for(var i = 0; i < presets.length; i++) {
       var preset = presets[i];
-      var name = preset.replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
+      var name = preset.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
       name = name.substring(0, 1).toUpperCase() + name.substring(1);
       var presetHtml = '<tr><td><b>' + name + '</b></td>';
       var widget = editForm[preset];
@@ -496,7 +496,7 @@ Scribe.sheetHtml = function(attrs) {
   if(strengthDamageAdjustment == null)
     strengthDamageAdjustment = 0;
   for(a in computedAttributes) {
-    var name = a.replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
+    var name = a.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
     name = name.substring(0, 1).toUpperCase() + name.substring(1);
     var value = computedAttributes[a];
     if((i = name.indexOf('.')) < 0) {
