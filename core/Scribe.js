@@ -37,8 +37,7 @@ var characterUrl;   // URL of current character
 var cookieInfo = {  // What we store in the cookie
   hidden: '0',      // Show information marked "hidden" on sheet?
   italics: '1',     // Show italicized notes on sheet?
-  recent: '',       // Comma-separated and -terminated list of recent opens
-  viewer: ''        // Preferred arrangement of character sheet
+  recent: ''        // Comma-separated and -terminated list of recent opens
 };
 var editForm;       // Character editing form (editWindow.document.forms[0])
 var editWindow = null; // Window where editor is shown
@@ -451,7 +450,8 @@ Scribe.refreshEditor = function(redraw) {
   InputSetValue(editForm.hidden, cookieInfo.hidden == '1');
   InputSetValue(editForm.italics, cookieInfo.italics == '1');
   InputSetValue(editForm.rules, ruleSet.getName());
-  InputSetValue(editForm.viewer, cookieInfo.viewer);
+  InputSetValue(editForm.viewer,
+                character['viewer'] || window.DEFAULT_SHEET_STYLE);
 
 };
 
@@ -839,10 +839,6 @@ Scribe.update = function(input) {
   } else if(name == 'view') {
     Scribe.showHtml(Scribe.sheetHtml(character));
     characterCache[characterUrl] = ScribeUtils.clone(character);
-  } else if(name == 'viewer') {
-    cookieInfo[name] = value;
-    Scribe.storeCookie();
-    Scribe.refreshSheet();
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
     for(var a in character) {
