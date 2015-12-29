@@ -16,7 +16,7 @@
     document.write('<img src="scribe.gif" alt="Scribe"/>');
 </script>
 
-<h1>Scribe DND Third Edition Character Editor</h1>
+<h1>Scribe RPG Character Editor</h1>
 
 <p>
 <ul>
@@ -43,18 +43,18 @@ Scribe is a web-based editor for RPG characters, particularly those generated
 using rules derived from the System Reference Document from Wizards of the
 Coast.  It allows you to enter and modify basic information about a
 character&#151;race, class levels, attributes like strength, and so on&#151;and
-applies the rules from SRD v3.5 to modify these basic attributes and calculate
-computed attributes like saving throw bonuses and armor class.  The program
-formats character attributes into a compact (typically one page) character
-sheet web page that you can print for reference during game play.  You can save
-this web page in a file and later reload it into Scribe to update the
-character's attributes.  Customization features allow you to incorporate house
-rules into both the editor and character sheet.
+applies the rules from SRD v3.5 and other rule sets to modify these basic
+attributes and calculate computed attributes like saving throw bonuses and
+armor class.  The program formats character attributes into a compact
+(typically one page) character sheet web page that you can print for reference
+during game play.  You can save character information and later reload it into
+Scribe to update the character's attributes.  Customization features allow you
+to incorporate house rules into both the editor and character sheet.
 </p>
 
 <a name="install"><h3>Installing and Running Scribe</h3></a>
 <p>
-A tar file containing the Scribe code can be obtained from
+A tar and/or zip file containing the Scribe code can be obtained from
 <a href='https://github.com/jodaf/scribe-core/releases'>https://github.com/jodaf/scribe-core/releases</a>.
 The Scribe program consists of 11 files: Input.js, ObjectViewer.js,
 RuleEngine.js, Scribe.js, ScribeRules.js, ScribeUtils.js, gpl.txt, scribe.gif,
@@ -66,24 +66,18 @@ v3.5, and sample customization files.  Using these is optional.
 </p><p>
 Scribe has been successfully tested using these browsers
 <ul>
-  <li>Firefox 37.0</li>
-  <li>Google Chrome 42.0 (requires running Chrome with --allow-file-access-from-files --enable-file-cookies)</li>
-  <li>Internet Explorer 11.0</li>
-  <li>Opera 29.0</li>
-  <li>Safari 8.0.5</li>
+  <li>Firefox 43.0.3</li>
+  <li>Google Chrome 47.0</li>
+  <li>Opera 34.0</li>
 </ul>
+</p><p>
+Note that neither Internet Explorer or Edge support localStorage connected to
+local files (see <a href="#save">Saving Characters</a> below).
 </p><p>
 scribe.html contains a section of definitions that allow you to set some user
 preferences.  Scribe uses the BACKGROUND setting as the background color for
-its windows, and the program uses the URL_PREFIX and URL_SUFFIX values to
-expand abbreviated values entered in the open dialogue.  For example, if
-URL_PREFIX is "file:///home/farquar/Scribe/characters/" and URL_SUFFIX is
-".html", than you can simply enter "jorash" into the open dialogue to open the
-character file "file:///home/farquar/Scribe/characters/jorash.html".  The
-FEATURES_OF_EDIT_WINDOW and FEATURES_OF_SHEET_WINDOW definitions allow you to
-customize the size and placement of Scribe's editor and character sheet
-windows.  The value of MAX_RECENT_OPENS determines how many recently-opened
-character URLs appear in the File menu, and WARN_ABOUT_DISCARD determines
+its windows, and the program uses the DEFAULT_SHEET_STYLE to determine which
+style to use for character sheets.  WARN_ABOUT_DISCARD determines
 whether or not Scribe warns you when ask to open a new character after making
 changes to the current one without saving. You can also add character sheet and
 editor customizations in scribe.html.  See the <a href="#custom">customization
@@ -97,15 +91,20 @@ use of pop-up windows, so you must have both of these enabled in your browser.
 <a name="open"><h3>Generating and Loading Characters</h3></a>
 <p>
 Generating new characters and loading previously saved ones are both handled
-through Scribe's File menu.  The choices in this menu allow you to generate
-a new character with random attribute values, enter the URL of an existing
-character file, or reopen the file of a recently-opened character. The URL for
-character files will usually begin with "file://", followed by the path to the
-file where you previously saved the character (see <a href="#save">Saving
-Characters</a> below).  When you ask for a new character, Scribe opens a form
-that allows you to specify certain attributes, such as race and class level(s).
-This helps in the generation of NPCs.  You can either specify these
+through Scribe's Character menu.  The choices in this menu allow you to
+generate a new character with random attribute values, reload the information
+for a previously-saved character, or import a character from information saved
+from a different browser.  When you ask for a new character, Scribe opens a
+form that allows you to specify certain attributes, such as race and class
+level(s).  This helps in the generation of NPCs.  You can either specify these
 attributes, or leave the form unchanged to have Scribe choose them randomly.
+</p><p>
+The Character menu's Import option allows you to transfer character information
+saved from another browser.  In the Import pop-up window, paste the character
+attributes definition ("var attributes = { ... }") from the header of the
+saved character sheet, then press OK.  Scribe displays the character sheet
+generated from these attributes, and you can now save the character into your
+current browser.
 </p>
 
 <a name="edit"><h3>Editing Characters</h3></a>
@@ -155,7 +154,7 @@ rule sets&#151;Scribe comes with support for the v3.5 System Reference
 Document, and plug-ins for particular campaign settings are available.  The
 "Attributes" button opens a window that lists the attributes computed by the
 current rule set; this is used in developing your own custom rules.  The
-"File" menu is discussed in <a href='#open'>Generating and Loading
+"Character" menu is discussed in <a href='#open'>Generating and Loading
 Characters</a>.  The "Summary" button opens a window with a table that
 summarizes attributes from all characters that you've opened since starting
 Scribe.  This is intended to assist in planning and running adventures by
@@ -192,19 +191,13 @@ little creative editing.
 <a name="save"><h3>Saving Characters</h3></a>
 <p>
 For security purposes, web programs like Scribe are prohibited from writing
-files to your hard disk.  This prevents Scribe from saving your character
-directly; instead, the program displays the information that needs to be saved
-in a separate window.  You can copy this information into your favorite file
-editor and use it to save the character for later retrieval.
-</p><p>
-To save your character information, press the "View Html" button.  Scribe
-opens a new window that contains the HTML for the character sheet; it also
-contains the data Scribe needs to begin editing the character again later.
-Copy and paste the contents of this window into your favorite editor and save
-the result as a web page (a file with an extension of .html or .htm).  Later,
-you can enter the URL of this file into Scribe's Open dialogue box to make
-changes to the character.  You can also load the file directly into your
-browser to view and print the character sheet.
+files to your hard disk.  Instead, character information is saved to your
+browser's persistent storage, where Scribe can access it later.  If you want to
+save a copy of your character sheet for viewing outside of Scribe, press the
+"View Html" button.  Scribe opens a new window that contains the HTML for the
+character sheet.  Copy and paste the contents of this window into your favorite
+editor and save the result as a web page (a file with an extension of .html or
+.htm).
 </p><p>
 In some browsers, you can save character files more quickly by selecting the
 Save option in the File menu of the character sheet window.  Experiment to see
