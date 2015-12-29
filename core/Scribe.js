@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2015 James J. Hayes';
-var VERSION = '1.1';
+var VERSION = '1.1.0';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
@@ -16,36 +16,46 @@ var ABOUT_TEXT =
 'You should have received a copy of the GNU General Public License along ' +
 'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
 'Temple Place, Suite 330, Boston, MA 02111-1307 USA. ' +
-'Click <a href="gpl.txt">here</a> to see it.\n' +
+'Click <a href="core/gpl.txt">here</a> to see it.\n' +
 'System Reference Document material is Open Game Content released by Wizards ' +
 'of the Coast under the Open Gaming License.  You should have received a ' +
 'copy of the Open Gaming License with this program; if not, you can obtain ' +
 'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
-'<a href="ogl.txt">here</a> to see the license.\n' +
+'<a href="srd35/ogl.txt">here</a> to see the license.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley and Norm Jacobson, for ' +
 'patient testing of Scribe and for suggestions that greatly improved it.';
 
-var FEATURES_OF_OTHER_WINDOWS =
+const FEATURES_OF_EDIT_WINDOW =
+  'height=750,width=500,menubar,resizable,scrollbars';
+const FEATURES_OF_SHEET_WINDOW =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
-var PERSISTENT_CHARACTER_PREFIX = 'ScribeCharacter.';
-var PERSISTENT_INFO_PREFIX = 'ScribeInfo.';
-var TIMEOUT_DELAY = 1000; // One second
+const FEATURES_OF_OTHER_WINDOWS =
+  'height=750,width=750,menubar,resizable,scrollbars,toolbar';
+const PERSISTENT_CHARACTER_PREFIX = 'ScribeCharacter.';
+const PERSISTENT_INFO_PREFIX = 'ScribeInfo.';
+const TIMEOUT_DELAY = 1000; // One second
 
-var character;      // Attrs of current character
-var characterCache={}; // Attrs of all characters opened so far, indexed by path
-var characterPath;  // Path to current character
-var editForm;       // Character editing form (editWindow.document.forms[0])
-var editWindow = null; // Window where editor is shown
-var loadingPopup = null; // Current "loading" message popup window
+var character = {};     // Displayed character attrs
+var characterCache = {};// Attrs of all displayed characters, indexed by path
+var characterPath = ''; // Path to most-recently opened/generated character
+var characterPopup = null; // Current character message popup window
+var editForm;           // Character editing form (editWindow.document.forms[0])
+var editWindow = null;  // Window where editor is shown
 var persistentInfo = {  // What we store in persistent data
-  hidden: '0',      // Show information marked "hidden" on sheet?
-  italics: '1',     // Show italicized notes on sheet?
-  recent: ''        // Comma-separated and -terminated list of recent opens
+  computed: '0',        // Show computed attrs for debugging
+  hidden: '0',          // Show information marked "hidden" on sheet?
+  italics: '1'          // Show italicized notes on sheet?
 };
-var ruleSet = null; // The rule set currently in use
-var ruleSets = {};  // ScribeRules with standard + user rules, indexed by name
+var ruleSet = null;     // The rule set currently in use
+var ruleSets = {};      // Registered rule sets, indexed by name
 var sheetWindow = null; // Window where character sheet is shown
-var urlLoading = null; // Character URL presently loading
+
+// Hack to support crippled IE/Edge testing
+var storage = localStorage || {
+  'getItem':function(name) { return window.storage[name]; },
+  'removeItem':function(name) { delete window.storage[name]; },
+  'setItem':function(name,value) { window.storage[name] = value; }
+};
 
 /* Launch routine called after all Scribe scripts are loaded. */
 function Scribe() {
@@ -58,15 +68,7 @@ function Scribe() {
 
   var defaults = {
     'BACKGROUND':'wheat',
-    'FEATURES_OF_EDIT_WINDOW':
-      'height=750,width=500,menubar,resizable,scrollbars',
-    'FEATURES_OF_SHEET_WINDOW':
-      'height=750,width=750,menubar,resizable,scrollbars',
-    'HELP_URL':'scribedoc.html',
-    'LOGO_URL':'scribe.gif',
-    'MAX_RECENT_OPENS':20,
-    'URL_PREFIX':'',
-    'URL_SUFFIX':'.html',
+    'DEFAULT_SHEET_STYLE':'Standard',
     'WARN_ABOUT_DISCARD':true
   };
 
@@ -76,14 +78,13 @@ function Scribe() {
   }
 
   for(var a in persistentInfo) {
-    if(localStorage.getItem(PERSISTENT_INFO_PREFIX + a) != null) {
-      persistentInfo[a] = localStorage.getItem(PERSISTENT_INFO_PREFIX + a);
+    if(storage.getItem(PERSISTENT_INFO_PREFIX + a) != null) {
+      persistentInfo[a] = storage.getItem(PERSISTENT_INFO_PREFIX + a);
     }
   }
 
   if(CustomizeScribe != null)
     CustomizeScribe();
-  character = {};
   Scribe.randomizeCharacter(false);
   Scribe.popUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
                COPYRIGHT + '<br/>' +
@@ -100,26 +101,22 @@ Scribe.addRuleSet = function(rs) {
   ruleSet = rs;
 };
 
-Scribe.deleteDialog = function() {
-  var prompt = 'Enter path to delete:';
-  for(var path in localStorage)
-    if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
+/* Interacts w/user to delete a character from persistent storage. */
+Scribe.deleteCharacter = function() {
+  var prompt = 'Enter character to delete:';
+  for(var path in storage) {
+    if(path.indexOf(PERSISTENT_CHARACTER_PREFIX) == 0)
       prompt += "\n" + path.substring(PERSISTENT_CHARACTER_PREFIX.length);
+  }
   var path = editWindow.prompt(prompt, '');
   if(path == null)
-    return; // User cancel
-  else if(localStorage.getItem(PERSISTENT_CHARACTER_PREFIX + path) == null)
-    alert("No such path " + path);
+    // User cancel
     return;
-  localStorage.removeItem(PERSISTENT_CHARACTER_PREFIX + path);
-  // Remove path from New/Open list
-  var paths = persistentInfo.recent.split(',');
-  paths.length--; // Trim trailing empty element
-  var i = ScribeUtils.findElement(paths, path);
-  if(i >= 0)
-    paths = paths.slice(0, i).concat(paths.slice(i + 1));
-  persistentInfo.recent = paths.join(',') + ',';
-  Scribe.storePersistentInfo();
+  if(storage.getItem(PERSISTENT_CHARACTER_PREFIX + path) == null) {
+    editWindow.alert("No such character " + path);
+    return;
+  }
+  storage.removeItem(PERSISTENT_CHARACTER_PREFIX + path);
   Scribe.refreshEditor(false);
 }
 
@@ -130,12 +127,14 @@ Scribe.editorHtml = function() {
     ['help', '', 'button', ['Help']],
     ['rules', 'Rules', 'select-one', []],
     ['ruleAttributes', '', 'button', ['Attributes']],
+    ['ruleRules', '', 'button', ['Rules']],
     ['ruleNotes', '', 'button', ['Notes']],
-    ['file', 'File', 'select-one', []],
+    ['character', 'Character', 'select-one', []],
     ['summary', '', 'button', ['Summary']],
     ['view', '', 'button', ['View Html']],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
     ['hidden', '', 'checkbox', ['Hidden Info']],
+    ['computed', '', 'checkbox', ['Computed Attrs']],
     ['viewer', 'Sheet Style', 'select-one', []],
     ['randomize', 'Randomize', 'select-one', 'random']
   ];
@@ -179,110 +178,108 @@ Scribe.editorHtml = function() {
 };
 
 /*
- * Starts the process of loading #path# (a full or partial URL) into the editor
- * and character sheet windows.  Schedules repeated calls of itself, ignoring
- * new calls, until either the character is loaded or the user cancels.
+ * Interacts w/user to replace the current character with new one taken from an
+ * external source.
  */
-Scribe.loadCharacter = function(path) {
-  var url = path;
-  if(!url.match(/^\w*:/))
-    url = URL_PREFIX + url;
-  if(!url.match(/\.\w*$/))
-    url += URL_SUFFIX;
-  if(urlLoading == url && loadingPopup.closed) {
-    urlLoading = null; // User cancel
-    Scribe.refreshSheet();
-  } else if(localStorage.getItem(PERSISTENT_CHARACTER_PREFIX + path) != null ||
-            urlLoading == url) {
-    if(localStorage.getItem(PERSISTENT_CHARACTER_PREFIX + path) != null) {
-      character = {};
-      var attrs = localStorage.getItem(PERSISTENT_CHARACTER_PREFIX + path).split('\t');
-      for(var i = 0; i < attrs.length; i++) {
-        var pieces = attrs[i].split('=');
-        if(pieces.length == 2)
-          character[pieces[0]] = pieces[1];
-      }
-    } else {
-      try {
-        if(sheetWindow.attributes == null) {
-          // still loading; try again later
-          setTimeout('Scribe.loadCharacter("' + path + '")', TIMEOUT_DELAY);
-          return;
-        }
-      } catch(e) {
-        alert("Whoops! Caught an exception");
-        urlLoading = null;
-        Scribe.refreshSheet();
-        return;
-      }
-      // Character done loading
-      character = {};
-      // Turn objects into "dot" attributes
-      for(var a in sheetWindow.attributes) {
-        var value = sheetWindow.attributes[a];
-        if(typeof value == 'object') {
-          for(var x in value) {
-            character[a + '.' + x] = value[x];
-          }
-        } else {
-          character[a] = value;
-        }
-      }
-    }
-    // Place loaded path at head of New/Open list
-    var paths = persistentInfo.recent.split(',');
-    paths.length--; // Trim trailing empty element
-    var i = ScribeUtils.findElement(paths, path);
-    if(i >= 0)
-      paths = paths.slice(0, i).concat(paths.slice(i + 1));
-    paths = [path].concat(paths);
-    if(paths.length > MAX_RECENT_OPENS)
-      paths.length = MAX_RECENT_OPENS;
-    persistentInfo.recent = paths.join(',') + ',';
-    Scribe.storePersistentInfo();
-    characterPath = path;
-    characterCache[characterPath] = ScribeUtils.clone(character);
-    Scribe.refreshEditor(false);
-    Scribe.refreshSheet();
-    urlLoading = null;
-    if(!loadingPopup.closed)
-      loadingPopup.close();
-  } else if(urlLoading == null) {
-    // Nothing presently loading
-    urlLoading = url;
-    loadingPopup =
-      Scribe.popUp('Loading character from ' + url, 'Cancel:window.close();');
-    if(sheetWindow == null || sheetWindow.closed)
-      sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
-    try {
-      sheetWindow.location = url;
-    } catch(e) {
-      loadingPopup.close();
-      urlLoading = null;
-      Scribe.refreshSheet();
-      editWindow.alert('Attempt to load ' + url + ' failed');
-    }
-    if(urlLoading != null)
-      setTimeout('Scribe.loadCharacter("' + path + '")', TIMEOUT_DELAY);
-  } else {
-    // Something (possibly this function) in progress; try again later
-    setTimeout('Scribe.loadCharacter("' + path + '")', TIMEOUT_DELAY);
+Scribe.importCharacter = function() {
+
+  if(characterPopup == null) {
+    // Nothing presently pending
+    var htmlBits = [
+      '<html><head><title>Import Character</title></head>',
+      '<body bgcolor="' + BACKGROUND + '">',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h2>Enter attribute definition from character sheet source</h2>',
+      '<form name="frm"><table>',
+      '<tr><td><textarea name="code" rows="5" cols="50"></textarea></td></tr>',
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '</form></body></html>'
+    ];
+    var html = htmlBits.join('\n') + '\n';
+    characterPopup = window.open('', '__import', FEATURES_OF_OTHER_WINDOWS);
+    characterPopup.document.write(html);
+    characterPopup.document.close();
+    characterPopup.okay = false;
+    setTimeout('Scribe.importCharacter()', TIMEOUT_DELAY);
+    return;
+  } else if(characterPopup.closed) {
+    // User cancel
+    characterPopup = null;
+    return;
+  } else if(characterPopup.name != '__import') {
+    // Some other character manipulation pending
+    return;
+  } else if(!characterPopup.okay) {
+    // Try again later
+    setTimeout('Scribe.importCharacter()', TIMEOUT_DELAY);
+    return;
   }
+
+  // Ready to import
+  var text = characterPopup.document.frm.elements[0].value;
+  var index = text.indexOf('{');
+  if(index < 0) {
+    characterPopup.alert("Syntax error: missing {");
+    characterPopup.okay = false;
+    setTimeout('Scribe.importCharacter()', TIMEOUT_DELAY);
+    return;
+  }
+  text = text.substring(index + 1);
+  var attrPat = /^\s*"((?:\\"|[^"])*)"\s*:\s*(\d+|"((?:\\"|[^"])*)"|\{)/;
+  var matchInfo;
+  var nesting = '';
+  var importedCharacter = {};
+  while((matchInfo = text.match(attrPat)) != null) {
+    text = text.substring(matchInfo[0].length);
+    var attr = matchInfo[1];
+    var value = matchInfo[3] || matchInfo[2];
+    value = value.replace(/\\"/g, '"').replace(/\\n/g, '\n');
+    if(value == '{') {
+      nesting += attr + '.';
+    } else {
+      importedCharacter[nesting + attr] = value;
+    }
+    while(nesting != '' && (matchInfo = text.match(/^\s*\}/)) != null) {
+      text = text.substring(matchInfo[0].length);
+      nesting = nesting.replace(/[^\.]*\.$/, '');
+    }
+    if((matchInfo = text.match(/^\s*,/)) != null) {
+      text = text.substring(matchInfo[0].length);
+    }
+  }
+  if(!text.match(/^\s*\}/)) {
+    characterPopup.alert("Syntax error: missing } at '" + text + "'");
+    characterPopup.okay = false;
+    setTimeout('Scribe.importCharacter()', TIMEOUT_DELAY);
+    return;
+  }
+  character = importedCharacter;
+  characterPath = '';
+  characterCache[characterPath] = {}; // Query wrt saving before opening another
+  Scribe.refreshEditor(false);
+  Scribe.refreshSheet();
+  characterPopup.close();
+  characterPopup = null;
+
 };
 
-/* Prompts the user for a character URL and starts the load. */
-Scribe.openDialog = function() {
-  if(loadingPopup != null && !loadingPopup.closed)
-    return; // Ignore during load
-  var path =
-    editWindow.prompt('Enter URL to Edit (Blank for Random Character)', '');
-  if(path == null)
-    return; // User cancel
-  else if(path == '')
-    Scribe.randomizeCharacter(true);
-  else
-    Scribe.loadCharacter(path);
-};
+/* Loads character specified by #path# from persistent storage. */
+Scribe.openCharacter = function(path) {
+  character = {};
+  var attrs = storage.getItem(PERSISTENT_CHARACTER_PREFIX + path).split('\t');
+  for(var i = 0; i < attrs.length; i++) {
+    var pieces = attrs[i].split('=');
+    if(pieces.length == 2)
+      character[pieces[0]] = pieces[1];
+  }
+  characterPath = path;
+  characterCache[characterPath] = ScribeUtils.clone(character);
+  Scribe.refreshEditor(false);
+  Scribe.refreshSheet();
+}
 
 /*
  * Returns a popup window containing #html# and an optional set of #buttons#,
@@ -312,36 +309,15 @@ Scribe.popUp.next = 0;
  * If #prompt# is true, allows the user to specify certain attributes.
  */
 Scribe.randomizeCharacter = function(prompt) {
-  if(!prompt || (urlLoading == 'random' && loadingPopup.okay != null)) {
-    // Ready to generate
-    var fixedAttributes = {};
-    if(prompt) {
-      for(i = 0; i < loadingPopup.document.frm.elements.length; i++) {
-        var element = loadingPopup.document.frm.elements[i];
-        var name = element.name;
-        var value = InputGetValue(element);
-        if(element.type=='button' || name==null || value==null || value=='')
-          continue;
-        fixedAttributes[name] = value;
-      }
-    }
-    character = ruleSet.randomizeAllAttributes(fixedAttributes);
-    characterPath = 'random';
-    characterCache[characterPath] = ScribeUtils.clone(character);
-    Scribe.refreshEditor(false);
-    Scribe.refreshSheet();
-    if(loadingPopup != null)
-      loadingPopup.close();
-    urlLoading = null;
-  } else if(urlLoading == 'random' && loadingPopup.closed) {
-    urlLoading = null; // User cancel
-  } else if(urlLoading == null) {
-    // Nothing presently loading
+
+  if(!prompt) {
+    ; // empty -- no popup needed
+  } else if(characterPopup == null) {
+    // Nothing presently pending
     var presets = ruleSet.getChoices('preset');
     if(presets == null) {
       return Scribe.randomizeCharacter(false);
     }
-    urlLoading = 'random';
     var htmlBits = [
       '<html><head><title>New Character</title></head>',
       '<body bgcolor="' + BACKGROUND + '">',
@@ -388,28 +364,59 @@ Scribe.randomizeCharacter = function(prompt) {
     htmlBits = htmlBits.concat([
       '</table></form>',
       '<form>',
-      '<input type="button" value="Ok" onclick="okay=1;"/>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
       '<input type="button" value="Cancel" onclick="window.close();"/>',
       '</form></body></html>'
     ]);
     var html = htmlBits.join('\n') + '\n';
-    loadingPopup = window.open('', 'randomWin', FEATURES_OF_OTHER_WINDOWS);
-    loadingPopup.document.write(html);
-    loadingPopup.document.close();
+    characterPopup = window.open('', '__random', FEATURES_OF_OTHER_WINDOWS);
+    characterPopup.document.write(html);
+    characterPopup.document.close();
+    characterPopup.okay = false;
     // Randomize the value of each pull-down menu in the loading window
     for(var i = 0; i < presets.length; i++) {
-      var widget = loadingPopup.document.frm[presets[i]];
-      if(typeof widget == 'object' && widget != null &&
+      var widget = characterPopup.document.frm[presets[i]];
+      if(typeof(widget) == 'object' && widget != null &&
          widget.selectedIndex != null) {
         widget.selectedIndex = ScribeUtils.random(0, widget.options.length - 1);
       }
     }
-    loadingPopup.okay = null;
-    setTimeout('Scribe.randomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
-  } else {
-    // Something (possibly this function) in progress; try again later
-    setTimeout('Scribe.randomizeCharacter(' + prompt + ')', TIMEOUT_DELAY);
+    setTimeout('Scribe.randomizeCharacter(true)', TIMEOUT_DELAY);
+    return;
+  } else if(characterPopup.closed) {
+    // User cancel
+    characterPopup = null;
+    return;
+  } else if(characterPopup.name != '__random') {
+    // Some other character manipulation pending
+    return;
+  } else if(!characterPopup.okay) {
+    // Try again later
+    setTimeout('Scribe.randomizeCharacter(true)', TIMEOUT_DELAY);
+    return;
   }
+
+  // Ready to generate
+  var fixedAttributes = {};
+  if(characterPopup != null) {
+    for(i = 0; i < characterPopup.document.frm.elements.length; i++) {
+      var element = characterPopup.document.frm.elements[i];
+      var name = element.name;
+      var value = InputGetValue(element);
+      if(element.type=='button' || name==null || value==null || value=='')
+        continue;
+      fixedAttributes[name] = value;
+    }
+  }
+  character = ruleSet.randomizeAllAttributes(fixedAttributes);
+  characterPath = '';
+  characterCache[characterPath] = ScribeUtils.clone(character);
+  Scribe.refreshEditor(false);
+  Scribe.refreshSheet();
+  if(characterPopup != null)
+    characterPopup.close();
+  characterPopup = null;
+
 };
 
 /*
@@ -440,11 +447,15 @@ Scribe.refreshEditor = function(redraw) {
     }
   }
 
-  var fileOpts = persistentInfo.recent.split(',');
-  fileOpts.length--; /* Trim trailing empty element */
-  fileOpts = ['---choose one---', 'New...', 'Open...', 'Save', 'Save As...', 'Delete...'].concat(fileOpts);
+  var characterOpts = [
+    '---choose one---', 'New...', 'Save', 'Save As...', 'Import...', 'Delete...'
+  ];
+  for(var path in storage) {
+    if(path.indexOf(PERSISTENT_CHARACTER_PREFIX) == 0)
+      characterOpts.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
+  }
 
-  InputSetOptions(editForm.file, fileOpts);
+  InputSetOptions(editForm.character, characterOpts);
   InputSetOptions(editForm.rules, ScribeUtils.getKeys(ruleSets));
   InputSetOptions(editForm.viewer, ruleSet.getViewerNames());
 
@@ -477,6 +488,7 @@ Scribe.refreshEditor = function(redraw) {
       InputSetValue(input, value);
   }
 
+  InputSetValue(editForm.computed, persistentInfo.computed == '1');
   InputSetValue(editForm.hidden, persistentInfo.hidden == '1');
   InputSetValue(editForm.italics, persistentInfo.italics == '1');
   InputSetValue(editForm.rules, ruleSet.getName());
@@ -493,9 +505,10 @@ Scribe.refreshSheet = function() {
   sheetWindow.document.close();
 };
 
+/* Interacts w/user to preserve current character in persistent storage. */
 Scribe.saveCharacter = function(path) {
   if(path == null) {
-    path = window.prompt("Save to path", "");
+    path = editWindow.prompt("Save to path", "");
     if(path == null)
       return;
   }
@@ -503,44 +516,20 @@ Scribe.saveCharacter = function(path) {
   for(var attr in character) {
     stringified += attr + '=' + character[attr] + '\t';
   }
-  localStorage.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
-  characterCache[path] = ScribeUtils.clone(character);
-  alert("Saved to " + path);
-  // Place loaded path at head of New/Open list
-  var paths = persistentInfo.recent.split(',');
-  paths.length--; // Trim trailing empty element
-  var i = ScribeUtils.findElement(paths, path);
-  if(i >= 0)
-    paths = paths.slice(0, i).concat(paths.slice(i + 1));
-  paths = [path].concat(paths);
-  if(paths.length > MAX_RECENT_OPENS)
-    paths.length = MAX_RECENT_OPENS;
-  persistentInfo.recent = paths.join(',') + ',';
-  Scribe.storePersistentInfo();
-  Scribe.refreshEditor(false);
+  storage.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
+  characterPath = path;
+  characterCache[characterPath] = ScribeUtils.clone(character);
+  refreshEditor(false);
 }
 
 /* Returns the character sheet HTML for the current character. */
 Scribe.sheetHtml = function(attrs) {
 
   var a;
-  var codeAttributes = {};
   var computedAttributes;
   var enteredAttributes = ScribeUtils.clone(attrs);
   var i;
   var sheetAttributes = {};
-
-  // Turn "dot" attributes into objects
-  for(a in attrs) {
-    if((i = a.indexOf('.')) < 0) {
-      codeAttributes[a] = enteredAttributes[a];
-    } else {
-      var object = a.substring(0, i);
-      if(codeAttributes[object] == null)
-        codeAttributes[object] = {};
-      codeAttributes[object][a.substring(i + 1)] = enteredAttributes[a];
-    }
-  }
 
   enteredAttributes.hidden = persistentInfo.hidden;
   computedAttributes = ruleSet.applyRules(enteredAttributes);
@@ -658,7 +647,7 @@ Scribe.sheetHtml = function(attrs) {
 
   for(a in sheetAttributes) {
     var attr = sheetAttributes[a];
-    if(typeof attr == 'object') {
+    if(typeof(attr) == 'object') {
       attr.sort();
       // If all values in the array are 1|true, assume that it's a set and
       // suppress display of the values
@@ -669,9 +658,8 @@ Scribe.sheetHtml = function(attrs) {
     }
   }
 
-  var attrImage = 
-    'var attributes = ' + ObjectViewer.toCode(codeAttributes) + ';\n';
-  if(window.DEBUG) {
+  var attrImage = 'var attributes = ' + ObjectViewer.toCode(attrs) + ';\n';
+  if(persistentInfo.computed == '1') {
     attrImage +=
       'var computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
   }
@@ -715,7 +703,7 @@ Scribe.showHtml = function(html) {
 /* Stores the current values of persistentInfo in the browser. */
 Scribe.storePersistentInfo = function() {
   for(var a in persistentInfo) {
-    localStorage.setItem(PERSISTENT_INFO_PREFIX + a, persistentInfo[a]);
+    storage.setItem(PERSISTENT_INFO_PREFIX + a, persistentInfo[a]);
   }
 };
 
@@ -804,30 +792,30 @@ Scribe.update = function(input) {
       Scribe.aboutWindow.document.bgColor = BACKGROUND;
     } else
       Scribe.aboutWindow.focus();
-  } else if(name.match(/^(hidden|italics)$/)) {
+  } else if(name.match(/^(computed|hidden|italics)$/)) {
     persistentInfo[name] = value ? '1' : '0';
     Scribe.storePersistentInfo();
     Scribe.refreshSheet();
-  } else if(name == 'file') {
+  } else if(name == 'character') {
     input.selectedIndex = 0;
     if(value == '---select one---')
       ; /* empty--Safari bug workaround */
+    else if(value == 'Delete...')
+      Scribe.deleteCharacter();
+    else if(value == 'Save')
+      Scribe.saveCharacter(characterPath == '' ? null : characterPath);
+    else if(value == 'Save As...')
+      Scribe.saveCharacter(null);
     else if(WARN_ABOUT_DISCARD &&
        !ScribeUtils.clones(character, characterCache[characterPath]) &&
        !editWindow.confirm("Discard changes to character?"))
       ; /* empty */
-    else if(value == 'Delete...')
-      Scribe.deleteDialog();
-    else if(value == 'Open...')
-      Scribe.openDialog();
+    else if(value == 'Import...')
+      Scribe.importCharacter();
     else if(value == 'New...')
       Scribe.randomizeCharacter(true);
-    else if(value == 'Save')
-      Scribe.saveCharacter(characterPath == 'random' ? null : characterPath);
-    else if(value == 'Save As...')
-      Scribe.saveCharacter(null);
     else
-      Scribe.loadCharacter(value);
+      Scribe.openCharacter(value);
   } else if(name == 'help') {
     if(Scribe.helpWindow == null || Scribe.helpWindow.closed)
       Scribe.helpWindow =
@@ -843,14 +831,6 @@ Scribe.update = function(input) {
     ruleSet = ruleSets[value];
     Scribe.refreshEditor(true);
     Scribe.refreshSheet();
-    if(window.DEBUG) {
-      var awin = window.open('', 'scribeDebug', FEATURES_OF_OTHER_WINDOWS);
-      awin.document.write
-        ('<html><head><title>RULES</title></head><body><pre>\n');
-      awin.document.write(ruleSet.toHtml());
-      awin.document.write('</pre></body></html>');
-      awin.document.close();
-    }
   } else if(name == 'ruleAttributes') {
     if(Scribe.attributesWindow != null && !Scribe.attributesWindow.closed)
       Scribe.attributesWindow.close();
@@ -890,6 +870,13 @@ Scribe.update = function(input) {
       '</html>\n'
     );
     Scribe.ruleNotesWindow.document.close();
+  } else if(name == 'ruleRules') {
+    var awin = window.open('', 'rulewin', FEATURES_OF_OTHER_WINDOWS);
+    awin.document.write
+      ('<html><head><title>RULES</title></head><body><pre>\n');
+    awin.document.write(ruleSet.toHtml());
+    awin.document.write('</pre></body></html>');
+    awin.document.close();
   } else if(name == 'summary') {
     Scribe.summarizeCachedAttrs();
   } else if(name == 'view') {
