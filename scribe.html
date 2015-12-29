@@ -27,18 +27,10 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 <!--
 
 /*
- * Uncommenting this line produces extra info on the character sheet that can
- * help in debugging Scribe.
- */
-// window.DEBUG = 1;
-
-/*
  * A few user preferences you may want to change: the background color for
- * Scribe's windows; the default character sheet style; features of the editor
- * and character sheet windows; the number of recent opens shown in the file
- * menu; the prefix and suffix used to expand abbreviated character file urls;
- * whether or not to warn when you're about to lose changes made to the current
- * character because you're opening a new one.
+ * Scribe's windows; the default character sheet format; features of the editor
+ * and character sheet windows; whether or not to warn when you're about to
+ * lose changes made to the current character because you're opening a new one.
  */
 var BACKGROUND = 'wheat';
 var DEFAULT_SHEET_STYLE = 'Standard';
@@ -46,9 +38,6 @@ var FEATURES_OF_EDIT_WINDOW =
   'height=750,width=500,menubar,resizable,scrollbars';
 var FEATURES_OF_SHEET_WINDOW =
   'height=750,width=750,menubar,resizable,scrollbars';
-var MAX_RECENT_OPENS = 40;
-var URL_PREFIX = '';
-var URL_SUFFIX = '.html';
 var WARN_ABOUT_DISCARD = true;
 
 /*
@@ -187,9 +176,9 @@ function CustomizeScribe() {
 
 /**** Commands that load the Scribe software.  Do not modify. ****/
 
-var CLOSE_TAG = '<' + '/' + 'script>\n';
-var HELP_URL = 'core/scribedoc.html';
-var LOGO_URL = 'core/scribe.gif';
+const CLOSE_TAG = '<' + '/' + 'script>\n';
+const HELP_URL = 'core/scribedoc.html';
+const LOGO_URL = 'core/scribe.gif';
 var scribeUrls = [
   'core/Input.js', 'core/ObjectViewer.js', 'core/RuleEngine.js',
   'core/ScribeUtils.js', 'core/Scribe.js', 'core/ScribeRules.js'
