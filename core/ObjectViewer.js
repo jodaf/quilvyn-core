@@ -70,17 +70,26 @@ ObjectViewer.prototype._getHtml = function(top, o, indent) {
     html = values.join(separator);
   } else {
     var align = 'center';
+    var equalColumns = false;
     if(columns == null) {
       columns = separator == '\n' ? 1 : values.length;
-    } else if(/[LCR]$/.test(columns)) {
-      var last = columns.slice(-1);
-      columns = columns.slice(0, -1);
-      align = last == 'L' ? 'left' : last == 'R' ? 'right' : 'center';
+    } else if(/[LCRE]+$/.test(columns)) {
+      align = columns.indexOf('L') >= 0 ? 'left' :
+              columns.indexOf('R') >= 0 ? 'right' : 'center';
+      equalColumns = columns.indexOf('E') >= 0;
+      columns = columns.replace(/\D+$/, '');
     }
     var rows = Math.ceil(values.length / columns);
-    html = '<table id="' + top.name + '"' +
+    html = indent + '<table id="' + top.name + '"' +
            (top.borders != null ? ' border="' + top.borders + '"' : '') +
-           ' width="100%"><tr align="' + align + '">\n';
+           ' width="100%">\n';
+    if(equalColumns && columns > 1) {
+      for(var i = 0; i < columns - 1; i++) {
+        html += indent + '<col width="' + Math.floor(100 / columns) + '%"/>\n';
+      }
+      html += indent + '<col width="' + Math.ceil(100 / columns) + '%"/>\n';
+    }
+    html += indent + '<tr align="' + align + '">\n';
     for(var i = 0; i < rows * columns; i++) {
       var column = i % columns;
       var row = Math.floor(i / columns);

@@ -2098,7 +2098,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'SkillStats', within: 'SkillPart', separator:innerSep},
               {name: 'Skill Points', within: 'SkillStats'},
               {name: 'Max Allowed Skill Points', within: 'SkillStats'},
-            {name: 'Skills', within: 'SkillPart', columns: '3L', separator: null},
+            {name: 'Skills', within: 'SkillPart', columns: '3LE', separator: null},
             {name: 'Skill Notes', within: 'SkillPart', separator:listSep},
           {name: 'LanguagePart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'LanguageStats', within: 'LanguagePart', separator:innerSep},
