@@ -447,12 +447,18 @@ Scribe.refreshEditor = function(redraw) {
     }
   }
 
+  var paths = [];
+  for(var path in storage) {
+    if(path.indexOf(PERSISTENT_CHARACTER_PREFIX) == 0)
+      paths.push(path);
+  }
+  paths = paths.sort();
   var characterOpts = [
     '---choose one---', 'New...', 'Save', 'Save As...', 'Import...', 'Delete...'
   ];
-  for(var path in storage) {
-    if(path.indexOf(PERSISTENT_CHARACTER_PREFIX) == 0)
-      characterOpts.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
+  for(var path in paths) {
+    characterOpts.push
+      (paths[path].substring(PERSISTENT_CHARACTER_PREFIX.length));
   }
 
   InputSetOptions(editForm.character, characterOpts);
@@ -499,8 +505,9 @@ Scribe.refreshEditor = function(redraw) {
 
 /* Draws the sheet for the current character in the character sheet window. */
 Scribe.refreshSheet = function() {
-  if(sheetWindow == null || sheetWindow.closed)
+  if(sheetWindow == null || sheetWindow.closed) {
     sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
+  }
   sheetWindow.document.write(Scribe.sheetHtml(character));
   sheetWindow.document.close();
 };
@@ -512,6 +519,7 @@ Scribe.saveCharacter = function(path) {
     if(path == null)
       return;
   }
+  character['_timestamp'] = Date.now();
   var stringified = '';
   for(var attr in character) {
     stringified += attr + '=' + character[attr] + '\t';
@@ -519,7 +527,7 @@ Scribe.saveCharacter = function(path) {
   storage.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
   characterPath = path;
   characterCache[characterPath] = ScribeUtils.clone(character);
-  refreshEditor(false);
+  Scribe.refreshEditor(false);
 }
 
 /* Returns the character sheet HTML for the current character. */
