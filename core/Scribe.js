@@ -48,6 +48,7 @@ var persistentInfo = {  // What we store in persistent data
 };
 var ruleSet = null;     // The rule set currently in use
 var ruleSets = {};      // Registered rule sets, indexed by name
+var scribeTab = null;   // Menu/sheet tab, if requested
 var sheetWindow = null; // Window where character sheet is shown
 
 // Hack to support crippled IE/Edge testing
@@ -69,6 +70,7 @@ function Scribe() {
   var defaults = {
     'BACKGROUND':'wheat',
     'DEFAULT_SHEET_STYLE':'Standard',
+    'MENU_WIDTH_PERCENT':30,
     'WARN_ABOUT_DISCARD':true
   };
 
@@ -76,6 +78,14 @@ function Scribe() {
     if(window[a] == null)
       window[a] = defaults[a];
   }
+  try {
+    window.MENU_WIDTH_PERCENT = Math.floor(Number(window.MENU_WIDTH_PERCENT));
+    if(window.MENU_WIDTH_PERCENT < 10 || window.MENU_WIDHT_PERCENT > 90)
+      window.MENU_WIDTH_PERCENT = 0;
+  } catch(err) {
+    window.MENU_WIDTH_PERCENT = 0;
+  }
+
 
   for(var a in persistentInfo) {
     if(storage.getItem(PERSISTENT_INFO_PREFIX + a) != null) {
@@ -85,11 +95,37 @@ function Scribe() {
 
   if(CustomizeScribe != null)
     CustomizeScribe();
+
+  if(window.MENU_WIDTH_PERCENT > 0) {
+    var sheetWidthPercent = 99 - window.MENU_WIDTH_PERCENT;
+    scribeTab = window.open('', 'ScribeCombined');
+    scribeTab.document.write(
+      '<html>\n' +
+      '<head>\n' +
+      '  <title>Scribe</title>\n' +
+      '  <style>\n' +
+      '    .edit {\n' +
+      '      float: left;\n' +
+      '      width: ' + window.MENU_WIDTH_PERCENT + '%;\n' +
+      '      height: 90%;\n' +
+      '    }\n' +
+      '    .sheet {\n' +
+      '      float: left;\n' +
+      '      width: ' + sheetWidthPercent + '%;\n' +
+      '      height: 90%;\n' +
+      '    }\n' +
+      '  </style>\n' +
+      '</head>\n' +
+      '<body>\n' +
+      '  <iframe class="edit" id="edit"></iframe>\n' +
+      '  <iframe class="sheet" id="sheet"></irame>\n' +
+      '</body>\n' +
+      '</html>\n'
+    );
+    scribeTab.document.close();
+  }
+
   Scribe.randomizeCharacter(false);
-  Scribe.popUp('<img src="' + LOGO_URL + '" alt="Scribe"/><br/>' +
-               COPYRIGHT + '<br/>' +
-               'Press the "About" button for more info',
-               'Ok:window.close();');
 
 }
 
@@ -282,29 +318,6 @@ Scribe.openCharacter = function(path) {
 }
 
 /*
- * Returns a popup window containing #html# and an optional set of #buttons#,
- * each of which has the form label:action.
- */
-Scribe.popUp = function(html, button /*, button ... */) {
-  var popup = window.open
-    ('', 'pop' + Scribe.popUp.next++, 'height=200,width=400,scrollbars');
-  var content = '<html><head><title>Scribe Message</title></head>\n' +
-                '<body bgcolor="' + BACKGROUND + '">' + html +
-                '<br/>\n<form>\n';
-  for(var i = 1; i < arguments.length; i++) {
-    var pieces = arguments[i].split(/:/);
-    content +=
-      '<input type="button" value="' + pieces[0] + '" ' +
-                           'onclick="' + pieces[1] + '"/>\n';
-  }
-  content += '</form>\n</body></html>';
-  popup.document.write(content);
-  popup.document.close();
-  return popup;
-};
-Scribe.popUp.next = 0;
-
-/*
  * Replaces the current character with one that has all randomized attributes.
  * If #prompt# is true, allows the user to specify certain attributes.
  */
@@ -428,7 +441,8 @@ Scribe.refreshEditor = function(redraw) {
   var i;
 
   if(editWindow == null || editWindow.closed) {
-    editWindow = window.open('', 'scribeEditor', FEATURES_OF_EDIT_WINDOW);
+    editWindow = scribeTab != null ? scribeTab.edit.contentWindow :
+                 window.open('', 'scribeEditor', FEATURES_OF_EDIT_WINDOW);
     redraw = true;
   }
   if(redraw) {
@@ -436,6 +450,7 @@ Scribe.refreshEditor = function(redraw) {
       '<html><head><title>Scribe Editor Window</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
       '<img src="' + LOGO_URL + ' "/><br/>\n' +
+      COPYRIGHT + '<br/>\n' +
       Scribe.editorHtml() + '\n' +
       '</body></html>\n';
     editWindow.document.write(editHtml);
@@ -506,7 +521,8 @@ Scribe.refreshEditor = function(redraw) {
 /* Draws the sheet for the current character in the character sheet window. */
 Scribe.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed) {
-    sheetWindow = window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
+    sheetWindow = window.scribeTab != null ? scribeTab.sheet.contentWindow :
+                  window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
   }
   sheetWindow.document.write(Scribe.sheetHtml(character));
   sheetWindow.document.close();
