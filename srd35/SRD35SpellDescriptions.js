@@ -522,7 +522,7 @@ SRD35SpellDescriptions.descriptions = {
   "Shambler": "R$RM' 1d4+2 advanced shambling mounds fight for 7 dy/guard for 7 mo",
   "Shapechange": "Become different animal 1/rd for $L10 min",
   "Shatter": "R$RS' Breakables in 5' radius Will save or shatter, or target ${Lmin10}d6 HP (Fort half)",
-  "Shield": "Self +4 HP, block magic missle for $L min",
+  "Shield": "Self +4 AC, block magic missle for $L min",
   "Shield Of Faith": "Touched +${Math.min(2+Math.floor(lvl/6),5)} AC for $L min",
   "Shield Of Law": "$L creatures w/in 20' radius +4 AC/saves, +25 vs chaotic spells, immune chaotic mental control, chaotic hit Will save or slowed for $L rd",
   "Shield Other": "R$RS' target +1 AC/saves, half HP damage transferred to you for $L hr",
