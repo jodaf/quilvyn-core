@@ -26,10 +26,6 @@ tested using these browser versions:
 
 Unbundling the release package is the only step required to install Scribe.
 
-JavaScript security restrictions require that any saved character files
-reside in the same directory as the program or in a subdirectory.  An attempt
-to open a file stored elsewhere will result in a security exception.
-
 ### Usage
 
 To run Scribe, simply use your browser to open scribe.html.
