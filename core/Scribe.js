@@ -25,15 +25,15 @@ var ABOUT_TEXT =
 'Thanks to my dungeon crew, especially Rich Hakesley and Norm Jacobson, for ' +
 'patient testing of Scribe and for suggestions that greatly improved it.';
 
-const FEATURES_OF_EDIT_WINDOW =
+var FEATURES_OF_EDIT_WINDOW =
   'height=750,width=500,menubar,resizable,scrollbars';
-const FEATURES_OF_SHEET_WINDOW =
+var FEATURES_OF_SHEET_WINDOW =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
-const FEATURES_OF_OTHER_WINDOWS =
+var FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
-const PERSISTENT_CHARACTER_PREFIX = 'ScribeCharacter.';
-const PERSISTENT_INFO_PREFIX = 'ScribeInfo.';
-const TIMEOUT_DELAY = 1000; // One second
+var PERSISTENT_CHARACTER_PREFIX = 'ScribeCharacter.';
+var PERSISTENT_INFO_PREFIX = 'ScribeInfo.';
+var TIMEOUT_DELAY = 1000; // One second
 
 var character = {};     // Displayed character attrs
 var characterCache = {};// Attrs of all displayed characters, indexed by path
