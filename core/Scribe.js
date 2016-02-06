@@ -118,7 +118,7 @@ function Scribe() {
       '</head>\n' +
       '<body>\n' +
       '  <iframe class="edit"></iframe>\n' +
-      '  <iframe class="sheet"></irame>\n' +
+      '  <iframe class="sheet"></iframe>\n' +
       '</body>\n' +
       '</html>\n'
     );
