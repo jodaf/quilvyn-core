@@ -117,8 +117,8 @@ function Scribe() {
       '  </style>\n' +
       '</head>\n' +
       '<body>\n' +
-      '  <iframe class="edit" id="edit"></iframe>\n' +
-      '  <iframe class="sheet" id="sheet"></irame>\n' +
+      '  <iframe class="edit"></iframe>\n' +
+      '  <iframe class="sheet"></irame>\n' +
       '</body>\n' +
       '</html>\n'
     );
@@ -441,7 +441,7 @@ Scribe.refreshEditor = function(redraw) {
   var i;
 
   if(editWindow == null || editWindow.closed) {
-    editWindow = scribeTab != null ? scribeTab.edit.contentWindow :
+    editWindow = scribeTab != null ? scribeTab.frames[0] :
                  window.open('', 'scribeEditor', FEATURES_OF_EDIT_WINDOW);
     redraw = true;
   }
@@ -521,7 +521,7 @@ Scribe.refreshEditor = function(redraw) {
 /* Draws the sheet for the current character in the character sheet window. */
 Scribe.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed) {
-    sheetWindow = window.scribeTab != null ? scribeTab.sheet.contentWindow :
+    sheetWindow = window.scribeTab != null ? scribeTab.frames[1] :
                   window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
   }
   sheetWindow.document.write(Scribe.sheetHtml(character));
