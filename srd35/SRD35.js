@@ -1248,8 +1248,8 @@ SRD35.classRules = function(rules, classes) {
           '<i>Dimension Door</i> at level %V 1/day',
         'magicNotes.emptyBodyFeature:<i>Etherealness</i> %V rounds/day',
         'magicNotes.wholenessOfBodyFeature:Heal %V damage to self/day',
-        'sanityNotes.monkClassArmor:Requires Armor == None',
-        'sanityNotes.monkClassShield:Requires Shield == None',
+        'sanityNotes.monkClassArmor:Implies Armor == None',
+        'sanityNotes.monkClassShield:Implies Shield == None',
         'saveNotes.diamondBodyFeature:Immune to poison',
         'saveNotes.diamondSoulFeature:DC %V spell resistance',
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
@@ -2205,8 +2205,8 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   rules.defineRule
     ('level', 'combatNotes.strengthDamageAdjustment', '=', 'null');
   rules.defineNote(
-    'sanityNotes.casterLevelArcaneArmor:Requires Armor == None',
-    'sanityNotes.casterLevelArcaneShield:Requires Shield == None'
+    'sanityNotes.casterLevelArcaneArmor:Implies Armor == None',
+    'sanityNotes.casterLevelArcaneShield:Implies Shield == None'
   );
   rules.defineRule('sanityNotes.casterLevelArcaneArmor',
     'magicNotes.arcaneSpellFailure', '?', null,
@@ -2317,28 +2317,28 @@ SRD35.featRules = function(rules, feats, subfeats) {
     var notes = null;
     if(feat == 'Acrobatic') {
       notes = [
-        'sanityNotes.acrobaticFeatSkills:Requires Jump||Tumble',
+        'sanityNotes.acrobaticFeatSkills:Implies Jump||Tumble',
         'skillNotes.acrobaticFeature:+2 Jump/Tumble'
       ];
     } else if(feat == 'Agile') {
       notes = [
-        'sanityNotes.agileFeatSkills:Requires Balance||Escape Artist',
+        'sanityNotes.agileFeatSkills:Implies Balance||Escape Artist',
         'skillNotes.agileFeature:+2 Balance/Escape Artist'
       ];
     } else if(feat == 'Alertness') {
       notes = [
-        'sanityNotes.alertnessFeatSkills:Requires Listen||Spot',
+        'sanityNotes.alertnessFeatSkills:Implies Listen||Spot',
         'skillNotes.alertnessFeature:+2 Listen/Spot'
       ];
     } else if(feat == 'Animal Affinity') {
       notes = [
-        'sanityNotes.animalAffinityFeatSkills:Requires Handle Animal||Ride',
+        'sanityNotes.animalAffinityFeatSkills:Implies Handle Animal||Ride',
         'skillNotes.animalAffinityFeature:+2 Handle Animal/Ride'
       ];
     } else if(feat == 'Armor Proficiency (Heavy)') {
       notes = [
         'sanityNotes.armorProficiency(Heavy)FeatProficiency:' +
-          'Requires Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_HEAVY,
+          'Implies Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_HEAVY,
         'validationNotes.armorProficiency(Heavy)FeatProficiency:' +
           'Requires Armor Proficiency (Medium) || ' +
           'Class Armor Proficiency Level >= ' + SRD35.PROFICIENCY_MEDIUM
@@ -2355,7 +2355,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Armor Proficiency (Light)') {
       notes = [
         'sanityNotes.armorProficiency(Light)FeatProficiency:' +
-          'Requires Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_LIGHT
+          'Implies Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_LIGHT
       ];
       rules.defineRule('armorProficiencyLevel',
         'features.Armor Proficiency (Light)', '^', SRD35.PROFICIENCY_LIGHT
@@ -2363,7 +2363,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Armor Proficiency (Medium)') {
       notes = [
         'sanityNotes.armorProficiency(Medium)FeatProficiency:' +
-          'Requires Class Armor Proficiency Level < '+SRD35.PROFICIENCY_MEDIUM,
+          'Implies Class Armor Proficiency Level < '+SRD35.PROFICIENCY_MEDIUM,
         'validationNotes.armorProficiency(Medium)FeatProficiency:' +
           'Requires Armor Proficiency (Light) || ' +
           'Class Armor Proficiency Level >= ' + SRD35.PROFICIENCY_LIGHT
@@ -2380,7 +2380,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       );
     } else if(feat == 'Athletic') {
       notes = [
-        'sanityNotes.athleticFeatSkills:Requires Climb||Swim',
+        'sanityNotes.athleticFeatSkills:Implies Climb||Swim',
         'skillNotes.athleticFeature:+2 Climb/Swim'
       ];
     } else if(feat == 'Augment Summoning') {
@@ -2409,7 +2409,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Combat Casting') {
       notes = [
-        'sanityNotes.combatCastingFeatCasterLevel:Requires Caster Level >= 1',
+        'sanityNotes.combatCastingFeatCasterLevel:Implies Caster Level >= 1',
         'skillNotes.combatCastingFeature:' +
           '+4 Concentration when casting on defensive/grappling'
       ];
@@ -2421,7 +2421,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Combat Reflexes') {
       notes = [
         'combatNotes.combatReflexesFeature:Flatfooted AOO, up to %V AOO/round',
-        'sanityNotes.combatReflexesFeatAbility:Requires Dexterity >= 12'
+        'sanityNotes.combatReflexesFeatAbility:Implies Dexterity >= 12'
       ];
       rules.defineRule('combatNotes.combatReflexesFeature',
         'dexterityModifier', '=', 'source + 1'
@@ -2457,7 +2457,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Deceitful') {
       notes = [
-        'sanityNotes.deceitfulFeatSkills:Requires Disguise||Forgery',
+        'sanityNotes.deceitfulFeatSkills:Implies Disguise||Forgery',
         'skillNotes.deceitfulFeature:+2 Disguise/Forgery'
       ];
     } else if(feat == 'Deflect Arrows') {
@@ -2469,7 +2469,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Deft Hands') {
       notes = [
-        'sanityNotes.deftHandsFeatSkills:Requires Sleight Of Hand||Use Rope',
+        'sanityNotes.deftHandsFeatSkills:Implies Sleight Of Hand||Use Rope',
         'skillNotes.deftHandsFeature:+2 Sleight Of Hand/Use Rope'
       ];
     } else if(feat == 'Diehard') {
@@ -2479,7 +2479,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Diligent') {
       notes = [
-        'sanityNotes.diligentFeatSkills:Requires Appraise||Decipher Script',
+        'sanityNotes.diligentFeatSkills:Implies Appraise||Decipher Script',
         'skillNotes.diligentFeature:+2 Appraise/Decipher Script'
       ];
     } else if(feat == 'Dodge') {
@@ -2492,7 +2492,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'magicNotes.empowerSpellFeature:' +
           'x1.5 designated spell variable effects uses +2 spell slot',
-        'sanityNotes.empowerSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.empowerSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Endurance') {
       notes = ['saveNotes.enduranceFeature:+4 extended physical action'];
@@ -2500,18 +2500,18 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'magicNotes.enlargeSpellFeature:' +
           'x2 designated spell range uses +1 spell slot',
-        'sanityNotes.enlargeSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.enlargeSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Eschew Materials') {
       notes = [
         'magicNotes.eschewMaterialsFeature:Cast spells w/out materials',
-        'sanityNotes.eschewMaterialsFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.eschewMaterialsFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Extend Spell') {
       notes = [
         'magicNotes.extendSpellFeature:' +
           'x2 designated spell duration uses +1 spell slot',
-        'sanityNotes.extendSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.extendSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Extra Turning') {
       notes = [
@@ -2550,7 +2550,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'magicNotes.spellFocus(' + schoolNoSpace + ')Feat:' +
           '+1 DC on ' + school + ' spells',
         'sanityNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
-          'Requires Caster Level >= 1',
+          'Implies Caster Level >= 1',
         'validationNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatFeatures:'+
           'Requires Spell Focus (' + school + ')'
       ];
@@ -2559,7 +2559,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'magicNotes.greaterSpellPenetrationFeature:' +
           '+2 caster level vs. resistance checks',
         'sanityNotes.greaterSpellPenetrationFeatCasterLevel:' +
-          'Requires Caster Level >= 1',
+          'Implies Caster Level >= 1',
         'validationNotes.greaterSpellPenetrationFeatFeatures:' +
           'Requires Spell Penetration'
       ];
@@ -2582,7 +2582,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         note + ':+1 attack',
         'sanityNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatWeapons:' +
-          'Requires ' + weapon,
+          'Implies ' + weapon,
         'validationNotes.greaterWeaponFocus('+weaponNoSpace+')FeatFeatures:' +
           'Requires Weapon Focus (' + weapon + ')',
         'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatLevels:' +
@@ -2597,7 +2597,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       var note = 'combatNotes.' + lead + 'Feature';
       notes = [
         note + ':+2 damage',
-        'sanityNotes.' + lead + 'FeatWeapons:Requires ' + weapon,
+        'sanityNotes.' + lead + 'FeatWeapons:Implies ' + weapon,
         'validationNotes.' + lead + 'FeatFeatures:' +
           'Requires Weapon Focus (' + weapon + ')/' +
           'Greater Weapon Focus (' + weapon + ')/' +
@@ -2608,7 +2608,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Heighten Spell') {
       notes = [
         'magicNotes.heightenSpellFeature:Increase designated spell level',
-        'sanityNotes.heightenSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.heightenSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Improved Bull Rush') {
       notes = [
@@ -2622,7 +2622,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'magicNotes.improvedCounterspellFeature:' +
           'Counter w/higher-level spell from same school',
         'sanityNotes.improvedCounterspellFeatCasterLevel:' +
-          'Requires Caster Level >= 1'
+          'Implies Caster Level >= 1'
       ];
     } else if((matchInfo = feat.match(/^Improved Critical \((.*)\)$/)) != null){
       var weapon = matchInfo[1];
@@ -2631,7 +2631,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         note + ':x2 critical threat range',
         'sanityNotes.improvedCritical('+weaponNoSpace+')FeatWeapons:' +
-          'Requires ' + weapon,
+          'Implies ' + weapon,
         'validationNotes.improvedCritical('+weaponNoSpace+')FeatBaseAttack:' +
           'Requires Base Attack >= 8'
       ];
@@ -2696,7 +2696,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Improved Shield Bash') {
       notes = [
         'combatNotes.improvedShieldBashFeature:No AC penalty on Shield Bash',
-        'sanityNotes.improvedShieldBashShield:Requires Shield != None',
+        'sanityNotes.improvedShieldBashShield:Implies Shield != None',
         'validationNotes.improvedShieldBashFeatFeatures:' +
           'Requires Shield Proficiency (Heavy)'
       ];
@@ -2739,8 +2739,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Investigator') {
       notes = [
-        'sanityNotes.investigatorFeatSkills:' +
-          'Requires Gather Information||Search',
+        'sanityNotes.investigatorFeatSkills:Implies Gather Information||Search',
         'skillNotes.investigatorFeature:+2 Gather Information/Search'
       ];
     } else if(feat == 'Iron Will') {
@@ -2758,7 +2757,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Magical Aptitude') {
       notes = [
         'sanityNotes.magicalAptitudeFeatSkills:' +
-          'Requires Spellcraft||Use Magic Device',
+          'Implies Spellcraft||Use Magic Device',
         'skillNotes.magicalAptitudeFeature:+2 Spellcraft/Use Magic Device'
       ];
     } else if(feat == 'Manyshot') {
@@ -2777,7 +2776,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'magicNotes.maximizeSpellFeature:' +
           'Maximize all designated spell variable effects uses +3 spell slot',
-        'sanityNotes.maximizeSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.maximizeSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Mobility') {
       notes = [
@@ -2805,18 +2804,17 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Negotiator') {
       notes = [
-        'sanityNotes.negotiatorFeatSkills:Requires Diplomacy||Sense Motive',
+        'sanityNotes.negotiatorFeatSkills:Implies Diplomacy||Sense Motive',
         'skillNotes.negotiatorFeature:+2 Diplomacy/Sense Motive'
       ];
     } else if(feat == 'Nimble Fingers') {
       notes = [
-        'sanityNotes.nimbleFingersFeatSkills:' +
-          'Requires Disable Device||Open Lock',
+        'sanityNotes.nimbleFingersFeatSkills:Implies Disable Device||Open Lock',
         'skillNotes.nimbleFingersFeature:+2 Disable Device/Open Lock'
       ];
     } else if(feat == 'Persuasive') {
       notes = [
-        'sanityNotes.persuasiveFeatSkills:Requires Bluff||Intimidate',
+        'sanityNotes.persuasiveFeatSkills:Implies Bluff||Intimidate',
         'skillNotes.persuasiveFeature:+2 Bluff/Intimidate'
       ];
     } else if(feat == 'Point Blank Shot') {
@@ -2842,7 +2840,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'magicNotes.quickenSpellFeature:' +
           'Free action casting 1/round uses +4 spell slot',
-        'sanityNotes.quickenSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.quickenSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if((matchInfo = feat.match(/^Rapid Reload \((.*)\)$/)) != null) {
       var weapon = matchInfo[1];
@@ -2852,7 +2850,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
           'Reload ' + weapon + ' Crossbow as ' +
           (weapon == 'Heavy' ? 'move' : 'free') + ' action',
         'sanityNotes.rapidReload(' + weaponNoSpace + ')FeatWeapons:' +
-          'Requires ' + weapon + ' Crossbow'
+          'Implies ' + weapon + ' Crossbow'
       ];
     } else if(feat == 'Rapid Shot') {
       notes = [
@@ -2880,13 +2878,13 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Self Sufficient') {
       notes = [
-        'sanityNotes.selfSufficientFeatSkills:Requires Heal||Survival',
+        'sanityNotes.selfSufficientFeatSkills:Implies Heal||Survival',
         'skillNotes.selfSufficientFeature:+2 Heal/Survival'
       ];
     } else if(feat == 'Shield Proficiency (Heavy)') {
       notes = [
         'sanityNotes.shieldProficiency(Heavy)FeatProficiency:' +
-          'Requires Class Shield Proficiency Level < ' + SRD35.PROFICIENCY_HEAVY
+          'Implies Class Shield Proficiency Level < ' + SRD35.PROFICIENCY_HEAVY
       ];
       rules.defineRule('shieldProficiencyLevel',
         'features.Shield Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY
@@ -2894,7 +2892,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Shield Proficiency (Tower)') {
       notes = [
         'sanityNotes.shieldProficiency(Tower)FeatProficiency:' +
-          'Requires Class Shield Proficiency Level < ' + SRD35.PROFICIENCY_TOWER
+          'Implies Class Shield Proficiency Level < ' + SRD35.PROFICIENCY_TOWER
       ];
       rules.defineRule('shieldProficiencyLevel',
         'features.Shield Proficiency (Tower)', '^', SRD35.PROFICIENCY_TOWER
@@ -2911,7 +2909,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'magicNotes.silentSpellFeature:' +
           'Cast spell w/out speech uses +1 spell slot',
-        'sanityNotes.silentSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.silentSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if((matchInfo = feat.match(/^Skill Focus \((.*)\)$/)) != null) {
       var skill = matchInfo[1];
@@ -2920,7 +2918,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         note + ':+3 checks',
         'sanityNotes.skillFocus(' + skillNoSpace + ')FeatSkills:' +
-          'Requires ' + skill
+          'Implies ' + skill
       ];
       rules.defineRule('skillModifier.' + skill, note, '+', '3');
     } else if(feat == 'Snatch Arrows') {
@@ -2937,7 +2935,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'magicNotes.spellFocus(' + schoolNoSpace + ')Feature:' +
           '+1 DC on ' + school + ' spells',
         'sanityNotes.spellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
-          'Requires Caster Level >= 1'
+          'Implies Caster Level >= 1'
       ];
     } else if(feat == 'Spell Mastery') {
       notes = [
@@ -2950,7 +2948,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'magicNotes.spellPenetrationFeature:' +
           '+2 checks to overcome spell resistance',
-        'sanityNotes.spellPenetrationFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.spellPenetrationFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Spirited Charge') {
       notes = [
@@ -2969,14 +2967,14 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Stealthy') {
       notes = [
-        'sanityNotes.stealthyFeatSkills:Requires Hide||Move Silently',
+        'sanityNotes.stealthyFeatSkills:Implies Hide||Move Silently',
         'skillNotes.stealthyFeature:+2 Hide/Move Silently'
       ];
     } else if(feat == 'Still Spell') {
       notes = [
         'magicNotes.stillSpellFeature:' +
           'Cast spell w/out movement uses +1 spell slot',
-        'sanityNotes.stillSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.stillSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Stunning Fist') {
       notes = [
@@ -3000,7 +2998,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('hitPoints', 'combatNotes.toughnessFeature', '+', '3');
     } else if(feat == 'Track') {
       notes = [
-        'sanityNotes.trackFeatSkills:Requires Survival',
+        'sanityNotes.trackFeatSkills:Implies Survival',
         'skillNotes.trackFeature:Survival to follow creatures\' trail'
       ];
     } else if(feat == 'Trample') {
@@ -3029,7 +3027,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'combatNotes.weaponFinesseFeature:' +
           '+%V light melee attack (dex instead of str)',
         'sanityNotes.weaponFinesseFeatAbility:' +
-          'Requires Dexterity Modifier exceed Strength Modifier',
+          'Implies Dexterity Modifier exceed Strength Modifier',
         'validationNotes.weaponFinesseFeatBaseAttack:Requires Base Attack >= 1'
       ];
       rules.defineRule('combatNotes.weaponFinesseFeature',
@@ -3051,7 +3049,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         note + ':+1 attack',
         'sanityNotes.weaponFocus(' + weaponNoSpace + ')FeatWeapons:' +
-          'Requires ' + weapon,
+          'Implies ' + weapon,
         'validationNotes.weaponFocus(' + weaponNoSpace + ')FeatBaseAttack:' +
           'Requires Base Attack >= 1'
       ];
@@ -3059,7 +3057,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Weapon Proficiency (Simple)') {
       notes = [
         'sanityNotes.weaponProficiency(Simple)FeatProficiency:' +
-          'Requires Class Weapon Proficiency Level < ' + SRD35.PROFICIENCY_LIGHT
+          'Implies Class Weapon Proficiency Level < ' + SRD35.PROFICIENCY_LIGHT
       ];
       rules.defineRule('weaponProficiencyLevel',
         'features.' + feat, '^', SRD35.PROFICIENCY_LIGHT
@@ -3070,7 +3068,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       var familiarityAttr = 'features.Weapon Familiarity (' + weapon + ')';
       notes = [
         'sanityNotes.weaponProficiency(' + weaponNoSpace + ')FeatWeapons:' +
-          'Requires ' + weapon,
+          'Implies ' + weapon,
       ];
       if(SRD35.weaponsProficiencyLevels[weapon] == SRD35.PROFICIENCY_HEAVY) {
         notes = notes.concat([
@@ -3096,7 +3094,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         note + ':+2 damage',
         'sanityNotes.weaponSpecialization(' + weaponNoSpace + ')FeatWeapons:' +
-          'Requires ' + weapon,
+          'Implies ' + weapon,
         'validationNotes.weaponSpecialization('+weaponNoSpace+')FeatFeatures:' +
           'Requires Weapon Focus (' + weapon + ')',
         'validationNotes.weaponSpecialization('+weaponNoSpace+')FeatLevels:' +
@@ -3116,7 +3114,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Widen Spell') {
       notes = [
         'magicNotes.widenSpellFeature:x2 area of affect uses +3 spell slot',
-        'sanityNotes.widenSpellFeatCasterLevel:Requires Caster Level >= 1'
+        'sanityNotes.widenSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else {
       continue;
@@ -4651,7 +4649,7 @@ SRD35.makeValid = function(attributes) {
         problemCategory = 'selectableFeatures';
       }
       var requirements =
-        notes[attr].replace(/^Requires /, '').split(/\s*\/\s*/);
+        notes[attr].replace(/^(Implies|Requires) /, '').split(/\s*\/\s*/);
 
       for(var i = 0; i < requirements.length; i++) {
 

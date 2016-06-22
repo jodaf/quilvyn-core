@@ -153,7 +153,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
                   matchInfo[4].match(/s$/) ?
                   matchInfo[4].substring(0, 1).toLowerCase() +
                   matchInfo[4].substring(1) : '';
-      var requirements = format.replace(/^Requires /, '').split('/');
+      var requirements = format.replace(/^(Implies|Requires) /, '').split('/');
       var target = matchInfo[3] == 'Class' ? 'Levels' : (matchInfo[3] + 's');
       target = target.substring(0, 1).toLowerCase() + target.substring(1);
       var subtarget = matchInfo[2].replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
