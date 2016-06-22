@@ -293,8 +293,8 @@ Scribe.importCharacter = function() {
     return;
   }
   character = importedCharacter;
-  characterPath = '';
-  characterCache[characterPath] = {}; // Query wrt saving before opening another
+  characterPath = character['_path'] || '';
+  characterCache[characterPath] = {}; // Force query wrt saving
   Scribe.refreshEditor(false);
   Scribe.refreshSheet();
   characterPopup.close();
@@ -311,6 +311,7 @@ Scribe.openCharacter = function(path) {
     if(pieces.length == 2)
       character[pieces[0]] = pieces[1];
   }
+  character['_path'] = path; // In case character predates _path attr
   characterPath = path;
   characterCache[characterPath] = ScribeUtils.clone(character);
   Scribe.refreshEditor(false);
@@ -530,11 +531,12 @@ Scribe.refreshSheet = function() {
 
 /* Interacts w/user to preserve current character in persistent storage. */
 Scribe.saveCharacter = function(path) {
-  if(path == null) {
+  if(path == '') {
     path = editWindow.prompt("Save to path", "");
     if(path == null)
       return;
   }
+  character['_path'] = path;
   character['_timestamp'] = Date.now();
   var stringified = '';
   for(var attr in character) {
@@ -745,7 +747,7 @@ Scribe.summarizeCachedAttrs = function() {
   ];
   var notes = ruleSet.getChoices('notes');
   for(var character in characterCache) {
-    if(character == 'random')
+    if(character == '')
       continue;
     var attrs = ruleSet.applyRules(characterCache[character]);
     for(var attr in attrs) {
@@ -827,9 +829,9 @@ Scribe.update = function(input) {
     else if(value == 'Delete...')
       Scribe.deleteCharacter();
     else if(value == 'Save')
-      Scribe.saveCharacter(characterPath == '' ? null : characterPath);
+      Scribe.saveCharacter(characterPath);
     else if(value == 'Save As...')
-      Scribe.saveCharacter(null);
+      Scribe.saveCharacter('');
     else if(WARN_ABOUT_DISCARD &&
        !ScribeUtils.clones(character, characterCache[characterPath]) &&
        !editWindow.confirm("Discard changes to character?"))
