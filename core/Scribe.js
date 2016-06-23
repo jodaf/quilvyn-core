@@ -141,7 +141,7 @@ Scribe.addRuleSet = function(rs) {
 Scribe.deleteCharacter = function() {
   var prompt = 'Enter character to delete:';
   for(var path in storage) {
-    if(path.indexOf(PERSISTENT_CHARACTER_PREFIX) == 0)
+    if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
       prompt += "\n" + path.substring(PERSISTENT_CHARACTER_PREFIX.length);
   }
   var path = editWindow.prompt(prompt, '');
@@ -166,8 +166,6 @@ Scribe.editorHtml = function() {
     ['ruleRules', '', 'button', ['Rules']],
     ['ruleNotes', '', 'button', ['Notes']],
     ['character', 'Character', 'select-one', []],
-    ['summary', '', 'button', ['Summary']],
-    ['view', '', 'button', ['View Html']],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
     ['hidden', '', 'checkbox', ['Hidden Info']],
     ['computed', '', 'checkbox', ['Computed Attrs']],
@@ -213,11 +211,31 @@ Scribe.editorHtml = function() {
   return result;
 };
 
-/*
- * Interacts w/user to replace the current character with new one taken from an
- * external source.
- */
-Scribe.importCharacter = function() {
+/* Pops a window containing the attribues of all stored characters. */
+Scribe.exportCharacters = function() {
+  var htmlBits = [
+    '<html><head><title>Export Characters</title></head>',
+    '<body bgcolor="' + BACKGROUND + '">',
+    '<img src="' + LOGO_URL + ' "/><br/>'];
+  for(var path in storage) {
+    if(!path.startsWith(PERSISTENT_CHARACTER_PREFIX))
+      continue;
+    var toExport = Scribe.retrieveCharacterFromStorage(path);
+    // In case character saved before _path attr use
+    toExport['_path'] = path.substring(PERSISTENT_CHARACTER_PREFIX.length);
+    var text = ObjectViewer.toCode(toExport).
+      replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    htmlBits.push("<pre>\n" + text + "\n</pre><br/>\n");
+  }
+  htmlBits.push('</body></html>');
+  var html = htmlBits.join('\n') + '\n';
+  var exportPopup = window.open('', '__export', FEATURES_OF_OTHER_WINDOWS);
+  exportPopup.document.write(html);
+  exportPopup.document.close();
+}
+
+/* Interacts w/user to import characters from external sources. */
+Scribe.importCharacters = function() {
 
   if(characterPopup == null) {
     // Nothing presently pending
@@ -227,7 +245,7 @@ Scribe.importCharacter = function() {
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h2>Enter attribute definition from character sheet source</h2>',
       '<form name="frm"><table>',
-      '<tr><td><textarea name="code" rows="5" cols="50"></textarea></td></tr>',
+      '<tr><td><textarea name="code" rows="20" cols="50"></textarea></td></tr>',
       '</table></form>',
       '<form>',
       '<input type="button" value="Ok" onclick="okay=true;"/>',
@@ -239,7 +257,7 @@ Scribe.importCharacter = function() {
     characterPopup.document.write(html);
     characterPopup.document.close();
     characterPopup.okay = false;
-    setTimeout('Scribe.importCharacter()', TIMEOUT_DELAY);
+    setTimeout('Scribe.importCharacters()', TIMEOUT_DELAY);
     return;
   } else if(characterPopup.closed) {
     // User cancel
@@ -250,68 +268,70 @@ Scribe.importCharacter = function() {
     return;
   } else if(!characterPopup.okay) {
     // Try again later
-    setTimeout('Scribe.importCharacter()', TIMEOUT_DELAY);
+    setTimeout('Scribe.importCharacters()', TIMEOUT_DELAY);
     return;
   }
 
   // Ready to import
   var text = characterPopup.document.frm.elements[0].value;
   var index = text.indexOf('{');
+
   if(index < 0) {
     characterPopup.alert("Syntax error: missing {");
     characterPopup.okay = false;
-    setTimeout('Scribe.importCharacter()', TIMEOUT_DELAY);
+    setTimeout('Scribe.importCharacters()', TIMEOUT_DELAY);
     return;
   }
-  text = text.substring(index + 1);
-  var attrPat = /^\s*"((?:\\"|[^"])*)"\s*:\s*(\d+|"((?:\\"|[^"])*)"|\{)/;
-  var matchInfo;
-  var nesting = '';
-  var importedCharacter = {};
-  while((matchInfo = text.match(attrPat)) != null) {
-    text = text.substring(matchInfo[0].length);
-    var attr = matchInfo[1];
-    var value = matchInfo[3] || matchInfo[2];
-    value = value.replace(/\\"/g, '"').replace(/\\n/g, '\n');
-    if(value == '{') {
-      nesting += attr + '.';
-    } else {
-      importedCharacter[nesting + attr] = value;
-    }
-    while(nesting != '' && (matchInfo = text.match(/^\s*\}/)) != null) {
+
+  while(index >= 0) {
+    text = text.substring(index + 1);
+    var attrPat = /^\s*"((?:\\"|[^"])*)"\s*:\s*(\d+|"((?:\\"|[^"])*)"|\{)/;
+    var matchInfo;
+    var nesting = '';
+    var importedCharacter = {};
+    while((matchInfo = text.match(attrPat)) != null) {
       text = text.substring(matchInfo[0].length);
-      nesting = nesting.replace(/[^\.]*\.$/, '');
+      var attr = matchInfo[1];
+      var value = matchInfo[3] || matchInfo[2];
+      value = value.replace(/\\"/g, '"').replace(/\\n/g, '\n');
+      if(value == '{') {
+        nesting += attr + '.';
+      } else {
+        importedCharacter[nesting + attr] = value;
+      }
+      while(nesting != '' && (matchInfo = text.match(/^\s*\}/)) != null) {
+        text = text.substring(matchInfo[0].length);
+        nesting = nesting.replace(/[^\.]*\.$/, '');
+      }
+      if((matchInfo = text.match(/^\s*,/)) != null) {
+        text = text.substring(matchInfo[0].length);
+      }
     }
-    if((matchInfo = text.match(/^\s*,/)) != null) {
-      text = text.substring(matchInfo[0].length);
+    if(!text.match(/^\s*\}/)) {
+      characterPopup.alert("Syntax error: missing } at '" + text + "'");
+      characterPopup.okay = false;
+      setTimeout('Scribe.importCharacters()', TIMEOUT_DELAY);
+      return;
     }
+    character = importedCharacter;
+    characterPath = character['_path'] || '';
+    characterCache[characterPath] = ScribeUtils.clone(character);
+    Scribe.saveCharacter(characterPath);
+    index = text.indexOf('{', text.indexOf('}', index));
   }
-  if(!text.match(/^\s*\}/)) {
-    characterPopup.alert("Syntax error: missing } at '" + text + "'");
-    characterPopup.okay = false;
-    setTimeout('Scribe.importCharacter()', TIMEOUT_DELAY);
-    return;
-  }
-  character = importedCharacter;
-  characterPath = character['_path'] || '';
-  characterCache[characterPath] = {}; // Force query wrt saving
-  Scribe.refreshEditor(false);
-  Scribe.refreshSheet();
+
   characterPopup.close();
   characterPopup = null;
+  Scribe.refreshEditor(false);
+  Scribe.refreshSheet();
 
 };
 
 /* Loads character specified by #path# from persistent storage. */
 Scribe.openCharacter = function(path) {
-  character = {};
-  var attrs = storage.getItem(PERSISTENT_CHARACTER_PREFIX + path).split('\t');
-  for(var i = 0; i < attrs.length; i++) {
-    var pieces = attrs[i].split('=');
-    if(pieces.length == 2)
-      character[pieces[0]] = pieces[1];
-  }
-  character['_path'] = path; // In case character predates _path attr
+  character =
+    Scribe.retrieveCharacterFromStorage(PERSISTENT_CHARACTER_PREFIX + path);
+  character['_path'] = path; // In case character saved before _path attr use
   characterPath = path;
   characterCache[characterPath] = ScribeUtils.clone(character);
   Scribe.refreshEditor(false);
@@ -463,19 +483,15 @@ Scribe.refreshEditor = function(redraw) {
     }
   }
 
-  var paths = [];
+  var characterOpts = [];
   for(var path in storage) {
-    if(path.indexOf(PERSISTENT_CHARACTER_PREFIX) == 0)
-      paths.push(path);
+    if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
+      characterOpts.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
   }
-  paths = paths.sort();
-  var characterOpts = [
-    '---choose one---', 'New...', 'Save', 'Save As...', 'Import...', 'Delete...'
-  ];
-  for(var path in paths) {
-    characterOpts.push
-      (paths[path].substring(PERSISTENT_CHARACTER_PREFIX.length));
-  }
+  characterOpts = characterOpts.sort();
+  characterOpts.unshift(
+    '---choose one---', 'New...', 'Save', 'Save As...', 'HTML', 'Import...', 'Export', 'Delete...', 'Summary'
+  );
 
   InputSetOptions(editForm.character, characterOpts);
   InputSetOptions(editForm.rules, ScribeUtils.getKeys(ruleSets));
@@ -529,10 +545,22 @@ Scribe.refreshSheet = function() {
   sheetWindow.document.close();
 };
 
+/* Creates and returns a character from the contents of a storage path. */
+Scribe.retrieveCharacterFromStorage = function(path) {
+  var result = {};
+  var attrs = storage.getItem(path).split('\t');
+  for(var i = 0; i < attrs.length; i++) {
+    var pieces = attrs[i].split('=', 2);
+    if(pieces.length == 2)
+      result[pieces[0]] = pieces[1];
+  }
+  return result;
+}
+
 /* Interacts w/user to preserve current character in persistent storage. */
 Scribe.saveCharacter = function(path) {
   if(path == '') {
-    path = editWindow.prompt("Save to path", "");
+    path = editWindow.prompt("Save " + character['name'] + " to path", "");
     if(path == null)
       return;
   }
@@ -832,12 +860,18 @@ Scribe.update = function(input) {
       Scribe.saveCharacter(characterPath);
     else if(value == 'Save As...')
       Scribe.saveCharacter('');
+    else if(value == 'Export')
+      Scribe.exportCharacters();
+    else if(value == 'Summary')
+      Scribe.summarizeCachedAttrs();
+    else if(value == 'HTML')
+      Scribe.showHtml(Scribe.sheetHtml(character));
     else if(WARN_ABOUT_DISCARD &&
        !ScribeUtils.clones(character, characterCache[characterPath]) &&
        !editWindow.confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Import...')
-      Scribe.importCharacter();
+      Scribe.importCharacters();
     else if(value == 'New...')
       Scribe.randomizeCharacter(true);
     else
@@ -903,10 +937,6 @@ Scribe.update = function(input) {
     awin.document.write(ruleSet.toHtml());
     awin.document.write('</pre></body></html>');
     awin.document.close();
-  } else if(name == 'summary') {
-    Scribe.summarizeCachedAttrs();
-  } else if(name == 'view') {
-    Scribe.showHtml(Scribe.sheetHtml(character));
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
     for(var a in character) {
