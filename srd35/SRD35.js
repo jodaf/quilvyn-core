@@ -782,7 +782,7 @@ SRD35.abilityRules = function(rules) {
   rules.defineNote(notes);
   rules.defineRule('validationNotes.abilityMinimum',
     '', '=', '-1',
-    /^charisma|constitution|dexterity|intelligence|strength|wisdom$/,
+    /^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/,
     '^', 'source >= 14 ? 0 : null'
   );
   rules.defineRule('validationNotes.abilityModifierSum',
