@@ -104,8 +104,9 @@ The Character menu's Import option allows you to transfer character information
 saved from another browser.  In the Import pop-up window, paste the character
 attributes definition ("var attributes = { ... }") from the header of the
 saved character sheet, then press OK.  Scribe displays the character sheet
-generated from these attributes, and you can now save the character into your
-current browser.
+generated from these attributes and saves the character into your browser's
+localStorage.  If you paste the attributes of multiple characters into a
+single Import pop-up, Scribe saves all of them and displays the last.
 </p>
 
 <a name="edit"><h3>Editing Characters</h3></a>
@@ -156,17 +157,18 @@ Document, and plug-ins for particular campaign settings are available.  The
 "Attributes" button opens a window that lists the attributes computed by the
 current rule set; this is used in developing your own custom rules.  The
 "Character" menu is discussed in <a href='#open'>Generating and Loading
-Characters</a>.  The "Summary" button opens a window with a table that
-summarizes attributes from all characters that you've opened since starting
-Scribe.  This is intended to assist in planning and running adventures by
-providing a compact summary of the abilities of all the characters in a party.
-The "View HTML" button is described in <a href='#save'>Saving Characters</a>.
-The "Sheet Style" pull-down allows you to choose between different character
-sheet formats.  Finally, the "Spell Filter" text box allows you to determine
-which spells appear in the "Spells" set menu.  Since hundreds of spells and
-variations are available, this menu allows you to limit the spells (e.g. cleric
-spells, air domain spells) of interest.  Only those spells that contain the
-text in this box are included in the spells set menu.
+Characters</a>.  The "Summary" item in the character menu opens a window
+with a table that summarizes attributes from all characters that you've opened
+since starting Scribe.  This is intended to assist in planning and running
+adventures by providing a compact summary of the abilities of all the
+characters in a party.  The "HTML" item in the character menu is described
+in <a href='#save'>Saving Characters</a>.  The "Sheet Style" pull-down allows
+you to choose between different character sheet formats.  Finally, the "Spell
+Filter" text box allows you to determine which spells appear in the "Spells"
+set menu.  Since hundreds of spells and variations are available, this menu
+allows you to limit the spells (e.g. cleric spells, air domain spells) of
+interest.  Only those spells that contain the text in this box are included in
+the spells set menu.
 </p>
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
@@ -194,15 +196,21 @@ little creative editing.
 For security purposes, web programs like Scribe are prohibited from writing
 files to your hard disk.  Instead, character information is saved to your
 browser's persistent storage, where Scribe can access it later.  If you want to
-save a copy of your character sheet for viewing outside of Scribe, press the
-"View Html" button.  Scribe opens a new window that contains the HTML for the
-character sheet.  Copy and paste the contents of this window into your favorite
-editor and save the result as a web page (a file with an extension of .html or
-.htm).
+save a copy of your character sheet for viewing outside of Scribe, select the
+"HTML" item in the Character menu.  Scribe opens a new window that contains the
+HTML for the character sheet.  Copy and paste the contents of this window into
+your favorite editor and save the result as a web page (a file with an
+extension of .html or .htm).
 </p><p>
 In some browsers, you can save character files more quickly by selecting the
 Save option in the File menu of the character sheet window.  Experiment to see
 if your browser supports this.
+</p><p>
+Selecting the "Export..." item from the character menu opens a new window that
+displays the attributes for all characters in your browser's localStorage.  You
+can copy the contents of this window to a file for backup, or you can paste
+them into a Scribe Import window in a different browser to transfer characters
+from one browser to another.
 </p>
 
 <a name="sheet"><h3>The Character Sheet</h3></a>
