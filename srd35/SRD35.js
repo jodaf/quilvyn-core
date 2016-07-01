@@ -29,6 +29,10 @@ var SRD35_VERSION = '1.0';
  */
 function SRD35() {
   var rules = new ScribeRules('SRD v3.5', SRD35_VERSION);
+  rules.editorElements = SRD35.initialEditorElements();
+  rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
+  rules.makeValid = SRD35.makeValid;
+  rules.ruleNotes = SRD35.ruleNotes;
   SRD35.viewer = new ObjectViewer();
   SRD35.createViewers(rules, SRD35.VIEWERS);
   SRD35.abilityRules(rules);
@@ -46,10 +50,6 @@ function SRD35() {
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
-  rules.editorElements = SRD35.initialEditorElements();
-  rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
-  rules.makeValid = SRD35.makeValid;
-  rules.ruleNotes = SRD35.ruleNotes;
   Scribe.addRuleSet(rules);
   SRD35.rules = rules;
 }
@@ -72,28 +72,69 @@ SRD35.ALIGNMENTS = [
   'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
 ];
 SRD35.ANIMAL_COMPANIONS = {
-  'Ape': '',
-  'Badger': '',
-  'Bear': '',
-  'Boar': '',
-  'Camel': '',
-  'Cheetah': '',
-  'Constrictor': '',
-  'Crocodile': '',
-  'Deinonychus': '',
-  'Dog': '',
-  'Eagle': '',
-  'Hawk': '',
-  'Horse': '',
-  'Leopard': '',
-  'Lion': '',
-  'Owl': '',
-  'Pony': '',
-  'Shark': '',
-  'Tiger': '',
-  'Velociraptor': '',
-  'Viper': '',
-  'Wolf': ''
+  'Badger': 'HD=1 AC=15 Dam=2x1d2-1,1d3-1 Str=8 Dex=17 Con=15 Int=2 Wis=12 Cha=6',
+  'Camel': 'HD=3 AC=13 Dam=1d4+2 Str=18 Dex=16 Con=14 Int=2 Wis=11 Cha=4',
+  'Crocodile': 'HD=3 AC=15 Dam=1d8+6,1d12+6 Str=19 Dex=12 Con=17 Int=1 Wis=12 Cha=2',
+  'Dire Rat': 'HD=1 AC=15 Dam=1d4 Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4',
+  'Dog': 'HD=1 AC=15 Dam=1d4+1 Str=13 Dex=17 Con=15 Int=2 Wis=12 Cha=6',
+  'Riding Dog': 'HD=2 AC=16 Dam=1d6+3 Str=15 Dex=15 Con=15 Int=2 Wis=12 Cha=6',
+  'Eagle': 'HD=1 AC=14 Dam=2x1d4,1d4 Str=10 Dex=15 Con=12 Int=2 Wis=14 Cha=6',
+  'Hawk': 'HD=1 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6',
+  'Heavy Horse': 'HD=3 AC=13 Dam=1d6+1 Str=16 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
+  'Light Horse': 'HD=3 AC=13 Dam=1d4+1 Str=14 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
+  'Medium Shark': 'HD=3 AC=15 Dam=1d6+1 Str=13 Dex=15 Con=13 Int=1 Wis=12 Cha=2',
+  'Medium Viper': 'HD=2 AC=16 Dam=1d4-2 Str=8 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
+  'Owl': 'HD=1 AC=17 Dam=1d4-3 Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4',
+  'Pony': 'HD=2 AC=13 Dam=1d3 Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4',
+  'Porpoise': 'HD=2 AC=15 Dam=2d4 Str=11 Dex=17 Con=13 Int=2 Wis=12 Cha=6',
+  'Small Viper': 'HD=1 AC=17 Dam=1d2-2 Str=6 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
+  'Squid': 'HD=3 AC=16 Dam=0 Str=14 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
+  'Wolf': 'HD=2 AC=14 Dam=1d6+1 Str=13 Dex=15 Con=15 Int=2 Wis=12 Cha=6',
+
+  'Ape': 'HD=4 AC=14 Dam=1d6+5 Str=21 Dex=15 Con=14 Int=2 Wis=12 Cha=7 Level=4',
+  'Bison': 'HD=5 AC=13 Dam=1d8+9 Str=22 Dex=10 Con=16 Int=2 Wis=11 Cha=4 Level=4',
+  'Black Bear': 'HD=3 AC=13 Dam=2x1d4+4,1d6+2 Str=19 Dex=13 Con=15 Int=2 Wis=12 Cha=6 Level=4',
+  'Boar': 'HD=3 AC=16 Dam=1d8+3 Str=15 Dex=10 Con=17 Int=2 Wis=13 Cha=4 Level=4',
+  'Cheetah': 'HD=3 AC=15 Dam=2x1d2+1,1d6+3 Str=16 Dex=19 Con=15 Int=2 Wis=12 Cha=6 Level=4',
+  'Constrictor': 'HD=3 AC=15 Dam=1d3+4 Str=17 Dex=17 Con=13 Int=1 Wis=12 Cha=2 Level=4',
+  'Dire Badger': 'HD=3 AC=16 Dam=2x1d4+2,1d6+1 Str=14 Dex=17 Con=19 Int=2 Wis=12 Cha=10 Level=4',
+  'Dire Bat': 'HD=4 AC=20 Dam=1d8+4 Str=17 Dex=22 Con=17 Int=2 Wis=14 Cha=6 Level=4',
+  'Dire Weasel': 'HD=3 AC=16 Dam=1d6+3 Str=14 Dex=19 Con=10 Int=2 Wis=12 Cha=11 Level=4',
+  'Large Shark': 'HD=7 AC=15 Dam=1d8+4 Str=17 Dex=15 Con=13 Int=1 Wis=12 Cha=2 Level=4',
+  'Large Viper': 'HD=3 AC=15 Dam=1d4 Str=10 Dex=17 Con=11 Int=1 Wis=12 Cha=2 Level=4',
+  'Leopard': 'HD=3 AC=15 Dam=1d6+3 Str=16 Dex=19 Con=15 Int=2 Wis=12 Cha=6 Level=4',
+  'Monitor Lizard': 'HD=3 AC=15 Dam=1d8+4 Str=17 Dex=15 Con=17 Int=1 Wis=12 Cha=2 Level=4',
+  'Wolverine': 'HD=3 AC=14 Dam=2x1d4+2,1d6+1 Str=14 Dex=15 Con=19 Int=2 Wis=12 Cha=10 Level=4',
+
+  'Brown Bear': 'HD=6 AC=15 Dam=1d8+8,2d6+4 Str=27 Dex=13 Con=19 Int=2 Wis=12 Cha=6 Level=7',
+  'Deinonychus': 'HD=4 AC=17 Dam=1d8+4,2x1d3+2,2d4+2 Str=19 Dex=15 Con=19 Int=2 Wis=12 Cha=10 Level=7',
+  'Dire Ape': 'HD=5 AC=15 Dam=2x1d6+6,1d8+3 Str=22 Dex=15 Con=14 Int=2 Wis=12 Cha=7 Level=7',
+  'Dire Boar': 'HD=7 AC=15 Dam=1d8+12 Str=27 Dex=10 Con=17 Int=2 Wis=13 Cha=8 Level=7',
+  'Dire Wolf': 'HD=6 AC=14 Dam=1d8+10 Str=25 Dex=15 Con=17 Int=2 Wis=12 Cha=10 Level=7',
+  'Dire Wolverine': 'HD=5 AC=16 Dam=2x1d6+6,1d8+3 Str=22 Dex=17 Con=19 Int=2 Wis=12 Cha=10 Level=7',
+  'Elasmosaurus': 'HD=10 AC=13 Dam=2d8+12 Str=26 Dex=14 Con=22 Int=2 Wis=13 Cha=9 Level=7',
+  'Giant Crocodile': 'HD=7 AC=16 Dam=2d8+12,1d12+12 Str=27 Dex=12 Con=19 Int=1 Wis=12 Cha=2 Level=7',
+  'Huge Viper': 'HD=6 AC=15 Dam=1d6+4 Str=16 Dex=15 Con=13 Int=1 Wis=12 Cha=2 Level=7',
+  'Lion': 'HD=5 AC=15 Dam=2x1d4+5,1d8+2 Str=21 Dex=17 Con=15 Int=2 Wis=12 Cha=6 Level=7',
+  'Rhinoceros': 'HD=8 AC=16 Dam=2d6+12 Str=26 Dex=10 Con=21 Int=2 Wis=13 Cha=2 Level=7',
+  'Tiger': 'HD=6 AC=14 Dam=2x1d8+6,2d6+3 Str=23 Dex=15 Con=17 Int=2 Wis=12 Cha=6 Level=7',
+
+  'Dire Lion': 'HD=8 AC=15 Dam=2x1d6+7,1d8+3 Str=25 Dex=15 Con=17 Int=2 Wis=12 Cha=10 Level=10',
+  'Giant Constrictor': 'HD=11 AC=15 Dam=1d8+10 Str=25 Dex=17 Con=13 Int=1 Wis=12 Cha=2 Level=10',
+  'Huge Shark': 'HD=10 AC=15 Dam=2d6+7 Str=21 Dex=15 Con=15 Int=1 Wis=12 Cha=2 Level=10',
+  'Megaraptor': 'HD=8 AC=17 Dam=2d6+5,2x1d4+2,1d8+2 Str=21 Dex=15 Con=21 Int=2 Wis=15 Cha=6 Level=10',
+  'Orca': 'HD=9 AC=15 Dam=2d6+12 Str=27 Dex=15 Con=21 Int=2 Wis=14 Cha=6 Level=10',
+  'Polar Bear': 'HD=8 AC=15 Dam=2x1d8+8,2d6+4 Str=27 Dex=13 Con=19 Int=2 Wis=12 Cha=6 Level=10',
+
+  'Dire Bear': 'HD=12 AC=17 Dam=2x2d4+10,2d8+5 Str=31 Dex=13 Con=19 Int=2 Wis=12 Cha=10 Level=13',
+  'Elephant': 'HD=11 AC=15 Dam=2d6+10,2d6+5 Str=30 Dex=10 Con=21 Int=2 Wis=13 Cha=7 Level=13',
+  'Giant Octopus': 'HD=8 AC=18 Dam=8x1d4+5,1d8+2 Str=20 Dex=15 Con=13 Int=2 Wis=12 Cha=3 Level=13',
+
+  'Dire Shark': 'HD=18 AC=17 Dam=2d8+9 Str=23 Dex=15 Con=17 Int=1 Wis=12 Cha=10 Level=16',
+  'Dire Tiger': 'HD=16 AC=17 Dam=2x2d4+8,2d6+4 Str=27 Dex=15 Con=17 Int=2 Wis=12 Cha=10 Level=16',
+  'Giant Squid': 'HD=12 AC=17 Dam=10x1d6+8,2d8+4 Str=26 Dex=17 Con=13 Int=1 Wis=12 Cha=2 Level=16',
+  'Triceratops': 'HD=16 AC=18 Dam=2d8+15 Str=30 Dex=9 Con=25 Int=1 Wis=12 Cha=7 Level=16',
+  'Tyrannosaurus': 'HD=18 AC=14 Dam=3d6+13 Str=29 Dex=12 Con=21 Int=2 Wis=15 Cha=10 Level=16'
 };
 SRD35.ARMORS = [
   'None', 'Padded', 'Leather', 'Studded Leather', 'Chain Shirt', 'Hide',
@@ -111,38 +152,37 @@ SRD35.DOMAINS = [
   'Protection', 'Strength', 'Sun', 'Travel', 'Trickery', 'War', 'Water'
 ];
 SRD35.FAMILIARS = {
-  'Bat': 'HD=1 Init=2 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4',
-  'Cat': 'HD=1 Init=2 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7',
-  'Hawk': 'HD=1 Init=3 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6',
-  'Lizard': 'HD=1 Init=2 AC=14 Dam=1d4-4 Str=3 Dex=15 Con=10 Int=1 Wis=12 Cha=2',
-  'Owl': 'HD=1 Init=3 AC=17 Dam=1d4-3 Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4',
-  'Rat': 'HD=1 Init=2 AC=14 Dam=1d3-4 Str=2 Dex=15 Con=10 Int=2 Wis=12 Cha=2',
-  'Raven': 'HD=1 Init=2 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
-  'Toad': 'HD=1 Init=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4',
-  'Viper': 'HD=1 Init=7 AC=17 Dam=1 Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
-  'Weasel': 'HD=1 Init=2 AC=14 Dam=1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=5',
+  'Bat': 'HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4',
+  'Cat': 'HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7',
+  'Hawk': 'HD=1 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6',
+  'Lizard': 'HD=1 AC=14 Dam=1d4-4 Str=3 Dex=15 Con=10 Int=1 Wis=12 Cha=2',
+  'Owl': 'HD=1 AC=17 Dam=1d4-3 Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4',
+  'Rat': 'HD=1 AC=14 Dam=1d3-4 Str=2 Dex=15 Con=10 Int=2 Wis=12 Cha=2',
+  'Raven': 'HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
+  'Tiny Viper': 'HD=1 AC=17 Dam=1 Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
+  'Toad': 'HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4',
+  'Weasel': 'HD=1 AC=14 Dam=1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=5',
 
-  'Air Mephit': 'HD=3 Init=7 AC=17 Dam=1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Dust Mephit': 'HD=3 Init=7 AC=17 Dam=1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Air Mephit': 'HD=3 AC=17 Dam=1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Dust Mephit': 'HD=3 AC=17 Dam=1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Earth Elemental': 'HD=2 Init=-1 AC=17 Dam=1d6+4 Str=17 Dex=8 Con=13 Int=4 Wis=11 Cha=11 Level=5',
   'Earth Mephit': 'HD=3 Init=-1 AC=16 Dam=1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
-  'Fire Elemental': 'HD=2 Init=5 AC=15 Dam=1d4+1d4 Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 Level=5',
-  'Fire Mephit': 'HD=3 Init=5 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Formian Worker': 'HD=1 Init=2 AC=17 Dam=1d4+1 Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 Level=7',
-  'Homunculus': 'HD=2 Init=2 AC=14 Dam=1d4-1 Str=8 Dex=15 Con=0 Int=10 Wis=12 Cha=7 Level=7',
-  'Ice Mephit': 'HD=3 Init=7 AC=18 Dam=1d3+1d4 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Imp': 'HD=3 Init=3 AC=20 Dam=1d4 Str=10 Dex=17 Con=10 Int=10 Wis=12 Cha=14 Level=7',
-  'Magma Mephit': 'HD=3 Init=5 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Mephit': '',
-  'Ooze Mephit': 'HD=3 Init=0 AC=16 Dam=1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
-  'Pseudodragon': 'HD=2 Init=2 AC=18 Dam=1d3-2 Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 Level=7',
-  'Quasit': 'HD=3 Init=7 AC=18 Dam=1d3-1 Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 Level=7',
+  'Fire Elemental': 'HD=2 AC=15 Dam=1d4+1d4 Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 Level=5',
+  'Fire Mephit': 'HD=3 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Formian Worker': 'HD=1 AC=17 Dam=1d4+1 Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 Level=7',
+  'Homunculus': 'HD=2 AC=14 Dam=1d4-1 Str=8 Dex=15 Con=0 Int=10 Wis=12 Cha=7 Level=7',
+  'Ice Mephit': 'HD=3 AC=18 Dam=1d3+1d4 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Imp': 'HD=3 AC=20 Dam=1d4 Str=10 Dex=17 Con=10 Int=10 Wis=12 Cha=14 Level=7',
+  'Magma Mephit': 'HD=3 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Ooze Mephit': 'HD=3 AC=16 Dam=1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
+  'Pseudodragon': 'HD=2 AC=18 Dam=1d3-2 Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 Level=7',
+  'Quasit': 'HD=3 AC=18 Dam=1d3-1 Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 Level=7',
   'Salt Mephit': 'HD=3 Init=-1 AC=16 Dam=1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
-  'Shocker Lizard': 'HD=2 Init=6 AC=16 Dam=1d4 Str=10 Dex=15 Con=13 Int=2 Wis=12 Cha=6 Level=5',
-  'Steam Mephit': 'HD=3 Init=5 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Stirge': 'HD=1 Init=4 AC=16 Dam=0 Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 Level=5',
-  'Water Elemental': 'HD=2 Init=0 AC=17 Dam=1d6+3 Str=14 Dex=10 Con=13 Int=4 Wis=11 Cha=11 Level=5',
-  'Water Mephit': 'HD=3 Init=0 AC=16 Dam=1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
+  'Shocker Lizard': 'HD=2 AC=16 Dam=1d4 Str=10 Dex=15 Con=13 Int=2 Wis=12 Cha=6 Level=5',
+  'Steam Mephit': 'HD=3 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Stirge': 'HD=1 AC=16 Dam=0 Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 Level=5',
+  'Water Elemental': 'HD=2 AC=17 Dam=1d6+3 Str=14 Dex=10 Con=13 Int=4 Wis=11 Cha=11 Level=5',
+  'Water Mephit': 'HD=3 AC=16 Dam=1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
 
   'Celestial': 'Level=3',
   'Fiendish': 'Level=3'
@@ -1667,10 +1707,10 @@ SRD35.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_POOR;
       feats = null;
-      features = ['1:Summon Familiar'];
+      features = ['1:Familiar'];
       hitDie = 4;
       notes = [
-        'featureNotes.summonFamiliarFeature:Special bond/abilities'
+        'featureNotes.familiarFeature:Special bond/abilities'
       ];
       profArmor = SRD35.PROFICIENCY_NONE;
       profShield = SRD35.PROFICIENCY_NONE;
@@ -1723,13 +1763,13 @@ SRD35.classRules = function(rules, classes) {
         }
       }
       features = [
-        '1:Scribe Scroll', '1:Summon Familiar',
+        '1:Scribe Scroll', '1:Familiar',
         '1:Weapon Proficiency ' +
           '(Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)'
       ];
       hitDie = 4;
       notes = [
-        'featureNotes.summonFamiliarFeature:Special bond/abilities',
+        'featureNotes.familiarFeature:Special bond/abilities',
         'magicNotes.scribeScrollFeature:Create scroll of any known spell',
         'magicNotes.wizardSpecialization:Extra %V spell/day each spell level',
         'skillNotes.wizardSpecialization:+2 Spellcraft (%V)'
@@ -1921,9 +1961,9 @@ SRD35.companionRules = function(rules, companions, familiars, mounts) {
     rules.defineEditorElement
       ('animalCompanion', 'Animal Companion', 'set', 'animalCompanions',
        'notes');
-    rules.defineSheetElement('Animal Companion Stats', 'Notes', null, '; ');
-    rules.defineSheetElement('Animal Companion Features', 'Notes', null, '; ');
     rules.defineSheetElement('Animal Companion', 'Notes');
+    rules.defineSheetElement('Animal Companion Features', 'Notes', null, '; ');
+    rules.defineSheetElement('Animal Companion Stats', 'Notes', null, '; ');
 
     features = {
       'Link': 1, 'Share Spells': 1, 'Companion Evasion': 2, 'Devotion' : 3,
@@ -1939,27 +1979,85 @@ SRD35.companionRules = function(rules, companions, familiars, mounts) {
     }
 
     notes = [
-      'animalCompanionStats.Tricks:+%V'
+      'animalCompanionStats.BAB:+%V',
+      'animalCompanionStats.Fort:+%V',
+      'animalCompanionStats.Init:+%V',
+      'animalCompanionStats.Ref:+%V',
+      'animalCompanionStats.Tricks:+%V',
+      'animalCompanionStats.Will:+%V',
+      'validationNotes.animalCompanionCasterLevel:Requires %1'
     ];
     rules.defineNote(notes);
 
     rules.defineRule('animalCompanionLevel',
-      'animalCompanionMasterLevel', '+=', 'Math.floor((source + 3) / 3)'
+      'animalCompanionMasterLevel', '=', 'Math.floor((source + 3) / 3)'
     );
     rules.defineRule('animalCompanionStats.AC',
-      'animalCompanionLevel', '=', '(source - 1) * 2'
+      'animalCompanionLevel', '+', '(source - 1) * 2'
+    );
+    rules.defineRule('animalCompanionStats.BAB',
+      'animalCompanionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE
     );
     rules.defineRule('animalCompanionStats.Dex',
-      'animalCompanionLevel', '=', 'source - 1'
+      'animalCompanionLevel', '+', 'source - 1'
+    );
+    rules.defineRule('animalCompanionStats.Fort',
+      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
+      'animalCompanionStats.Con', '+', 'Math.floor((source - 10)/2)'
     );
     rules.defineRule('animalCompanionStats.HD',
-      'animalCompanionLevel', '=', '(source - 1) * 2'
+      'animalCompanionLevel', '+', '(source - 1) * 2'
+    );
+    rules.defineRule('animalCompanionStats.Init',
+      'animalCompanionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('animalCompanionStats.Ref',
+      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
+      'animalCompanionStats.Dex', '+', 'Math.floor((source - 10) / 2)'
     );
     rules.defineRule('animalCompanionStats.Str',
-      'animalCompanionLevel', '=', 'source - 1'
+      'animalCompanionLevel', '+', 'source - 1'
     );
     rules.defineRule
       ('animalCompanionStats.Tricks', 'animalCompanionLevel', '=', null);
+    rules.defineRule('animalCompanionStats.Will',
+      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
+      'animalCompanionStats.Wis', '+', 'Math.floor((source - 10)/2)'
+    );
+    rules.defineRule('validationNotes.animalCompanionCasterLevel',
+      'validationNotes.animalCompanionCasterLevel.1', '=', null,
+      'animalCompanionMasterLevel', '+', '-source',
+      '', '^', '0'
+    );
+    rules.defineRule('validationNotes.animcalCompanionCasterLevel.1',
+      'features.Animal Companion', '=', '1'
+    );
+
+    for(var companion in companions) {
+      var matchInfo;
+      var stats = companions[companion].split(/\s+/);
+      for(var i = 0; i < stats.length; i++) {
+        if((matchInfo = stats[i].match(/(.+)=(.+)/)) == null)
+          continue
+        if(matchInfo[1] == 'Level') {
+          rules.defineRule('animalCompanionLevel',
+            'animalCompanion.' + companion, '+',
+            '-Math.floor(' + matchInfo[2] + '/3)'
+          );
+          rules.defineRule('validationNotes.animalCompanionCasterLevel.1',
+            'animalCompanion.' + companion, '^', matchInfo[2]
+          );
+        } else if(matchInfo[2].match(/^\d+$/)) {
+          rules.defineRule('animalCompanionStats.' + matchInfo[1],
+            'animalCompanion.' + companion, '=', matchInfo[2]
+          );
+        } else {
+          rules.defineRule('animalCompanionStats.' + matchInfo[1],
+            'animalCompanion.' + companion, '=', '"' + matchInfo[2] + '"'
+          );
+        }
+      }
+    }
 
   }
 
@@ -2002,11 +2100,13 @@ SRD35.companionRules = function(rules, companions, familiars, mounts) {
       'skillNotes.familiarOwl:+3 Spot in shadows/darkness',
       'skillNotes.familiarRaven:+3 Appraise',
       'skillNotes.familiarViper:+3 Bluff',
-      'familiarStats.Attack:+%V',
+      'familiarStats.BAB:+%V',
       'familiarStats.Fort:+%V',
+      'familiarStats.Init:+%V',
       'familiarStats.Ref:+%V',
       'familiarStats.SR:DC %V',
-      'familiarStats.Will:+%V'
+      'familiarStats.Will:+%V',
+      'validationNotes.familiarCasterLevel:Requires %1'
     ];
     rules.defineNote(notes);
 
@@ -2049,91 +2149,71 @@ SRD35.companionRules = function(rules, companions, familiars, mounts) {
       'familiar.Fiendish', '?', null,
       'familiarStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
     );
-    rules.defineRule('familiarStats.AC', 'familiarLevel', '=', null);
-    rules.defineRule('familiarStats.HD',
-      'familiarLevel', '?', null,
-      'level', '=', null
+    rules.defineRule('familiarStats.AC', 'familiarLevel', '+', null);
+    rules.defineRule('familiarAttackBonus',
+      'familiarStats.Dex', '=', 'Math.floor((source - 10) / 2)',
+      'familiarStats.Str', '^', 'Math.floor((source - 10) / 2)'
     );
+    rules.defineRule('familiarStats.BAB',
+      'familiarLevel', '?', null,
+      'baseAttack', '=', null,
+      'familiarAttackBonus', '+', null
+    );
+    rules.defineRule('familiarStats.HD', 'level', '^', null);
     rules.defineRule('familiarStats.HP',
       'familiarLevel', '?', null,
       'hitPoints', '=', 'Math.floor(source / 2)'
     );
-    rules.defineRule('familiarStats.Int', 'familiarLevel', '=', 'source + 5');
+    rules.defineRule('familiarStats.Init',
+      'familiarStats.Dex', '=', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('familiarStats.Int', 'familiarLevel', '^', 'source + 5');
     rules.defineRule('familiarStats.SR',
       'features.Companion Resist Spells', '?', null,
-      'familiarMasterLevel', '+=', 'source + 5'
+      'familiarMasterLevel', '=', 'source + 5'
     );
     rules.defineRule('familiarStats.Fort',
       'familiarLevel', '?', null,
-      'classFortitudeBonus', '=', 'Math.max(source, 2)'
+      'classFortitudeBonus', '=', 'Math.max(source, 2)',
+      'familiarStats.Con', '+', 'Math.floor((source - 10) / 2)'
     );
     rules.defineRule('familiarStats.Ref',
       'familiarLevel', '?', null,
-      'classReflexBonus', '=', 'Math.max(source, 2)'
+      'classReflexBonus', '=', 'Math.max(source, 2)',
+      'familiarStats.Dex', '+', 'Math.floor((source - 10) / 2)'
     );
     rules.defineRule('familiarStats.Will',
       'familiarLevel', '?', null,
-      'classWillBonus', '=', 'Math.max(source, 0)'
+      'classWillBonus', '=', 'Math.max(source, 0)',
+      'familiarStats.Wis', '+', 'Math.floor((source - 10) / 2)'
     );
+    rules.defineRule('validationNotes.familiarCasterLevel',
+      'validationNotes.familiarCasterLevel.1', '=', null,
+      'familiarMasterLevel', '+', '-source',
+      '', '^', '0'
+    );
+    rules.defineRule
+      ('validationNotes.familiarCasterLevel.1', 'features.Familiar', '=', '1');
 
     for(var familiar in familiars) {
       var matchInfo;
-      var stats = familiars[familiar];
-      if((matchInfo = stats.match(/AC=(\d+)/)) != null)
-        rules.defineRule('familiarStats.AC', 'familiar.' + familiar, '+', matchInfo[1]);
-      rules.defineRule('familiarAttackBonus',
-        'familiarStats.Dex', '=', 'Math.floor((source - 10) / 2)',
-        'familiarStats.Str', '^', 'Math.floor((source - 10) / 2)'
-      );
-      rules.defineRule('familiarStats.Attack',
-        'familiarLevel', '?', null,
-        'baseAttack', '=', null,
-        'familiarAttackBonus', '+', null
-      );
-      if((matchInfo = stats.match(/Cha=(\d+)/)) != null)
-        rules.defineRule
-          ('familiarStats.Cha', 'familiar.' + familiar, '=', matchInfo[1]);
-      if((matchInfo = stats.match(/Con=(\d+)/)) != null) {
-        rules.defineRule
-          ('familiarStats.Con', 'familiar.' + familiar, '=', matchInfo[1]);
-        rules.defineRule('familiarStats.Fort',
-          'familiar.' + familiar, '+', Math.floor((matchInfo[1] - 10) / 2)
-        );
-      }
-      if((matchInfo = stats.match(/Dam=(\S+)/)) != null)
-        rules.defineRule('familiarStats.Dam',
-          'familiar.' + familiar, '=', '"' + matchInfo[1] +'"'
-        );
-      if((matchInfo = stats.match(/Dex=(\d+)/)) != null) {
-        rules.defineRule
-          ('familiarStats.Dex', 'familiar.' + familiar, '=', matchInfo[1]);
-        rules.defineRule('familiarStats.Ref',
-          'familiar.' + familiar, '+', Math.floor((matchInfo[1] - 10) / 2)
-        );
-      }
-      if((matchInfo = stats.match(/HD=(\d+)/)) != null)
-        rules.defineRule
-          ('familiarStats.HD', 'familiar.' + familiar, '^', matchInfo[1]);
-      if((matchInfo = stats.match(/Init=(\d+)/)) != null)
-        rules.defineRule
-          ('familiarStats.Init', 'familiar.' + familiar, '=', matchInfo[1]);
-      if((matchInfo = stats.match(/Level=(\d+)/)) != null) {
-        rules.defineNote('validationNotes.familiar' + familiar +
-                        ':Requires caster level ' + matchInfo[1]);
-        rules.defineRule('validationNotes.familiar' + familiar,
-          'familiar.' + familiar, '=', '-1',
-          'familiarMasterLevel', '+', 'source >= ' + matchInfo[1] + ' ? 1 : 0'
-        );
-      }
-      if((matchInfo = stats.match(/Str=(\d+)/)) != null)
-        rules.defineRule
-          ('familiarStats.Str', 'familiar.' + familiar, '=', matchInfo[1]);
-      if((matchInfo = stats.match(/Wis=(\d+)/)) != null) {
-        rules.defineRule
-          ('familiarStats.Wis', 'familiar.' + familiar, '=', matchInfo[1]);
-        rules.defineRule('familiarStats.Will',
-          'familiar.' + familiar, '+', Math.floor((matchInfo[1] - 10) / 2)
-        );
+      var stats = familiars[familiar].split(/\s+/);
+      for(var i = 0; i < stats.length; i++) {
+        if((matchInfo = stats[i].match(/(.+)=(.+)/)) == null)
+          continue
+        if(matchInfo[1] == 'Level') {
+          rules.defineRule('validationNotes.familiarCasterLevel.1',
+            'familiar.' + familiar, '^', matchInfo[2]
+          );
+        } else if(matchInfo[2].match(/^\d+$/)) {
+          rules.defineRule('familiarStats.' + matchInfo[1],
+            'familiar.' + familiar, '=', matchInfo[2]
+          );
+        } else {
+          rules.defineRule('familiarStats.' + matchInfo[1],
+            'familiar.' + familiar, '=', '"' + matchInfo[2] + '"'
+          );
+        }
       }
     }
 
@@ -2858,7 +2938,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Improved Familiar') {
       notes = [
         'featureNotes.improvedFamiliarFeature:Expanded Familiar choices',
-        'validationNotes.improvedFamiliarFeatFeatures:Requires Summon Familiar'
+        'validationNotes.improvedFamiliarFeatFeatures:Requires Familiar'
       ];
     } else if(feat == 'Improved Feint') {
       notes = [
