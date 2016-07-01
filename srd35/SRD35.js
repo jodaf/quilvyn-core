@@ -165,8 +165,8 @@ SRD35.FAMILIARS = {
 
   'Air Mephit': 'HD=3 AC=17 Dam=1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Dust Mephit': 'HD=3 AC=17 Dam=1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Earth Elemental': 'HD=2 Init=-1 AC=17 Dam=1d6+4 Str=17 Dex=8 Con=13 Int=4 Wis=11 Cha=11 Level=5',
-  'Earth Mephit': 'HD=3 Init=-1 AC=16 Dam=1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
+  'Earth Elemental': 'HD=2 AC=17 Dam=1d6+4 Str=17 Dex=8 Con=13 Int=4 Wis=11 Cha=11 Level=5',
+  'Earth Mephit': 'HD=3 AC=16 Dam=1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
   'Fire Elemental': 'HD=2 AC=15 Dam=1d4+1d4 Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 Level=5',
   'Fire Mephit': 'HD=3 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Formian Worker': 'HD=1 AC=17 Dam=1d4+1 Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 Level=7',
@@ -177,7 +177,7 @@ SRD35.FAMILIARS = {
   'Ooze Mephit': 'HD=3 AC=16 Dam=1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
   'Pseudodragon': 'HD=2 AC=18 Dam=1d3-2 Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 Level=7',
   'Quasit': 'HD=3 AC=18 Dam=1d3-1 Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 Level=7',
-  'Salt Mephit': 'HD=3 Init=-1 AC=16 Dam=1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
+  'Salt Mephit': 'HD=3 AC=16 Dam=1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
   'Shocker Lizard': 'HD=2 AC=16 Dam=1d4 Str=10 Dex=15 Con=13 Int=2 Wis=12 Cha=6 Level=5',
   'Steam Mephit': 'HD=3 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Stirge': 'HD=1 AC=16 Dam=0 Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 Level=5',
@@ -1961,6 +1961,8 @@ SRD35.companionRules = function(rules, companions, familiars, mounts) {
     rules.defineEditorElement
       ('animalCompanion', 'Animal Companion', 'set', 'animalCompanions',
        'notes');
+    rules.defineEditorElement
+      ('animalCompanionStats.Name', '', 'text', [20], 'notes');
     rules.defineSheetElement('Animal Companion', 'Notes');
     rules.defineSheetElement('Animal Companion Features', 'Notes', null, '; ');
     rules.defineSheetElement('Animal Companion Stats', 'Notes', null, '; ');
@@ -2067,6 +2069,7 @@ SRD35.companionRules = function(rules, companions, familiars, mounts) {
     rules.defineChoice('familiars', ScribeUtils.getKeys(familiars));
     rules.defineEditorElement
       ('familiar', 'Familiar', 'set', 'familiars', 'notes');
+    rules.defineEditorElement('familiarStats.Name', '', 'text', [20], 'notes');
     rules.defineSheetElement('Familiar', 'Notes', null, ' ');
     rules.defineSheetElement('Familiar Features', 'Notes', null, '; ');
     rules.defineSheetElement('Familiar Stats', 'Notes', null, '; ');
