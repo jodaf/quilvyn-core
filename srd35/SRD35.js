@@ -34,7 +34,8 @@ function SRD35() {
   SRD35.abilityRules(rules);
   SRD35.raceRules(rules, SRD35.LANGUAGES, SRD35.RACES);
   SRD35.classRules(rules, SRD35.CLASSES);
-  SRD35.companionRules(rules, SRD35.COMPANIONS);
+  SRD35.companionRules
+    (rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS, ['Mount']);
   SRD35.skillRules(rules, SRD35.SKILLS, SRD35.SUBSKILLS, SRD35.SYNERGIES);
   SRD35.featRules(rules, SRD35.FEATS, SRD35.SUBFEATS);
   SRD35.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.DEITIES, SRD35.GENDERS);
@@ -70,6 +71,30 @@ SRD35.ALIGNMENTS = [
   'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral', 'Neutral Evil',
   'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
 ];
+SRD35.ANIMAL_COMPANIONS = {
+  'Ape': '',
+  'Badger': '',
+  'Bear': '',
+  'Boar': '',
+  'Camel': '',
+  'Cheetah': '',
+  'Constrictor': '',
+  'Crocodile': '',
+  'Deinonychus': '',
+  'Dog': '',
+  'Eagle': '',
+  'Hawk': '',
+  'Horse': '',
+  'Leopard': '',
+  'Lion': '',
+  'Owl': '',
+  'Pony': '',
+  'Shark': '',
+  'Tiger': '',
+  'Velociraptor': '',
+  'Viper': '',
+  'Wolf': ''
+};
 SRD35.ARMORS = [
   'None', 'Padded', 'Leather', 'Studded Leather', 'Chain Shirt', 'Hide',
   'Scale Mail', 'Chainmail', 'Breastplate', 'Splint Mail', 'Banded Mail',
@@ -79,13 +104,50 @@ SRD35.CLASSES = [
   'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin',
   'Ranger', 'Rogue', 'Sorcerer', 'Wizard'
 ];
-SRD35.COMPANIONS = ['Animal Companion', 'Familiar', 'Mount'];
 SRD35.DEITIES = ['None:']; // The SRD defines no deities
 SRD35.DOMAINS = [
   'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
   'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
   'Protection', 'Strength', 'Sun', 'Travel', 'Trickery', 'War', 'Water'
 ];
+SRD35.FAMILIARS = {
+  'Bat': 'HD=1 Init=2 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4',
+  'Cat': 'HD=1 Init=2 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7',
+  'Hawk': 'HD=1 Init=3 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6',
+  'Lizard': 'HD=1 Init=2 AC=14 Dam=1d4-4 Str=3 Dex=15 Con=10 Int=1 Wis=12 Cha=2',
+  'Owl': 'HD=1 Init=3 AC=17 Dam=1d4-3 Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4',
+  'Rat': 'HD=1 Init=2 AC=14 Dam=1d3-4 Str=2 Dex=15 Con=10 Int=2 Wis=12 Cha=2',
+  'Raven': 'HD=1 Init=2 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
+  'Toad': 'HD=1 Init=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4',
+  'Viper': 'HD=1 Init=7 AC=17 Dam=1 Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
+  'Weasel': 'HD=1 Init=2 AC=14 Dam=1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=5',
+
+  'Air Mephit': 'HD=3 Init=7 AC=17 Dam=1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Dust Mephit': 'HD=3 Init=7 AC=17 Dam=1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Earth Elemental': 'HD=2 Init=-1 AC=17 Dam=1d6+4 Str=17 Dex=8 Con=13 Int=4 Wis=11 Cha=11 Level=5',
+  'Earth Mephit': 'HD=3 Init=-1 AC=16 Dam=1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
+  'Fire Elemental': 'HD=2 Init=5 AC=15 Dam=1d4+1d4 Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 Level=5',
+  'Fire Mephit': 'HD=3 Init=5 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Formian Worker': 'HD=1 Init=2 AC=17 Dam=1d4+1 Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 Level=7',
+  'Homunculus': 'HD=2 Init=2 AC=14 Dam=1d4-1 Str=8 Dex=15 Con=0 Int=10 Wis=12 Cha=7 Level=7',
+  'Ice Mephit': 'HD=3 Init=7 AC=18 Dam=1d3+1d4 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Imp': 'HD=3 Init=3 AC=20 Dam=1d4 Str=10 Dex=17 Con=10 Int=10 Wis=12 Cha=14 Level=7',
+  'Magma Mephit': 'HD=3 Init=5 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Mephit': '',
+  'Ooze Mephit': 'HD=3 Init=0 AC=16 Dam=1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
+  'Pseudodragon': 'HD=2 Init=2 AC=18 Dam=1d3-2 Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 Level=7',
+  'Quasit': 'HD=3 Init=7 AC=18 Dam=1d3-1 Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 Level=7',
+  'Salt Mephit': 'HD=3 Init=-1 AC=16 Dam=1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
+  'Shocker Lizard': 'HD=2 Init=6 AC=16 Dam=1d4 Str=10 Dex=15 Con=13 Int=2 Wis=12 Cha=6 Level=5',
+  'Steam Mephit': 'HD=3 Init=5 AC=16 Dam=1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Stirge': 'HD=1 Init=4 AC=16 Dam=0 Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 Level=5',
+  'Water Elemental': 'HD=2 Init=0 AC=17 Dam=1d6+3 Str=14 Dex=10 Con=13 Int=4 Wis=11 Cha=11 Level=5',
+  'Water Mephit': 'HD=3 Init=0 AC=16 Dam=1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
+
+  'Celestial': 'Level=3',
+  'Fiendish': 'Level=3'
+
+};
 SRD35.FEATS = [
   'Acrobatic:', 'Agile:', 'Alertness:', 'Animal Affinity:',
   'Armor Proficiency:', 'Athletic:', 'Augment Summoning:',
@@ -1648,8 +1710,6 @@ SRD35.classRules = function(rules, classes) {
         'S9:18:3/19:4/20:6'
       ];
       rules.defineRule('casterLevelArcane', 'levels.Sorcerer', '+=', null);
-      rules.defineRule
-        ('familiarLevel', 'levels.Sorcerer', '+=', 'Math.floor(source / 2)');
       rules.defineRule('familiarMasterLevel', 'levels.Sorcerer', '+=', null);
 
     } else if(klass == 'Wizard') {
@@ -1705,8 +1765,6 @@ SRD35.classRules = function(rules, classes) {
         'W9:17:1/18:2/19:3/20:4'
       ];
       rules.defineRule('casterLevelArcane', 'levels.Wizard', '+=', null);
-      rules.defineRule
-        ('familiarLevel', 'levels.Wizard', '+=', 'Math.floor(source / 2)');
       rules.defineRule('familiarMasterLevel', 'levels.Wizard', '+=', null);
       rules.defineRule('featCount.Wizard',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
@@ -1820,162 +1878,306 @@ SRD35.combatRules = function(rules) {
 };
 
 /* Defines the rules related to companion creatures. */
-SRD35.companionRules = function(rules, companions) {
+SRD35.companionRules = function(rules, companions, familiars, mounts) {
 
-  for(var i = 0; i < companions.length; i++) {
+  var features, notes;
 
-    var features, notes, prefix;
-    var companion = companions[i];
+  notes = [
+    "companionNotes.celestialCompanion:" +
+      "Smite Evil (+%V damage) 1/day, 60' darkvision, " +
+      "%1 acid/cold/electricity resistance, DR %2/magic",
+    'companionNotes.commandLikeCreaturesFeature:' +
+      'DC %V <i>Command</i> vs. similar creatures %1/day',
+    'companionNotes.companionAlertnessFeature:' +
+      'Master +2 listen/spot when w/in reach',
+    'companionNotes.companionEvasionFeature:' +
+      'Reflex save yields no damage instead of 1/2',
+    'companionNotes.companionImprovedEvasionFeature:' +
+      'Failed save yields 1/2 damage',
+    'companionNotes.deliverTouchSpellsFeature:' +
+      'Deliver touch spells if in contact w/master when cast',
+    'companionNotes.devotionFeature:+4 Will vs. enchantment',
+    'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
+    "companionNotes.fiendishCompanion:" +
+      "Smite Good (+%V damage) 1/day, 60' darkvision, " +
+      "%1 cold/fire resistance, DR %2/magic",
+    'companionNotes.improvedSpeedFeature:+10 speed',
+    'companionNotes.linkFeature:' +
+      'Master +4 Handle Animal/Wild Empathy w/companion',
+    'companionNotes.multiattackFeature:' +
+      'Reduce additional attack penalty to -2 or second attack at -5',
+    'companionNotes.scryFeature:Master views companion 1/day',
+    'companionNotes.shareSpellsFeature:' +
+      'Master share self spell w/companion w/in 5 ft',
+    'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
+    'companionNotes.speakWithMasterFeature:Talk w/master in secret language'
+  ];
+  rules.defineNote(notes);
 
-    if(companion == 'Animal Companion') {
-      features = [
-        '1:Link', '1:Share Spells', '2:Companion Evasion', '3:Devotion',
-        '4:Multiattack', '6:Companion Improved Evasion'
-      ];
-      notes = [
-        'animalCompanionStats.armorClass:+%V',
-        'animalCompanionStats.dexterity:+%V',
-        'animalCompanionStats.hitDice:+%Vd8',
-        'animalCompanionStats.strength:+%V',
-        'animalCompanionStats.tricks:+%V',
-        'companionNotes.companionEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'companionNotes.companionImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'companionNotes.devotionFeature:+4 Will vs. enchantment',
-        'companionNotes.linkFeature:' +
-          'Master +4 Handle Animal/Wild Empathy w/companion',
-        'companionNotes.multiattackFeature:' +
-          'Reduce additional attack penalty to -2 or second attack at -5',
-        'companionNotes.shareSpellsFeature:' +
-          'Master share self spell w/companion w/in 5 ft'
-      ];
-      prefix = 'animalCompanion';
-      rules.defineRule('animalCompanionLevel',
-        'animalCompanionMasterLevel', '+=', 'Math.floor((source + 3) / 3)'
-      );
-      rules.defineRule('animalCompanionStats.armorClass',
-        'animalCompanionLevel', '=', '(source - 1) * 2'
-      );
-      rules.defineRule('animalCompanionStats.dexterity',
-        'animalCompanionLevel', '=', 'source - 1'
-      );
-      rules.defineRule('animalCompanionStats.hitDice',
-        'animalCompanionLevel', '=', '(source - 1) * 2'
-      );
-      rules.defineRule('animalCompanionStats.strength',
-        'animalCompanionLevel', '=', 'source - 1'
-      );
-      rules.defineRule
-        ('animalCompanionStats.tricks', 'animalCompanionLevel', '=', null);
-    } else if(companion == 'Familiar') {
-      features = [
-        '1:Companion Alertness', '1:Companion Evasion',
-        '1:Companion Improved Evasion', '1:Empathic Link',
-        '1:Share Attributes', '1:Share Spells', '2:Deliver Touch Spells',
-        '3:Speak With Master', '4:Speak With Like Animals',
-        '6:Companion Resist Spells', '7:Scry'
-      ];
-      notes = [
-        'familiarStats.armorClass:+%V',
-        'familiarStats.hitPoints:%V',
-        'familiarStats.intelligence:%V',
-        'familiarStats.spellResistance:DC %V',
-        'companionNotes.companionAlertnessFeature:' +
-          'Master +2 listen/spot when w/in reach',
-        'companionNotes.companionEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'companionNotes.companionImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'companionNotes.deliverTouchSpellsFeature:' +
-          'Deliver touch spells if in contact w/master when cast',
-        'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
-        'companionNotes.scryFeature:Master views companion 1/day',
-        'companionNotes.shareAttributesFeature:' +
-          'Use Master\'s HD/base attack/save/skill values',
-        'companionNotes.shareSpellsFeature:' +
-          'Master share self spell w/companion w/in 5 ft',
-        'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
-        'companionNotes.speakWithMasterFeature:Talk w/master in secret language'
-      ];
-      prefix = 'familiar';
-      rules.defineRule('familiarStats.armorClass', 'familiarLevel', '=', null);
-      rules.defineRule('familiarStats.hitPoints',
-        'familiarLevel', '?', null,
-        'hitPoints', '=', 'Math.floor(source / 2)'
-      );
-      rules.defineRule
-        ('familiarStats.intelligence', 'familiarLevel', '=', 'source + 5');
-      rules.defineRule('familiarStats.spellResistance',
-        'features.Companion Resist Spells', '?', null,
-        'familiarMasterLevel', '+=', 'source + 5'
-      );
-    } else if(companion == 'Mount') {
-      features = [
-        '1:Companion Evasion', '1:Companion Improved Evasion',
-        '1:Empathic Link', '1:Share Saving Throws', '1:Share Spells',
-        '2:Command Like Creatures', '2:Improved Speed',
-        '3:Command Like Creatures', '4:Companion Resist Spells'
-      ];
-      notes = [
-        'companionNotes.commandLikeCreaturesFeature:' +
-          'DC %V <i>Command</i> vs. similar creatures %1/day',
-        'companionNotes.companionEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'companionNotes.companionImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
-        'companionNotes.improvedSpeedFeature:+10 speed',
-        'companionNotes.shareSavingThrowsFeature:' +
-          'Companion uses higher of own or master\'s saving throws',
-        'companionNotes.shareSpellsFeature:' +
-          'Master share self spell w/companion w/in 5 ft',
-        'mountStats.armorClass:+%V',
-        'mountStats.hitDice:+%Vd8',
-        'mountStats.intelligence:%V',
-        'mountStats.spellResistance:DC %V',
-        'mountStats.strength:+%V'
-      ];
-      prefix = 'mount';
-      rules.defineRule('companionNotes.commandLikeCreaturesFeature',
-        'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
-        'charismaModifier', '+', null
-      );
-      rules.defineRule('companionNotes.commandLikeCreaturesFeature.1',
-        'mountMasterLevel', '=', 'Math.floor(source / 2)'
-      );
-      rules.defineRule
-        ('mountStats.armorClass', 'mountLevel', '=', '2 + source * 2');
-      rules.defineRule('mountStats.hitDice', 'mountLevel', '=', 'source * 2');
-      rules.defineRule
-        ('mountStats.intelligence', 'mountLevel', '=', 'source + 5');
-      rules.defineRule('mountStats.spellResistance',
-        'features.Companion Resist Spells', '?', null,
-        'mountMasterLevel', '+=', 'source + 5'
-      );
-      rules.defineRule('mountStats.strength', 'mountLevel', '=', null);
-    } else
-      continue;
+  if(companions != null) {
 
-    for(var j = 0; j < features.length; j++) {
-      var levelAndFeature = features[j].split(/:/);
-      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      rules.defineRule(prefix + 'Features.' + feature,
-        prefix + 'Level', '=', 'source >= ' + level + ' ? 1 : null'
+    // Add choice/stats to editor and sheet
+    rules.defineChoice('animalCompanions', ScribeUtils.getKeys(companions));
+    rules.defineEditorElement
+      ('animalCompanion', 'Animal Companion', 'set', 'animalCompanions',
+       'notes');
+    rules.defineSheetElement('Animal Companion Stats', 'Notes', null, '; ');
+    rules.defineSheetElement('Animal Companion Features', 'Notes', null, '; ');
+    rules.defineSheetElement('Animal Companion', 'Notes');
+
+    features = {
+      'Link': 1, 'Share Spells': 1, 'Companion Evasion': 2, 'Devotion' : 3,
+      'Multiattack': 4, 'Companion Improved Evasion': 6
+    };
+    for(var feature in features) {
+      rules.defineRule('animalCompanionFeatures.' + feature,
+        'animalCompanionLevel', '=',
+        'source >= ' + features[feature] + ' ? 1 : null'
       );
       rules.defineRule
-        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
+        ('features.' + feature, 'animalCompanionFeatures.' + feature, '=', '1');
     }
 
-    if(notes != null)
-      rules.defineNote(notes);
+    notes = [
+      'animalCompanionStats.Tricks:+%V'
+    ];
+    rules.defineNote(notes);
 
-    rules.defineSheetElement
-      (companion + ' Features', 'Companion Notes', null, '; ');
-    rules.defineSheetElement
-      (companion + ' Stats', companion + ' Features', null, '; ');
+    rules.defineRule('animalCompanionLevel',
+      'animalCompanionMasterLevel', '+=', 'Math.floor((source + 3) / 3)'
+    );
+    rules.defineRule('animalCompanionStats.AC',
+      'animalCompanionLevel', '=', '(source - 1) * 2'
+    );
+    rules.defineRule('animalCompanionStats.Dex',
+      'animalCompanionLevel', '=', 'source - 1'
+    );
+    rules.defineRule('animalCompanionStats.HD',
+      'animalCompanionLevel', '=', '(source - 1) * 2'
+    );
+    rules.defineRule('animalCompanionStats.Str',
+      'animalCompanionLevel', '=', 'source - 1'
+    );
+    rules.defineRule
+      ('animalCompanionStats.Tricks', 'animalCompanionLevel', '=', null);
 
+  }
+
+  if(familiars != null) {
+
+    // Add choice/stats to editor and sheet
+    rules.defineChoice('familiars', ScribeUtils.getKeys(familiars));
+    rules.defineEditorElement
+      ('familiar', 'Familiar', 'set', 'familiars', 'notes');
+    rules.defineSheetElement('Familiar', 'Notes', null, ' ');
+    rules.defineSheetElement('Familiar Features', 'Notes', null, '; ');
+    rules.defineSheetElement('Familiar Stats', 'Notes', null, '; ');
+
+    features = {
+      'Companion Alertness': 1, 'Companion Evasion': 1,
+      'Companion Improved Evasion': 1, 'Empathic Link': 1, 'Share Spells': 1,
+      'Deliver Touch Spells': 2, 'Speak With Master': 3,
+      'Speak With Like Animals': 4, 'Companion Resist Spells': 6, 'Scry': 7
+    };
+    rules.defineRule('familiarLevel',
+      'features.Familiar', '?', null,
+      'familiarMasterLevel', '=', 'Math.floor((source + 1) / 2)'
+    );
+    for(var feature in features) {
+      rules.defineRule('familiarFeatures.' + feature,
+        'familiarLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
+      );
+      rules.defineRule
+        ('features.' + feature, 'familiarFeatures.' + feature, '=', '1');
+    }
+
+    notes = [
+      'combatNotes.familiarToad:+3 Hit Points',
+      'saveNotes.familiarRat:+2 Fortitude',
+      'saveNotes.familiarWeasel:+2 Reflex',
+      'skillNotes.familiarBat:+3 Listen',
+      'skillNotes.familiarCat:+3 Move Silently',
+      'skillNotes.familiarHawk:+3 Spot in bright light',
+      'skillNotes.familiarLizard:+3 Climb',
+      'skillNotes.familiarOwl:+3 Spot in shadows/darkness',
+      'skillNotes.familiarRaven:+3 Appraise',
+      'skillNotes.familiarViper:+3 Bluff',
+      'familiarStats.Attack:+%V',
+      'familiarStats.Fort:+%V',
+      'familiarStats.Ref:+%V',
+      'familiarStats.SR:DC %V',
+      'familiarStats.Will:+%V'
+    ];
+    rules.defineNote(notes);
+
+    rules.defineRule('combatNotes.familiarToad', 'familiar.Toad', '=', '1');
+    rules.defineRule('saveNotes.familiarRat', 'familiar.Rat', '=', '1');
+    rules.defineRule('saveNotes.familiarWeasel', 'familiar.Weasel', '=', '1');
+    rules.defineRule('skillNotes.familiarBat', 'familiar.Bat', '=', '1');
+    rules.defineRule('skillNotes.familiarCat', 'familiar.Cat', '=', '1');
+    rules.defineRule('skillNotes.familiarHawk', 'familiar.Hawk', '=', '1');
+    rules.defineRule('skillNotes.familiarLizard', 'familiar.Lizard', '=', '1');
+    rules.defineRule('skillNotes.familiarOwl', 'familiar.Owl', '=', '1');
+    rules.defineRule('skillNotes.familiarRaven', 'familiar.Raven', '=', '1');
+    rules.defineRule('skillNotes.familiarViper', 'familiar.Viper', '=', '1');
+
+    rules.defineRule('hitPoints', 'combatNotes.familiarToad', '+', '3');
+    rules.defineRule('save.Fortitude', 'saveNotes.familiarRat', '+', '2');
+    rules.defineRule('save.Reflex', 'saveNotes.familiarWeasel', '+', '2');
+
+    rules.defineRule('companionNotes.celestialCompanion',
+      'familiar.Celestial', '?', null,
+      'familiarStats.HD', '=', null
+    );
+    rules.defineRule('companionNotes.celestialCompanion.1',
+      'familiar.Celestial', '?', null,
+      'familiarStats.HD', '=', 'Math.floor((source + 7) / 8) * 5'
+    );
+    rules.defineRule('companionNotes.celestialCompanion.2',
+      'familiar.Celestial', '?', null,
+      'familiarStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
+    );
+    rules.defineRule('companionNotes.fiendishCompanion',
+      'familiar.Fiendish', '?', null,
+      'familiarStats.HD', '=', null
+    );
+    rules.defineRule('companionNotes.fiendishCompanion.1',
+      'familiar.Fiendish', '?', null,
+      'familiarStats.HD', '=', 'Math.floor((source + 7) / 8) * 5'
+    );
+    rules.defineRule('companionNotes.fiendishCompanion.2',
+      'familiar.Fiendish', '?', null,
+      'familiarStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
+    );
+    rules.defineRule('familiarStats.AC', 'familiarLevel', '=', null);
+    rules.defineRule('familiarStats.HD',
+      'familiarLevel', '?', null,
+      'level', '=', null
+    );
+    rules.defineRule('familiarStats.HP',
+      'familiarLevel', '?', null,
+      'hitPoints', '=', 'Math.floor(source / 2)'
+    );
+    rules.defineRule('familiarStats.Int', 'familiarLevel', '=', 'source + 5');
+    rules.defineRule('familiarStats.SR',
+      'features.Companion Resist Spells', '?', null,
+      'familiarMasterLevel', '+=', 'source + 5'
+    );
+    rules.defineRule('familiarStats.Fort',
+      'familiarLevel', '?', null,
+      'classFortitudeBonus', '=', 'Math.max(source, 2)'
+    );
+    rules.defineRule('familiarStats.Ref',
+      'familiarLevel', '?', null,
+      'classReflexBonus', '=', 'Math.max(source, 2)'
+    );
+    rules.defineRule('familiarStats.Will',
+      'familiarLevel', '?', null,
+      'classWillBonus', '=', 'Math.max(source, 0)'
+    );
+
+    for(var familiar in familiars) {
+      var matchInfo;
+      var stats = familiars[familiar];
+      if((matchInfo = stats.match(/AC=(\d+)/)) != null)
+        rules.defineRule('familiarStats.AC', 'familiar.' + familiar, '+', matchInfo[1]);
+      rules.defineRule('familiarAttackBonus',
+        'familiarStats.Dex', '=', 'Math.floor((source - 10) / 2)',
+        'familiarStats.Str', '^', 'Math.floor((source - 10) / 2)'
+      );
+      rules.defineRule('familiarStats.Attack',
+        'familiarLevel', '?', null,
+        'baseAttack', '=', null,
+        'familiarAttackBonus', '+', null
+      );
+      if((matchInfo = stats.match(/Cha=(\d+)/)) != null)
+        rules.defineRule
+          ('familiarStats.Cha', 'familiar.' + familiar, '=', matchInfo[1]);
+      if((matchInfo = stats.match(/Con=(\d+)/)) != null) {
+        rules.defineRule
+          ('familiarStats.Con', 'familiar.' + familiar, '=', matchInfo[1]);
+        rules.defineRule('familiarStats.Fort',
+          'familiar.' + familiar, '+', Math.floor((matchInfo[1] - 10) / 2)
+        );
+      }
+      if((matchInfo = stats.match(/Dam=(\S+)/)) != null)
+        rules.defineRule('familiarStats.Dam',
+          'familiar.' + familiar, '=', '"' + matchInfo[1] +'"'
+        );
+      if((matchInfo = stats.match(/Dex=(\d+)/)) != null) {
+        rules.defineRule
+          ('familiarStats.Dex', 'familiar.' + familiar, '=', matchInfo[1]);
+        rules.defineRule('familiarStats.Ref',
+          'familiar.' + familiar, '+', Math.floor((matchInfo[1] - 10) / 2)
+        );
+      }
+      if((matchInfo = stats.match(/HD=(\d+)/)) != null)
+        rules.defineRule
+          ('familiarStats.HD', 'familiar.' + familiar, '^', matchInfo[1]);
+      if((matchInfo = stats.match(/Init=(\d+)/)) != null)
+        rules.defineRule
+          ('familiarStats.Init', 'familiar.' + familiar, '=', matchInfo[1]);
+      if((matchInfo = stats.match(/Level=(\d+)/)) != null) {
+        rules.defineNote('validationNotes.familiar' + familiar +
+                        ':Requires caster level ' + matchInfo[1]);
+        rules.defineRule('validationNotes.familiar' + familiar,
+          'familiar.' + familiar, '=', '-1',
+          'familiarMasterLevel', '+', 'source >= ' + matchInfo[1] + ' ? 1 : 0'
+        );
+      }
+      if((matchInfo = stats.match(/Str=(\d+)/)) != null)
+        rules.defineRule
+          ('familiarStats.Str', 'familiar.' + familiar, '=', matchInfo[1]);
+      if((matchInfo = stats.match(/Wis=(\d+)/)) != null) {
+        rules.defineRule
+          ('familiarStats.Wis', 'familiar.' + familiar, '=', matchInfo[1]);
+        rules.defineRule('familiarStats.Will',
+          'familiar.' + familiar, '+', Math.floor((matchInfo[1] - 10) / 2)
+        );
+      }
+    }
+
+  }
+
+  if(mounts != null) {
+    rules.defineSheetElement('Mount Features', 'Companion Notes', null, '; ');
+    rules.defineSheetElement('Mount Stats', 'Mount Features', null, '; ');
+    features = {
+      'Companion Evasion': 1, 'Companion Improved Evasion': 1,
+      'Empathic Link': 1, 'Share Saving Throws': 1, 'Share Spells': 1,
+      'Command Like Creatures': 2, 'Improved Speed': 2,
+      'Command Like Creatures': 3, 'Companion Resist Spells': 4
+    };
+    notes = [
+      'mountStats.ArmorClass:+%V',
+      'mountStats.HitDice:+%Vd8',
+      'mountStats.Int:%V',
+      'mountStats.SR:DC %V',
+      'mountStats.Str:+%V'
+    ];
+    for(var feature in features) {
+      rules.defineRule('mountFeatures.' + feature,
+        'mountLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
+      );
+      rules.defineRule
+        ('features.' + feature, 'mountFeatures.' + feature, '=', '1');
+    }
+    rules.defineNote(notes);
+    rules.defineRule('companionNotes.commandLikeCreaturesFeature',
+      'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
+      'charismaModifier', '+', null
+    );
+    rules.defineRule('companionNotes.commandLikeCreaturesFeature.1',
+      'mountMasterLevel', '=', 'Math.floor(source / 2)'
+    );
+    rules.defineRule('mountStats.AC', 'mountLevel', '=', '2 + source * 2');
+    rules.defineRule('mountStats.HD', 'mountLevel', '=', 'source * 2');
+    rules.defineRule('mountStats.Int', 'mountLevel', '=', 'source + 5');
+    rules.defineRule('mountStats.SR',
+      'features.Companion Resist Spells', '?', null,
+      'mountMasterLevel', '+=', 'source + 5'
+    );
+    rules.defineRule('mountStats.Str', 'mountLevel', '=', null);
   }
 
 };
@@ -4937,12 +5139,19 @@ SRD35.defineClass = function
       ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
   if(baseAttackBonus != null)
     rules.defineRule('baseAttack', classLevel, '+', baseAttackBonus);
-  if(saveFortitudeBonus != null)
-    rules.defineRule('save.Fortitude', classLevel, '+', saveFortitudeBonus);
-  if(saveReflexBonus != null)
-    rules.defineRule('save.Reflex', classLevel, '+', saveReflexBonus);
-  if(saveWillBonus != null)
-    rules.defineRule('save.Will', classLevel, '+', saveWillBonus);
+  if(saveFortitudeBonus != null) {
+    rules.defineRule
+      ('classFortitudeBonus', classLevel, '+=', saveFortitudeBonus);
+    rules.defineRule('save.Fortitude', 'classFortitudeBonus', '+', null);
+  }
+  if(saveReflexBonus != null) {
+    rules.defineRule('classReflexBonus', classLevel, '+=', saveReflexBonus);
+    rules.defineRule('save.Reflex', 'classReflexBonus', '+', null);
+  }
+  if(saveWillBonus != null) {
+    rules.defineRule('classWillBonus', classLevel, '+=', saveWillBonus);
+    rules.defineRule('save.Will', 'classWillBonus', '+', null);
+  }
   if(armorProficiencyLevel == null)
     armorProficiencyLevel = SRD35.PROFICIENCY_NONE;
   rules.defineRule
