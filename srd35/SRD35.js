@@ -1920,8 +1920,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
     "companionNotes.celestialCompanion:" +
       "Smite Evil (+%V damage) 1/day, 60' darkvision, " +
       "%1 acid/cold/electricity resistance, DR %2/magic",
-    'companionNotes.companionAlertnessFeature:' +
-      'Master +2 listen/spot when w/in reach',
     'companionNotes.companionEvasionFeature:' +
       'Reflex save yields no damage instead of 1/2',
     'companionNotes.companionImprovedEvasionFeature:' +
@@ -1934,15 +1932,16 @@ SRD35.companionRules = function(rules, companions, familiars) {
       "Smite Good (+%V damage) 1/day, 60' darkvision, " +
       "%1 cold/fire resistance, DR %2/magic",
     'companionNotes.improvedSpeedFeature:+10 speed',
-    'companionNotes.linkFeature:' +
-      'Master +4 Handle Animal/Wild Empathy w/companion',
     'companionNotes.multiattackFeature:' +
       'Reduce additional attack penalty to -2 or second attack at -5',
     'companionNotes.scryFeature:Master views companion 1/day',
     'companionNotes.shareSpellsFeature:' +
       'Master share self spell w/companion w/in 5 ft',
     'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
-    'companionNotes.speakWithMasterFeature:Talk w/master in secret language'
+    'companionNotes.speakWithMasterFeature:Talk w/master in secret language',
+    'skillNotes.companionAlertnessFeature:' +
+      '+2 listen/spot when companion w/in reach',
+    'skillNotes.linkFeature:+4 Handle Animal/Wild Empathy w/companion'
   ];
   rules.defineNote(notes);
 
@@ -2011,7 +2010,8 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'animalCompanionMasterLevel', '=', 'Math.floor((source + 3) / 3)'
     );
     rules.defineRule('companionStats.AC',
-      'animalCompanionLevel', '+', '(source - 1) * 2'
+      'animalCompanionLevel', '+', '(source - 1) * 2',
+      'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)'
     );
     rules.defineRule('companionStats.BAB',
       'companionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE
@@ -2019,10 +2019,12 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('companionStats.Dex',
       'animalCompanionLevel', '+', 'source - 1'
     );
-    rules.defineRule('companionStats.Fort',
+    rules.defineRule('animalCompanionFort',
+      'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
       'companionStats.Con', '+', 'Math.floor((source - 10)/2)'
     );
+    rules.defineRule('companionStats.Fort', 'animalCompanionFort', '=', null);
     rules.defineRule('companionStats.HD',
       'animalCompanionLevel', '+', '(source - 1) * 2'
     );
@@ -2030,19 +2032,22 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
     );
     rules.defineRule('companionStats.Name', 'animalCompanionName', '=', null);
-    rules.defineRule('companionStats.Ref',
+    rules.defineRule('animalCompanionRef',
+      'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
       'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)'
     );
-    rules.defineRule('companionStats.Str',
-      'animalCompanionLevel', '+', 'source - 1'
-    );
+    rules.defineRule('companionStats.Ref', 'animalCompanionRef', '=', null);
+    rules.defineRule
+      ('companionStats.Str', 'animalCompanionLevel', '+', 'source - 1');
     rules.defineRule
       ('companionStats.Tricks', 'animalCompanionLevel', '=', null);
-    rules.defineRule('companionStats.Will',
+    rules.defineRule('animalCompanionWill',
+      'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
       'companionStats.Wis', '+', 'Math.floor((source - 10)/2)'
     );
+    rules.defineRule('companionStats.Will', 'animalCompanionWill', '=', null);
     rules.defineRule('validationNotes.animalCompanionCasterLevel',
       'validationNotes.animalCompanionCasterLevel.1', '=', null,
       'animalCompanionMasterLevel', '+', '-source',
@@ -2134,16 +2139,12 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'Deliver Touch Spells': 2, 'Speak With Master': 3,
       'Speak With Like Animals': 4, 'Companion Resist Spells': 6, 'Scry': 7
     };
-    rules.defineRule('familiarLevel',
-      'features.Familiar', '?', null,
-      'familiarMasterLevel', '=', 'Math.floor((source + 1) / 2)'
-    );
     for(var feature in features) {
-      rules.defineRule('familiarFeatures.' + feature,
+      rules.defineRule('companionFeatures.' + feature,
         'familiarLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
       );
       rules.defineRule
-        ('features.' + feature, 'familiarFeatures.' + feature, '=', '1');
+        ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
     }
 
     notes = [
@@ -2182,18 +2183,31 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('save.Fortitude', 'saveNotes.familiarRat', '+', '2');
     rules.defineRule('save.Reflex', 'saveNotes.familiarWeasel', '+', '2');
 
-    rules.defineRule('companionStats.AC', 'familiarLevel', '+', null);
+    rules.defineRule('familiarLevel',
+      'features.Familiar', '?', null,
+      'familiarMasterLevel', '=', 'Math.floor((source + 1) / 2)'
+    );
+    rules.defineRule('companionStats.AC',
+      'familiarLevel', '+', null,
+      'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)'
+    );
     rules.defineRule('familiarAttackBonus',
       'companionStats.Dex', '=', 'Math.floor((source - 10) / 2)',
       'companionStats.Str', '^', 'Math.floor((source - 10) / 2)'
     );
-    rules.defineRule('companionStats.BAB',
-      'baseAttack', '+', null,
-      'familiarAttackBonus', '=', null
+    rules.defineRule('familiarBAB',
+      'features.Familiar', '?', null,
+      'baseAttack', '=', null,
+      'familiarAttackBonus', '+', null
     );
-    rules.defineRule('companionStats.HD', 'level', '^', null);
+    rules.defineRule('companionStats.BAB', 'familiarBAB', '=', null);
+    rules.defineRule('familiarHD',
+      'features.Familiar', '?', null,
+      'level', '=', null
+    );
+    rules.defineRule('companionStats.HD', 'familiarHD', '^', null);
     rules.defineRule('companionStats.HP',
-      'familiarLevel', '?', null,
+      'features.Familiar', '?', null,
       'hitPoints', '=', 'Math.floor(source / 2)'
     );
     rules.defineRule('companionStats.Init',
@@ -2204,22 +2218,25 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'features.Companion Resist Spells', '?', null,
       'familiarMasterLevel', '=', 'source + 5'
     );
-    rules.defineRule('companionStats.Fort',
+    rules.defineRule('familiarFort',
       'familiarLevel', '?', null,
       'classFortitudeBonus', '=', 'Math.max(source, 2)',
       'companionStats.Con', '+', 'Math.floor((source - 10) / 2)'
     );
+    rules.defineRule('companionStats.Fort', 'familiarFort', '=', null);
     rules.defineRule('companionStats.Name', 'familiarName', '=', null);
-    rules.defineRule('companionStats.Ref',
+    rules.defineRule('familiarRef',
       'familiarLevel', '?', null,
       'classReflexBonus', '=', 'Math.max(source, 2)',
       'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)'
     );
-    rules.defineRule('companionStats.Will',
+    rules.defineRule('companionStats.Ref', 'familiarRef', '=', null);
+    rules.defineRule('familiarWill',
       'familiarLevel', '?', null,
       'classWillBonus', '=', 'Math.max(source, 0)',
       'companionStats.Wis', '+', 'Math.floor((source - 10) / 2)'
     );
+    rules.defineRule('companionStats.Will', 'familiarWill', '=', null);
     rules.defineRule('validationNotes.familiarCasterLevel',
       'validationNotes.familiarCasterLevel.1', '=', null,
       'familiarMasterLevel', '+', '-source',
