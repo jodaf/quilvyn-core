@@ -5134,6 +5134,9 @@ SRD35.ruleNotes = function() {
     '    because the selections are so restricted and because monks do not\n' +
     '    need to meet the normal requirements for the feats.\n' +
     '  </li><li>\n' +
+    '    Use the animal companion editing fields to enter the creature\n' +
+    '    types and names of Paladin mounts and Blackguard fiendish servants.\n'+
+    '  </li><li>\n' +
     '    The Commoner NPC class is given an extra feat to represent the\n' +
     '    class\'s single simple weapon proficiency.\n' +
     '  </li>\n' +
