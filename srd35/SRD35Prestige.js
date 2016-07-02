@@ -29,7 +29,7 @@ function SRD35Prestige() {
     return;
   }
   SRD35Prestige.classRules(SRD35.rules, SRD35Prestige.CLASSES);
-  SRD35Prestige.companionRules(SRD35.rules, SRD35Prestige.COMPANIONS);
+  SRD35Prestige.companionRules(SRD35.rules, SRD35Prestige.FIENDISH_SERVANTS);
 }
 
 SRD35Prestige.CLASSES = [
@@ -40,7 +40,16 @@ SRD35Prestige.CLASSES = [
   'Mystic Theurge',
   'Shadowdancer', 'Thaumaturgist'
 ];
-SRD35Prestige.COMPANIONS = ['Fiendish Servant'];
+SRD35Prestige.FIENDISH_SERVANTS = {
+  'Bat': 'HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4',
+  'Cat': 'HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7',
+  'Dire Rat': 'HD=1 AC=15 Dam=1d4 Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4',
+  'Heavy Horse': 'HD=3 AC=13 Dam=1d6+1 Str=16 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
+  'Light Horse': 'HD=3 AC=13 Dam=1d4+1 Str=14 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
+  'Pony': 'HD=2 AC=13 Dam=1d3 Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4',
+  'Raven': 'HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
+  'Toad': 'HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4'
+};
 
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
 SRD35Prestige.classRules = function(rules, classes) {
@@ -403,10 +412,6 @@ SRD35Prestige.classRules = function(rules, classes) {
         ('combatNotes.smiteGoodFeature.2', 'levels.Blackguard', '=', null);
       rules.defineRule('combatNotes.sneakAttackFeature',
         'levels.Blackguard', '+=', 'source<4 ? null : Math.floor((source-1)/3)'
-      );
-      rules.defineRule('fiendishServantLevel',
-        'features.Fiendish Servant', '?', null,
-        'level', '+=', 'source < 13 ? 1 : Math.floor((source - 7) / 3)'
       );
       rules.defineRule
         ('fiendishServantMasterLevel', 'levels.Blackguard', '+=', null);
@@ -1184,76 +1189,47 @@ SRD35Prestige.classRules = function(rules, classes) {
 };
 
 /* Defines the SRD v3.5 rules related to Prestige class companion creatures. */
-SRD35Prestige.companionRules = function(rules, companions) {
-
-  for(var i = 0; i < companions.length; i++) {
-
-    var features, notes, prefix;
-    var companion = companions[i];
-
-    if(companion == 'Fiendish Servant') {
-      features = [
-        '1:Companion Evasion', '1:Companion Improved Evasion', 
-        '1:Empathic Link', '1:Share Saving Throws', '1:Share Spells',
-        '2:Speak With Master', '3:Blood Bond', '4:Companion Resist Spells'
-      ];
-      notes = [
-        'fiendishServantStats.armorClass:+%V',
-        'fiendishServantStats.hitDice:+%Vd8',
-        'fiendishServantStats.intelligence:%V',
-        'fiendishServantStats.strength:+%V',
-        'fiendishServantStats.spellResistance:DC %V',
-        'companionNotes.bloodBondFeature:' +
-          '+2 attack/check/save when seeing master threatened',
-        'companionNotes.companionEvasionFeature:' +
-          'Reflex save yields no damage instead of 1/2',
-        'companionNotes.companionImprovedEvasionFeature:' +
-          'Failed save yields 1/2 damage',
-        'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
-        'companionNotes.shareSavingThrowsFeature:' +
-          'Companion uses higher of own or master\'s saving throws',
-        'companionNotes.shareSpellsFeature:' +
-          'Master share self spell w/companion w/in 5 ft',
-        'companionNotes.speakWithMasterFeature:Talk w/master in secret language'
-      ];
-      prefix = 'fiendishServant';
-      rules.defineRule('fiendishServantStats.armorClass',
-        'fiendishServantLevel', '=', 'source * 2 - 1'
-      );
-      rules.defineRule('fiendishServantStats.hitDice',
-        'fiendishServantLevel', '=', 'source * 2'
-      );
-      rules.defineRule('fiendishServantStats.intelligence',
-        'fiendishServantLevel', '=', 'source + 5'
-      );
-      rules.defineRule('fiendishServantStats.strength',
-        'fiendishServantLevel', '=', 'source'
-      );
-      rules.defineRule('fiendishServantStats.spellResistance',
-        'features.Companion Resist Spells', '?', null,
-        'fiendishServantMasterLevel', '+=', 'source + 5'
-      );
-      prefix = 'fiendishServant';
-    } else
-      continue;
-
-    for(var j = 0; j < features.length; j++) {
-      var levelAndFeature = features[j].split(/:/);
-      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      rules.defineRule(prefix + 'Features.' + feature,
-        prefix + 'Level', '=', 'source >= ' + level + ' ? 1 : null'
-      );
-      rules.defineRule
-        ('features.' + feature, prefix + 'Features.' + feature, '=', '1');
+SRD35Prestige.companionRules = function(rules, servants) {
+  if(servants != null) {
+    SRD35.companionRules(rules, servants, null, null);
+    var features = {
+      'Companion Evasion': 1, 'Companion Improved Evasion': 1, 
+      'Empathic Link': 1, 'Share Saving Throws': 1, 'Share Spells': 1,
+      'Speak With Master': 2, 'Blood Bond': 3, 'Companion Resist Spells': 4,
+      'Link': 0, 'Devotion' : 0, 'Multiattack': 0
+    };
+    for(var feature in features) {
+      if(features[feature] > 0) {
+        rules.defineRule('companionFeatures.' + feature,
+          'fiendishServantLevel', '=',
+          'source >= ' + features[feature] + ' ? 1 : null'
+        );
+        rules.defineRule
+          ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
+      } else {
+        // Disable N/A companion features
+        rules.defineRule
+          ('companionFeatures.' + feature, 'fiendishServantLevel', 'v', '0');
+      }
     }
-    if(notes != null)
-      rules.defineNote(notes);
-    rules.defineSheetElement
-      (companion + ' Features', 'Companion Notes', null, ' * ');
-    rules.defineSheetElement
-      (companion + ' Stats', companion + ' Features', null, ' * ');
-
+    var notes = [
+      'companionNotes.bloodBondFeature:' +
+        '+2 attack/check/save when seeing master threatened',
+      'companionNotes.shareSavingThrowsFeature:' +
+        "Companion uses higher of own or master's saving throws"
+    ];
+    rules.defineNote(notes);
+    rules.defineRule('fiendishServantLevel',
+      'features.Fiendish Servant', '?', null,
+      'level', '=', 'source < 13 ? 1 : Math.floor((source - 7) / 3)'
+    );
+    rules.defineRule
+      ('companionStats.AC', 'fiendishServantLevel', '+', 'source*2-1');
+    rules.defineRule
+      ('companionStats.HD', 'fiendishServantLevel', '+', 'source * 2');
+    rules.defineRule
+      ('companionStats.Int', 'fiendishServantLevel', '=', 'source + 5');
+    rules.defineRule
+      ('companionStats.Str', 'fiendishServantLevel', '+', null);
   }
-
 };
