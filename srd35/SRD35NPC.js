@@ -29,11 +29,9 @@ function SRD35NPC() {
     return;
   }
   SRD35NPC.classRules(SRD35.rules, SRD35NPC.CLASSES);
-  SRD35NPC.companionRules(SRD35.rules, SRD35NPC.COMPANIONS);
 }
 
 SRD35NPC.CLASSES = ['Adept', 'Aristocrat', 'Commoner', 'Expert', 'Warrior'];
-SRD35NPC.COMPANIONS = ['Familiar'];
 
 /* Defines the rules related to SRD NPC Classes. */
 SRD35NPC.classRules = function(rules, classes) {
@@ -50,10 +48,10 @@ SRD35NPC.classRules = function(rules, classes) {
     if(klass == 'Adept') {
 
       baseAttack = SRD35.ATTACK_BONUS_POOR;
-      features = ['2:Summon Familiar'];
+      features = ['2:Familiar'];
       hitDie = 6;
       notes = [
-        'featureNotes.summonFamiliarFeature:Special bond/abilities'
+        'featureNotes.familiarFeature:Special bond/abilities'
       ];
       profArmor = SRD35.PROFICIENCY_NONE;
       profShield = SRD35.PROFICIENCY_NONE;
@@ -100,8 +98,6 @@ SRD35NPC.classRules = function(rules, classes) {
         'AD5:16:0/17:1/19:2'
       ];
       rules.defineRule('casterLevelDivine', 'levels.Adept', '+=', null);
-      rules.defineRule
-        ('familiarLevel', 'levels.Adept', '+=', 'Math.floor(source / 2)');
       rules.defineRule('familiarMasterLevel', 'levels.Adept', '+=', null);
 
     } else if(klass == 'Aristocrat') {
@@ -217,15 +213,4 @@ SRD35NPC.classRules = function(rules, classes) {
 
   }
 
-};
-
-/* Defines the SRD v3.5 rules related to NPC companion creatures. */
-SRD35NPC.companionRules = function(rules, companions) {
-  for(var i = 0; i < companions.length; i++) {
-    var companion = companions[i];
-    if(companion == 'Familiar') {
-      SRD35.companionRules(rules, [companion]);
-    } else
-      continue;
-  }
 };
