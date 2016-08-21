@@ -4213,9 +4213,9 @@ SRD35.raceRules = function(rules, languages, races) {
       );
       rules.defineRule
         ('languages.Gnome', 'race', '=', 'source.match(/Gnome/) ? 1 : null');
-      // TODO Only Speak With Animals if charisma < 10
       rules.defineRule('magicNotes.naturalSpellsFeature',
-        raceNoSpace + 'Features.Natural Spells', '=',
+        'charisma', '=',
+        'source < 10 ? "<i>Speak With Animals</i>" : ' +
         '"<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
         '<i>Speak With Animals</i>"'
       );
