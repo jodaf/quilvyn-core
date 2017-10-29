@@ -83,7 +83,7 @@ SRD35SpellDescriptions.descriptions = {
   "Break Enchantment": "R$RS' $L targets freed from enchantments/transmutations/curses",
   "Breath Of Life": "Heal 5d8+$L/max 25 plus resurrect target dead lt 1 rd",
   "Bull's Strength": "Touched +4 Str for $L min",
-  "Burning Hands": "R15' cone ${Lmin5}d4 HP",
+  "Burning Hands": "R15' cone ${Lmin5}d4 HP (Ref half)",
   "Call Lightning": "R$RM' $L bolts 3d6 HP (Ref half), 1/rd for $L min",
   "Call Lightning Storm": "R$RL' 15 bolts 5d6 HP (Ref half), 1/rd for $L min",
   "Calm Animals": "R$RS' 2d4+$L HD of animals Will save or docile for $L min",
@@ -697,6 +697,8 @@ SRD35SpellDescriptions.spellRules = function(rules, spells, descriptions) {
   rules.defineRule('casterLevels.BL', 'levels.Blackguard', '=', null);
   rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
   rules.defineRule('casterLevels.D', 'levels.Druid', '=', null);
+  rules.defineRule('casterLevels.Dom', 'levels.Cleric', '=', null);
+  rules.defineRule('casterLevels.Dom', 'levels.Druid', '=', null);
   rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
   rules.defineRule('casterLevels.R', 'levels.Ranger', '=', null);
   rules.defineRule('casterLevels.W', 'levels.Sorcerer', '=', null);
@@ -717,7 +719,7 @@ SRD35SpellDescriptions.spellRules = function(rules, spells, descriptions) {
       continue;
     }
     if(abbr.length > 2) {
-      abbr = "C"; // Assume domain spell
+      abbr = "Dom"; // Assume domain spell
     }
     var inserts = description.match(/\$(\w+|{[^}]+})/g);
     if(inserts != null) {
