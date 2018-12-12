@@ -51,18 +51,18 @@ CustomExamples.DEITIES = [
 /*
  * The GOODIES array contains a set of miscellaneous goodies' names.  The
  * goodiesRules method knows how to define rules for "Camouflage Ring" (+10
- * Hide skill) and "* Of Protection +N" (improves AC by N).
+ * Hide skill), "* Of Strength +N", and "* Of Protection +N" (improves AC by N).
  */
 CustomExamples.GOODIES = [
-  'Camouflage Ring', 'Medallion Of Protection +4'
+  'Camouflage Ring', 'Gauntlets Of Strength +4', 'Medallion Of Protection +4'
 ];
 
 /*
  * Each entry in the MAGIC_ARMORS array has the form "Armor +N" (improves AC
- * by N).
+ * by N) or "Masterwork Armor" (reduces skill check penalty).
  */
 CustomExamples.MAGIC_ARMORS = [
-  'Chain Shirt +2', 'Leather Armor +2'
+  'Chain Shirt +2', 'Leather Armor +2', 'Masterwork Chainmail'
 ];
 
 /*
@@ -130,6 +130,7 @@ CustomExamples.deitiesFavoredWeapons = {};
 CustomExamples.goodiesRules = function(rules, goodies) {
   var matchInfo;
   for(var i = 0; i < goodies.length; i++) {
+    var bonus;
     var goodie = goodies[i];
     if(goodie == 'Camouflage Ring') {
       rules.defineRule('skillNotes.goodiesHideAdjustment',
@@ -138,10 +139,17 @@ CustomExamples.goodiesRules = function(rules, goodies) {
       rules.defineRule
         ('skillModifier.Hide', 'skillNotes.goodiesHideAdjustment', '+', null);
     } else if((matchInfo = goodie.match(/Of Protection ([+-]\d+)/)) != null) {
-      var bonus = matchInfo[1];
+      bonus = matchInfo[1];
       rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
         'goodies.' + goodie, '+=', 'source * ' + bonus
       );
+    } else if((matchInfo = goodie.match(/Of Strength ([+-]\d+)/)) != null) {
+      bonus = matchInfo[1];
+      rules.defineRule('abilityNotes.goodiesStrengthAdjustment',
+        'goodies.' + goodie, '+=', 'source * ' + bonus
+      );
+      rules.defineRule
+        ('strength', 'abilityNotes.goodiesStrengthAdjustment', '+', null);
     } else
       continue;
     rules.defineChoice('goodies', goodie);
@@ -151,15 +159,22 @@ CustomExamples.goodiesRules = function(rules, goodies) {
 /* Defines rules for a specified set of custom magic armor goodies. */
 CustomExamples.magicArmorRules = function(rules, armors) {
   var matchInfo;
+  rules.defineNote
+    ('skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by 1');
+  rules.defineRule
+    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
+    'skillNotes.goodiesSkillCheckAdjustment', '+', '-1'
+  );
   for(var i = 0; i < armors.length; i++) {
     var armor = armors[i];
-    if((matchInfo = armor.match(/([+-]\d+)\s*$/)) == null)
-      continue;
+    if((matchInfo = armor.match(/([+-]\d+)\s*$/)) != null) {
+      rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
+        'goodies.' + armor, '+=', matchInfo[1]
+      );
+    }
     rules.defineRule
-      ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
-    rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
-      'goodies.' + armor, '+=', matchInfo[1]
-    );
+      ('skillNotes.goodiesSkillCheckAdjustment', 'goodies.' + armor, '=', '1');
     rules.defineChoice('goodies', armor);
   }
 };
