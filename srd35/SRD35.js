@@ -2324,6 +2324,8 @@ SRD35.createViewers = function(rules, viewers) {
     } else if(name == 'Standard' || name == 'Vertical') {
       var innerSep = name == 'Standard' ? null : '\n';
       var listSep = name == 'Standard' ? '; ' : '\n';
+      var noteSep = listSep;
+      noteSep = '\n';
       var outerSep = name == 'Standard' ? '\n' : null;
       viewer.addElements(
         {name: '_top', borders: 1, separator: '\n'},
@@ -2373,7 +2375,7 @@ SRD35.createViewers = function(rules, viewers) {
                format: '<b>Light/Med/Max Load:</b> %V'},
               {name: 'Load Medium', within: 'LoadInfo', format: '/%V'},
               {name: 'Load Max', within: 'LoadInfo', format: '/%V'},
-          {name: 'Ability Notes', within: 'Attributes', separator: listSep},
+          {name: 'Ability Notes', within: 'Attributes', separator: noteSep},
         {name: 'FeaturesAndSkills', within: '_top', separator: outerSep,
          format: '<b>Features/Skills</b><br/>%V'},
           {name: 'FeaturePart', within: 'FeaturesAndSkills', separator: '\n'},
@@ -2383,13 +2385,13 @@ SRD35.createViewers = function(rules, viewers) {
                separator: listSep},
             {name: 'FeatLists', within: 'FeaturePart', separator: innerSep},
               {name: 'Feats', within: 'FeatLists', separator: listSep},
-            {name: 'Feature Notes', within: 'FeaturePart', separator: listSep},
+            {name: 'Feature Notes', within: 'FeaturePart', separator: noteSep},
           {name: 'SkillPart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'SkillStats', within: 'SkillPart', separator:innerSep},
               {name: 'Skill Points', within: 'SkillStats'},
               {name: 'Max Allowed Skill Points', within: 'SkillStats'},
             {name: 'Skills', within: 'SkillPart', columns: '3LE', separator: null},
-            {name: 'Skill Notes', within: 'SkillPart', separator:listSep},
+            {name: 'Skill Notes', within: 'SkillPart', separator:noteSep},
           {name: 'LanguagePart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'LanguageStats', within: 'LanguagePart', separator:innerSep},
               {name: 'Language Count', within: 'LanguageStats'},
@@ -2417,7 +2419,7 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Weapons', within: 'Gear', separator: listSep},
             {name: 'Turning', within: 'CombatPart', separator: innerSep},
               {name: 'Turn Undead', within: 'Turning', separator: listSep},
-            {name: 'Combat Notes', within: 'CombatPart', separator: listSep},
+            {name: 'Combat Notes', within: 'CombatPart', separator: noteSep},
           {name: 'SavePart', within: 'Combat', separator: '\n'},
             {name: 'SaveAndResistance', within: 'SavePart', separator:innerSep},
               {name: 'Damage Reduction', within: 'SaveAndResistance',
@@ -2425,7 +2427,7 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Save', within: 'SaveAndResistance', separator: listSep},
               {name: 'Resistance', within: 'SaveAndResistance',
                separator: listSep},
-            {name: 'Save Notes', within: 'SavePart', separator: listSep},
+            {name: 'Save Notes', within: 'SavePart', separator: noteSep},
         {name: 'Magic', within: '_top', separator: outerSep,
          format: '<b>Magic</b><br/>%V'},
           {name: 'SpellPart', within: 'Magic', separator: '\n'},
@@ -2440,16 +2442,16 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Prohibit', within: 'SpellSpecialties', separator:listSep},
             {name: 'Goodies', within: 'SpellPart', separator: listSep},
           {name: 'Spells', within: 'Magic', columns: '1L', separator: null},
-          {name: 'Magic Notes', within: 'Magic', separator: listSep},
+          {name: 'Magic Notes', within: 'Magic', separator: noteSep},
         {name: 'Notes Area', within: '_top', separator: outerSep,
          format: '<b>Notes</b><br/>%V'},
           {name: 'NotesPart', within: 'Notes Area', separator: '\n'},
             {name: 'Notes', within: 'NotesPart', format: '%V'},
             {name: 'Hidden Notes', within: 'NotesPart', format: '%V'},
           {name: 'ValidationPart', within: 'Notes Area', separator: '\n'},
-            {name: 'Sanity Notes', within: 'ValidationPart', separator:listSep},
+            {name: 'Sanity Notes', within: 'ValidationPart', separator:noteSep},
             {name: 'Validation Notes', within: 'ValidationPart',
-             separator: listSep}
+             separator: noteSep}
       );
     } else
       continue;
@@ -2477,7 +2479,7 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
     'SRD35.armorsProficiencyLevels[source] != null && ' +
     'SRD35.armorsProficiencyLevels[source] >= ' + SRD35.PROFICIENCY_MEDIUM +
     ' ? -10 : null',
-    'features.Slow', '+', '5'
+    'abilityNotes.slowFeature', '+', '5'
   );
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
     'armor', 'v', 'SRD35.armorsMaxDexBonuses[source]'
@@ -4127,6 +4129,7 @@ SRD35.raceRules = function(rules, languages, races) {
         'Stonecunning', 'Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)'
       ];
       notes = [
+        'abilityNotes.slowFeature:-10 speed',
         'abilityNotes.dwarfArmorSpeedAdjustment:No speed penalty in armor',
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'combatNotes.dwarfFavoredEnemyFeature:+1 attack vs. goblinoid/orc',
@@ -4156,7 +4159,7 @@ SRD35.raceRules = function(rules, languages, races) {
         ('resistance.Poison', 'saveNotes.resistPoisonFeature', '+=', '2');
       rules.defineRule
         ('resistance.Spell', 'saveNotes.resistSpellsFeature', '+=', '2');
-      rules.defineRule('speed', 'features.Slow', '+', '-10');
+      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-10');
 
     } else if(race.match(/Elf/)) {
 
@@ -4194,6 +4197,7 @@ SRD35.raceRules = function(rules, languages, races) {
         'Weapon Familiarity (Gnome Hooked Hammer)'
       ];
       notes = [
+        'abilityNotes.slowFeature:-10 speed',
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'combatNotes.gnomeFavoredEnemyFeature:+1 attack vs. goblinoid/kobold',
         'combatNotes.gnomeWeapons:Racial weapons are martial weapons',
@@ -4225,7 +4229,7 @@ SRD35.raceRules = function(rules, languages, races) {
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
         ('resistance.Illusion', 'saveNotes.resistIllusionFeature', '+=', '2');
-      rules.defineRule('speed', 'features.Slow', '+', '-10');
+      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-10');
 
     } else if(race.match(/Halfling/)) {
 
@@ -4235,6 +4239,7 @@ SRD35.raceRules = function(rules, languages, races) {
         'Resist Fear'
       ];
       notes = [
+        'abilityNotes.slowFeature:-10 speed',
         'combatNotes.accurateFeature:+1 attack with slings/thrown',
         'combatNotes.smallFeature:+1 AC/attack',
         'saveNotes.fortunateFeature:+1 all saves',
@@ -4251,10 +4256,10 @@ SRD35.raceRules = function(rules, languages, races) {
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
         ('resistance.Fear', 'saveNotes.resistFearFeature', '+=', '2');
-      rules.defineRule('speed', 'features.Slow', '+', '-10');
       rules.defineRule('save.Fortitude','saveNotes.fortunateFeature','+','1');
       rules.defineRule('save.Reflex', 'saveNotes.fortunateFeature', '+', '1');
       rules.defineRule('save.Will', 'saveNotes.fortunateFeature', '+', '1');
+      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-10');
 
     } else if(race.match(/Human/)) {
 
