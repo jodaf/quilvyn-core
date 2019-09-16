@@ -37,18 +37,6 @@ function CustomExamples() {
 }
 
 /*
- * Each entry in the DEITY array as the form "Name (Alignment):Favored Weapon:
- * Domains".  The deityRules method uses this to define rules for clerics of
- * the deity.
- */
-CustomExamples.DEITIES = [
-  'Draum (CG Elf Dreams):Quarterstaff:Air/Chaos/Good/Luck',
-  'Glennor (NG Healing):Quarterstaff:Air/Animal/Healing',
-  'Theldon (LN Law):Longsword:Earth/Law/Protection/Strength',
-  'Volhalnor (LN Dwarf Earth):Warhammer:Earth/Law/Protection'
-];
-
-/*
  * The GOODIES array contains a set of miscellaneous goodies' names.  The
  * goodiesRules method knows how to define rules for "Camouflage Ring" (+10
  * Hide skill), "* Of Strength +N", and "* Of Protection +N" (improves AC by N).
@@ -86,45 +74,6 @@ CustomExamples.SKILLS = [
   'Knowledge (Plants):intelligence:trained:Druid/Ranger/Wizard',
   'Knowledge (Undead):intelligence:trained:Cleric/Wizard'
 ];
-
-/* Defines rules for a clerics of a specified set of custom deities. */
-CustomExamples.deityRules = function(rules, deities) {
-  for(var i = 0; i < deities.length; i++) {
-    var pieces = deities[i].split(':');
-    if(pieces.length < 3)
-      continue;
-    var deity = pieces[0];
-    var domains = pieces[2];
-    var weapon = pieces[1];
-    rules.defineChoice('deities', deity + ':' + domains);
-    CustomExamples.deitiesFavoredWeapons[deity] = weapon;
-    var focusFeature = 'Weapon Focus (' + weapon + ')';
-    var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
-    rules.defineRule('clericFeatures.' + focusFeature,
-      'domains.War', '?', null,
-      'levels.Cleric', '?', null,
-      'deity', '=',
-      'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
-      '" ? 1 : null'
-    );
-    rules.defineRule('clericFeatures.' + proficiencyFeature,
-      // Unclear if 3.5 rules require War domain for proficiency;
-      // Pathfinder doesn't
-      // 'domains.War', '?', null,
-      'levels.Cleric', '?', null,
-      'deity', '=',
-      'CustomExamples.deitiesFavoredWeapons[source] == "' + weapon + 
-      '" ? 1 : null'
-    );
-    rules.defineRule('features.' + focusFeature,
-      'clericFeatures.' + focusFeature, '=', null
-    );
-    rules.defineRule('features.' + proficiencyFeature,
-      'clericFeatures.' + proficiencyFeature, '=', null
-    );
-  }
-};
-CustomExamples.deitiesFavoredWeapons = {};
 
 /* Defines rules for a specified set of custom miscellaneous goodies. */
 CustomExamples.goodiesRules = function(rules, goodies) {

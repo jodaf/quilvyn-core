@@ -144,7 +144,7 @@ SRD35.CLASSES = [
   'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin',
   'Ranger', 'Rogue', 'Sorcerer', 'Wizard'
 ];
-SRD35.DEITIES = ['None:']; // The SRD defines no deities
+SRD35.DEITIES = ['None::']; // The SRD defines no deities
 SRD35.DOMAINS = [
   'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
   'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
@@ -374,6 +374,7 @@ SRD35.armorsProficiencyLevels = {
   'Banded Mail':SRD35.PROFICIENCY_HEAVY, 'Half Plate':SRD35.PROFICIENCY_HEAVY,
   'Full Plate': SRD35.PROFICIENCY_HEAVY
 };
+SRD35.deitiesFavoredWeapons = {};
 SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
 SRD35.shieldsArcaneSpellFailurePercentages = {
   'Buckler':5, 'Heavy Steel':15, 'Heavy Wooden':15, 'Light Steel':5,
@@ -2462,8 +2463,38 @@ SRD35.createViewers = function(rules, viewers) {
 /* Defines the rules related to character description. */
 SRD35.descriptionRules = function(rules, alignments, deities, genders) {
   rules.defineChoice('alignments', alignments);
-  rules.defineChoice('deities', deities);
   rules.defineChoice('genders', genders);
+  for(var i = 0; i < deities.length; i++) {
+    var pieces = deities[i].split(':');
+    if(pieces.length < 3)
+      continue;
+    var deity = pieces[0];
+    var domains = pieces[2];
+    rules.defineChoice('deities', deity + ':' + domains);
+    if(pieces[1] != "") {
+      var weapons = pieces[1].split('/');
+      SRD35.deitiesFavoredWeapons[deity] = pieces[1];
+      for(var j = 0; j < weapons.length; j++) {
+        var weapon = weapons[j];
+        var focusFeature = 'Weapon Focus (' + weapon + ')';
+        var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
+        rules.defineRule('clericFeatures.' + focusFeature,
+          'domains.War', '?', null,
+          'levels.Cleric', '?', null,
+          'deity', '=', 'SRD35.deitiesFavoredWeapons[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
+        );
+        rules.defineRule('clericFeatures.' + proficiencyFeature,
+          'domains.War', '?', null,
+          'levels.Cleric', '?', null,
+          'deity', '=', 'SRD35.deitiesFavoredWeapons[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
+        );
+        rules.defineRule
+          ('features.' + focusFeature, 'clericFeatures.' + focusFeature, '=', null);
+        rules.defineRule
+          ('features.' + proficiencyFeature, 'clericFeatures.' + proficiencyFeature, '=', null);
+      }
+    }
+  }
 };
 
 /* Defines the rules related to equipment. */
