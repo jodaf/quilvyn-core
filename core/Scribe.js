@@ -596,28 +596,27 @@ Scribe.sheetHtml = function(attrs) {
   if(strengthDamageAdjustment == null)
     strengthDamageAdjustment = 0;
   for(a in computedAttributes) {
+    if(a.match(/\.\d+$/))
+      continue; // Ignore format multi-values
+    var isNote = a.indexOf('Notes') > 0;
     var name = a.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
     name = name.substring(0, 1).toUpperCase() + name.substring(1);
     var value = computedAttributes[a];
+    if(isNote && value == 0)
+      continue; // Suppress notes with zero value
+    if(notes[a] != null) {
+      value = notes[a].replace(/%V/, value);
+      for(var j=1; computedAttributes[a + '.' + j] != null; j++) {
+        value = value.replace('%' + j, computedAttributes[a + '.' + j]);
+      }
+    } else if(isNote && typeof(value) == 'number') {
+      value = ScribeUtils.signed(value);
+    }
     if((i = name.indexOf('.')) < 0) {
       sheetAttributes[name] = value;
     } else {
       var object = name.substring(0, i);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
-      if(name.match(/\.\d+$/))
-        continue; // Ignore note multi-values
-      if(object.indexOf('Notes') >= 0 && typeof(value) == 'number') {
-        if(value == 0)
-          continue; // Suppress notes with zero value
-        else if(notes[a] == null)
-          value = ScribeUtils.signed(value); // Make signed if not formatted
-      }
-      if(notes[a] != null) {
-        value = notes[a].replace(/%V/, value);
-        for(var j=1; computedAttributes[a + '.' + j] != null; j++) {
-          value = value.replace('%' + j, computedAttributes[a + '.' + j]);
-        }
-      }
       if(object == 'Skills') {
         var modifier = computedAttributes['skillModifier.' + name];
         if(modifier != null)
@@ -687,7 +686,7 @@ Scribe.sheetHtml = function(attrs) {
                 (range != null ? ' R' + range : '') + ')';
       }
       value = name + ': ' + value;
-      if(object.indexOf('Notes') > 0 && ruleSet.isSource(a)) {
+      if(isNote && ruleSet.isSource(a)) {
         if(persistentInfo.italics == '1')
           value = '<i>' + value + '</i>';
         else

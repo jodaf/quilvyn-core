@@ -80,40 +80,26 @@ var CUSTOMIZATION_URLS = [
  */
 function CustomizeScribe() {
   // The first part of this implementation provides an easy way to define
-  // subfeats and subskills (e.g., Weapon Focus (Longsword)), Perform (Sing))
+  // subfeats and subskills (e.g., Weapon Focus (Longbow), Craft (Alchemy))
   // in the SRD35 rule set.  Each element of the subfeats/subskills variables
-  // gives a feat/skill, followed by a colon and a slash-delimited list of
-  // subfeat targets.  Modify the values in each list to determine which
-  // subfeats/subskills are defined in your Scribe installation.
-  var subfeats = [
-    'Armor Proficiency:Heavy/Light/Medium',
-    'Greater Spell Focus:' + SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
-    'Greater Weapon Focus:',
-    'Greater Weapon Specialization:',
-    'Improved Critical:Dwarven Waraxe/Longsword',
-    'Rapid Reload:Hand/Heavy/Light',
-    'Shield Proficiency:Heavy/Tower',
-    'Skill Focus:',
-    'Spell Focus:' + SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
-    'Weapon Focus:Dwarven Waraxe/Longsword',
-    'Weapon Proficiency:Simple',
-    'Weapon Specialization:Dwarven Waraxe/Longsword'
-  ];
-  var subskills = [
-    'Craft:Alchemy',
-    'Knowledge:Arcana/Architecture/Dungeoneering/Engineering/Geography/' +
-              'History/Local/Nature/Nobility/Planes/Religion',
-    'Perform:Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
-    'Profession:'
-  ];
-  for(var i = 0; i < subfeats.length; i++) {
-    var pieces = subfeats[i].split(/:/);
-    SRD35.SUBFEATS[pieces[0]] = pieces[1];
+  // gives a feat/skill and a slash-delimited list of subfeat targets.  Modify
+  // the values in each list to determine which subfeats/subskills are defined
+  // in your Scribe installation.
+  var subfeats = {
+    'Greater Weapon Focus':'',
+    'Greater Weapon Specialization':'',
+    'Improved Critical':'Dwarven Waraxe/Longbow/Longsword',
+    'Skill Focus':'',
+    'Weapon Focus':'Dwarven Waraxe/Longbow/Longsword',
+    'Weapon Proficiency':'Simple',
+    'Weapon Specialization':'Dwarven Waraxe/Longbow/Longsword'
   };
-  for(var i = 0; i < subskills.length; i++) {
-    var pieces = subskills[i].split(/:/);
-    SRD35.SUBSKILLS[pieces[0]] = pieces[1];
+  var subskills = {
+    'Craft':'Alchemy',
+    'Profession':''
   };
+  Object.assign(SRD35.SUBFEATS, subfeats);
+  Object.assign(SRD35.SUBSKILLS, subskills);
   // The second part loads the modules listed in CUSTOMIZATION_URLS by
   // calling a function with the same name as the module (e.g., it calls
   // SRD35() for SRD35.js).

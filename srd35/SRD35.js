@@ -272,7 +272,7 @@ SRD35.SKILLS = [
 ];
 SRD35.SUBFEATS = {
   'Armor Proficiency':'Heavy/Light/Medium',
-  'Greater Spell Focus':'',
+  'Greater Spell Focus':SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
   'Greater Weapon Focus':'',
   'Greater Weapon Specialization':'',
   'Improved Critical':'',
@@ -280,6 +280,7 @@ SRD35.SUBFEATS = {
   'Shield Proficiency':'Heavy/Tower',
   'Skill Focus':'',
   'Spell Focus':'',
+  'Spell Focus':SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
   'Weapon Focus':'',
   'Weapon Proficiency':'Simple',
   'Weapon Specialization':'Dwarven Waraxe/Longsword'
@@ -836,6 +837,20 @@ SRD35.abilityRules = function(rules) {
     ('strengthModifier', 'strength', '=', 'Math.floor((source - 10) / 2)');
   rules.defineRule
     ('wisdomModifier', 'wisdom', '=', 'Math.floor((source - 10) / 2)');
+
+  rules.defineChoice('notes', 'charisma:%V (%1)');
+  rules.defineChoice('notes', 'constitution:%V (%1)');
+  rules.defineChoice('notes', 'dexterity:%V (%1)');
+  rules.defineChoice('notes', 'intelligence:%V (%1)');
+  rules.defineChoice('notes', 'strength:%V (%1)');
+  rules.defineChoice('notes', 'wisdom:%V (%1)');
+
+  rules.defineRule('charisma.1', 'charismaModifier', '=', null);
+  rules.defineRule('constitution.1', 'constitutionModifier', '=', null);
+  rules.defineRule('dexterity.1', 'dexterityModifier', '=', null);
+  rules.defineRule('strength.1', 'strengthModifier', '=', null);
+  rules.defineRule('intelligence.1', 'intelligenceModifier', '=', null);
+  rules.defineRule('wisdom.1', 'wisdomModifier', '=', null);
 
   // Effects of ability modifiers
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
@@ -2339,26 +2354,12 @@ SRD35.createViewers = function(rules, viewers) {
           {name: 'Image Url', within: 'Header', format: '<img src="%V"/>'},
         {name: 'Attributes', within: '_top', separator: outerSep},
           {name: 'Abilities', within: 'Attributes', separator: innerSep},
-            {name: 'StrInfo', within: 'Abilities', separator: ''},
-              {name: 'Strength', within: 'StrInfo'},
-              {name: 'Strength Modifier', within: 'StrInfo', format: ' (%V)'},
-            {name: 'IntInfo', within: 'Abilities', separator: ''},
-              {name: 'Intelligence', within: 'IntInfo'},
-              {name: 'Intelligence Modifier', within: 'IntInfo',
-               format: ' (%V)'},
-            {name: 'WisInfo', within: 'Abilities', separator: ''},
-              {name: 'Wisdom', within: 'WisInfo'},
-              {name: 'Wisdom Modifier', within: 'WisInfo', format: ' (%V)'},
-            {name: 'DexInfo', within: 'Abilities', separator: ''},
-              {name: 'Dexterity', within: 'DexInfo'},
-              {name: 'Dexterity Modifier', within: 'DexInfo', format: ' (%V)'},
-            {name: 'ConInfo', within: 'Abilities', separator: ''},
-              {name: 'Constitution', within: 'ConInfo'},
-              {name: 'Constitution Modifier', within: 'ConInfo',
-               format: ' (%V)'},
-            {name: 'ChaInfo', within: 'Abilities', separator: ''},
-              {name: 'Charisma', within: 'ChaInfo'},
-              {name: 'Charisma Modifier', within: 'ChaInfo', format: ' (%V)'},
+            {name: 'Strength', within: 'Abilities'},
+            {name: 'Intelligence', within: 'Abilities'},
+            {name: 'Wisdom', within: 'Abilities'},
+            {name: 'Dexterity', within: 'Abilities'},
+            {name: 'Constitution', within: 'Abilities'},
+            {name: 'Charisma', within: 'Abilities'},
           {name: 'Description', within: 'Attributes', separator: innerSep},
             {name: 'Alignment', within: 'Description'},
             {name: 'Deity', within: 'Description'},
