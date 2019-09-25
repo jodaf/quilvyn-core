@@ -286,7 +286,7 @@ SRD35.SUBFEATS = {
 };
 SRD35.SUBSKILLS = {
   'Craft':'',
-  'Knowledge':'Arcana/Architecture/Dungeoneering/Engineering/Geography/' +
+  'Knowledge':'Arcana/Dungeoneering/Engineering/Geography/' +
               'History/Local/Nature/Nobility/Planes/Religion',
   'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
   'Profession':''
