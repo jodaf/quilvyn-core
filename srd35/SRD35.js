@@ -279,7 +279,6 @@ SRD35.SUBFEATS = {
   'Rapid Reload':'Hand/Heavy/Light',
   'Shield Proficiency':'Heavy/Tower',
   'Skill Focus':'',
-  'Spell Focus':'',
   'Spell Focus':SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
   'Weapon Focus':'',
   'Weapon Proficiency':'Simple',
