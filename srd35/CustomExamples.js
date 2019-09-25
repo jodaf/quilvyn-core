@@ -178,15 +178,8 @@ CustomExamples.skillRules = function(rules, skills) {
     var ability = pieces[1];
     var trained = pieces[2];
     var classes = pieces[3];
-    // Define the skill, with associated ability and trained/untrained setting.
-    rules.defineChoice
-      ('skills', skill + ':' + ability.substring(0, 3) + '/' + trained);
-    // Define the rules to compute the skill modifier.
-    rules.defineRule('skillModifier.' + skill,
-      'skills.' + skill, '=', 'source / 2',
-      'classSkills.' + skill, '*', '2',
-      ability + 'Modifier', '+', null
-    );
+    SRD35.skillRules
+      (rules, [skill + ':' + ability.substring(0, 3) + '/' + trained], {}, {});
     // Define the rule(s) to determine class/cross-class skill.
     if(classes == 'all') {
       rules.defineRule('classSkills.' + skill, 'level', '=', '1');

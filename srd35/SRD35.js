@@ -837,12 +837,14 @@ SRD35.abilityRules = function(rules) {
   rules.defineRule
     ('wisdomModifier', 'wisdom', '=', 'Math.floor((source - 10) / 2)');
 
-  rules.defineChoice('notes', 'charisma:%V (%1)');
-  rules.defineChoice('notes', 'constitution:%V (%1)');
-  rules.defineChoice('notes', 'dexterity:%V (%1)');
-  rules.defineChoice('notes', 'intelligence:%V (%1)');
-  rules.defineChoice('notes', 'strength:%V (%1)');
-  rules.defineChoice('notes', 'wisdom:%V (%1)');
+  rules.defineNote([
+    'charisma:%V (%1)',
+    'constitution:%V (%1)',
+    'dexterity:%V (%1)',
+    'intelligence:%V (%1)',
+    'strength:%V (%1)',
+    'wisdom:%V (%1)'
+  ]);
 
   rules.defineRule('charisma.1', 'charismaModifier', '=', null);
   rules.defineRule('constitution.1', 'constitutionModifier', '=', null);
@@ -4398,6 +4400,14 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
       'skills.' + skill, '=', 'source / 2',
       'classSkills.' + skill, '*', '2'
     );
+    rules.defineNote('skills.' + skill + ':(%1%2) %V (%3)');
+    rules.defineRule('skills.' + skill + '.1', '', '=', '"' + ability + '"');
+    rules.defineRule('skills.' + skill + '.2',
+      '', '=', '";cc"',
+      'classSkills.' + skill, '=', '""'
+    );
+    rules.defineRule
+      ('skills.' + skill + '.3', 'skillModifier.' + skill, '=', null);
     if(abilityNames[ability] != null) {
       var modifier = abilityNames[ability] + 'Modifier';
       rules.defineRule('skillModifier.' + skill, modifier, '+', null);

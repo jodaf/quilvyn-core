@@ -617,19 +617,7 @@ Scribe.sheetHtml = function(attrs) {
     } else {
       var object = name.substring(0, i);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
-      if(object == 'Skills') {
-        var modifier = computedAttributes['skillModifier.' + name];
-        if(modifier != null)
-          value += ' (' + modifier + ')';
-        var ability = ruleSet.getChoices('skills')[name];
-        var skillInfo = [];
-        if(ability != null && ability != '' && ability.substring(0, 1) != '/')
-          skillInfo[skillInfo.length] = ability.substring(0, 3);
-        if(computedAttributes['classSkills.' + name] == null)
-          skillInfo[skillInfo.length] = 'cc';
-        if(skillInfo.length > 0)
-          name += ' (' + skillInfo.join(';') + ')';
-      } else if(object == 'Weapons') {
+      if(object == 'Weapons') {
         var damages = ruleSet.getChoices('weapons')[name];
         damages = damages == null ? 'd6' : damages.replace(/ /g, '');
         var range = computedAttributes['weaponRange.' + name];
