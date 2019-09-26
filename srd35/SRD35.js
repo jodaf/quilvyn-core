@@ -4336,7 +4336,7 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
     'validationNotes.skillAllocation:%1 available vs. %2 allocated'
   );
   rules.defineRule('maxAllowedSkillPoints', 'level', '=', 'source + 3');
-  rules.defineRule('maxAllocatedSkillPoints', /^skills\./, '^=', null);
+  rules.defineRule('maxAllocatedSkillPoints', /^skills\.[^\.]*$/, '^=', null);
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
     'shield', '+=', 'SRD35.shieldsSkillCheckPenalties[source]'
@@ -4359,7 +4359,7 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
   );
   rules.defineRule('validationNotes.skillAllocation.2',
     '', '=', '0',
-    /^skills\./, '+=', null
+    /^skills\.[^\.]*$/, '+=', null
   );
   rules.defineRule('validationNotes.skillAllocation',
     'validationNotes.skillAllocation.1', '=', '-source',
