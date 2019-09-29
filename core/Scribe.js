@@ -52,11 +52,15 @@ var scribeTab = null;   // Menu/sheet tab, if requested
 var sheetWindow = null; // Window where character sheet is shown
 
 // Hack to support crippled IE/Edge testing
-var storage = localStorage || {
-  'getItem':function(name) { return window.storage[name]; },
-  'removeItem':function(name) { delete window.storage[name]; },
-  'setItem':function(name,value) { window.storage[name] = value; }
-};
+var storage;
+if(window.navigator.userAgent.indexOf("Edg") >= 0)
+  storage = {
+    'getItem':function(name) { return window.storage[name]; },
+    'removeItem':function(name) { delete window.storage[name]; },
+    'setItem':function(name,value) { window.storage[name] = value; }
+  };
+else
+  storage = localStorage;
 
 /* Launch routine called after all Scribe scripts are loaded. */
 function Scribe() {
