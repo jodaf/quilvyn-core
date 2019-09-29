@@ -315,13 +315,13 @@ SRD35.SYNERGIES = {
   'Use Magic Device':'Spellcraft (scrolls)',
   'Use Rope':'Climb (rope)/Escape Artist (rope)'
 };
-SRD35.VIEWERS = ['Compact', 'Standard', 'Vertical'];
+SRD35.VIEWERS = ['Compact', 'Merged Notes', 'Standard', 'Vertical'];
 SRD35.WEAPONS = [
   'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
   'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70', 'Dagger:d4@19r10',
-  'Dart:d4r20', 'Dire Flail:d8/d8', 'Dwarven Urgosh:d8x3/d6x3',
+  'Dart:d4r20', 'Dire Flail:d8/d8', 'Dwarven Urgosh:d8/d6x3',
   'Dwarven Waraxe:d10x3', 'Falchion:2d4@18', 'Flail:d8', 'Gauntlet:d3',
-  'Glaive:d10x3', 'Gnome Hooked Hammer:d8x3/d6x4', 'Greataxe:d12x3',
+  'Glaive:d10x3', 'Gnome Hooked Hammer:d8/d6x4', 'Greataxe:d12x3',
   'Greatclub:d10', 'Greatsword:2d6@19', 'Guisarme:2d4x3', 'Halberd:d10x3',
   'Hand Crossbow:d4@19r30', 'Handaxe:d6x3', 'Heavy Crossbow:d10@19r120',
   'Heavy Flail:d10@19', 'Heavy Mace:d8', 'Heavy Pick:d6x4', 'Heavy Shield:d4',
@@ -330,13 +330,13 @@ SRD35.WEAPONS = [
   'Light Mace:d6', 'Light Pick:d4x4', 'Light Shield:d3',
   'Light Spiked Shield:d4', 'Longbow:d8x3r100', 'Longspear:d8x3',
   'Longsword:d8@19', 'Morningstar:d8', 'Net:d0r10', 'Nunchaku:d6',
-  'Orc Double Axe:d8x3/d8x3', 'Punching Dagger:d4x3', 'Quarterstaff:d6/d6',
+  'Orc Double Axe:d8/d8x3', 'Punching Dagger:d4x3', 'Quarterstaff:d6/d6',
   'Ranseur:2d4x3', 'Rapier:d6@18', 'Repeating Heavy Crossbow:d10@19r120',
   'Repeating Light Crossbow:d8@19r80', 'Sai:d4r10', 'Sap:d6', 'Scimitar:d6@18',
   'Scythe:2d4x4', 'Short Sword:d6@19', 'Shortbow:d6x3r60', 'Shortspear:d6r20',
   'Shuriken:d2r10', 'Siangham:d6', 'Sickle:d6', 'Sling:d4r50', 'Spear:d8x3r20',
   'Spiked Armor:d6', 'Spiked Chain:2d4', 'Spiked Gauntlet:d4',
-  'Throwing Axe:d6r10', 'Trident:d8r10', 'Two-Bladed Sword:d8@19/d8@19',
+  'Throwing Axe:d6r10', 'Trident:d8r10', 'Two-Bladed Sword:d8/d8@19',
   'Unarmed:d3', 'Warhammer:d8x3', 'Whip:d3'
 ];
 
@@ -855,28 +855,23 @@ SRD35.abilityRules = function(rules) {
 
   // Effects of ability modifiers
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
-    'constitutionModifier', '=', 'source || null',
+    'constitutionModifier', '=', null,
     'level', '*', null
   );
-  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
-    'dexterityModifier', '=', 'source || null'
-  );
-  rules.defineRule('combatNotes.dexterityAttackAdjustment',
-    'dexterityModifier', '=', 'source || null'
-  );
+  rules.defineRule
+    ('combatNotes.dexterityArmorClassAdjustment','dexterityModifier','=',null);
+  rules.defineRule
+    ('combatNotes.dexterityAttackAdjustment', 'dexterityModifier', '=', null);
   rules.defineRule('skillNotes.intelligenceSkillPointsAdjustment',
-    'intelligenceModifier', '=', 'source || null',
+    'intelligenceModifier', '=', null,
     'level', '*', 'source + 3'
   );
-  rules.defineRule('combatNotes.strengthAttackAdjustment',
-    'strengthModifier', '=', 'source || null'
-  );
-  rules.defineRule('combatNotes.strengthDamageAdjustment',
-    'strengthModifier', '=', 'source || null'
-  );
-  rules.defineRule('languageCount',
-    'intelligenceModifier', '+', 'source > 0 ? source : null'
-  );
+  rules.defineRule
+    ('combatNotes.strengthAttackAdjustment', 'strengthModifier', '=', null);
+  rules.defineRule
+    ('combatNotes.strengthDamageAdjustment', 'strengthModifier', '=', null);
+  rules.defineRule
+    ('languageCount', 'intelligenceModifier', '+', 'source > 0 ? source : 0');
 
   // Effects of the notes computed above
   rules.defineRule
@@ -2338,12 +2333,12 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Notes', within: 'Section 2'},
             {name: 'Hidden Notes', within: 'Section 2', format: '%V'}
       );
-    } else if(name == 'Standard' || name == 'Vertical') {
-      var innerSep = name == 'Standard' ? null : '\n';
-      var listSep = name == 'Standard' ? '; ' : '\n';
+    } else if(name == 'Merged Notes' || name == 'Standard' || name == 'Vertical') {
+      var innerSep = name == 'Vertical' ? '\n' : null;
+      var listSep = name == 'Vertical' ? '\n' : '; ';
       var noteSep = listSep;
       noteSep = '\n';
-      var outerSep = name == 'Standard' ? '\n' : null;
+      var outerSep = name == 'Vertical' ? null : '\n';
       viewer.addElements(
         {name: '_top', borders: 1, separator: '\n'},
         {name: 'Header', within: '_top'},
@@ -2377,8 +2372,14 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Load Light', within: 'LoadInfo',
                format: '<b>Light/Med/Max Load:</b> %V'},
               {name: 'Load Medium', within: 'LoadInfo', format: '/%V'},
-              {name: 'Load Max', within: 'LoadInfo', format: '/%V'},
-          {name: 'Ability Notes', within: 'Attributes', separator: noteSep},
+              {name: 'Load Max', within: 'LoadInfo', format: '/%V'}
+      );
+      if(name != 'Merged Notes') {
+        viewer.addElements(
+          {name: 'Ability Notes', within: 'Attributes', separator: noteSep}
+        );
+      }
+      viewer.addElements(
         {name: 'FeaturesAndSkills', within: '_top', separator: outerSep,
          format: '<b>Features/Skills</b><br/>%V'},
           {name: 'FeaturePart', within: 'FeaturesAndSkills', separator: '\n'},
@@ -2387,14 +2388,35 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Selectable Feature Count', within: 'FeatStats',
                separator: listSep},
             {name: 'FeatLists', within: 'FeaturePart', separator: innerSep},
-              {name: 'Feats', within: 'FeatLists', separator: listSep},
-            {name: 'Feature Notes', within: 'FeaturePart', separator: noteSep},
+              {name: 'Feats', within: 'FeatLists', separator: listSep}
+      );
+      if(name != 'Merged Notes') {
+        viewer.addElements(
+            {name: 'Feature Notes', within: 'FeaturePart', separator: noteSep}
+        );
+      } else {
+        viewer.addElements(
+          {name: 'Ability Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
+          {name: 'Feature Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
+          {name: 'Skill Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
+          {name: 'Combat Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
+          {name: 'Save Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
+          {name: 'Magic Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"}
+        );
+      }
+      viewer.addElements(
           {name: 'SkillPart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'SkillStats', within: 'SkillPart', separator:innerSep},
               {name: 'Skill Points', within: 'SkillStats'},
               {name: 'Max Allowed Skill Points', within: 'SkillStats'},
-            {name: 'Skills', within: 'SkillPart', columns: '3LE', separator: null},
-            {name: 'Skill Notes', within: 'SkillPart', separator:noteSep},
+            {name: 'Skills', within: 'SkillPart', columns: '3LE', separator: null}
+      );
+      if(name != 'Merged Notes') {
+        viewer.addElements(
+            {name: 'Skill Notes', within: 'SkillPart', separator:noteSep}
+        );
+      }
+      viewer.addElements(
           {name: 'LanguagePart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'LanguageStats', within: 'LanguagePart', separator:innerSep},
               {name: 'Language Count', within: 'LanguageStats'},
@@ -2421,16 +2443,28 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Shield', within: 'Gear'},
               {name: 'Weapons', within: 'Gear', separator: listSep},
             {name: 'Turning', within: 'CombatPart', separator: innerSep},
-              {name: 'Turn Undead', within: 'Turning', separator: listSep},
-            {name: 'Combat Notes', within: 'CombatPart', separator: noteSep},
+              {name: 'Turn Undead', within: 'Turning', separator: listSep}
+      );
+      if(name != 'Merged Notes') {
+        viewer.addElements(
+            {name: 'Combat Notes', within: 'CombatPart', separator: noteSep}
+        );
+      }
+      viewer.addElements(
           {name: 'SavePart', within: 'Combat', separator: '\n'},
             {name: 'SaveAndResistance', within: 'SavePart', separator:innerSep},
               {name: 'Damage Reduction', within: 'SaveAndResistance',
                separator: innerSep},
               {name: 'Save', within: 'SaveAndResistance', separator: listSep},
               {name: 'Resistance', within: 'SaveAndResistance',
-               separator: listSep},
-            {name: 'Save Notes', within: 'SavePart', separator: noteSep},
+               separator: listSep}
+      );
+      if(name != 'Merged Notes') {
+        viewer.addElements(
+            {name: 'Save Notes', within: 'SavePart', separator: noteSep}
+        );
+      }
+      viewer.addElements(
         {name: 'Magic', within: '_top', separator: outerSep,
          format: '<b>Magic</b><br/>%V'},
           {name: 'SpellPart', within: 'Magic', separator: '\n'},
@@ -2444,8 +2478,14 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Specialize', within: 'SpellSpecialties'},
               {name: 'Prohibit', within: 'SpellSpecialties', separator:listSep},
             {name: 'Goodies', within: 'SpellPart', separator: listSep},
-          {name: 'Spells', within: 'Magic', columns: '1L', separator: null},
-          {name: 'Magic Notes', within: 'Magic', separator: noteSep},
+          {name: 'Spells', within: 'Magic', columns: '1L', separator: null}
+      );
+      if(name != 'Merged Notes') {
+        viewer.addElements(
+          {name: 'Magic Notes', within: 'Magic', separator: noteSep}
+        );
+      }
+      viewer.addElements(
         {name: 'Notes Area', within: '_top', separator: outerSep,
          format: '<b>Notes</b><br/>%V'},
           {name: 'NotesPart', within: 'Notes Area', separator: '\n'},
@@ -2506,6 +2546,89 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   rules.defineChoice('goodies', goodies);
   rules.defineChoice('shields', shields);
   rules.defineChoice('weapons', weapons);
+
+  for(var i = 0; i < weapons.length; i++) {
+
+    var pieces = weapons[i].split(':');
+    var matchInfo = pieces[1].match(/(\d?d\d+)(\/(\d?d\d+))?(x(\d))?(@(\d+))?(r(\d+))?/);
+    if(! matchInfo)
+      continue;
+
+    var critMultiplier = matchInfo[5] || '2';
+    var critThreat = matchInfo[7] || '20';
+    var firstDamage = matchInfo[1];
+    var name = pieces[0];
+    var range = matchInfo[9];
+    var secondDamage = matchInfo[3];
+    var weaponName = 'weapons.' + name;
+    var attackBase = !range || 'ClubDaggerLight HammerShortspearSpearTrident'.indexOf(name) >= 0 ? 'meleeAttack' : 'rangedAttack';
+
+    var rangeVar = !range ? null : secondDamage ? 7 : 5;
+    var threatVar = secondDamage ? 6 : 4;
+
+    var format = '%V (%1 %2%3';
+    if(secondDamage)
+      format += '/%4%5';
+    format += ' x' + critMultiplier + '@%' + threatVar;
+    if(range)
+      format += ' R%' + rangeVar + "'";
+    format += ')';
+
+    rules.defineNote(weaponName + ':' + format);
+
+    rules.defineRule('attackBonus.' + name,
+      attackBase, '=', null,
+      'weaponAttackAdjustment.' + name, '+', null
+    );
+    if(name.indexOf('bow') >= 0 && name.indexOf('Composite') < 0)
+      rules.defineRule('damageBonus.' + name,
+        'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
+      );
+    else
+      rules.defineRule
+        ('damageBonus.' + name, 'combatNotes.strengthDamageAdjustment', '=', null);
+    rules.defineRule
+      ('damageBonus.' + name, 'weaponDamageAdjustment.' + name, '+', null);
+
+    rules.defineRule(weaponName + '.1',
+      'attackBonus.' + name, '=', 'source < 0 ? source : ("+" + source)'
+    );
+    rules.defineRule(weaponName + '.2', '', '=', '"' + firstDamage + '"');
+    if(SRD35.weaponsSmallDamage[firstDamage])
+      rules.defineRule(weaponName + '.2', 'features.Small', '=', '"' + SRD35.weaponsSmallDamage[firstDamage] + '"');
+    if(SRD35.weaponsLargeDamage[firstDamage])
+      rules.defineRule(weaponName + '.2', 'features.Large', '=', '"' + SRD35.weaponsLargeDamage[firstDamage] + '"');
+    rules.defineRule(weaponName + '.3',
+      'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
+    );
+    if(secondDamage) {
+      rules.defineRule(weaponName + '.4', '', '=', '"' + secondDamage + '"');
+      if(SRD35.weaponsSmallDamage[secondDamage])
+        rules.defineRule(weaponName + '.4', 'features.Small', '=', '"' + SRD35.weaponsSmallDamage[secondDamage] + '"');
+      if(SRD35.weaponsLargeDamage[secondDamage])
+        rules.defineRule(weaponName + '.4', 'features.Large', '=', '"' + SRD35.weaponsLargeDamage[secondDamage] + '"');
+      rules.defineRule(weaponName + '.5',
+        'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
+      );
+    }
+
+    rules.defineRule('threat.' + name,
+      '', '=', critThreat,
+      'weaponCriticalAdjustment.' + name, '+', null
+    );
+    rules.defineRule(weaponName + '.' + threatVar, 'threat.' + name, '=', null);
+
+    if(range) {
+      rules.defineRule('range.' + name,
+        '', '=', range,
+        'weaponRangeAdjustment.' + name, '+', null,
+        'features.Far Shot', '*', name.indexOf('bow') < 0 ? '2' : '1.5'
+      );
+      rules.defineRule(weaponName + '.' + rangeVar, 'range.' + name, '=', null);
+    }
+
+  }
+
   rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
     'armor', '=',
@@ -2523,10 +2646,6 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
     'shield', '+=', 'SRD35.shieldsArcaneSpellFailurePercentages[source]'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
-  // TODO combatNotes.strengthDamageAdjustment handled directly by Scribe
-  // Hack to get it to appear in italics
-  rules.defineRule
-    ('level', 'combatNotes.strengthDamageAdjustment', '=', 'null');
   rules.defineNote(
     'sanityNotes.casterLevelArcaneArmor:Implies Armor == None',
     'sanityNotes.casterLevelArcaneShield:Implies Shield == None'
@@ -5198,6 +5317,11 @@ SRD35.ruleNotes = function() {
     '    You can only select the feats Extra Turning, Spell Mastery,\n' +
     '    and Toughness once.  Multiple selections of these feats can be\n' +
     '    handled by defining custom feats (e.g., Improved Toughness).\n' +
+    '  </li><li>\n' +
+    '    Scribe doesn\'t support double weapons where the two attacks have\n' +
+    '    different critical mutipliers. In the predefined weapons this\n' +
+    '    affects only the Gnome Hooked Hammer, where Scribe displays a\n' +
+    '    critical multiplier of x4 instead of x3/x4.\n' +
     '  </li><li>\n' +
     '    Scribe provides no place other than the notes section to enter\n' +
     '    mundane possessions like lanterns and rope. The same goes for\n' +

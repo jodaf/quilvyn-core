@@ -591,14 +591,7 @@ Scribe.sheetHtml = function(attrs) {
 
   enteredAttributes.hidden = persistentInfo.hidden;
   computedAttributes = ruleSet.applyRules(enteredAttributes);
-  // NOTE: ObjectFormatter doesn't support interspersing values in a list
-  // (e.g., skill ability, weapon damage), so we do some inelegant manipulation
-  // of sheetAttributes' names and values here to get the sheet to look right.
   var notes = ruleSet.getChoices('notes');
-  var strengthDamageAdjustment =
-    computedAttributes['combatNotes.strengthDamageAdjustment'];
-  if(strengthDamageAdjustment == null)
-    strengthDamageAdjustment = 0;
   for(a in computedAttributes) {
     if(a.match(/\.\d+$/))
       continue; // Ignore format multi-values
@@ -610,7 +603,7 @@ Scribe.sheetHtml = function(attrs) {
       continue; // Suppress notes with zero value
     if(notes[a] != null) {
       value = notes[a].replace(/%V/, value);
-      for(var j=1; computedAttributes[a + '.' + j] != null; j++) {
+      for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {
         value = value.replace('%' + j, computedAttributes[a + '.' + j]);
       }
     } else if(isNote && typeof(value) == 'number') {
@@ -621,62 +614,6 @@ Scribe.sheetHtml = function(attrs) {
     } else {
       var object = name.substring(0, i);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
-      if(object == 'Weapons') {
-        var damages = ruleSet.getChoices('weapons')[name];
-        damages = damages == null ? 'd6' : damages.replace(/ /g, '');
-        var range = computedAttributes['weaponRange.' + name];
-        if((i = damages.search(/[rR]/)) >= 0) {
-          if(range == null)
-            range = damages.substring(i + 1) - 0;
-          damages = damages.substring(0, i);
-          if(computedAttributes['weaponRangeAdjustment.' + name] != null)
-            range += computedAttributes['weaponRangeAdjustment.' + name] - 0;
-          if(computedAttributes['features.Far Shot'] != null)
-            range *= name.indexOf('bow') < 0 ? 2 : 1.5;
-        }
-        var attack =
-          range == null ||
-          name.match
-            (/^(Club|Dagger|Light Hammer|Shortspear|Spear|Trident)$/) != null ?
-          computedAttributes.meleeAttack : computedAttributes.rangedAttack;
-        if(computedAttributes['weaponAttackAdjustment.' + name] != null)
-          attack += computedAttributes['weaponAttackAdjustment.' + name] - 0;
-        var addedDamage = strengthDamageAdjustment;
-        if(name.indexOf('bow') >= 0 &&
-           (name.indexOf('Composite') < 0 || addedDamage > 0))
-          addedDamage = 0;
-        if(computedAttributes['weaponDamageAdjustment.' + name] != null)
-          addedDamage += computedAttributes['weaponDamageAdjustment.'+name] - 0;
-        damages = damages.split('/');
-        for(i = 0; i < damages.length; i++) {
-          var pieces =
-            damages[i].match(/^(\d*d\d+)([\+\-]\d+)? *(x(\d+))? *(@(\d+))?$/);
-          if(pieces == null)
-            pieces = ['d6', 'd6'];
-          var additional = (pieces[2] ? pieces[2] - 0 : 0) + addedDamage;
-          var damage = computedAttributes['weaponDamage.' + name];
-          if(damage == null)
-            damage = pieces[1];
-          var multiplier = pieces[4] ? pieces[4] - 0 : 2;
-          var threat = pieces[6] ? pieces[6] - 0 : 20;
-          if(computedAttributes['weaponCriticalAdjustment.' + name] != null)
-            threat -= computedAttributes['weaponCriticalAdjustment.' + name];
-          if(computedAttributes['features.Small'] &&
-             SRD35.weaponsSmallDamage[damage] != null) {
-            damage = SRD35.weaponsSmallDamage[damage];
-          } else if(computedAttributes['features.Large'] &&
-                    SRD35.weaponsLargeDamage[damage] != null) {
-            damage = SRD35.weaponsLargeDamage[damage];
-          }
-          if(additional != 0)
-            damage += ScribeUtils.signed(additional);
-          damages[i] = damage;
-          if(multiplier > 1)
-            damages[i] += ' x' + multiplier + '@' + threat;
-        }
-        name += '(' + ScribeUtils.signed(attack) + ' ' + damages.join('/') +
-                (range != null ? ' R' + range : '') + ')';
-      }
       value = name + ': ' + value;
       if(isNote && ruleSet.isSource(a)) {
         if(persistentInfo.italics == '1')
