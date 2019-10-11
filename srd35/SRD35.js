@@ -2396,12 +2396,13 @@ SRD35.createViewers = function(rules, viewers) {
         );
       } else {
         viewer.addElements(
-          {name: 'Ability Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
-          {name: 'Feature Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
-          {name: 'Skill Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
-          {name: 'Combat Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
-          {name: 'Save Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"},
-          {name: 'Magic Notes', within: 'FeaturePart', separator: null, columns: "1L", format: "%V"}
+          {name: 'AllNotes', within: 'FeaturePart', separator: '\n', columns: "1L"},
+            {name: 'Ability Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
+            {name: 'Feature Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
+            {name: 'Skill Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
+            {name: 'Combat Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
+            {name: 'Save Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
+            {name: 'Magic Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"}
         );
       }
       viewer.addElements(
