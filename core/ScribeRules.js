@@ -149,7 +149,6 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
     } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Race|SelectableFeature)([A-Za-z]+)/)) != null &&
               !format.match(/[ \(\/][a-z]/)) {
       var group = matchInfo[4] == 'Feats' ? 'features' :
-                  matchInfo[4] == 'Skills' ? 'skillModifier' :
                   matchInfo[4].match(/s$/) ?
                   matchInfo[4].substring(0, 1).toLowerCase() +
                   matchInfo[4].substring(1) : '';
