@@ -824,34 +824,14 @@ SRD35.weaponsSmallDamage = {
 SRD35.abilityRules = function(rules) {
 
   // Ability modifier computation
-  rules.defineRule
-    ('charismaModifier', 'charisma', '=', 'Math.floor((source - 10) / 2)');
-  rules.defineRule
-    ('constitutionModifier', 'constitution', '=', 'Math.floor((source-10)/2)');
-  rules.defineRule
-    ('dexterityModifier', 'dexterity', '=', 'Math.floor((source - 10) / 2)');
-  rules.defineRule
-    ('intelligenceModifier', 'intelligence', '=', 'Math.floor((source-10)/2)');
-  rules.defineRule
-    ('strengthModifier', 'strength', '=', 'Math.floor((source - 10) / 2)');
-  rules.defineRule
-    ('wisdomModifier', 'wisdom', '=', 'Math.floor((source - 10) / 2)');
-
-  rules.defineNote([
-    'charisma:%V (%1)',
-    'constitution:%V (%1)',
-    'dexterity:%V (%1)',
-    'intelligence:%V (%1)',
-    'strength:%V (%1)',
-    'wisdom:%V (%1)'
-  ]);
-
-  rules.defineRule('charisma.1', 'charismaModifier', '=', null);
-  rules.defineRule('constitution.1', 'constitutionModifier', '=', null);
-  rules.defineRule('dexterity.1', 'dexterityModifier', '=', null);
-  rules.defineRule('strength.1', 'strengthModifier', '=', null);
-  rules.defineRule('intelligence.1', 'intelligenceModifier', '=', null);
-  rules.defineRule('wisdom.1', 'wisdomModifier', '=', null);
+  for(var ability in {'charisma':'', 'constitution':'', 'dexterity':'',
+                      'intelligence':'', 'strength':'', 'wisdom':''}) {
+    rules.defineRule(ability, ability + 'Adjust', '+', null);
+    rules.defineRule
+      (ability + 'Modifier', ability, '=', 'Math.floor((source - 10) / 2)');
+    rules.defineNote(ability + ':%V (%1)');
+    rules.defineRule(ability + '.1', ability + 'Modifier', '=', null);
+  }
 
   // Effects of ability modifiers
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
@@ -4670,12 +4650,18 @@ SRD35.initialEditorElements = function() {
     ['race', 'Race', 'select-one', 'races'],
     ['levels', 'Levels', 'bag', 'levels'],
     ['imageUrl', 'Image URL', 'text', [20]],
-    ['strength', 'Strength', 'select-one', abilityChoices],
-    ['intelligence', 'Intelligence', 'select-one', abilityChoices],
-    ['wisdom', 'Wisdom', 'select-one', abilityChoices],
-    ['dexterity', 'Dexterity', 'select-one', abilityChoices],
-    ['constitution', 'Constitution', 'select-one', abilityChoices],
-    ['charisma', 'Charisma', 'select-one', abilityChoices],
+    ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
+    ['strengthAdjust', '', 'text', [3]],
+    ['intelligence', 'Intelligence/Adjust', 'select-one', abilityChoices],
+    ['intelligenceAdjust', '', 'text', [3]],
+    ['wisdom', 'Wisdom/Adjust', 'select-one', abilityChoices],
+    ['wisdomAdjust', '', 'text', [3]],
+    ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
+    ['dexterityAdjust', '', 'text', [3]],
+    ['constitution', 'Constitution/Adjust', 'select-one', abilityChoices],
+    ['constitutionAdjust', '', 'text', [3]],
+    ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
+    ['charismaAdjust', '', 'text', [3]],
     ['player', 'Player', 'text', [20]],
     ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['gender', 'Gender', 'select-one', 'genders'],
