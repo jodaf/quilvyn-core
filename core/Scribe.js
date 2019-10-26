@@ -447,6 +447,8 @@ Scribe.randomizeCharacter = function(prompt) {
       var value = InputGetValue(element);
       if(element.type=='button' || name==null || value==null || value=='')
         continue;
+      if(typeof(value) == 'string' && value.match(/^[\+\-]?\d+$/))
+        value -= 0;
       fixedAttributes[name] = value;
     }
   }
@@ -768,6 +770,8 @@ Scribe.update = function(input) {
     value = 1;
   else if(value === false)
     value = 0;
+  else if(typeof(value) == 'string' && value.match(/^-?\d+$/))
+    value -= 0;
   if(name == 'about') {
     if(Scribe.aboutWindow == null || Scribe.aboutWindow.closed) {
       Scribe.aboutWindow =
@@ -914,7 +918,7 @@ Scribe.update = function(input) {
             (typeof(character[name]) == 'number' ||
              (typeof(character[name]) == 'string' &&
               character[name].match(/^\d+$/)))) {
-      character[name] = ((character[name] - 0) + (value.substring(1) - 0)) + '';
+      character[name] = (character[name] - 0) + (value.substring(1) - 0);
       InputSetValue(input, character[name]);
     }
     else

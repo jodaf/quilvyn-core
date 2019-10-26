@@ -4869,7 +4869,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   } else if(attribute == 'levels') {
     choices = ScribeUtils.getKeys(this.getChoices('levels'));
     var soFar = ScribeUtils.sumMatching(attributes, /^levels\./); 
-    var level = attributes.level != null ? attributes.level - 0 : soFar;
+    var level = attributes.level != null ? attributes.level : soFar;
     if(level == 0) {
       level = ScribeUtils.random(1, 100);
       level = level<=50 ? 1 : level<=75 ? 2 : level<=87 ? 3 : level<=93 ? 4 :
@@ -4952,7 +4952,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         toAssign = 1;
       if(current + toAssign > maxPoints)
         toAssign = maxPoints - current;
-      attributes[attr] = attributes[attr] - 0 + toAssign;
+      attributes[attr] = attributes[attr] + toAssign;
       howMany -= toAssign;
       // Select only one of a set of subskills (Craft, Perform, etc.)
       if((i = skill.indexOf(' (')) >= 0) {
@@ -5219,7 +5219,7 @@ SRD35.makeValid = function(attributes) {
           } else {
             for(toFixAttr in abilities) {
               if(applied[toFixAttr + 'Modifier'] <= 0) {
-                toFixValue = attributes[toFixAttr] - 0 + 2;
+                toFixValue = attributes[toFixAttr] + 2;
                 debug[debug.length] =
                   attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
                   "' => '" + toFixValue + "'";
