@@ -606,9 +606,9 @@ Scribe.sheetHtml = function(attrs) {
     if(isNote && value == 0)
       continue; // Suppress notes with zero value
     if(notes[a] != null) {
-      value = notes[a].replace(/%V/, value);
+      value = notes[a].replace(/%V/g, value);
       for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {
-        value = value.replace('%' + j, computedAttributes[a + '.' + j]);
+        value = value.replace(new RegExp('%' + j, 'g'), computedAttributes[a + '.' + j]);
       }
     } else if(isNote && typeof(value) == 'number') {
       value = ScribeUtils.signed(value);
@@ -722,7 +722,7 @@ Scribe.summarizeCachedAttrs = function() {
         combinedAttrs[attr] = [];
       var format = notes[attr];
       if(format != null)
-        value = format.replace(/%V/, value);
+        value = format.replace(/%V/g, value);
       combinedAttrs[attr].push(value);
     }
   }
