@@ -325,8 +325,8 @@ SRD35.WEAPONS = [
   'Greatclub:d10', 'Greatsword:2d6@19', 'Guisarme:2d4x3', 'Halberd:d10x3',
   'Hand Crossbow:d4@19r30', 'Handaxe:d6x3', 'Heavy Crossbow:d10@19r120',
   'Heavy Flail:d10@19', 'Heavy Mace:d8', 'Heavy Pick:d6x4', 'Heavy Shield:d4',
-  'Heavy Spiked Shield:d6', 'Javelin:d6r30', 'Kama:d6', 'Kukri:d4@18',
-  'Lance:d8x3', 'Light Crossbow:d8@19r80', 'Light Hammer:d4r20',
+  'Heavy Spiked Shield:d6', 'Improvised:d4r10', 'Javelin:d6r30', 'Kama:d6',
+  'Kukri:d4@18', 'Lance:d8x3', 'Light Crossbow:d8@19r80', 'Light Hammer:d4r20',
   'Light Mace:d6', 'Light Pick:d4x4', 'Light Shield:d3',
   'Light Spiked Shield:d4', 'Longbow:d8x3r100', 'Longspear:d8x3',
   'Longsword:d8@19', 'Morningstar:d8', 'Net:d0r10', 'Nunchaku:d6',
@@ -807,7 +807,8 @@ SRD35.weaponsProficiencyLevels = {
   'Repeating Heavy Crossbow':SRD35.PROFICIENCY_HEAVY,
   'Repeating Light Crossbow':SRD35.PROFICIENCY_HEAVY,
   'Net':SRD35.PROFICIENCY_HEAVY,
-  'Shuriken':SRD35.PROFICIENCY_HEAVY
+  'Shuriken':SRD35.PROFICIENCY_HEAVY,
+  'Improvised':SRD35.PROFICIENCY_HEAVY
 
 };
 // Mapping of medium damage to large/small damage
