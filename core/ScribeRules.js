@@ -187,7 +187,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
           var expr;
           if(op.match(/[!=]~/)) {
             expr = (op == '!~' ? '!' : '') + 'source.match(/' + value + '/)';
-          } else if(value.match(/^\d+$/)) {
+          } else if(value.match(/^(\d+|"[^"]*")$/)) {
             expr = 'source ' + op + ' ' + value;
           } else {
             expr = 'source ' + op + ' "' + value + '"';
