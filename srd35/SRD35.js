@@ -5513,8 +5513,9 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
     var adjustments = abilityAdjustment.split(/\//);
     for(var i = 0; i < adjustments.length; i++) {
       var amountAndAbility = adjustments[i].split(/ +/);
-      rules.defineRule
-        (amountAndAbility[1], abilityNote, '+', amountAndAbility[0]);
+      if(amountAndAbility[1] != 'any')
+        rules.defineRule
+          (amountAndAbility[1], abilityNote, '+', amountAndAbility[0]);
     }
     rules.defineRule
       (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
