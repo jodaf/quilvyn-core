@@ -1342,8 +1342,8 @@ SRD35.classRules = function(rules, classes) {
           '<i>Dimension Door</i> at level %V 1/day',
         'magicNotes.emptyBodyFeature:<i>Etherealness</i> %V rounds/day',
         'magicNotes.wholenessOfBodyFeature:Heal %V damage to self/day',
-        'sanityNotes.monkClassArmor:Implies Armor == None',
-        'sanityNotes.monkClassShield:Implies Shield == None',
+        'sanityNotes.monkClassArmor:Implies Armor == "None"',
+        'sanityNotes.monkClassShield:Implies Shield == "None"',
         'saveNotes.diamondBodyFeature:Immune to poison',
         'saveNotes.diamondSoulFeature:DC %V spell resistance',
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
@@ -1456,7 +1456,7 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.divineGraceFeature:+%V all saves',
         'saveNotes.divineHealthFeature:Immune to disease',
         'validationNotes.paladinClassAlignment:' +
-          'Requires Alignment == Lawful Good'
+          'Requires Alignment == "Lawful Good"'
       ];
       profArmor = SRD35.PROFICIENCY_HEAVY;
       profShield = SRD35.PROFICIENCY_HEAVY;
@@ -2629,8 +2629,8 @@ SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
   rules.defineNote(
-    'sanityNotes.casterLevelArcaneArmor:Implies Armor == None',
-    'sanityNotes.casterLevelArcaneShield:Implies Shield == None'
+    'sanityNotes.casterLevelArcaneArmor:Implies Armor == "None"',
+    'sanityNotes.casterLevelArcaneShield:Implies Shield == "None"'
   );
   rules.defineRule('sanityNotes.casterLevelArcaneArmor',
     'magicNotes.arcaneSpellFailure', '?', null,
@@ -3120,9 +3120,10 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Improved Shield Bash') {
       notes = [
         'combatNotes.improvedShieldBashFeature:No AC penalty on Shield Bash',
-        'sanityNotes.improvedShieldBashShield:Implies Shield != None',
-        'validationNotes.improvedShieldBashFeatFeatures:' +
-          'Requires Shield Proficiency (Heavy)'
+        'sanityNotes.improvedShieldBashFeatShield:Implies Shield != "None"',
+        'validationNotes.improvedShieldBashFeatProficiency:' +
+          'Requires Shield Proficiency (Heavy) || ' +
+          'Class Shield Proficiency Level >= ' + SRD35.PROFICIENCY_HEAVY
       ];
     } else if(feat == 'Improved Sunder') {
       notes = [
