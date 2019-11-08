@@ -156,7 +156,8 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
       var target = matchInfo[3] == 'Class' ? 'Levels' : (matchInfo[3] + 's');
       target = target.substring(0, 1).toLowerCase() + target.substring(1);
       var subtarget = matchInfo[2].replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
-      target += '.' + subtarget.substring(0, 1).toUpperCase() + subtarget.substring(1);
+      subtarget = subtarget.substring(0, 1).toUpperCase() + subtarget.substring(1);
+      target += '.' + subtarget;
       var currentValue = 1;
       var totalValue = 0;
       for(var j = 0; j < requirements.length; j++) {
@@ -189,6 +190,15 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
             expr = (op == '!~' ? '!' : '') + 'source.match(/' + value + '/)';
           } else if(value.match(/^(\d+|"[^"]*")$/)) {
             expr = 'source ' + op + ' ' + value;
+          } else if(value.indexOf(subtarget) >= 0) {
+            // Requirement varies with the value of the target. Compute the
+            // difference in a temp variable and compare the result to 0.
+            this.defineRule('temp' + currentValue + '.' + attribute,
+              target, '=', '-Math.floor(' + value.replace(subtarget, 'source') + ')',
+              source, '+', null
+            );
+            source = 'temp' + currentValue + '.' + attribute;
+            expr = 'source ' + op + ' 0';
           } else {
             expr = 'source ' + op + ' "' + value + '"';
           }
