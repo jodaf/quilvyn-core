@@ -158,6 +158,12 @@ function CustomizeScribe() {
     if(window.Pathfinder != null) {
       SRD35SpellDescriptions.spellRules(Pathfinder.rules);
     }
+    if(window.LastAge != null) {
+      SRD35SpellDescriptions.spellRules(LastAge.rules, null, Object.assign({}, SRD35SpellDescriptions.descriptions, LastAge.spellsDescriptions));
+    }
+    if(window.Realms != null) {
+      SRD35SpellDescriptions.spellRules(Realms.rules, null, Object.assign({}, SRD35SpellDescriptions.descriptions, Realms.spellsDescriptions));
+    }
   }
 }
 
