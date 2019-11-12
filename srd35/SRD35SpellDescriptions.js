@@ -707,7 +707,7 @@ SRD35SpellDescriptions.spellRules = function(rules, spells, descriptions) {
   rules.defineRule('casterLevels.L', 'levels.Legate', '=', null);
   for(var i = 0; i < spells.length; i++) {
     var spell = spells[i];
-    var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z]+)(\d+)\s*\w*\)$/);
+    var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*\w*\)$/);
     if(matchInfo == null) {
       alert("Bad format for spell " + spell);
       continue;
