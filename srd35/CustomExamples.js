@@ -191,7 +191,7 @@ CustomExamples.skillRules = function(rules, skills) {
     }
     if(skill == 'Knowledge (Undead)') {
       // Non-skill synergy: 5 ranks adds 1 to turning level.
-     rules.defineNote
+      rules.defineNote
         ('skillNotes.knowledge(Undead)Synergy:+1 undead turning Level');
       rules.defineRule
         ('turnUndead.level', 'skillNotes.knowledge(Undead)Synergy', '+', '1');
