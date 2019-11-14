@@ -42,11 +42,11 @@ function SRD35() {
   SRD35.skillRules(rules, SRD35.SKILLS, SRD35.SUBSKILLS, SRD35.SYNERGIES);
   SRD35.featRules(rules, SRD35.FEATS, SRD35.SUBFEATS);
   SRD35.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.DEITIES, SRD35.GENDERS);
-  SRD35.equipmentRules
-    (rules, SRD35.ARMORS, SRD35.GOODIES, SRD35.SHIELDS, SRD35.WEAPONS);
+  SRD35.equipmentRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
   SRD35.combatRules(rules);
   SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
+  SRD35.goodiesRules(rules, SRD35.GOODIES);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
   Scribe.addRuleSet(rules);
@@ -229,10 +229,21 @@ SRD35.FEATS = [
 ];
 SRD35.GENDERS = ['Female', 'Male'];
 SRD35.GOODIES = [
+  // Armor
+  'Chain Shirt +2',
+  'Leather Armor +2',
+  'Masterwork Chainmail',
+  // Weapons
+  'Composite Longbow +2',
+  'Longsword +2',
+  'Masterwork Longsword',
+  'Short Sword +2',
+  // Miscellaneous
+  'Gauntlets Of Strength +4',
+  'Medallion Of Protection +4',
+  'Ring Of Hide +10',
   'Ring Of Protection +1',
-  'Ring Of Protection +2',
-  'Ring Of Protection +3',
-  'Ring Of Protection +4'
+  'Ring Of Protection +2'
 ];
 SRD35.LANGUAGES = [
   'Abyssal', 'Aquan', 'Auran', 'Celestial', 'Common', 'Draconic', 'Druidic',
@@ -2522,10 +2533,9 @@ SRD35.descriptionRules = function(rules, alignments, deities, genders) {
 };
 
 /* Defines the rules related to equipment. */
-SRD35.equipmentRules = function(rules, armors, goodies, shields, weapons) {
+SRD35.equipmentRules = function(rules, armors, shields, weapons) {
 
   rules.defineChoice('armors', armors);
-  rules.defineChoice('goodies', goodies);
   rules.defineChoice('shields', shields);
   rules.defineChoice('weapons', weapons);
 
@@ -3552,6 +3562,93 @@ SRD35.featRules = function(rules, feats, subfeats) {
 
 };
 
+/*
+ * Defines rules for a specified set of goodies (generally magic items). The
+ * method knows how to define rules for "* Of <skill> [+-]<amount>", "* Of
+ * <ability> [+-]<amount>", "* Of Protection [+-]]<amount>" (improves * AC),
+ * "<weapon> [+-]<amount>", "Masterwork <weapon>", "<armor> [+-]<amount>", and
+ * "Masterwork <armor>".
+ */
+SRD35.goodiesRules = function(rules, goodies) {
+
+  var matchInfo;
+
+  // NOTE: weapon Attack/Damage bonus rules affect all weapons of a particular
+  // type that the character owns. If the character has, e.g., two longswords,
+  // both get the bonus. Ignoring this bug for now.
+  for(var i = 0; i < goodies.length; i++) {
+    var goodie = goodies[i];
+    if((matchInfo = goodie.match(/Of (\w+) ([+-]\d+)/)) != null) {
+      var affected = matchInfo[1];
+      var bonus = matchInfo[2];
+      if(affected == 'Protection') {
+        rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
+          'goodies.' + goodie, '+=', 'source * ' + bonus
+        );
+      } else if("CharismaConstitutionDexterityIntelligenceStrengthWisdom".includes(affected)) {
+        rules.defineRule('abilityNotes.goodies' + affected + 'Adjustment',
+          'goodies.' + goodie, '+=', 'source * ' + bonus
+        );
+        rules.defineRule(affected.toLowerCase(),
+          'abilityNotes.goodies' + affected + 'Adjustment', '+', null
+        );
+      } else if(affected in rules.getChoices('skills')) {
+        rules.defineRule('skillNotes.goodies' + affected + 'Adjustment',
+          'goodies.' + goodie, '+=', 'source * ' + bonus
+        );
+        rules.defineRule('skillModifier.' + affected,
+          'skillNotes.goodies' + affected + 'Adjustment', '+', null
+        );
+      }
+    } else if((matchInfo = goodie.match(/^(.*) ([+-]\d+)/)) != null ||
+              (matchInfo = goodie.match(/^(Masterwork) (.*)/)) != null) {
+      var masterworkOnly = matchInfo[1] == 'Masterwork';
+      var equipment = masterworkOnly ? matchInfo[2] : matchInfo[1];
+      var equipmentNoSpace = equipment.replace(/\s+/g, '');
+      var bonus = masterworkOnly ? '1' : matchInfo[2];
+      if(equipment in rules.getChoices('armors')) {
+        rules.defineRule('skillNotes.goodiesSkillCheckAdjustment',
+          'goodies.' + goodie, '=', '1'
+        );
+        if(!masterworkOnly) {
+          rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
+            'goodies.' + goodie, '+=', bonus
+          );
+        }
+      } else if(equipment in rules.getChoices('weapons')) {
+        rules.defineRule(
+          'combatNotes.goodies' + equipmentNoSpace + 'AttackAdjustment',
+          'goodies.' + goodie, '+=', bonus
+        );
+        rules.defineRule('weaponAttackAdjustment.' + equipment,
+          'combatNotes.goodies' + equipmentNoSpace + 'AttackAdjustment', '+=', null
+        );
+        if(!masterworkOnly) {
+          rules.defineRule(
+            'combatNotes.goodies' + equipmentNoSpace + 'DamageAdjustment',
+            'goodies.' + goodie, '+=', bonus
+          );
+          rules.defineRule('weaponDamageAdjustment.' + equipment,
+            'combatNotes.goodies' + equipmentNoSpace + 'DamageAdjustment', '+=', null
+          );
+        }
+      } else
+        continue;
+    } else
+      continue;
+    rules.defineChoice('goodies', goodie);
+  }
+
+  rules.defineRule
+    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
+  rules.defineNote
+    ('skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by 1');
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
+    'skillNotes.goodiesSkillCheckAdjustment', '+', '-1'
+  );
+
+};
+
 /* Defines the rules related to spells and domains. */
 SRD35.magicRules = function(rules, classes, domains, schools) {
 
@@ -4150,14 +4247,6 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
     'validationNotes.domainAllocation.2', '+=', null
   );
 
-  rules.defineRule
-    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
-  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
-    'goodies.Ring Of Protection +1', '+=', null,
-    'goodies.Ring Of Protection +2', '+=', 'source * 2',
-    'goodies.Ring Of Protection +3', '+=', 'source * 3',
-    'goodies.Ring Of Protection +4', '+=', 'source * 4'
-  );
   rules.defineRule('casterLevel',
     'casterLevelArcane', '+=', null,
     'casterLevelDivine', '+=', null
