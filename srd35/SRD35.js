@@ -240,6 +240,7 @@ SRD35.GOODIES = [
   'Short Sword +2',
   // Miscellaneous
   'Gauntlets Of Strength +4',
+  "Healer's Kit",
   'Medallion Of Protection +4',
   'Ring Of Hide +10',
   'Ring Of Protection +1',
@@ -303,10 +304,10 @@ SRD35.SUBSKILLS = {
   'Profession':''
 };
 SRD35.SYNERGIES = {
-  'Bluff':'Diplomacy/Intimidate/Sleight Of Hand',
+  'Bluff':'Diplomacy/Disguise (Acting)/Intimidate/Sleight Of Hand',
   'Decipher Script':'Use Magic Device (scrolls)',
   'Escape Artist':'Use Rope (bindings)',
-  'Handle Animal':'Ride',
+  'Handle Animal':'Ride/Wild Empathy',
   'Jump':'Tumble',
   'Knowledge (Arcana)':'Spellcraft',
   'Knowledge (Dungeoneering)':'Survival (underground)',
@@ -3566,10 +3567,12 @@ SRD35.featRules = function(rules, feats, subfeats) {
  * Defines rules for a specified set of goodies (generally magic items). The
  * method knows how to define rules for "* Of <skill> [+-]<amount>", "* Of
  * <ability> [+-]<amount>", "* Of Protection [+-]]<amount>" (improves * AC),
- * "<weapon> [+-]<amount>", "Masterwork <weapon>", "<armor> [+-]<amount>", and
- * "Masterwork <armor>".
+ * "<weapon> [+-]<amount>", "Masterwork <weapon>", "<armor> [+-]<amount>",
+ * "Masterwork <armor>", and "Healer's Kit".
  */
 SRD35.goodiesRules = function(rules, goodies) {
+
+  rules.defineChoice('goodies', goodies);
 
   var matchInfo;
 
@@ -3634,9 +3637,13 @@ SRD35.goodiesRules = function(rules, goodies) {
         }
       } else
         continue;
+    } else if(goodie == "Healer's Kit") {
+      rules.defineRule
+        ('skillNotes.goodiesHealAdjustment', "goodies.Healer's Kit", '+=', '2');
+      rules.defineRule
+        ('skillModifier.Heal', 'skillNotes.goodiesHealAdjustment', '+', null);
     } else
       continue;
-    rules.defineChoice('goodies', goodie);
   }
 
   rules.defineRule
@@ -4517,6 +4524,40 @@ SRD35.raceRules = function(rules, languages, races) {
 /* Defines the rules related to character skills. */
 SRD35.skillRules = function(rules, skills, subskills, synergies) {
 
+  var allSkills = [];
+  for(var i = 0; i < skills.length; i++) {
+    var pieces = skills[i].split(':');
+    var skill = pieces[0];
+    var skillSubskills = subskills[skill];
+    if(skillSubskills == null) {
+      allSkills[allSkills.length] = skills[i];
+    } else if(skillSubskills != '') {
+      skillSubskills = skillSubskills.split('/');
+      for(var j = 0; j < skillSubskills.length; j++) {
+        var subskill = skill + ' (' + skillSubskills[j] + ')';
+        allSkills[allSkills.length] = subskill + ':' + pieces[1];
+        rules.defineRule
+          ('classSkills.' + subskill, 'classSkills.' + skill, '=', '1');
+      }
+    }
+  }
+
+  for(var i = 0; i < allSkills.length; i++) {
+    var pieces = allSkills[i].split(':');
+    var skill = pieces[0];
+    var ability = pieces[1].replace(/\/.*/, '');
+    var matchInfo;
+    var synergy = synergies == null ? null : synergies[skill];
+    if((matchInfo = skill.match(/^Craft \((.*)\)$/)) != null &&
+       synergies != null) {
+      var topic = matchInfo[1];
+      var topicNoSpace = topic.replace(/ /g, '');
+      synergy = 'related Appraise';
+    }
+    SRD35.defineSkill
+      (rules, skill, ability, pieces[1].includes('/trained'), synergy, null);
+  }
+
   rules.defineNote(
     'skillNotes.armorSkillCheckPenalty:' +
       '-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/' +
@@ -4556,97 +4597,6 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
     'validationNotes.skillAllocation.1', '=', '-source',
     'validationNotes.skillAllocation.2', '+=', null
   );
-
-  var abilityNames = {
-    'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
-    'int':'intelligence', 'str':'strength', 'wis':'wisdom'
-  };
-
-  var allSkills = [];
-  for(var i = 0; i < skills.length; i++) {
-    var pieces = skills[i].split(':');
-    var skill = pieces[0];
-    var skillSubskills = subskills[skill];
-    if(skillSubskills == null) {
-      allSkills[allSkills.length] = skill + ':' + pieces[1];
-    } else if(skillSubskills != '') {
-      skillSubskills = skillSubskills.split('/');
-      for(var j = 0; j < skillSubskills.length; j++) {
-        var subskill = skill + ' (' + skillSubskills[j] + ')';
-        allSkills[allSkills.length] = subskill + ':' + pieces[1];
-        rules.defineRule
-          ('classSkills.' + subskill, 'classSkills.' + skill, '=', '1');
-      }
-    }
-  }
-
-  for(var i = 0; i < allSkills.length; i++) {
-    var pieces = allSkills[i].split(':');
-    var skill = pieces[0];
-    var ability = pieces[1].replace(/\/.*/, '');
-    var matchInfo;
-    var synergy = synergies == null ? null : synergies[skill];
-    rules.defineChoice('skills', skill + ':' + pieces[1]);
-    rules.defineRule('skillModifier.' + skill,
-      'skills.' + skill, '=', 'source / 2',
-      'classSkills.' + skill, '*', '2'
-    );
-    rules.defineNote('skills.' + skill + ':(%1%2) %V (%3)');
-    rules.defineRule('skills.' + skill + '.1', '', '=', '"' + ability + '"');
-    rules.defineRule('skills.' + skill + '.2',
-      '', '=', '";cc"',
-      'classSkills.' + skill, '=', '""'
-    );
-    rules.defineRule
-      ('skills.' + skill + '.3', 'skillModifier.' + skill, '=', null);
-    if(abilityNames[ability] != null) {
-      var modifier = abilityNames[ability] + 'Modifier';
-      rules.defineRule('skillModifier.' + skill, modifier, '+', null);
-    }
-    if((matchInfo = skill.match(/^Craft \((.*)\)$/)) != null &&
-       synergies != null) {
-        var topic = matchInfo[1];
-        var topicNoSpace = topic.replace(/ /g, '');
-        synergy = 'related Appraise';
-    } else if(skill == 'Heal') {
-      rules.defineChoice('goodies', 'Healer\'s Kit');
-      rules.defineRule('skillNotes.goodiesHealAdjustment',
-        'goodies.Healer\'s Kit', '+=', '2'
-      );
-      rules.defineRule
-        ('skillModifier.Heal', 'skillNotes.goodiesHealAdjustment', '+', null);
-    } else if(skill == 'Speak Language') {
-      rules.defineRule
-        ('languageCount', 'skillModifier.Speak Language', '+', null);
-    }
-    if(synergy != null) {
-      var prefix = skill.substring(0, 1).toLowerCase() +
-                   skill.substring(1).replace(/ /g, '');
-      rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergy);
-      // Second notes for some synergies to distinguish bonuses automatically
-      // applied by Scribe from those that must by applied by hand.  Also,
-      // additional rules for effects on non-skill attributes.
-      if(skill == 'Bluff') {
-        rules.defineNote('skillNotes.bluffSynergy2:+2 Disguise (acting)');
-        rules.defineRule('skillNotes.bluffSynergy2',
-          'skillModifier.Bluff', '=', 'source >= 5 ? 1 : null'
-        );
-      } else if(skill == 'Handle Animal') {
-        rules.defineNote
-          ('skillNotes.handleAnimalSynergy2:+2 Wild Empathy checks');
-        rules.defineRule('skillNotes.handleAnimalSynergy2',
-          'skillModifier.Handle Animal', '=', 'source >= 5 ? 1 : null'
-        );
-        rules.defineRule('skillNotes.wildEmpathyFeature',
-          'skillNotes.handleAnimalSynergy', '+', '2'
-        );
-      } else if(skill == 'Knowledge (Religion)') {
-        rules.defineRule('turnUndead.maxHitDice',
-          'skillNotes.knowledge(Religion)Synergy', '+', '2'
-        );
-      }
-    }
-  }
 
 };
 
@@ -5633,6 +5583,60 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   }
 };
+
+/*
+ */
+SRD35.defineSkill = function
+  (rules, name, ability, trainedOnly, synergy, classes) {
+
+  var abilityNames = {
+    'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
+    'int':'intelligence', 'str':'strength', 'wis':'wisdom'
+  };
+
+  rules.defineChoice('skills', name + ':' + (ability ? ability : ''));
+  rules.defineRule('skillModifier.' + name,
+    'skills.' + name, '=', 'source / 2',
+    'classSkills.' + name, '*', '2'
+  );
+  rules.defineNote('skills.' + name + ':(%1%2) %V (%3)');
+  rules.defineRule('skills.' + name + '.1', '', '=', '"' + ability + '"');
+  rules.defineRule('skills.' + name + '.2',
+    '', '=', '";cc"',
+    'classSkills.' + name, '=', '""'
+  );
+  rules.defineRule('skills.' + name + '.3', 'skillModifier.' + name, '=', null);
+
+  if(ability && abilityNames[ability]) {
+    rules.defineRule('skillModifier.' + name,
+      abilityNames[ability] + 'Modifier', '+', null
+    );
+  }
+
+  if(synergy != null) {
+    var prefix = name.substring(0, 1).toLowerCase() +
+                 name.substring(1).replace(/ /g, '');
+    rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergy);
+  }
+
+  if(name == 'Knowledge (Religion)') {
+    rules.defineRule('turnUndead.maxHitDice',
+      'skillNotes.knowledge(Religion)Synergy', '+', '2'
+    );
+  } else if(name == 'Speak Language') {
+    rules.defineRule
+      ('languageCount', 'skillModifier.Speak Language', '+', null);
+  }
+
+  if(classes == 'all') {
+    rules.defineRule('classSkills.' + name, 'level', '=', '1');
+  } else if(classes) {
+    classes = classes.split('/');
+    for(var i = 0; i < classes.length; i++)
+      rules.defineRule('classSkills.' + name, 'levels.'+classes[i], '=', '1');
+  }
+
+}
 
 /* Convenience functions that invoke ScribeRules methods on the SRD35 rules. */
 SRD35.applyRules = function() {
