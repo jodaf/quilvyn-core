@@ -123,26 +123,20 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
     if(attribute.match(/^skillNotes\./) && format.match(/^[+-](%[V\d]|\d+)/)) {
       var skills = format.split('/');
       var bump;
-      var j;
-      for(j = 0;
-          j < skills.length &&
-          skills[j].match(/^([+-](%[\dV]|\d+) )?[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*\))?$/) != null;
-          j++)
-        ; /* empty */
-      if(j == skills.length) {
-        for(j = 0; j < skills.length; j++) {
-          var skill = skills[j];
-          var source = attribute;
-          if((matchInfo = skill.match(/^([+-](%[\dV]|\d+)) (.*)/)) != null) {
-            bump = matchInfo[1];
-            skill = matchInfo[3];
-            if(bump.charAt(1) == '%') {
-              if(bump.charAt(2) != 'V') {
-                source = attribute + '.' + bump.charAt(2);
-              }
-              bump = bump.charAt(0) + 'source';
+      for(var j = 0; j < skills.length; j++) {
+        var skill = skills[j];
+        var source = attribute;
+        if((matchInfo = skill.match(/^([+-](%[\dV]|\d+)) (.*)/)) != null) {
+          bump = matchInfo[1];
+          skill = matchInfo[3];
+          if(bump.charAt(1) == '%') {
+            if(bump.charAt(2) != 'V') {
+              source = attribute + '.' + bump.charAt(2);
             }
+            bump = bump.charAt(0) + 'source';
           }
+        }
+        if(skill.match(/^[A-Z]\w*( [A-Z]\w*)*( \([A-Z]\w*( [A-Z]\w*)*\))?$/)) {
           this.defineRule('skillModifier.' + skill, source, '+', bump);
         }
       }
