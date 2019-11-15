@@ -230,8 +230,10 @@ SRD35.FEATS = [
 SRD35.GENDERS = ['Female', 'Male'];
 SRD35.GOODIES = [
   // Armor
+  'Chain Shirt +1',
   'Chain Shirt +2',
-  'Leather Armor +2',
+  'Leather +1',
+  'Leather +2',
   'Masterwork Chainmail',
   // Weapons
   'Composite Longbow +2',
@@ -244,7 +246,9 @@ SRD35.GOODIES = [
   'Medallion Of Protection +4',
   'Ring Of Hide +10',
   'Ring Of Protection +1',
-  'Ring Of Protection +2'
+  'Ring Of Protection +2',
+  'Ring Of Protection +3',
+  'Ring Of Protection +4'
 ];
 SRD35.LANGUAGES = [
   'Abyssal', 'Aquan', 'Auran', 'Celestial', 'Common', 'Draconic', 'Druidic',
@@ -304,10 +308,10 @@ SRD35.SUBSKILLS = {
   'Profession':''
 };
 SRD35.SYNERGIES = {
-  'Bluff':'Diplomacy/Disguise (Acting)/Intimidate/Sleight Of Hand',
+  'Bluff':'Diplomacy/Disguise (acting)/Intimidate/Sleight Of Hand',
   'Decipher Script':'Use Magic Device (scrolls)',
   'Escape Artist':'Use Rope (bindings)',
-  'Handle Animal':'Ride/Wild Empathy',
+  'Handle Animal':'Diplomacy (animals)/Ride',
   'Jump':'Tumble',
   'Knowledge (Arcana)':'Spellcraft',
   'Knowledge (Dungeoneering)':'Survival (underground)',
@@ -1224,7 +1228,7 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.resistNature\'sLureFeature:+4 vs. spells of feys',
         'saveNotes.venomImmunityFeature:Immune to poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
-        'skillNotes.wildEmpathyFeature:+%V Diplomacy w/animals',
+        'skillNotes.wildEmpathyFeature:+%V Diplomacy (animals)',
         'validationNotes.druidClassAlignment:Requires Alignment =~ Neutral',
         'validationNotes.druidClassArmor:' +
           'Requires Armor =~ None|Hide|Leather|Padded',
@@ -1564,7 +1568,7 @@ SRD35.classRules = function(rules, classes) {
         'skillNotes.hideInPlainSightFeature:Hide even when observed',
         'skillNotes.swiftTrackerFeature:Track at full speed',
         'skillNotes.trackFeature:Survival to follow creatures\' trail',
-        'skillNotes.wildEmpathyFeature:+%V Diplomacy w/animals'
+        'skillNotes.wildEmpathyFeature:+%V Diplomacy (animals)'
       ];
       profArmor = SRD35.PROFICIENCY_LIGHT;
       profShield = SRD35.PROFICIENCY_HEAVY;
@@ -1660,7 +1664,7 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.slipperyMindFeature:Second save vs. enchantment',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
         'skillNotes.skillMasteryFeature:' +
-          'Take 10 despite distraction on %V designated skills',
+          'Take 10 despite distraction on %V chosen skills',
         'skillNotes.trapfindingFeature:' +
           'Use Search/Disable Device to find/remove DC 20+ traps'
       ];
@@ -1811,10 +1815,10 @@ SRD35.classRules = function(rules, classes) {
       for(var j = 0; j < SRD35.SCHOOLS.length; j++) {
         var school = SRD35.SCHOOLS[j].split(':')[0];
         rules.defineRule('magicNotes.wizardSpecialization',
-         'specialize.' + school, '=', '"' + school + '"'
+         'specialize.' + school, '=', '"' + school.toLowerCase() + '"'
         );
         rules.defineRule('skillNotes.wizardSpecialization',
-          'specialize.' + school, '=', '"' + school + '"'
+          'specialize.' + school, '=', '"' + school.toLowerCase() + '"'
         );
       }
       for(var j = 0; j < 10; j++) {
@@ -1946,7 +1950,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionNotes.speakWithMasterFeature:Talk w/master in secret language',
     'skillNotes.companionAlertnessFeature:' +
       '+2 listen/spot when companion w/in reach',
-    'skillNotes.linkFeature:+4 Handle Animal/Wild Empathy w/companion'
+    'skillNotes.linkFeature:+4 Handle Animal (companion)/Wild Empathy (companion)'
   ];
   rules.defineNote(notes);
 
@@ -2573,13 +2577,15 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       attackBase, '=', null,
       'weaponAttackAdjustment.' + name, '+', null
     );
-    if(name.indexOf('bow') >= 0 && name.indexOf('Composite') < 0)
+    if(name == 'Longbow' || name == 'Shortbow')
       rules.defineRule('damageBonus.' + name,
         'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
       );
-    else
+    else if(name.indexOf('Crossbow') < 0)
       rules.defineRule
         ('damageBonus.' + name, 'combatNotes.strengthDamageAdjustment', '=', null);
+    else
+      rules.defineRule('damageBonus.' + name, '', '=', '0');
     rules.defineRule
       ('damageBonus.' + name, 'weaponDamageAdjustment.' + name, '+', null);
 
@@ -2919,14 +2925,14 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Dodge') {
       notes = [
-        'combatNotes.dodgeFeature:+1 AC vs. designated foe',
+        'combatNotes.dodgeFeature:+1 AC vs. chosen foe',
         'validationNotes.dodgeFeatAbility:Requires Dexterity >= 13'
       ];
       rules.defineRule('armorClass', 'combatNotes.dodgeFeature', '+', '1');
     } else if(feat == 'Empower Spell') {
       notes = [
         'magicNotes.empowerSpellFeature:' +
-          'x1.5 designated spell variable effects uses +2 spell slot',
+          'x1.5 chosen spell variable effects uses +2 spell slot',
         'sanityNotes.empowerSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Endurance') {
@@ -2934,7 +2940,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Enlarge Spell') {
       notes = [
         'magicNotes.enlargeSpellFeature:' +
-          'x2 designated spell range uses +1 spell slot',
+          'x2 chosen spell range uses +1 spell slot',
         'sanityNotes.enlargeSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Eschew Materials') {
@@ -2945,7 +2951,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Extend Spell') {
       notes = [
         'magicNotes.extendSpellFeature:' +
-          'x2 designated spell duration uses +1 spell slot',
+          'x2 chosen spell duration uses +1 spell slot',
         'sanityNotes.extendSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Extra Turning') {
@@ -3042,7 +3048,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
     } else if(feat == 'Heighten Spell') {
       notes = [
-        'magicNotes.heightenSpellFeature:Increase designated spell level',
+        'magicNotes.heightenSpellFeature:Increase chosen spell level',
         'sanityNotes.heightenSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Improved Bull Rush') {
@@ -3211,7 +3217,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Maximize Spell') {
       notes = [
         'magicNotes.maximizeSpellFeature:' +
-          'Maximize all designated spell variable effects uses +3 spell slot',
+          'Maximize all chosen spell variable effects uses +3 spell slot',
         'sanityNotes.maximizeSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if(feat == 'Mobility') {
@@ -3581,9 +3587,9 @@ SRD35.goodiesRules = function(rules, goodies) {
   // both get the bonus. Ignoring this bug for now.
   for(var i = 0; i < goodies.length; i++) {
     var goodie = goodies[i];
-    if((matchInfo = goodie.match(/Of (\w+) ([+-]\d+)/)) != null) {
-      var affected = matchInfo[1];
-      var bonus = matchInfo[2];
+    if((matchInfo = goodie.match(/^(.*) Of (\w+) ([+-]\d+)$/)) != null) {
+      var affected = matchInfo[2];
+      var bonus = matchInfo[3];
       if(affected == 'Protection') {
         rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
           'goodies.' + goodie, '+=', 'source * ' + bonus
@@ -3603,8 +3609,8 @@ SRD35.goodiesRules = function(rules, goodies) {
           'skillNotes.goodies' + affected + 'Adjustment', '+', null
         );
       }
-    } else if((matchInfo = goodie.match(/^(.*) ([+-]\d+)/)) != null ||
-              (matchInfo = goodie.match(/^(Masterwork) (.*)/)) != null) {
+    } else if((matchInfo = goodie.match(/^(.*) ([+-]\d+)$/)) != null ||
+              (matchInfo = goodie.match(/^(Masterwork) (.*)$/)) != null) {
       var masterworkOnly = matchInfo[1] == 'Masterwork';
       var equipment = masterworkOnly ? matchInfo[2] : matchInfo[1];
       var equipmentNoSpace = equipment.replace(/\s+/g, '');
@@ -4571,7 +4577,8 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
   rules.defineRule('maxAllocatedSkillPoints', /^skills\.[^\.]*$/, '^=', null);
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
-    'shield', '+=', 'SRD35.shieldsSkillCheckPenalties[source]'
+    'shield', '+=', 'SRD35.shieldsSkillCheckPenalties[source]',
+    '', '^', '0'
   );
   rules.defineRule('skillNotes.armorSwimCheckPenalty',
     'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
@@ -5585,6 +5592,14 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
 };
 
 /*
+ * A convenience function that adds #name# to the list of known skills in
+ * #rules#.  #ability# is either null or the three-character abbreviation for
+ * the skills primary ability ("str", "int", "dex", etc.). #trainedOnly# is
+ * a boolean indicating whether only those trained in the skill can use it.
+ * #synergy#, if not null, is a slash-delimited list of skill names with which
+ * this skill has a synergy. #classes#, if not null, is either "all" or a slash-
+ * delimited list of class names, indicating the classes for which this skill
+ * is a class skill.
  */
 SRD35.defineSkill = function
   (rules, name, ability, trainedOnly, synergy, classes) {
