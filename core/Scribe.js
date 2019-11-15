@@ -911,7 +911,7 @@ Scribe.update = function(input) {
     var selector = editForm[name + '_sel'];
     if(selector != null)
       name += '.' + InputGetValue(selector);
-    if(!value)
+    if(!value && value != '0')
       delete character[name];
     else if(typeof(value) == 'string' &&
             value.match(/^\+-?\d+$/) &&
