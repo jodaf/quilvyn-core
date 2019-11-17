@@ -320,7 +320,7 @@ SRD35.SYNERGIES = {
   'Use Magic Device':'Spellcraft (scrolls)',
   'Use Rope':'Climb (rope)/Escape Artist (rope)'
 };
-SRD35.VIEWERS = ['Compact', 'Merged Notes', 'Standard', 'Vertical'];
+SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard', 'Vertical'];
 SRD35.WEAPONS = [
   'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
   'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70', 'Dagger:d4@19r10',
@@ -2319,7 +2319,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Notes', within: 'Section 2'},
             {name: 'Hidden Notes', within: 'Section 2', format: '%V'}
       );
-    } else if(name == 'Merged Notes' || name == 'Standard' || name == 'Vertical') {
+    } else if(name == 'Collected Notes' || name == 'Standard' || name == 'Vertical') {
       var innerSep = name == 'Vertical' ? '\n' : null;
       var listSep = name == 'Vertical' ? '\n' : '; ';
       var noteSep = listSep;
@@ -2360,7 +2360,7 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Load Medium', within: 'LoadInfo', format: '/%V'},
               {name: 'Load Max', within: 'LoadInfo', format: '/%V'}
       );
-      if(name != 'Merged Notes') {
+      if(name != 'Collected Notes') {
         viewer.addElements(
           {name: 'Ability Notes', within: 'Attributes', separator: noteSep}
         );
@@ -2376,7 +2376,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'FeatLists', within: 'FeaturePart', separator: innerSep},
               {name: 'Feats', within: 'FeatLists', separator: listSep}
       );
-      if(name != 'Merged Notes') {
+      if(name != 'Collected Notes') {
         viewer.addElements(
             {name: 'Feature Notes', within: 'FeaturePart', separator: noteSep}
         );
@@ -2398,7 +2398,7 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Max Allowed Skill Points', within: 'SkillStats'},
             {name: 'Skills', within: 'SkillPart', columns: '3LE', separator: null}
       );
-      if(name != 'Merged Notes') {
+      if(name != 'Collected Notes') {
         viewer.addElements(
             {name: 'Skill Notes', within: 'SkillPart', separator:noteSep}
         );
@@ -2432,7 +2432,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Turning', within: 'CombatPart', separator: innerSep},
               {name: 'Turn Undead', within: 'Turning', separator: listSep}
       );
-      if(name != 'Merged Notes') {
+      if(name != 'Collected Notes') {
         viewer.addElements(
             {name: 'Combat Notes', within: 'CombatPart', separator: noteSep}
         );
@@ -2446,7 +2446,7 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Resistance', within: 'SaveAndResistance',
                separator: listSep}
       );
-      if(name != 'Merged Notes') {
+      if(name != 'Collected Notes') {
         viewer.addElements(
             {name: 'Save Notes', within: 'SavePart', separator: noteSep}
         );
@@ -2467,7 +2467,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Goodies', within: 'SpellPart', separator: listSep},
           {name: 'Spells', within: 'Magic', columns: '1L', separator: null}
       );
-      if(name != 'Merged Notes') {
+      if(name != 'Collected Notes') {
         viewer.addElements(
           {name: 'Magic Notes', within: 'Magic', separator: noteSep}
         );
@@ -5388,6 +5388,9 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    Multi-class characters get quadruple spell points for the first\n' +
     '    level in each class, instead of just the first class.\n' +
+    '  </li><li>\n' +
+    '    For monks, Scribe shows the unarmed damage for medium size, even\n' +
+    '    if the monk is small or large.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n';
