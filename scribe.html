@@ -81,11 +81,15 @@ var CUSTOMIZATION_URLS = [
  */
 function CustomizeScribe() {
   // The first part of this implementation provides an easy way to define
-  // subfeats and subskills (e.g., Weapon Focus (Longbow), Craft (Alchemy))
-  // in the SRD35 and Pathfinder rule sets.  Each element of the
+  // subfeats, subskills (e.g., Weapon Focus (Longbow), Craft (Alchemy))
+  // and goodies to the SRD35 and Pathfinder rule sets.  Each element of the
   // subfeats/subskills variables gives a feat/skill and a slash-delimited list
   // of subfeat targets.  Modify the values in each list to determine which
   // subfeats/subskills are defined in your Scribe installation.
+  // Scribe automatically generates rules for goodies with one of these forms:
+  //   Masterwork <armor>|<weapon>
+  //   <armor>|<weapon> +<amount>
+  //   <item> Of <skill>|<ability>|Protection +<amount>
   var subfeats = {
     'Greater Weapon Focus':'',
     'Greater Weapon Specialization':'',
@@ -100,6 +104,8 @@ function CustomizeScribe() {
     'Craft':'Alchemy',
     'Profession':''
   };
+  var goodies = [
+  ];
   if(window.Pathfinder) {
     Object.assign(Pathfinder.SUBFEATS, subfeats);
     Object.assign(Pathfinder.SUBSKILLS, subskills);
@@ -107,6 +113,7 @@ function CustomizeScribe() {
   delete subfeats['Master Craftsman'];
   Object.assign(SRD35.SUBFEATS, subfeats);
   Object.assign(SRD35.SUBSKILLS, subskills);
+  SRD35.GOODIES = SRD35.GOODIES.concat(goodies);
   // The second part loads the modules listed in CUSTOMIZATION_URLS by
   // calling a function with the same name as the module (e.g., it calls
   // SRD35() for SRD35.js).

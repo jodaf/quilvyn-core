@@ -228,27 +228,16 @@ SRD35.FEATS = [
   'Widen Spell:Metamagic'
 ];
 SRD35.GENDERS = ['Female', 'Male'];
+// Small sample of possible goodies. Healer's Kit is the only entry mentioned
+// specifically in the SRD.
 SRD35.GOODIES = [
-  // Armor
   'Chain Shirt +1',
-  'Chain Shirt +2',
-  'Leather +1',
-  'Leather +2',
-  'Masterwork Chainmail',
-  // Weapons
   'Composite Longbow +2',
-  'Longsword +2',
   'Masterwork Longsword',
-  'Short Sword +2',
-  // Miscellaneous
   'Gauntlets Of Strength +4',
   "Healer's Kit",
-  'Medallion Of Protection +4',
-  'Ring Of Hide +10',
-  'Ring Of Protection +1',
-  'Ring Of Protection +2',
-  'Ring Of Protection +3',
-  'Ring Of Protection +4'
+  'Ring Of Bluff +4',
+  'Ring Of Protection +1'
 ];
 SRD35.LANGUAGES = [
   'Abyssal', 'Aquan', 'Auran', 'Celestial', 'Common', 'Draconic', 'Druidic',
@@ -2592,20 +2581,23 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     rules.defineRule(weaponName + '.1',
       'attackBonus.' + name, '=', 'source < 0 ? source : ("+" + source)'
     );
-    rules.defineRule(weaponName + '.2', '', '=', '"' + firstDamage + '"');
-    if(SRD35.weaponsSmallDamage[firstDamage])
-      rules.defineRule(weaponName + '.2', 'features.Small', '=', '"' + SRD35.weaponsSmallDamage[firstDamage] + '"');
-    if(SRD35.weaponsLargeDamage[firstDamage])
-      rules.defineRule(weaponName + '.2', 'features.Large', '=', '"' + SRD35.weaponsLargeDamage[firstDamage] + '"');
+
+    rules.defineRule('weaponDamage.' + name,
+      '', '=', '"' + firstDamage + '"',
+      'features.Small', '=', '"' + SRD35.weaponsSmallDamage[firstDamage] + '"',
+      'features.Large', '=', '"' + SRD35.weaponsLargeDamage[firstDamage] + '"'
+    );
+    rules.defineRule(weaponName + '.2', 'weaponDamage.' + name, '=', null);
     rules.defineRule(weaponName + '.3',
       'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
     );
     if(secondDamage) {
-      rules.defineRule(weaponName + '.4', '', '=', '"' + secondDamage + '"');
-      if(SRD35.weaponsSmallDamage[secondDamage])
-        rules.defineRule(weaponName + '.4', 'features.Small', '=', '"' + SRD35.weaponsSmallDamage[secondDamage] + '"');
-      if(SRD35.weaponsLargeDamage[secondDamage])
-        rules.defineRule(weaponName + '.4', 'features.Large', '=', '"' + SRD35.weaponsLargeDamage[secondDamage] + '"');
+      rules.defineRule('weaponDamage2.' + name,
+        '', '=', '"' + secondDamage + '"',
+        'features.Small', '=', '"'+SRD35.weaponsSmallDamage[secondDamage]+'"',
+        'features.Large', '=', '"'+SRD35.weaponsLargeDamage[secondDamage]+'"'
+      );
+      rules.defineRule(weaponName + '.4', 'weaponDamage2.' + name, '=', null);
       rules.defineRule(weaponName + '.5',
         'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
       );
@@ -2613,7 +2605,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
 
     rules.defineRule('threat.' + name,
       '', '=', critThreat,
-      'weaponCriticalAdjustment.' + name, '+', null
+      'weaponCriticalAdjustment.' + name, '+', '-source'
     );
     rules.defineRule(weaponName + '.' + threatVar, 'threat.' + name, '=', null);
 
