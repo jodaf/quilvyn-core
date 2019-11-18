@@ -62,18 +62,17 @@ SRD35.js, ogl.txt, and scribe.html.  Documentation is provided by
 scribedoc.html and a pair of image files, editingobjects.gif and
 sheetfeatures.gif.  In addition, the download contains SRD35NPC.js and
 SRD35Prestige.js, which define the non-player and prestige classes from the SRD
-v3.5, and sample customization files.  Using these is optional.
+v3.5, as well as sample customization files.  Using these is optional.
 </p><p>
 Scribe has been successfully tested using these browsers
 <ul>
-  <li>Firefox 43.0.3</li>
-  <li>Google Chrome 47.0</li>
-  <li>Opera 34.0</li>
-  <li>Safari 9.0.3</li>
+  <li>Firefox</li>
+  <li>Google Chrome</li>
+  <li>Opera</li>
 </ul>
 </p><p>
-Note that neither Internet Explorer or Edge support localStorage connected to
-local files (see <a href="#save">Saving Characters</a> below).
+Note that neither Internet Explorer or Edge support persistent storage
+connected to local files (see <a href="#save">Saving Characters</a> below).
 </p><p>
 scribe.html contains a section of definitions that allow you to set some user
 preferences.  Scribe uses the BACKGROUND setting as the background color for
@@ -105,14 +104,14 @@ saved from another browser.  In the Import pop-up window, paste the character
 attributes definition ("var attributes = { ... }") from the header of the
 saved character sheet, then press OK.  Scribe displays the character sheet
 generated from these attributes and saves the character into your browser's
-localStorage.  If you paste the attributes of multiple characters into a
+persistent storage.  If you paste the attributes of multiple characters into a
 single Import pop-up, Scribe saves all of them and displays the last.
 </p>
 
 <a name="edit"><h3>Editing Characters</h3></a>
 <p>
 <img src='editingobjects.gif' alt='Editing widgets' align='left'/>
-The Scribe editing window contains editing objects that allow you to change
+The Scribe editor contains editing objects that allow you to change
 basic character attributes.  The editor uses three different types of editing
 objects.  <i>Text fields</i> are used for attributes, such as name and player,
 that have an infinite number of possible values.  To modify one of these
@@ -132,11 +131,15 @@ character has a variable score associated with the attribute.  To change one of
 these attributes, first use the pull-down menu to select a particular
 attribute, then click the checkbox or enter a value in the text field.  A
 "Clear All" button next to set menus lets you clear all attributes in a set
-with a single click.
+with a single click. The set menu for spells has an accompanying filter box
+that allows you to determine which spells appear in its menu. Because hundreds
+of spells and variations are available, this menu allows you to limit the
+spell shown to those of interest, e.g., cleric spells. Only those spells that
+contain the text in this box are included in the spells menu.
 </p><p>
-In a separate browser window, Scribe displays a character sheet based on the
-values of the editing window.  Every time you change a value in the editing
-window, Scribe applies the rules from the selected rule set, then updates the
+In a separate browser frame or window, Scribe displays a character sheet based
+on the values of the editor.  Every time you change a value in the editor,
+Scribe applies the rules from the selected rule set, then updates the
 character sheet to show you any computed changes.
 </p><p>
 Two "Show" checkboxes provide some control over what attributes the character
@@ -146,7 +149,9 @@ discussion of the character sheet</a> for an explanation as to why some notes
 are italicized and others are not.  The "Hidden Info" box allows you to produce
 a character sheet that contains additional information that should not be seen
 by the player.  This includes any notes entered in the editor's "Hidden Notes"
-box and any attributes that depend on the "hidden" attribute.
+box and any attributes that depend on the "hidden" attribute. A third "Show"
+checkbox determines whether computed character attributes are included in the
+character sheet HTML. This is useful primarily when debugging Scribe.
 </p><p>
 A few items in the editor window don't relate directly to the contents of the
 character sheet.  The "About" button opens a window with text describing
@@ -163,22 +168,17 @@ since starting Scribe.  This is intended to assist in planning and running
 adventures by providing a compact summary of the abilities of all the
 characters in a party.  The "HTML" item in the character menu is described
 in <a href='#save'>Saving Characters</a>.  The "Sheet Style" pull-down allows
-you to choose between different character sheet formats.  Finally, the "Spell
-Filter" text box allows you to determine which spells appear in the "Spells"
-set menu.  Since hundreds of spells and variations are available, this menu
-allows you to limit the spells (e.g. cleric spells, air domain spells) of
-interest.  Only those spells that contain the text in this box are included in
-the spells set menu.
+you to choose between different character sheet formats.
 </p>
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
 <p>
 The "Randomize" menu allows you to let Scribe randomly determine most basic
 Scribe character attributes.  The editor will select a random value for the
-attribute you choose and update both the editing display and the character
+attribute you choose and update both the editor display and the character
 sheet.  For the six basic attributes&#151;strength, intelligence, wisdom,
 constitution, dexterity, and charisma&#151;Scribe computes the random value by
-randomly generating four numbers from 1 to six and summing the highest three.
+randomly generating four numbers from 1 to 6 and summing the highest three.
 For other selection attributes, Scribe randomly selects one of the possible
 values.  When selecting set values such as spells and feats, Scribe uses other
 information about the character (e.g., feat count) to randomly select the
@@ -186,7 +186,7 @@ attribute values.  Scribe selects enough set values to fill in the number of
 values appropriate for the character.  For example, if a character is entitled
 to seven feats and five are already assigned, Scribe will randomly select the
 remaining two.  The only text attribute that Scribe knows how to randomize is
-the character name.  The names that the editor computes are more often amusing
+the character name.  The names that the editor generates are more often amusing
 than useful, but you can usually get a pretty decent name from them with a
 little creative editing.
 </p>
@@ -211,10 +211,10 @@ Save option in the File menu of the character sheet window.  Experiment to see
 if your browser supports this.
 </p><p>
 Selecting the "Export..." item from the character menu opens a new window that
-displays the attributes for all characters in your browser's localStorage.  You
-can copy the contents of this window to a file for backup, or you can paste
-them into a Scribe Import window in a different browser to transfer characters
-from one browser to another.
+displays the attributes for all characters in your browser's persistent
+storage.  You can copy the contents of this window to a file for backup, or you
+can paste them into a Scribe Import window in a different browser to transfer
+characters from one browser to another.
 </p>
 
 <a name="sheet"><h3>The Character Sheet</h3></a>
@@ -309,21 +309,22 @@ about the new choices.  For example, if you add new skills to Scribe's Skills
 list, you must also supply the key ability associated with each skill.  When
 you invoke SRD35.defineChoice to modify these lists, follow each choice
 in the list with a colon and the information associated with that choice.  The
-lists you can modify in this fashion are 'deities' (include a slash-separated
-set of domains after each new deity), 'feats' (include a slash-separated list
-of feat types), 'schools' (include an abbreviation to use in the spell list),
-'skills' (include the key ability, optionally followed by '/trained' if the
-skill cannot be used untrained), 'spells' (include a slash-separated set of
-spell levels), and 'weapons' (include a damage die for medium-sized creatures).
-(The damage value for weapons can also include a critical multiplier, preceded
-by 'x', a minimum threat roll, preceded by '@', and/or a range increment,
-preceded by 'r'.  If you don't include information about critical hits, Scribe
-assumes 'x2@20'&#151;the weapon potentially does double damage on a roll of 20
-and is not ranged.)  Here are examples of adding choices to these lists:
+lists you can modify in this fashion are 'deities' (include the favored weapon
+and a slash-separated set of domains after each new deity), 'feats' (include a
+slash-separated list of feat types), 'schools' (include an abbreviation to use
+in the spell list), 'skills' (include the key ability, optionally followed by
+'/trained' if the skill cannot be used untrained), 'spells' (include a
+slash-separated set of spell levels), and 'weapons' (include a damage die for
+medium-sized creatures. The damage value for weapons can also include a
+critical multiplier, preceded by 'x', a minimum threat roll, preceded by '@',
+and/or a range increment, preceded by 'r'. If you don't include information
+about critical hits, Scribe assumes 'x2@20'&#151;the weapon potentially does
+double damage on a roll of 20 and is not ranged.)  Here are examples of adding
+choices to these lists:
 </p><p><code><pre>
 SRD35.defineChoice('deities',
-  'Draum (CG Elf Dreams):Air/Chaos/Good/Luck',
-  'Glennor (NG Healing):Air/Animal/Healing'
+  'Draum (CG Elf Dreams):Quarterstaff:Air/Chaos/Good/Luck',
+  'Glennor (NG Healing):Quarterstaff:Air/Animal/Healing'
 );
 SRD35.defineChoice('feats', 'Lucky:', 'Ranged Disarm:Fighter');
 SRD35.defineChoice('schools', 'Alchemy:Alch', 'Greater Evocation:Gr Evo');
