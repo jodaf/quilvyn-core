@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.0';
+var SRD35_VERSION = '1.4.1.1';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -5082,7 +5082,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     pickAttrs(attributes, 'weapons.', choices,
-              2 - ScribeUtils.sumMatching(attributes, /^weapons\./), 1);
+              3 - ScribeUtils.sumMatching(attributes, /^weapons\./), 1);
   } else if(attribute == 'charisma' || attribute == 'constitution' ||
      attribute == 'dexterity' || attribute == 'intelligence' ||
      attribute == 'strength' || attribute == 'wisdom') {
@@ -5150,8 +5150,8 @@ SRD35.makeValid = function(attributes) {
         var toFixCombiner = null;
         var toFixName = matchInfo[1].replace(/\s+$/, '');
         var toFixOp = matchInfo[3] == null ? '>=' : matchInfo[3];
-        var toFixValue =
-          matchInfo[4] == null ? 1 : matchInfo[4].replace(/^\s+/, '');;
+        var toFixValue = matchInfo[4] == null ? 1 :
+                         matchInfo[4].replace(/^\s+/, '').replace(/"/g, '');
         if(toFixName.match(/^(Max|Sum)/)) {
           toFixCombiner = toFixName.substring(0, 3);
           toFixName = toFixName.substring(4).replace(/^\s+/, '');
@@ -5163,7 +5163,7 @@ SRD35.makeValid = function(attributes) {
         // attribute (e.g., a feat)
         choices = this.getChoices(toFixAttr + 's');
         if(choices == null) {
-           choices = this.getChoices(problemCategory);
+          choices = this.getChoices(problemCategory);
         }
         if(choices != null) {
           // Find the set of choices that satisfy the requirement
@@ -5181,6 +5181,9 @@ SRD35.makeValid = function(attributes) {
           }
           if(possibilities.length == 0) {
             continue; // No fix possible
+          } else if(attributes[toFixAttr] != null &&
+                    possibilities.indexOf(attributes[toFixAttr]) >= 0) {
+            continue; // No fix needed
           }
           if(target == toFixName) {
             toFixAttr =
@@ -5189,6 +5192,11 @@ SRD35.makeValid = function(attributes) {
           } else {
             toFixValue =
               possibilities[ScribeUtils.random(0, possibilities.length - 1)];
+          }
+        } else if(attributes[toFixAttr] != null) {
+          if((toFixOp == '>=' && Number(attributes[toFixAttr]) >= Number(toFixValue)) ||
+             (toFixOp == '<=' && Number(attributes[toFixAttr]) <= Number(toFixValue))) {
+              continue; // No fix needed
           }
         }
         if((choices != null || attributes[toFixAttr] != null) &&
