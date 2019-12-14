@@ -48,7 +48,7 @@ var WARN_ABOUT_DISCARD = true;
  * from the reference installation instead.
  */
 var SCRIBE_HOME = '';
-SCRIBE_HOME = 'http://www.jodaf.com/dnd/scribe/';
+// SCRIBE_HOME = 'http://www.jodaf.com/dnd/scribe/';
 
 /*
  * Scribe incorporates the modules listed in PLUGIN_URLS as part of its
@@ -117,14 +117,6 @@ function CustomizeScribe() {
   };
   var goodies = [
   ];
-  if(window.Pathfinder) {
-    Object.assign(Pathfinder.SUBFEATS, subfeats);
-    Object.assign(Pathfinder.SUBSKILLS, subskills);
-  }
-  delete subfeats['Master Craftsman'];
-  Object.assign(SRD35.SUBFEATS, subfeats);
-  Object.assign(SRD35.SUBSKILLS, subskills);
-  SRD35.GOODIES = SRD35.GOODIES.concat(goodies);
   // The second part loads the modules listed in PLUGIN_URLS by
   // calling a function with the same name as the module (e.g., it calls
   // SRD35() for SRD35.js).
@@ -139,8 +131,19 @@ function CustomizeScribe() {
       window[func]();
   }
   // The third part applies specific customizations to the rules.
+  if(window.Pathfinder) {
+    Object.assign(Pathfinder.SUBFEATS, subfeats);
+    Object.assign(Pathfinder.SUBSKILLS, subskills);
+  }
+  delete subfeats['Master Craftsman'];
+  if(window.SRD35) {
+    Object.assign(SRD35.SUBFEATS, subfeats);
+    Object.assign(SRD35.SUBSKILLS, subskills);
+    SRD35.GOODIES = SRD35.GOODIES.concat(goodies);
+  }
   if(window.Experience != null) {
-    Experience.experienceRules(SRD35.rules);
+    if(window.SRD35 != null)
+      Experience.experienceRules(SRD35.rules);
     if(window.Eberron != null)
       Experience.experienceRules(Eberron.rules);
     if(window.LastAge != null)
@@ -151,7 +154,8 @@ function CustomizeScribe() {
       Experience.experienceRules(Realms.rules);
   }
   if(window.CustomSpellPoints != null) {
-    CustomSpellPoints.spellPointRules(SRD35.rules);
+    if(window.SRD35 != null)
+      CustomSpellPoints.spellPointRules(SRD35.rules);
     if(window.Eberron != null)
       CustomSpellPoints.spellPointRules(Eberron.rules);
     if(window.Pathfinder != null)
@@ -160,19 +164,16 @@ function CustomizeScribe() {
       CustomSpellPoints.spellPointRules(Realms.rules);
   }
   if(window.SRD35SpellDescriptions != null) {
-    SRD35SpellDescriptions.spellRules(SRD35.rules);
-    if(window.Eberron != null) {
+    if(window.SRD35 != null)
+      SRD35SpellDescriptions.spellRules(SRD35.rules);
+    if(window.Eberron != null)
       SRD35SpellDescriptions.spellRules(Eberron.rules, null, Object.assign({}, SRD35SpellDescriptions.descriptions, Eberron.spellsDescriptions));
-    }
-    if(window.LastAge != null) {
+    if(window.LastAge != null)
       SRD35SpellDescriptions.spellRules(LastAge.rules, null, Object.assign({}, SRD35SpellDescriptions.descriptions, LastAge.spellsDescriptions));
-    }
-    if(window.Pathfinder != null) {
+    if(window.Pathfinder != null)
       SRD35SpellDescriptions.spellRules(Pathfinder.rules);
-    }
-    if(window.Realms != null) {
+    if(window.Realms != null)
       SRD35SpellDescriptions.spellRules(Realms.rules, null, Object.assign({}, SRD35SpellDescriptions.descriptions, Realms.spellsDescriptions));
-    }
   }
 }
 
