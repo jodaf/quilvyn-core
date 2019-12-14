@@ -43,10 +43,18 @@ var MENU_WIDTH_PERCENT = 30;
 var WARN_ABOUT_DISCARD = true;
 
 /*
- * Scribe incorporates the modules listed in CUSTOMIZATION_URLS as part of its
+ * If SCRIBE_HOME is the empty string, all Scribe sources are drawn from a
+ * a local installation. Uncomment the second line below to draw the sources
+ * from the reference installation instead.
+ */
+var SCRIBE_HOME = '';
+SCRIBE_HOME = 'http://www.jodaf.com/dnd/scribe/';
+
+/*
+ * Scribe incorporates the modules listed in PLUGIN_URLS as part of its
  * initial loading; you should uncomment those elements that you want to make
  * part of your Scribe installation and comment or delete the ones you don't
- * want.  If any of the elements of CUSTOMIZATION_URLS begins with a question
+ * want.  If any of the elements of PLUGIN_URLS begins with a question
  * mark (e.g., '?SRD35PrestigeNPC.js'), Scribe will prompt the user on start-up
  * to ask whether to include the rules from that module.  This can be useful
  * for rules that you use occasionally but don't want always present.  For
@@ -55,24 +63,24 @@ var WARN_ABOUT_DISCARD = true;
  * elements are ignored, so the null value at the end of the array makes it
  * easy to add and remove elements without worrying about a trailing comma.
  */
-var CUSTOMIZATION_URLS = [
-  'srd35/SRD35.js',
-  // 'srd35/SRD35NPC.js',
-  // 'srd35/SRD35Prestige.js',
-  'srd35/Experience.js',
-  'srd35/SRD35SpellDescriptions.js',
-  'srd35/CustomSpellPoints.js',
-  // 'plugins/Eberron.js',
-  // 'plugins/EberronPrestige.js',
-  // 'plugins/FirstEdition.js',
-  // 'plugins/LastAge.js',
-  // 'plugins/LastAgePrestige.js',
-  // 'plugins/Pathfinder.js',
-  // 'plugins/PathfinderPrestige.js',
-  // 'plugins/Realms.js',
-  // 'plugins/RealmsPrestige.js',
-  // 'plugins/HybridD20.js',
-  // 'plugins/FiveE.js',
+var PLUGIN_URLS = [
+  SCRIBE_HOME + 'srd35/SRD35.js',
+  // SCRIBE_HOME + 'srd35/SRD35NPC.js',
+  // SCRIBE_HOME + 'srd35/SRD35Prestige.js',
+  SCRIBE_HOME + 'srd35/Experience.js',
+  SCRIBE_HOME + 'srd35/SRD35SpellDescriptions.js',
+  SCRIBE_HOME + 'srd35/CustomSpellPoints.js',
+  // SCRIBE_HOME + 'plugins/Eberron.js',
+  // SCRIBE_HOME + 'plugins/EberronPrestige.js',
+  // SCRIBE_HOME + 'plugins/FirstEdition.js',
+  // SCRIBE_HOME + 'plugins/LastAge.js',
+  // SCRIBE_HOME + 'plugins/LastAgePrestige.js',
+  // SCRIBE_HOME + 'plugins/Pathfinder.js',
+  // SCRIBE_HOME + 'plugins/PathfinderPrestige.js',
+  // SCRIBE_HOME + 'plugins/Realms.js',
+  // SCRIBE_HOME + 'plugins/RealmsPrestige.js',
+  // SCRIBE_HOME + 'plugins/HybridD20.js',
+  // SCRIBE_HOME + 'plugins/FiveE.js',
   null
 ];
 
@@ -117,11 +125,11 @@ function CustomizeScribe() {
   Object.assign(SRD35.SUBFEATS, subfeats);
   Object.assign(SRD35.SUBSKILLS, subskills);
   SRD35.GOODIES = SRD35.GOODIES.concat(goodies);
-  // The second part loads the modules listed in CUSTOMIZATION_URLS by
+  // The second part loads the modules listed in PLUGIN_URLS by
   // calling a function with the same name as the module (e.g., it calls
   // SRD35() for SRD35.js).
-  for(var i = 0; i < CUSTOMIZATION_URLS.length; i++) {
-    var url = CUSTOMIZATION_URLS[i];
+  for(var i = 0; i < PLUGIN_URLS.length; i++) {
+    var url = PLUGIN_URLS[i];
     if(url == null)
       continue;
     var func = url.replace(/.*\/|\..*/g, '');
@@ -171,15 +179,19 @@ function CustomizeScribe() {
 /**** Commands that load the Scribe software.  Do not modify. ****/
 
 const CLOSE_TAG = '<' + '/' + 'script>\n';
-const HELP_URL = 'core/scribedoc.html';
-const LOGO_URL = 'core/scribe.gif';
-var scribeUrls = [
-  'core/Input.js', 'core/ObjectViewer.js', 'core/RuleEngine.js',
-  'core/ScribeUtils.js', 'core/Scribe.js', 'core/ScribeRules.js'
-].concat(CUSTOMIZATION_URLS);
+const HELP_URL = SCRIBE_HOME + 'core/scribedoc.html';
+const LOGO_URL = SCRIBE_HOME + 'core/scribe.gif';
+var CORE_URLS = [
+  SCRIBE_HOME + 'core/Input.js',
+  SCRIBE_HOME + 'core/ObjectViewer.js',
+  SCRIBE_HOME + 'core/RuleEngine.js',
+  SCRIBE_HOME + 'core/ScribeUtils.js',
+  SCRIBE_HOME + 'core/Scribe.js',
+  SCRIBE_HOME + 'core/ScribeRules.js'
+].concat(PLUGIN_URLS);
 
-for(var i = 0; i < scribeUrls.length; i++) {
-  var url = scribeUrls[i];
+for(var i = 0; i < CORE_URLS.length; i++) {
+  var url = CORE_URLS[i];
   if(url == null)
     continue;
   if(url.substring(0, 1) == '?') {
@@ -187,7 +199,7 @@ for(var i = 0; i < scribeUrls.length; i++) {
     if(!confirm('Use rules from ' + url + '?')) {
       url = null;
     }
-    CUSTOMIZATION_URLS[i - scribeUrls.length + CUSTOMIZATION_URLS.length] = url;
+    PLUGIN_URLS[i - CORE_URLS.length + PLUGIN_URLS.length] = url;
     if(url == null)
       continue;
   }
