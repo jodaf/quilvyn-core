@@ -325,7 +325,7 @@ Scribe.importCharacters = function() {
     characterPath = character['_path'] || '';
     characterCache[characterPath] = ScribeUtils.clone(character);
     Scribe.saveCharacter(characterPath);
-    index = text.indexOf('{', text.indexOf('}', index));
+    index = text.indexOf('{');
   }
 
   characterPopup.close();
