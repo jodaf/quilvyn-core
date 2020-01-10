@@ -2570,7 +2570,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       rules.defineRule('damageBonus.' + name,
         'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
       );
-    else if(name.indexOf('Crossbow') < 0)
+    else if(name.indexOf('Crossbow') < 0 && name.indexOf('Composite') < 0)
       rules.defineRule
         ('damageBonus.' + name, 'combatNotes.strengthDamageAdjustment', '=', null);
     else
