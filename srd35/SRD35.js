@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.1';
+var SRD35_VERSION = '1.4.1.2';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3468,8 +3468,6 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'dexterityModifier', '=', null,
         'strengthModifier', '+', '-source'
       );
-      rules.defineRule
-        ('meleeAttack', 'combatNotes.weaponFinesseFeature', '+', null);
       rules.defineRule('sanityNotes.weaponFinesseFeatAbility',
         'feats.Weapon Finesse', '=', '-1',
         'dexterityModifier', '+', 'source',
@@ -5384,10 +5382,6 @@ SRD35.ruleNotes = function() {
     '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '    Scribe adds the dexterity modifier to attack throws for all\n' +
-    '    weapons of characters with the Weapon Finesse feat, not just\n' +
-    '    light weapons.\n' +
-    '  </li><li>\n' +
     '    When an character ability score is modified, Scribe recalculates\n' +
     '    attributes based on that ability from scratch.  For example,\n' +
     '    bumping intelligence when a character reaches fourth level causes\n' +
