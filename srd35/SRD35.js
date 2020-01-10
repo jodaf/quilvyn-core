@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.2';
+var SRD35_VERSION = '1.4.1.3';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2570,7 +2570,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       rules.defineRule('damageBonus.' + name,
         'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
       );
-    else if(name.indexOf('Crossbow') < 0)
+    else if(name.indexOf('Crossbow') < 0 && name.indexOf('Composite') < 0)
       rules.defineRule
         ('damageBonus.' + name, 'combatNotes.strengthDamageAdjustment', '=', null);
     else
