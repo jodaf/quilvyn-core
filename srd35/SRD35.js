@@ -2566,15 +2566,20 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       attackBase, '=', null,
       'weaponAttackAdjustment.' + name, '+', null
     );
+    if(name.startsWith('Composite')) {
+      rules.defineRule
+        ('attackBonus.' + name, 'strengthModifier', '+', 'source < 0 ? -2 : 0');
+    }
     if(name == 'Longbow' || name == 'Shortbow')
       rules.defineRule('damageBonus.' + name,
         'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
       );
-    else if(name.indexOf('Crossbow') < 0 && name.indexOf('Composite') < 0)
-      rules.defineRule
-        ('damageBonus.' + name, 'combatNotes.strengthDamageAdjustment', '=', null);
-    else
+    else if(name.indexOf('Crossbow') >= 0)
       rules.defineRule('damageBonus.' + name, '', '=', '0');
+    else
+      rules.defineRule('damageBonus.' + name,
+        'combatNotes.strengthDamageAdjustment', '=', null
+      );
     rules.defineRule
       ('damageBonus.' + name, 'weaponDamageAdjustment.' + name, '+', null);
 
