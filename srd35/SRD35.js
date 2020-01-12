@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.3';
+var SRD35_VERSION = '1.4.1.4';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
