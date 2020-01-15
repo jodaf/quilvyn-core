@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.6';
+var SRD35_VERSION = '1.4.1.7';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2128,22 +2128,22 @@ SRD35.companionRules = function(rules, companions, familiars) {
 
     // Adapt Paladin mount rules to make it a form of animal companion.
     var features = {
-      'Companion Evasion': 1, 'Companion Improved Evasion': 1, 
-      'Empathic Link': 1, 'Share Saving Throws': 1, 'Improved Speed': 2,
-      'Command Like Creatures': 3, 'Companion Resist Spells': 4,
-      'Link': 0, 'Devotion' : 0, 'Multiattack': 0
+      'Companion Evasion': 5, 'Companion Improved Evasion': 5, 
+      'Empathic Link': 5, 'Share Saving Throws': 5, 'Improved Speed': 8,
+      'Command Like Creatures': 11, 'Companion Resist Spells': 15,
+      'Link': 0, 'Devotion' : 0, 'Multiattack': 0, 'Share Spells': 0
     };
     for(var feature in features) {
       if(features[feature] > 0) {
         rules.defineRule('companionFeatures.' + feature,
-          'mountLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
+          'mountMasterLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
         );
         rules.defineRule
           ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
       } else {
         // Disable N/A companion features
         rules.defineRule
-          ('companionFeatures.' + feature, 'mountLevel', 'v', '0');
+          ('companionFeatures.' + feature, 'companionMasterLevel', '?', '1');
       }
     }
     notes = [
@@ -2151,9 +2151,8 @@ SRD35.companionRules = function(rules, companions, familiars) {
         'DC %V <i>Command</i> vs. similar creatures %1/day',
     ];
     rules.defineNote(notes);
-    rules.defineRule('mountLevel',
-      'mountMasterLevel', '=',
-      'source<5 ? null : source<8 ? 1 : source<11 ? 2 : source<15 ? 3 : 4'
+    rules.defineRule('companionLevel',
+      'mountMasterLevel', '=', 'source<5 ? null : Math.floor((source + 1) / 3)'
     );
     rules.defineRule('companionNotes.commandLikeCreaturesFeature',
       'companionFeatures.Command Like Creatures', '?', null,
@@ -2164,7 +2163,14 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'mountMasterLevel', '=', 'Math.floor(source / 2)'
     );
     rules.defineRule
+      ('companionStats.AC', 'mountMasterLevel', '+', 'source < 5 ? null : 2');
+    rules.defineRule('companionStats.Int',
+      'mountMasterLevel', '^', 'source>=5 ? 5 + Math.floor((source-2)/3) : null'
+    );
+    rules.defineRule
       ('companionStats.SR', 'mountMasterLevel', '=', 'source + 5');
+    rules.defineRule
+      ('features.Animal Companion', 'paladinFeatures.Special Mount', '=', '1');
 
   }
 
@@ -5405,6 +5411,8 @@ SRD35.ruleNotes = function() {
     '    affects only the Gnome Hooked Hammer, where Scribe displays a\n' +
     '    critical multiplier of x4 instead of x3/x4.\n' +
     '  </li><li>\n' +
+    '    Animal companion feats, skills, and tricks are not supported\n' +
+    '  </li><li>\n' +
     '    Scribe provides no place other than the notes section to enter\n' +
     '    mundane possessions like lanterns and rope. The same goes for\n' +
     '    physical description.\n' +
@@ -5420,9 +5428,6 @@ SRD35.ruleNotes = function() {
     '    Hand" and "Knowledge (arcana)".  There are other occasions when\n' +
     '    Scribe is picky about case; when defining your own attributes,\n' +
     '    it\'s safest to follow the conventions Scribe uses.\n' +
-    '  </li><li>\n' +
-    '    The customRule interface is not very intuitive, making it more\n' +
-    '    confusing to add new rules than it should be.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
