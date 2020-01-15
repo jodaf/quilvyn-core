@@ -1940,7 +1940,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'Master share self spell w/companion w/in 5 ft',
     'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
     'companionNotes.speakWithMasterFeature:Talk w/master in secret language',
-    'companionStats.Melee:+%V %1%2',
+    'companionStats.Melee:+%V %1%2%3%4',
     'skillNotes.companionAlertnessFeature:' +
       '+2 listen/spot when companion w/in reach',
     'skillNotes.linkFeature:+4 Handle Animal (companion)/Wild Empathy (companion)'
@@ -1969,7 +1969,14 @@ SRD35.companionRules = function(rules, companions, familiars) {
   rules.defineRule('companionNotes.fiendishCompanion.2',
     'companionStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
   );
-  rules.defineRule('companionStats.Melee.2', '', '=', '');
+  rules.defineRule('companionStats.Melee.2',
+    'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source'
+  );
+  rules.defineRule('companionStats.Melee.3', '', '=', '""');
+  rules.defineRule('companionStats.Melee.4',
+    'companionDamAdj2', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
+    'companionStats.Melee.3', '=', 'source == "" ? "" : null'
+  );
 
   rules.defineSheetElement('Companion Features', 'Notes', null, '; ');
   rules.defineSheetElement('Companion Stats', 'Notes', null, '; ');
@@ -2005,8 +2012,19 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('companionAttack',
       'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE,
-      'companionLevel', '+', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
+      'companionAttackBoosts', '+', 'Math.floor(source)'
+    );
+    rules.defineRule('companionAttackBoosts',
+      'companionLevel', '=', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
       'companionMaxDexOrStr', '+', 'source % 2 == 0 ? 0.5 : 0'
+    );
+    rules.defineRule
+      ('companionDamAdj1', 'companionDamageBoosts', '=', 'Math.floor(source)');
+    rules.defineRule
+      ('companionDamAdj2', 'companionDamageBoosts', '=', 'Math.floor(source)');
+    rules.defineRule('companionDamageBoosts',
+      'companionLevel', '=', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
+      'companionStats.Str', '+', 'source % 2 == 0 ? 0.5 : 0'
     );
     rules.defineRule('companionFort',
       'features.Animal Companion', '?', null,
@@ -2048,7 +2066,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
     );
     rules.defineRule('companionStats.Melee', 'companionAttack', '=', 'Math.floor(source)');
-    rules.defineRule('companionStats.Melee.2', 'companionLevel', '=', 'source >= 2 ? "+" + Math.floor(source / 2) : ""');
     rules.defineRule('companionStats.Name', 'animalCompanionName', '=', null);
     rules.defineRule('companionStats.Ref', 'companionRef', '=', null);
     rules.defineRule('companionStats.Str', 'companionLevel', '+', 'source - 1');
@@ -2066,9 +2083,27 @@ SRD35.companionRules = function(rules, companions, familiars) {
             'animalCompanion.' + companion, '+', matchInfo[2]
           );
         } else if(matchInfo[1] == 'Dam') {
+          var damages = matchInfo[2].split(',');
+          matchInfo = damages[0].match(/([^-+]*)([-+]\d+)?/);
           rules.defineRule('companionStats.Melee.1',
-            'animalCompanion.' + companion, '=', '"' + matchInfo[2] + '"'
+            'animalCompanion.' + companion, '=', '"' + matchInfo[1] + '"'
           );
+          if(matchInfo[2]) {
+            rules.defineRule('companionDamAdj1',
+              'animalCompanion.' + companion, '+', matchInfo[2]
+            );
+          }
+          if(damages.length > 1) {
+            matchInfo = damages[1].match(/([^-+]*)([-+]\d+)?/);
+            rules.defineRule('companionStats.Melee.3',
+              'animalCompanion.' + companion, '=', '",' + matchInfo[1] + '"'
+            );
+            if(matchInfo[2]) {
+              rules.defineRule('companionDamAdj2',
+                'animalCompanion.' + companion, '+', matchInfo[2]
+              );
+            }
+          }
         } else if(matchInfo[1] == 'Level') {
           rules.defineRule('companionMasterLevel',
             'animalCompanion.' + companion, '+', '-' + matchInfo[2]
