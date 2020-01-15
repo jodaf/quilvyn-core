@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.7';
+var SRD35_VERSION = '1.4.1.8';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -1917,6 +1917,10 @@ SRD35.companionRules = function(rules, companions, familiars) {
 
   var features, notes;
 
+  // Backward-compatability for Scribe v1.4
+  rules.defineRule
+    ('companionMasterLevel', 'animalCompanionMasterLevel', '=', null);
+
   notes = [
     "companionNotes.celestialCompanion:" +
       "Smite Evil (+%V damage) 1/day, 60' darkvision, " +
@@ -1970,7 +1974,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
   );
   rules.defineRule('companionStats.Melee.2',
-    'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source'
+    'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
   );
   rules.defineRule('companionStats.Melee.3', '', '=', '""');
   rules.defineRule('companionStats.Melee.4',
@@ -2270,6 +2274,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
     );
     rules.defineRule('companionStats.Int', 'familiarLevel', '^', 'source + 5');
     rules.defineRule('companionStats.Melee', 'familiarAttack', '=', null);
+    rules.defineRule('companionStats.Melee.2', 'familiarAttack', '=', '""');
     rules.defineRule('companionStats.Name', 'familiarName', '=', null);
     rules.defineRule('companionStats.Ref', 'familiarRef', '=', null);
     rules.defineRule('companionStats.SR',
