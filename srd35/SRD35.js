@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.9';
+var SRD35_VERSION = '1.4.1.10';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -330,27 +330,35 @@ SRD35.SYNERGIES = {
 };
 SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard', 'Vertical'];
 SRD35.WEAPONS = [
-  'Bastard Sword:d10@19', 'Battleaxe:d8x3', 'Bolas:d4r10', 'Club:d6r10',
-  'Composite Longbow:d8x3r110', 'Composite Shortbow:d6x3r70', 'Dagger:d4@19r10',
-  'Dart:d4r20', 'Dire Flail:d8/d8', 'Dwarven Urgosh:d8/d6x3',
-  'Dwarven Waraxe:d10x3', 'Falchion:2d4@18', 'Flail:d8', 'Gauntlet:d3',
-  'Glaive:d10x3', 'Gnome Hooked Hammer:d8/d6x4', 'Greataxe:d12x3',
-  'Greatclub:d10', 'Greatsword:2d6@19', 'Guisarme:2d4x3', 'Halberd:d10x3',
-  'Hand Crossbow:d4@19r30', 'Handaxe:d6x3', 'Heavy Crossbow:d10@19r120',
-  'Heavy Flail:d10@19', 'Heavy Mace:d8', 'Heavy Pick:d6x4', 'Heavy Shield:d4',
-  'Heavy Spiked Shield:d6', 'Improvised:d4r10', 'Javelin:d6r30', 'Kama:d6',
-  'Kukri:d4@18', 'Lance:d8x3', 'Light Crossbow:d8@19r80', 'Light Hammer:d4r20',
-  'Light Mace:d6', 'Light Pick:d4x4', 'Light Shield:d3',
-  'Light Spiked Shield:d4', 'Longbow:d8x3r100', 'Longspear:d8x3',
-  'Longsword:d8@19', 'Morningstar:d8', 'Net:d0r10', 'Nunchaku:d6',
-  'Orc Double Axe:d8/d8x3', 'Punching Dagger:d4x3', 'Quarterstaff:d6/d6',
-  'Ranseur:2d4x3', 'Rapier:d6@18', 'Repeating Heavy Crossbow:d10@19r120',
-  'Repeating Light Crossbow:d8@19r80', 'Sai:d4r10', 'Sap:d6', 'Scimitar:d6@18',
-  'Scythe:2d4x4', 'Short Sword:d6@19', 'Shortbow:d6x3r60', 'Shortspear:d6r20',
-  'Shuriken:d2r10', 'Siangham:d6', 'Sickle:d6', 'Sling:d4r50', 'Spear:d8x3r20',
-  'Spiked Armor:d6', 'Spiked Chain:2d4', 'Spiked Gauntlet:d4',
-  'Throwing Axe:d6r10', 'Trident:d8r10', 'Two-Bladed Sword:d8/d8@19',
-  'Unarmed:d3', 'Warhammer:d8x3', 'Whip:d3'
+  'Bastard Sword:d10@19 1h Ex', 'Battleaxe:d8x3 1h Ma', 'Bolas:d4r10 Ex',
+  'Club:d6r10 1h Si', 'Composite Longbow:d8x3r110 Ma',
+  'Composite Shortbow:d6x3r70 Ma', 'Dagger:d4@19r10 Li Si', 'Dart:d4r20 Si',
+  'Dire Flail:d8/d8 2h Ex', 'Dwarven Urgosh:d8/d6x3 2h Ex',
+  'Dwarven Waraxe:d10x3 1h Ex', 'Falchion:2d4@18 2h Ma', 'Flail:d8 1h Ma',
+  'Gauntlet:d3 Un Si', 'Glaive:d10x3 2h Ma',
+  'Gnome Hooked Hammer:d8/d6x4 2h Ex', 'Greataxe:d12x3 2h Ma',
+  'Greatclub:d10 2h Ma', 'Greatsword:2d6@19 2h Ma', 'Guisarme:2d4x3 2h Ma',
+  'Halberd:d10x3 2h Ma', 'Hand Crossbow:d4@19r30 Ex', 'Handaxe:d6x3 Li Ma',
+  'Heavy Crossbow:d10@19r120 Si', 'Heavy Flail:d10@19 2h Ma',
+  'Heavy Mace:d8 1h Si', 'Heavy Pick:d6x4 1h Ma', 'Heavy Shield:d4 1h Ma',
+  'Heavy Spiked Shield:d6 1h Ma', 'Improvised:d4r10 Ex', 'Javelin:d6r30 Si',
+  'Kama:d6 Li Ex', 'Kukri:d4@18 Li Ma', 'Lance:d8x3 2h Ma',
+  'Light Crossbow:d8@19r80 Si', 'Light Hammer:d4r20 Li Ma',
+  'Light Mace:d6 Li Si', 'Light Pick:d4x4 Li Ma', 'Light Shield:d3 Li Ma',
+  'Light Spiked Shield:d4 Li Ma', 'Longbow:d8x3r100 Ma', 'Longspear:d8x3 2h Si',
+  'Longsword:d8@19 1h Ma', 'Morningstar:d8 1h Si', 'Net:d0r10 Ex',
+  'Nunchaku:d6 Li Ex', 'Orc Double Axe:d8/d8x3 2h Ex',
+  'Punching Dagger:d4x3 Li Si', 'Quarterstaff:d6/d6 2h Si',
+  'Ranseur:2d4x3 2h Ma', 'Rapier:d6@18 1h Ma',
+  'Repeating Heavy Crossbow:d10@19r120 Ex',
+  'Repeating Light Crossbow:d8@19r80 Ex', 'Sai:d4r10 Li Ex', 'Sap:d6 Li Ma',
+  'Scimitar:d6@18 1h Ma', 'Scythe:2d4x4 2h Ma', 'Short Sword:d6@19 Li Ma',
+  'Shortbow:d6x3r60 Ma', 'Shortspear:d6r20 1h Si', 'Shuriken:d2r10 Ex',
+  'Siangham:d6 Li Ex', 'Sickle:d6 Li Si', 'Sling:d4r50 Si',
+  'Spear:d8x3r20 2h Si', 'Spiked Armor:d6 Li Ma', 'Spiked Chain:2d4 2h Ex',
+  'Spiked Gauntlet:d4 Li Si', 'Throwing Axe:d6r10 Li Ma', 'Trident:d8r10 1h Ma',
+  'Two-Bladed Sword:d8/d8@19 2h Ex', 'Unarmed:d3 Un Si', 'Warhammer:d8x3 1h Ma',
+  'Whip:d3 1h Ex'
 ];
 
 // Related information used internally by SRD35
@@ -742,179 +750,6 @@ SRD35.strengthMaxLoads = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
 ];
-SRD35.weaponsCategories = {
-
-  'Gauntlet':SRD35.CATEGORY_UNARMED,
-  'Unarmed':SRD35.CATEGORY_UNARMED,
-
-  'Dagger':SRD35.CATEGORY_LIGHT,
-  'Punching Dagger':SRD35.CATEGORY_LIGHT,
-  'Spiked Gauntlet':SRD35.CATEGORY_LIGHT,
-  'Light Mace':SRD35.CATEGORY_LIGHT,
-  'Sickle':SRD35.CATEGORY_LIGHT,
-
-  'Club':SRD35.CATEGORY_ONE_HANDED,
-  'Heavy Mace':SRD35.CATEGORY_ONE_HANDED,
-  'Morningstar':SRD35.CATEGORY_ONE_HANDED,
-  'Shortspear':SRD35.CATEGORY_ONE_HANDED,
-
-  'Longspear':SRD35.CATEGORY_TWO_HANDED,
-  'Quarterstaff':SRD35.CATEGORY_TWO_HANDED,
-  'Spear':SRD35.CATEGORY_TWO_HANDED,
-
-  'Heavy Crossbow':SRD35.CATEGORY_RANGED,
-  'Light Crossbow':SRD35.CATEGORY_RANGED,
-  'Dart':SRD35.CATEGORY_RANGED,
-  'Javelin':SRD35.CATEGORY_RANGED,
-  'Sling':SRD35.CATEGORY_RANGED,
-
-  'Throwing Axe':SRD35.CATEGORY_LIGHT,
-  'Light Hammer':SRD35.CATEGORY_LIGHT,
-  'Handaxe':SRD35.CATEGORY_LIGHT,
-  'Kukri':SRD35.CATEGORY_LIGHT,
-  'Light Pick':SRD35.CATEGORY_LIGHT,
-  'Sap':SRD35.CATEGORY_LIGHT,
-  'Light Shield':SRD35.CATEGORY_LIGHT,
-  'Spiked Armor':SRD35.CATEGORY_LIGHT,
-  'Light Spiked Shield':SRD35.CATEGORY_LIGHT,
-  'Short Sword':SRD35.CATEGORY_LIGHT,
-
-  'Battleaxe':SRD35.CATEGORY_ONE_HANDED,
-  'Flail':SRD35.CATEGORY_ONE_HANDED,
-  'Longsword':SRD35.CATEGORY_ONE_HANDED,
-  'Heavy Pick':SRD35.CATEGORY_ONE_HANDED,
-  'Rapier':SRD35.CATEGORY_ONE_HANDED,
-  'Scimitar':SRD35.CATEGORY_ONE_HANDED,
-  'Heavy Shield':SRD35.CATEGORY_ONE_HANDED,
-  'Heavy Spiked Shield':SRD35.CATEGORY_ONE_HANDED,
-  'Trident':SRD35.CATEGORY_ONE_HANDED,
-  'Warhammer':SRD35.CATEGORY_ONE_HANDED,
-
-  'Falchion':SRD35.CATEGORY_TWO_HANDED,
-  'Glaive':SRD35.CATEGORY_TWO_HANDED,
-  'Greataxe':SRD35.CATEGORY_TWO_HANDED,
-  'Greatclub':SRD35.CATEGORY_TWO_HANDED,
-  'Heavy Flail':SRD35.CATEGORY_TWO_HANDED,
-  'Greatsword':SRD35.CATEGORY_TWO_HANDED,
-  'Guisarme':SRD35.CATEGORY_TWO_HANDED,
-  'Halbert':SRD35.CATEGORY_TWO_HANDED,
-  'Lance':SRD35.CATEGORY_TWO_HANDED,
-  'Ranseur':SRD35.CATEGORY_TWO_HANDED,
-  'Scythe':SRD35.CATEGORY_TWO_HANDED,
-
-  'Longbow':SRD35.CATEGORY_RANGED,
-  'Composite Longbow':SRD35.CATEGORY_RANGED,
-  'Shortbow':SRD35.CATEGORY_RANGED,
-  'Composite Shortbow':SRD35.CATEGORY_RANGED,
-
-  'Kama':SRD35.CATEGORY_LIGHT,
-  'Nunchuku':SRD35.CATEGORY_LIGHT,
-  'Sai':SRD35.CATEGORY_LIGHT,
-  'Siangham':SRD35.CATEGORY_LIGHT,
-
-  'Bastard Sword':SRD35.CATEGORY_ONE_HANDED,
-  'Dwarven Waraxe':SRD35.CATEGORY_ONE_HANDED,
-  'Whip':SRD35.CATEGORY_ONE_HANDED,
-
-  'Orc Double Axe':SRD35.CATEGORY_TWO_HANDED,
-  'Spiked Chain':SRD35.CATEGORY_TWO_HANDED,
-  'Dire Flail':SRD35.CATEGORY_TWO_HANDED,
-  'Gnome Hooked Hammer':SRD35.CATEGORY_TWO_HANDED,
-  'Two-Bladed Sword':SRD35.CATEGORY_TWO_HANDED,
-  'Dwarven Urgosh':SRD35.CATEGORY_TWO_HANDED,
-
-  'Bolas':SRD35.CATEGORY_RANGED,
-  'Hand Crossbow':SRD35.CATEGORY_RANGED,
-  'Repeating Heavy Crossbow':SRD35.CATEGORY_RANGED,
-  'Repeating Light Crossbow':SRD35.CATEGORY_RANGED,
-  'Net':SRD35.CATEGORY_RANGED,
-  'Shuriken':SRD35.CATEGORY_RANGED,
-
-  'Improvised':SRD35.CATEGORY_RANGED
-
-};
-SRD35.weaponsProficiencyLevels = {
-
-  'Gauntlet':SRD35.PROFICIENCY_NONE,
-  'Unarmed':SRD35.PROFICIENCY_NONE,
-
-  'Dagger':SRD35.PROFICIENCY_LIGHT,
-  'Punching Dagger':SRD35.PROFICIENCY_LIGHT,
-  'Spiked Gauntlet':SRD35.PROFICIENCY_LIGHT,
-  'Light Mace':SRD35.PROFICIENCY_LIGHT,
-  'Sickle':SRD35.PROFICIENCY_LIGHT,
-  'Club':SRD35.PROFICIENCY_LIGHT,
-  'Heavy Mace':SRD35.PROFICIENCY_LIGHT,
-  'Morningstar':SRD35.PROFICIENCY_LIGHT,
-  'Shortspear':SRD35.PROFICIENCY_LIGHT,
-  'Longspear':SRD35.PROFICIENCY_LIGHT,
-  'Quarterstaff':SRD35.PROFICIENCY_LIGHT,
-  'Spear':SRD35.PROFICIENCY_LIGHT,
-  'Heavy Crossbow':SRD35.PROFICIENCY_LIGHT,
-  'Light Crossbow':SRD35.PROFICIENCY_LIGHT,
-  'Dart':SRD35.PROFICIENCY_LIGHT,
-  'Javelin':SRD35.PROFICIENCY_LIGHT,
-  'Sling':SRD35.PROFICIENCY_LIGHT,
-
-  'Throwing Axe':SRD35.PROFICIENCY_MEDIUM,
-  'Light Hammer':SRD35.PROFICIENCY_MEDIUM,
-  'Handaxe':SRD35.PROFICIENCY_MEDIUM,
-  'Kukri':SRD35.PROFICIENCY_MEDIUM,
-  'Light Pick':SRD35.PROFICIENCY_MEDIUM,
-  'Sap':SRD35.PROFICIENCY_MEDIUM,
-  'Light Shield':SRD35.PROFICIENCY_MEDIUM,
-  'Spiked Armor':SRD35.PROFICIENCY_MEDIUM,
-  'Light Spiked Shield':SRD35.PROFICIENCY_MEDIUM,
-  'Short Sword':SRD35.PROFICIENCY_MEDIUM,
-  'Battleaxe':SRD35.PROFICIENCY_MEDIUM,
-  'Flail':SRD35.PROFICIENCY_MEDIUM,
-  'Longsword':SRD35.PROFICIENCY_MEDIUM,
-  'Heavy Pick':SRD35.PROFICIENCY_MEDIUM,
-  'Rapier':SRD35.PROFICIENCY_MEDIUM,
-  'Scimitar':SRD35.PROFICIENCY_MEDIUM,
-  'Heavy Shield':SRD35.PROFICIENCY_MEDIUM,
-  'Heavy Spiked Shield':SRD35.PROFICIENCY_MEDIUM,
-  'Trident':SRD35.PROFICIENCY_MEDIUM,
-  'Warhammer':SRD35.PROFICIENCY_MEDIUM,
-
-  'Falchion':SRD35.PROFICIENCY_MEDIUM,
-  'Glaive':SRD35.PROFICIENCY_MEDIUM,
-  'Greataxe':SRD35.PROFICIENCY_MEDIUM,
-  'Greatclub':SRD35.PROFICIENCY_MEDIUM,
-  'Heavy Flail':SRD35.PROFICIENCY_MEDIUM,
-  'Greatsword':SRD35.PROFICIENCY_MEDIUM,
-  'Guisarme':SRD35.PROFICIENCY_MEDIUM,
-  'Halbert':SRD35.PROFICIENCY_MEDIUM,
-  'Lance':SRD35.PROFICIENCY_MEDIUM,
-  'Ranseur':SRD35.PROFICIENCY_MEDIUM,
-  'Scythe':SRD35.PROFICIENCY_MEDIUM,
-  'Longbow':SRD35.PROFICIENCY_MEDIUM,
-  'Composite Longbow':SRD35.PROFICIENCY_MEDIUM,
-  'Shortbow':SRD35.PROFICIENCY_MEDIUM,
-  'Composite Shortbow':SRD35.PROFICIENCY_MEDIUM,
-
-  'Kama':SRD35.PROFICIENCY_HEAVY,
-  'Nunchuku':SRD35.PROFICIENCY_HEAVY,
-  'Sai':SRD35.PROFICIENCY_HEAVY,
-  'Siangham':SRD35.PROFICIENCY_HEAVY,
-  'Bastard Sword':SRD35.PROFICIENCY_HEAVY,
-  'Dwarven Waraxe':SRD35.PROFICIENCY_HEAVY,
-  'Whip':SRD35.PROFICIENCY_HEAVY,
-  'Orc Double Axe':SRD35.PROFICIENCY_HEAVY,
-  'Spiked Chain':SRD35.PROFICIENCY_HEAVY,
-  'Dire Flail':SRD35.PROFICIENCY_HEAVY,
-  'Gnome Hooked Hammer':SRD35.PROFICIENCY_HEAVY,
-  'Two-Bladed Sword':SRD35.PROFICIENCY_HEAVY,
-  'Dwarven Urgosh':SRD35.PROFICIENCY_HEAVY,
-  'Bolas':SRD35.PROFICIENCY_HEAVY,
-  'Hand Crossbow':SRD35.PROFICIENCY_HEAVY,
-  'Repeating Heavy Crossbow':SRD35.PROFICIENCY_HEAVY,
-  'Repeating Light Crossbow':SRD35.PROFICIENCY_HEAVY,
-  'Net':SRD35.PROFICIENCY_HEAVY,
-  'Shuriken':SRD35.PROFICIENCY_HEAVY,
-  'Improvised':SRD35.PROFICIENCY_HEAVY
-
-};
 // Mapping of medium damage to large/small damage
 SRD35.weaponsLargeDamage = {
   'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
@@ -2774,6 +2609,13 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       rules.defineRule(weaponName + '.' + rangeVar, 'range.' + name, '=', null);
     }
 
+    if(pieces[1].indexOf('Li') >= 0 ||
+       'RapierWhipSpiked Chain'.indexOf(name) >= 0) {
+      rules.defineRule('weaponAttackAdjustment.' + name,
+        'combatNotes.weaponFinesseFeature', '+=', null
+      );
+    }
+
   }
 
   rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
@@ -2835,7 +2677,12 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     'combatNotes.nonproficientShieldPenalty', '=', null
   );
   for(var i = 0; i < weapons.length; i++) {
-    var weapon = weapons[i].split(':')[0];
+    var pieces = weapons[i].split(':');
+    var weapon = pieces[0];
+    var profLevel = pieces[1].indexOf('Un') >= 0 ? SRD35.PROFICIENCY_NONE :
+                    pieces[1].indexOf('Si') >= 0 ? SRD35.PROFICIENCY_LIGHT :
+                    pieces[1].indexOf('Ma') >= 0 ? SRD35.PROFICIENCY_MARTIAL :
+                                                   SRD35.PROFICIENCY_HEAVY;
     rules.defineNote(
       'combatNotes.nonproficientWeaponPenalty.' + weapon + ':%V attack',
       'sanityNotes.weaponProficiencyLevelWeapon.' + weapon + ':Lowers attack bonus'
@@ -2846,8 +2693,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       'combatNotes.nonproficientWeaponPenalty.' + weapon, '+=', null
     );
     rules.defineRule('weaponProficiencyLevelShortfall.' + weapon,
-      'weapons.' + weapon, '=',
-        'SRD35.weaponsProficiencyLevels["' + weapon + '"]',
+      'weapons.' + weapon, '=', profLevel,
       'features.Weapon Familiarity (' + weapon + ')', '+', '-1',
       'weaponProficiencyLevel', '+', '-source',
       'features.Weapon Proficiency (' + weapon + ')', '*', '0'
@@ -3624,14 +3470,6 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'dexterityModifier', '=', null,
         'strengthModifier', '+', '-source'
       );
-      for(var weapon in SRD35.weaponsProficiencyLevels) {
-        if(SRD35.weaponsCategories[weapon] <= SRD35.CATEGORY_LIGHT ||
-           'RapierWhipSpiked Chain'.indexOf(weapon) >= 0) {
-          rules.defineRule('weaponAttackAdjustment.' + weapon,
-            'combatNotes.weaponFinesseFeature', '+=', null
-          );
-        }
-      }
       rules.defineRule('sanityNotes.weaponFinesseFeatAbility',
         'feats.Weapon Finesse', '=', '-1',
         'dexterityModifier', '+', 'source',
@@ -3665,15 +3503,11 @@ SRD35.featRules = function(rules, feats, subfeats) {
       notes = [
         'sanityNotes.weaponProficiency(' + weaponNoSpace + ')FeatWeapons:' +
           'Implies ' + weapon,
+        'validationNotes.weaponProficiency(' + weaponNoSpace +
+          ')FeatBaseAttack:Requires Base Attack >= 1'
       ];
-      if(SRD35.weaponsProficiencyLevels[weapon] == SRD35.PROFICIENCY_HEAVY) {
-        notes = notes.concat([
-          'validationNotes.weaponProficiency(' + weaponNoSpace +
-            ')FeatBaseAttack:Requires Base Attack >= 1'
-        ]);
-        rules.defineRule('validationNotes.weaponProficiency(' + weaponNoSpace +
-          ')FeatBaseAttack', familiarityAttr, '^', '0');
-      }
+      rules.defineRule('validationNotes.weaponProficiency(' + weaponNoSpace +
+        ')FeatBaseAttack', familiarityAttr, '^', '0');
       if(weapon == 'Bastard Sword' || weapon == 'Dwarven Waraxe') {
         notes = notes.concat([
           'validationNotes.weaponProficiency(' + weaponNoSpace +
@@ -5236,10 +5070,15 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       characterProfLevel = SRD35.PROFICIENCY_NONE;
     }
     choices = [];
-    for(attr in this.getChoices('weapons')) {
-      if((SRD35.weaponsProficiencyLevels[attr] != null &&
-          SRD35.weaponsProficiencyLevels[attr] <= characterProfLevel) ||
-         attrs['weaponProficiency.' + attr] != null) {
+    var weapons = this.getChoices('weapons');
+    for(attr in weapons) {
+      var requiredProfLevel =
+        weapons[attr].indexOf('Un') >= 0 ? SRD35.PROFICIENCY_NONE :
+        weapons[attr].indexOf('Si') >= 0 ? SRD35.PROFICIENCY_LIGHT :
+        weapons[attr].indexOf('Ma') >= 0 ? SRD35.PROFICIENCY_MARTIAL :
+                                           SRD35.PROFICIENCY_HEAVY;
+      if(requiredProfLevel <= characterProfLevel ||
+         attrs['features.Weapon Proficiency (' + attr + ')'] != null) {
         choices[choices.length] = attr;
       }
     }
