@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.10';
+var SRD35_VERSION = '1.4.1.11';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2068,6 +2068,10 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'Command Like Creatures': 11, 'Companion Resist Spells': 15,
       'Link': 0, 'Devotion' : 0, 'Multiattack': 0, 'Share Spells': 0
     };
+    rules.defineRule('companionOrFamiliar',
+      'companionMasterLevel', '=', '1',
+      'familiarMasterLevel', '=', '1'
+    );
     for(var feature in features) {
       if(features[feature] > 0) {
         rules.defineRule('companionFeatures.' + feature,
@@ -2078,7 +2082,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
       } else {
         // Disable N/A companion features
         rules.defineRule
-          ('companionFeatures.' + feature, 'companionMasterLevel', '?', '1');
+          ('companionFeatures.' + feature, 'companionOrFamiliar', '?', '1');
       }
     }
     notes = [
