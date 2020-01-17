@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.8';
+var SRD35_VERSION = '1.4.1.9';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -64,6 +64,11 @@ SRD35.PROFICIENCY_NONE = 0;
 SRD35.PROFICIENCY_TOWER = 4;
 SRD35.SAVE_BONUS_GOOD = '2 + Math.floor(source / 2)';
 SRD35.SAVE_BONUS_POOR = 'Math.floor(source / 3)';
+SRD35.CATEGORY_UNARMED = 0;
+SRD35.CATEGORY_LIGHT = 1;
+SRD35.CATEGORY_ONE_HANDED = 2;
+SRD35.CATEGORY_TWO_HANDED = 3;
+SRD35.CATEGORY_RANGED = 4;
 
 // Arrays of choices
 SRD35.ALIGNMENTS = [
@@ -737,6 +742,97 @@ SRD35.strengthMaxLoads = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
 ];
+SRD35.weaponsCategories = {
+
+  'Gauntlet':SRD35.CATEGORY_UNARMED,
+  'Unarmed':SRD35.CATEGORY_UNARMED,
+
+  'Dagger':SRD35.CATEGORY_LIGHT,
+  'Punching Dagger':SRD35.CATEGORY_LIGHT,
+  'Spiked Gauntlet':SRD35.CATEGORY_LIGHT,
+  'Light Mace':SRD35.CATEGORY_LIGHT,
+  'Sickle':SRD35.CATEGORY_LIGHT,
+
+  'Club':SRD35.CATEGORY_ONE_HANDED,
+  'Heavy Mace':SRD35.CATEGORY_ONE_HANDED,
+  'Morningstar':SRD35.CATEGORY_ONE_HANDED,
+  'Shortspear':SRD35.CATEGORY_ONE_HANDED,
+
+  'Longspear':SRD35.CATEGORY_TWO_HANDED,
+  'Quarterstaff':SRD35.CATEGORY_TWO_HANDED,
+  'Spear':SRD35.CATEGORY_TWO_HANDED,
+
+  'Heavy Crossbow':SRD35.CATEGORY_RANGED,
+  'Light Crossbow':SRD35.CATEGORY_RANGED,
+  'Dart':SRD35.CATEGORY_RANGED,
+  'Javelin':SRD35.CATEGORY_RANGED,
+  'Sling':SRD35.CATEGORY_RANGED,
+
+  'Throwing Axe':SRD35.CATEGORY_LIGHT,
+  'Light Hammer':SRD35.CATEGORY_LIGHT,
+  'Handaxe':SRD35.CATEGORY_LIGHT,
+  'Kukri':SRD35.CATEGORY_LIGHT,
+  'Light Pick':SRD35.CATEGORY_LIGHT,
+  'Sap':SRD35.CATEGORY_LIGHT,
+  'Light Shield':SRD35.CATEGORY_LIGHT,
+  'Spiked Armor':SRD35.CATEGORY_LIGHT,
+  'Light Spiked Shield':SRD35.CATEGORY_LIGHT,
+  'Short Sword':SRD35.CATEGORY_LIGHT,
+
+  'Battleaxe':SRD35.CATEGORY_ONE_HANDED,
+  'Flail':SRD35.CATEGORY_ONE_HANDED,
+  'Longsword':SRD35.CATEGORY_ONE_HANDED,
+  'Heavy Pick':SRD35.CATEGORY_ONE_HANDED,
+  'Rapier':SRD35.CATEGORY_ONE_HANDED,
+  'Scimitar':SRD35.CATEGORY_ONE_HANDED,
+  'Heavy Shield':SRD35.CATEGORY_ONE_HANDED,
+  'Heavy Spiked Shield':SRD35.CATEGORY_ONE_HANDED,
+  'Trident':SRD35.CATEGORY_ONE_HANDED,
+  'Warhammer':SRD35.CATEGORY_ONE_HANDED,
+
+  'Falchion':SRD35.CATEGORY_TWO_HANDED,
+  'Glaive':SRD35.CATEGORY_TWO_HANDED,
+  'Greataxe':SRD35.CATEGORY_TWO_HANDED,
+  'Greatclub':SRD35.CATEGORY_TWO_HANDED,
+  'Heavy Flail':SRD35.CATEGORY_TWO_HANDED,
+  'Greatsword':SRD35.CATEGORY_TWO_HANDED,
+  'Guisarme':SRD35.CATEGORY_TWO_HANDED,
+  'Halbert':SRD35.CATEGORY_TWO_HANDED,
+  'Lance':SRD35.CATEGORY_TWO_HANDED,
+  'Ranseur':SRD35.CATEGORY_TWO_HANDED,
+  'Scythe':SRD35.CATEGORY_TWO_HANDED,
+
+  'Longbow':SRD35.CATEGORY_RANGED,
+  'Composite Longbow':SRD35.CATEGORY_RANGED,
+  'Shortbow':SRD35.CATEGORY_RANGED,
+  'Composite Shortbow':SRD35.CATEGORY_RANGED,
+
+  'Kama':SRD35.CATEGORY_LIGHT,
+  'Nunchuku':SRD35.CATEGORY_LIGHT,
+  'Sai':SRD35.CATEGORY_LIGHT,
+  'Siangham':SRD35.CATEGORY_LIGHT,
+
+  'Bastard Sword':SRD35.CATEGORY_ONE_HANDED,
+  'Dwarven Waraxe':SRD35.CATEGORY_ONE_HANDED,
+  'Whip':SRD35.CATEGORY_ONE_HANDED,
+
+  'Orc Double Axe':SRD35.CATEGORY_TWO_HANDED,
+  'Spiked Chain':SRD35.CATEGORY_TWO_HANDED,
+  'Dire Flail':SRD35.CATEGORY_TWO_HANDED,
+  'Gnome Hooked Hammer':SRD35.CATEGORY_TWO_HANDED,
+  'Two-Bladed Sword':SRD35.CATEGORY_TWO_HANDED,
+  'Dwarven Urgosh':SRD35.CATEGORY_TWO_HANDED,
+
+  'Bolas':SRD35.CATEGORY_RANGED,
+  'Hand Crossbow':SRD35.CATEGORY_RANGED,
+  'Repeating Heavy Crossbow':SRD35.CATEGORY_RANGED,
+  'Repeating Light Crossbow':SRD35.CATEGORY_RANGED,
+  'Net':SRD35.CATEGORY_RANGED,
+  'Shuriken':SRD35.CATEGORY_RANGED,
+
+  'Improvised':SRD35.CATEGORY_RANGED
+
+};
 SRD35.weaponsProficiencyLevels = {
 
   'Gauntlet':SRD35.PROFICIENCY_NONE,
@@ -3528,6 +3624,14 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'dexterityModifier', '=', null,
         'strengthModifier', '+', '-source'
       );
+      for(var weapon in SRD35.weaponsProficiencyLevels) {
+        if(SRD35.weaponsCategories[weapon] <= SRD35.CATEGORY_LIGHT ||
+           'RapierWhipSpiked Chain'.indexOf(weapon) >= 0) {
+          rules.defineRule('weaponAttackAdjustment.' + weapon,
+            'combatNotes.weaponFinesseFeature', '+=', null
+          );
+        }
+      }
       rules.defineRule('sanityNotes.weaponFinesseFeatAbility',
         'feats.Weapon Finesse', '=', '-1',
         'dexterityModifier', '+', 'source',
