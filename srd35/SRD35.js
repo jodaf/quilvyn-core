@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.11';
+var SRD35_VERSION = '1.4.1.12';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -790,6 +790,10 @@ SRD35.abilityRules = function(rules) {
     ('combatNotes.strengthAttackAdjustment', 'strengthModifier', '=', null);
   rules.defineRule
     ('combatNotes.strengthDamageAdjustment', 'strengthModifier', '=', null);
+  rules.defineRule('combatNotes.two-HandedWieldDamageAdjustment',
+    'shield', '?', 'source == "None"',
+    'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? null : Math.floor(source * 0.5)'
+  );
   rules.defineRule
     ('languageCount', 'intelligenceModifier', '+', 'source > 0 ? source : 0');
 
@@ -2566,6 +2570,11 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       );
     else if(name.indexOf('Crossbow') >= 0 || name.startsWith('Composite'))
       rules.defineRule('damageBonus.' + name, '', '=', '0');
+    else if(pieces[1].match(/1h|2h/))
+      rules.defineRule('damageBonus.' + name,
+        'combatNotes.strengthDamageAdjustment', '=', null,
+        'combatNotes.two-HandedWieldDamageAdjustment', '+', null
+      );
     else
       rules.defineRule('damageBonus.' + name,
         'combatNotes.strengthDamageAdjustment', '=', null
@@ -2656,7 +2665,9 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     'combatNotes.nonproficientArmorPenalty:%V attack',
     'combatNotes.nonproficientShieldPenalty:%V attack',
     'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus',
-    'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus'
+    'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
+    'validationNotes.two-handedWeaponWithShield:' +
+      'Shields cannot be used with two-handed weapons'
   );
   rules.defineRule('armorProficiencyLevelShortfall',
     'armor', '=', 'SRD35.armorsProficiencyLevels[source]',
@@ -2679,6 +2690,9 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
     'combatNotes.nonproficientShieldPenalty', '=', null
+  );
+  rules.defineRule('validationNotes.two-handedWeaponWithShield',
+    'shield', '?', 'source != "None"'
   );
   for(var i = 0; i < weapons.length; i++) {
     var pieces = weapons[i].split(':');
@@ -2709,6 +2723,11 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     rules.defineRule('sanityNotes.weaponProficiencyLevelWeapon.' + weapon,
       'combatNotes.nonproficientWeaponPenalty.' + weapon, '=', null
     );
+    if(pieces[1].indexOf('2h') >= 0) {
+      rules.defineRule('validationNotes.two-handedWeaponWithShield',
+        'weapons.' + weapon, '=', '1'
+      );
+    }
   }
 
 };
