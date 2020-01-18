@@ -123,7 +123,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.impromptuSneakAttackFeature:' +
            'Declare any attack a sneak attack %V/day',
         'combatNotes.rangedLegerdemainFeature:' +
-           '+5 DC on Disable Device/Open Lock/Sleight Of Hand at 30 ft %V/day',
+           "+5 DC on Disable Device/Open Lock/Sleight Of Hand at 30' %V/day",
         'combatNotes.sneakAttackFeature:' +
           '%Vd6 HP extra when surprising or flanking',
         'magicNotes.casterLevelBonusFeature:' +
@@ -192,11 +192,11 @@ SRD35Prestige.classRules = function(rules, classes) {
       hitDie = 4;
       notes = [
         'magicNotes.arcaneFireFeature:Transform arcane spell into bolt of fire',
-        'magicNotes.arcaneReachFeature:Use arcane touch spell 30 ft away',
+        "magicNotes.arcaneReachFeature:Use arcane touch spell 30' away",
         'magicNotes.casterLevelBonusFeature:' +
           '+%V base class level for spells known/per day',
         'magicNotes.improvedArcaneReachFeature:' +
-          'Use arcane touch spell 60 ft away',
+          "Use arcane touch spell 60' away",
         'magicNotes.masteryOfCounterspellingFeature:' +
           'Counterspell turns effect back on caster',
         'magicNotes.masteryOfElementsFeature:Change energy type of spell',
@@ -262,7 +262,7 @@ SRD35Prestige.classRules = function(rules, classes) {
       notes = [
         'combatNotes.deathAttackFeature:' +
           'Foe DC %V fortitude save on successful sneak attack after 3 ' +
-          'rounds of study or die/paralyzed for d6+%1 rounds',
+          'rd of study or die/paralyzed for d6+%1 rd',
         'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
         'combatNotes.sneakAttackFeature:' +
@@ -342,7 +342,7 @@ SRD35Prestige.classRules = function(rules, classes) {
       ];
       hitDie = 10;
       notes = [
-        'combatNotes.auraOfDespairFeature:All foes within 10 ft -2 all saves',
+        "combatNotes.auraOfDespairFeature:All foes within 10' -2 all saves",
         'combatNotes.smiteGoodFeature:' +
           '+%1 attack/+%2 damage vs. good foe %V/day',
         'combatNotes.sneakAttackFeature:' +
@@ -468,12 +468,12 @@ SRD35Prestige.classRules = function(rules, classes) {
         'abilityNotes.intelligenceBoostFeature:+2 intelligence',
         'abilityNotes.strengthBoostFeature:+%V strength',
         'combatNotes.biteAttackFeature:Attack with bite',
-        'combatNotes.breathWeaponFeature:Breathe for %Vd8 damage 1/day, DC %1',
+        'combatNotes.breathWeaponFeature:Breathe for %Vd8 HP 1/day, DC %1',
         'combatNotes.clawAttackFeature:Attack with claws',
         'combatNotes.dragonDiscipleArmorClassAdjustment:%V',
         'featureNotes.blindsenseFeature:' +
-          'Other senses allow detection of unseen objects w/in 30 ft',
-        'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
+          "Other senses allow detection of unseen objects w/in 30'",
+        "featureNotes.darkvisionFeature:%V' b/w vision in darkness",
         'featureNotes.dragonApotheosisFeature:Darkvision/Low Light Vision',
         'featureNotes.lowLightVisionFeature:x%V normal distance in poor light',
         'featureNotes.wingsFeature:Fly at normal land speed',
@@ -567,13 +567,13 @@ SRD35Prestige.classRules = function(rules, classes) {
       notes = [
         'combatNotes.acrobaticChargeFeature:May charge in difficult terrain',
         'combatNotes.cannyDefenseFeature:Add %V to melee AC when unarmored',
-        'combatNotes.deflectArrowsFeature:Deflect ranged 1/round',
+        'combatNotes.deflectArrowsFeature:Deflect ranged 1/rd',
         'combatNotes.elaborateParryFeature:+%V AC when fighting defensively',
         'combatNotes.enhancedMobilityFeature:' +
           '+4 AC vs. movement AOO when unarmored',
         'combatNotes.improvedReactionFeature:+%V initiative',
         'combatNotes.preciseStrikeFeature:' +
-          'Extra %Vd6 damage with light piercing weapon',
+          'Extra %Vd6 HP with light piercing weapon',
         'saveNotes.graceFeature:+2 Reflex when unarmored',
         'validationNotes.duelistClassBaseAttack:Requires Base Attack >= 6',
         'validationNotes.duelistClassFeats:' +
@@ -629,11 +629,11 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
         'combatNotes.mobileDefenseFeature:' +
-          'Allowed 5 ft. step during Defensive Stance',
+          "Allowed 5' step during Defensive Stance",
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'featureNotes.defensiveStanceFeature:' +
           '+2 strength/+4 constitution/+2 saves/+4 AC while unmoving for ' +
-          '%V rounds %1/day',
+          '%V rd %1/day',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
         'validationNotes.dwarvenDefenderClassAlignment:' +
           'Requires Alignment =~ Lawful',
@@ -728,11 +728,11 @@ SRD35Prestige.classRules = function(rules, classes) {
         'featureNotes.spellLikeAbilityFeature:Use spell as ability 2+/day',
         'magicNotes.blastInfidelFeature:' +
            'Negative energy spells vs. opposed-alignment foe have max effect',
-        'magicNotes.divineReachFeature:Use divine touch spell 30 ft away',
+        "magicNotes.divineReachFeature:Use divine touch spell 30' away",
         'magicNotes.faithHealingFeature:' +
           'Healing spells on same-aligned creature have max effect',
         'magicNotes.improvedDivineReachFeature:' +
-          'Use divine touch spell 60 ft away',
+          "Use divine touch spell 60' away",
         'magicNotes.spellPowerFeature:+1 caster level for spell effects',
         'validationNotes.hierophantClassFeats:Requires any Metamagic',
         'validationNotes.hierophantClassSkills:' +
@@ -810,19 +810,19 @@ SRD35Prestige.classRules = function(rules, classes) {
           '+1 attack/damage vs. underground creatures',
         'combatNotes.terrainMastery(Weightless)Feature:' +
            '+1 attack/damage vs. astral/elemental air/ethereal creatures',
-        'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
+        "featureNotes.darkvisionFeature:%V' b/w vision in darkness",
         'featureNotes.terrainMastery(Aligned)Feature:' +
           'Mimic dominant alignment of any plane',
-        'featureNotes.terrainMastery(Aquatic)Feature:+10 ft swim speed',
-        'featureNotes.terrainMastery(Mountains)Feature:+10 ft climb speed',
+        "featureNotes.terrainMastery(Aquatic)Feature:+10' swim speed",
+        "featureNotes.terrainMastery(Mountains)Feature:+10' climb speed",
         'featureNotes.terrainMastery(Cavernous)Feature:Tremorsense',
-        'featureNotes.terrainMastery(Underground)Feature:+60 ft Darkvision',
+        "featureNotes.terrainMastery(Underground)Feature:+60' Darkvision",
         'featureNotes.terrainMastery(Weightless)Feature:' +
-          '+30 ft fly speed on gravityless planes',
+          "+30' fly speed on gravityless planes",
         'featureNotes.tremorsenseFeature:' +
-          'Detect creatures in contact w/ground w/in 30 ft',
+          "Detect creatures in contact w/ground w/in 30'",
         'magicNotes.terrainMastery(Shifting)Feature:' +
-          '<i>Dimension Door</i> every d4 rounds',
+          '<i>Dimension Door</i> every d4 rd',
         'saveNotes.terrainMastery(Cold)Feature:20 DC cold resistance',
         'saveNotes.terrainMastery(Desert)Feature:' +
           'Immune fatigue, resist exhaustion',
@@ -1059,9 +1059,9 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
-        'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
+        "featureNotes.darkvisionFeature:%V' b/w vision in darkness",
         'magicNotes.shadowIllusionFeature:<i>Silent Image</i> 1/day',
-        'magicNotes.shadowJumpFeature:<i>Dimension Door</i> %V ft/day',
+        "magicNotes.shadowJumpFeature:<i>Dimension Door</i> %V'/day",
         'magicNotes.summonShadowFeature:' +
           'Summon unturnable %V HD Shadow companion',
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',

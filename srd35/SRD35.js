@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.12';
+var SRD35_VERSION = '1.4.1.13';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -889,7 +889,7 @@ SRD35.classRules = function(rules, classes) {
           'Flanked only by rogue four levels higher',
         'combatNotes.mightyRageFeature:+8 strength/constitution, +4 Will',
         'combatNotes.rageFeature:' +
-          '+4 strength/constitution, +2 Will, -2 AC for %V rounds %1/day',
+          '+4 strength/constitution, +2 Will, -2 AC %V rd %1/day',
         'combatNotes.tirelessRageFeature:Not fatigued after rage',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'saveNotes.indomitableWillFeature:' +
@@ -950,9 +950,9 @@ SRD35.classRules = function(rules, classes) {
       notes = [
         'featureNotes.bardicMusicFeature:Bardic music effect %V/day',
         'magicNotes.countersongFeature:' +
-          'Perform check vs. sonic magic w/in 30 ft for 10 rounds',
+          "Perform check vs. sonic magic w/in 30' 10 rd",
         'magicNotes.fascinateFeature:' +
-          'Hold %V creatures w/in 90 ft spellbound for %1 rounds',
+          "Hold %V creatures w/in 90' spellbound %1 rd",
         'magicNotes.inspireCompetenceFeature:' +
           '+2 allies skill checks while performing up to 2 minutes',
         'magicNotes.inspireCourageFeature:' +
@@ -1151,7 +1151,7 @@ SRD35.classRules = function(rules, classes) {
           '<i>Summon Nature\'s Ally</i>',
         'magicNotes.thousandFacesFeature:<i>Alter Self</i> at will',
         'magicNotes.wildShapeFeature:' +
-          'Change into creature of size %V for %1 hours %2/day',
+          'Change into creature of size %V %1 hours %2/day',
         'saveNotes.resistNature\'sLureFeature:+4 vs. spells of feys',
         'saveNotes.venomImmunityFeature:Immune to poisons',
         'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
@@ -1283,8 +1283,8 @@ SRD35.classRules = function(rules, classes) {
         'featureNotes.tongueOfTheSunAndMoonFeature:Speak w/any living creature',
         'magicNotes.abundantStepFeature:' +
           '<i>Dimension Door</i> at level %V 1/day',
-        'magicNotes.emptyBodyFeature:<i>Etherealness</i> %V rounds/day',
-        'magicNotes.wholenessOfBodyFeature:Heal %V damage to self/day',
+        'magicNotes.emptyBodyFeature:<i>Etherealness</i> %V rd/day',
+        'magicNotes.wholenessOfBodyFeature:Heal %V HP to self/day',
         'sanityNotes.monkClassArmor:Implies Armor == "None"',
         'sanityNotes.monkClassShield:Implies Shield == "None"',
         'saveNotes.diamondBodyFeature:Immune to poison',
@@ -1294,7 +1294,7 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.perfectSelfFeature:Treat as outsider for magic saves',
         'saveNotes.purityOfBodyFeature:Immune to normal disease',
         'saveNotes.slowFallFeature:' +
-          'Subtract %V ft from falling damage distance',
+          "Subtract %V' from falling damage distance",
         'saveNotes.stillMindFeature:+2 vs. enchantment',
         'validationNotes.combatReflexesSelectableFeatureLevels:' +
            'Requires Monk >= 2',
@@ -1395,7 +1395,7 @@ SRD35.classRules = function(rules, classes) {
         'magicNotes.detectEvilFeature:<i>Detect Evil</i> at will',
         'magicNotes.layOnHandsFeature:Harm undead or heal %V HP/day',
         'magicNotes.removeDiseaseFeature:<i>Remove Disease</i> %V/week',
-        'saveNotes.auraOfCourageFeature:Immune fear, +4 to allies w/in 30 ft',
+        "saveNotes.auraOfCourageFeature:Immune fear, +4 to allies w/in 30'",
         'saveNotes.divineGraceFeature:+%V all saves',
         'saveNotes.divineHealthFeature:Immune to disease',
         'validationNotes.paladinClassAlignment:' +
@@ -1858,7 +1858,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
 
   notes = [
     "companionNotes.celestialCompanion:" +
-      "Smite Evil (+%V damage) 1/day, 60' darkvision, " +
+      "Smite Evil (+%V HP) 1/day, 60' darkvision, " +
       "%1 acid/cold/electricity resistance, DR %2/magic",
     'companionNotes.companionEvasionFeature:' +
       'Reflex save yields no damage instead of 1/2',
@@ -1869,14 +1869,14 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionNotes.devotionFeature:+4 Will vs. enchantment',
     'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
     "companionNotes.fiendishCompanion:" +
-      "Smite Good (+%V damage) 1/day, 60' darkvision, " +
+      "Smite Good (+%V HP) 1/day, 60' darkvision, " +
       "%1 cold/fire resistance, DR %2/magic",
     'companionNotes.improvedSpeedFeature:+10 speed',
     'companionNotes.multiattackFeature:' +
       'Reduce additional attack penalty to -2 or second attack at -5',
     'companionNotes.scryFeature:Master views companion 1/day',
     'companionNotes.shareSpellsFeature:' +
-      'Master share self spell w/companion w/in 5 ft',
+      "Master share self spell w/companion w/in 5'",
     'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
     'companionNotes.speakWithMasterFeature:Talk w/master in secret language',
     'companionStats.Melee:+%V %1%2%3%4',
@@ -2878,7 +2878,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Combat Reflexes') {
       notes = [
-        'combatNotes.combatReflexesFeature:Flatfooted AOO, up to %V AOO/round',
+        'combatNotes.combatReflexesFeature:Flatfooted AOO, up to %V AOO/rd',
         'sanityNotes.combatReflexesFeatAbility:Implies Dexterity >= 12'
       ];
       rules.defineRule('combatNotes.combatReflexesFeature',
@@ -2920,7 +2920,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Deflect Arrows') {
       notes = [
-        'combatNotes.deflectArrowsFeature:Deflect ranged 1/round',
+        'combatNotes.deflectArrowsFeature:Deflect ranged 1/rd',
         'validationNotes.deflectArrowsFeatAbility:Requires Dexterity >= 13',
         'validationNotes.deflectArrowsFeatFeatures:' +
           'Requires Improved Unarmed Strike'
@@ -3252,7 +3252,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Mounted Combat') {
       notes = [
         'combatNotes.mountedCombatFeature:' +
-          'Ride skill save vs. mount damage 1/round',
+          'Ride skill save vs. mount damage 1/rd',
         'validationNotes.mountedCombatFeatSkills:Requires Ride'
       ];
     } else if(feat == 'Natural Spell') {
@@ -3278,7 +3278,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       ];
     } else if(feat == 'Point Blank Shot') {
       notes = [
-        'combatNotes.pointBlankShotFeature:+1 ranged attack/damage w/in 30 ft'
+        "combatNotes.pointBlankShotFeature:+1 ranged attack/damage w/in 30'"
       ];
     } else if(feat == 'Power Attack') {
       notes = [
@@ -3298,7 +3298,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if(feat == 'Quicken Spell') {
       notes = [
         'magicNotes.quickenSpellFeature:' +
-          'Free action casting 1/round uses +4 spell slot',
+          'Free action casting 1/rd uses +4 spell slot',
         'sanityNotes.quickenSpellFeatCasterLevel:Implies Caster Level >= 1'
       ];
     } else if((matchInfo = feat.match(/^Rapid Reload \((.*)\)$/)) != null) {
@@ -4150,7 +4150,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       rules.defineRule
         ('magicNotes.protectionDomain', 'levels.Cleric', '=', null);
     } else if(domain == 'Strength') {
-      notes = ['abilityNotes.strengthDomain:Add %V to strength 1 round/day'];
+      notes = ['abilityNotes.strengthDomain:Add %V to strength 1 rd/day'];
       spells = [
         'Enlarge Person', 'Bull\'s Strength', 'Magic Vestment',
         'Spell Immunity', 'Righteous Might', 'Stoneskin', 'Grasping Hand',
@@ -4168,7 +4168,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       turn = null;
     } else if(domain == 'Travel') {
       notes = [
-        'magicNotes.travelDomain:<i>Freedom of Movement</i> %V rounds/day',
+        'magicNotes.travelDomain:<i>Freedom of Movement</i> %V rd/day',
         'skillNotes.travelDomain:Survival is a class skill'
       ];
       spells = [
@@ -4360,7 +4360,7 @@ SRD35.raceRules = function(rules, languages, races) {
       adjustment = '+2 strength/-2 intelligence/-2 charisma';
       features = ['Darkvision'];
       notes = [
-        'featureNotes.darkvisionFeature:%V ft b/w vision in darkness'
+        "featureNotes.darkvisionFeature:%V' b/w vision in darkness"
       ];
       rules.defineRule('featureNotes.darkvisionFeature',
         raceNoSpace + 'Features.Darkvision', '+=', '60'
@@ -4382,14 +4382,14 @@ SRD35.raceRules = function(rules, languages, races) {
         'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
         'combatNotes.dwarfFavoredEnemyFeature:+1 attack vs. goblinoid/orc',
         'combatNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
-        'featureNotes.darkvisionFeature:%V ft b/w vision in darkness',
+        "featureNotes.darkvisionFeature:%V' b/w vision in darkness",
         'featureNotes.knowDepthFeature:Intuit approximate depth underground',
         'saveNotes.resistPoisonFeature:+2 vs. poison',
         'saveNotes.resistSpellsFeature:+2 vs. spells',
         'skillNotes.naturalSmithFeature:' +
            '+2 Appraise/Craft involving stone or metal',
         'skillNotes.stonecunningFeature:' +
-          '+2 Search involving stone or metal, automatic check w/in 10 ft'
+          "+2 Search involving stone or metal, automatic check w/in 10'"
       ];
 
       rules.defineRule('abilityNotes.armorSpeedAdjustment',
@@ -4420,7 +4420,7 @@ SRD35.raceRules = function(rules, languages, races) {
       ];
       notes = [
         'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
-        'featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5 ft',
+        "featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5'",
         'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
         'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
         'skillNotes.keenSensesFeature:+2 Listen/Search/Spot'
