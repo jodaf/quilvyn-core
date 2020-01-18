@@ -262,7 +262,7 @@ SRD35Prestige.classRules = function(rules, classes) {
       notes = [
         'combatNotes.deathAttackFeature:' +
           'Foe DC %V fortitude save on successful sneak attack after 3 ' +
-          'rd of study or die/paralyzed for d6+%1 rd',
+          'rd of study or die/paralyzed d6+%1 rd',
         'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
         'combatNotes.sneakAttackFeature:' +
@@ -468,7 +468,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'abilityNotes.intelligenceBoostFeature:+2 intelligence',
         'abilityNotes.strengthBoostFeature:+%V strength',
         'combatNotes.biteAttackFeature:Attack with bite',
-        'combatNotes.breathWeaponFeature:Breathe for %Vd8 HP 1/day, DC %1',
+        'combatNotes.breathWeaponFeature:Breathe %Vd8 HP 1/day, DC %1',
         'combatNotes.clawAttackFeature:Attack with claws',
         'combatNotes.dragonDiscipleArmorClassAdjustment:%V',
         'featureNotes.blindsenseFeature:' +
@@ -632,7 +632,7 @@ SRD35Prestige.classRules = function(rules, classes) {
           "Allowed 5' step during Defensive Stance",
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'featureNotes.defensiveStanceFeature:' +
-          '+2 strength/+4 constitution/+2 saves/+4 AC while unmoving for ' +
+          '+2 strength/+4 constitution/+2 saves/+4 AC while unmoving ' +
           '%V rd %1/day',
         'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
         'validationNotes.dwarvenDefenderClassAlignment:' +
@@ -722,9 +722,9 @@ SRD35Prestige.classRules = function(rules, classes) {
       notes = [
         'combatNotes.masteryOfEnergyFeature:+4 undead turning checks/damage',
         'featureNotes.giftOfTheDivineFeature:' +
-          'Transfer undead turn/rebuke to another for 1-7 days',
+          'Transfer undead turn/rebuke to another 1-7 days',
         'featureNotes.powerOfNatureFeature:' +
-          'Transfer druid feature to another for 1-7 days',
+          'Transfer druid feature to another 1-7 days',
         'featureNotes.spellLikeAbilityFeature:Use spell as ability 2+/day',
         'magicNotes.blastInfidelFeature:' +
            'Negative energy spells vs. opposed-alignment foe have max effect',
