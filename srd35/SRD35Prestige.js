@@ -125,7 +125,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.rangedLegerdemainFeature:' +
            '+5 DC on Disable Device/Open Lock/Sleight Of Hand at 30 ft %V/day',
         'combatNotes.sneakAttackFeature:' +
-          '%Vd6 extra damage when surprising or flanking',
+          '%Vd6 HP extra when surprising or flanking',
         'magicNotes.casterLevelBonusFeature:' +
           '+%V base class level for spells known/per day',
         'validationNotes.arcaneTricksterClassAlignment:' +
@@ -266,7 +266,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.improvedUncannyDodgeFeature:' +
           'Flanked only by rogue four levels higher',
         'combatNotes.sneakAttackFeature:' +
-          '%Vd6 extra damage when surprising or flanking',
+          '%Vd6 HP extra when surprising or flanking',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'featureNotes.poisonUseFeature:' +
           'No chance of self-poisoning when applying to blade',
@@ -346,7 +346,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.smiteGoodFeature:' +
           '+%1 attack/+%2 damage vs. good foe %V/day',
         'combatNotes.sneakAttackFeature:' +
-          '%Vd6 extra damage when surprising or flanking',
+          '%Vd6 HP extra when surprising or flanking',
         'combatNotes.turnUndeadFeature:' +
           'Turn (good) or rebuke (evil) undead creatures',
         'featureNotes.fiendishServantFeature:' +

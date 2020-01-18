@@ -1584,7 +1584,7 @@ SRD35.classRules = function(rules, classes) {
           'Flanked only by rogue four levels higher',
         'combatNotes.opportunistFeature:AOO vs. foe struck by ally',
         'combatNotes.sneakAttackFeature:' +
-          '%Vd6 extra damage when surprising or flanking',
+          '%Vd6 HP extra when surprising or flanking',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
         'saveNotes.improvedEvasionFeature:Failed save yields 1/2 damage',
