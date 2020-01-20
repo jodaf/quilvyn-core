@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.13';
+var SRD35_VERSION = '1.4.1.14';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2666,6 +2666,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     'combatNotes.nonproficientShieldPenalty:%V attack',
     'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus',
     'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
+    'sanityNotes.two-handedWeaponWithBuckler:Lowers attack bonus, AC',
     'validationNotes.two-handedWeaponWithShield:' +
       'Shields cannot be used with two-handed weapons'
   );
@@ -2691,8 +2692,11 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
     'combatNotes.nonproficientShieldPenalty', '=', null
   );
+  rules.defineRule('sanityNotes.two-handedWeaponWithBuckler',
+    'shield', '?', 'source == "Buckler"'
+  );
   rules.defineRule('validationNotes.two-handedWeaponWithShield',
-    'shield', '?', 'source != "None"'
+    'shield', '?', 'source != "None" && source != "Buckler"'
   );
   for(var i = 0; i < weapons.length; i++) {
     var pieces = weapons[i].split(':');
@@ -2703,12 +2707,14 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
                                                    SRD35.PROFICIENCY_HEAVY;
     rules.defineNote(
       'combatNotes.nonproficientWeaponPenalty.' + weapon + ':%V attack',
+      'combatNotes.two-handedWeaponWithBucklerPenalty.' + weapon + ':%V attack',
       'sanityNotes.weaponProficiencyLevelWeapon.' + weapon + ':Lowers attack bonus'
     );
     rules.defineRule('weaponAttackAdjustment.' + weapon,
       'combatNotes.nonproficientArmorPenalty', '+=', null,
       'combatNotes.nonproficientShieldPenalty', '+=', null,
-      'combatNotes.nonproficientWeaponPenalty.' + weapon, '+=', null
+      'combatNotes.nonproficientWeaponPenalty.' + weapon, '+=', null,
+      'combatNotes.two-handedWeaponWithBucklerPenalty.' + weapon, '+', null
     );
     rules.defineRule('weaponProficiencyLevelShortfall.' + weapon,
       'weapons.' + weapon, '=', profLevel,
@@ -2724,6 +2730,14 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       'combatNotes.nonproficientWeaponPenalty.' + weapon, '=', null
     );
     if(pieces[1].indexOf('2h') >= 0) {
+      rules.defineRule('combatNotes.two-handedWeaponWithBucklerPenalty.' + weapon,
+        'shield', '?', 'source == "Buckler"',
+        'weapons.' + weapon, '=', '-1'
+      );
+
+      rules.defineRule('sanityNotes.two-handedWeaponWithBuckler',
+        'weapons.' + weapon, '=', '1'
+      );
       rules.defineRule('validationNotes.two-handedWeaponWithShield',
         'weapons.' + weapon, '=', '1'
       );
@@ -5340,6 +5354,10 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    The armor class of characters with the Dodge feat includes a +1\n' +
     '    bonus that applies only to one foe at a time.\n' +
+    '  </li><li>\n' +
+    '    For purposes of computing strength damage bonuses, Scribe assumes\n' +
+    '    that characters with a buckler wield their weapons one-handed and\n' +
+    '    that characters with no buckler or shield wield with both hands.\n' +
     '  </li><li>\n' +
     '    A few feats have been renamed to emphasize the relationship\n' +
     '    between similar feats: "Shield Proficiency" and "Tower Shield\n' +
