@@ -51,17 +51,17 @@ var SCRIBE_HOME = '';
 // SCRIBE_HOME = 'http://www.jodaf.com/dnd/scribe/';
 
 /*
- * Scribe incorporates the modules listed in CUSTOMIZATION_URLS as part of its
- * initial loading; you should uncomment those elements that you want to make
- * part of your Scribe installation and comment or delete the ones you don't
- * want.  If any of the elements of CUSTOMIZATION_URLS begins with a question
- * mark (e.g., '?SRD35NPC.js'), Scribe will prompt the user on start-up to ask
- * whether to include the rules from that module.  This can be useful for rules
- * that you use occasionally but don't want always present.  For example, you
- * might want to put a question mark before SRD35PC.js for occasional use of
- * the rules to define NPCs.  null elements are ignored, so the null value at
- * the end of the array makes it easy to add and remove elements without
- * worrying about a trailing comma.
+ * Scribe incorporates the modules listed in PLUGINS as part of its initial
+ * loading; you should uncomment those elements that you want to make part of
+ * your Scribe installation and comment or delete the ones you don't want. If
+ * any of the elements of PLUGINS begins with a question mark (e.g.,
+ * '?SRD35NPC.js'), Scribe will prompt the user on start-up to ask whether to
+ * include the rules from that module. This can be useful for rules that you
+ * use occasionally but don't want always present. For example, you might want
+ * to put a question mark before SRD35PC.js for occasional use of the rules to
+ * define NPCs. null elements are ignored, so the null value at the end of the
+ * array makes it easy to add and remove elements without worrying about a
+ * trailing comma.
  */
 const PLUGINS = [
   'srd35/SRD35.js',
