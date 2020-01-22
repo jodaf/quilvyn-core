@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.14';
+var SRD35_VERSION = '1.4.1.15';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -1957,13 +1957,16 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionLevel', '=', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
       'companionMaxDexOrStr', '+', 'source % 2 == 0 ? 0.5 : 0'
     );
-    rules.defineRule
-      ('companionDamAdj1', 'companionDamageBoosts', '=', 'Math.floor(source)');
-    rules.defineRule
-      ('companionDamAdj2', 'companionDamageBoosts', '=', 'Math.floor(source)');
-    rules.defineRule('companionDamageBoosts',
-      'companionLevel', '=', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
-      'companionStats.Str', '+', 'source % 2 == 0 ? 0.5 : 0'
+    rules.defineRule('companionDamAdj1',
+      'companionStats.Str', '=', 'Math.floor((source - 10) / 2)',
+      'companionDamageSingleAttackBonus', '+', null
+    );
+    rules.defineRule('companionDamAdj2',
+      'companionStats.Str', '=', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('companionDamageSingleAttackBonus',
+      'companionStats.Melee.3', '?', 'source == ""',
+      'companionStats.Str', '=', 'source<14 ? null : Math.floor((source-10)/4)'
     );
     rules.defineRule('companionFort',
       'features.Animal Companion', '?', null,
@@ -2027,21 +2030,11 @@ SRD35.companionRules = function(rules, companions, familiars) {
           rules.defineRule('companionStats.Melee.1',
             'animalCompanion.' + companion, '=', '"' + matchInfo[1] + '"'
           );
-          if(matchInfo[2]) {
-            rules.defineRule('companionDamAdj1',
-              'animalCompanion.' + companion, '+', matchInfo[2]
-            );
-          }
           if(damages.length > 1) {
             matchInfo = damages[1].match(/([^-+]*)([-+]\d+)?/);
             rules.defineRule('companionStats.Melee.3',
               'animalCompanion.' + companion, '=', '",' + matchInfo[1] + '"'
             );
-            if(matchInfo[2]) {
-              rules.defineRule('companionDamAdj2',
-                'animalCompanion.' + companion, '+', matchInfo[2]
-              );
-            }
           }
         } else if(matchInfo[1] == 'Level') {
           rules.defineRule('companionMasterLevel',
