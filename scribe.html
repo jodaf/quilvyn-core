@@ -37,10 +37,10 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
  * you're about to lose changes made to the current character because you're
  * opening a new one.
  */
-var BACKGROUND = 'wheat';
-var DEFAULT_SHEET_STYLE = 'Standard';
-var MENU_WIDTH_PERCENT = 30;
-var WARN_ABOUT_DISCARD = true;
+const BACKGROUND = 'wheat';
+const DEFAULT_SHEET_STYLE = 'Standard';
+const MENU_WIDTH_PERCENT = 30;
+const WARN_ABOUT_DISCARD = true;
 
 /*
  * If SCRIBE_HOME is the empty string, all Scribe sources are drawn from a
@@ -51,36 +51,36 @@ var SCRIBE_HOME = '';
 // SCRIBE_HOME = 'http://www.jodaf.com/dnd/scribe/';
 
 /*
- * Scribe incorporates the modules listed in PLUGIN_URLS as part of its
- * initial loading; you should uncomment those elements that you want to make
- * part of your Scribe installation and comment or delete the ones you don't
- * want.  If any of the elements of PLUGIN_URLS begins with a question
- * mark (e.g., '?SRD35PrestigeNPC.js'), Scribe will prompt the user on start-up
- * to ask whether to include the rules from that module.  This can be useful
- * for rules that you use occasionally but don't want always present.  For
- * example, you might want to put a question mark before SRD35PrestigeNPC.js to
- * occasionally use the rules to define NPC- or prestige-class NPCs.  null
- * elements are ignored, so the null value at the end of the array makes it
- * easy to add and remove elements without worrying about a trailing comma.
+ * Scribe incorporates the modules listed in PLUGINS as part of its initial
+ * loading; you should uncomment those elements that you want to make part of
+ * your Scribe installation and comment or delete the ones you don't want. If
+ * any of the elements of PLUGINS begins with a question mark (e.g.,
+ * '?SRD35NPC.js'), Scribe will prompt the user on start-up to ask whether to
+ * include the rules from that module. This can be useful for rules that you
+ * use occasionally but don't want always present. For example, you might want
+ * to put a question mark before SRD35PC.js for occasional use of the rules to
+ * define NPCs. null elements are ignored, so the null value at the end of the
+ * array makes it easy to add and remove elements without worrying about a
+ * trailing comma.
  */
-var PLUGIN_URLS = [
-  SCRIBE_HOME + 'srd35/SRD35.js',
-  // SCRIBE_HOME + 'srd35/SRD35NPC.js',
-  // SCRIBE_HOME + 'srd35/SRD35Prestige.js',
-  SCRIBE_HOME + 'srd35/Experience.js',
-  SCRIBE_HOME + 'srd35/SRD35SpellDescriptions.js',
-  SCRIBE_HOME + 'srd35/CustomSpellPoints.js',
-  // SCRIBE_HOME + 'plugins/Eberron.js',
-  // SCRIBE_HOME + 'plugins/EberronPrestige.js',
-  // SCRIBE_HOME + 'plugins/FirstEdition.js',
-  // SCRIBE_HOME + 'plugins/LastAge.js',
-  // SCRIBE_HOME + 'plugins/LastAgePrestige.js',
-  // SCRIBE_HOME + 'plugins/Pathfinder.js',
-  // SCRIBE_HOME + 'plugins/PathfinderPrestige.js',
-  // SCRIBE_HOME + 'plugins/Realms.js',
-  // SCRIBE_HOME + 'plugins/RealmsPrestige.js',
-  // SCRIBE_HOME + 'plugins/HybridD20.js',
-  // SCRIBE_HOME + 'plugins/FiveE.js',
+const PLUGINS = [
+  'srd35/SRD35.js',
+  '?srd35/SRD35NPC.js',
+  '?srd35/SRD35Prestige.js',
+  'srd35/Experience.js',
+  'srd35/SRD35SpellDescriptions.js',
+  'srd35/CustomSpellPoints.js',
+  '?plugins/Eberron.js',
+  '?plugins/EberronPrestige.js',
+  '?plugins/LastAge.js',
+  '?plugins/LastAgePrestige.js',
+  '?plugins/Pathfinder.js',
+  '?plugins/PathfinderPrestige.js',
+  '?plugins/Realms.js',
+  '?plugins/RealmsPrestige.js',
+  '?plugins/FirstEdition.js',
+  '?plugins/HybridD20.js (alpha)',
+  '?plugins/FiveE.js (alpha)',
   null
 ];
 
@@ -117,20 +117,7 @@ function CustomizeScribe() {
   };
   var goodies = [
   ];
-  // The second part loads the modules listed in PLUGIN_URLS by
-  // calling a function with the same name as the module (e.g., it calls
-  // SRD35() for SRD35.js).
-  for(var i = 0; i < PLUGIN_URLS.length; i++) {
-    var url = PLUGIN_URLS[i];
-    if(url == null)
-      continue;
-    var func = url.replace(/.*\/|\..*/g, '');
-    if(window[func] == null)
-      alert('Unable to invoke ' + func + ' from ' + url);
-    else
-      window[func]();
-  }
-  // The third part applies specific customizations to the rules.
+  // The second part applies specific customizations to the rules.
   if(window.Pathfinder) {
     Object.assign(Pathfinder.SUBFEATS, subfeats);
     Object.assign(Pathfinder.SUBSKILLS, subskills);
@@ -180,38 +167,136 @@ function CustomizeScribe() {
 /**** Commands that load the Scribe software.  Do not modify. ****/
 
 const CLOSE_TAG = '<' + '/' + 'script>\n';
-const HELP_URL = SCRIBE_HOME + 'core/scribedoc.html';
-const LOGO_URL = SCRIBE_HOME + 'core/scribe.gif';
-var CORE_URLS = [
+const CORE_URLS = [
   SCRIBE_HOME + 'core/Input.js',
   SCRIBE_HOME + 'core/ObjectViewer.js',
   SCRIBE_HOME + 'core/RuleEngine.js',
   SCRIBE_HOME + 'core/ScribeUtils.js',
   SCRIBE_HOME + 'core/Scribe.js',
   SCRIBE_HOME + 'core/ScribeRules.js'
-].concat(PLUGIN_URLS);
+];
+const HELP_URL = SCRIBE_HOME + 'core/scribedoc.html';
+const LOGO_URL = SCRIBE_HOME + 'core/scribe.gif';
 
 for(var i = 0; i < CORE_URLS.length; i++) {
-  var url = CORE_URLS[i];
-  if(url == null)
+  document.write('<script src="' + CORE_URLS[i] + '">' + CLOSE_TAG);
+}
+
+var pluginPopup = null;
+
+for(var i = 0; i < PLUGINS.length; i++) {
+  if(PLUGINS[i] == null)
     continue;
-  if(url.substring(0, 1) == '?') {
-    url = url.substring(1);
-    if(!confirm('Use rules from ' + url + '?')) {
-      url = null;
-    }
-    PLUGIN_URLS[i - CORE_URLS.length + PLUGIN_URLS.length] = url;
-    if(url == null)
-      continue;
+  if(!PLUGINS[i].startsWith('?')) {
+    var url = SCRIBE_HOME + PLUGINS[i].replace(/ *\(.*\)/g, '');
+    document.write('<script src="' + url + '">' + CLOSE_TAG);
   }
-  document.write('<script src="' + url + '">' + CLOSE_TAG);
+  else if(pluginPopup == null) {
+    pluginPopup = window.open('', '__plugins', 'height=750,width=750,menubar,resizable,scrollbars,toolbar');
+  }
+}
+
+if(pluginPopup != null) {
+  pluginPopup.document.write(
+    '<html><head><title>Select Scribe Plugins to Use</title></head>\n' +
+    '<body bgcolor="' + BACKGROUND + '">\n' +
+    '<img src="' + LOGO_URL + ' "/><br/>\n' +
+    '<h2>Select Scribe Plugins to Use</h2>\n' +
+    '<form name="frm"><table>\n'
+  );
+  var storedDefaultRules = null;
+  try {
+    storedDefaultRules = localStorage.getItem('ScribeDefaultRules');
+  } catch(err) {
+    // empty
+  }
+  if(storedDefaultRules == null)
+    storedDefaultRules = '';
+  for(var i = 0; i < PLUGINS.length; i++) {
+    if(PLUGINS[i] == null)
+      continue;
+    var label = PLUGINS[i].replace(/.*\/|\.js|\?/g, '');
+    label = label.replace(/([a-z0-9])(?=[A-Z])/g, '$1 ');
+    var options = !PLUGINS[i].startsWith('?') ? ' checked=true disabled=true' :
+                  storedDefaultRules.indexOf(label) > 0 ? ' checked=true' : '';
+    pluginPopup.document.write('<tr><td><input name="plugin' + i + '" type="checkbox"' + options + '/></td><td>' + label + '</td></tr>\n');
+  }
+  pluginPopup.document.write(
+    '</table></form>\n' +
+    '<form>\n' +
+    '<input type="button" value="Ok" onclick="window.close();"/>\n' +
+    '</form></body></html>\n'
+  );
+  pluginPopup.document.close();
+}
+
+function LoadPlugins() {
+  if(pluginPopup != null && !pluginPopup.closed) {
+    setTimeout('LoadPlugins()', 1000);
+    return;
+  }
+  var storedDefaultRules = '';
+  for(var i = 0; i < PLUGINS.length; i++) {
+    if(PLUGINS[i] == null)
+      continue;
+    if(pluginPopup.document.forms[0]['plugin' + i].checked) {
+      if(PLUGINS[i].startsWith('?')) {
+        var scriptTag = document.createElement('script');
+        scriptTag.src = SCRIBE_HOME + PLUGINS[i].replace(/ *\(.*\)|\?/g, '');
+        scriptTag.type = 'text/javascript';
+        scriptTag.onload = new Function('window["plugin' + i + 'Loaded"]=true;');
+        document.body.appendChild(scriptTag);
+      }
+      var label = PLUGINS[i].replace(/.*\/|\.js|\?/g, '');
+      label = label.replace(/([a-z0-9])(?=[A-Z])/g, '$1 ');
+      storedDefaultRules += label;
+    }
+  }
+  try {
+    localStorage.setItem('ScribeDefaultRules', storedDefaultRules);
+  } catch(err) {
+    // empty
+  }
+  StartScribe();
+}
+
+function StartScribe() {
+  for(var i = 0; i < PLUGINS.length; i++) {
+    if(PLUGINS[i] == null)
+      continue;
+    if(PLUGINS[i].startsWith('?') &&
+       pluginPopup.document.forms[0]['plugin' + i].checked &&
+       !window['plugin' + i + 'Loaded']) {
+      setTimeout('StartScribe()', 1000);
+      return;
+    }
+  }
+  for(var i = 0; i < PLUGINS.length; i++) {
+    if(PLUGINS[i] == null)
+      continue;
+    if(!PLUGINS[i].startsWith('?') ||
+       pluginPopup.document.forms[0]['plugin' + i].checked) {
+      var funcName = PLUGINS[i].replace(/.*\/|\.js|\?| *\(.*\)/g, '');
+      if(window[funcName]) {
+        console.log('Invoke ' + funcName);
+        window[funcName]();
+        if(funcName == 'FirstEdition') {
+          FirstEdition.USE_OSRIC_RULES = !FirstEdition.USE_OSRIC_RULES;
+          window[funcName]();
+        }
+      } else {
+        alert('Cannot call ' + funcName);
+      }
+    }
+  }
+  Scribe();
 }
 
 -->
 </script>
 
 </head>
-<body onload="document.bgColor=BACKGROUND;Scribe();">
+<body onload="document.bgColor=BACKGROUND;LoadPlugins();">
 
 <script>
   document.write('<img src="' + LOGO_URL + '"/><br/>');
