@@ -46,7 +46,6 @@ function SRD35() {
   SRD35.combatRules(rules);
   SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
-  SRD35.goodiesRules(rules, SRD35.GOODIES);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
   Scribe.addRuleSet(rules);
@@ -236,16 +235,7 @@ SRD35.FEATS = [
   'Widen Spell:Metamagic'
 ];
 SRD35.GENDERS = ['Female', 'Male'];
-// Small sample of possible goodies. Healer's Kit is the only entry mentioned
-// specifically in the SRD.
 SRD35.GOODIES = [
-  'Chain Shirt +1',
-  'Composite Longbow +2',
-  'Masterwork Longsword',
-  'Gauntlets Of Strength +4',
-  "Healer's Kit",
-  'Ring Of Bluff +4',
-  'Ring Of Protection +1'
 ];
 SRD35.LANGUAGES = [
   'Abyssal', 'Aquan', 'Auran', 'Celestial', 'Common', 'Draconic', 'Druidic',
@@ -260,7 +250,7 @@ SRD35.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'domains',
   'features', 'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield',
-  'weapons', 'spells', 'goodies'
+  'weapons', 'spells'
 ];
 SRD35.SCHOOLS = [
   'Abjuration:Abju', 'Conjuration:Conj', 'Divination:Divi', 'Enchantment:Ench',
@@ -2302,7 +2292,6 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Spell Difficulty Class', within: 'Section 2',
              separator: '/'},
             {name: 'Domains', within: 'Section 2', separator: '/'},
-            {name: 'Goodies', within: 'Section 2', separator: '/'},
             {name: 'Notes', within: 'Section 2'},
             {name: 'Hidden Notes', within: 'Section 2', format: '%V'}
       );
@@ -2451,7 +2440,6 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Domains', within: 'SpellSpecialties', separator: listSep},
               {name: 'Specialize', within: 'SpellSpecialties'},
               {name: 'Prohibit', within: 'SpellSpecialties', separator:listSep},
-            {name: 'Goodies', within: 'SpellPart', separator: listSep},
           {name: 'Spells', within: 'Magic', columns: '1L', separator: null}
       );
       if(name != 'Collected Notes') {
@@ -2735,6 +2723,97 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
         'weapons.' + weapon, '=', '1'
       );
     }
+  }
+
+  rules.defineRule('goodiesList', 'notes', '=',
+    'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
+  );
+
+  for(var ability in {Charisma:'', Constitution:'', Dexterity:'', Intelligence:'', Strength:'', Wisdom:''}) {
+    rules.defineRule('abilityNotes.goodies' + ability + 'Adjustment',
+      'goodiesList', '=',
+        'source.filter(item => item.match(/\\b' + ability + '\\b/i)).reduce(' +
+          'function(total, item) {' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+          '}' +
+        ', 0)'
+    );
+    rules.defineRule(ability.toLowerCase(),
+      'abilityNotes.goodies' + ability + 'Adjustment', '+', null
+    );
+  }
+
+  rules.defineRule('goodiesAffectingAC',
+    'goodiesList', '=', 'source.filter(item => item.match(/\\b(armor|protection|shield)\\b/i))'
+  );
+  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
+    'goodiesAffectingAC', '=',
+      'source.reduce(' +
+        'function(total, item) {' +
+          'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+        '}' +
+      ', 0)'
+  );
+  rules.defineRule
+    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
+
+  for(var skill in rules.getChoices('skills')) {
+    rules.defineRule('skillNotes.goodies' + skill + 'Adjustment',
+      'goodiesList', '=',
+        'source.filter(item => item.match(/\\b' + skill + '\\b/i)).reduce(' +
+          'function(total, item) {' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+          '}' +
+        ', 0)'
+    );
+    rules.defineRule('skillModifier.' + skill,
+      'skillNotes.goodies' + skill + 'Adjustment', '+', null
+    );
+  }
+  rules.defineRule('skillNotes.goodiesHealAdjustment',
+    'notes', '+=', "source.match(/^\\s*\\*[^;]*healer's kit/mi) ? 2 : 0"
+  );
+  rules.defineNote
+    ('skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by 1');
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
+    'skillNotes.goodiesSkillCheckAdjustment', '+', '-1'
+  );
+  rules.defineRule('skillNotes.goodiesSkillCheckAdjustment',
+    'goodiesAffectingAC', '=',
+      'source.reduce(' +
+        'function(total, item) {' +
+          'return Math.max(total, item.match(/[-+]\\d|masterwork/) ? 1 : 0)' +
+        '}' +
+      ', 0)'
+  );
+
+  // NOTE: weapon Attack/Damage bonus rules affect all weapons of a particular
+  // type that the character owns. If the character has, e.g., two longswords,
+  // both get the bonus. Ignoring this bug for now.
+  for(var weapon in rules.getChoices('weapons')) {
+    var weaponNoSpace = weapon.replace(/\s+/g, '');
+    rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment',
+      'goodiesList', '=',
+        'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
+          'function(total, item) {' +
+            'return total + ((item + (item.match(/masterwork/i)?"+1":"+0")).match(/[-+]\\d+/) - 0);' +
+          '}' +
+        ', 0)'
+    );
+    rules.defineRule('weaponAttackAdjustment.' + weapon,
+      'combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment', '+=', null
+    );
+    rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment',
+      'goodiesList', '=',
+        'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
+          'function(total, item) {' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+          '}' +
+        ', 0)'
+    );
+    rules.defineRule('weaponDamageAdjustment.' + weapon,
+      'combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment', '+=', null
+    );
   }
 
 };
@@ -3595,88 +3674,6 @@ SRD35.featRules = function(rules, feats, subfeats) {
  * "Masterwork <armor>", and "Healer's Kit".
  */
 SRD35.goodiesRules = function(rules, goodies) {
-
-  rules.defineChoice('goodies', goodies);
-
-  var matchInfo;
-
-  // NOTE: weapon Attack/Damage bonus rules affect all weapons of a particular
-  // type that the character owns. If the character has, e.g., two longswords,
-  // both get the bonus. Ignoring this bug for now.
-  for(var i = 0; i < goodies.length; i++) {
-    var goodie = goodies[i];
-    if((matchInfo = goodie.match(/^(.*) Of (\w+) ([+-]\d+)$/)) != null) {
-      var affected = matchInfo[2];
-      var bonus = matchInfo[3];
-      if(affected == 'Protection') {
-        rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
-          'goodies.' + goodie, '+=', 'source * ' + bonus
-        );
-      } else if("CharismaConstitutionDexterityIntelligenceStrengthWisdom".includes(affected)) {
-        rules.defineRule('abilityNotes.goodies' + affected + 'Adjustment',
-          'goodies.' + goodie, '+=', 'source * ' + bonus
-        );
-        rules.defineRule(affected.toLowerCase(),
-          'abilityNotes.goodies' + affected + 'Adjustment', '+', null
-        );
-      } else if(affected in rules.getChoices('skills')) {
-        rules.defineRule('skillNotes.goodies' + affected + 'Adjustment',
-          'goodies.' + goodie, '+=', 'source * ' + bonus
-        );
-        rules.defineRule('skillModifier.' + affected,
-          'skillNotes.goodies' + affected + 'Adjustment', '+', null
-        );
-      }
-    } else if((matchInfo = goodie.match(/^(.*) ([+-]\d+)$/)) != null ||
-              (matchInfo = goodie.match(/^(Masterwork) (.*)$/)) != null) {
-      var masterworkOnly = matchInfo[1] == 'Masterwork';
-      var equipment = masterworkOnly ? matchInfo[2] : matchInfo[1];
-      var equipmentNoSpace = equipment.replace(/\s+/g, '');
-      var bonus = masterworkOnly ? '1' : matchInfo[2];
-      if(equipment in rules.getChoices('armors')) {
-        rules.defineRule('skillNotes.goodiesSkillCheckAdjustment',
-          'goodies.' + goodie, '=', '1'
-        );
-        if(!masterworkOnly) {
-          rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
-            'goodies.' + goodie, '+=', bonus
-          );
-        }
-      } else if(equipment in rules.getChoices('weapons')) {
-        rules.defineRule(
-          'combatNotes.goodies' + equipmentNoSpace + 'AttackAdjustment',
-          'goodies.' + goodie, '+=', bonus
-        );
-        rules.defineRule('weaponAttackAdjustment.' + equipment,
-          'combatNotes.goodies' + equipmentNoSpace + 'AttackAdjustment', '+=', null
-        );
-        if(!masterworkOnly) {
-          rules.defineRule(
-            'combatNotes.goodies' + equipmentNoSpace + 'DamageAdjustment',
-            'goodies.' + goodie, '+=', bonus
-          );
-          rules.defineRule('weaponDamageAdjustment.' + equipment,
-            'combatNotes.goodies' + equipmentNoSpace + 'DamageAdjustment', '+=', null
-          );
-        }
-      } else
-        continue;
-    } else if(goodie == "Healer's Kit") {
-      rules.defineRule
-        ('skillNotes.goodiesHealAdjustment', "goodies.Healer's Kit", '+=', '2');
-      rules.defineRule
-        ('skillModifier.Heal', 'skillNotes.goodiesHealAdjustment', '+', null);
-    } else
-      continue;
-  }
-
-  rules.defineRule
-    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
-  rules.defineNote
-    ('skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by 1');
-  rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'skillNotes.goodiesSkillCheckAdjustment', '+', '-1'
-  );
 
 };
 
@@ -4742,7 +4739,6 @@ SRD35.initialEditorElements = function() {
     ['shield', 'Shield', 'select-one', 'shields'],
     ['weapons', 'Weapons', 'bag', 'weapons'],
     ['spells', 'Spells', 'fset', 'spells'],
-    ['goodies', 'Goodies', 'bag', 'goodies'],
     ['domains', 'Cleric Domains', 'set', 'domains'],
     ['specialize', 'Wizard Specialization', 'set', 'schools'],
     ['prohibit', 'Wizard Prohibition', 'set', 'schools'],
@@ -4899,12 +4895,6 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       attributes.notes =
         (notes != null ? attributes.notes + '\n' : '') + debug.join('\n');
     }
-  } else if(attribute == 'goodies') {
-    attrs = this.applyRules(attributes);
-    choices = ScribeUtils.getKeys(this.getChoices('goodies'));
-    howMany = Math.floor((attrs.level + 1) / 3);
-    pickAttrs(attributes, 'goodies.', choices, howMany -
-              ScribeUtils.sumMatching(attrs, /^goodies\./), 1);
   } else if(attribute == 'hitPoints') {
     attributes.hitPoints = 0;
     for(var klass in this.getChoices('levels')) {
