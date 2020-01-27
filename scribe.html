@@ -67,7 +67,6 @@ const PLUGINS = [
   'plugins/SRD35.js',
   '?plugins/SRD35NPC.js',
   '?plugins/SRD35Prestige.js',
-  'plugins/SRD35Experience.js',
   'plugins/SRD35SpellDescriptions.js',
   'plugins/SRD35SpellPoints.js',
   '?plugins/Eberron.js',
@@ -127,18 +126,6 @@ function CustomizeScribe() {
     Object.assign(SRD35.SUBFEATS, subfeats);
     Object.assign(SRD35.SUBSKILLS, subskills);
     SRD35.GOODIES = SRD35.GOODIES.concat(goodies);
-  }
-  if(window.SRD35Experience != null) {
-    if(window.SRD35 != null)
-      SRD35Experience.experienceRules(SRD35.rules);
-    if(window.Eberron != null)
-      SRD35Experience.experienceRules(Eberron.rules);
-    if(window.LastAge != null)
-      SRD35Experience.experienceRules(LastAge.rules);
-    if(window.Pathfinder != null)
-      SRD35Experience.experienceRules(Pathfinder.rules);
-    if(window.Realms != null)
-      SRD35Experience.experienceRules(Realms.rules);
   }
   if(window.SRD35SpellPoints != null) {
     if(window.SRD35 != null)

@@ -1,5 +1,5 @@
 /*
-Copyright 2019, James J. Hayes
+Copyright 2020, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -818,10 +818,17 @@ SRD35.abilityRules = function(rules) {
     '+', null,
     '', 'v', '0'
   );
+
 };
 
 /* Defines the rules related to character classes. */
 SRD35.classRules = function(rules, classes) {
+
+  rules.defineRule
+    ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
+  rules.defineRule('level',
+    'experience', '=', 'Math.floor((1 + Math.sqrt(1 + source / 125)) / 2)'
+  );
 
   rules.defineNote
     ('validationNotes.levelAllocation:%1 available vs. %2 allocated');
@@ -2321,6 +2328,10 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Origin', within: 'Description'},
             {name: 'Player', within: 'Description'},
           {name: 'AbilityStats', within: 'Attributes', separator: innerSep},
+            {name: 'ExperienceInfo', within: 'AbilityStats', separator: ''},
+              {name: 'Experience', within: 'ExperienceInfo'},
+              {name: 'Experience Needed', within: 'ExperienceInfo',
+               format: '/%V'},
             {name: 'Level', within: 'AbilityStats'},
             {name: 'SpeedInfo', within: 'AbilityStats', separator: ''},
               {name: 'Speed', within: 'SpeedInfo',
@@ -4696,6 +4707,7 @@ SRD35.initialEditorElements = function() {
   var editorElements = [
     ['name', 'Name', 'text', [20]],
     ['race', 'Race', 'select-one', 'races'],
+    ['experience', 'Experience', 'text', [8]],
     ['levels', 'Levels', 'bag', 'levels'],
     ['imageUrl', 'Image URL', 'text', [20]],
     ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
@@ -4908,22 +4920,25 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     pickAttrs(attributes, 'languages.', choices, howMany, 1);
   } else if(attribute == 'levels') {
+    attrs = this.applyRules(attributes);
     choices = ScribeUtils.getKeys(this.getChoices('levels'));
-    var soFar = ScribeUtils.sumMatching(attributes, /^levels\./); 
-    var level = attributes.level != null ? attributes.level : soFar;
-    if(level == 0) {
+    var level = attrs.level;
+    if(!level) {
       level = ScribeUtils.random(1, 100);
       level = level<=50 ? 1 : level<=75 ? 2 : level<=87 ? 3 : level<=93 ? 4 :
               level<=96 ? 5 : level<=98 ? 6 : level<=99 ? 7 : 8;
+      var max = level * (level + 1) * 1000 / 2 - 1;
+      var min = level * (level - 1) * 1000 / 2;
+      attributes.experience = ScribeUtils.random(min, max);
     }
-    howMany = level - soFar;
-    var classes = ScribeUtils.random(1, 100);
-    classes = classes < 60 ? 1 : classes < 90 ? 2 : 3;
-    if(classes > howMany) {
-      classes = ScribeUtils.random(1, howMany);
+    howMany = level - ScribeUtils.sumMatching(attrs, /^levels\./);
+    var classCount = ScribeUtils.random(1, 100);
+    classCount = classCount < 60 ? 1 : classCount < 90 ? 2 : 3;
+    if(classCount > howMany) {
+      classCount = ScribeUtils.random(1, howMany);
     }
     for(i = 1; howMany > 0; i++) {
-      var thisLevel = i == classes ? howMany : ScribeUtils.random(1, howMany);
+      var thisLevel = i == classCount ? howMany : ScribeUtils.random(1,howMany);
       var which = 'levels.' + choices[ScribeUtils.random(0, choices.length-1)];
       // Find a choice that is valid or can be made so
       while(attributes[which] == null) {
@@ -4941,7 +4956,6 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       attributes[which] += thisLevel;
       howMany -= thisLevel;
     }
-    attributes.level = level;
   } else if(attribute == 'name') {
     attributes['name'] = SRD35.randomName(attributes['race']);
   } else if(attribute == 'shield') {
