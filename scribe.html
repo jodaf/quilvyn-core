@@ -67,7 +67,6 @@ const PLUGINS = [
   'plugins/SRD35.js',
   '?plugins/SRD35NPC.js',
   '?plugins/SRD35Prestige.js',
-  'plugins/SRD35SpellDescriptions.js',
   'plugins/SRD35SpellPoints.js',
   '?plugins/Eberron.js',
   '?plugins/EberronPrestige.js',
@@ -136,18 +135,6 @@ function CustomizeScribe() {
       SRD35SpellPoints.spellPointRules(Pathfinder.rules);
     if(window.Realms != null)
       SRD35SpellPoints.spellPointRules(Realms.rules);
-  }
-  if(window.SRD35SpellDescriptions != null) {
-    if(window.SRD35 != null)
-      SRD35SpellDescriptions.spellRules(SRD35.rules);
-    if(window.Eberron != null)
-      SRD35SpellDescriptions.spellRules(Eberron.rules, null, Object.assign({}, SRD35SpellDescriptions.descriptions, Eberron.spellsDescriptions));
-    if(window.LastAge != null)
-      SRD35SpellDescriptions.spellRules(LastAge.rules, null, Object.assign({}, SRD35SpellDescriptions.descriptions, LastAge.spellsDescriptions));
-    if(window.Pathfinder != null)
-      SRD35SpellDescriptions.spellRules(Pathfinder.rules);
-    if(window.Realms != null)
-      SRD35SpellDescriptions.spellRules(Realms.rules, null, Object.assign({}, SRD35SpellDescriptions.descriptions, Realms.spellsDescriptions));
   }
 }
 
