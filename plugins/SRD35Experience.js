@@ -20,12 +20,12 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*
  * The SRD defines no method for level advancement.  This module defines level
  * advancement in terms of character experience points--1000 points for level
- * 2, 3000 for level 3, 6000 for level 4, and so forth.  The Experience
+ * 2, 3000 for level 3, 6000 for level 4, and so forth.  The SRD35Experience
  * function adds experience-based level advancement to the SRD35 rule set; it
  * contains an experienceRules method that can be invoked to add experience-
  * based level advancement to other rule sets.
  */
-function Experience() {
+function SRD35Experience() {
   if(window.SRD35 == null)
     return;
 }
@@ -34,7 +34,7 @@ function Experience() {
  * Adds experience-based level advancement to #rules#, along with adding
  * experience to the editor and character sheet.
  */
-Experience.experienceRules = function(rules) {
+SRD35Experience.experienceRules = function(rules) {
   var oldRandomizeOneAttribute = rules.randomizeOneAttribute;
   rules.randomizeOneAttribute = function(attributes, attribute) {
     oldRandomizeOneAttribute.apply(this, arguments);

@@ -21,12 +21,12 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * This module provides a placeholder for a spellPointRules method that defines
  * an alternate approach to learning and casting spells.  To add spell points
  * to a particular rule set, pass the rules to
- * CustomSpellPoints.spellPointRules in your CustomizeScribe function, e.g.,
+ * SRD35SpellPoints.spellPointRules in your CustomizeScribe function, e.g.,
  *
- *    CustomSpellPoints.spellPointRules(SRD35.rules);
+ *    SRD35SpellPoints.spellPointRules(SRD35.rules);
  *
  */
-function CustomSpellPoints() {
+function SRD35SpellPoints() {
   // empty
 }
 
@@ -35,7 +35,7 @@ function CustomSpellPoints() {
  * one spell point for each level of spell that can be cast in a day (i.e., 1
  * point for a first level spell, 2 for a second level spell, etc.)
  */
-CustomSpellPoints.spellPointRules = function(rules) {
+SRD35SpellPoints.spellPointRules = function(rules) {
   // Define the spell point attribute
   rules.defineRule('spellPoints', 'casterLevel', '=', '0');
   // Define rules to add the spellsPerDay values to the spellPoints attribute
