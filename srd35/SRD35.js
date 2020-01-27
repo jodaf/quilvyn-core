@@ -1842,10 +1842,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
 
   var features, notes;
 
-  // Backward-compatability for Scribe v1.4
-  rules.defineRule
-    ('companionMasterLevel', 'animalCompanionMasterLevel', '=', null);
-
   notes = [
     "companionNotes.celestialCompanion:" +
       "Smite Evil (+%V HP) 1/day, 60' darkvision, " +

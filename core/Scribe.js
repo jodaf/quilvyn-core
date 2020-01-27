@@ -1,7 +1,7 @@
 "use strict";
 
-var COPYRIGHT = 'Copyright 2019 James J. Hayes';
-var VERSION = '1.4.1';
+var COPYRIGHT = 'Copyright 2020 James J. Hayes';
+var VERSION = '1.5.0alpha';
 var ABOUT_TEXT =
 'Scribe Character Editor version ' + VERSION + '\n' +
 'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
