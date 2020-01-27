@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.4.1.15';
+var SRD35_VERSION = '1.5.0.1alpha';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3663,17 +3663,6 @@ SRD35.featRules = function(rules, feats, subfeats) {
     if(notes != null)
       rules.defineNote(notes);
   }
-
-};
-
-/*
- * Defines rules for a specified set of goodies (generally magic items). The
- * method knows how to define rules for "* Of <skill> [+-]<amount>", "* Of
- * <ability> [+-]<amount>", "* Of Protection [+-]]<amount>" (improves * AC),
- * "<weapon> [+-]<amount>", "Masterwork <weapon>", "<armor> [+-]<amount>",
- * "Masterwork <armor>", and "Healer's Kit".
- */
-SRD35.goodiesRules = function(rules, goodies) {
 
 };
 
