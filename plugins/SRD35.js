@@ -3202,6 +3202,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     rules.defineNote(weaponName + ':' + format);
 
     rules.defineRule('attackBonus.' + name,
+      'weapons.' + name, '?', null,
       attackBase, '=', null,
       'weaponAttackAdjustment.' + name, '+', null
     );
@@ -3438,13 +3439,13 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     'notes', '+=', "source.match(/^\\s*\\*[^;]*healer's kit/mi) ? 2 : 0"
   );
   rules.defineNote
-    ('skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by 1');
+    ('skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by %V');
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'skillNotes.goodiesSkillCheckAdjustment', '+', '-1'
+    'skillNotes.goodiesSkillCheckAdjustment', '+', 'source > 0 ? -source : null'
   );
   rules.defineRule('skillNotes.goodiesSkillCheckAdjustment',
     'goodiesAffectingAC', '=',
-      'source.reduce(' +
+      'source.filter(item => item.match(/\\b(armor|shield)\\b/i)).reduce(' +
         'function(total, item) {' +
           'return Math.max(total, item.match(/[-+]\\d|masterwork/) ? 1 : 0)' +
         '}' +
@@ -3457,6 +3458,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   for(var weapon in rules.getChoices('weapons')) {
     var weaponNoSpace = weapon.replace(/\s+/g, '');
     rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment',
+      'weapons.' + weapon, '?', null,
       'goodiesList', '=',
         'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
           'function(total, item) {' +
@@ -3468,6 +3470,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       'combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment', '+=', null
     );
     rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment',
+      'weapons.' + weapon, '?', null,
       'goodiesList', '=',
         'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
           'function(total, item) {' +
