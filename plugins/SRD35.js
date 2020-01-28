@@ -3210,12 +3210,12 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       rules.defineRule
         ('attackBonus.' + name, 'strengthModifier', '+', 'source < 0 ? -2 : 0');
     }
-    if(name == 'Longbow' || name == 'Shortbow')
+    if(name.match(/Blowgun|Crossbow|Dartgun|Gun/))
+      rules.defineRule('damageBonus.' + name, '', '=', '0');
+    else if(name.match(/Longbow|Shortbow/))
       rules.defineRule('damageBonus.' + name,
         'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
       );
-    else if(name.indexOf('Crossbow') >= 0 || name.startsWith('Composite'))
-      rules.defineRule('damageBonus.' + name, '', '=', '0');
     else if(pieces[1].match(/1h|2h/))
       rules.defineRule('damageBonus.' + name,
         'combatNotes.strengthDamageAdjustment', '=', null,
@@ -3479,6 +3479,16 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       'combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment', '+=', null
     );
   }
+  rules.defineRule('goodiesCompositeStrDamageAdjustment',
+    'goodiesList', '?', 'source.filter(item => item.match(/composite/i)).filter(item => item.match(/masterwork|\\+\\d/i)).length > 0',
+    'strengthModifier', '=', 'source > 0 ? source : null'
+  );
+  rules.defineRule('combatNotes.goodiesCompositeLongbowDamageAdjustment',
+    'goodiesCompositeStrDamageAdjustment', '+', null
+  );
+  rules.defineRule('combatNotes.goodiesCompositeShortbowDamageAdjustment',
+    'goodiesCompositeStrDamageAdjustment', '+', null
+  );
 
 };
 
