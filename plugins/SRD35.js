@@ -5645,42 +5645,48 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     pickAttrs(attributes, 'languages.', choices, howMany, 1);
   } else if(attribute == 'levels') {
-    attrs = this.applyRules(attributes);
-    choices = ScribeUtils.getKeys(this.getChoices('levels'));
-    var level = attrs.level;
-    if(!level) {
-      level = ScribeUtils.random(1, 100);
-      level = level<=50 ? 1 : level<=75 ? 2 : level<=87 ? 3 : level<=93 ? 4 :
-              level<=96 ? 5 : level<=98 ? 6 : level<=99 ? 7 : 8;
-      var max = level * (level + 1) * 1000 / 2 - 1;
-      var min = level * (level - 1) * 1000 / 2;
+    var assignedLevels = ScribeUtils.sumMatching(attributes, /^levels\./);
+    if(!attributes.level) {
+      if(assignedLevels > 0)
+        attributes.level = assignedLevels
+      else if(attributes.experience)
+        attributes.level =
+          Math.floor((1 + Math.sqrt(1 + attributes.experience/125)) / 2);
+      else
+        // Random 1..8 with each value half as likely as the previous one.
+        attributes.level =
+          9 - Math.floor(Math.log(ScribeUtils.random(2, 511)) / Math.log(2));
+    }
+    var max = attributes.level * (attributes.level + 1) * 1000 / 2 - 1;
+    var min = attributes.level * (attributes.level - 1) * 1000 / 2;
+    if(!attributes.experience || attributes.experience < min)
       attributes.experience = ScribeUtils.random(min, max);
-    }
-    howMany = level - ScribeUtils.sumMatching(attrs, /^levels\./);
-    var classCount = ScribeUtils.random(1, 100);
-    classCount = classCount < 60 ? 1 : classCount < 90 ? 2 : 3;
-    if(classCount > howMany) {
-      classCount = ScribeUtils.random(1, howMany);
-    }
-    for(i = 1; howMany > 0; i++) {
-      var thisLevel = i == classCount ? howMany : ScribeUtils.random(1,howMany);
-      var which = 'levels.' + choices[ScribeUtils.random(0, choices.length-1)];
-      // Find a choice that is valid or can be made so
-      while(attributes[which] == null) {
+    choices = ScribeUtils.getKeys(this.getChoices('levels'));
+    if(assignedLevels == 0) {
+      var classesToChoose =
+        attributes.level == 1 || ScribeUtils.random(1,10) < 9 ? 1 : 2;
+      // Find choices that are valid or can be made so
+      while(classesToChoose > 0) {
+        var which = 'levels.' + choices[ScribeUtils.random(0,choices.length-1)];
         attributes[which] = 1;
         if(ScribeUtils.sumMatching(this.applyRules(attributes),
              /^validationNotes.*(BaseAttack|CasterLevel|Spells)/) == 0) {
-          // ok
-          attributes[which] = 0;
+          assignedLevels++;
+          classesToChoose--;
         } else {
-          // try another
           delete attributes[which];
-          which = 'levels.'+choices[ScribeUtils.random(0, choices.length-1)];
         }
       }
-      attributes[which] += thisLevel;
-      howMany -= thisLevel;
     }
+    while(assignedLevels < attributes.level) {
+      var which = 'levels.' + choices[ScribeUtils.random(0,choices.length-1)];
+      while(!attributes[which]) {
+        which = 'levels.' + choices[ScribeUtils.random(0,choices.length-1)];
+      }
+      attributes[which]++;
+      assignedLevels++;
+    }
+    delete attributes.level;
   } else if(attribute == 'name') {
     attributes['name'] = SRD35.randomName(attributes['race']);
   } else if(attribute == 'shield') {
