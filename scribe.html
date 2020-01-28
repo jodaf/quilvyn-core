@@ -90,15 +90,11 @@ const PLUGINS = [
  */
 function CustomizeScribe() {
   // The first part of this implementation provides an easy way to define
-  // subfeats, subskills (e.g., Weapon Focus (Longbow), Craft (Alchemy))
-  // and goodies to the SRD35 and Pathfinder rule sets.  Each element of the
+  // subfeats and subskills (e.g., Weapon Focus (Longbow), Craft (Alchemy))
+  // to the SRD35 and Pathfinder rule sets.  Each element of the
   // subfeats/subskills variables gives a feat/skill and a slash-delimited list
   // of subfeat targets.  Modify the values in each list to determine which
   // subfeats/subskills are defined in your Scribe installation.
-  // Scribe automatically generates rules for goodies with one of these forms:
-  //   Masterwork <armor>|<weapon>
-  //   <armor>|<weapon> +<amount>
-  //   <item> Of <skill>|<ability>|Protection +<amount>
   var subfeats = {
     'Greater Weapon Focus':'',
     'Greater Weapon Specialization':'',
@@ -113,8 +109,6 @@ function CustomizeScribe() {
     'Craft':'Alchemy',
     'Profession':''
   };
-  var goodies = [
-  ];
   // The second part applies specific customizations to the rules.
   if(window.Pathfinder) {
     Object.assign(Pathfinder.SUBFEATS, subfeats);
@@ -124,7 +118,25 @@ function CustomizeScribe() {
   if(window.SRD35) {
     Object.assign(SRD35.SUBFEATS, subfeats);
     Object.assign(SRD35.SUBSKILLS, subskills);
-    SRD35.GOODIES = SRD35.GOODIES.concat(goodies);
+  }
+  var selectedPlugins = [];
+  try {
+    selectedPlugins = localStorage.getItem('ScribeSelectedPlugins').split(',');
+  } catch(err) {
+    // empty
+  }
+  for(var i = 0; i < selectedPlugins.length; i++) {
+    var funcName = selectedPlugins[i].replace(/.*\/|\.js|\?| *\(.*\)/g, '');
+    if(window[funcName]) {
+      console.log('Invoke ' + funcName);
+      window[funcName]();
+      if(funcName == 'FirstEdition') {
+        FirstEdition.USE_OSRIC_RULES = !FirstEdition.USE_OSRIC_RULES;
+        window[funcName]();
+      }
+    } else {
+      alert('Cannot call ' + funcName);
+    }
   }
   if(window.SRD35SpellPoints != null) {
     if(window.SRD35 != null)
@@ -178,21 +190,20 @@ if(pluginPopup != null) {
     '<h2>Select Scribe Plugins to Use</h2>\n' +
     '<form name="frm"><table>\n'
   );
-  var storedDefaultRules = null;
+  var selectedPlugins = [];
   try {
-    storedDefaultRules = localStorage.getItem('ScribeDefaultRules');
+    selectedPlugins = localStorage.getItem('ScribeSelectedPlugins').split(',');
   } catch(err) {
     // empty
   }
-  if(storedDefaultRules == null)
-    storedDefaultRules = '';
   for(var i = 0; i < PLUGINS.length; i++) {
     if(PLUGINS[i] == null)
       continue;
-    var label = PLUGINS[i].replace(/.*\/|\.js|\?/g, '');
+    var url = PLUGINS[i].replace('?', '');
+    var label = url.replace(/.*\/|\.js/g, '');
     label = label.replace(/([a-z0-9])(?=[A-Z])/g, '$1 ');
     var options = !PLUGINS[i].startsWith('?') ? ' checked=true disabled=true' :
-                  storedDefaultRules.indexOf(label) > 0 ? ' checked=true' : '';
+                  selectedPlugins.indexOf(url) > 0 ? ' checked=true' : '';
     pluginPopup.document.write('<tr><td><input name="plugin' + i + '" type="checkbox"' + options + '/></td><td>' + label + '</td></tr>\n');
   }
   pluginPopup.document.write(
@@ -209,11 +220,10 @@ function LoadPlugins() {
     setTimeout('LoadPlugins()', 1000);
     return;
   }
-  var storedDefaultRules = '';
+  var selectedPlugins = [];
   for(var i = 0; i < PLUGINS.length; i++) {
-    if(PLUGINS[i] == null)
-      continue;
-    if(pluginPopup.document.forms[0]['plugin' + i].checked) {
+    if(PLUGINS[i] != null &&
+       pluginPopup.document.forms[0]['plugin' + i].checked) {
       if(PLUGINS[i].startsWith('?')) {
         var scriptTag = document.createElement('script');
         scriptTag.src = SCRIBE_HOME + PLUGINS[i].replace(/ *\(.*\)|\?/g, '');
@@ -221,13 +231,11 @@ function LoadPlugins() {
         scriptTag.onload = new Function('window["plugin' + i + 'Loaded"]=true;');
         document.body.appendChild(scriptTag);
       }
-      var label = PLUGINS[i].replace(/.*\/|\.js|\?/g, '');
-      label = label.replace(/([a-z0-9])(?=[A-Z])/g, '$1 ');
-      storedDefaultRules += label;
+      selectedPlugins.push(PLUGINS[i].replace('?', ''));
     }
   }
   try {
-    localStorage.setItem('ScribeDefaultRules', storedDefaultRules);
+    localStorage.setItem('ScribeSelectedPlugins', selectedPlugins.join(','));
   } catch(err) {
     // empty
   }
@@ -236,31 +244,12 @@ function LoadPlugins() {
 
 function StartScribe() {
   for(var i = 0; i < PLUGINS.length; i++) {
-    if(PLUGINS[i] == null)
-      continue;
-    if(PLUGINS[i].startsWith('?') &&
+    if(PLUGINS[i] != null &&
+       PLUGINS[i].startsWith('?') &&
        pluginPopup.document.forms[0]['plugin' + i].checked &&
        !window['plugin' + i + 'Loaded']) {
       setTimeout('StartScribe()', 1000);
       return;
-    }
-  }
-  for(var i = 0; i < PLUGINS.length; i++) {
-    if(PLUGINS[i] == null)
-      continue;
-    if(!PLUGINS[i].startsWith('?') ||
-       pluginPopup.document.forms[0]['plugin' + i].checked) {
-      var funcName = PLUGINS[i].replace(/.*\/|\.js|\?| *\(.*\)/g, '');
-      if(window[funcName]) {
-        console.log('Invoke ' + funcName);
-        window[funcName]();
-        if(funcName == 'FirstEdition') {
-          FirstEdition.USE_OSRIC_RULES = !FirstEdition.USE_OSRIC_RULES;
-          window[funcName]();
-        }
-      } else {
-        alert('Cannot call ' + funcName);
-      }
     }
   }
   Scribe();
