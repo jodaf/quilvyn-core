@@ -3435,9 +3435,6 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       'skillNotes.goodies' + skill + 'Adjustment', '+', null
     );
   }
-  rules.defineRule('skillNotes.goodiesHealAdjustment',
-    'notes', '+=', "source.match(/^\\s*\\*[^;]*healer's kit/mi) ? 2 : 0"
-  );
   rules.defineNote
     ('skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by %V');
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
