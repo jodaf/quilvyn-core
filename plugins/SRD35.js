@@ -3447,7 +3447,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     'goodiesAffectingAC', '=',
       'source.filter(item => item.match(/\\b(armor|shield)\\b/i)).reduce(' +
         'function(total, item) {' +
-          'return Math.max(total, item.match(/[-+]\\d|masterwork/) ? 1 : 0)' +
+          'return Math.max(total, item.match(/[-+]\\d|masterwork/i) ? 1 : 0)' +
         '}' +
       ', 0)'
   );
