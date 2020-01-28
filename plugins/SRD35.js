@@ -6066,6 +6066,9 @@ SRD35.ruleNotes = function() {
     '    that characters with a buckler wield their weapons one-handed and\n' +
     '    that characters with no buckler or shield wield with both hands.\n' +
     '  </li><li>\n' +
+    '    Scribe assumes that masterwork composite bows are specially built\n' +
+    '    to allow a strength damage bonus to be applied.\n' +
+    '  </li><li>\n' +
     '    A few feats have been renamed to emphasize the relationship\n' +
     '    between similar feats: "Shield Proficiency" and "Tower Shield\n' +
     '    Proficiency" to "Shield Proficiency (Heavy)" and "Shield\n' +
