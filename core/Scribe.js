@@ -133,7 +133,7 @@ function Scribe() {
     scribeTab.document.close();
   }
 
-  Scribe.randomizeCharacter(false);
+  Scribe.newCharacter();
 
 }
 
@@ -346,6 +346,31 @@ Scribe.openCharacter = function(path) {
   Scribe.refreshSheet();
 }
 
+/* Replaces the current character with one with empty attributes. */
+Scribe.newCharacter = function() {
+  character = {};
+  var elements = ruleSet.getEditorElements();
+  for(var i = 0; i < elements.length; i++) {
+    var element = elements[i];
+    var label = element[1];
+    var name = element[0];
+    var params = element[3];
+    var type = element[2];
+    if(type == 'checkbox') {
+      character[name] = 0;
+    } else if(type == 'select-one') {
+      var options = typeof(params) == 'string' ? ScribeUtils.getKeys(ruleSet.getChoices(params)) : params;
+      character[name] = options[0];
+    } else if(type == 'text' && params[0] >= 5) {
+      character[name] = name == 'experience' ? 0 : ('No ' + label);
+    }
+  }
+  characterPath = '';
+  characterCache[characterPath] = ScribeUtils.clone(character);
+  Scribe.refreshEditor(false);
+  Scribe.refreshSheet();
+};
+
 /*
  * Replaces the current character with one that has all randomized attributes.
  * If #prompt# is true, allows the user to specify certain attributes.
@@ -361,10 +386,10 @@ Scribe.randomizeCharacter = function(prompt) {
       return Scribe.randomizeCharacter(false);
     }
     var htmlBits = [
-      '<html><head><title>New Character</title></head>',
+      '<html><head><title>Random Character</title></head>',
       '<body bgcolor="' + BACKGROUND + '">',
       '<img src="' + LOGO_URL + ' "/><br/>',
-      '<h2>New Character Attributes</h2>',
+      '<h2>Character Attributes</h2>',
       '<form name="frm"><table>'];
     presets = ScribeUtils.getKeys(presets);
     // Copy info for each potential preset from the editor form to the loading
@@ -500,7 +525,7 @@ Scribe.refreshEditor = function(redraw) {
   }
   characterOpts = characterOpts.sort();
   characterOpts.unshift(
-    '---choose one---', 'New...', 'Save', 'Save As...', 'HTML', 'Import...', 'Export', 'Delete...', 'Summary'
+    '---choose one---', 'New', 'Random...', 'Save', 'Save As...', 'HTML', 'Import...', 'Export', 'Delete...', 'Summary'
   );
 
   InputSetOptions(editForm.character, characterOpts);
@@ -653,7 +678,7 @@ Scribe.sheetHtml = function(attrs) {
   }
 
   return '<' + '!' + '-- Generated ' + new Date().toString() +
-           ' by Scribe version ' + VERSION + '; ' + 
+           ' by Scribe version ' + VERSION + '; ' +
            ruleSet.getName() + ' rule set version ' + ruleSet.getVersion() +
            ' --' + '>\n' +
          '<html>\n' +
@@ -808,7 +833,9 @@ Scribe.update = function(input) {
       ; /* empty */
     else if(value == 'Import...')
       Scribe.importCharacters();
-    else if(value == 'New...')
+    else if(value == 'New')
+      Scribe.newCharacter();
+    else if(value == 'Random...')
       Scribe.randomizeCharacter(true);
     else
       Scribe.openCharacter(value);
