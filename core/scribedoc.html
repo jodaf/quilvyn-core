@@ -28,28 +28,27 @@
   <li><a href="#save">Saving Characters</a></li>
   <li><a href="#sheet">The Character Sheet</a></li>
   <li><a href="#validation">Character Validation</a></li>
+  <li><a href="#goodies">Magic Items and Special Possessions</a></li>
   <li><a href="#custom">Customization - Intro</a></li>
   <li><a href="#customChoices">Customization - Adding Choices</a></li>
   <li><a href="#customRules">Customization - Adding Rules</a></li>
   <li><a href="#customSheet">Customization - Adding to the Character Sheet</a></li>
   <li><a href="#customClass">Customization - Adding Classes</a></li>
-  <li><a href="#customMagic">Customization - Adding Magic Items</a></li>
 </ul>
 </p>
 
 <a name="intro"><h3>Introduction</h3></a>
 <p>
-Scribe is a web-based editor for RPG characters, particularly those generated
-using rules derived from the System Reference Document from Wizards of the
-Coast.  It allows you to enter and modify basic information about a
+Scribe is a browser-based editor for RPG characters, particularly those
+generated using rules derived from the System Reference Document from Wizards
+of the Coast.  It allows you to enter and modify basic information about a
 character&#151;race, class levels, attributes like strength, and so on&#151;and
 applies the rules from SRD v3.5 and other rule sets to modify these basic
 attributes and calculate computed attributes like saving throw bonuses and
 armor class.  The program formats character attributes into a compact
 (typically one page) character sheet web page that you can print for reference
 during game play.  You can save character information and later reload it into
-Scribe to update the character's attributes.  Customization features allow you
-to incorporate house rules into both the editor and character sheet.
+Scribe to update the character's attributes.
 </p>
 
 <a name="install"><h3>Installing and Running Scribe</h3></a>
@@ -62,7 +61,7 @@ SRD35.js, ogl.txt, and scribe.html.  Documentation is provided by
 scribedoc.html and a pair of image files, editingobjects.gif and
 sheetfeatures.gif.  In addition, the download contains SRD35NPC.js and
 SRD35Prestige.js, which define the non-player and prestige classes from the SRD
-v3.5, as well as sample customization files.  Using these is optional.
+v3.5.  Using these is optional.
 </p><p>
 Scribe has been successfully tested using these browsers
 <ul>
@@ -84,20 +83,23 @@ editor customizations in scribe.html.  See the <a href="#custom">customization
 section</a> for details.
 </p><p>
 To run Scribe, simply use one of the web browsers listed above to open your
-local copy of scribe.html.  Scribe is written in JavaScript and makes extensive
-use of pop-up windows, so you must have both of these enabled in your browser.
+local copy of scribe.html. After selecting the plugins you wish to use, hit
+the "Ok" button to start the character editor. Scribe is written in JavaScript
+and makes extensive use of pop-up windows, so you must have both of these
+enabled in your browser.
 </p>
 
 <a name="open"><h3>Generating and Loading Characters</h3></a>
 <p>
 Generating new characters and loading previously saved ones are both handled
 through Scribe's Character menu.  The choices in this menu allow you to
-generate a new character with random attribute values, reload the information
-for a previously-saved character, or import a character from information saved
-from a different browser.  When you ask for a new character, Scribe opens a
-form that allows you to specify certain attributes, such as race and class
-level(s).  This helps in the generation of NPCs.  You can either specify these
-attributes, or leave the form unchanged to have Scribe choose them randomly.
+generate a new character, generate a character with random attribute values,
+reload the information for a previously-saved character, or import a character
+from information saved from a different browser.  When you ask for a random
+character, Scribe opens a form that allows you to specify certain attributes,
+such as race and class level(s).  This helps in the generation of NPCs.  You
+can either specify these attributes, or leave the form unchanged to have Scribe
+choose them randomly.
 </p><p>
 The Character menu's Import option allows you to transfer character information
 saved from another browser.  In the Import pop-up window, paste the character
@@ -131,11 +133,10 @@ character has a variable score associated with the attribute.  To change one of
 these attributes, first use the pull-down menu to select a particular
 attribute, then click the checkbox or enter a value in the text field.  A
 "Clear All" button next to set menus lets you clear all attributes in a set
-with a single click. The set menu for spells has an accompanying filter box
-that allows you to determine which spells appear in its menu. Because hundreds
-of spells and variations are available, this menu allows you to limit the
-spell shown to those of interest, e.g., cleric spells. Only those spells that
-contain the text in this box are included in the spells menu.
+with a single click. Some set menus have an accompanying filter box that allows
+you to determine which choices appear in its menu. This menu allows you to limit
+the choices shown to those of interest; only those choices that contain the
+text in this box are displayed in the menu.
 </p><p>
 In a separate browser frame or window, Scribe displays a character sheet based
 on the values of the editor.  Every time you change a value in the editor,
@@ -159,16 +160,15 @@ Scribe, and the "Help" button opens one that contains this document.  The
 "Rules" pull-down allows you to change between different character-generation
 rule sets&#151;Scribe comes with support for the v3.5 System Reference
 Document, and plug-ins for particular campaign settings are available.  The
-"Attributes" button opens a window that lists the attributes computed by the
-current rule set; this is used in developing your own custom rules.  The
-"Character" menu is discussed in <a href='#open'>Generating and Loading
-Characters</a>.  The "Summary" item in the character menu opens a window
-with a table that summarizes attributes from all characters that you've opened
-since starting Scribe.  This is intended to assist in planning and running
-adventures by providing a compact summary of the abilities of all the
-characters in a party.  The "HTML" item in the character menu is described
-in <a href='#save'>Saving Characters</a>.  The "Sheet Style" pull-down allows
-you to choose between different character sheet formats.
+buttons next to this open pull-down open windows with details about the
+particular rule set.  The "Character" menu is discussed in
+<a href='#open'>Generating and Loading Characters</a>.  The "Summary" item in
+the character menu opens a window with a table that summarizes attributes from
+all characters that you've opened since starting Scribe.  This is intended to
+assist in planning and running adventures by providing a compact summary of the
+abilities of all the characters in a party.  The "HTML" item in the character
+menu is described in <a href='#save'>Saving Characters</a>.  The "Sheet Style"
+pull-down allows you to choose between different character sheet formats.
 </p>
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
@@ -193,9 +193,9 @@ little creative editing.
 
 <a name="save"><h3>Saving Characters</h3></a>
 <p>
-For security purposes, web programs like Scribe are prohibited from writing
-files to your hard disk.  Instead, character information is saved to your
-browser's persistent storage, where Scribe can access it later.  The "Save" and
+For security purposes, programs like Scribe are prohibited from writing files
+to your hard disk.  Instead, character information is saved to your browser's
+persistent storage, where Scribe can access it later.  The "Save" and
 "Save As..." items from the Character menu write information about the current
 character to the browser's persistent storage.  You can later retrieve a saved
 character by selecting the character path from the Character menu.
@@ -233,9 +233,7 @@ explanation.
     wisdom, etc. are shown in parentheses after the attribute value.
   </li><li>
     In the skills section, the sheet shows the number of points allocated to
-    each skill.  Each skill modifier, computed by dividing the points of
-    cross-class skills by two and adding the associated ability modifier and
-    any other applicable modifiers, appears in parentheses after the skill
+    each skill.  Each skill modifier appears in parentheses after the skill
     point value.
   </li><li>
     Some attribute notes appear in italics; others in plain text.  The
@@ -269,6 +267,31 @@ little sense.  For example, Scribe will warn you about a character whose Track
 feat is made useless by the absence of any ranks in the Survival skill.
 </p>
 
+<a name="goodies"><h3>Magic Items and Special Possessions</h3></a>
+<p>
+You can list possessions in the Notes section of the character sheet. Scribe
+assumes that any lines in this section that begin with an asterisk mark items
+that affect character attributes&#151;abilities, skills, armor class, etc. To
+have Scribe include these items in its calculations, include the name of the
+affected attribute and the amount of bonus with the item. For example, including
+these three lines in the Notes section will raise the character's strength by
+two, their Hide skill by four, and their attack and damage with longswords by 1:
+</p>
+<p>
+* Ring of Strength +2<br/>
+* Cloak of Shielding (Hide +4)<br/>
+* +1 Longsword
+</p>
+<p>
+Along with bonuses (and negative values for harmful items), Scribe computes the
+modifiers for armor and weapons listed as having masterwork quality. Multiple
+items can be listed on a single line separated by semicolons, so the above
+three items can also be listed as:
+</p>
+<p>
+* Ring of Strength +2; Cloak of Shielding (Hide +4); +1 Longsword
+</p>
+
 <a name="custom"><h3>Customization</h3></a>
 <p>
 Part of the fun of running a game is being able to customize it to your liking.
@@ -277,9 +300,8 @@ monsters and, depending on how ambitious you are, even new attributes, classes,
 and races.  Scribe provides support for customizing the editor display, the
 character sheet, and the rules it applies so that you can get it working with
 the special modifications of your game.  Doing so involves writing a bit of
-JavaScript code, but Scribe provides easy-to-use facilities
-that allow you to apply significant customization without becoming a JavaScript
-expert.
+JavaScript code, but Scribe provides easy-to-use facilities that allow you to
+apply significant customization without becoming a JavaScript expert.
 </p><p>
 To add custom rules and information to Scribe, you need to fill in the
 CustomizeScribe function found in scribe.html with commands that perform your
@@ -301,8 +323,7 @@ SRD35.defineChoice('languages', 'Dolphin', 'Whale');
 </code></p><p>
 Scribe will sort your additional choice(s) into the list.  The lists you can
 modify in this fashion are 'alignments', 'classes', 'domains', 'genders',
-'goodies' (magic items), 'languages', 'races', 'selectableFeatures', and
-'shields'.
+'languages', 'races', 'selectableFeatures', and 'shields'.
 </p><p>
 Other lists that you can modify require you to supply additional information
 about the new choices.  For example, if you add new skills to Scribe's Skills
@@ -533,17 +554,6 @@ SRD35.ATTACK_BONUS_GOOD, SRD35.ATTACK_BONUS_AVERAGE, SRD35.ATTACK_BONUS_POOR,
 SRD35.PROFICIENCY_HEAVY, SRD35.PROFICIENCY_LIGHT, SRD35.PROFICIENCY_MEDIUM,
 SRD35.PROFICIENCY_NONE, SRD35.PROFICIENCY_TOWER, SRD35.SAVE_BONUS_GOOD,
 SRD35.SAVE_BONUS_POOR
-</p>
-
-<a name="customMagic"><h3>Customization - Adding Magic Items</h3></a>
-<p>
-The SRD contains a large selection of magic items, and most players invent
-their own additional magic items from time to time.  Because of this, Scribe
-presents only a minimal selection of magic items in its "Goodies" menu, leaving
-it to you to customize the list to include the specific items that appear in
-your campaign.  See the other customization sections for information on how
-to add additional items to the Goodies list and the rules that specify the
-effects of new items.
 </p>
 
 </body>

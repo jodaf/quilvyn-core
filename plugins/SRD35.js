@@ -3186,7 +3186,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     var range = matchInfo[9];
     var secondDamage = matchInfo[3];
     var weaponName = 'weapons.' + name;
-    var attackBase = !range || 'ClubDaggerLight HammerShortspearSpearTrident'.indexOf(name) >= 0 ? 'meleeAttack' : 'rangedAttack';
+    var attackBase = !range || 'ClubDaggerLight HammerSaiShortspearSpearTrident'.indexOf(name) >= 0 ? 'meleeAttack' : 'rangedAttack';
 
     var rangeVar = !range ? null : secondDamage ? 7 : 5;
     var threatVar = secondDamage ? 6 : 4;
@@ -6060,10 +6060,10 @@ SRD35.ruleNotes = function() {
     '<ul>\n' +
     '  <li>\n' +
     '    Although they have a range increment, the weapons Club, Dagger,\n' +
-    '    Light Hammer, Shortspear, Spear, and Trident are all considered\n' +
-    '    melee weapons.  Substitute the ranged attack attribute for the\n' +
-    '    melee attack attribute given on the character sheet when any of\n' +
-    '    these is thrown.\n' +
+    '    Light Hammer, Sai, Shortspear, Spear, and Trident are all\n' +
+    '    considered melee weapons.  Substitute the ranged attack attribute\n' +
+    '    for the melee attack attribute given on the character sheet when\n' +
+    '    any of these is thrown.\n' +
     '  </li><li>\n' +
     '    The armor class of characters with the Dodge feat includes a +1\n' +
     '    bonus that applies only to one foe at a time.\n' +
@@ -6083,18 +6083,6 @@ SRD35.ruleNotes = function() {
     '    Weapon Proficiency" to "Weapon Proficiency" (a base feat that\n' +
     '    should be used to define weapon-specific subfeats).\n' +
     '  </li><li>\n' +
-    '    The distinction between feats and selectable features is\n' +
-    '    arbitrary.  Selectable features could be treated as feats\n' +
-    '    restricted to specific classes; however, doing so would\n' +
-    '    significantly clutter up the feat selection list.\n' +
-    '  </li><li>\n' +
-    '    Monk bonus feats are instead treated as selectable features,\n' +
-    '    because the selections are so restricted and because monks do not\n' +
-    '    need to meet the normal requirements for the feats.\n' +
-    '  </li><li>\n' +
-    '    Use the animal companion editing fields to enter the creature\n' +
-    '    types and names of Paladin mounts and Blackguard fiendish servants.\n'+
-    '  </li><li>\n' +
     '    The Commoner NPC class is given an extra feat to represent the\n' +
     '    class\'s single simple weapon proficiency.\n' +
     '  </li>\n' +
@@ -6107,9 +6095,8 @@ SRD35.ruleNotes = function() {
     '  <li>\n' +
     '    Racial favored class is not reported.\n' +
     '  </li><li>\n' +
-    '    You can only select the feats Extra Turning, Spell Mastery,\n' +
-    '    and Toughness once.  Multiple selections of these feats can be\n' +
-    '    handled by defining custom feats (e.g., Improved Toughness).\n' +
+    '    You can only select each feat once. Multiple selections of feats\n' +
+    '    that allow it can be managed by defining custom feats.\n' +
     '  </li><li>\n' +
     '    Scribe doesn\'t support double weapons where the two attacks have\n' +
     '    different critical mutipliers. In the predefined weapons this\n' +
@@ -6121,11 +6108,6 @@ SRD35.ruleNotes = function() {
     '    Scribe provides no place other than the notes section to enter\n' +
     '    mundane possessions like lanterns and rope. The same goes for\n' +
     '    physical description.\n' +
-    '  </li><li>\n' +
-    '    Scribe presently defines no way to add additional types of armor\n' +
-    '    because of all the extra information that would need to be\n' +
-    '    specified&#151;arcane spell failure percentage, AC bonus, max\n' +
-    '    dexterity bonus, skill check penalty, etc.\n' +
     '  </li><li>\n' +
     '    Scribe has problems dealing with attributes containing an\n' +
     '    uncapitalized word.  This is why, e.g., Scribe defines the skills\n' +
