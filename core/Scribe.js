@@ -148,11 +148,13 @@ Scribe.addRuleSet = function(rs) {
 /* Interacts w/user to delete a character from persistent storage. */
 Scribe.deleteCharacter = function() {
   var prompt = 'Enter character to delete:';
+  var paths = [];
   for(var path in storage) {
     if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
-      prompt += "\n" + path.substring(PERSISTENT_CHARACTER_PREFIX.length);
+      paths.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
   }
-  var path = editWindow.prompt(prompt, '');
+  paths.sort();
+  var path = editWindow.prompt(prompt + '\n' + paths.join('\n'), '');
   if(path == null)
     // User cancel
     return;
