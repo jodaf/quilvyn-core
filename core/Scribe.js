@@ -557,7 +557,7 @@ Scribe.refreshEditor = function(redraw) {
     } else {
       value = character[name + '.' + InputGetValue(sel)];
     }
-    if(InputGetValue(input) != value)
+    if(InputGetValue(input) !== value)
       InputSetValue(input, value);
   }
 
