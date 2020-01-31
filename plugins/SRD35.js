@@ -2023,7 +2023,7 @@ SRD35.classRules = function(rules, classes) {
         'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
       );
       rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
-      rules.defineRule('weaponDamage.Unarmed',
+      rules.defineRule('monkUnarmedDamage',
         'levels.Monk', '=',
         'source < 12 ? ("d" + (6 + Math.floor(source / 4) * 2)) : ' +
         '              ("2d" + (6 + Math.floor((source - 12) / 4) * 2))'
@@ -2542,9 +2542,11 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionStats.HD', '^', null
   );
   rules.defineRule('companionNotes.celestialCompanion.1',
+    'features.Celestial Companion', '?', null,
     'companionStats.HD', '=', 'Math.floor((source + 7) / 8) * 5'
   );
   rules.defineRule('companionNotes.celestialCompanion.2',
+    'features.Celestial Companion', '?', null,
     'companionStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
   );
   rules.defineRule('companionNotes.fiendishCompanion',
@@ -2553,15 +2555,16 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionStats.HD', '^', null
   );
   rules.defineRule('companionNotes.fiendishCompanion.1',
+    'features.Fiendish Companion', '?', null,
     'companionStats.HD', '=', 'Math.floor((source + 7) / 8) * 5'
   );
   rules.defineRule('companionNotes.fiendishCompanion.2',
+    'features.Fiendish Companion', '?', null,
     'companionStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
   );
   rules.defineRule('companionStats.Melee.2',
     'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
   );
-  rules.defineRule('companionStats.Melee.3', '', '=', '""');
   rules.defineRule('companionStats.Melee.4',
     'companionDamAdj2', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
     'companionStats.Melee.3', '=', 'source == "" ? "" : null'
@@ -2685,6 +2688,10 @@ SRD35.companionRules = function(rules, companions, familiars) {
             rules.defineRule('companionStats.Melee.3',
               'animalCompanion.' + companion, '=', '",' + matchInfo[1] + '"'
             );
+          } else {
+            rules.defineRule('companionStats.Melee.3',
+              'animalCompanion.' + companion, '=', '""'
+            );
           }
         } else if(matchInfo[1] == 'Level') {
           rules.defineRule('companionMasterLevel',
@@ -2729,7 +2736,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
       } else {
         // Disable N/A companion features
         rules.defineRule
-          ('companionFeatures.' + feature, 'companionOrFamiliar', '?', '1');
+          ('companionFeatures.' + feature, 'companionOrFamiliar', '?', null);
       }
     }
     notes = [
@@ -2857,6 +2864,8 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('companionStats.Int', 'familiarLevel', '^', 'source + 5');
     rules.defineRule('companionStats.Melee', 'familiarAttack', '=', null);
     rules.defineRule('companionStats.Melee.2', 'familiarAttack', '=', '""');
+    rules.defineRule('companionStats.Melee.3', 'familiarAttack', '=', '""');
+    rules.defineRule('companionStats.Melee.4', 'familiarAttack', '=', '""');
     rules.defineRule('companionStats.Name', 'familiarName', '=', null);
     rules.defineRule('companionStats.Ref', 'familiarRef', '=', null);
     rules.defineRule('companionStats.SR',
@@ -3210,6 +3219,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       rules.defineRule
         ('attackBonus.' + name, 'strengthModifier', '+', 'source < 0 ? -2 : 0');
     }
+    rules.defineRule('damageBonus.' + name, 'weapons.' + name, '?', null);
     if(name.match(/Blowgun|Crossbow|Dartgun|Gun/))
       rules.defineRule('damageBonus.' + name, '', '=', '0');
     else if(name.match(/Longbow|Shortbow/))
@@ -3233,7 +3243,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     );
 
     rules.defineRule('weaponDamage.' + name,
-      '', '=', '"' + firstDamage + '"',
+      'weapons.' + name, '=', '"' + firstDamage + '"',
       'features.Small', '=', '"' + SRD35.weaponsSmallDamage[firstDamage] + '"',
       'features.Large', '=', '"' + SRD35.weaponsLargeDamage[firstDamage] + '"'
     );
@@ -3243,7 +3253,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     );
     if(secondDamage) {
       rules.defineRule('weaponDamage2.' + name,
-        '', '=', '"' + secondDamage + '"',
+        'weapons.' + name, '=', '"' + secondDamage + '"',
         'features.Small', '=', '"'+SRD35.weaponsSmallDamage[secondDamage]+'"',
         'features.Large', '=', '"'+SRD35.weaponsLargeDamage[secondDamage]+'"'
       );
@@ -3254,14 +3264,14 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     }
 
     rules.defineRule('threat.' + name,
-      '', '=', critThreat,
+      'weapons.' + name, '=', critThreat,
       'weaponCriticalAdjustment.' + name, '+', '-source'
     );
     rules.defineRule(weaponName + '.' + threatVar, 'threat.' + name, '=', null);
 
     if(range) {
       rules.defineRule('range.' + name,
-        '', '=', range,
+        'weapons.' + name, '=', range,
         'weaponRangeAdjustment.' + name, '+', null,
         'features.Far Shot', '*', name.indexOf('bow') < 0 ? '2' : '1.5'
       );
@@ -3276,6 +3286,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     }
 
   }
+  rules.defineRule('weaponDamage.Unarmed', 'monkUnarmedDamage', '=', null);
 
   rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
@@ -3357,6 +3368,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       'sanityNotes.weaponProficiencyLevelWeapon.' + weapon + ':Lowers attack bonus'
     );
     rules.defineRule('weaponAttackAdjustment.' + weapon,
+      'weapons.' + weapon, '?', null,
       'combatNotes.nonproficientArmorPenalty', '+=', null,
       'combatNotes.nonproficientShieldPenalty', '+=', null,
       'combatNotes.nonproficientWeaponPenalty.' + weapon, '+=', null,
@@ -3397,6 +3409,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   for(var ability in {Charisma:'', Constitution:'', Dexterity:'', Intelligence:'', Strength:'', Wisdom:''}) {
     rules.defineRule('abilityNotes.goodies' + ability + 'Adjustment',
       'goodiesList', '=',
+        '!source.join(";").match(/\\b' + ability + '\\b/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + ability + '\\b/i)).reduce(' +
           'function(total, item) {' +
             'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
@@ -3409,7 +3422,9 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   }
 
   rules.defineRule('goodiesAffectingAC',
-    'goodiesList', '=', 'source.filter(item => item.match(/\\b(armor|protection|shield)\\b/i))'
+    'goodiesList', '=',
+      '!source.join(";").match(/\\b(armor|protection|shield)\\b/i) ? null : ' +
+      'source.filter(item => item.match(/\\b(armor|protection|shield)\\b/i))'
   );
   rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
     'goodiesAffectingAC', '=',
@@ -3425,6 +3440,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   for(var skill in rules.getChoices('skills')) {
     rules.defineRule('skillNotes.goodies' + skill + 'Adjustment',
       'goodiesList', '=',
+        '!source.join(";").match(/\\b' + skill + '\\b/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + skill + '\\b/i)).reduce(' +
           'function(total, item) {' +
             'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
@@ -3455,8 +3471,8 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   for(var weapon in rules.getChoices('weapons')) {
     var weaponNoSpace = weapon.replace(/\s+/g, '');
     rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment',
-      'weapons.' + weapon, '?', null,
       'goodiesList', '=',
+        '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
           'function(total, item) {' +
             'return total + ((item + (item.match(/masterwork/i)?"+1":"+0")).match(/[-+]\\d+/) - 0);' +
@@ -3467,8 +3483,8 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       'combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment', '+=', null
     );
     rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment',
-      'weapons.' + weapon, '?', null,
       'goodiesList', '=',
+        '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
           'function(total, item) {' +
             'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
@@ -5310,7 +5326,7 @@ SRD35.spellRules = function(rules, spells, descriptions) {
     var spell = spells[i];
     var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*\w*\)$/);
     if(matchInfo == null) {
-      alert("Bad format for spell " + spell);
+      alert('Bad format for spell ' + spell);
       continue;
     }
     var abbr = matchInfo[2];
@@ -5318,28 +5334,30 @@ SRD35.spellRules = function(rules, spells, descriptions) {
     var name = matchInfo[1];
     var description = descriptions[name];
     if(description == null) {
-      alert("No description for spell " + name);
+      alert('No description for spell ' + name);
       continue;
     }
     if(abbr.length > 2) {
-      abbr = "Dom"; // Assume domain spell
+      abbr = 'Dom'; // Assume domain spell
     }
     var inserts = description.match(/\$(\w+|{[^}]+})/g);
     if(inserts != null) {
       for(var index = 1; index <= inserts.length; index++) {
         var insert = inserts[index - 1];
-        var expr = insert[1] == "{" ?
+        var expr = insert[1] == '{' ?
             insert.substring(2, insert.length - 1) : insert.substring(1);
         if(SRD35.spellsAbbreviations[expr] != null) {
           expr = SRD35.spellsAbbreviations[expr];
         }
-        expr = expr.replace(/lvl/g, "source");
-        rules.defineRule
-          ("spells." + spell + "." + index, "casterLevels." + abbr, "=", expr);
-        description = description.replace(insert, "%" + index);
+        expr = expr.replace(/lvl/g, 'source');
+        rules.defineRule('spells.' + spell + '.' + index,
+          'spells.' + spell, '?', null,
+          'casterLevels.' + abbr, '=', expr
+        );
+        description = description.replace(insert, '%' + index);
       }
     }
-    rules.defineChoice("notes", "spells." + spell + ":" + description);
+    rules.defineChoice('notes', 'spells.' + spell + ':' + description);
   }
 };
 
@@ -6353,8 +6371,10 @@ SRD35.defineSkill = function
     'classSkills.' + name, '*', '2'
   );
   rules.defineNote('skills.' + name + ':(%1%2) %V (%3)');
-  rules.defineRule('skills.' + name + '.1', '', '=', '"' + ability + '"');
+  rules.defineRule
+    ('skills.' + name + '.1', 'skills.' + name, '=', '"' + ability + '"');
   rules.defineRule('skills.' + name + '.2',
+    'skills.' + name, '?', '1',
     '', '=', '";cc"',
     'classSkills.' + name, '=', '""'
   );
