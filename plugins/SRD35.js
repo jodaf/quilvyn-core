@@ -2582,8 +2582,9 @@ SRD35.companionRules = function(rules, companions, familiars) {
        'notes');
     rules.defineEditorElement
       ('animalCompanionName', 'Name', 'text', [20], 'notes');
-    rules.defineSheetElement
-      ('Animal Companion', 'Companion Features', null, ' ');
+    rules.defineSheetElement('CompanionInfo', 'Companion Features', '%V', ' ');
+    rules.defineSheetElement('Animal Companion', 'CompanionInfo/', null);
+    rules.defineSheetElement('Animal Companion Name', 'CompanionInfo/', '"%V"');
 
     features = {
       'Link': 1, 'Share Spells': 1, 'Companion Evasion': 2, 'Devotion' : 3,
@@ -2661,7 +2662,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
     );
     rules.defineRule('companionStats.Melee', 'companionAttack', '=', 'Math.floor(source)');
-    rules.defineRule('companionStats.Name', 'animalCompanionName', '=', null);
     rules.defineRule('companionStats.Ref', 'companionRef', '=', null);
     rules.defineRule('companionStats.Str', 'companionLevel', '+', 'source - 1');
     rules.defineRule('companionStats.Tricks', 'companionLevel', '=', null);
@@ -2773,7 +2773,9 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineEditorElement
       ('familiar', 'Familiar', 'set', 'familiars', 'notes');
     rules.defineEditorElement('familiarName', 'Name', 'text', [20], 'notes');
-    rules.defineSheetElement('Familiar', 'Companion Features', null, ' ');
+    rules.defineSheetElement('FamiliarInfo', 'Companion Features', '%V', ' ');
+    rules.defineSheetElement('Familiar', 'FamiliarInfo/', null);
+    rules.defineSheetElement('Familiar Name', 'Familiar+', '"%V"');
 
     features = {
       'Companion Alertness': 1, 'Companion Evasion': 1,
@@ -2866,7 +2868,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('companionStats.Melee.2', 'familiarAttack', '=', '""');
     rules.defineRule('companionStats.Melee.3', 'familiarAttack', '=', '""');
     rules.defineRule('companionStats.Melee.4', 'familiarAttack', '=', '""');
-    rules.defineRule('companionStats.Name', 'familiarName', '=', null);
     rules.defineRule('companionStats.Ref', 'familiarRef', '=', null);
     rules.defineRule('companionStats.SR',
       'features.Companion Resist Spells', '?', null,
