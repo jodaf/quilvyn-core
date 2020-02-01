@@ -6142,10 +6142,6 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    Animal companion feats, skills, and tricks are not supported\n' +
     '  </li><li>\n' +
-    '    Scribe provides no place other than the notes section to enter\n' +
-    '    mundane possessions like lanterns and rope. The same goes for\n' +
-    '    physical description.\n' +
-    '  </li><li>\n' +
     '    Scribe has problems dealing with attributes containing an\n' +
     '    uncapitalized word.  This is why, e.g., Scribe defines the skills\n' +
     '    "Sleight Of Hand" and "Knowledge (Arcana)" instead of "Sleight of\n' +
@@ -6166,7 +6162,7 @@ SRD35.ruleNotes = function() {
     '    Scribe to recompute the number of skill points awarded at first\n' +
     '    level.\n' +
     '  </li><li>\n' +
-    '    Multi-class characters get quadruple spell points for the first\n' +
+    '    Multi-class characters get quadruple skill points for the first\n' +
     '    level in each class, instead of just the first class.\n' +
     '  </li><li>\n' +
     '    For monks, Scribe shows the unarmed damage for medium size, even\n' +
