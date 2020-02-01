@@ -3322,6 +3322,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   rules.defineNote(
     'combatNotes.nonproficientArmorPenalty:%V attack',
     'combatNotes.nonproficientShieldPenalty:%V attack',
+    'sanityNotes.inertGoodies:No effect from goodie(s) "%V"',
     'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus',
     'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
     'sanityNotes.two-handedWeaponWithBuckler:Lowers attack bonus, AC',
@@ -3437,6 +3438,23 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule
     ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
+
+  var abilitiesArmorSkillsAndWeapons = [
+    'stength','intelligence','wisdom','dexterity','constitution','charisma',
+    'armor', 'protection', 'shield'
+  ].concat(ScribeUtils.getKeys(rules.getChoices('skills')))
+   .concat(ScribeUtils.getKeys(rules.getChoices('weapons')))
+   .join('|').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+  rules.defineRule('inertGoodies',
+    'goodiesList', '=',
+    'source.filter(item => ' +
+      '!item.match(/\\b(' + abilitiesArmorSkillsAndWeapons + ')\\b/i) || ' +
+      '!item.match(/\\bmasterwork\\b|[-+][1-9]/i)' +
+    ')'
+  );
+  rules.defineRule('sanityNotes.inertGoodies',
+    'inertGoodies', '=', 'source.length > 0 ? source.join(",") : null'
+  );
 
   for(var skill in rules.getChoices('skills')) {
     rules.defineRule('skillNotes.goodies' + skill + 'Adjustment',
