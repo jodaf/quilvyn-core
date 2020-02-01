@@ -2023,10 +2023,17 @@ SRD35.classRules = function(rules, classes) {
         'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
       );
       rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
+      // TODO Our rule engine doesn't support modifying a value via indexing.
+      // Here, we work around this limitation by defining rules that set global
+      // values as a side effect, then use these values in our calculations.
       rules.defineRule('monkUnarmedDamage',
         'levels.Monk', '=',
-        'source < 12 ? ("d" + (6 + Math.floor(source / 4) * 2)) : ' +
-        '              ("2d" + (6 + Math.floor((source - 12) / 4) * 2))'
+          'SRD35.weaponsSmallDamage["monk"] = ' +
+          'SRD35.weaponsLargeDamage["monk"] = ' +
+          'source < 12 ? ("d" + (6 + Math.floor(source / 4) * 2)) : ' +
+          '              ("2d" + (6 + Math.floor((source - 12) / 4) * 2))',
+        'features.Small', '=', 'SRD35.weaponsSmallDamage[SRD35.weaponsSmallDamage["monk"]]',
+        'features.Large', '=', 'SRD35.weaponsLargeDamage[SRD35.weaponsLargeDamage["monk"]]'
       );
 
     } else if(klass == 'Paladin') {
@@ -6164,9 +6171,6 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    Multi-class characters get quadruple skill points for the first\n' +
     '    level in each class, instead of just the first class.\n' +
-    '  </li><li>\n' +
-    '    For monks, Scribe shows the unarmed damage for medium size, even\n' +
-    '    if the monk is small or large.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n';
