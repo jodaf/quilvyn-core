@@ -84,41 +84,92 @@ const PLUGINS = [
 
 /*
  * If this file defines a CustomizeScribe function, Scribe calls it after
- * loading, allowing you to add custom behavior to the program.  See
- * scribedoc.html for details.  The default implementation below can be used
- * without modification or can be tailored for your installation.
+ * loading, allowing you to add custom behavior to the program. The default
+ * implementation below can be used without modification or can be tailored for
+ * your installation.
  */
 function CustomizeScribe() {
-  // The first part of this implementation provides an easy way to define
-  // subfeats and subskills (e.g., Weapon Focus (Longbow), Craft (Alchemy))
-  // to the SRD35 and Pathfinder rule sets.  Each element of the
-  // subfeats/subskills variables gives a feat/skill and a slash-delimited list
-  // of subfeat targets.  Modify the values in each list to determine which
-  // subfeats/subskills are defined in your Scribe installation.
+
+  // The first part of this implementation defines extensions to lists defined
+  // by the SRD and Pathfinder plugins. Each extension includes a comment
+  // that shows the information that needs to be supplied with each addition.
+  var animalCompanions = {
+    // Format 'name': 'stats', e.g.,
+    // 'Babboon': 'Attack=2 HD=1 AC=13 Dam=1d6+3 Str=15 Dex=14 Con=12 Int=2 Wis=12 Cha=4'
+  };
+  var deities = [
+    // Format 'deity (alignment sphere):favored weapon:domain list', e.g.,
+    // 'Glennor (NG Healing):Quarterstaff:Air/Animal/Healing'
+  ];
+  var familiars = {
+    // Format see animalCompanions, above
+  };
+  var feats = [
+    // Format 'name:' (general feats), or 'name:type', where type is one of
+    // Fighter, Item Creation, or Metamagic, e.g.,
+    // 'Craft Talisman:Item Creation'
+  ];
+  var languages = [
+    // Format 'name', e.g.,
+    // 'whale'
+  ];
+  var skills = [
+    // Format 'name:ability/[un]trained', e.g.,
+    // 'herbalism:int/trained'
+  ];
+  var weapons = [
+    // Format 'name:damagexcritical@threat[range] categories', where categories
+    // are Si[mple], Ma[rtial], or Ex[otic] and Li[ght], 1h, or 2h, e.g.
+    // 'Chakram:d6x2@19r120 Ex'
+    // 'Pike:d8x3@20 Ma 2h'
+  ];
   var subfeats = {
-    'Greater Weapon Focus':'',
-    'Greater Weapon Specialization':'',
+    // Format 'name':'subfeats'
+    // Included here are sample values for all the predefined feats that you
+    // might want to extend with additional subfeats
+    'Greater Weapon Focus':'Dwarven Waraxe/Longbow/Longsword',
+    'Greater Weapon Specialization':'Dwarven Waraxe/Longbow/Longsword',
     'Improved Critical':'Dwarven Waraxe/Longbow/Longsword',
-    'Master Craftsman':'', // Pathfinder only
-    'Skill Focus':'',
+    'Master Craftsman':'Craft (Armor)/Profession (Scribe)', // Pathfinder only
+    'Skill Focus':'Perception',
     'Weapon Focus':'Dwarven Waraxe/Longbow/Longsword',
     'Weapon Proficiency':'Simple',
     'Weapon Specialization':'Dwarven Waraxe/Longbow/Longsword'
   };
   var subskills = {
+    // Format 'name':'subfeats'
+    // Included here are sample values for all the predefined feats that you
+    // might want to extend with additional subfeats
     'Craft':'Alchemy',
-    'Profession':''
+    'Profession':'Scribe/Soldier'
   };
+
   // The second part applies specific customizations to the rules.
   if(window.Pathfinder) {
+    Object.assign(Pathfinder.ANIMAL_COMPANIONS, animalCompanions);
+    Array.prototype.push.apply(Pathfinder.DEITIES, deities);
+    Object.assign(Pathfinder.FAMILIARS, familiars);
+    Array.prototype.push.apply(Pathfinder.FEATS, feats);
+    Array.prototype.push.apply(Pathfinder.LANGUAGES_ADDED, languages);
+    Array.prototype.push.apply(Pathfinder.SKILLS, skills);
+    Array.prototype.push.apply(Pathfinder.WEAPONS_ADDED, weapons);
     Object.assign(Pathfinder.SUBFEATS, subfeats);
     Object.assign(Pathfinder.SUBSKILLS, subskills);
   }
   delete subfeats['Master Craftsman'];
   if(window.SRD35) {
+    Object.assign(SRD35.ANIMAL_COMPANIONS, animalCompanions);
+    Array.prototype.push.apply(SRD35.DEITIES, deities);
+    Object.assign(Pathfinder.FAMILIARS, familiars);
+    Array.prototype.push.apply(SRD35.FEATS, feats);
+    Array.prototype.push.apply(SRD35.LANGUAGES, languages);
+    Array.prototype.push.apply(SRD35.SKILLS, skills);
+    Array.prototype.push.apply(SRD35.WEAPONS, weapons);
     Object.assign(SRD35.SUBFEATS, subfeats);
     Object.assign(SRD35.SUBSKILLS, subskills);
   }
+
+  // The third part invokes the initialization function of each selected plugin
   var selectedPlugins = [];
   try {
     selectedPlugins = localStorage.getItem('ScribeSelectedPlugins').split(',');
@@ -138,6 +189,7 @@ function CustomizeScribe() {
       alert('Cannot call ' + funcName);
     }
   }
+
   if(window.SRD35SpellPoints != null) {
     if(window.SRD35 != null)
       SRD35SpellPoints.spellPointRules(SRD35.rules);
@@ -148,6 +200,7 @@ function CustomizeScribe() {
     if(window.Realms != null)
       SRD35SpellPoints.spellPointRules(Realms.rules);
   }
+
 }
 
 /**** Commands that load the Scribe software.  Do not modify. ****/
