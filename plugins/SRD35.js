@@ -46,7 +46,7 @@ function SRD35() {
   SRD35.combatRules(rules);
   SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
-  SRD35.spellRules(rules, rules.getChoices('spells'), SRD35.spellsDescriptions);
+  SRD35.spellRules(rules, null, SRD35.spellsDescriptions);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
   Scribe.addRuleSet(rules);
@@ -2027,6 +2027,7 @@ SRD35.classRules = function(rules, classes) {
       // Here, we work around this limitation by defining rules that set global
       // values as a side effect, then use these values in our calculations.
       rules.defineRule('monkUnarmedDamage',
+        'monkFeatures.Flurry Of Blows', '?', null, // Limit these rules to monks
         'levels.Monk', '=',
           'SRD35.weaponsSmallDamage["monk"] = ' +
           'SRD35.weaponsLargeDamage["monk"] = ' +
@@ -3447,7 +3448,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
 
   var abilitiesArmorSkillsAndWeapons = [
-    'stength','intelligence','wisdom','dexterity','constitution','charisma',
+    'strength','intelligence','wisdom','dexterity','constitution','charisma',
     'armor', 'protection', 'shield'
   ].concat(ScribeUtils.getKeys(rules.getChoices('skills')))
    .concat(ScribeUtils.getKeys(rules.getChoices('weapons')))
