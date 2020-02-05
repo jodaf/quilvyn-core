@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.5.1.0';
+var SRD35_VERSION = '1.5.1.1';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -1540,7 +1540,7 @@ SRD35.classRules = function(rules, classes) {
         'abilityNotes.fastMovementFeature:+%V speed',
         'combatNotes.greaterRageFeature:+6 strength/constitution, +3 Will',
         'combatNotes.improvedUncannyDodgeFeature:' +
-          'Flanked only by rogue four levels higher',
+          'Cannot be flanked, sneak attack only by rogue level %V+',
         'combatNotes.mightyRageFeature:+8 strength/constitution, +4 Will',
         'combatNotes.rageFeature:' +
           '+4 strength/constitution, +2 Will, -2 AC %V rd %1/day',
@@ -1587,6 +1587,17 @@ SRD35.classRules = function(rules, classes) {
         'skillNotes.illiteracyFeature', '+', '-2'
       );
       rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
+      rules.defineRule('barbarianFeatures.Improved Uncanny Dodge',
+        'barbarianFeatures.Uncanny Dodge', '?', null,
+        'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
+      );
+      rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+        'levels.Barbarian', '+=', 'source >= 2 ? source : null',
+        '', '+', '4'
+      );
+      rules.defineRule('uncannyDodgeSources',
+        'levels.Barbarian', '+=', 'source >= 2 ? 1 : null'
+      );
 
     } else if(klass == 'Bard') {
 
@@ -2243,7 +2254,7 @@ SRD35.classRules = function(rules, classes) {
         'combatNotes.defensiveRollFeature:' +
           'DC damage Reflex save vs. lethal blow for half damage',
         'combatNotes.improvedUncannyDodgeFeature:' +
-          'Flanked only by rogue four levels higher',
+          'Cannot be flanked, sneak attack only by rogue level %V+',
         'combatNotes.opportunistFeature:AOO vs. foe struck by ally',
         'combatNotes.sneakAttackFeature:' +
           '%Vd6 HP extra when surprising or flanking',
@@ -2293,6 +2304,17 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('skillNotes.skillMasteryFeature',
         'intelligenceModifier', '=', 'source + 3',
         'rogueFeatures.Skill Mastery', '*', null
+      );
+      rules.defineRule('rogueFeatures.Improved Uncanny Dodge',
+        'rogueFeatures.Uncanny Dodge', '?', null,
+        'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
+      );
+      rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+        'levels.Rogue', '+=', 'source >= 4 ? source : null',
+        '', '+', '4'
+      );
+      rules.defineRule('uncannyDodgeSources',
+        'levels.Rogue', '+=', 'source >= 4 ? 1 : null'
       );
 
     } else if(klass == 'Sorcerer') {
