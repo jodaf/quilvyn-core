@@ -264,7 +264,7 @@ SRD35Prestige.classRules = function(rules, classes) {
           'Foe DC %V fortitude save on successful sneak attack after 3 ' +
           'rd of study or die/paralyzed d6+%1 rd',
         'combatNotes.improvedUncannyDodgeFeature:' +
-          'Flanked only by rogue four levels higher',
+          'Cannot be flanked, sneak attack only by rogue level %V+',
         'combatNotes.sneakAttackFeature:' +
           '%Vd6 HP extra when surprising or flanking',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
@@ -329,6 +329,17 @@ SRD35Prestige.classRules = function(rules, classes) {
         ('resistance.Poison', 'saveNotes.poisonToleranceFeature', '+=', null);
       rules.defineRule('saveNotes.poisonToleranceFeature',
         'levels.Assassin', '+=', 'Math.floor(source / 2)'
+      );
+      rules.defineRule('assassinFeatures.Improved Uncanny Dodge',
+        'assassinFeatures.Uncanny Dodge', '?', null,
+        'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
+      );
+      rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+        'levels.Assassin', '+=', 'source >= 2 ? source : null',
+        '', '+', '4'
+      );
+      rules.defineRule('uncannyDodgeSources',
+        'levels.Assassin', '+=', 'source >= 2 ? 1 : null'
       );
 
     } else if(klass == 'Blackguard') {
@@ -627,7 +638,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.damageReductionFeature:%V subtracted from damage taken',
         'combatNotes.dwarvenDefenderArmorClassAdjustment:%V',
         'combatNotes.improvedUncannyDodgeFeature:' +
-          'Flanked only by rogue four levels higher',
+          'Cannot be flanked, sneak attack only by rogue level %V+',
         'combatNotes.mobileDefenseFeature:' +
           "Allowed 5' step during Defensive Stance",
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
@@ -673,6 +684,17 @@ SRD35Prestige.classRules = function(rules, classes) {
       );
       rules.defineRule('saveNotes.trapSenseFeature',
         'levels.Dwarven Defender', '+=', 'Math.floor(source / 4)'
+      );
+      rules.defineRule('dwarvenDefenderFeatures.Improved Uncanny Dodge',
+        'dwarvenDefenderFeatures.Uncanny Dodge', '?', null,
+        'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
+      );
+      rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+        'levels.Dwarven Defender', '+=', 'source >= 2 ? source : null',
+        '', '+', '4'
+      );
+      rules.defineRule('uncannyDodgeSources',
+        'levels.Dwarven Defender', '+=', 'source >= 2 ? 1 : null'
       );
 
     } else if(klass == 'Eldritch Knight') {
@@ -1057,7 +1079,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'combatNotes.defensiveRollFeature:' +
           'DC damage Reflex save vs. lethal blow for half damage',
         'combatNotes.improvedUncannyDodgeFeature:' +
-          'Flanked only by rogue four levels higher',
+          'Cannot be flanked, sneak attack only by rogue level %V+',
         'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
         "featureNotes.darkvisionFeature:%V' b/w vision in darkness",
         'magicNotes.shadowIllusionFeature:<i>Silent Image</i> 1/day',
@@ -1100,6 +1122,17 @@ SRD35Prestige.classRules = function(rules, classes) {
       rules.defineRule('magicNotes.summonShadowFeature',
         'levels.Shadowdancer', '=',
         'source >= 3 ? Math.floor(source / 3) * 2 : null'
+      );
+      rules.defineRule('shadowdancerFeatures.Improved Uncanny Dodge',
+        'shadowdancerFeatures.Uncanny Dodge', '?', null,
+        'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
+      );
+      rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+        'levels.Shadowdancer', '+=', 'source >= 2 ? source : null',
+        '', '+', '4'
+      );
+      rules.defineRule('uncannyDodgeSources',
+        'levels.Shadowdancer', '+=', 'source >= 2 ? 1 : null'
       );
 
     } else if(klass == 'Thaumaturgist') {
