@@ -2540,6 +2540,8 @@ SRD35.companionRules = function(rules, companions, familiars) {
     "companionNotes.celestialCompanion:" +
       "Smite Evil (+%V HP) 1/day, 60' darkvision, " +
       "%1 acid/cold/electricity resistance, DR %2/magic",
+    'companionNotes.commandLikeCreaturesFeature:' +
+      'DC %V <i>Command</i> vs. similar creatures %1/day',
     'companionNotes.companionEvasionFeature:' +
       'Reflex save yields no damage instead of 1/2',
     'companionNotes.companionImprovedEvasionFeature:' +
@@ -2555,14 +2557,18 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionNotes.multiattackFeature:' +
       'Reduce additional attack penalty to -2 or second attack at -5',
     'companionNotes.scryFeature:Master views companion 1/day',
+    'companionNotes.shareSavingThrowsFeature:+%1 Fort/+%2 Will',
     'companionNotes.shareSpellsFeature:' +
       "Master share self spell w/companion w/in 5'",
     'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
     'companionNotes.speakWithMasterFeature:Talk w/master in secret language',
     'companionStats.Melee:+%V %1%2%3%4',
+    'companionStats.SR:DC %V',
     'skillNotes.companionAlertnessFeature:' +
       '+2 listen/spot when companion w/in reach',
-    'skillNotes.linkFeature:+4 Handle Animal (companion)/Wild Empathy (companion)'
+    'skillNotes.linkFeature:+4 Handle Animal (companion)/Wild Empathy (companion)',
+    'validationNotes.companionMasterLevel:Requires %1',
+    'validationNotes.familiarMasterLevel:Requires %1'
   ];
   rules.defineNote(notes);
 
@@ -2629,9 +2635,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
         ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
     }
 
-    notes = ['validationNotes.companionMasterLevel:Requires %1'];
-    rules.defineNote(notes);
-
     rules.defineRule('companionAttack',
       'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE,
@@ -2655,7 +2658,8 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('companionFort',
       'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
-      'companionStats.Con', '+', 'Math.floor((source - 10)/2)'
+      'companionStats.Con', '+', 'Math.floor((source - 10)/2)',
+      'companionNotes.shareSavingThrowsFeature.1', '+', null
     );
     rules.defineRule('companionHP',
       'features.Animal Companion', '?', null,
@@ -2669,15 +2673,26 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionStats.Dex', '=', null,
       'companionStats.Str', '^', null
     );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
+      'levels.Paladin', '=', SRD35.SAVE_BONUS_GOOD,
+      'companionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
+      '', '^', '0'
+    );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
+      'levels.Paladin', '=', SRD35.SAVE_BONUS_POOR,
+      'companionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_POOR + ')',
+      '', '^', '0'
+    );
     rules.defineRule('companionRef',
       'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
-      'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)'
+      'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)',
     );
     rules.defineRule('companionWill',
       'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
-      'companionStats.Wis', '+', 'Math.floor((source - 10) / 2)'
+      'companionStats.Wis', '+', 'Math.floor((source - 10) / 2)',
+      'companionNotes.shareSavingThrowsFeature.2', '+', null
     );
 
     rules.defineRule('companionStats.AC',
@@ -2772,11 +2787,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
           ('companionFeatures.' + feature, 'companionOrFamiliar', '?', null);
       }
     }
-    notes = [
-      'companionNotes.commandLikeCreaturesFeature:' +
-        'DC %V <i>Command</i> vs. similar creatures %1/day',
-    ];
-    rules.defineNote(notes);
     rules.defineRule('companionLevel',
       'mountMasterLevel', '=', 'source<5 ? null : Math.floor((source + 1) / 3)'
     );
@@ -2834,9 +2844,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'skillNotes.familiarLizard:+3 Climb',
       'skillNotes.familiarOwl:+3 Spot in shadows/darkness',
       'skillNotes.familiarRaven:+3 Appraise',
-      'skillNotes.familiarViper:+3 Bluff',
-      'companionStats.SR:DC %V',
-      'validationNotes.familiarMasterLevel:Requires %1'
+      'skillNotes.familiarViper:+3 Bluff'
     ];
     rules.defineNote(notes);
 
