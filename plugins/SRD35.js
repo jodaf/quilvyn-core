@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.5.1.3';
+var SRD35_VERSION = '1.5.1.4';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2788,7 +2788,8 @@ SRD35.companionRules = function(rules, companions, familiars) {
       }
     }
     rules.defineRule('companionLevel',
-      'mountMasterLevel', '=', 'source<5 ? null : Math.floor((source + 1) / 3)'
+      'mountMasterLevel', '=',
+      'source<5 ? null : source<8 ? 2 : source<11 ? 3 : source<15 ? 4 : 5'
     );
     rules.defineRule('companionNotes.commandLikeCreaturesFeature',
       'companionFeatures.Command Like Creatures', '?', null,
@@ -2796,12 +2797,14 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'charismaModifier', '+', null
     );
     rules.defineRule('companionNotes.commandLikeCreaturesFeature.1',
+      'companionFeatures.Command Like Creatures', '?', null,
       'mountMasterLevel', '=', 'Math.floor(source / 2)'
     );
     rules.defineRule
       ('companionStats.AC', 'mountMasterLevel', '+', 'source < 5 ? null : 2');
     rules.defineRule('companionStats.Int',
-      'mountMasterLevel', '^', 'source>=5 ? 5 + Math.floor((source-2)/3) : null'
+      'mountMasterLevel', '^',
+      'source<5 ? null : source<8 ? 6 : source<11 ? 7 : source<15 ? 8 : 9'
     );
     rules.defineRule
       ('companionStats.SR', 'mountMasterLevel', '=', 'source + 5');
