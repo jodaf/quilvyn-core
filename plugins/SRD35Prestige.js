@@ -41,14 +41,14 @@ SRD35Prestige.CLASSES = [
   'Shadowdancer', 'Thaumaturgist'
 ];
 SRD35Prestige.FIENDISH_SERVANTS = {
-  'Bat': 'HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4',
-  'Cat': 'HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7',
-  'Dire Rat': 'HD=1 AC=15 Dam=1d4 Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4',
-  'Heavy Horse': 'HD=3 AC=13 Dam=1d6+1 Str=16 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
-  'Light Horse': 'HD=3 AC=13 Dam=1d4+1 Str=14 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
-  'Pony': 'HD=2 AC=13 Dam=1d3 Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4',
-  'Raven': 'HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
-  'Toad': 'HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4'
+  'Bat': 'Attack=0 HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4',
+  'Cat': 'Attack=4 HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7',
+  'Dire Rat': 'Attack=4 HD=1 AC=15 Dam=1d4 Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4',
+  'Heavy Horse': 'Attack=-1 HD=3 AC=13 Dam=1d6+1 Str=16 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
+  'Light Horse': 'Attack=-2 HD=3 AC=13 Dam=1d4+1 Str=14 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
+  'Pony': 'Attack=-3 HD=2 AC=13 Dam=1d3 Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4',
+  'Raven': 'Attack=4 HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
+  'Toad': 'Attack=0 HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4'
 };
 
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
@@ -424,8 +424,10 @@ SRD35Prestige.classRules = function(rules, classes) {
       rules.defineRule('combatNotes.sneakAttackFeature',
         'levels.Blackguard', '+=', 'source<4 ? null : Math.floor((source-1)/3)'
       );
-      rules.defineRule
-        ('fiendishServantMasterLevel', 'levels.Blackguard', '+=', null);
+      rules.defineRule('fiendishServantMasterLevel',
+        'levels.Blackguard', '?', 'source >= 5',
+        'level', '=', null
+      );
       rules.defineRule('magicNotes.blackguardHandsFeature',
         'level', '+=', null,
         'charismaModifier', '*', null
@@ -1224,45 +1226,97 @@ SRD35Prestige.classRules = function(rules, classes) {
 /* Defines the SRD v3.5 rules related to Prestige class companion creatures. */
 SRD35Prestige.companionRules = function(rules, servants) {
   if(servants != null) {
-    SRD35.companionRules(rules, servants, null, null);
+    // Adapt Blackguard servant rules to make it a form of animal companion.
+    SRD35.companionRules(rules, servants, null);
     var features = {
-      'Companion Evasion': 1, 'Companion Improved Evasion': 1, 
-      'Empathic Link': 1, 'Share Saving Throws': 1, 'Share Spells': 1,
-      'Speak With Master': 2, 'Blood Bond': 3, 'Companion Resist Spells': 4,
+      'Companion Evasion': 5, 'Companion Improved Evasion': 5, 
+      'Empathic Link': 5, 'Share Saving Throws': 5, 'Share Spells': 5,
+      'Speak With Master': 13, 'Blood Bond': 16, 'Companion Resist Spells': 19,
       'Link': 0, 'Devotion' : 0, 'Multiattack': 0
     };
+    rules.defineRule('companionNotFiendishServant',
+      'companionLevel', '=', '1',
+      'fiendishServantMasterLevel', 'v', '0'
+    );
     for(var feature in features) {
       if(features[feature] > 0) {
         rules.defineRule('companionFeatures.' + feature,
-          'fiendishServantLevel', '=',
+          'fiendishServantMasterLevel', '=',
           'source >= ' + features[feature] + ' ? 1 : null'
         );
         rules.defineRule
           ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
       } else {
         // Disable N/A companion features
-        rules.defineRule
-          ('companionFeatures.' + feature, 'fiendishServantLevel', 'v', '0');
+        rules.defineRule('companionFeatures.' + feature,
+          'companionNotFiendishServant', '?', 'source == 1'
+        );
       }
     }
     var notes = [
       'companionNotes.bloodBondFeature:' +
-        '+2 attack/check/save when seeing master threatened',
-      'companionNotes.shareSavingThrowsFeature:' +
-        "Companion uses higher of own or master's saving throws"
+        '+2 attack/check/save when seeing master threatened'
     ];
     rules.defineNote(notes);
-    rules.defineRule('fiendishServantLevel',
-      'features.Fiendish Servant', '?', null,
-      'level', '=', 'source < 13 ? 1 : Math.floor((source - 7) / 3)'
+    rules.defineRule('fiendishServantMasterBaseSaveFort',
+      'fiendishServantMasterLevel', '?', null,
+      'levels.Blackguard', '=', SRD35.SAVE_BONUS_GOOD,
+      'levels.Barbarian', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Bard', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Cleric', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Druid', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Fighter', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Ranger', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Rogue', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Wizard', '+', SRD35.SAVE_BONUS_POOR
+    );
+    rules.defineRule('fiendishServantMasterBaseSaveRef',
+      'fiendishServantMasterLevel', '?', null,
+      'levels.Blackguard', '=', SRD35.SAVE_BONUS_POOR,
+      'levels.Barbarian', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Bard', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Cleric', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Druid', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Fighter', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Ranger', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Rogue', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Wizard', '+', SRD35.SAVE_BONUS_POOR
+    );
+    rules.defineRule('fiendishServantMasterBaseSaveWill',
+      'fiendishServantMasterLevel', '?', null,
+      'levels.Blackguard', '=', SRD35.SAVE_BONUS_POOR,
+      'levels.Barbarian', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Bard', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Cleric', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Druid', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Fighter', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Ranger', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Rogue', '+', SRD35.SAVE_BONUS_POOR,
+      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_GOOD,
+      'levels.Wizard', '+', SRD35.SAVE_BONUS_GOOD
+    );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
+      'fiendishServantMasterBaseSaveFort', '=', null
+    );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
+      'fiendishServantMasterBaseSaveRef', '=', null
+    );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
+      'fiendishServantMasterBaseSaveWill', '=', null
+    );
+    rules.defineRule('companionLevel',
+      'fiendishServantMasterLevel', '=', 'source < 13 ? 2 : Math.floor((source - 4) / 3)'
     );
     rules.defineRule
-      ('companionStats.AC', 'fiendishServantLevel', '+', 'source*2-1');
-    rules.defineRule
-      ('companionStats.HD', 'fiendishServantLevel', '+', 'source * 2');
-    rules.defineRule
-      ('companionStats.Int', 'fiendishServantLevel', '=', 'source + 5');
-    rules.defineRule
-      ('companionStats.Str', 'fiendishServantLevel', '+', null);
+      ('companionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
+    rules.defineRule('companionStats.Int',
+      'fiendishServantMasterLevel', '^',
+      'source<5 ? null : source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
+    );
   }
 };
