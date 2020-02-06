@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.5.1.1';
+var SRD35_VERSION = '1.5.1.2';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2694,7 +2694,10 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('companionStats.Melee', 'companionAttack', '=', 'Math.floor(source)');
     rules.defineRule('companionStats.Ref', 'companionRef', '=', null);
     rules.defineRule('companionStats.Str', 'companionLevel', '+', 'source - 1');
-    rules.defineRule('companionStats.Tricks', 'companionLevel', '=', null);
+    rules.defineRule('companionStats.Tricks',
+      'companionStats.Int', '=', 'source * 3',
+      'companionLevel', '+=', null
+    );
     rules.defineRule('companionStats.Will', 'companionWill', '=', null);
 
     for(var companion in companions) {
@@ -6170,7 +6173,7 @@ SRD35.ruleNotes = function() {
     '    affects only the Gnome Hooked Hammer, where Scribe displays a\n' +
     '    critical multiplier of x4 instead of x3/x4.\n' +
     '  </li><li>\n' +
-    '    Animal companion feats, skills, and tricks are not supported\n' +
+    '    Animal companion feats, skills, and tricks are not reported\n' +
     '  </li><li>\n' +
     '    Scribe has problems dealing with attributes containing an\n' +
     '    uncapitalized word.  This is why, e.g., Scribe defines the skills\n' +
