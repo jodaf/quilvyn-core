@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.5.1.4';
+var SRD35_VERSION = '1.5.1.5';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2557,7 +2557,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionNotes.multiattackFeature:' +
       'Reduce additional attack penalty to -2 or second attack at -5',
     'companionNotes.scryFeature:Master views companion 1/day',
-    'companionNotes.shareSavingThrowsFeature:+%1 Fort/+%2 Will',
+    'companionNotes.shareSavingThrowsFeature:+%1 Fort/+%2 Ref/+%3 Will',
     'companionNotes.shareSpellsFeature:' +
       "Master share self spell w/companion w/in 5'",
     'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
@@ -2659,7 +2659,9 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
       'companionStats.Con', '+', 'Math.floor((source - 10)/2)',
-      'companionNotes.shareSavingThrowsFeature.1', '+', null
+      'companionNotes.shareSavingThrowsFeature.1', '+', null,
+      // Use base note in calculation so Scribe displays it in italics
+      'companionNotes.shareSavingThrowsFeature', '+', '0'
     );
     rules.defineRule('companionHP',
       'features.Animal Companion', '?', null,
@@ -2674,11 +2676,19 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionStats.Str', '^', null
     );
     rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
+      'companionFeatures.Share Saving Throws', '?', null,
       'levels.Paladin', '=', SRD35.SAVE_BONUS_GOOD,
       'companionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
       '', '^', '0'
     );
     rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
+      'companionFeatures.Share Saving Throws', '?', null,
+      'levels.Paladin', '=', SRD35.SAVE_BONUS_POOR,
+      'companionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
+      '', '^', '0'
+    );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
+      'companionFeatures.Share Saving Throws', '?', null,
       'levels.Paladin', '=', SRD35.SAVE_BONUS_POOR,
       'companionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_POOR + ')',
       '', '^', '0'
@@ -2687,12 +2697,13 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
       'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)',
+      'companionNotes.shareSavingThrowsFeature.2', '+', null
     );
     rules.defineRule('companionWill',
       'features.Animal Companion', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
       'companionStats.Wis', '+', 'Math.floor((source - 10) / 2)',
-      'companionNotes.shareSavingThrowsFeature.2', '+', null
+      'companionNotes.shareSavingThrowsFeature.3', '+', null
     );
 
     rules.defineRule('companionStats.AC',
@@ -2770,9 +2781,9 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'Command Like Creatures': 11, 'Companion Resist Spells': 15,
       'Link': 0, 'Devotion' : 0, 'Multiattack': 0, 'Share Spells': 0
     };
-    rules.defineRule('companionOrFamiliar',
-      'companionMasterLevel', '=', '1',
-      'familiarMasterLevel', '=', '1'
+    rules.defineRule('companionNotMount',
+      'companionLevel', '=', '1',
+      'mountMasterLevel', 'v', '0'
     );
     for(var feature in features) {
       if(features[feature] > 0) {
@@ -2783,8 +2794,9 @@ SRD35.companionRules = function(rules, companions, familiars) {
           ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
       } else {
         // Disable N/A companion features
-        rules.defineRule
-          ('companionFeatures.' + feature, 'companionOrFamiliar', '?', null);
+        rules.defineRule('companionFeatures.' + feature,
+          'companionNotMount', '?', 'source == 1'
+        );
       }
     }
     rules.defineRule('companionLevel',
