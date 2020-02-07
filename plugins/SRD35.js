@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.5.1.5';
+var SRD35_VERSION = '1.5.1.6';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2578,11 +2578,11 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionStats.HD', '^', null
   );
   rules.defineRule('companionNotes.celestialCompanion.1',
-    'features.Celestial Companion', '?', null,
+    'animalCompanion.Celestial', '?', null,
     'companionStats.HD', '=', 'Math.floor((source + 7) / 8) * 5'
   );
   rules.defineRule('companionNotes.celestialCompanion.2',
-    'features.Celestial Companion', '?', null,
+    'animalCompanion.Celestial', '?', null,
     'companionStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
   );
   rules.defineRule('companionNotes.fiendishCompanion',
@@ -2591,11 +2591,11 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionStats.HD', '^', null
   );
   rules.defineRule('companionNotes.fiendishCompanion.1',
-    'features.Fiendish Companion', '?', null,
+    'animalCompanion.Fiendish', '?', null,
     'companionStats.HD', '=', 'Math.floor((source + 7) / 8) * 5'
   );
   rules.defineRule('companionNotes.fiendishCompanion.2',
-    'features.Fiendish Companion', '?', null,
+    'animalCompanion.Fiendish', '?', null,
     'companionStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
   );
   rules.defineRule('companionStats.Melee.2',
@@ -2619,7 +2619,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineEditorElement
       ('animalCompanionName', 'Name', 'text', [20], 'notes');
     rules.defineSheetElement('CompanionInfo', 'Companion Features', '%V', ' ');
-    rules.defineSheetElement('Animal Companion', 'CompanionInfo/', null);
+    rules.defineSheetElement('Animal Companion', 'CompanionInfo/', null, ' ');
     rules.defineSheetElement('Animal Companion Name', 'CompanionInfo/', '"%V"');
 
     features = {
@@ -2832,7 +2832,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
       ('familiar', 'Familiar', 'set', 'familiars', 'notes');
     rules.defineEditorElement('familiarName', 'Name', 'text', [20], 'notes');
     rules.defineSheetElement('FamiliarInfo', 'Companion Features', '%V', ' ');
-    rules.defineSheetElement('Familiar', 'FamiliarInfo/', null);
+    rules.defineSheetElement('Familiar', 'FamiliarInfo/', null, ' ');
     rules.defineSheetElement('Familiar Name', 'Familiar+', '"%V"');
 
     features = {
