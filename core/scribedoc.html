@@ -2,7 +2,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>Scribe User's Guide</title>
+  <title>Quilvyn User's Guide</title>
 </head>
 
 <body>
@@ -12,17 +12,17 @@
     window.opener != null && window.opener.BACKGROUND != null ?
     window.opener.BACKGROUND : 'wheat';
   if(window.opener != null && window.opener.LOGO_URL != null)
-    document.write('<img src="' + window.opener.LOGO_URL + '" alt="Scribe"/>');
+    document.write('<img src="' + window.opener.LOGO_URL + '" alt="Quilvyn"/>');
   else
-    document.write('<img src="scribe.gif" alt="Scribe"/>');
+    document.write('<img src="quilvyn.gif" alt="Quilvyn"/>');
 </script>
 
-<h1>Scribe RPG Character Editor</h1>
+<h1>Quilvyn RPG Character Editor</h1>
 
 <p>
 <ul>
   <li><a href="#intro">Introduction</a></li>
-  <li><a href="#install">Installing and Running Scribe</a></li>
+  <li><a href="#install">Installing and Running Quilvyn</a></li>
   <li><a href="#open">Generating and Loading Characters</a></li>
   <li><a href="#edit">Editing Characters</a></li>
   <li><a href="#random">Randomizing Attributes</a></li>
@@ -35,7 +35,7 @@
 
 <a name="intro"><h3>Introduction</h3></a>
 <p>
-Scribe is a browser-based editor for RPG characters, particularly those
+Quilvyn is a browser-based editor for RPG characters, particularly those
 generated using rules derived from the System Reference Document from Wizards
 of the Coast.  It allows you to enter and modify basic information about a
 character&#151;race, class levels, attributes like strength, and so on&#151;and
@@ -44,23 +44,23 @@ attributes and calculate computed attributes like saving throw bonuses and
 armor class.  The program formats character attributes into a compact
 (typically one page) character sheet web page that you can print for reference
 during game play.  You can save character information and later reload it into
-Scribe to update the character's attributes.
+Quilvyn to update the character's attributes.
 </p>
 
-<a name="install"><h3>Installing and Running Scribe</h3></a>
+<a name="install"><h3>Installing and Running Quilvyn</h3></a>
 <p>
-A tar and/or zip file containing the Scribe code can be obtained from
-<a href='https://github.com/jodaf/scribe-core/releases'>https://github.com/jodaf/scribe-core/releases</a>.
-The Scribe program consists of 12 files: index.html, Input.js, ObjectViewer.js,
-RuleEngine.js, Scribe.js, ScribeRules.js, ScribeUtils.js, gpl.txt, scribe.gif,
-SRD35.js, ogl.txt, and scribe.html.  Documentation is provided by
-scribedoc.html and a pair of image files, editingobjects.gif and
+A tar and/or zip file containing the Quilvyn code can be obtained from
+<a href='https://github.com/jodaf/quilvyn-core/releases'>https://github.com/jodaf/quilvyn-core/releases</a>.
+The Quilvyn program consists of 12 files: index.html, Input.js, ObjectViewer.js,
+RuleEngine.js, Quilvyn.js, QuilvynRules.js, QuilvynUtils.js, gpl.txt,
+quilvyn.gif, SRD35.js, ogl.txt, and quilvyn.html.  Documentation is provided by
+quilvyndoc.html and a pair of image files, editingobjects.gif and
 sheetfeatures.gif.  In addition, the download also contains SRD35NPC.js,
 SRD35Prestige.js, and SRD35SpellPoints.js, which define the non-player and
 prestige classes from the SRD v3.5 and an alternative way of managing
 spellcasting.  Using these is optional.
 </p><p>
-Scribe has been successfully tested using these browsers
+Quilvyn has been successfully tested using these browsers
 <ul>
   <li>Firefox</li>
   <li>Google Chrome</li>
@@ -70,52 +70,52 @@ Scribe has been successfully tested using these browsers
 Note that neither Internet Explorer or Edge support persistent storage
 connected to local files (see <a href="#save">Saving Characters</a> below).
 </p><p>
-scribe.html contains a section of definitions that allow you to set some user
-preferences.  Scribe uses the BACKGROUND setting as the background color for
+quilvyn.html contains a section of definitions that allow you to set some user
+preferences.  Quilvyn uses the BACKGROUND setting as the background color for
 its windows, and the program uses the DEFAULT_SHEET_STYLE to determine which
 style to use for character sheets.  WARN_ABOUT_DISCARD determines
-whether or not Scribe warns you when ask to open a new character after making
+whether or not Quilvyn warns you when ask to open a new character after making
 changes to the current one without saving. You can also add character sheet and
-editor customizations in scribe.html. See the comments in that file for details.
+editor customizations in quivyn.html. See the comments in that file for details.
 </p><p>
-To run Scribe, simply use one of the web browsers listed above to open your
-local copy of scribe.html. If the program opens a plugin selection window,
+To run Quilvyn, simply use one of the web browsers listed above to open your
+local copy of quilvyn.html. If the program opens a plugin selection window,
 check the plugins you wish to use and press the "Ok" button to start the
-character editor. Scribe is written in JavaScript and makes extensive use of
+character editor. Quilvyn is written in JavaScript and makes extensive use of
 pop-up windows, so you must have both of these enabled in your browser.
 </p>
 
 <a name="open"><h3>Generating and Loading Characters</h3></a>
 <p>
 Generating new characters and loading previously saved ones are both handled
-through Scribe's Character menu.  The choices in this menu allow you to
+through Quilvyn's Character menu.  The choices in this menu allow you to
 generate a new character, generate a character with random attribute values,
 reload the information for a previously-saved character, or import a character
 from information saved from a different browser.  When you ask for a random
-character, Scribe opens a form that allows you to specify certain attributes,
+character, Quilvyn opens a form that allows you to specify certain attributes,
 such as race and class level(s).  This helps in the generation of NPCs.  You
-can either specify these attributes, or leave the form unchanged to have Scribe
+can either specify these attributes, or leave the form unchanged to have Quilvyn
 choose them randomly.
 </p><p>
 The Character menu's Import option allows you to transfer character information
 saved from another browser.  In the Import pop-up window, paste the character
 attributes definition ("var attributes = { ... }") from the header of the
-saved character sheet, then press OK.  Scribe displays the character sheet
+saved character sheet, then press OK.  Quilvyn displays the character sheet
 generated from these attributes and saves the character into your browser's
 persistent storage.  If you paste the attributes of multiple characters into a
-single Import pop-up, Scribe saves all of them and displays the last.
+single Import pop-up, Quilvyn saves all of them and displays the last.
 </p>
 
 <a name="edit"><h3>Editing Characters</h3></a>
 <p>
 <img src='editingobjects.gif' alt='Editing widgets' align='left'/>
-The Scribe editor contains editing objects that allow you to change
+The Quilvyn editor contains editing objects that allow you to change
 basic character attributes.  The editor uses three different types of editing
 objects.  <i>Text fields</i> are used for attributes, such as name and player,
 that have an infinite number of possible values.  To modify one of these
 attributes, simply type the new value into the text field.  In text fields
 that contain a number (e.g., hit points) you can instead enter a '+' followed
-by a number, and Scribe will add the number to the existing value of the field.
+by a number, and Quilvyn will add the number to the existing value of the field.
 <i>Selection menus</i> are used with attributes like alignment, race, and
 abilities like strength and intelligence.  These editing objects give you a
 pull-down menu that contains all the possible values.  Simply select the
@@ -134,9 +134,9 @@ you to determine which choices appear in its menu. This menu allows you to limit
 the choices shown to those of interest; only those choices that contain the
 text in this box are displayed in the menu.
 </p><p>
-In a separate browser frame or window, Scribe displays a character sheet based
+In a separate browser frame or window, Quilvyn displays a character sheet based
 on the values of the editor.  Every time you change a value in the editor,
-Scribe applies the rules from the selected rule set, then updates the
+Quilvyn applies the rules from the selected rule set, then updates the
 character sheet to show you any computed changes.
 </p><p>
 Two "Show" checkboxes provide some control over what attributes the character
@@ -148,19 +148,19 @@ a character sheet that contains additional information that should not be seen
 by the player.  This includes any notes entered in the editor's "Hidden Notes"
 box and any attributes that depend on the "hidden" attribute. A third "Show"
 checkbox determines whether computed character attributes are included in the
-character sheet HTML. This is useful primarily when debugging Scribe.
+character sheet HTML. This is useful primarily when debugging Quilvyn.
 </p><p>
 A few items in the editor window don't relate directly to the contents of the
 character sheet.  The "About" button opens a window with text describing
-Scribe, and the "Help" button opens one that contains this document.  The
+Quilvyn, and the "Help" button opens one that contains this document.  The
 "Rules" pull-down allows you to change between different character-generation
-rule sets&#151;Scribe comes with support for the v3.5 System Reference
+rule sets&#151;Quilvyn comes with support for the v3.5 System Reference
 Document, and plug-ins for particular campaign settings are available.  The
 buttons next to this open pull-down open windows with details about the
 particular rule set.  The "Character" menu is discussed in
 <a href='#open'>Generating and Loading Characters</a>.  The "Summary" item in
 the character menu opens a window with a table that summarizes attributes from
-all characters that you've opened since starting Scribe.  This is intended to
+all characters that you've opened since starting Quilvyn.  This is intended to
 assist in planning and running adventures by providing a compact summary of the
 abilities of all the characters in a party.  The "HTML" item in the character
 menu is described in <a href='#save'>Saving Characters</a>.  The "Sheet Style"
@@ -169,19 +169,19 @@ pull-down allows you to choose between different character sheet formats.
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
 <p>
-The "Randomize" menu allows you to let Scribe randomly determine most basic
-Scribe character attributes.  The editor will select a random value for the
+The "Randomize" menu allows you to let Quilvyn randomly determine most basic
+Quilvyn character attributes.  The editor will select a random value for the
 attribute you choose and update both the editor display and the character
 sheet.  For the six basic attributes&#151;strength, intelligence, wisdom,
-constitution, dexterity, and charisma&#151;Scribe computes the random value by
+constitution, dexterity, and charisma&#151;Quilvyn computes the random value by
 randomly generating four numbers from 1 to 6 and summing the highest three.
-For other selection attributes, Scribe randomly selects one of the possible
-values.  When selecting set values such as spells and feats, Scribe uses other
+For other selection attributes, Quilvyn randomly selects one of the possible
+values.  When selecting set values such as spells and feats, Quilvyn uses other
 information about the character (e.g., feat count) to randomly select the
-attribute values.  Scribe selects enough set values to fill in the number of
+attribute values.  Quilvyn selects enough set values to fill in the number of
 values appropriate for the character.  For example, if a character is entitled
-to seven feats and five are already assigned, Scribe will randomly select the
-remaining two.  The only text attribute that Scribe knows how to randomize is
+to seven feats and five are already assigned, Quilvyn will randomly select the
+remaining two.  The only text attribute that Quilvyn knows how to randomize is
 the character name.  The names that the editor generates are more often amusing
 than useful, but you can usually get a pretty decent name from them with a
 little creative editing.
@@ -189,9 +189,9 @@ little creative editing.
 
 <a name="save"><h3>Saving Characters</h3></a>
 <p>
-For security purposes, programs like Scribe are prohibited from writing files
+For security purposes, programs like Quilvyn are prohibited from writing files
 to your hard disk.  Instead, character information is saved to your browser's
-persistent storage, where Scribe can access it later.  The "Save" and
+persistent storage, where Quilvyn can access it later.  The "Save" and
 "Save As..." items from the Character menu write information about the current
 character to the browser's persistent storage.  You can later retrieve a saved
 character by selecting the character path from the Character menu. Use the
@@ -200,7 +200,7 @@ from persistent storage.
 
 <p></p>
 If you want to cache a copy of your character sheet for viewing outside of
-Scribe, select the "HTML" item in the Character menu.  Scribe opens a new
+Quilvyn, select the "HTML" item in the Character menu.  Quilvyn opens a new
 window that contains the HTML for the character sheet.  Copy and paste the
 contents of this window into your favorite editor and save the result as a web
 page (a file with an extension of .html or .htm).
@@ -208,7 +208,7 @@ page (a file with an extension of .html or .htm).
 Selecting the "Export..." item from the character menu opens a new window that
 displays the attributes for all characters in your browser's persistent
 storage.  You can copy the contents of this window to a file for backup, or you
-can paste them into a Scribe Import window in a different browser to transfer
+can paste them into a Quilvyn Import window in a different browser to transfer
 characters from one browser to another.
 </p>
 
@@ -216,7 +216,7 @@ characters from one browser to another.
 <p>
 <img src='sheetfeatures.gif' alt='Character sheet features' align='center'/>
 </p><p>
-The standard character sheet format that Scribe produces contains up to six
+The standard character sheet format that Quilvyn produces contains up to six
 sections: Header; Basic Attributes; Features and Skills; Combat; Magic; and
 Notes.  Each of these lists related character attribute values, both entered
 and computed, along with notes about the attributes.  Although most of the
@@ -232,13 +232,13 @@ explanation.
     point value.
   </li><li>
     Some attribute notes appear in italics; others in plain text.  The
-    italicized notes describe the effects of rules that Scribe used in
+    italicized notes describe the effects of rules that Quilvyn used in
     computing attributes. For example, a sheet for a halfling character might
     include an italicized note reading "<i>Halfling Ability Adjustment: +2
-    dexterity/-2 strength</i>", indicating that Scribe has added two to
+    dexterity/-2 strength</i>", indicating that Quilvyn has added two to
     dexterity value shown on the character sheet and subtracted two from the
     strength value. Italicized notes can normally be ignored during play, since
-    Scribe has already incorporated the effect on the character sheet.  Plain
+    Quilvyn has already incorporated the effect on the character sheet.  Plain
     text notes, on the other hand, describe rule effects that need to be
     applied during the game, so these should be examined closely.  For example,
     the Combat section of a halfling's character sheet might include the plain
@@ -253,23 +253,23 @@ explanation.
 <p>
 Many feats have prerequisites that the character must meet before selecting
 that feat.  A few base classes have alignment restrictions, and all prestige
-classes have prerequisites.  Scribe doesn't enforce these requirements; you're
+classes have prerequisites.  Quilvyn doesn't enforce these requirements; you're
 free to enter, say, a chaotic neutral monk if you want to.  However, in the
 notes section of the character sheet, the program includes validation notes
 about any restrictions that the character violates.  These informational notes
 make you aware of any unmet restrictions, giving you the information you need
 to correct mistakes in the character attributes.  An additional list shows
 Sanity Notes&#151;comments on character attributes that, while legal, make
-little sense.  For example, Scribe will warn you about a character whose Track
+little sense.  For example, Quilvyn will warn you about a character whose Track
 feat is made useless by the absence of any ranks in the Survival skill.
 </p>
 
 <a name="goodies"><h3>Magic Items and Special Possessions</h3></a>
 <p>
 You can list character possessions in the Notes section of the character sheet.
-Scribe assumes that any lines in this section that begin with an asterisk mark
-items that affect character attributes&#151;abilities, armor class, etc. Scribe
-refers to items with such effects as "goodies". To have Scribe perform
+Quilvyn assumes that any lines in this section that begin with an asterisk mark
+items that affect character attributes&#151;abilities, armor class, etc.
+Quilvyn refers to items with such effects as "goodies". To have Quilvyn perform
 calculations using one of these items, include the name of the affected
 attribute and the amount of bonus with it. For example, including these three
 lines in the Notes section will raise the character's strength by two, their
@@ -281,7 +281,7 @@ Sleight Of Hand skill by four, and their attack and damage with longswords by 1:
 * +1 Longsword
 </p>
 <p>
-Along with bonuses (and negative values for harmful items), Scribe computes the
+Along with bonuses (and negative values for harmful items), Quilvyn computes the
 modifiers for armor and weapons listed as having masterwork quality. Multiple
 items can be listed on a single line separated by semicolons, so the above
 three items can also be listed as:

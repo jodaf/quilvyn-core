@@ -113,7 +113,7 @@ RuleEngine.prototype.allTargets = function(source) {
  */
 RuleEngine.prototype.applyRules = function(initial) {
   var computed = { };
-  var allAttrs = ScribeUtils.getKeys(initial);
+  var allAttrs = QuilvynUtils.getKeys(initial);
   if(this.needToExpandPatterns) {
     allAttrs = allAttrs.concat(this.allTargets()).concat(this.allSources());
   }
@@ -174,7 +174,7 @@ RuleEngine.prototype.isTarget = function(attr) {
 /* A debugging function that returns an HTML representation of the rules. */
 RuleEngine.prototype.toHtml = function() {
   var result = '';
-  var sources = ScribeUtils.getKeys(this.sources);
+  var sources = QuilvynUtils.getKeys(this.sources);
   for(var i = 0; i < sources.length; i++) {
     var a = sources[i];
     result += '<b>' + a + '</b>\n';

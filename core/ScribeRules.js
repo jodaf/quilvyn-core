@@ -18,11 +18,11 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 "use strict";
 
 /*
- * A Scribe extension to RuleEngine.  Adds an associated name and version,
+ * A Quilvyn extension to RuleEngine.  Adds an associated name and version,
  * named choice sets (e.g., classes, weapons), editor elements, and named
  * object viewers.
  */
-function ScribeRules(name, version) {
+function QuilvynRules(name, version) {
   this.choices = {};
   this.editorElements = [];
   this.name = name;
@@ -30,18 +30,18 @@ function ScribeRules(name, version) {
   this.viewers = {};
   this.viewerAdditions = [];
 }
-ScribeRules.prototype = new RuleEngine();
+QuilvynRules.prototype = new RuleEngine();
 
 /*
  * Add each #item# to the set of valid selections for choice set #name#.  Each
  * value of #item# may contain data associated with the selection.  See
- * scribedoc.html for details.
+ * quilvyndoc.html for details.
  */
-ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
+QuilvynRules.prototype.defineChoice = function(name, item /*, item ... */) {
   if(this.choices[name] == null)
     this.choices[name] = {};
   var o = this.choices[name];
-  var allArgs = ScribeUtils.flatten(arguments, 1);
+  var allArgs = QuilvynUtils.flatten(arguments, 1);
   for(var i = 0; i < allArgs.length; i++) {
     var pieces = allArgs[i].split(/:/);
     var choice = pieces[0];
@@ -56,7 +56,7 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
 };
 
 /*
- * Defines an element for the Scribe character editor display.  #name# is the
+ * Defines an element for the Quilvyn character editor display.  #name# is the
  * name of the element; #label# is a string label displayed before the element;
  * #type# is one of "bag", "button", "checkbox", "select-one", "set", "text",
  * or "textarea", indicating the type of element; #params# is an array of
@@ -64,7 +64,7 @@ ScribeRules.prototype.defineChoice = function(name, item /*, item ... */) {
  * element that the new one should be placed before.  If #type# is null, an
  * existing element named #name# is removed.
  */
-ScribeRules.prototype.defineEditorElement = function
+QuilvynRules.prototype.defineEditorElement = function
   (name, label, type, params, before) {
   for(var i = this.editorElements.length - 1; i >= 0; i--) {
     if(this.editorElements[i][0] == name) {
@@ -96,8 +96,8 @@ ScribeRules.prototype.defineEditorElement = function
  * #attr# will typically be a new attribute to be included in one of the notes
  * sections of the character sheet.
  */
-ScribeRules.prototype.defineNote = function(note /*, note ... */) {
-  var allArgs = ScribeUtils.flatten(arguments);
+QuilvynRules.prototype.defineNote = function(note /*, note ... */) {
+  var allArgs = QuilvynUtils.flatten(arguments);
   for(var i = 0; i < allArgs.length; i++) {
     this.defineChoice('notes', allArgs[i]);
     var pieces = allArgs[i].split(/:/);
@@ -225,7 +225,7 @@ ScribeRules.prototype.defineNote = function(note /*, note ... */) {
  * computes the amount for the assignment, increment, etc; if it is null, the
  * value of #source# is used.
  */
-ScribeRules.prototype.defineRule = function
+QuilvynRules.prototype.defineRule = function
   (target, source, type, expr /*, source, type, expr ... */) {
   for(var i = 3; i < arguments.length; i += 3)
     this.addRules(target, arguments[i - 2], arguments[i - 1], arguments[i]);
@@ -234,12 +234,12 @@ ScribeRules.prototype.defineRule = function
 /*
  * Include attribute #name# on the character sheet before attribute #position#
  * (or at the end of section #position# if it ends with '/') in all viewers
- * associated with this ScribeRules.  The optional HTML #format# may be
+ * associated with this QuilvynRules.  The optional HTML #format# may be
  * supplied to indicate how #name# should be formatted on the sheet.
  * #separator# is a bit of HTML used to separate elements for items that have
  * multiple values.
  */
-ScribeRules.prototype.defineSheetElement = function
+QuilvynRules.prototype.defineSheetElement = function
   (name, position, format, separator) {
   var element = {name: name, format: format, separator: separator};
   if(position != null && position.match(/\/$/)) {
@@ -258,8 +258,8 @@ ScribeRules.prototype.defineSheetElement = function
   this.viewerAdditions[this.viewerAdditions.length] = element;
 };
 
-/* Associates ObjectViewer #viewer# with name #name# in this ScribeRules. */
-ScribeRules.prototype.defineViewer = function(name, viewer) {
+/* Associates ObjectViewer #viewer# with name #name# in this QuilvynRules. */
+QuilvynRules.prototype.defineViewer = function(name, viewer) {
   this.viewers[name] = viewer;
   for(var i = 0; i < this.viewerAdditions.length; i++) {
     var element = this.viewerAdditions[i];
@@ -273,27 +273,27 @@ ScribeRules.prototype.defineViewer = function(name, viewer) {
  * Returns an object that contains all the choices for #name# previously
  * defined for this rule set via addChoice.
  */
-ScribeRules.prototype.getChoices = function(name) {
+QuilvynRules.prototype.getChoices = function(name) {
   return this.choices[name];
 };
 
 /* Returns the array of editor elements associated with this rule set. */
-ScribeRules.prototype.getEditorElements = function() {
+QuilvynRules.prototype.getEditorElements = function() {
   return this.editorElements;
 };
 
 /* Returns the name of this rule set. */
-ScribeRules.prototype.getName = function() {
+QuilvynRules.prototype.getName = function() {
   return this.name;
 };
 
 /* Returns the version of this rule set. */
-ScribeRules.prototype.getVersion = function() {
+QuilvynRules.prototype.getVersion = function() {
   return this.version;
 };
 
 /* Returns the ObjectViewer associated with #name#, null if none. */
-ScribeRules.prototype.getViewer = function(name) {
+QuilvynRules.prototype.getViewer = function(name) {
   if(name == null) {
     name = this.getViewerNames()[0];
   }
@@ -302,24 +302,24 @@ ScribeRules.prototype.getViewer = function(name) {
 
 /*
  * Returns an array of all the names associated with ObjectViewers in this
- * ScribeRules.
+ * QuilvynRules.
  */
-ScribeRules.prototype.getViewerNames = function() {
-  return ScribeUtils.getKeys(this.viewers);
+QuilvynRules.prototype.getViewerNames = function() {
+  return QuilvynUtils.getKeys(this.viewers);
 };
 
 /*
  * Fixes as many validation errors in #attributes# as possible.  This stub
  * implementation should be overridden by inheriting classes/instances.
  */
-ScribeRules.prototype.makeValid = function(attributes) {
+QuilvynRules.prototype.makeValid = function(attributes) {
 };
 
 /*
  * Returns a character with randomized settings for all randomizable attributes
  * except for those in #fixedAttributes#, which are copied to the result.
  */
-ScribeRules.prototype.randomizeAllAttributes = function(fixedAttributes) {
+QuilvynRules.prototype.randomizeAllAttributes = function(fixedAttributes) {
   var result = { };
   var timings = [];
   for(var a in fixedAttributes) {
@@ -345,10 +345,10 @@ ScribeRules.prototype.randomizeAllAttributes = function(fixedAttributes) {
 };
 
 /* Sets #attributes#'s #attribute# attribute to a random value. */
-ScribeRules.prototype.randomizeOneAttribute = function(attributes, attribute) {
+QuilvynRules.prototype.randomizeOneAttribute = function(attributes, attribute) {
   if(this.getChoices(attribute + 's') != null) {
     attributes[attribute] =
-      ScribeUtils.randomKey(this.getChoices(attribute + 's'));
+      QuilvynUtils.randomKey(this.getChoices(attribute + 's'));
   }
 };
 
@@ -356,6 +356,6 @@ ScribeRules.prototype.randomizeOneAttribute = function(attributes, attribute) {
  * Returns HTML body content for user notes associated with this rule set. This
  * stub implementation should be overridden by inheriting classes/instances.
  */
-ScribeRules.prototype.ruleNotes = function() {
+QuilvynRules.prototype.ruleNotes = function() {
   return "No notes for this rule set\n";
 };

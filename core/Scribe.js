@@ -3,8 +3,8 @@
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
 var VERSION = '1.5.0';
 var ABOUT_TEXT =
-'Scribe Character Editor version ' + VERSION + '\n' +
-'The Scribe Character Editor is ' + COPYRIGHT + '\n' +
+'Quilvyn Character Editor version ' + VERSION + '\n' +
+'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
 'Software Foundation; either version 2 of the License, or (at your option) ' +
@@ -23,7 +23,7 @@ var ABOUT_TEXT =
 'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
 '<a href="srd35/ogl.txt">here</a> to see the license.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley and Norm Jacobson, for ' +
-'patient testing of Scribe and for suggestions that greatly improved it.';
+'patient testing of Quilvyn and for suggestions that greatly improved it.';
 
 var FEATURES_OF_EDIT_WINDOW =
   'height=750,width=500,menubar,resizable,scrollbars';
@@ -31,8 +31,8 @@ var FEATURES_OF_SHEET_WINDOW =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
 var FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
-var PERSISTENT_CHARACTER_PREFIX = 'ScribeCharacter.';
-var PERSISTENT_INFO_PREFIX = 'ScribeInfo.';
+var PERSISTENT_CHARACTER_PREFIX = 'QuilvynCharacter.';
+var PERSISTENT_INFO_PREFIX = 'QuilvynInfo.';
 var TIMEOUT_DELAY = 1000; // One second
 
 var character = {};     // Displayed character attrs
@@ -48,7 +48,7 @@ var persistentInfo = {  // What we store in persistent data
 };
 var ruleSet = null;     // The rule set currently in use
 var ruleSets = {};      // Registered rule sets, indexed by name
-var scribeTab = null;   // Menu/sheet tab, if requested
+var quilvynTab = null;  // Menu/sheet tab, if requested
 var sheetWindow = null; // Window where character sheet is shown
 
 // Hack to support crippled IE/Edge testing
@@ -66,12 +66,12 @@ if(storage == null) {
   };
 }
 
-/* Launch routine called after all Scribe scripts are loaded. */
-function Scribe() {
+/* Launch routine called after all Quilvyn scripts are loaded. */
+function Quilvyn() {
 
   if(InputGetValue == null || ObjectViewer == null || RuleEngine == null ||
-     ScribeRules == null || ScribeUtils == null) {
-    alert('JavaScript modules needed by Scribe are missing; exiting');
+     QuilvynRules == null || QuilvynUtils == null) {
+    alert('JavaScript modules needed by Quilvyn are missing; exiting');
     return;
   }
 
@@ -101,16 +101,16 @@ function Scribe() {
     }
   }
 
-  if(CustomizeScribe != null)
-    CustomizeScribe();
+  if(CustomizeQuilvyn != null)
+    CustomizeQuilvyn();
 
   if(window.MENU_WIDTH_PERCENT > 0) {
     var sheetWidthPercent = 99 - window.MENU_WIDTH_PERCENT;
-    scribeTab = window.open('', 'ScribeCombined');
-    scribeTab.document.write(
+    quilvynTab = window.open('', 'QuilvynCombined');
+    quilvynTab.document.write(
       '<html>\n' +
       '<head>\n' +
-      '  <title>Scribe</title>\n' +
+      '  <title>Quilvyn</title>\n' +
       '  <style>\n' +
       '    .edit {\n' +
       '      float: left;\n' +
@@ -130,15 +130,15 @@ function Scribe() {
       '</body>\n' +
       '</html>\n'
     );
-    scribeTab.document.close();
+    quilvynTab.document.close();
   }
 
-  Scribe.newCharacter();
+  Quilvyn.newCharacter();
 
 }
 
-/* Adds #rs# to Scribe's list of supported rule sets. */
-Scribe.addRuleSet = function(rs) {
+/* Adds #rs# to Quilvyn's list of supported rule sets. */
+Quilvyn.addRuleSet = function(rs) {
   // Add a rule for handling hidden information
   rs.defineRule('hiddenNotes', 'hidden', '?', null);
   ruleSets[rs.getName()] = rs;
@@ -146,7 +146,7 @@ Scribe.addRuleSet = function(rs) {
 };
 
 /* Interacts w/user to delete a character from persistent storage. */
-Scribe.deleteCharacter = function() {
+Quilvyn.deleteCharacter = function() {
   var prompt = 'Enter character to delete:';
   var paths = [];
   for(var path in storage) {
@@ -163,12 +163,12 @@ Scribe.deleteCharacter = function() {
     return;
   }
   storage.removeItem(PERSISTENT_CHARACTER_PREFIX + path);
-  Scribe.refreshEditor(false);
+  Quilvyn.refreshEditor(false);
 }
 
 /* Returns HTML for the character editor form. */
-Scribe.editorHtml = function() {
-  var scribeElements = [
+Quilvyn.editorHtml = function() {
+  var quilvynElements = [
     ['about', ' ', 'button', ['About']],
     ['help', '', 'button', ['Help']],
     ['rules', 'Rules', 'select-one', []],
@@ -182,7 +182,7 @@ Scribe.editorHtml = function() {
     ['viewer', 'Sheet Style', 'select-one', []],
     ['randomize', 'Randomize', 'select-one', 'random']
   ];
-  var elements = scribeElements.concat(ruleSet.getEditorElements());
+  var elements = quilvynElements.concat(ruleSet.getEditorElements());
   var htmlBits = ['<form name="frm"><table>'];
   for(var i = 0; i < elements.length; i++) {
     var element = elements[i];
@@ -193,7 +193,7 @@ Scribe.editorHtml = function() {
     if(typeof(params) == 'string') {
       if(ruleSet.getChoices(params) == null)
         continue;
-      params = ScribeUtils.getKeys(ruleSet.getChoices(params));
+      params = QuilvynUtils.getKeys(ruleSet.getChoices(params));
       if(name == 'randomize')
         params = ['---choose one---'].concat(params);
     }
@@ -222,7 +222,7 @@ Scribe.editorHtml = function() {
 };
 
 /* Pops a window containing the attribues of all stored characters. */
-Scribe.exportCharacters = function() {
+Quilvyn.exportCharacters = function() {
   var htmlBits = [
     '<html><head><title>Export Characters</title></head>',
     '<body bgcolor="' + BACKGROUND + '">',
@@ -230,7 +230,7 @@ Scribe.exportCharacters = function() {
   for(var path in storage) {
     if(!path.startsWith(PERSISTENT_CHARACTER_PREFIX))
       continue;
-    var toExport = Scribe.retrieveCharacterFromStorage(path);
+    var toExport = Quilvyn.retrieveCharacterFromStorage(path);
     // In case character saved before _path attr use
     toExport['_path'] = path.substring(PERSISTENT_CHARACTER_PREFIX.length);
     var text = ObjectViewer.toCode(toExport).
@@ -245,7 +245,7 @@ Scribe.exportCharacters = function() {
 }
 
 /* Interacts w/user to import characters from external sources. */
-Scribe.importCharacters = function() {
+Quilvyn.importCharacters = function() {
 
   if(characterPopup == null) {
     // Nothing presently pending
@@ -267,7 +267,7 @@ Scribe.importCharacters = function() {
     characterPopup.document.write(html);
     characterPopup.document.close();
     characterPopup.okay = false;
-    setTimeout('Scribe.importCharacters()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.importCharacters()', TIMEOUT_DELAY);
     return;
   } else if(characterPopup.closed) {
     // User cancel
@@ -278,7 +278,7 @@ Scribe.importCharacters = function() {
     return;
   } else if(!characterPopup.okay) {
     // Try again later
-    setTimeout('Scribe.importCharacters()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.importCharacters()', TIMEOUT_DELAY);
     return;
   }
 
@@ -289,7 +289,7 @@ Scribe.importCharacters = function() {
   if(index < 0) {
     characterPopup.alert("Syntax error: missing {");
     characterPopup.okay = false;
-    setTimeout('Scribe.importCharacters()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.importCharacters()', TIMEOUT_DELAY);
     return;
   }
 
@@ -320,36 +320,36 @@ Scribe.importCharacters = function() {
     if(!text.match(/^\s*\}/)) {
       characterPopup.alert("Syntax error: missing } at '" + text + "'");
       characterPopup.okay = false;
-      setTimeout('Scribe.importCharacters()', TIMEOUT_DELAY);
+      setTimeout('Quilvyn.importCharacters()', TIMEOUT_DELAY);
       return;
     }
     character = importedCharacter;
     characterPath = character['_path'] || '';
-    characterCache[characterPath] = ScribeUtils.clone(character);
-    Scribe.saveCharacter(characterPath);
+    characterCache[characterPath] = QuilvynUtils.clone(character);
+    Quilvyn.saveCharacter(characterPath);
     index = text.indexOf('{');
   }
 
   characterPopup.close();
   characterPopup = null;
-  Scribe.refreshEditor(false);
-  Scribe.refreshSheet();
+  Quilvyn.refreshEditor(false);
+  Quilvyn.refreshSheet();
 
 };
 
 /* Loads character specified by #path# from persistent storage. */
-Scribe.openCharacter = function(path) {
+Quilvyn.openCharacter = function(path) {
   character =
-    Scribe.retrieveCharacterFromStorage(PERSISTENT_CHARACTER_PREFIX + path);
+    Quilvyn.retrieveCharacterFromStorage(PERSISTENT_CHARACTER_PREFIX + path);
   character['_path'] = path; // In case character saved before _path attr use
   characterPath = path;
-  characterCache[characterPath] = ScribeUtils.clone(character);
-  Scribe.refreshEditor(false);
-  Scribe.refreshSheet();
+  characterCache[characterPath] = QuilvynUtils.clone(character);
+  Quilvyn.refreshEditor(false);
+  Quilvyn.refreshSheet();
 }
 
 /* Replaces the current character with one with empty attributes. */
-Scribe.newCharacter = function() {
+Quilvyn.newCharacter = function() {
   character = {};
   var elements = ruleSet.getEditorElements();
   for(var i = 0; i < elements.length; i++) {
@@ -361,23 +361,23 @@ Scribe.newCharacter = function() {
     if(type == 'checkbox') {
       character[name] = 0;
     } else if(type == 'select-one') {
-      var options = typeof(params) == 'string' ? ScribeUtils.getKeys(ruleSet.getChoices(params)) : params;
+      var options = typeof(params) == 'string' ? QuilvynUtils.getKeys(ruleSet.getChoices(params)) : params;
       character[name] = options[0];
     } else if(type == 'text' && params[0] >= 5) {
       character[name] = name == 'experience' ? 0 : ('No ' + label);
     }
   }
   characterPath = '';
-  characterCache[characterPath] = ScribeUtils.clone(character);
-  Scribe.refreshEditor(false);
-  Scribe.refreshSheet();
+  characterCache[characterPath] = QuilvynUtils.clone(character);
+  Quilvyn.refreshEditor(false);
+  Quilvyn.refreshSheet();
 };
 
 /*
  * Replaces the current character with one that has all randomized attributes.
  * If #prompt# is true, allows the user to specify certain attributes.
  */
-Scribe.randomizeCharacter = function(prompt) {
+Quilvyn.randomizeCharacter = function(prompt) {
 
   if(!prompt) {
     ; // empty -- no popup needed
@@ -385,7 +385,7 @@ Scribe.randomizeCharacter = function(prompt) {
     // Nothing presently pending
     var presets = ruleSet.getChoices('preset');
     if(presets == null) {
-      return Scribe.randomizeCharacter(false);
+      return Quilvyn.randomizeCharacter(false);
     }
     var htmlBits = [
       '<html><head><title>Random Character</title></head>',
@@ -393,7 +393,7 @@ Scribe.randomizeCharacter = function(prompt) {
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h2>Character Attributes</h2>',
       '<form name="frm"><table>'];
-    presets = ScribeUtils.getKeys(presets);
+    presets = QuilvynUtils.getKeys(presets);
     // Copy info for each potential preset from the editor form to the loading
     // popup so that the user can specify the value
     for(var i = 0; i < presets.length; i++) {
@@ -447,10 +447,10 @@ Scribe.randomizeCharacter = function(prompt) {
       var widget = characterPopup.document.frm[presets[i]];
       if(typeof(widget) == 'object' && widget != null &&
          widget.selectedIndex != null) {
-        widget.selectedIndex = ScribeUtils.random(0, widget.options.length - 1);
+        widget.selectedIndex = QuilvynUtils.random(0, widget.options.length-1);
       }
     }
-    setTimeout('Scribe.randomizeCharacter(true)', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.randomizeCharacter(true)', TIMEOUT_DELAY);
     return;
   } else if(characterPopup.closed) {
     // User cancel
@@ -461,7 +461,7 @@ Scribe.randomizeCharacter = function(prompt) {
     return;
   } else if(!characterPopup.okay) {
     // Try again later
-    setTimeout('Scribe.randomizeCharacter(true)', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.randomizeCharacter(true)', TIMEOUT_DELAY);
     return;
   }
 
@@ -481,9 +481,9 @@ Scribe.randomizeCharacter = function(prompt) {
   }
   character = ruleSet.randomizeAllAttributes(fixedAttributes);
   characterPath = '';
-  characterCache[characterPath] = ScribeUtils.clone(character);
-  Scribe.refreshEditor(false);
-  Scribe.refreshSheet();
+  characterCache[characterPath] = QuilvynUtils.clone(character);
+  Quilvyn.refreshEditor(false);
+  Quilvyn.refreshSheet();
   if(characterPopup != null)
     characterPopup.close();
   characterPopup = null;
@@ -494,27 +494,27 @@ Scribe.randomizeCharacter = function(prompt) {
  * Resets the editing window fields to the values of the current character.
  * First redraws the editor if #redraw# is true.
  */
-Scribe.refreshEditor = function(redraw) {
+Quilvyn.refreshEditor = function(redraw) {
 
   var i;
 
   if(editWindow == null || editWindow.closed) {
-    editWindow = scribeTab != null ? scribeTab.frames[0] :
-                 window.open('', 'scribeEditor', FEATURES_OF_EDIT_WINDOW);
+    editWindow = quilvynTab != null ? quilvynTab.frames[0] :
+                 window.open('', 'QuilvynEditor', FEATURES_OF_EDIT_WINDOW);
     redraw = true;
   }
   if(redraw) {
     var editHtml =
-      '<html><head><title>Scribe Editor Window</title></head>\n' +
+      '<html><head><title>Quilvyn Editor Window</title></head>\n' +
       '<body bgcolor="' + BACKGROUND + '">\n' +
       '<img src="' + LOGO_URL + ' "/><br/>\n' +
       COPYRIGHT + '<br/>\n' +
-      Scribe.editorHtml() + '\n' +
+      Quilvyn.editorHtml() + '\n' +
       '</body></html>\n';
     editWindow.document.write(editHtml);
     editWindow.document.close();
     editForm = editWindow.document.forms[0];
-    var callback = function() {Scribe.update(this);};
+    var callback = function() {Quilvyn.update(this);};
     for(i = 0; i < editForm.elements.length; i++) {
       InputSetCallback(editForm.elements[i], callback);
     }
@@ -531,7 +531,7 @@ Scribe.refreshEditor = function(redraw) {
   );
 
   InputSetOptions(editForm.character, characterOpts);
-  InputSetOptions(editForm.rules, ScribeUtils.getKeys(ruleSets));
+  InputSetOptions(editForm.rules, QuilvynUtils.getKeys(ruleSets));
   InputSetOptions(editForm.viewer, ruleSet.getViewerNames());
 
   // Skip to first character-related editor input
@@ -573,17 +573,17 @@ Scribe.refreshEditor = function(redraw) {
 };
 
 /* Draws the sheet for the current character in the character sheet window. */
-Scribe.refreshSheet = function() {
+Quilvyn.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed) {
-    sheetWindow = window.scribeTab != null ? scribeTab.frames[1] :
-                  window.open('', 'scribeSheet', FEATURES_OF_SHEET_WINDOW);
+    sheetWindow = window.quilvynTab != null ? quilvynTab.frames[1] :
+                  window.open('', 'QuilvynSheet', FEATURES_OF_SHEET_WINDOW);
   }
-  sheetWindow.document.write(Scribe.sheetHtml(character));
+  sheetWindow.document.write(Quilvyn.sheetHtml(character));
   sheetWindow.document.close();
 };
 
 /* Creates and returns a character from the contents of a storage path. */
-Scribe.retrieveCharacterFromStorage = function(path) {
+Quilvyn.retrieveCharacterFromStorage = function(path) {
   var result = {};
   var attrs = storage.getItem(path).split('\t');
   for(var i = 0; i < attrs.length; i++) {
@@ -595,7 +595,7 @@ Scribe.retrieveCharacterFromStorage = function(path) {
 }
 
 /* Interacts w/user to preserve current character in persistent storage. */
-Scribe.saveCharacter = function(path) {
+Quilvyn.saveCharacter = function(path) {
   if(path == '') {
     path = editWindow.prompt("Save " + character['name'] + " to path", "");
     if(path == null)
@@ -609,16 +609,16 @@ Scribe.saveCharacter = function(path) {
   }
   storage.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
   characterPath = path;
-  characterCache[characterPath] = ScribeUtils.clone(character);
-  Scribe.refreshEditor(false);
+  characterCache[characterPath] = QuilvynUtils.clone(character);
+  Quilvyn.refreshEditor(false);
 }
 
 /* Returns the character sheet HTML for the current character. */
-Scribe.sheetHtml = function(attrs) {
+Quilvyn.sheetHtml = function(attrs) {
 
   var a;
   var computedAttributes;
-  var enteredAttributes = ScribeUtils.clone(attrs);
+  var enteredAttributes = QuilvynUtils.clone(attrs);
   var i;
   var sheetAttributes = {};
 
@@ -640,7 +640,7 @@ Scribe.sheetHtml = function(attrs) {
         value = value.replace(new RegExp('%' + j, 'g'), computedAttributes[a + '.' + j]);
       }
     } else if(isNote && typeof(value) == 'number') {
-      value = ScribeUtils.signed(value);
+      value = QuilvynUtils.signed(value);
     }
     if((i = name.indexOf('.')) < 0) {
       sheetAttributes[name] = value;
@@ -680,7 +680,7 @@ Scribe.sheetHtml = function(attrs) {
   }
 
   return '<' + '!' + '-- Generated ' + new Date().toString() +
-           ' by Scribe version ' + VERSION + '; ' +
+           ' by Quilvyn version ' + VERSION + '; ' +
            ruleSet.getName() + ' rule set version ' + ruleSet.getVersion() +
            ' --' + '>\n' +
          '<html>\n' +
@@ -688,7 +688,7 @@ Scribe.sheetHtml = function(attrs) {
          '  <title>' + sheetAttributes.Name + '</title>\n' +
          '  <script>\n' +
          attrImage +
-         // Careful: don't want to close scribe.html's script tag here!
+         // Careful: don't want to close quilvyn.html's script tag here!
          '  </' + 'script>\n' +
          '</head>\n' +
          '<body>\n' +
@@ -700,23 +700,23 @@ Scribe.sheetHtml = function(attrs) {
 };
 
 /* Opens a window that contains HTML for #html# in readable/copyable format. */
-Scribe.showHtml = function(html) {
-  if(Scribe.showHtml.htmlWindow == null || Scribe.showHtml.htmlWindow.closed)
-    Scribe.showHtml.htmlWindow =
+Quilvyn.showHtml = function(html) {
+  if(Quilvyn.showHtml.htmlWindow == null || Quilvyn.showHtml.htmlWindow.closed)
+    Quilvyn.showHtml.htmlWindow =
       window.open('', 'html', FEATURES_OF_OTHER_WINDOWS);
   else
-    Scribe.showHtml.htmlWindow.focus();
+    Quilvyn.showHtml.htmlWindow.focus();
   html = html.replace(/</g, '&lt;');
   html = html.replace(/>/g, '&gt;');
-  Scribe.showHtml.htmlWindow.document.write(
+  Quilvyn.showHtml.htmlWindow.document.write(
     '<html><head><title>HTML</title></head>\n' +
     '<body><pre>' + html + '</pre></body></html>\n'
   );
-  Scribe.showHtml.htmlWindow.document.close();
+  Quilvyn.showHtml.htmlWindow.document.close();
 };
 
 /* Stores the current values of persistentInfo in the browser. */
-Scribe.storePersistentInfo = function() {
+Quilvyn.storePersistentInfo = function() {
   for(var a in persistentInfo) {
     storage.setItem(PERSISTENT_INFO_PREFIX + a, persistentInfo[a]);
   }
@@ -726,12 +726,12 @@ Scribe.storePersistentInfo = function() {
  * Opens a window that displays a summary of the attributes of all characters
  * that have been loaded into the editor.
  */
-Scribe.summarizeCachedAttrs = function() {
+Quilvyn.summarizeCachedAttrs = function() {
   var combinedAttrs = { };
   var htmlBits = [
-    '<head><title>Scribe Character Attribute Summary</title></head>',
+    '<head><title>Quilvyn Character Attribute Summary</title></head>',
     '<body bgcolor="' + BACKGROUND + '">',
-    '<h1>Scribe Character Attribute Summary</h1>',
+    '<h1>Quilvyn Character Attribute Summary</h1>',
     '<table border="1">'
   ];
   var notes = ruleSet.getChoices('notes');
@@ -755,7 +755,7 @@ Scribe.summarizeCachedAttrs = function() {
       combinedAttrs[attr].push(value);
     }
   }
-  var keys = ScribeUtils.getKeys(combinedAttrs);
+  var keys = QuilvynUtils.getKeys(combinedAttrs);
   keys.sort();
   for(var i = 0; i < keys.length; i++) {
     var attr = keys[i];
@@ -778,18 +778,18 @@ Scribe.summarizeCachedAttrs = function() {
   }
   htmlBits[htmlBits.length] = '</table>';
   htmlBits[htmlBits.length] = '</body></html>\n';
-  if(Scribe.summarizeCachedAttrs.win == null ||
-     Scribe.summarizeCachedAttrs.win.closed)
-    Scribe.summarizeCachedAttrs.win =
+  if(Quilvyn.summarizeCachedAttrs.win == null ||
+     Quilvyn.summarizeCachedAttrs.win.closed)
+    Quilvyn.summarizeCachedAttrs.win =
       window.open('', 'sumwin', FEATURES_OF_OTHER_WINDOWS);
   else
-    Scribe.summarizeCachedAttrs.win.focus();
-  Scribe.summarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
-  Scribe.summarizeCachedAttrs.win.document.close();
+    Quilvyn.summarizeCachedAttrs.win.focus();
+  Quilvyn.summarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
+  Quilvyn.summarizeCachedAttrs.win.document.close();
 };
 
 /* Callback invoked when the user changes the editor value of Input #input#. */
-Scribe.update = function(input) {
+Quilvyn.update = function(input) {
 
   var name = input.name;
   var value = InputGetValue(input);
@@ -800,68 +800,68 @@ Scribe.update = function(input) {
   else if(typeof(value) == 'string' && value.match(/^-?\d+$/))
     value -= 0;
   if(name == 'about') {
-    if(Scribe.aboutWindow == null || Scribe.aboutWindow.closed) {
-      Scribe.aboutWindow =
-        window.open('', 'About Scribe', FEATURES_OF_OTHER_WINDOWS);
-      Scribe.aboutWindow.document.write
+    if(Quilvyn.aboutWindow == null || Quilvyn.aboutWindow.closed) {
+      Quilvyn.aboutWindow =
+        window.open('', 'About Quilvyn', FEATURES_OF_OTHER_WINDOWS);
+      Quilvyn.aboutWindow.document.write
         (ABOUT_TEXT.replace(/\n/g, '<br/>\n<br/>\n'));
-      Scribe.aboutWindow.document.close();
-      Scribe.aboutWindow.document.bgColor = BACKGROUND;
+      Quilvyn.aboutWindow.document.close();
+      Quilvyn.aboutWindow.document.bgColor = BACKGROUND;
     } else
-      Scribe.aboutWindow.focus();
+      Quilvyn.aboutWindow.focus();
   } else if(name.match(/^(computed|hidden|italics)$/)) {
     persistentInfo[name] = value ? '1' : '0';
-    Scribe.storePersistentInfo();
-    Scribe.refreshSheet();
+    Quilvyn.storePersistentInfo();
+    Quilvyn.refreshSheet();
   } else if(name == 'character') {
     input.selectedIndex = 0;
     if(value == '---select one---')
       ; /* empty--Safari bug workaround */
     else if(value == 'Delete...')
-      Scribe.deleteCharacter();
+      Quilvyn.deleteCharacter();
     else if(value == 'Save')
-      Scribe.saveCharacter(characterPath);
+      Quilvyn.saveCharacter(characterPath);
     else if(value == 'Save As...')
-      Scribe.saveCharacter('');
+      Quilvyn.saveCharacter('');
     else if(value == 'Export')
-      Scribe.exportCharacters();
+      Quilvyn.exportCharacters();
     else if(value == 'Summary')
-      Scribe.summarizeCachedAttrs();
+      Quilvyn.summarizeCachedAttrs();
     else if(value == 'HTML')
-      Scribe.showHtml(Scribe.sheetHtml(character));
+      Quilvyn.showHtml(Quilvyn.sheetHtml(character));
     else if(WARN_ABOUT_DISCARD &&
-       !ScribeUtils.clones(character, characterCache[characterPath]) &&
+       !QuilvynUtils.clones(character, characterCache[characterPath]) &&
        !editWindow.confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Import...')
-      Scribe.importCharacters();
+      Quilvyn.importCharacters();
     else if(value == 'New')
-      Scribe.newCharacter();
+      Quilvyn.newCharacter();
     else if(value == 'Random...')
-      Scribe.randomizeCharacter(true);
+      Quilvyn.randomizeCharacter(true);
     else
-      Scribe.openCharacter(value);
+      Quilvyn.openCharacter(value);
   } else if(name == 'help') {
-    if(Scribe.helpWindow == null || Scribe.helpWindow.closed)
-      Scribe.helpWindow =
+    if(Quilvyn.helpWindow == null || Quilvyn.helpWindow.closed)
+      Quilvyn.helpWindow =
         window.open(HELP_URL, 'help', FEATURES_OF_OTHER_WINDOWS);
     else
-      Scribe.helpWindow.focus();
+      Quilvyn.helpWindow.focus();
   } else if(name == 'randomize') {
     input.selectedIndex = 0;
     ruleSet.randomizeOneAttribute(character, value);
-    Scribe.refreshEditor(false);
-    Scribe.refreshSheet();
+    Quilvyn.refreshEditor(false);
+    Quilvyn.refreshSheet();
   } else if(name == 'rules') {
     ruleSet = ruleSets[value];
-    Scribe.refreshEditor(true);
-    Scribe.refreshSheet();
+    Quilvyn.refreshEditor(true);
+    Quilvyn.refreshSheet();
   } else if(name == 'ruleAttributes') {
-    if(Scribe.attributesWindow != null && !Scribe.attributesWindow.closed)
-      Scribe.attributesWindow.close();
-    Scribe.attributesWindow =
+    if(Quilvyn.attributesWindow != null && !Quilvyn.attributesWindow.closed)
+      Quilvyn.attributesWindow.close();
+    Quilvyn.attributesWindow =
       window.open('', 'attrwin', FEATURES_OF_OTHER_WINDOWS);
-    Scribe.attributesWindow.document.write(
+    Quilvyn.attributesWindow.document.write(
       '<html>\n',
       '<head>\n',
       '<title>Attributes of ' + InputGetValue(editForm.rules) + '</title>\n',
@@ -872,19 +872,19 @@ Scribe.update = function(input) {
     attrs.sort();
     for(var i = 0; i < attrs.length; i++) {
       if(i > 0 && attrs[i] != '' && attrs[i] != attrs[i - 1])
-        Scribe.attributesWindow.document.write(attrs[i] + '<br/>\n');
+        Quilvyn.attributesWindow.document.write(attrs[i] + '<br/>\n');
     }
-    Scribe.attributesWindow.document.write(
+    Quilvyn.attributesWindow.document.write(
       '</body>\n',
       '</html>\n'
     );
-    Scribe.attributesWindow.document.close();
+    Quilvyn.attributesWindow.document.close();
   } else if(name == 'ruleNotes') {
-    if(Scribe.ruleNotesWindow != null && !Scribe.ruleNotesWindow.closed)
-      Scribe.ruleNotesWindow.close();
-    Scribe.ruleNotesWindow =
+    if(Quilvyn.ruleNotesWindow != null && !Quilvyn.ruleNotesWindow.closed)
+      Quilvyn.ruleNotesWindow.close();
+    Quilvyn.ruleNotesWindow =
       window.open('', 'rulenotes', FEATURES_OF_OTHER_WINDOWS);
-    Scribe.ruleNotesWindow.document.write(
+    Quilvyn.ruleNotesWindow.document.write(
       '<html>\n',
       '<head>\n',
       '<title>Rule Notes for ' + InputGetValue(editForm.rules) + '</title>\n',
@@ -894,7 +894,7 @@ Scribe.update = function(input) {
       '\n</body>\n',
       '</html>\n'
     );
-    Scribe.ruleNotesWindow.document.close();
+    Quilvyn.ruleNotesWindow.document.close();
   } else if(name == 'ruleRules') {
     var awin = window.open('', 'rulewin', FEATURES_OF_OTHER_WINDOWS);
     awin.document.write
@@ -914,8 +914,8 @@ Scribe.update = function(input) {
     input = editForm[name + '_sel'];
     if(input != null)
       input.selectedIndex = 0;
-    Scribe.refreshEditor(false);
-    Scribe.refreshSheet();
+    Quilvyn.refreshEditor(false);
+    Quilvyn.refreshSheet();
   } else if(name.indexOf('_filter') >= 0) {
     name = name.replace(/_filter/, '');
     var opts = [];
@@ -929,7 +929,7 @@ Scribe.update = function(input) {
     opts.sort();
     InputSetOptions(editForm[name + "_sel"], opts);
     character[name + '_filter'] = value;
-    Scribe.refreshEditor(false);
+    Quilvyn.refreshEditor(false);
   } else if(name.indexOf('_sel') >= 0) {
     name = name.replace(/_sel/, '');
     input = editForm[name];
@@ -952,9 +952,9 @@ Scribe.update = function(input) {
     }
     else
       character[name] = value;
-    Scribe.refreshSheet();
+    Quilvyn.refreshSheet();
     if(name.search(/^(levels|domains)\./) >= 0)
-      Scribe.refreshEditor(false);
+      Quilvyn.refreshEditor(false);
   }
 
 };

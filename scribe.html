@@ -1,5 +1,5 @@
 <!--
-The Scribe Character Editor is Copyright 2020, James J. Hayes
+The Quilvyn Character Editor is Copyright 2020, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
@@ -16,7 +16,7 @@ with this program; if not, write to the Free Software Foundation, Inc., 59
 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 -->
 
-<!-- This version of scribe.html is part of Scribe v1.5. -->
+<!-- This version of quilvyn.html is part of Quilvyn v1.6. -->
 
 <html>
 
@@ -24,15 +24,15 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Scribe Program Window</title>
+<title>Quilvyn Program Window</title>
 
 <script>
 <!--
 
 /*
  * A few user preferences you may want to change: the background color for
- * Scribe's windows; the default character sheet format; the portion of a
- * common menu/character sheet that the menu occupies (Scribe opens separate
+ * Quilvyn's windows; the default character sheet format; the portion of a
+ * common menu/character sheet that the menu occupies (Quilvyn opens separate
  * windows if this is outside the range 10..90); whether or not to warn when
  * you're about to lose changes made to the current character because you're
  * opening a new one.
@@ -43,19 +43,19 @@ const MENU_WIDTH_PERCENT = 30;
 const WARN_ABOUT_DISCARD = true;
 
 /*
- * If SCRIBE_HOME is the empty string, all Scribe sources are drawn from a
+ * If QUILVYN_HOME is the empty string, all Quilvyn sources are drawn from a
  * a local installation. Uncomment the second line below to draw the sources
  * from the reference installation instead.
  */
-var SCRIBE_HOME = '';
-// SCRIBE_HOME = 'http://www.jodaf.com/dnd/scribe/';
+var QUILVYN_HOME = '';
+// QUILVYN_HOME = 'http://www.jodaf.com/dnd/quilvyn/';
 
 /*
- * Scribe incorporates the modules listed in PLUGINS as part of its initial
+ * Quilvyn incorporates the modules listed in PLUGINS as part of its initial
  * loading; you should uncomment those elements that you want to make part of
- * your Scribe installation and comment or delete the ones you don't want. If
+ * your Quilvyn installation and comment or delete the ones you don't want. If
  * any of the elements of PLUGINS begins with a question mark (e.g.,
- * '?SRD35NPC.js'), Scribe will prompt the user on start-up to ask whether to
+ * '?SRD35NPC.js'), Quilvyn will prompt the user on start-up to ask whether to
  * include the rules from that module. This can be useful for rules that you
  * use occasionally but don't want always present. For example, you might want
  * to put a question mark before SRD35NPC.js for occasional use of the rules to
@@ -83,12 +83,12 @@ const PLUGINS = [
 ];
 
 /*
- * If this file defines a CustomizeScribe function, Scribe calls it after
+ * If this file defines a CustomizeQuilvyn function, Quilvyn calls it after
  * loading, allowing you to add custom behavior to the program. The default
  * implementation below can be used without modification or can be tailored for
  * your installation.
  */
-function CustomizeScribe() {
+function CustomizeQuilvyn() {
 
   // The first part of this implementation defines extensions to lists defined
   // by the SRD and Pathfinder plugins. Each extension includes a comment
@@ -172,7 +172,7 @@ function CustomizeScribe() {
   // The third part invokes the initialization function of each selected plugin
   var selectedPlugins = [];
   try {
-    selectedPlugins = localStorage.getItem('ScribeSelectedPlugins').split(',');
+    selectedPlugins = localStorage.getItem('QuilvynSelectedPlugins').split(',');
   } catch(err) {
     // empty
   }
@@ -203,19 +203,19 @@ function CustomizeScribe() {
 
 }
 
-/**** Commands that load the Scribe software.  Do not modify. ****/
+/**** Commands that load the Quilvyn software.  Do not modify. ****/
 
 const CLOSE_TAG = '<' + '/' + 'script>\n';
 const CORE_URLS = [
-  SCRIBE_HOME + 'core/Input.js',
-  SCRIBE_HOME + 'core/ObjectViewer.js',
-  SCRIBE_HOME + 'core/RuleEngine.js',
-  SCRIBE_HOME + 'core/ScribeUtils.js',
-  SCRIBE_HOME + 'core/Scribe.js',
-  SCRIBE_HOME + 'core/ScribeRules.js'
+  QUILVYN_HOME + 'core/Input.js',
+  QUILVYN_HOME + 'core/ObjectViewer.js',
+  QUILVYN_HOME + 'core/RuleEngine.js',
+  QUILVYN_HOME + 'core/QuilvynUtils.js',
+  QUILVYN_HOME + 'core/Quilvyn.js',
+  QUILVYN_HOME + 'core/QuilvynRules.js'
 ];
-const HELP_URL = SCRIBE_HOME + 'core/scribedoc.html';
-const LOGO_URL = SCRIBE_HOME + 'core/scribe.gif';
+const HELP_URL = QUILVYN_HOME + 'core/quilvyndoc.html';
+const LOGO_URL = QUILVYN_HOME + 'core/quilvyn.gif';
 
 for(var i = 0; i < CORE_URLS.length; i++) {
   document.write('<script src="' + CORE_URLS[i] + '">' + CLOSE_TAG);
@@ -227,7 +227,7 @@ for(var i = 0; i < PLUGINS.length; i++) {
   if(PLUGINS[i] == null)
     continue;
   if(!PLUGINS[i].startsWith('?')) {
-    var url = SCRIBE_HOME + PLUGINS[i].replace(/ *\(.*\)/g, '');
+    var url = QUILVYN_HOME + PLUGINS[i].replace(/ *\(.*\)/g, '');
     document.write('<script src="' + url + '">' + CLOSE_TAG);
   }
   else if(pluginPopup == null) {
@@ -237,15 +237,15 @@ for(var i = 0; i < PLUGINS.length; i++) {
 
 if(pluginPopup != null) {
   pluginPopup.document.write(
-    '<html><head><title>Scribe Plugin Selection</title></head>\n' +
+    '<html><head><title>Quilvyn Plugin Selection</title></head>\n' +
     '<body bgcolor="' + BACKGROUND + '">\n' +
     '<img src="' + LOGO_URL + ' "/><br/>\n' +
-    '<h2>Select Scribe plugins to use</h2>\n' +
+    '<h2>Select Quilvyn plugins to use</h2>\n' +
     '<form name="frm"><table>\n'
   );
   var selectedPlugins = [];
   try {
-    selectedPlugins = localStorage.getItem('ScribeSelectedPlugins').split(',');
+    selectedPlugins = localStorage.getItem('QuilvynSelectedPlugins').split(',');
   } catch(err) {
     // empty
   }
@@ -279,7 +279,7 @@ function LoadPlugins() {
        pluginPopup.document.forms[0]['plugin' + i].checked) {
       if(PLUGINS[i].startsWith('?')) {
         var scriptTag = document.createElement('script');
-        scriptTag.src = SCRIBE_HOME + PLUGINS[i].replace(/ *\(.*\)|\?/g, '');
+        scriptTag.src = QUILVYN_HOME + PLUGINS[i].replace(/ *\(.*\)|\?/g, '');
         scriptTag.type = 'text/javascript';
         scriptTag.onload = new Function('window["plugin' + i + 'Loaded"]=true;');
         document.body.appendChild(scriptTag);
@@ -288,24 +288,24 @@ function LoadPlugins() {
     }
   }
   try {
-    localStorage.setItem('ScribeSelectedPlugins', selectedPlugins.join(','));
+    localStorage.setItem('QuilvynSelectedPlugins', selectedPlugins.join(','));
   } catch(err) {
     // empty
   }
-  StartScribe();
+  StartQuilvyn();
 }
 
-function StartScribe() {
+function StartQuilvyn() {
   for(var i = 0; i < PLUGINS.length; i++) {
     if(PLUGINS[i] != null &&
        PLUGINS[i].startsWith('?') &&
        pluginPopup.document.forms[0]['plugin' + i].checked &&
        !window['plugin' + i + 'Loaded']) {
-      setTimeout('StartScribe()', 1000);
+      setTimeout('StartQuilvyn()', 1000);
       return;
     }
   }
-  Scribe();
+  Quilvyn();
 }
 
 -->
@@ -317,8 +317,8 @@ function StartScribe() {
 <script>
   document.write('<img src="' + LOGO_URL + '"/><br/>');
 </script>
-Scribe is running from this window.  Please leave it open until you are done
-using Scribe.
+Quilvyn is running from this window.  Please leave it open until you are done
+using Quilvyn.
 
 </body>
 </html>

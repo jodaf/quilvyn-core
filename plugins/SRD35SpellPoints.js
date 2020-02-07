@@ -21,7 +21,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * This module provides a placeholder for a spellPointRules method that defines
  * an alternate approach to learning and casting spells.  To add spell points
  * to a particular rule set, pass the rules to
- * SRD35SpellPoints.spellPointRules in your CustomizeScribe function, e.g.,
+ * SRD35SpellPoints.spellPointRules in your CustomizeQuilvyn function, e.g.,
  *
  *    SRD35SpellPoints.spellPointRules(SRD35.rules);
  *

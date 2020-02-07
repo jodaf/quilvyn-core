@@ -28,7 +28,7 @@ var SRD35_VERSION = '1.5.1.6';
  * etc.) can be manipulated to modify the choices.
  */
 function SRD35() {
-  var rules = new ScribeRules('SRD v3.5', SRD35_VERSION);
+  var rules = new QuilvynRules('SRD v3.5', SRD35_VERSION);
   rules.editorElements = SRD35.initialEditorElements();
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
   rules.makeValid = SRD35.makeValid;
@@ -49,7 +49,7 @@ function SRD35() {
   SRD35.spellRules(rules, null, SRD35.spellsDescriptions);
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
-  Scribe.addRuleSet(rules);
+  Quilvyn.addRuleSet(rules);
   SRD35.rules = rules;
 }
 
@@ -2612,7 +2612,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
 
   if(companions != null) {
 
-    rules.defineChoice('animalCompanions', ScribeUtils.getKeys(companions));
+    rules.defineChoice('animalCompanions', QuilvynUtils.getKeys(companions));
     rules.defineEditorElement
       ('animalCompanion', 'Animal Companion', 'set', 'animalCompanions',
        'notes');
@@ -2660,7 +2660,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
       'companionStats.Con', '+', 'Math.floor((source - 10)/2)',
       'companionNotes.shareSavingThrowsFeature.1', '+', null,
-      // Use base note in calculation so Scribe displays it in italics
+      // Use base note in calculation so Quilvyn displays it in italics
       'companionNotes.shareSavingThrowsFeature', '+', '0'
     );
     rules.defineRule('companionHP',
@@ -2827,7 +2827,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
 
   if(familiars != null) {
 
-    rules.defineChoice('familiars', ScribeUtils.getKeys(familiars));
+    rules.defineChoice('familiars', QuilvynUtils.getKeys(familiars));
     rules.defineEditorElement
       ('familiar', 'Familiar', 'set', 'familiars', 'notes');
     rules.defineEditorElement('familiarName', 'Name', 'text', [20], 'notes');
@@ -3498,8 +3498,8 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   var abilitiesArmorSkillsAndWeapons = [
     'strength','intelligence','wisdom','dexterity','constitution','charisma',
     'armor', 'protection', 'shield'
-  ].concat(ScribeUtils.getKeys(rules.getChoices('skills')))
-   .concat(ScribeUtils.getKeys(rules.getChoices('weapons')))
+  ].concat(QuilvynUtils.getKeys(rules.getChoices('skills')))
+   .concat(QuilvynUtils.getKeys(rules.getChoices('weapons')))
    .join('|').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
   rules.defineRule('inertGoodies',
     'goodiesList', '=',
@@ -5379,7 +5379,7 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
 /* Replaces spell names with longer descriptions on the character sheet. */
 SRD35.spellRules = function(rules, spells, descriptions) {
   if(spells == null) {
-    spells = ScribeUtils.getKeys(rules.choices.spells);
+    spells = QuilvynUtils.getKeys(rules.choices.spells);
   }
   if(descriptions == null) {
     descriptions = SRD35.spellsDescriptions;
@@ -5441,13 +5441,13 @@ SRD35.randomName = function(race) {
 
   /* Return a random character from #string#. */
   function randomChar(string) {
-    return string.charAt(ScribeUtils.random(0, string.length - 1));
+    return string.charAt(QuilvynUtils.random(0, string.length - 1));
   }
 
   if(race == null)
     race = 'Human';
   else if(race == 'Half Elf')
-    race = ScribeUtils.random(0, 99) < 50 ? 'Elf' : 'Human';
+    race = QuilvynUtils.random(0, 99) < 50 ? 'Elf' : 'Human';
   else if(race.match(/Dwarf/))
     race = 'Dwarf';
   else if(race.match(/Elf/))
@@ -5476,7 +5476,7 @@ SRD35.randomName = function(race) {
     {'Dwarf': 'aeiou', 'Elf': 'aeioy', 'Gnome': 'aeiou',
      'Halfling': 'aeiou', 'Human': 'aeiou', 'Orc': 'aou'}[race];
   var diphthongs = {a:'wy', e:'aei', o: 'aiouy', u: 'ae'};
-  var syllables = ScribeUtils.random(0, 99);
+  var syllables = QuilvynUtils.random(0, 99);
   syllables = syllables < 50 ? 2 :
               syllables < 75 ? 3 :
               syllables < 90 ? 4 :
@@ -5486,28 +5486,28 @@ SRD35.randomName = function(race) {
   var vowel;
 
   for(var i = 0; i < syllables; i++) {
-    if(ScribeUtils.random(0, 99) <= 80) {
+    if(QuilvynUtils.random(0, 99) <= 80) {
       endConsonant = randomChar(consonants).toUpperCase();
-      if(clusters[endConsonant] != null && ScribeUtils.random(0, 99) < 15)
+      if(clusters[endConsonant] != null && QuilvynUtils.random(0, 99) < 15)
         endConsonant += randomChar(clusters[endConsonant]);
       result += endConsonant;
       if(endConsonant == 'Q')
         result += 'u';
     }
-    else if(endConsonant.length == 1 && ScribeUtils.random(0, 99) < 10) {
+    else if(endConsonant.length == 1 && QuilvynUtils.random(0, 99) < 10) {
       result += endConsonant;
       endConsonant += endConsonant;
     }
     vowel = randomChar(vowels);
     if(endConsonant.length > 0 && diphthongs[vowel] != null &&
-       ScribeUtils.random(0, 99) < 15)
+       QuilvynUtils.random(0, 99) < 15)
       vowel += randomChar(diphthongs[vowel]);
     result += vowel;
     endConsonant = '';
-    if(ScribeUtils.random(0, 99) <= 60) {
+    if(QuilvynUtils.random(0, 99) <= 60) {
       while(leading.indexOf((endConsonant = randomChar(consonants))) >= 0)
         ; /* empty */
-      if(clusters[endConsonant] != null && ScribeUtils.random(0, 99) < 15)
+      if(clusters[endConsonant] != null && QuilvynUtils.random(0, 99) < 15)
         endConsonant += randomChar(clusters[endConsonant]);
       result += endConsonant;
     }
@@ -5573,7 +5573,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   function pickAttrs(attributes, prefix, choices, howMany, value) {
     var remaining = [].concat(choices);
     for(var i = 0; i < howMany && remaining.length > 0; i++) {
-      var which = ScribeUtils.random(0, remaining.length - 1);
+      var which = QuilvynUtils.random(0, remaining.length - 1);
       attributes[prefix + remaining[which]] = value;
       remaining = remaining.slice(0, which).concat(remaining.slice(which + 1));
     }
@@ -5600,7 +5600,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     if(choices.length > 0) {
-      attributes['armor'] = choices[ScribeUtils.random(0, choices.length - 1)];
+      attributes['armor'] = choices[QuilvynUtils.random(0, choices.length - 1)];
     }
   } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
@@ -5620,18 +5620,18 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         choices[choices.length] = attr;
     }
     if(choices.length > 0) {
-      attributes['deity'] = choices[ScribeUtils.random(0, choices.length - 1)];
+      attributes['deity'] = choices[QuilvynUtils.random(0, choices.length - 1)];
     }
   } else if(attribute == 'domains') {
     attrs = this.applyRules(attributes);
     howMany = attrs.domainCount;
     if(howMany != null) {
       if((choices = this.getChoices('deities')[attributes.deity]) == null)
-        choices = ScribeUtils.getKeys(this.getChoices('domains'));
+        choices = QuilvynUtils.getKeys(this.getChoices('domains'));
       else
         choices = choices.split('/');
       pickAttrs(attributes, 'domains.', choices, howMany -
-                ScribeUtils.sumMatching(attributes, /^domains\./), 1);
+                QuilvynUtils.sumMatching(attributes, /^domains\./), 1);
     }
   } else if(attribute == 'feats' || attribute == 'features') {
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
@@ -5652,7 +5652,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       if(attrs[prefix + '.' + attr] != null) {
         var type = 'General';
         for(var a in toAllocateByType) {
-          if(ScribeUtils.findElement(allChoices[attr].split('/'), a) >= 0 &&
+          if(QuilvynUtils.findElement(allChoices[attr].split('/'), a) >= 0 &&
              toAllocateByType[a] > 0) {
             type = a;
             break;
@@ -5668,21 +5668,21 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       var availableChoicesInType = {};
       for(var a in availableChoices) {
         if(attr == 'General' ||
-           ScribeUtils.findElement(availableChoices[a].split('/'), attr) >= 0) {
+           QuilvynUtils.findElement(availableChoices[a].split('/'), attr) >= 0) {
           availableChoicesInType[a] = '';
         }
       }
       howMany = toAllocateByType[attr];
       debug[debug.length] = 'Choose ' + howMany + ' ' + attr + ' ' + prefix;
       while(howMany > 0 &&
-            (choices=ScribeUtils.getKeys(availableChoicesInType)).length > 0) {
+            (choices=QuilvynUtils.getKeys(availableChoicesInType)).length > 0) {
         debug[debug.length] =
           'Pick ' + howMany + ' from ' +
-          ScribeUtils.getKeys(availableChoicesInType).length;
+          QuilvynUtils.getKeys(availableChoicesInType).length;
         var picks = {};
         pickAttrs(picks, '', choices, howMany, 1);
         debug[debug.length] =
-          'From ' + ScribeUtils.getKeys(picks).join(", ") + ' reject';
+          'From ' + QuilvynUtils.getKeys(picks).join(", ") + ' reject';
         for(var pick in picks) {
           attributes[prefix + '.' + pick] = 1;
           delete availableChoicesInType[pick];
@@ -5692,7 +5692,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
           var name = pick.substring(0, 1).toLowerCase() +
                      pick.substring(1).replace(/ /g, '').
                      replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-          if(ScribeUtils.sumMatching
+          if(QuilvynUtils.sumMatching
                (validate,
                 new RegExp('^(sanity|validation)Notes.'+name+suffix)) != 0) {
             delete attributes[prefix + '.' + pick];
@@ -5723,7 +5723,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
                   matchInfo[3] == '' ? 6 : matchInfo[3];
       attributes.hitPoints += number * sides;
       while(--attr > 0)
-        attributes.hitPoints += ScribeUtils.random(number, number * sides);
+        attributes.hitPoints += QuilvynUtils.random(number, number * sides);
     }
   } else if(attribute == 'languages') {
     attrs = this.applyRules(attributes);
@@ -5738,7 +5738,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     pickAttrs(attributes, 'languages.', choices, howMany, 1);
   } else if(attribute == 'levels') {
-    var assignedLevels = ScribeUtils.sumMatching(attributes, /^levels\./);
+    var assignedLevels = QuilvynUtils.sumMatching(attributes, /^levels\./);
     if(!attributes.level) {
       if(assignedLevels > 0)
         attributes.level = assignedLevels
@@ -5748,21 +5748,21 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       else
         // Random 1..8 with each value half as likely as the previous one.
         attributes.level =
-          9 - Math.floor(Math.log(ScribeUtils.random(2, 511)) / Math.log(2));
+          9 - Math.floor(Math.log(QuilvynUtils.random(2, 511)) / Math.log(2));
     }
     var max = attributes.level * (attributes.level + 1) * 1000 / 2 - 1;
     var min = attributes.level * (attributes.level - 1) * 1000 / 2;
     if(!attributes.experience || attributes.experience < min)
-      attributes.experience = ScribeUtils.random(min, max);
-    choices = ScribeUtils.getKeys(this.getChoices('levels'));
+      attributes.experience = QuilvynUtils.random(min, max);
+    choices = QuilvynUtils.getKeys(this.getChoices('levels'));
     if(assignedLevels == 0) {
       var classesToChoose =
-        attributes.level == 1 || ScribeUtils.random(1,10) < 9 ? 1 : 2;
+        attributes.level == 1 || QuilvynUtils.random(1,10) < 9 ? 1 : 2;
       // Find choices that are valid or can be made so
       while(classesToChoose > 0) {
-        var which = 'levels.' + choices[ScribeUtils.random(0,choices.length-1)];
+        var which = 'levels.' + choices[QuilvynUtils.random(0,choices.length-1)];
         attributes[which] = 1;
-        if(ScribeUtils.sumMatching(this.applyRules(attributes),
+        if(QuilvynUtils.sumMatching(this.applyRules(attributes),
              /^validationNotes.*(BaseAttack|CasterLevel|Spells)/) == 0) {
           assignedLevels++;
           classesToChoose--;
@@ -5772,9 +5772,9 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     while(assignedLevels < attributes.level) {
-      var which = 'levels.' + choices[ScribeUtils.random(0,choices.length-1)];
+      var which = 'levels.' + choices[QuilvynUtils.random(0,choices.length-1)];
       while(!attributes[which]) {
-        which = 'levels.' + choices[ScribeUtils.random(0,choices.length-1)];
+        which = 'levels.' + choices[QuilvynUtils.random(0,choices.length-1)];
       }
       attributes[which]++;
       assignedLevels++;
@@ -5797,20 +5797,20 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     if(choices.length > 0) {
-      attributes['shield'] = choices[ScribeUtils.random(0, choices.length - 1)];
+      attributes['shield'] = choices[QuilvynUtils.random(0, choices.length - 1)];
     }
   } else if(attribute == 'skills') {
     attrs = this.applyRules(attributes);
     var maxPoints = attrs.maxAllowedSkillPoints;
     howMany =
-      attrs.skillPoints - ScribeUtils.sumMatching(attributes, '^skills\\.'),
-    choices = ScribeUtils.getKeys(this.getChoices('skills'));
+      attrs.skillPoints - QuilvynUtils.sumMatching(attributes, '^skills\\.'),
+    choices = QuilvynUtils.getKeys(this.getChoices('skills'));
     for(i = choices.length - 1; i >= 0; i--)
       if(choices[i].indexOf(' (') >= 0)
         choices = choices.slice(0, i).concat(choices.slice(i + 1));
     while(howMany > 0 && choices.length > 0) {
-      var pickClassSkill = ScribeUtils.random(0, 99) >= 15;
-      i = ScribeUtils.random(0, choices.length - 1);
+      var pickClassSkill = QuilvynUtils.random(0, 99) >= 15;
+      i = QuilvynUtils.random(0, choices.length - 1);
       var skill = choices[i];
       if((attrs['classSkills.' + skill] != null) != pickClassSkill)
         continue;
@@ -5823,8 +5823,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       if(current == null)
         current = attributes[attr] = 0;
       var toAssign =
-        ScribeUtils.random(0, 99) >= 66 ? maxPoints :
-        ScribeUtils.random(0, 99) >= 50 ? Math.floor(maxPoints / 2) : 2;
+        QuilvynUtils.random(0, 99) >= 66 ? maxPoints :
+        QuilvynUtils.random(0, 99) >= 50 ? Math.floor(maxPoints / 2) : 2;
       if(toAssign > howMany)
         toAssign = howMany;
       if(toAssign == 0)
@@ -5902,7 +5902,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         }
         pickAttrs
           (attributes, 'spells.', choices, howMany -
-           ScribeUtils.sumMatching(attributes, '^spells\\..*' + spellLevel),
+           QuilvynUtils.sumMatching(attributes, '^spells\\..*' + spellLevel),
            1);
       }
     }
@@ -5926,18 +5926,18 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     pickAttrs(attributes, 'weapons.', choices,
-              3 - ScribeUtils.sumMatching(attributes, /^weapons\./), 1);
+              3 - QuilvynUtils.sumMatching(attributes, /^weapons\./), 1);
   } else if(attribute == 'charisma' || attribute == 'constitution' ||
      attribute == 'dexterity' || attribute == 'intelligence' ||
      attribute == 'strength' || attribute == 'wisdom') {
     var rolls = [];
     for(i = 0; i < 4; i++)
-      rolls[i] = ScribeUtils.random(1, 6);
+      rolls[i] = QuilvynUtils.random(1, 6);
     rolls.sort();
     attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
   } else if(this.getChoices(attribute + 's') != null) {
     attributes[attribute] =
-      ScribeUtils.randomKey(this.getChoices(attribute + 's'));
+      QuilvynUtils.randomKey(this.getChoices(attribute + 's'));
   }
 
 };
@@ -5980,7 +5980,7 @@ SRD35.makeValid = function(attributes) {
         // Find a random requirement choice w/the format "name [op value]"
         var choices = requirements[i].split(/\s*\|\|\s*/);
         while(choices.length > 0) {
-          var index = ScribeUtils.random(0, choices.length - 1);
+          var index = QuilvynUtils.random(0, choices.length - 1);
           matchInfo = choices[index].match(/^([^<>!=]+)(([<>!=~]+)(.*))?/);
           if(matchInfo != null) {
             break;
@@ -6032,10 +6032,10 @@ SRD35.makeValid = function(attributes) {
           if(target == toFixName) {
             toFixAttr =
               problemCategory + '.' +
-              possibilities[ScribeUtils.random(0, possibilities.length - 1)];
+              possibilities[QuilvynUtils.random(0, possibilities.length - 1)];
           } else {
             toFixValue =
-              possibilities[ScribeUtils.random(0, possibilities.length - 1)];
+              possibilities[QuilvynUtils.random(0, possibilities.length - 1)];
           }
         } else if(attributes[toFixAttr] != null) {
           if((toFixOp == '>=' && Number(attributes[toFixAttr]) >= Number(toFixValue)) ||
@@ -6067,7 +6067,7 @@ SRD35.makeValid = function(attributes) {
             }
           }
           while(possibilities.length > 0 && attrValue > 0) {
-            var index = ScribeUtils.random(0, possibilities.length - 1);
+            var index = QuilvynUtils.random(0, possibilities.length - 1);
             toFixAttr = possibilities[index];
             possibilities =
               possibilities.slice(0,index).concat(possibilities.slice(index+1));
@@ -6100,7 +6100,7 @@ SRD35.makeValid = function(attributes) {
             'intelligence':'', 'strength':'', 'wisdom':''
           };
           if(attr == 'validationNotes.abilityModifierMinimum') {
-            toFixAttr = ScribeUtils.randomKey(abilities);
+            toFixAttr = QuilvynUtils.randomKey(abilities);
             toFixValue = 14;
             debug[debug.length] =
               attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
@@ -6145,8 +6145,8 @@ SRD35.makeValid = function(attributes) {
 /* Returns HTML body content for user notes associated with this rule set. */
 SRD35.ruleNotes = function() {
   return '' +
-    '<h2>SRD35 Scribe Module Notes</h2>\n' +
-    'SRD35 Scribe Module Version ' + SRD35_VERSION + '\n' +
+    '<h2>SRD35 Quilvyn Module Notes</h2>\n' +
+    'SRD35 Quilvyn Module Version ' + SRD35_VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
     '<p>\n' +
@@ -6161,11 +6161,11 @@ SRD35.ruleNotes = function() {
     '    The armor class of characters with the Dodge feat includes a +1\n' +
     '    bonus that applies only to one foe at a time.\n' +
     '  </li><li>\n' +
-    '    For purposes of computing strength damage bonuses, Scribe assumes\n' +
+    '    For purposes of computing strength damage bonuses, Quilvyn assumes\n' +
     '    that characters with a buckler wield their weapons one-handed and\n' +
     '    that characters with no buckler or shield wield with both hands.\n' +
     '  </li><li>\n' +
-    '    Scribe assumes that masterwork composite bows are specially built\n' +
+    '    Quilvyn assumes that masterwork composite bows are specially built\n' +
     '    to allow a strength damage bonus to be applied.\n' +
     '  </li><li>\n' +
     '    A few feats have been renamed to emphasize the relationship\n' +
@@ -6191,19 +6191,19 @@ SRD35.ruleNotes = function() {
     '    You can only select each feat once. Multiple selections of feats\n' +
     '    that allow it can be managed by defining custom feats.\n' +
     '  </li><li>\n' +
-    '    Scribe doesn\'t support double weapons where the two attacks have\n' +
+    '    Quilvyn doesn\'t support double weapons where the two attacks have\n' +
     '    different critical mutipliers. In the predefined weapons this\n' +
-    '    affects only the Gnome Hooked Hammer, where Scribe displays a\n' +
+    '    affects only the Gnome Hooked Hammer, where Quilvyn displays a\n' +
     '    critical multiplier of x4 instead of x3/x4.\n' +
     '  </li><li>\n' +
     '    Animal companion feats, skills, and tricks are not reported\n' +
     '  </li><li>\n' +
-    '    Scribe has problems dealing with attributes containing an\n' +
-    '    uncapitalized word.  This is why, e.g., Scribe defines the skills\n' +
+    '    Quilvyn has problems dealing with attributes containing an\n' +
+    '    uncapitalized word.  This is why, e.g., Quilvyn defines the skills\n' +
     '    "Sleight Of Hand" and "Knowledge (Arcana)" instead of "Sleight of\n' +
     '    Hand" and "Knowledge (arcana)".  There are other occasions when\n' +
-    '    Scribe is picky about case; when defining your own attributes,\n' +
-    '    it\'s safest to follow the conventions Scribe uses.\n' +
+    '    Quilvyn is picky about case; when defining your own attributes,\n' +
+    '    it\'s safest to follow the conventions Quilvyn uses.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
@@ -6212,10 +6212,10 @@ SRD35.ruleNotes = function() {
     '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '    When an character ability score is modified, Scribe recalculates\n' +
+    '    When an character ability score is modified, Quilvyn recalculates\n' +
     '    attributes based on that ability from scratch.  For example,\n' +
     '    bumping intelligence when a character reaches fourth level causes\n' +
-    '    Scribe to recompute the number of skill points awarded at first\n' +
+    '    Quilvyn to recompute the number of skill points awarded at first\n' +
     '    level.\n' +
     '  </li><li>\n' +
     '    Multi-class characters get quadruple skill points for the first\n' +
@@ -6479,7 +6479,7 @@ SRD35.defineSkill = function
 
 }
 
-/* Convenience functions that invoke ScribeRules methods on the SRD35 rules. */
+/* Convenience functions that invoke QuilvynRules methods on the SRD35 rules. */
 SRD35.applyRules = function() {
   return SRD35.rules.applyRules.apply(SRD35.rules, arguments);
 };
