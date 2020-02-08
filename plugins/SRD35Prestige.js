@@ -1236,6 +1236,7 @@ SRD35Prestige.companionRules = function(rules, servants) {
     };
     rules.defineRule('companionNotFiendishServant',
       'companionLevel', '=', '1',
+      'familiarLevel', '=', '1',
       'fiendishServantMasterLevel', 'v', '0'
     );
     for(var feature in features) {
