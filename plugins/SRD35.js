@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.6.1.0';
+var SRD35_VERSION = '1.6.1.1';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2783,6 +2783,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
     };
     rules.defineRule('companionNotMount',
       'companionLevel', '=', '1',
+      'familiarLevel', '=', '1',
       'mountMasterLevel', 'v', '0'
     );
     for(var feature in features) {
