@@ -7,9 +7,9 @@ books and displays formatted information about the character in a separate
 window.  Character information can be saved for later retrieval and editing.
 
 The quilvyn-core package bundles core modules required for basic program
-functionality and modules that support the v3.5 System Reference Document.
-Additional plugins, available separately, extend the program to cover other
-RPG games and campaign settings.
+functionality and modules that support the <a href="http://dndsrd.net/">v3.5
+System Reference Document</a>. Additional plugins, available separately, extend
+the program to cover other RPG games and campaign settings.
 
 ### Requirements
 
@@ -27,4 +27,6 @@ Unbundling the release package is the only step required to install Quilvyn.
 
 ### Usage
 
-To run Quilvyn, simply use your browser to open quilvyn.html.
+To run Quilvyn, simply use your browser to open quilvyn.html. A reference
+installation of Quilvyn using the latest sources is available at
+<a href="http://www.jodaf.com/dnd/quilvyn/">http://www.jodaf.com/dnd/quilvyn/</a>.
