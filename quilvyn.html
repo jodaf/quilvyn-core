@@ -155,6 +155,8 @@ function CustomizeQuilvyn() {
     Array.prototype.push.apply(Pathfinder.WEAPONS_ADDED, weapons);
     Object.assign(Pathfinder.SUBFEATS, subfeats);
     Object.assign(Pathfinder.SUBSKILLS, subskills);
+    if(window.location.search.indexOf('pf1e-35track') >= 0)
+      Pathfinder.TRACKS.push('3.5');
   }
   delete subfeats['Master Craftsman'];
   if(window.SRD35) {
@@ -167,6 +169,10 @@ function CustomizeQuilvyn() {
     Array.prototype.push.apply(SRD35.WEAPONS, weapons);
     Object.assign(SRD35.SUBFEATS, subfeats);
     Object.assign(SRD35.SUBSKILLS, subskills);
+  }
+  if(window.LastAge) {
+    if(window.location.search.indexOf('la-pf') >= 0)
+      LastAge.USE_PATHFINDER = true;
   }
 
   // The third part invokes the initialization function of each selected plugin
