@@ -68,17 +68,17 @@ const PLUGINS = [
   '?plugins/SRD35NPC.js',
   '?plugins/SRD35Prestige.js',
   '?plugins/SRD35SpellPoints.js',
-  '?plugins/Eberron.js',
-  '?plugins/EberronPrestige.js',
-  '?plugins/LastAge.js',
-  '?plugins/LastAgePrestige.js',
-  '?plugins/Pathfinder.js',
-  '?plugins/PathfinderPrestige.js',
-  '?plugins/Realms.js',
-  '?plugins/RealmsPrestige.js',
-  '?plugins/FirstEdition.js',
-  '?plugins/HybridD20.js (alpha)',
-  '?plugins/SRD5E.js (alpha)',
+  // '?plugins/Eberron.js',
+  // '?plugins/EberronPrestige.js',
+  // '?plugins/LastAge.js',
+  // '?plugins/LastAgePrestige.js',
+  // '?plugins/Pathfinder.js',
+  // '?plugins/PathfinderPrestige.js',
+  // '?plugins/Realms.js',
+  // '?plugins/RealmsPrestige.js',
+  // '?plugins/FirstEdition.js',
+  // '?plugins/HybridD20.js (alpha)',
+  // '?plugins/SRD5E.js (alpha)',
   null
 ];
 
@@ -162,7 +162,7 @@ function CustomizeQuilvyn() {
   if(window.SRD35) {
     Object.assign(SRD35.ANIMAL_COMPANIONS, animalCompanions);
     Array.prototype.push.apply(SRD35.DEITIES, deities);
-    Object.assign(Pathfinder.FAMILIARS, familiars);
+    Object.assign(SRD35.FAMILIARS, familiars);
     Array.prototype.push.apply(SRD35.FEATS, feats);
     Array.prototype.push.apply(SRD35.LANGUAGES, languages);
     Array.prototype.push.apply(SRD35.SKILLS, skills);
