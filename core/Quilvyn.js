@@ -38,7 +38,6 @@ var TIMEOUT_DELAY = 1000; // One second
 var character = {};     // Displayed character attrs
 var characterCache = {};// Attrs of all displayed characters, indexed by path
 var characterPath = ''; // Path to most-recently opened/generated character
-var characterPopup = null; // Current character message popup window
 var editForm;           // Character editing form (editWindow.document.forms[0])
 var editWindow = null;  // Window where editor is shown
 var persistentInfo = {  // What we store in persistent data
@@ -131,6 +130,7 @@ function Quilvyn() {
       '</html>\n'
     );
     quilvynTab.document.close();
+    quilvynTab.focus();
   }
 
   Quilvyn.newCharacter();
@@ -242,13 +242,21 @@ Quilvyn.exportCharacters = function() {
   var exportPopup = window.open('', '__export', FEATURES_OF_OTHER_WINDOWS);
   exportPopup.document.write(html);
   exportPopup.document.close();
+  exportPopup.focus();
 }
 
-/* Interacts w/user to import characters from external sources. */
-Quilvyn.importCharacters = function() {
+/*
+ * Interacts w/user to import characters from external sources. If an import
+ * window is already open, places focus on it if #focus# is true.
+ */
+Quilvyn.importCharacters = function(focus) {
 
-  if(characterPopup == null) {
-    // Nothing presently pending
+  if(focus && Quilvyn.importCharacters.win != null) {
+    // Prior import still pending
+    Quilvyn.importCharacters.win.focus();
+    return;
+  } else if(Quilvyn.importCharacters.win == null) {
+    // New import
     var htmlBits = [
       '<html><head><title>Import Character</title></head>',
       '<body bgcolor="' + BACKGROUND + '">',
@@ -263,33 +271,33 @@ Quilvyn.importCharacters = function() {
       '</form></body></html>'
     ];
     var html = htmlBits.join('\n') + '\n';
-    characterPopup = window.open('', '__import', FEATURES_OF_OTHER_WINDOWS);
-    characterPopup.document.write(html);
-    characterPopup.document.close();
-    characterPopup.okay = false;
-    setTimeout('Quilvyn.importCharacters()', TIMEOUT_DELAY);
+    Quilvyn.importCharacters.win =
+      window.open('', '__import', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.importCharacters.win.document.write(html);
+    Quilvyn.importCharacters.win.document.close();
+    Quilvyn.importCharacters.win.okay = false;
+    Quilvyn.importCharacters.win.focus();
+    setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
     return;
-  } else if(characterPopup.closed) {
+  } else if(Quilvyn.importCharacters.win.closed) {
     // User cancel
-    characterPopup = null;
+    Quilvyn.importCharacters.win = null;
     return;
-  } else if(characterPopup.name != '__import') {
-    // Some other character manipulation pending
-    return;
-  } else if(!characterPopup.okay) {
+  } else if(!Quilvyn.importCharacters.win.okay) {
     // Try again later
-    setTimeout('Quilvyn.importCharacters()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
     return;
   }
 
   // Ready to import
-  var text = characterPopup.document.frm.elements[0].value;
+  var text = Quilvyn.importCharacters.win.document.frm.elements[0].value;
   var index = text.indexOf('{');
 
   if(index < 0) {
-    characterPopup.alert("Syntax error: missing {");
-    characterPopup.okay = false;
-    setTimeout('Quilvyn.importCharacters()', TIMEOUT_DELAY);
+    Quilvyn.importCharacters.win.alert("Syntax error: missing {");
+    Quilvyn.importCharacters.win.focus();
+    Quilvyn.importCharacters.win.okay = false;
+    setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
     return;
   }
 
@@ -318,9 +326,10 @@ Quilvyn.importCharacters = function() {
       }
     }
     if(!text.match(/^\s*\}/)) {
-      characterPopup.alert("Syntax error: missing } at '" + text + "'");
-      characterPopup.okay = false;
-      setTimeout('Quilvyn.importCharacters()', TIMEOUT_DELAY);
+      Quilvyn.importCharacters.win.alert("Syntax error: missing } at '" + text + "'");
+      Quilvyn.importCharacters.win.focus();
+      Quilvyn.importCharacters.win.okay = false;
+      setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
       return;
     }
     character = importedCharacter;
@@ -330,8 +339,8 @@ Quilvyn.importCharacters = function() {
     index = text.indexOf('{');
   }
 
-  characterPopup.close();
-  characterPopup = null;
+  Quilvyn.importCharacters.win.close();
+  Quilvyn.importCharacters.win = false;
   Quilvyn.refreshEditor(false);
   Quilvyn.refreshSheet();
 
@@ -374,19 +383,22 @@ Quilvyn.newCharacter = function() {
 };
 
 /*
- * Replaces the current character with one that has all randomized attributes.
- * If #prompt# is true, allows the user to specify certain attributes.
+ * Interacts w/user to repace the current character with on that has all
+ * randomized attributes. If a randomize prompt window is already open, places
+ * focus on it if #focus# is true.
  */
-Quilvyn.randomizeCharacter = function(prompt) {
+Quilvyn.randomizeCharacter = function(focus) {
 
-  if(!prompt) {
-    ; // empty -- no popup needed
-  } else if(characterPopup == null) {
-    // Nothing presently pending
-    var presets = ruleSet.getChoices('preset');
-    if(presets == null) {
-      return Quilvyn.randomizeCharacter(false);
-    }
+  var presets = ruleSet.getChoices('preset');
+
+  if(presets == null) {
+    // No window needed
+  } else if(focus && Quilvyn.randomizeCharacter.win != null) {
+    // Prior randomize still pending
+    Quilvyn.randomizeCharacter.win.focus();
+    return;
+  } else if(Quilvyn.randomizeCharacter.win == null) {
+    // New randomize
     var htmlBits = [
       '<html><head><title>Random Character</title></head>',
       '<body bgcolor="' + BACKGROUND + '">',
@@ -438,38 +450,37 @@ Quilvyn.randomizeCharacter = function(prompt) {
       '</form></body></html>'
     ]);
     var html = htmlBits.join('\n') + '\n';
-    characterPopup = window.open('', '__random', FEATURES_OF_OTHER_WINDOWS);
-    characterPopup.document.write(html);
-    characterPopup.document.close();
-    characterPopup.okay = false;
+    Quilvyn.randomizeCharacter.win =
+      window.open('', '__random', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.randomizeCharacter.win.document.write(html);
+    Quilvyn.randomizeCharacter.win.document.close();
     // Randomize the value of each pull-down menu in the loading window
     for(var i = 0; i < presets.length; i++) {
-      var widget = characterPopup.document.frm[presets[i]];
+      var widget = Quilvyn.randomizeCharacter.win.document.frm[presets[i]];
       if(typeof(widget) == 'object' && widget != null &&
          widget.selectedIndex != null) {
         widget.selectedIndex = QuilvynUtils.random(0, widget.options.length-1);
       }
     }
-    setTimeout('Quilvyn.randomizeCharacter(true)', TIMEOUT_DELAY);
+    Quilvyn.randomizeCharacter.win.okay = false;
+    Quilvyn.randomizeCharacter.win.focus();
+    setTimeout('Quilvyn.randomizeCharacter(false)', TIMEOUT_DELAY);
     return;
-  } else if(characterPopup.closed) {
+  } else if(Quilvyn.randomizeCharacter.win.closed) {
     // User cancel
-    characterPopup = null;
+    Quilvyn.randomizeCharacter.win = null;
     return;
-  } else if(characterPopup.name != '__random') {
-    // Some other character manipulation pending
-    return;
-  } else if(!characterPopup.okay) {
+  } else if(!Quilvyn.randomizeCharacter.win.okay) {
     // Try again later
-    setTimeout('Quilvyn.randomizeCharacter(true)', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.randomizeCharacter(false)', TIMEOUT_DELAY);
     return;
   }
 
   // Ready to generate
   var fixedAttributes = {};
-  if(characterPopup != null) {
-    for(i = 0; i < characterPopup.document.frm.elements.length; i++) {
-      var element = characterPopup.document.frm.elements[i];
+  if(Quilvyn.randomizeCharacter.win != null) {
+    for(i = 0; i < Quilvyn.randomizeCharacter.win.document.frm.elements.length; i++) {
+      var element = Quilvyn.randomizeCharacter.win.document.frm.elements[i];
       var name = element.name;
       var value = InputGetValue(element);
       if(element.type=='button' || name==null || value==null || value=='')
@@ -478,15 +489,14 @@ Quilvyn.randomizeCharacter = function(prompt) {
         value -= 0;
       fixedAttributes[name] = value;
     }
+    Quilvyn.randomizeCharacter.win.close();
+    Quilvyn.randomizeCharacter.win = null;
   }
   character = ruleSet.randomizeAllAttributes(fixedAttributes);
   characterPath = '';
   characterCache[characterPath] = QuilvynUtils.clone(character);
   Quilvyn.refreshEditor(false);
   Quilvyn.refreshSheet();
-  if(characterPopup != null)
-    characterPopup.close();
-  characterPopup = null;
 
 };
 
@@ -569,6 +579,7 @@ Quilvyn.refreshEditor = function(redraw) {
   InputSetValue(editForm.rules, ruleSet.getName());
   InputSetValue(editForm.viewer,
                 character['viewer'] || window.DEFAULT_SHEET_STYLE);
+  editWindow.focus();
 
 };
 
@@ -580,6 +591,7 @@ Quilvyn.refreshSheet = function() {
   }
   sheetWindow.document.write(Quilvyn.sheetHtml(character));
   sheetWindow.document.close();
+  sheetWindow.focus();
 };
 
 /* Creates and returns a character from the contents of a storage path. */
@@ -701,11 +713,10 @@ Quilvyn.sheetHtml = function(attrs) {
 
 /* Opens a window that contains HTML for #html# in readable/copyable format. */
 Quilvyn.showHtml = function(html) {
-  if(Quilvyn.showHtml.htmlWindow == null || Quilvyn.showHtml.htmlWindow.closed)
+  if(Quilvyn.showHtml.htmlWindow==null || Quilvyn.showHtml.htmlWindow.closed) {
     Quilvyn.showHtml.htmlWindow =
       window.open('', 'html', FEATURES_OF_OTHER_WINDOWS);
-  else
-    Quilvyn.showHtml.htmlWindow.focus();
+  }
   html = html.replace(/</g, '&lt;');
   html = html.replace(/>/g, '&gt;');
   Quilvyn.showHtml.htmlWindow.document.write(
@@ -713,6 +724,7 @@ Quilvyn.showHtml = function(html) {
     '<body><pre>' + html + '</pre></body></html>\n'
   );
   Quilvyn.showHtml.htmlWindow.document.close();
+  Quilvyn.showHtml.htmlWindow.focus();
 };
 
 /* Stores the current values of persistentInfo in the browser. */
@@ -786,6 +798,7 @@ Quilvyn.summarizeCachedAttrs = function() {
     Quilvyn.summarizeCachedAttrs.win.focus();
   Quilvyn.summarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
   Quilvyn.summarizeCachedAttrs.win.document.close();
+  Quilvyn.summarizeCachedAttrs.win.focus();
 };
 
 /* Callback invoked when the user changes the editor value of Input #input#. */
@@ -807,8 +820,8 @@ Quilvyn.update = function(input) {
         (ABOUT_TEXT.replace(/\n/g, '<br/>\n<br/>\n'));
       Quilvyn.aboutWindow.document.close();
       Quilvyn.aboutWindow.document.bgColor = BACKGROUND;
-    } else
-      Quilvyn.aboutWindow.focus();
+    }
+    Quilvyn.aboutWindow.focus();
   } else if(name.match(/^(computed|hidden|italics)$/)) {
     persistentInfo[name] = value ? '1' : '0';
     Quilvyn.storePersistentInfo();
@@ -834,7 +847,7 @@ Quilvyn.update = function(input) {
        !editWindow.confirm("Discard changes to character?"))
       ; /* empty */
     else if(value == 'Import...')
-      Quilvyn.importCharacters();
+      Quilvyn.importCharacters(true);
     else if(value == 'New')
       Quilvyn.newCharacter();
     else if(value == 'Random...')
@@ -842,11 +855,11 @@ Quilvyn.update = function(input) {
     else
       Quilvyn.openCharacter(value);
   } else if(name == 'help') {
-    if(Quilvyn.helpWindow == null || Quilvyn.helpWindow.closed)
+    if(Quilvyn.helpWindow == null || Quilvyn.helpWindow.closed) {
       Quilvyn.helpWindow =
         window.open(HELP_URL, 'help', FEATURES_OF_OTHER_WINDOWS);
-    else
-      Quilvyn.helpWindow.focus();
+    }
+    Quilvyn.helpWindow.focus();
   } else if(name == 'randomize') {
     input.selectedIndex = 0;
     ruleSet.randomizeOneAttribute(character, value);
@@ -857,10 +870,10 @@ Quilvyn.update = function(input) {
     Quilvyn.refreshEditor(true);
     Quilvyn.refreshSheet();
   } else if(name == 'ruleAttributes') {
-    if(Quilvyn.attributesWindow != null && !Quilvyn.attributesWindow.closed)
-      Quilvyn.attributesWindow.close();
-    Quilvyn.attributesWindow =
-      window.open('', 'attrwin', FEATURES_OF_OTHER_WINDOWS);
+    if(Quilvyn.attributesWindow == null || Quilvyn.attributesWindow.closed) {
+      Quilvyn.attributesWindow =
+        window.open('', 'attrwin', FEATURES_OF_OTHER_WINDOWS);
+    }
     Quilvyn.attributesWindow.document.write(
       '<html>\n',
       '<head>\n',
@@ -879,11 +892,12 @@ Quilvyn.update = function(input) {
       '</html>\n'
     );
     Quilvyn.attributesWindow.document.close();
+    Quilvyn.attributesWindow.focus();
   } else if(name == 'ruleNotes') {
-    if(Quilvyn.ruleNotesWindow != null && !Quilvyn.ruleNotesWindow.closed)
-      Quilvyn.ruleNotesWindow.close();
-    Quilvyn.ruleNotesWindow =
-      window.open('', 'rulenotes', FEATURES_OF_OTHER_WINDOWS);
+    if(Quilvyn.ruleNotesWindow == null || Quilvyn.ruleNotesWindow.closed) {
+      Quilvyn.ruleNotesWindow =
+        window.open('', 'rulenotes', FEATURES_OF_OTHER_WINDOWS);
+    }
     Quilvyn.ruleNotesWindow.document.write(
       '<html>\n',
       '<head>\n',
@@ -895,6 +909,7 @@ Quilvyn.update = function(input) {
       '</html>\n'
     );
     Quilvyn.ruleNotesWindow.document.close();
+    Quilvyn.ruleNotesWindow.focus();
   } else if(name == 'ruleRules') {
     var awin = window.open('', 'rulewin', FEATURES_OF_OTHER_WINDOWS);
     awin.document.write
@@ -902,6 +917,7 @@ Quilvyn.update = function(input) {
     awin.document.write(ruleSet.toHtml());
     awin.document.write('</pre></body></html>');
     awin.document.close();
+    awin.focus();
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
     for(var a in character) {
