@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '1.6.2';
+var VERSION = '1.6.3';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -50,21 +50,6 @@ var ruleSets = {};      // Registered rule sets, indexed by name
 var quilvynTab = null;  // Menu/sheet tab, if requested
 var sheetWindow = null; // Window where character sheet is shown
 
-// Hack to support crippled IE/Edge testing
-var storage = null;
-try {
-  storage = localStorage;
-} catch(err) {
-  // empty
-}
-if(storage == null) {
-  storage = {
-    'getItem':function(name) { return window.storage[name]; },
-    'removeItem':function(name) { delete window.storage[name]; },
-    'setItem':function(name,value) { window.storage[name] = value; }
-  };
-}
-
 /* Launch routine called after all Quilvyn scripts are loaded. */
 function Quilvyn() {
 
@@ -95,8 +80,8 @@ function Quilvyn() {
 
 
   for(var a in persistentInfo) {
-    if(storage.getItem(PERSISTENT_INFO_PREFIX + a) != null) {
-      persistentInfo[a] = storage.getItem(PERSISTENT_INFO_PREFIX + a);
+    if(STORAGE.getItem(PERSISTENT_INFO_PREFIX + a) != null) {
+      persistentInfo[a] = STORAGE.getItem(PERSISTENT_INFO_PREFIX + a);
     }
   }
 
@@ -149,7 +134,7 @@ Quilvyn.addRuleSet = function(rs) {
 Quilvyn.deleteCharacter = function() {
   var prompt = 'Enter character to delete:';
   var paths = [];
-  for(var path in storage) {
+  for(var path in STORAGE) {
     if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
       paths.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
   }
@@ -158,11 +143,11 @@ Quilvyn.deleteCharacter = function() {
   if(path == null)
     // User cancel
     return;
-  if(storage.getItem(PERSISTENT_CHARACTER_PREFIX + path) == null) {
+  if(STORAGE.getItem(PERSISTENT_CHARACTER_PREFIX + path) == null) {
     editWindow.alert("No such character " + path);
     return;
   }
-  storage.removeItem(PERSISTENT_CHARACTER_PREFIX + path);
+  STORAGE.removeItem(PERSISTENT_CHARACTER_PREFIX + path);
   Quilvyn.refreshEditor(false);
 }
 
@@ -227,7 +212,7 @@ Quilvyn.exportCharacters = function() {
     '<html><head><title>Export Characters</title></head>',
     '<body bgcolor="' + BACKGROUND + '">',
     '<img src="' + LOGO_URL + ' "/><br/>'];
-  for(var path in storage) {
+  for(var path in STORAGE) {
     if(!path.startsWith(PERSISTENT_CHARACTER_PREFIX))
       continue;
     var toExport = Quilvyn.retrieveCharacterFromStorage(path);
@@ -531,7 +516,7 @@ Quilvyn.refreshEditor = function(redraw) {
   }
 
   var characterOpts = [];
-  for(var path in storage) {
+  for(var path in STORAGE) {
     if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
       characterOpts.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
   }
@@ -597,7 +582,7 @@ Quilvyn.refreshSheet = function() {
 /* Creates and returns a character from the contents of a storage path. */
 Quilvyn.retrieveCharacterFromStorage = function(path) {
   var result = {};
-  var attrs = storage.getItem(path).split('\t');
+  var attrs = STORAGE.getItem(path).split('\t');
   for(var i = 0; i < attrs.length; i++) {
     var pieces = attrs[i].split('=', 2);
     if(pieces.length == 2)
@@ -619,7 +604,7 @@ Quilvyn.saveCharacter = function(path) {
   for(var attr in character) {
     stringified += attr + '=' + character[attr] + '\t';
   }
-  storage.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
+  STORAGE.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
   characterPath = path;
   characterCache[characterPath] = QuilvynUtils.clone(character);
   Quilvyn.refreshEditor(false);
@@ -730,7 +715,7 @@ Quilvyn.showHtml = function(html) {
 /* Stores the current values of persistentInfo in the browser. */
 Quilvyn.storePersistentInfo = function() {
   for(var a in persistentInfo) {
-    storage.setItem(PERSISTENT_INFO_PREFIX + a, persistentInfo[a]);
+    STORAGE.setItem(PERSISTENT_INFO_PREFIX + a, persistentInfo[a]);
   }
 };
 
