@@ -178,12 +178,12 @@ function CustomizeQuilvyn() {
   // The third part invokes the initialization function of each selected plugin
   var selectedPlugins = [];
   try {
-    selectedPlugins = localStorage.getItem('QuilvynSelectedPlugins').split(',');
+    selectedPlugins = STORAGE.getItem('QuilvynSelectedPlugins').split(',');
   } catch(err) {
     // empty
   }
   for(var i = 0; i < selectedPlugins.length; i++) {
-    var funcName = selectedPlugins[i].replace(/.*\/|\.js|\?| *\(.*\)/g, '');
+    var funcName = selectedPlugins[i].replace(/.*\/|\.js/g, '');
     if(window[funcName]) {
       console.log('Invoke ' + funcName);
       window[funcName]();
@@ -223,6 +223,21 @@ const CORE_URLS = [
 const HELP_URL = QUILVYN_HOME + 'core/quilvyndoc.html';
 const LOGO_URL = QUILVYN_HOME + 'core/quilvyn.gif';
 
+// Work-around to support testing of IE/Edge with local Quilvyn install
+var STORAGE = null;
+try {
+  STORAGE = localStorage;
+} catch(err) {
+  // empty
+}
+if(STORAGE == null) {
+  STORAGE = {
+    'getItem':function(name) { return window.STORAGE[name]; },
+    'removeItem':function(name) { delete window.STORAGE[name]; },
+    'setItem':function(name,value) { window.STORAGE[name] = value; }
+  };
+}
+
 for(var i = 0; i < CORE_URLS.length; i++) {
   document.write('<script src="' + CORE_URLS[i] + '">' + CLOSE_TAG);
 }
@@ -251,7 +266,7 @@ if(pluginPopup != null) {
   );
   var selectedPlugins = [];
   try {
-    selectedPlugins = localStorage.getItem('QuilvynSelectedPlugins').split(',');
+    selectedPlugins = STORAGE.getItem('QuilvynSelectedPlugins').split(',');
   } catch(err) {
     // empty
   }
@@ -268,45 +283,47 @@ if(pluginPopup != null) {
   pluginPopup.document.write(
     '</table></form>\n' +
     '<form>\n' +
-    '<input type="button" value="Ok" onclick="window.close();"/>\n' +
+    '<input type="button" value="Ok" onclick="window.okay = true;"/>\n' +
     '</form></body></html>\n'
   );
   pluginPopup.document.close();
 }
 
 function LoadPlugins() {
-  if(pluginPopup != null && !pluginPopup.closed) {
+  if(pluginPopup != null && !pluginPopup.closed && !pluginPopup.okay) {
     setTimeout('LoadPlugins()', 1000);
     return;
   }
-  var selectedPlugins = [];
-  for(var i = 0; i < PLUGINS.length; i++) {
-    if(PLUGINS[i] != null &&
-       pluginPopup.document.forms[0]['plugin' + i].checked) {
-      if(PLUGINS[i].startsWith('?')) {
-        var scriptTag = document.createElement('script');
-        scriptTag.src = QUILVYN_HOME + PLUGINS[i].replace(/ *\(.*\)|\?/g, '');
-        scriptTag.type = 'text/javascript';
-        scriptTag.onload = new Function('window["plugin' + i + 'Loaded"]=true;');
-        document.body.appendChild(scriptTag);
-      }
-      selectedPlugins.push(PLUGINS[i].replace('?', ''));
+  var selectedPlugins =
+    PLUGINS.filter(item => item != null && !item.startsWith('?'));
+  if(pluginPopup != null && !pluginPopup.closed) {
+    for(var i = 0; i < PLUGINS.length; i++) {
+      if(PLUGINS[i] != null &&
+         pluginPopup.document.forms[0]['plugin' + i].checked)
+        selectedPlugins.push(PLUGINS[i]);
     }
   }
-  try {
-    localStorage.setItem('QuilvynSelectedPlugins', selectedPlugins.join(','));
-  } catch(err) {
-    // empty
+  for(var i = 0; i < selectedPlugins.length; i++) {
+    selectedPlugins[i] = selectedPlugins[i].replace(/ .*/, '');
+    if(selectedPlugins[i].startsWith('?')) {
+      selectedPlugins[i] = selectedPlugins[i].replace('?', '');
+      var scriptTag = document.createElement('script');
+      scriptTag.src = QUILVYN_HOME + selectedPlugins[i];
+      scriptTag.type = 'text/javascript';
+      document.body.appendChild(scriptTag);
+    }
   }
+  STORAGE.setItem('QuilvynSelectedPlugins', selectedPlugins.join(','));
+  if(!pluginPopup.closed)
+    pluginPopup.close();
   StartQuilvyn();
 }
 
 function StartQuilvyn() {
-  for(var i = 0; i < PLUGINS.length; i++) {
-    if(PLUGINS[i] != null &&
-       PLUGINS[i].startsWith('?') &&
-       pluginPopup.document.forms[0]['plugin' + i].checked &&
-       !window['plugin' + i + 'Loaded']) {
+  var selectedPlugins = STORAGE.getItem('QuilvynSelectedPlugins').split(',');
+  for(var i = 0; i < selectedPlugins.length; i++) {
+    var funcName = selectedPlugins[i].replace(/.*\/|\.js/g, '');
+    if(window[funcName] == null) {
       setTimeout('StartQuilvyn()', 1000);
       return;
     }
