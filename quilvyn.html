@@ -273,7 +273,7 @@ if(pluginPopup != null) {
   for(var i = 0; i < PLUGINS.length; i++) {
     if(PLUGINS[i] == null)
       continue;
-    var url = PLUGINS[i].replace('?', '');
+    var url = PLUGINS[i].replace(/ .*|\?/g, '');
     var label = url.replace(/.*\/|\.js/g, '');
     label = label.replace(/([a-z0-9])(?=[A-Z])/g, '$1 ');
     var options = !PLUGINS[i].startsWith('?') ? ' checked=true disabled=true' :
@@ -297,6 +297,7 @@ function LoadPlugins() {
   var selectedPlugins =
     PLUGINS.filter(item => item != null && !item.startsWith('?'));
   if(pluginPopup != null && !pluginPopup.closed) {
+    selectedPlugins = [];
     for(var i = 0; i < PLUGINS.length; i++) {
       if(PLUGINS[i] != null &&
          pluginPopup.document.forms[0]['plugin' + i].checked)
