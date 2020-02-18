@@ -117,6 +117,10 @@ function CustomizeQuilvyn() {
     // Format 'name:ability/[un]trained', e.g.,
     // 'herbalism:int/trained'
   ];
+  var spells = [
+    // Format 'name:school:classLevels:description', e.g.,
+    // "Share Knowledge:Divination:B2/W2:R30' Extract knowledge on specific subject from target (Will neg)"
+  ];
   var weapons = [
     // Format 'name:damagexcritical@threat[range] categories', where categories
     // are Si[mple], Ma[rtial], or Ex[otic] and Li[ght], 1h, or 2h, e.g.
@@ -169,6 +173,11 @@ function CustomizeQuilvyn() {
     Array.prototype.push.apply(SRD35.WEAPONS, weapons);
     Object.assign(SRD35.SUBFEATS, subfeats);
     Object.assign(SRD35.SUBSKILLS, subskills);
+    for(var i = 0; i < spells.length; i++) {
+      var pieces = spells[i].split(':');
+      SRD35.spellsSchools[pieces[0]] = pieces[1];
+      SRD35.spellsDescriptions[pieces[0]] = pieces[3];
+    }
   }
   if(window.LastAge) {
     if(window.location.search.indexOf('la-pf') >= 0)
@@ -205,6 +214,22 @@ function CustomizeQuilvyn() {
       SRD35SpellPoints.spellPointRules(Pathfinder.rules);
     if(window.Realms != null)
       SRD35SpellPoints.spellPointRules(Realms.rules);
+  }
+
+  if(window.SRD35 != null) {
+    for(var i = 0; i < spells.length; i++) {
+      var pieces = spells[i].split(':');
+      var classLevels = pieces[2].split('/');
+      for(var j = 0; j < classLevels.length; j++) {
+        var spell = pieces[0]+'('+classLevels[j]+' '+pieces[1].slice(0,3)+')';
+        SRD35.rules.defineChoice('spells', spell);
+        SRD35.spellRules(SRD35.rules, [spell], null);
+        if(window.Pathfinder != null) {
+          Pathfinder.rules.defineChoice('spells', spell);
+          SRD35.spellRules(Pathfinder.rules, [spell], null);
+        }
+      }
+    }
   }
 
 }
