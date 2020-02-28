@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.6.1.2';
+var SRD35_VERSION = '1.6.1.3';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -189,11 +189,7 @@ SRD35.FAMILIARS = {
   'Steam Mephit': 'Attack=4 HD=3 AC=16 Dam=2@1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Stirge': 'Attack=7 HD=1 AC=16 Dam=0 Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 Level=5',
   'Water Elemental': 'Attack=4 HD=2 AC=17 Dam=1d6+3 Str=14 Dex=10 Con=13 Int=4 Wis=11 Cha=11 Level=5',
-  'Water Mephit': 'Attack=6 HD=3 AC=16 Dam=2@1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
-
-  'Celestial': 'Level=3',
-  'Fiendish': 'Level=3'
-
+  'Water Mephit': 'Attack=6 HD=3 AC=16 Dam=2@1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7'
 };
 SRD35.FEATS = [
   'Acrobatic:', 'Agile:', 'Alertness:', 'Animal Affinity:',
@@ -236,8 +232,6 @@ SRD35.FEATS = [
   'Widen Spell:Metamagic'
 ];
 SRD35.GENDERS = ['Female', 'Male'];
-SRD35.GOODIES = [
-];
 SRD35.LANGUAGES = [
   'Abyssal', 'Aquan', 'Auran', 'Celestial', 'Common', 'Draconic', 'Druidic',
   'Dwarven', 'Elven', 'Giant', 'Gnoll', 'Gnome', 'Goblin', 'Halfling',
@@ -2573,30 +2567,34 @@ SRD35.companionRules = function(rules, companions, familiars) {
   rules.defineNote(notes);
 
   rules.defineRule('companionNotes.celestialCompanion',
-    'animalCompanion.Celestial', '=', null,
-    'familiar.Celestial', '=', null,
+    'animalCompanion.Celestial', '=', '0',
+    'familiar.Celestial', '=', '0',
     'companionStats.HD', '^', null
   );
   rules.defineRule('companionNotes.celestialCompanion.1',
-    'animalCompanion.Celestial', '?', null,
-    'companionStats.HD', '=', 'Math.floor((source + 7) / 8) * 5'
+    'animalCompanion.Celestial', '=', '0',
+    'familiar.Celestial', '=', '0',
+    'companionStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
   );
   rules.defineRule('companionNotes.celestialCompanion.2',
-    'animalCompanion.Celestial', '?', null,
-    'companionStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
+    'animalCompanion.Celestial', '=', '0',
+    'familiar.Celestial', '=', '0',
+    'companionStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
   );
   rules.defineRule('companionNotes.fiendishCompanion',
-    'animalCompanion.Fiendish', '=', null,
-    'familiar.Fiendish', '=', null,
+    'animalCompanion.Fiendish', '=', '0',
+    'familiar.Fiendish', '=', '0',
     'companionStats.HD', '^', null
   );
   rules.defineRule('companionNotes.fiendishCompanion.1',
-    'animalCompanion.Fiendish', '?', null,
-    'companionStats.HD', '=', 'Math.floor((source + 7) / 8) * 5'
+    'animalCompanion.Fiendish', '=', '0',
+    'familiar.Fiendish', '=', '0',
+    'companionStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
   );
   rules.defineRule('companionNotes.fiendishCompanion.2',
-    'animalCompanion.Fiendish', '?', null,
-    'companionStats.HD', '=', 'source < 4 ? 0 : source < 12 ? 5 : 10'
+    'animalCompanion.Fiendish', '=', '0',
+    'familiar.Fiendish', '=', '0',
+    'companionStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
   );
   rules.defineRule('companionStats.Melee.2',
     'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
@@ -2606,21 +2604,9 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'companionStats.Melee.3', '=', 'source == "" ? "" : null'
   );
 
-  rules.defineSheetElement('Companion Features', 'Notes', null, '; ');
-  rules.defineSheetElement('Companion Stats', 'Notes', null, '; ');
-  rules.defineSheetElement('Companion Notes', 'Notes', null, '; ');
-
   if(companions != null) {
 
     rules.defineChoice('animalCompanions', QuilvynUtils.getKeys(companions));
-    rules.defineEditorElement
-      ('animalCompanion', 'Animal Companion', 'set', 'animalCompanions',
-       'notes');
-    rules.defineEditorElement
-      ('animalCompanionName', 'Name', 'text', [20], 'notes');
-    rules.defineSheetElement('CompanionInfo', 'Companion Features', '%V', ' ');
-    rules.defineSheetElement('Animal Companion', 'CompanionInfo/', null, ' ');
-    rules.defineSheetElement('Animal Companion Name', 'CompanionInfo/', '"%V"');
 
     features = {
       'Link': 1, 'Share Spells': 1, 'Companion Evasion': 2, 'Devotion' : 3,
@@ -2636,7 +2622,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
     }
 
     rules.defineRule('companionAttack',
-      'features.Animal Companion', '?', null,
+      'companionLevel', '?', null,
       'companionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE,
       'companionAttackBoosts', '+', 'Math.floor(source)'
     );
@@ -2656,7 +2642,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionStats.Str', '=', 'source<14 ? null : Math.floor((source-10)/4)'
     );
     rules.defineRule('companionFort',
-      'features.Animal Companion', '?', null,
+      'companionLevel', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
       'companionStats.Con', '+', 'Math.floor((source - 10)/2)',
       'companionNotes.shareSavingThrowsFeature.1', '+', null,
@@ -2664,7 +2650,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionNotes.shareSavingThrowsFeature', '+', '0'
     );
     rules.defineRule('companionHP',
-      'features.Animal Companion', '?', null,
+      'companionLevel', '?', null,
       'companionStats.Con', '=', '4.5 + Math.floor((source - 10)/2)',
       'companionStats.HD', '*', null
     );
@@ -2694,13 +2680,13 @@ SRD35.companionRules = function(rules, companions, familiars) {
       '', '^', '0'
     );
     rules.defineRule('companionRef',
-      'features.Animal Companion', '?', null,
+      'companionLevel', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
       'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)',
       'companionNotes.shareSavingThrowsFeature.2', '+', null
     );
     rules.defineRule('companionWill',
-      'features.Animal Companion', '?', null,
+      'companionLevel', '?', null,
       'companionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
       'companionStats.Wis', '+', 'Math.floor((source - 10) / 2)',
       'companionNotes.shareSavingThrowsFeature.3', '+', null
@@ -2821,20 +2807,12 @@ SRD35.companionRules = function(rules, companions, familiars) {
     );
     rules.defineRule
       ('companionStats.SR', 'mountMasterLevel', '=', 'source + 5');
-    rules.defineRule
-      ('features.Animal Companion', 'paladinFeatures.Special Mount', '=', '1');
 
   }
 
   if(familiars != null) {
 
     rules.defineChoice('familiars', QuilvynUtils.getKeys(familiars));
-    rules.defineEditorElement
-      ('familiar', 'Familiar', 'set', 'familiars', 'notes');
-    rules.defineEditorElement('familiarName', 'Name', 'text', [20], 'notes');
-    rules.defineSheetElement('FamiliarInfo', 'Companion Features', '%V', ' ');
-    rules.defineSheetElement('Familiar', 'FamiliarInfo/', null, ' ');
-    rules.defineSheetElement('Familiar Name', 'Familiar+', '"%V"');
 
     features = {
       'Companion Alertness': 1, 'Companion Evasion': 1,
@@ -2879,8 +2857,10 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('save.Fortitude', 'saveNotes.familiarRat', '+', '2');
     rules.defineRule('save.Reflex', 'saveNotes.familiarWeasel', '+', '2');
 
+    rules.defineRule('familiar.Celestial', 'familiarCelestial', '=', null);
+    rules.defineRule('familiar.Fiendish', 'familiarFiendish', '=', null);
     rules.defineRule('familiarAttack',
-      'features.Familiar', '?', null,
+      'familiarLevel', '?', null,
       'baseAttack', '=', null,
     );
     rules.defineRule('familiarFort',
@@ -2889,11 +2869,11 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'companionStats.Con', '+', 'Math.floor((source - 10) / 2)'
     );
     rules.defineRule('familiarHD',
-      'features.Familiar', '?', null,
+      'familiarLevel', '?', null,
       'level', '=', null
     );
     rules.defineRule('familiarHP',
-      'features.Familiar', '?', null,
+      'familiarLevel', '?', null,
       'hitPoints', '=', 'Math.floor(source / 2)'
     );
     rules.defineRule('familiarLevel',
@@ -2937,8 +2917,10 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'familiarMasterLevel', '+', '-source',
       '', '^', '0'
     );
-    rules.defineRule
-      ('validationNotes.familiarMasterLevel.1', 'features.Familiar', '=', '1');
+    rules.defineRule('validationNotes.familiarMasterLevel.1',
+      'familiar.Celestial', '=', '3',
+      'familiar.Fiendish', '=', '3'
+    );
 
     for(var familiar in familiars) {
       var matchInfo;
@@ -2955,7 +2937,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
           );
         } else if(matchInfo[1] == 'Level') {
           rules.defineRule('validationNotes.familiarMasterLevel.1',
-            'familiar.' + familiar, '^', matchInfo[2]
+            'familiar.' + familiar, '=', matchInfo[2]
           );
         } else if(matchInfo[2].match(/^\d+$/)) {
           rules.defineRule('companionStats.' + matchInfo[1],
@@ -3182,6 +3164,15 @@ SRD35.createViewers = function(rules, viewers) {
         {name: 'Notes Area', within: '_top', separator: outerSep,
          format: '<b>Notes</b><br/>%V'},
           {name: 'NotesPart', within: 'Notes Area', separator: '\n'},
+            {name: 'CompanionInfo', within: 'NotesPart', separator: ' '},
+              {name: 'Animal Companion', within: 'CompanionInfo', separator: ' '},
+              {name: 'Animal Companion Name', within: 'CompanionInfo', format: '"%V"'},
+            {name: 'FamiliarInfo', within: 'NotesPart', separator: ' '},
+              {name: 'Familiar', within: 'FamiliarInfo', separator: ' '},
+              {name: 'Familiar Name', within: 'FamiliarInfo', format: '"%V"'},
+            {name: 'Companion Features', within: 'NotesPart', separator: listSep},
+            {name: 'Companion Stats', within: 'NotesPart', separator: listSep},
+            {name: 'Companion Notes', within: 'NotesPart', separator: listSep},
             {name: 'Notes', within: 'NotesPart', format: '%V'},
             {name: 'Hidden Notes', within: 'NotesPart', format: '%V'},
           {name: 'ValidationPart', within: 'Notes Area', separator: '\n'},
@@ -5573,6 +5564,12 @@ SRD35.initialEditorElements = function() {
     ['domains', 'Cleric Domains', 'set', 'domains'],
     ['specialize', 'Wizard Specialization', 'set', 'schools'],
     ['prohibit', 'Wizard Prohibition', 'set', 'schools'],
+    ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
+    ['animalCompanionName', 'Name', 'text', [20]],
+    ['familiar', 'Familiar', 'set', 'familiars'],
+    ['familiarCelestial', 'Improved', 'checkbox', ['Celestial']],
+    ['familiarFiendish', '', 'checkbox', ['Fiendish']],
+    ['familiarName', 'Name', 'text', [20]],
     ['notes', 'Notes', 'textarea', [40,10]],
     ['hiddenNotes', 'Hidden Notes', 'textarea', [40,10]]
   ];

@@ -1215,6 +1215,7 @@ SRD35Prestige.classRules = function(rules, classes) {
           spell += '(' + pieces[0] + ' ' +
                     (school == 'Universal' ? 'Univ' : schools[school]) + ')';
           rules.defineChoice('spells', spell);
+          SRD35.spellRules(rules, [spell], null);
         }
       }
     }
