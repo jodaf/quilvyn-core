@@ -688,7 +688,7 @@ SRD35.spellsDescriptions = {
   "Holy Sword": "Touched weapon +5 attack/damage, vs. evil +2d6 damage, +2 AC/saves, extra save vs. enchantment, bars contact for $L rd",
   "Holy Word": "Nongood creatures w/in 40' with equal/-1/-5/-10 HD deafened 1d4 rd/blinded 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)",
   "Horrid Wilting": "R$RL' ${Lmin20}d6 HP (${Lmin20}d8 plants/water elementals) in 30' radius (Fort half)",
-  "Hypnotic Pattern": "R$RM' 2d4+$Lmin10 HD of creatures fascinated for conc + 2 rd (Wil neg)",
+  "Hypnotic Pattern": "R$RM' 2d4+$Lmin10 HD of creatures fascinated for conc + 2 rd (Will neg)",
   "Hypnotism": "R$RS' 2d4 HD of creatures fascinated and suggestable for 2d4 rd (Will neg)",
   "Ice Storm": "R$RL' Hail in 40' cylinder 3d6 HP bludgeoning/2d6 HP cold, -4 Perception for $L rd",
   "Identify": "R60' cone info on magical auras, +10 Spellcraft for $L3 rd",
