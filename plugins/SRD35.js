@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.6.1.4';
+var SRD35_VERSION = '1.6.1.5';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3272,7 +3272,8 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     );
 
     rules.defineRule('weaponDamage.' + name,
-      'weapons.' + name, '=', '"' + firstDamage + '"',
+      'weapons.' + name, '?', null,
+      '', '=', '"' + firstDamage + '"',
       'features.Small', '=', '"' + SRD35.weaponsSmallDamage[firstDamage] + '"',
       'features.Large', '=', '"' + SRD35.weaponsLargeDamage[firstDamage] + '"'
     );
@@ -3282,7 +3283,8 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     );
     if(secondDamage) {
       rules.defineRule('weaponDamage2.' + name,
-        'weapons.' + name, '=', '"' + secondDamage + '"',
+        'weapons.' + name, '?', null,
+        '', '=', '"' + secondDamage + '"',
         'features.Small', '=', '"'+SRD35.weaponsSmallDamage[secondDamage]+'"',
         'features.Large', '=', '"'+SRD35.weaponsLargeDamage[secondDamage]+'"'
       );
