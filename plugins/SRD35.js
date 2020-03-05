@@ -1601,12 +1601,12 @@ SRD35.classRules = function(rules, classes) {
         'magicNotes.inspireHeroicsFeature:' +
           '+4 AC/saves to 1 ally while performing',
         'magicNotes.massSuggestionFeature:' +
-          '<i>Suggestion</i> to all fascinated creatures',
+          '<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
         'magicNotes.simpleSomaticsFeature:Reduce armor casting penalty by %V%',
         'magicNotes.songOfFreedomFeature:' +
           '<i>Break Enchantment</i> through performing',
         'magicNotes.suggestionFeature:' +
-          '<i>suggestion</i> to 1 fascinated creature',
+          '<i>Suggestion</i> to 1 fascinated creature (DC %V neg)',
         'validationNotes.bardClassAlignment:Requires Alignment !~ Lawful'
       ];
       profArmor = SRD35.PROFICIENCY_LIGHT;
@@ -1694,6 +1694,14 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('magicNotes.inspireGreatnessFeature',
         'levels.Bard', '+=', 'source >= 9 ? Math.floor((source - 6) / 3) : null'
       );
+      rules.defineRule('magicNotes.massSuggestionFeature',
+        'levels.Bard', '=', '10 + Math.floor(source / 2)',
+        'charismaModifier', '+', null
+      );
+      rules.defineRule('magicNotes.suggestionFeature',
+        'levels.Bard', '=', '10 + Math.floor(source / 2)',
+        'charismaModifier', '+', null
+      );
       rules.defineRule
         ('maxSkillModifier.Perform', /^skillModifier.Perform/, '^=', null);
       rules.defineRule('skillModifier.Bardic Knowledge',
@@ -1755,7 +1763,7 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('casterLevelDivine', 'levels.Cleric', '+=', null);
       rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
       rules.defineRule('magicNotes.spontaneousClericSpellFeature',
-        'alignment', '=', 'source.match(/Evil/) ? "Inflict" : "Heal"'
+        'alignment', '=', 'source.match(/Evil/)?"<i>Inflict</i>":"<i>Cure</i>"'
       );
       for(var j = 1; j < 10; j++) {
         rules.defineRule('spellsPerDay.Dom' + j,
@@ -3845,7 +3853,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       var school = matchInfo[1];
       var schoolNoSpace = school.replace(/ /g, '');
       notes = [
-        'magicNotes.spellFocus(' + schoolNoSpace + ')Feat:' +
+        'magicNotes.greaterSpellFocus(' + schoolNoSpace + ')Feature:' +
           '+1 DC on ' + school + ' spells',
         'sanityNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
           'Implies Caster Level >= 1',
@@ -4750,7 +4758,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       turn = 'Earth';
     } else if(domain == 'Animal') {
       notes = [
-        'magicNotes.animalDomain:<i>Speak With Animals</i> 1/Day',
+        'magicNotes.animalDomain:<i>Speak With Animals</i> 1/dy',
         'skillNotes.animalDomain:Knowledge (Nature) is a class skill'
       ];
       spells = [
@@ -4770,13 +4778,15 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       ];
       turn = null;
     } else if(domain == 'Death') {
-      notes = ['magicNotes.deathDomain:<i>Death Touch</i> 1/Day'];
+      notes = [
+        'magicNotes.deathDomain:Touch kills if %Vd6 ge target HP 1/dy'];
       spells = [
         'Cause Fear', 'Death Knell', 'Animate Dead', 'Death Ward',
         'Slay Living', 'Create Undead', 'Destruction', 'Create Greater Undead',
         'Wail Of The Banshee'
       ];
       turn = null;
+      rules.defineRule('magicNotes.deathDomain', 'levels.Cleric', '=', null);
     } else if(domain == 'Destruction') {
       notes = [
         'combatNotes.destructionDomain:+4 attack, +%V damage smite 1/day'
@@ -4886,7 +4896,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
     } else if(domain == 'Protection') {
       notes = [
         'magicNotes.protectionDomain:' +
-          '<i>Protective Ward</i> +%V bonus to next save w/in 1 hour 1/day'
+          'Touched +%V bonus to next save w/in 1 hour 1/day'
       ];
       spells = [
         'Sanctuary', 'Shield Other', 'Protection From Energy',
@@ -4915,7 +4925,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       turn = null;
     } else if(domain == 'Travel') {
       notes = [
-        'magicNotes.travelDomain:<i>Freedom of Movement</i> %V rd/day',
+        'magicNotes.travelDomain:Self move freely %V rd/day',
         'skillNotes.travelDomain:Survival is a class skill'
       ];
       spells = [
@@ -5198,7 +5208,7 @@ SRD35.raceRules = function(rules, languages, races) {
         'combatNotes.gnomeWeapons:Racial weapons are martial weapons',
         'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
-        'magicNotes.naturalIllusionistFeature:+1 DC on illusion spells',
+        'magicNotes.naturalIllusionistFeature:Spell Focus(Illusion)',
         'magicNotes.naturalSpellsFeature:%V 1/day as caster %1',
         'saveNotes.resistIllusionFeature:+2 vs. illusions',
         'skillNotes.keenEarsFeature:+2 Listen',
@@ -5209,6 +5219,9 @@ SRD35.raceRules = function(rules, languages, races) {
       rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
         raceNoSpace + 'Features.Low-Light Vision', '+', null
+      );
+      rules.defineRule('features.Spell Focus (Illusion)',
+        'magicNotes.naturalIllusionistFeature', '=', '1'
       );
       rules.defineRule
         ('languages.Gnome', 'race', '=', 'source.match(/Gnome/) ? 1 : null');
@@ -5387,21 +5400,22 @@ SRD35.spellRules = function(rules, spells, descriptions) {
   rules.defineRule('casterLevels.W', 'levels.Wizard', '=', null);
   for(var i = 0; i < spells.length; i++) {
     var spell = spells[i];
-    var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*\w*\)$/);
+    var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*(\w*)\)$/);
     if(matchInfo == null) {
       alert('Bad format for spell ' + spell);
       continue;
     }
-    var abbr = matchInfo[2];
+    var classAbbr = matchInfo[2];
     var level = matchInfo[3];
     var name = matchInfo[1];
+    var schoolAbbr = matchInfo[4];
     var description = descriptions[name];
     if(description == null) {
       alert('No description for spell ' + name);
       continue;
     }
-    if(abbr.length > 2) {
-      abbr = 'Dom'; // Assume domain spell
+    if(classAbbr.length > 2) {
+      classAbbr = 'Dom'; // Assume domain spell
     }
     var inserts = description.match(/\$(\w+|{[^}]+})/g);
     if(inserts != null) {
@@ -5415,24 +5429,35 @@ SRD35.spellRules = function(rules, spells, descriptions) {
         expr = expr.replace(/lvl/g, 'source');
         rules.defineRule('spells.' + spell + '.' + index,
           'spells.' + spell, '?', null,
-          'casterLevels.' + abbr, '=', expr
+          'casterLevels.' + classAbbr, '=', expr
         );
         description = description.replace(insert, '%' + index);
       }
     }
     if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
-      var spellAbility = {
-        'AD':'wisdom', 'AS':'intelligence', 'B':'charisma', 'BL':'wisdom',
-        'C':'wisdom', 'D':'wisdom', 'Dom':'wisdom', 'P':'wisdom', 'R':'wisdom',
-        'W':'intelligence'
-      };
+      var school;
+      var schools = rules.getChoices('schools');
+      var spellAbility =
+        classAbbr == 'B' ? 'charisma' :
+        'AS W'.indexOf(classAbbr) >= 0 ? 'intelligence' : 'wisdom';
       var index = inserts != null ? inserts.length + 1 : 1;
+      for(school in schools) {
+        if(schools[school] == schoolAbbr)
+          break;
+      }
       description =
         matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
       rules.defineRule('spells.' + spell + '.' + index,
         'spells.' + spell, '?', null,
-        spellAbility[abbr] + 'Modifier', '=', '10 + source + ' + level
+        spellAbility + 'Modifier', '=', '10 + source + ' + level
       );
+      if(school) {
+        school = school.replace(/\s/g, '');
+        rules.defineRule('spells.' + spell + '.' + index,
+          'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', '1',
+          'magicNotes.spellFocus(' + school + ')Feature', '+', '1'
+        );
+      }
     }
     rules.defineChoice('notes', 'spells.' + spell + ':' + description);
   }
