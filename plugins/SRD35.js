@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.6.1.6';
+var SRD35_VERSION = '1.6.1.7';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -5398,6 +5398,10 @@ SRD35.spellRules = function(rules, spells, descriptions) {
   rules.defineRule('casterLevels.R', 'levels.Ranger', '=', null);
   rules.defineRule('casterLevels.W', 'levels.Sorcerer', '=', null);
   rules.defineRule('casterLevels.W', 'levels.Wizard', '=', null);
+  rules.defineRule('sorcererSaveModifier',
+    'levels.Sorcerer', '?', null,
+    'charismaModifier', '=', null
+  );
   for(var i = 0; i < spells.length; i++) {
     var spell = spells[i];
     var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*(\w*)\)$/);
@@ -5437,9 +5441,10 @@ SRD35.spellRules = function(rules, spells, descriptions) {
     if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
       var school;
       var schools = rules.getChoices('schools');
-      var spellAbility =
-        classAbbr == 'B' ? 'charisma' :
-        'AS W'.indexOf(classAbbr) >= 0 ? 'intelligence' : 'wisdom';
+      var saveModifier =
+        classAbbr == 'B' ? 'charismaModifier' :
+        'AS W'.indexOf(classAbbr) >= 0 ? 'intelligenceModifier' :
+        'wisdomModifier';
       var index = inserts != null ? inserts.length + 1 : 1;
       for(school in schools) {
         if(schools[school] == schoolAbbr)
@@ -5449,8 +5454,15 @@ SRD35.spellRules = function(rules, spells, descriptions) {
         matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
       rules.defineRule('spells.' + spell + '.' + index,
         'spells.' + spell, '?', null,
-        spellAbility + 'Modifier', '=', '10 + source + ' + level
+        saveModifier, '=', '10 + source + ' + level
       );
+      // Add a rule to override the default intelligence-based save with a
+      // charisma-based one for Sorcerers' 'W" spells.
+      if(classAbbr == 'W') {
+        rules.defineRule('spells.' + spell + '.' + index,
+          'sorcererSaveModifier', '=', '10 + source + ' + level
+        );
+      }
       if(school) {
         school = school.replace(/\s/g, '');
         rules.defineRule('spells.' + spell + '.' + index,
