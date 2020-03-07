@@ -6375,18 +6375,12 @@ SRD35.defineClass = function
     }
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   }
-  if(spellAbility != null) {
-    rules.defineRule('spellDifficultyClass.' + name,
-      'levels.' + name, '?', null,
+  if(spellsKnown != null) {
+    var spellType = spellsKnown[0].split(':')[0].replace(/\d+/, '');
+    rules.defineRule('spellDifficultyClass.' + spellType,
+      'spells.' + spellType + '1', '?', null,
       spellAbility + 'Modifier', '=', '10 + source'
     );
-  }
-  if(spellsKnown != null || spellsPerDay != null) {
-    rules.defineRule('casterSpellLevel.' + name,
-      'levels.' + name, '=', null
-    );
-  }
-  if(spellsKnown != null) {
     for(var j = 0; j < spellsKnown.length; j++) {
       var typeAndLevel = spellsKnown[j].split(/:/)[0];
       var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
@@ -6398,10 +6392,8 @@ SRD35.defineClass = function
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
       rules.defineRule
-        ('spellsKnown.' + typeAndLevel, 'casterSpellLevel.' + name, '=', code);
+        ('spellsKnown.' + typeAndLevel, 'casterLevels.' + spellType, '=', code);
     }
-  }
-  if(spellsPerDay != null) {
     for(var j = 0; j < spellsPerDay.length; j++) {
       var typeAndLevel = spellsPerDay[j].split(/:/)[0];
       var level = typeAndLevel.replace(/[A-Z]*/, '');
@@ -6413,7 +6405,7 @@ SRD35.defineClass = function
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
       rules.defineRule
-        ('spellsPerDay.' + typeAndLevel, 'casterSpellLevel.' + name, '=', code);
+        ('spellsPerDay.' + typeAndLevel, 'casterLevels.' + spellType, '=', code);
       if(spellAbility != null) {
         var modifier = spellAbility + 'Modifier';
         var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
