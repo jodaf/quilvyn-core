@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.6.1.7';
+var SRD35_VERSION = '1.6.1.8';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -1644,7 +1644,11 @@ SRD35.classRules = function(rules, classes) {
         'B5:13:0/14:1/15:2/17:3/19:4',
         'B6:16:0/17:1/18:2/19:3/20:4'
       ];
-      rules.defineRule('casterLevelArcane', 'levels.Bard', '+=', null);
+      rules.defineRule('casterLevels.B',
+        'levels.Bard', '+=', null,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevels.B', '+=', null);
       rules.defineRule
         ('classSkills.Bardic Knowledge', 'features.Bardic Knowledge', '=', '1');
       rules.defineRule
@@ -1760,7 +1764,12 @@ SRD35.classRules = function(rules, classes) {
         'Knowledge (History)', 'Knowledge (Planes)', 'Knowledge (Religion)',
         'Profession', 'Spellcraft'
       ];
-      rules.defineRule('casterLevelDivine', 'levels.Cleric', '+=', null);
+      rules.defineRule('casterLevels.C',
+        'levels.Cleric', '+=', null,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevels.Dom', 'casterLevels.C', '+=', null);
+      rules.defineRule('casterLevelDivine', 'casterLevels.C', '+=', null);
       rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
       rules.defineRule('magicNotes.spontaneousClericSpellFeature',
         'alignment', '=', 'source.match(/Evil/)?"<i>Inflict</i>":"<i>Cure</i>"'
@@ -1841,7 +1850,12 @@ SRD35.classRules = function(rules, classes) {
       ];
       rules.defineRule
         ('companionMasterLevel', 'levels.Druid', '+=', null);
-      rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
+      rules.defineRule('casterLevels.D',
+        'levels.Druid', '+=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevels.Dom', 'casterLevels.D', '+=', null);
+      rules.defineRule('casterLevelDivine', 'casterLevels.D', '+=', null);
       rules.defineRule('languageCount', 'levels.Druid', '+', '1');
       rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
       rules.defineRule('magicNotes.elementalShapeFeature',
@@ -2079,9 +2093,14 @@ SRD35.classRules = function(rules, classes) {
         'P3:11:0/12:1/17:2/19:3',
         'P4:14:0/15:1/19:2/20:3'
       ];
-      rules.defineRule('casterLevelDivine',
-        'levels.Paladin', '+=', 'source < 4 ? null : Math.floor(source / 2)'
+      rules.defineRule('casterLevels.Paladin',
+        'levels.Paladin', '+=', 'source < 4 ? null : source / 2',
+        'magicNotes.casterLevelBonusFeature', '+', null
       );
+      rules.defineRule(
+        'casterLevels.P', 'casterLevels.Paladin', '=', 'Math.floor(source)'
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.P', '+=', null);
       rules.defineRule('combatNotes.smiteEvilFeature',
         'charismaModifier', '=', 'source > 0 ? source : 0'
       );
@@ -2181,9 +2200,14 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('companionMasterLevel',
         'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
       );
-      rules.defineRule('casterLevelDivine',
-        'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
+      rules.defineRule('casterLevels.Ranger',
+        'levels.Ranger', '+=', 'source < 4 ? null : source / 2',
+        'magicNotes.casterLevelBonusFeature', '+', null
       );
+      rules.defineRule(
+        'casterLevels.R', 'casterLevels.Ranger', '=', 'Math.floor(source)'
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.R', '+=', null);
       rules.defineRule('combatNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
@@ -2345,7 +2369,11 @@ SRD35.classRules = function(rules, classes) {
         'S8:16:3/17:4/18:5/19:6',
         'S9:18:3/19:4/20:6'
       ];
-      rules.defineRule('casterLevelArcane', 'levels.Sorcerer', '+=', null);
+      rules.defineRule('casterLevels.W',
+        'levels.Sorcerer', '=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevel.W', '+=', null);
       rules.defineRule('familiarMasterLevel', 'levels.Sorcerer', '+=', null);
 
     } else if(klass == 'Wizard') {
@@ -2400,7 +2428,11 @@ SRD35.classRules = function(rules, classes) {
         'W8:15:1/16:2/18:3/20:4',
         'W9:17:1/18:2/19:3/20:4'
       ];
-      rules.defineRule('casterLevelArcane', 'levels.Wizard', '+=', null);
+      rules.defineRule('casterLevels.W',
+        'levels.Wizard', '=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevels.W', '+=', null);
       rules.defineRule('familiarMasterLevel', 'levels.Wizard', '+=', null);
       rules.defineRule('featCount.Wizard',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
@@ -5386,18 +5418,6 @@ SRD35.spellRules = function(rules, spells, descriptions) {
   if(descriptions == null) {
     descriptions = SRD35.spellsDescriptions;
   }
-  rules.defineRule('casterLevels.AD', 'levels.Adept', '=', null);
-  rules.defineRule('casterLevels.AS', 'levels.Assassin', '=', null);
-  rules.defineRule('casterLevels.B', 'levels.Bard', '=', null);
-  rules.defineRule('casterLevels.BL', 'levels.Blackguard', '=', null);
-  rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
-  rules.defineRule('casterLevels.D', 'levels.Druid', '=', null);
-  rules.defineRule('casterLevels.Dom', 'levels.Cleric', '=', null);
-  rules.defineRule('casterLevels.Dom', 'levels.Druid', '=', null);
-  rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
-  rules.defineRule('casterLevels.R', 'levels.Ranger', '=', null);
-  rules.defineRule('casterLevels.W', 'levels.Sorcerer', '=', null);
-  rules.defineRule('casterLevels.W', 'levels.Wizard', '=', null);
   rules.defineRule('sorcererSaveModifier',
     'levels.Sorcerer', '?', null,
     'charismaModifier', '=', null
@@ -6363,8 +6383,7 @@ SRD35.defineClass = function
   }
   if(spellsKnown != null || spellsPerDay != null) {
     rules.defineRule('casterSpellLevel.' + name,
-      'levels.' + name, '=', null,
-      'magicNotes.casterLevelBonusFeature', '+', null
+      'levels.' + name, '=', null
     );
   }
   if(spellsKnown != null) {

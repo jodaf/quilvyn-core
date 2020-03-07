@@ -315,7 +315,11 @@ SRD35Prestige.classRules = function(rules, classes) {
         'AS3:5:1/6:2/8:3',
         'AS4:7:1/8:2/10:3'
       ];
-      rules.defineRule('casterLevelArcane', 'levels.Assassin', '+=', null);
+      rules.defineRule('casterLevels.AS',
+        'levels.Assassin', '+=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevels.AS', '+=', null);
       rules.defineRule('combatNotes.deathAttackFeature',
         'levels.Assassin', '+=', '10 + source',
         'intelligenceModifier', '+', null
@@ -412,7 +416,11 @@ SRD35Prestige.classRules = function(rules, classes) {
         'BL4:7:0/8:1'
       ];
       SRD35.spellsSchools['Corrupt Weapon'] = 'Transmutation';
-      rules.defineRule('casterLevelDivine', 'levels.Blackguard', '+=', null);
+      rules.defineRule('casterLevels.BL',
+        'levels.Blackguard', '+=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.BL', '+=', null);
       rules.defineRule('combatNotes.smiteGoodFeature',
         'levels.Blackguard', '+=', 'source<2 ? null : 1 + Math.floor(source/5)'
       );
