@@ -1854,7 +1854,6 @@ SRD35.classRules = function(rules, classes) {
         'levels.Druid', '+=', null,
         'magicNotes.casterLevelBonusFeature', '+', null
       );
-      rules.defineRule('casterLevels.Dom', 'casterLevels.D', '+=', null);
       rules.defineRule('casterLevelDivine', 'casterLevels.D', '+=', null);
       rules.defineRule('languageCount', 'levels.Druid', '+', '1');
       rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
@@ -5418,10 +5417,6 @@ SRD35.spellRules = function(rules, spells, descriptions) {
   if(descriptions == null) {
     descriptions = SRD35.spellsDescriptions;
   }
-  rules.defineRule('sorcererSaveModifier',
-    'levels.Sorcerer', '?', null,
-    'charismaModifier', '=', null
-  );
   for(var i = 0; i < spells.length; i++) {
     var spell = spells[i];
     var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*(\w*)\)$/);
@@ -5476,13 +5471,6 @@ SRD35.spellRules = function(rules, spells, descriptions) {
         'spells.' + spell, '?', null,
         saveModifier, '=', '10 + source + ' + level
       );
-      // Add a rule to override the default intelligence-based save with a
-      // charisma-based one for Sorcerers' 'W" spells.
-      if(classAbbr == 'W') {
-        rules.defineRule('spells.' + spell + '.' + index,
-          'sorcererSaveModifier', '=', '10 + source + ' + level
-        );
-      }
       if(school) {
         school = school.replace(/\s/g, '');
         rules.defineRule('spells.' + spell + '.' + index,
@@ -6376,45 +6364,45 @@ SRD35.defineClass = function
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   }
   if(spellsKnown != null) {
+    var spellModifier = spellAbility + 'Modifier';
     var spellType = spellsKnown[0].split(':')[0].replace(/\d+/, '');
     rules.defineRule('spellDifficultyClass.' + spellType,
-      'spells.' + spellType + '1', '?', null,
-      spellAbility + 'Modifier', '=', '10 + source'
+      'spellsKnown.' + spellType + '1', '?', null,
+      spellModifier, '^=', '10 + source'
     );
-    for(var j = 0; j < spellsKnown.length; j++) {
-      var typeAndLevel = spellsKnown[j].split(/:/)[0];
-      var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
-      var code = spellsKnown[j].substring(typeAndLevel.length + 1).
+    for(var i = 0; i < spellsKnown.length; i++) {
+      var spellTypeAndLevel = spellsKnown[i].split(/:/)[0];
+      var code = spellsKnown[i].substring(spellTypeAndLevel.length + 1).
                  split(/\//).reverse().join('source >= ');
       code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
       code = 'source >= ' + code + ' : null';
       if(code.indexOf('source >= 1 ?') >= 0) {
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
-      rules.defineRule
-        ('spellsKnown.' + typeAndLevel, 'casterLevels.' + spellType, '=', code);
+      rules.defineRule('spellsKnown.' + spellTypeAndLevel,
+        'casterLevels.' + spellType, '=', code,
+        'casterLevels.' + name, '=', code
+      );
     }
-    for(var j = 0; j < spellsPerDay.length; j++) {
-      var typeAndLevel = spellsPerDay[j].split(/:/)[0];
-      var level = typeAndLevel.replace(/[A-Z]*/, '');
-      var code = spellsPerDay[j].substring(typeAndLevel.length + 1).
+    for(var i = 0; i < spellsPerDay.length; i++) {
+      var spellTypeAndLevel = spellsPerDay[i].split(/:/)[0];
+      var spellLevel = spellTypeAndLevel.replace(/[A-Z]*/, '');
+      var code = spellsPerDay[i].substring(spellTypeAndLevel.length + 1).
                  split(/\//).reverse().join('source >= ');
       code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
       code = 'source >= ' + code + ' : null';
       if(code.indexOf('source >= 1 ?') >= 0) {
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
-      rules.defineRule
-        ('spellsPerDay.' + typeAndLevel, 'casterLevels.' + spellType, '=', code);
-      if(spellAbility != null) {
-        var modifier = spellAbility + 'Modifier';
-        var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
-        if(level > 0) {
-          code = 'source >= ' + level +
-                 ' ? 1 + Math.floor((source - ' + level + ') / 4) : null';
-          rules.defineRule
-            ('spellsPerDay.' + typeAndLevel, modifier, '+', code);
-        }
+      rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
+        'casterLevels.' + spellType, '=', code,
+        'casterLevels.' + name, '=', code
+      );
+      if(spellLevel > 0) {
+        code = 'source >= ' + spellLevel +
+               ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null';
+        rules.defineRule
+          ('spellsPerDay.' + spellTypeAndLevel, spellModifier, '+', code);
       }
     }
   }
