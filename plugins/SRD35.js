@@ -1994,6 +1994,9 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule
         ('armorClass', 'combatNotes.monkArmorClassAdjustment', '+', null);
+      rules.defineRule('casterLevels.W',
+        'levels.Monk', '^=', 'source < 12 ? null : Math.floor(source / 2)'
+      );
       rules.defineRule('combatNotes.flurryOfBlowsFeature',
         'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
       );
@@ -4627,16 +4630,17 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
     } else if(klass == 'Paladin') {
       spells = [
         'P1:Bless:Bless Water:Bless Weapon:Create Water:Cure Light Wounds:' +
-        'Detect Poison:Detect Undead:Divine Favor:Endure Elements:' +
-        'Lesser Restoration:Magic Weapon:Protection From Chaos:' +
-        'Protection From Evil:Read Magic:Resistance:Virtue',
+        'Detect Evil:Detect Poison:Detect Undead:Divine Favor:' +
+        'Endure Elements:Lesser Restoration:Magic Weapon:' +
+        'Protection From Chaos:Protection From Evil:Read Magic:Resistance:' +
+        'Virtue',
         'P2:Bull\'s Strength:Delay Poison:Eagle\'s Splendor:Owl\'s Wisdom:' +
         'Remove Paralysis:Resist Energy:Shield Other:Undetectable Alignment:' +
         'Zone Of Truth',
         'P3:Cure Moderate Wounds:Daylight:Discern Lies:Dispel Magic:' +
         'Greater Magic Weapon:Heal Mount:Magic Circle Against Chaos:' +
         'Magic Circle Against Evil:Prayer:Remove Blindness/Deafness:' +
-        'Remove Curse',
+        'Remove Curse:Remove Disease',
         'P4:Break Enchantment:Cure Serious Wounds:Death Ward:Dispel Chaos:' +
         'Dispel Evil:Holy Sword:Mark Of Justice:Neutralize Poison:Restoration'
       ];
@@ -4800,6 +4804,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       turn = null;
       rules.defineRule
         ('classSkills.Knowledge (Nature)', 'skillNotes.animalDomain', '=', '1');
+      rules.defineChoice('spells', 'Speak With Animals(Animal1 Divi)');
     } else if(domain == 'Chaos') {
       notes = ['magicNotes.chaosDomain:+1 caster level chaos spells'];
       spells = [
@@ -5240,13 +5245,15 @@ SRD35.raceRules = function(rules, languages, races) {
         'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'magicNotes.naturalIllusionistFeature:Spell Focus(Illusion)',
-        'magicNotes.naturalSpellsFeature:%V 1/day as caster %1',
+        'magicNotes.naturalSpellsFeature:%V 1/day as caster level 1',
         'saveNotes.resistIllusionFeature:+2 vs. illusions',
         'skillNotes.keenEarsFeature:+2 Listen',
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)',
         'skillNotes.smallFeature:+4 Hide'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule
+        ('casterLevels.B', 'gnomeFeatures.Natural Spells', '^=', '1');
       rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
         raceNoSpace + 'Features.Low-Light Vision', '+', null
@@ -5262,8 +5269,6 @@ SRD35.raceRules = function(rules, languages, races) {
         '"<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
         '<i>Speak With Animals</i>"'
       );
-      rules.defineRule
-        ('magicNotes.naturalSpellsFeature.1', 'level', '=', null);
       rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
@@ -6389,7 +6394,7 @@ SRD35.defineClass = function
         'spellsKnownLevel.' + name, '+=', code
       );
       rules.defineRule('spellDifficultyClass.' + spellType,
-        'spellsKnown.' + spellType + '1', '?', null,
+        'casterLevels.' + spellType, '?', null,
         spellModifier, '=', '10 + source'
       );
     }
