@@ -97,7 +97,11 @@ SRD35NPC.classRules = function(rules, classes) {
         'AD4:12:0/13:1/15:2/19:3',
         'AD5:16:0/17:1/19:2'
       ];
-      rules.defineRule('casterLevelDivine', 'levels.Adept', '+=', null);
+      rules.defineRule('casterLevels.AD',
+        'levels.Adept', '+=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.AD', '+=', null);
       rules.defineRule('familiarMasterLevel', 'levels.Adept', '+=', null);
 
     } else if(klass == 'Aristocrat') {

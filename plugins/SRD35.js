@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.6.1.7';
+var SRD35_VERSION = '1.6.1.8';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -1644,7 +1644,11 @@ SRD35.classRules = function(rules, classes) {
         'B5:13:0/14:1/15:2/17:3/19:4',
         'B6:16:0/17:1/18:2/19:3/20:4'
       ];
-      rules.defineRule('casterLevelArcane', 'levels.Bard', '+=', null);
+      rules.defineRule('casterLevels.B',
+        'levels.Bard', '+=', null,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevels.B', '+=', null);
       rules.defineRule
         ('classSkills.Bardic Knowledge', 'features.Bardic Knowledge', '=', '1');
       rules.defineRule
@@ -1760,7 +1764,12 @@ SRD35.classRules = function(rules, classes) {
         'Knowledge (History)', 'Knowledge (Planes)', 'Knowledge (Religion)',
         'Profession', 'Spellcraft'
       ];
-      rules.defineRule('casterLevelDivine', 'levels.Cleric', '+=', null);
+      rules.defineRule('casterLevels.C',
+        'levels.Cleric', '+=', null,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevels.Dom', 'casterLevels.C', '+=', null);
+      rules.defineRule('casterLevelDivine', 'casterLevels.C', '+=', null);
       rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
       rules.defineRule('magicNotes.spontaneousClericSpellFeature',
         'alignment', '=', 'source.match(/Evil/)?"<i>Inflict</i>":"<i>Cure</i>"'
@@ -1841,7 +1850,11 @@ SRD35.classRules = function(rules, classes) {
       ];
       rules.defineRule
         ('companionMasterLevel', 'levels.Druid', '+=', null);
-      rules.defineRule('casterLevelDivine', 'levels.Druid', '+=', null);
+      rules.defineRule('casterLevels.D',
+        'levels.Druid', '+=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.D', '+=', null);
       rules.defineRule('languageCount', 'levels.Druid', '+', '1');
       rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
       rules.defineRule('magicNotes.elementalShapeFeature',
@@ -1981,6 +1994,9 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule
         ('armorClass', 'combatNotes.monkArmorClassAdjustment', '+', null);
+      rules.defineRule('casterLevels.W',
+        'levels.Monk', '^=', 'source < 12 ? null : Math.floor(source / 2)'
+      );
       rules.defineRule('combatNotes.flurryOfBlowsFeature',
         'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
       );
@@ -2079,9 +2095,14 @@ SRD35.classRules = function(rules, classes) {
         'P3:11:0/12:1/17:2/19:3',
         'P4:14:0/15:1/19:2/20:3'
       ];
-      rules.defineRule('casterLevelDivine',
-        'levels.Paladin', '+=', 'source < 4 ? null : Math.floor(source / 2)'
+      rules.defineRule('casterLevels.Paladin',
+        'levels.Paladin', '+=', 'source < 4 ? null : source / 2',
+        'magicNotes.casterLevelBonusFeature', '+', null
       );
+      rules.defineRule(
+        'casterLevels.P', 'casterLevels.Paladin', '=', 'Math.floor(source)'
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.P', '+=', null);
       rules.defineRule('combatNotes.smiteEvilFeature',
         'charismaModifier', '=', 'source > 0 ? source : 0'
       );
@@ -2181,9 +2202,14 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('companionMasterLevel',
         'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
       );
-      rules.defineRule('casterLevelDivine',
-        'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
+      rules.defineRule('casterLevels.Ranger',
+        'levels.Ranger', '+=', 'source < 4 ? null : source / 2',
+        'magicNotes.casterLevelBonusFeature', '+', null
       );
+      rules.defineRule(
+        'casterLevels.R', 'casterLevels.Ranger', '=', 'Math.floor(source)'
+      );
+      rules.defineRule('casterLevelDivine', 'casterLevels.R', '+=', null);
       rules.defineRule('combatNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
@@ -2345,7 +2371,11 @@ SRD35.classRules = function(rules, classes) {
         'S8:16:3/17:4/18:5/19:6',
         'S9:18:3/19:4/20:6'
       ];
-      rules.defineRule('casterLevelArcane', 'levels.Sorcerer', '+=', null);
+      rules.defineRule('casterLevels.S',
+        'levels.Sorcerer', '=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevels.S', '+=', null);
       rules.defineRule('familiarMasterLevel', 'levels.Sorcerer', '+=', null);
 
     } else if(klass == 'Wizard') {
@@ -2400,7 +2430,11 @@ SRD35.classRules = function(rules, classes) {
         'W8:15:1/16:2/18:3/20:4',
         'W9:17:1/18:2/19:3/20:4'
       ];
-      rules.defineRule('casterLevelArcane', 'levels.Wizard', '+=', null);
+      rules.defineRule('casterLevels.W',
+        'levels.Wizard', '=', null,
+        'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      rules.defineRule('casterLevelArcane', 'casterLevels.W', '+=', null);
       rules.defineRule('familiarMasterLevel', 'levels.Wizard', '+=', null);
       rules.defineRule('featCount.Wizard',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
@@ -4596,16 +4630,17 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
     } else if(klass == 'Paladin') {
       spells = [
         'P1:Bless:Bless Water:Bless Weapon:Create Water:Cure Light Wounds:' +
-        'Detect Poison:Detect Undead:Divine Favor:Endure Elements:' +
-        'Lesser Restoration:Magic Weapon:Protection From Chaos:' +
-        'Protection From Evil:Read Magic:Resistance:Virtue',
+        'Detect Evil:Detect Poison:Detect Undead:Divine Favor:' +
+        'Endure Elements:Lesser Restoration:Magic Weapon:' +
+        'Protection From Chaos:Protection From Evil:Read Magic:Resistance:' +
+        'Virtue',
         'P2:Bull\'s Strength:Delay Poison:Eagle\'s Splendor:Owl\'s Wisdom:' +
         'Remove Paralysis:Resist Energy:Shield Other:Undetectable Alignment:' +
         'Zone Of Truth',
         'P3:Cure Moderate Wounds:Daylight:Discern Lies:Dispel Magic:' +
         'Greater Magic Weapon:Heal Mount:Magic Circle Against Chaos:' +
         'Magic Circle Against Evil:Prayer:Remove Blindness/Deafness:' +
-        'Remove Curse',
+        'Remove Curse:Remove Disease',
         'P4:Break Enchantment:Cure Serious Wounds:Death Ward:Dispel Chaos:' +
         'Dispel Evil:Holy Sword:Mark Of Justice:Neutralize Poison:Restoration'
       ];
@@ -4769,6 +4804,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       turn = null;
       rules.defineRule
         ('classSkills.Knowledge (Nature)', 'skillNotes.animalDomain', '=', '1');
+      rules.defineChoice('spells', 'Speak With Animals(Animal1 Divi)');
     } else if(domain == 'Chaos') {
       notes = ['magicNotes.chaosDomain:+1 caster level chaos spells'];
       spells = [
@@ -5209,13 +5245,15 @@ SRD35.raceRules = function(rules, languages, races) {
         'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'magicNotes.naturalIllusionistFeature:Spell Focus(Illusion)',
-        'magicNotes.naturalSpellsFeature:%V 1/day as caster %1',
+        'magicNotes.naturalSpellsFeature:%V 1/day as caster level 1',
         'saveNotes.resistIllusionFeature:+2 vs. illusions',
         'skillNotes.keenEarsFeature:+2 Listen',
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)',
         'skillNotes.smallFeature:+4 Hide'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule
+        ('casterLevels.B', 'gnomeFeatures.Natural Spells', '^=', '1');
       rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
         raceNoSpace + 'Features.Low-Light Vision', '+', null
@@ -5231,8 +5269,6 @@ SRD35.raceRules = function(rules, languages, races) {
         '"<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
         '<i>Speak With Animals</i>"'
       );
-      rules.defineRule
-        ('magicNotes.naturalSpellsFeature.1', 'level', '=', null);
       rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule
@@ -5386,22 +5422,6 @@ SRD35.spellRules = function(rules, spells, descriptions) {
   if(descriptions == null) {
     descriptions = SRD35.spellsDescriptions;
   }
-  rules.defineRule('casterLevels.AD', 'levels.Adept', '=', null);
-  rules.defineRule('casterLevels.AS', 'levels.Assassin', '=', null);
-  rules.defineRule('casterLevels.B', 'levels.Bard', '=', null);
-  rules.defineRule('casterLevels.BL', 'levels.Blackguard', '=', null);
-  rules.defineRule('casterLevels.C', 'levels.Cleric', '=', null);
-  rules.defineRule('casterLevels.D', 'levels.Druid', '=', null);
-  rules.defineRule('casterLevels.Dom', 'levels.Cleric', '=', null);
-  rules.defineRule('casterLevels.Dom', 'levels.Druid', '=', null);
-  rules.defineRule('casterLevels.P', 'levels.Paladin', '=', null);
-  rules.defineRule('casterLevels.R', 'levels.Ranger', '=', null);
-  rules.defineRule('casterLevels.W', 'levels.Sorcerer', '=', null);
-  rules.defineRule('casterLevels.W', 'levels.Wizard', '=', null);
-  rules.defineRule('sorcererSaveModifier',
-    'levels.Sorcerer', '?', null,
-    'charismaModifier', '=', null
-  );
   for(var i = 0; i < spells.length; i++) {
     var spell = spells[i];
     var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*(\w*)\)$/);
@@ -5435,40 +5455,39 @@ SRD35.spellRules = function(rules, spells, descriptions) {
           'spells.' + spell, '?', null,
           'casterLevels.' + classAbbr, '=', expr
         );
+        if(classAbbr == 'W') {
+          rules.defineRule('spells.' + spell + '.' + index,
+            'casterLevels.S', '^=', expr
+          );
+        }
         description = description.replace(insert, '%' + index);
       }
     }
     if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
-      var school;
-      var schools = rules.getChoices('schools');
-      var saveModifier =
-        classAbbr == 'B' ? 'charismaModifier' :
-        'AS W'.indexOf(classAbbr) >= 0 ? 'intelligenceModifier' :
-        'wisdomModifier';
       var index = inserts != null ? inserts.length + 1 : 1;
-      for(school in schools) {
-        if(schools[school] == schoolAbbr)
-          break;
-      }
+      var dcRule = 'spells.' + spell + '.' + index;
       description =
         matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
-      rules.defineRule('spells.' + spell + '.' + index,
+      rules.defineRule(dcRule,
         'spells.' + spell, '?', null,
-        saveModifier, '=', '10 + source + ' + level
+        'spellDifficultyClass.' + classAbbr, '=', 'source + ' + level
       );
-      // Add a rule to override the default intelligence-based save with a
-      // charisma-based one for Sorcerers' 'W" spells.
       if(classAbbr == 'W') {
-        rules.defineRule('spells.' + spell + '.' + index,
-          'sorcererSaveModifier', '=', '10 + source + ' + level
-        );
+        rules.defineRule
+          (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
+      }
+      var schools = rules.getChoices('schools');
+      for(var school in schools) {
+        if(schools[school] == schoolAbbr) {
+          school = school.replace(/\s/g, '');
+          rules.defineRule(dcRule,
+            'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', '1',
+            'magicNotes.spellFocus(' + school + ')Feature', '+', '1'
+          );
+          break;
+        }
       }
       if(school) {
-        school = school.replace(/\s/g, '');
-        rules.defineRule('spells.' + spell + '.' + index,
-          'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', '1',
-          'magicNotes.spellFocus(' + school + ')Feature', '+', '1'
-        );
       }
     }
     rules.defineChoice('notes', 'spells.' + spell + ':' + description);
@@ -6249,6 +6268,8 @@ SRD35.ruleNotes = function() {
     '    Hand" and "Knowledge (arcana)".  There are other occasions when\n' +
     '    Quilvyn is picky about case; when defining your own attributes,\n' +
     '    it\'s safest to follow the conventions Quilvyn uses.\n' +
+    '  </li><li>\n' +
+    '    Blackguard features of fallen Paladins are not reported.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
@@ -6355,55 +6376,49 @@ SRD35.defineClass = function
     }
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   }
-  if(spellAbility != null) {
-    rules.defineRule('spellDifficultyClass.' + name,
-      'levels.' + name, '?', null,
-      spellAbility + 'Modifier', '=', '10 + source'
-    );
-  }
-  if(spellsKnown != null || spellsPerDay != null) {
-    rules.defineRule('casterSpellLevel.' + name,
+  if(spellsKnown != null) {
+    var spellModifier = spellAbility + 'Modifier';
+    rules.defineRule('spellsKnownLevel.' + name,
       'levels.' + name, '=', null,
       'magicNotes.casterLevelBonusFeature', '+', null
     );
-  }
-  if(spellsKnown != null) {
-    for(var j = 0; j < spellsKnown.length; j++) {
-      var typeAndLevel = spellsKnown[j].split(/:/)[0];
-      var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
-      var code = spellsKnown[j].substring(typeAndLevel.length + 1).
+    for(var i = 0; i < spellsKnown.length; i++) {
+      var spellTypeAndLevel = spellsKnown[i].split(/:/)[0];
+      var spellType = spellTypeAndLevel.replace(/\d+/, '');
+      var code = spellsKnown[i].substring(spellTypeAndLevel.length + 1).
                  split(/\//).reverse().join('source >= ');
       code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
       code = 'source >= ' + code + ' : null';
       if(code.indexOf('source >= 1 ?') >= 0) {
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
-      rules.defineRule
-        ('spellsKnown.' + typeAndLevel, 'casterSpellLevel.' + name, '=', code);
+      rules.defineRule('spellsKnown.' + spellTypeAndLevel,
+        'spellsKnownLevel.' + name, '+=', code
+      );
+      rules.defineRule('spellDifficultyClass.' + spellType,
+        'casterLevels.' + spellType, '?', null,
+        spellModifier, '=', '10 + source'
+      );
     }
-  }
-  if(spellsPerDay != null) {
-    for(var j = 0; j < spellsPerDay.length; j++) {
-      var typeAndLevel = spellsPerDay[j].split(/:/)[0];
-      var level = typeAndLevel.replace(/[A-Z]*/, '');
-      var code = spellsPerDay[j].substring(typeAndLevel.length + 1).
+    for(var i = 0; i < spellsPerDay.length; i++) {
+      var spellTypeAndLevel = spellsPerDay[i].split(/:/)[0];
+      var spellLevel = spellTypeAndLevel.replace(/[A-Z]*/, '');
+      var code = spellsPerDay[i].substring(spellTypeAndLevel.length + 1).
                  split(/\//).reverse().join('source >= ');
       code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
       code = 'source >= ' + code + ' : null';
       if(code.indexOf('source >= 1 ?') >= 0) {
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
-      rules.defineRule
-        ('spellsPerDay.' + typeAndLevel, 'casterSpellLevel.' + name, '=', code);
-      if(spellAbility != null) {
-        var modifier = spellAbility + 'Modifier';
-        var level = typeAndLevel.replace(/[A-Za-z]*/g, '');
-        if(level > 0) {
-          code = 'source >= ' + level +
-                 ' ? 1 + Math.floor((source - ' + level + ') / 4) : null';
-          rules.defineRule
-            ('spellsPerDay.' + typeAndLevel, modifier, '+', code);
-        }
+      rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
+        'spellsKnownLevel.' + name, '+=', code
+      );
+      if(spellLevel > 0) {
+        rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
+          spellModifier, '+',
+            'source >= ' + spellLevel +
+              ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
+        );
       }
     }
   }
