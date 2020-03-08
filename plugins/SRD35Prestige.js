@@ -62,6 +62,8 @@ SRD35Prestige.classRules = function(rules, classes) {
         saveFortitude, saveReflex, saveWill, selectableFeatures, skillPoints,
         skills, spellAbility, spells, spellsKnown, spellsPerDay;
     var klass = classes[i];
+    var klassNoSpace =
+      klass.substring(0,1).toLowerCase() + klass.substring(1).replace(/ /g, '');
 
     if(klass == 'Arcane Archer') {
 
@@ -397,7 +399,7 @@ SRD35Prestige.classRules = function(rules, classes) {
       ];
       spellAbility = 'wisdom';
       spells = [
-        'BL1:Cause Fear:Corrupt Weapon:Cure Light Wounds:Doom:' +
+        'BL1:Cause Fear:Corrupt Weapon:Cure Light Wounds:Detect Good:Doom:' +
         'Inflict Light Wounds:Magic Weapon:Summon Monster I',
         'BL2:Bull\'s Strength:Cure Moderate Wounds:Darkness:Death Knell:' +
         'Eagle\'s Splendor:Inflict Moderate Wounds:Shatter:Summon Monster II',
@@ -749,7 +751,7 @@ SRD35Prestige.classRules = function(rules, classes) {
     } else if(klass == 'Hierophant') {
 
       baseAttack = SRD35.ATTACK_BONUS_POOR;
-      features = null;
+      features = [];
       hitDie = 8;
       notes = [
         'combatNotes.masteryOfEnergyFeature:+4 undead turning checks/damage',
@@ -815,7 +817,7 @@ SRD35Prestige.classRules = function(rules, classes) {
     } else if(klass == 'Horizon Walker') {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
-      features = null;
+      features = [];
       hitDie = 8;
       notes = [
         'combatNotes.terrainMastery(Aquatic)Feature:' +
@@ -854,7 +856,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'featureNotes.tremorsenseFeature:' +
           "Detect creatures in contact w/ground w/in 30'",
         'magicNotes.terrainMastery(Shifting)Feature:' +
-          '<i>Dimension Door</i> every d4 rd',
+          '<i>Dimension Door</i> every 1d4 rd',
         'saveNotes.terrainMastery(Cold)Feature:20 DC cold resistance',
         'saveNotes.terrainMastery(Desert)Feature:' +
           'Immune fatigue, resist exhaustion',
@@ -922,6 +924,12 @@ SRD35Prestige.classRules = function(rules, classes) {
       spells = null;
       spellsKnown = null;
       spellsPerDay = null;
+      rules.defineRule('casterLevels.Horizon Walker',
+        'horizonWalkerFeatures.Terrain Mastery (Shifting)', '?', null,
+        'levels.Horizon Walker', '=', null
+      );
+      rules.defineRule
+        ('casterLevels.W', 'casterLevels.Horizon Walker', '+=', null);
       rules.defineRule('featureNotes.darkvisionFeature',
         'featureNotes.terrainMastery(Underground)Feature:', '+=', '60'
       );
@@ -1122,6 +1130,9 @@ SRD35Prestige.classRules = function(rules, classes) {
       spells = null;
       spellsKnown = null;
       spellsPerDay = null;
+      rules.defineRule('casterLevels.W',
+        'levels.Shadowdancer', '+=', 'source < 3 ? null : source'
+      );
       rules.defineRule('featureNotes.darkvisionFeature',
         'shadowdancerFeatures.Darkvision', '^=', '60'
       );
@@ -1203,7 +1214,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         var selectable = selectableFeatures[j];
         var choice = klass + ' - ' + selectable;
         rules.defineChoice('selectableFeatures', choice + ':' + klass);
-        rules.defineRule(klass + 'Features.' + selectable,
+        rules.defineRule(klassNoSpace + 'Features.' + selectable,
           'selectableFeatures.' + choice, '+=', null
         );
         rules.defineRule('features.' + selectable,

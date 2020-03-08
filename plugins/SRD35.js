@@ -6268,6 +6268,8 @@ SRD35.ruleNotes = function() {
     '    Hand" and "Knowledge (arcana)".  There are other occasions when\n' +
     '    Quilvyn is picky about case; when defining your own attributes,\n' +
     '    it\'s safest to follow the conventions Quilvyn uses.\n' +
+    '  </li><li>\n' +
+    '    Blackguard features of fallen Paladins are not reported.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n' +
