@@ -2368,11 +2368,11 @@ SRD35.classRules = function(rules, classes) {
         'S8:16:3/17:4/18:5/19:6',
         'S9:18:3/19:4/20:6'
       ];
-      rules.defineRule('casterLevels.W',
+      rules.defineRule('casterLevels.S',
         'levels.Sorcerer', '=', null,
         'magicNotes.casterLevelBonusFeature', '+', null
       );
-      rules.defineRule('casterLevelArcane', 'casterLevel.W', '+=', null);
+      rules.defineRule('casterLevelArcane', 'casterLevels.S', '+=', null);
       rules.defineRule('familiarMasterLevel', 'levels.Sorcerer', '+=', null);
 
     } else if(klass == 'Wizard') {
@@ -5450,33 +5450,39 @@ SRD35.spellRules = function(rules, spells, descriptions) {
           'spells.' + spell, '?', null,
           'casterLevels.' + classAbbr, '=', expr
         );
+        if(classAbbr == 'W') {
+          rules.defineRule('spells.' + spell + '.' + index,
+            'casterLevels.S', '^=', expr
+          );
+        }
         description = description.replace(insert, '%' + index);
       }
     }
     if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
-      var school;
-      var schools = rules.getChoices('schools');
-      var saveModifier =
-        classAbbr == 'B' ? 'charismaModifier' :
-        'AS W'.indexOf(classAbbr) >= 0 ? 'intelligenceModifier' :
-        'wisdomModifier';
       var index = inserts != null ? inserts.length + 1 : 1;
-      for(school in schools) {
-        if(schools[school] == schoolAbbr)
-          break;
-      }
+      var dcRule = 'spells.' + spell + '.' + index;
       description =
         matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
-      rules.defineRule('spells.' + spell + '.' + index,
+      rules.defineRule(dcRule,
         'spells.' + spell, '?', null,
-        saveModifier, '=', '10 + source + ' + level
+        'spellDifficultyClass.' + classAbbr, '=', 'source + ' + level
       );
+      if(classAbbr == 'W') {
+        rules.defineRule
+          (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
+      }
+      var schools = rules.getChoices('schools');
+      for(var school in schools) {
+        if(schools[school] == schoolAbbr) {
+          school = school.replace(/\s/g, '');
+          rules.defineRule(dcRule,
+            'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', '1',
+            'magicNotes.spellFocus(' + school + ')Feature', '+', '1'
+          );
+          break;
+        }
+      }
       if(school) {
-        school = school.replace(/\s/g, '');
-        rules.defineRule('spells.' + spell + '.' + index,
-          'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', '1',
-          'magicNotes.spellFocus(' + school + ')Feature', '+', '1'
-        );
       }
     }
     rules.defineChoice('notes', 'spells.' + spell + ':' + description);
@@ -6365,13 +6371,13 @@ SRD35.defineClass = function
   }
   if(spellsKnown != null) {
     var spellModifier = spellAbility + 'Modifier';
-    var spellType = spellsKnown[0].split(':')[0].replace(/\d+/, '');
-    rules.defineRule('spellDifficultyClass.' + spellType,
-      'spellsKnown.' + spellType + '1', '?', null,
-      spellModifier, '^=', '10 + source'
+    rules.defineRule('spellsKnownLevel.' + name,
+      'levels.' + name, '=', null,
+      'magicNotes.casterLevelBonusFeature', '+', null
     );
     for(var i = 0; i < spellsKnown.length; i++) {
       var spellTypeAndLevel = spellsKnown[i].split(/:/)[0];
+      var spellType = spellTypeAndLevel.replace(/\d+/, '');
       var code = spellsKnown[i].substring(spellTypeAndLevel.length + 1).
                  split(/\//).reverse().join('source >= ');
       code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
@@ -6380,8 +6386,11 @@ SRD35.defineClass = function
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
       rules.defineRule('spellsKnown.' + spellTypeAndLevel,
-        'casterLevels.' + spellType, '=', code,
-        'casterLevels.' + name, '=', code
+        'spellsKnownLevel.' + name, '+=', code
+      );
+      rules.defineRule('spellDifficultyClass.' + spellType,
+        'spellsKnown.' + spellType + '1', '?', null,
+        spellModifier, '=', '10 + source'
       );
     }
     for(var i = 0; i < spellsPerDay.length; i++) {
@@ -6395,14 +6404,14 @@ SRD35.defineClass = function
         code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
       }
       rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
-        'casterLevels.' + spellType, '=', code,
-        'casterLevels.' + name, '=', code
+        'spellsKnownLevel.' + name, '+=', code
       );
       if(spellLevel > 0) {
-        code = 'source >= ' + spellLevel +
-               ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null';
-        rules.defineRule
-          ('spellsPerDay.' + spellTypeAndLevel, spellModifier, '+', code);
+        rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
+          spellModifier, '+',
+            'source >= ' + spellLevel +
+              ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
+        );
       }
     }
   }
