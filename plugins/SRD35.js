@@ -1993,16 +1993,16 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule
         ('armorClass', 'combatNotes.monkArmorClassAdjustment', '+', null);
-      rules.defineRule('casterLevels.Monk',
-        'levels.Monk', '=', 'source < 12 ? null : Math.floor(source / 2)'
+      rules.defineRule('casterLevels.Dimension Door',
+        'levels.Monk', '^=', 'source < 12 ? null : Math.floor(source / 2)'
       );
-      rules.defineRule
-        ('casterLevels.Dimension Door', 'casterLevels.Monk', '=', null);
-      rules.defineRule
-        ('casterLevels.Etherealness', 'casterLevels.Monk', '=', null);
+      rules.defineRule('casterLevels.Etherealness',
+        'levels.Monk', '^=', 'source < 19 ? null : Math.floor(source / 2)'
+      );
       // Set casterLevels.W to a minimal value so that spell DC will be
       // calcuated even for non-Wizard Monks.
-      rules.defineRule('casterLevels.W', 'casterLevels.Monk', '=', '1');
+      rules.defineRule
+        ('casterLevels.W', 'levels.Monk', '^=', 'source < 12 ? null : 1');
       rules.defineRule('combatNotes.flurryOfBlowsFeature',
         'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
       );
