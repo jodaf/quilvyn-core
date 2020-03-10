@@ -928,8 +928,13 @@ SRD35Prestige.classRules = function(rules, classes) {
         'horizonWalkerFeatures.Terrain Mastery (Shifting)', '?', null,
         'levels.Horizon Walker', '=', null
       );
+      rules.defineRule('casterLevels.Dimension Door',
+        'casterLevels.Horizon Walker', '^=', null
+      );
+      // Set casterLevels.W to a minimal value so that spell DC will be
+      // calcuated even for non-Wizard Horizon Walkers.
       rules.defineRule
-        ('casterLevels.W', 'casterLevels.Horizon Walker', '+=', null);
+        ('casterLevels.W', 'casterLevels.Horizon Walker', '^=', '1');
       rules.defineRule('featureNotes.darkvisionFeature',
         'featureNotes.terrainMastery(Underground)Feature:', '+=', '60'
       );
@@ -1130,9 +1135,16 @@ SRD35Prestige.classRules = function(rules, classes) {
       spells = null;
       spellsKnown = null;
       spellsPerDay = null;
-      rules.defineRule('casterLevels.W',
-        'levels.Shadowdancer', '+=', 'source < 3 ? null : source'
+      rules.defineRule('casterLevels.Shadowdancer',
+        'levels.Shadowdancer', '=', 'source < 3 ? null : source'
       );
+      rules.defineRule
+        ('casterLevels.Dimension Door', 'casterLevels.Shadowdancer', '^=', null);
+      rules.defineRule
+        ('casterLevels.Silent Image', 'casterLevels.Shadowdancer', '^=', null);
+      // Set casterLevels.W to a minimal value so that spell DC will be
+      // calcuated even for non-Wizard Shadowdancers.
+      rules.defineRule('casterLevels.W', 'levels.Shadowdancer', '^=', '1');
       rules.defineRule('featureNotes.darkvisionFeature',
         'shadowdancerFeatures.Darkvision', '^=', '60'
       );
