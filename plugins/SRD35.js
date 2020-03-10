@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.6.1.8';
+var SRD35_VERSION = '1.6.1.9';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -1645,7 +1645,7 @@ SRD35.classRules = function(rules, classes) {
         'B6:16:0/17:1/18:2/19:3/20:4'
       ];
       rules.defineRule('casterLevels.B',
-        'levels.Bard', '+=', null,
+        'levels.Bard', '=', null,
          'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule('casterLevelArcane', 'casterLevels.B', '+=', null);
@@ -1765,7 +1765,7 @@ SRD35.classRules = function(rules, classes) {
         'Profession', 'Spellcraft'
       ];
       rules.defineRule('casterLevels.C',
-        'levels.Cleric', '+=', null,
+        'levels.Cleric', '=', null,
          'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule('casterLevels.Dom', 'casterLevels.C', '+=', null);
@@ -1851,7 +1851,7 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule
         ('companionMasterLevel', 'levels.Druid', '+=', null);
       rules.defineRule('casterLevels.D',
-        'levels.Druid', '+=', null,
+        'levels.Druid', '=', null,
         'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule('casterLevelDivine', 'casterLevels.D', '+=', null);
@@ -1941,8 +1941,7 @@ SRD35.classRules = function(rules, classes) {
           'Foe makes DC %V Fortitude save or dies 1/week',
         'featureNotes.timelessBodyFeature:No aging penalties',
         'featureNotes.tongueOfTheSunAndMoonFeature:Speak w/any living creature',
-        'magicNotes.abundantStepFeature:' +
-          '<i>Dimension Door</i> at level %V 1/day',
+        'magicNotes.abundantStepFeature:<i>Dimension Door</i> 1/day',
         'magicNotes.emptyBodyFeature:<i>Etherealness</i> %V rd/day',
         'magicNotes.wholenessOfBodyFeature:Heal %V HP to self/day',
         'sanityNotes.monkClassArmor:Implies Armor == "None"',
@@ -1994,9 +1993,16 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule
         ('armorClass', 'combatNotes.monkArmorClassAdjustment', '+', null);
-      rules.defineRule('casterLevels.W',
-        'levels.Monk', '^=', 'source < 12 ? null : Math.floor(source / 2)'
+      rules.defineRule('casterLevels.Monk',
+        'levels.Monk', '=', 'source < 12 ? null : Math.floor(source / 2)'
       );
+      rules.defineRule
+        ('casterLevels.Dimension Door', 'casterLevels.Monk', '=', null);
+      rules.defineRule
+        ('casterLevels.Etherealness', 'casterLevels.Monk', '=', null);
+      // Set casterLevels.W to a minimal value so that spell DC will be
+      // calcuated even for non-Wizard Monks.
+      rules.defineRule('casterLevels.W', 'casterLevels.Monk', '=', '1');
       rules.defineRule('combatNotes.flurryOfBlowsFeature',
         'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
       );
@@ -2010,9 +2016,6 @@ SRD35.classRules = function(rules, classes) {
       );
       rules.defineRule('combatNotes.stunningFistFeature.1',
         'levels.Monk', '+=', 'source - Math.floor(source / 4)'
-      );
-      rules.defineRule('magicNotes.abundantStepFeature',
-        'levels.Monk', '+=', 'Math.floor(source / 2)'
       );
       rules.defineRule
         ('magicNotes.emptyBodyFeature', 'levels.Monk', '+=', null);
@@ -2096,7 +2099,7 @@ SRD35.classRules = function(rules, classes) {
         'P4:14:0/15:1/19:2/20:3'
       ];
       rules.defineRule('casterLevels.Paladin',
-        'levels.Paladin', '+=', 'source < 4 ? null : source / 2',
+        'levels.Paladin', '=', 'source < 4 ? null : source / 2',
         'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule(
@@ -2203,7 +2206,7 @@ SRD35.classRules = function(rules, classes) {
         'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
       );
       rules.defineRule('casterLevels.Ranger',
-        'levels.Ranger', '+=', 'source < 4 ? null : source / 2',
+        'levels.Ranger', '=', 'source < 4 ? null : source / 2',
         'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule(
@@ -5245,15 +5248,28 @@ SRD35.raceRules = function(rules, languages, races) {
         'combatNotes.smallFeature:+1 AC/attack',
         'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
         'magicNotes.naturalIllusionistFeature:Spell Focus(Illusion)',
-        'magicNotes.naturalSpellsFeature:%V 1/day as caster level 1',
+        'magicNotes.naturalSpellsFeature:%V 1/day',
         'saveNotes.resistIllusionFeature:+2 vs. illusions',
         'skillNotes.keenEarsFeature:+2 Listen',
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)',
         'skillNotes.smallFeature:+4 Hide'
       ];
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
+      rules.defineRule('casterLevels.Gnome',
+        'gnomeFeatures.Natural Spells', '?', null,
+        'level', '=', '1'
+      );
       rules.defineRule
-        ('casterLevels.B', 'gnomeFeatures.Natural Spells', '^=', '1');
+        ('casterLevels.Dancing Lights', 'casterLevels.Gnome', '^=', null);
+      rules.defineRule
+        ('casterLevels.Ghost Sound', 'casterLevels.Gnome', '^=', null);
+      rules.defineRule
+        ('casterLevels.Prestidigitation', 'casterLevels.Gnome', '^=', null);
+      rules.defineRule
+        ('casterLevels.Speak With Animals', 'casterLevels.Gnome', '^=', null);
+      // Set casterLevels.B to a minimal value so that spell DC will be
+      // calcuated even for non-Bard Gnomes.
+      rules.defineRule('casterLevels.B', 'casterLevels.Gnome', '=', '1');
       rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
         raceNoSpace + 'Features.Low-Light Vision', '+', null
@@ -5422,6 +5438,7 @@ SRD35.spellRules = function(rules, spells, descriptions) {
   if(descriptions == null) {
     descriptions = SRD35.spellsDescriptions;
   }
+  var targets = rules.allTargets();
   for(var i = 0; i < spells.length; i++) {
     var spell = spells[i];
     var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*(\w*)\)$/);
@@ -5458,6 +5475,11 @@ SRD35.spellRules = function(rules, spells, descriptions) {
         if(classAbbr == 'W') {
           rules.defineRule('spells.' + spell + '.' + index,
             'casterLevels.S', '^=', expr
+          );
+        }
+        if(targets.includes('casterLevels.' + name)) {
+          rules.defineRule('spells.' + spell + '.' + index,
+            'casterLevels.' + name, '^=', expr
           );
         }
         description = description.replace(insert, '%' + index);
