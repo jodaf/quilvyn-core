@@ -77,8 +77,8 @@ const PLUGINS = [
   // '?plugins/Realms.js',
   // '?plugins/RealmsPrestige.js',
   // '?plugins/FirstEdition.js',
-  // '?plugins/HybridD20.js (alpha)',
-  // '?plugins/SRD5E.js (alpha)',
+  // '?plugins/HybridD20.js (in development)',
+  // '?plugins/SRD5E.js (in development)',
   null
 ];
 
@@ -299,7 +299,7 @@ if(pluginPopup != null) {
     if(PLUGINS[i] == null)
       continue;
     var url = PLUGINS[i].replace(/ .*|\?/g, '');
-    var label = url.replace(/.*\/|\.js/g, '');
+    var label = PLUGINS[i].replace(/.*\/|\.js/g, '');
     label = label.replace(/([a-z0-9])(?=[A-Z])/g, '$1 ');
     var options = !PLUGINS[i].startsWith('?') ? ' checked=true disabled=true' :
                   selectedPlugins.indexOf(url) > 0 ? ' checked=true' : '';
