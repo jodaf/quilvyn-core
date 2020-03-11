@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.6.1.9';
+var SRD35_VERSION = '1.6.1.10';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3889,14 +3889,15 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if((matchInfo = feat.match(/^Greater Spell Focus \((.*)\)$/))!=null){
       var school = matchInfo[1];
       var schoolNoSpace = school.replace(/ /g, '');
+      var note = 'magicNotes.greaterSpellFocus(' + schoolNoSpace + ')Feature';
       notes = [
-        'magicNotes.greaterSpellFocus(' + schoolNoSpace + ')Feature:' +
-          '+1 DC on ' + school + ' spells',
+        note + ':+%V DC on ' + school + ' spells',
         'sanityNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
           'Implies Caster Level >= 1',
         'validationNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatFeatures:'+
           'Requires Spell Focus (' + school + ')'
       ];
+      rules.defineRule(note, '', '=', '1');
     } else if(feat == 'Greater Spell Penetration') {
       notes = [
         'magicNotes.greaterSpellPenetrationFeature:' +
@@ -3923,7 +3924,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.greaterWeaponFocus(' + weaponNoSpace + ')Feature';
       notes = [
-        note + ':+1 attack',
+        note + ':+%V attack',
         'sanityNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatWeapons:' +
           'Implies ' + weapon,
         'validationNotes.greaterWeaponFocus('+weaponNoSpace+')FeatFeatures:' +
@@ -3931,7 +3932,8 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatLevels:' +
           'Requires Fighter >= 8'
       ];
-      rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', '1');
+      rules.defineRule(note, '', '=', '1');
+      rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', null);
     } else if((matchInfo =
                feat.match(/^Greater Weapon Specialization \((.*)\)$/))!=null) {
       var weapon = matchInfo[1];
@@ -4260,11 +4262,12 @@ SRD35.featRules = function(rules, feats, subfeats) {
       var skillNoSpace = skill.replace(/ /g, '');
       var note = 'skillNotes.skillFocus(' + skillNoSpace + ')Feature';
       notes = [
-        note + ':+3 checks',
+        note + ':+%V checks',
         'sanityNotes.skillFocus(' + skillNoSpace + ')FeatSkills:' +
           'Implies ' + skill
       ];
-      rules.defineRule('skillModifier.' + skill, note, '+', '3');
+      rules.defineRule(note, '', '=', '3');
+      rules.defineRule('skillModifier.' + skill, note, '+', null);
     } else if(feat == 'Snatch Arrows') {
       notes = [
         'combatNotes.snatchArrowsFeature:Catch ranged weapons',
@@ -4275,12 +4278,13 @@ SRD35.featRules = function(rules, feats, subfeats) {
     } else if((matchInfo = feat.match(/^Spell Focus \((.*)\)$/)) != null) {
       var school = matchInfo[1];
       var schoolNoSpace = school.replace(/ /g, '');
+      var note = 'magicNotes.spellFocus(' + schoolNoSpace + ')Feature';
       notes = [
-        'magicNotes.spellFocus(' + schoolNoSpace + ')Feature:' +
-          '+1 DC on ' + school + ' spells',
+        note + ':+%V DC on ' + school + ' spells',
         'sanityNotes.spellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
           'Implies Caster Level >= 1'
       ];
+      rules.defineRule(note, '', '=', '1');
     } else if(feat == 'Spell Mastery') {
       notes = [
         'magicNotes.spellMasteryFeature:Prepare %V spells w/out spellbook',
@@ -4389,13 +4393,14 @@ SRD35.featRules = function(rules, feats, subfeats) {
       var weaponNoSpace = weapon.replace(/ /g, '');
       var note = 'combatNotes.weaponFocus(' + weaponNoSpace + ')Feature';
       notes = [
-        note + ':+1 attack',
+        note + ':+%V attack',
         'sanityNotes.weaponFocus(' + weaponNoSpace + ')FeatWeapons:' +
           'Implies ' + weapon,
         'validationNotes.weaponFocus(' + weaponNoSpace + ')FeatBaseAttack:' +
           'Requires Base Attack >= 1'
       ];
-      rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', '1');
+      rules.defineRule(note, '', '=', '1');
+      rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', null);
     } else if(feat == 'Weapon Proficiency (Simple)') {
       notes = [
         'sanityNotes.weaponProficiency(Simple)FeatProficiency:' +
@@ -5503,8 +5508,8 @@ SRD35.spellRules = function(rules, spells, descriptions) {
         if(schools[school] == schoolAbbr) {
           school = school.replace(/\s/g, '');
           rules.defineRule(dcRule,
-            'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', '1',
-            'magicNotes.spellFocus(' + school + ')Feature', '+', '1'
+            'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', null,
+            'magicNotes.spellFocus(' + school + ')Feature', '+', null
           );
           break;
         }
