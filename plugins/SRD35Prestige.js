@@ -318,7 +318,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'AS4:7:1/8:2/10:3'
       ];
       rules.defineRule('casterLevels.AS',
-        'levels.Assassin', '+=', null,
+        'levels.Assassin', '=', null,
         'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule('casterLevelArcane', 'casterLevels.AS', '+=', null);
@@ -419,7 +419,7 @@ SRD35Prestige.classRules = function(rules, classes) {
       ];
       SRD35.spellsSchools['Corrupt Weapon'] = 'Transmutation';
       rules.defineRule('casterLevels.BL',
-        'levels.Blackguard', '+=', null,
+        'levels.Blackguard', '=', null,
         'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule('casterLevelDivine', 'casterLevels.BL', '+=', null);

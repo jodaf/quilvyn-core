@@ -98,7 +98,7 @@ SRD35NPC.classRules = function(rules, classes) {
         'AD5:16:0/17:1/19:2'
       ];
       rules.defineRule('casterLevels.AD',
-        'levels.Adept', '+=', null,
+        'levels.Adept', '=', null,
         'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule('casterLevelDivine', 'casterLevels.AD', '+=', null);
