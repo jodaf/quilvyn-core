@@ -5514,8 +5514,6 @@ SRD35.spellRules = function(rules, spells, descriptions) {
           break;
         }
       }
-      if(school) {
-      }
     }
     rules.defineChoice('notes', 'spells.' + spell + ':' + description);
   }
