@@ -5274,7 +5274,8 @@ SRD35.raceRules = function(rules, languages, races) {
         ('casterLevels.Speak With Animals', 'casterLevels.Gnome', '^=', null);
       // Set casterLevels.B to a minimal value so that spell DC will be
       // calcuated even for non-Bard Gnomes.
-      rules.defineRule('casterLevels.B', 'casterLevels.Gnome', '=', '1');
+      rules.defineRule('casterLevels.B', 'casterLevels.Gnome', '^=', '1');
+
       rules.defineRule('featureNotes.low-LightVisionFeature',
         '', '=', '1',
         raceNoSpace + 'Features.Low-Light Vision', '+', null
