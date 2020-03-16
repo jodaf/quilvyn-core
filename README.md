@@ -20,6 +20,7 @@ tested using these browsers:
 * Firefox 
 * Google Chrome 
 * Opera 
+* Edge
 
 ### Installation
 
