@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.7.1.1';
+var SRD35_VERSION = '1.7.1.2';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -1932,18 +1932,18 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.slowFallFeature:' +
           "Subtract %V' from falling damage distance",
         'saveNotes.stillMindFeature:+2 vs. enchantment',
-        'validationNotes.combatReflexesSelectableFeatureLevels:' +
+        'validationNotes.monk - CombatReflexesSelectableFeatureLevels:' +
            'Requires Monk >= 2',
-        'validationNotes.deflectArrowsSelectableFeatureLevels:' +
+        'validationNotes.monk - DeflectArrowsSelectableFeatureLevels:' +
            'Requires Monk >= 2',
-        'validationNotes.improvedDisarmSelectableFeatureLevels:' +
+        'validationNotes.monk - ImprovedDisarmSelectableFeatureLevels:' +
            'Requires Monk >= 6',
-        'validationNotes.improvedGrappleSelectableFeatureLevels:' +
+        'validationNotes.monk - ImprovedGrappleSelectableFeatureLevels:' +
            'Requires Monk >= 1',
-        'validationNotes.improvedTripSelectableFeatureLevels:' +
+        'validationNotes.monk - ImprovedTripSelectableFeatureLevels:' +
            'Requires Monk >= 6',
         'validationNotes.monkClassAlignment:Requires Alignment =~ Lawful',
-        'validationNotes.stunningFistSelectableFeatureLevels:Requires Monk >= 1'
+        'validationNotes.monk - StunningFistSelectableFeatureLevels:Requires Monk >= 1'
       ];
       profArmor = SRD35.PROFICIENCY_NONE;
       profShield = SRD35.PROFICIENCY_NONE;

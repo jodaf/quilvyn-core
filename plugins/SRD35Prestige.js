@@ -870,33 +870,33 @@ SRD35Prestige.classRules = function(rules, classes) {
         'validationNotes.horizonWalkerClassFeats:Requires Endurance',
         'validationNotes.horizonWalkerClassSkills:' +
           'Requires Knowledge (Geography) >= 8',
-        'validationNotes.terrainMastery(Aligned)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Aligned)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 6',
-        'validationNotes.terrainMastery(Aquatic)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Aquatic)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 1',
-        'validationNotes.terrainMastery(Cavernous)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Cavernous)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 6',
-        'validationNotes.terrainMastery(Cold)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Cold)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 6',
-        'validationNotes.terrainMastery(Desert)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Desert)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 1',
-        'validationNotes.terrainMastery(Fiery)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Fiery)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 6',
-        'validationNotes.terrainMastery(Forest)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Forest)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 1',
-        'validationNotes.terrainMastery(Hills)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Hills)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 1',
-        'validationNotes.terrainMastery(Marsh)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Marsh)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 1',
-        'validationNotes.terrainMastery(Mountains)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Mountains)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 1',
-        'validationNotes.terrainMastery(Plains)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Plains)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 1',
-        'validationNotes.terrainMastery(Shifting)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Shifting)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 6',
-        'validationNotes.terrainMastery(Underground)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Underground)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 1',
-        'validationNotes.terrainMastery(Weightless)SelectableFeatureLevels:' +
+        'validationNotes.horizonWalker - TerrainMastery(Weightless)SelectableFeatureLevels:' +
           'Requires Horizon Walker >= 6'
       ];
       profArmor = SRD35.PROFICIENCY_NONE;
