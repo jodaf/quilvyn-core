@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.7.1.2';
+var SRD35_VERSION = '1.7.1.3';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -5634,7 +5634,7 @@ SRD35.initialEditorElements = function() {
     ['deity', 'Deity', 'select-one', 'deities'],
     ['origin', 'Origin', 'text', [20]],
     ['feats', 'Feats', 'set', 'feats'],
-    ['selectableFeatures', 'Selectable Features', 'bag', 'selectableFeatures'],
+    ['selectableFeatures', 'Selectable Features', 'set', 'selectableFeatures'],
     ['skills', 'Skills', 'bag', 'skills'],
     ['languages', 'Languages', 'set', 'languages'],
     ['hitPoints', 'Hit Points', 'text', [4]],
