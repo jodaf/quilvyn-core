@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.7.1.3';
+var SRD35_VERSION = '1.7.1.4';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3084,10 +3084,11 @@ SRD35.createViewers = function(rules, viewers) {
       }
       viewer.addElements(
           {name: 'SkillPart', within: 'FeaturesAndSkills', separator: '\n'},
-            {name: 'SkillStats', within: 'SkillPart', separator:innerSep},
-              {name: 'Skill Points', within: 'SkillStats'},
-              {name: 'Max Allowed Skill Points', within: 'SkillStats'},
-            {name: 'Skills', within: 'SkillPart', columns: '3LE', separator: null}
+            {name: 'SkillStats', within: 'SkillPart', separator: ''},
+              {name: 'Skill Points', within: 'SkillStats', format: '<b>Skills</b> (%V points'},
+              {name: 'Max Allowed Skill Points', within: 'SkillStats', format: ', max %V each):'},
+            {name: 'Skills', within: 'SkillPart', columns: '3LE', format: '%V', separator: null},
+            {name: 'Languages', within: 'SkillPart', separator: listSep}
       );
       if(name != 'Collected Notes') {
         viewer.addElements(
@@ -3095,10 +3096,6 @@ SRD35.createViewers = function(rules, viewers) {
         );
       }
       viewer.addElements(
-          {name: 'LanguagePart', within: 'FeaturesAndSkills', separator: '\n'},
-            {name: 'LanguageStats', within: 'LanguagePart', separator:innerSep},
-              {name: 'Language Count', within: 'LanguageStats'},
-            {name: 'Languages', within: 'LanguagePart', separator: listSep},
         {name: 'Combat', within: '_top', separator: outerSep,
          format: '<b>Combat</b><br/>%V'},
           {name: 'CombatPart', within: 'Combat', separator: '\n'},
