@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.7.1.4';
+var SRD35_VERSION = '1.7.1.5';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -313,7 +313,7 @@ SRD35.SYNERGIES = {
   'Use Magic Device':'Spellcraft (scrolls)',
   'Use Rope':'Climb (rope)/Escape Artist (rope)'
 };
-SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard', 'Vertical'];
+SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
 SRD35.WEAPONS = [
   'Bastard Sword:d10@19 1h Ex', 'Battleaxe:d8x3 1h Ma', 'Bolas:d4r10 Ex',
   'Club:d6r10 1h Si', 'Composite Longbow:d8x3r110 Ma',
@@ -3006,12 +3006,12 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Notes', within: 'Section 2'},
             {name: 'Hidden Notes', within: 'Section 2', format: '%V'}
       );
-    } else if(name == 'Collected Notes' || name == 'Standard' || name == 'Vertical') {
-      var innerSep = name == 'Vertical' ? '\n' : null;
-      var listSep = name == 'Vertical' ? '\n' : '; ';
+    } else if(name == 'Collected Notes' || name == 'Standard') {
+      var innerSep = null;
+      var listSep = '; ';
       var noteSep = listSep;
       noteSep = '\n';
-      var outerSep = name == 'Vertical' ? null : '\n';
+      var outerSep = '\n';
       viewer.addElements(
         {name: '_top', borders: 1, separator: '\n'},
         {name: 'Header', within: '_top'},
