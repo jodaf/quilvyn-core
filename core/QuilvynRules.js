@@ -140,7 +140,7 @@ QuilvynRules.prototype.defineNote = function(note /*, note ... */) {
           this.defineRule('skillModifier.' + skill, source, '+', bump);
         }
       }
-    } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Power|Race|SelectableFeature)([A-Za-z]+)/)) != null &&
+    } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Power|Race|SelectableFeature)([A-Z][a-z]+)$/)) != null &&
               !format.match(/[ \(\/][a-z]/)) {
       var group = matchInfo[4] == 'Feats' ? 'features' :
                   matchInfo[4].match(/s$/) ?
