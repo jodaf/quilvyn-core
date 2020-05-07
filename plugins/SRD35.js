@@ -47,7 +47,7 @@ function SRD35() {
   SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
   SRD35.spellRules(rules, null, SRD35.spellsDescriptions);
-  rules.defineChoice('extras', 'feats', 'featCount');
+  rules.defineChoice('extras', 'feats', 'featCount', 'selectableFeatureCount');
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
   Quilvyn.addRuleSet(rules);
