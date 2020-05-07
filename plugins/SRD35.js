@@ -3149,7 +3149,6 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Spells Per Day', within: 'SpellStats', separator:listSep},
               {name: 'Spell Difficulty Class', within: 'SpellStats',
                format: '<b>Spell DC</b>: %V', separator: listSep},
-            {name: 'SpellSpecialties', within: 'SpellPart', separator:innerSep},
               {name: 'Domains', within: 'SpellStats', separator: listSep},
               {name: 'Specialize', within: 'SpellStats'},
               {name: 'Prohibit', within: 'SpellStats', separator:listSep},
