@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '1.7.1';
+var VERSION = '1.7.2';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -41,7 +41,7 @@ var characterPath = ''; // Path to most-recently opened/generated character
 var editForm;           // Character editing form (editWindow.document.forms[0])
 var editWindow = null;  // Window where editor is shown
 var persistentInfo = {  // What we store in persistent data
-  computed: '0',        // Show computed attrs for debugging
+  extras: '1',          // Show extra attributes on sheet?
   hidden: '0',          // Show information marked "hidden" on sheet?
   italics: '1'          // Show italicized notes on sheet?
 };
@@ -78,7 +78,6 @@ function Quilvyn() {
       persistentInfo[a] = STORAGE.getItem(PERSISTENT_INFO_PREFIX + a);
     }
   }
-
   if(CustomizeQuilvyn != null)
     CustomizeQuilvyn();
 
@@ -151,13 +150,13 @@ Quilvyn.editorHtml = function() {
     ['about', ' ', 'button', ['About']],
     ['help', '', 'button', ['Help']],
     ['rules', 'Rules', 'select-one', []],
+    ['ruleNotes', '', 'button', ['Notes']],
     ['ruleAttributes', '', 'button', ['Attributes']],
     ['ruleRules', '', 'button', ['Rules']],
-    ['ruleNotes', '', 'button', ['Notes']],
     ['character', 'Character', 'select-one', []],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
-    ['hidden', '', 'checkbox', ['Hidden Info']],
-    ['computed', '', 'checkbox', ['Computed Attrs']],
+    ['extras', '', 'checkbox', ['Extras']],
+    ['hidden', '', 'checkbox', ['Hidden']],
     ['viewer', 'Sheet Style', 'select-one', []],
     ['randomize', 'Randomize', 'select-one', 'random']
   ];
@@ -552,7 +551,7 @@ Quilvyn.refreshEditor = function(redraw) {
       InputSetValue(input, value);
   }
 
-  InputSetValue(editForm.computed, persistentInfo.computed == '1');
+  InputSetValue(editForm.extras, persistentInfo.extras == '1');
   InputSetValue(editForm.hidden, persistentInfo.hidden == '1');
   InputSetValue(editForm.italics, persistentInfo.italics == '1');
   InputSetValue(editForm.rules, ruleSet.getName());
@@ -614,6 +613,7 @@ Quilvyn.sheetHtml = function(attrs) {
   var computedAttributes;
   var enteredAttributes = QuilvynUtils.clone(attrs);
   var i;
+  var rulesExtras = ruleSet.getChoices('extras') || {};
   var sheetAttributes = {};
 
   enteredAttributes.hidden = persistentInfo.hidden;
@@ -636,6 +636,9 @@ Quilvyn.sheetHtml = function(attrs) {
     } else if(isNote && typeof(value) == 'number') {
       value = QuilvynUtils.signed(value);
     }
+    if(persistentInfo.extras == '0' &&
+       (a in rulesExtras || a.split('.')[0] in rulesExtras))
+      continue;
     if((i = name.indexOf('.')) < 0) {
       sheetAttributes[name] = value;
     } else {
@@ -668,7 +671,7 @@ Quilvyn.sheetHtml = function(attrs) {
   }
 
   var attrImage = 'var attributes = ' + ObjectViewer.toCode(attrs) + ';\n';
-  if(persistentInfo.computed == '1') {
+  if(attrs.notes && attrs.notes.indexOf("+COMPUTE") >= 0) {
     attrImage +=
       'var computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
   }
@@ -804,7 +807,7 @@ Quilvyn.update = function(input) {
       Quilvyn.aboutWindow.document.bgColor = window.BACKGROUND;
     }
     Quilvyn.aboutWindow.focus();
-  } else if(name.match(/^(computed|hidden|italics)$/)) {
+  } else if(name.match(/^(extras|hidden|italics)$/)) {
     persistentInfo[name] = value ? '1' : '0';
     Quilvyn.storePersistentInfo();
     Quilvyn.refreshSheet();

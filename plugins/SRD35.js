@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.7.1.5';
+var SRD35_VERSION = '1.7.1.6';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -47,6 +47,7 @@ function SRD35() {
   SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
   SRD35.spellRules(rules, null, SRD35.spellsDescriptions);
+  rules.defineChoice('extras', 'feats', 'featCount');
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
   Quilvyn.addRuleSet(rules);
@@ -3149,9 +3150,9 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Spell Difficulty Class', within: 'SpellStats',
                format: '<b>Spell DC</b>: %V', separator: listSep},
             {name: 'SpellSpecialties', within: 'SpellPart', separator:innerSep},
-              {name: 'Domains', within: 'SpellSpecialties', separator: listSep},
-              {name: 'Specialize', within: 'SpellSpecialties'},
-              {name: 'Prohibit', within: 'SpellSpecialties', separator:listSep},
+              {name: 'Domains', within: 'SpellStats', separator: listSep},
+              {name: 'Specialize', within: 'SpellStats'},
+              {name: 'Prohibit', within: 'SpellStats', separator:listSep},
           {name: 'Spells', within: 'Magic', columns: '1L', separator: null}
       );
       if(name != 'Collected Notes') {
@@ -6402,6 +6403,7 @@ SRD35.defineClass = function
       }
     }
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
+    rules.defineChoice('extras', prefix + 'Features');
   }
   if(spellsKnown != null) {
     var spellModifier = spellAbility + 'Modifier';
@@ -6499,6 +6501,7 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
       }
     }
     rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
+    rules.defineChoice('extras', prefix + 'Features');
   }
 };
 
