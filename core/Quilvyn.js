@@ -78,6 +78,7 @@ function Quilvyn() {
       persistentInfo[a] = STORAGE.getItem(PERSISTENT_INFO_PREFIX + a);
     }
   }
+
   if(CustomizeQuilvyn != null)
     CustomizeQuilvyn();
 
