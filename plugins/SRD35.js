@@ -2013,7 +2013,7 @@ SRD35.classRules = function(rules, classes) {
         'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
       );
       rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
-      // TODO Our rule engine doesn't support modifying a value via indexing.
+      // NOTE Our rule engine doesn't support modifying a value via indexing.
       // Here, we work around this limitation by defining rules that set global
       // values as a side effect, then use these values in our calculations.
       rules.defineRule('monkUnarmedDamage',
