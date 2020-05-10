@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.7.1.6';
+var SRD35_VERSION = '1.7.1.7';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -246,7 +246,7 @@ SRD35.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'domains',
   'features', 'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield',
-  'weapons', 'spells'
+  'weapons', 'spells', 'companion'
 ];
 SRD35.SCHOOLS = [
   'Abjuration:Abju', 'Conjuration:Conj', 'Divination:Divi', 'Enchantment:Ench',
@@ -5692,6 +5692,34 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     if(choices.length > 0) {
       attributes['armor'] = choices[QuilvynUtils.random(0, choices.length - 1)];
+    }
+  } else if(attribute == 'companion') {
+    attrs = this.applyRules(attributes);
+    if(QuilvynUtils.sumMatching(attrs, /companionFeatures/) > 0) {
+      var prefix;
+      if('features.Familiar' in attrs) {
+        choices = QuilvynUtils.getKeys(this.getChoices('familiars'));
+        prefix = 'familiar';
+      } else if('features.Fiendish Servant' in attrs) {
+        choices = ['Bat', 'Cat', 'Dire Rat', 'Raven', 'Toad'];
+        choices.push('features.Small' in attrs ? 'Pony' : 'Heavy Horse');
+        prefix = 'familiar';
+      } else if('features.Special Mount' in attrs) {
+        choices = 'features.Small' in attrs ? ['Pony'] : ['Heavy Horse'];
+        prefix = 'animalCompanion';
+      } else {
+        choices = QuilvynUtils.getKeys(this.getChoices('animalCompanions'));
+        prefix = 'animalCompanion';
+      }
+      do {
+        for(var attr in attributes) {
+          if(attr.startsWith(prefix + '.'))
+            delete attributes[attr];
+        }
+        pickAttrs(attributes, prefix + '.', choices, 1, 1);
+        attrs = this.applyRules(attributes);
+      } while(QuilvynUtils.sumMatching(attrs, /validation.*MasterLevel/) > 0);
+      attributes[prefix + 'Name'] = SRD35.randomName(null);
     }
   } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
