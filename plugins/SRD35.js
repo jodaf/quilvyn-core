@@ -5703,7 +5703,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       } else if('features.Fiendish Servant' in attrs) {
         choices = ['Bat', 'Cat', 'Dire Rat', 'Raven', 'Toad'];
         choices.push('features.Small' in attrs ? 'Pony' : 'Heavy Horse');
-        prefix = 'familiar';
+        prefix = 'animalCompanion';
       } else if('features.Special Mount' in attrs) {
         choices = 'features.Small' in attrs ? ['Pony'] : ['Heavy Horse'];
         prefix = 'animalCompanion';
