@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.7.1.7';
+var SRD35_VERSION = '1.7.1.8';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3145,13 +3145,13 @@ SRD35.createViewers = function(rules, viewers) {
          format: '<b>Magic</b><br/>%V'},
           {name: 'SpellPart', within: 'Magic', separator: '\n'},
             {name: 'SpellStats', within: 'SpellPart', separator: innerSep},
+              {name: 'Domains', within: 'SpellStats', separator: listSep},
+              {name: 'Specialize', within: 'SpellStats'},
+              {name: 'Prohibit', within: 'SpellStats', separator:listSep},
               {name: 'Spells Known', within: 'SpellStats', separator: listSep},
               {name: 'Spells Per Day', within: 'SpellStats', separator:listSep},
               {name: 'Spell Difficulty Class', within: 'SpellStats',
                format: '<b>Spell DC</b>: %V', separator: listSep},
-              {name: 'Domains', within: 'SpellStats', separator: listSep},
-              {name: 'Specialize', within: 'SpellStats'},
-              {name: 'Prohibit', within: 'SpellStats', separator:listSep},
           {name: 'Spells', within: 'Magic', columns: '1L', separator: null}
       );
       if(name != 'Collected Notes') {
