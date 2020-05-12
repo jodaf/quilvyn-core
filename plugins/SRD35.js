@@ -2905,7 +2905,11 @@ SRD35.companionRules = function(rules, companions, familiars) {
     );
     rules.defineRule('companionStats.Int', 'familiarLevel', '^', 'source + 5');
     rules.defineRule('companionStats.Melee', 'familiarAttack', '=', null);
-    rules.defineRule('companionStats.Melee.2', 'familiarAttack', '=', '""');
+    // companionStats.Melee.[234] are included in Melee.1 for familiars
+    // This line should work for Melee.2, but seems not to??
+    // rules.defineRule('companionStats.Melee.2', 'familiarAttack', '=', '""');
+    // The replacement that changes the value of companionDamAdj1 works.
+    rules.defineRule('companionDamAdj1', 'familiarAttack', '*', '0');
     rules.defineRule('companionStats.Melee.3', 'familiarAttack', '=', '""');
     rules.defineRule('companionStats.Melee.4', 'familiarAttack', '=', '""');
     rules.defineRule('companionStats.Ref', 'familiarRef', '=', null);
