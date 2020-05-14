@@ -2559,8 +2559,10 @@ SRD35.companionRules = function(rules, companions, familiars) {
       "Master share self spell w/companion w/in 5'",
     'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
     'companionNotes.speakWithMasterFeature:Talk w/master in secret language',
-    'companionStats.Melee:+%V %1%2%3%4',
-    'companionStats.SR:DC %V',
+    'animalCompanionStats.Melee:+%V %1%2%3%4',
+    'animalCompanionStats.SR:DC %V',
+    'familiarStats.Melee:+%V %1',
+    'familiarStats.SR:DC %V',
     'skillNotes.companionAlertnessFeature:' +
       '+2 listen/spot when companion w/in reach',
     'skillNotes.linkFeature:+4 Handle Animal (companion)/Wild Empathy (companion)',
@@ -2568,44 +2570,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
     'validationNotes.familiarMasterLevel:Requires %1'
   ];
   rules.defineNote(notes);
-
-  rules.defineRule('companionNotes.celestialCompanion',
-    'animalCompanion.Celestial', '=', '0',
-    'familiar.Celestial', '=', '0',
-    'companionStats.HD', '^', null
-  );
-  rules.defineRule('companionNotes.celestialCompanion.1',
-    'animalCompanion.Celestial', '=', '0',
-    'familiar.Celestial', '=', '0',
-    'companionStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
-  );
-  rules.defineRule('companionNotes.celestialCompanion.2',
-    'animalCompanion.Celestial', '=', '0',
-    'familiar.Celestial', '=', '0',
-    'companionStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
-  );
-  rules.defineRule('companionNotes.fiendishCompanion',
-    'animalCompanion.Fiendish', '=', '0',
-    'familiar.Fiendish', '=', '0',
-    'companionStats.HD', '^', null
-  );
-  rules.defineRule('companionNotes.fiendishCompanion.1',
-    'animalCompanion.Fiendish', '=', '0',
-    'familiar.Fiendish', '=', '0',
-    'companionStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
-  );
-  rules.defineRule('companionNotes.fiendishCompanion.2',
-    'animalCompanion.Fiendish', '=', '0',
-    'familiar.Fiendish', '=', '0',
-    'companionStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
-  );
-  rules.defineRule('companionStats.Melee.2',
-    'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
-  );
-  rules.defineRule('companionStats.Melee.4',
-    'companionDamAdj2', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
-    'companionStats.Melee.3', '=', 'source == "" ? "" : null'
-  );
 
   if(companions != null) {
 
@@ -2616,104 +2580,13 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'Multiattack': 4, 'Companion Improved Evasion': 6
     };
     for(var feature in features) {
-      rules.defineRule('companionFeatures.' + feature,
+      rules.defineRule('animalCompanionFeatures.' + feature,
         'companionLevel', '=',
         'source >= ' + features[feature] + ' ? 1 : null'
       );
       rules.defineRule
-        ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
+        ('features.' + feature, 'animalCompanionFeatures.' + feature, '=', '1');
     }
-
-    rules.defineRule('companionAttack',
-      'companionLevel', '?', null,
-      'companionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE,
-      'companionAttackBoosts', '+', 'Math.floor(source)'
-    );
-    rules.defineRule('companionAttackBoosts',
-      'companionLevel', '=', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
-      'companionMaxDexOrStr', '+', 'source % 2 == 0 ? 0.5 : 0'
-    );
-    rules.defineRule('companionDamAdj1',
-      'companionStats.Str', '=', 'Math.floor((source - 10) / 2)',
-      'companionDamageSingleAttackBonus', '+', null
-    );
-    rules.defineRule('companionDamAdj2',
-      'companionStats.Str', '=', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('companionDamageSingleAttackBonus',
-      'companionStats.Melee.3', '?', 'source == ""',
-      'companionStats.Str', '=', 'source<14 ? null : Math.floor((source-10)/4)'
-    );
-    rules.defineRule('companionFort',
-      'companionLevel', '?', null,
-      'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
-      'companionStats.Con', '+', 'Math.floor((source - 10)/2)',
-      'companionNotes.shareSavingThrowsFeature.1', '+', null,
-      // Use base note in calculation so Quilvyn displays it in italics
-      'companionNotes.shareSavingThrowsFeature', '+', '0'
-    );
-    rules.defineRule('companionHP',
-      'companionLevel', '?', null,
-      'companionStats.Con', '=', '4.5 + Math.floor((source - 10)/2)',
-      'companionStats.HD', '*', null
-    );
-    rules.defineRule('companionLevel',
-      'companionMasterLevel', '=', 'Math.floor((source + 3) / 3)'
-    );
-    rules.defineRule('companionMaxDexOrStr',
-      'companionStats.Dex', '=', null,
-      'companionStats.Str', '^', null
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
-      'companionFeatures.Share Saving Throws', '?', null,
-      'levels.Paladin', '=', SRD35.SAVE_BONUS_GOOD,
-      'companionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
-      '', '^', '0'
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
-      'companionFeatures.Share Saving Throws', '?', null,
-      'levels.Paladin', '=', SRD35.SAVE_BONUS_POOR,
-      'companionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
-      '', '^', '0'
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
-      'companionFeatures.Share Saving Throws', '?', null,
-      'levels.Paladin', '=', SRD35.SAVE_BONUS_POOR,
-      'companionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_POOR + ')',
-      '', '^', '0'
-    );
-    rules.defineRule('companionRef',
-      'companionLevel', '?', null,
-      'companionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
-      'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)',
-      'companionNotes.shareSavingThrowsFeature.2', '+', null
-    );
-    rules.defineRule('companionWill',
-      'companionLevel', '?', null,
-      'companionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
-      'companionStats.Wis', '+', 'Math.floor((source - 10) / 2)',
-      'companionNotes.shareSavingThrowsFeature.3', '+', null
-    );
-
-    rules.defineRule('companionStats.AC',
-      'companionLevel', '+', '(source - 1) * 2 + Math.floor(source / 2)',
-    );
-    rules.defineRule('companionStats.Dex', 'companionLevel', '+', 'source - 1');
-    rules.defineRule('companionStats.Fort', 'companionFort', '=', null);
-    rules.defineRule
-      ('companionStats.HD', 'companionLevel', '+', '(source - 1) * 2');
-    rules.defineRule('companionStats.HP', 'companionHP', '=', 'Math.floor(source)');
-    rules.defineRule('companionStats.Init',
-      'companionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('companionStats.Melee', 'companionAttack', '=', 'Math.floor(source)');
-    rules.defineRule('companionStats.Ref', 'companionRef', '=', null);
-    rules.defineRule('companionStats.Str', 'companionLevel', '+', 'source - 1');
-    rules.defineRule('companionStats.Tricks',
-      'companionStats.Int', '=', 'source * 3',
-      'companionLevel', '+=', null
-    );
-    rules.defineRule('companionStats.Will', 'companionWill', '=', null);
 
     for(var companion in companions) {
       var matchInfo;
@@ -2728,16 +2601,16 @@ SRD35.companionRules = function(rules, companions, familiars) {
         } else if(matchInfo[1] == 'Dam') {
           var damages = matchInfo[2].split(',');
           matchInfo = damages[0].match(/([^-+]*)([-+]\d+)?/);
-          rules.defineRule('companionStats.Melee.1',
+          rules.defineRule('animalCompanionStats.Melee.1',
             'animalCompanion.' + companion, '=', '"' + matchInfo[1] + '"'
           );
           if(damages.length > 1) {
             matchInfo = damages[1].match(/([^-+]*)([-+]\d+)?/);
-            rules.defineRule('companionStats.Melee.3',
+            rules.defineRule('animalCompanionStats.Melee.3',
               'animalCompanion.' + companion, '=', '",' + matchInfo[1] + '"'
             );
           } else {
-            rules.defineRule('companionStats.Melee.3',
+            rules.defineRule('animalCompanionStats.Melee.3',
               'animalCompanion.' + companion, '=', '""'
             );
           }
@@ -2752,16 +2625,120 @@ SRD35.companionRules = function(rules, companions, familiars) {
             'animalCompanion.' + companion, '=', matchInfo[2]
           );
         } else if(matchInfo[2].match(/^\d+$/)) {
-          rules.defineRule('companionStats.' + matchInfo[1],
+          rules.defineRule('animalCompanionStats.' + matchInfo[1],
             'animalCompanion.' + companion, '=', matchInfo[2]
           );
         } else {
-          rules.defineRule('companionStats.' + matchInfo[1],
+          rules.defineRule('animalCompanionStats.' + matchInfo[1],
             'animalCompanion.' + companion, '=', '"' + matchInfo[2] + '"'
           );
         }
       }
     }
+
+    rules.defineRule('companionAttack',
+      'companionLevel', '?', null,
+      'animalCompanionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE,
+      'companionAttackBoosts', '+', 'Math.floor(source)'
+    );
+    rules.defineRule('companionAttackBoosts',
+      'companionLevel', '=', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
+      'companionMaxDexOrStr', '+', 'source % 2 == 0 ? 0.5 : 0'
+    );
+    rules.defineRule('companionDamAdj1',
+      'animalCompanionStats.Str', '=', 'Math.floor((source - 10) / 2)',
+      'companionDamageSingleAttackBonus', '+', null
+    );
+    rules.defineRule('companionDamAdj2',
+      'animalCompanionStats.Str', '=', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('companionDamageSingleAttackBonus',
+      'animalCompanionStats.Melee.3', '?', 'source == ""',
+      'animalCompanionStats.Str', '=', 'source<14 ? null : Math.floor((source-10)/4)'
+    );
+    rules.defineRule('companionFort',
+      'companionLevel', '?', null,
+      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
+      'animalCompanionStats.Con', '+', 'Math.floor((source - 10)/2)',
+      'companionNotes.shareSavingThrowsFeature.1', '+', null,
+      // Use base note in calculation so Quilvyn displays it in italics
+      'companionNotes.shareSavingThrowsFeature', '+', '0'
+    );
+    rules.defineRule('companionHP',
+      'companionLevel', '?', null,
+      'animalCompanionStats.Con', '=', '4.5 + Math.floor((source - 10)/2)',
+      'animalCompanionStats.HD', '*', null
+    );
+    rules.defineRule('companionLevel',
+      'companionMasterLevel', '=', 'Math.floor((source + 3) / 3)'
+    );
+    rules.defineRule('companionMaxDexOrStr',
+      'animalCompanionStats.Dex', '=', null,
+      'animalCompanionStats.Str', '^', null
+    );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
+      'animalCompanionFeatures.Share Saving Throws', '?', null,
+      'levels.Paladin', '=', SRD35.SAVE_BONUS_GOOD,
+      'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
+      '', '^', '0'
+    );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
+      'animalCompanionFeatures.Share Saving Throws', '?', null,
+      'levels.Paladin', '=', SRD35.SAVE_BONUS_POOR,
+      'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
+      '', '^', '0'
+    );
+    rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
+      'animalCompanionFeatures.Share Saving Throws', '?', null,
+      'levels.Paladin', '=', SRD35.SAVE_BONUS_POOR,
+      'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_POOR + ')',
+      '', '^', '0'
+    );
+    rules.defineRule('companionRef',
+      'companionLevel', '?', null,
+      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
+      'animalCompanionStats.Dex', '+', 'Math.floor((source - 10) / 2)',
+      'companionNotes.shareSavingThrowsFeature.2', '+', null
+    );
+    rules.defineRule('companionWill',
+      'companionLevel', '?', null,
+      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
+      'animalCompanionStats.Wis', '+', 'Math.floor((source - 10) / 2)',
+      'companionNotes.shareSavingThrowsFeature.3', '+', null
+    );
+
+    rules.defineRule('animalCompanionStats.AC',
+      'companionLevel', '+', '(source - 1) * 2 + Math.floor(source / 2)',
+    );
+    rules.defineRule
+      ('animalCompanionStats.Dex', 'companionLevel', '+', 'source - 1');
+    rules.defineRule('animalCompanionStats.Fort', 'companionFort', '=', null);
+    rules.defineRule('animalCompanionStats.HD',
+      'companionLevel', '+', '(source - 1) * 2'
+    );
+    rules.defineRule
+      ('animalCompanionStats.HP', 'companionHP', '=', 'Math.floor(source)');
+    rules.defineRule('animalCompanionStats.Init',
+      'animalCompanionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('animalCompanionStats.Melee',
+      'companionAttack', '=', 'Math.floor(source)'
+    );
+    rules.defineRule('animalCompanionStats.Melee.2',
+      'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
+    );
+    rules.defineRule('animalCompanionStats.Melee.4',
+      'companionDamAdj2', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
+      'animalCompanionStats.Melee.3', '=', 'source == "" ? "" : null'
+    );
+    rules.defineRule('animalCompanionStats.Ref', 'companionRef', '=', null);
+    rules.defineRule
+      ('animalCompanionStats.Str', 'companionLevel', '+', 'source - 1');
+    rules.defineRule('animalCompanionStats.Tricks',
+      'animalCompanionStats.Int', '=', 'source * 3',
+      'companionLevel', '+=', null
+    );
+    rules.defineRule('animalCompanionStats.Will', 'companionWill', '=', null);
 
     // Adapt Paladin mount rules to make it a form of animal companion.
     var features = {
@@ -2772,19 +2749,19 @@ SRD35.companionRules = function(rules, companions, familiars) {
     };
     rules.defineRule('companionNotMount',
       'companionLevel', '=', '1',
-      'familiarLevel', '=', '1',
       'mountMasterLevel', 'v', '0'
     );
     for(var feature in features) {
       if(features[feature] > 0) {
-        rules.defineRule('companionFeatures.' + feature,
+        rules.defineRule('animalCompanionFeatures.' + feature,
           'mountMasterLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
         );
-        rules.defineRule
-          ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
+        rules.defineRule('features.' + feature,
+          'animalCompanionFeatures.' + feature, '=', '1'
+        );
       } else {
         // Disable N/A companion features
-        rules.defineRule('companionFeatures.' + feature,
+        rules.defineRule('animalCompanionFeatures.' + feature,
           'companionNotMount', '?', 'source == 1'
         );
       }
@@ -2794,22 +2771,23 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'source<5 ? null : source<8 ? 2 : source<11 ? 3 : source<15 ? 4 : 5'
     );
     rules.defineRule('companionNotes.commandLikeCreaturesFeature',
-      'companionFeatures.Command Like Creatures', '?', null,
+      'animalCompanionFeatures.Command Like Creatures', '?', null,
       'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
       'charismaModifier', '+', null
     );
     rules.defineRule('companionNotes.commandLikeCreaturesFeature.1',
-      'companionFeatures.Command Like Creatures', '?', null,
+      'animalCompanionFeatures.Command Like Creatures', '?', null,
       'mountMasterLevel', '=', 'Math.floor(source / 2)'
     );
-    rules.defineRule
-      ('companionStats.AC', 'mountMasterLevel', '+', 'source < 5 ? null : 2');
-    rules.defineRule('companionStats.Int',
+    rules.defineRule('animalCompanionStats.AC',
+      'mountMasterLevel', '+', 'source < 5 ? null : 2'
+    );
+    rules.defineRule('animalCompanionStats.Int',
       'mountMasterLevel', '^',
       'source<5 ? null : source<8 ? 6 : source<11 ? 7 : source<15 ? 8 : 9'
     );
     rules.defineRule
-      ('companionStats.SR', 'mountMasterLevel', '=', 'source + 5');
+      ('animalCompanionStats.SR', 'mountMasterLevel', '=', 'source + 5');
 
   }
 
@@ -2824,11 +2802,11 @@ SRD35.companionRules = function(rules, companions, familiars) {
       'Speak With Like Animals': 4, 'Companion Resist Spells': 6, 'Scry': 7
     };
     for(var feature in features) {
-      rules.defineRule('companionFeatures.' + feature,
+      rules.defineRule('familiarFeatures.' + feature,
         'familiarLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
       );
       rules.defineRule
-        ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
+        ('features.' + feature, 'familiarFeatures.' + feature, '=', '1');
     }
 
     notes = [
@@ -2860,75 +2838,6 @@ SRD35.companionRules = function(rules, companions, familiars) {
     rules.defineRule('save.Fortitude', 'saveNotes.familiarRat', '+', '2');
     rules.defineRule('save.Reflex', 'saveNotes.familiarWeasel', '+', '2');
 
-    rules.defineRule('familiar.Celestial', 'familiarCelestial', '=', null);
-    rules.defineRule('familiar.Fiendish', 'familiarFiendish', '=', null);
-    rules.defineRule('familiarAttack',
-      'familiarLevel', '?', null,
-      'baseAttack', '=', null,
-    );
-    rules.defineRule('familiarFort',
-      'familiarLevel', '?', null,
-      'classFortitudeBonus', '=', 'Math.max(source, 2)',
-      'companionStats.Con', '+', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('familiarHD',
-      'familiarLevel', '?', null,
-      'level', '=', null
-    );
-    rules.defineRule('familiarHP',
-      'familiarLevel', '?', null,
-      'hitPoints', '=', 'Math.floor(source / 2)'
-    );
-    rules.defineRule('familiarLevel',
-      'features.Familiar', '?', null,
-      'familiarMasterLevel', '=', 'Math.floor((source + 1) / 2)'
-    );
-    rules.defineRule('familiarRef',
-      'familiarLevel', '?', null,
-      'classReflexBonus', '=', 'Math.max(source, 2)',
-      'companionStats.Dex', '+', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('familiarWill',
-      'familiarLevel', '?', null,
-      'classWillBonus', '=', 'Math.max(source, 0)',
-      'companionStats.Wis', '+', 'Math.floor((source - 10) / 2)'
-    );
-
-    rules.defineRule('companionStats.AC',
-      'familiarLevel', '+', null
-    );
-    rules.defineRule('companionStats.Fort', 'familiarFort', '=', null);
-    rules.defineRule('companionStats.HD', 'familiarHD', '^', null);
-    rules.defineRule('companionStats.HP', 'familiarHP', '=', null);
-    rules.defineRule('companionStats.Init',
-      'companionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('companionStats.Int', 'familiarLevel', '^', 'source + 5');
-    rules.defineRule('companionStats.Melee', 'familiarAttack', '=', null);
-    // companionStats.Melee.[234] are included in Melee.1 for familiars
-    // This line should work for Melee.2, but seems not to??
-    // rules.defineRule('companionStats.Melee.2', 'familiarAttack', '=', '""');
-    // The replacement that changes the value of companionDamAdj1 works.
-    rules.defineRule('companionDamAdj1', 'familiarAttack', '*', '0');
-    rules.defineRule('companionStats.Melee.3', 'familiarAttack', '=', '""');
-    rules.defineRule('companionStats.Melee.4', 'familiarAttack', '=', '""');
-    rules.defineRule('companionStats.Ref', 'familiarRef', '=', null);
-    rules.defineRule('companionStats.SR',
-      'features.Companion Resist Spells', '?', null,
-      'familiarMasterLevel', '=', 'source + 5'
-    );
-    rules.defineRule('companionStats.Will', 'familiarWill', '=', null);
-
-    rules.defineRule('validationNotes.familiarMasterLevel',
-      'validationNotes.familiarMasterLevel.1', '=', null,
-      'familiarMasterLevel', '+', '-source',
-      '', '^', '0'
-    );
-    rules.defineRule('validationNotes.familiarMasterLevel.1',
-      'familiar.Celestial', '=', '3',
-      'familiar.Fiendish', '=', '3'
-    );
-
     for(var familiar in familiars) {
       var matchInfo;
       var stats = familiars[familiar].split(/\s+/);
@@ -2939,7 +2848,7 @@ SRD35.companionRules = function(rules, companions, familiars) {
           rules.defineRule
             ('familiarAttack', 'familiar.' + familiar, '+', matchInfo[2]);
         } else if(matchInfo[1] == 'Dam') {
-          rules.defineRule('companionStats.Melee.1',
+          rules.defineRule('familiarStats.Melee.1',
             'familiar.' + familiar, '=', '"' + matchInfo[2] + '"'
           );
         } else if(matchInfo[1] == 'Level') {
@@ -2947,16 +2856,92 @@ SRD35.companionRules = function(rules, companions, familiars) {
             'familiar.' + familiar, '=', matchInfo[2]
           );
         } else if(matchInfo[2].match(/^\d+$/)) {
-          rules.defineRule('companionStats.' + matchInfo[1],
+          rules.defineRule('familiarStats.' + matchInfo[1],
             'familiar.' + familiar, '=', matchInfo[2]
           );
         } else {
-          rules.defineRule('companionStats.' + matchInfo[1],
+          rules.defineRule('familiarStats.' + matchInfo[1],
             'familiar.' + familiar, '=', '"' + matchInfo[2] + '"'
           );
         }
       }
     }
+
+    rules.defineRule('familiarAttack',
+      'familiarLevel', '?', null,
+      'baseAttack', '=', null,
+    );
+    rules.defineRule('familiarLevel',
+      'features.Familiar', '?', null,
+      'familiarMasterLevel', '=', 'Math.floor((source + 1) / 2)'
+    );
+
+    rules.defineRule('companionNotes.celestialCompanion',
+      'familiarCelestial', '=', '0',
+      'familiarStats.HD', '^', null
+    );
+    rules.defineRule('companionNotes.celestialCompanion.1',
+      'familiarCelestial', '=', '0',
+      'familiarStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
+    );
+    rules.defineRule('companionNotes.celestialCompanion.2',
+      'familiarCelestial', '=', '0',
+      'familiarStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
+    );
+    rules.defineRule('companionNotes.fiendishCompanion',
+      'familiarFiendish', '=', '0',
+      'familiarStats.HD', '^', null
+    );
+    rules.defineRule('companionNotes.fiendishCompanion.1',
+      'familiarFiendish', '=', '0',
+      'familiarStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
+    );
+    rules.defineRule('companionNotes.fiendishCompanion.2',
+      'familiarFiendish', '=', '0',
+      'familiarStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
+    );
+    rules.defineRule('familiarStats.AC', 'familiarLevel', '+', null);
+    rules.defineRule('familiarStats.Fort',
+      'familiarLevel', '?', null,
+      'classFortitudeBonus', '=', 'Math.max(source, 2)',
+      'familiarStats.Con', '+', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('familiarStats.HD',
+      'familiarLevel', '?', null,
+      'level', '=', null
+    );
+    rules.defineRule('familiarStats.HP',
+      'familiarLevel', '?', null,
+      'hitPoints', '=', 'Math.floor(source / 2)'
+    );
+    rules.defineRule('familiarStats.Init',
+      'familiarStats.Dex', '=', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('familiarStats.Int', 'familiarLevel', '^', 'source + 5');
+    rules.defineRule('familiarStats.Melee', 'familiarAttack', '=', null);
+    rules.defineRule('familiarStats.Ref',
+      'familiarLevel', '?', null,
+      'classReflexBonus', '=', 'Math.max(source, 2)',
+      'familiarStats.Dex', '+', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('familiarStats.SR',
+      'features.Companion Resist Spells', '?', null,
+      'familiarMasterLevel', '=', 'source + 5'
+    );
+    rules.defineRule('familiarStats.Will',
+      'familiarLevel', '?', null,
+      'classWillBonus', '=', 'Math.max(source, 0)',
+      'familiarStats.Wis', '+', 'Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('validationNotes.familiarMasterLevel',
+      'validationNotes.familiarMasterLevel.1', '=', null,
+      'familiarMasterLevel', '+', '-source',
+      '', '^', '0'
+    );
+    rules.defineRule('validationNotes.familiarMasterLevel.1',
+      'familiarCelestial', '=', '3',
+      'familiarFiendish', '=', '3'
+    );
 
   }
 
@@ -3170,11 +3155,13 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'CompanionInfo', within: 'NotesPart', separator: ' '},
               {name: 'Animal Companion', within: 'CompanionInfo', separator: ' '},
               {name: 'Animal Companion Name', within: 'CompanionInfo', format: '"%V"'},
+            {name: 'Animal Companion Features', within: 'NotesPart', separator: listSep},
+            {name: 'Animal Companion Stats', within: 'NotesPart', separator: listSep},
             {name: 'FamiliarInfo', within: 'NotesPart', separator: ' '},
               {name: 'Familiar', within: 'FamiliarInfo', separator: ' '},
               {name: 'Familiar Name', within: 'FamiliarInfo', format: '"%V"'},
-            {name: 'Companion Features', within: 'NotesPart', separator: listSep},
-            {name: 'Companion Stats', within: 'NotesPart', separator: listSep},
+            {name: 'Familiar Features', within: 'NotesPart', separator: listSep},
+            {name: 'Familiar Stats', within: 'NotesPart', separator: listSep},
             {name: 'Companion Notes', within: 'NotesPart', separator: listSep},
             {name: 'Notes', within: 'NotesPart', format: '%V'},
             {name: 'Hidden Notes', within: 'NotesPart', format: '%V'},
@@ -5699,7 +5686,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'companion') {
     attrs = this.applyRules(attributes);
-    if(QuilvynUtils.sumMatching(attrs, /companionFeatures/) > 0) {
+    if(QuilvynUtils.sumMatching(attrs, /animalCompanionFeatures/) > 0) {
       var prefix;
       if('features.Familiar' in attrs) {
         choices = QuilvynUtils.getKeys(this.getChoices('familiars'));

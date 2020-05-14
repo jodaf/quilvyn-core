@@ -1273,15 +1273,16 @@ SRD35Prestige.companionRules = function(rules, servants) {
     );
     for(var feature in features) {
       if(features[feature] > 0) {
-        rules.defineRule('companionFeatures.' + feature,
+        rules.defineRule('animalCompanionFeatures.' + feature,
           'fiendishServantMasterLevel', '=',
           'source >= ' + features[feature] + ' ? 1 : null'
         );
-        rules.defineRule
-          ('features.' + feature, 'companionFeatures.' + feature, '=', '1');
+        rules.defineRule('features.' + feature,
+          'animalCompanionFeatures.' + feature, '=', '1'
+        );
       } else {
         // Disable N/A companion features
-        rules.defineRule('companionFeatures.' + feature,
+        rules.defineRule('animalCompanionFeatures.' + feature,
           'companionNotFiendishServant', '?', 'source == 1'
         );
       }
@@ -1346,8 +1347,8 @@ SRD35Prestige.companionRules = function(rules, servants) {
       'fiendishServantMasterLevel', '=', 'source < 13 ? 2 : Math.floor((source - 4) / 3)'
     );
     rules.defineRule
-      ('companionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
-    rules.defineRule('companionStats.Int',
+      ('animalCompanionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
+    rules.defineRule('animalCompanionStats.Int',
       'fiendishServantMasterLevel', '^',
       'source<5 ? null : source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
     );
