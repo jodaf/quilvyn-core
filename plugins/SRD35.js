@@ -5686,7 +5686,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'companion') {
     attrs = this.applyRules(attributes);
-    if(QuilvynUtils.sumMatching(attrs, /animalCompanionFeatures/) > 0) {
+    if(QuilvynUtils.sumMatching(attrs, /companionNotes/) > 0) {
       var prefix;
       if('features.Familiar' in attrs) {
         choices = QuilvynUtils.getKeys(this.getChoices('familiars'));
