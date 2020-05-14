@@ -5695,7 +5695,9 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         choices = ['Bat', 'Cat', 'Dire Rat', 'Raven', 'Toad'];
         choices.push('features.Small' in attrs ? 'Pony' : 'Heavy Horse');
         prefix = 'animalCompanion';
-      } else if('features.Special Mount' in attrs) {
+      // NOTE: Support PF's "Divine Mount" as well as SRD35's "Special Mount"
+      } else if('features.Special Mount' in attrs ||
+                'features.Divine Mount' in attrs) {
         choices = 'features.Small' in attrs ? ['Pony'] : ['Heavy Horse'];
         prefix = 'animalCompanion';
       } else {
