@@ -435,8 +435,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'levels.Blackguard', '+=', 'source<4 ? null : Math.floor((source-1)/3)'
       );
       rules.defineRule('fiendishServantMasterLevel',
-        'levels.Blackguard', '?', 'source >= 5',
-        'level', '=', null
+        'levels.Blackguard', '=', 'source < 5 ? null : source',
       );
       rules.defineRule('magicNotes.blackguardHandsFeature',
         'level', '+=', null,
@@ -1268,7 +1267,6 @@ SRD35Prestige.companionRules = function(rules, servants) {
     };
     rules.defineRule('companionNotFiendishServant',
       'companionLevel', '=', '1',
-      'familiarLevel', '=', '1',
       'fiendishServantMasterLevel', 'v', '0'
     );
     for(var feature in features) {
@@ -1350,7 +1348,7 @@ SRD35Prestige.companionRules = function(rules, servants) {
       ('animalCompanionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
     rules.defineRule('animalCompanionStats.Int',
       'fiendishServantMasterLevel', '^',
-      'source<5 ? null : source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
+      'source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
     );
   }
 };
