@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.8.1.1';
+var SRD35_VERSION = '1.8.1.2';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -2148,7 +2148,7 @@ SRD35.classRules = function(rules, classes) {
         'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
         'skillNotes.camouflageFeature:Hide in any natural terrain',
         'skillNotes.favoredEnemyFeature:' +
-          '+2 or more Bluff/Listen/Sense Motive/Spot/Survival ' +
+          '+2 or more Bluff, Listen, Sense Motive, Spot, Survival ' +
           'vs. %V type(s) of creatures',
         'skillNotes.hideInPlainSightFeature:Hide even when observed',
         'skillNotes.swiftTrackerFeature:Track at full speed',
