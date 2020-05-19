@@ -3396,7 +3396,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     var weapon = pieces[0];
     var profLevel = pieces[1].indexOf('Un') >= 0 ? SRD35.PROFICIENCY_NONE :
                     pieces[1].indexOf('Si') >= 0 ? SRD35.PROFICIENCY_LIGHT :
-                    pieces[1].indexOf('Ma') >= 0 ? SRD35.PROFICIENCY_MARTIAL :
+                    pieces[1].indexOf('Ma') >= 0 ? SRD35.PROFICIENCY_MEDIUM :
                                                    SRD35.PROFICIENCY_HEAVY;
     rules.defineNote(
       'combatNotes.nonproficientWeaponPenalty.' + weapon + ':%V attack',
@@ -6024,7 +6024,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       var requiredProfLevel =
         weapons[attr].indexOf('Un') >= 0 ? SRD35.PROFICIENCY_NONE :
         weapons[attr].indexOf('Si') >= 0 ? SRD35.PROFICIENCY_LIGHT :
-        weapons[attr].indexOf('Ma') >= 0 ? SRD35.PROFICIENCY_MARTIAL :
+        weapons[attr].indexOf('Ma') >= 0 ? SRD35.PROFICIENCY_MEDIUM :
                                            SRD35.PROFICIENCY_HEAVY;
       if(requiredProfLevel <= characterProfLevel ||
          attrs['features.Weapon Proficiency (' + attr + ')'] != null) {
