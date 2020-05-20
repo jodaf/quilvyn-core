@@ -21,6 +21,7 @@ tested using these browsers:
 * Google Chrome 
 * Opera 
 * Edge
+* Safari (remote installation only; Safari prohibits local pop-up windows)
 
 ### Installation
 
