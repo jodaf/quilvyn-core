@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.8.1.3';
+var SRD35_VERSION = '1.8.1.4';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3488,14 +3488,19 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     );
   }
 
+  rules.defineRule('featCount.General',
+    'goodiesList', '+',
+    'source.filter(item => item.match(/\\bextra\\b.*\\bfeat\\b/i)).length'
+  );
+
   for(var skill in rules.getChoices('skills')) {
     // Subskills complicate the pattern match, since the parens are pattern
     // characters and a closing paren doesn't count as a word boundary
-    var skillLitParens = skill.replace('(', '\\(').replace(')', '\\)');
+    var skillEscParens = skill.replace(/\(/g, '\\(').replace(/\)/g, '\\)');
     rules.defineRule('skillNotes.goodies' + skill + 'Adjustment',
       'goodiesList', '=',
-        '!source.join(";").match(/\\b' + skillLitParens + '(?!\\w)/i) ? null : ' +
-        'source.filter(item => item.match(/\\b' + skillLitParens + '(?!\\w)/i)).reduce(' +
+        '!source.join(";").match(/\\b' + skillEscParens + '(?!\\w)/i) ? null : ' +
+        'source.filter(item => item.match(/\\b' + skillEscParens + '(?!\\w)/i)).reduce(' +
           'function(total, item) {' +
             'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
           '}' +
@@ -3503,6 +3508,10 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     );
     rules.defineRule('skillModifier.' + skill,
       'skillNotes.goodies' + skill + 'Adjustment', '+', null
+    );
+    rules.defineRule('classSkills.' + skill,
+      'goodiesList', '=',
+        'source.filter(item => item.match(/\\b' + skillEscParens + '\\s.*class skill/i)).length > 0 ? 1 : null'
     );
   }
   rules.defineNote
@@ -3560,6 +3569,14 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
     'goodiesCompositeStrDamageAdjustment', '+', null
   );
 
+  var abilitiesAndSavesPat = [
+    'strength','intelligence','wisdom','dexterity','constitution','charisma',
+    'speed', 'fortitude', 'reflex', 'will'
+  ].join('|');
+  var armorAndWeaponsPat = [
+    'armor', 'protection', 'shield'
+  ].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))).join('|');
+  var skillsPat = QuilvynUtils.getKeys(rules.getChoices('skills')).join('|').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
   var abilitiesArmorSavesSkillsAndWeapons = [
     'strength','intelligence','wisdom','dexterity','constitution','charisma',
     'speed', 'armor', 'protection', 'shield', 'fortitude', 'reflex', 'will'
@@ -3569,8 +3586,10 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   rules.defineRule('inertGoodies',
     'goodiesList', '=',
     'source.filter(item => ' +
-      '!item.match(/\\b(' + abilitiesArmorSavesSkillsAndWeapons + ')\\b/i) || '+
-      '!item.match(/\\bmasterwork\\b|[-+][1-9]/i)' +
+      '!item.match(/\\bextra\\s.*\\bfeat\\b/i) && ' +
+      '!item.match(/\\b(' + skillsPat + ').*\\bclass skill\\b/i) && ' +
+      '!(item.match(/\\b(' + abilitiesAndSavesPat + '|' + armorAndWeaponsPat + '|' + skillsPat + ')\\b/i) && item.match(/[-+][1-9]/)) && ' +
+      '!item.match(/\\bmasterwork\\b.*\\b(' + armorAndWeaponsPat + ')\\b/i)' +
     ')'
   );
   rules.defineRule('sanityNotes.inertGoodies',
