@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.8.1.2';
+var SRD35_VERSION = '1.8.1.3';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3489,10 +3489,13 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   }
 
   for(var skill in rules.getChoices('skills')) {
+    // Subskills complicate the pattern match, since the parens are pattern
+    // characters and a closing paren doesn't count as a word boundary
+    var skillLitParens = skill.replace('(', '\\(').replace(')', '\\)');
     rules.defineRule('skillNotes.goodies' + skill + 'Adjustment',
       'goodiesList', '=',
-        '!source.join(";").match(/\\b' + skill + '\\b/i) ? null : ' +
-        'source.filter(item => item.match(/\\b' + skill + '\\b/i)).reduce(' +
+        '!source.join(";").match(/\\b' + skillLitParens + '(?!\\w)/i) ? null : ' +
+        'source.filter(item => item.match(/\\b' + skillLitParens + '(?!\\w)/i)).reduce(' +
           'function(total, item) {' +
             'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
           '}' +
