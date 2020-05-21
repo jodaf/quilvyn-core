@@ -110,7 +110,7 @@ QuilvynRules.prototype.defineNote = function(note /*, note ... */) {
       var dependsOn = matchInfo[2].toLowerCase() + 's.' + name;
       if(matchInfo[2] == 'Synergy')
         this.defineRule
-          (attribute, 'skillModifier.' + name, '=', 'source >= 5 ? 1 : null');
+          (attribute, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
       else if(format.indexOf('%V') < 0)
         this.defineRule(attribute, dependsOn, '=', '1');
       else {
