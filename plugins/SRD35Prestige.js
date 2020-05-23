@@ -179,11 +179,15 @@ SRD35Prestige.classRules = function(rules, classes) {
         'levels.Rogue', '+', 'source >= 3 ? 1 : null',
         '', 'v', '0'
       );
+      rules.defineRule
+        ('countmagehandspells', /^spells.Mage Hand\(.*\)$/, '+=', '1');
       rules.defineRule('validationNotes.arcaneTricksterClassSpells',
         'levels.Arcane Trickster', '=', '-11',
-        // NOTE: False valid w/multiple Mage Hand spells
-        /^spells\.Mage Hand/, '+=', '10',
-        /^spellsKnown\.(AS|B|S|W)3/, '+', '1',
+        'countmagehandspells', '+', '10',
+        'spellsKnown.AS3', '+', '1',
+        'spellsKnown.B3', '+', '1',
+        'spellsKnown.S3', '+', '1',
+        'spellsKnown.W3', '+', '1',
         '', 'v', '0'
       );
 
@@ -207,7 +211,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'magicNotes.spellPowerFeature:+1 caster level for spell effects',
         'magicNotes.spellLikeAbilityFeature:Use spell as ability 2+/day',
         'validationNotes.archmageClassFeatures:' +
-          'Requires Skill Focus (Spellcraft)/2 Spell Focus',
+          'Requires Skill Focus (Spellcraft)/Sum Spell Focus >= 2',
         'validationNotes.archmageClassSkills:' +
           'Requires Knowledge (Arcana) >= 15/Spellcraft >= 15',
         'validationNotes.archmageClassSpells:' +
@@ -237,16 +241,24 @@ SRD35Prestige.classRules = function(rules, classes) {
         ('magicNotes.casterLevelBonusFeature', 'levels.Archmage', '+=', null);
       rules.defineRule
         ('selectableFeatureCount.Archmage', 'levels.Archmage', '+=', null);
-      rules.defineRule('validationNotes.archmageClassFeatures',
-        'levels.Archmage', '=', '-12',
-        'features.Skill Focus (Spellcraft)', '+', '10',
-        /^features.Spell Focus/, '+', '1',
-        '', 'v', '0'
+      // Create a global set of the level 5 schools the character knows spells
+      // for to see if the minimum of 5 for Archmage is met.
+      rules.defineRule('archmageLevel5Spells', 'levels.Archmage', '?', '(SRD35Prestige.archmageLevel5Spells = new Set()) != null'
       );
+      for(var spell in rules.getChoices('spells')) {
+        if(spell.indexOf('5 ') >= 0) {
+          rules.defineRule('archmageLevel5Spells',
+            'spells.' + spell, '^=', 'SRD35Prestige.archmageLevel5Spells.add("' + spell.replace(/.* /, '') + '").size'
+          );
+        }
+      }
       rules.defineRule('validationNotes.archmageClassSpells',
-        'levels.Archmage', '=', '-1',
-        /^spellsKnown\.(AS|B|S|W)7/, '+', '1',
-        // NOTE: level 5 from 5 schools
+        'levels.Archmage', '=', '-11',
+        'spellsKnown.AS7', '+', '1',
+        'spellsKnown.B7', '+', '1',
+        'spellsKnown.S7', '+', '1',
+        'spellsKnown.W7', '+', '1',
+        'archmageLevel5Spells', '+', 'source >= 5 ? 10 : null',
         '', 'v', '0'
       );
 
@@ -803,13 +815,22 @@ SRD35Prestige.classRules = function(rules, classes) {
       );
       rules.defineRule('validationNotes.hierophantClassFeats',
         'levels.Hierophant', '=', '-1',
-        // NOTE: False valid w/Natural Spell
-        /^features\..*Spell$/, '+', '1',
         '', 'v', '0'
       );
+      var feats = rules.getChoices('feats');
+      for(var feat in feats) {
+        if(feats[feat].indexOf('Metamagic') >= 0) {
+          rules.defineRule
+            ('validationNotes.hierophantClassFeats', 'feats.' + feat, '+', '1');
+        }
+      }
       rules.defineRule('validationNotes.hierophantClassSpells',
         'levels.Hierophant', '=', '-1',
-        /^spellsKnown\.(AD|C|D|P|R)7/, '+', '1',
+        'spellsKnown.AD7', '+', '1',
+        'spellsKnown.C7', '+', '1',
+        'spellsKnown.D7', '+', '1',
+        'spellsKnown.P7', '+', '1',
+        'spellsKnown.R7', '+', '1',
         '', 'v', '0'
       );
 
@@ -971,8 +992,7 @@ SRD35Prestige.classRules = function(rules, classes) {
         'skillNotes.instantMasteryFeature:4 ranks in untrained skill',
         'skillNotes.loreFeature:+%V Knowledge checks with local history',
         'validationNotes.loremasterClassFeats:' +
-          'Requires Skill Focus in any Knowledge skill/' +
-          'any 3 metamagic or item creation',
+          'Requires Skill Focus in any Knowledge skill/any 3 Item Creation or Metamagic',
         'validationNotes.loremasterClassSkills:Requires any 2 Knowledge >= 10',
         'validationNotes.loremasterClassSpells:' +
           'Requires any 7 divination/any level 3 divination'
@@ -1027,25 +1047,31 @@ SRD35Prestige.classRules = function(rules, classes) {
         'levels.Loremaster', '+=', null,
         'intelligenceModifier', '+=', null
       );
+      rules.defineRule('countskillfocusknowledgefeats',
+        /^features.Skill Focus \(Knowledge/, '+=', '1'
+      );
       rules.defineRule('validationNotes.loremasterClassFeats',
-        'levels.Loremaster', '=', '-13',
-        // NOTE: False valid w/multiple Skill Focus (.* Knowledge) feats
-        /^features.Skill Focus.*Knowledge/, '+', '10',
-        // NOTE: False valid w/Natural Spell
-        /^features\..*Spell$/, '+', '1',
-        /^features\.(Brew|Craft|Forge|Scribe)/, '+', '1',
+        'levels.Loremaster', '=', '-103',
+        'countskillfocusknowledgefeats', '+', '100',
         '', 'v', '0'
       );
+      var feats = rules.getChoices('feats');
+      for(var feat in feats) {
+        if(feats[feat].match(/Item Creation|Metamagic/)) {
+          rules.defineRule
+            ('validationNotes.loremasterClassFeats', 'feats.' + feat, '+', '1');
+        }
+      }
       rules.defineRule('validationNotes.loremasterClassSkills',
         'levels.Loremaster', '=', '-2',
-        /^skillModifier\.Knowledge/, '+=', 'source >= 10 ? 1 : null',
+        /^skills\.Knowledge \(.*\)$/, '+=', 'source >= 10 ? 1 : null',
         '', 'v', '0'
       );
+      rules.defineRule('countdivspells', /^spells\..*Divi\)$/, '+=', '1');
       rules.defineRule('validationNotes.loremasterClassSpells',
-        'levels.Loremaster', '=', '-107',
-        // NOTE: False valid w/multiple Div3 spells
-        /^spells\..*Div3/, '+', '100',
-        /^spells\..*Div\d/, '+', '1',
+        'levels.Loremaster', '=', '-101',
+        'countdivspells', '+', 'source >= 7 ? 100 : null',
+        /^spells\..*3 Divi\)/, '+', '1',
         '', 'v', '0'
       );
 

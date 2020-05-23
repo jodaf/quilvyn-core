@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.8.1.4';
+var SRD35_VERSION = '1.8.1.5';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3528,7 +3528,7 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
       ', 0)'
   );
 
-  // NOTE: weapon Attack/Damage bonus rules affect all weapons of a particular
+  // NOTE Weapon Attack/Damage bonus rules affect all weapons of a particular
   // type that the character owns. If the character has, e.g., two longswords,
   // both get the bonus. Ignoring this bug for now.
   for(var weapon in rules.getChoices('weapons')) {
@@ -5711,7 +5711,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         choices = ['Bat', 'Cat', 'Dire Rat', 'Raven', 'Toad'];
         choices.push('features.Small' in attrs ? 'Pony' : 'Heavy Horse');
         prefix = 'animalCompanion';
-      // NOTE: Support PF's "Divine Mount" as well as SRD35's "Special Mount"
+      // Support PF's "Divine Mount" as well as SRD35's "Special Mount"
       } else if('features.Special Mount' in attrs ||
                 'features.Divine Mount' in attrs) {
         choices = 'features.Small' in attrs ? ['Pony'] : ['Heavy Horse'];
