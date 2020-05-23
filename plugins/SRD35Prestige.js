@@ -243,12 +243,12 @@ SRD35Prestige.classRules = function(rules, classes) {
         ('selectableFeatureCount.Archmage', 'levels.Archmage', '+=', null);
       // Create a global set of the level 5 schools the character knows spells
       // for to see if the minimum of 5 for Archmage is met.
-      rules.defineRule('archmageLevel5Spells', 'levels.Archmage', '=', '(SRD35Prestige.archmageLevel5Spells = new Set()).size'
+      rules.defineRule('archmageLevel5Spells', 'levels.Archmage', '?', '(SRD35Prestige.archmageLevel5Spells = new Set()) != null'
       );
       for(var spell in rules.getChoices('spells')) {
         if(spell.indexOf('5 ') >= 0) {
           rules.defineRule('archmageLevel5Spells',
-            'spells.' + spell, '^', 'SRD35Prestige.archmageLevel5Spells.add("' + spell.replace(/.* /, '') + '").size'
+            'spells.' + spell, '^=', 'SRD35Prestige.archmageLevel5Spells.add("' + spell.replace(/.* /, '') + '").size'
           );
         }
       }
@@ -1046,6 +1046,9 @@ SRD35Prestige.classRules = function(rules, classes) {
       rules.defineRule('skillNotes.loreFeature',
         'levels.Loremaster', '+=', null,
         'intelligenceModifier', '+=', null
+      );
+      rules.defineRule('countskillfocusknowledgefeats',
+        /^features.Skill Focus \(Knowledge/, '+=', '1'
       );
       rules.defineRule('validationNotes.loremasterClassFeats',
         'levels.Loremaster', '=', '-103',
