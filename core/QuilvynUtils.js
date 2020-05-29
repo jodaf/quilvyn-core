@@ -57,6 +57,15 @@ QuilvynUtils.findElement = function(array, element) {
   return -1;
 };
 
+/* Returns the contents of d in JavaScript literal form. */
+QuilvynUtils.dictLit = function(d) {
+  var result = [];
+  for(var key in d) {
+    result.push('"' + key + '":' + (typeof d[key] == "string" ? '"' + d[key] + '"' : d[key]));
+  }
+  return '{' + result.join(', ') + '}';
+};
+
 /* Returns the elements of #array# with any array elements expanded. */
 QuilvynUtils.flatten = function(array, start, end) {
   if(start == null) {
