@@ -29,15 +29,18 @@ function SRD35Prestige() {
     return;
   }
   SRD35Prestige.classRules(SRD35.rules, SRD35Prestige.CLASSES);
-  SRD35Prestige.companionRules(SRD35.rules, SRD35Prestige.FIENDISH_SERVANTS);
+  if(SRD35Prestige.CLASSES.indexOf('Blackguard') >= 0) {
+    for(var servant in SRD35Prestige.FIENDISH_SERVANTS) {
+      SRD35.addChoice
+        (SRD35.rules, 'companions', servant, SRD35Prestige.FIENDISH_SERVANTS[servant]);
+    }
+  }
 }
 
 SRD35Prestige.CLASSES = [
   'Arcane Archer', 'Arcane Trickster', 'Archmage', 'Assassin', 'Blackguard',
   'Dragon Disciple', 'Duelist', 'Dwarven Defender', 'Eldritch Knight',
-  'Hierophant', 'Horizon Walker', 'Loremaster',
-
-  'Mystic Theurge',
+  'Hierophant', 'Horizon Walker', 'Loremaster', 'Mystic Theurge',
   'Shadowdancer', 'Thaumaturgist'
 ];
 SRD35Prestige.FIENDISH_SERVANTS = {
@@ -49,6 +52,11 @@ SRD35Prestige.FIENDISH_SERVANTS = {
   'Pony': 'Attack=-3 HD=2 AC=13 Dam=1d3 Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4',
   'Raven': 'Attack=4 HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
   'Toad': 'Attack=0 HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4'
+};
+SRD35Prestige.FEATURE_NOTES = {
+  'Blood Bond':
+    'companionNotes.bloodBondFeature:' +
+      '+2 attack/check/save when seeing master threatened'
 };
 
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
@@ -484,6 +492,96 @@ SRD35Prestige.classRules = function(rules, classes) {
       // some unlikely combinations, e.g., rogue/paladin
       rules.defineRule('combatNotes.sneakAttackFeature',
         'levels.Paladin', '+', 'source >= 5 ? 1 : null'
+      );
+
+      // Adapt Blackguard servant rules to make it a form of animal companion.
+      var servantFeatures = {
+        'Companion Evasion':5, 'Companion Improved Evasion':5, 
+        'Empathic Link':5, 'Share Saving Throws':5, 'Share Spells':5,
+        'Speak With Master':13, 'Blood Bond':16, 'Companion Resist Spells':19,
+        'Link':0, 'Devotion':0, 'Multiattack':0
+      };
+      for(var feature in servantFeatures) {
+        if(servantFeatures[feature] > 0) {
+          if(feature in SRD35Prestige.FEATURE_NOTES)
+            rules.defineNote(SRD35Prestige.FEATURE_NOTES[feature]);
+          rules.defineRule('animalCompanionFeatures.' + feature,
+            'fiendishServantMasterLevel', '=',
+            'source >= ' + servantFeatures[feature] + ' ? 1 : null'
+          );
+          rules.defineRule('features.' + feature,
+            'animalCompanionFeatures.' + feature, '=', '1'
+          );
+        } else {
+          // Disable N/A companion features
+          rules.defineRule('animalCompanionFeatures.' + feature,
+            'companionNotFiendishServant', '?', 'source == 1'
+          );
+        }
+      }
+      rules.defineNote(
+        'companionNotes.bloodBondFeature:' +
+          '+2 attack/check/save when seeing master threatened'
+      );
+      rules.defineRule('fiendishServantMasterBaseSaveFort',
+        'fiendishServantMasterLevel', '?', null,
+        'levels.Blackguard', '=', SRD35.SAVE_BONUS_GOOD,
+        'levels.Barbarian', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Bard', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Cleric', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Druid', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Fighter', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Ranger', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Rogue', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Sorcerer', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Wizard', '+', SRD35.SAVE_BONUS_POOR
+      );
+      rules.defineRule('fiendishServantMasterBaseSaveRef',
+        'fiendishServantMasterLevel', '?', null,
+        'levels.Blackguard', '=', SRD35.SAVE_BONUS_POOR,
+        'levels.Barbarian', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Bard', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Cleric', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Druid', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Fighter', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Ranger', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Rogue', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Sorcerer', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Wizard', '+', SRD35.SAVE_BONUS_POOR
+      );
+      rules.defineRule('fiendishServantMasterBaseSaveWill',
+        'fiendishServantMasterLevel', '?', null,
+        'levels.Blackguard', '=', SRD35.SAVE_BONUS_POOR,
+        'levels.Barbarian', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Bard', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Cleric', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Druid', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Fighter', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Ranger', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Rogue', '+', SRD35.SAVE_BONUS_POOR,
+        'levels.Sorcerer', '+', SRD35.SAVE_BONUS_GOOD,
+        'levels.Wizard', '+', SRD35.SAVE_BONUS_GOOD
+      );
+      rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
+        'fiendishServantMasterBaseSaveFort', '=', null
+      );
+      rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
+        'fiendishServantMasterBaseSaveRef', '=', null
+      );
+      rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
+        'fiendishServantMasterBaseSaveWill', '=', null
+      );
+      rules.defineRule('companionLevel',
+        'fiendishServantMasterLevel', '=', 'source < 13 ? 2 : Math.floor((source - 4) / 3)'
+      );
+      rules.defineRule
+        ('animalCompanionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
+      rules.defineRule('animalCompanionStats.Int',
+        'fiendishServantMasterLevel', '^',
+        'source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
       );
 
     } else if(klass == 'Dragon Disciple') {
@@ -1278,103 +1376,4 @@ SRD35Prestige.classRules = function(rules, classes) {
 
   }
 
-};
-
-/* Defines the SRD v3.5 rules related to Prestige class companion creatures. */
-SRD35Prestige.companionRules = function(rules, servants) {
-  if(servants != null) {
-    // Adapt Blackguard servant rules to make it a form of animal companion.
-    SRD35.companionRules(rules, servants, null);
-    var features = {
-      'Companion Evasion': 5, 'Companion Improved Evasion': 5, 
-      'Empathic Link': 5, 'Share Saving Throws': 5, 'Share Spells': 5,
-      'Speak With Master': 13, 'Blood Bond': 16, 'Companion Resist Spells': 19,
-      'Link': 0, 'Devotion' : 0, 'Multiattack': 0
-    };
-    rules.defineRule('companionNotFiendishServant',
-      'companionLevel', '=', '1',
-      'fiendishServantMasterLevel', 'v', '0'
-    );
-    for(var feature in features) {
-      if(features[feature] > 0) {
-        rules.defineRule('animalCompanionFeatures.' + feature,
-          'fiendishServantMasterLevel', '=',
-          'source >= ' + features[feature] + ' ? 1 : null'
-        );
-        rules.defineRule('features.' + feature,
-          'animalCompanionFeatures.' + feature, '=', '1'
-        );
-      } else {
-        // Disable N/A companion features
-        rules.defineRule('animalCompanionFeatures.' + feature,
-          'companionNotFiendishServant', '?', 'source == 1'
-        );
-      }
-    }
-    var notes = [
-      'companionNotes.bloodBondFeature:' +
-        '+2 attack/check/save when seeing master threatened'
-    ];
-    rules.defineNote(notes);
-    rules.defineRule('fiendishServantMasterBaseSaveFort',
-      'fiendishServantMasterLevel', '?', null,
-      'levels.Blackguard', '=', SRD35.SAVE_BONUS_GOOD,
-      'levels.Barbarian', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Bard', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Cleric', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Druid', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Fighter', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Ranger', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Rogue', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Wizard', '+', SRD35.SAVE_BONUS_POOR
-    );
-    rules.defineRule('fiendishServantMasterBaseSaveRef',
-      'fiendishServantMasterLevel', '?', null,
-      'levels.Blackguard', '=', SRD35.SAVE_BONUS_POOR,
-      'levels.Barbarian', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Bard', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Cleric', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Druid', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Fighter', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Ranger', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Rogue', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Wizard', '+', SRD35.SAVE_BONUS_POOR
-    );
-    rules.defineRule('fiendishServantMasterBaseSaveWill',
-      'fiendishServantMasterLevel', '?', null,
-      'levels.Blackguard', '=', SRD35.SAVE_BONUS_POOR,
-      'levels.Barbarian', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Bard', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Cleric', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Druid', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Fighter', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Ranger', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Rogue', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Wizard', '+', SRD35.SAVE_BONUS_GOOD
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
-      'fiendishServantMasterBaseSaveFort', '=', null
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
-      'fiendishServantMasterBaseSaveRef', '=', null
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
-      'fiendishServantMasterBaseSaveWill', '=', null
-    );
-    rules.defineRule('companionLevel',
-      'fiendishServantMasterLevel', '=', 'source < 13 ? 2 : Math.floor((source - 4) / 3)'
-    );
-    rules.defineRule
-      ('animalCompanionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
-    rules.defineRule('animalCompanionStats.Int',
-      'fiendishServantMasterLevel', '^',
-      'source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
-    );
-  }
 };

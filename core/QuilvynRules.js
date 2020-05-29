@@ -33,25 +33,68 @@ function QuilvynRules(name, version) {
 QuilvynRules.prototype = new RuleEngine();
 
 /*
+ * TODO
+ */
+QuilvynRules.prototype.addChoice = function(type, name, attrs) {
+  if(this.choices[type] == null)
+    this.choices[type] = {};
+  if(name in this.choices[type] && this.choices[type][name] != attrs)
+    console.log('Redefinition of ' + type + ' "' + name + '" from "' + this.choices[type][name] + '" to "' + attrs + '"');
+  this.choices[type][name] = attrs;
+};
+
+/*
+ * TODO
+ */
+QuilvynRules.prototype.deleteChoice = function(type, name) {
+  if(!(type in this.choices[type]))
+    console.log('Delete from non-existent type "' + type  + '"');
+  else if(!(name in this.choices[type]))
+    console.log('Delete from non-existent ' + type  + ' "' + name + '"');
+  else
+    delete this.choices[type][name];
+};
+
+/*
+ * TODO
+ */
+QuilvynRules.getAttrValue = function(attrs, name) {
+  return QuilvynRules.getAttrValueArray(attrs, name).pop();
+};
+
+/*
+ * TODO
+ */
+QuilvynRules.getAttrValueArray = function(attrs, name) {
+  var matchInfo;
+  var pat = new RegExp('\\b' + name + '=(\'[^\']*\'|"[^"]*"|[^\\s]*)', 'gi');
+  var result = [];
+  if((matchInfo = attrs.match(pat))) {
+    for(var i = 0; i < matchInfo.length; i++) {
+      if(matchInfo[i].endsWith('"') || matchInfo[i].endsWith("'")) {
+        result.push(matchInfo[i].substring(name.length + 2, matchInfo[i].length - 1));
+      } else {
+        result.push(matchInfo[i].substring(name.length + 1));
+        if(result[result.length - 1].match(/^\d+$/))
+          result[result.length - 1] *= 1; // Convert to number
+      }
+    }
+  }
+  return result;
+};
+
+/*
  * Add each #item# to the set of valid selections for choice set #name#.  Each
  * value of #item# may contain data associated with the selection.  See
  * quilvyndoc.html for details.
  */
 QuilvynRules.prototype.defineChoice = function(name, item /*, item ... */) {
-  if(this.choices[name] == null)
-    this.choices[name] = {};
-  var o = this.choices[name];
   var allArgs = QuilvynUtils.flatten(arguments, 1);
   for(var i = 0; i < allArgs.length; i++) {
     var pieces = allArgs[i].split(/:/);
     var choice = pieces[0];
     var associated = pieces.length < 2 ? '' : pieces[1];
-    var existing = o[choice];
-    if(existing == null || existing == '') {
-      o[choice] = associated;
-    } else if(associated!=null && associated!='' && associated!=existing) {
-      o[choice] = existing + '/' + associated;
-    }
+    this.addChoice(name, choice, associated);
   }
 };
 

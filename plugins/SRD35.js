@@ -36,13 +36,36 @@ function SRD35() {
   SRD35.viewer = new ObjectViewer();
   SRD35.createViewers(rules, SRD35.VIEWERS);
   SRD35.abilityRules(rules);
-  SRD35.raceRules(rules, SRD35.LANGUAGES, SRD35.RACES);
+  SRD35.raceRules(rules, SRD35.RACES);
   SRD35.classRules(rules, SRD35.CLASSES);
-  SRD35.companionRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
   SRD35.skillRules(rules, SRD35.SKILLS, SRD35.SUBSKILLS, SRD35.SYNERGIES);
   SRD35.featRules(rules, SRD35.FEATS, SRD35.SUBFEATS);
-  SRD35.descriptionRules(rules, SRD35.ALIGNMENTS, SRD35.DEITIES, SRD35.GENDERS);
-  SRD35.equipmentRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
+  for(var alignment in SRD35.ALIGNMENTS) {
+    SRD35.addChoice(rules, 'alignments', alignment, SRD35.ALIGNMENTS[alignment]);
+  }
+  for(var companion in SRD35.ANIMAL_COMPANIONS) {
+    SRD35.addChoice
+      (rules, 'companions', companion, SRD35.ANIMAL_COMPANIONS[companion]);
+  }
+  for(var armor in SRD35.ARMORS) {
+    SRD35.addChoice(rules, 'armors', armor, SRD35.ARMORS[armor]);
+  }
+  for(var deity in SRD35.DEITIES) {
+    SRD35.addChoice(rules, 'deities', deity, SRD35.DEITIES[deity]);
+  }
+  for(var familiar in SRD35.FAMILIARS) {
+    SRD35.addChoice(rules, 'familiars', familiar, SRD35.FAMILIARS[familiar]);
+  }
+  for(var gender in SRD35.GENDERS) {
+    SRD35.addChoice(rules, 'genders', gender, SRD35.GENDERS[gender]);
+  }
+  for(var language in SRD35.LANGUAGES) {
+    SRD35.addChoice(rules, 'languages', language, SRD35.LANGUAGES[language]);
+  }
+  for(var shield in SRD35.SHIELDS) {
+    SRD35.addChoice(rules, 'shields', shield, SRD35.SHIELDS[shield]);
+  }
+  SRD35.equipmentRules(rules, SRD35.WEAPONS);
   SRD35.combatRules(rules);
   SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
@@ -72,10 +95,11 @@ SRD35.CATEGORY_TWO_HANDED = 3;
 SRD35.CATEGORY_RANGED = 4;
 
 // Arrays of choices
-SRD35.ALIGNMENTS = [
-  'Chaotic Evil', 'Chaotic Good', 'Chaotic Neutral', 'Neutral', 'Neutral Evil',
-  'Neutral Good', 'Lawful Evil', 'Lawful Good', 'Lawful Neutral'
-];
+SRD35.ALIGNMENTS = {
+  'Chaotic Evil':'', 'Chaotic Good':'', 'Chaotic Neutral':'',
+  'Neutral Evil':'', 'Neutral Good':'', 'Neutral':'',
+  'Lawful Evil':'', 'Lawful Good':'', 'Lawful Neutral':''
+};
 // Attack, Dam, AC include all modifiers
 SRD35.ANIMAL_COMPANIONS = {
   'Badger': 'Attack=4 HD=1 AC=15 Dam=2@1d2-1,1d3-1 Str=8 Dex=17 Con=15 Int=2 Wis=12 Cha=6',
@@ -142,16 +166,28 @@ SRD35.ANIMAL_COMPANIONS = {
   'Triceratops': 'Attack=20 HD=16 AC=18 Dam=2d8+15 Str=30 Dex=9 Con=25 Int=1 Wis=12 Cha=7 Level=16',
   'Tyrannosaurus': 'Attack=20 HD=18 AC=14 Dam=3d6+13 Str=28 Dex=12 Con=21 Int=2 Wis=15 Cha=10 Level=16'
 };
-SRD35.ARMORS = [
-  'None', 'Padded', 'Leather', 'Studded Leather', 'Chain Shirt', 'Hide',
-  'Scale Mail', 'Chainmail', 'Breastplate', 'Splint Mail', 'Banded Mail',
-  'Half Plate', 'Full Plate'
-];
+SRD35.ARMORS = {
+  'None':'',
+  'Padded':'',
+  'Leather':'',
+  'Studded Leather':'',
+  'Chain Shirt':'',
+  'Hide':'',
+  'Scale Mail':'',
+  'Chainmail':'',
+  'Breastplate':'',
+  'Splint Mail':'',
+  'Banded Mail':'',
+  'Half Plate':'',
+  'Full Plate':''
+};
 SRD35.CLASSES = [
   'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin',
   'Ranger', 'Rogue', 'Sorcerer', 'Wizard'
 ];
-SRD35.DEITIES = ['None::']; // The SRD defines no deities
+SRD35.DEITIES = {
+  'None':'' // The SRD defines no deities
+};
 SRD35.DOMAINS = [
   'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
   'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
@@ -159,16 +195,16 @@ SRD35.DOMAINS = [
 ];
 // Attack, Dam, AC include all modifiers
 SRD35.FAMILIARS = {
-  'Bat': 'Attack=0 HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4',
-  'Cat': 'Attack=4 HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7',
-  'Hawk': 'Attack=5 HD=1 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6',
-  'Lizard': 'Attack=4 HD=1 AC=14 Dam=1d4-4 Str=3 Dex=15 Con=10 Int=1 Wis=12 Cha=2',
-  'Owl': 'Attack=5 HD=1 AC=17 Dam=1d4-3 Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4',
-  'Rat': 'Attack=4 HD=1 AC=14 Dam=1d3-4 Str=2 Dex=15 Con=10 Int=2 Wis=12 Cha=2',
-  'Raven': 'Attack=4 HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
-  'Tiny Viper': 'Attack=5 HD=1 AC=17 Dam=1 Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
-  'Toad': 'Attack=0 HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4',
-  'Weasel': 'Attack=4 HD=1 AC=14 Dam=1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=5',
+  'Bat': 'Attack=0 HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 Note="skillNotes.familiarBat:+3 Listen"',
+  'Cat': 'Attack=4 HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7 Note="skillNotes.familiarCat:+3 Move Silently"',
+  'Hawk': 'Attack=5 HD=1 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6 Note="skillNotes.familiarHawk:+3 Spot in bright light"',
+  'Lizard': 'Attack=4 HD=1 AC=14 Dam=1d4-4 Str=3 Dex=15 Con=10 Int=1 Wis=12 Cha=2 Note="skillNotes.familiarLizard:+3 Climb"',
+  'Owl': 'Attack=5 HD=1 AC=17 Dam=1d4-3 Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4 Note="skillNotes.familiarOwl:+3 Spot in shadows/darkness"',
+  'Rat': 'Attack=4 HD=1 AC=14 Dam=1d3-4 Str=2 Dex=15 Con=10 Int=2 Wis=12 Cha=2 Note="saveNotes.familiarRat:+2 Fortitude"',
+  'Raven': 'Attack=4 HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6 Note="skillNotes.familiarRaven:+3 Appraise"',
+  'Tiny Viper': 'Attack=5 HD=1 AC=17 Dam=1 Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2 Note="skillNotes.familiarViper:+3 Bluff"',
+  'Toad': 'Attack=0 HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4 Note="combatNotes.familiarToad:+3 Hit Points"',
+  'Weasel': 'Attack=4 HD=1 AC=14 Dam=1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=5 Note="saveNotes.familiarWeasel:+2 Reflex"',
 
   'Air Elemental': 'Attack=5 HD=2 AC=17 Dam=1d4 Str=10 Dex=17 Con=10 Int=4 Wis=11 Cha=11 Level=5',
   'Air Mephit': 'Attack=4 HD=3 AC=17 Dam=2@1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
@@ -195,18 +231,19 @@ SRD35.FAMILIARS = {
 SRD35.FEATS = [
   'Acrobatic:', 'Agile:', 'Alertness:', 'Animal Affinity:',
   'Armor Proficiency:', 'Athletic:', 'Augment Summoning:',
-  'Blind-Fight:Fighter', 'Brew Potion:Item Creation', 'Cleave:Fighter',
+  'Blind-Fight:Fighter', 'Brew Potion:Item Creation/Wizard', 'Cleave:Fighter',
   'Combat Casting:', 'Combat Expertise:Fighter', 'Combat Reflexes:Fighter',
-  'Craft Magic Arms And Armor:Item Creation', 'Craft Rod:Item Creation',
-  'Craft Staff:Item Creation', 'Craft Wand:Item Creation',
-  'Craft Wondrous Item:Item Creation', 'Deceitful:', 'Deflect Arrows:Fighter',
+  'Craft Magic Arms And Armor:Item Creation/Wizard', 'Craft Rod:Item Creation/Wizard',
+  'Craft Staff:Item Creation/Wizard', 'Craft Wand:Item Creation/Wizard',
+  'Craft Wondrous Item:Item Creation/Wizard', 'Deceitful:', 'Deflect Arrows:Fighter',
   'Deft Hands:', 'Diehard:', 'Diligent:', 'Dodge:Fighter',
-  'Empower Spell:Metamagic', 'Endurance:', 'Enlarge Spell:Metamagic',
-  'Eschew Materials:', 'Extend Spell:Metamagic', 'Extra Turning:',
-  'Far Shot:Fighter', 'Forge Ring:Item Creation', 'Great Cleave:Fighter',
+  'Empower Spell:Metamagic/Wizard', 'Endurance:',
+  'Enlarge Spell:Metamagic/Wizard', 'Eschew Materials:',
+  'Extend Spell:Metamagic/Wizard', 'Extra Turning:', 'Far Shot:Fighter',
+  'Forge Ring:Item Creation/Wizard', 'Great Cleave:Fighter',
   'Great Fortitude:', 'Greater Spell Focus:', 'Greater Spell Penetration:',
   'Greater Two-Weapon Fighting:Fighter', 'Greater Weapon Focus:Fighter',
-  'Greater Weapon Specialization:Fighter', 'Heighten Spell:Metamagic',
+  'Greater Weapon Specialization:Fighter', 'Heighten Spell:Metamagic/Wizard',
   'Improved Bull Rush:Fighter', 'Improved Counterspell:',
   'Improved Critical:Fighter', 'Improved Disarm:Fighter',
   'Improved Familiar:', 'Improved Feint:Fighter', 'Improved Grapple:Fighter',
@@ -215,32 +252,93 @@ SRD35.FEATS = [
   'Improved Sunder:Fighter', 'Improved Trip:Fighter', 'Improved Turning:',
   'Improved Two-Weapon Fighting:Fighter', 'Improved Unarmed Strike:Fighter',
   'Investigator:', 'Iron Will:', 'Leadership:', 'Lightning Reflexes:',
-  'Magical Aptitude:', 'Manyshot:Fighter', 'Maximize Spell:Metamagic',
+  'Magical Aptitude:', 'Manyshot:Fighter', 'Maximize Spell:Metamagic/Wizard',
   'Mobility:Fighter', 'Mounted Archery:Fighter', 'Mounted Combat:Fighter',
   'Natural Spell:', 'Negotiator:', 'Nimble Fingers:', 'Persuasive:',
   'Point Blank Shot:Fighter', 'Power Attack:Fighter', 'Precise Shot:Fighter',
-  'Quick Draw:Fighter', 'Quicken Spell:Metamagic', 'Rapid Reload:Fighter',
-  'Rapid Shot:Fighter', 'Ride-By Attack:Fighter', 'Run:',
-  'Scribe Scroll:Item Creation', 'Self Sufficient:', 'Shield Proficiency:',
-  'Shot On The Run:Fighter', 'Silent Spell:Metamagic', 'Skill Focus:',
-  'Snatch Arrows:Fighter', 'Spell Focus:', 'Spell Mastery:',
-  'Spell Penetration:', 'Spirited Charge:Fighter', 'Spring Attack:Fighter',
-  'Stealthy:', 'Still Spell:Metamagic', 'Stunning Fist:Fighter', 'Toughness:',
+  'Quick Draw:Fighter', 'Quicken Spell:Metamagic/Wizard',
+  'Rapid Reload:Fighter', 'Rapid Shot:Fighter', 'Ride-By Attack:Fighter',
+  'Run:', 'Scribe Scroll:Item Creation/Wizard', 'Self Sufficient:',
+  'Shield Proficiency:', 'Shot On The Run:Fighter',
+  'Silent Spell:Metamagic/Wizard', 'Skill Focus:', 'Snatch Arrows:Fighter',
+  'Spell Focus:', 'Spell Mastery:Wizard', 'Spell Penetration:',
+  'Spirited Charge:Fighter', 'Spring Attack:Fighter', 'Stealthy:',
+  'Still Spell:Metamagic/Wizard', 'Stunning Fist:Fighter', 'Toughness:',
   'Track:', 'Trample:Fighter', 'Two-Weapon Defense:Fighter',
   'Two-Weapon Fighting:Fighter', 'Weapon Finesse:Fighter',
   'Weapon Focus:Fighter', 'Weapon Proficiency:',
   'Weapon Specialization:Fighter', 'Whirlwind Attack:Fighter',
-  'Widen Spell:Metamagic'
+  'Widen Spell:Metamagic/Wizard'
 ];
-SRD35.GENDERS = ['Female', 'Male'];
-SRD35.LANGUAGES = [
-  'Abyssal', 'Aquan', 'Auran', 'Celestial', 'Common', 'Draconic', 'Druidic',
-  'Dwarven', 'Elven', 'Giant', 'Gnoll', 'Gnome', 'Goblin', 'Halfling',
-  'Ignan', 'Infernal', 'Orc', 'Sylvan', 'Terran', 'Undercommon'
-];
+SRD35.FEATURE_NOTES = {
+  // Animal companions and familiars
+  'Celestial Familiar':
+    "companionNotes.celestialFamiliar:" +
+      "Smite Evil (+%V HP) 1/day, 60' darkvision, " +
+      "%1 acid/cold/electricity resistance, DR %2/magic",
+  'Command Like Creatures':
+    'companionNotes.commandLikeCreaturesFeature:' +
+      'DC %V <i>Command</i> vs. similar creatures %1/day',
+  'Companion Alertness':
+    'skillNotes.companionAlertnessFeature:' +
+      '+2 listen/spot when companion w/in reach',
+  'Companion Evasion':
+    'companionNotes.companionEvasionFeature:' +
+      'Reflex save yields no damage instead of 1/2',
+  'Companion Improved Evasion':
+    'companionNotes.companionImprovedEvasionFeature:' +
+      'Failed save yields 1/2 damage',
+  'Deliver Touch Spells':
+    'companionNotes.deliverTouchSpellsFeature:' +
+      'Deliver touch spells if in contact w/master when cast',
+  'Devotion':'companionNotes.devotionFeature:+4 Will vs. enchantment',
+  'Empathic Link':
+    'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
+  'Familiar Bat':'skillNotes.familiarBat:+3 Listen',
+  'Familiar Cat':'skillNotes.familiarCat:+3 Move Silently',
+  'Familiar Hawk':'skillNotes.familiarHawk:+3 Spot in bright light',
+  'Familiar Lizard':'skillNotes.familiarLizard:+3 Climb',
+  'Familiar Owl':'skillNotes.familiarOwl:+3 Spot in shadows/darkness',
+  'Familiar Rat':'saveNotes.familiarRat:+2 Fortitude',
+  'Familiar Raven':'skillNotes.familiarRaven:+3 Appraise',
+  'Familiar Tiny Viper':'skillNotes.familiarViper:+3 Bluff',
+  'Familiar Toad':'combatNotes.familiarToad:+3 Hit Points',
+  'Familiar Weasel':'saveNotes.familiarWeasel:+2 Reflex',
+  'Fiendish Familiar':
+    "companionNotes.fiendishFamiliar:" +
+      "Smite Good (+%V HP) 1/day, 60' darkvision, " +
+      "%1 cold/fire resistance, DR %2/magic",
+  'Improved Speed':'companionNotes.improvedSpeedFeature:+10 speed',
+  'Link':
+    'skillNotes.linkFeature:' +
+      '+4 Handle Animal (companion)/Wild Empathy (companion)',
+  'Multiattack':
+    'companionNotes.multiattackFeature:' +
+      'Reduce additional attack penalty to -2 or second attack at -5',
+  'Scry':'companionNotes.scryFeature:Master views companion 1/day',
+  'Share Saving Throws':
+    'companionNotes.shareSavingThrowsFeature:+%1 Fort/+%2 Ref/+%3 Will',
+  'Share Spells':
+    'companionNotes.shareSpellsFeature:' +
+      "Master share self spell w/companion w/in 5'",
+  'Speak With Like Animals':
+    'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
+  'Speak With Master':
+    'companionNotes.speakWithMasterFeature:Talk w/master in secret language'
+};
+SRD35.GENDERS = {
+  'Female':'',
+  'Male':''
+};
+SRD35.LANGUAGES = {
+  'Abyssal':'', 'Aquan':'', 'Auran':'', 'Celestial':'', 'Common':'',
+  'Draconic':'', 'Druidic':'', 'Dwarven':'', 'Elven':'', 'Giant':'',
+  'Gnoll':'', 'Gnome':'', 'Goblin':'', 'Halfling':'', 'Ignan':'',
+  'Infernal':'', 'Orc':'', 'Sylvan':'', 'Terran':'', 'Undercommon':''
+};
 SRD35.RACES =
   ['Dwarf', 'Elf', 'Gnome', 'Half Elf', 'Half Orc', 'Halfling', 'Human'];
-// Note: the order here handles dependencies among attributes when generating
+// The order here handles dependencies among attributes when generating
 // random characters
 SRD35.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
@@ -252,10 +350,15 @@ SRD35.SCHOOLS = [
   'Abjuration:Abju', 'Conjuration:Conj', 'Divination:Divi', 'Enchantment:Ench',
   'Evocation:Evoc', 'Illusion:Illu', 'Necromancy:Necr', 'Transmutation:Tran'
 ];
-SRD35.SHIELDS = [
-  'Buckler', 'Heavy Steel', 'Heavy Wooden', 'Light Steel', 'Light Wooden',
-  'None', 'Tower'
-];
+SRD35.SHIELDS = {
+  'Buckler':'AC=1 Prof=1 SkillFail=1 SpellFail=5',
+  'Heavy Steel':'AC=2 Prof=3 SkillFail=2 SpellFail=15',
+  'Heavy Wooden':'AC=2 Prof=3 SkillFail=2 SpellFail=15',
+  'Light Steel':'AC=1 Prof=1 SkillFail=1 SpellFail=5',
+  'Light Wooden':'AC=1 Prof=1 SkillFail=1 SpellFail=5',
+  'None':'',
+  'Tower':'AC=4 Prof=4 SkillFail=10 SpellFail=50'
+};
 SRD35.SKILLS = [
   'Appraise:int', 'Balance:dex', 'Bluff:cha', 'Climb:str', 'Concentration:con',
   'Craft:int', 'Decipher Script:int/trained', 'Diplomacy:cha',
@@ -383,20 +486,6 @@ SRD35.armorsProficiencyLevels = {
 };
 SRD35.deitiesFavoredWeapons = {};
 SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
-SRD35.shieldsArcaneSpellFailurePercentages = {
-  'Buckler':5, 'Heavy Steel':15, 'Heavy Wooden':15, 'Light Steel':5,
-  'Light Wooden':5, 'None':0, 'Tower':50
-};
-SRD35.shieldsSkillCheckPenalties = {
-  'Buckler':1, 'Heavy Steel':2, 'Heavy Wooden':2, 'Light Steel':1,
-  'Light Wooden':1, 'None':0, 'Tower':10
-};
-SRD35.shieldsProficiencyLevels = {
-  'Buckler':SRD35.PROFICIENCY_LIGHT, 'Heavy Steel':SRD35.PROFICIENCY_HEAVY,
-  'Heavy Wooden':SRD35.PROFICIENCY_HEAVY, 'Light Steel':SRD35.PROFICIENCY_LIGHT,
-  'Light Wooden':SRD35.PROFICIENCY_LIGHT, 'None':SRD35.PROFICIENCY_NONE,
-  'Tower':SRD35.PROFICIENCY_TOWER
-};
 SRD35.spellsAbbreviations = {
   "RL": "L40plus400",
   "RM": "L10plus100",
@@ -1470,7 +1559,7 @@ SRD35.classRules = function(rules, classes) {
 
   for(var i = 0; i < classes.length; i++) {
 
-    var baseAttack, feats, features, hitDie, notes, profArmor, profShield,
+    var baseAttack, features, hitDie, notes, profArmor, profShield,
         profWeapon, saveFortitude, saveReflex, saveWill, selectableFeatures,
         skillPoints, skills, spellAbility, spellsKnown, spellsPerDay;
     var klass = classes[i];
@@ -1480,7 +1569,6 @@ SRD35.classRules = function(rules, classes) {
     if(klass == 'Barbarian') {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
-      feats = null;
       features = [
         '1:Fast Movement', '1:Illiteracy', '1:Rage', '2:Uncanny Dodge',
         '3:Trap Sense', '5:Improved Uncanny Dodge', '7:Damage Reduction',
@@ -1554,7 +1642,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Bard') {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      feats = null;
       features = [
         '1:Bardic Knowledge', '1:Bardic Music', '1:Countersong', '1:Fascinate',
         '1:Inspire Courage', '1:Simple Somatics',
@@ -1697,7 +1784,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Cleric') {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      feats = null;
       features = ['1:Aura', '1:Spontaneous Cleric Spell', '1:Turn Undead'];
       hitDie = 8;
       notes = [
@@ -1763,7 +1849,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Druid') {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      feats = null;
       features = [
         '1:Animal Companion', '1:Nature Sense', '1:Spontaneous Druid Spell',
         '1:Wild Empathy',
@@ -1865,7 +1950,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Fighter') {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
-      feats = null;
       features = null;
       hitDie = 10;
       notes = null;
@@ -1890,7 +1974,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Monk') {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      feats = null;
       features = [
         '1:Flurry Of Blows', '1:Improved Unarmed Strike',
         '1:Weapon Proficiency ' +
@@ -2030,7 +2113,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Paladin') {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
-      feats = null;
       features = [
         '1:Aura Of Good', '1:Detect Evil', '1:Smite Evil', '2:Divine Grace',
         '2:Lay On Hands', '3:Aura Of Courage', '3:Divine Health',
@@ -2117,7 +2199,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Ranger') {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
-      feats = null;
       features = [
         '1:Favored Enemy', '1:Track', '1:Wild Empathy', '2:Rapid Shot',
         '2:Two-Weapon Fighting', '3:Endurance', '4:Animal Companion',
@@ -2230,7 +2311,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Rogue') {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      feats = null;
       features = [
         '1:Sneak Attack', '1:Trapfinding',
         '1:Weapon Proficiency (Hand Crossbow/Rapier/Shortbow/Short Sword)',
@@ -2310,7 +2390,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Sorcerer') {
 
       baseAttack = SRD35.ATTACK_BONUS_POOR;
-      feats = null;
       features = ['1:Familiar'];
       hitDie = 4;
       notes = [
@@ -2363,13 +2442,6 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Wizard') {
 
       baseAttack = SRD35.ATTACK_BONUS_POOR;
-      feats = ['Spell Mastery'];
-      for(var j = 0; j < SRD35.FEATS.length; j++) {
-        var pieces = SRD35.FEATS[j].split(':');
-        if(pieces[1].match(/Item Creation|Metamagic/)) {
-          feats[feats.length] = pieces[0];
-        }
-      }
       features = [
         '1:Scribe Scroll', '1:Familiar',
         '1:Weapon Proficiency ' +
@@ -2444,11 +2516,6 @@ SRD35.classRules = function(rules, classes) {
        spellsKnown, spellsPerDay, spellAbility);
     if(notes != null)
       rules.defineNote(notes);
-    if(feats != null) {
-      for(var j = 0; j < feats.length; j++) {
-        rules.defineChoice('feats', feats[j] + ':' + klass);
-      }
-    }
     if(selectableFeatures != null) {
       for(var j = 0; j < selectableFeatures.length; j++) {
         var selectable = selectableFeatures[j];
@@ -2476,9 +2543,7 @@ SRD35.combatRules = function(rules) {
   ]);
   rules.defineRule('armorClass',
     '', '=', '10',
-    'armor', '+', 'SRD35.armorsArmorClassBonuses[source]',
-    'shield', '+', 'source == "None" ? null : ' +
-                   'source == "Tower" ? 4 : source.match(/Heavy/) ? 2 : 1'
+    'armor', '+', 'SRD35.armorsArmorClassBonuses[source]'
   );
   rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
@@ -2527,418 +2592,6 @@ SRD35.combatRules = function(rules) {
     'classWeaponProficiencyLevel', '^', null
   );
   rules.defineRule('weapons.Unarmed', '', '=', '1');
-};
-
-/* Defines the rules related to companion creatures. */
-SRD35.companionRules = function(rules, companions, familiars) {
-
-  var features, notes;
-
-  notes = [
-    'animalCompanionStats.Melee:+%V %1%2%3%4',
-    'animalCompanionStats.SR:DC %V',
-    "companionNotes.celestialCompanion:" +
-      "Smite Evil (+%V HP) 1/day, 60' darkvision, " +
-      "%1 acid/cold/electricity resistance, DR %2/magic",
-    'companionNotes.commandLikeCreaturesFeature:' +
-      'DC %V <i>Command</i> vs. similar creatures %1/day',
-    'companionNotes.companionEvasionFeature:' +
-      'Reflex save yields no damage instead of 1/2',
-    'companionNotes.companionImprovedEvasionFeature:' +
-      'Failed save yields 1/2 damage',
-    'companionNotes.deliverTouchSpellsFeature:' +
-      'Deliver touch spells if in contact w/master when cast',
-    'companionNotes.devotionFeature:+4 Will vs. enchantment',
-    'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
-    "companionNotes.fiendishCompanion:" +
-      "Smite Good (+%V HP) 1/day, 60' darkvision, " +
-      "%1 cold/fire resistance, DR %2/magic",
-    'companionNotes.improvedSpeedFeature:+10 speed',
-    'companionNotes.multiattackFeature:' +
-      'Reduce additional attack penalty to -2 or second attack at -5',
-    'companionNotes.scryFeature:Master views companion 1/day',
-    'companionNotes.shareSavingThrowsFeature:+%1 Fort/+%2 Ref/+%3 Will',
-    'companionNotes.shareSpellsFeature:' +
-      "Master share self spell w/companion w/in 5'",
-    'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
-    'companionNotes.speakWithMasterFeature:Talk w/master in secret language',
-    'familiarStats.Melee:+%V %1',
-    'familiarStats.SR:DC %V',
-    'skillNotes.companionAlertnessFeature:' +
-      '+2 listen/spot when companion w/in reach',
-    'skillNotes.linkFeature:+4 Handle Animal (companion)/Wild Empathy (companion)',
-    'validationNotes.companionMasterLevel:Requires %1',
-    'validationNotes.familiarMasterLevel:Requires %1'
-  ];
-  rules.defineNote(notes);
-
-  if(companions != null) {
-
-    rules.defineChoice('animalCompanions', QuilvynUtils.getKeys(companions));
-
-    features = {
-      'Link': 1, 'Share Spells': 1, 'Companion Evasion': 2, 'Devotion' : 3,
-      'Multiattack': 4, 'Companion Improved Evasion': 6
-    };
-    for(var feature in features) {
-      rules.defineRule('animalCompanionFeatures.' + feature,
-        'companionLevel', '=',
-        'source >= ' + features[feature] + ' ? 1 : null'
-      );
-      rules.defineRule
-        ('features.' + feature, 'animalCompanionFeatures.' + feature, '=', '1');
-    }
-
-    // Default no second attack; overridden for specific animal companions
-    rules.defineRule('animalCompanionStats.Melee.3',
-      'animalCompanionStats.Melee', '?', null,
-      '', '=', '""'
-    );
-
-    for(var companion in companions) {
-      var matchInfo;
-      var stats = companions[companion].split(/\s+/);
-      for(var i = 0; i < stats.length; i++) {
-        if((matchInfo = stats[i].match(/(.+)=(.+)/)) == null) {
-          console.log
-            ('Bad stat format "' + stats[i] + '" for companion ' + companion);
-          continue;
-        }
-        if(matchInfo[1] == 'Attack') {
-          rules.defineRule('companionAttack',
-            'animalCompanion.' + companion, '+', matchInfo[2]
-          );
-        } else if(matchInfo[1] == 'Dam') {
-          var damages = matchInfo[2].split(',');
-          matchInfo = damages[0].match(/([^-+]*)([-+]\d+)?/);
-          rules.defineRule('animalCompanionStats.Melee.1',
-            'animalCompanion.' + companion, '=', '"' + matchInfo[1] + '"'
-          );
-          if(damages.length > 1) {
-            // Second attack
-            matchInfo = damages[1].match(/([^-+]*)([-+]\d+)?/);
-            rules.defineRule('animalCompanionStats.Melee.3',
-              'animalCompanion.' + companion, '=', '",' + matchInfo[1] + '"'
-            );
-          }
-        } else if(matchInfo[1] == 'Level') {
-          rules.defineRule('companionMasterLevel',
-            'animalCompanion.' + companion, '+', '-' + matchInfo[2]
-          );
-          rules.defineRule('validationNotes.companionMasterLevel',
-            'companionMasterLevel', '=', 'source >= 0 ? null : source'
-          );
-          rules.defineRule('validationNotes.companionMasterLevel.1',
-            'animalCompanion.' + companion, '=', matchInfo[2]
-          );
-        } else if(matchInfo[2].match(/^\d+$/)) {
-          rules.defineRule('animalCompanionStats.' + matchInfo[1],
-            'animalCompanion.' + companion, '=', matchInfo[2]
-          );
-        } else {
-          rules.defineRule('animalCompanionStats.' + matchInfo[1],
-            'animalCompanion.' + companion, '=', '"' + matchInfo[2] + '"'
-          );
-        }
-      }
-    }
-
-    rules.defineRule('companionAttack',
-      'animalCompanionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE,
-      'companionAttackBoosts', '+', 'Math.floor(source)'
-    );
-    rules.defineRule('companionAttackBoosts',
-      'companionLevel', '=', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
-      'companionMaxDexOrStr', '+', 'source % 2 == 0 ? 0.5 : 0'
-    );
-    rules.defineRule('companionDamAdj1',
-      'animalCompanionStats.Str', '=', 'Math.floor((source - 10) / 2)',
-      'companionDamageSingleAttackBonus', '+', null
-    );
-    rules.defineRule('companionDamAdj2',
-      'animalCompanionStats.Str', '=', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('companionDamageSingleAttackBonus',
-      'animalCompanionStats.Melee.3', '?', 'source == ""',
-      'animalCompanionStats.Str', '=', 'source<14 ? null : Math.floor((source-10)/4)'
-    );
-    rules.defineRule('companionHP',
-      'animalCompanionStats.Con', '=', '4.5 + Math.floor((source - 10)/2)',
-      'animalCompanionStats.HD', '*', null
-    );
-    rules.defineRule('companionLevel',
-      'companionMasterLevel', '=', 'Math.floor((source + 3) / 3)'
-    );
-    rules.defineRule('companionMaxDexOrStr',
-      'animalCompanionStats.Dex', '=', null,
-      'animalCompanionStats.Str', '^', null
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
-      // Use base note in calculation so Quilvyn displays it in italics
-      'companionNotes.shareSavingThrowsFeature', '?', null,
-      'mountMasterLevel', '=', SRD35.SAVE_BONUS_GOOD,
-      'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
-      '', '^', '0'
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
-      'companionNotes.shareSavingThrowsFeature', '?', null,
-      'mountMasterLevel', '=', SRD35.SAVE_BONUS_POOR,
-      'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
-      '', '^', '0'
-    );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
-      'companionNotes.shareSavingThrowsFeature', '?', null,
-      'mountMasterLevel', '=', SRD35.SAVE_BONUS_POOR,
-      'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_POOR + ')',
-      '', '^', '0'
-    );
-
-    rules.defineRule('animalCompanionStats.AC',
-      'companionLevel', '+', '(source - 1) * 2 + Math.floor(source / 2)',
-    );
-    rules.defineRule
-      ('animalCompanionStats.Dex', 'companionLevel', '+', 'source - 1');
-    rules.defineRule('animalCompanionStats.Fort',
-      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
-      'animalCompanionStats.Con', '+', 'Math.floor((source - 10)/2)',
-      'companionNotes.shareSavingThrowsFeature.1', '+', null
-    );
-    rules.defineRule
-      ('animalCompanionStats.HD', 'companionLevel', '+', '(source - 1) * 2');
-    rules.defineRule
-      ('animalCompanionStats.HP', 'companionHP', '=', 'Math.floor(source)');
-    rules.defineRule('animalCompanionStats.Init',
-      'animalCompanionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('animalCompanionStats.Melee',
-      'companionAttack', '=', 'Math.floor(source)'
-    );
-    rules.defineRule('animalCompanionStats.Melee.2',
-      'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
-    );
-    rules.defineRule('animalCompanionStats.Melee.4',
-      'companionDamAdj2', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
-      'animalCompanionStats.Melee.3', '=', 'source == "" ? "" : null'
-    );
-    rules.defineRule('animalCompanionStats.Ref',
-      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
-      'animalCompanionStats.Dex', '+', 'Math.floor((source - 10) / 2)',
-      'companionNotes.shareSavingThrowsFeature.2', '+', null
-    );
-    rules.defineRule
-      ('animalCompanionStats.Str', 'companionLevel', '+', 'source - 1');
-    rules.defineRule('animalCompanionStats.Tricks',
-      'animalCompanionStats.Int', '=', 'source * 3',
-      'companionLevel', '+=', null
-    );
-    rules.defineRule('animalCompanionStats.Will',
-      'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
-      'animalCompanionStats.Wis', '+', 'Math.floor((source - 10) / 2)',
-      'companionNotes.shareSavingThrowsFeature.3', '+', null
-    );
-
-    // Adapt Paladin mount rules to make it a form of animal companion.
-    var features = {
-      'Companion Evasion': 5, 'Companion Improved Evasion': 5, 
-      'Empathic Link': 5, 'Share Saving Throws': 5, 'Improved Speed': 8,
-      'Command Like Creatures': 11, 'Companion Resist Spells': 15,
-      'Link': 0, 'Devotion' : 0, 'Multiattack': 0, 'Share Spells': 0
-    };
-    rules.defineRule('companionNotMount',
-      'companionLevel', '=', '1',
-      'mountMasterLevel', 'v', '0'
-    );
-    for(var feature in features) {
-      if(features[feature] > 0) {
-        rules.defineRule('animalCompanionFeatures.' + feature,
-          'mountMasterLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
-        );
-        rules.defineRule('features.' + feature,
-          'animalCompanionFeatures.' + feature, '=', '1'
-        );
-      } else {
-        // Disable N/A companion features
-        rules.defineRule('animalCompanionFeatures.' + feature,
-          'companionNotMount', '?', 'source == 1'
-        );
-      }
-    }
-    rules.defineRule('companionLevel',
-      'mountMasterLevel', '=', 'source<8 ? 2 : source<11 ? 3 : source<15 ? 4 : 5'
-    );
-    rules.defineRule('companionNotes.commandLikeCreaturesFeature',
-      'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
-      'charismaModifier', '+', null
-    );
-    rules.defineRule('companionNotes.commandLikeCreaturesFeature.1',
-      'animalCompanionFeatures.Command Like Creatures', '?', null,
-      'mountMasterLevel', '=', 'Math.floor(source / 2)'
-    );
-    rules.defineRule('animalCompanionStats.AC', 'mountMasterLevel', '+', '2');
-    rules.defineRule('animalCompanionStats.Int',
-      'mountMasterLevel', '^', 'source<8 ? 6 : source<11 ? 7 : source<15 ? 8 : 9'
-    );
-    rules.defineRule
-      ('animalCompanionStats.SR', 'mountMasterLevel', '=', 'source + 5');
-
-  }
-
-  if(familiars != null) {
-
-    rules.defineChoice('familiars', QuilvynUtils.getKeys(familiars));
-
-    features = {
-      'Companion Alertness': 1, 'Companion Evasion': 1,
-      'Companion Improved Evasion': 1, 'Empathic Link': 1, 'Share Spells': 1,
-      'Deliver Touch Spells': 2, 'Speak With Master': 3,
-      'Speak With Like Animals': 4, 'Companion Resist Spells': 6, 'Scry': 7
-    };
-    for(var feature in features) {
-      rules.defineRule('familiarFeatures.' + feature,
-        'familiarLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
-      );
-      rules.defineRule
-        ('features.' + feature, 'familiarFeatures.' + feature, '=', '1');
-    }
-
-    notes = [
-      'combatNotes.familiarToad:+3 Hit Points',
-      'saveNotes.familiarRat:+2 Fortitude',
-      'saveNotes.familiarWeasel:+2 Reflex',
-      'skillNotes.familiarBat:+3 Listen',
-      'skillNotes.familiarCat:+3 Move Silently',
-      'skillNotes.familiarHawk:+3 Spot in bright light',
-      'skillNotes.familiarLizard:+3 Climb',
-      'skillNotes.familiarOwl:+3 Spot in shadows/darkness',
-      'skillNotes.familiarRaven:+3 Appraise',
-      'skillNotes.familiarViper:+3 Bluff'
-    ];
-    rules.defineNote(notes);
-
-    rules.defineRule('combatNotes.familiarToad', 'familiar.Toad', '=', '1');
-    rules.defineRule('saveNotes.familiarRat', 'familiar.Rat', '=', '1');
-    rules.defineRule('saveNotes.familiarWeasel', 'familiar.Weasel', '=', '1');
-    rules.defineRule('skillNotes.familiarBat', 'familiar.Bat', '=', '1');
-    rules.defineRule('skillNotes.familiarCat', 'familiar.Cat', '=', '1');
-    rules.defineRule('skillNotes.familiarHawk', 'familiar.Hawk', '=', '1');
-    rules.defineRule('skillNotes.familiarLizard', 'familiar.Lizard', '=', '1');
-    rules.defineRule('skillNotes.familiarOwl', 'familiar.Owl', '=', '1');
-    rules.defineRule('skillNotes.familiarRaven', 'familiar.Raven', '=', '1');
-    rules.defineRule('skillNotes.familiarViper', 'familiar.Viper', '=', '1');
-
-    rules.defineRule('hitPoints', 'combatNotes.familiarToad', '+', '3');
-    rules.defineRule('save.Fortitude', 'saveNotes.familiarRat', '+', '2');
-    rules.defineRule('save.Reflex', 'saveNotes.familiarWeasel', '+', '2');
-
-    for(var familiar in familiars) {
-      var matchInfo;
-      var stats = familiars[familiar].split(/\s+/);
-      for(var i = 0; i < stats.length; i++) {
-        if((matchInfo = stats[i].match(/(.+)=(.+)/)) == null) {
-          console.log
-            ('Bad stat format "' + stats[i] + '" for familiar ' + companion);
-          continue;
-        }
-        if(matchInfo[1] == 'Attack') {
-          rules.defineRule
-            ('familiarAttack', 'familiar.' + familiar, '+', matchInfo[2]);
-        } else if(matchInfo[1] == 'Dam') {
-          rules.defineRule('familiarStats.Melee.1',
-            'familiar.' + familiar, '=', '"' + matchInfo[2] + '"'
-          );
-        } else if(matchInfo[1] == 'Level') {
-          rules.defineRule('validationNotes.familiarMasterLevel.1',
-            'familiar.' + familiar, '=', matchInfo[2]
-          );
-        } else if(matchInfo[2].match(/^\d+$/)) {
-          rules.defineRule('familiarStats.' + matchInfo[1],
-            'familiar.' + familiar, '=', matchInfo[2]
-          );
-        } else {
-          rules.defineRule('familiarStats.' + matchInfo[1],
-            'familiar.' + familiar, '=', '"' + matchInfo[2] + '"'
-          );
-        }
-      }
-    }
-
-    rules.defineRule('familiarAttack',
-      'familiarLevel', '?', null,
-      'baseAttack', '=', null,
-    );
-    rules.defineRule('familiarLevel',
-      'familiarMasterLevel', '=', 'Math.floor((source + 1) / 2)'
-    );
-
-    rules.defineRule('companionNotes.celestialCompanion',
-      'familiarCelestial', '=', '0',
-      'familiarStats.HD', '^', null
-    );
-    rules.defineRule('companionNotes.celestialCompanion.1',
-      'familiarCelestial', '=', '0',
-      'familiarStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
-    );
-    rules.defineRule('companionNotes.celestialCompanion.2',
-      'familiarCelestial', '=', '0',
-      'familiarStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
-    );
-    rules.defineRule('companionNotes.fiendishCompanion',
-      'familiarFiendish', '=', '0',
-      'familiarStats.HD', '^', null
-    );
-    rules.defineRule('companionNotes.fiendishCompanion.1',
-      'familiarFiendish', '=', '0',
-      'familiarStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
-    );
-    rules.defineRule('companionNotes.fiendishCompanion.2',
-      'familiarFiendish', '=', '0',
-      'familiarStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
-    );
-    rules.defineRule('familiarStats.AC', 'familiarLevel', '+', null);
-    rules.defineRule('familiarStats.Fort',
-      'familiarLevel', '?', null,
-      'classFortitudeBonus', '=', 'Math.max(source, 2)',
-      'familiarStats.Con', '+', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('familiarStats.HD',
-      'familiarLevel', '?', null,
-      'level', '=', null
-    );
-    rules.defineRule('familiarStats.HP',
-      'familiarLevel', '?', null,
-      'hitPoints', '=', 'Math.floor(source / 2)'
-    );
-    rules.defineRule('familiarStats.Init',
-      'familiarStats.Dex', '=', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('familiarStats.Int', 'familiarLevel', '^', 'source + 5');
-    rules.defineRule('familiarStats.Melee', 'familiarAttack', '=', null);
-    rules.defineRule('familiarStats.Ref',
-      'familiarLevel', '?', null,
-      'classReflexBonus', '=', 'Math.max(source, 2)',
-      'familiarStats.Dex', '+', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('familiarStats.SR',
-      'familiarFeatures.Companion Resist Spells', '?', null,
-      'familiarMasterLevel', '=', 'source + 5'
-    );
-    rules.defineRule('familiarStats.Will',
-      'familiarLevel', '?', null,
-      'classWillBonus', '=', 'Math.max(source, 0)',
-      'familiarStats.Wis', '+', 'Math.floor((source - 10) / 2)'
-    );
-    rules.defineRule('validationNotes.familiarMasterLevel',
-      'validationNotes.familiarMasterLevel.1', '=', null,
-      'familiarMasterLevel', '+', '-source',
-      '', '^', '0'
-    );
-    rules.defineRule('validationNotes.familiarMasterLevel.1',
-      'familiarCelestial', '=', '3',
-      'familiarFiendish', '=', '3'
-    );
-
-  }
-
 };
 
 /* Returns an ObjectViewer loaded with the default character sheet format. */
@@ -3151,8 +2804,9 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Animal Companion Name', within: 'CompanionInfo', format: '"%V"'},
             {name: 'Animal Companion Features', within: 'NotesPart', separator: listSep},
             {name: 'Animal Companion Stats', within: 'NotesPart', separator: listSep},
-            {name: 'FamiliarInfo', within: 'NotesPart', separator: ' '},
-              {name: 'Familiar', within: 'FamiliarInfo', separator: ' '},
+            {name: 'FamiliarInfo', within: 'NotesPart', separator: ' ', format: '<b>Familiar</b>: %V'},
+              {name: 'Familiar Enhancement', within: 'FamiliarInfo', format: '%V'},
+              {name: 'Familiar', within: 'FamiliarInfo', format: '%V'},
               {name: 'Familiar Name', within: 'FamiliarInfo', format: '"%V"'},
             {name: 'Familiar Features', within: 'NotesPart', separator: listSep},
             {name: 'Familiar Stats', within: 'NotesPart', separator: listSep},
@@ -3170,48 +2824,9 @@ SRD35.createViewers = function(rules, viewers) {
   }
 };
 
-/* Defines the rules related to character description. */
-SRD35.descriptionRules = function(rules, alignments, deities, genders) {
-  rules.defineChoice('alignments', alignments);
-  rules.defineChoice('genders', genders);
-  for(var i = 0; i < deities.length; i++) {
-    var pieces = deities[i].split(':');
-    if(pieces.length < 3)
-      continue;
-    var deity = pieces[0];
-    var domains = pieces[2];
-    rules.defineChoice('deities', deity + ':' + domains);
-    if(pieces[1] != "") {
-      var weapons = pieces[1].split('/');
-      SRD35.deitiesFavoredWeapons[deity] = pieces[1];
-      for(var j = 0; j < weapons.length; j++) {
-        var weapon = weapons[j];
-        var focusFeature = 'Weapon Focus (' + weapon + ')';
-        var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
-        rules.defineRule('clericFeatures.' + focusFeature,
-          'domains.War', '?', null,
-          'levels.Cleric', '?', null,
-          'deity', '=', 'SRD35.deitiesFavoredWeapons[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
-        );
-        rules.defineRule('clericFeatures.' + proficiencyFeature,
-          'domains.War', '?', null,
-          'levels.Cleric', '?', null,
-          'deity', '=', 'SRD35.deitiesFavoredWeapons[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
-        );
-        rules.defineRule
-          ('features.' + focusFeature, 'clericFeatures.' + focusFeature, '=', null);
-        rules.defineRule
-          ('features.' + proficiencyFeature, 'clericFeatures.' + proficiencyFeature, '=', null);
-      }
-    }
-  }
-};
-
 /* Defines the rules related to equipment. */
-SRD35.equipmentRules = function(rules, armors, shields, weapons) {
+SRD35.equipmentRules = function(rules, weapons) {
 
-  rules.defineChoice('armors', armors);
-  rules.defineChoice('shields', shields);
   rules.defineChoice('weapons', weapons);
 
   for(var i = 0; i < weapons.length; i++) {
@@ -3323,74 +2938,6 @@ SRD35.equipmentRules = function(rules, armors, shields, weapons) {
   }
   rules.defineRule('weaponDamage.Unarmed', 'monkUnarmedDamage', '=', null);
 
-  rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
-  rules.defineRule('abilityNotes.armorSpeedAdjustment',
-    'armor', '=',
-    'SRD35.armorsProficiencyLevels[source] != null && ' +
-    'SRD35.armorsProficiencyLevels[source] >= ' + SRD35.PROFICIENCY_MEDIUM +
-    ' ? -10 : null',
-    'abilityNotes.slowFeature', '+', '5'
-  );
-  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
-    'armor', 'v', 'SRD35.armorsMaxDexBonuses[source]'
-  );
-  rules.defineRule('magicNotes.arcaneSpellFailure',
-    'casterLevelArcane', '?', null,
-    'armor', '+=', 'SRD35.armorsArcaneSpellFailurePercentages[source]',
-    'shield', '+=', 'SRD35.shieldsArcaneSpellFailurePercentages[source]'
-  );
-  rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
-  rules.defineNote(
-    'sanityNotes.casterLevelArcaneArmor:Implies Armor == "None"',
-    'sanityNotes.casterLevelArcaneShield:Implies Shield == "None"'
-  );
-  rules.defineRule('sanityNotes.casterLevelArcaneArmor',
-    'magicNotes.arcaneSpellFailure', '?', null,
-    'armor', '=', 'source == "None" ? null : 1'
-  );
-  rules.defineRule('sanityNotes.casterLevelArcaneShield',
-    'magicNotes.arcaneSpellFailure', '?', null,
-    'shield', '=', 'source == "None" ? null : 1'
-  );
-
-  rules.defineNote(
-    'combatNotes.nonproficientArmorPenalty:%V attack',
-    'combatNotes.nonproficientShieldPenalty:%V attack',
-    'sanityNotes.inertGoodies:No effect from goodie(s) "%V"',
-    'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus',
-    'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
-    'sanityNotes.two-handedWeaponWithBuckler:Lowers attack bonus, AC',
-    'validationNotes.two-handedWeaponWithShield:' +
-      'Shields cannot be used with two-handed weapons'
-  );
-  rules.defineRule('armorProficiencyLevelShortfall',
-    'armor', '=', 'SRD35.armorsProficiencyLevels[source]',
-    'armorProficiencyLevel', '+', '-source'
-  );
-  rules.defineRule('combatNotes.nonproficientArmorPenalty',
-    'armor', '=', '-SRD35.armorsSkillCheckPenalties[source]',
-    'armorProficiencyLevelShortfall', '?', 'source > 0'
-  );
-  rules.defineRule('shieldProficiencyLevelShortfall',
-    'shield', '=', 'SRD35.shieldsProficiencyLevels[source]',
-    'shieldProficiencyLevel', '+', '-source'
-  );
-  rules.defineRule('combatNotes.nonproficientShieldPenalty',
-    'shield', '=', '-SRD35.shieldsSkillCheckPenalties[source]',
-    'shieldProficiencyLevelShortfall', '?', 'source > 0'
-  );
-  rules.defineRule('sanityNotes.armorProficiencyLevelArmor',
-    'combatNotes.nonproficientArmorPenalty', '=', null
-  );
-  rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
-    'combatNotes.nonproficientShieldPenalty', '=', null
-  );
-  rules.defineRule('sanityNotes.two-handedWeaponWithBuckler',
-    'shield', '?', 'source == "Buckler"'
-  );
-  rules.defineRule('validationNotes.two-handedWeaponWithShield',
-    'shield', '?', 'source != "None" && source != "Buckler"'
-  );
   for(var i = 0; i < weapons.length; i++) {
     var pieces = weapons[i].split(':');
     var weapon = pieces[0];
@@ -5082,13 +4629,8 @@ SRD35.movementRules = function(rules) {
 };
 
 /* Defines the rules related to character races. */
-SRD35.raceRules = function(rules, languages, races) {
+SRD35.raceRules = function(rules, races) {
 
-  rules.defineChoice('languages', languages);
-  for(var i = 0; i < languages.length; i++) {
-    if(languages[i] == 'Common')
-      rules.defineRule('languages.Common', '', '=', '1');
-  }
   rules.defineRule
     ('languageCount', 'race', '=', 'source.match(/Human/) ? 1 : 2');
   rules.defineNote
@@ -5387,7 +4929,6 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
   rules.defineRule('maxAllocatedSkillPoints', /^skills\.[^\.]*$/, '^=', null);
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
-    'shield', '+=', 'SRD35.shieldsSkillCheckPenalties[source]',
     '', '^', '0'
   );
   rules.defineRule('skillNotes.armorSwimCheckPenalty',
@@ -5754,10 +5295,9 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     attrs = this.applyRules(attributes);
     howMany = attrs.domainCount;
     if(howMany != null) {
-      if((choices = this.getChoices('deities')[attributes.deity]) == null)
+      choices = QuilvynRules.getAttrValueArray(this.getChoices('deities')[attributes.deity], 'domain');
+      if(choices.length == 0)
         choices = QuilvynUtils.getKeys(this.getChoices('domains'));
-      else
-        choices = choices.split('/');
       pickAttrs(attributes, 'domains.', choices, howMany -
                 QuilvynUtils.sumMatching(attributes, /^domains\./), 1);
     }
@@ -6353,6 +5893,580 @@ SRD35.ruleNotes = function() {
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n';
+};
+
+/*
+ * TODO
+ */
+SRD35.addChoice = function(rules, type, name, attrs) {
+  rules.addChoice(type, name, attrs);
+  if(type == 'alignments')
+    SRD35.alignmentRules(rules, name);
+  else if(type == 'armors')
+    SRD35.armorRules(rules, name
+    );
+  else if(type == 'companions')
+    SRD35.companionRules(rules, name,
+      QuilvynRules.getAttrValue(attrs, 'Str'),
+      QuilvynRules.getAttrValue(attrs, 'Int'),
+      QuilvynRules.getAttrValue(attrs, 'Wis'),
+      QuilvynRules.getAttrValue(attrs, 'Dex'),
+      QuilvynRules.getAttrValue(attrs, 'Con'),
+      QuilvynRules.getAttrValue(attrs, 'Cha'),
+      QuilvynRules.getAttrValue(attrs, 'HD'),
+      QuilvynRules.getAttrValue(attrs, 'AC'),
+      QuilvynRules.getAttrValue(attrs, 'Attack'),
+      QuilvynRules.getAttrValue(attrs, 'Dam'),
+      QuilvynRules.getAttrValue(attrs, 'Level')
+    );
+  else if(type == 'deities')
+    SRD35.deityRules(rules, name, QuilvynRules.getAttrValueArray(attrs, 'domain'), QuilvynRules.getAttrValueArray(attrs, 'weapon'));
+  else if(type == 'familiars')
+    SRD35.familiarRules(rules, name,
+      QuilvynRules.getAttrValue(attrs, 'Str'),
+      QuilvynRules.getAttrValue(attrs, 'Int'),
+      QuilvynRules.getAttrValue(attrs, 'Wis'),
+      QuilvynRules.getAttrValue(attrs, 'Dex'),
+      QuilvynRules.getAttrValue(attrs, 'Con'),
+      QuilvynRules.getAttrValue(attrs, 'Cha'),
+      QuilvynRules.getAttrValue(attrs, 'HD'),
+      QuilvynRules.getAttrValue(attrs, 'AC'),
+      QuilvynRules.getAttrValue(attrs, 'Attack'),
+      QuilvynRules.getAttrValue(attrs, 'Dam'),
+      QuilvynRules.getAttrValue(attrs, 'Level')
+    );
+  else if(type == 'genders')
+    SRD35.genderRules(rules, name);
+  else if(type == 'languages')
+    SRD35.languageRules(rules, name);
+  else if(type == 'shields')
+    SRD35.shieldRules(rules, name,
+      QuilvynRules.getAttrValue(attrs, 'AC'),
+      QuilvynRules.getAttrValue(attrs, 'Prof'),
+      QuilvynRules.getAttrValue(attrs, 'SkillFail'),
+      QuilvynRules.getAttrValue(attrs, 'SpellFail')
+    );
+};
+
+/*
+ * TODO
+ */
+SRD35.alignmentRules = function(rules, name) {
+  // No rules pertain to alignment
+};
+
+/*
+ * TODO
+ */
+SRD35.armorRules = function(rules, name) {
+/*
+  rules.defineRule('abilityNotes.armorSpeedAdjustment',
+    'armor', '=',
+    'SRD35.armorsProficiencyLevels[source] != null && ' +
+    'SRD35.armorsProficiencyLevels[source] >= ' + SRD35.PROFICIENCY_MEDIUM +
+    ' ? -10 : null',
+    'abilityNotes.slowFeature', '+', '5'
+  );
+  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
+    'armor', 'v', 'SRD35.armorsMaxDexBonuses[source]'
+  );
+  rules.defineRule('magicNotes.arcaneSpellFailure',
+    'casterLevelArcane', '?', null,
+    'armor', '+=', 'SRD35.armorsArcaneSpellFailurePercentages[source]'
+  );
+  rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
+  rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
+  rules.defineNote(
+    'sanityNotes.casterLevelArcaneArmor:Implies Armor == "None"',
+  );
+  rules.defineRule('sanityNotes.casterLevelArcaneArmor',
+    'magicNotes.arcaneSpellFailure', '?', null,
+    'armor', '=', 'source == "None" ? null : 1'
+  );
+  rules.defineNote(
+    'combatNotes.nonproficientArmorPenalty:%V attack',
+    'sanityNotes.inertGoodies:No effect from goodie(s) "%V"',
+    'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus',
+  );
+  rules.defineRule('armorProficiencyLevelShortfall',
+    'armor', '=', 'SRD35.armorsProficiencyLevels[source]',
+    'armorProficiencyLevel', '+', '-source'
+  );
+  rules.defineRule('combatNotes.nonproficientArmorPenalty',
+    'armor', '=', '-SRD35.armorsSkillCheckPenalties[source]',
+    'armorProficiencyLevelShortfall', '?', 'source > 0'
+  );
+  rules.defineRule('sanityNotes.armorProficiencyLevelArmor',
+    'combatNotes.nonproficientArmorPenalty', '=', null
+  );
+*/
+};
+
+/*
+ * TODO
+ */
+SRD35.companionRules = function(
+  rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, dam, level
+) {
+
+  rules.defineNote(
+    'animalCompanionStats.Melee:+%V %1%2%3%4',
+    'animalCompanionStats.SR:DC %V'
+  );
+
+  rules.defineRule
+    ('animalCompanionStats.Str', 'animalCompanion.' + name, '=', str);
+  rules.defineRule
+    ('animalCompanionStats.Int', 'animalCompanion.' + name, '=', intel);
+  rules.defineRule
+    ('animalCompanionStats.Wis', 'animalCompanion.' + name, '=', wis);
+  rules.defineRule
+    ('animalCompanionStats.Dex', 'animalCompanion.' + name, '=', dex);
+  rules.defineRule
+    ('animalCompanionStats.Con', 'animalCompanion.' + name, '=', con);
+  rules.defineRule
+    ('animalCompanionStats.Cha', 'animalCompanion.' + name, '=', cha);
+  rules.defineRule
+    ('animalCompanionStats.HD', 'animalCompanion.' + name, '=', hd);
+  rules.defineRule
+    ('animalCompanionStats.AC', 'animalCompanion.' + name, '=', ac);
+  rules.defineRule('companionAttack', 'animalCompanion.' + name, '+', attack);
+  var damages = typeof dam == "string" ? dam.split(',') : [dam + ''];
+  var matchInfo = damages[0].match(/([^-+]*)([-+]\d+)?/);
+  rules.defineRule('animalCompanionStats.Melee.1',
+    'animalCompanion.' + name, '=', '"' + matchInfo[1] + '"'
+  );
+  if(damages.length > 1) {
+    // Second attack
+    matchInfo = damages[1].match(/([^-+]*)([-+]\d+)?/);
+    rules.defineRule('animalCompanionStats.Melee.3',
+      'animalCompanion.' + name, '=', '",' + matchInfo[1] + '"'
+    );
+  }
+  if(level != null && level > 1) {
+    rules.defineRule('companionMasterLevel',
+      'animalCompanion.' + name, '+', '-' + level
+    );
+    rules.defineNote('validationNotes.companionMasterLevel:Requires %1');
+    rules.defineRule('validationNotes.companionMasterLevel.1',
+      'animalCompanion.' + name, '=', level,
+    );
+    rules.defineRule('validationNotes.companionMasterLevel',
+      'companionMasterLevel', '=', null,
+      '', 'v', '0'
+    );
+  }
+
+  features = {
+    'Link': 1, 'Share Spells': 1, 'Companion Evasion': 2, 'Devotion' : 3,
+    'Multiattack': 4, 'Companion Improved Evasion': 6
+  };
+  for(var feature in features) {
+    if(feature in SRD35.FEATURE_NOTES)
+      rules.defineNote(SRD35.FEATURE_NOTES[feature]);
+    if(features[feature] == 1)
+      rules.defineRule
+        ('animalCompanionFeatures.' + feature, 'companionLevel', '=', '1');
+    else
+      rules.defineRule('animalCompanionFeatures.' + feature,
+        'companionLevel', '=',
+        'source >= ' + features[feature] + ' ? 1 : null'
+      );
+    rules.defineRule
+      ('features.' + feature, 'animalCompanionFeatures.' + feature, '=', '1');
+  }
+
+  // Default no second attack; overridden for specific animal companions
+  rules.defineRule('animalCompanionStats.Melee.3',
+    'animalCompanionStats.Melee', '?', null,
+    '', '=', '""'
+  );
+
+  rules.defineRule('companionAttack',
+    'animalCompanionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE,
+    'companionAttackBoosts', '+', 'Math.floor(source)'
+  );
+  rules.defineRule('companionAttackBoosts',
+    'companionLevel', '=', 'Math.floor((source-1) / 2) + (source % 2 == 0 ? 0.5 : 0)',
+    'companionMaxDexOrStr', '+', 'source % 2 == 0 ? 0.5 : 0'
+  );
+  rules.defineRule('companionDamAdj1',
+    'animalCompanionStats.Str', '=', 'Math.floor((source - 10) / 2)',
+    'companionDamageSingleAttackBonus', '+', null
+  );
+  rules.defineRule('companionDamAdj2',
+    'animalCompanionStats.Str', '=', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('companionDamageSingleAttackBonus',
+    'animalCompanionStats.Melee.3', '?', 'source == ""',
+    'animalCompanionStats.Str', '=', 'source<14 ? null : Math.floor((source-10)/4)'
+  );
+  rules.defineRule('companionHP',
+    'animalCompanionStats.Con', '=', '4.5 + Math.floor((source - 10)/2)',
+    'animalCompanionStats.HD', '*', null
+  );
+  rules.defineRule('companionLevel',
+    'companionMasterLevel', '=', 'Math.floor((source + 3) / 3)'
+  );
+  rules.defineRule('companionMaxDexOrStr',
+    'animalCompanionStats.Dex', '=', null,
+    'animalCompanionStats.Str', '^', null
+  );
+  rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
+    // Use base note in calculation so Quilvyn displays it in italics
+    'companionNotes.shareSavingThrowsFeature', '?', null,
+    'mountMasterLevel', '=', SRD35.SAVE_BONUS_GOOD,
+    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
+    '', '^', '0'
+  );
+  rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
+    'companionNotes.shareSavingThrowsFeature', '?', null,
+    'mountMasterLevel', '=', SRD35.SAVE_BONUS_POOR,
+    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
+    '', '^', '0'
+  );
+  rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
+    'companionNotes.shareSavingThrowsFeature', '?', null,
+    'mountMasterLevel', '=', SRD35.SAVE_BONUS_POOR,
+    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_POOR + ')',
+    '', '^', '0'
+  );
+
+  rules.defineRule('animalCompanionStats.AC',
+    'companionLevel', '+', '(source - 1) * 2 + Math.floor(source / 2)',
+  );
+  rules.defineRule
+    ('animalCompanionStats.Dex', 'companionLevel', '+', 'source - 1');
+  rules.defineRule('animalCompanionStats.Fort',
+    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
+    'animalCompanionStats.Con', '+', 'Math.floor((source - 10)/2)',
+    'companionNotes.shareSavingThrowsFeature.1', '+', null
+  );
+  rules.defineRule
+    ('animalCompanionStats.HD', 'companionLevel', '+', '(source - 1) * 2');
+  rules.defineRule
+    ('animalCompanionStats.HP', 'companionHP', '=', 'Math.floor(source)');
+  rules.defineRule('animalCompanionStats.Init',
+    'animalCompanionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('animalCompanionStats.Melee',
+    'companionAttack', '=', 'Math.floor(source)'
+  );
+  rules.defineRule('animalCompanionStats.Melee.2',
+    'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
+  );
+  rules.defineRule('animalCompanionStats.Melee.4',
+    'companionDamAdj2', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
+    'animalCompanionStats.Melee.3', '=', 'source == "" ? "" : null'
+  );
+  rules.defineRule('animalCompanionStats.Ref',
+    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
+    'animalCompanionStats.Dex', '+', 'Math.floor((source - 10) / 2)',
+    'companionNotes.shareSavingThrowsFeature.2', '+', null
+  );
+  rules.defineRule
+    ('animalCompanionStats.Str', 'companionLevel', '+', 'source - 1');
+  rules.defineRule('animalCompanionStats.Tricks',
+    'animalCompanionStats.Int', '=', 'source * 3',
+    'companionLevel', '+=', null
+  );
+  rules.defineRule('animalCompanionStats.Will',
+    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
+    'animalCompanionStats.Wis', '+', 'Math.floor((source - 10) / 2)',
+    'companionNotes.shareSavingThrowsFeature.3', '+', null
+  );
+
+  // Adapt Paladin mount rules to make it a form of animal companion.
+  var features = {
+    'Companion Evasion': 5, 'Companion Improved Evasion': 5, 
+    'Empathic Link': 5, 'Share Saving Throws': 5, 'Improved Speed': 8,
+    'Command Like Creatures': 11, 'Companion Resist Spells': 15,
+    'Link': 0, 'Devotion' : 0, 'Multiattack': 0, 'Share Spells': 0
+  };
+  rules.defineRule('companionNotMount',
+    'companionLevel', '=', '1',
+    'mountMasterLevel', 'v', '0'
+  );
+  for(var feature in features) {
+    if(features[feature] > 0) {
+      if(feature in SRD35.FEATURE_NOTES)
+        rules.defineNote(SRD35.FEATURE_NOTES[feature]);
+      rules.defineRule('animalCompanionFeatures.' + feature,
+        'mountMasterLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
+      );
+      rules.defineRule('features.' + feature,
+        'animalCompanionFeatures.' + feature, '=', '1'
+      );
+    } else {
+      // Disable N/A companion features
+      rules.defineRule('animalCompanionFeatures.' + feature,
+        'companionNotMount', '?', 'source == 1'
+      );
+    }
+  }
+  rules.defineRule('companionLevel',
+    'mountMasterLevel', '=', 'source<8 ? 2 : source<11 ? 3 : source<15 ? 4 : 5'
+  );
+  rules.defineRule('companionNotes.commandLikeCreaturesFeature',
+    'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
+    'charismaModifier', '+', null
+  );
+  rules.defineRule('companionNotes.commandLikeCreaturesFeature.1',
+    'animalCompanionFeatures.Command Like Creatures', '?', null,
+    'mountMasterLevel', '=', 'Math.floor(source / 2)'
+  );
+  rules.defineRule('animalCompanionStats.AC', 'mountMasterLevel', '+', '2');
+  rules.defineRule('animalCompanionStats.Int',
+    'mountMasterLevel', '^', 'source<8 ? 6 : source<11 ? 7 : source<15 ? 8 : 9'
+  );
+  rules.defineRule
+    ('animalCompanionStats.SR', 'mountMasterLevel', '=', 'source + 5');
+
+};
+
+/*
+ * TODO
+ */
+SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
+  if(domains != null && domains.indexOf("War") >= 0 && favoredWeapons != null) {
+    SRD35.deitiesFavoredWeapons[name] = favoredWeapons;
+    for(var j = 0; j < favoredWeapons.length; j++) {
+      var weapon = favoredWeapons[j];
+      var focusFeature = 'Weapon Focus (' + weapon + ')';
+      var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
+      rules.defineRule('clericFeatures.' + focusFeature,
+        'domains.War', '?', null,
+        'levels.Cleric', '?', null,
+        'deity', '=', 'SRD35.deitiesFavoredWeapons[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
+      );
+      rules.defineRule('clericFeatures.' + proficiencyFeature,
+        'domains.War', '?', null,
+        'levels.Cleric', '?', null,
+        'deity', '=', 'SRD35.deitiesFavoredWeapons[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
+      );
+      rules.defineRule
+        ('features.' + focusFeature, 'clericFeatures.' + focusFeature, '=', null);
+      rules.defineRule
+        ('features.' + proficiencyFeature, 'clericFeatures.' + proficiencyFeature, '=', null);
+    }
+  }
+};
+
+/*
+ * TODO
+ */
+SRD35.familiarRules = function(
+  rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, dam, level
+) {
+
+  rules.defineNote(
+    'familiarStats.Melee:+%V %1',
+    'familiarStats.SR:DC %V'
+  );
+
+  rules.defineRule('familiarStats.Str', 'familiar.' + name, '=', str);
+  rules.defineRule('familiarStats.Int', 'familiar.' + name, '=', intel);
+  rules.defineRule('familiarStats.Wis', 'familiar.' + name, '=', wis);
+  rules.defineRule('familiarStats.Dex', 'familiar.' + name, '=', dex);
+  rules.defineRule('familiarStats.Con', 'familiar.' + name, '=', con);
+  rules.defineRule('familiarStats.Cha', 'familiar.' + name, '=', cha);
+  rules.defineRule('familiarStats.HD', 'familiar.' + name, '=', hd);
+  rules.defineRule('familiarStats.AC', 'familiar.' + name, '=', ac);
+  rules.defineRule('familiarAttack', 'familiar.' + name, '+', attack);
+  rules.defineRule
+    ('familiarStats.Melee.1', 'familiar.' + name, '=', '"' + dam + '"');
+  if(level != null && level > 1) {
+    rules.defineNote('validationNotes.familiarMasterLevel:Requires %1');
+    rules.defineRule('validationNotes.familiarMasterLevel.1',
+      'familiar.' + name, '=', level,
+      'familiarCelestial', '^=', '3',
+      'familiarFiendish', '^=', '3'
+    );
+    rules.defineRule('validationNotes.familiarMasterLevel',
+      'validationNotes.familiarMasterLevel.1', '=', null,
+      'familiarMasterLevel', '+', '-source',
+      '', '^', '0'
+    );
+  }
+  var note = SRD35.FEATURE_NOTES['Familiar ' + name];
+  if(note != null) {
+    rules.defineNote(note);
+    note = note.split(':')[0];
+    rules.defineRule(note, 'familiar.' + name, '=', '1');
+    if(name == 'Toad')
+      rules.defineRule('hitPoints', note, '+', '3');
+    else if(name == 'Rat')
+      rules.defineRule('save.Fortitude', note, '+', '2');
+    else if(name == 'Weasel')
+      rules.defineRule('save.Reflex', note, '+', '2');
+  }
+
+  var features = {
+    'Companion Alertness': 1, 'Companion Evasion': 1,
+    'Companion Improved Evasion': 1, 'Empathic Link': 1, 'Share Spells': 1,
+    'Deliver Touch Spells': 2, 'Speak With Master': 3,
+    'Speak With Like Animals': 4, 'Companion Resist Spells': 6, 'Scry': 7
+  };
+  for(var feature in features) {
+    if(feature in SRD35.FEATURE_NOTES)
+      rules.defineNote(SRD35.FEATURE_NOTES[feature]);
+    if(features[feature] == 1)
+      rules.defineRule
+        ('familiarFeatures.' + feature, 'familiarLevel', '=', '1');
+    else
+      rules.defineRule('familiarFeatures.' + feature,
+        'familiarLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
+      );
+    rules.defineRule
+      ('features.' + feature, 'familiarFeatures.' + feature, '=', '1');
+  }
+
+  rules.defineRule('familiarAttack',
+    'familiarLevel', '?', null,
+    'baseAttack', '=', null,
+  );
+  rules.defineRule('familiarEnhancement',
+    'familiarCelestial', '=', '"Celestial"',
+    'familiarFiendish', '=', '"Fiendish"'
+  );
+  rules.defineRule('familiarLevel',
+    'familiarMasterLevel', '=', 'Math.floor((source + 1) / 2)'
+  );
+
+  rules.defineNote(SRD35.FEATURE_NOTES['Celestial Familiar']);
+  rules.defineNote(SRD35.FEATURE_NOTES['Fiendish Familiar']);
+  rules.defineRule('companionNotes.celestialFamiliar',
+    'familiarCelestial', '=', '0',
+    'familiarStats.HD', '^', null
+  );
+  rules.defineRule('companionNotes.celestialFamiliar.1',
+    'familiarCelestial', '=', '0',
+    'familiarStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
+  );
+  rules.defineRule('companionNotes.celestialFamiliar.2',
+    'familiarCelestial', '=', '0',
+    'familiarStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
+  );
+  rules.defineRule('companionNotes.fiendishFamiliar',
+    'familiarFiendish', '=', '0',
+    'familiarStats.HD', '^', null
+  );
+  rules.defineRule('companionNotes.fiendishFamiliar.1',
+    'familiarFiendish', '=', '0',
+    'familiarStats.HD', '^', 'Math.floor((source + 7) / 8) * 5'
+  );
+  rules.defineRule('companionNotes.fiendishFamiliar.2',
+    'familiarFiendish', '=', '0',
+    'familiarStats.HD', '^', 'source < 4 ? 0 : source < 12 ? 5 : 10'
+  );
+
+  rules.defineRule('familiarStats.AC', 'familiarLevel', '+', null);
+  rules.defineRule('familiarStats.Fort',
+    'familiarLevel', '?', null,
+    'classFortitudeBonus', '=', 'Math.max(source, 2)',
+    'familiarStats.Con', '+', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('familiarStats.HD',
+    'familiarLevel', '?', null,
+    'level', '^=', null
+  );
+  rules.defineRule('familiarStats.HP',
+    'familiarLevel', '?', null,
+    'hitPoints', '=', 'Math.floor(source / 2)'
+  );
+  rules.defineRule('familiarStats.Init',
+    'familiarStats.Dex', '=', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('familiarStats.Int', 'familiarLevel', '^', 'source + 5');
+  rules.defineRule('familiarStats.Melee', 'familiarAttack', '=', null);
+  rules.defineRule('familiarStats.Ref',
+    'familiarLevel', '?', null,
+    'classReflexBonus', '=', 'Math.max(source, 2)',
+    'familiarStats.Dex', '+', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('familiarStats.SR',
+    'familiarFeatures.Companion Resist Spells', '?', null,
+    'familiarMasterLevel', '=', 'source + 5'
+  );
+  rules.defineRule('familiarStats.Will',
+    'familiarLevel', '?', null,
+    'classWillBonus', '=', 'Math.max(source, 0)',
+    'familiarStats.Wis', '+', 'Math.floor((source - 10) / 2)'
+  );
+
+};
+
+/*
+ * TODO
+ */
+SRD35.genderRules = function(rules, name) {
+  // No rules pertain to gender
+};
+
+/*
+ * TODO
+ */
+SRD35.languageRules = function(rules, name) {
+  if(name == 'Common')
+    rules.defineRule('languages.Common', '', '=', '1');
+};
+
+/*
+ * TODO
+ */
+SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
+  rules.defineNote(
+    'combatNotes.nonproficientShieldPenalty:%V attack',
+    'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
+    'sanityNotes.two-handedWeaponWithBuckler:Lowers attack bonus, AC',
+    'validationNotes.two-handedWeaponWithShield:' +
+      'Shields cannot be used with two-handed weapons'
+  );
+  if(rules.shieldStats == null) {
+    rules.shieldStats = {
+      AC:{},
+      Prof:{},
+      Skill:{},
+      Spell:{}
+    };
+  }
+  rules.shieldStats.AC[name] = ac;
+  rules.shieldStats.Prof[name] = profLevel;
+  rules.shieldStats.Skill[name] = skillFail;
+  rules.shieldStats.Spell[name] = spellFail;
+console.log(QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
+  rules.defineRule
+    ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
+  rules.defineRule('magicNotes.arcaneSpellFailure',
+    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Spell) + '[source]'
+  );
+  rules.defineRule('shieldProficiencyLevelShortfall',
+    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.Prof) + '[source]',
+    'shieldProficiencyLevel', '+', '-source'
+  );
+  rules.defineRule('combatNotes.nonproficientShieldPenalty',
+    'shieldProficiencyLevelShortfall', '?', 'source > 0',
+    'shield', '=', '-' + QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
+  );
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
+    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
+  );
+  rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
+    'combatNotes.nonproficientShieldPenalty', '=', null
+  );
+  rules.defineRule('sanityNotes.two-handedWeaponWithBuckler',
+    'shield', '?', 'source == "Buckler"'
+  );
+  rules.defineRule('validationNotes.two-handedWeaponWithShield',
+    'shield', '?', 'source != "None" && source != "Buckler"'
+  );
+  rules.defineNote(
+    'sanityNotes.casterLevelArcaneShield:Implies Shield == "None"'
+  );
+  rules.defineRule('sanityNotes.casterLevelArcaneShield',
+    'magicNotes.arcaneSpellFailure', '?', null,
+    'shield', '=', 'source == "None" ? null : 1'
+  );
 };
 
 /*
