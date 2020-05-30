@@ -167,19 +167,19 @@ SRD35.ANIMAL_COMPANIONS = {
   'Tyrannosaurus': 'Attack=20 HD=18 AC=14 Dam=3d6+13 Str=28 Dex=12 Con=21 Int=2 Wis=15 Cha=10 Level=16'
 };
 SRD35.ARMORS = {
-  'None':'',
-  'Padded':'',
-  'Leather':'',
-  'Studded Leather':'',
-  'Chain Shirt':'',
-  'Hide':'',
-  'Scale Mail':'',
-  'Chainmail':'',
-  'Breastplate':'',
-  'Splint Mail':'',
-  'Banded Mail':'',
-  'Half Plate':'',
-  'Full Plate':''
+  'None':'AC=0 Level=0',
+  'Padded':'AC=1 Level=1 Dex=8 Spell=5',
+  'Leather':'AC=2 Level=1 Dex=6 Spell=10',
+  'Studded Leather':'AC=3 Level=1 Dex=5 Skill=1 Spell=15',
+  'Chain Shirt':'AC=4 Level=1 Dex=4 Skill=2 Spell=20',
+  'Hide':'AC=3 Level=2 Dex=4 Skill=3 Spell=20',
+  'Scale Mail':'AC=4 Level=2 Dex=3 Skill=4 Spell=25',
+  'Chainmail':'AC=5 Level=2 Dex=2 Skill=5 Spell=30',
+  'Breastplate':'AC=5 Level=2 Dex=3 Skill=4 Spell=25',
+  'Splint Mail':'AC=6 Level=3 Dex=0 Skill=7 Spell=40',
+  'Banded Mail':'AC=6 Level=3 Dex=1 Skill=6 Spell=35',
+  'Half Plate':'AC=7 Level=3 Dex=0 Skill=7 Spell=40',
+  'Full Plate':'AC=8 Level=3 Dex=1 Skill=6 Spell=35'
 };
 SRD35.CLASSES = [
   'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin',
@@ -270,7 +270,7 @@ SRD35.FEATS = [
   'Weapon Specialization:Fighter', 'Whirlwind Attack:Fighter',
   'Widen Spell:Metamagic/Wizard'
 ];
-SRD35.FEATURE_NOTES = {
+SRD35.FEATURES = {
   // Animal companions and familiars
   'Celestial Familiar':
     "companionNotes.celestialFamiliar:" +
@@ -351,13 +351,13 @@ SRD35.SCHOOLS = [
   'Evocation:Evoc', 'Illusion:Illu', 'Necromancy:Necr', 'Transmutation:Tran'
 ];
 SRD35.SHIELDS = {
-  'Buckler':'AC=1 Prof=1 SkillFail=1 SpellFail=5',
-  'Heavy Steel':'AC=2 Prof=3 SkillFail=2 SpellFail=15',
-  'Heavy Wooden':'AC=2 Prof=3 SkillFail=2 SpellFail=15',
-  'Light Steel':'AC=1 Prof=1 SkillFail=1 SpellFail=5',
-  'Light Wooden':'AC=1 Prof=1 SkillFail=1 SpellFail=5',
+  'Buckler':'AC=1 Level=1 SkillFail=1 SpellFail=5',
+  'Heavy Steel':'AC=2 Level=3 SkillFail=2 SpellFail=15',
+  'Heavy Wooden':'AC=2 Level=3 SkillFail=2 SpellFail=15',
+  'Light Steel':'AC=1 Level=1 SkillFail=1 SpellFail=5',
+  'Light Wooden':'AC=1 Level=1 SkillFail=1 SpellFail=5',
   'None':'',
-  'Tower':'AC=4 Prof=4 SkillFail=10 SpellFail=50'
+  'Tower':'AC=4 Level=4 SkillFail=10 SpellFail=50'
 };
 SRD35.SKILLS = [
   'Appraise:int', 'Balance:dex', 'Bluff:cha', 'Climb:str', 'Concentration:con',
@@ -450,40 +450,6 @@ SRD35.WEAPONS = [
   'Whip:d3 1h Ex'
 ];
 
-// Related information used internally by SRD35
-SRD35.armorsArcaneSpellFailurePercentages = {
-  'None': null, 'Padded': 5, 'Leather': 10, 'Studded Leather': 15,
-  'Chain Shirt': 20, 'Hide': 20, 'Scale Mail': 25, 'Chainmail': 30,
-  'Breastplate': 25, 'Splint Mail': 40, 'Banded Mail': 35, 'Half Plate': 40,
-  'Full Plate': 35
-};
-SRD35.armorsArmorClassBonuses = {
-  'None': null, 'Padded': 1, 'Leather': 2, 'Studded Leather': 3,
-  'Chain Shirt': 4, 'Hide': 3, 'Scale Mail': 4, 'Chainmail': 5,
-  'Breastplate': 5, 'Splint Mail': 6, 'Banded Mail': 6, 'Half Plate': 7,
-  'Full Plate': 8
-};
-SRD35.armorsMaxDexBonuses = {
-  'None': null, 'Padded': 8, 'Leather': 6, 'Studded Leather': 5,
-  'Chain Shirt': 4, 'Hide': 4, 'Scale Mail': 3, 'Chainmail': 2,
-  'Breastplate': 3, 'Splint Mail': 0, 'Banded Mail': 1, 'Half Plate': 0,
-  'Full Plate': 1
-};
-SRD35.armorsSkillCheckPenalties = {
-  'None': null, 'Padded': null, 'Leather': null, 'Studded Leather': 1,
-  'Chain Shirt': 2, 'Hide': 3, 'Scale Mail': 4, 'Chainmail': 5,
-  'Breastplate': 4, 'Splint Mail': 7, 'Banded Mail': 6, 'Half Plate': 7,
-  'Full Plate': 6
-};
-SRD35.armorsProficiencyLevels = {
-  'None':SRD35.PROFICIENCY_NONE, 'Padded':SRD35.PROFICIENCY_LIGHT,
-  'Leather':SRD35.PROFICIENCY_LIGHT, 'Studded Leather':SRD35.PROFICIENCY_LIGHT,
-  'Chain Shirt':SRD35.PROFICIENCY_LIGHT, 'Hide':SRD35.PROFICIENCY_MEDIUM,
-  'Scale Mail':SRD35.PROFICIENCY_MEDIUM, 'Chainmail':SRD35.PROFICIENCY_MEDIUM,
-  'Breastplate':SRD35.PROFICIENCY_MEDIUM, 'Splint Mail':SRD35.PROFICIENCY_HEAVY,
-  'Banded Mail':SRD35.PROFICIENCY_HEAVY, 'Half Plate':SRD35.PROFICIENCY_HEAVY,
-  'Full Plate': SRD35.PROFICIENCY_HEAVY
-};
 SRD35.deitiesFavoredWeapons = {};
 SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
 SRD35.spellsAbbreviations = {
@@ -1667,7 +1633,7 @@ SRD35.classRules = function(rules, classes) {
           '+4 AC/saves to 1 ally while performing',
         'magicNotes.massSuggestionFeature:' +
           '<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
-        'magicNotes.simpleSomaticsFeature:Reduce armor casting penalty by %V%',
+        'magicNotes.simpleSomaticsFeature:No casting penalty in light armor',
         'magicNotes.songOfFreedomFeature:' +
           '<i>Break Enchantment</i> through performing',
         'magicNotes.suggestionFeature:' +
@@ -1745,12 +1711,8 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('features.Suggestion',
         'maxSkillModifier.Perform', '?', 'source >= 9'
       );
-      rules.defineRule('magicNotes.simpleSomaticsFeature',
-        'armor', '=', 'source.match(/Padded|Leather|Chain Shirt/) ? ' +
-        'SRD35.armorsArcaneSpellFailurePercentages[source] : null'
-      );
       rules.defineRule('magicNotes.arcaneSpellFailure',
-        'magicNotes.simpleSomaticsFeature', '+', '-source'
+        'magicNotes.simpleSomaticsFeature.1', 'v', '0'
       );
       rules.defineRule('magicNotes.fascinateFeature',
         'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
@@ -1766,6 +1728,10 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('magicNotes.massSuggestionFeature',
         'levels.Bard', '=', '10 + Math.floor(source / 2)',
         'charismaModifier', '+', null
+      );
+      rules.defineRule('magicNotes.simpleSomaticsFeatures.1',
+        'magicNotes.simpleSomaticsFeature', '?', null,
+        'wearingLightArmor', '=', null
       );
       rules.defineRule('magicNotes.suggestionFeature',
         'levels.Bard', '=', '10 + Math.floor(source / 2)',
@@ -2541,10 +2507,6 @@ SRD35.combatRules = function(rules) {
     'turnUndead.frequency:%V/day',
     'turnUndead.maxHitDice:(d20+%V)/3'
   ]);
-  rules.defineRule('armorClass',
-    '', '=', '10',
-    'armor', '+', 'SRD35.armorsArmorClassBonuses[source]'
-  );
   rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
   );
@@ -4619,12 +4581,6 @@ SRD35.movementRules = function(rules) {
     'speed', '=', null,
     'runSpeedMultiplier', '*', null
   );
-  rules.defineRule('runSpeedMultiplier',
-    'armor', '=',
-    'SRD35.armorsProficiencyLevels[source] != null && ' +
-    'SRD35.armorsProficiencyLevels[source] >= ' + SRD35.PROFICIENCY_HEAVY +
-    ' ? 3 : 4'
-  );
   rules.defineRule('speed', '', '=', '30');
 };
 
@@ -4782,6 +4738,9 @@ SRD35.raceRules = function(rules, races) {
         'skillNotes.keenNoseFeature:+2 Craft (Alchemy)',
         'skillNotes.smallFeature:+4 Hide'
       ];
+      rules.defineRule('abilityNotes.armorSpeedAdjustment',
+        'abilityNotes.slowFeature', '+', '5'
+      );
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('casterLevels.Gnome',
         'gnomeFeatures.Natural Spells', '?', null,
@@ -4837,6 +4796,9 @@ SRD35.raceRules = function(rules, races) {
         'skillNotes.smallFeature:+4 Hide',
         'skillNotes.spryFeature:+2 Climb/Jump/Move Silently'
       ];
+      rules.defineRule('abilityNotes.armorSpeedAdjustment',
+        'abilityNotes.slowFeature', '+', '5'
+      );
       rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
       rules.defineRule('languages.Halfling',
         'race', '=', 'source.match(/Halfling/) ? 1 : null'
@@ -4927,10 +4889,12 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
   );
   rules.defineRule('maxAllowedSkillPoints', 'level', '=', 'source + 3');
   rules.defineRule('maxAllocatedSkillPoints', /^skills\.[^\.]*$/, '^=', null);
+/*
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
     '', '^', '0'
   );
+*/
   rules.defineRule('skillNotes.armorSwimCheckPenalty',
     'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
   );
@@ -5232,11 +5196,15 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     choices = [];
     for(attr in this.getChoices('armors')) {
+/* TODO
       if((SRD35.armorsProficiencyLevels[attr] != null &&
           SRD35.armorsProficiencyLevels[attr] <= characterProfLevel) ||
          attrs['armorProficiency.' + attr] != null) {
+*/ TODO
         choices[choices.length] = attr;
+/*
       }
+*/
     }
     if(choices.length > 0) {
       attributes['armor'] = choices[QuilvynUtils.random(0, choices.length - 1)];
@@ -5903,7 +5871,12 @@ SRD35.addChoice = function(rules, type, name, attrs) {
   if(type == 'alignments')
     SRD35.alignmentRules(rules, name);
   else if(type == 'armors')
-    SRD35.armorRules(rules, name
+    SRD35.armorRules(rules, name,
+      QuilvynRules.getAttrValue(attrs, 'AC'),
+      QuilvynRules.getAttrValue(attrs, 'Level'),
+      QuilvynRules.getAttrValue(attrs, 'Dex'),
+      QuilvynRules.getAttrValue(attrs, 'Skill'),
+      QuilvynRules.getAttrValue(attrs, 'Spell')
     );
   else if(type == 'companions')
     SRD35.companionRules(rules, name,
@@ -5942,7 +5915,7 @@ SRD35.addChoice = function(rules, type, name, attrs) {
   else if(type == 'shields')
     SRD35.shieldRules(rules, name,
       QuilvynRules.getAttrValue(attrs, 'AC'),
-      QuilvynRules.getAttrValue(attrs, 'Prof'),
+      QuilvynRules.getAttrValue(attrs, 'Level'),
       QuilvynRules.getAttrValue(attrs, 'SkillFail'),
       QuilvynRules.getAttrValue(attrs, 'SpellFail')
     );
@@ -5958,48 +5931,73 @@ SRD35.alignmentRules = function(rules, name) {
 /*
  * TODO
  */
-SRD35.armorRules = function(rules, name) {
-/*
+SRD35.armorRules = function(
+  rules, name, ac, profLevel, maxDex, skillPenalty, spellFail
+) {
+
+  if(rules.armorStats == null) {
+    rules.armorStats = {
+      ac:{},
+      level:{},
+      dex:{},
+      skill:{},
+      spell:{}
+    };
+  }
+  rules.armorStats.ac[name] = ac;
+  rules.armorStats.level[name] = profLevel;
+  rules.armorStats.dex[name] = maxDex;
+  rules.armorStats.skill[name] = skillPenalty;
+  rules.armorStats.spell[name] = spellFail;
+
+  rules.defineNote(
+    'combatNotes.nonproficientArmorPenalty:%V attack',
+    'magicNotes.arcaneSpellFailure:%V%',
+    'sanityNotes.casterLevelArcaneArmor:Implies Armor == "None"',
+    'sanityNotes.inertGoodies:No effect from goodie(s) "%V"',
+    'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus'
+  );
+
+  rules.defineRule('armorClass',
+    '', '=', '10',
+    'armor', '+', QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
+  );
+  rules.defineRule('runSpeedMultiplier',
+    'armor', '=',
+      QuilvynUtils.dictLit(rules.armorStats.level) + '[source] == 3 ? 3 : 4'
+  );
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
     'armor', '=',
-    'SRD35.armorsProficiencyLevels[source] != null && ' +
-    'SRD35.armorsProficiencyLevels[source] >= ' + SRD35.PROFICIENCY_MEDIUM +
-    ' ? -10 : null',
-    'abilityNotes.slowFeature', '+', '5'
+      QuilvynUtils.dictLit(rules.armorStats.level) + '[source] > 1 ? -10 : null'
   );
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
-    'armor', 'v', 'SRD35.armorsMaxDexBonuses[source]'
+    'armor', 'v', QuilvynUtils.dictLit(rules.armorStats.dex) + '[source]'
   );
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'casterLevelArcane', '?', null,
-    'armor', '+=', 'SRD35.armorsArcaneSpellFailurePercentages[source]'
+    'armor', '+=', QuilvynUtils.dictLit(rules.armorStats.spell) + '[source]'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
-  rules.defineNote('magicNotes.arcaneSpellFailure:%V%'),
-  rules.defineNote(
-    'sanityNotes.casterLevelArcaneArmor:Implies Armor == "None"',
+  rules.defineRule('wearingLightArmor',
+    'armor', '=',
+      QuilvynUtils.dictLit(rules.armorStats.level) + '[source] < 2 ? 1 : null'
   );
   rules.defineRule('sanityNotes.casterLevelArcaneArmor',
     'magicNotes.arcaneSpellFailure', '?', null,
     'armor', '=', 'source == "None" ? null : 1'
   );
-  rules.defineNote(
-    'combatNotes.nonproficientArmorPenalty:%V attack',
-    'sanityNotes.inertGoodies:No effect from goodie(s) "%V"',
-    'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus',
-  );
   rules.defineRule('armorProficiencyLevelShortfall',
-    'armor', '=', 'SRD35.armorsProficiencyLevels[source]',
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.level) + '[source]',
     'armorProficiencyLevel', '+', '-source'
   );
   rules.defineRule('combatNotes.nonproficientArmorPenalty',
-    'armor', '=', '-SRD35.armorsSkillCheckPenalties[source]',
+    'armor', '=', '-'+QuilvynUtils.dictLit(rules.armorStats.skill)+'[source]',
     'armorProficiencyLevelShortfall', '?', 'source > 0'
   );
   rules.defineRule('sanityNotes.armorProficiencyLevelArmor',
     'combatNotes.nonproficientArmorPenalty', '=', null
   );
-*/
+
 };
 
 /*
@@ -6062,8 +6060,8 @@ SRD35.companionRules = function(
     'Multiattack': 4, 'Companion Improved Evasion': 6
   };
   for(var feature in features) {
-    if(feature in SRD35.FEATURE_NOTES)
-      rules.defineNote(SRD35.FEATURE_NOTES[feature]);
+    if(feature in SRD35.FEATURES)
+      rules.defineNote(SRD35.FEATURES[feature]);
     if(features[feature] == 1)
       rules.defineRule
         ('animalCompanionFeatures.' + feature, 'companionLevel', '=', '1');
@@ -6189,8 +6187,8 @@ SRD35.companionRules = function(
   );
   for(var feature in features) {
     if(features[feature] > 0) {
-      if(feature in SRD35.FEATURE_NOTES)
-        rules.defineNote(SRD35.FEATURE_NOTES[feature]);
+      if(feature in SRD35.FEATURES)
+        rules.defineNote(SRD35.FEATURES[feature]);
       rules.defineRule('animalCompanionFeatures.' + feature,
         'mountMasterLevel', '=', 'source >= ' + features[feature] + ' ? 1 : null'
       );
@@ -6288,7 +6286,7 @@ SRD35.familiarRules = function(
       '', '^', '0'
     );
   }
-  var note = SRD35.FEATURE_NOTES['Familiar ' + name];
+  var note = SRD35.FEATURES['Familiar ' + name];
   if(note != null) {
     rules.defineNote(note);
     note = note.split(':')[0];
@@ -6308,8 +6306,8 @@ SRD35.familiarRules = function(
     'Speak With Like Animals': 4, 'Companion Resist Spells': 6, 'Scry': 7
   };
   for(var feature in features) {
-    if(feature in SRD35.FEATURE_NOTES)
-      rules.defineNote(SRD35.FEATURE_NOTES[feature]);
+    if(feature in SRD35.FEATURES)
+      rules.defineNote(SRD35.FEATURES[feature]);
     if(features[feature] == 1)
       rules.defineRule
         ('familiarFeatures.' + feature, 'familiarLevel', '=', '1');
@@ -6333,8 +6331,8 @@ SRD35.familiarRules = function(
     'familiarMasterLevel', '=', 'Math.floor((source + 1) / 2)'
   );
 
-  rules.defineNote(SRD35.FEATURE_NOTES['Celestial Familiar']);
-  rules.defineNote(SRD35.FEATURE_NOTES['Fiendish Familiar']);
+  rules.defineNote(SRD35.FEATURES['Celestial Familiar']);
+  rules.defineNote(SRD35.FEATURES['Fiendish Familiar']);
   rules.defineRule('companionNotes.celestialFamiliar',
     'familiarCelestial', '=', '0',
     'familiarStats.HD', '^', null
@@ -6415,6 +6413,20 @@ SRD35.languageRules = function(rules, name) {
  * TODO
  */
 SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
+
+  if(rules.shieldStats == null) {
+    rules.shieldStats = {
+      AC:{},
+      Level:{},
+      Skill:{},
+      Spell:{}
+    };
+  }
+  rules.shieldStats.AC[name] = ac;
+  rules.shieldStats.Level[name] = profLevel;
+  rules.shieldStats.Skill[name] = skillFail;
+  rules.shieldStats.Spell[name] = spellFail;
+
   rules.defineNote(
     'combatNotes.nonproficientShieldPenalty:%V attack',
     'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
@@ -6422,26 +6434,14 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
     'validationNotes.two-handedWeaponWithShield:' +
       'Shields cannot be used with two-handed weapons'
   );
-  if(rules.shieldStats == null) {
-    rules.shieldStats = {
-      AC:{},
-      Prof:{},
-      Skill:{},
-      Spell:{}
-    };
-  }
-  rules.shieldStats.AC[name] = ac;
-  rules.shieldStats.Prof[name] = profLevel;
-  rules.shieldStats.Skill[name] = skillFail;
-  rules.shieldStats.Spell[name] = spellFail;
-console.log(QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
+
   rules.defineRule
     ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Spell) + '[source]'
   );
   rules.defineRule('shieldProficiencyLevelShortfall',
-    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.Prof) + '[source]',
+    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.Level) + '[source]',
     'shieldProficiencyLevel', '+', '-source'
   );
   rules.defineRule('combatNotes.nonproficientShieldPenalty',
@@ -6467,6 +6467,7 @@ console.log(QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
     'magicNotes.arcaneSpellFailure', '?', null,
     'shield', '=', 'source == "None" ? null : 1'
   );
+
 };
 
 /*
