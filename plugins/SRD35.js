@@ -65,7 +65,10 @@ function SRD35() {
   for(var shield in SRD35.SHIELDS) {
     SRD35.addChoice(rules, 'shields', shield, SRD35.SHIELDS[shield]);
   }
-  SRD35.equipmentRules(rules, SRD35.WEAPONS);
+  for(var weapon in SRD35.WEAPONS) {
+    SRD35.addChoice(rules, 'weapons', weapon, SRD35.WEAPONS[weapon]);
+  }
+  SRD35.equipmentRules(rules);
   SRD35.combatRules(rules);
   SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
@@ -418,39 +421,83 @@ SRD35.SYNERGIES = {
   'Use Rope':'Climb (rope)/Escape Artist (rope)'
 };
 SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
-SRD35.WEAPONS = [
-  'Bastard Sword:d10@19 1h Ex', 'Battleaxe:d8x3 1h Ma', 'Bolas:d4r10 Ex',
-  'Club:d6r10 1h Si', 'Composite Longbow:d8x3r110 Ma',
-  'Composite Shortbow:d6x3r70 Ma', 'Dagger:d4@19r10 Li Si', 'Dart:d4r20 Si',
-  'Dire Flail:d8/d8 2h Ex', 'Dwarven Urgosh:d8/d6x3 2h Ex',
-  'Dwarven Waraxe:d10x3 1h Ex', 'Falchion:2d4@18 2h Ma', 'Flail:d8 1h Ma',
-  'Gauntlet:d3 Un Si', 'Glaive:d10x3 2h Ma',
-  'Gnome Hooked Hammer:d8/d6x4 2h Ex', 'Greataxe:d12x3 2h Ma',
-  'Greatclub:d10 2h Ma', 'Greatsword:2d6@19 2h Ma', 'Guisarme:2d4x3 2h Ma',
-  'Halberd:d10x3 2h Ma', 'Hand Crossbow:d4@19r30 Ex', 'Handaxe:d6x3 Li Ma',
-  'Heavy Crossbow:d10@19r120 Si', 'Heavy Flail:d10@19 2h Ma',
-  'Heavy Mace:d8 1h Si', 'Heavy Pick:d6x4 1h Ma', 'Heavy Shield:d4 1h Ma',
-  'Heavy Spiked Shield:d6 1h Ma', 'Improvised:d4r10 Ex', 'Javelin:d6r30 Si',
-  'Kama:d6 Li Ex', 'Kukri:d4@18 Li Ma', 'Lance:d8x3 2h Ma',
-  'Light Crossbow:d8@19r80 Si', 'Light Hammer:d4r20 Li Ma',
-  'Light Mace:d6 Li Si', 'Light Pick:d4x4 Li Ma', 'Light Shield:d3 Li Ma',
-  'Light Spiked Shield:d4 Li Ma', 'Longbow:d8x3r100 Ma', 'Longspear:d8x3 2h Si',
-  'Longsword:d8@19 1h Ma', 'Morningstar:d8 1h Si', 'Net:d0r10 Ex',
-  'Nunchaku:d6 Li Ex', 'Orc Double Axe:d8/d8x3 2h Ex',
-  'Punching Dagger:d4x3 Li Si', 'Quarterstaff:d6/d6 2h Si',
-  'Ranseur:2d4x3 2h Ma', 'Rapier:d6@18 1h Ma',
-  'Repeating Heavy Crossbow:d10@19r120 Ex',
-  'Repeating Light Crossbow:d8@19r80 Ex', 'Sai:d4r10 Li Ex', 'Sap:d6 Li Ma',
-  'Scimitar:d6@18 1h Ma', 'Scythe:2d4x4 2h Ma', 'Short Sword:d6@19 Li Ma',
-  'Shortbow:d6x3r60 Ma', 'Shortspear:d6r20 1h Si', 'Shuriken:d2r10 Ex',
-  'Siangham:d6 Li Ex', 'Sickle:d6 Li Si', 'Sling:d4r50 Si',
-  'Spear:d8x3r20 2h Si', 'Spiked Armor:d6 Li Ma', 'Spiked Chain:2d4 2h Ex',
-  'Spiked Gauntlet:d4 Li Si', 'Throwing Axe:d6r10 Li Ma', 'Trident:d8r10 1h Ma',
-  'Two-Bladed Sword:d8/d8@19 2h Ex', 'Unarmed:d3 Un Si', 'Warhammer:d8x3 1h Ma',
-  'Whip:d3 1h Ex'
-];
+SRD35.WEAPONS = {
+  'Bastard Sword':'Level=3 Category=1h Damage=d10 Threat=19',
+  'Battleaxe':'Level=2 Category=1h Damage=d8 Crit=3',
+  'Bolas':'Level=3 Category=R Damage=d4 Range=10',
+  'Club':'Level=1 Category=1h Damage=d6 Range=10',
+  'Composite Longbow':'Level=2 Category=R Damage=d8 Crit=3 Range=110',
+  'Composite Shortbow':'Level=2 Category=R Damage=d6 Crit=3 Range=70',
+  'Dagger':'Level=1 Category=Li Damage=d4 Threat=19 Range=10',
+  'Dart':'Level=1 Category=R Damage=d4 Range=20',
+  'Dire Flail':'Level=3 Category=2h Damage=d8/d8',
+  'Dwarven Urgosh':'Level=3 Category=2h Damage=d8/d6 Crit=3',
+  'Dwarven Waraxe':'Level=3 Category=1h Damage=d10 Crit=3',
+  'Falchion':'Level=2 Category=2h Damage=2d4 Threat=18',
+  'Flail':'Level=2 Category=1h Damage=d8',
+  'Gauntlet':'Level=0 Category=Un Damage=d3',
+  'Glaive':'Level=2 Category=2h Damage=d10 Crit=3',
+  'Gnome Hooked Hammer':'Level=3 Category=2h Damage=d8/d6 Crit=4',
+  'Greataxe':'Level=2 Category=2h Damage=d12 Crit=3',
+  'Greatclub':'Level=2 Category=2h Damage=d10',
+  'Greatsword':'Level=2 Category=2h Damage=2d6 Threat=19',
+  'Guisarme':'Level=2 Category=2h Damage=2d4 Crit=3',
+  'Halberd':'Level=2 Category=2h Damage=d10 Crit=3',
+  'Hand Crossbow':'Level=3 Category=R Damage=d4 Threat=19 Range=30',
+  'Handaxe':'Level=2 Damage=d6 Category=Li Crit=3',
+  'Heavy Crossbow':'Level=1 Category=R Damage=d10 Threat=19 Range=120',
+  'Heavy Flail':'Level=2 Category=2h Damage=d10 Threat=19',
+  'Heavy Mace':'Level=1 Category=1h Damage=d8',
+  'Heavy Pick':'Level=2 Category=1h Damage=d6 Crit=4',
+  'Heavy Shield':'Level=2 Category=1h Damage=d4',
+  'Heavy Spiked Shield':'Level=2 Category=1h Damage=d6',
+  'Improvised':'Level=3 Category=R Damage=d4 Range=10',
+  'Javelin':'Level=1 Category=R Damage=d6 Range=30',
+  'Kama':'Level=3 Category=Li Damage=d6',
+  'Kukri':'Level=2 Category=Li Damage=d4 Threat=18',
+  'Lance':'Level=2 Category=2h Damage=d8 Crit=3',
+  'Light Crossbow':'Level=1 Category=R Damage=d8 Threat=19 Range=80',
+  'Light Hammer':'Level=2 Category=Li Damage=d4 Range=20',
+  'Light Mace':'Level=1 Category=Li Damage=d6',
+  'Light Pick':'Level=2 Category=Li Damage=d4 Crit=4',
+  'Light Shield':'Level=2 Category=Li Damage=d3',
+  'Light Spiked Shield':'Level=2 Category=Li Damage=d4',
+  'Longbow':'Level=2 Category=R Damage=d8 Crit=3 Range=100',
+  'Longspear':'Level=1 Category=2h Damage=d8 Crit=3',
+  'Longsword':'Level=2 Category=1h Damage=d8 Threat=19',
+  'Morningstar':'Level=1 Category=1h Damage=d8',
+  'Net':'Level=3 Category=R Damage=d0 Range=10',
+  'Nunchaku':'Level=3 Category=Li Damage=d6',
+  'Orc Double Axe':'Level=3 Category=2h Damage=d8/d8 Crit=3',
+  'Punching Dagger':'Level=1 Category=Li Damage=d4 Crit=3',
+  'Quarterstaff':'Level=1 Category=2h Damage=d6/d6',
+  'Ranseur':'Level=2 Category=2h Damage=2d4 Crit=3',
+  'Rapier':'Level=2 Category=1h Damage=d6 Threat=18',
+  'Repeating Heavy Crossbow':'Level=3 Category=R Damage=d10 Threat=19 Range=120',
+  'Repeating Light Crossbow':'Level=3 Category=R Damage=d8 Threat=19 Range=80',
+  'Sai':'Level=3 Category=Li Damage=d4 Range=10',
+  'Sap':'Level=2 Category=Li Damage=d6',
+  'Scimitar':'Level=2 Category=1h Damage=d6 Threat=18',
+  'Scythe':'Level=2 Category=2h Damage=2d4 Crit=4',
+  'Short Sword':'Level=2 Category=Li Damage=d6 Threat=19',
+  'Shortbow':'Level=2 Category=R Damage=d6 Crit=3 Range=60',
+  'Shortspear':'Level=1 Category=1h Damage=d6 Range=20',
+  'Shuriken':'Level=3 Category=R Damage=d2 Range=10',
+  'Siangham':'Level=3 Category=Li Damage=d6',
+  'Sickle':'Level=1 Category=Li Damage=d6',
+  'Sling':'Level=1 Category=R Damage=d4 Range=50',
+  'Spear':'Level=1 Category=2h Damage=d8 Crit=3 Range=20',
+  'Spiked Armor':'Level=2 Category=Li Damage=d6',
+  'Spiked Chain':'Level=3 Category=2h Damage=2d4',
+  'Spiked Gauntlet':'Level=1 Category=Li Damage=d4',
+  'Throwing Axe':'Level=2 Category=Li Damage=d6 Range=10',
+  'Trident':'Level=2 Category=1h Damage=d8 Range=10',
+  'Two-Bladed Sword':'Level=3 Category=2h Damage=d8/d8 Threat=19',
+  'Unarmed':'Level=0 Category=Un Damage=d3',
+  'Warhammer':'Level=2 Category=1h Damage=d8 Crit=3',
+  'Whip':'Level=3 Category=1h Damage=d3'
+};
 
-SRD35.deitiesFavoredWeapons = {};
 SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
 SRD35.spellsAbbreviations = {
   "RL": "L40plus400",
@@ -2787,165 +2834,7 @@ SRD35.createViewers = function(rules, viewers) {
 };
 
 /* Defines the rules related to equipment. */
-SRD35.equipmentRules = function(rules, weapons) {
-
-  rules.defineChoice('weapons', weapons);
-
-  for(var i = 0; i < weapons.length; i++) {
-
-    var pieces = weapons[i].split(':');
-    var matchInfo = pieces[1].match(/(\d?d\d+)(\/(\d?d\d+))?(x(\d))?(@(\d+))?(r(\d+))?/);
-    if(! matchInfo)
-      continue;
-
-    var critMultiplier = matchInfo[5] || '2';
-    var critThreat = matchInfo[7] || '20';
-    var firstDamage = matchInfo[1];
-    var name = pieces[0];
-    var range = matchInfo[9];
-    var secondDamage = matchInfo[3];
-    var weaponName = 'weapons.' + name;
-    var attackBase = !range || 'ClubDaggerLight HammerSaiShortspearSpearTrident'.indexOf(name) >= 0 ? 'meleeAttack' : 'rangedAttack';
-
-    var rangeVar = !range ? null : secondDamage ? 7 : 5;
-    var threatVar = secondDamage ? 6 : 4;
-
-    var format = '%V (%1 %2%3';
-    if(secondDamage)
-      format += '/%4%5';
-    format += ' x' + critMultiplier + '@%' + threatVar;
-    if(range)
-      format += ' R%' + rangeVar + "'";
-    format += ')';
-
-    rules.defineNote(weaponName + ':' + format);
-
-    rules.defineRule('attackBonus.' + name,
-      'weapons.' + name, '?', null,
-      attackBase, '=', null,
-      'weaponAttackAdjustment.' + name, '+', null
-    );
-    if(name.startsWith('Composite')) {
-      rules.defineRule
-        ('attackBonus.' + name, 'strengthModifier', '+', 'source < 0 ? -2 : 0');
-    }
-    rules.defineRule('damageBonus.' + name, 'weapons.' + name, '?', null);
-    if(name.match(/Blowgun|Crossbow|Dartgun|Gun/))
-      rules.defineRule('damageBonus.' + name, '', '=', '0');
-    else if(name.match(/Longbow|Shortbow/))
-      rules.defineRule('damageBonus.' + name,
-        'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
-      );
-    else if(pieces[1].match(/1h|2h/))
-      rules.defineRule('damageBonus.' + name,
-        'combatNotes.strengthDamageAdjustment', '=', null,
-        'combatNotes.two-HandedWieldDamageAdjustment', '+', null
-      );
-    else
-      rules.defineRule('damageBonus.' + name,
-        'combatNotes.strengthDamageAdjustment', '=', null
-      );
-    rules.defineRule
-      ('damageBonus.' + name, 'weaponDamageAdjustment.' + name, '+', null);
-
-    rules.defineRule(weaponName + '.1',
-      'attackBonus.' + name, '=', 'source < 0 ? source : ("+" + source)'
-    );
-
-    rules.defineRule('weaponDamage.' + name,
-      'weapons.' + name, '?', null,
-      '', '=', '"' + firstDamage + '"',
-      'features.Small', '=', '"' + SRD35.weaponsSmallDamage[firstDamage] + '"',
-      'features.Large', '=', '"' + SRD35.weaponsLargeDamage[firstDamage] + '"'
-    );
-    rules.defineRule(weaponName + '.2', 'weaponDamage.' + name, '=', null);
-    rules.defineRule(weaponName + '.3',
-      'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
-    );
-    if(secondDamage) {
-      rules.defineRule('weaponDamage2.' + name,
-        'weapons.' + name, '?', null,
-        '', '=', '"' + secondDamage + '"',
-        'features.Small', '=', '"'+SRD35.weaponsSmallDamage[secondDamage]+'"',
-        'features.Large', '=', '"'+SRD35.weaponsLargeDamage[secondDamage]+'"'
-      );
-      rules.defineRule(weaponName + '.4', 'weaponDamage2.' + name, '=', null);
-      rules.defineRule(weaponName + '.5',
-        'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
-      );
-    }
-
-    rules.defineRule('threat.' + name,
-      'weapons.' + name, '=', critThreat,
-      'weaponCriticalAdjustment.' + name, '+', '-source'
-    );
-    rules.defineRule(weaponName + '.' + threatVar, 'threat.' + name, '=', null);
-
-    if(range) {
-      rules.defineRule('range.' + name,
-        'weapons.' + name, '=', range,
-        'weaponRangeAdjustment.' + name, '+', null,
-        'features.Far Shot', '*', name.indexOf('bow') < 0 ? '2' : '1.5'
-      );
-      rules.defineRule(weaponName + '.' + rangeVar, 'range.' + name, '=', null);
-    }
-
-    if(pieces[1].indexOf('Li') >= 0 ||
-       'RapierWhipSpiked Chain'.indexOf(name) >= 0) {
-      rules.defineRule('weaponAttackAdjustment.' + name,
-        'combatNotes.weaponFinesseFeature', '+=', null
-      );
-    }
-
-  }
-  rules.defineRule('weaponDamage.Unarmed', 'monkUnarmedDamage', '=', null);
-
-  for(var i = 0; i < weapons.length; i++) {
-    var pieces = weapons[i].split(':');
-    var weapon = pieces[0];
-    var profLevel = pieces[1].indexOf('Un') >= 0 ? SRD35.PROFICIENCY_NONE :
-                    pieces[1].indexOf('Si') >= 0 ? SRD35.PROFICIENCY_LIGHT :
-                    pieces[1].indexOf('Ma') >= 0 ? SRD35.PROFICIENCY_MEDIUM :
-                                                   SRD35.PROFICIENCY_HEAVY;
-    rules.defineNote(
-      'combatNotes.nonproficientWeaponPenalty.' + weapon + ':%V attack',
-      'combatNotes.two-handedWeaponWithBucklerPenalty.' + weapon + ':%V attack',
-      'sanityNotes.weaponProficiencyLevelWeapon.' + weapon + ':Lowers attack bonus'
-    );
-    rules.defineRule('weaponAttackAdjustment.' + weapon,
-      'weapons.' + weapon, '?', null,
-      'combatNotes.nonproficientArmorPenalty', '+=', null,
-      'combatNotes.nonproficientShieldPenalty', '+=', null,
-      'combatNotes.nonproficientWeaponPenalty.' + weapon, '+=', null,
-      'combatNotes.two-handedWeaponWithBucklerPenalty.' + weapon, '+', null
-    );
-    rules.defineRule('weaponProficiencyLevelShortfall.' + weapon,
-      'weapons.' + weapon, '=', profLevel,
-      'features.Weapon Familiarity (' + weapon + ')', '+', '-1',
-      'weaponProficiencyLevel', '+', '-source',
-      'features.Weapon Proficiency (' + weapon + ')', '*', '0'
-    );
-    rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + weapon,
-      'weapons.' + weapon, '=', '-4',
-      'weaponProficiencyLevelShortfall.' + weapon, '?', 'source > 0'
-    );
-    rules.defineRule('sanityNotes.weaponProficiencyLevelWeapon.' + weapon,
-      'combatNotes.nonproficientWeaponPenalty.' + weapon, '=', null
-    );
-    if(pieces[1].indexOf('2h') >= 0) {
-      rules.defineRule('combatNotes.two-handedWeaponWithBucklerPenalty.' + weapon,
-        'shield', '?', 'source == "Buckler"',
-        'weapons.' + weapon, '=', '-1'
-      );
-
-      rules.defineRule('sanityNotes.two-handedWeaponWithBuckler',
-        'weapons.' + weapon, '=', '1'
-      );
-      rules.defineRule('validationNotes.two-handedWeaponWithShield',
-        'weapons.' + weapon, '=', '1'
-      );
-    }
-  }
+SRD35.equipmentRules = function(rules) {
 
   rules.defineRule('goodiesList', 'notes', '=',
     'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
@@ -3470,18 +3359,7 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'validationNotes.improvedCritical('+weaponNoSpace+')FeatBaseAttack:' +
           'Requires Base Attack >= 8'
       ];
-      var weaponPat = new RegExp('^' + weapon + ':');
-      var bump = 1;
-      for(var j = 0; j < SRD35.WEAPONS.length; j++) {
-        var spec = SRD35.WEAPONS[j];
-        var criticalMatchInfo;
-        if(weapon == null || !spec.match(weaponPat))
-          continue;
-        if((criticalMatchInfo = spec.match(/@(\d+)/)) != null)
-          bump = 21 - criticalMatchInfo[1];
-        break;
-      }
-      rules.defineRule('weaponCriticalAdjustment.' + weapon, note, '+=', bump);
+      rules.defineRule('threat.' + weapon, note, '*', '2');
     } else if(feat == 'Improved Disarm') {
       notes = [
         'combatNotes.improvedDisarmFeature:No AOO on Disarm, +4 attack',
@@ -4879,25 +4757,12 @@ SRD35.skillRules = function(rules, skills, subskills, synergies) {
   }
 
   rules.defineNote(
-    'skillNotes.armorSkillCheckPenalty:' +
-      '-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/' +
-      'Sleight Of Hand/Tumble',
-    'skillNotes.armorSwimCheckPenalty:-%V Swim',
     'validationNotes.skillMaximum:' +
       'Points allocated to one or more skills exceed maximum',
     'validationNotes.skillAllocation:%1 available vs. %2 allocated'
   );
   rules.defineRule('maxAllowedSkillPoints', 'level', '=', 'source + 3');
   rules.defineRule('maxAllocatedSkillPoints', /^skills\.[^\.]*$/, '^=', null);
-/*
-  rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'armor', '=', 'SRD35.armorsSkillCheckPenalties[source]',
-    '', '^', '0'
-  );
-*/
-  rules.defineRule('skillNotes.armorSwimCheckPenalty',
-    'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
-  );
   rules.defineRule('skillPoints',
     '', '=', '0',
     'level', '^', null
@@ -5919,6 +5784,17 @@ SRD35.addChoice = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'SkillFail'),
       QuilvynRules.getAttrValue(attrs, 'SpellFail')
     );
+  else if(type == 'weapons')
+    SRD35.weaponRules(rules, name,
+      QuilvynRules.getAttrValue(attrs, 'Level'),
+      QuilvynRules.getAttrValue(attrs, 'Category'),
+      QuilvynRules.getAttrValue(attrs, 'Damage'),
+      QuilvynRules.getAttrValue(attrs, 'Threat'),
+      QuilvynRules.getAttrValue(attrs, 'Crit'),
+      QuilvynRules.getAttrValue(attrs, 'Range')
+    );
+  else
+    console.log('Unknown choice type "' + type + '"');
 };
 
 /*
@@ -5953,6 +5829,10 @@ SRD35.armorRules = function(
   rules.defineNote(
     'combatNotes.nonproficientArmorPenalty:%V attack',
     'magicNotes.arcaneSpellFailure:%V%',
+    'skillNotes.armorSkillCheckPenalty:' +
+      '-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/' +
+      'Sleight Of Hand/Tumble',
+    'skillNotes.armorSwimCheckPenalty:-%V Swim',
     'sanityNotes.casterLevelArcaneArmor:Implies Armor == "None"',
     'sanityNotes.inertGoodies:No effect from goodie(s) "%V"',
     'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus'
@@ -5996,6 +5876,12 @@ SRD35.armorRules = function(
   );
   rules.defineRule('sanityNotes.armorProficiencyLevelArmor',
     'combatNotes.nonproficientArmorPenalty', '=', null
+  );
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
+  );
+  rules.defineRule('skillNotes.armorSwimCheckPenalty',
+    'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
   );
 
 };
@@ -6226,8 +6112,13 @@ SRD35.companionRules = function(
  * TODO
  */
 SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
-  if(domains != null && domains.indexOf("War") >= 0 && favoredWeapons != null) {
-    SRD35.deitiesFavoredWeapons[name] = favoredWeapons;
+  if(rules.deityStats == null) {
+    rules.deityStats = {
+      weapon:{}
+    };
+  }
+  if(favoredWeapons != null) {
+    rules.deityStats.weapon[name] = favoredWeapons.join(',');
     for(var j = 0; j < favoredWeapons.length; j++) {
       var weapon = favoredWeapons[j];
       var focusFeature = 'Weapon Focus (' + weapon + ')';
@@ -6235,12 +6126,12 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
       rules.defineRule('clericFeatures.' + focusFeature,
         'domains.War', '?', null,
         'levels.Cleric', '?', null,
-        'deity', '=', 'SRD35.deitiesFavoredWeapons[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
+        'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source].indexOf("' + weapon + '") >= 0  ? 1 : null'
       );
       rules.defineRule('clericFeatures.' + proficiencyFeature,
         'domains.War', '?', null,
         'levels.Cleric', '?', null,
-        'deity', '=', 'SRD35.deitiesFavoredWeapons[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
+        'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
       );
       rules.defineRule
         ('features.' + focusFeature, 'clericFeatures.' + focusFeature, '=', null);
@@ -6467,6 +6358,159 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
     'magicNotes.arcaneSpellFailure', '?', null,
     'shield', '=', 'source == "None" ? null : 1'
   );
+
+};
+
+/*
+ * TODO
+ */
+SRD35.weaponRules = function(
+  rules, name, profLevel, category, damage, threat, critMultiplier, range
+) {
+
+  var matchInfo = damage.match(/(\d?d\d+)(\/(\d?d\d+))?/);
+  if(!matchInfo) {
+    console.log('Bad damage "' + damage + '" for weapon "' + name + '"');
+    return;
+  }
+  if(!threat)
+    threat=20;
+  if(!critMultiplier)
+    critMultiplier = 2;
+  var firstDamage = matchInfo[1];
+  var secondDamage = matchInfo[3];
+  var weaponName = 'weapons.' + name;
+  var attackBase = category == 'R' ? 'rangedAttack' : 'meleeAttack';
+
+  var rangeVar = !range ? null : secondDamage ? 7 : 5;
+  var threatVar = secondDamage ? 6 : 4;
+
+  var format = '%V (%1 %2%3';
+  if(secondDamage)
+    format += '/%4%5';
+  format += ' x' + critMultiplier + '@%' + threatVar;
+  if(range)
+    format += ' R%' + rangeVar + "'";
+  format += ')';
+
+  rules.defineNote(weaponName + ':' + format);
+
+  rules.defineRule('attackBonus.' + name,
+    'weapons.' + name, '?', null,
+    attackBase, '=', null,
+    'weaponAttackAdjustment.' + name, '+', null
+  );
+  if(name.startsWith('Composite')) {
+    rules.defineRule
+      ('attackBonus.' + name, 'strengthModifier', '+', 'source < 0 ? -2 : 0');
+  }
+  rules.defineRule('damageBonus.' + name, 'weapons.' + name, '?', null);
+  if(name.match(/Blowgun|Crossbow|Dartgun|Gun/))
+    rules.defineRule('damageBonus.' + name, '', '=', '0');
+  else if(name.match(/Longbow|Shortbow/))
+    rules.defineRule('damageBonus.' + name,
+      'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
+    );
+  else if(category.match(/1h|2h/))
+    rules.defineRule('damageBonus.' + name,
+      'combatNotes.strengthDamageAdjustment', '=', null,
+      'combatNotes.two-HandedWieldDamageAdjustment', '+', null
+    );
+  else
+    rules.defineRule('damageBonus.' + name,
+      'combatNotes.strengthDamageAdjustment', '=', null
+    );
+  rules.defineRule
+    ('damageBonus.' + name, 'weaponDamageAdjustment.' + name, '+', null);
+
+  rules.defineRule(weaponName + '.1',
+    'attackBonus.' + name, '=', 'source < 0 ? source : ("+" + source)'
+  );
+
+  rules.defineRule('weaponDamage.' + name,
+    'weapons.' + name, '?', null,
+    '', '=', '"' + firstDamage + '"',
+    'features.Small', '=', '"' + SRD35.weaponsSmallDamage[firstDamage] + '"',
+    'features.Large', '=', '"' + SRD35.weaponsLargeDamage[firstDamage] + '"'
+  );
+  rules.defineRule(weaponName + '.2', 'weaponDamage.' + name, '=', null);
+  rules.defineRule(weaponName + '.3',
+    'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
+  );
+  if(secondDamage) {
+    rules.defineRule('weaponDamage2.' + name,
+      'weapons.' + name, '?', null,
+      '', '=', '"' + secondDamage + '"',
+      'features.Small', '=', '"'+SRD35.weaponsSmallDamage[secondDamage]+'"',
+      'features.Large', '=', '"'+SRD35.weaponsLargeDamage[secondDamage]+'"'
+    );
+    rules.defineRule(weaponName + '.4', 'weaponDamage2.' + name, '=', null);
+    rules.defineRule(weaponName + '.5',
+      'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
+    );
+  }
+
+  rules.defineRule('threat.' + name,
+    'weapons.' + name, '=', 21 - threat,
+    'weaponCriticalAdjustment.' + name, '+', null
+  );
+  rules.defineRule(weaponName + '.' + threatVar, 'threat.' + name, '=', '21 - source');
+
+  if(range) {
+    rules.defineRule('range.' + name,
+      'weapons.' + name, '=', range,
+      'weaponRangeAdjustment.' + name, '+', null,
+      'features.Far Shot', '*', name.indexOf('bow') < 0 ? '2' : '1.5'
+    );
+    rules.defineRule(weaponName + '.' + rangeVar, 'range.' + name, '=', null);
+  }
+
+  if(category == 'Li' || 'RapierWhipSpiked Chain'.indexOf(name) >= 0) {
+    rules.defineRule('weaponAttackAdjustment.' + name,
+      'combatNotes.weaponFinesseFeature', '+=', null
+    );
+  }
+
+  if(name == 'Unarmed')
+    rules.defineRule('weaponDamage.Unarmed', 'monkUnarmedDamage', '=', null);
+
+  rules.defineNote(
+    'combatNotes.nonproficientWeaponPenalty.' + name + ':%V attack',
+    'combatNotes.two-handedWeaponWithBucklerPenalty.' + name + ':%V attack',
+    'sanityNotes.weaponProficiencyLevelWeapon.' + name + ':Lowers attack bonus'
+  );
+  rules.defineRule('weaponAttackAdjustment.' + name,
+    'weapons.' + name, '?', null,
+    'combatNotes.nonproficientArmorPenalty', '+=', null,
+    'combatNotes.nonproficientShieldPenalty', '+=', null,
+    'combatNotes.nonproficientWeaponPenalty.' + name, '+=', null,
+    'combatNotes.two-handedWeaponWithBucklerPenalty.' + name, '+', null
+  );
+  rules.defineRule('weaponProficiencyLevelShortfall.' + name,
+    'weapons.' + name, '=', profLevel,
+    'features.Weapon Familiarity (' + name + ')', '+', '-1',
+    'weaponProficiencyLevel', '+', '-source',
+    'features.Weapon Proficiency (' + name + ')', '*', '0'
+  );
+  rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + name,
+    'weapons.' + name, '=', '-4',
+    'weaponProficiencyLevelShortfall.' + name, '?', 'source > 0'
+  );
+  rules.defineRule('sanityNotes.weaponProficiencyLevelWeapon.' + name,
+    'combatNotes.nonproficientWeaponPenalty.' + name, '=', null
+  );
+  if(category == '2h') {
+    rules.defineRule('combatNotes.two-handedWeaponWithBucklerPenalty.' + name,
+      'shield', '?', 'source == "Buckler"',
+      'weapons.' + name, '=', '-1'
+    );
+    rules.defineRule('sanityNotes.two-handedWeaponWithBuckler',
+      'weapons.' + name, '=', '1'
+    );
+    rules.defineRule('validationNotes.two-handedWeaponWithShield',
+      'weapons.' + name, '=', '1'
+    );
+  }
 
 };
 
