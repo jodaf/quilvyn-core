@@ -67,18 +67,27 @@ QuilvynRules.getAttrValue = function(attrs, name) {
  */
 QuilvynRules.getAttrValueArray = function(attrs, name) {
   var matchInfo;
-  var pat = new RegExp('\\b' + name + '=(\'[^\']*\'|"[^"]*"|[^\\s]*)', 'gi');
+  var pat = new RegExp('\\b' + name + '=(\'[^\']*\'|"[^"]*"|[^\\s,]*)(,(\'[^\']*\'|"[^"]*"|[^\\s,]*))*', 'gi');
   var result = [];
   if((matchInfo = attrs.match(pat))) {
-    for(var i = 0; i < matchInfo.length; i++) {
-      if(matchInfo[i].endsWith('"') || matchInfo[i].endsWith("'")) {
-        result.push(matchInfo[i].substring(name.length + 2, matchInfo[i].length - 1));
-      } else {
-        result.push(matchInfo[i].substring(name.length + 1));
-        if(result[result.length - 1].match(/^\d+$/))
-          result[result.length - 1] *= 1; // Convert to number
-      }
+    var lastMatch = matchInfo.pop().substring(name.length + 1);
+    var pat = '^\'[^\']*\',|^"[^"]*",|^[^\\s,]*,';
+    while((matchInfo = lastMatch.match(pat))) {
+      var value = matchInfo[0].substring(0, matchInfo[0].length - 1);
+      if(value.startsWith('"') || value.startsWith("'"))
+        result.push(value.substring(1, value.length - 1));
+      else if(value.match(/^\d+$/))
+        result.push(value * 1); // Convert to number
+      else
+        result.push(value);
+      lastMatch = lastMatch.substring(matchInfo[0].length);
     }
+    if(lastMatch.endsWith('"') || lastMatch.endsWith("'"))
+      result.push(lastMatch.substring(1, lastMatch.length - 1));
+    else if(lastMatch.match(/^d+$/))
+      result.push(lastMatch * 1); // Convert to number
+    else
+      result.push(lastMatch);
   }
   return result;
 };
