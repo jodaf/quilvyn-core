@@ -38,7 +38,6 @@ function SRD35() {
   SRD35.abilityRules(rules);
   SRD35.raceRules(rules, SRD35.RACES);
   SRD35.classRules(rules, SRD35.CLASSES);
-  SRD35.skillRules(rules, SRD35.SKILLS, SRD35.SUBSKILLS, SRD35.SYNERGIES);
   SRD35.featRules(rules, SRD35.FEATS, SRD35.SUBFEATS);
   for(var alignment in SRD35.ALIGNMENTS) {
     SRD35.addChoice(rules, 'alignments', alignment, SRD35.ALIGNMENTS[alignment]);
@@ -64,6 +63,9 @@ function SRD35() {
   }
   for(var shield in SRD35.SHIELDS) {
     SRD35.addChoice(rules, 'shields', shield, SRD35.SHIELDS[shield]);
+  }
+  for(var skill in SRD35.SKILLS) {
+    SRD35.addChoice(rules, 'skills', skill, SRD35.SKILLS[skill]);
   }
   for(var weapon in SRD35.WEAPONS) {
     SRD35.addChoice(rules, 'weapons', weapon, SRD35.WEAPONS[weapon]);
@@ -362,19 +364,59 @@ SRD35.SHIELDS = {
   'None':'',
   'Tower':'AC=4 Level=4 SkillFail=10 SpellFail=50'
 };
-SRD35.SKILLS = [
-  'Appraise:int', 'Balance:dex', 'Bluff:cha', 'Climb:str', 'Concentration:con',
-  'Craft:int', 'Decipher Script:int/trained', 'Diplomacy:cha',
-  'Disable Device:int/trained', 'Disguise:cha', 'Escape Artist:dex',
-  'Forgery:int', 'Gather Information:cha', 'Handle Animal:cha/trained',
-  'Heal:wis', 'Hide:dex', 'Intimidate:cha', 'Jump:str',
-  'Knowledge:int/trained', 'Listen:wis', 'Move Silently:dex',
-  'Open Lock:dex/trained', 'Perform:cha', 'Profession:wis/trained', 'Ride:dex',
-  'Search:int', 'Sense Motive:wis', 'Sleight Of Hand:dex/trained',
-  'Speak Language:/trained', 'Spellcraft:int/trained', 'Spot:wis',
-  'Survival:wis', 'Swim:str', 'Tumble:dex/trained',
-  'Use Magic Device:cha/trained', 'Use Rope:dex'
-];
+SRD35.SKILLS = {
+  'Appraise':'Ability=intelligence Class=Bard,Rogue',
+  'Balance':'Ability=dexterity Class=Bard,Monk,Rogue',
+  'Bluff':'Ability=charisma Class=Bard,Rogue,Sorcerer Synergy="Diplomacy/Disguise (acting)/Intimidate/Sleight Of Hand"',
+  'Climb':'Ability=strength Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue',
+  'Concentration':'Ability=constitution Class=Bard,Cleric,Druid,Monk,Paladin,Ranger,Sorcerer,Wizard',
+  'Decipher Script':'Ability=intelligence Untrained=n Class=Bard,Rogue,Wizard Synergy="Use Magic Device (scrolls)"',
+  'Diplomacy':'Ability=charisma Class=Bard,Cleric,Druid,Monk,Paladin,Rogue',
+  'Disable Device':'Ability=intelligence Untrained=n Class=Rogue',
+  'Disguise':'Ability=charisma Class=Bard,Rogue',
+  'Escape Artist':'Ability=dexterity Class=Bard,Monk,Rogue Synergy="Use Rope (bindings)"',
+  'Forgery':'Ability=intelligence Class=Rogue',
+  'Gather Information':'Ability=charisma Class=Bard,Rogue',
+  'Handle Animal':'Ability=charisma Untrained=n Class=Barbarian,Druid,Fighter,Paladin,Ranger Synergy="Diplomacy (animals)/Ride"',
+  'Heal':'Ability=wisdom Class=Cleric,Druid,Paladin,Ranger',
+  'Hide':'Ability=dexterity Class=Bard,Monk,Ranger,Rogue',
+  'Intimidate':'Ability=charisma Class=Barbarian,Fighter,Rogue',
+  'Jump':'Ability=strength Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue Synergy=Tumble',
+  'Knowledge (Arcana)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Monk,Sorcerer,Wizard Synergy=Spellcraft',
+  'Knowledge (Dungeoneering)':'Ability=intelligence Untrained=n Class=Bard,Ranger,Wizard Synergy="Survival (underground)"',
+  'Knowledge (Engineering)':'Ability=intelligence Untrained=n Class=Bard,Wizard Synergy="Search (secret doors)"',
+  'Knowledge (Geography)':'Ability=intelligence Untrained=n Class=Bard,Ranger,Wizard Synergy="Survival (lost/hazards)"',
+  'Knowledge (History)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Wizard Synergy="Bardic Knowledge"',
+  'Knowledge (Local)':'Ability=intelligence Untrained=n Class=Bard,Rogue,Wizard SYnergy="Gather Information"',
+  'Knowledge (Nature)':'Ability=intelligence Untrained=n Class=Bard,Druid,Ranger,Wizard Synergy="Survial (outdoors)',
+  'Knowledge (Nobility)':'Ability=intelligence Untrained=n Class=Bard,Paladin,Wizard Synergy="Diplomacy"',
+  'Knowledge (Planes)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Wizard Synergy="Survival (other planes)"',
+  'Knowledge (Religion)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Monk,Paladin,Wizard Synergy="Undead turning check"',
+  'Listen':'Ability=wisdom Class=Barbarian,Bard,Druid,Monk,Ranger,Rogue',
+  'Move Silently':'Ability=dexterity Class=Bard,Monk,Ranger,Rogue',
+  'Open Lock':'Ability=dexterity Untrained=n Class=Rogue',
+  'Perform (Act)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (Comedy)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (Dance)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (Keyboard)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (Oratory)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (Percussion)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (Sing)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (String)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (Wind)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Ride':'Ability=dexterity Class=Barbarian,Druid,Fighter,Paladin,Ranger',
+  'Search':'Ability=intelligence Class=Ranger,Rogue Synergy="Survival (tracking)"',
+  'Sense Motive':'Ability=wisdom Class=Bard,Monk,Paladin,Rogue Synergy=Diplomacy',
+  'Sleight Of Hand':'Ability=dexterity Untrained=n Class=Bard,Rogue',
+  'Speak Language':'Untrained=n Class=Bard',
+  'Spellcraft':'Ability=intelligence Untrained=n Class=Bard,Cleric,Druid,Sorcerer,Wizard Synergy="Use Magic Device (scroll)"',
+  'Spot':'Ability=wisdom Class=Druid,Monk,Ranger,Rogue',
+  'Survival':'Ability=wisdom Class=Barbarian,Druid,Ranger Synergy="Knowledge (Nature)"',
+  'Swim':'Ability=strength Class=Barbarian,Bard,Druid,Fighter,Monk,Ranger,Rogue',
+  'Tumble':'Ability=dexterity Untrained=n Class=Bard,Monk,Rogue Synergy=Balance,Jump',
+  'Use Magic Device':'Ability=charisma Untrained=n Class=Bard,Rogue Synergy="Spellcraft (scroll)"',
+  'Use Rope':'Ability=dexterity Class=Ranger,Rogue Synergy="Climb (rope)","Escape Artist (rope)"'
+};
 SRD35.SUBFEATS = {
   'Armor Proficiency':'Heavy/Light/Medium',
   'Greater Spell Focus':SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
@@ -388,37 +430,6 @@ SRD35.SUBFEATS = {
   'Weapon Focus':'',
   'Weapon Proficiency':'Simple',
   'Weapon Specialization':'Dwarven Waraxe/Longsword'
-};
-SRD35.SUBSKILLS = {
-  'Craft':'',
-  'Knowledge':'Arcana/Dungeoneering/Engineering/Geography/' +
-              'History/Local/Nature/Nobility/Planes/Religion',
-  'Perform':'Act/Comedy/Dance/Keyboard/Oratory/Percussion/Sing/String/Wind',
-  'Profession':''
-};
-SRD35.SYNERGIES = {
-  'Bluff':'Diplomacy/Disguise (acting)/Intimidate/Sleight Of Hand',
-  'Decipher Script':'Use Magic Device (scrolls)',
-  'Escape Artist':'Use Rope (bindings)',
-  'Handle Animal':'Diplomacy (animals)/Ride',
-  'Jump':'Tumble',
-  'Knowledge (Arcana)':'Spellcraft',
-  'Knowledge (Dungeoneering)':'Survival (underground)',
-  'Knowledge (Engineering)':'Search (secret doors)',
-  'Knowledge (Geography)':'Survival (lost/hazards)',
-  'Knowledge (History)':'Bardic Knowledge',
-  'Knowledge (Local)':'Gather Information',
-  'Knowledge (Nature)':'Survival (outdoors)',
-  'Knowledge (Nobility)':'Diplomacy',
-  'Knowledge (Planes)':'Survival (other planes)',
-  'Knowledge (Religion)':'undead turning check',
-  'Search':'Survival (tracking)',
-  'Sense Motive':'Diplomacy',
-  'Spellcraft':'Use Magic Device (scroll)',
-  'Survival':'Knowledge (Nature)',
-  'Tumble':'Balance/Jump',
-  'Use Magic Device':'Spellcraft (scrolls)',
-  'Use Rope':'Climb (rope)/Escape Artist (rope)'
 };
 SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
 SRD35.WEAPONS = {
@@ -4719,74 +4730,6 @@ SRD35.raceRules = function(rules, races) {
 
 };
 
-/* Defines the rules related to character skills. */
-SRD35.skillRules = function(rules, skills, subskills, synergies) {
-
-  var allSkills = [];
-  for(var i = 0; i < skills.length; i++) {
-    var pieces = skills[i].split(':');
-    var skill = pieces[0];
-    var skillSubskills = subskills[skill];
-    if(skillSubskills == null) {
-      allSkills[allSkills.length] = skills[i];
-    } else if(skillSubskills != '') {
-      skillSubskills = skillSubskills.split('/');
-      for(var j = 0; j < skillSubskills.length; j++) {
-        var subskill = skill + ' (' + skillSubskills[j] + ')';
-        allSkills[allSkills.length] = subskill + ':' + pieces[1];
-        rules.defineRule
-          ('classSkills.' + subskill, 'classSkills.' + skill, '=', '1');
-      }
-    }
-  }
-
-  for(var i = 0; i < allSkills.length; i++) {
-    var pieces = allSkills[i].split(':');
-    var skill = pieces[0];
-    var ability = pieces[1].replace(/\/.*/, '');
-    var matchInfo;
-    var synergy = synergies == null ? null : synergies[skill];
-    if((matchInfo = skill.match(/^Craft \((.*)\)$/)) != null &&
-       synergies != null) {
-      var topic = matchInfo[1];
-      var topicNoSpace = topic.replace(/ /g, '');
-      synergy = 'related Appraise';
-    }
-    SRD35.defineSkill
-      (rules, skill, ability, pieces[1].includes('/trained'), synergy, null);
-  }
-
-  rules.defineNote(
-    'validationNotes.skillMaximum:' +
-      'Points allocated to one or more skills exceed maximum',
-    'validationNotes.skillAllocation:%1 available vs. %2 allocated'
-  );
-  rules.defineRule('maxAllowedSkillPoints', 'level', '=', 'source + 3');
-  rules.defineRule('maxAllocatedSkillPoints', /^skills\.[^\.]*$/, '^=', null);
-  rules.defineRule('skillPoints',
-    '', '=', '0',
-    'level', '^', null
-  );
-  rules.defineRule('validationNotes.skillMaximum',
-    'maxAllocatedSkillPoints', '=', '-source',
-    'maxAllowedSkillPoints', '+', 'source',
-    '', 'v', '0'
-  );
-  rules.defineRule('validationNotes.skillAllocation.1',
-    '', '=', '0',
-    'skillPoints', '=', null
-  );
-  rules.defineRule('validationNotes.skillAllocation.2',
-    '', '=', '0',
-    /^skills\.[^\.]*$/, '+=', null
-  );
-  rules.defineRule('validationNotes.skillAllocation',
-    'validationNotes.skillAllocation.1', '=', '-source',
-    'validationNotes.skillAllocation.2', '+=', null
-  );
-
-};
-
 /* Replaces spell names with longer descriptions on the character sheet. */
 SRD35.spellRules = function(rules, spells, descriptions) {
   if(spells == null) {
@@ -5784,6 +5727,13 @@ SRD35.addChoice = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'SkillFail'),
       QuilvynRules.getAttrValue(attrs, 'SpellFail')
     );
+  else if(type == 'skills')
+    SRD35.skillRules(rules, name,
+      QuilvynRules.getAttrValue(attrs, 'Ability'),
+      QuilvynRules.getAttrValue(attrs, 'Untrained'),
+      QuilvynRules.getAttrValueArray(attrs, 'Class'),
+      QuilvynRules.getAttrValueArray(attrs, 'Synergy')
+    );
   else if(type == 'weapons')
     SRD35.weaponRules(rules, name,
       QuilvynRules.getAttrValue(attrs, 'Level'),
@@ -6303,6 +6253,86 @@ SRD35.languageRules = function(rules, name) {
 /*
  * TODO
  */
+SRD35.skillRules = function(
+  rules, name, ability, untrained, classes, synergies
+) {
+
+  rules.defineRule('skillModifier.' + name,
+    'skills.' + name, '=', 'source / 2',
+    'classSkills.' + name, '*', '2'
+  );
+  rules.defineNote('skills.' + name + ':(%1%2) %V (%3)');
+  if(ability)
+    rules.defineRule
+      ('skills.' + name + '.1', 'skills.' + name, '=', '"' + ability.substring(0,3) + '"');
+  else
+    rules.defineRule('skills.' + name + '.1', 'skills.' + name, '=', '""');
+  rules.defineRule('skills.' + name + '.2',
+    'skills.' + name, '?', '1',
+    '', '=', '";cc"',
+    'classSkills.' + name, '=', '""'
+  );
+  rules.defineRule('skills.' + name + '.3', 'skillModifier.' + name, '=', null);
+
+  if(ability)
+    rules.defineRule('skillModifier.' + name, ability + 'Modifier', '+', null);
+
+  if(synergies != null && synergies.length > 0) {
+    var prefix = name.substring(0, 1).toLowerCase() +
+                 name.substring(1).replace(/ /g, '');
+    rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergies.join('/'));
+  }
+
+  if(name == 'Knowledge (Religion)') {
+    rules.defineRule('turnUndead.maxHitDice',
+      'skillNotes.knowledge(Religion)Synergy', '+', '2'
+    );
+  } else if(name == 'Speak Language') {
+    rules.defineRule
+      ('languageCount', 'skillModifier.Speak Language', '+', null);
+  }
+
+  if(classes == null || classes == 'all') {
+    rules.defineRule('classSkills.' + name, 'level', '=', '1');
+  } else {
+    for(var i = 0; i < classes.length; i++)
+      rules.defineRule('classSkills.' + name, 'levels.'+classes[i], '=', '1');
+  }
+
+  rules.defineNote(
+    'validationNotes.skillMaximum:' +
+      'Points allocated to one or more skills exceed maximum',
+    'validationNotes.skillAllocation:%1 available vs. %2 allocated'
+  );
+  rules.defineRule('maxAllowedSkillPoints', 'level', '=', 'source + 3');
+  rules.defineRule('maxAllocatedSkillPoints', /^skills\.[^\.]*$/, '^=', null);
+  rules.defineRule('skillPoints',
+    '', '=', '0',
+    'level', '^', null
+  );
+  rules.defineRule('validationNotes.skillMaximum',
+    'maxAllocatedSkillPoints', '=', '-source',
+    'maxAllowedSkillPoints', '+', 'source',
+    '', 'v', '0'
+  );
+  rules.defineRule('validationNotes.skillAllocation.1',
+    '', '=', '0',
+    'skillPoints', '=', null
+  );
+  rules.defineRule('validationNotes.skillAllocation.2',
+    '', '=', '0',
+    /^skills\.[^\.]*$/, '+=', null
+  );
+  rules.defineRule('validationNotes.skillAllocation',
+    'validationNotes.skillAllocation.1', '=', '-source',
+    'validationNotes.skillAllocation.2', '+=', null
+  );
+
+};
+
+/*
+ * TODO
+ */
 SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
 
   if(rules.shieldStats == null) {
@@ -6699,70 +6729,6 @@ SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
     rules.defineChoice('extras', prefix + 'Features');
   }
 };
-
-/*
- * A convenience function that adds #name# to the list of known skills in
- * #rules#.  #ability# is either null or the three-character abbreviation for
- * the skills primary ability ("str", "int", "dex", etc.). #trainedOnly# is
- * a boolean indicating whether only those trained in the skill can use it.
- * #synergy#, if not null, is a slash-delimited list of skill names with which
- * this skill has a synergy. #classes#, if not null, is either "all" or a slash-
- * delimited list of class names, indicating the classes for which this skill
- * is a class skill.
- */
-SRD35.defineSkill = function
-  (rules, name, ability, trainedOnly, synergy, classes) {
-
-  var abilityNames = {
-    'cha':'charisma', 'con':'constitution', 'dex':'dexterity',
-    'int':'intelligence', 'str':'strength', 'wis':'wisdom'
-  };
-
-  rules.defineChoice('skills', name + ':' + (ability ? ability : ''));
-  rules.defineRule('skillModifier.' + name,
-    'skills.' + name, '=', 'source / 2',
-    'classSkills.' + name, '*', '2'
-  );
-  rules.defineNote('skills.' + name + ':(%1%2) %V (%3)');
-  rules.defineRule
-    ('skills.' + name + '.1', 'skills.' + name, '=', '"' + ability + '"');
-  rules.defineRule('skills.' + name + '.2',
-    'skills.' + name, '?', '1',
-    '', '=', '";cc"',
-    'classSkills.' + name, '=', '""'
-  );
-  rules.defineRule('skills.' + name + '.3', 'skillModifier.' + name, '=', null);
-
-  if(ability && abilityNames[ability]) {
-    rules.defineRule('skillModifier.' + name,
-      abilityNames[ability] + 'Modifier', '+', null
-    );
-  }
-
-  if(synergy != null) {
-    var prefix = name.substring(0, 1).toLowerCase() +
-                 name.substring(1).replace(/ /g, '');
-    rules.defineNote('skillNotes.' + prefix + 'Synergy:+2 ' + synergy);
-  }
-
-  if(name == 'Knowledge (Religion)') {
-    rules.defineRule('turnUndead.maxHitDice',
-      'skillNotes.knowledge(Religion)Synergy', '+', '2'
-    );
-  } else if(name == 'Speak Language') {
-    rules.defineRule
-      ('languageCount', 'skillModifier.Speak Language', '+', null);
-  }
-
-  if(classes == 'all') {
-    rules.defineRule('classSkills.' + name, 'level', '=', '1');
-  } else if(classes) {
-    classes = classes.split('/');
-    for(var i = 0; i < classes.length; i++)
-      rules.defineRule('classSkills.' + name, 'levels.'+classes[i], '=', '1');
-  }
-
-}
 
 /* Convenience functions that invoke QuilvynRules methods on the SRD35 rules. */
 SRD35.applyRules = function() {
