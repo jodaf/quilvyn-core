@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.8.1.5';
+var SRD35_VERSION = '1.8.1.6';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -47,7 +47,8 @@ function SRD35() {
   SRD35.movementRules(rules);
   SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
   SRD35.spellRules(rules, null, SRD35.spellsDescriptions);
-  rules.defineChoice('extras', 'feats', 'featCount', 'selectableFeatureCount');
+  rules.defineChoice
+    ('extras', 'feats', 'featCount', 'selectableFeatureCount', 'spellsKnown');
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
   Quilvyn.addRuleSet(rules);
