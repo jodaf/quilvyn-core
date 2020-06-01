@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '1.8.1.6';
+var SRD35_VERSION = '1.8.1.7';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5.  The
@@ -3006,7 +3006,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Race', within: 'Identity', format: ' <b>%V</b>'},
             {name: 'Levels', within: 'Identity', format: ' <b>%V</b>',
              separator: '/'},
-          {name: 'Image Url', within: 'Header', format: '<img src="%V"/>'},
+          {name: 'Image Url', within: 'Header', format: '<img src="%V" alt="No Image"/>'},
         {name: 'Attributes', within: '_top', separator: outerSep},
           {name: 'Abilities', within: 'Attributes', separator: innerSep},
             {name: 'Strength', within: 'Abilities'},

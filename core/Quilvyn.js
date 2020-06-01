@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '1.8.1';
+var VERSION = '1.8.2';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -351,8 +351,8 @@ Quilvyn.newCharacter = function() {
     } else if(type == 'select-one') {
       var options = typeof(params) == 'string' ? QuilvynUtils.getKeys(ruleSet.getChoices(params)) : params;
       character[name] = options.includes('None') ? 'None' : options[0];
-    } else if(type == 'text' && params[0] >= 5) {
-      character[name] = name == 'experience' ? 0 : ('No ' + label);
+    } else if(name == 'experience' || name == 'hitPoints') {
+      character[name] = 0;
     }
   }
   characterPath = '';
