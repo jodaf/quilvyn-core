@@ -61,6 +61,9 @@ function SRD35() {
   for(var language in SRD35.LANGUAGES) {
     SRD35.addChoice(rules, 'languages', language, SRD35.LANGUAGES[language]);
   }
+  for(var school in SRD35.SCHOOLS) {
+    SRD35.addChoice(rules, 'schools', school, SRD35.SCHOOLS[school]);
+  }
   for(var shield in SRD35.SHIELDS) {
     SRD35.addChoice(rules, 'shields', shield, SRD35.SHIELDS[shield]);
   }
@@ -76,7 +79,7 @@ function SRD35() {
   SRD35.equipmentRules(rules);
   SRD35.combatRules(rules);
   SRD35.movementRules(rules);
-  // SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
+  SRD35.magicRules(rules, SRD35.DOMAINS);
   rules.defineChoice('extras', 'feats', 'featCount', 'selectableFeatureCount');
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
@@ -4147,14 +4150,9 @@ SRD35.featRules = function(rules, feats, subfeats) {
 };
 
 /* Defines the rules related to spells and domains. */
-SRD35.magicRules = function(rules, classes, domains, schools) {
+SRD35.magicRules = function(rules, domains) {
 
-  rules.defineChoice('schools', schools);
-  schools = rules.getChoices('schools');
-
-  for(var i = 0; i < classes.length; i++) {
-    var klass = classes[i];
-    var spells;
+/*
     if(klass == 'Bard') {
       spells = [
         'B0:Dancing Lights:Daze:Detect Magic:Flare:Ghost Sound:' +
@@ -4442,24 +4440,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
         'Summon Monster IX:Teleportation Circle:Time Stop:' +
         'Wail Of The Banshee:Weird:Wish'
       ];
-    } else
-      continue;
-    if(spells != null) {
-      for(var j = 0; j < spells.length; j++) {
-        var pieces = spells[j].split(':');
-        for(var k = 1; k < pieces.length; k++) {
-          var spell = pieces[k];
-          var school = SRD35.SPELLS[spell];
-          if(school == null) {
-            continue;
-          }
-          spell += '(' + pieces[0] + ' ' +
-                    (school == 'Universal' ? 'Univ' : schools[school]) + ')';
-          rules.defineChoice('spells', spell);
-        }
-      }
-    }
-  }
+*/
 
   rules.defineChoice('domains', domains);
   for(var i = 0; i < domains.length; i++) {
@@ -4693,18 +4674,6 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
       continue;
     if(notes != null) {
       rules.defineNote(notes);
-    }
-    if(spells != null) {
-      for(var j = 0; j < spells.length; j++) {
-        var spell = spells[j];
-        var school = SRD35.SPELLS[spell];
-        if(school == null) {
-          continue;
-        }
-        spell += '(' + domain + (j + 1) + ' ' +
-                  (school == 'Universal' ? 'Univ' : schools[school]) + ')';
-        rules.defineChoice('spells', spell);
-      }
     }
     if(turn != null) {
       var prefix = 'turn' + turn;
@@ -5189,16 +5158,13 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       characterProfLevel = SRD35.PROFICIENCY_NONE;
     }
     choices = [];
-    for(attr in this.getChoices('armors')) {
-/* TODO
-      if((SRD35.armorsProficiencyLevels[attr] != null &&
-          SRD35.armorsProficiencyLevels[attr] <= characterProfLevel) ||
+    var armors = this.getChoices('armors');
+    for(attr in armors) {
+      var level = QuilvynRules.getAttrValue(armors[attr], 'Level');
+      if((level != null && level <= characterProfLevel) ||
          attrs['armorProficiency.' + attr] != null) {
-*/ TODO
         choices[choices.length] = attr;
-/*
       }
-*/
     }
     if(choices.length > 0) {
       attributes['armor'] = choices[QuilvynUtils.random(0, choices.length - 1)];
@@ -5419,9 +5385,10 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       characterProfLevel = SRD35.PROFICIENCY_NONE;
     }
     choices = [];
-    for(attr in this.getChoices('shields')) {
-      if((SRD35.shieldsProficiencyLevels[attr] != null &&
-          SRD35.shieldsProficiencyLevels[attr] <= characterProfLevel) ||
+    var shields = this.getChoices('shields');
+    for(attr in shields) {
+      var level = QuilvynRules.getAttrValue(shields[attr]);
+      if((level != null && level <= characterProfLevel) ||
          attrs['shieldProficiency.' + attr] != null) {
         choices[choices.length] = attr;
       }
@@ -5907,6 +5874,8 @@ SRD35.addChoice = function(rules, type, name, attrs) {
     SRD35.genderRules(rules, name);
   else if(type == 'languages')
     SRD35.languageRules(rules, name);
+  else if(type == 'schools')
+    SRD35.schoolRules(rules, name);
   else if(type == 'shields')
     SRD35.shieldRules(rules, name,
       QuilvynRules.getAttrValue(attrs, 'AC'),
@@ -5931,10 +5900,9 @@ SRD35.addChoice = function(rules, type, name, attrs) {
       var casterGroup = groupAndLevel.length > 3 ? 'Dom' : groupAndLevel.substring(0, groupAndLevel.length - 1);
       var level = groupAndLevel.substring(groupAndLevel.length - 1);
       var fullSpell = name + '(' + groupAndLevel + ' ' + schoolAbbr + ')';
-      console.log(name);
-      console.log(groupAndLevel);
       rules.addChoice('spells', fullSpell, attrs);
       SRD35.spellRules(rules, fullSpell,
+        school,
         casterGroup,
         level,
         QuilvynRules.getAttrValue(attrs, 'Description'),
@@ -6459,6 +6427,13 @@ SRD35.languageRules = function(rules, name) {
 /*
  * TODO
  */
+SRD35.schoolRules = function(rules, name) {
+  // No rules pertain to school
+};
+
+/*
+ * TODO
+ */
 SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
 
   if(rules.shieldStats == null) {
@@ -6600,7 +6575,7 @@ SRD35.skillRules = function(
 /*
  * TODO
  */
-SRD35.spellRules = function(rules, name, casterGroup, level, description) {
+SRD35.spellRules = function(rules, name, school, casterGroup, level, description) {
 
   var inserts = description.match(/\$(\w+|{[^}]+})/g);
   if(inserts != null) {
@@ -6657,28 +6632,23 @@ SRD35.spellRules = function(rules, name, casterGroup, level, description) {
   if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
     var index = inserts != null ? inserts.length + 1 : 1;
     var dcRule = 'spells.' + name + '.' + index;
+    var schoolNoSpace = school.replace(/\s/g, '');
     description =
       matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
     rules.defineRule(dcRule,
       'spells.' + name, '?', null,
-      'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level
+      'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level,
+      'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', null,
+      'magicNotes.spellFocus(' + school + ')Feature', '+', null
     );
     if(casterGroup == 'W') {
       rules.defineRule
         (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
     }
-    var schools = rules.getChoices('schools');
-    for(var school in schools) {
-      if(schools[school] == schoolAbbr) {
-        school = school.replace(/\s/g, '');
-        rules.defineRule(dcRule,
-          'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', null,
-          'magicNotes.spellFocus(' + school + ')Feature', '+', null
-        );
-        break;
-      }
-    }
   }
+  console.log(name);
+  console.log(description);
+  rules.defineNote('spells.' + name, description);
 };
 
 /*
@@ -6688,7 +6658,7 @@ SRD35.weaponRules = function(
   rules, name, profLevel, category, damage, threat, critMultiplier, range
 ) {
 
-  var matchInfo = damage.match(/(\d?d\d+)(\/(\d?d\d+))?/);
+  var matchInfo = damage.match(/^(\d*d\d+)(\/(\d*d\d+))?$/);
   if(!matchInfo) {
     console.log('Bad damage "' + damage + '" for weapon "' + name + '"');
     return;
