@@ -67,14 +67,16 @@ function SRD35() {
   for(var skill in SRD35.SKILLS) {
     SRD35.addChoice(rules, 'skills', skill, SRD35.SKILLS[skill]);
   }
+  for(var spell in SRD35.SPELLS) {
+    SRD35.addChoice(rules, 'spells', spell, SRD35.SPELLS[spell]);
+  }
   for(var weapon in SRD35.WEAPONS) {
     SRD35.addChoice(rules, 'weapons', weapon, SRD35.WEAPONS[weapon]);
   }
   SRD35.equipmentRules(rules);
   SRD35.combatRules(rules);
   SRD35.movementRules(rules);
-  SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
-  SRD35.spellRules(rules, null, SRD35.spellsDescriptions);
+  // SRD35.magicRules(rules, SRD35.CLASSES, SRD35.DOMAINS, SRD35.SCHOOLS);
   rules.defineChoice('extras', 'feats', 'featCount', 'selectableFeatureCount');
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
@@ -417,309 +419,7 @@ SRD35.SKILLS = {
   'Use Magic Device':'Ability=charisma Untrained=n Class=Bard,Rogue Synergy="Spellcraft (scroll)"',
   'Use Rope':'Ability=dexterity Class=Ranger,Rogue Synergy="Climb (rope)","Escape Artist (rope)"'
 };
-SRD35.SUBFEATS = {
-  'Armor Proficiency':'Heavy/Light/Medium',
-  'Greater Spell Focus':SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
-  'Greater Weapon Focus':'',
-  'Greater Weapon Specialization':'',
-  'Improved Critical':'',
-  'Rapid Reload':'Hand/Heavy/Light',
-  'Shield Proficiency':'Heavy/Tower',
-  'Skill Focus':'',
-  'Spell Focus':SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
-  'Weapon Focus':'',
-  'Weapon Proficiency':'Simple',
-  'Weapon Specialization':'Dwarven Waraxe/Longsword'
-};
-SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
-SRD35.WEAPONS = {
-  'Bastard Sword':'Level=3 Category=1h Damage=d10 Threat=19',
-  'Battleaxe':'Level=2 Category=1h Damage=d8 Crit=3',
-  'Bolas':'Level=3 Category=R Damage=d4 Range=10',
-  'Club':'Level=1 Category=1h Damage=d6 Range=10',
-  'Composite Longbow':'Level=2 Category=R Damage=d8 Crit=3 Range=110',
-  'Composite Shortbow':'Level=2 Category=R Damage=d6 Crit=3 Range=70',
-  'Dagger':'Level=1 Category=Li Damage=d4 Threat=19 Range=10',
-  'Dart':'Level=1 Category=R Damage=d4 Range=20',
-  'Dire Flail':'Level=3 Category=2h Damage=d8/d8',
-  'Dwarven Urgosh':'Level=3 Category=2h Damage=d8/d6 Crit=3',
-  'Dwarven Waraxe':'Level=3 Category=1h Damage=d10 Crit=3',
-  'Falchion':'Level=2 Category=2h Damage=2d4 Threat=18',
-  'Flail':'Level=2 Category=1h Damage=d8',
-  'Gauntlet':'Level=0 Category=Un Damage=d3',
-  'Glaive':'Level=2 Category=2h Damage=d10 Crit=3',
-  'Gnome Hooked Hammer':'Level=3 Category=2h Damage=d8/d6 Crit=4',
-  'Greataxe':'Level=2 Category=2h Damage=d12 Crit=3',
-  'Greatclub':'Level=2 Category=2h Damage=d10',
-  'Greatsword':'Level=2 Category=2h Damage=2d6 Threat=19',
-  'Guisarme':'Level=2 Category=2h Damage=2d4 Crit=3',
-  'Halberd':'Level=2 Category=2h Damage=d10 Crit=3',
-  'Hand Crossbow':'Level=3 Category=R Damage=d4 Threat=19 Range=30',
-  'Handaxe':'Level=2 Damage=d6 Category=Li Crit=3',
-  'Heavy Crossbow':'Level=1 Category=R Damage=d10 Threat=19 Range=120',
-  'Heavy Flail':'Level=2 Category=2h Damage=d10 Threat=19',
-  'Heavy Mace':'Level=1 Category=1h Damage=d8',
-  'Heavy Pick':'Level=2 Category=1h Damage=d6 Crit=4',
-  'Heavy Shield':'Level=2 Category=1h Damage=d4',
-  'Heavy Spiked Shield':'Level=2 Category=1h Damage=d6',
-  'Improvised':'Level=3 Category=R Damage=d4 Range=10',
-  'Javelin':'Level=1 Category=R Damage=d6 Range=30',
-  'Kama':'Level=3 Category=Li Damage=d6',
-  'Kukri':'Level=2 Category=Li Damage=d4 Threat=18',
-  'Lance':'Level=2 Category=2h Damage=d8 Crit=3',
-  'Light Crossbow':'Level=1 Category=R Damage=d8 Threat=19 Range=80',
-  'Light Hammer':'Level=2 Category=Li Damage=d4 Range=20',
-  'Light Mace':'Level=1 Category=Li Damage=d6',
-  'Light Pick':'Level=2 Category=Li Damage=d4 Crit=4',
-  'Light Shield':'Level=2 Category=Li Damage=d3',
-  'Light Spiked Shield':'Level=2 Category=Li Damage=d4',
-  'Longbow':'Level=2 Category=R Damage=d8 Crit=3 Range=100',
-  'Longspear':'Level=1 Category=2h Damage=d8 Crit=3',
-  'Longsword':'Level=2 Category=1h Damage=d8 Threat=19',
-  'Morningstar':'Level=1 Category=1h Damage=d8',
-  'Net':'Level=3 Category=R Damage=d0 Range=10',
-  'Nunchaku':'Level=3 Category=Li Damage=d6',
-  'Orc Double Axe':'Level=3 Category=2h Damage=d8/d8 Crit=3',
-  'Punching Dagger':'Level=1 Category=Li Damage=d4 Crit=3',
-  'Quarterstaff':'Level=1 Category=2h Damage=d6/d6',
-  'Ranseur':'Level=2 Category=2h Damage=2d4 Crit=3',
-  'Rapier':'Level=2 Category=1h Damage=d6 Threat=18',
-  'Repeating Heavy Crossbow':'Level=3 Category=R Damage=d10 Threat=19 Range=120',
-  'Repeating Light Crossbow':'Level=3 Category=R Damage=d8 Threat=19 Range=80',
-  'Sai':'Level=3 Category=Li Damage=d4 Range=10',
-  'Sap':'Level=2 Category=Li Damage=d6',
-  'Scimitar':'Level=2 Category=1h Damage=d6 Threat=18',
-  'Scythe':'Level=2 Category=2h Damage=2d4 Crit=4',
-  'Short Sword':'Level=2 Category=Li Damage=d6 Threat=19',
-  'Shortbow':'Level=2 Category=R Damage=d6 Crit=3 Range=60',
-  'Shortspear':'Level=1 Category=1h Damage=d6 Range=20',
-  'Shuriken':'Level=3 Category=R Damage=d2 Range=10',
-  'Siangham':'Level=3 Category=Li Damage=d6',
-  'Sickle':'Level=1 Category=Li Damage=d6',
-  'Sling':'Level=1 Category=R Damage=d4 Range=50',
-  'Spear':'Level=1 Category=2h Damage=d8 Crit=3 Range=20',
-  'Spiked Armor':'Level=2 Category=Li Damage=d6',
-  'Spiked Chain':'Level=3 Category=2h Damage=2d4',
-  'Spiked Gauntlet':'Level=1 Category=Li Damage=d4',
-  'Throwing Axe':'Level=2 Category=Li Damage=d6 Range=10',
-  'Trident':'Level=2 Category=1h Damage=d8 Range=10',
-  'Two-Bladed Sword':'Level=3 Category=2h Damage=d8/d8 Threat=19',
-  'Unarmed':'Level=0 Category=Un Damage=d3',
-  'Warhammer':'Level=2 Category=1h Damage=d8 Crit=3',
-  'Whip':'Level=3 Category=1h Damage=d3'
-};
-
-SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
-SRD35.spellsAbbreviations = {
-  "RL": "L40plus400",
-  "RM": "L10plus100",
-  "RS": "Ldiv2times5plus25"
-};
 SRD35.spellsDescriptions = {
-  "Acid Arrow": "R$RL' Ranged touch 2d4 HP/rd for $Ldiv3plus1 rd",
-  "Acid Fog": "R$RM' 20' fog cylinder 2d6 HP/rd for $L rd",
-  "Acid Splash": "R$RS' Ranged touch 1d3 HP",
-  "Aid": "Touched +1 attack/fear saves, +1d8+$Lmin10 HP for $L min",
-  "Air Walk": "Touched walks on air for $L10 min",
-  "Alarm": "R$RS' 20' radius alarmed for $L2 hr",
-  "Align Weapon": "Touched weapon gains alignment for $L min (Will neg)",
-  "Alter Self": "Self becomes small (+2 Dex) or medium (+2 Str) humanoid for $L min",
-  "Analyze Dweomer": "R$RS' Target reveals magical aspects for $L rd (Will neg)",
-  "Animal Growth": "R$RM' Animal target dbl size for $L min (Fort neg)",
-  "Animal Messenger": "R$RS' Tiny animal target goes to specified place for $L dy",
-  "Animal Shapes": "R$RS' $L allies in 30' area become chosen animal for $L hr",
-  "Animal Trance": "R$RS' 2d6 HD animals facinated for conc (Will neg)",
-  "Animate Dead": "Touched corpses become $L2 HD of skeletons/zombies",
-  "Animate Objects": "R$RM' $L objects attack foes for $L rd",
-  "Animate Plants": "R$RS' $Ldiv3 plants attack/entwine foes for $L rd/hr",
-  "Animate Rope": "R$RM' $L5plus50' rope obey for $L rd",
-  "Antilife Shell": "10'-radius bars living for $L min",
-  "Antimagic Field": "10'-radius suppresses magic for $L10 min",
-  "Antipathy": "Named kind/align creatures avoid $L10' cube for $L2 hr (Will -4 dex)",
-  "Antiplant Shell": "10'-radius bars animate plants for $L min",
-  "Arcane Eye": "Invisible remote eye moves 30' for $L min",
-  "Arcane Lock": "Magical lock on door/portal/chest open DC +10 with lock/20 otherwise",
-  "Arcane Mark": "Permanent in/visible personal rune on object/creature",
-  "Arcane Sight": "R120' See auras/spell abilities for $L min, DC 15+level to know school",
-  "Astral Projection": "Projects you and others to Astral Plane",
-  "Atonement": "Restore alignment/holy powers",
-  "Augury": "$Lplus70min90% chance to know weal/woe of act proposed w/in 30 min",
-  "Awaken": "Animal/tree target gains human sentience (Will neg)",
-  "Baleful Polymorph": "R$RS' Target becomes 1HD creature (Fort neg)",
-  "Bane": "Enemies w/in 50' -1 attack/fear saves $L min (Will neg)",
-  "Banishment": "R$RS' $L2 HD extraplanar creatures banished from plane (Will neg)",
-  "Barkskin": "+${2 + (lvl<6 ? 0 : Math.min(Math.floor((lvl-3)/3),3))} natural armor for $L10 min",
-  "Bear's Endurance": "Touched +4 Con for $L min",
-  "Bestow Curse": "Touched permanent -6 ability, -4 attack/saves/checks, or 50% chance/rd of losing action (Will neg)",
-  "Binding": "R$RS' Target magically imprisoned (Will neg (min $Ldiv2 HD))",
-  "Black Tentacles": "R$RM' Tentacles grapple (CMB/CMD $Lplus5/$Lplus15) 20' radius, 1d6+4/rd HP for $L rd",
-  "Blade Barrier": "R$RM' Blade wall ${Lmin15}d6 HP (Ref half) for $L min",
-  "Blasphemy": "Nonevil creatures w/in 40' with equal/-1/-5/-10 HD dazed 1 rd/-2d6 Str 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)",
-  "Bless": "R50' Allies +1 attack/fear saves for $L min",
-  "Bless Water": "Makes 1 pint holy water (Will neg)",
-  "Bless Weapon": "Weapon good aligned, +1 vs. evil foe DR for $L min",
-  "Blight": "Touched plant ${Lmin15}d6 HP (Fort half)",
-  "Blindness/Deafness": "R$RM' target permanently blind or deaf (Fort neg)",
-  "Blink": "Self randomly ethereal for $L rd--foes 50% miss chance, half HP from area attacks/falling",
-  "Blur": "Touched foes 20% miss chance for $L min",
-  "Break Enchantment": "R$RS' $L targets freed from enchantments/transmutations/curses",
-  "Bull's Strength": "Touched +4 Str for $L min",
-  "Burning Hands": "R15' cone ${Lmin5}d4 HP (Ref half)",
-  "Call Lightning": "R$RM' $L bolts 3d6 HP (Ref half), 1/rd for $L min",
-  "Call Lightning Storm": "R$RL' 15 bolts 5d6 HP (Ref half), 1/rd for $L min",
-  "Calm Animals": "R$RS' 2d4+$L HD of animals docile for $L min (Will neg)",
-  "Calm Emotions": "R$RM' Creatures in 20' radius pacified $L rd/conc (Will neg)",
-  "Cat's Grace": "Touched +4 Dex for $L min",
-  "Cause Fear": "R$RS' Target le 5 HD flee for 1d4 rd (Will shaken 1 rd)",
-  "Chain Lightning": "R$RL' ${Lmin20}d6 HP primary/$Lmin20 secondary targets (Ref half, secondary save at +2)",
-  "Changestaff": "Staff becomes treant-like creature for $L hr",
-  "Chaos Hammer": "R$RM' Lawful in 20'-radius burst ${Ldiv2min5}d8 HP and slowed 1d6 rd, neutral half (Will half)",
-  "Charm Animal": "R$RS' Target treats you as trusted friend for $L hr (Will neg)",
-  "Charm Monster": "R$RS' Target treats you as trusted friend for $L dy (Will neg)",
-  "Charm Person": "R$RS' Target treats you as trusted friend for $L hr (Will neg)",
-  "Chill Metal": "R$RS' Metal of $Ldiv2 creatures 0/1/2/2/2/1/0d4 HP for 7 rd (Will neg)",
-  "Chill Touch": "$L touched 1d6 HP negative energy (Will neg), 1 Str (Fort neg, undead flee 1d4+$L rd)",
-  "Circle Of Death": "R$RM' ${Lmin20}d4 HD of creatures le 8 HD in 40' die (Fort neg)",
-  "Clairaudience/Clairvoyance": "$RL' Remote sight or hearing for $L min",
-  "Clenched Fist": "R$RM' 10' (AC 20, caster HP) hand cover (+4 AC), move 60', hit (+$L+mod for 1d8+11, stunned 1 rd (Fort neg)), bull rush (CMB $Lplus12) for $L rd",
-  "Cloak Of Chaos": "$L targets in 20' +4 AC/saves and SR 25 and mental protection vs. lawful, lawful hits cause confused 1 rd for $L rd (Will neg)",
-  "Clone": "Soul enters duplicate if original dies",
-  "Cloudkill": "R$RM' 20' cylinder moves away 10', 1-3 HD die, 4-6 HD die (Fort 1d4 Con), 6+ HD 1d4 Con (Fort half) for $L min",
-  "Color Spray": "R15' cone targets with 2/4/any HD unconscious 2d4 rd/blind 1d4 rd/stunned 1 rd (Will neg)",
-  "Command": "R$RS' Target approach/drop/fall/flee/halt for 1 rd (Will neg)",
-  "Command Plants": "R$RS' $L2 HD plant creatures obey for $L dy (Will neg)",
-  "Command Undead": "R$RS' Undead target obey for $L dy (Will neg)",
-  "Commune": "Deity answers $L yes/no questions",
-  "Commune With Nature": "Learn natural facts for $L mi outdoors/$L100' underground",
-  "Comprehend Languages": "Self understands all languages for $L10 min",
-  "Cone Of Cold": "R60' cone ${Lmin15}d6 HP (Ref half)",
-  "Confusion": "R$RM' Creatures in 15' radius randomly normal/babble/d8+str to self/attack nearest for $L rd (Will neg)",
-  "Consecrate": "R$RS' Positive energy in 20' radius gives undead -1 attack/damage/saves for $L2 hr",
-  "Contact Other Plane": "Ask $Ldiv2 questions of extraplanar entity",
-  "Contagion": "Touched diseased (Fort neg)",
-  "Contingency": "Set trigger for $Ldiv3min6-level spell for $L dy",
-  "Continual Flame": "Touched emits heatless torch flame permanently",
-  "Control Plants": "R$RS' $L2 HD plant creatures obey for $L min (Will neg)",
-  "Control Undead": "R$RS' Undead target obey for $L min (Will neg)",
-  "Control Water": "R$RL' Raise/lower ${Math.pow(lvl, 3)} 10'x10'x2' of water $L2' for $L10 min",
-  "Control Weather": "Create seasonal weather in 2 mi radius for 4d12 hr",
-  "Control Winds": "R$L40' Changes wind direction/speed in $L40'x40' cylinder for $L10 min",
-  "Corrupt Weapon": "Weapon evil aligned, +1 vs. good foe DR for $L min",
-  "Create Food And Water": "Daily food/water for $L3 humans/$L horses",
-  "Create Undead": "Raise ghoul/ghast/mummy/mohrg from physical remains at level -/12/15/18",
-  "Create Greater Undead": "Raise shadow/wraith/spectr/devourer from physical remains at level -/16/18/20",
-  "Create Water": "R$RS' Creates $L2 gallons of pure water",
-  "Creeping Doom": "R$Ldiv2times5plus25min100' Four 60-HP insect swarms 4d6 HP obey for $L rd",
-  "Crushing Despair": "R30' cone Targets -2 attack/damage/saves/checks for $L min (Will neg)",
-  "Crushing Hand": "R$RM' 10' (AC 20, caster HP) hand cover (+4 AC), move 60', grapple (CMB $Lplus12, 2d6+12 HP) for $L rd",
-  "Cure Critical Wounds": "Touched heal/damage undead 4d8+$Lmin20 (Will half)",
-  "Cure Light Wounds": "Touched heal/damage undead 1d8+$Lmin5 (Will half)",
-  "Cure Minor Wounds": "Touched heal 1 HP",
-  "Cure Moderate Wounds": "Touched heal/damage undead 2d8+$Lmin10 (Will half)",
-  "Cure Serious Wounds": "Touched heal/damage undead 3d8+$Lmin15 (Will half)",
-  "Curse Water": "Makes 1 pint unholy water (Will neg)",
-  "Dancing Lights": "R$RM' 4 torch lights in 10' radius move 100' for 1 min",
-  "Darkness": "Touched lowers illumination one step in 20'-radius for $L min",
-  "Darkvision": "Touched sees 60' in total darkness for $L hr",
-  "Daylight": "Touched radiates 60'-radius illumination for $L10 min",
-  "Daze": "R$RS' Humanoid target le 4 HD lose next action (Will neg)",
-  "Daze Monster": "R$RM' Creature target le 6 HD lose next action (Will neg)",
-  "Death Knell": "Touched w/negative HP die and you gain 1d8 HP/+2 Str/+1 caster level for 10*target HD min (Will neg)",
-  "Death Ward": "Touched +4 vs. death spells/effects, immune drain for $L min",
-  "Deathwatch": "R30' cone Reveals state of targets for $L10 min",
-  "Deep Slumber": "R$RS' 10 HD of targets sleep $L min (Will neg)",
-  "Deeper Darkness": "Touched lowers illumination two steps in 60'-radius for $L10 min",
-  "Delay Poison": "Touched immune to poison for $L hr",
-  "Delayed Blast Fireball": "R$RL' ${Lmin20}d6 HP (Ref half) in 20' radius, delay le 5 rd",
-  "Demand": "25-word message to target, carry out suggestion (Will neg)",
-  "Desecrate": "R$RS' Negative energy in 20' radius gives undead +1 attack/damage/saves/HP per HD for $L2 hr",
-  "Destruction": "R$RS' Target $L10 HP, consumed if slain (Fort 10d6 HP)",
-  "Detect Animals Or Plants": "R$RL' cone info on animals/plants for $L10 min",
-  "Detect Chaos": "R60' cone info on chaotic auras for $L10 min",
-  "Detect Evil": "R60' cone info on evil auras for $L10 min",
-  "Detect Good": "R60' cone info on good auras for $L10 min",
-  "Detect Law": "R60' cone info on lawful auras for $L10 min",
-  "Detect Magic": "R60' cone info on magical auras for $L min",
-  "Detect Poison": "R$RS' Detects poison in target, DC20 Wis/Alchemy check for type",
-  "Detect Scrying": "R40' Detects scrying, opposed caster check to see source",
-  "Detect Secret Doors": "R60' cone info on secret doors for $L min",
-  "Detect Snares And Pits": "R60' cone info on traps $L10 min",
-  "Detect Thoughts": "R60' cone info on thoughts for $L min (Will neg)",
-  "Detect Undead": "R60' cone info on undead auras for $L min",
-  "Dictum": "R40' Nonlawful creatures with equal/-1/-5/-10 HD deafened 1d4 rd/staggered 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)",
-  "Dimension Door": "Teleports self and touched willing object/creature $RL'",
-  "Dimensional Anchor": "R$RM' Ranged touch bars extradimensional travel for $L min",
-  "Dimensional Lock": "R$RM' Bar extradimensional travel in 20' radius for $L dy",
-  "Diminish Plants": "Prunes/blights growth of normal plants",
-  "Discern Lies": "R$RS' Reveals lies from $L creatures for $L rd/conc (Will neg)",
-  "Discern Location": "Know exact location of creature/object",
-  "Disguise Self": "Self change appearance/+10 disguise for $L10 min",
-  "Disintegrate": "R$RM' Target ${L2min40}d6 HP (Fort half), dust if slain (Fort 5d6)",
-  "Dismissal": "R$RS' Target returned to native plane (Will neg)",
-  "Dispel Chaos": "Touched +4 AC vs. chaotic/touch to dismiss chaotic creature/spell (Will neg)",
-  "Dispel Evil": "Touched +4 AC vs. evil/touch to dismiss evil creature/spell (Will neg)",
-  "Dispel Good": "Touched +4 AC vs. good/touch to dismiss good creature/spell (Will neg)",
-  "Dispel Law": "Touched +4 AC vs. lawful/touch to dismiss lawful creature/spell (Will neg)",
-  "Dispel Magic": "R$RM' d20+$L vs. 11+caster level cancels spell/effect",
-  "Displacement": "Attacks on touched 50% miss for $L rd",
-  "Disrupt Undead": "R$RS' Ranged touched undead 1d6 HP",
-  "Disrupting Weapon": "Undead hit w/touched weapon destroyed for $L rd (Will neg)",
-  "Divination": "$Lplus70min90% chance for advice on act proposed w/in a week",
-  "Divine Favor": "Self +$Ldiv3min3 attack/damage for 1 min",
-  "Divine Power": "Self +$Ldiv3min6 attack/damage/Str check, +$L HP for $L rd",
-  "Dominate Animal": "R$RS' Target animal obey thoughts for $L rd (Will neg)",
-  "Dominate Monster": "R$RS' Target obey thoughts for $L dy (Will neg)",
-  "Dominate Person": "R$RS' Target humanoid obey thoughts for $L dy (Will neg)",
-  "Doom": "R$RM' Target shaken (-2 attack/damage/saves/checks) for $L min (Will neg)",
-  "Dream": "Touched sends message to sleeping target",
-  "Eagle's Splendor": "Touched +4 Cha for $L min",
-  "Earthquake": "R$RL Intense tremor shakes 80' radius for 1 rd",
-  "Elemental Swarm": "R$RM' Summons 2d4 large, then 1d4 huge, then 1 greater  elementals for $L10 min",
-  "Endure Elements": "Touched comfortable in at -50-140F for 1 dy",
-  "Energy Drain": "R$RS' Ranged touch 2d4 negative levels (Fort 1 dy, undead +2d4x5 HP for 1 hr)",
-  "Enervation": "R$RS' Ranged touch 1d4 negative levels for $L hr (undead +1d4x5 HP for 1 hr)",
-  "Enlarge Person": "R$RS' Target humanoid dbl size (+2 Str/-2 Dex/-1 attack/-1 AC) for $L min (Fort neg)",
-  "Entangle": "R$RL' Creatures in 40' radius entangled for $L min (Ref half speed)",
-  "Enthrall": "R$RM' Listeners captivated for 1 hr (Will neg)",
-  "Entropic Shield": "Foes' ranged attacks 20% miss for $L min",
-  "Erase": "R$RS' Two pages of writing vanish (magical writing DC 15 caster check)",
-  "Ethereal Jaunt": "Self ethereal for $L rd",
-  "Etherealness": "Self+$Ldiv3 others ethereal for $L min",
-  "Expeditious Retreat": "Self speed +30 for $L min",
-  "Explosive Runes": "Runes 6d6 HP when read (Ref half w/in 10', adjacent no save)",
-  "Eyebite": "R$RS' 1 target/rd with 4/9/10+ HD comatose $L10 min/panicked d4 rd and shaken 10 min/sickened 10 min for $L rd (Fort neg)",
-  "Fabricate": "Create $L10' cube ($L' mineral cube) of finished items from raw materials",
-  "Faerie Fire": "R$RL' Creatures in 5' radius glow for $L min",
-  "False Life": "Self +1d10+$Lmin10 temporary HP for $L hr",
-  "False Vision": "Scrying in touched 40' radius sees illusion for $L hr",
-  "Fear": "R30' cone Creatures flee for $L rd (Will shaken 1 rd)",
-  "Feather Fall": "R$RS' $L targets fall 60' for $L rd (Will neg)",
-  "Feeblemind": "R$RM' Target Int/Cha permanently drop to 1 (Will (arcane -4) neg)",
-  "Find The Path": "Know most direct route to location for $L10 min",
-  "Find Traps": "Self +10 Perception to notice traps w/in 10' for $L min",
-  "Finger Of Death": "R$RS' Target $L10 HP (Fort 3d6+$L)",
-  "Fire Seeds": "4 acorn grenades ${Lmin20}d4 total/8 berry bombs 1d8+$L (Ref half) that detonate on command for $L10 min",
-  "Fire Shield": "Cold/hot flames enveloping self do d6+$Lmin15 HP upon foe hit, take half HP from heat/cold attacks (Ref no HP) for $L rd",
-  "Fire Storm": "R$RM' $L2 10' cubes do ${Lmin20}d6 HP to targets, burn for 4d6/rd (Ref half and no burn)",
-  "Fire Trap": "Warded object 1d4+$Lmin20 HP (Ref half) w/in 5' when opened",
-  "Fireball": "R$RL' ${Lmin10}d6 HP (Ref half) in 20' radius",
-  "Flame Arrow": "R$RS' 50 projectiles +1d6 HP for $L10 min",
-  "Flame Blade": "Touch 1d8+$Ldiv2min10 HP for $L min",
-  "Flame Strike": "R$RM' 10' radius x 40' high ${Lmin15}d6 HP (Ref half)",
-  "Flaming Sphere": "R$RM' 5' diameter sphere 3d6 HP (Ref neg) jump/move 30' for $L rd",
-  "Flare": "R$RS' Target dazzled 1 min (Fort neg)",
-  "Flesh To Stone": "Target statue (Fort neg)",
-  "Floating Disk": "R$RS' 3'-diameter x 1\" force disk follows, holds $L100 lbs at 3' for $L hr",
-  "Fly": "Touched fly at 60' for $L min",
-  "Fog Cloud": "R$RM' 20'-radius fog obscures vision for $L10 min",
-  "Forbiddance": "R$RM' 60' cube bars planar travel, 6d6/12d6 HP on transit if align differs in 1/2 dimensions",
-  "Forcecage": "R$RS' Traps targets in 20' cage/10' cube for $L rd",
-  "Forceful Hand": "R$RM' 10' (AC 20, caster HP) hand cover (+4 AC), move 60', bull rush (CMB $Lplus9, 2d6+12 HP) for $L rd",
-  "Foresight": "Warnings provide +2 AC/Ref, no surprise/flat-footed for $L min",
-  "Fox's Cunning": "Touched +4 Int for $L min",
-  "Freedom": "R$RS' Target released from movement restrictions",
-  "Freedom Of Movement": "R$RS' Target moves freely for $L10 min",
-  "Freezing Sphere": "R$RL' Burst ${Lmin15}d6 HP in 40' radius (Ref half)",
   "Gaseous Form": "Touched insubstantial (DR 10/magic, immune poison/sneak/critical, unable to use spell components, fly 10') for $L2 min",
   "Gate": "5'-20' disk connects another plane for $L rd",
   "Geas/Quest": "R$RS' Target must complete task (Will neg)",
@@ -1020,7 +720,7 @@ SRD35.spellsDescriptions = {
   "Spell Turning": "Self reflect onto caster 1d4+6 non-touch spell levels for $L10 min",
   "Spellstaff": "Store 1 spell in wooden quarterstaff (Will neg)",
   "Spider Climb": "Touched climb walls/ceilings for $L10 min",
-  "Spike Growth": "R$RM' Spikes on vegetation in 20' sq 1d4 HP each 5' movement,, slowed 1 dy to half speed (Ref neg) for $L hr",
+  "Spike Growth": "R$RM' Spikes on vegetation in 20' sq 1d4 HP each 5' movement, slowed 1 dy to half speed (Ref neg) for $L hr",
   "Spike Stones": "R$RM' Spikes on stony group in 20' sq 1d8 HP each 5' movement, slowed 1 dy to half speed (Ref neg) for $L hr",
   "Spiritual Weapon": "R$RM' Force weapon (+BAB+Wis 1d8+$Ldiv3min5) attacks designated foes for $L rd",
   "Statue": "Touched become statue at will for $L hr",
@@ -1123,340 +823,937 @@ SRD35.spellsDescriptions = {
   "Zone Of Silence": "No sound escapes 5' radius around self for $L hr",
   "Zone Of Truth": "R$RS' Creatures w/in 20' radius cannot lie for $L min (Will neg)"
 };
-SRD35.spellsSchools = {
+SRD35.SPELLS = {
 
-  'Acid Arrow':'Conjuration', 'Acid Fog':'Conjuration',
-  'Acid Splash':'Conjuration', 'Aid':'Enchantment', 'Air Walk':'Transmutation',
-  'Alarm':'Abjuration', 'Align Weapon':'Transmutation',
-  'Alter Self':'Transmutation', 'Analyze Dweomer':'Divination',
-  'Animal Growth':'Transmutation', 'Animal Messenger':'Enchantment',
-  'Animal Shapes':'Transmutation', 'Animal Trance':'Enchantment',
-  'Animate Dead':'Necromancy', 'Animate Objects':'Transmutation',
-  'Animate Plants':'Transmutation', 'Animate Rope':'Transmutation',
-  'Antilife Shell':'Abjuration', 'Antimagic Field':'Abjuration',
-  'Antipathy':'Enchantment', 'Antiplant Shell':'Abjuration',
-  'Arcane Eye':'Divination', 'Arcane Lock':'Abjuration',
-  'Arcane Mark':'Universal', 'Arcane Sight':'Divination',
-  'Astral Projection':'Necromancy', 'Atonement':'Abjuration',
-  'Augury':'Divination', 'Awaken':'Transmutation',
+  'Acid Arrow':
+    'School=Conjuration Level=W2 ' +
+    'Description="R$RL\' Ranged touch 2d4 HP/rd for $Ldiv3plus1 rd"',
+  'Acid Fog':
+    'School=Conjuration Level=W6,Water7 ' +
+    'Description="R$RM\' 20\' fog cylinder 2d6 HP/rd for $L rd"',
+  'Acid Splash':
+    'School=Conjuration Level=W0 ' +
+    'Description="R$RS\' Ranged touch 1d3 HP"',
+  'Aid':
+    'School=Enchantment Level=C2,Good2,Luck2 ' +
+    'Description="Touched +1 attack/fear saves, +1d8+$Lmin10 HP for $L min"',
+  'Air Walk':
+    'School=Transmutation Level=Air4,C4,D4 ' +
+    'Description="Touched walks on air for $L10 min"',
+  'Alarm':
+    'School=Abjuration Level=B1,R1,W1 ' +
+    'Description="R$RS\' 20\' radius alarmed for $L2 hr"',
+  'Align Weapon':
+    'School=Transmutation Level=C2 ' +
+    'Description="Touched weapon gains alignment for $L min (Will neg)"',
+  'Alter Self':
+    'School=Transmutation Level=B2,W2 ' +
+    'Description="Self becomes small (+2 Dex) or medium (+2 Str) humanoid for $L min"',
+  'Analyze Dweomer':
+    'School=Divination Level=B6,W6 ' +
+    'Description="R$RS\' Target reveals magical aspects for $L rd (Will neg)"',
+  'Animal Growth':
+    'School=Transmutation Level=D5,R4,W5 ' +
+    'Description="R$RM\' Animal target dbl size for $L min (Fort neg)"',
+  'Animal Messenger':
+    'School=Enchantment Level=B2,D2,R1 ' +
+    'Description="R$RS\' Tiny animal target goes to specified place for $L dy"',
+  'Animal Shapes':
+    'School=Transmutation Level=Animal7,D8 ' +
+    'Description="R$RS\' $L allies in 30\' area become chosen animal for $L hr"',
+  'Animal Trance':
+    'School=Enchantment Level=B2,D2 ' +
+    'Description="R$RS\' 2d6 HD animals facinated for conc (Will neg)"',
+  'Animate Dead':
+    'School=Necromancy Level=C3,Death3,W3 ' +
+    'Description="Touched corpses become $L2 HD of skeletons/zombies"',
+  'Animate Objects':
+    'School=Transmutation Level=B6,Chaos6,C6 ' +
+    'Description="R$RM\' $L objects attack foes for $L rd"',
+  'Animate Plants':
+    'School=Transmutation Level=D7,Plant7 ' +
+    'Description="R$RS\' $Ldiv3 plants attack/entwine foes for $L rd/hr"',
+  'Animate Rope':
+    'School=Transmutation Level=B1,W1 ' +
+    'Description="R$RM\' $L5plus50\' rope obey for $L rd"',
+  'Antilife Shell':
+    'School=Abjuration Level=Animal6,C6,D6 ' +
+    'Description="10\'-radius bars living for $L min"',
+  'Antimagic Field':
+    'School=Abjuration Level=C8,Magic6,Protection6,W6 ' +
+    'Description="10\'-radius suppresses magic for $L10 min"',
+  'Antipathy':
+    'School=Enchantment Level=D9,W8 ' +
+    'Description="Named kind/align creatures avoid $L10\' cube for $L2 hr (Will -4 dex)"',
+  'Antiplant Shell':
+    'School=Abjuration Level=D4 ' +
+    'Description="10\'-radius bars animate plants for $L min"',
+  'Arcane Eye':
+    'School=Divination Level=W4 ' +
+    'Description="Invisible remote eye moves 30\' for $L min"',
+  'Arcane Lock':
+    'School=Abjuration Level=W2 ' +
+    'Description="Magical lock on door/portal/chest open DC +10 with lock/20 otherwise"',
+  'Arcane Mark':
+    'School=Universal Level=W0 ' +
+    'Description="Permanent in/visible personal rune on object/creature"',
+  'Arcane Sight':
+    'School=Divination Level=W3 ' +
+    'Description="R120\' See auras/spell abilities for $L min, DC 15+level to know school"',
+  'Astral Projection':
+    'School=Necromancy Level=C9,W9,Travel9 ' +
+    'Description="Projects you and others to Astral Plane"',
+  'Atonement':
+    'School=Abjuration Level=C5,D5 ' +
+    'Description="Restore alignment/holy powers"',
+  'Augury':
+    'School=Divination Level=C2 ' +
+    'Description="$Lplus70min90% chance to know weal/woe of act proposed w/in 30 min"',
+  'Awaken':
+    'School=Transmutation Level=D5 ' +
+    'Description="Animal/tree target gains human sentience (Will neg)"',
 
-  'Baleful Polymorph':'Transmutation', 'Bane':'Enchantment',
-  'Banishment':'Abjuration', 'Barkskin':'Transmutation',
-  'Bear\'s Endurance':'Transmutation', 'Bestow Curse':'Necromancy',
-  'Binding':'Enchantment', 'Black Tentacles':'Conjuration',
-  'Blade Barrier':'Evocation', 'Blasphemy':'Evocation', 'Bless':'Enchantment',
-  'Bless Water':'Transmutation', 'Bless Weapon':'Transmutation',
-  'Blight':'Necromancy', 'Blindness/Deafness':'Necromancy',
-  'Blink':'Transmutation', 'Blur':'Illusion', 'Break Enchantment':'Abjuration',
-  'Bull\'s Strength':'Transmutation', 'Burning Hands':'Evocation',
+  'Baleful Polymorph':
+    'School=Transmutation Level=D5,W5 ' +
+    'Description="R$RS\' Target becomes 1HD creature (Fort neg)"',
+  'Bane':
+    'School=Enchantment Level=C1 ' +
+    'Description="Enemies w/in 50\' -1 attack/fear saves $L min (Will neg)"',
+  'Banishment':
+    'School=Abjuration Level=C6,W7 ' +
+    'Description="R$RS\' $L2 HD extraplanar creatures banished from plane (Will neg)"',
+  'Barkskin':
+    'School=Transmutation Level=D2,R2,Plant2 ' +
+    'Description="+${2 + (lvl<6 ? 0 : Math.min(Math.floor((lvl-3)/3),3))} natural armor for $L10 min"',
+  "Bear's Endurance":
+    'School=Transmutation Level=C2,D2,R2,W2 ' +
+    'Description="Touched +4 Con for $L min"',
+  'Bestow Curse':
+    'School=Necromancy Level=C3,W4 ' +
+    'Description="Touched permanent -6 ability, -4 attack/saves/checks, or 50% chance/rd of losing action (Will neg)"',
+  'Binding':
+    'School=Enchantment Level=W8 ' +
+    'Description="R$RS\' Target magically imprisoned (Will neg (min $Ldiv2 HD))"',
+  'Black Tentacles':
+    'School=Conjuration Level=W4 ' +
+    'Description="R$RM\' Tentacles grapple (CMB/CMD $Lplus5/$Lplus15) 20\' radius, 1d6+4/rd HP for $L rd"',
+  'Blade Barrier':
+    'School=Evocation Level=C6,Good6,War6 ' +
+    'Description="R$RM\' Blade wall ${Lmin15}d6 HP (Ref half) for $L min"',
+  'Blasphemy':
+    'School=Evocation Level=C7,Evil7 ' +
+    'Description="Nonevil creatures w/in 40\' with equal/-1/-5/-10 HD dazed 1 rd/-2d6 Str 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)"',
+  'Bless':
+    'School=Enchantment Level=C1,P1 ' +
+    'Description="R50\' Allies +1 attack/fear saves for $L min"',
+  'Bless Water':
+    'School=Transmutation Level=C1,P1 ' +
+    'Description="Makes 1 pint holy water (Will neg)"',
+  'Bless Weapon':
+    'School=Transmutation Level=P1 ' +
+    'Description="Weapon good aligned, +1 vs. evil foe DR for $L min"',
+  'Blight':
+    'School=Necromancy Level=D4,W5 ' +
+    'Description="Touched plant ${Lmin15}d6 HP (Fort half)"',
+  'Blindness/Deafness':
+    'School=Necromancy Level=B2,C3,W2 ' +
+    'Description="R$RM\' target permanently blind or deaf (Fort neg)"',
+  'Blink':
+    'School=Transmutation Level=B3,W3 ' +
+    'Description="Self randomly ethereal for $L rd--foes 50% miss chance, half HP from area attacks/falling"',
+  'Blur':
+    'School=Illusion Level=B2,W2 ' +
+    'Description="Touched foes 20% miss chance for $L min"',
+  'Break Enchantment':
+    'School=Abjuration Level=B4,C5,Luck5,P4,W5 ' +
+    'Description="R$RS\' $L targets freed from enchantments/transmutations/curses"',
+  "Bull's Strength":
+    'School=Transmutation Level=C2,D2,P2,W2,Strength2 ' +
+    'Description="Touched +4 Str for $L min"',
+  'Burning Hands':
+    'School=Evocation Level=Fire1,W1 ' +
+    'Description="R15\' cone ${Lmin5}d4 HP (Ref half)"',
 
-  'Call Lightning':'Evocation', 'Call Lightning Storm':'Evocation',
-  'Calm Animals':'Enchantment', 'Calm Emotions':'Enchantment',
-  'Cat\'s Grace':'Transmutation', 'Cause Fear':'Necromancy',
-  'Chain Lightning':'Evocation', 'Changestaff':'Transmutation',
-  'Chaos Hammer':'Evocation', 'Charm Animal':'Enchantment',
-  'Charm Monster':'Enchantment', 'Charm Person':'Enchantment',
-  'Chill Metal':'Transmutation', 'Chill Touch':'Necromancy',
-  'Circle Of Death':'Necromancy', 'Clairaudience/Clairvoyance':'Divination',
-  'Clenched Fist':'Evocation', 'Cloak Of Chaos':'Abjuration',
-  'Clone':'Necromancy', 'Cloudkill':'Conjuration', 'Color Spray':'Illusion',
-  'Command':'Enchantment', 'Command Plants':'Transmutation',
-  'Command Undead':'Necromancy', 'Commune':'Divination',
-  'Commune With Nature':'Divination', 'Comprehend Languages':'Divination',
-  'Cone Of Cold':'Evocation', 'Confusion':'Enchantment',
-  'Consecrate':'Evocation', 'Contact Other Plane':'Divination',
-  'Contagion':'Necromancy', 'Contingency':'Evocation',
-  'Continual Flame':'Evocation', 'Control Plants':'Transmutation',
-  'Control Undead':'Necromancy', 'Control Water':'Transmutation',
-  'Control Weather':'Transmutation', 'Control Winds':'Transmutation',
-  'Create Food And Water':'Conjuration', 'Create Greater Undead':'Necromancy',
-  'Create Undead':'Necromancy', 'Create Water':'Conjuration',
-  'Creeping Doom':'Conjuration', 'Crushing Despair':'Enchantment',
-  'Crushing Hand':'Evocation', 'Cure Critical Wounds':'Conjuration',
-  'Cure Light Wounds':'Conjuration', 'Cure Minor Wounds':'Conjuration',
-  'Cure Moderate Wounds':'Conjuration', 'Cure Serious Wounds':'Conjuration',
-  'Curse Water':'Necromancy',
+  'Call Lightning':
+    'School=Evocation Level=D3 ' +
+    'Description="R$RM\' $L bolts 3d6 HP (Ref half), 1/rd for $L min"',
+  'Call Lightning Storm':
+    'School=Evocation Level=D5 ' +
+    'Description="R$RL\' 15 bolts 5d6 HP (Ref half), 1/rd for $L min"',
+  'Calm Animals':
+    'School=Enchantment Level=Animal1,D1,R1 ' +
+    'Description="R$RS\' 2d4+$L HD of animals docile for $L min (Will neg)"',
+  'Calm Emotions':
+    'School=Enchantment Level=B2,C2,Law2 ' +
+    'Description="R$RM\' Creatures in 20\' radius pacified $L rd/conc (Will neg)"',
+  "Cat's Grace":
+    'School=Transmutation Level=B2,D2,R2,W2 ' +
+    'Description="Touched +4 Dex for $L min"',
+  'Cause Fear':
+    'School=Necromancy Level=B1,D1,Death1,W1 ' +
+    'Description="R$RS\' Target le 5 HD flee for 1d4 rd (Will shaken 1 rd)"',
+  'Chain Lightning':
+    'School=Evocation Level=Air6,W6 ' +
+    'Description="R$RL\' ${Lmin20}d6 HP primary/$Lmin20 secondary targets (Ref half, secondary save at +2)"',
+  'Changestaff':
+    'School=Transmutation Level=D7 ' +
+    'Description="Staff becomes treant-like creature for $L hr"',
+  'Chaos Hammer':
+    'School=Evocation Level=Chaos4 ' +
+    'Description="R$RM\' Lawful in 20\'-radius burst ${Ldiv2min5}d8 HP and slowed 1d6 rd, neutral half (Will half)"',
+  'Charm Animal':
+    'School=Enchantment Level=D1,R1 ' +
+    'Description="R$RS\' Target treats you as trusted friend for $L hr (Will neg)"',
+  'Charm Monster':
+    'School=Enchantment Level=B3,W4 ' +
+    'Description="R$RS\' Target treats you as trusted friend for $L dy (Will neg)"',
+  'Charm Person':
+    'School=Enchantment Level=B1,W1 ' +
+    'Description="R$RS\' Target treats you as trusted friend for $L hr (Will neg)"',
+  'Chill Metal':
+    'School=Transmutation Level=D2 ' +
+    'Description="R$RS\' Metal of $Ldiv2 creatures 0/1/2/2/2/1/0d4 HP for 7 rd (Will neg)"',
+  'Chill Touch':
+    'School=Necromancy Level=W1 ' +
+    'Description="$L touched 1d6 HP negative energy (Will neg), 1 Str (Fort neg, undead flee 1d4+$L rd)"',
+  'Circle Of Death':
+    'School=Necromancy Level=W6 ' +
+    'Description="R$RM\' ${Lmin20}d4 HD of creatures le 8 HD in 40\' die (Fort neg)"',
+  'Clairaudience/Clairvoyance':
+    'School=Divination Level=B3,Knowledge3,W3 ' +
+    'Description="$RL\' Remote sight or hearing for $L min"',
+  'Clenched Fist':
+    'School=Evocation Level=W8,Strength8 ' +
+    'Description="R$RM\' 10\' (AC 20, caster HP) hand cover (+4 AC), move 60\', hit (+$L+mod for 1d8+11, stunned 1 rd (Fort neg)), bull rush (CMB $Lplus12) for $L rd"',
+  'Cloak Of Chaos':
+    'School=Abjuration Level=Chaos8,C8 ' +
+    'Description="$L targets in 20\' +4 AC/saves and SR 25 and mental protection vs. lawful, lawful hits cause confused 1 rd for $L rd (Will neg)"',
+  'Clone':
+    'School=Necromancy Level=W8 ' +
+    'Description="Soul enters duplicate if original dies"',
+  'Cloudkill':
+    'School=Conjuration Level=W5 ' +
+    'Description="R$RM\' 20\' cylinder moves away 10\', 1-3 HD die, 4-6 HD die (Fort 1d4 Con), 6+ HD 1d4 Con (Fort half) for $L min"',
+  'Color Spray':
+    'School=Illusion Level=W1 ' +
+    'Description="R15\' cone targets with 2/4/any HD unconscious 2d4 rd/blind 1d4 rd/stunned 1 rd (Will neg)"',
+  'Command':
+    'School=Enchantment Level=C1 ' +
+    'Description="R$RS\' Target approach/drop/fall/flee/halt for 1 rd (Will neg)"',
+  'Command Plants':
+    'School=Transmutation Level=D4,Plant4,R3 ' +
+    'Description="R$RS\' $L2 HD plant creatures obey for $L dy (Will neg)"',
+  'Command Undead':
+    'School=Necromancy Level=W2 ' +
+    'Description="R$RS\' Undead target obey for $L dy (Will neg)"',
+  'Commune':
+    'School=Divination Level=C5 ' +
+    'Description="Deity answers $L yes/no questions"',
+  'Commune With Nature':
+    'School=Divination Level=Animal5,D5,R4 ' +
+    'Description="Learn natural facts for $L mi outdoors/$L100\' underground"',
+  'Comprehend Languages':
+    'School=Divination Level=B1,C1,W1 ' +
+    'Description="Self understands all languages for $L10 min"',
+  'Cone Of Cold':
+    'School=Evocation Level=W5,Water6 ' +
+    'Description="R60\' cone ${Lmin15}d6 HP (Ref half)"',
+  'Confusion':
+    'School=Enchantment Level=B3,W4,Trickery4 ' +
+    'Description="R$RM\' Creatures in 15\' radius randomly normal/babble/d8+str to self/attack nearest for $L rd (Will neg)"',
+  'Consecrate':
+    'School=Evocation Level=C2 ' +
+    'Description="R$RS\' Positive energy in 20\' radius gives undead -1 attack/damage/saves for $L2 hr"',
+  'Contact Other Plane':
+    'School=Divination Level=W5 ' +
+    'Description="Ask $Ldiv2 questions of extraplanar entity"',
+  'Contagion':
+    'School=Necromancy Level=C3,Destruction3,D3,W4 ' +
+    'Description="Touched diseased (Fort neg)"',
+  'Contingency':
+    'School=Evocation Level=W6 ' +
+    'Description="Set trigger for $Ldiv3min6-level spell for $L dy"',
+  'Continual Flame':
+    'School=Evocation Level=C3,W2 ' +
+    'Description="Touched emits heatless torch flame permanently"',
+  'Control Plants':
+    'School=Transmutation Level=D8,Plant8 ' +
+    'Description="R$RS\' $L2 HD plant creatures obey for $L min (Will neg)"',
+  'Control Undead':
+    'School=Necromancy Level=W7 ' +
+    'Description="R$RS\' Undead target obey for $L min (Will neg)"',
+  'Control Water':
+    'School=Transmutation Level=C4,D4,W6,Water4 ' +
+    'Description="R$RL\' Raise/lower ${Math.pow(lvl, 3)} 10\'x10\'x2\' of water $L2\' for $L10 min"',
+  'Control Weather':
+    'School=Transmutation Level=Air7,C7,D7,W7 ' +
+    'Description="Create seasonal weather in 2 mi radius for 4d12 hr"',
+  'Control Winds':
+    'School=Transmutation Level=Air5,D5 ' +
+    'Description="R$L40\' Changes wind direction/speed in $L40\'x40\' cylinder for $L10 min"',
+  'Create Food And Water':
+    'School=Conjuration Level=C3 ' +
+    'Description="Daily food/water for $L3 humans/$L horses"',
+  'Create Greater Undead':
+    'School=Necromancy Level=C8,Death8,W8 ' +
+    'Description="Raise shadow/wraith/spectr/devourer from physical remains at level -/16/18/20"',
+  'Create Undead':
+    'School=Necromancy Level=C6,Death6,Evil6,W6 ' +
+    'Description="Raise ghoul/ghast/mummy/mohrg from physical remains at level -/12/15/18"',
+  'Create Water':
+    'School=Conjuration Level=C0,D0,P1 ' +
+    'Description="R$RS\' Creates $L2 gallons of pure water"',
+  'Creeping Doom':
+    'School=Conjuration Level=D7 ' +
+    'Description="R$Ldiv2times5plus25min100\' Four 60-HP insect swarms 4d6 HP obey for $L rd"',
+  'Crushing Despair':
+    'School=Enchantment Level=B3,W4 ' +
+    'Description="R30\' cone Targets -2 attack/damage/saves/checks for $L min (Will neg)"',
+  'Crushing Hand':
+    'School=Evocation Level=W9,Strength9 ' +
+    'Description="R$RM\' 10\' (AC 20, caster HP) hand cover (+4 AC), move 60\', grapple (CMB $Lplus12, 2d6+12 HP) for $L rd"',
+  'Cure Critical Wounds':
+    'School=Conjuration Level=B4,C4,D5,Healing4 ' +
+    'Description="Touched heal/damage undead 4d8+$Lmin20 (Will half)"',
+  'Cure Light Wounds':
+    'School=Conjuration Level=B1,C1,D1,Healing1,P1,R2 ' +
+    'Description="Touched heal/damage undead 1d8+$Lmin5 (Will half)"',
+  'Cure Minor Wounds':
+    'School=Conjuration Level=C0,D0 ' +
+    'Description="Touched heal 1 HP"',
+  'Cure Moderate Wounds':
+    'School=Conjuration Level=B2,C2,D2,Healing2,P3,R3 ' +
+    'Description="Touched heal/damage undead 2d8+$Lmin10 (Will half)"',
+  'Cure Serious Wounds':
+    'School=Conjuration Level=B3,C3,D4,P4,R4,Healing3 ' +
+    'Description="Touched heal/damage undead 3d8+$Lmin15 (Will half)"',
+  'Curse Water':
+    'School=Necromancy Level=C1 ' +
+    'Description="Makes 1 pint unholy water (Will neg)"'
+/*
+  'Dancing Lights':'School=Evocation Description="R$RM\' 4 torch lights in 10\' radius move 100\' for 1 min"',
+  'Darkness':'School=Evocation Description="Touched lowers illumination one step in 20\'-radius for $L min"',
+  'Darkvision':'School=Transmutation Description="Touched sees 60\' in total darkness for $L hr"',
+  'Daylight':'School=Evocation Description="Touched radiates 60\'-radius illumination for $L10 min"',
+  'Daze':'School=Enchantment Description="R$RS\' Humanoid target le 4 HD lose next action (Will neg)"',
+  'Daze Monster':'School=Enchantment Description="R$RM\' Creature target le 6 HD lose next action (Will neg)"',
+  'Death Knell':'School=Necromancy Description="Touched w/negative HP die and you gain 1d8 HP/+2 Str/+1 caster level for 10*target HD min (Will neg)"',
+  'Death Ward':'School=Necromancy Description="Touched +4 vs. death spells/effects, immune drain for $L min"',
+  'Deathwatch':'School=Necromancy Description="R30\' cone Reveals state of targets for $L10 min"',
+  'Deep Slumber':'School=Enchantment Description="R$RS\' 10 HD of targets sleep $L min (Will neg)"',
+  'Deeper Darkness':'School=Evocation Description="Touched lowers illumination two steps in 60\'-radius for $L10 min"',
+  'Delay Poison':'School=Conjuration Description="Touched immune to poison for $L hr"',
+  'Delayed Blast Fireball':'School=Evocation Description="R$RL\' ${Lmin20}d6 HP (Ref half) in 20\' radius, delay le 5 rd"',
+  'Demand':'School=Enchantment Description="25-word message to target, carry out suggestion (Will neg)"',
+  'Desecrate':'School=Evocation Description="R$RS\' Negative energy in 20\' radius gives undead +1 attack/damage/saves/HP per HD for $L2 hr"',
+  'Destruction':'School=Necromancy Description="R$RS\' Target $L10 HP, consumed if slain (Fort 10d6 HP)"',
+  'Detect Animals Or Plants':'School=Divination Description="R$RL\' cone info on animals/plants for $L10 min"',
+  'Detect Chaos':'School=Divination Description="R60\' cone info on chaotic auras for $L10 min"',
+  'Detect Evil':'School=Divination Description="R60\' cone info on evil auras for $L10 min"',
+  'Detect Good':'School=Divination Description="R60\' cone info on good auras for $L10 min"',
+  'Detect Law':'School=Divination Description="R60\' cone info on lawful auras for $L10 min"',
+  'Detect Magic':'School=Divination Description="R60\' cone info on magical auras for $L min"',
+  'Detect Poison':'School=Divination Description="R$RS\' Detects poison in target, DC20 Wis/Alchemy check for type"',
+  'Detect Scrying':'School=Divination Description="R40\' Detects scrying, opposed caster check to see source"',
+  'Detect Secret Doors':'School=Divination Description="R60\' cone info on secret doors for $L min"',
+  'Detect Snares And Pits':'School=Divination Description="R60\' cone info on traps $L10 min"',
+  'Detect Thoughts':'School=Divination Description="R60\' cone info on thoughts for $L min (Will neg)"',
+  'Detect Undead':'School=Divination Description="R60\' cone info on undead auras for $L min"',
+  'Dictum':'School=Evocation Description="R40\' Nonlawful creatures with equal/-1/-5/-10 HD deafened 1d4 rd/staggered 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)"',
+  'Dimension Door':'School=Conjuration Description="Teleport self and touched willing object/creature $RL\'"',
+  'Dimensional Anchor':'School=Abjuration Description="R$RM\' Ranged touch bars extradimensional travel for $L min"',
+  'Dimensional Lock':'School=Abjuration Description="R$RM\' Bar extradimensional travel in 20\' radius for $L dy"',
+  'Diminish Plants':'School=Transmutation Description="Prunes/blights growth of normal plants"',
+  'Discern Lies':'School=Divination Description="R$RS\' Reveals lies from $L creatures for $L rd/conc (Will neg)"',
+  'Discern Location':'School=Divination Description="Know exact location of creature/object"',
+  'Disguise Self':'School=Illusion Description="Self change appearance/+10 disguise for $L10 min"',
+  'Disintegrate':'School=Transmutation Description="R$RM\' Target ${L2min40}d6 HP (Fort half), dust if slain (Fort 5d6)"',
+  'Dismissal':'School=Abjuration Description="R$RS\' Target returned to native plane (Will neg)"',
+  'Dispel Chaos':'School=Abjuration Description="Touched +4 AC vs. chaotic/touch to dismiss chaotic creature/spell (Will neg)"',
+  'Dispel Evil':'School=Abjuration Description="Touched +4 AC vs. evil/touch to dismiss evil creature/spell (Will neg)"',
+  'Dispel Good':'School=Abjuration Description="Touched +4 AC vs. good/touch to dismiss good creature/spell (Will neg)"',
+  'Dispel Law':'School=Abjuration Description="Touched +4 AC vs. lawful/touch to dismiss lawful creature/spell (Will neg)"',
+  'Dispel Magic':'School=Abjuration Description="Dispel Magic": "R$RM\' d20+$L vs. 11+caster level cancels spell/effect"',
+  'Displacement':'School=Illusion Description="Attacks on touched 50% miss for $L rd"',
+  'Disrupt Undead':'School=Necromancy Description="R$RS\' Ranged touched undead 1d6 HP"',
+  'Disrupting Weapon':'School=Transmutation Description="Undead hit w/touched weapon destroyed for $L rd (Will neg)"',
+  'Divination':'School=Divination Description="$Lplus70min90% chance for advice on act proposed w/in a week"',
+  'Divine Favor':'School=Evocation Description="Self +$Ldiv3min3 attack/damage for 1 min"',
+  'Divine Power':'School=Evocation Description="Self +$Ldiv3min6 attack/damage/Str check, +$L HP for $L rd"',
+  'Dominate Animal':'School=Enchantment Description="R$RS\' Target animal obey thoughts for $L rd (Will neg)"',
+  'Dominate Monster':'School=Enchantment Description="R$RS\' Target obey thoughts for $L dy (Will neg)"',
+  'Dominate Person':'School=Enchantment Description="R$RS\' Target humanoid obey thoughts for $L dy (Will neg)"',
+  'Doom':'School=Necromancy Description="R$RM\' Target shaken (-2 attack/damage/saves/checks) for $L min (Will neg)"',
+  'Dream':'School=Illusion Description="Touched sends message to sleeping target"',
 
-  'Dancing Lights':'Evocation', 'Darkness':'Evocation',
-  'Darkvision':'Transmutation', 'Daylight':'Evocation', 'Daze':'Enchantment',
-  'Daze Monster':'Enchantment', 'Death Knell':'Necromancy',
-  'Death Ward':'Necromancy', 'Deathwatch':'Necromancy',
-  'Deep Slumber':'Enchantment', 'Deeper Darkness':'Evocation',
-  'Delay Poison':'Conjuration', 'Delayed Blast Fireball':'Evocation',
-  'Demand':'Enchantment', 'Desecrate':'Evocation', 'Destruction':'Necromancy',
-  'Detect Animals Or Plants':'Divination', 'Detect Chaos':'Divination',
-  'Detect Evil':'Divination', 'Detect Good':'Divination',
-  'Detect Law':'Divination', 'Detect Magic':'Divination',
-  'Detect Poison':'Divination', 'Detect Scrying':'Divination',
-  'Detect Secret Doors':'Divination', 'Detect Snares And Pits':'Divination',
-  'Detect Thoughts':'Divination', 'Detect Undead':'Divination',
-  'Dictum':'Evocation', 'Dimension Door':'Conjuration',
-  'Dimensional Anchor':'Abjuration', 'Dimensional Lock':'Abjuration',
-  'Diminish Plants':'Transmutation', 'Discern Lies':'Divination',
-  'Discern Location':'Divination', 'Disguise Self':'Illusion',
-  'Disintegrate':'Transmutation', 'Dismissal':'Abjuration',
-  'Dispel Chaos':'Abjuration', 'Dispel Evil':'Abjuration',
-  'Dispel Good':'Abjuration', 'Dispel Law':'Abjuration',
-  'Dispel Magic':'Abjuration', 'Displacement':'Illusion',
-  'Disrupt Undead':'Necromancy', 'Disrupting Weapon':'Transmutation',
-  'Divination':'Divination', 'Divine Favor':'Evocation',
-  'Divine Power':'Evocation', 'Dominate Animal':'Enchantment',
-  'Dominate Monster':'Enchantment', 'Dominate Person':'Enchantment',
-  'Doom':'Necromancy', 'Dream':'Illusion',
+  "Eagle's Splendor":'School=Transmutation Description="Touched +4 Cha for $L min"',
+  'Earthquake':'School=Evocation Description="R$RL\' Intense tremor shakes 80\' radius for 1 rd"',
+  'Elemental Swarm':'School=Conjuration Description="R$RM\' Summons 2d4 large, then 1d4 huge, then 1 greater  elementals for $L10 min"',
+  'Endure Elements':'School=Abjuration Description="Touched comfortable in at -50-140F for 1 dy"',
+  'Energy Drain':'School=Necromancy Description="R$RS\' Ranged touch 2d4 negative levels (Fort 1 dy, undead +2d4x5 HP for 1 hr)"',
+  'Enervation':'School=Necromancy Description="R$RS\' Ranged touch 1d4 negative levels for $L hr (undead +1d4x5 HP for 1 hr)"',
+  'Enlarge Person':'School=Transmutation Description="R$RS\' Target humanoid dbl size (+2 Str/-2 Dex/-1 attack/-1 AC) for $L min (Fort neg)"',
+  'Entangle':'School=Transmutation Description="R$RL\' Creatures in 40\' radius entangled for $L min (Ref half speed)"',
+  'Enthrall':'School=Enchantment Description="R$RM\' Listeners captivated for 1 hr (Will neg)"',
+  'Entropic Shield':'School=Abjuration Description="Foes\' ranged attacks 20% miss for $L min"',
+  'Erase':'School=Transmutation Description="R$RS\' Two pages of writing vanish (magical writing DC 15 caster check)"',
+  'Ethereal Jaunt':'School=Transmutation Description="Self ethereal for $L rd"',
+  'Etherealness':'School=Transmutation Description="Self+$Ldiv3 others ethereal for $L min"',
+  'Expeditious Retreat':'School=Transmutation Description="Self speed +30 for $L min"',
+  'Explosive Runes':'School=Abjuration Description="Runes 6d6 HP when read (Ref half w/in 10\', adjacent no save)"',
+  'Eyebite':'School=Necromancy Description="R$RS\' 1 target/rd with 4/9/10+ HD comatose $L10 min/panicked d4 rd and shaken 10 min/sickened 10 min for $L rd (Fort neg)"',
 
-  'Eagle\'s Splendor':'Transmutation', 'Earthquake':'Evocation',
-  'Elemental Swarm':'Conjuration', 'Endure Elements':'Abjuration',
-  'Energy Drain':'Necromancy', 'Enervation':'Necromancy',
-  'Enlarge Person':'Transmutation', 'Entangle':'Transmutation',
-  'Enthrall':'Enchantment', 'Entropic Shield':'Abjuration',
-  'Erase':'Transmutation', 'Ethereal Jaunt':'Transmutation',
-  'Etherealness':'Transmutation', 'Expeditious Retreat':'Transmutation',
-  'Explosive Runes':'Abjuration', 'Eyebite':'Necromancy',
+  'Fabricate':'School=Transmutation Description="Create $L10\' cube ($L\' mineral cube) of finished items from raw materials"',
+  'Faerie Fire':'School=Evocation Description="R$RL\' Creatures in 5\' radius glow for $L min"',
+  'False Life':'School=Necromancy Description="Self +1d10+$Lmin10 temporary HP for $L hr"',
+  'False Vision':'School=Illusion Description="Scrying in touched 40\' radius sees illusion for $L hr"',
+  'Fear':'School=Necromancy Description="R30\' cone Creatures flee for $L rd (Will shaken 1 rd)"',
+  'Feather Fall':'School=Transmutation Description="R$RS\' $L targets fall 60\' for $L rd (Will neg)"',
+  'Feeblemind':'School=Enchantment Description="R$RM\' Target Int/Cha permanently drop to 1 (Will (arcane -4) neg)"',
+  'Find The Path':'School=Divination Description="Know most direct route to location for $L10 min"',
+  'Find Traps':'School=Divination Description="Self +10 Perception to notice traps w/in 10\' for $L min"',
+  'Finger Of Death':'School=Necromancy Description="R$RS\' Target $L10 HP (Fort 3d6+$L)"',
+  'Fire Seeds':'School=Conjuration Description="4 acorn grenades ${Lmin20}d4 total/8 berry bombs 1d8+$L (Ref half) that detonate on command for $L10 min"',
+  'Fire Shield':'School=Evocation Description="Cold/hot flames enveloping self do d6+$Lmin15 HP upon foe hit, take half HP from heat/cold attacks (Ref no HP) for $L rd"',
+  'Fire Storm':'School=Evocation Description="R$RM\' $L2 10\' cubes do ${Lmin20}d6 HP to targets, burn for 4d6/rd (Ref half and no burn)"',
+  'Fire Trap':'School=Abjuration Description="Warded object 1d4+$Lmin20 HP (Ref half) w/in 5\' when opened"',
+  'Fireball':'School=Evocation Description="R$RL\' ${Lmin10}d6 HP (Ref half) in 20\' radius"',
+  'Flame Arrow':'School=Transmutation Description="R$RS\' 50 projectiles +1d6 HP for $L10 min"',
+  'Flame Blade':'School=Evocation Description="Touch 1d8+$Ldiv2min10 HP for $L min"',
+  'Flame Strike':'School=Evocation Description="R$RM\' 10\' radius x 40\' high ${Lmin15}d6 HP (Ref half)"',
+  'Flaming Sphere':'School=Evocation Description="R$RM\' 5\' diameter sphere 3d6 HP (Ref neg) jump/move 30\' for $L rd"',
+  'Flare':'School=Evocation Description="R$RS\' Target dazzled 1 min (Fort neg)"',
+  'Flesh To Stone':'School=Transmutation Description="Target statue (Fort neg)"',
+  'Floating Disk':'School=Evocation Description="R$RS\' 3\'-diameter x 1\" force disk follows, holds $L100 lbs at 3\' for $L hr"',
+  'Fly':'School=Transmutation Description="Touched fly at 60\' for $L min"',
+  'Fog Cloud':'School=Conjuration Description="R$RM\' 20\'-radius fog obscures vision for $L10 min"',
+  'Forbiddance':'School=Abjuration Description="R$RM\' 60\' cube bars planar travel, 6d6/12d6 HP on transit if align differs in 1/2 dimensions"',
+  'Forcecage':'School=Evocation Description="R$RS\' Traps targets in 20\' cage/10\' cube for $L rd"',
+  'Forceful Hand':'School=Evocation Description="R$RM\' 10\' (AC 20, caster HP) hand cover (+4 AC), move 60\', bull rush (CMB $Lplus9, 2d6+12 HP) for $L rd"',
+  'Foresight':'School=Divination Description="Warnings provide +2 AC/Ref, no surprise/flat-footed for $L min"',
+  'Fox\'s Cunning':'School=Transmutation Description="Touched +4 Int for $L min"',
+  'Freedom':'School=Abjuration Description="R$RS\' Target released from movement restrictions"',
+  'Freedom Of Movement':'School=Abjuration Description="R$RS\' Target moves freely for $L10 min"',
+  'Freezing Sphere':'School=Evocation Description="R$RL\' Burst ${Lmin15}d6 HP in 40\' radius (Ref half)"',
 
-  'Fabricate':'Transmutation', 'Faerie Fire':'Evocation',
-  'False Life':'Necromancy', 'False Vision':'Illusion', 'Fear':'Necromancy',
-  'Feather Fall':'Transmutation', 'Feeblemind':'Enchantment',
-  'Find The Path':'Divination', 'Find Traps':'Divination',
-  'Finger Of Death':'Necromancy', 'Fire Seeds':'Conjuration',
-  'Fire Shield':'Evocation', 'Fire Storm':'Evocation',
-  'Fire Trap':'Abjuration', 'Fireball':'Evocation',
-  'Flame Arrow':'Transmutation', 'Flame Blade':'Evocation',
-  'Flame Strike':'Evocation', 'Flaming Sphere':'Evocation',
-  'Flare':'Evocation', 'Flesh To Stone':'Transmutation',
-  'Floating Disk':'Evocation', 'Fly':'Transmutation',
-  'Fog Cloud':'Conjuration', 'Forbiddance':'Abjuration',
-  'Forcecage':'Evocation', 'Forceful Hand':'Evocation',
-  'Foresight':'Divination', 'Fox\'s Cunning':'Transmutation',
-  'Freedom':'Abjuration', 'Freedom Of Movement':'Abjuration',
-  'Freezing Sphere':'Evocation',
+  'Gaseous Form':'School=Transmutation Description=""',
+  'Gate':'School=Conjuration Description=""',
+  'Geas/Quest':'School=Enchantment Description=""',
+  'Gentle Repose':'School=Necromancy Description=""',
+  'Ghost Sound':'School=Illusion Description=""',
+  'Ghoul Touch':'School=Necromancy Description=""',
+  'Giant Vermin':'School=Transmutation Description=""',
+  'Glibness':'School=Transmutation Description=""',
+  'Glitterdust':'School=Conjuration Description=""',
+  'Globe Of Invulnerability':'School=Abjuration Description=""',
+  'Glyph Of Warding':'School=Abjuration Description=""',
+  'Good Hope':'School=Enchantment Description=""',
+  'Goodberry':'School=Transmutation Description=""',
+  'Grasping Hand':'School=Evocation Description=""',
+  'Grease':'School=Conjuration Description=""',
+  'Greater Arcane Sight':'School=Divination Description=""',
+  'Greater Command':'School=Enchantment Description=""',
+  'Greater Dispel Magic':'School=Abjuration Description=""',
+  'Greater Glyph Of Warding':'School=Abjuration Description=""',
+  'Greater Heroism':'School=Enchantment Description=""',
+  'Greater Invisibility':'School=Illusion Description=""',
+  'Greater Magic Fang':'School=Transmutation Description=""',
+  'Greater Magic Weapon':'School=Transmutation Description=""',
+  'Greater Planar Ally':'School=Conjuration Description=""',
+  'Greater Planar Binding':'School=Conjuration Description=""',
+  'Greater Prying Eyes':'School=Divination Description=""',
+  'Greater Restoration':'School=Conjuration Description=""',
+  'Greater Scrying':'School=Divination Description=""',
+  'Greater Shadow Conjuration':'School=Illusion Description=""','Greater Shadow Evocation':'Illusion',
+  'Greater Shout':'School=Evocation Description=""',
+  'Greater Spell Immunity':'School=Abjuration Description=""',
+  'Greater Teleport':'School=Conjuration Description=""',
+  'Guards And Wards':'School=Abjuration Description=""',
+  'Guidance':'School=Divination Description=""',
+  'Gust Of Wind':'School=Evocation Description=""',
 
-  'Gaseous Form':'Transmutation', 'Gate':'Conjuration',
-  'Geas/Quest':'Enchantment', 'Gentle Repose':'Necromancy',
-  'Ghost Sound':'Illusion', 'Ghoul Touch':'Necromancy',
-  'Giant Vermin':'Transmutation', 'Glibness':'Transmutation',
-  'Glitterdust':'Conjuration', 'Globe Of Invulnerability':'Abjuration',
-  'Glyph Of Warding':'Abjuration', 'Good Hope':'Enchantment',
-  'Goodberry':'Transmutation', 'Grasping Hand':'Evocation',
-  'Grease':'Conjuration', 'Greater Arcane Sight':'Divination',
-  'Greater Command':'Enchantment', 'Greater Dispel Magic':'Abjuration',
-  'Greater Glyph Of Warding':'Abjuration', 'Greater Heroism':'Enchantment',
-  'Greater Invisibility':'Illusion', 'Greater Magic Fang':'Transmutation',
-  'Greater Magic Weapon':'Transmutation', 'Greater Planar Ally':'Conjuration',
-  'Greater Planar Binding':'Conjuration', 'Greater Prying Eyes':'Divination',
-  'Greater Restoration':'Conjuration', 'Greater Scrying':'Divination',
-  'Greater Shadow Conjuration':'Illusion','Greater Shadow Evocation':'Illusion',
-  'Greater Shout':'Evocation', 'Greater Spell Immunity':'Abjuration',
-  'Greater Teleport':'Conjuration', 'Guards And Wards':'Abjuration',
-  'Guidance':'Divination', 'Gust Of Wind':'Evocation',
+  'Hallow':'School=Evocation Description=""',
+  'Hallucinatory Terrain':'School=Illusion Description=""',
+  'Halt Undead':'School=Necromancy Description=""',
+  'Harm':'School=Necromancy Description=""',
+  'Haste':'School=Transmutation Description=""',
+  'Heal':'School=Conjuration Description=""',
+  'Heal Mount':'School=Conjuration Description=""',
+  'Heat Metal':'School=Transmutation Description=""',
+  'Helping Hand':'School=Evocation Description=""',
+  'Heroes\' Feast':'School=Conjuration Description=""',
+  'Heroism':'School=Enchantment Description=""',
+  'Hide From Animals':'School=Abjuration Description=""',
+  'Hide From Undead':'School=Abjuration Description=""',
+  'Hideous Laughter':'School=Enchantment Description=""',
+  'Hold Animal':'School=Enchantment Description=""',
+  'Hold Monster':'School=Enchantment Description=""',
+  'Hold Person':'School=Enchantment Description=""',
+  'Hold Portal':'School=Abjuration Description=""',
+  'Holy Aura':'School=Abjuration Description=""',
+  'Holy Smite':'School=Evocation Description=""',
+  'Holy Sword':'School=Evocation Description=""',
+  'Holy Word':'School=Evocation Description=""',
+  'Horrid Wilting':'School=Necromancy Description=""',
+  'Hypnotic Pattern':'School=Illusion Description=""',
+  'Hypnotism':'School=Enchantment Description=""',
 
-  'Hallow':'Evocation', 'Hallucinatory Terrain':'Illusion',
-  'Halt Undead':'Necromancy', 'Harm':'Necromancy', 'Haste':'Transmutation',
-  'Heal':'Conjuration', 'Heal Mount':'Conjuration',
-  'Heat Metal':'Transmutation', 'Helping Hand':'Evocation',
-  'Heroes\' Feast':'Conjuration', 'Heroism':'Enchantment',
-  'Hide From Animals':'Abjuration', 'Hide From Undead':'Abjuration',
-  'Hideous Laughter':'Enchantment', 'Hold Animal':'Enchantment',
-  'Hold Monster':'Enchantment', 'Hold Person':'Enchantment',
-  'Hold Portal':'Abjuration', 'Holy Aura':'Abjuration',
-  'Holy Smite':'Evocation', 'Holy Sword':'Evocation', 'Holy Word':'Evocation',
-  'Horrid Wilting':'Necromancy', 'Hypnotic Pattern':'Illusion',
-  'Hypnotism':'Enchantment',
+  'Ice Storm':'School=Evocation Description=""',
+  'Identify':'School=Divination Description=""',
+  'Illusory Script':'School=Illusion Description=""',
+  'Illusory Wall':'School=Illusion Description=""',
+  'Imbue With Spell Ability':'School=Evocation Description=""',
+  'Implosion':'School=Evocation Description=""',
+  'Imprisonment':'School=Abjuration Description=""',
+  'Incendiary Cloud':'School=Conjuration Description=""',
+  'Inflict Critical Wounds':'School=Necromancy Description=""',
+  'Inflict Light Wounds':'School=Necromancy Description=""',
+  'Inflict Minor Wounds':'School=Necromancy Description=""',
+  'Inflict Moderate Wounds':'School=Necromancy Description=""',
+  'Inflict Serious Wounds':'School=Necromancy Description=""',
+  'Insanity':'School=Enchantment Description=""',
+  'Insect Plague':'School=Conjuration Description=""',
+  'Instant Summons':'School=Conjuration Description=""',
+  'Interposing Hand':'School=Evocation Description=""',
+  'Invisibility':'School=Illusion Description=""',
+  'Invisibility Purge':'School=Evocation Description=""',
+  'Invisibility Sphere':'School=Illusion Description=""',
+  'Iron Body':'School=Transmutation Description=""',
+  'Ironwood':'School=Transmutation Description=""',
+  'Irresistible Dance':'School=Enchantment Description=""',
 
-  'Ice Storm':'Evocation', 'Identify':'Divination',
-  'Illusory Script':'Illusion', 'Illusory Wall':'Illusion',
-  'Imbue With Spell Ability':'Evocation', 'Implosion':'Evocation',
-  'Imprisonment':'Abjuration', 'Incendiary Cloud':'Conjuration',
-  'Inflict Critical Wounds':'Necromancy', 'Inflict Light Wounds':'Necromancy',
-  'Inflict Minor Wounds':'Necromancy', 'Inflict Moderate Wounds':'Necromancy',
-  'Inflict Serious Wounds':'Necromancy', 'Insanity':'Enchantment',
-  'Insect Plague':'Conjuration', 'Instant Summons':'Conjuration',
-  'Interposing Hand':'Evocation', 'Invisibility':'Illusion',
-  'Invisibility Purge':'Evocation', 'Invisibility Sphere':'Illusion',
-  'Iron Body':'Transmutation', 'Ironwood':'Transmutation',
-  'Irresistible Dance':'Enchantment',
+  'Jump':'School=Transmutation Description=""',
 
-  'Jump':'Transmutation',
+  'Keen Edge':'School=Transmutation Description=""',
+  'Knock':'School=Transmutation Description=""',
+  'Know Direction':'School=Divination Description=""',
 
-  'Keen Edge':'Transmutation', 'Knock':'Transmutation',
-  'Know Direction':'Divination',
+  'Legend Lore':'School=Divination Description=""',
+  'Lesser Confusion':'School=Enchantment Description=""',
+  'Lesser Geas':'School=Enchantment Description=""',
+  'Lesser Globe Of Invulnerability':'School=Abjuration Description=""',
+  'Lesser Planar Ally':'School=Conjuration Description=""',
+  'Lesser Planar Binding':'School=Conjuration Description=""',
+  'Lesser Restoration':'School=Conjuration Description=""',
+  'Levitate':'School=Transmutation Description=""',
+  'Light':'School=Evocation Description=""',
+  'Lightning Bolt':'School=Evocation Description=""',
+  'Limited Wish':'School=Universal Description=""',
+  'Liveoak':'School=Transmutation Description=""',
+  'Locate Creature':'School=Divination Description=""',
+  'Locate Object':'School=Divination Description=""',
+  'Longstrider':'School=Transmutation Description=""',
+  'Lullaby':'School=Enchantment Description=""',
 
-  'Legend Lore':'Divination', 'Lesser Confusion':'Enchantment',
-  'Lesser Geas':'Enchantment', 'Lesser Globe Of Invulnerability':'Abjuration',
-  'Lesser Planar Ally':'Conjuration', 'Lesser Planar Binding':'Conjuration',
-  'Lesser Restoration':'Conjuration', 'Levitate':'Transmutation',
-  'Light':'Evocation', 'Lightning Bolt':'Evocation', 'Limited Wish':'Universal',
-  'Liveoak':'Transmutation', 'Locate Creature':'Divination',
-  'Locate Object':'Divination', 'Longstrider':'Transmutation',
-  'Lullaby':'Enchantment',
+  'Mage Armor':'School=Conjuration Description=""',
+  'Mage Hand':'School=Transmutation Description=""',
+  'Mage\'s Disjunction':'School=Abjuration Description=""',
+  'Mage\'s Faithful Hound':'School=Conjuration Description=""',
+  'Mage\'s Lucubration':'School=Transmutation Description=""',
+  'Mage\'s Magnificent Mansion':'School=Conjuration Description=""',
+  'Mage\'s Private Sanctum':'School=Abjuration Description=""',
+  'Mage\'s Sword':'School=Evocation Description=""',
+  'Magic Aura':'School=Illusion Description=""',
+  'Magic Circle Against Chaos':'School=Abjuration Description=""',
+  'Magic Circle Against Evil':'School=Abjuration Description=""',
+  'Magic Circle Against Good':'School=Abjuration Description=""',
+  'Magic Circle Against Law':'School=Abjuration Description=""',
+  'Magic Fang':'School=Transmutation Description=""',
+  'Magic Jar':'School=Necromancy Description=""',
+  'Magic Missile':'School=Evocation Description=""',
+  'Magic Mouth':'School=Illusion Description=""',
+  'Magic Stone':'School=Transmutation Description=""',
+  'Magic Vestment':'School=Transmutation Description=""',
+  'Magic Weapon':'School=Transmutation Description=""',
+  'Major Creation':'School=Conjuration Description=""',
+  'Major Image':'School=Illusion Description=""',
+  'Make Whole':'School=Transmutation Description=""',
+  'Mark Of Justice':'School=Necromancy Description=""',
+  'Mass Bear\'s Endurance':'School=Transmutation Description=""',
+  'Mass Bull\'s Strength':'School=Transmutation Description=""',
+  'Mass Cat\'s Grace':'School=Transmutation Description=""',
+  'Mass Charm Monster':'School=Enchantment Description=""',
+  'Mass Cure Critical Wounds':'School=Conjuration Description=""',
+  'Mass Cure Light Wounds':'School=Conjuration Description=""',
+  'Mass Cure Moderate Wounds':'School=Conjuration Description=""',
+  'Mass Cure Serious Wounds':'School=Conjuration Description=""',
+  'Mass Eagle\'s Splendor':'School=Transmutation Description=""',
+  'Mass Enlarge Person':'School=Transmutation Description=""',
+  'Mass Fox\'s Cunning':'School=Transmutation Description=""',
+  'Mass Heal':'School=Conjuration Description=""',
+  'Mass Hold Monster':'School=Enchantment Description=""',
+  'Mass Hold Person':'School=Enchantment Description=""',
+  'Mass Inflict Critical Wounds':'School=Necromancy Description=""',
+  'Mass Inflict Light Wounds':'School=Necromancy Description=""',
+  'Mass Inflict Moderate Wounds':'School=Necromancy Description=""',
+  'Mass Inflict Serious Wounds':'School=Necromancy Description=""',
+  'Mass Invisibility':'School=Illusion Description=""',
+  'Mass Owl\'s Wisdom':'School=Transmutation Description=""',
+  'Mass Reduce Person':'School=Transmutation Description=""',
+  'Mass Suggestion':'School=Enchantment Description=""',
+  'Maze':'School=Conjuration Description=""',
+  'Meld Into Stone':'School=Transmutation Description=""',
+  'Mending':'School=Transmutation Description=""',
+  'Message':'School=Transmutation Description=""',
+  'Meteor Swarm':'School=Evocation Description=""',
+  'Mind Blank':'School=Abjuration Description=""',
+  'Mind Fog':'School=Enchantment Description=""',
+  'Minor Creation':'School=Conjuration Description=""',
+  'Minor Image':'School=Illusion Description=""',
+  'Miracle':'School=Evocation Description=""',
+  'Mirage Arcana':'School=Illusion Description=""',
+  'Mirror Image':'School=Illusion Description=""',
+  'Misdirection':'School=Illusion Description=""',
+  'Mislead':'School=Illusion Description=""',
+  'Mnemonic Enhancer':'School=Transmutation Description=""',
+  'Modify Memory':'School=Enchantment Description=""',
+  'Moment Of Prescience':'School=Divination Description=""',
+  'Mount':'School=Conjuration Description=""',
+  'Move Earth':'School=Transmutation Description=""',
 
-  'Mage Armor':'Conjuration', 'Mage Hand':'Transmutation',
-  'Mage\'s Disjunction':'Abjuration', 'Mage\'s Faithful Hound':'Conjuration',
-  'Mage\'s Lucubration':'Transmutation',
-  'Mage\'s Magnificent Mansion':'Conjuration',
-  'Mage\'s Private Sanctum':'Abjuration', 'Mage\'s Sword':'Evocation',
-  'Magic Aura':'Illusion', 'Magic Circle Against Chaos':'Abjuration',
-  'Magic Circle Against Evil':'Abjuration',
-  'Magic Circle Against Good':'Abjuration',
-  'Magic Circle Against Law':'Abjuration', 'Magic Fang':'Transmutation',
-  'Magic Jar':'Necromancy', 'Magic Missile':'Evocation',
-  'Magic Mouth':'Illusion', 'Magic Stone':'Transmutation',
-  'Magic Vestment':'Transmutation', 'Magic Weapon':'Transmutation',
-  'Major Creation':'Conjuration', 'Major Image':'Illusion',
-  'Make Whole':'Transmutation', 'Mark Of Justice':'Necromancy',
-  'Mass Bear\'s Endurance':'Transmutation',
-  'Mass Bull\'s Strength':'Transmutation', 'Mass Cat\'s Grace':'Transmutation',
-  'Mass Charm Monster':'Enchantment', 'Mass Cure Critical Wounds':'Conjuration',
-  'Mass Cure Light Wounds':'Conjuration',
-  'Mass Cure Moderate Wounds':'Conjuration',
-  'Mass Cure Serious Wounds':'Conjuration',
-  'Mass Eagle\'s Splendor':'Transmutation',
-  'Mass Enlarge Person':'Transmutation', 'Mass Fox\'s Cunning':'Transmutation',
-  'Mass Heal':'Conjuration', 'Mass Hold Monster':'Enchantment',
-  'Mass Hold Person':'Enchantment', 'Mass Inflict Critical Wounds':'Necromancy',
-  'Mass Inflict Light Wounds':'Necromancy',
-  'Mass Inflict Moderate Wounds':'Necromancy',
-  'Mass Inflict Serious Wounds':'Necromancy', 'Mass Invisibility':'Illusion',
-  'Mass Owl\'s Wisdom':'Transmutation', 'Mass Reduce Person':'Transmutation',
-  'Mass Suggestion':'Enchantment', 'Maze':'Conjuration',
-  'Meld Into Stone':'Transmutation', 'Mending':'Transmutation',
-  'Message':'Transmutation', 'Meteor Swarm':'Evocation',
-  'Mind Blank':'Abjuration', 'Mind Fog':'Enchantment',
-  'Minor Creation':'Conjuration', 'Minor Image':'Illusion',
-  'Miracle':'Evocation', 'Mirage Arcana':'Illusion', 'Mirror Image':'Illusion',
-  'Misdirection':'Illusion', 'Mislead':'Illusion',
-  'Mnemonic Enhancer':'Transmutation', 'Modify Memory':'Enchantment',
-  'Moment Of Prescience':'Divination', 'Mount':'Conjuration',
-  'Move Earth':'Transmutation',
+  'Neutralize Poison':'School=Conjuration Description=""',
+  'Nightmare':'School=Illusion Description=""',
+  'Nondetection':'School=Abjuration Description=""',
 
-  'Neutralize Poison':'Conjuration', 'Nightmare':'Illusion',
-  'Nondetection':'Abjuration',
+  'Obscure Object':'School=Abjuration Description=""',
+  'Obscuring Mist':'School=Conjuration Description=""',
+  'Open/Close':'School=Transmutation Description=""',
+  'Order\'s Wrath':'School=Evocation Description=""',
+  'Overland Flight':'School=Transmutation Description=""',
+  'Owl\'s Wisdom':'School=Transmutation Description=""',
 
-  'Obscure Object':'Abjuration', 'Obscuring Mist':'Conjuration',
-  'Open/Close':'Transmutation', 'Order\'s Wrath':'Evocation',
-  'Overland Flight':'Transmutation', 'Owl\'s Wisdom':'Transmutation',
+  'Pass Without Trace':'School=Transmutation Description=""',
+  'Passwall':'School=Transmutation Description=""',
+  'Permanency':'School=Universal Description=""',
+  'Permanent Image':'School=Illusion Description=""',
+  'Persistent Image':'School=Illusion Description=""',
+  'Phantasmal Killer':'School=Illusion Description=""',
+  'Phantom Steed':'School=Conjuration Description=""',
+  'Phantom Trap':'School=Illusion Description=""',
+  'Phase Door':'School=Conjuration Description=""',
+  'Planar Ally':'School=Conjuration Description=""',
+  'Planar Binding':'School=Conjuration Description=""',
+  'Plane Shift':'School=Conjuration Description=""',
+  'Plant Growth':'School=Transmutation Description=""',
+  'Poison':'School=Necromancy Description=""',
+  'Polar Ray':'School=Evocation Description=""',
+  'Polymorph':'School=Transmutation Description=""',
+  'Polymorph Any Object':'School=Transmutation Description=""',
+  'Power Word Blind':'School=Enchantment Description=""',
+  'Power Word Kill':'School=Enchantment Description=""',
+  'Power Word Stun':'School=Enchantment Description=""',
+  'Prayer':'School=Enchantment Description=""',
+  'Prestidigitation':'School=Universal Description=""',
+  'Prismatic Sphere':'School=Abjuration Description=""',
+  'Prismatic Spray':'School=Evocation Description=""',
+  'Prismatic Wall':'School=Abjuration Description=""',
+  'Produce Flame':'School=Evocation Description=""',
+  'Programmed Image':'School=Illusion Description=""',
+  'Project Image':'School=Illusion Description=""',
+  'Protection From Arrows':'School=Abjuration Description=""',
+  'Protection From Chaos':'School=Abjuration Description=""',
+  'Protection From Energy':'School=Abjuration Description=""',
+  'Protection From Evil':'School=Abjuration Description=""',
+  'Protection From Good':'School=Abjuration Description=""',
+  'Protection From Law':'School=Abjuration Description=""',
+  'Protection From Spells':'School=Abjuration Description=""',
+  'Prying Eyes':'School=Divination Description=""',
+  'Purify Food And Drink':'School=Transmutation Description=""',
+  'Pyrotechnics':'School=Transmutation Description=""',
 
-  'Pass Without Trace':'Transmutation', 'Passwall':'Transmutation',
-  'Permanency':'Universal', 'Permanent Image':'Illusion',
-  'Persistent Image':'Illusion', 'Phantasmal Killer':'Illusion',
-  'Phantom Steed':'Conjuration', 'Phantom Trap':'Illusion',
-  'Phase Door':'Conjuration', 'Planar Ally':'Conjuration',
-  'Planar Binding':'Conjuration', 'Plane Shift':'Conjuration',
-  'Plant Growth':'Transmutation', 'Poison':'Necromancy',
-  'Polar Ray':'Evocation', 'Polymorph':'Transmutation',
-  'Polymorph Any Object':'Transmutation', 'Power Word Blind':'Enchantment',
-  'Power Word Kill':'Enchantment', 'Power Word Stun':'Enchantment',
-  'Prayer':'Enchantment', 'Prestidigitation':'Universal',
-  'Prismatic Sphere':'Abjuration', 'Prismatic Spray':'Evocation',
-  'Prismatic Wall':'Abjuration', 'Produce Flame':'Evocation',
-  'Programmed Image':'Illusion', 'Project Image':'Illusion',
-  'Protection From Arrows':'Abjuration', 'Protection From Chaos':'Abjuration',
-  'Protection From Energy':'Abjuration', 'Protection From Evil':'Abjuration',
-  'Protection From Good':'Abjuration', 'Protection From Law':'Abjuration',
-  'Protection From Spells':'Abjuration', 'Prying Eyes':'Divination',
-  'Purify Food And Drink':'Transmutation', 'Pyrotechnics':'Transmutation',
+  'Quench':'School=Transmutation Description=""',
 
-  'Quench':'Transmutation',
+  'Rage':'School=Enchantment Description=""',
+  'Rainbow Pattern':'School=Illusion Description=""',
+  'Raise Dead':'School=Conjuration Description=""',
+  'Ray Of Enfeeblement':'School=Necromancy Description=""',
+  'Ray Of Exhaustion':'School=Necromancy Description=""',
+  'Ray Of Frost':'School=Evocation Description=""',
+  'Read Magic':'School=Divination Description=""',
+  'Reduce Animal':'School=Transmutation Description=""',
+  'Reduce Person':'School=Transmutation Description=""',
+  'Refuge':'School=Conjuration Description=""',
+  'Regenerate':'School=Conjuration Description=""',
+  'Reincarnate':'School=Transmutation Description=""',
+  'Remove Blindness/Deafness':'School=Conjuration Description=""',
+  'Remove Curse':'School=Abjuration Description=""',
+  'Remove Disease':'School=Conjuration Description=""',
+  'Remove Fear':'School=Abjuration Description=""',
+  'Remove Paralysis':'School=Conjuration Description=""',
+  'Repel Metal Or Stone':'School=Abjuration Description=""',
+  'Repel Vermin':'School=Abjuration Description=""',
+  'Repel Wood':'School=Transmutation Description=""',
+  'Repulsion':'School=Abjuration Description=""',
+  'Resilient Sphere':'School=Evocation Description=""',
+  'Resist Energy':'School=Abjuration Description=""',
+  'Resistance':'School=Abjuration Description=""',
+  'Restoration':'School=Conjuration Description=""',
+  'Resurrection':'School=Conjuration Description=""',
+  'Reverse Gravity':'School=Transmutation Description=""',
+  'Righteous Might':'School=Transmutation Description=""',
+  'Rope Trick':'School=Transmutation Description=""',
+  'Rusting Grasp':'School=Transmutation Description=""',
 
-  'Rage':'Enchantment', 'Rainbow Pattern':'Illusion',
-  'Raise Dead':'Conjuration', 'Ray Of Enfeeblement':'Necromancy',
-  'Ray Of Exhaustion':'Necromancy', 'Ray Of Frost':'Evocation',
-  'Read Magic':'Divination', 'Reduce Animal':'Transmutation',
-  'Reduce Person':'Transmutation', 'Refuge':'Conjuration',
-  'Regenerate':'Conjuration', 'Reincarnate':'Transmutation',
-  'Remove Blindness/Deafness':'Conjuration', 'Remove Curse':'Abjuration',
-  'Remove Disease':'Conjuration', 'Remove Fear':'Abjuration',
-  'Remove Paralysis':'Conjuration', 'Repel Metal Or Stone':'Abjuration',
-  'Repel Vermin':'Abjuration', 'Repel Wood':'Transmutation',
-  'Repulsion':'Abjuration', 'Resilient Sphere':'Evocation',
-  'Resist Energy':'Abjuration', 'Resistance':'Abjuration',
-  'Restoration':'Conjuration', 'Resurrection':'Conjuration',
-  'Reverse Gravity':'Transmutation', 'Righteous Might':'Transmutation',
-  'Rope Trick':'Transmutation', 'Rusting Grasp':'Transmutation',
+  'Sanctuary':'School=Abjuration Description=""',
+  'Scare':'School=Necromancy Description=""',
+  'Scintillating Pattern':'School=Illusion Description=""',
+  'Scorching Ray':'School=Evocation Description=""',
+  'Screen':'School=Illusion Description=""',
+  'Scrying':'School=Divination Description=""',
+  'Sculpt Sound':'School=Transmutation Description=""',
+  'Searing Light':'School=Evocation Description=""',
+  'Secret Chest':'School=Conjuration Description=""',
+  'Secret Page':'School=Transmutation Description=""',
+  'Secure Shelter':'School=Conjuration Description=""',
+  'See Invisibility':'School=Divination Description=""',
+  'Seeming':'School=Illusion Description=""',
+  'Sending':'School=Evocation Description=""',
+  'Sepia Snake Sigil':'School=Conjuration Description=""',
+  'Sequester':'School=Abjuration Description=""',
+  'Shades':'School=Illusion Description=""',
+  'Shadow Conjuration':'School=Illusion Description=""',
+  'Shadow Evocation':'School=Illusion Description=""',
+  'Shadow Walk':'School=Illusion Description=""',
+  'Shambler':'School=Conjuration Description=""',
+  'Shapechange':'School=Transmutation Description=""',
+  'Shatter':'School=Evocation Description=""',
+  'Shield':'School=Abjuration Description=""',
+  'Shield Of Faith':'School=Abjuration Description=""',
+  'Shield Of Law':'School=Abjuration Description=""',
+  'Shield Other':'School=Abjuration Description=""',
+  'Shillelagh':'School=Transmutation Description=""',
+  'Shocking Grasp':'School=Evocation Description=""',
+  'Shout':'School=Evocation Description=""',
+  'Shrink Item':'School=Transmutation Description=""',
+  'Silence':'School=Illusion Description=""',
+  'Silent Image':'School=Illusion Description=""',
+  'Simulacrum':'School=Illusion Description=""',
+  'Slay Living':'School=Necromancy Description=""',
+  'Sleep':'School=Enchantment Description=""',
+  'Sleet Storm':'School=Conjuration Description=""',
+  'Slow':'School=Transmutation Description=""',
+  'Snare':'School=Transmutation Description=""',
+  'Soften Earth And Stone':'School=Transmutation Description=""',
+  'Solid Fog':'School=Conjuration Description=""',
+  'Song Of Discord':'School=Enchantment Description=""',
+  'Soul Bind':'School=Necromancy Description=""',
+  'Sound Burst':'School=Evocation Description=""',
+  'Speak With Animals':'School=Divination Description=""',
+  'Speak With Dead':'School=Necromancy Description=""',
+  'Speak With Plants':'School=Divination Description=""',
+  'Spectral Hand':'School=Necromancy Description=""',
+  'Spell Immunity':'School=Abjuration Description=""',
+  'Spell Resistance':'School=Abjuration Description=""',
+  'Spell Turning':'School=Abjuration Description=""',
+  'Spellstaff':'School=Transmutation Description=""',
+  'Spider Climb':'School=Transmutation Description=""',
+  'Spike Growth':'School=Transmutation Description=""',
+  'Spike Stones':'School=Transmutation Description=""',
+  'Spiritual Weapon':'School=Evocation Description=""',
+  'Statue':'School=Transmutation Description=""',
+  'Status':'School=Divination Description=""',
+  'Stinking Cloud':'School=Conjuration Description=""',
+  'Stone Shape':'School=Transmutation Description=""',
+  'Stone Tell':'School=Divination Description=""',
+  'Stone To Flesh':'School=Transmutation Description=""',
+  'Stoneskin':'School=Abjuration Description=""',
+  'Storm Of Vengeance':'School=Conjuration Description=""',
+  'Suggestion':'School=Enchantment Description=""',
+  'Summon Instrument':'School=Conjuration Description=""',
+  'Summon Monster I':'School=Conjuration Description=""',
+  'Summon Monster II':'School=Conjuration Description=""',
+  'Summon Monster III':'School=Conjuration Description=""',
+  'Summon Monster IV':'School=Conjuration Description=""',
+  'Summon Monster IX':'School=Conjuration Description=""',
+  'Summon Monster V':'School=Conjuration Description=""',
+  'Summon Monster VI':'School=Conjuration Description=""',
+  'Summon Monster VII':'School=Conjuration Description=""',
+  'Summon Monster VIII':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally I':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally II':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally III':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally IV':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally IX':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally V':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally VI':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally VII':'School=Conjuration Description=""',
+  'Summon Nature\'s Ally VIII':'School=Conjuration Description=""',
+  'Summon Swarm':'School=Conjuration Description=""',
+  'Sunbeam':'School=Evocation Description=""',
+  'Sunburst':'School=Evocation Description=""',
+  'Symbol Of Death':'School=Necromancy Description=""',
+  'Symbol Of Fear':'School=Necromancy Description=""',
+  'Symbol Of Insanity':'School=Enchantment Description=""',
+  'Symbol Of Pain':'School=Necromancy Description=""',
+  'Symbol Of Persuasion':'School=Enchantment Description=""',
+  'Symbol Of Sleep':'School=Enchantment Description=""',
+  'Symbol Of Stunning':'School=Enchantment Description=""',
+  'Symbol Of Weakness':'School=Necromancy Description=""',
+  'Sympathetic Vibration':'School=Evocation Description=""',
+  'Sympathy':'School=Enchantment Description=""',
 
-  'Sanctuary':'Abjuration', 'Scare':'Necromancy',
-  'Scintillating Pattern':'Illusion', 'Scorching Ray':'Evocation',
-  'Screen':'Illusion', 'Scrying':'Divination', 'Sculpt Sound':'Transmutation',
-  'Searing Light':'Evocation', 'Secret Chest':'Conjuration',
-  'Secret Page':'Transmutation', 'Secure Shelter':'Conjuration',
-  'See Invisibility':'Divination', 'Seeming':'Illusion', 'Sending':'Evocation',
-  'Sepia Snake Sigil':'Conjuration', 'Sequester':'Abjuration',
-  'Shades':'Illusion', 'Shadow Conjuration':'Illusion',
-  'Shadow Evocation':'Illusion', 'Shadow Walk':'Illusion',
-  'Shambler':'Conjuration', 'Shapechange':'Transmutation',
-  'Shatter':'Evocation', 'Shield':'Abjuration', 'Shield Of Faith':'Abjuration',
-  'Shield Of Law':'Abjuration', 'Shield Other':'Abjuration',
-  'Shillelagh':'Transmutation', 'Shocking Grasp':'Evocation',
-  'Shout':'Evocation', 'Shrink Item':'Transmutation', 'Silence':'Illusion',
-  'Silent Image':'Illusion', 'Simulacrum':'Illusion',
-  'Slay Living':'Necromancy', 'Sleep':'Enchantment',
-  'Sleet Storm':'Conjuration', 'Slow':'Transmutation', 'Snare':'Transmutation',
-  'Soften Earth And Stone':'Transmutation', 'Solid Fog':'Conjuration',
-  'Song Of Discord':'Enchantment', 'Soul Bind':'Necromancy',
-  'Sound Burst':'Evocation', 'Speak With Animals':'Divination',
-  'Speak With Dead':'Necromancy', 'Speak With Plants':'Divination',
-  'Spectral Hand':'Necromancy', 'Spell Immunity':'Abjuration',
-  'Spell Resistance':'Abjuration', 'Spell Turning':'Abjuration',
-  'Spellstaff':'Transmutation', 'Spider Climb':'Transmutation',
-  'Spike Growth':'Transmutation', 'Spike Stones':'Transmutation',
-  'Spiritual Weapon':'Evocation', 'Statue':'Transmutation',
-  'Status':'Divination', 'Stinking Cloud':'Conjuration',
-  'Stone Shape':'Transmutation', 'Stone Tell':'Divination',
-  'Stone To Flesh':'Transmutation', 'Stoneskin':'Abjuration',
-  'Storm Of Vengeance':'Conjuration', 'Suggestion':'Enchantment',
-  'Summon Instrument':'Conjuration', 'Summon Monster I':'Conjuration',
-  'Summon Monster II':'Conjuration', 'Summon Monster III':'Conjuration',
-  'Summon Monster IV':'Conjuration', 'Summon Monster IX':'Conjuration',
-  'Summon Monster V':'Conjuration', 'Summon Monster VI':'Conjuration',
-  'Summon Monster VII':'Conjuration', 'Summon Monster VIII':'Conjuration',
-  'Summon Nature\'s Ally I':'Conjuration',
-  'Summon Nature\'s Ally II':'Conjuration',
-  'Summon Nature\'s Ally III':'Conjuration',
-  'Summon Nature\'s Ally IV':'Conjuration',
-  'Summon Nature\'s Ally IX':'Conjuration',
-  'Summon Nature\'s Ally V':'Conjuration',
-  'Summon Nature\'s Ally VI':'Conjuration',
-  'Summon Nature\'s Ally VII':'Conjuration',
-  'Summon Nature\'s Ally VIII':'Conjuration', 'Summon Swarm':'Conjuration',
-  'Sunbeam':'Evocation', 'Sunburst':'Evocation', 'Symbol Of Death':'Necromancy',
-  'Symbol Of Fear':'Necromancy', 'Symbol Of Insanity':'Enchantment',
-  'Symbol Of Pain':'Necromancy', 'Symbol Of Persuasion':'Enchantment',
-  'Symbol Of Sleep':'Enchantment', 'Symbol Of Stunning':'Enchantment',
-  'Symbol Of Weakness':'Necromancy', 'Sympathetic Vibration':'Evocation',
-  'Sympathy':'Enchantment',
+  'Telekinesis':'School=Transmutation Description=""',
+  'Telekinetic Sphere':'School=Evocation Description=""',
+  'Telepathic Bond':'School=Divination Description=""',
+  'Teleport':'School=Conjuration Description=""',
+  'Teleport Object':'School=Conjuration Description=""',
+  'Teleportation Circle':'School=Conjuration Description=""',
+  'Temporal Stasis':'School=Transmutation Description=""',
+  'Time Stop':'School=Transmutation Description=""',
+  'Tiny Hut':'School=Evocation Description=""',
+  'Tongues':'School=Divination Description=""',
+  'Touch Of Fatigue':'School=Necromancy Description=""',
+  'Touch Of Idiocy':'School=Enchantment Description=""',
+  'Transformation':'School=Transmutation Description=""',
+  'Transmute Metal To Wood':'School=Transmutation Description=""',
+  'Transmute Mud To Rock':'School=Transmutation Description=""',
+  'Transmute Rock To Mud':'School=Transmutation Description=""',
+  'Transport Via Plants':'School=Conjuration Description=""',
+  'Trap The Soul':'School=Conjuration Description=""',
+  'Tree Shape':'School=Transmutation Description=""',
+  'Tree Stride':'School=Conjuration Description=""',
+  'True Resurrection':'School=Conjuration Description=""',
+  'True Seeing':'School=Divination Description=""',
+  'True Strike':'School=Divination Description=""',
 
-  'Telekinesis':'Transmutation', 'Telekinetic Sphere':'Evocation',
-  'Telepathic Bond':'Divination', 'Teleport':'Conjuration',
-  'Teleport Object':'Conjuration', 'Teleportation Circle':'Conjuration',
-  'Temporal Stasis':'Transmutation', 'Time Stop':'Transmutation',
-  'Tiny Hut':'Evocation', 'Tongues':'Divination',
-  'Touch Of Fatigue':'Necromancy', 'Touch Of Idiocy':'Enchantment',
-  'Transformation':'Transmutation', 'Transmute Metal To Wood':'Transmutation',
-  'Transmute Mud To Rock':'Transmutation',
-  'Transmute Rock To Mud':'Transmutation', 'Transport Via Plants':'Conjuration',
-  'Trap The Soul':'Conjuration', 'Tree Shape':'Transmutation',
-  'Tree Stride':'Conjuration', 'True Resurrection':'Conjuration',
-  'True Seeing':'Divination', 'True Strike':'Divination',
+  'Undeath To Death':'School=Necromancy Description=""',
+  'Undetectable Alignment':'School=Abjuration Description=""',
+  'Unhallow':'School=Evocation Description=""',
+  'Unholy Aura':'School=Abjuration Description=""',
+  'Unholy Blight':'School=Evocation Description=""',
+  'Unseen Servant':'School=Conjuration Description=""',
 
-  'Undeath To Death':'Necromancy', 'Undetectable Alignment':'Abjuration',
-  'Unhallow':'Evocation', 'Unholy Aura':'Abjuration',
-  'Unholy Blight':'Evocation', 'Unseen Servant':'Conjuration',
+  'Vampiric Touch':'School=Necromancy Description=""',
+  'Veil':'School=Illusion Description=""',
+  'Ventriloquism':'School=Illusion Description=""',
+  'Virtue':'School=Transmutation Description=""',
+  'Vision':'School=Divination Description=""',
 
-  'Vampiric Touch':'Necromancy', 'Veil':'Illusion', 'Ventriloquism':'Illusion',
-  'Virtue':'Transmutation', 'Vision':'Divination',
+  'Wail Of The Banshee':'School=Necromancy Description=""',
+  'Wall Of Fire':'School=Evocation Description=""',
+  'Wall Of Force':'School=Evocation Description=""',
+  'Wall Of Ice':'School=Evocation Description=""',
+  'Wall Of Iron':'School=Conjuration Description=""',
+  'Wall Of Stone':'School=Conjuration Description=""',
+  'Wall Of Thorns':'School=Conjuration Description=""',
+  'Warp Wood':'School=Transmutation Description=""',
+  'Water Breathing':'School=Transmutation Description=""',
+  'Water Walk':'School=Transmutation Description=""',
+  'Waves Of Exhaustion':'School=Necromancy Description=""',
+  'Waves Of Fatigue':'School=Necromancy Description=""',
+  'Web':'School=Conjuration Description=""',
+  'Weird':'School=Illusion Description=""',
+  'Whirlwind':'School=Evocation Description=""',
+  'Whispering Wind':'School=Transmutation Description=""',
+  'Wind Walk':'School=Transmutation Description=""',
+  'Wind Wall':'School=Evocation Description=""',
+  'Wish':'School=Universal Description=""',
+  'Wood Shape':'School=Transmutation Description=""',
+  'Word Of Chaos':'School=Evocation Description=""',
+  'Word Of Recall':'School=Conjuration Description=""',
 
-  'Wail Of The Banshee':'Necromancy', 'Wall Of Fire':'Evocation',
-  'Wall Of Force':'Evocation', 'Wall Of Ice':'Evocation',
-  'Wall Of Iron':'Conjuration', 'Wall Of Stone':'Conjuration',
-  'Wall Of Thorns':'Conjuration', 'Warp Wood':'Transmutation',
-  'Water Breathing':'Transmutation', 'Water Walk':'Transmutation',
-  'Waves Of Exhaustion':'Necromancy', 'Waves Of Fatigue':'Necromancy',
-  'Web':'Conjuration', 'Weird':'Illusion', 'Whirlwind':'Evocation',
-  'Whispering Wind':'Transmutation', 'Wind Walk':'Transmutation',
-  'Wind Wall':'Evocation', 'Wish':'Universal', 'Wood Shape':'Transmutation',
-  'Word Of Chaos':'Evocation', 'Word Of Recall':'Conjuration',
+  'Zone Of Silence':'School=Illusion Description=""',
+  'Zone Of Truth':'School=Enchantment Description=""'
 
-  'Zone Of Silence':'Illusion', 'Zone Of Truth':'Enchantment'
+*/
+};
+SRD35.SUBFEATS = {
+  'Armor Proficiency':'Heavy/Light/Medium',
+  'Greater Spell Focus':SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
+  'Greater Weapon Focus':'',
+  'Greater Weapon Specialization':'',
+  'Improved Critical':'',
+  'Rapid Reload':'Hand/Heavy/Light',
+  'Shield Proficiency':'Heavy/Tower',
+  'Skill Focus':'',
+  'Spell Focus':SRD35.SCHOOLS.join('/').replace(/:[^\/]+/g, ''),
+  'Weapon Focus':'',
+  'Weapon Proficiency':'Simple',
+  'Weapon Specialization':'Dwarven Waraxe/Longsword'
+};
+SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
+SRD35.WEAPONS = {
+  'Bastard Sword':'Level=3 Category=1h Damage=d10 Threat=19',
+  'Battleaxe':'Level=2 Category=1h Damage=d8 Crit=3',
+  'Bolas':'Level=3 Category=R Damage=d4 Range=10',
+  'Club':'Level=1 Category=1h Damage=d6 Range=10',
+  'Composite Longbow':'Level=2 Category=R Damage=d8 Crit=3 Range=110',
+  'Composite Shortbow':'Level=2 Category=R Damage=d6 Crit=3 Range=70',
+  'Dagger':'Level=1 Category=Li Damage=d4 Threat=19 Range=10',
+  'Dart':'Level=1 Category=R Damage=d4 Range=20',
+  'Dire Flail':'Level=3 Category=2h Damage=d8/d8',
+  'Dwarven Urgosh':'Level=3 Category=2h Damage=d8/d6 Crit=3',
+  'Dwarven Waraxe':'Level=3 Category=1h Damage=d10 Crit=3',
+  'Falchion':'Level=2 Category=2h Damage=2d4 Threat=18',
+  'Flail':'Level=2 Category=1h Damage=d8',
+  'Gauntlet':'Level=0 Category=Un Damage=d3',
+  'Glaive':'Level=2 Category=2h Damage=d10 Crit=3',
+  'Gnome Hooked Hammer':'Level=3 Category=2h Damage=d8/d6 Crit=4',
+  'Greataxe':'Level=2 Category=2h Damage=d12 Crit=3',
+  'Greatclub':'Level=2 Category=2h Damage=d10',
+  'Greatsword':'Level=2 Category=2h Damage=2d6 Threat=19',
+  'Guisarme':'Level=2 Category=2h Damage=2d4 Crit=3',
+  'Halberd':'Level=2 Category=2h Damage=d10 Crit=3',
+  'Hand Crossbow':'Level=3 Category=R Damage=d4 Threat=19 Range=30',
+  'Handaxe':'Level=2 Damage=d6 Category=Li Crit=3',
+  'Heavy Crossbow':'Level=1 Category=R Damage=d10 Threat=19 Range=120',
+  'Heavy Flail':'Level=2 Category=2h Damage=d10 Threat=19',
+  'Heavy Mace':'Level=1 Category=1h Damage=d8',
+  'Heavy Pick':'Level=2 Category=1h Damage=d6 Crit=4',
+  'Heavy Shield':'Level=2 Category=1h Damage=d4',
+  'Heavy Spiked Shield':'Level=2 Category=1h Damage=d6',
+  'Improvised':'Level=3 Category=R Damage=d4 Range=10',
+  'Javelin':'Level=1 Category=R Damage=d6 Range=30',
+  'Kama':'Level=3 Category=Li Damage=d6',
+  'Kukri':'Level=2 Category=Li Damage=d4 Threat=18',
+  'Lance':'Level=2 Category=2h Damage=d8 Crit=3',
+  'Light Crossbow':'Level=1 Category=R Damage=d8 Threat=19 Range=80',
+  'Light Hammer':'Level=2 Category=Li Damage=d4 Range=20',
+  'Light Mace':'Level=1 Category=Li Damage=d6',
+  'Light Pick':'Level=2 Category=Li Damage=d4 Crit=4',
+  'Light Shield':'Level=2 Category=Li Damage=d3',
+  'Light Spiked Shield':'Level=2 Category=Li Damage=d4',
+  'Longbow':'Level=2 Category=R Damage=d8 Crit=3 Range=100',
+  'Longspear':'Level=1 Category=2h Damage=d8 Crit=3',
+  'Longsword':'Level=2 Category=1h Damage=d8 Threat=19',
+  'Morningstar':'Level=1 Category=1h Damage=d8',
+  'Net':'Level=3 Category=R Damage=d0 Range=10',
+  'Nunchaku':'Level=3 Category=Li Damage=d6',
+  'Orc Double Axe':'Level=3 Category=2h Damage=d8/d8 Crit=3',
+  'Punching Dagger':'Level=1 Category=Li Damage=d4 Crit=3',
+  'Quarterstaff':'Level=1 Category=2h Damage=d6/d6',
+  'Ranseur':'Level=2 Category=2h Damage=2d4 Crit=3',
+  'Rapier':'Level=2 Category=1h Damage=d6 Threat=18',
+  'Repeating Heavy Crossbow':'Level=3 Category=R Damage=d10 Threat=19 Range=120',
+  'Repeating Light Crossbow':'Level=3 Category=R Damage=d8 Threat=19 Range=80',
+  'Sai':'Level=3 Category=Li Damage=d4 Range=10',
+  'Sap':'Level=2 Category=Li Damage=d6',
+  'Scimitar':'Level=2 Category=1h Damage=d6 Threat=18',
+  'Scythe':'Level=2 Category=2h Damage=2d4 Crit=4',
+  'Short Sword':'Level=2 Category=Li Damage=d6 Threat=19',
+  'Shortbow':'Level=2 Category=R Damage=d6 Crit=3 Range=60',
+  'Shortspear':'Level=1 Category=1h Damage=d6 Range=20',
+  'Shuriken':'Level=3 Category=R Damage=d2 Range=10',
+  'Siangham':'Level=3 Category=Li Damage=d6',
+  'Sickle':'Level=1 Category=Li Damage=d6',
+  'Sling':'Level=1 Category=R Damage=d4 Range=50',
+  'Spear':'Level=1 Category=2h Damage=d8 Crit=3 Range=20',
+  'Spiked Armor':'Level=2 Category=Li Damage=d6',
+  'Spiked Chain':'Level=3 Category=2h Damage=2d4',
+  'Spiked Gauntlet':'Level=1 Category=Li Damage=d4',
+  'Throwing Axe':'Level=2 Category=Li Damage=d6 Range=10',
+  'Trident':'Level=2 Category=1h Damage=d8 Range=10',
+  'Two-Bladed Sword':'Level=3 Category=2h Damage=d8/d8 Threat=19',
+  'Unarmed':'Level=0 Category=Un Damage=d3',
+  'Warhammer':'Level=2 Category=1h Damage=d8 Crit=3',
+  'Whip':'Level=3 Category=1h Damage=d3'
+};
 
+SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
+SRD35.spellsAbbreviations = {
+  "RL": "L40plus400",
+  "RM": "L10plus100",
+  "RS": "Ldiv2times5plus25"
 };
 SRD35.strengthMaxLoads = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260,
@@ -4152,7 +4449,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
         var pieces = spells[j].split(':');
         for(var k = 1; k < pieces.length; k++) {
           var spell = pieces[k];
-          var school = SRD35.spellsSchools[spell];
+          var school = SRD35.SPELLS[spell];
           if(school == null) {
             continue;
           }
@@ -4400,7 +4697,7 @@ SRD35.magicRules = function(rules, classes, domains, schools) {
     if(spells != null) {
       for(var j = 0; j < spells.length; j++) {
         var spell = spells[j];
-        var school = SRD35.spellsSchools[spell];
+        var school = SRD35.SPELLS[spell];
         if(school == null) {
           continue;
         }
@@ -4728,117 +5025,6 @@ SRD35.raceRules = function(rules, races) {
 
   }
 
-};
-
-/* Replaces spell names with longer descriptions on the character sheet. */
-SRD35.spellRules = function(rules, spells, descriptions) {
-  if(spells == null) {
-    spells = QuilvynUtils.getKeys(rules.choices.spells);
-  }
-  if(descriptions == null) {
-    descriptions = SRD35.spellsDescriptions;
-  }
-  var targets = rules.allTargets();
-  for(var i = 0; i < spells.length; i++) {
-    var spell = spells[i];
-    var matchInfo = spell.match(/^([^\(]+)\(([A-Za-z ]+)(\d+)\s*(\w*)\)$/);
-    if(matchInfo == null) {
-      alert('Bad format for spell ' + spell);
-      continue;
-    }
-    var classAbbr = matchInfo[2];
-    var level = matchInfo[3];
-    var name = matchInfo[1];
-    var schoolAbbr = matchInfo[4];
-    var description = descriptions[name];
-    if(description == null) {
-      alert('No description for spell ' + name);
-      continue;
-    }
-    if(classAbbr.length > 2) {
-      classAbbr = 'Dom'; // Assume domain spell
-    }
-    var inserts = description.match(/\$(\w+|{[^}]+})/g);
-    if(inserts != null) {
-      for(var index = 1; index <= inserts.length; index++) {
-        var insert = inserts[index - 1];
-        var expr = insert[1] == '{' ?
-            insert.substring(2, insert.length - 1) : insert.substring(1);
-        if(SRD35.spellsAbbreviations[expr]) {
-          expr = SRD35.spellsAbbreviations[expr];
-        }
-        if(expr.match(/^L\d*((plus|div|min|max|minus|times)\d+)*$/)) {
-          var parsed = expr.match(/L\d*|(plus|div|min|max|minus|times)\d+/g);
-          for(var j = 0; parsed[j]; j++) {
-            if(parsed[j].startsWith('L')) {
-              expr = 'source';
-              if(parsed[j].length > 1)
-                expr += ' * ' + parsed[j].substring(1);
-            } else if(parsed[j].startsWith('plus'))
-              expr += ' + ' + parsed[j].substring(4);
-            else if(parsed[j].startsWith('minus'))
-              expr += ' - ' + parsed[j].substring(5);
-            else if(parsed[j].startsWith('div')) {
-              if(expr == 'source')
-                expr = 'Math.floor(' + expr + ' / ' + parsed[j].substring(3) + ')';
-              else
-                expr = 'Math.floor((' + expr + ') / ' + parsed[j].substring(3) + ')';
-            } else if(parsed[j].startsWith('times')) {
-              if(expr == 'source')
-                expr = 'source * ' + parsed[j].substring(5);
-              else
-                expr = '(' + expr + ') * ' + parsed[j].substring(5);
-            } else if(parsed[j].startsWith('min'))
-              expr = 'Math.min(' + expr + ', ' + parsed[j].substring(3) + ')';
-            else if(parsed[j].startsWith('max'))
-              expr = 'Math.max(' + expr + ', ' + parsed[j].substring(3) + ')';
-          }
-        }
-        expr = expr.replace(/lvl|L/g, 'source');
-        rules.defineRule('spells.' + spell + '.' + index,
-          'spells.' + spell, '?', null,
-          'casterLevels.' + classAbbr, '=', expr
-        );
-        if(classAbbr == 'W') {
-          rules.defineRule('spells.' + spell + '.' + index,
-            'casterLevels.S', '^=', expr
-          );
-        }
-        if(targets.includes('casterLevels.' + name)) {
-          rules.defineRule('spells.' + spell + '.' + index,
-            'casterLevels.' + name, '^=', expr
-          );
-        }
-        description = description.replace(insert, '%' + index);
-      }
-    }
-    if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
-      var index = inserts != null ? inserts.length + 1 : 1;
-      var dcRule = 'spells.' + spell + '.' + index;
-      description =
-        matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
-      rules.defineRule(dcRule,
-        'spells.' + spell, '?', null,
-        'spellDifficultyClass.' + classAbbr, '=', 'source + ' + level
-      );
-      if(classAbbr == 'W') {
-        rules.defineRule
-          (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
-      }
-      var schools = rules.getChoices('schools');
-      for(var school in schools) {
-        if(schools[school] == schoolAbbr) {
-          school = school.replace(/\s/g, '');
-          rules.defineRule(dcRule,
-            'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', null,
-            'magicNotes.spellFocus(' + school + ')Feature', '+', null
-          );
-          break;
-        }
-      }
-    }
-    rules.defineChoice('notes', 'spells.' + spell + ':' + description);
-  }
 };
 
 /* Returns a random name for a character of race #race#. */
@@ -5675,7 +5861,8 @@ SRD35.ruleNotes = function() {
  * TODO
  */
 SRD35.addChoice = function(rules, type, name, attrs) {
-  rules.addChoice(type, name, attrs);
+  if(type != 'spells')
+    rules.addChoice(type, name, attrs);
   if(type == 'alignments')
     SRD35.alignmentRules(rules, name);
   else if(type == 'armors')
@@ -5734,7 +5921,26 @@ SRD35.addChoice = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValueArray(attrs, 'Class'),
       QuilvynRules.getAttrValueArray(attrs, 'Synergy')
     );
-  else if(type == 'weapons')
+  else if(type == 'spells') {
+    var description = QuilvynRules.getAttrValue(attrs, 'Description');
+    var levels = QuilvynRules.getAttrValueArray(attrs, 'Level');
+    var school = QuilvynRules.getAttrValue(attrs, 'School');
+    var schoolAbbr = school.substring(0, 4);
+    for(var i = 0; i < levels.length; i++) {
+      var groupAndLevel = levels[i];
+      var casterGroup = groupAndLevel.length > 3 ? 'Dom' : groupAndLevel.substring(0, groupAndLevel.length - 1);
+      var level = groupAndLevel.substring(groupAndLevel.length - 1);
+      var fullSpell = name + '(' + groupAndLevel + ' ' + schoolAbbr + ')';
+      console.log(name);
+      console.log(groupAndLevel);
+      rules.addChoice('spells', fullSpell, attrs);
+      SRD35.spellRules(rules, fullSpell,
+        casterGroup,
+        level,
+        QuilvynRules.getAttrValue(attrs, 'Description'),
+      );
+    }
+  } else if(type == 'weapons')
     SRD35.weaponRules(rules, name,
       QuilvynRules.getAttrValue(attrs, 'Level'),
       QuilvynRules.getAttrValue(attrs, 'Category'),
@@ -6253,6 +6459,67 @@ SRD35.languageRules = function(rules, name) {
 /*
  * TODO
  */
+SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
+
+  if(rules.shieldStats == null) {
+    rules.shieldStats = {
+      AC:{},
+      Level:{},
+      Skill:{},
+      Spell:{}
+    };
+  }
+  rules.shieldStats.AC[name] = ac;
+  rules.shieldStats.Level[name] = profLevel;
+  rules.shieldStats.Skill[name] = skillFail;
+  rules.shieldStats.Spell[name] = spellFail;
+
+  rules.defineNote(
+    'combatNotes.nonproficientShieldPenalty:%V attack',
+    'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
+    'sanityNotes.two-handedWeaponWithBuckler:Lowers attack bonus, AC',
+    'validationNotes.two-handedWeaponWithShield:' +
+      'Shields cannot be used with two-handed weapons'
+  );
+
+  rules.defineRule
+    ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
+  rules.defineRule('magicNotes.arcaneSpellFailure',
+    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Spell) + '[source]'
+  );
+  rules.defineRule('shieldProficiencyLevelShortfall',
+    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.Level) + '[source]',
+    'shieldProficiencyLevel', '+', '-source'
+  );
+  rules.defineRule('combatNotes.nonproficientShieldPenalty',
+    'shieldProficiencyLevelShortfall', '?', 'source > 0',
+    'shield', '=', '-' + QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
+  );
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
+    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
+  );
+  rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
+    'combatNotes.nonproficientShieldPenalty', '=', null
+  );
+  rules.defineRule('sanityNotes.two-handedWeaponWithBuckler',
+    'shield', '?', 'source == "Buckler"'
+  );
+  rules.defineRule('validationNotes.two-handedWeaponWithShield',
+    'shield', '?', 'source != "None" && source != "Buckler"'
+  );
+  rules.defineNote(
+    'sanityNotes.casterLevelArcaneShield:Implies Shield == "None"'
+  );
+  rules.defineRule('sanityNotes.casterLevelArcaneShield',
+    'magicNotes.arcaneSpellFailure', '?', null,
+    'shield', '=', 'source == "None" ? null : 1'
+  );
+
+};
+
+/*
+ * TODO
+ */
 SRD35.skillRules = function(
   rules, name, ability, untrained, classes, synergies
 ) {
@@ -6333,62 +6600,85 @@ SRD35.skillRules = function(
 /*
  * TODO
  */
-SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
+SRD35.spellRules = function(rules, name, casterGroup, level, description) {
 
-  if(rules.shieldStats == null) {
-    rules.shieldStats = {
-      AC:{},
-      Level:{},
-      Skill:{},
-      Spell:{}
-    };
+  var inserts = description.match(/\$(\w+|{[^}]+})/g);
+  if(inserts != null) {
+    for(var i = 1; i <= inserts.length; i++) {
+      var insert = inserts[i - 1];
+      var expr = insert[1] == '{' ?
+          insert.substring(2, insert.length - 1) : insert.substring(1);
+      /* TODO Get rid of spellsAbbreviations */
+      if(SRD35.spellsAbbreviations[expr]) {
+        expr = SRD35.spellsAbbreviations[expr];
+      }
+      if(expr.match(/^L\d*((plus|div|min|max|minus|times)\d+)*$/)) {
+        var parsed = expr.match(/L\d*|(plus|div|min|max|minus|times)\d+/g);
+        for(var j = 0; parsed[j]; j++) {
+          if(parsed[j].startsWith('L')) {
+            expr = 'source';
+            if(parsed[j].length > 1)
+              expr += ' * ' + parsed[j].substring(1);
+          } else if(parsed[j].startsWith('plus'))
+            expr += ' + ' + parsed[j].substring(4);
+          else if(parsed[j].startsWith('minus'))
+            expr += ' - ' + parsed[j].substring(5);
+          else if(parsed[j].startsWith('div')) {
+            if(expr == 'source')
+              expr = 'Math.floor(' + expr + ' / ' + parsed[j].substring(3) + ')';
+            else
+              expr = 'Math.floor((' + expr + ') / ' + parsed[j].substring(3) + ')';
+          } else if(parsed[j].startsWith('times')) {
+            if(expr == 'source')
+              expr = 'source * ' + parsed[j].substring(5);
+            else
+              expr = '(' + expr + ') * ' + parsed[j].substring(5);
+          } else if(parsed[j].startsWith('min'))
+            expr = 'Math.min(' + expr + ', ' + parsed[j].substring(3) + ')';
+          else if(parsed[j].startsWith('max'))
+            expr = 'Math.max(' + expr + ', ' + parsed[j].substring(3) + ')';
+        }
+      }
+      expr = expr.replace(/lvl|L/g, 'source');
+      rules.defineRule('spells.' + name + '.' + i,
+        'spells.' + name, '?', null,
+        'casterLevels.' + casterGroup, '=', expr
+      );
+      if(casterGroup == 'W') {
+        rules.defineRule('spells.' + name + '.' + i,
+          'casterLevels.S', '^=', expr
+        );
+      }
+      /* TODO spell-specific levels */
+      description = description.replace(insert, '%' + i);
+    }
   }
-  rules.shieldStats.AC[name] = ac;
-  rules.shieldStats.Level[name] = profLevel;
-  rules.shieldStats.Skill[name] = skillFail;
-  rules.shieldStats.Spell[name] = spellFail;
-
-  rules.defineNote(
-    'combatNotes.nonproficientShieldPenalty:%V attack',
-    'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
-    'sanityNotes.two-handedWeaponWithBuckler:Lowers attack bonus, AC',
-    'validationNotes.two-handedWeaponWithShield:' +
-      'Shields cannot be used with two-handed weapons'
-  );
-
-  rules.defineRule
-    ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
-  rules.defineRule('magicNotes.arcaneSpellFailure',
-    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Spell) + '[source]'
-  );
-  rules.defineRule('shieldProficiencyLevelShortfall',
-    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.Level) + '[source]',
-    'shieldProficiencyLevel', '+', '-source'
-  );
-  rules.defineRule('combatNotes.nonproficientShieldPenalty',
-    'shieldProficiencyLevelShortfall', '?', 'source > 0',
-    'shield', '=', '-' + QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
-  );
-  rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
-  );
-  rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
-    'combatNotes.nonproficientShieldPenalty', '=', null
-  );
-  rules.defineRule('sanityNotes.two-handedWeaponWithBuckler',
-    'shield', '?', 'source == "Buckler"'
-  );
-  rules.defineRule('validationNotes.two-handedWeaponWithShield',
-    'shield', '?', 'source != "None" && source != "Buckler"'
-  );
-  rules.defineNote(
-    'sanityNotes.casterLevelArcaneShield:Implies Shield == "None"'
-  );
-  rules.defineRule('sanityNotes.casterLevelArcaneShield',
-    'magicNotes.arcaneSpellFailure', '?', null,
-    'shield', '=', 'source == "None" ? null : 1'
-  );
-
+  var matchInfo;
+  if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
+    var index = inserts != null ? inserts.length + 1 : 1;
+    var dcRule = 'spells.' + name + '.' + index;
+    description =
+      matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
+    rules.defineRule(dcRule,
+      'spells.' + name, '?', null,
+      'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level
+    );
+    if(casterGroup == 'W') {
+      rules.defineRule
+        (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
+    }
+    var schools = rules.getChoices('schools');
+    for(var school in schools) {
+      if(schools[school] == schoolAbbr) {
+        school = school.replace(/\s/g, '');
+        rules.defineRule(dcRule,
+          'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', null,
+          'magicNotes.spellFocus(' + school + ')Feature', '+', null
+        );
+        break;
+      }
+    }
+  }
 };
 
 /*
