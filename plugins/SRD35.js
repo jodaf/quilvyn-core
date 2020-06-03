@@ -423,42 +423,6 @@ SRD35.SKILLS = {
   'Use Rope':'Ability=dexterity Class=Ranger,Rogue Synergy="Climb (rope)","Escape Artist (rope)"'
 };
 SRD35.spellsDescriptions = {
-  "Gaseous Form": "Touched insubstantial (DR 10/magic, immune poison/sneak/critical, unable to use spell components, fly 10') for $L2 min",
-  "Gate": "5'-20' disk connects another plane for $L rd",
-  "Geas/Quest": "R$RS' Target must complete task (Will neg)",
-  "Gentle Repose": "Corpse preserved $L dy (Will neg)",
-  "Ghost Sound": "R$RS' produce sound volume of $L4 humans (Will disbelieve) for $L rd",
-  "Ghoul Touch": "Touched paralyzed 1d6+2 rd and stench sickens 10' radius (Fort neg)",
-  "Giant Vermin": "R$RS' ${lvl<10?3:lvl<14?4:lvl<18?6:lvl<20?8:12} centipedes/${lvl<20?1+Math.floor((lvl-6)/4):6} scorpions/${lvl<20?2+Math.floor((lvl-6)/4):8} spiders become giant and obey for $L min",
-  "Glibness": "+20 Bluff, DC $Lplus15 magical lie detection for $L10 min",
-  "Glitterdust": "R$RM' Creatures in 10'-radius outlined and blind for $L rd (Will neg)",
-  "Globe Of Invulnerability": "R10' Bars spell effects le 4th level for $L rd",
-  "Glyph Of Warding": "Proscribed creatures passing $L5 sq' area trigger ${Ldiv2max5plus1}d8 blast (Ref half) or harmful spell le 3rd level",
-  "Good Hope": "$L targets +2 attack/damage/saves and skill/ability checks for $L min",
-  "Goodberry": "2d4 berries provide meal and heal 1 HP for $L dy",
-  "Grasping Hand": "R$RM' 10' (AC 20, caster HP) hand cover (+4 AC), move 60', grapple (CMB $Lplus12) for $L rd",
-  "Grease": "R$RS' Object or 10' square slippery (Ref or fall) for $L min",
-  "Greater Arcane Sight": "R120' See auras/spell abilities and know spell for $L min",
-  "Greater Command": "R$RS' $L targets approach/drop/fall/flee/halt for $L rd (Will neg)",
-  "Greater Dispel Magic": "R$RM' d20+$L vs. 11+caster level cancels $Ldiv4 spells/effects or all w/in 20' radius",
-  "Greater Glyph Of Warding": "Proscribed creatures passing $L5 sq' area trigger ${Ldiv2max10plus1}d8 blast (Ref half) or harmful spell le 6th level",
-  "Greater Heroism": "Touched +4 attack/saves/skill checks, +$Lmin20 HP, immune fear for $L10 min",
-  "Greater Invisibility": "Touched invisible for $L rd",
-  "Greater Magic Fang": "R$RS' target natural weapon +$Ldiv4min4 attack/damage for $L hr",
-  "Greater Magic Weapon": "R$RS' target weapon +$Ldiv4min4 attack/damage for $L hr",
-  "Greater Planar Ally": "Purchase service from extraplanar creature le 18 HD",
-  "Greater Planar Binding": "Extraplanar creature(s) le 18 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)",
-  "Greater Prying Eyes": "1d4+$L floating eyes (AC 18, 1 HP) with True Seeing scout 1 mi for $L hr",
-  "Greater Restoration": "Touched remove magical/temporary/permanent ability harm, fatigue/exhaustion, negative levels, mental effects",
-  "Greater Scrying": "Target viewed, subject to spells for $L hr (Will special neg)",
-  "Greater Shadow Conjuration": "Mimics conjuration (creation/summoning) le 6th level (Will 60% effect)",
-  "Greater Shadow Evocation": "Mimics evocation le 7th level (Will 60% effect)",
-  "Greater Shout": "60' cone 10d6 HP, deafened 4d6 rd, stunned 1 rd (Will half damage/deafened only)",
-  "Greater Spell Immunity": "Touched immune to $Ldiv4 spells le 8th level for $L10 min",
-  "Greater Teleport": "Transport you, $Ldiv3 others anywhere w/no error chance",
-  "Guards And Wards": "Multiple magic effects protect $L200' sq area for $L2 hr",
-  "Guidance": "Touched +1 next attack/save/skill check for 1 min",
-  "Gust Of Wind": "60' gust affects medium/smaller creatures (Fort neg)",
   "Hallow": "40' radius warded against evil, bars undead creation, evokes boon spell",
   "Hallucinatory Terrain": "R$RL' $L 30' cube terrain illusion (Will disbelieve) for $L2 hr",
   "Halt Undead": "R$RM' 3 undead immobilized for $L rd (Will neg)",
@@ -1441,115 +1405,118 @@ SRD35.SPELLS = {
     'Description="R$RS\' Target moves freely for $L10 min"',
   'Freezing Sphere':
     'School=Evocation Level=W6 ' +
-    'Description="R$RL\' Burst ${Lmin15}d6 HP in 40\' radius (Ref half)"'
+    'Description="R$RL\' Burst ${Lmin15}d6 HP in 40\' radius (Ref half)"',
+
+  'Gaseous Form':
+    'School=Transmutation Level=Air3,B3,W3 ' +
+    'Description="Touched insubstantial (DR 10/magic, immune poison/sneak/critical, unable to use spell components, fly 10\') for $L2 min"',
+  'Gate':
+    'School=Conjuration Level=C9,W9 ' +
+    'Description="5\'-20\' disk connects another plane for $L rd"',
+  'Geas/Quest':
+    'School=Enchantment Level=B6,C6,W6 ' +
+    'Description="R$RS\' Target must complete task (Will neg)"',
+  'Gentle Repose':
+    'School=Necromancy Level=C2,W3 ' +
+    'Description="Touched corpse preserved $L dy (Will neg)"',
+  'Ghost Sound':
+    'School=Illusion Level=B0,W0 ' +
+    'Description="R$RS\' produce sound volume of $L4 humans (Will disbelieve) for $L rd"',
+  'Ghoul Touch':
+    'School=Necromancy Level=W2 ' +
+    'Description="Touched paralyzed 1d6+2 rd and stench sickens 10\' radius (Fort neg)"',
+  'Giant Vermin':
+    'School=Transmutation Level=C4,D4 ' +
+    'Description="R$RS\' ${lvl<10?3:lvl<14?4:lvl<18?6:lvl<20?8:12} centipedes/${lvl<20?1+Math.floor((lvl-6)/4):6} scorpions/${lvl<20?2+Math.floor((lvl-6)/4):8} spiders become giant and obey for $L min"',
+  'Glibness':
+    'School=Transmutation Level=B3 ' +
+    'Description="Self +20 Bluff, DC $Lplus15 magical lie detection for $L10 min"',
+  'Glitterdust':
+    'School=Conjuration Level=B2,W2 ' +
+    'Description="R$RM\' Creatures in 10\'-radius outlined and blind for $L rd (Will neg)"',
+  'Globe Of Invulnerability':
+    'School=Abjuration Level=W6 ' +
+    'Description="R10\' Bars spell effects le 4th level for $L rd"',
+  'Glyph Of Warding':
+    'School=Abjuration Level=C3 ' +
+    'Description="Proscribed creatures passing $L5 sq\' area trigger ${Ldiv2max5plus1}d8 blast (Ref half) or harmful spell le 3rd level"',
+  'Good Hope':
+    'School=Enchantment Level=B3 ' +
+    'Description=""$L targets +2 attack/damage/saves and skill/ability checks for $L min"',
+  'Goodberry':
+    'School=Transmutation Level=D1 ' +
+    'Description="2d4 berries provide meal and heal 1 HP for $L dy"',
+  'Grasping Hand':
+    'School=Evocation Level=W7,Strength7 ' +
+    'Description="R$RM\' 10\' (AC 20, caster HP) hand cover (+4 AC), move 60\', grapple (CMB $Lplus12) for $L rd"',
+  'Grease':
+    'School=Conjuration Level=B1,W1 ' +
+    'Description="R$RS\' Object or 10\' square slippery (Ref or fall) for $L min"',
+  'Greater Arcane Sight':
+    'School=Divination Level=W7 ' +
+    'Description="R120\' See auras/spell abilities and know spell for $L min"',
+  'Greater Command':
+    'School=Enchantment Level=C5 ' +
+    'Description="R$RS\' $L targets approach/drop/fall/flee/halt for $L rd (Will neg)"',
+  'Greater Dispel Magic':
+    'School=Abjuration Level=B5,C6,D6,W6 ' +
+    'Description="R$RM\' d20+$L vs. 11+caster level cancels $Ldiv4 spells/effects or all w/in 20\' radius"',
+  'Greater Glyph Of Warding':
+    'School=Abjuration Level=C6 ' +
+    'Description="Proscribed creatures passing $L5 sq\' area trigger ${Ldiv2max10plus1}d8 blast (Ref half) or harmful spell le 6th level"',
+  'Greater Heroism':
+    'School=Enchantment Level=B5,W6 ' +
+    'Description="Touched +4 attack/saves/skill checks, +$Lmin20 HP, immune fear for $L10 min"',
+  'Greater Invisibility':
+    'School=Illusion Level=B4,W4 ' +
+    'Description="Touched invisible for $L rd"',
+  'Greater Magic Fang':
+    'School=Transmutation Level=D3,R3 ' +
+    'Description="R$RS\' target natural weapon +$Ldiv4min4 attack/damage for $L hr"',
+  'Greater Magic Weapon':
+    'School=Transmutation Level=C4,P3,W3 ' +
+    'Description="R$RS\' target weapon +$Ldiv4min4 attack/damage for $L hr"',
+  'Greater Planar Ally':
+    'School=Conjuration Level=C8 ' +
+    'Description="Purchase service from extraplanar creature le 18 HD"',
+  'Greater Planar Binding':
+    'School=Conjuration Level=W8 ' +
+    'Description="Extraplanar creature(s) le 18 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
+  'Greater Prying Eyes':
+    'School=Divination Level=W8 ' +
+    'Description="1d4+$L floating eyes (AC 18, 1 HP) with True Seeing scout 1 mi for $L hr"',
+  'Greater Restoration':
+    'School=Conjuration Level=C7 ' +
+    'Description="Touched remove magical/temporary/permanent ability harm, fatigue/exhaustion, negative levels, mental effects"',
+  'Greater Scrying':
+    'School=Divination Level=B3,C5,D4,W4 ' +
+    'Description="Target viewed, subject to spells for $L hr (Will special neg)"',
+  'Greater Shadow Conjuration':
+    'School=Illusion Level=W7 ' +
+    'Description="Mimics conjuration (creation/summoning) le 6th level (Will 60% effect)"',
+  'Greater Shadow Evocation':
+    'School=Illusion Level=W8 ' +
+    'Description="Mimics evocation le 7th level (Will 60% effect)"',
+  'Greater Shout':
+    'School=Evocation Level=B6,W8 ' +
+    'Description="60\' cone 10d6 HP, deafened 4d6 rd, stunned 1 rd (Will half damage/deafened only)"',
+  'Greater Spell Immunity':
+    'School=Abjuration Level=C8 ' +
+    'Description="Touched immune to $Ldiv4 spells le 8th level for $L10 min"',
+  'Greater Teleport':
+    'School=Conjuration Level=W7,Travel7 ' +
+    'Description="Transport you, $Ldiv3 others anywhere w/no error chance"',
+  'Guards And Wards':
+    'School=Abjuration Level=W6 ' +
+    'Description="Multiple magic effects protect $L200\' sq area for $L2 hr"',
+  'Guidance':
+    'School=Divination Level=C0,D0 ' +
+    'Description="Touched +1 next attack/save/skill check for 1 min"',
+  'Gust Of Wind':
+    'School=Evocation Level=D2,W2 ' +
+    'Description="60\' gust affects medium/smaller creatures (Fort neg)"'
 
 /*
-  'Gaseous Form':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Gate':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Geas/Quest':
-    'School=Enchantment Level=X ' +
-    'Description=""',
-  'Gentle Repose':
-    'School=Necromancy Level=X ' +
-    'Description=""',
-  'Ghost Sound':
-    'School=Illusion Level=X ' +
-    'Description=""',
-  'Ghoul Touch':
-    'School=Necromancy Level=X ' +
-    'Description=""',
-  'Giant Vermin':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Glibness':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Glitterdust':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Globe Of Invulnerability':
-    'School=Abjuration Level=X ' +
-    'Description=""',
-  'Glyph Of Warding':
-    'School=Abjuration Level=X ' +
-    'Description=""',
-  'Good Hope':
-    'School=Enchantment Level=X ' +
-    'Description=""',
-  'Goodberry':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Grasping Hand':
-    'School=Evocation Level=X ' +
-    'Description=""',
-  'Grease':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Greater Arcane Sight':
-    'School=Divination Level=X ' +
-    'Description=""',
-  'Greater Command':
-    'School=Enchantment Level=X ' +
-    'Description=""',
-  'Greater Dispel Magic':
-    'School=Abjuration Level=X ' +
-    'Description=""',
-  'Greater Glyph Of Warding':
-    'School=Abjuration Level=X ' +
-    'Description=""',
-  'Greater Heroism':
-    'School=Enchantment Level=X ' +
-    'Description=""',
-  'Greater Invisibility':
-    'School=Illusion Level=X ' +
-    'Description=""',
-  'Greater Magic Fang':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Greater Magic Weapon':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Greater Planar Ally':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Greater Planar Binding':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Greater Prying Eyes':
-    'School=Divination Level=X ' +
-    'Description=""',
-  'Greater Restoration':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Greater Scrying':
-    'School=Divination Level=X ' +
-    'Description=""',
-  'Greater Shadow Conjuration':
-    'School=Illusion Level=X ' +
-    'Description=""','Greater Shadow Evocation':'Illusion',
-  'Greater Shout':
-    'School=Evocation Level=X ' +
-    'Description=""',
-  'Greater Spell Immunity':
-    'School=Abjuration Level=X ' +
-    'Description=""',
-  'Greater Teleport':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Guards And Wards':
-    'School=Abjuration Level=X ' +
-    'Description=""',
-  'Guidance':
-    'School=Divination Level=X ' +
-    'Description=""',
-  'Gust Of Wind':
-    'School=Evocation Level=X ' +
-    'Description=""',
-
   'Hallow':
     'School=Evocation Level=X ' +
     'Description=""',
