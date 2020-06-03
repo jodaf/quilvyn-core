@@ -423,74 +423,6 @@ SRD35.SKILLS = {
   'Use Rope':'Ability=dexterity Class=Ranger,Rogue Synergy="Climb (rope)","Escape Artist (rope)"'
 };
 SRD35.spellsDescriptions = {
-  "Hallow": "40' radius warded against evil, bars undead creation, evokes boon spell",
-  "Hallucinatory Terrain": "R$RL' $L 30' cube terrain illusion (Will disbelieve) for $L2 hr",
-  "Halt Undead": "R$RM' 3 undead immobilized for $L rd (Will neg)",
-  "Harm": "Touched $L10min150 HP (Will half)",
-  "Haste": "R$RS' $L targets extra attack, +1 attack/AC/Ref, +30 move for $L rd",
-  "Heal": "Touched heal $L10min150, remove negative conditions",
-  "Heal Mount": "Mount heal $L10min150, remove negative conditions",
-  "Heat Metal": "R$RS' Metal of $Ldiv2 creatures 0/1/2/2/2/1/0d4 HP for 7 rd (Will neg)",
-  "Helping Hand": "R5 miles Ghostly hand leads target to you for 4 hr",
-  "Heroes' Feast": "Food for $L creatures cures sickness/poison/disease, 1d8+$Ldiv2min10 temporary HP, +1 attack/Will, +4 saves vs. poison/fear for 12 hr",
-  "Heroism": "Touched +2 attack/saves/skill checks for $L10 min",
-  "Hide From Animals": "$L touched imperceptable to animals for $L10 min",
-  "Hide From Undead": "$L touched imperceptable to undead for $L10 min",
-  "Hideous Laughter": "R$RS' Target ROFL for $L rd (Will neg)",
-  "Hold Animal": "R$RM' Target animal immobile for $L rd (Will neg)",
-  "Hold Monster": "R$RM' Target immobile for $L rd (Will neg)",
-  "Hold Person": "R$RM' Target humanoid immobile for $L rd (Will neg)",
-  "Hold Portal": "R$RM' Door/gate/window locked, +5 DC to open for $L min",
-  "Holy Aura": "$L creatures w/in 20' +4 AC/saves, SR 25 vs. evil spells, protected from possession, striking foes blinded (Fort neg), for $L rd",
-  "Holy Smite": "R$RM' Evil w/in 20'-radius burst ${Ldiv2min5}d8 HP and blinded 1 rd, neutral half (Will half)",
-  "Holy Sword": "Touched weapon +5 attack/damage, vs. evil +2d6 damage, +2 AC/saves, extra save vs. enchantment, bars contact for $L rd",
-  "Holy Word": "Nongood creatures w/in 40' with equal/-1/-5/-10 HD deafened 1d4 rd/blinded 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)",
-  "Horrid Wilting": "R$RL' ${Lmin20}d6 HP (${Lmin20}d8 plants/water elementals) in 30' radius (Fort half)",
-  "Hypnotic Pattern": "R$RM' 2d4+$Lmin10 HD of creatures fascinated for conc + 2 rd (Will neg)",
-  "Hypnotism": "R$RS' 2d4 HD of creatures fascinated and suggestable for 2d4 rd (Will neg)",
-  "Ice Storm": "R$RL' Hail in 40' cylinder 3d6 HP bludgeoning/2d6 HP cold, -4 Perception for $L rd",
-  "Identify": "R60' cone info on magical auras, +10 Spellcraft for $L3 rd",
-  "Illusory Script": "Unauthorized readers suggestion for $L dy (Will neg)",
-  "Illusory Wall": "R$RS' Permanent illusionary 1'x10'x10' surface (Will disbelieve)",
-  "Imbue With Spell Ability": "Touched with 2/4/5 HD can cast specified 1st/2x1st/2x1st+2nd level spells",
-  "Implosion": "R$RS' 1 target/rd $L10 HP for $Ldiv2 rd (Fort neg)",
-  "Imprisonment": "Target entombed (Will neg)",
-  "Incendiary Cloud": "R$RM' 20' cylinder moves away 10', 6d6 HP (Ref half) for $L rd",
-  "Inflict Critical Wounds": "Touched damage/heal undead 4d8+$Lmin20 (Will half)",
-  "Inflict Light Wounds": "Touched damage/heal undead 1d8+$Lmin5 (Will half)",
-  "Inflict Minor Wounds": "Touched 1 HP",
-  "Inflict Moderate Wounds": "Touched damage/heal undead 2d8+$Lmin10 (Will half)",
-  "Inflict Serious Wounds": "Touched damage/heal undead 3d8+$Lmin15 (Will half)",
-  "Insanity": "R$RM' Target randomly normal/babble/d8+str to self/attack nearest permanently (Will neg)",
-  "Insect Plague": "R$RL' $Ldiv3min6 wasp swarms attack for $L min",
-  "Instant Summons": "Prepared object appears in your hand",
-  "Interposing Hand": "R$RM' 10' (AC 20, caster HP) hand cover (+4 AC) for $L rd",
-  "Invisibility": "Touched invisible for $L min/until attacks",
-  "Invisibility Purge": "R$L5' Invisible becomes visible for $L min",
-  "Invisibility Sphere": "Creatures w/in 10' of touched invisible for $L min/until attacks/leave area",
-  "Iron Body": "Become iron (+6 Str/-6 Dex, half speed, 35% arcane failure, -6 skill, DR 15/adamantine, half damage acid/fire, immune other attacks/effects) for $L min",
-  "Ironwood": "Make a wood object as strong as steel",
-  "Irresistible Dance": "Touched dance (-4 AC, -10 Ref) for d4+1 rd",
-  "Jump": "Touched +${lvl<5?10:lvl<9?20:30} jump Acrobatics for $L min",
-  "Keen Edge": "R$RS' Target weapon double threat range for $L10 min",
-  "Knock": "R$RM' +$Lplus10 check to open stuck/barred/locked/magically held door/chest/shackle",
-  "Know Direction": "Self determine north",
-  "Legend Lore": "Info about target person/place/object",
-  "Lesser Confusion": "R$RS' Target randomly normal/babble/d8+str to self/attack nearest for 1 rd (Will neg)",
-  "Lesser Geas": "R$RS' Target le 7 HD must complete task (Will neg)",
-  "Lesser Globe Of Invulnerability": "Bars spell effects le 3rd level in 10' radius for $L rd",
-  "Lesser Planar Ally": "Purchase service from extraplanar creature le 6 HD",
-  "Lesser Planar Binding": "Extraplanar creature le 6 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)",
-  "Lesser Restoration": "Touched remove 1 magical/1d4 temporary ability harm, fatigue/exhaustion, 1 negative level",
-  "Levitate": "R$RS' Move willing target up/down 20' for $L min",
-  "Light": "Touched gives torchlight for $L10 min",
-  "Lightning Bolt": "120' bolt ${Lmin10}d6 HP (Ref half)",
-  "Limited Wish": "Alter reality, with limits",
-  "Liveoak": "Touched oak becomes treant guardian for $L dy",
-  "Locate Creature": "R$RL' Sense direction of creature/kind for $L10 min",
-  "Locate Object": "R$RL' Sense direction of object/type for $L min",
-  "Longstrider": "Self +10 speed for $L hr",
-  "Lullaby": "R$RM' Targets in 10' radius -5 Perception/-2 Will saves vs. sleep for conc + $L rd (Will neg)",
   "Mage Armor": "Touched +4 AC for $L hr",
   "Mage Hand": "R$RS' Move target le 5 lb 15'",
   "Mage's Disjunction": "R$RS' 40' radius dispelled, magic items inert for $L min, $L% chance to destroy antimagic field (Will neg)",
@@ -1514,218 +1446,218 @@ SRD35.SPELLS = {
     'Description="Touched +1 next attack/save/skill check for 1 min"',
   'Gust Of Wind':
     'School=Evocation Level=D2,W2 ' +
-    'Description="60\' gust affects medium/smaller creatures (Fort neg)"'
+    'Description="60\' gust affects medium/smaller creatures (Fort neg)"',
 
-/*
   'Hallow':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=C5,D5 ' +
+    'Description="40\' radius warded against evil, bars undead creation, evokes boon spell"',
   'Hallucinatory Terrain':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B4,W4 ' +
+    'Description="R$RL\' $L 30\' cube terrain illusion (Will disbelieve) for $L2 hr"',
   'Halt Undead':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=W3 ' +
+    'Description="R$RM\' 3 undead immobilized for $L rd (Will neg)"',
   'Harm':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C6,Destruction6 ' +
+    'Description="Touched $L10min150 HP (Will half)"',
   'Haste':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=B3,W3 ' +
+    'Description="R$RS\' $L targets extra attack, +1 attack/AC/Ref, +30 move for $L rd"',
   'Heal':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C6,Healing7,D6 ' +
+    'Description="Touched heal $L10min150, remove negative conditions"',
   'Heal Mount':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=P3 ' +
+    'Description="Mount heal $L10min150, remove negative conditions"',
   'Heat Metal':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D2,Sun2 ' +
+    'Description="R$RS\' Metal of $Ldiv2 creatures 0/1/2/2/2/1/0d4 HP for 7 rd (Will neg)"',
   'Helping Hand':
-    'School=Evocation Level=X ' +
-    'Description=""',
-  'Heroes\' Feast':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Evocation Level=C3 ' +
+    'Description="R5 miles Ghostly hand leads target to you for 4 hr"',
+  "Heroes' Feast":
+    'School=Conjuration Level=B6,C6 ' +
+    'Description="Food for $L creatures cures sickness/poison/disease, 1d8+$Ldiv2min10 temporary HP, +1 attack/Will, +4 saves vs. poison/fear for 12 hr"',
   'Heroism':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B2,W3 ' +
+    'Description="Touched +2 attack/saves/skill checks for $L10 min"',
   'Hide From Animals':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=D1,R1 ' +
+    'Description="$L touched imperceptable to animals for $L10 min"',
   'Hide From Undead':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C1 ' +
+    'Description="$L touched imperceptable to undead for $L10 min"',
   'Hideous Laughter':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B1,W2 ' +
+    'Description="R$RS\' Target ROFL for $L rd (Will neg)"',
   'Hold Animal':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=Animal2,D2,R2 ' +
+    'Description="R$RM\' Target animal immobile for $L rd (Will neg)"',
   'Hold Monster':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B4,Law6,W5 ' +
+    'Description="R$RM\' Target immobile for $L rd (Will neg)"',
   'Hold Person':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B2,C2,W3 ' +
+    'Description="R$RM\' Target humanoid immobile for $L rd (Will neg)"',
   'Hold Portal':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=W1 ' +
+    'Description="R$RM\' Door/gate/window locked, +5 DC to open for $L min"',
   'Holy Aura':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C8,Good8 ' +
+    'Description="$L creatures w/in 20\' +4 AC/saves, SR 25 vs. evil spells, protected from possession, striking foes blinded (Fort neg), for $L rd"',
   'Holy Smite':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=Good4 ' +
+    'Description="R$RM\' Evil w/in 20\'-radius burst ${Ldiv2min5}d8 HP and blinded 1 rd, neutral half (Will half)"',
   'Holy Sword':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=P4 ' +
+    'Description="Touched weapon +5 attack/damage, vs. evil +2d6 damage, +2 AC/saves, extra save vs. enchantment, bars contact for $L rd"',
   'Holy Word':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=C7,Good7 ' +
+    'Description="Nongood creatures w/in 40\' with equal/-1/-5/-10 HD deafened 1d4 rd/blinded 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)"',
   'Horrid Wilting':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=W8,Water8 ' +
+    'Description="R$RL\' ${Lmin20}d6 HP (${Lmin20}d8 plants/water elementals) in 30\' radius (Fort half)"',
   'Hypnotic Pattern':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B2,W2 ' +
+    'Description="R$RM\' 2d4+$Lmin10 HD of creatures fascinated for conc + 2 rd (Will neg)"',
   'Hypnotism':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B1,W1 ' +
+    'Description="R$RS\' 2d4 HD of creatures fascinated and suggestable for 2d4 rd (Will neg)"',
 
   'Ice Storm':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=D4,W4,Water5 ' +
+    'Description="R$RL\' Hail in 40\' cylinder 3d6 HP bludgeoning/2d6 HP cold, -4 Perception for $L rd"',
   'Identify':
-    'School=Divination Level=X ' +
-    'Description=""',
+    'School=Divination Level=B1,Magic2,W1 ' +
+    'Description="R60\' cone info on magical auras, +10 Spellcraft for $L3 rd"',
   'Illusory Script':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B3,W3 ' +
+    'Description="Unauthorized readers suggestion for $L dy (Will neg)"',
   'Illusory Wall':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=W4 ' +
+    'Description="R$RS\' Permanent illusionary 1\'x10\'x10\' surface (Will disbelieve)"',
   'Imbue With Spell Ability':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=C4,Magic4 ' +
+    'Description="Touched with 2/4/5 HD can cast specified 1st/2x1st/2x1st+2nd level spells"',
   'Implosion':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=C9,Destruction9 ' +
+    'Description="R$RS\' 1 target/rd $L10 HP for $Ldiv2 rd (Fort neg)"',
   'Imprisonment':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=W9 ' +
+    'Description="Target entombed (Will neg)"',
   'Incendiary Cloud':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=Fire8,W8 ' +
+    'Description="R$RM\' 20\' cylinder moves away 10\', 6d6 HP (Ref half) for $L rd"',
   'Inflict Critical Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C4,Destruction4 ' +
+    'Description="Touched damage/heal undead 4d8+$Lmin20 (Will half)"',
   'Inflict Light Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C1,Destruction1 ' +
+    'Description="Touched damage/heal undead 1d8+$Lmin5 (Will half)"',
   'Inflict Minor Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C0 ' +
+    'Description="Touched 1 HP"',
   'Inflict Moderate Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C2 ' +
+    'Description="Touched damage/heal undead 2d8+$Lmin10 (Will half)"',
   'Inflict Serious Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C3 ' +
+    'Description="Touched damage/heal undead 3d8+$Lmin15 (Will half)"',
   'Insanity':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=W7 ' +
+    'Description="R$RM\' Target randomly normal/babble/d8+str to self/attack nearest permanently (Will neg)"',
   'Insect Plague':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C5,D5 ' +
+    'Description="R$RL\' $Ldiv3min6 wasp swarms attack for $L min"',
   'Instant Summons':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W7 ' +
+    'Description="Prepared object appears in your hand"',
   'Interposing Hand':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=W5 ' +
+    'Description="R$RM\' 10\' (AC 20, caster HP) hand cover (+4 AC) for $L rd"',
   'Invisibility':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B2,W2,Trickery2 ' +
+    'Description="Touched invisible for $L min/until attacks"',
   'Invisibility Purge':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=C3 ' +
+    'Description="R$L5\' Invisible becomes visible for $L min"',
   'Invisibility Sphere':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B3,W3 ' +
+    'Description="Creatures w/in 10\' of touched invisible for $L min/until attacks/leave area"',
   'Iron Body':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=Earth8,W8 ' +
+    'Description="Become iron (+6 Str/-6 Dex, half speed, 35% arcane failure, -6 skill, DR 15/adamantine, half damage acid/fire, immune other attacks/effects) for $L min"',
   'Ironwood':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D6 ' +
+    'Description="Make a wood object as strong as steel"',
   'Irresistible Dance':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B6,W8 ' +
+    'Description="Touched dance (-4 AC, -10 Ref) for d4+1 rd"',
 
   'Jump':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D1,R1,W1 ' +
+    'Description="Touched +${lvl<5?10:lvl<9?20:30} jump Acrobatics for $L min"',
 
   'Keen Edge':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W3 ' +
+    'Description="R$RS\' Target weapon double threat range for $L10 min"',
   'Knock':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W2 ' +
+    'Description="R$RM\' +$Lplus10 check to open stuck/barred/locked/magically held door/chest/shackle"',
   'Know Direction':
-    'School=Divination Level=X ' +
-    'Description=""',
+    'School=Divination Level=B0,D0 ' +
+    'Description="Self determine north"',
 
   'Legend Lore':
-    'School=Divination Level=X ' +
-    'Description=""',
+    'School=Divination Level=B4,Knowledge7,W6 ' +
+    'Description="Info about target person/place/object"',
   'Lesser Confusion':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B1 ' +
+    'Description="R$RS\' Target randomly normal/babble/d8+str to self/attack nearest for 1 rd (Will neg)"',
   'Lesser Geas':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B3,W4 ' +
+    'Description="R$RS\' Target le 7 HD must complete task (Will neg)"',
   'Lesser Globe Of Invulnerability':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=W6 ' +
+    'Description="Bars spell effects le 3rd level in 10\' radius for $L rd"',
   'Lesser Planar Ally':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C4 ' +
+    'Description="Purchase service from extraplanar creature le 6 HD"',
   'Lesser Planar Binding':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W5 ' +
+    'Description="Extraplanar creature le 6 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
   'Lesser Restoration':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C2,D2,P1 ' +
+    'Description="Touched remove 1 magical/1d4 temporary ability harm, fatigue/exhaustion, 1 negative level"',
   'Levitate':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W2 ' +
+    'Description="R$RS\' Move willing target up/down 20\' for $L min"',
   'Light':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=B0,C0,D0,W0 ' +
+    'Description="Touched gives torchlight for $L10 min"',
   'Lightning Bolt':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=W3 ' +
+    'Description="120\' bolt ${Lmin10}d6 HP (Ref half)"',
   'Limited Wish':
-    'School=Universal Level=X ' +
-    'Description=""',
+    'School=Universal Level=W7 ' +
+    'Description="Alter reality, with limits"',
   'Liveoak':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D6 ' +
+    'Description="Touched oak becomes treant guardian for $L dy"',
   'Locate Creature':
-    'School=Divination Level=X ' +
-    'Description=""',
+    'School=Divination Level=B4,W4 ' +
+    'Description="R$RL\' Sense direction of creature/kind for $L10 min"',
   'Locate Object':
-    'School=Divination Level=X ' +
-    'Description=""',
+    'School=Divination Level=B2,C3,w2,Travel2 ' +
+    'Description="R$RL\' Sense direction of object/type for $L min"',
   'Longstrider':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D1,R1,Travel1 ' +
+    'Description="Self +10 speed for $L hr"',
   'Lullaby':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B0 ' +
+    'Description="R$RM\' Targets in 10\' radius -5 Perception/-2 Will saves vs. sleep for conc + $L rd (Will neg)"'
 
+/*
   'Mage Armor':
     'School=Conjuration Level=X ' +
     'Description=""',
