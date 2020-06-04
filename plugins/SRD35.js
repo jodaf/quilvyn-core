@@ -52,6 +52,9 @@ function SRD35() {
   for(var deity in SRD35.DEITIES) {
     SRD35.addChoice(rules, 'deities', deity, SRD35.DEITIES[deity]);
   }
+  for(var domain in SRD35.DOMAINS) {
+    SRD35.addChoice(rules, 'domains', domain, SRD35.DOMAINS[domain]);
+  }
   for(var familiar in SRD35.FAMILIARS) {
     SRD35.addChoice(rules, 'familiars', familiar, SRD35.FAMILIARS[familiar]);
   }
@@ -79,7 +82,6 @@ function SRD35() {
   SRD35.equipmentRules(rules);
   SRD35.combatRules(rules);
   SRD35.movementRules(rules);
-  SRD35.magicRules(rules, SRD35.DOMAINS);
   rules.defineChoice('extras', 'feats', 'featCount', 'selectableFeatureCount');
   rules.defineChoice('preset', 'race', 'level', 'levels');
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
@@ -198,11 +200,30 @@ SRD35.CLASSES = [
 SRD35.DEITIES = {
   'None':'' // The SRD defines no deities
 };
-SRD35.DOMAINS = [
-  'Air', 'Animal', 'Chaos', 'Death', 'Destruction', 'Earth', 'Evil', 'Fire',
-  'Good', 'Healing', 'Knowledge', 'Law', 'Luck', 'Magic', 'Plant',
-  'Protection', 'Strength', 'Sun', 'Travel', 'Trickery', 'War', 'Water'
-];
+SRD35.DOMAINS = {
+  'Air':'Turn=Earth',
+  'Animal':'',
+  'Chaos':'Bump=Chaos',
+  'Death':'',
+  'Destruction':'',
+  'Earth':'Turn=Air',
+  'Evil':'Bump=Evil',
+  'Fire':'Turn=Water',
+  'Good':'Bump=Good',
+  'Healing':'Bump=Heal',
+  'Knowledge':'Bump=Divination',
+  'Law':'Bump=Law',
+  'Luck':'',
+  'Magic':'',
+  'Plant':'Turn=Plant',
+  'Protection':'',
+  'Strength':'',
+  'Sun':'',
+  'Travel':'',
+  'Trickery':'',
+  'War':'',
+  'Water':'Turn=Fire'
+};
 // Attack, Dam, AC include all modifiers
 SRD35.FAMILIARS = {
   'Bat': 'Attack=0 HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 Note="skillNotes.familiarBat:+3 Listen"',
@@ -1916,7 +1937,7 @@ SRD35.SPELLS = {
     'School=Evocation Level=B2,C2 ' +
     'Description="R$RS\' 10\' radius 1d8 HP/stunned (Fort neg)"',
   'Speak With Animals':
-    'School=Divination Level=B3,D1,R1 ' +
+    'School=Divination Level=Animal1,B3,D1,R1 ' +
     'Description="Self converse w/animals for $L min"',
   'Speak With Dead':
     'School=Necromancy Level=C3 ' +
@@ -4753,581 +4774,6 @@ SRD35.featRules = function(rules, feats, subfeats) {
 
 };
 
-/* Defines the rules related to spells and domains. */
-SRD35.magicRules = function(rules, domains) {
-
-/*
-    if(klass == 'Bard') {
-      spells = [
-        'B0:Dancing Lights:Daze:Detect Magic:Flare:Ghost Sound:' +
-        'Know Direction:Light:Lullaby:Mage Hand:Mending:Message:Open/Close:' +
-        'Prestidigitation:Read Magic:Resistance:Summon Instrument',
-        'B1:Alarm:Animate Rope:Cause Fear:Charm Person:Comprehend Languages:' +
-        'Cure Light Wounds:Detect Secret Doors:Disguise Self:Erase:' +
-        'Expeditious Retreat:Feather Fall:Grease:Hideous Laughter:Hypnotism:' +
-        'Identify:Lesser Confusion:Magic Aura:Magic Mouth:Obscure Object:' +
-        'Remove Fear:Silent Image:Sleep:Summon Monster I:' +
-        'Undetectable Alignment:Unseen Servant:Ventriloquism',
-        'B2:Alter Self:Animal Messenger:Animal Trance:Blindness/Deafness:' +
-        'Blur:Calm Emotions:Cat\'s Grace:Cure Moderate Wounds:Darkness:' +
-        'Daze Monster:Delay Poison:Detect Thoughts:Eagle\'s Splendor:' +
-        'Enthrall:Fox\'s Cunning:Glitterdust:Heroism:Hold Person:' +
-        'Hypnotic Pattern:Invisibility:Locate Object:Minor Image:' +
-        'Mirror Image:Misdirection:Pyrotechnics:Rage:Scare:Shatter:Silence:' +
-        'Sound Burst:Suggestion:Summon Monster II:Summon Swarm:Tongues:' +
-        'Whispering Wind',
-        'B3:Blink:Charm Monster:Clairaudience/Clairvoyance:Confusion:' +
-        'Crushing Despair:Cure Serious Wounds:Daylight:Deep Slumber:' +
-        'Dispel Magic:Displacement:Fear:Gaseous Form:Glibness:Good Hope:' +
-        'Haste:Illusory Script:Invisibility Sphere:Lesser Geas:Major Image:' +
-        'Phantom Steed:Remove Curse:Scrying:Sculpt Sound:Secret Page:' +
-        'See Invisibility:Sepia Snake Sigil:Slow:Speak With Animals:' +
-        'Summon Monster III:Tiny Hut',
-        'B4:Break Enchantment:Cure Critical Wounds:Detect Scrying:' +
-        'Dimension Door:Dominate Person:Freedom Of Movement:' +
-        'Greater Invisibility:Hallucinatory Terrain:Hold Monster:Legend Lore:' +
-        'Locate Creature:Modify Memory:Neutralize Poison:Rainbow Pattern:' +
-        'Repel Vermin:Secure Shelter:Shadow Conjuration:Shout:' +
-        'Speak With Plants:Summon Monster IV:Zone Of Silence',
-        'B5:Dream:False Vision:Greater Dispel Magic:Greater Heroism:' +
-        'Mass Cure Light Wounds:Mass Suggestion:Mind Fog:Mirage Arcana:' +
-        'Mislead:Nightmare:Persistent Image:Seeming:Shadow Evocation:' +
-        'Shadow Walk:Song Of Discord:Summon Monster V',
-        'B6:Analyze Dweomer:Animate Objects:Eyebite:Find The Path:Geas/Quest:' +
-        'Greater Scrying:Greater Shout:Heroes\' Feast:Irresistible Dance:' +
-        'Mass Cat\'s Grace:Mass Charm Monster:Mass Cure Moderate Wounds:' +
-        'Mass Eagle\'s Splendor:' + 'Mass Fox\'s Cunning:Permanent Image:' +
-        'Programmed Image:Project Image:Summon Monster VI:' +
-        'Sympathetic Vibration:Veil'
-      ];
-    } else if(klass == 'Cleric') {
-      spells = [
-        'C0:Create Water:Cure Minor Wounds:Detect Magic:Detect Poison:' +
-        'Guidance:Inflict Minor Wounds:Light:Mending:Purify Food And Drink:' +
-        'Read Magic:Resistance:Virtue',
-        'C1:Bane:Bless:Bless Water:Cause Fear:Command:Comprehend Languages:' +
-        'Cure Light Wounds:Curse Water:Deathwatch:Detect Chaos:Detect Evil:' +
-        'Detect Good:Detect Law:Detect Undead:Divine Favor:Doom:' +
-        'Endure Elements:Entropic Shield:Hide From Undead:' +
-        'Inflict Light Wounds:Magic Stone:Magic Weapon:Obscuring Mist:' +
-        'Protection From Chaos:Protection From Evil:Protection From Good:' +
-        'Protection From Law:Remove Fear:Sanctuary:Shield Of Faith:' +
-        'Summon Monster I',
-        'C2:Aid:Align Weapon:Augury:Bear\'s Endurance:Bull\'s Strength:' +
-        'Calm Emotions:Consecrate:Cure Moderate Wounds:Darkness:Death Knell:' +
-        'Delay Poison:Desecrate:Eagle\'s Splendor:Enthrall:Find Traps:' +
-        'Gentle Repose:Hold Person:Inflict Moderate Wounds:' +
-        'Lesser Restoration:Make Whole:Owl\'s Wisdom:Remove Paralysis:' +
-        'Resist Energy:Shatter:Shield Other:Silence:Sound Burst:' +
-        'Spiritual Weapon:Status:Summon Monster II:Undetectable Alignment:' +
-        'Zone Of Truth',
-        'C3:Animate Dead:Bestow Curse:Blindness/Deafness:Contagion:' +
-        'Continual Flame:Create Food And Water:Cure Serious Wounds:Daylight:' +
-        'Deeper Darkness:Dispel Magic:Glyph Of Warding:Helping Hand:' +
-        'Inflict Serious Wounds:Invisibility Purge:Locate Object:' +
-        'Magic Circle Against Chaos:Magic Circle Against Evil:' +
-        'Magic Circle Against Good:Magic Circle Against Law:' +
-        'Magic Vestment:Meld Into Stone:Obscure Object:Prayer:' +
-        'Protection From Energy:Remove Blindness/Deafness:Remove Curse:' +
-        'Remove Disease:Searing Light:Speak With Dead:Stone Shape:' +
-        'Summon Monster III:Water Breathing:Water Walk:Wind Wall',
-        'C4:Air Walk:Control Water:Cure Critical Wounds:Death Ward:' +
-        'Dimensional Anchor:Discern Lies:Dismissal:Divination:Divine Power:' +
-        'Freedom Of Movement:Giant Vermin:Greater Magic Weapon:' +
-        'Imbue With Spell Ability:Inflict Critical Wounds:' +
-        'Lesser Planar Ally:Neutralize Poison:Poison:Repel Vermin:' +
-        'Restoration:Sending:Spell Immunity:Summon Monster IV:Tongues',
-        'C5:Atonement:Break Enchantment:Commune:Dispel Chaos:Dispel Evil:' +
-        'Dispel Good:Dispel Law:Disrupting Weapon:Flame Strike:' +
-        'Greater Command:Hallow:Insect Plague:Mark Of Justice:' +
-        'Mass Cure Light Wounds:Mass Inflict Light Wounds:Plane Shift:' +
-        'Raise Dead:Righteous Might:Scrying:Slay Living:Spell Resistance:' +
-        'Summon Monster V:Symbol Of Pain:Symbol Of Sleep:True Seeing:' +
-        'Unhallow:Wall Of Stone',
-        'C6:Animate Objects:Antilife Shell:Banishment:Blade Barrier:' +
-        'Create Undead:Find The Path:Forbiddance:Geas/Quest:' +
-        'Greater Dispel Magic:Greater Glyph Of Warding:Harm:Heal:' +
-        'Heroes\' Feast:Mass Bear\'s Endurance:Mass Bull\'s Strength:' +
-        'Mass Cure Moderate Wounds:Mass Eagle\'s Splendor:' +
-        'Mass Inflict Moderate Wounds:Mass Owl\'s Wisdom:Planar Ally:' +
-        'Summon Monster VI:Symbol Of Fear:Symbol Of Persuasion:' +
-        'Undeath To Death:Wind Walk:Word Of Recall',
-        'C7:Blasphemy:Control Weather:Destruction:Dictum:Ethereal Jaunt:' +
-        'Greater Restoration:Greater Scrying:Holy Word:' +
-        'Mass Cure Serious Wounds:Mass Inflict Serious Wounds:Refuge:' +
-        'Regenerate:Repulsion:Resurrection:Summon Monster VII:' +
-        'Symbol Of Stunning:Symbol Of Weakness:Word Of Chaos',
-        'C8:Antimagic Field:Cloak Of Chaos:Create Greater Undead:' +
-        'Dimensional Lock:Discern Location:Earthquake:Fire Storm:' +
-        'Greater Planar Ally:Greater Spell Immunity:Holy Aura:' +
-        'Mass Cure Critical Wounds:Mass Inflict Critical Wounds:' +
-        'Shield Of Law:Summon Monster VIII:Symbol Of Death:' +
-        'Symbol Of Insanity:Unholy Aura',
-        'C9:Astral Projection:Energy Drain:Etherealness:Gate:Implosion:' +
-        'Mass Heal:Miracle:Soul Bind:Storm Of Vengeance:Summon Monster IX:' +
-        'True Resurrection'
-      ];
-    } else if(klass == 'Druid') {
-      spells = [
-        'D0:Create Water:Cure Minor Wounds:Detect Magic:Detect Poison:Flare:' +
-        'Guidance:Know Direction:Light:Mending:Purify Food And Drink:' +
-        'Read Magic:Resistance:Virtue',
-        'D1:Calm Animals:Charm Animal:Cure Light Wounds:' +
-        'Detect Animals Or Plants:Detect Snares And Pits:Endure Elements:' +
-        'Entangle:Faerie Fire:Goodberry:Hide From Animals:Jump:Longstrider:' +
-        'Magic Fang:Magic Stone:Obscuring Mist:Pass Without Trace:' +
-        'Produce Flame:Shillelagh:Speak With Animals:Summon Nature\'s Ally I',
-        'D2:Animal Messenger:Animal Trance:Barkskin:Bear\'s Endurance:' +
-        'Bull\'s Strength:Cat\'s Grace:Chill Metal:Delay Poison:Fire Trap:' +
-        'Flame Blade:Flaming Sphere:Fog Cloud:Gust Of Wind:Heat Metal:' +
-        'Hold Animal:Lesser Restoration:Owl\'s Wisdom:Reduce Animal:' +
-        'Resist Energy:Soften Earth And Stone:Spider Climb:' +
-        'Summon Nature\'s Ally II:Summon Swarm:Tree Shape:Warp Wood:Wood Shape',
-        'D3:Call Lightning:Contagion:Cure Moderate Wounds:Daylight:' +
-        'Diminish Plants:Dominate Animal:Greater Magic Fang:Meld Into Stone:' +
-        'Neutralize Poison:Plant Growth:Poison:Protection From Energy:Quench:' +
-        'Remove Disease:Sleet Storm:Snare:Speak With Plants:Spike Growth:' +
-        'Stone Shape:Summon Nature\'s Ally III:Water Breathing:Wind Wall',
-        'D4:Air Walk:Antiplant Shell:Blight:Command Plants:Control Water:' +
-        'Cure Serious Wounds:Dispel Magic:Flame Strike:Freedom Of Movement:' +
-        'Giant Vermin:Ice Storm:Reincarnate:Repel Vermin:Rusting Grasp:' +
-        'Scrying:Spike Stones:Summon Nature\'s Ally IV',
-        'D5:Animal Growth:Atonement:Awaken:Baleful Polymorph:' +
-        'Call Lightning Storm:Commune With Nature:Control Winds:' +
-        'Cure Critical Wounds:Death Ward:Hallow:Insect Plague:Stoneskin:' +
-        'Summon Nature\'s Ally V:Transmute Mud To Rock:Transmute Rock To Mud:' +
-        'Tree Stride:Unhallow:Wall Of Fire:Wall Of Thorns',
-        'D6:Antilife Shell:Find The Path:Fire Seeds:Greater Dispel Magic:' +
-        'Ironwood:Liveoak:Mass Bear\'s Endurance:Mass Bull\'s Strength:' +
-        'Mass Cat\'s Grace:Mass Cure Light Wounds:Mass Owl\'s Wisdom:' +
-        'Move Earth:Repel Wood:Spellstaff:Stone Tell:' +
-        'Summon Nature\'s Ally VI:Transport Via Plants:Wall Of Stone',
-        'D7:Animate Plants:Changestaff:Control Weather:Creeping Doom:' +
-        'Fire Storm:Greater Scrying:Heal:Mass Cure Moderate Wounds:' +
-        'Summon Nature\'s Ally VII:Sunbeam:Transmute Metal To Wood:' +
-        'True Seeing:Wind Walk',
-        'D8:Animal Shapes:Control Plants:Earthquake:Finger Of Death:' +
-        'Mass Cure Serious Wounds:Repel Metal Or Stone:Reverse Gravity:' +
-        'Summon Nature\'s Ally VIII:Sunburst:Whirlwind:Word Of Recall',
-        'D9:Antipathy:Elemental Swarm:Foresight:Mass Cure Critical Wounds:' +
-        'Regenerate:Shambler:Shapechange:Storm Of Vengeance:' +
-        'Summon Nature\'s Ally IX:Sympathy'
-      ];
-    } else if(klass == 'Paladin') {
-      spells = [
-        'P1:Bless:Bless Water:Bless Weapon:Create Water:Cure Light Wounds:' +
-        'Detect Evil:Detect Poison:Detect Undead:Divine Favor:' +
-        'Endure Elements:Lesser Restoration:Magic Weapon:' +
-        'Protection From Chaos:Protection From Evil:Read Magic:Resistance:' +
-        'Virtue',
-        'P2:Bull\'s Strength:Delay Poison:Eagle\'s Splendor:Owl\'s Wisdom:' +
-        'Remove Paralysis:Resist Energy:Shield Other:Undetectable Alignment:' +
-        'Zone Of Truth',
-        'P3:Cure Moderate Wounds:Daylight:Discern Lies:Dispel Magic:' +
-        'Greater Magic Weapon:Heal Mount:Magic Circle Against Chaos:' +
-        'Magic Circle Against Evil:Prayer:Remove Blindness/Deafness:' +
-        'Remove Curse:Remove Disease',
-        'P4:Break Enchantment:Cure Serious Wounds:Death Ward:Dispel Chaos:' +
-        'Dispel Evil:Holy Sword:Mark Of Justice:Neutralize Poison:Restoration'
-      ];
-    } else if(klass == 'Ranger') {
-      spells = [
-        'R1:Alarm:Animal Messenger:Calm Animals:Charm Animal:Delay Poison:' +
-        'Detect Animals Or Plants:Detect Poison:Detect Snares And Pits:' +
-        'Endure Elements:Entangle:Hide From Animals:Jump:Longstrider:' +
-        'Magic Fang:Pass Without Trace:Read Magic:Resist Energy:' +
-        'Speak With Animals:Summon Nature\'s Ally I',
-        'R2:Barkskin:Bear\'s Endurance:Cat\'s Grace:Cure Light Wounds:' +
-        'Hold Animal:Owl\'s Wisdom:Protection From Energy:Snare:' +
-        'Speak With Plants:Spike Growth:Summon Nature\'s Ally II:Wind Wall',
-        'R3:Command Plants:Cure Moderate Wounds:Darkvision:Diminish Plants:' +
-        'Greater Magic Fang:Neutralize Poison:Plant Growth:Reduce Animal:' +
-        'Remove Disease:Repel Vermin:Summon Nature\'s Ally III:Tree Shape:' +
-        'Water Walk',
-        'R4:Animal Growth:Commune With Nature:Cure Serious Wounds:' +
-        'Freedom Of Movement:Nondetection:Summon Nature\'s Ally IV:Tree Stride'
-      ];
-    } else if(klass == 'Sorcerer' || klass == 'Wizard') {
-      // Identical spell lists
-      spells = [
-        'W0:Acid Splash:Arcane Mark:Dancing Lights:Daze:Detect Magic:' +
-        'Detect Poison:Disrupt Undead:Flare:Ghost Sound:Light:Mage Hand:' +
-        'Mending:Message:Open/Close:Prestidigitation:Ray Of Frost:Read Magic:' +
-        'Resistance:Touch Of Fatigue',
-        'W1:Alarm:Animate Rope:Burning Hands:Cause Fear:Charm Person:' +
-        'Chill Touch:Color Spray:Comprehend Languages:Detect Secret Doors:' +
-        'Detect Undead:Disguise Self:Endure Elements:Enlarge Person:Erase:' +
-        'Expeditious Retreat:Feather Fall:Floating Disk:Grease:Hold Portal:' +
-        'Hypnotism:Identify:Jump:Mage Armor:Magic Missile:Magic Weapon:' +
-        'Magic Aura:Mount:Obscuring Mist:Protection From Chaos:' +
-        'Protection From Evil:Protection From Good:Protection From Law:' +
-        'Ray Of Enfeeblement:Reduce Person:Shield:Shocking Grasp:' +
-        'Silent Image:Sleep:Summon Monster I:' +
-        'True Strike:Unseen Servant:Ventriloquism',
-        'W2:Acid Arrow:Alter Self:Arcane Lock:Bear\'s Endurance:' +
-        'Blindness/Deafness:Blur:Bull\'s Strength:Cat\'s Grace:' +
-        'Command Undead:Continual Flame:Darkness:Darkvision:Daze Monster:' +
-        'Detect Thoughts:Eagle\'s Splendor:False Life:Flaming Sphere:' +
-        'Fog Cloud:Fox\'s Cunning:Ghoul Touch:Glitterdust:Gust Of Wind:' +
-        'Hideous Laughter:Hypnotic Pattern:Invisibility:Knock:Levitate:' +
-        'Locate Object:Magic Mouth:Minor Image:Mirror Image:Misdirection:' +
-        'Obscure Object:Owl\'s Wisdom:Phantom Trap:Protection From Arrows:' +
-        'Pyrotechnics:Resist Energy:Rope Trick:Scare:Scorching Ray:' +
-        'See Invisibility:Shatter:Spectral Hand:Spider Climb:' +
-        'Summon Monster II:Summon Swarm:Touch Of Idiocy:Web:Whispering Wind',
-        'W3:Arcane Sight:Blink:Clairaudience/Clairvoyance:Daylight:' +
-        'Deep Slumber:Dispel Magic:Displacement:Explosive Runes:Fireball:' +
-        'Flame Arrow:Fly:Gaseous Form:Gentle Repose:Greater Magic Weapon:' +
-        'Halt Undead:Haste:Heroism:Hold Person:Illusory Script:' +
-        'Invisibility Sphere:Keen Edge:Lightning Bolt:' +
-        'Magic Circle Against Chaos:Magic Circle Against Evil:' +
-        'Magic Circle Against Good:Magic Circle Against Law:Major Image:' +
-        'Nondetection:Phantom Steed:Protection From Energy:Rage:' +
-        'Ray Of Exhaustion:Secret Page:Sepia Snake Sigil:Shrink Item:' +
-        'Sleet Storm:Slow:Stinking Cloud:Suggestion:Summon Monster III:' +
-        'Tiny Hut:Tongues:Vampiric Touch:Water Breathing:Wind Wall',
-        'W4:Animate Dead:Arcane Eye:Bestow Curse:Black Tentacles:' +
-        'Charm Monster:Confusion:Contagion:Crushing Despair:Detect Scrying:' +
-        'Dimension Door:Dimensional Anchor:Enervation:Fear:Fire Shield:' +
-        'Fire Trap:Greater Invisibility:Hallucinatory Terrain:Ice Storm:' +
-        'Illusory Wall:Lesser Geas:Lesser Globe Of Invulnerability:' +
-        'Locate Creature:Mass Enlarge Person:Mass Reduce Person:' +
-        'Minor Creation:Mnemonic Enhancer:Phantasmal Killer:Polymorph:' +
-        'Rainbow Pattern:Remove Curse:Resilient Sphere:Scrying:' +
-        'Secure Shelter:Shadow Conjuration:Shout:Solid Fog:Stone Shape:' +
-        'Stoneskin:Summon Monster IV:Wall Of Fire:Wall Of Ice',
-        'W5:Animal Growth:Baleful Polymorph:Blight:Break Enchantment:' +
-        'Cloudkill:Cone Of Cold:Contact Other Plane:Dismissal:' +
-        'Dominate Person:Dream:Fabricate:False Vision:Feeblemind:' +
-        'Hold Monster:Interposing Hand:Lesser Planar Binding:' +
-        'Mage\'s Faithful Hound:Mage\'s Private Sanctum:Magic Jar:' +
-        'Major Creation:Mind Fog:Mirage Arcana:Nightmare:Overland Flight:' +
-        'Passwall:Permanency:Persistent Image:Prying Eyes:Secret Chest:' +
-        'Seeming:Sending:Shadow Evocation:Summon Monster V:Symbol Of Pain:' +
-        'Symbol Of Sleep:Telekinesis:Telepathic Bond:Teleport:' +
-        'Transmute Mud To Rock:Transmute Rock To Mud:Wall Of Force:' +
-        'Wall Of Stone:Waves Of Fatigue',
-        'W6:Acid Fog:Analyze Dweomer:Antimagic Field:Chain Lightning:' +
-        'Circle Of Death:Contingency:Control Water:Create Undead:' +
-        'Disintegrate:Eyebite:Flesh To Stone:Forceful Hand:Freezing Sphere:' +
-        'Geas/Quest:Globe Of Invulnerability:Greater Dispel Magic:' +
-        'Greater Heroism:Guards And Wards:Legend Lore:Mage\'s Lucubration:' +
-        'Mass Bear\'s Endurance:Mass Bull\'s Strength:Mass Cat\'s Grace:' +
-        'Mass Eagle\'s Splendor:Mass Fox\'s Cunning:Mass Owl\'s Wisdom:' +
-        'Mass Suggestion:Mislead:Move Earth:Permanent Image:Planar Binding:' +
-        'Programmed Image:Repulsion:Shadow Walk:Stone To Flesh:' +
-        'Summon Monster VI:Symbol Of Fear:Symbol Of Persuasion:' +
-        'Transformation:True Seeing:Undeath To Death:Veil:Wall Of Iron',
-        'W7:Banishment:Control Undead:Control Weather:' +
-        'Delayed Blast Fireball:Ethereal Jaunt:Finger Of Death:Forcecage:' +
-        'Grasping Hand:Greater Arcane Sight:Greater Scrying:' +
-        'Greater Shadow Conjuration:Greater Teleport:Insanity:' +
-        'Instant Summons:Limited Wish:Mage\'s Magnificent Mansion:' +
-        'Mage\'s Sword:Mass Hold Person:Mass Invisibility:Phase Door:' +
-        'Plane Shift:Power Word Blind:Prismatic Spray:Project Image:' +
-        'Reverse Gravity:Sequester:Simulacrum:Spell Turning:Statue:' +
-        'Summon Monster VII:Symbol Of Stunning:Symbol Of Weakness:' +
-        'Teleport Object:Vision:Waves Of Exhaustion',
-        'W8:Antipathy:Binding:Clenched Fist:Clone:Create Greater Undead:' +
-        'Demand:Dimensional Lock:Discern Location:Greater Planar Binding:' +
-        'Greater Prying Eyes:Greater Shadow Evocation:Greater Shout:' +
-        'Horrid Wilting:Incendiary Cloud:Iron Body:Irresistible Dance:' +
-        'Mass Charm Monster:Maze:Mind Blank:Moment Of Prescience:Polar Ray:' +
-        'Polymorph Any Object:Power Word Stun:Prismatic Wall:' +
-        'Protection From Spells:Scintillating Pattern:Screen:' +
-        'Summon Monster VIII:Sunburst:Symbol Of Death:Symbol Of Insanity:' +
-        'Sympathy:Telekinetic Sphere:Temporal Stasis:Trap The Soul',
-        'W9:Astral Projection:Crushing Hand:Dominate Monster:Energy Drain:' +
-        'Etherealness:Foresight:Freedom:Gate:Imprisonment:' +
-        'Mage\'s Disjunction:Mass Hold Monster:Meteor Swarm:Power Word Kill:' +
-        'Prismatic Sphere:Refuge:Shades:Shapechange:Soul Bind:' +
-        'Summon Monster IX:Teleportation Circle:Time Stop:' +
-        'Wail Of The Banshee:Weird:Wish'
-      ];
-*/
-
-  rules.defineChoice('domains', domains);
-  for(var i = 0; i < domains.length; i++) {
-    var domain = domains[i];
-    var notes;
-    var spells;
-    var turn;
-    if(domain == 'Air') {
-      notes = ['combatNotes.airDomain:Turn earth, rebuke air'];
-      spells = [
-        'Obscuring Mist', 'Wind Wall', 'Gaseous Form', 'Air Walk',
-        'Control Winds', 'Chain Lightning', 'Control Weather', 'Whirlwind',
-        'Elemental Swarm'
-      ];
-      turn = 'Earth';
-    } else if(domain == 'Animal') {
-      notes = [
-        'magicNotes.animalDomain:<i>Speak With Animals</i> 1/dy',
-        'skillNotes.animalDomain:Knowledge (Nature) is a class skill'
-      ];
-      spells = [
-        'Calm Animals', 'Hold Animal', 'Dominate Animal',
-        'Summon Nature\'s Ally IV', 'Commune With Nature', 'Antilife Shell',
-        'Animal Shapes', 'Summon Nature\'s Ally VIII', 'Shapechange'
-      ];
-      turn = null;
-      rules.defineRule
-        ('classSkills.Knowledge (Nature)', 'skillNotes.animalDomain', '=', '1');
-      rules.defineChoice('spells', 'Speak With Animals(Animal1 Divi)');
-    } else if(domain == 'Chaos') {
-      notes = ['magicNotes.chaosDomain:+1 caster level chaos spells'];
-      spells = [
-        'Protection From Law', 'Shatter', 'Magic Circle Against Law',
-        'Chaos Hammer', 'Dispel Law', 'Animate Objects', 'Word Of Chaos',
-        'Cloak Of Chaos', 'Summon Monster IX'
-      ];
-      turn = null;
-    } else if(domain == 'Death') {
-      notes = [
-        'magicNotes.deathDomain:Touch kills if %Vd6 ge target HP 1/dy'];
-      spells = [
-        'Cause Fear', 'Death Knell', 'Animate Dead', 'Death Ward',
-        'Slay Living', 'Create Undead', 'Destruction', 'Create Greater Undead',
-        'Wail Of The Banshee'
-      ];
-      turn = null;
-      rules.defineRule('magicNotes.deathDomain', 'levels.Cleric', '=', null);
-    } else if(domain == 'Destruction') {
-      notes = [
-        'combatNotes.destructionDomain:+4 attack, +%V damage smite 1/day'
-      ];
-      spells = [
-        'Inflict Light Wounds', 'Shatter', 'Contagion',
-        'Inflict Critical Wounds', 'Mass Inflict Light Wounds', 'Harm',
-        'Disintegrate', 'Earthquake', 'Implosion'
-      ];
-      turn = null;
-      rules.defineRule
-        ('combatNotes.destructionDomain', 'levels.Cleric', '=', null);
-    } else if(domain == 'Earth') {
-      notes = ['combatNotes.earthDomain:Turn air, rebuke earth'];
-      spells = [
-        'Magic Stone', 'Soften Earth And Stone', 'Stone Shape', 'Spike Stones',
-        'Wall Of Stone', 'Stoneskin', 'Earthquake', 'Iron Body',
-        'Elemental Swarm'
-      ];
-      turn = 'Air';
-    } else if(domain == 'Evil') {
-      notes = ['magicNotes.evilDomain:+1 caster level evil spells'];
-      spells = [
-        'Protection From Good', 'Desecrate', 'Magic Circle Against Good',
-        'Unholy Blight', 'Dispel Good', 'Create Undead', 'Blasphemy',
-        'Unholy Aura', 'Summon Monster IX'
-      ];
-      turn = null;
-    } else if(domain == 'Fire') {
-      notes = ['combatNotes.fireDomain:Turn water, rebuke fire'];
-      spells = [
-        'Burning Hands', 'Produce Flame', 'Resist Energy', 'Wall Of Fire',
-        'Fire Shield', 'Fire Seeds', 'Fire Storm', 'Incendiary Cloud',
-        'Elemental Swarm'
-      ];
-      turn = 'Water';
-    } else if(domain == 'Good') {
-      notes = ['magicNotes.goodDomain:+1 caster level good spells'];
-      spells = [
-        'Protection From Evil', 'Aid', 'Magic Circle Against Evil',
-        'Holy Smite', 'Dispel Evil', 'Blade Barrier', 'Holy Word', 'Holy Aura',
-        'Summon Monster IX'
-      ];
-      turn = null;
-    } else if(domain == 'Healing') {
-      notes = ['magicNotes.healingDomain:+1 caster level heal spells'];
-      spells = [
-        'Cure Light Wounds', 'Cure Moderate Wounds', 'Cure Serious Wounds',
-        'Cure Critical Wounds', 'Mass Cure Light Wounds', 'Heal', 'Regenerate',
-        'Mass Cure Critical Wounds', 'Mass Heal'
-      ];
-      turn = null;
-    } else if(domain == 'Knowledge') {
-      notes = [
-        'magicNotes.knowledgeDomain:+1 caster level divination spells',
-        'skillNotes.knowledgeDomain:All Knowledge skills are class skills'
-      ];
-      spells = [
-        'Detect Secret Doors', 'Detect Thoughts', 'Clairaudience/Clairvoyance',
-        'Divination', 'True Seeing', 'Find The Path', 'Legend Lore',
-        'Discern Location', 'Foresight'
-      ];
-      turn = null;
-      rules.defineRule
-        (/^classSkills.Knowledge/, 'skillNotes.knowledgeDomain', '=', '1');
-    } else if(domain == 'Law') {
-      notes = ['magicNotes.lawDomain:+1 caster level law spells'];
-      spells = [
-        'Protection From Chaos', 'Calm Emotions', 'Magic Circle Against Chaos',
-        'Order\'s Wrath', 'Dispel Chaos', 'Hold Monster', 'Dictum',
-        'Shield Of Law', 'Summon Monster IX'
-      ];
-      turn = null;
-    } else if(domain == 'Luck') {
-      notes = ['saveNotes.luckDomain:Reroll 1/day'];
-      spells = [
-        'Entropic Shield', 'Aid', 'Protection From Energy',
-        'Freedom Of Movement', 'Break Enchantment', 'Mislead', 'Spell Turning',
-        'Moment Of Prescience', 'Miracle'
-      ];
-      turn = null;
-    } else if(domain == 'Magic') {
-      notes = ['skillNotes.magicDomain:Use Magic Device at level %V'];
-      spells = [
-        'Magic Aura', 'Identify', 'Dispel Magic',
-        'Imbue With Spell Ability', 'Spell Resistance', 'Antimagic Field',
-        'Spell Turning', 'Protection From Spells', 'Mage\'s Disjunction'
-      ];
-      turn = null;
-      rules.defineRule('skillNotes.magicDomain',
-        'levels.Cleric', '=', 'Math.floor(source / 2)',
-        'levels.Wizard', '+', null
-      );
-    } else if(domain == 'Plant') {
-      notes = [
-        'combatNotes.plantDomain:Rebuke plants',
-        'skillNotes.plantDomain:Knowledge (Nature) is a class skill'
-      ];
-      spells = [
-        'Entangle', 'Barkskin', 'Plant Growth', 'Command Plants',
-        'Wall Of Thorns', 'Repel Wood', 'Animate Plants', 'Control Plants',
-        'Shambler'
-      ];
-      turn = 'Plant';
-      rules.defineRule
-        ('classSkills.Knowledge (Nature)', 'skillNotes.plantDomain', '=', '1');
-    } else if(domain == 'Protection') {
-      notes = [
-        'magicNotes.protectionDomain:' +
-          'Touched +%V bonus to next save w/in 1 hour 1/day'
-      ];
-      spells = [
-        'Sanctuary', 'Shield Other', 'Protection From Energy',
-        'Spell Immunity', 'Spell Resistance', 'Antimagic Field', 'Repulsion',
-        'Mind Blank', 'Prismatic Sphere'
-      ];
-      turn = null;
-      rules.defineRule
-        ('magicNotes.protectionDomain', 'levels.Cleric', '=', null);
-    } else if(domain == 'Strength') {
-      notes = ['abilityNotes.strengthDomain:Add %V to strength 1 rd/day'];
-      spells = [
-        'Enlarge Person', 'Bull\'s Strength', 'Magic Vestment',
-        'Spell Immunity', 'Righteous Might', 'Stoneskin', 'Grasping Hand',
-        'Clenched Fist', 'Crushing Hand'
-      ];
-      turn = null;
-      rules.defineRule
-        ('abilityNotes.strengthDomain', 'levels.Cleric', '=', null);
-    } else if(domain == 'Sun') {
-      notes = ['combatNotes.sunDomain:Destroy turned undead 1/day'];
-      spells = [
-        'Endure Elements', 'Heat Metal', 'Searing Light', 'Fire Shield',
-        'Flame Strike', 'Fire Seeds', 'Sunbeam', 'Sunburst', 'Prismatic Sphere'
-      ];
-      turn = null;
-    } else if(domain == 'Travel') {
-      notes = [
-        'magicNotes.travelDomain:Self move freely %V rd/day',
-        'skillNotes.travelDomain:Survival is a class skill'
-      ];
-      spells = [
-        'Longstrider', 'Locate Object', 'Fly', 'Dimension Door', 'Teleport',
-        'Find The Path', 'Greater Teleport', 'Phase Door', 'Astral Projection'
-      ];
-      turn = null;
-      rules.defineRule
-        ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
-      rules.defineRule('magicNotes.travelDomain', 'levels.Cleric', '=', null);
-    } else if(domain == 'Trickery') {
-      notes =
-        ['skillNotes.trickeryDomain:Bluff/Disguise/Hide are class skills'];
-      spells = [
-        'Disguise Self', 'Invisibility', 'Nondetection', 'Confusion',
-        'False Vision', 'Mislead', 'Screen', 'Polymorph Any Object', 'Time Stop'
-      ];
-      turn = null;
-      rules.defineRule
-        ('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
-      rules.defineRule
-        ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
-      rules.defineRule
-        ('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
-    } else if(domain == 'War') {
-      notes = [
-        'featureNotes.warDomain:' +
-          'Weapon Proficiency/Weapon Focus in favored weapon'
-      ];
-      spells = [
-        'Magic Weapon', 'Spiritual Weapon', 'Magic Vestment', 'Divine Power',
-        'Flame Strike', 'Blade Barrier', 'Power Word Blind', 'Power Word Stun',
-        'Power Word Kill'
-      ];
-      turn = null;
-    } else if(domain == 'Water') {
-      notes = ['combatNotes.waterDomain:Turn fire, rebuke water'];
-      spells = [
-        'Obscuring Mist', 'Fog Cloud', 'Water Breathing', 'Control Water',
-        'Ice Storm', 'Cone Of Cold', 'Acid Fog', 'Horrid Wilting',
-        'Elemental Swarm'
-      ];
-      turn = 'Fire';
-    } else
-      continue;
-    if(notes != null) {
-      rules.defineNote(notes);
-    }
-    if(turn != null) {
-      var prefix = 'turn' + turn;
-      rules.defineRule(prefix + '.level',
-        'domains.' + domain, '?', null,
-        'levels.Cleric', '+=', null
-      );
-      rules.defineRule('turningLevel', prefix + '.level', '^=', null);
-      rules.defineRule(prefix + '.damageModifier',
-        prefix + '.level', '=', null,
-        'charismaModifier', '+', null
-      );
-      rules.defineRule(prefix + '.frequency',
-        prefix + '.level', '=', '3',
-        'charismaModifier', '+', null
-      );
-      rules.defineRule(prefix + '.maxHitDice',
-        prefix + '.level', '=', 'source * 3 - 10',
-        'charismaModifier', '+', null
-      );
-      rules.defineNote([
-        prefix + '.damageModifier:2d6+%V',
-        prefix + '.frequency:%V/day',
-        prefix + '.maxHitDice:(d20+%V)/3'
-      ]);
-      rules.defineSheetElement('Turn ' + turn, 'Turn Undead', null, '; ');
-    }
-  }
-  rules.defineNote
-    ('validationNotes.domainAllocation:%1 available vs. %2 allocated');
-  rules.defineRule('validationNotes.domainAllocation.1',
-    '', '=', '0',
-    'domainCount', '=', null
-  );
-  rules.defineRule('validationNotes.domainAllocation.2',
-    '', '=', '0',
-    /^domains\./, '+=', null
-  );
-  rules.defineRule('validationNotes.domainAllocation',
-    'validationNotes.domainAllocation.1', '=', '-source',
-    'validationNotes.domainAllocation.2', '+=', null
-  );
-
-  rules.defineRule('casterLevel',
-    'casterLevelArcane', '+=', null,
-    'casterLevelDivine', '+=', null
-  );
-
-};
-
 /* Defines the rules related to character movement. */
 SRD35.movementRules = function(rules) {
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
@@ -6459,7 +5905,14 @@ SRD35.addChoice = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'Level')
     );
   else if(type == 'deities')
-    SRD35.deityRules(rules, name, QuilvynRules.getAttrValueArray(attrs, 'domain'), QuilvynRules.getAttrValueArray(attrs, 'weapon'));
+    SRD35.deityRules(rules, name,
+      QuilvynRules.getAttrValueArray(attrs, 'domain'),
+      QuilvynRules.getAttrValueArray(attrs, 'weapon'));
+  else if(type == 'domains')
+    SRD35.domainRules(rules, name,
+      QuilvynRules.getAttrValue(attrs, 'Turn'),
+      QuilvynRules.getAttrValue(attrs, 'Bump')
+    );
   else if(type == 'familiars')
     SRD35.familiarRules(rules, name,
       QuilvynRules.getAttrValue(attrs, 'Str'),
@@ -6867,6 +6320,145 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
         ('features.' + proficiencyFeature, 'clericFeatures.' + proficiencyFeature, '=', null);
     }
   }
+};
+
+/*
+ * TODO
+ */
+SRD35.domainRules = function(rules, name, turn, casterLevelBump) {
+
+  var notes = [];
+  var prefix =
+    name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '');
+
+  if(name == 'Animal') {
+    notes = [
+      'magicNotes.animalDomain:<i>Speak With Animals</i> 1/dy',
+      'skillNotes.animalDomain:Knowledge (Nature) is a class skill'
+    ];
+    rules.defineRule
+      ('classSkills.Knowledge (Nature)', 'skillNotes.animalDomain', '=', '1');
+  } else if(name == 'Death') {
+    notes = [
+      'magicNotes.deathDomain:Touch kills if %Vd6 ge target HP 1/dy'];
+    rules.defineRule('magicNotes.deathDomain', 'levels.Cleric', '=', null);
+  } else if(name == 'Destruction') {
+    notes = [
+      'combatNotes.destructionDomain:+4 attack, +%V damage smite 1/day'
+    ];
+    rules.defineRule
+      ('combatNotes.destructionDomain', 'levels.Cleric', '=', null);
+  } else if(name == 'Knowledge') {
+    notes = [
+      'skillNotes.knowledgeDomain:All Knowledge skills are class skills'
+    ];
+    rules.defineRule
+      (/^classSkills.Knowledge/, 'skillNotes.knowledgeDomain', '=', '1');
+  } else if(name == 'Luck') {
+    notes = ['saveNotes.luckDomain:Reroll 1/day'];
+  } else if(name == 'Magic') {
+    notes = ['skillNotes.magicDomain:Use Magic Device at level %V'];
+    rules.defineRule('skillNotes.magicDomain',
+      'levels.Cleric', '=', 'Math.floor(source / 2)',
+      'levels.Wizard', '+', null
+    );
+  } else if(name == 'Plant') {
+    notes = [
+      'skillNotes.plantDomain:Knowledge (Nature) is a class skill'
+    ];
+    rules.defineRule
+      ('classSkills.Knowledge (Nature)', 'skillNotes.plantDomain', '=', '1');
+  } else if(name == 'Protection') {
+    notes = [
+      'magicNotes.protectionDomain:' +
+        'Touched +%V bonus to next save w/in 1 hour 1/day'
+    ];
+    rules.defineRule
+      ('magicNotes.protectionDomain', 'levels.Cleric', '=', null);
+  } else if(name == 'Strength') {
+    notes = ['abilityNotes.strengthDomain:Add %V to strength 1 rd/day'];
+    rules.defineRule
+      ('abilityNotes.strengthDomain', 'levels.Cleric', '=', null);
+  } else if(name == 'Sun') {
+    notes = ['combatNotes.sunDomain:Destroy turned undead 1/day'];
+  } else if(name == 'Travel') {
+    notes = [
+      'magicNotes.travelDomain:Self move freely %V rd/day',
+      'skillNotes.travelDomain:Survival is a class skill'
+    ];
+    rules.defineRule
+      ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
+    rules.defineRule('magicNotes.travelDomain', 'levels.Cleric', '=', null);
+  } else if(name == 'Trickery') {
+    notes =
+      ['skillNotes.trickeryDomain:Bluff/Disguise/Hide are class skills'];
+    rules.defineRule
+      ('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
+    rules.defineRule
+      ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
+    rules.defineRule
+      ('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
+  } else if(name == 'War') {
+    notes = [
+      'featureNotes.warDomain:' +
+        'Weapon Proficiency/Weapon Focus in favored weapon'
+    ];
+  }
+
+  if(casterLevelBump)
+    notes.push
+      ('magicNotes.' + prefix + 'Domain:+1 caster level ' + casterLevelBump + ' spells');
+
+  if(turn != null) {
+    notes.push
+      ('combatNotes.' + prefix + 'Domain:Turn ' + turn + ', rebuke ' + name);
+    var prefix = 'turn' + turn;
+    rules.defineRule(prefix + '.level',
+      'domains.' + name, '?', null,
+      'levels.Cleric', '+=', null
+    );
+    rules.defineRule('turningLevel', prefix + '.level', '^=', null);
+    rules.defineRule(prefix + '.damageModifier',
+      prefix + '.level', '=', null,
+      'charismaModifier', '+', null
+    );
+    rules.defineRule(prefix + '.frequency',
+      prefix + '.level', '=', '3',
+      'charismaModifier', '+', null
+    );
+    rules.defineRule(prefix + '.maxHitDice',
+      prefix + '.level', '=', 'source * 3 - 10',
+      'charismaModifier', '+', null
+    );
+    rules.defineNote([
+      prefix + '.damageModifier:2d6+%V',
+      prefix + '.frequency:%V/day',
+      prefix + '.maxHitDice:(d20+%V)/3'
+    ]);
+    rules.defineSheetElement('Turn ' + turn, 'Turn Undead', null, '; ');
+  }
+  if(notes.length > 0)
+    rules.defineNote(notes);
+  rules.defineNote
+    ('validationNotes.domainAllocation:%1 available vs. %2 allocated');
+  rules.defineRule('validationNotes.domainAllocation.1',
+    '', '=', '0',
+    'domainCount', '=', null
+  );
+  rules.defineRule('validationNotes.domainAllocation.2',
+    '', '=', '0',
+    /^domains\./, '+=', null
+  );
+  rules.defineRule('validationNotes.domainAllocation',
+    'validationNotes.domainAllocation.1', '=', '-source',
+    'validationNotes.domainAllocation.2', '+=', null
+  );
+
+  rules.defineRule('casterLevel',
+    'casterLevelArcane', '+=', null,
+    'casterLevelDivine', '+=', null
+  );
+
 };
 
 /*
