@@ -423,80 +423,6 @@ SRD35.SKILLS = {
   'Use Rope':'Ability=dexterity Class=Ranger,Rogue Synergy="Climb (rope)","Escape Artist (rope)"'
 };
 SRD35.spellsDescriptions = {
-  "Mage Armor": "Touched +4 AC for $L hr",
-  "Mage Hand": "R$RS' Move target le 5 lb 15'",
-  "Mage's Disjunction": "R$RS' 40' radius dispelled, magic items inert for $L min, $L% chance to destroy antimagic field (Will neg)",
-  "Mage's Faithful Hound": "R$RS' Invisible dog barks at intruders w/in 30', bites (+10 2d6+3) w/in 5' for $L hr",
-  "Mage's Lucubration": "Recalls spell le 5th level from past day",
-  "Mage's Magnificent Mansion": "R$RS' Door to extradimensional mansion for $L2 hr",
-  "Mage's Private Sanctum": "Prevents outside view/scry/hear of $L 30' cubes for 1 dy",
-  "Mage's Sword": "R$RS' Unattended force blade attacks (+$Lplus3+abil 4d6+3x2@19) for $L rd",
-  "Magic Aura": "Alters aura of target object le $L5 lb for $L dy",
-  "Magic Circle Against Chaos": "10' radius from touched +2 AC/+2 saves/extra save vs. mental control/no contact vs. chaotic creatures for $L10 min",
-  "Magic Circle Against Evil": "10' radius from touched +2 AC/+2 saves/extra save vs. mental control/no contact vs. evil creatures for $L10 min",
-  "Magic Circle Against Good": "10' radius from touched +2 AC/+2 saves/extra save vs. mental control/no contact vs. good creatures for $L10 min",
-  "Magic Circle Against Law": "10' radius from touched +2 AC/+2 saves/extra save vs. mental control/no contact vs. lawful creatures for $L10 min",
-  "Magic Fang": "Touched natural weapon +1 attack/damage for $L min",
-  "Magic Jar": "R$RM' Target possessed for $L hr (Will neg)",
-  "Magic Missile": "R$RM' $Lplus1div2min5 missles 1d4+1 HP",
-  "Magic Mouth": "R$RS' Mouth speaks 25 words upon trigger w/in $L15' (Will neg)",
-  "Magic Stone": "3 touched stones +1 attack/1d6+1 HP (2d6+2 vs. undead) for 30 min",
-  "Magic Vestment": "Touched armor/shield/clothing +$Ldiv4min5 AC for $L hr",
-  "Magic Weapon": "Touched weapon +1 attack/damage for $L min",
-  "Major Creation": "Create $L' cu plant/mineral object for $L2 hr",
-  "Major Image": "R$RL' $L10plus40' cu image w/sound/smell/thermal (Will disbelieve) for conc + 3 rd",
-  "Make Whole": "R$RS' Repairs ${Lmin5}d6 damage to $L' cu object",
-  "Mark Of Justice": "Touched permanent -6 ability, -4 attack/saves/checks, or 50% chance/rd of losing action upon trigger",
-  "Mass Bear's Endurance": "R$RS' $L targets +4 Con for $L min",
-  "Mass Bull's Strength": "R$RS' $L targets +4 Str for $L min",
-  "Mass Cat's Grace": "R$RS' $L targets +4 Dex for $L min",
-  "Mass Charm Monster": "R$RS' $L2 HD targets treats you as trusted friend for $L dy (Will neg)",
-  "Mass Cure Critical Wounds": "R$RS' $L targets heal/damage undead 4d8+$Lmin40 (Will half)",
-  "Mass Cure Light Wounds": "R$RS' $L targets heal/damage undead 1d8+$Lmin25 (Will half)",
-  "Mass Cure Moderate Wounds": "R$RS' $L targets heal/damage undead 2d8+$Lmin30 (Will half)",
-  "Mass Cure Serious Wounds": "R$RS' $L targets heal/damage undead 3d8+$Lmin35 (Will half)",
-  "Mass Eagle's Splendor": "R$RS' $L targets +4 Cha for $L min",
-  "Mass Enlarge Person": "R$RS' $L target humanoid dbl size (+2 Str/-2 Dex/-1 attack/-1 AC) for $L min (Fort neg)",
-  "Mass Fox's Cunning": "R$RS' $L targets +4 Int for $L min",
-  "Mass Heal": "R$RS' $L targets heal $L10min150, remove negative conditions",
-  "Mass Hold Monster": "R$RM' Targets in 30' radius immobile for $L rd (Will neg)",
-  "Mass Hold Person": "R$RM' Targets in 30' radius immobile for $L rd (Will neg)",
-  "Mass Inflict Critical Wounds": "R$RS' $L targets damage/heal undead 4d8+$Lmin40 (Will half)",
-  "Mass Inflict Light Wounds": "R$RS' $L targets damage/heal undead 1d8+$Lmin25 (Will half)",
-  "Mass Inflict Moderate Wounds": "R$RS' $L targets damage/heal undead 2d8+$Lmin30 (Will half)",
-  "Mass Inflict Serious Wounds": "R$RS' $L targets damage/heal undead 3d8+$Lmin35 (Will half)",
-  "Mass Invisibility": "R$RL' Targets in 90' radius invisible for $L min/until attacks",
-  "Mass Owl's Wisdom": "R$RS' $L targets +4 Wis for $L min",
-  "Mass Reduce Person": "R$RS' $L target humanoid half size (-2 Str/+2 Dex/+1 attack/+1 AC) for $L min (Fort neg)",
-  "Mass Suggestion": "R$RM' $L targets follow reasonable suggestion (Will neg)",
-  "Maze": "R$RS' Target in extradimensional maze for 10 min/until DC 20 Int check",
-  "Meld Into Stone": "Self pass into stone for $L10 min",
-  "Mending": "R10' Repairs 1d4 HP to $L-lb object",
-  "Message": "R$RM' Target DC 25 Perception for $L10-min whispered dialogue",
-  "Meteor Swarm": "R$RL' 4 spheres 6d6 HP fire 40' radius (Ref half)/ranged touch 2d6 HP bludgeoning",
-  "Mind Blank": "R$RS' Target immune divination/+8 vs. mental for 1 dy",
-  "Mind Fog": "20' fog cylinder -10 Wis/Will checks (Will neg)",
-  "Minor Creation": "Create a $L' cu plant object lasting $L hr",
-  "Minor Image": "R$RL' $L10plus40' cu image w/noise (Will disbelieve) for conc + 2 rd",
-  "Miracle": "Requests deity's intercession",
-  "Mirage Arcana": "R$RL' $L 20' cube terrain/structure illusion (Will disbelieve) for $L hr",
-  "Mirror Image": "1d4+$Ldiv3min8 self decoys mislead attacks for $L min",
-  "Misdirection": "R$RS' Divinations upon target redirected for $L hr",
-  "Mislead": "R$RS' Self invisible $L rd, false double (Will disbelieve) conc + 3 rd",
-  "Mnemonic Enhancer": "Know +3 spell levels or retain just-cast spell le 3rd level for 1 dy",
-  "Modify Memory": "Target change 5 min of memory (Will neg)",
-  "Moment Of Prescience": "Self +$Lmin25 attack/check/save once w/in $L hr",
-  "Mount": "R$RS' Summons riding horse for $L2 hr",
-  "Move Earth": "R$RL' Slowly digs 7500' cu dirt",
-  "Neutralize Poison": "Touched neutralized $L10 min/immunized/detoxified",
-  "Nightmare": "Target 1d10 HP and fatigue (Will neg)",
-  "Nondetection": "Touched DC $Lplus11/$Lplus15 resistance to divination for $L hr",
-  "Obscure Object": "Touched immune to divination for 8 hr (Will neg)",
-  "Obscuring Mist": "20'-radius fog around self obscures vision for $L min",
-  "Open/Close": "R$RS' Target le 30 lb opens/closes (Will neg)",
-  "Order's Wrath": "R$RM' Chaotic w/in 30' cube ${Ldiv2min5}d8 HP and dazed 1 rd, neutral half (Will half)",
-  "Overland Flight": "Self fly 40', +$Ldiv2 Fly for $L hr",
-  "Owl's Wisdom": "Touched +4 Wis for $L min",
   "Pass Without Trace": "$L touched leave no tracks/scent for $L hr",
   "Passwall": "8'x5'x$Ldiv3minus1times5min25' passage through wood/stone/plaster lasts $L hr",
   "Permanency": "Makes certain spells permanent",
@@ -1655,234 +1581,234 @@ SRD35.SPELLS = {
     'Description="Self +10 speed for $L hr"',
   'Lullaby':
     'School=Enchantment Level=B0 ' +
-    'Description="R$RM\' Targets in 10\' radius -5 Perception/-2 Will saves vs. sleep for conc + $L rd (Will neg)"'
+    'Description="R$RM\' Targets in 10\' radius -5 Perception/-2 Will saves vs. sleep for conc + $L rd (Will neg)"',
 
-/*
   'Mage Armor':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W1 ' +
+    'Description="Touched +4 AC for $L hr"',
   'Mage Hand':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Mage\'s Disjunction':
-    'School=Abjuration Level=X ' +
-    'Description=""',
-  'Mage\'s Faithful Hound':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=B0,W0 ' +
+    'Description="R$RS\' Move target le 5 lb 15\'"',
+  "Mage's Disjunction":
+    'School=Abjuration Level=Magic9,W9 ' +
+    'Description="R$RS\' 40\' radius dispelled, magic items inert for $L min, $L% chance to destroy antimagic field (Will neg)"',
+  "Mage's Faithful Hound":
+    'School=Conjuration Level=W5 ' +
+    'Description=""R$RS\' Invisible dog barks at intruders w/in 30\', bites (+10 2d6+3) w/in 5\' for $L hr"',
   'Mage\'s Lucubration':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Mage\'s Magnificent Mansion':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Mage\'s Private Sanctum':
-    'School=Abjuration Level=X ' +
-    'Description=""',
-  'Mage\'s Sword':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W6 ' +
+    'Description="Recalls spell le 5th level from past day"',
+  "Mage's Magnificent Mansion":
+    'School=Conjuration Level=W7 ' +
+    'Description="R$RS\' Door to extradimensional mansion for $L2 hr"',
+  "Mage's Private Sanctum":
+    'School=Abjuration Level=W5 ' +
+    'Description="Prevents outside view/scry/hear of $L 30\' cubes for 1 dy"',
+  "Mage's Sword":
+    'School=Evocation Level=W7 ' +
+    'Description="R$RS\' Unattended force blade attacks (+$Lplus3+abil 4d6+3x2@19) for $L rd"',
   'Magic Aura':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B1,Magic1,W1 ' +
+    'Description="Alters aura of target object le $L5 lb for $L dy"',
   'Magic Circle Against Chaos':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C3,Law3,P3,W3 ' +
+    'Description="10\' radius from touched +2 AC/+2 saves/extra save vs. mental control/no contact vs. chaotic creatures for $L10 min"',
   'Magic Circle Against Evil':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C3,Good3,P3,W3 ' +
+    'Description="10\' radius from touched +2 AC/+2 saves/extra save vs. mental control/no contact vs. evil creatures for $L10 min"',
   'Magic Circle Against Good':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C3,Evil3,W3 ' +
+    'Description="10\' radius from touched +2 AC/+2 saves/extra save vs. mental control/no contact vs. good creatures for $L10 min"',
   'Magic Circle Against Law':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=Chaos3,C3,W3 ' +
+    'Description="10\' radius from touched +2 AC/+2 saves/extra save vs. mental control/no contact vs. lawful creatures for $L10 min"',
   'Magic Fang':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D1,R1 ' +
+    'Description="Touched natural weapon +1 attack/damage for $L min"',
   'Magic Jar':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=W5 ' +
+    'Description="R$RM\' Target possessed for $L hr (Will neg)"',
   'Magic Missile':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=W1 ' +
+    'Description="R$RM\' $Lplus1div2min5 missles 1d4+1 HP"',
   'Magic Mouth':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B1,W2 ' +
+    'Description="R$RS\' Mouth speaks 25 words upon trigger w/in $L15\' (Will neg)"',
   'Magic Stone':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=C1,D1,Earth1 ' +
+    'Description="3 touched stones +1 attack/1d6+1 HP (2d6+2 vs. undead) for 30 min"',
   'Magic Vestment':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=C3,Strength3,War3 ' +
+    'Description="Touched armor/shield/clothing +$Ldiv4min5 AC for $L hr"',
   'Magic Weapon':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=C1,P1,W1,War1 ' +
+    'Description="Touched weapon +1 attack/damage for $L min"',
   'Major Creation':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W5 ' +
+    'Description="Create $L\' cu plant/mineral object for $L2 hr"',
   'Major Image':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B3,w3 ' +
+    'Description="R$RL\' $L10plus40\' cu image w/sound/smell/thermal (Will disbelieve) for conc + 3 rd"',
   'Make Whole':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=C2 ' +
+    'Description="R$RS\' Repairs ${Lmin5}d6 damage to $L\' cu object"',
   'Mark Of Justice':
-    'School=Necromancy Level=X ' +
-    'Description=""',
-  'Mass Bear\'s Endurance':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Mass Bull\'s Strength':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Mass Cat\'s Grace':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C5,P4 ' +
+    'Description="Touched permanent -6 ability, -4 attack/saves/checks, or 50% chance/rd of losing action upon trigger"',
+  "Mass Bear's Endurance":
+    'School=Transmutation Level=C2,D2,R2,W2 ' +
+    'Description="R$RS\' $L targets +4 Con for $L min"',
+  "Mass Bull's Strength":
+    'School=Transmutation Level=C2,D2,P2,W2,Strength2 ' +
+    'Description="R$RS\' $L targets +4 Str for $L min"',
+  "Mass Cat's Grace":
+    'School=Transmutation Level=B2,D2,R2,W2 ' +
+    'Description="R$RS\' $L targets +4 Dex for $L min"',
   'Mass Charm Monster':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B6,W8 ' +
+    'Description="R$RS\' $L2 HD targets treats you as trusted friend for $L dy (Will neg)"',
   'Mass Cure Critical Wounds':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C8,D9,Healing8 ' +
+    'Description="R$RS\' $L targets heal/damage undead 4d8+$Lmin40 (Will half)"',
   'Mass Cure Light Wounds':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=B5,D6,Healing5 ' +
+    'Description=""R$RS\' $L targets heal/damage undead 1d8+$Lmin25 (Will half)"',
   'Mass Cure Moderate Wounds':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=B6,C7,D7 ' +
+    'Description="R$RS\' $L targets heal/damage undead 2d8+$Lmin30 (Will half)"',
   'Mass Cure Serious Wounds':
-    'School=Conjuration Level=X ' +
-    'Description=""',
-  'Mass Eagle\'s Splendor':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C7,D8 ' +
+    'Description="R$RS\' $L targets heal/damage undead 3d8+$Lmin35 (Will half)"',
+  "Mass Eagle's Splendor":
+    'School=Transmutation Level=B6,C6,W6 ' +
+    'Description="R$RS\' $L targets +4 Cha for $L min"',
   'Mass Enlarge Person':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Mass Fox\'s Cunning':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W4 ' +
+    'Description="R$RS\' $L target humanoid dbl size (+2 Str/-2 Dex/-1 attack/-1 AC) for $L min (Fort neg)"',
+  "Mass Fox's Cunning":
+    'School=Transmutation Level=B6,W6 ' +
+    'Description="R$RS\' $L targets +4 Int for $L min"',
   'Mass Heal':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C9,Healing9 ' +
+    'Description="R$RS\' $L targets heal $L10min150, remove negative conditions"',
   'Mass Hold Monster':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=W9 ' +
+    'Description="R$RM\' Targets in 30\' radius immobile for $L rd (Will neg)"',
   'Mass Hold Person':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=W7 ' +
+    'Description="R$RM\' Targets in 30\' radius immobile for $L rd (Will neg)"',
   'Mass Inflict Critical Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C8 ' +
+    'Description="R$RS\' $L targets damage/heal undead 4d8+$Lmin40 (Will half)"',
   'Mass Inflict Light Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C5,Destruction5 ' +
+    'Description="R$RS\' $L targets damage/heal undead 1d8+$Lmin25 (Will half)"',
   'Mass Inflict Moderate Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C6 ' +
+    'Description="R$RS\' $L targets damage/heal undead 2d8+$Lmin30 (Will half)"',
   'Mass Inflict Serious Wounds':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C7 ' +
+    'Description="R$RS\' $L targets damage/heal undead 3d8+$Lmin35 (Will half)"',
   'Mass Invisibility':
-    'School=Illusion Level=X ' +
-    'Description=""',
-  'Mass Owl\'s Wisdom':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Illusion Level=W7 ' +
+    'Description="R$RL\' Targets in 90\' radius invisible for $L min/until attacks"',
+  "Mass Owl's Wisdom":
+    'School=Transmutation Level=C6,D6,W6 ' +
+    'Description="R$RS\' $L targets +4 Wis for $L min"',
   'Mass Reduce Person':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W4 ' +
+    'Description="R$RS\' $L target humanoid half size (-2 Str/+2 Dex/+1 attack/+1 AC) for $L min (Fort neg)"',
   'Mass Suggestion':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B5,W6 ' +
+    'Description="R$RM\' $L targets follow reasonable suggestion (Will neg)"',
   'Maze':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W8 ' +
+    'Description="R$RS\' Target in extradimensional maze for 10 min/until DC 20 Int check"',
   'Meld Into Stone':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=C3,D3 ' +
+    'Description="Self pass into stone for $L10 min"',
   'Mending':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=B0,C0,D0,W0 ' +
+    'Description="R10\' Repairs 1d4 HP to $L-lb object"',
   'Message':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=B0,W0 ' +
+    'Description="R$RM\' Target DC 25 Perception for $L10-min whispered dialogue"',
   'Meteor Swarm':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=W9 ' +
+    'Description="R$RL\' 4 spheres 6d6 HP fire 40\' radius (Ref half)/ranged touch 2d6 HP bludgeoning"',
   'Mind Blank':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=Protection8,W8 ' +
+    'Description="R$RS\' Target immune divination/+8 vs. mental for 1 dy"',
   'Mind Fog':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B5,W5 ' +
+    'Description="20\' fog cylinder -10 Wis/Will checks (Will neg)"',
   'Minor Creation':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W4 ' +
+    'Description="Create a $L\' cu plant object lasting $L hr"',
   'Minor Image':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B2,W2 ' +
+    'Description="R$RL\' $L10plus40\' cu image w/noise (Will disbelieve) for conc + 2 rd"',
   'Miracle':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=C9,Luck9 ' +
+    'Description="Requests deity intercession"',
   'Mirage Arcana':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B5,W5 ' +
+    'Description="R$RL\' $L 20\' cube terrain/structure illusion (Will disbelieve) for $L hr"',
   'Mirror Image':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B2,W2 ' +
+    'Description="1d4+$Ldiv3min8 self decoys mislead attacks for $L min"',
   'Misdirection':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B2,W2 ' +
+    'Description="R$RS\' Divinations upon target redirected for $L hr"',
   'Mislead':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B5,Luck6,W6,Trickery6 ' +
+    'Description="R$RS\' Self invisible $L rd, false double (Will disbelieve) conc + 3 rd"',
   'Mnemonic Enhancer':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W4 ' +
+    'Description="Know +3 spell levels or retain just-cast spell le 3rd level for 1 dy"',
   'Modify Memory':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B4 ' +
+    'Description="Target change 5 min of memory (Will neg)"',
   'Moment Of Prescience':
-    'School=Divination Level=X ' +
-    'Description=""',
+    'School=Divination Level=Luck8,W8 ' +
+    'Description="Self +$Lmin25 attack/check/save once w/in $L hr"',
   'Mount':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W1 ' +
+    'Description="R$RS\' Summons riding horse for $L2 hr"',
   'Move Earth':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D6,w6 ' +
+    'Description="R$RL\' Slowly digs 7500\' cu dirt"',
 
   'Neutralize Poison':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=B4,C4,D3,P4,R3 ' +
+    'Description="Touched neutralized $L10 min/immunized/detoxified"',
   'Nightmare':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B5,W5 ' +
+    'Description="Target 1d10 HP and fatigue (Will neg)"',
   'Nondetection':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=R4,W3,Trickery3 ' +
+    'Description="Touched DC $Lplus11/$Lplus15 resistance to divination for $L hr"',
 
   'Obscure Object':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=B1,C3,W2 ' +
+    'Description="Touched immune to divination for 8 hr (Will neg)"',
   'Obscuring Mist':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=Air1,C1,D1,W1,Water1 ' +
+    'Description="20\'-radius fog around self obscures vision for $L min"',
   'Open/Close':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Order\'s Wrath':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=B0,W0 ' +
+    'Description="R$RS\' Target le 30 lb opens/closes (Will neg)"',
+  "Order's Wrath":
+    'School=Evocation Level=Law4 ' +
+    'Description="R$RM\' Chaotic w/in 30\' cube ${Ldiv2min5}d8 HP and dazed 1 rd, neutral half (Will half)"',
   'Overland Flight':
-    'School=Transmutation Level=X ' +
-    'Description=""',
-  'Owl\'s Wisdom':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W5 ' +
+    'Description="Self fly 40\', +$Ldiv2 Fly for $L hr"',
+  "Owl's Wisdom":
+    'School=Transmutation Level=C2,D2,P2,R2,W2 ' +
+    'Description="Touched +4 Wis for $L min"'
 
+/*
   'Pass Without Trace':
     'School=Transmutation Level=X ' +
     'Description=""',
