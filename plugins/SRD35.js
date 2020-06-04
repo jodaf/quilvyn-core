@@ -423,75 +423,6 @@ SRD35.SKILLS = {
   'Use Rope':'Ability=dexterity Class=Ranger,Rogue Synergy="Climb (rope)","Escape Artist (rope)"'
 };
 SRD35.spellsDescriptions = {
-  "Pass Without Trace": "$L touched leave no tracks/scent for $L hr",
-  "Passwall": "8'x5'x$Ldiv3minus1times5min25' passage through wood/stone/plaster lasts $L hr",
-  "Permanency": "Makes certain spells permanent",
-  "Permanent Image": "R$RL' $L10plus40' cu image w/sound/smell/thermal (Will disbelieve)",
-  "Persistent Image": "R$RL' $L10plus40' cu image w/sound/smell/thermal (Will disbelieve) for $L min",
-  "Phantasmal Killer": "R$RM' Target fears create creature (Will neg), touch kills (Fort 3d6 HP)",
-  "Phantom Steed": "Create mount ($Lplus7 HP, AC 18, MV $L20min240) for target for $L hr",
-  "Phantom Trap": "Touched object appears trapped",
-  "Phase Door": "Allow passage through 8'x5'x$Ldiv3minus1times5min25' wood/stone/plaster $Ldiv2 times",
-  "Planar Ally": "Purchase service from extraplanar creature le 12 HD",
-  "Planar Binding": "Extraplanar creature(s) le 12 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)",
-  "Plane Shift": "1 target (Will neg)/8 willing move to another plane",
-  "Plant Growth": "$RL' vegetation becomes dense or 1/2 mi radius increases productivity",
-  "Poison": "Touched 1d3 Con/rd for 6 rd (Fort neg)",
-  "Polar Ray": "R$RM' Ranged touch ${Lmin25}d6 HP/1d4 Dex",
-  "Polymorph": "Willing target becomes animal/elemental for $L min",
-  "Polymorph Any Object": "Target become something else (Fort neg)",
-  "Power Word Blind": "R$RS' Target w/ 50/100/200 HP blinded for ever/1d4+1 min/1d4+1 rd",
-  "Power Word Kill": "R$RS' Kills one creature le 100 HP",
-  "Power Word Stun": "R$RS' Target w/ 40/100/150 HP stunned for 4d4/2d4/1d4 rd",
-  "Prayer": "Allies w/in 40' +1 attack/damage/save/skill, foes -1 for $L rd",
-  "Prestidigitation": "R10' Perform minor tricks for 1 hr",
-  "Prismatic Sphere": "R$RS' 10' sphere blocks attacks for $L10 min",
-  "Prismatic Spray": "R60' cone Blinds le 8 HD 2d4 rd, other effects",
-  "Prismatic Wall": "R$RS' $L4'x$L2' wall blocks attacks for $L10 min",
-  "Produce Flame": "Torch flame 1d6+$Lmin5 HP for $L min",
-  "Programmed Image": "R$RL' $L10plus40' cu image w/sound/smell/thermal (Will disbelieve) for $L rd when triggered",
-  "Project Image": "R$RM' See/cast through illusory double for $L rd (Will disbelieve)",
-  "Protection From Arrows": "Touched DR 10/magic vs. ranged for $L hr/$L10min100 HP",
-  "Protection From Chaos": "Touched +2 AC/+2 saves/extra save vs. mental control/no contact by chaotic creatures for $L min",
-  "Protection From Energy": "Touched ignores up to $L12min120 HP from specified energy for $L10 min",
-  "Protection From Evil": "Touched +2 AC/+2 saves/extra save vs. mental control/no contact by evil creatures for $L min",
-  "Protection From Good": "Touched +2 AC/+2 saves/extra save vs. mental control/no contact by good creatures for $L min",
-  "Protection From Law": "Touched +2 AC/+2 saves/extra save vs. mental control/no contact by lawful creatures for $L min",
-  "Protection From Spells": "+8 spell saves for $L10 min",
-  "Prying Eyes": "1d4+$L floating eyes (AC 18, 1 HP) scout 1 mi for $L hr",
-  "Purify Food And Drink": "R10' Make $L' cu food/water safe (Will neg)",
-  "Pyrotechnics": "R$RL' Fire becomes fireworks (120' blinded 1d4+1 rd (Will neg)) or choking smoke (20' -4 Str/Dex d4+1 rd (Fort neg))",
-  "Quench": "R$RM' Extinguish fire/dispel fire magic/${Lmin10}d6 HP to fire creatures in $L 20' cu (Will neg)",
-  "Rage": "R$RM' $Ldiv3 willing targets +2 Str/Con, +1 Will, -2 AC for conc + $L rd",
-  "Rainbow Pattern": "R$RM' 24 HD creatures in 20' radius facinated for conc + $L rd (Will neg)",
-  "Raise Dead": "Restores life to touched corpse dead le $L dy",
-  "Ray Of Enfeeblement": "R$RS' Ranged touch 1d6+$Ldiv2min5 Str",
-  "Ray Of Exhaustion": "R$RS' Ranged touch causes exhaustion for $L min (Fort fatigued)",
-  "Ray Of Frost": "R$RS' Ranged touch 1d3 HP",
-  "Read Magic": "Self read magical writing",
-  "Reduce Animal": "Touched willing animal half size (-2 Str/+2 Dex/+1 attack/+1 AC) for $L hr",
-  "Reduce Person": "R$RS' Target humanoid half size (-2 Str/+2 Dex/+1 attack/+1 AC) for $L min (Fort neg)",
-  "Refuge": "Breaking trigger transports you/target to other's location",
-  "Regenerate": "Touched regrow maims, heal 4d8+$Lmin35 HP, rid fatigue/exhaustion",
-  "Reincarnate": "Restore target dead le 1 week to new body",
-  "Remove Blindness/Deafness": "Touched cured of blindness or deafness",
-  "Remove Curse": "Dispels all curses from touched",
-  "Remove Disease": "Cures all diseases affecting touched",
-  "Remove Fear": "R$RS' $Lplus3div4 targets +4 vs. fear, existing fear suppressed for 10 min",
-  "Remove Paralysis": "R$RS' Frees one target from paralysis/slow, 2/3/4 targets extra save at +4/+2/+2",
-  "Repel Metal Or Stone": "Repels 60' line of unanchored metal/stone for $L rd",
-  "Repel Vermin": "10' radius bars vermin le $Ldiv3 HD, 2d6 HP to others (Will neg) for $L10 min",
-  "Repel Wood": "Repels 60' line of unanchored wood for $L min",
-  "Repulsion": "Creatures stay $L10' away for $L rd (Will neg)",
-  "Resilient Sphere": "R$RS' Impassible/immobile $L'-diameter sphere surrounds target for $L min (Ref neg)",
-  "Resist Energy": "Touched DR ${lvl>10?30:lvl>6?20:10} from specified energy for $L10 min",
-  "Resistance": "Touched +1 saves for 1 min",
-  "Restoration": "Touched remove magical/temporary/1 permanent ability harm, fatigue/exhaustion, 1 negative level",
-  "Resurrection": "Fully restore target dead $L10 years w/1 negative level",
-  "Reverse Gravity": "Objects in $L10' cu fall upward for $L rd",
-  "Righteous Might": "Self double size (+4 Str/+4 Con/-2 Dex/-1 attack/-1 AC) and DR ${lvl>14?10:5}/align for $L rd",
-  "Rope Trick": "Rope to extradimensional space for 8 creatures for $L hr",
-  "Rusting Grasp": "Touch corrodes 3' radius",
   "Sanctuary": "Touched foes no attack for $L rd/until attacks (Will neg)",
   "Scare": "R$RS' $Ldiv3 targets le 5 HD flee for 1d4 rd (Will shaken 1 rd)",
   "Scintillating Pattern": "R$RS' $Lmin20 HD creatures in 20' radius le 6/12/20 HD unconscious 1d4 rd/stunned 1d4 rd/confused 1d4 rd",
@@ -1806,219 +1737,219 @@ SRD35.SPELLS = {
     'Description="Self fly 40\', +$Ldiv2 Fly for $L hr"',
   "Owl's Wisdom":
     'School=Transmutation Level=C2,D2,P2,R2,W2 ' +
-    'Description="Touched +4 Wis for $L min"'
+    'Description="Touched +4 Wis for $L min"',
 
-/*
   'Pass Without Trace':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D1,R1 ' +
+    'Description="$L touched leave no tracks/scent for $L hr"',
   'Passwall':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W5 ' +
+    'Description="8\'x5\'x$Ldiv3minus1times5min25\' passage through wood/stone/plaster lasts $L hr"',
   'Permanency':
-    'School=Universal Level=X ' +
-    'Description=""',
+    'School=Universal Level=W5 ' +
+    'Description="Make certain spells permanent"',
   'Permanent Image':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B6,W6 ' +
+    'R$RL\' $L10plus40\' cu image w/sound/smell/thermal (Will disbelieve)Description=""',
   'Persistent Image':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B5,W5 ' +
+    'Description="R$RL\' $L10plus40\' cu image w/sound/smell/thermal (Will disbelieve) for $L min"',
   'Phantasmal Killer':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=W4 ' +
+    'Description="R$RM\' Target fears create creature (Will neg), touch kills (Fort 3d6 HP)"',
   'Phantom Steed':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=B3,W3 ' +
+    'Description="Create mount ($Lplus7 HP, AC 18, MV $L20min240) for target for $L hr"',
   'Phantom Trap':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=W2 ' +
+    'Description="Touched object appears trapped"',
   'Phase Door':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W7,Travel8 ' +
+    'Description="Allow passage through 8\'x5\'x$Ldiv3minus1times5min25\' wood/stone/plaster $Ldiv2 times"',
   'Planar Ally':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C6 ' +
+    'Description="Purchase service from extraplanar creature le 12 HD"',
   'Planar Binding':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=W6 ' +
+    'Description="Extraplanar creature(s) le 12 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
   'Plane Shift':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C5,W7 ' +
+    'Description="1 target (Will neg)/8 willing move to another plane"',
   'Plant Growth':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D3,Plant3,R3 ' +
+    'Description="$RL\' vegetation becomes dense or 1/2 mi radius increases productivity"',
   'Poison':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=C4,D3 ' +
+    'Description="Touched 1d3 Con/rd for 6 rd (Fort neg)"',
   'Polar Ray':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=W8 ' +
+    'Description="R$RM\' Ranged touch ${Lmin25}d6 HP/1d4 Dex"',
   'Polymorph':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W4 ' +
+    'Description="Willing target becomes animal/elemental for $L min"',
   'Polymorph Any Object':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W8,Trickery8 ' +
+    'Description="Target become something else (Fort neg)"',
   'Power Word Blind':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=W7,War7 ' +
+    'Description="R$RS\' Target w/ 50/100/200 HP blinded for ever/1d4+1 min/1d4+1 rd"',
   'Power Word Kill':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=W9,War9 ' +
+    'Description="R$RS\' Kills one creature le 100 HP"',
   'Power Word Stun':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=W8,War8 ' +
+    'Description="R$RS\' Target w/ 40/100/150 HP stunned for 4d4/2d4/1d4 rd"',
   'Prayer':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=C3,P3 ' +
+    'Description="Allies w/in 40\' +1 attack/damage/save/skill, foes -1 for $L rd"',
   'Prestidigitation':
-    'School=Universal Level=X ' +
-    'Description=""',
+    'School=Universal Level=B0,W0 ' +
+    'Description="R10\' Perform minor tricks for 1 hr"',
   'Prismatic Sphere':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=Protection9,W9,Sun9 ' +
+    'Description="R$RS\' 10\' sphere blocks attacks for $L10 min"',
   'Prismatic Spray':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=W7 ' +
+    'Description="R60\' cone Blinds le 8 HD 2d4 rd, other effects"',
   'Prismatic Wall':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=W8 ' +
+    'Description="R$RS\' $L4\'x$L2\' wall blocks attacks for $L10 min"',
   'Produce Flame':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=D1,Fire2 ' +
+    'Description="Torch flame 1d6+$Lmin5 HP for $L min"',
   'Programmed Image':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B6,W6 ' +
+    'Description="R$RL\' $L10plus40\' cu image w/sound/smell/thermal (Will disbelieve) for $L rd when triggered"',
   'Project Image':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B6,W7 ' +
+    'Description="R$RM\' See/cast through illusory double for $L rd (Will disbelieve)"',
   'Protection From Arrows':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=W2 ' +
+    'Description="Touched DR 10/magic vs. ranged for $L hr/$L10min100 HP"',
   'Protection From Chaos':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C1,Law1,P1,W1 ' +
+    'Description="Touched +2 AC/+2 saves/extra save vs. mental control/no contact by chaotic creatures for $L min"',
   'Protection From Energy':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C3,D3,Luck3,Protection3,R2,W3 ' +
+    'Description="Touched ignores up to $L12min120 HP from specified energy for $L10 min"',
   'Protection From Evil':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C1,Good1,P1,W1 ' +
+    'Description="Touched +2 AC/+2 saves/extra save vs. mental control/no contact by evil creatures for $L min"',
   'Protection From Good':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C1,Evil1,W1 ' +
+    'Description="Touched +2 AC/+2 saves/extra save vs. mental control/no contact by good creatures for $L min"',
   'Protection From Law':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=Chaos1,C1,W1 ' +
+    'Description="Touched +2 AC/+2 saves/extra save vs. mental control/no contact by lawful creatures for $L min"',
   'Protection From Spells':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=Magic8,W8 ' +
+    'Description="+8 spell saves for $L10 min"',
   'Prying Eyes':
-    'School=Divination Level=X ' +
-    'Description=""',
+    'School=Divination Level=W5 ' +
+    'Description="1d4+$L floating eyes (AC 18, 1 HP) scout 1 mi for $L hr"',
   'Purify Food And Drink':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=C0,D0 ' +
+    'Description="R10\' Make $L\' cu food/water safe (Will neg)"',
   'Pyrotechnics':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=B2,W2 ' +
+    'Description="R$RL\' Fire becomes fireworks (120\' blinded 1d4+1 rd (Will neg)) or choking smoke (20\' -4 Str/Dex d4+1 rd (Fort neg))"',
 
   'Quench':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D3 ' +
+    'Description="R$RM\' Extinguish fire/dispel fire magic/${Lmin10}d6 HP to fire creatures in $L 20\' cu (Will neg)"',
 
   'Rage':
-    'School=Enchantment Level=X ' +
-    'Description=""',
+    'School=Enchantment Level=B2,W3 ' +
+    'Description="R$RM\' $Ldiv3 willing targets +2 Str/Con, +1 Will, -2 AC for conc + $L rd"',
   'Rainbow Pattern':
-    'School=Illusion Level=X ' +
-    'Description=""',
+    'School=Illusion Level=B4,W4 ' +
+    'Description="R$RM\' 24 HD creatures in 20\' radius facinated for conc + $L rd (Will neg)"',
   'Raise Dead':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C5 ' +
+    'Description="Restores life to touched corpse dead le $L dy"',
   'Ray Of Enfeeblement':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=W1 ' +
+    'Description="R$RS\' Ranged touch 1d6+$Ldiv2min5 Str"',
   'Ray Of Exhaustion':
-    'School=Necromancy Level=X ' +
-    'Description=""',
+    'School=Necromancy Level=W3 ' +
+    'Description="R$RS\' Ranged touch causes exhaustion for $L min (Fort fatigued)"',
   'Ray Of Frost':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=W0 ' +
+    'Description="R$RS\' Ranged touch 1d3 HP"',
   'Read Magic':
-    'School=Divination Level=X ' +
-    'Description=""',
+    'School=Divination Level=B0,C0,D0,P1,R1,W0 ' +
+    'Description="Self read magical writing"',
   'Reduce Animal':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D2,R3 ' +
+    'Description="Touched willing animal half size (-2 Str/+2 Dex/+1 attack/+1 AC) for $L hr"',
   'Reduce Person':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W1 ' +
+    'Description="R$RS\' Target humanoid half size (-2 Str/+2 Dex/+1 attack/+1 AC) for $L min (Fort neg)"',
   'Refuge':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C7,W9 ' +
+    'Description="Breaking trigger transports you/target to other\'s location"',
   'Regenerate':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C7,D9,Healing7 ' +
+    'Description="Touched regrow maims, heal 4d8+$Lmin35 HP, rid fatigue/exhaustion"',
   'Reincarnate':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D4 ' +
+    'Description="Restore target dead le 1 week to new body"',
   'Remove Blindness/Deafness':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C3,P3 ' +
+    'Description="Restore target dead le 1 week to new body"',
   'Remove Curse':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=B3,C3,P3,W4 ' +
+    'Description="Dispels all curses from touched"',
   'Remove Disease':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C3,D3,R3 ' +
+    'Description="Cures all diseases affecting touched"',
   'Remove Fear':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=B1,C1 ' +
+    'Description="R$RS\' $Lplus3div4 targets +4 vs. fear, existing fear suppressed for 10 min"',
   'Remove Paralysis':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C2,P2 ' +
+    'Description="R$RS\' Frees one target from paralysis/slow, 2/3/4 targets extra save at +4/+2/+2""',
   'Repel Metal Or Stone':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=D8 ' +
+    'Description="Repels 60\' line of unanchored metal/stone for $L rd"',
   'Repel Vermin':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=B4,C4,D4,R3 ' +
+    'Description="10\' radius bars vermin le $Ldiv3 HD, 2d6 HP to others (Will neg) for $L10 min"',
   'Repel Wood':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D6,Plant6 ' +
+    'Description="Repels 60\' line of unanchored wood for $L min"',
   'Repulsion':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C7,Protection7,W6 ' +
+    'Description="Creatures stay $L10\' away for $L rd (Will neg)"',
   'Resilient Sphere':
-    'School=Evocation Level=X ' +
-    'Description=""',
+    'School=Evocation Level=W4 ' +
+    'Description="R$RS\' Impassible/immobile $L\'-diameter sphere surrounds target for $L min (Ref neg)"',
   'Resist Energy':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=C2,D2,Fire3,P2,R1,W2 ' +
+    'Description="Touched DR ${lvl>10?30:lvl>6?20:10} from specified energy for $L10 min"',
   'Resistance':
-    'School=Abjuration Level=X ' +
-    'Description=""',
+    'School=Abjuration Level=B0,C0,D0,P1,W0 ' +
+    'Description="Touched +1 saves for 1 min"',
   'Restoration':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C4,P4 ' +
+    'Description="Touched remove magical/temporary/1 permanent ability harm, fatigue/exhaustion, 1 negative level"',
   'Resurrection':
-    'School=Conjuration Level=X ' +
-    'Description=""',
+    'School=Conjuration Level=C7 ' +
+    'Description="Fully restore target dead $L10 years w/1 negative level"',
   'Reverse Gravity':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D8W7 ' +
+    'Description="Objects in $L10\' cu fall upward for $L rd"',
   'Righteous Might':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=C5,Strength5 ' +
+    'Description="Self double size (+4 Str/+4 Con/-2 Dex/-1 attack/-1 AC) and DR ${lvl>14?10:5}/align for $L rd"',
   'Rope Trick':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=W2 ' +
+    'Description="Rope to extradimensional space for 8 creatures for $L hr"',
   'Rusting Grasp':
-    'School=Transmutation Level=X ' +
-    'Description=""',
+    'School=Transmutation Level=D4 ' +
+    'Description="Touch corrodes 3\' radius"'
 
+/*
   'Sanctuary':
     'School=Abjuration Level=X ' +
     'Description=""',
