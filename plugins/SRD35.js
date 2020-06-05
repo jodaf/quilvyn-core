@@ -79,9 +79,8 @@ function SRD35() {
   for(var weapon in SRD35.WEAPONS) {
     SRD35.addChoice(rules, 'weapons', weapon, SRD35.WEAPONS[weapon]);
   }
-  SRD35.equipmentRules(rules);
+  SRD35.goodiesRules(rules);
   SRD35.combatRules(rules);
-  SRD35.movementRules(rules);
   rules.defineChoice
     ('extras', 'feats', 'featCount', 'selectableFeatureCount', 'spellsKnown');
   rules.defineChoice('preset', 'race', 'level', 'levels');
@@ -203,7 +202,7 @@ SRD35.DEITIES = {
 };
 SRD35.DOMAINS = {
   'Air':'Turn=Earth',
-  'Animal':'',
+  'Animal':'ClassSkill="Knowledge (Nature)"',
   'Chaos':'Bump=Chaos',
   'Death':'',
   'Destruction':'',
@@ -212,16 +211,16 @@ SRD35.DOMAINS = {
   'Fire':'Turn=Water',
   'Good':'Bump=Good',
   'Healing':'Bump=Heal',
-  'Knowledge':'Bump=Divination',
+  'Knowledge':'Bump=Divination ClassSkill="all Knowledge"',
   'Law':'Bump=Law',
   'Luck':'',
   'Magic':'',
-  'Plant':'Turn=Plant',
+  'Plant':'Turn=Plant ClassSkill="Knowledge (Nature)"',
   'Protection':'',
   'Strength':'',
   'Sun':'',
-  'Travel':'',
-  'Trickery':'',
+  'Travel':'ClassSkill=Survival',
+  'Trickery':'ClassSkill=Bluff,Disguise,Hide',
   'War':'',
   'Water':'Turn=Fire'
 };
@@ -2412,6 +2411,18 @@ SRD35.abilityRules = function(rules) {
     rules.defineRule(ability + '.1', ability + 'Modifier', '=', null);
   }
 
+  rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
+  rules.defineRule('loadMax',
+    'strength', '=', 'SRD35.strengthMaxLoads[source]',
+    'features.Small', '*', '0.75'
+  );
+  rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
+  rules.defineRule('runSpeed',
+    'speed', '=', null,
+    'runSpeedMultiplier', '*', null
+  );
+  rules.defineRule('speed', '', '=', '30');
+
   // Effects of ability modifiers
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
     'constitutionModifier', '=', null,
@@ -2457,14 +2468,20 @@ SRD35.abilityRules = function(rules) {
   ];
   rules.defineNote(notes);
   rules.defineRule('validationNotes.abilityMinimum',
-    '', '=', '-1',
-    /^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/,
-    '^', 'source >= 14 ? 0 : null'
+    'charisma', '=', 'source >= 14 ? 0 : -1',
+    'constitution', '^', 'source >= 14 ? 0 : null',
+    'dexterity', '^', 'source >= 14 ? 0 : null',
+    'intelligence', '^', 'source >= 14 ? 0 : null',
+    'strength', '^', 'source >= 14 ? 0 : null',
+    'wisdom', '^', 'source >= 14 ? 0 : null'
   );
   rules.defineRule('validationNotes.abilityModifierSum',
     'charismaModifier', '=', 'source - 1',
-    /^(constitution|dexterity|intelligence|strength|wisdom)Modifier$/,
-    '+', null,
+    'constitutionModifier', '+', null,
+    'dexterityModifier', '+', null,
+    'intelligenceModifier', '+', null,
+    'strengthModifier', '+', null,
+    'wisdomModifier', '+', null,
     '', 'v', '0'
   );
 
@@ -3771,8 +3788,8 @@ SRD35.createViewers = function(rules, viewers) {
   }
 };
 
-/* Defines the rules related to equipment. */
-SRD35.equipmentRules = function(rules) {
+/* Defines the rules related to goodies listed in character notes. */
+SRD35.goodiesRules = function(rules) {
 
   rules.defineRule('goodiesList', 'notes', '=',
     'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
@@ -4774,21 +4791,6 @@ SRD35.featRules = function(rules, feats, subfeats) {
       rules.defineNote(notes);
   }
 
-};
-
-/* Defines the rules related to character movement. */
-SRD35.movementRules = function(rules) {
-  rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
-  rules.defineRule('loadMax',
-    'strength', '=', 'SRD35.strengthMaxLoads[source]',
-    'features.Small', '*', '0.75'
-  );
-  rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
-  rules.defineRule('runSpeed',
-    'speed', '=', null,
-    'runSpeedMultiplier', '*', null
-  );
-  rules.defineRule('speed', '', '=', '30');
 };
 
 /* Defines the rules related to character races. */
@@ -5913,7 +5915,8 @@ SRD35.addChoice = function(rules, type, name, attrs) {
   else if(type == 'domains')
     SRD35.domainRules(rules, name,
       QuilvynRules.getAttrValue(attrs, 'Turn'),
-      QuilvynRules.getAttrValue(attrs, 'Bump')
+      QuilvynRules.getAttrValue(attrs, 'Bump'),
+      QuilvynRules.getAttrValueArray(attrs, 'ClassSkill')
     );
   else if(type == 'familiars')
     SRD35.familiarRules(rules, name,
@@ -6309,12 +6312,12 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
       rules.defineRule('clericFeatures.' + focusFeature,
         'domains.War', '?', null,
         'levels.Cleric', '?', null,
-        'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source].indexOf("' + weapon + '") >= 0  ? 1 : null'
+        'deity', '=', 'source in ' + QuilvynUtils.dictLit(rules.deityStats.weapon) + ' && ' + QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source].indexOf("' + weapon + '") >= 0  ? 1 : null'
       );
       rules.defineRule('clericFeatures.' + proficiencyFeature,
         'domains.War', '?', null,
         'levels.Cleric', '?', null,
-        'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
+        'deity', '=', 'source in ' + QuilvynUtils.dictLit(rules.deityStats.weapon) + ' && ' + QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
       );
       rules.defineRule
         ('features.' + focusFeature, 'clericFeatures.' + focusFeature, '=', null);
@@ -6327,35 +6330,22 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
 /*
  * TODO
  */
-SRD35.domainRules = function(rules, name, turn, casterLevelBump) {
+SRD35.domainRules = function(rules, name, turn, casterLevelBump, classSkills) {
 
   var notes = [];
   var prefix =
     name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(name == 'Animal') {
-    notes = [
-      'magicNotes.animalDomain:<i>Speak With Animals</i> 1/dy',
-      'skillNotes.animalDomain:Knowledge (Nature) is a class skill'
-    ];
-    rules.defineRule
-      ('classSkills.Knowledge (Nature)', 'skillNotes.animalDomain', '=', '1');
+    notes = ['magicNotes.animalDomain:<i>Speak With Animals</i> 1/dy'];
   } else if(name == 'Death') {
     notes = [
       'magicNotes.deathDomain:Touch kills if %Vd6 ge target HP 1/dy'];
     rules.defineRule('magicNotes.deathDomain', 'levels.Cleric', '=', null);
   } else if(name == 'Destruction') {
-    notes = [
-      'combatNotes.destructionDomain:+4 attack, +%V damage smite 1/day'
-    ];
+    notes = ['combatNotes.destructionDomain:+4 attack, +%V damage smite 1/day'];
     rules.defineRule
       ('combatNotes.destructionDomain', 'levels.Cleric', '=', null);
-  } else if(name == 'Knowledge') {
-    notes = [
-      'skillNotes.knowledgeDomain:All Knowledge skills are class skills'
-    ];
-    rules.defineRule
-      (/^classSkills.Knowledge/, 'skillNotes.knowledgeDomain', '=', '1');
   } else if(name == 'Luck') {
     notes = ['saveNotes.luckDomain:Reroll 1/day'];
   } else if(name == 'Magic') {
@@ -6364,12 +6354,6 @@ SRD35.domainRules = function(rules, name, turn, casterLevelBump) {
       'levels.Cleric', '=', 'Math.floor(source / 2)',
       'levels.Wizard', '+', null
     );
-  } else if(name == 'Plant') {
-    notes = [
-      'skillNotes.plantDomain:Knowledge (Nature) is a class skill'
-    ];
-    rules.defineRule
-      ('classSkills.Knowledge (Nature)', 'skillNotes.plantDomain', '=', '1');
   } else if(name == 'Protection') {
     notes = [
       'magicNotes.protectionDomain:' +
@@ -6384,37 +6368,32 @@ SRD35.domainRules = function(rules, name, turn, casterLevelBump) {
   } else if(name == 'Sun') {
     notes = ['combatNotes.sunDomain:Destroy turned undead 1/day'];
   } else if(name == 'Travel') {
-    notes = [
-      'magicNotes.travelDomain:Self move freely %V rd/day',
-      'skillNotes.travelDomain:Survival is a class skill'
-    ];
-    rules.defineRule
-      ('classSkills.Survival', 'skillNotes.travelDomain', '=', '1');
+    notes = ['magicNotes.travelDomain:Self move freely %V rd/day'];
     rules.defineRule('magicNotes.travelDomain', 'levels.Cleric', '=', null);
-  } else if(name == 'Trickery') {
-    notes =
-      ['skillNotes.trickeryDomain:Bluff/Disguise/Hide are class skills'];
-    rules.defineRule
-      ('classSkills.Bluff', 'skillNotes.trickeryDomain', '=', '1');
-    rules.defineRule
-      ('classSkills.Disguise', 'skillNotes.trickeryDomain', '=', '1');
-    rules.defineRule
-      ('classSkills.Hide', 'skillNotes.trickeryDomain', '=', '1');
   } else if(name == 'War') {
     notes = [
-      'featureNotes.warDomain:' +
-        'Weapon Proficiency/Weapon Focus in favored weapon'
+      'featureNotes.warDomain:Weapon Proficiency/Weapon Focus in favored weapon'
     ];
   }
 
-  if(casterLevelBump)
+  if(casterLevelBump != null)
     notes.push
       ('magicNotes.' + prefix + 'Domain:+1 caster level ' + casterLevelBump + ' spells');
+
+  if(classSkills != null && classSkills.length > 0) {
+    var note = 'skillNotes.' + prefix + 'Domain';
+    rules.defineNote(note + ':' + classSkills.join('/') + ' class skill');
+    if(classSkills[0].startsWith('all '))
+      classSkills[0] = classSkills[0].substring(4);
+    for(var i = 0; i < classSkills.length; i++) {
+      rules.defineRule('classSkills.' + classSkills[i], note, '=', '1');
+    }
+  }
 
   if(turn != null) {
     notes.push
       ('combatNotes.' + prefix + 'Domain:Turn ' + turn + ', rebuke ' + name);
-    var prefix = 'turn' + turn;
+    prefix = 'turn' + turn;
     rules.defineRule(prefix + '.level',
       'domains.' + name, '?', null,
       'levels.Cleric', '+=', null
@@ -6439,8 +6418,10 @@ SRD35.domainRules = function(rules, name, turn, casterLevelBump) {
     ]);
     rules.defineSheetElement('Turn ' + turn, 'Turn Undead', null, '; ');
   }
+
   if(notes.length > 0)
     rules.defineNote(notes);
+
   rules.defineNote
     ('validationNotes.domainAllocation:%1 available vs. %2 allocated');
   rules.defineRule('validationNotes.domainAllocation.1',
@@ -6699,7 +6680,7 @@ SRD35.skillRules = function(
 
   rules.defineRule('skillModifier.' + name,
     'skills.' + name, '=', 'source / 2',
-    'classSkills.' + name, '*', '2'
+    'skills.' + name + '.2', '*', 'source == "" ? 2 : null'
   );
   rules.defineNote('skills.' + name + ':(%1%2) %V (%3)');
   if(ability)
@@ -6712,6 +6693,11 @@ SRD35.skillRules = function(
     '', '=', '";cc"',
     'classSkills.' + name, '=', '""'
   );
+  if(name.indexOf(' (') >= 0) {
+    rules.defineRule('skills.' + name + '.2',
+      'classSkills.' + name.replace(/ \(.*/, ''), '=', '""'
+    );
+  }
   rules.defineRule('skills.' + name + '.3', 'skillModifier.' + name, '=', null);
 
   if(ability)
