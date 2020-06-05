@@ -4196,9 +4196,8 @@ SRD35.featRules = function(rules, feats, subfeats) {
         'validationNotes.extraTurningFeatTurningLevel:' +
           'Requires Turning Level >= 1'
       ];
-      rules.defineRule(/^turn.*\.frequency$/,
-        'combatNotes.extraTurningFeature', '+', '4 * source'
-      );
+      rules.defineRule
+        ('turnUndead.frequency', 'combatNotes.extraTurningFeature', '+', '4');
     } else if(feat == 'Far Shot') {
       notes = [
         'combatNotes.farShotFeature:x1.5 projectile range, x2 thrown',
@@ -6304,20 +6303,21 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
     };
   }
   if(favoredWeapons != null) {
-    rules.deityStats.weapon[name] = favoredWeapons.join(',');
+    rules.deityStats.weapon[name] = favoredWeapons.join('/');
+    rules.defineRule('deityFavoredWeapon',
+      'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source]'
+    );
     for(var j = 0; j < favoredWeapons.length; j++) {
       var weapon = favoredWeapons[j];
       var focusFeature = 'Weapon Focus (' + weapon + ')';
       var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
       rules.defineRule('clericFeatures.' + focusFeature,
-        'domains.War', '?', null,
-        'levels.Cleric', '?', null,
-        'deity', '=', 'source in ' + QuilvynUtils.dictLit(rules.deityStats.weapon) + ' && ' + QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source].indexOf("' + weapon + '") >= 0  ? 1 : null'
+        'featureNotes.warDomain', '?', null,
+        'deityFavoredWeapon', '=', 'source && source.indexOf("' + weapon + '") >= 0 ? 1 : null'
       );
       rules.defineRule('clericFeatures.' + proficiencyFeature,
-        'domains.War', '?', null,
-        'levels.Cleric', '?', null,
-        'deity', '=', 'source in ' + QuilvynUtils.dictLit(rules.deityStats.weapon) + ' && ' + QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source].indexOf("' + weapon + '") >= 0 ? 1 : null'
+        'featureNotes.warDomain', '?', null,
+        'deityFavoredWeapon', '=', 'source && source.indexOf("' + weapon + '") >= 0 ? 1 : null'
       );
       rules.defineRule
         ('features.' + focusFeature, 'clericFeatures.' + focusFeature, '=', null);
@@ -6372,8 +6372,9 @@ SRD35.domainRules = function(rules, name, turn, casterLevelBump, classSkills) {
     rules.defineRule('magicNotes.travelDomain', 'levels.Cleric', '=', null);
   } else if(name == 'War') {
     notes = [
-      'featureNotes.warDomain:Weapon Proficiency/Weapon Focus in favored weapon'
+      'featureNotes.warDomain:Weapon Proficiency/Weapon Focus in %V'
     ];
+    rules.defineRule('featureNotes.warDomain', 'deityFavoredWeapon', '=', null);
   }
 
   if(casterLevelBump != null)
@@ -6382,7 +6383,7 @@ SRD35.domainRules = function(rules, name, turn, casterLevelBump, classSkills) {
 
   if(classSkills != null && classSkills.length > 0) {
     var note = 'skillNotes.' + prefix + 'Domain';
-    rules.defineNote(note + ':' + classSkills.join('/') + ' class skill');
+    rules.defineNote(note + ':' + classSkills.join('/') + ' is a class skill');
     if(classSkills[0].startsWith('all '))
       classSkills[0] = classSkills[0].substring(4);
     for(var i = 0; i < classSkills.length; i++) {
@@ -6390,34 +6391,9 @@ SRD35.domainRules = function(rules, name, turn, casterLevelBump, classSkills) {
     }
   }
 
-  if(turn != null) {
+  if(turn != null)
     notes.push
       ('combatNotes.' + prefix + 'Domain:Turn ' + turn + ', rebuke ' + name);
-    prefix = 'turn' + turn;
-    rules.defineRule(prefix + '.level',
-      'domains.' + name, '?', null,
-      'levels.Cleric', '+=', null
-    );
-    rules.defineRule('turningLevel', prefix + '.level', '^=', null);
-    rules.defineRule(prefix + '.damageModifier',
-      prefix + '.level', '=', null,
-      'charismaModifier', '+', null
-    );
-    rules.defineRule(prefix + '.frequency',
-      prefix + '.level', '=', '3',
-      'charismaModifier', '+', null
-    );
-    rules.defineRule(prefix + '.maxHitDice',
-      prefix + '.level', '=', 'source * 3 - 10',
-      'charismaModifier', '+', null
-    );
-    rules.defineNote([
-      prefix + '.damageModifier:2d6+%V',
-      prefix + '.frequency:%V/day',
-      prefix + '.maxHitDice:(d20+%V)/3'
-    ]);
-    rules.defineSheetElement('Turn ' + turn, 'Turn Undead', null, '; ');
-  }
 
   if(notes.length > 0)
     rules.defineNote(notes);
