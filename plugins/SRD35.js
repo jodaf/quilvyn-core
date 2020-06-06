@@ -44,7 +44,7 @@ function SRD35() {
   }
   for(var companion in SRD35.ANIMAL_COMPANIONS) {
     SRD35.addChoice
-      (rules, 'companions', companion, SRD35.ANIMAL_COMPANIONS[companion]);
+      (rules, 'animalCompanions', companion, SRD35.ANIMAL_COMPANIONS[companion]);
   }
   for(var armor in SRD35.ARMORS) {
     SRD35.addChoice(rules, 'armors', armor, SRD35.ARMORS[armor]);
@@ -242,19 +242,19 @@ SRD35.FAMILIARS = {
   'Dust Mephit': 'Attack=4 HD=3 AC=17 Dam=2@1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Earth Elemental': 'Attack=5 HD=2 AC=17 Dam=1d6+4 Str=17 Dex=8 Con=13 Int=4 Wis=11 Cha=11 Level=5',
   'Earth Mephit': 'Attack=7 HD=3 AC=16 Dam=2@1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
-  'Fire Elemental': 'Attack=3 HD=2 AC=15 Dam=1d4+1d4 Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 Level=5',
-  'Fire Mephit': 'Attack=4 HD=3 AC=16 Dam=2@1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Fire Elemental': 'Attack=3 HD=2 AC=15 Dam=1d4,1d4 Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 Level=5',
+  'Fire Mephit': 'Attack=4 HD=3 AC=16 Dam=2@1d3,1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Formian Worker': 'Attack=3 HD=1 AC=17 Dam=1d4+1 Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 Level=7',
   'Homunculus': 'Attack=2 HD=2 AC=14 Dam=1d4-1 Str=8 Dex=15 Con=0 Int=10 Wis=12 Cha=7 Level=7',
-  'Ice Mephit': 'Attack=4 HD=3 AC=18 Dam=2@1d3+1d4 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Ice Mephit': 'Attack=4 HD=3 AC=18 Dam=2@1d3,1d4 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Imp': 'HD=3 AC=20 Dam=1d4 Str=10 Dex=20 Con=10 Int=10 Wis=12 Cha=14 Level=7',
-  'Magma Mephit': 'Attack=4 HD=3 AC=16 Dam=2@1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Magma Mephit': 'Attack=4 HD=3 AC=16 Dam=2@1d3,1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Ooze Mephit': 'Attack=6 HD=3 AC=16 Dam=2@1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
   'Pseudodragon': 'Attack=6 HD=2 AC=18 Dam=1d3-2 Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 Level=7',
-  'Quasit': 'Attack=8 HD=3 AC=18 Dam=1d3-1+1d4-1 Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 Level=7',
+  'Quasit': 'Attack=8 HD=3 AC=18 Dam=1d3-1,1d4-1 Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 Level=7',
   'Salt Mephit': 'Attack=7 HD=3 AC=16 Dam=2@1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
   'Shocker Lizard': 'Attack=3 HD=2 AC=16 Dam=1d4 Str=10 Dex=15 Con=13 Int=2 Wis=12 Cha=6 Level=5',
-  'Steam Mephit': 'Attack=4 HD=3 AC=16 Dam=2@1d3+1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
+  'Steam Mephit': 'Attack=4 HD=3 AC=16 Dam=2@1d3,1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Stirge': 'Attack=7 HD=1 AC=16 Dam=0 Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 Level=5',
   'Water Elemental': 'Attack=4 HD=2 AC=17 Dam=1d6+3 Str=14 Dex=10 Con=13 Int=4 Wis=11 Cha=11 Level=5',
   'Water Mephit': 'Attack=6 HD=3 AC=16 Dam=2@1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7'
@@ -5885,15 +5885,7 @@ SRD35.addChoice = function(rules, type, name, attrs) {
     rules.addChoice(type, name, attrs);
   if(type == 'alignments')
     SRD35.alignmentRules(rules, name);
-  else if(type == 'armors')
-    SRD35.armorRules(rules, name,
-      QuilvynRules.getAttrValue(attrs, 'AC'),
-      QuilvynRules.getAttrValue(attrs, 'Level'),
-      QuilvynRules.getAttrValue(attrs, 'Dex'),
-      QuilvynRules.getAttrValue(attrs, 'Skill'),
-      QuilvynRules.getAttrValue(attrs, 'Spell')
-    );
-  else if(type == 'companions')
+  else if(type == 'animalCompanions')
     SRD35.companionRules(rules, name,
       QuilvynRules.getAttrValue(attrs, 'Str'),
       QuilvynRules.getAttrValue(attrs, 'Int'),
@@ -5904,8 +5896,16 @@ SRD35.addChoice = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'HD'),
       QuilvynRules.getAttrValue(attrs, 'AC'),
       QuilvynRules.getAttrValue(attrs, 'Attack'),
-      QuilvynRules.getAttrValue(attrs, 'Dam'),
+      QuilvynRules.getAttrValueArray(attrs, 'Dam'),
       QuilvynRules.getAttrValue(attrs, 'Level')
+    );
+  else if(type == 'armors')
+    SRD35.armorRules(rules, name,
+      QuilvynRules.getAttrValue(attrs, 'AC'),
+      QuilvynRules.getAttrValue(attrs, 'Level'),
+      QuilvynRules.getAttrValue(attrs, 'Dex'),
+      QuilvynRules.getAttrValue(attrs, 'Skill'),
+      QuilvynRules.getAttrValue(attrs, 'Spell')
     );
   else if(type == 'deities')
     SRD35.deityRules(rules, name,
@@ -5928,7 +5928,7 @@ SRD35.addChoice = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'HD'),
       QuilvynRules.getAttrValue(attrs, 'AC'),
       QuilvynRules.getAttrValue(attrs, 'Attack'),
-      QuilvynRules.getAttrValue(attrs, 'Dam'),
+      QuilvynRules.getAttrValueArray(attrs, 'Dam'),
       QuilvynRules.getAttrValue(attrs, 'Level')
     );
   else if(type == 'genders')
@@ -6075,7 +6075,7 @@ SRD35.armorRules = function(
  * TODO
  */
 SRD35.companionRules = function(
-  rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, dam, level
+  rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, level
 ) {
 
   rules.defineNote(
@@ -6100,14 +6100,13 @@ SRD35.companionRules = function(
   rules.defineRule
     ('animalCompanionStats.AC', 'animalCompanion.' + name, '=', ac);
   rules.defineRule('companionAttack', 'animalCompanion.' + name, '+', attack);
-  var damages = typeof dam == "string" ? dam.split(',') : [dam + ''];
-  var matchInfo = damages[0].match(/([^-+]*)([-+]\d+)?/);
+  var matchInfo = (damage[0] + '').match(/([^-+]*)([-+]\d+)?/);
   rules.defineRule('animalCompanionStats.Melee.1',
     'animalCompanion.' + name, '=', '"' + matchInfo[1] + '"'
   );
-  if(damages.length > 1) {
+  if(damage.length > 1) {
     // Second attack
-    matchInfo = damages[1].match(/([^-+]*)([-+]\d+)?/);
+    matchInfo = (damage[1] + '').match(/([^-+]*)([-+]\d+)?/);
     rules.defineRule('animalCompanionStats.Melee.3',
       'animalCompanion.' + name, '=', '",' + matchInfo[1] + '"'
     );
@@ -6424,7 +6423,7 @@ SRD35.domainRules = function(rules, name, turn, casterLevelBump, classSkills) {
  * TODO
  */
 SRD35.familiarRules = function(
-  rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, dam, level
+  rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, level
 ) {
 
   rules.defineNote(
@@ -6441,8 +6440,9 @@ SRD35.familiarRules = function(
   rules.defineRule('familiarStats.HD', 'familiar.' + name, '=', hd);
   rules.defineRule('familiarStats.AC', 'familiar.' + name, '=', ac);
   rules.defineRule('familiarAttack', 'familiar.' + name, '+', attack);
-  rules.defineRule
-    ('familiarStats.Melee.1', 'familiar.' + name, '=', '"' + dam + '"');
+  rules.defineRule('familiarStats.Melee.1',
+    'familiar.' + name, '=', '"' + damage.join(',') + '"'
+  );
   if(level != null && level > 1) {
     rules.defineNote('validationNotes.familiarMasterLevel:Requires %1');
     rules.defineRule('validationNotes.familiarMasterLevel.1',
