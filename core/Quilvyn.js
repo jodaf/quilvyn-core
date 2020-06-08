@@ -319,7 +319,7 @@ Quilvyn.importCharacters = function(focus) {
   }
 
   Quilvyn.importCharacters.win.close();
-  Quilvyn.importCharacters.win = false;
+  Quilvyn.importCharacters.win = null;
   Quilvyn.refreshEditor(false);
   Quilvyn.refreshSheet();
 
