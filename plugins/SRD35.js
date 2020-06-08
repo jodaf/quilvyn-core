@@ -2801,7 +2801,6 @@ SRD35.classRules = function(rules, classes) {
          'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule('casterLevels.Dom', 'casterLevels.C', '+=', null);
-      rules.defineRule('casterLevelDivine', 'casterLevels.C', '+=', null);
       rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
       rules.defineRule('magicNotes.spontaneousClericSpellFeature',
         'alignment', '=', 'source.match(/Evil/)?"<i>Inflict</i>":"<i>Cure</i>"'
@@ -2885,7 +2884,6 @@ SRD35.classRules = function(rules, classes) {
         'levels.Druid', '=', null,
         'magicNotes.casterLevelBonusFeature', '+', null
       );
-      rules.defineRule('casterLevelDivine', 'casterLevels.D', '+=', null);
       rules.defineRule('languageCount', 'levels.Druid', '+', '1');
       rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
       rules.defineRule('magicNotes.elementalShapeFeature',
@@ -3133,7 +3131,6 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule(
         'casterLevels.P', 'casterLevels.Paladin', '=', 'Math.floor(source)'
       );
-      rules.defineRule('casterLevelDivine', 'casterLevels.P', '+=', null);
       rules.defineRule('combatNotes.smiteEvilFeature',
         'charismaModifier', '=', 'source > 0 ? source : 0'
       );
@@ -3240,7 +3237,6 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule(
         'casterLevels.R', 'casterLevels.Ranger', '=', 'Math.floor(source)'
       );
-      rules.defineRule('casterLevelDivine', 'casterLevels.R', '+=', null);
       rules.defineRule('combatNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
@@ -6410,11 +6406,6 @@ SRD35.domainRules = function(rules, name, turn, casterLevelBump, classSkills) {
   rules.defineRule('validationNotes.domainAllocation',
     'validationNotes.domainAllocation.1', '=', '-source',
     'validationNotes.domainAllocation.2', '+=', null
-  );
-
-  rules.defineRule('casterLevel',
-    'casterLevelArcane', '+=', null,
-    'casterLevelDivine', '+=', null
   );
 
 };
