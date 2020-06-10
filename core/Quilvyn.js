@@ -126,15 +126,76 @@ Quilvyn.addRuleSet = function(rs) {
   var customRulePrefix = PERSISTENT_RULE_PREFIX + rs.getName() + '.';
   for(var path in STORAGE) {
     if(path.startsWith(customRulePrefix)) {
-      var typeAndName = path.substring(customRulePrefix.length).split(' ');
-      rs.addChoice(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
+      var typeAndName = path.substring(customRulePrefix.length).split('.');
+      SRD35.addChoice(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
     }
   }
 };
 
 /* TODO */
-Quilvyn.customChoicesAdd = function(focus) {
-  // TODO
+Quilvyn.customChoicesAdd = function(focus, input) {
+
+  if(focus && Quilvyn.customChoicesAdd.win != null) {
+    // Prior add still pending
+    Quilvyn.customChoicesAdd.win.focus();
+    return;
+  } else if(Quilvyn.customChoicesAdd.win == null) {
+    var choices = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
+    var htmlBits = [
+      '<html><head><title>Add Custom Choice</title></head>',
+      '<body bgcolor="' + window.BACKGROUND + '">',
+      '<img src="' + LOGO_URL + '"/><br/>'
+    ];
+    htmlBits.push(
+      '<form>',
+      '<b>Type</b>',
+      InputHtml('type', 'select-one', choices),
+      '<b>Name</b>',
+      InputHtml('name', 'text', [20]),
+      '</form><form>',
+      '</form><form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '</form></body></html>'
+    );
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.customChoicesAdd.win = window.open('', '__rules_custom', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.customChoicesAdd.win.document.write(html);
+    Quilvyn.customChoicesAdd.win.document.close();
+    Quilvyn.customChoicesAdd.win.okay = false;
+    Quilvyn.customChoicesAdd.win.focus();
+    Quilvyn.customChoicesAdd(false, Quilvyn.customChoicesAdd.win.document.forms[0]['type']);
+    return;
+  } else if(Quilvyn.customChoicesAdd.win.closed) {
+    // User cancel
+    Quilvyn.customChoicesAdd.win = null;
+    return;
+  } else if(!Quilvyn.customChoicesAdd.win.okay) {
+    if(input != null) {
+      alert('Selection changed');
+/*
+      var elements = ruleSet.choiceEditorElements(choices[0]);
+      for(var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        var label = element[1];
+        var name = element[0];
+        var params = element[3];
+        var type = element[2];
+        if(label != '')
+          htmlBits.push('<b>' + label + '</b>');
+         htmlBits.push(InputHtml(name, type, params), '<br/>');;
+      }
+*/
+    }
+    // Try again later
+    setTimeout('Quilvyn.customChoicesAdd(false)', TIMEOUT_DELAY);
+    return;
+  }
+
+  // Ready to add choice
+  Quilvyn.customChoicesAdd.win.close();
+  Quilvyn.customChoicesAdd.win = null;
+
 };
 
 /* TODO */
@@ -156,9 +217,9 @@ Quilvyn.customChoicesDelete = function() {
     return;
   }
   STORAGE.removeItem(prefix + path);
-  var pieces = path.split(' ');
+  var pieces = path.split('.');
   ruleSet.deleteChoice(ruleSet, pieces[0], pieces[1]);
-  Quilvyn.refreshEditor(false);
+  Quilvyn.refreshEditor(true);
 };
 
 /* TODO */
@@ -166,12 +227,13 @@ Quilvyn.customChoicesExport = function() {
   var htmlBits = [
     '<html><head><title>Export Custom Choices</title></head>',
     '<body bgcolor="' + window.BACKGROUND + '">',
-    '<img src="' + LOGO_URL + ' "/><br/>'];
+    '<img src="' + LOGO_URL + ' "/><br/>'
+  ];
   var prefix = PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.';
   for(var path in STORAGE) {
     if(!path.startsWith(prefix))
       continue;
-    var text = ObjectViewer.toCode(path.substring(prefix.length) + ' ' + STORAGE.getItem(path)).
+    var text = (path.substring(prefix.length) + '.' + STORAGE.getItem(path)).
       replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     htmlBits.push("<pre>\n" + text + "\n</pre><br/>\n");
   }
@@ -228,17 +290,17 @@ Quilvyn.customChoicesImport = function(focus) {
   var lines = Quilvyn.customChoicesImport.win.document.frm.elements[0].value.split('\n');
 
   for(var i = 0; i < lines.length; i++) {
-    var pieces = lines[i].split(' ');
+    var pieces = lines[i].split('.');
     var choiceType = pieces.shift();
     var choiceName = pieces.shift();
-    var choiceAttrs = pieces.join(' ');
-    ruleSet.addChoice(choiceType, choiceName, choiceAttrs);
-    STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + choiceType + ' ' + choiceName, choiceAttrs);
+    var choiceAttrs = pieces.join('.');
+    SRD35.addChoice(ruleSet, choiceType, choiceName, choiceAttrs);
+    STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + choiceType + '.' + choiceName, choiceAttrs);
   }
 
   Quilvyn.customChoicesImport.win.close();
   Quilvyn.customChoicesImport.win = null;
-  Quilvyn.refreshEditor(false);
+  Quilvyn.refreshEditor(true);
 
 };
 

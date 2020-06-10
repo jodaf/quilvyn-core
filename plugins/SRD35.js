@@ -81,6 +81,10 @@ function SRD35() {
   }
   SRD35.goodiesRules(rules);
   SRD35.combatRules(rules);
+  rules.defineChoice(
+    'choices', 'armors', 'deities', 'domains', 'familiars', 'genders',
+    'languages', 'schools', 'shields', 'skills', 'spells', 'weapons'
+  );
   rules.defineChoice
     ('extras', 'feats', 'featCount', 'selectableFeatureCount', 'spellsKnown');
   rules.defineChoice('preset', 'race', 'level', 'levels');
@@ -5124,6 +5128,68 @@ SRD35.randomName = function(race) {
   return result.substring(0, 1).toUpperCase() +
          result.substring(1).toLowerCase();
 
+};
+
+SRD35.choiceEditorElements = function(rules, type) {
+  var result = [];
+  if(type == 'armors')
+    // TODO
+    result.push(
+    );
+  else if(type == 'deities')
+    result.push(
+      ['weapon', 'Weapons', 'bag', 'weapons'],
+      ['domain', 'Domains', 'bag', 'domains']
+    );
+  else if(type == 'domains')
+    result.push(
+      ['turn', 'Turn', 'bag', 'domains'],
+      ['classSkill', 'Class Skills', 'bag', 'skills'],
+      ['bump', 'Spell DC Bump', 'text', '30']
+    );
+  else if(type == 'familiars')
+    // TODO
+    result.push(
+    );
+  else if(type == 'genders')
+    result.push(
+      // empty
+    );
+  else if(type == 'languages')
+    result.push(
+      // empty
+    );
+  else if(type == 'schools')
+    result.push(
+      // empty
+    );
+  else if(type == 'shields')
+    result.push(
+      ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
+      ['skillFail', 'Skill Check Penalty', 'text', [3]],
+      ['spellFail', 'Arcane Spell Fail Chance', 'text', [3]]
+    );
+  else if(type == 'skills')
+    result.push(
+      ['ability', 'Ability', 'select-one', ['strength', 'intelligence', 'dexterity', 'constitution', 'charisma']],
+      ['untrained', 'Untrained', 'select-one', ['Y', 'N']],
+      ['class', 'Class Skill', 'bag', ScribeUtils.getKeys(rules.getChoices('levels'))],
+      ['synergy', 'Synergy', 'text', [30]]
+    );
+  else if(type == 'spells')
+    // TODO
+    result.push(
+    );
+  else if(type == 'weapons')
+    result.push(
+      ['level', 'Level', 'select-one', ['Simple', 'Martial', 'Exotic']],
+      ['category', 'Category', 'select-one', ['Unarmed', 'Light', 'One-Handed', 'Two-Handed', 'Ranged']],
+      ['damage', 'Damage', 'text', [20]],
+      ['crit', 'Crit Multiplier', 'text', [3]],
+      ['threat', 'Threat', 'text', [3]],
+      ['range', 'Range', 'text', [4]]
+    );
+  return result
 };
 
 /* Returns the elements in a basic SRD character editor. */
