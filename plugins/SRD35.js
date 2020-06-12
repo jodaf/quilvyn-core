@@ -59,7 +59,6 @@ function SRD35() {
     SRD35.choiceRules(rules, 'familiars', familiar, SRD35.FAMILIARS[familiar]);
   }
   for(var feat in SRD35.FEATS) {
-    console.log(feat);
     SRD35.choiceRules(rules, 'feats', feat, SRD35.FEATS[feat]);
   }
   for(var feature in SRD35.FEATURES) {
@@ -307,7 +306,14 @@ SRD35.FEATS = {
   'Forge Ring':'Type="Item Creation",Wizard',
   'Great Cleave':'Type=Fighter',
   'Great Fortitude':'Type=General',
-  'Greater Spell Focus':'Type=General',
+  'Greater Spell Focus (Abjuration)':'Type=General',
+  'Greater Spell Focus (Conjuration)':'Type=General',
+  'Greater Spell Focus (Divination)':'Type=General',
+  'Greater Spell Focus (Enchantment)':'Type=General',
+  'Greater Spell Focus (Evocation)':'Type=General',
+  'Greater Spell Focus (Illusion)':'Type=General',
+  'Greater Spell Focus (Necromancy)':'Type=General',
+  'Greater Spell Focus (Transmutation)':'Type=General',
   'Greater Spell Penetration':'Type=General',
   'Greater Two-Weapon Fighting':'Type=Fighter',
   'Greater Weapon Focus (Longsword)':'Type=Fighter',
@@ -390,451 +396,280 @@ SRD35.FEATS = {
 };
 SRD35.FEATURES = {
   // Feats
-  'Acrobatic':'skillNotes.acrobaticFeature:+2 Jump/Tumble',
-  'Agile':'skillNotes.agileFeature:+2 Balance/Escape Artist',
-  'Alertness':'skillNotes.alertnessFeature:+2 Listen/Spot',
-  'Animal Affinity':'skillNotes.animalAffinityFeature:+2 Handle Animal/Ride',
-  'Athletic':'skillNotes.athleticFeature:+2 Climb/Swim',
-  'Augment Summoning':
-    'magicNotes.augmentSummoningFeature:' +
-      'Summoned creatures +4 strength/constitution',
-  'Blind-Fight':
-    'combatNotes.blind-FightFeature:' +
-      'Reroll concealed miss, no bonus to invisible foe, half penalty ' +
-      'for impaired vision',
-  'Brew Potion':
-    'magicNotes.brewPotionFeature:Create potion for up to 3rd level spell',
-  'Cleave':'combatNotes.cleaveFeature:Extra attack when foe drops',
-  'Combat Casting':
-    'skillNotes.combatCastingFeature:' +
-      '+4 Concentration when casting on defensive/grappling',
-  'Combat Expertise':
-    'combatNotes.combatExpertiseFeature:Up to -5 attack, +5 AC',
-  'Combat Reflexes':
-    'combatNotes.combatReflexesFeature:Flatfooted AOO, up to %V AOO/rd',
-  'Craft Magic Arms And Armor':
-    'magicNotes.craftMagicArmsAndArmorFeature:' +
-      'Create/mend magic weapon/armor/shield',
-  'Craft Rod':'magicNotes.craftRodFeature:Create magic rod',
-  'Craft Staff':'magicNotes.craftStaffFeature:Create magic staff',
-  'Craft Wand':
-    'magicNotes.craftWandFeature:Create wand for up to 4th level spell',
-  'Craft Wondrous Item':
-    'magicNotes.craftWondrousItemFeature:Create/mend miscellaneous magic item',
-  'Deceitful':'skillNotes.deceitfulFeature:+2 Disguise/Forgery',
-  'Deflect Arrows':'combatNotes.deflectArrowsFeature:Deflect ranged 1/rd',
-  'Deft Hands':'skillNotes.deftHandsFeature:+2 Sleight Of Hand/Use Rope',
-  'Diehard':'combatNotes.diehardFeature:Remain conscious/stable w/HP <= 0',
-  'Diligent':'skillNotes.diligentFeature:+2 Appraise/Decipher Script',
-  'Dodge':'combatNotes.dodgeFeature:+1 AC vs. chosen foe',
-  'Empower Spell':
-    'magicNotes.empowerSpellFeature:' +
-      'x1.5 chosen spell variable effects uses +2 spell slot',
-  'Endurance':'saveNotes.enduranceFeature:+4 extended physical action',
-  'Enlarge Spell':
-    'magicNotes.enlargeSpellFeature:x2 chosen spell range uses +1 spell slot',
-  'Eschew Materials':
-    'magicNotes.eschewMaterialsFeature:Cast spells w/out materials',
-  'Extend Spell':
-    'magicNotes.extendSpellFeature:x2 chosen spell duration uses +1 spell slot',
-  'Extra Turning':'combatNotes.extraTurningFeature:+4/day',
-  'Far Shot':'combatNotes.farShotFeature:x1.5 projectile range, x2 thrown',
-  'Forge Ring':'magicNotes.forgeRingFeature:Create/mend magic ring',
-  'Great Cleave':'combatNotes.greatCleaveFeature:Cleave w/out limit',
-  'Great Fortitude':'saveNotes.greatFortitudeFeature:+2 Fortitude',
-  'Greater Spell Focus (Abjuration)':'Type=General',
-  'Greater Spell Focus (Conjuration)':'Type=General',
-  'Greater Spell Focus (Divination)':'Type=General',
-  'Greater Spell Focus (Enchantment)':'Type=General',
-  'Greater Spell Focus (Evocation)':'Type=General',
-  'Greater Spell Focus (Illusion)':'Type=General',
-  'Greater Spell Focus (Necromancy)':'Type=General',
-  'Greater Spell Focus (Transmutation)':'Type=General',
-  'Greater Spell Penetration':
-    'magicNotes.greaterSpellPenetrationFeature:' +
-      '+2 caster level vs. resistance checks',
-  'Greater Two-Weapon Fighting':
-    'combatNotes.greaterTwo-WeaponFightingFeature:Third off-hand -10 attack',
-  'Heighten Spell':
-    'magicNotes.heightenSpellFeature:Increase chosen spell level',
-  'Improved Bull Rush':
-    'combatNotes.improvedBullRushFeature:' +
-      'No AOO on Bull Rush, +4 strength check',
-  'Improved Counterspell':
-    'magicNotes.improvedCounterspellFeature:' +
-      'Counter w/higher-level spell from same school',
-  'Improved Disarm':
-    'combatNotes.improvedDisarmFeature:No AOO on Disarm, +4 attack',
-  'Improved Familiar':
-    'featureNotes.improvedFamiliarFeature:Expanded Familiar choices',
-  'Improved Feint':
-    'combatNotes.improvedFeintFeature:Bluff check to Feint as move action',
-  'Improved Grapple':
-    'combatNotes.improvedGrappleFeature:No AOO on Grapple, +4 Grapple',
-  'Improved Initiative':'combatNotes.improvedInitiativeFeature:+4 initiative',
-  'Improved Overrun':
-    'combatNotes.improvedOverrunFeature:Foe cannot avoid, +4 strength check',
+  'Acrobatic':'skill:+2 Jump/Tumble',
+  'Agile':'skill:+2 Balance/Escape Artist',
+  'Alertness':'skill:+2 Listen/Spot',
+  'Animal Affinity':'skill:+2 Handle Animal/Ride',
+  'Athletic':'skill:+2 Climb/Swim',
+  'Augment Summoning':'magic:Summoned creatures +4 strength/constitution',
+  'Blind-Fight':'combat:' +
+    'Reroll concealed miss, no bonus to invisible foe, half penalty ' +
+    'for impaired vision',
+  'Brew Potion':'magic:Create potion for up to 3rd level spell',
+  'Cleave':'combat:Extra attack when foe drops',
+  'Combat Casting':'skill:+4 Concentration when casting on defensive/grappling',
+  'Combat Expertise':'combat:Up to -5 attack, +5 AC',
+  'Combat Reflexes':'combat:Flatfooted AOO, up to %V AOO/rd',
+  'Craft Magic Arms And Armor':'magic:Create/mend magic weapon/armor/shield',
+  'Craft Rod':'magic:Create magic rod',
+  'Craft Staff':'magic:Create magic staff',
+  'Craft Wand':'magic:Create wand for up to 4th level spell',
+  'Craft Wondrous Item':'magic:Create/mend miscellaneous magic item',
+  'Deceitful':'skill:+2 Disguise/Forgery',
+  'Deflect Arrows':'combat:Deflect ranged 1/rd',
+  'Deft Hands':'skill:+2 Sleight Of Hand/Use Rope',
+  'Diehard':'combat:Remain conscious/stable w/HP <= 0',
+  'Diligent':'skill:+2 Appraise/Decipher Script',
+  'Dodge':'combat:+1 AC vs. chosen foe',
+  'Empower Spell':'magic:x1.5 chosen spell variable effects uses +2 spell slot',
+  'Endurance':'save:+4 extended physical action',
+  'Enlarge Spell':'magic:x2 chosen spell range uses +1 spell slot',
+  'Eschew Materials':'magic:Cast spells w/out materials',
+  'Extend Spell':'magic:x2 chosen spell duration uses +1 spell slot',
+  'Extra Turning':'combat:+4/day',
+  'Far Shot':'combat:x1.5 projectile range, x2 thrown',
+  'Forge Ring':'magic:Create/mend magic ring',
+  'Great Cleave':'combat:Cleave w/out limit',
+  'Great Fortitude':'save:+2 Fortitude',
+  'Greater Spell Penetration':'magic:+2 caster level vs. resistance checks',
+  'Greater Two-Weapon Fighting':'combat:Third off-hand -10 attack',
+  'Heighten Spell':'magic:Increase chosen spell level',
+  'Improved Bull Rush':'combat:No AOO on Bull Rush, +4 strength check',
+  'Improved Counterspell':'magic:Counter w/higher-level spell from same school',
+  'Improved Disarm':'combat:No AOO on Disarm, +4 attack',
+  'Improved Familiar':'feature:Expanded Familiar choices',
+  'Improved Feint':'combat:Bluff check to Feint as move action',
+  'Improved Grapple':'combat:No AOO on Grapple, +4 Grapple',
+  'Improved Initiative':'combat:+4 initiative',
+  'Improved Overrun':'combat:Foe cannot avoid, +4 strength check',
   'Improved Precise Shot':
-    'combatNotes.improvedPreciseShotFeature:' +
-      'No foe AC bonus for partial concealment, attack grappling target',
-  'Improved Shield Bash':
-    'combatNotes.improvedShieldBashFeature:No AC penalty on Shield Bash',
-  'Improved Sunder':
-    'combatNotes.improvedSunderFeature:No AOO on Sunder, +4 attack',
-  'Improved Trip':
-    'combatNotes.improvedTripFeature:' +
-      'No AOO on Trip, +4 strength check, attack after trip',
-  'Improved Turning':'combatNotes.improvedTurningFeature:+1 turning level',
-  'Improved Two-Weapon Fighting':
-    'combatNotes.improvedTwo-WeaponFightingFeature:Second off-hand -5 attack',
+    'combat:No foe AC bonus for partial concealment, attack grappling target',
+  'Improved Shield Bash':'combat:No AC penalty on Shield Bash',
+  'Improved Sunder':'combat:No AOO on Sunder, +4 attack',
+  'Improved Trip':'combat:No AOO on Trip, +4 strength check, attack after trip',
+  'Improved Turning':'combat:+1 turning level',
+  'Improved Two-Weapon Fighting':'combat:Second off-hand -5 attack',
   'Improved Unarmed Strike':
-    'combatNotes.improvedUnarmedStrikeFeature:' +
-      'No AOO on unarmed attack, may deal lethal damage',
-  'Investigator':'skillNotes.investigatorFeature:+2 Gather Information/Search',
-  'Iron Will':'saveNotes.ironWillFeature:+2 Will',
-  'Leadership':'featureNotes.leadershipFeature:Attract followers',
-  'Lightning Reflexes':'saveNotes.lightningReflexesFeature:+2 Reflex',
-  'Magical Aptitude':
-    'skillNotes.magicalAptitudeFeature:+2 Spellcraft/Use Magic Device',
-  'Manyshot':
-    'combatNotes.manyshotFeature:' +
-      'Fire up to %V arrows simultaneously at -2 attack',
+    'combat:No AOO on unarmed attack, may deal lethal damage',
+  'Investigator':'skill:+2 Gather Information/Search',
+  'Iron Will':'save:+2 Will',
+  'Leadership':'feature:Attract followers',
+  'Lightning Reflexes':'save:+2 Reflex',
+  'Magical Aptitude':'skill:+2 Spellcraft/Use Magic Device',
+  'Manyshot':'combat:Fire up to %V arrows simultaneously at -2 attack',
   'Maximize Spell':
-    'magicNotes.maximizeSpellFeature:' +
-      'Maximize all chosen spell variable effects uses +3 spell slot',
-  'Mobility':'combatNotes.mobilityFeature:+4 AC vs. movement AOO',
-  'Mounted Archery':
-    'combatNotes.mountedArcheryFeature:x.5 mounted ranged penalty',
-  'Mounted Combat':
-    'combatNotes.mountedCombatFeature:Ride skill save vs. mount damage 1/rd',
-  'Natural Spell':
-    'magicNotes.naturalSpellFeature:Cast spell during <i>Wild Shape</i>',
-  'Negotiator':'skillNotes.negotiatorFeature:+2 Diplomacy/Sense Motive',
-  'Nimble Fingers':
-    'skillNotes.nimbleFingersFeature:+2 Disable Device/Open Lock',
-  'Persuasive':'skillNotes.persuasiveFeature:+2 Bluff/Intimidate',
-  'Point Blank Shot':
-    "combatNotes.pointBlankShotFeature:+1 ranged attack/damage w/in 30'",
-  'Power Attack':'combatNotes.powerAttackFeature:Attack base -attack/+damage',
-  'Precise Shot':'combatNotes.preciseShotFeature:No penalty on shot into melee',
-  'Quick Draw':'combatNotes.quickDrawFeature:Draw weapon as free action',
-  'Quicken Spell':
-    'magicNotes.quickenSpellFeature:' +
-      'Free action casting 1/rd uses +4 spell slot',
-  'Rapid Shot':
-    'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
-  'Ride-By Attack':
-    'combatNotes.ride-ByAttackFeature:Move before and after mounted attack',
+    'magic:Maximize all chosen spell variable effects uses +3 spell slot',
+  'Mobility':'combat:+4 AC vs. movement AOO',
+  'Mounted Archery':'combat:x.5 mounted ranged penalty',
+  'Mounted Combat':'combat:Ride skill save vs. mount damage 1/rd',
+  'Natural Spell':'magic:Cast spell during <i>Wild Shape</i>',
+  'Negotiator':'skill:+2 Diplomacy/Sense Motive',
+  'Nimble Fingers':'skill:+2 Disable Device/Open Lock',
+  'Persuasive':'skill:+2 Bluff/Intimidate',
+  'Point Blank Shot':"combat:+1 ranged attack/damage w/in 30'",
+  'Power Attack':'combat:Attack base -attack/+damage',
+  'Precise Shot':'combat:No penalty on shot into melee',
+  'Quick Draw':'combat:Draw weapon as free action',
+  'Quicken Spell':'magic:Free action casting 1/rd uses +4 spell slot',
+  'Rapid Shot':'combat:Normal and extra ranged -2 attacks',
+  'Ride-By Attack':'combat:Move before and after mounted attack',
   'Run':[
-    'abilityNotes.runFeature:+1 run speed multiplier',
-    'skillNotes.runFeature:+4 running Jump'
+    'ability:+1 run speed multiplier',
+    'skill:+4 running Jump'
   ],
-  'Scribe Scroll':
-    'magicNotes.scribeScrollFeature:Create scroll of any known spell',
-  'Self Sufficient':'skillNotes.selfSufficientFeature:+2 Heal/Survival',
-  'Shot On The Run':
-    'combatNotes.shotOnTheRunFeature:Move before and after ranged attack',
-  'Silent Spell':
-    'magicNotes.silentSpellFeature:Cast spell w/out speech uses +1 spell slot',
-  'Snatch Arrows':'combatNotes.snatchArrowsFeature:Catch ranged weapons',
-  'Spell Mastery':
-    'magicNotes.spellMasteryFeature:Prepare %V spells w/out spellbook',
-  'Spell Penetration':
-    'magicNotes.spellPenetrationFeature:+2 checks to overcome spell resistance',
-  'Spirited Charge':
-    'combatNotes.spiritedChargeFeature:' +
-      'x2 damage (x3 lance) from mounted charge',
-  'Spring Attack':
-    'combatNotes.springAttackFeature:Move before and after melee attack',
-  'Stealthy':'skillNotes.stealthyFeature:+2 Hide/Move Silently',
-  'Still Spell':
-    'magicNotes.stillSpellFeature:Cast spell w/out movement uses +1 spell slot',
-  'Stunning Fist':
-    'combatNotes.stunningFistFeature:Foe %V Fortitude save or stunned %1/day',
-  'Toughness':'combatNotes.toughnessFeature:+3 HP',
-  'Track':'skillNotes.trackFeature:Survival to follow creatures\' trail',
-  'Trample':
-    'combatNotes.trampleFeature:Mounted overrun unavoidable, bonus hoof attack',
+  'Scribe Scroll':'magic:Create scroll of any known spell',
+  'Self Sufficient':'skill:+2 Heal/Survival',
+  'Shot On The Run':'combat:Move before and after ranged attack',
+  'Silent Spell':'magic:Cast spell w/out speech uses +1 spell slot',
+  'Snatch Arrows':'combat:Catch ranged weapons',
+  'Spell Mastery':'magic:Prepare %V spells w/out spellbook',
+  'Spell Penetration':'magic:+2 checks to overcome spell resistance',
+  'Spirited Charge':'combat:x2 damage (x3 lance) from mounted charge',
+  'Spring Attack':'combat:Move before and after melee attack',
+  'Stealthy':'skill:+2 Hide/Move Silently',
+  'Still Spell':'magic:Cast spell w/out movement uses +1 spell slot',
+  'Stunning Fist':'combat:Foe %V Fortitude save or stunned %1/day',
+  'Toughness':'combat:+3 HP',
+  'Track':'skill:Survival to follow creatures\' trail',
+  'Trample':'combat:Mounted overrun unavoidable, bonus hoof attack',
   'Two-Weapon Defense':
-    'combatNotes.two-WeaponDefenseFeature:' +
-      '+1 AC w/two weapons, +2 when fighting defensively',
-  'Two-Weapon Fighting':
-    'combatNotes.two-WeaponFightingFeature:' +
-      'Reduce on-hand penalty by 2, off-hand by 6',
-  'Weapon Finesse':
-    'combatNotes.weaponFinesseFeature:' +
-      '+%V light melee attack (dex instead of str)',
-  'Whirlwind Attack':
-    'combatNotes.whirlwindAttackFeature:Attack all foes w/in reach',
-  'Widen Spell':
-    'magicNotes.widenSpellFeature:x2 area of affect uses +3 spell slot',
+    'combat:+1 AC w/two weapons, +2 when fighting defensively',
+  'Two-Weapon Fighting':'combat:Reduce on-hand penalty by 2, off-hand by 6',
+  'Weapon Finesse':'combat:+%V light melee attack (dex instead of str)',
+  'Whirlwind Attack':'combat:Attack all foes w/in reach',
+  'Widen Spell':'magic:x2 area of affect uses +3 spell slot',
   // Classes
-  'Abundant Step':'magicNotes.abundantStepFeature:<i>Dimension Door</i> 1/day',
-  'Adamantine Ki Strike':
-    'combatNotes.adamantineKiStrikeFeature:Treat unarmed as adamantine weapon',
-  'Animal Companion':
-    'featureNotes.animalCompanionFeature:Special bond/abilities',
+  'Abundant Step':'magic:<i>Dimension Door</i> 1/day',
+  'Adamantine Ki Strike':'combat:Treat unarmed as adamantine weapon',
+  'Animal Companion':'feature:Special bond/abilities',
   'Aura':
-    'magicNotes.auraFeature:' +
-      'Visible to <i>Detect Chaos/Evil/Good/Law</i> depending on ' +
-      'deity\'s alignment',
-  'Aura Of Courage':
-        "saveNotes.auraOfCourageFeature:Immune fear, +4 to allies w/in 30'",
-  'Bardic Music':"featureNotes.bardicMusicFeature:Bardic music effect %V/day",
-  'Camouflage':'skillNotes.camouflageFeature:Hide in any natural terrain',
-  'Countersong':
-    "magicNotes.countersongFeature:" +
-      "Perform check vs. sonic magic w/in 30' 10 rd",
-  'Crippling Strike':
-    'combatNotes.cripplingStrikeFeature: ' +
-      '2 points strength damage from sneak attack',
+    "magic:Visible to <i>Detect Chaos/Evil/Good/Law</i> depending on deity's alignment",
+  'Aura Of Courage':"save:Immune fear, +4 to allies w/in 30'",
+  'Bardic Music':"feature:Bardic music effect %V/day",
+  'Camouflage':'skill:Hide in any natural terrain',
+  'Countersong':"magic:Perform check vs. sonic magic w/in 30' 10 rd",
+  'Crippling Strike':'combat:2 points strength damage from sneak attack',
   'Defensive Roll':
-    'combatNotes.defensiveRollFeature:' +
-      'DC damage Reflex save vs. lethal blow for half damage',
-  'Detect Evil':'magicNotes.detectEvilFeature:<i>Detect Evil</i> at will',
-  'Diamond Body':'saveNotes.diamondBodyFeature:Immune to poison',
-  'Diamond Soul':'saveNotes.diamondSoulFeature:DC %V spell resistance',
-  'Divine Grace':'saveNotes.divineGraceFeature:+%V all saves',
-  'Divine Health':'saveNotes.divineHealthFeature:Immune to disease',
-  'Elemental Shape':
-    'magicNotes.elementalShapeFeature:Wild Shape to elemental %V/day',
-  'Empty Body':'magicNotes.emptyBodyFeature:<i>Etherealness</i> %V rd/day',
-  'Endurance':'saveNotes.enduranceFeature:+4 extended physical action',
-  'Evasion':
-    'saveNotes.evasionFeature:Reflex save yields no damage instead of 1/2',
-  'Familiar':'featureNotes.familiarFeature:Special bond/abilities',
-  'Fascinate':
-    "magicNotes.fascinateFeature:Hold %V creatures w/in 90' spellbound %1 rd",
-  'Fast Movement':"abilityNotes.fastMovementFeature:+%V speed",
+    'combat:DC damage Reflex save vs. lethal blow for half damage',
+  'Detect Evil':'magic:<i>Detect Evil</i> at will',
+  'Diamond Body':'save:Immune to poison',
+  'Diamond Soul':'save:DC %V spell resistance',
+  'Divine Grace':'save:+%V all saves',
+  'Divine Health':'save:Immune to disease',
+  'Elemental Shape':'magic:Wild Shape to elemental %V/day',
+  'Empty Body':'magic:<i>Etherealness</i> %V rd/day',
+  'Endurance':'save:+4 extended physical action',
+  'Evasion':'save:Reflex save yields no damage instead of 1/2',
+  'Familiar':'feature:Special bond/abilities',
+  'Fascinate':"magic:Hold %V creatures w/in 90' spellbound %1 rd",
+  'Fast Movement':"ability:+%V speed",
   'Favored Enemy':[
-    'combatNotes.favoredEnemyFeature:' +
-      '+2 or more damage vs. %V type(s) of creatures',
-    'skillNotes.favoredEnemyFeature:' +
-      '+2 or more Bluff, Listen, Sense Motive, Spot, Survival ' +
-      'vs. %V type(s) of creatures',
+    'combat:+2 or more damage vs. %V type(s) of creatures',
+    'skill:+2 or more Bluff, Listen, Sense Motive, Spot, Survival vs. %V type(s) of creatures',
   ],
-  'Flurry Of Blows':
-    'combatNotes.flurryOfBlowsFeature:Take %V penalty for extra attack',
-  'Greater Flurry':'combatNotes.greaterFlurryFeature:Extra attack',
-  'Greater Rage':
-    'combatNotes.greaterRageFeature:+6 strength/constitution, +3 Will',
+  'Flurry Of Blows':'combat:Take %V penalty for extra attack',
+  'Greater Flurry':'combat:Extra attack',
+  'Greater Rage':'combat:+6 strength/constitution, +3 Will',
   // Greater Two-Weapon Fighting as per feat
-  'Hide In Plain Sight':
-    'skillNotes.hideInPlainSightFeature:Hide even when observed',
-  'Illiteracy':
-    'skillNotes.illiteracyFeature:Must spend 2 skill points to read/write',
-  'Improved Evasion':
-    'saveNotes.improvedEvasionFeature:Failed save yields 1/2 damage',
+  'Hide In Plain Sight':'skill:Hide even when observed',
+  'Illiteracy':'skill:Must spend 2 skill points to read/write',
+  'Improved Evasion':'save:Failed save yields 1/2 damage',
   'Improved Precise Shot':
-    'combatNotes.improvedPreciseShotFeature:' +
-      'No foe AC bonus for partial concealment, attack grappling target',
+    'combat:No foe AC bonus for partial concealment, attack grappling target',
   // Improved Two-Weapon Fighting as per feat
   // Improved Unarmed Strike as per feat
   'Improved Uncanny Dodge':
-    'combatNotes.improvedUncannyDodgeFeature:' +
-      'Cannot be flanked, sneak attack only by rogue level %V+',
-  'Indomitable Will':
-     'saveNotes.indomitableWillFeature:+4 enchantment resistance during rage',
+    'combat:Cannot be flanked, sneak attack only by rogue level %V+',
+  'Indomitable Will':'save:+4 enchantment resistance during rage',
   'Inspire Competence':
-    'magicNotes.inspireCompetenceFeature:' +
-      '+2 allies skill checks while performing up to 2 minutes',
+    'magic:+2 allies skill checks while performing up to 2 minutes',
   'Inspire Courage':
-    'magicNotes.inspireCourageFeature:' +
-      '+%V attack/damage/charm/fear saves to allies while performing',
+    'magic:+%V attack/damage/charm/fear saves to allies while performing',
   'Inspire Greatness':
-    'magicNotes.inspireGreatnessFeature:' +
-       '+2d10 HP, +2 attack, +1 Fortitude save %V allies while performing',
-  'Inspire Heroics':
-    'magicNotes.inspireHeroicsFeature:+4 AC/saves to 1 ally while performing',
-  'Ki Strike':'combatNotes.kiStrikeFeature:Treat unarmed as magic weapon',
-  'Lawful Ki Strike':
-    'combatNotes.lawfulKiStrikeFeature:Treat unarmed as lawful weapon',
-  'Lay On Hands':'magicNotes.layOnHandsFeature:Harm undead or heal %V HP/day',
-  'Manyshot':
-    'combatNotes.manyshotFeature:' +
-      'Fire up to %V arrows simultaneously at -2 attack',
+    'magic:+2d10 HP, +2 attack, +1 Fortitude save %V allies while performing',
+  'Inspire Heroics':'magic:+4 AC/saves to 1 ally while performing',
+  'Ki Strike':'combat:Treat unarmed as magic weapon',
+  'Lawful Ki Strike':'combat:Treat unarmed as lawful weapon',
+  'Lay On Hands':'magic:Harm undead or heal %V HP/day',
+  'Manyshot':'combat:Fire up to %V arrows simultaneously at -2 attack',
   'Mass Suggestion':
-    'magicNotes.massSuggestionFeature:' +
-      '<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
-  'Mighty Rage':
-    'combatNotes.mightyRageFeature:+8 strength/constitution, +4 Will',
-  'Nature Sense':'skillNotes.natureSenseFeature:+2 Knowledge (Nature)/Survival',
-  'Opportunist':'combatNotes.opportunistFeature:AOO vs. foe struck by ally',
+    'magic:<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
+  'Mighty Rage':'combat:+8 strength/constitution, +4 Will',
+  'Nature Sense':'skill:+2 Knowledge (Nature)/Survival',
+  'Opportunist':'combat:AOO vs. foe struck by ally',
   'Perfect Self':[
-    'combatNotes.perfectSelfFeature:' +
-      'Ignore first 10 points of non-magical damage',
-    'saveNotes.perfectSelfFeature:Treat as outsider for magic saves',
+    'combat:Ignore first 10 points of non-magical damage',
+    'save:Treat as outsider for magic saves',
   ],
-  'Purity Of Body':'saveNotes.purityOfBodyFeature:Immune to normal disease',
-  'Quivering Palm':
-    'combatNotes.quiveringPalmFeature:' +
-      'Foe makes DC %V Fortitude save or dies 1/week',
-  'Rage':
-    'combatNotes.rageFeature:' +
-      '+4 strength/constitution, +2 Will, -2 AC %V rd %1/day',
-  'Rapid Shot':
-    'combatNotes.rapidShotFeature:Normal and extra ranged -2 attacks',
-  'Remove Disease':
-    'magicNotes.removeDiseaseFeature:<i>Remove Disease</i> %V/week',
-  "Resist Nature's Lure":
-    "saveNotes.resistNature'sLureFeature:+4 vs. spells of feys",
+  'Purity Of Body':'save:Immune to normal disease',
+  'Quivering Palm':'combat:Foe makes DC %V Fortitude save or dies 1/week',
+  'Rage':'combat:+4 strength/constitution, +2 Will, -2 AC %V rd %1/day',
+  'Rapid Shot':'combat:Normal and extra ranged -2 attacks',
+  'Remove Disease':'magic:<i>Remove Disease</i> %V/week',
+  "Resist Nature's Lure":"save:+4 vs. spells of feys",
   // Scribe Scroll as per feat
-  'Simple Somatics':
-    'magicNotes.simpleSomaticsFeature:No casting penalty in light armor',
-  'Skill Mastery':
-    'skillNotes.skillMasteryFeature:' +
-      'Take 10 despite distraction on %V chosen skills',
-  'Slippery Mind':'saveNotes.slipperyMindFeature:Second save vs. enchantment',
-  'Slow Fall':
-    "saveNotes.slowFallFeature:Subtract %V' from falling damage distance",
-  'Smite Evil':
-    'combatNotes.smiteEvilFeature:+%V attack/+%1 damage vs. evil foe %2/day',
-  'Sneak Attack':
-    'combatNotes.sneakAttackFeature:%Vd6 HP extra when surprising or flanking',
-  'Song Of Freedom':
-    'magicNotes.songOfFreedomFeature:' +
-      '<i>Break Enchantment</i> through performing',
-  'Special Mount':
-    'featureNotes.specialMountFeature:Magical mount w/special abilities',
-  'Spontaneous Cleric Spell':'magicNotes.spontaneousClericSpellFeature:%V',
-  'Spontaneous Druid Spell':
-    'magicNotes.spontaneousDruidSpellFeature:<i>Summon Nature\'s Ally</i>',
-  'Still Mind':'saveNotes.stillMindFeature:+2 vs. enchantment',
+  'Simple Somatics':'magic:No casting penalty in light armor',
+  'Skill Mastery':'skill:Take 10 despite distraction on %V chosen skills',
+  'Slippery Mind':'save:Second save vs. enchantment',
+  'Slow Fall':"save:Subtract %V' from falling damage distance",
+  'Smite Evil':'combat:+%V attack/+%1 damage vs. evil foe %2/day',
+  'Sneak Attack':'combat:%Vd6 HP extra when surprising or flanking',
+  'Song Of Freedom':'magic:<i>Break Enchantment</i> through performing',
+  'Special Mount':'feature:Magical mount w/special abilities',
+  'Spontaneous Cleric Spell':'magic:%V',
+  'Spontaneous Druid Spell':'magic:<i>Summon Nature\'s Ally</i>',
+  'Still Mind':'save:+2 vs. enchantment',
   'Suggestion':
-    'magicNotes.suggestionFeature:' +
-      '<i>Suggestion</i> to 1 fascinated creature (DC %V neg)',
-  'Swift Tracker':'skillNotes.swiftTrackerFeature:Track at full speed',
-  'Thousand Faces':'magicNotes.thousandFacesFeature:<i>Alter Self</i> at will',
-  'Timeless Body':'featureNotes.timelessBodyFeature:No aging penalties',
-  'Tireless Rage':
-    'combatNotes.tirelessRageFeature:Not fatigued after rage',
-  'Tongue Of The Sun And Moon':
-    'featureNotes.tongueOfTheSunAndMoonFeature:Speak w/any living creature',
-  'Track':'skillNotes.trackFeature:Survival to follow creatures\' trail',
-  'Trackless Step':'featureNotes.tracklessStepFeature:Untrackable outdoors',
-  'Trap Sense':'saveNotes.trapSenseFeature:+%V Reflex and AC vs. traps',
-  'Trapfinding':
-    'skillNotes.trapfindingFeature:' +
-      'Use Search/Disable Device to find/remove DC 20+ traps',
-  'Turn Undead':
-    'combatNotes.turnUndeadFeature:' +
-      'Turn (good) or rebuke (evil) undead creatures',
-  'Two-Weapon Fighting':
-    'combatNotes.two-WeaponFightingFeature:' +
-      'Reduce on-hand penalty by 2, off-hand by 6',
-  'Uncanny Dodge':
-    'combatNotes.uncannyDodgeFeature:Always adds dexterity modifier to AC',
-  'Venom Immunity':'saveNotes.venomImmunityFeature:Immune to poisons',
-  'Wholeness Of Body':
-    'magicNotes.wholenessOfBodyFeature:Heal %V HP to self/day',
-  'Wild Empathy':'skillNotes.wildEmpathyFeature:+%V Diplomacy (animals)',
-  'Wild Shape':
-    'magicNotes.wildShapeFeature:' +
-      'Change into creature of size %V %1 hours %2/day',
+    'magic:<i>Suggestion</i> to 1 fascinated creature (DC %V neg)',
+  'Swift Tracker':'skill:Track at full speed',
+  'Thousand Faces':'magic:<i>Alter Self</i> at will',
+  'Timeless Body':'feature:No aging penalties',
+  'Tireless Rage':'combat:Not fatigued after rage',
+  'Tongue Of The Sun And Moon':'feature:Speak w/any living creature',
+  'Track':'skill:Survival to follow creatures\' trail',
+  'Trackless Step':'feature:Untrackable outdoors',
+  'Trap Sense':'save:+%V Reflex and AC vs. traps',
+  'Trapfinding':'skill:Use Search/Disable Device to find/remove DC 20+ traps',
+  'Turn Undead':'combat:Turn (good) or rebuke (evil) undead creatures',
+  'Two-Weapon Fighting':'combat:Reduce on-hand penalty by 2, off-hand by 6',
+  'Uncanny Dodge':'combat:Always adds dexterity modifier to AC',
+  'Venom Immunity':'save:Immune to poisons',
+  'Wholeness Of Body':'magic:Heal %V HP to self/day',
+  'Wild Empathy':'skill:+%V Diplomacy (animals)',
+  'Wild Shape':'magic:Change into creature of size %V %1 hours %2/day',
   'Wizard Specialization':[
-    'magicNotes.wizardSpecialization:Extra %V spell/day each spell level',
-    'skillNotes.wizardSpecialization:+2 Spellcraft (%V)',
+    'magic:Extra %V spell/day each spell level',
+    'skill:+2 Spellcraft (%V)',
   ],
-  'Woodland Stride':
-    'featureNotes.woodlandStrideFeature:Normal movement through undergrowth',
+  'Woodland Stride':'feature:Normal movement through undergrowth',
   // Races
-  'Accurate':'combatNotes.accurateFeature:+1 attack with slings/thrown',
-  'Alert Senses':'skillNotes.alertSensesFeature:+1 Listen/Search/Spot',
-  'Darkvision':"featureNotes.darkvisionFeature:%V' b/w vision in darkness",
-  'Dodge Giants':'combatNotes.dodgeGiantsFeature:+4 AC vs. giant creatures',
-  'Dwarf Armor Speed Adjustment':
-    'abilityNotes.dwarfArmorSpeedAdjustment:No speed penalty in armor',
-  'Dwarf Favored Enemy':
-    'combatNotes.dwarfFavoredEnemyFeature:+1 attack vs. goblinoid/orc',
-  'Fortunate':'saveNotes.fortunateFeature:+1 all saves',
-  'Gnome Favored Enemy':
-    'combatNotes.gnomeFavoredEnemyFeature:+1 attack vs. goblinoid/kobold',
-  'Gnome Weapons':'combatNotes.gnomeWeapons:Racial weapons are martial weapons',
-  'Keen Ears':'skillNotes.keenEarsFeature:+2 Listen',
-  'Keen Nose':'skillNotes.keenNoseFeature:+2 Craft (Alchemy)',
-  'Keen Senses':'skillNotes.keenSensesFeature:+2 Listen/Search/Spot',
-  'Know Depth':
-        'featureNotes.knowDepthFeature:Intuit approximate depth underground',
-  'Low-Light Vision':
-    'featureNotes.low-LightVisionFeature:x%V normal distance in poor light',
-  'Natural Illusionist':
-    'magicNotes.naturalIllusionistFeature:Spell Focus(Illusion)',
-  'Natural Spells':'magicNotes.naturalSpellsFeature:%V 1/day',
-  'Natural Smith':
-    'skillNotes.naturalSmithFeature:+2 Appraise/Craft involving stone or metal',
-  'Resist Enchantment':'saveNotes.resistEnchantmentFeature:+2 vs. enchantment',
-  'Resist Fear':'saveNotes.resistFearFeature:+2 vs. fear',
-  'Resist Illusion':'saveNotes.resistIllusionFeature:+2 vs. illusions',
-  'Resist Poison':'saveNotes.resistPoisonFeature:+2 vs. poison',
-  'Resist Spells':'saveNotes.resistSpellsFeature:+2 vs. spells',
-  'Sense Secret Doors':
-    "featureNotes.senseSecretDoorsFeature:Automatic Search when w/in 5'",
-  'Sleep Immunity':'saveNotes.sleepImmunityFeature:Immune <i>Sleep</i>',
-  'Slow':'abilityNotes.slowFeature:-10 speed',
+  'Accurate':'combat:+1 attack with slings/thrown',
+  'Alert Senses':'skill:+1 Listen/Search/Spot',
+  'Darkvision':"feature:%V' b/w vision in darkness",
+  'Dodge Giants':'combat:+4 AC vs. giant creatures',
+  'Dwarf Armor Speed Adjustment':'ability:No speed penalty in armor',
+  'Dwarf Favored Enemy':'combat:+1 attack vs. goblinoid/orc',
+  'Fortunate':'save:+1 all saves',
+  'Gnome Favored Enemy':'combat:+1 attack vs. goblinoid/kobold',
+  'Gnome Weapons':'combat:Racial weapons are martial weapons',
+  'Keen Ears':'skill:+2 Listen',
+  'Keen Nose':'skill:+2 Craft (Alchemy)',
+  'Keen Senses':'skill:+2 Listen/Search/Spot',
+  'Know Depth':'feature:Intuit approximate depth underground',
+  'Low-Light Vision':'feature:x%V normal distance in poor light',
+  'Natural Illusionist':'magic:Spell Focus(Illusion)',
+  'Natural Spells':'magic:%V 1/day',
+  'Natural Smith':'skill:+2 Appraise/Craft involving stone or metal',
+  'Resist Enchantment':'save:+2 vs. enchantment',
+  'Resist Fear':'save:+2 vs. fear',
+  'Resist Illusion':'save:+2 vs. illusions',
+  'Resist Poison':'save:+2 vs. poison',
+  'Resist Spells':'save:+2 vs. spells',
+  'Sense Secret Doors':"feature:Automatic Search when w/in 5'",
+  'Sleep Immunity':'save:Immune <i>Sleep</i>',
+  'Slow':'ability:-10 speed',
   'Small':[
-    'combatNotes.smallFeature:+1 AC/attack',
-    'skillNotes.smallFeature:+4 Hide'
+    'combat:+1 AC/attack',
+    'skill:+4 Hide'
   ],
-  'Spry':'skillNotes.spryFeature:+2 Climb/Jump/Move Silently',
-  'Stability':'combatNotes.stabilityFeature:+4 vs. Bull Rush/Trip',
+  'Spry':'skill:+2 Climb/Jump/Move Silently',
+  'Stability':'combat:+4 vs. Bull Rush/Trip',
   'Stonecunning':
-    'skillNotes.stonecunningFeature:' +
-      "+2 Search involving stone or metal, automatic check w/in 10'",
-  'Tolerance':'skillNotes.toleranceFeature:+2 Diplomacy/Gather Information',
+    "skill:+2 Search involving stone or metal, automatic check w/in 10'",
+  'Tolerance':'skill:+2 Diplomacy/Gather Information',
   // Animal companions and familiars
   'Celestial Familiar':
-    "companionNotes.celestialFamiliar:" +
-      "Smite Evil (+%V HP) 1/day, 60' darkvision, " +
-      "%1 acid/cold/electricity resistance, DR %2/magic",
+    "companion:Smite Evil (+%V HP) 1/day, 60' darkvision, %1 acid/cold/electricity resistance, DR %2/magic",
   'Command Like Creatures':
-    'companionNotes.commandLikeCreaturesFeature:' +
-      'DC %V <i>Command</i> vs. similar creatures %1/day',
-  'Companion Alertness':
-    'skillNotes.companionAlertnessFeature:' +
-      '+2 listen/spot when companion w/in reach',
-  'Companion Evasion':
-    'companionNotes.companionEvasionFeature:' +
-      'Reflex save yields no damage instead of 1/2',
-  'Companion Improved Evasion':
-    'companionNotes.companionImprovedEvasionFeature:' +
-      'Failed save yields 1/2 damage',
+    'companion:DC %V <i>Command</i> vs. similar creatures %1/day',
+  'Companion Alertness':'skill:+2 listen/spot when companion w/in reach',
+  'Companion Evasion':'companion:Reflex save yields no damage instead of 1/2',
+  'Companion Improved Evasion':'companion:Failed save yields 1/2 damage',
   'Deliver Touch Spells':
-    'companionNotes.deliverTouchSpellsFeature:' +
-      'Deliver touch spells if in contact w/master when cast',
-  'Devotion':'companionNotes.devotionFeature:+4 Will vs. enchantment',
-  'Empathic Link':
-    'companionNotes.empathicLinkFeature:Share emotions up to 1 mile',
-  'Familiar Bat':'skillNotes.familiarBat:+3 Listen',
-  'Familiar Cat':'skillNotes.familiarCat:+3 Move Silently',
-  'Familiar Hawk':'skillNotes.familiarHawk:+3 Spot in bright light',
-  'Familiar Lizard':'skillNotes.familiarLizard:+3 Climb',
-  'Familiar Owl':'skillNotes.familiarOwl:+3 Spot in shadows/darkness',
-  'Familiar Rat':'saveNotes.familiarRat:+2 Fortitude',
-  'Familiar Raven':'skillNotes.familiarRaven:+3 Appraise',
-  'Familiar Tiny Viper':'skillNotes.familiarViper:+3 Bluff',
-  'Familiar Toad':'combatNotes.familiarToad:+3 Hit Points',
-  'Familiar Weasel':'saveNotes.familiarWeasel:+2 Reflex',
+    'companion:Deliver touch spells if in contact w/master when cast',
+  'Devotion':'companion:+4 Will vs. enchantment',
+  'Empathic Link':'companion:Share emotions up to 1 mile',
+  'Familiar Bat':'skill:+3 Listen',
+  'Familiar Cat':'skill:+3 Move Silently',
+  'Familiar Hawk':'skill:+3 Spot in bright light',
+  'Familiar Lizard':'skill:+3 Climb',
+  'Familiar Owl':'skill:+3 Spot in shadows/darkness',
+  'Familiar Rat':'save:+2 Fortitude',
+  'Familiar Raven':'skill:+3 Appraise',
+  'Familiar Tiny Viper':'skill:+3 Bluff',
+  'Familiar Toad':'combat:+3 Hit Points',
+  'Familiar Weasel':'save:+2 Reflex',
   'Fiendish Familiar':
-    "companionNotes.fiendishFamiliar:" +
-      "Smite Good (+%V HP) 1/day, 60' darkvision, " +
-      "%1 cold/fire resistance, DR %2/magic",
-  'Improved Speed':'companionNotes.improvedSpeedFeature:+10 speed',
-  'Link':
-    'skillNotes.linkFeature:' +
-      '+4 Handle Animal (companion)/Wild Empathy (companion)',
+    "companion:Smite Good (+%V HP) 1/day, 60' darkvision, %1 cold/fire resistance, DR %2/magic",
+  'Improved Speed':'companion:+10 speed',
+  'Link':'skill:+4 Handle Animal (companion)/Wild Empathy (companion)',
   'Multiattack':
-    'companionNotes.multiattackFeature:' +
-      'Reduce additional attack penalty to -2 or second attack at -5',
-  'Scry':'companionNotes.scryFeature:Master views companion 1/day',
-  'Share Saving Throws':
-    'companionNotes.shareSavingThrowsFeature:+%1 Fort/+%2 Ref/+%3 Will',
-  'Share Spells':
-    'companionNotes.shareSpellsFeature:' +
-      "Master share self spell w/companion w/in 5'",
-  'Speak With Like Animals':
-    'companionNotes.speakWithLikeAnimalsFeature:Talk w/similar creatures',
-  'Speak With Master':
-    'companionNotes.speakWithMasterFeature:Talk w/master in secret language'
+    'companion:Reduce additional attack penalty to -2 or second attack at -5',
+  'Scry':'companion:Master views companion 1/day',
+  'Share Saving Throws':'companion:+%1 Fort/+%2 Ref/+%3 Will',
+  'Share Spells':"companion:Master share self spell w/companion w/in 5'",
+  'Speak With Like Animals':'companion:Talk w/similar creatures',
+  'Speak With Master':'companion:Talk w/master in secret language'
 };
 SRD35.GENDERS = {
   'Female':'',
@@ -6703,7 +6538,15 @@ SRD35.featRules = function(rules, name, types) {
  * TODO
  */
 SRD35.featureRules = function(rules, name, notes) {
-  rules.defineNote(notes);
+  if(typeof(notes) == 'string')
+    notes = [notes];
+  var prefix =
+    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+  for(var i = 0; i < notes.length; i++) {
+    var pieces = notes[i].split(':');
+    var note = pieces[0] + 'Notes.' + prefix + 'Feature:' + pieces[1];
+    rules.defineNote(note);
+  }
 };
 
 /*
