@@ -3775,8 +3775,7 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule('featCount.Wizard',
         'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
       );
-      for(var j = 0; j < SRD35.SCHOOLS.length; j++) {
-        var school = SRD35.SCHOOLS[j].split(':')[0];
+      for(var school in SRD35.SCHOOLS) {
         rules.defineRule('magicNotes.wizardSpecialization',
          'specialize.' + school, '=', '"' + school.toLowerCase() + '"'
         );
