@@ -127,7 +127,7 @@ Quilvyn.addRuleSet = function(rs) {
   for(var path in STORAGE) {
     if(path.startsWith(customRulePrefix)) {
       var typeAndName = path.substring(customRulePrefix.length).split('.');
-      SRD35.addChoice(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
+      SRD35.choiceRules(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
     }
   }
 };
@@ -152,18 +152,21 @@ Quilvyn.customChoicesAdd = function(focus, input) {
       InputHtml('type', 'select-one', choices),
       '<b>Name</b>',
       InputHtml('name', 'text', [20]),
-      '</form><form>',
-      '</form><form>',
+      '<table name="variableFields">',
+      '</table>',
       '<input type="button" value="Ok" onclick="okay=true;"/>',
       '<input type="button" value="Cancel" onclick="window.close();"/>',
       '</form></body></html>'
     );
     var html = htmlBits.join('\n') + '\n';
     Quilvyn.customChoicesAdd.win = window.open('', '__rules_custom', FEATURES_OF_OTHER_WINDOWS);
+    console.log(html);
     Quilvyn.customChoicesAdd.win.document.write(html);
     Quilvyn.customChoicesAdd.win.document.close();
     Quilvyn.customChoicesAdd.win.okay = false;
     Quilvyn.customChoicesAdd.win.focus();
+    var callback = function() {Quilvyn.customChoicesAdd(false, this);};
+    InputSetCallback(Quilvyn.customChoicesAdd.win.document.getElementsByName('type')[0], callback);
     Quilvyn.customChoicesAdd(false, Quilvyn.customChoicesAdd.win.document.forms[0]['type']);
     return;
   } else if(Quilvyn.customChoicesAdd.win.closed) {
@@ -172,20 +175,23 @@ Quilvyn.customChoicesAdd = function(focus, input) {
     return;
   } else if(!Quilvyn.customChoicesAdd.win.okay) {
     if(input != null) {
-      alert('Selection changed');
-/*
-      var elements = ruleSet.choiceEditorElements(choices[0]);
+      var typeInput =
+        Quilvyn.customChoicesAdd.win.document.getElementsByName('type')[0];
+      var typeValue = InputGetValue(typeInput);
+      var elements = ruleSet.choiceEditorElements(ruleSet, typeValue);
+      var htmlBits = [];
       for(var i = 0; i < elements.length; i++) {
         var element = elements[i];
         var label = element[1];
         var name = element[0];
         var params = element[3];
         var type = element[2];
-        if(label != '')
-          htmlBits.push('<b>' + label + '</b>');
-         htmlBits.push(InputHtml(name, type, params), '<br/>');;
+        htmlBits.push(
+          '<tr><th>' + (label ? label : '&nbsp;') + '</th><td>' +
+          InputHtml(name, type, params) + '</td></tr>'
+        );
       }
-*/
+      Quilvyn.customChoicesAdd.win.document.getElementsByName('variableFields')[0].innerHTML = htmlBits.join('\n');
     }
     // Try again later
     setTimeout('Quilvyn.customChoicesAdd(false)', TIMEOUT_DELAY);
@@ -294,7 +300,7 @@ Quilvyn.customChoicesImport = function(focus) {
     var choiceType = pieces.shift();
     var choiceName = pieces.shift();
     var choiceAttrs = pieces.join('.');
-    SRD35.addChoice(ruleSet, choiceType, choiceName, choiceAttrs);
+    SRD35.choiceRules(ruleSet, choiceType, choiceName, choiceAttrs);
     STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + choiceType + '.' + choiceName, choiceAttrs);
   }
 
@@ -333,6 +339,7 @@ Quilvyn.editorHtml = function() {
     ['rules', 'Rules', 'select-one', []],
     ['rulesNotes', '', 'button', ['Notes']],
     ['rulesCustomize', '', 'select-one', ['--- Customize ---', 'Add...', 'Delete...', 'Export', 'Import...']],
+    ['ruleRules', '', 'button', ['Rules']],
     ['character', 'Character', 'select-one', []],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
     ['extras', '', 'checkbox', ['Extras']],
@@ -1061,6 +1068,14 @@ Quilvyn.update = function(input) {
     );
     Quilvyn.rulesNotesWindow.document.close();
     Quilvyn.rulesNotesWindow.focus();
+  } else if(name == 'ruleRules') {
+    var awin = window.open('', 'rulewin', FEATURES_OF_OTHER_WINDOWS);
+    awin.document.write
+      ('<html><head><title>RULES</title></head><body><pre>\n');
+    awin.document.write(ruleSet.toHtml());
+    awin.document.write('</pre></body></html>');
+    awin.document.close();
+    awin.focus();
   } else if(name.indexOf('_clear') >= 0) {
     name = name.replace(/_clear/, '');
     for(var a in character) {

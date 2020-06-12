@@ -36,15 +36,13 @@ function SRD35SpellPoints() {
  * point for a first level spell, 2 for a second level spell, etc.)
  */
 SRD35SpellPoints.spellPointRules = function(rules) {
-  // Define the spell point attribute
-  rules.defineRule('spellPoints', 'casterLevel', '=', '0');
   // Define rules to add the spellsPerDay values to the spellPoints attribute
   var ruleTargets = rules.allTargets();
   for(var j = 0; j < ruleTargets.length; j++) {
     var attr = ruleTargets[j];
     var matchInfo = attr.match(/^spellsPerDay\.[A-Za-z]+([1-9])/);
     if(matchInfo != null) {
-      rules.defineRule('spellPoints', attr, '+', 'source * ' + matchInfo[1]);
+      rules.defineRule('spellPoints', attr, '+=', 'source * ' + matchInfo[1]);
     }
   }
   // Add spell point and remove spells per day from the character sheet.
