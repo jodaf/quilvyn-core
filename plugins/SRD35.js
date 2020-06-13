@@ -37,7 +37,6 @@ function SRD35() {
   SRD35.viewer = new ObjectViewer();
   SRD35.createViewers(rules, SRD35.VIEWERS);
   SRD35.abilityRules(rules);
-  SRD35.raceRules(rules, SRD35.RACES);
   SRD35.classRules(rules, SRD35.CLASSES);
   for(var alignment in SRD35.ALIGNMENTS) {
     SRD35.choiceRules(rules, 'alignments', alignment, SRD35.ALIGNMENTS[alignment]);
@@ -69,6 +68,9 @@ function SRD35() {
   }
   for(var language in SRD35.LANGUAGES) {
     SRD35.choiceRules(rules, 'languages', language, SRD35.LANGUAGES[language]);
+  }
+  for(var race in SRD35.RACES) {
+    SRD35.choiceRules(rules, 'races', race, SRD35.RACES[race]);
   }
   for(var school in SRD35.SCHOOLS) {
     SRD35.choiceRules(rules, 'schools', school, SRD35.SCHOOLS[school]);
@@ -421,6 +423,8 @@ SRD35.FEATURES = {
   'Diehard':'combat:Remain conscious/stable w/HP <= 0',
   'Diligent':'skill:+2 Appraise/Decipher Script',
   'Dodge':'combat:+1 AC vs. chosen foe',
+  'Dwarf Ability Adjustment':'ability:+2 constitution/-2 charisma',
+  'Elf Ability Adjustment':'ability:+2 dexterity/-2 constitution',
   'Empower Spell':'magic:x1.5 chosen spell variable effects uses +2 spell slot',
   'Endurance':'save:+4 extended physical action',
   'Enlarge Spell':'magic:x2 chosen spell range uses +1 spell slot',
@@ -429,11 +433,15 @@ SRD35.FEATURES = {
   'Extra Turning':'combat:+4/day',
   'Far Shot':'combat:x1.5 projectile range, x2 thrown',
   'Forge Ring':'magic:Create/mend magic ring',
+  'Gnome Ability Adjustment':'ability:+2 constitution/-2 strength',
   'Great Cleave':'combat:Cleave w/out limit',
   'Great Fortitude':'save:+2 Fortitude',
   'Greater Spell Penetration':'magic:+2 caster level vs. resistance checks',
   'Greater Two-Weapon Fighting':'combat:Third off-hand -10 attack',
   'Heighten Spell':'magic:Increase chosen spell level',
+  'Half Orc Ability Adjustment':
+    'ability:+2 strength/-2 intelligence/-2 charisma',
+  'Halfling Ability Adjustment':'ability:+2 dexterity/-2 strength',
   'Improved Bull Rush':'combat:No AOO on Bull Rush, +4 strength check',
   'Improved Counterspell':'magic:Counter w/higher-level spell from same school',
   'Improved Disarm':'combat:No AOO on Disarm, +4 attack',
@@ -605,26 +613,26 @@ SRD35.FEATURES = {
   // Races
   'Accurate':'combat:+1 attack with slings/thrown',
   'Alert Senses':'skill:+1 Listen/Search/Spot',
-  'Darkvision':"feature:%V' b/w vision in darkness",
+  'Darkvision':"feature:60' b/w vision in darkness",
   'Dodge Giants':'combat:+4 AC vs. giant creatures',
   'Dwarf Armor Speed Adjustment':'ability:No speed penalty in armor',
   'Dwarf Favored Enemy':'combat:+1 attack vs. goblinoid/orc',
-  'Fortunate':'save:+1 all saves',
+  'Fortunate':'save:+1 Fortitude/Reflex/Will',
   'Gnome Favored Enemy':'combat:+1 attack vs. goblinoid/kobold',
   'Gnome Weapons':'combat:Racial weapons are martial weapons',
   'Keen Ears':'skill:+2 Listen',
   'Keen Nose':'skill:+2 Craft (Alchemy)',
   'Keen Senses':'skill:+2 Listen/Search/Spot',
   'Know Depth':'feature:Intuit approximate depth underground',
-  'Low-Light Vision':'feature:x%V normal distance in poor light',
+  'Low-Light Vision':'feature:x2 normal distance in poor light',
   'Natural Illusionist':'magic:Spell Focus(Illusion)',
   'Natural Spells':'magic:%V 1/day',
   'Natural Smith':'skill:+2 Appraise/Craft involving stone or metal',
-  'Resist Enchantment':'save:+2 vs. enchantment',
-  'Resist Fear':'save:+2 vs. fear',
-  'Resist Illusion':'save:+2 vs. illusions',
-  'Resist Poison':'save:+2 vs. poison',
-  'Resist Spells':'save:+2 vs. spells',
+  'Resist Enchantment':'save:+2 vs. Enchantment',
+  'Resist Fear':'save:+2 vs. Fear',
+  'Resist Illusion':'save:+2 vs. Illusions',
+  'Resist Poison':'save:+2 vs. Poison',
+  'Resist Spells':'save:+2 vs. Spells',
   'Sense Secret Doors':"feature:Automatic Search when w/in 5'",
   'Sleep Immunity':'save:Immune <i>Sleep</i>',
   'Slow':'ability:-10 speed',
@@ -681,8 +689,31 @@ SRD35.LANGUAGES = {
   'Gnoll':'', 'Gnome':'', 'Goblin':'', 'Halfling':'', 'Ignan':'',
   'Infernal':'', 'Orc':'', 'Sylvan':'', 'Terran':'', 'Undercommon':''
 };
-SRD35.RACES =
-  ['Dwarf', 'Elf', 'Gnome', 'Half Elf', 'Half Orc', 'Halfling', 'Human'];
+SRD35.RACES = {
+  'Dwarf':
+    'Features=Darkvision,"Dodge Giants","Dwarf Favored Enemy",' +
+    '"Dwarf Ability Adjustment","Know Depth",' +
+    '"Natural Smith","Resist Poison","Resist Spells","Slow","Stability",' +
+    '"Stonecunning","Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)"',
+  'Elf':
+    'Features="Elf Ability Adjustment","Keen Senses","Low-Light Vision",' +
+    '"Resist Enchantment","Sense Secret Doors","Sleep Immunity",' +
+    '"Weapon Proficiency (Composite Longbow/Composite Shortbow/Longsword/Rapier/Longbow/Shortbow)"',
+  'Gnome':
+    'Features="Dodge Giants","Gnome Ability Adjustemnt",' +
+    '"Gnome Favored Enemy","Keen Ears","Keen Nose",' +
+    '"Low-Light Vision","Natural Illusionist","Natural Spells",' +
+    '"Resist Illusion",Slow,Small,"Weapon Familiarity (Gnome Hooked Hammer)"',
+  'Half Elf':
+    'Features="Alert Senses","Low-Light Vision","Resist Enchantment",' +
+    '"Sleep Immunity",Tolerance',
+  'Half Orc':
+    'Features=Darkvision,"Half Orc Ability Adjustment"',
+  'Halfling':
+    'Features=Accurate,Fortunate,"Halfling Ability Adjustement","Keen Ears",' +
+    'Slow,Small,Spry,"Resist Fear"',
+  'Human':''
+};
 // The order here handles dependencies among attributes when generating
 // random characters
 SRD35.RANDOMIZABLE_ATTRIBUTES = [
@@ -4099,170 +4130,6 @@ SRD35.goodiesRules = function(rules) {
 
 };
 
-/* Defines the rules related to character races. */
-SRD35.raceRules = function(rules, races) {
-
-  for(var i = 0; i < races.length; i++) {
-
-    var adjustment, features;
-    var race = races[i];
-    var raceNoSpace =
-      race.substring(0,1).toLowerCase() + race.substring(1).replace(/ /g, '');
-
-    if(race == 'Half Elf') {
-
-      adjustment = null;
-      features = [
-        'Alert Senses', 'Resist Enchantment', 'Low-Light Vision',
-        'Sleep Immunity', 'Tolerance'
-      ];
-      rules.defineRule('featureNotes.low-LightVisionFeature',
-        raceNoSpace + 'Features.Low-Light Vision', '=', '2'
-      );
-      rules.defineRule('resistance.Enchantment',
-        'saveNotes.resistEnchantmentFeature', '+=', '2'
-      );
-
-    } else if(race == 'Half Orc') {
-
-      adjustment = '+2 strength/-2 intelligence/-2 charisma';
-      features = ['Darkvision'];
-      rules.defineRule('featureNotes.darkvisionFeature',
-        raceNoSpace + 'Features.Darkvision', '+=', '60'
-      );
-
-    } else if(race.match(/Dwarf/)) {
-
-      adjustment = '+2 constitution/-2 charisma';
-      features = [
-        'Darkvision', 'Dodge Giants', 'Dwarf Favored Enemy', 'Know Depth',
-        'Natural Smith', 'Resist Poison', 'Resist Spells', 'Slow', 'Stability',
-        'Stonecunning', 'Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)'
-      ];
-
-      rules.defineRule('abilityNotes.armorSpeedAdjustment',
-        'abilityNotes.dwarfArmorSpeedAdjustment', '^', '0'
-      );
-      rules.defineRule('abilityNotes.dwarfArmorSpeedAdjustment',
-        'race', '=', 'source.match(/Dwarf/) ? 1 : null'
-      );
-      rules.defineRule('featureNotes.darkvisionFeature',
-        raceNoSpace + 'Features.Darkvision', '+=', '60'
-      );
-      rules.defineRule
-        ('resistance.Poison', 'saveNotes.resistPoisonFeature', '+=', '2');
-      rules.defineRule
-        ('resistance.Spell', 'saveNotes.resistSpellsFeature', '+=', '2');
-      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-10');
-
-    } else if(race.match(/Elf/)) {
-
-      adjustment = '+2 dexterity/-2 constitution';
-      features = [
-        'Keen Senses', 'Low-Light Vision', 'Resist Enchantment',
-        'Sense Secret Doors', 'Sleep Immunity',
-        'Weapon Proficiency (Composite Longbow/Composite Shortbow/Longsword/' +
-        'Rapier/Longbow/Shortbow)'
-      ];
-      rules.defineRule('featureNotes.low-LightVisionFeature',
-        raceNoSpace + 'Features.Low-Light Vision', '=', '2'
-      );
-      rules.defineRule('resistance.Enchantment',
-        'saveNotes.resistEnchantmentFeature', '+=', '2'
-      );
-
-    } else if(race.match(/Gnome/)) {
-
-      adjustment = '+2 constitution/-2 strength';
-      features = [
-        'Dodge Giants', 'Gnome Favored Enemy', 'Gnome Weapons', 'Keen Ears',
-        'Keen Nose', 'Low-Light Vision', 'Natural Illusionist',
-        'Natural Spells', 'Resist Illusion', 'Slow', 'Small',
-        'Weapon Familiarity (Gnome Hooked Hammer)'
-      ];
-      rules.defineRule('abilityNotes.armorSpeedAdjustment',
-        'abilityNotes.slowFeature', '+', '5'
-      );
-      rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('casterLevels.Gnome',
-        'gnomeFeatures.Natural Spells', '?', null,
-        'level', '=', '1'
-      );
-      rules.defineRule
-        ('casterLevels.Dancing Lights', 'casterLevels.Gnome', '^=', null);
-      rules.defineRule
-        ('casterLevels.Ghost Sound', 'casterLevels.Gnome', '^=', null);
-      rules.defineRule
-        ('casterLevels.Prestidigitation', 'casterLevels.Gnome', '^=', null);
-      rules.defineRule
-        ('casterLevels.Speak With Animals', 'casterLevels.Gnome', '^=', null);
-      // Set casterLevels.B to a minimal value so that spell DC will be
-      // calcuated even for non-Bard Gnomes.
-      rules.defineRule('casterLevels.B', 'casterLevels.Gnome', '^=', '1');
-
-      rules.defineRule('featureNotes.low-LightVisionFeature',
-        raceNoSpace + 'Features.Low-Light Vision', '=', '2'
-      );
-      rules.defineRule('features.Spell Focus (Illusion)',
-        'magicNotes.naturalIllusionistFeature', '=', '1'
-      );
-      rules.defineRule('magicNotes.naturalSpellsFeature',
-        'charisma', '=',
-        'source < 10 ? "<i>Speak With Animals</i>" : ' +
-        '"<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
-        '<i>Speak With Animals</i>"'
-      );
-      rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule
-        ('resistance.Illusion', 'saveNotes.resistIllusionFeature', '+=', '2');
-      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-10');
-
-    } else if(race.match(/Halfling/)) {
-
-      adjustment = '+2 dexterity/-2 strength';
-      features = [
-        'Accurate', 'Fortunate', 'Keen Ears', 'Slow', 'Small', 'Spry',
-        'Resist Fear'
-      ];
-      rules.defineRule('abilityNotes.armorSpeedAdjustment',
-        'abilityNotes.slowFeature', '+', '5'
-      );
-      rules.defineRule('armorClass', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('meleeAttack', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule('rangedAttack', 'combatNotes.smallFeature', '+', '1');
-      rules.defineRule
-        ('resistance.Fear', 'saveNotes.resistFearFeature', '+=', '2');
-      rules.defineRule('save.Fortitude','saveNotes.fortunateFeature','+','1');
-      rules.defineRule('save.Reflex', 'saveNotes.fortunateFeature', '+', '1');
-      rules.defineRule('save.Will', 'saveNotes.fortunateFeature', '+', '1');
-      rules.defineRule('speed', 'abilityNotes.slowFeature', '+', '-10');
-
-    } else if(race.match(/Human/)) {
-
-      adjustment = null;
-      features = null;
-      rules.defineRule
-        ('featCount.General', 'featureNotes.humanFeatCountBonus', '+', null);
-      rules.defineRule('featureNotes.humanFeatCountBonus',
-        'race', '+=', 'source.match(/Human/) ? 1 : null'
-      );
-      rules.defineRule('skillNotes.humanSkillPointsBonus',
-        'race', '?', 'source.match(/Human/)',
-        'level', '=', 'source + 3'
-      );
-      rules.defineRule
-        ('skillPoints', 'skillNotes.humanSkillPointsBonus', '+', null);
-
-    } else
-      continue;
-
-    SRD35.defineRace(rules, race, adjustment, features);
-
-  }
-
-};
-
 /* Returns a random name for a character of race #race#. */
 SRD35.randomName = function(race) {
 
@@ -5223,6 +5090,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.genderRules(rules, name);
   else if(type == 'languages')
     SRD35.languageRules(rules, name);
+  else if(type == 'races')
+    SRD35.raceRules(rules, name,
+      QuilvynRules.getAttrValueArray(attrs, 'Features')
+  );
   else if(type == 'schools')
     SRD35.schoolRules(rules, name);
   else if(type == 'shields')
@@ -5705,6 +5576,8 @@ SRD35.familiarRules = function(
   rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, level
 ) {
 
+  rules.defineRule('features.Familiar ' + name, 'familiar.' + name, '=', '1');
+
   rules.defineNote(
     'familiarStats.Melee:+%V %1',
     'familiarStats.SR:DC %V'
@@ -5734,17 +5607,6 @@ SRD35.familiarRules = function(
       'familiarMasterLevel', '+', '-source',
       '', '^', '0'
     );
-  }
-  var note = SRD35.FEATURES['Familiar ' + name];
-  if(note != null) {
-    note = note.split(':')[0];
-    rules.defineRule(note, 'familiar.' + name, '=', '1');
-    if(name == 'Toad')
-      rules.defineRule('hitPoints', note, '+', '3');
-    else if(name == 'Rat')
-      rules.defineRule('save.Fortitude', note, '+', '2');
-    else if(name == 'Weasel')
-      rules.defineRule('save.Reflex', note, '+', '2');
   }
 
   var features = {
@@ -6537,16 +6399,61 @@ SRD35.featRules = function(rules, name, types) {
 /*
  * TODO
  */
+SRD35.FOO = {
+  'ac':'armorClass',
+  'charisma':'charisma', 'constitution':'constitution',
+  'dexterity':'dexterity', 'fortitude':'save.Fortitude',
+  'initiative':'initiative',
+  'intelligence':'intelligence', 'melee':'meleeAttack',
+  'ranged':'rangedAttack', 'reflex':'save.Reflex',
+  'speed':'speed', 'strength':'strength', 'will':'save.Will',
+  'wisdom':'wisdom'
+};
 SRD35.featureRules = function(rules, name, notes) {
-  if(typeof(notes) == 'string')
-    notes = [notes];
+
+  var matchInfo;
+  var pieces;
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+
+  if(typeof(notes) == 'string')
+    notes = [notes];
+
   for(var i = 0; i < notes.length; i++) {
-    var pieces = notes[i].split(':');
-    var note = pieces[0] + 'Notes.' + prefix + 'Feature:' + pieces[1];
-    rules.defineNote(note);
+
+    pieces = notes[i].split(':');
+    var section = pieces[0];
+    var effect = pieces[1];
+    var note = section + 'Notes.' + prefix + 'Feature';
+
+    rules.defineNote(note + ':' + effect);
+
+    if((matchInfo = effect.match(/^([-+](\d+|%V)) (.*)$/)) != null) {
+
+      var adjust = matchInfo[1];
+      pieces = matchInfo[3].split('/');
+
+      for(var j = 0; j < pieces.length; j++) {
+
+        var adjusted = pieces[j];
+        if((matchInfo = adjusted.match(/^([-+](\d+|%V)) (.*)$/)) != null) {
+          adjust = matchInfo[1];
+          adjusted = matchInfo[3];
+        }
+
+        if(adjusted.toLowerCase() in SRD35.FOO) {
+          adjusted = adjusted.toLowerCase();
+          if(adjust.endsWith('V'))
+            rules.defineRule(SRD35.FOO[adjusted], note, '+=', null);
+          else
+            rules.defineRule(SRD35.FOO[adjusted], note, '+=', adjust);
+        }
+      }
+
+    }
+
   }
+
 };
 
 /*
@@ -6592,6 +6499,89 @@ SRD35.languageRules = function(rules, name) {
   else if(name == 'Orc')
     rules.defineRule
       ('languages.Orc', 'race', '=', 'source.match(/Orc/) ? 1 : null');
+};
+
+/*
+ * TODO
+ */
+SRD35.raceRules = function(rules, name, features) {
+
+  var prefix =
+    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+
+  for(var i = 0; i < features.length; i++) {
+    var raceFeature = prefix + 'Features.' + features[i];
+    rules.defineRule
+      (raceFeature, 'race', '=', 'source == "' + name + '" ? 1 : null');
+    rules.defineRule('features.' + features[i], raceFeature, '=', '1');
+  }
+
+  rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
+  rules.defineChoice('extras', prefix + 'Features');
+
+/*
+  } else if(race.match(/Dwarf/)) {
+
+    rules.defineRule('abilityNotes.armorSpeedAdjustment',
+      'abilityNotes.dwarfArmorSpeedAdjustment', '^', '0'
+    );
+    rules.defineRule('abilityNotes.dwarfArmorSpeedAdjustment',
+      'race', '=', 'source.match(/Dwarf/) ? 1 : null'
+    );
+
+  } else if(race.match(/Gnome/)) {
+
+    rules.defineRule('abilityNotes.armorSpeedAdjustment',
+      'abilityNotes.slowFeature', '+', '5'
+    );
+    rules.defineRule('casterLevels.Gnome',
+      'gnomeFeatures.Natural Spells', '?', null,
+      'level', '=', '1'
+    );
+    rules.defineRule
+      ('casterLevels.Dancing Lights', 'casterLevels.Gnome', '^=', null);
+    rules.defineRule
+      ('casterLevels.Ghost Sound', 'casterLevels.Gnome', '^=', null);
+    rules.defineRule
+      ('casterLevels.Prestidigitation', 'casterLevels.Gnome', '^=', null);
+    rules.defineRule
+      ('casterLevels.Speak With Animals', 'casterLevels.Gnome', '^=', null);
+    // Set casterLevels.B to a minimal value so that spell DC will be
+    // calcuated even for non-Bard Gnomes.
+    rules.defineRule('casterLevels.B', 'casterLevels.Gnome', '^=', '1');
+
+    rules.defineRule('features.Spell Focus (Illusion)',
+      'magicNotes.naturalIllusionistFeature', '=', '1'
+    );
+    rules.defineRule('magicNotes.naturalSpellsFeature',
+      'charisma', '=',
+      'source < 10 ? "<i>Speak With Animals</i>" : ' +
+      '"<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
+      '<i>Speak With Animals</i>"'
+    );
+
+  } else if(race.match(/Halfling/)) {
+
+    rules.defineRule('abilityNotes.armorSpeedAdjustment',
+      'abilityNotes.slowFeature', '+', '5'
+    );
+
+  } else if(race.match(/Human/)) {
+
+    rules.defineRule
+      ('featCount.General', 'featureNotes.humanFeatCountBonus', '+', null);
+    rules.defineRule('featureNotes.humanFeatCountBonus',
+      'race', '+=', 'source.match(/Human/) ? 1 : null'
+    );
+    rules.defineRule('skillNotes.humanSkillPointsBonus',
+      'race', '?', 'source.match(/Human/)',
+      'level', '=', 'source + 3'
+    );
+    rules.defineRule
+      ('skillPoints', 'skillNotes.humanSkillPointsBonus', '+', null);
+  }
+*/
+
 };
 
 /*
@@ -7144,57 +7134,6 @@ SRD35.defineClass = function
     }
   }
 
-};
-
-/*
- * A convenience function that adds #name# to the list of valid races in
- * #rules#.  #abilityAdjustment# is either null or a note of the form "[+-]n
- * Ability[/[+-]n Ability]*", indicating ability adjustments for the race.
- * #features# is either null or an array of strings of the form
- * "[level:]Feature", indicating a list of features associated with the race
- * and the character levels at which they're acquired.  If no level is included
- * with a feature, the feature is acquired at level 1.
- */
-SRD35.defineRace = function(rules, name, abilityAdjustment, features) {
-  rules.defineChoice('races', name);
-  var prefix =
-    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
-  if(abilityAdjustment != null) {
-    var abilityNote = 'abilityNotes.' + prefix + 'AbilityAdjustment';
-    rules.defineNote(abilityNote + ':' + abilityAdjustment);
-    var adjustments = abilityAdjustment.split(/\//);
-    for(var i = 0; i < adjustments.length; i++) {
-      var amountAndAbility = adjustments[i].split(/ +/);
-      if(amountAndAbility[1] != 'any')
-        rules.defineRule
-          (amountAndAbility[1], abilityNote, '+', amountAndAbility[0]);
-    }
-    rules.defineRule
-      (abilityNote, 'race', '=', 'source == "' + name + '" ? 1 : null');
-  }
-  if(features != null) {
-    for(var i = 0; i < features.length; i++) {
-      var levelAndFeature = features[i].split(/:/);
-      var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-      var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-      var matchInfo;
-      rules.defineRule(prefix + 'Features.' + feature,
-        'race', '?', 'source == "' + name + '"',
-        'level', '=', 'source >= ' + level + ' ? 1 : null'
-      );
-      rules.defineRule
-        ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
-      if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
-        // Set individual features for each weapon on the list.
-        var weapons = matchInfo[2].split('/');
-        for(var j = 0; j < weapons.length; j++) {
-          rules.defineRule('features.Weapon ' + matchInfo[1] + ' (' + weapons[j] + ')', 'features.' + feature, '=', '1');
-        }
-      }
-    }
-    rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
-    rules.defineChoice('extras', prefix + 'Features');
-  }
 };
 
 /* Convenience functions that invoke QuilvynRules methods on the SRD35 rules. */
