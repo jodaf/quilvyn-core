@@ -155,15 +155,12 @@ QuilvynRules.prototype.defineNote = function(note /*, note ... */) {
     var pieces = allArgs[i].split(/:/);
     var attribute = pieces[0];
     var format = pieces[1];
-    var matchInfo = attribute.match(/Notes\.(.*)(Domain|Feature|Synergy)$/);
+    var matchInfo = attribute.match(/Notes\.(.*)(Domain|Feature)$/);
     if(matchInfo != null) {
       var name = matchInfo[1].replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
       name = name.substring(0, 1).toUpperCase() + name.substring(1);
       var dependsOn = matchInfo[2].toLowerCase() + 's.' + name;
-      if(matchInfo[2] == 'Synergy')
-        this.defineRule
-          (attribute, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
-      else if(format.indexOf('%V') < 0)
+      if(format.indexOf('%V') < 0)
         this.defineRule(attribute, dependsOn, '=', '1');
       else {
         this.defineRule(attribute, dependsOn, '?', null);
@@ -172,27 +169,7 @@ QuilvynRules.prototype.defineNote = function(note /*, note ... */) {
         }
       }
     }
-    if(attribute.match(/^skillNotes\./) && format.match(/^[+-](%[V\d]|\d+)/)) {
-      var skills = format.split('/');
-      var bump;
-      for(var j = 0; j < skills.length; j++) {
-        var skill = skills[j];
-        var source = attribute;
-        if((matchInfo = skill.match(/^([+-](%[\dV]|\d+)) (.*)/)) != null) {
-          bump = matchInfo[1];
-          skill = matchInfo[3];
-          if(bump.charAt(1) == '%') {
-            if(bump.charAt(2) != 'V') {
-              source = attribute + '.' + bump.charAt(2);
-            }
-            bump = bump.charAt(0) + 'source';
-          }
-        }
-        if(skill.match(/^[A-Z]\w*( [A-Z]\w*)*( \([A-Z]\w*( [A-Z]\w*)*\))?$/)) {
-          this.defineRule('skillModifier.' + skill, source, '+', bump);
-        }
-      }
-    } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Power|Race|SelectableFeature)([A-Z][a-z]+)$/)) != null &&
+    if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Power|Race|SelectableFeature)([A-Z][a-z]+)$/)) != null &&
               !format.match(/[ \(\/][a-z]/)) {
       var group = matchInfo[4] == 'Feats' ? 'features' :
                   matchInfo[4].match(/s$/) ?
