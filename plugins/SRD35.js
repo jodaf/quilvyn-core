@@ -276,124 +276,146 @@ SRD35.FEATS = {
   'Agile':'Type=General',
   'Alertness':'Type=General',
   'Animal Affinity':'Type=General',
-  'Armor Proficiency (Heavy)':'Type=General',
+  'Armor Proficiency (Heavy)':'Type=General Prereq="Armor Proficiency (Medium)"',
   'Armor Proficiency (Light)':'Type=General',
-  'Armor Proficiency (Medium)':'Type=General',
+  'Armor Proficiency (Medium)':'Type=General Prereq="Armor Proficiency (Light)"',
   'Athletic':'Type=General',
-  'Augment Summoning':'Type=General',
+  'Augment Summoning':'Type=General Prereq="Spell Focus (Conjuration)"',
   'Blind-Fight':'Type=Fighter',
-  'Brew Potion':'Type="Item Creation",Wizard',
-  'Cleave':'Type=Fighter',
-  'Combat Casting':'Type=General',
-  'Combat Expertise':'Type=Fighter',
-  'Combat Reflexes':'Type=Fighter',
-  'Craft Magic Arms And Armor':'Type="Item Creation",Wizard',
-  'Craft Rod':'Type="Item Creation",Wizard',
-  'Craft Staff':'Type="Item Creation",Wizard',
-  'Craft Wand':'Type="Item Creation",Wizard',
-  'Craft Wondrous Item':'Type="Item Creation",Wizard',
+  'Brew Potion':'Type="Item Creation",Wizard Prereq="Caster Level >= 3"',
+  'Cleave':'Type=Fighter Prereq="Power Attack","Strength >= 13"',
+  'Combat Casting':'Type=General,Spellcasting',
+  'Combat Expertise':'Type=Fighter Prereq="Intelligence >= 13"',
+  'Combat Reflexes':'Type=Fighter Prereq="Dexterity >= 13"',
+  'Craft Magic Arms And Armor':
+    'Type="Item Creation",Wizard Prereq="Caster Level >= 5"',
+  'Craft Rod':'Type="Item Creation",Wizard Prereq="Caster Level >= 9"',
+  'Craft Staff':'Type="Item Creation",Wizard Prereq="Caster Level >= 12"',
+  'Craft Wand':'Type="Item Creation",Wizard Prereq="Caster Level >= 5"',
+  'Craft Wondrous Item':
+    'Type="Item Creation",Wizard Prereq="Caster Level >= 3"',
   'Deceitful':'Type=General',
-  'Deflect Arrows':'Type=Fighter',
+  'Deflect Arrows':
+    'Type=Fighter Prereq="Dexterity >= 13","Improved Unarmed Strike"',
   'Deft Hands':'Type=General',
-  'Diehard':'Type=General',
+  'Diehard':'Type=General Prereq="Endurance"',
   'Diligent':'Type=General',
-  'Dodge':'Type=Fighter',
+  'Dodge':'Type=Fighter Prereq="Dexterity >= 13"',
   'Empower Spell':'Type=Metamagic,Wizard',
   'Endurance':'Type=General',
   'Enlarge Spell':'Type=Metamagic,Wizard',
-  'Eschew Materials':'Type=General',
+  'Eschew Materials':'Type=General,Spellcasting',
   'Extend Spell':'Type=Metamagic,Wizard',
-  'Extra Turning':'Type=General',
-  'Far Shot':'Type=Fighter',
-  'Forge Ring':'Type="Item Creation",Wizard',
-  'Great Cleave':'Type=Fighter',
+  'Extra Turning':'Type=General Prereq="Turning Level >= 1"',
+  'Far Shot':'Type=Fighter Prereq="Point Blank Shot"',
+  'Forge Ring':'Type="Item Creation",Wizard Prereq="Caster Level >= 12"',
+  'Great Cleave':'Type=Fighter Prereq="Strength >= 13","Base Attack >= 4","Cleave","Power Attack"',
   'Great Fortitude':'Type=General',
-  'Greater Spell Focus (Abjuration)':'Type=General',
-  'Greater Spell Focus (Conjuration)':'Type=General',
-  'Greater Spell Focus (Divination)':'Type=General',
-  'Greater Spell Focus (Enchantment)':'Type=General',
-  'Greater Spell Focus (Evocation)':'Type=General',
-  'Greater Spell Focus (Illusion)':'Type=General',
-  'Greater Spell Focus (Necromancy)':'Type=General',
-  'Greater Spell Focus (Transmutation)':'Type=General',
-  'Greater Spell Penetration':'Type=General',
-  'Greater Two-Weapon Fighting':'Type=Fighter',
+  'Greater Spell Focus (Abjuration)':
+    'Type=General Prereq="Spell Focus (Abjuration)"',
+  'Greater Spell Focus (Conjuration)':
+    'Type=General Prereq="Spell Focus (Conjuration)"',
+  'Greater Spell Focus (Divination)':
+    'Type=General Prereq="Spell Focus (Diviniation)"',
+  'Greater Spell Focus (Enchantment)':
+    'Type=General Prereq="Spell Focus (Enchantment)"',
+  'Greater Spell Focus (Evocation)':
+    'Type=General Prereq="Spell Focus (Evocation)"',
+  'Greater Spell Focus (Illusion)':
+    'Type=General Prereq="Spell Focus (Illusion)"',
+  'Greater Spell Focus (Necromancy)':
+    'Type=General Prereq="Spell Focus (Necromancy)"',
+  'Greater Spell Focus (Transmutation)':
+    'Type=General Prereq="Spell Focus (Transmutation)"',
+  'Greater Spell Penetration':'Type=General,Spellcasting Prereq="Spell Penetration"',
+  'Greater Two-Weapon Fighting':'Type=Fighter Prereq="Dexterity >= 12","Base Attack >= 11","Two-Weapon Fighting","Improved Two-Weapon Fighting"',
   'Greater Weapon Focus (Longsword)':'Type=Fighter',
   'Greater Weapon Specialization (Longsword)':'Type=Fighter',
   'Heighten Spell':'Type=Metamagic,Wizard',
-  'Improved Bull Rush':'Type=Fighter',
-  'Improved Counterspell':'Type=General',
+  'Improved Bull Rush':'Type=Fighter Prereq="Strength >= 13","Power Attack"',
+  'Improved Counterspell':'Type=General,Spellcasting',
   'Improved Critical (Longsword)':'Type=Fighter',
-  'Improved Disarm':'Type=Fighter',
-  'Improved Familiar':'Type=General',
-  'Improved Feint':'Type=Fighter',
-  'Improved Grapple':'Type=Fighter',
+  'Improved Disarm':
+    'Type=Fighter Prereq="Intelligence >= 13","Combat Expertise"',
+  'Improved Familiar':'Type=General Prereq="Familiar"',
+  'Improved Feint':
+    'Type=Fighter Prereq="Intelligence >= 13","Combat Expertise"',
+  'Improved Grapple':
+    'Type=Fighter Prereq="Dexterity >= 13","Improved Unarmed Strike"',
   'Improved Initiative':'Type=Fighter',
-  'Improved Overrun':'Type=Fighter',
-  'Improved Precise Shot':'Type=Fighter',
-  'Improved Shield Bash':'Type=Fighter',
-  'Improved Sunder':'Type=Fighter',
-  'Improved Trip':'Type=Fighter',
-  'Improved Turning':'Type=General',
-  'Improved Two-Weapon Fighting':'Type=Fighter',
+  'Improved Overrun':'Type=Fighter Prereq="Strength >= 13","Power Attack"',
+  'Improved Precise Shot':
+    'Type=Fighter Prereq="Dexterity >= 13","Base Attack >= 11","Point Blank Shot","Precise Shot"',
+  'Improved Shield Bash':'Type=Fighter Prereq="Shield Proficiency (Heavy)"',
+  'Improved Sunder':'Type=Fighter Prereq="Strength >= 13","Power Attack"',
+  'Improved Trip':'Type=Fighter Prereq="Intelligence >= 13","Combat Expertise"',
+  'Improved Turning':'Type=General Prereq="Turning Level >= 1"',
+  'Improved Two-Weapon Fighting':
+    'Type=Fighter Prereq="Dexterity >= 13","Base Attack >= 6","Two-Weapon Fighting"',
   'Improved Unarmed Strike':'Type=Fighter',
   'Investigator':'Type=General',
   'Iron Will':'Type=General',
-  'Leadership':'Type=General',
+  'Leadership':'Type=General Prereq="Level >= 6"',
   'Lightning Reflexes':'Type=General',
   'Magical Aptitude':'Type=General',
-  'Manyshot':'Type=Fighter',
+  'Manyshot':
+    'Type=Fighter Prereq="Dexterity >= 17","Base Attack >= 6","Point Blank Shot","Rapid Shot"',
   'Maximize Spell':'Type=Metamagic,Wizard',
-  'Mobility':'Type=Fighter',
-  'Mounted Archery':'Type=Fighter',
-  'Mounted Combat':'Type=Fighter',
-  'Natural Spell':'Type=General',
+  'Mobility':'Type=Fighter Prereq="Dexterity >= 13",Dodge',
+  'Mounted Archery':'Type=Fighter Prereq="Mounted Combat",Ride',
+  'Mounted Combat':'Type=Fighter Prereq=Ride',
+  'Natural Spell':'Type=General Prereq="Wisdom >= 13","Wild Shape"',
   'Negotiator':'Type=General',
   'Nimble Fingers':'Type=General',
   'Persuasive':'Type=General',
   'Point Blank Shot':'Type=Fighter',
-  'Power Attack':'Type=Fighter',
-  'Precise Shot':'Type=Fighter',
-  'Quick Draw':'Type=Fighter',
+  'Power Attack':'Type=Fighter Prereq="Strength >= 13"',
+  'Precise Shot':'Type=Fighter Prereq="Point Blank Shot"',
+  'Quick Draw':'Type=Fighter Prereq="Base Attack >= 1"',
   'Quicken Spell':'Type=Metamagic,Wizard',
   'Rapid Reload (Hand)':'Type=Fighter',
   'Rapid Reload (Heavy)':'Type=Fighter',
   'Rapid Reload (Light)':'Type=Fighter',
-  'Rapid Shot':'Type=Fighter',
-  'Ride-By Attack':'Type=Fighter',
+  'Rapid Shot':'Type=Fighter Prereq="Dexterity >= 13","Point Blank Shot"',
+  'Ride-By Attack':'Type=Fighter Prereq="Mounted Combat",Ride',
   'Run':'Type=General',
-  'Scribe Scroll':'Type="Item Creation",Wizard',
+  'Scribe Scroll':'Type="Item Creation",Wizard Prereq="Caster Level >= 1"',
   'Self Sufficient':'Type=General',
   'Shield Proficiency (Heavy)':'Type=General',
   'Shield Proficiency (Tower)':'Type=General',
-  'Shot On The Run':'Type=Fighter',
+  'Shot On The Run':
+    'Type=Fighter Prereq="Dexterity >= 13","Base Attack >= 4",Dodge,Mobility,"Point Blank Shot"',
   'Silent Spell':'Type=Metamagic,Wizard',
-  'Snatch Arrows':'Type=Fighter',
-  'Spell Focus (Abjuration)':'Type=General',
-  'Spell Focus (Conjuration)':'Type=General',
-  'Spell Focus (Divination)':'Type=General',
-  'Spell Focus (Enchantment)':'Type=General',
-  'Spell Focus (Evocation)':'Type=General',
-  'Spell Focus (Illusion)':'Type=General',
-  'Spell Focus (Necromancy)':'Type=General',
-  'Spell Focus (Transmutation)':'Type=General',
-  'Spell Mastery':'Type=Wizard',
-  'Spell Penetration':'Type=General',
-  'Spirited Charge':'Type=Fighter',
-  'Spring Attack':'Type=Fighter',
+  'Snatch Arrows':'Type=Fighter Prereq="Dexterity >= 15","Deflect Arrows","Improved Unarmed Strike"',
+  'Spell Focus (Abjuration)':'Type=General,Spellcasting',
+  'Spell Focus (Conjuration)':'Type=General,Spellcasting',
+  'Spell Focus (Divination)':'Type=General,Spellcasting',
+  'Spell Focus (Enchantment)':'Type=General,Spellcasting',
+  'Spell Focus (Evocation)':'Type=General,Spellcasting',
+  'Spell Focus (Illusion)':'Type=General,Spellcasting',
+  'Spell Focus (Necromancy)':'Type=General,Spellcasting',
+  'Spell Focus (Transmutation)':'Type=General,Spellcasting',
+  'Spell Mastery':'Type=Wizard Prereq="Wizard >= 1"',
+  'Spell Penetration':'Type=General,Spellcasting',
+  'Spirited Charge':
+    'Type=Fighter Prereq="Mounted Combat","Ride-By Attack",Ride',
+  'Spring Attack':
+    'Type=Fighter Prereq="Dexterity >= 13","Base Attack >= 4",Dodge,Mobility',
   'Stealthy':'Type=General',
   'Still Spell':'Type=Metamagic,Wizard',
-  'Stunning Fist':'Type=Fighter',
+  'Stunning Fist':
+    'Type=Fighter Prereq="Dexterity >= 13","Wisdom >= 13","Base Attack >= 8","Improved Unarmed Strike"',
   'Toughness':'Type=General',
   'Track':'Type=General',
-  'Trample':'Type=Fighter',
-  'Two-Weapon Defense':'Type=Fighter',
-  'Two-Weapon Fighting':'Type=Fighter',
-  'Weapon Finesse':'Type=Fighter',
+  'Trample':'Type=Fighter Prereq="Mounted Combat",Ride',
+  'Two-Weapon Defense':
+    'Type=Fighter Prereq="Dexterity >= 15","Two-Weapon Fighting"',
+  'Two-Weapon Fighting':'Type=Fighter Prereq="Dexterity >= 15"',
+  'Weapon Finesse':'Type=Fighter Prereq="Base Attack >= 1"',
   'Weapon Focus (Longsword)':'Type=Fighter',
   'Weapon Proficiency (Simple)':'Type=General',
   'Weapon Specialization (Longsword)':'Type=Fighter',
-  'Whirlwind Attack':'Type=Fighter',
+  'Whirlwind Attack':'Type=Fighter Prereq="Dexterity >= 13","Intelligence >= 13","Base Attack >= 4","Combat Expertise",Dodge,Mobility,"Spring Attack"',
   'Widen Spell':'Type=Metamagic,Wizard'
 };
 SRD35.FEATURES = {
@@ -422,7 +444,7 @@ SRD35.FEATURES = {
   'Deft Hands':'skill:+2 Sleight Of Hand/Use Rope',
   'Diehard':'combat:Remain conscious/stable w/HP <= 0',
   'Diligent':'skill:+2 Appraise/Decipher Script',
-  'Dodge':'combat:+1 AC vs. chosen foe',
+  'Dodge':'combat:+1 AC',
   'Dwarf Ability Adjustment':'ability:+2 constitution/-2 charisma',
   'Elf Ability Adjustment':'ability:+2 dexterity/-2 constitution',
   'Empower Spell':'magic:x1.5 chosen spell variable effects uses +2 spell slot',
@@ -2866,11 +2888,16 @@ SRD35.classRules = function(rules, classes) {
     'validationNotes.selectableFeatureAllocation.2', '+=', null
   );
 
+  rules.defineRule('casterLevel',
+    'casterLevelArcane', '=', null,
+    'casterLevelDivine', '+=', null
+  );
+
   for(var i = 0; i < classes.length; i++) {
 
-    var baseAttack, features, hitDie, notes, profArmor, profShield,
+    var baseAttack, features, hitDie, notes,
         profWeapon, saveFortitude, saveReflex, saveWill, selectableFeatures,
-        skillPoints, skills, spellAbility, spellsKnown, spellsPerDay;
+        skillPoints, spellAbility, spellsKnown, spellsPerDay;
     var klass = classes[i];
     var klassNoSpace =
       klass.substring(0,1).toLowerCase() + klass.substring(1).replace(/ /g, '');
@@ -2879,6 +2906,7 @@ SRD35.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
       features = [
+        '1:Armor Proficiency (Medium)', 'Shield Proficiency (Heavy)',
         '1:Fast Movement', '1:Illiteracy', '1:Rage', '2:Uncanny Dodge',
         '3:Trap Sense', '5:Improved Uncanny Dodge', '7:Damage Reduction',
         '11:Greater Rage', '14:Indomitable Will', '17:Tireless Rage',
@@ -2888,18 +2916,12 @@ SRD35.classRules = function(rules, classes) {
       notes = [
         'validationNotes.barbarianClassAlignment:Requires Alignment !~ Lawful'
       ];
-      profArmor = SRD35.PROFICIENCY_MEDIUM;
-      profShield = SRD35.PROFICIENCY_HEAVY;
       profWeapon = SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = null;
       skillPoints = 4;
-      skills = [
-        'Climb', 'Craft', 'Handle Animal', 'Intimidate', 'Jump', 'Listen',
-        'Ride', 'Survival', 'Swim'
-      ];
       spellAbility = null;
       spellsKnown = null;
       spellsPerDay = null;
@@ -2939,6 +2961,7 @@ SRD35.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       features = [
+        '1:Armor Proficiency (Light)', '1:Shield Proficiency (Heavy)',
         '1:Bardic Knowledge', '1:Bardic Music', '1:Countersong', '1:Fascinate',
         '1:Inspire Courage', '1:Simple Somatics',
         '1:Weapon Proficiency ' +
@@ -2950,22 +2973,12 @@ SRD35.classRules = function(rules, classes) {
       notes = [
         'validationNotes.bardClassAlignment:Requires Alignment !~ Lawful'
       ];
-      profArmor = SRD35.PROFICIENCY_LIGHT;
-      profShield = SRD35.PROFICIENCY_HEAVY;
       profWeapon = SRD35.PROFICIENCY_LIGHT;
       saveFortitude = SRD35.SAVE_BONUS_POOR;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
       saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 6;
-      skills = [
-        'Appraise', 'Balance', 'Bluff', 'Climb', 'Concentration',
-        'Craft', 'Decipher Script', 'Diplomacy', 'Disguise', 'Escape Artist',
-        'Gather Information', 'Hide', 'Jump', 'Knowledge', 'Listen',
-        'Move Silently', 'Perform', 'Profession', 'Sense Motive',
-        'Sleight Of Hand', 'Speak Language', 'Spellcraft', 'Swim', 'Tumble',
-        'Use Magic Device'
-      ];
       spellAbility = 'charisma';
       spellsKnown = [
         'B0:1:4/2:5/3:6',
@@ -3060,11 +3073,12 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Cleric') {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      features = ['1:Aura', '1:Spontaneous Cleric Spell', '1:Turn Undead'];
+      features = [
+        '1:Armor Proficiency (Heavy)', '1:Shield Proficiency (Heavy)',
+        '1:Aura', '1:Spontaneous Cleric Spell', '1:Turn Undead'
+      ];
       hitDie = 8;
       notes = null;
-      profArmor = SRD35.PROFICIENCY_HEAVY;
-      profShield = SRD35.PROFICIENCY_HEAVY;
       profWeapon = SRD35.PROFICIENCY_LIGHT;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
@@ -3092,16 +3106,12 @@ SRD35.classRules = function(rules, classes) {
         'C9:17:1/18:2/19:3/20:4'
       ];
       skillPoints = 2;
-      skills = [
-        'Concentration', 'Craft', 'Diplomacy', 'Heal', 'Knowledge (Arcana)',
-        'Knowledge (History)', 'Knowledge (Planes)', 'Knowledge (Religion)',
-        'Profession', 'Spellcraft'
-      ];
       rules.defineRule('casterLevels.C',
         'levels.Cleric', '=', null,
          'magicNotes.casterLevelBonusFeature', '+', null
       );
       rules.defineRule('casterLevels.Dom', 'casterLevels.C', '+=', null);
+      rules.defineRule('casterLevelDivine', 'casterLevels.C', '+=', null);
       rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
       rules.defineRule('magicNotes.spontaneousClericSpellFeature',
         'alignment', '=', 'source.match(/Evil/)?"<i>Inflict</i>":"<i>Cure</i>"'
@@ -3118,6 +3128,7 @@ SRD35.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       features = [
+        '1:Armor Proficiency (Heavy)', '1:Shield Proficiency (Heavy)',
         '1:Animal Companion', '1:Nature Sense', '1:Spontaneous Druid Spell',
         '1:Wild Empathy',
         '1:Weapon Proficiency ' +
@@ -3133,19 +3144,12 @@ SRD35.classRules = function(rules, classes) {
           'Requires Armor =~ None|Hide|Leather|Padded',
         'validationNotes.druidClassShield:Requires Shield =~ None|Wooden'
       ];
-      profArmor = SRD35.PROFICIENCY_MEDIUM;
-      profShield = SRD35.PROFICIENCY_HEAVY;
       profWeapon = SRD35.PROFICIENCY_NONE;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 4;
-      skills = [
-        'Concentration', 'Craft', 'Diplomacy', 'Handle Animal', 'Heal',
-        'Knowledge (Nature)', 'Listen', 'Profession', 'Ride', 'Spellcraft',
-        'Spot', 'Survival', 'Swim'
-      ];
       spellAbility = 'wisdom';
       spellsKnown = [
         'D0:1:"all"', 'D1:1:"all"', 'D2:3:"all"', 'D3:5:"all"',
@@ -3170,6 +3174,7 @@ SRD35.classRules = function(rules, classes) {
         'levels.Druid', '=', null,
         'magicNotes.casterLevelBonusFeature', '+', null
       );
+      rules.defineRule('casterLevelDivne', 'casterLevels.D', '+=', null);
       rules.defineRule('languageCount', 'levels.Druid', '+', '1');
       rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
       rules.defineRule('magicNotes.elementalShapeFeature',
@@ -3202,20 +3207,17 @@ SRD35.classRules = function(rules, classes) {
     } else if(klass == 'Fighter') {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
-      features = null;
+      features = [
+        '1:Armor Proficiency (Heavy)', 'Shield Proficiency (Tower)'
+      ];
       hitDie = 10;
       notes = null;
-      profArmor = SRD35.PROFICIENCY_HEAVY;
-      profShield = SRD35.PROFICIENCY_TOWER;
       profWeapon = SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = null;
       skillPoints = 2;
-      skills = [
-        'Climb', 'Craft', 'Handle Animal', 'Intimidate', 'Jump', 'Ride', 'Swim'
-      ];
       spellAbility = null;
       spellsKnown = null;
       spellsPerDay = null;
@@ -3254,8 +3256,6 @@ SRD35.classRules = function(rules, classes) {
         'validationNotes.monkClassAlignment:Requires Alignment =~ Lawful',
         'validationNotes.monk - StunningFistSelectableFeatureLevels:Requires Monk >= 1'
       ];
-      profArmor = SRD35.PROFICIENCY_NONE;
-      profShield = SRD35.PROFICIENCY_NONE;
       profWeapon = SRD35.PROFICIENCY_NONE;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
@@ -3265,12 +3265,6 @@ SRD35.classRules = function(rules, classes) {
         'Improved Grapple', 'Improved Trip', 'Stunning Fist'
       ];
       skillPoints = 4;
-      skills = [
-        'Balance', 'Climb', 'Concentration', 'Craft', 'Diplomacy',
-        'Escape Artist', 'Hide', 'Jump', 'Knowledge (Arcana)',
-        'Knowledge (Religion)', 'Listen', 'Move Silently', 'Perform',
-        'Profession', 'Sense Motive', 'Spot', 'Swim', 'Tumble'
-      ];
       spellAbility = null;
       spellsKnown = null;
       spellsPerDay = null;
@@ -3335,6 +3329,7 @@ SRD35.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
       features = [
+        '1:Armor Proficiency (Heavy)', '1:Shield Proficiency (Heavy)',
         '1:Aura', '1:Detect Evil', '1:Smite Evil', '2:Divine Grace',
         '2:Lay On Hands', '3:Aura Of Courage', '3:Divine Health',
         '4:Turn Undead', '5:Special Mount', '6:Remove Disease'
@@ -3344,19 +3339,12 @@ SRD35.classRules = function(rules, classes) {
         'validationNotes.paladinClassAlignment:' +
           'Requires Alignment == "Lawful Good"'
       ];
-      profArmor = SRD35.PROFICIENCY_HEAVY;
-      profShield = SRD35.PROFICIENCY_HEAVY;
       profWeapon = SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_POOR;
       selectableFeatures = null;
       skillPoints = 2;
-      skills = [
-        'Concentration', 'Craft', 'Diplomacy', 'Handle Animal', 'Heal',
-        'Knowledge (Nobility)', 'Knowledge (Religion)', 'Profession', 'Ride',
-        'Sense Motive'
-      ];
       spellAbility = 'wisdom';
       spellsKnown = [
         'P1:4:"all"', 'P2:8:"all"', 'P3:11:"all"', 'P4:14:"all"'
@@ -3374,6 +3362,7 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule(
         'casterLevels.P', 'casterLevels.Paladin', '=', 'Math.floor(source)'
       );
+      rules.defineRule('casterLevelDivine', 'casterLevels.P', '+=', null);
       rules.defineRule('combatNotes.smiteEvilFeature',
         'charismaModifier', '=', 'source > 0 ? source : 0'
       );
@@ -3403,6 +3392,7 @@ SRD35.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_GOOD;
       features = [
+        '1:Armor Proficiency (Light)', '1:Shield Proficiency (Heavy)',
         '1:Favored Enemy', '1:Track', '1:Wild Empathy', '2:Rapid Shot',
         '2:Two-Weapon Fighting', '3:Endurance', '4:Animal Companion',
         '6:Manyshot', '6:Improved Two-Weapon Fighting', '7:Woodland Stride',
@@ -3412,8 +3402,6 @@ SRD35.classRules = function(rules, classes) {
       ];
       hitDie = 8;
       notes = null;
-      profArmor = SRD35.PROFICIENCY_LIGHT;
-      profShield = SRD35.PROFICIENCY_HEAVY;
       profWeapon = SRD35.PROFICIENCY_MEDIUM;
       saveFortitude = SRD35.SAVE_BONUS_GOOD;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
@@ -3422,12 +3410,6 @@ SRD35.classRules = function(rules, classes) {
         'Combat Style (Archery)', 'Combat Style (Two-Weapon Combat)'
       ];
       skillPoints = 6;
-      skills = [
-        'Climb', 'Concentration', 'Craft', 'Handle Animal', 'Heal', 'Hide',
-        'Jump', 'Knowledge (Dungeoneering)', 'Knowledge (Geography)',
-        'Knowledge (Nature)', 'Listen', 'Move Silently', 'Profession', 'Ride',
-        'Search', 'Spot', 'Survival', 'Swim', 'Use Rope'
-      ];
       spellAbility = 'wisdom';
       spellsKnown = [
         'R1:4:"all"', 'R2:8:"all"', 'R3:11:"all"', 'R4:14:"all"'
@@ -3448,6 +3430,7 @@ SRD35.classRules = function(rules, classes) {
       rules.defineRule(
         'casterLevels.R', 'casterLevels.Ranger', '=', 'Math.floor(source)'
       );
+      rules.defineRule('casterLevelArcane', 'casterLevels.R', '+=', null);
       rules.defineRule('combatNotes.favoredEnemyFeature',
         'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
       );
@@ -3487,15 +3470,13 @@ SRD35.classRules = function(rules, classes) {
 
       baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
       features = [
-        '1:Sneak Attack', '1:Trapfinding',
+        '1:Armor Proficiency (Light)', '1:Sneak Attack', '1:Trapfinding',
         '1:Weapon Proficiency (Hand Crossbow/Rapier/Shortbow/Short Sword)',
         '2:Evasion', '3:Trap Sense', '4:Uncanny Dodge',
         '8:Improved Uncanny Dodge'
       ];
       hitDie = 6;
       notes = null;
-      profArmor = SRD35.PROFICIENCY_LIGHT;
-      profShield = SRD35.PROFICIENCY_NONE;
       profWeapon = SRD35.PROFICIENCY_LIGHT;
       saveFortitude = SRD35.SAVE_BONUS_POOR;
       saveReflex = SRD35.SAVE_BONUS_GOOD;
@@ -3505,14 +3486,6 @@ SRD35.classRules = function(rules, classes) {
         'Opportunist', 'Skill Mastery', 'Slippery Mind'
       ];
       skillPoints = 8;
-      skills = [
-        'Appraise', 'Balance', 'Bluff', 'Climb', 'Craft', 'Decipher Script',
-        'Diplomacy', 'Disable Device', 'Disguise', 'Escape Artist', 'Forgery',
-        'Gather Information', 'Hide', 'Intimidate', 'Jump',
-        'Knowledge (Local)', 'Listen', 'Move Silently', 'Open Lock',
-        'Perform', 'Profession', 'Search', 'Sense Motive', 'Sleight Of Hand',
-        'Spot', 'Swim', 'Tumble', 'Use Magic Device', 'Use Rope'
-      ];
       spellAbility = null;
       spellsKnown = null;
       spellsPerDay = null;
@@ -3549,18 +3522,12 @@ SRD35.classRules = function(rules, classes) {
       features = ['1:Familiar'];
       hitDie = 4;
       notes = null;
-      profArmor = SRD35.PROFICIENCY_NONE;
-      profShield = SRD35.PROFICIENCY_NONE;
       profWeapon = SRD35.PROFICIENCY_LIGHT;
       saveFortitude = SRD35.SAVE_BONUS_POOR;
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 2;
-      skills = [
-        'Bluff', 'Concentration', 'Craft', 'Knowledge (Arcana)', 'Profession',
-        'Spellcraft'
-      ];
       spellAbility = 'charisma';
       spellsKnown = [
         'S0:1:4/2:5/4:6/6:7/8:8/10:9',
@@ -3603,18 +3570,12 @@ SRD35.classRules = function(rules, classes) {
       ];
       hitDie = 4;
       notes = null;
-      profArmor = SRD35.PROFICIENCY_NONE;
-      profShield = SRD35.PROFICIENCY_NONE;
       profWeapon = SRD35.PROFICIENCY_NONE;
       saveFortitude = SRD35.SAVE_BONUS_POOR;
       saveReflex = SRD35.SAVE_BONUS_POOR;
       saveWill = SRD35.SAVE_BONUS_GOOD;
       selectableFeatures = null;
       skillPoints = 2;
-      skills = [
-        'Concentration', 'Craft', 'Decipher Script', 'Knowledge', 'Profession',
-        'Spellcraft'
-      ];
       spellAbility = 'intelligence';
       spellsKnown = [
         'W0:1:"all"', 'W1:1:3/2:5', 'W2:3:2/4:4', 'W3:5:2/6:4',
@@ -3660,8 +3621,7 @@ SRD35.classRules = function(rules, classes) {
 
     SRD35.defineClass
       (rules, klass, hitDie, skillPoints, baseAttack, saveFortitude, saveReflex,
-       saveWill, profArmor, profShield, profWeapon, skills, features,
-       spellsKnown, spellsPerDay, spellAbility);
+       saveWill, profWeapon, features, spellsKnown, spellsPerDay, spellAbility);
     if(notes != null)
       rules.defineNote(notes);
     if(selectableFeatures != null) {
@@ -3692,10 +3652,7 @@ SRD35.combatRules = function(rules) {
   rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
   );
-  rules.defineRule('armorProficiencyLevel',
-    '', '=', SRD35.PROFICIENCY_NONE,
-    'classArmorProficiencyLevel', '^=', null
-  );
+  rules.defineRule('armorProficiencyLevel', '', '=', SRD35.PROFICIENCY_NONE);
   rules.defineRule('attacksPerRound',
     'baseAttack', '=', 'source > 0 ? 1 + Math.floor((source - 1) / 5) : 1'
   );
@@ -3705,10 +3662,7 @@ SRD35.combatRules = function(rules) {
   rules.defineRule('shieldProficiency',
     'shieldProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
   );
-  rules.defineRule('shieldProficiencyLevel',
-    '', '=', SRD35.PROFICIENCY_NONE,
-    'classShieldProficiencyLevel', '^', null
-  );
+  rules.defineRule('shieldProficiencyLevel', '', '=', SRD35.PROFICIENCY_NONE);
   rules.defineRule('turnUndead.damageModifier',
     'turnUndead.level', '=', null,
     'charismaModifier', '+', null
@@ -5081,7 +5035,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
   else if(type == 'feats')
     SRD35.featRules(rules, name,
-      QuilvynRules.getAttrValueArray(attrs, 'Type')
+      QuilvynRules.getAttrValueArray(attrs, 'Type'),
+      QuilvynRules.getAttrValueArray(attrs, 'Prereq')
     );
   else if(type == 'features')
     SRD35.featureRules(rules, name, attrs);
@@ -5703,7 +5658,10 @@ SRD35.familiarRules = function(
 /*
  * TODO
  */
-SRD35.featRules = function(rules, name, types) {
+SRD35.featRules = function(rules, name, types, prereqs) {
+
+  var prefix =
+    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
@@ -5722,221 +5680,66 @@ SRD35.featRules = function(rules, name, types) {
     'validationNotes.featAllocation.2', '+=', null
   );
 
+  rules.defineRule('features.' + name, 'feats.' + name, '=', null);
+
+  if(types.indexOf('Item Creation') >= 0 ||
+     types.indexOf('Metamagic') >= 0 ||
+     types.indexOf('Spellcasting') >= 0) {
+    var note = 'sanityNotes.' + prefix + 'FeatCasterLevel';
+    rules.defineNote(note + ':Implies Caster Level >= 1');
+    rules.defineRule(note,
+      'feats.' + name, '=', '1',
+      'casterLevel', '+', '-1'
+    );
+  }
+
+  if(prereqs != null && prereqs.length > 0) {
+    var note = 'validationNotes.' + prefix + 'FeatPrerequisites';
+    rules.defineNote(note + ':Requires ' + prereqs.join('/'));
+    rules.defineRule(note, 'feats.' + name, '=', prereqs.length);
+    for(var i = 0; i < prereqs.length; i++) {
+      var prereq = prereqs[i];
+      var matchInfo =
+        prereq.match(/^(.*\S)\s*(<=|>=|==|!=|<|>|~=|!~)\s*(\S.*)$/);
+      if(matchInfo)
+        prereq = matchInfo[1];
+      prereq = prereq.toLowerCase() in SRD35.FOO ? SRD35.FOO[prereq.toLowerCase()] : ('features.' + prereq);
+      if(matchInfo) {
+        rules.defineRule(note, prereq, '+', 'source ' + matchInfo[2] + ' ' + matchInfo[3] + ' ? -1 : null');
+      } else {
+        rules.defineRule(note, prereq, '+', '-1');
+      }
+    }
+  }
+
   var matchInfo;
   var notes = null;
 
-  if(name == 'Acrobatic') {
-    notes = [
-      'sanityNotes.acrobaticFeatSkills:Implies Jump||Tumble'
-    ];
-  } else if(name == 'Agile') {
-    notes = [
-      'sanityNotes.agileFeatSkills:Implies Balance||Escape Artist'
-    ];
-  } else if(name == 'Alertness') {
-    notes = [
-      'sanityNotes.alertnessFeatSkills:Implies Listen||Spot'
-    ];
-  } else if(name == 'Animal Affinity') {
-    notes = [
-      'sanityNotes.animalAffinityFeatSkills:Implies Handle Animal||Ride'
-    ];
-  } else if(name == 'Armor Proficiency (Heavy)') {
-    notes = [
-      'sanityNotes.armorProficiency(Heavy)FeatProficiency:' +
-        'Implies Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_HEAVY,
-      'validationNotes.armorProficiency(Heavy)FeatProficiency:' +
-        'Requires Armor Proficiency (Medium) || ' +
-        'Class Armor Proficiency Level >= ' + SRD35.PROFICIENCY_MEDIUM
-    ];
+  if(name == 'Armor Proficiency (Heavy)') {
     rules.defineRule('armorProficiencyLevel',
       'features.Armor Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY
     );
-    rules.defineRule('validationNotes.armorProficiency(Heavy)FeatProficiency',
-      'feats.Armor Proficiency (Heavy)', '=', '-1',
-      'features.Armor Proficiency (Medium)', '+', '1',
-      'classArmorProficiencyLevel', '+',
-      'source == ' + SRD35.PROFICIENCY_MEDIUM + ' ? 1 : null'
-    );
   } else if(name == 'Armor Proficiency (Light)') {
-    notes = [
-      'sanityNotes.armorProficiency(Light)FeatProficiency:' +
-        'Implies Class Armor Proficiency Level < ' + SRD35.PROFICIENCY_LIGHT
-    ];
     rules.defineRule('armorProficiencyLevel',
       'features.Armor Proficiency (Light)', '^', SRD35.PROFICIENCY_LIGHT
     );
   } else if(name == 'Armor Proficiency (Medium)') {
-    notes = [
-      'sanityNotes.armorProficiency(Medium)FeatProficiency:' +
-        'Implies Class Armor Proficiency Level < '+SRD35.PROFICIENCY_MEDIUM,
-      'validationNotes.armorProficiency(Medium)FeatProficiency:' +
-        'Requires Armor Proficiency (Light) || ' +
-        'Class Armor Proficiency Level >= ' + SRD35.PROFICIENCY_LIGHT
-    ];
     rules.defineRule('armorProficiencyLevel',
       'features.Armor Proficiency (Medium)', '^', SRD35.PROFICIENCY_MEDIUM
     );
-    rules.defineRule(
-      'validationNotes.armorProficiency(Medium)FeatProficiency',
-      'feats.Armor Proficiency (Medium)', '=', '-1',
-      'features.Armor Proficiency (Light)', '+', '1',
-      'classArmorProficiencyLevel', '+',
-      'source == ' + SRD35.PROFICIENCY_LIGHT + ' ? 1 : null'
-    );
-  } else if(name == 'Athletic') {
-    notes = [
-      'sanityNotes.athleticFeatSkills:Implies Climb||Swim'
-    ];
-  } else if(name == 'Augment Summoning') {
-    notes = [
-      'validationNotes.augmentSummoningFeatFeatures:' +
-        'Requires Spell Focus (Conjuration)'
-    ];
-  } else if(name == 'Blind-Fight') {
-    notes = null;
-  } else if(name == 'Brew Potion') {
-    notes = [
-      'validationNotes.brewPotionFeatCasterLevel:Requires Caster Level >= 3'
-    ];
-  } else if(name == 'Cleave') {
-    notes = [
-      'validationNotes.cleaveFeatAbility:Requires Strength >= 13',
-      'validationNotes.cleaveFeatFeatures:Requires Power Attack'
-    ];
-  } else if(name == 'Combat Casting') {
-    notes = [
-      'sanityNotes.combatCastingFeatCasterLevel:Implies Caster Level >= 1'
-    ];
-  } else if(name == 'Combat Expertise') {
-    notes = [
-      'validationNotes.combatExpertiseFeatAbility:Requires Intelligence >= 13'
-    ];
   } else if(name == 'Combat Reflexes') {
-    notes = [
-      'sanityNotes.combatReflexesFeatAbility:Implies Dexterity >= 12'
-    ];
     rules.defineRule('combatNotes.combatReflexesFeature',
       'dexterityModifier', '=', 'source + 1'
     );
-  } else if(name == 'Craft Magic Arms And Armor') {
-    notes = [
-      'validationNotes.craftMagicArmsAndArmorFeatCasterLevel:' +
-        'Requires Caster Level >= 5'
-    ];
-  } else if(name == 'Craft Rod') {
-    notes = [
-      'validationNotes.craftRodFeatCasterLevel:Requires Caster Level >= 9'
-    ];
-  } else if(name == 'Craft Staff') {
-    notes = [
-      'validationNotes.craftStaffFeatCasterLevel:Requires Caster Level >= 12'
-    ];
-  } else if(name == 'Craft Wand') {
-    notes = [
-      'validationNotes.craftWandFeatCasterLevel:Requires Caster Level >= 5'
-    ];
-  } else if(name == 'Craft Wondrous Item') {
-    notes = [
-      'validationNotes.craftWondrousItemFeatCasterLevel:' +
-        'Requires Caster Level >= 3'
-    ];
-  } else if(name == 'Deceitful') {
-    notes = [
-      'sanityNotes.deceitfulFeatSkills:Implies Disguise||Forgery'
-    ];
-  } else if(name == 'Deflect Arrows') {
-    notes = [
-      'validationNotes.deflectArrowsFeatAbility:Requires Dexterity >= 13',
-      'validationNotes.deflectArrowsFeatFeatures:' +
-        'Requires Improved Unarmed Strike'
-    ];
-  } else if(name == 'Deft Hands') {
-    notes = [
-      'sanityNotes.deftHandsFeatSkills:Implies Sleight Of Hand||Use Rope'
-    ];
-  } else if(name == 'Diehard') {
-    notes = [
-      'validationNotes.diehardFeatFeatures:Requires Endurance'
-    ];
-  } else if(name == 'Diligent') {
-    notes = [
-      'sanityNotes.diligentFeatSkills:Implies Appraise||Decipher Script'
-    ];
-  } else if(name == 'Dodge') {
-    notes = [
-      'validationNotes.dodgeFeatAbility:Requires Dexterity >= 13'
-    ];
-    rules.defineRule('armorClass', 'combatNotes.dodgeFeature', '+', '1');
-  } else if(name == 'Empower Spell') {
-    notes = [
-      'sanityNotes.empowerSpellFeatCasterLevel:Implies Caster Level >= 1'
-    ];
-  } else if(name == 'Endurance') {
-    notes = null;
-  } else if(name == 'Enlarge Spell') {
-    notes = [
-      'sanityNotes.enlargeSpellFeatCasterLevel:Implies Caster Level >= 1'
-    ];
-  } else if(name == 'Eschew Materials') {
-    notes = [
-      'sanityNotes.eschewMaterialsFeatCasterLevel:Implies Caster Level >= 1'
-    ];
-  } else if(name == 'Extend Spell') {
-    notes = [
-      'sanityNotes.extendSpellFeatCasterLevel:Implies Caster Level >= 1'
-    ];
   } else if(name == 'Extra Turning') {
-    notes = [
-      'validationNotes.extraTurningFeatTurningLevel:' +
-        'Requires Turning Level >= 1'
-    ];
     rules.defineRule
       ('turnUndead.frequency', 'combatNotes.extraTurningFeature', '+', '4');
-  } else if(name == 'Far Shot') {
-    notes = [
-      'validationNotes.farShotFeatFeatures:Requires Point Blank Shot'
-    ];
-  } else if(name == 'Forge Ring') {
-    notes = [
-      'validationNotes.forgeRingFeatCasterLevel:Requires Caster Level >= 12'
-    ];
-  } else if(name == 'Great Cleave') {
-    notes = [
-      'validationNotes.greatCleaveFeatAbility:Requires Strength >= 13',
-      'validationNotes.greatCleaveFeatBaseAttack:Requires Base Attack >= 4',
-      'validationNotes.greatCleaveFeatFeatures:Requires Cleave/Power Attack'
-    ];
-  } else if(name == 'Great Fortitude') {
-    notes = null;
   } else if((matchInfo = name.match(/^Greater Spell Focus \((.*)\)$/))!=null){
     var school = matchInfo[1];
     var schoolNoSpace = school.replace(/ /g, '');
     var note = 'magicNotes.greaterSpellFocus(' + schoolNoSpace + ')Feature';
-    notes = [
-      note + ':+%V DC on ' + school + ' spells',
-      'sanityNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
-        'Implies Caster Level >= 1',
-      'validationNotes.greaterSpellFocus(' + schoolNoSpace + ')FeatFeatures:'+
-        'Requires Spell Focus (' + school + ')'
-    ];
+    notes = [note + ':+%V DC on ' + school + ' spells'];
     rules.defineRule(note, '', '=', '1');
-  } else if(name == 'Greater Spell Penetration') {
-    notes = [
-      'sanityNotes.greaterSpellPenetrationFeatCasterLevel:' +
-        'Implies Caster Level >= 1',
-      'validationNotes.greaterSpellPenetrationFeatFeatures:' +
-        'Requires Spell Penetration'
-    ];
-  } else if(name == 'Greater Two-Weapon Fighting') {
-    notes = [
-      'validationNotes.greaterTwo-WeaponFightingFeatAbility:' +
-        'Requires Dexterity >= 19',
-      'validationNotes.greaterTwo-WeaponFightingFeatBaseAttack:' +
-        'Requires Base Attack >= 11',
-      'validationNotes.greaterTwo-WeaponFightingFeatFeatures:' +
-        'Requires Two-Weapon Fighting/Improved Two-Weapon Fighting'
-    ];
   } else if((matchInfo =
              name.match(/^Greater Weapon Focus \((.*)\)$/)) != null) {
     var weapon = matchInfo[1];
@@ -5969,20 +5772,6 @@ SRD35.featRules = function(rules, name, types) {
       'validationNotes.' + lead + 'FeatLevels:Requires Fighter >= 12'
     ];
     rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
-  } else if(name == 'Heighten Spell') {
-    notes = [
-      'sanityNotes.heightenSpellFeatCasterLevel:Implies Caster Level >= 1'
-    ];
-  } else if(name == 'Improved Bull Rush') {
-    notes = [
-      'validationNotes.improvedBullRushFeatAbility:Requires Strength >= 13',
-      'validationNotes.improvedBullRushFeatFeatures:Requires Power Attack'
-    ];
-  } else if(name == 'Improved Counterspell') {
-    notes = [
-      'sanityNotes.improvedCounterspellFeatCasterLevel:' +
-        'Implies Caster Level >= 1'
-    ];
   } else if((matchInfo = name.match(/^Improved Critical \((.*)\)$/)) != null){
     var weapon = matchInfo[1];
     var weaponNoSpace = weapon.replace(/ /g, '');
@@ -5995,215 +5784,45 @@ SRD35.featRules = function(rules, name, types) {
         'Requires Base Attack >= 8'
     ];
     rules.defineRule('threat.' + weapon, note, '*', '2');
-  } else if(name == 'Improved Disarm') {
-    notes = [
-      'validationNotes.improvedDisarmFeatAbility:Requires Intelligence >= 13',
-      'validationNotes.improvedDisarmFeatFeatures:Requires Combat Expertise'
-    ];
-  } else if(name == 'Improved Familiar') {
-    notes = [
-      'validationNotes.improvedFamiliarFeatFeatures:Requires Familiar'
-    ];
-  } else if(name == 'Improved Feint') {
-    notes = [
-      'validationNotes.improvedFeintFeatAbility:Requires Intelligence >= 13',
-      'validationNotes.improvedFeintFeatFeatures:Requires Combat Expertise'
-    ];
-  } else if(name == 'Improved Grapple') {
-    notes = [
-      'validationNotes.improvedGrappleFeatAbility:Requires Dexterity >= 13',
-      'validationNotes.improvedGrappleFeatFeatures:' +
-        'Requires Improved Unarmed Strike'
-    ];
-  } else if(name == 'Improved Initiative') {
-    notes = null;
-  } else if(name == 'Improved Overrun') {
-    notes = [
-      'validationNotes.improvedOverrunFeatAbility:Requires Strength >= 13',
-      'validationNotes.improvedOverrunFeatFeatures:Requires Power Attack'
-    ];
-  } else if(name == 'Improved Precise Shot') {
-    notes = [
-      'validationNotes.improvedPreciseShotFeatAbility:' +
-        'Requires Dexterity >= 19',
-      'validationNotes.improvedPreciseShotFeatBaseAttack:' +
-        'Requires Base Attack >= 11',
-      'validationNotes.improvedPreciseShotFeatFeatures:' +
-        'Requires Point Blank Shot/Precise Shot'
-    ];
   } else if(name == 'Improved Shield Bash') {
     notes = [
-      'sanityNotes.improvedShieldBashFeatShield:Implies Shield != "None"',
-      'validationNotes.improvedShieldBashFeatProficiency:' +
-        'Requires Shield Proficiency (Heavy) || ' +
-        'Class Shield Proficiency Level >= ' + SRD35.PROFICIENCY_HEAVY
-    ];
-  } else if(name == 'Improved Sunder') {
-    notes = [
-      'validationNotes.improvedSunderFeatAbility:Requires Strength >= 13',
-      'validationNotes.improvedSunderFeatFeatures:Requires Power Attack'
-    ];
-  } else if(name == 'Improved Trip') {
-    notes = [
-      'validationNotes.improvedTripFeatAbility:Requires Intelligence >= 13',
-      'validationNotes.improvedTripFeatFeats:Requires Combat Expertise'
+      'sanityNotes.improvedShieldBashFeatShield:Implies Shield != "None"'
     ];
   } else if(name == 'Improved Turning') {
-    notes = [
-      'validationNotes.improvedTurningFeatTurningLevel:' +
-        'Requires Turning Level >= 1'
-    ];
     rules.defineRule
       (/^turn.*\.level$/, 'combatNotes.improvedTurningFeature', '+', '1');
-  } else if(name == 'Improved Two-Weapon Fighting') {
-    notes = [
-      'validationNotes.improvedTwo-WeaponFightingFeatAbility:' +
-        'Requires Dexterity >= 17',
-      'validationNotes.improvedTwo-WeaponFightingFeatBaseAttack:' +
-        'Requires Base Attack >= 6',
-      'validationNotes.improvedTwo-WeaponFightingFeatFeatures:' +
-        'Requires Two-Weapon Fighting'
-    ];
-  } else if(name == 'Improved Unarmed Strike') {
-    notes = null;
-  } else if(name == 'Investigator') {
-    notes = [
-      'sanityNotes.investigatorFeatSkills:Implies Gather Information||Search'
-    ];
-  } else if(name == 'Iron Will') {
-    notes = null;
-  } else if(name == 'Leadership') {
-    notes = [
-      'validationNotes.leadershipFeatLevel:Requires Level >= 6'
-    ];
-  } else if(name == 'Lightning Reflexes') {
-    notes = null;
-  } else if(name == 'Magical Aptitude') {
-    notes = [
-      'sanityNotes.magicalAptitudeFeatSkills:' +
-        'Implies Spellcraft||Use Magic Device'
-    ];
   } else if(name == 'Manyshot') {
-    notes = [
-      'validationNotes.manyshotFeatAbility:Requires Dexterity >= 17',
-      'validationNotes.manyshotFeatBaseAttack:Requires Base Attack >= 6',
-      'validationNotes.manyshotFeatFeatures:' +
-        'Requires Point Blank Shot/Rapid Shot'
-    ];
     rules.defineRule('combatNotes.manyshotFeature',
       'baseAttack', '=', 'Math.floor((source + 9) / 5)'
     );
-  } else if(name == 'Maximize Spell') {
+  } else if(name == "Rapid Reload (Hand)") {
     notes = [
-      'sanityNotes.maximizeSpellFeatCasterLevel:Implies Caster Level >= 1'
+      'combatNotes.rapidReload(Hand)Feature:' +
+       'Reload Hand Crossbow as free action',
+      'sanityNotes.rapidReload(Hand)FeatWeapons:Implies Hand Crossbow'
     ];
-  } else if(name == 'Mobility') {
+  } else if(name == "Rapid Reload (Heavy)") {
     notes = [
-      'validationNotes.mobilityFeatAbility:Requires Dexterity >= 13',
-      'validationNotes.mobilityFeatFeatures:Requires Dodge'
+      'combatNotes.rapidReload(Heavy)Feature:' +
+       'Reload Hand Crossbow as move action',
+      'sanityNotes.rapidReload(Heavy)FeatWeapons:Implies Heavy Crossbow'
     ];
-  } else if(name == 'Mounted Archery') {
+  } else if(name == "Rapid Reload (Light)") {
     notes = [
-      'validationNotes.mountedArcheryFeatFeatures:Requires Mounted Combat',
-      'validationNotes.mountedArcheryFeatSkills:Requires Ride'
-    ];
-  } else if(name == 'Mounted Combat') {
-    notes = [
-      'validationNotes.mountedCombatFeatSkills:Requires Ride'
-    ];
-  } else if(name == 'Natural Spell') {
-    notes = [
-      'validationNotes.naturalSpellFeatAbility:Requires Wisdom >= 13',
-      'validationNotes.naturalSpellFeatFeatures:Requires Wild Shape'
-    ];
-  } else if(name == 'Negotiator') {
-    notes = [
-      'sanityNotes.negotiatorFeatSkills:Implies Diplomacy||Sense Motive'
-    ];
-  } else if(name == 'Nimble Fingers') {
-    notes = [
-      'sanityNotes.nimbleFingersFeatSkills:Implies Disable Device||Open Lock'
-    ];
-  } else if(name == 'Persuasive') {
-    notes = [
-      'sanityNotes.persuasiveFeatSkills:Implies Bluff||Intimidate'
-    ];
-  } else if(name == 'Point Blank Shot') {
-    notes = null;
-  } else if(name == 'Power Attack') {
-    notes = [
-      'validationNotes.powerAttackFeatAbility:Requires Strength >= 13'
-    ];
-  } else if(name == 'Precise Shot') {
-    notes = [
-      'validationNotes.preciseShotFeatFeatures:Requires Point Blank Shot'
-    ];
-  } else if(name == 'Quick Draw') {
-    notes = [
-      'validationNotes.quickDrawFeatBaseAttack:Requires Base Attack >= 1'
-    ];
-  } else if(name == 'Quicken Spell') {
-    notes = [
-      'sanityNotes.quickenSpellFeatCasterLevel:Implies Caster Level >= 1'
-    ];
-  } else if((matchInfo = name.match(/^Rapid Reload \((.*)\)$/)) != null) {
-    var weapon = matchInfo[1];
-    var weaponNoSpace = weapon.replace(/ /g, '');
-    notes = [
-      'combatNotes.rapidReload(' + weaponNoSpace + ')Feature:' +
-        'Reload ' + weapon + ' Crossbow as ' +
-        (weapon == 'Heavy' ? 'move' : 'free') + ' action',
-      'sanityNotes.rapidReload(' + weaponNoSpace + ')FeatWeapons:' +
-        'Implies ' + weapon + ' Crossbow'
-    ];
-  } else if(name == 'Rapid Shot') {
-    notes = [
-      'validationNotes.rapidShotFeatAbility:Requires Dexterity >= 13',
-      'validationNotes.rapidShotFeatFeatures:Requires Point Blank Shot'
-    ];
-  } else if(name == 'Ride-By Attack') {
-    notes = [
-      'validationNotes.ride-ByAttackFeatFeatures:Requires Mounted Combat',
-      'validationNotes.ride-ByAttackFeatSkills:Requires Ride'
+      'combatNotes.rapidReload(Light)Feature:' +
+       'Reload Hand Crossbow as free action',
+      'sanityNotes.rapidReload(Light)FeatWeapons:Implies Light Crossbow'
     ];
   } else if(name == 'Run') {
-    notes = null;
     rules.defineRule('runSpeedMultiplier', 'abilityNotes.runFeature', '+', '1');
-  } else if(name == 'Scribe Scroll') {
-    notes = [
-      'validationNotes.scribeScrollFeatCasterLevel:Requires Caster Level >= 1'
-    ];
-  } else if(name == 'Self Sufficient') {
-    notes = [
-      'sanityNotes.selfSufficientFeatSkills:Implies Heal||Survival'
-    ];
   } else if(name == 'Shield Proficiency (Heavy)') {
-    notes = [
-      'sanityNotes.shieldProficiency(Heavy)FeatProficiency:' +
-        'Implies Class Shield Proficiency Level < ' + SRD35.PROFICIENCY_HEAVY
-    ];
     rules.defineRule('shieldProficiencyLevel',
       'features.Shield Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY
     );
   } else if(name == 'Shield Proficiency (Tower)') {
-    notes = [
-      'sanityNotes.shieldProficiency(Tower)FeatProficiency:' +
-        'Implies Class Shield Proficiency Level < ' + SRD35.PROFICIENCY_TOWER
-    ];
     rules.defineRule('shieldProficiencyLevel',
       'features.Shield Proficiency (Tower)', '^', SRD35.PROFICIENCY_TOWER
     );
-  } else if(name == 'Shot On The Run') {
-    notes = [
-      'validationNotes.shotOnTheRunFeatAbility:Requires Dexterity >= 13',
-      'validationNotes.shotOnTheRunFeatBaseAttack:Requires Base Attack >= 4',
-      'validationNotes.shotOnTheRunFeatFeatures:' +
-        'Requires Dodge/Mobility/Point Blank Shot'
-    ];
-  } else if(name == 'Silent Spell') {
-    notes = [
-      'sanityNotes.silentSpellFeatCasterLevel:Implies Caster Level >= 1'
-    ];
   } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
     var skill = matchInfo[1];
     var skillNoSpace = skill.replace(/ /g, '');
@@ -6215,60 +5834,16 @@ SRD35.featRules = function(rules, name, types) {
     ];
     rules.defineRule(note, '', '=', '3');
     rules.defineRule('skillModifier.' + skill, note, '+', null);
-  } else if(name == 'Snatch Arrows') {
-    notes = [
-      'validationNotes.snatchArrowsFeatAbility:Requires Dexterity >= 15',
-      'validationNotes.snatchArrowsFeatFeatures:' +
-        'Requires Deflect Arrows/Improved Unarmed Strike'
-    ];
   } else if((matchInfo = name.match(/^Spell Focus \((.*)\)$/)) != null) {
     var school = matchInfo[1];
     var schoolNoSpace = school.replace(/ /g, '');
     var note = 'magicNotes.spellFocus(' + schoolNoSpace + ')Feature';
-    notes = [
-      note + ':+%V DC on ' + school + ' spells',
-      'sanityNotes.spellFocus(' + schoolNoSpace + ')FeatCasterLevel:' +
-        'Implies Caster Level >= 1'
-    ];
+    notes = [note + ':+%V DC on ' + school + ' spells'];
     rules.defineRule(note, '', '=', '1');
   } else if(name == 'Spell Mastery') {
-    notes = [
-      'validationNotes.spellMasteryFeatLevels:Requires Wizard >= 1'
-    ];
     rules.defineRule
       ('magicNotes.spellMasteryFeature', 'intelligenceModifier', '=', null);
-  } else if(name == 'Spell Penetration') {
-    notes = [
-      'sanityNotes.spellPenetrationFeatCasterLevel:Implies Caster Level >= 1'
-    ];
-  } else if(name == 'Spirited Charge') {
-    notes = [
-      'validationNotes.spiritedChargeFeatFeatures:' +
-        'Requires Mounted Combat/Ride-By Attack',
-      'validationNotes.spiritedChargeFeatSkills:Requires Ride'
-    ];
-  } else if(name == 'Spring Attack') {
-    notes = [
-      'validationNotes.springAttackFeatAbility:Requires Dexterity >= 13',
-      'validationNotes.springAttackFeatBaseAttack:Requires Base Attack >= 4',
-      'validationNotes.springAttackFeatFeatures:Requires Dodge/Mobility'
-    ];
-  } else if(name == 'Stealthy') {
-    notes = [
-      'sanityNotes.stealthyFeatSkills:Implies Hide||Move Silently'
-    ];
-  } else if(name == 'Still Spell') {
-    notes = [
-      'sanityNotes.stillSpellFeatCasterLevel:Implies Caster Level >= 1'
-    ];
   } else if(name == 'Stunning Fist') {
-    notes = [
-      'validationNotes.stunningFistFeatAbility:' +
-        'Requires Dexterity >= 13/Wisdom >= 13',
-    'validationNotes.stunningFistFeatBaseAttack:Requires Base Attack >= 8',
-        'validationNotes.stunningFistFeatFeatures:' +
-        'Requires Improved Unarmed Strike'
-    ];
     rules.defineRule('combatNotes.stunningFistFeature',
       'level', '=', '10 + Math.floor(source / 2)',
       'wisdomModifier', '+', null
@@ -6276,33 +5851,14 @@ SRD35.featRules = function(rules, name, types) {
     rules.defineRule('combatNotes.stunningFistFeature.1',
       'level', '+=', 'Math.floor(source / 4)'
     );
-  } else if(name == 'Toughness') {
-    notes = null;
-    rules.defineRule('hitPoints', 'combatNotes.toughnessFeature', '+', '3');
   } else if(name == 'Track') {
     notes = [
       'sanityNotes.trackFeatSkills:Implies Survival'
     ];
-  } else if(name == 'Trample') {
-    notes = [
-      'validationNotes.trampleFeatFeatures:Requires Mounted Combat',
-      'validationNotes.trampleFeatSkills:Requires Ride'
-    ];
-  } else if(name == 'Two-Weapon Defense') {
-    notes = [
-      'validationNotes.two-WeaponDefenseFeatAbility:Requires Dexterity >= 15',
-      'validationNotes.two-WeaponDefenseFeatFeatures:' +
-        'Requires Two-Weapon Fighting'
-    ];
-  } else if(name == 'Two-Weapon Fighting') {
-    notes = [
-      'validationNotes.two-WeaponFightingFeatAbility:Requires Dexterity >= 15'
-    ];
   } else if(name == 'Weapon Finesse') {
     notes = [
       'sanityNotes.weaponFinesseFeatAbility:' +
-        'Implies Dexterity Modifier exceed Strength Modifier',
-      'validationNotes.weaponFinesseFeatBaseAttack:Requires Base Attack >= 1'
+        'Implies Dexterity Modifier exceed Strength Modifier'
     ];
     rules.defineRule('combatNotes.weaponFinesseFeature',
       'dexterityModifier', '=', null,
@@ -6370,21 +5926,8 @@ SRD35.featRules = function(rules, name, types) {
         'Requires Fighter >= 4'
     ];
     rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
-  } else if(name == 'Whirlwind Attack') {
-    notes = [
-      'validationNotes.whirlwindAttackFeatAbility:' +
-        'Requires Dexterity >= 13/Intelligence >= 13',
-      'validationNotes.whirlwindAttackFeatBaseAttack:' +
-        'Requires Base Attack >= 4',
-      'validationNotes.whirlwindAttackFeatFeatures:' +
-        'Requires Combat Expertise/Dodge/Mobility/Spring Attack'
-    ];
-  } else if(name == 'Widen Spell') {
-    notes = [
-      'sanityNotes.widenSpellFeatCasterLevel:Implies Caster Level >= 1'
-    ];
   }
-  rules.defineRule('features.' + name, 'feats.' + name, '=', null);
+
   if(notes != null)
     rules.defineNote(notes);
 
@@ -6395,21 +5938,28 @@ SRD35.featRules = function(rules, name, types) {
  */
 SRD35.FOO = {
   'ac':'armorClass',
+  'base attack':'baseAttack',
+  'caster level':'casterLevel',
   'charisma':'charisma',
   'constitution':'constitution',
   'dexterity':'dexterity',
   'feat count':'featCount.General',
   'fortitude':'save.Fortitude',
+  'hp':'hitPoints',
   'initiative':'initiative',
   'intelligence':'intelligence',
+  'level':'level',
   'melee':'meleeAttack',
   'ranged':'rangedAttack',
   'reflex':'save.Reflex',
+  'ride':'skillModifier.Ride',
   'skill points':'skillPoints',
   'speed':'speed',
   'strength':'strength',
+  'turning level':'turningLevel',
   'will':'save.Will',
-  'wisdom':'wisdom'
+  'wisdom':'wisdom',
+  'wizard':'levels.Wizard'
 };
 SRD35.featureRules = function(rules, name, notes) {
 
@@ -6427,6 +5977,7 @@ SRD35.featureRules = function(rules, name, notes) {
     var section = pieces[0];
     var effect = pieces[1];
     var note = section + 'Notes.' + prefix + 'Feature';
+    var skillTargets = 0;
 
     rules.defineNote(note + ':' + effect);
 
@@ -6452,6 +6003,17 @@ SRD35.featureRules = function(rules, name, notes) {
           rules.defineRule('skillModifier.' + adjusted,
             note, '+', adjust == '-%V' ? '-source' : adjust == '+%V' ? 'source' : adjust
           );
+          skillTargets++;
+        }
+
+      }
+
+      if(skillTargets == pieces.length && adjust.startsWith('+')) {
+        var sanityNote = 'sanityNotes.' + prefix + 'FeatureSkills';
+        rules.defineNote(sanityNote + ':Implies ' + pieces.join(' || '));
+        rules.defineRule(sanityNote, 'features.' + name, '=', '1');
+        for(var j = 0; j < pieces.length; j++) {
+          rules.defineRule(sanityNote, 'skills.' + pieces[j], 'v', '0');
         }
       }
 
@@ -6593,6 +6155,7 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
 
   rules.defineNote(
     'combatNotes.nonproficientShieldPenalty:%V attack',
+    'sanityNotes.casterLevelArcaneShield:Implies Shield == "None"',
     'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
     'sanityNotes.two-handedWeaponWithBuckler:Lowers attack bonus, AC',
     'validationNotes.two-handedWeaponWithShield:' +
@@ -6623,9 +6186,6 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
   );
   rules.defineRule('validationNotes.two-handedWeaponWithShield',
     'shield', '?', 'source != "None" && source != "Buckler"'
-  );
-  rules.defineNote(
-    'sanityNotes.casterLevelArcaneShield:Implies Shield == "None"'
   );
   rules.defineRule('sanityNotes.casterLevelArcaneShield',
     'magicNotes.arcaneSpellFailure', '?', null,
@@ -6999,21 +6559,19 @@ SRD35.weaponRules = function(
  * points a character of the class receives each level; #baseAttackBonus#,
  * #saveFortitudeBonus#, #saveReflexBonus# and #saveWillBonus# are JavaScript
  * expressions that compute the attack and saving throw bonuses the character
- * accumulates each class level; #armorProficiencyLevel#,
- * #shieldProficiencyLevel# and #weaponProficiencyLevel# indicate any
- * proficiency in these categories that characters of the class gain;
- * #classSkills# is an array of skills that are class skills (as opposed to
- * cross-class) for the class, #features# an array of level:feature name pairs
- * indicating features that the class acquires when advancing levels,
- * #spellsKnown# an array of information about the type, number, and level of
- * spells known at each class level, #spellsPerDay# an array of information
- * about the type, number, and level of spells castable per day at each class
- * level, and #spellAbility# the ability that pertains to this class' spells.
+ * accumulates each class level; #weaponProficiencyLevel# indicates any
+ * proficiency that characters of the class gain; #classSkills# is an array of
+ * skills that are class skills (as opposed to cross-class) for the class,
+ * #features# an array of level:feature name pairs indicating features that the
+ * class acquires when advancing levels, #spellsKnown# an array of information
+ * about the type, number, and level of spells known at each class level,
+ * #spellsPerDay# an array of information about the type, number, and level of
+ * spells castable per day at each class level, and #spellAbility# the ability
+ * that pertains to this class' spells.
  */
 SRD35.defineClass = function
   (rules, name, hitDice, skillPoints, baseAttackBonus, saveFortitudeBonus,
-   saveReflexBonus, saveWillBonus, armorProficiencyLevel,
-   shieldProficiencyLevel, weaponProficiencyLevel, classSkills, features,
+   saveReflexBonus, saveWillBonus, weaponProficiencyLevel, features,
    spellsKnown, spellsPerDay, spellAbility) {
 
   var classLevel = 'levels.' + name;
@@ -7036,23 +6594,10 @@ SRD35.defineClass = function
     rules.defineRule('classWillBonus', classLevel, '+=', saveWillBonus);
     rules.defineRule('save.Will', 'classWillBonus', '+', null);
   }
-  if(armorProficiencyLevel == null)
-    armorProficiencyLevel = SRD35.PROFICIENCY_NONE;
-  rules.defineRule
-    ('classArmorProficiencyLevel', classLevel, '^=', armorProficiencyLevel);
-  if(shieldProficiencyLevel == null)
-    shieldProficiencyLevel = SRD35.PROFICIENCY_NONE;
-  rules.defineRule
-    ('classShieldProficiencyLevel', classLevel, '^=', shieldProficiencyLevel);
   if(weaponProficiencyLevel == null)
     weaponProficiencyLevel = SRD35.PROFICIENCY_NONE;
   rules.defineRule
     ('classWeaponProficiencyLevel', classLevel, '^=', weaponProficiencyLevel);
-  if(classSkills != null) {
-    for(var i = 0; i < classSkills.length; i++) {
-      rules.defineRule('classSkills.' + classSkills[i], classLevel, '=', '1');
-    }
-  }
   if(features != null) {
     var prefix =
       name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
