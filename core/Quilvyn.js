@@ -127,7 +127,7 @@ Quilvyn.addRuleSet = function(rs) {
   for(var path in STORAGE) {
     if(path.startsWith(customRulePrefix)) {
       var typeAndName = path.substring(customRulePrefix.length).split('.');
-      SRD35.choiceRules(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
+      ruleSet.choiceRules(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
     }
   }
 };
@@ -300,7 +300,7 @@ Quilvyn.customChoicesImport = function(focus) {
     var choiceType = pieces.shift();
     var choiceName = pieces.shift();
     var choiceAttrs = pieces.join('.');
-    SRD35.choiceRules(ruleSet, choiceType, choiceName, choiceAttrs);
+    ruleSet.choiceRules(ruleSet, choiceType, choiceName, choiceAttrs);
     STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + choiceType + '.' + choiceName, choiceAttrs);
   }
 
