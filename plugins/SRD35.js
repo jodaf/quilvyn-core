@@ -225,7 +225,7 @@ SRD35.CLASSES = {
   'Cleric':
     'HitDie=d8 Attack=1 SkillPoints=2 Saves=Fortitude,Will ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy),"' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Simple)",1:Aura,"1:Spontaneous Cleric Spell",' +
       '"1:Turn Undead"',
   'Druid':
@@ -499,7 +499,7 @@ SRD35.FEATS = {
   'Two-Weapon Fighting':'Type=Fighter Prereq="Dexterity >= 15"',
   'Weapon Finesse':'Type=Fighter Prereq="Base Attack >= 1"',
   'Weapon Focus (Longsword)':'Type=Fighter',
-  'Weapon Proficiency (Marital)':'Type=General',
+  'Weapon Proficiency (Martial)':'Type=General',
   'Weapon Proficiency (Simple)':'Type=General',
   'Weapon Specialization (Longsword)':'Type=Fighter',
   'Whirlwind Attack':'Type=Fighter Prereq="Dexterity >= 13","Intelligence >= 13","Base Attack >= 4","Combat Expertise",Dodge,Mobility,"Spring Attack"',
@@ -577,6 +577,14 @@ SRD35.FEATURES = {
   'Forge Ring':'magic:Create/mend magic ring',
   'Great Cleave':'combat:Cleave w/out limit',
   'Great Fortitude':'save:+2 Fortitude',
+  'Greater Spell Focus (Abjuration)':'magic:+1 DC on Abjuration spells',
+  'Greater Spell Focus (Conjuration)':'magic:+1 DC on Conjuration spells',
+  'Greater Spell Focus (Divination)':'magic:+1 DC on Divination spells',
+  'Greater Spell Focus (Enchantment)':'magic:+1 DC on Enhancement spells',
+  'Greater Spell Focus (Evocation)':'magic:+1 DC on Evocation spells',
+  'Greater Spell Focus (Illusion)':'magic:+1 DC on Illusion spells',
+  'Greater Spell Focus (Necromancy)':'magic:+1 DC on Necromancy spells',
+  'Greater Spell Focus (Transmutation)':'magic:+1 DC on Transmutation spells',
   'Greater Spell Penetration':'magic:+2 caster level vs. resistance checks',
   'Greater Two-Weapon Fighting':'combat:Third off-hand -10 attack',
   'Heighten Spell':'magic:Increase chosen spell level',
@@ -631,6 +639,14 @@ SRD35.FEATURES = {
   'Shot On The Run':'combat:Move before and after ranged attack',
   'Silent Spell':'magic:Cast spell w/out speech uses +1 spell slot',
   'Snatch Arrows':'combat:Catch ranged weapons',
+  'Spell Focus (Abjuration)':'magic:+1 DC on Abjuration spells',
+  'Spell Focus (Conjuration)':'magic:+1 DC on Conjuration spells',
+  'Spell Focus (Divination)':'magic:+1 DC on Divination spells',
+  'Spell Focus (Enchantment)':'magic:+1 DC on Enhancement spells',
+  'Spell Focus (Evocation)':'magic:+1 DC on Evocation spells',
+  'Spell Focus (Illusion)':'magic:+1 DC on Illusion spells',
+  'Spell Focus (Necromancy)':'magic:+1 DC on Necromancy spells',
+  'Spell Focus (Transmutation)':'magic:+1 DC on Transmutation spells',
   'Spell Mastery':'magic:Prepare %V spells w/out spellbook',
   'Spell Penetration':'magic:+2 checks to overcome spell resistance',
   'Spirited Charge':'combat:x2 damage (x3 lance) from mounted charge',
@@ -4333,9 +4349,9 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'HitDie'),
       QuilvynRules.getAttrValue(attrs, 'Attack'),
       QuilvynRules.getAttrValue(attrs, 'SkillPoints'),
-      QuilvynRules.getAttrValue(attrs, 'Saves'),
+      QuilvynRules.getAttrValueArray(attrs, 'Saves'),
       QuilvynRules.getAttrValueArray(attrs, 'Features'),
-      QuilvynRules.getAttrValueArray(attrs, 'Selectable')
+      QuilvynRules.getAttrValueArray(attrs, 'Selectables')
     );
   else if(type == 'races')
     SRD35.raceRules(rules, name,
@@ -4560,14 +4576,16 @@ SRD35.classRules = function(
     }
   }
 
-  for(var j = 0; j < selectables.length; j++) {
-    var selectable = selectables[j];
-    var choice = name + ' - ' + selectable;
+  for(var i = 0; i < selectables.length; i++) {
+    var levelAndFeature = selectables[i].split(/:/);
+    var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
+    var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+    var choice = name + ' - ' + feature;
     rules.defineChoice('selectableFeatures', choice + ':' + name);
-    rules.defineRule(prefix + 'Features.' + selectable,
+    rules.defineRule(prefix + 'Features.' + feature,
       'selectableFeatures.' + choice, '+=', null
     );
-    rules.defineRule('features.' + selectable,
+    rules.defineRule('features.' + feature,
       'selectableFeatures.' + choice, '+=', null
     );
   }
@@ -5691,12 +5709,6 @@ SRD35.featRules = function(rules, name, types, prereqs) {
   } else if(name == 'Extra Turning') {
     rules.defineRule
       ('turnUndead.frequency', 'combatNotes.extraTurningFeature', '+', '4');
-  } else if((matchInfo = name.match(/^Greater Spell Focus \((.*)\)$/))!=null){
-    var school = matchInfo[1];
-    var schoolNoSpace = school.replace(/ /g, '');
-    var note = 'magicNotes.greaterSpellFocus(' + schoolNoSpace + ')Feature';
-    notes = [note + ':+%V DC on ' + school + ' spells'];
-    rules.defineRule(note, '', '=', '1');
   } else if((matchInfo =
              name.match(/^Greater Weapon Focus \((.*)\)$/)) != null) {
     var weapon = matchInfo[1];
@@ -5785,12 +5797,6 @@ SRD35.featRules = function(rules, name, types, prereqs) {
     ];
     rules.defineRule(note, '', '=', '3');
     rules.defineRule('skillModifier.' + skill, note, '+', null);
-  } else if((matchInfo = name.match(/^Spell Focus \((.*)\)$/)) != null) {
-    var school = matchInfo[1];
-    var schoolNoSpace = school.replace(/ /g, '');
-    var note = 'magicNotes.spellFocus(' + schoolNoSpace + ')Feature';
-    notes = [note + ':+%V DC on ' + school + ' spells'];
-    rules.defineRule(note, '', '=', '1');
   } else if(name == 'Spell Mastery') {
     rules.defineRule
       ('magicNotes.spellMasteryFeature', 'intelligenceModifier', '=', null);
@@ -6317,8 +6323,8 @@ SRD35.spellRules = function(
     rules.defineRule(dcRule,
       'spells.' + name, '?', null,
       'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level,
-      'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', null,
-      'magicNotes.spellFocus(' + school + ')Feature', '+', null
+      'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', '1',
+      'magicNotes.spellFocus(' + school + ')Feature', '+', '1'
     );
     if(casterGroup == 'W') {
       rules.defineRule
