@@ -805,7 +805,7 @@ Quilvyn.sheetHtml = function(attrs) {
 
   enteredAttributes.hidden = persistentInfo.hidden;
   computedAttributes = ruleSet.applyRules(enteredAttributes);
-  var notes = ruleSet.getChoices('notes');
+  var formats = ruleSet.getFormats(ruleSet, InputGetValue(editForm.viewer));
   for(a in computedAttributes) {
     if(a.match(/\.\d+$/))
       continue; // Ignore format multi-values
@@ -815,8 +815,8 @@ Quilvyn.sheetHtml = function(attrs) {
     var value = computedAttributes[a];
     if(isNote && value == 0)
       continue; // Suppress notes with zero value
-    if(notes[a] != null) {
-      value = notes[a].replace(/%V/g, value);
+    if(formats[a] != null) {
+      value = formats[a].replace(/%V/g, value);
       for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {
         value = value.replace(new RegExp('%' + j, 'g'), computedAttributes[a + '.' + j]);
       }
@@ -918,7 +918,7 @@ Quilvyn.summarizeCachedAttrs = function() {
     '<h1>Quilvyn Character Attribute Summary</h1>',
     '<table border="1">'
   ];
-  var notes = ruleSet.getChoices('notes');
+  var formats = ruleSet.getFormats(ruleSet, InputGetValue(editForm.viewer));
   for(var character in characterCache) {
     if(character == '')
       continue;
@@ -933,7 +933,7 @@ Quilvyn.summarizeCachedAttrs = function() {
         continue;
       if(combinedAttrs[attr] == null)
         combinedAttrs[attr] = [];
-      var format = notes[attr];
+      var format = formats[attr];
       if(format != null)
         value = format.replace(/%V/g, value);
       combinedAttrs[attr].push(value);

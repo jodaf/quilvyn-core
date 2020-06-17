@@ -32,8 +32,9 @@ function SRD35() {
   rules.choiceEditorElements = SRD35.choiceEditorElements;
   rules.choiceRules = SRD35.choiceRules;
   rules.editorElements = SRD35.initialEditorElements();
-  rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
+  rules.getFormats = SRD35.getFormats;
   rules.makeValid = SRD35.makeValid;
+  rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
   rules.ruleNotes = SRD35.ruleNotes;
   SRD35.createViewers(rules, SRD35.VIEWERS);
   SRD35.abilityRules(rules);
@@ -3106,13 +3107,7 @@ SRD35.createViewers = function(rules, viewers) {
         );
       } else {
         viewer.addElements(
-          {name: 'AllNotes', within: 'FeaturePart', separator: '\n', columns: "1L"},
-            {name: 'Ability Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
-            {name: 'Feature Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
-            {name: 'Skill Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
-            {name: 'Combat Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
-            {name: 'Save Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
-            {name: 'Magic Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"}
+          {name: 'Features', within: 'FeaturePart', separator: '\n', columns: '1L'}
         );
       }
       viewer.addElements(
@@ -6517,6 +6512,33 @@ SRD35.weaponRules = function(
     );
   }
 
+};
+
+/*
+ * TODO
+ */
+SRD35.getFormats = function(rules, viewer) {
+  var formats = rules.getChoices('notes');
+  var result = {};
+  var matchInfo;
+  if(viewer == 'Collected Notes') {
+    for(var format in formats) {
+      result[format] = formats[format];
+      if((matchInfo = format.match(/Notes\.(.*)$/)) != null) {
+        var feature = matchInfo[1].replace('Feature', '');
+        feature = feature.substring(0, 1).toUpperCase() + feature.substring(1).replace(/([A-Z\(])/g, ' $1');
+        formats['features.' + feature] = formats[format];
+      }
+    }
+  } else if(viewer == 'Compact') {
+    for(var format in formats) {
+      if(!format.startsWith('spells.'))
+        result[format] = formats[format];
+    }
+  } else {
+    result = formats;
+  }
+  return result;
 };
 
 /*
