@@ -35,7 +35,6 @@ function SRD35() {
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
   rules.makeValid = SRD35.makeValid;
   rules.ruleNotes = SRD35.ruleNotes;
-  SRD35.viewer = new ObjectViewer();
   SRD35.createViewers(rules, SRD35.VIEWERS);
   SRD35.abilityRules(rules);
   SRD35.combatRules(rules);
@@ -94,7 +93,7 @@ function SRD35() {
   }
   SRD35.goodiesRules(rules);
   rules.defineChoice('choices',
-    'armors', 'deities', 'domains', 'familiars', 'feats', 'features',
+    'armors', 'classes', 'deities', 'domains', 'familiars', 'feats', 'features',
     'genders', 'languages', 'races', 'schools', 'shields', 'skills', 'spells',
     'weapons'
   );
@@ -3488,6 +3487,14 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['classSkill', 'Class Skills', 'text', [30]],
       ['bump', 'Spell DC Bump', 'text', [3]]
     );
+  else if(type == 'feats')
+    // TODO
+    result.push(
+    );
+  else if(type == 'features')
+    // TODO
+    result.push(
+    );
   else if(type == 'familiars')
     // TODO
     result.push(
@@ -3499,6 +3506,14 @@ SRD35.choiceEditorElements = function(rules, type) {
   else if(type == 'languages')
     result.push(
       // empty
+    );
+  else if(type == 'levels')
+    // TODO
+    result.push(
+    );
+  else if(type == 'races')
+    // TODO
+    result.push(
     );
   else if(type == 'schools')
     result.push(
@@ -5163,7 +5178,12 @@ SRD35.combatRules = function(rules) {
   rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
   );
-  rules.defineRule('armorProficiencyLevel', '', '=', SRD35.PROFICIENCY_NONE);
+  rules.defineRule('armorProficiencyLevel',
+    '', '=', SRD35.PROFICIENCY_NONE,
+    'features.Armor Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY,
+    'features.Armor Proficiency (Light)', '^', SRD35.PROFICIENCY_LIGHT,
+    'features.Armor Proficiency (Medium)', '^', SRD35.PROFICIENCY_MEDIUM
+  );
   rules.defineRule('attacksPerRound',
     'baseAttack', '=', 'source > 0 ? 1 + Math.floor((source - 1) / 5) : 1'
   );
@@ -5173,7 +5193,11 @@ SRD35.combatRules = function(rules) {
   rules.defineRule('shieldProficiency',
     'shieldProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
   );
-  rules.defineRule('shieldProficiencyLevel', '', '=', SRD35.PROFICIENCY_NONE);
+  rules.defineRule('shieldProficiencyLevel',
+    '', '=', SRD35.PROFICIENCY_NONE,
+    'features.Shield Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY,
+    'features.Shield Proficiency (Tower)', '^', SRD35.PROFICIENCY_TOWER
+  );
   rules.defineRule('turnUndead.damageModifier',
     'turnUndead.level', '=', null,
     'charismaModifier', '+', null
@@ -5192,7 +5216,11 @@ SRD35.combatRules = function(rules) {
       'source == ' + SRD35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
       '"Limited"'
   );
-  rules.defineRule('weaponProficiencyLevel', '', '=', SRD35.PROFICIENCY_NONE,);
+  rules.defineRule('weaponProficiencyLevel',
+    '', '=', SRD35.PROFICIENCY_NONE,
+    'features.Weapon Proficiency (Martial)', '^', SRD35.PROFICIENCY_MEDIUM,
+    'features.Weapon Proficiency (Simple)', '^', SRD35.PROFICIENCY_LIGHT
+  );
   rules.defineRule('weapons.Unarmed', '', '=', '1');
 };
 
@@ -5690,19 +5718,7 @@ SRD35.featRules = function(rules, name, types, prereqs) {
   var matchInfo;
   var notes = null;
 
-  if(name == 'Armor Proficiency (Heavy)') {
-    rules.defineRule('armorProficiencyLevel',
-      'features.Armor Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY
-    );
-  } else if(name == 'Armor Proficiency (Light)') {
-    rules.defineRule('armorProficiencyLevel',
-      'features.Armor Proficiency (Light)', '^', SRD35.PROFICIENCY_LIGHT
-    );
-  } else if(name == 'Armor Proficiency (Medium)') {
-    rules.defineRule('armorProficiencyLevel',
-      'features.Armor Proficiency (Medium)', '^', SRD35.PROFICIENCY_MEDIUM
-    );
-  } else if(name == 'Combat Reflexes') {
+  if(name == 'Combat Reflexes') {
     rules.defineRule('combatNotes.combatReflexesFeature',
       'dexterityModifier', '=', 'source + 1'
     );
@@ -5778,14 +5794,6 @@ SRD35.featRules = function(rules, name, types, prereqs) {
     ];
   } else if(name == 'Run') {
     rules.defineRule('runSpeedMultiplier', 'abilityNotes.runFeature', '+', '1');
-  } else if(name == 'Shield Proficiency (Heavy)') {
-    rules.defineRule('shieldProficiencyLevel',
-      'features.Shield Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY
-    );
-  } else if(name == 'Shield Proficiency (Tower)') {
-    rules.defineRule('shieldProficiencyLevel',
-      'features.Shield Proficiency (Tower)', '^', SRD35.PROFICIENCY_TOWER
-    );
   } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
     var skill = matchInfo[1];
     var skillNoSpace = skill.replace(/ /g, '');
@@ -5840,14 +5848,6 @@ SRD35.featRules = function(rules, name, types, prereqs) {
     ];
     rules.defineRule(note, '', '=', '1');
     rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', null);
-  } else if(name == 'Weapon Proficiency (Martial)') {
-    rules.defineRule('weaponProficiencyLevel',
-      'features.Weapon Proficiency (Martial)', '^', SRD35.PROFICIENCY_MEDIUM
-    );
-  } else if(name == 'Weapon Proficiency (Simple)') {
-    rules.defineRule('weaponProficiencyLevel',
-      'features.Weapon Proficiency (Simple)', '^', SRD35.PROFICIENCY_LIGHT
-    );
   } else if((matchInfo = name.match(/^Weapon Proficiency \((.*)\)$/))!=null) {
     var weapon = matchInfo[1];
     var weaponNoSpace = weapon.replace(/ /g, '');
