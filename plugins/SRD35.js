@@ -4379,7 +4379,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'Reflex'),
       QuilvynRules.getAttrValue(attrs, 'Will'),
       QuilvynRules.getAttrValueArray(attrs, 'Features'),
-      QuilvynRules.getAttrValueArray(attrs, 'Selectables')
+      QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
+      QuilvynRules.getAttrValueArray(attrs, 'Prereq')
     );
   else if(type == 'races')
     SRD35.raceRules(rules, name,
@@ -4531,7 +4532,7 @@ SRD35.armorRules = function(
  */
 SRD35.classRules = function(
   rules, name, hitDie, attack, skillPoints, saveFort, saveRef, saveWill,
-  features, selectables
+  features, selectables, prereqs
 ) {
 
   var prefix =
@@ -4638,6 +4639,29 @@ SRD35.classRules = function(
 
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
+
+  if(prereqs.length > 0) {
+    var note = 'validationNotes.' + prefix + 'ClassPrerequisites';
+    rules.defineChoice('notes', note + ':Requires ' + prereqs.join('/'));
+    rules.defineRule(note, 'levels.' + name, '=', prereqs.length);
+    for(var i = 0; i < prereqs.length; i++) {
+      var prereq = prereqs[i];
+      var matchInfo =
+        prereq.match(/^(.*\S)\s*(<=|>=|==|!=|<|>|~=|!~)\s*(\S.*)$/);
+      if(matchInfo)
+        prereq = matchInfo[1];
+      prereq = prereq.toLowerCase() in SRD35.FOO ? SRD35.FOO[prereq.toLowerCase()] : ('features.' + prereq);
+      if(!matchInfo) {
+        rules.defineRule(note, prereq, '+', '-1');
+      } else if(matchInfo[2] == '!~') {
+        rules.defineRule(note, prereq, '+', 'source.match(/' + matchInfo[3] + '/) ? null : -1');
+      } else if(matchInfo[2] == '=~') {
+        rules.defineRule(note, prereq, '+', 'source.match(/' + matchInfo[3] + '/) ? -1 : null');
+      } else {
+        rules.defineRule(note, prereq, '+', 'source ' + matchInfo[2] + ' ' + matchInfo[3] + ' ? -1 : null');
+      }
+    }
+  }
 
   var spellAbility, spellsKnown, spellsPerDay;
   var prefix =
@@ -5693,7 +5717,7 @@ SRD35.featRules = function(rules, name, types, prereqs) {
     );
   }
 
-  if(prereqs != null && prereqs.length > 0) {
+  if(prereqs.length > 0) {
     var note = 'validationNotes.' + prefix + 'FeatPrerequisites';
     rules.defineChoice('notes', note + ':Requires ' + prereqs.join('/'));
     rules.defineRule(note, 'feats.' + name, '=', prereqs.length);
@@ -5833,6 +5857,7 @@ SRD35.featRules = function(rules, name, types, prereqs) {
  */
 SRD35.FOO = {
   'ac':'armorClass',
+  'alignment':'alignment',
   'base attack':'baseAttack',
   'caster level':'casterLevel',
   'charisma':'charisma',
