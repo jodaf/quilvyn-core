@@ -108,16 +108,16 @@ function SRD35() {
 }
 
 // JavaScript expressions for several (mostly class-based) attributes.
-SRD35.ATTACK_BONUS_GOOD = 'source';
-SRD35.ATTACK_BONUS_AVERAGE = 'source - Math.floor((source + 3) / 4)';
-SRD35.ATTACK_BONUS_POOR = 'Math.floor(source / 2)';
+SRD35.ATTACK_BONUS_FULL = 'source';
+SRD35.ATTACK_BONUS_3_4 = 'Math.floor(source * 3 / 4)'
+SRD35.ATTACK_BONUS_HALF = 'Math.floor(source / 2)';
 SRD35.PROFICIENCY_HEAVY = 3;
 SRD35.PROFICIENCY_LIGHT = 1;
 SRD35.PROFICIENCY_MEDIUM = 2;
 SRD35.PROFICIENCY_NONE = 0;
 SRD35.PROFICIENCY_TOWER = 4;
-SRD35.SAVE_BONUS_GOOD = '2 + Math.floor(source / 2)';
-SRD35.SAVE_BONUS_POOR = 'Math.floor(source / 3)';
+SRD35.SAVE_BONUS_HALF = '2 + Math.floor(source / 2)';
+SRD35.SAVE_BONUS_THIRD = 'Math.floor(source / 3)';
 
 SRD35.ALIGNMENTS = {
   'Chaotic Evil':'', 'Chaotic Good':'', 'Chaotic Neutral':'',
@@ -191,9 +191,9 @@ SRD35.ANIMAL_COMPANIONS = {
   'Tyrannosaurus': 'Attack=20 HD=18 AC=14 Dam=3d6+13 Str=28 Dex=12 Con=21 Int=2 Wis=15 Cha=10 Level=16'
 };
 SRD35.ARMORS = {
-  'None':'AC=0 Level=0',
-  'Padded':'AC=1 Level=1 Dex=8 Spell=5',
-  'Leather':'AC=2 Level=1 Dex=6 Spell=10',
+  'None':'AC=0 Level=0 Dex=0 Skill=0 Spell=0',
+  'Padded':'AC=1 Level=1 Dex=8 Skill=0 Spell=5',
+  'Leather':'AC=2 Level=1 Dex=6 Skill=0 Spell=10',
   'Studded Leather':'AC=3 Level=1 Dex=5 Skill=1 Spell=15',
   'Chain Shirt':'AC=4 Level=1 Dex=4 Skill=2 Spell=20',
   'Hide':'AC=3 Level=2 Dex=4 Skill=3 Spell=20',
@@ -207,14 +207,17 @@ SRD35.ARMORS = {
 };
 SRD35.CLASSES = {
   'Barbarian':
-    'HitDie=d12 Attack=2 SkillPoints=4 Saves=Fortitude ' +
+    'HitDie=d12 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'Prereq="Alignment !~ Lawful" ' +
     'Features=' +
       '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)","1:Fast Movement",1:Illiteracy,' +
-      '1:Rage,"2:Uncanny Dodge","3:Trap Sense","11:Greater Rage",' +
-      '"14:Indomitable Will","17:Tireless Rage","20:Mighty Rage"',
+      '1:Rage,"2:Uncanny Dodge","3:Trap Sense","7:Damage Reduction",' +
+      '"11:Greater Rage","14:Indomitable Will","17:Tireless Rage",' +
+      '"20:Mighty Rage"',
   'Bard':
-    'HitDie=d6 Attack=1 SkillPoints=6 Saves=Reflex,Will ' +
+    'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
+    'Prereq="Alignment !~ "Lawful" ' +
     'Features=' +
       '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)",' +
@@ -223,13 +226,14 @@ SRD35.CLASSES = {
       '"3:Inspire Competence",6:Suggestion,"9:Inspire Greatness"' +
       '"12:Song Of Freedom","15:Inspire Heroics","18:Mass Suggestion"',
   'Cleric':
-    'HitDie=d8 Attack=1 SkillPoints=2 Saves=Fortitude,Will ' +
+    'HitDie=d8 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Simple)",1:Aura,"1:Spontaneous Cleric Spell",' +
       '"1:Turn Undead"',
   'Druid':
-    'HitDie=d8 Attack=1 SkillPoints=4 Saves=Fortitude,Will ' +
+    'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
+    'Prereq="Alignment =~ Neutral","Armor =~ None|Hide|Leather|Padded","Shield =~ None|Wooden" ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear)",' +
@@ -238,12 +242,13 @@ SRD35.CLASSES = {
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
       '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape"',
   'Fighter':
-    'HitDie=d10 Attack=2 SkillPoints=2 Saves=Fortitude ' +
+    'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","Shield Proficiency (Tower)",' +
       '"1:Weapon Proficiency (Martial)"',
   'Monk':
-    'HitDie=d8 Attack=1 SkillPoints=4 Saves=Fortitude,Reflex,Will ' +
+    'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
+    'Prereq="Alignment =~ Lawful" ' +
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
       '"1:Flurry Of Blows","1:Improved Unarmed Strike",2:Evasion,' +
@@ -257,14 +262,15 @@ SRD35.CLASSES = {
       '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
       '"2:Deflect Arrows","6:Improved Disarm","6"Improved Grapple"',
   'Paladin':
-    'HitDie=d10 Attack=2 SkillPoints=2 Saves=Fortitude ' +
+    'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'Prereq=\'Alignment == "Lawful Good"\' ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)",1:Aura,"1:Detect Evil",' +
       '"1:Smite Evil","2:Divine Grace","2:Lay On Hands","3:Aura Of Courage",' +
       '"3:Divine Health","4:Turn Undead","5:Special Mount","6:Remove Disease"',
   'Ranger':
-    'HitDie=d8 Attack=2 SkillPoints=6 Saves=Fortitude,Reflex ' +
+    'HitDie=d8 Attack=1 SkillPoints=6 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Features=' +
       '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)","1:Favored Enemy",1:Track,' +
@@ -276,7 +282,7 @@ SRD35.CLASSES = {
     'Selectables=' +
       '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)"',
   'Rogue':
-    'HitDie=d6 Attack=1 SkillPoints=8 Saves=Reflex ' +
+    'HitDie=d6 Attack=3/4 SkillPoints=8 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Features=' +
       '"1:Armor Proficiency (Light)","1:Sneak Attack",1:Trapfinding,' +
       '"1:Weapon Proficiency (Simple/Hand Crossbow/Rapier/Shortbow/Short Sword)",' +
@@ -286,11 +292,11 @@ SRD35.CLASSES = {
       '"10:Improved Evasion",10:Opportunist,"10:Skill Mastery",' +
       '"10:Slippery Mind"',
   'Sorcerer':
-    'HitDie=d4 Attack=0 SkillPoints=2 Saves=Will ' +
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Simple)",1:Familiar',
   'Wizard':
-    'HitDie=d4 Attack=0 SkillPoints=2 Saves=Will ' +
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
       '"1:Scribe Scroll",1:Familiar,"1:Wizard Specialization"'
@@ -345,7 +351,7 @@ SRD35.FAMILIARS = {
   'Formian Worker': 'Attack=3 HD=1 AC=17 Dam=1d4+1 Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 Level=7',
   'Homunculus': 'Attack=2 HD=2 AC=14 Dam=1d4-1 Str=8 Dex=15 Con=0 Int=10 Wis=12 Cha=7 Level=7',
   'Ice Mephit': 'Attack=4 HD=3 AC=18 Dam=2@1d3,1d4 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Imp': 'HD=3 AC=20 Dam=1d4 Str=10 Dex=20 Con=10 Int=10 Wis=12 Cha=14 Level=7',
+  'Imp': 'Attack=8 HD=3 AC=20 Dam=1d4 Str=10 Dex=20 Con=10 Int=10 Wis=12 Cha=14 Level=7',
   'Magma Mephit': 'Attack=4 HD=3 AC=16 Dam=2@1d3,1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
   'Ooze Mephit': 'Attack=6 HD=3 AC=16 Dam=2@1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
   'Pseudodragon': 'Attack=6 HD=2 AC=18 Dam=1d3-2 Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 Level=7',
@@ -415,12 +421,15 @@ SRD35.FEATS = {
     'Type=General Prereq="Spell Focus (Transmutation)"',
   'Greater Spell Penetration':'Type=General,Spellcasting Prereq="Spell Penetration"',
   'Greater Two-Weapon Fighting':'Type=Fighter Prereq="Dexterity >= 12","Base Attack >= 11","Two-Weapon Fighting","Improved Two-Weapon Fighting"',
-  'Greater Weapon Focus (Longsword)':'Type=Fighter',
-  'Greater Weapon Specialization (Longsword)':'Type=Fighter',
+  'Greater Weapon Focus (Longsword)':
+    'Type=Fighter Prereq="Weapon Focus (Longsword)","Fighter >= 8"',
+  'Greater Weapon Specialization (Longsword)':
+    'Type=Fighter Prereq="Weapon Focus (Longsword)","Greater Weapon Focus (Longsword)","Weapon Specialization (Longsword)","Fighter >= 12"',
   'Heighten Spell':'Type=Metamagic,Wizard',
   'Improved Bull Rush':'Type=Fighter Prereq="Strength >= 13","Power Attack"',
   'Improved Counterspell':'Type=General,Spellcasting',
-  'Improved Critical (Longsword)':'Type=Fighter',
+  'Improved Critical (Longsword)':
+    'Type=Fighter Prereq="Base Attack >= 8"',
   'Improved Disarm':
     'Type=Fighter Prereq="Intelligence >= 13","Combat Expertise"',
   'Improved Familiar':'Type=General Prereq="Familiar"',
@@ -498,10 +507,17 @@ SRD35.FEATS = {
     'Type=Fighter Prereq="Dexterity >= 15","Two-Weapon Fighting"',
   'Two-Weapon Fighting':'Type=Fighter Prereq="Dexterity >= 15"',
   'Weapon Finesse':'Type=Fighter Prereq="Base Attack >= 1"',
-  'Weapon Focus (Longsword)':'Type=Fighter',
+  'Weapon Focus (Longsword)':
+    'Type=Fighter Prereq="Base Attack >= 1"',
   'Weapon Proficiency (Martial)':'Type=General',
   'Weapon Proficiency (Simple)':'Type=General',
-  'Weapon Specialization (Longsword)':'Type=Fighter',
+  'Weapon Proficiency (Bastard Sword)':
+    'Type=General Prereq="Base Attack >= 1","Strength >= 13"',
+  'Weapon Proficiency (Dwarven Waraxe)':
+    'Type=General Prereq="Base Attack >= 1","Strength >= 13"',
+  'Weapon Proficiency (Longsword)':'Type=General Prereq="Base Attack >= 1"',
+  'Weapon Specialization (Longsword)':
+    'Type=Fighter Prereq="Weapon Focus (Longsword)","Fighter >= 4"',
   'Whirlwind Attack':'Type=Fighter Prereq="Dexterity >= 13","Intelligence >= 13","Base Attack >= 4","Combat Expertise",Dodge,Mobility,"Spring Attack"',
   'Widen Spell':'Type=Metamagic,Wizard'
 };
@@ -670,10 +686,13 @@ SRD35.FEATURES = {
   'Aura':
     "magic:Visible to <i>Detect Chaos/Evil/Good/Law</i> depending on deity's alignment",
   'Aura Of Courage':"save:Immune fear, +4 to allies w/in 30'",
+  'Bardic Knowledge':
+    'skill:+%V check for knowledge of notable people, items, places',
   'Bardic Music':"feature:Bardic music effect %V/day",
   'Camouflage':'skill:Hide in any natural terrain',
   'Countersong':"magic:Perform check vs. sonic magic w/in 30' 10 rd",
   'Crippling Strike':'combat:2 points strength damage from sneak attack',
+  'Damage Reduction':'combat:Negate %V points of damage each attack',
   'Defensive Roll':
     'combat:DC damage Reflex save vs. lethal blow for half damage',
   'Detect Evil':'magic:<i>Detect Evil</i> at will',
@@ -720,6 +739,7 @@ SRD35.FEATURES = {
   'Mass Suggestion':
     'magic:<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
   'Mighty Rage':'combat:+8 strength/constitution, +4 Will',
+  'Monk Armor Class Adjustment':'combat:+%V AC',
   'Nature Sense':'skill:+2 Knowledge (Nature)/Survival',
   'Opportunist':'combat:AOO vs. foe struck by ally',
   'Perfect Self':[
@@ -789,6 +809,11 @@ SRD35.FEATURES = {
   'Keen Nose':'skill:+2 Craft (Alchemy)',
   'Keen Senses':'skill:+2 Listen/Search/Spot',
   'Know Depth':'feature:Intuit approximate depth underground',
+  'Large':[
+    'ability:x2 max load',
+    'combat:-1 AC/melee/ranged',
+    'skill:-4 Hide'
+  ],
   'Low-Light Vision':'feature:x2 normal distance in poor light',
   'Natural Illusionist':'magic:Spell Focus(Illusion)',
   'Natural Spells':'magic:%V 1/day',
@@ -802,6 +827,7 @@ SRD35.FEATURES = {
   'Sleep Immunity':'save:Immune <i>Sleep</i>',
   'Slow':'ability:-10 speed',
   'Small':[
+    'ability:3/4 max load',
     'combat:+1 AC/melee/ranged',
     'skill:+4 Hide'
   ],
@@ -842,11 +868,7 @@ SRD35.FEATURES = {
   'Share Saving Throws':'companion:+%1 Fort/+%2 Ref/+%3 Will',
   'Share Spells':"companion:Master share self spell w/companion w/in 5'",
   'Speak With Like Animals':'companion:Talk w/similar creatures',
-  'Speak With Master':'companion:Talk w/master in secret language',
-  // Misc
-  'Armor Skill Check Penalty':
-    'skill:-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/Sleight Of Hand/Tumble',
-  'Armor Swim Check Penalty':'skill:-%V Swim'
+  'Speak With Master':'companion:Talk w/master in secret language'
 };
 SRD35.GENDERS = {
   'Female':'',
@@ -896,13 +918,13 @@ SRD35.SCHOOLS = {
   'Evocation':'', 'Illusion':'', 'Necromancy':'', 'Transmutation':''
 };
 SRD35.SHIELDS = {
-  'Buckler':'AC=1 Level=1 SkillFail=1 SpellFail=5',
-  'Heavy Steel':'AC=2 Level=3 SkillFail=2 SpellFail=15',
-  'Heavy Wooden':'AC=2 Level=3 SkillFail=2 SpellFail=15',
-  'Light Steel':'AC=1 Level=1 SkillFail=1 SpellFail=5',
-  'Light Wooden':'AC=1 Level=1 SkillFail=1 SpellFail=5',
-  'None':'',
-  'Tower':'AC=4 Level=4 SkillFail=10 SpellFail=50'
+  'Buckler':'AC=1 Level=1 Skill=1 Spell=5',
+  'Heavy Steel':'AC=2 Level=3 Skill=2 Spell=15',
+  'Heavy Wooden':'AC=2 Level=3 Skill=2 Spell=15',
+  'Light Steel':'AC=1 Level=1 Skill=1 Spell=5',
+  'Light Wooden':'AC=1 Level=1 Skill=1 Spell=5',
+  'None':'AC=0 Level=0 Skill=0 Spell=0',
+  'Tower':'AC=4 Level=4 Skill=10 Spell=50'
 };
 SRD35.SKILLS = {
   'Appraise':'Ability=intelligence Class=Bard,Rogue',
@@ -926,7 +948,7 @@ SRD35.SKILLS = {
   'Knowledge (Dungeoneering)':'Ability=intelligence Untrained=n Class=Bard,Ranger,Wizard Synergy="Survival (underground)"',
   'Knowledge (Engineering)':'Ability=intelligence Untrained=n Class=Bard,Wizard Synergy="Search (secret doors)"',
   'Knowledge (Geography)':'Ability=intelligence Untrained=n Class=Bard,Ranger,Wizard Synergy="Survival (lost/hazards)"',
-  'Knowledge (History)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Wizard Synergy="Bardic Knowledge"',
+  'Knowledge (History)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Wizard',
   'Knowledge (Local)':'Ability=intelligence Untrained=n Class=Bard,Rogue,Wizard SYnergy="Gather Information"',
   'Knowledge (Nature)':'Ability=intelligence Untrained=n Class=Bard,Druid,Ranger,Wizard Synergy="Survial (outdoors)"',
   'Knowledge (Nobility)':'Ability=intelligence Untrained=n Class=Bard,Paladin,Wizard Synergy=Diplomacy',
@@ -2890,11 +2912,11 @@ SRD35.strengthMaxLoads = [0,
 ];
 // Mapping of medium damage to large/small damage
 SRD35.weaponsLargeDamage = {
-  'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
+  'd0':'d0', 'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
   'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
 };
 SRD35.weaponsSmallDamage = {
-  'd2':'1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
+  'd0':'d0', 'd2':'1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
   'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
 };
 
@@ -2907,14 +2929,15 @@ SRD35.abilityRules = function(rules) {
     rules.defineRule(ability, ability + 'Adjust', '+', null);
     rules.defineRule
       (ability + 'Modifier', ability, '=', 'Math.floor((source - 10) / 2)');
-    rules.defineNote(ability + ':%V (%1)');
+    rules.defineChoice('notes', ability + ':%V (%1)');
     rules.defineRule(ability + '.1', ability + 'Modifier', '=', null);
   }
 
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
   rules.defineRule('loadMax',
     'strength', '=', 'SRD35.strengthMaxLoads[source]',
-    'features.Small', '*', '0.75'
+    'abilityNotes.smallFeature', '*', '0.75',
+    'abilityNotes.largeFeature', '*', '2'
   );
   rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
   rules.defineRule('runSpeed',
@@ -2964,13 +2987,12 @@ SRD35.abilityRules = function(rules) {
     ('skillPoints', 'skillNotes.intelligenceSkillPointsAdjustment', '+', null);
 
   // Validation tests
-  var notes = [
+  rules.defineChoice('notes',
     'validationNotes.abilityMinimum:' +
       'Requires Charisma >= 14||Constitution >= 14||Dexterity >= 14||' +
       'Intelligence >= 14||Strength >= 14||Wisdom >= 14',
     'validationNotes.abilityModifierSum:Requires ability modifier sum >= 1'
-  ];
-  rules.defineNote(notes);
+  );
   rules.defineRule('validationNotes.abilityMinimum',
     'charisma', '=', 'source >= 14 ? 0 : -1',
     'constitution', '^', 'source >= 14 ? 0 : null',
@@ -3017,10 +3039,7 @@ SRD35.createViewers = function(rules, viewers) {
              separator: '/'},
             {name: 'Turn Undead', within: 'Section 1', separator: '/'},
             {name: 'Alignment', within: 'Section 1', format: '<b>Ali</b> %V'},
-            {name: 'Damage Reduction', within: 'Section 1',
-             format: '<b>DR</b> %V', separator: '/'},
             {name: 'Save', within: 'Section 1', separator: '/'},
-            {name: 'Resistance', within: 'Section 1', separator: '/'},
             {name: 'Abilities', within: 'Section 1',
              format: '<b>Str/Int/Wis/Dex/Con/Cha</b> %V', separator: '/'},
               {name: 'Strength', within: 'Abilities', format: '%V'},
@@ -3154,17 +3173,11 @@ SRD35.createViewers = function(rules, viewers) {
         );
       }
       viewer.addElements(
-          {name: 'SavePart', within: 'Combat', separator: '\n'},
-            {name: 'SaveAndResistance', within: 'SavePart', separator:innerSep},
-              {name: 'Damage Reduction', within: 'SaveAndResistance',
-               separator: innerSep},
-              {name: 'Save', within: 'SaveAndResistance', separator: listSep},
-              {name: 'Resistance', within: 'SaveAndResistance',
-               separator: listSep}
+            {name: 'Save', within: 'CombatPart', separator: listSep},
       );
       if(name != 'Collected Notes') {
         viewer.addElements(
-            {name: 'Save Notes', within: 'SavePart', separator: noteSep}
+            {name: 'Save Notes', within: 'CombatPart', separator: noteSep}
         );
       }
       viewer.addElements(
@@ -3294,9 +3307,10 @@ SRD35.goodiesRules = function(rules) {
         'source.filter(item => item.match(/\\b' + skillEscParens + '\\s.*class skill/i)).length > 0 ? 1 : null'
     );
   }
-  rules.defineNote
-    ('skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by %V');
-  rules.defineRule('skillNotes.armorSkillCheckPenaltyFeature',
+  rules.defineChoice('notes',
+    'skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by %V'
+  );
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'skillNotes.goodiesSkillCheckAdjustment', '+', '-source'
   );
   rules.defineRule('skillNotes.goodiesSkillCheckAdjustment',
@@ -3349,7 +3363,9 @@ SRD35.goodiesRules = function(rules) {
     'goodiesCompositeStrDamageAdjustment', '+', null
   );
 
-  rules.defineNote('sanityNotes.inertGoodies:No effect from goodie(s) "%V"');
+  rules.defineChoice('notes',
+    'sanityNotes.inertGoodies:No effect from goodie(s) "%V"'
+  );
 
   var abilitiesAndSavesPat = [
     'strength','intelligence','wisdom','dexterity','constitution','charisma',
@@ -4359,7 +4375,9 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'HitDie'),
       QuilvynRules.getAttrValue(attrs, 'Attack'),
       QuilvynRules.getAttrValue(attrs, 'SkillPoints'),
-      QuilvynRules.getAttrValueArray(attrs, 'Saves'),
+      QuilvynRules.getAttrValue(attrs, 'Fortitude'),
+      QuilvynRules.getAttrValue(attrs, 'Reflex'),
+      QuilvynRules.getAttrValue(attrs, 'Will'),
       QuilvynRules.getAttrValueArray(attrs, 'Features'),
       QuilvynRules.getAttrValueArray(attrs, 'Selectables')
     );
@@ -4373,8 +4391,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.shieldRules(rules, name,
       QuilvynRules.getAttrValue(attrs, 'AC'),
       QuilvynRules.getAttrValue(attrs, 'Level'),
-      QuilvynRules.getAttrValue(attrs, 'SkillFail'),
-      QuilvynRules.getAttrValue(attrs, 'SpellFail')
+      QuilvynRules.getAttrValue(attrs, 'Skill'),
+      QuilvynRules.getAttrValue(attrs, 'Spell')
     );
   else if(type == 'skills')
     SRD35.skillRules(rules, name,
@@ -4443,9 +4461,11 @@ SRD35.armorRules = function(
   rules.armorStats.skill[name] = skillPenalty;
   rules.armorStats.spell[name] = spellFail;
 
-  rules.defineNote(
+  rules.defineChoice('notes',
     'combatNotes.nonproficientArmorPenalty:%V attack',
-    'magicNotes.arcaneSpellFailure:%V%',
+    'magicNotes.arcaneSpellure:%V%',
+    'skillNotes.armorSkillCheckPenalty:-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/Sleight Of Hand/Tumble',
+    'skillNotes.armorSwimCheckPenalty:-%V Swim',
     'sanityNotes.armorProficiencyLevelArmor:Lowers attack bonus',
     'sanityNotes.casterLevelArcaneArmor:Implies Armor == "None"'
   );
@@ -4470,13 +4490,7 @@ SRD35.armorRules = function(
     'armor', '=', '-'+QuilvynUtils.dictLit(rules.armorStats.skill)+'[source]',
     'armorProficiencyLevelShortfall', '?', 'source > 0'
   );
-  rules.defineRule('features.Armor Skill Check Penalty',
-    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source] ? 1 : null'
-  );
-  rules.defineRule('features.Armor Swim Check Penalty',
-    'features.Armor Skill Check Penalty', '=', '1'
-  );
-  rules.defineRule('magicNotes.arcaneSpellFailure',
+  rules.defineRule('magicNotes.arcaneSpellure',
     'casterLevelArcane', '?', null,
     'armor', '+=', QuilvynUtils.dictLit(rules.armorStats.spell) + '[source]'
   );
@@ -4484,11 +4498,18 @@ SRD35.armorRules = function(
     'armor', '=',
       QuilvynUtils.dictLit(rules.armorStats.level) + '[source] == 3 ? 3 : 4'
   );
-  rules.defineRule('skillNotes.armorSkillCheckPenaltyFeature',
+  for(var skill in {'Balance':'', 'Climb':'', 'Escape Artist':'', 'Hide':'', 'Jump':'', 'Move Silently':'', 'Sleight Of Hand':'', 'Tumble':''}) {
+    rules.defineRule('skillModifier.' + skill,
+      'skillNotes.armorSkillCheckPenalty', '+', '-source'
+    );
+  }
+  rules.defineRule
+    ('skillModifier.Swim', 'skillNotes.armorSwimCheckPenalty', '+', '-source');
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
   );
-  rules.defineRule('skillNotes.armorSwimCheckPenaltyFeature',
-    'skillNotes.armorSkillCheckPenaltyFeature', '=', 'source * 2'
+  rules.defineRule('skillNotes.armorSwimCheckPenalty',
+    'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
   rules.defineRule('wearingLightArmor',
@@ -4499,7 +4520,7 @@ SRD35.armorRules = function(
     'combatNotes.nonproficientArmorPenalty', '=', null
   );
   rules.defineRule('sanityNotes.casterLevelArcaneArmor',
-    'magicNotes.arcaneSpellFailure', '?', null,
+    'magicNotes.arcaneSpellure', '?', null,
     'armor', '=', 'source == "None" ? null : 1'
   );
 
@@ -4509,11 +4530,17 @@ SRD35.armorRules = function(
  * TODO
  */
 SRD35.classRules = function(
-  rules, name, hitDie, attack, skillPoints, saves, features, selectables
+  rules, name, hitDie, attack, skillPoints, saveFort, saveRef, saveWill,
+  features, selectables
 ) {
 
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+
+  rules.defineChoice('notes',
+    'validationNotes.levelAllocation:%1 available vs. %2 allocated',
+    'validationNotes.selectableFeatureAllocation: %1 available vs. %2 allocated'
+  );
 
   rules.defineRule
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
@@ -4521,8 +4548,6 @@ SRD35.classRules = function(
     'experience', '=', 'Math.floor((1 + Math.sqrt(1 + source / 125)) / 2)'
   );
 
-  rules.defineNote
-    ('validationNotes.levelAllocation:%1 available vs. %2 allocated');
   rules.defineRule('validationNotes.levelAllocation.1',
     '', '=', '0',
     'level', '=', null
@@ -4535,8 +4560,6 @@ SRD35.classRules = function(
     'validationNotes.levelAllocation.1', '=', '-source',
     'validationNotes.levelAllocation.2', '+=', null
   );
-  rules.defineNote
-    ('validationNotes.selectableFeatureAllocation: %1 available vs. %2 allocated');
   rules.defineRule('validationNotes.selectableFeatureAllocation.1',
     '', '=', '0',
     /^selectableFeatureCount\./, '+=', null
@@ -4555,11 +4578,18 @@ SRD35.classRules = function(
     'casterLevelDivine', '+=', null
   );
 
-  rules.defineRule('baseAttack', 'levels.' + name, '+', attack == 0 ? SRD35.ATTACK_BONUS_POOR : attack == 1 ? SRD35.ATTACK_BONUS_AVERAGE : SRD35.ATTACK_BONUS_GOOD);
+  rules.defineRule('baseAttack',
+    'levels.' + name, '+', attack == "1/2" ? SRD35.ATTACK_BONUS_HALF :
+                           attack == "3/4" ? SRD35.ATTACK_BONUS_3_4 :
+                           SRD35.ATTACK_BONUS_FULL
+  );
 
-  for(var save in {'Fortitude':'', 'Reflex':'', 'Will':''}) {
-    rules.defineRule
-      ('class' + save + 'Bonus', 'levels.' + name, '+=', saves.indexOf(save) >= 0 ? SRD35.SAVE_BONUS_GOOD : SRD35.SAVE_BONUS_POOR);
+  var saves = {'Fortitude':saveFort, 'Reflex':saveRef, 'Will':saveWill};
+  for(var save in saves) {
+    rules.defineRule('class' + save + 'Bonus',
+     'levels.' + name, '+=', saves[save] == '1/2' ? SRD35.SAVE_BONUS_HALF :
+                             SRD35.SAVE_BONUS_THIRD
+    );
     rules.defineRule('save.' + save, 'class' + save + 'Bonus', '+', null);
   }
 
@@ -4598,27 +4628,38 @@ SRD35.classRules = function(
     rules.defineRule('features.' + feature,
       'selectableFeatures.' + choice, '+=', null
     );
+    var note = 'validationNotes.' + prefix + ' - ' + feature.replace(/ /g, '') + 'FeatureLevels';
+    rules.defineChoice('notes', note + ':Requires ' + name + ' >= ' + level);
+    rules.defineRule(note,
+      'selectableFeatures.' + choice, '=', '1',
+      'levels.' + name, '+', 'source >= ' + level + ' ? -1 : null'
+    );
   }
 
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
-  var notes, spellAbility, spellsKnown, spellsPerDay;
+  var spellAbility, spellsKnown, spellsPerDay;
   var prefix =
     name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(name == 'Barbarian') {
 
-    notes = [
-      'validationNotes.barbarianClassAlignment:Requires Alignment !~ Lawful'
-    ];
     spellAbility = null;
     spellsKnown = null;
     spellsPerDay = null;
     rules.defineRule
       ('abilityNotes.fastMovementFeature', 'levels.Barbarian', '+=', '10');
-    rules.defineRule('damageReduction.All',
+    rules.defineRule('barbarianFeatures.Improved Uncanny Dodge',
+      'barbarianFeatures.Uncanny Dodge', '?', null,
+      'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
+    );
+    rules.defineRule('combatNotes.damageReduction',
       'levels.Barbarian', '+=', 'source>=7 ? Math.floor((source-4)/3) : null'
+    );
+    rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+      'levels.Barbarian', '+=', 'source >= 2 ? source : null',
+      '', '+', '4'
     );
     rules.defineRule('combatNotes.rageFeature',
       'constitutionModifier', '=', '5 + source',
@@ -4634,24 +4675,12 @@ SRD35.classRules = function(
     rules.defineRule('skillModifier.Speak Language',
       'skillNotes.illiteracyFeature', '+', '-2'
     );
-    rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
-    rules.defineRule('barbarianFeatures.Improved Uncanny Dodge',
-      'barbarianFeatures.Uncanny Dodge', '?', null,
-      'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
-    );
-    rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
-      'levels.Barbarian', '+=', 'source >= 2 ? source : null',
-      '', '+', '4'
-    );
     rules.defineRule('uncannyDodgeSources',
       'levels.Barbarian', '+=', 'source >= 2 ? 1 : null'
     );
 
   } else if(name == 'Bard') {
 
-    notes = [
-      'validationNotes.bardClassAlignment:Requires Alignment !~ Lawful'
-    ];
     spellAbility = 'charisma';
     spellsKnown = [
       'B0:1:4/2:5/3:6',
@@ -4677,37 +4706,35 @@ SRD35.classRules = function(
     );
     rules.defineRule('casterLevelArcane', 'casterLevels.B', '+=', null);
     rules.defineRule
-      ('classSkills.Bardic Knowledge', 'features.Bardic Knowledge', '=', '1');
-    rules.defineRule
       ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
     rules.defineRule('features.Countersong',
-      'maxSkillModifier.Perform', '?', 'source >= 3'
+      'maxPerformModifier', '?', 'source >= 3'
     );
     rules.defineRule('features.Fascinate',
-      'maxSkillModifier.Perform', '?', 'source >= 3'
+      'maxPerformModifier', '?', 'source >= 3'
     );
     rules.defineRule('features.Inspire Competence',
-      'maxSkillModifier.Perform', '?', 'source >= 6'
+      'maxPerformModifier', '?', 'source >= 6'
     );
     rules.defineRule('features.Inspire Courage',
-      'maxSkillModifier.Perform', '?', 'source >= 3'
+      'maxPerformModifier', '?', 'source >= 3'
     );
     rules.defineRule('features.Inspire Greatness',
-      'maxSkillModifier.Perform', '?', 'source >= 12'
+      'maxPerformModifier', '?', 'source >= 12'
     );
     rules.defineRule('features.Inspire Heroics',
-      'maxSkillModifier.Perform', '?', 'source >= 18'
+      'maxPerformModifier', '?', 'source >= 18'
     );
     rules.defineRule('features.Mass Suggestion',
-      'maxSkillModifier.Perform', '?', 'source >= 21'
+      'maxPerformModifier', '?', 'source >= 21'
     );
     rules.defineRule('features.Song Of Freedom',
-      'maxSkillModifier.Perform', '?', 'source >= 15'
+      'maxPerformModifier', '?', 'source >= 15'
     );
     rules.defineRule('features.Suggestion',
-      'maxSkillModifier.Perform', '?', 'source >= 9'
+      'maxPerformModifier', '?', 'source >= 9'
     );
-    rules.defineRule('magicNotes.arcaneSpellFailure',
+    rules.defineRule('magicNotes.arcaneSpellure',
       'magicNotes.simpleSomaticsFeature.1', 'v', '0'
     );
     rules.defineRule('magicNotes.fascinateFeature',
@@ -4734,18 +4761,15 @@ SRD35.classRules = function(
       'charismaModifier', '+', null
     );
     rules.defineRule
-      ('maxSkillModifier.Perform', /^skillModifier.Perform/, '^=', null);
-    rules.defineRule('skillModifier.Bardic Knowledge',
-      'skills.Bardic Knowledge', '=', null,
-      'levels.Bard', '+', null,
-      'intelligenceModifier', '+', null
+      ('maxPerformModifier', /^skillModifier.Perform/, '^=', null);
+    rules.defineRule('skillNotes.bardicKnowledgeFeature',
+      'levels.Bard', '=', null,
+      'intelligenceModifier', '+', null,
+      'skills.Knowledge (History)', '+', 'source >= 5 ? 2 : null'
     );
-    rules.defineRule
-      ('skills.Bardic Knowledge', 'features.Bardic Knowledge', '=', '0');
 
   } else if(name == 'Cleric') {
 
-    notes = null;
     spellAbility = 'wisdom';
     spellsKnown = [
       'C0:1:"all"', 'C1:1:"all"', 'C2:3:"all"', 'C3:5:"all"',
@@ -4787,12 +4811,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Druid') {
 
-    notes = [
-      'validationNotes.druidClassAlignment:Requires Alignment =~ Neutral',
-      'validationNotes.druidClassArmor:' +
-        'Requires Armor =~ None|Hide|Leather|Padded',
-      'validationNotes.druidClassShield:Requires Shield =~ None|Wooden'
-    ];
     spellAbility = 'wisdom';
     spellsKnown = [
       'D0:1:"all"', 'D1:1:"all"', 'D2:3:"all"', 'D3:5:"all"',
@@ -4849,7 +4867,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Fighter') {
 
-    notes = null;
     spellAbility = null;
     spellsKnown = null;
     spellsPerDay = null;
@@ -4859,30 +4876,24 @@ SRD35.classRules = function(
 
   } else if(name == 'Monk') {
 
-    notes = [
+    rules.defineChoice('notes',
       'sanityNotes.monkClassArmor:Implies Armor == "None"',
       'sanityNotes.monkClassShield:Implies Shield == "None"',
-      'validationNotes.monk - CombatReflexesSelectableFeatureLevels:' +
-         'Requires Monk >= 2',
-      'validationNotes.monk - DeflectArrowsSelectableFeatureLevels:' +
-         'Requires Monk >= 2',
-      'validationNotes.monk - ImprovedDisarmSelectableFeatureLevels:' +
-         'Requires Monk >= 6',
-      'validationNotes.monk - ImprovedGrappleSelectableFeatureLevels:' +
-         'Requires Monk >= 1',
-      'validationNotes.monk - ImprovedTripSelectableFeatureLevels:' +
-         'Requires Monk >= 6',
-      'validationNotes.monkClassAlignment:Requires Alignment =~ Lawful',
-      'validationNotes.monk - StunningFistSelectableFeatureLevels:Requires Monk >= 1'
-    ];
+    );
+    rules.defineRule('sanityNotes.monkClassArmor',
+      'levels.Monk', '=', '1',
+      'armor', '+', 'source == "None" ? -1 : null'
+    );
+    rules.defineRule('sanityNotes.monkClassShield',
+      'levels.Monk', '=', '1',
+      'shield', '+', 'source == "None" ? -1 : null'
+    );
     spellAbility = null;
     spellsKnown = null;
     spellsPerDay = null;
     rules.defineRule('abilityNotes.fastMovementFeature',
       'levels.Monk', '+=', '10 * Math.floor(source / 3)'
     );
-    rules.defineRule
-      ('armorClass', 'combatNotes.monkArmorClassAdjustment', '+', null);
     rules.defineRule('casterLevels.Dimension Door',
       'levels.Monk', '^=', 'source < 12 ? null : Math.floor(source / 2)'
     );
@@ -4896,7 +4907,7 @@ SRD35.classRules = function(
     rules.defineRule('combatNotes.flurryOfBlowsFeature',
       'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
     );
-    rules.defineRule('combatNotes.monkArmorClassAdjustment',
+    rules.defineRule('combatNotes.monkArmorClassAdjustmentFeature',
       'levels.Monk', '+=', 'source >= 5 ? Math.floor(source / 5) : null',
       'wisdomModifier', '+', 'source > 0 ? source : null'
     );
@@ -4907,8 +4918,7 @@ SRD35.classRules = function(
     rules.defineRule('combatNotes.stunningFistFeature.1',
       'levels.Monk', '+=', 'source - Math.floor(source / 4)'
     );
-    rules.defineRule
-      ('magicNotes.emptyBodyFeature', 'levels.Monk', '+=', null);
+    rules.defineRule('magicNotes.emptyBodyFeature', 'levels.Monk', '+=', null);
     rules.defineRule
       ('magicNotes.wholenessOfBodyFeature', 'levels.Monk', '+=', '2*source');
     rules.defineRule
@@ -4920,7 +4930,6 @@ SRD35.classRules = function(
     rules.defineRule('selectableFeatureCount.Monk',
       'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
     );
-    rules.defineRule('speed', 'abilityNotes.fastMovementFeature', '+', null);
     // NOTE Our rule engine doesn't support modifying a value via indexing.
     // Here, we work around this limitation by defining rules that set global
     // values as a side effect, then use these values in our calculations.
@@ -4937,10 +4946,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Paladin') {
 
-    notes = [
-      'validationNotes.paladinClassAlignment:' +
-        'Requires Alignment == "Lawful Good"'
-    ];
     spellAbility = 'wisdom';
     spellsKnown = [
       'P1:4:"all"', 'P2:8:"all"', 'P3:11:"all"', 'P4:14:"all"'
@@ -4986,7 +4991,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Ranger') {
 
-    notes = null;
     spellAbility = 'wisdom';
     spellsKnown = [
       'R1:4:"all"', 'R2:8:"all"', 'R3:11:"all"', 'R4:14:"all"'
@@ -5045,7 +5049,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Rogue') {
 
-    notes = null;
     spellAbility = null;
     spellsKnown = null;
     spellsPerDay = null;
@@ -5078,7 +5081,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Sorcerer') {
 
-    notes = null;
     spellAbility = 'charisma';
     spellsKnown = [
       'S0:1:4/2:5/4:6/6:7/8:8/10:9',
@@ -5113,7 +5115,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Wizard') {
 
-    notes = null;
     spellAbility = 'intelligence';
     spellsKnown = [
       'W0:1:"all"', 'W1:1:3/2:5', 'W2:3:2/4:4', 'W3:5:2/6:4',
@@ -5158,18 +5159,16 @@ SRD35.classRules = function(
 
   SRD35.defineClass
     (rules, name, spellsKnown, spellsPerDay, spellAbility);
-  if(notes != null)
-    rules.defineNote(notes);
 
 };
 
 /* Defines the rules related to combat. */
 SRD35.combatRules = function(rules) {
-  rules.defineNote([
+  rules.defineChoice('notes',
     'turnUndead.damageModifier:2d6+%V',
     'turnUndead.frequency:%V/day',
     'turnUndead.maxHitDice:(d20+%V)/3'
-  ]);
+  );
   rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
   );
@@ -5226,7 +5225,7 @@ SRD35.companionRules = function(
   rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, level
 ) {
 
-  rules.defineNote(
+  rules.defineChoice('notes',
     'animalCompanionStats.Melee:+%V %1%2%3%4',
     'animalCompanionStats.SR:DC %V'
   );
@@ -5263,7 +5262,8 @@ SRD35.companionRules = function(
     rules.defineRule('companionMasterLevel',
       'animalCompanion.' + name, '+', '-' + level
     );
-    rules.defineNote('validationNotes.companionMasterLevel:Requires %1');
+    rules.defineChoice
+      ('notes', 'validationNotes.companionMasterLevel:Requires %1');
     rules.defineRule('validationNotes.companionMasterLevel.1',
       'animalCompanion.' + name, '=', level,
     );
@@ -5297,7 +5297,7 @@ SRD35.companionRules = function(
   );
 
   rules.defineRule('companionAttack',
-    'animalCompanionStats.HD', '=', SRD35.ATTACK_BONUS_AVERAGE,
+    'animalCompanionStats.HD', '=', SRD35.ATTACK_BONUS_3_4,
     'companionAttackBoosts', '+', 'Math.floor(source)'
   );
   rules.defineRule('companionAttackBoosts',
@@ -5329,20 +5329,20 @@ SRD35.companionRules = function(
   rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
     // Use base note in calculation so Quilvyn displays it in italics
     'companionNotes.shareSavingThrowsFeature', '?', null,
-    'mountMasterLevel', '=', SRD35.SAVE_BONUS_GOOD,
-    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
+    'mountMasterLevel', '=', SRD35.SAVE_BONUS_HALF,
+    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_HALF + ')',
     '', '^', '0'
   );
   rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
     'companionNotes.shareSavingThrowsFeature', '?', null,
-    'mountMasterLevel', '=', SRD35.SAVE_BONUS_POOR,
-    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_GOOD + ')',
+    'mountMasterLevel', '=', SRD35.SAVE_BONUS_THIRD,
+    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_HALF + ')',
     '', '^', '0'
   );
   rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
     'companionNotes.shareSavingThrowsFeature', '?', null,
-    'mountMasterLevel', '=', SRD35.SAVE_BONUS_POOR,
-    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_POOR + ')',
+    'mountMasterLevel', '=', SRD35.SAVE_BONUS_THIRD,
+    'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_THIRD + ')',
     '', '^', '0'
   );
 
@@ -5352,7 +5352,7 @@ SRD35.companionRules = function(
   rules.defineRule
     ('animalCompanionStats.Dex', 'companionLevel', '+', 'source - 1');
   rules.defineRule('animalCompanionStats.Fort',
-    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
+    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_HALF,
     'animalCompanionStats.Con', '+', 'Math.floor((source - 10)/2)',
     'companionNotes.shareSavingThrowsFeature.1', '+', null
   );
@@ -5374,7 +5374,7 @@ SRD35.companionRules = function(
     'animalCompanionStats.Melee.3', '=', 'source == "" ? "" : null'
   );
   rules.defineRule('animalCompanionStats.Ref',
-    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_GOOD,
+    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_HALF,
     'animalCompanionStats.Dex', '+', 'Math.floor((source - 10) / 2)',
     'companionNotes.shareSavingThrowsFeature.2', '+', null
   );
@@ -5385,7 +5385,7 @@ SRD35.companionRules = function(
     'companionLevel', '+=', null
   );
   rules.defineRule('animalCompanionStats.Will',
-    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_POOR,
+    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_THIRD,
     'animalCompanionStats.Wis', '+', 'Math.floor((source - 10) / 2)',
     'companionNotes.shareSavingThrowsFeature.3', '+', null
   );
@@ -5480,8 +5480,8 @@ SRD35.domainRules = function(rules, name) {
 
   rules.defineRule('features.' + name + ' Domain', 'domains.' + name, '=', '1');
 
-  rules.defineNote
-    ('validationNotes.domainAllocation:%1 available vs. %2 allocated');
+  rules.defineChoice
+    ('notes', 'validationNotes.domainAllocation:%1 available vs. %2 allocated');
   rules.defineRule('validationNotes.domainAllocation.1',
     '', '=', '0',
     'domainCount', '=', null
@@ -5503,7 +5503,7 @@ SRD35.domainRules = function(rules, name) {
       ('combatNotes.destructionDomainFeature', 'levels.Cleric', '=', null);
   } else if(name == 'Magic') {
     rules.defineRule('skillNotes.magicDomainFeature',
-      'levels.Cleric', '=', 'Math.floor(source / 2)',
+      'levels.Cleric', '=', 'Math.max(Math.floor(source / 2), 1)',
       'levels.Wizard', '+', null
     );
   } else if(name == 'Protection') {
@@ -5531,7 +5531,7 @@ SRD35.familiarRules = function(
 
   rules.defineRule('features.Familiar ' + name, 'familiar.' + name, '=', '1');
 
-  rules.defineNote(
+  rules.defineChoice('notes',
     'familiarStats.Melee:+%V %1',
     'familiarStats.SR:DC %V'
   );
@@ -5549,7 +5549,8 @@ SRD35.familiarRules = function(
     'familiar.' + name, '=', '"' + damage.join(',') + '"'
   );
   if(level != null && level > 1) {
-    rules.defineNote('validationNotes.familiarMasterLevel:Requires %1');
+    rules.defineChoice
+      ('notes', 'validationNotes.familiarMasterLevel:Requires %1');
     rules.defineRule('validationNotes.familiarMasterLevel.1',
       'familiar.' + name, '=', level,
       'familiarCelestial', '^=', '3',
@@ -5663,8 +5664,9 @@ SRD35.featRules = function(rules, name, types, prereqs) {
 
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
-  rules.defineNote
-    ('validationNotes.featAllocation:%1 available vs. %2 allocated');
+  rules.defineChoice('notes',
+    'validationNotes.featAllocation:%1 available vs. %2 allocated'
+  );
   rules.defineRule('validationNotes.featAllocation.1',
     '', '=', '0',
     /^featCount\./, '+=', null
@@ -5684,7 +5686,7 @@ SRD35.featRules = function(rules, name, types, prereqs) {
      types.indexOf('Metamagic') >= 0 ||
      types.indexOf('Spellcasting') >= 0) {
     var note = 'sanityNotes.' + prefix + 'FeatCasterLevel';
-    rules.defineNote(note + ':Implies Caster Level >= 1');
+    rules.defineChoice('notes', note + ':Implies Caster Level >= 1');
     rules.defineRule(note,
       'feats.' + name, '=', '1',
       'casterLevel', '+', '-1'
@@ -5693,7 +5695,7 @@ SRD35.featRules = function(rules, name, types, prereqs) {
 
   if(prereqs != null && prereqs.length > 0) {
     var note = 'validationNotes.' + prefix + 'FeatPrerequisites';
-    rules.defineNote(note + ':Requires ' + prereqs.join('/'));
+    rules.defineChoice('notes', note + ':Requires ' + prereqs.join('/'));
     rules.defineRule(note, 'feats.' + name, '=', prereqs.length);
     for(var i = 0; i < prereqs.length; i++) {
       var prereq = prereqs[i];
@@ -5722,48 +5724,28 @@ SRD35.featRules = function(rules, name, types, prereqs) {
       ('turnUndead.frequency', 'combatNotes.extraTurningFeature', '+', '4');
   } else if((matchInfo =
              name.match(/^Greater Weapon Focus \((.*)\)$/)) != null) {
+/* TODO
+      'sanityNotes.' + lead + 'FeatWeapons:Implies ' + weapon,
+*/
     var weapon = matchInfo[1];
-    var weaponNoSpace = weapon.replace(/ /g, '');
-    var note = 'combatNotes.greaterWeaponFocus(' + weaponNoSpace + ')Feature';
-    notes = [
-      note + ':+%V attack',
-      'sanityNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatWeapons:' +
-        'Implies ' + weapon,
-      'validationNotes.greaterWeaponFocus('+weaponNoSpace+')FeatFeatures:' +
-        'Requires Weapon Focus (' + weapon + ')',
-      'validationNotes.greaterWeaponFocus(' + weaponNoSpace + ')FeatLevels:' +
-        'Requires Fighter >= 8'
-    ];
-    rules.defineRule(note, '', '=', '1');
-    rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', null);
+    SRD35.featureRules(rules, name, 'combat:+1 attack');
+    rules.defineRule('weaponAttackAdjustment.' + weapon, 'combatNotes.greaterWeaponFocus(' + weapon.replace(/ /g, '') + ')Feature', '+=', '1');
   } else if((matchInfo =
              name.match(/^Greater Weapon Specialization \((.*)\)$/))!=null) {
-    var weapon = matchInfo[1];
-    var weaponNoSpace = weapon.replace(/ /g, '');
-    var lead = 'greaterWeaponSpecialization(' + weaponNoSpace + ')';
-    var note = 'combatNotes.' + lead + 'Feature';
-    notes = [
-      note + ':+2 damage',
+/* TODO
       'sanityNotes.' + lead + 'FeatWeapons:Implies ' + weapon,
-      'validationNotes.' + lead + 'FeatFeatures:' +
-        'Requires Weapon Focus (' + weapon + ')/' +
-        'Greater Weapon Focus (' + weapon + ')/' +
-        'Weapon Specialization (' + weapon + ')',
-      'validationNotes.' + lead + 'FeatLevels:Requires Fighter >= 12'
-    ];
-    rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
-  } else if((matchInfo = name.match(/^Improved Critical \((.*)\)$/)) != null){
+*/
     var weapon = matchInfo[1];
-    var weaponNoSpace = weapon.replace(/ /g, '');
-    var note = 'combatNotes.improvedCritical(' + weaponNoSpace + ')Feature';
-    notes = [
-      note + ':x2 critical threat range',
+    SRD35.featureRules(rules, name, 'combat:+2 damage');
+    rules.defineRule('weaponDamageAdjustment.' + weapon, 'combatNotes.greaterWeaponSpecialization(' + weapon.replace(/ /g, '') + ')Feature', '+=', '2');
+  } else if((matchInfo = name.match(/^Improved Critical \((.*)\)$/)) != null){
+/* TODO
       'sanityNotes.improvedCritical('+weaponNoSpace+')FeatWeapons:' +
         'Implies ' + weapon,
-      'validationNotes.improvedCritical('+weaponNoSpace+')FeatBaseAttack:' +
-        'Requires Base Attack >= 8'
-    ];
-    rules.defineRule('threat.' + weapon, note, '*', '2');
+*/
+    var weapon = matchInfo[1];
+    SRD35.featureRules(rules, name, 'combat:x2 critical threat range');
+    rules.defineRule('threat.' + weapon, 'combatNotes.improvedCritical(' + weapon.replace(/ /g, '') + ')Feature', '*', '2');
   } else if(name == 'Improved Shield Bash') {
     notes = [
       'sanityNotes.improvedShieldBashFeatShield:Implies Shield != "None"'
@@ -5790,16 +5772,7 @@ SRD35.featRules = function(rules, name, types, prereqs) {
   } else if(name == 'Run') {
     rules.defineRule('runSpeedMultiplier', 'abilityNotes.runFeature', '+', '1');
   } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
-    var skill = matchInfo[1];
-    var skillNoSpace = skill.replace(/ /g, '');
-    var note = 'skillNotes.skillFocus(' + skillNoSpace + ')Feature';
-    notes = [
-      note + ':+%V checks',
-      'sanityNotes.skillFocus(' + skillNoSpace + ')FeatSkills:' +
-        'Implies ' + skill
-    ];
-    rules.defineRule(note, '', '=', '3');
-    rules.defineRule('skillModifier.' + skill, note, '+', null);
+    SRD35.featureRules(rules, name, 'skill:+3 ' + matchInfo[1]);
   } else if(name == 'Spell Mastery') {
     rules.defineRule
       ('magicNotes.spellMasteryFeature', 'intelligenceModifier', '=', null);
@@ -5831,57 +5804,27 @@ SRD35.featRules = function(rules, name, types, prereqs) {
       '', 'v', '0'
     );
   } else if((matchInfo = name.match(/^Weapon Focus \((.*)\)$/)) != null) {
-    var weapon = matchInfo[1];
-    var weaponNoSpace = weapon.replace(/ /g, '');
-    var note = 'combatNotes.weaponFocus(' + weaponNoSpace + ')Feature';
-    notes = [
-      note + ':+%V attack',
+/* TODO
       'sanityNotes.weaponFocus(' + weaponNoSpace + ')FeatWeapons:' +
         'Implies ' + weapon,
-      'validationNotes.weaponFocus(' + weaponNoSpace + ')FeatBaseAttack:' +
-        'Requires Base Attack >= 1'
-    ];
-    rules.defineRule(note, '', '=', '1');
     rules.defineRule('weaponAttackAdjustment.' + weapon, note, '+=', null);
-  } else if((matchInfo = name.match(/^Weapon Proficiency \((.*)\)$/))!=null) {
+*/
     var weapon = matchInfo[1];
-    var weaponNoSpace = weapon.replace(/ /g, '');
-    var familiarityAttr = 'features.Weapon Familiarity (' + weapon + ')';
-    notes = [
-      'sanityNotes.weaponProficiency(' + weaponNoSpace + ')FeatWeapons:' +
-        'Implies ' + weapon,
-      'validationNotes.weaponProficiency(' + weaponNoSpace +
-        ')FeatBaseAttack:Requires Base Attack >= 1'
-    ];
-    rules.defineRule('validationNotes.weaponProficiency(' + weaponNoSpace +
-      ')FeatBaseAttack', familiarityAttr, '^', '0');
-    if(weapon == 'Bastard Sword' || weapon == 'Dwarven Waraxe') {
-      notes = notes.concat([
-        'validationNotes.weaponProficiency(' + weaponNoSpace +
-          ')FeatStrength:Requires Strength >= 13'
-      ]);
-      rules.defineRule('validationNotes.weaponProficiency(' + weaponNoSpace +
-        ')FeatStrength', familiarityAttr, '^', '0');
-    }
+    SRD35.featureRules(rules, name, 'combat:+1 attack');
+    rules.defineRule('weaponAttackAdjustment.' + weapon, 'combatNotes.weaponFocus(' + weapon.replace(/ /g, '') + ')Feature', '+=', '1');
   } else if((matchInfo =
              name.match(/^Weapon Specialization \((.*)\)$/)) != null) {
-    var weapon = matchInfo[1];
-    var weaponNoSpace = weapon.replace(/ /g, '');
-    var note = 'combatNotes.weaponSpecialization('+weaponNoSpace+')Feature';
-    notes = [
-      note + ':+2 damage',
+/* TODO
       'sanityNotes.weaponSpecialization(' + weaponNoSpace + ')FeatWeapons:' +
         'Implies ' + weapon,
-      'validationNotes.weaponSpecialization('+weaponNoSpace+')FeatFeatures:' +
-        'Requires Weapon Focus (' + weapon + ')',
-      'validationNotes.weaponSpecialization('+weaponNoSpace+')FeatLevels:' +
-        'Requires Fighter >= 4'
-    ];
-    rules.defineRule('weaponDamageAdjustment.' + weapon, note, '+=', '2');
+*/
+    var weapon = matchInfo[1];
+    SRD35.featureRules(rules, name, 'combat:+2 damage');
+    rules.defineRule('weaponDamageAdjustment.' + weapon, 'combatNotes.weaponSpecialization(' + weapon.replace(/ /g, '') + ')Feature', '+=', '2');
   }
 
   if(notes != null)
-    rules.defineNote(notes);
+    rules.defineChoice('notes', notes);
 
 };
 
@@ -5896,6 +5839,7 @@ SRD35.FOO = {
   'constitution':'constitution',
   'dexterity':'dexterity',
   'feat count':'featCount.General',
+  'fighter':'levels.Fighter',
   'fortitude':'save.Fortitude',
   'hp':'hitPoints',
   'initiative':'initiative',
@@ -5931,7 +5875,9 @@ SRD35.featureRules = function(rules, name, notes) {
     var note = section + 'Notes.' + prefix + 'Feature';
     var skillTargets = 0;
 
-    rules.defineNote(note + ':' + effect);
+    rules.defineChoice('notes', note + ':' + effect);
+    rules.defineRule
+      (note, 'features.' + name, effect.indexOf('%V') >= 0 ? '?' : '=', null);
 
     if((matchInfo = effect.match(/^([-+](\d+|%V)) (.*)$/)) != null) {
 
@@ -5962,7 +5908,8 @@ SRD35.featureRules = function(rules, name, notes) {
 
       if(skillTargets == pieces.length && adjust.startsWith('+')) {
         var sanityNote = 'sanityNotes.' + prefix + 'FeatureSkills';
-        rules.defineNote(sanityNote + ':Implies ' + pieces.join(' || '));
+        rules.defineChoice
+          ('notes', sanityNote + ':Implies ' + pieces.join(' || '));
         rules.defineRule(sanityNote, 'features.' + name, '=', '1');
         for(var j = 0; j < pieces.length; j++) {
           rules.defineRule(sanityNote, 'skills.' + pieces[j], 'v', '0');
@@ -6009,8 +5956,9 @@ SRD35.genderRules = function(rules, name) {
 SRD35.languageRules = function(rules, name) {
   rules.defineRule
     ('languageCount', 'race', '=', 'source.match(/Human/) ? 1 : 2');
-  rules.defineNote
-    ('validationNotes.languageAllocation:%1 available vs. %2 allocated');
+  rules.defineChoice('notes',
+    'validationNotes.languageAllocation:%1 available vs. %2 allocated'
+  );
   rules.defineRule('validationNotes.languageAllocation.1',
     'languageCount', '=', null
   );
@@ -6116,7 +6064,7 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
   rules.shieldStats.Skill[name] = skillFail;
   rules.shieldStats.Spell[name] = spellFail;
 
-  rules.defineNote(
+  rules.defineChoice('notes',
     'combatNotes.nonproficientShieldPenalty:%V attack',
     'sanityNotes.casterLevelArcaneShield:Implies Shield == "None"',
     'sanityNotes.shieldProficiencyLevelShield:Lowers attack bonus',
@@ -6127,7 +6075,7 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
 
   rules.defineRule
     ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
-  rules.defineRule('magicNotes.arcaneSpellFailure',
+  rules.defineRule('magicNotes.arcaneSpellure',
     'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Spell) + '[source]'
   );
   rules.defineRule('shieldProficiencyLevelShortfall',
@@ -6138,7 +6086,7 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
     'shieldProficiencyLevelShortfall', '?', 'source > 0',
     'shield', '=', '-' + QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
   );
-  rules.defineRule('skillNotes.armorSkillCheckPenaltyFeature',
+  rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
   );
   rules.defineRule('sanityNotes.shieldProficiencyLevelShield',
@@ -6151,7 +6099,7 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
     'shield', '?', 'source != "None" && source != "Buckler"'
   );
   rules.defineRule('sanityNotes.casterLevelArcaneShield',
-    'magicNotes.arcaneSpellFailure', '?', null,
+    'magicNotes.arcaneSpellure', '?', null,
     'shield', '=', 'source == "None" ? null : 1'
   );
 
@@ -6168,7 +6116,7 @@ SRD35.skillRules = function(
     'skills.' + name, '=', 'source / 2',
     'skills.' + name + '.2', '*', 'source == "" ? 2 : null'
   );
-  rules.defineNote('skills.' + name + ':(%1%2) %V (%3)');
+  rules.defineChoice('notes', 'skills.' + name + ':(%1%2) %V (%3)');
   if(ability)
     rules.defineRule
       ('skills.' + name + '.1', 'skills.' + name, '=', '"' + ability.substring(0,3) + '"');
@@ -6193,7 +6141,7 @@ SRD35.skillRules = function(
     var prefix = name.substring(0, 1).toLowerCase() +
                  name.substring(1).replace(/ /g, '');
     var note = 'skillNotes.' + prefix + 'Synergy';
-    rules.defineNote(note + ':+2 ' + synergies.join('/'));
+    rules.defineChoice('notes', note + ':+2 ' + synergies.join('/'));
     rules.defineRule(note, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
     for(var i = 0; i < synergies.length; i++) {
       var target = synergies[i];
@@ -6210,7 +6158,7 @@ SRD35.skillRules = function(
       rules.defineRule('classSkills.' + name, 'levels.'+classes[i], '=', '1');
   }
 
-  rules.defineNote(
+  rules.defineChoice('notes',
     'validationNotes.skillMaximum:' +
       'Points allocated to one or more skills exceed maximum',
     'validationNotes.skillAllocation:%1 available vs. %2 allocated'
@@ -6393,7 +6341,7 @@ SRD35.weaponRules = function(
     format += ' R%' + rangeVar + "'";
   format += ')';
 
-  rules.defineNote(weaponName + ':' + format);
+  rules.defineChoice('notes', weaponName + ':' + format);
 
   rules.defineRule('attackBonus.' + name,
     'weapons.' + name, '?', null,
@@ -6474,7 +6422,7 @@ SRD35.weaponRules = function(
   if(name == 'Unarmed')
     rules.defineRule('weaponDamage.Unarmed', 'monkUnarmedDamage', '=', null);
 
-  rules.defineNote(
+  rules.defineChoice('notes',
     'combatNotes.nonproficientWeaponPenalty.' + name + ':%V attack',
     'combatNotes.two-handedWeaponWithBucklerPenalty.' + name + ':%V attack',
     'sanityNotes.weaponProficiencyLevelWeapon.' + name + ':Lowers attack bonus'

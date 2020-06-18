@@ -144,35 +144,6 @@ QuilvynRules.prototype.defineEditorElement = function
 };
 
 /*
- * Add an HTML #format# for including attribute #attr# on the character sheet.
- * #attr# will typically be a new attribute to be included in one of the notes
- * sections of the character sheet.
- */
-QuilvynRules.prototype.defineNote = function(note /*, note ... */) {
-  var allArgs = QuilvynUtils.flatten(arguments);
-  for(var i = 0; i < allArgs.length; i++) {
-    this.defineChoice('notes', allArgs[i]);
-    var pieces = allArgs[i].split(/:/);
-    var attribute = pieces[0];
-    var format = pieces[1];
-    var matchInfo = attribute.match(/Notes\.(.*)(Domain|Feature)$/);
-    if(matchInfo != null) {
-      var name = matchInfo[1].replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
-      name = name.substring(0, 1).toUpperCase() + name.substring(1);
-      var dependsOn = matchInfo[2].toLowerCase() + 's.' + name;
-      if(format.indexOf('%V') < 0)
-        this.defineRule(attribute, dependsOn, '=', '1');
-      else {
-        this.defineRule(attribute, dependsOn, '?', null);
-        for(var j = 0; format.indexOf('%' + j) >= 0; j++) {
-          this.defineRule(attribute + '.' + j, dependsOn, '?', null);
-        }
-      }
-    }
-  }
-};
-
-/*
  * Add a rule indicating the effect that the value of the attribute #source#
  * has on the attribute #target#.  #type# indicates how #source# affects
  * #target#--'=' for assignment, '+' for increment, '^' for minimum, 'v' for
