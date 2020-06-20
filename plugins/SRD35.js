@@ -5723,7 +5723,6 @@ SRD35.featRules = function(rules, name, types, prereqs, implies) {
     SRD35.testRules(rules, 'sanity', prefix + 'Feat', 'feats.' + name, implies);
 
   var matchInfo;
-  var notes = null;
 
   if(name == 'Combat Reflexes') {
     rules.defineRule('combatNotes.combatReflexesFeature',
@@ -5783,9 +5782,6 @@ SRD35.featRules = function(rules, name, types, prereqs, implies) {
     SRD35.featureRules(rules, name, 'combat:+2 damage');
     rules.defineRule('weaponDamageAdjustment.' + weapon, 'combatNotes.weaponSpecialization(' + weapon.replace(/ /g, '') + ')Feature', '+=', '2');
   }
-
-  if(notes != null)
-    rules.defineChoice('notes', notes);
 
 };
 
