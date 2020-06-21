@@ -2963,7 +2963,6 @@ SRD35.abilityRules = function(rules, alignments) {
     ('skillPoints', 'skillNotes.intelligenceSkillPointsAdjustment', '+', null);
 
   // Validation tests
-  SRD35.validAllocationRules(rules, 'level', 'level', /^levels\./);
   rules.defineChoice('notes',
     'validationNotes.abilityMinimum:' +
       'Requires Charisma >= 14||Constitution >= 14||Dexterity >= 14||' +
@@ -3256,6 +3255,7 @@ SRD35.identityRules = function(
   for(var race in races) {
     SRD35.choiceRules(rules, 'races', race, races[race]);
   }
+  SRD35.validAllocationRules(rules, 'level', 'level', /^levels\./);
 };
 
 /* Defines rules related to magic use. */
@@ -4567,6 +4567,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'Fortitude'),
       QuilvynRules.getAttrValue(attrs, 'Reflex'),
       QuilvynRules.getAttrValue(attrs, 'Will'),
+      [], // Skills for base classes handled by skillRules
       QuilvynRules.getAttrValueArray(attrs, 'Features'),
       QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
       QuilvynRules.getAttrValueArray(attrs, 'Require'),
@@ -4607,7 +4608,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
         school,
         casterGroup,
         level,
-        QuilvynRules.getAttrValue(attrs, 'Description'),
+        QuilvynRules.getAttrValue(attrs, 'Description')
       );
     }
   } else if(type == 'weapons')
@@ -4713,7 +4714,7 @@ SRD35.armorRules = function(
  */
 SRD35.classRules = function(
   rules, name, hitDie, attack, skillPoints, saveFort, saveRef, saveWill,
-  features, selectables, prereqs, implies
+  skills, features, selectables, prereqs, implies
 ) {
 
   var prefix =
@@ -4725,8 +4726,8 @@ SRD35.classRules = function(
   );
 
   rules.defineRule('baseAttack',
-    'levels.' + name, '+', attack == "1/2" ? SRD35.ATTACK_BONUS_HALF :
-                           attack == "3/4" ? SRD35.ATTACK_BONUS_3_4 :
+    'levels.' + name, '+', attack == '1/2' ? SRD35.ATTACK_BONUS_HALF :
+                           attack == '3/4' ? SRD35.ATTACK_BONUS_3_4 :
                            SRD35.ATTACK_BONUS_FULL
   );
 
@@ -4742,6 +4743,10 @@ SRD35.classRules = function(
   if(skillPoints != null)
     rules.defineRule
       ('skillPoints', 'levels.' + name, '+', '(source + 3) * ' + skillPoints);
+
+  for(var i = 0; i < skills.length; i++) {
+    rules.defineRule('classSkills.' + skills[i], 'levels.' + name, '=', '1');
+  }
 
   for(var i = 0; i < features.length; i++) {
     var levelAndFeature = features[i].split(/:/);
@@ -5793,23 +5798,40 @@ SRD35.FOO = {
   'alignment':'alignment',
   'base attack':'baseAttack',
   'caster level':'casterLevel',
+  'caster level divine':'casterLevelDivine',
+  'caster level arcane':'casterLevelArcane',
   'charisma':'charisma',
   'constitution':'constitution',
+  'decipher script':'skills.Deciper Script',
   'dexterity':'dexterity',
+  'disable device':'skills.Disable Device',
+  'disguise':'skills.Disguise',
+  'draconic':'languages.Draconic',
+  'escape artist':'skills.Escape Artist',
   'feat count':'featCount.General',
   'fighter':'levels.Fighter',
   'fortitude':'save.Fortitude',
+  'hide':'skills.Hide',
   'hp':'hitPoints',
   'initiative':'initiative',
   'intelligence':'intelligence',
+  'knowlege (arcana)':'skills.Knowlege (Arcana)',
+  'knowlege (geography)':'skills.Knowlege (Geography)',
+  'knowlege (religion)':'skills.Knowlege (Religion)',
+  'lesser planar ally':'spells.Lesser Planar Ally',
   'level':'level',
+  'mage hand':'spells.Mage Hand',
   'melee':'meleeAttack',
+  'move silently':'skills.Move Silently',
+  'race':'race',
   'ranged':'rangedAttack',
   'reflex':'save.Reflex',
   'ride':'skillModifier.Ride',
   'skill points':'skillPoints',
   'speed':'speed',
+  'spellcraft':'skills.Spellcraft',
   'strength':'strength',
+  'tumble':'skills.Tumble',
   'turning level':'turningLevel',
   'will':'save.Will',
   'wisdom':'wisdom',
