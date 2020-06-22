@@ -91,6 +91,17 @@ SRD35Prestige.CLASSES = {
       '"1:Weapon Proficiency (Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Composit Shortbow/Short Sword)",' +
       '"1:Death Attack","1:Poison Use","1:Sneak Attack","2:Poison Tolerance",' +
       '"2:Uncanny Dodge","5:Improved Uncanny Dodge","8:Hide In Plain Sight" ' +
+    'SpellAbility=intelligence ' +
+    'SpellsPerDay=' +
+      'AS1:1:0/2:1/3:2/4:3,' +
+      'AS2:3:0/4:1/5:2/6:3,' +
+      'AS3:5:0/6:1/7:2/8:3,' +
+      'AS4:7:0/8:1/9:2/10:3 ' +
+    'SpellsKnown=' +
+      'AS1:1:1/2:2/4:3,' +
+      'AS2:3:1/4:2/6:3,' +
+      'AS3:5:1/6:2/8:3,' +
+      'AS4:7:1/8:2/10:3' +
     'Require=' +
       '"alignment =~ /Evil/","Disguise >= 4","Hide >= 8","Move Silently >= 8"',
   'Blackguard':
@@ -98,6 +109,12 @@ SRD35Prestige.CLASSES = {
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Handle Animal",Heal,Hide,Intimidate,' +
       '"Knowledge (Religion)",Profession,Ride ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'BL1:1:0/2:1/7:2,' +
+      'BL2:3:0/4:1/9:2,' +
+      'BL3:5:0/6:1/10:2,' +
+      'BL4:7:0/8:1 ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)","1:Aura Of Evil",' +
@@ -404,6 +421,9 @@ SRD35Prestige.identityRules = function(rules, classes) {
       QuilvynRules.getAttrValueArray(attrs, 'Skills'),
       QuilvynRules.getAttrValueArray(attrs, 'Features'),
       QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
+      QuilvynRules.getAttrValue(attrs, 'SpellAbility'),
+      QuilvynRules.getAttrValueArray(attrs, 'SpellsKnown'),
+      QuilvynRules.getAttrValueArray(attrs, 'SpellsPerDay'),
       QuilvynRules.getAttrValueArray(attrs, 'Require'),
       QuilvynRules.getAttrValueArray(attrs, 'Imply')
     );
@@ -417,10 +437,7 @@ SRD35Prestige.identityRules = function(rules, classes) {
  */
 SRD35Prestige.classRules = function(rules, name) {
 
-  var spellAbility = null;
   var spells = null;
-  var spellsKnown = null;
-  var spellsPerDay = null;
   var prefix =
     name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
@@ -456,7 +473,6 @@ SRD35Prestige.classRules = function(rules, name) {
 
   } else if(name == 'Assassin') {
 
-    spellAbility = 'intelligence';
     spells = [
       'AS1:Detect Poison:Disguise Self:Feather Fall:Ghost Sound:Jump:' +
       'Obscuring Mist:Sleep:True Strike',
@@ -466,18 +482,6 @@ SRD35Prestige.classRules = function(rules, name) {
       'Magic Circle Against Good:Misdirection:Nondetection',
       'AS4:Clairaudience/Clairvoyance:Dimension Door:Freedom Of Movement:' +
       'Glibness:Greater Invisibility:Locate Creature:Modify Memory:Poison'
-    ];
-    spellsPerDay = [
-      'AS1:1:0/2:1/3:2/4:3',
-      'AS2:3:0/4:1/5:2/6:3',
-      'AS3:5:0/6:1/7:2/8:3',
-      'AS4:7:0/8:1/9:2/10:3'
-    ];
-    spellsKnown = [
-      'AS1:1:1/2:2/4:3',
-      'AS2:3:1/4:2/6:3',
-      'AS3:5:1/6:2/8:3',
-      'AS4:7:1/8:2/10:3'
     ];
     rules.defineRule('casterLevels.AS',
       'levels.Assassin', '=', null,
@@ -512,7 +516,6 @@ SRD35Prestige.classRules = function(rules, name) {
 
   } else if(name == 'Blackguard') {
 
-    spellAbility = 'wisdom';
     spells = [
       'BL1:Cause Fear:Corrupt Weapon:Cure Light Wounds:Detect Good:Doom:' +
       'Inflict Light Wounds:Magic Weapon:Summon Monster I',
@@ -522,15 +525,6 @@ SRD35Prestige.classRules = function(rules, name) {
       'Inflict Serious Wounds:Protection From Energy:Summon Monster III',
       'BL4:Cure Critical Wounds:Freedom Of Movement:' +
       'Inflict Critical Wounds:Poison:Summon Monster IV'
-    ];
-    spellsKnown = [
-      'BL1:1:"all"', 'BL2:3:"all"', 'BL3:5:"all"', 'BL4:7:"all"'
-    ];
-    spellsPerDay = [
-      'BL1:1:0/2:1/7:2',
-      'BL2:3:0/4:1/9:2',
-      'BL3:5:0/6:1/10:2',
-      'BL4:7:0/8:1'
     ];
     SRD35.SPELLS['Corrupt Weapon'] =
       SRD35.SPELLS['Bless Weapon'].replace('evil','good').replace('good','evil');

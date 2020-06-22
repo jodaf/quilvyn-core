@@ -179,13 +179,42 @@ SRD35.CLASSES = {
       '"1:Bardic Knowledge","1:Bardic Music",1:Countersong,1:Fascinate,' +
       '"1:Inspire Courage","1:Simple Somatics,"' +
       '"3:Inspire Competence",6:Suggestion,"9:Inspire Greatness"' +
-      '"12:Song Of Freedom","15:Inspire Heroics","18:Mass Suggestion"',
+      '"12:Song Of Freedom","15:Inspire Heroics","18:Mass Suggestion" ' +
+    'SpellAbility=charisma ' +
+    'SpellsKnown=' +
+      'B0:1:4/2:5/3:6,' +
+      'B1:2:1/3:2/5:3/16:4,' +
+      'B2:4:1/5:2/7:3/17:4,' +
+      'B3:7:1/8:2/10:3/18:4,' +
+      'B4:10:1/11:2/13:3/19:4,' +
+      'B5:13:1/14:2/16:3/20:4,' +
+      'B6:16:1/17:2/19:3 ' +
+    'SpellsPerDay=' +
+      'B0:1:2/2:3/14:4,' +
+      'B1:2:0/3:1/4:2/5:3/15:4,' +
+      'B2:4:0/5:1/6:2/8:3/16:4,' +
+      'B3:7:0/8:1/9:2/11:3/17:4,' +
+      'B4:10:0/11:1/12:2/14:3/18:4,' +
+      'B5:13:0/14:1/15:2/17:3/19:4,' +
+      'B6:16:0/17:1/18:2/19:3/20:4',
   'Cleric':
     'HitDie=d8 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Simple)",1:Aura,"1:Spontaneous Cleric Spell",' +
-      '"1:Turn Undead"',
+      '"1:Turn Undead" ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'C0:1:3/2:4/4:5/7:6,' +
+      'C1:1:1/2:2/4:3/7:4/11:5,' +
+      'C2:3:1/4:2/6:3/9:4/13:5,' +
+      'C3:5:1/6:2/8:3/11:4/15:5,' +
+      'C4:7:1/8:2/10:3/13:4/17:5,' +
+      'C5:9:1/10:2/12:3/15:4/19:5,' +
+      'C6:11:1/12:2/14:3/17:4,' +
+      'C7:13:1/14:2/16:3/19:4,' +
+      'C8:15:1/16:2/18:3/20:4,' +
+      'C9:17:1/18:2/19:3/20:4',
   'Druid':
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Require="alignment =~ /Neutral/","armor =~ /None|Hide|Leather|Padded/","shield =~ /None|Wooden/" ' +
@@ -195,7 +224,19 @@ SRD35.CLASSES = {
       '"1:Animal Companion","1:Nature Sense","1:Spontaneous Druid Spell",' +
       '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
-      '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape"',
+      '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'D0:1:3/2:4/4:5/7:6,' +
+      'D1:1:1/2:2/4:3/7:4/11:5,' +
+      'D2:3:1/4:2/6:3/9:4/13:5,' +
+      'D3:5:1/6:2/8:3/11:4/15:5,' +
+      'D4:7:1/8:2/10:3/13:4/17:5,' +
+      'D5:9:1/10:2/12:3/15:4/19:5,' +
+      'D6:11:1/12:2/14:3/17:4,' +
+      'D7:13:1/14:2/16:3/19:4,' +
+      'D8:15:1/16:2/18:3/20:4,' +
+      'D9:17:1/18:2/19:3/20:4',
   'Fighter':
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
@@ -223,7 +264,14 @@ SRD35.CLASSES = {
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)",1:Aura,"1:Detect Evil",' +
       '"1:Smite Evil","2:Divine Grace","2:Lay On Hands","3:Aura Of Courage",' +
-      '"3:Divine Health","4:Turn Undead","5:Special Mount","6:Remove Disease"',
+      '"3:Divine Health","4:Turn Undead","5:Special Mount",' +
+      '"6:Remove Disease" ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'P1:4:0/6:1/14:2/18:3,' +
+      'P2:8:0/10:1/16:2/19:3,' +
+      'P3:11:0/12:1/17:2/19:3,' +
+      'P4:14:0/15:1/19:2/20:3',
   'Ranger':
     'HitDie=d8 Attack=1 SkillPoints=6 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Features=' +
@@ -235,7 +283,13 @@ SRD35.CLASSES = {
       '"11:Improved Precise Shot","11:Greater Two-Weapon Fighting",' +
       '13:Camouflage,"17:Hide In Plain Sight" ' +
     'Selectables=' +
-      '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)"',
+      '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)" ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'R1:4:0/6:1/14:2/18:3,' +
+      'R2:8:0/10:1/16:2/19:3,' +
+      'R3:11:0/12:1/17:2/19:3,' +
+      'R4:14:0/15:1/19:2/20:3',
   'Rogue':
     'HitDie=d6 Attack=3/4 SkillPoints=8 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Features=' +
@@ -249,12 +303,58 @@ SRD35.CLASSES = {
   'Sorcerer':
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Weapon Proficiency (Simple)",1:Familiar',
+      '"1:Weapon Proficiency (Simple)",1:Familiar ' +
+    'SpellAbility=charisma ' +
+    'SpellsKnown=' +
+      'S0:1:4/2:5/4:6/6:7/8:8/10:9,' +
+      'S1:1:2/3:3/5:4/7:5,' +
+      'S2:4:1/5:2/7:3/9:4/11:5,' +
+      'S3:6:1/7:2/9:3/11:4,' +
+      'S4:8:1/9:2/11:3/13:4,' +
+      'S5:10:1/11:2/13:3/15:4,' +
+      'S6:12:1/13:2/15:3,' +
+      'S7:14:1/15:2/17:3,' +
+      'S8:16:1/17:2/19:3,' +
+      'S9:18:1/19:2/20:3 ' +
+    'SpellsPerDay=' +
+      'S0:1:5/2:6,' +
+      'S1:1:3/2:4/3:5/4:6,' +
+      'S2:4:3/5:4/6:5/7:6,' +
+      'S3:6:3/7:4/8:5/9:6,' +
+      'S4:8:3/9:4/10:5/11:6,' +
+      'S5:10:3/11:4/12:5/13:6,' +
+      'S6:12:3/13:4/14:5/15:6,' +
+      'S7:14:3/15:4/16:5/17:6,' +
+      'S8:16:3/17:4/18:5/19:6,' +
+      'S9:18:3/19:4/20:6',
   'Wizard':
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
-      '"1:Scribe Scroll",1:Familiar,"1:Wizard Specialization"'
+      '"1:Scribe Scroll",1:Familiar,"1:Wizard Specialization" ' +
+    'SpellAbility=intelligence ' +
+    'SpellsKnown=' +
+      'W0:1:"all",' +
+      'W1:1:3/2:5,' +
+      'W2:3:2/4:4,' +
+      'W3:5:2/6:4,' +
+      'W4:7:2/8:4,' +
+      'W5:9:2/10:4,' +
+      'W6:11:2/12:4,' +
+      'W7:13:2/14:4,' +
+      'W8:15:2/16:4,' +
+      'W9:17:2/18:4/19:6/20:8 ' +
+    'SpellsPerDay=' +
+      'W0:1:3/2:4,' +
+      'W1:1:1/2:2/4:3/7:4,' +
+      'W2:3:1/4:2/6:3/9:4,' +
+      'W3:5:1/6:2/8:3/11:4,' +
+      'W4:7:1/8:2/10:3/13:4,' +
+      'W5:9:1/10:2/12:3/15:4,' +
+      'W6:11:1/12:2/14:3/17:4,' +
+      'W7:13:1/14:2/16:3/19:4,' +
+      'W8:15:1/16:2/18:3/20:4,' +
+      'W9:17:1/18:2/19:3/20:4'
 };
 SRD35.DEITIES = {
   'None':'' // The SRD defines no deities
@@ -4570,6 +4670,9 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       [], // Skills for base classes handled by skillRules
       QuilvynRules.getAttrValueArray(attrs, 'Features'),
       QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
+      QuilvynRules.getAttrValue(attrs, 'SpellAbility'),
+      QuilvynRules.getAttrValueArray(attrs, 'SpellsKnown'),
+      QuilvynRules.getAttrValueArray(attrs, 'SpellsPerDay'),
       QuilvynRules.getAttrValueArray(attrs, 'Require'),
       QuilvynRules.getAttrValueArray(attrs, 'Imply')
     );
@@ -4714,7 +4817,8 @@ SRD35.armorRules = function(
  */
 SRD35.classRules = function(
   rules, name, hitDie, attack, skillPoints, saveFort, saveRef, saveWill,
-  skills, features, selectables, prereqs, implies
+  skills, features, selectables, spellAbility, spellsKnown, spellsPerDay,
+  requires, implies
 ) {
 
   var prefix =
@@ -4785,23 +4889,68 @@ SRD35.classRules = function(
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
-  if(prereqs.length > 0)
+  if(spellsPerDay.length >= 0) {
+    rules.defineRule('spellsKnownLevel.' + name,
+      'levels.' + name, '=', null,
+      'magicNotes.casterLevelBonusFeature', '+', null
+    );
+/*
+    for(var i = 0; i < spellsKnown.length; i++) {
+      var spellTypeAndLevel = spellsKnown[i].split(/:/)[0];
+      var code = spellsKnown[i].substring(spellTypeAndLevel.length + 1).
+                 split(/\//).reverse().join('source >= ');
+      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
+      code = 'source >= ' + code + ' : null';
+      if(code.indexOf('source >= 1 ?') >= 0) {
+        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
+      }
+      rules.defineRule('spellsKnown.' + spellTypeAndLevel,
+        'spellsKnownLevel.' + name, '+=', code
+      );
+    }
+*/
+    for(var i = 0; i < spellsPerDay.length; i++) {
+      var spellModifier = spellAbility + 'Modifier';
+      var spellTypeAndLevel = spellsPerDay[i].split(/:/)[0];
+      var spellType = spellTypeAndLevel.replace(/\d+/, '');
+      var spellLevel = spellTypeAndLevel.replace(/[A-Z]*/, '');
+      var code = spellsPerDay[i].substring(spellTypeAndLevel.length + 1).
+                 split(/\//).reverse().join('source >= ');
+      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
+      code = 'source >= ' + code + ' : null';
+      if(code.indexOf('source >= 1 ?') >= 0) {
+        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
+      }
+      rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
+        'spellsKnownLevel.' + name, '+=', code
+      );
+      if(spellLevel > 0) {
+        rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
+          spellModifier, '+',
+            'source >= ' + spellLevel +
+              ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
+        );
+      }
+      rules.defineRule('spellDifficultyClass.' + spellType,
+        'casterLevels.' + spellType, '?', null,
+        spellModifier, '=', '10 + source'
+      );
+    }
+  }
+
+  if(requires.length > 0)
     SRD35.testRules
       (rules, 'validation', prefix + 'ClassPrerequisites', 'levels.' + name,
-       prereqs);
+       requires);
   if(implies.length > 0)
     SRD35.testRules
       (rules, 'sanity', prefix + 'ClassImplies', 'levels.' + name, implies);
 
-  var spellAbility, spellsKnown, spellsPerDay;
   var prefix =
     name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(name == 'Barbarian') {
 
-    spellAbility = null;
-    spellsKnown = null;
-    spellsPerDay = null;
     rules.defineRule
       ('abilityNotes.fastMovementFeature', 'levels.Barbarian', '+=', '10');
     rules.defineRule('barbarianFeatures.Improved Uncanny Dodge',
@@ -4835,25 +4984,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Bard') {
 
-    spellAbility = 'charisma';
-    spellsKnown = [
-      'B0:1:4/2:5/3:6',
-      'B1:2:1/3:2/5:3/16:4',
-      'B2:4:1/5:2/7:3/17:4',
-      'B3:7:1/8:2/10:3/18:4',
-      'B4:10:1/11:2/13:3/19:4',
-      'B5:13:1/14:2/16:3/20:4',
-      'B6:16:1/17:2/19:3'
-    ];
-    spellsPerDay = [
-      'B0:1:2/2:3/14:4',
-      'B1:2:0/3:1/4:2/5:3/15:4',
-      'B2:4:0/5:1/6:2/8:3/16:4',
-      'B3:7:0/8:1/9:2/11:3/17:4',
-      'B4:10:0/11:1/12:2/14:3/18:4',
-      'B5:13:0/14:1/15:2/17:3/19:4',
-      'B6:16:0/17:1/18:2/19:3/20:4'
-    ];
     rules.defineRule('casterLevels.B',
       'levels.Bard', '=', null,
        'magicNotes.casterLevelBonusFeature', '+', null
@@ -4924,27 +5054,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Cleric') {
 
-    spellAbility = 'wisdom';
-    spellsKnown = [
-      'C0:1:"all"', 'C1:1:"all"', 'C2:3:"all"', 'C3:5:"all"',
-      'C4:7:"all"', 'C5:9:"all"', 'C6:11:"all"', 'C7:13:"all"',
-      'C8:15:"all"', 'C9:17:"all"',
-      'Dom1:1:"all"', 'Dom2:3:"all"', 'Dom3:5:"all"', 'Dom4:7:"all"',
-      'Dom5:9:"all"', 'Dom6:11:"all"', 'Dom7:13:"all"', 'Dom8:15:"all"',
-      'Dom9:17:"all"'
-    ];
-    spellsPerDay = [
-      'C0:1:3/2:4/4:5/7:6',
-      'C1:1:1/2:2/4:3/7:4/11:5',
-      'C2:3:1/4:2/6:3/9:4/13:5',
-      'C3:5:1/6:2/8:3/11:4/15:5',
-      'C4:7:1/8:2/10:3/13:4/17:5',
-      'C5:9:1/10:2/12:3/15:4/19:5',
-      'C6:11:1/12:2/14:3/17:4',
-      'C7:13:1/14:2/16:3/19:4',
-      'C8:15:1/16:2/18:3/20:4',
-      'C9:17:1/18:2/19:3/20:4'
-    ];
     rules.defineRule('casterLevels.C',
       'levels.Cleric', '=', null,
        'magicNotes.casterLevelBonusFeature', '+', null
@@ -4965,24 +5074,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Druid') {
 
-    spellAbility = 'wisdom';
-    spellsKnown = [
-      'D0:1:"all"', 'D1:1:"all"', 'D2:3:"all"', 'D3:5:"all"',
-      'D4:7:"all"', 'D5:9:"all"', 'D6:11:"all"', 'D7:13:"all"',
-      'D8:15:"all"', 'D9:17:"all"'
-    ];
-    spellsPerDay = [
-      'D0:1:3/2:4/4:5/7:6',
-      'D1:1:1/2:2/4:3/7:4/11:5',
-      'D2:3:1/4:2/6:3/9:4/13:5',
-      'D3:5:1/6:2/8:3/11:4/15:5',
-      'D4:7:1/8:2/10:3/13:4/17:5',
-      'D5:9:1/10:2/12:3/15:4/19:5',
-      'D6:11:1/12:2/14:3/17:4',
-      'D7:13:1/14:2/16:3/19:4',
-      'D8:15:1/16:2/18:3/20:4',
-      'D9:17:1/18:2/19:3/20:4'
-    ];
     rules.defineRule
       ('companionMasterLevel', 'levels.Druid', '+=', null);
     rules.defineRule('casterLevels.D',
@@ -5021,18 +5112,12 @@ SRD35.classRules = function(
 
   } else if(name == 'Fighter') {
 
-    spellAbility = null;
-    spellsKnown = null;
-    spellsPerDay = null;
     rules.defineRule('featCount.Fighter',
       'levels.Fighter', '=', '1 + Math.floor(source / 2)'
     );
 
   } else if(name == 'Monk') {
 
-    spellAbility = null;
-    spellsKnown = null;
-    spellsPerDay = null;
     rules.defineRule('abilityNotes.fastMovementFeature',
       'levels.Monk', '+=', '10 * Math.floor(source / 3)'
     );
@@ -5088,16 +5173,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Paladin') {
 
-    spellAbility = 'wisdom';
-    spellsKnown = [
-      'P1:4:"all"', 'P2:8:"all"', 'P3:11:"all"', 'P4:14:"all"'
-    ];
-    spellsPerDay = [
-      'P1:4:0/6:1/14:2/18:3',
-      'P2:8:0/10:1/16:2/19:3',
-      'P3:11:0/12:1/17:2/19:3',
-      'P4:14:0/15:1/19:2/20:3'
-    ];
     rules.defineRule('casterLevels.Paladin',
       'levels.Paladin', '=', 'source < 4 ? null : source / 2',
       'magicNotes.casterLevelBonusFeature', '+', null
@@ -5133,16 +5208,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Ranger') {
 
-    spellAbility = 'wisdom';
-    spellsKnown = [
-      'R1:4:"all"', 'R2:8:"all"', 'R3:11:"all"', 'R4:14:"all"'
-    ];
-    spellsPerDay = [
-      'R1:4:0/6:1/14:2/18:3',
-      'R2:8:0/10:1/16:2/19:3',
-      'R3:11:0/12:1/17:2/19:3',
-      'R4:14:0/15:1/19:2/20:3'
-    ];
     rules.defineRule('companionMasterLevel',
       'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
     );
@@ -5191,9 +5256,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Rogue') {
 
-    spellAbility = null;
-    spellsKnown = null;
-    spellsPerDay = null;
     rules.defineRule('combatNotes.sneakAttackFeature',
       'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
     );
@@ -5223,31 +5285,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Sorcerer') {
 
-    spellAbility = 'charisma';
-    spellsKnown = [
-      'S0:1:4/2:5/4:6/6:7/8:8/10:9',
-      'S1:1:2/3:3/5:4/7:5',
-      'S2:4:1/5:2/7:3/9:4/11:5',
-      'S3:6:1/7:2/9:3/11:4',
-      'S4:8:1/9:2/11:3/13:4',
-      'S5:10:1/11:2/13:3/15:4',
-      'S6:12:1/13:2/15:3',
-      'S7:14:1/15:2/17:3',
-      'S8:16:1/17:2/19:3',
-      'S9:18:1/19:2/20:3'
-    ];
-    spellsPerDay = [
-      'S0:1:5/2:6',
-      'S1:1:3/2:4/3:5/4:6',
-      'S2:4:3/5:4/6:5/7:6',
-      'S3:6:3/7:4/8:5/9:6',
-      'S4:8:3/9:4/10:5/11:6',
-      'S5:10:3/11:4/12:5/13:6',
-      'S6:12:3/13:4/14:5/15:6',
-      'S7:14:3/15:4/16:5/17:6',
-      'S8:16:3/17:4/18:5/19:6',
-      'S9:18:3/19:4/20:6'
-    ];
     rules.defineRule('casterLevels.S',
       'levels.Sorcerer', '=', null,
       'magicNotes.casterLevelBonusFeature', '+', null
@@ -5257,24 +5294,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Wizard') {
 
-    spellAbility = 'intelligence';
-    spellsKnown = [
-      'W0:1:"all"', 'W1:1:3/2:5', 'W2:3:2/4:4', 'W3:5:2/6:4',
-      'W4:7:2/8:4', 'W5:9:2/10:4', 'W6:11:2/12:4', 'W7:13:2/14:4',
-      'W8:15:2/16:4', 'W9:17:2/18:4/19:6/20:8'
-    ];
-    spellsPerDay = [
-      'W0:1:3/2:4',
-      'W1:1:1/2:2/4:3/7:4',
-      'W2:3:1/4:2/6:3/9:4',
-      'W3:5:1/6:2/8:3/11:4',
-      'W4:7:1/8:2/10:3/13:4',
-      'W5:9:1/10:2/12:3/15:4',
-      'W6:11:1/12:2/14:3/17:4',
-      'W7:13:1/14:2/16:3/19:4',
-      'W8:15:1/16:2/18:3/20:4',
-      'W9:17:1/18:2/19:3/20:4'
-    ];
     rules.defineRule('casterLevels.W',
       'levels.Wizard', '=', null,
       'magicNotes.casterLevelBonusFeature', '+', null
@@ -5298,9 +5317,6 @@ SRD35.classRules = function(
     }
 
   }
-
-  SRD35.defineClass
-    (rules, name, spellsKnown, spellsPerDay, spellAbility);
 
 };
 
@@ -5711,7 +5727,7 @@ SRD35.familiarRules = function(
 /*
  * TODO
  */
-SRD35.featRules = function(rules, name, types, prereqs, implies) {
+SRD35.featRules = function(rules, name, types, requires, implies) {
 
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
@@ -5720,9 +5736,9 @@ SRD35.featRules = function(rules, name, types, prereqs, implies) {
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
   rules.defineRule('features.' + name, 'feats.' + name, '=', null);
 
-  if(prereqs.length > 0)
+  if(requires.length > 0)
     SRD35.testRules
-      (rules, 'validation', prefix + 'Feat', 'feats.' + name, prereqs);
+      (rules, 'validation', prefix + 'Feat', 'feats.' + name, requires);
 
   if(implies.length >= 0)
     SRD35.testRules(rules, 'sanity', prefix + 'Feat', 'feats.' + name, implies);
@@ -6404,75 +6420,4 @@ SRD35.getFormats = function(rules, viewer) {
     result = formats;
   }
   return result;
-};
-
-/*
- * A convenience function that adds #name# to the list of valid classes in
- * #rules#.  Characters of class #name# roll #hitDice# ([Nd]S, where N is the
- * number of dice and S the number of sides) more hit points at each level.
- * All other parameters are optional.  #skillPoints# is the number of skill
- * points a character of the class receives each level; #baseAttackBonus#,
- * #saveFortitudeBonus#, #saveReflexBonus# and #saveWillBonus# are JavaScript
- * expressions that compute the attack and saving throw bonuses the character
- * accumulates each class level; #weaponProficiencyLevel# indicates any
- * proficiency that characters of the class gain; #classSkills# is an array of
- * skills that are class skills (as opposed to cross-class) for the class,
- * #features# an array of level:feature name pairs indicating features that the
- * class acquires when advancing levels, #spellsKnown# an array of information
- * about the type, number, and level of spells known at each class level,
- * #spellsPerDay# an array of information about the type, number, and level of
- * spells castable per day at each class level, and #spellAbility# the ability
- * that pertains to this class' spells.
- */
-SRD35.defineClass = function
-  (rules, name, spellsKnown, spellsPerDay, spellAbility) {
-
-  var classLevel = 'levels.' + name;
-  if(spellsKnown != null) {
-    var spellModifier = spellAbility + 'Modifier';
-    rules.defineRule('spellsKnownLevel.' + name,
-      'levels.' + name, '=', null,
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    for(var i = 0; i < spellsKnown.length; i++) {
-      var spellTypeAndLevel = spellsKnown[i].split(/:/)[0];
-      var spellType = spellTypeAndLevel.replace(/\d+/, '');
-      var code = spellsKnown[i].substring(spellTypeAndLevel.length + 1).
-                 split(/\//).reverse().join('source >= ');
-      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
-      code = 'source >= ' + code + ' : null';
-      if(code.indexOf('source >= 1 ?') >= 0) {
-        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
-      }
-      rules.defineRule('spellsKnown.' + spellTypeAndLevel,
-        'spellsKnownLevel.' + name, '+=', code
-      );
-      rules.defineRule('spellDifficultyClass.' + spellType,
-        'casterLevels.' + spellType, '?', null,
-        spellModifier, '=', '10 + source'
-      );
-    }
-    for(var i = 0; i < spellsPerDay.length; i++) {
-      var spellTypeAndLevel = spellsPerDay[i].split(/:/)[0];
-      var spellLevel = spellTypeAndLevel.replace(/[A-Z]*/, '');
-      var code = spellsPerDay[i].substring(spellTypeAndLevel.length + 1).
-                 split(/\//).reverse().join('source >= ');
-      code = code.replace(/:/g, ' ? ').replace(/source/g, ' : source');
-      code = 'source >= ' + code + ' : null';
-      if(code.indexOf('source >= 1 ?') >= 0) {
-        code = code.replace(/source >= 1 ./, '').replace(/ : null/, '');
-      }
-      rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
-        'spellsKnownLevel.' + name, '+=', code
-      );
-      if(spellLevel > 0) {
-        rules.defineRule('spellsPerDay.' + spellTypeAndLevel,
-          spellModifier, '+',
-            'source >= ' + spellLevel +
-              ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
-        );
-      }
-    }
-  }
-
 };
