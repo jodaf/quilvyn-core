@@ -29,28 +29,29 @@ function SRD35Prestige() {
     return;
   }
   SRD35Prestige.identityRules(SRD35.rules, SRD35Prestige.CLASSES);
-  if('Blackguard' in SRD35Prestige.CLASSES) {
-    for(var servant in SRD35Prestige.FIENDISH_SERVANTS) {
-      SRD35.choiceRules
-        (SRD35.rules, 'animalCompanions', servant, SRD35Prestige.FIENDISH_SERVANTS[servant]);
-    }
-  }
+  SRD35Prestige.talentRules(SRD35.rules, SRD35Prestige.FEATURES);
+  if('Blackguard' in SRD35Prestige.CLASSES)
+    SRD35Prestige.aideRules(SRD35.rules, SRD35Prestige.FIENDISH_SERVANTS);
 }
 
 SRD35Prestige.CLASSES = {
   'Arcane Archer':
+    'Require=' +
+      '"Base Attack >= 6","Caster Level Arcane >= 1","Point Blank Shot",' +
+      '"Precise Shot","Weapon Focus (Longbow) || Weapon Focus (Shortbow)",' +
+      '"Race =~ /Elf/" ' +
     'HitDie=8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Skills=Craft,Hide,Listen,"Move Silently",Ride,Spot,Survival,"Use Rope" ' +
     'Features=' +
       '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)","1:Enhance Arrow","2:Imbue Arrow",' +
       '"4:Seeker Arrow","6:Phase Arrow","8:Hail Of Arrows",' +
-      '"10:Arrow Of Death" ' +
-    'Require=' +
-      '"Base Attack >= 6","Caster Level Arcane >= 1","Point Blank Shot",' +
-      '"Precise Shot","Weapon Focus (Longbow) || Weapon Focus (Shortbow)",' +
-      '"Race =~ /Elf/"',
+      '"10:Arrow Of Death"',
   'Arcane Trickster':
+    'Require=' +
+      '"alignment !~ /Lawful/","Sneak Attack >= 2","Decipher Script >= 7",' +
+      '"Disable Device >= 7","Escape Artist >= 7","Knowledge (Arcana) >= 4",' +
+      '"Mage Hand","arcane level 3" ' +
     'HitDie=4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Skills=' +
       'Appraise,Balance,Bluff,Climb,Concentration,Craft,"Decipher Script",' +
@@ -60,12 +61,12 @@ SRD35Prestige.CLASSES = {
       '"Speak Language",Spellcraft,Spot,Swim,Tumble,"Use Rope" ' +
     'Features=' +
        '"1:Caster Level Bonus","1:Ranged Legerdemain","2:Sneak Attack",' +
-       '"3:Impromptu Sneak Attack" ' +
-    'Require=' +
-      '"alignment !~ /Lawful/","Sneak Attack >= 2","Decipher Script >= 7",' +
-      '"Disable Device >= 7","Escape Artist >= 7","Knowledge (Arcana) >= 4",' +
-      '"Mage Hand","arcane level 3"',
+       '"3:Impromptu Sneak Attack"',
   'Archmage':
+    'Require=' +
+      '"Skill Focus (Spellcraft)","Sum Spell Focus >= 2",' +
+      '"Knowledge (Arcana) >= 15","Spellcraft >= 15",' +
+      '"arcane level 7","level 5 from 5 schools" ' +
     'HitDie=4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
     'Spellcraft ' +
@@ -73,12 +74,11 @@ SRD35Prestige.CLASSES = {
     'Selectables=' +
       '"1:Arcane Fire","1:Arcane Reach","1:Improved Arcane Reach",' +
       '"1:Mastery Of Counterspelling","1:Mastery Of Elements",' +
-      '"1:Mastery Of Shaping","1:Spell Power","1:Spell-Like Ability" ' +
-    'Require=' +
-      '"Skill Focus (Spellcraft)","Sum Spell Focus >= 2",' +
-      '"Knowledge (Arcana) >= 15","Spellcraft >= 15",' +
-      '"arcane level 7","level 5 from 5 schools"',
+      '"1:Mastery Of Shaping","1:Spell Power","1:Spell-Like Ability"',
   'Assassin':
+    'Require=' +
+      '"alignment =~ /Evil/","Disguise >= 4","Hide >= 8",' +
+      '"Move Silently >= 8" ' +
     'HitDie=6 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,Climb,Craft,"Decipher Script",Diplomacy,' +
@@ -93,39 +93,35 @@ SRD35Prestige.CLASSES = {
       '"2:Uncanny Dodge","5:Improved Uncanny Dodge","8:Hide In Plain Sight" ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
-      'AS1:1:0/2:1/3:2/4:3,' +
-      'AS2:3:0/4:1/5:2/6:3,' +
-      'AS3:5:0/6:1/7:2/8:3,' +
-      'AS4:7:0/8:1/9:2/10:3 ' +
-    'SpellsKnown=' +
-      'AS1:1:1/2:2/4:3,' +
-      'AS2:3:1/4:2/6:3,' +
-      'AS3:5:1/6:2/8:3,' +
-      'AS4:7:1/8:2/10:3' +
-    'Require=' +
-      '"alignment =~ /Evil/","Disguise >= 4","Hide >= 8","Move Silently >= 8"',
+      'AS1:1=0;2=1;3=2;4=3,' +
+      'AS2:3=0;4=1;5=2;6=3,' +
+      'AS3:5=0;6=1;7=2;8=3,' +
+      'AS4:7=0;8=1;9=2;10=3',
   'Blackguard':
+    'Require=' +
+      '"alignment =~ /Evil/","baseAttack >= 6",Cleave,"Improved Sunder",' +
+      '"Power Attack","Hide >= 5","Knowledge (Religion) >= 2" ' +
     'HitDie=10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Handle Animal",Heal,Hide,Intimidate,' +
       '"Knowledge (Religion)",Profession,Ride ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
-      'BL1:1:0/2:1/7:2,' +
-      'BL2:3:0/4:1/9:2,' +
-      'BL3:5:0/6:1/10:2,' +
-      'BL4:7:0/8:1 ' +
+      'BL1:1=0;2=1;7=2,' +
+      'BL2:3=0;4=1;9=2,' +
+      'BL3:5=0;6=1;10=2,' +
+      'BL4:7=0;8=1 ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)","1:Aura Of Evil",' +
       '"1:Blackguard Hands","1:Detect Good","1:Fiendish Summoning",' +
       '"1:Poison Use","2:Smite Good","2:Dark Blessing","3:Aura Of Despair",' +
       '"3:Turn Undead","4:Sneak Attack","5:Fiendish Servant",' +
-      '"5:Undead Companion" ' +
-    'Require=' +
-      '"alignment =~ /Evil/","baseAttack >= 6",Cleave,"Improved Sunder",' +
-      '"Power Attack","Hide >= 5","Knowledge (Religion) >= 2"',
+      '"5:Undead Companion"',
   'Dragon Disciple':
+    'Require=' +
+      'Draconic,"race !~ /Dragon/","Knowledge (Arcana) >= 8",' +
+      '"arcane spells w/out prep" ' +
     'HitDie=12 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Escape Artist","Gather Information",' +
@@ -134,11 +130,11 @@ SRD35Prestige.CLASSES = {
       '"1:Bonus Spells","1:Dragon Armor","2:Bite Attack","2:Claw Attack",' +
       '"2:Strength Boost","3:Breath Weapon","5:Blindsense",' +
       '"6:Constitution Boost","8:Intelligence Boost","9:Wings",' +
-      '"10:Darkvision","10:Dragon Apotheosis","10:Low-Light Vision" ' +
-    'Require=' +
-      'Draconic,"race !~ /Dragon/","Knowledge (Arcana) >= 8",' +
-      '"arcane spells w/out prep"',
+      '"10:Darkvision","10:Dragon Apotheosis","10:Low-Light Vision"',
   'Duelist':
+    'Require=' +
+      '"baseAttack >= 6",Dodge,Mobility,"Weapon Finesse",' +
+      '"sum skills.Perform >= 6","Tumble >= 5" ' +
     'HitDie=10 Attack=1 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,"Escape Artist",Jump,Listen,Perform,"Sense Motive",' +
@@ -147,29 +143,28 @@ SRD35Prestige.CLASSES = {
       '"1:Weapon Proficiency (Martial)","1:Canny Defense",' +
       '"2:Improved Reaction","3:Enhanced Mobility",4:Grace,' +
       '"5:Precise Strike","6:Acrobatic Charge","7:Elaborate Parry",' +
-      '"9:Deflect Arrows" ' +
-    'Require=' +
-      '"baseAttack >= 6",Dodge,Mobility,"Weapon Finesse",' +
-      '"sum skills.Perform >= 6","Tumble >= 5"',
+      '"9:Deflect Arrows"',
   'Dwarven Defender':
+    'Require=' +
+      '"alignment =~ /Lawful/","baseAttack >= 7",Dodge,Endurance,Toughness,' +
+      '"race =~ /Dwarf/" ' +
     'HitDie=12 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=Craft,Listen,"Sense Motive",Spot ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)","1:Defensive Stance",' +
       '"2:Uncanny Dodge","4:Trap Sense","6:Damage Reduction",' +
-      '"6:Improved Uncanny Dodge","8:Mobile Defense" ' +
-    'Require=' +
-      '"alignment =~ /Lawful/","baseAttack >= 7",Dodge,Endurance,Toughness,' +
-      '"race =~ /Dwarf/"',
+      '"6:Improved Uncanny Dodge","8:Mobile Defense"',
   'Eldritch Knight':
+    'Require="Weapon Proficiency (Martial)","spells.Arcane 3" ' +
     'HitDie=6 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Concentration,Craft,"Decipher Script",Jump,"Knowledge (Arcana)",' +
       '"Knowledge (Nobility)",Ride,"Sense Motive",Spellcraft,Swim ' +
-    'Features="2:Caster Level Bonus" ' +
-    'Require="Weapon Proficiency (Martial)","spells.Arcane 3"',
+    'Features="2:Caster Level Bonus"',
   'Hierophant':
+    'Require=' +
+      '"Any Metamagic feat","Knowledge (Religion) >= 15","spells.Divine 7" ' +
     'HitDie=8 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,Heal,"Knowledge (Arcana)",' +
@@ -178,10 +173,9 @@ SRD35Prestige.CLASSES = {
       '"1:Blast Infidel","1:Divine Reach","1:Faith Healing",' +
       '"1:Gift Of The Divine","1:Improved Divine Reach",' +
       '"1:Mastery Of Energy","1:Power Of Nature","1:Spell Power",' +
-      '"1:Spell-Like Ability" ' +
-    'Require=' +
-      '"Any Metamagic feat","Knowledge (Religion) >= 15","spells.Divine 7"',
+      '"1:Spell-Like Ability"',
   'Horizon Walker':
+    'Require=Endurance,"Knowledge (Geography) >= 8" ' +
     'HitDie=8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Balance,Climb,Diplomacy,"Handle Animal",Hide,"Knowledge (Geography)",' +
@@ -193,9 +187,12 @@ SRD35Prestige.CLASSES = {
       '"1:Terrain Mastery (Plains)","1:Terrain Mastery (Underground)",' +
       '"6:Terrain Mastery (Aligned)","6:Terrain Mastery (Cavernous)",' +
       '"6:Terrain Mastery (Cold)","6:Terrain Mastery (Fiery)",' +
-      '"6:Terrain Mastery (Shifting)","6:Terrain Mastery (Weightless)" ' +
-    'Require=Endurance,"Knowledge (Geography) >= 8"',
+      '"6:Terrain Mastery (Shifting)","6:Terrain Mastery (Weightless)"',
   'Loremaster':
+    'Require=' +
+      '"Skill Focus (any Knowledge)","sum Item Creation or Metamagic >= 3",' +
+      '"skills.any 2 Knowlege >= 10","sum spells.Divination >= 7",' +
+      '"spells.Divination 3" ' +
     'HitDie=4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Appraise,Concentration,"Craft (Alchemy)","Decipher Script",' +
@@ -208,47 +205,43 @@ SRD35Prestige.CLASSES = {
       '"1:Applicable Knowledge","1:Dodge Trick","1:Instant Mastery",' +
       '"1:More Newfound Arcana","1:Newfound Arcana","1:Secret Health",' +
       '"1:Secret Knowledge Of Avoidance","1:Secrets Of Inner Strength",' +
-      '"1:The Lore Of True Stamina","1:Weapon Trick" ' +
-    'Require=' +
-      '"Skill Focus (any Knowledge)","sum Item Creation or Metamagic >= 3",' +
-      '"skills.any 2 Knowlege >= 10","sum spells.Divination >= 7",' +
-      '"spells.Divination 3"',
+      '"1:The Lore Of True Stamina","1:Weapon Trick"',
   'Mystic Theurge':
+    'Require=' +
+      '"casterLevelArcane >= 2","casterLevelDivine >= 2",' +
+      '"Knowledge (Arcana) >= 6","Knowlege (Religion) >= 6" ' +
     'HitDie=4 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,"Decipher Script","Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,"Sense Motive",Spellcraft ' +
-    'Features="1:Caster Level Bonus" ' +
-    'Require=' +
-      '"casterLevelArcane >= 2","casterLevelDivine >= 2",' +
-      '"Knowledge (Arcana) >= 6","Knowlege (Religion) >= 6"',
+    'Features="1:Caster Level Bonus"',
   'Shadowdancer':
+    'Require=' +
+      '"Combat Reflexes",Dodge,Mobility,"skills.Hide >= 10",' +
+      '"skills.Move Silently >= 8","skills.Perform (Dance) >= 5" ' +
     'HitDie=8 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,"Decipher Script",Diplomacy,Disguise,"Escape Artist",' +
       'Hide,Jump,Listen,"Move Silently",Perform,Profession,Search,' +
       '"Sleight Of Hand",Spot,Tumble,"Use Rope" ' +
     'Features=' +
-      '"1:Armor Proficiency (Light)"' +
+      '"1:Armor Proficiency (Light)",' +
       '"1:Weapon Proficiency (Club/Composite Shortbow/Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Mace/Morningstar/Punching Dagger/Quaterstaff/Rapier/Sap/Shortbow/Short Sword)",' +
       '"1:Hide In Plain Sight",2:Darkvision,2:Evasion,"2:Uncanny Dodge",' +
       '"3:Shadow Illusion","3:Summon Shadow","4:Shadow Jump",' +
       '"5:Defensive Roll","5:Improved Uncanny Dodge","7:Slippery Mind",' +
-      '"10:Improved Evasion" ' +
-    'Require=' +
-      '"Combat Reflexes",Dodge,Mobility,"skills.Hide >= 10",' +
-      '"skills.Move Silently >= 8","skills.Perform (Dance) >= 5"',
+      '"10:Improved Evasion"',
   'Thaumaturgist':
+    'Require="Spell Focus (Conjuration)","Lesser Planar Ally" ' +
     'HitDie=4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Knowledge (Planes)",' +
       '"Knowledge (Religion)",Profession,"Sense Motive","Speak Language",' +
       'Spellcraft ' +
     'Features="1:Caster Level Bonus","1:Improved Ally","2:Augment Summoning",' +
-      '"3:Extended Summoning","4:Contingent Conjuration","5:Planar Cohort" ' +
-    'Require="Spell Focus (Conjuration)","Lesser Planar Ally"'
+      '"3:Extended Summoning","4:Contingent Conjuration","5:Planar Cohort"'
 };
-SRD35.FEATURES = {
+SRD35Prestige.FEATURES = {
   'Acrobatic Charge':'combat:May charge in difficult terrain',
   'Applicable Knowledge':'feature:Bonus feat',
   'Arcane Fire':'magic:Transform arcane spell into bolt of fire',
@@ -336,54 +329,54 @@ SRD35.FEATURES = {
   'Summon Shadow':'magic:Summon unturnable %V HD Shadow companion',
   'Terrain Mastery (Aligned)':'feature:Mimic dominant alignment of any plane',
   'Terrain Mastery (Aquatic)':[
-    'combat:+1 attack/damage vs. aquatic creatures',
+    'combat:+1 attack and damage vs. aquatic creatures',
     "feature:+10' swim speed",
     'skill:+4 Swim'
   ],
   'Terrain Mastery (Cavernous)':'feature:Tremorsense',
   'Terrain Mastery (Cold)':[
-    'combat:+1 attack/damage vs. cold elementals/outsiders',
+    'combat:+1 attack and damage vs. cold elementals/outsiders',
     'save:20 DC cold resistance'
   ],
   'Terrain Mastery (Desert)':[
-    'combat:+1 attack/damage vs. desert creatures',
+    'combat:+1 attack and damage vs. desert creatures',
     'save:Immune fatigue, resist exhaustion'
   ],
   'Terrain Mastery (Fiery)':[
-    'combat:+1 attack/damage vs. fire elementals/outsiders',
+    'combat:+1 attack and damage vs. fire elementals/outsiders',
     'save:20 DC fire resistance'
   ],
   'Terrain Mastery (Forest)':[
-    'combat:+1 attack/damage vs. forest creatures',
+    'combat:+1 attack and damage vs. forest creatures',
     'skill:+4 Hide'
   ],
   'Terrain Mastery (Hills)':[
-    'combat:+1 attack/damage vs. hill creatures',
+    'combat:+1 attack and damage vs. hill creatures',
     'skill:+4 Listen'
   ],
   'Terrain Mastery (Marsh)':[
-    'combat:+1 attack/damage vs. marsh creatures',
+    'combat:+1 attack and damage vs. marsh creatures',
     'skill:+4 Move Silently'
   ],
   'Terrain Mastery (Mountains)':[
-    'combat:+1 attack/damage vs. mountain creatures',
+    'combat:+1 attack and damage vs. mountain creatures',
     "feature:+10' climb speed",
     'skill:+4 Climb'
   ],
   'Terrain Mastery (Plains)':[
-    'combat:+1 attack/damage vs. plain creatures',
-    'skillNotes.terrainMastery(Plains)Feature:+4 Spot'
+    'combat:+1 attack and damage vs. plain creatures',
+    'skill:+4 Spot'
   ],
   'Terrain Mastery (Shifting)':[
-    'combat:+1 attack/damage vs. shifting plane elementals/outsiders',
+    'combat:+1 attack and damage vs. shifting plane elementals/outsiders',
     'magic:<i>Dimension Door</i> every 1d4 rd'
   ],
   'Terrain Mastery (Underground)':[
-    'combat:+1 attack/damage vs. underground creatures',
+    'combat:+1 attack and damage vs. underground creatures',
     "feature:+60' Darkvision"
   ],
    'Terrain Mastery (Weightless)':[
-     'combat:+1 attack/damage vs. astral/elemental air/ethereal creatures',
+     'combat:+1 attack and damage vs. astral/elemental air/ethereal creatures',
    "feature:+30' fly speed on gravityless planes",
   ],
   'The Lore Of True Stamina':'save:+2 Fortitude',
@@ -405,13 +398,21 @@ SRD35Prestige.FIENDISH_SERVANTS = {
   'Toad':'Attack=0 HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4'
 };
 
+SRD35Prestige.aideRules = function(rules, servants) {
+  for(var servant in servants) {
+    SRD35.choiceRules
+      (SRD35.rules, 'animalCompanions', servant, servants[servant]);
+  }
+};
+
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
 SRD35Prestige.identityRules = function(rules, classes) {
-
   for(var klass in classes) {
     var attrs = classes[klass];
     rules.addChoice('levels', klass, classes[klass]);
     SRD35.classRules(rules, klass,
+      QuilvynRules.getAttrValueArray(attrs, 'Require'),
+      QuilvynRules.getAttrValueArray(attrs, 'Imply'),
       QuilvynRules.getAttrValue(attrs, 'HitDie'),
       QuilvynRules.getAttrValue(attrs, 'Attack'),
       QuilvynRules.getAttrValue(attrs, 'SkillPoints'),
@@ -422,14 +423,19 @@ SRD35Prestige.identityRules = function(rules, classes) {
       QuilvynRules.getAttrValueArray(attrs, 'Features'),
       QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
       QuilvynRules.getAttrValue(attrs, 'SpellAbility'),
-      QuilvynRules.getAttrValueArray(attrs, 'SpellsKnown'),
-      QuilvynRules.getAttrValueArray(attrs, 'SpellsPerDay'),
-      QuilvynRules.getAttrValueArray(attrs, 'Require'),
-      QuilvynRules.getAttrValueArray(attrs, 'Imply')
+      QuilvynRules.getAttrValueArray(attrs, 'SpellsPerDay')
     );
     SRD35Prestige.classRules(rules, klass);
   }
+};
 
+/*
+ * TODO
+ */
+SRD35Prestige.talentRules = function(rules, features) {
+  for(var feature in features) {
+    SRD35.featureRules(rules, feature, features[feature]);
+  }
 };
 
 /*
@@ -749,7 +755,7 @@ SRD35Prestige.classRules = function(rules, name) {
     );
     rules.defineRule('validationNotes.eldritchKnightClassSpells',
       'levels.Eldritch Knight', '=', '-1',
-      /^spellsKnown\.(AS|B|S|W)3/, '+', '1',
+      /^spellsPerDay\.(AS|B|S|W)3/, '+', '1',
       '', 'v', '0'
     );
  
