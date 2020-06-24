@@ -28,194 +28,146 @@ function SRD35NPC() {
     alert('The SRD35NPC module requires use of the SRD35 module');
     return;
   }
-  SRD35NPC.classRules(SRD35.rules, SRD35NPC.CLASSES);
+  SRD35NPC.identityRules(SRD35.rules, SRD35NPC.CLASSES);
 }
 
-SRD35NPC.CLASSES = ['Adept', 'Aristocrat', 'Commoner', 'Expert', 'Warrior'];
+SRD35NPC.CLASSES = {
+  'Adept':
+    'HitDie=d6 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
+    'Features=' +
+      '"1:Weapon Proficiency (Simple)",2:Familiar ' +
+    'Skills=' +
+      'Concentration,Craft,"Handle Animal",Heal,Knowledge,Profession,' +
+      'Spellcraft,Survival ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'AD0:1=3,' +
+      'AD1:1=1;3=2;7=3,' +
+      'AD2:4=0;5=1;7=2;11=3,' +
+      'AD3:8=0;9=1;11=2;15=3,' +
+      'AD4:12=0;13=1;15=2;19=3,' +
+      'AD5:16=0;17=1;19=2',
+  'Aristocrat':
+    'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
+      '"1:Weapon Proficiency (Martial)" ' +
+    'Skills=' +
+      'Appraise,Bluff,Diplomacy,Disguise,Forgery,"Gather Information",' +
+      '"Handle Animal",Intimidate,Knowledge,Listen,Perform,Ride,' +
+      '"Sense Motive","Speak Language",Spot,Swim,Survival',
+  'Commoner':
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/3 ' +
+    'Features=' +
+      '"1:Commoner Weapon Proficiency" ' +
+    'Skills' +
+      'Climb,Craft,"Handle Animal",Jump,Listen,Profession,Ride,Spot,Swim,' +
+      'Use Rope',
+  'Expert':
+    'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Light)","1:Weapon Proficiency (Light)"',
+    // 10 skills of players choice
+  'Warrior':
+    'HitDie=d8 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
+      '"1:Weapon Proficiency (Martial)" ' +
+    'Skills=' +
+      'Climb,"Handle Animal",Intimidate,Jump,Ride,Swim'
+};
+
+/* Defines the rules related to SRDv3.5 NPC Classes. */
+SRD35NPC.identityRules = function(rules, classes) {
+  for(var klass in classes) {
+    console.log(klass);
+    var attrs = classes[klass];
+    rules.addChoice('levels', klass, classes[klass]);
+    SRD35.classRules(rules, klass,
+      QuilvynRules.getAttrValueArray(attrs, 'Require'),
+      QuilvynRules.getAttrValueArray(attrs, 'Imply'),
+      QuilvynRules.getAttrValue(attrs, 'HitDie'),
+      QuilvynRules.getAttrValue(attrs, 'Attack'),
+      QuilvynRules.getAttrValue(attrs, 'SkillPoints'),
+      QuilvynRules.getAttrValue(attrs, 'Fortitude'),
+      QuilvynRules.getAttrValue(attrs, 'Reflex'),
+      QuilvynRules.getAttrValue(attrs, 'Will'),
+      QuilvynRules.getAttrValueArray(attrs, 'Skills'),
+      QuilvynRules.getAttrValueArray(attrs, 'Features'),
+      QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
+      QuilvynRules.getAttrValue(attrs, 'SpellAbility'),
+      QuilvynRules.getAttrValueArray(attrs, 'SpellsPerDay')
+    );
+    SRD35NPC.classRules(rules, klass);
+  }
+};
 
 /* Defines the rules related to SRD NPC Classes. */
-SRD35NPC.classRules = function(rules, classes) {
+SRD35NPC.classRules = function(rules, name) {
 
-  var schools = rules.getChoices('schools');
+  var spells = null;
 
-  for(var i = 0; i < classes.length; i++) {
+  if(name == 'Adept') {
 
-    var baseAttack, features, hitDie, notes, profArmor, profShield, profWeapon,
-        saveFortitude, saveReflex, saveWill, skillPoints, skills, spellAbility,
-        spells, spellsKnown, spellsPerDay;
-    var klass = classes[i];
+    var spells = [
+      'AD0:Create Water:Cure Minor Wounds:Detect Magic:Ghost Sound:' +
+      'Guidance:Light:Mending:Purify Food And Drink:Read Magic:' +
+      'Touch Of Fatigue',
+      'AD1:Bless:Burning Hands:Cause Fear:Command:Comprehend Languages:' +
+      'Cure Light Wounds:Detect Chaos:Detect Evil:Detect Good:Detect Law:' +
+      'Endure Elements:Obscuring Mist:Protection From Chaos:' +
+      'Protection From Evil:Protection From Good:Protection From Law:Sleep',
+      'AD2:Aid:Animal Trance:Bear\'s Endurance:Bull\'s Strength:' +
+      'Cat\'s Grace:Cure Moderate Wounds:Darkness:Delay Poison:' +
+      'Invisibility:Mirror Image:Resist Energy:Scorching Ray:' +
+      'See Invisibility:Web',
+      'AD3:Animate Dead:Bestow Curse:Contagion:Continual Flame:' +
+      'Cure Serious Wounds:Daylight:Deeper Darkness:Lightning Bolt:' +
+      'Neutralize Poison:Remove Curse:Remove Disease:Tongues',
+      'AD4:Cure Critical Wounds:Minor Creation:Polymorph:Restoration:' +
+      'Stoneskin:Wall Of Fire',
+      'AD5:Baleful Polymorph:Break Enchantment:Commune:Heal:Major Creation:' +
+      'Raise Dead:True Seeing:Wall Of Stone'
+    ];
+    rules.defineRule('casterLevels.AD',
+      'levels.Adept', '=', null,
+      'magicNotes.casterLevelBonusFeature', '+', null
+    );
+    rules.defineRule('casterLevelDivine', 'casterLevels.AD', '+=', null);
+    rules.defineRule('familiarMasterLevel', 'levels.Adept', '+=', null);
 
-    if(klass == 'Adept') {
+  } else if(name == 'Commoner') {
 
-      baseAttack = SRD35.ATTACK_BONUS_POOR;
-      features = ['2:Familiar'];
-      hitDie = 6;
-      notes = [
-        'featureNotes.familiarFeature:Special bond/abilities'
-      ];
-      profArmor = SRD35.PROFICIENCY_NONE;
-      profShield = SRD35.PROFICIENCY_NONE;
-      profWeapon =  SRD35.PROFICIENCY_LIGHT;
-      saveFortitude = SRD35.SAVE_BONUS_POOR;
-      saveReflex = SRD35.SAVE_BONUS_POOR;
-      saveWill = SRD35.SAVE_BONUS_GOOD;
-      skillPoints = 2;
-      skills = [
-        'Concentration', 'Craft', 'Handle Animal', 'Heal', 'Knowledge',
-        'Profession', 'Spellcraft', 'Survival'
-      ];
-      spellAbility = 'wisdom';
-      spells = [
-        'AD0:Create Water:Cure Minor Wounds:Detect Magic:Ghost Sound:' +
-        'Guidance:Light:Mending:Purify Food And Drink:Read Magic:' +
-        'Touch Of Fatigue',
-        'AD1:Bless:Burning Hands:Cause Fear:Command:Comprehend Languages:' +
-        'Cure Light Wounds:Detect Chaos:Detect Evil:Detect Good:Detect Law:' +
-        'Endure Elements:Obscuring Mist:Protection From Chaos:' +
-        'Protection From Evil:Protection From Good:Protection From Law:Sleep',
-        'AD2:Aid:Animal Trance:Bear\'s Endurance:Bull\'s Strength:' +
-        'Cat\'s Grace:Cure Moderate Wounds:Darkness:Delay Poison:' +
-        'Invisibility:Mirror Image:Resist Energy:Scorching Ray:' +
-        'See Invisibility:Web',
-        'AD3:Animate Dead:Bestow Curse:Contagion:Continual Flame:' +
-        'Cure Serious Wounds:Daylight:Deeper Darkness:Lightning Bolt:' +
-        'Neutralize Poison:Remove Curse:Remove Disease:Tongues',
-        'AD4:Cure Critical Wounds:Minor Creation:Polymorph:Restoration:' +
-        'Stoneskin:Wall Of Fire',
-        'AD5:Baleful Polymorph:Break Enchantment:Commune:Heal:Major Creation:' +
-        'Raise Dead:True Seeing:Wall Of Stone'
-      ];
-      spellsKnown = [
-        'AD0:1:"all"', 'AD1:1:"all"', 'AD2:4:"all"', 'AD3:8:"all"',
-        'AD4:12:"all"', 'AD5:16:"all"'
-      ];
-      spellsPerDay = [
-        'AD0:1:3',
-        'AD1:1:1/3:2/7:3',
-        'AD2:4:0/5:1/7:2/11:3',
-        'AD3:8:0/9:1/11:2/15:3',
-        'AD4:12:0/13:1/15:2/19:3',
-        'AD5:16:0/17:1/19:2'
-      ];
-      rules.defineRule('casterLevels.AD',
-        'levels.Adept', '=', null,
-        'magicNotes.casterLevelBonusFeature', '+', null
-      );
-      rules.defineRule('casterLevelDivine', 'casterLevels.AD', '+=', null);
-      rules.defineRule('familiarMasterLevel', 'levels.Adept', '+=', null);
+    SRD35.featureRules
+      (rules, 'Commoner Weapon Proficiency', 'feature:+1 Feat');
 
-    } else if(klass == 'Aristocrat') {
+  }
 
-      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      features = null;
-      hitDie = 8;
-      notes = null;
-      profArmor = SRD35.PROFICIENCY_HEAVY;
-      profShield = SRD35.PROFICIENCY_TOWER;
-      profWeapon =  SRD35.PROFICIENCY_MEDIUM;
-      saveFortitude = SRD35.SAVE_BONUS_POOR;
-      saveReflex = SRD35.SAVE_BONUS_POOR;
-      saveWill = SRD35.SAVE_BONUS_GOOD;
-      skillPoints = 4;
-      skills = [
-        'Appraise', 'Bluff', 'Diplomacy', 'Disguise', 'Forgery',
-        'Gather Information', 'Handle Animal', 'Intimidate', 'Knowledge',
-        'Listen', 'Perform', 'Ride', 'Sense Motive', 'Speak Language', 'Spot',
-        'Swim', 'Survival'
-      ];
-      spellAbility = null;
-      spells = null;
-      spellsKnown = null;
-      spellsPerDay = null;
-
-    } else if(klass == 'Commoner') {
-
-      baseAttack = SRD35.ATTACK_BONUS_POOR;
-      features = null;
-      hitDie = 4;
-      notes = null;
-      profArmor = SRD35.PROFICIENCY_NONE;
-      profShield = SRD35.PROFICIENCY_NONE;
-      profWeapon =  SRD35.PROFICIENCY_NONE;
-      saveFortitude = SRD35.SAVE_BONUS_POOR;
-      saveReflex = SRD35.SAVE_BONUS_POOR;
-      saveWill = SRD35.SAVE_BONUS_POOR;
-      skillPoints = 2;
-      skills = [
-        'Climb', 'Craft', 'Handle Animal', 'Jump', 'Listen', 'Profession',
-        'Ride', 'Spot', 'Swim', 'Use Rope'
-      ];
-      spellAbility = null;
-      spells = null;
-      spellsKnown = null;
-      spellsPerDay = null;
-      // Weapon Proficiency feat
-      rules.defineRule('featCount.Commoner', 'levels.Commoner', '=', '1');
-
-    } else if(klass == 'Expert') {
-
-      baseAttack = SRD35.ATTACK_BONUS_AVERAGE;
-      features = null;
-      hitDie = 6;
-      notes = null;
-      profArmor = SRD35.PROFICIENCY_LIGHT;
-      profShield = SRD35.PROFICIENCY_NONE;
-      profWeapon =  SRD35.PROFICIENCY_LIGHT;
-      saveFortitude = SRD35.SAVE_BONUS_POOR;
-      saveReflex = SRD35.SAVE_BONUS_POOR;
-      saveWill = SRD35.SAVE_BONUS_GOOD;
-      skillPoints = 6;
-      skills = []; // 10 of player's choice
-      spells = null;
-      spellAbility = null;
-      spellsKnown = null;
-      spellsPerDay = null;
-
-    } else if(klass == 'Warrior') {
-
-      baseAttack = SRD35.ATTACK_BONUS_GOOD;
-      features = null;
-      hitDie = 8;
-      notes = null;
-      profArmor = SRD35.PROFICIENCY_HEAVY;
-      profShield = SRD35.PROFICIENCY_TOWER;
-      profWeapon =  SRD35.PROFICIENCY_MEDIUM;
-      saveFortitude = SRD35.SAVE_BONUS_GOOD;
-      saveReflex = SRD35.SAVE_BONUS_POOR;
-      saveWill = SRD35.SAVE_BONUS_POOR;
-      skillPoints = 2;
-      skills = ['Climb', 'Handle Animal', 'Intimidate', 'Jump', 'Ride', 'Swim'];
-      spellAbility = null;
-      spells = null;
-      spellsKnown = null;
-      spellsPerDay = null;
-
-    } else
-      continue;
-
-    SRD35.defineClass
-      (rules, klass, hitDie, skillPoints, baseAttack, saveFortitude, saveReflex,
-       saveWill, profArmor, profShield, profWeapon, skills, features,
-       spellsKnown, spellsPerDay, spellAbility);
-    if(notes != null)
-      rules.defineNote(notes);
-    if(spells != null) {
-      for(var j = 0; j < spells.length; j++) {
-        var pieces = spells[j].split(':');
-        for(var k = 1; k < pieces.length; k++) {
-          var spell = pieces[k];
-          var school = SRD35.spellsSchools[spell];
-          if(school == null) {
-            continue;
-          }
-          spell += '(' + pieces[0] + ' ' +
-                    (school == 'Universal' ? 'Univ' : schools[school]) + ')';
-          rules.defineChoice('spells', spell);
-          SRD35.spellRules(rules, [spell], null);
+  if(spells != null) {
+    for(var j = 0; j < spells.length; j++) {
+      var pieces = spells[j].split(':');
+      var casterGroupAndLevel = pieces[0];
+      for(var k = 1; k < pieces.length; k++) {
+        var spell = pieces[k];
+        if(SRD35.SPELLS[spell] == null) {
+          console.log('Unknown spell name "' + spell + '"');
+          continue;
         }
+        var attrs = SRD35.SPELLS[spell];
+        var school = QuilvynRules.getAttrValue(attrs, 'School');
+        if(school == null) {
+          console.log('Unknown school for spell "' + spell + '"');
+          continue;
+        }
+        spell += '(' + casterGroupAndLevel + ' ' + school.substring(0, 4) + ')';
+        SRD35.spellRules(rules, spell,
+          school,
+          casterGroupAndLevel.substring(0, casterGroupAndLevel.length - 1),
+          casterGroupAndLevel.substring(casterGroupAndLevel.length - 1),
+          QuilvynRules.getAttrValue(attrs, 'Description')
+        );
       }
     }
-
   }
 
 };

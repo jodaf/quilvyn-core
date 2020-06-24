@@ -444,8 +444,6 @@ SRD35Prestige.talentRules = function(rules, features) {
 SRD35Prestige.classRules = function(rules, name) {
 
   var spells = null;
-  var prefix =
-    name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(name == 'Arcane Archer') {
 
