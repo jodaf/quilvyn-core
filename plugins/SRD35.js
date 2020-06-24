@@ -3895,7 +3895,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         }
         pickAttrs(attributes, prefix + '.', choices, 1, 1);
         attrs = this.applyRules(attributes);
-      } while(QuilvynUtils.sumMatching(attrs, /validation.*MasterLevel/) > 0);
+      } while(QuilvynUtils.sumMatching(attrs, /^validation.*MasterLevel$/) > 0);
       attributes[prefix + 'Name'] = SRD35.randomName(null);
     }
   } else if(attribute == 'deity') {
