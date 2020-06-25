@@ -29,6 +29,7 @@ function SRD35NPC() {
     return;
   }
   SRD35NPC.identityRules(SRD35.rules, SRD35NPC.CLASSES);
+  SRD35NPC.talentRules(SRD35.rules, SRD35NPC.FEATURES);
 }
 
 SRD35NPC.CLASSES = {
@@ -76,28 +77,15 @@ SRD35NPC.CLASSES = {
     'Skills=' +
       'Climb,"Handle Animal",Intimidate,Jump,Ride,Swim'
 };
+SRD35NPC.FEATURES = {
+  'Commoner Weapon Proficiency':'features:+1 Feat'
+};
 
 /* Defines the rules related to SRDv3.5 NPC Classes. */
 SRD35NPC.identityRules = function(rules, classes) {
   for(var klass in classes) {
-    console.log(klass);
     var attrs = classes[klass];
-    rules.addChoice('levels', klass, classes[klass]);
-    SRD35.classRules(rules, klass,
-      QuilvynRules.getAttrValueArray(attrs, 'Require'),
-      QuilvynRules.getAttrValueArray(attrs, 'Imply'),
-      QuilvynRules.getAttrValue(attrs, 'HitDie'),
-      QuilvynRules.getAttrValue(attrs, 'Attack'),
-      QuilvynRules.getAttrValue(attrs, 'SkillPoints'),
-      QuilvynRules.getAttrValue(attrs, 'Fortitude'),
-      QuilvynRules.getAttrValue(attrs, 'Reflex'),
-      QuilvynRules.getAttrValue(attrs, 'Will'),
-      QuilvynRules.getAttrValueArray(attrs, 'Skills'),
-      QuilvynRules.getAttrValueArray(attrs, 'Features'),
-      QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
-      QuilvynRules.getAttrValue(attrs, 'SpellAbility'),
-      QuilvynRules.getAttrValueArray(attrs, 'SpellsPerDay')
-    );
+    rules.choiceRules(rules, 'levels', klass, classes[klass]);
     SRD35NPC.classRules(rules, klass);
   }
 };
@@ -136,11 +124,6 @@ SRD35NPC.classRules = function(rules, name) {
     rules.defineRule('casterLevelDivine', 'casterLevels.AD', '+=', null);
     rules.defineRule('familiarMasterLevel', 'levels.Adept', '+=', null);
 
-  } else if(name == 'Commoner') {
-
-    SRD35.featureRules
-      (rules, 'Commoner Weapon Proficiency', 'feature:+1 Feat');
-
   }
 
   if(spells != null) {
@@ -163,11 +146,18 @@ SRD35NPC.classRules = function(rules, name) {
         SRD35.spellRules(rules, spell,
           school,
           casterGroupAndLevel.substring(0, casterGroupAndLevel.length - 1),
-          casterGroupAndLevel.substring(casterGroupAndLevel.length - 1),
+          casterGroupAndLevel.substring(casterGroupAndLevel.length - 1) * 1,
           QuilvynRules.getAttrValue(attrs, 'Description')
         );
       }
     }
   }
 
+};
+
+/* Defines the rules related to SRDv3.5 NPC Features. */
+SRD35NPC.talentRules = function(rules, features) {
+  for(var feature in features) {
+    rules.choiceRules(rules, 'features', feature, features[feature]);
+  }
 };

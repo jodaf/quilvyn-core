@@ -967,7 +967,8 @@ SRD35.SCHOOLS = {
   'Evocation':'',
   'Illusion':'',
   'Necromancy':'',
-  'Transmutation':''
+  'Transmutation':'',
+  'Universal':''
 };
 SRD35.SHIELDS = {
   'Buckler':'AC=1 Level=1 Skill=1 Spell=5',
@@ -3101,6 +3102,10 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   }
 
   rules.defineChoice('notes',
+    'combatNotes.nonproficientArmorPenalty:%V attack',
+    'magicNotes.arcaneSpellFailure:%V%',
+    'skillNotes.armorSkillCheckPenalty:-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/Sleight Of Hand/Tumble',
+    'skillNotes.armorSwimCheckPenalty:-%V Swim',
     'turnUndead.damageModifier:2d6+%V',
     'turnUndead.frequency:%V/day',
     'turnUndead.maxHitDice:(d20+%V)/3'
@@ -3168,7 +3173,7 @@ SRD35.goodiesRules = function(rules) {
         '!source.join(";").match(/\\b' + ability + '\\b/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + ability + '\\b/i)).reduce(' +
           'function(total, item) {' +
-            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
           '}' +
         ', 0)'
     );
@@ -3186,7 +3191,7 @@ SRD35.goodiesRules = function(rules) {
     'goodiesAffectingAC', '=',
       'source.reduce(' +
         'function(total, item) {' +
-          'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+          'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
         '}' +
       ', 0)'
   );
@@ -3199,7 +3204,7 @@ SRD35.goodiesRules = function(rules) {
         '!source.join(";").match(/\\b' + save + '\\b/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + save + '\\b/i)).reduce(' +
           'function(total, item) {' +
-            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
           '}' +
         ', 0)'
     );
@@ -3222,7 +3227,7 @@ SRD35.goodiesRules = function(rules) {
         '!source.join(";").match(/\\b' + skillEscParens + '(?!\\w)/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + skillEscParens + '(?!\\w)/i)).reduce(' +
           'function(total, item) {' +
-            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
           '}' +
         ', 0)'
     );
@@ -3259,7 +3264,7 @@ SRD35.goodiesRules = function(rules) {
         '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
           'function(total, item) {' +
-            'return total + ((item + (item.match(/masterwork/i)?"+1":"+0")).match(/[-+]\\d+/) - 0);' +
+            'return total + ((item + (item.match(/masterwork/i)?"+1":"+0")).match(/[-+]\\d+/) * 1);' +
           '}' +
         ', 0)'
     );
@@ -3271,7 +3276,7 @@ SRD35.goodiesRules = function(rules) {
         '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
         'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
           'function(total, item) {' +
-            'return total + ((item + "+0").match(/[-+]\\d+/) - 0);' +
+            'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
           '}' +
         ', 0)'
     );
@@ -4575,8 +4580,11 @@ SRD35.validAllocationRules = function(rules, name, available, allocated) {
  * TODO
  */
 SRD35.choiceRules = function(rules, type, name, attrs) {
-  if(type != 'spells' && type != 'features')
-    rules.addChoice(type, name, attrs);
+  if(name == null || name == '') {
+    console.log('Empty name for ' + type);
+    return;
+  }
+  name = name.replace(/(^|\s)([a-z])/g, function(x) {return x.toUpperCase();});
   if(type == 'alignments')
     SRD35.alignmentRules(rules, name);
   else if(type == 'animalCompanions')
@@ -4678,7 +4686,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     for(var i = 0; i < levels.length; i++) {
       var groupAndLevel = levels[i];
       var casterGroup = groupAndLevel.length > 3 ? 'Dom' : groupAndLevel.substring(0, groupAndLevel.length - 1);
-      var level = groupAndLevel.substring(groupAndLevel.length - 1);
+      var level = groupAndLevel.substring(groupAndLevel.length - 1) * 1;
       var fullSpell = name + '(' + groupAndLevel + ' ' + schoolAbbr + ')';
       rules.addChoice('spells', fullSpell, attrs);
       SRD35.spellRules(rules, fullSpell,
@@ -4697,8 +4705,12 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynRules.getAttrValue(attrs, 'Crit'),
       QuilvynRules.getAttrValue(attrs, 'Range')
     );
-  else
+  else {
     console.log('Unknown choice type "' + type + '"');
+    return;
+  }
+  if(type != 'spells' && type != 'features')
+    rules.addChoice(type, name, attrs);
 };
 
 /* Defines in #rules# the rules associated with alignment #name#. */
@@ -4712,6 +4724,41 @@ SRD35.alignmentRules = function(rules, name) {
 SRD35.armorRules = function(
   rules, name, ac, profLevel, maxDex, skillPenalty, spellFail
 ) {
+
+  if(!name) {
+    console.log('Bad name for armor  "' + name + '"');
+    return;
+  }
+  if(typeof ac != 'number') {
+    console.log('Bad ac "' + ac + '" for armor "' + name + '"');
+    return;
+  }
+  if(profLevel == null ||
+     !(profLevel + '').match(/^([0-3]|light|medium|heavy)$/i)) {
+    console.log('Bad proficiency level "' + profLevel + '" for armor "' + name + '"');
+    return;
+  }
+  if(typeof maxDex != 'number') {
+    console.log('Bad max dex "' + maxDex + '" for armor "' + name + '"');
+    return;
+  }
+  if(typeof skillPenalty != 'number') {
+    console.log('Bad skill penalty "' + skillPenalty + '" for armor "' + name + '"');
+    return;
+  }
+  if(typeof spellFail != 'number') {
+    console.log('Bad spell fail "' + spellFail + '" for armor "' + name + '"');
+    return;
+  }
+
+  if((profLevel + '').match(/^[0-3]$/))
+    ; // empty
+  else if(profLevel.match(/^light$/i))
+    profLevel = 1;
+  else if(profLevel.match(/^medium$/i))
+    profLevel = 2;
+  else if(profLevel.match(/^heavy$/i))
+    profLevel = 3;
 
   if(rules.armorStats == null) {
     rules.armorStats = {
@@ -4727,13 +4774,6 @@ SRD35.armorRules = function(
   rules.armorStats.dex[name] = maxDex;
   rules.armorStats.skill[name] = skillPenalty;
   rules.armorStats.spell[name] = spellFail;
-
-  rules.defineChoice('notes',
-    'combatNotes.nonproficientArmorPenalty:%V attack',
-    'magicNotes.arcaneSpellFailure:%V%',
-    'skillNotes.armorSkillCheckPenalty:-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/Sleight Of Hand/Tumble',
-    'skillNotes.armorSwimCheckPenalty:-%V Swim'
-  );
 
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
     'armor', '=',
@@ -4792,6 +4832,8 @@ SRD35.classRules = function(
   saveRef, saveWill, skills, features, selectables, spellAbility, spellsPerDay
 ) {
 
+  // TODO data validation
+ 
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
@@ -4906,9 +4948,6 @@ SRD35.classRules = function(
       }
     }
   }
-
-  var prefix =
-    name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(name == 'Barbarian') {
 
@@ -5289,6 +5328,8 @@ SRD35.companionRules = function(
   rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, level
 ) {
 
+  // TODO data validation
+
   rules.defineChoice('notes',
     'animalCompanionStats.Melee:+%V %1%2%3%4',
     'animalCompanionStats.SR:DC %V'
@@ -5495,11 +5536,18 @@ SRD35.companionRules = function(
  * TODO
  */
 SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
+
+  if(!name) {
+    console.log('Bad name for domain  "' + name + '"');
+    return;
+  }
+
   if(rules.deityStats == null) {
     rules.deityStats = {
       weapon:{}
     };
   }
+
   if(favoredWeapons != null) {
     rules.deityStats.weapon[name] = favoredWeapons.join('/');
     rules.defineRule('deityFavoredWeapon',
@@ -5523,6 +5571,7 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
         ('features.' + proficiencyFeature, 'clericFeatures.' + proficiencyFeature, '=', null);
     }
   }
+
 };
 
 /*
@@ -5530,8 +5579,10 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
  */
 SRD35.domainRules = function(rules, name) {
 
-  var prefix =
-    name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '');
+  if(!name) {
+    console.log('Bad name for domain  "' + name + '"');
+    return;
+  }
 
   rules.defineRule('features.' + name + ' Domain', 'domains.' + name, '=', '1');
 
@@ -5568,6 +5619,8 @@ SRD35.domainRules = function(rules, name) {
 SRD35.familiarRules = function(
   rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, level
 ) {
+
+  // TODO data validation
 
   rules.defineRule('features.Familiar ' + name, 'familiar.' + name, '=', '1');
 
@@ -5690,6 +5743,8 @@ SRD35.familiarRules = function(
  */
 SRD35.featRules = function(rules, name, types, requires, implies) {
 
+  // TODO data validation
+
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
@@ -5764,17 +5819,28 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
 
 SRD35.featureRules = function(rules, name, notes) {
 
+  if(!name) {
+    console.log('Bad name for domain  "' + name + '"');
+    return;
+  }
+
   var matchInfo;
   var pieces;
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
-  if(typeof(notes) == 'string')
+  if(notes == null)
+    notes = [];
+  else if(typeof(notes) == 'string')
     notes = [notes];
 
   for(var i = 0; i < notes.length; i++) {
 
     pieces = notes[i].split(':');
+    if(pieces.length != 2) {
+      console.log('Bad note "' + notes[i] + '" for feature "' + name + '"');
+      continue;
+    }
     var section = pieces[0];
     var effect = pieces[1];
     var note = section + 'Notes.' + prefix + 'Feature';
@@ -5857,6 +5923,10 @@ SRD35.featureRules = function(rules, name, notes) {
 
 /* Defines in #rules# the rules associated with gender #name#. */
 SRD35.genderRules = function(rules, name) {
+  if(!name) {
+    console.log('Bad name for gender  "' + name + '"');
+    return;
+  }
   // No rules pertain to gender
 };
 
@@ -5887,6 +5957,8 @@ SRD35.languageRules = function(rules, name) {
  * TODO
  */
 SRD35.raceRules = function(rules, name, features) {
+
+  // TODO data validation
 
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
@@ -5935,6 +6007,10 @@ SRD35.raceRules = function(rules, name, features) {
 
 /* Defines in #rules# the rules associated with magic school #name#. */
 SRD35.schoolRules = function(rules, name) {
+  if(!name) {
+    console.log('Bad name for school  "' + name + '"');
+    return;
+  }
   // No rules pertain to school
 };
 
@@ -5942,6 +6018,8 @@ SRD35.schoolRules = function(rules, name) {
  * TODO
  */
 SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
+
+  // TODO data validation
 
   if(rules.shieldStats == null) {
     rules.shieldStats = {
@@ -5984,6 +6062,8 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
 SRD35.skillRules = function(
   rules, name, ability, untrained, classes, synergies
 ) {
+
+  // TODO data validation
 
   rules.defineRule('skillModifier.' + name,
     'skills.' + name, '=', 'source / 2',
@@ -6048,6 +6128,26 @@ SRD35.skillRules = function(
 SRD35.spellRules = function(
   rules, name, school, casterGroup, level, description
 ) {
+
+  if(!name) {
+    console.log('Bad name for spell  "' + name + '"');
+    return;
+  }
+  if(!(school in rules.getChoices('schools'))) {
+    console.log('Bad school "' + school + '" for spell "' + name + '"');
+    return;
+  }
+  if(!casterGroup || !casterGroup.match(/^[A-Z][A-Za-z]*$/)) {
+    console.log('Bad caster group "' + casterGroup + '" for spell "' + name + '"');
+    return;
+  }
+  if(typeof level != 'number') {
+    console.log('Bad level "' + level + '" for spell "' + name + '"');
+    return;
+  }
+
+  if(description == null)
+    description = '';
 
   var inserts = description.match(/\$(\w+|{[^}]+})/g);
   if(inserts != null) {
@@ -6129,7 +6229,26 @@ SRD35.weaponRules = function(
   rules, name, profLevel, category, damage, threat, critMultiplier, range
 ) {
 
-  if((profLevel + '').match(/^[0123]$/))
+  if(!name) {
+    console.log('Bad name for weapon  "' + name + '"');
+    return;
+  }
+  if(profLevel == null ||
+     !(profLevel + '').match(/^([0-3]|unarmed|simple|martial|exotic)$/i)) {
+    console.log('Bad proficiency level "' + profLevel + '" for weapon "' + name + '"');
+    return;
+  }
+  if(category == null ||
+     !(category + '').match(/^(1h|2h|Li|R|Un|one-handed|two-handed|light|ranged|unarmed)$/i)) {
+    console.log('Bad category "' + category + '" for weapon "' + name + '"');
+    return;
+  }
+  if(!damage.match(/^(\d*d\d+)(\/(\d*d\d+))?$/)) {
+    console.log('Bad damage "' + damage + '" for weapon "' + name + '"');
+    return;
+  }
+
+  if((profLevel + '').match(/^[0-3]$/))
     ; // empty
   else if(profLevel.match(/^unarmed$/i))
     profLevel = 0;
@@ -6139,13 +6258,8 @@ SRD35.weaponRules = function(
     profLevel = 2;
   else if(profLevel.match(/^exotic$/i))
     profLevel = 3;
-  else {
-    console.log('Bad proficiency level "' + profLevel + '" for weapon "' + name + '"');
-    return;
-  }
-  if(category.match(/^(1h|2h|Li|R|Un)$/i))
-    ; // empty
-  else if(category.match(/^one-handed$/i))
+
+  if(category.match(/^one-handed$/i))
     category = '1h';
   else if(category.match(/^two-handed$/i))
     category = '2h';
@@ -6155,16 +6269,8 @@ SRD35.weaponRules = function(
     category = 'R';
   else if(category.match(/^unarmed$/i))
     category = 'Un';
-  else {
-    console.log('Bad category "' + category + '" for weapon "' + name + '"');
-    return;
-  }
 
   var matchInfo = damage.match(/^(\d*d\d+)(\/(\d*d\d+))?$/);
-  if(!matchInfo) {
-    console.log('Bad damage "' + damage + '" for weapon "' + name + '"');
-    return;
-  }
   if(!threat)
     threat=20;
   if(!critMultiplier)
@@ -6257,7 +6363,7 @@ SRD35.weaponRules = function(
     rules.defineRule(weaponName + '.' + rangeVar, 'range.' + name, '=', null);
   }
 
-  if(category == 'Li' || 'RapierWhipSpiked Chain'.indexOf(name) >= 0) {
+  if(category == 'Li' || name.match(/^(rapier|whip|spiked chain)$/i)) {
     rules.defineRule('weaponAttackAdjustment.' + name,
       'combatNotes.weaponFinesseFeature', '+=', null
     );

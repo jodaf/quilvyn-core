@@ -76,7 +76,7 @@ QuilvynRules.getAttrValueArray = function(attrs, name) {
       var value = matchInfo[0].substring(0, matchInfo[0].length - 1);
       if(value.startsWith('"') || value.startsWith("'"))
         result.push(value.substring(1, value.length - 1));
-      else if(value.match(/^\d+$/))
+      else if(value.match(/^[-+]?\d+$/))
         result.push(value * 1); // Convert to number
       else
         result.push(value);
@@ -84,7 +84,7 @@ QuilvynRules.getAttrValueArray = function(attrs, name) {
     }
     if(lastMatch.endsWith('"') || lastMatch.endsWith("'"))
       result.push(lastMatch.substring(1, lastMatch.length - 1));
-    else if(lastMatch.match(/^d+$/))
+    else if(lastMatch.match(/^[-+]?\d+$/))
       result.push(lastMatch * 1); // Convert to number
     else
       result.push(lastMatch);

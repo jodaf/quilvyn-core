@@ -400,8 +400,7 @@ SRD35Prestige.FIENDISH_SERVANTS = {
 
 SRD35Prestige.aideRules = function(rules, servants) {
   for(var servant in servants) {
-    SRD35.choiceRules
-      (SRD35.rules, 'animalCompanions', servant, servants[servant]);
+    rules.choiceRules(rules, 'animalCompanions', servant, servants[servant]);
   }
 };
 
@@ -409,22 +408,7 @@ SRD35Prestige.aideRules = function(rules, servants) {
 SRD35Prestige.identityRules = function(rules, classes) {
   for(var klass in classes) {
     var attrs = classes[klass];
-    rules.addChoice('levels', klass, classes[klass]);
-    SRD35.classRules(rules, klass,
-      QuilvynRules.getAttrValueArray(attrs, 'Require'),
-      QuilvynRules.getAttrValueArray(attrs, 'Imply'),
-      QuilvynRules.getAttrValue(attrs, 'HitDie'),
-      QuilvynRules.getAttrValue(attrs, 'Attack'),
-      QuilvynRules.getAttrValue(attrs, 'SkillPoints'),
-      QuilvynRules.getAttrValue(attrs, 'Fortitude'),
-      QuilvynRules.getAttrValue(attrs, 'Reflex'),
-      QuilvynRules.getAttrValue(attrs, 'Will'),
-      QuilvynRules.getAttrValueArray(attrs, 'Skills'),
-      QuilvynRules.getAttrValueArray(attrs, 'Features'),
-      QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
-      QuilvynRules.getAttrValue(attrs, 'SpellAbility'),
-      QuilvynRules.getAttrValueArray(attrs, 'SpellsPerDay')
-    );
+    rules.choiceRules(rules, 'levels', klass, classes[klass]);
     SRD35Prestige.classRules(rules, klass);
   }
 };
@@ -434,7 +418,7 @@ SRD35Prestige.identityRules = function(rules, classes) {
  */
 SRD35Prestige.talentRules = function(rules, features) {
   for(var feature in features) {
-    SRD35.featureRules(rules, feature, features[feature]);
+    rules.choiceRules(rules, 'features', feature, features[feature]);
   }
 };
 
@@ -873,7 +857,7 @@ SRD35Prestige.classRules = function(rules, name) {
         SRD35.spellRules(rules, spell,
           school,
           casterGroupAndLevel.substring(0, casterGroupAndLevel.length - 1),
-          casterGroupAndLevel.substring(casterGroupAndLevel.length - 1),
+          casterGroupAndLevel.substring(casterGroupAndLevel.length - 1) * 1,
           QuilvynRules.getAttrValue(attrs, 'Description')
         );
       }
