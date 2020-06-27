@@ -291,9 +291,10 @@ SRD35.CLASSES = {
   'Rogue':
     'HitDie=d6 Attack=3/4 SkillPoints=8 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Light)","1:Sneak Attack",1:Trapfinding,' +
+      '"1:Armor Proficiency (Light)",' +
       '"1:Weapon Proficiency (Simple/Hand Crossbow/Rapier/Shortbow/Short Sword)",' +
-      '2:Evasion,"3:Trap Sense","4:Uncanny Dodge","8:Improved Uncanny Dodge" ' +
+      '"1:Sneak Attack",1:Trapfinding,2:Evasion,"3:Trap Sense",' +
+      '"4:Uncanny Dodge","8:Improved Uncanny Dodge" ' +
     'Selectables=' +
       '"10:Crippling Strike","10:Defensive Roll","10:Feat Bonus",' +
       '"10:Improved Evasion",10:Opportunist,"10:Skill Mastery",' +
@@ -359,8 +360,8 @@ SRD35.DOMAINS = {
   'War':'',
   'Water':''
 };
-// Attack, Dam, AC include all modifiers
 SRD35.FAMILIARS = {
+  // Attack, Dam, AC include all modifiers
   'Bat':'Attack=0 HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 Note="skillNotes.familiarBat:+3 Listen"',
   'Cat':'Attack=4 HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7 Note="skillNotes.familiarCat:+3 Move Silently"',
   'Hawk':'Attack=5 HD=1 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6 Note="skillNotes.familiarHawk:+3 Spot in bright light"',
@@ -412,7 +413,7 @@ SRD35.FEATS = {
   'Cleave':'Type=Fighter Require="features.Power Attack","strength >= 13"',
   'Combat Casting':'Type=General Imply="casterLevel >= 1"',
   'Combat Expertise':'Type=Fighter Require="intelligence >= 13"',
-  'Combat Reflexes':'Type=Fighter Require="dexterity >= 13"',
+  'Combat Reflexes':'Type=Fighter',
   'Craft Magic Arms And Armor':
     'Type="Item Creation",Wizard Require="casterLevel >= 5"',
   'Craft Rod':'Type="Item Creation",Wizard Require="casterLevel >= 9"',
@@ -433,7 +434,7 @@ SRD35.FEATS = {
   'Eschew Materials':'Type=General Imply="casterLevel >= 1"',
   'Extend Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Extra Turning':'Type=General Require="turnUndead.level >= 1"',
-  'Far Shot':'Type=Fighter Require="features.Point Blank Shot"',
+  'Far Shot':'Type=Fighter Require="features.Point-Blank Shot"',
   'Forge Ring':'Type="Item Creation",Wizard Require="casterLevel >= 12"',
   'Great Cleave':
     'Type=Fighter Require="strength >= 13","baseAttack >= 4","features.Cleave","features.Power Attack"',
@@ -477,7 +478,7 @@ SRD35.FEATS = {
   'Improved Overrun':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Precise Shot':
-    'Type=Fighter Require="dexterity >= 13","baseAttack >= 11","features.Point Blank Shot","features.Precise Shot"',
+    'Type=Fighter Require="dexterity >= 13","baseAttack >= 11","features.Point-Blank Shot","features.Precise Shot"',
   'Improved Shield Bash':
     'Type=Fighter Require="features.Shield Proficiency (Heavy)"',
   'Improved Sunder':
@@ -494,7 +495,7 @@ SRD35.FEATS = {
   'Lightning Reflexes':'Type=General',
   'Magical Aptitude':'Type=General',
   'Manyshot':
-    'Type=Fighter Require="dexterity >= 17","baseAttack >= 6","features.Point Blank Shot","features.Rapid Shot"',
+    'Type=Fighter Require="dexterity >= 17","baseAttack >= 6","features.Point-Blank Shot","features.Rapid Shot"',
   'Maximize Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Mobility':'Type=Fighter Require="dexterity >= 13",features.Dodge',
   'Mounted Archery':
@@ -504,24 +505,24 @@ SRD35.FEATS = {
   'Negotiator':'Type=General',
   'Nimble Fingers':'Type=General',
   'Persuasive':'Type=General',
-  'Point Blank Shot':'Type=Fighter',
+  'Point-Blank Shot':'Type=Fighter',
   'Power Attack':'Type=Fighter Require="strength >= 13"',
-  'Precise Shot':'Type=Fighter Require="features.Point Blank Shot"',
+  'Precise Shot':'Type=Fighter Require="features.Point-Blank Shot"',
   'Quick Draw':'Type=Fighter Require="baseAttack >= 1"',
   'Quicken Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Rapid Reload (Hand)':'Type=Fighter Imply="weapons.Hand Crossbow"',
   'Rapid Reload (Heavy)':'Type=Fighter Imply="weapons.Heavy Crossbow"',
   'Rapid Reload (Light)':'Type=Fighter Imply="weapons.Light Crossbow"',
   'Rapid Shot':
-    'Type=Fighter Require="dexterity >= 13","features.Point Blank Shot"',
+    'Type=Fighter Require="dexterity >= 13","features.Point-Blank Shot"',
   'Ride-By Attack':'Type=Fighter Require="features.Mounted Combat",skills.Ride',
   'Run':'Type=General',
   'Scribe Scroll':'Type="Item Creation",Wizard Require="casterLevel >= 1"',
-  'Self Sufficient':'Type=General',
+  'Self-Sufficient':'Type=General',
   'Shield Proficiency (Heavy)':'Type=General',
   'Shield Proficiency (Tower)':'Type=General',
   'Shot On The Run':
-    'Type=Fighter Require="dexterity >= 13","baseAttack >= 4",features.Dodge,features.Mobility,"features.Point Blank Shot"',
+    'Type=Fighter Require="dexterity >= 13","baseAttack >= 4",features.Dodge,features.Mobility,"features.Point-Blank Shot"',
   'Silent Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Snatch Arrows':
     'Type=Fighter Require="dexterity >= 15","features.Deflect Arrows","features.Improved Unarmed Strike"',
@@ -682,7 +683,7 @@ SRD35.FEATURES = {
   'Negotiator':'skill:+2 Diplomacy/Sense Motive',
   'Nimble Fingers':'skill:+2 Disable Device/Open Lock',
   'Persuasive':'skill:+2 Bluff/Intimidate',
-  'Point Blank Shot':"combat:+1 ranged attack, damage w/in 30'",
+  'Point-Blank Shot':"combat:+1 ranged attack, damage w/in 30'",
   'Power Attack':'combat:Attack base -attack, +damage',
   'Precise Shot':'combat:No penalty on shot into melee',
   'Quick Draw':'combat:Draw weapon as free action',
@@ -697,7 +698,7 @@ SRD35.FEATURES = {
     'skill:+4 running Jump'
   ],
   'Scribe Scroll':'magic:Create scroll of any known spell',
-  'Self Sufficient':'skill:+2 Heal/Survival',
+  'Self-Sufficient':'skill:+2 Heal/Survival',
   'Shot On The Run':'combat:Move before, after ranged attack',
   'Silent Spell':'magic:Cast spell w/out speech uses +1 spell slot',
   'Snatch Arrows':'combat:Catch ranged weapons',
@@ -751,7 +752,7 @@ SRD35.FEATURES = {
   'Endurance':'save:+4 extended physical action',
   'Evasion':'save:Reflex save yields no damage instead of 1/2',
   'Familiar':'feature:Special bond/abilities',
-  'Fascinate':"magic:Hold %V creatures w/in 90' spellbound %1 rd",
+  'Fascinate':"magic:Hold %V creatures w/in 90' spellbound %1 rd (Will neg)",
   'Fast Movement':"ability:+%V speed",
   'Favored Enemy':[
     'combat:+2 or more damage vs. %V type(s) of creatures',
@@ -771,13 +772,13 @@ SRD35.FEATURES = {
   'Improved Uncanny Dodge':
     'combat:Cannot be flanked, sneak attack only by rogue level %V+',
   'Indomitable Will':'save:+4 enchantment resistance during rage',
-  'Inspire Competence':
-    'magic:+2 allies skill checks while performing up to 2 minutes',
+  // Variable bonus for Pathfinder
+  'Inspire Competence':'magic:+%V allies skill checks while performing',
   'Inspire Courage':
-    'magic:+%V attack/damage/charm/fear saves to allies while performing',
+    'magic:+%V allies attack, damage, charm, fear saves while performing',
   'Inspire Greatness':
-    'magic:+2d10 HP, +2 attack, +1 Fortitude to %V allies while performing',
-  'Inspire Heroics':'magic:+4 AC, saves to %V allies while performing',
+    'magic:%V allies +2d10 HP, +2 attack, +1 Fortitude while performing',
+  'Inspire Heroics':'magic:%V allies +4 AC, saves while performing',
   'Ki Strike':'combat:Treat unarmed as magic weapon',
   'Lawful Ki Strike':'combat:Treat unarmed as lawful weapon',
   'Lay On Hands':'magic:Harm undead or heal %V HP/day',
@@ -921,10 +922,26 @@ SRD35.GENDERS = {
   'Male':''
 };
 SRD35.LANGUAGES = {
-  'Abyssal':'', 'Aquan':'', 'Auran':'', 'Celestial':'', 'Common':'',
-  'Draconic':'', 'Druidic':'', 'Dwarven':'', 'Elven':'', 'Giant':'',
-  'Gnoll':'', 'Gnome':'', 'Goblin':'', 'Halfling':'', 'Ignan':'',
-  'Infernal':'', 'Orc':'', 'Sylvan':'', 'Terran':'', 'Undercommon':''
+  'Abyssal':'',
+  'Aquan':'',
+  'Auran':'',
+  'Celestial':'',
+  'Common':'',
+  'Draconic':'',
+  'Druidic':'',
+  'Dwarven':'',
+  'Elven':'',
+  'Giant':'',
+  'Gnoll':'',
+  'Gnome':'',
+  'Goblin':'',
+  'Halfling':'',
+  'Ignan':'',
+  'Infernal':'',
+  'Orc':'',
+  'Sylvan':'',
+  'Terran':'',
+  'Undercommon':''
 };
 SRD35.RACES = {
   'Dwarf':
@@ -3074,11 +3091,11 @@ SRD35.abilityRules = function(rules, alignments) {
 /* Defines rules related to animal companions and familiars. */
 SRD35.aideRules = function(rules, companions, familiars) {
   for(var companion in companions) {
-    SRD35.choiceRules
+    rules.choiceRules
       (rules, 'animalCompanions', companion, companions[companion]);
   }
   for(var familiar in familiars) {
-    SRD35.choiceRules(rules, 'familiars', familiar, familiars[familiar]);
+    rules.choiceRules(rules, 'familiars', familiar, familiars[familiar]);
   }
   SRD35.testRules
     (rules, 'validation', 'celestialFamiliarMasterLevel', 'celestialFamiliar',
@@ -3091,14 +3108,14 @@ SRD35.aideRules = function(rules, companions, familiars) {
 /* Defines rules related to combat. */
 SRD35.combatRules = function(rules, armors, shields, weapons) {
 
-  for(var armor in SRD35.ARMORS) {
-    SRD35.choiceRules(rules, 'armors', armor, SRD35.ARMORS[armor]);
+  for(var armor in armors) {
+    rules.choiceRules(rules, 'armors', armor, armors[armor]);
   }
-  for(var shield in SRD35.SHIELDS) {
-    SRD35.choiceRules(rules, 'shields', shield, SRD35.SHIELDS[shield]);
+  for(var shield in shields) {
+    rules.choiceRules(rules, 'shields', shield, shields[shield]);
   }
-  for(var weapon in SRD35.WEAPONS) {
-    SRD35.choiceRules(rules, 'weapons', weapon, SRD35.WEAPONS[weapon]);
+  for(var weapon in weapons) {
+    rules.choiceRules(rules, 'weapons', weapon, weapons[weapon]);
   }
 
   rules.defineChoice('notes',
@@ -3333,21 +3350,24 @@ SRD35.identityRules = function(
   rules, alignments, classes, deities, genders, races
 ) {
   for(var alignment in alignments) {
-    SRD35.choiceRules
-      (rules, 'alignments', alignment, SRD35.ALIGNMENTS[alignment]);
+    rules.choiceRules(rules, 'alignments', alignment, alignments[alignment]);
   }
   for(var klass in classes) {
-    SRD35.choiceRules(rules, 'levels', klass, classes[klass]);
+    rules.choiceRules(rules, 'levels', klass, classes[klass]);
   }
   for(var deity in deities) {
-    SRD35.choiceRules(rules, 'deities', deity, deities[deity]);
+    rules.choiceRules(rules, 'deities', deity, deities[deity]);
   }
   for(var gender in genders) {
-    SRD35.choiceRules(rules, 'genders', gender, genders[gender]);
+    rules.choiceRules(rules, 'genders', gender, genders[gender]);
   }
   for(var race in races) {
-    SRD35.choiceRules(rules, 'races', race, races[race]);
+    rules.choiceRules(rules, 'races', race, races[race]);
   }
+  rules.defineRule('casterLevel',
+    'casterLevelArcane', '=', null,
+    'casterLevelDivine', '+=', null
+  );
   SRD35.validAllocationRules(rules, 'level', 'level', /^levels\./);
 };
 
@@ -4844,11 +4864,6 @@ SRD35.classRules = function(
     SRD35.testRules
       (rules, 'sanity', prefix + 'Class', 'levels.' + name, implies);
 
-  rules.defineRule('casterLevel',
-    'casterLevelArcane', '=', null,
-    'casterLevelDivine', '+=', null
-  );
-
   rules.defineRule('baseAttack',
     'levels.' + name, '+', attack == '1/2' ? SRD35.ATTACK_BONUS_HALF :
                            attack == '3/4' ? SRD35.ATTACK_BONUS_3_4 :
@@ -5026,6 +5041,7 @@ SRD35.classRules = function(
     );
     rules.defineRule
       ('magicNotes.fascinateFeature.1', 'levels.Bard', '+=', null);
+    rules.defineRule('magicNotes.inspireCompetenceFeature', 'levels.Bard', '+=', '2');
     rules.defineRule('magicNotes.inspireCourageFeature',
       'levels.Bard', '+=', 'source >= 8 ? Math.floor((source + 4) / 6) : 1'
     );
@@ -5878,7 +5894,7 @@ SRD35.featureRules = function(rules, name, notes) {
                   adjusted.match(/^[A-Z]\w+( [A-Z]\w+)*( \([A-Z]\w+( [A-Z]\w+)*\))?$/)) {
           adjusted = 'skillModifier.' + adjusted;
           skillTargets++;
-        } else if(adjusted.match(/^[A-Z][a-z ]*( [A-Z][a-z]*)*$/)) {
+        } else if(adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*$/)) {
           adjusted = adjusted.substring(0, 1).toLowerCase() + adjusted.substring(1).replace(/ /g, '');
         } else {
           continue;
