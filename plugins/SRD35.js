@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '2.0-alpha';
+var SRD35_VERSION = '2.0-1.alpha';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -28,15 +28,24 @@ var SRD35_VERSION = '2.0-alpha';
  * FEATS, etc.) can be manipulated to modify the choices.
  */
 function SRD35() {
+
   var rules = new QuilvynRules('SRD v3.5', SRD35_VERSION);
+
+  rules.defineChoice('choices', SRD35.CHOICES);
   rules.choiceEditorElements = SRD35.choiceEditorElements;
   rules.choiceRules = SRD35.choiceRules;
   rules.editorElements = SRD35.initialEditorElements();
   rules.getFormats = SRD35.getFormats;
   rules.makeValid = SRD35.makeValid;
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
+  rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
   rules.ruleNotes = SRD35.ruleNotes;
+
   SRD35.createViewers(rules, SRD35.VIEWERS);
+  rules.defineChoice('extras',
+    'feats', 'featCount', 'selectableFeatureCount',
+  );
+
   SRD35.abilityRules(rules);
   SRD35.identityRules(
     rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.GENDERS,
@@ -48,31 +57,28 @@ function SRD35() {
   SRD35.magicRules(rules, SRD35.DOMAINS, SRD35.SCHOOLS, SRD35.SPELLS);
   SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
   SRD35.goodiesRules(rules);
-  rules.defineChoice('choices',
-    'armors', 'classes', 'deities', 'domains', 'familiars', 'feats', 'features',
-    'genders', 'languages', 'races', 'schools', 'shields', 'skills', 'spells',
-    'weapons'
-  );
-  rules.defineChoice('extras',
-    'feats', 'featCount', 'selectableFeatureCount',
-  );
+
   rules.defineChoice('preset', 'race', 'level', 'levels');
-  rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
+
   Quilvyn.addRuleSet(rules);
   SRD35.rules = rules;
+
 }
 
-// JavaScript expressions for several (mostly class-based) attributes.
-SRD35.ATTACK_BONUS_FULL = 'source';
-SRD35.ATTACK_BONUS_3_4 = 'Math.floor(source * 3 / 4)'
-SRD35.ATTACK_BONUS_HALF = 'Math.floor(source / 2)';
-SRD35.PROFICIENCY_HEAVY = 3;
-SRD35.PROFICIENCY_LIGHT = 1;
-SRD35.PROFICIENCY_MEDIUM = 2;
-SRD35.PROFICIENCY_NONE = 0;
-SRD35.PROFICIENCY_TOWER = 4;
-SRD35.SAVE_BONUS_HALF = '2 + Math.floor(source / 2)';
-SRD35.SAVE_BONUS_THIRD = 'Math.floor(source / 3)';
+SRD35.CHOICES = [
+  'armors', 'classes', 'deities', 'domains', 'familiars', 'feats', 'features',
+  'genders', 'languages', 'races', 'schools', 'shields', 'skills', 'spells',
+  'weapons'
+];
+// The order here handles dependencies among attributes when generating
+// random characters
+SRD35.RANDOMIZABLE_ATTRIBUTES = [
+  'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
+  'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'domains',
+  'features', 'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield',
+  'weapons', 'spells', 'companion'
+];
+SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
 
 SRD35.ALIGNMENTS = {
   'Chaotic Evil':'',
@@ -640,14 +646,14 @@ SRD35.FEATURES = {
   'Forge Ring':'magic:Create/mend magic ring',
   'Great Cleave':'combat:Cleave w/out limit',
   'Great Fortitude':'save:+2 Fortitude',
-  'Greater Spell Focus (Abjuration)':'magic:+1 DC on Abjuration spells',
-  'Greater Spell Focus (Conjuration)':'magic:+1 DC on Conjuration spells',
-  'Greater Spell Focus (Divination)':'magic:+1 DC on Divination spells',
-  'Greater Spell Focus (Enchantment)':'magic:+1 DC on Enhancement spells',
-  'Greater Spell Focus (Evocation)':'magic:+1 DC on Evocation spells',
-  'Greater Spell Focus (Illusion)':'magic:+1 DC on Illusion spells',
-  'Greater Spell Focus (Necromancy)':'magic:+1 DC on Necromancy spells',
-  'Greater Spell Focus (Transmutation)':'magic:+1 DC on Transmutation spells',
+  'Greater Spell Focus (Abjuration)':'magic:+1 Spell DC (Abjuration)',
+  'Greater Spell Focus (Conjuration)':'magic:+1 Spell DC (Conjuration)',
+  'Greater Spell Focus (Divination)':'magic:+1 Spell DC (Divination)',
+  'Greater Spell Focus (Enchantment)':'magic:+1 Spell DC (Enhancement)',
+  'Greater Spell Focus (Evocation)':'magic:+1 Spell DC (Evocation)',
+  'Greater Spell Focus (Illusion)':'magic:+1 Spell DC (Illusion)',
+  'Greater Spell Focus (Necromancy)':'magic:+1 Spell DC (Necromancy)',
+  'Greater Spell Focus (Transmutation)':'magic:+1 Spell DC (Transmutation)',
   'Greater Spell Penetration':'magic:+2 caster level vs. resistance checks',
   'Greater Two-Weapon Fighting':'combat:Third off-hand -10 attack',
   'Heighten Spell':'magic:Increase chosen spell level',
@@ -702,14 +708,14 @@ SRD35.FEATURES = {
   'Shot On The Run':'combat:Move before, after ranged attack',
   'Silent Spell':'magic:Cast spell w/out speech uses +1 spell slot',
   'Snatch Arrows':'combat:Catch ranged weapons',
-  'Spell Focus (Abjuration)':'magic:+1 DC on Abjuration spells',
-  'Spell Focus (Conjuration)':'magic:+1 DC on Conjuration spells',
-  'Spell Focus (Divination)':'magic:+1 DC on Divination spells',
-  'Spell Focus (Enchantment)':'magic:+1 DC on Enhancement spells',
-  'Spell Focus (Evocation)':'magic:+1 DC on Evocation spells',
-  'Spell Focus (Illusion)':'magic:+1 DC on Illusion spells',
-  'Spell Focus (Necromancy)':'magic:+1 DC on Necromancy spells',
-  'Spell Focus (Transmutation)':'magic:+1 DC on Transmutation spells',
+  'Spell Focus (Abjuration)':'magic:+1 Spell DC (Abjuration)',
+  'Spell Focus (Conjuration)':'magic:+1 Spell DC (Conjuration)',
+  'Spell Focus (Divination)':'magic:+1 Spell DC (Divination)',
+  'Spell Focus (Enchantment)':'magic:+1 Spell DC (Enhancement)',
+  'Spell Focus (Evocation)':'magic:+1 Spell DC (Evocation)',
+  'Spell Focus (Illusion)':'magic:+1 Spell DC (Illusion)',
+  'Spell Focus (Necromancy)':'magic:+1 Spell DC (Necromancy)',
+  'Spell Focus (Transmutation)':'magic:+1 Spell DC (Transmutation)',
   'Spell Mastery':'magic:Prepare %V spells w/out spellbook',
   'Spell Penetration':'magic:+2 checks to overcome spell resistance',
   'Spirited Charge':'combat:x2 damage (x3 lance) from mounted charge',
@@ -862,7 +868,7 @@ SRD35.FEATURES = {
     'skill:-4 Hide'
   ],
   'Low-Light Vision':'feature:x2 normal distance in poor light',
-  'Natural Illusionist':'magic:Spell Focus(Illusion)',
+  'Natural Illusionist':'magic:+1 Spell DC (Illusion)',
   'Natural Spells':'magic:%V 1/day',
   'Natural Smith':'skill:+2 Appraise (stone or metal)/Craft (stone or metal)',
   'Resist Enchantment':'save:+2 vs. Enchantment',
@@ -968,14 +974,6 @@ SRD35.RACES = {
     'Slow,Small,Spry,"Resist Fear"',
   'Human':'Features="Human Feat Bonus","Human Skill Bonus"'
 };
-// The order here handles dependencies among attributes when generating
-// random characters
-SRD35.RANDOMIZABLE_ATTRIBUTES = [
-  'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
-  'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'domains',
-  'features', 'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield',
-  'weapons', 'spells', 'companion'
-];
 SRD35.SCHOOLS = {
   'Abjuration':'',
   'Conjuration':'',
@@ -2892,7 +2890,6 @@ SRD35.SPELLS = {
     'Description="R$RS\' Creatures w/in 20\' radius cannot lie for $L min (Will neg)"'
 
 };
-SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
 SRD35.WEAPONS = {
   'Bastard Sword':'Level=3 Category=1h Damage=d10 Threat=19',
   'Battleaxe':'Level=2 Category=1h Damage=d8 Crit=3',
@@ -2970,24 +2967,37 @@ SRD35.WEAPONS = {
   'Whip':'Level=3 Category=1h Damage=d3'
 };
 
-SRD35.proficiencyLevelNames = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
-SRD35.spellsAbbreviations = {
-  "RL": "L40plus400",
-  "RM": "L10plus100",
-  "RS": "Ldiv2times5plus25"
-};
-SRD35.strengthMaxLoads = [0,
+// JavaScript expressions for several (mostly class-based) attributes.
+SRD35.ATTACK_BONUS_FULL = 'source';
+SRD35.ATTACK_BONUS_3_4 = 'Math.floor(source * 3 / 4)'
+SRD35.ATTACK_BONUS_HALF = 'Math.floor(source / 2)';
+SRD35.PROFICIENCY_HEAVY = 3;
+SRD35.PROFICIENCY_LIGHT = 1;
+SRD35.PROFICIENCY_MEDIUM = 2;
+SRD35.PROFICIENCY_NONE = 0;
+SRD35.PROFICIENCY_TOWER = 4;
+SRD35.SAVE_BONUS_HALF = '2 + Math.floor(source / 2)';
+SRD35.SAVE_BONUS_THIRD = 'Math.floor(source / 3)';
+
+SRD35.PROFICIENCY_LEVEL_NAMES = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
+SRD35.STRENGTH_MAX_LOADS = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
 ];
 // Mapping of medium damage to large/small damage
-SRD35.weaponsLargeDamage = {
-  'd0':'d0', 'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6', 'd10':'2d8',
-  'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
+SRD35.LARGE_DAMAGE = {
+  'd0':'d0', 'd2':'d3', 'd3':'d4', 'd4':'d6', 'd6':'d8', 'd8':'2d6',
+  'd10':'2d8', 'd12':'3d6', '2d4':'2d6', '2d6':'3d6', '2d8':'3d8', '2d10':'4d8'
 };
-SRD35.weaponsSmallDamage = {
-  'd0':'d0', 'd2':'1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6', 'd10':'d8',
-  'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
+SRD35.SMALL_DAMAGE = {
+  'd0':'d0', 'd2':'1', 'd3':'d2', 'd4':'d3', 'd6':'d4', 'd8':'d6',
+  'd10':'d8', 'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
+};
+
+SRD35.spellsAbbreviations = {
+  "RL": "L40plus400",
+  "RM": "L10plus100",
+  "RS": "Ldiv2times5plus25"
 };
 
 /* Defines rules related to character abilities. */
@@ -3010,7 +3020,7 @@ SRD35.abilityRules = function(rules, alignments) {
   );
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
   rules.defineRule('loadMax',
-    'strength', '=', 'SRD35.strengthMaxLoads[source]',
+    'strength', '=', 'SRD35.STRENGTH_MAX_LOADS[source]',
     'abilityNotes.smallFeature', '*', '0.75',
     'abilityNotes.largeFeature', '*', '2'
   );
@@ -3128,7 +3138,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'turnUndead.maxHitDice:(d20+%V)/3'
   );
   rules.defineRule('armorProficiency',
-    'armorProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
+    'armorProficiencyLevel', '=', 'SRD35.PROFICIENCY_LEVEL_NAMES[source]'
   );
   rules.defineRule('armorProficiencyLevel',
     '', '=', SRD35.PROFICIENCY_NONE,
@@ -3143,7 +3153,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineRule('meleeAttack', 'baseAttack', '=', null);
   rules.defineRule('rangedAttack', 'baseAttack', '=', null);
   rules.defineRule('shieldProficiency',
-    'shieldProficiencyLevel', '=', 'SRD35.proficiencyLevelNames[source]'
+    'shieldProficiencyLevel', '=', 'SRD35.PROFICIENCY_LEVEL_NAMES[source]'
   );
   rules.defineRule('shieldProficiencyLevel',
     '', '=', SRD35.PROFICIENCY_NONE,
@@ -3374,13 +3384,13 @@ SRD35.identityRules = function(
 /* Defines rules related to magic use. */
 SRD35.magicRules = function(rules, domains, schools, spells) {
   for(var domain in domains) {
-    SRD35.choiceRules(rules, 'domains', domain, domains[domain]);
+    rules.choiceRules(rules, 'domains', domain, domains[domain]);
   }
   for(var school in schools) {
-    SRD35.choiceRules(rules, 'schools', school, schools[school]);
+    rules.choiceRules(rules, 'schools', school, schools[school]);
   }
   for(var spell in spells) {
-    SRD35.choiceRules(rules, 'spells', spell, spells[spell]);
+    rules.choiceRules(rules, 'spells', spell, spells[spell]);
   }
   SRD35.validAllocationRules(rules, 'domain', 'domainCount', /^domains\./);
 };
@@ -3388,16 +3398,16 @@ SRD35.magicRules = function(rules, domains, schools, spells) {
 /* Defines rules related to character feats, languages, and skills. */
 SRD35.talentRules = function(rules, feats, features, languages, skills) {
   for(var feat in feats) {
-    SRD35.choiceRules(rules, 'feats', feat, feats[feat]);
+    rules.choiceRules(rules, 'feats', feat, feats[feat]);
   }
   for(var feature in features) {
-    SRD35.choiceRules(rules, 'features', feature, features[feature]);
+    rules.choiceRules(rules, 'features', feature, features[feature]);
   }
   for(var language in languages) {
-    SRD35.choiceRules(rules, 'languages', language, languages[language]);
+    rules.choiceRules(rules, 'languages', language, languages[language]);
   }
   for(var skill in skills) {
-    SRD35.choiceRules(rules, 'skills', skill, skills[skill]);
+    rules.choiceRules(rules, 'skills', skill, skills[skill]);
   }
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
@@ -3717,6 +3727,9 @@ SRD35.randomName = function(race) {
 
 };
 
+/*
+ * TODO
+ */
 SRD35.choiceEditorElements = function(rules, type) {
   var result = [];
   if(type == 'armors')
@@ -5181,12 +5194,12 @@ SRD35.classRules = function(
     rules.defineRule('monkUnarmedDamage',
       'monkFeatures.Flurry Of Blows', '?', null, // Limit these rules to monks
       'levels.Monk', '=',
-        'SRD35.weaponsSmallDamage["monk"] = ' +
-        'SRD35.weaponsLargeDamage["monk"] = ' +
+        'SRD35.SMALL_DAMAGE["monk"] = ' +
+        'SRD35.LARGE_DAMAGE["monk"] = ' +
         'source < 12 ? ("d" + (6 + Math.floor(source / 4) * 2)) : ' +
         '              ("2d" + (6 + Math.floor((source - 12) / 4) * 2))',
-      'features.Small', '=', 'SRD35.weaponsSmallDamage[SRD35.weaponsSmallDamage["monk"]]',
-      'features.Large', '=', 'SRD35.weaponsLargeDamage[SRD35.weaponsLargeDamage["monk"]]'
+      'features.Small', '=', 'SRD35.SMALL_DAMAGE[SRD35.SMALL_DAMAGE["monk"]]',
+      'features.Large', '=', 'SRD35.LARGE_DAMAGE[SRD35.LARGE_DAMAGE["monk"]]'
     );
 
   } else if(name == 'Paladin') {
@@ -5800,8 +5813,6 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
     rules.defineRule('combatNotes.manyshotFeature',
       'baseAttack', '=', 'Math.floor((source + 9) / 5)'
     );
-  } else if(name == 'Run') {
-    rules.defineRule('runSpeedMultiplier', 'abilityNotes.runFeature', '+', '1');
   } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
     SRD35.featureRules(rules, name, 'skill:+3 ' + matchInfo[1]);
   } else if(name == 'Spell Mastery') {
@@ -5885,6 +5896,8 @@ SRD35.featureRules = function(rules, name, notes) {
           adjusted = 'featCount.General';
         } else if(adjusted == 'HP') {
           adjusted = 'hitPoints';
+        } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
+          adjusted = 'spellDCSchoolBonus.' + adjusted.replace('Spell DC (', '').replace(')', '');
         } else if(adjusted == 'Turnings') {
           adjusted = 'turnUndead.frequency';
         } else if(section == 'save' &&
@@ -6007,9 +6020,6 @@ SRD35.raceRules = function(rules, name, features) {
     // calcuated even for non-Bard Gnomes.
     rules.defineRule('casterLevels.B', 'casterLevels.Gnome', '^=', '1');
 
-    rules.defineRule('features.Spell Focus (Illusion)',
-      'magicNotes.naturalIllusionistFeature', '=', '1'
-    );
     rules.defineRule('magicNotes.naturalSpellsFeature',
       'charisma', '=',
       'source < 10 ? "<i>Speak With Animals</i>" : ' +
@@ -6027,7 +6037,7 @@ SRD35.schoolRules = function(rules, name) {
     console.log('Bad name for school  "' + name + '"');
     return;
   }
-  // No rules pertain to school
+  rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
 };
 
 /*
@@ -6226,8 +6236,7 @@ SRD35.spellRules = function(
     rules.defineRule(dcRule,
       'spells.' + name, '?', null,
       'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level,
-      'magicNotes.greaterSpellFocus(' + school + ')Feature', '+', '1',
-      'magicNotes.spellFocus(' + school + ')Feature', '+', '1'
+      'spellDCSchoolBonus.' + school, '+', null
     );
     if(casterGroup == 'W') {
       rules.defineRule
@@ -6344,8 +6353,8 @@ SRD35.weaponRules = function(
   rules.defineRule('weaponDamage.' + name,
     'weapons.' + name, '?', null,
     '', '=', '"' + firstDamage + '"',
-    'features.Small', '=', '"' + SRD35.weaponsSmallDamage[firstDamage] + '"',
-    'features.Large', '=', '"' + SRD35.weaponsLargeDamage[firstDamage] + '"'
+    'features.Small', '=', '"' + SRD35.SMALL_DAMAGE[firstDamage] + '"',
+    'features.Large', '=', '"' + SRD35.LARGE_DAMAGE[firstDamage] + '"'
   );
   rules.defineRule(weaponName + '.2', 'weaponDamage.' + name, '=', null);
   rules.defineRule(weaponName + '.3',
@@ -6355,8 +6364,8 @@ SRD35.weaponRules = function(
     rules.defineRule('weaponDamage2.' + name,
       'weapons.' + name, '?', null,
       '', '=', '"' + secondDamage + '"',
-      'features.Small', '=', '"'+SRD35.weaponsSmallDamage[secondDamage]+'"',
-      'features.Large', '=', '"'+SRD35.weaponsLargeDamage[secondDamage]+'"'
+      'features.Small', '=', '"'+SRD35.SMALL_DAMAGE[secondDamage]+'"',
+      'features.Large', '=', '"'+SRD35.LARGE_DAMAGE[secondDamage]+'"'
     );
     rules.defineRule(weaponName + '.4', 'weaponDamage2.' + name, '=', null);
     rules.defineRule(weaponName + '.5',
