@@ -40,6 +40,7 @@ SRD35NPC.CLASSES = {
     'Skills=' +
       'Concentration,Craft,"Handle Animal",Heal,Knowledge,Profession,' +
       'Spellcraft,Survival ' +
+    'CasterLevelDivine=l ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'AD0:1=3,' +
@@ -49,24 +50,22 @@ SRD35NPC.CLASSES = {
       'AD4:12=0;13=1;15=2;19=3,' +
       'AD5:16=0;17=1;19=2 ' +
     'Spells=' +
-      '"AD0:Create Water;Cure Minor Wounds;Detect Magic;Ghost Sound;' +
-      'Guidance:Light;Mending;Purify Food And Drink;Read Magic;' +
-      'Touch Of Fatigue",' +
+      '"AD0:Create Water;Cure Minor Wounds;Detect Magic;Ghost Sound;Guidance;' +
+      'Light;Mending;Purify Food And Drink;Read Magic;Touch Of Fatigue",' +
       '"AD1:Bless;Burning Hands;Cause Fear;Command;Comprehend Languages;' +
-      'Cure Light Wounds:Detect Chaos;Detect Evil;Detect Good;Detect Law;' +
-      'Endure Elements:Obscuring Mist;Protection From Chaos;' +
-      'Protection From Evil:Protection From Good;Protection From Law;Sleep",' +
+      'Cure Light Wounds;Detect Chaos;Detect Evil;Detect Good;Detect Law;' +
+      'Endure Elements;Obscuring Mist;Protection From Chaos;' +
+      'Protection From Evil;Protection From Good;Protection From Law;Sleep",' +
       '"AD2:Aid;Animal Trance;Bear\'s Endurance;Bull\'s Strength;' +
-      'Cat\'s Grace:Cure Moderate Wounds;Darkness;Delay Poison;' +
-      'Invisibility:Mirror Image;Resist Energy;Scorching Ray;' +
-      'See Invisibility:Web",' +
+      'Cat\'s Grace;Cure Moderate Wounds;Darkness;Delay Poison;Invisibility;' +
+      'Mirror Image;Resist Energy;Scorching Ray;See Invisibility;Web",' +
       '"AD3:Animate Dead;Bestow Curse;Contagion;Continual Flame;' +
-      'Cure Serious Wounds:Daylight;Deeper Darkness;Lightning Bolt;' +
-      'Neutralize Poison:Remove Curse;Remove Disease;Tongues",' +
+      'Cure Serious Wounds;Daylight;Deeper Darkness;Lightning Bolt;' +
+      'Neutralize Poison;Remove Curse;Remove Disease;Tongues",' +
       '"AD4:Cure Critical Wounds;Minor Creation;Polymorph;Restoration;' +
-      'Stoneskin:Wall Of Fire",' +
+      'Stoneskin;Wall Of Fire",' +
       '"AD5:Baleful Polymorph;Break Enchantment;Commune;Heal;Major Creation;' +
-      'Raise Dead:True Seeing;Wall Of Stone"',
+      'Raise Dead;True Seeing;Wall Of Stone"',
   'Aristocrat':
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
@@ -111,47 +110,9 @@ SRD35NPC.identityRules = function(rules, classes) {
 
 /* Defines the rules related to SRD NPC Classes. */
 SRD35NPC.classRules = function(rules, name) {
-
-  var spells = null;
-
   if(name == 'Adept') {
-
-    rules.defineRule('casterLevels.AD',
-      'levels.Adept', '=', null,
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule('casterLevelDivine', 'casterLevels.AD', '+=', null);
     rules.defineRule('familiarMasterLevel', 'levels.Adept', '+=', null);
-
   }
-
-  if(spells != null) {
-    for(var j = 0; j < spells.length; j++) {
-      var pieces = spells[j].split(':');
-      var casterGroupAndLevel = pieces[0];
-      for(var k = 1; k < pieces.length; k++) {
-        var spell = pieces[k];
-        if(SRD35.SPELLS[spell] == null) {
-          console.log('Unknown spell name "' + spell + '"');
-          continue;
-        }
-        var attrs = SRD35.SPELLS[spell];
-        var school = QuilvynRules.getAttrValue(attrs, 'School');
-        if(school == null) {
-          console.log('Unknown school for spell "' + spell + '"');
-          continue;
-        }
-        spell += '(' + casterGroupAndLevel + ' ' + school.substring(0, 4) + ')';
-        SRD35.spellRules(rules, spell,
-          school,
-          casterGroupAndLevel.substring(0, casterGroupAndLevel.length - 1),
-          casterGroupAndLevel.substring(casterGroupAndLevel.length - 1) * 1,
-          QuilvynRules.getAttrValue(attrs, 'Description')
-        );
-      }
-    }
-  }
-
 };
 
 /* Defines the rules related to SRDv3.5 NPC Features. */

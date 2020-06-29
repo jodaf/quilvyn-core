@@ -192,6 +192,7 @@ SRD35.CLASSES = {
       '"1:Inspire Courage","1:Simple Somatics",' +
       '"3:Inspire Competence",6:Suggestion,"9:Inspire Greatness",' +
       '"12:Song Of Freedom","15:Inspire Heroics","18:Mass Suggestion" ' +
+    'CasterLevelArcane=l ' +
     'SpellAbility=charisma ' +
     'SpellsPerDay=' +
       'B0:1=2;2=3;14=4,' +
@@ -211,9 +212,9 @@ SRD35.CLASSES = {
       'Identify;Lesser Confusion;Magic Mouth;Magic Aura;Obscure Object;' +
       'Remove Fear;Silent Image;Sleep;Summon Monster I;' +
       'Undetectable Alignment;Unseen Servant;Ventriloquism",' +
-      '"B2:Alter Self;Animal Messenger;Animal Trance;Blindness/Deafness;' +
-      'Blur;Calm Emotions;Cat\'s Grace;Cure Moderate Wounds;Darkness;' +
-      'Daze Monster;Delay Poison;Detect Thoughts;Eagle\'s Splendor;Enthrall;' +
+      '"B2:Alter Self;Animal Messenger;Animal Trance;Blindness/Deafness;Blur;' +
+      'Calm Emotions;Cat\'s Grace;Cure Moderate Wounds;Darkness;Daze Monster;' +
+      'Delay Poison;Detect Thoughts;Eagle\'s Splendor;Enthrall;' +
       'Fox\'s Cunning;Glitterdust;Heroism;Hold Person;Hypnotic Pattern;' +
       'Invisibility;Locate Object;Minor Image;Mirror Image;Misdirection;' +
       'Pyrotechnics;Rage;Scare;Shatter;Silence;Sound Burst;Suggestion;' +
@@ -247,6 +248,7 @@ SRD35.CLASSES = {
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Simple)",1:Aura,"1:Spontaneous Cleric Spell",' +
       '"1:Turn Undead" ' +
+    'CasterLevelDivine=l ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'C0:1=3;2=4;4=5;7=6,' +
@@ -258,7 +260,16 @@ SRD35.CLASSES = {
       'C6:11=1;12=2;14=3;17=4,' +
       'C7:13=1;14=2;16=3;19=4,' +
       'C8:15=1;16=2;18=3;20=4,' +
-      'C9:17=1;18=2;19=3;20=4 ' +
+      'C9:17=1;18=2;19=3;20=4,' +
+      'Dom1:1=1,' +
+      'Dom2:3=1,' +
+      'Dom3:5=1,' +
+      'Dom4:7=1,' +
+      'Dom5:9=1,' +
+      'Dom6:11=1,' +
+      'Dom7:13=1,' +
+      'Dom8:15=1,' +
+      'Dom9:17=1 ' +
     'Spells=' +
       '"C0:Create Water;Cure Minor Wounds;Detect Magic;Detect Poison;' +
       'Guidance;Inflict Minor Wounds;Light;Mending;Purify Food And Drink;' +
@@ -331,6 +342,7 @@ SRD35.CLASSES = {
       '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
       '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
+    'CasterLevelDivine=l ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'D0:1=3;2=4;4=5;7=6,' +
@@ -342,7 +354,52 @@ SRD35.CLASSES = {
       'D6:11=1;12=2;14=3;17=4,' +
       'D7:13=1;14=2;16=3;19=4,' +
       'D8:15=1;16=2;18=3;20=4,' +
-      'D9:17=1;18=2;19=3;20=4',
+      'D9:17=1;18=2;19=3;20=4 ' +
+    'Spells=' +
+      '"D0:Create Water;Cure Minor Wounds;Detect Magic;Detect Poison;Flare;' +
+      'Guidance;Know Direction;Light;Mending;Purify Food And Drink;' +
+      'Read Magic;Resistance;Virtue",' +
+      '"D1:Calm Animals;Charm Animal;Cure Light Wounds;' +
+      'Detect Animals Or Plants;Detect Snares And Pits;Endure Elements;' +
+      'Entangle;Faerie Fire;Goodberry;Hide From Animals;Jump;Longstrider;' +
+      'Magic Fang;Magic Stone;Obscuring Mist;Pass Without Trace;' +
+      'Produce Flame;Shillelagh;Speak With Animals;Summon Nature\'s Ally I",' +
+      '"D2:Animal Messenger;Animal Trance;Barkskin;Bear\'s Endurance;' +
+      'Bull\'s Strength;Cat\'s Grace;Chill Metal;Delay Poison;Fire Trap;' +
+      'Flame Blade;Flaming Sphere;Fog Cloud;Gust Of Wind;Heat Metal;' +
+      'Hold Animal;Lesser Restoration;Owl\'s Wisdom;Reduce Animal;' +
+      'Resist Energy;Soften Earth And Stone;Spider Climb;' +
+      'Summon Nature\'s Ally II;Summon Swarm;Tree Shape;Warp Wood;' +
+      'Wood Shape",' +
+      '"D3:Call Lightning;Contagion;Cure Moderate Wounds;Daylight;' +
+      'Diminish Plants;Dominate Animal;Greater Magic Fang;Meld Into Stone;' +
+      'Neutralize Poison;Plant Growth;Poison;Protection From Energy;Quench;' +
+      'Remove Disease;Sleet Storm;Snare;Speak With Plants;Spike Growth;' +
+      'Stone Shape;Summon Nature\'s Ally III;Water Breathing;Wind Wall",' +
+      '"D4:Air Walk;Antiplant Shell;Blight;Command Plants;Control Water;' +
+      'Cure Serious Wounds;Dispel Magic;Flame Strike;Freedom Of Movement;' +
+      'Giant Vermin;Ice Storm;Reincarnate;Repel Vermin;Rusting Grasp;Scrying;' +
+      'Spike Stones;Summon Nature\'s Ally IV",' +
+      '"D5:Animal Growth;Atonement;Awaken;Baleful Polymorph;' +
+      'Call Lightning Storm;Commune With Nature;Control Winds;' +
+      'Cure Critical Wounds;Death Ward;Hallow;Insect Plague;Stoneskin;' +
+      'Summon Nature\'s Ally V;Transmute Mud To Rock;Transmute Rock To Mud;' +
+      'Tree Stride;Unhallow;Wall Of Fire;Wall Of Thorns",' +
+      '"D6:Antilife Shell;Find The Path;Fire Seeds;Greater Dispel Magic;' +
+      'Ironwood;Liveoak;Mass Bear\'s Endurance;Mass Bull\'s Strength;' +
+      'Mass Cat\'s Grace;Mass Cure Light Wounds;Mass Owl\'s Wisdom;' +
+      'Move Earth;Repel Wood;Spellstaff;Stone Tell;Summon Nature\'s Ally VI;' +
+      'Transport Via Plants;Wall Of Stone",' +
+      '"D7:Animate Plants;Changestaff;Control Weather;Creeping Doom;' +
+      'Cure Moderate Wounds;Fire Storm;Greater Scrying;Heal;' +
+      'Summon Nature\'s Ally VII;Sunbeam;Transmute Metal To Wood;' +
+      'True Seeing;Wind Walk",' +
+      '"D8:Animal Shapes;Control Plants;Earthquake;Finger Of Death;' +
+      'Mass Cure Serious Wounds;Repel Metal Or Stone;Reverse Gravity;' +
+      'Summon Nature\'s Ally VIII;Sunburst;Whirlwind",' +
+      '"D9:Antipathy;Elemental Swarm;Foresight;Mass Cure Critical Wounds;' +
+      'Regenerate;Shambler;Shapechange;Storm Of Vengeance;' +
+      'Summon Nature\'s Ally IX;Sympathy;Word Of Recall"',
   'Fighter':
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
@@ -372,12 +429,27 @@ SRD35.CLASSES = {
       '"1:Smite Evil","2:Divine Grace","2:Lay On Hands","3:Aura Of Courage",' +
       '"3:Divine Health","4:Turn Undead","5:Special Mount",' +
       '"6:Remove Disease" ' +
+    'CasterLevelDivine=l/2 ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'P1:4=0;6=1;14=2;18=3,' +
       'P2:8=0;10=1;16=2;19=3,' +
       'P3:11=0;12=1;17=2;19=3,' +
-      'P4:14=0;15=1;19=2;20=3',
+      'P4:14=0;15=1;19=2;20=3 ' +
+    'Spells=' +
+      '"P1:Bless;Bless Water;Bless Weapon;Create Water;Cure Light Wounds;' +
+      'Detect Poison;Detect Undead;Divine Favor;Endure Elements;' +
+      'Lesser Restoration;Magic Weapon;Protection From Chaos;' +
+      'Protection From Evil;Read Magic;Resistance;Virtue",' +
+      '"P2:Bull\'s Strength;Delay Poison;Eagle\'s Splendor;Owl\'s Wisdom;' +
+      'Remove Paralysis;Resist Energy;Shield Other;Undetectable Alignment;' +
+      'Zone Of Truth",' +
+      '"P3:Cure Moderate Wounds;Daylight;Discern Lies;Dispel Magic;' +
+      'Greater Magic Weapon;Heal Mount;Magic Circle Against Chaos;' +
+      'Magic Circle Against Evil;Prayer;Remove Blindness/Deafness;' +
+      'Remove Curse",' +
+      '"P4:Break Enchantment;Cure Serious Wounds;Death Ward;Dispel Chaos;' +
+      'Dispel Evil;Holy Sword;Mark Of Justice;Neutralize Poison;Restoration"',
   'Ranger':
     'HitDie=d8 Attack=1 SkillPoints=6 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Features=' +
@@ -390,12 +462,28 @@ SRD35.CLASSES = {
       '13:Camouflage,"17:Hide In Plain Sight" ' +
     'Selectables=' +
       '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)" ' +
+    'CasterLevelDivine=l/2 ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'R1:4=0;6=1;14=2;18=3,' +
       'R2:8=0;10=1;16=2;19=3,' +
       'R3:11=0;12=1;17=2;19=3,' +
-      'R4:14=0;15=1;19=2;20=3',
+      'R4:14=0;15=1;19=2;20=3 ' +
+    'Spells=' +
+      '"R1:Alarm;Animal Messenger;Calm Animals;Charm Animal;Delay Poison;' +
+      'Detect Animals Or Plants;Detect Poison;Detect Snares And Pits;' +
+      'Endure Elements;Entangle;Hide From Animals;Jump;Longstrider;' +
+      'Magic Fang;Pass Without Trace;Read Magic;Resist Energy;' +
+      'Speak With Animals;Summon Nature\'s Ally I",' +
+      '"R2:Barkskin;Bear\'s Endurance;Cat\'s Grace;Cure Light Wounds;' +
+      'Hold Animal;Owl\'s Wisdom;Protection From Energy;Snare;' +
+      'Speak With Plants;Spike Growth;Summon Nature\'s Ally II;Wind Wall",' +
+      '"R3:Command Plants;Cure Moderate Wounds;Darkvision;Diminish Plants;' +
+      'Greater Magic Fang;Neutralize Poison;Plant Growth;Reduce Animal;' +
+      'Remove Disease;Repel Vermin;Summon Nature\'s Ally III;Tree Shape;' +
+      'Water Walk",' +
+      '"R4:Animal Growth;Commune With Nature;Cure Serious Wounds;' +
+      'Freedom Of Movement;Nondetection;Summon Nature\'s Ally IV;Tree Stride"',
   'Rogue':
     'HitDie=d6 Attack=3/4 SkillPoints=8 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Features=' +
@@ -411,6 +499,7 @@ SRD35.CLASSES = {
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Simple)",1:Familiar ' +
+    'CasterLevelArcane=l ' +
     'SpellAbility=charisma ' +
     'SpellsPerDay=' +
       'S0:1=5;2=6,' +
@@ -428,6 +517,7 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
       '"1:Scribe Scroll",1:Familiar,"1:Wizard Specialization" ' +
+    'CasterLevelArcane=l ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
       'W0:1=3;2=4,' +
@@ -439,7 +529,97 @@ SRD35.CLASSES = {
       'W6:11=1;12=2;14=3;17=4,' +
       'W7:13=1;14=2;16=3;19=4,' +
       'W8:15=1;16=2;18=3;20=4,' +
-      'W9:17=1;18=2;19=3;20=4'
+      'W9:17=1;18=2;19=3;20=4 ' +
+    'Spells=' +
+      '"W0:Acid Splash;Arcane Mark;Dancing Lights;Daze;Detect Magic;' +
+      'Detect Poison;Disrupt Undead;Flare;Ghost Sound;Light;Mage Hand;' +
+      'Mending;Message;Open/Close;Prestidigitation;Ray Of Frost;Read Magic;' +
+      'Resistance;Touch Of Fatigue",' +
+      '"W1:Alarm;Animate Rope;Burning Hands;Cause Fear;Charm Person;' +
+      'Chill Touch;Color Spray;Comprehend Languages;Detect Secret Doors;' +
+      'Detect Undead;Disguise Self;Endure Elements;Enlarge Person;Erase;' +
+      'Expeditious Retreat;Feather Fall;Floating Disk;Grease;Hold Portal;' +
+      'Hypnotism;Identify;Jump;Mage Armor;Magic Aura;Magic Missile;' +
+      'Magic Weapon;Mount;Obscuring Mist;Protection From Chaos;' +
+      'Protection From Evil;Protection From Good;Protection From Law;' +
+      'Ray Of Enfeeblement;Reduce Person;Shield;Shocking Grasp;Silent Image;' +
+      'Sleep;Summon Monster I;True Strike;Unseen Servant;Ventriloquism",' +
+      '"W2:Acid Arrow;Alter Self;Arcane Lock;Bear\'s Endurance;' +
+      'Blindness/Deafness;Blur;Bull\'s Strength;Cat\'s Grace;Command Undead;' +
+      'Continual Flame;Darkness;Darkvision;Daze Monster;Detect Thoughts;' +
+      'Eagle\'s Splendor;False Life;Flaming Sphere;Fog Cloud;Fox\'s Cunning;' +
+      'Ghoul Touch;Glitterdust;Gust Of Wind;Hideous Laughter;' +
+      'Hypnotic Pattern;Invisibility;Knock;Levitate;Locate Object;' +
+      'Magic Mouth;Minor Image;Mirror Image;Misdirection;Obscure Object;' +
+      'Owl\'s Wisdom;Phantom Trap;Protection From Arrows;Pyrotechnics;' +
+      'Resist Energy;Rope Trick;Scare;Scorching Ray;See Invisibility;Shatter;' +
+      'Spectral Hand;Spider Climb;Summon Monster II;Summon Swarm;' +
+      'Touch Of Idiocy;Web;Whispering Wind",' +
+      '"W3:Arcane Sight;Blink;Clairaudience/Clairvoyance;Daylight;' +
+      'Deep Slumber;Dispel Magic;Displacement;Explosive Runes;Fireball;' +
+      'Flame Arrow;Fly;Gaseous Form;Gentle Repose;Greater Magic Weapon;' +
+      'Halt Undead;Haste;Heroism;Hold Person;Illusory Script;' +
+      'Invisibility Sphere;Keen Edge;Lightning Bolt;' +
+      'Magic Circle Against Chaos;Magic Circle Against Evil;' +
+      'Magic Circle Against Good;Magic Circle Against Law;Major Image;' +
+      'Nondetection;Phantom Steed;Protection From Energy;Rage;' +
+      'Ray Of Exhaustion;Secret Page;Sepia Snake Sigil;Shrink Item;' +
+      'Sleet Storm;Slow;Stinking Cloud;Suggestion;Summon Monster III;' +
+      'Tiny Hut;Tongues;Vampiric Touch;Water Breathing;Wind Wall",' +
+      '"W4:Animate Dead;Arcane Eye;Bestow Curse;Black Tentacles;' +
+      'Charm Monster;Confusion;Contagion;Crushing Despair;Detect Scrying;' +
+      'Dimension Door;Dimensional Anchor;Enervation;Fear;Fire Shield;' +
+      'Fire Trap;Greater Invisibility;Hallucinatory Terrain;Ice Storm;' +
+      'Illusory Wall;Lesser Geas;Lesser Globe Of Invulnerability;' +
+      'Locate Creature;Mass Enlarge Person;Mass Reduce Person;Minor Creation;' +
+      'Mnemonic Enhancer;Phantasmal Killer;Polymorph;Rainbow Pattern;' +
+      'Remove Curse;Resilient Sphere;Scrying;Secure Shelter;' +
+      'Shadow Conjuration;Shout;Solid Fog;Stone Shape;Stoneskin;' +
+      'Summon Monster IV;Wall Of Fire;Wall Of Ice",' +
+      '"W5:Animal Growth;Baleful Polymorph;Blight;Break Enchantment;' +
+      'Cloudkill;Cone Of Cold;Contact Other Plane;Dismissal;Dominate Person;' +
+      'Dream;Fabricate;False Vision;Feeblemind;Hold Monster;Interposing Hand;' +
+      'Lesser Planar Binding;Mage\'s Faithful Hound;Mage\'s Private Sanctum;' +
+      'Magic Jar;Major Creation;Mind Fog;Mirage Arcana;Nightmare;' +
+      'Overland Flight;Passwall;Permanency;Persistent Image;Prying Eyes;' +
+      'Secret Chest;Seeming;Sending;Shadow Evocation;Summon Monster V;' +
+      'Symbol Of Pain;Symbol Of Sleep;Telekinesis;Telepathic Bond;Teleport;' +
+      'Transmute Mud To Rock;Transmute Rock To Mud;Wall Of Force;' +
+      'Wall Of Stone;Waves Of Fatigue",' +
+      '"W6:Acid Fog;Analyze Dweomer;Antimagic Field;Chain Lightning;' +
+      'Circle Of Death;Contingency;Control Water;Create Undead;Disintegrate;' +
+      'Eyebite;Flesh To Stone;Forceful Hand;Freezing Sphere;Geas/Quest;' +
+      'Globe Of Invulnerability;Greater Dispel Magic;Greater Heroism;' +
+      'Guards And Wards;Legend Lore;Mage\'s Lucubration;' +
+      'Mass Bear\'s Endurance;Mass Bull\'s Strength;Mass Cat\'s Grace;' +
+      'Mass Eagle\'s Splendor;Mass Fox\'s Cunning;Mass Owl\'s Wisdom;' +
+      'Mass Suggestion;Mislead;Move Earth;Permanent Image;Planar Binding;' +
+      'Programmed Image;Repulsion;Shadow Walk;Stone To Flesh;' +
+      'Summon Monster VI;Symbol Of Fear;Symbol Of Persuasion;Transformation;' +
+      'True Seeing;Undeath To Death;Veil;Wall Of Iron",' +
+      '"W7:Banishment;Control Undead;Control Weather;Delayed Blast Fireball;' +
+      'Ethereal Jaunt;Finger Of Death;Forcecage;Grasping Hand;' +
+      'Greater Arcane Sight;Greater Scrying;Greater Shadow Conjuration;' +
+      'Greater Teleport;Insanity;Instant Summons;Limited Wish;' +
+      'Mage\'s Magnificent Mansion;Mage\'s Sword;Mass Hold Person;' +
+      'Mass Invisibility;Phase Door;Plane Shift;Power Word Blind;' +
+      'Prismatic Spray;Project Image;Reverse Gravity;Sequester;Simulacrum;' +
+      'Spell Turning;Statue;Summon Monster VII;Symbol Of Stunning;' +
+      'Symbol Of Weakness;Teleport Object;Vision;Waves Of Exhaustion",' +
+      '"W8:Antipathy;Binding;Clenched Fist;Clone;Create Greater Undead;' +
+      'Demand;Dimensional Lock;Discern Location;Greater Planar Binding;' +
+      'Greater Prying Eyes;Greater Shadow Evocation;Greater Shout;' +
+      'Horrid Wilting;Incendiary Cloud;Iron Body;Irresistible Dance;' +
+      'Mass Charm Monster;Maze;Mind Blank;Moment Of Prescience;Polar Ray;' +
+      'Polymorph Any Object;Power Word Stun;Prismatic Wall;' +
+      'Protection From Spells;Scintillating Pattern;Screen;' +
+      'Summon Monster VIII;Sunburst;Symbol Of Death;Symbol Of Insanity;' +
+      'Sympathy;Telekinetic Sphere;Temporal Stasis;Trap The Soul",' +
+      '"W9:Astral Projection;Crushing Hand;Dominate Monster;Energy Drain;' +
+      'Etherealness;Foresight;Freedom;Gate;Imprisonment;Mage\'s Disjunction;' +
+      'Mass Hold Monster;Meteor Swarm;Power Word Kill;Prismatic Sphere;' +
+      'Refuge;Shades;Shapechange;Soul Bind;Summon Monster IX;' +
+      'Teleportation Circle;Time Stop;Wail Of The Banshee;Weird;Wish"'
 };
 SRD35.DEITIES = {
   'None':'' // The SRD defines no deities
@@ -450,8 +630,9 @@ SRD35.DOMAINS = {
     '"Control Winds","Chain Lightning","Control Weather",Whirlwind,' +
     '"Elemental Swarm"',
   'Animal':
-    'Spells="Calm Animals","Hold Animals","Dominate Animals",' +
-    '"Summon Nature\'s Ally IV","Antilife Shell","Animal Shapes",Shapechange',
+    'Spells="Calm Animals","Hold Animal","Dominate Animal",' +
+    '"Summon Nature\'s Ally IV","Commune With Nature","Antilife Shell",' +
+    '"Animal Shapes","Summon Nature\'s Ally VIII",Shapechange',
   'Chaos':
     'Spells="Protection From Law",Shatter,"Magic Circle Against Law",' +
     '"Chaos Hammer","Dispel Law","Animate Objects","Word Of Chaos",' +
@@ -465,8 +646,9 @@ SRD35.DOMAINS = {
     '"Inflict Critical Wounds","Mass Inflict Light Wounds",Harm,Disintegrate,' +
     'Earthquake,Implosion',
   'Earth':
-    '"Magic Stone","Soften Earth And Stone","Stone Shape","Spike Stones",' +
-    '"Wall Of Stone",Stoneskin,Earthquake,"Iron Body","Elemental Swarm"',
+    'Spells="Magic Stone","Soften Earth And Stone","Stone Shape",' +
+    '"Spike Stones","Wall Of Stone",Stoneskin,Earthquake,"Iron Body",' +
+    '"Elemental Swarm"',
   'Evil':
     'Spells="Protection From Good",Desecrate,"Magic Circle Against Good",' +
     '"Unholy Blight","Dispel Good","Create Undead",Blasphemy,"Unholy Aura",' +
@@ -481,8 +663,8 @@ SRD35.DOMAINS = {
     '"Summon Monster IX"',
   'Healing':
     'Spells="Cure Light Wounds","Cure Moderate Wounds","Cure Serious Wounds",' +
-    '"Cure Critical Wounds",Heal,Regerate,"Mass Cure Critical Wounds",' +
-    '"Mass Heal"',
+    '"Cure Critical Wounds","Mass Cure Light Wounds",Heal,Regenerate,' +
+    '"Mass Cure Critical Wounds","Mass Heal"',
   'Knowledge':
     'Spells="Detect Secret Doors","Detect Thoughts",' +
     '"Clairaudience/Clairvoyance",Divination,"True Seeing","Find The Path",' +
@@ -496,7 +678,7 @@ SRD35.DOMAINS = {
     '"Freedom Of Movement","Break Enchantment",Mislead,"Spell Turning",' +
     '"Moment Of Prescience",Miracle',
   'Magic':
-    '"Magic Aura",Identify,"Dispel Magic","Imbue With Spell Ability",' +
+    'Spells="Magic Aura",Identify,"Dispel Magic","Imbue With Spell Ability",' +
     '"Spell Resistance","Antimagic Field","Spell Turning",' +
     '"Protection From Spells","Mage\'s Disjunction"',
   'Plant':
@@ -1497,6 +1679,9 @@ SRD35.SPELLS = {
   'Control Winds':
     'School=Transmutation ' +
     'Description="R$L40\' Changes wind direction/speed in $L40\'x40\' cylinder for $L10 min"',
+  'Corrupt Weapon':
+    'School=Transmutation ' +
+    'Description="Weapon evil aligned, +1 vs. good foe DR for $L min"',
   'Create Food And Water':
     'School=Conjuration ' +
     'Description="Daily food/water for $L3 humans/$L horses"',
@@ -3544,7 +3729,7 @@ SRD35.identityRules = function(
 
 /* Defines rules related to magic use. */
 SRD35.magicRules = function(rules, domains, schools, spells) {
-  // Domains rely on schools previous definition.
+  // domainRules requires that schools be defined first
   for(var school in schools) {
     rules.choiceRules(rules, 'schools', school, schools[school]);
   }
@@ -4053,40 +4238,35 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   if(attribute == 'armor') {
     attrs = this.applyRules(attributes);
     var characterProfLevel = attrs.armorProficiencyLevel;
-    if(characterProfLevel == null) {
+    if(characterProfLevel == null)
       characterProfLevel = SRD35.PROFICIENCY_NONE;
-    }
     choices = [];
     var armors = this.getChoices('armors');
     for(attr in armors) {
-      var level = QuilvynRules.getAttrValue(armors[attr], 'Level');
+      var level = QuilvynUtils.getAttrValue(armors[attr], 'Level');
       if((level != null && level <= characterProfLevel) ||
          attrs['armorProficiency.' + attr] != null) {
-        choices[choices.length] = attr;
+        choices.push(attr);
       }
     }
-    if(choices.length > 0) {
+    if(choices.length > 0)
       attributes['armor'] = choices[QuilvynUtils.random(0, choices.length - 1)];
-    }
   } else if(attribute == 'companion') {
     attrs = this.applyRules(attributes);
     if(QuilvynUtils.sumMatching(attrs, /companionNotes/) > 0) {
-      var prefix;
+      var prefix = 'animalCompanion';
       if('features.Familiar' in attrs) {
         choices = QuilvynUtils.getKeys(this.getChoices('familiars'));
         prefix = 'familiar';
       } else if('features.Fiendish Servant' in attrs) {
         choices = ['Bat', 'Cat', 'Dire Rat', 'Raven', 'Toad'];
         choices.push('features.Small' in attrs ? 'Pony' : 'Heavy Horse');
-        prefix = 'animalCompanion';
       // Support PF's "Divine Mount" as well as SRD35's "Special Mount"
       } else if('features.Special Mount' in attrs ||
-                'features.Divine Mount' in attrs) {
+                'features.Divine Mount' in attr) {
         choices = 'features.Small' in attrs ? ['Pony'] : ['Heavy Horse'];
-        prefix = 'animalCompanion';
       } else {
         choices = QuilvynUtils.getKeys(this.getChoices('animalCompanions'));
-        prefix = 'animalCompanion';
       }
       do {
         for(var attr in attributes) {
@@ -4113,16 +4293,16 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     for(attr in this.getChoices('deities')) {
       if(attr.match(aliPat))
-        choices[choices.length] = attr;
+        choices.push(attr);
     }
-    if(choices.length > 0) {
+    if(choices.length > 0)
       attributes['deity'] = choices[QuilvynUtils.random(0, choices.length - 1)];
-    }
   } else if(attribute == 'domains') {
     attrs = this.applyRules(attributes);
     howMany = attrs.domainCount;
     if(howMany != null) {
-      choices = QuilvynRules.getAttrValueArray(this.getChoices('deities')[attributes.deity], 'domain');
+      choices =
+        QuilvynUtils.getAttrValueArray(this.getChoices('deities')[attributes.deity], 'Domain');
       if(choices.length == 0)
         choices = QuilvynUtils.getKeys(this.getChoices('domains'));
       pickAttrs(attributes, 'domains.', choices, howMany -
@@ -4210,12 +4390,10 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     for(var klass in this.getChoices('levels')) {
       if((attr = attributes['levels.' + klass]) == null)
         continue;
-      var matchInfo =
-        this.getChoices('levels')[klass].match(/^((\d+)?d)?(\d+)$/);
+      var matchInfo = QuilvynUtils.getAttrValue(this.getChoices('levels')[klass], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ||
                    matchInfo[2] == '' ? 1 : matchInfo[2];
-      var sides = matchInfo == null || matchInfo[3] == null ||
-                  matchInfo[3] == '' ? 6 : matchInfo[3];
+      var sides = matchInfo == null ? 6 : matchInfo[3];
       attributes.hitPoints += number * sides;
       while(--attr > 0)
         attributes.hitPoints += QuilvynUtils.random(number, number * sides);
@@ -4286,7 +4464,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     var shields = this.getChoices('shields');
     for(attr in shields) {
-      var level = QuilvynRules.getAttrValue(shields[attr]);
+      var level = QuilvynUtils.getAttrValue(shields[attr]);
       if((level != null && level <= characterProfLevel) ||
          attrs['shieldProficiency.' + attr] != null) {
         choices[choices.length] = attr;
@@ -4784,52 +4962,54 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.alignmentRules(rules, name);
   else if(type == 'animalCompanions')
     SRD35.companionRules(rules, name,
-      QuilvynRules.getAttrValue(attrs, 'Str'),
-      QuilvynRules.getAttrValue(attrs, 'Int'),
-      QuilvynRules.getAttrValue(attrs, 'Wis'),
-      QuilvynRules.getAttrValue(attrs, 'Dex'),
-      QuilvynRules.getAttrValue(attrs, 'Con'),
-      QuilvynRules.getAttrValue(attrs, 'Cha'),
-      QuilvynRules.getAttrValue(attrs, 'HD'),
-      QuilvynRules.getAttrValue(attrs, 'AC'),
-      QuilvynRules.getAttrValue(attrs, 'Attack'),
-      QuilvynRules.getAttrValueArray(attrs, 'Dam'),
-      QuilvynRules.getAttrValue(attrs, 'Level')
+      QuilvynUtils.getAttrValue(attrs, 'Str'),
+      QuilvynUtils.getAttrValue(attrs, 'Int'),
+      QuilvynUtils.getAttrValue(attrs, 'Wis'),
+      QuilvynUtils.getAttrValue(attrs, 'Dex'),
+      QuilvynUtils.getAttrValue(attrs, 'Con'),
+      QuilvynUtils.getAttrValue(attrs, 'Cha'),
+      QuilvynUtils.getAttrValue(attrs, 'HD'),
+      QuilvynUtils.getAttrValue(attrs, 'AC'),
+      QuilvynUtils.getAttrValue(attrs, 'Attack'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Dam'),
+      QuilvynUtils.getAttrValue(attrs, 'Level')
     );
   else if(type == 'armors')
     SRD35.armorRules(rules, name,
-      QuilvynRules.getAttrValue(attrs, 'AC'),
-      QuilvynRules.getAttrValue(attrs, 'Level'),
-      QuilvynRules.getAttrValue(attrs, 'Dex'),
-      QuilvynRules.getAttrValue(attrs, 'Skill'),
-      QuilvynRules.getAttrValue(attrs, 'Spell')
+      QuilvynUtils.getAttrValue(attrs, 'AC'),
+      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      QuilvynUtils.getAttrValue(attrs, 'Dex'),
+      QuilvynUtils.getAttrValue(attrs, 'Skill'),
+      QuilvynUtils.getAttrValue(attrs, 'Spell')
     );
   else if(type == 'deities')
     SRD35.deityRules(rules, name,
-      QuilvynRules.getAttrValueArray(attrs, 'domain'),
-      QuilvynRules.getAttrValueArray(attrs, 'weapon'));
+      QuilvynUtils.getAttrValueArray(attrs, 'Domain'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Weapon')
+    );
   else if(type == 'domains')
     SRD35.domainRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Spells')
     );
   else if(type == 'familiars')
     SRD35.familiarRules(rules, name,
-      QuilvynRules.getAttrValue(attrs, 'Str'),
-      QuilvynRules.getAttrValue(attrs, 'Int'),
-      QuilvynRules.getAttrValue(attrs, 'Wis'),
-      QuilvynRules.getAttrValue(attrs, 'Dex'),
-      QuilvynRules.getAttrValue(attrs, 'Con'),
-      QuilvynRules.getAttrValue(attrs, 'Cha'),
-      QuilvynRules.getAttrValue(attrs, 'HD'),
-      QuilvynRules.getAttrValue(attrs, 'AC'),
-      QuilvynRules.getAttrValue(attrs, 'Attack'),
-      QuilvynRules.getAttrValueArray(attrs, 'Dam'),
-      QuilvynRules.getAttrValue(attrs, 'Level')
+      QuilvynUtils.getAttrValue(attrs, 'Str'),
+      QuilvynUtils.getAttrValue(attrs, 'Int'),
+      QuilvynUtils.getAttrValue(attrs, 'Wis'),
+      QuilvynUtils.getAttrValue(attrs, 'Dex'),
+      QuilvynUtils.getAttrValue(attrs, 'Con'),
+      QuilvynUtils.getAttrValue(attrs, 'Cha'),
+      QuilvynUtils.getAttrValue(attrs, 'HD'),
+      QuilvynUtils.getAttrValue(attrs, 'AC'),
+      QuilvynUtils.getAttrValue(attrs, 'Attack'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Dam'),
+      QuilvynUtils.getAttrValue(attrs, 'Level')
     );
   else if(type == 'feats')
     SRD35.featRules(rules, name,
-      QuilvynRules.getAttrValueArray(attrs, 'Type'),
-      QuilvynRules.getAttrValueArray(attrs, 'Require'),
-      QuilvynRules.getAttrValueArray(attrs, 'Imply')
+      QuilvynUtils.getAttrValueArray(attrs, 'Type'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Require'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Imply')
     );
   else if(type == 'features')
     SRD35.featureRules(rules, name, attrs);
@@ -4839,51 +5019,53 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.languageRules(rules, name);
   else if(type == 'levels')
     SRD35.classRules(rules, name,
-      QuilvynRules.getAttrValueArray(attrs, 'Require'),
-      QuilvynRules.getAttrValueArray(attrs, 'Imply'),
-      QuilvynRules.getAttrValue(attrs, 'HitDie'),
-      QuilvynRules.getAttrValue(attrs, 'Attack'),
-      QuilvynRules.getAttrValue(attrs, 'SkillPoints'),
-      QuilvynRules.getAttrValue(attrs, 'Fortitude'),
-      QuilvynRules.getAttrValue(attrs, 'Reflex'),
-      QuilvynRules.getAttrValue(attrs, 'Will'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Require'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Imply'),
+      QuilvynUtils.getAttrValue(attrs, 'HitDie'),
+      QuilvynUtils.getAttrValue(attrs, 'Attack'),
+      QuilvynUtils.getAttrValue(attrs, 'SkillPoints'),
+      QuilvynUtils.getAttrValue(attrs, 'Fortitude'),
+      QuilvynUtils.getAttrValue(attrs, 'Reflex'),
+      QuilvynUtils.getAttrValue(attrs, 'Will'),
       [], // Skills for base classes handled by skillRules
-      QuilvynRules.getAttrValueArray(attrs, 'Features'),
-      QuilvynRules.getAttrValueArray(attrs, 'Selectables'),
-      QuilvynRules.getAttrValue(attrs, 'SpellAbility'),
-      QuilvynRules.getAttrValueArray(attrs, 'SpellsPerDay'),
-      QuilvynRules.getAttrValueArray(attrs, 'Spells'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Features'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
+      QuilvynUtils.getAttrValue(attrs, 'CasterLevelArcane'),
+      QuilvynUtils.getAttrValue(attrs, 'CasterLevelDivine'),
+      QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
+      QuilvynUtils.getAttrValueArray(attrs, 'SpellsPerDay'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
     );
   else if(type == 'races')
     SRD35.raceRules(rules, name,
-      QuilvynRules.getAttrValueArray(attrs, 'Features')
+      QuilvynUtils.getAttrValueArray(attrs, 'Features')
   );
   else if(type == 'schools')
     SRD35.schoolRules(rules, name);
   else if(type == 'shields')
     SRD35.shieldRules(rules, name,
-      QuilvynRules.getAttrValue(attrs, 'AC'),
-      QuilvynRules.getAttrValue(attrs, 'Level'),
-      QuilvynRules.getAttrValue(attrs, 'Skill'),
-      QuilvynRules.getAttrValue(attrs, 'Spell')
+      QuilvynUtils.getAttrValue(attrs, 'AC'),
+      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      QuilvynUtils.getAttrValue(attrs, 'Skill'),
+      QuilvynUtils.getAttrValue(attrs, 'Spell')
     );
   else if(type == 'skills')
     SRD35.skillRules(rules, name,
-      QuilvynRules.getAttrValue(attrs, 'Ability'),
-      QuilvynRules.getAttrValue(attrs, 'Untrained'),
-      QuilvynRules.getAttrValueArray(attrs, 'Class'),
-      QuilvynRules.getAttrValueArray(attrs, 'Synergy')
+      QuilvynUtils.getAttrValue(attrs, 'Ability'),
+      QuilvynUtils.getAttrValue(attrs, 'Untrained'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Class'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Synergy')
     );
   else if(type == 'spells') {
     ; // empty -- handled by classes and domains
   } else if(type == 'weapons')
     SRD35.weaponRules(rules, name,
-      QuilvynRules.getAttrValue(attrs, 'Level'),
-      QuilvynRules.getAttrValue(attrs, 'Category'),
-      QuilvynRules.getAttrValue(attrs, 'Damage'),
-      QuilvynRules.getAttrValue(attrs, 'Threat'),
-      QuilvynRules.getAttrValue(attrs, 'Crit'),
-      QuilvynRules.getAttrValue(attrs, 'Range')
+      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      QuilvynUtils.getAttrValue(attrs, 'Category'),
+      QuilvynUtils.getAttrValue(attrs, 'Damage'),
+      QuilvynUtils.getAttrValue(attrs, 'Threat'),
+      QuilvynUtils.getAttrValue(attrs, 'Crit'),
+      QuilvynUtils.getAttrValue(attrs, 'Range')
     );
   else {
     console.log('Unknown choice type "' + type + '"');
@@ -5009,8 +5191,8 @@ SRD35.armorRules = function(
  */
 SRD35.classRules = function(
   rules, name, requires, implies, hitDie, attack, skillPoints, saveFort,
-  saveRef, saveWill, skills, features, selectables, spellAbility, spellsPerDay,
-  spells
+  saveRef, saveWill, skills, features, selectables, casterLevelArcane,
+  casterLevelDivine, spellAbility, spellsPerDay, spells
 ) {
 
   // TODO data validation
@@ -5086,6 +5268,17 @@ SRD35.classRules = function(
   rules.defineChoice('extras', prefix + 'Features');
 
   if(spellsPerDay.length >= 0) {
+    var classCasterLevel = 'source';
+    if(casterLevelArcane) {
+      casterLevelArcane =
+        'Math.floor(' + casterLevelArcane.replace(/l/g, 'source') + ')';
+      classCasterLevel = casterLevelArcane;
+    }
+    if(casterLevelDivine) {
+      casterLevelDivine =
+        'Math.floor(' + casterLevelDivine.replace(/l/g, 'source') + ')';
+      classCasterLevel = casterLevelDivine;
+    }
     rules.defineRule('spellCountLevel.' + name,
       'levels.' + name, '=', null,
       'magicNotes.casterLevelBonusFeature', '+', null
@@ -5116,10 +5309,18 @@ SRD35.classRules = function(
         'casterLevels.' + spellType, '?', null,
         spellModifier, '=', '10 + source'
       );
-      if(spellType == 'C') {
-        rules.defineRule('spellDifficultyClass.Dom',
-          'casterLevels.' + spellType, '?', null,
-          spellModifier, '=', '10 + source'
+      rules.defineRule('casterLevels.' + spellType,
+        'levels.' + name, '=', classCasterLevel,
+         'magicNotes.casterLevelBonusFeature', '+', null
+      );
+      if(casterLevelArcane) {
+        rules.defineRule('casterLevelArcane',
+          'casterLevels.' + spellType, '+=', casterLevelArcane
+        );
+      }
+      if(casterLevelDivine) {
+        rules.defineRule('casterLevelDivine',
+          'casterLevels.' + spellType, '+=', casterLevelDivine
         );
       }
     }
@@ -5142,9 +5343,9 @@ SRD35.classRules = function(
         console.log('Unknown spell "' + spellName + '"');
         continue;
       }
-      var school = QuilvynRules.getAttrValue(SRD35.SPELLS[spellName], 'School');
+      var school = QuilvynUtils.getAttrValue(SRD35.SPELLS[spellName], 'School');
       var description =
-        QuilvynRules.getAttrValue(SRD35.SPELLS[spellName], 'Description');
+        QuilvynUtils.getAttrValue(SRD35.SPELLS[spellName], 'Description');
       var choiceName =
         spellName + '(' + casterGroup + level + ' ' + school.substring(0, 4) + ')';
       rules.defineChoice('spells', choiceName);
@@ -5187,39 +5388,34 @@ SRD35.classRules = function(
 
   } else if(name == 'Bard') {
 
-    rules.defineRule('casterLevels.B',
-      'levels.Bard', '=', null,
-       'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule('casterLevelArcane', 'casterLevels.B', '+=', null);
     rules.defineRule
       ('featureNotes.bardicMusicFeature', 'levels.Bard', '=', null);
-    rules.defineRule('features.Countersong',
-      'maxPerformModifier', '?', 'source >= 3'
+    rules.defineRule('bardFeatures.Countersong',
+      'maxPerformRanks', '?', 'source >= 3'
     );
-    rules.defineRule('features.Fascinate',
-      'maxPerformModifier', '?', 'source >= 3'
+    rules.defineRule('bardFeatures.Fascinate',
+      'maxPerformRanks', '?', 'source >= 3'
     );
-    rules.defineRule('features.Inspire Competence',
-      'maxPerformModifier', '?', 'source >= 6'
+    rules.defineRule('bardFeatures.Inspire Competence',
+      'maxPerformRanks', '?', 'source >= 6'
     );
-    rules.defineRule('features.Inspire Courage',
-      'maxPerformModifier', '?', 'source >= 3'
+    rules.defineRule('bardFeatures.Inspire Courage',
+      'maxPerformRanks', '?', 'source >= 3'
     );
-    rules.defineRule('features.Inspire Greatness',
-      'maxPerformModifier', '?', 'source >= 12'
+    rules.defineRule('bardFeatures.Inspire Greatness',
+      'maxPerformRanks', '?', 'source >= 12'
     );
-    rules.defineRule('features.Inspire Heroics',
-      'maxPerformModifier', '?', 'source >= 18'
+    rules.defineRule('bardFeatures.Inspire Heroics',
+      'maxPerformRanks', '?', 'source >= 18'
     );
-    rules.defineRule('features.Mass Suggestion',
-      'maxPerformModifier', '?', 'source >= 21'
+    rules.defineRule('bardFeatures.Mass Suggestion',
+      'maxPerformRanks', '?', 'source >= 21'
     );
-    rules.defineRule('features.Song Of Freedom',
-      'maxPerformModifier', '?', 'source >= 15'
+    rules.defineRule('bardFeatures.Song Of Freedom',
+      'maxPerformRanks', '?', 'source >= 15'
     );
-    rules.defineRule('features.Suggestion',
-      'maxPerformModifier', '?', 'source >= 9'
+    rules.defineRule('bardFeatures.Suggestion',
+      'maxPerformRanks', '?', 'source >= 9'
     );
     rules.defineRule('magicNotes.arcaneSpellFailure',
       'magicNotes.simpleSomaticsFeature.1', 'v', '0'
@@ -5251,8 +5447,7 @@ SRD35.classRules = function(
       'levels.Bard', '=', '10 + Math.floor(source / 2)',
       'charismaModifier', '+', null
     );
-    rules.defineRule
-      ('maxPerformModifier', /^skillModifier.Perform/, '^=', null);
+    rules.defineRule('maxPerformRanks', /^skills.Perform/, '^=', null);
     rules.defineRule('skillNotes.bardicKnowledgeFeature',
       'levels.Bard', '=', null,
       'intelligenceModifier', '+', null,
@@ -5261,32 +5456,16 @@ SRD35.classRules = function(
 
   } else if(name == 'Cleric') {
 
-    rules.defineRule('casterLevels.C',
-      'levels.Cleric', '=', null,
-       'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule('casterLevels.Dom', 'casterLevels.C', '+=', null);
-    rules.defineRule('casterLevelDivine', 'casterLevels.C', '+=', null);
     rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
     rules.defineRule('magicNotes.spontaneousClericSpellFeature',
       'alignment', '=', 'source.match(/Evil/)?"<i>Inflict</i>":"<i>Cure</i>"'
     );
-    for(var j = 1; j < 10; j++) {
-      rules.defineRule('spellsPerDay.Dom' + j,
-        'levels.Cleric', '=',
-        'source >= ' + (j * 2 - 1) + ' ? 1 : null');
-    }
     rules.defineRule('turnUndead.level', 'levels.Cleric', '+=', null);
 
   } else if(name == 'Druid') {
 
     rules.defineRule
       ('companionMasterLevel', 'levels.Druid', '+=', null);
-    rules.defineRule('casterLevels.D',
-      'levels.Druid', '=', null,
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule('casterLevelDivne', 'casterLevels.D', '+=', null);
     rules.defineRule('languageCount', 'levels.Druid', '+', '1');
     rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
     rules.defineRule('magicNotes.elementalShapeFeature',
@@ -5379,14 +5558,6 @@ SRD35.classRules = function(
 
   } else if(name == 'Paladin') {
 
-    rules.defineRule('casterLevels.Paladin',
-      'levels.Paladin', '=', 'source < 4 ? null : source / 2',
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule(
-      'casterLevels.P', 'casterLevels.Paladin', '=', 'Math.floor(source)'
-    );
-    rules.defineRule('casterLevelDivine', 'casterLevels.P', '+=', null);
     rules.defineRule('combatNotes.smiteEvilFeature',
       'charismaModifier', '=', 'source > 0 ? source : 0'
     );
@@ -5416,14 +5587,6 @@ SRD35.classRules = function(
     rules.defineRule('companionMasterLevel',
       'levels.Ranger', '+=', 'source < 4 ? null : Math.floor(source / 2)'
     );
-    rules.defineRule('casterLevels.Ranger',
-      'levels.Ranger', '=', 'source < 4 ? null : source / 2',
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule(
-      'casterLevels.R', 'casterLevels.Ranger', '=', 'Math.floor(source)'
-    );
-    rules.defineRule('casterLevelArcane', 'casterLevels.R', '+=', null);
     rules.defineRule('combatNotes.favoredEnemyFeature',
       'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
     );
@@ -5490,20 +5653,10 @@ SRD35.classRules = function(
 
   } else if(name == 'Sorcerer') {
 
-    rules.defineRule('casterLevels.S',
-      'levels.Sorcerer', '=', null,
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule('casterLevelArcane', 'casterLevels.S', '+=', null);
     rules.defineRule('familiarMasterLevel', 'levels.Sorcerer', '+=', null);
 
   } else if(name == 'Wizard') {
 
-    rules.defineRule('casterLevels.W',
-      'levels.Wizard', '=', null,
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule('casterLevelArcane', 'casterLevels.W', '+=', null);
     rules.defineRule('familiarMasterLevel', 'levels.Wizard', '+=', null);
     rules.defineRule('featCount.Wizard',
       'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
@@ -5781,14 +5934,33 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
 /*
  * TODO
  */
-SRD35.domainRules = function(rules, name) {
+SRD35.domainRules = function(rules, name, spells) {
 
   if(!name) {
     console.log('Bad name for domain  "' + name + '"');
     return;
   }
+  if(spells.length != 9) {
+    console.log('Bad spell list ' + spells + ' for domain "' + name + '"');
+    return;
+  }
 
   rules.defineRule('features.' + name + ' Domain', 'domains.' + name, '=', '1');
+
+  for(var level = 1; level <= spells.length; level++) {
+    var spellName = spells[level - 1];
+    if(SRD35.SPELLS[spellName] == null) {
+      console.log('Unknown spell "' + spellName + '"');
+      continue;
+    }
+    var school = QuilvynUtils.getAttrValue(SRD35.SPELLS[spellName], 'School');
+    var description =
+      QuilvynUtils.getAttrValue(SRD35.SPELLS[spellName], 'Description');
+    var choiceName =
+      spellName + '(' + name + level + ' ' + school.substring(0, 4) + ')';
+      rules.defineChoice('spells', choiceName);
+      SRD35.spellRules(rules, choiceName, school, 'Dom', level, description);
+  }
 
   if(name == 'Death') {
     rules.defineRule
@@ -6022,7 +6194,7 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
 SRD35.featureRules = function(rules, name, notes) {
 
   if(!name) {
-    console.log('Bad name for domain  "' + name + '"');
+    console.log('Bad name for feature  "' + name + '"');
     return;
   }
 

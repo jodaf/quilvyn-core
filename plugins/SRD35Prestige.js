@@ -91,6 +91,7 @@ SRD35Prestige.CLASSES = {
       '"1:Weapon Proficiency (Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Composit Shortbow/Short Sword)",' +
       '"1:Death Attack","1:Poison Use","1:Sneak Attack","2:Poison Tolerance",' +
       '"2:Uncanny Dodge","5:Improved Uncanny Dodge","8:Hide In Plain Sight" ' +
+    'CasterLevelArcane=l ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
       'AS1:1=0;2=1;3=2;4=3,' +
@@ -121,6 +122,7 @@ SRD35Prestige.CLASSES = {
       '"1:Poison Use","2:Smite Good","2:Dark Blessing","3:Aura Of Despair",' +
       '"3:Turn Undead","4:Sneak Attack","5:Fiendish Servant",' +
       '"5:Undead Companion" ' +
+    'CasterLevelDivine=l ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'BL1:1=0;2=1;7=2,' +
@@ -134,8 +136,8 @@ SRD35Prestige.CLASSES = {
       'Eagle\'s Splendor;Inflict Moderate Wounds;Shatter;Summon Monster II",' +
       '"BL3:Contagion;Cure Serious Wounds;Deeper Darkness;' +
       'Inflict Serious Wounds;Protection From Energy;Summon Monster III",' +
-      '"BL4:Cure Critical Wounds;Freedom Of Movement;' +
-      'Inflict Critical Wounds;Poison;Summon Monster IV"',
+      '"BL4:Cure Critical Wounds;Freedom Of Movement;Inflict Critical Wounds;' +
+      'Poison;Summon Monster IV"',
   'Dragon Disciple':
     'Require=' +
       'Draconic,"race !~ /Dragon/","Knowledge (Arcana) >= 8",' +
@@ -479,11 +481,6 @@ SRD35Prestige.classRules = function(rules, name) {
 
   } else if(name == 'Assassin') {
 
-    rules.defineRule('casterLevels.AS',
-      'levels.Assassin', '=', null,
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule('casterLevelArcane', 'casterLevels.AS', '+=', null);
     rules.defineRule('combatNotes.deathAttackFeature',
       'levels.Assassin', '+=', '10 + source',
       'intelligenceModifier', '+', null
@@ -493,8 +490,6 @@ SRD35Prestige.classRules = function(rules, name) {
     rules.defineRule('combatNotes.sneakAttackFeature',
       'levels.Assassin', '+=', 'Math.floor((source + 1) / 2)'
     );
-    rules.defineRule
-      ('resistance.Poison', 'saveNotes.poisonToleranceFeature', '+=', null);
     rules.defineRule('saveNotes.poisonToleranceFeature',
       'levels.Assassin', '+=', 'Math.floor(source / 2)'
     );
@@ -514,11 +509,6 @@ SRD35Prestige.classRules = function(rules, name) {
 
     SRD35.SPELLS['Corrupt Weapon'] =
       SRD35.SPELLS['Bless Weapon'].replace('evil','good').replace('good','evil');
-    rules.defineRule('casterLevels.BL',
-      'levels.Blackguard', '=', null,
-      'magicNotes.casterLevelBonusFeature', '+', null
-    );
-    rules.defineRule('casterLevelDivine', 'casterLevels.BL', '+=', null);
     rules.defineRule('combatNotes.smiteGoodFeature',
       'charismaModifier', '=', 'source > 0 ? source : 0'
     );
@@ -833,33 +823,6 @@ SRD35Prestige.classRules = function(rules, name) {
     rules.defineRule('magicNotes.casterLevelBonusFeature',
       'levels.Thaumaturgist', '+=', null
     );
-  }
-
-  if(spells != null) {
-    for(var j = 0; j < spells.length; j++) {
-      var pieces = spells[j].split(':');
-      var casterGroupAndLevel = pieces[0];
-      for(var k = 1; k < pieces.length; k++) {
-        var spell = pieces[k];
-        if(SRD35.SPELLS[spell] == null) {
-          console.log('Unknown spell name "' + spell + '"');
-          continue;
-        }
-        var attrs = SRD35.SPELLS[spell];
-        var school = QuilvynRules.getAttrValue(attrs, 'School');
-        if(school == null) {
-          console.log('Unknown school for spell "' + spell + '"');
-          continue;
-        }
-        spell += '(' + casterGroupAndLevel + ' ' + school.substring(0, 4) + ')';
-        SRD35.spellRules(rules, spell,
-          school,
-          casterGroupAndLevel.substring(0, casterGroupAndLevel.length - 1),
-          casterGroupAndLevel.substring(casterGroupAndLevel.length - 1) * 1,
-          QuilvynRules.getAttrValue(attrs, 'Description')
-        );
-      }
-    }
   }
 
 };
