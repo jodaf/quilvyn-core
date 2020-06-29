@@ -96,7 +96,16 @@ SRD35Prestige.CLASSES = {
       'AS1:1=0;2=1;3=2;4=3,' +
       'AS2:3=0;4=1;5=2;6=3,' +
       'AS3:5=0;6=1;7=2;8=3,' +
-      'AS4:7=0;8=1;9=2;10=3',
+      'AS4:7=0;8=1;9=2;10=3 ' +
+    'Spells=' +
+      '"AS1:Detect Poison;Disguise Self;Feather Fall;Ghost Sound;Jump;' +
+      'Obscuring Mist;Sleep;True Strike",' +
+      '"AS2:Alter Self;Cat\'s Grace;Darkness;Fox\'s Cunning;Illusory Script;' +
+      'Invisibility;Pass Without Trace;Spider Climb;Undetectable Alignment",' +
+      '"AS3:Deep Slumber;Deeper Darkness;False Life;' +
+      'Magic Circle Against Good;Misdirection;Nondetection",' +
+      '"AS4:Clairaudience/Clairvoyance;Dimension Door;Freedom Of Movement;' +
+      'Glibness;Greater Invisibility;Locate Creature;Modify Memory;Poison"',
   'Blackguard':
     'Require=' +
       '"alignment =~ /Evil/","baseAttack >= 6",Cleave,"Improved Sunder",' +
@@ -105,19 +114,28 @@ SRD35Prestige.CLASSES = {
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Handle Animal",Heal,Hide,Intimidate,' +
       '"Knowledge (Religion)",Profession,Ride ' +
-    'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
-      'BL1:1=0;2=1;7=2,' +
-      'BL2:3=0;4=1;9=2,' +
-      'BL3:5=0;6=1;10=2,' +
-      'BL4:7=0;8=1 ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)","1:Aura Of Evil",' +
       '"1:Blackguard Hands","1:Detect Good","1:Fiendish Summoning",' +
       '"1:Poison Use","2:Smite Good","2:Dark Blessing","3:Aura Of Despair",' +
       '"3:Turn Undead","4:Sneak Attack","5:Fiendish Servant",' +
-      '"5:Undead Companion"',
+      '"5:Undead Companion" ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'BL1:1=0;2=1;7=2,' +
+      'BL2:3=0;4=1;9=2,' +
+      'BL3:5=0;6=1;10=2,' +
+      'BL4:7=0;8=1 ' +
+    'Spells=' +
+      '"BL1:Cause Fear;Corrupt Weapon;Cure Light Wounds;Detect Good;Doom;' +
+      'Inflict Light Wounds;Magic Weapon;Summon Monster I",' +
+      '"BL2:Bull\'s Strength;Cure Moderate Wounds;Darkness;Death Knell;' +
+      'Eagle\'s Splendor;Inflict Moderate Wounds;Shatter;Summon Monster II",' +
+      '"BL3:Contagion;Cure Serious Wounds;Deeper Darkness;' +
+      'Inflict Serious Wounds;Protection From Energy;Summon Monster III",' +
+      '"BL4:Cure Critical Wounds;Freedom Of Movement;' +
+      'Inflict Critical Wounds;Poison;Summon Monster IV"',
   'Dragon Disciple':
     'Require=' +
       'Draconic,"race !~ /Dragon/","Knowledge (Arcana) >= 8",' +
@@ -461,16 +479,6 @@ SRD35Prestige.classRules = function(rules, name) {
 
   } else if(name == 'Assassin') {
 
-    spells = [
-      'AS1:Detect Poison:Disguise Self:Feather Fall:Ghost Sound:Jump:' +
-      'Obscuring Mist:Sleep:True Strike',
-      'AS2:Alter Self:Cat\'s Grace:Darkness:Fox\'s Cunning:Illusory Script:' +
-      'Invisibility:Pass Without Trace:Spider Climb:Undetectable Alignment',
-      'AS3:Deep Slumber:Deeper Darkness:False Life:' +
-      'Magic Circle Against Good:Misdirection:Nondetection',
-      'AS4:Clairaudience/Clairvoyance:Dimension Door:Freedom Of Movement:' +
-      'Glibness:Greater Invisibility:Locate Creature:Modify Memory:Poison'
-    ];
     rules.defineRule('casterLevels.AS',
       'levels.Assassin', '=', null,
       'magicNotes.casterLevelBonusFeature', '+', null
@@ -504,16 +512,6 @@ SRD35Prestige.classRules = function(rules, name) {
 
   } else if(name == 'Blackguard') {
 
-    spells = [
-      'BL1:Cause Fear:Corrupt Weapon:Cure Light Wounds:Detect Good:Doom:' +
-      'Inflict Light Wounds:Magic Weapon:Summon Monster I',
-      'BL2:Bull\'s Strength:Cure Moderate Wounds:Darkness:Death Knell:' +
-      'Eagle\'s Splendor:Inflict Moderate Wounds:Shatter:Summon Monster II',
-      'BL3:Contagion:Cure Serious Wounds:Deeper Darkness:' +
-      'Inflict Serious Wounds:Protection From Energy:Summon Monster III',
-      'BL4:Cure Critical Wounds:Freedom Of Movement:' +
-      'Inflict Critical Wounds:Poison:Summon Monster IV'
-    ];
     SRD35.SPELLS['Corrupt Weapon'] =
       SRD35.SPELLS['Bless Weapon'].replace('evil','good').replace('good','evil');
     rules.defineRule('casterLevels.BL',

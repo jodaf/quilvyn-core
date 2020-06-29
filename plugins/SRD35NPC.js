@@ -47,7 +47,26 @@ SRD35NPC.CLASSES = {
       'AD2:4=0;5=1;7=2;11=3,' +
       'AD3:8=0;9=1;11=2;15=3,' +
       'AD4:12=0;13=1;15=2;19=3,' +
-      'AD5:16=0;17=1;19=2',
+      'AD5:16=0;17=1;19=2 ' +
+    'Spells=' +
+      '"AD0:Create Water;Cure Minor Wounds;Detect Magic;Ghost Sound;' +
+      'Guidance:Light;Mending;Purify Food And Drink;Read Magic;' +
+      'Touch Of Fatigue",' +
+      '"AD1:Bless;Burning Hands;Cause Fear;Command;Comprehend Languages;' +
+      'Cure Light Wounds:Detect Chaos;Detect Evil;Detect Good;Detect Law;' +
+      'Endure Elements:Obscuring Mist;Protection From Chaos;' +
+      'Protection From Evil:Protection From Good;Protection From Law;Sleep",' +
+      '"AD2:Aid;Animal Trance;Bear\'s Endurance;Bull\'s Strength;' +
+      'Cat\'s Grace:Cure Moderate Wounds;Darkness;Delay Poison;' +
+      'Invisibility:Mirror Image;Resist Energy;Scorching Ray;' +
+      'See Invisibility:Web",' +
+      '"AD3:Animate Dead;Bestow Curse;Contagion;Continual Flame;' +
+      'Cure Serious Wounds:Daylight;Deeper Darkness;Lightning Bolt;' +
+      'Neutralize Poison:Remove Curse;Remove Disease;Tongues",' +
+      '"AD4:Cure Critical Wounds;Minor Creation;Polymorph;Restoration;' +
+      'Stoneskin:Wall Of Fire",' +
+      '"AD5:Baleful Polymorph;Break Enchantment;Commune;Heal;Major Creation;' +
+      'Raise Dead:True Seeing;Wall Of Stone"',
   'Aristocrat':
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
@@ -97,26 +116,6 @@ SRD35NPC.classRules = function(rules, name) {
 
   if(name == 'Adept') {
 
-    var spells = [
-      'AD0:Create Water:Cure Minor Wounds:Detect Magic:Ghost Sound:' +
-      'Guidance:Light:Mending:Purify Food And Drink:Read Magic:' +
-      'Touch Of Fatigue',
-      'AD1:Bless:Burning Hands:Cause Fear:Command:Comprehend Languages:' +
-      'Cure Light Wounds:Detect Chaos:Detect Evil:Detect Good:Detect Law:' +
-      'Endure Elements:Obscuring Mist:Protection From Chaos:' +
-      'Protection From Evil:Protection From Good:Protection From Law:Sleep',
-      'AD2:Aid:Animal Trance:Bear\'s Endurance:Bull\'s Strength:' +
-      'Cat\'s Grace:Cure Moderate Wounds:Darkness:Delay Poison:' +
-      'Invisibility:Mirror Image:Resist Energy:Scorching Ray:' +
-      'See Invisibility:Web',
-      'AD3:Animate Dead:Bestow Curse:Contagion:Continual Flame:' +
-      'Cure Serious Wounds:Daylight:Deeper Darkness:Lightning Bolt:' +
-      'Neutralize Poison:Remove Curse:Remove Disease:Tongues',
-      'AD4:Cure Critical Wounds:Minor Creation:Polymorph:Restoration:' +
-      'Stoneskin:Wall Of Fire',
-      'AD5:Baleful Polymorph:Break Enchantment:Commune:Heal:Major Creation:' +
-      'Raise Dead:True Seeing:Wall Of Stone'
-    ];
     rules.defineRule('casterLevels.AD',
       'levels.Adept', '=', null,
       'magicNotes.casterLevelBonusFeature', '+', null
