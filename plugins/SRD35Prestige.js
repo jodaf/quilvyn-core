@@ -40,7 +40,7 @@ SRD35Prestige.CLASSES = {
       '"Base Attack >= 6","Caster Level Arcane >= 1","Point Blank Shot",' +
       '"Precise Shot","Weapon Focus (Longbow) || Weapon Focus (Shortbow)",' +
       '"Race =~ /Elf/" ' +
-    'HitDie=8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
+    'HitDie=d8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Skills=Craft,Hide,Listen,"Move Silently",Ride,Spot,Survival,"Use Rope" ' +
     'Features=' +
       '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
@@ -52,7 +52,7 @@ SRD35Prestige.CLASSES = {
       '"alignment !~ /Lawful/","Sneak Attack >= 2","Decipher Script >= 7",' +
       '"Disable Device >= 7","Escape Artist >= 7","Knowledge (Arcana) >= 4",' +
       '"Mage Hand","arcane level 3" ' +
-    'HitDie=4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
+    'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Skills=' +
       'Appraise,Balance,Bluff,Climb,Concentration,Craft,"Decipher Script",' +
       'Diplomacy,"Disable Device",Disguise,"Escape Artist",' +
@@ -67,7 +67,7 @@ SRD35Prestige.CLASSES = {
       '"Skill Focus (Spellcraft)","Sum Spell Focus >= 2",' +
       '"Knowledge (Arcana) >= 15","Spellcraft >= 15",' +
       '"arcane level 7","level 5 from 5 schools" ' +
-    'HitDie=4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
     'Spellcraft ' +
     'Features="1:Caster Level Bonus" ' +
@@ -79,7 +79,7 @@ SRD35Prestige.CLASSES = {
     'Require=' +
       '"alignment =~ /Evil/","Disguise >= 4","Hide >= 8",' +
       '"Move Silently >= 8" ' +
-    'HitDie=6 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
+    'HitDie=d6 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,Climb,Craft,"Decipher Script",Diplomacy,' +
       '"Disable Device",Disguise,"Escape Artist",Forgery,' +
@@ -111,7 +111,7 @@ SRD35Prestige.CLASSES = {
     'Require=' +
       '"alignment =~ /Evil/","baseAttack >= 6",Cleave,"Improved Sunder",' +
       '"Power Attack","Hide >= 5","Knowledge (Religion) >= 2" ' +
-    'HitDie=10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Handle Animal",Heal,Hide,Intimidate,' +
       '"Knowledge (Religion)",Profession,Ride ' +
@@ -142,7 +142,7 @@ SRD35Prestige.CLASSES = {
     'Require=' +
       'Draconic,"race !~ /Dragon/","Knowledge (Arcana) >= 8",' +
       '"arcane spells w/out prep" ' +
-    'HitDie=12 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
+    'HitDie=d12 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Escape Artist","Gather Information",' +
       'Knowledge,Listen,Profession,Search,"Speak Language",Spellcraft,Spot ' +
@@ -155,7 +155,7 @@ SRD35Prestige.CLASSES = {
     'Require=' +
       '"baseAttack >= 6",Dodge,Mobility,"Weapon Finesse",' +
       '"sum skills.Perform >= 6","Tumble >= 5" ' +
-    'HitDie=10 Attack=1 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
+    'HitDie=d10 Attack=1 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,"Escape Artist",Jump,Listen,Perform,"Sense Motive",' +
       'Spot,Tumble ' +
@@ -168,7 +168,7 @@ SRD35Prestige.CLASSES = {
     'Require=' +
       '"alignment =~ /Lawful/","baseAttack >= 7",Dodge,Endurance,Toughness,' +
       '"race =~ /Dwarf/" ' +
-    'HitDie=12 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
+    'HitDie=d12 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=Craft,Listen,"Sense Motive",Spot ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
@@ -177,7 +177,7 @@ SRD35Prestige.CLASSES = {
       '"6:Improved Uncanny Dodge","8:Mobile Defense"',
   'Eldritch Knight':
     'Require="Weapon Proficiency (Martial)","spells.Arcane 3" ' +
-    'HitDie=6 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'HitDie=d6 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Concentration,Craft,"Decipher Script",Jump,"Knowledge (Arcana)",' +
       '"Knowledge (Nobility)",Ride,"Sense Motive",Spellcraft,Swim ' +
@@ -185,7 +185,7 @@ SRD35Prestige.CLASSES = {
   'Hierophant':
     'Require=' +
       '"Any Metamagic feat","Knowledge (Religion) >= 15","spells.Divine 7" ' +
-    'HitDie=8 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
+    'HitDie=d8 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,Heal,"Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,Spellcraft ' +
@@ -196,7 +196,7 @@ SRD35Prestige.CLASSES = {
       '"1:Spell-Like Ability"',
   'Horizon Walker':
     'Require=Endurance,"Knowledge (Geography) >= 8" ' +
-    'HitDie=8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'HitDie=d8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Balance,Climb,Diplomacy,"Handle Animal",Hide,"Knowledge (Geography)",' +
       'Listen,"Move Silently",Profession,Ride,"Speak Language",Spot,Survival ' +
@@ -213,7 +213,7 @@ SRD35Prestige.CLASSES = {
       '"Skill Focus (any Knowledge)","sum Item Creation or Metamagic >= 3",' +
       '"skills.any 2 Knowlege >= 10","sum spells.Divination >= 7",' +
       '"spells.Divination 3" ' +
-    'HitDie=4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
+    'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Appraise,Concentration,"Craft (Alchemy)","Decipher Script",' +
       '"Gather Information","Handle Animal",Heal,Knowledge,Perform,' +
@@ -230,7 +230,7 @@ SRD35Prestige.CLASSES = {
     'Require=' +
       '"casterLevelArcane >= 2","casterLevelDivine >= 2",' +
       '"Knowledge (Arcana) >= 6","Knowlege (Religion) >= 6" ' +
-    'HitDie=4 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,"Decipher Script","Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,"Sense Motive",Spellcraft ' +
@@ -239,7 +239,7 @@ SRD35Prestige.CLASSES = {
     'Require=' +
       '"Combat Reflexes",Dodge,Mobility,"skills.Hide >= 10",' +
       '"skills.Move Silently >= 8","skills.Perform (Dance) >= 5" ' +
-    'HitDie=8 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
+    'HitDie=d8 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,"Decipher Script",Diplomacy,Disguise,"Escape Artist",' +
       'Hide,Jump,Listen,"Move Silently",Perform,Profession,Search,' +
@@ -253,7 +253,7 @@ SRD35Prestige.CLASSES = {
       '"10:Improved Evasion"',
   'Thaumaturgist':
     'Require="Spell Focus (Conjuration)","Lesser Planar Ally" ' +
-    'HitDie=4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Knowledge (Planes)",' +
       '"Knowledge (Religion)",Profession,"Sense Motive","Speak Language",' +
