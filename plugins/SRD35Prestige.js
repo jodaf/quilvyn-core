@@ -30,8 +30,6 @@ function SRD35Prestige() {
   }
   SRD35Prestige.identityRules(SRD35.rules, SRD35Prestige.CLASSES);
   SRD35Prestige.talentRules(SRD35.rules, SRD35Prestige.FEATURES);
-  if('Blackguard' in SRD35Prestige.CLASSES)
-    SRD35Prestige.aideRules(SRD35.rules, SRD35Prestige.FIENDISH_SERVANTS);
 }
 
 SRD35Prestige.CLASSES = {
@@ -276,26 +274,27 @@ SRD35Prestige.FEATURES = {
     'magic:Negative energy spells vs. opposed-alignment foe have max effect',
   'Blindsense':
     "feature:Other senses allow detection of unseen objects w/in 30'",
-  'Blood Bond':'companion:+2 attack/check/save when seeing master threatened',
+  'Blood Bond':
+    'companion:+2 attack, checks, and saves when seeing master threatened',
   'Bonus Language':'feature:%V additional language(s)',
   'Bonus Spells':'magic:',
   'Breath Weapon':'combat:Breathe %Vd8 HP 1/day, DC %1',
   'Canny Defense':'combat:Add %V to melee AC when unarmored',
   'Caster Level Bonus':'magic:+%V base class level for spells known/per day',
   'Claw Attack':'combat:Attack with claws',
-  'Constitution Boost':'ability:+2 constitution',
+  'Constitution Boost':'ability:+2 Constitution',
   'Contingent Conjuration':'magic:<i>Contingency</i> on summoning spell',
   'Dark Blessing':'save:+%V on all saves',
   'Death Attack':
     'combat:Foe DC %V fortitude save on successful sneak attack after 3 rd of study or die/paralyzed d6+%1 rd',
   'Defender Armor':'combat:+%V AC',
   'Defensive Stance':
-     'feature:+2 strength/+4 constitution/+2 saves/+4 AC while unmoving %V rd %1/day',
+     'feature:+2 Str, +4 Con, +2 saves, +4 AC while unmoving %V rd %1/day',
   'Detect Good':'magic:<i>Detect Good</i> at will',
   'Divine Reach':"magic:Use divine touch spell 30' away",
   'Dodge Trick':'combatNotes.dodgeTrickFeature:+1 AC',
   'Dragon Apotheosis':[
-    'ability:+4 strength/+2 charisma',
+    'ability:+4 Strength/+2 Charisma',
     'save:Immune sleep/paralysis/breath weapon energy'
   ],
   'Dragon Armor':'combat:+%V AC',
@@ -319,11 +318,11 @@ SRD35Prestige.FEATURES = {
   'Improved Divine Reach':"magic:Use divine touch spell 60' away",
   'Improved Reaction':'combat:+%V initiative',
   'Instant Mastery':'skill:+4 Skill Points in untrained skill',
-  'Intelligence Boost':'ability:+2 intelligence',
+  'Intelligence Boost':'ability:+2 Intelligence',
   'Lore':'skill:+%V Knowledge checks with local history',
   'Mastery Of Counterspelling':'magic:Counterspell turns effect back on caster',
   'Mastery Of Elements':'magic:Change energy type of spell',
-  'Mastery Of Energy':'combat:+4 undead turning checks/damage',
+  'Mastery Of Energy':'combat:+4 undead turning checks and damage',
   'Mastery Of Shaping':'magic:Create holes in spell effect area',
   'Mobile Defense':"combat:Allowed 5' step during Defensive Stance",
   'More Newfound Arcana':'magic:Bonus level 2 spell',
@@ -335,7 +334,7 @@ SRD35Prestige.FEATURES = {
   'Power Of Nature':'feature:Transfer druid feature to another 1-7 days',
   'Precise Strike':'combat:Extra %Vd6 HP with light piercing weapon',
   'Ranged Legerdemain':
-    "combat:+5 DC on Disable Device/Open Lock/Sleight Of Hand at 30' %V/day",
+    "combat:+5 DC on Disable Device, Open Lock, and Sleight Of Hand at 30' %V/day",
   'Secret Health':'combatNotes.secretHealthFeature:+3 HP',
   'Secret Knowledge Of Avoidance':'save:+2 Reflex',
   'Secrets Of Inner Strength':'save:+2 Will',
@@ -363,7 +362,7 @@ SRD35Prestige.FEATURES = {
     'save:Immune fatigue, resist exhaustion'
   ],
   'Terrain Mastery (Fiery)':[
-    'combat:+1 attack and damage vs. fire elementals/outsiders',
+    'combat:+1 attack and damage vs. fire elementals and fire outsiders',
     'save:20 DC fire resistance'
   ],
   'Terrain Mastery (Forest)':[
@@ -388,7 +387,7 @@ SRD35Prestige.FEATURES = {
     'skill:+4 Spot'
   ],
   'Terrain Mastery (Shifting)':[
-    'combat:+1 attack and damage vs. shifting plane elementals/outsiders',
+    'combat:+1 attack and damage vs. shifting plane elementals and outsiders',
     'magic:<i>Dimension Door</i> every 1d4 rd'
   ],
   'Terrain Mastery (Underground)':[
@@ -396,7 +395,7 @@ SRD35Prestige.FEATURES = {
     "feature:+60' Darkvision"
   ],
    'Terrain Mastery (Weightless)':[
-     'combat:+1 attack and damage vs. astral/elemental air/ethereal creatures',
+     'combat:+1 attack and damage vs. astral, elemental air, and ethereal creatures',
    "feature:+30' fly speed on gravityless planes",
   ],
   'The Lore Of True Stamina':'save:+2 Fortitude',
@@ -404,30 +403,13 @@ SRD35Prestige.FEATURES = {
   'True Lore':'magic:<i>Legend Lore</i>, <i>Analyze Dweomer</i> 1/day',
   'Undead Companion':
     'feature:Unturnable undead servant w/fiendish servant abilities',
-  'Weapon Trick':'combat:+1 melee/ranged',
+  'Weapon Trick':'combat:+1 Melee Attack/+1 Ranged Attack',
   'Wings':'feature:Fly at normal land speed'
-};
-SRD35Prestige.FIENDISH_SERVANTS = {
-  'Bat':'Attack=0 HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4',
-  'Cat':'Attack=4 HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7',
-  'Dire Rat':'Attack=4 HD=1 AC=15 Dam=1d4 Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4',
-  'Heavy Horse':'Attack=-1 HD=3 AC=13 Dam=1d6+1 Str=16 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
-  'Light Horse':'Attack=-2 HD=3 AC=13 Dam=1d4+1 Str=14 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
-  'Pony':'Attack=-3 HD=2 AC=13 Dam=1d3 Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4',
-  'Raven':'Attack=4 HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6',
-  'Toad':'Attack=0 HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4'
-};
-
-SRD35Prestige.aideRules = function(rules, servants) {
-  for(var servant in servants) {
-    rules.choiceRules(rules, 'animalCompanions', servant, servants[servant]);
-  }
 };
 
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
 SRD35Prestige.identityRules = function(rules, classes) {
   for(var klass in classes) {
-    var attrs = classes[klass];
     rules.choiceRules(rules, 'levels', klass, classes[klass]);
     SRD35Prestige.classRules(rules, klass);
   }
@@ -507,8 +489,6 @@ SRD35Prestige.classRules = function(rules, name) {
 
   } else if(name == 'Blackguard') {
 
-    SRD35.SPELLS['Corrupt Weapon'] =
-      SRD35.SPELLS['Bless Weapon'].replace('evil','good').replace('good','evil');
     rules.defineRule('combatNotes.smiteGoodFeature',
       'charismaModifier', '=', 'source > 0 ? source : 0'
     );
@@ -519,9 +499,6 @@ SRD35Prestige.classRules = function(rules, name) {
     );
     rules.defineRule('combatNotes.sneakAttackFeature',
       'levels.Blackguard', '+=', 'source<4 ? null : Math.floor((source-1)/3)'
-    );
-    rules.defineRule('fiendishServantMasterLevel',
-      'levels.Blackguard', '=', 'source < 5 ? null : source',
     );
     rules.defineRule('magicNotes.blackguardHandsFeature',
       'level', '+=', null,
@@ -538,7 +515,7 @@ SRD35Prestige.classRules = function(rules, name) {
     rules.defineRule('saveNotes.darkBlessingFeature',
       'charismaModifier', '=', 'source > 0 ? source : null'
     );
-    rules.defineRule('turnUndead.level',
+    rules.defineRule('turningLevel',
       'levels.Blackguard', '+=', 'source > 2 ? source - 2 : null'
     );
     // Fallen paladin features
@@ -567,17 +544,18 @@ SRD35Prestige.classRules = function(rules, name) {
       'Speak With Master':13, 'Blood Bond':16, 'Companion Resist Spells':19,
       'Link':0, 'Devotion':0, 'Multiattack':0
     };
-    /* TODO
+    rules.defineRule('companionNotFiendishServant',
+      'companionLevel', '=', '1',
+      'fiendishServantMasterLevel', 'v', '0'
+    );
     for(var feature in servantFeatures) {
       if(servantFeatures[feature] > 0) {
-        if(feature in SRD35Prestige.FEATURE_NOTES)
-          rules.defineNote(SRD35Prestige.FEATURE_NOTES[feature]);
         rules.defineRule('animalCompanionFeatures.' + feature,
           'fiendishServantMasterLevel', '=',
           'source >= ' + servantFeatures[feature] + ' ? 1 : null'
         );
         rules.defineRule('features.' + feature,
-          'animalCompanionFeatures.' + feature, '=', '1'
+          'animalCompanionFeatures.' + feature, '=', null
         );
       } else {
         // Disable N/A companion features
@@ -586,7 +564,6 @@ SRD35Prestige.classRules = function(rules, name) {
         );
       }
     }
-    */
     rules.defineRule('fiendishServantMasterBaseSaveFort',
       'fiendishServantMasterLevel', '?', null,
       'levels.Blackguard', '=', SRD35.SAVE_BONUS_GOOD,
@@ -629,6 +606,12 @@ SRD35Prestige.classRules = function(rules, name) {
       'levels.Sorcerer', '+', SRD35.SAVE_BONUS_GOOD,
       'levels.Wizard', '+', SRD35.SAVE_BONUS_GOOD
     );
+    rules.defineRule
+      ('animalCompanionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
+    rules.defineRule('animalCompanionStats.Int',
+      'fiendishServantMasterLevel', '^',
+      'source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
+    );
     rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
       'fiendishServantMasterBaseSaveFort', '=', null
     );
@@ -641,12 +624,16 @@ SRD35Prestige.classRules = function(rules, name) {
     rules.defineRule('companionLevel',
       'fiendishServantMasterLevel', '=', 'source < 13 ? 2 : Math.floor((source - 4) / 3)'
     );
-    rules.defineRule
-      ('animalCompanionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
-    rules.defineRule('animalCompanionStats.Int',
-      'fiendishServantMasterLevel', '^',
-      'source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
+    rules.defineRule('fiendishServantMasterLevel',
+      'levels.Blackguard', '=', 'source < 5 ? null : source',
     );
+    // Add fiendish servants choices not in the standard animal companion list
+    rules.choiceRules(rules, 'animalCompanions', 'Bat', SRD35.FAMILIARS['Bat']);
+    rules.choiceRules(rules, 'animalCompanions', 'Cat', SRD35.FAMILIARS['Cat']);
+    rules.choiceRules
+      (rules, 'animalCompanions', 'Raven', SRD35.FAMILIARS['Raven']);
+    rules.choiceRules
+      (rules, 'animalCompanions', 'Toad', SRD35.FAMILIARS['Toad']);
 
   } else if(name == 'Dragon Disciple') {
 
@@ -734,10 +721,10 @@ SRD35Prestige.classRules = function(rules, name) {
     rules.defineRule('casterLevelDivine', 'levels.Hierophant', '+=', null);
     rules.defineRule
       ('selectableFeatureCount.Hierophant', 'levels.Hierophant', '=', null);
-    rules.defineRule('turnUndead.damageModifier',
+    rules.defineRule('combatNotes.turnUndeadFeature.1',
       'combatNotes.masteryOfEnergyFeature', '+', '4'
     );
-    rules.defineRule('turnUndead.maxHitDice',
+    rules.defineRule('combatNotes.turnUndeadFeature.2',
       'combatNotes.masteryOfEnergyFeature', '+', '4'
     );
 

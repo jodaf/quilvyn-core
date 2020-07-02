@@ -50,8 +50,8 @@ function SRD35() {
 
   // For spells, chools have to be defined before classes and domains
   SRD35.magicRules(rules, SRD35.DOMAINS, SRD35.SCHOOLS, SRD35.SPELLS);
-  SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
   SRD35.abilityRules(rules);
+  SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
   SRD35.combatRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
   SRD35.goodiesRules(rules);
   SRD35.identityRules(
@@ -93,69 +93,169 @@ SRD35.ALIGNMENTS = {
 };
 SRD35.ANIMAL_COMPANIONS = {
   // Attack, Dam, AC include all modifiers
-  'Badger':'Attack=4 HD=1 AC=15 Dam=2@1d2-1,1d3-1 Str=8 Dex=17 Con=15 Int=2 Wis=12 Cha=6',
-  'Camel':'Attack=0 HD=3 AC=13 Dam=1d4+2 Str=18 Dex=16 Con=14 Int=2 Wis=11 Cha=4',
-  'Crocodile':'Attack=6 HD=3 AC=15 Dam=1d8+6,1d12+6 Str=19 Dex=12 Con=17 Int=1 Wis=12 Cha=2',
-  'Dire Rat':'Attack=4 HD=1 AC=15 Dam=1d4 Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4',
-  'Dog':'Attack=2 HD=1 AC=15 Dam=1d4+1 Str=13 Dex=17 Con=15 Int=2 Wis=12 Cha=6',
-  'Eagle':'Attack=3 HD=1 AC=14 Dam=2@1d4,1d4 Str=10 Dex=15 Con=12 Int=2 Wis=14 Cha=6',
-  'Hawk':'Attack=5 HD=1 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6',
-  'Heavy Horse':'Attack=-1 HD=3 AC=13 Dam=1d6+1 Str=16 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
-  'Light Horse':'Attack=-2 HD=3 AC=13 Dam=1d4+1 Str=14 Dex=13 Con=15 Int=2 Wis=12 Cha=6',
-  'Medium Shark':'Attack=4 HD=3 AC=15 Dam=1d6+1 Str=13 Dex=15 Con=13 Int=1 Wis=12 Cha=2',
-  'Medium Viper':'Attack=4 HD=2 AC=16 Dam=1d4-1 Str=8 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
-  'Owl':'Attack=5 HD=1 AC=17 Dam=1d4-3 Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4',
-  'Pony':'Attack=-3 HD=2 AC=13 Dam=1d3 Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4',
-  'Porpoise':'Attack=4 HD=2 AC=15 Dam=2d4 Str=11 Dex=17 Con=13 Int=2 Wis=12 Cha=6',
-  'Riding Dog':'Attack=3 HD=2 AC=16 Dam=1d6+3 Str=15 Dex=15 Con=15 Int=2 Wis=12 Cha=6',
-  'Small Viper':'Attack=4 HD=1 AC=17 Dam=1d2-2 Str=6 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
-  'Squid':'Attack=4 HD=3 AC=16 Dam=0,1d6+1 Str=14 Dex=17 Con=11 Int=1 Wis=12 Cha=2',
-  'Wolf':'Attack=3 HD=2 AC=14 Dam=1d6+1 Str=13 Dex=15 Con=15 Int=2 Wis=12 Cha=6',
+  'Badger':
+    'Str=8 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=1 AC=15 Attack=4 ' +
+    'Dam=2@1d2-1,1d3-1',
+  'Camel':
+    'Str=18 Dex=16 Con=14 Int=2 Wis=11 Cha=4 HD=3 AC=13 Attack=0 Dam=1d4+2',
+  'Crocodile':
+    'Str=19 Dex=12 Con=17 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=6 ' +
+    'Dam=1d8+6,1d12+6',
+  'Dire Rat':
+    'Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4 HD=1 AC=15 Attack=4 Dam=1d4',
+  'Dog':
+    'Str=13 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=1 AC=15 Attack=2 Dam=1d4+1',
+  'Eagle':
+    'Str=10 Dex=15 Con=12 Int=2 Wis=14 Cha=6 HD=1 AC=14 Attack=3 Dam=2@1d4,1d4',
+  'Hawk':
+    'Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6 HD=1 AC=17 Attack=5 Dam=1d4-2',
+  'Heavy Horse':
+    'Str=16 Dex=13 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=13 Attack=-1 Dam=1d6+1',
+  'Light Horse':
+    'Str=14 Dex=13 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=13 Attack=-2 Dam=1d4+1',
+  'Medium Shark':
+    'Str=13 Dex=15 Con=13 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=4 Dam=1d6+1',
+  'Medium Viper':
+    'Str=8 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=2 AC=16 Attack=4 Dam=1d4-1',
+  'Owl':
+    'Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=17 Attack=5 Dam=1d4-3',
+  'Pony':
+    'Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4 HD=2 AC=13 Attack=-3 Dam=1d3',
+  'Porpoise':
+    'Str=11 Dex=17 Con=13 Int=2 Wis=12 Cha=6 HD=2 AC=15 Attack=4 Dam=2d4',
+  'Riding Dog':
+    'Str=15 Dex=15 Con=15 Int=2 Wis=12 Cha=6 HD=2 AC=16 Attack=3 Dam=1d6+3',
+  'Small Viper':
+    'Str=6 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=1 AC=17 Attack=4 Dam=1d2-2',
+  'Squid':
+    'Str=14 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=3 AC=16 Attack=4 Dam=0,1d6+1',
+  'Wolf':
+    'Str=13 Dex=15 Con=15 Int=2 Wis=12 Cha=6 HD=2 AC=14 Attack=3 Dam=1d6+1',
 
-  'Ape':'Attack=7 HD=4 AC=14 Dam=1d6+5,1d6+2 Str=21 Dex=15 Con=14 Int=2 Wis=12 Cha=7 Level=4',
-  'Bison':'Attack=8 HD=5 AC=13 Dam=1d8+9 Str=22 Dex=10 Con=16 Int=2 Wis=11 Cha=4 Level=4',
-  'Black Bear':'Attack=6 HD=3 AC=13 Dam=2@1d4+4,1d6+2 Str=19 Dex=13 Con=15 Int=2 Wis=12 Cha=6 Level=4',
-  'Boar':'Attack=4 HD=3 AC=16 Dam=1d8+3 Str=15 Dex=10 Con=17 Int=2 Wis=13 Cha=4 Level=4',
-  'Cheetah':'Attack=6 HD=3 AC=15 Dam=2@1d2+1,1d6+3 Str=16 Dex=19 Con=15 Int=2 Wis=12 Cha=6 Level=4',
-  'Constrictor':'Attack=5 HD=3 AC=15 Dam=1d3+4 Str=17 Dex=17 Con=13 Int=1 Wis=12 Cha=2 Level=4',
-  'Dire Badger':'Attack=4 HD=3 AC=16 Dam=2@1d4+2,1d6+1 Str=14 Dex=17 Con=19 Int=2 Wis=12 Cha=10 Level=4',
-  'Dire Bat':'Attack=5 HD=4 AC=20 Dam=1d8+4 Str=17 Dex=22 Con=17 Int=2 Wis=14 Cha=6 Level=4',
-  'Dire Weasel':'Attack=6 HD=3 AC=16 Dam=1d6+3 Str=14 Dex=19 Con=10 Int=2 Wis=12 Cha=11 Level=4',
-  'Large Shark':'Attack=7 HD=7 AC=15 Dam=1d8+4 Str=17 Dex=15 Con=13 Int=1 Wis=12 Cha=2 Level=4',
-  'Large Viper':'Attack=4 HD=3 AC=15 Dam=1d4 Str=10 Dex=17 Con=11 Int=1 Wis=12 Cha=2 Level=4',
-  'Leopard':'Attack=6 HD=3 AC=15 Dam=2@1d3+1,1d6+3 Str=16 Dex=19 Con=15 Int=2 Wis=12 Cha=6 Level=4',
-  'Monitor Lizard':'Attack=5 HD=3 AC=15 Dam=1d8+4 Str=17 Dex=15 Con=17 Int=1 Wis=12 Cha=2 Level=4',
-  'Wolverine':'Attack=4 HD=3 AC=14 Dam=2@1d4+2,1d6+1 Str=14 Dex=15 Con=19 Int=2 Wis=12 Cha=10 Level=4',
+  'Ape':
+    'Str=21 Dex=15 Con=14 Int=2 Wis=12 Cha=7 HD=4 AC=14 Attack=7 ' +
+    'Dam=1d6+5,1d6+2 Level=4',
+  'Bison':
+    'Str=22 Dex=10 Con=16 Int=2 Wis=11 Cha=4 HD=5 AC=13 Attack=8 Dam=1d8+9 ' +
+    'Level=4',
+  'Black Bear':
+    'Str=19 Dex=13 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=13 Attack=6 ' +
+    'Dam=2@1d4+4,1d6+2 Level=4',
+  'Boar':
+    'Str=15 Dex=10 Con=17 Int=2 Wis=13 Cha=4 HD=3 AC=16 Attack=4 Dam=1d8+3 ' +
+    'Level=4',
+  'Cheetah':
+    'Str=16 Dex=19 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=15 Attack=6 ' +
+    'Dam=2@1d2+1,1d6+3 Level=4',
+  'Constrictor':
+    'Str=17 Dex=17 Con=13 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=5 Dam=1d3+4 ' +
+    'Level=4',
+  'Dire Badger':
+    'Str=14 Dex=17 Con=19 Int=2 Wis=12 Cha=10 HD=3 AC=16 Attack=4 ' +
+    'Dam=2@1d4+2,1d6+1 Level=4',
+  'Dire Bat':
+    'Str=17 Dex=22 Con=17 Int=2 Wis=14 Cha=6 HD=4 AC=20 Attack=5 Dam=1d8+4 ' +
+    'Level=4',
+  'Dire Weasel':
+    'Str=14 Dex=19 Con=10 Int=2 Wis=12 Cha=11 HD=3 AC=16 Attack=6 Dam=1d6+3 ' +
+    'Level=4',
+  'Large Shark':
+    'Str=17 Dex=15 Con=13 Int=1 Wis=12 Cha=2 HD=7 AC=15 Attack=7 Dam=1d8+4 ' +
+    'Level=4',
+  'Large Viper':
+    'Str=10 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=4 Dam=1d4 ' +
+    'Level=4',
+  'Leopard':
+    'Str=16 Dex=19 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=15 Attack=6 ' +
+    'Dam=2@1d3+1,1d6+3 Level=4',
+  'Monitor Lizard':
+    'Str=17 Dex=15 Con=17 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=5 Dam=1d8+4 ' +
+    'Level=4',
+  'Wolverine':
+    'Str=14 Dex=15 Con=19 Int=2 Wis=12 Cha=10 HD=3 AC=14 Attack=4 ' +
+    'Dam=2@1d4+2,1d6+1 Level=4',
 
-  'Brown Bear':'Attack=11 HD=6 AC=15 Dam=2@1d8+8,2d6+4 Str=27 Dex=13 Con=19 Int=2 Wis=12 Cha=6 Level=7',
-  'Deinonychus':'Attack=7 HD=4 AC=17 Dam=1d8+4,2@1d3+2,2d4+2 Str=19 Dex=15 Con=19 Int=2 Wis=12 Cha=10 Level=7',
-  'Dire Ape':'Attack=8 HD=5 AC=15 Dam=2@1d6+6,1d8+3 Str=22 Dex=15 Con=14 Int=2 Wis=12 Cha=7 Level=7',
-  'Dire Boar':'Attack=12 HD=7 AC=15 Dam=1d8+12 Str=27 Dex=10 Con=17 Int=2 Wis=13 Cha=8 Level=7',
-  'Dire Wolf':'Attack=11 HD=6 AC=14 Dam=1d8+10 Str=25 Dex=15 Con=17 Int=2 Wis=12 Cha=10 Level=7',
-  'Dire Wolverine':'Attack=8 HD=5 AC=16 Dam=2@1d6+6,1d8+3 Str=22 Dex=17 Con=19 Int=2 Wis=12 Cha=10 Level=7',
-  'Elasmosaurus':'Attack=13 HD=10 AC=13 Dam=2d8+12 Str=26 Dex=14 Con=22 Int=2 Wis=13 Cha=9 Level=7',
-  'Giant Crocodile':'Attack=11 HD=7 AC=16 Dam=2d8+12,1d12+12 Str=27 Dex=12 Con=19 Int=1 Wis=12 Cha=2 Level=7',
-  'Huge Viper':'Attack=6 HD=6 AC=15 Dam=1d6+4 Str=16 Dex=15 Con=13 Int=1 Wis=12 Cha=2 Level=7',
-  'Lion':'Attack=7 HD=5 AC=15 Dam=2@1d4+5,1d8+2 Str=21 Dex=17 Con=15 Int=2 Wis=12 Cha=6 Level=7',
-  'Rhinoceros':'Attack=13 HD=8 AC=16 Dam=2d6+12 Str=26 Dex=10 Con=21 Int=2 Wis=13 Cha=2 Level=7',
-  'Tiger':'Attack=9 HD=6 AC=14 Dam=2@1d8+6,2d6+3 Str=23 Dex=15 Con=17 Int=2 Wis=12 Cha=6 Level=7',
+  'Brown Bear':
+    'Str=27 Dex=13 Con=19 Int=2 Wis=12 Cha=6 HD=6 AC=15 Attack=11 ' +
+    'Dam=2@1d8+8,2d6+4 Level=7',
+  'Deinonychus':
+    'Str=19 Dex=15 Con=19 Int=2 Wis=12 Cha=10 HD=4 AC=17 Attack=7 ' +
+    'Dam=1d8+4,2@1d3+2,2d4+2 Level=7',
+  'Dire Ape':
+    'Str=22 Dex=15 Con=14 Int=2 Wis=12 Cha=7 HD=5 AC=15 Attack=8 ' +
+    'Dam=2@1d6+6,1d8+3 Level=7',
+  'Dire Boar':
+    'Str=27 Dex=10 Con=17 Int=2 Wis=13 Cha=8 HD=7 AC=15 Attack=12 Dam=1d8+12 ' +
+    'Level=7',
+  'Dire Wolf':
+    'Str=25 Dex=15 Con=17 Int=2 Wis=12 Cha=10 HD=6 AC=14 Attack=11 ' +
+    'Dam=1d8+10 Level=7',
+  'Dire Wolverine':
+    'Str=22 Dex=17 Con=19 Int=2 Wis=12 Cha=10 HD=5 AC=16 Attack=8 ' +
+    'Dam=2@1d6+6,1d8+3 Level=7',
+  'Elasmosaurus':
+    'Str=26 Dex=14 Con=22 Int=2 Wis=13 Cha=9 HD=10 AC=13 Attack=13 ' +
+    'Dam=2d8+12 Level=7',
+  'Giant Crocodile':
+    'Str=27 Dex=12 Con=19 Int=1 Wis=12 Cha=2 HD=7 AC=16 Attack=11 ' +
+    'Dam=2d8+12,1d12+12 Level=7',
+  'Huge Viper':
+    'Str=16 Dex=15 Con=13 Int=1 Wis=12 Cha=2 HD=6 AC=15 Attack=6 Dam=1d6+4 ' +
+    'Level=7',
+  'Lion':
+    'Str=21 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=5 AC=15 Attack=7 ' +
+    'Dam=2@1d4+5,1d8+2 Level=7',
+  'Rhinoceros':
+    'Str=26 Dex=10 Con=21 Int=2 Wis=13 Cha=2 HD=8 AC=16 Attack=13 Dam=2d6+12 ' +
+    'Level=7',
+  'Tiger':
+    'Str=23 Dex=15 Con=17 Int=2 Wis=12 Cha=6 HD=6 AC=14 Attack=9 ' +
+    'Dam=2@1d8+6,2d6+3 Level=7',
 
-  'Dire Lion':'Attack=15 HD=8 AC=13 Dam=2@1d6+7,1d8+3 Str=25 Dex=15 Con=17 Int=2 Wis=12 Cha=10 Level=10',
-  'Giant Constrictor':'Attack=15 HD=11 AC=12 Dam=1d8+10 Str=25 Dex=17 Con=13 Int=1 Wis=12 Cha=2 Level=10',
-  'Huge Shark':'Attack=10 HD=10 AC=15 Dam=2d6+7 Str=21 Dex=15 Con=15 Int=1 Wis=12 Cha=2 Level=10',
-  'Megaraptor':'Attack=10 HD=8 AC=17 Dam=2d6+5,2@1d4+2,1d8+2 Str=21 Dex=15 Con=21 Int=2 Wis=15 Cha=10 Level=10',
-  'Orca':'Attack=12 HD=9 AC=16 Dam=2d6+12 Str=27 Dex=15 Con=21 Int=2 Wis=14 Cha=6 Level=10',
-  'Polar Bear':'Attack=13 HD=8 AC=15 Dam=2@1d8+8,2d6+4 Str=27 Dex=13 Con=19 Int=2 Wis=12 Cha=6 Level=10',
+  'Dire Lion':
+    'Str=25 Dex=15 Con=17 Int=2 Wis=12 Cha=10 HD=8 AC=13 Attack=15 ' +
+    'Dam=2@1d6+7,1d8+3 Level=10',
+  'Giant Constrictor':
+    'Str=25 Dex=17 Con=13 Int=1 Wis=12 Cha=2 HD=11 AC=12 Attack=15 ' +
+    'Dam=1d8+10 Level=10',
+  'Huge Shark':
+    'Str=21 Dex=15 Con=15 Int=1 Wis=12 Cha=2 HD=10 AC=15 Attack=10 Dam=2d6+7 ' +
+    'Level=10',
+  'Megaraptor':
+    'Str=21 Dex=15 Con=21 Int=2 Wis=15 Cha=10 HD=8 AC=17 Attack=10 ' +
+    'Dam=2d6+5,2@1d4+2,1d8+2 Level=10',
+  'Orca':
+    'Str=27 Dex=15 Con=21 Int=2 Wis=14 Cha=6 HD=9 AC=16 Attack=12 Dam=2d6+12 ' +
+    'Level=10',
+  'Polar Bear':
+    'Str=27 Dex=13 Con=19 Int=2 Wis=12 Cha=6 HD=8 AC=15 Attack=13 ' +
+    'Dam=2@1d8+8,2d6+4 Level=10',
 
-  'Dire Bear':'Attack=19 HD=12 AC=17 Dam=2@2d4+10,2d8+5 Str=31 Dex=13 Con=19 Int=2 Wis=12 Cha=10 Level=13',
-  'Elephant':'Attack=16 HD=11 AC=15 Dam=2d6+10,2@2d6+5 Str=30 Dex=10 Con=21 Int=2 Wis=13 Cha=7 Level=13',
-  'Giant Octopus':'Attack=10 HD=8 AC=18 Dam=8@1d4+5,1d8+2 Str=20 Dex=15 Con=13 Int=2 Wis=12 Cha=3 Level=13',
+  'Dire Bear':
+    'Str=31 Dex=13 Con=19 Int=2 Wis=12 Cha=10 HD=12 AC=17 Attack=19 ' +
+    'Dam=2@2d4+10,2d8+5 Level=13',
+  'Elephant':
+    'Str=30 Dex=10 Con=21 Int=2 Wis=13 Cha=7 HD=11 AC=15 Attack=16 ' +
+    'Dam=2d6+10,2@2d6+5 Level=13',
+  'Giant Octopus':
+    'Str=20 Dex=15 Con=13 Int=2 Wis=12 Cha=3 HD=8 AC=18 Attack=10 ' +
+    'Dam=8@1d4+5,1d8+2 Level=13',
 
-  'Dire Shark':'Attack=18 HD=18 AC=17 Dam=2d8+9 Str=23 Dex=15 Con=17 Int=1 Wis=12 Cha=10 Level=16',
-  'Dire Tiger':'Attack=20 HD=16 AC=17 Dam=2@2d4+8,2d6+4 Str=27 Dex=15 Con=17 Int=2 Wis=12 Cha=10 Level=16',
-  'Giant Squid':'Attack=15 HD=12 AC=17 Dam=10@1d6+8,2d8+4 Str=26 Dex=17 Con=13 Int=1 Wis=12 Cha=2 Level=16',
-  'Triceratops':'Attack=20 HD=16 AC=18 Dam=2d8+15 Str=30 Dex=9 Con=25 Int=1 Wis=12 Cha=7 Level=16',
-  'Tyrannosaurus':'Attack=20 HD=18 AC=14 Dam=3d6+13 Str=28 Dex=12 Con=21 Int=2 Wis=15 Cha=10 Level=16'
+  'Dire Shark':
+    'Str=23 Dex=15 Con=17 Int=1 Wis=12 Cha=10 HD=18 AC=17 Attack=18 ' +
+    'Dam=2d8+9 Level=16',
+  'Dire Tiger':
+    'Str=27 Dex=15 Con=17 Int=2 Wis=12 Cha=10 HD=16 AC=17 Attack=20 ' +
+    'Dam=2@2d4+8,2d6+4 Level=16',
+  'Giant Squid':
+    'Str=26 Dex=17 Con=13 Int=1 Wis=12 Cha=2 HD=12 AC=17 Attack=15 ' +
+    'Dam=10@1d6+8,2d8+4 Level=16',
+  'Triceratops':
+    'Str=30 Dex=9 Con=25 Int=1 Wis=12 Cha=7 HD=16 AC=18 Attack=20 Dam=2d8+15 ' +
+    'Level=16',
+  'Tyrannosaurus':
+    'Str=28 Dex=12 Con=21 Int=2 Wis=15 Cha=10 HD=18 AC=14 Attack=20 ' +
+    'Dam=3d6+13 Level=16'
 };
 SRD35.ARMORS = {
   'None':'AC=0 Level=0 Dex=10 Skill=0 Spell=0',
@@ -403,7 +503,7 @@ SRD35.CLASSES = {
   'Fighter':
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","Shield Proficiency (Tower)",' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
       '"1:Weapon Proficiency (Martial)"',
   'Monk':
     'Require="alignment =~ /Lawful/" Imply="armor == \'None\'","shield == \'None\'" ' +
@@ -429,7 +529,7 @@ SRD35.CLASSES = {
       '"1:Smite Evil","2:Divine Grace","2:Lay On Hands","3:Aura Of Courage",' +
       '"3:Divine Health","4:Turn Undead","5:Special Mount",' +
       '"6:Remove Disease" ' +
-    'CasterLevelDivine=Level/2 ' +
+    'CasterLevelDivine=Math.floor(Level/2) ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'P1:4=0;6=1;14=2;18=3,' +
@@ -462,7 +562,7 @@ SRD35.CLASSES = {
       '13:Camouflage,"17:Hide In Plain Sight" ' +
     'Selectables=' +
       '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)" ' +
-    'CasterLevelDivine=Level/2 ' +
+    'CasterLevelDivine=Math.floor(Level/2) ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'R1:4=0;6=1;14=2;18=3,' +
@@ -733,38 +833,90 @@ SRD35.DOMAINS = {
 };
 SRD35.FAMILIARS = {
   // Attack, Dam, AC include all modifiers
-  'Bat':'Attack=0 HD=1 AC=16 Dam=0 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 Note="skillNotes.familiarBat:+3 Listen"',
-  'Cat':'Attack=4 HD=1 AC=14 Dam=2@1d2-4,1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7 Note="skillNotes.familiarCat:+3 Move Silently"',
-  'Hawk':'Attack=5 HD=1 AC=17 Dam=1d4-2 Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6 Note="skillNotes.familiarHawk:+3 Spot in bright light"',
-  'Lizard':'Attack=4 HD=1 AC=14 Dam=1d4-4 Str=3 Dex=15 Con=10 Int=1 Wis=12 Cha=2 Note="skillNotes.familiarLizard:+3 Climb"',
-  'Owl':'Attack=5 HD=1 AC=17 Dam=1d4-3 Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4 Note="skillNotes.familiarOwl:+3 Spot in shadows/darkness"',
-  'Rat':'Attack=4 HD=1 AC=14 Dam=1d3-4 Str=2 Dex=15 Con=10 Int=2 Wis=12 Cha=2 Note="saveNotes.familiarRat:+2 Fortitude"',
-  'Raven':'Attack=4 HD=1 AC=14 Dam=1d2-5 Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6 Note="skillNotes.familiarRaven:+3 Appraise"',
-  'Tiny Viper':'Attack=5 HD=1 AC=17 Dam=1 Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2 Note="skillNotes.familiarViper:+3 Bluff"',
-  'Toad':'Attack=0 HD=1 AC=15 Dam=0 Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4 Note="combatNotes.familiarToad:+3 Hit Points"',
-  'Weasel':'Attack=4 HD=1 AC=14 Dam=1d3-4 Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=5 Note="saveNotes.familiarWeasel:+2 Reflex"',
+  'Bat':
+    'Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=16 Attack=0 Dam=0',
+  'Cat':
+    'Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7 HD=1 AC=14 Attack=4 ' +
+    'Dam=2@1d2-4,1d3-4',
+  'Hawk':
+    'Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6 HD=1 AC=17 Attack=5 Dam=1d4-2',
+  'Lizard':
+    'Str=3 Dex=15 Con=10 Int=1 Wis=12 Cha=2 HD=1 AC=14 Attack=4 Dam=1d4-4',
+  'Owl':
+    'Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=17 Attack=5 Dam=1d4-3',
+  'Rat':
+    'Str=2 Dex=15 Con=10 Int=2 Wis=12 Cha=2 HD=1 AC=14 Attack=4 Dam=1d3-4',
+  'Raven':
+    'Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6 HD=1 AC=14 Attack=4 Dam=1d2-5',
+  'Tiny Viper':
+    'Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=1 AC=17 Attack=5 Dam=1',
+  'Toad':
+    'Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4 HD=1 AC=15 Attack=0 Dam=0',
+  'Weasel':
+    'Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=5 HD=1 AC=14 Dam=1d3-4 Attack=4',
 
-  'Air Elemental':'Attack=5 HD=2 AC=17 Dam=1d4 Str=10 Dex=17 Con=10 Int=4 Wis=11 Cha=11 Level=5',
-  'Air Mephit':'Attack=4 HD=3 AC=17 Dam=2@1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Dust Mephit':'Attack=4 HD=3 AC=17 Dam=2@1d3 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Earth Elemental':'Attack=5 HD=2 AC=17 Dam=1d6+4 Str=17 Dex=8 Con=13 Int=4 Wis=11 Cha=11 Level=5',
-  'Earth Mephit':'Attack=7 HD=3 AC=16 Dam=2@1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
-  'Fire Elemental':'Attack=3 HD=2 AC=15 Dam=1d4,1d4 Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 Level=5',
-  'Fire Mephit':'Attack=4 HD=3 AC=16 Dam=2@1d3,1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Formian Worker':'Attack=3 HD=1 AC=17 Dam=1d4+1 Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 Level=7',
-  'Homunculus':'Attack=2 HD=2 AC=14 Dam=1d4-1 Str=8 Dex=15 Con=0 Int=10 Wis=12 Cha=7 Level=7',
-  'Ice Mephit':'Attack=4 HD=3 AC=18 Dam=2@1d3,1d4 Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Imp':'Attack=8 HD=3 AC=20 Dam=1d4 Str=10 Dex=20 Con=10 Int=10 Wis=12 Cha=14 Level=7',
-  'Magma Mephit':'Attack=4 HD=3 AC=16 Dam=2@1d3,1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Ooze Mephit':'Attack=6 HD=3 AC=16 Dam=2@1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7',
-  'Pseudodragon':'Attack=6 HD=2 AC=18 Dam=1d3-2 Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 Level=7',
-  'Quasit':'Attack=8 HD=3 AC=18 Dam=1d3-1,1d4-1 Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 Level=7',
-  'Salt Mephit':'Attack=7 HD=3 AC=16 Dam=2@1d3+3 Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 Level=7',
-  'Shocker Lizard':'Attack=3 HD=2 AC=16 Dam=1d4 Str=10 Dex=15 Con=13 Int=2 Wis=12 Cha=6 Level=5',
-  'Steam Mephit':'Attack=4 HD=3 AC=16 Dam=2@1d3,1d4 Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 Level=7',
-  'Stirge':'Attack=7 HD=1 AC=16 Dam=0 Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 Level=5',
-  'Water Elemental':'Attack=4 HD=2 AC=17 Dam=1d6+3 Str=14 Dex=10 Con=13 Int=4 Wis=11 Cha=11 Level=5',
-  'Water Mephit':'Attack=6 HD=3 AC=16 Dam=2@1d3+2 Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 Level=7'
+  'Air Elemental':
+    'Str=10 Dex=17 Con=10 Int=4 Wis=11 Cha=11 HD=2 AC=17 Attack=5 Dam=1d4 ' +
+    'Level=5',
+  'Air Mephit':
+    'Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=17 Attack=4 Dam=2@1d3 ' +
+    'Level=7',
+  'Dust Mephit':
+    'Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=17 Attack=4 Dam=2@1d3 ' +
+    'Level=7',
+  'Earth Elemental':
+    'Str=17 Dex=8 Con=13 Int=4 Wis=11 Cha=11 HD=2 AC=17 Attack=5 Dam=1d6+4 ' +
+    'Level=5',
+  'Earth Mephit':
+    'Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=7 Dam=2@1d3+3 ' +
+    'Level=7',
+  'Fire Elemental':
+    'Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 HD=2 AC=15 Attack=3 ' +
+    'Dam=1d4,1d4 Level=5',
+  'Fire Mephit':
+    'Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=4 ' +
+    'Dam=2@1d3,1d4 Level=7',
+  'Formian Worker':
+    'Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 HD=1 AC=17 Attack=3 Dam=1d4+1 ' +
+    'Level=7',
+  'Homunculus':
+    'Str=8 Dex=15 Con=0 Int=10 Wis=12 Cha=7 HD=2 AC=14 Attack=2 Dam=1d4-1 ' +
+    'Level=7',
+  'Ice Mephit':
+    'Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=18 Attack=4 ' +
+    'Dam=2@1d3,1d4 Level=7',
+  'Imp':
+    'Str=10 Dex=20 Con=10 Int=10 Wis=12 Cha=14 HD=3 AC=20 Attack=8 Dam=1d4 ' +
+    'Level=7',
+  'Magma Mephit':
+    'Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=4 ' +
+    'Dam=2@1d3,1d4 Level=7',
+  'Ooze Mephit':
+    'Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=6 ' +
+    'Dam=2@1d3+2 Level=7',
+  'Pseudodragon':
+    'Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 HD=2 AC=18 Attack=6 Dam=1d3-2 ' +
+    'Level=7',
+  'Quasit':
+    'Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 HD=3 AC=18 Attack=8 ' +
+    'Dam=1d3-1,1d4-1 Level=7',
+  'Salt Mephit':
+    'Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=7 Dam=2@1d3+3 ' +
+    'Level=7',
+  'Shocker Lizard':
+    'Str=10 Dex=15 Con=13 Int=2 Wis=12 Cha=6 HD=2 AC=16 Attack=3 Dam=1d4 ' +
+    'Level=5',
+  'Steam Mephit':
+    'Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=4 ' +
+    'Dam=2@1d3,1d4 Level=7',
+  'Stirge':
+    'Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 HD=1 AC=16 Attack=7 Dam=0 Level=5',
+  'Water Elemental':
+    'Str=14 Dex=10 Con=13 Int=4 Wis=11 Cha=11 HD=2 AC=17 Attack=4 Dam=1d6+3 ' +
+    'Level=5',
+  'Water Mephit':
+    'Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=6 ' +
+    'Dam=2@1d3+2 Level=7'
 };
 SRD35.FEATS = {
   'Acrobatic':'Type=General',
@@ -804,7 +956,7 @@ SRD35.FEATS = {
   'Enlarge Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Eschew Materials':'Type=General Imply="casterLevel >= 1"',
   'Extend Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
-  'Extra Turning':'Type=General Require="turnUndead.level >= 1"',
+  'Extra Turning':'Type=General Require="turningLevel >= 1"',
   'Far Shot':'Type=Fighter Require="features.Point-Blank Shot"',
   'Forge Ring':'Type="Item Creation",Wizard Require="casterLevel >= 12"',
   'Great Cleave':
@@ -856,7 +1008,7 @@ SRD35.FEATS = {
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Trip':
     'Type=Fighter Require="intelligence >= 13","features.Combat Expertise"',
-  'Improved Turning':'Type=General Require="turnUndead.level >= 1"',
+  'Improved Turning':'Type=General Require="turningLevel >= 1"',
   'Improved Two-Weapon Fighting':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 6","features.Two-Weapon Fighting"',
   'Improved Unarmed Strike':'Type=Fighter',
@@ -972,7 +1124,7 @@ SRD35.FEATURES = {
   'Alertness':'skill:+2 Listen/+2 Spot',
   'Animal Affinity':'skill:+2 Handle Animal/+2 Ride',
   'Athletic':'skill:+2 Climb/+2 Swim',
-  'Augment Summoning':'magic:Summoned creatures +4 strength, constitution',
+  'Augment Summoning':'magic:Summoned creatures +4 Str, +4 Con',
   'Blind-Fight':'combat:' +
     'Reroll concealed miss, no bonus to invisible foe, half penalty ' +
     'for impaired vision',
@@ -1046,7 +1198,7 @@ SRD35.FEATURES = {
   'Negotiator':'skill:+2 Diplomacy/+2 Sense Motive',
   'Nimble Fingers':'skill:+2 Disable Device/+2 Open Lock',
   'Persuasive':'skill:+2 Bluff/+2 Intimidate',
-  'Point-Blank Shot':"combat:+1 ranged attack, damage w/in 30'",
+  'Point-Blank Shot':"combat:+1 ranged attack and damage w/in 30'",
   'Power Attack':'combat:Attack base -attack, +damage',
   'Precise Shot':'combat:No penalty on shot into melee',
   'Quick Draw':'combat:Draw weapon as free action',
@@ -1119,11 +1271,11 @@ SRD35.FEATURES = {
   'Fast Movement':"ability:+%V speed",
   'Favored Enemy':[
     'combat:+2 or more damage vs. %V type(s) of creatures',
-    'skill:+2 or more Bluff, Listen, Sense Motive, Spot, Survival vs. %V type(s) of creatures',
+    'skill:+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V type(s) of creatures',
   ],
   'Flurry Of Blows':'combat:Take %V penalty for extra attack',
   'Greater Flurry':'combat:Extra attack',
-  'Greater Rage':'combat:+6 Strength, Constitution, +3 Will',
+  'Greater Rage':'combat:+6 Str, +6 Con, +3 Will',
   // Greater Two-Weapon Fighting as per feat
   'Hide In Plain Sight':'skill:Hide even when observed',
   'Illiteracy':'skill:Must spend 2 skill points to read/write',
@@ -1141,14 +1293,14 @@ SRD35.FEATURES = {
     'magic:+%V allies attack, damage, charm, fear saves while performing',
   'Inspire Greatness':
     'magic:%V allies +2d10 HP, +2 attack, +1 Fortitude while performing',
-  'Inspire Heroics':'magic:%V allies +4 AC, saves while performing',
+  'Inspire Heroics':'magic:%V allies +4 AC and saves while performing',
   'Ki Strike':'combat:Treat unarmed as magic weapon',
   'Lawful Ki Strike':'combat:Treat unarmed as lawful weapon',
   'Lay On Hands':'magic:Harm undead or heal %V HP/day',
   'Manyshot':'combat:Fire up to %V arrows simultaneously at -2 attack',
   'Mass Suggestion':
     'magic:<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
-  'Mighty Rage':'combat:+8 Strength, Constitution, +4 Will',
+  'Mighty Rage':'combat:+8 Str, +8 Con, +4 Will',
   'Monk Armor Class Adjustment':'combat:+%V AC',
   'Nature Sense':'skill:+2 Knowledge (Nature)/Survival',
   'Opportunist':'combat:AOO vs. foe struck by ally',
@@ -1158,10 +1310,10 @@ SRD35.FEATURES = {
   ],
   'Purity Of Body':'save:Immune to normal disease',
   'Quivering Palm':'combat:Foe makes DC %V Fortitude save or dies 1/week',
-  'Rage':'combat:+4 Strength, Constitution, +2 Will, -2 AC %V rd %1/day',
+  'Rage':'combat:+4 Str, +4 Con, +2 Will, -2 AC %V rd %1/day',
   'Rapid Shot':'combat:Normal and extra ranged -2 attacks',
   'Remove Disease':'magic:<i>Remove Disease</i> %V/week',
-  "Resist Nature's Lure":"save:+4 vs. spells of feys",
+  "Resist Nature's Lure":'save:+4 vs. spells of feys',
   // Scribe Scroll as per feat
   'Simple Somatics':'magic:No casting penalty in light armor',
   'Skill Mastery':'skill:Take 10 despite distraction on %V chosen skills',
@@ -1185,7 +1337,8 @@ SRD35.FEATURES = {
   'Trackless Step':'feature:Untrackable outdoors',
   'Trap Sense':'save:+%V Reflex, AC vs. traps',
   'Trapfinding':'skill:Use Search/Disable Device to find/remove DC 20+ traps',
-  'Turn Undead':'combat:Turn (good) or rebuke (evil) undead creatures',
+  'Turn Undead':
+    'combat:Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/day',
   'Two-Weapon Fighting':'combat:Reduce on-hand penalty by 2, off-hand by 6',
   'Uncanny Dodge':'combat:Always adds dexterity modifier to AC',
   'Venom Immunity':'save:Immune to poisons',
@@ -1198,17 +1351,17 @@ SRD35.FEATURES = {
   ],
   'Woodland Stride':'feature:Normal movement through undergrowth',
   // Races
-  'Accurate':'combat:+1 attack with slings, thrown',
+  'Accurate':'combat:+1 attack with slings and thrown',
   'Alert Senses':'skill:+1 Listen/+1 Search/+1 Spot',
   'Darkvision':"feature:60' b/w vision in darkness",
   'Dodge Giants':'combat:+4 AC vs. giant creatures',
   'Dwarf Ability Adjustment':'ability:+2 Constitution/-2 Charisma',
   'Dwarf Armor Speed Adjustment':'ability:No speed penalty in armor',
-  'Dwarf Favored Enemy':'combat:+1 attack vs. goblinoid, orc',
+  'Dwarf Favored Enemy':'combat:+1 attack vs. goblinoid and orc',
   'Elf Ability Adjustment':'ability:+2 Dexterity/-2 Constitution',
   'Fortunate':'save:+1 Fortitude/+1 Reflex/+1 Will',
   'Gnome Ability Adjustment':'ability:+2 Constitution/-2 Strength',
-  'Gnome Favored Enemy':'combat:+1 attack vs. goblinoid, kobold',
+  'Gnome Favored Enemy':'combat:+1 attack vs. goblinoid and kobold',
   'Gnome Weapons':'combat:Racial weapons are martial weapons',
   'Half Orc Ability Adjustment':
     'ability:+2 Strength/-2 Intelligence/-2 Charisma',
@@ -1242,7 +1395,7 @@ SRD35.FEATURES = {
     'skill:+4 Hide'
   ],
   'Spry':'skill:+2 Climb/+2 Jump/+2 Move Silently',
-  'Stability':'combat:+4 vs. Bull Rush, Trip',
+  'Stability':'combat:+4 vs. Bull Rush and Trip',
   'Stonecunning':
     "skill:+2 Search involving stone or metal, automatic check w/in 10'",
   'Tolerance':'skill:+2 Diplomacy/+2 Gather Information',
@@ -1251,7 +1404,7 @@ SRD35.FEATURES = {
     "companion:Smite Evil (+%V HP) 1/day, 60' darkvision, %1 acid/cold/electricity resistance, DR %2/magic",
   'Command Like Creatures':
     'companion:DC %V <i>Command</i> vs. similar creatures %1/day',
-  'Companion Alertness':'skill:+2 Listen, Spot when companion w/in reach',
+  'Companion Alertness':'skill:+2 Listen and Spot when companion w/in reach',
   'Companion Evasion':'companion:Reflex save yields no damage instead of 1/2',
   'Companion Improved Evasion':'companion:Failed save yields 1/2 damage',
   'Deliver Touch Spells':
@@ -1262,7 +1415,7 @@ SRD35.FEATURES = {
   'Familiar Cat':'skill:+3 Move Silently',
   'Familiar Hawk':'skill:+3 Spot in bright light',
   'Familiar Lizard':'skill:+3 Climb',
-  'Familiar Owl':'skill:+3 Spot in shadows, darkness',
+  'Familiar Owl':'skill:+3 Spot in shadows and darkness',
   'Familiar Rat':'save:+2 Fortitude',
   'Familiar Raven':'skill:+3 Appraise',
   'Familiar Tiny Viper':'skill:+3 Bluff',
@@ -1270,7 +1423,7 @@ SRD35.FEATURES = {
   'Familiar Weasel':'save:+2 Reflex',
   'Fiendish Familiar':
     "companion:Smite Good (+%V HP) 1/day, 60' darkvision, %1 cold/fire resistance, DR %2/magic",
-  'Improved Speed':'companion:+10 speed',
+  'Improved Speed':'companion:+10 companion speed',
   'Link':'skill:+4 Handle Animal (companion)/Wild Empathy (companion)',
   'Multiattack':
     'companion:Reduce additional attack penalty to -2 or second attack at -5',
@@ -1279,6 +1432,7 @@ SRD35.FEATURES = {
   'Share Spells':"companion:Master share self spell w/companion w/in 5'",
   'Speak With Like Animals':'companion:Talk w/similar creatures',
   'Speak With Master':'companion:Talk w/master in secret language'
+
 };
 SRD35.GENDERS = {
   'Female':'',
@@ -1354,31 +1508,62 @@ SRD35.SHIELDS = {
 SRD35.SKILLS = {
   'Appraise':'Ability=intelligence Class=Bard,Rogue',
   'Balance':'Ability=dexterity Class=Bard,Monk,Rogue',
-  'Bluff':'Ability=charisma Class=Bard,Rogue,Sorcerer Synergy=Diplomacy,"Disguise (acting)",Intimidate,"Sleight Of Hand"',
+  'Bluff':
+    'Ability=charisma Class=Bard,Rogue,Sorcerer ' +
+    'Synergy=Diplomacy,"Disguise (acting)",Intimidate,"Sleight Of Hand"',
   'Climb':'Ability=strength Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue',
-  'Concentration':'Ability=constitution Class=Bard,Cleric,Druid,Monk,Paladin,Ranger,Sorcerer,Wizard',
-  'Decipher Script':'Ability=intelligence Untrained=n Class=Bard,Rogue,Wizard Synergy="Use Magic Device (scrolls)"',
+  'Concentration':
+    'Ability=constitution ' +
+    'Class=Bard,Cleric,Druid,Monk,Paladin,Ranger,Sorcerer,Wizard',
+  'Decipher Script':
+    'Ability=intelligence Untrained=n ' +
+    'Class=Bard,Rogue,Wizard Synergy="Use Magic Device (scrolls)"',
   'Diplomacy':'Ability=charisma Class=Bard,Cleric,Druid,Monk,Paladin,Rogue',
   'Disable Device':'Ability=intelligence Untrained=n Class=Rogue',
   'Disguise':'Ability=charisma Class=Bard,Rogue',
-  'Escape Artist':'Ability=dexterity Class=Bard,Monk,Rogue Synergy="Use Rope (bindings)"',
+  'Escape Artist':
+    'Ability=dexterity Class=Bard,Monk,Rogue Synergy="Use Rope (bindings)"',
   'Forgery':'Ability=intelligence Class=Rogue',
   'Gather Information':'Ability=charisma Class=Bard,Rogue',
-  'Handle Animal':'Ability=charisma Untrained=n Class=Barbarian,Druid,Fighter,Paladin,Ranger Synergy="Diplomacy (animals)",Ride',
+  'Handle Animal':
+    'Ability=charisma Class=Barbarian,Druid,Fighter,Paladin,Ranger '+
+    'Untrained=n Synergy="Diplomacy (animals)",Ride',
   'Heal':'Ability=wisdom Class=Cleric,Druid,Paladin,Ranger',
   'Hide':'Ability=dexterity Class=Bard,Monk,Ranger,Rogue',
   'Intimidate':'Ability=charisma Class=Barbarian,Fighter,Rogue',
-  'Jump':'Ability=strength Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue Synergy=Tumble',
-  'Knowledge (Arcana)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Monk,Sorcerer,Wizard Synergy=Spellcraft',
-  'Knowledge (Dungeoneering)':'Ability=intelligence Untrained=n Class=Bard,Ranger,Wizard Synergy="Survival (underground)"',
-  'Knowledge (Engineering)':'Ability=intelligence Untrained=n Class=Bard,Wizard Synergy="Search (secret doors)"',
-  'Knowledge (Geography)':'Ability=intelligence Untrained=n Class=Bard,Ranger,Wizard Synergy="Survival (lost/hazards)"',
-  'Knowledge (History)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Wizard',
-  'Knowledge (Local)':'Ability=intelligence Untrained=n Class=Bard,Rogue,Wizard SYnergy="Gather Information"',
-  'Knowledge (Nature)':'Ability=intelligence Untrained=n Class=Bard,Druid,Ranger,Wizard Synergy="Survial (outdoors)"',
-  'Knowledge (Nobility)':'Ability=intelligence Untrained=n Class=Bard,Paladin,Wizard Synergy=Diplomacy',
-  'Knowledge (Planes)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Wizard Synergy="Survival (other planes)"',
-  'Knowledge (Religion)':'Ability=intelligence Untrained=n Class=Bard,Cleric,Monk,Paladin,Wizard Synergy="Undead turning check"',
+  'Jump':
+    'Ability=strength Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue ' +
+    'Synergy=Tumble',
+  'Knowledge (Arcana)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Cleric,Monk,Sorcerer,Wizard Synergy=Spellcraft',
+  'Knowledge (Dungeoneering)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Ranger,Wizard Synergy="Survival (underground)"',
+  'Knowledge (Engineering)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Wizard Synergy="Search (secret doors)"',
+  'Knowledge (Geography)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Ranger,Wizard Synergy="Survival (lost/hazards)"',
+  'Knowledge (History)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Cleric,Wizard',
+  'Knowledge (Local)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Rogue,Wizard SYnergy="Gather Information"',
+  'Knowledge (Nature)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Druid,Ranger,Wizard Synergy="Survial (outdoors)"',
+  'Knowledge (Nobility)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Paladin,Wizard Synergy=Diplomacy',
+  'Knowledge (Planes)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Cleric,Wizard Synergy="Survival (other planes)"',
+  'Knowledge (Religion)':
+    'Ability=intelligence untrained=n ' +
+    'Class=Bard,Cleric,Monk,Paladin,Wizard Synergy="Undead turning check"',
   'Listen':'Ability=wisdom Class=Barbarian,Bard,Druid,Monk,Ranger,Rogue',
   'Move Silently':'Ability=dexterity Class=Bard,Monk,Ranger,Rogue',
   'Open Lock':'Ability=dexterity Untrained=n Class=Rogue',
@@ -1392,17 +1577,28 @@ SRD35.SKILLS = {
   'Perform (String)':'Ability=charisma Class=Bard,Monk,Rogue',
   'Perform (Wind)':'Ability=charisma Class=Bard,Monk,Rogue',
   'Ride':'Ability=dexterity Class=Barbarian,Druid,Fighter,Paladin,Ranger',
-  'Search':'Ability=intelligence Class=Ranger,Rogue Synergy="Survival (tracking)"',
-  'Sense Motive':'Ability=wisdom Class=Bard,Monk,Paladin,Rogue Synergy=Diplomacy',
+  'Search':
+    'Ability=intelligence Class=Ranger,Rogue Synergy="Survival (tracking)"',
+  'Sense Motive':
+    'Ability=wisdom Class=Bard,Monk,Paladin,Rogue Synergy=Diplomacy',
   'Sleight Of Hand':'Ability=dexterity Untrained=n Class=Bard,Rogue',
   'Speak Language':'Untrained=n Class=Bard',
-  'Spellcraft':'Ability=intelligence Untrained=n Class=Bard,Cleric,Druid,Sorcerer,Wizard Synergy="Use Magic Device (scroll)"',
+  'Spellcraft':
+    'Ability=intelligence Untrained=n Class=Bard,Cleric,Druid,Sorcerer,Wizard '+
+    'Synergy="Use Magic Device (scroll)"',
   'Spot':'Ability=wisdom Class=Druid,Monk,Ranger,Rogue',
-  'Survival':'Ability=wisdom Class=Barbarian,Druid,Ranger Synergy="Knowledge (Nature)"',
-  'Swim':'Ability=strength Class=Barbarian,Bard,Druid,Fighter,Monk,Ranger,Rogue',
-  'Tumble':'Ability=dexterity Untrained=n Class=Bard,Monk,Rogue Synergy=Balance,Jump',
-  'Use Magic Device':'Ability=charisma Untrained=n Class=Bard,Rogue Synergy="Spellcraft (scroll)"',
-  'Use Rope':'Ability=dexterity Class=Ranger,Rogue Synergy="Climb (rope)","Escape Artist (rope)"'
+  'Survival':
+    'Ability=wisdom Class=Barbarian,Druid,Ranger Synergy="Knowledge (Nature)"',
+  'Swim':
+    'Ability=strength Class=Barbarian,Bard,Druid,Fighter,Monk,Ranger,Rogue',
+  'Tumble':
+    'Ability=dexterity Untrained=n Class=Bard,Monk,Rogue Synergy=Balance,Jump',
+  'Use Magic Device':
+    'Ability=charisma Untrained=n Class=Bard,Rogue ' +
+    'Synergy="Spellcraft (scroll)"',
+  'Use Rope':
+    'Ability=dexterity Class=Ranger,Rogue ' +
+    'Synergy="Climb (rope)","Escape Artist (rope)"'
 };
 SRD35.SPELLS = {
 
@@ -1417,7 +1613,7 @@ SRD35.SPELLS = {
     'Description="R$RS\' Ranged touch 1d3 HP"',
   'Aid':
     'School=Enchantment ' +
-    'Description="Touched +1 attack/fear saves, +1d8+$Lmin10 HP for $L min"',
+    'Description="Touched +1 attack and fear saves, +1d8+$Lmin10 HP for $L min"',
   'Air Walk':
     'School=Transmutation ' +
     'Description="Touched walks on air for $L10 min"',
@@ -1517,7 +1713,7 @@ SRD35.SPELLS = {
     'Description="R$RS\' $L targets +4 Con for $L min"',
   'Bestow Curse':
     'School=Necromancy ' +
-    'Description="Touched permanent -6 ability, -4 attack/saves/checks, or 50% chance/rd of losing action (Will neg)"',
+    'Description="Touched permanent -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action (Will neg)"',
   'Binding':
     'School=Enchantment ' +
     'Description="R$RS\' Target magically imprisoned (Will neg (min $Ldiv2 HD))"',
@@ -1623,7 +1819,7 @@ SRD35.SPELLS = {
     'Description="R$RM\' 10\' (AC 20, caster HP) hand cover (+4 AC), move 60\', hit (+$L+mod for 1d8+11, stunned 1 rd (Fort neg)), bull rush (CMB $Lplus12) for $L rd"',
   'Cloak Of Chaos':
     'School=Abjuration ' +
-    'Description="$L targets in 20\' +4 AC/saves and SR 25 and mental protection vs. lawful, lawful hits cause confused 1 rd for $L rd (Will neg)"',
+    'Description="$L targets in 20\' +4 AC and saves, SR 25 and mental protection vs. lawful, lawful hits cause confused 1 rd for $L rd (Will neg)"',
   'Clone':
     'School=Necromancy ' +
     'Description="Soul enters duplicate if original dies"',
@@ -1771,7 +1967,7 @@ SRD35.SPELLS = {
     'Description="Touched w/negative HP die and you gain 1d8 HP/+2 Str/+1 caster level for 10*target HD min (Will neg)"',
   'Death Ward':
     'School=Necromancy ' +
-    'Description="Touched +4 vs. death spells/effects, immune drain for $L min"',
+    'Description="Touched +4 vs. death spells and effects, immune drain for $L min"',
   'Deathwatch':
     'School=Necromancy ' +
     'Description="R30\' cone Reveals state of targets for $L10 min"',
@@ -2165,7 +2361,7 @@ SRD35.SPELLS = {
     'Description="R5 miles Ghostly hand leads target to you for 4 hr"',
   "Heroes' Feast":
     'School=Conjuration ' +
-    'Description="Food for $L creatures cures sickness/poison/disease, 1d8+$Ldiv2min10 temporary HP, +1 attack, and Will saves, +4 saves vs. poison and fear for 12 hr"',
+    'Description="Food for $L creatures cures sickness/poison/disease, 1d8+$Ldiv2min10 temporary HP, +1 attack and Will saves, +4 saves vs. poison and fear for 12 hr"',
   'Heroism':
     'School=Enchantment ' +
     'Description="Touched +2 attack, saves, and skill checks for $L10 min"',
@@ -2431,7 +2627,7 @@ SRD35.SPELLS = {
     'Description="R$RS\' Repairs ${Lmin5}d6 damage to $L\' cu object"',
   'Mark Of Justice':
     'School=Necromancy ' +
-    'Description="Touched permanent -6 ability, -4 attack/saves/checks, or 50% chance/rd of losing action upon trigger"',
+    'Description="Touched permanent -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action upon trigger"',
   'Maze':
     'School=Conjuration ' +
     'Description="R$RS\' Target in extradimensional maze for 10 min/until DC 20 Int check"',
@@ -2658,7 +2854,7 @@ SRD35.SPELLS = {
 
   'Rage':
     'School=Enchantment ' +
-    'Description="R$RM\' $Ldiv3 willing targets +2 Str, +2Con, +1 Will, -2 AC for conc + $L rd"',
+    'Description="R$RM\' $Ldiv3 willing targets +2 Str, +2 Con, +1 Will, -2 AC for conc + $L rd"',
   'Rainbow Pattern':
     'School=Illusion ' +
     'Description="R$RM\' 24 HD creatures in 20\' radius facinated for conc + $L rd (Will neg)"',
@@ -3338,7 +3534,8 @@ SRD35.PROFICIENCY_TOWER = 4;
 SRD35.SAVE_BONUS_HALF = '2 + Math.floor(source / 2)';
 SRD35.SAVE_BONUS_THIRD = 'Math.floor(source / 3)';
 
-SRD35.PROFICIENCY_LEVEL_NAMES = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
+SRD35.ARMOR_PROFICIENCY_NAMES = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
+SRD35.WEAPON_PROFICIENCY_NAMES = ['Limited', 'Simple', 'Martial'];
 SRD35.STRENGTH_MAX_LOADS = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
@@ -3360,7 +3557,7 @@ SRD35.spellsAbbreviations = {
 };
 
 /* Defines rules related to character abilities. */
-SRD35.abilityRules = function(rules, alignments) {
+SRD35.abilityRules = function(rules) {
 
   // Ability modifier computation
   for(var ability in {'charisma':'', 'constitution':'', 'dexterity':'',
@@ -3372,11 +3569,6 @@ SRD35.abilityRules = function(rules, alignments) {
     rules.defineRule(ability + '.1', ability + 'Modifier', '=', null);
   }
 
-  rules.defineRule
-    ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
-  rules.defineRule('level',
-    'experience', '=', 'Math.floor((1 + Math.sqrt(1 + source / 125)) / 2)'
-  );
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
   rules.defineRule('loadMax',
     'strength', '=', 'SRD35.STRENGTH_MAX_LOADS[source]',
@@ -3487,17 +3679,8 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     rules.choiceRules(rules, 'weapons', weapon, weapons[weapon]);
   }
 
-  rules.defineChoice('notes',
-    'combatNotes.nonproficientArmorPenalty:%V attack',
-    'magicNotes.arcaneSpellFailure:%V%',
-    'skillNotes.armorSkillCheckPenalty:-%V Balance/Climb/Escape Artist/Hide/Jump/Move Silently/Sleight Of Hand/Tumble',
-    'skillNotes.armorSwimCheckPenalty:-%V Swim',
-    'turnUndead.damageModifier:2d6+%V',
-    'turnUndead.frequency:%V/day',
-    'turnUndead.maxHitDice:(d20+%V)/3'
-  );
   rules.defineRule('armorProficiency',
-    'armorProficiencyLevel', '=', 'SRD35.PROFICIENCY_LEVEL_NAMES[source]'
+    'armorProficiencyLevel', '=', 'SRD35.ARMOR_PROFICIENCY_NAMES[source]'
   );
   rules.defineRule('armorProficiencyLevel',
     '', '=', SRD35.PROFICIENCY_NONE,
@@ -3506,36 +3689,21 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'features.Armor Proficiency (Medium)', '^', SRD35.PROFICIENCY_MEDIUM
   );
   rules.defineRule('attacksPerRound',
-    'baseAttack', '=', 'source > 0 ? 1 + Math.floor((source - 1) / 5) : 1'
+    'baseAttack', '=', 'Math.max(Math.floor((source + 4) / 5), 1)'
   );
   rules.defineRule('baseAttack', '', '=', '0');
   rules.defineRule('meleeAttack', 'baseAttack', '=', null);
   rules.defineRule('rangedAttack', 'baseAttack', '=', null);
   rules.defineRule('shieldProficiency',
-    'shieldProficiencyLevel', '=', 'SRD35.PROFICIENCY_LEVEL_NAMES[source]'
+    'shieldProficiencyLevel', '=', 'SRD35.ARMOR_PROFICIENCY_NAMES[source]'
   );
   rules.defineRule('shieldProficiencyLevel',
     '', '=', SRD35.PROFICIENCY_NONE,
     'features.Shield Proficiency (Heavy)', '^', SRD35.PROFICIENCY_HEAVY,
     'features.Shield Proficiency (Tower)', '^', SRD35.PROFICIENCY_TOWER
   );
-  rules.defineRule('turnUndead.damageModifier',
-    'turnUndead.level', '=', null,
-    'charismaModifier', '+', null
-  );
-  rules.defineRule('turnUndead.frequency',
-    'turnUndead.level', '=', '3',
-    'charismaModifier', '+', null
-  );
-  rules.defineRule('turnUndead.maxHitDice',
-    'turnUndead.level', '=', 'source * 3 - 10',
-    'charismaModifier', '+', null
-  );
   rules.defineRule('weaponProficiency',
-    'weaponProficiencyLevel', '=',
-      'source == ' + SRD35.PROFICIENCY_LIGHT + ' ? "Simple" : ' +
-      'source == ' + SRD35.PROFICIENCY_MEDIUM + ' ? "Martial" : ' +
-      '"Limited"'
+    'weaponProficiencyLevel', '=', 'SRD35.WEAPON_PROFICIENCY_NAMES[source]'
   );
   rules.defineRule('weaponProficiencyLevel',
     '', '=', SRD35.PROFICIENCY_NONE,
@@ -3733,6 +3901,11 @@ SRD35.identityRules = function(
   for(var race in races) {
     rules.choiceRules(rules, 'races', race, races[race]);
   }
+  rules.defineRule
+    ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
+  rules.defineRule('level',
+    'experience', '=', 'Math.floor((1 + Math.sqrt(1 + source / 125)) / 2)'
+  );
   rules.defineRule('casterLevel',
     'casterLevelArcane', '=', null,
     'casterLevelDivine', '+=', null
@@ -3771,6 +3944,8 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
   }
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
+  rules.defineRule
+    ('languageCount', 'race', '=', 'source.match(/Human/) ? 1 : 2');
   rules.defineRule('skillPoints',
     '', '=', '0',
     'level', '^', null
@@ -3783,17 +3958,23 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
     'validationNotes.skillMaximum:' +
       'Points allocated to one or more skills exceed maximum'
   );
-  rules.defineRule('maxAllowedSkillPoints', 'level', '=', 'source + 3');
-  rules.defineRule('maxAllocatedSkillPoints', /^skills\..*[^0-9]$/, '^=', null);
+  rules.defineRule('maxAllowedSkillAllocation', 'level', '=', 'source + 3');
+  rules.defineRule('maxActualSkillAllocation', /^skills\..*[^0-9]$/, '^=', null);
   rules.defineRule('validationNotes.skillMaximum',
-    'maxAllocatedSkillPoints', '=', '-source',
-    'maxAllowedSkillPoints', '+', null,
+    'maxAllowedSkillAllocation', '=', null,
+    'maxActualSkillAllocation', '+', '-source',
     '', 'v', '0'
+  );
+  rules.defineChoice('notes',
+    'combatNotes.nonproficientArmorPenalty:%V attack',
+    'combatNotes.nonproficientShieldPenalty:%V attack',
+    'magicNotes.arcaneSpellFailure:%V%'
   );
 };
 
 /*
- * TODO
+ * Adds #name# as a possible user #type# choice and parses #attrs# to add rules
+ * related to selecting that choice.
  */
 SRD35.choiceRules = function(rules, type, name, attrs) {
   if(type == 'alignments')
@@ -3825,12 +4006,13 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Domain'),
       QuilvynUtils.getAttrValueArray(attrs, 'Weapon')
     );
-  else if(type == 'domains')
+  else if(type == 'domains') {
     SRD35.domainRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells')
     );
-  else if(type == 'familiars')
+    SRD35.domainRulesExtra(rules, name);
+  } else if(type == 'familiars')
     SRD35.familiarRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Str'),
       QuilvynUtils.getAttrValue(attrs, 'Int'),
@@ -3844,19 +4026,20 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Dam'),
       QuilvynUtils.getAttrValue(attrs, 'Level')
     );
-  else if(type == 'feats')
+  else if(type == 'feats') {
     SRD35.featRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Type'),
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Imply')
     );
-  else if(type == 'features')
+    SRD35.featRulesExtra(rules, name);
+  } else if(type == 'features')
     SRD35.featureRules(rules, name, attrs);
   else if(type == 'genders')
     SRD35.genderRules(rules, name);
   else if(type == 'languages')
     SRD35.languageRules(rules, name);
-  else if(type == 'levels')
+  else if(type == 'levels') {
     SRD35.classRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Imply'),
@@ -3875,7 +4058,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'SpellsPerDay'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
     );
-  else if(type == 'races')
+    SRD35.classRulesExtra(rules, name);
+  } else if(type == 'races')
     SRD35.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features')
   );
@@ -3888,14 +4072,16 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'Skill'),
       QuilvynUtils.getAttrValue(attrs, 'Spell')
     );
-  else if(type == 'skills')
+  else if(type == 'skills') {
+    var untrained = QuilvynUtils.getAttrValue(attrs, 'Untrained');
     SRD35.skillRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Ability'),
-      QuilvynUtils.getAttrValue(attrs, 'Untrained'),
+      untrained != 'n' && untrained != 'N',
       QuilvynUtils.getAttrValueArray(attrs, 'Class'),
       QuilvynUtils.getAttrValueArray(attrs, 'Synergy')
     );
-  else if(type == 'spells') {
+    SRD35.skillRulesExtra(rules, name);
+  } else if(type == 'spells') {
     ; // empty -- handled by classes and domains
   } else if(type == 'weapons')
     SRD35.weaponRules(rules, name,
@@ -3916,11 +4102,19 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
 
 /* Defines in #rules# the rules associated with alignment #name#. */
 SRD35.alignmentRules = function(rules, name) {
+  if(!name) {
+    console.log('Empty alignment name');
+    return;
+  }
   // No rules pertain to alignment
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with armor #name#, which adds #ac#
+ * to the character's armor class, requires a #profLevel# proficiency level to
+ * use effectively, allows a maximum dex bonus to ac of #maxDex#, imposes
+ * #skillPenalty# on specific skills and yields a #spellFail# percent chance of
+ * arcane spell failure.
  */
 SRD35.armorRules = function(
   rules, name, ac, profLevel, maxDex, skillPenalty, spellFail
@@ -4007,13 +4201,6 @@ SRD35.armorRules = function(
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
   );
-  for(var skill in {'Balance':'', 'Climb':'', 'Escape Artist':'', 'Hide':'', 'Jump':'', 'Move Silently':'', 'Sleight Of Hand':'', 'Tumble':''}) {
-    rules.defineRule('skillModifier.' + skill,
-      'skillNotes.armorSkillCheckPenalty', '+', '-source'
-    );
-  }
-  rules.defineRule
-    ('skillModifier.Swim', 'skillNotes.armorSwimCheckPenalty', '+', '-source');
   rules.defineRule('skillNotes.armorSwimCheckPenalty',
     'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
   );
@@ -4026,7 +4213,22 @@ SRD35.armorRules = function(
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with class #name#, which has the list
+ * of hard prerequisites #requires# and soft prerequisites #implies#. The class
+ * grants #hitDie# (format [n]'d'n) additional hit points and #skillPoint#
+ * additional skill points with each level advance. #attack# is one of '1',
+ * '1/2', or '3/4', indicating the base attack progression for the class;
+ * similarly, #saveFort#, #saveRef#, and #saveWill# are each one of '1/2' or
+ * '1/3', indicating the saving through progressions. #skills# indicate class
+ * skills for the class (but see also skillRules for an alternate way these can
+ * be defined). #features# and #selectables# list the features and selectable
+ * features acquired as the character advances in class level.
+ * #casterLevelArcane# and #casterLevelDivine#, if specified, give the
+ * expression for determining the caster level for the class; within these
+ * expressions the text "Level" indicates class level. #spellAbility#, if
+ * specified, contains the base ability for computing spell difficulty class
+ * for cast spells. #spellsPerDay# lists the number of spells per day that the
+ * class can cast, and #spells# lists spells defined by the class.
  */
 SRD35.classRules = function(
   rules, name, requires, implies, hitDie, attack, skillPoints, saveFort,
@@ -4102,10 +4304,9 @@ SRD35.classRules = function(
   }
 
   for(var i = 0; i < features.length; i++) {
-    var levelAndFeature = features[i].split(/:/);
-    var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-    var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
-    var matchInfo;
+    var matchInfo = features[i].match(/^((\d+):)?(.*)$/);
+    var feature = matchInfo ? matchInfo[3] : features[i];
+    var level = matchInfo ? matchInfo[2] : 1;
     rules.defineRule(prefix + 'Features.' + feature,
       'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
     );
@@ -4121,9 +4322,9 @@ SRD35.classRules = function(
   }
 
   for(var i = 0; i < selectables.length; i++) {
-    var levelAndFeature = selectables[i].split(/:/);
-    var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-    var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+    var matchInfo = selectables[i].match(/^((\d+):)?(.*)$/);
+    var feature = matchInfo ? matchInfo[3] : selectables[i];
+    var level = matchInfo ? matchInfo[2] : 1;
     var choice = name + ' - ' + feature;
     rules.defineChoice('selectableFeatures', choice + ':' + name);
     rules.defineRule(prefix + 'Features.' + feature,
@@ -4224,8 +4425,13 @@ SRD35.classRules = function(
     }
   }
 
-  if(rules !== SRD35.rules)
-    return;
+};
+
+/*
+ * Defines in #rules# the rules associated with class #name# that are not
+ * directly derived from the parmeters passed to classRules.
+ */
+SRD35.classRulesExtra = function(rules, name) {
 
   if(name == 'Barbarian') {
 
@@ -4334,7 +4540,19 @@ SRD35.classRules = function(
     rules.defineRule('magicNotes.spontaneousClericSpellFeature',
       'alignment', '=', 'source.match(/Evil/)?"<i>Inflict</i>":"<i>Cure</i>"'
     );
-    rules.defineRule('turnUndead.level', 'levels.Cleric', '+=', null);
+    rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
+    rules.defineRule('combatNotes.turnUndeadFeature.1',
+      'turningLevel', '=', null,
+      'charismaModifier', '+', null
+    );
+    rules.defineRule('combatNotes.turnUndeadFeature.3',
+      'turningLevel', '=', '3',
+      'charismaModifier', '+', null
+    );
+    rules.defineRule('combatNotes.turnUndeadFeature.2',
+      'turningLevel', '=', 'source * 3 - 10',
+      'charismaModifier', '+', null
+    );
 
   } else if(name == 'Druid') {
 
@@ -4451,7 +4669,7 @@ SRD35.classRules = function(
       ('mountMasterLevel', 'levels.Paladin', '=', 'source<5 ? null : source');
     rules.defineRule
       ('saveNotes.divineGraceFeature', 'charismaModifier', '=', null);
-    rules.defineRule('turnUndead.level',
+    rules.defineRule('turningLevel',
       'levels.Paladin', '+=', 'source > 3 ? source - 3 : null'
     );
 
@@ -4552,7 +4770,11 @@ SRD35.classRules = function(
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with animal companion #name#, which
+ * has abilities #str#, #intel#, #wis#, #dex#, #con#, and #cha#, hit dice #hd#,
+ * and armor class #ac#. The companion has attack bonus #attack# and does
+ * #damage# damage. If specified, #level# indicates the minimum master level
+ * the character needs to have this animal as a companion.
  */
 SRD35.companionRules = function(
   rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, level
@@ -4810,7 +5032,8 @@ SRD35.companionRules = function(
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with deity #name#. #domains# and
+ * #favoredWeapons# list the associated domains and favored weapons.
  */
 SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
 
@@ -4852,7 +5075,8 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with domain #name#. #features# and
+ * #spells# list the associated features and domain spells.
  */
 SRD35.domainRules = function(rules, name, features, spells) {
 
@@ -4866,9 +5090,9 @@ SRD35.domainRules = function(rules, name, features, spells) {
   }
 
   for(var i = 0; i < features.length; i++) {
-    var levelAndFeature = features[i].split(/:/);
-    var feature = levelAndFeature[levelAndFeature.length == 1 ? 0 : 1];
-    var level = levelAndFeature.length == 1 ? 1 : levelAndFeature[0];
+    var matchInfo = features[i].match(/^((\d+):)?(.*)$/);
+    var feature = matchInfo ? matchInfo[3] : features[i];
+    var level = matchInfo ? matchInfo[2] : 1;
     if(level == 1)
       rules.defineRule
         ('clericFeatures.' + feature, 'domains.' + name, '=', '1');
@@ -4896,8 +5120,13 @@ SRD35.domainRules = function(rules, name, features, spells) {
       SRD35.spellRules(rules, choiceName, school, 'Dom', level, description);
   }
 
-  if(rules !== SRD35.rules)
-    return;
+};
+
+/*
+ * Defines in #rules# the rules associated with domain #name# that are not
+ * directly derived from the parmeters passed to domainRules.
+ */
+SRD35.domainRulesExtra = function(rules, name) {
 
   if(name == 'Death') {
     rules.defineRule
@@ -4926,7 +5155,11 @@ SRD35.domainRules = function(rules, name, features, spells) {
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with familiar #name#, which has
+ * abilities #str#, #intel#, #wis#, #dex#, #con#, and #cha#, hit dice #hd#,
+ * and armor class #ac#. The familiar has attack bonus #attack# and does
+ * #damage# damage. If specified, #level# indicates the minimum master level
+ * the character needs to have this animal as a familiar.
  */
 SRD35.familiarRules = function(
   rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, level
@@ -5098,11 +5331,12 @@ SRD35.familiarRules = function(
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with feat #name#. #types# lists the
+ * categories of the feat, and #require# and #implies# list the hard and soft
+ * prerequisites for the feat.
  */
 SRD35.featRules = function(rules, name, types, requires, implies) {
 
-  // TODO data validation
   if(!name) {
     console.log('Empty feat name');
     return;
@@ -5119,6 +5353,14 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
 
   if(implies.length > 0)
     SRD35.testRules(rules, 'sanity', prefix + 'Feat', 'feats.' + name, implies);
+
+};
+
+/*
+ * Defines in #rules# the rules associated with feat #name# that are not
+ * directly derived from the parmeters passed to featRules.
+ */
+SRD35.featRulesExtra = function(rules, name) {
 
   var matchInfo;
 
@@ -5179,7 +5421,8 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with feature #name#. #notes# lists
+ * notes associated with feature.
  */
 SRD35.featureRules = function(rules, name, notes) {
 
@@ -5232,7 +5475,7 @@ SRD35.featureRules = function(rules, name, notes) {
         } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
           adjusted = 'spellDCSchoolBonus.' + adjusted.replace('Spell DC (', '').replace(')', '');
         } else if(adjusted == 'Turnings') {
-          adjusted = 'turnUndead.frequency';
+          adjusted = 'combatNotes.turnUndeadFeature.2';
         } else if(section == 'save' &&
                   adjusted.match(/^(Fortitude|Reflex|Will)$/)) {
           adjusted = 'save.' + adjusted.substring(0, 1).toUpperCase() + adjusted.substring(1).toLowerCase();
@@ -5293,8 +5536,6 @@ SRD35.languageRules = function(rules, name) {
     console.log('Empty language name');
     return;
   }
-  rules.defineRule
-    ('languageCount', 'race', '=', 'source.match(/Human/) ? 1 : 2');
   if(name == 'Common')
     rules.defineRule('languages.Common', '', '=', '1');
   else if(name == 'Druidic')
@@ -5317,7 +5558,8 @@ SRD35.languageRules = function(rules, name) {
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with race #name#. #features# lists
+ * the associated features.
  */
 SRD35.raceRules = function(rules, name, features) {
 
@@ -5340,8 +5582,13 @@ SRD35.raceRules = function(rules, name, features) {
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
-  if(rules !== SRD35.rules)
-    return;
+};
+
+/*
+ * Defines in #rules# the rules associated with race #name# that are not
+ * directly derived from the parmeters passed to raceRules.
+ */
+SRD35.raceRulesExtra = function(rules, name) {
 
   if(name.match(/Gnome/)) {
 
@@ -5382,7 +5629,10 @@ SRD35.schoolRules = function(rules, name) {
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with shield #name#, which adds #ac#
+ * to the character's armor class, requires a #profLevel# proficiency level to
+ * use effectively, imposes #skillPenalty# on specific skills
+ * and yields a #spellFail# percent chance of arcane spell failure.
  */
 SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
 
@@ -5432,9 +5682,6 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
   rules.shieldStats.Skill[name] = skillFail;
   rules.shieldStats.Spell[name] = spellFail;
 
-  rules.defineChoice
-    ('notes', 'combatNotes.nonproficientShieldPenalty:%V attack');
-
   rules.defineRule
     ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
   rules.defineRule('combatNotes.nonproficientShieldPenalty',
@@ -5455,7 +5702,13 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with skill #name#, associated with
+ * #ability# (one of 'strength', 'intelligence', etc.). #untrained#, if
+ * specified is a boolean indicating whether or not the skill can be used
+ * untrained; the default is true. #classes# lists the classes for which this
+ * is a class skill; a value of "all" indicates that this is a class skill for
+ * all classes. #synergies#, if specified, lists synergies to other skills and
+ * abilities granted by high ranks in this skill.
  */
 SRD35.skillRules = function(
   rules, name, ability, untrained, classes, synergies
@@ -5469,7 +5722,7 @@ SRD35.skillRules = function(
      !ability.match(/^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/i)) {
     console.log('Bad ability "' + ability + '" for skill "' + name + '"');
   }
-  if(untrained != null && !untrained.match(/^[yn]$/)) {
+  if(untrained != null && typeof untrained != 'boolean') {
     console.log('Bad untrained "' + untrained + '" for skill "' + name + '"');
   }
 
@@ -5499,6 +5752,13 @@ SRD35.skillRules = function(
     rules.defineRule
       ('skillModifier.' + name, ability.toLowerCase() + 'Modifier', '+', null);
 
+  if(classes.indexOf("all") >= 0) {
+    rules.defineRule('classSkills.' + name, 'level', '=', '1');
+  } else {
+    for(var i = 0; i < classes.length; i++)
+      rules.defineRule('classSkills.' + name, 'levels.' + classes[i], '=', '1');
+  }
+
   if(synergies.length > 0) {
     SRD35.featureRules
       (rules, name + ' Synergy', 'skill:+2 ' + synergies.join('/+2 '));
@@ -5507,29 +5767,41 @@ SRD35.skillRules = function(
     );
   }
 
-  if(classes.length == 0) {
-    rules.defineRule('classSkills.' + name, 'level', '=', '1');
-  } else {
-    for(var i = 0; i < classes.length; i++)
-      rules.defineRule('classSkills.' + name, 'levels.' + classes[i], '=', '1');
-  }
+};
 
-  if(rules !== SRD35.rules)
-    return;
-
+/*
+ * Defines in #rules# the rules associated with skill #name# that are not
+ * directly derived from the parmeters passed to skillRules.
+ */
+SRD35.skillRulesExtra = function(rules, name) {
   if(name == 'Knowledge (Religion)') {
-    rules.defineRule('turnUndead.maxHitDice',
+    rules.defineRule('combatNotes.turnUndeadFeature.1',
       'skillNotes.knowledge(Religion)Synergy', '+', '2'
     );
   } else if(name == 'Speak Language') {
     rules.defineRule
       ('languageCount', 'skillModifier.Speak Language', '+', null);
+  } else if(name == 'Swim') {
+    rules.defineChoice('notes', 'skillNotes.armorSwimCheckPenalty:-%V Swim');
+    rules.defineRule
+      ('skillModifier.Swim', 'skillNotes.armorSwimCheckPenalty', '+', '-source');
+  } else if(name == 'Tumble') {
+    var affected = [
+     'Balance', 'Climb', 'Escape Artist', 'Hide', 'Jump', 'Move Silently',
+     'Sleight Of Hand', 'Tumble'
+    ];
+    rules.defineChoice('notes', 'skillNotes.armorSkillCheckPenalty:-%V ' + affected.join('/'));
+    for(var i = 0; i < affected.length; i++)
+    rules.defineRule
+      ('skillModifier.' + affected[i], 'skillNotes.armorSkillCheckPenalty', '+', '-source');
   }
-
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with spell #name#, which is from
+ * magic school #school#. #casterGroup# and #level# are used to compute any
+ * saving throw value required by the spell. #description# is a verbose
+ * description of the spell's effects.
  */
 SRD35.spellRules = function(
   rules, name, school, casterGroup, level, description
@@ -5628,7 +5900,13 @@ SRD35.spellRules = function(
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with weapon #name#, which requires a
+ * #profLevel# proficiency level to use effectively and belongs to weapon
+ * category #category# (one of '1h', '2h', 'Li', 'R', 'Un' or their spelled-out
+ * equivalents). The weapon does #damage# HP on a successful attack and
+ * threatens x#critMultiplier# (default 2) damage on a roll of #threat# (default
+ * 20). If specified, the weapon can be used as a ranged weapon with a range
+ * increment of #range# feet.
  */
 SRD35.weaponRules = function(
   rules, name, profLevel, category, damage, threat, critMultiplier, range
@@ -5809,7 +6087,7 @@ SRD35.weaponRules = function(
   );
   if(category == '2h') {
     rules.defineChoice('notes',
-      'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack, AC'
+      'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack and AC'
     );
     rules.defineRule('armorClass',
       'combatNotes.two-handedWeaponWithBucklerPenalty', '+', '-1'
@@ -5877,7 +6155,6 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Armor Class', within: 'Section 1', format: '<b>AC</b> %V'},
             {name: 'Weapons', within: 'Section 1', format: '<b>%N</b> %V',
              separator: '/'},
-            {name: 'Turn Undead', within: 'Section 1', separator: '/'},
             {name: 'Alignment', within: 'Section 1', format: '<b>Ali</b> %V'},
             {name: 'Save', within: 'Section 1', separator: '/'},
             {name: 'Abilities', within: 'Section 1',
@@ -5973,7 +6250,7 @@ SRD35.createViewers = function(rules, viewers) {
           {name: 'SkillPart', within: 'FeaturesAndSkills', separator: '\n'},
             {name: 'SkillStats', within: 'SkillPart', separator: ''},
               {name: 'Skill Points', within: 'SkillStats', format: '<b>Skills</b> (%V points'},
-              {name: 'Max Allowed Skill Points', within: 'SkillStats', format: ', max %V each):'},
+              {name: 'Max Allowed Skill Allocation', within: 'SkillStats', format: ', max %V each):'},
             {name: 'Skills', within: 'SkillPart', columns: '3LE', format: '%V', separator: null},
             {name: 'Languages', within: 'SkillPart', separator: listSep}
       );
@@ -6004,8 +6281,6 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Armor', within: 'Gear'},
               {name: 'Shield', within: 'Gear'},
               {name: 'Weapons', within: 'Gear', separator: listSep},
-            {name: 'Turning', within: 'CombatPart', separator: innerSep},
-              {name: 'Turn Undead', within: 'Turning', separator: listSep}
       );
       if(name != 'Collected Notes') {
         viewer.addElements(
