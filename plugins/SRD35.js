@@ -4009,7 +4009,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   else if(type == 'domains') {
     SRD35.domainRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Spells')
+      QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
+      SRD35.SPELLS
     );
     SRD35.domainRulesExtra(rules, name);
   } else if(type == 'familiars')
@@ -4057,6 +4058,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
       QuilvynUtils.getAttrValueArray(attrs, 'SpellsPerDay'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
+      SRD35.SPELLS
     );
     SRD35.classRulesExtra(rules, name);
   } else if(type == 'races')
@@ -4233,7 +4235,7 @@ SRD35.armorRules = function(
 SRD35.classRules = function(
   rules, name, requires, implies, hitDie, attack, skillPoints, saveFort,
   saveRef, saveWill, skills, features, selectables, casterLevelArcane,
-  casterLevelDivine, spellAbility, spellsPerDay, spells
+  casterLevelDivine, spellAbility, spellsPerDay, spells, spellDict
 ) {
 
   if(!name) {
@@ -4411,13 +4413,13 @@ SRD35.classRules = function(
     var spellNames = pieces[1].split(';');
     for(var j = 0; j < spellNames.length; j++) {
       var spellName = spellNames[j];
-      if(SRD35.SPELLS[spellName] == null) {
+      if(spellDict[spellName] == null) {
         console.log('Unknown spell "' + spellName + '"');
         continue;
       }
-      var school = QuilvynUtils.getAttrValue(SRD35.SPELLS[spellName], 'School');
+      var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
       var description =
-        QuilvynUtils.getAttrValue(SRD35.SPELLS[spellName], 'Description');
+        QuilvynUtils.getAttrValue(spellDict[spellName], 'Description');
       var choiceName =
         spellName + '(' + casterGroup + level + ' ' + school.substring(0, 4) + ')';
       rules.defineChoice('spells', choiceName);
@@ -5078,7 +5080,7 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
  * Defines in #rules# the rules associated with domain #name#. #features# and
  * #spells# list the associated features and domain spells.
  */
-SRD35.domainRules = function(rules, name, features, spells) {
+SRD35.domainRules = function(rules, name, features, spells, spellDict) {
 
   if(!name) {
     console.log('Empty domain name');
@@ -5107,13 +5109,13 @@ SRD35.domainRules = function(rules, name, features, spells) {
 
   for(var level = 1; level <= spells.length; level++) {
     var spellName = spells[level - 1];
-    if(SRD35.SPELLS[spellName] == null) {
+    if(spellDict[spellName] == null) {
       console.log('Unknown spell "' + spellName + '"');
       continue;
     }
-    var school = QuilvynUtils.getAttrValue(SRD35.SPELLS[spellName], 'School');
+    var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
     var description =
-      QuilvynUtils.getAttrValue(SRD35.SPELLS[spellName], 'Description');
+      QuilvynUtils.getAttrValue(spellDict[spellName], 'Description');
     var choiceName =
       spellName + '(' + name + level + ' ' + school.substring(0, 4) + ')';
       rules.defineChoice('spells', choiceName);
@@ -5504,7 +5506,7 @@ SRD35.featureRules = function(rules, name, notes) {
     if(skillsAdjusted == pieces.length && effects.startsWith('+')) {
       var sanityNote = 'sanityNotes.' + prefix + 'FeatureSkills';
       rules.defineChoice
-        ('notes', sanityNote + ':Implies ' + pieces.join('||').replace(/\+\d+ /g, ''));
+        ('notes', sanityNote + ':Implies ' + pieces.join('||').replace(/\+(\d+|%V) /g, ''));
       rules.defineRule(sanityNote, 'features.' + name, '=', '1');
       for(var j = 0; j < pieces.length; j++) {
         rules.defineRule(sanityNote, 'skills.' + pieces[j], 'v', '0');
