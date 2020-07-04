@@ -1368,7 +1368,7 @@ SRD35.FEATURES = {
   'Half Orc Ability Adjustment':
     'ability:+2 Strength/-2 Intelligence/-2 Charisma',
   'Halfling Ability Adjustment':'ability:+2 Dexterity/-2 Strength',
-  'Human Feat Bonus':'feature:+1 Feat',
+  'Human Feat Bonus':'feature:+1 General Feat',
   'Human Skill Bonus':'skill:+%V skill points',
   'Keen Ears':'skill:+2 Listen',
   'Keen Nose':'skill:+2 Craft (Alchemy)',
@@ -5468,8 +5468,8 @@ SRD35.featureRules = function(rules, name, notes) {
 
         if(adjusted == 'AC') {
           adjusted = 'armorClass';
-        } else if(adjusted.endsWith('Feat')) {
-          adjusted = 'featCount.General';
+        } else if((matchInfo = adjusted.match(/^(([A-Z][a-z]*) )?Feat\b/)) != null) {
+          adjusted = 'featCount.' + (matchInfo[2] ? matchInfo[2] : 'General');
         } else if(adjusted == 'HP') {
           adjusted = 'hitPoints';
         } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
