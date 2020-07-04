@@ -1132,7 +1132,7 @@ SRD35.FEATURES = {
   'Cleave':'combat:Extra attack when foe drops',
   'Combat Casting':
     'skill:+4 Concentration when casting on defensive or grappling',
-  'Combat Expertise':'combat:Up to -5 attack, +5 AC',
+  'Combat Expertise':'combat:Trade up to -5 attack for equal AC bonus',
   'Combat Reflexes':'combat:Flatfooted AOO, up to %V AOO/rd',
   'Craft Magic Arms And Armor':'magic:Create/mend magic weapon/armor/shield',
   'Craft Rod':'magic:Create magic rod',
@@ -1302,7 +1302,7 @@ SRD35.FEATURES = {
     'magic:<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
   'Mighty Rage':'combat:+8 Str, +8 Con, +4 Will',
   'Monk Armor Class Adjustment':'combat:+%V AC',
-  'Nature Sense':'skill:+2 Knowledge (Nature)/Survival',
+  'Nature Sense':'skill:+2 Knowledge (Nature)/+2 Survival',
   'Opportunist':'combat:AOO vs. foe struck by ally',
   'Perfect Self':[
     'combat:Ignore first 10 points of non-magical damage',
@@ -1323,8 +1323,10 @@ SRD35.FEATURES = {
   'Sneak Attack':'combat:%Vd6 HP extra when surprising or flanking',
   'Song Of Freedom':'magic:<i>Break Enchantment</i> through performing',
   'Special Mount':'feature:Magical mount w/special abilities',
-  'Spontaneous Cleric Spell':'magic:%V',
-  'Spontaneous Druid Spell':"magic:<i>Summon Nature's Ally</i>",
+  'Spontaneous Cleric Spell':
+    'magic:Cast <i>Cure</i> or <i>Inflict<i> in place of known spell',
+  'Spontaneous Druid Spell':
+    "magic:Cast <i>Summon Nature's Ally</i> in place of known spell",
   'Still Mind':'save:+2 vs. enchantment',
   'Suggestion':
     'magic:<i>Suggestion</i> to 1 fascinated creature (DC %V neg)',
@@ -1380,7 +1382,8 @@ SRD35.FEATURES = {
   'Low-Light Vision':'feature:x2 normal distance in poor light',
   'Natural Illusionist':'magic:+1 Spell DC (Illusion)',
   'Natural Spells':'magic:%V 1/day',
-  'Natural Smith':'skill:+2 Appraise (stone or metal)/Craft (stone or metal)',
+  'Natural Smith':
+    'skill:+2 Appraise (stone or metal)/+2 Craft (stone or metal)',
   'Resist Enchantment':'save:+2 vs. Enchantment',
   'Resist Fear':'save:+2 vs. Fear',
   'Resist Illusion':'save:+2 vs. Illusions',
@@ -1432,7 +1435,6 @@ SRD35.FEATURES = {
   'Share Spells':"companion:Master share self spell w/companion w/in 5'",
   'Speak With Like Animals':'companion:Talk w/similar creatures',
   'Speak With Master':'companion:Talk w/master in secret language'
-
 };
 SRD35.GENDERS = {
   'Female':'',
@@ -4344,13 +4346,11 @@ SRD35.classRules = function(
   if(spellsPerDay.length >= 0) {
     var classCasterLevel = 'source';
     if(casterLevelArcane) {
-      casterLevelArcane =
-        'Math.floor(' + casterLevelArcane.replace(/level/gi, 'source') + ')';
+      casterLevelArcane = casterLevelArcane.replace(/level/gi, 'source');
       classCasterLevel = casterLevelArcane;
     }
     if(casterLevelDivine) {
-      casterLevelDivine =
-        'Math.floor(' + casterLevelDivine.replace(/level/gi, 'source') + ')';
+      casterLevelDivine = casterLevelDivine.replace(/level/gi, 'source');
       classCasterLevel = casterLevelDivine;
     }
     rules.defineRule('spellCountLevel.' + name,
@@ -4521,7 +4521,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Bard', '=', '10 + Math.floor(source / 2)',
       'charismaModifier', '+', null
     );
-    rules.defineRule('magicNotes.simpleSomaticsFeatures.1',
+    rules.defineRule('magicNotes.simpleSomaticsFeature.1',
       'magicNotes.simpleSomaticsFeature', '?', null,
       'wearingLightArmor', '=', null
     );
@@ -4539,9 +4539,6 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Cleric') {
 
     rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
-    rules.defineRule('magicNotes.spontaneousClericSpellFeature',
-      'alignment', '=', 'source.match(/Evil/)?"<i>Inflict</i>":"<i>Cure</i>"'
-    );
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
     rules.defineRule('combatNotes.turnUndeadFeature.1',
       'turningLevel', '=', null,
@@ -5453,7 +5450,8 @@ SRD35.featureRules = function(rules, name, notes) {
     var section = pieces[0];
     var effects = pieces[1];
     var note = section + 'Notes.' + prefix + 'Feature';
-    var skillsAdjusted = 0;
+    var skillEffects = 0;
+    var uniqueSkillsAffected = [];
 
     rules.defineChoice('notes', note + ':' + effects);
     rules.defineRule
@@ -5470,7 +5468,7 @@ SRD35.featureRules = function(rules, name, notes) {
 
         if(adjusted == 'AC') {
           adjusted = 'armorClass';
-        } else if(adjusted == 'Feat') {
+        } else if(adjusted.endsWith('Feat')) {
           adjusted = 'featCount.General';
         } else if(adjusted == 'HP') {
           adjusted = 'hitPoints';
@@ -5482,9 +5480,11 @@ SRD35.featureRules = function(rules, name, notes) {
                   adjusted.match(/^(Fortitude|Reflex|Will)$/)) {
           adjusted = 'save.' + adjusted.substring(0, 1).toUpperCase() + adjusted.substring(1).toLowerCase();
         } else if(section == 'skill' &&
-                  adjusted.match(/^[A-Z]\w+( [A-Z]\w+)*( \([A-Z]\w+( [A-Z]\w+)*\))?$/)) {
+                  adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
+          skillEffects++;
+          if(uniqueSkillsAffected.indexOf(adjusted) < 0)
+            uniqueSkillsAffected.push(adjusted);
           adjusted = 'skillModifier.' + adjusted;
-          skillsAdjusted++;
         } else if(adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*$/)) {
           adjusted = adjusted.substring(0, 1).toLowerCase() + adjusted.substring(1).replace(/ /g, '');
         } else {
@@ -5494,22 +5494,28 @@ SRD35.featureRules = function(rules, name, notes) {
           note, '+', adjust == '-%V' ? '-source' : adjust == '+%V' ? 'source' : adjust
         );
 
-      } else if(section == 'skill' && pieces[j].match(/class\s+skill(s)?$/i)) {
+      } else if(section == 'skill' && pieces[j].match(/ class skill(s)?$/)) {
         var skill =
-          pieces[j].replace(/^all\s+|\s+(is\s+a|are)\s+class\s+skill(s)?$/gi, '');
-        rules.defineRule('classSkills.' + skill, note, '=', '1');
+          pieces[j].replace(/^all | (is( a)?|are)? class skill(s)?$/gi, '');
+        if(skill.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
+          rules.defineRule('classSkills.' + skill, note, '=', '1');
+          skillEffects++;
+          if(uniqueSkillsAffected.indexOf(skill) < 0)
+            uniqueSkillsAffected.push(skill);
+        }
       }
 
     }
 
     // TODO convert to testRules
-    if(skillsAdjusted == pieces.length && effects.startsWith('+')) {
+    if(skillEffects == pieces.length && !effects.match(/^-|\/-/)) {
       var sanityNote = 'sanityNotes.' + prefix + 'FeatureSkills';
       rules.defineChoice
-        ('notes', sanityNote + ':Implies ' + pieces.join('||').replace(/\+(\d+|%V) /g, ''));
+        ('notes', sanityNote + ':Implies ' + uniqueSkillsAffected.join('||'));
       rules.defineRule(sanityNote, 'features.' + name, '=', '1');
-      for(var j = 0; j < pieces.length; j++) {
-        rules.defineRule(sanityNote, 'skills.' + pieces[j], 'v', '0');
+      for(var j = 0; j < uniqueSkillsAffected.length; j++) {
+        rules.defineRule
+          (sanityNote, 'skills.' + uniqueSkillsAffected[j], 'v', '0');
       }
     }
 
@@ -5727,10 +5733,9 @@ SRD35.skillRules = function(
   if(untrained != null && typeof untrained != 'boolean') {
     console.log('Bad untrained "' + untrained + '" for skill "' + name + '"');
   }
-
   rules.defineRule('skillModifier.' + name,
     'skills.' + name, '=', 'source / 2',
-    'skills.' + name + '.2', '*', 'source == "" ? 2 : null'
+    'classSkills.' + name, '*', 'source > 0 ? 2 : null'
   );
   rules.defineChoice('notes', 'skills.' + name + ':(%1%2) %V (%3)');
   if(ability)
@@ -6445,9 +6450,8 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'domains')
     result.push(
-      ['turn', 'Turn', 'text', [15]],
-      ['classSkill', 'Class Skills', 'text', [30]],
-      ['bump', 'Spell DC Bump', 'text', [3]]
+      ['features', 'Features', 'text', [40]],
+      ['spells', 'Spells', 'text', [40]]
     );
   else if(type == 'feats')
     // TODO
