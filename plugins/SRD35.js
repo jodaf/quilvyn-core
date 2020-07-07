@@ -74,9 +74,9 @@ SRD35.CHOICES = [
 // random characters
 SRD35.RANDOMIZABLE_ATTRIBUTES = [
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
-  'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'domains',
-  'features', 'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield',
-  'weapons', 'spells', 'companion'
+  'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'features',
+  'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield', 'weapons',
+  'spells', 'companion'
 ];
 SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
 
@@ -92,6 +92,7 @@ SRD35.ALIGNMENTS = {
   'Lawful Neutral':''
 };
 SRD35.ANIMAL_COMPANIONS = {
+
   // Attack, Dam, AC include all modifiers
   'Badger':
     'Str=8 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=1 AC=15 Attack=4 ' +
@@ -256,6 +257,7 @@ SRD35.ANIMAL_COMPANIONS = {
   'Tyrannosaurus':
     'Str=28 Dex=12 Con=21 Int=2 Wis=15 Cha=10 HD=18 AC=14 Attack=20 ' +
     'Dam=3d6+13 Level=16'
+
 };
 SRD35.ARMORS = {
   'None':'AC=0 Level=0 Dex=10 Skill=0 Spell=0',
@@ -271,455 +273,6 @@ SRD35.ARMORS = {
   'Banded Mail':'AC=6 Level=3 Dex=1 Skill=6 Spell=35',
   'Half Plate':'AC=7 Level=3 Dex=0 Skill=7 Spell=40',
   'Full Plate':'AC=8 Level=3 Dex=1 Skill=6 Spell=35'
-};
-SRD35.CLASSES = {
-  'Barbarian':
-    'Require="alignment !~ /Lawful/" ' +
-    'HitDie=d12 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
-    'Features=' +
-      '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
-      '"1:Weapon Proficiency (Martial)","1:Fast Movement",1:Illiteracy,' +
-      '1:Rage,"2:Uncanny Dodge","3:Trap Sense","7:Damage Reduction",' +
-      '"11:Greater Rage","14:Indomitable Will","17:Tireless Rage",' +
-      '"20:Mighty Rage"',
-  'Bard':
-    'Require="alignment !~ /Lawful/" ' +
-    'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
-    'Features=' +
-      '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
-      '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)",' +
-      '"1:Bardic Knowledge","1:Bardic Music",1:Countersong,1:Fascinate,' +
-      '"1:Inspire Courage","1:Simple Somatics",' +
-      '"3:Inspire Competence",6:Suggestion,"9:Inspire Greatness",' +
-      '"12:Song Of Freedom","15:Inspire Heroics","18:Mass Suggestion" ' +
-    'CasterLevelArcane=Level ' +
-    'SpellAbility=charisma ' +
-    'SpellsPerDay=' +
-      'B0:1=2;2=3;14=4,' +
-      'B1:2=0;3=1;4=2;5=3;15=4,' +
-      'B2:4=0;5=1;6=2;8=3;16=4,' +
-      'B3:7=0;8=1;9=2;11=3;17=4,' +
-      'B4:10=0;11=1;12=2;14=3;18=4,' +
-      'B5:13=0;14=1;15=2;17=3;19=4,' +
-      'B6:16=0;17=1;18=2;19=3;20=4 ' +
-    'Spells=' +
-      '"B0:Dancing Lights;Daze;Detect Magic;Flare;Ghost Sound;Know Direction;' +
-      'Light;Lullaby;Mage Hand;Mending;Message;Open/Close;Prestidigitation;' +
-      'Read Magic;Resistance;Summon Instrument",' +
-      '"B1:Alarm;Animate Rope;Cause Fear;Charm Person;Comprehend Languages;' +
-      'Cure Light Wounds;Detect Secret Doors;Disguise Self;Erase;' +
-      'Expeditious Retreat;Feather Fall;Grease;Hideous Laughter;Hypnotism;' +
-      'Identify;Lesser Confusion;Magic Mouth;Magic Aura;Obscure Object;' +
-      'Remove Fear;Silent Image;Sleep;Summon Monster I;' +
-      'Undetectable Alignment;Unseen Servant;Ventriloquism",' +
-      '"B2:Alter Self;Animal Messenger;Animal Trance;Blindness/Deafness;Blur;' +
-      'Calm Emotions;Cat\'s Grace;Cure Moderate Wounds;Darkness;Daze Monster;' +
-      'Delay Poison;Detect Thoughts;Eagle\'s Splendor;Enthrall;' +
-      'Fox\'s Cunning;Glitterdust;Heroism;Hold Person;Hypnotic Pattern;' +
-      'Invisibility;Locate Object;Minor Image;Mirror Image;Misdirection;' +
-      'Pyrotechnics;Rage;Scare;Shatter;Silence;Sound Burst;Suggestion;' +
-      'Summon Monster II;Summon Swarm;Tongues;Whispering Wind",' +
-      '"B3:Blink;Charm Monster;Clairaudience/Clairvoyance;Confusion;' +
-      'Crushing Despair;Cure Serious Wounds;Daylight;Deep Slumber;' +
-      'Dispel Magic;Displacement;Fear;Gaseous Form;Glibness;Good Hope;Haste;' +
-      'Illusory Script;Invisibility Sphere;Lesser Geas;Major Image;' +
-      'Phantom Steed;Remove Curse;Scrying;Sculpt Sound;Secret Page;' +
-      'See Invisibility;Sepia Snake Sigil;Slow;Speak With Animals;' +
-      'Summon Monster III;Tiny Hut",' +
-      '"B4:Break Enchantment;Cure Critical Wounds;Detect Scrying;' +
-      'Dimension Door;Dominate Person;Freedom Of Movement;' +
-      'Hallucinatory Terrain;Hold Monster;Greater Invisibility;Legend Lore;' +
-      'Locate Creature;Modify Memory;Neutralize Poison;Rainbow Pattern;' +
-      'Repel Vermin;Secure Shelter;Shadow Conjuration;Shout;' +
-      'Speak With Plants;Summon Monster IV;Zone Of Silence",' +
-      '"B5:Dream;False Vision;Greater Dispel Magic;Greater Heroism;' +
-      'Mass Cure Light Wounds;Mass Suggestion;Mind Fog;Mirage Arcana;Mislead;' +
-      'Nightmare;Persistent Image;Seeming;Shadow Evocation;Shadow Walk;' +
-      'Song Of Discord;Summon Monster V",' +
-      '"B6:Analyze Dweomer;Animate Objects;Eyebite;Find The Path;Geas/Quest;' +
-      'Greater Scrying;Greater Shout;Heroes\' Feast;Irresistible Dance;' +
-      'Mass Cat\'s Grace;Mass Charm Monster;Mass Cure Moderate Wounds;' +
-      'Mass Eagle\'s Splendor;Mass Fox\'s Cunning;Permanent Image;' +
-      'Programmed Image;Project Image;Summon Monster VI;' +
-      'Sympathetic Vibration;Veil"',
-  'Cleric':
-    'HitDie=d8 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
-    'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
-      '"1:Weapon Proficiency (Simple)",1:Aura,"1:Spontaneous Cleric Spell",' +
-      '"1:Turn Undead" ' +
-    'CasterLevelDivine=Level ' +
-    'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
-      'C0:1=3;2=4;4=5;7=6,' +
-      'C1:1=1;2=2;4=3;7=4;11=5,' +
-      'C2:3=1;4=2;6=3;9=4;13=5,' +
-      'C3:5=1;6=2;8=3;11=4;15=5,' +
-      'C4:7=1;8=2;10=3;13=4;17=5,' +
-      'C5:9=1;10=2;12=3;15=4;19=5,' +
-      'C6:11=1;12=2;14=3;17=4,' +
-      'C7:13=1;14=2;16=3;19=4,' +
-      'C8:15=1;16=2;18=3;20=4,' +
-      'C9:17=1;18=2;19=3;20=4,' +
-      'Dom1:1=1,' +
-      'Dom2:3=1,' +
-      'Dom3:5=1,' +
-      'Dom4:7=1,' +
-      'Dom5:9=1,' +
-      'Dom6:11=1,' +
-      'Dom7:13=1,' +
-      'Dom8:15=1,' +
-      'Dom9:17=1 ' +
-    'Spells=' +
-      '"C0:Create Water;Cure Minor Wounds;Detect Magic;Detect Poison;' +
-      'Guidance;Inflict Minor Wounds;Light;Mending;Purify Food And Drink;' +
-      'Read Magic;Resistance;Virtue",' +
-      '"C1:Bane;Bless;Bless Water;Cause Fear;Command;Comprehend Languages;' +
-      'Cure Light Wounds;Curse Water;Deathwatch;Detect Chaos;Detect Evil;' +
-      'Detect Good;Detect Law;Detect Undead;Divine Favor;Doom;' +
-      'Endure Elements;Entropic Shield;Hide From Undead;Inflict Light Wounds;' +
-      'Magic Stone;Magic Weapon;Obscuring Mist;Protection From Chaos;' +
-      'Protection From Evil;Protection From Good;Protection From Law;' +
-      'Remove Fear;Sanctuary;Shield Of Faith;Summon Monster I",' +
-      '"C2:Aid;Align Weapon;Augury;Bear\'s Endurance;Bull\'s Strength;' +
-      'Calm Emotions;Consecrate;Cure Moderate Wounds;Darkness;Death Knell;' +
-      'Delay Poison;Desecrate;Eagle\'s Splendor;Enthrall;Find Traps;' +
-      'Gentle Repose;Hold Person;Inflict Moderate Wounds;Lesser Restoration;' +
-      'Make Whole;Owl\'s Wisdom;Remove Paralysis;Resist Energy;Shatter;' +
-      'Shield Other;Silence;Sound Burst;Spiritual Weapon;Status;' +
-      'Summon Monster II;Undetectable Alignment;Zone Of Truth",' +
-      '"C3:Animate Dead;Bestow Curse;Blindness/Deafness;Contagion;' +
-      'Continual Flame;Create Food And Water;Cure Serious Wounds;Daylight;' +
-      'Deeper Darkness;Dispel Magic;Glyph Of Warding;Helping Hand;' +
-      'Inflict Serious Wounds;Invisibility Purge;Locate Object;' +
-      'Magic Circle Against Chaos;Magic Circle Against Evil;' +
-      'Magic Circle Against Good;Magic Circle Against Law;Magic Vestment;' +
-      'Meld Into Stone;Obscure Object;Prayer;Protection From Energy;' +
-      'Remove Blindness/Deafness;Remove Curse;Remove Disease;Searing Light;' +
-      'Speak With Dead;Stone Shape;Summon Monster III;Water Breathing;' +
-      'Water Walk;Wind Wall",' +
-      '"C4:Air Walk;Control Water;Cure Critical Wounds;Death Ward;' +
-      'Dimensional Anchor;Discern Lies;Dismissal;Divination;Divine Power;' +
-      'Freedom Of Movement;Giant Vermin;Greater Magic Weapon;' +
-      'Imbue With Spell Ability;Inflict Critical Wounds;Lesser Planar Ally;' +
-      'Neutralize Poison;Poison;Repel Vermin;Restoration;Sending;' +
-      'Spell Immunity;Summon Monster IV;Tongues",' +
-      '"C5:Atonement;Break Enchantment;Commune;Dispel Chaos;Dispel Evil;' +
-      'Dispel Good;Dispel Law;Disrupting Weapon;Flame Strike;' +
-      'Greater Command;Hallow;Insect Plague;Mark Of Justice;' +
-      'Mass Cure Light Wounds;Mass Inflict Light Wounds;Plane Shift;' +
-      'Raise Dead;Righteous Might;Scrying;Slay Living;Spell Resistance;' +
-      'Summon Monster V;Symbol Of Pain;Symbol Of Sleep;True Seeing;Unhallow;' +
-      'Wall Of Stone",' +
-      '"C6:Animate Objects;Antilife Shell;Banishment;Blade Barrier;' +
-      'Create Undead;Find The Path;Forbiddance;Geas/Quest;' +
-      'Greater Dispel Magic;Greater Glyph Of Warding;Harm;Heal;' +
-      'Heroes\' Feast;Mass Bear\'s Endurance;Mass Bull\'s Strength;' +
-      'Mass Cure Moderate Wounds;Mass Eagle\'s Splendor;' +
-      'Mass Inflict Moderate Wounds;Mass Owl\'s Wisdom;Planar Ally;' +
-      'Summon Monster VI;Symbol Of Fear;Symbol Of Persuasion;' +
-      'Undeath To Death;Wind Walk;Word Of Recall",' +
-      '"C7:Blasphemy;Control Weather;Destruction;Dictum;Ethereal Jaunt;' +
-      'Greater Restoration;Greater Scrying;Holy Word;' +
-      'Mass Cure Serious Wounds;Mass Inflict Serious Wounds;Refuge;' +
-      'Regenerate;Repulsion;Resurrection;Summon Monster VII;' +
-      'Symbol Of Stunning;Symbol Of Weakness;Word Of Chaos",' +
-      '"C8:Antimagic Field;Cloak Of Chaos;Create Greater Undead;' +
-      'Dimensional Lock;Discern Location;Earthquake;Fire Storm;' +
-      'Greater Planar Ally;Greater Spell Immunity;Holy Aura;' +
-      'Mass Cure Critical Wounds;Mass Inflict Critical Wounds;Shield Of Law;' +
-      'Summon Monster VIII;Symbol Of Death;Symbol Of Insanity",' +
-      '"C9:Astral Projection;Energy Drain;Etherealness;Gate;Implosion;' +
-      'Mass Heal;Miracle;Soul Bind;Storm Of Vengeance;Summon Monster IX;' +
-      'True Resurrection;Unholy Aura"',
-  'Druid':
-    'Require="alignment =~ /Neutral/","armor =~ /None|Hide|Leather|Padded/","shield =~ /None|Wooden/" ' +
-    'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
-    'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
-      '"1:Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear)",' +
-      '"1:Animal Companion","1:Nature Sense","1:Spontaneous Druid Spell",' +
-      '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
-      '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
-      '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
-    'CasterLevelDivine=Level ' +
-    'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
-      'D0:1=3;2=4;4=5;7=6,' +
-      'D1:1=1;2=2;4=3;7=4;11=5,' +
-      'D2:3=1;4=2;6=3;9=4;13=5,' +
-      'D3:5=1;6=2;8=3;11=4;15=5,' +
-      'D4:7=1;8=2;10=3;13=4;17=5,' +
-      'D5:9=1;10=2;12=3;15=4;19=5,' +
-      'D6:11=1;12=2;14=3;17=4,' +
-      'D7:13=1;14=2;16=3;19=4,' +
-      'D8:15=1;16=2;18=3;20=4,' +
-      'D9:17=1;18=2;19=3;20=4 ' +
-    'Spells=' +
-      '"D0:Create Water;Cure Minor Wounds;Detect Magic;Detect Poison;Flare;' +
-      'Guidance;Know Direction;Light;Mending;Purify Food And Drink;' +
-      'Read Magic;Resistance;Virtue",' +
-      '"D1:Calm Animals;Charm Animal;Cure Light Wounds;' +
-      'Detect Animals Or Plants;Detect Snares And Pits;Endure Elements;' +
-      'Entangle;Faerie Fire;Goodberry;Hide From Animals;Jump;Longstrider;' +
-      'Magic Fang;Magic Stone;Obscuring Mist;Pass Without Trace;' +
-      'Produce Flame;Shillelagh;Speak With Animals;Summon Nature\'s Ally I",' +
-      '"D2:Animal Messenger;Animal Trance;Barkskin;Bear\'s Endurance;' +
-      'Bull\'s Strength;Cat\'s Grace;Chill Metal;Delay Poison;Fire Trap;' +
-      'Flame Blade;Flaming Sphere;Fog Cloud;Gust Of Wind;Heat Metal;' +
-      'Hold Animal;Lesser Restoration;Owl\'s Wisdom;Reduce Animal;' +
-      'Resist Energy;Soften Earth And Stone;Spider Climb;' +
-      'Summon Nature\'s Ally II;Summon Swarm;Tree Shape;Warp Wood;' +
-      'Wood Shape",' +
-      '"D3:Call Lightning;Contagion;Cure Moderate Wounds;Daylight;' +
-      'Diminish Plants;Dominate Animal;Greater Magic Fang;Meld Into Stone;' +
-      'Neutralize Poison;Plant Growth;Poison;Protection From Energy;Quench;' +
-      'Remove Disease;Sleet Storm;Snare;Speak With Plants;Spike Growth;' +
-      'Stone Shape;Summon Nature\'s Ally III;Water Breathing;Wind Wall",' +
-      '"D4:Air Walk;Antiplant Shell;Blight;Command Plants;Control Water;' +
-      'Cure Serious Wounds;Dispel Magic;Flame Strike;Freedom Of Movement;' +
-      'Giant Vermin;Ice Storm;Reincarnate;Repel Vermin;Rusting Grasp;Scrying;' +
-      'Spike Stones;Summon Nature\'s Ally IV",' +
-      '"D5:Animal Growth;Atonement;Awaken;Baleful Polymorph;' +
-      'Call Lightning Storm;Commune With Nature;Control Winds;' +
-      'Cure Critical Wounds;Death Ward;Hallow;Insect Plague;Stoneskin;' +
-      'Summon Nature\'s Ally V;Transmute Mud To Rock;Transmute Rock To Mud;' +
-      'Tree Stride;Unhallow;Wall Of Fire;Wall Of Thorns",' +
-      '"D6:Antilife Shell;Find The Path;Fire Seeds;Greater Dispel Magic;' +
-      'Ironwood;Liveoak;Mass Bear\'s Endurance;Mass Bull\'s Strength;' +
-      'Mass Cat\'s Grace;Mass Cure Light Wounds;Mass Owl\'s Wisdom;' +
-      'Move Earth;Repel Wood;Spellstaff;Stone Tell;Summon Nature\'s Ally VI;' +
-      'Transport Via Plants;Wall Of Stone",' +
-      '"D7:Animate Plants;Changestaff;Control Weather;Creeping Doom;' +
-      'Cure Moderate Wounds;Fire Storm;Greater Scrying;Heal;' +
-      'Summon Nature\'s Ally VII;Sunbeam;Transmute Metal To Wood;' +
-      'True Seeing;Wind Walk",' +
-      '"D8:Animal Shapes;Control Plants;Earthquake;Finger Of Death;' +
-      'Mass Cure Serious Wounds;Repel Metal Or Stone;Reverse Gravity;' +
-      'Summon Nature\'s Ally VIII;Sunburst;Whirlwind",' +
-      '"D9:Antipathy;Elemental Swarm;Foresight;Mass Cure Critical Wounds;' +
-      'Regenerate;Shambler;Shapechange;Storm Of Vengeance;' +
-      'Summon Nature\'s Ally IX;Sympathy;Word Of Recall"',
-  'Fighter':
-    'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
-    'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
-      '"1:Weapon Proficiency (Martial)"',
-  'Monk':
-    'Require="alignment =~ /Lawful/" Imply="armor == \'None\'","shield == \'None\'" ' +
-    'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
-    'Features=' +
-      '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
-      '"1:Flurry Of Blows","1:Improved Unarmed Strike",2:Evasion,' +
-      '"3:Fast Movement","3:Still Mind","4:Ki Strike","4:Slow Fall",' +
-      '"5:Purity Of Body","7:Wholeness Of Body","9:Improved Evasion",' +
-      '"10:Lawful Ki Strike","11:Diamond Body","11:Greater Flurry",' +
-      '"12:Abundant Step","13:Diamond Soul","15:Quivering Palm",' +
-      '"16:Adamantine Ki Strike","17:Timeless Body",' +
-      '"17:Tongue Of The Sun And Moon","19:Empty Body","20:Perfect Self" ' +
-    'Selectables=' +
-      '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
-      '"2:Deflect Arrows","6:Improved Disarm","6"Improved Grapple"',
-  'Paladin':
-    'Require="alignment == \'Lawful Good\'" ' +
-    'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
-    'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
-      '"1:Weapon Proficiency (Martial)",1:Aura,"1:Detect Evil",' +
-      '"1:Smite Evil","2:Divine Grace","2:Lay On Hands","3:Aura Of Courage",' +
-      '"3:Divine Health","4:Turn Undead","5:Special Mount",' +
-      '"6:Remove Disease" ' +
-    'CasterLevelDivine=Math.floor(Level/2) ' +
-    'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
-      'P1:4=0;6=1;14=2;18=3,' +
-      'P2:8=0;10=1;16=2;19=3,' +
-      'P3:11=0;12=1;17=2;19=3,' +
-      'P4:14=0;15=1;19=2;20=3 ' +
-    'Spells=' +
-      '"P1:Bless;Bless Water;Bless Weapon;Create Water;Cure Light Wounds;' +
-      'Detect Poison;Detect Undead;Divine Favor;Endure Elements;' +
-      'Lesser Restoration;Magic Weapon;Protection From Chaos;' +
-      'Protection From Evil;Read Magic;Resistance;Virtue",' +
-      '"P2:Bull\'s Strength;Delay Poison;Eagle\'s Splendor;Owl\'s Wisdom;' +
-      'Remove Paralysis;Resist Energy;Shield Other;Undetectable Alignment;' +
-      'Zone Of Truth",' +
-      '"P3:Cure Moderate Wounds;Daylight;Discern Lies;Dispel Magic;' +
-      'Greater Magic Weapon;Heal Mount;Magic Circle Against Chaos;' +
-      'Magic Circle Against Evil;Prayer;Remove Blindness/Deafness;' +
-      'Remove Curse",' +
-      '"P4:Break Enchantment;Cure Serious Wounds;Death Ward;Dispel Chaos;' +
-      'Dispel Evil;Holy Sword;Mark Of Justice;Neutralize Poison;Restoration"',
-  'Ranger':
-    'HitDie=d8 Attack=1 SkillPoints=6 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
-    'Features=' +
-      '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
-      '"1:Weapon Proficiency (Martial)","1:Favored Enemy",1:Track,' +
-      '"1:Wild Empathy","2:Rapid Shot","2:Two-Weapon Fighting",3:Endurance,' +
-      '"4:Animal Companion",6:Manyshot,"6:Improved Two-Weapon Fighting",' +
-      '"7:Woodland Stride","8:Swift Tracker",9:Evasion,' +
-      '"11:Improved Precise Shot","11:Greater Two-Weapon Fighting",' +
-      '13:Camouflage,"17:Hide In Plain Sight" ' +
-    'Selectables=' +
-      '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)" ' +
-    'CasterLevelDivine=Math.floor(Level/2) ' +
-    'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
-      'R1:4=0;6=1;14=2;18=3,' +
-      'R2:8=0;10=1;16=2;19=3,' +
-      'R3:11=0;12=1;17=2;19=3,' +
-      'R4:14=0;15=1;19=2;20=3 ' +
-    'Spells=' +
-      '"R1:Alarm;Animal Messenger;Calm Animals;Charm Animal;Delay Poison;' +
-      'Detect Animals Or Plants;Detect Poison;Detect Snares And Pits;' +
-      'Endure Elements;Entangle;Hide From Animals;Jump;Longstrider;' +
-      'Magic Fang;Pass Without Trace;Read Magic;Resist Energy;' +
-      'Speak With Animals;Summon Nature\'s Ally I",' +
-      '"R2:Barkskin;Bear\'s Endurance;Cat\'s Grace;Cure Light Wounds;' +
-      'Hold Animal;Owl\'s Wisdom;Protection From Energy;Snare;' +
-      'Speak With Plants;Spike Growth;Summon Nature\'s Ally II;Wind Wall",' +
-      '"R3:Command Plants;Cure Moderate Wounds;Darkvision;Diminish Plants;' +
-      'Greater Magic Fang;Neutralize Poison;Plant Growth;Reduce Animal;' +
-      'Remove Disease;Repel Vermin;Summon Nature\'s Ally III;Tree Shape;' +
-      'Water Walk",' +
-      '"R4:Animal Growth;Commune With Nature;Cure Serious Wounds;' +
-      'Freedom Of Movement;Nondetection;Summon Nature\'s Ally IV;Tree Stride"',
-  'Rogue':
-    'HitDie=d6 Attack=3/4 SkillPoints=8 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
-    'Features=' +
-      '"1:Armor Proficiency (Light)",' +
-      '"1:Weapon Proficiency (Simple/Hand Crossbow/Rapier/Shortbow/Short Sword)",' +
-      '"1:Sneak Attack",1:Trapfinding,2:Evasion,"3:Trap Sense",' +
-      '"4:Uncanny Dodge","8:Improved Uncanny Dodge" ' +
-    'Selectables=' +
-      '"10:Crippling Strike","10:Defensive Roll","10:Feat Bonus",' +
-      '"10:Improved Evasion",10:Opportunist,"10:Skill Mastery",' +
-      '"10:Slippery Mind"',
-  'Sorcerer':
-    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
-    'Features=' +
-      '"1:Weapon Proficiency (Simple)",1:Familiar ' +
-    'CasterLevelArcane=Level ' +
-    'SpellAbility=charisma ' +
-    'SpellsPerDay=' +
-      'S0:1=5;2=6,' +
-      'S1:1=3;2=4;3=5;4=6,' +
-      'S2:4=3;5=4;6=5;7=6,' +
-      'S3:6=3;7=4;8=5;9=6,' +
-      'S4:8=3;9=4;10=5;11=6,' +
-      'S5:10=3;11=4;12=5;13=6,' +
-      'S6:12=3;13=4;14=5;15=6,' +
-      'S7:14=3;15=4;16=5;17=6,' +
-      'S8:16=3;17=4;18=5;19=6,' +
-      'S9:18=3;19=4;20=6',
-  'Wizard':
-    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
-    'Features=' +
-      '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
-      '"1:Scribe Scroll",1:Familiar,"1:Wizard Specialization" ' +
-    'CasterLevelArcane=Level ' +
-    'SpellAbility=intelligence ' +
-    'SpellsPerDay=' +
-      'W0:1=3;2=4,' +
-      'W1:1=1;2=2;4=3;7=4,' +
-      'W2:3=1;4=2;6=3;9=4,' +
-      'W3:5=1;6=2;8=3;11=4,' +
-      'W4:7=1;8=2;10=3;13=4,' +
-      'W5:9=1;10=2;12=3;15=4,' +
-      'W6:11=1;12=2;14=3;17=4,' +
-      'W7:13=1;14=2;16=3;19=4,' +
-      'W8:15=1;16=2;18=3;20=4,' +
-      'W9:17=1;18=2;19=3;20=4 ' +
-    'Spells=' +
-      '"W0:Acid Splash;Arcane Mark;Dancing Lights;Daze;Detect Magic;' +
-      'Detect Poison;Disrupt Undead;Flare;Ghost Sound;Light;Mage Hand;' +
-      'Mending;Message;Open/Close;Prestidigitation;Ray Of Frost;Read Magic;' +
-      'Resistance;Touch Of Fatigue",' +
-      '"W1:Alarm;Animate Rope;Burning Hands;Cause Fear;Charm Person;' +
-      'Chill Touch;Color Spray;Comprehend Languages;Detect Secret Doors;' +
-      'Detect Undead;Disguise Self;Endure Elements;Enlarge Person;Erase;' +
-      'Expeditious Retreat;Feather Fall;Floating Disk;Grease;Hold Portal;' +
-      'Hypnotism;Identify;Jump;Mage Armor;Magic Aura;Magic Missile;' +
-      'Magic Weapon;Mount;Obscuring Mist;Protection From Chaos;' +
-      'Protection From Evil;Protection From Good;Protection From Law;' +
-      'Ray Of Enfeeblement;Reduce Person;Shield;Shocking Grasp;Silent Image;' +
-      'Sleep;Summon Monster I;True Strike;Unseen Servant;Ventriloquism",' +
-      '"W2:Acid Arrow;Alter Self;Arcane Lock;Bear\'s Endurance;' +
-      'Blindness/Deafness;Blur;Bull\'s Strength;Cat\'s Grace;Command Undead;' +
-      'Continual Flame;Darkness;Darkvision;Daze Monster;Detect Thoughts;' +
-      'Eagle\'s Splendor;False Life;Flaming Sphere;Fog Cloud;Fox\'s Cunning;' +
-      'Ghoul Touch;Glitterdust;Gust Of Wind;Hideous Laughter;' +
-      'Hypnotic Pattern;Invisibility;Knock;Levitate;Locate Object;' +
-      'Magic Mouth;Minor Image;Mirror Image;Misdirection;Obscure Object;' +
-      'Owl\'s Wisdom;Phantom Trap;Protection From Arrows;Pyrotechnics;' +
-      'Resist Energy;Rope Trick;Scare;Scorching Ray;See Invisibility;Shatter;' +
-      'Spectral Hand;Spider Climb;Summon Monster II;Summon Swarm;' +
-      'Touch Of Idiocy;Web;Whispering Wind",' +
-      '"W3:Arcane Sight;Blink;Clairaudience/Clairvoyance;Daylight;' +
-      'Deep Slumber;Dispel Magic;Displacement;Explosive Runes;Fireball;' +
-      'Flame Arrow;Fly;Gaseous Form;Gentle Repose;Greater Magic Weapon;' +
-      'Halt Undead;Haste;Heroism;Hold Person;Illusory Script;' +
-      'Invisibility Sphere;Keen Edge;Lightning Bolt;' +
-      'Magic Circle Against Chaos;Magic Circle Against Evil;' +
-      'Magic Circle Against Good;Magic Circle Against Law;Major Image;' +
-      'Nondetection;Phantom Steed;Protection From Energy;Rage;' +
-      'Ray Of Exhaustion;Secret Page;Sepia Snake Sigil;Shrink Item;' +
-      'Sleet Storm;Slow;Stinking Cloud;Suggestion;Summon Monster III;' +
-      'Tiny Hut;Tongues;Vampiric Touch;Water Breathing;Wind Wall",' +
-      '"W4:Animate Dead;Arcane Eye;Bestow Curse;Black Tentacles;' +
-      'Charm Monster;Confusion;Contagion;Crushing Despair;Detect Scrying;' +
-      'Dimension Door;Dimensional Anchor;Enervation;Fear;Fire Shield;' +
-      'Fire Trap;Greater Invisibility;Hallucinatory Terrain;Ice Storm;' +
-      'Illusory Wall;Lesser Geas;Lesser Globe Of Invulnerability;' +
-      'Locate Creature;Mass Enlarge Person;Mass Reduce Person;Minor Creation;' +
-      'Mnemonic Enhancer;Phantasmal Killer;Polymorph;Rainbow Pattern;' +
-      'Remove Curse;Resilient Sphere;Scrying;Secure Shelter;' +
-      'Shadow Conjuration;Shout;Solid Fog;Stone Shape;Stoneskin;' +
-      'Summon Monster IV;Wall Of Fire;Wall Of Ice",' +
-      '"W5:Animal Growth;Baleful Polymorph;Blight;Break Enchantment;' +
-      'Cloudkill;Cone Of Cold;Contact Other Plane;Dismissal;Dominate Person;' +
-      'Dream;Fabricate;False Vision;Feeblemind;Hold Monster;Interposing Hand;' +
-      'Lesser Planar Binding;Mage\'s Faithful Hound;Mage\'s Private Sanctum;' +
-      'Magic Jar;Major Creation;Mind Fog;Mirage Arcana;Nightmare;' +
-      'Overland Flight;Passwall;Permanency;Persistent Image;Prying Eyes;' +
-      'Secret Chest;Seeming;Sending;Shadow Evocation;Summon Monster V;' +
-      'Symbol Of Pain;Symbol Of Sleep;Telekinesis;Telepathic Bond;Teleport;' +
-      'Transmute Mud To Rock;Transmute Rock To Mud;Wall Of Force;' +
-      'Wall Of Stone;Waves Of Fatigue",' +
-      '"W6:Acid Fog;Analyze Dweomer;Antimagic Field;Chain Lightning;' +
-      'Circle Of Death;Contingency;Control Water;Create Undead;Disintegrate;' +
-      'Eyebite;Flesh To Stone;Forceful Hand;Freezing Sphere;Geas/Quest;' +
-      'Globe Of Invulnerability;Greater Dispel Magic;Greater Heroism;' +
-      'Guards And Wards;Legend Lore;Mage\'s Lucubration;' +
-      'Mass Bear\'s Endurance;Mass Bull\'s Strength;Mass Cat\'s Grace;' +
-      'Mass Eagle\'s Splendor;Mass Fox\'s Cunning;Mass Owl\'s Wisdom;' +
-      'Mass Suggestion;Mislead;Move Earth;Permanent Image;Planar Binding;' +
-      'Programmed Image;Repulsion;Shadow Walk;Stone To Flesh;' +
-      'Summon Monster VI;Symbol Of Fear;Symbol Of Persuasion;Transformation;' +
-      'True Seeing;Undeath To Death;Veil;Wall Of Iron",' +
-      '"W7:Banishment;Control Undead;Control Weather;Delayed Blast Fireball;' +
-      'Ethereal Jaunt;Finger Of Death;Forcecage;Grasping Hand;' +
-      'Greater Arcane Sight;Greater Scrying;Greater Shadow Conjuration;' +
-      'Greater Teleport;Insanity;Instant Summons;Limited Wish;' +
-      'Mage\'s Magnificent Mansion;Mage\'s Sword;Mass Hold Person;' +
-      'Mass Invisibility;Phase Door;Plane Shift;Power Word Blind;' +
-      'Prismatic Spray;Project Image;Reverse Gravity;Sequester;Simulacrum;' +
-      'Spell Turning;Statue;Summon Monster VII;Symbol Of Stunning;' +
-      'Symbol Of Weakness;Teleport Object;Vision;Waves Of Exhaustion",' +
-      '"W8:Antipathy;Binding;Clenched Fist;Clone;Create Greater Undead;' +
-      'Demand;Dimensional Lock;Discern Location;Greater Planar Binding;' +
-      'Greater Prying Eyes;Greater Shadow Evocation;Greater Shout;' +
-      'Horrid Wilting;Incendiary Cloud;Iron Body;Irresistible Dance;' +
-      'Mass Charm Monster;Maze;Mind Blank;Moment Of Prescience;Polar Ray;' +
-      'Polymorph Any Object;Power Word Stun;Prismatic Wall;' +
-      'Protection From Spells;Scintillating Pattern;Screen;' +
-      'Summon Monster VIII;Sunburst;Symbol Of Death;Symbol Of Insanity;' +
-      'Sympathy;Telekinetic Sphere;Temporal Stasis;Trap The Soul",' +
-      '"W9:Astral Projection;Crushing Hand;Dominate Monster;Energy Drain;' +
-      'Etherealness;Foresight;Freedom;Gate;Imprisonment;Mage\'s Disjunction;' +
-      'Mass Hold Monster;Meteor Swarm;Power Word Kill;Prismatic Sphere;' +
-      'Refuge;Shades;Shapechange;Soul Bind;Summon Monster IX;' +
-      'Teleportation Circle;Time Stop;Wail Of The Banshee;Weird;Wish"'
 };
 SRD35.DEITIES = {
   'None':'' // The SRD defines no deities
@@ -832,6 +385,7 @@ SRD35.DOMAINS = {
     '"Ice Storm","Cone Of Cold","Acid Fog","Horrid Wilting","Elemental Swarm"'
 };
 SRD35.FAMILIARS = {
+
   // Attack, Dam, AC include all modifiers
   'Bat':
     'Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=16 Attack=0 Dam=0',
@@ -917,6 +471,7 @@ SRD35.FAMILIARS = {
   'Water Mephit':
     'Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=6 ' +
     'Dam=2@1d3+2 Level=7'
+
 };
 SRD35.FEATS = {
   'Acrobatic':'Type=General',
@@ -1315,6 +870,10 @@ SRD35.FEATURES = {
   'Remove Disease':'magic:<i>Remove Disease</i> %V/week',
   "Resist Nature's Lure":'save:+4 vs. spells of feys',
   // Scribe Scroll as per feat
+  'School Specialization':[
+    'magic:Extra %V spell/day each spell level',
+    'skill:+2 Spellcraft (%V effects)',
+  ],
   'Simple Somatics':'magic:No casting penalty in light armor',
   'Skill Mastery':'skill:Take 10 despite distraction on %V chosen skills',
   'Slippery Mind':'save:Second save vs. enchantment',
@@ -1347,10 +906,6 @@ SRD35.FEATURES = {
   'Wholeness Of Body':'magic:Heal %V HP to self/day',
   'Wild Empathy':'skill:+%V Diplomacy (animals)',
   'Wild Shape':'magic:Change into creature of size %V %1 hours %2/day',
-  'Wizard Specialization':[
-    'magic:Extra %V spell/day each spell level',
-    'skill:+2 Spellcraft (%V effects)',
-  ],
   'Woodland Stride':'feature:Normal movement through undergrowth',
   // Races
   'Accurate':'combat:+1 attack with slings and thrown',
@@ -3523,6 +3078,461 @@ SRD35.WEAPONS = {
   'Warhammer':'Level=2 Category=1h Damage=d8 Crit=3',
   'Whip':'Level=3 Category=1h Damage=d3'
 };
+SRD35.CLASSES = {
+  'Barbarian':
+    'Require="alignment !~ /Lawful/" ' +
+    'HitDie=d12 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
+      '"1:Weapon Proficiency (Martial)","1:Fast Movement",1:Illiteracy,' +
+      '1:Rage,"2:Uncanny Dodge","3:Trap Sense","7:Damage Reduction",' +
+      '"11:Greater Rage","14:Indomitable Will","17:Tireless Rage",' +
+      '"20:Mighty Rage"',
+  'Bard':
+    'Require="alignment !~ /Lawful/" ' +
+    'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
+      '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)",' +
+      '"1:Bardic Knowledge","1:Bardic Music",1:Countersong,1:Fascinate,' +
+      '"1:Inspire Courage","1:Simple Somatics",' +
+      '"3:Inspire Competence",6:Suggestion,"9:Inspire Greatness",' +
+      '"12:Song Of Freedom","15:Inspire Heroics","18:Mass Suggestion" ' +
+    'CasterLevelArcane=Level ' +
+    'SpellAbility=charisma ' +
+    'SpellsPerDay=' +
+      'B0:1=2;2=3;14=4,' +
+      'B1:2=0;3=1;4=2;5=3;15=4,' +
+      'B2:4=0;5=1;6=2;8=3;16=4,' +
+      'B3:7=0;8=1;9=2;11=3;17=4,' +
+      'B4:10=0;11=1;12=2;14=3;18=4,' +
+      'B5:13=0;14=1;15=2;17=3;19=4,' +
+      'B6:16=0;17=1;18=2;19=3;20=4 ' +
+    'Spells=' +
+      '"B0:Dancing Lights;Daze;Detect Magic;Flare;Ghost Sound;Know Direction;' +
+      'Light;Lullaby;Mage Hand;Mending;Message;Open/Close;Prestidigitation;' +
+      'Read Magic;Resistance;Summon Instrument",' +
+      '"B1:Alarm;Animate Rope;Cause Fear;Charm Person;Comprehend Languages;' +
+      'Cure Light Wounds;Detect Secret Doors;Disguise Self;Erase;' +
+      'Expeditious Retreat;Feather Fall;Grease;Hideous Laughter;Hypnotism;' +
+      'Identify;Lesser Confusion;Magic Mouth;Magic Aura;Obscure Object;' +
+      'Remove Fear;Silent Image;Sleep;Summon Monster I;' +
+      'Undetectable Alignment;Unseen Servant;Ventriloquism",' +
+      '"B2:Alter Self;Animal Messenger;Animal Trance;Blindness/Deafness;Blur;' +
+      'Calm Emotions;Cat\'s Grace;Cure Moderate Wounds;Darkness;Daze Monster;' +
+      'Delay Poison;Detect Thoughts;Eagle\'s Splendor;Enthrall;' +
+      'Fox\'s Cunning;Glitterdust;Heroism;Hold Person;Hypnotic Pattern;' +
+      'Invisibility;Locate Object;Minor Image;Mirror Image;Misdirection;' +
+      'Pyrotechnics;Rage;Scare;Shatter;Silence;Sound Burst;Suggestion;' +
+      'Summon Monster II;Summon Swarm;Tongues;Whispering Wind",' +
+      '"B3:Blink;Charm Monster;Clairaudience/Clairvoyance;Confusion;' +
+      'Crushing Despair;Cure Serious Wounds;Daylight;Deep Slumber;' +
+      'Dispel Magic;Displacement;Fear;Gaseous Form;Glibness;Good Hope;Haste;' +
+      'Illusory Script;Invisibility Sphere;Lesser Geas;Major Image;' +
+      'Phantom Steed;Remove Curse;Scrying;Sculpt Sound;Secret Page;' +
+      'See Invisibility;Sepia Snake Sigil;Slow;Speak With Animals;' +
+      'Summon Monster III;Tiny Hut",' +
+      '"B4:Break Enchantment;Cure Critical Wounds;Detect Scrying;' +
+      'Dimension Door;Dominate Person;Freedom Of Movement;' +
+      'Hallucinatory Terrain;Hold Monster;Greater Invisibility;Legend Lore;' +
+      'Locate Creature;Modify Memory;Neutralize Poison;Rainbow Pattern;' +
+      'Repel Vermin;Secure Shelter;Shadow Conjuration;Shout;' +
+      'Speak With Plants;Summon Monster IV;Zone Of Silence",' +
+      '"B5:Dream;False Vision;Greater Dispel Magic;Greater Heroism;' +
+      'Mass Cure Light Wounds;Mass Suggestion;Mind Fog;Mirage Arcana;Mislead;' +
+      'Nightmare;Persistent Image;Seeming;Shadow Evocation;Shadow Walk;' +
+      'Song Of Discord;Summon Monster V",' +
+      '"B6:Analyze Dweomer;Animate Objects;Eyebite;Find The Path;Geas/Quest;' +
+      'Greater Scrying;Greater Shout;Heroes\' Feast;Irresistible Dance;' +
+      'Mass Cat\'s Grace;Mass Charm Monster;Mass Cure Moderate Wounds;' +
+      'Mass Eagle\'s Splendor;Mass Fox\'s Cunning;Permanent Image;' +
+      'Programmed Image;Project Image;Summon Monster VI;' +
+      'Sympathetic Vibration;Veil"',
+  'Cleric':
+    'HitDie=d8 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
+      '"1:Weapon Proficiency (Simple)",1:Aura,"1:Cleric Domains":,' +
+      '"1:Spontaneous Cleric Spell","1:Turn Undead" ' +
+    'Selectables=' +
+      QuilvynUtils.getKeys(SRD35.DOMAINS).map(x => '"1:' + x + ' Domain"').join(',') + ' ' +
+    'CasterLevelDivine=Level ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'C0:1=3;2=4;4=5;7=6,' +
+      'C1:1=1;2=2;4=3;7=4;11=5,' +
+      'C2:3=1;4=2;6=3;9=4;13=5,' +
+      'C3:5=1;6=2;8=3;11=4;15=5,' +
+      'C4:7=1;8=2;10=3;13=4;17=5,' +
+      'C5:9=1;10=2;12=3;15=4;19=5,' +
+      'C6:11=1;12=2;14=3;17=4,' +
+      'C7:13=1;14=2;16=3;19=4,' +
+      'C8:15=1;16=2;18=3;20=4,' +
+      'C9:17=1;18=2;19=3;20=4,' +
+      'Dom1:1=1,' +
+      'Dom2:3=1,' +
+      'Dom3:5=1,' +
+      'Dom4:7=1,' +
+      'Dom5:9=1,' +
+      'Dom6:11=1,' +
+      'Dom7:13=1,' +
+      'Dom8:15=1,' +
+      'Dom9:17=1 ' +
+    'Spells=' +
+      '"C0:Create Water;Cure Minor Wounds;Detect Magic;Detect Poison;' +
+      'Guidance;Inflict Minor Wounds;Light;Mending;Purify Food And Drink;' +
+      'Read Magic;Resistance;Virtue",' +
+      '"C1:Bane;Bless;Bless Water;Cause Fear;Command;Comprehend Languages;' +
+      'Cure Light Wounds;Curse Water;Deathwatch;Detect Chaos;Detect Evil;' +
+      'Detect Good;Detect Law;Detect Undead;Divine Favor;Doom;' +
+      'Endure Elements;Entropic Shield;Hide From Undead;Inflict Light Wounds;' +
+      'Magic Stone;Magic Weapon;Obscuring Mist;Protection From Chaos;' +
+      'Protection From Evil;Protection From Good;Protection From Law;' +
+      'Remove Fear;Sanctuary;Shield Of Faith;Summon Monster I",' +
+      '"C2:Aid;Align Weapon;Augury;Bear\'s Endurance;Bull\'s Strength;' +
+      'Calm Emotions;Consecrate;Cure Moderate Wounds;Darkness;Death Knell;' +
+      'Delay Poison;Desecrate;Eagle\'s Splendor;Enthrall;Find Traps;' +
+      'Gentle Repose;Hold Person;Inflict Moderate Wounds;Lesser Restoration;' +
+      'Make Whole;Owl\'s Wisdom;Remove Paralysis;Resist Energy;Shatter;' +
+      'Shield Other;Silence;Sound Burst;Spiritual Weapon;Status;' +
+      'Summon Monster II;Undetectable Alignment;Zone Of Truth",' +
+      '"C3:Animate Dead;Bestow Curse;Blindness/Deafness;Contagion;' +
+      'Continual Flame;Create Food And Water;Cure Serious Wounds;Daylight;' +
+      'Deeper Darkness;Dispel Magic;Glyph Of Warding;Helping Hand;' +
+      'Inflict Serious Wounds;Invisibility Purge;Locate Object;' +
+      'Magic Circle Against Chaos;Magic Circle Against Evil;' +
+      'Magic Circle Against Good;Magic Circle Against Law;Magic Vestment;' +
+      'Meld Into Stone;Obscure Object;Prayer;Protection From Energy;' +
+      'Remove Blindness/Deafness;Remove Curse;Remove Disease;Searing Light;' +
+      'Speak With Dead;Stone Shape;Summon Monster III;Water Breathing;' +
+      'Water Walk;Wind Wall",' +
+      '"C4:Air Walk;Control Water;Cure Critical Wounds;Death Ward;' +
+      'Dimensional Anchor;Discern Lies;Dismissal;Divination;Divine Power;' +
+      'Freedom Of Movement;Giant Vermin;Greater Magic Weapon;' +
+      'Imbue With Spell Ability;Inflict Critical Wounds;Lesser Planar Ally;' +
+      'Neutralize Poison;Poison;Repel Vermin;Restoration;Sending;' +
+      'Spell Immunity;Summon Monster IV;Tongues",' +
+      '"C5:Atonement;Break Enchantment;Commune;Dispel Chaos;Dispel Evil;' +
+      'Dispel Good;Dispel Law;Disrupting Weapon;Flame Strike;' +
+      'Greater Command;Hallow;Insect Plague;Mark Of Justice;' +
+      'Mass Cure Light Wounds;Mass Inflict Light Wounds;Plane Shift;' +
+      'Raise Dead;Righteous Might;Scrying;Slay Living;Spell Resistance;' +
+      'Summon Monster V;Symbol Of Pain;Symbol Of Sleep;True Seeing;Unhallow;' +
+      'Wall Of Stone",' +
+      '"C6:Animate Objects;Antilife Shell;Banishment;Blade Barrier;' +
+      'Create Undead;Find The Path;Forbiddance;Geas/Quest;' +
+      'Greater Dispel Magic;Greater Glyph Of Warding;Harm;Heal;' +
+      'Heroes\' Feast;Mass Bear\'s Endurance;Mass Bull\'s Strength;' +
+      'Mass Cure Moderate Wounds;Mass Eagle\'s Splendor;' +
+      'Mass Inflict Moderate Wounds;Mass Owl\'s Wisdom;Planar Ally;' +
+      'Summon Monster VI;Symbol Of Fear;Symbol Of Persuasion;' +
+      'Undeath To Death;Wind Walk;Word Of Recall",' +
+      '"C7:Blasphemy;Control Weather;Destruction;Dictum;Ethereal Jaunt;' +
+      'Greater Restoration;Greater Scrying;Holy Word;' +
+      'Mass Cure Serious Wounds;Mass Inflict Serious Wounds;Refuge;' +
+      'Regenerate;Repulsion;Resurrection;Summon Monster VII;' +
+      'Symbol Of Stunning;Symbol Of Weakness;Word Of Chaos",' +
+      '"C8:Antimagic Field;Cloak Of Chaos;Create Greater Undead;' +
+      'Dimensional Lock;Discern Location;Earthquake;Fire Storm;' +
+      'Greater Planar Ally;Greater Spell Immunity;Holy Aura;' +
+      'Mass Cure Critical Wounds;Mass Inflict Critical Wounds;Shield Of Law;' +
+      'Summon Monster VIII;Symbol Of Death;Symbol Of Insanity",' +
+      '"C9:Astral Projection;Energy Drain;Etherealness;Gate;Implosion;' +
+      'Mass Heal;Miracle;Soul Bind;Storm Of Vengeance;Summon Monster IX;' +
+      'True Resurrection;Unholy Aura"',
+  'Druid':
+    'Require="alignment =~ /Neutral/","armor =~ /None|Hide|Leather|Padded/","shield =~ /None|Wooden/" ' +
+    'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
+      '"1:Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear)",' +
+      '"1:Animal Companion","1:Nature Sense","1:Spontaneous Druid Spell",' +
+      '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
+      '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
+      '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
+    'CasterLevelDivine=Level ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'D0:1=3;2=4;4=5;7=6,' +
+      'D1:1=1;2=2;4=3;7=4;11=5,' +
+      'D2:3=1;4=2;6=3;9=4;13=5,' +
+      'D3:5=1;6=2;8=3;11=4;15=5,' +
+      'D4:7=1;8=2;10=3;13=4;17=5,' +
+      'D5:9=1;10=2;12=3;15=4;19=5,' +
+      'D6:11=1;12=2;14=3;17=4,' +
+      'D7:13=1;14=2;16=3;19=4,' +
+      'D8:15=1;16=2;18=3;20=4,' +
+      'D9:17=1;18=2;19=3;20=4 ' +
+    'Spells=' +
+      '"D0:Create Water;Cure Minor Wounds;Detect Magic;Detect Poison;Flare;' +
+      'Guidance;Know Direction;Light;Mending;Purify Food And Drink;' +
+      'Read Magic;Resistance;Virtue",' +
+      '"D1:Calm Animals;Charm Animal;Cure Light Wounds;' +
+      'Detect Animals Or Plants;Detect Snares And Pits;Endure Elements;' +
+      'Entangle;Faerie Fire;Goodberry;Hide From Animals;Jump;Longstrider;' +
+      'Magic Fang;Magic Stone;Obscuring Mist;Pass Without Trace;' +
+      'Produce Flame;Shillelagh;Speak With Animals;Summon Nature\'s Ally I",' +
+      '"D2:Animal Messenger;Animal Trance;Barkskin;Bear\'s Endurance;' +
+      'Bull\'s Strength;Cat\'s Grace;Chill Metal;Delay Poison;Fire Trap;' +
+      'Flame Blade;Flaming Sphere;Fog Cloud;Gust Of Wind;Heat Metal;' +
+      'Hold Animal;Lesser Restoration;Owl\'s Wisdom;Reduce Animal;' +
+      'Resist Energy;Soften Earth And Stone;Spider Climb;' +
+      'Summon Nature\'s Ally II;Summon Swarm;Tree Shape;Warp Wood;' +
+      'Wood Shape",' +
+      '"D3:Call Lightning;Contagion;Cure Moderate Wounds;Daylight;' +
+      'Diminish Plants;Dominate Animal;Greater Magic Fang;Meld Into Stone;' +
+      'Neutralize Poison;Plant Growth;Poison;Protection From Energy;Quench;' +
+      'Remove Disease;Sleet Storm;Snare;Speak With Plants;Spike Growth;' +
+      'Stone Shape;Summon Nature\'s Ally III;Water Breathing;Wind Wall",' +
+      '"D4:Air Walk;Antiplant Shell;Blight;Command Plants;Control Water;' +
+      'Cure Serious Wounds;Dispel Magic;Flame Strike;Freedom Of Movement;' +
+      'Giant Vermin;Ice Storm;Reincarnate;Repel Vermin;Rusting Grasp;Scrying;' +
+      'Spike Stones;Summon Nature\'s Ally IV",' +
+      '"D5:Animal Growth;Atonement;Awaken;Baleful Polymorph;' +
+      'Call Lightning Storm;Commune With Nature;Control Winds;' +
+      'Cure Critical Wounds;Death Ward;Hallow;Insect Plague;Stoneskin;' +
+      'Summon Nature\'s Ally V;Transmute Mud To Rock;Transmute Rock To Mud;' +
+      'Tree Stride;Unhallow;Wall Of Fire;Wall Of Thorns",' +
+      '"D6:Antilife Shell;Find The Path;Fire Seeds;Greater Dispel Magic;' +
+      'Ironwood;Liveoak;Mass Bear\'s Endurance;Mass Bull\'s Strength;' +
+      'Mass Cat\'s Grace;Mass Cure Light Wounds;Mass Owl\'s Wisdom;' +
+      'Move Earth;Repel Wood;Spellstaff;Stone Tell;Summon Nature\'s Ally VI;' +
+      'Transport Via Plants;Wall Of Stone",' +
+      '"D7:Animate Plants;Changestaff;Control Weather;Creeping Doom;' +
+      'Cure Moderate Wounds;Fire Storm;Greater Scrying;Heal;' +
+      'Summon Nature\'s Ally VII;Sunbeam;Transmute Metal To Wood;' +
+      'True Seeing;Wind Walk",' +
+      '"D8:Animal Shapes;Control Plants;Earthquake;Finger Of Death;' +
+      'Mass Cure Serious Wounds;Repel Metal Or Stone;Reverse Gravity;' +
+      'Summon Nature\'s Ally VIII;Sunburst;Whirlwind",' +
+      '"D9:Antipathy;Elemental Swarm;Foresight;Mass Cure Critical Wounds;' +
+      'Regenerate;Shambler;Shapechange;Storm Of Vengeance;' +
+      'Summon Nature\'s Ally IX;Sympathy;Word Of Recall"',
+  'Fighter':
+    'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
+      '"1:Weapon Proficiency (Martial)"',
+  'Monk':
+    'Require="alignment =~ /Lawful/" Imply="armor == \'None\'","shield == \'None\'" ' +
+    'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
+    'Features=' +
+      '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
+      '"1:Flurry Of Blows","1:Improved Unarmed Strike",2:Evasion,' +
+      '"3:Fast Movement","3:Still Mind","4:Ki Strike","4:Slow Fall",' +
+      '"5:Purity Of Body","7:Wholeness Of Body","9:Improved Evasion",' +
+      '"10:Lawful Ki Strike","11:Diamond Body","11:Greater Flurry",' +
+      '"12:Abundant Step","13:Diamond Soul","15:Quivering Palm",' +
+      '"16:Adamantine Ki Strike","17:Timeless Body",' +
+      '"17:Tongue Of The Sun And Moon","19:Empty Body","20:Perfect Self" ' +
+    'Selectables=' +
+      '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
+      '"2:Deflect Arrows","6:Improved Disarm","6"Improved Grapple"',
+  'Paladin':
+    'Require="alignment == \'Lawful Good\'" ' +
+    'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
+      '"1:Weapon Proficiency (Martial)",1:Aura,"1:Detect Evil",' +
+      '"1:Smite Evil","2:Divine Grace","2:Lay On Hands","3:Aura Of Courage",' +
+      '"3:Divine Health","4:Turn Undead","5:Special Mount",' +
+      '"6:Remove Disease" ' +
+    'CasterLevelDivine=Math.floor(Level/2) ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'P1:4=0;6=1;14=2;18=3,' +
+      'P2:8=0;10=1;16=2;19=3,' +
+      'P3:11=0;12=1;17=2;19=3,' +
+      'P4:14=0;15=1;19=2;20=3 ' +
+    'Spells=' +
+      '"P1:Bless;Bless Water;Bless Weapon;Create Water;Cure Light Wounds;' +
+      'Detect Poison;Detect Undead;Divine Favor;Endure Elements;' +
+      'Lesser Restoration;Magic Weapon;Protection From Chaos;' +
+      'Protection From Evil;Read Magic;Resistance;Virtue",' +
+      '"P2:Bull\'s Strength;Delay Poison;Eagle\'s Splendor;Owl\'s Wisdom;' +
+      'Remove Paralysis;Resist Energy;Shield Other;Undetectable Alignment;' +
+      'Zone Of Truth",' +
+      '"P3:Cure Moderate Wounds;Daylight;Discern Lies;Dispel Magic;' +
+      'Greater Magic Weapon;Heal Mount;Magic Circle Against Chaos;' +
+      'Magic Circle Against Evil;Prayer;Remove Blindness/Deafness;' +
+      'Remove Curse",' +
+      '"P4:Break Enchantment;Cure Serious Wounds;Death Ward;Dispel Chaos;' +
+      'Dispel Evil;Holy Sword;Mark Of Justice;Neutralize Poison;Restoration"',
+  'Ranger':
+    'HitDie=d8 Attack=1 SkillPoints=6 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
+      '"1:Weapon Proficiency (Martial)","1:Favored Enemy",1:Track,' +
+      '"1:Wild Empathy","2:Rapid Shot","2:Two-Weapon Fighting",3:Endurance,' +
+      '"4:Animal Companion",6:Manyshot,"6:Improved Two-Weapon Fighting",' +
+      '"7:Woodland Stride","8:Swift Tracker",9:Evasion,' +
+      '"11:Improved Precise Shot","11:Greater Two-Weapon Fighting",' +
+      '13:Camouflage,"17:Hide In Plain Sight" ' +
+    'Selectables=' +
+      '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)" ' +
+    'CasterLevelDivine=Math.floor(Level/2) ' +
+    'SpellAbility=wisdom ' +
+    'SpellsPerDay=' +
+      'R1:4=0;6=1;14=2;18=3,' +
+      'R2:8=0;10=1;16=2;19=3,' +
+      'R3:11=0;12=1;17=2;19=3,' +
+      'R4:14=0;15=1;19=2;20=3 ' +
+    'Spells=' +
+      '"R1:Alarm;Animal Messenger;Calm Animals;Charm Animal;Delay Poison;' +
+      'Detect Animals Or Plants;Detect Poison;Detect Snares And Pits;' +
+      'Endure Elements;Entangle;Hide From Animals;Jump;Longstrider;' +
+      'Magic Fang;Pass Without Trace;Read Magic;Resist Energy;' +
+      'Speak With Animals;Summon Nature\'s Ally I",' +
+      '"R2:Barkskin;Bear\'s Endurance;Cat\'s Grace;Cure Light Wounds;' +
+      'Hold Animal;Owl\'s Wisdom;Protection From Energy;Snare;' +
+      'Speak With Plants;Spike Growth;Summon Nature\'s Ally II;Wind Wall",' +
+      '"R3:Command Plants;Cure Moderate Wounds;Darkvision;Diminish Plants;' +
+      'Greater Magic Fang;Neutralize Poison;Plant Growth;Reduce Animal;' +
+      'Remove Disease;Repel Vermin;Summon Nature\'s Ally III;Tree Shape;' +
+      'Water Walk",' +
+      '"R4:Animal Growth;Commune With Nature;Cure Serious Wounds;' +
+      'Freedom Of Movement;Nondetection;Summon Nature\'s Ally IV;Tree Stride"',
+  'Rogue':
+    'HitDie=d6 Attack=3/4 SkillPoints=8 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
+    'Features=' +
+      '"1:Armor Proficiency (Light)",' +
+      '"1:Weapon Proficiency (Simple/Hand Crossbow/Rapier/Shortbow/Short Sword)",' +
+      '"1:Sneak Attack",1:Trapfinding,2:Evasion,"3:Trap Sense",' +
+      '"4:Uncanny Dodge","8:Improved Uncanny Dodge" ' +
+    'Selectables=' +
+      '"10:Crippling Strike","10:Defensive Roll","10:Feat Bonus",' +
+      '"10:Improved Evasion",10:Opportunist,"10:Skill Mastery",' +
+      '"10:Slippery Mind"',
+  'Sorcerer':
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
+    'Features=' +
+      '"1:Weapon Proficiency (Simple)",1:Familiar ' +
+    'CasterLevelArcane=Level ' +
+    'SpellAbility=charisma ' +
+    'SpellsPerDay=' +
+      'S0:1=5;2=6,' +
+      'S1:1=3;2=4;3=5;4=6,' +
+      'S2:4=3;5=4;6=5;7=6,' +
+      'S3:6=3;7=4;8=5;9=6,' +
+      'S4:8=3;9=4;10=5;11=6,' +
+      'S5:10=3;11=4;12=5;13=6,' +
+      'S6:12=3;13=4;14=5;15=6,' +
+      'S7:14=3;15=4;16=5;17=6,' +
+      'S8:16=3;17=4;18=5;19=6,' +
+      'S9:18=3;19=4;20=6',
+  'Wizard':
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
+    'Features=' +
+      '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
+      '"1:Scribe Scroll",1:Familiar,"1:School Specialization" ' +
+    'Selectables=' +
+      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Universal').map(x => '"1:Spell Specialization (' + x + ')"').join(',') + ',' +
+      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Universal' && x != 'Divination').map(x => '"1:Spell Prohibition (' + x + ')"').join(',') + ',' +
+      '"1:Spell Generalization" ' +
+    'CasterLevelArcane=Level ' +
+    'SpellAbility=intelligence ' +
+    'SpellsPerDay=' +
+      'W0:1=3;2=4,' +
+      'W1:1=1;2=2;4=3;7=4,' +
+      'W2:3=1;4=2;6=3;9=4,' +
+      'W3:5=1;6=2;8=3;11=4,' +
+      'W4:7=1;8=2;10=3;13=4,' +
+      'W5:9=1;10=2;12=3;15=4,' +
+      'W6:11=1;12=2;14=3;17=4,' +
+      'W7:13=1;14=2;16=3;19=4,' +
+      'W8:15=1;16=2;18=3;20=4,' +
+      'W9:17=1;18=2;19=3;20=4 ' +
+    'Spells=' +
+      '"W0:Acid Splash;Arcane Mark;Dancing Lights;Daze;Detect Magic;' +
+      'Detect Poison;Disrupt Undead;Flare;Ghost Sound;Light;Mage Hand;' +
+      'Mending;Message;Open/Close;Prestidigitation;Ray Of Frost;Read Magic;' +
+      'Resistance;Touch Of Fatigue",' +
+      '"W1:Alarm;Animate Rope;Burning Hands;Cause Fear;Charm Person;' +
+      'Chill Touch;Color Spray;Comprehend Languages;Detect Secret Doors;' +
+      'Detect Undead;Disguise Self;Endure Elements;Enlarge Person;Erase;' +
+      'Expeditious Retreat;Feather Fall;Floating Disk;Grease;Hold Portal;' +
+      'Hypnotism;Identify;Jump;Mage Armor;Magic Aura;Magic Missile;' +
+      'Magic Weapon;Mount;Obscuring Mist;Protection From Chaos;' +
+      'Protection From Evil;Protection From Good;Protection From Law;' +
+      'Ray Of Enfeeblement;Reduce Person;Shield;Shocking Grasp;Silent Image;' +
+      'Sleep;Summon Monster I;True Strike;Unseen Servant;Ventriloquism",' +
+      '"W2:Acid Arrow;Alter Self;Arcane Lock;Bear\'s Endurance;' +
+      'Blindness/Deafness;Blur;Bull\'s Strength;Cat\'s Grace;Command Undead;' +
+      'Continual Flame;Darkness;Darkvision;Daze Monster;Detect Thoughts;' +
+      'Eagle\'s Splendor;False Life;Flaming Sphere;Fog Cloud;Fox\'s Cunning;' +
+      'Ghoul Touch;Glitterdust;Gust Of Wind;Hideous Laughter;' +
+      'Hypnotic Pattern;Invisibility;Knock;Levitate;Locate Object;' +
+      'Magic Mouth;Minor Image;Mirror Image;Misdirection;Obscure Object;' +
+      'Owl\'s Wisdom;Phantom Trap;Protection From Arrows;Pyrotechnics;' +
+      'Resist Energy;Rope Trick;Scare;Scorching Ray;See Invisibility;Shatter;' +
+      'Spectral Hand;Spider Climb;Summon Monster II;Summon Swarm;' +
+      'Touch Of Idiocy;Web;Whispering Wind",' +
+      '"W3:Arcane Sight;Blink;Clairaudience/Clairvoyance;Daylight;' +
+      'Deep Slumber;Dispel Magic;Displacement;Explosive Runes;Fireball;' +
+      'Flame Arrow;Fly;Gaseous Form;Gentle Repose;Greater Magic Weapon;' +
+      'Halt Undead;Haste;Heroism;Hold Person;Illusory Script;' +
+      'Invisibility Sphere;Keen Edge;Lightning Bolt;' +
+      'Magic Circle Against Chaos;Magic Circle Against Evil;' +
+      'Magic Circle Against Good;Magic Circle Against Law;Major Image;' +
+      'Nondetection;Phantom Steed;Protection From Energy;Rage;' +
+      'Ray Of Exhaustion;Secret Page;Sepia Snake Sigil;Shrink Item;' +
+      'Sleet Storm;Slow;Stinking Cloud;Suggestion;Summon Monster III;' +
+      'Tiny Hut;Tongues;Vampiric Touch;Water Breathing;Wind Wall",' +
+      '"W4:Animate Dead;Arcane Eye;Bestow Curse;Black Tentacles;' +
+      'Charm Monster;Confusion;Contagion;Crushing Despair;Detect Scrying;' +
+      'Dimension Door;Dimensional Anchor;Enervation;Fear;Fire Shield;' +
+      'Fire Trap;Greater Invisibility;Hallucinatory Terrain;Ice Storm;' +
+      'Illusory Wall;Lesser Geas;Lesser Globe Of Invulnerability;' +
+      'Locate Creature;Mass Enlarge Person;Mass Reduce Person;Minor Creation;' +
+      'Mnemonic Enhancer;Phantasmal Killer;Polymorph;Rainbow Pattern;' +
+      'Remove Curse;Resilient Sphere;Scrying;Secure Shelter;' +
+      'Shadow Conjuration;Shout;Solid Fog;Stone Shape;Stoneskin;' +
+      'Summon Monster IV;Wall Of Fire;Wall Of Ice",' +
+      '"W5:Animal Growth;Baleful Polymorph;Blight;Break Enchantment;' +
+      'Cloudkill;Cone Of Cold;Contact Other Plane;Dismissal;Dominate Person;' +
+      'Dream;Fabricate;False Vision;Feeblemind;Hold Monster;Interposing Hand;' +
+      'Lesser Planar Binding;Mage\'s Faithful Hound;Mage\'s Private Sanctum;' +
+      'Magic Jar;Major Creation;Mind Fog;Mirage Arcana;Nightmare;' +
+      'Overland Flight;Passwall;Permanency;Persistent Image;Prying Eyes;' +
+      'Secret Chest;Seeming;Sending;Shadow Evocation;Summon Monster V;' +
+      'Symbol Of Pain;Symbol Of Sleep;Telekinesis;Telepathic Bond;Teleport;' +
+      'Transmute Mud To Rock;Transmute Rock To Mud;Wall Of Force;' +
+      'Wall Of Stone;Waves Of Fatigue",' +
+      '"W6:Acid Fog;Analyze Dweomer;Antimagic Field;Chain Lightning;' +
+      'Circle Of Death;Contingency;Control Water;Create Undead;Disintegrate;' +
+      'Eyebite;Flesh To Stone;Forceful Hand;Freezing Sphere;Geas/Quest;' +
+      'Globe Of Invulnerability;Greater Dispel Magic;Greater Heroism;' +
+      'Guards And Wards;Legend Lore;Mage\'s Lucubration;' +
+      'Mass Bear\'s Endurance;Mass Bull\'s Strength;Mass Cat\'s Grace;' +
+      'Mass Eagle\'s Splendor;Mass Fox\'s Cunning;Mass Owl\'s Wisdom;' +
+      'Mass Suggestion;Mislead;Move Earth;Permanent Image;Planar Binding;' +
+      'Programmed Image;Repulsion;Shadow Walk;Stone To Flesh;' +
+      'Summon Monster VI;Symbol Of Fear;Symbol Of Persuasion;Transformation;' +
+      'True Seeing;Undeath To Death;Veil;Wall Of Iron",' +
+      '"W7:Banishment;Control Undead;Control Weather;Delayed Blast Fireball;' +
+      'Ethereal Jaunt;Finger Of Death;Forcecage;Grasping Hand;' +
+      'Greater Arcane Sight;Greater Scrying;Greater Shadow Conjuration;' +
+      'Greater Teleport;Insanity;Instant Summons;Limited Wish;' +
+      'Mage\'s Magnificent Mansion;Mage\'s Sword;Mass Hold Person;' +
+      'Mass Invisibility;Phase Door;Plane Shift;Power Word Blind;' +
+      'Prismatic Spray;Project Image;Reverse Gravity;Sequester;Simulacrum;' +
+      'Spell Turning;Statue;Summon Monster VII;Symbol Of Stunning;' +
+      'Symbol Of Weakness;Teleport Object;Vision;Waves Of Exhaustion",' +
+      '"W8:Antipathy;Binding;Clenched Fist;Clone;Create Greater Undead;' +
+      'Demand;Dimensional Lock;Discern Location;Greater Planar Binding;' +
+      'Greater Prying Eyes;Greater Shadow Evocation;Greater Shout;' +
+      'Horrid Wilting;Incendiary Cloud;Iron Body;Irresistible Dance;' +
+      'Mass Charm Monster;Maze;Mind Blank;Moment Of Prescience;Polar Ray;' +
+      'Polymorph Any Object;Power Word Stun;Prismatic Wall;' +
+      'Protection From Spells;Scintillating Pattern;Screen;' +
+      'Summon Monster VIII;Sunburst;Symbol Of Death;Symbol Of Insanity;' +
+      'Sympathy;Telekinetic Sphere;Temporal Stasis;Trap The Soul",' +
+      '"W9:Astral Projection;Crushing Hand;Dominate Monster;Energy Drain;' +
+      'Etherealness;Foresight;Freedom;Gate;Imprisonment;Mage\'s Disjunction;' +
+      'Mass Hold Monster;Meteor Swarm;Power Word Kill;Prismatic Sphere;' +
+      'Refuge;Shades;Shapechange;Soul Bind;Summon Monster IX;' +
+      'Teleportation Circle;Time Stop;Wail Of The Banshee;Weird;Wish"'
+};
 
 // JavaScript expressions for several (mostly class-based) attributes.
 SRD35.ATTACK_BONUS_FULL = 'source';
@@ -3927,7 +3937,6 @@ SRD35.magicRules = function(rules, domains, schools, spells) {
   for(var spell in spells) {
     rules.choiceRules(rules, 'spells', spell, spells[spell]);
   }
-  SRD35.validAllocationRules(rules, 'domain', 'domainCount', /^domains\./);
 };
 
 /* Defines rules related to character feats, languages, and skills. */
@@ -3953,7 +3962,10 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
     'level', '^', null
   );
   SRD35.validAllocationRules(rules, 'feat', /^featCount\./, /^feats\./);
-  SRD35.validAllocationRules(rules,'language','languageCount',/^languages\./);
+  SRD35.validAllocationRules
+    (rules, 'selectableFeature', /^selectableFeatureCount\./, /^selectableFeatures\./);
+  SRD35.validAllocationRules
+    (rules, 'language', 'languageCount', /^languages\./);
   SRD35.validAllocationRules
     (rules, 'skill', 'skillPoints', /^skills\..*[^0-9]$/);
   rules.defineChoice('notes',
@@ -4538,7 +4550,8 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Cleric') {
 
-    rules.defineRule('domainCount', 'levels.Cleric', '+=', '2');
+    rules.defineRule
+      ('selectableFeatureCount.Cleric', 'features.Cleric Domains', '+=', '2');
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
     rules.defineRule('combatNotes.turnUndeadFeature.1',
       'turningLevel', '=', null,
@@ -4552,6 +4565,16 @@ SRD35.classRulesExtra = function(rules, name) {
       'turningLevel', '=', 'source * 3 - 10',
       'charismaModifier', '+', null
     );
+    for(var domain in rules.getChoices('domains')) {
+      var note = 'validationNotes.cleric-' + domain.replace(/ /g, '') +
+                 'DomainSelectableFeatureFeatures';
+      rules.defineChoice
+        ('notes', note + ':Requires Deity Domains =~ /' + domain + '/');
+      rules.defineRule(note,
+        'selectableFeatures.Cleric - ' + domain + ' Domain', '=', '1',
+        'deityDomains', '+', 'source.indexOf("' + domain + '") >= 0 ? -1 : null'
+      );
+    }
 
   } else if(name == 'Druid') {
 
@@ -4747,22 +4770,29 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Wizard') {
 
+    rules.defineRule('selectableFeatureCount.Wizard',
+      'features.School Specialization', '=', '1'
+    );
+    for(var school in rules.getChoices('schools')) {
+      if(school == 'Universal')
+        continue;
+      rules.defineRule('selectableFeatureCount.Wizard',
+        'features.Spell Specialization (' + school + ')', '+',
+        school == 'Divination' ? '1' : '2'
+      );
+      if(name != 'Divination') {
+        SRD35.testRules(rules, 'validation', 'wizard-SpellProhibition(' + name + ')', 'selectableFeatures.Wizard - Spell Prohibition (' + name + ')', ['features.Spell Specialization']);
+      }
+      for(var j = 0; j <= 9; j++) {
+        rules.defineRule('spellsPerDay.W' + j,
+          'magicNotes.schoolSpecializationFeature', '+', '1'
+        );
+      }
+    }
     rules.defineRule('familiarMasterLevel', 'levels.Wizard', '+=', null);
     rules.defineRule('featCount.Wizard',
       'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
     );
-    for(var school in SRD35.SCHOOLS) {
-      rules.defineRule('magicNotes.wizardSpecializationFeature',
-       'specialize.' + school, '=', '"' + school + '"'
-      );
-      rules.defineRule('skillNotes.wizardSpecializationFeature',
-        'specialize.' + school, '=', '"' + school + '"'
-      );
-    }
-    for(var j = 0; j < 10; j++) {
-      rules.defineRule
-        ('spellsPerDay.W' + j, 'magicNotes.wizardSpecializationFeature', '+', '1');
-    }
 
   }
 
@@ -5043,14 +5073,22 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
 
   if(rules.deityStats == null) {
     rules.deityStats = {
-      weapon:{}
+      domains:{},
+      weapons:{}
     };
   }
 
+  if(domains.length > 0) {
+    rules.deityStats.domains[name] = domains.join('/');
+    rules.defineRule('deityDomains',
+      'deity', '=', QuilvynUtils.dictLit(rules.deityStats.domains) + '[source]'
+    );
+  }
+
   if(favoredWeapons.length > 0) {
-    rules.deityStats.weapon[name] = favoredWeapons.join('/');
-    rules.defineRule('deityFavoredWeapon',
-      'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapon) + '[source]'
+    rules.deityStats.weapons[name] = favoredWeapons.join('/');
+    rules.defineRule('deityFavoredWeapons',
+      'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapons) + '[source]'
     );
     for(var j = 0; j < favoredWeapons.length; j++) {
       var weapon = favoredWeapons[j];
@@ -5058,11 +5096,11 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
       var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
       rules.defineRule('clericFeatures.' + focusFeature,
         'featureNotes.weaponOfWarFeature', '?', null,
-        'deityFavoredWeapon', '=', 'source && source.indexOf("' + weapon + '") >= 0 ? 1 : null'
+        'deityFavoredWeapons', '=', 'source && source.indexOf("' + weapon + '") >= 0 ? 1 : null'
       );
       rules.defineRule('clericFeatures.' + proficiencyFeature,
         'featureNotes.weaponOfWarFeature', '?', null,
-        'deityFavoredWeapon', '=', 'source && source.indexOf("' + weapon + '") >= 0 ? 1 : null'
+        'deityFavoredWeapons', '=', 'source && source.indexOf("' + weapon + '") >= 0 ? 1 : null'
       );
       rules.defineRule
         ('features.' + focusFeature, 'clericFeatures.' + focusFeature, '=', null);
@@ -5093,11 +5131,12 @@ SRD35.domainRules = function(rules, name, features, spells, spellDict) {
     var feature = matchInfo ? matchInfo[3] : features[i];
     var level = matchInfo ? matchInfo[2] : 1;
     if(level == 1)
-      rules.defineRule
-        ('clericFeatures.' + feature, 'domains.' + name, '=', '1');
+      rules.defineRule('clericFeatures.' + feature,
+        'selectableFeatures.' + name + ' Domain', '=', '1'
+      );
     else
       rules.defineRule('clericFeatures.' + feature,
-        'domains.' + name, '?', '1',
+        'selectableFeatures.' + name + ' Domain', '?', '1',
         'levels.Cleric', '=', 'source >= ' + level + ' ? 1 : null'
       );
     rules.defineRule
@@ -5148,7 +5187,7 @@ SRD35.domainRulesExtra = function(rules, name) {
       ('magicNotes.unhinderedFeature', 'levels.Cleric', '=', null);
   } else if(name == 'War') {
     rules.defineRule
-      ('featureNotes.weaponOfWarFeature', 'deityFavoredWeapon', '=', null);
+      ('featureNotes.weaponOfWarFeature', 'deityFavoredWeapons', '=', null);
   }
 
 };
@@ -5633,7 +5672,19 @@ SRD35.schoolRules = function(rules, name) {
     console.log('Empty school name');
     return;
   }
+  if(name == 'Universal')
+    return;
+  rules.defineRule('magicNotes.schoolSpecializationFeature',
+   'features.Spell Specialization (' + name + ')', '=', '"' + name + '"'
+  );
+  rules.defineRule('skillNotes.schoolSpecializationFeature',
+    'features.Spell Specialization (' + name + ')', '=', '"' + name + '"'
+  );
   rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
+  rules.defineRule('features.Spell Specialization',
+    'features.Spell Specialization (' + name + ')', '+=', '1'
+  );
+  SRD35.testRules(rules, 'validation', 'spellSpecializationCount', 'features.Spell Specialization', ['features.Spell Specialization == 1']);
 };
 
 /*
@@ -6179,7 +6230,6 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Spells', within: 'Section 2', separator: '/'},
             {name: 'Spell Difficulty Class', within: 'Section 2',
              separator: '/'},
-            {name: 'Domains', within: 'Section 2', separator: '/'},
             {name: 'Notes', within: 'Section 2'},
             {name: 'Hidden Notes', within: 'Section 2', format: '%V'}
       );
@@ -6307,9 +6357,6 @@ SRD35.createViewers = function(rules, viewers) {
          format: '<b>Magic</b><br/>%V'},
           {name: 'SpellPart', within: 'Magic', separator: '\n'},
             {name: 'SpellStats', within: 'SpellPart', separator: innerSep},
-              {name: 'Domains', within: 'SpellStats', separator: listSep},
-              {name: 'Specialize', within: 'SpellStats'},
-              {name: 'Prohibit', within: 'SpellStats', separator:listSep},
               {name: 'Spells Per Day', within: 'SpellStats', separator:listSep},
               {name: 'Spell Difficulty Class', within: 'SpellStats',
                format: '<b>Spell DC</b>: %V', separator: listSep},
@@ -6553,9 +6600,6 @@ SRD35.initialEditorElements = function() {
     ['shield', 'Shield', 'select-one', 'shields'],
     ['weapons', 'Weapons', 'bag', 'weapons'],
     ['spells', 'Spells', 'fset', 'spells'],
-    ['domains', 'Cleric Domains', 'set', 'domains'],
-    ['specialize', 'Wizard Specialization', 'set', 'schools'],
-    ['prohibit', 'Wizard Prohibition', 'set', 'schools'],
     ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
     ['animalCompanionName', 'Name', 'text', [20]],
     ['familiar', 'Familiar', 'set', 'familiars'],
@@ -6652,17 +6696,6 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     if(choices.length > 0)
       attributes['deity'] = choices[QuilvynUtils.random(0, choices.length - 1)];
-  } else if(attribute == 'domains') {
-    attrs = this.applyRules(attributes);
-    howMany = attrs.domainCount;
-    if(howMany != null) {
-      choices =
-        QuilvynUtils.getAttrValueArray(this.getChoices('deities')[attributes.deity], 'Domain');
-      if(choices.length == 0)
-        choices = QuilvynUtils.getKeys(this.getChoices('domains'));
-      pickAttrs(attributes, 'domains.', choices, howMany -
-                QuilvynUtils.sumMatching(attributes, /^domains\./), 1);
-    }
   } else if(attribute == 'feats' || attribute == 'features') {
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
     var countPat = new RegExp('^' + attribute + 'Count\\.');
@@ -6830,7 +6863,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'skills') {
     attrs = this.applyRules(attributes);
-    var maxPoints = attrs.maxAllowedSkillPoints;
+    var maxPoints = attrs.maxAllowedSkillAllocation;
     howMany =
       attrs.skillPoints - QuilvynUtils.sumMatching(attributes, '^skills\\.'),
     choices = QuilvynUtils.getKeys(this.getChoices('skills'));
@@ -6878,8 +6911,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     var spellLevel;
     attrs = this.applyRules(attributes);
     for(attr in schools) {
-      if(attrs['prohibit.' + attr])
-         prohibitPat += '|' + school.substring(0, 4);
+      if(attrs['features.Spell Prohibition (' + attr + ')'])
+         prohibitPat += '|' + attr.substring(0, 4);
     }
     prohibitPat += ')\\)';
     for(attr in this.getChoices('spells')) {
@@ -6903,7 +6936,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       if(spellLevel.substring(0, 3) == 'Dom') {
         choices = [];
         for(var domain in this.getChoices('domains')) {
-          if(attrs['domains.' + domain] != null) {
+          if(attrs['selectableFeatures.' + domain + ' Domain'] != null) {
             var domainLevel = domain + spellLevel.substring(3);
             if(availableSpellsByLevel[domainLevel] != null) {
               choices = choices.concat(availableSpellsByLevel[domainLevel]);
