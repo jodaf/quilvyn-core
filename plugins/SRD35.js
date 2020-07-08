@@ -49,14 +49,14 @@ function SRD35() {
   rules.defineChoice('preset', 'race', 'level', 'levels');
 
   // For spells, chools have to be defined before classes and domains
-  SRD35.magicRules(rules, SRD35.DOMAINS, SRD35.SCHOOLS, SRD35.SPELLS);
+  SRD35.magicRules(rules, SRD35.SCHOOLS, SRD35.SPELLS);
   SRD35.abilityRules(rules);
   SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
   SRD35.combatRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
   SRD35.goodiesRules(rules);
   SRD35.identityRules(
-    rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.GENDERS,
-    SRD35.RACES
+    rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.DOMAINS,
+    SRD35.GENDERS, SRD35.RACES
   );
   SRD35.talentRules
     (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.LANGUAGES, SRD35.SKILLS);
@@ -3940,16 +3940,19 @@ SRD35.goodiesRules = function(rules) {
 
 /* Defines rules related to basic character identity. */
 SRD35.identityRules = function(
-  rules, alignments, classes, deities, genders, races
+  rules, alignments, classes, deities, domains, genders, races
 ) {
   for(var alignment in alignments) {
     rules.choiceRules(rules, 'alignments', alignment, alignments[alignment]);
   }
-  for(var klass in classes) {
-    rules.choiceRules(rules, 'levels', klass, classes[klass]);
+  for(var clas in classes) {
+    rules.choiceRules(rules, 'levels', clas, classes[clas]);
   }
   for(var deity in deities) {
     rules.choiceRules(rules, 'deities', deity, deities[deity]);
+  }
+  for(var domain in domains) {
+    rules.choiceRules(rules, 'domains', domain, domains[domain]);
   }
   for(var gender in genders) {
     rules.choiceRules(rules, 'genders', gender, genders[gender]);
@@ -3970,13 +3973,9 @@ SRD35.identityRules = function(
 };
 
 /* Defines rules related to magic use. */
-SRD35.magicRules = function(rules, domains, schools, spells) {
-  // domainRules requires that schools be defined first
+SRD35.magicRules = function(rules, schools, spells) {
   for(var school in schools) {
     rules.choiceRules(rules, 'schools', school, schools[school]);
-  }
-  for(var domain in domains) {
-    rules.choiceRules(rules, 'domains', domain, domains[domain]);
   }
   for(var spell in spells) {
     rules.choiceRules(rules, 'spells', spell, spells[spell]);
@@ -5215,11 +5214,11 @@ SRD35.domainRules = function(rules, name, features, spells, spellDict) {
     var level = matchInfo ? matchInfo[2] : 1;
     if(level == 1)
       rules.defineRule('clericFeatures.' + feature,
-        'selectableFeatures.' + name + ' Domain', '=', '1'
+        'selectableFeatures.Cleric - ' + name + ' Domain', '=', '1'
       );
     else
       rules.defineRule('clericFeatures.' + feature,
-        'selectableFeatures.' + name + ' Domain', '?', '1',
+        'selectableFeatures.Cleric - ' + name + ' Domain', '?', '1',
         'levels.Cleric', '=', 'source >= ' + level + ' ? 1 : null'
       );
     rules.defineRule
@@ -5693,20 +5692,28 @@ SRD35.languageRules = function(rules, name) {
  */
 SRD35.raceRules = function(rules, name, features) {
 
-  // TODO data validation
   if(!name) {
     console.log('Empty race name');
     return;
   }
 
+  var matchInfo;
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   for(var i = 0; i < features.length; i++) {
-    var raceFeature = prefix + 'Features.' + features[i];
+    var feature = features[i];
+    var raceFeature = prefix + 'Features.' + feature;
     rules.defineRule
       (raceFeature, 'race', '=', 'source == "' + name + '" ? 1 : null');
-    rules.defineRule('features.' + features[i], raceFeature, '=', '1');
+    rules.defineRule('features.' + feature, raceFeature, '=', '1');
+    if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
+      // Set individual features for each weapon on the list.
+      var weapons = matchInfo[2].split('/');
+      for(var j = 0; j < weapons.length; j++) {
+        rules.defineRule('features.Weapon ' + matchInfo[1] + ' (' + weapons[j] + ')', 'features.' + feature, '=', '1');
+      }
+    }
   }
 
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
@@ -6851,10 +6858,10 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'hitPoints') {
     attributes.hitPoints = 0;
-    for(var klass in this.getChoices('levels')) {
-      if((attr = attributes['levels.' + klass]) == null)
+    for(var clas in this.getChoices('levels')) {
+      if((attr = attributes['levels.' + clas]) == null)
         continue;
-      var matchInfo = QuilvynUtils.getAttrValue(this.getChoices('levels')[klass], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
+      var matchInfo = QuilvynUtils.getAttrValue(this.getChoices('levels')[clas], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ||
                    matchInfo[2] == '' ? 1 : matchInfo[2];
       var sides = matchInfo == null ? 6 : matchInfo[3];
