@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '1.8.2';
+var VERSION = '2.0alpha';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -130,6 +130,29 @@ Quilvyn.addRuleSet = function(rs) {
       ruleSet.choiceRules(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
     }
   }
+};
+
+Quilvyn.applyV2Changes = function(character) {
+  var result = {};
+  for(var attr in character) {
+    var value = character[attr];
+    if(attr.match(/^domains\./))
+      attr = attr.replace('domains.', 'selectableFeatures.Cleric - ') + ' Domain';
+    else if(attr.match(/^prohibit\./))
+      attr = attr.replace('prohibit.', 'selectableFeatures.Wizard - Spell Prohibition (') + ')';
+    else if(attr.match(/^specialize\./))
+      attr = attr.replace('specialize.', 'selectableFeatures.Wizard - Spell Specialization (') + ')';
+    attr = attr.replace(/(half) ?(elf)/i, '$1-$2');
+    attr = attr.replace(/(half) ?(orc)/i, '$1-$2');
+    attr = attr.replace(/(blind) ?(fight)/i, '$1-$2');
+    attr = attr.replace(/(point) ?(blank)/i, '$1-$2');
+    value = value.replace(/(half) ?(elf)/i, '$1-$2');
+    value = value.replace(/(half) ?(orc)/i, '$1-$2');
+    value = value.replace(/(blind) ?(fight)/i, '$1-$2');
+    value = value.replace(/(point) ?(blank)/i, '$1-$2');
+    result[attr] = value;
+  }
+  return result;
 };
 
 /* TODO */
@@ -527,7 +550,7 @@ Quilvyn.importCharacters = function(focus) {
       setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
       return;
     }
-    character = importedCharacter;
+    character = Quilvyn.applyV2Changes(importedCharacter);
     characterPath = character['_path'] || '';
     characterCache[characterPath] = QuilvynUtils.clone(character);
     Quilvyn.saveCharacter(characterPath);
