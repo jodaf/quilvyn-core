@@ -870,9 +870,53 @@ SRD35.FEATURES = {
   'Remove Disease':'magic:<i>Remove Disease</i> %V/week',
   "Resist Nature's Lure":'save:+4 vs. spells of feys',
   // Scribe Scroll as per feat
-  'School Specialization':[
-    'magic:Extra %V spell/day each spell level',
-    'skill:+2 Spellcraft (%V effects)',
+  'Spell Prohibition (Abjuration)':
+    'magic:Cannot know or cast Abjuration spells',
+  'Spell Prohibition (Conjuration)':
+    'magic:Cannot know or cast Conjuration spells',
+  'Spell Prohibition (Divination)':
+    'magic:Cannot know or cast Divination spells',
+  'Spell Prohibition (Enchantment)':
+    'magic:Cannot know or cast Enchantment spells',
+  'Spell Prohibition (Evocation)':
+    'magic:Cannot know or cast Evocation spells',
+  'Spell Prohibition (Illusion)':
+    'magic:Cannot know or cast Illusion spells',
+  'Spell Prohibition (Necromancy)':
+    'magic:Cannot know or cast Necromancy spells',
+  'Spell Prohibition (Transmutation)':
+    'magic:Cannot know or cast Transmutation spells',
+  'Spell Specialization (Abjuration)':[
+    'magic:Extra Abjuration spell/day each spell level',
+    'skill:+2 Spellcraft (Abjuration effects)',
+  ],
+  'Spell Specialization (Conjuration)':[
+    'magic:Extra Abjuration spell/day each spell level',
+    'skill:+2 Spellcraft (Abjuration effects)',
+  ],
+  'Spell Specialization (Divination)':[
+    'magic:Extra Divination spell/day each spell level',
+    'skill:+2 Spellcraft (Divination effects)',
+  ],
+  'Spell Specialization (Enchantment)':[
+    'magic:Extra Enchantment spell/day each spell level',
+    'skill:+2 Spellcraft (Enchantment effects)',
+  ],
+  'Spell Specialization (Evocation)':[
+    'magic:Extra Evocation spell/day each spell level',
+    'skill:+2 Spellcraft (Evocation effects)',
+  ],
+  'Spell Specialization (Illusion)':[
+    'magic:Extra Illusion spell/day each spell level',
+    'skill:+2 Spellcraft (Illusion effects)',
+  ],
+  'Spell Specialization (Necromancy)':[
+    'magic:Extra Necromancy spell/day each spell level',
+    'skill:+2 Spellcraft (Necromancy effects)',
+  ],
+  'Spell Specialization (Transmutation)':[
+    'magic:Extra Transmutation spell/day each spell level',
+    'skill:+2 Spellcraft (Transmutation effects)',
   ],
   'Simple Somatics':'magic:No casting penalty in light armor',
   'Skill Mastery':'skill:Take 10 despite distraction on %V chosen skills',
@@ -920,7 +964,7 @@ SRD35.FEATURES = {
   'Gnome Ability Adjustment':'ability:+2 Constitution/-2 Strength',
   'Gnome Favored Enemy':'combat:+1 attack vs. goblinoid and kobold',
   'Gnome Weapons':'combat:Racial weapons are martial weapons',
-  'Half Orc Ability Adjustment':
+  'Half-Orc Ability Adjustment':
     'ability:+2 Strength/-2 Intelligence/-2 Charisma',
   'Halfling Ability Adjustment':'ability:+2 Dexterity/-2 Strength',
   'Human Feat Bonus':'feature:+1 General Feat',
@@ -1032,11 +1076,11 @@ SRD35.RACES = {
     '"Gnome Favored Enemy","Keen Ears","Keen Nose",' +
     '"Low-Light Vision","Natural Illusionist","Natural Spells",' +
     '"Resist Illusion",Slow,Small,"Weapon Familiarity (Gnome Hooked Hammer)"',
-  'Half Elf':
+  'Half-Elf':
     'Features="Alert Senses","Low-Light Vision","Resist Enchantment",' +
     '"Sleep Immunity",Tolerance',
-  'Half Orc':
-    'Features=Darkvision,"Half Orc Ability Adjustment"',
+  'Half-Orc':
+    'Features=Darkvision,"Half-Orc Ability Adjustment"',
   'Halfling':
     'Features=Accurate,Fortunate,"Halfling Ability Adjustment","Keen Ears",' +
     'Slow,Small,Spry,"Resist Fear"',
@@ -4771,22 +4815,61 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Wizard') {
 
     rules.defineRule('selectableFeatureCount.Wizard',
-      'features.School Specialization', '=', '1'
+      'wizardFeatures.School Specialization', '=', '1'
     );
-    for(var school in rules.getChoices('schools')) {
+    var schools = rules.getChoices('schools');
+    var generalizationValidationNote =
+      'validationNotes.wizard-SpellGeneralizationSelectableFeatureFeatures';
+    var noSpecialization = QuilvynUtils.getKeys(schools).filter(x => x != 'Universal').map(x => 'Spell Specialization (' + x + ') == 0').join('/');
+    rules.defineChoice
+      ('notes', generalizationValidationNote + ':Requires ' + noSpecialization);
+    rules.defineRule(generalizationValidationNote,
+      'selectableFeatures.Wizard - Spell Generalization', '=', '0'
+    );
+    for(var specialization in schools) {
+      if(specialization != 'Universal') {
+        rules.defineRule(generalizationValidationNote,
+          'selectableFeatures.Wizard - Spell Specialization (' + specialization + ')', '+', '-1'
+        );
+      }
+    }
+    for(var school in schools) {
       if(school == 'Universal')
         continue;
       rules.defineRule('selectableFeatureCount.Wizard',
-        'features.Spell Specialization (' + school + ')', '+',
+        'wizardFeatures.Spell Specialization (' + school + ')', '+',
         school == 'Divination' ? '1' : '2'
       );
-      if(name != 'Divination') {
-        SRD35.testRules(rules, 'validation', 'wizard-SpellProhibition(' + name + ')', 'selectableFeatures.Wizard - Spell Prohibition (' + name + ')', ['features.Spell Specialization']);
-      }
       for(var j = 0; j <= 9; j++) {
         rules.defineRule('spellsPerDay.W' + j,
-          'magicNotes.schoolSpecializationFeature', '+', '1'
+          'magicNotes.spellSpecialization(' + school + ')Feature', '+', '1'
         );
+      }
+      var prohibitionValidationNote =
+        'validationNotes.wizard-SpellProhibition(' + school + ')SelectableFeatureFeatures';
+      var specializationValidationNote =
+        'validationNotes.wizard-SpellSpecialization(' + school + ')SelectableFeatureFeatures';
+      var anyOtherSpecialization = QuilvynUtils.getKeys(schools).filter(x => x != 'Universal' && x != school).map(x => 'Spell Specialization (' + x + ')').join(' || ');
+      var noOtherSpecialization = QuilvynUtils.getKeys(schools).filter(x => x != 'Universal' && x != school).map(x => 'Spell Specialization (' + x + ') == 0').join('/');
+      rules.defineChoice('notes',
+        prohibitionValidationNote + ':Requires ' + anyOtherSpecialization,
+        specializationValidationNote + ':Requires ' + noOtherSpecialization
+      );
+      rules.defineRule(prohibitionValidationNote,
+        'selectableFeatures.Wizard - Spell Prohibition (' + school + ')', '=', '1'
+      );
+      rules.defineRule(specializationValidationNote,
+        'selectableFeatures.Wizard - Spell Specialization (' + school + ')', '=', '0'
+      );
+      for(var specialization in schools) {
+        if(specialization != 'Universal' && specialization != school) {
+          rules.defineRule(prohibitionValidationNote,
+            'selectableFeatures.Wizard - Spell Specialization (' + specialization + ')', '+', '-1'
+          );
+          rules.defineRule(specializationValidationNote,
+            'selectableFeatures.Wizard - Spell Specialization (' + specialization + ')', '+', '-1'
+          );
+        }
       }
     }
     rules.defineRule('familiarMasterLevel', 'levels.Wizard', '+=', null);
@@ -5674,17 +5757,10 @@ SRD35.schoolRules = function(rules, name) {
   }
   if(name == 'Universal')
     return;
-  rules.defineRule('magicNotes.schoolSpecializationFeature',
-   'features.Spell Specialization (' + name + ')', '=', '"' + name + '"'
-  );
-  rules.defineRule('skillNotes.schoolSpecializationFeature',
-    'features.Spell Specialization (' + name + ')', '=', '"' + name + '"'
-  );
   rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
   rules.defineRule('features.Spell Specialization',
     'features.Spell Specialization (' + name + ')', '+=', '1'
   );
-  SRD35.testRules(rules, 'validation', 'spellSpecializationCount', 'features.Spell Specialization', ['features.Spell Specialization == 1']);
 };
 
 /*
@@ -6406,7 +6482,7 @@ SRD35.randomName = function(race) {
 
   if(race == null)
     race = 'Human';
-  else if(race == 'Half Elf')
+  else if(race == 'Half-Elf')
     race = QuilvynUtils.random(0, 99) < 50 ? 'Elf' : 'Human';
   else if(race.match(/Dwarf/))
     race = 'Dwarf';
