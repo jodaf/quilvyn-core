@@ -2108,7 +2108,7 @@ SRD35.SPELLS = {
 
   'Jump':
     'School=Transmutation ' +
-    'Description="Touched +${lvl<5?10:lvl<9?20:30} jump Acrobatics for $L min"',
+    'Description="Touched +${lvl<5?10:lvl<9?20:30} jump for $L min"',
 
   'Keen Edge':
     'School=Transmutation ' +
