@@ -870,51 +870,49 @@ SRD35.FEATURES = {
   'Remove Disease':'magic:<i>Remove Disease</i> %V/week',
   "Resist Nature's Lure":'save:+4 vs. spells of feys',
   // Scribe Scroll as per feat
-  'Spell Prohibition (Abjuration)':
-    'magic:Cannot know or cast Abjuration spells',
-  'Spell Prohibition (Conjuration)':
-    'magic:Cannot know or cast Conjuration spells',
-  'Spell Prohibition (Divination)':
-    'magic:Cannot know or cast Divination spells',
-  'Spell Prohibition (Enchantment)':
-    'magic:Cannot know or cast Enchantment spells',
-  'Spell Prohibition (Evocation)':
-    'magic:Cannot know or cast Evocation spells',
-  'Spell Prohibition (Illusion)':
-    'magic:Cannot know or cast Illusion spells',
-  'Spell Prohibition (Necromancy)':
-    'magic:Cannot know or cast Necromancy spells',
-  'Spell Prohibition (Transmutation)':
-    'magic:Cannot know or cast Transmutation spells',
-  'Spell Specialization (Abjuration)':[
+  'School Opposition (Abjuration)':
+    'magic:Cannot learn or cast Abjuration spells',
+  'School Opposition (Conjuration)':
+    'magic:Cannot learn or cast Conjuration spells',
+  'School Opposition (Enchantment)':
+    'magic:Cannot learn or cast Enchantment spells',
+  'School Opposition (Evocation)':
+    'magic:Cannot learn or cast Evocation spells',
+  'School Opposition (Illusion)':
+    'magic:Cannot learn or cast Illusion spells',
+  'School Opposition (Necromancy)':
+    'magic:Cannot learn or cast Necromancy spells',
+  'School Opposition (Transmutation)':
+    'magic:Cannot learn or cast Transmutation spells',
+  'School Specialization (Abjuration)':[
     'magic:Extra Abjuration spell/day each spell level',
     'skill:+2 Spellcraft (Abjuration effects)',
   ],
-  'Spell Specialization (Conjuration)':[
+  'School Specialization (Conjuration)':[
     'magic:Extra Abjuration spell/day each spell level',
     'skill:+2 Spellcraft (Abjuration effects)',
   ],
-  'Spell Specialization (Divination)':[
+  'School Specialization (Divination)':[
     'magic:Extra Divination spell/day each spell level',
     'skill:+2 Spellcraft (Divination effects)',
   ],
-  'Spell Specialization (Enchantment)':[
+  'School Specialization (Enchantment)':[
     'magic:Extra Enchantment spell/day each spell level',
     'skill:+2 Spellcraft (Enchantment effects)',
   ],
-  'Spell Specialization (Evocation)':[
+  'School Specialization (Evocation)':[
     'magic:Extra Evocation spell/day each spell level',
     'skill:+2 Spellcraft (Evocation effects)',
   ],
-  'Spell Specialization (Illusion)':[
+  'School Specialization (Illusion)':[
     'magic:Extra Illusion spell/day each spell level',
     'skill:+2 Spellcraft (Illusion effects)',
   ],
-  'Spell Specialization (Necromancy)':[
+  'School Specialization (Necromancy)':[
     'magic:Extra Necromancy spell/day each spell level',
     'skill:+2 Spellcraft (Necromancy effects)',
   ],
-  'Spell Specialization (Transmutation)':[
+  'School Specialization (Transmutation)':[
     'magic:Extra Transmutation spell/day each spell level',
     'skill:+2 Spellcraft (Transmutation effects)',
   ],
@@ -3196,7 +3194,7 @@ SRD35.CLASSES = {
     'HitDie=d8 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
-      '"1:Weapon Proficiency (Simple)",1:Aura,"1:Cleric Domains":,' +
+      '"1:Weapon Proficiency (Simple)",1:Aura,"1:Cleric Domains",' +
       '"1:Spontaneous Cleric Spell","1:Turn Undead" ' +
     'Selectables=' +
       QuilvynUtils.getKeys(SRD35.DOMAINS).map(x => '"1:' + x + ' Domain"').join(',') + ' ' +
@@ -3469,11 +3467,10 @@ SRD35.CLASSES = {
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
-      '"1:Scribe Scroll",1:Familiar,"1:School Specialization" ' +
+      '"1:Arcane School","1:Scribe Scroll",1:Familiar ' +
     'Selectables=' +
-      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Universal').map(x => '"1:Spell Specialization (' + x + ')"').join(',') + ',' +
-      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Universal' && x != 'Divination').map(x => '"1:Spell Prohibition (' + x + ')"').join(',') + ',' +
-      '"1:Spell Generalization" ' +
+      QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + (x == 'Universal' ? 'None' : x) + ')"').join(',') + ',' +
+      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Universal' && x != 'Divination').map(x => '"1:School Opposition (' + x + ')"').join(',') + ' ' +
     'CasterLevelArcane=Level ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
@@ -4814,68 +4811,65 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Wizard') {
 
-    rules.defineRule('selectableFeatureCount.Wizard',
-      'wizardFeatures.School Specialization', '=', '1'
-    );
-    var schools = rules.getChoices('schools');
-    var generalizationValidationNote =
-      'validationNotes.wizard-SpellGeneralizationSelectableFeatureFeatures';
-    var noSpecialization = QuilvynUtils.getKeys(schools).filter(x => x != 'Universal').map(x => 'Spell Specialization (' + x + ') == 0').join('/');
-    rules.defineChoice
-      ('notes', generalizationValidationNote + ':Requires ' + noSpecialization);
-    rules.defineRule(generalizationValidationNote,
-      'selectableFeatures.Wizard - Spell Generalization', '=', '0'
-    );
-    for(var specialization in schools) {
-      if(specialization != 'Universal') {
-        rules.defineRule(generalizationValidationNote,
-          'selectableFeatures.Wizard - Spell Specialization (' + specialization + ')', '+', '-1'
-        );
-      }
-    }
-    for(var school in schools) {
-      if(school == 'Universal')
-        continue;
-      rules.defineRule('selectableFeatureCount.Wizard',
-        'wizardFeatures.Spell Specialization (' + school + ')', '+',
-        school == 'Divination' ? '1' : '2'
-      );
-      for(var j = 0; j <= 9; j++) {
-        rules.defineRule('spellsPerDay.W' + j,
-          'magicNotes.spellSpecialization(' + school + ')Feature', '+', '1'
-        );
-      }
-      var prohibitionValidationNote =
-        'validationNotes.wizard-SpellProhibition(' + school + ')SelectableFeatureFeatures';
-      var specializationValidationNote =
-        'validationNotes.wizard-SpellSpecialization(' + school + ')SelectableFeatureFeatures';
-      var anyOtherSpecialization = QuilvynUtils.getKeys(schools).filter(x => x != 'Universal' && x != school).map(x => 'Spell Specialization (' + x + ')').join(' || ');
-      var noOtherSpecialization = QuilvynUtils.getKeys(schools).filter(x => x != 'Universal' && x != school).map(x => 'Spell Specialization (' + x + ') == 0').join('/');
-      rules.defineChoice('notes',
-        prohibitionValidationNote + ':Requires ' + anyOtherSpecialization,
-        specializationValidationNote + ':Requires ' + noOtherSpecialization
-      );
-      rules.defineRule(prohibitionValidationNote,
-        'selectableFeatures.Wizard - Spell Prohibition (' + school + ')', '=', '1'
-      );
-      rules.defineRule(specializationValidationNote,
-        'selectableFeatures.Wizard - Spell Specialization (' + school + ')', '=', '0'
-      );
-      for(var specialization in schools) {
-        if(specialization != 'Universal' && specialization != school) {
-          rules.defineRule(prohibitionValidationNote,
-            'selectableFeatures.Wizard - Spell Specialization (' + specialization + ')', '+', '-1'
-          );
-          rules.defineRule(specializationValidationNote,
-            'selectableFeatures.Wizard - Spell Specialization (' + specialization + ')', '+', '-1'
-          );
-        }
-      }
-    }
     rules.defineRule('familiarMasterLevel', 'levels.Wizard', '+=', null);
     rules.defineRule('featCount.Wizard',
       'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
     );
+    rules.defineRule('selectableFeatureCount.Wizard',
+      'wizardFeatures.Arcane School', '=', '1'
+    );
+
+    var schools = rules.getChoices('schools');
+    for(var school in schools) {
+      if(school == 'Universal')
+        continue;
+      rules.defineRule('selectableFeatureCount.Wizard',
+        'wizardFeatures.School Specialization (' + school + ')', '+',
+        school == 'Divination' ? '1' : '2'
+      );
+      for(var i = 1; i <= 9; i++) {
+        rules.defineRule('spellsPerDay.W' + i,
+          'magicNotes.schoolSpecialization(' + school + ')Feature', '+', '1'
+        );
+      }
+    }
+
+    // Validation
+    for(var school in schools) {
+      var selection = school == 'Universal' ? 'None' : school;
+      var specializationValidationNote =
+        'validationNotes.wizard-SchoolSpecialization(' + selection + ')SelectableFeatureFeatures';
+      rules.defineChoice('notes',
+        specializationValidationNote + ':Requires no other specialization'
+      );
+      rules.defineRule(specializationValidationNote,
+        'selectableFeatures.Wizard - School Specialization (' + selection + ')', '=', '0'
+      );
+      for(var other in schools) {
+        if(other == school)
+          continue;
+        rules.defineRule(specializationValidationNote,
+          'selectableFeatures.Wizard - School Specialization (' + other + ')', '+', '-1'
+        );
+      }
+      if(school == 'Divination' || school == 'Universal')
+        continue; // Not allowed as opposition school
+      var anySpecialization = QuilvynUtils.getKeys(schools).filter(x => x != 'Universal' && x != school).map(x => 'School Specialization (' + x + ')').join(' || ');
+      var oppositionValidationNote =
+        'validationNotes.wizard-SchoolOpposition(' + school + ')SelectableFeatureFeatures';
+      rules.defineChoice
+        ('notes', oppositionValidationNote + ':Requires ' + anySpecialization);
+      rules.defineRule(oppositionValidationNote,
+        'selectableFeatures.Wizard - School Opposition ('+school+')', '=', '1'
+      );
+      for(var other in schools) {
+        if(other == 'Universal' || other == school)
+          continue;
+        rules.defineRule(oppositionValidationNote,
+          'selectableFeatures.Wizard - School Specialization (' + other + ')', 'v', '0'
+        );
+      }
+    }
 
   }
 
@@ -5766,9 +5760,6 @@ SRD35.schoolRules = function(rules, name) {
   if(name == 'Universal')
     return;
   rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
-  rules.defineRule('features.Spell Specialization',
-    'features.Spell Specialization (' + name + ')', '+=', '1'
-  );
 };
 
 /*

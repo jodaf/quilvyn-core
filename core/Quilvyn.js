@@ -139,9 +139,9 @@ Quilvyn.applyV2Changes = function(character) {
     if(attr.match(/^domains\./))
       attr = attr.replace('domains.', 'selectableFeatures.Cleric - ') + ' Domain';
     else if(attr.match(/^prohibit\./))
-      attr = attr.replace('prohibit.', 'selectableFeatures.Wizard - Spell Prohibition (') + ')';
+      attr = attr.replace('prohibit.', 'selectableFeatures.Wizard - School Opposition (') + ')';
     else if(attr.match(/^specialize\./))
-      attr = attr.replace('specialize.', 'selectableFeatures.Wizard - Spell Specialization (') + ')';
+      attr = attr.replace('specialize.', 'selectableFeatures.Wizard - School Specialization (') + ')';
     attr = attr.replace(/(half) ?(elf)/i, '$1-$2');
     attr = attr.replace(/(half) ?(orc)/i, '$1-$2');
     attr = attr.replace(/(blind) ?(fight)/i, '$1-$2');
