@@ -820,7 +820,7 @@ SRD35.FEATURES = {
   'Elemental Shape':'magic:Wild Shape to elemental %V/day',
   'Empty Body':'magic:<i>Etherealness</i> %V rd/day',
   'Endurance':'save:+4 extended physical action',
-  'Evasion':'save:Reflex save yields no damage instead of 1/2',
+  'Evasion':'save:Reflex save yields no damage instead of half',
   'Familiar':'feature:Special bond/abilities',
   'Fascinate':"magic:Hold %V creatures w/in 90' spellbound %1 rd (Will neg)",
   'Fast Movement':"ability:+%V speed",
@@ -834,7 +834,7 @@ SRD35.FEATURES = {
   // Greater Two-Weapon Fighting as per feat
   'Hide In Plain Sight':'skill:Hide even when observed',
   'Illiteracy':'skill:Must spend 2 skill points to read/write',
-  'Improved Evasion':'save:Failed save yields 1/2 damage',
+  'Improved Evasion':'save:Failed save yields half damage',
   'Improved Precise Shot':
     'combat:No foe AC bonus for partial concealment, attack grappling target',
   // Improved Two-Weapon Fighting as per feat
@@ -1007,8 +1007,8 @@ SRD35.FEATURES = {
   'Command Like Creatures':
     'companion:DC %V <i>Command</i> vs. similar creatures %1/day',
   'Companion Alertness':'skill:+2 Listen and Spot when companion w/in reach',
-  'Companion Evasion':'companion:Reflex save yields no damage instead of 1/2',
-  'Companion Improved Evasion':'companion:Failed save yields 1/2 damage',
+  'Companion Evasion':'companion:Reflex save yields no damage instead of half',
+  'Companion Improved Evasion':'companion:Failed save yields half damage',
   'Deliver Touch Spells':
     'companion:Deliver touch spells if in contact w/master when cast',
   'Devotion':'companion:+4 Will vs. enchantment',
@@ -2369,7 +2369,7 @@ SRD35.SPELLS = {
     'Description="1 target (Will neg)/8 willing move to another plane"',
   'Plant Growth':
     'School=Transmutation ' +
-    'Description="$RL\' vegetation becomes dense or 1/2 mi radius increases productivity"',
+    'Description="$RL\' vegetation becomes dense or half-mi radius increases productivity"',
   'Poison':
     'School=Necromancy ' +
     'Description="Touched 1d3 Con/rd for 6 rd (Fort neg)"',
@@ -3362,13 +3362,14 @@ SRD35.CLASSES = {
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
-      '"1:Flurry Of Blows","1:Improved Unarmed Strike",2:Evasion,' +
-      '"3:Fast Movement","3:Still Mind","4:Ki Strike","4:Slow Fall",' +
-      '"5:Purity Of Body","7:Wholeness Of Body","9:Improved Evasion",' +
-      '"10:Lawful Ki Strike","11:Diamond Body","11:Greater Flurry",' +
-      '"12:Abundant Step","13:Diamond Soul","15:Quivering Palm",' +
-      '"16:Adamantine Ki Strike","17:Timeless Body",' +
-      '"17:Tongue Of The Sun And Moon","19:Empty Body","20:Perfect Self" ' +
+      '"1:Flurry Of Blows","1:Improved Unarmed Strike",' +
+      '"1:Monk Armor Class Adjustment",2:Evasion,"3:Fast Movement",' +
+      '"3:Still Mind","4:Ki Strike","4:Slow Fall","5:Purity Of Body",' +
+      '"7:Wholeness Of Body","9:Improved Evasion","10:Lawful Ki Strike",' +
+      '"11:Diamond Body","11:Greater Flurry","12:Abundant Step",' +
+      '"13:Diamond Soul","15:Quivering Palm","16:Adamantine Ki Strike",' +
+      '"17:Timeless Body","17:Tongue Of The Sun And Moon","19:Empty Body",' +
+      '"20:Perfect Self" ' +
     'Selectables=' +
       '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
       '"2:Deflect Arrows","6:Improved Disarm","6"Improved Grapple"',
