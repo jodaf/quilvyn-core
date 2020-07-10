@@ -4256,7 +4256,8 @@ SRD35.armorRules = function(
       QuilvynUtils.dictLit(rules.armorStats.level) + '[source] == 3 ? 3 : 4'
   );
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]',
+    '', '^', '0'
   );
   rules.defineRule('skillNotes.armorSwimCheckPenalty',
     'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
@@ -5830,7 +5831,7 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
     'shieldProficiencyLevel', '+', '-source'
   );
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
+    'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
   );
 
 };
@@ -7353,6 +7354,7 @@ SRD35.ruleNotes = function() {
  * TODO
  */
 SRD35.testRules = function(rules, section, noteName, attr, tests) {
+  var matchInfo;
   var note = section + 'Notes.' + noteName;
   var verb = section == 'validation' ? 'Requires' : 'Implies';
   var subnote = 0;
@@ -7360,33 +7362,40 @@ SRD35.testRules = function(rules, section, noteName, attr, tests) {
     ('notes', note + ':' + verb + ' ' + tests.join('/').replace(/[a-z]+\./g, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
   rules.defineRule(note, attr, '=', tests.length);
   for(var i = 0; i < tests.length; i++) {
-    var test = tests[i];
-    var matchInfo = test.match(/^(.*\S)\s*(<=|>=|==|!=|<|>|=~|!~)\s*(\S.*)$/);
-    if(!matchInfo) {
-      rules.defineRule(note, test, '+', '-1');
-    } else {
-      var operand1 = matchInfo[1];
-      var operand2 = matchInfo[3];
-      var operator = matchInfo[2];
-      if(operator == '!~') {
-        rules.defineRule
-          (note, operand1, '+', 'source.match(' + operand2 + ') ? null : -1');
-      } else if(operator == '=~') {
-        rules.defineRule
-          (note, operand1, '+', 'source.match(' + operand2 + ') ? -1 : null');
-      } else if(operand2.match(/^[a-z]/)) {
-        subnote++;
-        rules.defineRule(note + '.' + subnote,
-          operand1, '=', null,
-          operand2, '-', null
-        );
-        rules.defineRule(note,
-          note + '.' + subnote, '+', 'source ' + operator + ' 0 ? -1 : null'
-        );
+    var alternatives = tests[i].split(/\s*\|\|\s*/);
+    for(var j = 0; j < alternatives.length; j++) {
+      var test = alternatives[j];
+      var matchInfo = test.match(/^(.*\S)\s*(<=|>=|==|!=|<|>|=~|!~)\s*(\S.*)$/);
+      if(!matchInfo) {
+        rules.defineRule(note, test, '+', '-1');
       } else {
-        rules.defineRule(note,
-          operand1, '+', 'source ' + operator + ' ' + operand2 + ' ? -1 : null'
-        );
+        var operand1 = matchInfo[1];
+        var operand2 = matchInfo[3];
+        var operator = matchInfo[2];
+        if((matchInfo = operand1.match(/^Sum \/(.*)\/$/)) != null) {
+          rules.defineRule
+            (operand1, new RegExp(matchInfo[1] + '.*\\D$'), '+=', null);
+        }
+        if(operator == '!~') {
+          rules.defineRule
+            (note, operand1, '+', 'source.match(' + operand2 + ') ? null : -1');
+        } else if(operator == '=~') {
+          rules.defineRule
+            (note, operand1, '+', 'source.match(' + operand2 + ') ? -1 : null');
+        } else if(operand2.match(/^[a-z]/)) {
+          subnote++;
+          rules.defineRule(note + '.' + subnote,
+            operand1, '=', null,
+            operand2, '-', null
+          );
+          rules.defineRule(note,
+            note + '.' + subnote, '+', 'source ' + operator + ' 0 ? -1 : null'
+          );
+        } else {
+          rules.defineRule(note,
+            operand1, '+', 'source ' + operator + ' ' + operand2 + ' ? -1 : null'
+          );
+        }
       }
     }
   }
