@@ -35,9 +35,10 @@ function SRD35Prestige() {
 SRD35Prestige.CLASSES = {
   'Arcane Archer':
     'Require=' +
-      '"Base Attack >= 6","Caster Level Arcane >= 1","Point Blank Shot",' +
-      '"Precise Shot","Weapon Focus (Longbow) || Weapon Focus (Shortbow)",' +
-      '"Race =~ /Elf/" ' +
+      '"baseAttack >= 6","casterLevelArcane >= 1",' +
+      '"features.Point Blank Shot","features.Precise Shot",' +
+      '"features.Weapon Focus (Longbow) || features.Weapon Focus (Shortbow)",' +
+      '"race =~ /Elf/" ' +
     'HitDie=d8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Skills=Craft,Hide,Listen,"Move Silently",Ride,Spot,Survival,"Use Rope" ' +
     'Features=' +
@@ -47,9 +48,10 @@ SRD35Prestige.CLASSES = {
       '"10:Arrow Of Death"',
   'Arcane Trickster':
     'Require=' +
-      '"alignment !~ /Lawful/","Sneak Attack >= 2","Decipher Script >= 7",' +
-      '"Disable Device >= 7","Escape Artist >= 7","Knowledge (Arcana) >= 4",' +
-      '"Mage Hand","arcane level 3" ' +
+      '"alignment !~ /Lawful/","features.Sneak Attack >= 2",' +
+      '"skills.Decipher Script >= 7","skills.Disable Device >= 7",' +
+      '"skills.Escape Artist >= 7","skills.Knowledge (Arcana) >= 4",' +
+      '"Any spells.Mage Hand","Any spells.[BW]3" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Skills=' +
       'Appraise,Balance,Bluff,Climb,Concentration,Craft,"Decipher Script",' +
@@ -62,9 +64,10 @@ SRD35Prestige.CLASSES = {
        '"3:Impromptu Sneak Attack"',
   'Archmage':
     'Require=' +
-      '"Skill Focus (Spellcraft)","Sum Spell Focus >= 2",' +
-      '"Knowledge (Arcana) >= 15","Spellcraft >= 15",' +
-      '"arcane level 7","level 5 from 5 schools" ' +
+      '"features.Skill Focus (Spellcraft)","Sum features.Spell Focus >= 2",' +
+      '"skills.Knowledge (Arcana) >= 15","skills.Spellcraft >= 15",' +
+      '"Any spells..*[BW]7" ' +
+      // TODO level 5 from 5 schools
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
     'Spellcraft ' +
@@ -75,8 +78,8 @@ SRD35Prestige.CLASSES = {
       '"1:Mastery Of Shaping","1:Spell Power","1:Spell-Like Ability"',
   'Assassin':
     'Require=' +
-      '"alignment =~ /Evil/","Disguise >= 4","Hide >= 8",' +
-      '"Move Silently >= 8" ' +
+      '"alignment =~ /Evil/","skills.Disguise >= 4","skills.Hide >= 8",' +
+      '"skills.Move Silently >= 8" ' +
     'HitDie=d6 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,Climb,Craft,"Decipher Script",Diplomacy,' +
@@ -107,8 +110,9 @@ SRD35Prestige.CLASSES = {
       'Glibness;Greater Invisibility;Locate Creature;Modify Memory;Poison"',
   'Blackguard':
     'Require=' +
-      '"alignment =~ /Evil/","baseAttack >= 6",Cleave,"Improved Sunder",' +
-      '"Power Attack","Hide >= 5","Knowledge (Religion) >= 2" ' +
+      '"alignment =~ /Evil/","baseAttack >= 6",features.Cleave,' +
+      '"features.Improved Sunder","features.Power Attack","skills.Hide >= 5",' +
+      '"skills.Knowledge (Religion) >= 2" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Handle Animal",Heal,Hide,Intimidate,' +
@@ -138,8 +142,9 @@ SRD35Prestige.CLASSES = {
       'Poison;Summon Monster IV"',
   'Dragon Disciple':
     'Require=' +
-      'Draconic,"race !~ /Dragon/","Knowledge (Arcana) >= 8",' +
-      '"arcane spells w/out prep" ' +
+      'languages.Draconic,"race !~ /Dragon/",' +
+      '"skills.Knowledge (Arcana) >= 8" ' +
+      // TODO arcane spells w/out prep
     'HitDie=d12 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Escape Artist","Gather Information",' +
@@ -151,8 +156,9 @@ SRD35Prestige.CLASSES = {
       '"10:Darkvision","10:Dragon Apotheosis","10:Low-Light Vision"',
   'Duelist':
     'Require=' +
-      '"baseAttack >= 6",Dodge,Mobility,"Weapon Finesse",' +
-      '"sum skills.Perform >= 6","Tumble >= 5" ' +
+      '"baseAttack >= 6",features.Dodge,features.Mobility,' +
+      '"features.Weapon Finesse","Sum skills.Perform >= 6",' +
+      '"skills.Tumble >= 5" ' +
     'HitDie=d10 Attack=1 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,"Escape Artist",Jump,Listen,Perform,"Sense Motive",' +
@@ -164,8 +170,8 @@ SRD35Prestige.CLASSES = {
       '"9:Deflect Arrows"',
   'Dwarven Defender':
     'Require=' +
-      '"alignment =~ /Lawful/","baseAttack >= 7",Dodge,Endurance,Toughness,' +
-      '"race =~ /Dwarf/" ' +
+      '"alignment =~ /Lawful/","baseAttack >= 7",features.Dodge,' +
+      'features.Endurance,features.Toughness,"race =~ /Dwarf/" ' +
     'HitDie=d12 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=Craft,Listen,"Sense Motive",Spot ' +
     'Features=' +
@@ -174,7 +180,7 @@ SRD35Prestige.CLASSES = {
       '"2:Uncanny Dodge","4:Trap Sense","6:Damage Reduction",' +
       '"6:Improved Uncanny Dodge","8:Mobile Defense"',
   'Eldritch Knight':
-    'Require="Weapon Proficiency (Martial)","spells.Arcane 3" ' +
+    'Require="features.Weapon Proficiency (Martial)","Any spells..*[BW]3" ' +
     'HitDie=d6 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Concentration,Craft,"Decipher Script",Jump,"Knowledge (Arcana)",' +
@@ -182,7 +188,8 @@ SRD35Prestige.CLASSES = {
     'Features="2:Caster Level Bonus"',
   'Hierophant':
     'Require=' +
-      '"Any Metamagic feat","Knowledge (Religion) >= 15","spells.Divine 7" ' +
+      '"skills.Knowledge (Religion) >= 15","Any spells..*[CD]7" ' +
+      // TODO any metamagic feat
     'HitDie=d8 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,Heal,"Knowledge (Arcana)",' +
@@ -193,7 +200,7 @@ SRD35Prestige.CLASSES = {
       '"1:Mastery Of Energy","1:Power Of Nature","1:Spell Power",' +
       '"1:Spell-Like Ability"',
   'Horizon Walker':
-    'Require=Endurance,"Knowledge (Geography) >= 8" ' +
+    'Require=features.Endurance,"skills.Knowledge (Geography) >= 8" ' +
     'HitDie=d8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Balance,Climb,Diplomacy,"Handle Animal",Hide,"Knowledge (Geography)",' +
@@ -208,9 +215,9 @@ SRD35Prestige.CLASSES = {
       '"6:Terrain Mastery (Shifting)","6:Terrain Mastery (Weightless)"',
   'Loremaster':
     'Require=' +
-      '"Skill Focus (any Knowledge)","sum Item Creation or Metamagic >= 3",' +
-      '"skills.any 2 Knowlege >= 10","sum spells.Divination >= 7",' +
-      '"spells.Divination 3" ' +
+      '"Any Skill Focus (Knowledge","sum spells..*Divi) >= 7",' +
+      '"Any spells..*3 Divi)" ' +
+      // TODO 2 skills.Knowledge >= 10,3 Item Creation/Metamagic feats
     'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Appraise,Concentration,"Craft (Alchemy)","Decipher Script",' +
@@ -227,7 +234,7 @@ SRD35Prestige.CLASSES = {
   'Mystic Theurge':
     'Require=' +
       '"casterLevelArcane >= 2","casterLevelDivine >= 2",' +
-      '"Knowledge (Arcana) >= 6","Knowlege (Religion) >= 6" ' +
+      '"skills.Knowledge (Arcana) >= 6","skills.Knowlege (Religion) >= 6" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,"Decipher Script","Knowledge (Arcana)",' +
@@ -250,7 +257,8 @@ SRD35Prestige.CLASSES = {
       '"5:Defensive Roll","5:Improved Uncanny Dodge","7:Slippery Mind",' +
       '"10:Improved Evasion"',
   'Thaumaturgist':
-    'Require="Spell Focus (Conjuration)","Lesser Planar Ally" ' +
+    'Require="features.Spell Focus (Conjuration)",' +
+    '"features.Lesser Planar Ally" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Knowledge (Planes)",' +
@@ -411,7 +419,7 @@ SRD35Prestige.FEATURES = {
 SRD35Prestige.identityRules = function(rules, classes) {
   for(var klass in classes) {
     rules.choiceRules(rules, 'levels', klass, classes[klass]);
-    SRD35Prestige.classRules(rules, klass);
+    SRD35Prestige.classRulesExtra(rules, klass);
   }
 };
 
@@ -427,7 +435,7 @@ SRD35Prestige.talentRules = function(rules, features) {
 /*
  * TODO
  */
-SRD35Prestige.classRules = function(rules, name) {
+SRD35Prestige.classRulesExtra = function(rules, name) {
 
   var spells = null;
 
