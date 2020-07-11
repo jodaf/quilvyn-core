@@ -48,8 +48,9 @@ function SRD35() {
   );
   rules.defineChoice('preset', 'race', 'level', 'levels');
 
-  // For spells, chools have to be defined before classes and domains
-  SRD35.magicRules(rules, SRD35.SCHOOLS, SRD35.SPELLS);
+  // For spells, schools have to be defined before classes and domains
+  // Spell definition is handed by individual classes and domains
+  SRD35.magicRules(rules, SRD35.SCHOOLS, []);
   SRD35.abilityRules(rules);
   SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
   SRD35.combatRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
@@ -66,9 +67,9 @@ function SRD35() {
 }
 
 SRD35.CHOICES = [
-  'armors', 'classes', 'deities', 'domains', 'familiars', 'feats', 'features',
-  'genders', 'languages', 'races', 'schools', 'shields', 'skills', 'spells',
-  'weapons'
+  'Animal Companion', 'Armor', 'Class', 'Deity', 'Domain', 'Familiar', 'Feat',
+  'Feature', 'Gender', 'Language', 'Race', 'School', 'Shield', 'Skill', 'Spell',
+  'Weapon'
 ];
 // The order here handles dependencies among attributes when generating
 // random characters
@@ -260,19 +261,19 @@ SRD35.ANIMAL_COMPANIONS = {
 
 };
 SRD35.ARMORS = {
-  'None':'AC=0 Level=0 Dex=10 Skill=0 Spell=0',
-  'Padded':'AC=1 Level=1 Dex=8 Skill=0 Spell=5',
-  'Leather':'AC=2 Level=1 Dex=6 Skill=0 Spell=10',
-  'Studded Leather':'AC=3 Level=1 Dex=5 Skill=1 Spell=15',
-  'Chain Shirt':'AC=4 Level=1 Dex=4 Skill=2 Spell=20',
-  'Hide':'AC=3 Level=2 Dex=4 Skill=3 Spell=20',
-  'Scale Mail':'AC=4 Level=2 Dex=3 Skill=4 Spell=25',
-  'Chainmail':'AC=5 Level=2 Dex=2 Skill=5 Spell=30',
-  'Breastplate':'AC=5 Level=2 Dex=3 Skill=4 Spell=25',
-  'Splint Mail':'AC=6 Level=3 Dex=0 Skill=7 Spell=40',
-  'Banded Mail':'AC=6 Level=3 Dex=1 Skill=6 Spell=35',
-  'Half Plate':'AC=7 Level=3 Dex=0 Skill=7 Spell=40',
-  'Full Plate':'AC=8 Level=3 Dex=1 Skill=6 Spell=35'
+  'None':'AC=0 Weight=0 Dex=10 Skill=0 Spell=0',
+  'Padded':'AC=1 Weight=1 Dex=8 Skill=0 Spell=5',
+  'Leather':'AC=2 Weight=1 Dex=6 Skill=0 Spell=10',
+  'Studded Leather':'AC=3 Weight=1 Dex=5 Skill=1 Spell=15',
+  'Chain Shirt':'AC=4 Weight=1 Dex=4 Skill=2 Spell=20',
+  'Hide':'AC=3 Weight=2 Dex=4 Skill=3 Spell=20',
+  'Scale Mail':'AC=4 Weight=2 Dex=3 Skill=4 Spell=25',
+  'Chainmail':'AC=5 Weight=2 Dex=2 Skill=5 Spell=30',
+  'Breastplate':'AC=5 Weight=2 Dex=3 Skill=4 Spell=25',
+  'Splint Mail':'AC=6 Weight=3 Dex=0 Skill=7 Spell=40',
+  'Banded Mail':'AC=6 Weight=3 Dex=1 Skill=6 Spell=35',
+  'Half Plate':'AC=7 Weight=3 Dex=0 Skill=7 Spell=40',
+  'Full Plate':'AC=8 Weight=3 Dex=1 Skill=6 Spell=35'
 };
 SRD35.DEITIES = {
   'None':'' // The SRD defines no deities
@@ -3707,10 +3708,10 @@ SRD35.abilityRules = function(rules) {
 SRD35.aideRules = function(rules, companions, familiars) {
   for(var companion in companions) {
     rules.choiceRules
-      (rules, 'animalCompanions', companion, companions[companion]);
+      (rules, 'Animal Companion', companion, companions[companion]);
   }
   for(var familiar in familiars) {
-    rules.choiceRules(rules, 'familiars', familiar, familiars[familiar]);
+    rules.choiceRules(rules, 'Familiar', familiar, familiars[familiar]);
   }
   SRD35.testRules
     (rules, 'validation', 'celestialFamiliarMasterLevel', 'celestialFamiliar',
@@ -3724,13 +3725,13 @@ SRD35.aideRules = function(rules, companions, familiars) {
 SRD35.combatRules = function(rules, armors, shields, weapons) {
 
   for(var armor in armors) {
-    rules.choiceRules(rules, 'armors', armor, armors[armor]);
+    rules.choiceRules(rules, 'Armor', armor, armors[armor]);
   }
   for(var shield in shields) {
-    rules.choiceRules(rules, 'shields', shield, shields[shield]);
+    rules.choiceRules(rules, 'Shield', shield, shields[shield]);
   }
   for(var weapon in weapons) {
-    rules.choiceRules(rules, 'weapons', weapon, weapons[weapon]);
+    rules.choiceRules(rules, 'Weapon', weapon, weapons[weapon]);
   }
 
   rules.defineRule('armorProficiency',
@@ -3941,22 +3942,22 @@ SRD35.identityRules = function(
   rules, alignments, classes, deities, domains, genders, races
 ) {
   for(var alignment in alignments) {
-    rules.choiceRules(rules, 'alignments', alignment, alignments[alignment]);
+    rules.choiceRules(rules, 'Alignment', alignment, alignments[alignment]);
   }
   for(var clas in classes) {
-    rules.choiceRules(rules, 'levels', clas, classes[clas]);
+    rules.choiceRules(rules, 'Class', clas, classes[clas]);
   }
   for(var deity in deities) {
-    rules.choiceRules(rules, 'deities', deity, deities[deity]);
+    rules.choiceRules(rules, 'Deity', deity, deities[deity]);
   }
   for(var domain in domains) {
-    rules.choiceRules(rules, 'domains', domain, domains[domain]);
+    rules.choiceRules(rules, 'Domain', domain, domains[domain]);
   }
   for(var gender in genders) {
-    rules.choiceRules(rules, 'genders', gender, genders[gender]);
+    rules.choiceRules(rules, 'Gender', gender, genders[gender]);
   }
   for(var race in races) {
-    rules.choiceRules(rules, 'races', race, races[race]);
+    rules.choiceRules(rules, 'Race', race, races[race]);
   }
   rules.defineRule
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
@@ -3970,29 +3971,29 @@ SRD35.identityRules = function(
   SRD35.validAllocationRules(rules, 'level', 'level', /^levels\./);
 };
 
-/* Defines rules related to magic use. */
+/* Defnes rules related to magic use. */
 SRD35.magicRules = function(rules, schools, spells) {
   for(var school in schools) {
-    rules.choiceRules(rules, 'schools', school, schools[school]);
+    rules.choiceRules(rules, 'School', school, schools[school]);
   }
   for(var spell in spells) {
-    rules.choiceRules(rules, 'spells', spell, spells[spell]);
+    rules.choiceRules(rules, 'Spell', spell, spells[spell]);
   }
 };
 
 /* Defines rules related to character feats, languages, and skills. */
 SRD35.talentRules = function(rules, feats, features, languages, skills) {
   for(var feat in feats) {
-    rules.choiceRules(rules, 'feats', feat, feats[feat]);
+    rules.choiceRules(rules, 'Feat', feat, feats[feat]);
   }
   for(var feature in features) {
-    rules.choiceRules(rules, 'features', feature, features[feature]);
+    rules.choiceRules(rules, 'Feature', feature, features[feature]);
   }
   for(var language in languages) {
-    rules.choiceRules(rules, 'languages', language, languages[language]);
+    rules.choiceRules(rules, 'Language', language, languages[language]);
   }
   for(var skill in skills) {
-    rules.choiceRules(rules, 'skills', skill, skills[skill]);
+    rules.choiceRules(rules, 'Skill', skill, skills[skill]);
   }
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
@@ -4032,9 +4033,9 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
  * related to selecting that choice.
  */
 SRD35.choiceRules = function(rules, type, name, attrs) {
-  if(type == 'alignments')
+  if(type == 'Alignment')
     SRD35.alignmentRules(rules, name);
-  else if(type == 'animalCompanions')
+  else if(type == 'Animal Companion')
     SRD35.companionRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Str'),
       QuilvynUtils.getAttrValue(attrs, 'Int'),
@@ -4048,54 +4049,15 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Dam'),
       QuilvynUtils.getAttrValue(attrs, 'Level')
     );
-  else if(type == 'armors')
+  else if(type == 'Armor')
     SRD35.armorRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'AC'),
-      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      QuilvynUtils.getAttrValue(attrs, 'Weight'),
       QuilvynUtils.getAttrValue(attrs, 'Dex'),
       QuilvynUtils.getAttrValue(attrs, 'Skill'),
       QuilvynUtils.getAttrValue(attrs, 'Spell')
     );
-  else if(type == 'deities')
-    SRD35.deityRules(rules, name,
-      QuilvynUtils.getAttrValueArray(attrs, 'Domain'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Weapon')
-    );
-  else if(type == 'domains') {
-    SRD35.domainRules(rules, name,
-      QuilvynUtils.getAttrValueArray(attrs, 'Features'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
-      SRD35.SPELLS
-    );
-    SRD35.domainRulesExtra(rules, name);
-  } else if(type == 'familiars')
-    SRD35.familiarRules(rules, name,
-      QuilvynUtils.getAttrValue(attrs, 'Str'),
-      QuilvynUtils.getAttrValue(attrs, 'Int'),
-      QuilvynUtils.getAttrValue(attrs, 'Wis'),
-      QuilvynUtils.getAttrValue(attrs, 'Dex'),
-      QuilvynUtils.getAttrValue(attrs, 'Con'),
-      QuilvynUtils.getAttrValue(attrs, 'Cha'),
-      QuilvynUtils.getAttrValue(attrs, 'HD'),
-      QuilvynUtils.getAttrValue(attrs, 'AC'),
-      QuilvynUtils.getAttrValue(attrs, 'Attack'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Dam'),
-      QuilvynUtils.getAttrValue(attrs, 'Level')
-    );
-  else if(type == 'feats') {
-    SRD35.featRules(rules, name,
-      QuilvynUtils.getAttrValueArray(attrs, 'Type'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Require'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Imply')
-    );
-    SRD35.featRulesExtra(rules, name);
-  } else if(type == 'features')
-    SRD35.featureRules(rules, name, attrs);
-  else if(type == 'genders')
-    SRD35.genderRules(rules, name);
-  else if(type == 'languages')
-    SRD35.languageRules(rules, name);
-  else if(type == 'levels') {
+  else if(type == 'Class') {
     SRD35.classRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Imply'),
@@ -4116,20 +4078,60 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       SRD35.SPELLS
     );
     SRD35.classRulesExtra(rules, name);
-  } else if(type == 'races')
+  } else if(type == 'Deity')
+    SRD35.deityRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Domain'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Weapon')
+    );
+  else if(type == 'Domain') {
+    SRD35.domainRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Features'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
+      SRD35.SPELLS
+    );
+    SRD35.domainRulesExtra(rules, name);
+  } else if(type == 'Familiar')
+    SRD35.familiarRules(rules, name,
+      QuilvynUtils.getAttrValue(attrs, 'Str'),
+      QuilvynUtils.getAttrValue(attrs, 'Int'),
+      QuilvynUtils.getAttrValue(attrs, 'Wis'),
+      QuilvynUtils.getAttrValue(attrs, 'Dex'),
+      QuilvynUtils.getAttrValue(attrs, 'Con'),
+      QuilvynUtils.getAttrValue(attrs, 'Cha'),
+      QuilvynUtils.getAttrValue(attrs, 'HD'),
+      QuilvynUtils.getAttrValue(attrs, 'AC'),
+      QuilvynUtils.getAttrValue(attrs, 'Attack'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Dam'),
+      QuilvynUtils.getAttrValue(attrs, 'Level')
+    );
+  else if(type == 'Feat') {
+    SRD35.featRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Type'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Require'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Imply')
+    );
+    SRD35.featRulesExtra(rules, name);
+  } else if(type == 'Feature')
+    SRD35.featureRules(rules, name, attrs);
+  else if(type == 'Gender')
+    SRD35.genderRules(rules, name);
+  else if(type == 'Language')
+    SRD35.languageRules(rules, name);
+  else if(type == 'Race') {
     SRD35.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features')
   );
-  else if(type == 'schools')
+    SRD35.raceRulesExtra(rules, name);
+  } else if(type == 'School')
     SRD35.schoolRules(rules, name);
-  else if(type == 'shields')
+  else if(type == 'Shield')
     SRD35.shieldRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'AC'),
       QuilvynUtils.getAttrValue(attrs, 'Level'),
       QuilvynUtils.getAttrValue(attrs, 'Skill'),
       QuilvynUtils.getAttrValue(attrs, 'Spell')
     );
-  else if(type == 'skills') {
+  else if(type == 'Skill') {
     var untrained = QuilvynUtils.getAttrValue(attrs, 'Untrained');
     SRD35.skillRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Ability'),
@@ -4138,9 +4140,14 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Synergy')
     );
     SRD35.skillRulesExtra(rules, name);
-  } else if(type == 'spells') {
-    ; // empty -- handled by classes and domains
-  } else if(type == 'weapons')
+  } else if(type == 'Spell')
+    SRD35.spellRules(rules, name,
+      QuilvynUtils.getAttrValue(attrs, 'School'),
+      QuilvynUtils.getAttrValue(attrs, 'Group'),
+      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      QuilvynUtils.getAttrValue(attrs, 'Description')
+    );
+  else if(type == 'Weapon')
     SRD35.weaponRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Level'),
       QuilvynUtils.getAttrValue(attrs, 'Category'),
@@ -4153,8 +4160,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     console.log('Unknown choice type "' + type + '"');
     return;
   }
-  if(type != 'spells' && type != 'features')
+  if(type != 'Feature') {
+    type = type == 'Class' ? 'levels' : (type.substring(0,1).toLowerCase() + type.substring(1).replace(/ /g, '') + 's');
     rules.addChoice(type, name, attrs);
+  }
 };
 
 /* Defines in #rules# the rules associated with alignment #name#. */
@@ -4461,9 +4470,9 @@ SRD35.classRules = function(
       console.log('Bad format for spell list "' + spells[i] + '"');
       break;
     }
-    var casterGroup = matchInfo[1];
-    var dcGroup = casterGroup.length >= 3 ? 'Dom' : casterGroup;
-    var level = matchInfo[2] * 1;
+    var group = matchInfo[1];
+    var dcGroup = group.length >= 3 ? 'Dom' : group;
+    var level = matchInfo[2];
     var spellNames = pieces[1].split(';');
     for(var j = 0; j < spellNames.length; j++) {
       var spellName = spellNames[j];
@@ -4472,12 +4481,15 @@ SRD35.classRules = function(
         continue;
       }
       var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
-      var description =
-        QuilvynUtils.getAttrValue(spellDict[spellName], 'Description');
-      var choiceName =
-        spellName + '(' + casterGroup + level + ' ' + school.substring(0, 4) + ')';
-      rules.defineChoice('spells', choiceName);
-      SRD35.spellRules(rules, choiceName, school, dcGroup, level, description);
+      if(school == null) {
+        console.log('No school given for spell "' + spellName + '"');
+        continue;
+      }
+      var fullSpell =
+        spellName + '(' + group + level + ' ' + school.substring(0, 4) + ')';
+      rules.choiceRules
+        (rules, 'Spell', fullSpell,
+         spellDict[spellName] + ' Group=' + dcGroup + ' Level=' + level);
     }
   }
 
@@ -5228,12 +5240,15 @@ SRD35.domainRules = function(rules, name, features, spells, spellDict) {
       continue;
     }
     var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
-    var description =
-      QuilvynUtils.getAttrValue(spellDict[spellName], 'Description');
-    var choiceName =
+    if(school == null) {
+      console.log('No school given for spell "' + spellName + '"');
+      continue;
+    }
+    var fullSpell =
       spellName + '(' + name + level + ' ' + school.substring(0, 4) + ')';
-      rules.defineChoice('spells', choiceName);
-      SRD35.spellRules(rules, choiceName, school, 'Dom', level, description);
+    rules.choiceRules
+      (rules, 'Spell', fullSpell,
+       spellDict[spellName] + ' Group=Dom Level=' + level);
   }
 
 };
@@ -5726,7 +5741,7 @@ SRD35.raceRulesExtra = function(rules, name) {
   if(name.match(/Gnome/)) {
 
     rules.defineRule('casterLevels.Gnome',
-      prefix + 'Features.Natural Spells', '?', null,
+      'features.Natural Spells', '?', null,
       'level', '=', '1'
     );
     rules.defineRule
@@ -6060,7 +6075,9 @@ SRD35.weaponRules = function(
     console.log('Bad category "' + category + '" for weapon "' + name + '"');
     return;
   }
-  if(!(damage + '').match(/^(((\d*d)?\d+)([-+]\d+)?)(\/(((\d*d)?\d+)([-+]\d+)?))?$/)) {
+  var matchInfo =
+    (damage + '').match(/^(((\d*d)?\d+)([-+]\d+)?)(\/(((\d*d)?\d+)([-+]\d+)?))?$/);
+  if(!matchInfo) {
     console.log('Bad damage "' + damage + '" for weapon "' + name + '"');
     return;
   }
@@ -6099,10 +6116,6 @@ SRD35.weaponRules = function(
   if(!critMultiplier)
     critMultiplier = 2;
 
-  var matchInfo =
-    (damage + '').match(/^(((\d*d)?\d+)([-+]\d+)?)(\/(((\d*d)?\d+)([-+]\d+)?))?$/);
-  if(!matchInfo)
-    console.log(damage);
   var firstDamage = matchInfo[1];
   var secondDamage = matchInfo[6];
   var weaponName = 'weapons.' + name;
@@ -6472,6 +6485,171 @@ SRD35.createViewers = function(rules, viewers) {
   }
 };
 
+/*
+ * TODO
+ */
+SRD35.choiceEditorElements = function(rules, type) {
+  var result = [];
+  if(type == 'Animal Companion')
+    result.push(
+      ['Str', 'Str', 'text', [3]],
+      ['Dex', 'Dex', 'text', [3]],
+      ['Con', 'Con', 'text', [3]],
+      ['Int', 'Int', 'text', [3]],
+      ['Wis', 'Wis', 'text', [3]],
+      ['Cha', 'Cha', 'text', [3]],
+      ['HD', 'Hit Dice', 'text', [3]],
+      ['AC', 'Armor Class', 'text', [3]],
+      ['Attack', 'Attack Bonus', 'text', [3]],
+      ['Dam', 'Damage', 'text', [10]],
+      ['Level', 'Min Master Level', 'text', [3]]
+    );
+  else if(type == 'Armor')
+    result.push(
+      ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
+      ['Weight', 'Weight', 'select-one', ['Light', 'Medium', 'Heavy']],
+      ['Dex', 'Max Dex', 'text', [3]],
+      ['Skill', 'Skill Penalty', 'text', [3]],
+      ['Spell', 'Spell Failure', 'text', [3]]
+    );
+  else if(type == 'Class')
+    // TODO
+    result.push(
+    );
+  else if(type == 'Deity')
+    result.push(
+      ['Weapon', 'Favored Weapon', 'text', [30]],
+      ['Domain', 'Domains', 'text', [30]]
+    );
+  else if(type == 'Domain')
+    result.push(
+      ['features', 'Features', 'text', [40]],
+      ['spells', 'Spells', 'text', [40]]
+    );
+  else if(type == 'Familiar')
+    result.push(
+      ['Str', 'Str', 'text', [3]],
+      ['Dex', 'Dex', 'text', [3]],
+      ['Con', 'Con', 'text', [3]],
+      ['Int', 'Int', 'text', [3]],
+      ['Wis', 'Wis', 'text', [3]],
+      ['Cha', 'Cha', 'text', [3]],
+      ['HD', 'Hit Dice', 'text', [3]],
+      ['AC', 'Armor Class', 'text', [3]],
+      ['Attack', 'Attack Bonus', 'text', [3]],
+      ['Dam', 'Damage', 'text', [10]],
+      ['Level', 'Min Master Level', 'text', [3]]
+    );
+  else if(type == 'Feat')
+    result.push(
+      ['Require', 'Prerequisites', 'text', [40]],
+      ['Type', 'Types', 'text', [20]]
+    );
+  else if(type == 'Feature')
+    result.push(
+      ['Note', 'Note', 'text', [60]]
+    );
+  else if(type == 'Gender')
+    result.push(
+      // empty
+    );
+  else if(type == 'Language')
+    result.push(
+      // empty
+    );
+  else if(type == 'Race')
+    result.push(
+      ['Features', 'Features', 'text', [60]],
+    );
+  else if(type == 'School')
+    result.push(
+      // empty
+    );
+  else if(type == 'Shield')
+    result.push(
+      ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
+      ['Skill', 'Skill Check Penalty', 'text', [3]],
+      ['Spell', 'Arcane Spell Fail %', 'text', [3]]
+    );
+  else if(type == 'Skill')
+    result.push(
+      ['Ability', 'Ability', 'select-one',
+       ['charisma', 'constitution', 'dexterity', 'intelligence', 'strength',
+        'wisdom']],
+      ['Untrained', 'Untrained', 'select-one', ['Y', 'N']],
+      ['Class', 'Class Skill', 'text', [30]],
+      ['Synergy', 'Synergy', 'text', [30]]
+    );
+  else if(type == 'Spell')
+    result.push(
+      ['School', 'School', 'select-one', rules.getChoices('schools')],
+      ['Level', 'Level', 'text', [3]],
+      ['Level', 'Caster Group', 'text', [15]],
+      ['Description', 'Description', 'text', [60]]
+    );
+  else if(type == 'Weapon')
+    result.push(
+      ['Level', 'Group', 'select-one', ['Simple', 'Martial', 'Exotic']],
+      ['Category', 'Category', 'select-one',
+       ['Unarmed', 'Light', 'One-Handed', 'Two-Handed', 'Ranged']],
+      ['Damage', 'Damage', 'select-one',
+       QuilvynUtils.getKeys(SRD35.LARGE_DAMAGE)],
+      ['Crit', 'Crit Multiplier', 'text', [3]],
+      ['Threat', 'Threat', 'text', [3]],
+      ['Range', 'Range in Feet', 'text', [4]]
+    );
+  return result
+};
+
+/* Returns the elements in a basic SRD character editor. */
+SRD35.initialEditorElements = function() {
+  var abilityChoices = [
+    3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
+  ];
+  var editorElements = [
+    ['name', 'Name', 'text', [20]],
+    ['race', 'Race', 'select-one', 'races'],
+    ['experience', 'Experience', 'text', [8]],
+    ['levels', 'Levels', 'bag', 'levels'],
+    ['imageUrl', 'Image URL', 'text', [20]],
+    ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
+    ['strengthAdjust', '', 'text', [3]],
+    ['intelligence', 'Intelligence/Adjust', 'select-one', abilityChoices],
+    ['intelligenceAdjust', '', 'text', [3]],
+    ['wisdom', 'Wisdom/Adjust', 'select-one', abilityChoices],
+    ['wisdomAdjust', '', 'text', [3]],
+    ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
+    ['dexterityAdjust', '', 'text', [3]],
+    ['constitution', 'Constitution/Adjust', 'select-one', abilityChoices],
+    ['constitutionAdjust', '', 'text', [3]],
+    ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
+    ['charismaAdjust', '', 'text', [3]],
+    ['player', 'Player', 'text', [20]],
+    ['alignment', 'Alignment', 'select-one', 'alignments'],
+    ['gender', 'Gender', 'select-one', 'genders'],
+    ['deity', 'Deity', 'select-one', 'deities'],
+    ['origin', 'Origin', 'text', [20]],
+    ['feats', 'Feats', 'set', 'feats'],
+    ['selectableFeatures', 'Selectable Features', 'set', 'selectableFeatures'],
+    ['skills', 'Skills', 'bag', 'skills'],
+    ['languages', 'Languages', 'set', 'languages'],
+    ['hitPoints', 'Hit Points', 'text', [4]],
+    ['armor', 'Armor', 'select-one', 'armors'],
+    ['shield', 'Shield', 'select-one', 'shields'],
+    ['weapons', 'Weapons', 'bag', 'weapons'],
+    ['spells', 'Spells', 'fset', 'spells'],
+    ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
+    ['animalCompanionName', 'Name', 'text', [20]],
+    ['familiar', 'Familiar', 'set', 'familiars'],
+    ['familiarCelestial', 'Improved', 'checkbox', ['Celestial']],
+    ['familiarFiendish', '', 'checkbox', ['Fiendish']],
+    ['familiarName', 'Name', 'text', [20]],
+    ['notes', 'Notes', 'textarea', [40,10]],
+    ['hiddenNotes', 'Hidden Notes', 'textarea', [40,10]]
+  ];
+  return editorElements;
+};
+
 /* Returns a random name for a character of race #race#. */
 SRD35.randomName = function(race) {
 
@@ -6551,141 +6729,6 @@ SRD35.randomName = function(race) {
   return result.substring(0, 1).toUpperCase() +
          result.substring(1).toLowerCase();
 
-};
-
-/*
- * TODO
- */
-SRD35.choiceEditorElements = function(rules, type) {
-  var result = [];
-  if(type == 'armors')
-    result.push(
-      ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
-      ['level', 'Level', 'select-one', ['Light', 'Medium', 'Heavy']],
-      ['dex', 'Max Dex', 'text', [3]],
-      ['skill', 'Skill Penalty', 'text', [3]],
-      ['spell', 'Spell Failure', 'text', [3]]
-    );
-  else if(type == 'deities')
-    result.push(
-      ['weapon', 'Favored Weapon', 'text', [30]],
-      ['domain', 'Domains', 'text', [30]]
-    );
-  else if(type == 'domains')
-    result.push(
-      ['features', 'Features', 'text', [40]],
-      ['spells', 'Spells', 'text', [40]]
-    );
-  else if(type == 'feats')
-    // TODO
-    result.push(
-    );
-  else if(type == 'features')
-    // TODO
-    result.push(
-    );
-  else if(type == 'familiars')
-    // TODO
-    result.push(
-    );
-  else if(type == 'genders')
-    result.push(
-      // empty
-    );
-  else if(type == 'languages')
-    result.push(
-      // empty
-    );
-  else if(type == 'levels')
-    // TODO
-    result.push(
-    );
-  else if(type == 'races')
-    result.push(
-      ['features', 'Features', 'text', [60]],
-    );
-  else if(type == 'schools')
-    result.push(
-      // empty
-    );
-  else if(type == 'shields')
-    result.push(
-      ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
-      ['skill', 'Skill Check Penalty', 'text', [3]],
-      ['spell', 'Arcane Spell Fail Chance', 'text', [3]]
-    );
-  else if(type == 'skills')
-    result.push(
-      ['ability', 'Ability', 'select-one', ['strength', 'intelligence', 'dexterity', 'constitution', 'charisma']],
-      ['untrained', 'Untrained', 'select-one', ['Y', 'N']],
-      ['class', 'Class Skill', 'text', [30]],
-      ['synergy', 'Synergy', 'text', [30]]
-    );
-  else if(type == 'spells')
-    result.push(
-      ['school', 'School', 'select-one', rules.getChoices('schools')],
-      ['level', 'Level', 'text', [15]],
-      ['description', 'Description', 'text', [60]]
-    );
-  else if(type == 'weapons')
-    result.push(
-      ['level', 'Level', 'select-one', ['Simple', 'Martial', 'Exotic']],
-      ['category', 'Category', 'select-one', ['Unarmed', 'Light', 'One-Handed', 'Two-Handed', 'Ranged']],
-      ['damage', 'Damage', 'text', [20]],
-      ['crit', 'Crit Multiplier', 'text', [3]],
-      ['threat', 'Threat', 'text', [3]],
-      ['range', 'Range', 'text', [4]]
-    );
-  return result
-};
-
-/* Returns the elements in a basic SRD character editor. */
-SRD35.initialEditorElements = function() {
-  var abilityChoices = [
-    3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18
-  ];
-  var editorElements = [
-    ['name', 'Name', 'text', [20]],
-    ['race', 'Race', 'select-one', 'races'],
-    ['experience', 'Experience', 'text', [8]],
-    ['levels', 'Levels', 'bag', 'levels'],
-    ['imageUrl', 'Image URL', 'text', [20]],
-    ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
-    ['strengthAdjust', '', 'text', [3]],
-    ['intelligence', 'Intelligence/Adjust', 'select-one', abilityChoices],
-    ['intelligenceAdjust', '', 'text', [3]],
-    ['wisdom', 'Wisdom/Adjust', 'select-one', abilityChoices],
-    ['wisdomAdjust', '', 'text', [3]],
-    ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
-    ['dexterityAdjust', '', 'text', [3]],
-    ['constitution', 'Constitution/Adjust', 'select-one', abilityChoices],
-    ['constitutionAdjust', '', 'text', [3]],
-    ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
-    ['charismaAdjust', '', 'text', [3]],
-    ['player', 'Player', 'text', [20]],
-    ['alignment', 'Alignment', 'select-one', 'alignments'],
-    ['gender', 'Gender', 'select-one', 'genders'],
-    ['deity', 'Deity', 'select-one', 'deities'],
-    ['origin', 'Origin', 'text', [20]],
-    ['feats', 'Feats', 'set', 'feats'],
-    ['selectableFeatures', 'Selectable Features', 'set', 'selectableFeatures'],
-    ['skills', 'Skills', 'bag', 'skills'],
-    ['languages', 'Languages', 'set', 'languages'],
-    ['hitPoints', 'Hit Points', 'text', [4]],
-    ['armor', 'Armor', 'select-one', 'armors'],
-    ['shield', 'Shield', 'select-one', 'shields'],
-    ['weapons', 'Weapons', 'bag', 'weapons'],
-    ['spells', 'Spells', 'fset', 'spells'],
-    ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
-    ['animalCompanionName', 'Name', 'text', [20]],
-    ['familiar', 'Familiar', 'set', 'familiars'],
-    ['familiarCelestial', 'Improved', 'checkbox', ['Celestial']],
-    ['familiarFiendish', '', 'checkbox', ['Fiendish']],
-    ['familiarName', 'Name', 'text', [20]],
-    ['notes', 'Notes', 'textarea', [40,10]],
-    ['hiddenNotes', 'Hidden Notes', 'textarea', [40,10]]
-  ];
-  return editorElements;
 };
 
 /* Sets #attributes#'s #attribute# attribute to a random value. */

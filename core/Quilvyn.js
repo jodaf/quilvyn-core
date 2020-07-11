@@ -173,7 +173,7 @@ Quilvyn.customChoicesAdd = function(focus, input) {
     htmlBits.push(
       '<form>',
       '<b>Type</b>',
-      InputHtml('type', 'select-one', choices),
+      InputHtml('type', 'select-one', choices).replace('>', ' onchange="update=true">'),
       '<b>Name</b>',
       InputHtml('name', 'text', [20]),
       '<table name="variableFields">',
@@ -188,8 +188,7 @@ Quilvyn.customChoicesAdd = function(focus, input) {
     Quilvyn.customChoicesAdd.win.document.close();
     Quilvyn.customChoicesAdd.win.okay = false;
     Quilvyn.customChoicesAdd.win.focus();
-    var callback = function() {Quilvyn.customChoicesAdd(false, this);};
-    InputSetCallback(Quilvyn.customChoicesAdd.win.document.getElementsByName('type')[0], callback);
+    Quilvyn.customChoicesAdd.win.update = true;
     Quilvyn.customChoicesAdd(false, Quilvyn.customChoicesAdd.win.document.forms[0]['type']);
     return;
   } else if(Quilvyn.customChoicesAdd.win.closed) {
@@ -198,7 +197,7 @@ Quilvyn.customChoicesAdd = function(focus, input) {
     return;
   } else if(!Quilvyn.customChoicesAdd.win.okay) {
     // Try again later, after updating the input fields as necessary
-    if(input != null) {
+    if(Quilvyn.customChoicesAdd.win.update) {
       var typeInput =
         Quilvyn.customChoicesAdd.win.document.getElementsByName('type')[0];
       var typeValue = InputGetValue(typeInput);
@@ -216,6 +215,7 @@ Quilvyn.customChoicesAdd = function(focus, input) {
         );
       }
       Quilvyn.customChoicesAdd.win.document.getElementsByName('variableFields')[0].innerHTML = htmlBits.join('\n');
+      Quilvyn.customChoicesAdd.win.update = false;
     }
     setTimeout('Quilvyn.customChoicesAdd(false)', TIMEOUT_DELAY);
     return;
@@ -244,9 +244,6 @@ Quilvyn.customChoicesAdd = function(focus, input) {
     }
   }
   attrs = attrs.join(' ');
-  console.log(type);
-  console.log(name);
-  console.log(attrs);
   ruleSet.choiceRules(ruleSet, type, name, attrs);
   STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + type + '.' + name, attrs);
 
@@ -276,7 +273,10 @@ Quilvyn.customChoicesDelete = function() {
   }
   STORAGE.removeItem(prefix + path);
   var pieces = path.split('.');
-  ruleSet.deleteChoice(ruleSet, pieces[0], pieces[1]);
+  var type = pieces[0];
+  type =
+    type.substring(0,1).toLowerCase()+type.substring(1).replace(/ /g, '') + 's';
+  ruleSet.deleteChoice(type, pieces[1]);
   Quilvyn.refreshEditor(true);
 };
 
