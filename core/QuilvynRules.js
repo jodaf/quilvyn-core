@@ -47,10 +47,10 @@ QuilvynRules.prototype.addChoice = function(type, name, attrs) {
  * TODO
  */
 QuilvynRules.prototype.deleteChoice = function(type, name) {
-  if(!(type in this.choices[type]))
+  if(!(type in this.choices))
     console.log('Delete from non-existent type "' + type  + '"');
   else if(!(name in this.choices[type]))
-    console.log('Delete from non-existent ' + type  + ' "' + name + '"');
+    console.log('Delete of non-existent ' + type  + ' "' + name + '"');
   else
     delete this.choices[type][name];
 };
