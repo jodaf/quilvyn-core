@@ -54,13 +54,13 @@ function SRD35() {
   SRD35.abilityRules(rules);
   SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
   SRD35.combatRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
-  SRD35.goodiesRules(rules);
   SRD35.identityRules(
     rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.DOMAINS,
     SRD35.GENDERS, SRD35.RACES
   );
   SRD35.talentRules
     (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.LANGUAGES, SRD35.SKILLS);
+  SRD35.goodiesRules(rules);
 
   Quilvyn.addRuleSet(rules);
 
