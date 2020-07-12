@@ -4177,13 +4177,13 @@ SRD35.alignmentRules = function(rules, name) {
 
 /*
  * Defines in #rules# the rules associated with armor #name#, which adds #ac#
- * to the character's armor class, requires a #profLevel# proficiency level to
+ * to the character's armor class, requires a #weight# proficiency level to
  * use effectively, allows a maximum dex bonus to ac of #maxDex#, imposes
  * #skillPenalty# on specific skills and yields a #spellFail# percent chance of
  * arcane spell failure.
  */
 SRD35.armorRules = function(
-  rules, name, ac, profLevel, maxDex, skillPenalty, spellFail
+  rules, name, ac, weight, maxDex, skillPenalty, spellFail
 ) {
 
   if(!name) {
@@ -4194,9 +4194,9 @@ SRD35.armorRules = function(
     console.log('Bad ac "' + ac + '" for armor "' + name + '"');
     return;
   }
-  if(profLevel == null ||
-     !(profLevel + '').match(/^([0-3]|light|medium|heavy)$/i)) {
-    console.log('Bad proficiency level "' + profLevel + '" for armor "' + name + '"');
+  if(weight == null ||
+     !(weight + '').match(/^([0-3]|light|medium|heavy)$/i)) {
+    console.log('Bad weight "' + weight + '" for armor "' + name + '"');
     return;
   }
   if(typeof maxDex != 'number') {
@@ -4212,33 +4212,32 @@ SRD35.armorRules = function(
     return;
   }
 
-  if((profLevel + '').match(/^[0-3]$/))
+  if((weight + '').match(/^[0-3]$/))
     ; // empty
-  else if(profLevel.match(/^light$/i))
-    profLevel = 1;
-  else if(profLevel.match(/^medium$/i))
-    profLevel = 2;
-  else if(profLevel.match(/^heavy$/i))
-    profLevel = 3;
+  else if(weight.match(/^light$/i))
+    weight = 1;
+  else if(weight.match(/^medium$/i))
+    weight = 2;
+  else if(weight.match(/^heavy$/i))
+    weight = 3;
 
   if(rules.armorStats == null) {
     rules.armorStats = {
       ac:{},
-      level:{},
+      weight:{},
       dex:{},
       skill:{},
       spell:{}
     };
   }
   rules.armorStats.ac[name] = ac;
-  rules.armorStats.level[name] = profLevel;
+  rules.armorStats.weight[name] = weight;
   rules.armorStats.dex[name] = maxDex;
   rules.armorStats.skill[name] = skillPenalty;
   rules.armorStats.spell[name] = spellFail;
 
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
-    'armor', '=',
-      QuilvynUtils.dictLit(rules.armorStats.level) + '[source]>1 ? -10 : null',
+    'armorWeight', '=', 'source > 1 ? -10 : null',
     'abilityNotes.slowFeature', '+', '5'
   );
   rules.defineRule('armorClass',
@@ -4246,24 +4245,25 @@ SRD35.armorRules = function(
     'armor', '+', QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
   );
   rules.defineRule('armorProficiencyLevelShortfall',
-    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.level) + '[source]',
+    'armorWeight', '=', null,
     'armorProficiencyLevel', '+', '-source'
+  );
+  rules.defineRule('armorWeight',
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.weight) + '[source]'
   );
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
     'armor', 'v', QuilvynUtils.dictLit(rules.armorStats.dex) + '[source]'
   );
   rules.defineRule('combatNotes.nonproficientArmorPenalty',
-    'armor', '=', '-'+QuilvynUtils.dictLit(rules.armorStats.skill)+'[source]',
-    'armorProficiencyLevelShortfall', '?', 'source > 0'
+    'armorProficiencyLevelShortfall', '?', 'source > 0',
+    'armor', '=', '-'+QuilvynUtils.dictLit(rules.armorStats.skill)+'[source]'
   );
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'casterLevelArcane', '?', null,
     'armor', '+=', QuilvynUtils.dictLit(rules.armorStats.spell) + '[source]'
   );
-  rules.defineRule('runSpeedMultiplier',
-    'armor', '=',
-      QuilvynUtils.dictLit(rules.armorStats.level) + '[source] == 3 ? 3 : 4'
-  );
+  rules.defineRule
+    ('runSpeedMultiplier', 'armorWeight', '=', 'source == 3 ? 3 : 4');
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]',
     '', '^', '0'
@@ -4272,10 +4272,6 @@ SRD35.armorRules = function(
     'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
   );
   rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
-  rules.defineRule('wearingLightArmor',
-    'armor', '=',
-      QuilvynUtils.dictLit(rules.armorStats.level) + '[source] < 2 ? 1 : null'
-  );
 
 };
 
@@ -4589,7 +4585,7 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('magicNotes.simpleSomaticsFeature.1',
       'magicNotes.simpleSomaticsFeature', '?', null,
-      'wearingLightArmor', '=', null
+      'armorWeight', '=', 'source <= 1 ? 1 : null'
     );
     rules.defineRule('magicNotes.suggestionFeature',
       'levels.Bard', '=', '10 + Math.floor(source / 2)',
@@ -5598,8 +5594,13 @@ SRD35.featureRules = function(rules, name, notes) {
         var adjust = matchInfo[1];
         var adjusted = matchInfo[3];
 
+        /* TODO General way to handle abbreviations, inc Pathfinder CM[BD] */
         if(adjusted == 'AC') {
           adjusted = 'armorClass';
+        } else if(adjusted == 'CMB') {
+          adjusted = 'combatManeuverBonus';
+        } else if(adjusted == 'CMD') {
+          adjusted = 'combatManeuverDefense';
         } else if((matchInfo = adjusted.match(/^(([A-Z][a-z]*) )?Feat\b/)) != null) {
           adjusted = 'featCount.' + (matchInfo[2] ? matchInfo[2] : 'General');
         } else if(adjusted == 'HP') {
