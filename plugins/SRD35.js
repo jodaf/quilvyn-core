@@ -755,7 +755,7 @@ SRD35.FEATURES = {
   'Nimble Fingers':'skill:+2 Disable Device/+2 Open Lock',
   'Persuasive':'skill:+2 Bluff/+2 Intimidate',
   'Point-Blank Shot':"combat:+1 ranged attack and damage w/in 30'",
-  'Power Attack':'combat:Attack base -attack, +damage',
+  'Power Attack':'combat:Trade up to -%V attack for equal damage bonus',
   'Precise Shot':'combat:No penalty on shot into melee',
   'Quick Draw':'combat:Draw weapon as free action',
   'Quicken Spell':'magic:Free action casting 1/rd uses +4 spell slot',
@@ -5517,6 +5517,8 @@ SRD35.featRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.manyshot',
       'baseAttack', '=', 'Math.floor((source + 9) / 5)'
     );
+  } else if(name == 'Power Attack') {
+    rules.defineRule('combatNotes.powerAttack', 'baseAttack', '=', null);
   } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
     SRD35.featureRules(rules, name, 'skill:+3 ' + matchInfo[1]);
   } else if(name == 'Spell Mastery') {
@@ -5734,7 +5736,7 @@ SRD35.raceRules = function(
     }
   }
 
-  if(spellAbility) {
+  if(spellAbility && spells.length > 0) {
     rules.defineRule('casterLevels.' + name,
       raceAttr, '?', null,
       'level', '=', null
