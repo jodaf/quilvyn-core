@@ -957,11 +957,11 @@ SRD35.FEATURES = {
   'Dodge Giants':'combat:+4 AC vs. giant creatures',
   'Dwarf Ability Adjustment':'ability:+2 Constitution/-2 Charisma',
   'Dwarf Armor Speed Adjustment':'ability:No speed penalty in armor',
-  'Dwarf Favored Enemy':'combat:+1 attack vs. goblinoid and orc',
+  'Dwarf Emnity':'combat:+1 attack vs. goblinoid and orc',
   'Elf Ability Adjustment':'ability:+2 Dexterity/-2 Constitution',
   'Fortunate':'save:+1 Fortitude/+1 Reflex/+1 Will',
   'Gnome Ability Adjustment':'ability:+2 Constitution/-2 Strength',
-  'Gnome Favored Enemy':'combat:+1 attack vs. goblinoid and kobold',
+  'Gnome Emnity':'combat:+1 attack vs. goblinoid and kobold',
   'Gnome Weapons':'combat:Racial weapons are martial weapons',
   'Half-Orc Ability Adjustment':
     'ability:+2 Strength/-2 Intelligence/-2 Charisma',
@@ -1063,7 +1063,7 @@ SRD35.LANGUAGES = {
 SRD35.RACES = {
   'Dwarf':
     'Features=Darkvision,"Dodge Giants","Dwarf Ability Adjustment",' +
-    '"Dwarf Armor Speed Adjustment","Dwarf Favored Enemy","Know Depth",' +
+    '"Dwarf Armor Speed Adjustment","Dwarf Emnity","Know Depth",' +
     '"Natural Smith","Resist Poison","Resist Spells","Slow","Stability",' +
     '"Stonecunning","Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)"',
   'Elf':
@@ -1072,9 +1072,13 @@ SRD35.RACES = {
     '"Weapon Proficiency (Composite Longbow/Composite Shortbow/Longsword/Rapier/Longbow/Shortbow)"',
   'Gnome':
     'Features="Dodge Giants","Gnome Ability Adjustemnt",' +
-    '"Gnome Favored Enemy","Keen Ears","Keen Nose",' +
-    '"Low-Light Vision","Natural Illusionist","Natural Spells",' +
-    '"Resist Illusion",Slow,Small,"Weapon Familiarity (Gnome Hooked Hammer)"',
+    '"Gnome Emnity","Keen Ears","Keen Nose","Low-Light Vision",' +
+    '"Natural Illusionist","Natural Spells","Resist Illusion",Slow,Small,' +
+    '"Weapon Familiarity (Gnome Hooked Hammer)" ' +
+    'SpellAbility=charisma ' +
+    'Spells=' +
+      '"Gnome1:Speak With Animals",' +
+      '"charisma >= 10 ? Gnome0:Dancing Lights;Ghost Sound;Prestidigitation"',
   'Half-Elf':
     'Features="Alert Senses","Low-Light Vision","Resist Enchantment",' +
     '"Sleep Immunity",Tolerance',
@@ -1083,7 +1087,8 @@ SRD35.RACES = {
   'Halfling':
     'Features=Accurate,Fortunate,"Halfling Ability Adjustment","Keen Ears",' +
     'Slow,Small,Spry,"Resist Fear"',
-  'Human':'Features="Human Feat Bonus","Human Skill Bonus"'
+  'Human':
+    'Features="Human Feat Bonus","Human Skill Bonus"'
 };
 SRD35.SCHOOLS = {
   'Abjuration':'',
@@ -1097,13 +1102,13 @@ SRD35.SCHOOLS = {
   'Universal':''
 };
 SRD35.SHIELDS = {
-  'Buckler':'AC=1 Level=1 Skill=1 Spell=5',
-  'Heavy Steel':'AC=2 Level=3 Skill=2 Spell=15',
-  'Heavy Wooden':'AC=2 Level=3 Skill=2 Spell=15',
-  'Light Steel':'AC=1 Level=1 Skill=1 Spell=5',
-  'Light Wooden':'AC=1 Level=1 Skill=1 Spell=5',
-  'None':'AC=0 Level=0 Skill=0 Spell=0',
-  'Tower':'AC=4 Level=4 Skill=10 Spell=50'
+  'Buckler':'AC=1 Weight=1 Skill=1 Spell=5',
+  'Heavy Steel':'AC=2 Weight=3 Skill=2 Spell=15',
+  'Heavy Wooden':'AC=2 Weight=3 Skill=2 Spell=15',
+  'Light Steel':'AC=1 Weight=1 Skill=1 Spell=5',
+  'Light Wooden':'AC=1 Weight=1 Skill=1 Spell=5',
+  'None':'AC=0 Weight=0 Skill=0 Spell=0',
+  'Tower':'AC=4 Weight=4 Skill=10 Spell=50'
 };
 SRD35.SKILLS = {
   'Appraise':'Ability=intelligence Class=Bard,Rogue',
@@ -4117,17 +4122,19 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.genderRules(rules, name);
   else if(type == 'Language')
     SRD35.languageRules(rules, name);
-  else if(type == 'Race') {
+  else if(type == 'Race')
     SRD35.raceRules(rules, name,
-      QuilvynUtils.getAttrValueArray(attrs, 'Features')
-  );
-    SRD35.raceRulesExtra(rules, name);
-  } else if(type == 'School')
+      QuilvynUtils.getAttrValueArray(attrs, 'Features'),
+      QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
+      SRD35.SPELLS
+    );
+  else if(type == 'School')
     SRD35.schoolRules(rules, name);
   else if(type == 'Shield')
     SRD35.shieldRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'AC'),
-      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      QuilvynUtils.getAttrValue(attrs, 'Weight'),
       QuilvynUtils.getAttrValue(attrs, 'Skill'),
       QuilvynUtils.getAttrValue(attrs, 'Spell')
     );
@@ -4467,7 +4474,6 @@ SRD35.classRules = function(
       break;
     }
     var group = matchInfo[1];
-    var dcGroup = group.length >= 3 ? 'Dom' : group;
     var level = matchInfo[2];
     var spellNames = pieces[1].split(';');
     for(var j = 0; j < spellNames.length; j++) {
@@ -4485,7 +4491,7 @@ SRD35.classRules = function(
         spellName + '(' + group + level + ' ' + school.substring(0, 4) + ')';
       rules.choiceRules
         (rules, 'Spell', fullSpell,
-         spellDict[spellName] + ' Group=' + dcGroup + ' Level=' + level);
+         spellDict[spellName] + ' Group=' + group + ' Level=' + level);
     }
   }
 
@@ -5635,16 +5641,10 @@ SRD35.featureRules = function(rules, name, notes) {
 
     }
 
-    // TODO convert to testRules
     if(skillEffects == pieces.length && !effects.match(/^-|\/-/)) {
-      var sanityNote = 'sanityNotes.' + prefix + 'FeatureSkills';
-      rules.defineChoice
-        ('notes', sanityNote + ':Implies ' + uniqueSkillsAffected.join('||'));
-      rules.defineRule(sanityNote, 'features.' + name, '=', '1');
-      for(var j = 0; j < uniqueSkillsAffected.length; j++) {
-        rules.defineRule
-          (sanityNote, 'skills.' + uniqueSkillsAffected[j], 'v', '0');
-      }
+      SRD35.testRules
+        (rules, 'sanity', prefix + 'Skills', 'features.' + name,
+         ['skills.' + uniqueSkillsAffected.join(' > 0 || skills.') + ' > 0']);
     }
 
   }
@@ -5695,24 +5695,35 @@ SRD35.languageRules = function(rules, name) {
 
 /*
  * Defines in #rules# the rules associated with race #name#. #features# lists
- * the associated features.
+ * the associated features. #spells# lists any natural spells, for which
+ * #spellAbility# is used to compute the save DC.
  */
-SRD35.raceRules = function(rules, name, features) {
+SRD35.raceRules = function(
+  rules, name, features, spellAbility, spells, spellDict
+) {
 
   if(!name) {
     console.log('Empty race name');
+    return;
+  }
+  if(spellAbility &&
+     !spellAbility.match(/^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/i)) {
+    console.log('Bad spellAbility "' + spellAbility + '" for class "' + name + '"');
     return;
   }
 
   var matchInfo;
   var prefix =
     name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+  var raceAttr = 'is' + name;
+
+  rules.defineRule
+    (raceAttr, 'race', '=', 'source == "' + name + '" ? 1 : null');
 
   for(var i = 0; i < features.length; i++) {
     var feature = features[i];
     var raceFeature = prefix + 'Features.' + feature;
-    rules.defineRule
-      (raceFeature, 'race', '=', 'source == "' + name + '" ? 1 : null');
+    rules.defineRule(raceFeature, raceAttr, '=', '1');
     rules.defineRule('features.' + feature, raceFeature, '=', '1');
     if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
       // Set individual features for each weapon on the list.
@@ -5723,43 +5734,74 @@ SRD35.raceRules = function(rules, name, features) {
     }
   }
 
-  rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
-  rules.defineChoice('extras', prefix + 'Features');
-
-};
-
-/*
- * Defines in #rules# the rules associated with race #name# that are not
- * directly derived from the parmeters passed to raceRules.
- */
-SRD35.raceRulesExtra = function(rules, name) {
-
-  if(name.match(/Gnome/)) {
-
-    rules.defineRule('casterLevels.Gnome',
-      'features.Natural Spells', '?', null,
-      'level', '=', '1'
+  if(spellAbility) {
+    rules.defineRule('casterLevels.' + name,
+      raceAttr, '?', null,
+      'level', '=', null
     );
-    rules.defineRule
-      ('casterLevels.Dancing Lights', 'casterLevels.Gnome', '^=', null);
-    rules.defineRule
-      ('casterLevels.Ghost Sound', 'casterLevels.Gnome', '^=', null);
-    rules.defineRule
-      ('casterLevels.Prestidigitation', 'casterLevels.Gnome', '^=', null);
-    rules.defineRule
-      ('casterLevels.Speak With Animals', 'casterLevels.Gnome', '^=', null);
-    // Set casterLevels.B to a minimal value so that spell DC will be
-    // calcuated even for non-Bard Gnomes.
-    rules.defineRule('casterLevels.B', 'casterLevels.Gnome', '^=', '1');
-
-    rules.defineRule('magicNotes.naturalSpells',
-      'charisma', '=',
-      'source < 10 ? "<i>Speak With Animals</i>" : ' +
-      '"<i>Dancing Lights</i>/<i>Ghost Sound</i>/<i>Prestidigitation</i>/' +
-      '<i>Speak With Animals</i>"'
+    rules.defineRule('casterLevel', raceAttr, '^=', '1');
+    rules.defineRule('spellDifficultyClass.' + name,
+      raceAttr, '?', null,
+      spellAbility + 'Modifier', '=', '10 + source'
     );
+  }
+
+  for(var i = 0; i < spells.length; i++) {
+
+    var pieces = spells[i].split(':');
+    if(pieces.length != 2) {
+      console.log('Bad format for spell list "' + spells[i] + '"');
+      break;
+    }
+    var condition = null;
+    var groupAndLevel = pieces[0];
+    var spellList = pieces[1];
+    if(groupAndLevel.indexOf('?') >= 0) {
+      pieces = groupAndLevel.split(/\s*\?\s*/);
+      condition = pieces[0];
+      groupAndLevel = pieces[1];
+    }
+    var matchInfo = groupAndLevel.match(/^(\w+)(\d)$/);
+    if(!matchInfo) {
+      console.log('Bad format for spell list "' + spells[i] + '"');
+      break;
+    }
+    var group = matchInfo[1];
+    var level = matchInfo[2];
+    var spellNames = spellList.split(';');
+    for(var j = 0; j < spellNames.length; j++) {
+      var spellName = spellNames[j];
+      if(spellDict[spellName] == null) {
+        console.log('Unknown spell "' + spellName + '"');
+        continue;
+      }
+      var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
+      if(school == null) {
+        console.log('No school given for spell "' + spellName + '"');
+        continue;
+      }
+      var fullSpell =
+        spellName + '(' + group + level + ' ' + school.substring(0, 4) + ')';
+      rules.choiceRules
+        (rules, 'Spell', fullSpell,
+         spellDict[spellName] + ' Group=' + group + ' Level=' + level);
+      if(condition) {
+        // TODO
+        SRD35.testRules
+          (rules, 'none', name + 'Spells' + j, raceAttr, [condition]);
+        rules.defineRule('spells.' + fullSpell,
+          raceAttr, '?', null,
+          'noneNotes.' + name + 'Spells' + j, '=', 'source == 0 ? 1 : null'
+        );
+      } else {
+        rules.defineRule('spells.' + fullSpell, raceAttr, '=', '1');
+      }
+    }
 
   }
+
+  rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
+  rules.defineChoice('extras', prefix + 'Features');
 
 };
 
@@ -5776,11 +5818,11 @@ SRD35.schoolRules = function(rules, name) {
 
 /*
  * Defines in #rules# the rules associated with shield #name#, which adds #ac#
- * to the character's armor class, requires a #profLevel# proficiency level to
+ * to the character's armor class, requires a #weight# proficiency level to
  * use effectively, imposes #skillPenalty# on specific skills
  * and yields a #spellFail# percent chance of arcane spell failure.
  */
-SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
+SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
 
   if(!name) {
     console.log('Empty shield name');
@@ -5790,9 +5832,9 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
     console.log('Bad ac "' + ac + '" for shield "' + name + '"');
     return;
   }
-  if(profLevel == null ||
-     !(profLevel + '').match(/^([0-4]|light|medium|heavy|tower)$/i)) {
-    console.log('Bad proficiency level "' + profLevel + '" for shield "' + name + '"');
+  if(weight == null ||
+     !(weight + '').match(/^([0-4]|light|medium|heavy|tower)$/i)) {
+    console.log('Bad weight "' + weight + '" for shield "' + name + '"');
     return;
   }
   if(typeof skillFail != 'number') {
@@ -5804,45 +5846,45 @@ SRD35.shieldRules = function(rules, name, ac, profLevel, skillFail, spellFail) {
     return;
   }
 
-  if((profLevel + '').match(/^[0-4]$/))
+  if((weight + '').match(/^[0-4]$/))
     ; // empty
-  else if(profLevel.match(/^light$/i))
-    profLevel = 1;
-  else if(profLevel.match(/^medium$/i))
-    profLevel = 2;
-  else if(profLevel.match(/^heavy$/i))
-    profLevel = 3;
-  else if(profLevel.match(/^tower$/i))
-    profLevel = 4;
+  else if(weight.match(/^light$/i))
+    weight = 1;
+  else if(weight.match(/^medium$/i))
+    weight = 2;
+  else if(weight.match(/^heavy$/i))
+    weight = 3;
+  else if(weight.match(/^tower$/i))
+    weight = 4;
 
   if(rules.shieldStats == null) {
     rules.shieldStats = {
-      AC:{},
-      Level:{},
-      Skill:{},
-      Spell:{}
+      ac:{},
+      weight:{},
+      skill:{},
+      spell:{}
     };
   }
-  rules.shieldStats.AC[name] = ac;
-  rules.shieldStats.Level[name] = profLevel;
-  rules.shieldStats.Skill[name] = skillFail;
-  rules.shieldStats.Spell[name] = spellFail;
+  rules.shieldStats.ac[name] = ac;
+  rules.shieldStats.weight[name] = weight;
+  rules.shieldStats.skill[name] = skillFail;
+  rules.shieldStats.spell[name] = spellFail;
 
   rules.defineRule
-    ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.AC) + '[source]');
+    ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]');
   rules.defineRule('combatNotes.nonproficientShieldPenalty',
     'shieldProficiencyLevelShortfall', '?', 'source > 0',
-    'shield', '=', '-' + QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
+    'shield', '=', '-' + QuilvynUtils.dictLit(rules.shieldStats.skill) + '[source]'
   );
   rules.defineRule('magicNotes.arcaneSpellFailure',
-    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.Spell) + '[source]'
+    'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.spell) + '[source]'
   );
   rules.defineRule('shieldProficiencyLevelShortfall',
-    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.Level) + '[source]',
+    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.weight) + '[source]',
     'shieldProficiencyLevel', '+', '-source'
   );
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.Skill) + '[source]'
+    'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.skill) + '[source]'
   );
 
 };
@@ -6242,7 +6284,9 @@ SRD35.weaponRules = function(
     rules.defineRule('weaponAttackAdjustment.' + name,
       'combatNotes.two-handedWeaponWithBucklerPenalty.' + name, '+', '-1'
     );
-    SRD35.testRules(rules, 'validation', 'two-handedWeapon', 'weapons.' + name, ['shield =~ /Buckler|None/']);
+    SRD35.testRules
+      (rules, 'validation', 'two-handedWeapon', 'weapons.' + name,
+       ['shield =~ /Buckler|None/']);
   }
 
 };
@@ -6757,8 +6801,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     var armors = this.getChoices('armors');
     for(attr in armors) {
-      var level = QuilvynUtils.getAttrValue(armors[attr], 'Level');
-      if((level != null && level <= characterProfLevel) ||
+      var weight = QuilvynUtils.getAttrValue(armors[attr], 'Weight');
+      if((weight != null && weight <= characterProfLevel) ||
          attrs['armorProficiency.' + attr] != null) {
         choices.push(attr);
       }
@@ -6777,7 +6821,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         choices.push('features.Small' in attrs ? 'Pony' : 'Heavy Horse');
       // Support PF's "Divine Mount" as well as SRD35's "Special Mount"
       } else if('features.Special Mount' in attrs ||
-                'features.Divine Mount' in attr) {
+                'features.Divine Mount' in attrs) {
         choices = 'features.Small' in attrs ? ['Pony'] : ['Heavy Horse'];
       } else {
         choices = QuilvynUtils.getKeys(this.getChoices('animalCompanions'));
@@ -6967,8 +7011,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     var shields = this.getChoices('shields');
     for(attr in shields) {
-      var level = QuilvynUtils.getAttrValue(shields[attr]);
-      if((level != null && level <= characterProfLevel) ||
+      var weight = QuilvynUtils.getAttrValue(shields[attr], 'Weight');
+      if((weight != null && weight <= characterProfLevel) ||
          attrs['shieldProficiency.' + attr] != null) {
         choices[choices.length] = attr;
       }
@@ -7399,14 +7443,20 @@ SRD35.testRules = function(rules, section, noteName, attr, tests) {
   var subnote = 0;
   rules.defineChoice
     ('notes', note + ':' + verb + ' ' + tests.join('/').replace(/[a-z]+\./g, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
-  rules.defineRule(note, attr, '=', tests.length);
+  rules.defineRule(note, attr, '=', -tests.length);
   for(var i = 0; i < tests.length; i++) {
     var alternatives = tests[i].split(/\s*\|\|\s*/);
+    var target = note;
+    if(alternatives.length > 1) {
+      target = note + 'Alt.' + i;
+      rules.defineRule(target, '', '=', '0');
+      rules.defineRule(note, target, '+', 'source > 0 ? 1 : null');
+    }
     for(var j = 0; j < alternatives.length; j++) {
       var test = alternatives[j];
       var matchInfo = test.match(/^(.*\S)\s*(<=|>=|==|!=|<|>|=~|!~)\s*(\S.*)$/);
       if(!matchInfo) {
-        rules.defineRule(note, test, '+', '-1');
+        rules.defineRule(target, test, '+', '1');
       } else {
         var operand1 = matchInfo[1];
         var operand2 = matchInfo[3];
@@ -7416,23 +7466,25 @@ SRD35.testRules = function(rules, section, noteName, attr, tests) {
             (operand1, new RegExp(matchInfo[1] + '.*\\D$'), '+=', null);
         }
         if(operator == '!~') {
-          rules.defineRule
-            (note, operand1, '+', 'source.match(' + operand2 + ') ? null : -1');
+          rules.defineRule(target,
+            operand1, '+', 'source.match(' + operand2 + ') ? null : 1'
+          );
         } else if(operator == '=~') {
-          rules.defineRule
-            (note, operand1, '+', 'source.match(' + operand2 + ') ? -1 : null');
+          rules.defineRule(target,
+            operand1, '+', 'source.match(' + operand2 + ') ? 1 : null'
+          );
         } else if(operand2.match(/^[a-z]/)) {
           subnote++;
           rules.defineRule(note + '.' + subnote,
             operand1, '=', null,
             operand2, '-', null
           );
-          rules.defineRule(note,
-            note + '.' + subnote, '+', 'source ' + operator + ' 0 ? -1 : null'
+          rules.defineRule(target,
+            note + '.' + subnote, '+', 'source ' + operator + ' 0 ? 1 : null'
           );
         } else {
-          rules.defineRule(note,
-            operand1, '+', 'source ' + operator + ' ' + operand2 + ' ? -1 : null'
+          rules.defineRule(target,
+            operand1, '+', 'source ' + operator + ' ' + operand2 + ' ? 1 : null'
           );
         }
       }
