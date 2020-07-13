@@ -33,25 +33,40 @@ function QuilvynRules(name, version) {
 QuilvynRules.prototype = new RuleEngine();
 
 /*
+ * TODO
+ */
+QuilvynRules.prototype.addChoice = function(type, name, attrs) {
+  if(this.choices[type] == null)
+    this.choices[type] = {};
+  if(name in this.choices[type] && this.choices[type][name] != attrs)
+    console.log('Redefinition of ' + type + ' "' + name + '" from "' + this.choices[type][name] + '" to "' + attrs + '"');
+  this.choices[type][name] = attrs;
+};
+
+/*
+ * TODO
+ */
+QuilvynRules.prototype.deleteChoice = function(type, name) {
+  if(!(type in this.choices))
+    console.log('Delete from non-existent type "' + type  + '"');
+  else if(!(name in this.choices[type]))
+    console.log('Delete of non-existent ' + type  + ' "' + name + '"');
+  else
+    delete this.choices[type][name];
+};
+
+/*
  * Add each #item# to the set of valid selections for choice set #name#.  Each
  * value of #item# may contain data associated with the selection.  See
  * quilvyndoc.html for details.
  */
 QuilvynRules.prototype.defineChoice = function(name, item /*, item ... */) {
-  if(this.choices[name] == null)
-    this.choices[name] = {};
-  var o = this.choices[name];
   var allArgs = QuilvynUtils.flatten(arguments, 1);
   for(var i = 0; i < allArgs.length; i++) {
     var pieces = allArgs[i].split(/:/);
     var choice = pieces[0];
     var associated = pieces.length < 2 ? '' : pieces[1];
-    var existing = o[choice];
-    if(existing == null || existing == '') {
-      o[choice] = associated;
-    } else if(associated!=null && associated!='' && associated!=existing) {
-      o[choice] = existing + '/' + associated;
-    }
+    this.addChoice(name, choice, associated);
   }
 };
 
@@ -87,132 +102,6 @@ QuilvynRules.prototype.defineEditorElement = function
     } else {
       this.editorElements = this.editorElements.slice(0, i).
         concat([element]).concat(this.editorElements.slice(i));
-    }
-  }
-};
-
-/*
- * Add an HTML #format# for including attribute #attr# on the character sheet.
- * #attr# will typically be a new attribute to be included in one of the notes
- * sections of the character sheet.
- */
-QuilvynRules.prototype.defineNote = function(note /*, note ... */) {
-  var allArgs = QuilvynUtils.flatten(arguments);
-  for(var i = 0; i < allArgs.length; i++) {
-    this.defineChoice('notes', allArgs[i]);
-    var pieces = allArgs[i].split(/:/);
-    var attribute = pieces[0];
-    var format = pieces[1];
-    var matchInfo = attribute.match(/Notes\.(.*)(Domain|Feature|Synergy)$/);
-    if(matchInfo != null) {
-      var name = matchInfo[1].replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
-      name = name.substring(0, 1).toUpperCase() + name.substring(1);
-      var dependsOn = matchInfo[2].toLowerCase() + 's.' + name;
-      if(matchInfo[2] == 'Synergy')
-        this.defineRule
-          (attribute, 'skills.' + name, '=', 'source >= 5 ? 1 : null');
-      else if(format.indexOf('%V') < 0)
-        this.defineRule(attribute, dependsOn, '=', '1');
-      else {
-        this.defineRule(attribute, dependsOn, '?', null);
-        for(var j = 0; format.indexOf('%' + j) >= 0; j++) {
-          this.defineRule(attribute + '.' + j, dependsOn, '?', null);
-        }
-      }
-    }
-    if(attribute.match(/^skillNotes\./) && format.match(/^[+-](%[V\d]|\d+)/)) {
-      var skills = format.split('/');
-      var bump;
-      for(var j = 0; j < skills.length; j++) {
-        var skill = skills[j];
-        var source = attribute;
-        if((matchInfo = skill.match(/^([+-](%[\dV]|\d+)) (.*)/)) != null) {
-          bump = matchInfo[1];
-          skill = matchInfo[3];
-          if(bump.charAt(1) == '%') {
-            if(bump.charAt(2) != 'V') {
-              source = attribute + '.' + bump.charAt(2);
-            }
-            bump = bump.charAt(0) + 'source';
-          }
-        }
-        if(skill.match(/^[A-Z]\w*( [A-Z]\w*)*( \([A-Z]\w*( [A-Z]\w*)*\))?$/)) {
-          this.defineRule('skillModifier.' + skill, source, '+', bump);
-        }
-      }
-    } else if((matchInfo = attribute.match(/^(sanity|validation)Notes\.(.*?)(Class|Feat|Power|Race|SelectableFeature)([A-Z][a-z]+)$/)) != null &&
-              !format.match(/[ \(\/][a-z]/)) {
-      var group = matchInfo[4] == 'Feats' ? 'features' :
-                  matchInfo[4].match(/s$/) ?
-                  matchInfo[4].substring(0, 1).toLowerCase() +
-                  matchInfo[4].substring(1) : '';
-      var requirements = format.replace(/^(Implies|Requires) /, '').split('/');
-      var target = matchInfo[3] == 'Class' ? 'Levels' : (matchInfo[3] + 's');
-      target = target.substring(0, 1).toLowerCase() + target.substring(1);
-      var subtarget = matchInfo[2].replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
-      subtarget = subtarget.substring(0, 1).toUpperCase() + subtarget.substring(1);
-      target += '.' + subtarget;
-      var currentValue = 1;
-      var totalValue = 0;
-      for(var j = 0; j < requirements.length; j++) {
-        var choices = requirements[j].split(/\|\|/);
-        for(var k = 0; k < choices.length; k++) {
-          var source = choices[k].replace(/(^\s+)|(\s+$)/g, '');
-          var op = '>=';
-          var value = '1';
-          if((matchInfo=source.match(/^(.*)(<=?|>=?|[!=][=~])(.*)/)) != null) {
-            source = matchInfo[1].replace(/\s+$/, '');
-            op = matchInfo[2];
-            value = matchInfo[3].replace(/^\s+/, '');
-          }
-          if(group == '') {
-            source = source.substring(0, 1).toLowerCase() +
-                     source.substring(1).replace(/ /g, '');
-          } else if(source.match(/^(Max|Sum)( |$)/)) {
-            var summaryAttr =
-              source.substring(0, 1).toLowerCase() + source.substring(1, 3);
-            var summaryOp = summaryAttr == 'max' ? '^=' : '+=';
-            summaryAttr += group + '.' + source.substring(4);
-            var re = '^' + group + '.' + source.substring(4);
-            this.defineRule(summaryAttr, new RegExp(re), summaryOp, null);
-            source = summaryAttr;
-          } else {
-            source = group + '.' + source;
-          }
-          var expr;
-          if(op.match(/[!=]~/)) {
-            expr = (op == '!~' ? '!' : '') + 'source.match(/' + value + '/)';
-          } else if(value.match(/^(\d+|"[^"]*")$/)) {
-            expr = 'source ' + op + ' ' + value;
-          } else if(value.indexOf(subtarget) >= 0) {
-            // Requirement varies with the value of the target. Compute the
-            // difference in a temp variable and compare the result to 0.
-            this.defineRule('temp' + currentValue + '.' + attribute,
-              target, '=', '-Math.floor(' + value.replace(subtarget, 'source') + ')',
-              source, '+', null
-            );
-            source = 'temp' + currentValue + '.' + attribute;
-            expr = 'source ' + op + ' 0';
-          } else {
-            expr = 'source ' + op + ' "' + value + '"';
-          }
-          expr += ' ? ' + currentValue + ' : null';
-          this.defineRule(attribute, source, '+', expr);
-        }
-        totalValue += currentValue;
-        currentValue *= 10;
-      }
-      if(target.match(/^races./)) {
-        this.defineRule(attribute,
-          'race', '=',
-          'source == "' + target.substring(6) + '" ? -' + totalValue + ' : null'
-        );
-      } else {
-        this.defineRule(attribute, target, '=', '-' + totalValue);
-      }
-      if(format.indexOf('|') >= 0) {
-        this.defineRule(attribute, '', 'v', '0');
-      }
     }
   }
 };

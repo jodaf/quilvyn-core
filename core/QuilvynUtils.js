@@ -57,6 +57,15 @@ QuilvynUtils.findElement = function(array, element) {
   return -1;
 };
 
+/* Returns the contents of d in JavaScript literal form. */
+QuilvynUtils.dictLit = function(d) {
+  var result = [];
+  for(var key in d) {
+    result.push('"' + key + '":' + (typeof d[key] == "string" ? '"' + d[key] + '"' : d[key]));
+  }
+  return '{' + result.join(', ') + '}';
+};
+
 /* Returns the elements of #array# with any array elements expanded. */
 QuilvynUtils.flatten = function(array, start, end) {
   if(start == null) {
@@ -68,6 +77,43 @@ QuilvynUtils.flatten = function(array, start, end) {
   var result = [];
   for(var i = start; i < end; i++) {
     result = result.concat(array[i]);
+  }
+  return result;
+};
+
+/*
+ * TODO
+ */
+QuilvynUtils.getAttrValue = function(attrs, name) {
+  return QuilvynUtils.getAttrValueArray(attrs, name).pop();
+};
+
+/*
+ * TODO
+ */
+QuilvynUtils.getAttrValueArray = function(attrs, name) {
+  var matchInfo;
+  var pat = new RegExp('\\b' + name + '=(\'[^\']*\'|"[^"]*"|[^\\s,]*)(,(\'[^\']*\'|"[^"]*"|[^\\s,]*))*', 'gi');
+  var result = [];
+  if((matchInfo = attrs.match(pat))) {
+    var lastMatch = matchInfo.pop().substring(name.length + 1);
+    var pat = '^\'[^\']*\',|^"[^"]*",|^[^\\s,]*,';
+    while((matchInfo = lastMatch.match(pat))) {
+      var value = matchInfo[0].substring(0, matchInfo[0].length - 1);
+      if(value.startsWith('"') || value.startsWith("'"))
+        result.push(value.substring(1, value.length - 1));
+      else if(value.match(/^[-+]?\d+$/))
+        result.push(value * 1); // Convert to number
+      else
+        result.push(value);
+      lastMatch = lastMatch.substring(matchInfo[0].length);
+    }
+    if(lastMatch.endsWith('"') || lastMatch.endsWith("'"))
+      result.push(lastMatch.substring(1, lastMatch.length - 1));
+    else if(lastMatch.match(/^[-+]?\d+$/))
+      result.push(lastMatch * 1); // Convert to number
+    else
+      result.push(lastMatch);
   }
   return result;
 };

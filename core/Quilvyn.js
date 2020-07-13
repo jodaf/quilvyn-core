@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '1.8.2';
+var VERSION = '2.0alpha';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -33,6 +33,7 @@ var FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
 var PERSISTENT_CHARACTER_PREFIX = 'QuilvynCharacter.';
 var PERSISTENT_INFO_PREFIX = 'QuilvynInfo.';
+var PERSISTENT_RULE_PREFIX = 'QuilvynRule.';
 var TIMEOUT_DELAY = 1000; // One second
 
 var character = {};     // Displayed character attrs
@@ -122,6 +123,244 @@ Quilvyn.addRuleSet = function(rs) {
   rs.defineRule('hiddenNotes', 'hidden', '?', null);
   ruleSets[rs.getName()] = rs;
   ruleSet = rs;
+  var customRulePrefix = PERSISTENT_RULE_PREFIX + rs.getName() + '.';
+  for(var path in STORAGE) {
+    if(path.startsWith(customRulePrefix)) {
+      var typeAndName = path.substring(customRulePrefix.length).split('.');
+      ruleSet.choiceRules(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
+    }
+  }
+};
+
+Quilvyn.applyV2Changes = function(character) {
+  var result = {};
+  for(var attr in character) {
+    var value = character[attr];
+    if(attr.match(/^domains\./))
+      attr = attr.replace('domains.', 'selectableFeatures.Cleric - ') + ' Domain';
+    else if(attr.match(/^prohibit\./))
+      attr = attr.replace('prohibit.', 'selectableFeatures.Wizard - School Opposition (') + ')';
+    else if(attr.match(/^specialize\./))
+      attr = attr.replace('specialize.', 'selectableFeatures.Wizard - School Specialization (') + ')';
+    attr = attr.replace(/(half) ?(elf)/i, '$1-$2');
+    attr = attr.replace(/(half) ?(orc)/i, '$1-$2');
+    attr = attr.replace(/(blind) ?(fight)/i, '$1-$2');
+    attr = attr.replace(/(point) ?(blank)/i, '$1-$2');
+    value = value.replace(/(half) ?(elf)/i, '$1-$2');
+    value = value.replace(/(half) ?(orc)/i, '$1-$2');
+    value = value.replace(/(blind) ?(fight)/i, '$1-$2');
+    value = value.replace(/(point) ?(blank)/i, '$1-$2');
+    result[attr] = value;
+  }
+  return result;
+};
+
+/* TODO */
+Quilvyn.customChoicesAdd = function(focus, input) {
+
+  if(focus && Quilvyn.customChoicesAdd.win != null) {
+    // Prior add still pending
+    Quilvyn.customChoicesAdd.win.focus();
+    return;
+  } else if(Quilvyn.customChoicesAdd.win == null) {
+    // New addition
+    var choices = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
+    var htmlBits = [
+      '<html><head><title>Add Custom Choice</title></head>',
+      '<body bgcolor="' + window.BACKGROUND + '">',
+      '<img src="' + LOGO_URL + '"/><br/>'
+    ];
+    htmlBits.push(
+      '<form>',
+      '<b>Type</b>',
+      InputHtml('type', 'select-one', choices).replace('>', ' onchange="update=true">'),
+      '<b>Name</b>',
+      InputHtml('name', 'text', [20]),
+      '<table name="variableFields">',
+      '</table>',
+      '<input type="button" name="Ok" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" name="Cancel" value="Cancel" onclick="window.close();"/>',
+      '</form></body></html>'
+    );
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.customChoicesAdd.win = window.open('', '__rules_custom', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.customChoicesAdd.win.document.write(html);
+    Quilvyn.customChoicesAdd.win.document.close();
+    Quilvyn.customChoicesAdd.win.okay = false;
+    Quilvyn.customChoicesAdd.win.focus();
+    Quilvyn.customChoicesAdd.win.update = true;
+    Quilvyn.customChoicesAdd(false, Quilvyn.customChoicesAdd.win.document.forms[0]['type']);
+    return;
+  } else if(Quilvyn.customChoicesAdd.win.closed) {
+    // User cancel
+    Quilvyn.customChoicesAdd.win = null;
+    return;
+  } else if(!Quilvyn.customChoicesAdd.win.okay) {
+    // Try again later, after updating the input fields as necessary
+    if(Quilvyn.customChoicesAdd.win.update) {
+      var typeInput =
+        Quilvyn.customChoicesAdd.win.document.getElementsByName('type')[0];
+      var typeValue = InputGetValue(typeInput);
+      var elements = ruleSet.choiceEditorElements(ruleSet, typeValue);
+      var htmlBits = [];
+      for(var i = 0; i < elements.length; i++) {
+        var element = elements[i];
+        var label = element[1];
+        var name = element[0];
+        var params = element[3];
+        var type = element[2];
+        htmlBits.push(
+          '<tr><th>' + (label ? label : '&nbsp;') + '</th><td>' +
+          InputHtml(name, type, params) + '</td></tr>'
+        );
+      }
+      Quilvyn.customChoicesAdd.win.document.getElementsByName('variableFields')[0].innerHTML = htmlBits.join('\n');
+      Quilvyn.customChoicesAdd.win.update = false;
+    }
+    setTimeout('Quilvyn.customChoicesAdd(false)', TIMEOUT_DELAY);
+    return;
+  }
+
+  // Ready to add choice
+  var inputForm = Quilvyn.customChoicesAdd.win.document.forms[0];
+  var attrs = [];
+  var name = '';
+  var type = '';
+  for(i = 0; i < inputForm.elements.length; i++) {
+    var input = inputForm.elements[i];
+    var inputName = input.name;
+    var inputValue = InputGetValue(input);
+    if(inputName == 'name')
+      name = inputValue;
+    else if(inputName == 'type')
+      type = inputValue;
+    else if(inputName == 'Ok' || inputName == 'Cancel')
+      continue;
+    else {
+      var quote = '';
+      if(inputValue.indexOf(' ') >= 0)
+        quote = inputValue.indexOf('"') >= 0 ? "'" : '"';
+      attrs.push(inputName + '=' + quote + inputValue + quote);
+    }
+  }
+  attrs = attrs.join(' ');
+  ruleSet.choiceRules(ruleSet, type, name, attrs);
+  STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + type + '.' + name, attrs);
+
+  Quilvyn.customChoicesAdd.win.close();
+  Quilvyn.customChoicesAdd.win = null;
+  Quilvyn.refreshEditor(true);
+
+};
+
+/* TODO */
+Quilvyn.customChoicesDelete = function() {
+  var prompt = 'Enter custom choice to delete:';
+  var paths = [];
+  var prefix = PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.';
+  for(var path in STORAGE) {
+    if(path.startsWith(prefix))
+      paths.push(path.substring(prefix.length));
+  }
+  paths.sort();
+  var path = editWindow.prompt(prompt + '\n' + paths.join('\n'), '');
+  if(path == null)
+    // User cancel
+    return;
+  if(STORAGE.getItem(prefix + path) == null) {
+    editWindow.alert("No such custom choice " + path);
+    return;
+  }
+  STORAGE.removeItem(prefix + path);
+  var pieces = path.split('.');
+  var type = pieces[0];
+  type =
+    type.substring(0,1).toLowerCase()+type.substring(1).replace(/ /g, '') + 's';
+  ruleSet.deleteChoice(type, pieces[1]);
+  Quilvyn.refreshEditor(true);
+};
+
+/* TODO */
+Quilvyn.customChoicesExport = function() {
+  var htmlBits = [
+    '<html><head><title>Export Custom Choices</title></head>',
+    '<body bgcolor="' + window.BACKGROUND + '">',
+    '<img src="' + LOGO_URL + ' "/><br/>',
+    '<pre>'
+  ];
+  var prefix = PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.';
+  for(var path in STORAGE) {
+    if(!path.startsWith(prefix))
+      continue;
+    var text = (path.substring(prefix.length) + '.' + STORAGE.getItem(path)).
+      replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    htmlBits.push(text);
+  }
+  htmlBits.push('</pre>', '</body></html>');
+  var html = htmlBits.join('\n') + '\n';
+  var exportPopup = window.open('', '__rules_export', FEATURES_OF_OTHER_WINDOWS);
+  exportPopup.document.write(html);
+  exportPopup.document.close();
+  exportPopup.focus();
+};
+
+/* TODO */
+Quilvyn.customChoicesImport = function(focus) {
+
+  if(focus && Quilvyn.customChoicesImport.win != null) {
+    // Prior import still pending
+    Quilvyn.customChoicesImport.win.focus();
+    return;
+  } else if(Quilvyn.customChoicesImport.win == null) {
+    // New import
+    var htmlBits = [
+      '<html><head><title>Import Custom Choices</title></head>',
+      '<body bgcolor="' + window.BACKGROUND + '">',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h2>Enter choice definitions from export</h2>',
+      '<form name="frm"><table>',
+      '<tr><td><textarea name="code" rows="20" cols="50"></textarea></td></tr>',
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '</form></body></html>'
+    ];
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.customChoicesImport.win =
+      window.open('', '__import', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.customChoicesImport.win.document.write(html);
+    Quilvyn.customChoicesImport.win.document.close();
+    Quilvyn.customChoicesImport.win.okay = false;
+    Quilvyn.customChoicesImport.win.focus();
+    setTimeout('Quilvyn.customChoicesImport(false)', TIMEOUT_DELAY);
+    return;
+  } else if(Quilvyn.customChoicesImport.win.closed) {
+    // User cancel
+    Quilvyn.customChoicesImport.win = null;
+    return;
+  } else if(!Quilvyn.customChoicesImport.win.okay) {
+    // Try again later
+    setTimeout('Quilvyn.customChoicesImport(false)', TIMEOUT_DELAY);
+    return;
+  }
+
+  // Ready to import
+  var lines = Quilvyn.customChoicesImport.win.document.frm.elements[0].value.split('\n');
+
+  for(var i = 0; i < lines.length; i++) {
+    var pieces = lines[i].split('.');
+    var choiceType = pieces.shift();
+    var choiceName = pieces.shift();
+    var choiceAttrs = pieces.join('.');
+    ruleSet.choiceRules(ruleSet, choiceType, choiceName, choiceAttrs);
+    STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + choiceType + '.' + choiceName, choiceAttrs);
+  }
+
+  Quilvyn.customChoicesImport.win.close();
+  Quilvyn.customChoicesImport.win = null;
+  Quilvyn.refreshEditor(true);
+
 };
 
 /* Interacts w/user to delete a character from persistent storage. */
@@ -151,8 +390,8 @@ Quilvyn.editorHtml = function() {
     ['about', ' ', 'button', ['About']],
     ['help', '', 'button', ['Help']],
     ['rules', 'Rules', 'select-one', []],
-    ['ruleNotes', '', 'button', ['Notes']],
-    ['ruleAttributes', '', 'button', ['Attributes']],
+    ['rulesNotes', '', 'button', ['Notes']],
+    ['rulesCustomize', '', 'select-one', ['--- Customize ---', 'Add...', 'Delete...', 'Export', 'Import...']],
     ['ruleRules', '', 'button', ['Rules']],
     ['character', 'Character', 'select-one', []],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
@@ -222,7 +461,7 @@ Quilvyn.exportCharacters = function() {
   exportPopup.document.write(html);
   exportPopup.document.close();
   exportPopup.focus();
-}
+};
 
 /*
  * Interacts w/user to import characters from external sources. If an import
@@ -311,7 +550,7 @@ Quilvyn.importCharacters = function(focus) {
       setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
       return;
     }
-    character = importedCharacter;
+    character = Quilvyn.applyV2Changes(importedCharacter);
     characterPath = character['_path'] || '';
     characterCache[characterPath] = QuilvynUtils.clone(character);
     Quilvyn.saveCharacter(characterPath);
@@ -319,7 +558,7 @@ Quilvyn.importCharacters = function(focus) {
   }
 
   Quilvyn.importCharacters.win.close();
-  Quilvyn.importCharacters.win = false;
+  Quilvyn.importCharacters.win = null;
   Quilvyn.refreshEditor(false);
   Quilvyn.refreshSheet();
 
@@ -619,7 +858,7 @@ Quilvyn.sheetHtml = function(attrs) {
 
   enteredAttributes.hidden = persistentInfo.hidden;
   computedAttributes = ruleSet.applyRules(enteredAttributes);
-  var notes = ruleSet.getChoices('notes');
+  var formats = ruleSet.getFormats(ruleSet, InputGetValue(editForm.viewer));
   for(a in computedAttributes) {
     if(a.match(/\.\d+$/))
       continue; // Ignore format multi-values
@@ -629,8 +868,8 @@ Quilvyn.sheetHtml = function(attrs) {
     var value = computedAttributes[a];
     if(isNote && value == 0)
       continue; // Suppress notes with zero value
-    if(notes[a] != null) {
-      value = notes[a].replace(/%V/g, value);
+    if(formats[a] != null) {
+      value = formats[a].replace(/%V/g, value);
       for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {
         value = value.replace(new RegExp('%' + j, 'g'), computedAttributes[a + '.' + j]);
       }
@@ -732,7 +971,7 @@ Quilvyn.summarizeCachedAttrs = function() {
     '<h1>Quilvyn Character Attribute Summary</h1>',
     '<table border="1">'
   ];
-  var notes = ruleSet.getChoices('notes');
+  var formats = ruleSet.getFormats(ruleSet, InputGetValue(editForm.viewer));
   for(var character in characterCache) {
     if(character == '')
       continue;
@@ -747,7 +986,7 @@ Quilvyn.summarizeCachedAttrs = function() {
         continue;
       if(combinedAttrs[attr] == null)
         combinedAttrs[attr] = [];
-      var format = notes[attr];
+      var format = formats[attr];
       if(format != null)
         value = format.replace(/%V/g, value);
       combinedAttrs[attr].push(value);
@@ -855,36 +1094,22 @@ Quilvyn.update = function(input) {
     ruleSet = ruleSets[value];
     Quilvyn.refreshEditor(true);
     Quilvyn.refreshSheet();
-  } else if(name == 'ruleAttributes') {
-    if(Quilvyn.attributesWindow == null || Quilvyn.attributesWindow.closed) {
-      Quilvyn.attributesWindow =
-        window.open('', 'attrwin', FEATURES_OF_OTHER_WINDOWS);
-    }
-    Quilvyn.attributesWindow.document.write(
-      '<html>\n',
-      '<head>\n',
-      '<title>Attributes of ' + InputGetValue(editForm.rules) + '</title>\n',
-      '</head>\n',
-      '<body>\n'
-    );
-    var attrs = ruleSet.allSources().concat(ruleSet.allTargets());
-    attrs.sort();
-    for(var i = 0; i < attrs.length; i++) {
-      if(i > 0 && attrs[i] != '' && attrs[i] != attrs[i - 1])
-        Quilvyn.attributesWindow.document.write(attrs[i] + '<br/>\n');
-    }
-    Quilvyn.attributesWindow.document.write(
-      '</body>\n',
-      '</html>\n'
-    );
-    Quilvyn.attributesWindow.document.close();
-    Quilvyn.attributesWindow.focus();
-  } else if(name == 'ruleNotes') {
-    if(Quilvyn.ruleNotesWindow == null || Quilvyn.ruleNotesWindow.closed) {
-      Quilvyn.ruleNotesWindow =
+  } else if(name == 'rulesCustomize') {
+    input.selectedIndex = 0;
+    if(value == 'Add...')
+      Quilvyn.customChoicesAdd(true);
+    else if(value == 'Delete...')
+      Quilvyn.customChoicesDelete();
+    else if(value == 'Export')
+      Quilvyn.customChoicesExport();
+    else if(value == 'Import...')
+      Quilvyn.customChoicesImport(true);
+  } else if(name == 'rulesNotes') {
+    if(Quilvyn.rulesNotesWindow == null || Quilvyn.rulesNotesWindow.closed) {
+      Quilvyn.rulesNotesWindow =
         window.open('', 'rulenotes', FEATURES_OF_OTHER_WINDOWS);
     }
-    Quilvyn.ruleNotesWindow.document.write(
+    Quilvyn.rulesNotesWindow.document.write(
       '<html>\n',
       '<head>\n',
       '<title>Rule Notes for ' + InputGetValue(editForm.rules) + '</title>\n',
@@ -894,8 +1119,8 @@ Quilvyn.update = function(input) {
       '\n</body>\n',
       '</html>\n'
     );
-    Quilvyn.ruleNotesWindow.document.close();
-    Quilvyn.ruleNotesWindow.focus();
+    Quilvyn.rulesNotesWindow.document.close();
+    Quilvyn.rulesNotesWindow.focus();
   } else if(name == 'ruleRules') {
     var awin = window.open('', 'rulewin', FEATURES_OF_OTHER_WINDOWS);
     awin.document.write
