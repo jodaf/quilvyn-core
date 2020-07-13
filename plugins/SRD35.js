@@ -939,7 +939,7 @@ SRD35.FEATURES = {
   'Tongue Of The Sun And Moon':'feature:Speak w/any living creature',
   // Track as per feat
   'Trackless Step':'feature:Untrackable outdoors',
-  'Trap Sense':'save:+%V Reflex, AC vs. traps',
+  'Trap Sense':'save:+%V Reflex and AC vs. traps',
   'Trapfinding':'skill:Use Search/Disable Device to find/remove DC 20+ traps',
   'Turn Undead':
     'combat:Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/day',
