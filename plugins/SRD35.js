@@ -979,7 +979,6 @@ SRD35.FEATURES = {
   ],
   'Low-Light Vision':'feature:x2 normal distance in poor light',
   'Natural Illusionist':'magic:+1 Spell DC (Illusion)',
-  'Natural Spells':'magic:%V 1/day',
   'Natural Smith':
     'skill:+2 Appraise (stone or metal)/+2 Craft (stone or metal)',
   'Resist Enchantment':'save:+2 vs. Enchantment',
@@ -1073,7 +1072,7 @@ SRD35.RACES = {
   'Gnome':
     'Features="Dodge Giants","Gnome Ability Adjustemnt",' +
     '"Gnome Emnity","Keen Ears","Keen Nose","Low-Light Vision",' +
-    '"Natural Illusionist","Natural Spells","Resist Illusion",Slow,Small,' +
+    '"Natural Illusionist","Resist Illusion",Slow,Small,' +
     '"Weapon Familiarity (Gnome Hooked Hammer)" ' +
     'SpellAbility=charisma ' +
     'Spells=' +
@@ -6602,6 +6601,10 @@ SRD35.choiceEditorElements = function(rules, type) {
   else if(type == 'Race')
     result.push(
       ['Features', 'Features', 'text', [60]],
+      ['SpellAbility', 'Spell Ability', 'select-one',
+       ['charisma', 'constitution', 'dexterity', 'intelligence', 'strength',
+        'wisdom']],
+      ['Spells', 'Spells', 'text', [80]]
     );
   else if(type == 'School')
     result.push(
