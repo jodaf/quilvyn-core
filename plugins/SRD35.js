@@ -5607,6 +5607,8 @@ SRD35.featureRules = function(rules, name, notes) {
           adjusted = 'featCount.' + (matchInfo[2] ? matchInfo[2] : 'General');
         } else if(adjusted == 'HP') {
           adjusted = 'hitPoints';
+        } else if(adjusted == 'Skill Points') {
+          adjusted = 'skillPoints';
         } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
           adjusted = 'spellDCSchoolBonus.' + adjusted.replace('Spell DC (', '').replace(')', '');
         } else if(adjusted == 'Turnings') {
