@@ -816,7 +816,7 @@ SRD35.FEATURES = {
   'Detect Evil':'magic:<i>Detect Evil</i> at will',
   'Diamond Body':'save:Immune to poison',
   'Diamond Soul':'save:DC %V spell resistance',
-  'Divine Grace':'save:+%V Fortitude/Reflex/Will',
+  'Divine Grace':'save:+%V Fortitude/+%V Reflex/+%V Will',
   'Divine Health':'save:Immune to disease',
   'Elemental Shape':'magic:Wild Shape to elemental %V/day',
   'Empty Body':'magic:<i>Etherealness</i> %V rd/day',
