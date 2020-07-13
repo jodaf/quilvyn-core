@@ -72,8 +72,8 @@ const PLUGINS = [
   // '?plugins/EberronPrestige.js',
   // '?plugins/LastAge.js',
   // '?plugins/LastAgePrestige.js',
-  // '?plugins/Pathfinder.js',
-  // '?plugins/PathfinderPrestige.js',
+  '?plugins/Pathfinder.js',
+  '?plugins/PathfinderPrestige.js',
   // '?plugins/Realms.js',
   // '?plugins/RealmsPrestige.js',
   // '?plugins/FirstEdition.js',
@@ -98,87 +98,84 @@ function CustomizeQuilvyn() {
     // Format 'name': 'stats', e.g.,
     // 'Babboon': 'Attack=2 HD=1 AC=13 Dam=1d6+3 Str=15 Dex=14 Con=12 Int=2 Wis=12 Cha=4'
   };
-  var deities = [
+  var deities = {
     // Format 'deity (alignment sphere):favored weapon:domain list', e.g.,
     // 'Glennor (NG Healing):Quarterstaff:Air/Animal/Healing'
-  ];
+  };
   var familiars = {
     // Format see animalCompanions, above
   };
-  var feats = [
+  var feats = {
     // Format 'name:' (general feats), or 'name:type', where type is one of
     // Fighter, Item Creation, or Metamagic, e.g.,
     // 'Craft Talisman:Item Creation'
-  ];
-  var languages = [
+    'Greater Weapon Focus (Dwarven Waraxe)':'Type=Fighter',
+    'Greater Weapon Focus (Longbow)':'Type=Fighter',
+    'Greater Weapon Focus (Longsword)':'Type=Fighter',
+    'Greater Weapon Specialization (Dwarven Waraxe)':'Type=Fighter',
+    'Greater Weapon Specialization (Longbow)':'Type=Fighter',
+    'Greater Weapon Specialization (Longsword)':'Type=Fighter',
+    'Improved Critical (Dwarven Waraxe)':'Type=Fighter',
+    'Improved Critical (Longbow)':'Type=Fighter',
+    'Improved Critical (Longsword)':'Type=Fighter',
+    'Master Craftsman (Craft (Armor))':'Type=General', // Pathfinder only
+    'Master Craftsman (Profession (Scribe))':'Type=General', // Pathfinder only
+    'Skill Focus (Perception)':'Type=General',
+    'Weapon Focus (Dwarven Waraxe)':'Type=Fighter',
+    'Weapon Focus (Longbow)':'Type=Fighter',
+    'Weapon Focus (Longsword)':'Type=Fighter',
+    'Weapon Proficiency (Simple)':'Type=General',
+    'Weapon Specialization (Dwarven Waraxe)':'Type=Fighter',
+    'Weapon Specialization (Longbow)':'Type=Fighter',
+    'Weapon Specialization (Longsword)':'Type=Fighter'
+  };
+  var languages = {
     // Format 'name', e.g.,
     // 'whale'
-  ];
-  var skills = [
+  };
+  var skills = {
     // Format 'name:ability/[un]trained', e.g.,
     // 'herbalism:int/trained'
-  ];
-  var spells = [
+    'Craft':'Alchemy',
+    'Profession':'Scribe/Soldier'
+  };
+  var spells = {
     // Format 'name:school:classLevels:description', e.g.,
     // "Share Knowledge:Divination:B2/W2:R30' Extract knowledge on specific subject from target (Will neg)"
-  ];
-  var weapons = [
+  };
+  var weapons = {
     // Format 'name:damagexcritical@threat[range] categories', where categories
     // are Si[mple], Ma[rtial], or Ex[otic] and Li[ght], 1h, or 2h, e.g.
     // 'Chakram:d6x2@19r120 Ex'
     // 'Pike:d8x3@20 Ma 2h'
-  ];
-  var subfeats = {
-    // Format 'name':'subfeats'
-    // Included here are sample values for all the predefined feats that you
-    // might want to extend with additional subfeats
-    'Greater Weapon Focus':'Dwarven Waraxe/Longbow/Longsword',
-    'Greater Weapon Specialization':'Dwarven Waraxe/Longbow/Longsword',
-    'Improved Critical':'Dwarven Waraxe/Longbow/Longsword',
-    'Master Craftsman':'Craft (Armor)/Profession (Scribe)', // Pathfinder only
-    'Skill Focus':'Perception',
-    'Weapon Focus':'Dwarven Waraxe/Longbow/Longsword',
-    'Weapon Proficiency':'Simple',
-    'Weapon Specialization':'Dwarven Waraxe/Longbow/Longsword'
-  };
-  var subskills = {
-    // Format 'name':'subfeats'
-    // Included here are sample values for all the predefined feats that you
-    // might want to extend with additional subfeats
-    'Craft':'Alchemy',
-    'Profession':'Scribe/Soldier'
   };
 
   // The second part applies specific customizations to the rules.
   if(window.Pathfinder) {
     Object.assign(Pathfinder.ANIMAL_COMPANIONS, animalCompanions);
-    Array.prototype.push.apply(Pathfinder.DEITIES, deities);
+    Object.assign(Pathfinder.DEITIES, deities);
     Object.assign(Pathfinder.FAMILIARS, familiars);
-    Array.prototype.push.apply(Pathfinder.FEATS, feats);
-    Array.prototype.push.apply(Pathfinder.LANGUAGES_ADDED, languages);
-    Array.prototype.push.apply(Pathfinder.SKILLS, skills);
-    Array.prototype.push.apply(Pathfinder.WEAPONS_ADDED, weapons);
-    Object.assign(Pathfinder.SUBFEATS, subfeats);
-    Object.assign(Pathfinder.SUBSKILLS, subskills);
+    Object.assign(Pathfinder.FEATS, feats);
+    Object.assign(Pathfinder.LANGUAGES, languages);
+    Object.assign(Pathfinder.SKILLS, skills);
+    Object.assign(Pathfinder.SPELLS, spells);
+    Object.assign(Pathfinder.WEAPONS, weapons);
     if(window.location.search.indexOf('pf1e-35track') >= 0)
       Pathfinder.TRACKS.push('3.5');
   }
-  delete subfeats['Master Craftsman'];
+  for(var feat in feats) {
+    if(feat.startsWith('Master Craftsman'))
+      delete feats[feat];
+  }
   if(window.SRD35) {
     Object.assign(SRD35.ANIMAL_COMPANIONS, animalCompanions);
-    Array.prototype.push.apply(SRD35.DEITIES, deities);
+    Object.assign(SRD35.DEITIES, deities);
     Object.assign(SRD35.FAMILIARS, familiars);
-    Array.prototype.push.apply(SRD35.FEATS, feats);
-    Array.prototype.push.apply(SRD35.LANGUAGES, languages);
-    Array.prototype.push.apply(SRD35.SKILLS, skills);
-    Array.prototype.push.apply(SRD35.WEAPONS, weapons);
-    Object.assign(SRD35.SUBFEATS, subfeats);
-    Object.assign(SRD35.SUBSKILLS, subskills);
-    for(var i = 0; i < spells.length; i++) {
-      var pieces = spells[i].split(':');
-      SRD35.spellsSchools[pieces[0]] = pieces[1];
-      SRD35.spellsDescriptions[pieces[0]] = pieces[3];
-    }
+    Object.assign(SRD35.FEATS, feats);
+    Object.assign(SRD35.LANGUAGES, languages);
+    Object.assign(SRD35.SKILLS, skills);
+    Object.assign(SRD35.SPELLS, spells);
+    Object.assign(SRD35.WEAPONS, weapons);
   }
   if(window.LastAge) {
     if(window.location.search.indexOf('la-pf') >= 0)
@@ -215,22 +212,6 @@ function CustomizeQuilvyn() {
       SRD35SpellPoints.spellPointRules(Pathfinder.rules);
     if(window.Realms != null)
       SRD35SpellPoints.spellPointRules(Realms.rules);
-  }
-
-  if(window.SRD35 != null) {
-    for(var i = 0; i < spells.length; i++) {
-      var pieces = spells[i].split(':');
-      var classLevels = pieces[2].split('/');
-      for(var j = 0; j < classLevels.length; j++) {
-        var spell = pieces[0]+'('+classLevels[j]+' '+pieces[1].slice(0,3)+')';
-        SRD35.rules.defineChoice('spells', spell);
-        SRD35.spellRules(SRD35.rules, [spell], null);
-        if(window.Pathfinder != null) {
-          Pathfinder.rules.defineChoice('spells', spell);
-          SRD35.spellRules(Pathfinder.rules, [spell], null);
-        }
-      }
-    }
   }
 
 }
