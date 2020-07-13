@@ -301,7 +301,7 @@ SRD35Prestige.FEATURES = {
      'feature:+2 Str, +4 Con, +2 saves, +4 AC while unmoving %V rd %1/day',
   'Detect Good':'magic:<i>Detect Good</i> at will',
   'Divine Reach':"magic:Use divine touch spell 30' away",
-  'Dodge Trick':'combatNotes.dodgeTrickFeature:+1 AC',
+  'Dodge Trick':'combat:+1 AC',
   'Dragon Apotheosis':[
     'ability:+4 Strength/+2 Charisma',
     'save:Immune sleep/paralysis/breath weapon energy'
@@ -344,7 +344,7 @@ SRD35Prestige.FEATURES = {
   'Precise Strike':'combat:Extra %Vd6 HP with light piercing weapon',
   'Ranged Legerdemain':
     "combat:+5 DC on Disable Device, Open Lock, and Sleight Of Hand at 30' %V/day",
-  'Secret Health':'combatNotes.secretHealthFeature:+3 HP',
+  'Secret Health':'combat:+3 HP',
   'Secret Knowledge Of Avoidance':'save:+2 Reflex',
   'Secrets Of Inner Strength':'save:+2 Will',
   'Seeker Arrow':'combat:Arrow maneuvers to target 1/day',
@@ -442,53 +442,53 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   if(name == 'Arcane Archer') {
 
-    rules.defineRule('combatNotes.enhanceArrowFeature',
+    rules.defineRule('combatNotes.enhanceArrow',
       'levels.Arcane Archer', '+=', 'Math.floor((source + 1) / 2)'
     );
     rules.defineRule
-      ('combatNotes.hailOfArrowsFeature', 'levels.Arcane Archer', '+=', null);
+      ('combatNotes.hailOfArrows', 'levels.Arcane Archer', '+=', null);
 
   } else if(name == 'Arcane Trickster') {
 
-    rules.defineRule('combatNotes.impromptuSneakAttackFeature',
+    rules.defineRule('combatNotes.impromptuSneakAttack',
       'levels.Arcane Trickster', '+=', 'source < 7 ? 1 : 2'
     );
-    rules.defineRule('combatNotes.rangedLegerdemainFeature',
+    rules.defineRule('combatNotes.rangedLegerdemain',
       'levels.Arcane Trickster', '+=', 'Math.floor((source + 3) / 4)'
     );
-    rules.defineRule('combatNotes.sneakAttackFeature',
+    rules.defineRule('combatNotes.sneakAttack',
       'levels.Arcane Trickster', '+=', 'Math.floor(source / 2)'
     );
-    rules.defineRule('magicNotes.casterLevelBonusFeature',
+    rules.defineRule('magicNotes.casterLevelBonus',
       'levels.Arcane Trickster', '+=', null
     );
 
   } else if(name == 'Archmage') {
 
     rules.defineRule
-      ('magicNotes.casterLevelBonusFeature', 'levels.Archmage', '+=', null);
+      ('magicNotes.casterLevelBonus', 'levels.Archmage', '+=', null);
     rules.defineRule
       ('selectableFeatureCount.Archmage', 'levels.Archmage', '+=', null);
 
   } else if(name == 'Assassin') {
 
-    rules.defineRule('combatNotes.deathAttackFeature',
+    rules.defineRule('combatNotes.deathAttack',
       'levels.Assassin', '+=', '10 + source',
       'intelligenceModifier', '+', null
     );
     rules.defineRule
-      ('combatNotes.deathAttackFeature.1', 'levels.Assassin', '+=', null);
-    rules.defineRule('combatNotes.sneakAttackFeature',
+      ('combatNotes.deathAttack.1', 'levels.Assassin', '+=', null);
+    rules.defineRule('combatNotes.sneakAttack',
       'levels.Assassin', '+=', 'Math.floor((source + 1) / 2)'
     );
-    rules.defineRule('saveNotes.poisonToleranceFeature',
+    rules.defineRule('saveNotes.poisonTolerance',
       'levels.Assassin', '+=', 'Math.floor(source / 2)'
     );
     rules.defineRule('assassinFeatures.Improved Uncanny Dodge',
       'assassinFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
     );
-    rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+    rules.defineRule('combatNotes.improvedUncannyDodge',
       'levels.Assassin', '+=', 'source >= 2 ? source : null',
       '', '+', '4'
     );
@@ -498,30 +498,27 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Blackguard') {
 
-    rules.defineRule('combatNotes.smiteGoodFeature',
+    rules.defineRule('combatNotes.smiteGood',
       'charismaModifier', '=', 'source > 0 ? source : 0'
     );
-    rules.defineRule
-      ('combatNotes.smiteGoodFeature.1', 'levels.Blackguard', '=', null);
-    rules.defineRule('combatNotes.smiteGoodFeature.2',
+    rules.defineRule('combatNotes.smiteGood.1', 'levels.Blackguard', '=', null);
+    rules.defineRule('combatNotes.smiteGood.2',
       'levels.Blackguard', '+=', 'source<2 ? null : 1 + Math.floor(source/5)'
     );
-    rules.defineRule('combatNotes.sneakAttackFeature',
+    rules.defineRule('combatNotes.sneakAttack',
       'levels.Blackguard', '+=', 'source<4 ? null : Math.floor((source-1)/3)'
     );
-    rules.defineRule('magicNotes.blackguardHandsFeature',
+    rules.defineRule('magicNotes.blackguardHands',
       'level', '+=', null,
       'charismaModifier', '*', null
     );
-    rules.defineRule('magicNotes.fiendishSummoningFeature',
+    rules.defineRule('magicNotes.fiendishSummoning',
       'levels.Blackguard', '=', 'source * 2'
     );
-    rules.defineRule
-      ('save.Fortitude', 'saveNotes.darkBlessingFeature', '+', null);
-    rules.defineRule
-      ('save.Reflex', 'saveNotes.darkBlessingFeature', '+', null);
-    rules.defineRule('save.Will', 'saveNotes.darkBlessingFeature', '+', null);
-    rules.defineRule('saveNotes.darkBlessingFeature',
+    rules.defineRule('save.Fortitude', 'saveNotes.darkBlessing', '+', null);
+    rules.defineRule('save.Reflex', 'saveNotes.darkBlessing', '+', null);
+    rules.defineRule('save.Will', 'saveNotes.darkBlessing', '+', null);
+    rules.defineRule('saveNotes.darkBlessing',
       'charismaModifier', '=', 'source > 0 ? source : null'
     );
     rules.defineRule('turningLevel',
@@ -537,12 +534,12 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('blackguardFeatures.Undead Companion',
       'levels.Paladin', '?', 'source >= 9'
     );
-    rules.defineRule('combatNotes.smiteGoodFeature',
+    rules.defineRule('combatNotes.smiteGood',
       'levels.Paladin', '+', 'source >= 9 ? 3 : source >= 5 ? 2 : 1'
     );
     // NOTE: Minor bug: this will also effect the sneak attack feature of
     // some unlikely combinations, e.g., rogue/paladin
-    rules.defineRule('combatNotes.sneakAttackFeature',
+    rules.defineRule('combatNotes.sneakAttack',
       'levels.Paladin', '+', 'source >= 5 ? 1 : null'
     );
 
@@ -621,13 +618,13 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'fiendishServantMasterLevel', '^',
       'source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
     );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.1',
+    rules.defineRule('companionNotes.shareSavingThrows.1',
       'fiendishServantMasterBaseSaveFort', '=', null
     );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.2',
+    rules.defineRule('companionNotes.shareSavingThrows.2',
       'fiendishServantMasterBaseSaveRef', '=', null
     );
-    rules.defineRule('companionNotes.shareSavingThrowsFeature.3',
+    rules.defineRule('companionNotes.shareSavingThrows.3',
       'fiendishServantMasterBaseSaveWill', '=', null
     );
     rules.defineRule('companionLevel',
@@ -646,66 +643,64 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Dragon Disciple') {
 
-    rules.defineRule('abilityNotes.strengthBoostFeature',
+    rules.defineRule('abilityNotes.strengthBoost',
       'levels.Dragon Disciple', '+=', 'source>=4 ? 4 : source>=2 ? 2 : null'
     );
-    rules.defineRule('combatNotes.breathWeaponFeature',
+    rules.defineRule('combatNotes.breathWeapon',
       'levels.Dragon Disciple', '=', 'source < 7 ? 2 : source < 10 ? 4 : 6'
     );
-    rules.defineRule('combatNotes.breathWeaponFeature.1',
+    rules.defineRule('combatNotes.breathWeapon.1',
       'levels.Dragon Disciple', '=', '10 + source',
       'constitutionModifier', '+', null
     );
-    rules.defineRule('combatNotes.dragonArmorFeature',
+    rules.defineRule('combatNotes.dragonArmor',
       'levels.Dragon Disciple', '+=', 'Math.floor((source + 2) / 3)'
     );
-    rules.defineRule('magicNotes.bonusSpellsFeature',
+    rules.defineRule('magicNotes.bonusSpells',
       'levels.Dragon Disciple', '+=',
         'source - (source == 10 ? 3 : source >= 7 ? 2 : source >= 3 ? 1 : 0)'
     );
     rules.defineChoice('weapons', 'Bite:d6', 'Claw:d4');
-    rules.defineRule
-      ('weapons.Bite', 'combatNotes.biteAttackFeature', '=', '1');
-    rules.defineRule
-      ('weapons.Claw', 'combatNotes.clawAttackFeature', '=', '1');
+    rules.defineRule('weapons.Bite', 'combatNotes.biteAttack', '=', '1');
+    rules.defineRule('weapons.Claw', 'combatNotes.clawAttack', '=', '1');
 
   } else if(name == 'Duelist') {
 
-    rules.defineRule('combatNotes.cannyDefenseFeature',
+    rules.defineRule('combatNotes.cannyDefense',
       'intelligenceModifier', '+=', null,
       'levels.Duelist', 'v', null
     );
     rules.defineRule
-      ('combatNotes.elaborateParryFeature', 'levels.Duelist', '+=', null);
-    rules.defineRule('combatNotes.improvedReactionFeature',
+      ('combatNotes.elaborateParry', 'levels.Duelist', '+=', null);
+    rules.defineRule('combatNotes.improvedReaction',
       'levels.Duelist', '+=', 'source < 2 ? null : source < 8 ? 2 : 4'
     );
-    rules.defineRule('combatNotes.preciseStrikeFeature',
+    rules.defineRule('combatNotes.preciseStrike',
       'levels.Duelist', '=', 'Math.floor(source / 5)'
     );
 
   } else if(name == 'Dwarven Defender') {
 
-    rules.defineRule('combatNotes.damageReductionFeature',
+    rules.defineRule('combatNotes.damageReduction',
       'levels.Dwarven Defender', '+=', 'source<6 ? null : source<10 ? 3 : 6'
     );
-    rules.defineRule('combatNotes.defenderArmorFeature',
+    rules.defineRule('combatNotes.defenderArmor',
       'levels.Dwarven Defender', '+=', 'Math.floor((source + 2) / 3)'
     );
-    rules.defineRule('featureNotes.defensiveStanceFeature',
+    rules.defineRule('featureNotes.defensiveStance',
       'constitutionModifier', '+=', 'source + 5'
     );
-    rules.defineRule('featureNotes.defensiveStanceFeature.1',
+    rules.defineRule('featureNotes.defensiveStance.1',
       'levels.Dwarven Defender', '+=', 'Math.floor((source + 1) / 2)'
     );
-    rules.defineRule('saveNotes.trapSenseFeature',
+    rules.defineRule('saveNotes.trapSense',
       'levels.Dwarven Defender', '+=', 'Math.floor(source / 4)'
     );
     rules.defineRule('dwarvenDefenderFeatures.Improved Uncanny Dodge',
       'dwarvenDefenderFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
     );
-    rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+    rules.defineRule('combatNotes.improvedUncannyDodge',
       'levels.Dwarven Defender', '+=', 'source >= 2 ? source : null',
       '', '+', '4'
     );
@@ -716,7 +711,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
   } else if(name == 'Eldritch Knight') {
 
     rules.defineRule('featCount.Fighter', 'levels.Eldritch Knight', '+=','1');
-    rules.defineRule('magicNotes.casterLevelBonusFeature',
+    rules.defineRule('magicNotes.casterLevelBonus',
       'levels.Eldritch Knight', '+=', 'source > 1 ? source - 1 : null'
     );
     rules.defineRule('validationNotes.eldritchKnightClassSpells',
@@ -730,11 +725,11 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('casterLevelDivine', 'levels.Hierophant', '+=', null);
     rules.defineRule
       ('selectableFeatureCount.Hierophant', 'levels.Hierophant', '=', null);
-    rules.defineRule('combatNotes.turnUndeadFeature.1',
-      'combatNotes.masteryOfEnergyFeature', '+', '4'
+    rules.defineRule('combatNotes.turnUndead.1',
+      'combatNotes.masteryOfEnergy', '+', '4'
     );
-    rules.defineRule('combatNotes.turnUndeadFeature.2',
-      'combatNotes.masteryOfEnergyFeature', '+', '4'
+    rules.defineRule('combatNotes.turnUndead.2',
+      'combatNotes.masteryOfEnergy', '+', '4'
     );
 
   } else if(name == 'Horizon Walker') {
@@ -760,22 +755,22 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
   } else if(name == 'Loremaster') {
 
     rules.defineRule('casterLevelArcane', 'levels.Loremaster', '+=', null);
-    rules.defineRule('featureNotes.bonusLanguageFeature',
+    rules.defineRule('featureNotes.bonusLanguage',
       'levels.Loremaster', '+=', 'Math.floor(source / 4)'
     );
     rules.defineRule
-      ('magicNotes.casterLevelBonusFeature', 'levels.Loremaster', '+=', null);
+      ('magicNotes.casterLevelBonus', 'levels.Loremaster', '+=', null);
     rules.defineRule('selectableFeatureCount.Loremaster',
       'levels.Loremaster', '+=', 'Math.floor((source + 1) / 2)'
     );
-    rules.defineRule('skillNotes.loreFeature',
+    rules.defineRule('skillNotes.lore',
       'levels.Loremaster', '+=', null,
       'intelligenceModifier', '+=', null
     );
 
   } else if(name == 'Mystic Theurge') {
 
-    rules.defineRule('magicNotes.casterLevelBonusFeature',
+    rules.defineRule('magicNotes.casterLevelBonus',
       'levels.Mystic Theurge', '+=', null
     );
 
@@ -791,14 +786,14 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     // calcuated even for non-Wizard Shadowdancers.
     rules.defineRule
       ('casterLevels.W', 'levels.Shadowdancer', '^=', 'source<3 ? null : 1');
-    rules.defineRule('featureNotes.darkvisionFeature',
+    rules.defineRule('featureNotes.darkvision',
       'shadowdancerFeatures.Darkvision', '^=', '60'
     );
-    rules.defineRule('magicNotes.shadowJumpFeature',
+    rules.defineRule('magicNotes.shadowJump',
       'levels.Shadowdancer', '=',
          'source < 4 ? null : (10 * Math.pow(2, Math.floor((source-2)/2)))'
     );
-    rules.defineRule('magicNotes.summonShadowFeature',
+    rules.defineRule('magicNotes.summonShadow',
       'levels.Shadowdancer', '=',
       'source >= 3 ? Math.floor(source / 3) * 2 : null'
     );
@@ -806,7 +801,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'shadowdancerFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
     );
-    rules.defineRule('combatNotes.improvedUncannyDodgeFeature',
+    rules.defineRule('combatNotes.improvedUncannyDodge',
       'levels.Shadowdancer', '+=', 'source >= 2 ? source : null',
       '', '+', '4'
     );
@@ -816,7 +811,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Thaumaturgist') {
 
-    rules.defineRule('magicNotes.casterLevelBonusFeature',
+    rules.defineRule('magicNotes.casterLevelBonus',
       'levels.Thaumaturgist', '+=', null
     );
   }
