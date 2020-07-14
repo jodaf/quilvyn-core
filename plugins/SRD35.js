@@ -4167,7 +4167,9 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     return;
   }
   if(type != 'Feature') {
-    type = type == 'Class' ? 'levels' : (type.substring(0,1).toLowerCase() + type.substring(1).replace(/ /g, '') + 's');
+    type = type == 'Class' ? 'levels' :
+    type = type == 'Deity' ? 'deities' :
+    (type.substring(0,1).toLowerCase() + type.substring(1).replace(/ /g, '') + 's');
     rules.addChoice(type, name, attrs);
   }
 };
@@ -4201,7 +4203,7 @@ SRD35.armorRules = function(
     return;
   }
   if(weight == null ||
-     !(weight + '').match(/^([0-3]|light|medium|heavy)$/i)) {
+     !(weight + '').match(/^([0-3]|none|light|medium|heavy)$/i)) {
     console.log('Bad weight "' + weight + '" for armor "' + name + '"');
     return;
   }
@@ -4220,6 +4222,8 @@ SRD35.armorRules = function(
 
   if((weight + '').match(/^[0-3]$/))
     ; // empty
+  else if(weight.match(/^none$/i))
+    weight = 0;
   else if(weight.match(/^light$/i))
     weight = 1;
   else if(weight.match(/^medium$/i))
@@ -5836,7 +5840,7 @@ SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
     return;
   }
   if(weight == null ||
-     !(weight + '').match(/^([0-4]|light|medium|heavy|tower)$/i)) {
+     !(weight + '').match(/^([0-4]|none|light|medium|heavy|tower)$/i)) {
     console.log('Bad weight "' + weight + '" for shield "' + name + '"');
     return;
   }
@@ -5851,6 +5855,8 @@ SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
 
   if((weight + '').match(/^[0-4]$/))
     ; // empty
+  else if(weight.match(/^none$/i))
+    weight = 0;
   else if(weight.match(/^light$/i))
     weight = 1;
   else if(weight.match(/^medium$/i))
@@ -6550,7 +6556,7 @@ SRD35.choiceEditorElements = function(rules, type) {
   else if(type == 'Armor')
     result.push(
       ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
-      ['Weight', 'Weight', 'select-one', ['Light', 'Medium', 'Heavy']],
+      ['Weight', 'Weight', 'select-one', ['None', 'Light', 'Medium', 'Heavy']],
       ['Dex', 'Max Dex', 'text', [3]],
       ['Skill', 'Skill Penalty', 'text', [3]],
       ['Spell', 'Spell Failure', 'text', [3]]
@@ -6615,6 +6621,8 @@ SRD35.choiceEditorElements = function(rules, type) {
   else if(type == 'Shield')
     result.push(
       ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
+      ['Weight', 'Weight', 'select-one',
+       ['None', 'Light', 'Medium', 'Heavy', 'Tower']],
       ['Skill', 'Skill Check Penalty', 'text', [3]],
       ['Spell', 'Arcane Spell Fail %', 'text', [3]]
     );
