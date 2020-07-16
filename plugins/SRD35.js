@@ -1064,30 +1064,37 @@ SRD35.RACES = {
     'Features=Darkvision,"Dodge Giants","Dwarf Ability Adjustment",' +
     '"Dwarf Armor Speed Adjustment","Dwarf Emnity","Know Depth",' +
     '"Natural Smith","Resist Poison","Resist Spells","Slow","Stability",' +
-    '"Stonecunning","Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)"',
+    '"Stonecunning","Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)" ' +
+    'Languages=Common,Dwarven',
   'Elf':
     'Features="Elf Ability Adjustment","Keen Senses","Low-Light Vision",' +
     '"Resist Enchantment","Sense Secret Doors","Sleep Immunity",' +
-    '"Weapon Proficiency (Composite Longbow/Composite Shortbow/Longsword/Rapier/Longbow/Shortbow)"',
+    '"Weapon Proficiency (Composite Longbow/Composite Shortbow/Longsword/Rapier/Longbow/Shortbow)" ' +
+    'Languages=Common,Elven',
   'Gnome':
     'Features="Dodge Giants","Gnome Ability Adjustemnt",' +
     '"Gnome Emnity","Keen Ears","Keen Nose","Low-Light Vision",' +
     '"Natural Illusionist","Resist Illusion",Slow,Small,' +
     '"Weapon Familiarity (Gnome Hooked Hammer)" ' +
+    'Languages=Common,Gnome ' +
     'SpellAbility=charisma ' +
     'Spells=' +
       '"Gnome1:Speak With Animals",' +
       '"charisma >= 10 ? Gnome0:Dancing Lights;Ghost Sound;Prestidigitation"',
   'Half-Elf':
     'Features="Alert Senses","Low-Light Vision","Resist Enchantment",' +
-    '"Sleep Immunity",Tolerance',
+    '"Sleep Immunity",Tolerance ' +
+    'Languages=Common,Elven',
   'Half-Orc':
-    'Features=Darkvision,"Half-Orc Ability Adjustment"',
+    'Features=Darkvision,"Half-Orc Ability Adjustment" ' +
+    'Languages=Common,Orc',
   'Halfling':
     'Features=Accurate,Fortunate,"Halfling Ability Adjustment","Keen Ears",' +
-    'Slow,Small,Spry,"Resist Fear"',
+    'Slow,Small,Spry,"Resist Fear" ' +
+    'Languages=Common,Halfling',
   'Human':
-    'Features="Human Feat Bonus","Human Skill Bonus"'
+    'Features="Human Feat Bonus","Human Skill Bonus" ' +
+    'Languages=Common,,'
 };
 SRD35.SCHOOLS = {
   'Abjuration':'',
@@ -3297,6 +3304,7 @@ SRD35.CLASSES = {
       '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
       '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
+    'Languages=Druidic ' +
     'CasterLevelDivine=Level ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
@@ -3664,7 +3672,7 @@ SRD35.abilityRules = function(rules) {
   );
   rules.defineRule('initiative', 'dexterityModifier', '=', null);
   rules.defineRule
-    ('languageCount', 'intelligenceModifier', '+', 'source > 0 ? source : 0');
+    ('languageCount', 'intelligenceModifier', '=', 'Math.max(source, 0)');
   rules.defineRule('save.Fortitude', 'constitutionModifier', '=', null);
   rules.defineRule('save.Reflex', 'dexterityModifier', '=', null);
   rules.defineRule('save.Will', 'wisdomModifier', '=', null);
@@ -4001,8 +4009,6 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
   }
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
-  rules.defineRule
-    ('languageCount', 'race', '=', 'source.match(/Human/) ? 1 : 2');
   rules.defineRule('skillPoints',
     '', '=', '0',
     'level', '^', null
@@ -4074,6 +4080,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Skills'),
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
       QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelArcane'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelDivine'),
       QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
@@ -4124,6 +4131,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   else if(type == 'Race')
     SRD35.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
       QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
       SRD35.SPELLS
@@ -4295,18 +4303,20 @@ SRD35.armorRules = function(
  * '1/3', indicating the saving through progressions. #skills# indicate class
  * skills for the class (but see also skillRules for an alternate way these can
  * be defined). #features# and #selectables# list the features and selectable
- * features acquired as the character advances in class level.
- * #casterLevelArcane# and #casterLevelDivine#, if specified, give the
- * expression for determining the caster level for the class; within these
- * expressions the text "Level" indicates class level. #spellAbility#, if
- * specified, contains the base ability for computing spell difficulty class
- * for cast spells. #spellsPerDay# lists the number of spells per day that the
- * class can cast, and #spells# lists spells defined by the class.
+ * features acquired as the character advances in class level; #languages# list
+ * any automatic languages for the class.  #casterLevelArcane# and
+ * #casterLevelDivine#, if specified, give the expression for determining the
+ * caster level for the class; within these expressions the text "Level"
+ * indicates class level. #spellAbility#, if specified, contains the base
+ * ability for computing spell difficulty class for cast spells. #spellsPerDay#
+ * lists the number of spells per day that the class can cast, and #spells#
+ * lists spells defined by the class.
  */
 SRD35.classRules = function(
   rules, name, requires, implies, hitDie, attack, skillPoints, saveFort,
-  saveRef, saveWill, skills, features, selectables, casterLevelArcane,
-  casterLevelDivine, spellAbility, spellsPerDay, spells, spellDict
+  saveRef, saveWill, skills, features, selectables, languages,
+  casterLevelArcane, casterLevelDivine, spellAbility, spellsPerDay, spells,
+  spellDict
 ) {
 
   if(!name) {
@@ -4411,6 +4421,15 @@ SRD35.classRules = function(
 
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
+
+
+  if(languages.length > 0)
+    rules.defineRule('languageCount', 'levels.' + name, '+', languages.length);
+
+  for(var i = 0; i < languages.length; i++) {
+    if(languages[i] != '')
+      rules.defineRule('languages.' + languages[i], 'levels.' + name, '=', '1');
+  }
 
   if(spellsPerDay.length >= 0) {
     var classCasterLevel = 'source';
@@ -4639,7 +4658,6 @@ SRD35.classRulesExtra = function(rules, name) {
 
     rules.defineRule
       ('companionMasterLevel', 'levels.Druid', '+=', null);
-    rules.defineRule('languageCount', 'levels.Druid', '+', '1');
     rules.defineRule('magicNotes.elementalShape',
       'levels.Druid', '=', 'source < 16 ? null : Math.floor((source-14) / 2)'
     );
@@ -5679,34 +5697,16 @@ SRD35.languageRules = function(rules, name) {
     console.log('Empty language name');
     return;
   }
-  if(name == 'Common')
-    rules.defineRule('languages.Common', '', '=', '1');
-  else if(name == 'Druidic')
-    rules.defineRule('languages.Druidic', 'levels.Druid', '=', '1');
-  else if(name == 'Dwarven')
-    rules.defineRule
-      ('languages.Dwarven', 'race', '=', 'source.match(/Dwarf/) ? 1 : null');
-  else if(name == 'Elven')
-    rules.defineRule
-      ('languages.Elven', 'race', '=', 'source.match(/Elf/) ? 1 : null');
-  else if(name == 'Gnome')
-    rules.defineRule
-      ('languages.Gnome', 'race', '=', 'source.match(/Gnome/) ? 1 : null');
-  else if(name == 'Halfling')
-    rules.defineRule
-      ('languages.Halfling', 'race', '=', 'source.match(/Halfling/)?1:null');
-  else if(name == 'Orc')
-    rules.defineRule
-      ('languages.Orc', 'race', '=', 'source.match(/Orc/) ? 1 : null');
+  // No rules pertain to language
 };
 
 /*
  * Defines in #rules# the rules associated with race #name#. #features# lists
- * the associated features. #spells# lists any natural spells, for which
- * #spellAbility# is used to compute the save DC.
+ * associated features and #languages# the automatic languages. #spells# lists
+ * any natural spells, for which #spellAbility# is used to compute the save DC.
  */
 SRD35.raceRules = function(
-  rules, name, features, spellAbility, spells, spellDict
+  rules, name, features, languages, spellAbility, spells, spellDict
 ) {
 
   if(!name) {
@@ -5739,6 +5739,14 @@ SRD35.raceRules = function(
         rules.defineRule('features.Weapon ' + matchInfo[1] + ' (' + weapons[j] + ')', 'features.' + feature, '=', '1');
       }
     }
+  }
+
+  if(languages.length > 0)
+    rules.defineRule('languageCount', raceAttr, '+', languages.length);
+
+  for(var i = 0; i < languages.length; i++) {
+    if(languages[i] != '')
+      rules.defineRule('languages.' + languages[i], raceAttr, '=', '1');
   }
 
   if(spellAbility && spells.length > 0) {
