@@ -3405,7 +3405,7 @@ SRD35.CLASSES = {
       '"20:Perfect Self" ' +
     'Selectables=' +
       '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
-      '"2:Deflect Arrows","6:Improved Disarm","6"Improved Grapple"',
+      '"2:Deflect Arrows","6:Improved Disarm","6:Improved Trip"',
   'Paladin':
     'Require="alignment == \'Lawful Good\'" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
