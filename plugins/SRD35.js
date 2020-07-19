@@ -4412,23 +4412,8 @@ SRD35.classRules = function(
     rules.defineRule('classSkills.' + skills[i], 'levels.' + name, '=', '1');
   }
 
-  for(var i = 0; i < features.length; i++) {
-    var matchInfo = features[i].match(/^((\d+):)?(.*)$/);
-    var feature = matchInfo ? matchInfo[3] : features[i];
-    var level = matchInfo ? matchInfo[2] : 1;
-    rules.defineRule(prefix + 'Features.' + feature,
-      'levels.' + name, '=', 'source >= ' + level + ' ? 1 : null'
-    );
-    rules.defineRule
-      ('features.' + feature, prefix + 'Features.' + feature, '+=', null);
-    if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
-      // Set individual features for each weapon on the list.
-      var weapons = matchInfo[2].split('/');
-      for(var j = 0; j < weapons.length; j++) {
-        rules.defineRule('features.Weapon ' + matchInfo[1] + ' (' + weapons[j] + ')', 'features.' + feature, '=', '1');
-      }
-    }
-  }
+  SRD35.featureListRules
+    (rules, features, prefix + 'Features', null, 'levels.' + name);
 
   for(var i = 0; i < selectables.length; i++) {
     var matchInfo = selectables[i].match(/^((\d+):)?(.*)$/);
@@ -5270,22 +5255,9 @@ SRD35.domainRules = function(rules, name, features, spells, spellDict) {
     return;
   }
 
-  for(var i = 0; i < features.length; i++) {
-    var matchInfo = features[i].match(/^((\d+):)?(.*)$/);
-    var feature = matchInfo ? matchInfo[3] : features[i];
-    var level = matchInfo ? matchInfo[2] : 1;
-    if(level == 1)
-      rules.defineRule('clericFeatures.' + feature,
-        'selectableFeatures.Cleric - ' + name + ' Domain', '=', '1'
-      );
-    else
-      rules.defineRule('clericFeatures.' + feature,
-        'selectableFeatures.Cleric - ' + name + ' Domain', '?', '1',
-        'levels.Cleric', '=', 'source >= ' + level + ' ? 1 : null'
-      );
-    rules.defineRule
-      ('features.' + feature, 'clericFeatures.' + feature, '=', '1');
-  }
+  SRD35.featureListRules
+    (rules, features, 'clericFeatures',
+     'selectableFeatures.Cleric - ' + name + ' Domain', 'levels.Cleric');
 
   for(var level = 1; level <= spells.length; level++) {
     var spellName = spells[level - 1];
@@ -5767,19 +5739,8 @@ SRD35.raceRules = function(
   rules.defineRule
     (raceAttr, 'race', '=', 'source == "' + name + '" ? 1 : null');
 
-  for(var i = 0; i < features.length; i++) {
-    var feature = features[i];
-    var raceFeature = prefix + 'Features.' + feature;
-    rules.defineRule(raceFeature, raceAttr, '=', '1');
-    rules.defineRule('features.' + feature, raceFeature, '=', '1');
-    if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
-      // Set individual features for each weapon on the list.
-      var weapons = matchInfo[2].split('/');
-      for(var j = 0; j < weapons.length; j++) {
-        rules.defineRule('features.Weapon ' + matchInfo[1] + ' (' + weapons[j] + ')', 'features.' + feature, '=', '1');
-      }
-    }
-  }
+  SRD35.featureListRules
+    (rules, features, prefix + 'Features', raceAttr, 'level');
 
   if(languages.length > 0)
     rules.defineRule('languageCount', raceAttr, '+', languages.length);
@@ -7521,6 +7482,44 @@ SRD35.ruleNotes = function() {
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n';
+};
+
+/*
+ * Defines in #rules# the rules associated with with the list #features#. Rules
+ * add each feature to #setName# if the value of #levelAttr# is at least equal
+ * to the value required for the feature. #filterAttr# is optional, if provided,
+ * features are only added the the set if the value of the attr is true.
+ */
+SRD35.featureListRules = function(
+  rules, features, setName, filterAttr, levelAttr
+) {
+  for(var i = 0; i < features.length; i++) {
+    var matchInfo = features[i].match(/^(\d+):(.*)$/);
+    var feature = matchInfo ? matchInfo[2] : features[i];
+    var level = matchInfo ? matchInfo[1] * 1 : 1;
+    console.log('Feature = "' + feature + '"');
+    console.log('level = ' + level);
+    if(filterAttr)
+      rules.defineRule
+        (setName + '.' + feature, filterAttr, level == 1 ? '=' : '?', '1');
+    if(level > 1)
+      rules.defineRule(setName + '.' + feature,
+        levelAttr, '=', 'source >= ' + level + ' ? 1 : null'
+      );
+    else if(!filterAttr)
+      rules.defineRule(setName + '.' + feature, levelAttr, '=', '1');
+    rules.defineRule
+      ('features.' + feature, setName + '.' + feature, '+=', null);
+    if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
+      // Set individual features for each weapon on the list.
+      var weapons = matchInfo[2].split('/');
+      for(var j = 0; j < weapons.length; j++) {
+        rules.defineRule('features.Weapon '+matchInfo[1]+' ('+weapons[j]+')',
+          'features.' + feature, '=', '1'
+        );
+      }
+    }
+  }
 };
 
 /*
