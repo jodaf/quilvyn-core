@@ -4155,6 +4155,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   else if(type == 'Race')
     SRD35.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
       QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
       QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
@@ -5713,12 +5714,13 @@ SRD35.languageRules = function(rules, name) {
 };
 
 /*
- * Defines in #rules# the rules associated with race #name#. #features# lists
- * associated features and #languages# the automatic languages. #spells# lists
- * any natural spells, for which #spellAbility# is used to compute the save DC.
+ * Defines in #rules# the rules associated with race #name#. #features# and
+ * #selectables# list associated features and #languages# the automatic
+ * languages. #spells# lists any natural spells, for which #spellAbility# is
+ * used to compute the save DC.
  */
 SRD35.raceRules = function(
-  rules, name, features, languages, spellAbility, spells, spellDict
+  rules, name, features, selectables, languages, spellAbility, spells, spellDict
 ) {
 
   if(!name) {
@@ -5741,6 +5743,21 @@ SRD35.raceRules = function(
 
   SRD35.featureListRules
     (rules, features, prefix + 'Features', raceAttr, 'level');
+
+  for(var i = 0; i < selectables.length; i++) {
+    var matchInfo = selectables[i].match(/^((\d+):)?(.*)$/);
+    var feature = matchInfo ? matchInfo[3] : selectables[i];
+    var level = matchInfo ? matchInfo[2] : 1;
+    var choice = name + ' - ' + feature;
+    rules.defineChoice('selectableFeatures', choice + ':' + name);
+    rules.defineRule(prefix + 'Features.' + feature,
+      'selectableFeatures.' + choice, '+=', null
+    );
+    rules.defineRule('features.' + feature,
+      'selectableFeatures.' + choice, '+=', null
+    );
+    SRD35.testRules(rules, 'validation', prefix + ' - ' + feature.replace(/ /g, '') + 'Feature', 'selectableFeatures.' + choice, [raceAttr + ' >= 1']);
+  }
 
   if(languages.length > 0)
     rules.defineRule('languageCount', raceAttr, '+', languages.length);
