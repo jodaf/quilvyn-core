@@ -217,7 +217,7 @@ SRD35Prestige.CLASSES = {
   'Loremaster':
     'Require=' +
       '"Sum /^features.Skill Focus .Knowledge/ >= 1",' +
-      '"Sum /^spells.*Divi/ >= 7",'"Sum /^spells.*3 Divi/ >= 1" ' +
+      '"Sum /^spells.*Divi/ >= 7","Sum /^spells.*3 Divi/ >= 1" ' +
       // TODO 2 skills.Knowledge >= 10,3 Item Creation/Metamagic feats
     'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
@@ -419,7 +419,7 @@ SRD35Prestige.FEATURES = {
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
 SRD35Prestige.identityRules = function(rules, classes) {
   for(var klass in classes) {
-    rules.choiceRules(rules, 'levels', klass, classes[klass]);
+    rules.choiceRules(rules, 'Class', klass, classes[klass]);
     SRD35Prestige.classRulesExtra(rules, klass);
   }
 };
@@ -429,7 +429,7 @@ SRD35Prestige.identityRules = function(rules, classes) {
  */
 SRD35Prestige.talentRules = function(rules, features) {
   for(var feature in features) {
-    rules.choiceRules(rules, 'features', feature, features[feature]);
+    rules.choiceRules(rules, 'Feature', feature, features[feature]);
   }
 };
 
@@ -634,12 +634,12 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'levels.Blackguard', '=', 'source < 5 ? null : source',
     );
     // Add fiendish servants choices not in the standard animal companion list
-    rules.choiceRules(rules, 'animalCompanions', 'Bat', SRD35.FAMILIARS['Bat']);
-    rules.choiceRules(rules, 'animalCompanions', 'Cat', SRD35.FAMILIARS['Cat']);
+    rules.choiceRules(rules, 'Animal Companion', 'Bat', SRD35.FAMILIARS['Bat']);
+    rules.choiceRules(rules, 'Animal Companion', 'Cat', SRD35.FAMILIARS['Cat']);
     rules.choiceRules
-      (rules, 'animalCompanions', 'Raven', SRD35.FAMILIARS['Raven']);
+      (rules, 'Animal Companion', 'Raven', SRD35.FAMILIARS['Raven']);
     rules.choiceRules
-      (rules, 'animalCompanions', 'Toad', SRD35.FAMILIARS['Toad']);
+      (rules, 'Animal Companion', 'Toad', SRD35.FAMILIARS['Toad']);
 
   } else if(name == 'Dragon Disciple') {
 

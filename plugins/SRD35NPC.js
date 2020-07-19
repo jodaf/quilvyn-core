@@ -103,7 +103,7 @@ SRD35NPC.FEATURES = {
 SRD35NPC.identityRules = function(rules, classes) {
   for(var klass in classes) {
     var attrs = classes[klass];
-    rules.choiceRules(rules, 'levels', klass, classes[klass]);
+    rules.choiceRules(rules, 'Class', klass, classes[klass]);
     SRD35NPC.classRules(rules, klass);
   }
 };
@@ -118,6 +118,6 @@ SRD35NPC.classRules = function(rules, name) {
 /* Defines the rules related to SRDv3.5 NPC Features. */
 SRD35NPC.talentRules = function(rules, features) {
   for(var feature in features) {
-    rules.choiceRules(rules, 'features', feature, features[feature]);
+    rules.choiceRules(rules, 'Feature', feature, features[feature]);
   }
 };
