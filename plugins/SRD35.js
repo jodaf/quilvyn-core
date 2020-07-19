@@ -4161,7 +4161,9 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       SRD35.SPELLS
     );
   else if(type == 'School')
-    SRD35.schoolRules(rules, name);
+    SRD35.schoolRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Features')
+    );
   else if(type == 'Shield')
     SRD35.shieldRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'AC'),
@@ -4446,7 +4448,6 @@ SRD35.classRules = function(
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
-
   if(languages.length > 0)
     rules.defineRule('languageCount', 'levels.' + name, '+', languages.length);
 
@@ -4659,12 +4660,12 @@ SRD35.classRulesExtra = function(rules, name) {
       'turningLevel', '=', null,
       'charismaModifier', '+', null
     );
-    rules.defineRule('combatNotes.turnUndead.3',
-      'turningLevel', '=', '3',
-      'charismaModifier', '+', null
-    );
     rules.defineRule('combatNotes.turnUndead.2',
       'turningLevel', '=', 'source * 3 - 10',
+      'charismaModifier', '+', null
+    );
+    rules.defineRule('combatNotes.turnUndead.3',
+      'turningLevel', '=', '3',
       'charismaModifier', '+', null
     );
     for(var domain in rules.getChoices('domains')) {
@@ -5859,15 +5860,42 @@ SRD35.raceRules = function(
 
 };
 
-/* Defines in #rules# the rules associated with magic school #name#. */
-SRD35.schoolRules = function(rules, name) {
+/*
+ * Defines in #rules# the rules associated with magic school #name#, which
+ * grants the list of #features#.
+ */
+SRD35.schoolRules = function(rules, name, features) {
+
   if(!name) {
     console.log('Empty school name');
     return;
   }
-  if(name == 'Universal')
-    return;
-  rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
+
+  var schoolLevelAttr = 'schoolLevel.' + name;
+
+  for(var i = 0; i < features.length; i++) {
+    var matchInfo = features[i].match(/^((\d+):)?(.*)$/);
+    var feature = matchInfo ? matchInfo[3] : features[i];
+    var level = matchInfo ? matchInfo[2] : 1;
+    if(level == 1)
+      rules.defineRule
+        ('wizardFeatures.' + feature, schoolLevelAttr, '=', '1');
+    else
+      rules.defineRule('wizardFeatures.' + feature,
+        schoolLevelAttr, '=', 'source >= ' + level + ' ? 1 : null'
+      );
+    rules.defineRule
+      ('features.' + feature, 'wizardFeatures.' + feature, '+=', null);
+  }
+
+  if(name != 'Universal') {
+    rules.defineRule(schoolLevelAttr,
+      'features.School Specialization (' + name + ')', '?', null,
+      'levels.Wizard', '=', null
+    );
+    rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
+  }
+
 };
 
 /*
