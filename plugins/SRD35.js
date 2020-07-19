@@ -7497,8 +7497,6 @@ SRD35.featureListRules = function(
     var matchInfo = features[i].match(/^(\d+):(.*)$/);
     var feature = matchInfo ? matchInfo[2] : features[i];
     var level = matchInfo ? matchInfo[1] * 1 : 1;
-    console.log('Feature = "' + feature + '"');
-    console.log('level = ' + level);
     if(filterAttr)
       rules.defineRule
         (setName + '.' + feature, filterAttr, level == 1 ? '=' : '?', '1');
