@@ -672,10 +672,10 @@ SRD35.FEATURES = {
   // Domains
   'Air Turning':'combat:Turn Earth, rebuke Air',
   'All-Knowing':'skill:All Knowledge is a class skill',
-  'Animal Talk':'magic:<i>Speak With Animals</i> 1/day',
+  'Animal Talk':'magic:<i>Speak With Animals</i> 1/dy',
   'Arcane Adept':'magic:Use magic device as W%V',
   'Deadly Touch':'magic:Touch kills if %Vd6 ge target HP 1/dy',
-  'Destroy Undead':'combat:Destroy turned undead 1/day',
+  'Destroy Undead':'combat:Destroy turned undead 1/dy',
   'Deceptive Knowledge':'skill:' +
     'Bluff is a class skill/Disguise is a class skill/Hide is a class skill',
   'Earth Turning':'combat:Turn Air, rebuke Earth',
@@ -686,14 +686,14 @@ SRD35.FEATURES = {
   'Empowered Knowledge':'magic:+1 caster level Divination spells',
   'Empowered Law':'magic:+1 caster level Law spells',
   'Fire Turning':'combat:Turn Water, rebuke Fire',
-  'Good Fortune':'save:Reroll 1/day',
+  'Good Fortune':'save:Reroll 1/dy',
   'Nature Knowledge':'skill:Knowledge (Nature) is a class skill',
   'Outdoors Knowledge':'skill:Survival is a class skill',
   'Plant Turning':'combat:Turn Plant, rebuke Plant',
-  'Protective Touch':'magic:Touched +%V bonus to next save w/in 1 hour 1/day',
-  'Smite':'combat:+4 attack, +%V damage 1/day',
+  'Protective Touch':'magic:Touched +%V bonus to next save w/in 1 hour 1/dy',
+  'Smite':'combat:+4 attack, +%V damage 1/dy',
   'Strength Burst':'ability:+%V Strength 1 rd/dy',
-  'Unhindered':'magic:<i>Freedom Of Movement</i> %V rd/day',
+  'Unhindered':'magic:<i>Freedom Of Movement</i> %V rd/dy',
   'Water Turning':'combat:Turn Fire, rebuke Water',
   'Weapon Of War':'feature:Weapon Proficiency (%V)/Weapon Focus (%V)',
   // Feats
@@ -809,7 +809,7 @@ SRD35.FEATURES = {
   'Spring Attack':'combat:Move before, after melee attack',
   'Stealthy':'skill:+2 Hide/+2 Move Silently',
   'Still Spell':'magic:Cast spell w/out movement uses +1 spell slot',
-  'Stunning Fist':'combat:Foe %V Fortitude save or stunned %1/day',
+  'Stunning Fist':'combat:Foe stunned %1/dy (DC %V Fort neg)',
   'Toughness':'combat:+3 HP',
   'Track':"skill:Survival to follow creatures' trail",
   'Trample':'combat:Mounted overrun unavoidable, bonus hoof attack',
@@ -820,7 +820,7 @@ SRD35.FEATURES = {
   'Whirlwind Attack':'combat:Attack all foes w/in reach',
   'Widen Spell':'magic:x2 area of affect uses +3 spell slot',
   // Classes
-  'Abundant Step':'magic:<i>Dimension Door</i> 1/day',
+  'Abundant Step':'magic:<i>Dimension Door</i> 1/dy',
   'Adamantine Ki Strike':'combat:Treat unarmed as adamantine weapon',
   'Animal Companion':'feature:Special bond/abilities',
   'Aura':
@@ -828,7 +828,7 @@ SRD35.FEATURES = {
   'Aura Of Courage':"save:Immune fear, +4 to allies w/in 30'",
   'Bardic Knowledge':
     'skill:+%V check for knowledge of notable people, items, places',
-  'Bardic Music':"feature:Bardic music effect %V/day",
+  'Bardic Music':"feature:Bardic music effect %V/dy",
   'Camouflage':'skill:Hide in any natural terrain',
   'Countersong':"magic:Perform check vs. sonic magic w/in 30' 10 rd",
   'Crippling Strike':'combat:2 points strength damage from sneak attack',
@@ -840,13 +840,13 @@ SRD35.FEATURES = {
   'Diamond Soul':'save:DC %V spell resistance',
   'Divine Grace':'save:+%V Fortitude/+%V Reflex/+%V Will',
   'Divine Health':'save:Immune to disease',
-  'Elemental Shape':'magic:Wild Shape to elemental %V/day',
-  'Empty Body':'magic:<i>Etherealness</i> %V rd/day',
+  'Elemental Shape':'magic:Wild Shape to elemental %V/dy',
+  'Empty Body':'magic:<i>Etherealness</i> %V rd/dy',
   'Endurance':'save:+4 extended physical action',
   'Evasion':'save:Reflex save yields no damage instead of half',
   'Familiar':'feature:Special bond/abilities',
-  'Fascinate':"magic:Hold %V creatures w/in 90' spellbound %1 rd (Will neg)",
-  'Fast Movement':"ability:+%V speed",
+  'Fascinate':"magic:R90' Hold %V creatures spellbound %1 rd (Will neg)",
+  'Fast Movement':"ability:+10 Speed",
   'Favored Enemy':[
     'combat:+2 or more damage vs. %V type(s) of creatures',
     'skill:+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V type(s) of creatures',
@@ -865,8 +865,7 @@ SRD35.FEATURES = {
   'Improved Uncanny Dodge':
     'combat:Cannot be flanked, sneak attack only by rogue level %V+',
   'Indomitable Will':'save:+4 enchantment resistance during rage',
-  // Variable bonus for Pathfinder
-  'Inspire Competence':'magic:+%V allies skill checks while performing',
+  'Inspire Competence':'magic:+2 allies skill checks while performing',
   'Inspire Courage':
     'magic:+%V allies attack, damage, charm, fear saves while performing',
   'Inspire Greatness':
@@ -874,7 +873,7 @@ SRD35.FEATURES = {
   'Inspire Heroics':'magic:%V allies +4 AC and saves while performing',
   'Ki Strike':'combat:Treat unarmed as magic weapon',
   'Lawful Ki Strike':'combat:Treat unarmed as lawful weapon',
-  'Lay On Hands':'magic:Harm undead or heal %V HP/day',
+  'Lay On Hands':'magic:Harm undead or heal %V HP/dy',
   'Manyshot':'combat:Fire up to %V arrows simultaneously at -2 attack',
   'Mass Suggestion':
     'magic:<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
@@ -887,8 +886,8 @@ SRD35.FEATURES = {
     'save:Treat as outsider for magic saves',
   ],
   'Purity Of Body':'save:Immune to normal disease',
-  'Quivering Palm':'combat:Foe makes DC %V Fortitude save or dies 1/week',
-  'Rage':'combat:+4 Str, +4 Con, +2 Will, -2 AC %V rd %1/day',
+  'Quivering Palm':'combat:Foe dies 1/wk (DC %V Fort neg)',
+  'Rage':'combat:+4 Str, +4 Con, +2 Will, -2 AC %V rd %1/dy',
   'Rapid Shot':'combat:Normal and extra ranged -2 attacks',
   'Remove Disease':'magic:<i>Remove Disease</i> %V/week',
   "Resist Nature's Lure":'save:+4 vs. spells of feys',
@@ -908,42 +907,42 @@ SRD35.FEATURES = {
   'School Opposition (Transmutation)':
     'magic:Cannot learn or cast Transmutation spells',
   'School Specialization (Abjuration)':[
-    'magic:Extra Abjuration spell/day each spell level',
+    'magic:Extra Abjuration spell/dy each spell level',
     'skill:+2 Spellcraft (Abjuration effects)',
   ],
   'School Specialization (Conjuration)':[
-    'magic:Extra Abjuration spell/day each spell level',
+    'magic:Extra Abjuration spell/dy each spell level',
     'skill:+2 Spellcraft (Abjuration effects)',
   ],
   'School Specialization (Divination)':[
-    'magic:Extra Divination spell/day each spell level',
+    'magic:Extra Divination spell/dy each spell level',
     'skill:+2 Spellcraft (Divination effects)',
   ],
   'School Specialization (Enchantment)':[
-    'magic:Extra Enchantment spell/day each spell level',
+    'magic:Extra Enchantment spell/dy each spell level',
     'skill:+2 Spellcraft (Enchantment effects)',
   ],
   'School Specialization (Evocation)':[
-    'magic:Extra Evocation spell/day each spell level',
+    'magic:Extra Evocation spell/dy each spell level',
     'skill:+2 Spellcraft (Evocation effects)',
   ],
   'School Specialization (Illusion)':[
-    'magic:Extra Illusion spell/day each spell level',
+    'magic:Extra Illusion spell/dy each spell level',
     'skill:+2 Spellcraft (Illusion effects)',
   ],
   'School Specialization (Necromancy)':[
-    'magic:Extra Necromancy spell/day each spell level',
+    'magic:Extra Necromancy spell/dy each spell level',
     'skill:+2 Spellcraft (Necromancy effects)',
   ],
   'School Specialization (Transmutation)':[
-    'magic:Extra Transmutation spell/day each spell level',
+    'magic:Extra Transmutation spell/dy each spell level',
     'skill:+2 Spellcraft (Transmutation effects)',
   ],
   'Simple Somatics':'magic:No casting penalty in light armor',
   'Skill Mastery':'skill:Take 10 despite distraction on %V chosen skills',
   'Slippery Mind':'save:Second save vs. enchantment',
   'Slow Fall':"save:Subtract %V' from falling damage distance",
-  'Smite Evil':'combat:+%V attack/+%1 damage vs. evil foe %2/day',
+  'Smite Evil':'combat:+%V attack/+%1 damage vs. evil foe %2/dy',
   'Sneak Attack':'combat:%Vd6 HP extra when surprising or flanking',
   'Song Of Freedom':'magic:<i>Break Enchantment</i> through performing',
   'Special Mount':'feature:Magical mount w/special abilities',
@@ -964,13 +963,14 @@ SRD35.FEATURES = {
   'Trap Sense':'save:+%V Reflex and AC vs. traps',
   'Trapfinding':'skill:Use Search/Disable Device to find/remove DC 20+ traps',
   'Turn Undead':
-    'combat:Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/day',
+    'combat:Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy',
   'Two-Weapon Fighting':'combat:Reduce on-hand penalty by 2, off-hand by 6',
+  'Unarmed Speed Bonus':"ability:+%V Speed",
   'Uncanny Dodge':'combat:Always adds dexterity modifier to AC',
   'Venom Immunity':'save:Immune to poisons',
-  'Wholeness Of Body':'magic:Heal %V HP to self/day',
+  'Wholeness Of Body':'magic:Heal %V HP to self/dy',
   'Wild Empathy':'skill:+%V Diplomacy (animals)',
-  'Wild Shape':'magic:Change into creature of size %V %1 hours %2/day',
+  'Wild Shape':'magic:Change into creature of size %V %1 hours %2/dy',
   'Woodland Stride':'feature:Normal movement through undergrowth',
   // Races
   'Accurate':'combat:+1 attack with slings and thrown',
@@ -1023,9 +1023,9 @@ SRD35.FEATURES = {
   'Tolerance':'skill:+2 Diplomacy/+2 Gather Information',
   // Animal companions and familiars
   'Celestial Familiar':
-    "companion:Smite Evil (+%V HP) 1/day, 60' darkvision, %1 acid/cold/electricity resistance, DR %2/magic",
+    "companion:Smite Evil (+%V HP) 1/dy, 60' darkvision, %1 acid/cold/electricity resistance, DR %2/magic",
   'Command Like Creatures':
-    'companion:DC %V <i>Command</i> vs. similar creatures %1/day',
+    'companion:DC %V <i>Command</i> vs. similar creatures %1/dy',
   'Companion Alertness':'skill:+2 Listen and Spot when companion w/in reach',
   'Companion Evasion':'companion:Reflex save yields no damage instead of half',
   'Companion Improved Evasion':'companion:Failed save yields half damage',
@@ -1044,12 +1044,12 @@ SRD35.FEATURES = {
   'Familiar Toad':'combat:+3 Hit Points',
   'Familiar Weasel':'save:+2 Reflex',
   'Fiendish Familiar':
-    "companion:Smite Good (+%V HP) 1/day, 60' darkvision, %1 cold/fire resistance, DR %2/magic",
-  'Improved Speed':'companion:+10 companion speed',
+    "companion:Smite Good (+%V HP) 1/dy, 60' darkvision, %1 cold/fire resistance, DR %2/magic",
+  'Improved Speed':'companion:+10 companion Speed',
   'Link':'skill:+4 Handle Animal (companion)/Wild Empathy (companion)',
   'Multiattack':
     'companion:Reduce additional attack penalty to -2 or second attack at -5',
-  'Scry':'companion:Master views companion 1/day',
+  'Scry':'companion:Master views companion 1/dy',
   'Share Saving Throws':'companion:+%1 Fort/+%2 Ref/+%3 Will',
   'Share Spells':"companion:Master share self spell w/companion w/in 5'",
   'Speak With Like Animals':'companion:Talk w/similar creatures',
@@ -2130,7 +2130,7 @@ SRD35.SPELLS = {
     'Description="Creatures w/in 10\' of touched invisible for $L min/until attacks/leave area"',
   'Iron Body':
     'School=Transmutation ' +
-    'Description="Become iron (+6 Str/-6 Dex, half speed, 35% arcane failure, -6 skill, DR 15/adamantine, half damage acid and fire, immune other attacks and effects) for $L min"',
+    'Description="Become iron (+6 Str/-6 Dex, half Speed, 35% arcane failure, -6 skill, DR 15/adamantine, half damage acid and fire, immune other attacks and effects) for $L min"',
   'Ironwood':
     'School=Transmutation ' +
     'Description="Make a wood object as strong as steel"',
@@ -2178,7 +2178,7 @@ SRD35.SPELLS = {
     'Description="R$RL\' Sense direction of object/type for $L min"',
   'Longstrider':
     'School=Transmutation ' +
-    'Description="Self +10 speed for $L hr"',
+    'Description="Self +10 Speed for $L hr"',
   'Lullaby':
     'School=Enchantment ' +
     'Description="R$RM\' Targets in 10\' radius -5 Perception/-2 Will saves vs. sleep for conc + $L rd (Will neg)"',
@@ -2710,7 +2710,7 @@ SRD35.SPELLS = {
     'Description="R$RL\' Blinding sleet in 40\' area, creatures DC 10 Acrobatics to move for $L rd"',
   'Slow':
     'School=Transmutation ' +
-    'Description="R$RS\' $L creatures single action per rd/-1 AC/attack/Ref/half speed for $L rd (Will neg)"',
+    'Description="R$RS\' $L creatures single action per rd/-1 AC/attack/Ref/half Speed for $L rd (Will neg)"',
   'Snare':
     'School=Transmutation ' +
     'Description="Touched vine/thong/rope becomes permanent DC 23 trap"',
@@ -2719,7 +2719,7 @@ SRD35.SPELLS = {
     'Description="R$RS\' $L 10\'x4\' squares of wet earth/dry earth/natural stone becomes mud/sand/clay"',
   'Solid Fog':
     'School=Conjuration ' +
-    'Description="R$RM\' 20\'-radius fog obscures vision and half speed/-2 damage/attack for $L min"',
+    'Description="R$RM\' 20\'-radius fog obscures vision and half Speed/-2 damage/attack for $L min"',
   'Song Of Discord':
     'School=Enchantment ' +
     'Description="R$RM\' Creatures in 20\' radius 50% chance each rd to attack neighbor for $L rd (Will neg)"',
@@ -3396,7 +3396,7 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
       '"1:Flurry Of Blows","1:Improved Unarmed Strike",' +
-      '"1:Monk Armor Class Adjustment",2:Evasion,"3:Fast Movement",' +
+      '"1:Monk Armor Class Adjustment",2:Evasion,"3:Unarmed Speed Bonus",' +
       '"3:Still Mind","4:Ki Strike","4:Slow Fall","5:Purity Of Body",' +
       '"7:Wholeness Of Body","9:Improved Evasion","10:Lawful Ki Strike",' +
       '"11:Diamond Body","11:Greater Flurry","12:Abundant Step",' +
@@ -4152,7 +4152,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.genderRules(rules, name);
   else if(type == 'Language')
     SRD35.languageRules(rules, name);
-  else if(type == 'Race')
+  else if(type == 'Race') {
     SRD35.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
       QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
@@ -4161,7 +4161,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
       SRD35.SPELLS
     );
-  else if(type == 'School')
+    SRD35.raceRulesExtra(rules, name);
+  } else if(type == 'School')
     SRD35.schoolRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features')
     );
@@ -4538,17 +4539,15 @@ SRD35.classRulesExtra = function(rules, name) {
 
   if(name == 'Barbarian') {
 
-    rules.defineRule
-      ('abilityNotes.fastMovement', 'levels.Barbarian', '+=', '10');
     rules.defineRule('barbarianFeatures.Improved Uncanny Dodge',
       'barbarianFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
     );
     rules.defineRule('combatNotes.damageReduction',
-      'levels.Barbarian', '+=', 'source>=7 ? Math.floor((source-4)/3) : null'
+      'levels.Barbarian', '+=', 'Math.floor((source - 4) / 3)'
     );
     rules.defineRule('combatNotes.improvedUncannyDodge',
-      'levels.Barbarian', '+=', 'source >= 2 ? source : null',
+      'levels.Barbarian', '+=', null,
       '', '+', '4'
     );
     rules.defineRule('combatNotes.rage',
@@ -4557,22 +4556,21 @@ SRD35.classRulesExtra = function(rules, name) {
       'features.Mighty Rage', '+', '1'
     );
     rules.defineRule('combatNotes.rage.1',
+      'features.Rage', '?', null,
       'levels.Barbarian', '+=', '1 + Math.floor(source / 4)'
     );
     rules.defineRule('saveNotes.trapSense',
-      'levels.Barbarian', '+=', 'source >= 3 ? Math.floor(source / 3) : null'
+      'levels.Barbarian', '+=', 'Math.floor(source / 3)'
     );
     rules.defineRule('skillModifier.Speak Language',
       'skillNotes.illiteracy', '+', '-2'
     );
-    rules.defineRule('uncannyDodgeSources',
-      'levels.Barbarian', '+=', 'source >= 2 ? 1 : null'
-    );
+    rules.defineRule
+      ('uncannyDodgeSources', 'barbarianFeatures.Uncanny Dodge', '+=', '1');
 
   } else if(name == 'Bard') {
 
-    rules.defineRule
-      ('featureNotes.bardicMusic', 'levels.Bard', '=', null);
+    rules.defineRule('featureNotes.bardicMusic', 'levels.Bard', '=', null);
     rules.defineRule('bardFeatures.Countersong',
       'maxPerformRanks', '?', 'source >= 3'
     );
@@ -4606,22 +4604,22 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.fascinate',
       'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
     );
-    rules.defineRule
-      ('magicNotes.fascinate.1', 'levels.Bard', '+=', null);
-    rules.defineRule('magicNotes.inspireCompetence', 'levels.Bard', '+=', '2');
+    rules.defineRule('magicNotes.fascinate.1', 'levels.Bard', '+=', null);
     rules.defineRule('magicNotes.inspireCourage',
-      'levels.Bard', '+=', 'source >= 8 ? Math.floor((source + 4) / 6) : 1'
+      'levels.Bard', '+=', 'Math.max(Math.floor((source + 4) / 6, 1))'
     );
     rules.defineRule('magicNotes.inspireGreatness',
-      'levels.Bard', '+=', 'source >= 9 ? Math.floor((source - 6) / 3) : null'
+      'levels.Bard', '+=', 'Math.floor((source - 6) / 3)'
     );
     rules.defineRule('magicNotes.inspireHeroics',
-      'levels.Bard', '+=', 'source >= 18 ? Math.floor((source - 15) / 3) : null'
+      'levels.Bard', '+=', 'Math.floor((source - 15) / 3)'
     );
     rules.defineRule('magicNotes.massSuggestion',
       'levels.Bard', '=', '10 + Math.floor(source / 2)',
       'charismaModifier', '+', null
     );
+    // Compute in simpeSomatics.1 so that note will show even if character is
+    // wearing heavy armor
     rules.defineRule('magicNotes.simpleSomatics.1',
       'magicNotes.simpleSomatics', '?', null,
       'armorWeight', '=', 'source <= 1 ? 1 : null'
@@ -4660,15 +4658,14 @@ SRD35.classRulesExtra = function(rules, name) {
       rules.defineChoice
         ('notes', note + ':Requires Deity Domains =~ /' + domain + '/');
       rules.defineRule(note,
-        'selectableFeatures.Cleric - ' + domain + ' Domain', '=', '1',
-        'deityDomains', '+', 'source.indexOf("' + domain + '") >= 0 ? -1 : null'
+        'selectableFeatures.Cleric - ' + domain + ' Domain', '=', '-1',
+        'deityDomains', '+', 'source.indexOf("' + domain + '") >= 0 ? 1 : null'
       );
     }
 
   } else if(name == 'Druid') {
 
-    rules.defineRule
-      ('companionMasterLevel', 'levels.Druid', '+=', null);
+    rules.defineRule('companionMasterLevel', 'levels.Druid', '+=', null);
     rules.defineRule('magicNotes.elementalShape',
       'levels.Druid', '=', 'source < 16 ? null : Math.floor((source-14) / 2)'
     );
@@ -4680,8 +4677,7 @@ SRD35.classRulesExtra = function(rules, name) {
         'source == 11 ? "tiny-large" : ' +
         'source < 15 ? "tiny-large/plant" : "tiny-huge/plant"'
     );
-    rules.defineRule
-      ('magicNotes.wildShape.1', 'levels.Druid', '=', null);
+    rules.defineRule('magicNotes.wildShape.1', 'levels.Druid', '=', null);
     rules.defineRule('magicNotes.wildShape.2',
       'levels.Druid', '=',
          'source < 5 ? null : ' +
@@ -4704,7 +4700,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Monk') {
 
-    rules.defineRule('abilityNotes.fastMovement',
+    rules.defineRule('abilityNotes.monkMovement',
       'levels.Monk', '+=', '10 * Math.floor(source / 3)'
     );
     rules.defineRule('casterLevels.Dimension Door',
@@ -4728,17 +4724,20 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Monk', '+=', '10 + Math.floor(source / 2)',
       'wisdomModifier', '+', null
     );
+    rules.defineRule('combatNotes.stunningFist',
+      'level', '=', '10 + Math.floor(source / 2)',
+      'wisdomModifier', '+', null
+    );
     rules.defineRule('combatNotes.stunningFist.1',
       'levels.Monk', '+=', 'source - Math.floor(source / 4)'
     );
     rules.defineRule('magicNotes.emptyBody', 'levels.Monk', '+=', null);
     rules.defineRule
-      ('magicNotes.wholenessOfBody', 'levels.Monk', '+=', '2*source');
+      ('magicNotes.wholenessOfBody', 'levels.Monk', '+=', '2 * source');
     rules.defineRule
       ('saveNotes.diamondSoul', 'levels.Monk', '+=', '10 + source');
     rules.defineRule('saveNotes.slowFall',
-      'levels.Monk', '=',
-      'source < 4 ? null : source < 20 ? Math.floor(source / 2) * 10 : "all"'
+      'levels.Monk', '=', 'source < 20 ? Math.floor(source / 2) * 10 : "all"'
     );
     rules.defineRule('selectableFeatureCount.Monk',
       'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
@@ -4759,11 +4758,9 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Paladin') {
 
-    rules.defineRule('combatNotes.smiteEvil',
-      'charismaModifier', '=', 'source > 0 ? source : 0'
-    );
     rules.defineRule
-      ('combatNotes.smiteEvil.1', 'levels.Paladin', '=', null);
+      ('combatNotes.smiteEvil', 'charismaModifier', '=', 'Math.max(source, 0)');
+    rules.defineRule('combatNotes.smiteEvil.1', 'levels.Paladin', '=', null);
     rules.defineRule('combatNotes.smiteEvil.2',
       'levels.Paladin', '=', '1 + Math.floor(source / 5)'
     );
@@ -4827,10 +4824,8 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.sneakAttack',
       'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
     );
-    rules.defineRule
-      ('featCount.General', 'features.Feat Bonus', '+=', 'null');
     rules.defineRule('saveNotes.trapSense',
-      'levels.Rogue', '+=', 'source >= 3 ? Math.floor(source / 3) : null'
+      'levels.Rogue', '+=', 'Math.floor(source / 3)'
     );
     rules.defineRule('selectableFeatureCount.Rogue',
       'levels.Rogue', '+=', 'source>=10 ? Math.floor((source-7)/3) : null'
@@ -4844,12 +4839,11 @@ SRD35.classRulesExtra = function(rules, name) {
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
     );
     rules.defineRule('combatNotes.improvedUncannyDodge',
-      'levels.Rogue', '+=', 'source >= 4 ? source : null',
+      'levels.Rogue', '+=', null,
       '', '+', '4'
     );
-    rules.defineRule('uncannyDodgeSources',
-      'levels.Rogue', '+=', 'source >= 4 ? 1 : null'
-    );
+    rules.defineRule
+      ('uncannyDodgeSources', 'rogueFeatures.Uncanny Dodge', '+=', '1');
 
   } else if(name == 'Sorcerer') {
 
@@ -5287,8 +5281,7 @@ SRD35.domainRules = function(rules, name, features, spells, spellDict) {
 SRD35.domainRulesExtra = function(rules, name) {
 
   if(name == 'Death') {
-    rules.defineRule
-      ('magicNotes.deadlyTouch', 'levels.Cleric', '=', null);
+    rules.defineRule('magicNotes.deadlyTouch', 'levels.Cleric', '=', null);
   } else if(name == 'Destruction') {
     rules.defineRule('combatNotes.smite', 'levels.Cleric', '=', null);
   } else if(name == 'Magic') {
@@ -5544,9 +5537,6 @@ SRD35.featRulesExtra = function(rules, name) {
     var weapon = matchInfo[1];
     SRD35.featureRules(rules, name, 'combat:x2 critical threat range');
     rules.defineRule('threat.' + weapon, 'combatNotes.improvedCritical(' + weapon.replace(/ /g, '') + ')', '*', '2');
-  } else if(name == 'Improved Turning') {
-    rules.defineRule
-      (/^turn.*\.level$/, 'combatNotes.improvedTurning', '+', '1');
   } else if(name == 'Manyshot') {
     rules.defineRule('combatNotes.manyshot',
       'baseAttack', '=', 'Math.floor((source + 9) / 5)'
@@ -5642,8 +5632,6 @@ SRD35.featureRules = function(rules, name, notes) {
           adjusted = 'featCount.' + (matchInfo[2] ? matchInfo[2] : 'General');
         } else if(adjusted == 'HP') {
           adjusted = 'hitPoints';
-        } else if(adjusted == 'Skill Points') {
-          adjusted = 'skillPoints';
         } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
           adjusted = 'spellDCSchoolBonus.' + adjusted.replace('Spell DC (', '').replace(')', '');
         } else if(adjusted == 'Turnings') {
@@ -5686,12 +5674,6 @@ SRD35.featureRules = function(rules, name, notes) {
     }
 
   }
-
-  // TODO generalize
-  if(name == 'Dwarf Armor Speed Adjustment')
-    rules.defineRule('abilityNotes.armorSpeedAdjustment',
-      'abilityNotes.dwarfArmorSpeedAdjustment', '^', '0'
-    );
 
 };
 
@@ -5819,7 +5801,6 @@ SRD35.raceRules = function(
         (rules, 'Spell', fullSpell,
          spellDict[spellName] + ' Group=' + group + ' Level=' + level);
       if(condition) {
-        // TODO
         SRD35.testRules
           (rules, 'none', name + 'Spells' + j, raceAttr, [condition]);
         rules.defineRule('spells.' + fullSpell,
@@ -5836,6 +5817,18 @@ SRD35.raceRules = function(
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
+};
+
+/*
+ * Defines in #rules# the rules associated with race #name# that are not
+ * directly derived from the parmeters passed to raceRules.
+ */
+SRD35.raceRulesExtra = function(rules, name) {
+  if(name.match(/Dwarf/)) {
+    rules.defineRule('abilityNotes.armorSpeedAdjustment',
+      'abilityNotes.dwarfArmorSpeedAdjustment', '^', '0'
+    );
+  }
 };
 
 /*
@@ -6354,7 +6347,8 @@ SRD35.weaponRules = function(
 };
 
 /*
- * TODO
+ * Returns the dictionary of attribute formats associated with character sheet
+ * format #viewer# in #rules#.
  */
 SRD35.getFormats = function(rules, viewer) {
   var formats = rules.getChoices('notes');
@@ -6608,15 +6602,31 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Armor')
     result.push(
-      ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
+      ['AC', 'AC Bonus', 'select-one', [0, 1, 2, 3, 4, 5]],
       ['Weight', 'Weight', 'select-one', ['None', 'Light', 'Medium', 'Heavy']],
       ['Dex', 'Max Dex', 'text', [3]],
       ['Skill', 'Skill Penalty', 'text', [3]],
       ['Spell', 'Spell Failure', 'text', [3]]
     );
   else if(type == 'Class')
-    // TODO
     result.push(
+      ['Require', 'Prerequsites', 'text', [40]],
+      ['Imply', 'Implies', 'text', [40]],
+      ['HitDie', 'Hit Die', 'select-one', ['d4', 'd6', 'd8', 'd10', 'd12']],
+      ['Attack', 'Base Attack', 'select-one', ['1', '3/4', '1/2']],
+      ['SkillPoints', 'Skill Points/Level', 'text', [4]],
+      ['Fortitude', 'Fort Save', 'select-one', ['1/2', '1/3']],
+      ['Reflex', 'Ref Save', 'select-one', ['1/2', '1/3']],
+      ['Will', 'Will Save', 'select-one', ['1/2', '1/3']],
+      ['Skills', 'Class Skills', 'text', [40]],
+      ['Features', 'Features', 'text', [40]],
+      ['Selectables', 'Selectable Features', 'text', [40]],
+      ['Languages', 'Languages', 'text', [30]],
+      ['CasterLevelArcane', 'Arcane Level', 'text', [10]],
+      ['CasterLevelDivine', 'Divine Level', 'text', [10]],
+      ['SpellAbility', 'Spell Ability', 'select-one', ['charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom']],
+      ['SpellsPerDay', 'Spells Per Day', 'text', [40]],
+      ['Spells', 'Spells', 'text', [40]]
     );
   else if(type == 'Deity')
     result.push(
