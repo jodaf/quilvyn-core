@@ -92,7 +92,7 @@ SRD35Prestige.CLASSES = {
       '"1:Weapon Proficiency (Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Composit Shortbow/Short Sword)",' +
       '"1:Death Attack","1:Poison Use","1:Sneak Attack","2:Poison Tolerance",' +
       '"2:Uncanny Dodge","5:Improved Uncanny Dodge","8:Hide In Plain Sight" ' +
-    'CasterLevelArcane=l ' +
+    'CasterLevelArcane=Level ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
       'AS1:1=0;2=1;3=2;4=3,' +
@@ -124,7 +124,7 @@ SRD35Prestige.CLASSES = {
       '"1:Poison Use","2:Smite Good","2:Dark Blessing","3:Aura Of Despair",' +
       '"3:Turn Undead","4:Sneak Attack","5:Fiendish Servant",' +
       '"5:Undead Companion" ' +
-    'CasterLevelDivine=l ' +
+    'CasterLevelDivine=Level ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'BL1:1=0;2=1;7=2,' +
@@ -418,15 +418,13 @@ SRD35Prestige.FEATURES = {
 
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
 SRD35Prestige.identityRules = function(rules, classes) {
-  for(var klass in classes) {
-    rules.choiceRules(rules, 'Class', klass, classes[klass]);
-    SRD35Prestige.classRulesExtra(rules, klass);
+  for(var clas in classes) {
+    rules.choiceRules(rules, 'Class', clas, classes[clas]);
+    SRD35Prestige.classRulesExtra(rules, clas);
   }
 };
 
-/*
- * TODO
- */
+/* Defines rules related to character features. */
 SRD35Prestige.talentRules = function(rules, features) {
   for(var feature in features) {
     rules.choiceRules(rules, 'Feature', feature, features[feature]);
@@ -434,7 +432,8 @@ SRD35Prestige.talentRules = function(rules, features) {
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules associated with class #name# that are not
+ * directly derived from the parmeters passed to classRules.
  */
 SRD35Prestige.classRulesExtra = function(rules, name) {
 
@@ -544,32 +543,14 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     );
 
     // Adapt Blackguard servant rules to make it a form of animal companion.
-    var servantFeatures = {
-      'Companion Evasion':5, 'Companion Improved Evasion':5, 
-      'Empathic Link':5, 'Share Saving Throws':5, 'Share Spells':5,
-      'Speak With Master':13, 'Blood Bond':16, 'Companion Resist Spells':19,
-      'Link':0, 'Devotion':0, 'Multiattack':0
-    };
-    rules.defineRule('companionNotFiendishServant',
-      'companionLevel', '=', '1',
-      'fiendishServantMasterLevel', 'v', '0'
-    );
-    for(var feature in servantFeatures) {
-      if(servantFeatures[feature] > 0) {
-        rules.defineRule('animalCompanionFeatures.' + feature,
-          'fiendishServantMasterLevel', '=',
-          'source >= ' + servantFeatures[feature] + ' ? 1 : null'
-        );
-        rules.defineRule('features.' + feature,
-          'animalCompanionFeatures.' + feature, '=', null
-        );
-      } else {
-        // Disable N/A companion features
-        rules.defineRule('animalCompanionFeatures.' + feature,
-          'companionNotFiendishServant', '?', 'source == 1'
-        );
-      }
-    }
+    var features = [
+      '5:Companion Evasion', '5:Companion Improved Evasion', 
+      '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',
+      '13:Speak With Master', '16:Blood Bond', '19:Companion Resist Spells'
+    ];
+    SRD35.featureListRules
+      (rules, features, 'animalCompanionFeatures', null,
+      'fiendishServantMasterLevel');
     rules.defineRule('fiendishServantMasterBaseSaveFort',
       'fiendishServantMasterLevel', '?', null,
       'levels.Blackguard', '=', SRD35.SAVE_BONUS_GOOD,
@@ -612,11 +593,21 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'levels.Sorcerer', '+', SRD35.SAVE_BONUS_GOOD,
       'levels.Wizard', '+', SRD35.SAVE_BONUS_GOOD
     );
-    rules.defineRule
-      ('animalCompanionStats.AC', 'fiendishServantMasterLevel', '+', '-1');
+    rules.defineRule('animalCompanionStats.AC',
+      'fiendishServantMasterLevel', '+',
+      'Math.max(Math.floor((source - 10) / 3) * 2 + 1, 1)'
+    );
+    rules.defineRule('animalCompanionStats.HD',
+      'fiendishServantMasterLevel', '+',
+      'Math.max(Math.floor((source - 7) / 3) * 2, 2)'
+    );
     rules.defineRule('animalCompanionStats.Int',
       'fiendishServantMasterLevel', '^',
-      'source<13 ? 6 : source<16 ? 7 : source<19 ? 8 : 9'
+      'Math.max(Math.floor((source - 7) / 3) + 5, 6)'
+    );
+    rules.defineRule('animalCompanionStats.Str',
+      'fiendishServantMasterLevel', '+',
+      'Math.max(Math.floor((source - 7) / 3), 1)'
     );
     rules.defineRule('companionNotes.shareSavingThrows.1',
       'fiendishServantMasterBaseSaveFort', '=', null
@@ -627,11 +618,9 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('companionNotes.shareSavingThrows.3',
       'fiendishServantMasterBaseSaveWill', '=', null
     );
-    rules.defineRule('companionLevel',
-      'fiendishServantMasterLevel', '=', 'source < 13 ? 2 : Math.floor((source - 4) / 3)'
-    );
     rules.defineRule('fiendishServantMasterLevel',
-      'levels.Blackguard', '=', 'source < 5 ? null : source',
+      'levels.Blackguard', '?', 'source < 5 ? null : source',
+      'level', '=', null
     );
     // Add fiendish servants choices not in the standard animal companion list
     rules.choiceRules(rules, 'Animal Companion', 'Bat', SRD35.FAMILIARS['Bat']);

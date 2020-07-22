@@ -40,7 +40,7 @@ SRD35NPC.CLASSES = {
     'Skills=' +
       'Concentration,Craft,"Handle Animal",Heal,Knowledge,Profession,' +
       'Spellcraft,Survival ' +
-    'CasterLevelDivine=l ' +
+    'CasterLevelDivine=Level ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'AD0:1=3,' +
