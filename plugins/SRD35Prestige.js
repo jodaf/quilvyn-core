@@ -549,7 +549,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       '13:Speak With Master', '16:Blood Bond', '19:Companion Resist Spells'
     ];
     SRD35.featureListRules
-      (rules, features, 'animalCompanionFeatures', null,
+      (rules, features, 'animalCompanionFeatures',
       'fiendishServantMasterLevel');
     rules.defineRule('fiendishServantMasterBaseSaveFort',
       'fiendishServantMasterLevel', '?', null,
