@@ -36,7 +36,7 @@ SRD35Prestige.CLASSES = {
   'Arcane Archer':
     'Require=' +
       '"baseAttack >= 6","casterLevelArcane >= 1",' +
-      '"features.Point Blank Shot","features.Precise Shot",' +
+      '"features.Point-Blank Shot","features.Precise Shot",' +
       '"features.Weapon Focus (Longbow) || features.Weapon Focus (Shortbow)",' +
       '"race =~ /Elf/" ' +
     'HitDie=d8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
