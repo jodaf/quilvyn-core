@@ -5983,10 +5983,10 @@ SRD35.skillRulesExtra = function(rules, name) {
      'Balance', 'Climb', 'Escape Artist', 'Hide', 'Jump', 'Move Silently',
      'Sleight Of Hand', 'Tumble'
     ];
-    rules.defineChoice('notes', 'skillNotes.armorSkillCheckPenalty:-%V ' + affected.join('/'));
+    rules.defineChoice('notes', 'skillNotes.armorSkillCheckPenalty:-%V ' + affected.join('/-%V '));
     for(var i = 0; i < affected.length; i++)
-    rules.defineRule
-      ('skillModifier.' + affected[i], 'skillNotes.armorSkillCheckPenalty', '+', '-source');
+      rules.defineRule
+        ('skillModifier.' + affected[i], 'skillNotes.armorSkillCheckPenalty', '+', '-source');
   }
 };
 
