@@ -923,7 +923,7 @@ SRD35.FEATURES = {
   ],
   'School Specialization (Conjuration)':[
     'magic:Extra Abjuration spell/dy each spell level',
-    'skill:+2 Spellcraft (Abjuration effects)',
+    'skill:+2 Spellcraft (Conjuration effects)',
   ],
   'School Specialization (Divination)':[
     'magic:Extra Divination spell/dy each spell level',
@@ -1008,7 +1008,7 @@ SRD35.FEATURES = {
   'Large':[
     'ability:x2 max load',
     'combat:-1 AC/melee/ranged',
-    'skill:-4 Hide'
+    'skill:-4 Hide/+4 Intimidate'
   ],
   'Low-Light Vision':'feature:x2 normal distance in poor light',
   'Natural Illusionist':'magic:+1 Spell DC (Illusion)',
@@ -1025,7 +1025,7 @@ SRD35.FEATURES = {
   'Small':[
     'ability:3/4 max load',
     'combat:+1 AC/+1 Melee Attack/+1 Ranged Attack',
-    'skill:+4 Hide'
+    'skill:+4 Hide/-4 Intimidate'
   ],
   'Spry':'skill:+2 Climb/+2 Jump/+2 Move Silently',
   'Stability':'combat:+4 vs. Bull Rush and Trip',
@@ -1165,6 +1165,13 @@ SRD35.SKILLS = {
   'Concentration':
     'Ability=constitution ' +
     'Class=Bard,Cleric,Druid,Monk,Paladin,Ranger,Sorcerer,Wizard',
+  'Craft (Alchemy)':
+    'Ability=intelligence Class=all Synergy="Appraise (related)"',
+  'Craft (Armor)':'Ability=intelligence Class=all Synergy="Appraise (related)"',
+  'Craft (Bows)':'Ability=intelligence Class=all Synergy="Appraise (related)"',
+  'Craft (Traps)':'Ability=intelligence Class=all Synergy="Appraise (related)"',
+  'Craft (Weapons)':
+    'Ability=intelligence Class=all Synergy="Appraise (related)"',
   'Decipher Script':
     'Ability=intelligence Untrained=n ' +
     'Class=Bard,Rogue,Wizard Synergy="Use Magic Device (scrolls)"',
@@ -1195,13 +1202,13 @@ SRD35.SKILLS = {
     'Class=Bard,Wizard Synergy="Search (secret doors)"',
   'Knowledge (Geography)':
     'Ability=intelligence untrained=n ' +
-    'Class=Bard,Ranger,Wizard Synergy="Survival (lost/hazards)"',
+    'Class=Bard,Ranger,Wizard Synergy="Survival (lost and hazards)"',
   'Knowledge (History)':
     'Ability=intelligence untrained=n ' +
     'Class=Bard,Cleric,Wizard',
   'Knowledge (Local)':
     'Ability=intelligence untrained=n ' +
-    'Class=Bard,Rogue,Wizard SYnergy="Gather Information"',
+    'Class=Bard,Rogue,Wizard Synergy="Gather Information"',
   'Knowledge (Nature)':
     'Ability=intelligence untrained=n ' +
     'Class=Bard,Druid,Ranger,Wizard Synergy="Survial (outdoors)"',
@@ -5967,7 +5974,13 @@ SRD35.skillRules = function(
  * directly derived from the parmeters passed to skillRules.
  */
 SRD35.skillRulesExtra = function(rules, name) {
-  if(name == 'Knowledge (Religion)') {
+  if(name == 'Jump') {
+    rules.defineRule('skillNotes.speedJumpModifier',
+      'speed', '=',  'Math.floor((source - 30) / 10) * (source > 30 ? 4 : 6)'
+    );
+    rules.defineRule
+      ('skillModifier.Jump', 'skillNotes.speedJumpModifier', '+', null);
+  } else if(name == 'Knowledge (Religion)') {
     rules.defineRule('combatNotes.turnUndead.1',
       'skillNotes.knowledge(Religion)Synergy', '+', '2'
     );
@@ -5976,17 +5989,20 @@ SRD35.skillRulesExtra = function(rules, name) {
       ('languageCount', 'skillModifier.Speak Language', '+', null);
   } else if(name == 'Swim') {
     rules.defineChoice('notes', 'skillNotes.armorSwimCheckPenalty:-%V Swim');
-    rules.defineRule
-      ('skillModifier.Swim', 'skillNotes.armorSwimCheckPenalty', '+', '-source');
+    rules.defineRule('skillModifier.Swim',
+      'skillNotes.armorSwimCheckPenalty', '+', '-source'
+    );
   } else if(name == 'Tumble') {
     var affected = [
      'Balance', 'Climb', 'Escape Artist', 'Hide', 'Jump', 'Move Silently',
      'Sleight Of Hand', 'Tumble'
     ];
     rules.defineChoice('notes', 'skillNotes.armorSkillCheckPenalty:-%V ' + affected.join('/-%V '));
-    for(var i = 0; i < affected.length; i++)
-      rules.defineRule
-        ('skillModifier.' + affected[i], 'skillNotes.armorSkillCheckPenalty', '+', '-source');
+    for(var i = 0; i < affected.length; i++) {
+      rules.defineRule('skillModifier.' + affected[i],
+        'skillNotes.armorSkillCheckPenalty', '+', '-source'
+      );
+    }
   }
 };
 
@@ -6844,31 +6860,39 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       attributes['armor'] = choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'companion') {
     attrs = this.applyRules(attributes);
-    if(QuilvynUtils.sumMatching(attrs, /companionNotes/) > 0) {
-      var prefix = 'animalCompanion';
-      if('features.Familiar' in attrs) {
-        choices = QuilvynUtils.getKeys(this.getChoices('familiars'));
-        prefix = 'familiar';
-      } else if('features.Fiendish Servant' in attrs) {
-        choices = ['Bat', 'Cat', 'Dire Rat', 'Raven', 'Toad'];
-        choices.push('features.Small' in attrs ? 'Pony' : 'Heavy Horse');
-      } else if('features.Special Mount' in attrs) {
-        choices = 'features.Small' in attrs ? ['Pony'] : ['Heavy Horse'];
-      // Support PF's "Divine Mount" replacement for "Special Mount"
-      } else if('features.Divine Mount' in attrs) {
-        choices = 'features.Small' in attrs ? ['Pony'] : ['Horse'];
-      } else {
-        choices = QuilvynUtils.getKeys(this.getChoices('animalCompanions'));
-      }
-      do {
-        for(var attr in attributes) {
-          if(attr.startsWith(prefix + '.'))
-            delete attributes[attr];
-        }
-        pickAttrs(attributes, prefix + '.', choices, 1, 1);
+    var companionAttrs = {
+      'features.Animal Companion':'animalCompanion',
+      'features.Divine Mount':'animalCompanion', // Pathfinder
+      'features.Familiar':'familiar',
+      'features.Fiendish Servant':'animalCompanion',
+      'features.Special Mount':'animalCompanion'
+    };
+    for(var attr in companionAttrs) {
+      if(!(attr in attrs) ||
+         QuilvynUtils.sumMatching(attrs, new RegExp(companionAttrs[attr] + '\\.')) > 0)
+        continue;
+      choices =
+        attr == 'features.Divine Mount' ?
+          ['features.Small' in attrs ? 'Pony' : 'Horse'] :
+        attr == 'features.Familiar' ?
+          QuilvynUtils.getKeys(this.getChoices('familiars')) :
+        attr == 'features.Fiendish Servant' ?
+          ['Bat', 'Cat', 'Dire Rat', 'Raven', 'Toad',
+           'features.Small' in attrs ? 'Pony' : 'Heavy Horse'] :
+        attr == 'features.Special Mount' ?
+          ['features.Small' in attrs ? 'Pony' : 'Heavy Horse'] :
+        QuilvynUtils.getKeys(this.getChoices('animalCompanions'));
+      while(true) {
+        pickAttrs(attributes, companionAttrs[attr] + '.', choices, 1, 1);
         attrs = this.applyRules(attributes);
-      } while(QuilvynUtils.sumMatching(attrs, /^validation.*MasterLevel$/) > 0);
-      attributes[prefix + 'Name'] = SRD35.randomName(null);
+        if(QuilvynUtils.sumMatching(attrs,/^validation.*MasterLevel$/) == 0)
+          break;
+        for(var a in attributes) {
+          if(a.startsWith(companionAttrs[attr] + '.'))
+            delete attributes[a];
+        }
+      }
+      attributes[companionAttrs[attr] + 'Name'] = SRD35.randomName(null);
     }
   } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
@@ -7515,7 +7539,7 @@ SRD35.testRules = function(rules, section, noteName, attr, tests) {
   var verb = section == 'validation' ? 'Requires' : 'Implies';
   var subnote = 0;
   rules.defineChoice
-    ('notes', note + ':' + verb + ' ' + tests.join('/').replace(/[a-z]+\./g, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
+    ('notes', note + ':' + verb + ' ' + tests.map(x => x.substring(0,1).toUpperCase() + x.substring(1)).join('/').replace(/\w+\./g, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
   rules.defineRule(note, attr, '=', -tests.length);
   for(var i = 0; i < tests.length; i++) {
     var alternatives = tests[i].split(/\s*\|\|\s*/);
