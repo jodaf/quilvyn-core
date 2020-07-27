@@ -293,7 +293,7 @@ SRD35Prestige.FEATURES = {
   'Claw Attack':'combat:Attack with claws',
   'Constitution Boost':'ability:+2 Constitution',
   'Contingent Conjuration':'magic:<i>Contingency</i> on summoning spell',
-  'Dark Blessing':'save:+%V on all saves',
+  'Dark Blessing':'save:+%V Fortitude/+%V Reflex/+%V Will',
   'Death Attack':
     'combat:Foe DC %V fortitude save on successful sneak attack after 3 rd of study or die/paralyzed d6+%1 rd',
   'Defender Armor':'combat:+%V AC',
@@ -514,9 +514,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.fiendishSummoning',
       'levels.Blackguard', '=', 'source * 2'
     );
-    rules.defineRule('save.Fortitude', 'saveNotes.darkBlessing', '+', null);
-    rules.defineRule('save.Reflex', 'saveNotes.darkBlessing', '+', null);
-    rules.defineRule('save.Will', 'saveNotes.darkBlessing', '+', null);
     rules.defineRule('saveNotes.darkBlessing',
       'charismaModifier', '=', 'source > 0 ? source : null'
     );
