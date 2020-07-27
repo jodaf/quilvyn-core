@@ -7249,7 +7249,7 @@ SRD35.makeValid = function(attributes) {
           if(matchInfo != null) {
             break;
           }
-          choices = choices.slice(0, index).concat(choice.slice(index + 1));
+          choices = choices.slice(0, index).concat(choices.slice(index + 1));
         }
         if(matchInfo == null) {
           continue;
