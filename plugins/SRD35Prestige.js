@@ -286,8 +286,8 @@ SRD35Prestige.FEATURES = {
   'Blood Bond':
     'companion:+2 attack, checks, and saves when seeing master threatened',
   'Bonus Language':'feature:%V additional language(s)',
-  'Bonus Spells':'magic:',
-  'Breath Weapon':'combat:Breathe %Vd8 HP 1/day, DC %1',
+  'Bonus Spells':'magic:%V',
+  'Breath Weapon':'combat:Breathe %Vd8 HP (DC %1 Ref half) 1/day',
   'Canny Defense':'combat:Add %V to melee AC when unarmored',
   'Caster Level Bonus':'magic:+%V base class level for spells known/per day',
   'Claw Attack':'combat:Attack with claws',
@@ -353,7 +353,7 @@ SRD35Prestige.FEATURES = {
   'Smite Good':'combat:+%V attack/+%1 damage vs. good foe %2/day',
   'Spell Power':'magic:+1 caster level for spell effects',
   'Spell-Like Ability':'magic:Use spell as ability 2+/day',
-  'Strength Boost':'ability:+%V strength',
+  'Strength Boost':'ability:+%V Strength',
   'Summon Shadow':'magic:Summon unturnable %V HD Shadow companion',
   'Terrain Mastery (Aligned)':'feature:Mimic dominant alignment of any plane',
   'Terrain Mastery (Aquatic)':[
@@ -646,7 +646,8 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'levels.Dragon Disciple', '+=',
         'source - (source == 10 ? 3 : source >= 7 ? 2 : source >= 3 ? 1 : 0)'
     );
-    rules.defineChoice('weapons', 'Bite:d6', 'Claw:d4');
+    rules.choiceRules(rules, 'Weapon', 'Bite', 'Level=1 Category=Un Damage=d6');
+    rules.choiceRules(rules, 'Weapon', 'Claw', 'Level=1 Category=Un Damage=d4');
     rules.defineRule('weapons.Bite', 'combatNotes.biteAttack', '=', '1');
     rules.defineRule('weapons.Claw', 'combatNotes.clawAttack', '=', '1');
 
