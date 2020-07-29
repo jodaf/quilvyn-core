@@ -289,7 +289,8 @@ SRD35Prestige.FEATURES = {
   'Bonus Spells':'magic:%V',
   'Breath Weapon':'combat:Breathe %Vd8 HP (DC %1 Ref half) 1/dy',
   'Canny Defense':'combat:Add %V to melee AC when unarmored',
-  'Caster Level Bonus':'magic:+%V base class level for spells known/per day',
+  'Caster Level Bonus':
+    'magic:+%V base class level for spells known and spells per day',
   'Claw Attack':'combat:Attack with claws',
   'Constitution Boost':'ability:+2 Constitution',
   'Contingent Conjuration':'magic:<i>Contingency</i> on summoning spell',
