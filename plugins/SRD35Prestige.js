@@ -198,8 +198,8 @@ SRD35Prestige.CLASSES = {
     'Selectables=' +
       '"1:Blast Infidel","1:Divine Reach","1:Faith Healing",' +
       '"1:Gift Of The Divine","1:Improved Divine Reach",' +
-      '"1:Mastery Of Energy","1:Power Of Nature","1:Spell Power",' +
-      '"1:Spell-Like Ability"',
+      '"1:Mastery Of Energy","1:Spell Power","1:Spell-Like Ability",' +
+      '"levels.Druid > 0 ? 1:Power Of Nature"',
   'Horizon Walker':
     'Require=features.Endurance,"skills.Knowledge (Geography) >= 8" ' +
     'HitDie=d8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
@@ -547,8 +547,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       '13:Speak With Master', '16:Blood Bond', '19:Companion Resist Spells'
     ];
     SRD35.featureListRules
-      (rules, features, 'animalCompanionFeatures',
-      'fiendishServantMasterLevel');
+      (rules, features, 'Animal Companion', 'fiendishServantMasterLevel', false);
     rules.defineRule('fiendishServantMasterBaseSaveFort',
       'fiendishServantMasterLevel', '?', null,
       'levels.Blackguard', '=', SRD35.SAVE_BONUS_GOOD,

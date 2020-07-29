@@ -4245,7 +4245,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   if(type != 'Feature') {
     type = type == 'Class' ? 'levels' :
     type = type == 'Deity' ? 'deities' :
-    (type.substring(0,1).toLowerCase() + type.substring(1).replace(/ /g, '') + 's');
+    (type.charAt(0).toLowerCase() + type.substring(1).replace(/ /g, '') + 's');
     rules.addChoice(type, name, attrs);
   }
 };
@@ -4422,7 +4422,7 @@ SRD35.classRules = function(
   }
  
   var prefix =
-    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(requires.length > 0)
     SRD35.testRules
@@ -4454,24 +4454,8 @@ SRD35.classRules = function(
     rules.defineRule('classSkills.' + skills[i], 'levels.' + name, '=', '1');
   }
 
-  SRD35.featureListRules
-    (rules, features, prefix + 'Features', 'levels.' + name);
-
-  for(var i = 0; i < selectables.length; i++) {
-    var matchInfo = selectables[i].match(/^((\d+):)?(.*)$/);
-    var feature = matchInfo ? matchInfo[3] : selectables[i];
-    var level = matchInfo ? matchInfo[2] : 1;
-    var choice = name + ' - ' + feature;
-    rules.defineChoice('selectableFeatures', choice + ':Type="' + name + '"');
-    rules.defineRule(prefix + 'Features.' + feature,
-      'selectableFeatures.' + choice, '+=', null
-    );
-    rules.defineRule('features.' + feature,
-      'selectableFeatures.' + choice, '+=', null
-    );
-    SRD35.testRules(rules, 'validation', prefix + ' - ' + feature.replace(/ /g, ''), 'selectableFeatures.' + choice, ['levels.' + name + ' >= ' + level]);
-  }
-
+  SRD35.featureListRules(rules, features, name, 'levels.' + name, false);
+  SRD35.featureListRules(rules, selectables, name, 'levels.' + name, true);
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
@@ -5010,7 +4994,7 @@ SRD35.companionRules = function(
     '9:Multiattack', '15:Companion Improved Evasion'
   ];
   SRD35.featureListRules
-    (rules, features, 'animalCompanionFeatures', 'companionMasterLevel');
+    (rules, features, 'Animal Companion', 'companionMasterLevel', false);
 
   rules.defineRule('companionACBoosts',
     'companionMasterLevel', '=', 'source / 6',
@@ -5099,7 +5083,7 @@ SRD35.companionRules = function(
     '15:Companion Resist Spells'
   ];
   SRD35.featureListRules
-    (rules, features, 'animalCompanionFeatures', 'mountMasterLevel');
+    (rules, features, 'Animal Companion', 'mountMasterLevel', false);
   rules.defineRule('companionNotes.commandLikeCreatures',
     'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
     'charismaModifier', '+', null
@@ -5213,13 +5197,13 @@ SRD35.domainRules = function(rules, name, features, spells, spellDict) {
   }
 
   var domainLevel =
-    name.substring(0,1).toLowerCase() + name.substring(1).replace(/ /g, '') + 'DomainLevel';
+    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '') + 'DomainLevel';
 
   rules.defineRule(domainLevel,
     'selectableFeatures.Cleric - ' + name + ' Domain', '?', null,
     'levels.Cleric', '=', null
   );
-  SRD35.featureListRules(rules, features, 'clericFeatures', domainLevel);
+  SRD35.featureListRules(rules, features, 'Cleric', domainLevel, false);
 
   for(var level = 1; level <= spells.length; level++) {
     var spellName = spells[level - 1];
@@ -5366,7 +5350,7 @@ SRD35.familiarRules = function(
     '7:Speak With Like Animals', '11:Companion Resist Spells', '13:Scry'
   ];
   SRD35.featureListRules
-    (rules, features, 'familiarFeatures', 'familiarMasterLevel');
+    (rules, features, 'Familiar', 'familiarMasterLevel', false);
 
   rules.defineRule('familiarAttack',
     'familiarMasterLevel', '?', null,
@@ -5458,7 +5442,7 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
   }
 
   var prefix =
-    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   rules.defineRule('features.' + name, 'feats.' + name, '=', null);
 
@@ -5547,7 +5531,7 @@ SRD35.featureRules = function(rules, name, notes) {
   var matchInfo;
   var pieces;
   var prefix =
-    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(notes == null)
     notes = [];
@@ -5597,7 +5581,7 @@ SRD35.featureRules = function(rules, name, notes) {
           adjusted = 'combatNotes.turnUndead.2';
         } else if(section == 'save' &&
                   adjusted.match(/^(Fortitude|Reflex|Will)$/)) {
-          adjusted = 'save.' + adjusted.substring(0, 1).toUpperCase() + adjusted.substring(1).toLowerCase();
+          adjusted = 'save.' + adjusted.charAt(0).toUpperCase() + adjusted.substring(1).toLowerCase();
         } else if(section == 'skill' &&
                   adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
           skillEffects++;
@@ -5606,7 +5590,7 @@ SRD35.featureRules = function(rules, name, notes) {
             uniqueSkillsAffected.push(skillAttr);
           adjusted = 'skillModifier.' + adjusted;
         } else if(adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*$/)) {
-          adjusted = adjusted.substring(0, 1).toLowerCase() + adjusted.substring(1).replace(/ /g, '');
+          adjusted = adjusted.charAt(0).toLowerCase() + adjusted.substring(1).replace(/ /g, '');
         } else {
           continue;
         }
@@ -5681,7 +5665,7 @@ SRD35.raceRules = function(
 
   var matchInfo;
   var prefix =
-    name.substring(0, 1).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
   var raceLevel = prefix + 'Level';
 
   rules.defineRule(raceLevel,
@@ -5689,22 +5673,9 @@ SRD35.raceRules = function(
     'level', '=', null
   );
 
-  SRD35.featureListRules(rules, features, prefix + 'Features', raceLevel);
-
-  for(var i = 0; i < selectables.length; i++) {
-    var matchInfo = selectables[i].match(/^((\d+):)?(.*)$/);
-    var feature = matchInfo ? matchInfo[3] : selectables[i];
-    var level = matchInfo ? matchInfo[2] : 1;
-    var choice = name + ' - ' + feature;
-    rules.defineChoice('selectableFeatures', choice + ':Type="' + name + '"');
-    rules.defineRule(prefix + 'Features.' + feature,
-      'selectableFeatures.' + choice, '+=', null
-    );
-    rules.defineRule('features.' + feature,
-      'selectableFeatures.' + choice, '+=', null
-    );
-    SRD35.testRules(rules, 'validation', prefix + ' - ' + feature.replace(/ /g, '') + 'Feature', 'selectableFeatures.' + choice, [raceLevel + ' >= 1']);
-  }
+  SRD35.featureListRules(rules, features, name, raceLevel, false);
+  SRD35.featureListRules(rules, selectables, name, raceLevel, true);
+  rules.defineChoice('extras', prefix + 'Features');
 
   if(languages.length > 0)
     rules.defineRule('languageCount', raceLevel, '+', languages.length);
@@ -5777,7 +5748,6 @@ SRD35.raceRules = function(
   }
 
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
-  rules.defineChoice('extras', prefix + 'Features');
 
 };
 
@@ -6330,7 +6300,7 @@ SRD35.getFormats = function(rules, viewer) {
       result[format] = formats[format];
       if((matchInfo = format.match(/Notes\.(.*)$/)) != null) {
         var feature = matchInfo[1];
-        feature = feature.substring(0, 1).toUpperCase() + feature.substring(1).replace(/([A-Z\(])/g, ' $1');
+        feature = feature.charAt(0).toUpperCase() + feature.substring(1).replace(/([A-Z\(])/g, ' $1');
         formats['features.' + feature] = formats[format];
       }
     }
@@ -6819,8 +6789,7 @@ SRD35.randomName = function(race) {
       result += endConsonant;
     }
   }
-  return result.substring(0, 1).toUpperCase() +
-         result.substring(1).toLowerCase();
+  return result.charAt(0).toUpperCase() + result.substring(1).toLowerCase();
 
 };
 
@@ -6921,8 +6890,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
     var countPrefix = attribute + 'Count.';
     var prefix = attribute + 's';
-    var suffix =
-      attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
+    var suffix = attribute.charAt(0).toUpperCase() + attribute.substring(1);
     var toAllocateByType = {};
     attrs = this.applyRules(attributes);
     for(attr in attrs) {
@@ -6972,7 +6940,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         }
         var validate = this.applyRules(attributes);
         for(var pick in picks) {
-          var name = pick.substring(0, 1).toLowerCase() +
+          var name = pick.charAt(0).toLowerCase() +
                      pick.substring(1).replace(/ /g, '').
                      replace(/\(/g, '\\(').replace(/\)/g, '\\)');
           if(QuilvynUtils.sumMatching
@@ -7231,7 +7199,7 @@ SRD35.makeValid = function(attributes) {
       }
 
       var problemSource = matchInfo[2];
-      var problemCategory = matchInfo[3].substring(0, 1).toLowerCase() +
+      var problemCategory = matchInfo[3].charAt(0).toLowerCase() +
                             matchInfo[3].substring(1).replace(/ /g, '');
       if(problemCategory == 'features') {
         problemCategory = 'selectableFeatures';
@@ -7264,7 +7232,7 @@ SRD35.makeValid = function(attributes) {
           toFixCombiner = toFixName.substring(0, 3);
           toFixName = toFixName.substring(4).replace(/^\s+/, '');
         }
-        var toFixAttr = toFixName.substring(0, 1).toLowerCase() +
+        var toFixAttr = toFixName.charAt(0).toLowerCase() +
                         toFixName.substring(1).replace(/ /g, '');
 
         // See if this attr has a set of choices (e.g., race) or a category
@@ -7494,28 +7462,43 @@ SRD35.ruleNotes = function() {
 /*
  * Defines in #rules# the rules associated with with the list #features#. Rules
  * add each feature to #setName# if the value of #levelAttr# is at least equal
- * to the value required for the feature.
+ * to the value required for the feature. If #selectable# is true, the user is
+ * allowed to select these features for the character, rather than having them
+ * assigned automatically.
  */
-SRD35.featureListRules = function(rules, features, setName, levelAttr) {
+SRD35.featureListRules = function(
+  rules, features, setName, levelAttr, selectable
+) {
+  var prefix = setName.charAt(0).toLowerCase() +
+               setName.slice(1).replace(/ /g, '') + 'Features';
   for(var i = 0; i < features.length; i++) {
     var pieces = features[i].split(':');
     var feature = pieces.length == 2 ? pieces[1] : pieces[0];
     var level = pieces.length == 2 ? pieces[0] : '1';
-    var featureAttr = setName + '.' + feature;
+    var featureAttr = prefix + '.' + feature;
     pieces = level.split(/\s*\?\s*/);
     if(pieces.length == 2) {
-      var conditionName = 'test' + featureAttr;
-      SRD35.testRules(rules, 'none', conditionName, levelAttr, [pieces[0]]);
-      rules.defineRule(featureAttr,
-       'noneNotes.' + conditionName, '?', 'source == 0 ? 1 : null'
-      );
       level = pieces[1];
+      var conditionName = featureAttr + 'Prerequisite';
+      SRD35.testRules
+        (rules, 'validation', conditionName, featureAttr, [pieces[0]]);
+      if(!selectable) {
+        rules.defineRule(featureAttr,
+         'validationNotes.' + conditionName, '?', 'source == 0 ? 1 : null'
+        );
+      }
     }
-    if(level == '1')
+    if(selectable) {
+      var choice = setName + ' - ' + feature;
+      rules.defineChoice('selectableFeatures', choice + ':Type="' + name + '"');
+      rules.defineRule(featureAttr, 'selectableFeatures.' + choice, '=', null);
+      SRD35.testRules(rules, 'validation', prefix + ' - ' + feature.replace(/ /g, ''), 'selectableFeatures.' + choice, ['levels.' + setName + ' >= ' + level]);
+    } else if(level == '1') {
       rules.defineRule(featureAttr, levelAttr, '=', '1');
-    else
+    } else {
       rules.defineRule
         (featureAttr, levelAttr, '=', 'source >= ' + level + ' ? 1 : null');
+    }
     rules.defineRule('features.' + feature, featureAttr, '+=', null);
     var matchInfo;
     if((matchInfo = feature.match(/^Weapon (Familiarity|Proficiency) \((.*\/.*)\)$/)) != null) {
@@ -7539,7 +7522,7 @@ SRD35.testRules = function(rules, section, noteName, attr, tests) {
   var verb = section == 'validation' ? 'Requires' : 'Implies';
   var subnote = 0;
   rules.defineChoice
-    ('notes', note + ':' + verb + ' ' + tests.map(x => x.substring(0,1).toUpperCase() + x.substring(1)).join('/').replace(/\w+\./g, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
+    ('notes', note + ':' + verb + ' ' + tests.map(x => x.charAt(0).toUpperCase() + x.substring(1)).join('/').replace(/\w+\./g, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
   rules.defineRule(note, attr, '=', -tests.length);
   for(var i = 0; i < tests.length; i++) {
     var alternatives = tests[i].split(/\s*\|\|\s*/);
