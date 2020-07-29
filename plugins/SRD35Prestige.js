@@ -217,7 +217,8 @@ SRD35Prestige.CLASSES = {
   'Loremaster':
     'Require=' +
       '"Sum /^features.Skill Focus .Knowledge/ >= 1",' +
-      '"Sum /^spells.*Divi/ >= 7","Sum /^spells.*3 Divi/ >= 1" ' +
+      '"Sum /^spells.*Divi/ >= 7","Sum /^spells.*3 Divi/ >= 1",' +
+      '"Sum /^skills.Knowledge/ >= 20" ' +
       // TODO 2 skills.Knowledge >= 10,3 Item Creation/Metamagic feats
     'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
@@ -270,7 +271,7 @@ SRD35Prestige.CLASSES = {
 };
 SRD35Prestige.FEATURES = {
   'Acrobatic Charge':'combat:May charge in difficult terrain',
-  'Applicable Knowledge':'feature:Bonus feat',
+  'Applicable Knowledge':'feature:+1 General Feat',
   'Arcane Fire':'magic:Transform arcane spell into bolt of fire',
   'Arcane Reach':"magic:Use arcane touch spell 30' away",
   'Arrow Of Death':
@@ -285,7 +286,7 @@ SRD35Prestige.FEATURES = {
     "feature:Other senses allow detection of unseen objects w/in 30'",
   'Blood Bond':
     'companion:+2 attack, checks, and saves when seeing master threatened',
-  'Bonus Language':'feature:%V additional language(s)',
+  'Bonus Language':'feature:+%V Language Count',
   'Bonus Spells':'magic:%V',
   'Breath Weapon':'combat:Breathe %Vd8 HP (DC %1 Ref half) 1/dy',
   'Canny Defense':'combat:Add %V to melee AC when unarmored',
