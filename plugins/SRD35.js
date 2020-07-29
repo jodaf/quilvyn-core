@@ -4463,7 +4463,7 @@ SRD35.classRules = function(
     var feature = matchInfo ? matchInfo[3] : selectables[i];
     var level = matchInfo ? matchInfo[2] : 1;
     var choice = name + ' - ' + feature;
-    rules.defineChoice('selectableFeatures', choice + ':' + name);
+    rules.defineChoice('selectableFeatures', choice + ':Type="' + name + '"');
     rules.defineRule(prefix + 'Features.' + feature,
       'selectableFeatures.' + choice, '+=', null
     );
@@ -5692,7 +5692,7 @@ SRD35.raceRules = function(
     var feature = matchInfo ? matchInfo[3] : selectables[i];
     var level = matchInfo ? matchInfo[2] : 1;
     var choice = name + ' - ' + feature;
-    rules.defineChoice('selectableFeatures', choice + ':' + name);
+    rules.defineChoice('selectableFeatures', choice + ':Type="' + name + '"');
     rules.defineRule(prefix + 'Features.' + feature,
       'selectableFeatures.' + choice, '+=', null
     );
@@ -5942,8 +5942,8 @@ SRD35.skillRules = function(
     'classSkills.' + name, '=', '""'
   );
   if(name.indexOf(' (') >= 0) {
-    rules.defineRule('skills.' + name + '.2',
-      'classSkills.' + name.replace(/\s+\(.*/, ''), '=', '""'
+    rules.defineRule('classSkills.' + name,
+      'classSkills.' + name.replace(/\s+\(.*/, ''), '=', '1'
     );
   }
   rules.defineRule('skills.' + name + '.3', 'skillModifier.' + name, '=', null);
@@ -6915,42 +6915,41 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       attributes['deity'] = choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'feats' || attribute == 'features') {
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
-    var countPat = new RegExp('^' + attribute + 'Count\\.');
+    var countPrefix = attribute + 'Count.';
     var prefix = attribute + 's';
     var suffix =
       attribute.substring(0, 1).toUpperCase() + attribute.substring(1);
     var toAllocateByType = {};
     attrs = this.applyRules(attributes);
     for(attr in attrs) {
-      if(attr.match(countPat)) {
-        toAllocateByType[attr.replace(countPat, '')] = attrs[attr];
+      if(attr.startsWith(countPrefix)) {
+        toAllocateByType[attr.replace(countPrefix, '')] = attrs[attr];
       }
     }
     var availableChoices = {};
     var allChoices = this.getChoices(prefix);
     for(attr in allChoices) {
+      var types = QuilvynUtils.getAttrValueArray(allChoices[attr], 'Type');
+      if(types.length == 0)
+        types.push('General');
       if(attrs[prefix + '.' + attr] != null) {
-        var type = 'General';
-        for(var a in toAllocateByType) {
-          if(QuilvynUtils.findElement(allChoices[attr].split('/'), a) >= 0 &&
-             toAllocateByType[a] > 0) {
-            type = a;
+        for(i = 0; i < types.length; i++) {
+          var t = types[i];
+          if(toAllocateByType[t] != null && toAllocateByType[t] > 0) {
+            toAllocateByType[t]--;
             break;
           }
         }
-        toAllocateByType[type]--;
       } else if(attrs['features.' + attr] == null) {
-        availableChoices[attr] = allChoices[attr];
+        availableChoices[attr] = types;
       }
     }
     var debug = [];
     for(attr in toAllocateByType) {
       var availableChoicesInType = {};
       for(var a in availableChoices) {
-        if(attr == 'General' ||
-           QuilvynUtils.findElement(availableChoices[a].split('/'), attr) >= 0) {
+        if(attr == 'General' || availableChoices[a].includes(attr))
           availableChoicesInType[a] = '';
-        }
       }
       howMany = toAllocateByType[attr];
       debug[debug.length] = 'Choose ' + howMany + ' ' + attr + ' ' + prefix;
@@ -7179,11 +7178,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     var weapons = this.getChoices('weapons');
     for(attr in weapons) {
-      var requiredProfLevel =
-        weapons[attr].indexOf('Un') >= 0 ? '0' :
-        weapons[attr].indexOf('Si') >= 0 ? '1' :
-        weapons[attr].indexOf('Ma') >= 0 ? '2' :
-                                           '3';
+      matchInfo = weapons[attr].match(/Level=(\d)/);
+      var requiredProfLevel = matchInfo ? matchInfo[1] : '3';
       if(requiredProfLevel <= characterProfLevel ||
          attrs['features.Weapon Proficiency (' + attr + ')'] != null) {
         choices[choices.length] = attr;
