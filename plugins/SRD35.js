@@ -5601,8 +5601,9 @@ SRD35.featureRules = function(rules, name, notes) {
         } else if(section == 'skill' &&
                   adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
           skillEffects++;
-          if(uniqueSkillsAffected.indexOf(adjusted) < 0)
-            uniqueSkillsAffected.push(adjusted);
+          var skillAttr = 'skill.' + adjusted;
+          if(uniqueSkillsAffected.indexOf(skillAttr) < 0)
+            uniqueSkillsAffected.push(skillAttr);
           adjusted = 'skillModifier.' + adjusted;
         } else if(adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*$/)) {
           adjusted = adjusted.substring(0, 1).toLowerCase() + adjusted.substring(1).replace(/ /g, '');
@@ -5619,6 +5620,10 @@ SRD35.featureRules = function(rules, name, notes) {
         if(skill.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
           rules.defineRule('classSkills.' + skill, note, '=', '1');
           skillEffects++;
+          if(pieces[j].match(/^all /i))
+            skill = 'Sum /skills.' + skill + '/';
+          else
+            skill = 'skills.' + skill;
           if(uniqueSkillsAffected.indexOf(skill) < 0)
             uniqueSkillsAffected.push(skill);
         }
@@ -5629,7 +5634,7 @@ SRD35.featureRules = function(rules, name, notes) {
     if(skillEffects == pieces.length && !effects.match(/^-|\/-/)) {
       SRD35.testRules
         (rules, 'sanity', prefix + 'Skills', 'features.' + name,
-         ['skills.' + uniqueSkillsAffected.join(' > 0 || skills.') + ' > 0']);
+         [uniqueSkillsAffected.join(' > 0 || ') + ' > 0']);
     }
 
   }
