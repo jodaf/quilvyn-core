@@ -176,9 +176,9 @@ SRD35Prestige.CLASSES = {
     'Skills=Craft,Listen,"Sense Motive",Spot ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
-      '"1:Weapon Proficiency (Martial)","1:Defensive Stance",' +
-      '"2:Uncanny Dodge","4:Trap Sense","6:Damage Reduction",' +
-      '"6:Improved Uncanny Dodge","8:Mobile Defense"',
+      '"1:Weapon Proficiency (Martial)","1:Defender Armor",' +
+      '"1:Defensive Stance","2:Uncanny Dodge","4:Trap Sense",' +
+      '"6:Damage Reduction","6:Improved Uncanny Dodge","8:Mobile Defense"',
   'Eldritch Knight':
     'Require=' +
       '"features.Weapon Proficiency (Martial)","Sum /^spells.*[BW]3/ >= 1" ' +
@@ -278,7 +278,7 @@ SRD35Prestige.FEATURES = {
   'Aura Of Despair':"combat:All foes within 10' -2 all saves",
   'Aura Of Evil':'magic:Visible to <i>Detect Evil</i>',
   'Bite Attack':'combat:Attack with bite',
-  'Blackguard Hands':'magic:Heal %V HP/day to self or servant',
+  'Blackguard Hands':'magic:Heal %V HP/dy to self or servant',
   'Blast Infidel':
     'magic:Negative energy spells vs. opposed-alignment foe have max effect',
   'Blindsense':
@@ -287,7 +287,7 @@ SRD35Prestige.FEATURES = {
     'companion:+2 attack, checks, and saves when seeing master threatened',
   'Bonus Language':'feature:%V additional language(s)',
   'Bonus Spells':'magic:%V',
-  'Breath Weapon':'combat:Breathe %Vd8 HP (DC %1 Ref half) 1/day',
+  'Breath Weapon':'combat:Breathe %Vd8 HP (DC %1 Ref half) 1/dy',
   'Canny Defense':'combat:Add %V to melee AC when unarmored',
   'Caster Level Bonus':'magic:+%V base class level for spells known/per day',
   'Claw Attack':'combat:Attack with claws',
@@ -298,7 +298,7 @@ SRD35Prestige.FEATURES = {
     'combat:Foe DC %V fortitude save on successful sneak attack after 3 rd of study or die/paralyzed d6+%1 rd',
   'Defender Armor':'combat:+%V AC',
   'Defensive Stance':
-     'feature:+2 Str, +4 Con, +2 saves, +4 AC while unmoving %V rd %1/day',
+     'feature:+2 Str, +4 Con, +2 saves, +4 AC while unmoving %V rd %1/dy',
   'Detect Good':'magic:<i>Detect Good</i> at will',
   'Divine Reach':"magic:Use divine touch spell 30' away",
   'Dodge Trick':'combat:+1 AC',
@@ -314,18 +314,18 @@ SRD35Prestige.FEATURES = {
   'Faith Healing':
     'magic:Healing spells on same-aligned creature have max effect',
   'Fiendish Servant':'feature:Animal servant w/special abilities',
-  'Fiendish Summoning':'magic:<i>Summon Monster I</i> as level %V caster 1/day',
+  'Fiendish Summoning':'magic:<i>Summon Monster I</i> as level %V caster 1/dy',
   'Gift Of The Divine':
     'feature:Transfer undead turn/rebuke to another 1-7 days',
   'Grace':'save:+2 Reflex when unarmored',
   'Greater Lore':'magic:<i>Identify</i> at will',
-  'Hail Of Arrows':'combat:Simultaneously fire arrows at %V targets 1/day',
+  'Hail Of Arrows':'combat:Simultaneously fire arrows at %V targets 1/dy',
   'Imbue Arrow':'magic:Center spell where arrow lands',
-  'Impromptu Sneak Attack':'combat:Declare any attack a sneak attack %V/day',
+  'Impromptu Sneak Attack':'combat:Declare any attack a sneak attack %V/dy',
   'Improved Ally':'magic:Planar ally for 1/2 usual payment',
   'Improved Arcane Reach':"magic:Use arcane touch spell 60' away",
   'Improved Divine Reach':"magic:Use divine touch spell 60' away",
-  'Improved Reaction':'combat:+%V initiative',
+  'Improved Reaction':'combat:+%V Initiative',
   'Instant Mastery':'skill:+4 Skill Points in untrained skill',
   'Intelligence Boost':'ability:+2 Intelligence',
   'Lore':'skill:+%V Knowledge checks with local history',
@@ -336,23 +336,23 @@ SRD35Prestige.FEATURES = {
   'Mobile Defense':"combat:Allowed 5' step during Defensive Stance",
   'More Newfound Arcana':'magic:Bonus level 2 spell',
   'Newfound Arcana':'magic:Bonus level 1 spell',
-  'Phase Arrow':'combat:Arrow passes through normal obstacles 1/day',
+  'Phase Arrow':'combat:Arrow passes through normal obstacles 1/dy',
   'Planar Cohort':'magic:Summoned creature serves as cohort',
   'Poison Tolerance':'save:+%V vs. poison',
   'Poison Use':'feature:No chance of self-poisoning when applying to blade',
   'Power Of Nature':'feature:Transfer druid feature to another 1-7 days',
   'Precise Strike':'combat:Extra %Vd6 HP with light piercing weapon',
   'Ranged Legerdemain':
-    "combat:+5 DC on Disable Device, Open Lock, and Sleight Of Hand at 30' %V/day",
+    "combat:+5 DC on Disable Device, Open Lock, and Sleight Of Hand at 30' %V/dy",
   'Secret Health':'combat:+3 HP',
   'Secret Knowledge Of Avoidance':'save:+2 Reflex',
   'Secrets Of Inner Strength':'save:+2 Will',
-  'Seeker Arrow':'combat:Arrow maneuvers to target 1/day',
-  'Shadow Illusion':'magic:<i>Silent Image</i> 1/day',
-  'Shadow Jump':"magic:<i>Dimension Door</i> %V'/day",
-  'Smite Good':'combat:+%V attack/+%1 damage vs. good foe %2/day',
+  'Seeker Arrow':'combat:Arrow maneuvers to target 1/dy',
+  'Shadow Illusion':'magic:<i>Silent Image</i> 1/dy',
+  'Shadow Jump':"magic:<i>Dimension Door</i> %V'/dy",
+  'Smite Good':'combat:+%V attack/+%1 damage vs. good foe %2/dy',
   'Spell Power':'magic:+1 caster level for spell effects',
-  'Spell-Like Ability':'magic:Use spell as ability 2+/day',
+  'Spell-Like Ability':'magic:Use spell as ability 2+/dy',
   'Strength Boost':'ability:+%V Strength',
   'Summon Shadow':'magic:Summon unturnable %V HD Shadow companion',
   'Terrain Mastery (Aligned)':'feature:Mimic dominant alignment of any plane',
@@ -409,7 +409,7 @@ SRD35Prestige.FEATURES = {
   ],
   'The Lore Of True Stamina':'save:+2 Fortitude',
   'Tremorsense':"feature:Detect creatures in contact w/ground w/in 30'",
-  'True Lore':'magic:<i>Legend Lore</i>, <i>Analyze Dweomer</i> 1/day',
+  'True Lore':'magic:<i>Legend Lore</i>, <i>Analyze Dweomer</i> 1/dy',
   'Undead Companion':
     'feature:Unturnable undead servant w/fiendish servant abilities',
   'Weapon Trick':'combat:+1 Melee Attack/+1 Ranged Attack',
@@ -653,9 +653,15 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Duelist') {
 
+    rules.defineRule('armorClass', 'combatNotes.cannyDefense.1', '+', null);
     rules.defineRule('combatNotes.cannyDefense',
-      'intelligenceModifier', '+=', null,
+      'intelligenceModifier', '+=', 'Math.max(source, 0)',
       'levels.Duelist', 'v', null
+    );
+    rules.defineRule('combatNotes.cannyDefense.1',
+      'armor', '?', 'source == "None"',
+      'shield', '?', 'source == "None"',
+      'combatNotes.cannyDefense', '=', null
     );
     rules.defineRule
       ('combatNotes.elaborateParry', 'levels.Duelist', '+=', null);
@@ -665,6 +671,12 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.preciseStrike',
       'levels.Duelist', '=', 'Math.floor(source / 5)'
     );
+    rules.defineRule('saveNotes.grace.1',
+      'armor', '?', 'source == "None"',
+      'shield', '?', 'source == "None"',
+      'saveNotes.grace', '=', '2'
+    );
+    rules.defineRule('save.Reflex', 'saveNotes.grace.1', '+', null);
 
   } else if(name == 'Dwarven Defender') {
 
