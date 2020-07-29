@@ -666,7 +666,6 @@ SRD35.FEATS = {
     'Type=Fighter Require="baseAttack >= 1" Imply="dexterityModifier > strengthModifier"',
   'Weapon Focus (Longsword)':
     'Type=Fighter Require="baseAttack >= 1" Imply=weapons.Longsword',
-  'Weapon Proficiency (Martial)':'Type=General',
   'Weapon Proficiency (Simple)':'Type=General',
   'Weapon Proficiency (Bastard Sword)':
     'Type=General Require="baseAttack >= 1","strength >= 13" Imply="weapons.Longsword"',
