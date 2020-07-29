@@ -3667,10 +3667,13 @@ SRD35.SMALL_DAMAGE = {
   'd10':'d8', 'd12':'d10', '2d4':'d6', '2d6':'d10', '2d8':'2d6', '2d10':'2d8'
 };
 
-SRD35.spellsAbbreviations = {
-  "RL": "L40plus400",
-  "RM": "L10plus100",
-  "RS": "Ldiv2times5plus25"
+// Abbreviations referenced in spell descriptions and feature notes
+SRD35.ABBREVIATIONS = {
+  'AC':'Armor Class',
+  'HP':'Hit Points',
+  'RL':'L40plus400',
+  'RM':'L10plus100',
+  'RS':'Ldiv2times5plus25'
 };
 
 /* Defines rules related to character abilities. */
@@ -5564,28 +5567,22 @@ SRD35.featureRules = function(rules, name, notes) {
         var adjust = matchInfo[1];
         var adjusted = matchInfo[3];
 
-        /* TODO General way to handle abbreviations, inc Pathfinder CM[BD] */
-        if(adjusted == 'AC') {
-          adjusted = 'armorClass';
-        } else if(adjusted == 'CMB') {
-          adjusted = 'combatManeuverBonus';
-        } else if(adjusted == 'CMD') {
-          adjusted = 'combatManeuverDefense';
-        } else if((matchInfo = adjusted.match(/^(([A-Z][a-z]*) )?Feat\b/)) != null) {
+        while(adjusted in SRD35.ABBREVIATIONS)
+          adjusted = SRD35.ABBREVIATIONS[adjusted];
+          
+        if((matchInfo = adjusted.match(/^(([A-Z][a-z]*) )?Feat\b/)) != null) {
           adjusted = 'featCount.' + (matchInfo[2] ? matchInfo[2] : 'General');
-        } else if(adjusted == 'HP') {
-          adjusted = 'hitPoints';
-        } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
-          adjusted = 'spellDCSchoolBonus.' + adjusted.replace('Spell DC (', '').replace(')', '');
         } else if(adjusted == 'Turnings') {
           adjusted = 'combatNotes.turnUndead.2';
+        } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
+          adjusted = 'spellDCSchoolBonus.' + adjusted.replace('Spell DC (', '').replace(')', '');
         } else if(section == 'save' &&
                   adjusted.match(/^(Fortitude|Reflex|Will)$/)) {
           adjusted = 'save.' + adjusted.charAt(0).toUpperCase() + adjusted.substring(1).toLowerCase();
         } else if(section == 'skill' &&
                   adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
           skillEffects++;
-          var skillAttr = 'skill.' + adjusted;
+          var skillAttr = 'skills.' + adjusted;
           if(uniqueSkillsAffected.indexOf(skillAttr) < 0)
             uniqueSkillsAffected.push(skillAttr);
           adjusted = 'skillModifier.' + adjusted;
@@ -6016,10 +6013,8 @@ SRD35.spellRules = function(
       var insert = inserts[i - 1];
       var expr = insert[1] == '{' ?
           insert.substring(2, insert.length - 1) : insert.substring(1);
-      /* TODO Get rid of spellsAbbreviations */
-      if(SRD35.spellsAbbreviations[expr]) {
-        expr = SRD35.spellsAbbreviations[expr];
-      }
+      while(SRD35.ABBREVIATIONS[expr])
+        expr = SRD35.ABBREVIATIONS[expr];
       if(expr.match(/^L\d*((plus|div|min|max|minus|times)\d+)*$/)) {
         var parsed = expr.match(/L\d*|(plus|div|min|max|minus|times)\d+/g);
         for(var j = 0; parsed[j]; j++) {
@@ -7490,7 +7485,8 @@ SRD35.featureListRules = function(
     }
     if(selectable) {
       var choice = setName + ' - ' + feature;
-      rules.defineChoice('selectableFeatures', choice + ':Type="' + name + '"');
+      rules.defineChoice
+        ('selectableFeatures', choice + ':Type="' + setName + '"');
       rules.defineRule(featureAttr, 'selectableFeatures.' + choice, '=', null);
       SRD35.testRules(rules, 'validation', prefix + ' - ' + feature.replace(/ /g, ''), 'selectableFeatures.' + choice, ['levels.' + setName + ' >= ' + level]);
     } else if(level == '1') {
