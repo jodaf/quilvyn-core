@@ -358,8 +358,8 @@ SRD35Prestige.FEATURES = {
   'Summon Shadow':'magic:Summon unturnable %V HD Shadow companion',
   'Terrain Mastery (Aligned)':'feature:Mimic dominant alignment of any plane',
   'Terrain Mastery (Aquatic)':[
+    'ability:+10 swim Speed',
     'combat:+1 attack and damage vs. aquatic creatures',
-    "feature:+10' swim speed",
     'skill:+4 Swim'
   ],
   'Terrain Mastery (Cavernous)':'feature:Tremorsense',
