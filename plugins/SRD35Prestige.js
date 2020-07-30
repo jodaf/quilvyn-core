@@ -92,7 +92,7 @@ SRD35Prestige.CLASSES = {
       '"1:Weapon Proficiency (Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Composit Shortbow/Short Sword)",' +
       '"1:Death Attack","1:Poison Use","1:Sneak Attack","2:Poison Tolerance",' +
       '"2:Uncanny Dodge","5:Improved Uncanny Dodge","8:Hide In Plain Sight" ' +
-    'CasterLevelArcane=Level ' +
+    'CasterLevelArcane=levels.Assassin ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
       'AS1:1=0;2=1;3=2;4=3,' +
@@ -124,7 +124,7 @@ SRD35Prestige.CLASSES = {
       '"1:Poison Use","2:Smite Good","2:Dark Blessing","3:Aura Of Despair",' +
       '"3:Turn Undead","4:Sneak Attack","5:Fiendish Servant",' +
       '"5:Undead Companion" ' +
-    'CasterLevelDivine=Level ' +
+    'CasterLevelDivine=levels.Blackguard ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'BL1:1=0;2=1;7=2,' +
@@ -258,7 +258,16 @@ SRD35Prestige.CLASSES = {
       '"1:Hide In Plain Sight",2:Darkvision,2:Evasion,"2:Uncanny Dodge",' +
       '"3:Shadow Illusion","3:Summon Shadow","4:Shadow Jump",' +
       '"5:Defensive Roll","5:Improved Uncanny Dodge","7:Slippery Mind",' +
-      '"10:Improved Evasion"',
+      '"10:Improved Evasion" ' +
+    'CasterLevelArcane=level ' +
+    // SRD doesn't specify ability; adopt PRD's use of charisma
+    'SpellAbility=charisma ' +
+    'SpellsPerDay=' +
+      'Shadowdancer1:3=1,' +
+      'Shadowdancer4:4=1 ' +
+    'Spells=' +
+      '"Shadowdancer1:Silent Image",' +
+      '"Shadowdancer4:Dimension Door" ',
   'Thaumaturgist':
     'Require="features.Spell Focus (Conjuration)",' +
     '"Sum /spells.Lesser Planar Ally" ' +
@@ -723,7 +732,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
  
   } else if(name == 'Hierophant') {
 
-    rules.defineRule('casterLevelDivine', 'levels.Hierophant', '+=', null);
     rules.defineRule
       ('selectableFeatureCount.Hierophant', 'levels.Hierophant', '=', null);
     rules.defineRule('combatNotes.turnUndead.1',
@@ -735,17 +743,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Horizon Walker') {
 
-    rules.defineRule('casterLevels.Horizon Walker',
-      'horizonWalkerFeatures.Terrain Mastery (Shifting)', '?', null,
-      'levels.Horizon Walker', '=', null
-    );
-    rules.defineRule('casterLevels.Dimension Door',
-      'casterLevels.Horizon Walker', '^=', null
-    );
-    // Set casterLevels.W to a minimal value so that spell DC will be
-    // calcuated even for non-Wizard Horizon Walkers.
-    rules.defineRule
-      ('casterLevels.W', 'casterLevels.Horizon Walker', '^=', '1');
     rules.defineRule('features.Tremorsense',
       'features.Terrain Mastery (Cavernous)', '=', '1'
     );
@@ -777,19 +774,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Shadowdancer') {
 
-    rules.defineRule('casterLevels.Dimension Door',
-      'levels.Shadowdancer', '^=', 'source < 4 ? null : source'
-    );
-    rules.defineRule('casterLevels.Silent Image',
-      'levels.Shadowdancer', '^=', 'source < 3 ? null : source'
-    );
-    // Set casterLevels.W to a minimal value so that spell DC will be
-    // calcuated even for non-Wizard Shadowdancers.
-    rules.defineRule
-      ('casterLevels.W', 'levels.Shadowdancer', '^=', 'source<3 ? null : 1');
-    rules.defineRule('featureNotes.darkvision',
-      'shadowdancerFeatures.Darkvision', '^=', '60'
-    );
     rules.defineRule('magicNotes.shadowJump',
       'levels.Shadowdancer', '=',
          'source < 4 ? null : (10 * Math.pow(2, Math.floor((source-2)/2)))'
@@ -815,6 +799,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.casterLevelBonus',
       'levels.Thaumaturgist', '+=', null
     );
+
   }
 
 };
