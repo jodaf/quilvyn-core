@@ -833,6 +833,7 @@ SRD35.FEATURES = {
   'Abundant Step':'magic:<i>Dimension Door</i> 1/dy',
   'Adamantine Ki Strike':'combat:Treat unarmed as adamantine weapon',
   'Animal Companion':'feature:Special bond/abilities',
+  'Armor Class Bonus':'combat:+%V AC',
   'Aura':
     "magic:Visible to <i>Detect Chaos/Evil/Good/Law</i> depending on deity's alignment",
   'Aura Of Courage':"save:Immune fear, +4 to allies w/in 30'",
@@ -874,6 +875,7 @@ SRD35.FEATURES = {
   // Improved Unarmed Strike as per feat
   'Improved Uncanny Dodge':
     'combat:Cannot be flanked, sneak attack only by rogue level %V+',
+  'Increased Unarmed Damage':'combat:%V',
   'Indomitable Will':'save:+4 enchantment resistance during rage',
   'Inspire Competence':'magic:+2 allies skill checks while performing',
   'Inspire Courage':
@@ -888,7 +890,6 @@ SRD35.FEATURES = {
   'Mass Suggestion':
     'magic:<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
   'Mighty Rage':'combat:+8 Str, +8 Con, +4 Will',
-  'Monk Armor Class Adjustment':'combat:+%V AC',
   'Nature Sense':'skill:+2 Knowledge (Nature)/+2 Survival',
   'Opportunist':'combat:AOO vs. foe struck by ally',
   'Perfect Self':[
@@ -975,7 +976,7 @@ SRD35.FEATURES = {
   'Turn Undead':
     'combat:Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy',
   'Two-Weapon Fighting':'combat:Reduce on-hand penalty by 2, off-hand by 6',
-  'Unarmed Speed Bonus':"ability:+%V Speed",
+  'Unarmored Speed Bonus':"ability:+%V Speed",
   'Uncanny Dodge':'combat:Always adds dexterity modifier to AC',
   'Venom Immunity':'save:Immune to poisons',
   'Wholeness Of Body':'magic:Heal %V HP to self/dy',
@@ -1689,7 +1690,7 @@ SRD35.SPELLS = {
     'Description="R40\' Nonlawful creatures with equal/-1/-5/-10 HD deafened 1d4 rd/staggered 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)"',
   'Dimension Door':
     'School=Conjuration ' +
-    'Description="Teleport self and touched willing object/creature $RL\'"',
+    'Description="Teleport self and touched willing object or creature $RL\'"',
   'Dimensional Anchor':
     'School=Abjuration ' +
     'Description="R$RM\' Ranged touch bars extradimensional travel for $L min"',
@@ -3185,8 +3186,8 @@ SRD35.CLASSES = {
       '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Martial)",' +
       '"1:Fast Movement",1:Illiteracy,1:Rage,"2:Uncanny Dodge","3:Trap Sense",'+
-      '"7:Damage Reduction","11:Greater Rage","14:Indomitable Will",' +
-      '"17:Tireless Rage","20:Mighty Rage"',
+      '"5:Improved Uncanny Dodge","7:Damage Reduction","11:Greater Rage",' +
+      '"14:Indomitable Will","17:Tireless Rage","20:Mighty Rage"',
   'Bard':
     'Require="alignment !~ /Lawful/" ' +
     'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
@@ -3428,8 +3429,8 @@ SRD35.CLASSES = {
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
-      '"1:Flurry Of Blows","1:Improved Unarmed Strike",' +
-      '"1:Monk Armor Class Adjustment",2:Evasion,"3:Unarmed Speed Bonus",' +
+      '"1:Armor Class Bonus","1:Flurry Of Blows","1:Improved Unarmed Strike",' +
+      '"1:Increased Unarmed Damage",2:Evasion,"3:Unarmored Speed Bonus",' +
       '"3:Still Mind","4:Ki Strike","4:Slow Fall","5:Purity Of Body",' +
       '"7:Wholeness Of Body","9:Improved Evasion","10:Lawful Ki Strike",' +
       '"11:Diamond Body","11:Greater Flurry","12:Abundant Step",' +
@@ -3438,7 +3439,15 @@ SRD35.CLASSES = {
       '"20:Perfect Self" ' +
     'Selectables=' +
       '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
-      '"2:Deflect Arrows","6:Improved Disarm","6:Improved Trip"',
+      '"2:Deflect Arrows","6:Improved Disarm","6:Improved Trip" ' +
+    'CasterLevelArcane="source < 12 ? null : Math.floor(Level/2)" ' +
+    'SpellAbility=intelligence ' +
+    'SpellsPerDay=' +
+      'Monk4:12=1,' +
+      'Monk9:19=1 ' +
+    'Spells=' +
+      '"Monk4:Dimension Door",' +
+      'Monk9:Etherealness',
   'Paladin':
     'Require="alignment == \'Lawful Good\'" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
@@ -3448,7 +3457,7 @@ SRD35.CLASSES = {
       '1:Aura,"1:Detect Evil","1:Smite Evil","2:Divine Grace",' +
       '"2:Lay On Hands","3:Aura Of Courage","3:Divine Health","4:Turn Undead",'+
       '"5:Special Mount","6:Remove Disease" ' +
-    'CasterLevelDivine=Math.floor(Level/2) ' +
+    'CasterLevelDivine="source < 4 ? null : Math.floor(Level/2)" ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'P1:4=0;6=1;14=2;18=3,' +
@@ -3485,7 +3494,7 @@ SRD35.CLASSES = {
       '"features.Combat Style (Two-Weapon Combat) ? 11:Greater Two-Weapon Fighting" ' +
     'Selectables=' +
       '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)" ' +
-    'CasterLevelDivine=Math.floor(Level/2) ' +
+    'CasterLevelDivine="source < 4 ? null : Math.floor(Level/2)" ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'R1:4=0;6=1;14=2;18=3,' +
@@ -3539,7 +3548,7 @@ SRD35.CLASSES = {
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
-      '"1:Arcane School","1:Scribe Scroll",1:Familiar ' +
+      '1:Familiar,"1:Scribe Scroll" ' +
     'Selectables=' +
       QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + (x == 'Universal' ? 'None' : x) + ')"').join(',') + ',' +
       QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Universal' && x != 'Divination').map(x => '"1:School Opposition (' + x + ')"').join(',') + ' ' +
@@ -4691,25 +4700,15 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Monk') {
 
-    rules.defineRule('abilityNotes.monkMovement',
+    rules.defineRule('abilityNotes.unarmoredSpeedBonus',
       'levels.Monk', '+=', '10 * Math.floor(source / 3)'
     );
-    rules.defineRule('casterLevels.Dimension Door',
-      'levels.Monk', '^=', 'source < 12 ? null : Math.floor(source / 2)'
+    rules.defineRule('combatNotes.armorClassBonus',
+      'levels.Monk', '=', 'Math.floor(source / 5)',
+      'wisdomModifier', '+', 'source > 0 ? source : null'
     );
-    rules.defineRule('casterLevels.Etherealness',
-      'levels.Monk', '^=', 'source < 19 ? null : Math.floor(source / 2)'
-    );
-    // Set casterLevels.W to a minimal value so that spell DC will be
-    // calcuated even for non-Wizard Monks.
-    rules.defineRule
-      ('casterLevels.W', 'levels.Monk', '^=', 'source < 12 ? null : 1');
     rules.defineRule('combatNotes.flurryOfBlows',
       'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
-    );
-    rules.defineRule('combatNotes.monkArmorClassAdjustment',
-      'levels.Monk', '+=', 'source >= 5 ? Math.floor(source / 5) : null',
-      'wisdomModifier', '+', 'source > 0 ? source : null'
     );
     rules.defineRule('combatNotes.quiveringPalm',
       'levels.Monk', '+=', '10 + Math.floor(source / 2)',
@@ -4736,7 +4735,7 @@ SRD35.classRulesExtra = function(rules, name) {
     // NOTE Our rule engine doesn't support modifying a value via indexing.
     // Here, we work around this limitation by defining rules that set global
     // values as a side effect, then use these values in our calculations.
-    rules.defineRule('monkUnarmedDamage',
+    rules.defineRule('combatNotes.increasedUnarmedDamage',
       'monkFeatures.Flurry Of Blows', '?', null, // Limit these rules to monks
       'levels.Monk', '=',
         'SRD35.SMALL_DAMAGE["monk"] = ' +
@@ -4746,6 +4745,8 @@ SRD35.classRulesExtra = function(rules, name) {
       'features.Small', '=', 'SRD35.SMALL_DAMAGE[SRD35.SMALL_DAMAGE["monk"]]',
       'features.Large', '=', 'SRD35.LARGE_DAMAGE[SRD35.LARGE_DAMAGE["monk"]]'
     );
+    rules.defineRule
+      ('weaponDamage.Unarmed', 'combatNotes.increasedUnarmedDamage', '=', null);
 
   } else if(name == 'Paladin') {
 
@@ -6238,9 +6239,6 @@ SRD35.weaponRules = function(
       'combatNotes.weaponFinesse', '+=', null
     );
   }
-
-  if(name == 'Unarmed')
-    rules.defineRule('weaponDamage.Unarmed', 'monkUnarmedDamage', '=', null);
 
   rules.defineChoice('notes',
     'combatNotes.nonproficientWeaponPenalty.' + name + ':%V attack'
