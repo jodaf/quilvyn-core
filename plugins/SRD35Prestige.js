@@ -236,16 +236,17 @@ SRD35Prestige.CLASSES = {
   'Mystic Theurge':
     'Require=' +
       '"casterLevelArcane >= 2","casterLevelDivine >= 2",' +
-      '"skills.Knowledge (Arcana) >= 6","skills.Knowlege (Religion) >= 6" ' +
-    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
+      '"skills.Knowledge (Arcana) >= 6","skills.Knowledge (Religion) >= 6" ' +
+    'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,"Decipher Script","Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,"Sense Motive",Spellcraft ' +
     'Features="1:Caster Level Bonus"',
   'Shadowdancer':
     'Require=' +
-      '"Combat Reflexes",Dodge,Mobility,"skills.Hide >= 10",' +
-      '"skills.Move Silently >= 8","skills.Perform (Dance) >= 5" ' +
+      '"features.Combat Reflexes",features.Dodge,features.Mobility,' +
+      '"skills.Hide >= 10","skills.Move Silently >= 8",' +
+      '"skills.Perform (Dance) >= 5" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
       'Balance,Bluff,"Decipher Script",Diplomacy,Disguise,"Escape Artist",' +
@@ -260,7 +261,7 @@ SRD35Prestige.CLASSES = {
       '"10:Improved Evasion"',
   'Thaumaturgist':
     'Require="features.Spell Focus (Conjuration)",' +
-    '"features.Lesser Planar Ally" ' +
+    '"Sum /spells.Lesser Planar Ally" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Knowledge (Planes)",' +
