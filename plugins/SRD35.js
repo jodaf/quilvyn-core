@@ -1108,7 +1108,7 @@ SRD35.RACES = {
     'Languages=Common,Elven',
   'Gnome':
     'Features=' +
-      '"Dodge Giants","Gnome Ability Adjustemnt","Gnome Emnity","Keen Ears",' +
+      '"Dodge Giants","Gnome Ability Adjustment","Gnome Emnity","Keen Ears",' +
       '"Keen Nose","Low-Light Vision","Natural Illusionist","Resist Illusion",'+
       'Slow,Small,"Weapon Familiarity (Gnome Hooked Hammer)" ' +
     'Languages=Common,Gnome ' +
@@ -3204,7 +3204,7 @@ SRD35.CLASSES = {
       '"Max /skills.Perform/ >= 15 ? 12:Song Of Freedom",' +
       '"Max /skills.Perform/ >= 18 ? 15:Inspire Heroics",' +
       '"Max /skills.Perform/ >= 21 ? 18:Mass Suggestion" ' +
-    'CasterLevelArcane=Level ' +
+    'CasterLevelArcane=levels.Bard ' +
     'SpellAbility=charisma ' +
     'SpellsPerDay=' +
       'B0:1=2;2=3;14=4,' +
@@ -3262,7 +3262,7 @@ SRD35.CLASSES = {
       '1:Aura,"1:Cleric Domains","1:Spontaneous Cleric Spell","1:Turn Undead" '+
     'Selectables=' +
       QuilvynUtils.getKeys(SRD35.DOMAINS).map(x => '"1:' + x + ' Domain"').join(',') + ' ' +
-    'CasterLevelDivine=Level ' +
+    'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'C0:1=3;2=4;4=5;7=6,' +
@@ -3360,7 +3360,7 @@ SRD35.CLASSES = {
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
       '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
     'Languages=Druidic ' +
-    'CasterLevelDivine=Level ' +
+    'CasterLevelDivine=levels.Druid ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'D0:1=3;2=4;4=5;7=6,' +
@@ -3440,7 +3440,7 @@ SRD35.CLASSES = {
     'Selectables=' +
       '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
       '"2:Deflect Arrows","6:Improved Disarm","6:Improved Trip" ' +
-    'CasterLevelArcane="source < 12 ? null : Math.floor(Level/2)" ' +
+    'CasterLevelArcane="levels.Monk < 12 ? null : Math.floor(levels.Monk/2)" ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
       'Monk4:12=1,' +
@@ -3457,7 +3457,7 @@ SRD35.CLASSES = {
       '1:Aura,"1:Detect Evil","1:Smite Evil","2:Divine Grace",' +
       '"2:Lay On Hands","3:Aura Of Courage","3:Divine Health","4:Turn Undead",'+
       '"5:Special Mount","6:Remove Disease" ' +
-    'CasterLevelDivine="source < 4 ? null : Math.floor(Level/2)" ' +
+    'CasterLevelDivine="levels.Paladin < 4 ? null : Math.floor(levels.Paladin/2)" ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'P1:4=0;6=1;14=2;18=3,' +
@@ -3494,7 +3494,7 @@ SRD35.CLASSES = {
       '"features.Combat Style (Two-Weapon Combat) ? 11:Greater Two-Weapon Fighting" ' +
     'Selectables=' +
       '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)" ' +
-    'CasterLevelDivine="source < 4 ? null : Math.floor(Level/2)" ' +
+    'CasterLevelDivine="levels.Ranger < 4 ? null : Math.floor(levels.Ranger/2)" ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
       'R1:4=0;6=1;14=2;18=3,' +
@@ -3531,7 +3531,7 @@ SRD35.CLASSES = {
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Simple)",1:Familiar ' +
-    'CasterLevelArcane=Level ' +
+    'CasterLevelArcane=levels.Sorcerer ' +
     'SpellAbility=charisma ' +
     'SpellsPerDay=' +
       'S0:1=5;2=6,' +
@@ -3552,7 +3552,7 @@ SRD35.CLASSES = {
     'Selectables=' +
       QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + (x == 'Universal' ? 'None' : x) + ')"').join(',') + ',' +
       QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Universal' && x != 'Divination').map(x => '"1:School Opposition (' + x + ')"').join(',') + ' ' +
-    'CasterLevelArcane=Level ' +
+    'CasterLevelArcane=levels.Wizard ' +
     'SpellAbility=intelligence ' +
     'SpellsPerDay=' +
       'W0:1=3;2=4,' +
@@ -4433,61 +4433,75 @@ SRD35.classRules = function(
     return;
   }
  
+  var classLevel = 'levels.' + name;
   var prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(requires.length > 0)
     SRD35.testRules
-      (rules, 'validation', prefix + 'Class', 'levels.' + name, requires);
+      (rules, 'validation', prefix + 'Class', classLevel, requires);
   if(implies.length > 0)
-    SRD35.testRules
-      (rules, 'sanity', prefix + 'Class', 'levels.' + name, implies);
+    SRD35.testRules(rules, 'sanity', prefix + 'Class', classLevel, implies);
 
   rules.defineRule('baseAttack',
-    'levels.' + name, '+', attack == '1/2' ? 'Math.floor(source / 2)' :
-                           attack == '3/4' ? 'Math.floor(source * 3 / 4)' :
-                           'source'
+    classLevel, '+', attack == '1/2' ? 'Math.floor(source / 2)' :
+                     attack == '3/4' ? 'Math.floor(source * 3 / 4)' :
+                     'source'
   );
 
   var saves = {'Fortitude':saveFort, 'Reflex':saveRef, 'Will':saveWill};
   for(var save in saves) {
     rules.defineRule('class' + save + 'Bonus',
-     'levels.' + name, '+=', saves[save] == '1/2' ? SRD35.SAVE_BONUS_HALF :
-                             SRD35.SAVE_BONUS_THIRD
+      classLevel, '+=', saves[save] == '1/2' ? SRD35.SAVE_BONUS_HALF :
+                        SRD35.SAVE_BONUS_THIRD
     );
     rules.defineRule('save.' + save, 'class' + save + 'Bonus', '+', null);
   }
 
   if(skillPoints != null)
     rules.defineRule
-      ('skillPoints', 'levels.' + name, '+', '(source + 3) * ' + skillPoints);
+      ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
 
   for(var i = 0; i < skills.length; i++) {
-    rules.defineRule('classSkills.' + skills[i], 'levels.' + name, '=', '1');
+    rules.defineRule('classSkills.' + skills[i], classLevel, '=', '1');
   }
 
-  SRD35.featureListRules(rules, features, name, 'levels.' + name, false);
-  SRD35.featureListRules(rules, selectables, name, 'levels.' + name, true);
+  SRD35.featureListRules(rules, features, name, classLevel, false);
+  SRD35.featureListRules(rules, selectables, name, classLevel, true);
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
   if(languages.length > 0)
-    rules.defineRule('languageCount', 'levels.' + name, '+', languages.length);
+    rules.defineRule('languageCount', classLevel, '+', languages.length);
 
   for(var i = 0; i < languages.length; i++) {
     if(languages[i] != '')
-      rules.defineRule('languages.' + languages[i], 'levels.' + name, '=', '1');
+      rules.defineRule('languages.' + languages[i], classLevel, '=', '1');
   }
 
   if(spellsPerDay.length >= 0) {
-    var classCasterLevel = 'source';
+    var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
+    if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
+      rules.defineRule('casterLevels.' + name,
+        classLevel, '=', casterLevelExpr.replace(new RegExp('\\b' + classLevel + '\\b', 'gi'), 'source')
+      );
+    } else {
+      rules.defineRule('casterLevels.' + name,
+        classLevel, '?', null,
+        'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source')
+      );
+    }
     if(casterLevelArcane) {
-      casterLevelArcane = casterLevelArcane.replace(/level/gi, 'source');
-      classCasterLevel = casterLevelArcane;
+      rules.defineRule('casterLevelArcane',
+        'casterLevels.' + name, '+=', null,
+        'magicNotes.casterLevelBonus', '+', null
+      );
     }
     if(casterLevelDivine) {
-      casterLevelDivine = casterLevelDivine.replace(/level/gi, 'source');
-      classCasterLevel = casterLevelDivine;
+      rules.defineRule('casterLevelDivine',
+        'casterLevels.' + name, '+=', null,
+        'magicNotes.casterLevelBonus', '+', null
+      );
     }
     rules.defineRule('spellCountLevel.' + name,
       'levels.' + name, '=', null,
@@ -4515,24 +4529,14 @@ SRD35.classRules = function(
               ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
         );
       }
+      rules.defineRule('casterLevels.' + spellType,
+        'casterLevels.' + name, '=', null,
+        'magicNotes.casterLevelBonus', '+', null
+      );
       rules.defineRule('spellDifficultyClass.' + spellType,
         'casterLevels.' + spellType, '?', null,
         spellModifier, '=', '10 + source'
       );
-      rules.defineRule('casterLevels.' + spellType,
-        'levels.' + name, '=', classCasterLevel,
-         'magicNotes.casterLevelBonus', '+', null
-      );
-      if(casterLevelArcane) {
-        rules.defineRule('casterLevelArcane',
-          'casterLevels.' + spellType, '+=', casterLevelArcane
-        );
-      }
-      if(casterLevelDivine) {
-        rules.defineRule('casterLevelDivine',
-          'casterLevels.' + spellType, '+=', casterLevelDivine
-        );
-      }
     }
   }
 
@@ -6053,7 +6057,6 @@ SRD35.spellRules = function(
           'casterLevels.S', '^=', expr
         );
       }
-      /* TODO spell-specific levels */
       description = description.replace(insert, '%' + i);
     }
   }
