@@ -5776,30 +5776,18 @@ SRD35.schoolRules = function(rules, name, features) {
     return;
   }
 
-  var schoolLevelAttr = 'schoolLevel.' + name;
+  if(name == 'Universal')
+    return;
 
-  for(var i = 0; i < features.length; i++) {
-    var matchInfo = features[i].match(/^((\d+):)?(.*)$/);
-    var feature = matchInfo ? matchInfo[3] : features[i];
-    var level = matchInfo ? matchInfo[2] : 1;
-    if(level == 1)
-      rules.defineRule
-        ('wizardFeatures.' + feature, schoolLevelAttr, '=', '1');
-    else
-      rules.defineRule('wizardFeatures.' + feature,
-        schoolLevelAttr, '=', 'source >= ' + level + ' ? 1 : null'
-      );
-    rules.defineRule
-      ('features.' + feature, 'wizardFeatures.' + feature, '+=', null);
-  }
+  var schoolLevel =
+    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g,'') + 'Level';
 
-  if(name != 'Universal') {
-    rules.defineRule(schoolLevelAttr,
-      'features.School Specialization (' + name + ')', '?', null,
-      'levels.Wizard', '=', null
-    );
-    rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
-  }
+  rules.defineRule(schoolLevel,
+    'features.School Specialization (' + name + ')', '?', null,
+    'levels.Wizard', '=', null
+  );
+  rules.defineRule('spellDCSchoolBonus.' + name, schoolLevel, '=', '0');
+  SRD35.featureListRules(rules, features, 'Wizard', schoolLevel, false);
 
 };
 
@@ -7489,7 +7477,7 @@ SRD35.featureListRules = function(
       rules.defineChoice
         ('selectableFeatures', choice + ':Type="' + setName + '"');
       rules.defineRule(featureAttr, 'selectableFeatures.' + choice, '=', null);
-      SRD35.testRules(rules, 'validation', prefix + ' - ' + feature.replace(/ /g, ''), 'selectableFeatures.' + choice, ['levels.' + setName + ' >= ' + level]);
+      SRD35.testRules(rules, 'validation', prefix + ' - ' + feature.replace(/ /g, ''), 'selectableFeatures.' + choice, [levelAttr + ' >= ' + level]);
     } else if(level == '1') {
       rules.defineRule(featureAttr, levelAttr, '=', '1');
     } else {
