@@ -551,7 +551,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'levels.Paladin', '+', 'source >= 5 ? 1 : null'
     );
 
-    // Adapt Blackguard servant rules to make it a form of animal companion.
+    // Use animal companion stats and features for fiendish servant abilities
     var features = [
       '5:Companion Evasion', '5:Companion Improved Evasion', 
       '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',

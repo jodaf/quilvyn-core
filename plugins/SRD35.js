@@ -4768,8 +4768,6 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.removeDisease',
       'levels.Paladin', '+=', 'Math.floor((source - 3) / 3)'
     );
-    rules.defineRule
-      ('mountMasterLevel', 'levels.Paladin', '=', 'source<5 ? null : source');
     rules.defineRule('saveNotes.divineGrace', 'charismaModifier', '=', null);
     rules.defineRule('turningLevel',
       'levels.Paladin', '+=', 'source > 3 ? source - 3 : null'
@@ -5083,7 +5081,7 @@ SRD35.companionRules = function(
     'companionNotes.shareSavingThrows.3', '+', null
   );
 
-  // Adapt Paladin mount rules to make it a form of animal companion.
+  // Use animal companion stats and features for Paladin's mount abilities
   var features = [
     '5:Companion Evasion', '5:Companion Improved Evasion', 
     '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',
@@ -5091,47 +5089,48 @@ SRD35.companionRules = function(
     '15:Companion Resist Spells'
   ];
   SRD35.featureListRules
-    (rules, features, 'Animal Companion', 'mountMasterLevel', false);
+    (rules, features, 'Animal Companion', 'levels.Paladin', false);
   rules.defineRule('companionNotes.commandLikeCreatures',
-    'mountMasterLevel', '=', '10 + Math.floor(source / 2)',
+    'levels.Paladin', '=', '10 + Math.floor(source / 2)',
     'charismaModifier', '+', null
   );
   rules.defineRule('companionNotes.commandLikeCreatures.1',
     'animalCompanionFeatures.Command Like Creatures', '?', null,
-    'mountMasterLevel', '=', 'Math.floor(source / 2)'
+    'levels.Paladin', '=', 'Math.floor(source / 2)'
   );
   rules.defineRule('animalCompanionStats.AC',
-    'mountMasterLevel', '+', 'Math.floor((source + 1) / 3) * 2'
+    'levels.Paladin', '+', 'Math.floor((source + 1) / 3) * 2'
   );
   rules.defineRule('animalCompanionStats.HD',
-    'mountMasterLevel', '+', 'Math.floor((source - 2) / 3) * 2'
+    'levels.Paladin', '+', 'Math.floor((source - 2) / 3) * 2'
   );
   rules.defineRule('animalCompanionStats.Int',
-    'mountMasterLevel', '^', 'Math.floor((source - 2) / 3) + 5'
+    'levels.Paladin', '^', 'Math.floor((source - 2) / 3) + 5'
   );
   rules.defineRule('animalCompanionStats.Str',
-    'mountMasterLevel', '+', 'Math.floor((source - 2) / 3)'
+    'levels.Paladin', '+', 'Math.floor((source - 2) / 3)'
+  );
+  rules.defineRule('animalCompanionStats.SR',
+    'levels.Paladin', '=', 'source >= 15 ? source + 5 : null'
   );
   rules.defineRule
-    ('animalCompanionStats.SR', 'mountMasterLevel', '=', 'source + 5');
-  rules.defineRule
-    ('companionAttackBoosts', 'mountMasterLevel', '=', '(source - 2) / 6');
+    ('companionAttackBoosts', 'levels.Paladin', '=', '(source - 2) / 6');
   rules.defineRule('companionNotes.shareSavingThrows.1',
     // Use base note in calculation so Quilvyn displays it in italics
     'companionNotes.shareSavingThrows', '?', null,
-    'mountMasterLevel', '=', SRD35.SAVE_BONUS_HALF,
+    'levels.Paladin', '=', SRD35.SAVE_BONUS_HALF,
     'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_HALF + ')',
     '', '^', '0'
   );
   rules.defineRule('companionNotes.shareSavingThrows.2',
     'companionNotes.shareSavingThrows', '?', null,
-    'mountMasterLevel', '=', SRD35.SAVE_BONUS_THIRD,
+    'levels.Paladin', '=', SRD35.SAVE_BONUS_THIRD,
     'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_HALF + ')',
     '', '^', '0'
   );
   rules.defineRule('companionNotes.shareSavingThrows.3',
     'companionNotes.shareSavingThrows', '?', null,
-    'mountMasterLevel', '=', SRD35.SAVE_BONUS_THIRD,
+    'levels.Paladin', '=', SRD35.SAVE_BONUS_THIRD,
     'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_THIRD + ')',
     '', '^', '0'
   );
