@@ -753,10 +753,14 @@ SRD35.FEATURES = {
   'Greater Spell Focus (Necromancy)':'magic:+1 Spell DC (Necromancy)',
   'Greater Spell Focus (Transmutation)':'magic:+1 Spell DC (Transmutation)',
   'Greater Spell Penetration':'magic:+2 caster level vs. resistance checks',
+  'Greater Weapon Focus (Longsword)':'combat:+1 Longsword Attack Modifier',
+  'Greater Weapon Specialization (Longsword)':
+    'combat:+1 Longsword Damage Modifier',
   'Greater Two-Weapon Fighting':'combat:Third off-hand -10 attack',
   'Heighten Spell':'magic:Increase chosen spell level',
   'Improved Bull Rush':'combat:No AOO on Bull Rush, +4 strength check',
   'Improved Counterspell':'magic:Counter w/higher-level spell from same school',
+  'Improved Critical (Longsword)':'combat:x2 Longsword Threat Range',
   'Improved Disarm':'combat:No AOO on Disarm, +4 attack',
   'Improved Familiar':'feature:Expanded Familiar choices',
   'Improved Feint':'combat:Bluff check to Feint as move action',
@@ -828,6 +832,8 @@ SRD35.FEATURES = {
     'combat:+1 AC wielding two weapons, +2 when fighting defensively',
   'Two-Weapon Fighting':'combat:Reduce on-hand penalty by 2, off-hand by 6',
   'Weapon Finesse':'combat:+%V light melee attack (dex instead of str)',
+  'Weapon Focus (Longsword)':'combat:+1 Longsword Attack Modifier',
+  'Weapon Specialization (Longsword)':'combat:+1 Longsword Damage Modifier',
   'Whirlwind Attack':'combat:Attack all foes w/in reach',
   'Widen Spell':'magic:x2 area of affect uses +3 spell slot',
   // Classes
@@ -4133,7 +4139,9 @@ SRD35.goodiesRules = function(rules) {
   // type that the character owns. If the character has, e.g., two longswords,
   // both get the bonus. Ignoring this bug for now.
   for(var weapon in rules.getChoices('weapons')) {
-    var weaponNoSpace = weapon.replace(/\s+/g, '');
+    var weaponNoSpace = weapon.replace(/ /g, '');
+    var prefix =
+      weaponNoSpace.charAt(0).toLowerCase() + weaponNoSpace.substring(1);
     rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment',
       'goodiesList', '=',
         '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
@@ -4143,8 +4151,8 @@ SRD35.goodiesRules = function(rules) {
           '}' +
         ', 0)'
     );
-    rules.defineRule('weaponAttackAdjustment.' + weapon,
-      'combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment', '+=', null
+    rules.defineRule(prefix + 'AttackModifier',
+      'combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment', '+', null
     );
     rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment',
       'goodiesList', '=',
@@ -4155,8 +4163,8 @@ SRD35.goodiesRules = function(rules) {
           '}' +
         ', 0)'
     );
-    rules.defineRule('weaponDamageAdjustment.' + weapon,
-      'combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment', '+=', null
+    rules.defineRule(prefix + 'DamageModifier',
+      'combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment', '+', null
     );
   }
   rules.defineRule('goodiesCompositeStrDamageAdjustment',
@@ -4931,7 +4939,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'features.Large', '=', 'SRD35.LARGE_DAMAGE[SRD35.LARGE_DAMAGE["monk"]]'
     );
     rules.defineRule
-      ('weaponDamage.Unarmed', 'combatNotes.increasedUnarmedDamage', '=', null);
+      ('unarmedDamageDice', 'combatNotes.increasedUnarmedDamage', '=', null);
 
   } else if(name == 'Paladin') {
 
@@ -5428,34 +5436,15 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
  */
 SRD35.featRulesExtra = function(rules, name) {
 
-  var matchInfo;
-
-  // TODO Some of this can likely be generalized
   if(name == 'Combat Reflexes') {
     rules.defineRule
       ('combatNotes.combatReflexes', 'dexterityModifier', '=', 'source + 1');
-  } else if((matchInfo =
-             name.match(/^Greater Weapon Focus \((.*)\)$/)) != null) {
-    var weapon = matchInfo[1];
-    SRD35.featureRules(rules, name, 'combat:+1 attack');
-    rules.defineRule('weaponAttackAdjustment.' + weapon, 'combatNotes.greaterWeaponFocus(' + weapon.replace(/ /g, '') + ')', '+=', '1');
-  } else if((matchInfo =
-             name.match(/^Greater Weapon Specialization \((.*)\)$/))!=null) {
-    var weapon = matchInfo[1];
-    SRD35.featureRules(rules, name, 'combat:+2 damage');
-    rules.defineRule('weaponDamageAdjustment.' + weapon, 'combatNotes.greaterWeaponSpecialization(' + weapon.replace(/ /g, '') + ')', '+=', '2');
-  } else if((matchInfo = name.match(/^Improved Critical \((.*)\)$/)) != null){
-    var weapon = matchInfo[1];
-    SRD35.featureRules(rules, name, 'combat:x2 critical threat range');
-    rules.defineRule('threat.' + weapon, 'combatNotes.improvedCritical(' + weapon.replace(/ /g, '') + ')', '*', '2');
   } else if(name == 'Manyshot') {
     rules.defineRule('combatNotes.manyshot',
       'baseAttack', '=', 'Math.floor((source + 9) / 5)'
     );
   } else if(name == 'Power Attack') {
     rules.defineRule('combatNotes.powerAttack', 'baseAttack', '=', null);
-  } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
-    SRD35.featureRules(rules, name, 'skill:+3 ' + matchInfo[1]);
   } else if(name == 'Spell Mastery') {
     rules.defineRule
       ('magicNotes.spellMastery', 'intelligenceModifier', '=', null);
@@ -5472,15 +5461,6 @@ SRD35.featRulesExtra = function(rules, name) {
       'dexterityModifier', '=', null,
       'strengthModifier', '+', '-source'
     );
-  } else if((matchInfo = name.match(/^Weapon Focus \((.*)\)$/)) != null) {
-    var weapon = matchInfo[1];
-    SRD35.featureRules(rules, name, 'combat:+1 attack');
-    rules.defineRule('weaponAttackAdjustment.' + weapon, 'combatNotes.weaponFocus(' + weapon.replace(/ /g, '') + ')', '+=', '1');
-  } else if((matchInfo =
-             name.match(/^Weapon Specialization \((.*)\)$/)) != null) {
-    var weapon = matchInfo[1];
-    SRD35.featureRules(rules, name, 'combat:+2 damage');
-    rules.defineRule('weaponDamageAdjustment.' + weapon, 'combatNotes.weaponSpecialization(' + weapon.replace(/ /g, '') + ')', '+=', '2');
   }
 
 };
@@ -5527,12 +5507,12 @@ SRD35.featureRules = function(rules, name, notes) {
 
     for(var j = 0; j < pieces.length; j++) {
 
-      if((matchInfo = pieces[j].match(/^([-+](\d+|%V)) (.*)$/)) != null) {
+      if((matchInfo = pieces[j].match(/^([-+x](\d+|%V))\s+(.*)$/)) != null) {
 
         var adjust = matchInfo[1];
         var adjusted = matchInfo[3];
 
-        while(adjusted in SRD35.ABBREVIATIONS)
+        if(adjusted in SRD35.ABBREVIATIONS)
           adjusted = SRD35.ABBREVIATIONS[adjusted];
           
         if((matchInfo = adjusted.match(/^(([A-Z][a-z]*) )?Feat\b/)) != null) {
@@ -5556,9 +5536,15 @@ SRD35.featureRules = function(rules, name, notes) {
         } else {
           continue;
         }
-        rules.defineRule(adjusted,
-          note, '+', adjust == '-%V' ? '-source' : adjust == '+%V' ? 'source' : adjust
-        );
+        if(adjust.startsWith('x')) {
+          rules.defineRule(adjusted,
+            note, '*', adjust == 'x%V' ? 'source' : adjust.substring(1)
+          );
+        } else {
+          rules.defineRule(adjusted,
+            note, '+', adjust == '-%V' ? '-source' : adjust == '+%V' ? 'source' : adjust
+          );
+        }
 
       } else if(section == 'skill' && pieces[j].match(/ class skill(s)?$/)) {
         var skill =
@@ -5980,7 +5966,7 @@ SRD35.spellRules = function(
       var insert = inserts[i - 1];
       var expr = insert[1] == '{' ?
           insert.substring(2, insert.length - 1) : insert.substring(1);
-      while(SRD35.ABBREVIATIONS[expr])
+      if(SRD35.ABBREVIATIONS[expr])
         expr = SRD35.ABBREVIATIONS[expr];
       if(expr.match(/^L\d*((plus|div|min|max|minus|times)\d+)*$/)) {
         var parsed = expr.match(/L\d*|(plus|div|min|max|minus|times)\d+/g);
@@ -6111,6 +6097,8 @@ SRD35.weaponRules = function(
   if(!critMultiplier)
     critMultiplier = 2;
 
+  var prefix =
+    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
   var firstDamage = matchInfo[1];
   var secondDamage = matchInfo[6];
   var weaponName = 'weapons.' + name;
@@ -6129,86 +6117,80 @@ SRD35.weaponRules = function(
 
   rules.defineChoice('notes', weaponName + ':' + format);
 
-  rules.defineRule('attackBonus.' + name,
+  rules.defineRule(prefix + 'AttackModifier',
     'weapons.' + name, '?', null,
-    attackBase, '=', null,
-    'weaponAttackAdjustment.' + name, '+', null
+    attackBase, '=', null
   );
   if(name.startsWith('Composite')) {
-    rules.defineRule
-      ('attackBonus.' + name, 'strengthModifier', '+', 'source < 0 ? -2 : 0');
+    rules.defineRule(prefix + 'AttackModifier',
+      'strengthModifier', '+', 'source < 0 ? -2 : null'
+    );
   }
-  rules.defineRule('damageBonus.' + name, 'weapons.' + name, '?', null);
+  rules.defineRule(weaponName + '.1',
+    prefix + 'AttackModifier', '=', 'source >= 0 ? "+" + source : source'
+  );
+
+  rules.defineRule(prefix + 'DamageModifier', 'weapons.' + name, '?', null);
   if(name.match(/Blowgun|Crossbow|Dartgun|Gun/))
-    rules.defineRule('damageBonus.' + name, '', '=', '0');
+    rules.defineRule(prefix + 'DamageModifier', '', '=', '0');
   else if(name.match(/Longbow|Shortbow/))
-    rules.defineRule('damageBonus.' + name,
+    rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
     );
-  else if(category.match(/1h|2h/))
-    rules.defineRule('damageBonus.' + name,
+  else if(category.match(/[12]h/))
+    rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', null,
       'combatNotes.two-HandedWieldDamageAdjustment', '+', null
     );
   else
-    rules.defineRule('damageBonus.' + name,
+    rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', null
     );
-  rules.defineRule
-    ('damageBonus.' + name, 'weaponDamageAdjustment.' + name, '+', null);
-
-  rules.defineRule(weaponName + '.1',
-    'attackBonus.' + name, '=', 'source < 0 ? source : ("+" + source)'
-  );
-
-  rules.defineRule('weaponDamage.' + name,
+  rules.defineRule(prefix + 'DamageDice',
     'weapons.' + name, '?', null,
     '', '=', '"' + firstDamage + '"',
     'features.Small', '=', '"' + SRD35.SMALL_DAMAGE[firstDamage] + '"',
     'features.Large', '=', '"' + SRD35.LARGE_DAMAGE[firstDamage] + '"'
   );
-  rules.defineRule(weaponName + '.2', 'weaponDamage.' + name, '=', null);
+  rules.defineRule(weaponName + '.2', prefix + 'DamageDice', '=', null);
   rules.defineRule(weaponName + '.3',
-    'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
+    prefix + 'DamageModifier', '=', 'source>0 ? "+" + source : source==0 ? "" : source'
   );
+
   if(secondDamage) {
-    rules.defineRule('weaponDamage2.' + name,
+    rules.defineRule(prefix + 'DamageDice2',
       'weapons.' + name, '?', null,
       '', '=', '"' + secondDamage + '"',
       'features.Small', '=', '"'+SRD35.SMALL_DAMAGE[secondDamage]+'"',
       'features.Large', '=', '"'+SRD35.LARGE_DAMAGE[secondDamage]+'"'
     );
-    rules.defineRule(weaponName + '.4', 'weaponDamage2.' + name, '=', null);
+    rules.defineRule(weaponName + '.4', prefix + 'DamageDice2', '=', null);
     rules.defineRule(weaponName + '.5',
-      'damageBonus.' + name, '=', 'source < 0 ? source : source == 0 ? "" : ("+" + source)'
+      prefix + 'DamageModifier', '=', 'source>0 ? "+" + source : source==0 ? "" : source'
     );
   }
 
-  rules.defineRule('threat.' + name,
-    'weapons.' + name, '=', 21 - threat,
-    'weaponCriticalAdjustment.' + name, '+', null
-  );
-  rules.defineRule(weaponName + '.' + threatVar, 'threat.' + name, '=', '21 - source');
+  rules.defineRule(prefix + 'ThreatRange', 'weapons.' + name, '=', 21 - threat);
+  rules.defineRule
+    (weaponName + '.' + threatVar, prefix + 'ThreatRange', '=', '21 - source');
 
   if(range) {
-    rules.defineRule('range.' + name,
+    rules.defineRule(prefix + 'Range',
       'weapons.' + name, '=', range,
-      'weaponRangeAdjustment.' + name, '+', null,
       'features.Far Shot', '*', name.indexOf('bow') < 0 ? '2' : '1.5'
     );
-    rules.defineRule(weaponName + '.' + rangeVar, 'range.' + name, '=', null);
+    rules.defineRule(weaponName + '.' + rangeVar, prefix + 'Range', '=', null);
   }
 
   if(category == 'Li' || name.match(/^(rapier|whip|spiked chain)$/i)) {
-    rules.defineRule('weaponAttackAdjustment.' + name,
-      'combatNotes.weaponFinesse', '+=', null
-    );
+    rules.defineRule
+      (prefix + 'AttackModifier', 'combatNotes.weaponFinesse', '+=', null);
   }
 
   rules.defineChoice('notes',
     'combatNotes.nonproficientWeaponPenalty.' + name + ':%V attack'
   );
-  rules.defineRule('weaponAttackAdjustment.' + name,
+  rules.defineRule(prefix + 'AttackModifier',
     'weapons.' + name, '?', null,
     'combatNotes.nonproficientArmorPenalty', '+=', null,
     'combatNotes.nonproficientShieldPenalty', '+=', null,
@@ -6235,7 +6217,7 @@ SRD35.weaponRules = function(
       'shield', '?', 'source == "Buckler"',
       'weapons.' + name, '=', '-1'
     );
-    rules.defineRule('weaponAttackAdjustment.' + name,
+    rules.defineRule(prefix + 'AttackModifier',
       'combatNotes.two-handedWeaponWithBucklerPenalty.' + name, '+', '-1'
     );
     SRD35.testRules
