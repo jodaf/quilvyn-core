@@ -280,152 +280,143 @@ SRD35Prestige.CLASSES = {
       '"3:Extended Summoning","4:Contingent Conjuration","5:Planar Cohort"'
 };
 SRD35Prestige.FEATURES = {
-  'Acrobatic Charge':'combat:May charge in difficult terrain',
-  'Applicable Knowledge':'feature:+1 General Feat',
-  'Arcane Fire':'magic:Transform arcane spell into bolt of fire',
-  'Arcane Reach':"magic:Use arcane touch spell 30' away",
+  'Acrobatic Charge':'Section=combat Note="May charge in difficult terrain"',
+  'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
+  'Arcane Fire':'Section=magic Note="Transform arcane spell into bolt of fire"',
+  'Arcane Reach':'Section=magic Note="Use arcane touch spell 30\' away"',
   'Arrow Of Death':
-    'combat:Special arrow requires foe DC 20 fortitude check or die',
-  'Aura Of Despair':"combat:All foes within 10' -2 all saves",
-  'Aura Of Evil':'magic:Visible to <i>Detect Evil</i>',
-  'Bite Attack':'combat:Attack with bite',
-  'Blackguard Hands':'magic:Heal %V HP/dy to self or servant',
+    'Section=combat Note="Special arrow kills foe (DC 20 Fort neg)"',
+  'Aura Of Despair':'Section=combat Note="R10\' Foes -2 all saves"',
+  'Aura Of Evil':'Section=magic Note="Visible to <i>Detect Evil</i>"',
+  'Bite Attack':'Section=combat Note="Attack with bite"',
+  'Blackguard Hands':'Section=magic Note="Heal %V HP/dy to self or servant"',
   'Blast Infidel':
-    'magic:Negative energy spells vs. opposed-alignment foe have max effect',
+    'Section=magic Note="Negative energy spells vs. opposed-alignment foe have max effect"',
   'Blindsense':
-    "feature:Other senses allow detection of unseen objects w/in 30'",
+    'Section=feature Note="R30\' Other senses allow detection of unseen objects"',
   'Blood Bond':
-    'companion:+2 attack, checks, and saves when seeing master threatened',
-  'Bonus Language':'feature:+%V Language Count',
-  'Bonus Spells':'magic:%V',
-  'Breath Weapon':'combat:Breathe %Vd8 HP (DC %1 Ref half) 1/dy',
-  'Canny Defense':'combat:Add %V to melee AC when unarmored',
+    'Section=companion Note="+2 attack, checks, and saves when seeing master threatened"',
+  'Bonus Language':'Section=feature Note="+%V Language Count"',
+  'Bonus Spells':'Section=magic Note="%V"',
+  'Breath Weapon':'Section=combat Note="Breathe %Vd8 HP (DC %1 Ref half) 1/dy"',
+  'Canny Defense':'Section=combat Note="Add %V to melee AC when unarmored"',
   'Caster Level Bonus':
-    'magic:+%V base class level for spells known and spells per day',
-  'Claw Attack':'combat:Attack with claws',
-  'Constitution Boost':'ability:+2 Constitution',
-  'Contingent Conjuration':'magic:<i>Contingency</i> on summoning spell',
-  'Dark Blessing':'save:+%V Fortitude/+%V Reflex/+%V Will',
+    'Section=magic Note="+%V base class level for spells known and spells per day"',
+  'Claw Attack':'Section=combat Note="Attack with claws"',
+  'Constitution Boost':'Section=ability Note="+2 Constitution"',
+  'Contingent Conjuration':
+    'Section=magic Note="<i>Contingency</i> on summoning spell"',
+  'Dark Blessing':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Death Attack':
-    'combat:Foe DC %V fortitude save on successful sneak attack after 3 rd of study or die/paralyzed d6+%1 rd',
-  'Defender Armor':'combat:+%V AC',
+    'Section=combat Note="Sneak attack after 3 rd of study causes death or paralysis d6+%1 rd (DC %V Fort neg)"',
+  'Defender Armor':'Section=combat Note="+%V AC"',
   'Defensive Stance':
-     'feature:+2 Str, +4 Con, +2 saves, +4 AC while unmoving %V rd %1/dy',
-  'Detect Good':'magic:<i>Detect Good</i> at will',
-  'Divine Reach':"magic:Use divine touch spell 30' away",
-  'Dodge Trick':'combat:+1 AC',
-  'Dragon Apotheosis':[
-    'ability:+4 Strength/+2 Charisma',
-    'save:Immune sleep/paralysis/breath weapon energy'
-  ],
-  'Dragon Armor':'combat:+%V AC',
-  'Elaborate Parry':'combat:+%V AC when fighting defensively',
-  'Enhance Arrow':'combat:Arrows treated as +%V magic weapons',
-  'Enhanced Mobility':'combat:+4 AC vs. movement AOO when unarmored',
-  'Extended Summoning':'magic:Summoning spells last twice as long',
+     'Section=feature Note="+2 Str, +4 Con, +2 saves, +4 AC while unmoving %V rd %1/dy"',
+  'Detect Good':'Section=magic Note="<i>Detect Good</i> at will"',
+  'Divine Reach':'Section=magic Note="Use divine touch spell 30\' away"',
+  'Dodge Trick':'Section=combat Note="+1 AC"',
+  'Dragon Apotheosis':
+    'Section=ability,save Note="+4 Strength/+2 Charisma","Immune sleep, paralysis, and breath weapon energy"',
+  'Dragon Armor':'Section=combat Note="+%V AC"',
+  'Elaborate Parry':'Section=combat Note="+%V AC when fighting defensively"',
+  'Enhance Arrow':'Section=combat Note="Arrows treated as +%V magic weapons"',
+  'Enhanced Mobility':
+    'Section=combat Note="+4 AC vs. movement AOO when unarmored"',
+  'Extended Summoning':'Section=magic Note="x2 Summoning spell duration"',
   'Faith Healing':
-    'magic:Healing spells on same-aligned creature have max effect',
-  'Fiendish Servant':'feature:Animal servant w/special abilities',
-  'Fiendish Summoning':'magic:<i>Summon Monster I</i> as level %V caster 1/dy',
+    'Section=magic Note="Healing spells on same-aligned creature have max effect"',
+  'Fiendish Servant':
+    'Section=feature Note="Animal servant w/special abilities"',
+  'Fiendish Summoning':
+    'Section=magic Note="<i>Summon Monster I</i> as level %V caster 1/dy"',
   'Gift Of The Divine':
-    'feature:Transfer undead turn/rebuke to another 1-7 days',
-  'Grace':'save:+2 Reflex when unarmored',
-  'Greater Lore':'magic:<i>Identify</i> at will',
-  'Hail Of Arrows':'combat:Simultaneously fire arrows at %V targets 1/dy',
-  'Imbue Arrow':'magic:Center spell where arrow lands',
-  'Impromptu Sneak Attack':'combat:Declare any attack a sneak attack %V/dy',
-  'Improved Ally':'magic:Planar ally for 1/2 usual payment',
-  'Improved Arcane Reach':"magic:Use arcane touch spell 60' away",
-  'Improved Divine Reach':"magic:Use divine touch spell 60' away",
-  'Improved Reaction':'combat:+%V Initiative',
-  'Instant Mastery':'skill:+4 Skill Points in untrained skill',
-  'Intelligence Boost':'ability:+2 Intelligence',
-  'Lore':'skill:+%V Knowledge checks with local history',
-  'Mastery Of Counterspelling':'magic:Counterspell turns effect back on caster',
-  'Mastery Of Elements':'magic:Change energy type of spell',
-  'Mastery Of Energy':'combat:+4 undead turning checks and damage',
-  'Mastery Of Shaping':'magic:Create holes in spell effect area',
-  'Mobile Defense':"combat:Allowed 5' step during Defensive Stance",
-  'More Newfound Arcana':'magic:Bonus level 2 spell',
-  'Newfound Arcana':'magic:Bonus level 1 spell',
-  'Phase Arrow':'combat:Arrow passes through normal obstacles 1/dy',
-  'Planar Cohort':'magic:Summoned creature serves as cohort',
-  'Poison Tolerance':'save:+%V vs. poison',
-  'Poison Use':'feature:No chance of self-poisoning when applying to blade',
-  'Power Of Nature':'feature:Transfer druid feature to another 1-7 days',
-  'Precise Strike':'combat:Extra %Vd6 HP with light piercing weapon',
+    'Section=feature Note="Transfer undead turn/rebuke to another 1-7 days"',
+  'Grace':'Section=save Note="+2 Reflex when unarmored"',
+  'Greater Lore':'Section=magic Note="<i>Identify</i> at will"',
+  'Hail Of Arrows':
+    'Section=combat Note="Simultaneously fire arrows at %V targets 1/dy"',
+  'Imbue Arrow':'Section=magic Note="Center spell where arrow lands"',
+  'Impromptu Sneak Attack':
+    'Section=combat Note="Declare any attack a sneak attack %V/dy"',
+  'Improved Ally':'Section=magic Note="Planar ally for half usual payment"',
+  'Improved Arcane Reach':
+    'Section=magic Note="Use arcane touch spell 60\' away"',
+  'Improved Divine Reach':
+    'Section=magic Note="Use divine touch spell 60\' away"',
+  'Improved Reaction':'Section=combat Note="+%V Initiative"',
+  'Instant Mastery':'Section=skill Note="+4 Skill Points in untrained skill"',
+  'Intelligence Boost':'Section=ability Note="+2 Intelligence"',
+  'Lore':'Section=skill Note="+%V Knowledge (local history)"',
+  'Mastery Of Counterspelling':
+    'Section=magic Note="Counterspell turns effect back on caster"',
+  'Mastery Of Elements':'Section=magic Note="Change energy type of spell"',
+  'Mastery Of Energy':
+    'Section=combat Note="+4 undead turning checks and damage"',
+  'Mastery Of Shaping':'Section=magic Note="Create holes in spell effect area"',
+  'Mobile Defense':
+    'Section=combat Note="Allowed 5\' step during Defensive Stance"',
+  'More Newfound Arcana':'Section=magic Note="Bonus level 2 spell"',
+  'Newfound Arcana':'Section=magic Note="Bonus level 1 spell"',
+  'Phase Arrow':
+    'Section=combat Note="Arrow passes through normal obstacles 1/dy"',
+  'Planar Cohort':'Section=magic Note="Summoned creature serves as cohort"',
+  'Poison Tolerance':'Section=save Note="+%V vs. poison"',
+  'Poison Use':
+    'Section=feature Note="No chance of self-poisoning when applying to blade"',
+  'Power Of Nature':
+    'Section=feature Note="Transfer druid feature to another 1-7 days"',
+  'Precise Strike':
+    'Section=combat Note="+%Vd6 HP damage with light piercing weapon"',
   'Ranged Legerdemain':
-    "combat:+5 DC on Disable Device, Open Lock, and Sleight Of Hand at 30' %V/dy",
-  'Secret Health':'combat:+3 HP',
-  'Secret Knowledge Of Avoidance':'save:+2 Reflex',
-  'Secrets Of Inner Strength':'save:+2 Will',
-  'Seeker Arrow':'combat:Arrow maneuvers to target 1/dy',
-  'Shadow Illusion':'magic:<i>Silent Image</i> 1/dy',
-  'Shadow Jump':"magic:<i>Dimension Door</i> %V'/dy",
-  'Smite Good':'combat:+%V attack/+%1 damage vs. good foe %2/dy',
-  'Spell Power':'magic:+1 caster level for spell effects',
-  'Spell-Like Ability':'magic:Use spell as ability 2+/dy',
-  'Strength Boost':'ability:+%V Strength',
-  'Summon Shadow':'magic:Summon unturnable %V HD Shadow companion',
-  'Terrain Mastery (Aligned)':'feature:Mimic dominant alignment of any plane',
-  'Terrain Mastery (Aquatic)':[
-    'ability:+10 swim Speed',
-    'combat:+1 attack and damage vs. aquatic creatures',
-    'skill:+4 Swim'
-  ],
-  'Terrain Mastery (Cavernous)':'feature:Tremorsense',
-  'Terrain Mastery (Cold)':[
-    'combat:+1 attack and damage vs. cold elementals/outsiders',
-    'save:20 DC cold resistance'
-  ],
-  'Terrain Mastery (Desert)':[
-    'combat:+1 attack and damage vs. desert creatures',
-    'save:Immune fatigue, resist exhaustion'
-  ],
-  'Terrain Mastery (Fiery)':[
-    'combat:+1 attack and damage vs. fire elementals and fire outsiders',
-    'save:20 DC fire resistance'
-  ],
-  'Terrain Mastery (Forest)':[
-    'combat:+1 attack and damage vs. forest creatures',
-    'skill:+4 Hide'
-  ],
-  'Terrain Mastery (Hills)':[
-    'combat:+1 attack and damage vs. hill creatures',
-    'skill:+4 Listen'
-  ],
-  'Terrain Mastery (Marsh)':[
-    'combat:+1 attack and damage vs. marsh creatures',
-    'skill:+4 Move Silently'
-  ],
-  'Terrain Mastery (Mountains)':[
-    'combat:+1 attack and damage vs. mountain creatures',
-    "feature:+10' climb speed",
-    'skill:+4 Climb'
-  ],
-  'Terrain Mastery (Plains)':[
-    'combat:+1 attack and damage vs. plain creatures',
-    'skill:+4 Spot'
-  ],
-  'Terrain Mastery (Shifting)':[
-    'combat:+1 attack and damage vs. shifting plane elementals and outsiders',
-    'magic:<i>Dimension Door</i> every 1d4 rd'
-  ],
-  'Terrain Mastery (Underground)':[
-    'combat:+1 attack and damage vs. underground creatures',
-    "feature:+60' Darkvision"
-  ],
-   'Terrain Mastery (Weightless)':[
-     'combat:+1 attack and damage vs. astral, elemental air, and ethereal creatures',
-   "feature:+30' fly speed on gravityless planes",
-  ],
-  'The Lore Of True Stamina':'save:+2 Fortitude',
-  'Tremorsense':"feature:Detect creatures in contact w/ground w/in 30'",
-  'True Lore':'magic:<i>Legend Lore</i>, <i>Analyze Dweomer</i> 1/dy',
+    'Section=combat Note="+5 DC on Disable Device, Open Lock, Sleight Of Hand at 30\' %V/dy"',
+  'Secret Health':'Section=combat Note="+3 HP"',
+  'Secret Knowledge Of Avoidance':'Section=save Note="+2 Reflex"',
+  'Secrets Of Inner Strength':'Section=save Note="+2 Will"',
+  'Seeker Arrow':'Section=combat Note="Arrow maneuvers to target 1/dy"',
+  'Shadow Illusion':'Section=magic Note="<i>Silent Image</i> 1/dy"',
+  'Shadow Jump':'Section=magic Note="<i>Dimension Door</i> %V\'/dy"',
+  'Smite Good':'Section=combat Note="+%V attack/+%1 damage vs. good foe %2/dy"',
+  'Spell Power':'Section=magic Note="+1 caster level for spell effects"',
+  'Spell-Like Ability':'Section=magic Note="Use spell as ability 2+/dy"',
+  'Strength Boost':'Section=ability Note="+%V Strength"',
+  'Summon Shadow':
+    'Section=magic Note="Summon unturnable %V HD Shadow companion"',
+  'Terrain Mastery (Aligned)':
+    'Section=feature Note="Mimic dominant alignment of any plane"',
+  'Terrain Mastery (Aquatic)':
+    'Section=ability,combat,skill Note="+10 swim Speed","+1 attack and damage vs. aquatic creatures","+4 Swim"',
+  'Terrain Mastery (Cavernous)':'Section=feature Note="Tremorsense"',
+  'Terrain Mastery (Cold)':
+    'Section=combat,save Note="+1 attack and damage vs. cold elementals and outsiders","20 DC cold resistance"',
+  'Terrain Mastery (Desert)':
+    'Section=combat,save Note="+1 attack and damage vs. desert creatures","Immune fatigue, resist exhaustion"',
+  'Terrain Mastery (Fiery)':
+    'Section=combat,save Note="+1 attack and damage vs. fire elementals and fire outsiders","20 DC fire resistance"',
+  'Terrain Mastery (Forest)':
+    'Section=combat,skill Note="+1 attack and damage vs. forest creatures","+4 Hide"',
+  'Terrain Mastery (Hills)':
+    'Section=combat,skill Note="+1 attack and damage vs. hill creatures","+4 Listen"',
+  'Terrain Mastery (Marsh)':
+    'Section=combat,skill Note="+1 attack and damage vs. marsh creatures","+4 Move Silently"',
+  'Terrain Mastery (Mountains)':
+    'Section=ability,combat,skill Note="+10 climb Speed","+1 attack and damage vs. mountain creatures","+4 Climb"',
+  'Terrain Mastery (Plains)':
+    'Section=combat,skill Note="+1 attack and damage vs. plain creatures","+4 Spot"',
+  'Terrain Mastery (Shifting)':
+    'Section=combat,magic Note="+1 attack and damage vs. shifting plane elementals and outsiders","<i>Dimension Door</i> every 1d4 rd"',
+  'Terrain Mastery (Underground)':
+    'Section=combat,feature Note="+1 attack and damage vs. underground creatures","+60\' Darkvision"',
+  'Terrain Mastery (Weightless)':
+     'Section=ability,combat Note="+30\' fly speed on gravityless planes","+1 attack and damage vs. astral, elemental air, and ethereal creatures"',
+  'The Lore Of True Stamina':'Section=save Note="+2 Fortitude"',
+  'Tremorsense':
+    'Section=feature Note="Detect creatures in contact w/ground w/in 30\'"',
+  'True Lore':
+    'Section=magic Note="<i>Legend Lore</i>, <i>Analyze Dweomer</i> 1/dy"',
   'Undead Companion':
-    'feature:Unturnable undead servant w/fiendish servant abilities',
-  'Weapon Trick':'combat:+1 Melee Attack/+1 Ranged Attack',
-  'Wings':'feature:Fly at normal land speed'
+    'Section=feature Note="Unturnable undead servant w/fiendish servant abilities"',
+  'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"',
+  'Wings':'Section=ability Note="%V Fly Speed"'
 };
 
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
@@ -643,6 +634,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('abilityNotes.strengthBoost',
       'levels.Dragon Disciple', '+=', 'source>=4 ? 4 : source>=2 ? 2 : null'
     );
+    rules.defineRule('abilityNotes.wings', 'speed', '=', null);
     rules.defineRule('combatNotes.breathWeapon',
       'levels.Dragon Disciple', '=', 'source < 7 ? 2 : source < 10 ? 4 : 6'
     );

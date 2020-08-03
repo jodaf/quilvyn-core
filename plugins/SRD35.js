@@ -681,397 +681,444 @@ SRD35.FEATS = {
 };
 SRD35.FEATURES = {
   // Domains
-  'Air Turning':'combat:Turn Earth, rebuke Air',
-  'All-Knowing':'skill:All Knowledge is a class skill',
-  'Animal Talk':'magic:<i>Speak With Animals</i> 1/dy',
-  'Arcane Adept':'magic:Use magic device as W%V',
-  'Deadly Touch':'magic:Touch kills if %Vd6 ge target HP 1/dy',
-  'Destroy Undead':'combat:Destroy turned undead 1/dy',
-  'Deceptive Knowledge':'skill:' +
-    'Bluff is a class skill/Disguise is a class skill/Hide is a class skill',
-  'Earth Turning':'combat:Turn Air, rebuke Earth',
-  'Empowered Chaos':'magic:+1 caster level on Chaos spells',
-  'Empowered Evil':'magic:+1 caster level Evil spells',
-  'Empowered Good':'magic:+1 caster level on Good spells',
-  'Empowered Healing':'magic:+1 caster level Heal spells',
-  'Empowered Knowledge':'magic:+1 caster level Divination spells',
-  'Empowered Law':'magic:+1 caster level Law spells',
-  'Fire Turning':'combat:Turn Water, rebuke Fire',
-  'Good Fortune':'save:Reroll 1/dy',
-  'Nature Knowledge':'skill:Knowledge (Nature) is a class skill',
-  'Outdoors Knowledge':'skill:Survival is a class skill',
-  'Plant Turning':'combat:Turn Plant, rebuke Plant',
-  'Protective Touch':'magic:Touched +%V bonus to next save w/in 1 hour 1/dy',
-  'Smite':'combat:+4 attack, +%V damage 1/dy',
-  'Strength Burst':'ability:+%V Strength 1 rd/dy',
-  'Unhindered':'magic:<i>Freedom Of Movement</i> %V rd/dy',
-  'Water Turning':'combat:Turn Fire, rebuke Water',
-  'Weapon Of War':'feature:Weapon Proficiency (%V)/Weapon Focus (%V)',
+  'Air Turning':'Section=combat Note="Turn Earth, rebuke Air"',
+  'All-Knowing':'Section=skill Note="All Knowledge is a class skill"',
+  'Animal Talk':'Section=magic Note="<i>Speak With Animals</i> 1/dy"',
+  'Arcane Adept':'Section=magic Note="Use magic device as W%V"',
+  'Deadly Touch':'Section=magic Note="Touch kills if %Vd6 ge target HP 1/dy"',
+  'Destroy Undead':'Section=combat Note="Destroy turned undead 1/dy"',
+  'Deceptive Knowledge':
+    'Section=skill Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
+  'Earth Turning':'Section=combat Note="Turn Air, rebuke Earth"',
+  'Empowered Chaos':'Section=magic Note="+1 caster level on Chaos spells"',
+  'Empowered Evil':'Section=magic Note="+1 caster level on Evil spells"',
+  'Empowered Good':'Section=magic Note="+1 caster level on Good spells"',
+  'Empowered Healing':'Section=magic Note="+1 caster level on Heal spells"',
+  'Empowered Knowledge':
+    'Section=magic Note="+1 caster level on Divination spells"',
+  'Empowered Law':'Section=magic Note="+1 caster level on Law spells"',
+  'Fire Turning':'Section=combat Note="Turn Water, rebuke Fire"',
+  'Good Fortune':'Section=save Note="Reroll 1/dy"',
+  'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
+  'Outdoors Knowledge':'Section=skill Note="Survival is a class skill"',
+  'Plant Turning':'Section=combat Note="Turn Plant, rebuke Plant"',
+  'Protective Touch':
+    'Section=magic Note="Touched +%V on next save w/in 1 hour 1/dy"',
+  'Smite':'Section=combat Note="+4 attack, +%V damage 1/dy"',
+  'Strength Burst':'Section=ability Note="+%V Strength 1 rd/dy"',
+  'Unhindered':'Section=magic Note="<i>Freedom Of Movement</i> %V rd/dy"',
+  'Water Turning':'Section=combat Note="Turn Fire, rebuke Water"',
+  'Weapon Of War':
+    'Section=feature Note="Weapon Proficiency (%V)/Weapon Focus (%V)"',
   // Feats
-  'Acrobatic':'skill:+2 Jump/+2 Tumble',
-  'Agile':'skill:+2 Balance/+2 Escape Artist',
-  'Alertness':'skill:+2 Listen/+2 Spot',
-  'Animal Affinity':'skill:+2 Handle Animal/+2 Ride',
-  'Athletic':'skill:+2 Climb/+2 Swim',
-  'Augment Summoning':'magic:Summoned creatures +4 Str, +4 Con',
-  'Blind-Fight':'combat:' +
-    'Reroll concealed miss, no bonus to invisible foe, half penalty ' +
-    'for impaired vision',
-  'Brew Potion':'magic:Create potion for up to 3rd level spell',
-  'Cleave':'combat:Extra attack when foe drops',
+  'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
+  'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
+  'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
+  'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
+  'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
+  'Augment Summoning':'Section=magic Note="Summoned creatures +4 Str, +4 Con"',
+  'Blind-Fight':
+    'Section=combat Note="Reroll concealed miss, no bonus to invisible foe, half penalty for impaired vision"',
+  'Brew Potion':'Section=magic Note="Create potion for up to 3rd level spell"',
+  'Cleave':'Section=combat Note="Extra attack when foe drops"',
   'Combat Casting':
-    'skill:+4 Concentration when casting on defensive or grappling',
-  'Combat Expertise':'combat:Trade up to -5 attack for equal AC bonus',
-  'Combat Reflexes':'combat:Flatfooted AOO, up to %V AOO/rd',
-  'Craft Magic Arms And Armor':'magic:Create/mend magic weapon/armor/shield',
-  'Craft Rod':'magic:Create magic rod',
-  'Craft Staff':'magic:Create magic staff',
-  'Craft Wand':'magic:Create wand for up to 4th level spell',
-  'Craft Wondrous Item':'magic:Create/mend miscellaneous magic item',
-  'Deceitful':'skill:+2 Disguise/+2 Forgery',
-  'Deflect Arrows':'combat:Deflect ranged 1/rd',
-  'Deft Hands':'skill:+2 Sleight Of Hand/+2 Use Rope',
-  'Diehard':'combat:Remain conscious/stable w/HP <= 0',
-  'Diligent':'skill:+2 Appraise/+2 Decipher Script',
-  'Dodge':'combat:+1 AC',
-  'Empower Spell':'magic:x1.5 chosen spell variable effects uses +2 spell slot',
-  'Endurance':'save:+4 extended physical action',
-  'Enlarge Spell':'magic:x2 chosen spell range uses +1 spell slot',
-  'Eschew Materials':'magic:Cast spells w/out materials',
-  'Extend Spell':'magic:x2 chosen spell duration uses +1 spell slot',
-  'Extra Turning':'combat:+4 Turnings',
-  'Far Shot':'combat:x1.5 projectile range, x2 thrown',
-  'Forge Ring':'magic:Create/mend magic ring',
-  'Great Cleave':'combat:Cleave w/out limit',
-  'Great Fortitude':'save:+2 Fortitude',
-  'Greater Spell Focus (Abjuration)':'magic:+1 Spell DC (Abjuration)',
-  'Greater Spell Focus (Conjuration)':'magic:+1 Spell DC (Conjuration)',
-  'Greater Spell Focus (Divination)':'magic:+1 Spell DC (Divination)',
-  'Greater Spell Focus (Enchantment)':'magic:+1 Spell DC (Enhancement)',
-  'Greater Spell Focus (Evocation)':'magic:+1 Spell DC (Evocation)',
-  'Greater Spell Focus (Illusion)':'magic:+1 Spell DC (Illusion)',
-  'Greater Spell Focus (Necromancy)':'magic:+1 Spell DC (Necromancy)',
-  'Greater Spell Focus (Transmutation)':'magic:+1 Spell DC (Transmutation)',
-  'Greater Spell Penetration':'magic:+2 caster level vs. resistance checks',
-  'Greater Weapon Focus (Longsword)':'combat:+1 Longsword Attack Modifier',
+    'Section=skill Note="+4 Concentration (defensive or grappling)"',
+  'Combat Expertise':
+    'Section=combat Note="Trade up to -5 attack for equal AC bonus"',
+  'Combat Reflexes':'Section=combat Note="Flatfooted AOO, up to %V AOO/rd"',
+  'Craft Magic Arms And Armor':
+    'Section=magic Note="Create and mend magic weapons, armor, and shields"',
+  'Craft Rod':'Section=magic Note="Create magic rod"',
+  'Craft Staff':'Section=magic Note="Create magic staff"',
+  'Craft Wand':'Section=magic Note="Create wand for up to 4th level spell"',
+  'Craft Wondrous Item':
+    'Section=magic Note="Create and mend miscellaneous magic items"',
+  'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
+  'Deflect Arrows':'Section=combat Note="No damage from ranged hit 1/rd"',
+  'Deft Hands':'Section=skill Note="+2 Sleight Of Hand/+2 Use Rope"',
+  'Diehard':
+    'Section=combat Note="Remain conscious and stable with negative HP"',
+  'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
+  'Dodge':'Section=combat Note="+1 AC"',
+  'Empower Spell':
+    'Section=magic Note="x1.5 chosen spell variable effects uses +2 spell slot"',
+  'Endurance':'Section=save Note="+4 extended physical action"',
+  'Enlarge Spell':
+    'Section=magic Note="x2 chosen spell range uses +1 spell slot"',
+  'Eschew Materials':'Section=magic Note="Cast spells w/out materials"',
+  'Extend Spell':
+    'Section=magic Note="x2 chosen spell duration uses +1 spell slot"',
+  'Extra Turning':'Section=combat Note="+4 Turnings"',
+  'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
+  'Forge Ring':'Section=magic Note="Create and mend magic rings"',
+  'Great Cleave':'Section=combat Note="Cleave w/out limit"',
+  'Great Fortitude':'Section=save Note="+2 Fortitude"',
+  'Greater Spell Focus (Abjuration)':
+    'Section=magic Note="+1 Spell DC (Abjuration)"',
+  'Greater Spell Focus (Conjuration)':
+    'Section=magic Note="+1 Spell DC (Conjuration)"',
+  'Greater Spell Focus (Divination)':
+    'Section=magic Note="+1 Spell DC (Divination)"',
+  'Greater Spell Focus (Enchantment)':
+    'Section=magic Note="+1 Spell DC (Enhancement)"',
+  'Greater Spell Focus (Evocation)':
+    'Section=magic Note="+1 Spell DC (Evocation)"',
+  'Greater Spell Focus (Illusion)':
+    'Section=magic Note="+1 Spell DC (Illusion)"',
+  'Greater Spell Focus (Necromancy)':
+    'Section=magic Note="+1 Spell DC (Necromancy)"',
+  'Greater Spell Focus (Transmutation)':
+    'Section=magic Note="+1 Spell DC (Transmutation)"',
+  'Greater Spell Penetration':
+    'Section=magic Note="+2 caster level vs. resistance checks"',
+  'Greater Weapon Focus (Longsword)':
+    'Section=combat Note="+1 Longsword Attack Modifier"',
   'Greater Weapon Specialization (Longsword)':
-    'combat:+1 Longsword Damage Modifier',
-  'Greater Two-Weapon Fighting':'combat:Third off-hand -10 attack',
-  'Heighten Spell':'magic:Increase chosen spell level',
-  'Improved Bull Rush':'combat:No AOO on Bull Rush, +4 strength check',
-  'Improved Counterspell':'magic:Counter w/higher-level spell from same school',
-  'Improved Critical (Longsword)':'combat:x2 Longsword Threat Range',
-  'Improved Disarm':'combat:No AOO on Disarm, +4 attack',
-  'Improved Familiar':'feature:Expanded Familiar choices',
-  'Improved Feint':'combat:Bluff check to Feint as move action',
-  'Improved Grapple':'combat:No AOO on Grapple, +4 Grapple',
-  'Improved Initiative':'combat:+4 Initiative',
-  'Improved Overrun':'combat:Foe cannot avoid, +4 strength check',
+    'Section=combat Note="+1 Longsword Damage Modifier"',
+  'Greater Two-Weapon Fighting':
+    'Section=combat Note="Third off-hand -10 attack"',
+  'Heighten Spell':'Section=magic Note="Increase chosen spell level"',
+  'Improved Bull Rush':
+    'Section=combat Note="No AOO on Bull Rush, +4 Str check"',
+  'Improved Counterspell':
+    'Section=magic Note="Counter using higher-level spell from same school"',
+  'Improved Critical (Longsword)':
+    'Section=combat Note="x2 Longsword Threat Range"',
+  'Improved Disarm':'Section=combat Note="No AOO on Disarm, +4 attack"',
+  'Improved Familiar':'Section=feature Note="Expanded Familiar choices"',
+  'Improved Feint':'Section=combat Note="Bluff check to Feint as move action"',
+  'Improved Grapple':'Section=combat Note="No AOO on Grapple, +4 Grapple"',
+  'Improved Initiative':'Section=combat Note="+4 Initiative"',
+  'Improved Overrun':'Section=combat Note="Foe cannot avoid, +4 Str check"',
   'Improved Precise Shot':
-    'combat:No foe AC bonus for partial concealment, attack grappling target',
-  'Improved Shield Bash':'combat:No AC penalty on Shield Bash',
-  'Improved Sunder':'combat:No AOO on Sunder, +4 attack',
-  'Improved Trip':'combat:No AOO on Trip, +4 strength check, attack after trip',
-  'Improved Turning':'combat:+1 Turning Level',
-  'Improved Two-Weapon Fighting':'combat:Second off-hand -5 attack',
+    'Section=combat Note="No foe AC bonus for partial concealment, attack grappling target"',
+  'Improved Shield Bash':'Section=combat Note="No AC penalty on Shield Bash"',
+  'Improved Sunder':'Section=combat Note="No AOO on Sunder, +4 attack"',
+  'Improved Trip':
+    'Section=combat Note="No AOO on Trip, +4 Str check, attack after trip"',
+  'Improved Turning':'Section=combat Note="+1 Turning Level"',
+  'Improved Two-Weapon Fighting':
+    'Section=combat Note="Second off-hand -5 attack"',
   'Improved Unarmed Strike':
-    'combat:No AOO on unarmed attack, may deal lethal damage',
-  'Investigator':'skill:+2 Gather Information/+2 Search',
-  'Iron Will':'save:+2 Will',
-  'Leadership':'feature:Attract followers',
-  'Lightning Reflexes':'save:+2 Reflex',
-  'Magical Aptitude':'skill:+2 Spellcraft/+2 Use Magic Device',
-  'Manyshot':'combat:Fire up to %V arrows simultaneously at -2 attack',
+    'Section=combat Note="No AOO on Unarmed attack, may deal lethal damage"',
+  'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
+  'Iron Will':'Section=save Note="+2 Will"',
+  'Leadership':'Section=feature Note="Attract followers"',
+  'Lightning Reflexes':'Section=save Note="+2 Reflex"',
+  'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
+  'Manyshot':
+    'Section=combat Note="Fire up to %V arrows simultaneously at -2 attack"',
   'Maximize Spell':
-    'magic:Maximize all chosen spell variable effects uses +3 spell slot',
-  'Mobility':'combat:+4 AC vs. movement AOO',
-  'Mounted Archery':'combat:x.5 mounted ranged penalty',
-  'Mounted Combat':'combat:Ride skill save vs. mount damage 1/rd',
-  'Natural Spell':'magic:Cast spell during <i>Wild Shape</i>',
-  'Negotiator':'skill:+2 Diplomacy/+2 Sense Motive',
-  'Nimble Fingers':'skill:+2 Disable Device/+2 Open Lock',
-  'Persuasive':'skill:+2 Bluff/+2 Intimidate',
-  'Point-Blank Shot':"combat:+1 ranged attack and damage w/in 30'",
-  'Power Attack':'combat:Trade up to -%V attack for equal damage bonus',
-  'Precise Shot':'combat:No penalty on shot into melee',
-  'Quick Draw':'combat:Draw weapon as free action',
-  'Quicken Spell':'magic:Free action casting 1/rd uses +4 spell slot',
-  'Rapid Reload (Hand)':'combat:Reload Hand Crossbow as free action',
-  'Rapid Reload (Heavy)':'combat:Reload Heavy Crossbow as move action',
-  'Rapid Reload (Light)':'combat:Reload Light Crossbow as free action',
-  'Rapid Shot':'combat:Normal and extra ranged -2 attacks',
-  'Ride-By Attack':'combat:Move before, after mounted attack',
-  'Run':[
-    'ability:+1 Run Speed Multiplier',
-    'skill:+4 running Jump'
-  ],
-  'Scribe Scroll':'magic:Create scroll of any known spell',
-  'Self-Sufficient':'skill:+2 Heal/+2 Survival',
-  'Shot On The Run':'combat:Move before, after ranged attack',
-  'Silent Spell':'magic:Cast spell w/out speech uses +1 spell slot',
-  'Snatch Arrows':'combat:Catch ranged weapons',
-  'Spell Focus (Abjuration)':'magic:+1 Spell DC (Abjuration)',
-  'Spell Focus (Conjuration)':'magic:+1 Spell DC (Conjuration)',
-  'Spell Focus (Divination)':'magic:+1 Spell DC (Divination)',
-  'Spell Focus (Enchantment)':'magic:+1 Spell DC (Enhancement)',
-  'Spell Focus (Evocation)':'magic:+1 Spell DC (Evocation)',
-  'Spell Focus (Illusion)':'magic:+1 Spell DC (Illusion)',
-  'Spell Focus (Necromancy)':'magic:+1 Spell DC (Necromancy)',
-  'Spell Focus (Transmutation)':'magic:+1 Spell DC (Transmutation)',
-  'Spell Mastery':'magic:Prepare %V spells w/out spellbook',
-  'Spell Penetration':'magic:+2 checks to overcome spell resistance',
-  'Spirited Charge':'combat:x2 damage (x3 lance) from mounted charge',
-  'Spring Attack':'combat:Move before, after melee attack',
-  'Stealthy':'skill:+2 Hide/+2 Move Silently',
-  'Still Spell':'magic:Cast spell w/out movement uses +1 spell slot',
-  'Stunning Fist':'combat:Foe stunned %1/dy (DC %V Fort neg)',
-  'Toughness':'combat:+3 HP',
-  'Track':"skill:Survival to follow creatures' trail",
-  'Trample':'combat:Mounted overrun unavoidable, bonus hoof attack',
+    'Section=magic Note="Maximize all chosen spell variable effects uses +3 spell slot"',
+  'Mobility':'Section=combat Note="+4 AC vs. movement AOO"',
+  'Mounted Archery':'Section=combat Note="x.5 mounted ranged penalty"',
+  'Mounted Combat':
+    'Section=combat Note="Ride skill save vs. mount damage 1/rd"',
+  'Natural Spell':'Section=magic Note="Cast spell during <i>Wild Shape</i>"',
+  'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
+  'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
+  'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
+  'Point-Blank Shot':
+    'Section=combat Note="+1 ranged attack and damage w/in 30\'"',
+  'Power Attack':
+    'Section=combat Note="Trade up to -%V attack for equal damage bonus"',
+  'Precise Shot':'Section=combat Note="No penalty on shot into melee"',
+  'Quick Draw':'Section=combat Note="Draw weapon as free action"',
+  'Quicken Spell':
+    'Section=magic Note="Free action casting 1/rd uses +4 spell slot"',
+  'Rapid Reload (Hand)':
+    'Section=combat Note="Reload Hand Crossbow as free action"',
+  'Rapid Reload (Heavy)':
+    'Section=combat Note="Reload Heavy Crossbow as move action"',
+  'Rapid Reload (Light)':
+    'Section=combat Note="Reload Light Crossbow as free action"',
+  'Rapid Shot':
+    'Section=combat Note="Normal and extra ranged -2 attacks"',
+  'Ride-By Attack':
+    'Section=combat Note="Move before, after mounted attack"',
+  'Run':
+    'Section=ability,skill Note="+1 Run Speed Multiplier","+4 running Jump"',
+  'Scribe Scroll':'Section=magic Note="Create scroll of any known spell"',
+  'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
+  'Shot On The Run':'Section=combat Note="Move before, after ranged attack"',
+  'Silent Spell':
+    'Section=magic Note="Cast spell w/out speech uses +1 spell slot"',
+  'Snatch Arrows':'Section=combat Note="Catch ranged weapons"',
+  'Spell Focus (Abjuration)':'Section=magic Note="+1 Spell DC (Abjuration)"',
+  'Spell Focus (Conjuration)':'Section=magic Note="+1 Spell DC (Conjuration)"',
+  'Spell Focus (Divination)':'Section=magic Note="+1 Spell DC (Divination)"',
+  'Spell Focus (Enchantment)':'Section=magic Note="+1 Spell DC (Enhancement)"',
+  'Spell Focus (Evocation)':'Section=magic Note="+1 Spell DC (Evocation)"',
+  'Spell Focus (Illusion)':'Section=magic Note="+1 Spell DC (Illusion)"',
+  'Spell Focus (Necromancy)':'Section=magic Note="+1 Spell DC (Necromancy)"',
+  'Spell Focus (Transmutation)':
+    'Section=magic Note="+1 Spell DC (Transmutation)"',
+  'Spell Mastery':'Section=magic Note="Prepare %V spells w/out spellbook"',
+  'Spell Penetration':
+    'Section=magic Note="+2 checks to overcome spell resistance"',
+  'Spirited Charge':
+    'Section=combat Note="x2 damage (x3 lance) on mounted charge"',
+  'Spring Attack':'Section=combat Note="Move before, after melee attack"',
+  'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
+  'Still Spell':
+    'Section=magic Note="Cast spell w/out movement uses +1 spell slot"',
+  'Stunning Fist':
+    'Section=combat Note="Struck foe stunned %1/dy (DC %V Fort neg)"',
+  'Toughness':'Section=combat Note="+3 HP"',
+  'Track':'Section=skill Note="Survival to follow creatures\' trails"',
+  'Trample':
+    'Section=combat Note="Mounted overrun unavoidable, bonus hoof attack"',
   'Two-Weapon Defense':
-    'combat:+1 AC wielding two weapons, +2 when fighting defensively',
-  'Two-Weapon Fighting':'combat:Reduce on-hand penalty by 2, off-hand by 6',
-  'Weapon Finesse':'combat:+%V light melee attack (dex instead of str)',
-  'Weapon Focus (Longsword)':'combat:+1 Longsword Attack Modifier',
-  'Weapon Specialization (Longsword)':'combat:+1 Longsword Damage Modifier',
-  'Whirlwind Attack':'combat:Attack all foes w/in reach',
-  'Widen Spell':'magic:x2 area of affect uses +3 spell slot',
+    'Section=combat Note="+1 AC wielding two weapons (+2 fighting defensively)"',
+  'Two-Weapon Fighting':
+    'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
+  'Weapon Finesse':
+    'Section=combat Note="+%V light melee attack (dex instead of str)"',
+  'Weapon Focus (Longsword)':
+    'Section=combat Note="+1 Longsword Attack Modifier"',
+  'Weapon Specialization (Longsword)':
+    'Section=combat Note="+1 Longsword Damage Modifier"',
+  'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
+  'Widen Spell':'Section=magic Note="x2 area of affect uses +3 spell slot"',
   // Classes
-  'Abundant Step':'magic:<i>Dimension Door</i> 1/dy',
-  'Adamantine Ki Strike':'combat:Treat unarmed as adamantine weapon',
-  'Animal Companion':'feature:Special bond/abilities',
-  'Armor Class Bonus':'combat:+%V AC',
+  'Abundant Step':'Section=magic Note="<i>Dimension Door</i> 1/dy"',
+  'Adamantine Ki Strike':
+    'Section=combat Note="Treat Unarmed as adamantine weapon"',
+  'Animal Companion':'Section=feature Note="Special bond and abilities"',
+  'Armor Class Bonus':'Section=combat Note="+%V AC"',
   'Aura':
-    "magic:Visible to <i>Detect Chaos/Evil/Good/Law</i> depending on deity's alignment",
-  'Aura Of Courage':"save:Immune fear, +4 to allies w/in 30'",
+    'Section=magic Note="Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment"',
+  'Aura Of Courage':'Section=save Note="Immune fear, +4 to allies w/in 30\'"',
   'Bardic Knowledge':
-    'skill:+%V check for knowledge of notable people, items, places',
-  'Bardic Music':"feature:Bardic music effect %V/dy",
-  'Camouflage':'skill:Hide in any natural terrain',
-  'Countersong':"magic:Perform check vs. sonic magic w/in 30' 10 rd",
-  'Crippling Strike':'combat:2 points strength damage from sneak attack',
-  'Damage Reduction':'combat:Negate %V points of damage each attack',
+    'Section=skill Note="+%V check for knowledge of notable people, items, places"',
+  'Bardic Music':'Section=feature Note="Bardic music effect %V/dy"',
+  'Camouflage':'Section=skill Note="Hide in any natural terrain"',
+  'Countersong':
+    'Section=magic Note="R30\' Perform check vs. sonic magic for 10 rd"',
+  'Crippling Strike':
+    'Section=combat Note="2 points Str damage from sneak attack"',
+  'Damage Reduction':'Section=combat Note="Negate %V HP each attack"',
   'Defensive Roll':
-    'combat:DC damage Reflex save vs. lethal blow for half damage',
-  'Detect Evil':'magic:<i>Detect Evil</i> at will',
-  'Diamond Body':'save:Immune to poison',
-  'Diamond Soul':'save:DC %V spell resistance',
-  'Divine Grace':'save:+%V Fortitude/+%V Reflex/+%V Will',
-  'Divine Health':'save:Immune to disease',
-  'Elemental Shape':'magic:Wild Shape to elemental %V/dy',
-  'Empty Body':'magic:<i>Etherealness</i> %V rd/dy',
-  'Endurance':'save:+4 extended physical action',
-  'Evasion':'save:Reflex save yields no damage instead of half',
-  'Familiar':'feature:Special bond/abilities',
-  'Fascinate':"magic:R90' Hold %V creatures spellbound %1 rd (Will neg)",
-  'Fast Movement':"ability:+10 Speed",
-  'Favored Enemy':[
-    'combat:+2 or more damage vs. %V type(s) of creatures',
-    'skill:+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V type(s) of creatures',
-  ],
-  'Flurry Of Blows':'combat:Take %V penalty for extra attack',
-  'Greater Flurry':'combat:Extra attack',
-  'Greater Rage':'combat:+6 Str, +6 Con, +3 Will',
+    'Section=combat Note="DC damage Reflex save vs. lethal blow for half damage"',
+  'Detect Evil':'Section=magic Note="<i>Detect Evil</i> at will"',
+  'Diamond Body':'Section=save Note="Immune to poison"',
+  'Diamond Soul':'Section=save Note="DC %V spell resistance"',
+  'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
+  'Divine Health':'Section=save Note="Immune to disease"',
+  'Elemental Shape':'Section=magic Note="Wild Shape to elemental %V/dy"',
+  'Empty Body':'Section=magic Note="<i>Etherealness</i> %V rd/dy"',
+  // Endurance as per feat
+  'Evasion':'Section=save Note="Reflex save yields no damage instead of half"',
+  'Familiar':'Section=feature Note="Special bond and abilities"',
+  'Fascinate':
+    'Section=magic Note="R90\' Hold %V creatures spellbound %1 rd (Will neg)"',
+  'Fast Movement':'Section=ability Note="+10 Speed"',
+  'Favored Enemy':
+    'Section=combat,skill Note="+2 or more damage vs. %V chosen creature type","+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V chosen creature type"',
+  'Flurry Of Blows':'Section=combat Note="Trade -%V attack for extra attack"',
+  'Greater Flurry':'Section=combat Note="Extra attack"',
+  'Greater Rage':'Section=combat Note="+6 Str, +6 Con, +3 Will during rage"',
   // Greater Two-Weapon Fighting as per feat
-  'Hide In Plain Sight':'skill:Hide even when observed',
-  'Illiteracy':'skill:Must spend 2 skill points to read/write',
-  'Improved Evasion':'save:Failed save yields half damage',
+  'Hide In Plain Sight':'Section=skill Note="Hide even when observed"',
+  'Illiteracy':
+    'Section=skill Note="Must spend 2 skill points to read and write"',
+  'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Improved Precise Shot':
-    'combat:No foe AC bonus for partial concealment, attack grappling target',
+    'Section=combat Note="No foe AC bonus for partial concealment, attack grappling target"',
   // Improved Two-Weapon Fighting as per feat
   // Improved Unarmed Strike as per feat
   'Improved Uncanny Dodge':
-    'combat:Cannot be flanked, sneak attack only by rogue level %V+',
-  'Increased Unarmed Damage':'combat:%V',
-  'Indomitable Will':'save:+4 enchantment resistance during rage',
-  'Inspire Competence':'magic:+2 allies skill checks while performing',
+    'Section=combat Note="Cannot be flanked, sneak attack only by rogue level %V+"',
+  'Increased Unarmed Damage':'Section=combat Note="%V"',
+  'Indomitable Will':'Section=save Note="+4 enchantment resistance during rage"',
+  'Inspire Competence':
+    'Section=magic Note="+2 allies skill checks while performing"',
   'Inspire Courage':
-    'magic:+%V allies attack, damage, charm, fear saves while performing',
+    'Section=magic Note="+%V allies attack, damage, charm, fear saves while performing"',
   'Inspire Greatness':
-    'magic:%V allies +2d10 HP, +2 attack, +1 Fortitude while performing',
-  'Inspire Heroics':'magic:%V allies +4 AC and saves while performing',
-  'Ki Strike':'combat:Treat unarmed as magic weapon',
-  'Lawful Ki Strike':'combat:Treat unarmed as lawful weapon',
-  'Lay On Hands':'magic:Harm undead or heal %V HP/dy',
-  'Manyshot':'combat:Fire up to %V arrows simultaneously at -2 attack',
+    'Section=magic Note="%V allies +2d10 HP, +2 attack, +1 Fortitude while performing"',
+  'Inspire Heroics':
+    'Section=magic Note="%V allies +4 AC and saves while performing"',
+  'Ki Strike':'Section=combat Note="Treat Unarmed as magic weapon"',
+  'Lawful Ki Strike':'Section=combat Note="Treat Unarmed as lawful weapon"',
+  'Lay On Hands':'Section=magic Note="Harm undead or heal %V HP/dy"',
+  'Manyshot':
+    'Section=combat Note="Fire up to %V arrows simultaneously at -2 attack"',
   'Mass Suggestion':
-    'magic:<i>Suggestion</i> to all fascinated creatures (DC %V neg)',
-  'Mighty Rage':'combat:+8 Str, +8 Con, +4 Will',
-  'Nature Sense':'skill:+2 Knowledge (Nature)/+2 Survival',
-  'Opportunist':'combat:AOO vs. foe struck by ally',
-  'Perfect Self':[
-    'combat:Ignore first 10 points of non-magical damage',
-    'save:Treat as outsider for magic saves',
-  ],
-  'Purity Of Body':'save:Immune to normal disease',
-  'Quivering Palm':'combat:Foe dies 1/wk (DC %V Fort neg)',
-  'Rage':'combat:+4 Str, +4 Con, +2 Will, -2 AC %V rd %1/dy',
-  'Rapid Shot':'combat:Normal and extra ranged -2 attacks',
-  'Remove Disease':'magic:<i>Remove Disease</i> %V/week',
-  "Resist Nature's Lure":'save:+4 vs. spells of feys',
+    'Section=magic Note="<i>Suggestion</i> to all fascinated creatures (DC %V neg)"',
+  'Mighty Rage':'Section=combat Note="+8 Str, +8 Con, +4 Will during rage"',
+  'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
+  'Opportunist':'Section=combat Note="AOO vs. foe struck by ally"',
+  'Perfect Self':
+    'Section=combat,save Note="DR 10/magic","Treat as outsider for magic saves"',
+  'Purity Of Body':'Section=save Note="Immune to normal disease"',
+  'Quivering Palm':
+    'Section=combat Note="Struck foe dies 1/wk (DC %V Fort neg)"',
+  'Rage':'Section=combat Note="+4 Str, +4 Con, +2 Will, -2 AC %V rd %1/dy"',
+  'Rapid Shot':'Section=combat Note="Normal and extra ranged -2 attacks"',
+  'Remove Disease':'Section=magic Note="<i>Remove Disease</i> %V/week"',
+  "Resist Nature's Lure":'Section=save Note="+4 vs. spells of feys"',
   // Scribe Scroll as per feat
   'School Opposition (Abjuration)':
-    'magic:Cannot learn or cast Abjuration spells',
+    'Section=magic Note="Cannot learn or cast Abjuration spells"',
   'School Opposition (Conjuration)':
-    'magic:Cannot learn or cast Conjuration spells',
+    'Section=magic Note="Cannot learn or cast Conjuration spells"',
   'School Opposition (Enchantment)':
-    'magic:Cannot learn or cast Enchantment spells',
+    'Section=magic Note="Cannot learn or cast Enchantment spells"',
   'School Opposition (Evocation)':
-    'magic:Cannot learn or cast Evocation spells',
+    'Section=magic Note="Cannot learn or cast Evocation spells"',
   'School Opposition (Illusion)':
-    'magic:Cannot learn or cast Illusion spells',
+    'Section=magic Note="Cannot learn or cast Illusion spells"',
   'School Opposition (Necromancy)':
-    'magic:Cannot learn or cast Necromancy spells',
+    'Section=magic Note="Cannot learn or cast Necromancy spells"',
   'School Opposition (Transmutation)':
-    'magic:Cannot learn or cast Transmutation spells',
-  'School Specialization (Abjuration)':[
-    'magic:Extra Abjuration spell/dy each spell level',
-    'skill:+2 Spellcraft (Abjuration effects)',
-  ],
-  'School Specialization (Conjuration)':[
-    'magic:Extra Abjuration spell/dy each spell level',
-    'skill:+2 Spellcraft (Conjuration effects)',
-  ],
-  'School Specialization (Divination)':[
-    'magic:Extra Divination spell/dy each spell level',
-    'skill:+2 Spellcraft (Divination effects)',
-  ],
-  'School Specialization (Enchantment)':[
-    'magic:Extra Enchantment spell/dy each spell level',
-    'skill:+2 Spellcraft (Enchantment effects)',
-  ],
-  'School Specialization (Evocation)':[
-    'magic:Extra Evocation spell/dy each spell level',
-    'skill:+2 Spellcraft (Evocation effects)',
-  ],
-  'School Specialization (Illusion)':[
-    'magic:Extra Illusion spell/dy each spell level',
-    'skill:+2 Spellcraft (Illusion effects)',
-  ],
-  'School Specialization (Necromancy)':[
-    'magic:Extra Necromancy spell/dy each spell level',
-    'skill:+2 Spellcraft (Necromancy effects)',
-  ],
-  'School Specialization (Transmutation)':[
-    'magic:Extra Transmutation spell/dy each spell level',
-    'skill:+2 Spellcraft (Transmutation effects)',
-  ],
-  'Simple Somatics':'magic:No casting penalty in light armor',
-  'Skill Mastery':'skill:Take 10 despite distraction on %V chosen skills',
-  'Slippery Mind':'save:Second save vs. enchantment',
-  'Slow Fall':"save:Subtract %V' from falling damage distance",
-  'Smite Evil':'combat:+%V attack/+%1 damage vs. evil foe %2/dy',
-  'Sneak Attack':'combat:%Vd6 HP extra when surprising or flanking',
-  'Song Of Freedom':'magic:<i>Break Enchantment</i> through performing',
-  'Special Mount':'feature:Magical mount w/special abilities',
+    'Section=magic Note="Cannot learn or cast Transmutation spells"',
+  'School Specialization (Abjuration)':
+    'Section=magic,skill Note="Extra Abjuration spell/dy each spell level","+2 Spellcraft (Abjuration effects)"',
+  'School Specialization (Conjuration)':
+    'Section=magic,skill Note="Extra Conjuration spell/dy each spell level","+2 Spellcraft (Conjuration effects)"',
+  'School Specialization (Divination)':
+    'Section=magic,skill Note="Extra Divination spell/dy each spell level","+2 Spellcraft (Divination effects)"',
+  'School Specialization (Enchantment)':
+    'Section=magic,skill Note="Extra Enchantment spell/dy each spell level","+2 Spellcraft (Enchantment effects)"',
+  'School Specialization (Evocation)':
+    'Section=magic,skill Note="Extra Evocation spell/dy each spell level","+2 Spellcraft (Evocation effects)"',
+  'School Specialization (Illusion)':
+    'Section=magic,skill Note="Extra Illusion spell/dy each spell level","+2 Spellcraft (Illusion effects)"',
+  'School Specialization (Necromancy)':
+    'Section=magic,skill Note="Extra Necromancy spell/dy each spell level","+2 Spellcraft (Necromancy effects)"',
+  'School Specialization (Transmutation)':
+    'Section=magic,skill Note="Extra Transmutation spell/dy each spell level","+2 Spellcraft (Transmutation effects)"',
+  'Simple Somatics':
+    'Section=magic Note="No arcane spell failure in light armor"',
+  'Skill Mastery':
+    'Section=skill Note="Take 10 despite distraction on %V chosen skills"',
+  'Slippery Mind':'Section=save Note="Second save vs. enchantment"',
+  'Slow Fall':'Section=save Note="Subtract %V\' from falling damage distance"',
+  'Smite Evil':'Section=combat Note="+%V attack/+%1 damage vs. evil foe %2/dy"',
+  'Sneak Attack':
+    'Section=combat Note="Hit +%Vd6 HP when surprising or flanking"',
+  'Song Of Freedom':'Section=magic Note="<i>Break Enchantment</i> via Perform"',
+  'Special Mount':'Section=feature Note="Magical mount w/special abilities"',
   'Spontaneous Cleric Spell':
-    'magic:Cast <i>Cure</i> or <i>Inflict<i> in place of known spell',
+    'Section=magic Note="Cast <i>Cure</i> or <i>Inflict<i> in place of known spell"',
   'Spontaneous Druid Spell':
-    "magic:Cast <i>Summon Nature's Ally</i> in place of known spell",
-  'Still Mind':'save:+2 vs. enchantment',
+    'Section=magic Note="Cast <i>Summon Nature\'s Ally</i> in place of known spell"',
+  'Still Mind':'Section=save Note="+2 vs. enchantment"',
   'Suggestion':
-    'magic:<i>Suggestion</i> to 1 fascinated creature (DC %V neg)',
-  'Swift Tracker':'skill:Track at full speed',
-  'Thousand Faces':'magic:<i>Alter Self</i> at will',
-  'Timeless Body':'feature:No aging penalties',
-  'Tireless Rage':'combat:Not fatigued after rage',
-  'Tongue Of The Sun And Moon':'feature:Speak w/any living creature',
+    'Section=magic Note="<i>Suggestion</i> to 1 fascinated creature (DC %V neg)"',
+  'Swift Tracker':'Section=skill Note="Track at full speed"',
+  'Thousand Faces':'Section=magic Note="<i>Alter Self</i> at will"',
+  'Timeless Body':'Section=feature Note="No aging penalties"',
+  'Tireless Rage':'Section=combat Note="Not fatigued after rage"',
+  'Tongue Of The Sun And Moon':
+    'Section=feature Note="Speak w/any living creature"',
   // Track as per feat
-  'Trackless Step':'feature:Untrackable outdoors',
-  'Trap Sense':'save:+%V Reflex and AC vs. traps',
-  'Trapfinding':'skill:Use Search/Disable Device to find/remove DC 20+ traps',
+  'Trackless Step':'Section=feature Note="Untrackable outdoors"',
+  'Trap Sense':'Section=save Note="+%V Reflex and AC vs. traps"',
+  'Trapfinding':
+    'Section=skill Note="Use Search and Disable Device to find and remove DC 20+ traps"',
   'Turn Undead':
-    'combat:Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy',
-  'Two-Weapon Fighting':'combat:Reduce on-hand penalty by 2, off-hand by 6',
-  'Unarmored Speed Bonus':"ability:+%V Speed",
-  'Uncanny Dodge':'combat:Always adds dexterity modifier to AC',
-  'Venom Immunity':'save:Immune to poisons',
-  'Wholeness Of Body':'magic:Heal %V HP to self/dy',
-  'Wild Empathy':'skill:+%V Diplomacy (animals)',
-  'Wild Shape':'magic:Change into creature of size %V %1 hours %2/dy',
-  'Woodland Stride':'feature:Normal movement through undergrowth',
+    'Section=combat Note="Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy"',
+  'Two-Weapon Fighting':
+    'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
+  'Unarmored Speed Bonus':'Section=ability Note="+%V Speed"',
+  'Uncanny Dodge':'Section=combat Note="Always adds Dex modifier to AC"',
+  'Venom Immunity':'Section=save Note="Immune to poisons"',
+  'Wholeness Of Body':'Section=magic Note="Heal %V HP to self/dy"',
+  'Wild Empathy':'Section=skill Note="+%V Diplomacy (animals)"',
+  'Wild Shape':
+    'Section=magic Note="Change into creature of size %V %1 hr %2/dy"',
+  'Woodland Stride':
+    'Section=feature Note="Normal movement through undergrowth"',
   // Races
-  'Accurate':'combat:+1 attack with slings and thrown',
-  'Alert Senses':'skill:+1 Listen/+1 Search/+1 Spot',
-  'Darkvision':"feature:60' b/w vision in darkness",
-  'Dodge Giants':'combat:+4 AC vs. giant creatures',
-  'Dwarf Ability Adjustment':'ability:+2 Constitution/-2 Charisma',
-  'Dwarf Armor Speed Adjustment':'ability:No speed penalty in armor',
-  'Dwarf Emnity':'combat:+1 attack vs. goblinoid and orc',
-  'Elf Ability Adjustment':'ability:+2 Dexterity/-2 Constitution',
-  'Fortunate':'save:+1 Fortitude/+1 Reflex/+1 Will',
-  'Gnome Ability Adjustment':'ability:+2 Constitution/-2 Strength',
-  'Gnome Emnity':'combat:+1 attack vs. goblinoid and kobold',
-  'Gnome Weapons':'combat:Racial weapons are martial weapons',
+  'Accurate':'Section=combat Note="+1 attack with slings and thrown"',
+  'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
+  'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
+  'Dodge Giants':'Section=combat Note="+4 AC vs. giant creatures"',
+  'Dwarf Ability Adjustment':
+    'Section=ability Note="+2 Constitution/-2 Charisma"',
+  'Dwarf Armor Speed Adjustment':
+    'Section=ability Note="No armor speed penalty"',
+  'Dwarf Emnity':
+    'Section=combat Note="+1 attack vs. goblinoid and orc"',
+  'Elf Ability Adjustment':
+    'Section=ability Note="+2 Dexterity/-2 Constitution"',
+  'Fortunate':
+    'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
+  'Gnome Ability Adjustment':
+    'Section=ability Note="+2 Constitution/-2 Strength"',
+  'Gnome Emnity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
   'Half-Orc Ability Adjustment':
-    'ability:+2 Strength/-2 Intelligence/-2 Charisma',
-  'Halfling Ability Adjustment':'ability:+2 Dexterity/-2 Strength',
-  'Human Feat Bonus':'feature:+1 General Feat',
-  'Human Skill Bonus':'skill:+%V skill points',
-  'Keen Ears':'skill:+2 Listen',
-  'Keen Nose':'skill:+2 Craft (Alchemy)',
-  'Keen Senses':'skill:+2 Listen/+2 Search/+2 Spot',
-  'Know Depth':'feature:Intuit approximate depth underground',
-  'Large':[
-    'ability:x2 max load',
-    'combat:-1 AC/melee/ranged',
-    'skill:-4 Hide/+4 Intimidate'
-  ],
-  'Low-Light Vision':'feature:x2 normal distance in poor light',
-  'Natural Illusionist':'magic:+1 Spell DC (Illusion)',
+    'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
+  'Halfling Ability Adjustment':
+    'Section=ability Note="+2 Dexterity/-2 Strength"',
+  'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
+  'Human Skill Bonus':'Section=skill Note="+%V skill points"',
+  'Keen Ears':'Section=skill Note="+2 Listen"',
+  'Keen Nose':'Section=skill Note="+2 Craft (Alchemy)"',
+  'Keen Senses':'Section=skill Note="+2 Listen/+2 Search/+2 Spot"',
+  'Know Depth':'Section=feature Note="Intuit approximate depth underground"',
+  'Large':
+    'Section=ability,combat,skill Note="x2 Load Max","-1 AC/-1 Melee Attack/-1 Ranged Attack","-4 Hide/+4 Intimidate"',
+  'Low-Light Vision':'Section=feature Note="x2 normal distance in poor light"',
+  'Natural Illusionist':'Section=magic Note="+1 Spell DC (Illusion)"',
   'Natural Smith':
-    'skill:+2 Appraise (stone or metal)/+2 Craft (stone or metal)',
-  'Resist Enchantment':'save:+2 vs. Enchantment',
-  'Resist Fear':'save:+2 vs. Fear',
-  'Resist Illusion':'save:+2 vs. Illusions',
-  'Resist Poison':'save:+2 vs. Poison',
-  'Resist Spells':'save:+2 vs. Spells',
-  'Sense Secret Doors':"feature:Automatic Search when w/in 5'",
-  'Sleep Immunity':'save:Immune <i>Sleep</i>',
-  'Slow':'ability:-10 Speed',
-  'Small':[
-    'ability:3/4 max load',
-    'combat:+1 AC/+1 Melee Attack/+1 Ranged Attack',
-    'skill:+4 Hide/-4 Intimidate'
-  ],
-  'Spry':'skill:+2 Climb/+2 Jump/+2 Move Silently',
-  'Stability':'combat:+4 vs. Bull Rush and Trip',
+    'Section=skill Note="+2 Appraise (stone or metal)/+2 Craft (stone or metal)"',
+  'Resist Enchantment':'Section=save Note="+2 vs. Enchantment"',
+  'Resist Fear':'Section=save Note="+2 vs. Fear"',
+  'Resist Illusion':'Section=save Note="+2 vs. Illusions"',
+  'Resist Poison':'Section=save Note="+2 vs. Poison"',
+  'Resist Spells':'Section=save Note="+2 vs. Spells"',
+  'Sense Secret Doors':'Section=feature Note="Automatic Search w/in 5\'"',
+  'Sleep Immunity':'Section=save Note="Immune <i>Sleep</i>"',
+  'Slow':'Section=ability Note="-10 Speed"',
+  'Small':
+    'Section=ability,combat,skill Note="x0.75 Load Max","+1 AC/+1 Melee Attack/+1 Ranged Attack","+4 Hide/-4 Intimidate"',
+  'Spry':'Section=skill Note="+2 Climb/+2 Jump/+2 Move Silently"',
+  'Stability':'Section=combat Note="+4 vs. Bull Rush and Trip"',
   'Stonecunning':
-    "skill:+2 Search involving stone or metal, automatic check w/in 10'",
-  'Tolerance':'skill:+2 Diplomacy/+2 Gather Information',
+    'Section=skill Note="+2 Search (stone or metal), automatic check w/in 10\'"',
+  'Tolerance':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
   // Animal companions and familiars
   'Celestial Familiar':
-    "companion:Smite Evil (+%V HP) 1/dy, 60' darkvision, %1 acid/cold/electricity resistance, DR %2/magic",
+    'Section=companion Note="Smite Evil (+%V HP) 1/dy, 60\' darkvision, %1 acid/cold/electricity resistance, DR %2/magic"',
   'Command Like Creatures':
-    'companion:DC %V <i>Command</i> vs. similar creatures %1/dy',
-  'Companion Alertness':'skill:+2 Listen and Spot when companion w/in reach',
-  'Companion Evasion':'companion:Reflex save yields no damage instead of half',
-  'Companion Improved Evasion':'companion:Failed save yields half damage',
+    'Section=companion Note="DC %V <i>Command</i> vs. similar creatures %1/dy"',
+  'Companion Alertness':
+    'Section=skill Note="+2 Listen and Spot when companion in reach"',
+  'Companion Evasion':
+    'Section=companion Note="Reflex save yields no damage instead of half"',
+  'Companion Improved Evasion':
+    'Section=companion Note="Failed save yields half damage"',
   'Deliver Touch Spells':
-    'companion:Deliver touch spells if in contact w/master when cast',
-  'Devotion':'companion:+4 Will vs. enchantment',
-  'Empathic Link':'companion:Share emotions up to 1 mile',
-  'Familiar Bat':'skill:+3 Listen',
-  'Familiar Cat':'skill:+3 Move Silently',
-  'Familiar Hawk':'skill:+3 Spot in bright light',
-  'Familiar Lizard':'skill:+3 Climb',
-  'Familiar Owl':'skill:+3 Spot in shadows and darkness',
-  'Familiar Rat':'save:+2 Fortitude',
-  'Familiar Raven':'skill:+3 Appraise',
-  'Familiar Tiny Viper':'skill:+3 Bluff',
-  'Familiar Toad':'combat:+3 Hit Points',
-  'Familiar Weasel':'save:+2 Reflex',
+    'Section=companion Note="Deliver touch spells if in contact w/master when cast"',
+  'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
+  'Empathic Link':'Section=companion Note="Share emotions up to 1 mile"',
+  'Familiar Bat':'Section=skill Note="+3 Listen"',
+  'Familiar Cat':'Section=skill Note="+3 Move Silently"',
+  'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
+  'Familiar Lizard':'Section=skill Note="+3 Climb"',
+  'Familiar Owl':'Section=skill Note="+3 Spot in shadows and darkness"',
+  'Familiar Rat':'Section=save Note="+2 Fortitude"',
+  'Familiar Raven':'Section=skill Note="+3 Appraise"',
+  'Familiar Tiny Viper':'Section=skill Note="+3 Bluff"',
+  'Familiar Toad':'Section=combat Note="+3 Hit Points"',
+  'Familiar Weasel':'Section=save Note="+2 Reflex"',
   'Fiendish Familiar':
-    "companion:Smite Good (+%V HP) 1/dy, 60' darkvision, %1 cold/fire resistance, DR %2/magic",
-  'Improved Speed':'companion:+10 companion Speed',
-  'Link':'skill:+4 Handle Animal (companion)/Wild Empathy (companion)',
+    'Section=companion Note="Smite Good (+%V HP) 1/dy, 60\' darkvision, %1 cold/fire resistance, DR %2/magic"',
+  'Improved Speed':'Section=companion Note="+10 companion Speed"',
+  'Link':
+    'Section=skill Note="+4 Handle Animal (companion)/Wild Empathy (companion)"',
   'Multiattack':
-    'companion:Reduce additional attack penalty to -2 or second attack at -5',
-  'Scry':'companion:Master views companion 1/dy',
-  'Share Saving Throws':'companion:+%1 Fort/+%2 Ref/+%3 Will',
-  'Share Spells':"companion:Master share self spell w/companion w/in 5'",
-  'Speak With Like Animals':'companion:Talk w/similar creatures',
-  'Speak With Master':'companion:Talk w/master in secret language'
+    'Section=companion Note="Reduce additional attack penalty to -2 or second attack at -5"',
+  'Scry':'Section=companion Note="Master views companion 1/dy"',
+  'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
+  'Share Spells':
+    'Section=companion Note="Master share self spell w/companion w/in 5\'"',
+  'Speak With Like Animals':'Section=companion Note="Talk w/similar creatures"',
+  'Speak With Master':
+    'Section=companion Note="Talk w/master in secret language"'
 };
 SRD35.GENDERS = {
   'Female':'',
@@ -3713,9 +3760,7 @@ SRD35.abilityRules = function(rules) {
 
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
   rules.defineRule('loadMax',
-    'strength', '=', 'SRD35.STRENGTH_MAX_LOADS[source]',
-    'abilityNotes.small', '*', '0.75',
-    'abilityNotes.large', '*', '2'
+    'strength', '=', 'SRD35.STRENGTH_MAX_LOADS[source]'
   );
   rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
   rules.defineRule('runSpeed',
@@ -3933,12 +3978,12 @@ SRD35.aideRules = function(rules, companions, familiars) {
     ('features.Celestial Familiar', 'familiarCelestial', '=', '1');
   rules.defineRule('features.Fiendish Familiar', 'familiarFiendish', '=', '1');
 
-  SRD35.testRules
+  SRD35.prerequisiteRules
     (rules, 'validation', 'celestialFamiliarMasterLevel', 'familiarCelestial',
-     ['familiarMasterLevel >= 3']);
-  SRD35.testRules
+     'familiarMasterLevel >= 3');
+  SRD35.prerequisiteRules
     (rules, 'validation', 'fiendishFamiliarMasterLevel', 'familiarFiendish',
-     ['familiarMasterLevel >= 3']);
+     'familiarMasterLevel >= 3');
 
 };
 
@@ -4402,7 +4447,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
     SRD35.featRulesExtra(rules, name);
   } else if(type == 'Feature')
-    SRD35.featureRules(rules, name, attrs);
+    SRD35.featureRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Section'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Note')
+    );
   else if(type == 'Gender')
     SRD35.genderRules(rules, name);
   else if(type == 'Language')
@@ -4490,24 +4538,24 @@ SRD35.armorRules = function(
     return;
   }
   if(typeof ac != 'number') {
-    console.log('Bad ac "' + ac + '" for armor "' + name + '"');
+    console.log('Bad ac "' + ac + '" for armor ' + name);
     return;
   }
   if(weight == null ||
      !(weight + '').match(/^([0-3]|none|light|medium|heavy)$/i)) {
-    console.log('Bad weight "' + weight + '" for armor "' + name + '"');
+    console.log('Bad weight "' + weight + '" for armor ' + name);
     return;
   }
   if(typeof maxDex != 'number') {
-    console.log('Bad max dex "' + maxDex + '" for armor "' + name + '"');
+    console.log('Bad max dex "' + maxDex + '" for armor ' + name);
     return;
   }
   if(typeof skillPenalty != 'number') {
-    console.log('Bad skill penalty "' + skillPenalty + '" for armor "' + name + '"');
+    console.log('Bad skill penalty "' + skillPenalty + '" for armor ' + name);
     return;
   }
   if(typeof spellFail != 'number') {
-    console.log('Bad spell fail "' + spellFail + '" for armor "' + name + '"');
+    console.log('Bad spell fail "' + spellFail + '" for armor ' + name);
     return;
   }
 
@@ -4594,32 +4642,32 @@ SRD35.classRules = function(
     return;
   }
   if(!hitDie.match(/^(\d+)?d\d+$/)) {
-    console.log('Bad hitDie "' + hitDie + '" for class "' + name + '"');
+    console.log('Bad hitDie "' + hitDie + '" for class ' + name);
     return;
   }
   if(!(attack + '').match(/^(1|1\/2|3\/4)$/)) {
-    console.log('Bad attack "' + hitDie + '" for class "' + name + '"');
+    console.log('Bad attack "' + hitDie + '" for class ' + name);
     return;
   }
   if(typeof skillPoints != 'number') {
-    console.log('Bad skillPoints "' + skillPoints + '" for class "' + name + '"');
+    console.log('Bad skillPoints "' + skillPoints + '" for class ' + name);
     return;
   }
   if(!saveFort.match(/^(1\/2|1\/3)$/)) {
-    console.log('Bad saveFort "' + saveFort + '" for class "' + name + '"');
+    console.log('Bad saveFort "' + saveFort + '" for class ' + name);
     return;
   }
   if(!saveRef.match(/^(1\/2|1\/3)$/)) {
-    console.log('Bad saveRef "' + saveRef + '" for class "' + name + '"');
+    console.log('Bad saveRef "' + saveRef + '" for class ' + name);
     return;
   }
   if(!saveWill.match(/^(1\/2|1\/3)$/)) {
-    console.log('Bad saveWill "' + saveWill + '" for class "' + name + '"');
+    console.log('Bad saveWill "' + saveWill + '" for class ' + name);
     return;
   }
   if(spellAbility &&
      !spellAbility.match(/^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/i)) {
-    console.log('Bad spellAbility "' + spellAbility + '" for class "' + name + '"');
+    console.log('Bad spellAbility "' + spellAbility + '" for class ' + name);
     return;
   }
  
@@ -4628,10 +4676,11 @@ SRD35.classRules = function(
     name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
 
   if(requires.length > 0)
-    SRD35.testRules
+    SRD35.prerequisiteRules
       (rules, 'validation', prefix + 'Class', classLevel, requires);
   if(implies.length > 0)
-    SRD35.testRules(rules, 'sanity', prefix + 'Class', classLevel, implies);
+    SRD35.prerequisiteRules
+      (rules, 'sanity', prefix + 'Class', classLevel, implies);
 
   rules.defineRule('baseAttack',
     classLevel, '+', attack == '1/2' ? 'Math.floor(source / 2)' :
@@ -4747,7 +4796,7 @@ SRD35.classRules = function(
       }
       var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
       if(school == null) {
-        console.log('No school given for spell "' + spellName + '"');
+        console.log('No school given for spell ' + spellName);
         continue;
       }
       var fullSpell =
@@ -4851,8 +4900,10 @@ SRD35.classRulesExtra = function(rules, name) {
       ('selectableFeatureCount.Cleric', 'features.Cleric Domains', '+=', '2');
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
     for(var domain in rules.getChoices('domains')) {
-      SRD35.testRules(
-        rules, 'validation', 'cleric - ' + domain.replace(/ /g, '') + 'Domain', 'selectableFeatures.Cleric - ' + domain + ' Domain', ['deityDomains =~ /' + domain + '/']
+      SRD35.prerequisiteRules(
+        rules, 'validation', 'cleric - ' + domain.replace(/ /g, '') + 'Domain',
+        'selectableFeatures.Cleric - ' + domain + ' Domain',
+        'deityDomains =~ /' + domain + '/'
       );
     }
 
@@ -5109,51 +5160,51 @@ SRD35.companionRules = function(
     return;
   }
   if(typeof str != 'number') {
-    console.log('Bad str "' + str + '" for companion "' + name + '"');
+    console.log('Bad str "' + str + '" for companion ' + name);
     return;
   }
   if(typeof intel != 'number') {
-    console.log('Bad intel "' + intel + '" for companion "' + name + '"');
+    console.log('Bad intel "' + intel + '" for companion ' + name);
     return;
   }
   if(typeof wis != 'number') {
-    console.log('Bad wis "' + wis + '" for companion "' + name + '"');
+    console.log('Bad wis "' + wis + '" for companion ' + name);
     return;
   }
   if(typeof dex != 'number') {
-    console.log('Bad dex "' + str + '" for companion "' + name + '"');
+    console.log('Bad dex "' + str + '" for companion ' + name);
     return;
   }
   if(typeof con != 'number') {
-    console.log('Bad con "' + str + '" for companion "' + name + '"');
+    console.log('Bad con "' + str + '" for companion ' + name);
     return;
   }
   if(typeof cha != 'number') {
-    console.log('Bad cha "' + str + '" for companion "' + name + '"');
+    console.log('Bad cha "' + str + '" for companion ' + name);
     return;
   }
   if(typeof hd != 'number') {
-    console.log('Bad hd "' + hd + '" for companion "' + name + '"');
+    console.log('Bad hd "' + hd + '" for companion ' + name);
     return;
   }
   if(typeof ac != 'number') {
-    console.log('Bad ac "' + ac + '" for companion "' + name + '"');
+    console.log('Bad ac "' + ac + '" for companion ' + name);
     return;
   }
   if(typeof attack != 'number') {
-    console.log('Bad attack "' + ac + '" for companion "' + name + '"');
+    console.log('Bad attack "' + ac + '" for companion ' + name);
     return;
   }
   if(!(damage + '').match(/^(\d+@)?(\d+d)?\d+([-+]\d+)?(,(\d+@)?(\d+d)?\d+([-+]\d+)?)*$/)) {
-    console.log('Bad damage "' + damage + '" for companion "' + name + '"');
+    console.log('Bad damage "' + damage + '" for companion ' + name);
     return;
   }
   if(!size || 'DTSMLH'.indexOf(size) < 0) {
-    console.log('Bad size "' + size + '" for companion "' + name + '"');
+    console.log('Bad size "' + size + '" for companion ' + name);
     return;
   }
   if(level && typeof level != 'number') {
-    console.log('Bad level "' + ac + '" for companion "' + name + '"');
+    console.log('Bad level "' + ac + '" for companion ' + name);
     return;
   }
 
@@ -5190,7 +5241,9 @@ SRD35.companionRules = function(
   if(level != null && level > 1) {
     rules.defineRule
       ('companionMasterLevel', 'animalCompanion.' + name, '+', -level);
-    SRD35.testRules(rules, 'validation', 'companionMasterLevel', 'animalCompanion.' + name, ['companionMasterLevel >= 0']);
+    SRD35.prerequisiteRules
+      (rules, 'validation', 'companionMasterLevel', 'animalCompanion.' + name,
+       'companionMasterLevel >= 0');
   }
 
 };
@@ -5255,7 +5308,7 @@ SRD35.domainRules = function(rules, name, features, spells, spellDict) {
     return;
   }
   if(spells.length != 9) {
-    console.log('Bad spell list ' + spells + ' for domain "' + name + '"');
+    console.log('Bad spell list ' + spells + ' for domain ' + name);
     return;
   }
 
@@ -5276,7 +5329,7 @@ SRD35.domainRules = function(rules, name, features, spells, spellDict) {
     }
     var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
     if(school == null) {
-      console.log('No school given for spell "' + spellName + '"');
+      console.log('No school given for spell ' + spellName);
       continue;
     }
     var fullSpell =
@@ -5332,51 +5385,51 @@ SRD35.familiarRules = function(
     return;
   }
   if(typeof str != 'number') {
-    console.log('Bad str "' + str + '" for familiar "' + name + '"');
+    console.log('Bad str "' + str + '" for familiar ' + name);
     return;
   }
   if(typeof intel != 'number') {
-    console.log('Bad intel "' + intel + '" for familiar "' + name + '"');
+    console.log('Bad intel "' + intel + '" for familiar ' + name);
     return;
   }
   if(typeof wis != 'number') {
-    console.log('Bad wis "' + wis + '" for familiar "' + name + '"');
+    console.log('Bad wis "' + wis + '" for familiar "' + name);
     return;
   }
   if(typeof dex != 'number') {
-    console.log('Bad dex "' + str + '" for familiar "' + name + '"');
+    console.log('Bad dex "' + str + '" for familiar ' + name);
     return;
   }
   if(typeof con != 'number') {
-    console.log('Bad con "' + str + '" for familiar "' + name + '"');
+    console.log('Bad con "' + str + '" for familiar ' + name);
     return;
   }
   if(typeof cha != 'number') {
-    console.log('Bad cha "' + str + '" for familiar "' + name + '"');
+    console.log('Bad cha "' + str + '" for familiar ' + name);
     return;
   }
   if(typeof hd != 'number') {
-    console.log('Bad hd "' + hd + '" for familiar "' + name + '"');
+    console.log('Bad hd "' + hd + '" for familiar ' + name);
     return;
   }
   if(typeof ac != 'number') {
-    console.log('Bad ac "' + ac + '" for familiar "' + name + '"');
+    console.log('Bad ac "' + ac + '" for familiar ' + name);
     return;
   }
   if(typeof attack != 'number') {
-    console.log('Bad attack "' + ac + '" for familiar "' + name + '"');
+    console.log('Bad attack "' + ac + '" for familiar ' + name);
     return;
   }
   if(!(damage + '').match(/^(\d+@)?(\d+d)?\d+([-+]\d+)?(,(\d+@)?(\d+d)?\d+([-+]\d+)?)*$/)) {
-    console.log('Bad damage "' + damage + '" for familiar "' + name + '"');
+    console.log('Bad damage "' + damage + '" for familiar ' + name);
     return;
   }
   if(!size || 'DTSMLH'.indexOf(size) < 0) {
-    console.log('Bad size "' + size + '" for familiar "' + name + '"');
+    console.log('Bad size "' + size + '" for familiar ' + name);
     return;
   }
   if(level && typeof level != 'number') {
-    console.log('Bad level "' + level + '" for familiar "' + name + '"');
+    console.log('Bad level "' + level + '" for familiar ' + name);
     return;
   }
 
@@ -5397,9 +5450,9 @@ SRD35.familiarRules = function(
   rules.defineRule('features.Familiar ' + name, 'familiar.' + name, '=', '1');
   if(level != null && level > 1) {
     rules.defineRule('familiarStats.Level', 'familiar.' + name, '=', level);
-    SRD35.testRules
+    SRD35.prerequisiteRules
       (rules, 'validation', 'familiarMasterLevel', 'familiar.' + name,
-       ['familiarMasterLevel >= familiarStats.Level']);
+       'familiarMasterLevel >= familiarStats.Level');
   }
 
 };
@@ -5422,11 +5475,12 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
   rules.defineRule('features.' + name, 'feats.' + name, '=', null);
 
   if(requires.length > 0)
-    SRD35.testRules
+    SRD35.prerequisiteRules
       (rules, 'validation', prefix + 'Feat', 'feats.' + name, requires);
 
   if(implies.length > 0)
-    SRD35.testRules(rules, 'sanity', prefix + 'Feat', 'feats.' + name, implies);
+    SRD35.prerequisiteRules
+      (rules, 'sanity', prefix + 'Feat', 'feats.' + name, implies);
 
 };
 
@@ -5466,35 +5520,37 @@ SRD35.featRulesExtra = function(rules, name) {
 };
 
 /*
- * Defines in #rules# the rules associated with feature #name#. #notes# lists
- * notes associated with feature.
+ * Defines in #rules# the rules associated with feature #name#. #sections# lists
+ * the sections of the notes related to the feature and #notes# the note texts;
+ * the two must have the same number of elements.
  */
-SRD35.featureRules = function(rules, name, notes) {
+SRD35.featureRules = function(rules, name, sections, notes) {
 
   if(!name) {
     console.log('Empty feature name');
     return;
   }
+  if(typeof sections == 'string')
+    sections = [sections];
+  if(typeof notes == 'string')
+    notes = [notes];
+  if(sections.length != notes.length) {
+    console.log('Section/note mismatch for feature ' + name);
+    return;
+  }
+  if(sections.length == 0) {
+    console.log('Empty section/note list for feature ' + name);
+    return;
+  }
 
-  var matchInfo;
-  var pieces;
   var prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
 
-  if(notes == null)
-    notes = [];
-  else if(typeof(notes) == 'string')
-    notes = [notes];
+  for(var i = 0; i < sections.length; i++) {
 
-  for(var i = 0; i < notes.length; i++) {
-
-    pieces = notes[i].split(':');
-    if(pieces.length != 2) {
-      console.log('Bad note "' + notes[i] + '" for feature "' + name + '"');
-      continue;
-    }
-    var section = pieces[0];
-    var effects = pieces[1];
+    var section = sections[i];
+    var effects = notes[i];
+    var matchInfo;
     var note = section + 'Notes.' + prefix;
     var skillEffects = 0;
     var uniqueSkillsAffected = [];
@@ -5503,14 +5559,14 @@ SRD35.featureRules = function(rules, name, notes) {
     rules.defineRule
       (note, 'features.' + name, effects.indexOf('%V') >= 0 ? '?' : '=', null);
 
-    pieces = effects.split('/');
+    var pieces = effects.split('/');
 
     for(var j = 0; j < pieces.length; j++) {
 
-      if((matchInfo = pieces[j].match(/^([-+x](\d+|%V))\s+(.*)$/)) != null) {
+      if((matchInfo = pieces[j].match(/^([-+x](\d+(\.\d+)?|%V))\s+(.*)$/)) != null) {
 
         var adjust = matchInfo[1];
-        var adjusted = matchInfo[3];
+        var adjusted = matchInfo[4];
 
         if(adjusted in SRD35.ABBREVIATIONS)
           adjusted = SRD35.ABBREVIATIONS[adjusted];
@@ -5564,9 +5620,9 @@ SRD35.featureRules = function(rules, name, notes) {
     }
 
     if(skillEffects == pieces.length && !effects.match(/^-|\/-/)) {
-      SRD35.testRules
+      SRD35.prerequisiteRules
         (rules, 'sanity', prefix + 'Skills', 'features.' + name,
-         [uniqueSkillsAffected.join(' > 0 || ') + ' > 0']);
+         uniqueSkillsAffected.join(' > 0 || ') + ' > 0');
     }
 
   }
@@ -5608,7 +5664,7 @@ SRD35.raceRules = function(
   }
   if(spellAbility &&
      !spellAbility.match(/^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/i)) {
-    console.log('Bad spellAbility "' + spellAbility + '" for class "' + name + '"');
+    console.log('Bad spellAbility "' + spellAbility + '" for class ' + name);
     return;
   }
 
@@ -5675,7 +5731,7 @@ SRD35.raceRules = function(
       }
       var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
       if(school == null) {
-        console.log('No school given for spell "' + spellName + '"');
+        console.log('No school given for spell ' + spellName);
         continue;
       }
       var fullSpell =
@@ -5684,8 +5740,8 @@ SRD35.raceRules = function(
         (rules, 'Spell', fullSpell,
          spellDict[spellName] + ' Group=' + group + ' Level=' + level);
       if(condition) {
-        SRD35.testRules
-          (rules, 'test', name + 'Spells' + j, raceLevel, [condition]);
+        SRD35.prerequisiteRules
+          (rules, 'test', name + 'Spells' + j, raceLevel, condition);
         rules.defineRule('spells.' + fullSpell,
           raceLevel, '?', null,
           'testNotes.' + name + 'Spells' + j, '=', 'source == 0 ? 1 : null'
@@ -5699,7 +5755,6 @@ SRD35.raceRules = function(
 
 };
 
-// TODO This can be eliminated
 /*
  * Defines in #rules# the rules associated with race #name# that are not
  * directly derived from the parmeters passed to raceRules.
@@ -5765,20 +5820,20 @@ SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
     return;
   }
   if(typeof ac != 'number') {
-    console.log('Bad ac "' + ac + '" for shield "' + name + '"');
+    console.log('Bad ac "' + ac + '" for shield ' + name);
     return;
   }
   if(weight == null ||
      !(weight + '').match(/^([0-4]|none|light|medium|heavy|tower)$/i)) {
-    console.log('Bad weight "' + weight + '" for shield "' + name + '"');
+    console.log('Bad weight "' + weight + '" for shield ' + name);
     return;
   }
   if(typeof skillFail != 'number') {
-    console.log('Bad skillFail "' + ac + '" for shield "' + name + '"');
+    console.log('Bad skillFail "' + ac + '" for shield ' + name);
     return;
   }
   if(typeof spellFail != 'number') {
-    console.log('Bad spellFail "' + ac + '" for shield "' + name + '"');
+    console.log('Bad spellFail "' + ac + '" for shield ' + name);
     return;
   }
 
@@ -5845,10 +5900,10 @@ SRD35.skillRules = function(
   }
   if(ability != null &&
      !ability.match(/^(charisma|constitution|dexterity|intelligence|strength|wisdom)$/i)) {
-    console.log('Bad ability "' + ability + '" for skill "' + name + '"');
+    console.log('Bad ability "' + ability + '" for skill ' + name);
   }
   if(untrained != null && typeof untrained != 'boolean') {
-    console.log('Bad untrained "' + untrained + '" for skill "' + name + '"');
+    console.log('Bad untrained "' + untrained + '" for skill ' + name);
   }
 
   rules.defineChoice('notes', 'skills.' + name + ':(%1%2) %V (%3)');
@@ -5885,7 +5940,7 @@ SRD35.skillRules = function(
 
   if(synergies.length > 0) {
     SRD35.featureRules
-      (rules, name + ' Synergy', 'skill:+2 ' + synergies.join('/+2 '));
+      (rules, name + ' Synergy', 'skill', '+2 ' + synergies.join('/+2 '));
     rules.defineRule('features.' + name + ' Synergy',
       'skills.' + name, '=', 'source >= 5 ? 1 : null'
     );
@@ -5945,15 +6000,15 @@ SRD35.spellRules = function(
     return;
   }
   if(!school || !(school in rules.getChoices('schools'))) {
-    console.log('Bad school "' + school + '" for spell "' + name + '"');
+    console.log('Bad school "' + school + '" for spell ' + name);
     return;
   }
   if(!casterGroup || !casterGroup.match(/^[A-Z][A-Za-z]*$/)) {
-    console.log('Bad caster group "' + casterGroup + '" for spell "' + name + '"');
+    console.log('Bad caster group "' + casterGroup + '" for spell ' + name);
     return;
   }
   if(typeof level != 'number') {
-    console.log('Bad level "' + level + '" for spell "' + name + '"');
+    console.log('Bad level "' + level + '" for spell ' + name);
     return;
   }
 
@@ -6048,28 +6103,28 @@ SRD35.weaponRules = function(
   }
   if(profLevel == null ||
      !(profLevel + '').match(/^([0-3]|unarmed|simple|martial|exotic)$/i)) {
-    console.log('Bad proficiency level "' + profLevel + '" for weapon "' + name + '"');
+    console.log('Bad proficiency level "' + profLevel + '" for weapon ' + name);
     return;
   }
   if(category == null ||
      !(category + '').match(/^(1h|2h|Li|R|Un|one-handed|two-handed|light|ranged|unarmed)$/i)) {
-    console.log('Bad category "' + category + '" for weapon "' + name + '"');
+    console.log('Bad category "' + category + '" for weapon ' + name);
     return;
   }
   var matchInfo =
     (damage + '').match(/^(((\d*d)?\d+)([-+]\d+)?)(\/(((\d*d)?\d+)([-+]\d+)?))?$/);
   if(!matchInfo) {
-    console.log('Bad damage "' + damage + '" for weapon "' + name + '"');
+    console.log('Bad damage "' + damage + '" for weapon ' + name);
     return;
   }
   if(threat && typeof threat != 'number') {
-    console.log('Bad threat "' + threat + '" for weapon "' + name + '"');
+    console.log('Bad threat "' + threat + '" for weapon ' + name);
   }
   if(critMultiplier && typeof critMultiplier != 'number') {
-    console.log('Bad critMultiplier "' + critMultiplier + '" for weapon "' + name + '"');
+    console.log('Bad critMultiplier "' + critMultiplier + '" for weapon ' + name);
   }
   if(range && typeof range != 'number') {
-    console.log('Bad range "' + range + '" for weapon "' + name + '"');
+    console.log('Bad range "' + range + '" for weapon ' + name);
   }
 
   if((profLevel + '').match(/^[0-3]$/))
@@ -6220,9 +6275,9 @@ SRD35.weaponRules = function(
     rules.defineRule(prefix + 'AttackModifier',
       'combatNotes.two-handedWeaponWithBucklerPenalty.' + name, '+', '-1'
     );
-    SRD35.testRules
+    SRD35.prerequisiteRules
       (rules, 'validation', 'two-handedWeapon', 'weapons.' + name,
-       ['shield =~ /Buckler|None/']);
+       'shield =~ /Buckler|None/');
   }
 
 };
@@ -6463,7 +6518,8 @@ SRD35.createViewers = function(rules, viewers) {
 };
 
 /*
- * TODO
+ * Return the list of editing elements needed by #choiceRules# to add a #type#
+ * item to #rules#.
  */
 SRD35.choiceEditorElements = function(rules, type) {
   var result = [];
@@ -7421,10 +7477,11 @@ SRD35.featureListRules = function(
       level = pieces[1];
       var conditionName = featureAttr + 'Prerequisite';
       if(selectable) {
-        SRD35.testRules
-          (rules, 'validation', conditionName, featureAttr, [pieces[0]]);
+        SRD35.prerequisiteRules
+          (rules, 'validation', conditionName, featureAttr, pieces[0]);
       } else {
-        SRD35.testRules(rules, 'test', conditionName, levelAttr, [pieces[0]]);
+        SRD35.prerequisiteRules
+          (rules, 'test', conditionName, levelAttr, pieces[0]);
         rules.defineRule(featureAttr,
          'testNotes.' + conditionName, '?', 'source == 0 ? 1 : null'
         );
@@ -7435,7 +7492,9 @@ SRD35.featureListRules = function(
       rules.defineChoice
         ('selectableFeatures', choice + ':Type="' + setName + '"');
       rules.defineRule(featureAttr, 'selectableFeatures.' + choice, '=', null);
-      SRD35.testRules(rules, 'validation', prefix + ' - ' + feature.replace(/ /g, ''), 'selectableFeatures.' + choice, [levelAttr + ' >= ' + level]);
+      SRD35.prerequisiteRules
+        (rules, 'validation', prefix + ' - ' + feature.replace(/ /g, ''),
+         'selectableFeatures.' + choice, levelAttr + ' >= ' + level);
     } else if(level == '1') {
       rules.defineRule(featureAttr, levelAttr, '=', '1');
     } else {
@@ -7457,16 +7516,24 @@ SRD35.featureListRules = function(
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules needed to check, when #attr# is defined, if the
+ * list of prerequisites #tests# are met. The results of the tests are computed
+ * in the #section# note #noteName#; zero if successful, non-zero otherwise.
  */
-SRD35.testRules = function(rules, section, noteName, attr, tests) {
+SRD35.prerequisiteRules = function(rules, section, noteName, attr, tests) {
+
   var matchInfo;
   var note = section + 'Notes.' + noteName;
   var verb = section == 'validation' ? 'Requires' : 'Implies';
   var subnote = 0;
+
+  if(typeof(tests) == 'string')
+    tests = [tests];
+
   rules.defineChoice
     ('notes', note + ':' + verb + ' ' + tests.map(x => x.charAt(0).toUpperCase() + x.substring(1)).join('/').replace(/\w+\./g, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
   rules.defineRule(note, attr, '=', -tests.length);
+
   for(var i = 0; i < tests.length; i++) {
     var alternatives = tests[i].split(/\s*\|\|\s*/);
     var target = note;
@@ -7515,10 +7582,13 @@ SRD35.testRules = function(rules, section, noteName, attr, tests) {
       }
     }
   }
+
 };
 
 /*
- * TODO
+ * Defines in #rules# the rules necessary to check that the values of the
+ * attributes #available# and #allocated# are equal. Results are stored in
+ * the attribute validationNotes.#name#Allocation.
  */
 SRD35.validAllocationRules = function(rules, name, available, allocated) {
   var note = 'validationNotes.' + name + 'Allocation';

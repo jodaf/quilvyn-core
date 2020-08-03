@@ -96,7 +96,7 @@ SRD35NPC.CLASSES = {
       'Climb,"Handle Animal",Intimidate,Jump,Ride,Swim'
 };
 SRD35NPC.FEATURES = {
-  'Commoner Weapon Proficiency':'features:+1 Feat'
+  'Commoner Weapon Proficiency':'Section=feature Note="+1 Fighter Feat"'
 };
 
 /* Defines the rules related to SRDv3.5 NPC Classes. */
