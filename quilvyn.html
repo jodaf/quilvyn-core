@@ -16,7 +16,7 @@ with this program; if not, write to the Free Software Foundation, Inc., 59
 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 -->
 
-<!-- This version of quilvyn.html is part of Quilvyn v1.8 -->
+<!-- This version of quilvyn.html is part of Quilvyn v2.alpha -->
 
 <html>
 
@@ -91,63 +91,48 @@ const PLUGINS = [
  */
 function CustomizeQuilvyn() {
 
-  // The first part of this implementation defines extensions to lists defined
+  // The first part of this implementation defines extensions to choices defined
   // by the SRD and Pathfinder plugins. Each extension includes a comment
   // that shows the information that needs to be supplied with each addition.
   var animalCompanions = {
     // Format 'name': 'stats', e.g.,
-    // 'Babboon': 'Attack=2 HD=1 AC=13 Dam=1d6+3 Str=15 Dex=14 Con=12 Int=2 Wis=12 Cha=4'
+    // 'Babboon': 'Str=15 Dex=14 Con=12 Int=2 Wis=12 Cha=4 HD=1 Attack=2 AC=13 Dam=1d6+3 Size=M'
   };
   var deities = {
-    // Format 'deity (alignment sphere):favored weapon:domain list', e.g.,
-    // 'Glennor (NG Healing):Quarterstaff:Air/Animal/Healing'
+    // Format 'deity (alignment) Weapon=favored weapon Domain=domain', e.g.,
+    // 'Glennor (NG Healing) Weapon=Quarterstaff Domain=Air,Animal,Healing'
   };
   var familiars = {
     // Format see animalCompanions, above
   };
   var feats = {
-    // Format 'name:' (general feats), or 'name:type', where type is one of
-    // Fighter, Item Creation, or Metamagic, e.g.,
-    // 'Craft Talisman:Item Creation'
-    'Greater Weapon Focus (Dwarven Waraxe)':'Type=Fighter',
-    'Greater Weapon Focus (Longbow)':'Type=Fighter',
-    'Greater Weapon Focus (Longsword)':'Type=Fighter',
-    'Greater Weapon Specialization (Dwarven Waraxe)':'Type=Fighter',
-    'Greater Weapon Specialization (Longbow)':'Type=Fighter',
-    'Greater Weapon Specialization (Longsword)':'Type=Fighter',
-    'Improved Critical (Dwarven Waraxe)':'Type=Fighter',
-    'Improved Critical (Longbow)':'Type=Fighter',
-    'Improved Critical (Longsword)':'Type=Fighter',
-    'Master Craftsman (Craft (Armor))':'Type=General', // Pathfinder only
-    'Master Craftsman (Profession (Scribe))':'Type=General', // Pathfinder only
-    'Skill Focus (Perception)':'Type=General',
-    'Weapon Focus (Dwarven Waraxe)':'Type=Fighter',
-    'Weapon Focus (Longbow)':'Type=Fighter',
-    'Weapon Focus (Longsword)':'Type=Fighter',
-    'Weapon Proficiency (Simple)':'Type=General',
-    'Weapon Specialization (Dwarven Waraxe)':'Type=Fighter',
-    'Weapon Specialization (Longbow)':'Type=Fighter',
-    'Weapon Specialization (Longsword)':'Type=Fighter'
+    // Format 'name':'Type=type Require=prerequisite Imply=prerequisite'
+    // where type is one or more of General, Fighter, Item Creation, or
+    // Metamagic, and Require and Imply list validation and sanity tests, e.g.,
+    // 'Craft Talisman':'Type=Item Creation sanity="casterLevel >= 1"'
+  };
+  var features = {
+    // Format 'name':'Section=section Note=text'
+    // where section is one of 'ability', 'combat', 'companion', 'feature', 'magic', or 'skill', e.g.,
+    // 'Craft Talisman':'Section=magic Note="Create object to cast level 3 spell 1/dy"'
   };
   var languages = {
-    // Format 'name', e.g.,
-    // 'whale'
+    // Format 'name':'', e.g.,
+    // 'whale':''
   };
   var skills = {
-    // Format 'name:ability/[un]trained', e.g.,
-    // 'herbalism:int/trained'
-    'Craft':'Alchemy',
-    'Profession':'Scribe/Soldier'
+  'Appraise':'Ability=intelligence Class=Bard,Rogue',
+    // Format 'name':'Ability=ability Class=class Untrained=Y/N' [Synergy=text]', e.g.,
+    // 'herbalism':'Ability=intelligence Class=Druid,Ranger Untrained=N'
   };
   var spells = {
-    // Format 'name:school:classLevels:description', e.g.,
-    // "Share Knowledge:Divination:B2/W2:R30' Extract knowledge on specific subject from target (Will neg)"
+    // Format 'name':'School=school Description=text', e.g.,
+    // 'Share Knowledge'"School=divination Description="R30\' Extract knowledge on specific subject from target (Will neg)"'
   };
   var weapons = {
-    // Format 'name:damagexcritical@threat[range] categories', where categories
-    // are Si[mple], Ma[rtial], or Ex[otic] and Li[ght], 1h, or 2h, e.g.
-    // 'Chakram:d6x2@19r120 Ex'
-    // 'Pike:d8x3@20 Ma 2h'
+    // Format 'name':Level=[0123] Category=Un|Si|1h|2h|R Damage=damage [Threat=int] [Crit=int] [Range=int], e.g.,,
+    // 'Chakram':'Level=3 Category=R Damage=d6 Threat=19 Range=120'
+    // 'Pike':'Level=2 Category=2h Damage=d8 Crit=3'
   };
 
   // The second part applies specific customizations to the rules.
