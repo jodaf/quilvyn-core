@@ -5531,7 +5531,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
   if(typeof notes == 'string')
     notes = [notes];
   if(sections.length != notes.length) {
-    console.log('Section/note mismatch for feature ' + name);
+    console.log(sections.length + ' sections, ' + notes.length + ' notes for feature ' + name);
     return;
   }
   if(sections.length == 0) {
@@ -6514,7 +6514,7 @@ SRD35.createViewers = function(rules, viewers) {
 };
 
 /*
- * Return the list of editing elements needed by #choiceRules# to add a #type#
+ * Returns the list of editing elements needed by #choiceRules# to add a #type#
  * item to #rules#.
  */
 SRD35.choiceEditorElements = function(rules, type) {
