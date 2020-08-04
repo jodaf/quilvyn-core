@@ -29,6 +29,9 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 <script>
 <!--
 
+if(window.location.search.indexOf('DEBUG') >= 0)
+  window.DEBUG = true;
+
 /*
  * A few user preferences you may want to change: the background color for
  * Quilvyn's windows; the default character sheet format; the portion of a
@@ -109,6 +112,7 @@ function CustomizeQuilvyn() {
     // Format 'name':'Type=type Require=prerequisite Imply=prerequisite'
     // where type is one or more of General, Fighter, Item Creation, or
     // Metamagic, and Require and Imply list validation and sanity tests, e.g.,
+    // 'Craft Talisman':'Type=Item Creation sanity="casterLevel >= 1"'
   };
   var features = {
     // Format 'name':'Section=section Note=text'
@@ -139,6 +143,7 @@ function CustomizeQuilvyn() {
     Object.assign(Pathfinder.DEITIES, deities);
     Object.assign(Pathfinder.FAMILIARS, familiars);
     Object.assign(Pathfinder.FEATS, feats);
+    Object.assign(Pathfinder.FEATURES, features);
     Object.assign(Pathfinder.LANGUAGES, languages);
     Object.assign(Pathfinder.SKILLS, skills);
     Object.assign(Pathfinder.SPELLS, spells);
@@ -155,6 +160,7 @@ function CustomizeQuilvyn() {
     Object.assign(SRD35.DEITIES, deities);
     Object.assign(SRD35.FAMILIARS, familiars);
     Object.assign(SRD35.FEATS, feats);
+    Object.assign(SRD35.FEATURES, features);
     Object.assign(SRD35.LANGUAGES, languages);
     Object.assign(SRD35.SKILLS, skills);
     Object.assign(SRD35.SPELLS, spells);
