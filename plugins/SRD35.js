@@ -48,12 +48,12 @@ function SRD35() {
   );
   rules.defineChoice('preset', 'race', 'level', 'levels');
 
-  // For spells, schools have to be defined before classes and domains
-  // Spell definition is handed by individual classes and domains
-  SRD35.magicRules(rules, SRD35.SCHOOLS, []);
   SRD35.abilityRules(rules);
   SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
   SRD35.combatRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
+  // Spell definition is handled by each individual class and domain. Schools
+  // have to be defined before this can be done.
+  SRD35.magicRules(rules, SRD35.SCHOOLS, []);
   SRD35.identityRules(
     rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.DOMAINS,
     SRD35.GENDERS, SRD35.RACES
@@ -3730,15 +3730,6 @@ SRD35.ABBREVIATIONS = {
 /* Defines rules related to character abilities. */
 SRD35.abilityRules = function(rules) {
 
-  for(var ability in {'charisma':'', 'constitution':'', 'dexterity':'',
-                      'intelligence':'', 'strength':'', 'wisdom':''}) {
-    rules.defineRule(ability, ability + 'Adjust', '+', null);
-    rules.defineRule
-      (ability + 'Modifier', ability, '=', 'Math.floor((source - 10) / 2)');
-    rules.defineChoice('notes', ability + ':%V (%1)');
-    rules.defineRule(ability + '.1', ability + 'Modifier', '=', null);
-  }
-
   rules.defineChoice('notes',
     'validationNotes.abilityMinimum:' +
       'Requires Charisma >= 14||Constitution >= 14||Dexterity >= 14||' +
@@ -3746,10 +3737,17 @@ SRD35.abilityRules = function(rules) {
     'validationNotes.abilityModifierSum:Requires ability modifier sum >= 1'
   );
 
+  for(var ability in SRD35.ABILITIES) {
+    ability = ability.toLowerCase();
+    rules.defineChoice('notes', ability + ':%V (%1)');
+    rules.defineRule(ability, ability + 'Adjust', '+', null);
+    rules.defineRule
+      (ability + 'Modifier', ability, '=', 'Math.floor((source - 10) / 2)');
+    rules.defineRule(ability + '.1', ability + 'Modifier', '=', null);
+  }
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
-  rules.defineRule('loadMax',
-    'strength', '=', 'SRD35.STRENGTH_MAX_LOADS[source]'
-  );
+  rules.defineRule
+    ('loadMax', 'strength', '=', 'SRD35.STRENGTH_MAX_LOADS[source]');
   rules.defineRule('loadMedium', 'loadMax', '=', 'Math.floor(source * 2 / 3)');
   rules.defineRule('runSpeed',
     'speed', '=', null,
@@ -4338,8 +4336,7 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
     (rules, 'language', 'languageCount', /^languages\./);
   SRD35.validAllocationRules
     (rules, 'selectableFeature', /^selectableFeatureCount\./, /^selectableFeatures\./);
-  SRD35.validAllocationRules
-    (rules, 'skill', 'skillPoints', /^skills\.[^\.]*$/);
+  SRD35.validAllocationRules(rules, 'skill', 'skillPoints', /^skills\.[^\.]*$/);
   rules.defineRule('validationNotes.skillMaximum',
     'maxAllowedSkillAllocation', '=', null,
     'maxActualSkillAllocation', '+', '-source',
@@ -4701,7 +4698,7 @@ SRD35.classRules = function(
     rules.defineRule('languageCount', classLevel, '+', languages.length);
 
   for(var i = 0; i < languages.length; i++) {
-    if(languages[i] != '')
+    if(languages[i] != 'any')
       rules.defineRule('languages.' + languages[i], classLevel, '=', '1');
   }
 
