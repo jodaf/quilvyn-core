@@ -872,8 +872,6 @@ SRD35.FEATURES = {
     'Section=combat Note="+%V light melee attack (dex instead of str)"',
   'Weapon Focus (Longsword)':
     'Section=combat Note="+1 Longsword Attack Modifier"',
-  'Weapon Proficiency (Longsword)':
-    'Section=combat Note="No attack penalty using Longsword"',
   'Weapon Specialization (Longsword)':
     'Section=combat Note="+1 Longsword Damage Modifier"',
   'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
