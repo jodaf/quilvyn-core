@@ -767,10 +767,6 @@ SRD35.FEATURES = {
     'Section=magic Note="+1 Spell DC (Transmutation)"',
   'Greater Spell Penetration':
     'Section=magic Note="+2 caster level vs. resistance checks"',
-  'Greater Weapon Focus (Longsword)':
-    'Section=combat Note="+1 Longsword Attack Modifier"',
-  'Greater Weapon Specialization (Longsword)':
-    'Section=combat Note="+1 Longsword Damage Modifier"',
   'Greater Two-Weapon Fighting':
     'Section=combat Note="Third off-hand -10 attack"',
   'Heighten Spell':'Section=magic Note="Increase chosen spell level"',
@@ -870,10 +866,6 @@ SRD35.FEATURES = {
     'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
   'Weapon Finesse':
     'Section=combat Note="+%V light melee attack (dex instead of str)"',
-  'Weapon Focus (Longsword)':
-    'Section=combat Note="+1 Longsword Attack Modifier"',
-  'Weapon Specialization (Longsword)':
-    'Section=combat Note="+1 Longsword Damage Modifier"',
   'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
   'Widen Spell':'Section=magic Note="x2 area of affect uses +3 spell slot"',
   // Classes
@@ -5486,15 +5478,28 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
  */
 SRD35.featRulesExtra = function(rules, name) {
 
+  var matchInfo;
+
   if(name == 'Combat Reflexes') {
     rules.defineRule
       ('combatNotes.combatReflexes', 'dexterityModifier', '=', 'source + 1');
+  } else if((matchInfo = name.match(/^(Greater )?Weapon Focus \((.*)\)$/)) != null) {
+    SRD35.featureRules
+      (rules, name, 'combat', '+1 ' + matchInfo[2] + ' Attack Modifier');
+  } else if((matchInfo = name.match(/^(Greater )?Weapon Specialization \((.*)\)$/)) != null) {
+    SRD35.featureRules
+      (rules, name, 'combat', '+2 ' + matchInfo[2] + ' Damage Modifier');
+  } else if((matchInfo = name.match(/^Improved Critical \((.*)\)$/)) != null) {
+    SRD35.featureRules
+      (rules, name, 'combat', 'x2 ' + matchInfo[1] + ' Threat Range');
   } else if(name == 'Manyshot') {
     rules.defineRule('combatNotes.manyshot',
       'baseAttack', '=', 'Math.floor((source + 9) / 5)'
     );
   } else if(name == 'Power Attack') {
     rules.defineRule('combatNotes.powerAttack', 'baseAttack', '=', null);
+  } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
+    SRD35.featureRules(rules, name, 'skill', '+3 ' + matchInfo[1]);
   } else if(name == 'Spell Mastery') {
     rules.defineRule
       ('magicNotes.spellMastery', 'intelligenceModifier', '=', null);
