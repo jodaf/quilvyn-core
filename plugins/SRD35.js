@@ -668,10 +668,6 @@ SRD35.FEATS = {
   'Weapon Focus (Longsword)':
     'Type=Fighter Require="baseAttack >= 1" Imply=weapons.Longsword',
   'Weapon Proficiency (Simple)':'Type=General',
-  'Weapon Proficiency (Bastard Sword)':
-    'Type=General Require="baseAttack >= 1","strength >= 13" Imply="weapons.Longsword"',
-  'Weapon Proficiency (Dwarven Waraxe)':
-    'Type=General Require="baseAttack >= 1","strength >= 13" Imply="weapons.Dwarven Waraxe"',
   'Weapon Proficiency (Longsword)':
     'Type=General Require="baseAttack >= 1" Imply="weapons.Longsword"',
   'Weapon Specialization (Longsword)':
