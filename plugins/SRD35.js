@@ -1750,7 +1750,7 @@ SRD35.SPELLS = {
     'Description="Know exact location of creature/object"',
   'Disguise Self':
     'School=Illusion ' +
-    'Description="Self change appearance/+10 disguise for $L10 min"',
+    'Description="Self change appearance/+10 Disguise for $L10 min"',
   'Disintegrate':
     'School=Transmutation ' +
     'Description="R$RM\' Target ${L2min40}d6 HP (Fort half), dust if slain (Fort 5d6)"',
@@ -5579,6 +5579,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
                   adjusted.match(/^(Fortitude|Reflex|Will)$/)) {
           adjusted = 'save.' + adjusted.charAt(0).toUpperCase() + adjusted.substring(1).toLowerCase();
         } else if(section == 'skill' &&
+                  adjusted != 'Skill Points' &&
                   adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
           skillEffects++;
           var skillAttr = 'skills.' + adjusted;
