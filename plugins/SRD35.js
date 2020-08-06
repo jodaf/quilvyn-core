@@ -3301,7 +3301,7 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Simple)",' +
-      '1:Aura,"1:Cleric Domains","1:Spontaneous Cleric Spell","1:Turn Undead" '+
+      '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead" '+
     'Selectables=' +
       QuilvynUtils.getKeys(SRD35.DOMAINS).map(x => '"1:' + x + ' Domain"').join(',') + ' ' +
     'CasterLevelDivine=levels.Cleric ' +
@@ -4882,7 +4882,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'charismaModifier', '+', null
     );
     rules.defineRule
-      ('selectableFeatureCount.Cleric', 'features.Cleric Domains', '+=', '2');
+      ('selectableFeatureCount.Cleric', 'levels.Cleric', '=', '2');
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
     for(var domain in rules.getChoices('domains')) {
       SRD35.prerequisiteRules(
