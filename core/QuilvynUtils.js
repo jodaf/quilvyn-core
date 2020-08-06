@@ -93,11 +93,11 @@ QuilvynUtils.getAttrValue = function(attrs, name) {
  */
 QuilvynUtils.getAttrValueArray = function(attrs, name) {
   var matchInfo;
-  var pat = new RegExp('\\b' + name + '=(\'[^\']*\'|"[^"]*"|[^\\s,]*)(,(\'[^\']*\'|"[^"]*"|[^\\s,]*))*', 'gi');
+  var pat = new RegExp('\\b' + name + '=(\'[^\']*\'|"[^"]*"|[^\'"\\s][^\\s,]*)(,(\'[^\']*\'|"[^"]*"|[^\'"\\s][^\\s,]*))*', 'gi');
   var result = [];
   if((matchInfo = attrs.match(pat))) {
     var lastMatch = matchInfo.pop().substring(name.length + 1);
-    var pat = '^\'[^\']*\',|^"[^"]*",|^[^\\s,]*,';
+    var pat = /^'[^']*',|^"[^"]*",|^[^'"\s][^\s,]*,/;
     while((matchInfo = lastMatch.match(pat))) {
       var value = matchInfo[0].substring(0, matchInfo[0].length - 1);
       if(value.startsWith('"') || value.startsWith("'"))
