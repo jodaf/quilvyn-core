@@ -568,8 +568,10 @@ SRD35.FEATS = {
     'Type=General Require="features.Spell Focus (Necromancy)"',
   'Greater Spell Focus (Transmutation)':
     'Type=General Require="features.Spell Focus (Transmutation)"',
-  'Greater Spell Penetration':'Type=General Imply="casterLevel >= 1" Require="features.Spell Penetration"',
-  'Greater Two-Weapon Fighting':'Type=Fighter Require="dexterity >= 12","baseAttack >= 11","features.Two-Weapon Fighting","features.Improved Two-Weapon Fighting"',
+  'Greater Spell Penetration':
+    'Type=General Imply="casterLevel >= 1" Require="features.Spell Penetration"',
+  'Greater Two-Weapon Fighting':
+    'Type=Fighter Require="dexterity >= 12","baseAttack >= 11","features.Two-Weapon Fighting","features.Improved Two-Weapon Fighting"',
   'Greater Weapon Focus (Longsword)':
     'Type=Fighter Require="features.Weapon Focus (Longsword)","levels.Fighter >= 8" Imply=weapons.Longsword',
   'Greater Weapon Specialization (Longsword)':
@@ -672,56 +674,54 @@ SRD35.FEATS = {
     'Type=General Require="baseAttack >= 1" Imply="weapons.Longsword"',
   'Weapon Specialization (Longsword)':
     'Type=Fighter Require="features.Weapon Focus (Longsword)","levels.Fighter >= 4" Imply="weapons.Longsword"',
-  'Whirlwind Attack':'Type=Fighter Require="dexterity >= 13","intelligence >= 13","baseAttack >= 4","features.Combat Expertise",features.Dodge,features.Mobility,"features.Spring Attack"',
+  'Whirlwind Attack':
+    'Type=Fighter Require="dexterity >= 13","intelligence >= 13","baseAttack >= 4","features.Combat Expertise",features.Dodge,features.Mobility,"features.Spring Attack"',
   'Widen Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"'
 };
 SRD35.FEATURES = {
-  // Domains
-  'Air Turning':'Section=combat Note="Turn Earth, rebuke Air"',
-  'All-Knowing':'Section=skill Note="All Knowledge is a class skill"',
-  'Animal Talk':'Section=magic Note="<i>Speak With Animals</i> 1/dy"',
-  'Arcane Adept':'Section=magic Note="Use magic device as W%V"',
-  'Deadly Touch':'Section=magic Note="Touch kills if %Vd6 ge target HP 1/dy"',
-  'Destroy Undead':'Section=combat Note="Destroy turned undead 1/dy"',
-  'Deceptive Knowledge':
-    'Section=skill Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
-  'Earth Turning':'Section=combat Note="Turn Air, rebuke Earth"',
-  'Empowered Chaos':'Section=magic Note="+1 caster level on Chaos spells"',
-  'Empowered Evil':'Section=magic Note="+1 caster level on Evil spells"',
-  'Empowered Good':'Section=magic Note="+1 caster level on Good spells"',
-  'Empowered Healing':'Section=magic Note="+1 caster level on Heal spells"',
-  'Empowered Knowledge':
-    'Section=magic Note="+1 caster level on Divination spells"',
-  'Empowered Law':'Section=magic Note="+1 caster level on Law spells"',
-  'Fire Turning':'Section=combat Note="Turn Water, rebuke Fire"',
-  'Good Fortune':'Section=save Note="Reroll 1/dy"',
-  'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
-  'Outdoors Knowledge':'Section=skill Note="Survival is a class skill"',
-  'Plant Turning':'Section=combat Note="Turn Plant, rebuke Plant"',
-  'Protective Touch':
-    'Section=magic Note="Touched +%V on next save w/in 1 hour 1/dy"',
-  'Smite':'Section=combat Note="+4 attack, +%V damage 1/dy"',
-  'Strength Burst':'Section=ability Note="+%V Strength 1 rd/dy"',
-  'Unhindered':'Section=magic Note="<i>Freedom Of Movement</i> %V rd/dy"',
-  'Water Turning':'Section=combat Note="Turn Fire, rebuke Water"',
-  'Weapon Of War':
-    'Section=feature Note="Weapon Proficiency (%V)/Weapon Focus (%V)"',
-  // Feats
+  'Abundant Step':'Section=magic Note="<i>Dimension Door</i> 1/dy"',
+  'Accurate':'Section=combat Note="+1 attack with slings and thrown"',
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
+  'Air Turning':'Section=combat Note="Turn Earth, rebuke Air"',
+  'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
   'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
+  'All-Knowing':'Section=skill Note="All Knowledge is a class skill"',
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
+  'Animal Companion':'Section=feature Note="Special bond and abilities"',
+  'Animal Talk':'Section=magic Note="<i>Speak With Animals</i> 1/dy"',
+  'Arcane Adept':'Section=magic Note="Use magic device as W%V"',
+  'Armor Class Bonus':'Section=combat Note="+%V AC"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':'Section=magic Note="Summoned creatures +4 Str, +4 Con"',
+  'Aura Of Courage':'Section=save Note="Immune fear, +4 to allies w/in 30\'"',
+  'Aura':
+    'Section=magic Note="Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment"',
+  'Bardic Knowledge':
+    'Section=skill Note="+%V check for knowledge of notable people, items, places"',
+  'Bardic Music':'Section=feature Note="Bardic music effect %V/dy"',
   'Blind-Fight':
     'Section=combat Note="Reroll concealed miss, no bonus to invisible foe, half penalty for impaired vision"',
   'Brew Potion':'Section=magic Note="Create potion for up to 3rd level spell"',
+  'Camouflage':'Section=skill Note="Hide in any natural terrain"',
+  'Celestial Familiar':
+    'Section=companion Note="Smite Evil (+%V HP) 1/dy, 60\' darkvision, %1 acid/cold/electricity resistance, DR %2/magic"',
   'Cleave':'Section=combat Note="Extra attack when foe drops"',
   'Combat Casting':
     'Section=skill Note="+4 Concentration (defensive or grappling)"',
   'Combat Expertise':
     'Section=combat Note="Trade up to -5 attack for equal AC bonus"',
   'Combat Reflexes':'Section=combat Note="Flatfooted AOO, up to %V AOO/rd"',
+  'Command Like Creatures':
+    'Section=companion Note="DC %V <i>Command</i> vs. similar creatures %1/dy"',
+  'Companion Alertness':
+    'Section=skill Note="+2 Listen and Spot when companion in reach"',
+  'Companion Evasion':
+    'Section=companion Note="Reflex save yields no damage instead of half"',
+  'Companion Improved Evasion':
+    'Section=companion Note="Failed save yields half damage"',
+  'Countersong':
+    'Section=magic Note="R30\' Perform check vs. sonic magic for 10 rd"',
   'Craft Magic Arms And Armor':
     'Section=magic Note="Create and mend magic weapons, armor, and shields"',
   'Craft Rod':'Section=magic Note="Create magic rod"',
@@ -729,26 +729,91 @@ SRD35.FEATURES = {
   'Craft Wand':'Section=magic Note="Create wand for up to 4th level spell"',
   'Craft Wondrous Item':
     'Section=magic Note="Create and mend miscellaneous magic items"',
+  'Crippling Strike':
+    'Section=combat Note="2 points Str damage from sneak attack"',
+  'Damage Reduction':'Section=combat Note="Negate %V HP each attack"',
+  'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
+  'Deadly Touch':'Section=magic Note="Touch kills if %Vd6 ge target HP 1/dy"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
+  'Deceptive Knowledge':
+    'Section=skill Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
+  'Defensive Roll':
+    'Section=combat Note="DC damage Reflex save vs. lethal blow for half damage"',
   'Deflect Arrows':'Section=combat Note="No damage from ranged hit 1/rd"',
   'Deft Hands':'Section=skill Note="+2 Sleight Of Hand/+2 Use Rope"',
+  'Deliver Touch Spells':
+    'Section=companion Note="Deliver touch spells if in contact w/master when cast"',
+  'Destroy Undead':'Section=combat Note="Destroy turned undead 1/dy"',
+  'Detect Evil':'Section=magic Note="<i>Detect Evil</i> at will"',
+  'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
+  'Diamond Body':'Section=save Note="Immune to poison"',
+  'Diamond Soul':'Section=save Note="DC %V spell resistance"',
   'Diehard':
     'Section=combat Note="Remain conscious and stable with negative HP"',
   'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
+  'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
+  'Divine Health':'Section=save Note="Immune to disease"',
+  'Dodge Giants':'Section=combat Note="+4 AC vs. giant creatures"',
   'Dodge':'Section=combat Note="+1 AC"',
+  'Dwarf Ability Adjustment':
+    'Section=ability Note="+2 Constitution/-2 Charisma"',
+  'Dwarf Armor Speed Adjustment':
+    'Section=ability Note="No armor speed penalty"',
+  'Dwarf Emnity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
+  'Earth Turning':'Section=combat Note="Turn Air, rebuke Earth"',
+  'Elemental Shape':'Section=magic Note="Wild Shape to elemental %V/dy"',
+  'Elf Ability Adjustment':
+    'Section=ability Note="+2 Dexterity/-2 Constitution"',
+  'Empathic Link':'Section=companion Note="Share emotions up to 1 mile"',
   'Empower Spell':
     'Section=magic Note="x1.5 chosen spell variable effects uses +2 spell slot"',
+  'Empowered Chaos':'Section=magic Note="+1 caster level on Chaos spells"',
+  'Empowered Evil':'Section=magic Note="+1 caster level on Evil spells"',
+  'Empowered Good':'Section=magic Note="+1 caster level on Good spells"',
+  'Empowered Healing':'Section=magic Note="+1 caster level on Heal spells"',
+  'Empowered Knowledge':
+    'Section=magic Note="+1 caster level on Divination spells"',
+  'Empowered Law':'Section=magic Note="+1 caster level on Law spells"',
+  'Empty Body':'Section=magic Note="<i>Etherealness</i> %V rd/dy"',
   'Endurance':'Section=save Note="+4 extended physical action"',
   'Enlarge Spell':
     'Section=magic Note="x2 chosen spell range uses +1 spell slot"',
   'Eschew Materials':'Section=magic Note="Cast spells w/out materials"',
+  'Evasion':'Section=save Note="Reflex save yields no damage instead of half"',
   'Extend Spell':
     'Section=magic Note="x2 chosen spell duration uses +1 spell slot"',
   'Extra Turning':'Section=combat Note="+4 Turnings"',
+  'Familiar Bat':'Section=skill Note="+3 Listen"',
+  'Familiar Cat':'Section=skill Note="+3 Move Silently"',
+  'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
+  'Familiar Lizard':'Section=skill Note="+3 Climb"',
+  'Familiar Owl':'Section=skill Note="+3 Spot in shadows and darkness"',
+  'Familiar Rat':'Section=save Note="+2 Fortitude"',
+  'Familiar Raven':'Section=skill Note="+3 Appraise"',
+  'Familiar Tiny Viper':'Section=skill Note="+3 Bluff"',
+  'Familiar Toad':'Section=combat Note="+3 Hit Points"',
+  'Familiar Weasel':'Section=save Note="+2 Reflex"',
+  'Familiar':'Section=feature Note="Special bond and abilities"',
   'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
+  'Fascinate':
+    'Section=magic Note="R90\' Hold %V creatures spellbound %1 rd (Will neg)"',
+  'Fast Movement':'Section=ability Note="+10 Speed"',
+  'Favored Enemy':
+    'Section=combat,skill Note="+2 or more damage vs. %V chosen creature type","+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V chosen creature type"',
+  'Fiendish Familiar':
+    'Section=companion Note="Smite Good (+%V HP) 1/dy, 60\' darkvision, %1 cold/fire resistance, DR %2/magic"',
+  'Fire Turning':'Section=combat Note="Turn Water, rebuke Fire"',
+  'Flurry Of Blows':'Section=combat Note="Trade -%V attack for extra attack"',
   'Forge Ring':'Section=magic Note="Create and mend magic rings"',
+  'Fortunate':'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
+  'Gnome Ability Adjustment':
+    'Section=ability Note="+2 Constitution/-2 Strength"',
+  'Gnome Emnity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
+  'Good Fortune':'Section=save Note="Reroll 1/dy"',
   'Great Cleave':'Section=combat Note="Cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
+  'Greater Flurry':'Section=combat Note="Extra attack"',
+  'Greater Rage':'Section=combat Note="+6 Str, +6 Con, +3 Will during rage"',
   'Greater Spell Focus (Abjuration)':
     'Section=magic Note="+1 Spell DC (Abjuration)"',
   'Greater Spell Focus (Conjuration)':
@@ -769,7 +834,16 @@ SRD35.FEATURES = {
     'Section=magic Note="+2 caster level vs. resistance checks"',
   'Greater Two-Weapon Fighting':
     'Section=combat Note="Third off-hand -10 attack"',
+  'Half-Orc Ability Adjustment':
+    'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
+  'Halfling Ability Adjustment':
+    'Section=ability Note="+2 Dexterity/-2 Strength"',
   'Heighten Spell':'Section=magic Note="Increase chosen spell level"',
+  'Hide In Plain Sight':'Section=skill Note="Hide even when observed"',
+  'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
+  'Human Skill Bonus':'Section=skill Note="+%V skill points"',
+  'Illiteracy':
+    'Section=skill Note="Must spend 2 skill points to read and write"',
   'Improved Bull Rush':
     'Section=combat Note="No AOO on Bull Rush, +4 Str check"',
   'Improved Counterspell':
@@ -777,6 +851,7 @@ SRD35.FEATURES = {
   'Improved Critical (Longsword)':
     'Section=combat Note="x2 Longsword Threat Range"',
   'Improved Disarm':'Section=combat Note="No AOO on Disarm, +4 attack"',
+  'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Improved Familiar':'Section=feature Note="Expanded Familiar choices"',
   'Improved Feint':'Section=combat Note="Bluff check to Feint as move action"',
   'Improved Grapple':'Section=combat Note="No AOO on Grapple, +4 Grapple"',
@@ -785,6 +860,7 @@ SRD35.FEATURES = {
   'Improved Precise Shot':
     'Section=combat Note="No foe AC bonus for partial concealment, attack grappling target"',
   'Improved Shield Bash':'Section=combat Note="No AC penalty on Shield Bash"',
+  'Improved Speed':'Section=companion Note="+10 companion Speed"',
   'Improved Sunder':'Section=combat Note="No AOO on Sunder, +4 attack"',
   'Improved Trip':
     'Section=combat Note="No AOO on Trip, +4 Str check, attack after trip"',
@@ -793,132 +869,11 @@ SRD35.FEATURES = {
     'Section=combat Note="Second off-hand -5 attack"',
   'Improved Unarmed Strike':
     'Section=combat Note="No AOO on Unarmed attack, may deal lethal damage"',
-  'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
-  'Iron Will':'Section=save Note="+2 Will"',
-  'Leadership':'Section=feature Note="Attract followers"',
-  'Lightning Reflexes':'Section=save Note="+2 Reflex"',
-  'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
-  'Manyshot':
-    'Section=combat Note="Fire up to %V arrows simultaneously at -2 attack"',
-  'Maximize Spell':
-    'Section=magic Note="Maximize all chosen spell variable effects uses +3 spell slot"',
-  'Mobility':'Section=combat Note="+4 AC vs. movement AOO"',
-  'Mounted Archery':'Section=combat Note="x.5 mounted ranged penalty"',
-  'Mounted Combat':
-    'Section=combat Note="Ride skill save vs. mount damage 1/rd"',
-  'Natural Spell':'Section=magic Note="Cast spell during <i>Wild Shape</i>"',
-  'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
-  'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
-  'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
-  'Point-Blank Shot':
-    'Section=combat Note="+1 ranged attack and damage w/in 30\'"',
-  'Power Attack':
-    'Section=combat Note="Trade up to -%V attack for equal damage bonus"',
-  'Precise Shot':'Section=combat Note="No penalty on shot into melee"',
-  'Quick Draw':'Section=combat Note="Draw weapon as free action"',
-  'Quicken Spell':
-    'Section=magic Note="Free action casting 1/rd uses +4 spell slot"',
-  'Rapid Reload (Hand)':
-    'Section=combat Note="Reload Hand Crossbow as free action"',
-  'Rapid Reload (Heavy)':
-    'Section=combat Note="Reload Heavy Crossbow as move action"',
-  'Rapid Reload (Light)':
-    'Section=combat Note="Reload Light Crossbow as free action"',
-  'Rapid Shot':
-    'Section=combat Note="Normal and extra ranged -2 attacks"',
-  'Ride-By Attack':
-    'Section=combat Note="Move before, after mounted attack"',
-  'Run':
-    'Section=ability,skill Note="+1 Run Speed Multiplier","+4 running Jump"',
-  'Scribe Scroll':'Section=magic Note="Create scroll of any known spell"',
-  'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
-  'Shot On The Run':'Section=combat Note="Move before, after ranged attack"',
-  'Silent Spell':
-    'Section=magic Note="Cast spell w/out speech uses +1 spell slot"',
-  'Snatch Arrows':'Section=combat Note="Catch ranged weapons"',
-  'Spell Focus (Abjuration)':'Section=magic Note="+1 Spell DC (Abjuration)"',
-  'Spell Focus (Conjuration)':'Section=magic Note="+1 Spell DC (Conjuration)"',
-  'Spell Focus (Divination)':'Section=magic Note="+1 Spell DC (Divination)"',
-  'Spell Focus (Enchantment)':'Section=magic Note="+1 Spell DC (Enhancement)"',
-  'Spell Focus (Evocation)':'Section=magic Note="+1 Spell DC (Evocation)"',
-  'Spell Focus (Illusion)':'Section=magic Note="+1 Spell DC (Illusion)"',
-  'Spell Focus (Necromancy)':'Section=magic Note="+1 Spell DC (Necromancy)"',
-  'Spell Focus (Transmutation)':
-    'Section=magic Note="+1 Spell DC (Transmutation)"',
-  'Spell Mastery':'Section=magic Note="Prepare %V spells w/out spellbook"',
-  'Spell Penetration':
-    'Section=magic Note="+2 checks to overcome spell resistance"',
-  'Spirited Charge':
-    'Section=combat Note="x2 damage (x3 lance) on mounted charge"',
-  'Spring Attack':'Section=combat Note="Move before, after melee attack"',
-  'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
-  'Still Spell':
-    'Section=magic Note="Cast spell w/out movement uses +1 spell slot"',
-  'Stunning Fist':
-    'Section=combat Note="Struck foe stunned %1/dy (DC %V Fort neg)"',
-  'Toughness':'Section=combat Note="+3 HP"',
-  'Track':'Section=skill Note="Survival to follow creatures\' trails"',
-  'Trample':
-    'Section=combat Note="Mounted overrun unavoidable, bonus hoof attack"',
-  'Two-Weapon Defense':
-    'Section=combat Note="+1 AC wielding two weapons (+2 fighting defensively)"',
-  'Two-Weapon Fighting':
-    'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
-  'Weapon Finesse':
-    'Section=combat Note="+%V light melee attack (dex instead of str)"',
-  'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
-  'Widen Spell':'Section=magic Note="x2 area of affect uses +3 spell slot"',
-  // Classes
-  'Abundant Step':'Section=magic Note="<i>Dimension Door</i> 1/dy"',
-  'Adamantine Ki Strike':
-    'Section=combat Note="Treat Unarmed as adamantine weapon"',
-  'Animal Companion':'Section=feature Note="Special bond and abilities"',
-  'Armor Class Bonus':'Section=combat Note="+%V AC"',
-  'Aura':
-    'Section=magic Note="Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment"',
-  'Aura Of Courage':'Section=save Note="Immune fear, +4 to allies w/in 30\'"',
-  'Bardic Knowledge':
-    'Section=skill Note="+%V check for knowledge of notable people, items, places"',
-  'Bardic Music':'Section=feature Note="Bardic music effect %V/dy"',
-  'Camouflage':'Section=skill Note="Hide in any natural terrain"',
-  'Countersong':
-    'Section=magic Note="R30\' Perform check vs. sonic magic for 10 rd"',
-  'Crippling Strike':
-    'Section=combat Note="2 points Str damage from sneak attack"',
-  'Damage Reduction':'Section=combat Note="Negate %V HP each attack"',
-  'Defensive Roll':
-    'Section=combat Note="DC damage Reflex save vs. lethal blow for half damage"',
-  'Detect Evil':'Section=magic Note="<i>Detect Evil</i> at will"',
-  'Diamond Body':'Section=save Note="Immune to poison"',
-  'Diamond Soul':'Section=save Note="DC %V spell resistance"',
-  'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
-  'Divine Health':'Section=save Note="Immune to disease"',
-  'Elemental Shape':'Section=magic Note="Wild Shape to elemental %V/dy"',
-  'Empty Body':'Section=magic Note="<i>Etherealness</i> %V rd/dy"',
-  // Endurance as per feat
-  'Evasion':'Section=save Note="Reflex save yields no damage instead of half"',
-  'Familiar':'Section=feature Note="Special bond and abilities"',
-  'Fascinate':
-    'Section=magic Note="R90\' Hold %V creatures spellbound %1 rd (Will neg)"',
-  'Fast Movement':'Section=ability Note="+10 Speed"',
-  'Favored Enemy':
-    'Section=combat,skill Note="+2 or more damage vs. %V chosen creature type","+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V chosen creature type"',
-  'Flurry Of Blows':'Section=combat Note="Trade -%V attack for extra attack"',
-  'Greater Flurry':'Section=combat Note="Extra attack"',
-  'Greater Rage':'Section=combat Note="+6 Str, +6 Con, +3 Will during rage"',
-  // Greater Two-Weapon Fighting as per feat
-  'Hide In Plain Sight':'Section=skill Note="Hide even when observed"',
-  'Illiteracy':
-    'Section=skill Note="Must spend 2 skill points to read and write"',
-  'Improved Evasion':'Section=save Note="Failed save yields half damage"',
-  'Improved Precise Shot':
-    'Section=combat Note="No foe AC bonus for partial concealment, attack grappling target"',
-  // Improved Two-Weapon Fighting as per feat
-  // Improved Unarmed Strike as per feat
   'Improved Uncanny Dodge':
     'Section=combat Note="Cannot be flanked, sneak attack only by rogue level %V+"',
   'Increased Unarmed Damage':'Section=combat Note="%V"',
-  'Indomitable Will':'Section=save Note="+4 enchantment resistance during rage"',
+  'Indomitable Will':
+    'Section=save Note="+4 enchantment resistance during rage"',
   'Inspire Competence':
     'Section=magic Note="+2 allies skill checks while performing"',
   'Inspire Courage':
@@ -927,26 +882,80 @@ SRD35.FEATURES = {
     'Section=magic Note="%V allies +2d10 HP, +2 attack, +1 Fortitude while performing"',
   'Inspire Heroics':
     'Section=magic Note="%V allies +4 AC and saves while performing"',
-  'Ki Strike':'Section=combat Note="Treat Unarmed as magic weapon"',
-  'Lawful Ki Strike':'Section=combat Note="Treat Unarmed as lawful weapon"',
+  'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
+  'Iron Will':'Section=save Note="+2 Will"',
+  'Keen Ears':'Section=skill Note="+2 Listen"',
+  'Keen Nose':'Section=skill Note="+2 Craft (Alchemy)"',
+  'Keen Senses':'Section=skill Note="+2 Listen/+2 Search/+2 Spot"',
+  'Ki Strike':'Section=combat Note="Unarmed attack is %V"',
+  'Know Depth':'Section=feature Note="Intuit approximate depth underground"',
+  'Large':
+    'Section=ability,combat,skill Note="x2 Load Max","-1 AC/-1 Melee Attack/-1 Ranged Attack","-4 Hide/+4 Intimidate"',
   'Lay On Hands':'Section=magic Note="Harm undead or heal %V HP/dy"',
+  'Leadership':'Section=feature Note="Attract followers"',
+  'Lightning Reflexes':'Section=save Note="+2 Reflex"',
+  'Link':
+    'Section=skill Note="+4 Handle Animal (companion)/Wild Empathy (companion)"',
+  'Low-Light Vision':'Section=feature Note="x2 normal distance in poor light"',
+  'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
   'Manyshot':
     'Section=combat Note="Fire up to %V arrows simultaneously at -2 attack"',
   'Mass Suggestion':
     'Section=magic Note="<i>Suggestion</i> to all fascinated creatures (DC %V neg)"',
+  'Maximize Spell':
+    'Section=magic Note="Maximize all chosen spell variable effects uses +3 spell slot"',
   'Mighty Rage':'Section=combat Note="+8 Str, +8 Con, +4 Will during rage"',
+  'Mobility':'Section=combat Note="+4 AC vs. movement AOO"',
+  'Mounted Archery':'Section=combat Note="x.5 mounted ranged penalty"',
+  'Mounted Combat':
+    'Section=combat Note="Ride skill save vs. mount damage 1/rd"',
+  'Multiattack':
+    'Section=companion Note="Reduce additional attack penalty to -2 or second attack at -5"',
+  'Natural Illusionist':'Section=magic Note="+1 Spell DC (Illusion)"',
+  'Natural Smith':
+    'Section=skill Note="+2 Appraise (stone or metal)/+2 Craft (stone or metal)"',
+  'Natural Spell':'Section=magic Note="Cast spell during <i>Wild Shape</i>"',
+  'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
   'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
+  'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
+  'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
   'Opportunist':'Section=combat Note="AOO vs. foe struck by ally"',
+  'Outdoors Knowledge':'Section=skill Note="Survival is a class skill"',
   'Perfect Self':
     'Section=combat,save Note="DR 10/magic","Treat as outsider for magic saves"',
+  'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
+  'Plant Turning':'Section=combat Note="Turn Plant, rebuke Plant"',
+  'Point-Blank Shot':
+    'Section=combat Note="+1 ranged attack and damage w/in 30\'"',
+  'Power Attack':
+    'Section=combat Note="Trade up to -%V attack for equal damage bonus"',
+  'Precise Shot':'Section=combat Note="No penalty on shot into melee"',
+  'Protective Touch':
+    'Section=magic Note="Touched +%V on next save w/in 1 hour 1/dy"',
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
+  'Quick Draw':'Section=combat Note="Draw weapon as free action"',
+  'Quicken Spell':
+    'Section=magic Note="Free action casting 1/rd uses +4 spell slot"',
   'Quivering Palm':
     'Section=combat Note="Struck foe dies 1/wk (DC %V Fort neg)"',
   'Rage':'Section=combat Note="+4 Str, +4 Con, +2 Will, -2 AC %V rd %1/dy"',
+  'Rapid Reload (Hand)':
+    'Section=combat Note="Reload Hand Crossbow as free action"',
+  'Rapid Reload (Heavy)':
+    'Section=combat Note="Reload Heavy Crossbow as move action"',
+  'Rapid Reload (Light)':
+    'Section=combat Note="Reload Light Crossbow as free action"',
   'Rapid Shot':'Section=combat Note="Normal and extra ranged -2 attacks"',
   'Remove Disease':'Section=magic Note="<i>Remove Disease</i> %V/week"',
+  'Resist Enchantment':'Section=save Note="+2 vs. enchantment"',
+  'Resist Fear':'Section=save Note="+2 vs. fear"',
+  'Resist Illusion':'Section=save Note="+2 vs. illusions"',
   "Resist Nature's Lure":'Section=save Note="+4 vs. spells of feys"',
-  // Scribe Scroll as per feat
+  'Resist Poison':'Section=save Note="+2 vs. Poison"',
+  'Resist Spells':'Section=save Note="+2 vs. Spells"',
+  'Ride-By Attack':'Section=combat Note="Move before, after mounted attack"',
+  'Run':
+    'Section=ability,skill Note="+1 Run Speed Multiplier","+4 running Jump"',
   'School Opposition (Abjuration)':
     'Section=magic Note="Cannot learn or cast Abjuration spells"',
   'School Opposition (Conjuration)':
@@ -977,136 +986,105 @@ SRD35.FEATURES = {
     'Section=magic,skill Note="Extra Necromancy spell/dy each spell level","+2 Spellcraft (Necromancy effects)"',
   'School Specialization (Transmutation)':
     'Section=magic,skill Note="Extra Transmutation spell/dy each spell level","+2 Spellcraft (Transmutation effects)"',
+  'Scribe Scroll':'Section=magic Note="Create scroll of any known spell"',
+  'Scry':'Section=companion Note="Master views companion 1/dy"',
+  'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
+  'Sense Secret Doors':'Section=feature Note="Automatic Search w/in 5\'"',
+  'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
+  'Share Spells':
+    'Section=companion Note="Master share self spell w/companion w/in 5\'"',
+  'Shot On The Run':'Section=combat Note="Move before, after ranged attack"',
+  'Silent Spell':
+    'Section=magic Note="Cast spell w/out speech uses +1 spell slot"',
   'Simple Somatics':
     'Section=magic Note="No arcane spell failure in light armor"',
   'Skill Mastery':
     'Section=skill Note="Take 10 despite distraction on %V chosen skills"',
+  'Sleep Immunity':'Section=save Note="Immune <i>Sleep</i>"',
   'Slippery Mind':'Section=save Note="Second save vs. enchantment"',
   'Slow Fall':'Section=save Note="Subtract %V\' from falling damage distance"',
+  'Slow':'Section=ability Note="-10 Speed"',
+  'Small':
+    'Section=ability,combat,skill Note="x0.75 Load Max","+1 AC/+1 Melee Attack/+1 Ranged Attack","+4 Hide/-4 Intimidate"',
   'Smite Evil':'Section=combat Note="+%V attack/+%1 damage vs. evil foe %2/dy"',
+  'Smite':'Section=combat Note="+4 attack, +%V damage 1/dy"',
+  'Snatch Arrows':'Section=combat Note="Catch ranged weapons"',
   'Sneak Attack':
     'Section=combat Note="Hit +%Vd6 HP when surprising or flanking"',
   'Song Of Freedom':'Section=magic Note="<i>Break Enchantment</i> via Perform"',
+  'Speak With Like Animals':'Section=companion Note="Talk w/similar creatures"',
+  'Speak With Master':
+    'Section=companion Note="Talk w/master in secret language"',
   'Special Mount':'Section=feature Note="Magical mount w/special abilities"',
+  'Spell Focus (Abjuration)':'Section=magic Note="+1 Spell DC (Abjuration)"',
+  'Spell Focus (Conjuration)':'Section=magic Note="+1 Spell DC (Conjuration)"',
+  'Spell Focus (Divination)':'Section=magic Note="+1 Spell DC (Divination)"',
+  'Spell Focus (Enchantment)':'Section=magic Note="+1 Spell DC (Enhancement)"',
+  'Spell Focus (Evocation)':'Section=magic Note="+1 Spell DC (Evocation)"',
+  'Spell Focus (Illusion)':'Section=magic Note="+1 Spell DC (Illusion)"',
+  'Spell Focus (Necromancy)':'Section=magic Note="+1 Spell DC (Necromancy)"',
+  'Spell Focus (Transmutation)':
+    'Section=magic Note="+1 Spell DC (Transmutation)"',
+  'Spell Mastery':'Section=magic Note="Prepare %V spells w/out spellbook"',
+  'Spell Penetration':
+    'Section=magic Note="+2 checks to overcome spell resistance"',
+  'Spirited Charge':
+    'Section=combat Note="x2 damage (x3 lance) on mounted charge"',
   'Spontaneous Cleric Spell':
     'Section=magic Note="Cast <i>Cure</i> or <i>Inflict<i> in place of known spell"',
   'Spontaneous Druid Spell':
     'Section=magic Note="Cast <i>Summon Nature\'s Ally</i> in place of known spell"',
+  'Spring Attack':'Section=combat Note="Move before, after melee attack"',
+  'Spry':'Section=skill Note="+2 Climb/+2 Jump/+2 Move Silently"',
+  'Stability':'Section=combat Note="+4 vs. Bull Rush and Trip"',
+  'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
   'Still Mind':'Section=save Note="+2 vs. enchantment"',
+  'Still Spell':
+    'Section=magic Note="Cast spell w/out movement uses +1 spell slot"',
+  'Stonecunning':
+    'Section=skill Note="+2 Search (stone or metal), automatic check w/in 10\'"',
+  'Strength Burst':'Section=ability Note="+%V Strength 1 rd/dy"',
+  'Stunning Fist':
+    'Section=combat Note="Struck foe stunned %1/dy (DC %V Fort neg)"',
   'Suggestion':
     'Section=magic Note="<i>Suggestion</i> to 1 fascinated creature (DC %V neg)"',
   'Swift Tracker':'Section=skill Note="Track at full speed"',
   'Thousand Faces':'Section=magic Note="<i>Alter Self</i> at will"',
   'Timeless Body':'Section=feature Note="No aging penalties"',
   'Tireless Rage':'Section=combat Note="Not fatigued after rage"',
+  'Tolerance':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
   'Tongue Of The Sun And Moon':
     'Section=feature Note="Speak w/any living creature"',
-  // Track as per feat
+  'Toughness':'Section=combat Note="+3 HP"',
+  'Track':'Section=skill Note="Survival to follow creatures\' trails"',
   'Trackless Step':'Section=feature Note="Untrackable outdoors"',
+  'Trample':
+    'Section=combat Note="Mounted overrun unavoidable, bonus hoof attack"',
   'Trap Sense':'Section=save Note="+%V Reflex and AC vs. traps"',
   'Trapfinding':
     'Section=skill Note="Use Search and Disable Device to find and remove DC 20+ traps"',
   'Turn Undead':
     'Section=combat Note="Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy"',
+  'Two-Weapon Defense':
+    'Section=combat Note="+1 AC wielding two weapons (+2 fighting defensively)"',
   'Two-Weapon Fighting':
     'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
   'Unarmored Speed Bonus':'Section=ability Note="+%V Speed"',
   'Uncanny Dodge':'Section=combat Note="Always adds Dex modifier to AC"',
+  'Unhindered':'Section=magic Note="<i>Freedom Of Movement</i> %V rd/dy"',
   'Venom Immunity':'Section=save Note="Immune to poisons"',
+  'Water Turning':'Section=combat Note="Turn Fire, rebuke Water"',
+  'Weapon Finesse':
+    'Section=combat Note="+%V light melee attack (dex instead of str)"',
+  'Weapon Of War':
+    'Section=feature Note="Weapon Proficiency (%V)/Weapon Focus (%V)"',
+  'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
   'Wholeness Of Body':'Section=magic Note="Heal %V HP to self/dy"',
+  'Widen Spell':'Section=magic Note="x2 area of affect uses +3 spell slot"',
   'Wild Empathy':'Section=skill Note="+%V Diplomacy (animals)"',
   'Wild Shape':
     'Section=magic Note="Change into creature of size %V %1 hr %2/dy"',
-  'Woodland Stride':
-    'Section=feature Note="Normal movement through undergrowth"',
-  // Races
-  'Accurate':'Section=combat Note="+1 attack with slings and thrown"',
-  'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
-  'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
-  'Dodge Giants':'Section=combat Note="+4 AC vs. giant creatures"',
-  'Dwarf Ability Adjustment':
-    'Section=ability Note="+2 Constitution/-2 Charisma"',
-  'Dwarf Armor Speed Adjustment':
-    'Section=ability Note="No armor speed penalty"',
-  'Dwarf Emnity':
-    'Section=combat Note="+1 attack vs. goblinoid and orc"',
-  'Elf Ability Adjustment':
-    'Section=ability Note="+2 Dexterity/-2 Constitution"',
-  'Fortunate':
-    'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
-  'Gnome Ability Adjustment':
-    'Section=ability Note="+2 Constitution/-2 Strength"',
-  'Gnome Emnity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
-  'Half-Orc Ability Adjustment':
-    'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
-  'Halfling Ability Adjustment':
-    'Section=ability Note="+2 Dexterity/-2 Strength"',
-  'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
-  'Human Skill Bonus':'Section=skill Note="+%V skill points"',
-  'Keen Ears':'Section=skill Note="+2 Listen"',
-  'Keen Nose':'Section=skill Note="+2 Craft (Alchemy)"',
-  'Keen Senses':'Section=skill Note="+2 Listen/+2 Search/+2 Spot"',
-  'Know Depth':'Section=feature Note="Intuit approximate depth underground"',
-  'Large':
-    'Section=ability,combat,skill Note="x2 Load Max","-1 AC/-1 Melee Attack/-1 Ranged Attack","-4 Hide/+4 Intimidate"',
-  'Low-Light Vision':'Section=feature Note="x2 normal distance in poor light"',
-  'Natural Illusionist':'Section=magic Note="+1 Spell DC (Illusion)"',
-  'Natural Smith':
-    'Section=skill Note="+2 Appraise (stone or metal)/+2 Craft (stone or metal)"',
-  'Resist Enchantment':'Section=save Note="+2 vs. Enchantment"',
-  'Resist Fear':'Section=save Note="+2 vs. Fear"',
-  'Resist Illusion':'Section=save Note="+2 vs. Illusions"',
-  'Resist Poison':'Section=save Note="+2 vs. Poison"',
-  'Resist Spells':'Section=save Note="+2 vs. Spells"',
-  'Sense Secret Doors':'Section=feature Note="Automatic Search w/in 5\'"',
-  'Sleep Immunity':'Section=save Note="Immune <i>Sleep</i>"',
-  'Slow':'Section=ability Note="-10 Speed"',
-  'Small':
-    'Section=ability,combat,skill Note="x0.75 Load Max","+1 AC/+1 Melee Attack/+1 Ranged Attack","+4 Hide/-4 Intimidate"',
-  'Spry':'Section=skill Note="+2 Climb/+2 Jump/+2 Move Silently"',
-  'Stability':'Section=combat Note="+4 vs. Bull Rush and Trip"',
-  'Stonecunning':
-    'Section=skill Note="+2 Search (stone or metal), automatic check w/in 10\'"',
-  'Tolerance':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
-  // Animal companions and familiars
-  'Celestial Familiar':
-    'Section=companion Note="Smite Evil (+%V HP) 1/dy, 60\' darkvision, %1 acid/cold/electricity resistance, DR %2/magic"',
-  'Command Like Creatures':
-    'Section=companion Note="DC %V <i>Command</i> vs. similar creatures %1/dy"',
-  'Companion Alertness':
-    'Section=skill Note="+2 Listen and Spot when companion in reach"',
-  'Companion Evasion':
-    'Section=companion Note="Reflex save yields no damage instead of half"',
-  'Companion Improved Evasion':
-    'Section=companion Note="Failed save yields half damage"',
-  'Deliver Touch Spells':
-    'Section=companion Note="Deliver touch spells if in contact w/master when cast"',
-  'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
-  'Empathic Link':'Section=companion Note="Share emotions up to 1 mile"',
-  'Familiar Bat':'Section=skill Note="+3 Listen"',
-  'Familiar Cat':'Section=skill Note="+3 Move Silently"',
-  'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
-  'Familiar Lizard':'Section=skill Note="+3 Climb"',
-  'Familiar Owl':'Section=skill Note="+3 Spot in shadows and darkness"',
-  'Familiar Rat':'Section=save Note="+2 Fortitude"',
-  'Familiar Raven':'Section=skill Note="+3 Appraise"',
-  'Familiar Tiny Viper':'Section=skill Note="+3 Bluff"',
-  'Familiar Toad':'Section=combat Note="+3 Hit Points"',
-  'Familiar Weasel':'Section=save Note="+2 Reflex"',
-  'Fiendish Familiar':
-    'Section=companion Note="Smite Good (+%V HP) 1/dy, 60\' darkvision, %1 cold/fire resistance, DR %2/magic"',
-  'Improved Speed':'Section=companion Note="+10 companion Speed"',
-  'Link':
-    'Section=skill Note="+4 Handle Animal (companion)/Wild Empathy (companion)"',
-  'Multiattack':
-    'Section=companion Note="Reduce additional attack penalty to -2 or second attack at -5"',
-  'Scry':'Section=companion Note="Master views companion 1/dy"',
-  'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
-  'Share Spells':
-    'Section=companion Note="Master share self spell w/companion w/in 5\'"',
-  'Speak With Like Animals':'Section=companion Note="Talk w/similar creatures"',
-  'Speak With Master':
-    'Section=companion Note="Talk w/master in secret language"'
+  'Woodland Stride':'Section=feature Note="Normal movement through undergrowth"'
 };
 SRD35.GENDERS = {
   'Female':'',
@@ -3196,7 +3174,8 @@ SRD35.WEAPONS = {
   'Quarterstaff':'Level=1 Category=2h Damage=d6/d6',
   'Ranseur':'Level=2 Category=2h Damage=2d4 Crit=3',
   'Rapier':'Level=2 Category=1h Damage=d6 Threat=18',
-  'Repeating Heavy Crossbow':'Level=3 Category=R Damage=d10 Threat=19 Range=120',
+  'Repeating Heavy Crossbow':
+    'Level=3 Category=R Damage=d10 Threat=19 Range=120',
   'Repeating Light Crossbow':'Level=3 Category=R Damage=d8 Threat=19 Range=80',
   'Sai':'Level=3 Category=Li Damage=d4 Range=10',
   'Sap':'Level=2 Category=Li Damage=d6',
@@ -4939,6 +4918,12 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.flurryOfBlows',
       'levels.Monk', '=', 'source < 5 ? -2 : source < 9 ? -1 : 0'
     );
+    rules.defineRule('combatNotes.kiStrike',
+      'levels.Monk', '=',
+      '"magic" + ' +
+      '(source < 10 ? "" : "/lawful") + ' +
+      '(source < 16 ? "" : "/adamantine")'
+    )
     rules.defineRule('combatNotes.quiveringPalm',
       'levels.Monk', '+=', '10 + Math.floor(source / 2)',
       'wisdomModifier', '+', null
