@@ -4378,6 +4378,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.classRulesExtra(rules, name);
   } else if(type == 'Deity')
     SRD35.deityRules(rules, name,
+      QuilvynUtils.getAttrValue(attrs, 'Alignment'),
       QuilvynUtils.getAttrValueArray(attrs, 'Domain'),
       QuilvynUtils.getAttrValueArray(attrs, 'Weapon')
     );
@@ -5219,10 +5220,11 @@ SRD35.companionRules = function(
 };
 
 /*
- * Defines in #rules# the rules associated with deity #name#. #domains# and
- * #favoredWeapons# list the associated domains and favored weapons.
+ * Defines in #rules# the rules associated with deity #name#. #alignment# gives
+ * the deity's alignment, and #domains# and #weapons# list the associated
+ * domains and favored weapons.
  */
-SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
+SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
 
   if(!name) {
     console.log('Empty deity name');
@@ -5231,22 +5233,27 @@ SRD35.deityRules = function(rules, name, domains, favoredWeapons) {
 
   if(rules.deityStats == null) {
     rules.deityStats = {
+      alignment:{},
       domains:{},
       weapons:{}
     };
   }
 
+  rules.deityStats.alignment[name] = alignment;
   rules.deityStats.domains[name] = domains.join('/');
-  rules.deityStats.weapons[name] = favoredWeapons.join('/');
+  rules.deityStats.weapons[name] = weapons.join('/');
 
+  rules.defineRule('deityAlignment',
+    'deity', '=', QuilvynUtils.dictLit(rules.deityStats.alignment) + '[source]'
+  );
   rules.defineRule('deityDomains',
     'deity', '=', QuilvynUtils.dictLit(rules.deityStats.domains) + '[source]'
   );
   rules.defineRule('deityFavoredWeapons',
     'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapons) + '[source]'
   );
-  for(var j = 0; j < favoredWeapons.length; j++) {
-    var weapon = favoredWeapons[j];
+  for(var j = 0; j < weapons.length; j++) {
+    var weapon = weapons[j];
     var focusFeature = 'Weapon Focus (' + weapon + ')';
     var proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
     rules.defineRule('clericFeatures.' + focusFeature,
@@ -6364,7 +6371,9 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Charisma', within: 'Abilities'},
           {name: 'Description', within: 'Attributes', separator: innerSep},
             {name: 'Alignment', within: 'Description'},
-            {name: 'Deity', within: 'Description'},
+            {name: 'DeityInfo', within: 'Description', separator: ''},
+              {name: 'Deity', within: 'DeityInfo'},
+              {name: 'Deity Alignment', within: 'DeityInfo', format:' (%V)'},
             {name: 'Origin', within: 'Description'},
             {name: 'Player', within: 'Description'},
           {name: 'AbilityStats', within: 'Attributes', separator: innerSep},
@@ -6555,6 +6564,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Deity')
     result.push(
+      ['Alignment', 'Alignment', 'select-on', QuilvynUtils.getKeys(rules.getChoices('alignments'))],
       ['Weapon', 'Favored Weapon', 'text', [30]],
       ['Domain', 'Domains', 'text', [30]]
     );
@@ -6625,7 +6635,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Spell')
     result.push(
-      ['School', 'School', 'select-one', rules.getChoices('schools')],
+      ['School', 'School', 'select-one', QuilvynUtils.getKeys(rules.getChoices('schools'))],
       ['Level', 'Level', 'text', [3]],
       ['Level', 'Caster Group', 'text', [15]],
       ['Description', 'Description', 'text', [60]]
@@ -6849,19 +6859,20 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
-    var aliInfo = attributes.alignment.match(/^([CLN]).* ([GEN])/);
+    var aliInfo = attributes.alignment.match(/^([CLN])\S+ ([GEN])/);
     var aliPat;
     if(aliInfo == null) /* Neutral character */
-      aliPat = '\\((N[ \\)]|N.|.N)';
-    else if(aliInfo[1] == 'N')
-      aliPat = '\\((N[ \\)]|.' + aliInfo[2] + ')';
-    else if(aliInfo[2] == 'N')
-      aliPat = '\\((N[ \\)]|' + aliInfo[1] + '.)';
-    else
-      aliPat = '\\(([N' + aliInfo[1] + '][N' + aliInfo[2] + '])';
+      aliPat = 'N[EG]?|[CL]N';
+    else if(aliInfo[1] == 'N') /* NG or NE */
+      aliPat = 'N|[CLN]' + aliInfo[2];
+    else if(aliInfo[2] == 'N') /* CN or LN */
+      aliPat = 'N|' + aliInfo[1] + '[GNE]';
+    else /* [LC]G or [LC]E */
+      aliPat = aliInfo[1] + '[N' + aliInfo[2] + ']|N' + aliInfo[2];
     choices = [];
-    for(attr in this.getChoices('deities')) {
-      if(attr.match(aliPat))
+    var deities = this.getChoices('deities');
+    for(attr in deities) {
+      if(deities[attr].match('=' + aliPat + '\\b'))
         choices.push(attr);
     }
     if(choices.length > 0)
