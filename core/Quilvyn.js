@@ -136,7 +136,9 @@ Quilvyn.applyV2Changes = function(character) {
   var result = {};
   for(var attr in character) {
     var value = character[attr];
-    if(attr.match(/^domains\./))
+    if(attr == 'deity')
+      value = value.replace(/ \(.*/, '');
+    else if(attr.match(/^domains\./))
       attr = attr.replace('domains.', 'selectableFeatures.Cleric - ') + ' Domain';
     else if(attr.match(/^prohibit\./))
       attr = attr.replace('prohibit.', 'selectableFeatures.Wizard - School Opposition (') + ')';
@@ -568,6 +570,7 @@ Quilvyn.importCharacters = function(focus) {
 Quilvyn.openCharacter = function(path) {
   character =
     Quilvyn.retrieveCharacterFromStorage(PERSISTENT_CHARACTER_PREFIX + path);
+  character = Quilvyn.applyV2Changes(character);
   character['_path'] = path; // In case character saved before _path attr use
   characterPath = path;
   characterCache[characterPath] = QuilvynUtils.clone(character);
