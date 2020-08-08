@@ -73,8 +73,8 @@ const PLUGINS = [
   '?plugins/SRD35SpellPoints.js',
   // '?plugins/Eberron.js',
   // '?plugins/EberronPrestige.js',
-  // '?plugins/LastAge.js',
-  // '?plugins/LastAgePrestige.js',
+  '?plugins/LastAge.js',
+  '?plugins/LastAgePrestige.js',
   '?plugins/Pathfinder.js',
   '?plugins/PathfinderPrestige.js',
   // '?plugins/Realms.js',
@@ -98,24 +98,24 @@ function CustomizeQuilvyn() {
   // by the SRD and Pathfinder plugins. Each extension includes a comment
   // that shows the information that needs to be supplied with each addition.
   var animalCompanions = {
-    // Format 'name': 'stats', e.g.,
+    // Format 'name': 'Str=int Dex=int Con=int Int=int Wis=int Cha=int HD=int Attack=int AC=int Dam=[int]'d'int[+int] Size=D|S|M|L|H [Level=int]', e.g.,
     // 'Babboon': 'Str=15 Dex=14 Con=12 Int=2 Wis=12 Cha=4 HD=1 Attack=2 AC=13 Dam=1d6+3 Size=M'
   };
   var deities = {
-    // Format 'deity (alignment) Weapon=favored weapon Domain=domain', e.g.,
-    // 'Glennor (NG Healing) Weapon=Quarterstaff Domain=Air,Animal,Healing'
+    // Format 'name':'Alignment=str Weapon=str Domain=str[,str...]' e.g.,
+    // 'Glennor':'Alignment=NG Weapon=Quarterstaff Domain=Air,Animal,Healing'
   };
   var familiars = {
     // Format see animalCompanions, above
   };
   var feats = {
-    // Format 'name':'Type=type Require=prerequisite Imply=prerequisite'
-    // where type is one or more of General, Fighter, Item Creation, or
+    // Format 'name':'Type=str [Require=expr[,expr...]] [Imply=expr[,expr...]]'
+    // where Type is one or more of General, Fighter, "Item Creation", or
     // Metamagic, and Require and Imply list validation and sanity tests, e.g.,
-    // 'Craft Talisman':'Type=Item Creation sanity="casterLevel >= 1"'
+    // 'Craft Talisman':'Type=Item Creation Imply="casterLevel >= 1"'
   };
   var features = {
-    // Format 'name':'Section=section Note=text'
+    // Format 'name':'Section=str[,...] Note="str"[,...]'
     // where section is one of 'ability', 'combat', 'companion', 'feature', 'magic', or 'skill', e.g.,
     // 'Craft Talisman':'Section=magic Note="Create object to cast level 3 spell 1/dy"'
   };
@@ -124,15 +124,16 @@ function CustomizeQuilvyn() {
     // 'whale':''
   };
   var skills = {
-    // Format 'name':'Ability=ability Class=class Untrained=Y/N' [Synergy=text]', e.g.,
+    // Format 'name':'Ability=str Class=str[,str...] Untrained=Y/N [Synergy="str"]', e.g.,
     // 'herbalism':'Ability=intelligence Class=Druid,Ranger Untrained=N'
+    // Class=all indicates that this is a class skill for all classes.
   };
   var spells = {
-    // Format 'name':'School=school Description=text', e.g.,
-    // 'Share Knowledge'"School=divination Description="R30\' Extract knowledge on specific subject from target (Will neg)"'
+    // Format 'name':'School=str Description="str"', e.g.,
+    // 'Share Knowledge':'School=divination Description="R30\' Extract knowledge on specific subject from target (Will neg)"'
   };
   var weapons = {
-    // Format 'name':Level=[0123] Category=Un|Si|1h|2h|R Damage=damage [Threat=int] [Crit=int] [Range=int], e.g.,,
+    // Format 'name':Level=0|1|2|3 Category=Un|Si|1h|2h|R Damage='d'int [Threat=int] [Crit=int] [Range=int], e.g.,,
     // 'Chakram':'Level=3 Category=R Damage=d6 Threat=19 Range=120'
     // 'Pike':'Level=2 Category=2h Damage=d8 Crit=3'
   };
