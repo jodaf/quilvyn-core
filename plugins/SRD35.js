@@ -4334,10 +4334,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   else if(type == 'Animal Companion')
     SRD35.companionRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Str'),
-      QuilvynUtils.getAttrValue(attrs, 'Int'),
-      QuilvynUtils.getAttrValue(attrs, 'Wis'),
       QuilvynUtils.getAttrValue(attrs, 'Dex'),
       QuilvynUtils.getAttrValue(attrs, 'Con'),
+      QuilvynUtils.getAttrValue(attrs, 'Int'),
+      QuilvynUtils.getAttrValue(attrs, 'Wis'),
       QuilvynUtils.getAttrValue(attrs, 'Cha'),
       QuilvynUtils.getAttrValue(attrs, 'HD'),
       QuilvynUtils.getAttrValue(attrs, 'AC'),
@@ -4392,10 +4392,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   } else if(type == 'Familiar')
     SRD35.familiarRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Str'),
-      QuilvynUtils.getAttrValue(attrs, 'Int'),
-      QuilvynUtils.getAttrValue(attrs, 'Wis'),
       QuilvynUtils.getAttrValue(attrs, 'Dex'),
       QuilvynUtils.getAttrValue(attrs, 'Con'),
+      QuilvynUtils.getAttrValue(attrs, 'Int'),
+      QuilvynUtils.getAttrValue(attrs, 'Wis'),
       QuilvynUtils.getAttrValue(attrs, 'Cha'),
       QuilvynUtils.getAttrValue(attrs, 'HD'),
       QuilvynUtils.getAttrValue(attrs, 'AC'),
@@ -4406,9 +4406,9 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
   else if(type == 'Feat') {
     SRD35.featRules(rules, name,
-      QuilvynUtils.getAttrValueArray(attrs, 'Type'),
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Imply')
+      QuilvynUtils.getAttrValueArray(attrs, 'Imply'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Type')
     );
     SRD35.featRulesExtra(rules, name);
   } else if(type == 'Feature')
@@ -5117,13 +5117,13 @@ SRD35.classRulesExtra = function(rules, name) {
 
 /*
  * Defines in #rules# the rules associated with animal companion #name#, which
- * has abilities #str#, #intel#, #wis#, #dex#, #con#, and #cha#, hit dice #hd#,
+ * has abilities #str#, #dex#, #con#, #intel#, #wis#, and #cha#, hit dice #hd#,
  * and armor class #ac#. The companion has attack bonus #attack#, does
  * #damage# damage, and is size #size#. If specified, #level# indicates the
  * minimum master level the character needs to have this animal as a companion.
  */
 SRD35.companionRules = function(
-  rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, size, level
+  rules, name, str, dex, con, intel, wis, cha, hd, ac, attack, damage, size, level
 ) {
 
   if(!name) {
@@ -5134,20 +5134,20 @@ SRD35.companionRules = function(
     console.log('Bad str "' + str + '" for companion ' + name);
     return;
   }
-  if(typeof intel != 'number') {
-    console.log('Bad intel "' + intel + '" for companion ' + name);
-    return;
-  }
-  if(typeof wis != 'number') {
-    console.log('Bad wis "' + wis + '" for companion ' + name);
-    return;
-  }
   if(typeof dex != 'number') {
     console.log('Bad dex "' + str + '" for companion ' + name);
     return;
   }
   if(typeof con != 'number') {
     console.log('Bad con "' + str + '" for companion ' + name);
+    return;
+  }
+  if(typeof intel != 'number') {
+    console.log('Bad intel "' + intel + '" for companion ' + name);
+    return;
+  }
+  if(typeof wis != 'number') {
+    console.log('Bad wis "' + wis + '" for companion ' + name);
     return;
   }
   if(typeof cha != 'number') {
@@ -5348,13 +5348,13 @@ SRD35.domainRulesExtra = function(rules, name) {
 
 /*
  * Defines in #rules# the rules associated with familiar #name#, which has
- * abilities #str#, #intel#, #wis#, #dex#, #con#, and #cha#, hit dice #hd#,
+ * abilities #str#, #dex#, #con#, #intel#, #wis#, and #cha#, hit dice #hd#,
  * and armor class #ac#. The familiar has attack bonus #attack#, does
  * #damage# damage, and is size #size#. If specified, #level# indicates the
  * minimum master level the character needs to have this animal as a familiar.
  */
 SRD35.familiarRules = function(
-  rules, name, str, intel, wis, dex, con, cha, hd, ac, attack, damage, size, level
+  rules, name, str, dex, con, intel, wis, cha, hd, ac, attack, damage, size, level
 ) {
 
   if(!name) {
@@ -5365,20 +5365,20 @@ SRD35.familiarRules = function(
     console.log('Bad str "' + str + '" for familiar ' + name);
     return;
   }
-  if(typeof intel != 'number') {
-    console.log('Bad intel "' + intel + '" for familiar ' + name);
-    return;
-  }
-  if(typeof wis != 'number') {
-    console.log('Bad wis "' + wis + '" for familiar "' + name);
-    return;
-  }
   if(typeof dex != 'number') {
     console.log('Bad dex "' + str + '" for familiar ' + name);
     return;
   }
   if(typeof con != 'number') {
     console.log('Bad con "' + str + '" for familiar ' + name);
+    return;
+  }
+  if(typeof intel != 'number') {
+    console.log('Bad intel "' + intel + '" for familiar ' + name);
+    return;
+  }
+  if(typeof wis != 'number') {
+    console.log('Bad wis "' + wis + '" for familiar "' + name);
     return;
   }
   if(typeof cha != 'number') {
@@ -5435,11 +5435,11 @@ SRD35.familiarRules = function(
 };
 
 /*
- * Defines in #rules# the rules associated with feat #name#. #types# lists the
- * categories of the feat, and #require# and #implies# list any hard and soft
- * prerequisites for the feat.
+ * Defines in #rules# the rules associated with feat #name#. #require# and
+ * #implies# list any hard and soft prerequisites for the feat, and #types#
+ * lists the categories of the feat.
  */
-SRD35.featRules = function(rules, name, types, requires, implies) {
+SRD35.featRules = function(rules, name, requires, implies, types) {
 
   if(!name) {
     console.log('Empty feat name');
@@ -5449,8 +5449,6 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
   var prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
 
-  rules.defineRule('features.' + name, 'feats.' + name, '=', null);
-
   if(requires.length > 0)
     SRD35.prerequisiteRules
       (rules, 'validation', prefix + 'Feat', 'feats.' + name, requires);
@@ -5458,6 +5456,8 @@ SRD35.featRules = function(rules, name, types, requires, implies) {
   if(implies.length > 0)
     SRD35.prerequisiteRules
       (rules, 'sanity', prefix + 'Feat', 'feats.' + name, implies);
+
+  rules.defineRule('features.' + name, 'feats.' + name, '=', null);
 
 };
 
@@ -6532,6 +6532,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['AC', 'Armor Class', 'text', [3]],
       ['Attack', 'Attack Bonus', 'text', [3]],
       ['Dam', 'Damage', 'text', [10]],
+      ['Size', 'Size', 'select-one', ['D', 'T', 'S', 'M', 'L', 'H']],
       ['Level', 'Min Master Level', 'text', [3]]
     );
   else if(type == 'Armor')
@@ -6564,7 +6565,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Deity')
     result.push(
-      ['Alignment', 'Alignment', 'select-on', QuilvynUtils.getKeys(rules.getChoices('alignments'))],
+      ['Alignment', 'Alignment', 'select-one', QuilvynUtils.getKeys(rules.getChoices('alignments'))],
       ['Weapon', 'Favored Weapon', 'text', [30]],
       ['Domain', 'Domains', 'text', [30]]
     );
@@ -6585,15 +6586,18 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['AC', 'Armor Class', 'text', [3]],
       ['Attack', 'Attack Bonus', 'text', [3]],
       ['Dam', 'Damage', 'text', [10]],
+      ['Size', 'Size', 'select-one', ['D', 'T', 'S', 'M', 'L', 'H']],
       ['Level', 'Min Master Level', 'text', [3]]
     );
   else if(type == 'Feat')
     result.push(
       ['Require', 'Prerequisites', 'text', [40]],
+      ['Imply', 'Implies', 'text', [40]],
       ['Type', 'Types', 'text', [20]]
     );
   else if(type == 'Feature')
     result.push(
+      ['Section', 'Section', 'text', [20]],
       ['Note', 'Note', 'text', [60]]
     );
   else if(type == 'Gender')
@@ -6607,6 +6611,8 @@ SRD35.choiceEditorElements = function(rules, type) {
   else if(type == 'Race')
     result.push(
       ['Features', 'Features', 'text', [60]],
+      ['Selectables', 'Selectables', 'text', [60]],
+      ['Languages', 'Languages', 'text', [30]],
       ['SpellAbility', 'Spell Ability', 'select-one',
        ['charisma', 'constitution', 'dexterity', 'intelligence', 'strength',
         'wisdom']],
@@ -6614,7 +6620,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'School')
     result.push(
-      // empty
+      ['Features', 'Features', 'text', [40]]
     );
   else if(type == 'Shield')
     result.push(
@@ -6636,8 +6642,8 @@ SRD35.choiceEditorElements = function(rules, type) {
   else if(type == 'Spell')
     result.push(
       ['School', 'School', 'select-one', QuilvynUtils.getKeys(rules.getChoices('schools'))],
-      ['Level', 'Level', 'text', [3]],
       ['Level', 'Caster Group', 'text', [15]],
+      ['Level', 'Level', 'text', [3]],
       ['Description', 'Description', 'text', [60]]
     );
   else if(type == 'Weapon')
@@ -6647,8 +6653,8 @@ SRD35.choiceEditorElements = function(rules, type) {
        ['Unarmed', 'Light', 'One-Handed', 'Two-Handed', 'Ranged']],
       ['Damage', 'Damage', 'select-one',
        QuilvynUtils.getKeys(SRD35.LARGE_DAMAGE)],
-      ['Crit', 'Crit Multiplier', 'text', [3]],
       ['Threat', 'Threat', 'text', [3]],
+      ['Crit', 'Crit Multiplier', 'text', [3]],
       ['Range', 'Range in Feet', 'text', [4]]
     );
   return result
