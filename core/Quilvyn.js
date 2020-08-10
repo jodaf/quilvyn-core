@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '2.0alpha';
+var VERSION = '2.0.0';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -21,7 +21,7 @@ var ABOUT_TEXT =
 'of the Coast under the Open Gaming License.  You should have received a ' +
 'copy of the Open Gaming License with this program; if not, you can obtain ' +
 'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
-'<a href="srd35/ogl.txt">here</a> to see the license.\n' +
+'<a href="plugins/ogl.txt">here</a> to see the license.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley and Norm Jacobson, for ' +
 'patient testing of Quilvyn and for suggestions that greatly improved it.';
 
@@ -62,6 +62,7 @@ function Quilvyn() {
 
   window.BACKGROUND = typeof BACKGROUND === 'undefined' ? 'wheat' : BACKGROUND;
   window.DEFAULT_SHEET_STYLE = typeof DEFAULT_SHEET_STYLE === 'undefined' ? 'Standard' : DEFAULT_SHEET_STYLE;
+  window.LOGO_URL = typeof LOGO_URL === 'undefined' ? 'core/quilvyn.gif' : LOGO_URL;
   window.MENU_WIDTH_PERCENT = typeof MENU_WIDTH_PERCENT === 'undefined' ? 30 : MENU_WIDTH_PERCENT;
   window.WARN_ABOUT_DISCARD = typeof WARN_ABOUT_DISCARD === 'undefined' ? true : WARN_ABOUT_DISCARD;
 
@@ -85,7 +86,7 @@ function Quilvyn() {
 
   if(window.MENU_WIDTH_PERCENT > 0) {
     var sheetWidthPercent = 99 - window.MENU_WIDTH_PERCENT;
-    quilvynTab = window.open('', 'QuilvynCombined');
+    quilvynTab = window.open('', '');
     quilvynTab.document.write(
       '<html>\n' +
       '<head>\n' +
@@ -185,7 +186,7 @@ Quilvyn.customChoicesAdd = function(focus, input) {
       '</form></body></html>'
     );
     var html = htmlBits.join('\n') + '\n';
-    Quilvyn.customChoicesAdd.win = window.open('', '__rules_custom', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.customChoicesAdd.win = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     Quilvyn.customChoicesAdd.win.document.write(html);
     Quilvyn.customChoicesAdd.win.document.close();
     Quilvyn.customChoicesAdd.win.okay = false;
@@ -300,7 +301,7 @@ Quilvyn.customChoicesExport = function() {
   }
   htmlBits.push('</pre>', '</body></html>');
   var html = htmlBits.join('\n') + '\n';
-  var exportPopup = window.open('', '__rules_export', FEATURES_OF_OTHER_WINDOWS);
+  var exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
   exportPopup.document.write(html);
   exportPopup.document.close();
   exportPopup.focus();
@@ -330,7 +331,7 @@ Quilvyn.customChoicesImport = function(focus) {
     ];
     var html = htmlBits.join('\n') + '\n';
     Quilvyn.customChoicesImport.win =
-      window.open('', '__import', FEATURES_OF_OTHER_WINDOWS);
+      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     Quilvyn.customChoicesImport.win.document.write(html);
     Quilvyn.customChoicesImport.win.document.close();
     Quilvyn.customChoicesImport.win.okay = false;
@@ -459,7 +460,7 @@ Quilvyn.exportCharacters = function() {
   }
   htmlBits.push('</body></html>');
   var html = htmlBits.join('\n') + '\n';
-  var exportPopup = window.open('', '__export', FEATURES_OF_OTHER_WINDOWS);
+  var exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
   exportPopup.document.write(html);
   exportPopup.document.close();
   exportPopup.focus();
@@ -492,7 +493,7 @@ Quilvyn.importCharacters = function(focus) {
     ];
     var html = htmlBits.join('\n') + '\n';
     Quilvyn.importCharacters.win =
-      window.open('', '__import', FEATURES_OF_OTHER_WINDOWS);
+      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     Quilvyn.importCharacters.win.document.write(html);
     Quilvyn.importCharacters.win.document.close();
     Quilvyn.importCharacters.win.okay = false;
@@ -672,7 +673,7 @@ Quilvyn.randomizeCharacter = function(focus) {
     ]);
     var html = htmlBits.join('\n') + '\n';
     Quilvyn.randomizeCharacter.win =
-      window.open('', '__random', FEATURES_OF_OTHER_WINDOWS);
+      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     Quilvyn.randomizeCharacter.win.document.write(html);
     Quilvyn.randomizeCharacter.win.document.close();
     // Randomize the value of each pull-down menu in the loading window
@@ -731,7 +732,7 @@ Quilvyn.refreshEditor = function(redraw) {
 
   if(editWindow == null || editWindow.closed) {
     editWindow = quilvynTab != null ? quilvynTab.frames[0] :
-                 window.open('', 'QuilvynEditor', FEATURES_OF_EDIT_WINDOW);
+                 window.open('', '', FEATURES_OF_EDIT_WINDOW);
     redraw = true;
   }
   if(redraw) {
@@ -758,7 +759,7 @@ Quilvyn.refreshEditor = function(redraw) {
   }
   characterOpts = characterOpts.sort();
   characterOpts.unshift(
-    '---choose one---', 'New', 'Random...', 'Save', 'Save As...', 'HTML', 'Import...', 'Export', 'Delete...', 'Summary'
+    '---choose one---', 'New', 'Random...', 'Save', 'Save As...', 'Delete...', 'HTML', 'Import...', 'Export', 'Summary'
   );
 
   InputSetOptions(editForm.character, characterOpts);
@@ -808,7 +809,7 @@ Quilvyn.refreshEditor = function(redraw) {
 Quilvyn.refreshSheet = function() {
   if(sheetWindow == null || sheetWindow.closed) {
     sheetWindow = window.quilvynTab != null ? quilvynTab.frames[1] :
-                  window.open('', 'QuilvynSheet', FEATURES_OF_SHEET_WINDOW);
+                  window.open('', '', FEATURES_OF_SHEET_WINDOW);
   }
   sheetWindow.document.write(Quilvyn.sheetHtml(character));
   sheetWindow.document.close();
@@ -943,7 +944,7 @@ Quilvyn.sheetHtml = function(attrs) {
 Quilvyn.showHtml = function(html) {
   if(Quilvyn.showHtml.htmlWindow==null || Quilvyn.showHtml.htmlWindow.closed) {
     Quilvyn.showHtml.htmlWindow =
-      window.open('', 'html', FEATURES_OF_OTHER_WINDOWS);
+      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
   }
   html = html.replace(/</g, '&lt;');
   html = html.replace(/>/g, '&gt;');
@@ -1021,7 +1022,7 @@ Quilvyn.summarizeCachedAttrs = function() {
   if(Quilvyn.summarizeCachedAttrs.win == null ||
      Quilvyn.summarizeCachedAttrs.win.closed)
     Quilvyn.summarizeCachedAttrs.win =
-      window.open('', 'sumwin', FEATURES_OF_OTHER_WINDOWS);
+      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
   else
     Quilvyn.summarizeCachedAttrs.win.focus();
   Quilvyn.summarizeCachedAttrs.win.document.write(htmlBits.join('\n'));
@@ -1042,12 +1043,18 @@ Quilvyn.update = function(input) {
     value -= 0;
   if(name == 'about') {
     if(Quilvyn.aboutWindow == null || Quilvyn.aboutWindow.closed) {
-      Quilvyn.aboutWindow =
-        window.open('', 'About Quilvyn', FEATURES_OF_OTHER_WINDOWS);
-      Quilvyn.aboutWindow.document.write
-        (ABOUT_TEXT.replace(/\n/g, '<br/>\n<br/>\n'));
+      Quilvyn.aboutWindow = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+      Quilvyn.aboutWindow.document.write(
+        '<html>\n',
+        '<head>\n',
+        '<title>About Quilvyn</title>\n',
+        '</head>\n',
+        '<body bgcolor="' + window.BACKGROUND + '">\n',
+        ABOUT_TEXT.replace(/\n/g, '<br/>\n<br/>\n'),
+        '\n</body>\n',
+        '</html>\n'
+      );
       Quilvyn.aboutWindow.document.close();
-      Quilvyn.aboutWindow.document.bgColor = window.BACKGROUND;
     }
     Quilvyn.aboutWindow.focus();
   } else if(name.match(/^(extras|hidden|italics)$/)) {
@@ -1085,7 +1092,7 @@ Quilvyn.update = function(input) {
   } else if(name == 'help') {
     if(Quilvyn.helpWindow == null || Quilvyn.helpWindow.closed) {
       Quilvyn.helpWindow =
-        window.open(HELP_URL, 'help', FEATURES_OF_OTHER_WINDOWS);
+        window.open(HELP_URL, '', FEATURES_OF_OTHER_WINDOWS);
     }
     Quilvyn.helpWindow.focus();
   } else if(name == 'randomize') {
@@ -1109,8 +1116,7 @@ Quilvyn.update = function(input) {
       Quilvyn.customChoicesImport(true);
   } else if(name == 'rulesNotes') {
     if(Quilvyn.rulesNotesWindow == null || Quilvyn.rulesNotesWindow.closed) {
-      Quilvyn.rulesNotesWindow =
-        window.open('', 'rulenotes', FEATURES_OF_OTHER_WINDOWS);
+      Quilvyn.rulesNotesWindow = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     }
     Quilvyn.rulesNotesWindow.document.write(
       '<html>\n',
@@ -1125,7 +1131,7 @@ Quilvyn.update = function(input) {
     Quilvyn.rulesNotesWindow.document.close();
     Quilvyn.rulesNotesWindow.focus();
   } else if(name == 'ruleRules') {
-    var awin = window.open('', 'rulewin', FEATURES_OF_OTHER_WINDOWS);
+    var awin = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     awin.document.write
       ('<html><head><title>RULES</title></head><body><pre>\n');
     awin.document.write(ruleSet.toHtml());
