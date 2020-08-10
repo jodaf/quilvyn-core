@@ -6571,8 +6571,8 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Domain')
     result.push(
-      ['features', 'Features', 'text', [40]],
-      ['spells', 'Spells', 'text', [40]]
+      ['Features', 'Features', 'text', [40]],
+      ['Spells', 'Spells', 'text', [40]]
     );
   else if(type == 'Familiar')
     result.push(
@@ -6884,6 +6884,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     if(choices.length > 0)
       attributes['deity'] = choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'feats' || attribute == 'features') {
+    var debug = [];
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
     var countPrefix = attribute + 'Count.';
     var prefix = attribute + 's';
@@ -6899,12 +6900,13 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     var allChoices = this.getChoices(prefix);
     for(attr in allChoices) {
       var types = QuilvynUtils.getAttrValueArray(allChoices[attr], 'Type');
-      if(types.length == 0)
+      if(types.indexOf('General') < 0)
         types.push('General');
       if(attrs[prefix + '.' + attr] != null) {
         for(i = 0; i < types.length; i++) {
           var t = types[i];
           if(toAllocateByType[t] != null && toAllocateByType[t] > 0) {
+            debug.push(prefix + '.' + attr + ' reduces ' + t + ' feats from ' + toAllocateByType[t]);
             toAllocateByType[t]--;
             break;
           }
@@ -6913,7 +6915,6 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         availableChoices[attr] = types;
       }
     }
-    var debug = [];
     for(attr in toAllocateByType) {
       var availableChoicesInType = {};
       for(var a in availableChoices) {
@@ -7425,7 +7426,7 @@ SRD35.ruleNotes = function() {
     '    affects only the Gnome Hooked Hammer, where Quilvyn displays a\n' +
     '    critical multiplier of x4 instead of x3/x4.\n' +
     '  </li><li>\n' +
-    '    Animal companion feats, skills, and tricks are not reported\n' +
+    '    Quilvyn does not track companion feats, skills, and tricks.\n' +
     '  </li><li>\n' +
     '    Quilvyn has problems dealing with attributes containing an\n' +
     '    uncapitalized word.  This is why, e.g., Quilvyn defines the skills\n' +
@@ -7447,10 +7448,10 @@ SRD35.ruleNotes = function() {
     '    attributes based on that ability from scratch.  For example,\n' +
     '    bumping intelligence when a character reaches fourth level causes\n' +
     '    Quilvyn to recompute the number of skill points awarded at first\n' +
-    '    level.\n' +
+    '    through third levels.\n' +
     '  </li><li>\n' +
-    '    Multi-class characters get quadruple skill points for the first\n' +
-    '    level in each class, instead of just the first class.\n' +
+    '    Quilvyn gives multiclass characters quadruple skill points for the\n' +
+    '    first level of each class, instead of just the first class.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '</p>\n';
