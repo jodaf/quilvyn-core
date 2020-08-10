@@ -158,7 +158,7 @@ Quilvyn.applyV2Changes = function(character) {
   return result;
 };
 
-/* TODO */
+/* Interacts with the user to add one custom choice to the current rule set. */
 Quilvyn.customChoicesAdd = function(focus, input) {
 
   if(focus && Quilvyn.customChoicesAdd.win != null) {
@@ -256,7 +256,10 @@ Quilvyn.customChoicesAdd = function(focus, input) {
 
 };
 
-/* TODO */
+/*
+ * Interacts with the user to delete one custom choice from the current rule
+ * set.
+ */
 Quilvyn.customChoicesDelete = function() {
   var prompt = 'Enter custom choice to delete:';
   var paths = [];
@@ -283,7 +286,10 @@ Quilvyn.customChoicesDelete = function() {
   Quilvyn.refreshEditor(true);
 };
 
-/* TODO */
+/*
+ * Displays all custom choices in the current rule set in a format that can be
+ * imported into Quilvyn.
+ */
 Quilvyn.customChoicesExport = function() {
   var htmlBits = [
     '<html><head><title>Export Custom Choices</title></head>',
@@ -307,7 +313,10 @@ Quilvyn.customChoicesExport = function() {
   exportPopup.focus();
 };
 
-/* TODO */
+/*
+ * Interacts with the user to import a set of custom choices into the current
+ * rule set.
+ */
 Quilvyn.customChoicesImport = function(focus) {
 
   if(focus && Quilvyn.customChoicesImport.win != null) {

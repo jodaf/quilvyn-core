@@ -81,15 +81,15 @@ QuilvynUtils.flatten = function(array, start, end) {
   return result;
 };
 
-/*
- * TODO
- */
+/* Returns the final value of attribute #name# within #attrs#. */
 QuilvynUtils.getAttrValue = function(attrs, name) {
   return QuilvynUtils.getAttrValueArray(attrs, name).pop();
 };
 
 /*
- * TODO
+ * Finds text in #attrs# with the format #name#=value[,value...] and returns
+ * an array of the values. Values may be surrounded by quotes; otherwise, they
+ * are separated by commas and the list of values terminated by a space.
  */
 QuilvynUtils.getAttrValueArray = function(attrs, name) {
   var matchInfo;

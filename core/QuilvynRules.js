@@ -32,9 +32,7 @@ function QuilvynRules(name, version) {
 }
 QuilvynRules.prototype = new RuleEngine();
 
-/*
- * TODO
- */
+/* Adds #name# and associate attributes #attrs# to the set of #type# choices. */
 QuilvynRules.prototype.addChoice = function(type, name, attrs) {
   if(this.choices[type] == null)
     this.choices[type] = {};
@@ -43,9 +41,7 @@ QuilvynRules.prototype.addChoice = function(type, name, attrs) {
   this.choices[type][name] = attrs;
 };
 
-/*
- * TODO
- */
+/* Removes #name from the set of #type# choices. */
 QuilvynRules.prototype.deleteChoice = function(type, name) {
   if(!(type in this.choices))
     console.log('Delete from non-existent type "' + type  + '"');
