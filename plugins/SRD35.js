@@ -7229,101 +7229,108 @@ SRD35.makeValid = function(attributes) {
           notes[attr].replace(/^(Implies|Requires) /, '').split(/\s*\/\s*/);
 
         for(var i = 0; i < requirements.length; i++) {
+
           // Find a random alternative w/the format "name [op value]"
           var alternatives = requirements[i].split(/\s*\|\|\s*/);
           var matchInfo = null;
           while(matchInfo == null && alternatives.length > 0) {
             var index = QuilvynUtils.random(0, alternatives.length - 1);
-            matchInfo = alternatives[index].match(/^([^<>!=]+)(([<>!=~]+)(.*))?/);
+            matchInfo =
+              alternatives[index].match(/^([^<>!=]+)(([<>!=~]+)(.*))?/);
             alternatives =
-              alternatives.slice(0, index).concat(alternatives.slice(index + 1));
+              alternatives.slice(0, index).concat(alternatives.slice(index+1));
           }
-        }
-        if(matchInfo == null)
-          continue; // No workable alternatives
+          if(matchInfo == null)
+            continue; // No workable alternatives
 
-        var targetAggregator = null;
-        var targetAttr = matchInfo[1].replace(/\s*$/, '');
-        var targetOp = matchInfo[3] == null ? '>=' : matchInfo[3];
-        var targetValue = matchInfo[4] == null ? 1 :
-                          matchInfo[4].replace(/^\s*["']?|['"]$/g, '');
-        if(targetAttr.match(/^(Max|Sum) /)) {
-          targetAggregator = targetAttr.substring(0, 3);
-          targetAttr = targetAttr.substring(4).replace(/^\s+["']|['"]$/g, '');
-        }
-        if(applied[targetValue] != null)
-          targetValue = applied[targetValue];
-        if(targetOp == '>') {
-          targetOp = '>=';
-          targetValue = targetValue * 1 + 1;
-        } else if(targetOp == '<') {
-          targetOp = '<=';
-          targetValue = targetValue * 1 - 1;
-        }
+          var targetAggregator = null;
+          var targetAttr = matchInfo[1].replace(/\s*$/, '');
+          var targetOp = matchInfo[3] == null ? '>=' : matchInfo[3];
+          var targetValue = matchInfo[4] == null ? 1 :
+                            matchInfo[4].replace(/^\s*["']?|['"]$/g, '');
+          if(targetAttr.match(/^(Max|Sum) /)) {
+            targetAggregator = targetAttr.substring(0, 3);
+            targetAttr = targetAttr.substring(4).replace(/^\s+["']|['"]$/g, '');
+          }
+          if(applied[targetValue] != null)
+            targetValue = applied[targetValue];
+          if(targetOp == '>') {
+            targetOp = '>=';
+            targetValue = targetValue * 1 + 1;
+          } else if(targetOp == '<') {
+            targetOp = '<=';
+            targetValue = targetValue * 1 - 1;
+          }
 
-        var currentValue = applied[targetAttr];
-        if(currentValue != null) {
-          if(targetOp == '==' ? currentValue == targetValue :
-             targetOp == '!=' ? currentValue != targetValue :
-             targetOp == '>' ? Number(currentValue) > Number(targetValue) :
-             targetOp == '>=' ? Number(currentValue) >= Number(targetValue) :
-             targetOp == '<' ? Number(currentValue) < Number(targetValue) :
-             targetOp == '<=' ? Number(currentValue) <= Number(targetValue) :
-             targetOp == '=~' ? currentValue.match(targetValue) :
-             targetOp == '!~' ? !currentValue.match(targetValue) :
-             false)
-            continue; // No fix needed
-        }
+          var currentValue = applied[targetAttr];
+          if(currentValue != null) {
+            if(targetOp == '==' ? currentValue == targetValue :
+               targetOp == '!=' ? currentValue != targetValue :
+               targetOp == '>' ? Number(currentValue) > Number(targetValue) :
+               targetOp == '>=' ? Number(currentValue) >= Number(targetValue) :
+               targetOp == '<' ? Number(currentValue) < Number(targetValue) :
+               targetOp == '<=' ? Number(currentValue) <= Number(targetValue) :
+               targetOp == '=~' ? currentValue.match(targetValue) :
+               targetOp == '!~' ? !currentValue.match(targetValue) :
+               false)
+              continue; // No fix needed
+          }
 
-        // If this attr has a set of possible values (e.g., race), choose a
-        // random one that satisfies targetOp
-        var choices = this.getChoices(targetAttr + 's');
-        if(choices != null) {
-          var possibilities = [];
-          for(var choice in choices) {
-            if((targetOp == '==' && choice == targetValue) ||
-               (targetOp == '!=' && choice != targetValue) ||
-               (targetOp == '=~' && choice.match(new RegExp(targetValue))) ||
-               (targetOp == '!~' && !choice.match(new RegExp(targetValue)))) {
-              possibilities.push(choice);
+          // If this attr has a set of possible values (e.g., race), choose a
+          // random one that satisfies targetOp
+          var choices = this.getChoices(targetAttr + 's');
+          if(choices != null) {
+            var possibilities = [];
+            for(var choice in choices) {
+              if((targetOp == '==' && choice == targetValue) ||
+                 (targetOp == '!=' && choice != targetValue) ||
+                 (targetOp == '=~' && choice.match(new RegExp(targetValue))) ||
+                 (targetOp == '!~' && !choice.match(new RegExp(targetValue)))) {
+                possibilities.push(choice);
+              }
             }
+            if(possibilities.length == 0)
+              continue; // No fix possible
+            targetOp = '==';
+            targetValue =
+              possibilities[QuilvynUtils.random(0, possibilities.length - 1)];
           }
-          if(possibilities.length == 0)
-            continue; // No fix possible
-          targetOp = '==';
-          targetValue =
-            possibilities[QuilvynUtils.random(0, possibilities.length - 1)];
-        }
 
-        if(attr == 'validationNotes.abilityModifierSum') {
-          for(targetAttr in SRD35.ABILITIES) {
-            targetAttr = targetAttr.toLowerCase();
-            if(applied[targetAttr + 'Modifier'] <= 0) {
-              targetValue = attributes[targetAttr] + 2;
-              debug[debug.length] =
-                attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
-                "' => '" + targetValue + "'";
+          if(attr == 'validationNotes.abilityModifierSum') {
+            for(targetAttr in SRD35.ABILITIES) {
+              targetAttr = targetAttr.toLowerCase();
+              if(applied[targetAttr + 'Modifier'] <= 0) {
+                targetValue = attributes[targetAttr] + 2;
+                debug[debug.length] =
+                  attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
+                  "' => '" + targetValue + "'";
+                attributes[targetAttr] = targetValue;
+                // Don't do this: attributesChanged[targetAttr] = targetValue;
+                fixedThisPass++;
+              }
+            }
+          } else if(!(targetAttr in attributesChanged) &&
+                    (targetAttr in attributes || targetAttr.indexOf('.') > 0)) {
+            // Directly-fixable problem
+            if(targetAttr.startsWith('features.')) {
+              if(targetAttr.replace('features.','') in this.getChoices('feats'))
+                targetAttr = targetAttr.replace('features', 'feats');
+              else
+                continue;
+            }
+            debug.push(
+              attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
+              "' => '" + targetValue + "'"
+            );
+            if(targetValue == 0) {
+              delete attributes[targetAttr];
+            } else {
               attributes[targetAttr] = targetValue;
-              // Don't do this: attributesChanged[targetAttr] = targetValue;
-              fixedThisPass++;
             }
+            attributesChanged[targetAttr] = targetValue;
+            fixedThisPass++;
           }
-        } else if(!(targetAttr in attributesChanged) &&
-                  (targetAttr in attributes ||
-                   (targetAttr.indexOf('.') > 0 &&
-                    !targetAttr.startsWith('features.')))) {
-          // Directly-fixable problem
-          debug.push(
-            attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
-            "' => '" + targetValue + "'"
-          );
-          if(targetValue == 0) {
-            delete attributes[targetAttr];
-          } else {
-            attributes[targetAttr] = targetValue;
-          }
-          attributesChanged[targetAttr] = targetValue;
-          fixedThisPass++;
+
         }
 
       }
