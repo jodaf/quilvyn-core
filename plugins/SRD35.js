@@ -3201,7 +3201,7 @@ SRD35.WEAPONS = {
 };
 SRD35.CLASSES = {
   'Barbarian':
-    'Require="alignment !~ /Lawful/" ' +
+    'Require="alignment !~ \'Lawful\'" ' +
     'HitDie=d12 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
       '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
@@ -3210,21 +3210,21 @@ SRD35.CLASSES = {
       '"5:Improved Uncanny Dodge","7:Damage Reduction","11:Greater Rage",' +
       '"14:Indomitable Will","17:Tireless Rage","20:Mighty Rage"',
   'Bard':
-    'Require="alignment !~ /Lawful/" ' +
+    'Require="alignment !~ \'Lawful\'" ' +
     'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Features=' +
       '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)",' +
       '"1:Bardic Knowledge","1:Bardic Music","1:Simple Somatics",' +
-      '"Max /skills.Perform/ >= 3 ? 1:Countersong",' +
-      '"Max /skills.Perform/ >= 3 ? 1:Fascinate",' +
-      '"Max /skills.Perform/ >= 3 ? 1:Inspire Courage",' +
-      '"Max /skills.Perform/ >= 6 ? 3:Inspire Competence",' +
-      '"Max /skills.Perform/ >= 9 ? 6:Suggestion",' +
-      '"Max /skills.Perform/ >= 12 ? 9:Inspire Greatness",' +
-      '"Max /skills.Perform/ >= 15 ? 12:Song Of Freedom",' +
-      '"Max /skills.Perform/ >= 18 ? 15:Inspire Heroics",' +
-      '"Max /skills.Perform/ >= 21 ? 18:Mass Suggestion" ' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 3 ? 1:Countersong",' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 3 ? 1:Fascinate",' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 3 ? 1:Inspire Courage",' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 6 ? 3:Inspire Competence",' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 9 ? 6:Suggestion",' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 12 ? 9:Inspire Greatness",' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 15 ? 12:Song Of Freedom",' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 18 ? 15:Inspire Heroics",' +
+      '"Max \'skills.Perform \\(.*\\)$\' >= 21 ? 18:Mass Suggestion" ' +
     'CasterLevelArcane=levels.Bard ' +
     'SpellAbility=charisma ' +
     'SpellsPerDay=' +
@@ -3282,7 +3282,7 @@ SRD35.CLASSES = {
       '"1:Weapon Proficiency (Simple)",' +
       '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead" '+
     'Selectables=' +
-      QuilvynUtils.getKeys(SRD35.DOMAINS).map(x => '"1:' + x + ' Domain"').join(',') + ' ' +
+      QuilvynUtils.getKeys(SRD35.DOMAINS).map(x => '"deityDomains =~ \'' + x + '\' ? 1:' + x + ' Domain"').join(',') + ' ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellsPerDay=' +
@@ -3369,9 +3369,9 @@ SRD35.CLASSES = {
       'True Resurrection;Unholy Aura"',
   'Druid':
     'Require=' +
-      '"alignment =~ /Neutral/",' +
-      '"armor =~ /None|Hide|Leather|Padded/",' +
-      '"shield =~ /None|Wooden/" ' +
+      '"alignment =~ \'Neutral\'",' +
+      '"armor =~ \'None|Hide|Leather|Padded\'",' +
+      '"shield =~ \'None|Wooden\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
@@ -3445,7 +3445,7 @@ SRD35.CLASSES = {
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
       '"1:Weapon Proficiency (Martial)"',
   'Monk':
-    'Require="alignment =~ /Lawful/" ' +
+    'Require="alignment =~ \'Lawful\'" ' +
     'Imply="armor == \'None\'","shield == \'None\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Features=' +
@@ -3944,10 +3944,10 @@ SRD35.aideRules = function(rules, companions, familiars) {
   rules.defineRule('features.Fiendish Familiar', 'familiarFiendish', '=', '1');
 
   SRD35.prerequisiteRules
-    (rules, 'validation', 'celestialFamiliarMasterLevel', 'familiarCelestial',
+    (rules, 'validation', 'celestialFamiliar', 'familiarCelestial',
      'familiarMasterLevel >= 3');
   SRD35.prerequisiteRules
-    (rules, 'validation', 'fiendishFamiliarMasterLevel', 'familiarFiendish',
+    (rules, 'validation', 'fiendishFamiliar', 'familiarFiendish',
      'familiarMasterLevel >= 3');
 
 };
@@ -4254,7 +4254,7 @@ SRD35.identityRules = function(
     'casterLevelArcane', '=', null,
     'casterLevelDivine', '+=', null
   );
-  SRD35.validAllocationRules(rules, 'level', 'level', /^levels\./);
+  SRD35.validAllocationRules(rules, 'level', 'level', 'Sum "^levels\\."');
 
 };
 
@@ -4310,12 +4310,14 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
     'intelligenceModifier', '=', null,
     'level', '*', 'source + 3'
   );
-  SRD35.validAllocationRules(rules, 'feat', /^featCount\./, /^feats\./);
   SRD35.validAllocationRules
-    (rules, 'language', 'languageCount', /^languages\./);
+    (rules, 'feat', 'Sum "^featCount\\."', 'Sum "^feats\\."');
   SRD35.validAllocationRules
-    (rules, 'selectableFeature', /^selectableFeatureCount\./, /^selectableFeatures\./);
-  SRD35.validAllocationRules(rules, 'skill', 'skillPoints', /^skills\.[^\.]*$/);
+    (rules, 'language', 'languageCount', 'Sum "^languages\\."');
+  SRD35.validAllocationRules
+    (rules, 'selectableFeature', 'Sum "^selectableFeatureCount\\."', 'Sum "^selectableFeatures\\."');
+  SRD35.validAllocationRules
+    (rules, 'skill', 'skillPoints', 'Sum "^skills\\.[^\\.]*$"');
   rules.defineRule('validationNotes.skillMaximum',
     'maxAllowedSkillAllocation', '=', null,
     'maxActualSkillAllocation', '+', '-source',
@@ -4864,13 +4866,6 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('selectableFeatureCount.Cleric', 'levels.Cleric', '=', '2');
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
-    for(var domain in rules.getChoices('domains')) {
-      SRD35.prerequisiteRules(
-        rules, 'validation', 'cleric - ' + domain.replace(/ /g, '') + 'Domain',
-        'selectableFeatures.Cleric - ' + domain + ' Domain',
-        'deityDomains =~ /' + domain + '/'
-      );
-    }
 
   } else if(name == 'Druid') {
 
@@ -5213,7 +5208,7 @@ SRD35.companionRules = function(
     rules.defineRule
       ('companionMasterLevel', 'animalCompanion.' + name, '+', -level);
     SRD35.prerequisiteRules
-      (rules, 'validation', 'companionMasterLevel', 'animalCompanion.' + name,
+      (rules, 'validation', 'animalCompanion', 'animalCompanion.' + name,
        'companionMasterLevel >= 0');
   }
 
@@ -5428,7 +5423,7 @@ SRD35.familiarRules = function(
   if(level != null && level > 1) {
     rules.defineRule('familiarStats.Level', 'familiar.' + name, '=', level);
     SRD35.prerequisiteRules
-      (rules, 'validation', 'familiarMasterLevel', 'familiar.' + name,
+      (rules, 'validation', 'familiar', 'familiar.' + name,
        'familiarMasterLevel >= familiarStats.Level');
   }
 
@@ -5600,7 +5595,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
           rules.defineRule('classSkills.' + skill, note, '=', '1');
           skillEffects++;
           if(pieces[j].match(/^all /i))
-            skill = 'Sum /skills.' + skill + '/';
+            skill = 'Sum "skills.' + skill + '"';
           else
             skill = 'skills.' + skill;
           if(uniqueSkillsAffected.indexOf(skill) < 0)
@@ -5612,7 +5607,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
 
     if(skillEffects == pieces.length && !effects.match(/^-|\/-/)) {
       SRD35.prerequisiteRules
-        (rules, 'sanity', prefix + 'Skills', 'features.' + name,
+        (rules, 'sanity', prefix, 'features.' + name,
          uniqueSkillsAffected.join(' > 0 || ') + ' > 0');
     }
 
@@ -6268,7 +6263,7 @@ SRD35.weaponRules = function(
     );
     SRD35.prerequisiteRules
       (rules, 'validation', 'two-handedWeapon', 'weapons.' + name,
-       'shield =~ /Buckler|None/');
+       'shield =~ \'Buckler|None\'');
   }
 
 };
@@ -6854,7 +6849,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       while(true) {
         pickAttrs(attributes, companionAttrs[attr] + '.', choices, 1, 1);
         attrs = this.applyRules(attributes);
-        if(QuilvynUtils.sumMatching(attrs,/^validation.*MasterLevel$/) == 0)
+        if(attrs['validationNotes.familiar'] == null)
           break;
         for(var a in attributes) {
           if(a.startsWith(companionAttrs[attr] + '.'))
@@ -6983,7 +6978,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         howMany--;
       }
     }
-    pickAttrs(attributes, 'languages.', choices, howMany, 1);
+    if(howMany > 0)
+      pickAttrs(attributes, 'languages.', choices, howMany, 1);
   } else if(attribute == 'levels') {
     var assignedLevels = QuilvynUtils.sumMatching(attributes, /^levels\./);
     if(!attributes.level) {
@@ -7009,13 +7005,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       while(classesToChoose > 0) {
         var which = 'levels.' + choices[QuilvynUtils.random(0,choices.length-1)];
         attributes[which] = 1;
-        if(QuilvynUtils.sumMatching(this.applyRules(attributes),
-             /^validationNotes.*(BaseAttack|CasterLevel|Spells)/) == 0) {
-          assignedLevels++;
-          classesToChoose--;
-        } else {
-          delete attributes[which];
-        }
+        assignedLevels++;
+        classesToChoose--;
       }
     }
     while(assignedLevels < attributes.level) {
@@ -7044,18 +7035,14 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         choices[choices.length] = attr;
       }
     }
-    if(choices.length > 0) {
+    if(choices.length > 0)
       attributes['shield'] = choices[QuilvynUtils.random(0, choices.length - 1)];
-    }
   } else if(attribute == 'skills') {
     attrs = this.applyRules(attributes);
     var maxPoints = attrs.maxAllowedSkillAllocation;
     howMany =
       attrs.skillPoints - QuilvynUtils.sumMatching(attributes, '^skills\\.'),
     choices = QuilvynUtils.getKeys(this.getChoices('skills'));
-    for(i = choices.length - 1; i >= 0; i--)
-      if(choices[i].indexOf(' (') >= 0)
-        choices = choices.slice(0, i).concat(choices.slice(i + 1));
     while(howMany > 0 && choices.length > 0) {
       var pickClassSkill = QuilvynUtils.random(0, 99) >= 15;
       i = QuilvynUtils.random(0, choices.length - 1);
@@ -7064,12 +7051,12 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         continue;
       attr = 'skills.' + skill;
       var current = attributes[attr];
-      if(current != null && current >= maxPoints) {
+      if(current == null) {
+        current = attributes[attr] = 0;
+      } else if(current >= maxPoints) {
         choices = choices.slice(0, i).concat(choices.slice(i + 1));
         continue;
       }
-      if(current == null)
-        current = attributes[attr] = 0;
       var toAssign =
         QuilvynUtils.random(0, 99) >= 66 ? maxPoints :
         QuilvynUtils.random(0, 99) >= 50 ? Math.floor(maxPoints / 2) : 2;
@@ -7079,65 +7066,60 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         toAssign = 1;
       if(current + toAssign > maxPoints)
         toAssign = maxPoints - current;
-      attributes[attr] = attributes[attr] + toAssign;
+      attributes[attr] += toAssign;
       howMany -= toAssign;
       // Select only one of a set of subskills (Craft, Perform, etc.)
       if((i = skill.indexOf(' (')) >= 0) {
         skill = skill.substring(0, i);
         for(i = choices.length - 1; i >= 0; i--)
-          if(choices[i].search(skill) == 0)
+          if(choices[i].startsWith(skill))
             choices = choices.slice(0, i).concat(choices.slice(i + 1));
       }
     }
   } else if(attribute == 'spells') {
     var availableSpellsByLevel = {};
+    var groupAndLevel;
     var matchInfo;
     var prohibitPat = ' (xxxx';
     var schools = this.getChoices('schools');
-    var spellLevel;
     attrs = this.applyRules(attributes);
     for(attr in schools) {
-      if(attrs['features.Spell Prohibition (' + attr + ')'])
+      if(attrs['features.School Opposition (' + attr + ')'])
          prohibitPat += '|' + attr.substring(0, 4);
     }
     prohibitPat += ')\\)';
     for(attr in this.getChoices('spells')) {
-      if(attrs['spells.' + attr] != null || attr.match(prohibitPat)) {
+      if(attrs['spells.' + attr] != null || attr.match(prohibitPat))
         continue;
-      }
-      spellLevel = attr.split('(')[1].split(' ')[0];
-      if(availableSpellsByLevel[spellLevel] == null)
-        availableSpellsByLevel[spellLevel] = [];
-      availableSpellsByLevel[spellLevel].push(attr);
+      groupAndLevel = attr.split('(')[1].split(' ')[0];
+      if(availableSpellsByLevel[groupAndLevel] == null)
+        availableSpellsByLevel[groupAndLevel] = [];
+      availableSpellsByLevel[groupAndLevel].push(attr);
     }
     for(attr in attrs) {
-      if((matchInfo = attr.match(/^spellsPerDay\.(.*)/)) == null) {
+      if((matchInfo = attr.match(/^spellsPerDay\.(.*)/)) == null)
         continue;
-      }
-      spellLevel = matchInfo[1];
+      groupAndLevel = matchInfo[1].replace(/^S(\d)/, 'W$1');
       howMany = attrs[attr];
-      if(spellLevel.match(/^S\d+$/)) {
-        spellLevel = spellLevel.replace(/S/, 'W');
-      }
-      if(spellLevel.substring(0, 3) == 'Dom') {
+      if(groupAndLevel.match(/^Dom\d/)) {
         choices = [];
         for(var domain in this.getChoices('domains')) {
-          if(attrs['selectableFeatures.' + domain + ' Domain'] != null) {
-            var domainLevel = domain + spellLevel.substring(3);
+          if(attrs['features.' + domain + ' Domain'] != null) {
+            var domainLevel = domain + groupAndLevel.substring(3);
             if(availableSpellsByLevel[domainLevel] != null) {
               choices = choices.concat(availableSpellsByLevel[domainLevel]);
             }
+            howMany -=
+              QuilvynUtils.sumMatching(attributes, '^spells.*' + domainLevel);
           }
         }
       } else {
-        choices = availableSpellsByLevel[spellLevel];
+        choices = availableSpellsByLevel[groupAndLevel];
+        howMany -=
+          QuilvynUtils.sumMatching(attributes, '^spells.*' + groupAndLevel);
       }
-      if(choices != null) {
-        pickAttrs
-          (attributes, 'spells.', choices, howMany -
-           QuilvynUtils.sumMatching(attributes, '^spells\\..*' + spellLevel),
-           1);
-      }
+      if(howMany > 0 && choices != null)
+        pickAttrs(attributes, 'spells.', choices, howMany, 1);
     }
   } else if(attribute == 'weapons') {
     attrs = this.applyRules(attributes);
@@ -7188,169 +7170,170 @@ SRD35.makeValid = function(attributes) {
     // Try to fix each sanity/validation note w/a non-zero value
     for(var attr in applied) {
 
-      var matchInfo =
-        attr.match(/^(sanity|validation)Notes\.(.*)([A-Z][a-z]+)/);
-      var attrValue = applied[attr];
-
-      if(matchInfo == null || !attrValue || notes[attr] == null) {
+      if(!attr.match(/^(sanity|validation)Notes/) || !applied[attr] ||
+         notes[attr] == null)
         continue;
-      }
+      console.log('Attempt to fix "' + notes[attr] + '"');
 
-      var problemSource = matchInfo[2];
-      var problemCategory = matchInfo[3].charAt(0).toLowerCase() +
-                            matchInfo[3].substring(1).replace(/ /g, '');
-      if(problemCategory == 'features') {
-        problemCategory = 'selectableFeatures';
-      }
-      var requirements =
-        notes[attr].replace(/^(Implies|Requires) /, '').split(/\s*\/\s*/);
+      var matchInfo = null;
+      var targetAggregator = null;
+      var targetAttr = null;
+      var targetOp = null;
+      var targetValue = null;
 
-      for(var i = 0; i < requirements.length; i++) {
-
-        // Find a random requirement choice w/the format "name [op value]"
-        var choices = requirements[i].split(/\s*\|\|\s*/);
-        while(choices.length > 0) {
-          var index = QuilvynUtils.random(0, choices.length - 1);
-          matchInfo = choices[index].match(/^([^<>!=]+)(([<>!=~]+)(.*))?/);
-          if(matchInfo != null) {
-            break;
-          }
-          choices = choices.slice(0, index).concat(choices.slice(index + 1));
-        }
-        if(matchInfo == null) {
+      if((matchInfo = attr.match(/\.(\w+)Allocation$/)) != null) {
+        var groupChoices = this.getChoices(matchInfo[1] + 's');
+        var problemGroup = matchInfo[1];
+        matchInfo = notes[attr].match(/(\d+) allocated.*(\d+) available/);
+        if(groupChoices == null || matchInfo == null || matchInfo[1] == matchInfo[2])
           continue;
-        }
 
-        var toFixCombiner = null;
-        var toFixName = matchInfo[1].replace(/\s+$/, '');
-        var toFixOp = matchInfo[3] == null ? '>=' : matchInfo[3];
-        var toFixValue = matchInfo[4] == null ? 1 :
-                         matchInfo[4].replace(/^\s+/, '').replace(/"/g, '');
-        if(toFixName.match(/^(Max|Sum)/)) {
-          toFixCombiner = toFixName.substring(0, 3);
-          toFixName = toFixName.substring(4).replace(/^\s+/, '');
-        }
-        var toFixAttr = toFixName.charAt(0).toLowerCase() +
-                        toFixName.substring(1).replace(/ /g, '');
-
-        // See if this attr has a set of choices (e.g., race) or a category
-        // attribute (e.g., a feat)
-        choices = this.getChoices(toFixAttr + 's');
-        if(choices == null) {
-          choices = this.getChoices(problemCategory);
-        }
-        if(choices != null) {
-          // Find the set of choices that satisfy the requirement
-          var target =
-            this.getChoices(problemCategory) == null ? toFixValue : toFixName;
-          var possibilities = [];
-          for(var choice in choices) {
-            if((toFixOp.match(/[^!]=/) && choice == target) ||
-               (toFixOp == '!=' && choice != target) ||
-               (toFixCombiner != null && choice.indexOf(target) == 0) ||
-               (toFixOp == '=~' && choice.match(new RegExp(target))) ||
-               (toFixOp == '!~' && !choice.match(new RegExp(target)))) {
-              possibilities[possibilities.length] = choice;
+        if(matchInfo[1] > matchInfo[2]) {
+          // Too many items allocated
+          var choices = [];
+          var excess = matchInfo[1] - matchInfo[2];
+          for(var a in attributes) {
+            if(a.match('^' + problemGroup + '\\.') &&
+               !(a in attributesChanged)) {
+              choices.push(a);
             }
           }
-          if(possibilities.length == 0) {
-            continue; // No fix possible
-          } else if(attributes[toFixAttr] != null &&
-                    possibilities.indexOf(attributes[toFixAttr]) >= 0) {
-            continue; // No fix needed
-          }
-          if(target == toFixName) {
-            toFixAttr =
-              problemCategory + '.' +
-              possibilities[QuilvynUtils.random(0, possibilities.length - 1)];
-          } else {
-            toFixValue =
-              possibilities[QuilvynUtils.random(0, possibilities.length - 1)];
-          }
-        } else if(attributes[toFixAttr] != null) {
-          if((toFixOp == '>=' && Number(attributes[toFixAttr]) >= Number(toFixValue)) ||
-             (toFixOp == '<=' && Number(attributes[toFixAttr]) <= Number(toFixValue))) {
-              continue; // No fix needed
-          }
-        }
-        if((choices != null || attributes[toFixAttr] != null) &&
-           attributesChanged[toFixAttr] == null) {
-          // Directly-fixable problem
-          debug[debug.length] =
-            attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
-            "' => '" + toFixValue + "'";
-          if(toFixValue == 0) {
-            delete attributes[toFixAttr];
-          } else {
-            attributes[toFixAttr] = toFixValue;
-          }
-          attributesChanged[toFixAttr] = toFixValue;
-          fixedThisPass++;
-        } else if(problemCategory == 'total' && attrValue > 0 &&
-                  (choices = this.getChoices(problemSource)) != null) {
-          // Too many items allocated in a category
-          var possibilities = [];
-          for(var k in attributes) {
-            if(k.match('^' + problemSource + '\\.') &&
-               attributesChanged[k] == null) {
-               possibilities[possibilities.length] = k;
-            }
-          }
-          while(possibilities.length > 0 && attrValue > 0) {
-            var index = QuilvynUtils.random(0, possibilities.length - 1);
-            toFixAttr = possibilities[index];
-            possibilities =
-              possibilities.slice(0,index).concat(possibilities.slice(index+1));
-            var current = attributes[toFixAttr];
-            toFixValue = current > attrValue ? current - attrValue : 0;
+          while(choices.length > 0 && excess > 0) {
+            var index = QuilvynUtils.random(0, choices.length - 1);
+            targetAttr = possibilities[index];
+            choices = choices.slice(0,index).concat(choices.slice(index+1));
+            var currentValue = attributes[targetAttr];
+            targetValue = currentValue > excess ? current - excess : 0;
             debug[debug.length] =
-              attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
-              "' => '" + toFixValue + "'";
-            if(toFixValue == 0) {
-              delete attributes[toFixAttr];
+              attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
+              "' => '" + targetValue + "'";
+            if(targetValue == 0) {
+              delete attributes[targetAttr];
             } else {
-              attributes[toFixAttr] = toFixValue;
+              attributes[targetAttr] = targetValue;
             }
-            attrValue -= current - toFixValue;
-            // Don't do this: attributesChanged[toFixAttr] = toFixValue;
+            excess -= currentValue - targetValue;
+            // Don't do this: attributesChanged[targetAttr] = targetValue;
             fixedThisPass++;
           }
-        } else if(problemCategory == 'total' && attrValue < 0 &&
-                  (choices = this.getChoices(problemSource)) != null) {
-          // Too few items allocated in a category
-          this.randomizeOneAttribute(attributes,
-            problemSource == 'selectableFeatures' ? 'features' : problemSource
-          );
+        } else {
+          // Too few items allocated
+          this.randomizeOneAttribute(attributes, problemGroup);
           debug[debug.length] = attr + ' Allocate additional ' + problemSource;
           fixedThisPass++;
-        } else if(attr.match(/validationNotes.abilityModifier(Sum|Minimum)/)) {
-          // Special cases
-          var abilities = {
-            'charisma':'', 'constitution':'', 'dexterity':'',
-            'intelligence':'', 'strength':'', 'wisdom':''
-          };
-          if(attr == 'validationNotes.abilityModifierMinimum') {
-            toFixAttr = QuilvynUtils.randomKey(abilities);
-            toFixValue = 14;
-            debug[debug.length] =
-              attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
-              "' => '" + toFixValue + "'";
-            attributes[toFixAttr] = toFixValue;
-            // Don't do this: attributesChanged[toFixAttr] = toFixValue;
-            fixedThisPass++;
-          } else {
-            for(toFixAttr in abilities) {
-              if(applied[toFixAttr + 'Modifier'] <= 0) {
-                toFixValue = attributes[toFixAttr] + 2;
-                debug[debug.length] =
-                  attr + " '" + toFixAttr + "': '" + attributes[toFixAttr] +
-                  "' => '" + toFixValue + "'";
-                attributes[toFixAttr] = toFixValue;
-                // Don't do this: attributesChanged[toFixAttr] = toFixValue;
-                fixedThisPass++;
-              }
+        }
+
+      } else if(notes[attr].match(/^(Implies|Requires) /)) {
+        var requirements =
+          notes[attr].replace(/^(Implies|Requires) /, '').split(/\s*\/\s*/);
+
+        for(var i = 0; i < requirements.length; i++) {
+
+          // Find a random alternative w/the format "name [op value]"
+          var alternatives = requirements[i].split(/\s*\|\|\s*/);
+          var matchInfo = null;
+          while(matchInfo == null && alternatives.length > 0) {
+            var index = QuilvynUtils.random(0, alternatives.length - 1);
+            matchInfo = alternatives[index].match(/^([^<>!=]+)(([<>!=~]+)(.*))?/);
+            alternatives =
+              alternatives.slice(0, index).concat(alternatives.slice(index + 1));
+          }
+          if(matchInfo == null)
+            continue; // No workable alternatives
+
+        var targetAggregator = null;
+        var targetAttr = matchInfo[1].replace(/\s*$/, '');
+        var targetOp = matchInfo[3] == null ? '>=' : matchInfo[3];
+        var targetValue = matchInfo[4] == null ? 1 :
+                          matchInfo[4].replace(/^\s*["']?|['"]$/g, '');
+        if(targetAttr.match(/^(Max|Sum) /)) {
+          targetAggregator = targetAttr.substring(0, 3);
+          targetAttr = targetAttr.substring(4).replace(/^\s+["']|['"]$/g, '');
+        }
+        if(applied[targetValue] != null)
+          targetValue = applied[targetValue];
+        if(targetOp == '>') {
+          targetOp = '>=';
+          targetValue = targetValue * 1 + 1;
+        } else if(targetOp == '<') {
+          targetOp = '<=';
+          targetValue = targetValue * 1 - 1;
+        }
+        console.log('Try alternative "' + targetAttr + ' ' + targetOp + ' ' + targetValue + '"');
+
+        var currentValue = applied[targetAttr];
+        if(currentValue != null) {
+          if(targetOp == '==' ? currentValue == targetValue :
+             targetOp == '!=' ? currentValue != targetValue :
+             targetOp == '>' ? Number(currentValue) > Number(targetValue) :
+             targetOp == '>=' ? Number(currentValue) >= Number(targetValue) :
+             targetOp == '<' ? Number(currentValue) < Number(targetValue) :
+             targetOp == '<=' ? Number(currentValue) <= Number(targetValue) :
+             targetOp == '=~' ? currentValue.match(targetValue) :
+             targetOp == '!~' ? !currentValue.match(targetValue) :
+             false)
+            continue; // No fix needed
+        }
+
+        // If this attr has a set of possible values (e.g., race), choose a
+        // random one that satisfies targetOp
+        var choices = this.getChoices(targetAttr + 's');
+        if(choices != null) {
+          var possibilities = [];
+          for(var choice in choices) {
+            if((targetOp == '==' && choice == targetValue) ||
+               (targetOp == '!=' && choice != targetValue) ||
+               (targetOp == '=~' && choice.match(new RegExp(targetValue))) ||
+               (targetOp == '!~' && !choice.match(new RegExp(targetValue)))) {
+              possibilities.push(choice);
             }
           }
+          if(possibilities.length == 0)
+            continue; // No fix possible
+          targetOp = '==';
+          targetValue =
+            possibilities[QuilvynUtils.random(0, possibilities.length - 1)];
+          console.log('  Chose possibility "' + targetValue + '"');
+        }
+
+        if(attr == 'validationNotes.abilityMinimum') {
+          targetAttr = QuilvynUtils.randomKey(SRD35.ABILITIES).toLowerCase();
+          targetValue = 14;
+          debug[debug.length] =
+            attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
+            "' => '" + targetValue + "'";
+          attributes[targetAttr] = targetValue;
+          // Don't do this: attributesChanged[targetAttr] = targetValue;
+          fixedThisPass++;
+        } else if(attr == 'validationNotes.abilityModifierSum') {
+          for(targetAttr in SRD35.ABILITIES) {
+            targetAttr = targetAttr.toLowerCase();
+            if(applied[targetAttr + 'Modifier'] <= 0) {
+              targetValue = attributes[targetAttr] + 2;
+              debug[debug.length] =
+                attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
+                "' => '" + targetValue + "'";
+              attributes[targetAttr] = targetValue;
+              // Don't do this: attributesChanged[targetAttr] = targetValue;
+              fixedThisPass++;
+            }
+          }
+        } else if(!(targetAttr in attributesChanged) &&
+                  (targetAttr in attributes ||
+                   (targetAttr.indexOf('.') > 0 &&
+                    !targetAttr.startsWith('features.')))) {
+          // Directly-fixable problem
+          debug.push(
+            attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
+            "' => '" + targetValue + "'"
+          );
+          if(targetValue == 0) {
+            delete attributes[targetAttr];
+          } else {
+            attributes[targetAttr] = targetValue;
+          }
+          attributesChanged[targetAttr] = targetValue;
+          fixedThisPass++;
         }
 
       }
@@ -7358,9 +7341,8 @@ SRD35.makeValid = function(attributes) {
     }
 
     debug[debug.length] = '-----';
-    if(fixedThisPass == 0) {
+    if(fixedThisPass == 0)
       break;
-    }
 
   }
 
@@ -7472,36 +7454,37 @@ SRD35.featureListRules = function(
   for(var i = 0; i < features.length; i++) {
     var pieces = features[i].split(':');
     var feature = pieces.length == 2 ? pieces[1] : pieces[0];
-    var level = pieces.length == 2 ? pieces[0] : '1';
     var featureAttr = prefix + '.' + feature;
+    var level = pieces.length == 2 ? pieces[0] : '1';
+    var conditions = [];
     pieces = level.split(/\s*\?\s*/);
     if(pieces.length == 2) {
+      conditions = pieces[0].split('/');
       level = pieces[1];
-      var conditionName = featureAttr + 'Prerequisite';
-      if(selectable) {
-        SRD35.prerequisiteRules
-          (rules, 'validation', conditionName, featureAttr, pieces[0]);
-      } else {
-        SRD35.prerequisiteRules
-          (rules, 'test', conditionName, levelAttr, pieces[0]);
-        rules.defineRule(featureAttr,
-         'testNotes.' + conditionName, '?', 'source == 0 ? 1 : null'
-        );
-      }
     }
     if(selectable) {
       var choice = setName + ' - ' + feature;
       rules.defineChoice
         ('selectableFeatures', choice + ':Type="' + setName + '"');
       rules.defineRule(featureAttr, 'selectableFeatures.' + choice, '=', null);
+      conditions.push(levelAttr + ' >= ' + level);
       SRD35.prerequisiteRules
-        (rules, 'validation', prefix + ' - ' + feature.replace(/ /g, ''),
-         'selectableFeatures.' + choice, levelAttr + ' >= ' + level);
-    } else if(level == '1') {
-      rules.defineRule(featureAttr, levelAttr, '=', '1');
+        (rules, 'validation', featureAttr + 'SelectableFeature',
+         'selectableFeatures.' + choice, conditions);
     } else {
-      rules.defineRule
-        (featureAttr, levelAttr, '=', 'source >= ' + level + ' ? 1 : null');
+      if(conditions.length > 0) {
+        SRD35.prerequisiteRules
+          (rules, 'test', featureAttr + 'Feature', levelAttr, conditions);
+        rules.defineRule(featureAttr,
+         'testNotes.' + featureAttr + 'Feature', '?', 'source == 0 ? 1 : null'
+        );
+      }
+      if(level == '1') {
+        rules.defineRule(featureAttr, levelAttr, '=', '1');
+      } else {
+        rules.defineRule
+          (featureAttr, levelAttr, '=', 'source >= ' + level + ' ? 1 : null');
+      }
     }
     rules.defineRule('features.' + feature, featureAttr, '+=', null);
     var matchInfo;
@@ -7532,8 +7515,7 @@ SRD35.prerequisiteRules = function(rules, section, noteName, attr, tests) {
   if(typeof(tests) == 'string')
     tests = [tests];
 
-  rules.defineChoice
-    ('notes', note + ':' + verb + ' ' + tests.map(x => x.charAt(0).toUpperCase() + x.substring(1)).join('/').replace(/\w+\./g, '').replace(/([a-z])([A-Z])/g, '$1 $2'));
+  rules.defineChoice('notes', note + ':' + verb + ' ' + tests.join('/'));
   rules.defineRule(note, attr, '=', -tests.length);
 
   for(var i = 0; i < tests.length; i++) {
@@ -7553,10 +7535,11 @@ SRD35.prerequisiteRules = function(rules, section, noteName, attr, tests) {
         var operand1 = matchInfo[1];
         var operand2 = matchInfo[3];
         var operator = matchInfo[2];
-        if((matchInfo = operand1.match(/^(Max|Sum)\s+\/(.*)\/$/)) != null) {
-          operand1 = matchInfo[1] + matchInfo[2];
+        if((matchInfo = operand1.match(/^(Max|Sum)\s+(.*)$/)) != null) {
+          var pat = matchInfo[2].replace(/^["']|['"]$/g, '');
+          operand1 = matchInfo[1] + pat;
           rules.defineRule(operand1,
-            new RegExp(matchInfo[2] + '.*\\D$'), matchInfo[1] == 'Max' ? '^=' : '+=', null
+            new RegExp(pat + '.*\\D$'), matchInfo[1]=='Max' ? '^=' : '+=', null
           );
         }
         if(operator == '!~') {
@@ -7595,10 +7578,14 @@ SRD35.prerequisiteRules = function(rules, section, noteName, attr, tests) {
 SRD35.validAllocationRules = function(rules, name, available, allocated) {
   var note = 'validationNotes.' + name + 'Allocation';
   rules.defineChoice('notes', note + ':%1 available vs. %2 allocated');
+  if(available.startsWith('Sum '))
+    available = new RegExp(available.replace(/^Sum *["']|['"]$/g, ''));
   rules.defineRule(note + '.1',
     '', '=', '0',
     available, '+', null
   );
+  if(allocated.startsWith('Sum '))
+    allocated = new RegExp(allocated.replace(/^Sum *["']|['"]$/g, ''));
   rules.defineRule(note + '.2',
     '', '=', '0',
     allocated, '+', null
