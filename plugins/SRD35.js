@@ -7173,7 +7173,6 @@ SRD35.makeValid = function(attributes) {
       if(!attr.match(/^(sanity|validation)Notes/) || !applied[attr] ||
          notes[attr] == null)
         continue;
-      console.log('Attempt to fix "' + notes[attr] + '"');
 
       var matchInfo = null;
       var targetAggregator = null;
@@ -7182,16 +7181,18 @@ SRD35.makeValid = function(attributes) {
       var targetValue = null;
 
       if((matchInfo = attr.match(/\.(\w+)Allocation$/)) != null) {
-        var groupChoices = this.getChoices(matchInfo[1] + 's');
-        var problemGroup = matchInfo[1];
-        matchInfo = notes[attr].match(/(\d+) allocated.*(\d+) available/);
-        if(groupChoices == null || matchInfo == null || matchInfo[1] == matchInfo[2])
+
+        var problemGroup = matchInfo[1] + 's';
+        var groupChoices = this.getChoices(problemGroup);
+        var allocated = applied[attr + '.2'];
+        var available = applied[attr + '.1'];
+        if(groupChoices == null || allocated == null || available == null ||
+           allocated == available)
           continue;
 
-        if(matchInfo[1] > matchInfo[2]) {
-          // Too many items allocated
+        if(allocated > available) {
           var choices = [];
-          var excess = matchInfo[1] - matchInfo[2];
+          var excess = allocated - available;
           for(var a in attributes) {
             if(a.match('^' + problemGroup + '\\.') &&
                !(a in attributesChanged)) {
@@ -7200,10 +7201,10 @@ SRD35.makeValid = function(attributes) {
           }
           while(choices.length > 0 && excess > 0) {
             var index = QuilvynUtils.random(0, choices.length - 1);
-            targetAttr = possibilities[index];
+            targetAttr = choices[index];
             choices = choices.slice(0,index).concat(choices.slice(index+1));
             var currentValue = attributes[targetAttr];
-            targetValue = currentValue > excess ? current - excess : 0;
+            targetValue = currentValue > excess ? currentValue - excess : 0;
             debug[debug.length] =
               attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
               "' => '" + targetValue + "'";
@@ -7217,18 +7218,17 @@ SRD35.makeValid = function(attributes) {
             fixedThisPass++;
           }
         } else {
-          // Too few items allocated
           this.randomizeOneAttribute(attributes, problemGroup);
-          debug[debug.length] = attr + ' Allocate additional ' + problemSource;
+          debug[debug.length] = attr + ' Allocate additional ' + problemGroup;
           fixedThisPass++;
         }
 
       } else if(notes[attr].match(/^(Implies|Requires) /)) {
+
         var requirements =
           notes[attr].replace(/^(Implies|Requires) /, '').split(/\s*\/\s*/);
 
         for(var i = 0; i < requirements.length; i++) {
-
           // Find a random alternative w/the format "name [op value]"
           var alternatives = requirements[i].split(/\s*\|\|\s*/);
           var matchInfo = null;
@@ -7238,8 +7238,9 @@ SRD35.makeValid = function(attributes) {
             alternatives =
               alternatives.slice(0, index).concat(alternatives.slice(index + 1));
           }
-          if(matchInfo == null)
-            continue; // No workable alternatives
+        }
+        if(matchInfo == null)
+          continue; // No workable alternatives
 
         var targetAggregator = null;
         var targetAttr = matchInfo[1].replace(/\s*$/, '');
@@ -7259,7 +7260,6 @@ SRD35.makeValid = function(attributes) {
           targetOp = '<=';
           targetValue = targetValue * 1 - 1;
         }
-        console.log('Try alternative "' + targetAttr + ' ' + targetOp + ' ' + targetValue + '"');
 
         var currentValue = applied[targetAttr];
         if(currentValue != null) {
@@ -7293,19 +7293,9 @@ SRD35.makeValid = function(attributes) {
           targetOp = '==';
           targetValue =
             possibilities[QuilvynUtils.random(0, possibilities.length - 1)];
-          console.log('  Chose possibility "' + targetValue + '"');
         }
 
-        if(attr == 'validationNotes.abilityMinimum') {
-          targetAttr = QuilvynUtils.randomKey(SRD35.ABILITIES).toLowerCase();
-          targetValue = 14;
-          debug[debug.length] =
-            attr + " '" + targetAttr + "': '" + attributes[targetAttr] +
-            "' => '" + targetValue + "'";
-          attributes[targetAttr] = targetValue;
-          // Don't do this: attributesChanged[targetAttr] = targetValue;
-          fixedThisPass++;
-        } else if(attr == 'validationNotes.abilityModifierSum') {
+        if(attr == 'validationNotes.abilityModifierSum') {
           for(targetAttr in SRD35.ABILITIES) {
             targetAttr = targetAttr.toLowerCase();
             if(applied[targetAttr + 'Modifier'] <= 0) {
