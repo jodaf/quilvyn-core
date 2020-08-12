@@ -38,7 +38,7 @@ SRD35Prestige.CLASSES = {
       '"baseAttack >= 6","casterLevelArcane >= 1",' +
       '"features.Point-Blank Shot","features.Precise Shot",' +
       '"features.Weapon Focus (Longbow) || features.Weapon Focus (Shortbow)",' +
-      '"race =~ /Elf/" ' +
+      '"race =~ \'Elf\'" ' +
     'HitDie=d8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Skills=Craft,Hide,Listen,"Move Silently",Ride,Spot,Survival,"Use Rope" ' +
     'Features=' +
@@ -48,7 +48,7 @@ SRD35Prestige.CLASSES = {
       '"10:Arrow Of Death"',
   'Arcane Trickster':
     'Require=' +
-      '"alignment !~ /Lawful/","features.Sneak Attack >= 2",' +
+      '"alignment !~ \'Lawful\'","features.Sneak Attack >= 2",' +
       '"skills.Decipher Script >= 7","skills.Disable Device >= 7",' +
       '"skills.Escape Artist >= 7","skills.Knowledge (Arcana) >= 4",' +
       '"Sum /^spells.Mage Hand/ >= 1","Sum /^spells.*[BW]3/ >= 1" ' +
@@ -78,7 +78,7 @@ SRD35Prestige.CLASSES = {
       '"1:Mastery Of Shaping","1:Spell Power","1:Spell-Like Ability"',
   'Assassin':
     'Require=' +
-      '"alignment =~ /Evil/","skills.Disguise >= 4","skills.Hide >= 8",' +
+      '"alignment =~ \'Evil\'","skills.Disguise >= 4","skills.Hide >= 8",' +
       '"skills.Move Silently >= 8" ' +
     'HitDie=d6 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
@@ -110,7 +110,7 @@ SRD35Prestige.CLASSES = {
       'Glibness;Greater Invisibility;Locate Creature;Modify Memory;Poison"',
   'Blackguard':
     'Require=' +
-      '"alignment =~ /Evil/","baseAttack >= 6",features.Cleave,' +
+      '"alignment =~ \'Evil\'","baseAttack >= 6",features.Cleave,' +
       '"features.Improved Sunder","features.Power Attack","skills.Hide >= 5",' +
       '"skills.Knowledge (Religion) >= 2" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
@@ -142,7 +142,7 @@ SRD35Prestige.CLASSES = {
       'Poison;Summon Monster IV"',
   'Dragon Disciple':
     'Require=' +
-      'languages.Draconic,"race !~ /Dragon/",' +
+      'languages.Draconic,"race !~ \'Dragon\'",' +
       '"skills.Knowledge (Arcana) >= 8" ' +
       // TODO arcane spells w/out prep
     'HitDie=d12 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
@@ -170,8 +170,8 @@ SRD35Prestige.CLASSES = {
       '"9:Deflect Arrows"',
   'Dwarven Defender':
     'Require=' +
-      '"alignment =~ /Lawful/","baseAttack >= 7",features.Dodge,' +
-      'features.Endurance,features.Toughness,"race =~ /Dwarf/" ' +
+      '"alignment =~ \'Lawful\'","baseAttack >= 7",features.Dodge,' +
+      'features.Endurance,features.Toughness,"race =~ \'Dwarf\'" ' +
     'HitDie=d12 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=Craft,Listen,"Sense Motive",Spot ' +
     'Features=' +
