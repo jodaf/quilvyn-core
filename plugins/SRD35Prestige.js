@@ -48,10 +48,10 @@ SRD35Prestige.CLASSES = {
       '"10:Arrow Of Death"',
   'Arcane Trickster':
     'Require=' +
-      '"alignment !~ \'Lawful\'","features.Sneak Attack >= 2",' +
+      '"alignment !~ \'Lawful\'","combatNotes.sneakAttack >= 2",' +
       '"skills.Decipher Script >= 7","skills.Disable Device >= 7",' +
       '"skills.Escape Artist >= 7","skills.Knowledge (Arcana) >= 4",' +
-      '"Sum /^spells.Mage Hand/ >= 1","Sum /^spells.*[BW]3/ >= 1" ' +
+      '"Sum \'^spells\\.Mage Hand\' >= 1","Sum \'^spells\\..*[BW]3\' >= 1" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Skills=' +
       'Appraise,Balance,Bluff,Climb,Concentration,Craft,"Decipher Script",' +
@@ -64,9 +64,10 @@ SRD35Prestige.CLASSES = {
        '"3:Impromptu Sneak Attack"',
   'Archmage':
     'Require=' +
-      '"features.Skill Focus (Spellcraft)","Sum /^features.Spell Focus/ >= 2",'+
+      '"features.Skill Focus (Spellcraft)",' +
+      '"Sum \'^features\\.Spell Focus\' >= 2",' +
       '"skills.Knowledge (Arcana) >= 15","skills.Spellcraft >= 15",' +
-      '"Sum /^spells.*[BW]7/ >= 1" ' +
+      '"Sum \'^spells\\..*[BW]7\' >= 1" ' +
       // TODO level 5 from 5 schools
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
@@ -157,7 +158,7 @@ SRD35Prestige.CLASSES = {
   'Duelist':
     'Require=' +
       '"baseAttack >= 6",features.Dodge,features.Mobility,' +
-      '"features.Weapon Finesse","Sum /^skills.Perform/ >= 6",' +
+      '"features.Weapon Finesse","Sum \'^skills\\.Perform\' >= 6",' +
       '"skills.Tumble >= 5" ' +
     'HitDie=d10 Attack=1 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
@@ -181,7 +182,8 @@ SRD35Prestige.CLASSES = {
       '"6:Damage Reduction","6:Improved Uncanny Dodge","8:Mobile Defense"',
   'Eldritch Knight':
     'Require=' +
-      '"features.Weapon Proficiency (Martial)","Sum /^spells.*[BW]3/ >= 1" ' +
+      '"features.Weapon Proficiency (Martial)",' +
+      '"Sum \'^spells\\..*[BW]3\' >= 1" ' +
     'HitDie=d6 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
       'Concentration,Craft,"Decipher Script",Jump,"Knowledge (Arcana)",' +
@@ -189,7 +191,7 @@ SRD35Prestige.CLASSES = {
     'Features="2:Caster Level Bonus"',
   'Hierophant':
     'Require=' +
-      '"skills.Knowledge (Religion) >= 15","Sum /^spells.*[CD]7/ >= 1" ' +
+      '"skills.Knowledge (Religion) >= 15","Sum \'^spells\\..*[CD]7\' >= 1" ' +
       // TODO any metamagic feat
     'HitDie=d8 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
@@ -216,9 +218,9 @@ SRD35Prestige.CLASSES = {
       '"6:Terrain Mastery (Shifting)","6:Terrain Mastery (Weightless)"',
   'Loremaster':
     'Require=' +
-      '"Sum /^features.Skill Focus .Knowledge/ >= 1",' +
-      '"Sum /^spells.*Divi/ >= 7","Sum /^spells.*3 Divi/ >= 1",' +
-      '"Sum /^skills.Knowledge/ >= 20" ' +
+      '"Sum \'^features\\.Skill Focus .Knowledge\' >= 1",' +
+      '"Sum \'^spells\\..*Divi\' >= 7","Sum \'^spells\\..*3 Divi\' >= 1",' +
+      '"Sum \'^skills\\.Knowledge\' >= 20" ' +
       // TODO 2 skills.Knowledge >= 10,3 Item Creation/Metamagic feats
     'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
@@ -270,7 +272,7 @@ SRD35Prestige.CLASSES = {
       '"Shadowdancer4:Dimension Door" ',
   'Thaumaturgist':
     'Require="features.Spell Focus (Conjuration)",' +
-    '"Sum /spells.Lesser Planar Ally" ' +
+    '"Sum \'^spells\\.Lesser Planar Ally\' >= 1" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Knowledge (Planes)",' +
@@ -715,11 +717,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('featCount.Fighter', 'levels.Eldritch Knight', '+=','1');
     rules.defineRule('magicNotes.casterLevelBonus',
       'levels.Eldritch Knight', '+=', 'source > 1 ? source - 1 : null'
-    );
-    rules.defineRule('validationNotes.eldritchKnightClassSpells',
-      'levels.Eldritch Knight', '=', '-1',
-      /^spellsPerDay\.(AS|B|S|W)3/, '+', '1',
-      '', 'v', '0'
     );
  
   } else if(name == 'Hierophant') {
