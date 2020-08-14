@@ -48,7 +48,8 @@ SRD35Prestige.CLASSES = {
       '"10:Arrow Of Death"',
   'Arcane Trickster':
     'Require=' +
-      '"alignment !~ \'Lawful\'","combatNotes.sneakAttack >= 2",' +
+      // TODO Sneak attack >= 2d6
+      '"alignment !~ \'Lawful\'","features.Sneak Attack",' +
       '"skills.Decipher Script >= 7","skills.Disable Device >= 7",' +
       '"skills.Escape Artist >= 7","skills.Knowledge (Arcana) >= 4",' +
       '"Sum \'^spells\\.Mage Hand\' >= 1","Sum \'^spells\\..*[BW]3\' >= 1" ' +
