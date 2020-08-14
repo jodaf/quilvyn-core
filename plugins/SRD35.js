@@ -6512,36 +6512,55 @@ SRD35.choiceEditorElements = function(rules, type) {
     result.push(
       // empty
     );
-  if(type == 'Animal Companion')
+  if(type == 'Animal Companion' || type == 'Familiar') {
+    var minusFiveToTwenty = [
+      -5, -4, -3, -2, -1, 0,
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+      11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+    ];
+    var oneToThirtyFive = [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+      11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+      21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+      31, 32, 33, 34, 35
+    ];
+    var oneToTwenty = [
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+      11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+    ];
     result.push(
-      ['Str', 'Str', 'text', [3]],
-      ['Dex', 'Dex', 'text', [3]],
-      ['Con', 'Con', 'text', [3]],
-      ['Int', 'Int', 'text', [3]],
-      ['Wis', 'Wis', 'text', [3]],
-      ['Cha', 'Cha', 'text', [3]],
-      ['HD', 'Hit Dice', 'text', [3]],
-      ['AC', 'Armor Class', 'text', [3]],
-      ['Attack', 'Attack Bonus', 'text', [3]],
+      ['Str', 'Str', 'select-one', oneToThirtyFive],
+      ['Dex', 'Dex', 'select-one', oneToThirtyFive],
+      ['Con', 'Con', 'select-one', oneToThirtyFive],
+      ['Int', 'Int', 'select-one', oneToThirtyFive],
+      ['Wis', 'Wis', 'select-one', oneToThirtyFive],
+      ['Cha', 'Cha', 'select-one', oneToThirtyFive],
+      ['HD', 'Hit Dice', 'select-one', oneToTwenty],
+      ['AC', 'Armor Class', 'select-one', oneToTwenty],
+      ['Attack', 'Attack Bonus', 'select-one', minusFiveToTwenty],
       ['Dam', 'Damage', 'text', [10]],
       ['Size', 'Size', 'select-one', ['D', 'T', 'S', 'M', 'L', 'H']],
-      ['Level', 'Min Master Level', 'text', [3]]
+      ['Level', 'Min Master Level', 'select-one', oneToTwenty]
     );
-  else if(type == 'Armor')
+  } else if(type == 'Armor' || type == 'Shield') {
+    var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    var zeroToFifty = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+    var minusTenToZero = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0];
     result.push(
       ['AC', 'AC Bonus', 'select-one', [0, 1, 2, 3, 4, 5]],
-      ['Weight', 'Weight', 'select-one', ['None', 'Light', 'Medium', 'Heavy']],
-      ['Dex', 'Max Dex', 'text', [3]],
-      ['Skill', 'Skill Penalty', 'text', [3]],
-      ['Spell', 'Spell Failure', 'text', [3]]
+      ['Weight', 'Weight', 'select-one', ['None', 'Light', 'Medium', 'Heavy', 'Tower']],
+      ['Dex', 'Max Dex', 'select-one', zeroToTen],
+      ['Skill', 'Skill Penalty', 'select-one', minusTenToZero],
+      ['Spell', 'Spell Failure', 'select-one', zeroToFifty]
     );
-  else if(type == 'Class')
+  } else if(type == 'Class') {
+    var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     result.push(
       ['Require', 'Prerequsites', 'text', [40]],
       ['Imply', 'Implies', 'text', [40]],
       ['HitDie', 'Hit Die', 'select-one', ['d4', 'd6', 'd8', 'd10', 'd12']],
       ['Attack', 'Base Attack', 'select-one', ['1', '3/4', '1/2']],
-      ['SkillPoints', 'Skill Points/Level', 'text', [4]],
+      ['SkillPoints', 'Skill Points/Level', 'select-one', zeroToTen],
       ['Fortitude', 'Fort Save', 'select-one', ['1/2', '1/3']],
       ['Reflex', 'Ref Save', 'select-one', ['1/2', '1/3']],
       ['Will', 'Will Save', 'select-one', ['1/2', '1/3']],
@@ -6555,7 +6574,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['SpellsPerDay', 'Spells Per Day', 'text', [40]],
       ['Spells', 'Spells', 'text', [40]]
     );
-  else if(type == 'Deity')
+  } else if(type == 'Deity')
     result.push(
       ['Alignment', 'Alignment', 'select-one', QuilvynUtils.getKeys(rules.getChoices('alignments'))],
       ['Weapon', 'Favored Weapon', 'text', [30]],
@@ -6566,33 +6585,20 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Features', 'Features', 'text', [40]],
       ['Spells', 'Spells', 'text', [40]]
     );
-  else if(type == 'Familiar')
-    result.push(
-      ['Str', 'Str', 'text', [3]],
-      ['Dex', 'Dex', 'text', [3]],
-      ['Con', 'Con', 'text', [3]],
-      ['Int', 'Int', 'text', [3]],
-      ['Wis', 'Wis', 'text', [3]],
-      ['Cha', 'Cha', 'text', [3]],
-      ['HD', 'Hit Dice', 'text', [3]],
-      ['AC', 'Armor Class', 'text', [3]],
-      ['Attack', 'Attack Bonus', 'text', [3]],
-      ['Dam', 'Damage', 'text', [10]],
-      ['Size', 'Size', 'select-one', ['D', 'T', 'S', 'M', 'L', 'H']],
-      ['Level', 'Min Master Level', 'text', [3]]
-    );
   else if(type == 'Feat')
     result.push(
       ['Require', 'Prerequisites', 'text', [40]],
       ['Imply', 'Implies', 'text', [40]],
       ['Type', 'Types', 'text', [20]]
     );
-  else if(type == 'Feature')
+  else if(type == 'Feature') {
+    var sections =
+      ['ability', 'combat', 'companion', 'feature', 'magic', 'skill'];
     result.push(
-      ['Section', 'Section', 'text', [20]],
+      ['Section', 'Section', 'select-one', sections],
       ['Note', 'Note', 'text', [60]]
     );
-  else if(type == 'Gender')
+  } else if(type == 'Gender')
     result.push(
       // empty
     );
@@ -6614,14 +6620,6 @@ SRD35.choiceEditorElements = function(rules, type) {
     result.push(
       ['Features', 'Features', 'text', [40]]
     );
-  else if(type == 'Shield')
-    result.push(
-      ['AC', 'AC Bonus', 'select-one', [0, 1, 2, 3, 4, 5]],
-      ['Weight', 'Weight', 'select-one',
-       ['None', 'Light', 'Medium', 'Heavy', 'Tower']],
-      ['Skill', 'Skill Check Penalty', 'text', [3]],
-      ['Spell', 'Arcane Spell Fail %', 'text', [3]]
-    );
   else if(type == 'Skill')
     result.push(
       ['Ability', 'Ability', 'select-one',
@@ -6631,24 +6629,30 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Class', 'Class Skill', 'text', [30]],
       ['Synergy', 'Synergy', 'text', [30]]
     );
-  else if(type == 'Spell')
+  else if(type == 'Spell') {
+    var zeroToNine = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     result.push(
       ['School', 'School', 'select-one', QuilvynUtils.getKeys(rules.getChoices('schools'))],
       ['Level', 'Caster Group', 'text', [15]],
-      ['Level', 'Level', 'text', [3]],
+      ['Level', 'Level', 'select-one', zeroToNine],
       ['Description', 'Description', 'text', [60]]
     );
-  else if(type == 'Weapon')
+  } else if(type == 'Weapon') {
+    var oneToFive = [1, 2, 3, 4, 5];
+    var sixteenToTwenty = [16, 17, 18, 19, 20];
+    var zeroToOneFifty =
+     [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
     result.push(
       ['Level', 'Group', 'select-one', ['Simple', 'Martial', 'Exotic']],
       ['Category', 'Category', 'select-one',
        ['Unarmed', 'Light', 'One-Handed', 'Two-Handed', 'Ranged']],
       ['Damage', 'Damage', 'select-one',
        QuilvynUtils.getKeys(SRD35.LARGE_DAMAGE)],
-      ['Threat', 'Threat', 'text', [3]],
-      ['Crit', 'Crit Multiplier', 'text', [3]],
-      ['Range', 'Range in Feet', 'text', [4]]
+      ['Threat', 'Threat', 'select-one', sixteenToTwenty],
+      ['Crit', 'Crit Multiplier', 'select-one', oneToFive],
+      ['Range', 'Range in Feet', 'select-one', zeroToOneFifty]
     );
+  }
   return result
 };
 
