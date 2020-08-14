@@ -6557,7 +6557,6 @@ SRD35.choiceEditorElements = function(rules, type) {
     var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     result.push(
       ['Require', 'Prerequsites', 'text', [40]],
-      ['Imply', 'Implies', 'text', [40]],
       ['HitDie', 'Hit Die', 'select-one', ['d4', 'd6', 'd8', 'd10', 'd12']],
       ['Attack', 'Base Attack', 'select-one', ['1', '3/4', '1/2']],
       ['SkillPoints', 'Skill Points/Level', 'select-one', zeroToTen],
