@@ -304,6 +304,70 @@ and other effects that grant extra feats:
 
 <a name="custom"><h3>Adding Custom Choices</h3></a>
 <p>
+You can add and remove weapons, armor, familiars, and other choices using
+Quilvyn's Rules "--- Customize ---" pull-down menu. This feature is new to
+Quilvyn v2; further development and improvements will be included in future
+point releases.
+</p><p>
+Selecting the "Add..." item in the "--- Customize ---" menu opens a dialog box
+where you can enter the attributes for a new custom choice. Begin by using the
+"Type" menu to select the type of item you want to add. Quilvyn displays a set
+of editing objects that allow you to enter attributes specific to that type of
+item. For example, if you select "Weapon", editing objects will appear that
+allow you to enter the new weapon's name, group (Simple, Martial, or Exotic),
+category (Unarmed, Light, One-Handed, Two-Handed, or Range), damage, critical
+threat threshold, critical damage multiplier, and (for ranged weapons) range
+increment. Once you have entered all the necessary information, press the "Ok"
+button. Your new item will now appear in Quilvyn's editor menu, so you can
+select it to add to character stats. Quilvyn stores these custom items in
+localStorage, so they will remain available when you restart Quilvyn.
+</p><p>
+The "Delete..." item in the "--- Customize ---" menu opens a dialog box that
+allows you to remove a previously-entered custom choice from localStorage.
+The "Export" and "Import..." items provide a way to copy custom choices from
+one instance of Quilvyn to another. This can be useful when changing browsers.
+Since Quilvyn associates custom choices with a particular rule set, you can
+also use this export/import facility to copy custom choices from, e.g., the
+SRD v3.5 rule set to Pathfinder.
+</p><p>
+For most custom item attributes, the values to enter into the add dialog can be
+determined by looking at similar items from the core rule books. For example,
+for a new Animal Companion, Quilvyn prompts for the six basic abilities, hit
+dice, armor class, and damage, all of which are integer values. For Animal
+Companion damage, Quilvyn expects text in the format
+int'd'int[+int][,int'd'int[+int]]. For an Ape, the value would be 1d6+5,1d6+2;
+for a Baboon, 1d6+3. Text values that contain spaces need to be surrounded by
+double quotes, and multiple values entered in a single box should be separated
+by commas. For example, when entering a new Deity, you might enter "Light Mace"
+as in the Favored Weapon box and Good,Law,Strength in the Domain box.
+</p><p>
+In Quilvyn, Features describe the effects of both feats and class and racial
+features such as Darkvision and Bardic Knowledge. When adding a new feature,
+select the section of the character sheet where the note for the feature should
+appear, then enter the note text. Much like the starred notes discussed
+<a href="#goodies">above</a>, Quilvyn interprets the text of this note to
+update affected attributes. For example, if you add a feature named "Glib" with
+a note in the skill section that reads "+2 Bluff/+2 Perform (Oratory)", Quilvyn
+will update the skill modifier values for any character with that feature.
+</p><p>
+Many feats and classes have prerequisites that a character must meet in order
+to select them. In the customization dialog, these can be entered in the
+Prerequisite box for a new feat or class, with multiple prerequisites separated
+by commas. For example, taking a level in the Horizon Walker prestige class
+requires that the character have the Endurance feature and 8 ranks in Knowledge
+(Geography). This would be entered into the Prerequisite box for a custom
+class as follows. (Remember that text containing a space needs to be enclosed
+in double quotes.)
+<pre>
+  features.Endurance,"skills.Knowledge (Geography) >= 8"
+</pre>
+The Feat entry includes a similar Implies box for testing whether selecting
+the feat makes sense for a character. For example, although legal, selecting
+the Track feat makes no sense for a character with no ranks in Survival, so the
+Implies box for this feat would read
+<pre>
+"skills.Survival > 0"
+</pre>
 </p>
 
 </body>
