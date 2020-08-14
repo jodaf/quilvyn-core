@@ -44,7 +44,8 @@ function SRD35() {
 
   SRD35.createViewers(rules, SRD35.VIEWERS);
   rules.defineChoice('extras',
-    'feats', 'featCount', 'selectableFeatureCount',
+    'feats', 'featCount', 'sanityNotes', 'selectableFeatureCount',
+    'validationNotes'
   );
   rules.defineChoice('preset', 'race', 'level', 'levels');
 
@@ -796,7 +797,7 @@ SRD35.FEATURES = {
   'Familiar':'Section=feature Note="Special bond and abilities"',
   'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
   'Fascinate':
-    'Section=magic Note="R90\' Hold %V creatures spellbound %1 rd (Will neg)"',
+    'Section=magic Note="R90\' Hold %V creatures spellbound %1 rd (DC %2 Will neg)"',
   'Fast Movement':'Section=ability Note="+10 Speed"',
   'Favored Enemy':
     'Section=combat,skill Note="+2 or more damage vs. %V chosen creature type","+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V chosen creature type"',
@@ -4817,17 +4818,19 @@ SRD35.classRulesExtra = function(rules, name) {
       'magicNotes.simpleSomatics.1', 'v', '0'
     );
     rules.defineRule('magicNotes.fascinate',
-      'levels.Bard', '+=', 'Math.floor((source + 2) / 3)'
+      'levels.Bard', '=', 'Math.floor((source + 2) / 3)'
     );
-    rules.defineRule('magicNotes.fascinate.1', 'levels.Bard', '+=', null);
+    rules.defineRule('magicNotes.fascinate.1', 'levels.Bard', '=', null);
+    rules.defineRule
+      ('magicNotes.fascinate.2', 'levels.Bard', '=', '"Perform"');
     rules.defineRule('magicNotes.inspireCourage',
-      'levels.Bard', '+=', 'Math.max(Math.floor((source + 4) / 6, 1))'
+      'levels.Bard', '=', 'Math.max(Math.floor((source + 4) / 6, 1))'
     );
     rules.defineRule('magicNotes.inspireGreatness',
-      'levels.Bard', '+=', 'Math.floor((source - 6) / 3)'
+      'levels.Bard', '=', 'Math.floor((source - 6) / 3)'
     );
     rules.defineRule('magicNotes.inspireHeroics',
-      'levels.Bard', '+=', 'Math.floor((source - 15) / 3)'
+      'levels.Bard', '=', 'Math.floor((source - 15) / 3)'
     );
     rules.defineRule('magicNotes.massSuggestion',
       'levels.Bard', '=', '10 + Math.floor(source / 2)',
