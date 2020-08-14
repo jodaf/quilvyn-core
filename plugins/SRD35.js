@@ -6616,7 +6616,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Shield')
     result.push(
-      ['AC', 'AC Bonus', 'select-one', [-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5]],
+      ['AC', 'AC Bonus', 'select-one', [0, 1, 2, 3, 4, 5]],
       ['Weight', 'Weight', 'select-one',
        ['None', 'Light', 'Medium', 'Heavy', 'Tower']],
       ['Skill', 'Skill Check Penalty', 'text', [3]],
