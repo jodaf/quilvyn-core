@@ -48,11 +48,11 @@ SRD35Prestige.CLASSES = {
       '"10:Arrow Of Death"',
   'Arcane Trickster':
     'Require=' +
-      // TODO Sneak attack >= 2d6
-      '"alignment !~ \'Lawful\'","features.Sneak Attack",' +
+      '"alignment !~ \'Lawful\'","levels.Rogue >= 3",' +
       '"skills.Decipher Script >= 7","skills.Disable Device >= 7",' +
       '"skills.Escape Artist >= 7","skills.Knowledge (Arcana) >= 4",' +
-      '"Sum \'^spells\\.Mage Hand\' >= 1","Sum \'^spells\\..*[BW]3\' >= 1" ' +
+      '"Sum \'^spells\\.Mage Hand\' >= 1",' +
+      '"Sum \'^spells\\..*(AS|B|W)3\' >= 1" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Skills=' +
       'Appraise,Balance,Bluff,Climb,Concentration,Craft,"Decipher Script",' +
@@ -68,8 +68,7 @@ SRD35Prestige.CLASSES = {
       '"features.Skill Focus (Spellcraft)",' +
       '"Sum \'^features\\.Spell Focus\' >= 2",' +
       '"skills.Knowledge (Arcana) >= 15","skills.Spellcraft >= 15",' +
-      '"Sum \'^spells\\..*[BW]7\' >= 1" ' +
-      // TODO level 5 from 5 schools
+      '"spellsKnown.W7 >= 1","Level5SpellSchools >= 5" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
     'Spellcraft ' +
@@ -145,8 +144,9 @@ SRD35Prestige.CLASSES = {
   'Dragon Disciple':
     'Require=' +
       'languages.Draconic,"race !~ \'Dragon\'",' +
-      '"skills.Knowledge (Arcana) >= 8" ' +
-      // TODO arcane spells w/out prep
+      '"skills.Knowledge (Arcana) >= 8",' +
+      '"levels.Bard > 0 || levels.Sorcerer > 0 || levels.Assassin > 0" ' +
+      // i.e., Arcane spells w/out prep
     'HitDie=d12 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,"Escape Artist","Gather Information",' +
@@ -192,8 +192,8 @@ SRD35Prestige.CLASSES = {
     'Features="2:Caster Level Bonus"',
   'Hierophant':
     'Require=' +
-      '"skills.Knowledge (Religion) >= 15","Sum \'^spells\\..*[CD]7\' >= 1" ' +
-      // TODO any metamagic feat
+      '"skills.Knowledge (Religion) >= 15","Sum \'^spells\\..*[CD]7\' >= 1",' +
+      '"SumMetamagicFeats > 0" ' +
     'HitDie=d8 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,Craft,Diplomacy,Heal,"Knowledge (Arcana)",' +
@@ -221,8 +221,8 @@ SRD35Prestige.CLASSES = {
     'Require=' +
       '"Sum \'^features\\.Skill Focus .Knowledge\' >= 1",' +
       '"Sum \'^spells\\..*Divi\' >= 7","Sum \'^spells\\..*3 Divi\' >= 1",' +
-      '"Sum \'^skills\\.Knowledge\' >= 20" ' +
-      // TODO 2 skills.Knowledge >= 10,3 Item Creation/Metamagic feats
+      '"Sum \'^skills\\.Knowledge\' >= 20",' +
+      '"SumItemCreationAndMetamagicFeats >= 3","CountKnowledgeGe10 >= 2" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Appraise,Concentration,"Craft (Alchemy)","Decipher Script",' +
@@ -470,6 +470,17 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Archmage') {
 
+    var allSpells = rules.getChoices('spells');
+    var matchInfo;
+    for(var spell in allSpells) {
+      if((matchInfo = spell.match(/\(\w+5 (\w+)\)/)) != null) {
+        var school = matchInfo[1];
+        rules.defineRule
+          ('Level5' + school + 'Spells', 'spells.' + spell, '+=', '1');
+        rules.defineRule
+          ('Level5SpellSchools', 'Level5' + school + 'Spells', '+=', '1');
+      }
+    }
     rules.defineRule
       ('magicNotes.casterLevelBonus', 'levels.Archmage', '+=', null);
     rules.defineRule
@@ -722,6 +733,11 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
  
   } else if(name == 'Hierophant') {
 
+    var allFeats = rules.getChoices('feats');
+    for(var feat in allFeats) {
+      if(allFeats[feat].indexOf('Metamagic') >= 0)
+        rules.defineRule('SumMetamagicFeats', 'feats.' + feat, '+=', null);
+    }
     rules.defineRule
       ('selectableFeatureCount.Hierophant', 'levels.Hierophant', '=', null);
     rules.defineRule('combatNotes.turnUndead.1',
@@ -742,6 +758,20 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Loremaster') {
 
+    var allFeats = rules.getChoices('feats');
+    for(var feat in allFeats) {
+      if(allFeats[feat].indexOf('Metamagic') >= 0 ||
+         allFeats[feat].indexOf('Item Creation') >= 0)
+        rules.defineRule
+          ('SumItemCreationAndMetamagicFeats', 'feats.' + feat, '+=', null);
+    }
+    var allSkills = rules.getChoices('skills');
+    for(var skill in allSkills) {
+      if(skill.startsWith('Knowledge '))
+        rules.defineRule('CountKnowledgeGe10',
+          'skills.' + skill, '+=', 'source >= 10 ? 1 : null'
+        );
+    }
     rules.defineRule('casterLevelArcane', 'levels.Loremaster', '+=', null);
     rules.defineRule('featureNotes.bonusLanguage',
       'levels.Loremaster', '+=', 'Math.floor(source / 4)'
