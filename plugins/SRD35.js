@@ -7425,6 +7425,11 @@ SRD35.ruleNotes = function() {
     '    Quilvyn is picky about case; when defining your own attributes,\n' +
     "    it's safest to follow the conventions Quilvyn uses.\n" +
     '  </li><li>\n' +
+    '    To satisfy the Arcane Trickster Sneak Attack >= 2d6 prerequisite,\n' +
+    '    Quilvyn requires that an Arcane Trickster have at least 3 Rogue\n' +
+    "    levels. This doesn't account for other prestige classes (e.g.,\n" +
+    '    Assassin) that also increase Sneak Attack damage.\n' +
+    '  </li><li>\n' +
     '    Blackguard features of fallen Paladins are not reported.\n' +
     '  </li>\n' +
     '</ul>\n' +
