@@ -4689,25 +4689,23 @@ SRD35.classRules = function(
     var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
     if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
       rules.defineRule('casterLevels.' + name,
-        classLevel, '=', casterLevelExpr.replace(new RegExp('\\b' + classLevel + '\\b', 'gi'), 'source')
+        classLevel, '=', casterLevelExpr.replace(new RegExp('\\b' + classLevel + '\\b', 'gi'), 'source'),
+        'magicNotes.casterLevelBonus', '+', null
       );
     } else {
       rules.defineRule('casterLevels.' + name,
         classLevel, '?', null,
-        'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source')
+        'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source'),
+        'magicNotes.casterLevelBonus', '+', null
       );
     }
     if(casterLevelArcane) {
-      rules.defineRule('casterLevelArcane',
-        'casterLevels.' + name, '+=', null,
-        'magicNotes.casterLevelBonus', '+', null
-      );
+      rules.defineRule
+        ('casterLevelArcane', 'casterLevels.' + name, '+=', null);
     }
     if(casterLevelDivine) {
-      rules.defineRule('casterLevelDivine',
-        'casterLevels.' + name, '+=', null,
-        'magicNotes.casterLevelBonus', '+', null
-      );
+      rules.defineRule
+        ('casterLevelDivine', 'casterLevels.' + name, '+=', null);
     }
     rules.defineRule('spellCountLevel.' + name,
       'levels.' + name, '=', null,
@@ -4735,10 +4733,11 @@ SRD35.classRules = function(
               ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
         );
       }
-      rules.defineRule('casterLevels.' + spellType,
-        'casterLevels.' + name, '=', null,
-        'magicNotes.casterLevelBonus', '+', null
-      );
+      if(spellType != name) {
+        rules.defineRule('casterLevels.' + spellType,
+          'casterLevels.' + name, '=', null,
+        );
+      }
       rules.defineRule('spellDifficultyClass.' + spellType,
         'casterLevels.' + spellType, '?', null,
         spellModifier, '=', '10 + source'
