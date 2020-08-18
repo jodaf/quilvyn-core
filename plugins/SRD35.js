@@ -7519,12 +7519,12 @@ SRD35.prerequisiteRules = function(rules, section, noteName, attr, tests) {
   var note = section + 'Notes.' + noteName;
   var verb = section == 'validation' ? 'Requires' : 'Implies';
   var subnote = 0;
+  var zeroTestCount = 0;
 
   if(typeof(tests) == 'string')
     tests = [tests];
 
   rules.defineChoice('notes', note + ':' + verb + ' ' + tests.join('/'));
-  rules.defineRule(note, attr, '=', -tests.length);
 
   for(var i = 0; i < tests.length; i++) {
     var alternatives = tests[i].split(/\s*\|\|\s*/);
@@ -7550,7 +7550,10 @@ SRD35.prerequisiteRules = function(rules, section, noteName, attr, tests) {
             new RegExp(pat + '.*\\D$'), matchInfo[1]=='Max' ? '^=' : '+=', null
           );
         }
-        if(operator == '!~') {
+        if(operator == '==' && operand2 == '0') {
+          rules.defineRule(target, operand1, '+', 'source != 0 ? -1 : null');
+          zeroTestCount++;
+        } else if(operator == '!~') {
           rules.defineRule(target,
             operand1, '+', 'source.match(' + operand2 + ') ? null : 1'
           );
@@ -7575,6 +7578,8 @@ SRD35.prerequisiteRules = function(rules, section, noteName, attr, tests) {
       }
     }
   }
+
+  rules.defineRule(note, attr, '=', -tests.length + zeroTestCount);
 
 };
 
