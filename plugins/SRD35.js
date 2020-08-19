@@ -801,6 +801,7 @@ SRD35.FEATURES = {
   'Fast Movement':'Section=ability Note="+10 Speed"',
   'Favored Enemy':
     'Section=combat,skill Note="+2 or more damage vs. %V chosen creature type","+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V chosen creature type"',
+  'Feat Bonus':'Section=feature Note="+1 General Feat"',
   'Fiendish Familiar':
     'Section=companion Note="Smite Good (+%V HP) 1/dy, 60\' darkvision, %1 cold/fire resistance, DR %2/magic"',
   'Fire Turning':'Section=combat Note="Turn Water, rebuke Fire"',
