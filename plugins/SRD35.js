@@ -4589,15 +4589,15 @@ SRD35.armorRules = function(
  * progressions. #skills# indicate class skills for the class; see skillRules
  * for an alternate way these can be defined. #features# and #selectables# list
  * the fixed and selectable features acquired as the character advances in
- * class level, and #languages# list any automatic languages for the class.
+ * class level, and #languages# lists any automatic languages for the class.
  * #casterLevelArcane# and #casterLevelDivine#, if specified, give the
  * Javascript expression for determining the caster level for the class; these
- * can incorporate a class level attribute (e.g., 'levels.Fighter') or the
- * character level attribute 'level'. #spellAbility#, if specified, contains
- * the ability for computing spell difficulty class for cast spells.
- * #spellsPerDay# lists the number of spells per level per day that the class
- * can cast, and #spells# lists spells defined by the class. #spellDict# is the
- * dictionary of all spells used to look up individual spell attributes.
+ * can incorporate a class level attribute (e.g., 'levels.Cleric') or the
+ * character level attribute 'level'. #spellAbility#, if specified, names the
+ * ability for computing spell difficulty class. #spellsPerDay# lists the
+ * number of spells per level per day that the class can cast, and #spells#
+ * lists spells defined by the class. #spellDict# is the dictionary of all
+ * spells used to look up individual spell attributes.
  */
 SRD35.classRules = function(
   rules, name, requires, hitDie, attack, skillPoints, saveFort,
