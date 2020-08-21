@@ -54,7 +54,7 @@ function SRD35() {
   SRD35.combatRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
   // Spell definition is handled by each individual class and domain. Schools
   // have to be defined before this can be done.
-  SRD35.magicRules(rules, SRD35.SCHOOLS, []);
+  SRD35.magicRules(rules, SRD35.SCHOOLS, {});
   SRD35.identityRules(
     rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.DOMAINS,
     SRD35.GENDERS, SRD35.RACES
