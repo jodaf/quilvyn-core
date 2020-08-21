@@ -5639,8 +5639,8 @@ SRD35.languageRules = function(rules, name) {
  * attributes.
  */
 SRD35.raceRules = function(
-  rules, name, requires, features, selectables, languages,
-  spellAbility, spells, spellDict
+  rules, name, requires, features, selectables, languages, spellAbility,
+  spells, spellDict
 ) {
 
   if(!name) {
