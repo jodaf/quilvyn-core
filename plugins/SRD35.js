@@ -4296,7 +4296,7 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
   rules.defineRule
-    ('languageCount', 'intelligenceModifier', '=', 'Math.max(source, 0)');
+    ('languageCount', 'intelligenceModifier', '+', 'Math.max(source, 0)');
   rules.defineRule('maxAllowedSkillAllocation', 'level', '=', 'source + 3');
   rules.defineRule
     ('maxActualSkillAllocation', /^skills\.[^\.]*$/, '^=', null);
@@ -5673,7 +5673,7 @@ SRD35.raceRules = function(
   rules.defineChoice('extras', prefix + 'Features');
 
   if(languages.length > 0)
-    rules.defineRule('languageCount', raceLevel, '+', languages.length);
+    rules.defineRule('languageCount', raceLevel, '=', languages.length);
 
   for(var i = 0; i < languages.length; i++) {
     if(languages[i] != 'any')
