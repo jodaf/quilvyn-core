@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '2.0.2.0';
+var SRD35_VERSION = '2.0.2.1';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -4683,7 +4683,7 @@ SRD35.classRules = function(
       rules.defineRule('languages.' + languages[i], classLevel, '=', '1');
   }
 
-  if(spellsPerDay.length >= 0) {
+  if(spellsPerDay.length > 0) {
     var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
     if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
       rules.defineRule('casterLevels.' + name,
