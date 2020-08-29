@@ -184,10 +184,6 @@ function CustomizeQuilvyn() {
     if(window[funcName]) {
       console.log('Invoke ' + funcName);
       window[funcName]();
-      if(funcName == 'FirstEdition') {
-        FirstEdition.USE_OSRIC_RULES = !FirstEdition.USE_OSRIC_RULES;
-        window[funcName]();
-      }
     } else {
       alert('Cannot call ' + funcName);
     }
