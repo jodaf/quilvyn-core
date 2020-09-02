@@ -5562,9 +5562,8 @@ SRD35.featureRules = function(rules, name, sections, notes) {
           adjusted = 'combatNotes.turnUndead.2';
         } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
           adjusted = 'spellDCSchoolBonus.' + adjusted.replace('Spell DC (', '').replace(')', '');
-        } else if(section == 'save' &&
-                  adjusted.match(/^(Fortitude|Reflex|Will)$/)) {
-          adjusted = 'save.' + adjusted.charAt(0).toUpperCase() + adjusted.substring(1).toLowerCase();
+        } else if(section == 'save' && adjusted.match(/^[A-Z]\w*$/)) {
+          adjusted = 'save.' + adjusted;
         } else if(section == 'skill' &&
                   adjusted != 'Skill Points' &&
                   adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
