@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '2.0.2.2';
+var SRD35_VERSION = '2.0.2.3';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -6561,7 +6561,7 @@ SRD35.choiceEditorElements = function(rules, type) {
   } else if(type == 'Class') {
     var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     result.push(
-      ['Require', 'Prerequsites', 'text', [40]],
+      ['Require', 'Prerequisites', 'text', [40]],
       ['HitDie', 'Hit Die', 'select-one', ['d4', 'd6', 'd8', 'd10', 'd12']],
       ['Attack', 'Base Attack', 'select-one', ['1', '3/4', '1/2']],
       ['SkillPoints', 'Skill Points/Level', 'select-one', zeroToTen],
