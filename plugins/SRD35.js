@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '2.0.2.1';
+var SRD35_VERSION = '2.0.2.2';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -7271,7 +7271,7 @@ SRD35.makeValid = function(attributes) {
             matchInfo[1].replace(/\s*$/, '').replace('features', 'feats');
           var targetOp = matchInfo[3] == null ? '>=' : matchInfo[3];
           targetValue = matchInfo[4] == null ? 1 :
-                        matchInfo[4].replace(/^\s*["']|['"]$/g, '');
+                        matchInfo[4].trim().replace(/^\s*["']|['"]$/g, '');
           if(targetAttr.match(/^(Max|Sum) /)) {
             var pat =
               new RegExp(targetAttr.substring(3).replace(/^\s+["']|['"]$/g,''));
