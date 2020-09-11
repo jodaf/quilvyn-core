@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 "use strict";
 
-var SRD35_VERSION = '2.0.2.3';
+var SRD35_VERSION = '2.0.2.4';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -843,7 +843,7 @@ SRD35.FEATURES = {
   'Heighten Spell':'Section=magic Note="Increase chosen spell level"',
   'Hide In Plain Sight':'Section=skill Note="Hide even when observed"',
   'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
-  'Human Skill Bonus':'Section=skill Note="+%V skill points"',
+  'Human Skill Bonus':'Section=skill Note="+%V Skill Points"',
   'Illiteracy':
     'Section=skill Note="Must spend 2 skill points to read and write"',
   'Improved Bull Rush':
@@ -5752,6 +5752,8 @@ SRD35.raceRulesExtra = function(rules, name) {
     rules.defineRule('abilityNotes.armorSpeedAdjustment',
       'abilityNotes.dwarfArmorSpeedAdjustment', '^', '0'
     );
+  } else if(name == 'Human') {
+    rules.defineRule('skillNotes.humanSkillBonus', 'level', '=', 'source + 3');
   }
 };
 
