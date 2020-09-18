@@ -15,6 +15,7 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
+/*jshint esversion: 6 */
 "use strict";
 
 /*
@@ -443,8 +444,6 @@ SRD35Prestige.talentRules = function(rules, features) {
  */
 SRD35Prestige.classRulesExtra = function(rules, name) {
 
-  var spells = null;
-
   if(name == 'Arcane Archer') {
 
     rules.defineRule('combatNotes.enhanceArrow',
@@ -636,12 +635,12 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'level', '=', null
     );
     // Add fiendish servants choices not in the standard animal companion list
-    rules.choiceRules(rules, 'Animal Companion', 'Bat', SRD35.FAMILIARS['Bat']);
-    rules.choiceRules(rules, 'Animal Companion', 'Cat', SRD35.FAMILIARS['Cat']);
+    rules.choiceRules(rules, 'Animal Companion', 'Bat', SRD35.FAMILIARS.Bat);
+    rules.choiceRules(rules, 'Animal Companion', 'Cat', SRD35.FAMILIARS.Cat);
     rules.choiceRules
-      (rules, 'Animal Companion', 'Raven', SRD35.FAMILIARS['Raven']);
+      (rules, 'Animal Companion', 'Raven', SRD35.FAMILIARS.Raven);
     rules.choiceRules
-      (rules, 'Animal Companion', 'Toad', SRD35.FAMILIARS['Toad']);
+      (rules, 'Animal Companion', 'Toad', SRD35.FAMILIARS.Toad);
 
   } else if(name == 'Dragon Disciple') {
 

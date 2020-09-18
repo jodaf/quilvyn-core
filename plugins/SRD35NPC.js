@@ -15,6 +15,7 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
+/*jshint esversion: 6 */
 "use strict";
 
 /*
@@ -102,7 +103,6 @@ SRD35NPC.FEATURES = {
 /* Defines the rules related to SRDv3.5 NPC Classes. */
 SRD35NPC.identityRules = function(rules, classes) {
   for(var klass in classes) {
-    var attrs = classes[klass];
     rules.choiceRules(rules, 'Class', klass, classes[klass]);
     SRD35NPC.classRules(rules, klass);
   }

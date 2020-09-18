@@ -15,9 +15,10 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
+/*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.0.2.4';
+var SRD35_VERSION = '2.0.2.5';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -3805,7 +3806,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
   rules.defineRule
     ('animalCompanionStats.Melee', 'companionAttack', '=', 'source');
   rules.defineRule('animalCompanionStats.Melee.2',
-    'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
+    'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source'
   );
   // Default no second attack; overridden for specific animal companions
   rules.defineRule('animalCompanionStats.Melee.3',
@@ -3898,7 +3899,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
   );
   rules.defineRule('familiarAttack',
     'familiarMasterLevel', '?', null,
-    'baseAttack', '=', null,
+    'baseAttack', '=', null
   );
   rules.defineRule('familiarEnhancement',
     'familiarCelestial', '=', '"Celestial"',
@@ -4202,12 +4203,6 @@ SRD35.goodiesRules = function(rules) {
     'armor', 'protection', 'shield'
   ].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))).join('|');
   var skillsPat = QuilvynUtils.getKeys(rules.getChoices('skills')).join('|').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-  var abilitiesArmorSavesSkillsAndWeapons = [
-    'strength','intelligence','wisdom','dexterity','constitution','charisma',
-    'speed', 'armor', 'protection', 'shield', 'fortitude', 'reflex', 'will'
-  ].concat(QuilvynUtils.getKeys(rules.getChoices('skills')))
-   .concat(QuilvynUtils.getKeys(rules.getChoices('weapons')))
-   .join('|').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
   rules.defineRule('inertGoodies',
     'goodiesList', '=',
     'source.filter(item => ' +
@@ -4733,7 +4728,7 @@ SRD35.classRules = function(
       }
       if(spellType != name) {
         rules.defineRule('casterLevels.' + spellType,
-          'casterLevels.' + name, '=', null,
+          'casterLevels.' + name, '=', null
         );
       }
       rules.defineRule('spellDifficultyClass.' + spellType,
@@ -4919,7 +4914,7 @@ SRD35.classRulesExtra = function(rules, name) {
       '"magic" + ' +
       '(source < 10 ? "" : "/lawful") + ' +
       '(source < 16 ? "" : "/adamantine")'
-    )
+    );
     rules.defineRule('combatNotes.quiveringPalm',
       'levels.Monk', '+=', '10 + Math.floor(source / 2)',
       'wisdomModifier', '+', null
@@ -5703,7 +5698,7 @@ SRD35.raceRules = function(
       condition = pieces[0];
       groupAndLevel = pieces[1];
     }
-    var matchInfo = groupAndLevel.match(/^(\w+)(\d)$/);
+    matchInfo = groupAndLevel.match(/^(\w+)(\d)$/);
     if(!matchInfo) {
       console.log('Bad format for spell list "' + spells[i] + '"');
       break;
@@ -6057,7 +6052,6 @@ SRD35.spellRules = function(
   if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
     var index = inserts != null ? inserts.length + 1 : 1;
     var dcRule = 'spells.' + name + '.' + index;
-    var schoolNoSpace = school.replace(/\s/g, '');
     description =
       matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
     rules.defineRule(dcRule,
@@ -6277,11 +6271,12 @@ SRD35.weaponRules = function(
  * format #viewer# in #rules#.
  */
 SRD35.getFormats = function(rules, viewer) {
+  var format;
   var formats = rules.getChoices('notes');
   var result = {};
   var matchInfo;
   if(viewer == 'Collected Notes') {
-    for(var format in formats) {
+    for(format in formats) {
       result[format] = formats[format];
       if((matchInfo = format.match(/Notes\.(.*)$/)) != null) {
         var feature = matchInfo[1];
@@ -6290,7 +6285,7 @@ SRD35.getFormats = function(rules, viewer) {
       }
     }
   } else if(viewer == 'Compact') {
-    for(var format in formats) {
+    for(format in formats) {
       if(!format.startsWith('spells.'))
         result[format] = formats[format];
     }
@@ -6450,7 +6445,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Gear', within: 'CombatPart', separator: innerSep},
               {name: 'Armor', within: 'Gear'},
               {name: 'Shield', within: 'Gear'},
-              {name: 'Weapons', within: 'Gear', separator: listSep},
+              {name: 'Weapons', within: 'Gear', separator: listSep}
       );
       if(name != 'Collected Notes') {
         viewer.addElements(
@@ -6458,7 +6453,7 @@ SRD35.createViewers = function(rules, viewers) {
         );
       }
       viewer.addElements(
-            {name: 'Save', within: 'CombatPart', separator: listSep},
+            {name: 'Save', within: 'CombatPart', separator: listSep}
       );
       if(name != 'Collected Notes') {
         viewer.addElements(
@@ -6515,6 +6510,7 @@ SRD35.createViewers = function(rules, viewers) {
  */
 SRD35.choiceEditorElements = function(rules, type) {
   var result = [];
+  var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   if(type == 'Alignment')
     result.push(
       // empty
@@ -6550,7 +6546,6 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Level', 'Min Master Level', 'select-one', oneToTwenty]
     );
   } else if(type == 'Armor' || type == 'Shield') {
-    var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     var zeroToFifty = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
     var minusTenToZero = [-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0];
     result.push(
@@ -6561,7 +6556,6 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Spell', 'Spell Failure', 'select-one', zeroToFifty]
     );
   } else if(type == 'Class') {
-    var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     result.push(
       ['Require', 'Prerequisites', 'text', [40]],
       ['HitDie', 'Hit Die', 'select-one', ['d4', 'd6', 'd8', 'd10', 'd12']],
@@ -6660,7 +6654,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Range', 'Range in Feet', 'select-one', zeroToOneFifty]
     );
   }
-  return result
+  return result;
 };
 
 /* Returns the elements in a basic SRD character editor. */
@@ -6813,6 +6807,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   var choices;
   var howMany;
   var i;
+  var matchInfo;
 
   if(attribute == 'armor') {
     attrs = this.applyRules(attributes);
@@ -6829,7 +6824,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     if(choices.length > 0)
-      attributes['armor'] = choices[QuilvynUtils.random(0, choices.length - 1)];
+      attributes.armor = choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'companion') {
     attrs = this.applyRules(attributes);
     var companionAttrs = {
@@ -6839,7 +6834,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       'features.Fiendish Servant':'animalCompanion',
       'features.Special Mount':'animalCompanion'
     };
-    for(var attr in companionAttrs) {
+    for(attr in companionAttrs) {
       if(!(attr in attrs) ||
          QuilvynUtils.sumMatching(attrs, new RegExp(companionAttrs[attr] + '\\.')) > 0)
         continue;
@@ -6885,7 +6880,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         choices.push(attr);
     }
     if(choices.length > 0)
-      attributes['deity'] = choices[QuilvynUtils.random(0, choices.length - 1)];
+      attributes.deity = choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'feats' || attribute == 'features') {
     var debug = [];
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
@@ -6931,16 +6926,17 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         debug[debug.length] =
           'Pick ' + howMany + ' from ' +
           QuilvynUtils.getKeys(availableChoicesInType).length;
+        var pick;
         var picks = {};
         pickAttrs(picks, '', choices, howMany, 1);
         debug[debug.length] =
           'From ' + QuilvynUtils.getKeys(picks).join(", ") + ' reject';
-        for(var pick in picks) {
+        for(pick in picks) {
           attributes[prefix + '.' + pick] = 1;
           delete availableChoicesInType[pick];
         }
         var validate = this.applyRules(attributes);
-        for(var pick in picks) {
+        for(pick in picks) {
           var name = pick.charAt(0).toLowerCase() +
                      pick.substring(1).replace(/ /g, '').
                      replace(/\(/g, '\\(').replace(/\)/g, '\\)');
@@ -6967,7 +6963,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     for(var clas in this.getChoices('levels')) {
       if((attr = attributes['levels.' + clas]) == null)
         continue;
-      var matchInfo = QuilvynUtils.getAttrValue(this.getChoices('levels')[clas], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
+      matchInfo = QuilvynUtils.getAttrValue(this.getChoices('levels')[clas], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
       var number = matchInfo == null || matchInfo[2] == null ||
                    matchInfo[2] == '' ? 1 : matchInfo[2];
       var sides = matchInfo == null ? 6 : matchInfo[3];
@@ -6992,7 +6988,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     var assignedLevels = QuilvynUtils.sumMatching(attributes, /^levels\./);
     if(!attributes.level) {
       if(assignedLevels > 0)
-        attributes.level = assignedLevels
+        attributes.level = assignedLevels;
       else if(attributes.experience)
         attributes.level =
           Math.floor((1 + Math.sqrt(1 + attributes.experience/125)) / 2);
@@ -7027,7 +7023,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     delete attributes.level;
   } else if(attribute == 'name') {
-    attributes['name'] = SRD35.randomName(attributes['race']);
+    attributes.name = SRD35.randomName(attributes.race);
   } else if(attribute == 'shield') {
     attrs = this.applyRules(attributes);
     var characterProfLevel = attrs.shieldProficiencyLevel;
@@ -7044,12 +7040,12 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       }
     }
     if(choices.length > 0)
-      attributes['shield'] = choices[QuilvynUtils.random(0, choices.length - 1)];
+      attributes.shield = choices[QuilvynUtils.random(0, choices.length - 1)];
   } else if(attribute == 'skills') {
     attrs = this.applyRules(attributes);
     var maxPoints = attrs.maxAllowedSkillAllocation;
     howMany =
-      attrs.skillPoints - QuilvynUtils.sumMatching(attributes, '^skills\\.'),
+      attrs.skillPoints - QuilvynUtils.sumMatching(attributes, '^skills\\.');
     choices = QuilvynUtils.getKeys(this.getChoices('skills'));
     while(howMany > 0 && choices.length > 0) {
       var pickClassSkill = QuilvynUtils.random(0, 99) >= 15;
@@ -7087,7 +7083,6 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   } else if(attribute == 'spells') {
     var availableSpellsByLevel = {};
     var groupAndLevel;
-    var matchInfo;
     var prohibitPat = ' (xxxx';
     var schools = this.getChoices('schools');
     attrs = this.applyRules(attributes);
@@ -7360,7 +7355,7 @@ SRD35.makeValid = function(attributes) {
   }
 
   if(window.DEBUG) {
-    var notes = attributes.notes;
+    notes = attributes.notes;
     attributes.notes =
       (notes != null ? attributes.notes + '\n' : '') + debug.join('\n');
   }
