@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.0.2.5';
+var SRD35_VERSION = '2.0.2.6';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -3449,7 +3449,6 @@ SRD35.CLASSES = {
       '"1:Weapon Proficiency (Martial)"',
   'Monk':
     'Require="alignment =~ \'Lawful\'" ' +
-    'Imply="armor == \'None\'","shield == \'None\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
@@ -3762,6 +3761,11 @@ SRD35.abilityRules = function(rules) {
 /* Defines rules related to animal companions and familiars. */
 SRD35.aideRules = function(rules, companions, familiars) {
 
+  QuilvynUtils.checkAttrTable
+    (companions, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Attack', 'Dam', 'Size', 'Level']);
+  QuilvynUtils.checkAttrTable
+    (familiars, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Attack', 'Dam', 'Size', 'Level']);
+
   for(var companion in companions) {
     rules.choiceRules
       (rules, 'Animal Companion', companion, companions[companion]);
@@ -3957,6 +3961,11 @@ SRD35.aideRules = function(rules, companions, familiars) {
 
 /* Defines rules related to combat. */
 SRD35.combatRules = function(rules, armors, shields, weapons) {
+
+  QuilvynUtils.checkAttrTable
+    (armors, ['AC', 'Weight', 'Dex', 'Skill', 'Spell']);
+  QuilvynUtils.checkAttrTable(shields, ['AC', 'Weight', 'Skill', 'Spell']);
+  QuilvynUtils.checkAttrTable(weapons, ['Level', 'Category', 'Damage', 'Threat', 'Crit', 'Range']);
 
   for(var armor in armors) {
     rules.choiceRules(rules, 'Armor', armor, armors[armor]);
@@ -4223,6 +4232,14 @@ SRD35.identityRules = function(
   rules, alignments, classes, deities, domains, genders, races
 ) {
 
+  QuilvynUtils.checkAttrTable(alignments, []);
+  QuilvynUtils.checkAttrTable
+    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellsPerDay', 'Spells']);
+  QuilvynUtils.checkAttrTable(deities, ['Alignment', 'Domain', 'Weapon']);
+  QuilvynUtils.checkAttrTable(domains, ['Features', 'Spells']);
+  QuilvynUtils.checkAttrTable(genders, []);
+  QuilvynUtils.checkAttrTable(races, ['Require', 'Features', 'Selectables', 'Languages', 'SpellAbility', 'Spells']);
+
   for(var alignment in alignments) {
     rules.choiceRules(rules, 'Alignment', alignment, alignments[alignment]);
   }
@@ -4258,6 +4275,10 @@ SRD35.identityRules = function(
 /* Defnes rules related to magic use. */
 SRD35.magicRules = function(rules, schools, spells) {
 
+  QuilvynUtils.checkAttrTable(schools, ['Features']);
+  QuilvynUtils.checkAttrTable
+    (spells, ['School', 'Group', 'Level', 'Description']);
+
   for(var school in schools) {
     rules.choiceRules(rules, 'School', school, schools[school]);
   }
@@ -4269,6 +4290,12 @@ SRD35.magicRules = function(rules, schools, spells) {
 
 /* Defines rules related to character feats, languages, and skills. */
 SRD35.talentRules = function(rules, feats, features, languages, skills) {
+
+  QuilvynUtils.checkAttrTable(feats, ['Require', 'Imply', 'Type']);
+  QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
+  QuilvynUtils.checkAttrTable(languages, []);
+  QuilvynUtils.checkAttrTable
+    (skills, ['Ability', 'Untrained', 'Class', 'Synergy']);
 
   for(var feat in feats) {
     rules.choiceRules(rules, 'Feat', feat, feats[feat]);

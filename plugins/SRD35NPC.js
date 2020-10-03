@@ -80,9 +80,9 @@ SRD35NPC.CLASSES = {
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/3 ' +
     'Features=' +
       '"1:Commoner Weapon Proficiency" ' +
-    'Skills' +
+    'Skills=' +
       'Climb,Craft,"Handle Animal",Jump,Listen,Profession,Ride,Spot,Swim,' +
-      'Use Rope',
+      '"Use Rope"',
   'Expert':
     'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
@@ -102,6 +102,8 @@ SRD35NPC.FEATURES = {
 
 /* Defines the rules related to SRDv3.5 NPC Classes. */
 SRD35NPC.identityRules = function(rules, classes) {
+  QuilvynUtils.checkAttrTable
+    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellsPerDay', 'Spells']);
   for(var klass in classes) {
     rules.choiceRules(rules, 'Class', klass, classes[klass]);
     SRD35NPC.classRules(rules, klass);
@@ -117,6 +119,7 @@ SRD35NPC.classRules = function(rules, name) {
 
 /* Defines the rules related to SRDv3.5 NPC Features. */
 SRD35NPC.talentRules = function(rules, features) {
+  QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
   for(var feature in features) {
     rules.choiceRules(rules, 'Feature', feature, features[feature]);
   }

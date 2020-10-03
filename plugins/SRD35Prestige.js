@@ -86,7 +86,7 @@ SRD35Prestige.CLASSES = {
     'Skills=' +
       'Balance,Bluff,Climb,Craft,"Decipher Script",Diplomacy,' +
       '"Disable Device",Disguise,"Escape Artist",Forgery,' +
-      '"Gather Information"Hide,Intimidate,Jump,Listen,"Move Silently",' +
+      '"Gather Information",Hide,Intimidate,Jump,Listen,"Move Silently",' +
       '"Open Lock",Search,"Sense Motive","Sleight Of Hand",Spot,Swim,Tumble,' +
       '"Use Magic Device","Use Rope" ' +
     'Features=' +
@@ -425,6 +425,8 @@ SRD35Prestige.FEATURES = {
 
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
 SRD35Prestige.identityRules = function(rules, classes) {
+  QuilvynUtils.checkAttrTable
+    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellsPerDay', 'Spells']);
   for(var clas in classes) {
     rules.choiceRules(rules, 'Class', clas, classes[clas]);
     SRD35Prestige.classRulesExtra(rules, clas);
@@ -433,6 +435,7 @@ SRD35Prestige.identityRules = function(rules, classes) {
 
 /* Defines rules related to character features. */
 SRD35Prestige.talentRules = function(rules, features) {
+  QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
   for(var feature in features) {
     rules.choiceRules(rules, 'Feature', feature, features[feature]);
   }
