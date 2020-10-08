@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.0.2.6';
+var SRD35_VERSION = '2.0.2.7';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -6542,7 +6542,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     result.push(
       // empty
     );
-  if(type == 'Animal Companion' || type == 'Familiar') {
+  else if(type == 'Animal Companion' || type == 'Familiar') {
     var minusFiveToTwenty = [
       -5, -4, -3, -2, -1, 0,
       1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
@@ -6661,7 +6661,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     var zeroToNine = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     result.push(
       ['School', 'School', 'select-one', QuilvynUtils.getKeys(rules.getChoices('schools'))],
-      ['Level', 'Caster Group', 'text', [15]],
+      ['Group', 'Caster Group', 'text', [15]],
       ['Level', 'Level', 'select-one', zeroToNine],
       ['Description', 'Description', 'text', [60]]
     );
