@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.0.2.7';
+var SRD35_VERSION = '2.0.2.8';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -5587,6 +5587,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
         } else if(section == 'save' && adjusted.match(/^[A-Z]\w*$/)) {
           adjusted = 'save.' + adjusted;
         } else if(section == 'skill' &&
+                  adjusted != 'Language Count' &&
                   adjusted != 'Skill Points' &&
                   adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
           skillEffects++;
