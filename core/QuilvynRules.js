@@ -244,3 +244,253 @@ QuilvynRules.prototype.randomizeOneAttribute = function(attributes, attribute) {
 QuilvynRules.prototype.ruleNotes = function() {
   return "No notes for this rule set\n";
 };
+
+/*
+ * Defines in #rules# the rules associated with with the list #features#, each
+ * element of which has the format "[condition ?] [level:]name".. Rules add
+ * each feature to #setName# if the value of #levelAttr# is at least equal to
+ * the level required for the feature. If #selectable# is true, the user is
+ * allowed to select these features for the character, rather than having them
+ * assigned automatically.
+ */
+QuilvynRules.featureListRules = function(
+  rules, features, setName, levelAttr, selectable
+) {
+
+  var prefix = setName.charAt(0).toLowerCase() +
+               setName.slice(1).replace(/\s/g, '') + 'Features';
+
+  for(var i = 0; i < features.length; i++) {
+
+    var pieces = features[i].split(':');
+    var feature = pieces.length == 2 ? pieces[1] : pieces[0];
+    var featureAttr = prefix + '.' + feature;
+    var level = pieces.length == 2 ? pieces[0] : '1';
+    var conditions = [];
+    var matchInfo;
+
+    pieces = level.split(/\s*\?\s*/);
+    if(pieces.length == 2) {
+      conditions = pieces[0].split('/');
+      level = pieces[1];
+    }
+
+    if(selectable) {
+      var choice = setName + ' - ' + feature;
+      rules.defineChoice
+        ('selectableFeatures', choice + ':Type="' + setName + '"');
+      rules.defineRule(featureAttr, 'selectableFeatures.' + choice, '=', null);
+      conditions.push(levelAttr + ' >= ' + level);
+      QuilvynRules.prerequisiteRules
+        (rules, 'validation', choice.charAt(0).toLowerCase() + choice.slice(1).replace(/ /g, '') + 'SelectableFeature',
+         'selectableFeatures.' + choice, conditions);
+    } else {
+      if(conditions.length > 0) {
+        QuilvynRules.prerequisiteRules
+          (rules, 'test', featureAttr, levelAttr, conditions);
+        rules.defineRule(featureAttr,
+         'testNotes.' + featureAttr, '?', 'source == 0 ? 1 : null'
+        );
+      }
+      if(level == '1') {
+        rules.defineRule(featureAttr, levelAttr, '=', '1');
+      } else {
+        rules.defineRule
+          (featureAttr, levelAttr, '=', 'source >= ' + level + ' ? 1 : null');
+      }
+    }
+
+    rules.defineRule('features.' + feature, featureAttr, '+=', null);
+
+    if((matchInfo = feature.match(/^([A-Z]\w+\s(Familiarity|Proficiency))\s\((.*\/.*)\)$/)) != null) {
+      // Set corresponding feature for each individual item.
+      var items = matchInfo[3].split('/');
+      for(var j = 0; j < items.length; j++) {
+        rules.defineRule('features.' + matchInfo[1]+' (' + items[j] + ')',
+          'features.' + feature, '=', '1'
+        );
+      }
+    }
+  }
+
+};
+
+/*
+ * Defines in #rules# the rules needed to check, when #attr# is defined, if the
+ * list of prerequisites #tests# are met. The results of the tests are computed
+ * in the #section# note #noteName#--zero if successful, non-zero otherwise.
+ */
+QuilvynRules.prerequisiteRules = function(
+  rules, section, noteName, attr, tests
+) {
+
+  var matchInfo;
+  var note = section + 'Notes.' + noteName;
+  var verb = section == 'validation' ? 'Requires' : 'Implies';
+  var subnote = 0;
+  var zeroTestCount = 0;
+
+  if(typeof(tests) == 'string')
+    tests = [tests];
+
+  rules.defineChoice('notes', note + ':' + verb + ' ' + tests.join('/'));
+
+  for(var i = 0; i < tests.length; i++) {
+
+    var alternatives = tests[i].split(/\s*\|\|\s*/);
+    var target = note;
+
+    if(alternatives.length > 1) {
+      target = note + 'Alt.' + i;
+      rules.defineRule(target, '', '=', '0');
+      rules.defineRule(note, target, '+', 'source > 0 ? 1 : null');
+    }
+
+    for(var j = 0; j < alternatives.length; j++) {
+
+      var test = alternatives[j];
+      var matchInfo = test.match(/^(.*\S)\s*(<=|>=|==|!=|<|>|=~|!~)\s*(\S.*)$/);
+
+      if(!matchInfo) {
+        rules.defineRule(target, test, '+', '1');
+      } else {
+        var operand1 = matchInfo[1];
+        var operand2 = matchInfo[3];
+        var operator = matchInfo[2];
+        if((matchInfo = operand1.match(/^(Max|Sum)\s+(.*)$/)) != null) {
+          var pat = matchInfo[2].replace(/^["']|['"]$/g, '');
+          operand1 = matchInfo[1] + pat;
+          rules.defineRule(operand1,
+            new RegExp(pat + '.*\\D$'), matchInfo[1]=='Max' ? '^=' : '+=', null
+          );
+        }
+        if(operator == '==' && operand2 == '0') {
+          rules.defineRule(target, operand1, '+', 'source != 0 ? -1 : null');
+          zeroTestCount++;
+        } else if(operator == '!~') {
+          rules.defineRule(target,
+            operand1, '+', 'source.match(' + operand2 + ') ? null : 1'
+          );
+        } else if(operator == '=~') {
+          rules.defineRule(target,
+            operand1, '+', 'source.match(' + operand2 + ') ? 1 : null'
+          );
+        } else if(operand2.match(/^[a-z]/)) {
+          subnote++;
+          rules.defineRule(note + '.' + subnote,
+            operand1, '=', null,
+            operand2, '-', null
+          );
+          rules.defineRule(target,
+            note + '.' + subnote, '+', 'source ' + operator + ' 0 ? 1 : null'
+          );
+        } else {
+          rules.defineRule(target,
+            operand1, '+', 'source ' + operator + ' ' + operand2 + ' ? 1 : null'
+          );
+        }
+      }
+    }
+
+  }
+
+  rules.defineRule(note, attr, '=', -tests.length + zeroTestCount);
+
+};
+
+/*
+ * Defines in #rules# each spell in the list #spells#, each element of which
+ * has the format "groupLevel:name[;name...]". #spellDict# is the dictionary of
+ * all spells used to look up individual spell attributes.
+ */
+QuilvynRules.spellListRules = function(rules, spells, spellDict) {
+
+  for(var i = 0; i < spells.length; i++) {
+
+    var pieces = spells[i].split(':');
+    if(pieces.length != 2) {
+      console.log('Bad format for spell list "' + spells[i] + '"');
+      break;
+    }
+
+    var groupAndLevel = pieces[0];
+    var spellList = pieces[1];
+    var matchInfo = groupAndLevel.match(/^(\w+)(\d)$/);
+    if(!matchInfo) {
+      console.log('Bad format for spell list "' + spells[i] + '"');
+      break;
+    }
+
+    var group = matchInfo[1];
+    var level = matchInfo[2];
+    var spellNames = spellList.split(';');
+    for(var j = 0; j < spellNames.length; j++) {
+      var spellName = spellNames[j];
+      if(spellDict[spellName] == null) {
+        console.log('Unknown spell "' + spellName + '"');
+        continue;
+      }
+      var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
+      if(school == null) {
+        console.log('No school given for spell ' + spellName);
+        continue;
+      }
+      var fullSpell =
+        spellName + '(' + group + level + ' ' + school.substring(0, 4) + ')';
+      rules.choiceRules
+        (rules, 'Spell', fullSpell,
+         spellDict[spellName] + ' Group=' + group + ' Level=' + level);
+    }
+
+  }
+
+};
+
+/*
+ * Defines in #rules# the rules required to allocate the list of spell slots
+ * #spellSlots# to the character. #levelAttr# is the name of the attribute that
+ * holds the character's level for acquiring these spells.
+ */
+QuilvynRules.spellSlotRules = function(rules, levelAttr, spellSlots) {
+  for(var i = 0; i < spellSlots.length; i++) {
+    var spellTypeAndLevel = spellSlots[i].split(/:/)[0];
+    var spellType = spellTypeAndLevel.replace(/\d+/, '');
+    var spellLevel = spellTypeAndLevel.replace(/[A-Z]*/, '');
+    var code = spellSlots[i].substring(spellTypeAndLevel.length + 1).
+               replace(/\=/g, ' ? ').
+               split(/;/).reverse().join(' : source >= ');
+    code = 'source >= ' + code + ' : null';
+    if(code.indexOf('source >= 1 ?') >= 0) {
+      code = code.replace(/source\s>=\s1\s./, '').replace(/\s:\snull/, '');
+    }
+    rules.defineRule('spellSlots.' + spellTypeAndLevel, levelAttr, '+=', code);
+  }
+};
+
+/*
+ * Defines in #rules# the rules necessary to check that the values of the
+ * attributes #available# and #allocated# are equal. Results are stored in
+ * the attribute validationNotes.#name#Allocation.
+ */
+QuilvynRules.validAllocationRules = function(
+  rules, name, available, allocated
+) {
+  var note = 'validationNotes.' + name + 'Allocation';
+  rules.defineChoice('notes', note + ':%1 available vs. %2 allocated');
+  if(available.startsWith('Sum '))
+    available = new RegExp(available.replace(/^Sum *["']|['"]$/g, ''));
+  rules.defineRule(note + '.1',
+    '', '=', '0',
+    available, '+', null
+  );
+  if(allocated.startsWith('Sum '))
+    allocated = new RegExp(allocated.replace(/^Sum *["']|['"]$/g, ''));
+  rules.defineRule(note + '.2',
+    '', '=', '0',
+    allocated, '+', null
+  );
+  rules.defineRule(note,
+    note + '.1', '=', '-source',
+    note + '.2', '+=', null
+  );
+};
