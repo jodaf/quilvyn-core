@@ -564,7 +564,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',
       '13:Speak With Master', '16:Blood Bond', '19:Companion Resist Spells'
     ];
-    SRD35.featureListRules
+    QuilvynRules.featureListRules
       (rules, features, 'Animal Companion', 'fiendishServantMasterLevel', false);
     rules.defineRule('fiendishServantMasterBaseSaveFort',
       'fiendishServantMasterLevel', '?', null,
