@@ -57,8 +57,8 @@ function SRD35() {
   // have to be defined before this can be done.
   SRD35.magicRules(rules, SRD35.SCHOOLS, {});
   SRD35.identityRules(
-    rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.GENDERS,
-    SRD35.PATHS, SRD35.RACES
+    rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.PATHS,
+    SRD35.RACES
   );
   SRD35.talentRules
     (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.LANGUAGES, SRD35.SKILLS);
@@ -71,8 +71,8 @@ function SRD35() {
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
   'Alignment', 'Animal Companion', 'Armor', 'Class', 'Deity', 'Familiar',
-  'Feat', 'Feature', 'Gender', 'Language', 'Path', 'Race', 'School', 'Shield',
-  'Skill', 'Spell', 'Weapon'
+  'Feat', 'Feature', 'Language', 'Path', 'Race', 'School', 'Shield', 'Skill',
+  'Spell', 'Weapon'
 ];
 /*
  * List of items handled by randomizeOneAttribute method. The order handles
@@ -981,10 +981,6 @@ SRD35.FEATURES = {
   'Wild Shape':
     'Section=magic Note="Change into creature of size %V %1 hr %2/dy"',
   'Woodland Stride':'Section=feature Note="Normal movement through undergrowth"'
-};
-SRD35.GENDERS = {
-  'Female':'',
-  'Male':''
 };
 SRD35.LANGUAGES = {
   'Abyssal':'',
@@ -4500,14 +4496,13 @@ SRD35.goodiesRules = function(rules) {
 
 /* Defines rules related to basic character identity. */
 SRD35.identityRules = function(
-  rules, alignments, classes, deities, genders, paths, races
+  rules, alignments, classes, deities, paths, races
 ) {
 
   QuilvynUtils.checkAttrTable(alignments, []);
   QuilvynUtils.checkAttrTable
     (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'Spells']);
   QuilvynUtils.checkAttrTable(deities, ['Alignment', 'Domain', 'Weapon']);
-  QuilvynUtils.checkAttrTable(genders, []);
   QuilvynUtils.checkAttrTable
     (paths, ['Features', 'Selectables', 'Group', 'Level', 'SpellAbility', 'SpellSlots', 'Spells']);
   QuilvynUtils.checkAttrTable(races, ['Require', 'Features', 'Selectables', 'Languages', 'SpellAbility', 'SpellSlots', 'Spells']);
@@ -4520,9 +4515,6 @@ SRD35.identityRules = function(
   }
   for(var deity in deities) {
     rules.choiceRules(rules, 'Deity', deity, deities[deity]);
-  }
-  for(var gender in genders) {
-    rules.choiceRules(rules, 'Gender', gender, genders[gender]);
   }
   for(var path in paths) {
     rules.choiceRules(rules, 'Path', path, paths[path]);
@@ -4549,8 +4541,7 @@ SRD35.identityRules = function(
 SRD35.magicRules = function(rules, schools, spells) {
 
   QuilvynUtils.checkAttrTable(schools, ['Features']);
-  QuilvynUtils.checkAttrTable
-    (spells, ['School', 'Group', 'Level', 'Description']);
+  QuilvynUtils.checkAttrTable(spells, ['School', 'Description']);
 
   for(var school in schools) {
     rules.choiceRules(rules, 'School', school, schools[school]);
@@ -4707,8 +4698,6 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note')
     );
-  else if(type == 'Gender')
-    SRD35.genderRules(rules, name);
   else if(type == 'Language')
     SRD35.languageRules(rules, name);
   else if(type == 'Path') {
@@ -5804,15 +5793,6 @@ SRD35.featureRules = function(rules, name, sections, notes) {
 
 };
 
-/* Defines in #rules# the rules associated with gender #name#. */
-SRD35.genderRules = function(rules, name) {
-  if(!name) {
-    console.log('Empty gender name');
-    return;
-  }
-  // No rules pertain to gender
-};
-
 /* Defines in #rules# the rules associated with language #name#. */
 SRD35.languageRules = function(rules, name) {
   if(!name) {
@@ -6856,11 +6836,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Section', 'Section', 'select-one', sections],
       ['Note', 'Note', 'text', [60]]
     );
-  } else if(type == 'Gender')
-    result.push(
-      // empty
-    );
-  else if(type == 'Language')
+  } else if(type == 'Language')
     result.push(
       // empty
     );
@@ -6950,7 +6926,7 @@ SRD35.initialEditorElements = function() {
     ['charismaAdjust', '', 'text', [3]],
     ['player', 'Player', 'text', [20]],
     ['alignment', 'Alignment', 'select-one', 'alignments'],
-    ['gender', 'Gender', 'select-one', 'genders'],
+    ['gender', 'Gender', 'text', [10]],
     ['deity', 'Deity', 'select-one', 'deities'],
     ['origin', 'Origin', 'text', [20]],
     ['feats', 'Feats', 'set', 'feats'],
@@ -7226,6 +7202,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       attributes.notes =
         (notes != null ? attributes.notes + '\n' : '') + debug.join('\n');
     }
+  } else if(attribute == 'gender') {
+    attributes['gender'] = QuilvynUtils.random(0, 99) < 50 ? 'Female' : 'Male';
   } else if(attribute == 'hitPoints') {
     attributes.hitPoints = 0;
     for(var clas in this.getChoices('levels')) {
