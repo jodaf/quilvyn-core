@@ -654,7 +654,7 @@ SRD35.FEATURES = {
     'Section=ability Note="+2 Constitution/-2 Charisma"',
   'Dwarf Armor Speed Adjustment':
     'Section=ability Note="No armor speed penalty"',
-  'Dwarf Emnity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
+  'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
   'Earth Turning':'Section=combat Note="Turn Air, rebuke Earth"',
   'Elemental Shape':'Section=magic Note="Wild Shape to elemental %V/dy"',
   'Elf Ability Adjustment':
@@ -704,7 +704,7 @@ SRD35.FEATURES = {
   'Fortunate':'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
   'Gnome Ability Adjustment':
     'Section=ability Note="+2 Constitution/-2 Strength"',
-  'Gnome Emnity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
+  'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
   'Good Fortune':'Section=save Note="Reroll 1/dy"',
   'Great Cleave':'Section=combat Note="Cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
@@ -1362,7 +1362,7 @@ SRD35.RACES = {
   'Dwarf':
     'Features=' +
       'Darkvision,"Dodge Giants","Dwarf Ability Adjustment",' +
-      '"Dwarf Armor Speed Adjustment","Dwarf Emnity","Know Depth",' +
+      '"Dwarf Armor Speed Adjustment","Dwarf Enmity","Know Depth",' +
       '"Natural Smith","Resist Poison","Resist Spells","Slow","Stability",' +
       '"Stonecunning","Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)" ' +
     'Languages=Common,Dwarven',
@@ -1374,7 +1374,7 @@ SRD35.RACES = {
     'Languages=Common,Elven',
   'Gnome':
     'Features=' +
-      '"Dodge Giants","Gnome Ability Adjustment","Gnome Emnity","Keen Ears",' +
+      '"Dodge Giants","Gnome Ability Adjustment","Gnome Enmity","Keen Ears",' +
       '"Keen Nose","Low-Light Vision","Natural Illusionist","Resist Illusion",'+
       'Slow,Small,"Weapon Familiarity (Gnome Hooked Hammer)" ' +
     'Languages=Common,Gnome ' +
