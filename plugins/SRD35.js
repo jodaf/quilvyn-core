@@ -927,7 +927,7 @@ SRD35.FEATURES = {
   'Spirited Charge':
     'Section=combat Note="x2 damage (x3 lance) on mounted charge"',
   'Spontaneous Cleric Spell':
-    'Section=magic Note="Cast <i>Cure</i> or <i>Inflict<i> in place of known spell"',
+    'Section=magic Note="Cast <i>Cure</i> or <i>Inflict</i> in place of known spell"',
   'Spontaneous Druid Spell':
     'Section=magic Note="Cast <i>Summon Nature\'s Ally</i> in place of known spell"',
   'Spring Attack':'Section=combat Note="Move before, after melee attack"',
