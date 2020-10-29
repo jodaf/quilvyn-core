@@ -7352,15 +7352,15 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       howMany = attrs[attr];
       if(groupAndLevel.match(/^Dom\d/)) {
         choices = [];
-        for(var domain in this.getChoices('domains')) {
-          if(attrs['features.' + domain + ' Domain'] != null) {
-            var domainLevel = domain + groupAndLevel.substring(3);
-            if(availableSpellsByLevel[domainLevel] != null) {
-              choices = choices.concat(availableSpellsByLevel[domainLevel]);
-            }
-            howMany -=
-              QuilvynUtils.sumMatching(attributes, '^spells.*' + domainLevel);
+        for(var a in attrs) {
+          if((matchInfo = a.match(/([A-Z][a-z ]*)\sDomain/)) == null)
+            continue;
+          var domainLevel = matchInfo[1] + groupAndLevel.substring(3);
+          if(availableSpellsByLevel[domainLevel] != null) {
+            choices = choices.concat(availableSpellsByLevel[domainLevel]);
           }
+          howMany -=
+            QuilvynUtils.sumMatching(attributes, '^spells.*' + domainLevel);
         }
       } else {
         choices = availableSpellsByLevel[groupAndLevel];
