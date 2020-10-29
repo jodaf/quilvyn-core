@@ -1011,6 +1011,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Air Turning" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Air1:1=1,' +
+      'Air2:3=1,' +
+      'Air3:5=1,' +
+      'Air4:7=1,' +
+      'Air5:9=1,' +
+      'Air6:11=1,' +
+      'Air7:13=1,' +
+      'Air8:15=1,' +
+      'Air9:17=1 ' +
     'Spells=' +
       '"Air1:Obscuring Mist",' +
       '"Air2:Wind Wall",' +
@@ -1027,6 +1037,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Animal Talk","1:Nature Knowledge" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Animal1:1=1,' +
+      'Animal2:3=1,' +
+      'Animal3:5=1,' +
+      'Animal4:7=1,' +
+      'Animal5:9=1,' +
+      'Animal6:11=1,' +
+      'Animal7:13=1,' +
+      'Animal8:15=1,' +
+      'Animal9:17=1 ' +
     'Spells=' +
       '"Animal1:Calm Animals",' +
       '"Animal2:Hold Animal",' +
@@ -1043,6 +1063,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Empowered Chaos" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Chaos1:1=1,' +
+      'Chaos2:3=1,' +
+      'Chaos3:5=1,' +
+      'Chaos4:7=1,' +
+      'Chaos5:9=1,' +
+      'Chaos6:11=1,' +
+      'Chaos7:13=1,' +
+      'Chaos8:15=1,' +
+      'Chaos9:17=1 ' +
     'Spells=' +
       '"Chaos1:Protection From Law",' +
       'Chaos2:Shatter,' +
@@ -1059,6 +1089,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Deadly Touch" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Death1:1=1,' +
+      'Death2:3=1,' +
+      'Death3:5=1,' +
+      'Death4:7=1,' +
+      'Death5:9=1,' +
+      'Death6:11=1,' +
+      'Death7:13=1,' +
+      'Death8:15=1,' +
+      'Death9:17=1 ' +
     'Spells=' +
       '"Death1:Cause Fear",' +
       '"Death2:Death Knell",' +
@@ -1075,6 +1115,16 @@ SRD35.PATHS = {
     'Features=' +
       '1:Smite ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Destruction1:1=1,' +
+      'Destruction2:3=1,' +
+      'Destruction3:5=1,' +
+      'Destruction4:7=1,' +
+      'Destruction5:9=1,' +
+      'Destruction6:11=1,' +
+      'Destruction7:13=1,' +
+      'Destruction8:15=1,' +
+      'Destruction9:17=1 ' +
     'Spells=' +
       '"Destruction1:Inflict Light Wounds",' +
       'Destruction2:Shatter,' +
@@ -1091,6 +1141,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Earth Turning" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Earth1:1=1,' +
+      'Earth2:3=1,' +
+      'Earth3:5=1,' +
+      'Earth4:7=1,' +
+      'Earth5:9=1,' +
+      'Earth6:11=1,' +
+      'Earth7:13=1,' +
+      'Earth8:15=1,' +
+      'Earth9:17=1 ' +
     'Spells=' +
       '"Earth1:Magic Stone",' +
       '"Earth2:Soften Earth And Stone",' +
@@ -1107,6 +1167,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Empowered Evil" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Evil1:1=1,' +
+      'Evil2:3=1,' +
+      'Evil3:5=1,' +
+      'Evil4:7=1,' +
+      'Evil5:9=1,' +
+      'Evil6:11=1,' +
+      'Evil7:13=1,' +
+      'Evil8:15=1,' +
+      'Evil9:17=1 ' +
     'Spells=' +
       '"Evil1:Protection From Good",' +
       'Evil2:Desecrate,' +
@@ -1123,6 +1193,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Fire Turning" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Fire1:1=1,' +
+      'Fire2:3=1,' +
+      'Fire3:5=1,' +
+      'Fire4:7=1,' +
+      'Fire5:9=1,' +
+      'Fire6:11=1,' +
+      'Fire7:13=1,' +
+      'Fire8:15=1,' +
+      'Fire9:17=1 ' +
     'Spells=' +
       '"Fire1:Burning Hands",' +
       '"Fire2:Produce Flame",' +
@@ -1139,6 +1219,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Empowered Good" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Good1:1=1,' +
+      'Good2:3=1,' +
+      'Good3:5=1,' +
+      'Good4:7=1,' +
+      'Good5:9=1,' +
+      'Good6:11=1,' +
+      'Good7:13=1,' +
+      'Good8:15=1,' +
+      'Good9:17=1 ' +
     'Spells=' +
       '"Good1:Protection From Evil",' +
       'Good2:Aid,' +
@@ -1155,6 +1245,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Empowered Healing" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Healing1:1=1,' +
+      'Healing2:3=1,' +
+      'Healing3:5=1,' +
+      'Healing4:7=1,' +
+      'Healing5:9=1,' +
+      'Healing6:11=1,' +
+      'Healing7:13=1,' +
+      'Healing8:15=1,' +
+      'Healing9:17=1 ' +
     'Spells=' +
       '"Healing1:Cure Light Wounds",' +
       '"Healing2:Cure Moderate Wounds",' +
@@ -1171,6 +1271,16 @@ SRD35.PATHS = {
     'Features=' +
       '1:All-Knowing,"1:Empowered Knowledge" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Knowledge1:1=1,' +
+      'Knowledge2:3=1,' +
+      'Knowledge3:5=1,' +
+      'Knowledge4:7=1,' +
+      'Knowledge5:9=1,' +
+      'Knowledge6:11=1,' +
+      'Knowledge7:13=1,' +
+      'Knowledge8:15=1,' +
+      'Knowledge9:17=1 ' +
     'Spells=' +
       '"Knowledge1:Detect Secret Doors",' +
       '"Knowledge2:Detect Thoughts",' +
@@ -1187,6 +1297,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Empowered Law" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Law1:1=1,' +
+      'Law2:3=1,' +
+      'Law3:5=1,' +
+      'Law4:7=1,' +
+      'Law5:9=1,' +
+      'Law6:11=1,' +
+      'Law7:13=1,' +
+      'Law8:15=1,' +
+      'Law9:17=1 ' +
     'Spells=' +
       '"Law1:Protection From Chaos",' +
       '"Law2:Calm Emotions",' +
@@ -1203,6 +1323,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Good Fortune" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Luck1:1=1,' +
+      'Luck2:3=1,' +
+      'Luck3:5=1,' +
+      'Luck4:7=1,' +
+      'Luck5:9=1,' +
+      'Luck6:11=1,' +
+      'Luck7:13=1,' +
+      'Luck8:15=1,' +
+      'Luck9:17=1 ' +
     'Spells=' +
       '"Luck1:Entropic Shield",' +
       'Luck2:Aid,' +
@@ -1219,6 +1349,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Arcane Adept" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Magic1:1=1,' +
+      'Magic2:3=1,' +
+      'Magic3:5=1,' +
+      'Magic4:7=1,' +
+      'Magic5:9=1,' +
+      'Magic6:11=1,' +
+      'Magic7:13=1,' +
+      'Magic8:15=1,' +
+      'Magic9:17=1 ' +
     'Spells=' +
       '"Magic1:Magic Aura",' +
       'Magic2:Identify,' +
@@ -1235,6 +1375,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Nature Knowledge","1:Plant Turning" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Plant1:1=1,' +
+      'Plant2:3=1,' +
+      'Plant3:5=1,' +
+      'Plant4:7=1,' +
+      'Plant5:9=1,' +
+      'Plant6:11=1,' +
+      'Plant7:13=1,' +
+      'Plant8:15=1,' +
+      'Plant9:17=1 ' +
     'Spells=' +
       'Plant1:Entangle,' +
       'Plant2:Barkskin,' +
@@ -1251,6 +1401,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Protective Touch" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Protection1:1=1,' +
+      'Protection2:3=1,' +
+      'Protection3:5=1,' +
+      'Protection4:7=1,' +
+      'Protection5:9=1,' +
+      'Protection6:11=1,' +
+      'Protection7:13=1,' +
+      'Protection8:15=1,' +
+      'Protection9:17=1 ' +
     'Spells=' +
       'Protection1:Sanctuary,' +
       '"Protection2:Shield Other",' +
@@ -1267,6 +1427,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Strength Burst" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Strength1:1=1,' +
+      'Strength2:3=1,' +
+      'Strength3:5=1,' +
+      'Strength4:7=1,' +
+      'Strength5:9=1,' +
+      'Strength6:11=1,' +
+      'Strength7:13=1,' +
+      'Strength8:15=1,' +
+      'Strength9:17=1 ' +
     'Spells=' +
       '"Strength1:Enlarge Person",' +
       '"Strength2:Bull\'s Strength",' +
@@ -1283,6 +1453,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Destroy Undead" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Sun1:1=1,' +
+      'Sun2:3=1,' +
+      'Sun3:5=1,' +
+      'Sun4:7=1,' +
+      'Sun5:9=1,' +
+      'Sun6:11=1,' +
+      'Sun7:13=1,' +
+      'Sun8:15=1,' +
+      'Sun9:17=1 ' +
     'Spells=' +
       '"Sun1:Endure Elements",' +
       '"Sun2:Heat Metal",' +
@@ -1299,6 +1479,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Outdoors Knowledge",1:Unhindered ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Travel1:1=1,' +
+      'Travel2:3=1,' +
+      'Travel3:5=1,' +
+      'Travel4:7=1,' +
+      'Travel5:9=1,' +
+      'Travel6:11=1,' +
+      'Travel7:13=1,' +
+      'Travel8:15=1,' +
+      'Travel9:17=1 ' +
     'Spells=' +
       'Travel1:Longstrider,' +
       '"Travel2:Locate Object",' +
@@ -1315,6 +1505,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Deceptive Knowledge" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Trickery1:1=1,' +
+      'Trickery2:3=1,' +
+      'Trickery3:5=1,' +
+      'Trickery4:7=1,' +
+      'Trickery5:9=1,' +
+      'Trickery6:11=1,' +
+      'Trickery7:13=1,' +
+      'Trickery8:15=1,' +
+      'Trickery9:17=1 ' +
     'Spells=' +
       '"Trickery1:Disguise Self",' +
       'Trickery2:Invisibility,' +
@@ -1331,6 +1531,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Weapon Of War" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'War1:1=1,' +
+      'War2:3=1,' +
+      'War3:5=1,' +
+      'War4:7=1,' +
+      'War5:9=1,' +
+      'War6:11=1,' +
+      'War7:13=1,' +
+      'War8:15=1,' +
+      'War9:17=1 ' +
     'Spells=' +
       '"War1:Magic Weapon",' +
       '"War2:Spiritual Weapon",' +
@@ -1347,6 +1557,16 @@ SRD35.PATHS = {
     'Features=' +
       '"1:Fire Turning" ' +
     'SpellAbility=wisdom ' +
+    'SpellSlots=' +
+      'Water1:1=1,' +
+      'Water2:3=1,' +
+      'Water3:5=1,' +
+      'Water4:7=1,' +
+      'Water5:9=1,' +
+      'Water6:11=1,' +
+      'Water7:13=1,' +
+      'Water8:15=1,' +
+      'Water9:17=1 ' +
     'Spells=' +
       '"Water1:Obscuring Mist",' +
       '"Water2:Fog Cloud",' +
@@ -1380,11 +1600,11 @@ SRD35.RACES = {
     'Languages=Common,Gnome ' +
     'SpellAbility=charisma ' +
     'SpellSlots=' +
-      '"Gnome0:1=3",' +
-      '"Gnome1:1=1" ' +
+      '"Gnomish0:1=3",' +
+      '"Gnomish1:1=1" ' +
     'Spells=' +
-      '"Gnome0:Dancing Lights;Ghost Sound;Prestidigitation",' +
-      '"Gnome1:Speak With Animals"',
+      '"Gnomish0:Dancing Lights;Ghost Sound;Prestidigitation",' +
+      '"Gnomish1:Speak With Animals"',
   'Half-Elf':
     'Features=' +
       '"Alert Senses","Low-Light Vision","Resist Enchantment",' +
@@ -3531,28 +3751,7 @@ SRD35.CLASSES = {
       '"1:Weapon Proficiency (Simple)",' +
       '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead" '+
     'Selectables=' +
-      '"deityDomains =~ \'Air\' ? 1:Air Domain",' +
-      '"deityDomains =~ \'Animal\' ? 1:Animal Domain",' +
-      '"deityDomains =~ \'Chaos\' ? 1:Chaos Domain",' +
-      '"deityDomains =~ \'Death\' ? 1:Death Domain",' +
-      '"deityDomains =~ \'Destruction\' ? 1:Destruction Domain",' +
-      '"deityDomains =~ \'Earth\' ? 1:Earth Domain",' +
-      '"deityDomains =~ \'Evil\' ? 1:Evil Domain",' +
-      '"deityDomains =~ \'Fire\' ? 1:Fire Domain",' +
-      '"deityDomains =~ \'Good\' ? 1:Good Domain",' +
-      '"deityDomains =~ \'Healing\' ? 1:Healing Domain",' +
-      '"deityDomains =~ \'Knowledge\' ? 1:Knowledge Domain",' +
-      '"deityDomains =~ \'Law\' ? 1:Law Domain",' +
-      '"deityDomains =~ \'Luck\' ? 1:Luck Domain",' +
-      '"deityDomains =~ \'Magic\' ? 1:Magic Domain",' +
-      '"deityDomains =~ \'Plant\' ? 1:Plant Domain",' +
-      '"deityDomains =~ \'Protection\' ? 1:Protection Domain",' +
-      '"deityDomains =~ \'Strength\' ? 1:Strength Domain",' +
-      '"deityDomains =~ \'Sun\' ? 1:Sun Domain",' +
-      '"deityDomains =~ \'Travel\' ? 1:Travel Domain",' +
-      '"deityDomains =~ \'Trickery\' ? 1:Trickery Domain",' +
-      '"deityDomains =~ \'War\' ? 1:War Domain",' +
-      '"deityDomains =~ \'Water\' ? 1:Water Domain" ' +
+      QuilvynUtils.getKeys(SRD35.PATHS).filter(x => x.match(/ Domain$/)).map(x => '"deityDomains =~ \'' + x.replace(' Domain', '') + '\' ? 1:' + x + '"').join(',') + ' ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
@@ -3565,16 +3764,7 @@ SRD35.CLASSES = {
       'C6:11=1;12=2;14=3;17=4,' +
       'C7:13=1;14=2;16=3;19=4,' +
       'C8:15=1;16=2;18=3;20=4,' +
-      'C9:17=1;18=2;19=3;20=4,' +
-      'Dom1:1=1,' +
-      'Dom2:3=1,' +
-      'Dom3:5=1,' +
-      'Dom4:7=1,' +
-      'Dom5:9=1,' +
-      'Dom6:11=1,' +
-      'Dom7:13=1,' +
-      'Dom8:15=1,' +
-      'Dom9:17=1 ' +
+      'C9:17=1;18=2;19=3;20=4 ' +
     'Spells=' +
       '"C0:Create Water;Cure Minor Wounds;Detect Magic;Detect Poison;' +
       'Guidance;Inflict Minor Wounds;Light;Mending;Purify Food And Drink;' +
@@ -5005,8 +5195,6 @@ SRD35.classRules = function(
       var spellType = spellTypeAndLevel.replace(/\d+/, '');
       var spellLevel = spellTypeAndLevel.replace(spellType, '');
       var spellModifier = spellAbility.toLowerCase() + 'Modifier';
-      if(spellType == 'Dom')
-        continue; // Handled per-domin in pathRules
       if(spellType != name)
         rules.defineRule
           ('casterLevels.' + spellType, 'casterLevels.' + name, '^=', null);
@@ -5874,18 +6062,6 @@ SRD35.pathRulesExtra = function(rules, name) {
 
   var pathLevel =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
-
-  if(name.match(/\sDomain$/)) {
-    var domain = name.replace(/\sDomain/, '');
-    rules.defineRule('casterLevels.' + domain,
-      'clericFeatures.' + name, '?', null,
-      pathLevel, '=', null
-    );
-    rules.defineRule('spellDifficultyClass.' + domain,
-      'casterLevels.' + domain, '?', null,
-      'wisdomModifier', '=', '10 + source',
-    );
-  }
 
   if(name == 'Death Domain') {
     rules.defineRule('magicNotes.deadlyTouch', 'levels.Cleric', '=', null);
@@ -7349,24 +7525,9 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       if((matchInfo = attr.match(/^spellSlots\.(.*)/)) == null)
         continue;
       groupAndLevel = matchInfo[1].replace(/^S(\d)/, 'W$1');
-      howMany = attrs[attr];
-      if(groupAndLevel.match(/^Dom\d/)) {
-        choices = [];
-        for(var a in attrs) {
-          if((matchInfo = a.match(/([A-Z][a-z ]*)\sDomain/)) == null)
-            continue;
-          var domainLevel = matchInfo[1] + groupAndLevel.substring(3);
-          if(availableSpellsByLevel[domainLevel] != null) {
-            choices = choices.concat(availableSpellsByLevel[domainLevel]);
-          }
-          howMany -=
-            QuilvynUtils.sumMatching(attributes, '^spells.*' + domainLevel);
-        }
-      } else {
-        choices = availableSpellsByLevel[groupAndLevel];
-        howMany -=
-          QuilvynUtils.sumMatching(attributes, '^spells.*' + groupAndLevel);
-      }
+      choices = availableSpellsByLevel[groupAndLevel];
+      howMany =
+        attrs[attr] - QuilvynUtils.sumMatching(attributes, '^spells.*' + groupAndLevel);
       if(howMany > 0 && choices != null)
         pickAttrs(attributes, 'spells.', choices, howMany, 1);
     }
@@ -7650,8 +7811,7 @@ SRD35.ruleNotes = function() {
     '\n' +
     '<h3>Limitations</h3>\n' +
     '<p>\n' +
-    '<ul>\n' +
-    '  <li>\n' +
+    '<ul>\n' + '  <li>\n' +
     '    Racial favored class is not reported.\n' +
     '  </li><li>\n' +
     '    You can only select each feat once. Multiple selections of feats\n' +
@@ -7690,6 +7850,9 @@ SRD35.ruleNotes = function() {
     '    bumping intelligence when a character reaches fourth level causes\n' +
     '    Quilvyn to recompute the number of skill points awarded at first\n' +
     '    through third levels.\n' +
+    '  </li><li>\n' +
+    '    When randomly generating clerics, Quilvyn reports a spell for each\n' +
+    '    domain in each level, instead of a single domain spell per level.\n' +
     '  </li><li>\n' +
     '    Quilvyn gives multiclass characters quadruple skill points for the\n' +
     '    first level of each class, instead of just the first class.\n' +
