@@ -43,7 +43,7 @@ SRD35NPC.CLASSES = {
       'Spellcraft,Survival ' +
     'CasterLevelDivine=Level ' +
     'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'AD0:1=3,' +
       'AD1:1=1;3=2;7=3,' +
       'AD2:4=0;5=1;7=2;11=3,' +
@@ -103,7 +103,7 @@ SRD35NPC.FEATURES = {
 /* Defines the rules related to SRDv3.5 NPC Classes. */
 SRD35NPC.identityRules = function(rules, classes) {
   QuilvynUtils.checkAttrTable
-    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellsPerDay', 'Spells']);
+    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'Spells']);
   for(var klass in classes) {
     rules.choiceRules(rules, 'Class', klass, classes[klass]);
     SRD35NPC.classRules(rules, klass);

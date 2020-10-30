@@ -69,7 +69,7 @@ SRD35Prestige.CLASSES = {
       '"features.Skill Focus (Spellcraft)",' +
       '"Sum \'^features\\.Spell Focus\' >= 2",' +
       '"skills.Knowledge (Arcana) >= 15","skills.Spellcraft >= 15",' +
-      '"spellsKnown.W7 >= 1","Level5SpellSchools >= 5" ' +
+      '"spellSlots.S7||spellSlots.W7","Level5SpellSchools >= 5" ' +
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
     'Spellcraft ' +
@@ -96,7 +96,7 @@ SRD35Prestige.CLASSES = {
       '"2:Uncanny Dodge","5:Improved Uncanny Dodge","8:Hide In Plain Sight" ' +
     'CasterLevelArcane=levels.Assassin ' +
     'SpellAbility=intelligence ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'AS1:1=0;2=1;3=2;4=3,' +
       'AS2:3=0;4=1;5=2;6=3,' +
       'AS3:5=0;6=1;7=2;8=3,' +
@@ -128,7 +128,7 @@ SRD35Prestige.CLASSES = {
       '"5:Undead Companion" ' +
     'CasterLevelDivine=levels.Blackguard ' +
     'SpellAbility=wisdom ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'BL1:1=0;2=1;7=2,' +
       'BL2:3=0;4=1;9=2,' +
       'BL3:5=0;6=1;10=2,' +
@@ -193,7 +193,8 @@ SRD35Prestige.CLASSES = {
     'Features="2:Caster Level Bonus"',
   'Hierophant':
     'Require=' +
-      '"skills.Knowledge (Religion) >= 15","Sum \'^spells\\..*[CD]7\' >= 1",' +
+      '"skills.Knowledge (Religion) >= 15",' +
+      '"spellSlots.C7||spellSlots.D7",' +
       '"SumMetamagicFeats > 0" ' +
     'HitDie=d8 Attack=1/2 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
@@ -266,7 +267,7 @@ SRD35Prestige.CLASSES = {
     'CasterLevelArcane=level ' +
     // SRD doesn't specify ability; adopt PRD's use of charisma
     'SpellAbility=charisma ' +
-    'SpellsPerDay=' +
+    'SpellSlots=' +
       'Shadowdancer1:3=1,' +
       'Shadowdancer4:4=1 ' +
     'Spells=' +
@@ -426,7 +427,7 @@ SRD35Prestige.FEATURES = {
 /* Defines the rules related to SRDv3.5 Prestige Classes. */
 SRD35Prestige.identityRules = function(rules, classes) {
   QuilvynUtils.checkAttrTable
-    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellsPerDay', 'Spells']);
+    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'Spells']);
   for(var clas in classes) {
     rules.choiceRules(rules, 'Class', clas, classes[clas]);
     SRD35Prestige.classRulesExtra(rules, clas);
