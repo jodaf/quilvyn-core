@@ -606,7 +606,7 @@ SRD35.FEATURES = {
     'Section=skill Note="+4 Concentration (defensive or grappling)"',
   'Combat Expertise':
     'Section=combat Note="Trade up to -5 attack for equal AC bonus"',
-  'Combat Reflexes':'Section=combat Note="Flatfooted AOO, up to %V AOO/rd"',
+  'Combat Reflexes':'Section=combat Note="Flatfooted AOO, ${dexterityModifier+1} AOO/rd"',
   'Command Like Creatures':
     'Section=companion Note="DC %V <i>Command</i> vs. similar creatures %1/dy"',
   'Companion Alertness':
@@ -628,7 +628,7 @@ SRD35.FEATURES = {
     'Section=combat Note="2 points Str damage from sneak attack"',
   'Damage Reduction':'Section=combat Note="Negate %V HP each attack"',
   'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
-  'Deadly Touch':'Section=magic Note="Touch kills if ${levels.Cleric}d6 ge target HP 1/dy"',
+  'Deadly Touch':'Section=magic Note="Touch kills if ${deathDomainLevel}d6 ge target HP 1/dy"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
   'Deceptive Knowledge':
     'Section=skill Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
@@ -795,7 +795,7 @@ SRD35.FEATURES = {
   'Low-Light Vision':'Section=feature Note="x2 normal distance in poor light"',
   'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
   'Manyshot':
-    'Section=combat Note="Fire up to %V arrows simultaneously at -2 attack"',
+    'Section=combat Note="Fire up to ${(baseAttack+4)//5} arrows simultaneously at -2 attack/arrow"',
   'Mass Suggestion':
     'Section=magic Note="<i>Suggestion</i> to all fascinated creatures (DC %V neg)"',
   'Maximize Spell':
@@ -824,10 +824,10 @@ SRD35.FEATURES = {
   'Point-Blank Shot':
     'Section=combat Note="+1 ranged attack and damage w/in 30\'"',
   'Power Attack':
-    'Section=combat Note="Trade up to -%V attack for equal damage bonus"',
+    'Section=combat Note="Trade up to -${baseAttack} attack for equal damage bonus"',
   'Precise Shot':'Section=combat Note="No penalty on shot into melee"',
   'Protective Touch':
-    'Section=magic Note="Touched +${levels.Cleric} on next save w/in 1 hour 1/dy"',
+    'Section=magic Note="Touched +${protectionDomainLevel} on next save w/in 1 hour 1/dy"',
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
   'Quick Draw':'Section=combat Note="Draw weapon as free action"',
   'Quicken Spell':
@@ -903,7 +903,7 @@ SRD35.FEATURES = {
   'Small':
     'Section=ability,combat,skill Note="x0.75 Load Max","+1 AC/+1 Melee Attack/+1 Ranged Attack","+4 Hide/-4 Intimidate"',
   'Smite Evil':'Section=combat Note="+%V attack/+%1 damage vs. evil foe %2/dy"',
-  'Smite':'Section=combat Note="+4 attack, +${levels.Cleric} damage 1/dy"',
+  'Smite':'Section=combat Note="+4 attack, +${destructionDomainLevel} damage 1/dy"',
   'Snatch Arrows':'Section=combat Note="Catch ranged weapons"',
   'Sneak Attack':
     'Section=combat Note="Hit +%Vd6 HP when surprising or flanking"',
@@ -921,7 +921,8 @@ SRD35.FEATURES = {
   'Spell Focus (Necromancy)':'Section=magic Note="+1 Spell DC (Necromancy)"',
   'Spell Focus (Transmutation)':
     'Section=magic Note="+1 Spell DC (Transmutation)"',
-  'Spell Mastery':'Section=magic Note="Prepare %V spells w/out spellbook"',
+  'Spell Mastery':
+    'Section=magic Note="Prepare ${intelligenceModifier} spells w/out spellbook"',
   'Spell Penetration':
     'Section=magic Note="+2 checks to overcome spell resistance"',
   'Spirited Charge':
@@ -939,9 +940,9 @@ SRD35.FEATURES = {
     'Section=magic Note="Cast spell w/out movement uses +1 spell slot"',
   'Stonecunning':
     'Section=skill Note="+2 Search (stone or metal), automatic check w/in 10\'"',
-  'Strength Burst':'Section=ability Note="+${levels.Cleric} Strength 1 rd/dy"',
+  'Strength Burst':'Section=ability Note="+${strengthDomainLevel} Strength 1 rd/dy"',
   'Stunning Fist':
-    'Section=combat Note="Struck foe stunned %1/dy (DC %V Fort neg)"',
+    'Section=combat Note="Struck foe stunned ${(levels.Monk||0)>?level//4}/dy (DC ${10+level//2+wisdomModifier} Fort neg)"',
   'Suggestion':
     'Section=magic Note="<i>Suggestion</i> to 1 fascinated creature (DC %V neg)"',
   'Swift Tracker':'Section=skill Note="Track at full speed"',
@@ -967,11 +968,11 @@ SRD35.FEATURES = {
     'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
   'Unarmored Speed Bonus':'Section=ability Note="+%V Speed"',
   'Uncanny Dodge':'Section=combat Note="Always adds Dex modifier to AC"',
-  'Unhindered':'Section=magic Note="<i>Freedom Of Movement</i> ${levels.Cleric} rd/dy"',
+  'Unhindered':'Section=magic Note="<i>Freedom Of Movement</i> ${travelDomainLevel} rd/dy"',
   'Venom Immunity':'Section=save Note="Immune to poisons"',
   'Water Turning':'Section=combat Note="Turn Fire, rebuke Water"',
   'Weapon Finesse':
-    'Section=combat Note="+%V light melee attack (dex instead of str)"',
+    'Section=combat Note="+${dexterityModifier-strengthModifier} light melee weapon attack (dex instead of str)"',
   'Weapon Of War':
     'Section=feature Note="Weapon Proficiency (${deityFavoredWeapons})/Weapon Focus (${deityFavoredWeapons})"',
   'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
@@ -5365,13 +5366,6 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Monk', '+=', '10 + Math.floor(source / 2)',
       'wisdomModifier', '+', null
     );
-    rules.defineRule('combatNotes.stunningFist',
-      'level', '=', '10 + Math.floor(source / 2)',
-      'wisdomModifier', '+', null
-    );
-    rules.defineRule('combatNotes.stunningFist.1',
-      'levels.Monk', '+=', 'source - Math.floor(source / 4)'
-    );
     rules.defineRule('magicNotes.emptyBody', 'levels.Monk', '+=', null);
     rules.defineRule
       ('magicNotes.wholenessOfBody', 'levels.Monk', '+=', '2 * source');
@@ -5490,9 +5484,6 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('combatNotes.favoredEnemy',
       'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
-    );
-    rules.defineRule('combatNotes.manyshot',
-      'baseAttack', '=', 'Math.floor((source + 9) / 5)'
     );
     rules.defineRule('selectableFeatureCount.Ranger',
       'levels.Ranger', '=', 'source >= 2 ? 1 : null'
@@ -5832,10 +5823,7 @@ SRD35.featRulesExtra = function(rules, name) {
 
   var matchInfo;
 
-  if(name == 'Combat Reflexes') {
-    rules.defineRule
-      ('combatNotes.combatReflexes', 'dexterityModifier', '=', 'source + 1');
-  } else if((matchInfo = name.match(/^(Greater )?Weapon Focus \((.*)\)$/)) != null) {
+  if((matchInfo = name.match(/^(Greater )?Weapon Focus \((.*)\)$/)) != null) {
     SRD35.featureRules
       (rules, name, 'combat', '+1 ' + matchInfo[2] + ' Attack Modifier');
   } else if((matchInfo = name.match(/^(Greater )?Weapon Specialization \((.*)\)$/)) != null) {
@@ -5844,30 +5832,8 @@ SRD35.featRulesExtra = function(rules, name) {
   } else if((matchInfo = name.match(/^Improved Critical \((.*)\)$/)) != null) {
     SRD35.featureRules
       (rules, name, 'combat', 'x2 ' + matchInfo[1] + ' Threat Range');
-  } else if(name == 'Manyshot') {
-    rules.defineRule('combatNotes.manyshot',
-      'baseAttack', '=', 'Math.floor((source + 9) / 5)'
-    );
-  } else if(name == 'Power Attack') {
-    rules.defineRule('combatNotes.powerAttack', 'baseAttack', '=', null);
   } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
     SRD35.featureRules(rules, name, 'skill', '+3 ' + matchInfo[1]);
-  } else if(name == 'Spell Mastery') {
-    rules.defineRule
-      ('magicNotes.spellMastery', 'intelligenceModifier', '=', null);
-  } else if(name == 'Stunning Fist') {
-    rules.defineRule('combatNotes.stunningFist',
-      'level', '=', '10 + Math.floor(source / 2)',
-      'wisdomModifier', '+', null
-    );
-    rules.defineRule('combatNotes.stunningFist.1',
-      'level', '+=', 'Math.floor(source / 4)'
-    );
-  } else if(name == 'Weapon Finesse') {
-    rules.defineRule('combatNotes.weaponFinesse',
-      'dexterityModifier', '=', null,
-      'strengthModifier', '+', '-source'
-    );
   }
 
 };
@@ -6609,8 +6575,14 @@ SRD35.weaponRules = function(
   }
 
   if(category == 'Li' || name.match(/^(rapier|whip|spiked chain)$/i)) {
+    rules.defineRule('finesseAttackBonus',
+      'combatNotes.weaponFinesse', '?', null,
+      'dexterityModifier', '=', null,
+      'strengthModifier', '+', '-source',
+      '', '^', '0'
+    );
     rules.defineRule
-      (prefix + 'AttackModifier', 'combatNotes.weaponFinesse', '+=', null);
+      (prefix + 'AttackModifier', 'finesseAttackBonus', '+=', null);
   }
 
   rules.defineChoice('notes',
