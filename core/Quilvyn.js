@@ -886,6 +886,16 @@ Quilvyn.sheetHtml = function(attrs) {
       for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {
         value = value.replace(new RegExp('%' + j, 'g'), computedAttributes[a + '.' + j]);
       }
+      var interpolations = value.match(/\${[^}]+}/g);
+      if(interpolations) {
+        console.log(value);
+        for(var i = 0; i < interpolations.length; i++) {
+          var interp = interpolations[i];
+          var expr = new Expr(interp.substring(2, interp.length - 1));
+          value = value.replace(interp, expr.eval(computedAttributes));
+          console.log(value);
+        }
+      }
     } else if(isNote && typeof(value) == 'number') {
       value = QuilvynUtils.signed(value);
     }

@@ -585,7 +585,7 @@ SRD35.FEATURES = {
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
   'Animal Companion':'Section=feature Note="Special bond and abilities"',
   'Animal Talk':'Section=magic Note="<i>Speak With Animals</i> 1/dy"',
-  'Arcane Adept':'Section=magic Note="Use magic device as W%V"',
+  'Arcane Adept':'Section=magic Note="Use magic device as W${levels.Cleric//2+(levels.Wizard||0)}"',
   'Armor Class Bonus':'Section=combat Note="+%V AC"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':'Section=magic Note="Summoned creatures +4 Str, +4 Con"',
@@ -628,7 +628,7 @@ SRD35.FEATURES = {
     'Section=combat Note="2 points Str damage from sneak attack"',
   'Damage Reduction':'Section=combat Note="Negate %V HP each attack"',
   'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
-  'Deadly Touch':'Section=magic Note="Touch kills if %Vd6 ge target HP 1/dy"',
+  'Deadly Touch':'Section=magic Note="Touch kills if ${levels.Cleric}d6 ge target HP 1/dy"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
   'Deceptive Knowledge':
     'Section=skill Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
@@ -827,7 +827,7 @@ SRD35.FEATURES = {
     'Section=combat Note="Trade up to -%V attack for equal damage bonus"',
   'Precise Shot':'Section=combat Note="No penalty on shot into melee"',
   'Protective Touch':
-    'Section=magic Note="Touched +%V on next save w/in 1 hour 1/dy"',
+    'Section=magic Note="Touched +${levels.Cleric} on next save w/in 1 hour 1/dy"',
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
   'Quick Draw':'Section=combat Note="Draw weapon as free action"',
   'Quicken Spell':
@@ -903,7 +903,7 @@ SRD35.FEATURES = {
   'Small':
     'Section=ability,combat,skill Note="x0.75 Load Max","+1 AC/+1 Melee Attack/+1 Ranged Attack","+4 Hide/-4 Intimidate"',
   'Smite Evil':'Section=combat Note="+%V attack/+%1 damage vs. evil foe %2/dy"',
-  'Smite':'Section=combat Note="+4 attack, +%V damage 1/dy"',
+  'Smite':'Section=combat Note="+4 attack, +${levels.Cleric} damage 1/dy"',
   'Snatch Arrows':'Section=combat Note="Catch ranged weapons"',
   'Sneak Attack':
     'Section=combat Note="Hit +%Vd6 HP when surprising or flanking"',
@@ -939,7 +939,7 @@ SRD35.FEATURES = {
     'Section=magic Note="Cast spell w/out movement uses +1 spell slot"',
   'Stonecunning':
     'Section=skill Note="+2 Search (stone or metal), automatic check w/in 10\'"',
-  'Strength Burst':'Section=ability Note="+%V Strength 1 rd/dy"',
+  'Strength Burst':'Section=ability Note="+${levels.Cleric} Strength 1 rd/dy"',
   'Stunning Fist':
     'Section=combat Note="Struck foe stunned %1/dy (DC %V Fort neg)"',
   'Suggestion':
@@ -967,13 +967,13 @@ SRD35.FEATURES = {
     'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
   'Unarmored Speed Bonus':'Section=ability Note="+%V Speed"',
   'Uncanny Dodge':'Section=combat Note="Always adds Dex modifier to AC"',
-  'Unhindered':'Section=magic Note="<i>Freedom Of Movement</i> %V rd/dy"',
+  'Unhindered':'Section=magic Note="<i>Freedom Of Movement</i> ${levels.Cleric} rd/dy"',
   'Venom Immunity':'Section=save Note="Immune to poisons"',
   'Water Turning':'Section=combat Note="Turn Fire, rebuke Water"',
   'Weapon Finesse':
     'Section=combat Note="+%V light melee attack (dex instead of str)"',
   'Weapon Of War':
-    'Section=feature Note="Weapon Proficiency (%V)/Weapon Focus (%V)"',
+    'Section=feature Note="Weapon Proficiency (${deityFavoredWeapons})/Weapon Focus (${deityFavoredWeapons})"',
   'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
   'Wholeness Of Body':'Section=magic Note="Heal %V HP to self/dy"',
   'Widen Spell':'Section=magic Note="x2 area of affect uses +3 spell slot"',
@@ -4890,7 +4890,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
   else if(type == 'Language')
     SRD35.languageRules(rules, name);
-  else if(type == 'Path') {
+  else if(type == 'Path')
     SRD35.pathRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Group'),
       QuilvynUtils.getAttrValue(attrs, 'Level'),
@@ -4901,8 +4901,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
       SRD35.SPELLS
     );
-    SRD35.pathRulesExtra(rules, name);
-  } else if(type == 'Race') {
+  else if(type == 'Race') {
     SRD35.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
@@ -6051,37 +6050,6 @@ SRD35.pathRules = function(
 
   if(spells.length > 0)
     QuilvynRules.spellListRules(rules, spells, spellDict);
-
-};
-
-/*
- * Defines in #rules# the rules associated with path #name# that are not
- * directly derived from the parmeters passed to pathRules.
- */
-SRD35.pathRulesExtra = function(rules, name) {
-
-  var pathLevel =
-    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
-
-  if(name == 'Death Domain') {
-    rules.defineRule('magicNotes.deadlyTouch', 'levels.Cleric', '=', null);
-  } else if(name == 'Destruction Domain') {
-    rules.defineRule('combatNotes.smite', 'levels.Cleric', '=', null);
-  } else if(name == 'Magic Domain') {
-    rules.defineRule('magicNotes.arcaneAdept',
-      'levels.Cleric', '=', 'Math.max(Math.floor(source / 2), 1)',
-      'levels.Wizard', '+', null
-    );
-  } else if(name == 'Protection Domain') {
-    rules.defineRule('magicNotes.protectiveTouch', 'levels.Cleric', '=', null);
-  } else if(name == 'Strength Domain') {
-    rules.defineRule('abilityNotes.strengthBurst', 'levels.Cleric', '=', null);
-  } else if(name == 'Travel Domain') {
-    rules.defineRule('magicNotes.unhindered', 'levels.Cleric', '=', null);
-  } else if(name == 'War Domain') {
-    rules.defineRule
-      ('featureNotes.weaponOfWar', 'deityFavoredWeapons', '=', null);
-  }
 
 };
 
