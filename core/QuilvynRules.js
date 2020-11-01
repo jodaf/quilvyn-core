@@ -379,7 +379,7 @@ QuilvynRules.prerequisiteRules = function(
           subnote++;
           rules.defineRule(note + '.' + subnote,
             operand1, '=', null,
-            operand2, '-', null
+            operand2, '+', '-source'
           );
           rules.defineRule(target,
             note + '.' + subnote, '+', 'source ' + operator + ' 0 ? 1 : null'
