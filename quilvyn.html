@@ -149,8 +149,6 @@ function CustomizeQuilvyn() {
     Object.assign(Pathfinder.SKILLS, skills);
     Object.assign(Pathfinder.SPELLS, spells);
     Object.assign(Pathfinder.WEAPONS, weapons);
-    if(window.location.search.indexOf('pf1e-35track') >= 0)
-      Pathfinder.TRACKS.push('3.5');
   }
   for(var feat in feats) {
     if(feat.startsWith('Master Craftsman'))
