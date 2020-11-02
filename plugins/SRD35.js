@@ -5381,7 +5381,6 @@ SRD35.classRulesExtra = function(rules, name) {
     // Here, we work around this limitation by defining rules that set global
     // values as a side effect, then use these values in our calculations.
     rules.defineRule('combatNotes.increasedUnarmedDamage',
-      'monkFeatures.Flurry Of Blows', '?', null, // Limit these rules to monks
       'levels.Monk', '=',
         'SRD35.SMALL_DAMAGE["monk"] = ' +
         'SRD35.LARGE_DAMAGE["monk"] = ' +
@@ -5390,8 +5389,6 @@ SRD35.classRulesExtra = function(rules, name) {
       'features.Small', '=', 'SRD35.SMALL_DAMAGE[SRD35.SMALL_DAMAGE["monk"]]',
       'features.Large', '=', 'SRD35.LARGE_DAMAGE[SRD35.LARGE_DAMAGE["monk"]]'
     );
-    rules.defineRule
-      ('unarmedDamageDice', 'combatNotes.increasedUnarmedDamage', '=', null);
 
   } else if(name == 'Paladin') {
 
@@ -6544,6 +6541,9 @@ SRD35.weaponRules = function(
     'features.Small', '=', '"' + SRD35.SMALL_DAMAGE[firstDamage] + '"',
     'features.Large', '=', '"' + SRD35.LARGE_DAMAGE[firstDamage] + '"'
   );
+  if(name == 'Unarmed')
+    rules.defineRule
+      ('unarmedDamageDice', 'combatNotes.increasedUnarmedDamage', '=', null);
   rules.defineRule(weaponName + '.2', prefix + 'DamageDice', '=', null);
   rules.defineRule(weaponName + '.3',
     prefix + 'DamageModifier', '=', 'source>0 ? "+" + source : source==0 ? "" : source'
