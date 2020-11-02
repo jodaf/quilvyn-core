@@ -3686,15 +3686,15 @@ SRD35.CLASSES = {
       '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
       '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)",' +
       '"1:Bardic Knowledge","1:Bardic Music","1:Simple Somatics",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 3 ? 1:Countersong",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 3 ? 1:Fascinate",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 3 ? 1:Inspire Courage",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 6 ? 3:Inspire Competence",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 9 ? 6:Suggestion",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 12 ? 9:Inspire Greatness",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 15 ? 12:Song Of Freedom",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 18 ? 15:Inspire Heroics",' +
-      '"Max \'^skills.Perform \\(.*\\)$\' >= 21 ? 18:Mass Suggestion" ' +
+      '"Max \'^skills.Perform\' >= 3 ? 1:Countersong",' +
+      '"Max \'^skills.Perform\' >= 3 ? 1:Fascinate",' +
+      '"Max \'^skills.Perform\' >= 3 ? 1:Inspire Courage",' +
+      '"Max \'^skills.Perform\' >= 6 ? 3:Inspire Competence",' +
+      '"Max \'^skills.Perform\' >= 9 ? 6:Suggestion",' +
+      '"Max \'^skills.Perform\' >= 12 ? 9:Inspire Greatness",' +
+      '"Max \'^skills.Perform\' >= 15 ? 12:Song Of Freedom",' +
+      '"Max \'^skills.Perform\' >= 18 ? 15:Inspire Heroics",' +
+      '"Max \'^skills.Perform\' >= 21 ? 18:Mass Suggestion" ' +
     'CasterLevelArcane=levels.Bard ' +
     'SpellAbility=charisma ' +
     'SpellSlots=' +
