@@ -1,5 +1,5 @@
 /*
-Copyright 2019, James J. Hayes
+Copyright 2020, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -44,29 +44,30 @@ SRD35NPC.CLASSES = {
     'CasterLevelDivine=Level ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
-      'AD0:1=3,' +
-      'AD1:1=1;3=2;7=3,' +
-      'AD2:4=0;5=1;7=2;11=3,' +
-      'AD3:8=0;9=1;11=2;15=3,' +
-      'AD4:12=0;13=1;15=2;19=3,' +
-      'AD5:16=0;17=1;19=2 ' +
+      'Adept0:1=3,' +
+      'Adept1:1=1;3=2;7=3,' +
+      'Adept2:4=0;5=1;7=2;11=3,' +
+      'Adept3:8=0;9=1;11=2;15=3,' +
+      'Adept4:12=0;13=1;15=2;19=3,' +
+      'Adept5:16=0;17=1;19=2 ' +
     'Spells=' +
-      '"AD0:Create Water;Cure Minor Wounds;Detect Magic;Ghost Sound;Guidance;' +
-      'Light;Mending;Purify Food And Drink;Read Magic;Touch Of Fatigue",' +
-      '"AD1:Bless;Burning Hands;Cause Fear;Command;Comprehend Languages;' +
+      '"Adept0:Create Water;Cure Minor Wounds;Detect Magic;Ghost Sound;' +
+      'Guidance;Light;Mending;Purify Food And Drink;Read Magic;' +
+      'Touch Of Fatigue",' +
+      '"Adept1:Bless;Burning Hands;Cause Fear;Command;Comprehend Languages;' +
       'Cure Light Wounds;Detect Chaos;Detect Evil;Detect Good;Detect Law;' +
       'Endure Elements;Obscuring Mist;Protection From Chaos;' +
       'Protection From Evil;Protection From Good;Protection From Law;Sleep",' +
-      '"AD2:Aid;Animal Trance;Bear\'s Endurance;Bull\'s Strength;' +
+      '"Adept2:Aid;Animal Trance;Bear\'s Endurance;Bull\'s Strength;' +
       'Cat\'s Grace;Cure Moderate Wounds;Darkness;Delay Poison;Invisibility;' +
       'Mirror Image;Resist Energy;Scorching Ray;See Invisibility;Web",' +
-      '"AD3:Animate Dead;Bestow Curse;Contagion;Continual Flame;' +
+      '"Adept3:Animate Dead;Bestow Curse;Contagion;Continual Flame;' +
       'Cure Serious Wounds;Daylight;Deeper Darkness;Lightning Bolt;' +
       'Neutralize Poison;Remove Curse;Remove Disease;Tongues",' +
-      '"AD4:Cure Critical Wounds;Minor Creation;Polymorph;Restoration;' +
+      '"Adept4:Cure Critical Wounds;Minor Creation;Polymorph;Restoration;' +
       'Stoneskin;Wall Of Fire",' +
-      '"AD5:Baleful Polymorph;Break Enchantment;Commune;Heal;Major Creation;' +
-      'Raise Dead;True Seeing;Wall Of Stone"',
+      '"Adept5:Baleful Polymorph;Break Enchantment;Commune;Heal;' +
+      'Major Creation;Raise Dead;True Seeing;Wall Of Stone"',
   'Aristocrat':
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
@@ -100,27 +101,30 @@ SRD35NPC.FEATURES = {
   'Commoner Weapon Proficiency':'Section=feature Note="+1 Fighter Feat"'
 };
 
-/* Defines the rules related to SRDv3.5 NPC Classes. */
+/* Defines rules related to basic character identity. */
 SRD35NPC.identityRules = function(rules, classes) {
   QuilvynUtils.checkAttrTable
     (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'Spells']);
-  for(var klass in classes) {
-    rules.choiceRules(rules, 'Class', klass, classes[klass]);
-    SRD35NPC.classRules(rules, klass);
+  for(var clas in classes) {
+    rules.choiceRules(rules, 'Class', clas, classes[clas]);
+    SRD35NPC.classRulesExtra(rules, clas);
   }
 };
 
-/* Defines the rules related to SRD NPC Classes. */
-SRD35NPC.classRules = function(rules, name) {
-  if(name == 'Adept') {
-    rules.defineRule('familiarMasterLevel', 'levels.Adept', '+=', null);
-  }
-};
-
-/* Defines the rules related to SRDv3.5 NPC Features. */
+/* Defines rules related to character aptitudes. */
 SRD35NPC.talentRules = function(rules, features) {
   QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
   for(var feature in features) {
     rules.choiceRules(rules, 'Feature', feature, features[feature]);
+  }
+};
+
+/*
+ * Defines in #rules# the rules associated with class #name# that cannot be
+ * derived directly from the attributes passed to classRules.
+ */
+SRD35NPC.classRulesExtra = function(rules, name) {
+  if(name == 'Adept') {
+    rules.defineRule('familiarMasterLevel', 'levels.Adept', '+=', null);
   }
 };
