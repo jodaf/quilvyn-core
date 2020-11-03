@@ -149,8 +149,6 @@ function CustomizeQuilvyn() {
     Object.assign(Pathfinder.SKILLS, skills);
     Object.assign(Pathfinder.SPELLS, spells);
     Object.assign(Pathfinder.WEAPONS, weapons);
-    if(window.location.search.indexOf('pf1e-35track') >= 0)
-      Pathfinder.TRACKS.push('3.5');
   }
   for(var feat in feats) {
     if(feat.startsWith('Master Craftsman'))
@@ -167,9 +165,17 @@ function CustomizeQuilvyn() {
     Object.assign(SRD35.SPELLS, spells);
     Object.assign(SRD35.WEAPONS, weapons);
   }
+  if(window.Eberron) {
+    if(window.location.search.indexOf('eb-pf') >= 0)
+      Eberron.USE_PATHFINDER = true;
+  }
   if(window.LastAge) {
     if(window.location.search.indexOf('la-pf') >= 0)
       LastAge.USE_PATHFINDER = true;
+  }
+  if(window.Realms) {
+    if(window.location.search.indexOf('re-pf') >= 0)
+      Realms.USE_PATHFINDER = true;
   }
 
   // The third part invokes the initialization function of each selected plugin
@@ -206,6 +212,7 @@ function CustomizeQuilvyn() {
 
 const CLOSE_TAG = '<' + '/' + 'script>\n';
 const CORE_URLS = [
+  QUILVYN_HOME + 'core/Expr.js',
   QUILVYN_HOME + 'core/Input.js',
   QUILVYN_HOME + 'core/ObjectViewer.js',
   QUILVYN_HOME + 'core/RuleEngine.js',
