@@ -4798,7 +4798,7 @@ SRD35.identityRules = function(
 
 };
 
-/* Defnes rules related to magic use. */
+/* Defines rules related to magic use. */
 SRD35.magicRules = function(rules, schools, spells) {
 
   QuilvynUtils.checkAttrTable(schools, ['Features']);
@@ -5156,6 +5156,10 @@ SRD35.classRules = function(
 
   if(!name) {
     console.log('Empty class name');
+    return;
+  }
+  if(!Array.isArray(requires)) {
+    console.log('Bad requires list "' + requires + '" for class ' + name);
     return;
   }
   if(!hitDie.match(/^(\d+)?d\d+$/)) {
@@ -5740,6 +5744,10 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
 
   if(!name) {
     console.log('Empty deity name');
+    return;
+  }
+  if(name != 'None' && !(alignment+'').match(/^(N|[LNC]G|[LNC]E|[LC]N)$/i)) {
+    console.log('Bad alignment "' + alignment + '" for deity ' + name);
     return;
   }
   if(!Array.isArray(domains)) {
