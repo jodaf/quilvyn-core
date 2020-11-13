@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.1.1.0';
+var SRD35_VERSION = '2.1.1.1';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -6879,8 +6879,8 @@ SRD35.createViewers = function(rules, viewers) {
         {name: '_top', borders: 1, separator: '\n'},
         {name: 'Header', within: '_top'},
           {name: 'Identity', within: 'Header', separator: ''},
-            {name: 'Name', within: 'Identity', format: '<b>%V</b>'},
-            {name: 'Gender', within: 'Identity', format: ' -- <b>%V</b>'},
+            {name: 'Name', within: 'Identity', format: '<b>%V</b> &mdash;'},
+            {name: 'Gender', within: 'Identity', format: ' <b>%V</b>'},
             {name: 'Race', within: 'Identity', format: ' <b>%V</b>'},
             {name: 'Levels', within: 'Identity', format: ' <b>%V</b>',
              separator: '/'},
