@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '2.1.0';
+var VERSION = '2.1.1';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -599,7 +599,7 @@ Quilvyn.newCharacter = function() {
     var params = element[3];
     var type = element[2];
     if(type == 'checkbox') {
-      character[name] = 0;
+      // empty -- leave unchecked
     } else if(type == 'select-one') {
       var options = typeof(params) == 'string' ? QuilvynUtils.getKeys(ruleSet.getChoices(params)) : params;
       character[name] = options.includes('None') ? 'None' : options[0];

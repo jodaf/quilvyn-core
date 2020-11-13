@@ -394,7 +394,8 @@ QuilvynRules.prerequisiteRules = function(
 
   }
 
-  rules.defineRule(note, attr, '=', -tests.length + zeroTestCount);
+  rules.defineRule
+    (note, attr, '=', 'source ? ' + (-tests.length+zeroTestCount) + ' : null');
 
 };
 
