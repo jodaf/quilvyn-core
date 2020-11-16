@@ -182,11 +182,11 @@ Expr.prototype.eval = function(dict) {
           } else if (op == '>?=') {
             value = leftVal > value ? leftVal : value;
           } else if (op == '+=') {
-            value = leftVal + value;
+            value = Number(leftVal) + Number(value);
           } else if (op == '-=') {
             value = leftVal - value;
           } else if (op == '..=') {
-            value = new String(String(leftVal).concat(String(value)));
+            value = String(leftVal).concat(String(value));
           } else if (op == '*=') {
             value = leftVal * value;
           } else if (op == '/=') {
@@ -208,7 +208,7 @@ Expr.prototype.eval = function(dict) {
         } else if (op == '>?') {
           value = leftVal > value ? leftVal : value;
         } else if (op == '+') {
-          value = leftVal + value;
+          value = Number(leftVal) + Number(value);
         } else if (op == '-') {
           value = leftVal - value;
         } else if (op == '..') {
