@@ -56,7 +56,7 @@ function Expr(str) {
       if (unary) {
         token = 'u' + token;
       } else {
-        var rightAssoc = token[token.length - 1] == '=';
+        var rightAssoc = token == '?' || token[token.length - 1] == '=';
         while (operators.length > 0) {
           if (Expr.OPERATOR_PRECEDENCE[operators[0]] < Expr.OPERATOR_PRECEDENCE[token] ||
               (rightAssoc && operators[0] == token)) {
@@ -138,8 +138,12 @@ Expr.prototype.eval = function(dict) {
     if (token.tipe == Expr.OPERATOR_TYPE) {
       var op = token.value;
       if (op[0] == 'u') {
-        var top = stack.pop();
-        var value = top.tipe == Expr.IDENTIFIER_TYPE ? dict[top.value] : top.value;
+        var operand = stack.pop();
+        var value = operand.tipe == Expr.IDENTIFIER_TYPE ? dict[operand.value] : operand.value;
+        if (value == null) {
+          console.log("Undefined reference " + operand);
+          return null;
+        }
         if (op == 'u-') {
           value = -value;
         } else if (op == 'u!') {
@@ -156,22 +160,22 @@ Expr.prototype.eval = function(dict) {
           value = leftVal == value;
         } else if (op == '!=') {
           value = leftVal != value;
-        } else if (op == '<') {
-          value = leftVal < value;
-        } else if (op == '<=') {
-          value = leftVal <= value;
-        } else if (op == '>') {
-          value = leftVal > value;
-        } else if (op == '>=') {
-          value = leftVal >= value;
-        } else if (op == '<?') {
-          value = leftVal < value ? leftVal : value;
-        } else if (op == '>?') {
-          value = leftVal > value ? leftVal : value;
         } else if (op == '&&') {
           value = leftVal ? value : leftVal;
         } else if (op == '||') {
           value = leftVal ? leftVal : value;
+        } else if (op == '=') {
+          dict[left.value] = value;
+        } else if (op == '?') {
+          var test = stack.pop();
+          var testVal = test.tipe == Expr.IDENTIFIER_TYPE ? dict[test.value] : test.value;
+          value = testVal ? leftVal : value;
+        } else if (leftVal == null) {
+          console.log("Undefined reference " + left);
+          return null;
+        } else if (value == null) {
+          console.log("Undefined reference " + right);
+          return null;
         } else if (op[op.length-1] == '=') {
           if (op == '<?=') {
             value = leftVal < value ? leftVal : value;
@@ -191,6 +195,18 @@ Expr.prototype.eval = function(dict) {
             value = Math.floor(leftVal / value);
           }
           dict[left.value] = value;
+        } else if (op == '<') {
+          value = leftVal < value;
+        } else if (op == '<=') {
+          value = leftVal <= value;
+        } else if (op == '>') {
+          value = leftVal > value;
+        } else if (op == '>=') {
+          value = leftVal >= value;
+        } else if (op == '<?') {
+          value = leftVal < value ? leftVal : value;
+        } else if (op == '>?') {
+          value = leftVal > value ? leftVal : value;
         } else if (op == '+') {
           value = leftVal + value;
         } else if (op == '-') {
@@ -203,10 +219,6 @@ Expr.prototype.eval = function(dict) {
           value = leftVal / value;
         } else if (op == '//') {
           value = Math.floor(leftVal / value);
-        } else if (op == '?') {
-          var test = stack.pop();
-          var testVal = test.tipe == Expr.IDENTIFIER_TYPE ? dict[test.value] : test.value;
-          value = testVal ? leftVal : value;
         }
         stack.push({tipe: Expr.LITERAL_TYPE, value: value});
       }
