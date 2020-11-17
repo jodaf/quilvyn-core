@@ -327,7 +327,7 @@ SRD35Prestige.FEATURES = {
   'Dark Blessing':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Death Attack':
     'Section=combat ' +
-    'Note="Sneak attack after 3 rd of study causes death or paralysis d6+%1 rd (DC %V Fort neg)"',
+    'Note="Sneak attack after 3 rd of study causes death or paralysis d6+%{levels.Assassin} rd (DC %{levels.Assassin+intelligenceModifier} Fort neg)"',
   'Defender Armor':'Section=combat Note="+%V AC"',
   'Defensive Stance':
      'Section=feature ' +
@@ -340,7 +340,7 @@ SRD35Prestige.FEATURES = {
     'Note="+4 Strength/+2 Charisma",' +
          '"Immune sleep, paralysis, and breath weapon energy"',
   'Dragon Armor':'Section=combat Note="+%V AC"',
-  'Elaborate Parry':'Section=combat Note="+%V AC when fighting defensively"',
+  'Elaborate Parry':'Section=combat Note="+%{levels.Duelist} AC when fighting defensively"',
   'Enhance Arrow':'Section=combat Note="Arrows treated as +%V magic weapons"',
   'Enhanced Mobility':
     'Section=combat Note="+4 AC vs. movement AOO when unarmored"',
@@ -351,7 +351,7 @@ SRD35Prestige.FEATURES = {
   'Fiendish Servant':
     'Section=feature Note="Animal servant w/special abilities"',
   'Fiendish Summoning':
-    'Section=magic Note="<i>Summon Monster I</i> as level %V caster 1/dy"',
+    'Section=magic Note="<i>Summon Monster I</i> as level %{levels.Blackguard*2} caster 1/dy"',
   'Gift Of The Divine':
     'Section=feature Note="Transfer undead turn/rebuke to another 1-7 days"',
   'Grace':'Section=save Note="+2 Reflex when unarmored"',
@@ -369,7 +369,7 @@ SRD35Prestige.FEATURES = {
   'Improved Reaction':'Section=combat Note="+%V Initiative"',
   'Instant Mastery':'Section=skill Note="+4 Skill Points in untrained skill"',
   'Intelligence Boost':'Section=ability Note="+2 Intelligence"',
-  'Lore':'Section=skill Note="+%V Knowledge (local history)"',
+  'Lore':'Section=skill Note="+%{levels.Loremaster+intelligenceModifier} Knowledge (local history)"',
   'Mastery Of Counterspelling':
     'Section=magic Note="Counterspell turns effect back on caster"',
   'Mastery Of Elements':'Section=magic Note="Change energy type of spell"',
@@ -383,13 +383,14 @@ SRD35Prestige.FEATURES = {
   'Phase Arrow':
     'Section=combat Note="Arrow passes through normal obstacles 1/dy"',
   'Planar Cohort':'Section=magic Note="Summoned creature serves as cohort"',
-  'Poison Tolerance':'Section=save Note="+%V vs. poison"',
+  'Poison Tolerance':'Section=save Note="+%{levels.Assassin//2} vs. poison"',
   'Poison Use':
     'Section=feature Note="No chance of self-poisoning when applying to blade"',
   'Power Of Nature':
     'Section=feature Note="Transfer druid feature to another 1-7 days"',
   'Precise Strike':
-    'Section=combat Note="+%Vd6 HP damage with light piercing weapon"',
+    'Section=combat ' +
+    'Note="+%{levels.Duelist//5}d6 HP damage with light piercing weapon"',
   'Ranged Legerdemain':
     'Section=combat ' +
     'Note="+5 DC on Disable Device, Open Lock, Sleight Of Hand at 30\' %V/dy"',
@@ -407,7 +408,7 @@ SRD35Prestige.FEATURES = {
   'Spell-Like Ability':'Section=magic Note="Use spell as ability 2+/dy"',
   'Strength Boost':'Section=ability Note="+%V Strength"',
   'Summon Shadow':
-    'Section=magic Note="Summon unturnable %V HD Shadow companion"',
+    'Section=magic Note="Summon unturnable %{levels.Shadowdancer//3*2} HD Shadow companion"',
   'Terrain Mastery (Aligned)':
     'Section=feature Note="Mimic dominant alignment of any plane"',
   'Terrain Mastery (Aquatic)':
@@ -469,7 +470,7 @@ SRD35Prestige.FEATURES = {
     'Section=feature ' +
     'Note="Unturnable undead servant w/fiendish servant abilities"',
   'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"',
-  'Wings':'Section=ability Note="%V Fly Speed"'
+  'Wings':'Section=ability Note="%{speed} Fly Speed"'
 };
 
 /* Defines rules related to basic character identity. */
@@ -538,17 +539,8 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Assassin') {
 
-    rules.defineRule('combatNotes.deathAttack',
-      'levels.Assassin', '+=', '10 + source',
-      'intelligenceModifier', '+', null
-    );
-    rules.defineRule
-      ('combatNotes.deathAttack.1', 'levels.Assassin', '+=', null);
     rules.defineRule('combatNotes.sneakAttack',
       'levels.Assassin', '+=', 'Math.floor((source + 1) / 2)'
-    );
-    rules.defineRule('saveNotes.poisonTolerance',
-      'levels.Assassin', '+=', 'Math.floor(source / 2)'
     );
     rules.defineRule('assassinFeatures.Improved Uncanny Dodge',
       'assassinFeatures.Uncanny Dodge', '?', null,
@@ -577,9 +569,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.blackguardHands',
       'level', '+=', null,
       'charismaModifier', '*', null
-    );
-    rules.defineRule('magicNotes.fiendishSummoning',
-      'levels.Blackguard', '=', 'source * 2'
     );
     rules.defineRule('saveNotes.darkBlessing',
       'charismaModifier', '=', 'source > 0 ? source : null'
@@ -698,7 +687,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('abilityNotes.strengthBoost',
       'levels.Dragon Disciple', '+=', 'source>=4 ? 4 : source>=2 ? 2 : null'
     );
-    rules.defineRule('abilityNotes.wings', 'speed', '=', null);
     rules.defineRule('combatNotes.breathWeapon',
       'levels.Dragon Disciple', '=', 'source < 7 ? 2 : source < 10 ? 4 : 6'
     );
@@ -730,13 +718,8 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'shield', '?', 'source == "None"',
       'combatNotes.cannyDefense', '=', null
     );
-    rules.defineRule
-      ('combatNotes.elaborateParry', 'levels.Duelist', '+=', null);
     rules.defineRule('combatNotes.improvedReaction',
       'levels.Duelist', '+=', 'source < 2 ? null : source < 8 ? 2 : 4'
-    );
-    rules.defineRule('combatNotes.preciseStrike',
-      'levels.Duelist', '=', 'Math.floor(source / 5)'
     );
     rules.defineRule('saveNotes.grace.1',
       'armor', '?', 'source == "None"',
@@ -818,10 +801,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('selectableFeatureCount.Loremaster',
       'levels.Loremaster', '+=', 'Math.floor((source + 1) / 2)'
     );
-    rules.defineRule('skillNotes.lore',
-      'levels.Loremaster', '+=', null,
-      'intelligenceModifier', '+=', null
-    );
 
   } else if(name == 'Mystic Theurge') {
 
@@ -833,10 +812,6 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.shadowJump',
       'levels.Shadowdancer', '=',
          'source < 4 ? null : (10 * Math.pow(2, Math.floor((source-2)/2)))'
-    );
-    rules.defineRule('magicNotes.summonShadow',
-      'levels.Shadowdancer', '=',
-      'source >= 3 ? Math.floor(source / 3) * 2 : null'
     );
     rules.defineRule('shadowdancerFeatures.Improved Uncanny Dodge',
       'shadowdancerFeatures.Uncanny Dodge', '?', null,

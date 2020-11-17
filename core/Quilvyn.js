@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '2.1.2';
+var VERSION = '2.1.3';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -886,7 +886,7 @@ Quilvyn.sheetHtml = function(attrs) {
       for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {
         value = value.replace(new RegExp('%' + j, 'g'), computedAttributes[a + '.' + j]);
       }
-      var interpolations = value.match(/\${[^}]+}/g);
+      var interpolations = value.match(/%\{[^}]+\}/g);
       if(interpolations) {
         for(var i = 0; i < interpolations.length; i++) {
           var interp = interpolations[i];
