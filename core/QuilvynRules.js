@@ -59,10 +59,13 @@ QuilvynRules.prototype.deleteChoice = function(type, name) {
 QuilvynRules.prototype.defineChoice = function(name, item /*, item ... */) {
   var allArgs = QuilvynUtils.flatten(arguments, 1);
   for(var i = 0; i < allArgs.length; i++) {
-    var pieces = allArgs[i].split(/:/);
-    var choice = pieces[0];
-    var associated = pieces.length < 2 ? '' : pieces[1];
-    this.addChoice(name, choice, associated);
+    var arg = allArgs[i];
+    var colonPos = arg.indexOf(':');
+    if(colonPos < 0)
+      this.addChoice(name, arg, '');
+    else
+      this.addChoice
+        (name, arg.substring(0, colonPos), arg.substring(colonPos + 1));
   }
 };
 
