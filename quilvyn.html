@@ -77,14 +77,16 @@ const PLUGINS = [
   '?plugins/LastAgePrestige.js',
   '?plugins/Pathfinder.js',
   '?plugins/PathfinderPrestige.js',
-  // '?plugins/Realms.js',
-  // '?plugins/RealmsPrestige.js',
+  '?plugins/Realms.js',
+  '?plugins/RealmsPrestige.js',
   '?plugins/FirstEdition.js',
   '?plugins/SRD5E.js',
   '?plugins/PHB5E.js',
   // '?plugins/HybridD20.js (in development)',
   null
 ];
+if(window.location.search.indexOf('X5E') >= 0)
+  PLUGINS.push('?plugins/X5E.js');
 
 /*
  * If this file defines a CustomizeQuilvyn function, Quilvyn calls it after
