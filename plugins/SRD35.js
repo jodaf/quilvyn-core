@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.1.1.2';
+var SRD35_VERSION = '2.1.1.3';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -1043,7 +1043,7 @@ SRD35.FEATURES = {
     'Note="+1 AC wielding two weapons (+2 fighting defensively)"',
   'Two-Weapon Fighting':
     'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
-  'Unarmored Speed Bonus':'Section=ability Note="+%{levels.Monk//3*10} Speed"',
+  'Unarmored Speed Bonus':'Section=ability Note="+%V Speed"',
   'Uncanny Dodge':'Section=combat Note="Always adds Dex modifier to AC"',
   'Unhindered':
     'Section=magic ' +
@@ -3838,7 +3838,7 @@ SRD35.CLASSES = {
       '"1:Weapon Proficiency (Simple)",' +
       '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead" '+
     'Selectables=' +
-      QuilvynUtils.getKeys(SRD35.PATHS).filter(x => x.match(/ Domain$/)).map(x => '"deityDomains =~ \'' + x.replace(' Domain', '') + '\' ? 1:' + x + '"').join(',') + ' ' +
+      QuilvynUtils.getKeys(SRD35.PATHS).filter(x => x.match(/Domain$/)).map(x => '"deityDomains =~ \'' + x.replace(' Domain', '') + '\' ? 1:' + x + '"').join(',') + ' ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
@@ -4680,7 +4680,7 @@ SRD35.goodiesRules = function(rules) {
   // type that the character owns. If the character has, e.g., two longswords,
   // both get the bonus. Ignoring this bug for now.
   for(var weapon in rules.getChoices('weapons')) {
-    var weaponNoSpace = weapon.replace(/ /g, '');
+    var weaponNoSpace = weapon.replaceAll(' ', '');
     var prefix =
       weaponNoSpace.charAt(0).toLowerCase() + weaponNoSpace.substring(1);
     rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment',
@@ -4837,8 +4837,7 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
   rules.defineRule
     ('languageCount', 'intelligenceModifier', '+', 'Math.max(source, 0)');
   rules.defineRule('maxAllowedSkillAllocation', 'level', '=', 'source + 3');
-  rules.defineRule
-    ('maxActualSkillAllocation', /^skills\.[^\.]*$/, '^=', null);
+  rules.defineRule('maxActualSkillAllocation', /^skills\.[^.]*$/, '^=', null);
   rules.defineRule('skillPoints',
     '', '=', '0',
     'skillNotes.intelligenceSkillPointsAdjustment', '+', null,
@@ -5016,7 +5015,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   if(type != 'Feature' && type != 'Path') {
     type = type == 'Class' ? 'levels' :
     type = type == 'Deity' ? 'deities' :
-    (type.charAt(0).toLowerCase() + type.substring(1).replace(/ /g, '') + 's');
+    (type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
     rules.addChoice(type, name, attrs);
   }
 };
@@ -5211,7 +5210,7 @@ SRD35.classRules = function(
  
   var classLevel = 'levels.' + name;
   var prefix =
-    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
 
   if(requires.length > 0)
     QuilvynRules.prerequisiteRules
@@ -5406,6 +5405,10 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Monk') {
 
+    rules.defineRule('abilityNotes.unarmoredSpeedBonus',
+      'armor', '?', 'source == "None"',
+      'levels.Monk', '=', 'Math.floor(source / 3) * 10'
+    );
     rules.defineRule('combatNotes.armorClassBonus',
       'levels.Monk', '=', 'Math.floor(source / 5)',
       'wisdomModifier', '+', 'source > 0 ? source : null'
@@ -5842,7 +5845,7 @@ SRD35.featRules = function(rules, name, requires, implies, types) {
   }
 
   var prefix =
-    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
 
   if(requires.length > 0)
     QuilvynRules.prerequisiteRules
@@ -5866,16 +5869,16 @@ SRD35.featRulesExtra = function(rules, name) {
 
   var matchInfo;
 
-  if((matchInfo = name.match(/^(Greater )?Weapon Focus \((.*)\)$/)) != null) {
+  if((matchInfo = name.match(/^(Greater\s)?Weapon\sFocus.\((.*)\)$/)) != null) {
     SRD35.featureRules
       (rules, name, ['combat'], ['+1 ' + matchInfo[2] + ' Attack Modifier']);
-  } else if((matchInfo = name.match(/^(Greater )?Weapon Specialization \((.*)\)$/)) != null) {
+  } else if((matchInfo = name.match(/^(Greater\s)?Weapon\sSpecialization.\((.*)\)$/)) != null) {
     SRD35.featureRules
       (rules, name, ['combat'], ['+2 ' + matchInfo[2] + ' Damage Modifier']);
-  } else if((matchInfo = name.match(/^Improved Critical \((.*)\)$/)) != null) {
+  } else if((matchInfo = name.match(/^Improved\sCritical\s\((.*)\)$/)) != null) {
     SRD35.featureRules
       (rules, name, ['combat'], ['x2 ' + matchInfo[1] + ' Threat Range']);
-  } else if((matchInfo = name.match(/^Skill Focus \((.*)\)$/)) != null) {
+  } else if((matchInfo = name.match(/^Skill\sFocus\s\((.*)\)$/)) != null) {
     SRD35.featureRules(rules, name, ['skill'], ['+3 ' + matchInfo[1]]);
   }
 
@@ -5906,7 +5909,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
   }
 
   var prefix =
-    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
 
   for(var i = 0; i < sections.length; i++) {
 
@@ -5933,25 +5936,25 @@ SRD35.featureRules = function(rules, name, sections, notes) {
         if(adjusted in SRD35.ABBREVIATIONS)
           adjusted = SRD35.ABBREVIATIONS[adjusted];
           
-        if((matchInfo = adjusted.match(/^(([A-Z][a-z]*) )?Feat\b/)) != null) {
+        if((matchInfo = adjusted.match(/^(([A-Z][a-z]*)\s)?Feat\b/)) != null) {
           adjusted = 'featCount.' + (matchInfo[2] ? matchInfo[2] : 'General');
         } else if(adjusted == 'Turnings') {
           adjusted = 'combatNotes.turnUndead.2';
-        } else if(adjusted.match(/^Spell DC \(.*\)$/)) {
+        } else if(adjusted.match(/^Spell\sDC\s\(.*\)$/)) {
           adjusted = 'spellDCSchoolBonus.' + adjusted.replace('Spell DC (', '').replace(')', '');
         } else if(section == 'save' && adjusted.match(/^[A-Z]\w*$/)) {
           adjusted = 'save.' + adjusted;
         } else if(section == 'skill' &&
                   adjusted != 'Language Count' &&
                   adjusted != 'Skill Points' &&
-                  adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
+                  adjusted.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*(\s\([A-Z][a-z]*(\s[A-Z][a-z]*)*\))?$/)) {
           skillEffects++;
           var skillAttr = 'skills.' + adjusted;
           if(uniqueSkillsAffected.indexOf(skillAttr) < 0)
             uniqueSkillsAffected.push(skillAttr);
           adjusted = 'skillModifier.' + adjusted;
-        } else if(adjusted.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*$/)) {
-          adjusted = adjusted.charAt(0).toLowerCase() + adjusted.substring(1).replace(/ /g, '');
+        } else if(adjusted.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/)) {
+          adjusted = adjusted.charAt(0).toLowerCase() + adjusted.substring(1).replaceAll(' ', '');
         } else {
           continue;
         }
@@ -5965,10 +5968,10 @@ SRD35.featureRules = function(rules, name, sections, notes) {
           );
         }
 
-      } else if(section == 'skill' && pieces[j].match(/ class skill(s)?$/)) {
+      } else if(section == 'skill' && pieces[j].match(/\sclass\sskill(s)?$/)) {
         var skill =
-          pieces[j].replace(/^all | (is( a)?|are)? class skill(s)?$/gi, '');
-        if(skill.match(/^[A-Z][a-z]*( [A-Z][a-z]*)*( \([A-Z][a-z]*( [A-Z][a-z]*)*\))?$/)) {
+          pieces[j].replace(/^all\s|\s(is(\sa)?|are)?\sclass\sskill(s)?$/gi, '');
+        if(skill.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*(\s\([A-Z][a-z]*(\s[A-Z][a-z]*)*\))?$/)) {
           rules.defineRule('classSkills.' + skill, note, '=', '1');
           skillEffects++;
           var skillAttr = 'skills.' + skill;
@@ -6123,7 +6126,7 @@ SRD35.raceRules = function(
 
   var matchInfo;
   var prefix =
-    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
   var raceLevel = prefix + 'Level';
 
   rules.defineRule(raceLevel,
@@ -6202,7 +6205,7 @@ SRD35.schoolRules = function(rules, name, features) {
     return;
 
   var prefix =
-    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g,'');
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ','');
   var schoolLevel = prefix + 'Level';
 
   rules.defineRule(schoolLevel,
@@ -6448,7 +6451,7 @@ SRD35.spellRules = function(
   if(description == null)
     description = '';
 
-  var inserts = description.match(/\$(\w+|{[^}]+})/g);
+  var inserts = description.match(/\$(\w+|\{[^}]+\})/g);
   if(inserts != null) {
     for(var i = 1; i <= inserts.length; i++) {
       var insert = inserts[i - 1];
@@ -6585,7 +6588,7 @@ SRD35.weaponRules = function(
     critMultiplier = 2;
 
   var prefix =
-    name.charAt(0).toLowerCase() + name.substring(1).replace(/ /g, '');
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
   var firstDamage = matchInfo[1];
   var secondDamage = matchInfo[6];
   var weaponName = 'weapons.' + name;
@@ -6672,7 +6675,7 @@ SRD35.weaponRules = function(
     rules.defineRule(weaponName + '.' + rangeVar, prefix + 'Range', '=', null);
   }
 
-  if(category == 'Li' || name.match(/^(rapier|whip|spiked chain)$/i)) {
+  if(category == 'Li' || name.match(/^(rapier|whip|spiked\schain)$/i)) {
     rules.defineRule('finesseAttackBonus',
       'combatNotes.weaponFinesse', '?', null,
       'dexterityModifier', '=', null,
@@ -6737,7 +6740,7 @@ SRD35.getFormats = function(rules, viewer) {
       result[format] = formats[format];
       if((matchInfo = format.match(/Notes\.(.*)$/)) != null) {
         var feature = matchInfo[1];
-        feature = feature.charAt(0).toUpperCase() + feature.substring(1).replace(/([A-Z\(])/g, ' $1');
+        feature = feature.charAt(0).toUpperCase() + feature.substring(1).replace(/([A-Z(])/g, ' $1');
         formats['features.' + feature] = formats[format];
       }
     }
@@ -7321,7 +7324,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'deity') {
     /* Pick a deity that's no more than one alignment position removed. */
-    var aliInfo = attributes.alignment.match(/^([CLN])\S+ ([GEN])/);
+    var aliInfo = attributes.alignment.match(/^([CLN])\S+\s([GEN])/);
     var aliPat;
     if(aliInfo == null) /* Neutral character */
       aliPat = 'N[EG]?|[CL]N';
@@ -7396,7 +7399,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         var validate = this.applyRules(attributes);
         for(pick in picks) {
           var name = pick.charAt(0).toLowerCase() +
-                     pick.substring(1).replace(/ /g, '').
+                     pick.substring(1).replaceAll(' ', '').
                      replace(/\(/g, '\\(').replace(/\)/g, '\\)');
           if(QuilvynUtils.sumMatching
                (validate,
@@ -7690,10 +7693,10 @@ SRD35.makeValid = function(attributes) {
           fixedThisPass++;
         }
 
-      } else if(notes[attr].match(/^(Implies|Requires) /)) {
+      } else if(notes[attr].match(/^(Implies|Requires)\s/)) {
 
         var requirements =
-          notes[attr].replace(/^(Implies|Requires) /, '').split(/\s*\/\s*/);
+          notes[attr].replace(/^(Implies|Requires)\s/, '').split(/\s*\/\s*/);
 
         for(var i = 0; i < requirements.length; i++) {
 
@@ -7714,7 +7717,7 @@ SRD35.makeValid = function(attributes) {
           var targetOp = matchInfo[3] == null ? '>=' : matchInfo[3];
           targetValue = matchInfo[4] == null ? 1 :
                         matchInfo[4].trim().replace(/^\s*["']|['"]$/g, '');
-          if(targetAttr.match(/^(Max|Sum) /)) {
+          if(targetAttr.match(/^(Max|Sum)\s/)) {
             var pat =
               new RegExp(targetAttr.substring(3).replace(/^\s+["']|['"]$/g,''));
             problemGroup = targetAttr.substring(3).replace(/^\W*|\W.*$/g, '');
