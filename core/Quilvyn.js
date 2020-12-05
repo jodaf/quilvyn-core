@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '2.1.4';
+var VERSION = '2.1.5';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -181,8 +181,9 @@ Quilvyn.customChoicesAdd = function(focus, input) {
       InputHtml('name', 'text', [20]),
       '<table name="variableFields">',
       '</table>',
-      '<input type="button" name="Ok" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" name="Cancel" value="Cancel" onclick="window.close();"/>',
+      '<input type="button" name="Add" value="Add" onclick="okay=true;"/>',
+      '<input type="button" name="Close" value="Close" onclick="window.close();"/>',
+      '<p id="message"> </p>',
       '</form></body></html>'
     );
     var html = htmlBits.join('\n') + '\n';
@@ -234,25 +235,24 @@ Quilvyn.customChoicesAdd = function(focus, input) {
     var inputName = input.name;
     var inputValue = InputGetValue(input);
     if(inputName == 'name')
-      name = inputValue;
+      // For consistency, allow unnecessary quotes around name
+      name = inputValue.replace(/^(['"])(.*)\1$/, '$2');
     else if(inputName == 'type')
       type = inputValue;
-    else if(inputName == 'Ok' || inputName == 'Cancel')
+    else if(inputName == 'Add' || inputName == 'Close')
       continue;
-    else {
-      var quote = '';
-      if(inputValue.indexOf(' ') >= 0)
-        quote = inputValue.indexOf('"') >= 0 ? "'" : '"';
-      attrs.push(inputName + '=' + quote + inputValue + quote);
-    }
+    else
+      attrs.push(inputName + '=' + inputValue);
   }
   attrs = attrs.join(' ');
   ruleSet.choiceRules(ruleSet, type, name, attrs);
   STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + type + '.' + name, attrs);
+  Quilvyn.customChoicesAdd.win.document.getElementById('message').innerHTML = 'Added ' + type + '.' + name;
 
-  Quilvyn.customChoicesAdd.win.close();
-  Quilvyn.customChoicesAdd.win = null;
+  Quilvyn.customChoicesAdd.win.okay = false;
   Quilvyn.refreshEditor(true);
+  setTimeout('Quilvyn.customChoicesAdd(false)', TIMEOUT_DELAY);
+  return;
 
 };
 
