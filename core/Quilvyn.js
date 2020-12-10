@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '2.1.5';
+var VERSION = '2.1.6';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -937,11 +937,13 @@ Quilvyn.sheetHtml = function(attrs) {
       'var computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
   }
 
+  var ruleSets = ruleSet.getPlugins().map(x => x.rules).concat(ruleSet);
+  var versions =
+    'Quilvyn version ' + VERSION + '; ' + ruleSets.map(x => x.getName() + ' version ' + x.getVersion()).join('; ');
+
   return '<!DOCTYPE html>\n' +
          '<' + '!' + '-- Generated ' + new Date().toString() +
-           ' by Quilvyn version ' + VERSION + '; ' +
-           ruleSet.getName() + ' rule set version ' + ruleSet.getVersion() +
-           ' --' + '>\n' +
+           ' by ' + versions + ' --' + '>\n' +
          '<html lang="en">\n' +
          '<head>\n' +
          '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n' +
