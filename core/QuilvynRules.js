@@ -175,6 +175,11 @@ QuilvynRules.prototype.getName = function() {
   return this.name;
 };
 
+/* Returns an array of plugins upon which this one depends. */
+QuilvynRules.prototype.getPlugins = function() {
+  return [];
+};
+
 /* Returns the version of this rule set. */
 QuilvynRules.prototype.getVersion = function() {
   return this.version;
