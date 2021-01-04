@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2020 James J. Hayes';
-var VERSION = '2.1.6';
+var VERSION = '2.1.7';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -291,12 +291,7 @@ Quilvyn.customChoicesDelete = function() {
  * imported into Quilvyn.
  */
 Quilvyn.customChoicesExport = function() {
-  var htmlBits = [
-    '<html><head><title>Export Custom Choices</title></head>',
-    '<body bgcolor="' + window.BACKGROUND + '">',
-    '<img src="' + LOGO_URL + ' "/><br/>',
-    '<pre>'
-  ];
+  var htmlBits = [];
   var prefix = PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.';
   for(var path in STORAGE) {
     if(!path.startsWith(prefix))
@@ -305,6 +300,13 @@ Quilvyn.customChoicesExport = function() {
       replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     htmlBits.push(text);
   }
+  htmlBits.sort();
+  htmlBits.unshift(
+    '<html><head><title>Export Custom Choices</title></head>',
+    '<body bgcolor="' + window.BACKGROUND + '">',
+    '<img src="' + LOGO_URL + ' "/><br/>',
+    '<pre>'
+  );
   htmlBits.push('</pre>', '</body></html>');
   var html = htmlBits.join('\n') + '\n';
   var exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
