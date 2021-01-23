@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.1.1.4';
+var SRD35_VERSION = '2.1.1.5';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -4784,8 +4784,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   } else if(type == 'Spell')
     SRD35.spellRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'School'),
-      QuilvynUtils.getAttrValue(attrs, 'Group'),
-      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Group'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Level'),
       QuilvynUtils.getAttrValue(attrs, 'Description')
     );
   else if(type == 'Weapon')
@@ -6233,8 +6233,14 @@ SRD35.skillRulesExtra = function(rules, name) {
  * description of the spell's effects.
  */
 SRD35.spellRules = function(
-  rules, name, school, casterGroup, level, description
+  rules, name, school, casterGroups, levels, description
 ) {
+
+  // Q v2.1 compatibility; remove for Q v2.2
+  if(!Array.isArray(casterGroups))
+    casterGroups = [casterGroups];
+  if(!Array.isArray(levels))
+    levels = [levels];
 
   if(!name) {
     console.log('Empty spell name');
@@ -6244,12 +6250,17 @@ SRD35.spellRules = function(
     console.log('Bad school "' + school + '" for spell ' + name);
     return;
   }
-  if(!casterGroup || !casterGroup.match(/^[A-Z][A-Za-z]*$/)) {
-    console.log('Bad caster group "' + casterGroup + '" for spell ' + name);
+  if(!Array.isArray(casterGroups) ||
+     !casterGroups[0].match(/^[A-Z][A-Za-z]*$/)) {
+    console.log('Bad caster groups "' + casterGroups + '" for spell ' + name);
     return;
   }
-  if(typeof level != 'number') {
-    console.log('Bad level "' + level + '" for spell ' + name);
+  if(!Array.isArray(levels) || typeof levels[0] != 'number') {
+    console.log('Bad levels "' + levels + '" for spell ' + name);
+    return;
+  }
+  if(levels.length != 1 && levels.length != casterGroups.length) {
+    console.log('Groups/levels mismatch ' + groups + '/' + levels + ' for spell ' + name);
     return;
   }
 
@@ -6258,69 +6269,89 @@ SRD35.spellRules = function(
 
   var inserts = description.match(/\$(\w+|\{[^}]+\})/g);
   if(inserts != null) {
-    for(var i = 1; i <= inserts.length; i++) {
-      var insert = inserts[i - 1];
-      var expr = insert[1] == '{' ?
-          insert.substring(2, insert.length - 1) : insert.substring(1);
-      if(SRD35.ABBREVIATIONS[expr])
-        expr = SRD35.ABBREVIATIONS[expr];
-      if(expr.match(/^L\d*((plus|div|min|max|minus|times)\d+)*$/)) {
-        var parsed = expr.match(/L\d*|(plus|div|min|max|minus|times)\d+/g);
-        for(var j = 0; parsed[j]; j++) {
-          if(parsed[j].startsWith('L')) {
-            expr = 'source';
-            if(parsed[j].length > 1)
-              expr += ' * ' + parsed[j].substring(1);
-          } else if(parsed[j].startsWith('plus'))
-            expr += ' + ' + parsed[j].substring(4);
-          else if(parsed[j].startsWith('minus'))
-            expr += ' - ' + parsed[j].substring(5);
-          else if(parsed[j].startsWith('div')) {
-            if(expr == 'source')
-              expr = 'Math.floor(' + expr + ' / ' + parsed[j].substring(3) + ')';
-            else
-              expr = 'Math.floor((' + expr + ') / ' + parsed[j].substring(3) + ')';
-          } else if(parsed[j].startsWith('times')) {
-            if(expr == 'source')
-              expr = 'source * ' + parsed[j].substring(5);
-            else
-              expr = '(' + expr + ') * ' + parsed[j].substring(5);
-          } else if(parsed[j].startsWith('min'))
-            expr = 'Math.min(' + expr + ', ' + parsed[j].substring(3) + ')';
-          else if(parsed[j].startsWith('max'))
-            expr = 'Math.max(' + expr + ', ' + parsed[j].substring(3) + ')';
+    for(var i = 0; i < inserts.length; i++) {
+      description = description.replace(inserts[i], '%' + (i + 1));
+    }
+  }
+
+  var dc = description.match(/\((Fort\s|Ref\s|Will\s)/);
+  if(dc != null) {
+    var index = inserts != null ? inserts.length + 1 : 1;
+    description = description.replace(dc[0], '(DC %' + index + ' ' + dc[1]);
+  }
+
+  for(var i = 0; i < casterGroups.length; i++) {
+
+    var casterGroup = casterGroups[i];
+    var level = levels[casterGroups.length == 1 ? 0 : i];
+
+    var fullName = name.indexOf('(') < 0 ? nane + '(' + casterGroup + level + school.substring(0, 4) + ')' : name;
+
+    if(inserts != null) {
+      for(var j = 1; j <= inserts.length; j++) {
+        var insert = inserts[j - 1];
+        var expr = insert[1] == '{' ?
+            insert.substring(2, insert.length - 1) : insert.substring(1);
+        if(SRD35.ABBREVIATIONS[expr])
+          expr = SRD35.ABBREVIATIONS[expr];
+        var modifiers = expr.match(/L\d*|(plus|div|min|max|minus|times)\d+/g);
+        if(modifiers != null) {
+          for(var k = 0; k < modifiers.length; k++) {
+            var modifier = modifiers[k];
+            if(modifier.startsWith('L')) {
+              expr = 'source';
+              if(modifier.length > 1)
+                expr += ' * ' + modifier.substring(1);
+            } else if(modifier.startsWith('plus'))
+              expr += ' + ' + modifier.substring(4);
+            else if(modifier.startsWith('minus'))
+              expr += ' - ' + modifier.substring(5);
+            else if(modifier.startsWith('div')) {
+              if(expr == 'source')
+                expr = 'Math.floor(' + expr + ' / ' + modifier.substring(3) + ')';
+              else
+                expr = 'Math.floor((' + expr + ') / ' + modifier.substring(3) + ')';
+            } else if(modifier.startsWith('times')) {
+              if(expr == 'source')
+                expr = 'source * ' + modifier.substring(5);
+              else
+                expr = '(' + expr + ') * ' + modifier.substring(5);
+            } else if(modifier.startsWith('min'))
+              expr = 'Math.min(' + expr + ', ' + modifier.substring(3) + ')';
+            else if(modifier.startsWith('max'))
+              expr = 'Math.max(' + expr + ', ' + modifier.substring(3) + ')';
+          }
+        }
+        expr = expr.replace(/lvl|L/g, 'source');
+        rules.defineRule('spells.' + fullName + '.' + j,
+          'spells.' + fullName, '?', null,
+          'casterLevels.' + casterGroup, '=', expr
+        );
+        if(casterGroup == 'W') {
+          rules.defineRule('spells.' + fullName + '.' + j,
+            'casterLevels.S', '^=', expr
+          );
         }
       }
-      expr = expr.replace(/lvl|L/g, 'source');
-      rules.defineRule('spells.' + name + '.' + i,
-        'spells.' + name, '?', null,
-        'casterLevels.' + casterGroup, '=', expr
+    }
+
+    if(dc != null) {
+      var index = inserts != null ? inserts.length + 1 : 1;
+      var dcRule = 'spells.' + fullName + '.' + index;
+      rules.defineRule(dcRule,
+        'spells.' + fullName, '?', null,
+        'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level
       );
       if(casterGroup == 'W') {
-        rules.defineRule('spells.' + name + '.' + i,
-          'casterLevels.S', '^=', expr
-        );
+        rules.defineRule
+          (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
       }
-      description = description.replace(insert, '%' + i);
+      rules.defineRule(dcRule, 'spellDCSchoolBonus.' + school, '+', null);
     }
+
+    rules.defineChoice('notes', 'spells.' + fullName + ':' + description);
+
   }
-  var matchInfo;
-  if((matchInfo = description.match(/(.*)(\((Fort|Ref|Will))(.*)/)) != null) {
-    var index = inserts != null ? inserts.length + 1 : 1;
-    var dcRule = 'spells.' + name + '.' + index;
-    description =
-      matchInfo[1] + '(DC %' + index + ' ' + matchInfo[3] + matchInfo[4];
-    rules.defineRule(dcRule,
-      'spells.' + name, '?', null,
-      'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level,
-      'spellDCSchoolBonus.' + school, '+', null
-    );
-    if(casterGroup == 'W') {
-      rules.defineRule
-        (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
-    }
-  }
-  rules.defineChoice('notes', 'spells.' + name + ':' + description);
 
 };
 
