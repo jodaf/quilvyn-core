@@ -6285,7 +6285,7 @@ SRD35.spellRules = function(
     var casterGroup = casterGroups[i];
     var level = levels[casterGroups.length == 1 ? 0 : i];
 
-    var fullName = name.indexOf('(') < 0 ? nane + '(' + casterGroup + level + school.substring(0, 4) + ')' : name;
+    var fullName = name.indexOf('(') < 0 ? name + '(' + casterGroup + level + school.substring(0, 4) + ')' : name;
 
     if(inserts != null) {
       for(var j = 1; j <= inserts.length; j++) {
