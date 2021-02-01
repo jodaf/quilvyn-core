@@ -473,6 +473,13 @@ SRD35Prestige.FEATURES = {
   'Wings':'Section=ability Note="%{speed} Fly Speed"'
 };
 
+SRD35Prestige.SPELLS = {
+  'Corrupt Weapon':
+    'School=Transmutation ' +
+    'Level=Blackguard1 ' +
+    'Description="Weapon evil aligned, +1 vs. good foe DR for $L min"'
+};
+
 /* Defines rules related to basic character identity. */
 SRD35Prestige.identityRules = function(rules, classes) {
   QuilvynUtils.checkAttrTable
