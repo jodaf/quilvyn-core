@@ -30,6 +30,7 @@ function SRD35Prestige() {
     return;
   }
   SRD35Prestige.identityRules(SRD35.rules, SRD35Prestige.CLASSES);
+  SRD35Prestige.magicRules(SRD35.rules, SRD35Prestige.SPELLS);
   SRD35Prestige.talentRules(SRD35.rules, SRD35Prestige.FEATURES);
 }
 
@@ -103,18 +104,7 @@ SRD35Prestige.CLASSES = {
       'Assassin1:1=0;2=1;3=2;4=3,' +
       'Assassin2:3=0;4=1;5=2;6=3,' +
       'Assassin3:5=0;6=1;7=2;8=3,' +
-      'Assassin4:7=0;8=1;9=2;10=3 ' +
-    'Spells=' +
-      '"Assassin1:Detect Poison;Disguise Self;Feather Fall;Ghost Sound;Jump;' +
-      'Obscuring Mist;Sleep;True Strike",' +
-      '"Assassin2:Alter Self;Cat\'s Grace;Darkness;Fox\'s Cunning;' +
-      'Illusory Script;Invisibility;Pass Without Trace;Spider Climb;' +
-      'Undetectable Alignment",' +
-      '"Assassin3:Deep Slumber;Deeper Darkness;False Life;' +
-      'Magic Circle Against Good;Misdirection;Nondetection",' +
-      '"Assassin4:Clairaudience/Clairvoyance;Dimension Door;' +
-      'Freedom Of Movement;Glibness;Greater Invisibility;Locate Creature;' +
-      'Modify Memory;Poison"',
+      'Assassin4:7=0;8=1;9=2;10=3',
   'Blackguard':
     'Require=' +
       '"alignment =~ \'Evil\'","baseAttack >= 6",features.Cleave,' +
@@ -137,17 +127,7 @@ SRD35Prestige.CLASSES = {
       'Blackguard1:1=0;2=1;7=2,' +
       'Blackguard2:3=0;4=1;9=2,' +
       'Blackguard3:5=0;6=1;10=2,' +
-      'Blackguard4:7=0;8=1 ' +
-    'Spells=' +
-      '"Blackguard1:Cause Fear;Corrupt Weapon;Cure Light Wounds;Detect Good;' +
-      'Doom;Inflict Light Wounds;Magic Weapon;Summon Monster I",' +
-      '"Blackguard2:Bull\'s Strength;Cure Moderate Wounds;Darkness;' +
-      'Death Knell;Eagle\'s Splendor;Inflict Moderate Wounds;Shatter;' +
-      'Summon Monster II",' +
-      '"Blackguard3:Contagion;Cure Serious Wounds;Deeper Darkness;' +
-      'Inflict Serious Wounds;Protection From Energy;Summon Monster III",' +
-      '"Blackguard4:Cure Critical Wounds;Freedom Of Movement;' +
-      'Inflict Critical Wounds;Poison;Summon Monster IV"',
+      'Blackguard4:7=0;8=1',
   'Dragon Disciple':
     'Require=' +
       'languages.Draconic,"race !~ \'Dragon\'",' +
@@ -279,10 +259,7 @@ SRD35Prestige.CLASSES = {
     'SpellAbility=charisma ' +
     'SpellSlots=' +
       'Shadowdancer1:3=1,' +
-      'Shadowdancer4:4=1 ' +
-    'Spells=' +
-      '"Shadowdancer1:Silent Image",' +
-      '"Shadowdancer4:Dimension Door" ',
+      'Shadowdancer4:4=1',
   'Thaumaturgist':
     'Require=' +
       '"features.Spell Focus (Conjuration)",' +
@@ -472,12 +449,65 @@ SRD35Prestige.FEATURES = {
   'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"',
   'Wings':'Section=ability Note="%{speed} Fly Speed"'
 };
-
 SRD35Prestige.SPELLS = {
   'Corrupt Weapon':
     'School=Transmutation ' +
     'Level=Blackguard1 ' +
-    'Description="Weapon evil aligned, +1 vs. good foe DR for $L min"'
+    'Description="Weapon evil aligned, +1 vs. good foe DR for $L min"',
+  'Alter Self':'Level=Assassin2',
+  "Bull's Strength":'Level=Blackguard2',
+  "Cat's Grace":'Level=Assassin2',
+  'Cause Fear':'Level=Blackguard1',
+  'Clairaudience/Clairvoyance':'Level=Assassin4',
+  'Contagion':'Level=Blackguard3',
+  'Cure Critical Wounds':'Level=Blackguard4',
+  'Cure Light Wounds':'Level=Blackguard1',
+  'Cure Moderate Wounds':'Level=Blackguard2',
+  'Cure Serious Wounds':'Level=Blackguard3',
+  'Darkness':'Level=Assassin2,Blackguard2',
+  'Death Knell':'Level=Blackguard2',
+  'Deep Slumber':'Level=Assassin3',
+  'Deeper Darkness':'Level=Assassin3,Blackguard3',
+  'Detect Good':'Level=Blackguard1',
+  'Detect Poison':'Level=Assassin1',
+  'Dimension Door':'Level=Assassin4,Shadowdancer4',
+  'Disguise Self':'Level=Assassin1',
+  'Doom':'Level=Blackguard1',
+  "Eagle's Splendor":'Level=Blackguard2',
+  'False Life':'Level=Assassin3',
+  'Feather Fall':'Level=Assassin1',
+  "Fox's Cunning":'Level=Assassin2',
+  'Freedom Of Movement':'Level=Assassin4,Blackguard4',
+  'Ghost Sound':'Level=Assassin1',
+  'Glibness':'Level=Assassin4',
+  'Greater Invisibility':'Level=Assassin4',
+  'Illusory Script':'Level=Assassin2',
+  'Inflict Critical Wounds':'Level=Blackguard4',
+  'Inflict Light Wounds':'Level=Blackguard1',
+  'Inflict Moderate Wounds':'Level=Blackguard2',
+  'Inflict Serious Wounds':'Level=Blackguard3',
+  'Invisibility':'Level=Assassin2',
+  'Jump':'Level=Assassin1',
+  'Locate Creature':'Level=Assassin4',
+  'Magic Circle Against Good':'Level=Assassin3',
+  'Magic Weapon':'Level=Blackguard1',
+  'Misdirection':'Level=Assassin3',
+  'Modify Memory':'Level=Assassin4',
+  'Nondetection':'Level=Assassin3',
+  'Obscuring Mist':'Level=Assassin1',
+  'Pass Without Trace':'Level=Assassin2',
+  'Poison':'Level=Assassin4,Blackguard4',
+  'Protection From Energy':'Level=Blackguard3',
+  'Shatter':'Level=Blackguard2',
+  'Silent Image':'Level=Shaddowncer1',
+  'Sleep':'Level=Assassin1',
+  'Spider Climb':'Level=Assassin2',
+  'Summon Monster I':'Level=Blackguard1',
+  'Summon Monster II':'Level=Blackguard2',
+  'Summon Monster III':'Level=Blackguard3',
+  'Summon Monster IV':'Level=Blackguard4',
+  'True Strike':'Level=Assassin1',
+  'Undetectable Alignment':'Level=Assassin2'
 };
 
 /* Defines rules related to basic character identity. */
@@ -487,6 +517,15 @@ SRD35Prestige.identityRules = function(rules, classes) {
   for(var clas in classes) {
     rules.choiceRules(rules, 'Class', clas, classes[clas]);
     SRD35Prestige.classRulesExtra(rules, clas);
+  }
+};
+
+/* Defines rules related to magic use. */
+SRD35Prestige.magicRules = function(rules, spells) {
+  QuilvynUtils.checkAttrTable(spells, ['School', 'Level', 'Description']);
+  for(var spell in spells) {
+    rules.choiceRules
+      (rules, 'Spell', spell, (SRD35.SPELLS[spell]||'') + ' ' + spells[spell]);
   }
 };
 

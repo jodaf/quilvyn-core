@@ -4668,8 +4668,7 @@ SRD35.identityRules = function(
 SRD35.magicRules = function(rules, schools, spells) {
 
   QuilvynUtils.checkAttrTable(schools, ['Features']);
-  QuilvynUtils.checkAttrTable
-    (spells, ['School', 'Group', 'Level', 'Description']);
+  QuilvynUtils.checkAttrTable(spells, ['School', 'Level', 'Description']);
 
   for(var school in schools) {
     rules.choiceRules(rules, 'School', school, schools[school]);
@@ -5008,9 +5007,9 @@ SRD35.armorRules = function(
  * #casterLevelArcane# and #casterLevelDivine#, if specified, give the
  * Javascript expression for determining the caster level for the class; these
  * can incorporate a class level attribute (e.g., 'levels.Cleric') or the
- * character level attribute 'level'. #spellAbility#, if specified, names the
- * ability for computing spell difficulty class. #spellSlots# lists the
- * number of spells per level per day granted by the class.
+ * character level attribute 'level'. If the class grants spell slots,
+ * #spellAbility# names the ability for computing spell difficulty class, and
+ * #spellSlots# lists the number of spells per level per day granted.
  */
 SRD35.classRules = function(
   rules, name, requires, hitDie, attack, skillPoints, saveFort,
@@ -5121,7 +5120,8 @@ SRD35.classRules = function(
     }
   }
 
-  if(spellAbility) {
+  if(spellSlots.length > 0) {
+
     var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
     if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
       rules.defineRule('casterLevels.' + name,
@@ -5137,20 +5137,21 @@ SRD35.classRules = function(
       rules.defineRule('casterLevelArcane', 'casterLevels.' + name, '+=', null);
     if(casterLevelDivine)
       rules.defineRule('casterLevelDivine', 'casterLevels.' + name, '+=', null);
-  }
 
-  if(spellSlots.length > 0) {
     rules.defineRule('spellSlotLevel.' + name,
-      'levels.' + name, '=', null,
+      classLevel, '=', null,
       'magicNotes.spellSlotBonus', '+', null
     );
     QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
+
     for(var i = 0; i < spellSlots.length; i++) {
-      var matchInfo = spellSlots[i].match(/^((\D+)(\d))/);
-      if(!matchInfo)
+      var matchInfo = spellSlots[i].match(/^(\D+)(\d):/);
+      if(!matchInfo) {
+        console.log('Bad format for spell slot "' + spellSlots[i] + '"');
         continue;
-      var spellLevel = matchInfo[1];
-      var spellType = matchInfo[2];
+      }
+      var spellLevel = matchInfo[2] * 1;
+      var spellType = matchInfo[1];
       if(spellType != name)
         rules.defineRule
           ('casterLevels.' + spellType, 'casterLevels.' + name, '^=', null);
@@ -5158,11 +5159,11 @@ SRD35.classRules = function(
         'casterLevels.' + spellType, '?', null,
         spellAbility + 'Modifier', '=', '10 + source'
       );
-      if(spellLevel > 0)
-        rules.defineRule('spellSlots.' + spellType,
+      if(spellLevel > 0 && spellType != 'Domain')
+        rules.defineRule('spellSlots.' + spellType + spellLevel,
           spellAbility + 'Modifier', '+',
-            'source >= ' + matchInfo[3] +
-              ' ? 1 + Math.floor((source - ' + matchInfo[3] + ') / 4) : null'
+            'source >= ' + spellLevel +
+              ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
         );
     }
   }
@@ -5879,10 +5880,10 @@ SRD35.languageRules = function(rules, name) {
 /*
  * Defines in #rules# the rules associated with path #name#, which is a
  * selection for characters belonging to #group# and tracks path level via
- * #levelAttr#. The path grants the features and spells listed in #features#
- * and #spells#. #spellAbility#, if specified, names the ability for computing
- * spell difficulty class. #spellSlots# lists the number of spells per level
- * per day granted by the path.
+ * #levelAttr#. The path grants the features listed in #features#. If the path
+ * grants spell slots, #spellAbility# names the ability for computing spell
+ * difficulty class, and #spellSlots# lists the number of spells per level per
+ * day granted.
  */
 SRD35.pathRules = function(
   rules, name, group, levelAttr, features, selectables, spellAbility, spellSlots
@@ -5915,6 +5916,10 @@ SRD35.pathRules = function(
       return;
     }
   }
+  if(!Array.isArray(spellSlots)) {
+    console.log('Bad spellSlots list "' + spellSlots + '" for path ' + name);
+    return;
+  }
 
   var pathLevel =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
@@ -5927,21 +5932,23 @@ SRD35.pathRules = function(
   QuilvynRules.featureListRules(rules, features, group, pathLevel, false);
   QuilvynRules.featureListRules(rules, selectables, group, pathLevel, true);
 
-  if(spellAbility)
-    rules.defineRule('casterLevels.' + name, pathLevel, '=', null);
-
   if(spellSlots.length > 0) {
+
+    rules.defineRule('casterLevels.' + name, pathLevel, '=', null);
     rules.defineRule('spellSlotLevel.' + name,
-      'levels.' + name, '=', null,
+      pathLevel, '=', null,
       'magicNotes.spellSlotBonus', '+', null
     );
     QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
+
     for(var i = 0; i < spellSlots.length; i++) {
-      var matchInfo = spellSlots[i].match(/^((\D+)(\d))/);
-      if(!matchInfo)
+      var matchInfo = spellSlots[i].match(/^(\D+)(\d):/);
+      if(!matchInfo) {
+        console.log('Bad format for spell slot "' + spellSlots[i] + '"');
         continue;
-      var spellLevel = matchInfo[1];
-      var spellType = matchInfo[2];
+      }
+      var spellLevel = matchInfo[2] * 1;
+      var spellType = matchInfo[1];
       if(spellType != name)
         rules.defineRule
           ('casterLevels.' + spellType, 'casterLevels.' + name, '^=', null);
@@ -5957,10 +5964,10 @@ SRD35.pathRules = function(
 /*
  * Defines in #rules# the rules associated with race #name#, which has the list
  * of hard prerequisites #requires#. #features# and #selectables# list
- * associated features and #languages# any automatic languages. #spells# lists
- * any natural spells, for which #spellAbility# is used to compute the save DC.
- * #spellSlots# lists the number of spells per level per day granted by the
- * race.
+ * associated features and #languages# any automatic languages. If the race
+ * grants spell slots, #spellAbility# names the ability for computing spell
+ * difficulty class, and #spellSlots# lists the number of spells per level per
+ * day granted.
  */
 SRD35.raceRules = function(
   rules, name, requires, features, selectables, languages, spellAbility,
@@ -6026,17 +6033,19 @@ SRD35.raceRules = function(
     }
   }
 
-  if(spellAbility)
-    rules.defineRule('casterLevels.' + name, raceLevel, '=', null);
-
   if(spellSlots.length > 0) {
+
+    rules.defineRule('casterLevels.' + name, raceLevel, '=', null);
     QuilvynRules.spellSlotRules(rules, raceLevel, spellSlots);
+
     for(var i = 0; i < spellSlots.length; i++) {
-      var matchInfo = spellSlots[i].match(/^((\D+)(\d))/);
-      if(!matchInfo)
+      var matchInfo = spellSlots[i].match(/^(\D+)(\d):/);
+      if(!matchInfo) {
+        console.log('Bad format for spell slot "' + spellSlots[i] + '"');
         continue;
-      var spellLevel = matchInfo[1];
-      var spellType = matchInfo[2];
+      }
+      var spellLevel = matchInfo[2] * 1;
+      var spellType = matchInfo[1];
       if(spellType != name)
         rules.defineRule
           ('casterLevels.' + spellType, 'casterLevels.' + name, '^=', null);
@@ -6045,6 +6054,7 @@ SRD35.raceRules = function(
         spellAbility + 'Modifier', '=', '10 + source'
       );
     }
+
   }
 
 };

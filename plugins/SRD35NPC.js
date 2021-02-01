@@ -30,6 +30,7 @@ function SRD35NPC() {
     return;
   }
   SRD35NPC.identityRules(SRD35.rules, SRD35NPC.CLASSES);
+  SRD35NPC.magicRules(SRD35.rules, SRD35NPC.SPELLS);
   SRD35NPC.talentRules(SRD35.rules, SRD35NPC.FEATURES);
 }
 
@@ -49,25 +50,7 @@ SRD35NPC.CLASSES = {
       'Adept2:4=0;5=1;7=2;11=3,' +
       'Adept3:8=0;9=1;11=2;15=3,' +
       'Adept4:12=0;13=1;15=2;19=3,' +
-      'Adept5:16=0;17=1;19=2 ' +
-    'Spells=' +
-      '"Adept0:Create Water;Cure Minor Wounds;Detect Magic;Ghost Sound;' +
-      'Guidance;Light;Mending;Purify Food And Drink;Read Magic;' +
-      'Touch Of Fatigue",' +
-      '"Adept1:Bless;Burning Hands;Cause Fear;Command;Comprehend Languages;' +
-      'Cure Light Wounds;Detect Chaos;Detect Evil;Detect Good;Detect Law;' +
-      'Endure Elements;Obscuring Mist;Protection From Chaos;' +
-      'Protection From Evil;Protection From Good;Protection From Law;Sleep",' +
-      '"Adept2:Aid;Animal Trance;Bear\'s Endurance;Bull\'s Strength;' +
-      'Cat\'s Grace;Cure Moderate Wounds;Darkness;Delay Poison;Invisibility;' +
-      'Mirror Image;Resist Energy;Scorching Ray;See Invisibility;Web",' +
-      '"Adept3:Animate Dead;Bestow Curse;Contagion;Continual Flame;' +
-      'Cure Serious Wounds;Daylight;Deeper Darkness;Lightning Bolt;' +
-      'Neutralize Poison;Remove Curse;Remove Disease;Tongues",' +
-      '"Adept4:Cure Critical Wounds;Minor Creation;Polymorph;Restoration;' +
-      'Stoneskin;Wall Of Fire",' +
-      '"Adept5:Baleful Polymorph;Break Enchantment;Commune;Heal;' +
-      'Major Creation;Raise Dead;True Seeing;Wall Of Stone"',
+      'Adept5:16=0;17=1;19=2',
   'Aristocrat':
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
@@ -100,14 +83,92 @@ SRD35NPC.CLASSES = {
 SRD35NPC.FEATURES = {
   'Commoner Weapon Proficiency':'Section=feature Note="+1 Fighter Feat"'
 };
+SRD35NPC.SPELLS = {
+  "Bear's Endurance":'Level=Adept2',
+  "Bull's Strength":'Level=Adept2',
+  "Cat's Grace":'Level=Adept2',
+  'Aid':'Level=Adept2',
+  'Animal Trance':'Level=Adept2',
+  'Animate Dead':'Level=Adept3',
+  'Baleful Polymorph':'Level=Adept5',
+  'Bestow Curse':'Level=Adept3',
+  'Bless':'Level=Adept1',
+  'Break Enchantment':'Level=Adept5',
+  'Burning Hands':'Level=Adept1',
+  'Cause Fear':'Level=Adept1',
+  'Command':'Level=Adept1',
+  'Commune':'Level=Adept5',
+  'Comprehend Languages':'Level=Adept1',
+  'Contagion':'Level=Adept3',
+  'Continual Flame':'Level=Adept3',
+  'Create Water':'Level=Adept0',
+  'Cure Critical Wounds':'Level=Adept4',
+  'Cure Light Wounds':'Level=Adept1',
+  'Cure Minor Wounds':'Level=Adept0',
+  'Cure Moderate Wounds':'Level=Adept2',
+  'Cure Serious Wounds':'Level=Adept3',
+  'Darkness':'Level=Adept2',
+  'Daylight':'Level=Adept3',
+  'Deeper Darkness':'Level=Adept3',
+  'Delay Poison':'Level=Adept2',
+  'Detect Chaos':'Level=Adept1',
+  'Detect Evil':'Level=Adept1',
+  'Detect Good':'Level=Adept1',
+  'Detect Law':'Level=Adept1',
+  'Detect Magic':'Level=Adept0',
+  'Endure Elements':'Level=Adept1',
+  'Ghost Sound':'Level=Adept0',
+  'Guidance':'Level=Adept0',
+  'Heal':'Level=Adept5',
+  'Invisibility':'Level=Adept2',
+  'Light':'Level=Adept0',
+  'Lightning Bolt':'Level=Adept3',
+  'Major Creation':'Level=Adept5',
+  'Mending':'Level=Adept0',
+  'Minor Creation':'Level=Adept4',
+  'Mirror Image':'Level=Adept2',
+  'Neutralize Poison':'Level=Adept3',
+  'Obscuring Mist':'Level=Adept1',
+  'Polymorph':'Level=Adept4',
+  'Protection From Chaos':'Level=Adept1',
+  'Protection From Evil':'Level=Adept1',
+  'Protection From Good':'Level=Adept1',
+  'Protection From Law':'Level=Adept1',
+  'Purify Food And Drink':'Level=Adept0',
+  'Raise Dead':'Level=Adept5',
+  'Read Magic':'Level=Adept0',
+  'Remove Curse':'Level=Adept3',
+  'Remove Disease':'Level=Adept3',
+  'Resist Energy':'Level=Adept2',
+  'Restoration':'Level=Adept4',
+  'Scorching Ray':'Level=Adept2',
+  'See Invisibility':'Level=Adept2',
+  'Sleep':'Level=Adept1',
+  'Stoneskin':'Level=Adept4',
+  'Tongues':'Level=Adept3',
+  'Touch Of Fatigue':'Level=Adept0',
+  'True Seeing':'Level=Adept5',
+  'Wall Of Fire':'Level=Adept4',
+  'Wall Of Stone':'Level=Adept5',
+  'Web':'Level=Adept2'
+};
 
 /* Defines rules related to basic character identity. */
 SRD35NPC.identityRules = function(rules, classes) {
   QuilvynUtils.checkAttrTable
-    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'Spells']);
+    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots']);
   for(var clas in classes) {
     rules.choiceRules(rules, 'Class', clas, classes[clas]);
     SRD35NPC.classRulesExtra(rules, clas);
+  }
+};
+
+/* Defines rules related to magic use. */
+SRD35NPC.magicRules = function(rules, spells) {
+  QuilvynUtils.checkAttrTable(spells, ['School', 'Level', 'Description']);
+  for(var spell in spells) {
+    rules.choiceRules
+      (rules, 'Spell', spell, SRD35.SPELLS[spell] + ' ' + spells[spell]);
   }
 };
 
