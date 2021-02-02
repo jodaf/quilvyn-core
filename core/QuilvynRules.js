@@ -408,54 +408,6 @@ QuilvynRules.prerequisiteRules = function(
 };
 
 /*
- * Defines in #rules# each spell in the list #spells#, each element of which
- * has the format "groupLevel:name[;name...]". #spellDict# is the dictionary of
- * all spells used to look up individual spell attributes.
- */
-QuilvynRules.spellListRules = function(rules, spells, spellDict) {
-
-  for(var i = 0; i < spells.length; i++) {
-
-    var pieces = spells[i].split(':');
-    if(pieces.length != 2) {
-      console.log('Bad format for spell list "' + spells[i] + '"');
-      break;
-    }
-
-    var groupAndLevel = pieces[0];
-    var spellList = pieces[1];
-    var matchInfo = groupAndLevel.match(/^(\w+)(\d)$/);
-    if(!matchInfo) {
-      console.log('Bad format for spell list "' + spells[i] + '"');
-      break;
-    }
-
-    var group = matchInfo[1];
-    var level = matchInfo[2];
-    var spellNames = spellList.split(';');
-    for(var j = 0; j < spellNames.length; j++) {
-      var spellName = spellNames[j];
-      if(spellDict[spellName] == null) {
-        console.log('Unknown spell "' + spellName + '"');
-        continue;
-      }
-      var school = QuilvynUtils.getAttrValue(spellDict[spellName], 'School');
-      if(school == null) {
-        console.log('No school given for spell ' + spellName);
-        continue;
-      }
-      var fullSpell =
-        spellName + '(' + group + level + ' ' + school.substring(0, 4) + ')';
-      rules.choiceRules
-        (rules, 'Spell', fullSpell,
-         spellDict[spellName] + ' Group=' + group + ' Level=' + level);
-    }
-
-  }
-
-};
-
-/*
  * Defines in #rules# the rules required to allocate the list of spell slots
  * #spellSlots# to the character. #levelAttr# is the name of the attribute that
  * holds the character's level for acquiring these spells.
