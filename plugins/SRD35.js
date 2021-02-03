@@ -6347,12 +6347,6 @@ SRD35.spellRules = function(
     }
   }
 
-  var dc = description.match(/\((Fort\s|Ref\s|Will\s)/);
-  if(dc != null) {
-    var index = inserts != null ? inserts.length + 1 : 1;
-    description = description.replace(dc[0], '(DC %' + index + ' ' + dc[1]);
-  }
-
   if(inserts != null) {
     for(var i = 1; i <= inserts.length; i++) {
       var insert = inserts[i - 1];
@@ -6408,8 +6402,10 @@ SRD35.spellRules = function(
 
   }
 
-  if(dc != null) {
+  var dc;
+  while((dc = description.match(/\((Fort\s|Ref\s|Will\s)/)) != null) {
     var index = inserts != null ? inserts.length + 1 : 1;
+    description = description.replace(dc[0], '(DC %' + index + ' ' + dc[1]);
     var dcRule = 'spells.' + name + '.' + index;
     rules.defineRule(dcRule,
       'spells.' + name, '?', null,
