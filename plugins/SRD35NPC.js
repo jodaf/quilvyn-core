@@ -166,9 +166,8 @@ SRD35NPC.identityRules = function(rules, classes) {
 /* Defines rules related to magic use. */
 SRD35NPC.magicRules = function(rules, spells) {
   QuilvynUtils.checkAttrTable(spells, ['School', 'Level', 'Description']);
-  for(var spell in spells) {
-    rules.choiceRules
-      (rules, 'Spell', spell, SRD35.SPELLS[spell] + ' ' + spells[spell]);
+  for(var s in spells) {
+    rules.choiceRules(rules, 'Spell', s, SRD35.SPELLS[s] + ' ' + spells[s]);
   }
 };
 
