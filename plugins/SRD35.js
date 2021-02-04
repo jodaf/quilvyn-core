@@ -4867,8 +4867,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     var schoolAbbr = school.substring(0, 4);
     for(var i = 0; i < groupLevels.length; i++) {
       var matchInfo = groupLevels[i].match(/^(\D+)(\d+)$/);
-      if(!matchInfo)
+      if(!matchInfo) {
+        console.log('Bad level "' + groupLevels[i] + '" for spell ' + name);
         continue;
+      }
       var group = matchInfo[1];
       var level = matchInfo[2] * 1;
       var fullName = name + '(' + group + level + ' ' + schoolAbbr + ')';
