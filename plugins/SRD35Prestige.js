@@ -509,10 +509,6 @@ SRD35Prestige.SPELLS = {
   'True Strike':'Level=Assassin1',
   'Undetectable Alignment':'Level=Assassin2'
 };
-for(var s in SRD35Prestige.SPELLS) {
-  SRD35Prestige.SPELLS[s] =
-    (SRD35.SPELLS[s]||'') + ' ' + SRD35Prestige.SPELLS[s];
-}
 
 /* Defines rules related to basic character identity. */
 SRD35Prestige.identityRules = function(rules, classes) {
@@ -527,8 +523,8 @@ SRD35Prestige.identityRules = function(rules, classes) {
 /* Defines rules related to magic use. */
 SRD35Prestige.magicRules = function(rules, spells) {
   QuilvynUtils.checkAttrTable(spells, ['School', 'Level', 'Description']);
-  for(var spell in spells) {
-    rules.choiceRules(rules, 'Spell', spell, spells[spell]);
+  for(var s in spells) {
+    rules.choiceRules(rules, 'Spell', s, SRD35.SPELLS[s] + ' ' + spells[s]);
   }
 };
 
