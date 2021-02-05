@@ -4874,7 +4874,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       var group = matchInfo[1];
       var level = matchInfo[2] * 1;
       var fullName = name + '(' + group + level + ' ' + schoolAbbr + ')';
-      SRD35.spellRules(rules, fullName, school, group, level, description);
+      // TODO indicate domain spells in attributes?
+      var domainSpell = SRD35.PATHS[group + ' Domain'] != null;
+      SRD35.spellRules
+        (rules, fullName, school, group, level, description);
       rules.addChoice('spells', fullName, attrs);
     }
   } else if(type == 'Weapon')
@@ -6319,7 +6322,7 @@ SRD35.skillRulesExtra = function(rules, name) {
  * description of the spell's effects.
  */
 SRD35.spellRules = function(
-  rules, name, school, casterGroup, level, description
+  rules, name, school, casterGroup, level, description, domainSpell
 ) {
 
   if(!name) {
@@ -6394,11 +6397,9 @@ SRD35.spellRules = function(
           'casterLevels.S', '^=', expr
         );
       }
-      // TODO Improve this
-      if(SRD35.PATHS[casterGroup + ' Domain']) {
-        rules.defineRule('spells.' + name + '.' + i,
-          'casterLevels.Domain', '^=', expr
-        );
+      if(domainSpell) {
+        rules.defineRule
+          ('spells.' + name + '.' + i, 'casterLevels.Domain', '^=', expr);
       }
     }
 
@@ -6417,8 +6418,7 @@ SRD35.spellRules = function(
       rules.defineRule
         (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
     }
-    // TODO Improve this
-    if(SRD35.PATHS[casterGroup + ' Domain']) {
+    if(domainSpell) {
       rules.defineRule
         (dcRule, 'spellDifficultyClass.Domain', '^=', 'source + ' + level);
     }
