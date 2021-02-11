@@ -5017,9 +5017,9 @@ SRD35.armorRules = function(
  * #spellSlots# lists the number of spells per level per day granted.
  */
 SRD35.classRules = function(
-  rules, name, requires, hitDie, attack, skillPoints, saveFort,
-  saveRef, saveWill, skills, features, selectables, languages,
-  casterLevelArcane, casterLevelDivine, spellAbility, spellSlots
+  rules, name, requires, hitDie, attack, skillPoints, saveFort, saveRef,
+  saveWill, skills, features, selectables, languages, casterLevelArcane,
+  casterLevelDivine, spellAbility, spellSlots
 ) {
 
   if(!name) {
