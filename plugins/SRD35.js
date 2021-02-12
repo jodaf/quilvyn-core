@@ -59,8 +59,8 @@ function SRD35() {
     SRD35.RACES
   );
   SRD35.talentRules
-    (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.LANGUAGES, SRD35.SKILLS);
-  SRD35.goodiesRules(rules);
+    (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.LANGUAGES, SRD35.SKILLS,
+     SRD35.GOODIES);
 
   Quilvyn.addRuleSet(rules);
 
@@ -69,8 +69,8 @@ function SRD35() {
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
   'Alignment', 'Animal Companion', 'Armor', 'Class', 'Deity', 'Familiar',
-  'Feat', 'Feature', 'Language', 'Path', 'Race', 'School', 'Shield', 'Skill',
-  'Spell', 'Weapon'
+  'Feat', 'Feature', 'Goody', 'Language', 'Path', 'Race', 'School', 'Shield',
+  'Skill', 'Spell', 'Weapon'
 ];
 /*
  * List of items handled by randomizeOneAttribute method. The order handles
@@ -1062,6 +1062,86 @@ SRD35.FEATURES = {
   'Wild Shape':
     'Section=magic Note="Change into creature of size %V %1 hr %2/dy"',
   'Woodland Stride':'Section=feature Note="Normal movement through undergrowth"'
+};
+SRD35.GOODIES = {
+  'Ability-Charisma':
+    'Pattern="([-+]\\d)\\s+charisma","charisma\\s+([-+]\\d)" ' +
+    'Attribute=charisma ' +
+    'Section=ability Note=%1',
+  'Ability-Constitution':
+    'Pattern="([-+]\\d)\\s+constitution","constitution\\s+([-+]\\d)" ' +
+    'Attribute=constitution ' +
+    'Section=ability Note=%1',
+  'Ability-Dexterity':
+    'Pattern="([-+]\\d)\\s+dexterity","dexterity\\s+([-+]\\d)" ' +
+    'Attribute=dexterity ' +
+    'Section=ability Note=%1',
+  'Ability-Intelligence':
+    'Pattern="([-+]\\d)\\s+intelligence","intelligence\\s+([-+]\\d)" ' +
+    'Attribute=intelligence ' +
+    'Section=ability Note=%1',
+  'Ability-Wisdom':
+    'Pattern="([-+]\\d)\\s+wisdom","wisdom\\s+([-+]\\d)" ' +
+    'Attribute=wisdom ' +
+    'Section=ability Note=%1',
+  'Ability-Strength':
+    'Pattern="([-+]\\d)\\s+strength","strength\\s+([-+]\\d)" ' +
+    'Attribute=strength ' +
+    'Section=ability Note=%1',
+  'Armor':
+    'Pattern="([-+]\\d)\\s+armor","armor\\s+(?:class\\s+)?([-+]\\d)" ' +
+    'Attribute=armorClass ' +
+    'Section=combat Note=%1',
+/*
+  'Armor-Masterwork':
+    'Pattern="masterwork\\s+armor" ' +
+    'Attribute=skillNotes.goodiesSkillCheckAdjustment ' +
+    'Section= Note=1',
+*/
+  'Armor-Protection':
+    'Pattern="([-+]\\d)\\s+protection","protection\\s+([-+]\\d)" ' +
+    'Attribute=armorClass ' +
+    'Section=combat Note=%1',
+  'Armor-Shield':
+    'Pattern="([-+]\\d)\\s+shield","shield\\s+([-+]\\d)" ' +
+    'Attribute=armorClass ' +
+    'Section=combat Note=%1',
+  'Feat-General':
+    'Pattern="([-+]\\d)\\s+(?:general\\s+)feat" ' +
+    'Attribute=featCount.General ' +
+    'Section=ability Note=%1',
+  'Save-Fortitude':
+    'Pattern="([-+]\\d)\\s+fortitude\\s+save","fortitude\\s+save\\s+([-+]\\d)" ' +
+    'Attribute=save.Fortitude ' +
+    'Section=save Note=%1',
+  'Save-Reflex':
+    'Pattern="([-+]\\d)\\s+reflex\\s+save","reflex\\s+save\\s+([-+]\\d)" ' +
+    'Attribute=save.Reflex ' +
+    'Section=save Note=%1',
+  'Save-Will':
+    'Pattern="([-+]\\d)\\s+will\\s+save","will\\s+save\\s+([-+]\\d)" ' +
+    'Attribute=save.Will ' +
+    'Section=save Note=%1',
+  'Skill-Heal':
+    'Pattern="([-+]\\d)\\s+heal\\s+skill","heal\\s+skill\\s+([-+]\\d)" ' +
+    'Attribute=skillModifier.Heal ' +
+    'Section=skill Note=%1',
+/*
+  'Skill-Heal-Class':
+    'Pattern="([-+]\\d)\\s+heal\\s+(?:is\\s+)(?:a\\)class\\s+Skill" ' +
+    'Attribute=classSkills.Heal ' +
+    'Section=skill Note=1',
+*/
+  'Weapon-Longsword':
+    'Pattern="([-+]\\d)\\s+longsword","longsword\\s+([-+]\\d)" ' +
+    'Attribute=combatNotes.longswordAttackAdjustment,combatNotes.longswordDamageAdjustment ' +
+    'Section=skill Note=%1'
+/*
+  'Weapon-Longsword-Masterwork':
+    'Pattern="masterwork\\s+longsword" ' +
+    'Attribute=combatNotes.longswordAttackAdjustment ' +
+    'Section=skill Note=%1'
+*/
 };
 SRD35.LANGUAGES = {
   'Abyssal':'',
@@ -4680,7 +4760,9 @@ SRD35.magicRules = function(rules, schools, spells) {
 };
 
 /* Defines rules related to character aptitudes. */
-SRD35.talentRules = function(rules, feats, features, languages, skills) {
+SRD35.talentRules = function(
+  rules, feats, features, languages, skills, goodies
+) {
 
   QuilvynUtils.checkAttrTable(feats, ['Require', 'Imply', 'Type']);
   QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
@@ -4699,6 +4781,9 @@ SRD35.talentRules = function(rules, feats, features, languages, skills) {
   }
   for(var skill in skills) {
     rules.choiceRules(rules, 'Skill', skill, skills[skill]);
+  }
+  for(var goody in goodies) {
+    rules.choiceRules(rules, 'Goody', goody, goodies[goody]);
   }
 
   rules.defineChoice('notes',
@@ -4819,6 +4904,13 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note')
     );
+  else if(type == 'Goody')
+    SRD35.goodyRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Pattern'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Attribute'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Section'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Note')
+  );
   else if(type == 'Language')
     SRD35.languageRules(rules, name);
   else if(type == 'Path')
@@ -5869,6 +5961,60 @@ SRD35.featureRules = function(rules, name, sections, notes) {
          uniqueSkillsAffected.join(' > 0 || ') + ' > 0');
     }
 
+  }
+
+};
+
+/* TODO */
+SRD35.goodyRules = function(
+  rules, name, patterns, attributes, sections, notes
+) {
+
+  if(!name) {
+    console.log('Empty goody name');
+    return;
+  }
+  if(!Array.isArray(patterns) || patterns.length == 0) {
+    console.log('Bad patterns list "' + patterns + '" for goody ' + name);
+    return;
+  }
+  if(!Array.isArray(attributes) || attributes.length == 0) {
+    console.log('Bad attributes list "' + attributes + '" for goody ' + name);
+    return;
+  }
+  if(!Array.isArray(sections)) {
+    console.log('Bad sections list "' + sections + '" for goody ' + name);
+    return;
+  }
+  if(!Array.isArray(notes)) {
+    console.log('Bad notes list "' + notes + '" for goody ' + name);
+    return;
+  }
+  if(sections.length != notes.length) {
+    console.log(sections.length + ' sections, ' + notes.length + ' notes for goody ' + name);
+    return;
+  }
+
+  rules.defineRule('goodiesList', 'notes', '=',
+    'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
+  );
+
+  var matchCode = 'var m = item.match(/' + patterns[0] + '/i)';
+  for(var i = 1; i < patterns.length; i++) {
+    matchCode += '||item.match(/' + patterns[i] + '/i)';
+  }
+  for(var i = 0; i < sections.length; i++) {
+    rules.defineRule(sections[i]+'Notes.goodies'+name, 'goodiesList', '+=',
+      '((a = source.reduce(' +
+        'function(total, item) {' +
+          matchCode + '; ' +
+          'return total + (m ? m[1] * 1 : 0); ' +
+        '}, 0)) == 0 ? null : a)'
+    );
+  }
+  for(var i = 0; i < attributes.length; i++) {
+    rules.defineRule
+      (attributes[i], sections[0] + 'Notes.goodies' + name, '+=', null);
   }
 
 };
