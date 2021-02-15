@@ -1064,84 +1064,107 @@ SRD35.FEATURES = {
   'Woodland Stride':'Section=feature Note="Normal movement through undergrowth"'
 };
 SRD35.GOODIES = {
-  'Ability-Charisma':
-    'Pattern="([-+]\\d)\\s+charisma","charisma\\s+([-+]\\d)" ' +
-    'Attribute=charisma ' +
-    'Section=ability Note=%1',
-  'Ability-Constitution':
-    'Pattern="([-+]\\d)\\s+constitution","constitution\\s+([-+]\\d)" ' +
-    'Attribute=constitution ' +
-    'Section=ability Note=%1',
-  'Ability-Dexterity':
-    'Pattern="([-+]\\d)\\s+dexterity","dexterity\\s+([-+]\\d)" ' +
-    'Attribute=dexterity ' +
-    'Section=ability Note=%1',
-  'Ability-Intelligence':
-    'Pattern="([-+]\\d)\\s+intelligence","intelligence\\s+([-+]\\d)" ' +
-    'Attribute=intelligence ' +
-    'Section=ability Note=%1',
-  'Ability-Wisdom':
-    'Pattern="([-+]\\d)\\s+wisdom","wisdom\\s+([-+]\\d)" ' +
-    'Attribute=wisdom ' +
-    'Section=ability Note=%1',
-  'Ability-Strength':
-    'Pattern="([-+]\\d)\\s+strength","strength\\s+([-+]\\d)" ' +
-    'Attribute=strength ' +
-    'Section=ability Note=%1',
   'Armor':
-    'Pattern="([-+]\\d)\\s+armor","armor\\s+(?:class\\s+)?([-+]\\d)" ' +
+    'Pattern="(?:armor(?:\\s+class)?|AC)" ' +
+    'Effect=adjust ' +
     'Attribute=armorClass ' +
-    'Section=combat Note=%1',
-/*
-  'Armor-Masterwork':
-    'Pattern="masterwork\\s+armor" ' +
-    'Attribute=skillNotes.goodiesSkillCheckAdjustment ' +
-    'Section= Note=1',
-*/
-  'Armor-Protection':
-    'Pattern="([-+]\\d)\\s+protection","protection\\s+([-+]\\d)" ' +
-    'Attribute=armorClass ' +
-    'Section=combat Note=%1',
-  'Armor-Shield':
-    'Pattern="([-+]\\d)\\s+shield","shield\\s+([-+]\\d)" ' +
-    'Attribute=armorClass ' +
-    'Section=combat Note=%1',
-  'Feat-General':
-    'Pattern="([-+]\\d)\\s+(?:general\\s+)feat" ' +
+    'Section=combat Note="+%V Armor Class"',
+  'Charisma':
+    'Pattern=charisma ' +
+    'Effect=adjust ' +
+    'Attribute=charisma ' +
+    'Section=ability Note="%V Charisma"',
+  'Constitution':
+    'Pattern=constitution ' +
+    'Effect=adjust ' +
+    'Attribute=constitution ' +
+    'Section=ability Note="%V Constitution"',
+  'Dexterity':
+    'Pattern=dexterity ' +
+    'Effect=adjust ' +
+    'Attribute=dexterity ' +
+    'Section=ability Note="%V Dexterity"',
+  'Feat':
+    'Pattern="(?:general\\s+)feat" ' +
+    'Effect=adjust ' +
     'Attribute=featCount.General ' +
-    'Section=ability Note=%1',
-  'Save-Fortitude':
-    'Pattern="([-+]\\d)\\s+fortitude\\s+save","fortitude\\s+save\\s+([-+]\\d)" ' +
+    'Section=ability Note="%V General Feat"',
+  'Fortitude':
+    'Pattern="fortitude\\s+save" ' +
+    'Effect=adjust ' +
     'Attribute=save.Fortitude ' +
-    'Section=save Note=%1',
-  'Save-Reflex':
-    'Pattern="([-+]\\d)\\s+reflex\\s+save","reflex\\s+save\\s+([-+]\\d)" ' +
-    'Attribute=save.Reflex ' +
-    'Section=save Note=%1',
-  'Save-Will':
-    'Pattern="([-+]\\d)\\s+will\\s+save","will\\s+save\\s+([-+]\\d)" ' +
-    'Attribute=save.Will ' +
-    'Section=save Note=%1',
-  'Skill-Heal':
-    'Pattern="([-+]\\d)\\s+heal\\s+skill","heal\\s+skill\\s+([-+]\\d)" ' +
+    'Section=save Note="%V Fortitude"',
+  'Heal':
+    'Pattern="heal\\s+skill" ' +
+    'Effect=adjust ' +
     'Attribute=skillModifier.Heal ' +
-    'Section=skill Note=%1',
+    'Section=skill Note="%V Heal"',
+  'Intelligence':
+    'Pattern=intelligence ' +
+    'Effect=adjust ' +
+    'Attribute=intelligence ' +
+    'Section=ability Note="%V Intelligence"',
+  'Longbow':
+    'Pattern="(?<!composite\\s+)longbow" ' +
+    'Effect=adjust ' +
+    'Attribute=longbowAttackModifier,longbowDamageModifier ' +
+    'Section=combat Note=%V',
+  'Longsword':
+    'Pattern=longsword ' +
+    'Effect=adjust ' +
+    'Attribute=longswordAttackModifier,longswordDamageModifier ' +
+    'Section=combat Note=%V',
+  'Protection':
+    'Pattern=protection ' +
+    'Effect=adjust ' +
+    'Attribute=armorClass ' +
+    'Section=combat Note="%V Armor Class"',
+  'Reflex':
+    'Pattern="reflex\\s+save" ' +
+    'Effect=adjust ' +
+    'Attribute=save.Reflex ' +
+    'Section=save Note="%V Reflex"',
+  'Shield':
+    'Pattern=shield ' +
+    'Effect=adjust ' +
+    'Attribute=armorClass ' +
+    'Section=combat Note="%V Armor Class"',
+  'Shortbow':
+    'Pattern="(?<!composite\\s+)shortbow" ' +
+    'Effect=adjust ' +
+    'Attribute=shortbowAttackModifier,shortbowDamageModifier ' +
+    'Section=combat Note=%V',
+  'Strength':
+    'Pattern=strength ' +
+    'Effect=adjust ' +
+    'Attribute=strength ' +
+    'Section=ability Note="%V Strength"',
+  'Will':
+    'Pattern="will\\s+save" ' +
+    'Effect=adjust ' +
+    'Attribute=save.Will ' +
+    'Section=save Note="%V Will"',
+  'Wisdom':
+    'Pattern=wisdom ' +
+    'Effect=adjust ' +
+    'Attribute=wisdom ' +
+    'Section=ability Note="%V Wisdom"',
+  'MasterworkArmor':
+    'Pattern="masterwork\\s+armor|[-+]\\d.*armor|armor\\s+[-+]\\d" ' +
+    'Effect=set ' +
+    'Attribute=skillNotes.goodiesSkillCheckAdjustment ' +
+    'Section=skill Note="Reduce skill check penalty"',
 /*
   'Skill-Heal-Class':
     'Pattern="([-+]\\d)\\s+heal\\s+(?:is\\s+)(?:a\\)class\\s+Skill" ' +
     'Attribute=classSkills.Heal ' +
     'Section=skill Note=1',
 */
-  'Weapon-Longsword':
-    'Pattern="([-+]\\d)\\s+longsword","longsword\\s+([-+]\\d)" ' +
-    'Attribute=combatNotes.longswordAttackAdjustment,combatNotes.longswordDamageAdjustment ' +
-    'Section=skill Note=%1'
-/*
-  'Weapon-Longsword-Masterwork':
+  'MasterworkLongsword':
     'Pattern="masterwork\\s+longsword" ' +
-    'Attribute=combatNotes.longswordAttackAdjustment ' +
-    'Section=skill Note=%1'
-*/
+    'Effect=adjust ' +
+    'Attribute=longswordAttackModifier ' +
+    'Section=combat Note=%1'
 };
 SRD35.LANGUAGES = {
   'Abyssal':'',
@@ -4537,170 +4560,6 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
 
 };
 
-/* Defines the rules related to goodies included in character notes. */
-SRD35.goodiesRules = function(rules) {
-
-  rules.defineRule('goodiesList', 'notes', '=',
-    'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
-  );
-
-  for(var ability in SRD35.ABILITIES) {
-    rules.defineRule('abilityNotes.goodies' + ability + 'Adjustment',
-      'goodiesList', '=',
-        '!source.join(";").match(/\\b' + ability + '\\b/i) ? null : ' +
-        'source.filter(item => item.match(/\\b' + ability + '\\b/i)).reduce(' +
-          'function(total, item) {' +
-            'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
-          '}' +
-        ', 0)'
-    );
-    rules.defineRule(ability.toLowerCase(),
-      'abilityNotes.goodies' + ability + 'Adjustment', '+', null
-    );
-  }
-
-  rules.defineRule('goodiesAffectingAC',
-    'goodiesList', '=',
-      '!source.join(";").match(/\\b(armor|protection|shield)\\b/i) ? null : ' +
-      'source.filter(item => item.match(/\\b(armor|protection|shield)\\b/i))'
-  );
-  rules.defineRule('combatNotes.goodiesArmorClassAdjustment',
-    'goodiesAffectingAC', '=',
-      'source.reduce(' +
-        'function(total, item) {' +
-          'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
-        '}' +
-      ', 0)'
-  );
-  rules.defineRule
-    ('armorClass', 'combatNotes.goodiesArmorClassAdjustment', '+', null);
-
-  for(var save in {Fortitude:'', Reflex:'', Will:''}) {
-    rules.defineRule('saveNotes.goodies' + save + 'Adjustment',
-      'goodiesList', '=',
-        '!source.join(";").match(/\\b' + save + '\\b/i) ? null : ' +
-        'source.filter(item => item.match(/\\b' + save + '\\b/i)).reduce(' +
-          'function(total, item) {' +
-            'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
-          '}' +
-        ', 0)'
-    );
-    rules.defineRule('save.' + save,
-      'saveNotes.goodies' + save + 'Adjustment', '+', null
-    );
-  }
-
-  rules.defineRule('featCount.General',
-    'goodiesList', '+',
-    'source.filter(item => item.match(/\\bextra\\b.*\\bfeat\\b/i)).length'
-  );
-
-  for(var skill in rules.getChoices('skills')) {
-    // Subskills complicate the pattern match, since the parens are pattern
-    // characters and a closing paren doesn't count as a word boundary
-    var skillEscParens = skill.replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-    rules.defineRule('skillNotes.goodies' + skill + 'Adjustment',
-      'goodiesList', '=',
-        '!source.join(";").match(/\\b' + skillEscParens + '(?!\\w)/i) ? null : ' +
-        'source.filter(item => item.match(/\\b' + skillEscParens + '(?!\\w)/i)).reduce(' +
-          'function(total, item) {' +
-            'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
-          '}' +
-        ', 0)'
-    );
-    rules.defineRule('skillModifier.' + skill,
-      'skillNotes.goodies' + skill + 'Adjustment', '+', null
-    );
-    rules.defineRule('classSkills.' + skill,
-      'goodiesList', '=',
-        'source.filter(item => item.match(/\\b' + skillEscParens + '\\s.*class skill/i)).length > 0 ? 1 : null'
-    );
-  }
-  rules.defineChoice('notes',
-    'skillNotes.goodiesSkillCheckAdjustment:Reduce armor skill check penalty by %V'
-  );
-  rules.defineRule('skillNotes.armorSkillCheckPenalty',
-    'skillNotes.goodiesSkillCheckAdjustment', '+', '-source'
-  );
-  rules.defineRule('skillNotes.goodiesSkillCheckAdjustment',
-    'goodiesAffectingAC', '=',
-      'source.filter(item => item.match(/\\b(armor|shield)\\b/i)).reduce(' +
-        'function(total, item) {' +
-          'return Math.max(total, item.match(/[-+]\\d|masterwork/i) ? 1 : 0)' +
-        '}' +
-      ', 0)'
-  );
-
-  // NOTE Weapon Attack/Damage bonus rules affect all weapons of a particular
-  // type that the character owns. If the character has, e.g., two longswords,
-  // both get the bonus. Ignoring this bug for now.
-  for(var weapon in rules.getChoices('weapons')) {
-    var weaponNoSpace = weapon.replaceAll(' ', '');
-    var prefix =
-      weaponNoSpace.charAt(0).toLowerCase() + weaponNoSpace.substring(1);
-    rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment',
-      'goodiesList', '=',
-        '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
-        'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
-          'function(total, item) {' +
-            'return total + ((item + (item.match(/masterwork/i)?"+1":"+0")).match(/[-+]\\d+/) * 1);' +
-          '}' +
-        ', 0)'
-    );
-    rules.defineRule(prefix + 'AttackModifier',
-      'combatNotes.goodies' + weaponNoSpace + 'AttackAdjustment', '+', null
-    );
-    rules.defineRule('combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment',
-      'goodiesList', '=',
-        '!source.join(";").match(/\\b' + weapon + '\\b/i) ? null : ' +
-        'source.filter(item => item.match(/\\b' + weapon + '\\b/i)).reduce(' +
-          'function(total, item) {' +
-            'return total + ((item + "+0").match(/[-+]\\d+/) * 1);' +
-          '}' +
-        ', 0)'
-    );
-    rules.defineRule(prefix + 'DamageModifier',
-      'combatNotes.goodies' + weaponNoSpace + 'DamageAdjustment', '+', null
-    );
-  }
-  rules.defineRule('goodiesCompositeStrDamageAdjustment',
-    'goodiesList', '?', 'source.filter(item => item.match(/composite/i)).filter(item => item.match(/masterwork|\\+\\d/i)).length > 0',
-    'strengthModifier', '=', 'source > 0 ? source : null'
-  );
-  rules.defineRule('combatNotes.goodiesCompositeLongbowDamageAdjustment',
-    'goodiesCompositeStrDamageAdjustment', '+', null
-  );
-  rules.defineRule('combatNotes.goodiesCompositeShortbowDamageAdjustment',
-    'goodiesCompositeStrDamageAdjustment', '+', null
-  );
-
-  rules.defineChoice('notes',
-    'sanityNotes.inertGoodies:No effect from goodie(s) "%V"'
-  );
-
-  var abilitiesAndSavesPat = [
-    'strength','intelligence','wisdom','dexterity','constitution','charisma',
-    'speed', 'fortitude', 'reflex', 'will'
-  ].join('|');
-  var armorAndWeaponsPat = [
-    'armor', 'protection', 'shield'
-  ].concat(QuilvynUtils.getKeys(rules.getChoices('weapons'))).join('|');
-  var skillsPat = QuilvynUtils.getKeys(rules.getChoices('skills')).join('|').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
-  rules.defineRule('inertGoodies',
-    'goodiesList', '=',
-    'source.filter(item => ' +
-      '!item.match(/\\bextra\\s.*\\bfeat\\b/i) && ' +
-      '!item.match(/\\b(' + skillsPat + ').*\\bclass skill\\b/i) && ' +
-      '!(item.match(/\\b(' + abilitiesAndSavesPat + '|' + armorAndWeaponsPat + '|' + skillsPat + ')\\b/i) && item.match(/[-+][1-9]/)) && ' +
-      '!item.match(/\\bmasterwork\\b.*\\b(' + armorAndWeaponsPat + ')\\b/i)' +
-    ')'
-  );
-  rules.defineRule('sanityNotes.inertGoodies',
-    'inertGoodies', '=', 'source.length > 0 ? source.join(",") : null'
-  );
-
-};
-
 /* Defines rules related to basic character identity. */
 SRD35.identityRules = function(
   rules, alignments, classes, deities, paths, races
@@ -4769,6 +4628,8 @@ SRD35.talentRules = function(
   QuilvynUtils.checkAttrTable(languages, []);
   QuilvynUtils.checkAttrTable
     (skills, ['Ability', 'Untrained', 'Class', 'Synergy']);
+  QuilvynUtils.checkAttrTable
+   (goodies, ['Pattern', 'Effect', 'Attribute', 'Section', 'Note']);
 
   for(var feat in feats) {
     rules.choiceRules(rules, 'Feat', feat, feats[feat]);
@@ -4906,7 +4767,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
   else if(type == 'Goody')
     SRD35.goodyRules(rules, name,
-      QuilvynUtils.getAttrValueArray(attrs, 'Pattern'),
+      QuilvynUtils.getAttrValue(attrs, 'Pattern'),
+      QuilvynUtils.getAttrValue(attrs, 'Effect'),
       QuilvynUtils.getAttrValueArray(attrs, 'Attribute'),
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note')
@@ -4969,7 +4831,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       // TODO indicate domain spells in attributes?
       var domainSpell = SRD35.PATHS[group + ' Domain'] != null;
       SRD35.spellRules
-        (rules, fullName, school, group, level, description);
+        (rules, fullName, school, group, level, description, domainSpell);
       rules.addChoice('spells', fullName, attrs);
     }
   } else if(type == 'Weapon')
@@ -5967,15 +5829,21 @@ SRD35.featureRules = function(rules, name, sections, notes) {
 
 /* TODO */
 SRD35.goodyRules = function(
-  rules, name, patterns, attributes, sections, notes
+  rules, name, pattern, effect, attributes, sections, notes
 ) {
+
+  var effectOps = {'adjust':'+=', 'lower':'v=', 'raise':'^=', 'set':'='};
 
   if(!name) {
     console.log('Empty goody name');
     return;
   }
-  if(!Array.isArray(patterns) || patterns.length == 0) {
-    console.log('Bad patterns list "' + patterns + '" for goody ' + name);
+  if(!pattern) {
+    console.log('Empty pattern "' + pattern + '" for goody ' + name);
+    return;
+  }
+  if(!effect || !(effect in effectOps)) {
+    console.log('Bad effect "' + effect + '" for goody ' + name);
     return;
   }
   if(!Array.isArray(attributes) || attributes.length == 0) {
@@ -5999,22 +5867,25 @@ SRD35.goodyRules = function(
     'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
   );
 
-  var matchCode = 'var m = item.match(/' + patterns[0] + '/i)';
-  for(var i = 1; i < patterns.length; i++) {
-    matchCode += '||item.match(/' + patterns[i] + '/i)';
-  }
+  if(effect == 'adjust')
+    pattern = '([-+]\\d).*\\s+' + pattern + '\\b|\\b' + pattern + '\\s+([-+]\\d)';
+  // pattern = '\\b' + pattern + '\\b';
   for(var i = 0; i < sections.length; i++) {
-    rules.defineRule(sections[i]+'Notes.goodies'+name, 'goodiesList', '+=',
+    var note = sections[i] + 'Notes.goodies' + name;
+    rules.defineChoice('notes', note + ':' + notes[i]);
+    rules.defineRule(note,
+      'goodiesList', '+=',
       '((a = source.reduce(' +
         'function(total, item) {' +
-          matchCode + '; ' +
-          'return total + (m ? m[1] * 1 : 0); ' +
+          'var m = item.match(/' + pattern + '/i); ' +
+          'return total + (m ? (m[1] || m[2] || 1) * 1 : 0); ' +
         '}, 0)) == 0 ? null : a)'
     );
   }
   for(var i = 0; i < attributes.length; i++) {
-    rules.defineRule
-      (attributes[i], sections[0] + 'Notes.goodies' + name, '+=', null);
+    rules.defineRule(attributes[i],
+      sections[0] + 'Notes.goodies' + name, effectOps[effect], null
+    );
   }
 
 };
