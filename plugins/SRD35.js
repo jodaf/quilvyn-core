@@ -1065,79 +1065,39 @@ SRD35.FEATURES = {
 };
 SRD35.GOODIES = {
   'Armor':
-    'Pattern="(?:armor(?:\\s+class)?|AC)" ' +
+    'Pattern=".*(?:armor(?:\\s+class)?|AC)" ' +
     'Effect=add ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
-  'Charisma':
-    'Pattern="charisma" ' +
+  'Fighter Feat Count':
+    'Pattern="fighter\\s+feat" ' +
     'Effect=add ' +
-    'Attribute=charisma ' +
-    'Section=ability Note="%V Charisma"',
-  'Constitution':
-    'Pattern="constitution" ' +
-    'Effect=add ' +
-    'Attribute=constitution ' +
-    'Section=ability Note="%V Constitution"',
-  'Dexterity':
-    'Pattern="dexterity" ' +
-    'Effect=add ' +
-    'Attribute=dexterity ' +
-    'Section=ability Note="%V Dexterity"',
+    'Attribute=featCount.Fighter ' +
+    'Section=feature Note="%V Fighter Feat"',
   'Fortitude':
     'Pattern="fortitude\\s+save" ' +
     'Effect=add ' +
     'Attribute=save.Fortitude ' +
     'Section=save Note="%V Fortitude"',
   'General Feat Count':
-    'Pattern="(?:general\\s+)feat" ' +
+    'Pattern="(?:general\\s+)?feat" ' +
     'Effect=add ' +
     'Attribute=featCount.General ' +
-    'Section=ability Note="%V General Feat"',
-  'Heal':
-    'Pattern="heal\\s+skill" ' +
-    'Effect=add ' +
-    'Attribute=skillModifier.Heal ' +
-    'Section=skill Note="%V Heal"',
-  'Heal Class Skill':
-    'Pattern="heal\\s+(?:is\\s+)?(?:a\\s+)?class\\s+skill" ' +
-    'Effect=set ' +
-    'Attribute=classSkills.Heal ' +
-    'Section=skill Note="Heal is a Class Skill"',
-  'Intelligence':
-    'Pattern="intelligence" ' +
-    'Effect=add ' +
-    'Attribute=intelligence ' +
-    'Section=ability Note="%V Intelligence"',
-  'Longbow':
-    'Pattern="(?<!composite\\s+)longbow" ' +
-    'Effect=add ' +
-    'Attribute=longbowAttackModifier,longbowDamageModifier ' +
-    'Section=combat Note="%V Attack and Damage"',
+    'Section=feature Note="%V General Feat"',
   'Masterwork Armor':
     'Pattern="masterwork.*\\s+armor|[-+]\\d.*armor|armor\\s+[-+]\\d" ' +
-    'Effect=incr ' +
+    'Effect=increment ' +
     'Value=-1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduce skill check penalty by 1"',
-  'Masterwork Longbow':
-    'Pattern="masterwork.*\\s+(?<!composite\\s+)longbow" ' +
-    'Effect=incr ' +
-    'Attribute=longbowAttackModifier ' +
-    'Section=combat Note="%V Attack"',
   'Masterwork Shield':
     'Pattern="masterwork.*\\s+shield|[-+]\\d.*shield|shield\\s+[-+]\\d" ' +
-    'Effect=incr ' +
+    'Effect=increment ' +
     'Value=-1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduce skill check penalty by 1"',
-  'Masterwork Shortbow':
-    'Pattern="masterwork.*\\s+(?<!composite\\s+)shortbow" ' +
-    'Effect=incr ' +
-    'Attribute=shortbowAttackModifier ' +
-    'Section=combat Note="%V Attack"',
   'Protection':
-    'Pattern="protection" ' +
+    'Pattern=.*protection ' +
     'Effect=add ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
@@ -1147,30 +1107,20 @@ SRD35.GOODIES = {
     'Attribute=save.Reflex ' +
     'Section=save Note="%V Reflex"',
   'Shield':
-    'Pattern="shield" ' +
+    'Pattern=.*shield ' +
     'Effect=add ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
-  'Shortbow':
-    'Pattern="(?<!composite\\s+)shortbow" ' +
-    'Effect=add ' +
-    'Attribute=shortbowAttackModifier,shortbowDamageModifier ' +
-    'Section=combat Note="%V Attack and Damage"',
-  'Strength':
-    'Pattern="strength" ' +
-    'Effect=add ' +
-    'Attribute=strength ' +
-    'Section=ability Note="%V Strength"',
   'Will':
     'Pattern="will\\s+save" ' +
     'Effect=add ' +
     'Attribute=save.Will ' +
     'Section=save Note="%V Will"',
-  'Wisdom':
-    'Pattern="wisdom" ' +
+  'Wizard Feat Count':
+    'Pattern="wizard\\s+feat" ' +
     'Effect=add ' +
-    'Attribute=wisdom ' +
-    'Section=ability Note="%V Wisdom"'
+    'Attribute=featCount.Wizard ' +
+    'Section=feature Note="%V Wizard Feat"'
 };
 SRD35.LANGUAGES = {
   'Abyssal':'',
@@ -4246,6 +4196,13 @@ SRD35.abilityRules = function(rules) {
   );
 
   for(var ability in SRD35.ABILITIES) {
+    rules.choiceRules(rules, 'Goody', ability,
+      'Pattern=' + ability + ' ' +
+      'Effect=add ' +
+      'Attribute=' + ability.toLowerCase() + ' ' +
+      'Section=ability ' +
+      'Note="%V ' + ability + '"'
+    );
     ability = ability.toLowerCase();
     rules.defineChoice('notes', ability + ':%V (%1)');
     rules.defineRule(ability, ability + 'Adjust', '+', null);
@@ -4465,6 +4422,9 @@ SRD35.aideRules = function(rules, companions, familiars) {
 /* Defines rules related to combat. */
 SRD35.combatRules = function(rules, armors, shields, weapons) {
 
+  var pattern;
+  var prefix;
+
   QuilvynUtils.checkAttrTable
     (armors, ['AC', 'Weight', 'Dex', 'Skill', 'Spell']);
   QuilvynUtils.checkAttrTable(shields, ['AC', 'Weight', 'Skill', 'Spell']);
@@ -4477,6 +4437,23 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     rules.choiceRules(rules, 'Shield', shield, shields[shield]);
   }
   for(var weapon in weapons) {
+    pattern = weapon.replace(/  */g, '\\s+');
+    prefix =
+      weapon.charAt(0).toLowerCase() + weapon.substring(1).replaceAll(' ', '');
+    rules.choiceRules(rules, 'Goody', weapon,
+      'Pattern="' + pattern + '" ' +
+      'Effect=add ' +
+      'Attribute=' + prefix + 'AttackModifier,' + prefix + 'DamageModifier ' +
+      'Section=combat ' +
+      'Note="%V Attack and damage"'
+    );
+    rules.choiceRules(rules, 'Goody', 'Masterwork ' + weapon,
+      'Pattern="masterwork\\s+' + pattern + '" ' +
+      'Effect=increment ' +
+      'Attribute=' + prefix + 'AttackModifier ' +
+      'Section=combat ' +
+      'Note="%V Attack"'
+    );
     rules.choiceRules(rules, 'Weapon', weapon, weapons[weapon]);
   }
 
@@ -4629,6 +4606,8 @@ SRD35.talentRules = function(
   rules, feats, features, languages, skills, goodies
 ) {
 
+  var pattern;
+
   QuilvynUtils.checkAttrTable(feats, ['Require', 'Imply', 'Type']);
   QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
   QuilvynUtils.checkAttrTable(languages, []);
@@ -4648,6 +4627,21 @@ SRD35.talentRules = function(
   }
   for(var skill in skills) {
     rules.choiceRules(rules, 'Skill', skill, skills[skill]);
+    pattern = skill.replaceAll('(', '\\(').replaceAll(')', '\\)');
+    rules.choiceRules(rules, 'Goody', skill,
+      'Pattern="' + pattern + '\\s+Skill"' +
+      'Effect=add ' +
+      'Attribute="skillModifier.' + skill + '" ' +
+      'Section=skill ' +
+      'Note="%V ' + skill + '"'
+    );
+    rules.choiceRules(rules, 'Goody', skill + ' Class Skill',
+      'Pattern="' + pattern + '\\s+(?:is\\s+)?(?:a\\s+)?class\\s+skill" ' +
+      'Effect=set ' +
+      'Attribute="classSkills.' + skill + '" ' +
+      'Section=skill ' +
+      'Note="' + skill + ' is a class skill"'
+    );
   }
   for(var goody in goodies) {
     rules.choiceRules(rules, 'Goody', goody, goodies[goody]);
@@ -5839,7 +5833,7 @@ SRD35.goodyRules = function(
   rules, name, pattern, effect, value, attributes, sections, notes
 ) {
 
-  var effectOps = {'add':'+', 'incr':'+', 'min':'v', 'max':'^', 'set':'='};
+  var effectOps = {'add':'+', 'increment':'+', 'min':'v', 'max':'^', 'set':'='};
 
   if(!name) {
     console.log('Empty goody name');
@@ -5876,18 +5870,21 @@ SRD35.goodyRules = function(
 
   if(value == null)
     value = 1;
+  if(effect == 'add')
+    value = '$1 || $2 || ' + value;
+  value = (value + '').replace(/\$(\d)/g, 'm[$1]');
 
   var attr = 'goodies' + name.replaceAll(' ', '');
   var op = effectOps[effect];
   if(effect == 'add')
-    pattern = '([-+]\\d).*\\s+' + pattern + '|' + pattern + '\\s+([-+]\\d)';
+    pattern = '([-+]\\d)\\s+' + pattern + '|' + pattern + '\\s+([-+]\\d)';
 
   rules.defineRule(attr,
     'goodiesList', '=',
     '((a = source.reduce(' +
       'function(total, item) {' +
         'var m = item.match(/' + pattern + '/i); ' +
-        'return m ? m[1] || m[2] || ' + value + ' : total; ' +
+        'return m ? ' + value + ' : total; ' +
       '}, 0)) == 0 ? null : a)'
   );
   for(var i = 0; i < sections.length; i++) {
