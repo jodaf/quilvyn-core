@@ -1066,105 +1066,111 @@ SRD35.FEATURES = {
 SRD35.GOODIES = {
   'Armor':
     'Pattern="(?:armor(?:\\s+class)?|AC)" ' +
-    'Effect=adjust ' +
+    'Effect=add ' +
     'Attribute=armorClass ' +
-    'Section=combat Note="+%V Armor Class"',
+    'Section=combat Note="%V Armor Class"',
   'Charisma':
-    'Pattern=charisma ' +
-    'Effect=adjust ' +
+    'Pattern="charisma" ' +
+    'Effect=add ' +
     'Attribute=charisma ' +
     'Section=ability Note="%V Charisma"',
   'Constitution':
-    'Pattern=constitution ' +
-    'Effect=adjust ' +
+    'Pattern="constitution" ' +
+    'Effect=add ' +
     'Attribute=constitution ' +
     'Section=ability Note="%V Constitution"',
   'Dexterity':
-    'Pattern=dexterity ' +
-    'Effect=adjust ' +
+    'Pattern="dexterity" ' +
+    'Effect=add ' +
     'Attribute=dexterity ' +
     'Section=ability Note="%V Dexterity"',
-  'Feat':
-    'Pattern="(?:general\\s+)feat" ' +
-    'Effect=adjust ' +
-    'Attribute=featCount.General ' +
-    'Section=ability Note="%V General Feat"',
   'Fortitude':
     'Pattern="fortitude\\s+save" ' +
-    'Effect=adjust ' +
+    'Effect=add ' +
     'Attribute=save.Fortitude ' +
     'Section=save Note="%V Fortitude"',
+  'General Feat Count':
+    'Pattern="(?:general\\s+)feat" ' +
+    'Effect=add ' +
+    'Attribute=featCount.General ' +
+    'Section=ability Note="%V General Feat"',
   'Heal':
     'Pattern="heal\\s+skill" ' +
-    'Effect=adjust ' +
+    'Effect=add ' +
     'Attribute=skillModifier.Heal ' +
     'Section=skill Note="%V Heal"',
+  'Heal Class Skill':
+    'Pattern="heal\\s+(?:is\\s+)?(?:a\\s+)?class\\s+skill" ' +
+    'Effect=set ' +
+    'Attribute=classSkills.Heal ' +
+    'Section=skill Note="Heal is a Class Skill"',
   'Intelligence':
-    'Pattern=intelligence ' +
-    'Effect=adjust ' +
+    'Pattern="intelligence" ' +
+    'Effect=add ' +
     'Attribute=intelligence ' +
     'Section=ability Note="%V Intelligence"',
   'Longbow':
     'Pattern="(?<!composite\\s+)longbow" ' +
-    'Effect=adjust ' +
+    'Effect=add ' +
     'Attribute=longbowAttackModifier,longbowDamageModifier ' +
-    'Section=combat Note=%V',
-  'Longsword':
-    'Pattern=longsword ' +
-    'Effect=adjust ' +
-    'Attribute=longswordAttackModifier,longswordDamageModifier ' +
-    'Section=combat Note=%V',
+    'Section=combat Note="%V Attack and Damage"',
+  'Masterwork Armor':
+    'Pattern="masterwork.*\\s+armor|[-+]\\d.*armor|armor\\s+[-+]\\d" ' +
+    'Effect=incr ' +
+    'Value=-1 ' +
+    'Attribute=skillNotes.armorSkillCheckPenalty ' +
+    'Section=skill Note="Reduce skill check penalty by 1"',
+  'Masterwork Longbow':
+    'Pattern="masterwork.*\\s+(?<!composite\\s+)longbow" ' +
+    'Effect=incr ' +
+    'Attribute=longbowAttackModifier ' +
+    'Section=combat Note="%V Attack"',
+  'Masterwork Shield':
+    'Pattern="masterwork.*\\s+shield|[-+]\\d.*shield|shield\\s+[-+]\\d" ' +
+    'Effect=incr ' +
+    'Value=-1 ' +
+    'Attribute=skillNotes.armorSkillCheckPenalty ' +
+    'Section=skill Note="Reduce skill check penalty by 1"',
+  'Masterwork Shortbow':
+    'Pattern="masterwork.*\\s+(?<!composite\\s+)shortbow" ' +
+    'Effect=incr ' +
+    'Attribute=shortbowAttackModifier ' +
+    'Section=combat Note="%V Attack"',
   'Protection':
-    'Pattern=protection ' +
-    'Effect=adjust ' +
+    'Pattern="protection" ' +
+    'Effect=add ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
   'Reflex':
     'Pattern="reflex\\s+save" ' +
-    'Effect=adjust ' +
+    'Effect=add ' +
     'Attribute=save.Reflex ' +
     'Section=save Note="%V Reflex"',
   'Shield':
-    'Pattern=shield ' +
-    'Effect=adjust ' +
+    'Pattern="shield" ' +
+    'Effect=add ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
   'Shortbow':
     'Pattern="(?<!composite\\s+)shortbow" ' +
-    'Effect=adjust ' +
+    'Effect=add ' +
     'Attribute=shortbowAttackModifier,shortbowDamageModifier ' +
-    'Section=combat Note=%V',
+    'Section=combat Note="%V Attack and Damage"',
   'Strength':
-    'Pattern=strength ' +
-    'Effect=adjust ' +
+    'Pattern="strength" ' +
+    'Effect=add ' +
     'Attribute=strength ' +
     'Section=ability Note="%V Strength"',
   'Will':
     'Pattern="will\\s+save" ' +
-    'Effect=adjust ' +
+    'Effect=add ' +
     'Attribute=save.Will ' +
     'Section=save Note="%V Will"',
   'Wisdom':
-    'Pattern=wisdom ' +
-    'Effect=adjust ' +
+    'Pattern="wisdom" ' +
+    'Effect=add ' +
     'Attribute=wisdom ' +
-    'Section=ability Note="%V Wisdom"',
-  'MasterworkArmor':
-    'Pattern="masterwork\\s+armor|[-+]\\d.*armor|armor\\s+[-+]\\d" ' +
-    'Effect=set ' +
-    'Attribute=skillNotes.goodiesSkillCheckAdjustment ' +
-    'Section=skill Note="Reduce skill check penalty"',
-/*
-  'Skill-Heal-Class':
-    'Pattern="([-+]\\d)\\s+heal\\s+(?:is\\s+)(?:a\\)class\\s+Skill" ' +
-    'Attribute=classSkills.Heal ' +
-    'Section=skill Note=1',
-*/
-  'MasterworkLongsword':
-    'Pattern="masterwork\\s+longsword" ' +
-    'Effect=adjust ' +
-    'Attribute=longswordAttackModifier ' +
-    'Section=combat Note=%1'
+    'Section=ability Note="%V Wisdom"'
 };
 SRD35.LANGUAGES = {
   'Abyssal':'',
@@ -4629,7 +4635,7 @@ SRD35.talentRules = function(
   QuilvynUtils.checkAttrTable
     (skills, ['Ability', 'Untrained', 'Class', 'Synergy']);
   QuilvynUtils.checkAttrTable
-   (goodies, ['Pattern', 'Effect', 'Attribute', 'Section', 'Note']);
+   (goodies, ['Pattern', 'Effect', 'Value', 'Attribute', 'Section', 'Note']);
 
   for(var feat in feats) {
     rules.choiceRules(rules, 'Feat', feat, feats[feat]);
@@ -4769,6 +4775,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.goodyRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Pattern'),
       QuilvynUtils.getAttrValue(attrs, 'Effect'),
+      QuilvynUtils.getAttrValue(attrs, 'Value'),
       QuilvynUtils.getAttrValueArray(attrs, 'Attribute'),
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note')
@@ -5829,10 +5836,10 @@ SRD35.featureRules = function(rules, name, sections, notes) {
 
 /* TODO */
 SRD35.goodyRules = function(
-  rules, name, pattern, effect, attributes, sections, notes
+  rules, name, pattern, effect, value, attributes, sections, notes
 ) {
 
-  var effectOps = {'adjust':'+=', 'lower':'v=', 'raise':'^=', 'set':'='};
+  var effectOps = {'add':'+', 'incr':'+', 'min':'v', 'max':'^', 'set':'='};
 
   if(!name) {
     console.log('Empty goody name');
@@ -5846,7 +5853,7 @@ SRD35.goodyRules = function(
     console.log('Bad effect "' + effect + '" for goody ' + name);
     return;
   }
-  if(!Array.isArray(attributes) || attributes.length == 0) {
+  if(!Array.isArray(attributes)) {
     console.log('Bad attributes list "' + attributes + '" for goody ' + name);
     return;
   }
@@ -5867,25 +5874,29 @@ SRD35.goodyRules = function(
     'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
   );
 
-  if(effect == 'adjust')
-    pattern = '([-+]\\d).*\\s+' + pattern + '\\b|\\b' + pattern + '\\s+([-+]\\d)';
-  // pattern = '\\b' + pattern + '\\b';
+  if(value == null)
+    value = 1;
+
+  var attr = 'goodies' + name.replaceAll(' ', '');
+  var op = effectOps[effect];
+  if(effect == 'add')
+    pattern = '([-+]\\d).*\\s+' + pattern + '|' + pattern + '\\s+([-+]\\d)';
+
+  rules.defineRule(attr,
+    'goodiesList', '=',
+    '((a = source.reduce(' +
+      'function(total, item) {' +
+        'var m = item.match(/' + pattern + '/i); ' +
+        'return m ? m[1] || m[2] || ' + value + ' : total; ' +
+      '}, 0)) == 0 ? null : a)'
+  );
   for(var i = 0; i < sections.length; i++) {
-    var note = sections[i] + 'Notes.goodies' + name;
+    var note = sections[i] + 'Notes.' + attr;
     rules.defineChoice('notes', note + ':' + notes[i]);
-    rules.defineRule(note,
-      'goodiesList', '+=',
-      '((a = source.reduce(' +
-        'function(total, item) {' +
-          'var m = item.match(/' + pattern + '/i); ' +
-          'return total + (m ? (m[1] || m[2] || 1) * 1 : 0); ' +
-        '}, 0)) == 0 ? null : a)'
-    );
+    rules.defineRule(note, attr, '=', 'QuilvynUtils.signed(source)');
   }
   for(var i = 0; i < attributes.length; i++) {
-    rules.defineRule(attributes[i],
-      sections[0] + 'Notes.goodies' + name, effectOps[effect], null
-    );
+    rules.defineRule(attributes[i], sections[0] + 'Notes.' + attr, op, null);
   }
 
 };
