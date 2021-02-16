@@ -180,7 +180,8 @@ RuleEngine.prototype.toHtml = function() {
     result += '<b>' + a + '</b>\n';
     for(var b in this.sources[a]) {
       var source = this.sources[a][b];
-      result += ' "' + b + '" "' + source.type + '" "' + source.fn + '"\n';
+      var fnText = (source.fn + '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+      result += ' "' + b + '" "' + source.type + '" "' + fnText + '"\n';
     }
   }
   return result;
