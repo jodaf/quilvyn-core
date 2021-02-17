@@ -324,6 +324,94 @@ QuilvynRules.featureListRules = function(
 };
 
 /*
+ * Defines in #rules# the rules associated with goody #name#, triggered by
+ * a starred line in the character notes that matches #pattern#. #effect#
+ * specifies the effect of the goody on each attribute in list #attributes#.
+ * This is one of "increment" (adds #value# to the attribute), "set" (replaces
+ * the value of the attribute by #value#), "lower" (decreases the value to
+ * #value#), or "raise" (increases the value to #value#). #value#, if null,
+ * defaults to 1. An effect of "add" works similarly to "increment", but the
+ * function extends #pattern# at either end with /[-+]\d/ and uses the matched
+ * text instead of #value#. #sections# and #notes# list the note sections
+ * ("attribute", "combat", "companion", "feature", "magic", "save", or "skill")
+ * and formats that show the effects of the goody on the character sheet.
+ */
+QuilvynRules.goodyRules = function(
+  rules, name, pattern, effect, value, attributes, sections, notes
+) {
+
+  var effectOps = {
+    'add':'+', 'increment':'+', 'lower':'v', 'raise':'^', 'set':'='
+  };
+
+  if(!name) {
+    console.log('Empty goody name');
+    return;
+  }
+  if(!pattern) {
+    console.log('Empty pattern "' + pattern + '" for goody ' + name);
+    return;
+  }
+  if(!effect || !(effect in effectOps)) {
+    console.log('Bad effect "' + effect + '" for goody ' + name);
+    return;
+  }
+  if(!Array.isArray(attributes)) {
+    console.log('Bad attributes list "' + attributes + '" for goody ' + name);
+    return;
+  }
+  if(!Array.isArray(sections)) {
+    console.log('Bad sections list "' + sections + '" for goody ' + name);
+    return;
+  }
+  if(!Array.isArray(notes)) {
+    console.log('Bad notes list "' + notes + '" for goody ' + name);
+    return;
+  }
+  if(sections.length != notes.length) {
+    console.log(sections.length + ' sections, ' + notes.length + ' notes for goody ' + name);
+    return;
+  }
+
+  rules.defineRule('goodiesList', 'notes', '=',
+    'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
+  );
+
+  if(value == null)
+    value = 1;
+  if(effect == 'add')
+    value = '$1 || $2 || ' + value;
+  value = (value + '').replace(/\$(\d)/g, 'm[$1]');
+
+  var attr = 'goodies' + name.replaceAll(' ', '');
+  var op = effectOps[effect];
+  // To avoid triggering multiple goodies with a common suffix (e.g., "Punching
+  // Dagger +2" triggers "Dagger +2"), insist that a goody with a trailing
+  // value be the first word or be enclosed by parentheses.
+  if(effect == 'add')
+    pattern =
+      '([-+]\\d)\\s+' + pattern + '|(?:^\\W*|\\()' + pattern + '\\s+([-+]\\d)';
+
+  rules.defineRule(attr,
+    'goodiesList', '=',
+    '((a = source.reduce(' +
+      'function(total, item) {' +
+        'var m = item.match(/' + pattern + '/i); ' +
+        'return m ? ' + value + ' : total; ' +
+      '}, 0)) == 0 ? null : a)'
+  );
+  for(var i = 0; i < sections.length; i++) {
+    var note = sections[i] + 'Notes.' + attr;
+    rules.defineChoice('notes', note + ':' + notes[i]);
+    rules.defineRule(note, attr, '=', 'QuilvynUtils.signed(source)');
+  }
+  for(var i = 0; i < attributes.length; i++) {
+    rules.defineRule(attributes[i], sections[0] + 'Notes.' + attr, op, null);
+  }
+
+};
+
+/*
  * Defines in #rules# the rules needed to check, when #attr# is defined, if the
  * list of prerequisites #tests# are met. The results of the tests are computed
  * in the #section# note #noteName#--zero if successful, non-zero otherwise.
