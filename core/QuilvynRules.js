@@ -330,9 +330,8 @@ QuilvynRules.featureListRules = function(
  * This is one of "increment" (adds #value# to the attribute), "set" (replaces
  * the value of the attribute by #value#), "lower" (decreases the value to
  * #value#), or "raise" (increases the value to #value#). #value#, if null,
- * defaults to 1. An effect of "add" works similarly to "increment", but the
- * function extends #pattern# at either end with /[-+]\d/ and uses the matched
- * text instead of #value#. #sections# and #notes# list the note sections
+ * defaults to 1; occurrences of $1, $2, ... in #value# reference capture
+ * groups in #pattern#. #sections# and #notes# list the note sections
  * ("attribute", "combat", "companion", "feature", "magic", "save", or "skill")
  * and formats that show the effects of the goody on the character sheet.
  */
@@ -340,9 +339,7 @@ QuilvynRules.goodyRules = function(
   rules, name, pattern, effect, value, attributes, sections, notes
 ) {
 
-  var effectOps = {
-    'add':'+', 'increment':'+', 'lower':'v', 'raise':'^', 'set':'='
-  };
+  var effectOps = {'add':'+', 'lower':'v', 'raise':'^', 'set':'='};
 
   if(!name) {
     console.log('Empty goody name');
@@ -379,18 +376,10 @@ QuilvynRules.goodyRules = function(
 
   if(value == null)
     value = 1;
-  if(effect == 'add')
-    value = '$1 || $2 || ' + value;
   value = (value + '').replace(/\$(\d)/g, 'm[$1]');
 
   var attr = 'goodies' + name.replaceAll(' ', '');
   var op = effectOps[effect];
-  // To avoid triggering multiple goodies with a common suffix (e.g., "Punching
-  // Dagger +2" triggers "Dagger +2"), insist that a goody with a trailing
-  // value be the first word or be enclosed by parentheses.
-  if(effect == 'add')
-    pattern =
-      '([-+]\\d)\\s+' + pattern + '|(?:^\\W*|\\()' + pattern + '\\s+([-+]\\d)';
 
   rules.defineRule(attr,
     'goodiesList', '=',
