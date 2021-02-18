@@ -59,8 +59,8 @@ function SRD35() {
     SRD35.RACES
   );
   SRD35.talentRules
-    (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.LANGUAGES, SRD35.SKILLS,
-     SRD35.GOODIES);
+    (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.GOODIES, SRD35.LANGUAGES,
+     SRD35.SKILLS);
 
   Quilvyn.addRuleSet(rules);
 
@@ -1065,60 +1065,117 @@ SRD35.FEATURES = {
 };
 SRD35.GOODIES = {
   'Armor':
-    'Pattern=".*(?:armor(?:\\s+class)?|AC)" ' +
+    'Pattern="([-+]\\d).*(?:armor(?:\\s+class)?|AC)|(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
-  'Fighter Feat Count':
-    'Pattern="fighter\\s+feat" ' +
+  'Charisma':
+    'Pattern="([-+]\\d)\\s+charisma|charisma\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=charisma ' +
+    'Section=ability Note="%V Charisma"',
+  'Constitution':
+    'Pattern="([-+]\\d)\\s+constitution|constitution\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=constitution ' +
+    'Section=ability Note="%V Constitution"',
+  'Dexterity':
+    'Pattern="([-+]\\d)\\s+dexterity|dexterity\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=dexterity ' +
+    'Section=ability Note="%V Dexterity"',
+  'Fighter Feat Count':
+    'Pattern="([-+]\\d)\\s+fighter\\s+feat|fighter\\s+feat\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=featCount.Fighter ' +
     'Section=feature Note="%V Fighter Feat"',
   'Fortitude':
-    'Pattern="fortitude\\s+save" ' +
+    'Pattern="([-+]\\d)\\s+fortitude\\s+save|fortitude\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=save.Fortitude ' +
     'Section=save Note="%V Fortitude"',
   'General Feat Count':
-    'Pattern="(?:general\\s+)?feat" ' +
+    'Pattern="([-+]\\d)\\s+general\\s+feat|general\\s+feat\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=featCount.General ' +
     'Section=feature Note="%V General Feat"',
+  'Initiative':
+    'Pattern="([-+]\\d)\\s+initiative|initiative\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=initiative ' +
+    'Section=combat Note="%V Initiative"',
+  'Intelligence':
+    'Pattern="([-+]\\d)\\s+intelligence|intelligence\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=intelligence ' +
+    'Section=ability Note="%V Intelligence"',
   'Masterwork Armor':
     'Pattern="masterwork.*\\s+armor|[-+]\\d.*armor|armor\\s+[-+]\\d" ' +
-    'Effect=increment ' +
+    'Effect=add ' +
     'Value=-1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduce skill check penalty by 1"',
   'Masterwork Shield':
     'Pattern="masterwork.*\\s+shield|[-+]\\d.*shield|shield\\s+[-+]\\d" ' +
-    'Effect=increment ' +
+    'Effect=add ' +
     'Value=-1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduce skill check penalty by 1"',
   'Protection':
-    'Pattern=.*protection ' +
+    'Pattern="([-+]\\d).*protection|protection\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
   'Reflex':
-    'Pattern="reflex\\s+save" ' +
+    'Pattern="([-+]\\d)\\s+reflex\\s+save|reflex\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=save.Reflex ' +
     'Section=save Note="%V Reflex"',
   'Shield':
-    'Pattern=.*shield ' +
+    'Pattern="([-+]\\d).*\\s+shield|shield\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
-  'Will':
-    'Pattern="will\\s+save" ' +
+  'Speed':
+    'Pattern="([-+]\\d).*\\s+speed|speed\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=speed ' +
+    'Section=ability Note="%V Speed"',
+  'Strength':
+    'Pattern="([-+]\\d)\\s+strength|strength\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=strength ' +
+    'Section=ability Note="%V Strength"',
+  'Will':
+    'Pattern="([-+]\\d)\\s+will\\s+save|will\\s+save\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=save.Will ' +
     'Section=save Note="%V Will"',
-  'Wizard Feat Count':
-    'Pattern="wizard\\s+feat" ' +
+  'Wisdom':
+    'Pattern="([-+]\\d)\\s+wisdom|wisdom\\s+([-+]\\d)" ' +
     'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=wisdom ' +
+    'Section=ability Note="%V Wisdom"',
+  'Wizard Feat Count':
+    'Pattern="([-+]\\d)\\s+wizard\\s+feat|wizard\\s+feat\\s+([-+]\\d)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
     'Attribute=featCount.Wizard ' +
     'Section=feature Note="%V Wizard Feat"'
 };
@@ -4196,13 +4253,6 @@ SRD35.abilityRules = function(rules) {
   );
 
   for(var ability in SRD35.ABILITIES) {
-    rules.choiceRules(rules, 'Goody', ability,
-      'Pattern=' + ability + ' ' +
-      'Effect=add ' +
-      'Attribute=' + ability.toLowerCase() + ' ' +
-      'Section=ability ' +
-      'Note="%V ' + ability + '"'
-    );
     ability = ability.toLowerCase();
     rules.defineChoice('notes', ability + ':%V (%1)');
     rules.defineRule(ability, ability + 'Adjust', '+', null);
@@ -4441,18 +4491,21 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     prefix =
       weapon.charAt(0).toLowerCase() + weapon.substring(1).replaceAll(' ', '');
     rules.choiceRules(rules, 'Goody', weapon,
-      'Pattern="' + pattern + '" ' +
+      // To avoid triggering additional weapons with a common suffix (e.g.,
+      // "* punching dagger +2" also makes regular dagger +2), require that
+      // weapon goodies with a trailing value have no preceding word or be
+      // enclosed in parentheses.
+      'Pattern="([-+]\\d)\\s+' + pattern + '|(?:^\\W*|\\()' + pattern + '\\s+([-+]\\d)" ' +
       'Effect=add ' +
       'Attribute=' + prefix + 'AttackModifier,' + prefix + 'DamageModifier ' +
-      'Section=combat ' +
-      'Note="%V Attack and damage"'
+      'Value="$1 || $2" ' +
+      'Section=combat Note="%V Attack and damage"'
     );
     rules.choiceRules(rules, 'Goody', 'Masterwork ' + weapon,
       'Pattern="masterwork\\s+' + pattern + '" ' +
-      'Effect=increment ' +
+      'Effect=add ' +
       'Attribute=' + prefix + 'AttackModifier ' +
-      'Section=combat ' +
-      'Note="%V Attack"'
+      'Section=combat Note="%V Attack"'
     );
     rules.choiceRules(rules, 'Weapon', weapon, weapons[weapon]);
   }
@@ -4603,10 +4656,8 @@ SRD35.magicRules = function(rules, schools, spells) {
 
 /* Defines rules related to character aptitudes. */
 SRD35.talentRules = function(
-  rules, feats, features, languages, skills, goodies
+  rules, feats, features, goodies, languages, skills
 ) {
-
-  var pattern;
 
   QuilvynUtils.checkAttrTable(feats, ['Require', 'Imply', 'Type']);
   QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
@@ -4622,29 +4673,28 @@ SRD35.talentRules = function(
   for(var feature in features) {
     rules.choiceRules(rules, 'Feature', feature, features[feature]);
   }
+  for(var goody in goodies) {
+    rules.choiceRules(rules, 'Goody', goody, goodies[goody]);
+  }
   for(var language in languages) {
     rules.choiceRules(rules, 'Language', language, languages[language]);
   }
   for(var skill in skills) {
     rules.choiceRules(rules, 'Skill', skill, skills[skill]);
-    pattern = skill.replaceAll('(', '\\(').replaceAll(')', '\\)');
+    var pattern = skill.replaceAll('(', '\\(').replaceAll(')', '\\)');
     rules.choiceRules(rules, 'Goody', skill,
-      'Pattern="' + pattern + '\\s+Skill"' +
+      'Pattern="([-+]\\d).*\\s+' + pattern + '\\s+Skill|' + pattern + '\\s+skill\\s+([-+]\\d)"' +
       'Effect=add ' +
+      'Value="$1 || $2" ' +
       'Attribute="skillModifier.' + skill + '" ' +
-      'Section=skill ' +
-      'Note="%V ' + skill + '"'
+      'Section=skill Note="%V ' + skill + '"'
     );
     rules.choiceRules(rules, 'Goody', skill + ' Class Skill',
       'Pattern="' + pattern + '\\s+(?:is\\s+)?(?:a\\s+)?class\\s+skill" ' +
       'Effect=set ' +
       'Attribute="classSkills.' + skill + '" ' +
-      'Section=skill ' +
-      'Note="' + skill + ' is a class skill"'
+      'Section=skill Note="' + skill + ' is a class skill"'
     );
-  }
-  for(var goody in goodies) {
-    rules.choiceRules(rules, 'Goody', goody, goodies[goody]);
   }
 
   rules.defineChoice('notes',
@@ -5835,9 +5885,8 @@ SRD35.featureRules = function(rules, name, sections, notes) {
  * This is one of "increment" (adds #value# to the attribute), "set" (replaces
  * the value of the attribute by #value#), "lower" (decreases the value to
  * #value#), or "raise" (increases the value to #value#). #value#, if null,
- * defaults to 1. An effect of "add" works similarly to "increment", but the
- * function extends #pattern# at either end with /[-+]\d/ and uses the matched
- * text instead of #value#. #sections# and #notes# list the note sections
+ * defaults to 1; occurrences of $1, $2, ... in #value# reference capture
+ * groups in #pattern#. #sections# and #notes# list the note sections
  * ("attribute", "combat", "companion", "feature", "magic", "save", or "skill")
  * and formats that show the effects of the goody on the character sheet.
  */
