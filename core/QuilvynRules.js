@@ -386,7 +386,7 @@ QuilvynRules.goodyRules = function(
     '((a = source.reduce(' +
       'function(total, item) {' +
         'var m = item.match(/' + pattern + '/i); ' +
-        'return m ? ' + value + ' : total; ' +
+        'return m ? ' + (effect == 'set' ? value : 'total + (' + value + ') * 1') + ' : total; ' +
       '}, 0)) == 0 ? null : a)'
   );
   for(var i = 0; i < sections.length; i++) {
