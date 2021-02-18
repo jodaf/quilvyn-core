@@ -4823,7 +4823,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Attribute'),
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note')
-  );
+    );
   else if(type == 'Language')
     SRD35.languageRules(rules, name);
   else if(type == 'Path')
@@ -6904,6 +6904,8 @@ SRD35.createViewers = function(rules, viewers) {
  */
 SRD35.choiceEditorElements = function(rules, type) {
   var result = [];
+  var sections =
+    ['ability', 'combat', 'companion', 'feature', 'magic', 'skill'];
   var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   if(type == 'Alignment')
     result.push(
@@ -6981,10 +6983,17 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Imply', 'Implies', 'text', [40]],
       ['Type', 'Types', 'text', [20]]
     );
-  else if(type == 'Feature') {
-    var sections =
-      ['ability', 'combat', 'companion', 'feature', 'magic', 'skill'];
+  else if(type == 'Feature')
     result.push(
+      ['Section', 'Section', 'select-one', sections],
+      ['Note', 'Note', 'text', [60]]
+    );
+  else if(type == 'Goody') {
+    var effects = ['add', 'lower', 'raise', 'set'];
+    result.push(
+      ['Pattern', 'Pattern', 'text', [40]],
+      ['Effect', 'Effect', 'select-one', effects],
+      ['Value', 'Value', 'text', [20]],
       ['Section', 'Section', 'select-one', sections],
       ['Note', 'Note', 'text', [60]]
     );
