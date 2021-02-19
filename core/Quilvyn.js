@@ -1147,7 +1147,11 @@ Quilvyn.update = function(input) {
       '<title>Rule Notes for ' + InputGetValue(editForm.rules) + '</title>\n',
       '</head>\n',
       '<body bgcolor="' + window.BACKGROUND + '">\n',
-      ruleSet.ruleNotes(),
+      ruleSet.ruleNotes()
+    );
+    ruleSet.getPlugins().map
+      (x => Quilvyn.rulesNotesWindow.document.write(x.rules.ruleNotes()));
+    Quilvyn.rulesNotesWindow.document.write(
       '\n</body>\n',
       '</html>\n'
     );
