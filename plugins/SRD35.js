@@ -7769,8 +7769,8 @@ SRD35.makeValid = function(attributes) {
 /* Returns HTML body content for user notes associated with this rule set. */
 SRD35.ruleNotes = function() {
   return '' +
-    '<h2>SRD35 Quilvyn Module Notes</h2>\n' +
-    'SRD35 Quilvyn Module Version ' + SRD35_VERSION + '\n' +
+    '<h2>SRD35/NPC/Prestige Quilvyn Plugin Notes</h2>\n' +
+    'SRD35 Quilvyn Plugin Version ' + SRD35_VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
     '<p>\n' +
@@ -7847,9 +7847,6 @@ SRD35.ruleNotes = function() {
     '    bumping intelligence when a character reaches fourth level causes\n' +
     '    Quilvyn to recompute the number of skill points awarded at first\n' +
     '    through third levels.\n' +
-    '  </li><li>\n' +
-    '    When randomly generating clerics, Quilvyn reports a spell for each\n' +
-    '    domain in each level, instead of a single domain spell per level.\n' +
     '  </li><li>\n' +
     '    Quilvyn gives multiclass characters quadruple skill points for the\n' +
     '    first level of each class, instead of just the first class.\n' +
