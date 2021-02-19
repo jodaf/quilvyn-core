@@ -4472,9 +4472,6 @@ SRD35.aideRules = function(rules, companions, familiars) {
 /* Defines rules related to combat. */
 SRD35.combatRules = function(rules, armors, shields, weapons) {
 
-  var pattern;
-  var prefix;
-
   QuilvynUtils.checkAttrTable
     (armors, ['AC', 'Weight', 'Dex', 'Skill', 'Spell']);
   QuilvynUtils.checkAttrTable(shields, ['AC', 'Weight', 'Skill', 'Spell']);
@@ -4487,8 +4484,8 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     rules.choiceRules(rules, 'Shield', shield, shields[shield]);
   }
   for(var weapon in weapons) {
-    pattern = weapon.replace(/  */g, '\\s+');
-    prefix =
+    var pattern = weapon.replace(/  */g, '\\s+');
+    var prefix =
       weapon.charAt(0).toLowerCase() + weapon.substring(1).replaceAll(' ', '');
     rules.choiceRules(rules, 'Goody', weapon,
       // To avoid triggering additional weapons with a common suffix (e.g.,
