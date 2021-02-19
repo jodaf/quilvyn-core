@@ -939,7 +939,7 @@ Quilvyn.sheetHtml = function(attrs) {
       'var computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
   }
 
-  var ruleSets = ruleSet.getPlugins().map(x => x.rules).concat(ruleSet);
+  var ruleSets = [ruleSet].concat(ruleSet.getPlugins().map(x => x.rules));
   var versions =
     'Quilvyn version ' + VERSION + '; ' + ruleSets.map(x => x.getName() + ' version ' + x.getVersion()).join('; ');
 
