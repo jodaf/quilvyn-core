@@ -22,7 +22,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * This module loads NPC class rules from the System Reference Documents v3.5.
  * Member methods can be called independently in order to use a subset of the
  * rules.  Similarly, the constant fields of SRD35NPC (CLASSES, COMPANIONS)
- * can be thined to limit the user's choices.
+ * can be manipulated to modify the choices.
  */
 function SRD35NPC() {
   if(window.SRD35 == null) {
