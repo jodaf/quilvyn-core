@@ -1,4 +1,4 @@
-## Quilvyn RPG character sheet generator
+## Quilvyn Tabletop Role-Playing Game Character Sheet Generator
 
 Quilvyn generates character sheets for paper-and-pencil role playing game
 (RPG) characters.  Using basic values (abilities, class, name, etc.) entered
