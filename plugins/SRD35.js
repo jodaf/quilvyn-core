@@ -4658,6 +4658,8 @@ SRD35.talentRules = function(
 
   QuilvynUtils.checkAttrTable(feats, ['Require', 'Imply', 'Type']);
   QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
+  QuilvynUtils.checkAttrTable
+    (goodies, ['Pattern', 'Effect', 'Value', 'Attribute', 'Section', 'Note']);
   QuilvynUtils.checkAttrTable(languages, []);
   QuilvynUtils.checkAttrTable
     (skills, ['Ability', 'Untrained', 'Class', 'Synergy']);
