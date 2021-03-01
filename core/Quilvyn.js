@@ -266,9 +266,25 @@ Quilvyn.customApplyCollection = function() {
   // TODO
 };
 
-/* TODO */
+/* Removes all custom items from the current collection. */
 Quilvyn.customDeleteCollection = function() {
-  // TODO
+  if(!(editWindow.confirm('Delete custom collection '+customCollection+'?')))
+    return;
+  var prefix = PERSISTENT_RULE_PREFIX + customCollection + '.';
+  for(var path in STORAGE) {
+    if(path.startsWith(prefix))
+      STORAGE.removeItem(path);
+  }
+  if(!(customCollection in ruleSets)) {
+    var input = editForm.custom;
+    var opts = [];
+    for(var i = 0; i < input.options.length; i++)
+      if(input.options[i].text != customCollection)
+        opts.push(input.options[i].text);
+    InputSetOptions(input, opts);
+    customCollection = ruleSet.getName();
+    InputSetValue(input, customCollection);
+  }
 };
 
 /*
@@ -369,7 +385,7 @@ Quilvyn.customImportItems = function(focus) {
 
 };
 
-/* TODO */
+/* Interacts with the user to define a new custom item collection. */
 Quilvyn.customNewCollection = function() {
   var name = editWindow.prompt("Custom Collection Name?");
   if(!name)
@@ -447,7 +463,7 @@ Quilvyn.editorHtml = function() {
     ['rules', 'Rules', 'select-one', []],
     ['rulesNotes', '', 'button', ['Notes']],
     ['ruleRules', '', 'button', ['Rules']],
-    ['custom', 'Customizations', 'select-one', ['New Collection...', 'Delete Collection', 'View/Export All', 'View/Export Collection', 'Import Collections...', 'Apply Collection...', 'Add Items...', 'Delete Item...', 'Import Items...']],
+    ['custom', 'Custom Items', 'select-one', ['New Collection...', 'Delete Collection', 'View/Export All', 'View/Export Collection', 'Import Collections...', 'Apply Collection...', 'Add Items...', 'Delete Item...', 'Import Items...']],
     ['character', 'Character', 'select-one', []],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
     ['extras', '', 'checkbox', ['Extras']],
@@ -815,7 +831,9 @@ Quilvyn.refreshEditor = function(redraw) {
   );
   var customOpts = QuilvynUtils.getKeys(ruleSets).sort();
   customOpts.unshift(
-    'New Collection...', 'Delete Collection...', 'View/Export All', 'View/Export Collection', 'Import Collections...', 'Apply Collection...', 'Add Items...', 'Delete Item...', 'Import Items...'
+    'New Collection...', 'Delete Collection...', 'View/Export All',
+    'View/Export Collection', 'Import Collections...', 'Apply Collection...',
+    'Add Items...', 'Delete Item...', 'Import Items...'
   );
   InputSetOptions(editForm.custom, customOpts);
   InputSetOptions(editForm.character, characterOpts);
@@ -1166,7 +1184,7 @@ Quilvyn.update = function(input) {
       Quilvyn.customApplyCollection();
     else if(value == 'Delete Collection...')
       Quilvyn.customDeleteCollection();
-    else if(value == 'Delete Item')
+    else if(value == 'Delete Item...')
       Quilvyn.customDeleteItem();
     else if(value == 'Import Collections...')
       Quilvyn.customImportCollections();
@@ -1178,6 +1196,10 @@ Quilvyn.update = function(input) {
       Quilvyn.customExport(null);
     else if(value == 'View/Export Collection')
       Quilvyn.customExport(customCollection);
+    else {
+      customCollection = value;
+      InputSetValue(input, customCollection);
+    }
   } else if(name == 'help') {
     if(Quilvyn.helpWindow == null || Quilvyn.helpWindow.closed) {
       Quilvyn.helpWindow =
