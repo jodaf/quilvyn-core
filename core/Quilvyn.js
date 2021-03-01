@@ -39,6 +39,7 @@ var TIMEOUT_DELAY = 1000; // One second
 var character = {};     // Displayed character attrs
 var characterCache = {};// Attrs of all displayed characters, indexed by path
 var characterPath = ''; // Path to most-recently opened/generated character
+var customCollection = null; // Name of current customization collection
 var editForm;           // Character editing form (editWindow.document.forms[0])
 var editWindow = null;  // Window where editor is shown
 var persistentInfo = {  // What we store in persistent data
@@ -124,10 +125,11 @@ Quilvyn.addRuleSet = function(rs) {
   rs.defineRule('hiddenNotes', 'hidden', '?', null);
   ruleSets[rs.getName()] = rs;
   ruleSet = rs;
-  var customRulePrefix = PERSISTENT_RULE_PREFIX + rs.getName() + '.';
+  customCollection = rs.getName();
+  var customPrefix = PERSISTENT_RULE_PREFIX + customCollection + '.';
   for(var path in STORAGE) {
-    if(path.startsWith(customRulePrefix)) {
-      var typeAndName = path.substring(customRulePrefix.length).split('.');
+    if(path.startsWith(customPrefix)) {
+      var typeAndName = path.substring(customPrefix.length).split('.');
       ruleSet.choiceRules(rs, typeAndName[0], typeAndName[1], STORAGE.getItem(path));
     }
   }
@@ -145,12 +147,10 @@ Quilvyn.applyV2Changes = function(character) {
       attr = attr.replace('prohibit.', 'selectableFeatures.Wizard - School Opposition (') + ')';
     else if(attr.match(/^specialize\./))
       attr = attr.replace('specialize.', 'selectableFeatures.Wizard - School Specialization (') + ')';
-    attr = attr.replace(/(half) ?(elf)/i, '$1-$2');
-    attr = attr.replace(/(half) ?(orc)/i, '$1-$2');
+    attr = attr.replace(/(half) ?(elf|orc)/i, '$1-$2');
     attr = attr.replace(/(blind) ?(fight)/i, '$1-$2');
     attr = attr.replace(/(point) ?(blank)/i, '$1-$2');
-    value = value.replace(/(half) ?(elf)/i, '$1-$2');
-    value = value.replace(/(half) ?(orc)/i, '$1-$2');
+    value = value.replace(/(half) ?(elf|orc)/i, '$1-$2');
     value = value.replace(/(blind) ?(fight)/i, '$1-$2');
     value = value.replace(/(point) ?(blank)/i, '$1-$2');
     result[attr] = value;
@@ -158,18 +158,18 @@ Quilvyn.applyV2Changes = function(character) {
   return result;
 };
 
-/* Interacts with the user to add one custom choice to the current rule set. */
-Quilvyn.customChoicesAdd = function(focus, input) {
+/* Interacts with the user to add custom items to the current collection. */
+Quilvyn.customAddItems = function(focus) {
 
-  if(focus && Quilvyn.customChoicesAdd.win != null) {
+  if(focus && Quilvyn.customAddItems.win != null) {
     // Prior add still pending
-    Quilvyn.customChoicesAdd.win.focus();
+    Quilvyn.customAddItems.win.focus();
     return;
-  } else if(Quilvyn.customChoicesAdd.win == null) {
-    // New addition
+  } else if(Quilvyn.customAddItems.win == null) {
+    // (Re)open the custom add window
     var choices = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
     var htmlBits = [
-      '<html><head><title>Add Custom Choice</title></head>',
+      '<html><head><title>Add Custom Items</title></head>',
       '<body bgcolor="' + window.BACKGROUND + '">',
       '<img src="' + LOGO_URL + '"/><br/>'
     ];
@@ -187,23 +187,23 @@ Quilvyn.customChoicesAdd = function(focus, input) {
       '</form></body></html>'
     );
     var html = htmlBits.join('\n') + '\n';
-    Quilvyn.customChoicesAdd.win = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
-    Quilvyn.customChoicesAdd.win.document.write(html);
-    Quilvyn.customChoicesAdd.win.document.close();
-    Quilvyn.customChoicesAdd.win.okay = false;
-    Quilvyn.customChoicesAdd.win.focus();
-    Quilvyn.customChoicesAdd.win.update = true;
-    Quilvyn.customChoicesAdd(false, Quilvyn.customChoicesAdd.win.document.forms[0]['type']);
+    Quilvyn.customAddItems.win = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.customAddItems.win.document.write(html);
+    Quilvyn.customAddItems.win.document.close();
+    Quilvyn.customAddItems.win.okay = false;
+    Quilvyn.customAddItems.win.focus();
+    Quilvyn.customAddItems.win.update = true;
+    Quilvyn.customAddItems(false);
     return;
-  } else if(Quilvyn.customChoicesAdd.win.closed) {
-    // User cancel
-    Quilvyn.customChoicesAdd.win = null;
+  } else if(Quilvyn.customAddItems.win.closed) {
+    // User done making additions
+    Quilvyn.customAddItems.win = null;
     return;
-  } else if(!Quilvyn.customChoicesAdd.win.okay) {
+  } else if(!Quilvyn.customAddItems.win.okay) {
     // Try again later, after updating the input fields as necessary
-    if(Quilvyn.customChoicesAdd.win.update) {
+    if(Quilvyn.customAddItems.win.update) {
       var typeInput =
-        Quilvyn.customChoicesAdd.win.document.getElementsByName('type')[0];
+        Quilvyn.customAddItems.win.document.getElementsByName('type')[0];
       var typeValue = InputGetValue(typeInput);
       var elements = ruleSet.choiceEditorElements(ruleSet, typeValue);
       var htmlBits = [];
@@ -218,15 +218,15 @@ Quilvyn.customChoicesAdd = function(focus, input) {
           InputHtml(name, type, params) + '</td></tr>'
         );
       }
-      Quilvyn.customChoicesAdd.win.document.getElementsByName('variableFields')[0].innerHTML = htmlBits.join('\n');
-      Quilvyn.customChoicesAdd.win.update = false;
+      Quilvyn.customAddItems.win.document.getElementsByName('variableFields')[0].innerHTML = htmlBits.join('\n');
+      Quilvyn.customAddItems.win.update = false;
     }
-    setTimeout('Quilvyn.customChoicesAdd(false)', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.customAddItems(false)', TIMEOUT_DELAY);
     return;
   }
 
-  // Ready to add choice
-  var inputForm = Quilvyn.customChoicesAdd.win.document.forms[0];
+  // Ready to add a custom item
+  var inputForm = Quilvyn.customAddItems.win.document.forms[0];
   var attrs = [];
   var name = '';
   var type = '';
@@ -234,6 +234,8 @@ Quilvyn.customChoicesAdd = function(focus, input) {
     var input = inputForm.elements[i];
     var inputName = input.name;
     var inputValue = InputGetValue(input);
+    if(inputValue.indexOf(' ') >= 0 && !(input.type.startsWith('text')))
+      inputValue = '"' + inputValue + '"';
     if(inputName == 'name')
       // For consistency, allow unnecessary quotes around name
       name = inputValue.replace(/^(['"])(.*)\1$/, '$2');
@@ -245,25 +247,37 @@ Quilvyn.customChoicesAdd = function(focus, input) {
       attrs.push(inputName + '=' + inputValue);
   }
   attrs = attrs.join(' ');
-  ruleSet.choiceRules(ruleSet, type, name, attrs);
-  STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + type + '.' + name, attrs);
-  Quilvyn.customChoicesAdd.win.document.getElementById('message').innerHTML = 'Added ' + type + '.' + name;
+  STORAGE.setItem
+    (PERSISTENT_RULE_PREFIX + customCollection + '.' + type + '.' + name, attrs);
+  Quilvyn.customAddItems.win.document.getElementById('message').innerHTML =
+    'Added ' + type + '.' + name;
 
-  Quilvyn.customChoicesAdd.win.okay = false;
+  Quilvyn.customAddItems.win.okay = false;
   Quilvyn.refreshEditor(true);
-  setTimeout('Quilvyn.customChoicesAdd(false)', TIMEOUT_DELAY);
+  if(customCollection == ruleSet.getName())
+    ruleSet.choiceRules(ruleSet, type, name, attrs);
+  setTimeout('Quilvyn.customAddItems(false)', TIMEOUT_DELAY);
   return;
 
 };
 
+/* TODO */
+Quilvyn.customApplyCollection = function() {
+  // TODO
+};
+
+/* TODO */
+Quilvyn.customDeleteCollection = function() {
+  // TODO
+};
+
 /*
- * Interacts with the user to delete one custom choice from the current rule
- * set.
+ * Interacts with the user to delete a custom item from the current collection.
  */
-Quilvyn.customChoicesDelete = function() {
-  var prompt = 'Enter custom choice to delete:';
+Quilvyn.customDeleteItem = function() {
+  var prompt = 'Enter custom rule to delete:';
   var paths = [];
-  var prefix = PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.';
+  var prefix = PERSISTENT_RULE_PREFIX + customCollection + '.';
   for(var path in STORAGE) {
     if(path.startsWith(prefix))
       paths.push(path.substring(prefix.length));
@@ -278,21 +292,110 @@ Quilvyn.customChoicesDelete = function() {
     return;
   }
   STORAGE.removeItem(prefix + path);
-  var pieces = path.split('.');
-  var type = pieces[0];
-  type =
-    type.substring(0,1).toLowerCase()+type.substring(1).replace(/ /g, '') + 's';
-  ruleSet.deleteChoice(type, pieces[1]);
-  Quilvyn.refreshEditor(true);
+  if(customCollection == ruleSet.getName()) {
+    var pieces = path.split('.');
+    var type = pieces[0];
+    type = type.substring(0,1).toLowerCase()+type.substring(1).replace(/ /g, '') + 's';
+    ruleSet.deleteChoice(type, pieces[1]);
+    Quilvyn.refreshEditor(true);
+  }
+};
+
+/* TODO */
+Quilvyn.customImportCollections = function() {
+  // TODO
 };
 
 /*
- * Displays all custom choices in the current rule set in a format that can be
+ * Interacts with the user to import a set of custom items into the current
+ * collection.
+ */
+Quilvyn.customImportItems = function(focus) {
+
+  if(focus && Quilvyn.customImportItems.win != null) {
+    // Prior import still pending
+    Quilvyn.customImportItems.win.focus();
+    return;
+  } else if(Quilvyn.customImportItems.win == null) {
+    // New import
+    var htmlBits = [
+      '<html><head><title>Import Custom Items</title></head>',
+      '<body bgcolor="' + window.BACKGROUND + '">',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h2>Enter item definitions from export</h2>',
+      '<form name="frm"><table>',
+      '<tr><td><textarea name="code" rows="20" cols="50"></textarea></td></tr>',
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '</form></body></html>'
+    ];
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.customImportItems.win =
+      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.customImportItems.win.document.write(html);
+    Quilvyn.customImportItems.win.document.close();
+    Quilvyn.customImportItems.win.okay = false;
+    Quilvyn.customImportItems.win.focus();
+    setTimeout('Quilvyn.customImportItems(false)', TIMEOUT_DELAY);
+    return;
+  } else if(Quilvyn.customImportItems.win.closed) {
+    // User cancel
+    Quilvyn.customImportItems.win = null;
+    return;
+  } else if(!Quilvyn.customImportItems.win.okay) {
+    // Try again later
+    setTimeout('Quilvyn.customImportItems(false)', TIMEOUT_DELAY);
+    return;
+  }
+
+  // Ready to import
+  var lines = Quilvyn.customImportItems.win.document.frm.elements[0].value.split('\n');
+
+  for(var i = 0; i < lines.length; i++) {
+    var pieces = lines[i].split('.');
+    var choiceType = pieces.shift();
+    var choiceName = pieces.shift();
+    var choiceAttrs = pieces.join('.');
+    STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + choiceType + '.' + choiceName, choiceAttrs);
+    if(customCollection == ruleSet.getName())
+      ruleSet.choiceRules(ruleSet, choiceType, choiceName, choiceAttrs);
+  }
+
+  Quilvyn.customImportItems.win.close();
+  Quilvyn.customImportItems.win = null;
+  Quilvyn.refreshEditor(true);
+
+};
+
+/* TODO */
+Quilvyn.customNewCollection = function() {
+  var name = editWindow.prompt("Custom Collection Name?");
+  if(!name)
+    return;
+  customCollection = name;
+  var input = editForm.custom;
+  if(!InputSetValue(input, name)) {
+    var opts = []
+    for(var i = 0; i < input.options.length; i++)
+      opts[i] = input.options[i].text;
+    opts[input.options.length] = name;
+    InputSetOptions(input, opts);
+    InputSetValue(input, name);
+  }
+};
+
+/*
+ * TODO
+ * Displays all items in the current custom collection in a format that can be
  * imported into Quilvyn.
  */
-Quilvyn.customChoicesExport = function() {
+Quilvyn.customExport = function(collection) {
   var htmlBits = [];
-  var prefix = PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.';
+  var prefix = PERSISTENT_RULE_PREFIX;
+  if(collection != null)
+    prefix += collection + '.';
   for(var path in STORAGE) {
     if(!path.startsWith(prefix))
       continue;
@@ -313,68 +416,6 @@ Quilvyn.customChoicesExport = function() {
   exportPopup.document.write(html);
   exportPopup.document.close();
   exportPopup.focus();
-};
-
-/*
- * Interacts with the user to import a set of custom choices into the current
- * rule set.
- */
-Quilvyn.customChoicesImport = function(focus) {
-
-  if(focus && Quilvyn.customChoicesImport.win != null) {
-    // Prior import still pending
-    Quilvyn.customChoicesImport.win.focus();
-    return;
-  } else if(Quilvyn.customChoicesImport.win == null) {
-    // New import
-    var htmlBits = [
-      '<html><head><title>Import Custom Choices</title></head>',
-      '<body bgcolor="' + window.BACKGROUND + '">',
-      '<img src="' + LOGO_URL + ' "/><br/>',
-      '<h2>Enter choice definitions from export</h2>',
-      '<form name="frm"><table>',
-      '<tr><td><textarea name="code" rows="20" cols="50"></textarea></td></tr>',
-      '</table></form>',
-      '<form>',
-      '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="window.close();"/>',
-      '</form></body></html>'
-    ];
-    var html = htmlBits.join('\n') + '\n';
-    Quilvyn.customChoicesImport.win =
-      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
-    Quilvyn.customChoicesImport.win.document.write(html);
-    Quilvyn.customChoicesImport.win.document.close();
-    Quilvyn.customChoicesImport.win.okay = false;
-    Quilvyn.customChoicesImport.win.focus();
-    setTimeout('Quilvyn.customChoicesImport(false)', TIMEOUT_DELAY);
-    return;
-  } else if(Quilvyn.customChoicesImport.win.closed) {
-    // User cancel
-    Quilvyn.customChoicesImport.win = null;
-    return;
-  } else if(!Quilvyn.customChoicesImport.win.okay) {
-    // Try again later
-    setTimeout('Quilvyn.customChoicesImport(false)', TIMEOUT_DELAY);
-    return;
-  }
-
-  // Ready to import
-  var lines = Quilvyn.customChoicesImport.win.document.frm.elements[0].value.split('\n');
-
-  for(var i = 0; i < lines.length; i++) {
-    var pieces = lines[i].split('.');
-    var choiceType = pieces.shift();
-    var choiceName = pieces.shift();
-    var choiceAttrs = pieces.join('.');
-    ruleSet.choiceRules(ruleSet, choiceType, choiceName, choiceAttrs);
-    STORAGE.setItem(PERSISTENT_RULE_PREFIX + ruleSet.getName() + '.' + choiceType + '.' + choiceName, choiceAttrs);
-  }
-
-  Quilvyn.customChoicesImport.win.close();
-  Quilvyn.customChoicesImport.win = null;
-  Quilvyn.refreshEditor(true);
-
 };
 
 /* Interacts w/user to delete a character from persistent storage. */
@@ -405,8 +446,8 @@ Quilvyn.editorHtml = function() {
     ['help', '', 'button', ['Help']],
     ['rules', 'Rules', 'select-one', []],
     ['rulesNotes', '', 'button', ['Notes']],
-    ['rulesCustomize', '', 'select-one', ['--- Customize ---', 'Add...', 'Delete...', 'Export', 'Import...']],
     ['ruleRules', '', 'button', ['Rules']],
+    ['custom', 'Customizations', 'select-one', ['New Collection...', 'Delete Collection', 'View/Export All', 'View/Export Collection', 'Import Collections...', 'Apply Collection...', 'Add Items...', 'Delete Item...', 'Import Items...']],
     ['character', 'Character', 'select-one', []],
     ['italics', 'Show', 'checkbox', ['Italic Notes']],
     ['extras', '', 'checkbox', ['Extras']],
@@ -772,10 +813,15 @@ Quilvyn.refreshEditor = function(redraw) {
   characterOpts.unshift(
     '---choose one---', 'New', 'Random...', 'Save', 'Save As...', 'Delete...', 'HTML', 'Import...', 'Export', 'Summary'
   );
-
+  var customOpts = QuilvynUtils.getKeys(ruleSets).sort();
+  customOpts.unshift(
+    'New Collection...', 'Delete Collection...', 'View/Export All', 'View/Export Collection', 'Import Collections...', 'Apply Collection...', 'Add Items...', 'Delete Item...', 'Import Items...'
+  );
+  InputSetOptions(editForm.custom, customOpts);
   InputSetOptions(editForm.character, characterOpts);
   InputSetOptions(editForm.rules, QuilvynUtils.getKeys(ruleSets));
   InputSetOptions(editForm.viewer, ruleSet.getViewerNames());
+  editForm.custom.selectedIndex = customOpts.indexOf(customCollection);
 
   // Skip to first character-related editor input
   for(i = 0;
@@ -1112,6 +1158,26 @@ Quilvyn.update = function(input) {
       Quilvyn.randomizeCharacter(true);
     else
       Quilvyn.openCharacter(value);
+  } else if(name == 'custom') {
+    InputSetValue(input, customCollection);
+    if(value == 'Add Items...')
+      Quilvyn.customAddItems(true);
+    else if(value == 'Apply Collection...')
+      Quilvyn.customApplyCollection();
+    else if(value == 'Delete Collection...')
+      Quilvyn.customDeleteCollection();
+    else if(value == 'Delete Item')
+      Quilvyn.customDeleteItem();
+    else if(value == 'Import Collections...')
+      Quilvyn.customImportCollections();
+    else if(value == 'Import Items...')
+      Quilvyn.customImportItems(true);
+    else if(value == 'New Collection...')
+      Quilvyn.customNewCollection();
+    else if(value == 'View/Export All')
+      Quilvyn.customExport(null);
+    else if(value == 'View/Export Collection')
+      Quilvyn.customExport(customCollection);
   } else if(name == 'help') {
     if(Quilvyn.helpWindow == null || Quilvyn.helpWindow.closed) {
       Quilvyn.helpWindow =
@@ -1127,16 +1193,6 @@ Quilvyn.update = function(input) {
     ruleSet = ruleSets[value];
     Quilvyn.refreshEditor(true);
     Quilvyn.refreshSheet();
-  } else if(name == 'rulesCustomize') {
-    input.selectedIndex = 0;
-    if(value == 'Add...')
-      Quilvyn.customChoicesAdd(true);
-    else if(value == 'Delete...')
-      Quilvyn.customChoicesDelete();
-    else if(value == 'Export')
-      Quilvyn.customChoicesExport();
-    else if(value == 'Import...')
-      Quilvyn.customChoicesImport(true);
   } else if(name == 'rulesNotes') {
     if(Quilvyn.rulesNotesWindow == null || Quilvyn.rulesNotesWindow.closed) {
       Quilvyn.rulesNotesWindow = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
