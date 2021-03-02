@@ -6972,7 +6972,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   } else if(type == 'Deity')
     result.push(
-      ['Alignment', 'Alignment', 'select-one', QuilvynUtils.getKeys(rules.getChoices('alignments'))],
+      ['Alignment', 'Alignment', 'select-one', ['LG', 'NG', 'CG', 'LN', 'N', 'CN', 'LE', 'NE', 'CE']],
       ['Weapon', 'Favored Weapon', 'text', [30]],
       ['Domain', 'Domains', 'text', [30]]
     );
