@@ -6978,9 +6978,9 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Feat')
     result.push(
+      ['Type', 'Types', 'text', [20]],
       ['Require', 'Prerequisites', 'text', [40]],
-      ['Imply', 'Implies', 'text', [40]],
-      ['Type', 'Types', 'text', [20]]
+      ['Imply', 'Implies', 'text', [40]]
     );
   else if(type == 'Feature')
     result.push(
@@ -7036,11 +7036,9 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Synergy', 'Synergy', 'text', [30]]
     );
   else if(type == 'Spell') {
-    var zeroToNine = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     result.push(
       ['School', 'School', 'select-one', QuilvynUtils.getKeys(rules.getChoices('schools'))],
-      ['Group', 'Caster Group', 'text', [15]],
-      ['Level', 'Level', 'select-one', zeroToNine],
+      ['Level', 'Caster Group and Level', 'text', [15]],
       ['Description', 'Description', 'text', [60]]
     );
   } else if(type == 'Weapon') {
@@ -7049,7 +7047,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     var zeroToOneFifty =
      [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
     result.push(
-      ['Level', 'Group', 'select-one', ['Simple', 'Martial', 'Exotic']],
+      ['Level', 'Group', 'select-one', ['Unarmed', 'Simple', 'Martial', 'Exotic']],
       ['Category', 'Category', 'select-one',
        ['Unarmed', 'Light', 'One-Handed', 'Two-Handed', 'Ranged']],
       ['Damage', 'Damage', 'select-one',
