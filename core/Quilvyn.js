@@ -242,6 +242,8 @@ Quilvyn.customAddItems = function(focus) {
     var input = inputForm.elements[i];
     var inputName = input.name;
     var inputValue = InputGetValue(input);
+    // Quote values from, e.g., pull-down menus that contain spaces. For text
+    // entries, the user is assumed to have already added necessary quotes.
     if(inputValue.indexOf(' ') >= 0 && !(input.type.startsWith('text')))
       inputValue = '"' + inputValue + '"';
     if(inputName == '_name')
@@ -280,7 +282,8 @@ Quilvyn.customApplyCollection = function() {
     if(!path.startsWith(prefix))
       continue;
     var pieces = path.split('.');
-    ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
+    if(pieces[2] != '_user')
+      ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
   }
   Quilvyn.refreshEditor(true);
 };
@@ -311,19 +314,20 @@ Quilvyn.customDeleteCollection = function() {
  * Interacts with the user to delete a custom item from the current collection.
  */
 Quilvyn.customDeleteItem = function() {
-  var paths = [];
+  var items = [];
   var prefix = PERSISTENT_CUSTOM_PREFIX + customCollection + '.';
   for(var path in STORAGE) {
     if(path.startsWith(prefix))
-      paths.push(path.substring(prefix.length));
+      items.push(path.substring(prefix.length).replace('.', ' '));
   }
-  paths.sort();
-  var path = editWindow.prompt
-    ('Enter custom item to delete:\n' + paths.join('\n'), '');
-  if(path == null)
+  items.sort();
+  var item = editWindow.prompt
+    ('Enter custom item to delete:\n' + items.join('\n'), '');
+  if(item == null)
     return; // User cancel
+  var path = item.replace(' ', '.');
   if(STORAGE.getItem(prefix + path) == null) {
-    editWindow.alert('No such custom item ' + path);
+    editWindow.alert('No such custom item ' + item);
     return;
   }
   STORAGE.removeItem(prefix + path);
@@ -433,8 +437,11 @@ Quilvyn.customNewCollection = function() {
   var name = editWindow.prompt('Custom Collection Name?');
   if(!name)
     return;
-  customCollections[name] = '';
   customCollection = name;
+  if(name in customCollections)
+    return;
+  customCollections[name] = '';
+  STORAGE.setItem(PERSISTENT_CUSTOM_PREFIX + name + '._user.' + name, '');
   Quilvyn.refreshEditor(true);
 };
 
