@@ -83,7 +83,7 @@ its windows, and the program uses the DEFAULT_SHEET_STYLE to determine which
 style to use for character sheets. WARN_ABOUT_DISCARD determines whether or not
 Quilvyn warns you when ask to open a new character after making changes to the
 current one without saving. You can also add character sheet and editor
-customizations in quivyn.html. See the comments in that file for details.
+customizations in quilvyn.html. See the comments in that file for details.
 </p><p>
 To run Quilvyn, simply use one of the web browsers listed above to open your
 local copy of quilvyn.html. If the program opens a plugin selection window,
@@ -167,7 +167,7 @@ Quilvyn, and the "Help" button opens one that contains this document. The
 rule sets&#151;Quilvyn comes with support for the v3.5 System Reference
 Document, and plug-ins for different game versions and particular campaign
 settings are available. The "Notes" and "Rules" buttons next to this pull-down
-open windows with details about the particular rule set, and the Customize
+open windows with details about the particular rule set, and the Custom Items
 pull-down is discussed in <a href="#custom">Adding Custom Items</a>. The
 "Character" menu is discussed in
 <a href='#open'>Generating and Loading Characters</a>. The "Summary" item in
@@ -287,31 +287,47 @@ lines in the Notes section will raise the character's strength by two, their
 Sleight Of Hand skill by four, and their attack and damage with longswords by 1:
 </p><p>
 * Ring of Strength +2<br/>
-* Cloak of Distraction (Sleight Of Hand +4)<br/>
+* Cloak of Distraction (Sleight Of Hand skill +4)<br/>
 * +1 Longsword
 </p><p>
 Multiple items can be listed on a single line separated by semicolons, so the
 above three items can also be listed as:
 </p><p>
-* Ring of Strength +2; Cloak of Shielding (Sleight Of Hand +4); +1 Longsword
+* Ring of Strength +2; Cloak of Shielding (Sleight Of Hand skill +4); +1 Longsword
 </p><p>
 Along with bonuses (and negative values for harmful items), Quilvyn computes the
 modifiers for armor and weapons listed as having masterwork quality. You can
-also note effects that change a normally cross-class skill into a class skill
-and other effects that grant extra feats:
+also note effects that change a normally cross-class skill into a class skill.
 </p><p>
 * Masterwork longsword<br/>
 * Nomad background: Ride is a class skill<br/>
-* Town militia: extra feat for short sword proficiency<br/>
 </p>
 
 <a name="custom"><h3>Adding Custom Items</h3></a>
 <p>
-You can add and remove weapons, armor, familiars, and other items using
-Quilvyn's Custom Items pull-down menu. This feature is new to Quilvyn v2;
-further development and improvements will be included in future point releases.
+You can add weapons, armor, familiars, and other items to Quilvyn's menus using
+the Custom Items pull-down menu. Custom items are grouped into named
+<i>collections</i> that you can apply to a rule set to make the items
+available. The Custom Items pull-down displays the name of the current
+collection. In addition to user-defined collections, Quilvyn predefines a
+custom item collection for each loaded rule set. Every time Quilvyn runs, it
+automatically adds items in each predefined collection to the corresponding
+rule set; there's no need to apply the collection to its rule as a separate
+step.
 </p><p>
-Selecting the "Add Items..." item in the Customize menu opens a dialog box
+Selecting the "New Collection..." item in the Custom Items menu creates a new
+collection with the name of your choice and makes it the current collection.
+</p><p>
+Selecting the "Delete Collection..." item in the Custom Items menu allows you
+to remove a user-defined collection and all the items in it. Deleting one of
+Quilvyn's predefined collections removes any items it contains but does not
+delete the collection itself.
+</p><p>
+The "View/Export All" and "Import..." items in the Custom Items menu allow you
+to save and later reload your custom items. This can be useful for backup
+purposes and for copying custom items when you change browsers.
+</p><p>
+Selecting the "Add Items..." item in the Custom Items menu opens a dialog box
 where you can enter the attributes for new custom items. Begin by using the
 "Type" menu to select the type of item you want to add. Quilvyn displays a set
 of editing objects that allow you to enter attributes specific to that type of
@@ -320,23 +336,26 @@ allow you to enter the new weapon's name, group (Simple, Martial, or Exotic),
 category (Unarmed, Light, One-Handed, Two-Handed, or Ranged), damage, critical
 threat threshold, critical damage multiplier, and (for ranged weapons) range
 increment. Once you have entered all the necessary information, press the "Add"
-button. Your new item will now appear in Quilvyn's editor menu, so you can
-select it to add to character stats. Quilvyn stores these custom items in
-localStorage, so they will remain available when you restart Quilvyn.
+button. Your new item is saved in the current collection.
 </p><p>
-The "Delete Item..." item in the Customize menu opens a dialog box that
-allows you to remove a previously-entered custom item from localStorage.
-The "View/Export..." and "Import..." items provide a way to copy custom items
-from one instance of Quilvyn to another. This can be useful when changing
-browsers. Since Quilvyn associates custom choices with a particular rule set,
-you can also use this export/import facility to copy custom choices from, e.g.,
-the SRD v3.5 rule set to Pathfinder.
+The "Delete Item..." item in the Custom Items menu opens a dialog box that
+allows you to remove a previously-entered custom item from the current
+collection. Note that, once a collection has been applied to the current rule
+set, deleted items continue to appear in the editor menu until the next time
+you launch Quilvyn.
 </p><p>
-For most custom item attributes, the values to enter into the add dialog can be
-determined by looking at similar items from the core rule books. For example,
-for a new Animal Companion, Quilvyn prompts for the six basic abilities, hit
-dice, armor class, and damage, all of which are integer values. For Animal
-Companion damage, Quilvyn expects text in the format
+Selecting the "Apply Collection..." item in the Custom Items menu allows you to
+add the custom items defined in the current collection to the current rule set.
+As mentioned above, Quilvyn automatically adds items in its predefined
+collections to the corresponding rule sets. The "Apply Collection..." item
+provides a way to make items from user-defined collections available in the
+editor menus.
+</p><p>
+For most custom item attributes, the values to enter into the Add Item dialog
+can be determined by looking at similar items from the core rule books. For
+example, for a new Animal Companion, Quilvyn prompts for the six basic
+abilities, hit dice, armor class, and damage, all of which are integer values.
+For Animal Companion damage, Quilvyn expects text in the format
 int'd'int[+int][,int'd'int[+int]]. For an Ape, the value would be 1d6+5,1d6+2;
 for a Baboon, 1d6+3. Text values that contain spaces need to be surrounded by
 double quotes, and multiple values entered in a single box should be separated
@@ -368,7 +387,7 @@ the feat makes sense for a character. For example, although legal, selecting
 the Track feat makes no sense for a character with no ranks in Survival, so the
 Implies box for this feat would read
 <pre>
-"skills.Survival > 0"
+  "skills.Survival > 0"
 </pre>
 </p>
 
