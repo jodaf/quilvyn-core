@@ -33,6 +33,7 @@ var FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
 var PERSISTENT_CHARACTER_PREFIX = 'QuilvynCharacter.';
 var PERSISTENT_CUSTOM_PREFIX = 'QuilvynCustom.';
+var PERSISTENT_CUSTOM_PLACEHOLDER = '_user';
 var PERSISTENT_INFO_PREFIX = 'QuilvynInfo.';
 var TIMEOUT_DELAY = 1000; // One second
 
@@ -282,7 +283,7 @@ Quilvyn.customApplyCollection = function() {
     if(!path.startsWith(prefix))
       continue;
     var pieces = path.split('.');
-    if(pieces[2] != '_user')
+    if(pieces[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
       ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
   }
   Quilvyn.refreshEditor(true);
@@ -317,7 +318,8 @@ Quilvyn.customDeleteItem = function() {
   var items = [];
   var prefix = PERSISTENT_CUSTOM_PREFIX + customCollection + '.';
   for(var path in STORAGE) {
-    if(path.startsWith(prefix))
+    if(path.startsWith(prefix) &&
+       path.split('.')[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
       items.push(path.substring(prefix.length).replace('.', ' '));
   }
   items.sort();
@@ -441,7 +443,7 @@ Quilvyn.customNewCollection = function() {
   if(name in customCollections)
     return;
   customCollections[name] = '';
-  STORAGE.setItem(PERSISTENT_CUSTOM_PREFIX + name + '._user.' + name, '');
+  STORAGE.setItem(PERSISTENT_CUSTOM_PREFIX + name + '.' + PERSISTENT_CUSTOM_PLACEHOLDER + '.' + name, '');
   Quilvyn.refreshEditor(true);
 };
 
