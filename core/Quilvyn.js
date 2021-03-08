@@ -245,7 +245,9 @@ Quilvyn.customAddItems = function(focus) {
     var inputValue = InputGetValue(input);
     // Quote values from, e.g., pull-down menus that contain spaces. For text
     // entries, the user is assumed to have already added necessary quotes.
-    if(inputValue.indexOf(' ') >= 0 && !(input.type.startsWith('text')))
+    if(inputName != '_type' &&
+       inputValue.indexOf(' ') >= 0 &&
+       !(input.type.startsWith('text')))
       inputValue = '"' + inputValue + '"';
     if(inputName == '_name')
       // For consistency with text attrs, allow optional quotes around name
@@ -315,24 +317,23 @@ Quilvyn.customDeleteCollection = function() {
  * Interacts with the user to delete a custom item from the current collection.
  */
 Quilvyn.customDeleteItem = function() {
-  var items = [];
+  var paths = {};
   var prefix = PERSISTENT_CUSTOM_PREFIX + customCollection + '.';
   for(var path in STORAGE) {
     if(path.startsWith(prefix) &&
        path.split('.')[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
-      items.push(path.substring(prefix.length).replace('.', ' '));
+      paths[path.substring(prefix.length).replace('.', ' ')] = path;
   }
-  items.sort();
   var item = editWindow.prompt
-    ('Enter custom item to delete:\n' + items.join('\n'), '');
+    ('Enter custom item to delete:\n' + QuilvynUtils.getKeys(paths).sort().join('\n'), '');
   if(item == null)
     return; // User cancel
-  var path = item.replace(' ', '.');
-  if(STORAGE.getItem(prefix + path) == null) {
+  if(!(item in paths)) {
     editWindow.alert('No such custom item ' + item);
     return;
   }
-  STORAGE.removeItem(prefix + path);
+  console.log(paths[item]);
+  STORAGE.removeItem(paths[item]);
 };
 
 /*
