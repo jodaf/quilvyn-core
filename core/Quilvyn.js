@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.0';
+var VERSION = '2.2.1';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -36,6 +36,11 @@ var PERSISTENT_CUSTOM_PREFIX = 'QuilvynCustom.';
 var PERSISTENT_CUSTOM_PLACEHOLDER = '_user';
 var PERSISTENT_INFO_PREFIX = 'QuilvynInfo.';
 var TIMEOUT_DELAY = 1000; // One second
+// HTML tags allowed in user input; 's' and 'u' allowed though HTML deprecated
+const ALLOWED_TAGS = [
+  'b', 'div', 'i', 'li', 'ol', 'p', 'sub', 'sup', 'table', 'td', 'th', 'tr',
+  'ul', 's', 'u'
+];
 
 var character = {};     // Displayed character attrs
 var characterCache = {};// Attrs of all displayed characters, indexed by path
@@ -955,6 +960,12 @@ Quilvyn.sheetHtml = function(attrs) {
   var sheetAttributes = {};
 
   enteredAttributes.hidden = persistentInfo.hidden;
+  for(a in enteredAttributes) {
+    if(typeof(enteredAttributes[a]) == 'string') {
+      enteredAttributes[a] = enteredAttributes[a].replaceAll('<', '&lt;').
+        replace(new RegExp('&lt;(?=/?(' + ALLOWED_TAGS.join('|') + ')\\b)', 'g'), '<');
+    }
+  }
   computedAttributes = ruleSet.applyRules(enteredAttributes);
   var formats = ruleSet.getFormats(ruleSet, InputGetValue(editForm.viewer));
   for(a in computedAttributes) {
