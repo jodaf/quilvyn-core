@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.2';
+var VERSION = '2.2.3';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -1192,9 +1192,22 @@ Quilvyn.update = function(input) {
       Quilvyn.exportCharacters();
     else if(value == 'Summary')
       Quilvyn.summarizeCachedAttrs();
-    else if(value == 'HTML')
-      Quilvyn.showHtml(Quilvyn.sheetHtml(character));
-    else if(window.WARN_ABOUT_DISCARD &&
+    else if(value == 'HTML') {
+      var html = Quilvyn.sheetHtml(character);
+      if('DEBUG' in customCollections) {
+        var group = editWindow.prompt('Group?');
+        if(group) {
+          html = '';
+          for(var path in STORAGE) {
+            if(path.startsWith(PERSISTENT_CHARACTER_PREFIX) &&
+               path.includes(group))
+              html +=
+                Quilvyn.sheetHtml(Quilvyn.retrieveCharacterFromStorage(path));
+          }
+        }
+      }
+      Quilvyn.showHtml(html);
+    } else if(window.WARN_ABOUT_DISCARD &&
        !QuilvynUtils.clones(character, characterCache[characterPath]) &&
        !editWindow.confirm('Discard changes to character?'))
       ; /* empty */
