@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.0';
+var SRD35_VERSION = '2.2.1.1';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -1942,7 +1942,7 @@ SRD35.SPELLS = {
   'Darkness':
     'School=Evocation ' +
     'Level=B2,C2,W2 ' +
-    'Description="Touched lowers illumination one step in 20\'-radius for $L min"',
+    'Description="Touched lowers illumination one step in 20\'-radius for $L10 min"',
   'Darkvision':
     'School=Transmutation ' +
     'Level=R3,W2 ' +
