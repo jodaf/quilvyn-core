@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.2';
+var SRD35_VERSION = '2.2.1.3';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -6139,7 +6139,7 @@ SRD35.schoolRules = function(rules, name, features) {
     'features.School Specialization (' + name + ')', '?', null,
     'levels.Wizard', '=', null
   );
-  rules.defineRule('spellDCSchoolBonus.' + name, schoolLevel, '=', '0');
+  rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
   QuilvynRules.featureListRules(rules, features, 'Wizard', schoolLevel, false);
 
   for(var i = 1; i <= 9; i++) {
