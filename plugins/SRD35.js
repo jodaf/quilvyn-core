@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.1';
+var SRD35_VERSION = '2.2.1.2';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -5749,7 +5749,9 @@ SRD35.featRules = function(rules, name, requires, implies, types) {
   rules.defineRule('features.' + name, 'feats.' + name, '=', null);
   for(var i = 0; i < types.length; i++) {
     if(types[i] != 'General')
-      rules.defineRule('sum' + types[i] + 'Feats', 'feats.' + name, '+=', null);
+      rules.defineRule('sum' + types[i].replaceAll(' ', '') + 'Feats',
+        'feats.' + name, '+=', null
+      );
   }
 
 };
