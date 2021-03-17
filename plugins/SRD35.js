@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.4';
+var SRD35_VERSION = '2.2.1.5';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -2809,7 +2809,7 @@ SRD35.SPELLS = {
   'Magic Missile':
     'School=Evocation ' +
     'Level=W1 ' +
-    'Description="R$RM\' $Lplus1div2min5 missles 1d4+1 HP"',
+    'Description="R$RM\' $Lplus1div2min5 missiles 1d4+1 HP"',
   'Magic Mouth':
     'School=Illusion ' +
     'Level=B1,W2 ' +
@@ -3383,7 +3383,7 @@ SRD35.SPELLS = {
   'Shield':
     'School=Abjuration ' +
     'Level=W1 ' +
-    'Description="Self +4 AC, block magic missle for $L min"',
+    'Description="Self +4 AC, block magic missile for $L min"',
   'Shield Of Faith':
     'School=Abjuration ' +
     'Level=C1 ' +
