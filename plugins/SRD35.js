@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.3';
+var SRD35_VERSION = '2.2.1.4';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -532,6 +532,8 @@ SRD35.FEATS = {
   'Shot On The Run':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 4",features.Dodge,features.Mobility,"features.Point-Blank Shot"',
   'Silent Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Skill Focus (Disable Device)':'Type=General',
+  'Skill Focus (Survival)':'Type=General',
   'Snatch Arrows':
     'Type=Fighter Require="dexterity >= 15","features.Deflect Arrows","features.Improved Unarmed Strike"',
   'Spell Focus (Abjuration)':'Type=General Imply="casterLevel >= 1"',
