@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.5';
+var SRD35_VERSION = '2.2.1.6';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -4555,8 +4555,10 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'shield', '?', 'source == "None"',
     'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? null : Math.floor(source * 0.5)'
   );
-  rules.defineRule
-    ('hitPoints', 'combatNotes.constitutionHitPointsAdjustment', '+', null);
+  rules.defineRule('hitPoints',
+    'combatNotes.constitutionHitPointsAdjustment', '+', null,
+    'level', '^', null
+  );
   rules.defineRule('initiative', 'dexterityModifier', '=', null);
   rules.defineRule('meleeAttack',
     'baseAttack', '=', null,
