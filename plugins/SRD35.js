@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.9';
+var SRD35_VERSION = '2.2.1.10';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -6667,7 +6667,7 @@ SRD35.weaponRules = function(
       'weapons.' + name, '=', '-1'
     );
     rules.defineRule(prefix + 'AttackModifier',
-      'combatNotes.two-handedWeaponWithBucklerPenalty.' + name, '+', '-1'
+      'combatNotes.two-handedWeaponWithBucklerPenalty', '+', '-1'
     );
     QuilvynRules.prerequisiteRules
       (rules, 'validation', 'two-handedWeapon', 'weapons.' + name,
