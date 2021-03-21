@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.6';
+var SRD35_VERSION = '2.2.1.7';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -6622,7 +6622,8 @@ SRD35.weaponRules = function(
     rules.defineRule(weaponName + '.' + rangeVar, prefix + 'Range', '=', null);
   }
 
-  if(category == 'Li' || name.match(/^(rapier|whip|spiked\schain)$/i)) {
+  if(category == 'Li' || category == 'Un' ||
+     name.match(/^(rapier|whip|spiked\schain)$/i)) {
     rules.defineRule('finesseAttackBonus',
       'combatNotes.weaponFinesse', '?', null,
       'dexterityModifier', '=', null,
