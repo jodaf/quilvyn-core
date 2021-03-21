@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.8';
+var SRD35_VERSION = '2.2.1.9';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -859,6 +859,7 @@ SRD35.FEATURES = {
   'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
   'Opportunist':'Section=combat Note="AOO vs. foe struck by ally"',
+  'Orc Blood':'Section=feature Note="Orc for racial effects"',
   'Outdoors Knowledge':'Section=skill Note="Survival is a class skill"',
   'Perfect Self':
     'Section=combat,save ' +
@@ -1351,7 +1352,7 @@ SRD35.RACES = {
   'Half-Orc':
     'Features=' +
        '"Half-Orc Ability Adjustment",' +
-       'Darkvision ' +
+       'Darkvision,"Orc Blood" ' +
     'Languages=Common,Orc',
   'Halfling':
     'Features=' +
