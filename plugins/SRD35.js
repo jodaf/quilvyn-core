@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.7';
+var SRD35_VERSION = '2.2.1.8';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -676,6 +676,7 @@ SRD35.FEATURES = {
     'Section=magic Note="Wild Shape to elemental %{(levels.Druid-14)//2}/dy"',
   'Elf Ability Adjustment':
     'Section=ability Note="+2 Dexterity/-2 Constitution"',
+  'Elf Blood':'Section=feature Note="Elf for racial effects"',
   'Empathic Link':'Section=companion Note="Share emotions up to 1 mile"',
   'Empower Spell':
     'Section=magic ' +
@@ -1344,7 +1345,7 @@ SRD35.RACES = {
       '"Gnomish1:1=1"',
   'Half-Elf':
     'Features=' +
-      '"Alert Senses","Low-Light Vision","Resist Enchantment",' +
+      '"Alert Senses","Elf Blood","Low-Light Vision","Resist Enchantment",' +
       '"Sleep Immunity",Tolerance ' +
     'Languages=Common,Elven',
   'Half-Orc':
