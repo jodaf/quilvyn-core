@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.10';
+var SRD35_VERSION = '2.2.1.11';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -588,7 +588,7 @@ SRD35.FEATURES = {
   'Animal Talk':'Section=magic Note="<i>Speak With Animals</i> 1/dy"',
   'Arcane Adept':
     'Section=magic ' +
-    'Note="Use magic device as W%{levels.Cleric//2 + (levels.Wizard||0)}"',
+    'Note="Use magic device as W%{levels.Cleric//2>?1 + (levels.Wizard||0)}"',
   'Armor Class Bonus':'Section=combat Note="+%V AC"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':'Section=magic Note="Summoned creatures +4 Str, +4 Con"',
@@ -730,7 +730,7 @@ SRD35.FEATURES = {
   'Gnome Ability Adjustment':
     'Section=ability Note="+2 Constitution/-2 Strength"',
   'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
-  'Good Fortune':'Section=save Note="Reroll 1/dy"',
+  'Good Fortune':'Section=feature Note="Reroll 1/dy"',
   'Great Cleave':'Section=combat Note="Cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
   'Greater Flurry':'Section=combat Note="Extra attack"',
@@ -1315,7 +1315,7 @@ SRD35.PATHS = {
     'Group=Cleric ' +
     'Level=levels.Cleric ' +
     'Features=' +
-      '"1:Fire Turning"'
+      '"1:Water Turning"'
 };
 SRD35.RACES = {
   'Dwarf':
@@ -2359,7 +2359,7 @@ SRD35.SPELLS = {
     'Description="R$RS\' Target released from movement restrictions"',
   'Freedom Of Movement':
     'School=Abjuration ' +
-    'Level=B4,C4,D4,Luck4,R4 ' +
+    'Level=B4,C4,D4,Luck4,R4,Travel4 ' +
     'Description="R$RS\' Target moves freely for $L10 min"',
   'Freezing Sphere':
     'School=Evocation ' +
@@ -3472,7 +3472,7 @@ SRD35.SPELLS = {
     'Description="R$RS\' 10\' radius 1d8 HP and stunned (Fort neg)"',
   'Speak With Animals':
     'School=Divination ' +
-    'Level=B3,D1,Gnomish1,R1 ' +
+    'Level=Animal1,B3,D1,Gnomish1,R1 ' +
     'Description="Self converse w/animals for $L min"',
   'Speak With Dead':
     'School=Necromancy ' +
@@ -7294,7 +7294,10 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     var deities = this.getChoices('deities');
     for(attr in deities) {
-      if(deities[attr].match('=' + aliPat + '\\b'))
+      var deityAlignment =
+        QuilvynUtils.getAttrValue(deities[attr], 'Alignment');
+      if(!deityAlignment ||
+         deityAlignment.replace(/(\w)\w+\s(\w)\w+/, '$1$2').match(aliPat))
         choices.push(attr);
     }
     if(choices.length > 0)
