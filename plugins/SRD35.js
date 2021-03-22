@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.13';
+var SRD35_VERSION = '2.2.1.14';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -5161,12 +5161,14 @@ SRD35.classRules = function(
     var casterLevelExpr = casterLevelArcane || casterLevelDivine || classLevel;
     if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
       rules.defineRule('casterLevels.' + name,
-        classLevel, '=', casterLevelExpr.replace(new RegExp('\\b' + classLevel + '\\b', 'gi'), 'source')
+        classLevel, '=', casterLevelExpr.replace(new RegExp('\\b' + classLevel + '\\b', 'gi'), 'source'),
+      'magicNotes.casterLevelBonus', '+', null
       );
     } else {
       rules.defineRule('casterLevels.' + name,
         classLevel, '?', null,
-        'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source')
+        'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source'),
+      'magicNotes.casterLevelBonus', '+', null
       );
     }
     if(casterLevelArcane)
@@ -5452,11 +5454,6 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Sorcerer') {
 
     rules.defineRule('familiarMasterLevel', 'levels.Sorcerer', '^=', null);
-    rules.defineRule('casterLevels.S', 'casterLevels.Sorcerer', '^=', null);
-    rules.defineRule('spellDifficultyClass.S',
-      'casterLevels.S', '?', null,
-      'charismaModifier', '=', '10 + source'
-    );
 
   } else if(name == 'Wizard') {
 
@@ -6010,7 +6007,10 @@ SRD35.pathRules = function(
 
   if(spellSlots.length > 0) {
 
-    rules.defineRule('casterLevels.' + name, pathLevel, '=', null);
+    rules.defineRule('casterLevels.' + name,
+      pathLevel, '=', null,
+      'magicNotes.casterLevelBonus', '+', null
+    );
     rules.defineRule('spellSlotLevel.' + name,
       pathLevel, '=', null,
       'magicNotes.casterLevelBonus', '+', null
