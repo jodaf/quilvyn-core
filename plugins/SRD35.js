@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.12';
+var SRD35_VERSION = '2.2.1.13';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -5176,7 +5176,7 @@ SRD35.classRules = function(
 
     rules.defineRule('spellSlotLevel.' + name,
       classLevel, '=', null,
-      'magicNotes.spellSlotBonus', '+', null
+      'magicNotes.casterLevelBonus', '+', null
     );
     QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
 
@@ -6013,7 +6013,7 @@ SRD35.pathRules = function(
     rules.defineRule('casterLevels.' + name, pathLevel, '=', null);
     rules.defineRule('spellSlotLevel.' + name,
       pathLevel, '=', null,
-      'magicNotes.spellSlotBonus', '+', null
+      'magicNotes.casterLevelBonus', '+', null
     );
     QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
 

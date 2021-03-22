@@ -64,7 +64,7 @@ SRD35Prestige.CLASSES = {
       '"Open Lock",Profession,"Sense Motive",Search,"Sleight Of Hand",' +
       '"Speak Language",Spellcraft,Spot,Swim,Tumble,"Use Rope" ' +
     'Features=' +
-       '"1:Ranged Legerdemain","1:Spell Slot Bonus","2:Sneak Attack",' +
+       '"1:Ranged Legerdemain","1:Caster Level Bonus","2:Sneak Attack",' +
        '"3:Impromptu Sneak Attack"',
   'Archmage':
     'Require=' +
@@ -77,7 +77,7 @@ SRD35Prestige.CLASSES = {
       'Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
     'Spellcraft ' +
     'Features=' +
-      '"1:Spell Slot Bonus" ' +
+      '"1:Caster Level Bonus" ' +
     'Selectables=' +
       '"1:Arcane Fire","1:Arcane Reach","1:Improved Arcane Reach",' +
       '"1:Mastery Of Counterspelling","1:Mastery Of Elements",' +
@@ -179,7 +179,7 @@ SRD35Prestige.CLASSES = {
       'Concentration,Craft,"Decipher Script",Jump,"Knowledge (Arcana)",' +
       '"Knowledge (Nobility)",Ride,"Sense Motive",Spellcraft,Swim ' +
     'Features=' +
-      '"2:Spell Slot Bonus"',
+      '"2:Caster Level Bonus"',
   'Hierophant':
     'Require=' +
       '"skills.Knowledge (Religion) >= 15","spellSlots.C7||spellSlots.D7",' +
@@ -220,7 +220,7 @@ SRD35Prestige.CLASSES = {
       '"Gather Information","Handle Animal",Heal,Knowledge,Perform,' +
       'Profession,"Speak Language",Spellcraft,"Use Magic Device" ' +
     'Features=' +
-      '"1:Spell Slot Bonus",2:Lore,"4:Bonus Language","6:Greater Lore",' +
+      '"1:Caster Level Bonus",2:Lore,"4:Bonus Language","6:Greater Lore",' +
       '"10:True Lore" ' +
     'Selectables=' +
       '"1:Applicable Knowledge","1:Dodge Trick","1:Instant Mastery",' +
@@ -236,7 +236,7 @@ SRD35Prestige.CLASSES = {
       'Concentration,Craft,"Decipher Script","Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,"Sense Motive",Spellcraft ' +
     'Features=' +
-      '"1:Spell Slot Bonus"',
+      '"1:Caster Level Bonus"',
   'Shadowdancer':
     'Require=' +
       '"features.Combat Reflexes",features.Dodge,features.Mobility,' +
@@ -270,7 +270,7 @@ SRD35Prestige.CLASSES = {
       '"Knowledge (Religion)",Profession,"Sense Motive","Speak Language",' +
       'Spellcraft ' +
     'Features=' +
-      '"1:Improved Ally","1:Spell Slot Bonus","2:Augment Summoning",' +
+      '"1:Improved Ally","1:Caster Level Bonus","2:Augment Summoning",' +
       '"3:Extended Summoning","4:Contingent Conjuration","5:Planar Cohort"'
 };
 SRD35Prestige.FEATURES = {
@@ -379,7 +379,7 @@ SRD35Prestige.FEATURES = {
   'Shadow Jump':'Section=magic Note="<i>Dimension Door</i> %V\'/dy"',
   'Smite Good':'Section=combat Note="+%V attack/+%1 damage vs. good foe %2/dy"',
   'Spell Power':'Section=magic Note="+1 caster level for spell effects"',
-  'Spell Slot Bonus':
+  'Caster Level Bonus':
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
   'Spell-Like Ability':'Section=magic Note="Use spell as ability 2+/dy"',
@@ -562,7 +562,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'levels.Arcane Trickster', '+=', 'Math.floor(source / 2)'
     );
     rules.defineRule
-      ('magicNotes.spellSlotBonus', 'levels.Arcane Trickster', '+=', null);
+      ('magicNotes.casterLevelBonus', 'levels.Arcane Trickster', '+=', null);
 
   } else if(name == 'Archmage') {
 
@@ -578,7 +578,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       }
     }
     rules.defineRule
-      ('magicNotes.spellSlotBonus', 'levels.Archmage', '+=', null);
+      ('magicNotes.casterLevelBonus', 'levels.Archmage', '+=', null);
     rules.defineRule
       ('selectableFeatureCount.Archmage', 'levels.Archmage', '+=', null);
 
@@ -805,8 +805,9 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
   } else if(name == 'Eldritch Knight') {
 
     rules.defineRule('featCount.Fighter', 'levels.Eldritch Knight', '+=','1');
-    rules.defineRule
-      ('magicNotes.spellSlotBonus', 'levels.Eldritch Knight', '+=', 'source-1');
+    rules.defineRule('magicNotes.casterLevelBonus',
+      'levels.Eldritch Knight', '+=', 'source - 1'
+    );
  
   } else if(name == 'Hierophant') {
 
@@ -842,7 +843,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
       'levels.Loremaster', '+=', 'Math.floor(source / 4)'
     );
     rules.defineRule
-      ('magicNotes.spellSlotBonus', 'levels.Loremaster', '+=', null);
+      ('magicNotes.casterLevelBonus', 'levels.Loremaster', '+=', null);
     rules.defineRule('selectableFeatureCount.Loremaster',
       'levels.Loremaster', '+=', 'Math.floor((source + 1) / 2)'
     );
@@ -850,7 +851,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
   } else if(name == 'Mystic Theurge') {
 
     rules.defineRule
-      ('magicNotes.spellSlotBonus', 'levels.Mystic Theurge', '+=', null);
+      ('magicNotes.casterLevelBonus', 'levels.Mystic Theurge', '+=', null);
 
   } else if(name == 'Shadowdancer') {
 
@@ -873,7 +874,7 @@ SRD35Prestige.classRulesExtra = function(rules, name) {
   } else if(name == 'Thaumaturgist') {
 
     rules.defineRule
-      ('magicNotes.spellSlotBonus', 'levels.Thaumaturgist', '+=', null);
+      ('magicNotes.casterLevelBonus', 'levels.Thaumaturgist', '+=', null);
 
   }
 
