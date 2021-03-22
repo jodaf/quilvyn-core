@@ -5176,7 +5176,7 @@ SRD35.classRules = function(
 
     rules.defineRule('spellSlotLevel.' + name,
       classLevel, '=', null,
-      'magicNotes.spellSlotBonus', '+', null
+      'magicNotes.casterLevelBonus', '+', null
     );
     QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
 
@@ -6013,7 +6013,7 @@ SRD35.pathRules = function(
     rules.defineRule('casterLevels.' + name, pathLevel, '=', null);
     rules.defineRule('spellSlotLevel.' + name,
       pathLevel, '=', null,
-      'magicNotes.spellSlotBonus', '+', null
+      'magicNotes.casterLevelBonus', '+', null
     );
     QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
 
