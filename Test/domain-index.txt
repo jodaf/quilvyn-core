@@ -1,0 +1,22 @@
+Air: Obad-Hai
+Animal: Obad-Hai
+Chaos: Olidammara
+Death: Wee Jas
+Destruction: Hextor
+Earth: Obad-Hai
+Evil: Hextor
+Fire: Obad-Hai
+Good: Pelor
+Healing: Pelor
+Knowledge: Boccob
+Law: Hextor,Wee Jas
+Luck: Fharlanghn,Olidammara
+Magic: Boccob,Wee Jas
+Plant: Obad-Hai
+Protection: Fharlanghn
+Strength: Pelor
+Sun: Pelor
+Travel: Fharlanghn
+Trickery: Boccob,Olidammara
+War: Hextor
+Water: Obad-Hai
