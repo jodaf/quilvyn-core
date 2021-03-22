@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.11';
+var SRD35_VERSION = '2.2.1.12';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -1462,6 +1462,9 @@ SRD35.SKILLS = {
   'Perform (Sing)':'Ability=charisma Class=Bard,Monk,Rogue',
   'Perform (String)':'Ability=charisma Class=Bard,Monk,Rogue',
   'Perform (Wind)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Profession (Tanner)':
+    'Ability=wisdom Untrained=n ' +
+    'Class=Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard',
   'Ride':'Ability=dexterity Class=Barbarian,Druid,Fighter,Paladin,Ranger',
   'Search':
     'Ability=intelligence Class=Ranger,Rogue Synergy="Survival (tracking)"',
@@ -4873,10 +4876,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   } else if(type == 'Spell') {
     var description = QuilvynUtils.getAttrValue(attrs, 'Description');
     var groupLevels = QuilvynUtils.getAttrValueArray(attrs, 'Level');
-    var school = QuilvynUtils.getAttrValue(attrs, 'School');
+    var school = QuilvynUtils.getAttrValue(attrs, 'School') + '';
     var schoolAbbr = school.substring(0, 4);
     for(var i = 0; i < groupLevels.length; i++) {
-      var matchInfo = groupLevels[i].match(/^(\D+)(\d+)$/);
+      var matchInfo = (groupLevels[i] + '').match(/^(\D+)(\d+)$/);
       if(!matchInfo) {
         console.log('Bad level "' + groupLevels[i] + '" for spell ' + name);
         continue;
@@ -5068,6 +5071,15 @@ SRD35.classRules = function(
     console.log('Bad skills list "' + skills + '" for class ' + name);
     return;
   }
+  if(rules.getChoices('skills')) {
+    for(var i = 0; i < skills.length; i++) {
+      if(!(skills[i] in rules.getChoices('skills')) &&
+         QuilvynUtils.getKeys(rules.getChoices('skills')).filter(skill => skill.startsWith(skills[i] + ' (')).length == 0) {
+        console.log('Bad skill "' + skills[i] + '" for class ' + name);
+        // Warning only - not critical to definition
+      }
+    }
+  }
   if(!Array.isArray(features)) {
     console.log('Bad features list "' + features + '" for class ' + name);
     return;
@@ -5079,6 +5091,15 @@ SRD35.classRules = function(
   if(!Array.isArray(languages)) {
     console.log('Bad languages list "' + languages + '" for class ' + name);
     return;
+  }
+  if(rules.getChoices('languages')) {
+    for(var i = 0; i < languages.length; i++) {
+      if(languages[i] != 'any' &&
+         !(languages[i] in rules.getChoices('languages'))) {
+        console.log('Bad language "' + languages[i] + '" for class ' + name);
+        // Warning only - not critical to definition
+      }
+    }
   }
   if(spellAbility) {
     spellAbility = spellAbility.toLowerCase();
@@ -5581,9 +5602,20 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
     console.log('Bad domains list "' + domains + '" for deity ' + name);
     return;
   }
+  // TODO Individual domains are tricky to check because they exist only in
+  // selectableFeatures and are later extended by inheriting plugins.
+  // Punt for now.
   if(!Array.isArray(weapons)) {
     console.log('Bad weapons list "' + weapons + '" for deity ' + name);
     return;
+  }
+  if(rules.getChoices('weapons')) {
+    for(var i = 0; i < weapons.length; i++) {
+      if(!(weapons[i] in rules.getChoices('weapons'))) {
+        console.log('Bad weapon "' + weapons[i] + '" for deity ' + name);
+        // Warning only - not critical to definition
+      }
+    }
   }
 
   if(rules.deityStats == null) {
@@ -6038,6 +6070,15 @@ SRD35.raceRules = function(
     console.log('Bad languages list "' + languages + '" for race ' + name);
     return;
   }
+  if(rules.getChoices('languages')) {
+    for(var i = 0; i < languages.length; i++) {
+      if(languages[i] != 'any' &&
+         !(languages[i] in rules.getChoices('languages'))) {
+        console.log('Bad language "' + languages[i] + '" for race ' + name);
+        // Warning only - not critical to definition
+      }
+    }
+  }
   if(spellAbility) {
     spellAbility = spellAbility.toLowerCase();
     if(!(spellAbility.charAt(0).toUpperCase() + spellAbility.substring(1) in SRD35.ABILITIES)) {
@@ -6267,6 +6308,14 @@ SRD35.skillRules = function(
   if(!Array.isArray(classes)) {
     console.log('Bad classes list "' + classes + '" for skill ' + name);
     return;
+  }
+  if(rules.getChoices('levels')) {
+    for(var i = 0; i < classes.length; i++) {
+      if(classes[i] != "all" && !(classes[i] in rules.getChoices('levels'))) {
+        console.log('Bad class "' + classes[i] + '" for skill ' + name);
+        return;
+      }
+    }
   }
   if(!Array.isArray(synergies)) {
     console.log('Bad synergies list "' + synergies + '" for skill ' + name);
