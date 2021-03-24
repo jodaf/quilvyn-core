@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.14';
+var SRD35_VERSION = '2.2.1.15';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -595,7 +595,7 @@ SRD35.FEATURES = {
   'Aura':
     'Section=magic ' +
     'Note="Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment"',
-  'Aura Of Courage':'Section=save Note="Immune fear, +4 to allies w/in 30\'"',
+  'Aura Of Courage':'Section=save Note="Immune fear, +4 to allies w/in 10\'"',
   'Bardic Knowledge':
     'Section=skill ' +
     'Note="+%V check for knowledge of notable people, items, places"',
@@ -798,16 +798,16 @@ SRD35.FEATURES = {
   'Indomitable Will':
     'Section=save Note="+4 enchantment resistance during rage"',
   'Inspire Competence':
-    'Section=magic Note="+2 allies skill checks while performing"',
+    'Section=magic Note="R30\' +2 allies skill checks while performing for 2 min"',
   'Inspire Courage':
     'Section=magic ' +
-    'Note="+%{(levels.Bard+4)//6 >? 1} allies attack, damage, charm, fear saves while performing"',
+    'Note="+%{(levels.Bard+4)//6 >? 1} allies attack, damage, charm, fear saves while performing + 5 rd"',
   'Inspire Greatness':
     'Section=magic ' +
-    'Note="%{(levels.Bard-6)//3} allies +2d10 HP, +2 attack, +1 Fortitude while performing"',
+    'Note="R30\' %{(levels.Bard-6)//3} allies +2d10 HP, +2 attack, +1 Fortitude while performing + 5 rd"',
   'Inspire Heroics':
     'Section=magic ' +
-    'Note="%{(levels.Bard-15)//3} allies +4 AC and saves while performing"',
+    'Note="R30\' %{(levels.Bard-15)//3} allies +4 AC and saves while performing + 5 rd"',
   'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
   'Iron Will':'Section=save Note="+2 Will"',
   'Keen Ears':'Section=skill Note="+2 Listen"',
