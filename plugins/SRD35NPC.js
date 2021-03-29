@@ -54,7 +54,7 @@ SRD35NPC.CLASSES = {
   'Aristocrat':
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
+      '"1:Armor Proficiency (Heavy)","1:Tower Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)" ' +
     'Skills=' +
       'Appraise,Bluff,Diplomacy,Disguise,Forgery,"Gather Information",' +
@@ -75,7 +75,7 @@ SRD35NPC.CLASSES = {
   'Warrior':
     'HitDie=d8 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
+      '"1:Armor Proficiency (Heavy)","1:Tower Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)" ' +
     'Skills=' +
       'Climb,"Handle Animal",Intimidate,Jump,Ride,Swim'

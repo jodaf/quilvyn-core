@@ -45,7 +45,7 @@ SRD35Prestige.CLASSES = {
     'Skills=' +
       'Craft,Hide,Listen,"Move Silently",Ride,Spot,Survival,"Use Rope" ' +
     'Features=' +
-      '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Medium)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)",' +
       '"1:Enhance Arrow","2:Imbue Arrow","4:Seeker Arrow","6:Phase Arrow",' +
       '"8:Hail Of Arrows","10:Arrow Of Death"',
@@ -115,7 +115,7 @@ SRD35Prestige.CLASSES = {
       'Concentration,Craft,Diplomacy,"Handle Animal",Heal,Hide,Intimidate,' +
       '"Knowledge (Religion)",Profession,Ride ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)",' +
       '"1:Aura Of Evil","1:Blackguard Hands","1:Detect Good",' +
       '"1:Fiendish Summoning","1:Poison Use","2:Smite Good",' +
@@ -165,7 +165,7 @@ SRD35Prestige.CLASSES = {
     'Skills=' +
       'Craft,Listen,"Sense Motive",Spot ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)",' +
       '"1:Defender Armor","1:Defensive Stance","2:Uncanny Dodge",' +
       '"4:Trap Sense","6:Damage Reduction","6:Improved Uncanny Dodge",' +
