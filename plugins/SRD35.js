@@ -488,7 +488,8 @@ SRD35.FEATS = {
   'Improved Precise Shot':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 11","features.Point-Blank Shot","features.Precise Shot"',
   'Improved Shield Bash':
-    'Type=Fighter Require="features.Shield Proficiency"',
+    'Type=Fighter ' +
+    'Require="features.Shield Proficiency || features.Tower Shield Proficiency"',
   'Improved Sunder':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Trip':
