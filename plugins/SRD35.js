@@ -488,8 +488,7 @@ SRD35.FEATS = {
   'Improved Precise Shot':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 11","features.Point-Blank Shot","features.Precise Shot"',
   'Improved Shield Bash':
-    'Type=Fighter ' +
-    'Require="features.Shield Proficiency || features.Tower Shield Proficiency"',
+    'Type=Fighter Require="features.Shield Proficiency"',
   'Improved Sunder':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Trip':
@@ -4111,7 +4110,8 @@ SRD35.CLASSES = {
   'Fighter':
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Tower Shield Proficiency",' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
+      '"1:Tower Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)"',
   'Monk':
     'Require="alignment =~ \'Lawful\'" ' +
