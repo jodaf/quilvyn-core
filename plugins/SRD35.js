@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.15';
+var SRD35_VERSION = '2.2.1.16';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -488,7 +488,7 @@ SRD35.FEATS = {
   'Improved Precise Shot':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 11","features.Point-Blank Shot","features.Precise Shot"',
   'Improved Shield Bash':
-    'Type=Fighter Require="features.Shield Proficiency (Heavy)"',
+    'Type=Fighter Require="features.Shield Proficiency"',
   'Improved Sunder':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Trip':
@@ -504,6 +504,8 @@ SRD35.FEATS = {
   'Magical Aptitude':'Type=General',
   'Manyshot':
     'Type=Fighter Require="dexterity >= 17","baseAttack >= 6","features.Point-Blank Shot","features.Rapid Shot"',
+  'Martial Weapon Proficiency (Longsword)':
+    'Type=General Require="baseAttack >= 1" Imply="weapons.Longsword"',
   'Maximize Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Mobility':'Type=Fighter Require="dexterity >= 13",features.Dodge',
   'Mounted Archery':
@@ -527,11 +529,11 @@ SRD35.FEATS = {
   'Run':'Type=General',
   'Scribe Scroll':'Type="Item Creation",Wizard Require="casterLevel >= 1"',
   'Self-Sufficient':'Type=General',
-  'Shield Proficiency (Heavy)':'Type=General',
-  'Shield Proficiency (Tower)':'Type=General',
+  'Shield Proficiency':'Type=General',
   'Shot On The Run':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 4",features.Dodge,features.Mobility,"features.Point-Blank Shot"',
   'Silent Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Simple Weapon Proficiency':'Type=General',
   'Skill Focus (Disable Device)':'Type=General',
   'Skill Focus (Survival)':'Type=General',
   'Snatch Arrows':
@@ -556,6 +558,8 @@ SRD35.FEATS = {
   'Stunning Fist':
     'Type=Fighter Require="dexterity >= 13","wisdom >= 13","baseAttack >= 8","features.Improved Unarmed Strike"',
   'Toughness':'Type=General',
+  'Tower Shield Proficiency':
+    'Require="features.Shield Proficiency" Type=General',
   'Track':'Type=General Imply=skills.Survival',
   'Trample':'Type=Fighter Require="features.Mounted Combat",skills.Ride',
   'Two-Weapon Defense':
@@ -565,9 +569,6 @@ SRD35.FEATS = {
     'Type=Fighter Require="baseAttack >= 1" Imply="dexterityModifier > strengthModifier"',
   'Weapon Focus (Longsword)':
     'Type=Fighter Require="baseAttack >= 1" Imply=weapons.Longsword',
-  'Weapon Proficiency (Simple)':'Type=General',
-  'Weapon Proficiency (Longsword)':
-    'Type=General Require="baseAttack >= 1" Imply="weapons.Longsword"',
   'Weapon Specialization (Longsword)':
     'Type=Fighter Require="features.Weapon Focus (Longsword)","levels.Fighter >= 4" Imply="weapons.Longsword"',
   'Whirlwind Attack':
@@ -4018,7 +4019,7 @@ SRD35.CLASSES = {
     'Require="alignment !~ \'Lawful\'" ' +
     'HitDie=d12 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Medium)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Medium)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)",' +
       '"1:Fast Movement",1:Illiteracy,1:Rage,"2:Uncanny Dodge","3:Trap Sense",'+
       '"5:Improved Uncanny Dodge","7:Damage Reduction","11:Greater Rage",' +
@@ -4027,7 +4028,7 @@ SRD35.CLASSES = {
     'Require="alignment !~ \'Lawful\'" ' +
     'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Light)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)",' +
       '"1:Bardic Knowledge","1:Bardic Music","1:Simple Somatics",' +
       '"Max \'^skills.Perform\' >= 3 ? 1:Countersong",' +
@@ -4052,7 +4053,7 @@ SRD35.CLASSES = {
   'Cleric':
     'HitDie=d8 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Simple)",' +
       '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead" '+
     'Selectables=' +
@@ -4086,7 +4087,7 @@ SRD35.CLASSES = {
       '"shield =~ \'None|Wooden\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear)",' +
       '"1:Animal Companion","1:Nature Sense","1:Spontaneous Druid Spell",' +
       '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
@@ -4109,7 +4110,7 @@ SRD35.CLASSES = {
   'Fighter':
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Tower)",' +
+      '"1:Armor Proficiency (Heavy)","1:Tower Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)"',
   'Monk':
     'Require="alignment =~ \'Lawful\'" ' +
@@ -4135,7 +4136,7 @@ SRD35.CLASSES = {
     'Require="alignment == \'Lawful Good\'" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)",' +
       '1:Aura,"1:Detect Evil","1:Smite Evil","2:Divine Grace",' +
       '"charisma >= 12 ? 2:Lay On Hands","3:Aura Of Courage",' +
@@ -4150,7 +4151,7 @@ SRD35.CLASSES = {
   'Ranger':
     'HitDie=d8 Attack=1 SkillPoints=6 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Light)","1:Shield Proficiency (Heavy)",' +
+      '"1:Armor Proficiency (Light)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)",' +
       '"1:Favored Enemy",1:Track,"1:Wild Empathy",3:Endurance,' +
       '"4:Animal Companion","7:Woodland Stride","8:Swift Tracker",9:Evasion,' +
@@ -4583,8 +4584,8 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule('shieldProficiencyLevel',
     '', '=', '0',
-    'features.Shield Proficiency (Heavy)', '^', '3',
-    'features.Shield Proficiency (Tower)', '^', '4'
+    'features.Shield Proficiency', '^', '3',
+    'features.Tower Shield Proficiency', '^', '4'
   );
   rules.defineRule('shieldProficiencyLevelShortfall',
     'shieldWeight', '=', null,
@@ -5810,6 +5811,10 @@ SRD35.featRulesExtra = function(rules, name) {
       (rules, name, ['combat'], ['x2 ' + matchInfo[1] + ' Threat Range']);
   } else if((matchInfo = name.match(/^Skill\sFocus\s\((.*)\)$/)) != null) {
     SRD35.featureRules(rules, name, ['skill'], ['+3 ' + matchInfo[1]]);
+  } else if(name == 'Simple Weapon Proficiency') {
+    rules.defineRule('features.Weapon Proficiency (Simple)',
+      'features.Simple Weapon Proficiency', '=', '1'
+    );
   }
 
 };
@@ -7858,14 +7863,6 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    Quilvyn assumes that masterwork composite bows are specially built\n' +
     '    to allow a strength damage bonus to be applied.\n' +
-    '  </li><li>\n' +
-    '    A few feats have been renamed to emphasize the relationship\n' +
-    '    between similar feats: "Shield Proficiency" and "Tower Shield\n' +
-    '    Proficiency" to "Shield Proficiency (Heavy)" and "Shield\n' +
-    '    Proficiency (Tower)"; "Simple Weapon Proficiency" to "Weapon\n' +
-    '    Proficiency (Simple)"; "Exotic Weapon Proficiency" and "Martial\n' +
-    '    Weapon Proficiency" to "Weapon Proficiency" (a base feat that\n' +
-    '    should be used to define weapon-specific subfeats).\n' +
     '  </li><li>\n' +
     '    The Commoner NPC class is given an extra feat to represent the\n' +
     "    class's single simple weapon proficiency.\n" +
