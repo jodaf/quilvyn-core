@@ -5813,7 +5813,11 @@ SRD35.featRulesExtra = function(rules, name) {
     SRD35.featureRules(rules, name, ['skill'], ['+3 ' + matchInfo[1]]);
   } else if(name == 'Simple Weapon Proficiency') {
     rules.defineRule('features.Weapon Proficiency (Simple)',
-      'features.Simple Weapon Proficiency', '=', '1'
+      'features.' + name, '=', '1'
+    );
+  } else if((matchInfo = name.match(/^(Exotic|Martial)\sWeapon\sProficiency.\((.*)\)$/)) != null) {
+    rules.defineRule('features.Weapon Proficiency (' + matchInfo[2] + ')',
+      'features.' + name, '=', '1'
     );
   }
 
