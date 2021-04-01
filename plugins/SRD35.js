@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.16';
+var SRD35_VERSION = '2.2.1.17';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -3806,7 +3806,7 @@ SRD35.SPELLS = {
     'Description="40\' radius warded against good, evokes bane spell"',
   'Unholy Aura':
     'School=Abjuration ' +
-    'Level=C9,Evil8 ' +
+    'Level=C8,Evil8 ' +
     'Description="$L creatures w/in 20\' +4 AC and saves, SR 25 vs. good spells, protected from possession, good hit 1d6 Str (Fort neg), for $L rd"',
   'Unholy Blight':
     'School=Evocation ' +
