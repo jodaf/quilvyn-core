@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.17';
+var SRD35_VERSION = '2.2.1.18';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -697,7 +697,7 @@ SRD35.FEATURES = {
   'Evasion':'Section=save Note="Reflex save yields no damage instead of half"',
   'Extend Spell':
     'Section=magic Note="x2 chosen spell duration uses +1 spell slot"',
-  'Extra Turning':'Section=combat Note="+4 Turnings"',
+  'Extra Turning':'Section=combat Note="+%V turnings/dy"',
   'Familiar Bat':'Section=skill Note="+3 Listen"',
   'Familiar Cat':'Section=skill Note="+3 Move Silently"',
   'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
@@ -1029,7 +1029,7 @@ SRD35.FEATURES = {
   'Tolerance':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
   'Tongue Of The Sun And Moon':
     'Section=feature Note="Speak w/any living creature"',
-  'Toughness':'Section=combat Note="+3 HP"',
+  'Toughness':'Section=combat Note="+%V HP"',
   'Track':'Section=skill Note="Survival to follow creatures\' trails"',
   'Trackless Step':'Section=feature Note="Untrackable outdoors"',
   'Trample':
@@ -5801,7 +5801,15 @@ SRD35.featRulesExtra = function(rules, name) {
 
   var matchInfo;
 
-  if((matchInfo = name.match(/^(Greater\s)?Weapon\sFocus.\((.*)\)$/)) != null) {
+  if(name == 'Extra Turning') {
+    rules.defineRule
+      ('combatNotes.extraTurning', 'feats.Extra Turning', '=', 'source * 4');
+    rules.defineRule
+      ('combatNotes.turnUndead.3', 'combatNotes.extraTurning', '+', null);
+  } else if(name == 'Toughness') {
+    rules.defineRule
+      ('combatNotes.toughness', 'feats.Toughness', '=', 'source * 3');
+  } else if((matchInfo = name.match(/^(Greater\s)?Weapon\sFocus.\((.*)\)$/)) != null) {
     SRD35.featureRules
       (rules, name, ['combat'], ['+1 ' + matchInfo[2] + ' Attack Modifier']);
   } else if((matchInfo = name.match(/^(Greater\s)?Weapon\sSpecialization.\((.*)\)$/)) != null) {
