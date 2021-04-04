@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.19';
+var SRD35_VERSION = '2.2.1.20';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -1974,7 +1974,7 @@ SRD35.SPELLS = {
   'Death Ward':
     'School=Necromancy ' +
     'Level=C4,D5,Death4,P4 ' +
-    'Description="Touched +4 vs. death spells and effects, immune drain for $L min"',
+    'Description="Touched immune death spells, death effects, energy drain, and negative energy effects for $L min"',
   'Deathwatch':
     'School=Necromancy ' +
     'Level=C1 ' +
