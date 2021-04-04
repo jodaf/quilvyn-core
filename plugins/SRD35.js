@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.18';
+var SRD35_VERSION = '2.2.1.19';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -821,7 +821,7 @@ SRD35.FEATURES = {
   'Large':
     'Section=ability,combat,skill ' +
     'Note="x2 Load Max",' +
-         '"-1 AC/-1 Melee Attack/-1 Ranged Attack",' +
+         '"-1 AC/-1 Melee Attack/-1 Ranged Attack/+4 special attacks",' +
          '"-4 Hide/+4 Intimidate"',
   'Lay On Hands':
     'Section=magic ' +
@@ -970,7 +970,7 @@ SRD35.FEATURES = {
   'Small':
     'Section=ability,combat,skill ' +
     'Note="x0.75 Load Max",' +
-          '"+1 AC/+1 Melee Attack/+1 Ranged Attack",' +
+          '"+1 AC/+1 Melee Attack/+1 Ranged Attack/-4 special attacks",' +
           '"+4 Hide/-4 Intimidate"',
   'Smite':
     'Section=combat Note="+4 attack, +%{destructionDomainLevel} damage 1/dy"',
