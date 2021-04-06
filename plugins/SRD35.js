@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.20';
+var SRD35_VERSION = '2.2.1.21';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -6801,10 +6801,10 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Abilities', within: 'Section 1',
              format: '<b>Str/Int/Wis/Dex/Con/Cha</b> %V', separator: '/'},
               {name: 'Strength', within: 'Abilities', format: '%V'},
-              {name: 'Intelligence', within: 'Abilities', format: '%V'},
-              {name: 'Wisdom', within: 'Abilities', format: '%V'},
               {name: 'Dexterity', within: 'Abilities', format: '%V'},
               {name: 'Constitution', within: 'Abilities', format: '%V'},
+              {name: 'Intelligence', within: 'Abilities', format: '%V'},
+              {name: 'Wisdom', within: 'Abilities', format: '%V'},
               {name: 'Charisma', within: 'Abilities', format: '%V'},
           {name: 'Section 2', within: '_top', separator: '; '},
             {name: 'Skill Modifier', within: 'Section 2', separator: '/'},
@@ -6835,10 +6835,10 @@ SRD35.createViewers = function(rules, viewers) {
         {name: 'Attributes', within: '_top', separator: outerSep},
           {name: 'Abilities', within: 'Attributes', separator: innerSep},
             {name: 'Strength', within: 'Abilities'},
-            {name: 'Intelligence', within: 'Abilities'},
-            {name: 'Wisdom', within: 'Abilities'},
             {name: 'Dexterity', within: 'Abilities'},
             {name: 'Constitution', within: 'Abilities'},
+            {name: 'Intelligence', within: 'Abilities'},
+            {name: 'Wisdom', within: 'Abilities'},
             {name: 'Charisma', within: 'Abilities'},
           {name: 'Description', within: 'Attributes', separator: innerSep},
             {name: 'Alignment', within: 'Description'},
@@ -7155,14 +7155,14 @@ SRD35.initialEditorElements = function() {
     ['imageUrl', 'Image URL', 'text', [20]],
     ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
     ['strengthAdjust', '', 'text', [3]],
-    ['intelligence', 'Intelligence/Adjust', 'select-one', abilityChoices],
-    ['intelligenceAdjust', '', 'text', [3]],
-    ['wisdom', 'Wisdom/Adjust', 'select-one', abilityChoices],
-    ['wisdomAdjust', '', 'text', [3]],
     ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
     ['dexterityAdjust', '', 'text', [3]],
     ['constitution', 'Constitution/Adjust', 'select-one', abilityChoices],
     ['constitutionAdjust', '', 'text', [3]],
+    ['intelligence', 'Intelligence/Adjust', 'select-one', abilityChoices],
+    ['intelligenceAdjust', '', 'text', [3]],
+    ['wisdom', 'Wisdom/Adjust', 'select-one', abilityChoices],
+    ['wisdomAdjust', '', 'text', [3]],
     ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
     ['charismaAdjust', '', 'text', [3]],
     ['player', 'Player', 'text', [20]],
