@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.4';
+var VERSION = '2.2.5';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -337,7 +337,6 @@ Quilvyn.customDeleteItem = function() {
     editWindow.alert('No such custom item ' + item);
     return;
   }
-  console.log(paths[item]);
   STORAGE.removeItem(paths[item]);
 };
 
@@ -725,29 +724,18 @@ Quilvyn.randomizeCharacter = function(focus) {
     // popup so that the user can specify the value
     for(var i = 0; i < presets.length; i++) {
       var preset = presets[i];
-      var name = preset.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
-      name = name.substring(0, 1).toUpperCase() + name.substring(1);
-      var presetHtml = '<tr><td><b>' + name + '</b></td>';
+      var label = preset.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
+      label = label.substring(0, 1).toUpperCase() + label.substring(1);
+      var presetHtml = '<tr><td><b>' + label + '</b></td>';
       var widget = editForm[preset];
       var selWidget = editForm[preset + '_sel'];
       if(selWidget != null) {
-        // Sets and bags are difficult to manage, so we just provide a
-        // separate entry field for each value, putting multiple ones on each
-        // line to keep the popup compact
-        presetHtml += '</tr>';
-        var options = selWidget.options;
-        var optionsPerLine = Math.ceil(options.length / 10) + 1;
-        for(var j = 0; j < options.length; j += optionsPerLine) {
-          var lineHtml = '<tr>';
-          for(var k = j; k < j + optionsPerLine && k < options.length; k++) {
-            var option = options[k].value;
-            lineHtml += '<td><b>' + option + '</b></td><td>' +
-                        InputHtml(preset + '.' + option, 'text', [2]) +
-                        '</td>';
-          }
-          lineHtml += '</tr>';
-          presetHtml += lineHtml;
-        }
+        presetHtml +=
+          '<td>' +
+          InputHtml(preset + '_sel', 'select-one', InputGetParams(selWidget)) +
+          '</td><td>' +
+          InputHtml(preset, 'text', [2]) +
+          '</td></tr>';
       } else if(widget != null) {
         presetHtml += '<td>' +
                       InputHtml(preset, widget.type, InputGetParams(widget)) +
@@ -769,12 +757,34 @@ Quilvyn.randomizeCharacter = function(focus) {
       window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     Quilvyn.randomizeCharacter.win.document.write(html);
     Quilvyn.randomizeCharacter.win.document.close();
-    // Randomize the value of each pull-down menu in the loading window
+    var form = Quilvyn.randomizeCharacter.win.document.frm;
+    // Add attrs member to the form; the callbacks for the form input elements
+    // store user input there for retrieval once the user hits Ok.
+    form.attrs = {};
+    var callbackForSetSel =
+      function() {InputSetValue(this.val, this.form.attrs[this.name.replace('_sel', '') + '.' + InputGetValue(this)])};
+    var callbackForSetVal =
+      function() {this.form.attrs[this.name + '.' + InputGetValue(this.sel)] = InputGetValue(this)};
+    var callbackForNonSet =
+      function() {this.form.attrs[this.name] = InputGetValue(this);};
     for(var i = 0; i < presets.length; i++) {
-      var widget = Quilvyn.randomizeCharacter.win.document.frm[presets[i]];
+      var preset = presets[i];
+      var widget = form[preset];
+      var selWidget = form[preset + '_sel'];
+      // Set select-one elements to a random choice
       if(typeof(widget) == 'object' && widget != null &&
          widget.selectedIndex != null) {
         widget.selectedIndex = QuilvynUtils.random(0, widget.options.length-1);
+        form.attrs[preset] = InputGetValue(widget);
+      }
+      if(selWidget == null) {
+        InputSetCallback(widget, callbackForNonSet);
+      } else {
+        InputSetCallback(widget, callbackForSetVal);
+        InputSetCallback(selWidget, callbackForSetSel);
+        // Give set widgets references to each other for callback use
+        widget.sel = selWidget;
+        selWidget.val = widget;
       }
     }
     Quilvyn.randomizeCharacter.win.okay = false;
@@ -794,15 +804,14 @@ Quilvyn.randomizeCharacter = function(focus) {
   // Ready to generate
   var fixedAttributes = {};
   if(Quilvyn.randomizeCharacter.win != null) {
-    for(i = 0; i < Quilvyn.randomizeCharacter.win.document.frm.elements.length; i++) {
-      var element = Quilvyn.randomizeCharacter.win.document.frm.elements[i];
-      var name = element.name;
-      var value = InputGetValue(element);
-      if(element.type=='button' || name==null || value==null || value=='')
+    var form = Quilvyn.randomizeCharacter.win.document.frm;
+    for(var a in form.attrs) {
+      var value = form.attrs[a];
+      if(value == null || value == '')
         continue;
       if(typeof(value) == 'string' && value.match(/^[\+\-]?\d+$/))
         value -= 0;
-      fixedAttributes[name] = value;
+      fixedAttributes[a] = value;
     }
     Quilvyn.randomizeCharacter.win.close();
     Quilvyn.randomizeCharacter.win = null;
