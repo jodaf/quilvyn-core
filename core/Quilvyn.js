@@ -741,7 +741,8 @@ Quilvyn.randomizeCharacter = function(focus) {
                       InputHtml(preset, widget.type, InputGetParams(widget)) +
                       '</td></tr>';
       } else {
-        presetHtml += '<td>' + InputHtml(preset, 'text', [3]) + '</td></tr>';
+        console.log('No edit element for preset "' + preset + '"');
+        continue;
       }
       htmlBits[htmlBits.length] = presetHtml;
     }
@@ -771,6 +772,8 @@ Quilvyn.randomizeCharacter = function(focus) {
       var preset = presets[i];
       var widget = form[preset];
       var selWidget = form[preset + '_sel'];
+      if(widget == null)
+        continue;
       // Set select-one elements to a random choice
       if(typeof(widget) == 'object' && widget != null &&
          widget.selectedIndex != null) {
