@@ -38,7 +38,7 @@ SRD35NPC.CLASSES = {
   'Adept':
     'HitDie=d6 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Weapon Proficiency (Simple)",2:Familiar ' +
+      '"1:Weapon Proficiency (Simple)","2:Summon Familiar" ' +
     'Skills=' +
       'Concentration,Craft,"Handle Animal",Heal,Knowledge,Profession,' +
       'Spellcraft,Survival ' +
