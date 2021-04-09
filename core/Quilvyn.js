@@ -818,11 +818,10 @@ Quilvyn.randomizeCharacter = function(focus) {
     var form = Quilvyn.randomizeCharacter.win.document.frm;
     for(var a in form.attrs) {
       var value = form.attrs[a];
-      if(value == null || value == '')
-        continue;
       if(typeof(value) == 'string' && value.match(/^[\+\-]?\d+$/))
         value -= 0;
-      fixedAttributes[a] = value;
+      if(value)
+        fixedAttributes[a] = value;
     }
     Quilvyn.randomizeCharacter.win.close();
     Quilvyn.randomizeCharacter.win = null;
