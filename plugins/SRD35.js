@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.1.22';
+var SRD35_VERSION = '2.2.2.0';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -3741,7 +3741,7 @@ SRD35.SPELLS = {
   'Stone To Flesh':
     'School=Transmutation ' +
     'Level=W6 ' +
-    'Description="R$RM\' Restore stoned creature (DC 15 Fort to survive) or make flesh 10\'x3\' stone cyclinder"',
+    'Description="R$RM\' Restore stoned creature (DC 15 Fort to survive) or make flesh 10\'x3\' stone cylinder"',
   'Stoneskin':
     'School=Abjuration ' +
     'Level=Adept4,D5,Earth6,Strength6,W4 ' +
