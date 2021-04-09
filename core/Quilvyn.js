@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.5';
+var VERSION = '2.2.6';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -151,13 +151,21 @@ Quilvyn.addRuleSet = function(rs) {
 
 Quilvyn.applyV2Changes = function(character) {
   var result = {};
+  var npcClasses = ruleSet.getChoices('npcs');
+  var prestigeClasses = ruleSet.getChoices('prestiges');
   for(var attr in character) {
     var value = character[attr];
     if(attr == 'deity')
       value = value.replace(/ \(.*/, '');
     else if(attr.match(/^domains\./))
       attr = attr.replace('domains.', 'selectableFeatures.Cleric - ') + ' Domain';
-    else if(attr.match(/^prohibit\./))
+    else if(attr.match(/^levels\./)) {
+      var clas = attr.replace('levels.', '');
+      if(npcClasses != null && clas in npcClasses)
+        attr = 'npc.' + clas;
+      else if(prestigeClasses != null && clas in prestigeClasses)
+        attr = 'prestige.' + clas;
+    } else if(attr.match(/^prohibit\./))
       attr = attr.replace('prohibit.', 'selectableFeatures.Wizard - School Opposition (') + ')';
     else if(attr.match(/^specialize\./))
       attr = attr.replace('specialize.', 'selectableFeatures.Wizard - School Specialization (') + ')';
