@@ -7996,7 +7996,7 @@ SRD35.initialEditorElements = function() {
     ['name', 'Name', 'text', [20]],
     ['race', 'Race', 'select-one', 'races'],
     ['experience', 'Experience', 'text', [8]],
-    ['levels', 'Levels', 'bag', 'levels'],
+    ['levels', 'Class Levels', 'bag', 'levels'],
     ['prestige', 'Prestige Levels', 'bag', 'prestiges'],
     ['npc', 'NPC Levels', 'bag', 'npcs'],
     ['imageUrl', 'Image URL', 'text', [20]],
