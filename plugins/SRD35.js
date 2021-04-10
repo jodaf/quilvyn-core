@@ -537,6 +537,7 @@ SRD35.FEATS = {
   'Skill Focus (Disable Device)':'Type=General',
   'Skill Focus (Knowledge (Arcana))':'Type=General',
   'Skill Focus (Spellcraft)':'Type=General',
+  'Skill Focus (Survival)':'Type=General',
   'Snatch Arrows':
     'Type=Fighter Require="dexterity >= 15","features.Deflect Arrows","features.Improved Unarmed Strike"',
   'Spell Focus (Abjuration)':'Type=General Imply="casterLevel >= 1"',
