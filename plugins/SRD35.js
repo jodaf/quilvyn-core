@@ -8707,7 +8707,7 @@ SRD35.makeValid = function(attributes) {
 /* Returns HTML body content for user notes associated with this rule set. */
 SRD35.ruleNotes = function() {
   return '' +
-    '<h2>SRD35/NPC/Prestige Quilvyn Plugin Notes</h2>\n' +
+    '<h2>SRD35 Quilvyn Plugin Notes</h2>\n' +
     'SRD35 Quilvyn Plugin Version ' + SRD35_VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
