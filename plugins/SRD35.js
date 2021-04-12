@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.1';
+var SRD35_VERSION = '2.2.2.3';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -674,8 +674,6 @@ SRD35.FEATURES = {
   'Dodge':'Section=combat Note="+1 AC"',
   'Dwarf Ability Adjustment':
     'Section=ability Note="+2 Constitution/-2 Charisma"',
-  'Dwarf Armor Speed Adjustment':
-    'Section=ability Note="No armor speed penalty"',
   'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
   'Earth Turning':'Section=combat Note="Turn Air, rebuke Earth"',
   'Elemental Shape':
@@ -765,6 +763,8 @@ SRD35.FEATURES = {
     'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
   'Halfling Ability Adjustment':
     'Section=ability Note="+2 Dexterity/-2 Strength"',
+  'Heavyweight':
+    'Section=ability Note="No speed penalty in heavy armor or with heavy load"',
   'Heighten Spell':'Section=magic Note="Increase chosen spell level"',
   'Hide In Plain Sight':'Section=skill Note="Hide even when observed"',
   'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
@@ -1265,19 +1265,19 @@ SRD35.GOODIES = {
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
   'Charisma':
-    'Pattern="([-+]\\d)\\s+charisma|charisma\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+cha(?:risma)?|cha(?:risma)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=charisma ' +
     'Section=ability Note="%V Charisma"',
   'Constitution':
-    'Pattern="([-+]\\d)\\s+constitution|constitution\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+con(?:stitution)?|con(?:stitution)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=constitution ' +
     'Section=ability Note="%V Constitution"',
   'Dexterity':
-    'Pattern="([-+]\\d)\\s+dexterity|dexterity\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+dex(?:terity)?|dex(?:terity)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=dexterity ' +
@@ -1307,7 +1307,7 @@ SRD35.GOODIES = {
     'Attribute=initiative ' +
     'Section=combat Note="%V Initiative"',
   'Intelligence':
-    'Pattern="([-+]\\d)\\s+intelligence|intelligence\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+int(?:elligence)?|int(?:elligence)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=intelligence ' +
@@ -1349,7 +1349,7 @@ SRD35.GOODIES = {
     'Attribute=speed ' +
     'Section=ability Note="%V Speed"',
   'Strength':
-    'Pattern="([-+]\\d)\\s+strength|strength\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+str(?:ength)?|str(?:ength)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=strength ' +
@@ -1361,7 +1361,7 @@ SRD35.GOODIES = {
     'Attribute=save.Will ' +
     'Section=save Note="%V Will"',
   'Wisdom':
-    'Pattern="([-+]\\d)\\s+wisdom|wisdom\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+wis(?:dom)?|wis(?:dom)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=wisdom ' +
@@ -1512,9 +1512,9 @@ SRD35.RACES = {
     'Features=' +
       '"Dwarf Ability Adjustment",' +
       '"Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)",' +
-      'Darkvision,"Dodge Giants","Dwarf Armor Speed Adjustment",' +
-      '"Dwarf Enmity","Know Depth","Natural Smith","Resist Poison",' +
-      '"Resist Spells",Slow,Stability,Stonecunning ' +
+      'Darkvision,"Dodge Giants",Heavyweight,"Dwarf Enmity","Know Depth",' +
+      '"Natural Smith","Resist Poison","Resist Spells",Slow,Stability,' +
+      'Stonecunning ' +
     'Languages=Common,Dwarven',
   'Elf':
     'Features=' +
@@ -5185,7 +5185,7 @@ SRD35.talentRules = function(
   }
   for(var skill in skills) {
     rules.choiceRules(rules, 'Skill', skill, skills[skill]);
-    var pattern = skill.replaceAll('(', '\\(').replaceAll(')', '\\)');
+    var pattern = skill.replaceAll('(', '\\(').replaceAll(')', '\\)').replace(/\s+/, '\\b\\s*');
     rules.choiceRules(rules, 'Goody', skill,
       'Pattern="([-+]\\d).*\\s+' + pattern + '\\s+Skill|' + pattern + '\\s+skill\\s+([-+]\\d)"' +
       'Effect=add ' +
