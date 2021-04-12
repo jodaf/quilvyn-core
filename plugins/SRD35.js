@@ -763,8 +763,6 @@ SRD35.FEATURES = {
     'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
   'Halfling Ability Adjustment':
     'Section=ability Note="+2 Dexterity/-2 Strength"',
-  'Heavyweight':
-    'Section=ability Note="No speed penalty in heavy armor or with heavy load"',
   'Heighten Spell':'Section=magic Note="Increase chosen spell level"',
   'Hide In Plain Sight':'Section=skill Note="Hide even when observed"',
   'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
@@ -1013,6 +1011,8 @@ SRD35.FEATURES = {
   'Spring Attack':'Section=combat Note="Move before, after melee attack"',
   'Spry':'Section=skill Note="+2 Climb/+2 Jump/+2 Move Silently"',
   'Stability':'Section=combat Note="+4 vs. Bull Rush and Trip"',
+  'Steady':
+    'Section=ability Note="No speed penalty in heavy armor or with heavy load"',
   'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
   'Still Mind':'Section=save Note="+2 vs. enchantment"',
   'Still Spell':
@@ -1512,9 +1512,8 @@ SRD35.RACES = {
     'Features=' +
       '"Dwarf Ability Adjustment",' +
       '"Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)",' +
-      'Darkvision,"Dodge Giants",Heavyweight,"Dwarf Enmity","Know Depth",' +
-      '"Natural Smith","Resist Poison","Resist Spells",Slow,Stability,' +
-      'Stonecunning ' +
+      'Darkvision,"Dodge Giants","Dwarf Enmity","Know Depth","Natural Smith",' +
+      '"Resist Poison","Resist Spells",Slow,Stability,Steady,Stonecunning ' +
     'Languages=Common,Dwarven',
   'Elf':
     'Features=' +
