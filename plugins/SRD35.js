@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.0';
+var SRD35_VERSION = '2.2.2.1';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -3718,7 +3718,7 @@ SRD35.SPELLS = {
   'Spiritual Weapon':
     'School=Evocation ' +
     'Level=C2,War2 ' +
-    'Description="R$RM\' Force weapon (+BAB+Wis 1d8+$Ldiv3min5) attacks designated foes for $L rd"',
+    'Description="R$RM\' Force weapon (+%{baseAttack+wisdomModifier} 1d8+$Ldiv3min5) attacks designated foes for $L rd"',
   'Statue':
     'School=Transmutation ' +
     'Level=W7 ' +
