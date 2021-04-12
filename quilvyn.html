@@ -35,14 +35,14 @@ if(window.location.search.indexOf('DEBUG') >= 0)
   window.DEBUG = true;
 
 /*
- * A few user preferences you may want to change: the background color for
+ * A few user preferences you may want to change: the background for
  * Quilvyn's windows; the default character sheet format; the portion of a
  * common menu/character sheet that the menu occupies (Quilvyn opens separate
  * windows if this is outside the range 10..90); whether or not to warn when
  * you're about to lose changes made to the current character because you're
  * opening a new one.
  */
-const BACKGROUND = 'wheat';
+const BACKGROUND = 'Images/parchment.jpg';
 const DEFAULT_SHEET_STYLE = 'Standard';
 const MENU_WIDTH_PERCENT = 30;
 const WARN_ABOUT_DISCARD = true;
@@ -72,13 +72,10 @@ const PLUGINS = [
   'plugins/SRD35.js',
   '?plugins/SRD35SpellPoints.js',
   '?plugins/Eberron.js',
-  '?plugins/EberronPrestige.js',
   '?plugins/LastAge.js',
-  '?plugins/LastAgePrestige.js',
+  '?plugins/OldSchool.js',
   '?plugins/Pathfinder.js',
   '?plugins/Realms.js',
-  '?plugins/RealmsPrestige.js',
-  '?plugins/OldSchool.js',
   '?plugins/SRD5E.js',
   '?plugins/PHB5E.js',
   // '?plugins/HybridD20.js (in development)',
@@ -260,7 +257,7 @@ for(var i = 0; i < PLUGINS.length; i++) {
 if(pluginPopup != null) {
   pluginPopup.document.write(
     '<html><head><title>Quilvyn Plugin Selection</title></head>\n' +
-    '<body bgcolor="' + BACKGROUND + '">\n' +
+    '<body bgcolor="wheat">\n' +
     '<img src="' + LOGO_URL + ' "/><br/>\n' +
     '<h2>Select Quilvyn plugins to use</h2>\n' +
     '<form name="frm"><table>\n'
@@ -337,7 +334,7 @@ function StartQuilvyn() {
 </script>
 
 </head>
-<body onload="document.bgColor=BACKGROUND;LoadPlugins();">
+<body bgcolor='wheat' onload='LoadPlugins();'>
 
 <script>
   document.write('<img src="' + LOGO_URL + '"/><br/>');

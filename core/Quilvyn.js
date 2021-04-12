@@ -82,7 +82,6 @@ function Quilvyn() {
     window.MENU_WIDTH_PERCENT = 0;
   }
 
-
   for(var a in persistentInfo) {
     if(STORAGE.getItem(PERSISTENT_INFO_PREFIX + a) != null) {
       persistentInfo[a] = STORAGE.getItem(PERSISTENT_INFO_PREFIX + a);
@@ -180,6 +179,12 @@ Quilvyn.applyV2Changes = function(character) {
   return result;
 };
 
+Quilvyn.htmlBackgroundAttr = function(attrValue) {
+  return 'bgcolor="wheat" ' +
+    (attrValue.match(/\/|(gif|jpg|jpeg|png|svg)$/) ? 'background' : 'bgcolor') +
+    '="' + attrValue + '"';
+};
+
 /* Interacts with the user to add custom items to the current collection. */
 Quilvyn.customAddItems = function(focus) {
 
@@ -192,7 +197,7 @@ Quilvyn.customAddItems = function(focus) {
     var choices = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
     var htmlBits = [
       '<html><head><title>Add Custom Items</title></head>',
-      '<body bgcolor="' + window.BACKGROUND + '">',
+      '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>',
       '<img src="' + LOGO_URL + '"/><br/>'
     ];
     htmlBits.push(
@@ -363,7 +368,7 @@ Quilvyn.customExportCollections = function() {
   htmlBits.sort();
   htmlBits.unshift(
     '<html><head><title>Export Custom Items</title></head>',
-    '<body bgcolor="' + window.BACKGROUND + '">',
+    '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>',
     '<img src="' + LOGO_URL + ' "/><br/>',
     '<pre>'
   );
@@ -389,7 +394,7 @@ Quilvyn.customImportCollections = function(focus) {
     // New import
     var htmlBits = [
       '<html><head><title>Import Custom Items</title></head>',
-      '<body bgcolor="' + window.BACKGROUND + '">',
+      '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>',
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h2>Enter item definitions from export window</h2>',
       '<form name="frm"><table>',
@@ -546,7 +551,7 @@ Quilvyn.editorHtml = function() {
 Quilvyn.exportCharacters = function() {
   var htmlBits = [
     '<html><head><title>Export Characters</title></head>',
-    '<body bgcolor="' + window.BACKGROUND + '">',
+    '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>',
     '<img src="' + LOGO_URL + ' "/><br/>'];
   for(var path in STORAGE) {
     if(!path.startsWith(PERSISTENT_CHARACTER_PREFIX))
@@ -580,7 +585,7 @@ Quilvyn.importCharacters = function(focus) {
     // New import
     var htmlBits = [
       '<html><head><title>Import Character</title></head>',
-      '<body bgcolor="' + window.BACKGROUND + '">',
+      '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>',
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h2>Enter attribute definition from character sheet source</h2>',
       '<form name="frm"><table>',
@@ -723,7 +728,7 @@ Quilvyn.randomizeCharacter = function(focus) {
     // New randomize
     var htmlBits = [
       '<html><head><title>Random Character</title></head>',
-      '<body bgcolor="' + window.BACKGROUND + '">',
+      '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>',
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h2>Character Attributes</h2>',
       '<form name="frm"><table>'];
@@ -850,7 +855,7 @@ Quilvyn.refreshEditor = function(redraw) {
   if(redraw) {
     var editHtml =
       '<html><head><title>Quilvyn Editor Window</title></head>\n' +
-      '<body bgcolor="' + window.BACKGROUND + '">\n' +
+      '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>\n' +
       '<img src="' + LOGO_URL + ' "/><br/>\n' +
       '<div style="text-align:center"><i>Version ' + VERSION + '</i></div>\n' +
       Quilvyn.editorHtml() + '\n' +
@@ -1108,7 +1113,7 @@ Quilvyn.summarizeCachedAttrs = function() {
   var combinedAttrs = { };
   var htmlBits = [
     '<head><title>Quilvyn Character Attribute Summary</title></head>',
-    '<body bgcolor="' + window.BACKGROUND + '">',
+    '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>',
     '<h1>Quilvyn Character Attribute Summary</h1>',
     '<table border="1">'
   ];
@@ -1186,7 +1191,7 @@ Quilvyn.update = function(input) {
         '<head>\n',
         '<title>About Quilvyn</title>\n',
         '</head>\n',
-        '<body bgcolor="' + window.BACKGROUND + '">\n',
+        '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>\n',
         ABOUT_TEXT.replace(/\n/g, '<br/>\n<br/>\n'),
         '\n</body>\n',
         '</html>\n'
@@ -1285,7 +1290,7 @@ Quilvyn.update = function(input) {
       '<head>\n',
       '<title>Rule Notes for ' + InputGetValue(editForm.rules) + '</title>\n',
       '</head>\n',
-      '<body bgcolor="' + window.BACKGROUND + '">\n',
+      '<body ' + Quilvyn.htmlBackgroundAttr(window.BACKGROUND) + '>\n',
       ruleSet.ruleNotes()
     );
     ruleSet.getPlugins().map
