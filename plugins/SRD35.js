@@ -7010,9 +7010,8 @@ SRD35.raceRulesExtra = function(rules, name) {
   if(name.match(/Gnome/)) {
     rules.defineRule('spellSlots.Gnomish0', 'charisma', '?', 'source >= 10');
   } else if(name.match(/Dwarf/)) {
-    rules.defineRule('abilityNotes.armorSpeedAdjustment',
-      'abilityNotes.dwarfArmorSpeedAdjustment', '^', '0'
-    );
+    rules.defineRule
+      ('abilityNotes.armorSpeedAdjustment', 'abilityNotes.steady', '^', '0');
   } else if(name == 'Human') {
     rules.defineRule('skillNotes.humanSkillBonus', 'level', '=', 'source + 3');
   }
