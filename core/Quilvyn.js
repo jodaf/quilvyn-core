@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.7';
+var VERSION = '2.2.8';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -957,9 +957,10 @@ Quilvyn.retrieveCharacterFromStorage = function(path) {
 
 /* Interacts w/user to preserve current character in persistent storage. */
 Quilvyn.saveCharacter = function(path) {
-  if(path == '') {
-    path = editWindow.prompt('Save ' + character['name'] + ' to path', '');
-    if(path == null)
+  if(!path) {
+    var defaultPath = character['_path'] || character['name'];
+    path = editWindow.prompt('Save ' + character['name'] + ' as', defaultPath);
+    if(!path)
       return;
   }
   character['_path'] = path;
