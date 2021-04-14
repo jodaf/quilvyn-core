@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.8';
+var VERSION = '2.2.9';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -732,31 +732,42 @@ Quilvyn.randomizeCharacter = function(focus) {
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h2>Character Attributes</h2>',
       '<form name="frm"><table>'];
-    presets = QuilvynUtils.getKeys(presets);
-    // Copy info for each potential preset from the editor form to the loading
-    // popup so that the user can specify the value
-    for(var i = 0; i < presets.length; i++) {
-      var preset = presets[i];
-      var label = preset.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
-      label = label.substring(0, 1).toUpperCase() + label.substring(1);
-      var presetHtml = '<tr><td><b>' + label + '</b></td>';
-      var widget = editForm[preset];
-      var selWidget = editForm[preset + '_sel'];
-      if(selWidget != null) {
-        presetHtml +=
-          '<td>' +
-          InputHtml(preset + '_sel', 'select-one', InputGetParams(selWidget)) +
-          '</td><td>' +
-          InputHtml(preset, 'text', [2]) +
-          '</td></tr>';
-      } else if(widget != null) {
-        presetHtml += '<td>' +
-                      InputHtml(preset, widget.type, InputGetParams(widget)) +
-                      '</td></tr>';
+    for(var preset in presets) {
+      var label;
+      var presetHtml = '';
+      if(presets[preset]) {
+        var pieces = presets[preset].split(',');
+        label = pieces[0];
+        presetHtml =
+          pieces[1].match(/bag|set/) ?
+            InputHtml(preset + '_sel', 'select-one',
+                      QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2]))) +
+            '</td><td>' +
+            InputHtml(preset, 'text', [2])
+          : pieces[1] == 'select-one' ?
+            InputHtml(preset, 'select-one',
+                      QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2])))
+          : InputHtml(preset, 'text', [2]);
       } else {
-        console.log('No edit element for preset "' + preset + '"');
-        continue;
+        // For backward compatibility, try to pick up preset params from the
+        // corresponding editor widget. TODO Remove once all plugins upgrade.
+        var widget = editForm[preset];
+        var selWidget = editForm[preset + '_sel'];
+        if(widget == null) {
+          console.log('No edit element for preset "' + preset + '"');
+          continue;
+        }
+        label = preset.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
+        label = label.substring(0, 1).toUpperCase() + label.substring(1);
+        presetHtml =
+          selWidget != null ?
+            InputHtml(preset+'_sel', 'select-one', InputGetParams(selWidget)) +
+            '</td><td>' +
+            InputHtml(preset, 'text', [2])
+          : InputHtml(preset, widget.type, InputGetParams(widget));
       }
+      presetHtml =
+        '<tr><td><b>' + label + '</b></td><td>' + presetHtml + '</td></tr>';
       htmlBits[htmlBits.length] = presetHtml;
     }
     htmlBits = htmlBits.concat([
@@ -771,36 +782,32 @@ Quilvyn.randomizeCharacter = function(focus) {
       window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     Quilvyn.randomizeCharacter.win.document.write(html);
     Quilvyn.randomizeCharacter.win.document.close();
-    var form = Quilvyn.randomizeCharacter.win.document.frm;
-    // Add attrs member to the form; the callbacks for the form input elements
-    // store user input there for retrieval once the user hits Ok.
-    form.attrs = {};
+    // Add callbacks that store user input in a property named attrs for
+    // retrieval once the user hits Ok.
     var callbackForSetSel =
       function() {InputSetValue(this.val, this.form.attrs[this.name.replace('_sel', '') + '.' + InputGetValue(this)])};
     var callbackForSetVal =
       function() {this.form.attrs[this.name + '.' + InputGetValue(this.sel)] = InputGetValue(this)};
     var callbackForNonSet =
       function() {this.form.attrs[this.name] = InputGetValue(this);};
-    for(var i = 0; i < presets.length; i++) {
-      var preset = presets[i];
-      var widget = form[preset];
-      var selWidget = form[preset + '_sel'];
-      if(widget == null)
-        continue;
-      // Set select-one elements to a random choice
-      if(typeof(widget) == 'object' && widget != null &&
-         widget.selectedIndex != null) {
-        widget.selectedIndex = QuilvynUtils.random(0, widget.options.length-1);
-        form.attrs[preset] = InputGetValue(widget);
-      }
-      if(selWidget == null) {
-        InputSetCallback(widget, callbackForNonSet);
-      } else {
+    var form = Quilvyn.randomizeCharacter.win.document.frm;
+    form.attrs = {};
+    for(var i = 0; i < form.elements.length; i++) {
+      var widget = form.elements[i];
+      if(widget.name.match(/_sel/))
+        continue; // Callback set at the same time as the value widget
+      InputSetCallback(widget, callbackForNonSet);
+      if(form[widget.name + '_sel'] != null) {
+        var selWidget = form[widget.name + '_sel'];
         InputSetCallback(widget, callbackForSetVal);
         InputSetCallback(selWidget, callbackForSetSel);
         // Give set widgets references to each other for callback use
         widget.sel = selWidget;
         selWidget.val = widget;
+      } else if(widget.type == 'select-one') {
+        // Set to a random choice
+        widget.selectedIndex = QuilvynUtils.random(0, widget.options.length-1);
+        form.attrs[widget.name] = InputGetValue(widget);
       }
     }
     Quilvyn.randomizeCharacter.win.okay = false;
