@@ -3717,7 +3717,7 @@ SRD35.SPELLS = {
   'Spiritual Weapon':
     'School=Evocation ' +
     'Level=C2,War2 ' +
-    'Description="R$RM\' Force weapon (+%{baseAttack+wisdomModifier} 1d8+$Ldiv3min5) attacks designated foes for $L rd"',
+    'Description="R$RM\' Force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} 1d8+$Ldiv3min5, crit same as physical weapon) attacks designated foes for $L rd"',
   'Statue':
     'School=Transmutation ' +
     'Level=W7 ' +
