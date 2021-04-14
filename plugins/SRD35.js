@@ -4275,7 +4275,7 @@ SRD35.CLASSES = {
   'Druid':
     'Require=' +
       '"alignment =~ \'Neutral\'",' +
-      '"armor =~ \'None|Hide|Leather|Padded\'",' +
+      '"armor =~ \'None|Hide|^Leather|Padded\'",' +
       '"shield =~ \'None|Wooden\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
