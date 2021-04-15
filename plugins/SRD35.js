@@ -440,6 +440,8 @@ SRD35.FEATS = {
   'Endurance':'Type=General',
   'Enlarge Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Eschew Materials':'Type=General Imply="casterLevel >= 1"',
+  'Exotic Weapon Proficiency (Hand Crossbow)':
+    'Type=General Require="baseAttack >= 1" Imply="weapons.Hand Crossbow"',
   'Extend Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Extra Turning':'Type=General Require="turningLevel >= 1"',
   'Far Shot':'Type=Fighter Require="features.Point-Blank Shot"',
