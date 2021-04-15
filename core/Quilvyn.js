@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.9';
+var VERSION = '2.2.10';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -127,6 +127,7 @@ function Quilvyn() {
     customCollections[path.split('.')[1]] = '';
   }
 
+  Quilvyn.refreshEditor(true);
   Quilvyn.newCharacter();
 
 }
@@ -687,23 +688,26 @@ Quilvyn.openCharacter = function(path) {
 /* Replaces the current character with one with empty attributes. */
 Quilvyn.newCharacter = function() {
   character = {};
-  var elements = ruleSet.getEditorElements();
-  for(var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-    var label = element[1];
-    var name = element[0];
-    var params = element[3];
-    var type = element[2];
-    if(type == 'checkbox') {
-      // empty -- leave unchecked
-    } else if(type == 'select-one') {
-      var options = typeof(params) == 'string' ? QuilvynUtils.getKeys(ruleSet.getChoices(params)) : params;
-      character[name] = options.includes('None') ? 'None' : options[0];
+  characterPath = '';
+  var i;
+  // Skip to first character-related editor input
+  for(i = 0;
+      i < editForm.elements.length && editForm.elements[i].name != 'name';
+      i++)
+    ; /* empty */
+  for( ; i < editForm.elements.length; i++) {
+    var input = editForm.elements[i];
+    var name = input.name;
+    var type = input.type;
+    if(type == 'select-one' && !name.match(/_sel/)) {
+      character[name] = input.options[0].text;
+      for(var j = 1; j < input.options.length; j++)
+        if(input.options[j].text == 'None')
+          character[name] = 'None';
     } else if(name == 'experience' || name == 'hitPoints') {
       character[name] = 0;
     }
   }
-  characterPath = '';
   characterCache[characterPath] = QuilvynUtils.clone(character);
   Quilvyn.refreshEditor(false);
   Quilvyn.refreshSheet();
