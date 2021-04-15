@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.3';
+var SRD35_VERSION = '2.2.2.4';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -48,7 +48,9 @@ function SRD35() {
     'feats', 'featCount', 'sanityNotes', 'selectableFeatureCount',
     'validationNotes'
   );
-  rules.defineChoice('preset', 'race', 'levels', 'prestige', 'npc');
+  rules.defineChoice('preset',
+    'race:Race,select-one,races', 'levels:Class Levels,bag,levels',
+    'prestige:Prestige Levels,bag,prestiges', 'npc:NPC Levels,bag,npcs');
 
   SRD35.abilityRules(rules);
   SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
