@@ -1986,7 +1986,7 @@ SRD35.SPELLS = {
     'Description="R15\' cone targets with 2/4/any HD unconscious 2d4 rd/blind 1d4 rd/stunned 1 rd (Will neg)"',
   'Command':
     'School=Enchantment ' +
-    'Level=Adapt1,C1 ' +
+    'Level=Adept1,C1 ' +
     'Description="R$RS\' Target approach/drop/fall/flee/halt for 1 rd (Will neg)"',
   'Greater Command':
     'School=Enchantment ' +
