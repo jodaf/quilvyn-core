@@ -753,22 +753,8 @@ Quilvyn.randomizeCharacter = function(focus) {
                       QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2])))
           : InputHtml(preset, 'text', [2]);
       } else {
-        // For backward compatibility, try to pick up preset params from the
-        // corresponding editor widget. TODO Remove once all plugins upgrade.
-        var widget = editForm[preset];
-        var selWidget = editForm[preset + '_sel'];
-        if(widget == null) {
-          console.log('No edit element for preset "' + preset + '"');
-          continue;
-        }
-        label = preset.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
-        label = label.substring(0, 1).toUpperCase() + label.substring(1);
-        presetHtml =
-          selWidget != null ?
-            InputHtml(preset+'_sel', 'select-one', InputGetParams(selWidget)) +
-            '</td><td>' +
-            InputHtml(preset, 'text', [2])
-          : InputHtml(preset, widget.type, InputGetParams(widget));
+        console.log('No formatting specified for preset "' + preset + '"');
+        continue;
       }
       presetHtml =
         '<tr><td><b>' + label + '</b></td><td>' + presetHtml + '</td></tr>';
