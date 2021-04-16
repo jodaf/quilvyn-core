@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.4';
+var SRD35_VERSION = '2.2.2.5';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -1588,12 +1588,25 @@ SRD35.SKILLS = {
     'Ability=constitution ' +
     'Class=Bard,Cleric,Druid,Monk,Paladin,Ranger,Sorcerer,Wizard',
   'Craft (Alchemy)':
-    'Ability=intelligence Class=all Synergy="Appraise (related)"',
-  'Craft (Armor)':'Ability=intelligence Class=all Synergy="Appraise (related)"',
-  'Craft (Bows)':'Ability=intelligence Class=all Synergy="Appraise (related)"',
-  'Craft (Traps)':'Ability=intelligence Class=all Synergy="Appraise (related)"',
+    'Ability=intelligence ' +
+    'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
+    'Synergy="Appraise (related)"',
+  'Craft (Armor)':
+    'Ability=intelligence ' +
+    'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
+    'Synergy="Appraise (related)"',
+  'Craft (Bows)':
+    'Ability=intelligence ' +
+    'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
+    'Synergy="Appraise (related)"',
+  'Craft (Traps)':
+    'Ability=intelligence ' +
+    'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
+    'Synergy="Appraise (related)"',
   'Craft (Weapons)':
-    'Ability=intelligence Class=all Synergy="Appraise (related)"',
+    'Ability=intelligence ' +
+    'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
+    'Synergy="Appraise (related)"',
   'Decipher Script':
     'Ability=intelligence Untrained=n ' +
     'Class=Bard,Rogue,Wizard Synergy="Use Magic Device (scrolls)"',
@@ -1657,7 +1670,7 @@ SRD35.SKILLS = {
   'Perform (Wind)':'Ability=charisma Class=Bard,Monk,Rogue',
   'Profession (Tanner)':
     'Ability=wisdom Untrained=n ' +
-    'Class=Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard',
+    'Class=Bard,Cleric,Druid,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard',
   'Ride':'Ability=dexterity Class=Barbarian,Druid,Fighter,Paladin,Ranger',
   'Search':
     'Ability=intelligence Class=Ranger,Rogue Synergy="Survival (tracking)"',
