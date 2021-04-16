@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.5';
+var SRD35_VERSION = '2.2.2.6';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -617,9 +617,10 @@ SRD35.FEATURES = {
   'Celestial Familiar':
     'Section=companion ' +
     'Note="Smite Evil (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, %{((familiarStats.HD+7)//8)*5} acid, cold, and electricity resistance, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
-  'Cleave':'Section=combat Note="Extra attack when foe drops"',
+  'Cleave':'Section=combat Note="Extra attack when foe drops 1/rd"',
   'Combat Casting':
-    'Section=skill Note="+4 Concentration (defensive or grappling)"',
+    'Section=skill ' +
+    'Note="+4 Concentration to cast spell while on defensive or grappling"',
   'Combat Expertise':
     'Section=combat Note="Trade up to -5 attack for equal AC bonus"',
   'Combat Reflexes':
@@ -670,7 +671,8 @@ SRD35.FEATURES = {
   'Diamond Body':'Section=save Note="Immune to poison"',
   'Diamond Soul':'Section=save Note="DC %{levels.Monk + 10} spell resistance"',
   'Diehard':
-    'Section=combat Note="Remain conscious and stable with negative HP"',
+    'Section=combat ' +
+    'Note="Remain conscious, stable, and able to act with negative HP"',
   'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
   'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Divine Health':'Section=save Note="Immune to disease"',
@@ -760,7 +762,7 @@ SRD35.FEATURES = {
   'Greater Spell Focus (Transmutation)':
     'Section=magic Note="+1 Spell DC (Transmutation)"',
   'Greater Spell Penetration':
-    'Section=magic Note="+2 caster level vs. resistance checks"',
+    'Section=magic Note="+2 checks to overcome spell resistance"',
   'Greater Two-Weapon Fighting':
     'Section=combat Note="Third off-hand -10 attack"',
   'Half-Orc Ability Adjustment':
@@ -788,7 +790,7 @@ SRD35.FEATURES = {
   'Improved Overrun':'Section=combat Note="Foe cannot avoid, +4 Str check"',
   'Improved Precise Shot':
     'Section=combat ' +
-    'Note="No foe AC bonus for partial concealment, attack grappling target"',
+    'Note="No foe AC bonus for partial cover, attack grappling target"',
   'Improved Shield Bash':'Section=combat Note="No AC penalty on Shield Bash"',
   'Improved Speed':'Section=companion Note="+10 companion Speed"',
   'Improved Sunder':'Section=combat Note="No AOO on Sunder, +4 attack"',
@@ -906,7 +908,8 @@ SRD35.FEATURES = {
   "Resist Nature's Lure":'Section=save Note="+4 vs. spells of feys"',
   'Resist Poison':'Section=save Note="+2 vs. Poison"',
   'Resist Spells':'Section=save Note="+2 vs. Spells"',
-  'Ride-By Attack':'Section=combat Note="Move before, after mounted attack"',
+  'Ride-By Attack':
+   'Section=combat Note="Move before, after mounted attack w/out AOO"',
   'Run':
     'Section=ability,skill Note="+1 Run Speed Multiplier","+4 running Jump"',
   'School Opposition (Abjuration)':
@@ -1012,7 +1015,8 @@ SRD35.FEATURES = {
   'Spontaneous Druid Spell':
     'Section=magic ' +
     'Note="Cast <i>Summon Nature\'s Ally</i> in place of known spell"',
-  'Spring Attack':'Section=combat Note="Move before, after melee attack"',
+  'Spring Attack':
+    'Section=combat Note="Move before, after melee attack w/out AOO"',
   'Spry':'Section=skill Note="+2 Climb/+2 Jump/+2 Move Silently"',
   'Stability':'Section=combat Note="+4 vs. Bull Rush and Trip"',
   'Steady':
@@ -1027,7 +1031,7 @@ SRD35.FEATURES = {
     'Section=ability Note="+%{strengthDomainLevel} Strength 1 rd/dy"',
   'Stunning Fist':
     'Section=combat ' +
-    'Note="Struck foe stunned %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
+    'Note="Struck foe stunned 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
   'Suggestion':
     'Section=magic ' +
     'Note="<i>Suggestion</i> to 1 fascinated creature (DC %{10+levels.Bard//2+charismaModifier} Will neg)"',
