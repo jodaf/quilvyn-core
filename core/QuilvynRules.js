@@ -371,7 +371,7 @@ QuilvynRules.goodyRules = function(
   }
 
   rules.defineRule('goodiesList', 'notes', '=',
-    'source.match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
+    'String(source).match(/^\\s*\\*/m) ? source.match(/^\\s*\\*.*/gm).reduce(function(list, line) {return list.concat(line.split(";"))}, []) : null'
   );
 
   if(value == null)
