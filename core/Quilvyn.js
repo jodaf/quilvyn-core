@@ -540,7 +540,8 @@ Quilvyn.editorHtml = function() {
           continue;
         needSub = true;
         params[j] = params[j].substring(0, params[j].indexOf('('));
-        while(j + 1 < params.length && params[j + 1].startsWith(params[j]))
+        while(j + 1 < params.length &&
+              params[j + 1].startsWith(params[j] + '('))
           params.splice(j + 1, 1);
       }
       // Note: Inner table needed to prevent line break between _sel and _sub?!?
