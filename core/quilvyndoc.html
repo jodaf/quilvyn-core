@@ -42,12 +42,12 @@
 <a name="intro"><h3>Introduction</h3></a>
 <p>
 Quilvyn is a browser-based editor for RPG characters, particularly those
-generated using rules derived from the System Reference Document from Wizards
-of the Coast. It allows you to enter and modify basic information about a
-character&#151;race, class levels, attributes like strength, and so on&#151;and
-applies the rules from SRD v3.5 and other rule sets to modify these basic
-attributes and calculate computed attributes like saving throw bonuses and
-armor class. The program formats character attributes into a compact
+generated using rules derived from the v3.5 System Reference Document from
+Wizards of the Coast. It allows you to enter and modify basic information about
+a character&#151;race, class levels, attributes like strength, and so
+on&#151;and applies the rules from SRD v3.5 and other rule sets to modify these
+basic attributes and calculate computed attributes like saving throw bonuses
+and armor class. The program formats character attributes into a compact
 (typically one page) character sheet web page that you can print for reference
 during game play. You can save character information and later reload it into
 Quilvyn to update the character's attributes.
@@ -85,7 +85,7 @@ customizations in quilvyn.html. See the comments in that file for details.
 </p><p>
 To run Quilvyn, simply use one of the web browsers listed above to open your
 local copy of quilvyn.html. If the program opens a plugin selection window,
-check the plugins you wish to use and press the "Ok" button to start the
+check the plugins you wish to use and press the Ok button to start the
 character editor. Quilvyn is written in JavaScript and makes extensive use of
 pop-up windows, so you must have both of these enabled in your browser. A
 reference installation of Quilvyn using the latest sources is available at
@@ -100,17 +100,18 @@ generate a new character, generate a character with random attribute values,
 reload the information for a previously-saved character, or import a character
 from information saved from a different browser. When you ask for a random
 character, Quilvyn opens a form that allows you to specify certain attributes,
-such as race and class level(s). This helps in the generation of NPCs. You can
+such as Race and Class Levels. This helps in the generation of NPCs. You can
 either specify these attributes, or leave the form unchanged to have Quilvyn
 choose them randomly.
 </p><p>
-The Character menu's Import option allows you to transfer character information
-saved from another browser. In the Import pop-up window, paste the character
-attributes definition ("var attributes = { ... }") from the header of the
-saved character sheet, then press OK. Quilvyn displays the character sheet
-generated from these attributes and saves the character into your browser's
-persistent storage. If you paste the attributes of multiple characters into a
-single Import pop-up, Quilvyn saves all of them and displays the last.
+The Character menu's "Import" option allows you to transfer character
+information saved from another browser. In the Import pop-up window, paste the
+character attributes definition ("var attributes = { ... }") from the header of
+the saved character sheet, then press the OK button. Quilvyn displays the
+character sheet generated from these attributes and saves the character into
+your browser's persistent storage. If you paste the attributes of multiple
+characters into a single Import pop-up, Quilvyn saves all of them and displays
+the last.
 </p>
 
 <a name="edit"><h3>Editing Characters</h3></a>
@@ -118,76 +119,77 @@ single Import pop-up, Quilvyn saves all of them and displays the last.
 <img src='editingobjects.gif' alt='Editing widgets' align='left'/>
 The Quilvyn editor contains editing objects that allow you to change basic
 character attributes. The editor uses three different types of editing objects.
-<i>Text fields</i> are used for attributes, such as name and player, that have
+<i>Text fields</i> are used for attributes, such as Name and Player, that have
 an infinite number of possible values. To modify one of these attributes,
 simply type the new value into the text field. In text fields that contain a
-number (e.g., hit points) you can instead enter a '+' followed by a number, and
+number (e.g., Hit Points) you can instead enter a '+' followed by a number, and
 Quilvyn will add the number to the existing value of the field. <i>Selection
-menus</i> are used with attributes like alignment, race, and abilities like
-strength and intelligence. These editing objects give you a pull-down menu that
+menus</i> are used with attributes like Alignment, Race, and abilities like
+Strength and Intelligence. These editing objects give you a pull-down menu that
 contains all the possible values. Simply select the correct one to change the
 attribute. <i>Set menus</i> are used for collections of related attributes like
-skills, feats, weapons, and class levels. Along with a pull-down menu, these
+Skills, Feats, Weapons, and Class Levels. Along with a pull-down menu, these
 editing objects include either a checkbox or a small text field where you can
-enter a value. A checkbox is used for attributes, such as spells, where the
+enter a value. A checkbox is used for attributes such as Spells, where the
 character either has an attribute or not; the text field is used with
-attributes (e.g., skills, class levels) where the character has a variable
+attributes (e.g., Skills, Class Levels) where the character has a variable
 score associated with the attribute. To change one of these attributes, first
 use the pull-down menu to select a particular attribute, then click the
-checkbox or enter a value in the text field. A "Clear All" button next to set
-menus lets you clear all attributes in a set with a single click. Some set
-menus have an accompanying filter box that allows you to determine which
-choices appear in its menu. This menu allows you to limit the choices shown to
-those of interest; only those choices that contain the text in this box are
-displayed in the menu.
+checkbox or enter a value in the text field. Set menu selections that have
+sub-selections, such as the Perform skill and the Improved Critical feat,
+display a second pull-down menu where you specify the sub-selection value. For
+example, to add the Improved Critical (Longsword) feat to a character, first
+select "Improved Critical" in the feat pull-down, then select "Longsword" in the
+feat sub-selection pull-down before checking the box to add the feat. A Clear
+All button next to set menus lets you clear all attributes in a set with a
+single click.
 </p><p>
 In a separate browser frame or window, Quilvyn displays a character sheet based
 on the values of the editor. Every time you change a value in the editor,
 Quilvyn applies the rules from the selected rule set, then updates the
 character sheet to show you any computed changes.
 </p><p>
-Three "Show" checkboxes provide some control over what attributes the character
-sheet displays. The "Italic Notes" checkbox determines whether or not
-italicized notes are included on the sheet. See <a href='#sheet'>the
-discussion of the character sheet</a> for an explanation as to why some notes
-are italicized and others are not. Checking the "Extras" box adds to the
-character sheet attributes such as race and class features that can be useful
-for reference during character development but that are not often used during
-play. The "Hidden" box allows you to produce a character sheet that contains
-additional information that should not be seen by the player. This includes any
-notes entered in the editor's "Hidden Notes" box and any attributes that depend
-on the "hidden" attribute.
+Three Show checkboxes provide some control over what attributes the character
+sheet displays. The Italic Notes checkbox determines whether or not italicized
+notes are included on the sheet. See <a href='#sheet'>the discussion of the
+character sheet</a> for an explanation as to why some notes are italicized and
+others are not. Checking the Extras box adds to the character sheet attributes,
+such as race and class features, that can be useful for reference during
+character development but that are not often used during play. The Hidden box
+allows you to produce a character sheet that contains additional information
+that should not be seen by the player. This includes any notes entered in the
+editor's Hidden Notes box and any attributes that depend on the "hidden"
+attribute.
 </p><p>
 A few items in the editor window don't relate directly to the contents of the
-character sheet. The "About" button opens a window with text describing
-Quilvyn, and the "Help" button opens one that contains this document. The
-"Rules" pull-down allows you to change between different character-generation
-rule sets&#151;Quilvyn comes with support for the v3.5 System Reference
-Document, and plug-ins for different game versions and particular campaign
-settings are available. The "Notes" and "Rules" buttons next to this pull-down
-open windows with details about the particular rule set, and the Custom Items
-pull-down is discussed in <a href="#custom">Adding Custom Items</a>. The
-"Character" menu is discussed in
-<a href='#open'>Generating and Loading Characters</a>. The "Summary" item in
-the character menu opens a window with a table that summarizes attributes from
-all characters that you've opened since starting Quilvyn. This is intended to
-assist in planning and running adventures by providing a compact summary of the
-abilities of all the characters in a party. The "Save", "Save As...",
-"Delete...", and "HTML" items in the character menu are described in
-<a href='#save'>Saving Characters</a>. The "Sheet Style" pull-down allows you
-to choose between different character sheet formats.
+character sheet. The About button opens a window with text describing Quilvyn,
+and the Help button opens one that contains this document. The Rules pull-down
+allows you to change between different character-generation rule
+sets&#151;Quilvyn comes with support for the v3.5 System Reference Document,
+and plug-ins for different game versions and particular campaign settings are
+available. The Notes and Rules buttons next to this pull-down open windows with
+details about the particular rule set, and the Custom Items pull-down is
+discussed in <a href="#custom">Adding Custom Items</a>. The Character menu is
+discussed in <a href='#open'>Generating and Loading Characters</a>. The Summary
+item in the character menu opens a window with a table that summarizes
+attributes from all characters that you've opened since starting Quilvyn. This
+is intended to assist in planning and running adventures by providing a compact
+summary of the abilities of all the characters in a party. The "Save", "Save
+As...", "Delete...", and "HTML" items in the character menu are described in
+<a href='#save'>Saving Characters</a>. The Sheet Style pull-down allows you to
+choose between different character sheet formats.
 </p>
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
 <p>
-The "Randomize" menu allows you to let Quilvyn randomly determine most basic
+The Randomize menu allows you to let Quilvyn randomly determine most basic
 Quilvyn character attributes. The editor will select a random value for the
 attribute you choose and update both the editor display and the character
-sheet. For the six basic attributes&#151;strength, intelligence, wisdom,
-constitution, dexterity, and charisma&#151;Quilvyn computes the random value by
+sheet. For the six basic attributes&#151;strength, constitution, dexterity,
+intelligence, wisdom, and charisma&#151;Quilvyn computes the random value by
 randomly generating four numbers from 1 to 6 and summing the highest three.
 For other selection attributes, Quilvyn randomly selects one of the possible
-values. When selecting set values such as spells and feats, Quilvyn uses other
+values. When selecting set values such as Spells and Feats, Quilvyn uses other
 information about the character (e.g., feat count) to randomly select the
 attribute values. Quilvyn selects enough set values to fill in the number of
 values appropriate for the character. For example, if a character is entitled
@@ -202,18 +204,18 @@ little creative editing.
 <p>
 For security reasons, programs like Quilvyn are prohibited from writing files
 to your hard disk. Instead, character information is saved to your browser's
-persistent storage, where Quilvyn can access it later. The "Save" and
-"Save As..." items from the Character menu write information about the current
+persistent storage, where Quilvyn can access it later. The "Save" and "Save
+As..." items from the Character menu write information about the current
 character to the browser's persistent storage. You can later retrieve a saved
-character by selecting the character path from the Character menu. Use the
+character by selecting the character from the Character menu. Use the
 "Delete..." item from the Character menu to remove a character's information
 from persistent storage.
 </p><p>
 If you want to cache a copy of your character sheet for viewing outside of
 Quilvyn, select the "HTML" item in the Character menu. Quilvyn opens a new
-window that contains the HTML for the character sheet. Copy and paste the
-contents of this window into your favorite editor and save the result as a web
-page (a file with an extension of .html or .htm).
+window that contains HTML for the character sheet. Copy and paste the contents
+of this window into your favorite editor and save the result as a web page (a
+file with an extension of .html or .htm).
 </p><p>
 Selecting the "Export..." item from the character menu opens a new window that
 displays the attributes for all characters in your browser's persistent
@@ -237,23 +239,23 @@ explanation.
     In the Basic Attributes section, the computed modifier values for strength,
     wisdom, etc. are shown in parentheses after the attribute value.
   </li><li>
-    In the skills section, the sheet shows the number of ranks allocated to
+    In the Skills section, the sheet shows the number of ranks allocated to
     each skill. Each skill modifier appears in parentheses after the skill
     rank value.
   </li><li>
-    Some attribute notes appear in italics; others in plain text. The
-    italicized notes describe the effects of rules that Quilvyn used in
-    computing attributes. For example, a sheet for a halfling character might
-    include an italicized note reading "<i>Halfling Ability Adjustment: +2
-    dexterity/-2 strength</i>", indicating that Quilvyn has added two to
-    dexterity value shown on the character sheet and subtracted two from the
-    strength value. Italicized notes can normally be ignored during play, since
-    Quilvyn has already incorporated the effect on the character sheet. Plain
-    text notes, on the other hand, describe rule effects that need to be
-    applied during the game, so these should be examined closely. For example,
-    the Combat section of a halfling's character sheet might include the plain
-    text note "Accurate: +1 attack with slings/thrown". When rolling a sling
-    attack throw for this character, you'll need to add one to the rolled value.
+    Some notes appear in italics; others in plain text. The italicized notes
+    describe the effects of rules that Quilvyn used in computing attributes.
+    For example, a sheet for a halfling character might include a note reading
+    "<i>Halfling Ability Adjustment: +2 Dexterity/-2 Strength</i>", indicating
+    that Quilvyn has added two to the dexterity value shown on the character
+    sheet and subtracted two from the strength value. Italicized notes can
+    normally be ignored during play, since Quilvyn has already incorporated the
+    effect on the character sheet. Plain text notes, on the other hand,
+    describe rule effects that need to be applied during the game, so these
+    should be examined closely. For example, the Combat section of a halfling's
+    character sheet might include the note "Accurate: +1 attack with slings and
+    thrown". When rolling a sling attack throw for this character, you'll need
+    to add one to the rolled value.
   </li>
 </ul>
 </p>
@@ -310,7 +312,7 @@ available. The Custom Items pull-down displays the name of the current
 collection. In addition to user-defined collections, Quilvyn predefines a
 custom item collection for each loaded rule set. Every time Quilvyn runs, it
 automatically adds items in each predefined collection to the corresponding
-rule set; there's no need to apply the collection to its rule as a separate
+rule set; there's no need to apply the collection to its rule set as a separate
 step.
 </p><p>
 Selecting the "New Collection..." item in the Custom Items menu creates a new
@@ -327,13 +329,13 @@ purposes and for copying custom items when you change browsers.
 </p><p>
 Selecting the "Add Items..." item in the Custom Items menu opens a dialog box
 where you can enter the attributes for new custom items. Begin by using the
-"Type" menu to select the type of item you want to add. Quilvyn displays a set
+Type menu to select the type of item you want to add. Quilvyn displays a set
 of editing objects that allow you to enter attributes specific to that type of
 item. For example, if you select "Weapon", editing objects will appear that
 allow you to enter the new weapon's name, group (Simple, Martial, or Exotic),
 category (Unarmed, Light, One-Handed, Two-Handed, or Ranged), damage, critical
 threat threshold, critical damage multiplier, and (for ranged weapons) range
-increment. Once you have entered all the necessary information, press the "Add"
+increment. Once you have entered all the necessary information, press the Add
 button. Your new item is saved in the current collection.
 </p><p>
 The "Delete Item..." item in the Custom Items menu opens a dialog box that
