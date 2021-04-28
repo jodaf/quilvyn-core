@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.7';
+var SRD35_VERSION = '2.2.2.8';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -5125,15 +5125,6 @@ SRD35.identityRules = function(
   for(var clas in classes) {
     rules.choiceRules(rules, 'Class', clas, classes[clas]);
   }
-  for(var deity in deities) {
-    rules.choiceRules(rules, 'Deity', deity, deities[deity]);
-  }
-  for(var path in paths) {
-    rules.choiceRules(rules, 'Path', path, paths[path]);
-  }
-  for(var race in races) {
-    rules.choiceRules(rules, 'Race', race, races[race]);
-  }
   if(prestigeClasses) {
     for(var pc in prestigeClasses) {
       rules.choiceRules(rules, 'Prestige', pc, prestigeClasses[pc]);
@@ -5145,6 +5136,16 @@ SRD35.identityRules = function(
       rules.choiceRules(rules, 'Npc', nc, npcClasses[nc]);
       rules.defineRule('levels.' + nc, 'npc.' + nc, '=', null);
     }
+  }
+  // Process paths before deities for domain definitions
+  for(var path in paths) {
+    rules.choiceRules(rules, 'Path', path, paths[path]);
+  }
+  for(var deity in deities) {
+    rules.choiceRules(rules, 'Deity', deity, deities[deity]);
+  }
+  for(var race in races) {
+    rules.choiceRules(rules, 'Race', race, races[race]);
   }
 
   rules.defineRule
@@ -6395,6 +6396,8 @@ SRD35.companionRules = function(
  */
 SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
 
+  var i;
+
   if(!name) {
     console.log('Empty deity name');
     return;
@@ -6411,15 +6414,20 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
     console.log('Bad domains list "' + domains + '" for deity ' + name);
     return;
   }
-  // TODO Individual domains are tricky to check because they exist only in
-  // selectableFeatures and are later extended by inheriting plugins.
-  // Punt for now.
+  if(rules.getChoices('selectableFeatures')) {
+    for(i = 0; i < domains.length; i++) {
+      if(QuilvynUtils.getKeys(rules.getChoices('selectableFeatures'), domains[i] + ' Domain').length == 0) {
+        console.log('Bad domain "' + domains[i] + '" for deity ' + name);
+        // Warning only - not critical to definition
+      }
+    }
+  }
   if(!Array.isArray(weapons)) {
     console.log('Bad weapons list "' + weapons + '" for deity ' + name);
     return;
   }
   if(rules.getChoices('weapons')) {
-    for(var i = 0; i < weapons.length; i++) {
+    for(i = 0; i < weapons.length; i++) {
       if(!(weapons[i] in rules.getChoices('weapons'))) {
         console.log('Bad weapon "' + weapons[i] + '" for deity ' + name);
         // Warning only - not critical to definition
