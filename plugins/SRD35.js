@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.6';
+var SRD35_VERSION = '2.2.2.7';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -5905,19 +5905,19 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('companionNotes.shareSavingThrows.1',
       // Use base note in calculation so Quilvyn displays it in italics
       'companionNotes.shareSavingThrows', '?', null,
-      'levels.Paladin', '=', SRD35.SAVE_BONUS_HALF,
+      'classFortitudeBonus', '=', null,
       'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_HALF + ')',
       '', '^', '0'
     );
     rules.defineRule('companionNotes.shareSavingThrows.2',
       'companionNotes.shareSavingThrows', '?', null,
-      'levels.Paladin', '=', SRD35.SAVE_BONUS_THIRD,
+      'classReflexBonus', '=', null,
       'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_HALF + ')',
       '', '^', '0'
     );
     rules.defineRule('companionNotes.shareSavingThrows.3',
       'companionNotes.shareSavingThrows', '?', null,
-      'levels.Paladin', '=', SRD35.SAVE_BONUS_THIRD,
+      'classWillBonus', '=', null,
       'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_THIRD + ')',
       '', '^', '0'
     );
@@ -6096,48 +6096,6 @@ SRD35.classRulesExtra = function(rules, name) {
     ];
     QuilvynRules.featureListRules
       (rules, features, 'Animal Companion', 'fiendishServantMasterLevel', false);
-    rules.defineRule('fiendishServantMasterBaseSaveFort',
-      'fiendishServantMasterLevel', '?', null,
-      'levels.Blackguard', '=', SRD35.SAVE_BONUS_GOOD,
-      'levels.Barbarian', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Bard', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Cleric', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Druid', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Fighter', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Ranger', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Rogue', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Wizard', '+', SRD35.SAVE_BONUS_POOR
-    );
-    rules.defineRule('fiendishServantMasterBaseSaveRef',
-      'fiendishServantMasterLevel', '?', null,
-      'levels.Blackguard', '=', SRD35.SAVE_BONUS_POOR,
-      'levels.Barbarian', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Bard', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Cleric', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Druid', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Fighter', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Ranger', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Rogue', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Wizard', '+', SRD35.SAVE_BONUS_POOR
-    );
-    rules.defineRule('fiendishServantMasterBaseSaveWill',
-      'fiendishServantMasterLevel', '?', null,
-      'levels.Blackguard', '=', SRD35.SAVE_BONUS_POOR,
-      'levels.Barbarian', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Bard', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Cleric', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Druid', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Fighter', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Monk', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Ranger', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Rogue', '+', SRD35.SAVE_BONUS_POOR,
-      'levels.Sorcerer', '+', SRD35.SAVE_BONUS_GOOD,
-      'levels.Wizard', '+', SRD35.SAVE_BONUS_GOOD
-    );
     rules.defineRule('animalCompanionStats.AC',
       'fiendishServantMasterLevel', '+',
       'Math.max(Math.floor((source - 10) / 3) * 2 + 1, 1)'
@@ -6156,15 +6114,6 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('animalCompanionStats.SR',
       'fiendishServantMasterLevel', '=', 'source >= 19 ? source + 5 : null'
-    );
-    rules.defineRule('companionNotes.shareSavingThrows.1',
-      'fiendishServantMasterBaseSaveFort', '=', null
-    );
-    rules.defineRule('companionNotes.shareSavingThrows.2',
-      'fiendishServantMasterBaseSaveRef', '=', null
-    );
-    rules.defineRule('companionNotes.shareSavingThrows.3',
-      'fiendishServantMasterBaseSaveWill', '=', null
     );
     rules.defineRule('fiendishServantMasterLevel',
       'levels.Blackguard', '?', 'source < 5 ? null : source',
