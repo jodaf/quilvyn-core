@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.8';
+var SRD35_VERSION = '2.2.2.9';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -7459,8 +7459,10 @@ SRD35.weaponRules = function(
   );
 
   rules.defineRule(prefix + 'DamageModifier', 'weapons.' + name, '?', null);
-  if(name.match(/Blowgun|Crossbow|Dartgun|Gun/))
-    rules.defineRule(prefix + 'DamageModifier', '', '=', '0');
+  if(name.match(/Arquebus|Blowgun|Crossbow|Dartgun|Gun/))
+    rules.defineRule(prefix + 'DamageModifier',
+      'combatNotes.strengthDamageAdjustment', '=', '0'
+    );
   else if(name.match(/Longbow|Shortbow/) && !name.startsWith('Composite'))
     rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
@@ -7474,6 +7476,11 @@ SRD35.weaponRules = function(
     rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', null
     );
+  if(firstDamage.match(/[-+]/)) {
+    var bump = firstDamage.replace(/^[^-+]*/, '');
+    firstDamage = firstDamage.replace(bump, '');
+    rules.defineRule(prefix + 'DamageModifier', '', '+', bump);
+  }
   rules.defineRule(prefix + 'DamageDice',
     'weapons.' + name, '?', null,
     '', '=', '"' + firstDamage + '"',
@@ -7489,6 +7496,8 @@ SRD35.weaponRules = function(
   );
 
   if(secondDamage) {
+    secondDamage = secondDamage.replace(/[-+].*/, '');
+    // TODO Ignoring 2nd mod different from 1st, e.g. d6+2/d6
     rules.defineRule(prefix + 'DamageDice2',
       'weapons.' + name, '?', null,
       '', '=', '"' + secondDamage + '"',
