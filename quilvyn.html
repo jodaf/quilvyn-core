@@ -77,7 +77,6 @@ const PLUGINS = [
   '?plugins/Pathfinder.js',
   '?plugins/Pathfinder2E.js (in development)',
   '?plugins/Realms.js',
-  '?plugins/Savage.js (in development)',
   '?plugins/SRD5E.js',
   '?plugins/PHB5E.js',
   null
@@ -241,8 +240,6 @@ for(var i = 0; i < CORE_URLS.length; i++) {
   document.write('<script src="' + CORE_URLS[i] + '">' + CLOSE_TAG);
 }
 
-var pluginPopup = null;
-
 for(var i = 0; i < PLUGINS.length; i++) {
   if(PLUGINS[i] == null)
     continue;
@@ -250,72 +247,28 @@ for(var i = 0; i < PLUGINS.length; i++) {
     var url = QUILVYN_HOME + PLUGINS[i].replace(/ *\(.*\)/g, '');
     document.write('<script src="' + url + '">' + CLOSE_TAG);
   }
-  else if(pluginPopup == null) {
-    pluginPopup = window.open('', '__plugins', 'height=750,width=750,menubar,resizable,scrollbars,toolbar');
-  }
-}
-
-if(pluginPopup != null) {
-  pluginPopup.document.write(
-    '<html><head><title>Quilvyn Plugin Selection</title></head>\n' +
-    '<body bgcolor="wheat">\n' +
-    '<img src="' + LOGO_URL + ' "/><br/>\n' +
-    '<h2>Select Quilvyn plugins to use</h2>\n' +
-    '<form name="frm"><table>\n'
-  );
-  var selectedPlugins = [];
-  try {
-    selectedPlugins = STORAGE.getItem('QuilvynSelectedPlugins').split(',');
-  } catch(err) {
-    // empty
-  }
-  for(var i = 0; i < PLUGINS.length; i++) {
-    if(PLUGINS[i] == null)
-      continue;
-    var url = PLUGINS[i].replace(/ .*|\?/g, '');
-    var label = PLUGINS[i].replace(/.*\/|\.js/g, '');
-    label = label.replace(/([a-z0-9])(?=[A-Z])/g, '$1 ');
-    var options = !PLUGINS[i].startsWith('?') ? ' checked=true disabled=true' :
-                  selectedPlugins.indexOf(url) > 0 ? ' checked=true' : '';
-    pluginPopup.document.write('<tr><td><input name="plugin' + i + '" type="checkbox"' + options + '/></td><td>' + label + '</td></tr>\n');
-  }
-  pluginPopup.document.write(
-    '</table></form>\n' +
-    '<form>\n' +
-    '<input type="button" value="Ok" autofocus="y" onclick="window.okay = true;"/>\n' +
-    '</form></body></html>\n'
-  );
-  pluginPopup.document.close();
 }
 
 function LoadPlugins() {
-  if(pluginPopup != null && !pluginPopup.closed && !pluginPopup.okay) {
+  if(window.waitingForUserToPressOkay) {
     setTimeout('LoadPlugins()', 1000);
     return;
   }
-  var selectedPlugins =
-    PLUGINS.filter(item => item != null && !item.startsWith('?'));
-  if(pluginPopup != null && !pluginPopup.closed) {
-    selectedPlugins = [];
-    for(var i = 0; i < PLUGINS.length; i++) {
-      if(PLUGINS[i] != null &&
-         pluginPopup.document.forms[0]['plugin' + i].checked)
-        selectedPlugins.push(PLUGINS[i]);
-    }
-  }
-  for(var i = 0; i < selectedPlugins.length; i++) {
-    selectedPlugins[i] = selectedPlugins[i].replace(/ .*/, '');
-    if(selectedPlugins[i].startsWith('?')) {
-      selectedPlugins[i] = selectedPlugins[i].replace('?', '');
+  var selectedPlugins = [];
+  for(var i = 0; i < PLUGINS.length; i++) {
+    if(PLUGINS[i] == null || !document.forms[0]['plugin' + i].checked)
+      continue;
+    var selection = PLUGINS[i].replace(/ .*/, '');
+    if(selection.startsWith('?')) {
+      selection = selection.replace('?', '');
       var scriptTag = document.createElement('script');
-      scriptTag.src = QUILVYN_HOME + selectedPlugins[i];
+      scriptTag.src = QUILVYN_HOME + selection;
       scriptTag.type = 'text/javascript';
       document.body.appendChild(scriptTag);
     }
+    selectedPlugins.push(selection);
   }
   STORAGE.setItem('QuilvynSelectedPlugins', selectedPlugins.join(','));
-  if(!pluginPopup.closed)
-    pluginPopup.close();
   StartQuilvyn();
 }
 
@@ -340,8 +293,43 @@ function StartQuilvyn() {
 <script>
   document.write('<img src="' + LOGO_URL + '"/><br/>');
 </script>
+<p>
 Quilvyn is running from this window.  Please leave it open until you are done
 using Quilvyn.
+</p>
+
+<script>
+var selectedPlugins = [];
+try {
+  selectedPlugins = STORAGE.getItem('QuilvynSelectedPlugins').split(',');
+} catch(err) {
+  // empty
+}
+window.waitingForUserToPressOkay = false;
+for(var i = 0; i < PLUGINS.length; i++) {
+  var plugin = PLUGINS[i];
+  if(plugin == null)
+    continue;
+  if(!window.waitingForUserToPressOkay) {
+    window.waitingForUserToPressOkay = true;
+    document.write(
+      '<p>Select Quilvyn plugins to use, then press Ok</p>\n' +
+      '<form name="frm"><table>\n'
+    );
+  }
+  var url = plugin.replace(/ .*|\?/g, '');
+  var label = plugin.replace(/.*\/|\.js/g, '');
+  var options = plugin.charAt(0) != '?' ? ' checked=true disabled=true' :
+                selectedPlugins.indexOf(url) > 0 ? ' checked=true' : '';
+  document.write('<tr><td><input name="plugin' + i + '" type="checkbox"' + options + '/></td><td>' + label + '</td></tr>\n');
+}
+document.write(
+  '</table></form>\n' +
+  '<form>\n' +
+  '<input type="button" value="Ok" autofocus="y" onclick="window.waitingForUserToPressOkay = false;"/>\n' +
+  '</form>\n'
+);
+</script>
 
 </body>
 </html>

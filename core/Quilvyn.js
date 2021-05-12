@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.12';
+var VERSION = '2.2.13';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -22,8 +22,9 @@ var ABOUT_TEXT =
 'copy of the Open Gaming License with this program; if not, you can obtain ' +
 'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
 '<a href="plugins/ogl.txt">here</a> to see the license.\n' +
-'Thanks to my dungeon crew, especially Rich Hakesley and Norm Jacobson, for ' +
-'patient testing of Quilvyn and for suggestions that greatly improved it.';
+'Thanks to my dungeon crew, especially Rich Hakesley, Norm Jacobson, and ' +
+'Caroline Rider, for patient testing of Quilvyn and for suggestions that has ' +
+'greatly improved it.';
 
 var FEATURES_OF_EDIT_WINDOW =
   'height=750,width=500,menubar,resizable,scrollbars';
@@ -93,7 +94,15 @@ function Quilvyn() {
 
   if(window.MENU_WIDTH_PERCENT > 0) {
     var sheetWidthPercent = 99 - window.MENU_WIDTH_PERCENT;
-    quilvynTab = window.open('', '');
+    try {
+      quilvynTab = window.open('', '');
+    } catch(err) {
+      // empty
+    }
+    if(!quilvynTab) {
+      alert('Window open failed.\nPlease enable popup windows in your browser settings, then try running Quilvyn again.');
+      return;
+    }
     quilvynTab.document.write(
       '<html>\n' +
       '<head>\n' +
@@ -859,8 +868,19 @@ Quilvyn.refreshEditor = function(redraw) {
   var i;
 
   if(editWindow == null || editWindow.closed) {
-    editWindow = quilvynTab != null ? quilvynTab.frames[0] :
-                 window.open('', '', FEATURES_OF_EDIT_WINDOW);
+    if(quilvynTab != null) {
+      editWindow = quilvynTab.frames[0];
+    } else {
+      try {
+        editWindow = window.open('', '', FEATURES_OF_EDIT_WINDOW);
+      } catch(err) {
+        // empty
+      }
+      if(!editWindow) {
+        alert('Window open failed.\nPlease enable popup windows in your browser settings, then try running Quilvyn again.');
+        return;
+      }
+    }
     redraw = true;
   }
   if(redraw) {
