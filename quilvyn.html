@@ -79,6 +79,7 @@ const PLUGINS = [
   '?plugins/Realms.js',
   '?plugins/SRD5E.js',
   '?plugins/PHB5E.js',
+  '?plugins/SWADE.js',
   null
 ];
 if(window.location.search.indexOf('X5E') >= 0)
@@ -269,6 +270,7 @@ function LoadPlugins() {
     selectedPlugins.push(selection);
   }
   STORAGE.setItem('QuilvynSelectedPlugins', selectedPlugins.join(','));
+  document.forms[0].parentNode.removeChild(document.forms[0]);
   StartQuilvyn();
 }
 
@@ -291,14 +293,13 @@ function StartQuilvyn() {
 <body bgcolor='wheat' onload='LoadPlugins();'>
 
 <script>
-  document.write('<img src="' + LOGO_URL + '"/><br/>');
-</script>
-<p>
-Quilvyn is running from this window.  Please leave it open until you are done
-using Quilvyn.
-</p>
+document.write('<img src="' + LOGO_URL + '"/><br/>');
+document.write(
+  '<p>\n' +
+  'Quilvyn is running from this window.\n' +
+  'Please leave it open until you are done using Quilvyn.'
+);
 
-<script>
 var selectedPlugins = [];
 try {
   selectedPlugins = STORAGE.getItem('QuilvynSelectedPlugins').split(',');
@@ -313,8 +314,9 @@ for(var i = 0; i < PLUGINS.length; i++) {
   if(!window.waitingForUserToPressOkay) {
     window.waitingForUserToPressOkay = true;
     document.write(
-      '<p>Select Quilvyn plugins to use, then press Ok</p>\n' +
-      '<form name="frm"><table>\n'
+      '<form name="frm">\n' +
+      '<table>\n' +
+      '<p>Select Quilvyn plugins to use, then press Ok</p>\n'
     );
   }
   var url = plugin.replace(/ .*|\?/g, '');
@@ -324,8 +326,7 @@ for(var i = 0; i < PLUGINS.length; i++) {
   document.write('<tr><td><input name="plugin' + i + '" type="checkbox"' + options + '/></td><td>' + label + '</td></tr>\n');
 }
 document.write(
-  '</table></form>\n' +
-  '<form>\n' +
+  '</table>\n' +
   '<input type="button" value="Ok" autofocus="y" onclick="window.waitingForUserToPressOkay = false;"/>\n' +
   '</form>\n'
 );
