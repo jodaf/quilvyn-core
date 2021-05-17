@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.9';
+var SRD35_VERSION = '2.2.2.10';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -7980,12 +7980,6 @@ SRD35.initialEditorElements = function() {
   ];
   var editorElements = [
     ['name', 'Name', 'text', [20]],
-    ['race', 'Race', 'select-one', 'races'],
-    ['experience', 'Experience', 'text', [8]],
-    ['levels', 'Class Levels', 'bag', 'levels'],
-    ['prestige', 'Prestige Levels', 'bag', 'prestiges'],
-    ['npc', 'NPC Levels', 'bag', 'npcs'],
-    ['imageUrl', 'Image URL', 'text', [20]],
     ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
     ['strengthAdjust', '', 'text', [3]],
     ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
@@ -7998,11 +7992,17 @@ SRD35.initialEditorElements = function() {
     ['wisdomAdjust', '', 'text', [3]],
     ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
     ['charismaAdjust', '', 'text', [3]],
-    ['player', 'Player', 'text', [20]],
-    ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['gender', 'Gender', 'text', [10]],
+    ['race', 'Race', 'select-one', 'races'],
+    ['levels', 'Class Levels', 'bag', 'levels'],
+    ['prestige', 'Prestige Levels', 'bag', 'prestiges'],
+    ['npc', 'NPC Levels', 'bag', 'npcs'],
+    ['imageUrl', 'Image URL', 'text', [20]],
+    ['experience', 'Experience', 'text', [8]],
+    ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['deity', 'Deity', 'select-one', 'deities'],
     ['origin', 'Origin', 'text', [20]],
+    ['player', 'Player', 'text', [20]],
     ['feats', 'Feats', 'set', 'feats'],
     ['selectableFeatures', 'Selectable Features', 'set', 'selectableFeatures'],
     ['skills', 'Skills', 'bag', 'skills'],
