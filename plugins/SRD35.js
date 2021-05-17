@@ -18,7 +18,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.10';
+var SRD35_VERSION = '2.2.2.11';
 
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
@@ -79,6 +79,7 @@ SRD35.CHOICES = [
  * dependencies among attributes when generating random characters.
  */
 SRD35.RANDOMIZABLE_ATTRIBUTES = [
+  'abilities',
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
   'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'features',
   'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield', 'weapons',
@@ -8469,14 +8470,18 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     pickAttrs(attributes, 'weapons.', choices,
               3 - QuilvynUtils.sumMatching(attributes, /^weapons\./), 1);
-  } else if(attribute == 'charisma' || attribute == 'constitution' ||
-     attribute == 'dexterity' || attribute == 'intelligence' ||
-     attribute == 'strength' || attribute == 'wisdom') {
-    var rolls = [];
-    for(i = 0; i < 4; i++)
-      rolls[i] = QuilvynUtils.random(1, 6);
-    rolls.sort();
-    attributes[attribute] = rolls[1] + rolls[2] + rolls[3];
+  } else if(attribute == 'abilities' ||
+            attribute.charAt(0).toUpperCase() + attribute.substring(1) in SRD35.ABILITIES) {
+    for(attr in SRD35.ABILITIES) {
+      attr = attr.toLowerCase();
+      if(attr != attribute && attribute != 'abilities')
+        continue;
+      var rolls = [];
+      for(i = 0; i < 4; i++)
+        rolls.push(QuilvynUtils.random(1, 6));
+      rolls.sort();
+      attributes[attr] = rolls[1] + rolls[2] + rolls[3];
+    }
   } else if(this.getChoices(attribute + 's') != null) {
     attributes[attribute] =
       QuilvynUtils.randomKey(this.getChoices(attribute + 's'));
