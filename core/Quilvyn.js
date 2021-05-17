@@ -815,7 +815,7 @@ Quilvyn.randomizeCharacter = function(focus) {
     htmlBits = htmlBits.concat([
       '</table></form>',
       '<form>',
-      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Ok" autofocus="y" onclick="okay=true;"/>',
       '<input type="button" value="Cancel" onclick="window.close();"/>',
       '</form></body></html>'
     ]);
