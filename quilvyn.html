@@ -35,19 +35,6 @@ if(window.location.search.indexOf('DEBUG') >= 0)
   window.DEBUG = true;
 
 /*
- * A few user preferences you may want to change: the background for
- * Quilvyn's windows; the default character sheet format; the portion of a
- * common menu/character sheet that the menu occupies (Quilvyn opens separate
- * windows if this is outside the range 10..90); whether or not to warn when
- * you're about to lose changes made to the current character because you're
- * opening a new one.
- */
-const BACKGROUND = 'Images/parchment.jpg';
-const DEFAULT_SHEET_STYLE = 'Standard';
-const MENU_WIDTH_PERCENT = 35;
-const WARN_ABOUT_DISCARD = true;
-
-/*
  * If QUILVYN_HOME is the empty string, all Quilvyn sources are drawn from a
  * a local installation. Uncomment the second line below to draw the sources
  * from the reference installation instead.
