@@ -7775,6 +7775,7 @@ SRD35.createViewers = function(rules, viewers) {
           {name: 'SpellPart', within: 'Magic', separator: '\n'},
             {name: 'SpellStats', within: 'SpellPart', separator: innerSep},
               {name: 'Spell Slots', within: 'SpellStats', separator:listSep},
+              {name: 'Spell Points', within: 'SpellStats'},
               {name: 'Spell Difficulty Class', within: 'SpellStats',
                format: '<b>Spell DC</b>: %V', separator: listSep},
           {name: 'Spells', within: 'Magic', columns: '1L', separator: null}

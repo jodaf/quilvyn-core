@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.14';
+var VERSION = '2.2.15';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -61,6 +61,7 @@ var userOptions = {     // User-settable options
   hidden: 0,            // Show information marked "hidden" on sheet?
   italics: 1,           // Show italicized notes on sheet?
   separateEditor: 0,    // Display editor in separate window?
+  spell: 'Slots',       // Display spell slots, points, or both
   style: 'Standard',    // Sheet style
   warnAboutDiscard: 1   // Warn before discarding character changes?
 };
@@ -678,6 +679,7 @@ Quilvyn.modifyOptions = function(focus) {
       '<tr><td><b>Show Extras</b></td><td>' + InputHtml('extras', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Hidden</b></td><td>' + InputHtml('hidden', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Italic Notes</b></td><td>' + InputHtml('italics', 'checkbox', null) + '</td></tr>',
+      '<tr><td><b>Show Spell</b></td><td>' + InputHtml('spell', 'select-one', ['Points', 'Slots', 'Both']) + '</td></tr>',
       '<tr><td><b>Separate Editor</b></td><td>' + InputHtml('separateEditor', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Sheet Style</b></td><td>' + InputHtml('style', 'select-one', ['Collected Notes', 'Compact', 'Standard']) + '</td></tr>',
       '<tr><td><b>Warn About Discard<b></td><td>' + InputHtml('warnAboutDiscard', 'checkbox', null) + '</td></tr>',
@@ -1136,6 +1138,9 @@ Quilvyn.sheetHtml = function(attrs) {
     var value = computedAttributes[a];
     if(isNote && value == 0)
       continue; // Suppress notes with zero value
+    if((a.match(/^spellSlots/) && userOptions.spell == 'Points') ||
+       (a == 'spellPoints' && userOptions.spell == 'Slots'))
+      continue;
     if(formats[a] != null) {
       value = formats[a].replace(/%V/g, value);
       for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {

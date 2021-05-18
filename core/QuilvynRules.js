@@ -493,7 +493,7 @@ QuilvynRules.spellSlotRules = function(rules, levelAttr, spellSlots) {
   for(var i = 0; i < spellSlots.length; i++) {
     var spellTypeAndLevel = spellSlots[i].split(/:/)[0];
     var spellType = spellTypeAndLevel.replace(/\d+/, '');
-    var spellLevel = spellTypeAndLevel.replace(/[A-Z]*/, '');
+    var spellLevel = spellTypeAndLevel.replace(spellType, '');
     var code = spellSlots[i].substring(spellTypeAndLevel.length + 1).
                replace(/\=/g, ' ? ').
                split(/;/).reverse().join(' : source >= ');
@@ -502,6 +502,10 @@ QuilvynRules.spellSlotRules = function(rules, levelAttr, spellSlots) {
       code = code.replace(/source\s>=\s1\s./, '').replace(/\s:\snull/, '');
     }
     rules.defineRule('spellSlots.' + spellTypeAndLevel, levelAttr, '+=', code);
+    if(spellLevel > 0)
+      rules.defineRule('spellPoints',
+        'spellSlots.' + spellTypeAndLevel, '+=', 'source * ' + spellLevel
+      );
   }
 };
 
