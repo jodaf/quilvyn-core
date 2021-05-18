@@ -7982,6 +7982,7 @@ SRD35.initialEditorElements = function() {
   ];
   var editorElements = [
     ['name', 'Name', 'text', [20]],
+    ['imageUrl', 'Image URL', 'text', [20]],
     ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
     ['strengthAdjust', '', 'text', [3]],
     ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
@@ -7999,7 +8000,6 @@ SRD35.initialEditorElements = function() {
     ['levels', 'Class Levels', 'bag', 'levels'],
     ['prestige', 'Prestige Levels', 'bag', 'prestiges'],
     ['npc', 'NPC Levels', 'bag', 'npcs'],
-    ['imageUrl', 'Image URL', 'text', [20]],
     ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['deity', 'Deity', 'select-one', 'deities'],
     ['origin', 'Origin', 'text', [20]],
