@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.15';
+var VERSION = '2.2.16';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -23,7 +23,7 @@ var ABOUT_TEXT =
 'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
 '<a href="plugins/ogl.txt">here</a> to see the license.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley, Norm Jacobson, and ' +
-'Caroline Rider, for patient testing of Quilvyn and for suggestions that has ' +
+'Caroline Rider, for patient testing of Quilvyn and for suggestions that have '+
 'greatly improved it.';
 
 var FEATURES_OF_EDIT_WINDOW =
