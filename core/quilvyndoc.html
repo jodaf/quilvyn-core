@@ -336,10 +336,9 @@ example, for a new Animal Companion, Quilvyn prompts for the six basic
 abilities, hit dice, armor class, and damage, all of which are integer values.
 For Animal Companion damage, Quilvyn expects text in the format
 int'd'int[+int][,int'd'int[+int]]. For an Ape, the value would be 1d6+5,1d6+2;
-for a Baboon, 1d6+3. Text values that contain spaces need to be surrounded by
-double quotes, and multiple values entered in a single box should be separated
-by commas. For example, when entering a new Deity, you might enter "Light Mace"
-as in the Favored Weapon box and Good,Law,Strength in the Domain box.
+for a Baboon, 1d6+3. Separate multiple values entered in a single box with
+commas. For example, when entering a new Deity, you might enter Light Mace
+in the Favored Weapon box and Good,Law,Strength in the Domain box.
 </p><p>
 In Quilvyn, Features describe the effects of both feats and class and racial
 features such as Darkvision and Bardic Knowledge. When adding a new feature,
@@ -356,17 +355,16 @@ Prerequisite box for a new feat or class, with multiple prerequisites separated
 by commas. For example, taking a level in the Horizon Walker prestige class
 requires that the character have the Endurance feature and 8 ranks in Knowledge
 (Geography). This would be entered into the Prerequisite box for a custom
-class as follows. (Remember that text containing a space needs to be enclosed
-in double quotes.)
+class as follows.
 <pre>
-  features.Endurance,"skills.Knowledge (Geography) >= 8"
+  features.Endurance,skills.Knowledge (Geography) >= 8
 </pre>
 The Feat entry includes a similar Implies box for testing whether selecting
 the feat makes sense for a character. For example, although legal, selecting
 the Track feat makes no sense for a character with no ranks in Survival, so the
 Implies box for this feat would read
 <pre>
-  "skills.Survival > 0"
+  skills.Survival > 0
 </pre>
 </p>
 
