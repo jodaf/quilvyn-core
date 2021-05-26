@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.16';
+var VERSION = '2.2.17';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -87,7 +87,7 @@ function Quilvyn() {
   for(var path in STORAGE) {
     if(!path.startsWith(PERSISTENT_CUSTOM_PREFIX))
       continue;
-    customCollections[path.split('.')[1]] = '';
+    customCollections[path.split('.')[1].replaceAll('%2E', '.')] = '';
   }
 
   if(!Quilvyn.redrawUI())
@@ -105,7 +105,8 @@ Quilvyn.addRuleSet = function(rs) {
   ruleSet = rs;
   customCollection = rs.getName();
   customCollections[customCollection] = '';
-  var prefix = PERSISTENT_CUSTOM_PREFIX + customCollection + '.';
+  var prefix =
+    PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
   for(var path in STORAGE) {
     if(!path.startsWith(prefix))
       continue;
@@ -233,12 +234,6 @@ Quilvyn.customAddItems = function(focus) {
     var input = inputForm.elements[i];
     var inputName = input.name;
     var inputValue = InputGetValue(input);
-    // Quote values from, e.g., pull-down menus that contain spaces. For text
-    // entries, the user is assumed to have already added necessary quotes.
-    if(inputName != '_type' &&
-       inputValue.indexOf(' ') >= 0 &&
-       !(input.type.startsWith('text')))
-      inputValue = '"' + inputValue + '"';
     if(inputName == '_name')
       // For consistency with text attrs, allow optional quotes around name
       name = inputValue.replace(/^(['"])(.*)\1$/, '$2');
@@ -246,12 +241,33 @@ Quilvyn.customAddItems = function(focus) {
       type = inputValue;
     else if(inputName == 'Add' || inputName == 'Close')
       continue;
-    else if(inputValue != '')
-      attrs.push(inputName + '=' + inputValue);
+    else {
+      // Quote values that contain spaces.
+      var tokens = inputValue.match(/'[^']*'|"[^"]*"|[^,]+|,/g);
+      if(tokens) {
+        inputValue = '';
+        for(var j = 0; j < tokens.length; j++) {
+          var token = tokens[j];
+          if(token.charAt(0) == '"' || token.charAt(0) == "'" ||
+             token.indexOf(' ') < 0)
+            inputValue += tokens[j];
+          else if(token.indexOf('"') >= 0)
+            inputValue += "'" + token + "'";
+          else
+            inputValue += '"' + token + '"';
+        }
+      }
+      if(inputValue != '')
+        attrs.push(inputName + '=' + inputValue);
+    }
   }
   attrs = attrs.join(' ');
-  STORAGE.setItem
-    (PERSISTENT_CUSTOM_PREFIX + customCollection + '.' + type + '.' + name, attrs);
+  STORAGE.setItem(
+    PERSISTENT_CUSTOM_PREFIX +
+    customCollection.replaceAll('.', '%2E') + '.' +
+    type.replaceAll('.', '%2E') + '.' +
+    name.replaceAll('.', '%2E'), attrs
+  );
   Quilvyn.customAddItems.win.document.getElementById('message').innerHTML =
     'Added ' + type + ' ' + name + ' to custom collection ' + customCollection;
   Quilvyn.refreshEditor(true);
@@ -270,13 +286,14 @@ Quilvyn.customAddItems = function(focus) {
 Quilvyn.customApplyCollection = function() {
   if(!(editWindow.confirm('Apply custom collection ' + customCollection + ' to ' + ruleSet.getName() + ' rules?')))
     return; // User cancel
-  var prefix = PERSISTENT_CUSTOM_PREFIX + customCollection + '.';
+  var prefix =
+    PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
   for(var path in STORAGE) {
     if(!path.startsWith(prefix))
       continue;
     var pieces = path.split('.');
     if(pieces[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
-      ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
+      ruleSet.choiceRules(ruleSet, pieces[2].replaceAll('%2E', '.'), pieces[3].replaceAll('%2E', '.'), STORAGE.getItem(path));
   }
   Quilvyn.refreshEditor(true);
 };
@@ -291,7 +308,8 @@ Quilvyn.customDeleteCollection = function() {
     editWindow.alert('No such custom collection ' + collection);
     return;
   }
-  var prefix = PERSISTENT_CUSTOM_PREFIX + collection + '.';
+  var prefix =
+    PERSISTENT_CUSTOM_PREFIX + collection.replaceAll('.', '%2E') + '.';
   for(var path in STORAGE) {
     if(path.startsWith(prefix))
       STORAGE.removeItem(path);
@@ -308,11 +326,12 @@ Quilvyn.customDeleteCollection = function() {
  */
 Quilvyn.customDeleteItem = function() {
   var paths = {};
-  var prefix = PERSISTENT_CUSTOM_PREFIX + customCollection + '.';
+  var prefix =
+    PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
   for(var path in STORAGE) {
     if(path.startsWith(prefix) &&
        path.split('.')[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
-      paths[path.substring(prefix.length).replace('.', ' ')] = path;
+      paths[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
   }
   var item = editWindow.prompt
     ('Enter custom item to delete:\n' + QuilvynUtils.getKeys(paths).sort().join('\n'), '');
@@ -334,7 +353,11 @@ Quilvyn.customExportCollections = function() {
     if(!path.startsWith(PERSISTENT_CUSTOM_PREFIX))
       continue;
     var pieces = path.split('.');
-    var text = '_collection="' + pieces[1] + '" _type="' + pieces[2] + '" _name="' + pieces[3] + '" ' + STORAGE.getItem(path).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    for(var i = 1; i <= 3; i++) {
+      var quote = pieces[i].indexOf(' ') < 0 ? '' : pieces[i].indexOf('"') < 0 ? '"' : "'";
+      pieces[i] = quote + pieces[i].replaceAll('%2E', '.') + quote;
+    }
+    var text = '_collection=' + pieces[1] + ' _type=' + pieces[2] + ' _name=' + pieces[3] + ' ' + STORAGE.getItem(path).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     htmlBits.push(text);
   }
   htmlBits.sort();
@@ -411,9 +434,17 @@ Quilvyn.customImportCollections = function(focus) {
       editWindow.alert('Bad format for item "' + line + '"');
       continue;
     }
-    line = line.replace(/_(collection|name|type)="[^"]*"/g, '');
+    line = line.replace
+      (new RegExp('_collection=["\']?' + collection + '["\']?'), '');
+    line = line.replace(new RegExp('_name=["\']?' + name + '["\']?'), '');
+    line = line.replace(new RegExp('_type=["\']?' + type + '["\']?'), '');
     line = line.replace(/^\s+|\s+$/g, '');
-    STORAGE.setItem(PERSISTENT_CUSTOM_PREFIX + collection + '.' + type + '.' + name, line);
+    STORAGE.setItem(
+      PERSISTENT_CUSTOM_PREFIX +
+      collection.replaceAll('.', '%2E') + '.' +
+      type.replaceAll('.', '%2E') + '.' +
+      name.replaceAll('.', '%2E'), linei
+    );
     customCollections[collection] = '';
     if(collection in ruleSets)
       ruleSets[collection].choiceRules(ruleSets[collection], type, name, line);
@@ -436,7 +467,12 @@ Quilvyn.customNewCollection = function() {
   if(name in customCollections)
     return;
   customCollections[name] = '';
-  STORAGE.setItem(PERSISTENT_CUSTOM_PREFIX + name + '.' + PERSISTENT_CUSTOM_PLACEHOLDER + '.' + name, '');
+  STORAGE.setItem(
+    PERSISTENT_CUSTOM_PREFIX +
+    name.replaceAll('.', '%2E') + '.' +
+    PERSISTENT_CUSTOM_PLACEHOLDER + '.' +
+    name.replaceAll('.', '%2E'), ''
+  );
   Quilvyn.refreshEditor(true);
 };
 
