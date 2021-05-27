@@ -876,52 +876,12 @@ SRD35.FEATURES = {
    'Section=combat Note="Move before, after mounted attack w/out AOO"',
   'Run':
     'Section=ability,skill Note="+1 Run Speed Multiplier","+4 running Jump"',
-  'School Opposition (Abjuration)':
-    'Section=magic Note="Cannot learn or cast Abjuration spells"',
-  'School Opposition (Conjuration)':
-    'Section=magic Note="Cannot learn or cast Conjuration spells"',
-  'School Opposition (Enchantment)':
-    'Section=magic Note="Cannot learn or cast Enchantment spells"',
-  'School Opposition (Evocation)':
-    'Section=magic Note="Cannot learn or cast Evocation spells"',
-  'School Opposition (Illusion)':
-    'Section=magic Note="Cannot learn or cast Illusion spells"',
-  'School Opposition (Necromancy)':
-    'Section=magic Note="Cannot learn or cast Necromancy spells"',
-  'School Opposition (Transmutation)':
-    'Section=magic Note="Cannot learn or cast Transmutation spells"',
-  'School Specialization (Abjuration)':
+  'School Opposition (%school)':
+    'Section=magic Note="Cannot learn or cast %school spells"',
+  'School Specialization (%school)':
     'Section=magic,skill ' +
-    'Note="Extra Abjuration spell/dy each spell level",' +
-         '"+2 Spellcraft (Abjuration effects)"',
-  'School Specialization (Conjuration)':
-    'Section=magic,skill ' +
-    'Note="Extra Conjuration spell/dy each spell level",' +
-         '"+2 Spellcraft (Conjuration effects)"',
-  'School Specialization (Divination)':
-    'Section=magic,skill ' +
-    'Note="Extra Divination spell/dy each spell level",' +
-         '"+2 Spellcraft (Divination effects)"',
-  'School Specialization (Enchantment)':
-    'Section=magic,skill ' +
-    'Note="Extra Enchantment spell/dy each spell level",' +
-         '"+2 Spellcraft (Enchantment effects)"',
-  'School Specialization (Evocation)':
-    'Section=magic,skill ' +
-    'Note="Extra Evocation spell/dy each spell level",' +
-         '"+2 Spellcraft (Evocation effects)"',
-  'School Specialization (Illusion)':
-    'Section=magic,skill ' +
-    'Note="Extra Illusion spell/dy each spell level",' +
-         '"+2 Spellcraft (Illusion effects)"',
-  'School Specialization (Necromancy)':
-    'Section=magic,skill ' +
-    'Note="Extra Necromancy spell/dy each spell level",' +
-         '"+2 Spellcraft (Necromancy effects)"',
-  'School Specialization (Transmutation)':
-    'Section=magic,skill ' +
-    'Note="Extra Transmutation spell/dy each spell level",' +
-         '"+2 Spellcraft (Transmutation effects)"',
+    'Note="Extra %school spell/dy each spell level",' +
+         '"+2 Spellcraft (%school effects)"',
   'Scribe Scroll':'Section=magic Note="Create scroll of any known spell"',
   'Scry':'Section=companion Note="Master views companion 1/dy"',
   'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
