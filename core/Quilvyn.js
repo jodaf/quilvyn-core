@@ -1371,6 +1371,9 @@ Quilvyn.undo = function() {
     character = characterUndo.pop();
     Quilvyn.refreshEditor(true);
     Quilvyn.refreshSheet();
+    editWindow.focus();
+  } else {
+    editWindow.alert("No changes to undo");
   }
 };
 
