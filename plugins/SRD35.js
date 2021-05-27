@@ -81,9 +81,9 @@ SRD35.CHOICES = [
 SRD35.RANDOMIZABLE_ATTRIBUTES = [
   'abilities',
   'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
-  'name', 'race', 'gender', 'alignment', 'deity', 'levels', 'features',
-  'feats', 'skills', 'languages', 'hitPoints', 'armor', 'shield', 'weapons',
-  'spells', 'companion'
+  'name', 'race', 'gender', 'alignment', 'deity', 'levels',
+  'selectableFeatures', 'feats', 'skills', 'languages', 'hitPoints', 'armor',
+  'shield', 'weapons', 'spells', 'companion'
 ];
 SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
 
@@ -8204,7 +8204,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
     if(choices.length > 0)
       attributes.deity = choices[QuilvynUtils.random(0, choices.length - 1)];
-  } else if(attribute == 'feats' || attribute == 'features') {
+  } else if(attribute == 'feats' || attribute == 'selectableFeatures') {
     var debug = [];
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
     var countPrefix = attribute + 'Count.';
