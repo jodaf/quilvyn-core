@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.17';
+var VERSION = '2.2.18';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -46,6 +46,7 @@ const ALLOWED_TAGS = [
 var character = {};     // Displayed character attrs
 var characterCache = {};// Attrs of all displayed characters, indexed by path
 var characterPath = ''; // Path to most-recently opened/generated character
+var characterUndo = []; // Stack of copies of character for undoing changes
 var customCollection = null; // Name of current custom item collection
 var customCollections = {}; // Defined custom collections, indexed by name
 var editForm;           // Character editing form (editWindow.document.forms[0])
@@ -511,11 +512,18 @@ Quilvyn.editorHtml = function() {
       'Import...', 'Add Items...', 'Delete Item...', 'Apply Collection...'
     ]],
     ['character', 'Character', 'select-one', []],
+    ['clear', 'Clear', 'select-one', 'bags'],
     ['randomize', 'Randomize', 'select-one', 'random']
   ];
   var elements = quilvynElements.concat(ruleSet.getEditorElements());
   var htmlBits = ['<form name="frm"><table>'];
-  for(var i = 0; i < elements.length; i++) {
+  var i;
+  var bagNames = [];
+  for(i = 0; i < elements.length; i++)
+    if(elements[i][2].match(/^f?(bag|set)$/))
+      bagNames.push(elements[i][0]);
+  bagNames.sort();
+  for(i = 0; i < elements.length; i++) {
     var element = elements[i];
     var label = element[1];
     var name = element[0];
@@ -523,7 +531,9 @@ Quilvyn.editorHtml = function() {
     var type = element[2];
     if(name == 'character')
       htmlBits.push('<tr><td colspan=2><hr/></td></tr>');
-    if(typeof(params) == 'string') {
+    if(params == 'bags') {
+      params = ['---choose one---'].concat(bagNames);
+    } else if(typeof(params) == 'string') {
       if(ruleSet.getChoices(params) == null)
         continue;
       params = QuilvynUtils.getKeys(ruleSet.getChoices(params));
@@ -556,7 +566,6 @@ Quilvyn.editorHtml = function() {
         InputHtml(name + '_sel', 'select-one', params) +
         (needSub ? '</td><td>' + InputHtml(name + '_sub', 'select-one', ['...']) : '') +
         '</td><td>' + widget +
-        '</td><td>' + InputHtml(name + '_clear', 'button', ['Clear All']) +
         (type.charAt(0)=='f' ? '</td><td>' + InputHtml(name + '_filter', 'text', [15]) : '') +
         '</td></tr></table>';
     } else {
@@ -681,6 +690,7 @@ Quilvyn.importCharacters = function(focus) {
     }
     character = Quilvyn.applyV2Changes(importedCharacter);
     characterPath = character['_path'] || '';
+    characterUndo = [];
     characterCache[characterPath] = QuilvynUtils.clone(character);
     Quilvyn.saveCharacter(characterPath);
     index = text.indexOf('{');
@@ -770,6 +780,7 @@ Quilvyn.openCharacter = function(path) {
   character = Quilvyn.applyV2Changes(character);
   character['_path'] = path; // In case character saved before _path attr use
   characterPath = path;
+  characterUndo = [];
   characterCache[characterPath] = QuilvynUtils.clone(character);
   Quilvyn.refreshEditor(false);
   Quilvyn.refreshSheet();
@@ -779,6 +790,7 @@ Quilvyn.openCharacter = function(path) {
 Quilvyn.newCharacter = function() {
   character = {};
   characterPath = '';
+  characterUndo = [];
   var i;
   // Skip to first character-related editor input
   for(i = 0;
@@ -920,6 +932,7 @@ Quilvyn.randomizeCharacter = function(focus) {
   }
   character = ruleSet.randomizeAllAttributes(fixedAttributes);
   characterPath = '';
+  characterUndo = [];
   characterCache[characterPath] = QuilvynUtils.clone(character);
   Quilvyn.refreshEditor(false);
   Quilvyn.refreshSheet();
@@ -1023,10 +1036,16 @@ Quilvyn.refreshEditor = function(redraw) {
     editWindow.document.write(editHtml);
     editWindow.document.close();
     editForm = editWindow.document.forms[0];
-    var callback = function() {Quilvyn.update(this);};
+    var updateListener = function() {Quilvyn.update(this);};
+    var undoListener = function(e) {
+      if(event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
+        Quilvyn.undo();
+      }
+    };
     for(i = 0; i < editForm.elements.length; i++) {
-      InputSetCallback(editForm.elements[i], callback);
+      InputSetCallback(editForm.elements[i], updateListener);
     }
+    editWindow.document.addEventListener('keydown', undoListener);
   }
 
   var characterOpts = [];
@@ -1346,6 +1365,15 @@ Quilvyn.summarizeCachedAttrs = function() {
   Quilvyn.summarizeCachedAttrs.win.focus();
 };
 
+/* Undoes the most recent change to the the displayed character. */
+Quilvyn.undo = function() {
+  if(characterUndo.length > 0) {
+    character = characterUndo.pop();
+    Quilvyn.refreshEditor(true);
+    Quilvyn.refreshSheet();
+  }
+};
+
 /* Callback invoked when the user changes the editor value of Input #input#. */
 Quilvyn.update = function(input) {
 
@@ -1478,21 +1506,17 @@ Quilvyn.update = function(input) {
     }
   } else if(name == 'randomize') {
     input.selectedIndex = 0;
+    characterUndo.push(QuilvynUtils.clone(character));
     ruleSet.randomizeOneAttribute(character, value);
     Quilvyn.refreshEditor(false);
     Quilvyn.refreshSheet();
-  } else if(name.indexOf('_clear') >= 0) {
-    name = name.replace(/_clear/, '');
+  } else if(name == 'clear') {
+    input.selectedIndex = 0;
+    characterUndo.push(QuilvynUtils.clone(character));
     for(var a in character) {
-      if(a.indexOf(name + '.') == 0)
+      if(a.indexOf(value + '.') == 0)
         delete character[a];
     }
-    input = editForm[name];
-    if(input != null)
-      InputSetValue(input, null);
-    input = editForm[name + '_sel'];
-    if(input != null)
-      input.selectedIndex = 0;
     Quilvyn.refreshEditor(false);
     Quilvyn.refreshSheet();
   } else if(name.indexOf('_filter') >= 0) {
@@ -1537,6 +1561,7 @@ Quilvyn.update = function(input) {
       var subselector = editForm[name + '_sub'];
       name += '.' + InputGetValue(selector) + (subselector && subselector.options.length > 0 ? '(' + InputGetValue(subselector) + ')' : '');
     }
+    characterUndo.push(QuilvynUtils.clone(character));
     if(!value && (value === '' || input.type == 'checkbox'))
       delete character[name];
     else if(typeof(value) == 'string' &&
