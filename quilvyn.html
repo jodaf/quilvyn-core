@@ -267,23 +267,21 @@ function LoadPlugins() {
   for(rs in RULESETS) {
     if(!document.forms[0]['plugin' + rs].checked)
       continue;
-    var require = RULESETS[rs].require || [];
-    for(var j = 0; j < require.length; j++)
-      document.forms[0]['plugin' + require[j]].checked = true;
-  }
-  for(rs in RULESETS) {
-    if(!document.forms[0]['plugin' + rs].checked)
-      continue;
-    if(!(RULESETS[rs].url in scriptUrls)) {
-      if(!RULESETS[rs].auto) {
-        var scriptTag = document.createElement('script');
-        scriptTag.src = RULESETS[rs].url;
-        scriptTag.type = 'text/javascript';
-        document.body.appendChild(scriptTag);
-      }
-      scriptUrls[RULESETS[rs].url] = '';
-    }
     selectedRuleSets.push(rs);
+    var require = [rs];
+    while(require.length > 0) {
+      rs = require.pop();
+      if(!(RULESETS[rs].url in scriptUrls)) {
+        if(!RULESETS[rs].auto) {
+          var scriptTag = document.createElement('script');
+          scriptTag.src = RULESETS[rs].url;
+          scriptTag.type = 'text/javascript';
+          document.body.appendChild(scriptTag);
+        }
+        scriptUrls[RULESETS[rs].url] = '';
+      }
+      require = require.concat(RULESETS[rs].require || []);
+    }
   }
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
   document.forms[0].parentNode.removeChild(document.forms[0]);
