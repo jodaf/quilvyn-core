@@ -18,8 +18,6 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*jshint esversion: 6 */
 "use strict";
 
-var SRD35_VERSION = '2.2.2.11';
-
 /*
  * This module loads the rules from the System Reference Documents v3.5. The
  * SRD35 function contains methods that load rules for particular parts of the
@@ -30,7 +28,7 @@ var SRD35_VERSION = '2.2.2.11';
  */
 function SRD35() {
 
-  var rules = new QuilvynRules('SRD v3.5', SRD35_VERSION);
+  var rules = new QuilvynRules('SRD v3.5', SRD35.VERSION);
   SRD35.rules = rules;
 
   rules.defineChoice('choices', SRD35.CHOICES);
@@ -67,6 +65,8 @@ function SRD35() {
   Quilvyn.addRuleSet(rules);
 
 }
+
+SRD35.VERSION = '2.2.2.11';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -8699,7 +8699,7 @@ SRD35.makeValid = function(attributes) {
 SRD35.ruleNotes = function() {
   return '' +
     '<h2>SRD35 Quilvyn Plugin Notes</h2>\n' +
-    'SRD35 Quilvyn Plugin Version ' + SRD35_VERSION + '\n' +
+    'SRD35 Quilvyn Plugin Version ' + SRD35.VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
     '<p>\n' +
