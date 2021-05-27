@@ -457,15 +457,15 @@ SRD35.FEATS = {
   'Greater Two-Weapon Fighting':
     'Type=Fighter Require="dexterity >= 12","baseAttack >= 11","features.Two-Weapon Fighting","features.Improved Two-Weapon Fighting"',
   'Greater Weapon Focus (%weapon)':
-    'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 8" Imply=weapons.%weapon',
+    'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 8" Imply="weapons.%weapon"',
   'Greater Weapon Specialization (%weapon)':
-    'Type=Fighter Require="features.Weapon Focus (%weapon)","features.Greater Weapon Focus (%weapon)","features.Weapon Specialization (%weapon)","levels.Fighter >= 12" Imply=weapons.%weapon',
+    'Type=Fighter Require="features.Weapon Focus (%weapon)","features.Greater Weapon Focus (%weapon)","features.Weapon Specialization (%weapon)","levels.Fighter >= 12" Imply="weapons.%weapon"',
   'Heighten Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Improved Bull Rush':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Counterspell':'Type=General Imply="casterLevel >= 1"',
   'Improved Critical (%weapon)':
-    'Type=Fighter Require="baseAttack >= 8" Imply=weapons.%weapon',
+    'Type=Fighter Require="baseAttack >= 8" Imply="weapons.%weapon"',
   'Improved Disarm':
     'Type=Fighter Require="intelligence >= 13","features.Combat Expertise"',
   'Improved Familiar':'Type=General Require="features.Summon Familiar"',
@@ -551,7 +551,7 @@ SRD35.FEATS = {
   'Weapon Finesse':
     'Type=Fighter Require="baseAttack >= 1" Imply="dexterityModifier > strengthModifier"',
   'Weapon Focus (%weapon)':
-    'Type=Fighter Require="baseAttack >= 1" Imply=weapons.%weapon',
+    'Type=Fighter Require="baseAttack >= 1" Imply="weapons.%weapon"',
   'Weapon Specialization (%weapon)':
     'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 4" Imply="weapons.%weapon"',
   'Whirlwind Attack':
@@ -8620,6 +8620,11 @@ SRD35.makeValid = function(attributes) {
       (notes != null ? attributes.notes + '\n' : '') + debug.join('\n');
   }
 
+};
+
+/* Returns an array of plugins upon which this one depends. */
+SRD35.getPlugins = function() {
+  return [];
 };
 
 /* Returns HTML body content for user notes associated with this rule set. */
