@@ -50,7 +50,7 @@ var QUILVYN_HOME = '';
 const RULESETS = {
   'SRD35':{
     url:QUILVYN_HOME + 'plugins/SRD35.js',
-    auto:true
+    autoload:true
   },
   'Eberron':{
     url:QUILVYN_HOME + 'plugins/Eberron.js',
@@ -253,7 +253,7 @@ for(var i = 0; i < CORE_URLS.length; i++) {
 }
 
 for(var rs in RULESETS) {
-  if(RULESETS[rs].auto)
+  if(RULESETS[rs].autoload)
     document.write('<script src="' + RULESETS[rs].url + '">' + CLOSE_TAG);
 }
 
@@ -272,7 +272,7 @@ function LoadPlugins() {
     while(require.length > 0) {
       rs = require.pop();
       if(!(RULESETS[rs].url in scriptUrls)) {
-        if(!RULESETS[rs].auto) {
+        if(!RULESETS[rs].autoload) {
           var scriptTag = document.createElement('script');
           scriptTag.src = RULESETS[rs].url;
           scriptTag.type = 'text/javascript';
@@ -330,8 +330,7 @@ for(var rs in RULESETS) {
       '<table>\n'
     );
   }
-  var options = RULESETS[rs].auto ? ' checked=true disabled=true' :
-                selectedRuleSets.indexOf(rs) > 0 ? ' checked=true' : '';
+  var options = selectedRuleSets.indexOf(rs) > 0 ? ' checked=true' : '';
   document.write('<tr><td><input name="plugin' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>\n');
 }
 document.write(
