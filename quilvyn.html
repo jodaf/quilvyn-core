@@ -283,6 +283,8 @@ function LoadPlugins() {
       require = require.concat(RULESETS[rs].require || []);
     }
   }
+  if(selectedRuleSets.length == 0)
+    selectedRuleSets.push('SRD35');
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
   document.forms[0].parentNode.removeChild(document.forms[0]);
   StartQuilvyn();
