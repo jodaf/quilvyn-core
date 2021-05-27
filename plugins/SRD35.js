@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.11';
+SRD35.VERSION = '2.2.2.12';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -441,8 +441,8 @@ SRD35.FEATS = {
   'Endurance':'Type=General',
   'Enlarge Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Eschew Materials':'Type=General Imply="casterLevel >= 1"',
-  'Exotic Weapon Proficiency (Hand Crossbow)':
-    'Type=General Require="baseAttack >= 1" Imply="weapons.Hand Crossbow"',
+  'Exotic Weapon Proficiency (%exoticWeapon)':
+    'Type=General Require="baseAttack >= 1" Imply="weapons.%exoticWeapon"',
   'Extend Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Extra Turning':'Type=General Require="turningLevel >= 1"',
   'Far Shot':'Type=Fighter Require="features.Point-Blank Shot"',
@@ -450,36 +450,22 @@ SRD35.FEATS = {
   'Great Cleave':
     'Type=Fighter Require="strength >= 13","baseAttack >= 4","features.Cleave","features.Power Attack"',
   'Great Fortitude':'Type=General',
-  'Greater Spell Focus (Abjuration)':
-    'Type=General Require="features.Spell Focus (Abjuration)"',
-  'Greater Spell Focus (Conjuration)':
-    'Type=General Require="features.Spell Focus (Conjuration)"',
-  'Greater Spell Focus (Divination)':
-    'Type=General Require="features.Spell Focus (Divination)"',
-  'Greater Spell Focus (Enchantment)':
-    'Type=General Require="features.Spell Focus (Enchantment)"',
-  'Greater Spell Focus (Evocation)':
-    'Type=General Require="features.Spell Focus (Evocation)"',
-  'Greater Spell Focus (Illusion)':
-    'Type=General Require="features.Spell Focus (Illusion)"',
-  'Greater Spell Focus (Necromancy)':
-    'Type=General Require="features.Spell Focus (Necromancy)"',
-  'Greater Spell Focus (Transmutation)':
-    'Type=General Require="features.Spell Focus (Transmutation)"',
+  'Greater Spell Focus (%school)':
+    'Type=General Require="features.Spell Focus (%school)"',
   'Greater Spell Penetration':
     'Type=General Imply="casterLevel >= 1" Require="features.Spell Penetration"',
   'Greater Two-Weapon Fighting':
     'Type=Fighter Require="dexterity >= 12","baseAttack >= 11","features.Two-Weapon Fighting","features.Improved Two-Weapon Fighting"',
-  'Greater Weapon Focus (Longsword)':
-    'Type=Fighter Require="features.Weapon Focus (Longsword)","levels.Fighter >= 8" Imply=weapons.Longsword',
-  'Greater Weapon Specialization (Longsword)':
-    'Type=Fighter Require="features.Weapon Focus (Longsword)","features.Greater Weapon Focus (Longsword)","features.Weapon Specialization (Longsword)","levels.Fighter >= 12" Imply=weapons.Longsword',
+  'Greater Weapon Focus (%weapon)':
+    'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 8" Imply=weapons.%weapon',
+  'Greater Weapon Specialization (%weapon)':
+    'Type=Fighter Require="features.Weapon Focus (%weapon)","features.Greater Weapon Focus (%weapon)","features.Weapon Specialization (%weapon)","levels.Fighter >= 12" Imply=weapons.%weapon',
   'Heighten Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Improved Bull Rush':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Counterspell':'Type=General Imply="casterLevel >= 1"',
-  'Improved Critical (Longsword)':
-    'Type=Fighter Require="baseAttack >= 8" Imply=weapons.Longsword',
+  'Improved Critical (%weapon)':
+    'Type=Fighter Require="baseAttack >= 8" Imply=weapons.%weapon',
   'Improved Disarm':
     'Type=Fighter Require="intelligence >= 13","features.Combat Expertise"',
   'Improved Familiar':'Type=General Require="features.Summon Familiar"',
@@ -509,8 +495,8 @@ SRD35.FEATS = {
   'Magical Aptitude':'Type=General',
   'Manyshot':
     'Type=Fighter Require="dexterity >= 17","baseAttack >= 6","features.Point-Blank Shot","features.Rapid Shot"',
-  'Martial Weapon Proficiency (Longsword)':
-    'Type=General Require="baseAttack >= 1" Imply="weapons.Longsword"',
+  'Martial Weapon Proficiency (%martialWeapon)':
+    'Type=General Require="baseAttack >= 1" Imply="weapons.%martialWeapon"',
   'Maximize Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Mobility':'Type=Fighter Require="dexterity >= 13",features.Dodge',
   'Mounted Archery':
@@ -539,20 +525,10 @@ SRD35.FEATS = {
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 4",features.Dodge,features.Mobility,"features.Point-Blank Shot"',
   'Silent Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Simple Weapon Proficiency':'Type=General',
-  'Skill Focus (Disable Device)':'Type=General',
-  'Skill Focus (Knowledge (Arcana))':'Type=General',
-  'Skill Focus (Spellcraft)':'Type=General',
-  'Skill Focus (Survival)':'Type=General',
+  'Skill Focus (%skill)':'Type=General',
   'Snatch Arrows':
     'Type=Fighter Require="dexterity >= 15","features.Deflect Arrows","features.Improved Unarmed Strike"',
-  'Spell Focus (Abjuration)':'Type=General Imply="casterLevel >= 1"',
-  'Spell Focus (Conjuration)':'Type=General Imply="casterLevel >= 1"',
-  'Spell Focus (Divination)':'Type=General Imply="casterLevel >= 1"',
-  'Spell Focus (Enchantment)':'Type=General Imply="casterLevel >= 1"',
-  'Spell Focus (Evocation)':'Type=General Imply="casterLevel >= 1"',
-  'Spell Focus (Illusion)':'Type=General Imply="casterLevel >= 1"',
-  'Spell Focus (Necromancy)':'Type=General Imply="casterLevel >= 1"',
-  'Spell Focus (Transmutation)':'Type=General Imply="casterLevel >= 1"',
+  'Spell Focus (%school)':'Type=General Imply="casterLevel >= 1"',
   'Spell Mastery':
     'Type=Wizard Imply="intelligenceModifier > 0" Require="levels.Wizard >= 1"',
   'Spell Penetration':'Type=General Imply="casterLevel >= 1"',
@@ -574,12 +550,10 @@ SRD35.FEATS = {
   'Two-Weapon Fighting':'Type=Fighter Require="dexterity >= 15"',
   'Weapon Finesse':
     'Type=Fighter Require="baseAttack >= 1" Imply="dexterityModifier > strengthModifier"',
-  'Weapon Focus (Longbow)':
-    'Type=Fighter Require="baseAttack >= 1" Imply=weapons.Longbow',
-  'Weapon Focus (Longsword)':
-    'Type=Fighter Require="baseAttack >= 1" Imply=weapons.Longsword',
-  'Weapon Specialization (Longsword)':
-    'Type=Fighter Require="features.Weapon Focus (Longsword)","levels.Fighter >= 4" Imply="weapons.Longsword"',
+  'Weapon Focus (%weapon)':
+    'Type=Fighter Require="baseAttack >= 1" Imply=weapons.%weapon',
+  'Weapon Specialization (%weapon)':
+    'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 4" Imply="weapons.%weapon"',
   'Whirlwind Attack':
     'Type=Fighter Require="dexterity >= 13","intelligence >= 13","baseAttack >= 4","features.Combat Expertise",features.Dodge,features.Mobility,"features.Spring Attack"',
   'Widen Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"'
@@ -746,26 +720,15 @@ SRD35.FEATURES = {
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
   'Greater Flurry':'Section=combat Note="Extra attack"',
   'Greater Rage':'Section=combat Note="+6 Str, +6 Con, +3 Will during rage"',
-  'Greater Spell Focus (Abjuration)':
-    'Section=magic Note="+1 Spell DC (Abjuration)"',
-  'Greater Spell Focus (Conjuration)':
-    'Section=magic Note="+1 Spell DC (Conjuration)"',
-  'Greater Spell Focus (Divination)':
-    'Section=magic Note="+1 Spell DC (Divination)"',
-  'Greater Spell Focus (Enchantment)':
-    'Section=magic Note="+1 Spell DC (Enhancement)"',
-  'Greater Spell Focus (Evocation)':
-    'Section=magic Note="+1 Spell DC (Evocation)"',
-  'Greater Spell Focus (Illusion)':
-    'Section=magic Note="+1 Spell DC (Illusion)"',
-  'Greater Spell Focus (Necromancy)':
-    'Section=magic Note="+1 Spell DC (Necromancy)"',
-  'Greater Spell Focus (Transmutation)':
-    'Section=magic Note="+1 Spell DC (Transmutation)"',
+  'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
   'Greater Spell Penetration':
     'Section=magic Note="+2 checks to overcome spell resistance"',
   'Greater Two-Weapon Fighting':
     'Section=combat Note="Third off-hand -10 attack"',
+  'Greater Weapon Focus (%weapon)':
+    'Section=combat Note="+1 %weapon Attack Modifier"',
+  'Greater Weapon Specialization (%weapon)':
+    'Section=combat Note="+1 %weapon Damage Modifier"',
   'Half-Orc Ability Adjustment':
     'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
   'Halfling Ability Adjustment':
@@ -780,8 +743,8 @@ SRD35.FEATURES = {
     'Section=combat Note="No AOO on Bull Rush, +4 Str check"',
   'Improved Counterspell':
     'Section=magic Note="Counter using higher-level spell from same school"',
-  'Improved Critical (Longsword)':
-    'Section=combat Note="x2 Longsword Threat Range"',
+  'Improved Critical (%weapon)':
+    'Section=combat Note="x2 %weapon Threat Range"',
   'Improved Disarm':'Section=combat Note="No AOO on Disarm, +4 attack"',
   'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Improved Familiar':'Section=feature Note="Expanded familiar choices"',
@@ -971,6 +934,7 @@ SRD35.FEATURES = {
     'Section=magic Note="Cast spell w/out speech uses +1 spell slot"',
   'Simple Somatics':
     'Section=magic Note="No arcane spell failure in light armor"',
+  'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
   'Skill Mastery':
     'Section=skill Note="Take 10 despite distraction on %V chosen skills"',
   'Sleep Immunity':'Section=save Note="Immune <i>Sleep</i>"',
@@ -994,15 +958,7 @@ SRD35.FEATURES = {
   'Speak With Master':
     'Section=companion Note="Talk w/master in secret language"',
   'Special Mount':'Section=feature Note="Magical mount w/special abilities"',
-  'Spell Focus (Abjuration)':'Section=magic Note="+1 Spell DC (Abjuration)"',
-  'Spell Focus (Conjuration)':'Section=magic Note="+1 Spell DC (Conjuration)"',
-  'Spell Focus (Divination)':'Section=magic Note="+1 Spell DC (Divination)"',
-  'Spell Focus (Enchantment)':'Section=magic Note="+1 Spell DC (Enhancement)"',
-  'Spell Focus (Evocation)':'Section=magic Note="+1 Spell DC (Evocation)"',
-  'Spell Focus (Illusion)':'Section=magic Note="+1 Spell DC (Illusion)"',
-  'Spell Focus (Necromancy)':'Section=magic Note="+1 Spell DC (Necromancy)"',
-  'Spell Focus (Transmutation)':
-    'Section=magic Note="+1 Spell DC (Transmutation)"',
+  'Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
   'Spell Mastery':
     'Section=magic ' +
     'Note="Prepare %{intelligenceModifier} spells w/out spellbook"',
@@ -1071,9 +1027,12 @@ SRD35.FEATURES = {
   'Weapon Finesse':
     'Section=combat ' +
     'Note="+%{dexterityModifier-strengthModifier} light melee weapon attack (dex instead of str)"',
+  'Weapon Focus (%weapon)':'Section=combat Note="+1 %weapon Attack Modifier"',
   'Weapon Of War':
     'Section=feature ' +
     'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
+  'Weapon Specialization (%weapon)':
+    'Section=combat Note="+1 %weapon Damage Modifier"',
   'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
   'Wholeness Of Body':
     'Section=magic Note="Heal %{levels.Monk*2} HP to self/dy"',
@@ -1570,8 +1529,7 @@ SRD35.SCHOOLS = {
   'Evocation':'',
   'Illusion':'',
   'Necromancy':'',
-  'Transmutation':'',
-  'Universal':''
+  'Transmutation':''
 };
 SRD35.SHIELDS = {
   'Buckler':'AC=1 Weight=1 Skill=1 Spell=5',
@@ -1795,7 +1753,7 @@ SRD35.SPELLS = {
     'Level=W2 ' +
     'Description="Magical lock on door portal or chest open DC +10 with lock, 20 otherwise"',
   'Arcane Mark':
-    'School=Universal ' +
+    // 'School=Universal ' +
     'Level=W0 ' +
     'Description="Permanent personal rune on object or creature"',
   'Arcane Sight':
@@ -2938,7 +2896,7 @@ SRD35.SPELLS = {
     'Level=Adept3,W3 ' +
     'Description="120\' bolt ${Lmin10}d6 HP (Ref half)"',
   'Limited Wish':
-    'School=Universal ' +
+    // 'School=Universal ' +
     'Level=W7 ' +
     'Description="Alter reality, with limits"',
   'Liveoak':
@@ -3194,7 +3152,7 @@ SRD35.SPELLS = {
     'Level=W5 ' +
     'Description="8\'x5\'x$Ldiv3minus1times5min25\' passage through wood, stone, or plaster lasts $L hr"',
   'Permanency':
-    'School=Universal ' +
+    // 'School=Universal ' +
     'Level=W5 ' +
     'Description="Make certain spells permanent"',
   'Permanent Image':
@@ -3286,7 +3244,7 @@ SRD35.SPELLS = {
     'Level=C3,P3 ' +
     'Description="Allies w/in 40\' +1 attack, damage, save, and skill, foes -1 for $L rd"',
   'Prestidigitation':
-    'School=Universal ' +
+    // 'School=Universal ' +
     'Level=B0,Gnomish0,W0 ' +
     'Description="R10\' Perform minor tricks for 1 hr"',
   'Prismatic Sphere':
@@ -4125,7 +4083,7 @@ SRD35.SPELLS = {
     'Level=Air2,C3,D3,R2,W3 ' +
     'Description="R$RM\' $L10\'x5\' curtain of air scatters objects, deflects arrows and bolts for $L rd"',
   'Wish':
-    'School=Universal ' +
+    // 'School=Universal ' +
     'Level=W9 ' +
     'Description="Alter reality, with few limits"',
   'Wood Shape':
@@ -4420,8 +4378,9 @@ SRD35.CLASSES = {
       '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
       '"1:Summon Familiar","1:Scribe Scroll" ' +
     'Selectables=' +
-      QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + (x == 'Universal' ? 'None' : x) + ')"').join(',') + ',' +
-      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Universal' && x != 'Divination').map(x => '"1:School Opposition (' + x + ')"').join(',') + ' ' +
+      '"1:School Specialization (None)",' +
+      QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + x + ')"').join(',') + ',' +
+      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Divination').map(x => '"1:School Opposition (' + x + ')"').join(',') + ' ' +
     'CasterLevelArcane=levels.Wizard ' +
     'SpellAbility=intelligence ' +
     'SpellSlots=' +
@@ -5183,6 +5142,8 @@ SRD35.talentRules = function(
   rules, feats, features, goodies, languages, skills
 ) {
 
+  var matchInfo;
+
   QuilvynUtils.checkAttrTable(feats, ['Require', 'Imply', 'Type']);
   QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
   QuilvynUtils.checkAttrTable
@@ -5193,12 +5154,6 @@ SRD35.talentRules = function(
   QuilvynUtils.checkAttrTable
    (goodies, ['Pattern', 'Effect', 'Value', 'Attribute', 'Section', 'Note']);
 
-  for(var feat in feats) {
-    rules.choiceRules(rules, 'Feat', feat, feats[feat]);
-  }
-  for(var feature in features) {
-    rules.choiceRules(rules, 'Feature', feature, features[feature]);
-  }
   for(var goody in goodies) {
     rules.choiceRules(rules, 'Goody', goody, goodies[goody]);
   }
@@ -5221,6 +5176,26 @@ SRD35.talentRules = function(
       'Attribute="classSkills.' + skill + '" ' +
       'Section=skill Note="' + skill + ' is a class skill"'
     );
+  }
+  for(var feat in feats) {
+    if((matchInfo = feat.match(/(%(\w+))/)) != null) {
+      for(var c in rules.getChoices(matchInfo[2] + 's')) {
+        rules.choiceRules
+          (rules, 'Feat', feat.replace(matchInfo[1], c), feats[feat].replaceAll(matchInfo[1], c));
+      }
+    } else {
+      rules.choiceRules(rules, 'Feat', feat, feats[feat]);
+    }
+  }
+  for(var feature in features) {
+    if((matchInfo = feature.match(/(%(\w+))/)) != null) {
+      for(var c in rules.getChoices(matchInfo[2] + 's')) {
+        rules.choiceRules
+          (rules, 'Feature', feature.replace(matchInfo[1], c), features[feature].replaceAll(matchInfo[1], c));
+      }
+    } else {
+      rules.choiceRules(rules, 'Feature', feature, features[feature]);
+    }
   }
 
   rules.defineChoice('notes',
@@ -5394,8 +5369,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   } else if(type == 'Spell') {
     var description = QuilvynUtils.getAttrValue(attrs, 'Description');
     var groupLevels = QuilvynUtils.getAttrValueArray(attrs, 'Level');
-    var school = QuilvynUtils.getAttrValue(attrs, 'School') + '';
-    var schoolAbbr = school.substring(0, 4);
+    var school = QuilvynUtils.getAttrValue(attrs, 'School');
+    var schoolAbbr = (school || 'Universal').substring(0, 4);
     for(var i = 0; i < groupLevels.length; i++) {
       var matchInfo = (groupLevels[i] + '').match(/^(\D+)(\d+)$/);
       if(!matchInfo) {
@@ -6628,17 +6603,6 @@ SRD35.featRulesExtra = function(rules, name) {
   } else if(name == 'Toughness') {
     rules.defineRule
       ('combatNotes.toughness', 'feats.Toughness', '=', 'source * 3');
-  } else if((matchInfo = name.match(/^(Greater\s)?Weapon\sFocus.\((.*)\)$/)) != null) {
-    SRD35.featureRules
-      (rules, name, ['combat'], ['+1 ' + matchInfo[2] + ' Attack Modifier']);
-  } else if((matchInfo = name.match(/^(Greater\s)?Weapon\sSpecialization.\((.*)\)$/)) != null) {
-    SRD35.featureRules
-      (rules, name, ['combat'], ['+2 ' + matchInfo[2] + ' Damage Modifier']);
-  } else if((matchInfo = name.match(/^Improved\sCritical\s\((.*)\)$/)) != null) {
-    SRD35.featureRules
-      (rules, name, ['combat'], ['x2 ' + matchInfo[1] + ' Threat Range']);
-  } else if((matchInfo = name.match(/^Skill\sFocus\s\((.*)\)$/)) != null) {
-    SRD35.featureRules(rules, name, ['skill'], ['+3 ' + matchInfo[1]]);
   } else if(name == 'Simple Weapon Proficiency') {
     rules.defineRule('features.Weapon Proficiency (Simple)',
       'features.' + name, '=', '1'
@@ -7011,9 +6975,6 @@ SRD35.schoolRules = function(rules, name, features) {
     return;
   }
 
-  if(name == 'Universal')
-    return;
-
   var prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ','');
   var schoolLevel = prefix + 'Level';
@@ -7258,7 +7219,7 @@ SRD35.spellRules = function(
     console.log('Empty spell name');
     return;
   }
-  if(!school || !(school in rules.getChoices('schools'))) {
+  if(school && !(school in rules.getChoices('schools'))) {
     console.log('Bad school "' + school + '" for spell ' + name);
     return;
   }
@@ -7351,7 +7312,8 @@ SRD35.spellRules = function(
       rules.defineRule
         (dcRule, 'spellDifficultyClass.Domain', '^=', 'source + ' + level);
     }
-    rules.defineRule(dcRule, 'spellDCSchoolBonus.' + school, '+', null);
+    if(school)
+      rules.defineRule(dcRule, 'spellDCSchoolBonus.' + school, '+', null);
   }
 
   rules.defineChoice('notes', 'spells.' + name + ':' + description);
@@ -7572,6 +7534,11 @@ SRD35.weaponRules = function(
       (rules, 'validation', 'two-handedWeapon', 'weapons.' + name,
        'shield =~ \'Buckler|None\'');
   }
+
+  if(profLevel == 2)
+    rules.addChoice('martialWeapons', name, '');
+  else if(profLevel == 3)
+    rules.addChoice('exoticWeapons', name, '');
 
 };
 
