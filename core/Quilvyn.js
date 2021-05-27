@@ -1252,9 +1252,8 @@ Quilvyn.sheetHtml = function(attrs) {
       'var computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
   }
 
-  var ruleSets = [ruleSet].concat(ruleSet.getPlugins().map(x => x.rules));
   var versions =
-    'Quilvyn version ' + VERSION + '; ' + ruleSets.map(x => x.getName() + ' version ' + x.getVersion()).join('; ');
+    'Quilvyn version ' + VERSION + '; ' + [ruleSet.getName() + ' ' + ruleSet.getVersion()].concat(ruleSet.getPlugins().map(x => x.name + ' version ' + x.VERSION)).join('; ');
 
   return '<!DOCTYPE html>\n' +
          '<' + '!' + '-- Generated ' + new Date().toString() +
