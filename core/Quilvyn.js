@@ -444,7 +444,7 @@ Quilvyn.customImportCollections = function(focus) {
       PERSISTENT_CUSTOM_PREFIX +
       collection.replaceAll('.', '%2E') + '.' +
       type.replaceAll('.', '%2E') + '.' +
-      name.replaceAll('.', '%2E'), linei
+      name.replaceAll('.', '%2E'), line
     );
     customCollections[collection] = '';
     if(collection in ruleSets)
