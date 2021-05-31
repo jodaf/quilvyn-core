@@ -728,7 +728,7 @@ SRD35.FEATURES = {
   'Greater Weapon Focus (%weapon)':
     'Section=combat Note="+1 %weapon Attack Modifier"',
   'Greater Weapon Specialization (%weapon)':
-    'Section=combat Note="+1 %weapon Damage Modifier"',
+    'Section=combat Note="+2 %weapon Damage Modifier"',
   'Half-Orc Ability Adjustment':
     'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
   'Halfling Ability Adjustment':
@@ -992,7 +992,7 @@ SRD35.FEATURES = {
     'Section=feature ' +
     'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
   'Weapon Specialization (%weapon)':
-    'Section=combat Note="+1 %weapon Damage Modifier"',
+    'Section=combat Note="+2 %weapon Damage Modifier"',
   'Whirlwind Attack':'Section=combat Note="Attack all foes in reach"',
   'Wholeness Of Body':
     'Section=magic Note="Heal %{levels.Monk*2} HP to self/dy"',
