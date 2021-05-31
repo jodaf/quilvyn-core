@@ -496,7 +496,7 @@ SRD35.FEATS = {
   'Manyshot':
     'Type=Fighter Require="dexterity >= 17","baseAttack >= 6","features.Point-Blank Shot","features.Rapid Shot"',
   'Martial Weapon Proficiency (%martialWeapon)':
-    'Type=General Require="baseAttack >= 1" Imply="weapons.%martialWeapon"',
+    'Type=General Imply="weapons.%martialWeapon"',
   'Maximize Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
   'Mobility':'Type=Fighter Require="dexterity >= 13",features.Dodge',
   'Mounted Archery':
