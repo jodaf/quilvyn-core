@@ -1253,7 +1253,7 @@ Quilvyn.sheetHtml = function(attrs) {
   }
 
   var versions =
-    'Quilvyn version ' + VERSION + '; ' + [ruleSet.getName() + ' ' + ruleSet.getVersion()].concat(ruleSet.getPlugins().map(x => x.name + ' version ' + x.VERSION)).join('; ');
+    'Quilvyn version ' + VERSION + '; ' + [ruleSet.getName() + ' version ' + ruleSet.getVersion()].concat(ruleSet.getPlugins().map(x => x.name + ' version ' + x.VERSION)).join('; ');
 
   return '<!DOCTYPE html>\n' +
          '<' + '!' + '-- Generated ' + new Date().toString() +
