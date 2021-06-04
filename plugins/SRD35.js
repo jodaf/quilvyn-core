@@ -5665,8 +5665,10 @@ SRD35.classRules = function(
       if(spellLevel > 0 && spellType != 'Domain') {
         var note = 'magicNotes.' + spellAbility + 'SpellBonus';
         rules.defineChoice('notes', note + ':%1/%2/%3/%4');
-        rules.defineRule
-          (note, 'spellSlots.' + spellType + spellLevel, '=', '1');
+        rules.defineRule(note,
+          spellAbility + 'Modifier', '?', 'source >= 1',
+          'spellSlots.' + spellType + spellLevel, '=', '1'
+        );
         rules.defineRule(note + '.' + spellLevel,
           note, '?', null,
           spellAbility + 'Modifier', '=',
