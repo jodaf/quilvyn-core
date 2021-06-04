@@ -5737,8 +5737,10 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Cleric') {
 
-    rules.defineRule
-      ('combatNotes.charismaTurningAdjustment', 'charismaModifier', '=', null);
+    rules.defineRule('combatNotes.charismaTurningAdjustment',
+      'turningLevel', '?', null,
+      'charismaModifier', '=', null
+    );
     rules.defineRule('combatNotes.turnUndead.1',
       'turningLevel', '=', null,
       'combatNotes.charismaTurningAdjustment', '+', null
