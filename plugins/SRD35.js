@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.12';
+SRD35.VERSION = '2.2.2.13';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -4998,9 +4998,18 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule
     ('runSpeedMultiplier', 'armorWeight', '=', 'source == 3 ? 3 : 4');
-  rules.defineRule('save.Fortitude', 'constitutionModifier', '=', null);
-  rules.defineRule('save.Reflex', 'dexterityModifier', '=', null);
-  rules.defineRule('save.Will', 'wisdomModifier', '=', null);
+  rules.defineRule
+    ('save.Fortitude', 'saveNotes.constitutionFortitudeAdjustment', '=', null);
+  rules.defineRule
+    ('save.Reflex', 'saveNotes.dexterityReflexAdjustment', '=', null);
+  rules.defineRule('save.Will', 'saveNotes.wisdomWillAdjustment', '=', null);
+  rules.defineRule('saveNotes.constitutionFortitudeAdjustment',
+    'constitutionModifier', '=', null
+  );
+  rules.defineRule
+    ('saveNotes.dexterityReflexAdjustment', 'dexterityModifier', '=', null);
+  rules.defineRule
+    ('saveNotes.wisdomWillAdjustment', 'wisdomModifier', '=', null);
   rules.defineRule('shieldProficiency',
     'shieldProficiencyLevel', '=', 'SRD35.ARMOR_PROFICIENCY_NAMES[source]'
   );
@@ -5166,17 +5175,20 @@ SRD35.talentRules = function(
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
   rules.defineRule
-    ('languageCount', 'intelligenceModifier', '+', 'Math.max(source, 0)');
+    ('languageCount', 'skillNotes.intelligenceLanguageAdjustment', '+', null);
   rules.defineRule('maxAllowedSkillAllocation', 'level', '=', 'source + 3');
   rules.defineRule('maxActualSkillAllocation', /^skills\.[^.]*$/, '^=', null);
-  rules.defineRule('skillPoints',
-    '', '=', '0',
-    'skillNotes.intelligenceSkillPointsAdjustment', '+', null,
-    'level', '^', null
+  rules.defineRule('skillNotes.intelligenceLanguageAdjustment',
+    'intelligenceModifier', '=', 'Math.max(source, 0)'
   );
   rules.defineRule('skillNotes.intelligenceSkillPointsAdjustment',
     'intelligenceModifier', '=', null,
     'level', '*', 'source + 3'
+  );
+  rules.defineRule('skillPoints',
+    '', '=', '0',
+    'skillNotes.intelligenceSkillPointsAdjustment', '+', null,
+    'level', '^', null
   );
   QuilvynRules.validAllocationRules
     (rules, 'feat', 'Sum "^featCount\\."', 'Sum "^feats\\."');
@@ -5650,12 +5662,20 @@ SRD35.classRules = function(
         'casterLevels.' + spellType, '?', null,
         spellAbility + 'Modifier', '=', '10 + source'
       );
-      if(spellLevel > 0 && spellType != 'Domain')
-        rules.defineRule('spellSlots.' + spellType + spellLevel,
-          spellAbility + 'Modifier', '+',
-            'source >= ' + spellLevel +
-              ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : null'
+      if(spellLevel > 0 && spellType != 'Domain') {
+        var note = 'magicNotes.' + spellAbility + 'SpellBonus';
+        rules.defineChoice('notes', note + ':%1/%2/%3/%4');
+        rules.defineRule
+          (note, 'spellSlots.' + spellType + spellLevel, '=', '1');
+        rules.defineRule(note + '.' + spellLevel,
+          note, '?', null,
+          spellAbility + 'Modifier', '=',
+            'source>=' + spellLevel + ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : 0'
         );
+        rules.defineRule('spellSlots.' + spellType + spellLevel,
+          'magicNotes.' + spellAbility + 'SpellBonus.' + spellLevel, '+', null
+        );
+      }
     }
   }
 
@@ -5717,17 +5737,19 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Cleric') {
 
+    rules.defineRule
+      ('combatNotes.charismaTurningAdjustment', 'charismaModifier', '=', null);
     rules.defineRule('combatNotes.turnUndead.1',
       'turningLevel', '=', null,
-      'charismaModifier', '+', null
+      'combatNotes.charismaTurningAdjustment', '+', null
     );
     rules.defineRule('combatNotes.turnUndead.2',
       'turningLevel', '=', 'source * 3 - 10',
-      'charismaModifier', '+', null
+      'combatNotes.charismaTurningAdjustment', '+', null
     );
     rules.defineRule('combatNotes.turnUndead.3',
       'turningLevel', '=', '3',
-      'charismaModifier', '+', null
+      'combatNotes.charismaTurningAdjustment', '+', null
     );
     rules.defineRule
       ('selectableFeatureCount.Cleric', 'levels.Cleric', '=', '2');
