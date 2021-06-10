@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.13';
+SRD35.VERSION = '2.2.2.14';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -1563,7 +1563,7 @@ SRD35.SKILLS = {
     'Class=Bard,Ranger,Wizard Synergy="Survival (lost and hazards)"',
   'Knowledge (History)':
     'Ability=intelligence untrained=n ' +
-    'Class=Bard,Cleric,Wizard',
+    'Class=Bard,Cleric,Wizard Synergy="Bardic knowledge"',
   'Knowledge (Local)':
     'Ability=intelligence untrained=n ' +
     'Class=Bard,Rogue,Wizard Synergy="Gather Information"',
@@ -5734,7 +5734,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('skillNotes.bardicKnowledge',
       'levels.Bard', '=', null,
       'intelligenceModifier', '+', null,
-      'skills.Knowledge (History)', '+', 'source >= 5 ? 2 : null'
+      'skillNotes.knowledge(History)Synergy', '+', '2'
     );
 
   } else if(name == 'Cleric') {
