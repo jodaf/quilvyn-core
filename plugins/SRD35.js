@@ -8103,6 +8103,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     var companionAttrs = {
       'features.Animal Companion':'animalCompanion',
       'features.Divine Mount':'animalCompanion', // Pathfinder
+      'features.Familiar':'familiar', // Pathfinder
       'features.Fiendish Servant':'animalCompanion',
       'features.Special Mount':'animalCompanion',
       'features.Summon Familiar':'familiar'
@@ -8119,7 +8120,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
            'features.Small' in attrs ? 'Pony' : 'Heavy Horse'] :
         attr == 'features.Special Mount' ?
           ['features.Small' in attrs ? 'Pony' : 'Heavy Horse'] :
-        attr == 'features.Summon Familiar' ?
+        attr == 'features.Summon Familiar' || attr == 'features.Familiar' ?
           QuilvynUtils.getKeys(this.getChoices('familiars')) :
         QuilvynUtils.getKeys(this.getChoices('animalCompanions'));
       while(true) {
