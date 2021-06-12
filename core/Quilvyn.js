@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.19';
+var VERSION = '2.2.20';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -112,7 +112,10 @@ Quilvyn.addRuleSet = function(rs) {
     if(!path.startsWith(prefix))
       continue;
     var pieces = path.split('.');
-    ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
+    ruleSet.choiceRules(
+      ruleSet, pieces[2].replaceAll('%2E', '.'),
+      pieces[3].replaceAll('%2E', '.'), STORAGE.getItem(path)
+    );
   }
 };
 
@@ -547,27 +550,19 @@ Quilvyn.editorHtml = function() {
       htmlBits[htmlBits.length] = '<tr><th>' + label + '</th><td>';
     }
     if(type.match(/^f?(bag|set)$/)) {
-      type = type.replace('f', ''); // Sub-menus largely supplant filters
+      // type = type.replace('f', ''); // Sub-menus largely supplant filters
       var widget = type.match(/bag/) ? InputHtml(name, 'text', [3]) :
                                        InputHtml(name, 'checkbox', null);
-      var needSub = false;
-      for(var j = 0; j < params.length; j++) {
-        if(!params[j].match(/\(/))
-          continue;
-        needSub = true;
-        params[j] = params[j].substring(0, params[j].indexOf('('));
-        while(j + 1 < params.length &&
-              params[j + 1].startsWith(params[j] + '('))
-          params.splice(j + 1, 1);
-      }
+      var needSub = params.filter(x => x.includes('(')).length > 0;
+      // Intially put full parameter list, including sub-options, into _sel.
+      // refreshEditor will handle splitting the values later.
       // Note: Inner table needed to prevent line break between _sel and _sub?!?
       htmlBits[htmlBits.length] =
         '  <table cellspacing="0" cellpadding="0"><tr><td>' +
         InputHtml(name + '_sel', 'select-one', params) +
         (needSub ? '</td><td>' + InputHtml(name + '_sub', 'select-one', ['...']) : '') +
-        '</td><td>' + widget +
-        (type.charAt(0)=='f' ? '</td><td>' + InputHtml(name + '_filter', 'text', [15]) : '') +
-        '</td></tr></table>';
+        '</td><td>' + widget + '</td></tr></table>' +
+        (type.charAt(0)=='f' ? '</td></tr><tr><th>Filter</th><td>' + InputHtml(name + '_filter', 'text', [15]) : '');
     } else {
       htmlBits[htmlBits.length] = '  ' + InputHtml(name, type, params);
     }
@@ -1075,33 +1070,41 @@ Quilvyn.refreshEditor = function(redraw) {
     ; /* empty */
   for( ; i < editForm.elements.length; i++) {
     var input = editForm.elements[i];
-    var matchInfo;
     var name = input.name;
     var sel = editForm[name + '_sel'];
     var value = null;
     if(name.match(/_sel|_sub/)) {
-      // For bags/sets, display the first option or pair for which character
-      // contains a non-null value, if any
+      if(name.includes('_sel') && !input.allOpts)
+        // editorHtml gave us the full options in _sel; save for later filtering
+        input.allOpts = InputGetParams(input);
       var prefix = name.substring(0, name.indexOf('_s'));
+      sel = name.includes('_sel') ? input : editForm[prefix + '_sel'];
+      var filter = character[prefix + '_filter'] || '';
+      var options = sel.allOpts.filter(x => x.includes(filter));
+      // Seek an option for which character contains a non-null value
       for(var a in character) {
-        if(a.startsWith(prefix)) {
-          // Remove leading attribute name and '.'
-          value = a.substring(prefix.length + 1);
+        if(a.startsWith(prefix) &&
+           options.includes(a.replace(prefix + '.', ''))) {
+          value = a;
           break;
         }
       }
-      if(name.match(/_sel/))
-        // Trim any sub-option; if none in character, default to first option
-        value = value ? value.replace(/\(.*/, '') : input.options[0].text;
-      else {
+      if(name.includes('_sel')) {
+        // Strip sub-selections and use Set to determine unique options
+        options =
+          Array.from(new Set(options.map(x => x.replace(/\(.*\)$/, ''))));
+        if(options.length == 0)
+          options.push('--- empty ---');
+        InputSetOptions(input, options);
+        value = value ? value.replace(prefix + '.', '').replace(/\(.*\)$/, '') : options[0];
+      } else {
         // Grab any sub-options of the current value of _sel
-        var subOpts =
-          QuilvynUtils.getKeys(ruleSet.getChoices(prefix), '^' + InputGetValue(editForm[prefix + '_sel']) + '\\(').map(x => x.replace(/^[^(]*\(|\)$/g, ''));
-        InputSetOptions(input, subOpts);
-        if(subOpts.length > 0) {
+        var selValue = InputGetValue(sel);
+        options = options.filter(x => x.startsWith(selValue)).map(x => x.replace(/^[^(]*\(|\)$/g, ''));
+        InputSetOptions(input, options);
+        if(options.length > 0) {
           input.style.display = 'block';
-          // Extract the sub-option; if none in character, default to first
-          value = value ? value.replace(/^[^(]*\(|\)$/g, '') : subOpts[0];
+          value = value ? value.replace(/^[^(]*\(|\)$/g, '') : options[0];
         } else {
           // Remove the sub-menu from the display
           input.style.display = 'none';
@@ -1522,26 +1525,17 @@ Quilvyn.update = function(input) {
     Quilvyn.refreshEditor(false);
     Quilvyn.refreshSheet();
   } else if(name.indexOf('_filter') >= 0) {
-    name = name.replace(/_filter/, '');
-    var opts = [];
-    for(var a in ruleSet.getChoices(name)) {
-      if(value == '' || a.indexOf(value) >= 0) {
-        opts[opts.length] = a;
-      }
-    }
-    if(opts.length == 0)
-      opts[opts.length] = '---empty---';
-    opts.sort();
-    InputSetOptions(editForm[name + '_sel'], opts);
-    character[name + '_filter'] = value;
+    character[name] = value;
     Quilvyn.refreshEditor(false);
   } else if(name.indexOf('_sel') >= 0) {
-    name = name.replace(/_sel/, '');
+    name = name.replace('_sel', '');
     var sub = editForm[name + '_sub'];
     if(sub) {
-      // Update the sub-menu with suboptions of the new _sel value, if any
-      var subOpts =
-        QuilvynUtils.getKeys(ruleSet.getChoices(name), '^' + value + '\\(').map(x => x.replace(/^[^(]*\(|\)$/g, ''));
+      // Update the sub-menu any suboptions of the new _sel value
+      var filter = character[name + '_filter'] || '';
+      var subOpts = input.allOpts
+          .filter(x => x.startsWith(value) && x.includes(filter))
+          .map(x => x.replace(/^[^(]*\(|\)$/g, ''));
       InputSetOptions(sub, subOpts);
       if(subOpts.length > 0) {
         sub.style.display = 'block';
