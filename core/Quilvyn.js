@@ -1032,6 +1032,11 @@ Quilvyn.refreshEditor = function(redraw) {
     editWindow.document.close();
     editForm = editWindow.document.forms[0];
     var updateListener = function() {Quilvyn.update(this);};
+    var selectSpellsListener = function(e) {
+      if(event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
+        Quilvyn.selectSpells();
+      }
+    }
     var undoListener = function(e) {
       if(event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
         Quilvyn.undo();
@@ -1040,6 +1045,7 @@ Quilvyn.refreshEditor = function(redraw) {
     for(i = 0; i < editForm.elements.length; i++) {
       InputSetCallback(editForm.elements[i], updateListener);
     }
+    editWindow.document.addEventListener('keydown', selectSpellsListener);
     editWindow.document.addEventListener('keydown', undoListener);
   }
 
@@ -1100,7 +1106,7 @@ Quilvyn.refreshEditor = function(redraw) {
       } else {
         // Grab any sub-options of the current value of _sel
         var selValue = InputGetValue(sel);
-        options = options.filter(x => x.startsWith(selValue)).map(x => x.replace(/^[^(]*\(|\)$/g, ''));
+        options = options.filter(x => x.startsWith(selValue + '(')).map(x => x.replace(/^[^(]*\(|\)$/g, ''));
         InputSetOptions(input, options);
         if(options.length > 0) {
           input.style.display = 'block';
@@ -1166,6 +1172,19 @@ Quilvyn.saveCharacter = function(path) {
   characterPath = path;
   characterCache[characterPath] = QuilvynUtils.clone(character);
   Quilvyn.refreshEditor(false);
+};
+
+// Selects all spells that match the character's spell filter
+Quilvyn.selectSpells = function() {
+  console.log('selectSpells');
+  var filter = character['spells_filter'] || '';
+  for(var spell in ruleSet.getChoices('spells')) {
+    if(spell.includes(filter))
+      character['spells.' + spell] = 1;
+  }
+  Quilvyn.refreshEditor(true);
+  Quilvyn.refreshSheet();
+  editWindow.focus();
 };
 
 /* Returns the character sheet HTML for the current character. */
@@ -1534,7 +1553,7 @@ Quilvyn.update = function(input) {
       // Update the sub-menu any suboptions of the new _sel value
       var filter = character[name + '_filter'] || '';
       var subOpts = input.allOpts
-          .filter(x => x.startsWith(value) && x.includes(filter))
+          .filter(x => x.startsWith(value + '(') && x.includes(filter))
           .map(x => x.replace(/^[^(]*\(|\)$/g, ''));
       InputSetOptions(sub, subOpts);
       if(subOpts.length > 0) {
