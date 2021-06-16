@@ -5840,7 +5840,7 @@ SRD35.classRulesExtra = function(rules, name) {
       '15:Companion Spell Resistance'
     ];
     QuilvynRules.featureListRules
-      (rules, features, 'Animal Companion', 'levels.Paladin', false);
+      (rules, features, 'Animal Companion', 'mountMasterLevel', false);
     rules.defineRule('animalCompanionStats.AC',
       'levels.Paladin', '+', 'Math.floor((source + 1) / 3) * 2'
     );
@@ -5885,6 +5885,10 @@ SRD35.classRulesExtra = function(rules, name) {
       'classWillBonus', '=', null,
       'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_THIRD + ')',
       '', '^', '0'
+    );
+    rules.defineRule('mountMasterLevel',
+      'hasCompanion', '?', null,
+      'levels.Paladin', '=', null
     );
 
   } else if(name == 'Ranger') {
