@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.14';
+SRD35.VERSION = '2.2.2.15';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -4827,6 +4827,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'animalCompanionStats.Con', '=', '4.5 + Math.floor((source - 10)/2)',
     'animalCompanionStats.HD', '*', null
   );
+  rules.defineRule('companionMasterLevel', 'hasCompanion', '?', null);
   rules.defineRule('companionMaxDexOrStr',
     'animalCompanionStats.Dex', '=', null,
     'animalCompanionStats.Str', '^', null
@@ -4849,6 +4850,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'familiarCelestial', '=', '"Celestial"',
     'familiarFiendish', '=', '"Fiendish"'
   );
+  rules.defineRule('familiarMasterLevel', 'hasFamiliar', '?', null);
   rules.defineRule('familiarStats.AC',
     'familiarMasterLevel', '+', 'Math.floor((source + 1) / 2)'
   );
@@ -6348,6 +6350,7 @@ SRD35.companionRules = function(
       (rules, 'validation', 'animalCompanion', 'animalCompanion.' + name,
        'companionMasterLevel >= animalCompanionStats.level');
   }
+  rules.defineRule('hasCompanion', 'animalCompanion.' + name, '=', '1');
 
 };
 
@@ -6527,6 +6530,7 @@ SRD35.familiarRules = function(
       (rules, 'validation', 'familiar', 'familiar.' + name,
        'familiarMasterLevel >= familiarStats.Level');
   }
+  rules.defineRule('hasFamiliar', 'familiar.' + name, '=', '1');
 
 };
 
@@ -7747,9 +7751,9 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Animal Companion Name', within: 'CompanionInfo', format: '"%V"'},
             {name: 'Animal Companion Features', within: 'NotesPart', separator: listSep},
             {name: 'Animal Companion Stats', within: 'NotesPart', separator: listSep},
-            {name: 'FamiliarInfo', within: 'NotesPart', separator: ' ', format: '<b>Familiar</b>: %V'},
-              {name: 'Familiar Enhancement', within: 'FamiliarInfo', format: '%V'},
-              {name: 'Familiar', within: 'FamiliarInfo', format: '%V'},
+            {name: 'FamiliarInfo', within: 'NotesPart', separator: ' '},
+              {name: 'Familiar Enhancement', within: 'FamiliarInfo', format: '<b>%V</b>'},
+              {name: 'Familiar', within: 'FamiliarInfo', separator: ' '},
               {name: 'Familiar Name', within: 'FamiliarInfo', format: '"%V"'},
             {name: 'Familiar Features', within: 'NotesPart', separator: listSep},
             {name: 'Familiar Stats', within: 'NotesPart', separator: listSep},
