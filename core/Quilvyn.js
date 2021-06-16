@@ -1210,7 +1210,7 @@ Quilvyn.sheetHtml = function(attrs) {
     if(a.match(/\.\d+$/))
       continue; // Ignore format multi-values
     var isNote = a.indexOf('Notes') > 0;
-    var name = a.replace(/([\w\)])(?=[A-Z\(])/g, '$1 ');
+    var name = a.replace(/([a-z\)])(?=[A-Z\(])/g, '$1 ');
     name = name.substring(0, 1).toUpperCase() + name.substring(1);
     var value = computedAttributes[a];
     if(isNote && value == 0)
