@@ -8111,6 +8111,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     attrs = this.applyRules(attributes);
     var companionAttrs = {
       'features.Animal Companion':'animalCompanion',
+      'features.Astirax Companion':'animalCompanion', // LastAge
       'features.Divine Mount':'animalCompanion', // Pathfinder
       'features.Familiar':'familiar', // Pathfinder
       'features.Fiendish Servant':'animalCompanion',
