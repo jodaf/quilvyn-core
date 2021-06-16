@@ -6081,6 +6081,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'fiendishServantMasterLevel', '=', 'source >= 19 ? source + 5 : null'
     );
     rules.defineRule('fiendishServantMasterLevel',
+      'hasCompanion', '?', null,
       'levels.Blackguard', '?', 'source < 5 ? null : source',
       'level', '=', null
     );
