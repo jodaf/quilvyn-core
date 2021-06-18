@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.20';
+var VERSION = '2.2.21';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -524,7 +524,9 @@ Quilvyn.editorHtml = function() {
   var bagNames = [];
   for(i = 0; i < elements.length; i++)
     if(elements[i][2].match(/^f?(bag|set)$/))
-      bagNames.push(elements[i][0]);
+      // Set options to combined attr and label; refreshEditor will split them
+      // once the widget is created.
+      bagNames.push(elements[i][0] + ',' + elements[i][1]);
   bagNames.sort();
   for(i = 0; i < elements.length; i++) {
     var element = elements[i];
@@ -540,8 +542,13 @@ Quilvyn.editorHtml = function() {
       if(ruleSet.getChoices(params) == null)
         continue;
       params = QuilvynUtils.getKeys(ruleSet.getChoices(params));
-      if(name == 'randomize')
+      if(name == 'randomize') {
+        // Set options to combined attr and label; refreshEditor will split
+        // them once the widget is created.
+        for(var j = 0; j < params.length; j++)
+          params[j] += ',' + params[j].charAt(0).toUpperCase() + params[j].substring(1).replace(/([a-z])([A-Z])/g, '$1 $2');
         params = ['---choose one---'].concat(params);
+      }
     }
     if(label != '' || i == 0) {
       if(i > 0) {
@@ -1047,6 +1054,16 @@ Quilvyn.refreshEditor = function(redraw) {
     }
     editWindow.document.addEventListener('keydown', selectSpellsListener);
     editWindow.document.addEventListener('keydown', undoListener);
+    // Split attr,label pairs editorHtml set as params for Clear and Randomize
+    // menus, storing the attrs in a field of the widget
+    var widget = editForm.clear;
+    widget.attrs = InputGetParams(widget).map(x=>x.replace(/,.*/, ''));
+    InputSetOptions
+      (widget, InputGetParams(widget).map(x => x.replace(/.*,/, '')));
+    widget = editForm.randomize;
+    widget.attrs = InputGetParams(widget).map(x=>x.replace(/,.*/, ''));
+    InputSetOptions
+      (widget, InputGetParams(widget).map(x=>x.replace(/.*,/, '')));
   }
 
   var characterOpts = [];
@@ -1529,12 +1546,14 @@ Quilvyn.update = function(input) {
       InputSetValue(input, customCollection);
     }
   } else if(name == 'randomize') {
+    value = input.attrs[input.selectedIndex]; // Get attr for selected label
     input.selectedIndex = 0;
     characterUndo.push(QuilvynUtils.clone(character));
     ruleSet.randomizeOneAttribute(character, value);
     Quilvyn.refreshEditor(false);
     Quilvyn.refreshSheet();
   } else if(name == 'clear') {
+    value = input.attrs[input.selectedIndex]; // Get attr for selected label
     input.selectedIndex = 0;
     characterUndo.push(QuilvynUtils.clone(character));
     for(var a in character) {
