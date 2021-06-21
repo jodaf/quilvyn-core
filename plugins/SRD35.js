@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.15';
+SRD35.VERSION = '2.2.2.16';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -6654,10 +6654,15 @@ SRD35.featureRules = function(rules, name, sections, notes) {
 
     for(var j = 0; j < pieces.length; j++) {
 
-      if((matchInfo = pieces[j].match(/^([-+x](\d+(\.\d+)?|%V))\s+(.*)$/)) != null) {
+      if((matchInfo = pieces[j].match(/^([-+x](\d+(\.\d+)?|%[V1-9]))\s+(.*)$/)) != null) {
 
         var adjust = matchInfo[1];
         var adjusted = matchInfo[4];
+        var adjustor =
+          adjust.match(/%\d/) ? note + '.' + adjust.replace(/.*%/, '') : note;
+        var op = adjust.startsWith('x') ? '*' : '+';
+        if(op == '*')
+          adjust = adjust.substring(1);
 
         if(adjusted in SRD35.ABBREVIATIONS)
           adjusted = SRD35.ABBREVIATIONS[adjusted];
@@ -6684,15 +6689,9 @@ SRD35.featureRules = function(rules, name, sections, notes) {
         } else {
           continue;
         }
-        if(adjust.startsWith('x')) {
-          rules.defineRule(adjusted,
-            note, '*', adjust == 'x%V' ? 'source' : adjust.substring(1)
-          );
-        } else {
-          rules.defineRule(adjusted,
-            note, '+', adjust == '-%V' ? '-source' : adjust == '+%V' ? 'source' : adjust
-          );
-        }
+        rules.defineRule(adjusted,
+          adjustor, op, !adjust.includes('%') ? adjust : adjust.startsWith('-') ? '-source' : 'source'
+        );
 
       } else if(section == 'skill' && pieces[j].match(/\sclass\sskill(s)?$/)) {
         var skill =
