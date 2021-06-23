@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.21';
+var VERSION = '2.2.22';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -170,7 +170,7 @@ Quilvyn.customAddItems = function(focus) {
     Quilvyn.customAddItems.win.focus();
     return;
   } else if(Quilvyn.customAddItems.win == null) {
-    // (Re)open the custom add window
+    // New custom add
     var choices = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
     var htmlBits = [
       '<html><head><title>Add Custom Items</title></head>',
@@ -179,29 +179,33 @@ Quilvyn.customAddItems = function(focus) {
     ];
     htmlBits.push(
       '<form>',
-      '<b>Type</b>',
-      InputHtml('_type', 'select-one', choices).replace('>', ' onchange="update=true">'),
-      '<b>Name</b>',
-      InputHtml('_name', 'text', [30]),
+      '<table><tr>',
+      '<th>Type</th><td>' + InputHtml('_type', 'select-one', choices).replace('>', ' onchange="update=true">') + '</td>',
+      '</tr><tr>',
+      '<th>Name</th><td>' + InputHtml('_name', 'text', [30]) + '</td>',
+      '</tr></table>',
+      '<hr style="width:25%;text-align:center"/>',
       '<table name="variableFields">',
       '</table>',
       '<input type="button" name="Add" value="Add" onclick="okay=true;"/>',
-      '<input type="button" name="Close" value="Close" onclick="window.close();"/>',
+      '<input type="button" name="Close" value="Close" onclick="done=true;"/>',
       '<p id="message"> </p>',
       '</form></body></html>'
     );
     var html = htmlBits.join('\n') + '\n';
-    Quilvyn.customAddItems.win = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.customAddItems.win = editWindow;
     Quilvyn.customAddItems.win.document.write(html);
     Quilvyn.customAddItems.win.document.close();
-    Quilvyn.customAddItems.win.okay = false;
+    Quilvyn.customAddItems.win.canceled = false;
+    Quilvyn.customAddItems.win.done = false;
     Quilvyn.customAddItems.win.update = true;
     Quilvyn.customAddItems.win.focus();
     Quilvyn.customAddItems(false);
     return;
-  } else if(Quilvyn.customAddItems.win.closed) {
+  } else if(Quilvyn.customAddItems.win.done) {
     // User done making additions
     Quilvyn.customAddItems.win = null;
+    Quilvyn.refreshEditor(true);
     return;
   } else if(!Quilvyn.customAddItems.win.okay) {
     // Try again later, after updating the input fields as necessary
@@ -274,12 +278,10 @@ Quilvyn.customAddItems = function(focus) {
   );
   Quilvyn.customAddItems.win.document.getElementById('message').innerHTML =
     'Added ' + type + ' ' + name + ' to custom collection ' + customCollection;
-  Quilvyn.refreshEditor(true);
 
   Quilvyn.customAddItems.win.okay = false;
   if(customCollection == ruleSet.getName()) {
     ruleSet.choiceRules(ruleSet, type, name, attrs);
-    Quilvyn.refreshEditor(true);
   }
   setTimeout('Quilvyn.customAddItems(false)', TIMEOUT_DELAY);
   return;
@@ -401,21 +403,22 @@ Quilvyn.customImportCollections = function(focus) {
       '</table></form>',
       '<form>',
       '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     ];
     var html = htmlBits.join('\n') + '\n';
-    Quilvyn.customImportCollections.win =
-      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.customImportCollections.win = editWindow;
     Quilvyn.customImportCollections.win.document.write(html);
     Quilvyn.customImportCollections.win.document.close();
+    Quilvyn.customImportCollections.win.canceled = false;
     Quilvyn.customImportCollections.win.okay = false;
     Quilvyn.customImportCollections.win.focus();
     setTimeout('Quilvyn.customImportCollections(false)', TIMEOUT_DELAY);
     return;
-  } else if(Quilvyn.customImportCollections.win.closed) {
+  } else if(Quilvyn.customImportCollections.win.canceled) {
     // User cancel
     Quilvyn.customImportCollections.win = null;
+    Quilvyn.refreshEditor(true);
     return;
   } else if(!Quilvyn.customImportCollections.win.okay) {
     // Try again later
@@ -455,7 +458,6 @@ Quilvyn.customImportCollections = function(focus) {
     imported.push('Imported ' + type + ' ' + name + ' into ' + collection);
   }
 
-  Quilvyn.customImportCollections.win.close();
   Quilvyn.customImportCollections.win = null;
   Quilvyn.refreshEditor(true);
   editWindow.alert(imported.join('\n'));
@@ -625,21 +627,22 @@ Quilvyn.importCharacters = function(focus) {
       '</table></form>',
       '<form>',
       '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     ];
     var html = htmlBits.join('\n') + '\n';
-    Quilvyn.importCharacters.win =
-      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.importCharacters.win = editWindow;
     Quilvyn.importCharacters.win.document.write(html);
     Quilvyn.importCharacters.win.document.close();
+    Quilvyn.importCharacters.win.canceled = false;
     Quilvyn.importCharacters.win.okay = false;
     Quilvyn.importCharacters.win.focus();
     setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
     return;
-  } else if(Quilvyn.importCharacters.win.closed) {
+  } else if(Quilvyn.importCharacters.win.canceled) {
     // User cancel
     Quilvyn.importCharacters.win = null;
+    Quilvyn.refreshEditor(true);
     return;
   } else if(!Quilvyn.importCharacters.win.okay) {
     // Try again later
@@ -698,9 +701,8 @@ Quilvyn.importCharacters = function(focus) {
     index = text.indexOf('{');
   }
 
-  Quilvyn.importCharacters.win.close();
   Quilvyn.importCharacters.win = null;
-  Quilvyn.refreshEditor(false);
+  Quilvyn.refreshEditor(true);
   Quilvyn.refreshSheet();
 
 };
@@ -724,22 +726,23 @@ Quilvyn.modifyOptions = function(focus) {
       '<form name="frm"><table>',
       '<tr><td><b>Background Color</b></td><td>' + InputHtml('bgColor', 'text', [10]) + '</td></tr>',
       '<tr><td><b>Background Image URL</b></td><td>' + InputHtml('bgImage', 'text', [30]) + '</td></tr>',
+      '<tr><td><b>Separate Editor</b></td><td>' + InputHtml('separateEditor', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Extras</b></td><td>' + InputHtml('extras', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Hidden</b></td><td>' + InputHtml('hidden', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Italic Notes</b></td><td>' + InputHtml('italics', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Spell</b></td><td>' + InputHtml('spell', 'select-one', ['Points', 'Slots', 'Both']) + '</td></tr>',
-      '<tr><td><b>Separate Editor</b></td><td>' + InputHtml('separateEditor', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Sheet Style</b></td><td>' + InputHtml('style', 'select-one', ['Collected Notes', 'Compact', 'Standard']) + '</td></tr>',
       '<tr><td><b>Warn About Discard<b></td><td>' + InputHtml('warnAboutDiscard', 'checkbox', null) + '</td></tr>',
       '</table>',
       '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     ];
     var html = htmlBits.join('\n') + '\n';
-    Quilvyn.modifyOptions.win = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.modifyOptions.win = editWindow;
     Quilvyn.modifyOptions.win.document.write(html);
     Quilvyn.modifyOptions.win.document.close();
+    Quilvyn.modifyOptions.win.canceled = false;
     Quilvyn.modifyOptions.win.okay = false;
     Quilvyn.modifyOptions.win.focus();
     for(var opt in userOptions) {
@@ -748,9 +751,10 @@ Quilvyn.modifyOptions = function(focus) {
     }
     setTimeout('Quilvyn.modifyOptions(false)', TIMEOUT_DELAY);
     return;
-  } else if(Quilvyn.modifyOptions.win.closed) {
+  } else if(Quilvyn.modifyOptions.win.canceled) {
     // User cancel
     Quilvyn.modifyOptions.win = null;
+    Quilvyn.refreshEditor(true);
     return;
   } else if(!Quilvyn.modifyOptions.win.okay) {
     // Try again later
@@ -765,7 +769,6 @@ Quilvyn.modifyOptions = function(focus) {
     var value = InputGetValue(form[option]);
     userOptions[option] = value === true ? 1 : value === false ? 0 : value;
   }
-  Quilvyn.modifyOptions.win.close();
   Quilvyn.modifyOptions.win = null;
   Quilvyn.storePersistentInfo();
   if(userOptions.separateEditor != oldSeparateEditor)
@@ -868,12 +871,11 @@ Quilvyn.randomizeCharacter = function(focus) {
       '</table></form>',
       '<form>',
       '<input type="button" value="Ok" autofocus="y" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="window.close();"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     ]);
     var html = htmlBits.join('\n') + '\n';
-    Quilvyn.randomizeCharacter.win =
-      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    Quilvyn.randomizeCharacter.win = editWindow;
     Quilvyn.randomizeCharacter.win.document.write(html);
     Quilvyn.randomizeCharacter.win.document.close();
     // Add callbacks that store user input in a property named attrs for
@@ -905,12 +907,13 @@ Quilvyn.randomizeCharacter = function(focus) {
       }
     }
     Quilvyn.randomizeCharacter.win.okay = false;
+    Quilvyn.randomizeCharacter.win.canceled = false;
     Quilvyn.randomizeCharacter.win.focus();
     setTimeout('Quilvyn.randomizeCharacter(false)', TIMEOUT_DELAY);
     return;
-  } else if(Quilvyn.randomizeCharacter.win.closed) {
-    // User cancel
+  } else if(Quilvyn.randomizeCharacter.win.canceled) {
     Quilvyn.randomizeCharacter.win = null;
+    Quilvyn.refreshEditor(true);
     return;
   } else if(!Quilvyn.randomizeCharacter.win.okay) {
     // Try again later
@@ -929,14 +932,14 @@ Quilvyn.randomizeCharacter = function(focus) {
       if(value)
         fixedAttributes[a] = value;
     }
-    Quilvyn.randomizeCharacter.win.close();
+    // Quilvyn.randomizeCharacter.win.close();
     Quilvyn.randomizeCharacter.win = null;
   }
   character = ruleSet.randomizeAllAttributes(fixedAttributes);
   characterPath = '';
   characterUndo = [];
   characterCache[characterPath] = QuilvynUtils.clone(character);
-  Quilvyn.refreshEditor(false);
+  Quilvyn.refreshEditor(true);
   Quilvyn.refreshSheet();
 
 };
