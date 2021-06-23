@@ -1448,8 +1448,13 @@ Quilvyn.update = function(input) {
     Quilvyn.aboutWindow.focus();
   } else if(name == 'help') {
     if(Quilvyn.helpWindow == null || Quilvyn.helpWindow.closed) {
-      Quilvyn.helpWindow =
-        window.open(HELP_URL, '', FEATURES_OF_OTHER_WINDOWS);
+      Quilvyn.helpWindow = window.open(HELP_URL, '');
+      // NOTE: The following lines have no effect--url body properties override
+      Quilvyn.helpWindow.document.body.style.background =
+        userOptions.bgColor;
+      if(userOptions.bgImage)
+        Quilvyn.helpWindow.document.body.style.background =
+          userOptions.bgImage;
     }
     Quilvyn.helpWindow.focus();
   } else if(name == 'options') {
