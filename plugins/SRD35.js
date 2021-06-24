@@ -8172,7 +8172,6 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     attribute = attribute == 'feats' ? 'feat' : 'selectableFeature';
     var countPrefix = attribute + 'Count.';
     var prefix = attribute + 's';
-    var suffix = attribute.charAt(0).toUpperCase() + attribute.substring(1);
     var toAllocateByType = {};
     attrs = this.applyRules(attributes);
     for(attr in attrs) {
@@ -8228,7 +8227,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
                      replace(/\(/g, '\\(').replace(/\)/g, '\\)');
           if(QuilvynUtils.sumMatching
                (validate,
-                new RegExp('^(sanity|validation)Notes.'+name+suffix)) != 0) {
+                new RegExp('^(sanity|validation)Notes.' + name)) != 0) {
             delete attributes[prefix + '.' + pick];
             debug[debug.length - 1] += ' ' + name;
           } else {
