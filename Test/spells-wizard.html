@@ -13,6 +13,7 @@ var attributes = {
   "feats.Craft Staff":1, "feats.Deceitful":1, "feats.Enlarge Spell":1, "feats.Shield Proficiency":1, 
   "feats.Stealthy":1, "feats.Still Spell":1, "gender":"Male", "hitPoints":45, "intelligence":7, 
   "languages.Orc":1, "levels.Wizard":17, "name":"Spells-Wizard", "race":"Human", 
+  "selectableFeatures.Wizard - School Opposition (Abjuration)":1, "selectableFeatures.Wizard - School Opposition (Conjuration)":1, 
   "selectableFeatures.Wizard - School Specialization (Evocation)":1, "shield":"Heavy Wooden", "skills.Balance":1, "skills.Bluff":1, 
   "skills.Craft (Bows)":5, "skills.Decipher Script":2, "skills.Diplomacy":1, "skills.Forgery":1, 
   "skills.Hide":1, "skills.Knowledge (Nobility)":8, "spells.Acid Arrow(W2 Conj)":1, 
@@ -210,7 +211,7 @@ var attributes = {
       <tr align="center">
         <td><b>Feats</b>: Agile; Brew Potion; Combat Reflexes; Craft Rod; Craft Staff; Deceitful; Enlarge Spell; Shield Proficiency; Stealthy; Still Spell</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Wizard Features</b>: School Specialization (Evocation); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
+        <td><b>Wizard Features</b>: School Opposition (Abjuration); School Opposition (Conjuration); School Specialization (Evocation); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
       </tr></table>
 </td>
     </tr><tr align="center">
@@ -1118,6 +1119,10 @@ var attributes = {
     </tr><tr align="center">
       <td>Enlarge Spell: x2 chosen spell range uses +1 spell slot</td>
     </tr><tr align="center">
+      <td>School Opposition (Abjuration): Cannot learn or cast Abjuration spells</td>
+    </tr><tr align="center">
+      <td>School Opposition (Conjuration): Cannot learn or cast Conjuration spells</td>
+    </tr><tr align="center">
       <td>Scribe Scroll: Create scroll of any known spell</td>
     </tr><tr align="center">
       <td>Still Spell: Cast spell w/out movement uses +1 spell slot</td>
@@ -1155,12 +1160,6 @@ var attributes = {
         <td>Speak With Master: Talk w/master in secret language</td>
       </tr></table>
 </td>
-    </tr></table>
-</td>
-  </tr><tr align="center">
-    <td>    <table id="ValidationPart" width="100%">
-    <tr align="center">
-      <td><b>Validation Notes</b>: Selectable Feature Allocation: 3 available vs. 1 allocated</td>
     </tr></table>
 </td>
   </tr></table>

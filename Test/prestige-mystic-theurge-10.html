@@ -7,14 +7,15 @@
   <script>
 var attributes = {
   "_path":"ztest/srd35/prestige/mystic theurge 10", 
-  "alignment":"Neutral Evil", "armor":"Chainmail", "charisma":10, "constitution":16, "deity":"None", 
+  "alignment":"Neutral Evil", "armor":"Chainmail", "charisma":10, "constitution":16, "deity":"Hextor", 
   "dexterity":10, "experience":154497, "familiar.Weasel":1, "familiarName":"Ebmur", 
   "feats.Combat Casting":1, "feats.Great Fortitude":1, "feats.Improved Familiar":1, 
   "feats.Maximize Spell":1, "feats.Point-Blank Shot":1, "feats.Self-Sufficient":1, 
   "feats.Spell Focus (Evocation)":1, "feats.Spell Focus (Necromancy)":1, "gender":"Male", "hitPoints":65, 
   "intelligence":12, "languages.Celestial":1, "languages.Dwarven":1, "levels.Cleric":4, 
   "levels.Wizard":4, "name":"Prestige-Mystic Theurge 10", "prestige.Mystic Theurge":10, 
-  "race":"Human", "selectableFeatures.Wizard - School Opposition (Illusion)":1, 
+  "race":"Human", "selectableFeatures.Cleric - Evil Domain":1, 
+  "selectableFeatures.Cleric - War Domain":1, "selectableFeatures.Wizard - School Opposition (Illusion)":1, 
   "selectableFeatures.Wizard - School Specialization (Conjuration)":1, "selectableFeatures.Wizard - School Specialization (Evocation)":1, 
   "shield":"Light Steel", "skills.Climb":17, "skills.Craft (Bows)":21, "skills.Decipher Script":13, 
   "skills.Diplomacy":1, "skills.Knowledge (Arcana)":6, "skills.Knowledge (Geography)":10, 
@@ -74,7 +75,7 @@ var attributes = {
     <td>    <table id="Description" width="100%">
     <tr align="center">
       <td><b>Alignment</b>: Neutral Evil</td>
-      <td><b>Deity</b>: None</td>
+      <td><b>Deity</b>: Hextor (LE)</td>
     </tr></table>
 </td>
   </tr><tr align="center">
@@ -108,13 +109,15 @@ var attributes = {
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
         <td><b>Mystic Theurge Features</b>: Caster Level Bonus</td>
         <td><b>Wizard Features</b>: School Opposition (Illusion); School Specialization (Conjuration); School Specialization (Evocation); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
-        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; Weapon Proficiency (Simple)</td>
+        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Empowered Evil; Evil Domain; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; War Domain; Weapon Focus (Flail); Weapon Of War; Weapon Proficiency (Flail); Weapon Proficiency (Simple)</td>
       </tr></table>
 </td>
     </tr><tr align="center">
       <td><b>Feature Notes</b>:       <table id="Feature Notes" width="100%">
       <tr align="center">
         <td><i>Human Feat Bonus: +1 General Feat</i></td>
+      </tr><tr align="center">
+        <td><i>Weapon Of War: Weapon Proficiency (Flail)/Weapon Focus (Flail)</i></td>
       </tr><tr align="center">
         <td>Improved Familiar: Expanded familiar choices</td>
       </tr><tr align="center">
@@ -232,6 +235,8 @@ var attributes = {
         <td><i>Strength Attack Adjustment: -1</i></td>
       </tr><tr align="center">
         <td><i>Strength Damage Adjustment: -1</i></td>
+      </tr><tr align="center">
+        <td><i>Weapon Focus (Flail): +1 Flail Attack Modifier</i></td>
       </tr><tr align="center">
         <td>Point-Blank Shot: +1 ranged attack and damage w/in 30'</td>
       </tr><tr align="center">
@@ -446,6 +451,8 @@ var attributes = {
     </tr><tr align="center">
       <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment</td>
     </tr><tr align="center">
+      <td>Empowered Evil: +1 caster level on Evil spells</td>
+    </tr><tr align="center">
       <td>Maximize Spell: Maximize all chosen spell variable effects uses +3 spell slot</td>
     </tr><tr align="center">
       <td>School Opposition (Illusion): Cannot learn or cast Illusion spells</td>
@@ -481,12 +488,6 @@ var attributes = {
         <td>Share Spells: Master share self spell w/companion w/in 5'</td>
       </tr></table>
 </td>
-    </tr></table>
-</td>
-  </tr><tr align="center">
-    <td>    <table id="ValidationPart" width="100%">
-    <tr align="center">
-      <td><b>Validation Notes</b>: Selectable Feature Allocation: 5 available vs. 3 allocated</td>
     </tr></table>
 </td>
   </tr></table>

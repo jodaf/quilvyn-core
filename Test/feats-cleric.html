@@ -7,11 +7,12 @@
   <script>
 var attributes = {
   "_path":"ztest/srd35/feats/cleric", 
-  "alignment":"Neutral Good", "armor":"Leather", "charisma":13, "constitution":13, "deity":"None", 
+  "alignment":"Neutral Good", "armor":"Leather", "charisma":13, "constitution":13, "deity":"Moradin", 
   "dexterity":11, "experience":155, "feats.Extra Turning":1, "feats.Improved Turning":1, 
   "gender":"Male", "hitPoints":8, "intelligence":10, "languages.Infernal":1, "levels.Cleric":1, 
-  "name":"Feats-Cleric", "race":"Human", "shield":"None", "skills.Balance":4, 
-  "skills.Craft (Armor)":2, "skills.Heal":2, "skills.Perform (Dance)":2, "skills.Swim":2, 
+  "name":"Feats-Cleric", "race":"Human", "selectableFeatures.Cleric - Earth Domain":1, 
+  "selectableFeatures.Cleric - Good Domain":1, "shield":"None", "skills.Balance":4, "skills.Craft (Armor)":2, 
+  "skills.Heal":2, "skills.Perform (Dance)":2, "skills.Swim":2, 
   "spells.Cure Minor Wounds(C0 Conj)":1, "spells.Detect Magic(C0 Divi)":1, "spells.Hide From Undead(C1 Abju)":1, 
   "spells.Purify Food And Drink(C0 Tran)":1, "strength":14, "weapons.Light Mace":1, "weapons.Quarterstaff":1, 
   "weapons.Unarmed":1, "wisdom":14
@@ -43,7 +44,7 @@ var attributes = {
     <td>    <table id="Description" width="100%">
     <tr align="center">
       <td><b>Alignment</b>: Neutral Good</td>
-      <td><b>Deity</b>: None</td>
+      <td><b>Deity</b>: Moradin (LG)</td>
     </tr></table>
 </td>
   </tr><tr align="center">
@@ -73,7 +74,7 @@ var attributes = {
       <tr align="center">
         <td><b>Feats</b>: Extra Turning; Improved Turning</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; Weapon Proficiency (Simple)</td>
+        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Earth Domain; Earth Turning; Empowered Good; Good Domain; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; Weapon Proficiency (Simple)</td>
       </tr></table>
 </td>
     </tr><tr align="center">
@@ -154,6 +155,8 @@ var attributes = {
       </tr><tr align="center">
         <td><i>Two-Handed Wield Damage Adjustment: +1</i></td>
       </tr><tr align="center">
+        <td>Earth Turning: Turn Air, rebuke Earth</td>
+      </tr><tr align="center">
         <td>Turn Undead: Turn (good) or rebuke (evil) 2d6+3 HD of undead creatures of up to (d20+-3)/3 HD 8/dy</td>
       </tr></table>
 </td>
@@ -203,17 +206,9 @@ var attributes = {
     </tr><tr align="center">
       <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment</td>
     </tr><tr align="center">
+      <td>Empowered Good: +1 caster level on Good spells</td>
+    </tr><tr align="center">
       <td>Spontaneous Cleric Spell: Cast <i>Cure</i> or <i>Inflict</i> in place of known spell</td>
-    </tr></table>
-</td>
-  </tr></table>
-</td>
-</tr><tr align="center">
-  <td><b>Notes</b><br/>  <table id="Notes Area" width="100%">
-  <tr align="center">
-    <td>    <table id="ValidationPart" width="100%">
-    <tr align="center">
-      <td><b>Validation Notes</b>: Selectable Feature Allocation: 2 available vs. 0 allocated</td>
     </tr></table>
 </td>
   </tr></table>

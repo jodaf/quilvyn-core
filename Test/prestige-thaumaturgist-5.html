@@ -7,12 +7,13 @@
   <script>
 var attributes = {
   "_path":"ztest/srd35/prestige/thaumaturgist 5", 
-  "alignment":"Neutral Good", "armor":"Leather", "charisma":13, "constitution":11, "deity":"None", 
+  "alignment":"Neutral Good", "armor":"Leather", "charisma":13, "constitution":11, "deity":"Pelor", 
   "dexterity":15, "experience":68146, "feats.Athletic":1, "feats.Improved Grapple":1, 
   "feats.Improved Unarmed Strike":1, "feats.Skill Focus (Disable Device)":1, "feats.Spell Focus (Conjuration)":1, 
   "feats.Still Spell":1, "gender":"Female", "hitPoints":51, "intelligence":14, 
   "languages.Celestial":1, "languages.Halfling":1, "languages.Undercommon":1, "levels.Cleric":7, 
-  "name":"Prestige-Thaumaturgist 5", "prestige.Thaumaturgist":5, "race":"Human", "shield":"Buckler", 
+  "name":"Prestige-Thaumaturgist 5", "prestige.Thaumaturgist":5, "race":"Human", 
+  "selectableFeatures.Cleric - Good Domain":1, "selectableFeatures.Cleric - Sun Domain":1, "shield":"Buckler", 
   "skills.Concentration":7, "skills.Craft (Bows)":7, "skills.Diplomacy":1, "skills.Disable Device":7, 
   "skills.Escape Artist":15, "skills.Knowledge (History)":7, "skills.Perform (String)":7, 
   "skills.Sense Motive":15, "skills.Spellcraft":14, "skills.Swim":1, "spells.Align Weapon(C2 Tran)":1, 
@@ -55,7 +56,7 @@ var attributes = {
     <td>    <table id="Description" width="100%">
     <tr align="center">
       <td><b>Alignment</b>: Neutral Good</td>
-      <td><b>Deity</b>: None</td>
+      <td><b>Deity</b>: Pelor (NG)</td>
     </tr></table>
 </td>
   </tr><tr align="center">
@@ -86,7 +87,7 @@ var attributes = {
         <td><b>Feats</b>: Athletic; Improved Grapple; Improved Unarmed Strike; Skill Focus (Disable Device); Spell Focus (Conjuration); Still Spell</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
         <td><b>Thaumaturgist Features</b>: Augment Summoning; Caster Level Bonus; Contingent Conjuration; Extended Summoning; Improved Ally; Planar Cohort</td>
-        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; Weapon Proficiency (Simple)</td>
+        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Destroy Undead; Empowered Good; Good Domain; Shield Proficiency; Spontaneous Cleric Spell; Sun Domain; Turn Undead; Weapon Proficiency (Simple)</td>
       </tr></table>
 </td>
     </tr><tr align="center">
@@ -201,6 +202,8 @@ var attributes = {
       </tr><tr align="center">
         <td><i>Two-handed Weapon With Buckler Penalty: -1 attack and AC</i></td>
       </tr><tr align="center">
+        <td>Destroy Undead: Destroy turned undead 1/dy</td>
+      </tr><tr align="center">
         <td>Improved Grapple: No AOO on Grapple, +4 Grapple</td>
       </tr><tr align="center">
         <td>Improved Unarmed Strike: No AOO on Unarmed attack, may deal lethal damage</td>
@@ -310,6 +313,8 @@ var attributes = {
     </tr><tr align="center">
       <td>Contingent Conjuration: <i>Contingency</i> on summoning spell</td>
     </tr><tr align="center">
+      <td>Empowered Good: +1 caster level on Good spells</td>
+    </tr><tr align="center">
       <td>Extended Summoning: x2 summoning spell duration</td>
     </tr><tr align="center">
       <td>Planar Cohort: Summoned creature serves as loyal assistant</td>
@@ -317,16 +322,6 @@ var attributes = {
       <td>Spontaneous Cleric Spell: Cast <i>Cure</i> or <i>Inflict</i> in place of known spell</td>
     </tr><tr align="center">
       <td>Still Spell: Cast spell w/out movement uses +1 spell slot</td>
-    </tr></table>
-</td>
-  </tr></table>
-</td>
-</tr><tr align="center">
-  <td><b>Notes</b><br/>  <table id="Notes Area" width="100%">
-  <tr align="center">
-    <td>    <table id="ValidationPart" width="100%">
-    <tr align="center">
-      <td><b>Validation Notes</b>: Selectable Feature Allocation: 2 available vs. 0 allocated</td>
     </tr></table>
 </td>
   </tr></table>
