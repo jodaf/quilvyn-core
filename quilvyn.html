@@ -332,7 +332,7 @@ for(var rs in RULESETS) {
       '<table>\n'
     );
   }
-  var options = selectedRuleSets.indexOf(rs) > 0 ? ' checked=true' : '';
+  var options = selectedRuleSets.includes(rs) ? ' checked=true' : '';
   document.write('<tr><td><input name="plugin' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>\n');
 }
 document.write(
