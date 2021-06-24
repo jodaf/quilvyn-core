@@ -104,7 +104,7 @@ const RULESETS = {
   },
   'PHB5E':{
     url:QUILVYN_HOME + 'plugins/PHB5E.js',
-    require:['SRD5E']
+    modify:'SRD5E'
   },
   'Pathfinder2E':{
     url:QUILVYN_HOME + 'plugins/Pathfinder2E.js',
@@ -281,6 +281,12 @@ function LoadPlugins() {
         scriptUrls[RULESETS[rs].url] = '';
       }
       require = require.concat(RULESETS[rs].require || []);
+      if(RULESETS[rs].modify &&
+         !document.forms[0]['plugin' + RULESETS[rs].modify].checked) {
+        selectedRuleSets.pop();
+        selectedRuleSets.push(RULESETS[rs].modify, rs);
+        require.push(RULESETS[rs].modify);
+      }
     }
   }
   if(selectedRuleSets.length == 0)
@@ -332,7 +338,7 @@ for(var rs in RULESETS) {
       '<table>\n'
     );
   }
-  var options = selectedRuleSets.includes(rs) ? ' checked=true' : '';
+  var options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked=true' : '');
   document.write('<tr><td><input name="plugin' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>\n');
 }
 document.write(
