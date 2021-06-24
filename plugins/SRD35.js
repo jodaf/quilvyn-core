@@ -7496,9 +7496,9 @@ SRD35.weaponRules = function(
   );
   rules.defineRule(prefix + 'AttackModifier',
     'weapons.' + name, '?', null,
-    'combatNotes.nonproficientArmorPenalty', '+=', null,
-    'combatNotes.nonproficientShieldPenalty', '+=', null,
-    'combatNotes.nonproficientWeaponPenalty.' + name, '+=', null
+    'combatNotes.nonproficientArmorPenalty', '+', null,
+    'combatNotes.nonproficientShieldPenalty', '+', null,
+    'combatNotes.nonproficientWeaponPenalty.' + name, '+', null
   );
   rules.defineRule('weaponProficiencyLevelShortfall.' + name,
     'weapons.' + name, '=', profLevel,
