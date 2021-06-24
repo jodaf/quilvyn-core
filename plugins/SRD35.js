@@ -625,7 +625,7 @@ SRD35.FEATURES = {
   'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
   'Deadly Touch':
     'Section=magic ' +
-    'Note="Touch kills if target HP le %{deathDomainLevel}d6 1/dy"',
+    'Note="Touch kills target w/up to %{deathDomainLevel}d6 HP 1/dy"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
   'Deceptive Knowledge':
     'Section=skill ' +
@@ -1857,7 +1857,7 @@ SRD35.SPELLS = {
   'Cause Fear':
     'School=Necromancy ' +
     'Level=Adept1,B1,Blackguard1,C1,Death1,W1 ' +
-    'Description="R$RS\' Target le 5 HD flee for 1d4 rd (Will shaken 1 rd)"',
+    'Description="R$RS\' Target w/up to 5 HD flee for 1d4 rd (Will shaken 1 rd)"',
   'Chain Lightning':
     'School=Evocation ' +
     'Level=Air6,W6 ' +
@@ -1897,7 +1897,7 @@ SRD35.SPELLS = {
   'Circle Of Death':
     'School=Necromancy ' +
     'Level=W6 ' +
-    'Description="R$RM\' ${Lmin20}d4 HD of creatures le 8 HD in 40\' die (Fort neg)"',
+    'Description="R$RM\' ${Lmin20}d4 HD of creatures w/up to 8 HD in 40\' die (Fort neg)"',
   'Clairaudience/Clairvoyance':
     'School=Divination ' +
     'Level=Assassin4,B3,Knowledge3,W3 ' +
@@ -2094,11 +2094,11 @@ SRD35.SPELLS = {
   'Daze':
     'School=Enchantment ' +
     'Level=B0,W0 ' +
-    'Description="R$RS\' Humanoid target le 4 HD lose next action (Will neg)"',
+    'Description="R$RS\' Humanoid target w/up to 4 HD lose next action (Will neg)"',
   'Daze Monster':
     'School=Enchantment ' +
     'Level=B2,W2 ' +
-    'Description="R$RM\' Creature target le 6 HD lose next action (Will neg)"',
+    'Description="R$RM\' Creature target w/up to 6 HD lose next action (Will neg)"',
   'Death Knell':
     'School=Necromancy ' +
     'Level=Blackguard2,C2,Death2 ' +
@@ -2126,7 +2126,7 @@ SRD35.SPELLS = {
   'Delayed Blast Fireball':
     'School=Evocation ' +
     'Level=W7 ' +
-    'Description="R$RL\' ${Lmin20}d6 HP (Ref half) in 20\' radius, delay le 5 rd"',
+    'Description="R$RL\' ${Lmin20}d6 HP (Ref half) in 20\' radius, delay up to 5 rd"',
   'Demand':
     'School=Enchantment ' +
     'Level=W8 ' +
@@ -2517,7 +2517,7 @@ SRD35.SPELLS = {
   'Lesser Geas':
     'School=Enchantment ' +
     'Level=B3,W4 ' +
-    'Description="R$RS\' Target le 7 HD must complete task (Will neg)"',
+    'Description="R$RS\' Target w/up to 7 HD must complete task (Will neg)"',
   'Gentle Repose':
     'School=Necromancy ' +
     'Level=C2,W3 ' +
@@ -2545,19 +2545,19 @@ SRD35.SPELLS = {
   'Globe Of Invulnerability':
     'School=Abjuration ' +
     'Level=W6 ' +
-    'Description="R10\' Bars spell effects le 4th level for $L rd"',
+    'Description="R10\' Bars spell effects up to 4th level for $L rd"',
   'Lesser Globe Of Invulnerability':
     'School=Abjuration ' +
     'Level=W4 ' +
-    'Description="Bars spell effects le 3rd level in 10\' radius for $L rd"',
+    'Description="Bars spell effects up to 3rd level in 10\' radius for $L rd"',
   'Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C3 ' +
-    'Description="Proscribed creatures passing $L5 sq\' area trigger ${Ldiv2max5plus1}d8 blast (Ref half) or harmful spell le 3rd level"',
+    'Description="Proscribed creatures passing $L5 sq\' area trigger ${Ldiv2max5plus1}d8 blast (Ref half) or harmful spell up to 3rd level"',
   'Greater Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C6 ' +
-    'Description="Proscribed creatures passing $L5 sq\' area trigger ${Ldiv2max10plus1}d8 blast (Ref half) or harmful spell le 6th level"',
+    'Description="Proscribed creatures passing $L5 sq\' area trigger ${Ldiv2max10plus1}d8 blast (Ref half) or harmful spell up to 6th level"',
   'Good Hope':
     'School=Enchantment ' +
     'Level=B3 ' +
@@ -2887,7 +2887,7 @@ SRD35.SPELLS = {
   'Mage Hand':
     'School=Transmutation ' +
     'Level=B0,W0 ' +
-    'Description="R$RS\' Move target le 5 lb 15\'"',
+    'Description="R$RS\' Move target up to 5 lb 15\'"',
   "Mage's Disjunction":
     'School=Abjuration ' +
     'Level=Magic9,W9 ' +
@@ -2899,7 +2899,7 @@ SRD35.SPELLS = {
   "Mage's Lucubration":
     'School=Transmutation ' +
     'Level=W6 ' +
-    'Description="Recalls spell le 5th level from past day"',
+    'Description="Recalls spell up to 5th level from past day"',
   "Mage's Magnificent Mansion":
     'School=Conjuration ' +
     'Level=W7 ' +
@@ -2915,7 +2915,7 @@ SRD35.SPELLS = {
   'Magic Aura':
     'School=Illusion ' +
     'Level=B1,Magic1,W1 ' +
-    'Description="Alters aura of target object le $L5 lb for $L dy"',
+    'Description="Alters aura of target object up to $L5 lb for $L dy"',
   'Magic Circle Against Chaos':
     'School=Abjuration ' +
     'Level=C3,Law3,P3,W3 ' +
@@ -3043,7 +3043,7 @@ SRD35.SPELLS = {
   'Mnemonic Enhancer':
     'School=Transmutation ' +
     'Level=W4 ' +
-    'Description="Know +3 spell levels or retain just-cast spell le 3rd level for 1 dy"',
+    'Description="Know +3 spell levels or retain just-cast spell up to 3rd level for 1 dy"',
   'Modify Memory':
     'School=Enchantment ' +
     'Level=Assassin4,B4 ' +
@@ -3085,7 +3085,7 @@ SRD35.SPELLS = {
   'Open/Close':
     'School=Transmutation ' +
     'Level=B0,W0 ' +
-    'Description="R$RS\' Target le 30 lb opens or closes (Will neg)"',
+    'Description="R$RS\' Target up to 30 lb opens or closes (Will neg)"',
   "Order's Wrath":
     'School=Evocation ' +
     'Level=Law4 ' +
@@ -3142,27 +3142,27 @@ SRD35.SPELLS = {
   'Planar Ally':
     'School=Conjuration ' +
     'Level=C6 ' +
-    'Description="Purchase service from extraplanar creature le 12 HD"',
+    'Description="Purchase service from extraplanar creature w/up to 12 HD"',
   'Greater Planar Ally':
     'School=Conjuration ' +
     'Level=C8 ' +
-    'Description="Purchase service from extraplanar creature le 18 HD"',
+    'Description="Purchase service from extraplanar creature w/up to 18 HD"',
   'Lesser Planar Ally':
     'School=Conjuration ' +
     'Level=C4 ' +
-    'Description="Purchase service from extraplanar creature le 6 HD"',
+    'Description="Purchase service from extraplanar creature w/up to 6 HD"',
   'Planar Binding':
     'School=Conjuration ' +
     'Level=W6 ' +
-    'Description="Extraplanar creature(s) le 12 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
+    'Description="Extraplanar creature(s) w/up to 12 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
   'Greater Planar Binding':
     'School=Conjuration ' +
     'Level=W8 ' +
-    'Description="Extraplanar creature(s) le 18 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
+    'Description="Extraplanar creature(s) w/up to 18 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
   'Lesser Planar Binding':
     'School=Conjuration ' +
     'Level=W5 ' +
-    'Description="Extraplanar creature le 6 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
+    'Description="Extraplanar creature w/up to 6 HD trapped until escape (DC cha+$Ldiv2plus15) or performs a task (Will neg)"',
   'Plane Shift':
     'School=Conjuration ' +
     'Level=C5,W7 ' +
@@ -3194,7 +3194,7 @@ SRD35.SPELLS = {
   'Power Word Kill':
     'School=Enchantment ' +
     'Level=War9,W9 ' +
-    'Description="R$RS\' Kills one creature le 100 HP"',
+    'Description="R$RS\' Kills one creature w/up to 100 HP"',
   'Power Word Stun':
     'School=Enchantment ' +
     'Level=W8,War8 ' +
@@ -3214,7 +3214,7 @@ SRD35.SPELLS = {
   'Prismatic Spray':
     'School=Evocation ' +
     'Level=W7 ' +
-    'Description="R60\' cone Blinds le 8 HD 2d4 rd, other effects"',
+    'Description="R60\' cone Blinds target w/up to 8 HD 2d4 rd, other effects"',
   'Prismatic Wall':
     'School=Abjuration ' +
     'Level=W8 ' +
@@ -3292,7 +3292,7 @@ SRD35.SPELLS = {
   'Raise Dead':
     'School=Conjuration ' +
     'Level=Adept5,C5 ' +
-    'Description="Restores life to touched corpse dead le $L dy"',
+    'Description="Restores life to touched corpse dead up to $L dy"',
   'Ray Of Enfeeblement':
     'School=Necromancy ' +
     'Level=W1 ' +
@@ -3332,11 +3332,11 @@ SRD35.SPELLS = {
   'Reincarnate':
     'School=Transmutation ' +
     'Level=D4 ' +
-    'Description="Restore target dead le 1 week to new body"',
+    'Description="Restore target dead up to 1 week to new body"',
   'Remove Blindness/Deafness':
     'School=Conjuration ' +
     'Level=C3,P3 ' +
-    'Description="Restore target dead le 1 week to new body"',
+    'Description="Restore target dead up to 1 week to new body"',
   'Remove Curse':
     'School=Abjuration ' +
     'Level=Adept3,B3,C3,P3,W4 ' +
@@ -3360,7 +3360,7 @@ SRD35.SPELLS = {
   'Repel Vermin':
     'School=Abjuration ' +
     'Level=B4,C4,D4,R3 ' +
-    'Description="10\' radius bars vermin le $Ldiv3 HD, 2d6 HP to others (Will neg) for $L10 min"',
+    'Description="10\' radius bars vermin w/up to $Ldiv3 HD, 2d6 HP to others (Will neg) for $L10 min"',
   'Repel Wood':
     'School=Transmutation ' +
     'Level=D6,Plant6 ' +
@@ -3421,11 +3421,11 @@ SRD35.SPELLS = {
   'Scare':
     'School=Necromancy ' +
     'Level=B2,W2 ' +
-    'Description="R$RS\' $Ldiv3 targets le 5 HD flee for 1d4 rd (Will shaken 1 rd)"',
+    'Description="R$RS\' $Ldiv3 targets w/up to 5 HD flee for 1d4 rd (Will shaken 1 rd)"',
   'Scintillating Pattern':
     'School=Illusion ' +
     'Level=W8 ' +
-    'Description="R$RS\' $Lmin20 HD creatures in 20\' radius le 6/12/20 HD unconscious 1d4 rd/stunned 1d4 rd/confused 1d4 rd"',
+    'Description="R$RS\' $Lmin20 HD creatures in 20\' radius w/up to 6/12/20 HD unconscious 1d4 rd/stunned 1d4 rd/confused 1d4 rd"',
   'Scorching Ray':
     'School=Evocation ' +
     'Level=Adept2,W2 ' +
@@ -3485,23 +3485,23 @@ SRD35.SPELLS = {
   'Shades':
     'School=Illusion ' +
     'Level=W9 ' +
-    'Description="Mimics conjuration (creation or summoning) le 8th level (Will 80% effect)"',
+    'Description="Mimics conjuration (creation or summoning) spell up to 8th level (Will 80% effect)"',
   'Shadow Conjuration':
     'School=Illusion ' +
     'Level=B4,W4 ' +
-    'Description="Mimics conjuration (creation or summoning) le 3rd level (Will 20% effect)"',
+    'Description="Mimics conjuration (creation or summoning) spell up to 3rd level (Will 20% effect)"',
   'Greater Shadow Conjuration':
     'School=Illusion ' +
     'Level=W7 ' +
-    'Description="Mimics conjuration (creation or summoning) le 6th level (Will 60% effect)"',
+    'Description="Mimics conjuration (creation or summoning) spell up to 6th level (Will 60% effect)"',
   'Shadow Evocation':
     'School=Illusion ' +
     'Level=B5,W5 ' +
-    'Description="Mimics evocation le 4th level (Will 20% effect)"',
+    'Description="Mimics evocation spell up to 4th level (Will 20% effect)"',
   'Greater Shadow Evocation':
     'School=Illusion ' +
     'Level=W8 ' +
-    'Description="Mimics evocation le 7th level (Will 60% effect)"',
+    'Description="Mimics evocation spell up to 7th level (Will 60% effect)"',
   'Shadow Walk':
     'School=Illusion ' +
     'Level=B5,W6 ' +
@@ -3601,7 +3601,7 @@ SRD35.SPELLS = {
   'Soul Bind':
     'School=Necromancy ' +
     'Level=C9,W9 ' +
-    'Description="Imprisons soul dead le $L rd to prevent resurrection (Will neg)"',
+    'Description="Imprisons soul dead up to $L rd to prevent resurrection (Will neg)"',
   'Sound Burst':
     'School=Evocation ' +
     'Level=B2,C2 ' +
@@ -3625,11 +3625,11 @@ SRD35.SPELLS = {
   'Spell Immunity':
     'School=Abjuration ' +
     'Level=C4,Protection4,Strength4 ' +
-    'Description="Touched immune to $Ldiv4 spells le 4th level for $L10 min"',
+    'Description="Touched immune to $Ldiv4 spells up to 4th level for $L10 min"',
   'Greater Spell Immunity':
     'School=Abjuration ' +
     'Level=C8 ' +
-    'Description="Touched immune to $Ldiv4 spells le 8th level for $L10 min"',
+    'Description="Touched immune to $Ldiv4 spells up to 8th level for $L10 min"',
   'Spell Resistance':
     'School=Abjuration ' +
     'Level=C5,Magic5,Protection5 ' +
@@ -3809,7 +3809,7 @@ SRD35.SPELLS = {
   'Symbol Of Sleep':
     'School=Enchantment ' +
     'Level=C5,W5 ' +
-    'Description="R60\' Rune sleeps creatures (Will neg) le 10 HD for 3d6x10 min when triggered for $L10 min"',
+    'Description="R60\' Rune sleeps creatures (Will neg) w/up to 10 HD for 3d6x10 min when triggered for $L10 min"',
   'Symbol Of Stunning':
     'School=Enchantment ' +
     'Level=C7,W7 ' +
@@ -3927,7 +3927,7 @@ SRD35.SPELLS = {
   'Undeath To Death':
     'School=Necromancy ' +
     'Level=C6,W6 ' +
-    'Description="R$RM\' ${Lmin20}d4 HD of creatures le 8 HD w/in 40\' destroyed (Will neg)"',
+    'Description="R$RM\' ${Lmin20}d4 HD of creatures w/up to 8 HD w/in 40\' destroyed (Will neg)"',
   'Undetectable Alignment':
     'School=Abjuration ' +
     'Level=Assassin2,B1,C2,P2 ' +
