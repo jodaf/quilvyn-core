@@ -5666,7 +5666,7 @@ SRD35.classRules = function(
         rules.defineRule(note + '.1',
           note, '?', null,
           spellAbility + 'Modifier', '=',
-            'source>=1 ? ["level 1", "2", "3", "4"].slice(0, source).join(", ") + " spell" : null'
+            'source>=1 ? ["Spell level 1", "2", "3", "4"].slice(0, source).join(", ") : null'
         );
         rules.defineRule('spellSlots.' + spellType + spellLevel,
           note + '.1', '+', 'source.includes("' + spellLevel + '") ? 1 : null'
