@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.16';
+SRD35.VERSION = '2.2.2.17';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -559,7 +559,8 @@ SRD35.FEATS = {
   'Widen Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"'
 };
 SRD35.FEATURES = {
-  'Abundant Step':'Section=magic Note="<i>Dimension Door</i> 1/dy"',
+  'Abundant Step':
+    'Section=magic Note="Teleport self %{levels.Monk//2*40+400}\' 1/dy"',
   'Accurate':'Section=combat Note="+1 attack with slings and thrown"',
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
@@ -673,7 +674,7 @@ SRD35.FEATURES = {
   'Empowered Knowledge':
     'Section=magic Note="+1 caster level on Divination spells"',
   'Empowered Law':'Section=magic Note="+1 caster level on Law spells"',
-  'Empty Body':'Section=magic Note="<i>Etherealness</i> %{levels.Monk} rd/dy"',
+  'Empty Body':'Section=magic Note="Self ethereal %{levels.Monk} rd/dy"',
   'Endurance':'Section=save Note="+4 extended physical action"',
   'Enlarge Spell':
     'Section=magic Note="x2 chosen spell range uses +1 spell slot"',
@@ -1113,8 +1114,10 @@ SRD35.FEATURES = {
   'Secret Knowledge Of Avoidance':'Section=save Note="+2 Reflex"',
   'Secrets Of Inner Strength':'Section=save Note="+2 Will"',
   'Seeker Arrow':'Section=combat Note="Arrow maneuvers to target 1/dy"',
-  'Shadow Illusion':'Section=magic Note="<i>Silent Image</i> 1/dy"',
-  'Shadow Jump':'Section=magic Note="<i>Dimension Door</i> %V\'/dy"',
+  'Shadow Illusion':
+    'Section=magic ' +
+    'Note="R%{levels.Shadowdancer*40+400}\' %{levels.Shadowdancer*10+40}\' cu image (DC %{11+charismaModifier} Will disbelieve) for conc 1/dy"',
+  'Shadow Jump':'Section=magic Note="Teleport between shadows %V\'/dy"',
   'Smite Good':'Section=combat Note="+%V attack/+%1 damage vs. good foe %2/dy"',
   'Spell Power':'Section=magic Note="+1 caster level for spell effects"',
   'Spell-Like Ability':
@@ -2193,7 +2196,7 @@ SRD35.SPELLS = {
     'Description="R40\' Nonlawful creatures with equal/-1/-5/-10 HD deafened 1d4 rd/staggered 2d4 rd/paralyzed 1d10 min/killed and banished (Will neg)"',
   'Dimension Door':
     'School=Conjuration ' +
-    'Level=Assassin4,B4,Monk4,Shadowdancer4,Travel4,W4 ' +
+    'Level=Assassin4,B4,Travel4,W4 ' +
     'Description="Teleport self and touched willing object or creature $RL\'"',
   'Dimensional Anchor':
     'School=Abjuration ' +
@@ -2354,7 +2357,7 @@ SRD35.SPELLS = {
     'Description="Self ethereal for $L rd"',
   'Etherealness':
     'School=Transmutation ' +
-    'Level=C9,Monk9,W9 ' +
+    'Level=C9,W9 ' +
     'Description="Self+$Ldiv3 others ethereal for $L min"',
   'Expeditious Retreat':
     'School=Transmutation ' +
@@ -3560,7 +3563,7 @@ SRD35.SPELLS = {
     'Description="R$RL\' Bars sound in 20\' radius for $L rd"',
   'Silent Image':
     'School=Illusion ' +
-    'Level=B1,Shadowdancer1,W1 ' +
+    'Level=B1,W1 ' +
     'Description="R$RL\' $L10plus40\' cu image (Will disbelieve) for conc"',
   'Simulacrum':
     'School=Illusion ' +
@@ -4259,12 +4262,7 @@ SRD35.CLASSES = {
       '"17:Tongue Of The Sun And Moon","19:Empty Body","20:Perfect Self" ' +
     'Selectables=' +
       '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
-      '"2:Deflect Arrows","6:Improved Disarm","6:Improved Trip" ' +
-    'CasterLevelArcane="levels.Monk < 12 ? null : Math.floor(levels.Monk/2)" ' +
-    'SpellAbility=intelligence ' +
-    'SpellSlots=' +
-      'Monk4:12=1,' +
-      'Monk9:19=1',
+      '"2:Deflect Arrows","6:Improved Disarm","6:Improved Trip"',
   'Paladin':
     'Require="alignment == \'Lawful Good\'" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
@@ -4623,13 +4621,7 @@ SRD35.PRESTIGE_CLASSES = {
       '"1:Hide In Plain Sight",2:Darkvision,2:Evasion,"2:Uncanny Dodge",' +
       '"3:Shadow Illusion","3:Summon Shadow","4:Shadow Jump",' +
       '"5:Defensive Roll","5:Improved Uncanny Dodge","7:Slippery Mind",' +
-      '"10:Improved Evasion" ' +
-    'CasterLevelArcane=level ' +
-    // SRD doesn't specify ability; adopt PRD's use of charisma
-    'SpellAbility=charisma ' +
-    'SpellSlots=' +
-      'Shadowdancer1:3=1,' +
-      'Shadowdancer4:4=1',
+      '"10:Improved Evasion"',
   'Thaumaturgist':
     'Require=' +
       '"features.Spell Focus (Conjuration)",' +
@@ -5664,20 +5656,20 @@ SRD35.classRules = function(
         'casterLevels.' + spellType, '?', null,
         spellAbility + 'Modifier', '=', '10 + source'
       );
-      if(spellLevel > 0 && spellType != 'Domain') {
-        var note = 'magicNotes.' + spellAbility + 'SpellBonus';
-        rules.defineChoice('notes', note + ':%1/%2/%3/%4');
+      if(spellLevel > 0 && spellLevel < 5 && spellType != 'Domain') {
+        var note = 'magicNotes.' + spellAbility + 'SpellSlotBonus';
+        rules.defineChoice('notes', note + ':%1');
         rules.defineRule(note,
           spellAbility + 'Modifier', '?', 'source >= 1',
-          'spellSlots.' + spellType + spellLevel, '=', '1'
+          'spellSlots.' + spellType + '1', '=', '1'
         );
-        rules.defineRule(note + '.' + spellLevel,
+        rules.defineRule(note + '.1',
           note, '?', null,
           spellAbility + 'Modifier', '=',
-            'source>=' + spellLevel + ' ? 1 + Math.floor((source - ' + spellLevel + ') / 4) : 0'
+            'source>=1 ? ["level 1", "2", "3", "4"].slice(0, source).join(", ") + " spell" : null'
         );
         rules.defineRule('spellSlots.' + spellType + spellLevel,
-          'magicNotes.' + spellAbility + 'SpellBonus.' + spellLevel, '+', null
+          note + '.1', '+', 'source.includes("' + spellLevel + '") ? 1 : null'
         );
       }
     }
