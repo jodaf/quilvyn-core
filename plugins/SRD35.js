@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.17';
+SRD35.VERSION = '2.2.2.18';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -4751,16 +4751,12 @@ SRD35.aideRules = function(rules, companions, familiars) {
   rules.defineRule('animalCompanionStats.Dex',
     'companionMasterLevel', '+', 'Math.floor(source / 3)'
   );
-  rules.defineRule('animalCompanionStats.Fort',
-    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_HALF,
-    'animalCompanionStats.Con', '+', 'Math.floor((source - 10) / 2)'
-  );
   rules.defineRule('animalCompanionStats.HD',
     'companionMasterLevel', '+', 'Math.floor(source / 3) * 2'
   );
   rules.defineRule
     ('animalCompanionStats.HP', 'companionHP', '=', 'Math.floor(source)');
-  rules.defineRule('animalCompanionStats.Init',
+  rules.defineRule('animalCompanionStats.Initiative',
     'animalCompanionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
   );
   rules.defineRule
@@ -4777,9 +4773,17 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'companionDamAdj2', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
     'animalCompanionStats.Melee.3', '=', 'source == "" ? "" : null'
   );
-  rules.defineRule('animalCompanionStats.Ref',
+  rules.defineRule('animalCompanionStats.Save Fort',
+    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_HALF,
+    'animalCompanionStats.Con', '+', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('animalCompanionStats.Save Ref',
     'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_HALF,
     'animalCompanionStats.Dex', '+', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('animalCompanionStats.Save Will',
+    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_THIRD,
+    'animalCompanionStats.Wis', '+', 'Math.floor((source - 10) / 2)'
   );
   rules.defineRule('animalCompanionStats.Str',
     'companionMasterLevel', '+', 'Math.floor(source / 3)'
@@ -4787,10 +4791,6 @@ SRD35.aideRules = function(rules, companions, familiars) {
   rules.defineRule('animalCompanionStats.Tricks',
     'animalCompanionStats.Int', '=', 'source * 3',
     'companionMasterLevel', '+=', 'Math.floor((source + 3) / 3)'
-  );
-  rules.defineRule('animalCompanionStats.Will',
-    'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_THIRD,
-    'animalCompanionStats.Wis', '+', 'Math.floor((source - 10) / 2)'
   );
   rules.defineRule('companionACBoosts',
     'companionMasterLevel', '=', 'source / 6',
@@ -4846,11 +4846,6 @@ SRD35.aideRules = function(rules, companions, familiars) {
   rules.defineRule('familiarStats.AC',
     'familiarMasterLevel', '+', 'Math.floor((source + 1) / 2)'
   );
-  rules.defineRule('familiarStats.Fort',
-    'familiarMasterLevel', '?', null,
-    'classFortitudeBonus', '=', 'Math.max(source, 2)',
-    'familiarStats.Con', '+', 'Math.floor((source - 10) / 2)'
-  );
   rules.defineRule('familiarStats.HD',
     'familiarMasterLevel', '?', null,
     'level', '^=', null
@@ -4859,26 +4854,31 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'familiarMasterLevel', '?', null,
     'hitPoints', '=', 'Math.floor(source / 2)'
   );
-  rules.defineRule('familiarStats.Init',
+  rules.defineRule('familiarStats.Initiative',
     'familiarStats.Dex', '=', 'Math.floor((source - 10) / 2)'
   );
   rules.defineRule('familiarStats.Int',
     'familiarMasterLevel', '^', 'Math.floor((source + 11) / 2)'
   );
   rules.defineRule('familiarStats.Melee', 'familiarAttack', '=', null);
-  rules.defineRule('familiarStats.Ref',
+  rules.defineRule('familiarStats.Save Fort',
+    'familiarMasterLevel', '?', null,
+    'classFortitudeBonus', '=', 'Math.max(source, 2)',
+    'familiarStats.Con', '+', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('familiarStats.Save Ref',
     'familiarMasterLevel', '?', null,
     'classReflexBonus', '=', 'Math.max(source, 2)',
     'familiarStats.Dex', '+', 'Math.floor((source - 10) / 2)'
   );
-  rules.defineRule('familiarStats.SR',
-    'familiarFeatures.Companion Spell Resistance', '?', null,
-    'familiarMasterLevel', '=', 'source + 5'
-  );
-  rules.defineRule('familiarStats.Will',
+  rules.defineRule('familiarStats.Save Will',
     'familiarMasterLevel', '?', null,
     'classWillBonus', '=', 'Math.max(source, 0)',
     'familiarStats.Wis', '+', 'Math.floor((source - 10) / 2)'
+  );
+  rules.defineRule('familiarStats.SR',
+    'familiarFeatures.Companion Spell Resistance', '?', null,
+    'familiarMasterLevel', '=', 'source + 5'
   );
   rules.defineRule
     ('features.Celestial Familiar', 'familiarCelestial', '=', '1');
@@ -5836,26 +5836,26 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('animalCompanionStats.AC',
       'levels.Paladin', '+', 'Math.floor((source + 1) / 3) * 2'
     );
-    rules.defineRule('animalCompanionStats.Fort',
-      'companionNotes.shareSavingThrows.1', '+', null
-    );
     rules.defineRule('animalCompanionStats.HD',
       'levels.Paladin', '+', 'Math.floor((source - 2) / 3) * 2'
     );
     rules.defineRule('animalCompanionStats.Int',
       'levels.Paladin', '^', 'Math.floor((source - 2) / 3) + 5'
     );
-    rules.defineRule('animalCompanionStats.Ref',
+    rules.defineRule('animalCompanionStats.Save Fort',
+      'companionNotes.shareSavingThrows.1', '+', null
+    );
+    rules.defineRule('animalCompanionStats.Save Ref',
       'companionNotes.shareSavingThrows.2', '+', null
+    );
+    rules.defineRule('animalCompanionStats.Save Will',
+      'companionNotes.shareSavingThrows.3', '+', null
     );
     rules.defineRule('animalCompanionStats.Str',
       'levels.Paladin', '+', 'Math.floor((source - 2) / 3)'
     );
     rules.defineRule('animalCompanionStats.SR',
       'levels.Paladin', '=', 'source >= 15 ? source + 5 : null'
-    );
-    rules.defineRule('animalCompanionStats.Will',
-      'companionNotes.shareSavingThrows.3', '+', null
     );
     rules.defineRule
       ('companionAttackBoosts', 'levels.Paladin', '=', '(source - 2) / 6');
