@@ -271,9 +271,10 @@ QuilvynRules.featureListRules = function(
   for(var i = 0; i < features.length; i++) {
 
     var pieces = features[i].split(':');
-    var feature = pieces.length == 2 ? pieces[1] : pieces[0];
+    var feature = pieces.length >= 2 ? pieces[1] : pieces[0];
     var featureAttr = prefix + '.' + feature;
-    var level = pieces.length == 2 ? pieces[0] : '1';
+    var level = pieces.length >= 2 ? pieces[0] : '1';
+    var subset = pieces.length >= 3 ? pieces[2] : '';
     var conditions = [];
     var matchInfo;
 
@@ -286,7 +287,7 @@ QuilvynRules.featureListRules = function(
     if(selectable) {
       var choice = setName + ' - ' + feature;
       rules.defineChoice
-        ('selectableFeatures', choice + ':Type="' + setName + '"');
+        ('selectableFeatures', choice + ':Type="' + setName + (subset ? ' (' + subset + ')' : '') + '"');
       rules.defineRule(featureAttr, 'selectableFeatures.' + choice, '=', null);
       conditions.push(levelAttr + ' >= ' + level);
       QuilvynRules.prerequisiteRules
