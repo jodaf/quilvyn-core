@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.18';
+SRD35.VERSION = '2.2.2.19';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -4336,9 +4336,9 @@ SRD35.CLASSES = {
       '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
       '"1:Summon Familiar","1:Scribe Scroll" ' +
     'Selectables=' +
-      '"1:School Specialization (None)",' +
-      QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + x + ')"').join(',') + ',' +
-      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Divination').map(x => '"1:School Opposition (' + x + ')"').join(',') + ' ' +
+      '"1:School Specialization (None):Specialization",' +
+      QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + x + '):Specialization"').join(',') + ',' +
+      QuilvynUtils.getKeys(SRD35.SCHOOLS).filter(x => x != 'Divination').map(x => '"1:School Opposition (' + x + '):Opposition"').join(',') + ' ' +
     'CasterLevelArcane=levels.Wizard ' +
     'SpellAbility=intelligence ' +
     'SpellSlots=' +
@@ -5938,11 +5938,15 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('featCount.Wizard',
       'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
     );
-    rules.defineRule('selectableFeatureCount.Wizard',
-      'levels.Wizard', '=', '3',
-      'wizardFeatures.School Specialization (Divination)', '+', '-1',
-      'wizardFeatures.School Specialization (None)', '+', '-2'
+    rules.defineRule('selectableFeatureCount.Wizard (Specialization)',
+      'levels.Wizard', '=', '1'
     );
+    for(var school in rules.getChoices('schools')) {
+      rules.defineRule('selectableFeatureCount.Wizard (Opposition)',
+        'wizardFeatures.School Specialization (' + school + ')', '=',
+          school == 'Divination' ? '1' : '2'
+      );
+    }
 
   } else if(name == 'Arcane Archer') {
 
