@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.23';
+var VERSION = '2.2.24';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -483,24 +483,70 @@ Quilvyn.customNewCollection = function() {
 };
 
 /* Interacts w/user to delete a character from persistent storage. */
-Quilvyn.deleteCharacter = function() {
-  var paths = [];
-  for(var path in STORAGE) {
-    if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
-      paths.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
-  }
-  paths.sort();
-  var path = editWindow.prompt
-    ('Enter character to delete:\n' + paths.join('\n'), '');
-  if(path == null)
+Quilvyn.deleteCharacter = function(focus) {
+
+  var i;
+  var paths;
+
+  if(focus && Quilvyn.deleteCharacter.win != null) {
+    // Prior delete still pending
+    Quilvyn.deleteCharacter.win.focus();
+    return;
+  } else if(Quilvyn.deleteCharacter.win == null) {
+    // New delete
+    var htmlBits = [
+      '<html><head><title>Delete Characters</title></head>',
+      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h2>Select characters to delete</h2>',
+      '<form name="frm"><table>'];
+    paths = [];
+    for(var path in STORAGE) {
+      if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
+        paths.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
+    }
+    paths.sort();
+    for(i = 0; i < paths.length; i++) {
+      htmlBits.push(
+        '<tr><td>' + InputHtml(paths[i], 'checkbox', null) + '</td><td>' + paths[i] + '</td></tr>'
+      );
+    }
+    htmlBits.push(
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
+      '</form></body></html>'
+    );
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.deleteCharacter.win = editWindow;
+    Quilvyn.deleteCharacter.win.document.write(html);
+    Quilvyn.deleteCharacter.win.document.close();
+    Quilvyn.deleteCharacter.win.canceled = false;
+    Quilvyn.deleteCharacter.win.okay = false;
+    Quilvyn.deleteCharacter.win.focus();
+    setTimeout('Quilvyn.deleteCharacter(false)', TIMEOUT_DELAY);
+    return;
+  } else if(Quilvyn.deleteCharacter.win.canceled) {
     // User cancel
+    Quilvyn.deleteCharacter.win = null;
+    Quilvyn.refreshEditor(true);
     return;
-  if(STORAGE.getItem(PERSISTENT_CHARACTER_PREFIX + path) == null) {
-    editWindow.alert('No such character ' + path);
+  } else if(!Quilvyn.deleteCharacter.win.okay) {
+    // Try again later
+    setTimeout('Quilvyn.deleteCharacter(false)', TIMEOUT_DELAY);
     return;
   }
-  STORAGE.removeItem(PERSISTENT_CHARACTER_PREFIX + path);
-  Quilvyn.refreshEditor(false);
+
+  // Ready to delete
+  var form = Quilvyn.deleteCharacter.win.document.forms[0];
+  for(i = 0; i < form.elements.length; i++) {
+    if(form.elements[i].checked)
+      STORAGE.removeItem(PERSISTENT_CHARACTER_PREFIX + form.elements[i].name);
+  }
+  Quilvyn.deleteCharacter.win = null;
+  Quilvyn.refreshEditor(true);
+
 };
 
 /* Returns HTML for the character editor form. */
@@ -1496,7 +1542,7 @@ Quilvyn.update = function(input) {
     if(value == '---select one---')
       ; /* empty--Safari bug workaround */
     else if(value == 'Delete...')
-      Quilvyn.deleteCharacter();
+      Quilvyn.deleteCharacter(true);
     else if(value == 'Print...')
       sheetWindow.print();
     else if(value == 'Save')
