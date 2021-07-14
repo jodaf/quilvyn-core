@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.19';
+SRD35.VERSION = '2.2.2.20';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
