@@ -50,71 +50,86 @@ var QUILVYN_HOME = '';
 const RULESETS = {
   'D&D First Edition (1E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
+    group:'Old School D&D',
     require:['D&D SRD v3.5']
   },
   'OSRIC - Old School Reference and Index Compilation (1E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
+    group:'Old School D&D',
     require:['D&D SRD v3.5']
   },
   'D&D Second Edition (2E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
+    group:'Old School D&D',
     require:['D&D SRD v3.5']
   },
   'D&D SRD v3.5':{
     url:QUILVYN_HOME + 'plugins/SRD35.js',
+    group:'D&D 3.5',
     autoload:true
   },
   'D&D PHB v3.5':{
     url:QUILVYN_HOME + 'plugins/PHB35.js',
-    autoload:true
+    group:'D&D 3.5',
+    modify:['D&D SRD v3.5']
   },
   'Pathfinder 1E':{
     url:QUILVYN_HOME + 'plugins/Pathfinder.js',
+    group:'D&D 3.5',
     require:['D&D SRD v3.5']
   },
   'Eberron Campaign Setting using D&D SRD v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/Eberron.js',
+    group:'D&D 3.5',
     require:['D&D SRD v3.5']
   },
   'Eberron Campaign Setting using Pathfinder 1E rules':{
     url:QUILVYN_HOME + 'plugins/Eberron.js',
+    group:'D&D 3.5',
     require:['Pathfinder 1E']
   },
   'Midnight Campaign Setting using D&D SRD v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/LastAge.js',
+    group:'D&D 3.5',
     require:['D&D SRD v3.5']
   },
   'Midnight Campaign Setting using Pathfinder 1E rules':{
     url:QUILVYN_HOME + 'plugins/LastAge.js',
+    group:'D&D 3.5',
     require:['Pathfinder 1E']
   },
   'Forgotten Realms Campaign Setting using D&D SRD v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/Realms.js',
+    group:'D&D 3.5',
     require:['D&D SRD v3.5']
   },
   'Forgotten Realms Campaign Setting using Pathfinder 1E rules':{
     url:QUILVYN_HOME + 'plugins/Realms.js',
+    group:'D&D 3.5',
     require:['Pathfinder 1E']
   },
-  'D&D SRD v5 (5E)':{
+  'D&D SRD v5':{
     url:QUILVYN_HOME + 'plugins/SRD5E.js',
+    group:'D&D 5E',
     require:['D&D SRD v3.5']
   },
-  'D&D PHB v5 (5E)':{
+  'D&D PHB v5':{
     url:QUILVYN_HOME + 'plugins/PHB5E.js',
+    group:'D&D 5E',
     modify:'D&D SRD v5 (5E)'
   },
-  'D&D Xanathar (5E)':{
+  "Xanathar's Guide":{
     url:QUILVYN_HOME + 'plugins/Xanathar.js',
+    group:'D&D 5E',
     modify:'D&D SRD v5 (5E)'
   },
   'Pathfinder 2E':{
     url:QUILVYN_HOME + 'plugins/Pathfinder2E.js',
-    comment:' (in development)'
+    group:'In Development'
   },
   'Savage Worlds SWADE':{
     url:QUILVYN_HOME + 'plugins/SWADE.js',
-    comment:' (in development)'
+    group:'In Development'
   }
 };
 if(window.location.search.indexOf('X5E') >= 0)
@@ -336,6 +351,7 @@ try {
   // empty
 }
 window.waitingForUserToPressOkay = false;
+var currentGroup = '';
 for(var rs in RULESETS) {
   if(!window.waitingForUserToPressOkay) {
     window.waitingForUserToPressOkay = true;
@@ -345,11 +361,17 @@ for(var rs in RULESETS) {
       '<table>\n'
     );
   }
+  var group = RULESETS[rs].group;
+  if(group && group != currentGroup) {
+    document.write('<tr><td>&nbsp;</td><th>' + group + '</th></tr>\n');
+    currentGroup = group;
+  }
   var options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked=true' : '');
   document.write('<tr><td><input name="plugin' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>\n');
 }
 document.write(
   '</table>\n' +
+  '<br/>\n' +
   '<input type="button" value="Ok" autofocus="y" onclick="window.waitingForUserToPressOkay = false;"/>\n' +
   '</form>\n'
 );
