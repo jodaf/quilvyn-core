@@ -8704,13 +8704,6 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    Quilvyn does not track companion feats, skills, and tricks.\n' +
     '  </li><li>\n' +
-    '    Quilvyn has problems dealing with attributes containing an\n' +
-    '    uncapitalized word.  This is why, e.g., Quilvyn defines the skills\n' +
-    '    "Sleight Of Hand" and "Knowledge (Arcana)" instead of "Sleight of\n' +
-    '    Hand" and "Knowledge (arcana)".  There are other occasions when\n' +
-    '    Quilvyn is picky about case; when defining your own attributes,\n' +
-    "    it's safest to follow the conventions Quilvyn uses.\n" +
-    '  </li><li>\n' +
     '    To satisfy the Arcane Trickster Sneak Attack >= 2d6 prerequisite,\n' +
     '    Quilvyn requires that an Arcane Trickster have at least 3 Rogue\n' +
     "    levels. This doesn't account for other prestige classes (e.g.,\n" +
