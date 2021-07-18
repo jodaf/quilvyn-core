@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.2.2.20';
+SRD35.VERSION = '2.2.2.21';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -4677,7 +4677,6 @@ SRD35.abilityRules = function(rules) {
   for(var ability in SRD35.ABILITIES) {
     ability = ability.toLowerCase();
     rules.defineChoice('notes', ability + ':%V (%1)');
-    rules.defineRule(ability, ability + 'Adjust', '+', null);
     rules.defineRule
       (ability + 'Modifier', ability, '=', 'Math.floor((source - 10) / 2)');
     rules.defineRule(ability + '.1', ability + 'Modifier', '=', null);
@@ -7939,18 +7938,12 @@ SRD35.initialEditorElements = function() {
   var editorElements = [
     ['name', 'Name', 'text', [20]],
     ['imageUrl', 'Image URL', 'text', [20]],
-    ['strength', 'Strength/Adjust', 'select-one', abilityChoices],
-    ['strengthAdjust', '', 'text', [3]],
-    ['dexterity', 'Dexterity/Adjust', 'select-one', abilityChoices],
-    ['dexterityAdjust', '', 'text', [3]],
-    ['constitution', 'Constitution/Adjust', 'select-one', abilityChoices],
-    ['constitutionAdjust', '', 'text', [3]],
-    ['intelligence', 'Intelligence/Adjust', 'select-one', abilityChoices],
-    ['intelligenceAdjust', '', 'text', [3]],
-    ['wisdom', 'Wisdom/Adjust', 'select-one', abilityChoices],
-    ['wisdomAdjust', '', 'text', [3]],
-    ['charisma', 'Charisma/Adjust', 'select-one', abilityChoices],
-    ['charismaAdjust', '', 'text', [3]],
+    ['strength', 'Strength', 'select-one', abilityChoices],
+    ['dexterity', 'Dexterity', 'select-one', abilityChoices],
+    ['constitution', 'Constitution', 'select-one', abilityChoices],
+    ['intelligence', 'Intelligence', 'select-one', abilityChoices],
+    ['wisdom', 'Wisdom', 'select-one', abilityChoices],
+    ['charisma', 'Charisma', 'select-one', abilityChoices],
     ['gender', 'Gender', 'text', [10]],
     ['race', 'Race', 'select-one', 'races'],
     ['levels', 'Class Levels', 'bag', 'levels'],
