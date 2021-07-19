@@ -1302,12 +1302,10 @@ Quilvyn.refreshStatus = function(showDetail) {
   statusWindow.document.write(htmlBits.join('\n') + '\n');
   statusWindow.document.close();
 
-  if(!showDetail)
-    return;
-
   if(Quilvyn.refreshStatus.win == null || Quilvyn.refreshStatus.win.closed) {
-    Quilvyn.refreshStatus.win =
-      window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    if(!showDetail)
+      return;
+    Quilvyn.refreshStatus.win = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
   }
 
   errors = [];
@@ -1363,7 +1361,8 @@ Quilvyn.refreshStatus = function(showDetail) {
   htmlBits.push('</body></html>');
   Quilvyn.refreshStatus.win.document.write(htmlBits.join('\n'));
   Quilvyn.refreshStatus.win.document.close();
-  Quilvyn.refreshStatus.win.focus();
+  if(showDetail)
+    Quilvyn.refreshStatus.win.focus();
 
 };
 
