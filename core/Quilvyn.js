@@ -1138,7 +1138,7 @@ Quilvyn.refreshEditor = function(redraw) {
     editWindow.document.close();
     var updateListener = function() {Quilvyn.update(this);};
     var nextCharacterListener = function(e) {
-      if(event.code == 'KeyN' || event.code == 'KeyP') {
+      if((event.code == 'KeyN' || event.code == 'KeyP') && event.altKey) {
         var paths = InputGetParams(editWindow.editor.character);
         var idx = paths.indexOf(characterPath);
         if(idx < 0 ||
@@ -1395,7 +1395,6 @@ Quilvyn.saveCharacter = function(path) {
   STORAGE.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
   characterPath = path;
   characterCache[characterPath] = QuilvynUtils.clone(character);
-  Quilvyn.refreshEditor(false);
 };
 
 // Selects all spells that match the character's spell filter
@@ -1708,11 +1707,13 @@ Quilvyn.update = function(input) {
       Quilvyn.deleteCharacter(true);
     else if(value == 'Print...')
       sheetWindow.print();
-    else if(value == 'Save')
+    else if(value == 'Save') {
       Quilvyn.saveCharacter(characterPath);
-    else if(value == 'Save As...')
+      Quilvyn.refreshStatus(false);
+    } else if(value == 'Save As...') {
       Quilvyn.saveCharacter('');
-    else if(value == 'Errors/Warnings')
+      Quilvyn.refreshStatus(false);
+    } else if(value == 'Errors/Warnings')
       Quilvyn.refreshStatus(true);
     else if(value == 'Export')
       Quilvyn.exportCharacters();
