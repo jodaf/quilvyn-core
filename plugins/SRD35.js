@@ -857,7 +857,7 @@ SRD35.FEATURES = {
   'Quivering Palm':
     'Section=combat ' +
     'Note="Struck foe dies 1/wk (DC %{10+levels.Monk//2+wisdomModifier} Fort neg)"',
-  'Rage':'Section=combat Note="+4 Str, +4 Con, +2 Will, -2 AC %V rd %1/dy"',
+  'Rage':'Section=combat Note="+4 Str, +4 Con, +2 Will, -2 AC for %V rd %1/dy"',
   'Rapid Reload (Hand)':
     'Section=combat Note="Reload Hand Crossbow as free action"',
   'Rapid Reload (Heavy)':
