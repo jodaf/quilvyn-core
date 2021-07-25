@@ -1188,7 +1188,7 @@ Quilvyn.refreshEditor = function(redraw) {
   characterOpts = characterOpts.sort();
   characterOpts.unshift(
     '---choose one---', 'New', 'Random...', 'Save', 'Save As...', 'Print...',
-    'Errors/Warnings', 'Delete...', 'HTML', 'Import...', 'Export', 'Summary'
+    'Delete...', 'HTML', 'Import...', 'Export', 'Summary'
   );
   var customOpts = QuilvynUtils.getKeys(customCollections).sort();
   customOpts.unshift(
@@ -1296,11 +1296,14 @@ Quilvyn.refreshStatus = function(showDetail) {
     '  <td style="text-align:left">' + (characterUndo.length == 0 ? 'No changes' : 'Changed') + '</td>',
     '  <td style="text-align:center">' + errors + ' Errors</td>',
     '  <td style="text-align:right">' + warnings + ' Warnings</td>',
+    '  <td style="text-align:right"><button title="Details" name="details">...</button></td>',
     '</tr></table></body>',
     '</html>'
   ];
   statusWindow.document.write(htmlBits.join('\n') + '\n');
   statusWindow.document.close();
+  statusWindow.document.getElementsByName("details")[0].onclick =
+    function() {Quilvyn.refreshStatus(true);};
 
   if(Quilvyn.refreshStatus.win == null || Quilvyn.refreshStatus.win.closed) {
     if(!showDetail)
@@ -1713,9 +1716,7 @@ Quilvyn.update = function(input) {
     } else if(value == 'Save As...') {
       Quilvyn.saveCharacter('');
       Quilvyn.refreshStatus(false);
-    } else if(value == 'Errors/Warnings')
-      Quilvyn.refreshStatus(true);
-    else if(value == 'Export')
+    } else if(value == 'Export')
       Quilvyn.exportCharacters();
     else if(value == 'Summary')
       Quilvyn.summarizeCachedAttrs();
