@@ -98,6 +98,50 @@ function Quilvyn() {
 
 }
 
+Quilvyn.dialogPrompt = function(title, label, defaultValue, callback) {
+
+  if(Quilvyn.dialogPrompt.win == null) {
+    var htmlBits = [
+      '<html><head><title>' + title + '</title></head>',
+      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h3>' + label + '</h3>',
+      '<form name="frm"><table>',
+      '<tr><td><input name="text" type="text" default="' + defaultValue + '" size="50"/></td></tr>',
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
+      '</form></body></html>'
+    ];
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.dialogPrompt.win = editWindow;
+    Quilvyn.dialogPrompt.win.document.write(html);
+    Quilvyn.dialogPrompt.win.document.close();
+    Quilvyn.dialogPrompt.win.canceled = false;
+    Quilvyn.dialogPrompt.win.okay = false;
+    Quilvyn.dialogPrompt.win.focus();
+    Quilvyn.dialogPrompt.win.callback = callback;
+    setTimeout('Quilvyn.dialogPrompt()', TIMEOUT_DELAY);
+    return;
+  } else if(Quilvyn.dialogPrompt.win.canceled) {
+    // User cancel
+    Quilvyn.dialogPrompt.win = null;
+    Quilvyn.refreshEditor(true);
+    return;
+  } else if(!Quilvyn.dialogPrompt.win.okay) {
+    // Try again later
+    setTimeout('Quilvyn.dialogPrompt()', TIMEOUT_DELAY);
+    return;
+  }
+
+  Quilvyn.dialogPrompt.win.callback
+    (Quilvyn.dialogPrompt.win.document.frm.text.value);
+  Quilvyn.dialogPrompt.win = null;
+  Quilvyn.refreshEditor(true);
+
+};
+
 /* Adds #rs# to Quilvyn's list of supported rule sets. */
 Quilvyn.addRuleSet = function(rs) {
   // Add a rule for handling hidden information
@@ -303,49 +347,147 @@ Quilvyn.customApplyCollection = function() {
 };
 
 /* Removes the current custom collection and all items in it. */
-Quilvyn.customDeleteCollection = function() {
-  var collection = editWindow.prompt
-    ('Enter custom collection to delete:\n' + QuilvynUtils.getKeys(customCollections).sort().join('\n'), '');
-  if(collection == null)
-    return; // User cancel
-  if(!(collection in customCollections)) {
-    editWindow.alert('No such custom collection ' + collection);
+Quilvyn.customDeleteCollection = function(focus) {
+
+  var i;
+
+  if(focus && Quilvyn.customDeleteCollection.win != null) {
+    // Prior delete still pending
+    Quilvyn.customDeleteCollection.win.focus();
+    return;
+  } else if(Quilvyn.customDeleteCollection.win == null) {
+    // New delete
+    var htmlBits = [
+      '<html><head><title>Delete Collection</title></head>',
+      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h2>Select collections to delete</h2>',
+      '<form name="frm"><table>'];
+    var paths = Object.keys(customCollections).sort();
+    for(i = 0; i < paths.length; i++) {
+      htmlBits.push(
+        '<tr><td>' + InputHtml(paths[i], 'checkbox', null) + '</td><td>' + paths[i] + '</td></tr>'
+      );
+    }
+    htmlBits.push(
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
+      '</form></body></html>'
+    );
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.customDeleteCollection.win = editWindow;
+    Quilvyn.customDeleteCollection.win.document.write(html);
+    Quilvyn.customDeleteCollection.win.document.close();
+    Quilvyn.customDeleteCollection.win.canceled = false;
+    Quilvyn.customDeleteCollection.win.okay = false;
+    Quilvyn.customDeleteCollection.win.focus();
+    setTimeout('Quilvyn.customDeleteCollection(false)', TIMEOUT_DELAY);
+    return;
+  } else if(Quilvyn.customDeleteCollection.win.canceled) {
+    // User cancel
+    Quilvyn.customDeleteCollection.win = null;
+    Quilvyn.refreshEditor(true);
+    return;
+  } else if(!Quilvyn.customDeleteCollection.win.okay) {
+    // Try again later
+    setTimeout('Quilvyn.customDeleteCollection(false)', TIMEOUT_DELAY);
     return;
   }
-  var prefix =
-    PERSISTENT_CUSTOM_PREFIX + collection.replaceAll('.', '%2E') + '.';
-  for(var path in STORAGE) {
-    if(path.startsWith(prefix))
-      STORAGE.removeItem(path);
+
+  // Ready to delete
+  var form = Quilvyn.customDeleteCollection.win.document.forms[0];
+  for(i = 0; i < form.elements.length; i++) {
+    if(!form.elements[i].checked)
+      continue;
+    var collection = form.elements[i].name;
+    var prefix =
+      PERSISTENT_CUSTOM_PREFIX + collection.replaceAll('.', '%2E') + '.';
+    for(var path in STORAGE) {
+      if(path.startsWith(prefix))
+        STORAGE.removeItem(path);
+    }
+    if(!(collection in ruleSets))
+      delete customCollections[collection];
+    if(customCollection == collection)
+      customCollection = ruleSet.getName();
   }
-  if(!(collection in ruleSets))
-    delete customCollections[collection];
-  if(customCollection == collection)
-    customCollection = ruleSet.getName();
+
   Quilvyn.refreshEditor(true);
+
 };
 
 /*
  * Interacts with the user to delete a custom item from the current collection.
  */
-Quilvyn.customDeleteItem = function() {
-  var paths = {};
+Quilvyn.customDeleteItem = function(focus) {
+
+  var i;
+  var path;
   var prefix =
     PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
-  for(var path in STORAGE) {
-    if(path.startsWith(prefix) &&
-       path.split('.')[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
-      paths[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
-  }
-  var item = editWindow.prompt
-    ('Enter custom item to delete:\n' + QuilvynUtils.getKeys(paths).sort().join('\n'), '');
-  if(item == null)
-    return; // User cancel
-  if(!(item in paths)) {
-    editWindow.alert('No such custom item ' + item);
+
+  if(focus && Quilvyn.customDeleteItem.win != null) {
+    // Prior delete still pending
+    Quilvyn.customDeleteItem.win.focus();
+    return;
+  } else if(Quilvyn.customDeleteItem.win == null) {
+    // New delete
+    var htmlBits = [
+      '<html><head><title>Delete Custom Items</title></head>',
+      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h2>Select items to delete</h2>',
+      '<form name="frm"><table>'];
+    var paths = {};
+    for(path in STORAGE) {
+      if(path.startsWith(prefix) &&
+         path.split('.')[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
+        paths[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
+    }
+    var keys = Object.keys(paths).sort();
+    for(i = 0; i < keys.length; i++) {
+      htmlBits.push(
+        '<tr><td>' + InputHtml(paths[keys[i]], 'checkbox', null) + '</td><td>' + keys[i] + '</td></tr>'
+      );
+    }
+    htmlBits.push(
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
+      '</form></body></html>'
+    );
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.customDeleteItem.win = editWindow;
+    Quilvyn.customDeleteItem.win.document.write(html);
+    Quilvyn.customDeleteItem.win.document.close();
+    Quilvyn.customDeleteItem.win.canceled = false;
+    Quilvyn.customDeleteItem.win.okay = false;
+    Quilvyn.customDeleteItem.win.focus();
+    setTimeout('Quilvyn.customDeleteItem(false)', TIMEOUT_DELAY);
+    return;
+  } else if(Quilvyn.customDeleteItem.win.canceled) {
+    // User cancel
+    Quilvyn.customDeleteItem.win = null;
+    Quilvyn.refreshEditor(true);
+    return;
+  } else if(!Quilvyn.customDeleteItem.win.okay) {
+    // Try again later
+    setTimeout('Quilvyn.customDeleteItem(false)', TIMEOUT_DELAY);
     return;
   }
-  STORAGE.removeItem(paths[item]);
+
+  // Ready to delete
+  var form = Quilvyn.customDeleteItem.win.document.forms[0];
+  for(i = 0; i < form.elements.length; i++) {
+    if(form.elements[i].checked)
+      STORAGE.removeItem(form.elements[i].name);
+  }
+
+  Quilvyn.refreshEditor(true);
+
 };
 
 /*
@@ -463,21 +605,27 @@ Quilvyn.customImportCollections = function(focus) {
 };
 
 /* Interacts with the user to define a new custom item collection. */
-Quilvyn.customNewCollection = function() {
-  var name = editWindow.prompt('Custom Collection Name?');
-  if(!name)
+Quilvyn.customNewCollection = function(name) {
+
+  if(!name) {
+    Quilvyn.dialogPrompt
+      ("New Collection", 'Enter new collection name', '',
+       Quilvyn.customNewCollection);
     return;
-  customCollection = name;
-  if(name in customCollections)
-    return;
-  customCollections[name] = '';
-  STORAGE.setItem(
-    PERSISTENT_CUSTOM_PREFIX +
-    name.replaceAll('.', '%2E') + '.' +
-    PERSISTENT_CUSTOM_PLACEHOLDER + '.' +
-    name.replaceAll('.', '%2E'), ''
-  );
+  }
+
+  if(!(name in customCollections)) {
+    customCollection = name;
+    customCollections[name] = '';
+    STORAGE.setItem(
+      PERSISTENT_CUSTOM_PREFIX +
+      name.replaceAll('.', '%2E') + '.' +
+      PERSISTENT_CUSTOM_PLACEHOLDER + '.' +
+      name.replaceAll('.', '%2E'), ''
+    );
+  }
   Quilvyn.refreshEditor(true);
+
 };
 
 /* Interacts w/user to delete a character from persistent storage. */
@@ -1404,45 +1552,11 @@ Quilvyn.retrieveCharacterFromStorage = function(path) {
 Quilvyn.saveCharacter = function(path) {
 
   if(!path) {
-    if(Quilvyn.saveCharacter.win == null) {
-      // New save
-      var defaultPath = character['_path'] || character.name || 'Noname';
-      var htmlBits = [
-        '<html><head><title>Save Character</title></head>',
-        '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-        '<img src="' + LOGO_URL + ' "/><br/>',
-        '<h3>Save ' + character.name + ' as</h3>',
-        '<form name="frm"><table>',
-        '<tr><td><input name="path" type="text" size="50" value="' + defaultPath + '"/></td></tr>',
-        '</table></form>',
-        '<form>',
-        '<input type="button" value="Ok" onclick="okay=true;"/>',
-        '<input type="button" value="Cancel" onclick="canceled=true;"/>',
-        '</form></body></html>'
-      ];
-      var html = htmlBits.join('\n') + '\n';
-      Quilvyn.saveCharacter.win = editWindow;
-      Quilvyn.saveCharacter.win.document.write(html);
-      Quilvyn.saveCharacter.win.document.close();
-      Quilvyn.saveCharacter.win.canceled = false;
-      Quilvyn.saveCharacter.win.okay = false;
-      Quilvyn.saveCharacter.win.focus();
-      setTimeout('Quilvyn.saveCharacter(null)', TIMEOUT_DELAY);
-      return;
-    } else if(Quilvyn.saveCharacter.win.canceled) {
-      // User cancel
-      Quilvyn.saveCharacter.win = null;
-      Quilvyn.refreshEditor(true);
-      return;
-    } else if(!Quilvyn.saveCharacter.win.okay) {
-      // Try again later
-      setTimeout('Quilvyn.saveCharacter(null)', TIMEOUT_DELAY);
-      return;
-    } else {
-      // Ready to save
-      path = Quilvyn.saveCharacter.win.document.frm.path.value;
-      Quilvyn.saveCharacter.win = null;
-    }
+    var defaultPath = character['_path'] || character.name || 'Noname';
+    Quilvyn.dialogPrompt
+      ("Save Character", 'Save ' + character.name + ' as', defaultPath,
+       Quilvyn.saveCharacter);
+    return;
   }
 
   character['_path'] = path;
