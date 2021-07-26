@@ -584,7 +584,7 @@ SRD35.FEATURES = {
   'Bardic Knowledge':
     'Section=skill ' +
     'Note="+%V check for knowledge of notable people, items, places"',
-  'Bardic Music':'Section=feature Note="Bardic music effect %{levels.Bard}/dy"',
+  'Bardic Music':'Section=feature Note="Bardic music effect %V/dy"',
   'Blind-Fight':
     'Section=combat ' +
     'Note="Reroll concealed miss, no bonus to invisible foe, half penalty for impaired vision"',
@@ -910,7 +910,7 @@ SRD35.FEATURES = {
           '"+4 Hide/-4 Intimidate"',
   'Smite':
     'Section=combat Note="+4 attack, +%{destructionDomainLevel} damage 1/dy"',
-  'Smite Evil':'Section=combat Note="+%V attack/+%1 damage vs. evil foe %2/dy"',
+  'Smite Evil':'Section=combat Note="+%1 attack/+%2 damage vs. evil foe %V/dy"',
   'Snatch Arrows':'Section=combat Note="Catch ranged weapons"',
   'Sneak Attack':
     'Section=combat Note="Hit +%Vd6 HP when surprising or flanking"',
@@ -5715,6 +5715,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Bard') {
 
+    rules.defineRule('featureNotes.bardicMusic', 'levels.Bard', '=', null);
     rules.defineRule('magicNotes.arcaneSpellFailure',
       'magicNotes.simpleSomatics.1', 'v', '0'
     );
@@ -5812,11 +5813,16 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Paladin') {
 
-    rules.defineRule
-      ('combatNotes.smiteEvil', 'charismaModifier', '=', 'Math.max(source, 0)');
-    rules.defineRule('combatNotes.smiteEvil.1', 'levels.Paladin', '=', null);
+    rules.defineRule('combatNotes.smiteEvil',
+      'levels.Paladin', '+=', '1 + Math.floor(source / 5)'
+    );
+    rules.defineRule('combatNotes.smiteEvil.1',
+      'features.Smite Evil', '?', null,
+      'charismaModifier', '=', 'Math.max(source, 0)'
+    );
     rules.defineRule('combatNotes.smiteEvil.2',
-      'levels.Paladin', '=', '1 + Math.floor(source / 5)'
+      'features.Smite Evil', '?', null,
+      'levels.Paladin', '+=', null
     );
     rules.defineRule('saveNotes.divineGrace', 'charismaModifier', '=', null);
     rules.defineRule('turningLevel',
