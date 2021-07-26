@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.26';
+var VERSION = '2.2.27';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -290,8 +290,6 @@ Quilvyn.customAddItems = function(focus) {
 
 /* Applies the current custom collection to the current rule set. */
 Quilvyn.customApplyCollection = function() {
-  if(!(editWindow.confirm('Apply custom collection ' + customCollection + ' to ' + ruleSet.getName() + ' rules?')))
-    return; // User cancel
   var prefix =
     PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
   for(var path in STORAGE) {
@@ -1404,12 +1402,49 @@ Quilvyn.retrieveCharacterFromStorage = function(path) {
 
 /* Interacts w/user to preserve current character in persistent storage. */
 Quilvyn.saveCharacter = function(path) {
+
   if(!path) {
-    var defaultPath = character['_path'] || character['name'];
-    path = editWindow.prompt('Save ' + character['name'] + ' as', defaultPath);
-    if(!path)
+    if(Quilvyn.saveCharacter.win == null) {
+      // New save
+      var defaultPath = character['_path'] || character.name || 'Noname';
+      var htmlBits = [
+        '<html><head><title>Save Character</title></head>',
+        '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+        '<img src="' + LOGO_URL + ' "/><br/>',
+        '<h3>Save ' + character.name + ' as</h3>',
+        '<form name="frm"><table>',
+        '<tr><td><input name="path" type="text" size="50" value="' + defaultPath + '"/></td></tr>',
+        '</table></form>',
+        '<form>',
+        '<input type="button" value="Ok" onclick="okay=true;"/>',
+        '<input type="button" value="Cancel" onclick="canceled=true;"/>',
+        '</form></body></html>'
+      ];
+      var html = htmlBits.join('\n') + '\n';
+      Quilvyn.saveCharacter.win = editWindow;
+      Quilvyn.saveCharacter.win.document.write(html);
+      Quilvyn.saveCharacter.win.document.close();
+      Quilvyn.saveCharacter.win.canceled = false;
+      Quilvyn.saveCharacter.win.okay = false;
+      Quilvyn.saveCharacter.win.focus();
+      setTimeout('Quilvyn.saveCharacter(null)', TIMEOUT_DELAY);
       return;
+    } else if(Quilvyn.saveCharacter.win.canceled) {
+      // User cancel
+      Quilvyn.saveCharacter.win = null;
+      Quilvyn.refreshEditor(true);
+      return;
+    } else if(!Quilvyn.saveCharacter.win.okay) {
+      // Try again later
+      setTimeout('Quilvyn.saveCharacter(null)', TIMEOUT_DELAY);
+      return;
+    } else {
+      // Ready to save
+      path = Quilvyn.saveCharacter.win.document.frm.path.value;
+      Quilvyn.saveCharacter.win = null;
+    }
   }
+
   character['_path'] = path;
   character['_timestamp'] = Date.now();
   var stringified = '';
@@ -1420,6 +1455,8 @@ Quilvyn.saveCharacter = function(path) {
   characterPath = path;
   characterCache[characterPath] = QuilvynUtils.clone(character);
   characterUndo = [];
+  Quilvyn.refreshEditor(true);
+
 };
 
 // Selects all spells that match the character's spell filter
@@ -1646,8 +1683,6 @@ Quilvyn.undo = function() {
     Quilvyn.refreshSheet();
     Quilvyn.refreshStatus(false);
     editWindow.focus();
-  } else {
-    editWindow.alert("No changes to undo");
   }
 };
 
