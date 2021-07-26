@@ -1279,21 +1279,38 @@ Quilvyn.refreshSheet = function() {
  */
 Quilvyn.refreshStatus = function(showDetail) {
 
+  var a;
   var computed = ruleSet.applyRules(character);
+  var differences = [];
   var errors = 0;
+  var original = characterCache[characterPath];
   var warnings = 0;
-  for(var a in computed) {
+
+  for(a in Object.assign({}, original, character)) {
+    if(original[a] == character[a])
+      continue;
+    var attr = a;
+    if(attr.includes('.')) {
+      attr = attr.split('.');
+      attr = attr[1] + ' ' + attr[0].replace(/s$/, '').replace(/([a-z])([A-Z])/g, '$1 ' + '$2'.toLowerCase());
+    }
+    attr = attr.charAt(0).toUpperCase() + attr.substring(1);
+    differences.push('<li>' + attr + ' changed from ' + (original[a] ? original[a] : '(none)') + ' to ' + (character[a] ? character[a] : '(none)') + '</li>');
+  }
+
+  for(a in computed) {
     if(a.startsWith('validationNotes') && computed[a] && !a.match(/\.\d+$/))
       errors++;
     else if(a.startsWith('sanityNotes') && computed[a] && !a.match(/\.\d+$/))
       warnings++;
   }
+
   var htmlBits = [
     '<html>',
     '<head>',
-    '<title>Quilvyn Status</title>',
+    '<title>Quilvyn Character Status</title>',
     '</head><body><table width="100%"><tr style="font-style:italic">',
-    '  <td style="text-align:left">' + (characterUndo.length == 0 ? 'No changes' : 'Changed') + '</td>',
+    '  <td style="text-align:left">' + differences.length + ' changes' + '</td>',
     '  <td style="text-align:center">' + errors + ' Errors</td>',
     '  <td style="text-align:right">' + warnings + ' Warnings</td>',
     '  <td style="text-align:right"><button title="Details" name="details">...</button></td>',
@@ -1330,8 +1347,8 @@ Quilvyn.refreshStatus = function(showDetail) {
                .replace('/', ' dna ')
                .split('').reverse().join('')
                .replace(/\s*(\|\||\/)\s*/g, ', ')
-               .replaceAll('=~', ' contains ')
-               .replaceAll('!~', ' does not contain ')
+               .replaceAll('=~', ' matches ')
+               .replaceAll('!~', ' does not match ')
                .replace(/\s+,\s*/g, ', ')
                .replace(/\s\s+/g, ' ')
                .replace('%V', computed[a])
@@ -1353,6 +1370,10 @@ Quilvyn.refreshStatus = function(showDetail) {
     }
     (a.startsWith('sanity') ? warnings : errors).push('<li>' + name + ': ' + note + '</li>');
   }
+  htmlBits.push(differences.length + ' Changes');
+  htmlBits.push('<ul>');
+  htmlBits = htmlBits.concat(differences);
+  htmlBits.push('</ul>');
   htmlBits.push(errors.length + ' Errors');
   htmlBits.push('<ul>');
   htmlBits = htmlBits.concat(errors);
@@ -1398,6 +1419,7 @@ Quilvyn.saveCharacter = function(path) {
   STORAGE.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
   characterPath = path;
   characterCache[characterPath] = QuilvynUtils.clone(character);
+  characterUndo = [];
 };
 
 // Selects all spells that match the character's spell filter
