@@ -98,16 +98,90 @@ function Quilvyn() {
 
 }
 
-Quilvyn.dialogPrompt = function(title, label, defaultValue, callback) {
+/*
+ * Interacts with the user to select a subset of available options. #prmpt#
+ * labels the dialog and #choices# is a dictionary of name/value pairs to be
+ * shown to the user for selection. Once the user has made selections, the
+ * subset of #choices# selected by the user is passed as a parameter to
+ * #callback#.
+ */
+Quilvyn.setDialog = function(prmpt, choices, callback) {
 
-  if(Quilvyn.dialogPrompt.win == null) {
+  if(Quilvyn.setDialog.win == null) {
     var htmlBits = [
-      '<html><head><title>' + title + '</title></head>',
+      '<html><head><title>' + prmpt + '</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       '<img src="' + LOGO_URL + ' "/><br/>',
-      '<h3>' + label + '</h3>',
+      '<h3>' + prmpt + '</h3>',
+      '<form name="frm"><table>'];
+    var keys = Object.keys(choices).sort();
+    for(var i = 0; i < keys.length; i++) {
+      var key = keys[i];
+      htmlBits.push(
+        '<tr><td>' + InputHtml(choices[key], 'checkbox', null) + '</td><td>' + key + '</td></tr>'
+      );
+    }
+    htmlBits.push(
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
+      '</form></body></html>'
+    );
+    var html = htmlBits.join('\n') + '\n';
+    Quilvyn.setDialog.win = editWindow;
+    Quilvyn.setDialog.win.document.write(html);
+    Quilvyn.setDialog.win.document.close();
+    Quilvyn.setDialog.win.canceled = false;
+    Quilvyn.setDialog.win.okay = false;
+    Quilvyn.setDialog.win.focus();
+    Quilvyn.setDialog.win.callback = callback;
+    setTimeout('Quilvyn.setDialog()', TIMEOUT_DELAY);
+    return;
+  } else if(Quilvyn.setDialog.win.canceled) {
+    // User cancel
+    Quilvyn.setDialog.win = null;
+    Quilvyn.refreshEditor(true);
+    return;
+  } else if(!Quilvyn.setDialog.win.okay) {
+    // Try again later
+    setTimeout('Quilvyn.setDialog()', TIMEOUT_DELAY);
+    return;
+  }
+
+  var form = Quilvyn.setDialog.win.document.forms[0];
+  choices = {};
+  for(var i = 0; i < form.elements.length; i++) {
+    if(!form.elements[i].checked)
+      continue;
+    choices[form.elements[i].name] = form.elements[i].value;
+  }
+
+  Quilvyn.setDialog.win.callback(choices);
+  Quilvyn.setDialog.win = null;
+  Quilvyn.refreshEditor(true);
+
+};
+
+/*
+ * Interacts with the user to input a single line of text. #prmpt# is used to
+ * label the dialog and #defaultValue# is displayed as the default value for
+ * the text. If true, multiline indicates that a text box should be used for
+ * the prompt rather than a single-line text input. Once the user has entered
+ * text, it is passed as a parameter to #callback#.
+ */
+Quilvyn.textDialog = function(prmpt, multiline, defaultValue, callback) {
+
+  if(Quilvyn.textDialog.win == null) {
+    var htmlBits = [
+      '<html><head><title>' + prmpt + '</title></head>',
+      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h3>' + prmpt + '</h3>',
       '<form name="frm"><table>',
-      '<tr><td><input name="text" type="text" default="' + defaultValue + '" size="50"/></td></tr>',
+      multiline ? 
+        '<tr><td><textarea name="text" rows="20" cols="50">' + defaultValue + '</textarea></td></tr>' :
+        '<tr><td><input name="text" type="text" default="' + defaultValue + '" size="50"/></td></tr>',
       '</table></form>',
       '<form>',
       '<input type="button" value="Ok" onclick="okay=true;"/>',
@@ -115,29 +189,29 @@ Quilvyn.dialogPrompt = function(title, label, defaultValue, callback) {
       '</form></body></html>'
     ];
     var html = htmlBits.join('\n') + '\n';
-    Quilvyn.dialogPrompt.win = editWindow;
-    Quilvyn.dialogPrompt.win.document.write(html);
-    Quilvyn.dialogPrompt.win.document.close();
-    Quilvyn.dialogPrompt.win.canceled = false;
-    Quilvyn.dialogPrompt.win.okay = false;
-    Quilvyn.dialogPrompt.win.focus();
-    Quilvyn.dialogPrompt.win.callback = callback;
-    setTimeout('Quilvyn.dialogPrompt()', TIMEOUT_DELAY);
+    Quilvyn.textDialog.win = editWindow;
+    Quilvyn.textDialog.win.document.write(html);
+    Quilvyn.textDialog.win.document.close();
+    Quilvyn.textDialog.win.canceled = false;
+    Quilvyn.textDialog.win.okay = false;
+    Quilvyn.textDialog.win.focus();
+    Quilvyn.textDialog.win.callback = callback;
+    setTimeout('Quilvyn.textDialog()', TIMEOUT_DELAY);
     return;
-  } else if(Quilvyn.dialogPrompt.win.canceled) {
+  } else if(Quilvyn.textDialog.win.canceled) {
     // User cancel
-    Quilvyn.dialogPrompt.win = null;
+    Quilvyn.textDialog.win = null;
     Quilvyn.refreshEditor(true);
     return;
-  } else if(!Quilvyn.dialogPrompt.win.okay) {
+  } else if(!Quilvyn.textDialog.win.okay) {
     // Try again later
-    setTimeout('Quilvyn.dialogPrompt()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.textDialog()', TIMEOUT_DELAY);
     return;
   }
 
-  Quilvyn.dialogPrompt.win.callback
-    (Quilvyn.dialogPrompt.win.document.frm.text.value);
-  Quilvyn.dialogPrompt.win = null;
+  Quilvyn.textDialog.win.callback
+    (Quilvyn.textDialog.win.document.frm.text.value);
+  Quilvyn.textDialog.win = null;
   Quilvyn.refreshEditor(true);
 
 };
@@ -346,71 +420,29 @@ Quilvyn.customApplyCollection = function() {
   Quilvyn.refreshEditor(true);
 };
 
-/* Removes the current custom collection and all items in it. */
-Quilvyn.customDeleteCollection = function(focus) {
+/*
+ * Interacts with the user to remove one or more custom collections and all
+ * items in them.
+ */
+Quilvyn.customDeleteCollections = function(collections) {
 
-  var i;
-
-  if(focus && Quilvyn.customDeleteCollection.win != null) {
-    // Prior delete still pending
-    Quilvyn.customDeleteCollection.win.focus();
-    return;
-  } else if(Quilvyn.customDeleteCollection.win == null) {
-    // New delete
-    var htmlBits = [
-      '<html><head><title>Delete Collection</title></head>',
-      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
-      '<h2>Select collections to delete</h2>',
-      '<form name="frm"><table>'];
-    var paths = Object.keys(customCollections).sort();
-    for(i = 0; i < paths.length; i++) {
-      htmlBits.push(
-        '<tr><td>' + InputHtml(paths[i], 'checkbox', null) + '</td><td>' + paths[i] + '</td></tr>'
-      );
-    }
-    htmlBits.push(
-      '</table></form>',
-      '<form>',
-      '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
-      '</form></body></html>'
+  if(!collections) {
+    Quilvyn.setDialog(
+      'Select collections to delete', customCollections,
+       Quilvyn.customDeleteCollections
     );
-    var html = htmlBits.join('\n') + '\n';
-    Quilvyn.customDeleteCollection.win = editWindow;
-    Quilvyn.customDeleteCollection.win.document.write(html);
-    Quilvyn.customDeleteCollection.win.document.close();
-    Quilvyn.customDeleteCollection.win.canceled = false;
-    Quilvyn.customDeleteCollection.win.okay = false;
-    Quilvyn.customDeleteCollection.win.focus();
-    setTimeout('Quilvyn.customDeleteCollection(false)', TIMEOUT_DELAY);
-    return;
-  } else if(Quilvyn.customDeleteCollection.win.canceled) {
-    // User cancel
-    Quilvyn.customDeleteCollection.win = null;
-    Quilvyn.refreshEditor(true);
-    return;
-  } else if(!Quilvyn.customDeleteCollection.win.okay) {
-    // Try again later
-    setTimeout('Quilvyn.customDeleteCollection(false)', TIMEOUT_DELAY);
     return;
   }
 
-  // Ready to delete
-  var form = Quilvyn.customDeleteCollection.win.document.forms[0];
-  for(i = 0; i < form.elements.length; i++) {
-    if(!form.elements[i].checked)
-      continue;
-    var collection = form.elements[i].name;
-    var prefix =
-      PERSISTENT_CUSTOM_PREFIX + collection.replaceAll('.', '%2E') + '.';
+  for(var c in collections) {
+    var prefix = PERSISTENT_CUSTOM_PREFIX + c.replaceAll('.', '%2E') + '.';
     for(var path in STORAGE) {
       if(path.startsWith(prefix))
         STORAGE.removeItem(path);
     }
-    if(!(collection in ruleSets))
-      delete customCollections[collection];
-    if(customCollection == collection)
+    if(!(c in ruleSets))
+      delete customCollections[c];
+    if(customCollection == c)
       customCollection = ruleSet.getName();
   }
 
@@ -419,71 +451,29 @@ Quilvyn.customDeleteCollection = function(focus) {
 };
 
 /*
- * Interacts with the user to delete a custom item from the current collection.
+ * Interacts with the user to delete one or more custom items from the current
+ * collection.
  */
-Quilvyn.customDeleteItem = function(focus) {
+Quilvyn.customDeleteItems = function(items) {
 
-  var i;
   var path;
   var prefix =
     PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
 
-  if(focus && Quilvyn.customDeleteItem.win != null) {
-    // Prior delete still pending
-    Quilvyn.customDeleteItem.win.focus();
-    return;
-  } else if(Quilvyn.customDeleteItem.win == null) {
-    // New delete
-    var htmlBits = [
-      '<html><head><title>Delete Custom Items</title></head>',
-      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
-      '<h2>Select items to delete</h2>',
-      '<form name="frm"><table>'];
-    var paths = {};
+  if(!items) {
+    items = {};
     for(path in STORAGE) {
       if(path.startsWith(prefix) &&
          path.split('.')[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
-        paths[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
+        items[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
     }
-    var keys = Object.keys(paths).sort();
-    for(i = 0; i < keys.length; i++) {
-      htmlBits.push(
-        '<tr><td>' + InputHtml(paths[keys[i]], 'checkbox', null) + '</td><td>' + keys[i] + '</td></tr>'
-      );
-    }
-    htmlBits.push(
-      '</table></form>',
-      '<form>',
-      '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
-      '</form></body></html>'
-    );
-    var html = htmlBits.join('\n') + '\n';
-    Quilvyn.customDeleteItem.win = editWindow;
-    Quilvyn.customDeleteItem.win.document.write(html);
-    Quilvyn.customDeleteItem.win.document.close();
-    Quilvyn.customDeleteItem.win.canceled = false;
-    Quilvyn.customDeleteItem.win.okay = false;
-    Quilvyn.customDeleteItem.win.focus();
-    setTimeout('Quilvyn.customDeleteItem(false)', TIMEOUT_DELAY);
-    return;
-  } else if(Quilvyn.customDeleteItem.win.canceled) {
-    // User cancel
-    Quilvyn.customDeleteItem.win = null;
-    Quilvyn.refreshEditor(true);
-    return;
-  } else if(!Quilvyn.customDeleteItem.win.okay) {
-    // Try again later
-    setTimeout('Quilvyn.customDeleteItem(false)', TIMEOUT_DELAY);
+    Quilvyn.setDialog
+      ('Select items to delete', items, Quilvyn.customDeleteItems);
     return;
   }
 
-  // Ready to delete
-  var form = Quilvyn.customDeleteItem.win.document.forms[0];
-  for(i = 0; i < form.elements.length; i++) {
-    if(form.elements[i].checked)
-      STORAGE.removeItem(form.elements[i].name);
+  for(path in items) {
+    STORAGE.removeItem(path);
   }
 
   Quilvyn.refreshEditor(true);
@@ -525,50 +515,17 @@ Quilvyn.customExportCollections = function() {
  * Interacts with the user to import a set of custom items into the current
  * collection.
  */
-Quilvyn.customImportCollections = function(focus) {
+Quilvyn.customImportCollections = function(collections) {
 
-  if(focus && Quilvyn.customImportCollections.win != null) {
-    // Prior import still pending
-    Quilvyn.customImportCollections.win.focus();
-    return;
-  } else if(Quilvyn.customImportCollections.win == null) {
-    // New import
-    var htmlBits = [
-      '<html><head><title>Import Custom Items</title></head>',
-      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
-      '<h2>Enter item definitions from export window</h2>',
-      '<form name="frm"><table>',
-      '<tr><td><textarea name="code" rows="20" cols="50"></textarea></td></tr>',
-      '</table></form>',
-      '<form>',
-      '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
-      '</form></body></html>'
-    ];
-    var html = htmlBits.join('\n') + '\n';
-    Quilvyn.customImportCollections.win = editWindow;
-    Quilvyn.customImportCollections.win.document.write(html);
-    Quilvyn.customImportCollections.win.document.close();
-    Quilvyn.customImportCollections.win.canceled = false;
-    Quilvyn.customImportCollections.win.okay = false;
-    Quilvyn.customImportCollections.win.focus();
-    setTimeout('Quilvyn.customImportCollections(false)', TIMEOUT_DELAY);
-    return;
-  } else if(Quilvyn.customImportCollections.win.canceled) {
-    // User cancel
-    Quilvyn.customImportCollections.win = null;
-    Quilvyn.refreshEditor(true);
-    return;
-  } else if(!Quilvyn.customImportCollections.win.okay) {
-    // Try again later
-    setTimeout('Quilvyn.customImportCollections(false)', TIMEOUT_DELAY);
+  if(!collections) {
+    Quilvyn.textDialog(
+      'Enter item definitions from export', true, '',
+      Quilvyn.customImportCollections
+    );
     return;
   }
 
-  // Ready to import
-  var imported = [];
-  var lines = Quilvyn.customImportCollections.win.document.frm.elements[0].value.split('\n');
+  var lines = collections.split('\n');
 
   for(var i = 0; i < lines.length; i++) {
     var line = lines[i];
@@ -578,7 +535,8 @@ Quilvyn.customImportCollections = function(focus) {
     var name = QuilvynUtils.getAttrValue(line, '_name');
     var type = QuilvynUtils.getAttrValue(line, '_type');
     if(!collection || !name || !type) {
-      editWindow.alert('Bad format for item "' + line + '"');
+      // TODO
+      console.log('Bad format for item "' + line + '"');
       continue;
     }
     line = line.replace
@@ -595,12 +553,9 @@ Quilvyn.customImportCollections = function(focus) {
     customCollections[collection] = '';
     if(collection in ruleSets)
       ruleSets[collection].choiceRules(ruleSets[collection], type, name, line);
-    imported.push('Imported ' + type + ' ' + name + ' into ' + collection);
   }
 
-  Quilvyn.customImportCollections.win = null;
   Quilvyn.refreshEditor(true);
-  editWindow.alert(imported.join('\n'));
 
 };
 
@@ -608,9 +563,8 @@ Quilvyn.customImportCollections = function(focus) {
 Quilvyn.customNewCollection = function(name) {
 
   if(!name) {
-    Quilvyn.dialogPrompt
-      ("New Collection", 'Enter new collection name', '',
-       Quilvyn.customNewCollection);
+    Quilvyn.textDialog
+      ('Enter new collection name', false ,'', Quilvyn.customNewCollection);
     return;
   }
 
@@ -628,69 +582,25 @@ Quilvyn.customNewCollection = function(name) {
 
 };
 
-/* Interacts w/user to delete a character from persistent storage. */
-Quilvyn.deleteCharacter = function(focus) {
+/* Interacts with the user to delete characters from persistent storage. */
+Quilvyn.deleteCharacters = function(characters) {
 
-  var i;
-  var paths;
+  var path;
 
-  if(focus && Quilvyn.deleteCharacter.win != null) {
-    // Prior delete still pending
-    Quilvyn.deleteCharacter.win.focus();
-    return;
-  } else if(Quilvyn.deleteCharacter.win == null) {
-    // New delete
-    var htmlBits = [
-      '<html><head><title>Delete Characters</title></head>',
-      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
-      '<h2>Select characters to delete</h2>',
-      '<form name="frm"><table>'];
-    paths = [];
+  if(!characters) {
+    characters = {};
     for(var path in STORAGE) {
       if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
-        paths.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
+        characters[path.substring(PERSISTENT_CHARACTER_PREFIX.length)] = path;
     }
-    paths.sort();
-    for(i = 0; i < paths.length; i++) {
-      htmlBits.push(
-        '<tr><td>' + InputHtml(paths[i], 'checkbox', null) + '</td><td>' + paths[i] + '</td></tr>'
-      );
-    }
-    htmlBits.push(
-      '</table></form>',
-      '<form>',
-      '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
-      '</form></body></html>'
-    );
-    var html = htmlBits.join('\n') + '\n';
-    Quilvyn.deleteCharacter.win = editWindow;
-    Quilvyn.deleteCharacter.win.document.write(html);
-    Quilvyn.deleteCharacter.win.document.close();
-    Quilvyn.deleteCharacter.win.canceled = false;
-    Quilvyn.deleteCharacter.win.okay = false;
-    Quilvyn.deleteCharacter.win.focus();
-    setTimeout('Quilvyn.deleteCharacter(false)', TIMEOUT_DELAY);
-    return;
-  } else if(Quilvyn.deleteCharacter.win.canceled) {
-    // User cancel
-    Quilvyn.deleteCharacter.win = null;
-    Quilvyn.refreshEditor(true);
-    return;
-  } else if(!Quilvyn.deleteCharacter.win.okay) {
-    // Try again later
-    setTimeout('Quilvyn.deleteCharacter(false)', TIMEOUT_DELAY);
+    Quilvyn.setDialog
+      ('Select characters to delete', characters, Quilvyn.deleteCharacters);
     return;
   }
 
-  // Ready to delete
-  var form = Quilvyn.deleteCharacter.win.document.forms[0];
-  for(i = 0; i < form.elements.length; i++) {
-    if(form.elements[i].checked)
-      STORAGE.removeItem(PERSISTENT_CHARACTER_PREFIX + form.elements[i].name);
+  for(var path in characters) {
+    STORAGE.removeItem(path);
   }
-  Quilvyn.deleteCharacter.win = null;
   Quilvyn.refreshEditor(true);
 
 };
@@ -705,8 +615,8 @@ Quilvyn.editorHtml = function() {
     ['rulesNotes', '', 'button', ['Notes']],
     ['ruleRules', '', 'button', ['Rules']],
     ['custom', 'Custom Items', 'select-one', [
-      'New Collection...', 'Delete Collection...', 'View/Export All',
-      'Import...', 'Add Items...', 'Delete Item...', 'Apply Collection...'
+      'New Collection...', 'Delete Collections...', 'View/Export All',
+      'Import...', 'Add Items...', 'Delete Items...', 'Apply Collection'
     ]],
     ['character', 'Character', 'select-one', []],
     ['clear', 'Clear', 'select-one', 'bags'],
@@ -797,71 +707,34 @@ Quilvyn.exportCharacters = function() {
   exportPopup.focus();
 };
 
-/*
- * Interacts w/user to import characters from external sources. If an import
- * window is already open, places focus on it if #focus# is true.
- */
-Quilvyn.importCharacters = function(focus) {
+/* Interacts with the user to import characters from external sources. */
+Quilvyn.importCharacters = function(attributes) {
 
-  if(focus && Quilvyn.importCharacters.win != null) {
-    // Prior import still pending
-    Quilvyn.importCharacters.win.focus();
-    return;
-  } else if(Quilvyn.importCharacters.win == null) {
-    // New import
-    var htmlBits = [
-      '<html><head><title>Import Character</title></head>',
-      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
-      '<h2>Enter attribute definition from character sheet source</h2>',
-      '<form name="frm"><table>',
-      '<tr><td><textarea name="code" rows="20" cols="50"></textarea></td></tr>',
-      '</table></form>',
-      '<form>',
-      '<input type="button" value="Ok" onclick="okay=true;"/>',
-      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
-      '</form></body></html>'
-    ];
-    var html = htmlBits.join('\n') + '\n';
-    Quilvyn.importCharacters.win = editWindow;
-    Quilvyn.importCharacters.win.document.write(html);
-    Quilvyn.importCharacters.win.document.close();
-    Quilvyn.importCharacters.win.canceled = false;
-    Quilvyn.importCharacters.win.okay = false;
-    Quilvyn.importCharacters.win.focus();
-    setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
-    return;
-  } else if(Quilvyn.importCharacters.win.canceled) {
-    // User cancel
-    Quilvyn.importCharacters.win = null;
-    Quilvyn.refreshEditor(true);
-    return;
-  } else if(!Quilvyn.importCharacters.win.okay) {
-    // Try again later
-    setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
+
+  if(!attributes) {
+    Quilvyn.textDialog(
+      'Enter attribute definition from character sheet source', true, '',
+      Quilvyn.importCharacters
+    );
     return;
   }
 
-  // Ready to import
-  var text = Quilvyn.importCharacters.win.document.frm.elements[0].value;
-  var index = text.indexOf('{');
+  var index = attributes.indexOf('{');
 
   if(index < 0) {
-    Quilvyn.importCharacters.win.alert('Syntax error: missing {');
-    Quilvyn.importCharacters.win.focus();
-    Quilvyn.importCharacters.win.okay = false;
-    setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
+    // TODO
+    console.log('Syntax error: missing {');
     return;
   }
 
   while(index >= 0) {
-    text = text.substring(index + 1);
+    attributes = attributes.substring(index + 1);
     var attrPat = /^\s*"((?:\\"|[^"])*)"\s*:\s*(\d+|"((?:\\"|[^"])*)"|\{)/;
     var matchInfo;
     var nesting = '';
     var importedCharacter = {};
-    while((matchInfo = text.match(attrPat)) != null) {
-      text = text.substring(matchInfo[0].length);
+    while((matchInfo = attributes.match(attrPat)) != null) {
+      attributes = attributes.substring(matchInfo[0].length);
       var attr = matchInfo[1];
       var value = matchInfo[3] || matchInfo[2];
       value = value.replace(/\\"/g, '"').replace(/\\n/g, '\n');
@@ -870,19 +743,17 @@ Quilvyn.importCharacters = function(focus) {
       } else {
         importedCharacter[nesting + attr] = value;
       }
-      while(nesting != '' && (matchInfo = text.match(/^\s*\}/)) != null) {
-        text = text.substring(matchInfo[0].length);
+      while(nesting != '' && (matchInfo = attributes.match(/^\s*\}/)) != null) {
+        attributes = attributes.substring(matchInfo[0].length);
         nesting = nesting.replace(/[^\.]*\.$/, '');
       }
-      if((matchInfo = text.match(/^\s*,/)) != null) {
-        text = text.substring(matchInfo[0].length);
+      if((matchInfo = attributes.match(/^\s*,/)) != null) {
+        attributes = attributes.substring(matchInfo[0].length);
       }
     }
-    if(!text.match(/^\s*\}/)) {
-      Quilvyn.importCharacters.win.alert('Syntax error: missing } at "' + text + '"');
-      Quilvyn.importCharacters.win.focus();
-      Quilvyn.importCharacters.win.okay = false;
-      setTimeout('Quilvyn.importCharacters(false)', TIMEOUT_DELAY);
+    if(!attributes.match(/^\s*\}/)) {
+      // TODO
+      console.log('Syntax error: missing } at "' + attributes + '"');
       return;
     }
     character = Quilvyn.applyV2Changes(importedCharacter);
@@ -890,20 +761,16 @@ Quilvyn.importCharacters = function(focus) {
     characterUndo = [];
     characterCache[characterPath] = QuilvynUtils.clone(character);
     Quilvyn.saveCharacter(characterPath);
-    index = text.indexOf('{');
+    index = attributes.indexOf('{');
   }
 
-  Quilvyn.importCharacters.win = null;
   Quilvyn.refreshEditor(true);
   Quilvyn.refreshSheet();
   Quilvyn.refreshStatus(false);
 
 };
 
-/*
- * Interacts w/user to change display options. If an options window is already
- * open, places focus on it if #focus# is true.
- */
+/* Interacts with the user to change display options. */
 Quilvyn.modifyOptions = function(focus) {
 
   if(focus && Quilvyn.modifyOptions.win != null) {
@@ -1338,8 +1205,8 @@ Quilvyn.refreshEditor = function(redraw) {
   );
   var customOpts = QuilvynUtils.getKeys(customCollections).sort();
   customOpts.unshift(
-    'New Collection...', 'Delete Collection...', 'View/Export All',
-    'Import...', 'Add Items...', 'Delete Item...', 'Apply Collection...'
+    'New Collection...', 'Delete Collections...', 'View/Export All',
+    'Import...', 'Add Items...', 'Delete Items...', 'Apply Collection'
   );
   InputSetOptions(editForm.rules, QuilvynUtils.getKeys(ruleSets));
   InputSetOptions(editForm.custom, customOpts);
@@ -1553,9 +1420,10 @@ Quilvyn.saveCharacter = function(path) {
 
   if(!path) {
     var defaultPath = character['_path'] || character.name || 'Noname';
-    Quilvyn.dialogPrompt
-      ("Save Character", 'Save ' + character.name + ' as', defaultPath,
-       Quilvyn.saveCharacter);
+    Quilvyn.textDialog(
+      'Save ' + character.name + ' as', false, defaultPath,
+      Quilvyn.saveCharacter
+    );
     return;
   }
 
@@ -1878,7 +1746,7 @@ Quilvyn.update = function(input) {
     if(value == '---select one---')
       ; /* empty--Safari bug workaround */
     else if(value == 'Delete...')
-      Quilvyn.deleteCharacter(true);
+      Quilvyn.deleteCharacters(null);
     else if(value == 'Print...')
       sheetWindow.print();
     else if(value == 'Save') {
@@ -1894,6 +1762,7 @@ Quilvyn.update = function(input) {
     else if(value == 'HTML') {
       var html = Quilvyn.sheetHtml(character);
       if('DEBUG' in customCollections) {
+        // TODO
         var group = editWindow.prompt('Group?');
         if(group) {
           html = '';
@@ -1908,10 +1777,11 @@ Quilvyn.update = function(input) {
       Quilvyn.showHtml(html);
     } else if(userOptions.warnAboutDiscard &&
        !QuilvynUtils.clones(character, characterCache[characterPath]) &&
+       // TODO
        !editWindow.confirm('Discard changes to character?'))
       ; /* empty */
     else if(value == 'Import...')
-      Quilvyn.importCharacters(true);
+      Quilvyn.importCharacters(null);
     else if(value == 'New')
       Quilvyn.newCharacter();
     else if(value == 'Random...')
@@ -1922,14 +1792,14 @@ Quilvyn.update = function(input) {
     InputSetValue(input, customCollection);
     if(value == 'Add Items...')
       Quilvyn.customAddItems(true);
-    else if(value == 'Apply Collection...')
+    else if(value == 'Apply Collection')
       Quilvyn.customApplyCollection();
-    else if(value == 'Delete Collection...')
-      Quilvyn.customDeleteCollection();
-    else if(value == 'Delete Item...')
-      Quilvyn.customDeleteItem();
+    else if(value == 'Delete Collections...')
+      Quilvyn.customDeleteCollections(null);
+    else if(value == 'Delete Items...')
+      Quilvyn.customDeleteItems(null);
     else if(value == 'Import...')
-      Quilvyn.customImportCollections(true);
+      Quilvyn.customImportCollections(null);
     else if(value == 'New Collection...')
       Quilvyn.customNewCollection();
     else if(value == 'View/Export All')
