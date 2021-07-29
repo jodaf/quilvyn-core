@@ -1305,7 +1305,7 @@ Quilvyn.refreshStatus = function(showDetail) {
       attr = attr[1] + ' ' + attr[0].replace(/s$/, '').replace(/([a-z])([A-Z])/g, '$1 ' + '$2'.toLowerCase());
     }
     attr = attr.charAt(0).toUpperCase() + attr.substring(1);
-    differences.push('<li>' + attr + ' changed from ' + (original[a] ? original[a] : '(none)') + ' to ' + (character[a] ? character[a] : '(none)') + '</li>');
+    differences.push('<li>' + attr + ' changed from ' + (original[a] != null ? original[a] : '(none)') + ' to ' + (character[a] != null ? character[a] : '(none)') + '</li>');
   }
 
   for(a in computed) {
