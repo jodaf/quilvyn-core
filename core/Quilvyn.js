@@ -100,10 +100,9 @@ function Quilvyn() {
 
 /*
  * Interacts with the user to select a subset of available options. #prmpt#
- * labels the dialog and #choices# is a dictionary of name/value pairs to be
- * shown to the user for selection. Once the user has made selections, the
- * subset of #choices# selected by the user is passed as a parameter to
- * #callback#.
+ * labels the dialog and #choices# is a dictionary of items, the keys of which
+ * are shown to the user for selection. Once the user has made selections, the
+ * subset of #choices# selected by the user is passed to #callback#.
  */
 Quilvyn.setDialog = function(prmpt, choices, callback) {
 
@@ -113,12 +112,13 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h3>' + prmpt + '</h3>',
-      '<form name="frm"><table>'];
+      '<form name="frm"><table>'
+    ];
     var keys = Object.keys(choices).sort();
     for(var i = 0; i < keys.length; i++) {
-      var key = keys[i];
+      var choice = keys[i];
       htmlBits.push(
-        '<tr><td>' + InputHtml(choices[key], 'checkbox', null) + '</td><td>' + key + '</td></tr>'
+        '<tr><td>' + InputHtml(choices[choice], 'checkbox', [choice]) + '</td><td>' + choice + '</td></tr>'
       );
     }
     htmlBits.push(
@@ -128,14 +128,13 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
       '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     );
-    var html = htmlBits.join('\n') + '\n';
     Quilvyn.setDialog.win = editWindow;
-    Quilvyn.setDialog.win.document.write(html);
+    Quilvyn.setDialog.win.document.write(htmlBits.join('\n') + '\n');
     Quilvyn.setDialog.win.document.close();
     Quilvyn.setDialog.win.canceled = false;
     Quilvyn.setDialog.win.okay = false;
-    Quilvyn.setDialog.win.focus();
     Quilvyn.setDialog.win.callback = callback;
+    Quilvyn.setDialog.win.focus();
     setTimeout('Quilvyn.setDialog()', TIMEOUT_DELAY);
     return;
   } else if(Quilvyn.setDialog.win.canceled) {
@@ -152,25 +151,26 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
   var form = Quilvyn.setDialog.win.document.forms[0];
   choices = {};
   for(var i = 0; i < form.elements.length; i++) {
-    if(!form.elements[i].checked)
-      continue;
-    choices[form.elements[i].name] = form.elements[i].value;
+    if(form.elements[i].checked)
+      choices[form.elements[i].value] = form.elements[i].name;
   }
 
-  Quilvyn.setDialog.win.callback(choices);
+  callback = Quilvyn.setDialog.win.callback;
   Quilvyn.setDialog.win = null;
   Quilvyn.refreshEditor(true);
+  callback(choices);
 
 };
 
 /*
  * Interacts with the user to input a single line of text. #prmpt# is used to
- * label the dialog and #defaultValue# is displayed as the default value for
- * the text. If true, multiline indicates that a text box should be used for
+ * label the dialog, #defaultValue# is displayed as the default value for
+ * the text, and #error#, if specified, is shown as an error in the default
+ * value. If true, multiline indicates that a text box should be used for
  * the prompt rather than a single-line text input. Once the user has entered
  * text, it is passed as a parameter to #callback#.
  */
-Quilvyn.textDialog = function(prmpt, multiline, defaultValue, callback) {
+Quilvyn.textDialog = function(prmpt, multiline, defaultValue, error, callback) {
 
   if(Quilvyn.textDialog.win == null) {
     var htmlBits = [
@@ -179,23 +179,23 @@ Quilvyn.textDialog = function(prmpt, multiline, defaultValue, callback) {
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h3>' + prmpt + '</h3>',
       '<form name="frm"><table>',
-      multiline ? 
-        '<tr><td><textarea name="text" rows="20" cols="50">' + defaultValue + '</textarea></td></tr>' :
-        '<tr><td><input name="text" type="text" default="' + defaultValue + '" size="50"/></td></tr>',
+      multiline ?
+        '<tr><td><textarea name="text" rows="20" cols="50" autofocus="autofocus">' + defaultValue + '</textarea></td></tr>' :
+        '<tr><td><input name="text" type="text" value="' + defaultValue + '" size="50" autofocus="autofocus"/></td></tr>',
+      '<tr><td style="color:red">' + (error ? error : '') + '</td></tr>',
       '</table></form>',
       '<form>',
       '<input type="button" value="Ok" onclick="okay=true;"/>',
       '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     ];
-    var html = htmlBits.join('\n') + '\n';
     Quilvyn.textDialog.win = editWindow;
-    Quilvyn.textDialog.win.document.write(html);
+    Quilvyn.textDialog.win.document.write(htmlBits.join('\n') + '\n');
     Quilvyn.textDialog.win.document.close();
     Quilvyn.textDialog.win.canceled = false;
     Quilvyn.textDialog.win.okay = false;
-    Quilvyn.textDialog.win.focus();
     Quilvyn.textDialog.win.callback = callback;
+    Quilvyn.textDialog.win.document.frm.text.focus();
     setTimeout('Quilvyn.textDialog()', TIMEOUT_DELAY);
     return;
   } else if(Quilvyn.textDialog.win.canceled) {
@@ -209,10 +209,11 @@ Quilvyn.textDialog = function(prmpt, multiline, defaultValue, callback) {
     return;
   }
 
-  Quilvyn.textDialog.win.callback
-    (Quilvyn.textDialog.win.document.frm.text.value);
+  callback = Quilvyn.textDialog.win.callback;
+  defaultValue = Quilvyn.textDialog.win.document.frm.text.value;
   Quilvyn.textDialog.win = null;
   Quilvyn.refreshEditor(true);
+  callback(defaultValue);
 
 };
 
@@ -293,9 +294,7 @@ Quilvyn.customAddItems = function(focus) {
     var htmlBits = [
       '<html><head><title>Add Custom Items</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + '"/><br/>'
-    ];
-    htmlBits.push(
+      '<img src="' + LOGO_URL + '"/><br/>',
       '<form>',
       '<table><tr>',
       '<th>Type</th><td>' + InputHtml('_type', 'select-one', choices).replace('>', ' onchange="update=true">') + '</td>',
@@ -309,10 +308,9 @@ Quilvyn.customAddItems = function(focus) {
       '<input type="button" name="Close" value="Close" onclick="done=true;"/>',
       '<p id="message"> </p>',
       '</form></body></html>'
-    );
-    var html = htmlBits.join('\n') + '\n';
+    ];
     Quilvyn.customAddItems.win = editWindow;
-    Quilvyn.customAddItems.win.document.write(html);
+    Quilvyn.customAddItems.win.document.write(htmlBits.join('\n') + '\n');
     Quilvyn.customAddItems.win.document.close();
     Quilvyn.customAddItems.win.canceled = false;
     Quilvyn.customAddItems.win.done = false;
@@ -472,9 +470,8 @@ Quilvyn.customDeleteItems = function(items) {
     return;
   }
 
-  for(path in items) {
-    STORAGE.removeItem(path);
-  }
+  for(path in items)
+    STORAGE.removeItem(items[path]);
 
   Quilvyn.refreshEditor(true);
 
@@ -504,9 +501,8 @@ Quilvyn.customExportCollections = function() {
     '<pre>'
   );
   htmlBits.push('</pre>', '</body></html>');
-  var html = htmlBits.join('\n') + '\n';
   var exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
-  exportPopup.document.write(html);
+  exportPopup.document.write(htmlBits.join('\n') + '\n');
   exportPopup.document.close();
   exportPopup.focus();
 };
@@ -519,7 +515,7 @@ Quilvyn.customImportCollections = function(collections) {
 
   if(!collections) {
     Quilvyn.textDialog(
-      'Enter item definitions from export', true, '',
+      'Enter item definitions from export', true, '', '',
       Quilvyn.customImportCollections
     );
     return;
@@ -527,17 +523,20 @@ Quilvyn.customImportCollections = function(collections) {
 
   var lines = collections.split('\n');
 
-  for(var i = 0; i < lines.length; i++) {
-    var line = lines[i];
+  while(lines.length > 0) {
+    var line = lines.pop();
     if(line.match(/^\s*$/))
       continue;
     var collection = QuilvynUtils.getAttrValue(line, '_collection');
     var name = QuilvynUtils.getAttrValue(line, '_name');
     var type = QuilvynUtils.getAttrValue(line, '_type');
     if(!collection || !name || !type) {
-      // TODO
-      console.log('Bad format for item "' + line + '"');
-      continue;
+      Quilvyn.textDialog(
+        'Enter item definitions from export', true,
+        line + '\n' + lines.join('\n'), 'Bad format for item "' + line + '"',
+        Quilvyn.customImportCollections
+      );
+      return;
     }
     line = line.replace
       (new RegExp('_collection=["\']?' + collection + '["\']?'), '');
@@ -564,7 +563,7 @@ Quilvyn.customNewCollection = function(name) {
 
   if(!name) {
     Quilvyn.textDialog
-      ('Enter new collection name', false ,'', Quilvyn.customNewCollection);
+      ('Enter new collection name', false ,'', '', Quilvyn.customNewCollection);
     return;
   }
 
@@ -591,16 +590,15 @@ Quilvyn.deleteCharacters = function(characters) {
     characters = {};
     for(var path in STORAGE) {
       if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
-        characters[path.substring(PERSISTENT_CHARACTER_PREFIX.length)] = path;
+        characters[path.substring(PERSISTENT_CHARACTER_PREFIX.length)] = '';
     }
     Quilvyn.setDialog
       ('Select characters to delete', characters, Quilvyn.deleteCharacters);
     return;
   }
 
-  for(var path in characters) {
-    STORAGE.removeItem(path);
-  }
+  for(var c in characters)
+    STORAGE.removeItem(PERSISTENT_CHARACTER_PREFIX + c);
   Quilvyn.refreshEditor(true);
 
 };
@@ -679,8 +677,7 @@ Quilvyn.editorHtml = function() {
     }
   }
   htmlBits = htmlBits.concat(['</td></tr>', '</table></form>']);
-  var result = htmlBits.join('\n');
-  return result;
+  return htmlBits.join('\n');
 };
 
 /* Pops a window containing the attribues of all stored characters. */
@@ -700,9 +697,8 @@ Quilvyn.exportCharacters = function() {
     htmlBits.push('<pre>\n' + text + '\n</pre><br/>\n');
   }
   htmlBits.push('</body></html>');
-  var html = htmlBits.join('\n') + '\n';
   var exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
-  exportPopup.document.write(html);
+  exportPopup.document.write(htmlBits.join('\n') + '\n');
   exportPopup.document.close();
   exportPopup.focus();
 };
@@ -710,10 +706,9 @@ Quilvyn.exportCharacters = function() {
 /* Interacts with the user to import characters from external sources. */
 Quilvyn.importCharacters = function(attributes) {
 
-
   if(!attributes) {
     Quilvyn.textDialog(
-      'Enter attribute definition from character sheet source', true, '',
+      'Enter attribute definition from character sheet source', true, '', '',
       Quilvyn.importCharacters
     );
     return;
@@ -722,8 +717,10 @@ Quilvyn.importCharacters = function(attributes) {
   var index = attributes.indexOf('{');
 
   if(index < 0) {
-    // TODO
-    console.log('Syntax error: missing {');
+    Quilvyn.textDialog(
+      'Enter attribute definition from character sheet source', true,
+      attributes, 'Syntax error: missing {', Quilvyn.importCharacters
+    );
     return;
   }
 
@@ -752,8 +749,10 @@ Quilvyn.importCharacters = function(attributes) {
       }
     }
     if(!attributes.match(/^\s*\}/)) {
-      // TODO
-      console.log('Syntax error: missing } at "' + attributes + '"');
+      Quilvyn.textDialog(
+        'Enter attribute definition from character sheet source', true,
+        attributes, 'Syntax error: missing }', Quilvyn.importCharacters
+      );
       return;
     }
     character = Quilvyn.applyV2Changes(importedCharacter);
@@ -798,9 +797,8 @@ Quilvyn.modifyOptions = function(focus) {
       '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     ];
-    var html = htmlBits.join('\n') + '\n';
     Quilvyn.modifyOptions.win = editWindow;
-    Quilvyn.modifyOptions.win.document.write(html);
+    Quilvyn.modifyOptions.win.document.write(htmlBits.join('\n') + '\n');
     Quilvyn.modifyOptions.win.document.close();
     Quilvyn.modifyOptions.win.canceled = false;
     Quilvyn.modifyOptions.win.okay = false;
@@ -934,13 +932,12 @@ Quilvyn.randomizeCharacter = function(focus) {
     htmlBits = htmlBits.concat([
       '</table></form>',
       '<form>',
-      '<input type="button" value="Ok" autofocus="y" onclick="okay=true;"/>',
+      '<input type="button" value="Ok" autofocus="autofocus" onclick="okay=true;"/>',
       '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     ]);
-    var html = htmlBits.join('\n') + '\n';
     Quilvyn.randomizeCharacter.win = editWindow;
-    Quilvyn.randomizeCharacter.win.document.write(html);
+    Quilvyn.randomizeCharacter.win.document.write(htmlBits.join('\n') + '\n');
     Quilvyn.randomizeCharacter.win.document.close();
     // Add callbacks that store user input in a property named attrs for
     // retrieval once the user hits Ok.
@@ -1421,7 +1418,7 @@ Quilvyn.saveCharacter = function(path) {
   if(!path) {
     var defaultPath = character['_path'] || character.name || 'Noname';
     Quilvyn.textDialog(
-      'Save ' + character.name + ' as', false, defaultPath,
+      'Save ' + character.name + ' as', false, defaultPath, '',
       Quilvyn.saveCharacter
     );
     return;
@@ -1565,6 +1562,20 @@ Quilvyn.sheetHtml = function(attrs) {
          '</body>\n' +
          '</html>\n';
 
+};
+
+Quilvyn.showGroupHtml = function(group) {
+  if(!group) {
+    Quilvyn.textDialog
+      ('Group?', false, characterPath, '', Quilvyn.showGroupHtml);
+    return;
+  }
+  var html = '';
+  for(var path in STORAGE) {
+    if(path.startsWith(PERSISTENT_CHARACTER_PREFIX) && path.includes(group))
+      html += Quilvyn.sheetHtml(Quilvyn.retrieveCharacterFromStorage(path));
+  }
+  Quilvyn.showHtml(html);
 };
 
 /* Opens a window that contains HTML for #html# in readable/copyable format. */
@@ -1760,21 +1771,10 @@ Quilvyn.update = function(input) {
     else if(value == 'Summary')
       Quilvyn.summarizeCachedAttrs();
     else if(value == 'HTML') {
-      var html = Quilvyn.sheetHtml(character);
-      if('DEBUG' in customCollections) {
-        // TODO
-        var group = editWindow.prompt('Group?');
-        if(group) {
-          html = '';
-          for(var path in STORAGE) {
-            if(path.startsWith(PERSISTENT_CHARACTER_PREFIX) &&
-               path.includes(group))
-              html +=
-                Quilvyn.sheetHtml(Quilvyn.retrieveCharacterFromStorage(path));
-          }
-        }
-      }
-      Quilvyn.showHtml(html);
+      if('DEBUG' in customCollections)
+        Quilvyn.showGroupHtml(null);
+      else
+        Quilvyn.showHtml(Quilvyn.sheetHtml(character));
     } else if(userOptions.warnAboutDiscard &&
        !QuilvynUtils.clones(character, characterCache[characterPath]) &&
        // TODO

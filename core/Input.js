@@ -26,7 +26,7 @@ function InputGetParams(input) {
   if(type == 'button') {
     result = [input.value];
   } else if(type == 'checkbox' || type == 'radio') {
-    result = [input.name];
+    result = input.value ? [input.value] : [];
   } else if(type == 'select-one') {
     var options = input.options;
     result = [];
@@ -59,9 +59,9 @@ function InputHtml(name, type, params) {
     result =
       '<input name="' + name + '" type="button" value="' + params[0] + '"/>';
   else if(type == 'checkbox' || type == 'radio') {
-    result = '<input name="' + name + '" type="' + type + '"/>';
-    if(params != null)
-      result += params[0];
+    result =
+      '<input name="' + name + '" type="' + type + '"' +
+      ' value="' + (params ? params[0] : '') + '"/>';
   }
   else if(type == 'select-one') {
     var opts = new Array();
