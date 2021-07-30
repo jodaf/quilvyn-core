@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.27';
+var VERSION = '2.2.28';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -94,9 +94,51 @@ function Quilvyn() {
   if(!Quilvyn.redrawUI())
     return;
   Quilvyn.refreshEditor(true);
-  Quilvyn.newCharacter();
+  Quilvyn.newCharacter(true);
 
 }
+
+Quilvyn.confirmDialog = function(prmpt, callback) {
+
+  if(Quilvyn.confirmDialog.win == null) {
+    var htmlBits = [
+      '<html><head><title>' + prmpt + '</title></head>',
+      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+      '<img src="' + LOGO_URL + ' "/><br/>',
+      '<h3>' + prmpt + '</h3>',
+      '<form name="frm"><table>',
+      '</table></form>',
+      '<form>',
+      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" value="Cancel" onclick="canceled=true;"/>',
+      '</form></body></html>'
+    ];
+    Quilvyn.confirmDialog.win = editWindow;
+    Quilvyn.confirmDialog.win.document.write(htmlBits.join('\n') + '\n');
+    Quilvyn.confirmDialog.win.document.close();
+    Quilvyn.confirmDialog.win.canceled = false;
+    Quilvyn.confirmDialog.win.okay = false;
+    Quilvyn.confirmDialog.win.callback = callback;
+    Quilvyn.confirmDialog.win.focus();
+    setTimeout('Quilvyn.confirmDialog(null)', TIMEOUT_DELAY);
+    return;
+  } else if(Quilvyn.confirmDialog.win.canceled) {
+    // User cancel
+    Quilvyn.confirmDialog.win = null;
+    Quilvyn.refreshEditor(true);
+    return;
+  } else if(!Quilvyn.confirmDialog.win.okay) {
+    // Try again later
+    setTimeout('Quilvyn.confirmDialog(null)', TIMEOUT_DELAY);
+    return;
+  }
+
+  callback = Quilvyn.confirmDialog.win.callback;
+  Quilvyn.confirmDialog.win = null;
+  Quilvyn.refreshEditor(true);
+  callback(true);
+
+};
 
 /*
  * Interacts with the user to select a subset of available options. #prmpt#
@@ -706,7 +748,15 @@ Quilvyn.exportCharacters = function() {
 /* Interacts with the user to import characters from external sources. */
 Quilvyn.importCharacters = function(attributes) {
 
-  if(!attributes) {
+ if(attributes == null &&
+    userOptions.warnAboutDiscard &&
+    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+    Quilvyn.confirmDialog
+      ('Discard changes to character?', Quilvyn.importCharacters)
+    return;
+  }
+
+  if(attributes === true) {
     Quilvyn.textDialog(
       'Enter attribute definition from character sheet source', true, '', '',
       Quilvyn.importCharacters
@@ -839,6 +889,16 @@ Quilvyn.modifyOptions = function(focus) {
 
 /* Loads character specified by #path# from persistent storage. */
 Quilvyn.openCharacter = function(path) {
+  if(path === true) {
+    path = Quilvyn.openCharacter.savedPath;
+  } else if(
+    userOptions.warnAboutDiscard &&
+    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+    Quilvyn.openCharacter.savedPath = path;
+    Quilvyn.confirmDialog
+      ('Discard changes to character?', Quilvyn.openCharacter);
+    return;
+  }
   character =
     Quilvyn.retrieveCharacterFromStorage(PERSISTENT_CHARACTER_PREFIX + path);
   character = Quilvyn.applyV2Changes(character);
@@ -852,7 +912,13 @@ Quilvyn.openCharacter = function(path) {
 };
 
 /* Replaces the current character with one with empty attributes. */
-Quilvyn.newCharacter = function() {
+Quilvyn.newCharacter = function(prompted) {
+ if(prompted == null &&
+    userOptions.warnAboutDiscard &&
+    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+    Quilvyn.confirmDialog('Discard changes to character?', Quilvyn.newCharacter)
+    return;
+  }
   var editForm = editWindow.editor;
   character = {};
   characterPath = '';
@@ -884,19 +950,22 @@ Quilvyn.newCharacter = function() {
 
 /*
  * Interacts w/user to replace the current character with one that has all
- * randomized attributes. If a randomize prompt window is already open, places
- * focus on it if #focus# is true.
+ * randomized attributes.
  */
-Quilvyn.randomizeCharacter = function(focus) {
+Quilvyn.randomizeCharacter = function(prompted) {
+
+ if(prompted == null &&
+    userOptions.warnAboutDiscard &&
+    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+    Quilvyn.confirmDialog
+      ('Discard changes to character?', Quilvyn.randomizeCharacter)
+    return;
+  }
 
   var presets = ruleSet.getChoices('preset');
 
   if(presets == null) {
     // No window needed
-  } else if(focus && Quilvyn.randomizeCharacter.win != null) {
-    // Prior randomize still pending
-    Quilvyn.randomizeCharacter.win.focus();
-    return;
   } else if(Quilvyn.randomizeCharacter.win == null) {
     // New randomize
     var htmlBits = [
@@ -970,7 +1039,7 @@ Quilvyn.randomizeCharacter = function(focus) {
     Quilvyn.randomizeCharacter.win.okay = false;
     Quilvyn.randomizeCharacter.win.canceled = false;
     Quilvyn.randomizeCharacter.win.focus();
-    setTimeout('Quilvyn.randomizeCharacter(false)', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.randomizeCharacter(true)', TIMEOUT_DELAY);
     return;
   } else if(Quilvyn.randomizeCharacter.win.canceled) {
     Quilvyn.randomizeCharacter.win = null;
@@ -978,7 +1047,7 @@ Quilvyn.randomizeCharacter = function(focus) {
     return;
   } else if(!Quilvyn.randomizeCharacter.win.okay) {
     // Try again later
-    setTimeout('Quilvyn.randomizeCharacter(false)', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.randomizeCharacter(true)', TIMEOUT_DELAY);
     return;
   }
 
@@ -1775,17 +1844,12 @@ Quilvyn.update = function(input) {
         Quilvyn.showGroupHtml(null);
       else
         Quilvyn.showHtml(Quilvyn.sheetHtml(character));
-    } else if(userOptions.warnAboutDiscard &&
-       !QuilvynUtils.clones(character, characterCache[characterPath]) &&
-       // TODO
-       !editWindow.confirm('Discard changes to character?'))
-      ; /* empty */
-    else if(value == 'Import...')
+    } else if(value == 'Import...')
       Quilvyn.importCharacters(null);
     else if(value == 'New')
-      Quilvyn.newCharacter();
+      Quilvyn.newCharacter(null);
     else if(value == 'Random...')
-      Quilvyn.randomizeCharacter(true);
+      Quilvyn.randomizeCharacter(null);
     else
       Quilvyn.openCharacter(value);
   } else if(name == 'custom') {
