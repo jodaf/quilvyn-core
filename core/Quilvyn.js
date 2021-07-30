@@ -107,9 +107,7 @@ Quilvyn.confirmDialog = function(prmpt, callback) {
       '<img src="' + LOGO_URL + ' "/><br/>',
       '<h3>' + prmpt + '</h3>',
       '<form name="frm"><table>',
-      '</table></form>',
-      '<form>',
-      '<input type="button" value="Ok" onclick="okay=true;"/>',
+      '<input type="button" name="ok" value="Ok" onclick="okay=true;"/>',
       '<input type="button" value="Cancel" onclick="canceled=true;"/>',
       '</form></body></html>'
     ];
@@ -119,7 +117,7 @@ Quilvyn.confirmDialog = function(prmpt, callback) {
     Quilvyn.confirmDialog.win.canceled = false;
     Quilvyn.confirmDialog.win.okay = false;
     Quilvyn.confirmDialog.win.callback = callback;
-    Quilvyn.confirmDialog.win.focus();
+    Quilvyn.confirmDialog.win.document.frm.ok.focus();
     setTimeout('Quilvyn.confirmDialog(null)', TIMEOUT_DELAY);
     return;
   } else if(Quilvyn.confirmDialog.win.canceled) {
@@ -1634,9 +1632,12 @@ Quilvyn.sheetHtml = function(attrs) {
 };
 
 Quilvyn.showGroupHtml = function(group) {
-  if(!group) {
-    Quilvyn.textDialog
-      ('Group?', false, characterPath, '', Quilvyn.showGroupHtml);
+  if(group == null) {
+    Quilvyn.textDialog('Group?', false, '', '', Quilvyn.showGroupHtml);
+    return;
+  }
+  if(group == '') {
+    Quilvyn.showHtml(Quilvyn.sheetHtml(character));
     return;
   }
   var html = '';
