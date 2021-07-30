@@ -73,39 +73,39 @@ const RULESETS = {
     group:'D&D 3.5',
     modify:['D&D SRD v3.5']
   },
-  'Pathfinder 1E':{
-    url:QUILVYN_HOME + 'plugins/Pathfinder.js',
-    group:'D&D 3.5',
-    require:['D&D SRD v3.5']
-  },
   'Eberron Campaign Setting using D&D SRD v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/Eberron.js',
     group:'D&D 3.5',
     require:['D&D SRD v3.5']
-  },
-  'Eberron Campaign Setting using Pathfinder 1E rules':{
-    url:QUILVYN_HOME + 'plugins/Eberron.js',
-    group:'D&D 3.5',
-    require:['Pathfinder 1E']
-  },
-  'Midnight Campaign Setting using D&D SRD v3.5 rules':{
-    url:QUILVYN_HOME + 'plugins/LastAge.js',
-    group:'D&D 3.5',
-    require:['D&D SRD v3.5']
-  },
-  'Midnight Campaign Setting using Pathfinder 1E rules':{
-    url:QUILVYN_HOME + 'plugins/LastAge.js',
-    group:'D&D 3.5',
-    require:['Pathfinder 1E']
   },
   'Forgotten Realms Campaign Setting using D&D SRD v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/Realms.js',
     group:'D&D 3.5',
     require:['D&D SRD v3.5']
   },
+  'Midnight Campaign Setting using D&D SRD v3.5 rules':{
+    url:QUILVYN_HOME + 'plugins/LastAge.js',
+    group:'D&D 3.5',
+    require:['D&D SRD v3.5']
+  },
+  'Pathfinder 1E':{
+    url:QUILVYN_HOME + 'plugins/Pathfinder.js',
+    group:'Pathfinder 1E',
+    require:['D&D SRD v3.5']
+  },
+  'Eberron Campaign Setting using Pathfinder 1E rules':{
+    url:QUILVYN_HOME + 'plugins/Eberron.js',
+    group:'Pathfinder 1E',
+    require:['Pathfinder 1E']
+  },
   'Forgotten Realms Campaign Setting using Pathfinder 1E rules':{
     url:QUILVYN_HOME + 'plugins/Realms.js',
-    group:'D&D 3.5',
+    group:'Pathfinder 1E',
+    require:['Pathfinder 1E']
+  },
+  'Midnight Campaign Setting using Pathfinder 1E rules':{
+    url:QUILVYN_HOME + 'plugins/LastAge.js',
+    group:'Pathfinder 1E',
     require:['Pathfinder 1E']
   },
   'D&D SRD v5':{
@@ -372,7 +372,7 @@ for(var rs in RULESETS) {
 document.write(
   '</table>\n' +
   '<br/>\n' +
-  '<input type="button" value="Ok" autofocus="y" onclick="window.waitingForUserToPressOkay = false;"/>\n' +
+  '<input type="button" value="Ok" autofocus="autofocus" onclick="window.waitingForUserToPressOkay = false;"/>\n' +
   '</form>\n'
 );
 </script>
