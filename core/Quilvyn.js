@@ -1336,8 +1336,7 @@ Quilvyn.refreshSheet = function() {
   sheetWindow.document.write(Quilvyn.sheetHtml(character));
   sheetWindow.document.close();
   sheetWindow.document.title = character.name;
-  if(quilvynWindow)
-    quilvynWindow.document.title = 'Quilvyn - ' + character.name;
+  window.document.title = 'Quilvyn - ' + character.name;
   sheetWindow.focus();
 };
 
