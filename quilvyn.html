@@ -43,9 +43,10 @@ var QUILVYN_HOME = '';
 // QUILVYN_HOME = 'http://www.jodaf.com/dnd/q2/';
 
 /*
- * Quilvyn incorporates the modules listed in RULESETS as part of its initial
- * loading; you should uncomment those elements that you want to make part of
- * your Quilvyn installation and comment or delete the ones you don't want.
+ * Quilvyn displays the modules listed in RULESETS in the initial pick
+ * window. In addition to the plugin/rule set name, each element specifies
+ * the URL path for the plugin, the name of the group it belongs to (for the
+ * window headers), and sets of plugins it depends on or modifies.
  */
 const RULESETS = {
   'AD&D First Edition (1E)':{
@@ -354,7 +355,7 @@ function pickPlugins() {
       htmlBits.push('<tr><td>&nbsp;</td><th>' + group + '</th></tr>');
       currentGroup = group;
     }
-    var options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked=true' : '');
+    var options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked="checked"' : '');
     htmlBits.push('<tr><td><input name="plugin' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>');
   }
 
@@ -380,18 +381,18 @@ var mainWindow = null;
 </script>
 
 <style>
-  html {
-    overflow: auto;
-  }
   html, body, iframe {
     margin: 0px;
     padding: 0px;
     width: 100%;
-    height: 99%;
+    height: 100%;
     border: none;
   }
+  html, body {
+    overflow: hidden;
+  }
   iframe {
-    overflow-y: hidden;
+    overflow: auto;
   }
 </style>
 

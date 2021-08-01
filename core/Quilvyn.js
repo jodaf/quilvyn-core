@@ -67,6 +67,9 @@ var userOptions = {     // User-settable options
   style: 'Standard',    // Sheet style
   warnAboutDiscard: 1   // Warn before discarding character changes?
 };
+// Use system dialog windows whenever possible. TODO: can we detect if the user
+// has disabled system dialogs?
+var USE_SYSTEM_DIALOGS = true;
 
 /* Launch routine called after all Quilvyn scripts are loaded. */
 function Quilvyn(win) {
@@ -102,6 +105,11 @@ function Quilvyn(win) {
 
 Quilvyn.confirmDialog = function(prmpt, callback) {
 
+  if(USE_SYSTEM_DIALOGS) {
+    if(confirm(prmpt))
+      callback(true);
+    return;
+  }
   if(Quilvyn.confirmDialog.win == null) {
     var htmlBits = [
       '<html><head><title>' + prmpt + '</title></head>',
@@ -214,6 +222,12 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
  */
 Quilvyn.textDialog = function(prmpt, multiline, defaultValue, error, callback) {
 
+  if(USE_SYSTEM_DIALOGS && !multiline) {
+    if(error)
+      alert(error);
+    callback(prompt(prmpt, defaultValue));
+    return;
+  }
   if(Quilvyn.textDialog.win == null) {
     var htmlBits = [
       '<html><head><title>' + prmpt + '</title></head>',
