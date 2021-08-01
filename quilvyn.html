@@ -278,14 +278,14 @@ for(var rs in RULESETS) {
 }
 
 function LoadPlugins() {
-  if(window.waitingForUserToPressOkay) {
+  if(!mainWindow.userPressedOkay) {
     setTimeout('LoadPlugins()', 1000);
     return;
   }
   var scriptUrls = {};
   var selectedRuleSets = [];
   for(rs in RULESETS) {
-    if(!document.forms[0]['plugin' + rs].checked)
+    if(!mainWindow.document.forms[0]['plugin' + rs].checked)
       continue;
     selectedRuleSets.push(rs);
     var require = [rs];
@@ -302,7 +302,7 @@ function LoadPlugins() {
       }
       require = require.concat(RULESETS[rs].require || []);
       if(RULESETS[rs].modify &&
-         !document.forms[0]['plugin' + RULESETS[rs].modify].checked) {
+         !mainWindow.document.forms[0]['plugin'+RULESETS[rs].modify].checked) {
         selectedRuleSets.pop();
         selectedRuleSets.push(RULESETS[rs].modify, rs);
         require.push(RULESETS[rs].modify);
@@ -312,7 +312,6 @@ function LoadPlugins() {
   if(selectedRuleSets.length == 0)
     selectedRuleSets.push('D&D SRD v3.5');
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
-  document.forms[0].parentNode.removeChild(document.forms[0]);
   StartQuilvyn();
 }
 
@@ -327,55 +326,77 @@ function StartQuilvyn() {
       return;
     }
   }
-  Quilvyn();
+  Quilvyn(mainWindow);
 }
+
+function pickPlugins() {
+
+  var selectedRuleSets = [];
+  try {
+    selectedRuleSets = STORAGE.getItem('QuilvynSelectedRuleSets').split(',');
+  } catch(err) {
+    // empty
+  }
+  var currentGroup = '';
+  var htmlBits = [
+    '<html>',
+    '<head>',
+    '<title>Quilvyn Plugin Picker</title>',
+    '</head><body bgcolor="wheat">',
+    '<img src="' + LOGO_URL + '"/><br/>',
+    '<p>Select Quilvyn rule sets to use, then press Ok</p>',
+    '<form name="frm">',
+    '<table>'
+  ];
+  for(var rs in RULESETS) {
+    var group = RULESETS[rs].group;
+    if(group && group != currentGroup) {
+      htmlBits.push('<tr><td>&nbsp;</td><th>' + group + '</th></tr>');
+      currentGroup = group;
+    }
+    var options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked=true' : '');
+    htmlBits.push('<tr><td><input name="plugin' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>');
+  }
+
+  htmlBits.push(
+    '</table>',
+    '<br/>',
+    '<input type="button" value="Ok" autofocus="autofocus" onclick="window.userPressedOkay = true;"/>',
+    '</form>',
+    '</body>',
+    '</html>'
+  );
+  mainWindow = window.frames[0];
+  mainWindow.document.write(htmlBits.join('\n'));
+  mainWindow.document.close();
+  LoadPlugins();
+
+}
+
+var mainWindow = null;
 
 -->
+
 </script>
+
+<style>
+  html {
+    overflow: auto;
+  }
+  html, body, iframe {
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 99%;
+    border: none;
+  }
+  iframe {
+    overflow-y: hidden;
+  }
+</style>
 
 </head>
-<body bgcolor='wheat' onload='LoadPlugins();'>
-
-<script>
-document.write('<img src="' + LOGO_URL + '"/><br/>');
-document.write(
-  '<p>\n' +
-  'Quilvyn is running from this window.\n' +
-  'Please leave it open until you are done using Quilvyn.'
-);
-
-var selectedRuleSets = [];
-try {
-  selectedRuleSets = STORAGE.getItem('QuilvynSelectedRuleSets').split(',');
-} catch(err) {
-  // empty
-}
-window.waitingForUserToPressOkay = false;
-var currentGroup = '';
-for(var rs in RULESETS) {
-  if(!window.waitingForUserToPressOkay) {
-    window.waitingForUserToPressOkay = true;
-    document.write(
-      '<form name="frm">\n' +
-      '<p>Select Quilvyn rule sets to use, then press Ok</p>\n' +
-      '<table>\n'
-    );
-  }
-  var group = RULESETS[rs].group;
-  if(group && group != currentGroup) {
-    document.write('<tr><td>&nbsp;</td><th>' + group + '</th></tr>\n');
-    currentGroup = group;
-  }
-  var options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked=true' : '');
-  document.write('<tr><td><input name="plugin' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>\n');
-}
-document.write(
-  '</table>\n' +
-  '<br/>\n' +
-  '<input type="button" value="Ok" autofocus="autofocus" onclick="window.waitingForUserToPressOkay = false;"/>\n' +
-  '</form>\n'
-);
-</script>
-
+<body onload='pickPlugins();'>
+  <iframe id="main" src="about:blank"></iframe>
 </body>
 </html>

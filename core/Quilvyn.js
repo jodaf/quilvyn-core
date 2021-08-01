@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.28';
+var VERSION = '2.2.29';
 var ABOUT_TEXT =
 'Quilvyn Character Editor version ' + VERSION + '\n' +
 'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
@@ -49,12 +49,13 @@ var characterPath = ''; // Path to most-recently opened/generated character
 var characterUndo = []; // Stack of copies of character for undoing changes
 var customCollection = null; // Name of current custom item collection
 var customCollections = {}; // Defined custom collections, indexed by name
-var editWindow = null;  // Window where editor is shown
+var editWindow = null;  // iframe or window where editor is shown
 var ruleSet = null;     // The rule set currently in use
 var ruleSets = {};      // Registered rule sets, indexed by name
-var quilvynWindow = null; // Quilvyn container window/tab
-var sheetWindow = null; // Window where character sheet is shown
-var statusWindow = null; // Window where character status is shown
+var quilvynWindow = null; // Quilvyn container window
+var secondWindow = null;// Container window for separate editor
+var sheetWindow = null; // iframe or window where character sheet is shown
+var statusWindow = null;// iframe or window where character status is shown
 var userOptions = {     // User-settable options
   bgColor: 'wheat',     // Window background color
   bgImage: 'Images/parchment.jpg', // URL for window background
@@ -68,7 +69,7 @@ var userOptions = {     // User-settable options
 };
 
 /* Launch routine called after all Quilvyn scripts are loaded. */
-function Quilvyn() {
+function Quilvyn(win) {
 
   if(InputGetValue == null || ObjectViewer == null || RuleEngine == null ||
      QuilvynRules == null || QuilvynUtils == null) {
@@ -91,6 +92,7 @@ function Quilvyn() {
     customCollections[path.split('.')[1].replaceAll('%2E', '.')] = '';
   }
 
+  quilvynWindow = win;
   if(!Quilvyn.redrawUI())
     return;
   Quilvyn.refreshEditor(true);
@@ -1078,38 +1080,21 @@ Quilvyn.randomizeCharacter = function(prompted) {
  * window opening fails; otherwise, true.
  */
 Quilvyn.redrawUI = function() {
-  if(editWindow) {
-    editWindow.close();
-    editWindow = null;
-  }
-  if(sheetWindow) {
-    sheetWindow.close();
-    sheetWindow = null;
-  }
-  if(quilvynWindow) {
-    quilvynWindow.close();
-    quilvynWindow = null;
+  if(secondWindow) {
+    secondWindow.close();
+    secondWindow = null;
   }
   if(userOptions.separateEditor) {
     try {
-      quilvynWindow = window.open('', '', FEATURES_OF_EDIT_WINDOW);
+      secondWindow = window.open('', '', FEATURES_OF_EDIT_WINDOW);
     } catch(err) {
       // empty
     }
-    if(!quilvynWindow) {
+    if(!secondWindow) {
       alert('Window open failed.\nPlease enable popup windows in your browser settings, then try running Quilvyn again.');
       return false;
     }
-    try {
-      sheetWindow = window.open('', '', FEATURES_OF_SHEET_WINDOW);
-    } catch(err) {
-      // empty
-    }
-    if(!sheetWindow) {
-      alert('Window open failed.\nPlease enable popup windows in your browser settings, then try running Quilvyn again.');
-      return false;
-    }
-    quilvynWindow.document.write(
+    secondWindow.document.write(
       '<html>\n' +
       '<head>\n' +
       '  <title>Quilvyn</title>\n' +
@@ -1136,20 +1121,12 @@ Quilvyn.redrawUI = function() {
       '</body>\n' +
       '</html>\n'
     );
-    quilvynWindow.document.close();
-    quilvynWindow.focus();
-    editWindow = quilvynWindow.frames[0];
-    statusWindow = quilvynWindow.frames[1];
+    secondWindow.document.close();
+    secondWindow.focus();
+    editWindow = secondWindow.frames[0];
+    sheetWindow = quilvynWindow;
+    statusWindow = editWindow.frames[1];
   } else {
-    try {
-      quilvynWindow = window.open('', '');
-    } catch(err) {
-      // empty
-    }
-    if(!quilvynWindow) {
-      alert('Window open failed.\nPlease enable popup windows in your browser settings, then try running Quilvyn again.');
-      return false;
-    }
     quilvynWindow.document.write(
       '<html>\n' +
       '<head>\n' +
