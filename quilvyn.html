@@ -252,7 +252,8 @@ const CORE_URLS = [
   QUILVYN_HOME + 'core/QuilvynRules.js'
 ];
 const HELP_URL = QUILVYN_HOME + 'core/quilvyndoc.html';
-const LOGO_URL = QUILVYN_HOME + 'core/quilvyn.gif';
+const LOGO_URL = QUILVYN_HOME + 'core/quilvynlogodrop.png';
+const LOGO_TAG = '<img src="' + LOGO_URL + '" style="height:75px" align="middle"/>';
 
 // Work-around to support testing of IE/Edge with local Quilvyn install
 var STORAGE = null;
@@ -344,7 +345,7 @@ function pickPlugins() {
     '<head>',
     '<title>Quilvyn Plugin Picker</title>',
     '</head><body bgcolor="wheat">',
-    '<img src="' + LOGO_URL + '"/><br/>',
+    LOGO_TAG + '<br/>',
     '<p>Select Quilvyn rule sets to use, then press Ok</p>',
     '<form name="frm">',
     '<table>'

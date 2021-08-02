@@ -114,7 +114,7 @@ Quilvyn.confirmDialog = function(prmpt, callback) {
     var htmlBits = [
       '<html><head><title>' + prmpt + '</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
+      LOGO_TAG + '<br/>',
       '<h3>' + prmpt + '</h3>',
       '<form name="frm"><table>',
       '<input type="button" name="ok" value="Ok" onclick="okay=true;"/>',
@@ -160,7 +160,7 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
     var htmlBits = [
       '<html><head><title>' + prmpt + '</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
+      LOGO_TAG + '<br/>',
       '<h3>' + prmpt + '</h3>',
       '<form name="frm"><table>'
     ];
@@ -232,7 +232,7 @@ Quilvyn.textDialog = function(prmpt, multiline, defaultValue, error, callback) {
     var htmlBits = [
       '<html><head><title>' + prmpt + '</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
+      LOGO_TAG + '<br/>',
       '<h3>' + prmpt + '</h3>',
       '<form name="frm"><table>',
       multiline ?
@@ -350,7 +350,7 @@ Quilvyn.customAddItems = function(focus) {
     var htmlBits = [
       '<html><head><title>Add Custom Items</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + '"/><br/>',
+      LOGO_TAG + '<br/>',
       '<form>',
       '<table><tr>',
       '<th>Type</th><td>' + InputHtml('_type', 'select-one', choices).replace('>', ' onchange="update=true">') + '</td>',
@@ -553,7 +553,7 @@ Quilvyn.customExportCollections = function() {
   htmlBits.unshift(
     '<html><head><title>Export Custom Items</title></head>',
     '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-    '<img src="' + LOGO_URL + ' "/><br/>',
+    LOGO_TAG + '<br/>',
     '<pre>'
   );
   htmlBits.push('</pre>', '</body></html>');
@@ -741,7 +741,7 @@ Quilvyn.exportCharacters = function() {
   var htmlBits = [
     '<html><head><title>Export Characters</title></head>',
     '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-    '<img src="' + LOGO_URL + ' "/><br/>'];
+    LOGO_TAG + '<br/>'];
   for(var path in STORAGE) {
     if(!path.startsWith(PERSISTENT_CHARACTER_PREFIX))
       continue;
@@ -985,7 +985,7 @@ Quilvyn.randomizeCharacter = function(prompted) {
     var htmlBits = [
       '<html><head><title>Random Character</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      '<img src="' + LOGO_URL + ' "/><br/>',
+      LOGO_TAG + '<br/>',
       '<h2>Character Attributes</h2>',
       '<form name="frm"><table>'];
     for(var preset in presets) {
@@ -1198,8 +1198,10 @@ Quilvyn.refreshEditor = function(redraw) {
     var editHtml =
       '<html><head><title>Quilvyn Editor Window</title></head>\n' +
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>\n' +
-      '<img src="' + LOGO_URL + ' "/><br/>\n' +
-      '<div style="text-align:center"><i>Version ' + VERSION + '</i></div>\n' +
+      '<div style="text-align:center">\n' +
+      LOGO_TAG + '<br/>\n' +
+      '<i>Version ' + VERSION + '</i>\n' +
+     '</div><br/>\n' +
       Quilvyn.editorHtml() + '\n' +
       '</body></html>\n';
     editWindow.document.write(editHtml);
