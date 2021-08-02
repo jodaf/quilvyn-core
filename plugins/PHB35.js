@@ -29,13 +29,49 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function PHB35() {
 
   if(window.SRD35 == null) {
-    alert('The PHB35 module requires use of the SRD35 module');
+    alert('The D&D v3.5 module requires use of the D&D v3.5 (SRD only) plugin');
     return;
   }
 
-  PHB35.identityRules(SRD35.rules, PHB35.DEITIES);
+  var rules = new QuilvynRules('D&D v3.5', PHB35.VERSION);
+  PHB35.rules = rules;
+
+  rules.defineChoice('choices', SRD35.CHOICES);
+  rules.choiceEditorElements = SRD35.choiceEditorElements;
+  rules.choiceRules = SRD35.choiceRules;
+  rules.editorElements = SRD35.initialEditorElements();
+  rules.getFormats = SRD35.getFormats;
+  rules.makeValid = SRD35.makeValid;
+  rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
+  rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
+  rules.ruleNotes = PHB35.ruleNotes;
+
+  SRD35.createViewers(rules, SRD35.VIEWERS);
+  rules.defineChoice('extras',
+    'feats', 'featCount', 'sanityNotes', 'selectableFeatureCount',
+    'validationNotes'
+  );
+  rules.defineChoice('preset',
+    'race:Race,select-one,races', 'levels:Class Levels,bag,levels',
+    'prestige:Prestige Levels,bag,prestiges', 'npc:NPC Levels,bag,npcs');
+
+  SRD35.abilityRules(rules);
+  SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
+  SRD35.combatRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
+  SRD35.magicRules(rules, SRD35.SCHOOLS, PHB35.SPELLS);
+  SRD35.identityRules(
+    rules, SRD35.ALIGNMENTS, SRD35.CLASSES, PHB35.DEITIES, SRD35.PATHS,
+    SRD35.RACES, SRD35.PRESTIGE_CLASSES, SRD35.NPC_CLASSES
+  );
+  SRD35.talentRules
+    (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.GOODIES, SRD35.LANGUAGES,
+     SRD35.SKILLS);
+
+  Quilvyn.addRuleSet(rules);
 
 }
+
+PHB35.VERSION = '2.2.2.0';
 
 PHB35.DEITIES = {
   'None':'',
@@ -116,13 +152,49 @@ PHB35.DEITIES = {
     'Weapon="Short Sword" ' +
     'Domain=Good,Law,Protection'
 };
+PHB35.SPELL_RENAMES = {
+  'Acid Arrow':"Melf's Acid Arrow",
+  'Black Tentacles':"Evard's Black Tentacles",
+  'Clenched Fist':"Bigby's Clenched Fist",
+  'Crushing Hand':"Bigby's Crushing Hand",
+  'Floating Disk':"Tenser's Floating Disk",
+  'Forceful Hand':"Bigby's Forceful Hand",
+  'Freezing Sphere':"Otiluke's Freezing Sphere",
+  'Grasping Hand':"Bigby's Grasping Hand",
+  'Hideous Laughter':"Tasha's Hideous Laughter",
+  'Irresistible Dance':"Otto's Irresistible Dance",
+  'Instant Summons':"Drawmij's Instant Summons",
+  'Interposing Hand':"Bigby's Interposing Hand",
+  "Mage's Disjunction":"Mordenkainen's Disjunction",
+  "Mage's Faithful Hound":"Mordenkainen's Faithful Hound",
+  "Mage's Lucubration":"Mordenkainen's Lucubration",
+  "Mage's Magnificent Mansion":"Mordenkainen's Magnificent Mansion",
+  "Mage's Private Sanctum":"Mordenkainen's Private Sanctum",
+  "Mage's Sword":"Mordenkainen's Sword",
+  'Magic Aura':"Nystul's Magic Aura",
+  'Mnemonic Enhancer':"Rary's Mnemonic Enhancer",
+  'Phantom Trap':"Leomund's Trap",
+  'Resilient Sphere':"Otiluke's Resilient Sphere",
+  'Secret Chest':"Leomund's Secret Chest",
+  'Secure Shelter':"Leomund's Secure Shelter",
+  'Telekinetic Sphere':"Otiluke's Telekinetic Sphere",
+  'Telepathic Bond':"Rary's Telepathic Bond",
+  'Tiny Hut':"Leomund's Tiny Hut"
+};
+PHB35.SPELLS = Object.assign({}, SRD35.SPELLS);
+for(var s in PHB35.SPELL_RENAMES) {
+  PHB35.SPELLS[PHB35.SPELL_RENAMES[s]] = PHB35.SPELLS[s];
+  delete PHB35.SPELLS[s];
+}
 
-/* Defines rules related to basic character identity. */
-PHB35.identityRules = function(rules, deities) {
+/* Returns an array of plugins upon which this one depends. */
+PHB35.getPlugins = function() {
+  return ['SRD35'];
+};
 
-  QuilvynUtils.checkAttrTable(deities, ['Alignment', 'Domain', 'Weapon']);
-  for(var deity in deities) {
-    rules.choiceRules(rules, 'Deity', deity, deities[deity]);
-  }
-
+/* Returns HTML body content for user notes associated with this rule set. */
+PHB35.ruleNotes = function() {
+  return '' +
+    '<h2>D&D v3.5 Quilvyn Plugin Notes</h2>\n' +
+    'D&D v3.5 Quilvyn Plugin Version ' + PHB35.VERSION + '\n';
 };

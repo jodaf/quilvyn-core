@@ -52,47 +52,47 @@ const RULESETS = {
   'AD&D First Edition (1E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
     group:'Old School D&D',
-    require:['D&D SRD v3.5']
+    require:['D&D v3.5 (SRD only)']
   },
   'OSRIC - Old School Reference and Index Compilation (1E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
     group:'Old School D&D',
-    require:['D&D SRD v3.5']
+    require:['D&D v3.5 (SRD only)']
   },
   'AD&D Second Edition (2E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
     group:'Old School D&D',
-    require:['D&D SRD v3.5']
+    require:['D&D v3.5 (SRD only)']
   },
-  'D&D SRD v3.5':{
+  'D&D v3.5':{
+    url:QUILVYN_HOME + 'plugins/PHB35.js',
+    group:'D&D v3.5',
+    require:['D&D v3.5 (SRD only)']
+  },
+  'D&D v3.5 (SRD only)':{
     url:QUILVYN_HOME + 'plugins/SRD35.js',
-    group:'D&D 3.5',
+    group:'D&D v3.5',
     autoload:true
   },
-  'D&D PHB v3.5':{
-    url:QUILVYN_HOME + 'plugins/PHB35.js',
-    group:'D&D 3.5',
-    modify:['D&D SRD v3.5']
-  },
-  'Eberron Campaign Setting using D&D SRD v3.5 rules':{
+  'Eberron Campaign Setting using D&D v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/Eberron.js',
-    group:'D&D 3.5',
-    require:['D&D SRD v3.5']
+    group:'D&D v3.5',
+    require:['D&D v3.5']
   },
-  'Forgotten Realms Campaign Setting using D&D SRD v3.5 rules':{
+  'Forgotten Realms Campaign Setting using D&D v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/Realms.js',
-    group:'D&D 3.5',
-    require:['D&D SRD v3.5']
+    group:'D&D v3.5',
+    require:['D&D v3.5']
   },
-  'Midnight Campaign Setting using D&D SRD v3.5 rules':{
+  'Midnight Campaign Setting using D&D v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/LastAge.js',
-    group:'D&D 3.5',
-    require:['D&D SRD v3.5']
+    group:'D&D v3.5',
+    require:['D&D v3.5 (SRD only)']
   },
   'Pathfinder 1E':{
     url:QUILVYN_HOME + 'plugins/Pathfinder.js',
     group:'Pathfinder 1E',
-    require:['D&D SRD v3.5']
+    require:['D&D v3.5']
   },
   'Eberron Campaign Setting using Pathfinder 1E rules':{
     url:QUILVYN_HOME + 'plugins/Eberron.js',
@@ -109,20 +109,20 @@ const RULESETS = {
     group:'Pathfinder 1E',
     require:['Pathfinder 1E']
   },
-  'D&D SRD v5':{
-    url:QUILVYN_HOME + 'plugins/SRD5E.js',
-    group:'D&D 5E',
-    require:['D&D SRD v3.5']
-  },
-  'D&D PHB v5':{
+  'D&D 5E':{
     url:QUILVYN_HOME + 'plugins/PHB5E.js',
     group:'D&D 5E',
-    modify:'D&D SRD v5'
+    require:'D&D 5E (SRD only)'
+  },
+  'D&D 5E (SRD only)':{
+    url:QUILVYN_HOME + 'plugins/SRD5E.js',
+    group:'D&D 5E',
+    require:['D&D v3.5 (SRD only)']
   },
   "Xanathar's Guide":{
     url:QUILVYN_HOME + 'plugins/Xanathar.js',
     group:'D&D 5E',
-    modify:'D&D SRD v5'
+    modify:'D&D 5E'
   },
   'Pathfinder 2E':{
     url:QUILVYN_HOME + 'plugins/Pathfinder2E.js',
@@ -145,7 +145,7 @@ if(window.location.search.indexOf('X5E') >= 0)
 function CustomizeQuilvyn() {
 
   // The first part of this implementation defines extensions to choices defined
-  // by the SRD and Pathfinder plugins. Each extension includes a comment
+  // by the v3.5 and Pathfinder plugins. Each extension includes a comment
   // that shows the information that needs to be supplied with each addition.
   var animalCompanions = {
     // Format 'name': 'Str=int Dex=int Con=int Int=int Wis=int Cha=int HD=int Attack=int AC=int Dam=[int]'d'int[+int] Size=D|S|M|L|H [Level=int]', e.g.,
@@ -311,7 +311,7 @@ function LoadPlugins() {
     }
   }
   if(selectedRuleSets.length == 0)
-    selectedRuleSets.push('D&D SRD v3.5');
+    selectedRuleSets.push('D&D v3.5');
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
   StartQuilvyn();
 }
