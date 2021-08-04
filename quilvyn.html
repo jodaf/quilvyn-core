@@ -92,7 +92,7 @@ const RULESETS = {
   'Pathfinder 1E':{
     url:QUILVYN_HOME + 'plugins/Pathfinder.js',
     group:'Pathfinder 1E',
-    require:['D&D v3.5']
+    require:['D&D v3.5 (SRD only)']
   },
   'Eberron Campaign Setting using Pathfinder 1E rules':{
     url:QUILVYN_HOME + 'plugins/Eberron.js',
@@ -117,12 +117,13 @@ const RULESETS = {
   'D&D 5E (SRD only)':{
     url:QUILVYN_HOME + 'plugins/SRD5E.js',
     group:'D&D 5E',
+    autoload:true,
     require:['D&D v3.5 (SRD only)']
   },
   "Xanathar's Guide":{
     url:QUILVYN_HOME + 'plugins/Xanathar.js',
     group:'D&D 5E',
-    modify:'D&D 5E'
+    supplement:'D&D 5E'
   },
   'Pathfinder 2E':{
     url:QUILVYN_HOME + 'plugins/Pathfinder2E.js',
@@ -303,11 +304,11 @@ function LoadPlugins() {
         scriptUrls[RULESETS[rs].url] = '';
       }
       require = require.concat(RULESETS[rs].require || []);
-      if(RULESETS[rs].modify &&
-         !mainWindow.document.forms[0]['plugin'+RULESETS[rs].modify].checked) {
+      if(RULESETS[rs].supplement &&
+         !mainWindow.document.forms[0]['plugin'+RULESETS[rs].supplement].checked) {
         selectedRuleSets.pop();
-        selectedRuleSets.push(RULESETS[rs].modify, rs);
-        require.push(RULESETS[rs].modify);
+        selectedRuleSets.push(RULESETS[rs].supplement, rs);
+        require.push(RULESETS[rs].supplement);
       }
     }
   }
