@@ -1799,7 +1799,7 @@ Quilvyn.update = function(input) {
       ruleSet.ruleNotes()
     );
     ruleSet.getPlugins().map
-      (x => Quilvyn.rulesNotesWindow.document.write(x.rules.ruleNotes()));
+      (x => Quilvyn.rulesNotesWindow.document.write(x.ruleNotes()));
     Quilvyn.rulesNotesWindow.document.write(
       '\n</body>\n',
       '</html>\n'
