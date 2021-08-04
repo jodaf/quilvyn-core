@@ -41,6 +41,7 @@ function PHB35() {
   rules.choiceRules = SRD35.choiceRules;
   rules.editorElements = SRD35.initialEditorElements();
   rules.getFormats = SRD35.getFormats;
+  rules.getPlugins = PHB35.getPlugins;
   rules.makeValid = SRD35.makeValid;
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
@@ -189,12 +190,16 @@ for(var s in PHB35.SPELL_RENAMES) {
 
 /* Returns an array of plugins upon which this one depends. */
 PHB35.getPlugins = function() {
-  return ['SRD35'];
+  return [SRD35];
 };
 
 /* Returns HTML body content for user notes associated with this rule set. */
 PHB35.ruleNotes = function() {
   return '' +
     '<h2>D&D v3.5 Quilvyn Plugin Notes</h2>\n' +
-    'D&D v3.5 Quilvyn Plugin Version ' + PHB35.VERSION + '\n';
+    'D&D v3.5 Quilvyn Plugin Version ' + PHB35.VERSION + '\n' +
+    '\n' +
+    '<p>\n' +
+    'There are no known bugs, limitations, or usage notes specific to the D&D v3.5 plugin\n' +
+    '</p>\n';
 };
