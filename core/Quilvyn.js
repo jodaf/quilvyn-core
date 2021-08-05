@@ -20,7 +20,7 @@ var ABOUT_TEXT =
 'System Reference Document material is Open Game Content released by Wizards ' +
 'of the Coast under the Open Gaming License.  You should have received a ' +
 'copy of the Open Gaming License with this program; if not, you can obtain ' +
-'one from http://www.wizards.com/d20/files/OGLv1.0a.rtf. Click ' +
+'one from https://media.wizards.com/2016/downloads/SRD-OGL_V1.1.pdf. Click ' +
 '<a href="plugins/ogl.txt">here</a> to see the license.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley, Norm Jacobson, and ' +
 'Caroline Rider, for patient testing of Quilvyn and for suggestions that have '+
