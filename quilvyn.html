@@ -364,7 +364,7 @@ function pickPlugins() {
   htmlBits.push(
     '</table>',
     '<br/>',
-    '<input type="button" value="Ok" autofocus="autofocus" onclick="window.userPressedOkay = true;"/>',
+    '<input name="ok" type="button" value="Ok" onclick="window.userPressedOkay = true;"/>',
     '</form>',
     '</body>',
     '</html>'
@@ -372,6 +372,7 @@ function pickPlugins() {
   mainWindow = window.frames[0];
   mainWindow.document.write(htmlBits.join('\n'));
   mainWindow.document.close();
+  mainWindow.document.getElementsByName('ok')[0].focus();
   LoadPlugins();
 
 }
