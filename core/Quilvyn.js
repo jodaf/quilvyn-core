@@ -17,11 +17,19 @@ var ABOUT_TEXT =
 'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
 'Temple Place, Suite 330, Boston, MA 02111-1307 USA. ' +
 'Click <a href="core/gpl.txt">here</a> to see it.\n' +
+'Quilvyn\'s D&D, Eberron, and Forgotten Realms plugins are unofficial Fan ' +
+'Content permitted under Wizards of the Coast\'s <a href="https://company.wizards.com/en/legal/fancontentpolicy">Fan Content Policy</a>. ' +
+'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions of ' +
+'the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.\n' +
 'System Reference Document material is Open Game Content released by Wizards ' +
-'of the Coast under the Open Gaming License.  You should have received a ' +
+'of the Coast under the Open Gaming License. You should have received a ' +
 'copy of the Open Gaming License with this program; if not, you can obtain ' +
 'one from https://media.wizards.com/2016/downloads/SRD-OGL_V1.1.pdf. Click ' +
 '<a href="plugins/ogl.txt">here</a> to see the license.\n' +
+'OSRIC material in Quilvyn\'s OldSchool plugin is Open Game Content released ' +
+'by Stuart Marshall, Inc. under the Open Gaming License.\n' +
+'Material in Quilvyn\'s Last Age plugin is Open Game Content released by ' +
+'Fantasy Flight Publishing, Inc. under the Open Gaming License.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley, Norm Jacobson, and ' +
 'Caroline Rider, for patient testing of Quilvyn and for suggestions that have '+
 'greatly improved it.';
