@@ -1429,6 +1429,7 @@ Quilvyn.refreshStatus = function(showDetail) {
                .replace(/\s+,\s*/g, ', ')
                .replace(/\s\s+/g, ' ')
                .replace('%V', computed[a])
+               .replace(/\s*(>\s*0|>=\s*1)\b/g, '');
     for(var i = 0; i < 9; i++)
       note = note.replace('%' + i, computed[a + '.' + i]);
     var m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*)?/g);
