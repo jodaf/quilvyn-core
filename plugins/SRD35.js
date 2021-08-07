@@ -7589,9 +7589,9 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Run Speed', within: 'Speeds', format: '/%V'},
             {name: 'Armor Class', within: 'Section 1', format: '<b>AC</b> %V'},
             {name: 'Weapons', within: 'Section 1', format: '<b>%N</b> %V',
-             separator: '/'},
+             separator: '; '},
             {name: 'Alignment', within: 'Section 1', format: '<b>Ali</b> %V'},
-            {name: 'Save', within: 'Section 1', separator: '/'},
+            {name: 'Save', within: 'Section 1', separator: '; '},
             {name: 'Abilities', within: 'Section 1',
              format: '<b>Str/Int/Wis/Dex/Con/Cha</b> %V', separator: '/'},
               {name: 'Strength', within: 'Abilities', format: '%V'},
@@ -7601,12 +7601,12 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Wisdom', within: 'Abilities', format: '%V'},
               {name: 'Charisma', within: 'Abilities', format: '%V'},
           {name: 'Section 2', within: '_top', separator: '; '},
-            {name: 'Skill Modifier', within: 'Section 2', separator: '/'},
-            {name: 'Feats', within: 'Section 2', separator: '/'},
-            {name: 'Languages', within: 'Section 2', separator: '/'},
-            {name: 'Spells', within: 'Section 2', separator: '/'},
+            {name: 'Skill Modifier', within: 'Section 2', separator: '; '},
+            {name: 'Feats', within: 'Section 2', separator: '; '},
+            {name: 'Languages', within: 'Section 2', separator: '; '},
+            {name: 'Spells', within: 'Section 2', separator: '; '},
             {name: 'Spell Difficulty Class', within: 'Section 2',
-             separator: '/'},
+             separator: '; '},
             {name: 'Notes', within: 'Section 2'},
             {name: 'Hidden Notes', within: 'Section 2', format: '%V'}
       );
@@ -7675,10 +7675,6 @@ SRD35.createViewers = function(rules, viewers) {
       if(name != 'Collected Notes') {
         viewer.addElements(
             {name: 'Feature Notes', within: 'FeaturePart', separator: noteSep}
-        );
-      } else {
-        viewer.addElements(
-          {name: 'Features', within: 'FeaturePart', separator: '\n', columns: '1L'}
         );
       }
       viewer.addElements(
@@ -7749,7 +7745,19 @@ SRD35.createViewers = function(rules, viewers) {
       viewer.addElements(
         {name: 'Notes Area', within: '_top', separator: outerSep,
          format: '<b>Notes</b><br/>%V'},
-          {name: 'NotesPart', within: 'Notes Area', separator: '\n'},
+          {name: 'NotesPart', within: 'Notes Area', separator: '\n'}
+      );
+      if(name == 'Collected Notes') {
+        viewer.addElements(
+            {name: 'Ability Notes', within: 'NotesPart', format:"%V", separator: noteSep},
+            {name: 'Feature Notes', within: 'NotesPart', format:"%V", separator: noteSep},
+            {name: 'Skill Notes', within: 'NotesPart', format:"%V", separator:noteSep},
+            {name: 'Combat Notes', within: 'NotesPart', format:"%V", separator: noteSep},
+            {name: 'Save Notes', within: 'NotesPart', format:"%V", separator: noteSep},
+            {name: 'Magic Notes', within: 'NotesPart', format:"%V", separator: noteSep}
+        );
+      }
+      viewer.addElements(
             {name: 'CompanionInfo', within: 'NotesPart', separator: ' '},
               {name: 'Animal Companion', within: 'CompanionInfo', separator: ' '},
               {name: 'Animal Companion Name', within: 'CompanionInfo', format: '"%V"'},
