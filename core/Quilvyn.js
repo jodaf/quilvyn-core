@@ -1215,20 +1215,6 @@ Quilvyn.refreshEditor = function(redraw) {
     editWindow.document.write(editHtml);
     editWindow.document.close();
     var updateListener = function() {Quilvyn.update(this);};
-    var nextCharacterListener = function(e) {
-      if((event.code == 'KeyN' || event.code == 'KeyP') && event.altKey) {
-        var paths = InputGetParams(editWindow.editor.character);
-        var idx = paths.indexOf(characterPath);
-        if(idx < 0 ||
-           event.code == 'KeyN' && idx == paths.length - 1 ||
-           event.code == 'KeyP' && paths[idx - 1] == 'Summary')
-          return;
-        editWindow.editor.character.selectedIndex =
-          idx + (event.code=='KeyN' ? 1 : -1);
-        Quilvyn.update(editWindow.editor.character);
-        editWindow.focus();
-      }
-    }
     var selectSpellsListener = function(e) {
       if(event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
         Quilvyn.selectSpells();
@@ -1242,7 +1228,6 @@ Quilvyn.refreshEditor = function(redraw) {
     for(i = 0; i < editWindow.editor.elements.length; i++) {
       InputSetCallback(editWindow.editor.elements[i], updateListener);
     }
-    editWindow.document.addEventListener('keydown', nextCharacterListener);
     editWindow.document.addEventListener('keydown', selectSpellsListener);
     editWindow.document.addEventListener('keydown', undoListener);
     // Split attr,label pairs editorHtml set as params for Clear and Randomize
@@ -1277,6 +1262,9 @@ Quilvyn.refreshEditor = function(redraw) {
   InputSetOptions(editForm.custom, customOpts);
   InputSetValue(editForm.custom, customCollection);
   InputSetOptions(editForm.character, characterOpts);
+  if(characterPath)
+    editForm.character.selectedIndex =
+      InputGetParams(editForm.character).indexOf(characterPath);
 
   // Skip to first character-related editor input
   for(i = 0;
@@ -1825,7 +1813,7 @@ Quilvyn.update = function(input) {
     awin.focus();
   } else if(name == 'character') {
     input.selectedIndex = 0;
-    if(value == '---select one---')
+    if(value == '---choose one---')
       ; /* empty--Safari bug workaround */
     else if(value == 'Delete...')
       Quilvyn.deleteCharacters(null);
