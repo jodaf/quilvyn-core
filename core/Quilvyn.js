@@ -67,6 +67,7 @@ var statusWindow = null;// iframe or window where character status is shown
 var userOptions = {     // User-settable options
   bgColor: 'wheat',     // Window background color
   bgImage: 'Images/parchment.jpg', // URL for window background
+  textColor: 'black',   // Window text color
   extras: 1,            // Show extra attributes on sheet?
   hidden: 0,            // Show information marked "hidden" on sheet?
   italics: 1,           // Show italicized notes on sheet?
@@ -342,6 +343,7 @@ Quilvyn.htmlBackgroundAttr = function() {
       result += '.jpg';
     result += '"';
   }
+  result += ' text="' + userOptions.textColor + '"';
   return result;
 };
 
@@ -855,8 +857,9 @@ Quilvyn.modifyOptions = function(focus) {
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       '<h2>Quilvyn Options</h2>',
       '<form name="frm"><table>',
-      '<tr><td><b>Background Color</b></td><td>' + InputHtml('bgColor', 'text', [10]) + '</td></tr>',
+      '<tr style="display:none"><td><b>Background Color</b></td><td>' + InputHtml('bgColor', 'text', [20]) + '</td></tr>',
       '<tr><td><b>Background Image URL</b></td><td>' + InputHtml('bgImage', 'text', [30]) + '</td></tr>',
+      '<tr style="display:none"><td><b>Text Color</b></td><td>' + InputHtml('textColor', 'text', [20]) + '</td></tr>',
       '<tr><td><b>Separate Editor</b></td><td>' + InputHtml('separateEditor', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Extras</b></td><td>' + InputHtml('extras', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Hidden</b></td><td>' + InputHtml('hidden', 'checkbox', null) + '</td></tr>',
