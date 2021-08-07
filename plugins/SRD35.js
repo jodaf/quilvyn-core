@@ -5656,7 +5656,7 @@ SRD35.classRules = function(
         spellAbility + 'Modifier', '=', '10 + source'
       );
       if(spellLevel > 0 && spellLevel < 5 && spellType != 'Domain') {
-        var note = 'magicNotes.' + spellAbility + 'SpellSlotBonus';
+        var note = 'magicNotes.' + spellAbility + name + 'SpellSlotBonus';
         rules.defineChoice('notes', note + ':%1');
         rules.defineRule(note,
           spellAbility + 'Modifier', '?', 'source >= 1',
@@ -5665,10 +5665,10 @@ SRD35.classRules = function(
         rules.defineRule(note + '.1',
           note, '?', null,
           spellAbility + 'Modifier', '=',
-            'source>=1 ? ["Spell level 1", "2", "3", "4"].slice(0, source).join(", ") : null'
+            'source>=1 ? ["Spell level ' + spellType + '1", "' + spellType + '2", "' + spellType + '3", "' + spellType + '4"].slice(0, source).join(", ") : null'
         );
         rules.defineRule('spellSlots.' + spellType + spellLevel,
-          note + '.1', '+', 'source.includes("' + spellLevel + '") ? 1 : null'
+          note + '.1', '+', 'source.includes("' + spellType + spellLevel + '") ? 1 : null'
         );
       }
     }
