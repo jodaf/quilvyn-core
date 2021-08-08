@@ -118,8 +118,8 @@ OSRIC copyright 2006-2008 by Stuart Marshall, adapting material prepared by
 Matthew J. Finch, based on the System Reference Document, inspired by the
 works of E. Gary Gygax, Dave Arneson, and many others.
 
-Pathfinder Roleplaying Game Reference Document. © 2011, Paizo Publishing, LLC;
-Author: Paizo Publishing, LLC.
+Pathfinder Roleplaying Game Reference Document. Copyright 2011, Paizo
+Publishing, LLC; Author: Paizo Publishing, LLC.
 
 MIDNIGHT 2ND EDITION Copyright 2005, Fantasy Flight Publishing, Inc.
 Against the Shadow Copyright 2003, Fantasy Flight Publishing, Inc.
