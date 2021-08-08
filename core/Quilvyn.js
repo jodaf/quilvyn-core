@@ -17,8 +17,9 @@ var ABOUT_TEXT =
 'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
 'Temple Place, Suite 330, Boston, MA 02111-1307 USA. ' +
 'Click <a href="core/gpl.txt">here</a> to see it.\n' +
-'Quilvyn\'s D&D, Eberron, Forgotten Realms, and Xanathar\'s plugins are ' +
-'unofficial Fan Content permitted under Wizards of the Coast\'s <a href="https://company.wizards.com/en/legal/fancontentpolicy">Fan Content Policy</a>. ' +
+'Quilvyn\'s D&D, Eberron, Forgotten Realms, Sword Coast, and Xanathar\'s ' +
+'plugins are unofficial Fan Content permitted under Wizards of the ' +
+'Coast\'s <a href="https://company.wizards.com/en/legal/fancontentpolicy">Fan Content Policy</a>. ' +
 'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions of ' +
 'the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC.\n' +
 'Advanced Dungeons & Dragons Players Handbook © 2012 Wizards of the Coast ' +
@@ -32,6 +33,7 @@ var ABOUT_TEXT =
 'Dungeons & Dragons Eberron Campaign Setting © 2004 Wizards of ' +
 'the Coast, Inc.\n' +
 'Dungeons & Dragons Player\'s Handbook © 2014 Wizards of the Coast LLC.\n' +
+'Sword Coast Adventurer\'s Guide © 2015 Wizards of the Coast LLC.\n' +
 'Xanathar\'s Guide to Everything © 2017 Wizards of the Coast LLC.\n' +
 'Open Game License v 1.0a Copyright 2000, Wizards of the Coast, LLC.\n' +
 'OSRIC material in Quilvyn\'s OldSchool plugin is Open Game Content released ' +
