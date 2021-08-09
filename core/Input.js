@@ -77,7 +77,7 @@ function InputHtml(name, type, params) {
   else if(type == 'textarea')
     result =
       '<textarea name="' + name + '" rows="' + params[1] + '" cols="' +
-      params[0] + '"/></textarea>';
+      params[0] + '"></textarea>';
   return result;
 };
 
