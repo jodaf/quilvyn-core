@@ -8673,7 +8673,6 @@ SRD35.ruleNotes = function() {
     'SRD35 Quilvyn Plugin Version ' + SRD35.VERSION + '\n' +
     '\n' +
     '<h3>Usage Notes</h3>\n' +
-    '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
     '    Although they have a range increment, the weapons Club, Dagger,\n' +
@@ -8696,10 +8695,8 @@ SRD35.ruleNotes = function() {
     "    the class's proficiency in a single simple weapon.\n" +
     '  </li>\n' +
     '</ul>\n' +
-    '</p>\n' +
     '\n' +
     '<h3>Limitations</h3>\n' +
-    '<p>\n' +
     '<ul>\n' + '  <li>\n' +
     '    Racial favored class is not reported.\n' +
     '  </li><li>\n' +
@@ -8721,10 +8718,8 @@ SRD35.ruleNotes = function() {
     '    Blackguard features of fallen Paladins are not reported.\n' +
     '  </li>\n' +
     '</ul>\n' +
-    '</p>\n' +
     '\n' +
     '<h3>Known Bugs</h3>\n' +
-    '<p>\n' +
     '<ul>\n' +
     '  <li>\n' +
     '    When an character ability score is modified, Quilvyn recalculates\n' +
@@ -8736,6 +8731,5 @@ SRD35.ruleNotes = function() {
     '    Quilvyn gives multiclass characters quadruple skill points for the\n' +
     '    first level of each class, instead of just the first class.\n' +
     '  </li>\n' +
-    '</ul>\n' +
-    '</p>\n';
+    '</ul>\n';
 };
