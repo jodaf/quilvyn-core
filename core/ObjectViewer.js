@@ -70,6 +70,7 @@ ObjectViewer.prototype._getHtml = function(top, o, indent) {
     html = values.join(separator);
   } else {
     var align = 'center';
+    var border = top.borders ? 'border:' + top.borders + 'px solid black' : '';
     var equalColumns = false;
     if(columns == null) {
       columns = separator == '\n' ? 1 : values.length;
@@ -80,25 +81,24 @@ ObjectViewer.prototype._getHtml = function(top, o, indent) {
       columns = columns.replace(/\D+$/, '');
     }
     var rows = Math.ceil(values.length / columns);
-    html = indent + '<table id="' + top.name + '"' +
-           (top.borders != null ? ' border="' + top.borders + '"' : '') +
-           ' width="100%">\n';
+    html = indent + '<table id="' + top.name.replaceAll(' ', '') + '" style="' +
+           (border ? border +'; ' : '') + 'width:100%">\n';
     if(equalColumns && columns > 1) {
       for(var i = 0; i < columns - 1; i++) {
-        html += indent + '<col width="' + Math.floor(100 / columns) + '%"/>\n';
+        html += indent + '<col style="width:' + Math.floor(100 / columns) + '%"/>\n';
       }
-      html += indent + '<col width="' + Math.ceil(100 / columns) + '%"/>\n';
+      html += indent + '<col style="width:' + Math.ceil(100 / columns) + '%"/>\n';
     }
-    html += indent + '<tr align="' + align + '">\n';
+    html += indent + '<tr style="text-align:' + align + '">\n';
     for(var i = 0; i < rows * columns; i++) {
       var column = i % columns;
       var row = Math.floor(i / columns);
       if(i > 0 && column == 0) {
-        html += indent + '</tr><tr align="' + align + '">\n';
+        html += indent + '</tr><tr style="text-align:' + align + '">\n';
       }
       var index = row + column * rows;
       var value = index >= values.length ? '' : values[index];
-      html += indent + '  <td>' + value + '</td>\n';
+      html += indent + '  <td' + (border ? ' style="' + border + '"' : '') + '>' + value + '</td>\n';
     }
     html += indent + '</tr></table>\n';
   }
