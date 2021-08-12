@@ -52,47 +52,47 @@ const RULESETS = {
   'AD&D First Edition (1E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
     group:'Old School D&D',
-    require:['D&D v3.5 (SRD only)']
+    require:['v3.5 (SRD only)']
   },
   'OSRIC - Old School Reference and Index Compilation (1E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
     group:'Old School D&D',
-    require:['D&D v3.5 (SRD only)']
+    require:['v3.5 (SRD only)']
   },
   'AD&D Second Edition (2E)':{
     url:QUILVYN_HOME + 'plugins/OldSchool.js',
     group:'Old School D&D',
-    require:['D&D v3.5 (SRD only)']
+    require:['v3.5 (SRD only)']
   },
   'D&D v3.5':{
     url:QUILVYN_HOME + 'plugins/PHB35.js',
-    group:'D&D v3.5',
-    require:['D&D v3.5 (SRD only)']
+    group:'v3.5',
+    require:['v3.5 (SRD only)']
   },
-  'D&D v3.5 (SRD only)':{
+  'v3.5 (SRD only)':{
     url:QUILVYN_HOME + 'plugins/SRD35.js',
-    group:'D&D v3.5',
+    group:'v3.5',
     autoload:true
   },
   'Eberron Campaign Setting using D&D v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/Eberron.js',
-    group:'D&D v3.5',
+    group:'v3.5',
     require:['D&D v3.5']
   },
   'Forgotten Realms Campaign Setting using D&D v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/Realms.js',
-    group:'D&D v3.5',
+    group:'v3.5',
     require:['D&D v3.5']
   },
   'Midnight Campaign Setting using D&D v3.5 rules':{
     url:QUILVYN_HOME + 'plugins/LastAge.js',
-    group:'D&D v3.5',
-    require:['D&D v3.5 (SRD only)']
+    group:'v3.5',
+    require:['v3.5 (SRD only)']
   },
   'Pathfinder 1E':{
     url:QUILVYN_HOME + 'plugins/Pathfinder.js',
     group:'Pathfinder 1E',
-    require:['D&D v3.5 (SRD only)']
+    require:['v3.5 (SRD only)']
   },
   'Midnight Campaign Setting using Pathfinder 1E rules':{
     url:QUILVYN_HOME + 'plugins/LastAge.js',
@@ -101,23 +101,23 @@ const RULESETS = {
   },
   'D&D 5E':{
     url:QUILVYN_HOME + 'plugins/PHB5E.js',
-    group:'D&D 5E',
-    require:'D&D 5E (SRD only)'
+    group:'5E',
+    require:'5E (SRD only)'
   },
-  'D&D 5E (SRD only)':{
+  '5E (SRD only)':{
     url:QUILVYN_HOME + 'plugins/SRD5E.js',
-    group:'D&D 5E',
+    group:'5E',
     autoload:true,
-    require:['D&D v3.5 (SRD only)']
+    require:['v3.5 (SRD only)']
   },
   'Sword Coast Campaign Setting':{
     url:QUILVYN_HOME + 'plugins/SwordCoast.js',
-    group:'D&D 5E',
+    group:'5E',
     require:'D&D 5E'
   },
   "Xanathar's Guide supplement":{
     url:QUILVYN_HOME + 'plugins/Xanathar.js',
-    group:'D&D 5E',
+    group:'5E',
     supplement:'D&D 5E'
   },
   'Pathfinder 2E':{
@@ -309,7 +309,7 @@ function LoadPlugins() {
     }
   }
   if(selectedRuleSets.length == 0)
-    selectedRuleSets.push('D&D v3.5');
+    selectedRuleSets.push('v3.5 (SRD only)');
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
   StartQuilvyn();
 }
