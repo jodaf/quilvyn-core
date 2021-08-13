@@ -71,10 +71,16 @@ function InputHtml(name, type, params) {
     result =
       '<select name="' + name + '">\n' + opts.join('\n') + '\n</select>';
   }
-  else if(type == 'text')
+  else if(type == 'text') {
     result =
-      '<input name="' + name + '" type="text" size="' + params[0] + '"/>';
-  else if(type == 'textarea')
+      '<input name="' + name + '" type="text" size="' + params[0] + '"';
+    if(params.length > 1) {
+      var pat = params[1];
+      result += ' pattern=".?" ' + // Placeholder used solely as a flag
+                ' onchange="if(!this.value.match(/^' + pat + '$/)) {alert(\'Invalid value \' + this.value); this.value = this.lastValue; } else {this.lastValue = this.value; if(this.onvalid) this.onvalid(this);}"';
+    }
+    result += '/>';
+  } else if(type == 'textarea')
     result =
       '<textarea name="' + name + '" rows="' + params[1] + '" cols="' +
       params[0] + '"></textarea>';
@@ -86,6 +92,8 @@ function InputSetCallback(input, fn) {
   var method = input.type == 'button' ||
                input.type == 'checkbox' ||
                input.type == 'radio' ? 'onclick' : 'onchange';
+  if(input.pattern)
+    method = 'onvalid';
   input[method] = fn;
 };
 
@@ -124,5 +132,7 @@ function InputSetValue(input, value) {
   }
   else if(input.type != 'button')
     input.value = value == null ? '' : value;
+  if(input.pattern)
+    input.lastValue = value;
   return true;
 };
