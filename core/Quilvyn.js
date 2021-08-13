@@ -1304,7 +1304,6 @@ Quilvyn.refreshEditor = function(redraw) {
       '</body>',
       '</html>'
     ];
-    Quilvyn.showHtml(htmlBits.join('\n'));
     editWindow.document.write(htmlBits.join('\n') + '\n');
     editWindow.document.close();
     var updateListener = function() {Quilvyn.update(this);};
