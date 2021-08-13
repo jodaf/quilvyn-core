@@ -20,8 +20,8 @@ var ABOUT_TEXT =
 'Quilvyn\'s AD&D First Edition rule set, AD&D Second Edition rule set, D&D ' +
 'v3.5 rule set, Eberron Campaign Setting rule set, Forgotten Realms ' +
 'Campaign Setting rule set, D&D 5E rule set, Sword Coast Campaign Setting ' +
-'rule set, and Xanathar\'s Guide rule set are unofficial Fan Content ' +
-'permitted under Wizards of the Coast\'s ' +
+'rule set, Volo\'s Guide rule set, and Xanathar\'s Guide rule set are ' +
+'unofficial Fan Content permitted under Wizards of the Coast\'s ' +
 '<a href="https://company.wizards.com/en/legal/fancontentpolicy">Fan Content Policy</a>. ' +
 'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions of ' +
 'the materials used are property of Wizards of the Coast. ©Wizards of the ' +
