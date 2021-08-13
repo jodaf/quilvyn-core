@@ -786,8 +786,9 @@ Quilvyn.editorHtml = function() {
     }
     if(type.match(/^f?(bag|set)$/)) {
       // type = type.replace('f', ''); // Sub-menus largely supplant filters
-      var widget = type.match(/bag/) ? InputHtml(name, 'text', [3]) :
-                                       InputHtml(name, 'checkbox', null);
+      var widget = type.match(/bag/) ?
+        InputHtml(name, 'text', [3, '([-+]?\\d+)?']) :
+        InputHtml(name, 'checkbox', null);
       var needSub = params.filter(x => x.includes('(')).length > 0;
       // Intially put full parameter list, including sub-options, into _sel.
       // refreshEditor will handle splitting the values later.
@@ -1089,11 +1090,12 @@ Quilvyn.randomizeCharacter = function(prompted) {
             InputHtml(preset + '_sel', 'select-one',
                       QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2]))) +
             '</td><td>' +
-            InputHtml(preset, 'text', [2])
+            InputHtml(preset, 'text', [2, '([-+]?\\d+)?'])
           : pieces[1] == 'select-one' ?
             InputHtml(preset, 'select-one',
                       QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2])))
-          : InputHtml(preset, 'text', [2]);
+          // TODO Moot? To date, all plugins use only bag and select-one
+          : InputHtml(preset, pieces[1], [pieces[2]]);
       } else {
         console.log('No formatting specified for preset "' + preset + '"');
         continue;
@@ -1302,6 +1304,7 @@ Quilvyn.refreshEditor = function(redraw) {
       '</body>',
       '</html>'
     ];
+    Quilvyn.showHtml(htmlBits.join('\n'));
     editWindow.document.write(htmlBits.join('\n') + '\n');
     editWindow.document.close();
     var updateListener = function() {Quilvyn.update(this);};
@@ -1590,7 +1593,6 @@ Quilvyn.saveCharacter = function(path) {
 
 // Selects all spells that match the character's spell filter
 Quilvyn.selectSpells = function() {
-  console.log('selectSpells');
   var filter = character['spells_filter'] || '';
   for(var spell in ruleSet.getChoices('spells')) {
     if(spell.includes(filter))
