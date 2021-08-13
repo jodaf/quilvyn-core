@@ -38,6 +38,7 @@ var ABOUT_TEXT =
 'the Coast, Inc.\n' +
 'Dungeons & Dragons Player\'s Handbook © 2014 Wizards of the Coast LLC.\n' +
 'Sword Coast Adventurer\'s Guide © 2015 Wizards of the Coast LLC.\n' +
+'Volo\'s Guide to Monsters © 2016 Wizards of the Coast LLC.\n' +
 'Xanathar\'s Guide to Everything © 2017 Wizards of the Coast LLC.\n' +
 'Open Game License v 1.0a Copyright 2000, Wizards of the Coast, LLC. You ' +
 'should have received a copy of the Open Game License with this program; ' +
