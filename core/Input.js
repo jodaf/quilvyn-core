@@ -77,7 +77,7 @@ function InputHtml(name, type, params) {
     if(params.length > 1) {
       var pat = params[1];
       result += ' pattern=".*" ' + // Placeholder used solely as a flag
-                ' onchange="if(!this.value.match(/^' + pat + '$/)) {alert(\'Invalid value \' + this.value); this.value = this.lastValue; } else {this.lastValue = this.value; if(this.onvalid) this.onvalid(this);}"';
+                ' onchange="if(!this.value.match(/^' + pat + '$/)) {alert(\'Invalid value \' + this.value); this.value = this.lastValue==null ? \'\' : this.lastValue; } else {this.lastValue = this.value; if(this.onvalid) this.onvalid(this);}"';
     }
     result += '/>';
   } else if(type == 'textarea')
