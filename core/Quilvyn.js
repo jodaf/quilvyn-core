@@ -278,7 +278,7 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
  */
 Quilvyn.textDialog = function(prmpt, multiline, defaultValue, error, callback) {
 
-  if(USE_SYSTEM_DIALOGS && !multiline) {
+  if(Quilvyn.textDialog.win == null && USE_SYSTEM_DIALOGS && !multiline) {
     if(error)
       alert(error);
     callback(prompt(prmpt, defaultValue));
@@ -788,7 +788,7 @@ Quilvyn.editorHtml = function() {
     if(type.match(/^f?(bag|set)$/)) {
       // type = type.replace('f', ''); // Sub-menus largely supplant filters
       var widget = type.match(/bag/) ?
-        InputHtml(name, 'text', [3, '([-+]?\\d+)?']) :
+        InputHtml(name, 'text', [3, '(\\+?\\d+)?']) :
         InputHtml(name, 'checkbox', null);
       var needSub = params.filter(x => x.includes('(')).length > 0;
       // Intially put full parameter list, including sub-options, into _sel.
@@ -1091,7 +1091,7 @@ Quilvyn.randomizeCharacter = function(prompted) {
             InputHtml(preset + '_sel', 'select-one',
                       QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2]))) +
             '</td><td>' +
-            InputHtml(preset, 'text', [2, '([-+]?\\d+)?'])
+            InputHtml(preset, 'text', [2, '(\\+?\\d+)?'])
           : pieces[1] == 'select-one' ?
             InputHtml(preset, 'select-one',
                       QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2])))
