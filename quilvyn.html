@@ -30,9 +30,27 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
 <script>
 <!--
+var RULESETS = {};
+-->
+</script>
+<script src="plugins/plugins.js"></script>
+<script>
+<!--
 
 if(window.location.search.indexOf('DEBUG') >= 0)
   window.DEBUG = true;
+
+for(var rs in RULESETS) {
+  var urlMissing = false;
+  for(var attr in RULESETS[rs]) {
+    if(!(['autoload', 'group', 'init', 'require', 'supplement', 'url'].includes(attr)))
+      alert('Unknown attribute "' + attr + '" in definition of rule set "' + rs + '"');
+    if(attr == 'url')
+      urlMissing = false;
+  }
+  if(urlMissing)
+    alert('Definition of rule set "' + rs + '" has no url attribute');
+}
 
 /*
  * If QUILVYN_HOME is the empty string, all Quilvyn sources are drawn from a
@@ -41,106 +59,6 @@ if(window.location.search.indexOf('DEBUG') >= 0)
  */
 var QUILVYN_HOME = '';
 // QUILVYN_HOME = 'http://www.jodaf.com/dnd/q2/';
-
-/*
- * Quilvyn displays the modules listed in RULESETS in the initial pick
- * window. In addition to the plugin/rule set name, each element specifies
- * the URL path for the plugin, the name of the group it belongs to (for the
- * window headers), and sets of plugins it depends on or modifies.
- */
-const RULESETS = {
-  'AD&D First Edition (1E)':{
-    url:QUILVYN_HOME + 'plugins/OldSchool.js',
-    group:'Old School D&D',
-    require:['v3.5 (SRD only)']
-  },
-  'OSRIC - Old School Reference and Index Compilation (1E)':{
-    url:QUILVYN_HOME + 'plugins/OldSchool.js',
-    group:'Old School D&D',
-    require:['v3.5 (SRD only)']
-  },
-  'AD&D Second Edition (2E)':{
-    url:QUILVYN_HOME + 'plugins/OldSchool.js',
-    group:'Old School D&D',
-    require:['v3.5 (SRD only)']
-  },
-  'D&D v3.5':{
-    url:QUILVYN_HOME + 'plugins/PHB35.js',
-    group:'v3.5',
-    require:['v3.5 (SRD only)']
-  },
-  'v3.5 (SRD only)':{
-    url:QUILVYN_HOME + 'plugins/SRD35.js',
-    group:'v3.5',
-    autoload:true
-  },
-  'Eberron Campaign Setting using D&D v3.5 rules':{
-    url:QUILVYN_HOME + 'plugins/Eberron.js',
-    group:'v3.5',
-    require:['D&D v3.5']
-  },
-  'Forgotten Realms Campaign Setting using D&D v3.5 rules':{
-    url:QUILVYN_HOME + 'plugins/Realms.js',
-    group:'v3.5',
-    require:['D&D v3.5']
-  },
-  'Midnight Campaign Setting using D&D v3.5 rules':{
-    url:QUILVYN_HOME + 'plugins/LastAge.js',
-    group:'v3.5',
-    require:['v3.5 (SRD only)']
-  },
-  'Pathfinder 1E':{
-    url:QUILVYN_HOME + 'plugins/Pathfinder.js',
-    group:'Pathfinder 1E',
-    require:['v3.5 (SRD only)']
-  },
-  'Midnight Campaign Setting using Pathfinder 1E rules':{
-    url:QUILVYN_HOME + 'plugins/LastAge.js',
-    group:'Pathfinder 1E',
-    require:['Pathfinder 1E']
-  },
-  'D&D 5E':{
-    url:QUILVYN_HOME + 'plugins/PHB5E.js',
-    group:'5E',
-    require:'5E (SRD only)'
-  },
-  '5E (SRD only)':{
-    url:QUILVYN_HOME + 'plugins/SRD5E.js',
-    group:'5E',
-    autoload:true,
-    require:['v3.5 (SRD only)']
-  },
-  "Volo's Guide supplement to D&D 5E rules - Character Races":{
-    url:QUILVYN_HOME + 'plugins/Volo.js',
-    group:'5E',
-    supplement:'D&D 5E'
-  },
-  "Volo's Guide supplement to D&D 5E rules - Monstrous Races":{
-    url:QUILVYN_HOME + 'plugins/Volo.js',
-    group:'5E',
-    supplement:'D&D 5E'
-  },
-  "Xanathar's Guide supplement to D&D 5E rules":{
-    url:QUILVYN_HOME + 'plugins/Xanathar.js',
-    group:'5E',
-    supplement:'D&D 5E'
-  },
-  'Sword Coast Campaign Setting using D&D 5E rules':{
-    url:QUILVYN_HOME + 'plugins/SwordCoast.js',
-    group:'5E',
-    require:'D&D 5E'
-  },
-  'Pathfinder 2E':{
-    url:QUILVYN_HOME + 'plugins/Pathfinder2E.js',
-    group:'In Development'
-  },
-  'Savage Worlds SWADE':{
-    url:QUILVYN_HOME + 'plugins/SWADE.js',
-    group:'In Development'
-  }
-};
-if(window.location.search.indexOf('X5E') >= 0)
-  RULESETS['X5E'] = {url:'plugins/X5E.js'};
 
 /*
  * If this file defines a CustomizeQuilvyn function, Quilvyn calls it after
@@ -231,10 +149,8 @@ function CustomizeQuilvyn() {
   }
   for(var i = 0; i < selectedRuleSets.length; i++) {
     var ruleset = selectedRuleSets[i];
-    var funcName = RULESETS[ruleset].init || ruleset;
-    var funcName =
-      RULESETS[ruleset].init || 
-      RULESETS[ruleset].url.replace(/^.*\/|\.js$/g, '');
+    var attrs = RULESETS[ruleset];
+    var funcName = attrs.init || attrs.url.replace(/^.*\/|\.js$/g, '');
     if(window[funcName]) {
       console.log('Invoke ' + funcName);
       window[funcName](ruleset);
@@ -262,7 +178,7 @@ const LOGO_URL = QUILVYN_HOME + 'core/quilvynlogodrop.png';
 const LOGO_TAG =
   '<img src="' + LOGO_URL + '" style="height:75px; vertical-align:middle" alt="Quilvyn"/>';
 
-// Work-around to support testing of IE/Edge with local Quilvyn install
+// Work-around to support testing of Safari with local Quilvyn install
 var STORAGE = null;
 try {
   STORAGE = localStorage;
@@ -282,8 +198,12 @@ for(var i = 0; i < CORE_URLS.length; i++) {
 }
 
 for(var rs in RULESETS) {
-  if(RULESETS[rs].autoload)
-    document.write('<script src="' + RULESETS[rs].url + '">' + CLOSE_TAG);
+  if(!RULESETS[rs].autoload)
+    continue;
+  url = RULESETS[rs].url;
+  if(!url.includes('://'))
+    url = QUILVYN_HOME + url;
+  document.write('<script src="' + url + '">' + CLOSE_TAG);
 }
 
 function LoadPlugins() {
@@ -291,12 +211,20 @@ function LoadPlugins() {
     setTimeout('LoadPlugins()', 1000);
     return;
   }
-  var scriptUrls = {};
   var selectedRuleSets = [];
-  for(rs in RULESETS) {
+  for(var rs in RULESETS) {
     if(!mainWindow.document.forms[0]['plugin' + rs].checked)
       continue;
     selectedRuleSets.push(rs);
+  }
+  if(selectedRuleSets.length == 0) {
+    mainWindow.userPressedOay = false;
+    setTimeout('LoadPlugins()', 1000);
+    return;
+  }
+  var scriptUrls = {};
+  for(var i = 0; i < selectedRuleSets.length; i++) {
+    var rs = selectedRuleSets[i];
     var require = [rs];
     while(require.length > 0) {
       rs = require.pop();
@@ -304,6 +232,8 @@ function LoadPlugins() {
         if(!RULESETS[rs].autoload) {
           var scriptTag = document.createElement('script');
           scriptTag.src = RULESETS[rs].url;
+          if(!scriptTag.src.includes('://'))
+            scriptTag.src = QUILVYN_HOME + scriptTag.src;
           scriptTag.type = 'text/javascript';
           document.body.appendChild(scriptTag);
         }
@@ -318,8 +248,6 @@ function LoadPlugins() {
       }
     }
   }
-  if(selectedRuleSets.length == 0)
-    selectedRuleSets.push('v3.5 (SRD only)');
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
   StartQuilvyn();
 }
@@ -327,9 +255,9 @@ function LoadPlugins() {
 function StartQuilvyn() {
   var selectedRuleSets = STORAGE.getItem('QuilvynSelectedRuleSets').split(',');
   for(var i = 0; i < selectedRuleSets.length; i++) {
-    var funcName =
-      RULESETS[selectedRuleSets[i]].init || 
-      RULESETS[selectedRuleSets[i]].url.replace(/^.*\/|\.js$/g, '');
+    var ruleset = selectedRuleSets[i];
+    var attrs = RULESETS[ruleset];
+    var funcName = attrs.init || attrs.url.replace(/^.*\/|\.js$/g, '');
     if(window[funcName] == null) {
       setTimeout('StartQuilvyn()', 1000);
       return;

@@ -1,10 +1,10 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.2.30';
+var VERSION = '2.2.31';
 var ABOUT_TEXT =
-'Quilvyn Character Editor version ' + VERSION + '\n' +
-'The Quilvyn Character Editor is ' + COPYRIGHT + '\n' +
+'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
+'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
 'under the terms of the GNU General Public License as published by the Free ' +
 'Software Foundation; either version 2 of the License, or (at your option) ' +
@@ -17,56 +17,6 @@ var ABOUT_TEXT =
 'with this program; if not, write to the Free Software Foundation, Inc., 59 ' +
 'Temple Place, Suite 330, Boston, MA 02111-1307 USA. ' +
 'Click <a href="core/gpl.txt">here</a> to see it.\n' +
-'Quilvyn\'s AD&D First Edition rule set, AD&D Second Edition rule set, D&D ' +
-'v3.5 rule set, Eberron Campaign Setting rule set, Forgotten Realms ' +
-'Campaign Setting rule set, D&D 5E rule set, Sword Coast Campaign Setting ' +
-'rule set, Volo\'s Guide rule set, and Xanathar\'s Guide rule set are ' +
-'unofficial Fan Content permitted under Wizards of the Coast\'s ' +
-'<a href="https://company.wizards.com/en/legal/fancontentpolicy">Fan Content Policy</a>. ' +
-'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions of ' +
-'the materials used are property of Wizards of the Coast. ©Wizards of the ' +
-'Coast LLC.\n' +
-'Advanced Dungeons & Dragons Players Handbook © 2012 Wizards of the Coast ' +
-'LLC.\n' +
-'Advanced Dungeons & Dragons 2nd Edition Player\'s Handbook © 1989, 1995, ' +
-'2013 Wizards of the Coast LLC.\n' +
-'Dungeons & Dragons Player\'s Handbook v3.5 © 2003 Wizards of the Coast, '+
-'Inc.\n' +
-'Dungeons & Dragons Forgotten Realms Campaign Setting © 2001 Wizards of ' +
-'the Coast, Inc.\n' +
-'Dungeons & Dragons Eberron Campaign Setting © 2004 Wizards of ' +
-'the Coast, Inc.\n' +
-'Dungeons & Dragons Player\'s Handbook © 2014 Wizards of the Coast LLC.\n' +
-'Sword Coast Adventurer\'s Guide © 2015 Wizards of the Coast LLC.\n' +
-'Volo\'s Guide to Monsters © 2016 Wizards of the Coast LLC.\n' +
-'Xanathar\'s Guide to Everything © 2017 Wizards of the Coast LLC.\n' +
-'Open Game License v 1.0a Copyright 2000, Wizards of the Coast, LLC. You ' +
-'should have received a copy of the Open Game License with this program; ' +
-'if not, you can obtain one from ' +
-'https://media.wizards.com/2016/downloads/SRD-OGL_V1.1.pdf. ' +
-'<a href="plugins/ogl.txt">Click here</a> to see the license.\n' +
-'Quilvyn\'s OSRIC rule set uses Open Game Content released ' +
-'by Stuart Marshall, Inc. under the Open Game License. OSRIC copyright ' +
-'2006-2008 by Stuart Marshall, adapting material prepared by Matthew J. ' +
-'Finch, based on the System Reference Document, inspired by the works of ' +
-'E. Gary Gygax, Dave Arneson, and many others.\n' +
-'System Reference Document material is Open Game Content released by Wizards ' +
-'of the Coast under the Open Game License. System Reference Document ' +
-'Copyright 2000-2003, Wizards of the Coast, Inc.; Authors Jonathan Tweet, ' +
-'Monte Cook, Skip Williams, Rich Baker, Andy Collins, David Noonan, Rich ' +
-'Redman, Bruce R. Cordell, John D. Rateliff, Thomas Reid, James Wyatt, ' +
-'based on original material by E. Gary Gygax and Dave Arneson.\n' +
-'System Reference Document 5.1 Copyright 2016, Wizards of the Coast, Inc.; ' +
-'Authors Mike Mearls, Jeremy Crawford, Chris Perkins, Rodney Thompson, ' +
-'Peter Lee, James Wyatt, Robert J. Schwalb, Bruce R. Cordell, Chris Sims, ' +
-'and Steve Townshend, based on original material by E. Gary Gygax and Dave ' +
-'Arneson.\n' +
-'Pathfinder material is Open Game Content from the Pathfinder Roleplaying ' +
-'Reference Document, released by Paizo Publishing, LLC under the Open Game ' +
-'License. ©2011, Paizo Publishing, LLC; Author: Paizo Publishing, LLC.\n' +
-'Quilvyn\'s Midnight Campaign Setting rule set uses Open Game Content ' +
-'released by Fantasy Flight Publishing, Inc. under the Open Game License. ' +
-'Copyright 2003-2007, Fantasy Flight Publishing, Inc.\n' +
 'All trademarks used by Quilvyn are the property of their respective ' +
 'owners.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley, Norm Jacobson, and ' +

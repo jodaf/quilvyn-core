@@ -8670,28 +8670,47 @@ SRD35.getPlugins = function() {
 SRD35.ruleNotes = function() {
   return '' +
     '<h2>SRD35 Quilvyn Plugin Notes</h2>\n' +
+    '<p>' +
     'SRD35 Quilvyn Plugin Version ' + SRD35.VERSION + '\n' +
-    '\n' +
+    '</p><p>\n' +
+    'System Reference Document material is Open Game Content released by ' +
+    'Wizards of the Coast under the Open Game License. System Reference ' +
+    'Document Copyright 2000-2003, Wizards of the Coast, Inc.; Authors ' +
+    'Jonathan Tweet, Monte Cook, Skip Williams, Rich Baker, Andy Collins, ' +
+    'David Noonan, Rich Redman, Bruce R. Cordell, John D. Rateliff, Thomas ' +
+    'Reid, James Wyatt, based on original material by E. Gary Gygax and Dave ' +
+    'Arneson.\n' +
+    '</p><p>\n' +
+    'Open Game License v 1.0a Copyright 2000, Wizards of the Coast, LLC. You ' +
+    'should have received a copy of the Open Game License with this program; ' +
+    'if not, you can obtain one from ' +
+    'https://media.wizards.com/2016/downloads/SRD-OGL_V1.1.pdf. ' +
+    '<a href="plugins/ogl-srd35.txt">Click here</a> to see the license.<br/>\n'+
+    '</p><p>\n' +
+    'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions ' +
+    'of the materials used are property of Wizards of the Coast. ©Wizards of ' +
+    'the Coast LLC.\n' +
+    '</p>\n' +
     '<h3>Usage Notes</h3>\n' +
     '<ul>\n' +
     '  <li>\n' +
-    '    Although they have a range increment, the weapons Club, Dagger,\n' +
-    '    Light Hammer, Sai, Shortspear, Spear, and Trident are all\n' +
-    '    considered melee weapons.  Substitute the ranged attack attribute\n' +
-    '    for the melee attack attribute given on the character sheet when\n' +
+    '    Although they have a range increment, the weapons Club, Dagger,' +
+    '    Light Hammer, Sai, Shortspear, Spear, and Trident are all' +
+    '    considered melee weapons.  Substitute the ranged attack attribute' +
+    '    for the melee attack attribute given on the character sheet when' +
     '    any of these is thrown.\n' +
     '  </li><li>\n' +
-    '    The armor class of characters with the Dodge feat includes a +1\n' +
+    '    The armor class of characters with the Dodge feat includes a +1' +
     '    bonus that applies only to one foe at a time.\n' +
     '  </li><li>\n' +
-    '    For purposes of computing strength damage bonuses, Quilvyn assumes\n' +
-    '    that characters with a buckler wield their weapons one-handed and\n' +
+    '    For purposes of computing strength damage bonuses, Quilvyn assumes' +
+    '    that characters with a buckler wield their weapons one-handed and' +
     '    that characters with no buckler or shield wield with both hands.\n' +
     '  </li><li>\n' +
-    '    Quilvyn assumes that masterwork composite bows are specially built\n' +
+    '    Quilvyn assumes that masterwork composite bows are specially built' +
     '    to allow a strength damage bonus to be applied.\n' +
     '  </li><li>\n' +
-    '    Quilvyn gives Commoners Simple Weapon Proficiency to account for\n' +
+    '    Quilvyn gives Commoners Simple Weapon Proficiency to account for' +
     "    the class's proficiency in a single simple weapon.\n" +
     '  </li>\n' +
     '</ul>\n' +

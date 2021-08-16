@@ -108,33 +108,3 @@ System Reference Document Copyright 2000-2003, Wizards of the Coast, Inc.;
 Authors Jonathan Tweet, Monte Cook, Skip Williams, Rich Baker, Andy Collins,
 David Noonan, Rich Redman, Bruce R. Cordell, John D. Rateliff, Thomas Reid,
 James Wyatt, based on original material by E. Gary Gygax and Dave Arneson.
-
-System Reference Document 5.1 Copyright 2016, Wizards of the Coast, Inc.;
-Authors Mike Mearls, Jeremy Crawford, Chris Perkins, Rodney Thompson,
-Peter Lee, James Wyatt, Robert J. Schwalb, Bruce R.  Cordell, Chris Sims, and
-Steve Townshend, based on original material by E. Gary Gygax and Dave Arneson.
-
-OSRIC copyright 2006-2008 by Stuart Marshall, adapting material prepared by
-Matthew J. Finch, based on the System Reference Document, inspired by the
-works of E. Gary Gygax, Dave Arneson, and many others.
-
-Pathfinder Roleplaying Game Reference Document. Copyright 2011, Paizo
-Publishing, LLC; Author: Paizo Publishing, LLC.
-
-MIDNIGHT 2ND EDITION Copyright 2005, Fantasy Flight Publishing, Inc.
-Against the Shadow Copyright 2003, Fantasy Flight Publishing, Inc.
-Crown of Shadow Copyright 2003, Fantasy Flight Publishing, Inc.
-Minions of the Shadow Copyright 2003, Fantasy Flight Publishing, Inc.
-City of Shadow Copyright 2003, Fantasy Flight Publishing, Inc.
-Sorcery and Shadow Copyright 2003, Fantasy Flight Publishing, Inc.
-Under the Shadow Copyright 2004, Fantasy Flight Publishing, Inc.
-Forge of Shadow Copyright 2004, Fantasy Flight Publishing, Inc.
-Fury of Shadow Copyright 2004, Fantasy Flight Publishing, Inc.
-Steel and Shadow Copyright 2004, Fantasy Flight Publishing, Inc.
-Heart of Shadow Copyright 2005, Fantasy Flight Publishing, Inc.
-Star and Shadow Copyright 2005, Fantasy Flight Publishing, Inc.
-Hammer and Shadow Copyright 2005, Fantasy Flight Publishing, Inc.
-Hand of Shadow Copyright 2006, Fantasy Flight Publishing, Inc.
-Legends of Shadow Copyright 2006, Fantasy Flight Publishing, Inc.
-Destiny and Shadow Copyright 2006, Fantasy Flight Publishing, Inc.
-Honor and Shadow Copyright 2007, Fantasy Flight Publishing, Inc.
