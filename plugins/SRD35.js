@@ -305,9 +305,6 @@ SRD35.ARMORS = {
   'Half Plate':'AC=7 Weight=3 Dex=0 Skill=7 Spell=40',
   'Full Plate':'AC=8 Weight=3 Dex=1 Skill=6 Spell=35'
 };
-SRD35.DEITIES = {
-  'None':'' // SRD v3.5 defines no deities; they're in the Players Handbook
-};
 SRD35.FAMILIARS = {
 
   // Attack, Dam, AC include all modifiers
@@ -4634,6 +4631,11 @@ SRD35.PRESTIGE_CLASSES = {
     'Features=' +
       '"1:Improved Ally","1:Caster Level Bonus","2:Augment Summoning",' +
       '"3:Extended Summoning","4:Contingent Conjuration","5:Planar Cohort"'
+};
+SRD35.DEITIES = {
+  // SRD v3.5 defines no deities; they're in the Players Handbook. However,
+  // clerics with no deity still get two domains.
+  'None':'Domain=' + QuilvynUtils.getKeys(SRD35.PATHS).filter(x => x.match(/Domain$/)).map(x => x.replace(' Domain', '')).join(',')
 };
 
 SRD35.SAVE_BONUS_HALF = '2 + Math.floor(source / 2)';
