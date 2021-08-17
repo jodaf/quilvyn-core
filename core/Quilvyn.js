@@ -275,7 +275,8 @@ Quilvyn.textDialog = function(prmpt, multiline, defaultValue, error, callback) {
   }
 
   callback = Quilvyn.textDialog.win.callback;
-  defaultValue = Quilvyn.textDialog.win.document.frm.text.value;
+  defaultValue =
+    Quilvyn.textDialog.win.document.getElementsByName('text')[0].value;
   Quilvyn.textDialog.win = null;
   Quilvyn.refreshEditor(true);
   callback(defaultValue);
