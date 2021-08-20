@@ -30,16 +30,29 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 
 <script>
 <!--
+
+/*
+ * If QUILVYN_HOME is the empty string, all Quilvyn sources are drawn from a
+ * a local installation. Uncomment the second line below to draw the sources
+ * from the reference installation instead.
+ */
+var QUILVYN_HOME = '';
+// QUILVYN_HOME = 'http://www.jodaf.com/dnd/q2/';
+
 var RULESETS = {};
--->
-</script>
-<script src="plugins/plugins.js"></script>
-<script>
-<!--
 
 if(window.location.search.indexOf('DEBUG') >= 0)
   window.DEBUG = true;
 
+-->
+</script>
+
+<script src="plugins/plugins.js"></script>
+
+<script>
+<!--
+
+/* Validation checking on RULESET defintions from plugins/plugins.js */
 for(var rs in RULESETS) {
   var urlMissing = false;
   for(var attr in RULESETS[rs]) {
@@ -50,115 +63,6 @@ for(var rs in RULESETS) {
   }
   if(urlMissing)
     alert('Definition of rule set "' + rs + '" has no url attribute');
-}
-
-/*
- * If QUILVYN_HOME is the empty string, all Quilvyn sources are drawn from a
- * a local installation. Uncomment the second line below to draw the sources
- * from the reference installation instead.
- */
-var QUILVYN_HOME = '';
-// QUILVYN_HOME = 'http://www.jodaf.com/dnd/q2/';
-
-/*
- * If this file defines a CustomizeQuilvyn function, Quilvyn calls it after
- * loading, allowing you to add custom behavior to the program. The default
- * implementation below can be used without modification or can be tailored for
- * your installation.
- */
-function CustomizeQuilvyn() {
-
-  // The first part of this implementation defines extensions to choices defined
-  // by the v3.5 and Pathfinder plugins. Each extension includes a comment
-  // that shows the information that needs to be supplied with each addition.
-  var animalCompanions = {
-    // Format 'name': 'Str=int Dex=int Con=int Int=int Wis=int Cha=int HD=int Attack=int AC=int Dam=[int]'d'int[+int] Size=D|S|M|L|H [Level=int]', e.g.,
-    // 'Babboon': 'Str=15 Dex=14 Con=12 Int=2 Wis=12 Cha=4 HD=1 Attack=2 AC=13 Dam=1d6+3 Size=M'
-  };
-  var deities = {
-    // Format 'name':'Alignment=str Weapon=str Domain=str[,str...]' e.g.,
-    // 'Glennor':'Alignment=NG Weapon=Quarterstaff Domain=Air,Animal,Healing'
-  };
-  var familiars = {
-    // Format see animalCompanions, above
-  };
-  var feats = {
-    // Format 'name':'Type=str [Require=expr[,expr...]] [Imply=expr[,expr...]]'
-    // where Type is one or more of General, Fighter, "Item Creation", or
-    // Metamagic, and Require and Imply list validation and sanity tests, e.g.,
-    // 'Craft Talisman':'Type=Item Creation Imply="casterLevel >= 1"'
-  };
-  var features = {
-    // Format 'name':'Section=str[,...] Note="str"[,...]'
-    // where section is one of 'ability', 'combat', 'companion', 'feature', 'magic', or 'skill', e.g.,
-    // 'Craft Talisman':'Section=magic Note="Create object to cast level 3 spell 1/dy"'
-  };
-  var languages = {
-    // Format 'name':'', e.g.,
-    // 'whale':''
-  };
-  var skills = {
-    // Format 'name':'Ability=str Class=str[,str...] Untrained=Y/N [Synergy="str"]', e.g.,
-    // 'herbalism':'Ability=intelligence Class=Druid,Ranger Untrained=N'
-    // Class=all indicates that this is a class skill for all classes.
-  };
-  var spells = {
-    // Format 'name':'School=str Level=str[,str...] Description="str"', e.g.,
-    // 'Share Knowledge':'School=divination Level=B3,W3 Description="R30\' Extract knowledge on specific subject from target (Will neg)"'
-  };
-  var weapons = {
-    // Format 'name':Level=0|1|2|3 Category=Un|Si|1h|2h|R Damage='d'int [Threat=int] [Crit=int] [Range=int], e.g.,,
-    // 'Chakram':'Level=3 Category=R Damage=d6 Threat=19 Range=120'
-    // 'Pike':'Level=2 Category=2h Damage=d8 Crit=3'
-  };
-
-  // The second part applies specific customizations to the rules.
-  if(window.Pathfinder) {
-    Object.assign(Pathfinder.ANIMAL_COMPANIONS, animalCompanions);
-    Object.assign(Pathfinder.DEITIES, deities);
-    Object.assign(Pathfinder.FAMILIARS, familiars);
-    Object.assign(Pathfinder.FEATS, feats);
-    Object.assign(Pathfinder.FEATURES, features);
-    Object.assign(Pathfinder.LANGUAGES, languages);
-    Object.assign(Pathfinder.SKILLS, skills);
-    Object.assign(Pathfinder.SPELLS, spells);
-    Object.assign(Pathfinder.WEAPONS, weapons);
-  }
-  for(var feat in feats) {
-    if(feat.startsWith('Master Craftsman'))
-      delete feats[feat];
-  }
-  if(window.SRD35) {
-    Object.assign(SRD35.ANIMAL_COMPANIONS, animalCompanions);
-    Object.assign(SRD35.DEITIES, deities);
-    Object.assign(SRD35.FAMILIARS, familiars);
-    Object.assign(SRD35.FEATS, feats);
-    Object.assign(SRD35.FEATURES, features);
-    Object.assign(SRD35.LANGUAGES, languages);
-    Object.assign(SRD35.SKILLS, skills);
-    Object.assign(SRD35.SPELLS, spells);
-    Object.assign(SRD35.WEAPONS, weapons);
-  }
-
-  // The third part invokes the initialization function of each selected ruleset
-  var selectedRuleSets = [];
-  try {
-    selectedRuleSets = STORAGE.getItem('QuilvynSelectedRuleSets').split(',');
-  } catch(err) {
-    // empty
-  }
-  for(var i = 0; i < selectedRuleSets.length; i++) {
-    var ruleset = selectedRuleSets[i];
-    var attrs = RULESETS[ruleset];
-    var funcName = attrs.init || attrs.url.replace(/^.*\/|\.js$/g, '');
-    if(window[funcName]) {
-      console.log('Invoke ' + funcName);
-      window[funcName](ruleset);
-    } else {
-      alert('Cannot call ' + funcName);
-    }
-  }
-
 }
 
 /**** Commands that load the Quilvyn software.  Do not modify. ****/
@@ -206,67 +110,94 @@ for(var rs in RULESETS) {
   document.write('<script src="' + url + '">' + CLOSE_TAG);
 }
 
-function LoadPlugins() {
+function initRuleSet(funcName, ruleSet) {
+  window[funcName](ruleSet);
+  delete window.initRunning;
+}
+
+/*
+ * Waits until the plugin for each rule set in #ruleSets# finishes loading,
+ * then invokes its initialization function. After all have completed, invokes
+ * the main Quilvyn function.
+ */
+function initializeRuleSets(ruleSets) {
+  if(window.initRunning) {
+    setTimeout
+      ('initializeRuleSets([' + ruleSets.map(x => '"' + x + '"') + '])', 1000);
+    return;
+  }
+  if(ruleSets.length == 0)
+    return Quilvyn(mainWindow);
+  var rs = ruleSets[0];
+  var attrs = RULESETS[rs];
+  var funcName = attrs.init || attrs.url.replace(/^.*\/|\.js$/g, '');
+  if(window[funcName]) {
+    ruleSets.shift();
+    mainWindow.document.body.innerHTML +=
+      '<p>Generating rules for ' + rs + '...</p>';
+    window.initRunning = true;
+    setTimeout('initRuleSet("' + funcName + '","' + rs + '")', 10);
+  }
+  setTimeout
+    ('initializeRuleSets([' + ruleSets.map(x => '"' + x + '"') + '])', 1000);
+};
+
+/*
+ * Waits for the user to press the Ok button, then loads the plugins for the
+ * selected rule sets and any dependencies. Afterwards, calls initializeRuleSets
+ * passing those the user selected.
+ */
+function loadPlugins() {
+
   if(!mainWindow.userPressedOkay) {
-    setTimeout('LoadPlugins()', 1000);
+    setTimeout('loadPlugins()', 1000);
     return;
   }
-  var selectedRuleSets = [];
-  for(var rs in RULESETS) {
-    if(!mainWindow.document.forms[0]['plugin' + rs].checked)
-      continue;
-    selectedRuleSets.push(rs);
-  }
+
+  var selectedRuleSets =
+    Object.keys(RULESETS).filter(
+      rs => mainWindow.document.forms[0]['check' + rs].checked
+    );
   if(selectedRuleSets.length == 0) {
-    mainWindow.userPressedOay = false;
-    setTimeout('LoadPlugins()', 1000);
+    delete mainWindow.userPressedOkay;
+    setTimeout('loadPlugins()', 1000);
     return;
   }
-  var scriptUrls = {};
+
+  var pluginsLoaded =
+    Object.keys(RULESETS).map(x => RULESETS[x].autoload ? RULESETS[x].url : '');
   for(var i = 0; i < selectedRuleSets.length; i++) {
     var rs = selectedRuleSets[i];
     var require = [rs];
     while(require.length > 0) {
       rs = require.pop();
-      if(!(RULESETS[rs].url in scriptUrls)) {
-        if(!RULESETS[rs].autoload) {
-          var scriptTag = document.createElement('script');
-          scriptTag.src = RULESETS[rs].url;
-          if(!scriptTag.src.includes('://'))
-            scriptTag.src = QUILVYN_HOME + scriptTag.src;
-          scriptTag.type = 'text/javascript';
-          document.body.appendChild(scriptTag);
-        }
-        scriptUrls[RULESETS[rs].url] = '';
+      if(!pluginsLoaded.includes(RULESETS[rs].url)) {
+        var scriptTag = document.createElement('script');
+        var url = RULESETS[rs].url;
+        pluginsLoaded.push(url);
+        if(!url.includes('://'))
+          url = QUILVYN_HOME + url;
+        scriptTag.src = url;
+        scriptTag.type = 'text/javascript';
+        document.body.appendChild(scriptTag);
       }
       require = require.concat(RULESETS[rs].require || []);
-      if(RULESETS[rs].supplement &&
-         !mainWindow.document.forms[0]['plugin'+RULESETS[rs].supplement].checked) {
-        selectedRuleSets.pop();
-        selectedRuleSets.push(RULESETS[rs].supplement, rs);
-        require.push(RULESETS[rs].supplement);
+      var supplement = RULESETS[rs].supplement;
+      if(supplement && !(suppplement in selectedRulesets)) {
+        selectedRulesets.splice(i, 0, supplement);
+        require.push(supplement);
       }
     }
   }
+
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
-  StartQuilvyn();
+  mainWindow.document.body.innerHTML = '<p/>';
+  initializeRuleSets(selectedRuleSets);
+
 }
 
-function StartQuilvyn() {
-  var selectedRuleSets = STORAGE.getItem('QuilvynSelectedRuleSets').split(',');
-  for(var i = 0; i < selectedRuleSets.length; i++) {
-    var ruleset = selectedRuleSets[i];
-    var attrs = RULESETS[ruleset];
-    var funcName = attrs.init || attrs.url.replace(/^.*\/|\.js$/g, '');
-    if(window[funcName] == null) {
-      setTimeout('StartQuilvyn()', 1000);
-      return;
-    }
-  }
-  Quilvyn(mainWindow);
-}
-
-function pickPlugins() {
+/* Displays the rule set selection window, then calls loadPlugins. */
+function pickRuleSets() {
 
   var selectedRuleSets = [];
   try {
@@ -292,7 +223,7 @@ function pickPlugins() {
       currentGroup = group;
     }
     var options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked="checked"' : '');
-    htmlBits.push('<tr><td><input name="plugin' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>');
+    htmlBits.push('<tr><td><input name="check' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>');
   }
 
   htmlBits.push(
@@ -307,7 +238,7 @@ function pickPlugins() {
   mainWindow.document.write(htmlBits.join('\n'));
   mainWindow.document.close();
   mainWindow.document.getElementsByName('ok')[0].focus();
-  LoadPlugins();
+  loadPlugins();
 
 }
 
@@ -334,7 +265,7 @@ var mainWindow = null;
 </style>
 
 </head>
-<body onload='pickPlugins();'>
+<body onload='pickRuleSets();'>
   <iframe id="main" src="about:blank"></iframe>
 </body>
 </html>

@@ -84,9 +84,6 @@ function Quilvyn(win) {
       userOptions[a] = stored.match(/^\d+$/) ? stored - 0 : stored;
   }
 
-  if(CustomizeQuilvyn != null)
-    CustomizeQuilvyn();
-
   for(var path in STORAGE) {
     if(!path.startsWith(PERSISTENT_CUSTOM_PREFIX))
       continue;
