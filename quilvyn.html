@@ -183,8 +183,8 @@ function loadPlugins() {
       }
       require = require.concat(RULESETS[rs].require || []);
       var supplement = RULESETS[rs].supplement;
-      if(supplement && !(suppplement in selectedRulesets)) {
-        selectedRulesets.splice(i, 0, supplement);
+      if(supplement && !selectedRuleSets.includes(supplement)) {
+        selectedRuleSets.splice(i, 0, supplement);
         require.push(supplement);
       }
     }
