@@ -106,7 +106,7 @@ for(var rs in RULESETS) {
     continue;
   url = RULESETS[rs].url;
   if(!url.includes('://'))
-    url = QUILVYN_HOME + url;
+    url = QUILVYN_HOME + 'plugins/' + url;
   document.write('<script src="' + url + '">' + CLOSE_TAG);
 }
 
@@ -177,7 +177,7 @@ function loadPlugins() {
         var url = RULESETS[rs].url;
         pluginsLoaded.push(url);
         if(!url.includes('://'))
-          url = QUILVYN_HOME + url;
+          url = QUILVYN_HOME + 'plugins/' + url;
         scriptTag.src = url;
         scriptTag.type = 'text/javascript';
         document.body.appendChild(scriptTag);

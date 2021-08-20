@@ -23,7 +23,7 @@
  *     to the filename of the plugin.
  */
 RULESETS['v3.5 (SRD only)'] = {
-  url:'plugins/SRD35.js',
+  url:'SRD35.js',
   group:'v3.5',
   autoload:true,
 };
