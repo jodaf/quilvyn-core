@@ -164,6 +164,7 @@ function loadPlugins() {
     return;
   }
 
+  mainWindow.document.body.innerHTML = '<p>Loading plugins...</p>';
   var pluginsLoaded =
     Object.keys(RULESETS).map(x => RULESETS[x].autoload ? RULESETS[x].url : '');
   for(var i = 0; i < selectedRuleSets.length; i++) {
@@ -191,7 +192,6 @@ function loadPlugins() {
   }
 
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
-  mainWindow.document.body.innerHTML = '<p/>';
   initializeRuleSets(selectedRuleSets);
 
 }
