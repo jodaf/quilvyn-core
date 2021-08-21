@@ -767,8 +767,7 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Cannot be flanked, sneak attack only by rogue level %V+"',
   'Increased Unarmed Damage':'Section=combat Note="%V"',
-  'Indomitable Will':
-    'Section=save Note="+4 enchantment resistance during rage"',
+  'Indomitable Will':'Section=save Note="+4 vs. enchantment during rage"',
   'Inspire Competence':
     'Section=magic Note="R30\' +2 allies skill checks while performing for 2 min"',
   'Inspire Courage':
@@ -3633,7 +3632,7 @@ SRD35.SPELLS = {
   'Spell Resistance':
     'School=Abjuration ' +
     'Level=C5,Magic5,Protection5 ' +
-    'Description="Touched +$Lplus12 saves vs spells for $L min"',
+    'Description="Touched $Lplus12 spell resistance for $L min"',
   'Spell Turning':
     'School=Abjuration ' +
     'Level=Luck7,Magic7,W7 ' +
