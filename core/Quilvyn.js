@@ -1595,7 +1595,11 @@ Quilvyn.sheetHtml = function(attrs) {
     } else {
       var object = name.substring(0, i);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
-      value = name + ': ' + value;
+      // TODO: Remove this hack that gets DR to appear differenty
+      if(object == 'Damage Reduction')
+        value += '/' + name;
+      else
+        value = name + ': ' + value;
       if(isNote && ruleSet.isSource(a)) {
         if(userOptions.italics)
           value = '<i>' + value + '</i>';

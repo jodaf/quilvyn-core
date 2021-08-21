@@ -589,7 +589,7 @@ SRD35.FEATURES = {
   'Camouflage':'Section=skill Note="Hide in any natural terrain"',
   'Celestial Familiar':
     'Section=companion ' +
-    'Note="Smite Evil (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, %{((familiarStats.HD+7)//8)*5} acid, cold, and electricity resistance, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
+    'Note="Smite Evil (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, energy resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Cleave':'Section=combat Note="Extra attack when foe drops 1/rd"',
   'Combat Casting':
     'Section=skill ' +
@@ -619,7 +619,7 @@ SRD35.FEATURES = {
     'Section=magic Note="Create and mend miscellaneous magic items"',
   'Crippling Strike':
     'Section=combat Note="2 points Str damage from sneak attack"',
-  'Damage Reduction':'Section=combat Note="Negate %V HP each attack"',
+  'Damage Reduction':'Section=combat Note="DR %V/-"',
   'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
   'Deadly Touch':
     'Section=magic ' +
@@ -642,7 +642,7 @@ SRD35.FEATURES = {
   'Detect Evil':'Section=magic Note="<i>Detect Evil</i> at will"',
   'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
   'Diamond Body':'Section=save Note="Immune to poison"',
-  'Diamond Soul':'Section=save Note="DC %{levels.Monk + 10} spell resistance"',
+  'Diamond Soul':'Section=save Note="DC %V spell resistance"',
   'Diehard':
     'Section=combat ' +
     'Note="Remain conscious, stable, and able to act with negative HP"',
@@ -702,7 +702,7 @@ SRD35.FEATURES = {
   'Feat Bonus':'Section=feature Note="+1 General Feat"',
   'Fiendish Familiar':
     'Section=companion ' +
-    'Note="Smite Good (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, %{((familiarStats.HD+7)//8)*5} acid, cold, and electricity resistance, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
+    'Note="Smite Good (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, energy %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Fighter Feat Bonus':'Section=feature Note="+1 Fighter Feat"',
   'Fire Turning':'Section=combat Note="Turn Water, rebuke Fire"',
   'Flurry Of Blows':
@@ -1132,7 +1132,7 @@ SRD35.FEATURES = {
   'Terrain Mastery (Cold)':
     'Section=combat,save ' +
     'Note="+1 attack and damage vs. cold elementals and outsiders",' +
-         '"20 cold resistance"',
+         '"Resistance 20 to cold"',
   'Terrain Mastery (Desert)':
     'Section=combat,save ' +
      'Note="+1 attack and damage vs. desert creatures",' +
@@ -1140,7 +1140,7 @@ SRD35.FEATURES = {
   'Terrain Mastery (Fiery)':
     'Section=combat,save ' +
     'Note="+1 attack and damage vs. fire elementals and fire outsiders",' +
-         '"20 fire resistance"',
+         '"Resistance 20 to fire"',
   'Terrain Mastery (Forest)':
     'Section=combat,skill ' +
     'Note="+1 attack and damage vs. forest creatures",' +
@@ -3071,7 +3071,7 @@ SRD35.SPELLS = {
   'Nondetection':
     'School=Abjuration ' +
     'Level=Assassin3,R4,Trickery3,W3 ' +
-    'Description="Touched DC $Lplus11, $Lplus15 resistance to divination for $L hr"',
+    'Description="Touched DC $Lplus11, $Lplus15 spell resistance to divination for $L hr"',
 
   'Obscure Object':
     'School=Abjuration ' +
@@ -3375,7 +3375,7 @@ SRD35.SPELLS = {
   'Resist Energy':
     'School=Abjuration ' +
     'Level=Adept2,C2,D2,Fire3,P2,R1,W2 ' +
-    'Description="Touched DR ${lvl>10?30:lvl>6?20:10} from specified energy for $L10 min"',
+    'Description="Touched energy resistance ${lvl>10?30:lvl>6?20:10} to chosen energy for $L10 min"',
   'Resistance':
     'School=Abjuration ' +
     'Level=B0,C0,D0,P1,W0 ' +
@@ -5704,6 +5704,8 @@ SRD35.classRulesExtra = function(rules, name) {
       'features.Rage', '?', null,
       'levels.Barbarian', '+=', '1 + Math.floor(source / 4)'
     );
+    rules.defineRule
+      ('damageReduction.-', 'combatNotes.damageReduction', '^=', null);
     rules.defineRule('extraRages',
       'features.Greater Rage', '+=', '1',
       'features.Mighty Rage', '+=', '1'
@@ -5796,9 +5798,6 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Monk', '=', 'Math.floor(source / 5)',
       'wisdomModifier', '+', 'source > 0 ? source : null'
     );
-    rules.defineRule('selectableFeatureCount.Monk',
-      'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
-    );
     // NOTE Our rule engine doesn't support modifying a value via indexing.
     // Here, we work around this limitation by defining rules that set global
     // values as a side effect, then use these values in our calculations.
@@ -5811,6 +5810,14 @@ SRD35.classRulesExtra = function(rules, name) {
       'features.Small', '=', 'SRD35.SMALL_DAMAGE[SRD35.SMALL_DAMAGE["monk"]]',
       'features.Large', '=', 'SRD35.LARGE_DAMAGE[SRD35.LARGE_DAMAGE["monk"]]'
     );
+    rules.defineRule
+      ('damageReduction.Magic', 'combatNotes.perfectSelf', '^=', '10');
+    rules.defineRule
+      ('saveNotes.diamondSoul', 'levels.Monk', '=', '10 + source');
+    rules.defineRule('selectableFeatureCount.Monk',
+      'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
+    );
+    rules.defineRule('spellResistance', 'saveNotes.diamondSoul', '^=', null);
 
   } else if(name == 'Paladin') {
 
@@ -6160,6 +6167,8 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.defenderArmor',
       'levels.Dwarven Defender', '+=', 'Math.floor((source + 2) / 3)'
     );
+    rules.defineRule
+      ('damageReduction.-', 'combatNotes.damageReduction', '^=', null);
     rules.defineRule('featureNotes.defensiveStance',
       'constitutionModifier', '+=', 'source + 5'
     );
@@ -6201,6 +6210,10 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Horizon Walker') {
 
+    rules.defineRule
+      ('energyResistance.Cold', 'saveNotes.terrainMastery(Cold)', '^=', '20');
+    rules.defineRule
+      ('energyResistance.Fire', 'saveNotes.terrainMastery(Fiery)', '^=', '20');
     rules.defineRule('features.Tremorsense',
       'features.Terrain Mastery (Cavernous)', '=', '1'
     );
@@ -7589,10 +7602,16 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Speed', within: 'Speeds', format: '<b>Speed</b> %V'},
               {name: 'Run Speed', within: 'Speeds', format: '/%V'},
             {name: 'Armor Class', within: 'Section 1', format: '<b>AC</b> %V'},
+            {name: 'Damage Reduction', within: 'Section 1',
+             format: '<b>DR</b> %V', separator:'; '},
             {name: 'Weapons', within: 'Section 1', format: '<b>%N</b> %V',
              separator: '; '},
             {name: 'Alignment', within: 'Section 1', format: '<b>Ali</b> %V'},
             {name: 'Save', within: 'Section 1', separator: '; '},
+            {name: 'Spell Resistance', within: 'Section 1', format:
+             '<b>SR</b> %V'},
+            {name: 'Energy Resistance', within: 'Section 1', format:
+             '<b>ER</b> %V', separator: '; '},
             {name: 'Abilities', within: 'Section 1',
              format: '<b>Str/Int/Wis/Dex/Con/Cha</b> %V', separator: '/'},
               {name: 'Strength', within: 'Abilities', format: '%V'},
@@ -7699,6 +7718,8 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Hit Points', within: 'CombatStats'},
               {name: 'Initiative', within: 'CombatStats'},
               {name: 'Armor Class', within: 'CombatStats'},
+              {name: 'Damage Reduction', within: 'CombatStats',
+               separator: listSep},
               {name: 'Attacks Per Round', within: 'CombatStats'},
               {name: 'AttackInfo', within: 'CombatStats', separator: ''},
                 {name: 'Base Attack', within: 'AttackInfo',
@@ -7720,7 +7741,12 @@ SRD35.createViewers = function(rules, viewers) {
         );
       }
       viewer.addElements(
-            {name: 'Save', within: 'CombatPart', separator: listSep}
+            {name: 'SavesAndResistance', within: 'CombatPart',
+             separator: innerSep},
+              {name: 'Save', within: 'SavesAndResistance', separator: listSep},
+              {name: 'Spell Resistance', within: 'SavesAndResistance'},
+              {name: 'Energy Resistance', within: 'SavesAndResistance',
+               separator: listSep}
       );
       if(name != 'Collected Notes') {
         viewer.addElements(
