@@ -642,7 +642,7 @@ SRD35.FEATURES = {
   'Detect Evil':'Section=magic Note="<i>Detect Evil</i> at will"',
   'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
   'Diamond Body':'Section=save Note="Immune to poison"',
-  'Diamond Soul':'Section=save Note="DC %V spell resistance"',
+  'Diamond Soul':'Section=save Note="Spell resistance %V"',
   'Diehard':
     'Section=combat ' +
     'Note="Remain conscious, stable, and able to act with negative HP"',
@@ -3071,7 +3071,7 @@ SRD35.SPELLS = {
   'Nondetection':
     'School=Abjuration ' +
     'Level=Assassin3,R4,Trickery3,W3 ' +
-    'Description="Touched DC $Lplus11, $Lplus15 spell resistance to divination for $L hr"',
+    'Description="Touched DC $Lplus11, spell resistance $Lplus15 to divination for $L hr"',
 
   'Obscure Object':
     'School=Abjuration ' +
@@ -3632,7 +3632,7 @@ SRD35.SPELLS = {
   'Spell Resistance':
     'School=Abjuration ' +
     'Level=C5,Magic5,Protection5 ' +
-    'Description="Touched $Lplus12 spell resistance for $L min"',
+    'Description="Touched spell resistance $Lplus12 for $L min"',
   'Spell Turning':
     'School=Abjuration ' +
     'Level=Luck7,Magic7,W7 ' +
