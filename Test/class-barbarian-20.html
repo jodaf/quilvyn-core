@@ -156,6 +156,7 @@ var attributes = {
         <td><b>Hit Points</b>: 172</td>
         <td><b>Initiative</b>: 8</td>
         <td><b>Armor Class</b>: 17</td>
+        <td><b>Damage Reduction</b>: 5/-</td>
         <td><b>Attacks Per Round</b>: 4</td>
         <td><b>Base/Melee/Ranged Attack</b>: 20/21/24</td>
       </tr></table>
@@ -181,6 +182,8 @@ var attributes = {
       <tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +20</i></td>
       </tr><tr style="text-align:center">
+        <td><i>Damage Reduction: DR 5/-</i></td>
+      </tr><tr style="text-align:center">
         <td><i>Dexterity Armor Class Adjustment: +4</i></td>
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +4</i></td>
@@ -192,8 +195,6 @@ var attributes = {
         <td><i>Strength Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
         <td>Combat Reflexes: Flatfooted AOO, 5 AOO/rd</td>
-      </tr><tr style="text-align:center">
-        <td>Damage Reduction: Negate 5 HP each attack</td>
       </tr><tr style="text-align:center">
         <td>Greater Rage: +6 Str, +6 Con, +3 Will during rage</td>
       </tr><tr style="text-align:center">
@@ -213,7 +214,11 @@ var attributes = {
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
-      <td><b>Save</b>: Fortitude: 13; Reflex: 10; Will: 7</td>
+      <td>      <table id="SavesAndResistance" style="width:100%">
+      <tr style="text-align:center">
+        <td><b>Save</b>: Fortitude: 13; Reflex: 10; Will: 7</td>
+      </tr></table>
+</td>
     </tr><tr style="text-align:center">
       <td><b>Save Notes</b>:       <table id="SaveNotes" style="width:100%">
       <tr style="text-align:center">
@@ -225,7 +230,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Wisdom Will Adjustment: -1</i></td>
       </tr><tr style="text-align:center">
-        <td>Indomitable Will: +4 enchantment resistance during rage</td>
+        <td>Indomitable Will: +4 vs. enchantment during rage</td>
       </tr><tr style="text-align:center">
         <td>Trap Sense: +6 Reflex and AC vs. traps</td>
       </tr></table>
