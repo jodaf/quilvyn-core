@@ -589,7 +589,7 @@ SRD35.FEATURES = {
   'Camouflage':'Section=skill Note="Hide in any natural terrain"',
   'Celestial Familiar':
     'Section=companion ' +
-    'Note="Smite Evil (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, energy resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
+    'Note="Smite Evil (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Cleave':'Section=combat Note="Extra attack when foe drops 1/rd"',
   'Combat Casting':
     'Section=skill ' +
@@ -702,7 +702,7 @@ SRD35.FEATURES = {
   'Feat Bonus':'Section=feature Note="+1 General Feat"',
   'Fiendish Familiar':
     'Section=companion ' +
-    'Note="Smite Good (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, energy %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
+    'Note="Smite Good (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Fighter Feat Bonus':'Section=feature Note="+1 Fighter Feat"',
   'Fire Turning':'Section=combat Note="Turn Water, rebuke Fire"',
   'Flurry Of Blows':
@@ -3241,7 +3241,7 @@ SRD35.SPELLS = {
   'Protection From Energy':
     'School=Abjuration ' +
     'Level=Blackguard3,C3,D3,Luck3,Protection3,R2,W3 ' +
-    'Description="Touched ignores up to $L12min120 HP from specified energy for $L10 min"',
+    'Description="Touched resistance $L12min120 to chosen energy for $L10 min"',
   'Protection From Evil':
     'School=Abjuration ' +
     'Level=Adept1,C1,Good1,P1,W1 ' +
@@ -3375,7 +3375,7 @@ SRD35.SPELLS = {
   'Resist Energy':
     'School=Abjuration ' +
     'Level=Adept2,C2,D2,Fire3,P2,R1,W2 ' +
-    'Description="Touched energy resistance ${lvl>10?30:lvl>6?20:10} to chosen energy for $L10 min"',
+    'Description="Touched resistance ${lvl>10?30:lvl>6?20:10} to chosen energy for $L10 min"',
   'Resistance':
     'School=Abjuration ' +
     'Level=B0,C0,D0,P1,W0 ' +
@@ -6211,9 +6211,9 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Horizon Walker') {
 
     rules.defineRule
-      ('energyResistance.Cold', 'saveNotes.terrainMastery(Cold)', '^=', '20');
+      ('resistance.Cold', 'saveNotes.terrainMastery(Cold)', '^=', '20');
     rules.defineRule
-      ('energyResistance.Fire', 'saveNotes.terrainMastery(Fiery)', '^=', '20');
+      ('resistance.Fire', 'saveNotes.terrainMastery(Fiery)', '^=', '20');
     rules.defineRule('features.Tremorsense',
       'features.Terrain Mastery (Cavernous)', '=', '1'
     );
@@ -7610,7 +7610,7 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Save', within: 'Section 1', separator: '; '},
             {name: 'Spell Resistance', within: 'Section 1', format:
              '<b>SR</b> %V'},
-            {name: 'Energy Resistance', within: 'Section 1', format:
+            {name: 'Resistance', within: 'Section 1', format:
              '<b>ER</b> %V', separator: '; '},
             {name: 'Abilities', within: 'Section 1',
              format: '<b>Str/Int/Wis/Dex/Con/Cha</b> %V', separator: '/'},
@@ -7745,7 +7745,7 @@ SRD35.createViewers = function(rules, viewers) {
              separator: innerSep},
               {name: 'Save', within: 'SavesAndResistance', separator: listSep},
               {name: 'Spell Resistance', within: 'SavesAndResistance'},
-              {name: 'Energy Resistance', within: 'SavesAndResistance',
+              {name: 'Resistance', within: 'SavesAndResistance',
                separator: listSep}
       );
       if(name != 'Collected Notes') {
