@@ -1595,11 +1595,12 @@ Quilvyn.sheetHtml = function(attrs) {
     } else {
       var object = name.substring(0, i);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
-      // TODO: Remove this hack that gets DR to appear differenty
+      // TODO: Remove these two hacks for formatting DR and resistance
       if(object == 'Damage Reduction')
         value += '/' + name;
       else
         value = name + ': ' + value;
+      value = value.replaceAll('Infinity', 'immune');
       if(isNote && ruleSet.isSource(a)) {
         if(userOptions.italics)
           value = '<i>' + value + '</i>';
