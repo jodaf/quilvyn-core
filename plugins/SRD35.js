@@ -4934,6 +4934,8 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'combatNotes.nonproficientArmorPenalty:%V attack',
     'combatNotes.nonproficientShieldPenalty:%V attack',
+    'damageReduction.-:%V/%N',
+    'damageReduction.Magic:%V/%N',
     'magicNotes.arcaneSpellFailure:%V%'
   );
 
@@ -5690,7 +5692,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
     );
     rules.defineRule('combatNotes.damageReduction',
-      'levels.Barbarian', '+=', 'Math.floor((source - 4) / 3)'
+      'levels.Barbarian', '^=', 'Math.floor((source - 4) / 3)'
     );
     rules.defineRule('combatNotes.improvedUncannyDodge',
       'levels.Barbarian', '+=', null,
@@ -6162,7 +6164,7 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Dwarven Defender') {
 
     rules.defineRule('combatNotes.damageReduction',
-      'levels.Dwarven Defender', '+=', 'source<6 ? null : source<10 ? 3 : 6'
+      'levels.Dwarven Defender', '^=', 'source<6 ? null : source<10 ? 3 : 6'
     );
     rules.defineRule('combatNotes.defenderArmor',
       'levels.Dwarven Defender', '+=', 'Math.floor((source + 2) / 3)'

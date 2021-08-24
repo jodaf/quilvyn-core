@@ -1595,11 +1595,13 @@ Quilvyn.sheetHtml = function(attrs) {
     } else {
       var object = name.substring(0, i);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
-      // TODO: Remove these two hacks for formatting DR and resistance
-      if(object == 'Damage Reduction')
-        value += '/' + name;
+      if((value + '').includes('%N'))
+        value = value.replaceAll('%N', name);
       else
         value = name + ': ' + value;
+      // TODO: Pathfinder et al uses Infinity for characters who receive
+      // immunity at higher levels so that it can be numerically compared
+      // to resistance. Is there a better way to handle this?
       value = value.replaceAll('Infinity', 'immune');
       if(isNote && ruleSet.isSource(a)) {
         if(userOptions.italics)
