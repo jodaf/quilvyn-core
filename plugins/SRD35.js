@@ -556,6 +556,7 @@ SRD35.FEATS = {
   'Widen Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"'
 };
 SRD35.FEATURES = {
+  'A Thousand Faces':'Section=magic Note="<i>Disguise Self</i> at will"',
   'Abundant Step':
     'Section=magic Note="Teleport self %{levels.Monk//2*40+400}\' 1/dy"',
   'Accurate':'Section=combat Note="+1 attack with slings and thrown"',
@@ -577,7 +578,7 @@ SRD35.FEATURES = {
   'Aura':
     'Section=magic ' +
     'Note="Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment"',
-  'Aura Of Courage':'Section=save Note="Immune fear, +4 to allies w/in 10\'"',
+  'Aura Of Courage':'Section=save Note="Immune fear, R10\' +4 to allies"',
   'Bardic Knowledge':
     'Section=skill ' +
     'Note="+%V check for knowledge of notable people, items, places"',
@@ -660,7 +661,7 @@ SRD35.FEATURES = {
   'Elf Ability Adjustment':
     'Section=ability Note="+2 Dexterity/-2 Constitution"',
   'Elf Blood':'Section=feature Note="Elf for racial effects"',
-  'Empathic Link':'Section=companion Note="Share emotions up to 1 mile"',
+  'Empathic Link':'Section=companion Note="Share emotions w/in 1 mile"',
   'Empower Spell':
     'Section=magic ' +
     'Note="x1.5 chosen spell variable effects uses +2 spell slot"',
@@ -707,7 +708,7 @@ SRD35.FEATURES = {
   'Fire Turning':'Section=combat Note="Turn Water, rebuke Fire"',
   'Flurry Of Blows':
      'Section=combat ' +
-     'Note="Trade -%{levels.Monk<5?2:levels.Monk<9?1:0} attack for extra attack"',
+     'Note="Trade -%{levels.Monk<5?2:levels.Monk<9?1:0} attack for %{levels.Monk<11?1:2} extra attack"',
   'Forge Ring':'Section=magic Note="Create and mend magic rings"',
   'Fortunate':'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
   'Gnome Ability Adjustment':
@@ -716,7 +717,6 @@ SRD35.FEATURES = {
   'Good Fortune':'Section=feature Note="Reroll 1/dy"',
   'Great Cleave':'Section=combat Note="Cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
-  'Greater Flurry':'Section=combat Note="Extra attack"',
   'Greater Rage':'Section=combat Note="+6 Str, +6 Con, +3 Will during rage"',
   'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
   'Greater Spell Penetration':
@@ -800,7 +800,7 @@ SRD35.FEATURES = {
   'Lightning Reflexes':'Section=save Note="+2 Reflex"',
   'Link':
     'Section=skill ' +
-    'Note="+4 Handle Animal (companion)/Wild Empathy (companion)"',
+    'Note="+4 Handle Animal (companion)/+4 Wild Empathy (companion)"',
   'Low-Light Vision':'Section=feature Note="x2 normal distance in poor light"',
   'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
   'Manyshot':
@@ -814,6 +814,7 @@ SRD35.FEATURES = {
     'Note="Maximize all chosen spell variable effects uses +3 spell slot"',
   'Mighty Rage':'Section=combat Note="+8 Str, +8 Con, +4 Will during rage"',
   'Mobility':'Section=combat Note="+4 AC vs. movement AOO"',
+  'Fast Monk Movement':'Section=ability Note="+%V Speed"',
   'Mounted Archery':'Section=combat Note="x.5 mounted ranged penalty"',
   'Mounted Combat':
     'Section=combat Note="Ride skill save vs. mount damage 1/rd"',
@@ -885,7 +886,7 @@ SRD35.FEATURES = {
   'Sense Secret Doors':'Section=feature Note="Automatic Search w/in 5\'"',
   'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
   'Share Spells':
-    'Section=companion Note="Master share self spell w/companion w/in 5\'"',
+    'Section=companion Note="R5\' Master share self spell w/companion"',
   'Shot On The Run':'Section=combat Note="Move before, after ranged attack"',
   'Silent Spell':
     'Section=magic Note="Cast spell w/out speech uses +1 spell slot"',
@@ -952,7 +953,6 @@ SRD35.FEATURES = {
     'Note="<i>Suggestion</i> to 1 fascinated creature (DC %{10+levels.Bard//2+charismaModifier} Will neg)"',
   'Summon Familiar':'Section=feature Note="Special bond and abilities"',
   'Swift Tracker':'Section=skill Note="Track at full speed"',
-  'Thousand Faces':'Section=magic Note="<i>Alter Self</i> at will"',
   'Timeless Body':'Section=feature Note="No aging penalties"',
   'Tireless Rage':'Section=combat Note="Not fatigued after rage"',
   'Tolerance':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
@@ -969,13 +969,12 @@ SRD35.FEATURES = {
     'Note="Use Search and Disable Device to find and remove DC 20+ traps"',
   'Turn Undead':
     'Section=combat ' +
-    'Note="Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy"',
+    'Note="R60\' Turn (good) or rebuke (evil) 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy"',
   'Two-Weapon Defense':
     'Section=combat ' +
     'Note="+1 AC wielding two weapons (+2 fighting defensively)"',
   'Two-Weapon Fighting':
     'Section=combat Note="Reduce on-hand penalty by 2, off-hand by 6"',
-  'Unarmored Speed Bonus':'Section=ability Note="+%V Speed"',
   'Uncanny Dodge':'Section=combat Note="Always adds Dex modifier to AC"',
   'Unhindered':
     'Section=magic ' +
@@ -4219,12 +4218,12 @@ SRD35.CLASSES = {
       '"shield =~ \'None|Wooden\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear)",' +
+      '"1:Armor Proficiency (Medium)","1:Shield Proficiency",' +
+      '"1:Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Shortspear/Sling/Spear)",' +
       '"1:Animal Companion","1:Nature Sense","1:Spontaneous Druid Spell",' +
       '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
-      '"13:Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
+      '"13:A Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
     'Languages=Druidic ' +
     'CasterLevelDivine=levels.Druid ' +
     'SpellAbility=wisdom ' +
@@ -4251,11 +4250,11 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
       '"1:Armor Class Bonus","1:Flurry Of Blows","1:Improved Unarmed Strike",' +
-      '"1:Increased Unarmed Damage",2:Evasion,"3:Unarmored Speed Bonus",' +
+      '"1:Increased Unarmed Damage",2:Evasion,"3:Fast Monk Movement",' +
       '"3:Still Mind","4:Ki Strike","4:Slow Fall","5:Purity Of Body",' +
       '"7:Wholeness Of Body","9:Improved Evasion",' +
-      '"11:Diamond Body","11:Greater Flurry","12:Abundant Step",' +
-      '"13:Diamond Soul","15:Quivering Palm","17:Timeless Body",' +
+      '"11:Diamond Body","12:Abundant Step","13:Diamond Soul",' +
+      '"15:Quivering Palm","17:Timeless Body",' +
       '"17:Tongue Of The Sun And Moon","19:Empty Body","20:Perfect Self" ' +
     'Selectables=' +
       '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
@@ -5793,7 +5792,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Monk') {
 
-    rules.defineRule('abilityNotes.unarmoredSpeedBonus',
+    rules.defineRule('abilityNotes.fastMonkMovement',
       'armor', '?', 'source == "None"',
       'levels.Monk', '=', 'Math.floor(source / 3) * 10'
     );
@@ -5850,13 +5849,13 @@ SRD35.classRulesExtra = function(rules, name) {
     QuilvynRules.featureListRules
       (rules, features, 'Animal Companion', 'mountMasterLevel', false);
     rules.defineRule('animalCompanionStats.AC',
-      'levels.Paladin', '+', 'Math.floor((source + 1) / 3) * 2'
+      'levels.Paladin', '+', 'source<8 ? 4 : source<11 ? 6 : source<15 ? 8 : 10'
     );
     rules.defineRule('animalCompanionStats.HD',
-      'levels.Paladin', '+', 'Math.floor((source - 2) / 3) * 2'
+      'levels.Paladin', '+', 'source<8 ? 2 : source<11 ? 4 : source<15 ? 6 : 8'
     );
     rules.defineRule('animalCompanionStats.Int',
-      'levels.Paladin', '^', 'Math.floor((source - 2) / 3) + 5'
+      'levels.Paladin', '^', 'source<8 ? 6 : source<11 ? 7 : source<15 ? 8 : 9'
     );
     rules.defineRule('animalCompanionStats.Save Fort',
       'companionNotes.shareSavingThrows.1', '+', null
@@ -5868,7 +5867,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'companionNotes.shareSavingThrows.3', '+', null
     );
     rules.defineRule('animalCompanionStats.Str',
-      'levels.Paladin', '+', 'Math.floor((source - 2) / 3)'
+      'levels.Paladin', '+', 'source<8 ? 1 : source<11 ? 2 : source<15 ? 3 : 4'
     );
     rules.defineRule('animalCompanionStats.SR',
       'levels.Paladin', '=', 'source >= 15 ? source + 5 : null'
