@@ -881,7 +881,7 @@ SRD35.FEATURES = {
     'Note="Extra %school spell/dy each spell level",' +
          '"+2 Spellcraft (%school effects)"',
   'Scribe Scroll':'Section=magic Note="Create scroll of any known spell"',
-  'Scry':'Section=companion Note="Master views companion 1/dy"',
+  'Scry On Familiar':'Section=companion Note="Master views companion 1/dy"',
   'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
   'Sense Secret Doors':'Section=feature Note="Automatic Search w/in 5\'"',
   'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
@@ -4302,7 +4302,7 @@ SRD35.CLASSES = {
     'HitDie=d6 Attack=3/4 SkillPoints=8 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Features=' +
       '"1:Armor Proficiency (Light)",' +
-      '"1:Weapon Proficiency (Simple/Hand Crossbow/Rapier/Shortbow/Short Sword)",' +
+      '"1:Weapon Proficiency (Simple/Hand Crossbow/Rapier/Sap/Shortbow/Short Sword)",' +
       '"1:Sneak Attack",1:Trapfinding,2:Evasion,"3:Trap Sense",' +
       '"4:Uncanny Dodge","8:Improved Uncanny Dodge" ' +
     'Selectables=' +
@@ -4732,9 +4732,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
 
   rules.defineChoice('notes',
     'animalCompanionStats.Melee:+%V %1%2%3%4',
-    'animalCompanionStats.SR:DC %V',
-    'familiarStats.Melee:+%V %1',
-    'familiarStats.SR:DC %V'
+    'familiarStats.Melee:+%V %1'
   );
 
   var features = [
@@ -4829,7 +4827,8 @@ SRD35.aideRules = function(rules, companions, familiars) {
     '1:Companion Alertness', '1:Companion Evasion',
     '1:Companion Improved Evasion', '1:Empathic Link', '1:Share Spells',
     '3:Deliver Touch Spells', '5:Speak With Master',
-    '7:Speak With Like Animals', '11:Companion Spell Resistance', '13:Scry'
+    '7:Speak With Like Animals', '11:Companion Spell Resistance',
+    '13:Scry On Familiar'
   ];
   QuilvynRules.featureListRules
     (rules, features, 'Familiar', 'familiarMasterLevel', false);
