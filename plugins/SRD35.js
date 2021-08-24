@@ -767,7 +767,7 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Cannot be flanked, sneak attack only by rogue level %V+"',
   'Increased Unarmed Damage':'Section=combat Note="%V"',
-  'Indomitable Will':'Section=save Note="+4 vs. enchantment during rage"',
+  'Indomitable Will':'Section=save Note="+4 Will vs. enchantment during rage"',
   'Inspire Competence':
     'Section=magic Note="R30\' +2 allies skill checks while performing for 2 min"',
   'Inspire Courage':
@@ -778,7 +778,7 @@ SRD35.FEATURES = {
     'Note="R30\' %{(levels.Bard-6)//3} allies +2d10 HP, +2 attack, +1 Fortitude while performing + 5 rd"',
   'Inspire Heroics':
     'Section=magic ' +
-    'Note="R30\' %{(levels.Bard-15)//3} allies +4 AC and saves while performing + 5 rd"',
+    'Note="R30\' %{(levels.Bard-12)//3} allies +4 AC and saves while performing + 5 rd"',
   'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
   'Iron Will':'Section=save Note="+2 Will"',
   'Keen Ears':'Section=skill Note="+2 Listen"',
@@ -910,7 +910,8 @@ SRD35.FEATURES = {
   'Snatch Arrows':'Section=combat Note="Catch ranged weapons"',
   'Sneak Attack':
     'Section=combat Note="Hit +%Vd6 HP when surprising or flanking"',
-  'Song Of Freedom':'Section=magic Note="<i>Break Enchantment</i> via Perform"',
+  'Song Of Freedom':
+    'Section=magic Note="R30\' <i>Break Enchantment</i> via 1 min Perform"',
   'Speak With Like Animals':'Section=companion Note="Talk w/similar creatures"',
   'Speak With Master':
     'Section=companion Note="Talk w/master in secret language"',
@@ -4160,7 +4161,7 @@ SRD35.CLASSES = {
     'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Features=' +
       '"1:Armor Proficiency (Light)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)",' +
+      '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Shortbow/Whip)",' +
       '"1:Bardic Knowledge","1:Bardic Music","1:Simple Somatics",' +
       '"Max \'^skills.Perform\' >= 3 ? 1:Countersong",' +
       '"Max \'^skills.Perform\' >= 3 ? 1:Fascinate",' +
