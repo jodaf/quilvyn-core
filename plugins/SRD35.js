@@ -596,7 +596,8 @@ SRD35.FEATURES = {
     'Section=skill ' +
     'Note="+4 Concentration to cast spell while on defensive or grappling"',
   'Combat Expertise':
-    'Section=combat Note="Trade up to -5 attack for equal AC bonus"',
+    'Section=combat ' +
+    'Note="Trade up to -%{baseAttack <? 5} attack for equal AC bonus"',
   'Combat Reflexes':
     'Section=combat Note="Flatfooted AOO, %{dexterityModifier+1} AOO/rd"',
   'Command Like Creatures':
@@ -660,7 +661,7 @@ SRD35.FEATURES = {
     'Section=magic Note="Wild Shape to elemental %{(levels.Druid-14)//2}/dy"',
   'Elf Ability Adjustment':
     'Section=ability Note="+2 Dexterity/-2 Constitution"',
-  'Elf Blood':'Section=feature Note="Elf for racial effects"',
+  'Elven Blood':'Section=feature Note="Elf for racial effects"',
   'Empathic Link':'Section=companion Note="Share emotions w/in 1 mile"',
   'Empower Spell':
     'Section=magic ' +
@@ -805,7 +806,7 @@ SRD35.FEATURES = {
   'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
   'Manyshot':
     'Section=combat ' +
-    'Note="Fire up to %{(baseAttack+4)//5} arrows simultaneously at -2 attack/arrow"',
+    'Note="R30\' Fire up to %{(baseAttack+4)//5} arrows simultaneously at -2 attack/arrow"',
   'Mass Suggestion':
     'Section=magic ' +
     'Note="<i>Suggestion</i> to all fascinated creatures (DC %{10+levels.Bard//2+charismaModifier} Will neg)"',
@@ -815,7 +816,7 @@ SRD35.FEATURES = {
   'Mighty Rage':'Section=combat Note="+8 Str, +8 Con, +4 Will during rage"',
   'Mobility':'Section=combat Note="+4 AC vs. movement AOO"',
   'Fast Monk Movement':'Section=ability Note="+%V Speed"',
-  'Mounted Archery':'Section=combat Note="x.5 mounted ranged penalty"',
+  'Mounted Archery':'Section=combat Note="Half mounted ranged penalty"',
   'Mounted Combat':
     'Section=combat Note="Ride skill save vs. mount damage 1/rd"',
   'Multiattack':
@@ -942,7 +943,7 @@ SRD35.FEATURES = {
   'Still Spell':
     'Section=magic Note="Cast spell w/out movement uses +1 spell slot"',
   'Stonecunning':
-    'Section=skill Note="+2 Search (stone or metal), automatic check w/in 10\'"',
+    'Section=skill Note="+2 Search (stone), automatic check w/in 10\'"',
   'Strength Burst':
     'Section=ability Note="+%{strengthDomainLevel} Strength 1 rd/dy"',
   'Stunning Fist':
@@ -1462,7 +1463,7 @@ SRD35.RACES = {
       '"Gnomish1:1=1"',
   'Half-Elf':
     'Features=' +
-      '"Alert Senses","Elf Blood","Low-Light Vision","Resist Enchantment",' +
+      '"Alert Senses","Elven Blood","Low-Light Vision","Resist Enchantment",' +
       '"Sleep Immunity",Tolerance ' +
     'Languages=Common,Elven',
   'Half-Orc':
@@ -6265,6 +6266,10 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('magicNotes.casterLevelBonus', 'levels.Thaumaturgist', '+=', null);
 
+  } else if(name == 'Adept') {
+
+    rules.defineRule('familiarMasterLevel', 'levels.Adept', '^=', null);
+
   }
 
 };
@@ -6932,6 +6937,7 @@ SRD35.raceRules = function(
   if(spellSlots.length > 0) {
 
     rules.defineRule('casterLevels.' + name, raceLevel, '=', null);
+    rules.defineRule('casterLevel', 'casterLevels.' + name, '^=', '1');
     QuilvynRules.spellSlotRules(rules, raceLevel, spellSlots);
 
     for(var i = 0; i < spellSlots.length; i++) {
