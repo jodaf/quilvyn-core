@@ -1825,6 +1825,10 @@ Quilvyn.update = function(input) {
   } else if(name == 'options') {
     Quilvyn.modifyOptions();
   } else if(name == 'rules') {
+    if(customCollection == ruleSet.getName()) {
+      customCollection = value;
+      InputSetValue(editWindow.editor.custom, customCollection);
+    }
     ruleSet = ruleSets[value];
     Quilvyn.refreshEditor(true);
     Quilvyn.refreshSheet();
