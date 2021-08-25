@@ -23,19 +23,20 @@ var attributes = {
   "skills.Escape Artist":2, "skills.Intimidate":15, "skills.Knowledge (Geography)":11, 
   "skills.Listen":1, "skills.Move Silently":15, "spells.Arcane Mark(W0 Univ)":1, 
   "spells.Arcane Sight(W3 Divi)":1, "spells.Blight(W5 Necr)":1, "spells.Burning Hands(W1 Evoc)":1, 
-  "spells.Cause Fear(W1 Necr)":1, "spells.Command Undead(W2 Necr)":1, "spells.Deep Slumber(W3 Ench)":1, 
-  "spells.Detect Magic(W0 Divi)":1, "spells.Dimensional Anchor(W4 Abju)":1, "spells.False Life(W2 Necr)":1, 
-  "spells.Globe Of Invulnerability(W6 Abju)":1, "spells.Greater Invisibility(W4 Illu)":1, 
-  "spells.Hypnotic Pattern(W2 Illu)":1, "spells.Hypnotism(W1 Ench)":1, "spells.Illusory Script(W3 Illu)":1, 
-  "spells.Lesser Geas(W4 Ench)":1, "spells.Light(W0 Evoc)":1, "spells.Locate Creature(W4 Divi)":1, 
-  "spells.Mage's Faithful Hound(W5 Conj)":1, "spells.Mage's Private Sanctum(W5 Abju)":1, 
-  "spells.Magic Circle Against Evil(W3 Abju)":1, "spells.Magic Circle Against Law(W3 Abju)":1, 
-  "spells.Major Creation(W5 Conj)":1, "spells.Minor Image(W2 Illu)":1, "spells.Mirror Image(W2 Illu)":1, 
-  "spells.Obscuring Mist(W1 Conj)":1, "spells.Permanent Image(W6 Illu)":1, "spells.Prestidigitation(W0 Univ)":1, 
-  "spells.Secret Chest(W5 Conj)":1, "spells.Shield(W1 Abju)":1, "spells.Suggestion(W3 Ench)":1, 
-  "spells.Summon Monster I(W1 Conj)":1, "spells.Summon Monster IV(W4 Conj)":1, "spells.Touch Of Idiocy(W2 Ench)":1, 
-  "spells.True Seeing(W6 Divi)":1, "spells.Undeath To Death(W6 Necr)":1, "strength":15, "weapons.Dagger":1, 
-  "weapons.Light Crossbow":1, "weapons.Quarterstaff":1, "wisdom":15
+  "spells.Cause Fear(W1 Necr)":1, "spells.Cloudkill(W5 Conj)":1, "spells.Command Undead(W2 Necr)":1, 
+  "spells.Deep Slumber(W3 Ench)":1, "spells.Detect Magic(W0 Divi)":1, "spells.Dimensional Anchor(W4 Abju)":1, 
+  "spells.False Life(W2 Necr)":1, "spells.Globe Of Invulnerability(W6 Abju)":1, 
+  "spells.Greater Invisibility(W4 Illu)":1, "spells.Hypnotic Pattern(W2 Illu)":1, "spells.Hypnotism(W1 Ench)":1, 
+  "spells.Illusory Script(W3 Illu)":1, "spells.Lesser Geas(W4 Ench)":1, "spells.Light(W0 Evoc)":1, 
+  "spells.Locate Creature(W4 Divi)":1, "spells.Mage's Faithful Hound(W5 Conj)":1, 
+  "spells.Mage's Private Sanctum(W5 Abju)":1, "spells.Magic Circle Against Evil(W3 Abju)":1, 
+  "spells.Magic Circle Against Law(W3 Abju)":1, "spells.Major Creation(W5 Conj)":1, "spells.Minor Image(W2 Illu)":1, 
+  "spells.Mirror Image(W2 Illu)":1, "spells.Obscuring Mist(W1 Conj)":1, "spells.Permanent Image(W6 Illu)":1, 
+  "spells.Prestidigitation(W0 Univ)":1, "spells.Secret Chest(W5 Conj)":1, "spells.Shield(W1 Abju)":1, 
+  "spells.Suggestion(W3 Ench)":1, "spells.Summon Monster I(W1 Conj)":1, "spells.Summon Monster IV(W4 Conj)":1, 
+  "spells.Touch Of Idiocy(W2 Ench)":1, "spells.True Seeing(W6 Divi)":1, "spells.Undeath To Death(W6 Necr)":1, 
+  "spells_filter":"", "strength":15, "weapons.Dagger":1, "weapons.Light Crossbow":1, 
+  "weapons.Quarterstaff":1, "wisdom":15
 };
   </script>
 </head>
@@ -244,6 +245,8 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Cause Fear (W1 Necr): R55' Target w/up to 5 HD flee for 1d4 rd (DC 12 Will shaken 1 rd)</td>
     </tr><tr style="text-align:left">
+      <td>Cloudkill (W5 Conj): R220' 20' cylinder moves away 10', 1-3 HD die, 4-6 HD die (DC 18 Fort 1d4 Con), 6+ HD 1d4 Con (DC 18 Fort half) for 12 min</td>
+    </tr><tr style="text-align:left">
       <td>Command Undead (W2 Necr): R55' Undead target obey for 12 dy (DC 13 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Deep Slumber (W3 Ench): R55' 10 HD of targets sleep 12 min (DC 14 Will neg)</td>
@@ -374,7 +377,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Familiar Features</b>: Companion Alertness; Companion Evasion; Companion Improved Evasion; Companion Spell Resistance; Deliver Touch Spells; Empathic Link; Share Spells; Speak With Like Animals; Speak With Master</td>
     </tr><tr style="text-align:center">
-      <td><b>Familiar Stats</b>: AC: 20; Cha: 7; Con: 10; Dex: 15; HD: 12; HP: 31; Initiative: 2; Int: 11; Melee: +10 2@1d2-4,1d3-4; SR: DC 17; Save Fort: 4; Save Ref: 6; Save Will: 9; Size: T; Str: 3; Wis: 12</td>
+      <td><b>Familiar Stats</b>: AC: 20; Cha: 7; Con: 10; Dex: 15; HD: 12; HP: 31; Initiative: 2; Int: 11; Melee: +10 2@1d2-4,1d3-4; SR: 17; Save Fort: 4; Save Ref: 6; Save Will: 9; Size: T; Str: 3; Wis: 12</td>
     </tr><tr style="text-align:center">
       <td><b>Companion Notes</b>:       <table id="CompanionNotes" style="width:100%">
       <tr style="text-align:center">
@@ -384,9 +387,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Deliver Touch Spells: Deliver touch spells if in contact w/master when cast</td>
       </tr><tr style="text-align:center">
-        <td>Empathic Link: Share emotions up to 1 mile</td>
+        <td>Empathic Link: Share emotions w/in 1 mile</td>
       </tr><tr style="text-align:center">
-        <td>Share Spells: Master share self spell w/companion w/in 5'</td>
+        <td>Share Spells: R5' Master share self spell w/companion</td>
       </tr><tr style="text-align:center">
         <td>Speak With Like Animals: Talk w/similar creatures</td>
       </tr><tr style="text-align:center">

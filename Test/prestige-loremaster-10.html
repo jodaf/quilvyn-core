@@ -19,8 +19,8 @@ var attributes = {
   "selectableFeatures.Loremaster - Newfound Arcana":1, "selectableFeatures.Loremaster - Secret Health":1, 
   "selectableFeatures.Loremaster - Secret Knowledge Of Avoidance":1, "selectableFeatures.Loremaster - Secrets Of Inner Strength":1, 
   "selectableFeatures.Loremaster - The Lore Of True Stamina":1, "selectableFeatures.Loremaster - Weapon Trick":1, 
-  "selectableFeatures.Wizard - School Specialization (Conjuration)":1, "selectableFeatures.Wizard - School Specialization (Illusion)":1, 
-  "selectableFeatures.Wizard - School Specialization (Transmutation)":1, "shield":"None", "skills.Climb":1, "skills.Disable Device":1, 
+  "selectableFeatures.Wizard - School Opposition (Illusion)":1, "selectableFeatures.Wizard - School Opposition (Transmutation)":1, 
+  "selectableFeatures.Wizard - School Specialization (Conjuration)":1, "shield":"None", "skills.Climb":1, "skills.Disable Device":1, 
   "skills.Gather Information":1, "skills.Knowledge (Arcana)":20, "skills.Knowledge (Dungeoneering)":10, 
   "skills.Knowledge (Engineering)":9, "skills.Knowledge (History)":20, "skills.Knowledge (Local)":20, 
   "skills.Knowledge (Nature)":20, "skills.Knowledge (Planes)":20, "skills.Spellcraft":10, 
@@ -105,7 +105,7 @@ var attributes = {
         <td><b>Feats</b>: Athletic; Craft Rod; Craft Wand; Empower Spell; Improved Familiar; Nimble Fingers; Quicken Spell; Run; Skill Focus (Knowledge (Arcana))</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
         <td><b>Loremaster Features</b>: Applicable Knowledge; Bonus Language; Caster Level Bonus; Dodge Trick; Greater Lore; Instant Mastery; Lore; More Newfound Arcana; Newfound Arcana; Secret Health; Secret Knowledge Of Avoidance; Secrets Of Inner Strength; Secrets; The Lore Of True Stamina; True Lore; Weapon Trick</td>
-        <td><b>Wizard Features</b>: School Specialization (Conjuration); School Specialization (Illusion); School Specialization (Transmutation); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
+        <td><b>Wizard Features</b>: School Opposition (Illusion); School Opposition (Transmutation); School Specialization (Conjuration); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -178,7 +178,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Companion Alertness: +2 Listen and Spot when companion in reach</td>
       </tr><tr style="text-align:center">
-        <td>Instant Mastery: +4 Skill Points in untrained skill</td>
+        <td>Instant Mastery: +4 ranks in an untrained skill</td>
       </tr><tr style="text-align:center">
         <td>Knowledge (Dungeoneering) Synergy: +2 Survival (underground)</td>
       </tr><tr style="text-align:center">
@@ -193,10 +193,6 @@ var attributes = {
         <td>Run: +4 running Jump</td>
       </tr><tr style="text-align:center">
         <td>School Specialization (Conjuration): +2 Spellcraft (Conjuration effects)</td>
-      </tr><tr style="text-align:center">
-        <td>School Specialization (Illusion): +2 Spellcraft (Illusion effects)</td>
-      </tr><tr style="text-align:center">
-        <td>School Specialization (Transmutation): +2 Spellcraft (Transmutation effects)</td>
       </tr><tr style="text-align:center">
         <td>Spellcraft Synergy: +2 Use Magic Device (scroll)</td>
       </tr></table>
@@ -290,7 +286,7 @@ var attributes = {
     <tr style="text-align:center">
       <td>      <table id="SpellStats" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Spell Slots</b>: W0: 4; W1: 8; W2: 8; W3: 7; W4: 7; W5: 7; W6: 7; W7: 6; W8: 5; W9: 4</td>
+        <td><b>Spell Slots</b>: W0: 4; W1: 6; W2: 6; W3: 5; W4: 5; W5: 5; W6: 5; W7: 4; W8: 3; W9: 2</td>
         <td><b>Spell DC</b>: W: 12</td>
       </tr></table>
 </td>
@@ -441,10 +437,6 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><i>School Specialization (Conjuration): Extra Conjuration spell/dy each spell level</i></td>
     </tr><tr style="text-align:center">
-      <td><i>School Specialization (Illusion): Extra Illusion spell/dy each spell level</i></td>
-    </tr><tr style="text-align:center">
-      <td><i>School Specialization (Transmutation): Extra Transmutation spell/dy each spell level</i></td>
-    </tr><tr style="text-align:center">
       <td>Craft Rod: Create magic rod</td>
     </tr><tr style="text-align:center">
       <td>Craft Wand: Create wand for up to 4th level spell</td>
@@ -458,6 +450,10 @@ var attributes = {
       <td>Newfound Arcana: Bonus level 1 spell</td>
     </tr><tr style="text-align:center">
       <td>Quicken Spell: Free action casting 1/rd uses +4 spell slot</td>
+    </tr><tr style="text-align:center">
+      <td>School Opposition (Illusion): Cannot learn or cast Illusion spells</td>
+    </tr><tr style="text-align:center">
+      <td>School Opposition (Transmutation): Cannot learn or cast Transmutation spells</td>
     </tr><tr style="text-align:center">
       <td>Scribe Scroll: Create scroll of any known spell</td>
     </tr><tr style="text-align:center">
@@ -485,9 +481,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Deliver Touch Spells: Deliver touch spells if in contact w/master when cast</td>
       </tr><tr style="text-align:center">
-        <td>Empathic Link: Share emotions up to 1 mile</td>
+        <td>Empathic Link: Share emotions w/in 1 mile</td>
       </tr><tr style="text-align:center">
-        <td>Share Spells: Master share self spell w/companion w/in 5'</td>
+        <td>Share Spells: R5' Master share self spell w/companion</td>
       </tr><tr style="text-align:center">
         <td>Speak With Like Animals: Talk w/similar creatures</td>
       </tr><tr style="text-align:center">

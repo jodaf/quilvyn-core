@@ -22,7 +22,7 @@ var attributes = {
   "spells.Inflict Serious Wounds(Blackguard3 Necr)":1, "spells.Protection From Energy(Blackguard3 Abju)":1, 
   "spells.Summon Monster I(Blackguard1 Conj)":1, "spells.Summon Monster II(Blackguard2 Conj)":1, 
   "spells.Summon Monster IV(Blackguard4 Conj)":1, "strength":13, "weapons.Heavy Spiked Shield":1, "weapons.Javelin":1, 
-  "weapons.Spiked Armor":1, "wisdom":9
+  "weapons.Spiked Armor":1, "wisdom":12
 };
   </script>
 </head>
@@ -39,7 +39,7 @@ var attributes = {
       <td><b>Dexterity</b>: 9 (-1)</td>
       <td><b>Constitution</b>: 11 (0)</td>
       <td><b>Intelligence</b>: 12 (1)</td>
-      <td><b>Wisdom</b>: 9 (-1)</td>
+      <td><b>Wisdom</b>: 12 (1)</td>
       <td><b>Charisma</b>: 14 (2)</td>
     </tr></table>
 </td>
@@ -112,7 +112,7 @@ var attributes = {
       <tr style="text-align:left">
         <td>Craft (Weapons): (int) 19 (20)</td>
         <td>Hide: (dex) 5 (-5)</td>
-        <td>Profession (Tanner): (wis) 9 (8)</td>
+        <td>Profession (Tanner): (wis) 9 (10)</td>
       </tr><tr style="text-align:left">
         <td>Diplomacy: (cha) 19 (21)</td>
         <td>Jump: (str) 18 (4)</td>
@@ -226,13 +226,13 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Sneak Attack: Hit +3d6 HP when surprising or flanking</td>
       </tr><tr style="text-align:center">
-        <td>Turn Undead: Turn (good) or rebuke (evil) 2d6+10 HD of undead creatures of up to (d20+16)/3 HD 5/dy</td>
+        <td>Turn Undead: R60' Turn (good) or rebuke (evil) 2d6+10 HD of undead creatures of up to (d20+16)/3 HD 5/dy</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td>      <table id="SavesAndResistance" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Save</b>: Fortitude: 15; Reflex: 7; Will: 7</td>
+        <td><b>Save</b>: Fortitude: 15; Reflex: 7; Will: 9</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -242,7 +242,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Reflex Adjustment: -1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Wisdom Will Adjustment: -1</i></td>
+        <td><i>Wisdom Will Adjustment: +1</i></td>
       </tr></table>
 </td>
     </tr></table>
@@ -256,8 +256,8 @@ var attributes = {
     <tr style="text-align:center">
       <td>      <table id="SpellStats" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Spell Slots</b>: Blackguard1: 2; Blackguard2: 2; Blackguard3: 2; Blackguard4: 1</td>
-        <td><b>Spell DC</b>: Blackguard: 9</td>
+        <td><b>Spell Slots</b>: Blackguard1: 3; Blackguard2: 2; Blackguard3: 2; Blackguard4: 1</td>
+        <td><b>Spell DC</b>: Blackguard: 11</td>
       </tr></table>
 </td>
     </tr></table>
@@ -265,11 +265,11 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Spells</b>:     <table id="Spells" style="width:100%">
     <tr style="text-align:left">
-      <td>Cure Light Wounds (Blackguard1 Conj): Touched heal or damage undead 1d8+5 (DC 10 Will half)</td>
+      <td>Cure Light Wounds (Blackguard1 Conj): Touched heal or damage undead 1d8+5 (DC 12 Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Inflict Moderate Wounds (Blackguard2 Necr): Touched damage or heal undead 2d8+10 (DC 11 Will half)</td>
+      <td>Inflict Moderate Wounds (Blackguard2 Necr): Touched damage or heal undead 2d8+10 (DC 13 Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Inflict Serious Wounds (Blackguard3 Necr): Touched damage or heal undead 3d8+10 (DC 12 Will half)</td>
+      <td>Inflict Serious Wounds (Blackguard3 Necr): Touched damage or heal undead 3d8+10 (DC 14 Will half)</td>
     </tr><tr style="text-align:left">
       <td>Protection From Energy (Blackguard3 Abju): Touched resistance 120 to chosen energy for 100 min</td>
     </tr><tr style="text-align:left">
@@ -283,6 +283,8 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Magic Notes</b>:     <table id="MagicNotes" style="width:100%">
     <tr style="text-align:center">
+      <td><i>Wisdom Blackguard Spell Slot Bonus: Spell level Blackguard1</i></td>
+    </tr><tr style="text-align:center">
       <td>Aura Of Evil: Visible to <i>Detect Evil</i></td>
     </tr><tr style="text-align:center">
       <td>Detect Good: <i>Detect Good</i> at will</td>
@@ -305,7 +307,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Animal Companion Features</b>: Blood Bond; Companion Evasion; Companion Improved Evasion; Companion Spell Resistance; Empathic Link; Share Saving Throws; Share Spells; Speak With Master</td>
     </tr><tr style="text-align:center">
-      <td><b>Animal Companion Stats</b>: AC: 21; Cha: 6; Con: 10; Dex: 15; HD: 9; HP: 40; Initiative: 2; Int: 9; Melee: +10 1d2-3; SR: DC 24; Save Fort: 13; Save Ref: 8; Save Will: 8; Size: T; Str: 5; Tricks: 27; Wis: 14</td>
+      <td><b>Animal Companion Stats</b>: AC: 21; Cha: 6; Con: 10; Dex: 15; HD: 9; HP: 40; Initiative: 2; Int: 9; Melee: +10 1d2-3; SR: 24; Save Fort: 13; Save Ref: 8; Save Will: 8; Size: T; Str: 5; Tricks: 27; Wis: 14</td>
     </tr><tr style="text-align:center">
       <td><b>Companion Notes</b>:       <table id="CompanionNotes" style="width:100%">
       <tr style="text-align:center">
@@ -317,9 +319,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Companion Improved Evasion: Failed save yields half damage</td>
       </tr><tr style="text-align:center">
-        <td>Empathic Link: Share emotions up to 1 mile</td>
+        <td>Empathic Link: Share emotions w/in 1 mile</td>
       </tr><tr style="text-align:center">
-        <td>Share Spells: Master share self spell w/companion w/in 5'</td>
+        <td>Share Spells: R5' Master share self spell w/companion</td>
       </tr><tr style="text-align:center">
         <td>Speak With Master: Talk w/master in secret language</td>
       </tr></table>

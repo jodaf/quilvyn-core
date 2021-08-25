@@ -15,8 +15,8 @@ var attributes = {
   "intelligence":15, "languages.Goblin":1, "languages.Sylvan":1, "languages.Terran":1, 
   "levels.Cleric":1, "levels.Druid":13, "name":"Prestige-Hierophant 5", "prestige.Hierophant":5, 
   "race":"Human", "selectableFeatures.Hierophant - Blast Infidel":1, 
-  "selectableFeatures.Hierophant - Divine Reach":1, "selectableFeatures.Hierophant - Extended Divine Reach":1, 
-  "selectableFeatures.Hierophant - Faith Healing":1, "selectableFeatures.Hierophant - Gift Of The Divine":1, 
+  "selectableFeatures.Hierophant - Divine Reach":1, "selectableFeatures.Hierophant - Faith Healing":1, 
+  "selectableFeatures.Hierophant - Gift Of The Divine":1, "selectableFeatures.Hierophant - Improved Divine Reach":1, 
   "selectableFeatures.Hierophant - Mastery Of Energy":1, "selectableFeatures.Hierophant - Metamagic Feat":1, 
   "selectableFeatures.Hierophant - Power Of Nature":1, "selectableFeatures.Hierophant - Spell Power":1, 
   "selectableFeatures.Hierophant - Spell-Like Ability":1, "shield":"None", "skills.Concentration":2, "skills.Craft (Alchemy)":2, 
@@ -90,8 +90,8 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Animal Affinity; Combat Reflexes; Craft Staff; Lightning Reflexes; Negotiator; Quicken Spell; Silent Spell; Spell Focus (Illusion); Tower Shield Proficiency</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Hierophant Features</b>: Blast Infidel; Divine Reach; Extended Divine Reach; Faith Healing; Gift Of The Divine; Mastery Of Energy; Metamagic Feat; Power Of Nature; Spell Power; Spell-Like Ability</td>
-        <td><b>Druid Features</b>: Animal Companion; Armor Proficiency (Heavy); Nature Sense; Resist Nature's Lure; Shield Proficiency; Spontaneous Druid Spell; Thousand Faces; Trackless Step; Venom Immunity; Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Short Spear/Sling/Spear); Wild Empathy; Wild Shape; Woodland Stride</td>
+        <td><b>Hierophant Features</b>: Blast Infidel; Divine Reach; Faith Healing; Gift Of The Divine; Improved Divine Reach; Mastery Of Energy; Metamagic Feat; Power Of Nature; Spell Power; Spell-Like Ability</td>
+        <td><b>Druid Features</b>: A Thousand Faces; Animal Companion; Armor Proficiency (Medium); Nature Sense; Resist Nature's Lure; Shield Proficiency; Spontaneous Druid Spell; Trackless Step; Venom Immunity; Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Shortspear/Sling/Spear); Wild Empathy; Wild Shape; Woodland Stride</td>
         <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; Weapon Proficiency (Simple)</td>
       </tr></table>
 </td>
@@ -171,7 +171,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Survival Synergy: +2 Knowledge (Nature)</i></td>
       </tr><tr style="text-align:center">
-        <td>Link: +4 Handle Animal (companion)/Wild Empathy (companion)</td>
+        <td>Link: +4 Handle Animal (companion)/+4 Wild Empathy (companion)</td>
       </tr><tr style="text-align:center">
         <td>Wild Empathy: +13 Diplomacy (animals)</td>
       </tr></table>
@@ -223,7 +223,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Combat Reflexes: Flatfooted AOO, 0 AOO/rd</td>
       </tr><tr style="text-align:center">
-        <td>Turn Undead: Turn (good) or rebuke (evil) 2d6+7 HD of undead creatures of up to (d20+-3)/3 HD 3/dy</td>
+        <td>Turn Undead: R60' Turn (good) or rebuke (evil) 2d6+7 HD of undead creatures of up to (d20+-3)/3 HD 3/dy</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -340,6 +340,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><i>Wisdom Druid Spell Slot Bonus: Spell level D1</i></td>
     </tr><tr style="text-align:center">
+      <td>A Thousand Faces: <i>Disguise Self</i> at will</td>
+    </tr><tr style="text-align:center">
       <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment</td>
     </tr><tr style="text-align:center">
       <td>Blast Infidel: Negative energy spells vs. opposed-alignment foe have max effect</td>
@@ -348,9 +350,9 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>Divine Reach: R30' Ranged touch with touch spell</td>
     </tr><tr style="text-align:center">
-      <td>Extended Divine Reach: R60' Divine Reach</td>
-    </tr><tr style="text-align:center">
       <td>Faith Healing: Healing spells on same-aligned creature have max effect</td>
+    </tr><tr style="text-align:center">
+      <td>Improved Divine Reach: R60' Divine Reach</td>
     </tr><tr style="text-align:center">
       <td>Quicken Spell: Free action casting 1/rd uses +4 spell slot</td>
     </tr><tr style="text-align:center">
@@ -363,8 +365,6 @@ var attributes = {
       <td>Spontaneous Cleric Spell: Cast <i>Cure</i> or <i>Inflict</i> in place of known spell</td>
     </tr><tr style="text-align:center">
       <td>Spontaneous Druid Spell: Cast <i>Summon Nature's Ally</i> in place of known spell</td>
-    </tr><tr style="text-align:center">
-      <td>Thousand Faces: <i>Alter Self</i> at will</td>
     </tr><tr style="text-align:center">
       <td>Wild Shape: Change into creature of size tiny-large/plant 13 hr 4/dy</td>
     </tr></table>
@@ -390,7 +390,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Multiattack: Reduce additional attack penalty to -2 or second attack at -5</td>
       </tr><tr style="text-align:center">
-        <td>Share Spells: Master share self spell w/companion w/in 5'</td>
+        <td>Share Spells: R5' Master share self spell w/companion</td>
       </tr></table>
 </td>
     </tr></table>

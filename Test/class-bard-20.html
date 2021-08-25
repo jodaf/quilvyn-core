@@ -14,20 +14,21 @@ var attributes = {
   "languages.Aquan":1, "languages.Auran":1, "levels.Bard":20, "name":"Class-Bard 20", 
   "race":"Human", "shield":"None", "skills.Balance":23, "skills.Concentration":23, 
   "skills.Decipher Script":23, "skills.Gather Information":11, "skills.Hide":5, "skills.Jump":23, 
-  "skills.Knowledge (Engineering)":23, "skills.Listen":11, "skills.Perform (Keyboard)":23, "skills.Sense Motive":2, 
-  "skills.Sleight Of Hand":2, "skills.Spellcraft":2, "skills.Swim":1, "skills.Tumble":11, 
-  "skills.Use Magic Device":1, "spells.Animal Trance(B2 Ench)":1, "spells.Cat's Grace(B2 Tran)":1, 
-  "spells.Cure Critical Wounds(B4 Conj)":1, "spells.Dancing Lights(B0 Evoc)":1, "spells.Dream(B5 Illu)":1, 
-  "spells.Expeditious Retreat(B1 Tran)":1, "spells.Feather Fall(B1 Tran)":1, "spells.Gaseous Form(B3 Tran)":1, 
-  "spells.Ghost Sound(B0 Illu)":1, "spells.Greater Dispel Magic(B5 Abju)":1, 
-  "spells.Greater Invisibility(B4 Illu)":1, "spells.Greater Scrying(B6 Divi)":1, "spells.Identify(B1 Divi)":1, 
-  "spells.Invisibility Sphere(B3 Illu)":1, "spells.Know Direction(B0 Divi)":1, 
-  "spells.Mass Cure Moderate Wounds(B6 Conj)":1, "spells.Mass Fox's Cunning(B6 Tran)":1, "spells.Modify Memory(B4 Ench)":1, 
-  "spells.Neutralize Poison(B4 Conj)":1, "spells.Rage(B2 Ench)":1, "spells.Remove Curse(B3 Abju)":1, 
-  "spells.Remove Fear(B1 Abju)":1, "spells.Secret Page(B3 Tran)":1, "spells.Sleep(B1 Ench)":1, 
-  "spells.Song Of Discord(B5 Ench)":1, "spells.Summon Instrument(B0 Conj)":1, "spells.Summon Monster V(B5 Conj)":1, 
-  "spells.Tongues(B2 Divi)":1, "spells.Veil(B6 Illu)":1, "strength":12, "weapons.Club":1, 
-  "weapons.Heavy Mace":1, "weapons.Spear":1, "wisdom":18
+  "skills.Knowledge (Engineering)":13, "skills.Knowledge (History)":10, "skills.Listen":11, 
+  "skills.Perform (Keyboard)":23, "skills.Sense Motive":2, "skills.Sleight Of Hand":2, "skills.Spellcraft":2, 
+  "skills.Swim":1, "skills.Tumble":11, "skills.Use Magic Device":1, 
+  "spells.Animal Trance(B2 Ench)":1, "spells.Cat's Grace(B2 Tran)":1, "spells.Cure Critical Wounds(B4 Conj)":1, 
+  "spells.Dancing Lights(B0 Evoc)":1, "spells.Dream(B5 Illu)":1, "spells.Expeditious Retreat(B1 Tran)":1, 
+  "spells.Feather Fall(B1 Tran)":1, "spells.Gaseous Form(B3 Tran)":1, "spells.Ghost Sound(B0 Illu)":1, 
+  "spells.Greater Dispel Magic(B5 Abju)":1, "spells.Greater Invisibility(B4 Illu)":1, 
+  "spells.Greater Scrying(B6 Divi)":1, "spells.Identify(B1 Divi)":1, "spells.Invisibility Sphere(B3 Illu)":1, 
+  "spells.Know Direction(B0 Divi)":1, "spells.Mass Cure Moderate Wounds(B6 Conj)":1, 
+  "spells.Mass Fox's Cunning(B6 Tran)":1, "spells.Modify Memory(B4 Ench)":1, "spells.Neutralize Poison(B4 Conj)":1, 
+  "spells.Rage(B2 Ench)":1, "spells.Remove Curse(B3 Abju)":1, "spells.Remove Fear(B1 Abju)":1, 
+  "spells.Secret Page(B3 Tran)":1, "spells.Sleep(B1 Ench)":1, "spells.Song Of Discord(B5 Ench)":1, 
+  "spells.Summon Instrument(B0 Conj)":1, "spells.Summon Monster V(B5 Conj)":1, "spells.Tongues(B2 Divi)":1, 
+  "spells.Veil(B6 Illu)":1, "strength":12, "weapons.Club":1, "weapons.Heavy Mace":1, "weapons.Spear":1, 
+  "wisdom":18
 };
   </script>
 </head>
@@ -81,7 +82,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Acrobatic; Athletic; Improved Shield Bash; Leadership; Scribe Scroll; Silent Spell; Spell Focus (Illusion); Still Spell</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Bard Features</b>: Armor Proficiency (Light); Bardic Knowledge; Bardic Music; Countersong; Fascinate; Inspire Competence; Inspire Courage; Inspire Greatness; Inspire Heroics; Mass Suggestion; Shield Proficiency; Simple Somatics; Song Of Freedom; Suggestion; Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Short Bow/Whip)</td>
+        <td><b>Bard Features</b>: Armor Proficiency (Light); Bardic Knowledge; Bardic Music; Countersong; Fascinate; Inspire Competence; Inspire Courage; Inspire Greatness; Inspire Heroics; Mass Suggestion; Shield Proficiency; Simple Somatics; Song Of Freedom; Suggestion; Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Shortbow/Whip)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -107,24 +108,28 @@ var attributes = {
       <col style="width:34%"/>
       <tr style="text-align:left">
         <td>Balance: (dex) 23 (21)</td>
-        <td>Jump: (str) 23 (26)</td>
-        <td>Sleight Of Hand: (dex) 2 (-2)</td>
+        <td>Knowledge (Engineering): (int) 13 (14)</td>
+        <td>Spellcraft: (int) 2 (3)</td>
       </tr><tr style="text-align:left">
         <td>Concentration: (con) 23 (25)</td>
-        <td>Knowledge (Engineering): (int) 23 (24)</td>
-        <td>Spellcraft: (int) 2 (3)</td>
+        <td>Knowledge (History): (int) 10 (11)</td>
+        <td>Swim: (str) 1 (0)</td>
       </tr><tr style="text-align:left">
         <td>Decipher Script: (int) 23 (24)</td>
         <td>Listen: (wis) 11 (15)</td>
-        <td>Swim: (str) 1 (0)</td>
+        <td>Tumble: (dex) 11 (11)</td>
       </tr><tr style="text-align:left">
         <td>Gather Information: (cha) 11 (12)</td>
         <td>Perform (Keyboard): (cha) 23 (24)</td>
-        <td>Tumble: (dex) 11 (11)</td>
+        <td>Use Magic Device: (cha) 1 (2)</td>
       </tr><tr style="text-align:left">
         <td>Hide: (dex) 5 (1)</td>
         <td>Sense Motive: (wis) 2 (6)</td>
-        <td>Use Magic Device: (cha) 1 (2)</td>
+        <td></td>
+      </tr><tr style="text-align:left">
+        <td>Jump: (str) 23 (26)</td>
+        <td>Sleight Of Hand: (dex) 2 (-2)</td>
+        <td></td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -148,9 +153,11 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Jump Synergy: +2 Tumble</i></td>
       </tr><tr style="text-align:center">
+        <td><i>Knowledge (History) Synergy: +2 Bardic knowledge</i></td>
+      </tr><tr style="text-align:center">
         <td><i>Tumble Synergy: +2 Balance/+2 Jump</i></td>
       </tr><tr style="text-align:center">
-        <td>Bardic Knowledge: +21 check for knowledge of notable people, items, places</td>
+        <td>Bardic Knowledge: +23 check for knowledge of notable people, items, places</td>
       </tr><tr style="text-align:center">
         <td>Decipher Script Synergy: +2 Use Magic Device (scrolls)</td>
       </tr><tr style="text-align:center">
@@ -321,7 +328,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>Inspire Greatness: R30' 4 allies +2d10 HP, +2 attack, +1 Fortitude while performing + 5 rd</td>
     </tr><tr style="text-align:center">
-      <td>Inspire Heroics: R30' 1 allies +4 AC and saves while performing + 5 rd</td>
+      <td>Inspire Heroics: R30' 2 allies +4 AC and saves while performing + 5 rd</td>
     </tr><tr style="text-align:center">
       <td>Mass Suggestion: <i>Suggestion</i> to all fascinated creatures (DC 21 Will neg)</td>
     </tr><tr style="text-align:center">
@@ -329,7 +336,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>Silent Spell: Cast spell w/out speech uses +1 spell slot</td>
     </tr><tr style="text-align:center">
-      <td>Song Of Freedom: <i>Break Enchantment</i> via Perform</td>
+      <td>Song Of Freedom: R30' <i>Break Enchantment</i> via 1 min Perform</td>
     </tr><tr style="text-align:center">
       <td>Still Spell: Cast spell w/out movement uses +1 spell slot</td>
     </tr><tr style="text-align:center">

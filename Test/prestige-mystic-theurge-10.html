@@ -15,8 +15,8 @@ var attributes = {
   "intelligence":12, "languages.Celestial":1, "languages.Dwarven":1, "levels.Cleric":4, 
   "levels.Wizard":4, "name":"Prestige-Mystic Theurge 10", "prestige.Mystic Theurge":10, 
   "race":"Human", "selectableFeatures.Cleric - Evil Domain":1, 
-  "selectableFeatures.Cleric - War Domain":1, "selectableFeatures.Wizard - School Opposition (Illusion)":1, 
-  "selectableFeatures.Wizard - School Specialization (Conjuration)":1, "selectableFeatures.Wizard - School Specialization (Evocation)":1, 
+  "selectableFeatures.Cleric - War Domain":1, "selectableFeatures.Wizard - School Opposition (Evocation)":1, 
+  "selectableFeatures.Wizard - School Opposition (Illusion)":1, "selectableFeatures.Wizard - School Specialization (Conjuration)":1, 
   "shield":"Light Steel", "skills.Climb":17, "skills.Craft (Bows)":21, "skills.Decipher Script":13, 
   "skills.Diplomacy":1, "skills.Knowledge (Arcana)":6, "skills.Knowledge (Geography)":10, 
   "skills.Knowledge (Religion)":6, "skills.Sense Motive":20, "skills.Spellcraft":1, "skills.Survival":1, 
@@ -104,7 +104,7 @@ var attributes = {
         <td><b>Feats</b>: Combat Casting; Great Fortitude; Improved Familiar; Maximize Spell; Point-Blank Shot; Self-Sufficient; Spell Focus (Evocation); Spell Focus (Necromancy)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
         <td><b>Mystic Theurge Features</b>: Caster Level Bonus</td>
-        <td><b>Wizard Features</b>: School Opposition (Illusion); School Specialization (Conjuration); School Specialization (Evocation); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
+        <td><b>Wizard Features</b>: School Opposition (Evocation); School Opposition (Illusion); School Specialization (Conjuration); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
         <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Empowered Evil; Evil Domain; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; War Domain; Weapon Focus (Flail); Weapon Of War; Weapon Proficiency (Flail); Weapon Proficiency (Simple)</td>
       </tr></table>
 </td>
@@ -185,8 +185,6 @@ var attributes = {
         <td>Knowledge (Geography) Synergy: +2 Survival (lost and hazards)</td>
       </tr><tr style="text-align:center">
         <td>School Specialization (Conjuration): +2 Spellcraft (Conjuration effects)</td>
-      </tr><tr style="text-align:center">
-        <td>School Specialization (Evocation): +2 Spellcraft (Evocation effects)</td>
       </tr></table>
 </td>
     </tr></table>
@@ -236,7 +234,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Point-Blank Shot: +1 ranged attack and damage w/in 30'</td>
       </tr><tr style="text-align:center">
-        <td>Turn Undead: Turn (good) or rebuke (evil) 2d6+6 HD of undead creatures of up to (d20+2)/3 HD 3/dy</td>
+        <td>Turn Undead: R60' Turn (good) or rebuke (evil) 2d6+6 HD of undead creatures of up to (d20+2)/3 HD 3/dy</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -268,7 +266,7 @@ var attributes = {
     <tr style="text-align:center">
       <td>      <table id="SpellStats" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Spell Slots</b>: C0: 6; C1: 6; C2: 5; C3: 4; C4: 4; C5: 3; C6: 3; C7: 2; Domain1: 1; Domain2: 1; Domain3: 1; Domain4: 1; Domain5: 1; Domain6: 1; Domain7: 1; W0: 4; W1: 7; W2: 6; W3: 6; W4: 6; W5: 5; W6: 5; W7: 4</td>
+        <td><b>Spell Slots</b>: C0: 6; C1: 6; C2: 5; C3: 4; C4: 4; C5: 3; C6: 3; C7: 2; Domain1: 1; Domain2: 1; Domain3: 1; Domain4: 1; Domain5: 1; Domain6: 1; Domain7: 1; W0: 4; W1: 6; W2: 5; W3: 5; W4: 5; W5: 4; W6: 4; W7: 3</td>
         <td><b>Spell DC</b>: C: 11; Domain: 11; W: 11</td>
       </tr></table>
 </td>
@@ -439,8 +437,6 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><i>School Specialization (Conjuration): Extra Conjuration spell/dy each spell level</i></td>
     </tr><tr style="text-align:center">
-      <td><i>School Specialization (Evocation): Extra Evocation spell/dy each spell level</i></td>
-    </tr><tr style="text-align:center">
       <td><i>Spell Focus (Evocation): +1 Spell DC (Evocation)</i></td>
     </tr><tr style="text-align:center">
       <td><i>Spell Focus (Necromancy): +1 Spell DC (Necromancy)</i></td>
@@ -454,6 +450,8 @@ var attributes = {
       <td>Empowered Evil: +1 caster level on Evil spells</td>
     </tr><tr style="text-align:center">
       <td>Maximize Spell: Maximize all chosen spell variable effects uses +3 spell slot</td>
+    </tr><tr style="text-align:center">
+      <td>School Opposition (Evocation): Cannot learn or cast Evocation spells</td>
     </tr><tr style="text-align:center">
       <td>School Opposition (Illusion): Cannot learn or cast Illusion spells</td>
     </tr><tr style="text-align:center">
@@ -483,9 +481,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Deliver Touch Spells: Deliver touch spells if in contact w/master when cast</td>
       </tr><tr style="text-align:center">
-        <td>Empathic Link: Share emotions up to 1 mile</td>
+        <td>Empathic Link: Share emotions w/in 1 mile</td>
       </tr><tr style="text-align:center">
-        <td>Share Spells: Master share self spell w/companion w/in 5'</td>
+        <td>Share Spells: R5' Master share self spell w/companion</td>
       </tr></table>
 </td>
     </tr></table>
