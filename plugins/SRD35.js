@@ -1053,8 +1053,6 @@ SRD35.FEATURES = {
   'Enhance Arrow':'Section=combat Note="Arrows treated as +%V magic weapons"',
   'Enhanced Mobility':
     'Section=combat Note="+4 AC vs. movement AOO when unarmored"',
-  'Extended Arcane Reach':'Section=magic Note="R60\' Arcane Reach"',
-  'Extended Divine Reach':'Section=magic Note="R60\' Divine Reach"',
   'Extended Summoning':'Section=magic Note="x2 summoning spell duration"',
   'Faith Healing':
     'Section=magic ' +
@@ -1069,12 +1067,15 @@ SRD35.FEATURES = {
   'Greater Lore':'Section=magic Note="<i>Identify</i> at will"',
   'Hail Of Arrows':
     'Section=combat Note="Simultaneously fire arrows at %V targets 1/dy"',
+  'High Arcana':'Section=feature Note="%V selections"',
   'Imbue Arrow':'Section=magic Note="Center spell where arrow lands"',
   'Impromptu Sneak Attack':
     'Section=combat Note="Declare any attack a sneak attack %V/dy"',
   'Improved Ally':
     'Section=skill ' +
     'Note="Diplomacy check for planar ally service at half usual cost"',
+  'Improved Arcane Reach':'Section=magic Note="R60\' Arcane Reach"',
+  'Improved Divine Reach':'Section=magic Note="R60\' Divine Reach"',
   'Improved Reaction':'Section=combat Note="+%V Initiative"',
   'Instant Mastery':'Section=skill Note="+4 Skill Points in untrained skill"',
   'Intelligence Boost':'Section=ability Note="+2 Intelligence"',
@@ -4439,9 +4440,9 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
     'Spellcraft ' +
     'Features=' +
-      '"1:Caster Level Bonus" ' +
+      '"1:Caster Level Bonus","1:High Arcana" ' +
     'Selectables=' +
-      '"1:Arcane Fire","1:Arcane Reach","1:Extended Arcane Reach",' +
+      '"1:Arcane Fire","1:Arcane Reach","1:Improved Arcane Reach",' +
       '"1:Mastery Of Counterspelling","1:Mastery Of Elements",' +
       '"1:Mastery Of Shaping","1:Spell Power","1:Spell-Like Ability"',
   'Assassin':
@@ -4552,7 +4553,7 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,Craft,Diplomacy,Heal,"Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,Spellcraft ' +
     'Selectables=' +
-      '"1:Blast Infidel","1:Divine Reach","1:Extended Divine Reach",' +
+      '"1:Blast Infidel","1:Divine Reach","1:Improved Divine Reach",' +
       '"1:Faith Healing","1:Metamagic Feat","1:Spell Power",' +
       '"1:Spell-Like Ability",' +
       '"levels.Cleric > 0 ? 1:Mastery Of Energy",' +
@@ -5998,15 +5999,48 @@ SRD35.classRulesExtra = function(rules, name) {
           ('level5SpellSchools', 'level5' + school + 'Spells', '+=', '1');
       }
     }
+
+    rules.defineRule('featureNotes.highArcana', 'levels.Archmage', '=', null);
     rules.defineRule
       ('magicNotes.casterLevelBonus', 'levels.Archmage', '+=', null);
     rules.defineRule
-      ('selectableFeatureCount.Archmage', 'levels.Archmage', '+=', null);
+      ('selectableFeatureCount.Archmage', 'featureNotes.highArcana', '+=', null);
     rules.defineRule('magicNotes.arcaneFire', 'levels.Archmage', '=', null);
     rules.defineRule('magicNotes.arcaneFire.1',
       'features.Arcane Fire', '?', null,
       'levels.Archmage', '=', '400 + 40 * source'
     );
+
+    rules.defineRule('spellSlots.S5',
+      'archmageFeatures.Spell Power', '+', '-1',
+      'archmageFeatures.Spell-Like Ability', '+', '-1'
+    );
+    rules.defineRule('spellSlots.W5',
+      'archmageFeatures.Spell Power', '+', '-1',
+      'archmageFeatures.Spell-Like Ability', '+', '-1'
+    );
+    rules.defineRule
+      ('spellSlots.S6', 'archmageFeatures.Mastery Of Shaping', '+', '-1');
+    rules.defineRule
+      ('spellSlots.W6', 'archmageFeatures.Mastery Of Shaping', '+', '-1');
+    rules.defineRule('spellSlots.S7',
+      'archmageFeatures.Arcane Reach', '+', '-1',
+      'archmageFeatures.Improved Arcane Reach', '+', '-1',
+      'archmageFeatures.Mastery Of Counterspelling', '+', '-1'
+    );
+    rules.defineRule('spellSlots.W7',
+      'archmageFeatures.Arcane Reach', '+', '-1',
+      'archmageFeatures.Improved Arcane Reach', '+', '-1',
+      'archmageFeatures.Mastery Of Counterspelling', '+', '-1'
+    );
+    rules.defineRule
+      ('spellSlots.S8', 'archmageFeatures.Mastery Of Elements', '+', '-1');
+    rules.defineRule
+      ('spellSlots.W8', 'archmageFeatures.Mastery Of Elements', '+', '-1');
+    rules.defineRule
+      ('spellSlots.S9', 'archmageFeatures.Arcane Fire', '+', '-1');
+    rules.defineRule
+      ('spellSlots.W9', 'archmageFeatures.Arcane Fire', '+', '-1');
 
   } else if(name == 'Assassin') {
 
