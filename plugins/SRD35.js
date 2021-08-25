@@ -1037,7 +1037,7 @@ SRD35.FEATURES = {
   'Death Attack':
     'Section=combat ' +
     'Note="Sneak attack after 3 rd of study causes death or paralysis d6+%{levels.Assassin} rd (DC %{levels.Assassin+intelligenceModifier+10} Fort neg)"',
-  'Defender Armor':'Section=combat Note="+%V AC"',
+  'Defender Armor Class Bonus':'Section=combat Note="+%V AC"',
   'Defensive Stance':
      'Section=feature ' +
     'Note="+2 Str, +4 Con, +2 saves, +4 AC while unmoving %V rd %1/dy"',
@@ -1077,7 +1077,7 @@ SRD35.FEATURES = {
   'Improved Arcane Reach':'Section=magic Note="R60\' Arcane Reach"',
   'Improved Divine Reach':'Section=magic Note="R60\' Divine Reach"',
   'Improved Reaction':'Section=combat Note="+%V Initiative"',
-  'Instant Mastery':'Section=skill Note="+4 Skill Points in untrained skill"',
+  'Instant Mastery':'Section=skill Note="+4 ranks in an untrained skill"',
   'Intelligence Boost':'Section=ability Note="+2 Intelligence"',
   'Lore':'Section=skill Note="+%{levels.Loremaster+intelligenceModifier} Knowledge (local history)"',
   'Mastery Of Counterspelling':
@@ -4531,7 +4531,7 @@ SRD35.PRESTIGE_CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Martial)",' +
-      '"1:Defender Armor","1:Defensive Stance","2:Uncanny Dodge",' +
+      '"1:Defender Armor Class Bonus","1:Defensive Stance","2:Uncanny Dodge",' +
       '"4:Trap Sense","6:Damage Reduction","6:Improved Uncanny Dodge",' +
       '"8:Mobile Defense"',
   'Eldritch Knight':
@@ -6200,7 +6200,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.damageReduction',
       'levels.Dwarven Defender', '^=', 'source<6 ? null : source<10 ? 3 : 6'
     );
-    rules.defineRule('combatNotes.defenderArmor',
+    rules.defineRule('combatNotes.defenderArmorClassBonus',
       'levels.Dwarven Defender', '+=', 'Math.floor((source + 2) / 3)'
     );
     rules.defineRule
@@ -6251,7 +6251,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('resistance.Fire', 'saveNotes.terrainMastery(Fiery)', '^=', '20');
     rules.defineRule('features.Tremorsense',
-      'features.Terrain Mastery (Cavernous)', '=', '1'
+      'featureNotes.terrainMastery(Cavernous)', '=', '1'
     );
     rules.defineRule('selectableFeatureCount.Horizon Walker',
       'levels.Horizon Walker', '+=', null
