@@ -19,9 +19,12 @@ var ABOUT_TEXT =
 'Click <a href="core/gpl.txt">here</a> to see it.\n' +
 'All trademarks used by Quilvyn are the property of their respective ' +
 'owners.\n' +
+'Parchment background from <a href="http://www.myfreetextures.com">myfreetextures.com</a>,' +
+'used under the terms of the <a href="https://www.myfreetextures.com/use-license/">MyFreeTextures License</a>.\n' +
+'See the individual rule set notes for additional copyright information.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley, Norm Jacobson, and ' +
 'Caroline Rider, for patient testing of Quilvyn and for suggestions that have '+
-'greatly improved it. Special thanks to Avalon Hayes for the name and artwork.';
+'greatly improved it. Special thanks to Avalon Hayes for the name and logo artwork.';
 
 var FEATURES_OF_EDIT_WINDOW =
   'height=750,width=500,menubar,resizable,scrollbars';
