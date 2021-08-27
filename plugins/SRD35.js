@@ -611,7 +611,8 @@ SRD35.FEATURES = {
   'Companion Improved Evasion':
     'Section=companion Note="Failed save yields half damage"',
   'Countersong':
-    'Section=magic Note="R30\' Perform check vs. sonic magic for 10 rd"',
+    'Section=magic ' +
+    'Note="R30\' Perform check vs. sonic magic while performing for 10 rd"',
   'Craft Magic Arms And Armor':
     'Section=magic Note="Create and mend magic weapons, armor, and shields"',
   'Craft Rod':'Section=magic Note="Create magic rod"',
@@ -695,7 +696,7 @@ SRD35.FEATURES = {
   'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
   'Fascinate':
     'Section=magic ' +
-    'Note="R90\' Hold %{(levels.Bard+2)//3} creatures spellbound %{levels.Bard} rd (DC Perform Will neg)"',
+    'Note="R90\' Hold %{(levels.Bard+2)//3} creatures spellbound while performing for %{levels.Bard} rd (DC Perform Will neg)"',
   'Fast Movement':'Section=ability Note="+10 Speed"',
   'Favored Enemy':
     'Section=combat,skill ' +
@@ -770,10 +771,10 @@ SRD35.FEATURES = {
   'Increased Unarmed Damage':'Section=combat Note="%V"',
   'Indomitable Will':'Section=save Note="+4 Will vs. enchantment during rage"',
   'Inspire Competence':
-    'Section=magic Note="R30\' +2 allies skill checks while performing for 2 min"',
+    'Section=magic Note="R30\' Allies +2 skill checks while performing for 2 min"',
   'Inspire Courage':
     'Section=magic ' +
-    'Note="+%{(levels.Bard+4)//6 >? 1} allies attack, damage, charm, fear saves while performing + 5 rd"',
+    'Note="Allies +%{(levels.Bard+4)//6 >? 1} attack, damage, charm and fear saves while performing + 5 rd"',
   'Inspire Greatness':
     'Section=magic ' +
     'Note="R30\' %{(levels.Bard-6)//3} allies +2d10 HP, +2 attack, +1 Fortitude while performing + 5 rd"',
@@ -4414,7 +4415,7 @@ SRD35.PRESTIGE_CLASSES = {
       '"8:Hail Of Arrows","10:Arrow Of Death"',
   'Arcane Trickster':
     'Require=' +
-      '"alignment !~ \'Lawful\'","levels.Rogue >= 3",' +
+      '"alignment !~ \'Lawful\'","sneakAttack >= 2",' +
       '"skills.Decipher Script >= 7","skills.Disable Device >= 7",' +
       '"skills.Escape Artist >= 7","skills.Knowledge (Arcana) >= 4",' +
       '"Sum \'^spells\\.Mage Hand\' >= 1",' +
@@ -5924,9 +5925,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Rogue', '+=', null,
       '', '+', '4'
     );
-    rules.defineRule('combatNotes.sneakAttack',
-      'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
-    );
+    rules.defineRule('combatNotes.sneakAttack', 'sneakAttack', '=', null);
     rules.defineRule('saveNotes.trapSense',
       'levels.Rogue', '+=', 'Math.floor(source / 3)'
     );
@@ -5943,6 +5942,9 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('uncannyDodgeSources', 'rogueFeatures.Uncanny Dodge', '+=', '1');
+    rules.defineRule('sneakAttack',
+      'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
+    );
 
   } else if(name == 'Sorcerer') {
 
@@ -5980,11 +5982,12 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.rangedLegerdemain',
       'levels.Arcane Trickster', '+=', 'Math.floor((source + 3) / 4)'
     );
-    rules.defineRule('combatNotes.sneakAttack',
-      'levels.Arcane Trickster', '+=', 'Math.floor(source / 2)'
-    );
+    rules.defineRule('combatNotes.sneakAttack', 'sneakAttack', '=', null);
     rules.defineRule
       ('magicNotes.casterLevelBonus', 'levels.Arcane Trickster', '+=', null);
+    rules.defineRule('sneakAttack',
+      'levels.Arcane Trickster', '+=', 'Math.floor(source / 2)'
+    );
 
   } else if(name == 'Archmage') {
 
@@ -6044,9 +6047,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Assassin') {
 
-    rules.defineRule('combatNotes.sneakAttack',
-      'levels.Assassin', '+=', 'Math.floor((source + 1) / 2)'
-    );
+    rules.defineRule('combatNotes.sneakAttack', 'sneakAttack', '=', null);
     rules.defineRule('assassinFeatures.Improved Uncanny Dodge',
       'assassinFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
@@ -6057,6 +6058,9 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule('uncannyDodgeSources',
       'levels.Assassin', '+=', 'source >= 2 ? 1 : null'
+    );
+    rules.defineRule('sneakAttack',
+      'levels.Assassin', '+=', 'Math.floor((source + 1) / 2)'
     );
 
   } else if(name == 'Blackguard') {
@@ -6070,9 +6074,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.smiteGood.2',
       'levels.Blackguard', '+=', 'source<2 ? null : 1 + Math.floor(source/5)'
     );
-    rules.defineRule('combatNotes.sneakAttack',
-      'levels.Blackguard', '+=', 'source<4 ? null : Math.floor((source-1)/3)'
-    );
+    rules.defineRule('combatNotes.sneakAttack', 'sneakAttack', '=', null);
     rules.defineRule
       ('features.Turn Undead', 'features.Command Undead', '=', '1');
     rules.defineRule('magicNotes.blackguardHands',
@@ -6096,9 +6098,12 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.smiteGood',
       'levels.Paladin', '+', 'source >= 9 ? 3 : source >= 5 ? 2 : 1'
     );
+    rules.defineRule('sneakAttack',
+      'levels.Blackguard', '+=', 'source<4 ? null : Math.floor((source-1)/3)'
+    );
     // NOTE: Minor bug: this will also effect the sneak attack feature of
     // some unlikely combinations, e.g., rogue/paladin
-    rules.defineRule('combatNotes.sneakAttack',
+    rules.defineRule('sneakAttack',
       'levels.Paladin', '+', 'source >= 5 ? 1 : null'
     );
 
@@ -8796,11 +8801,6 @@ SRD35.ruleNotes = function() {
     '    critical multiplier of x4 instead of x3/x4.\n' +
     '  </li><li>\n' +
     '    Quilvyn does not track companion feats, skills, and tricks.\n' +
-    '  </li><li>\n' +
-    '    To satisfy the Arcane Trickster Sneak Attack >= 2d6 prerequisite,\n' +
-    '    Quilvyn requires that an Arcane Trickster have at least 3 Rogue\n' +
-    "    levels. This doesn't account for other prestige classes (e.g.,\n" +
-    '    Assassin) that also increase Sneak Attack damage.\n' +
     '  </li><li>\n' +
     '    Blackguard features of fallen Paladins are not reported.\n' +
     '  </li>\n' +
