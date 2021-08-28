@@ -585,7 +585,7 @@ SRD35.FEATURES = {
   'Bardic Music':'Section=feature Note="Bardic music effect %V/dy"',
   'Blind-Fight':
     'Section=combat ' +
-    'Note="Reroll concealed miss, no bonus to invisible foe, half penalty for impaired vision"',
+    'Note="Reroll concealed miss, no melee bonus to invisible foe, half penalty for impaired vision"',
   'Brew Potion':'Section=magic Note="Create potion for up to 3rd level spell"',
   'Camouflage':'Section=skill Note="Hide in any natural terrain"',
   'Celestial Familiar':
@@ -827,7 +827,7 @@ SRD35.FEATURES = {
   'Natural Smith':
     'Section=skill ' +
     'Note="+2 Appraise (stone or metal)/+2 Craft (stone or metal)"',
-  'Natural Spell':'Section=magic Note="Cast spell during <i>Wild Shape</i>"',
+  'Natural Spell':'Section=magic Note="Cast spell during Wild Shape"',
   'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
   'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
   'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
@@ -873,9 +873,12 @@ SRD35.FEATURES = {
   'Resist Poison':'Section=save Note="+2 vs. Poison"',
   'Resist Spells':'Section=save Note="+2 vs. Spells"',
   'Ride-By Attack':
-   'Section=combat Note="Move before, after mounted attack w/out AOO"',
+    'Section=combat Note="Move before, after mounted attack w/out AOO"',
   'Run':
-    'Section=ability,skill Note="+1 Run Speed Multiplier","+4 running Jump"',
+    'Section=ability,combat,skill ' +
+    'Note="+1 Run Speed Multiplier",' +
+         '"Retain dex bonus to AC while running",' +
+         '"+4 Acrobatics (running jump)"',
   'School Opposition (%school)':
     'Section=magic Note="Cannot learn or cast %school spells"',
   'School Specialization (%school)':
@@ -1026,7 +1029,7 @@ SRD35.FEATURES = {
   'Bonus Language':'Section=feature Note="+%V Language Count"',
   'Bonus Spells':'Section=magic Note="%V"',
   'Breath Weapon':'Section=combat Note="Breathe %Vd8 HP (DC %1 Ref half) 1/dy"',
-  'Canny Defense':'Section=combat Note="Add %V to melee AC when unarmored"',
+  'Canny Defense':'Section=combat Note="+%V AC when unarmored"',
   'Caster Level Bonus':
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
@@ -1037,7 +1040,7 @@ SRD35.FEATURES = {
   'Dark Blessing':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Death Attack':
     'Section=combat ' +
-    'Note="Sneak attack after 3 rd of study causes death or paralysis d6+%{levels.Assassin} rd (DC %{levels.Assassin+intelligenceModifier+10} Fort neg)"',
+    'Note="Sneak attack after 3 rd of study causes death or paralysis 1d6+%{levels.Assassin} rd (DC %{levels.Assassin+intelligenceModifier+10} Fort neg)"',
   'Defender Armor Class Bonus':'Section=combat Note="+%V AC"',
   'Defensive Stance':
      'Section=feature ' +
@@ -1078,7 +1081,7 @@ SRD35.FEATURES = {
   'Improved Arcane Reach':'Section=magic Note="R60\' Arcane Reach"',
   'Improved Divine Reach':'Section=magic Note="R60\' Divine Reach"',
   'Improved Reaction':'Section=combat Note="+%V Initiative"',
-  'Instant Mastery':'Section=skill Note="+4 ranks in an untrained skill"',
+  'Instant Mastery':'Section=skill Note="4 ranks in an untrained skill"',
   'Intelligence Boost':'Section=ability Note="+2 Intelligence"',
   'Lore':'Section=skill Note="+%{levels.Loremaster+intelligenceModifier} Knowledge (local history)"',
   'Mastery Of Counterspelling':
@@ -1107,7 +1110,7 @@ SRD35.FEATURES = {
     'Note="+%{levels.Duelist//5}d6 HP damage with light or one-handed piercing weapon"',
   'Ranged Legerdemain':
     'Section=combat ' +
-    'Note="R30\' +5 DC on Disable Device, Open Lock, Sleight Of Hand %V/dy"',
+    'Note="R30\' Disable Device, Open Lock, Sleight Of Hand at +5 DC %V/dy"',
   'Secrets':'Section=feature Note="%V selections"',
   'Secret Health':'Section=combat Note="+3 HP"',
   'Secret Knowledge Of Avoidance':'Section=save Note="+2 Reflex"',
@@ -4459,7 +4462,7 @@ SRD35.PRESTIGE_CLASSES = {
       '"Use Magic Device","Use Rope" ' +
     'Features=' +
       '"1:Armor Proficiency (Light)",' +
-      '"1:Weapon Proficiency (Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Composite Shortbow/Short Sword)",' +
+      '"1:Weapon Proficiency (Composite Shortbow/Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Short Sword)",' +
       '"1:Death Attack","1:Poison Use","1:Sneak Attack",' +
       '"2:Poison Save Bonus","2:Uncanny Dodge","5:Improved Uncanny Dodge",' +
       '"8:Hide In Plain Sight" ' +
@@ -6269,13 +6272,12 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Loremaster', '+=', 'Math.floor(source / 4)'
     );
     rules.defineRule('featureNotes.secrets',
-      'levels.Loremaster', '=', 'Math.floor((source + 1) / 2)',
-      'intelligenceModifier', '+', null
+      'levels.Loremaster', '=', 'Math.floor((source + 1) / 2)'
     );
     rules.defineRule
       ('magicNotes.casterLevelBonus', 'levels.Loremaster', '+=', null);
     rules.defineRule
-      ('selectableFeatureCount.Loremaster', 'featureNotes.secrets', '=', null);
+      ('selectableFeatureCount.Loremaster', 'featureNotes.secrets', '+=', null);
 
   } else if(name == 'Mystic Theurge') {
 
