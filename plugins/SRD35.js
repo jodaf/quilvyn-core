@@ -878,7 +878,7 @@ SRD35.FEATURES = {
     'Section=ability,combat,skill ' +
     'Note="+1 Run Speed Multiplier",' +
          '"Retain dex bonus to AC while running",' +
-         '"+4 Acrobatics (running jump)"',
+         '"+4 running Jump"',
   'School Opposition (%school)':
     'Section=magic Note="Cannot learn or cast %school spells"',
   'School Specialization (%school)':
