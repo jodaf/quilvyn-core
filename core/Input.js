@@ -62,6 +62,8 @@ function InputHtml(name, type, params) {
     result =
       '<input name="' + name + '" type="' + type + '"' +
       ' value="' + (params ? params[0] : '') + '"/>';
+    if(params)
+      result += '<label for="' + name + '">' + params[0] + '</label>';
   }
   else if(type == 'select-one') {
     var opts = new Array();
