@@ -3901,7 +3901,7 @@ SRD35.SPELLS = {
     'Level=D5,W5 ' +
     'Description="R$RM\' $L2 10\' natural rock cubes become mud"',
   'Transport Via Plants':
-    'School=Transmutation ' +
+    'School=Conjuration ' +
     'Level=D6 ' +
     'Description="Self and $Ldiv3 willing targets teleport via like plants"',
   'Trap The Soul':
