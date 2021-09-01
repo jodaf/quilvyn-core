@@ -173,7 +173,7 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
     for(var i = 0; i < keys.length; i++) {
       var choice = keys[i];
       htmlBits.push(
-        '<tr><td>' + InputHtml(choices[choice], 'checkbox', [choice]) + '</td><td>' + choice + '</td></tr>'
+        '<tr><td>' + InputHtml(choices[choice], 'checkbox', [choice]) + '</td></tr>'
       );
     }
     htmlBits.push(
