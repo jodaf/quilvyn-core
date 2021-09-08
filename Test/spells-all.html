@@ -173,11 +173,11 @@ var attributes = {
   "spells.Hideous Laughter(W2 Ench)":1, "spells.Hold Animal(D2 Ench)":1, "spells.Hold Monster(B4 Ench)":1, 
   "spells.Hold Monster(W5 Ench)":1, "spells.Hold Person(B2 Ench)":1, "spells.Hold Person(C2 Ench)":1, 
   "spells.Hold Person(W3 Ench)":1, "spells.Hold Portal(W1 Abju)":1, "spells.Holy Aura(C8 Abju)":1, 
-  "spells.Holy Sword(P4 Evoc)":1, "spells.Holy Word(C7 Evoc)":1, "spells.Horrid Wilting(W8 Necr)":1, 
-  "spells.Hypnotic Pattern(B2 Illu)":1, "spells.Hypnotic Pattern(W2 Illu)":1, "spells.Hypnotism(B1 Ench)":1, 
-  "spells.Hypnotism(W1 Ench)":1, "spells.Ice Storm(D4 Evoc)":1, "spells.Ice Storm(W4 Evoc)":1, 
-  "spells.Identify(B1 Divi)":1, "spells.Identify(W1 Divi)":1, "spells.Illusory Script(B3 Illu)":1, 
-  "spells.Illusory Script(W3 Illu)":1, "spells.Illusory Wall(W4 Illu)":1, 
+  "spells.Holy Smite(Good4 Evoc)":1, "spells.Holy Sword(P4 Evoc)":1, "spells.Holy Word(C7 Evoc)":1, 
+  "spells.Horrid Wilting(W8 Necr)":1, "spells.Hypnotic Pattern(B2 Illu)":1, "spells.Hypnotic Pattern(W2 Illu)":1, 
+  "spells.Hypnotism(B1 Ench)":1, "spells.Hypnotism(W1 Ench)":1, "spells.Ice Storm(D4 Evoc)":1, 
+  "spells.Ice Storm(W4 Evoc)":1, "spells.Identify(B1 Divi)":1, "spells.Identify(W1 Divi)":1, 
+  "spells.Illusory Script(B3 Illu)":1, "spells.Illusory Script(W3 Illu)":1, "spells.Illusory Wall(W4 Illu)":1, 
   "spells.Imbue With Spell Ability(C4 Evoc)":1, "spells.Implosion(C9 Evoc)":1, "spells.Imprisonment(W9 Abju)":1, 
   "spells.Incendiary Cloud(W8 Conj)":1, "spells.Inflict Critical Wounds(C4 Necr)":1, 
   "spells.Inflict Light Wounds(C1 Necr)":1, "spells.Inflict Minor Wounds(C0 Necr)":1, 
@@ -819,9 +819,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Calm Animals (D1 Ench): R35' 2d4+4 HD of animals in 15' radius docile for 4 min (DC 12 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Calm Emotions (B2 Ench): R140' Creatures in 20' radius pacified 4 rd or conc (DC 10 Will neg)</td>
+      <td>Calm Emotions (B2 Ench): R140' Creatures in 20' radius pacified conc or 4 rd (DC 10 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Calm Emotions (C2 Ench): R140' Creatures in 20' radius pacified 4 rd or conc (DC 13 Will neg)</td>
+      <td>Calm Emotions (C2 Ench): R140' Creatures in 20' radius pacified conc or 4 rd (DC 13 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Cat's Grace (B2 Tran): Touched +4 Dex for 4 min</td>
     </tr><tr style="text-align:left">
@@ -1095,7 +1095,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Diminish Plants (D3 Tran): Prunes or stunts growth of normal plants</td>
     </tr><tr style="text-align:left">
-      <td>Discern Lies (C4 Divi): R35' Reveals lies from 4 creatures in 15' radius for 4 rd or conc (DC 15 Will neg)</td>
+      <td>Discern Lies (C4 Divi): R35' Reveals lies from 4 creatures in 15' radius for conc or 4 rd (DC 15 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Discern Location (C8 Divi): Know exact location of creature or object at any distance</td>
     </tr><tr style="text-align:left">
@@ -1173,9 +1173,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Endure Elements (W1 Abju): Touched comfortable at -50F-140F for 1 dy</td>
     </tr><tr style="text-align:left">
-      <td>Energy Drain (C9 Necr): R35' Ranged touch 2d4 negative levels (Fort/level after 1 dy neg, permanent otherwise (undead +2d4x5 HP for 1 hr)</td>
+      <td>Energy Drain (C9 Necr): R35' Ranged touch 2d4 negative levels (Fort/level after 1 dy neg, permanent otherwise) (undead +2d4x5 HP for 1 hr)</td>
     </tr><tr style="text-align:left">
-      <td>Energy Drain (W9 Necr): R35' Ranged touch 2d4 negative levels (Fort/level after 1 dy neg, permanent otherwise (undead +2d4x5 HP for 1 hr)</td>
+      <td>Energy Drain (W9 Necr): R35' Ranged touch 2d4 negative levels (Fort/level after 1 dy neg, permanent otherwise) (undead +2d4x5 HP for 1 hr)</td>
     </tr><tr style="text-align:left">
       <td>Enervation (W4 Necr): R35' Ranged touch 1d4 negative levels for 4 hr (undead +1d4x5 HP for 1 hr)</td>
     </tr><tr style="text-align:left">
@@ -1439,19 +1439,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Haste (W3 Tran): R35' 4 targets in 15' radius extra attack, +1 attack, AC, and Reflex, +30' Speed for 4 rd</td>
     </tr><tr style="text-align:left">
-      <td>Heal (C6 Conj): Touched heal 40 and remove negative conditions (damages undead)</td>
+      <td>Heal (C6 Conj): Touched regains 40 HP and removes negative conditions (damages undead)</td>
     </tr><tr style="text-align:left">
-      <td>Heal (D7 Conj): Touched heal 40 and remove negative conditions (damages undead)</td>
+      <td>Heal (D7 Conj): Touched regains 40 HP and removes negative conditions (damages undead)</td>
     </tr><tr style="text-align:left">
-      <td>Heal Mount (P3 Conj): Touched mount heal 20 and remove negative conditions</td>
+      <td>Heal Mount (P3 Conj): Touched mount regains 20 HP and removes negative conditions</td>
     </tr><tr style="text-align:left">
       <td>Heat Metal (D2 Tran): R35' Metal of 2 creatures in 15' radius 0/1/2/2/2/1/0d4 HP for 7 rd (DC 13 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Helping Hand (C3 Evoc): R5 miles ghostly hand leads target to you for 4 hr</td>
     </tr><tr style="text-align:left">
-      <td>Heroes' Feast (B6 Conj): R35' Food for 4 creatures cures sickness and disease, 1d8+2 temporary HP, +1 attack and Will saves, immune poison and fear for 12 hr</td>
+      <td>Heroes' Feast (B6 Conj): R35' Food for 4 creatures cures sickness and disease, 1d8+2 temporary HP, +1 attack and Will saves, immune poison for 12 hr</td>
     </tr><tr style="text-align:left">
-      <td>Heroes' Feast (C6 Conj): R35' Food for 4 creatures cures sickness and disease, 1d8+2 temporary HP, +1 attack and Will saves, immune poison and fear for 12 hr</td>
+      <td>Heroes' Feast (C6 Conj): R35' Food for 4 creatures cures sickness and disease, 1d8+2 temporary HP, +1 attack and Will saves, immune poison for 12 hr</td>
     </tr><tr style="text-align:left">
       <td>Heroism (B2 Ench): Touched +2 attack, saves, and skill checks for 40 min</td>
     </tr><tr style="text-align:left">
@@ -1477,11 +1477,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hold Person (W3 Ench): R140' Target humanoid immobile for 4 rd (DC 15 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Hold Portal (W1 Abju): R140' Door, gate, or window locked, +5 DC to open for 4 min</td>
+      <td>Hold Portal (W1 Abju): R140' Door, gate, or window magically held shut for 4 min</td>
     </tr><tr style="text-align:left">
-      <td>Holy Aura (C8 Abju): 4 creatures in 20' radius +4 AC and saves, SR 25 vs. evil spells, protected from mental control, and striking foes blinded (DC 19 Fort neg) for 4 rd</td>
+      <td>Holy Aura (C8 Abju): 4 creatures in 20' radius +4 AC and saves, SR 25 (evil), protected from mental control, and striking foes blinded (DC 19 Fort neg) for 4 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Sword (P4 Evoc): Touched weapon +5 attack and damage, vs. evil +2d6 damage, +2 AC and saves, protects against mental control, bars contact by evil summoned for 2 rd</td>
+      <td>Holy Smite (Good4 Evoc): R140' Evil in 20' radius 2d8 HP and blinded 1 rd, neutral half (DC 15 Will half)</td>
+    </tr><tr style="text-align:left">
+      <td>Holy Sword (P4 Evoc): Touched weapon +5 attack and damage, +2d6 damage vs. evil, +2 AC and saves, protects against mental control, bars contact by evil summoned for 2 rd</td>
     </tr><tr style="text-align:left">
       <td>Holy Word (C7 Evoc): Nongood creatures in 40' radius with equal/-1/-5/-10 HD deafened 1d4 rd/blinded 2d4 rd/paralyzed 1d10 min/killed and banished (DC 18 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -1491,9 +1493,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hypnotic Pattern (W2 Illu): R140' 2d4+4 HD of creatures fascinated for conc + 2 rd (DC 14 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Hypnotism (B1 Ench): R35' 2d4 HD of creatures fascinated and suggestible for 2d4 rd (DC 9 Will neg)</td>
+      <td>Hypnotism (B1 Ench): R35' 2d4 HD of creatures fascinated and suggestible for 2d4 rd (DC 9 Will neg, +2 during combat, -2 single target)</td>
     </tr><tr style="text-align:left">
-      <td>Hypnotism (W1 Ench): R35' 2d4 HD of creatures fascinated and suggestible for 2d4 rd (DC 13 Will neg)</td>
+      <td>Hypnotism (W1 Ench): R35' 2d4 HD of creatures fascinated and suggestible for 2d4 rd (DC 13 Will neg, +2 during combat, -2 single target)</td>
     </tr><tr style="text-align:left">
       <td>Ice Storm (D4 Evoc): R560' Hail in 40' cylinder 3d6 HP bludgeoning, 2d6 HP cold, -4 Listen for 4 rd</td>
     </tr><tr style="text-align:left">
@@ -1509,9 +1511,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Illusory Wall (W4 Illu): R35' Permanent illusionary 1'x10'x10' surface (DC 16 Will disbelieve)</td>
     </tr><tr style="text-align:left">
-      <td>Imbue With Spell Ability (C4 Evoc): Touched with 2/4/5 HD can cast specified 1st/2x1st/2x1st+2nd level spells</td>
+      <td>Imbue With Spell Ability (C4 Evoc): Touched with 1/3/5 HD can cast specified 1st/2x1st/2x1st+2nd level spells</td>
     </tr><tr style="text-align:left">
-      <td>Implosion (C9 Evoc): R35' 1 target/rd slain for 2 rd or conc (DC 20 Fort neg)</td>
+      <td>Implosion (C9 Evoc): R35' 1 target/rd slain for conc or 2 rd (DC 20 Fort neg)</td>
     </tr><tr style="text-align:left">
       <td>Imprisonment (W9 Abju): Touched entombed (DC 21 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -1529,19 +1531,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Insanity (W7 Ench): R140' Target randomly 10% attack caster/10% act normal/30% babble/20% flee/30% attack nearest permanently (DC 19 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Insect Plague (C5 Conj): R560' 1 wasp swarms attack for 4 min</td>
+      <td>Insect Plague (C5 Conj): R560' 1 locust swarms 2d6 HP for 4 min</td>
     </tr><tr style="text-align:left">
-      <td>Insect Plague (D5 Conj): R560' 1 wasp swarms attack for 4 min</td>
+      <td>Insect Plague (D5 Conj): R560' 1 locust swarms 2d6 HP for 4 min</td>
     </tr><tr style="text-align:left">
       <td>Instant Summons (W7 Conj): Prepared object appears in your hand</td>
     </tr><tr style="text-align:left">
-      <td>Interposing Hand (W5 Evoc): R140' 10' (AC 20, 66 HP) hand cover (+4 AC) for 4 rd</td>
+      <td>Interposing Hand (W5 Evoc): R140' 10' hand (AC 20, 66 HP) cover (+4 AC) for 4 rd</td>
     </tr><tr style="text-align:left">
       <td>Invisibility (B2 Illu): Touched invisible for 4 min or until attacks</td>
     </tr><tr style="text-align:left">
       <td>Invisibility (W2 Illu): Touched invisible for 4 min or until attacks</td>
     </tr><tr style="text-align:left">
-      <td>Invisibility Purge (C3 Evoc): R20' Invisible becomes visible for 4 min</td>
+      <td>Invisibility Purge (C3 Evoc): Invisible in 20' radius become visible for 4 min</td>
     </tr><tr style="text-align:left">
       <td>Invisibility Sphere (B3 Illu): Creatures in 10' radius of touched invisible for 4 min or until attacks or leave area</td>
     </tr><tr style="text-align:left">
@@ -1549,7 +1551,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Iron Body (W8 Tran): Become iron (+6 Str, -6 Dex, half Speed, 50% arcane failure, -6 skill, DR 15/adamantine, half damage acid and fire, immune other attacks and effects) for 4 min</td>
     </tr><tr style="text-align:left">
-      <td>Ironwood (D6 Tran): Make 20 lb wood object as strong as steel or 10 lb object strong as steel and +1 magic</td>
+      <td>Ironwood (D6 Tran): Make 20 lb wood object as strong as steel or 10 lb object strong as steel and +1 magic for 4 dy</td>
     </tr><tr style="text-align:left">
       <td>Irresistible Dance (B6 Ench): Touched dance (-4 AC, -10 Ref) for d4+1 rd</td>
     </tr><tr style="text-align:left">
@@ -1587,15 +1589,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Lesser Restoration (D2 Conj): Dispels magical ability harm from touched or heals 1d4 temporary ability damage, removes fatigue or exhaustion</td>
     </tr><tr style="text-align:left">
-      <td>Levitate (W2 Tran): R35' Move willing target up or down 20' for 4 min</td>
+      <td>Levitate (W2 Tran): R35' Move willing target up or down 20'/rd for 4 min</td>
     </tr><tr style="text-align:left">
-      <td>Light (B0 Evoc): Touched gives torchlight for 40 min</td>
+      <td>Light (B0 Evoc): Touched gives 20' bright light for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Light (C0 Evoc): Touched gives torchlight for 40 min</td>
+      <td>Light (C0 Evoc): Touched gives 20' bright light for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Light (D0 Evoc): Touched gives torchlight for 40 min</td>
+      <td>Light (D0 Evoc): Touched gives 20' bright light for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Light (W0 Evoc): Touched gives torchlight for 40 min</td>
+      <td>Light (W0 Evoc): Touched gives 20' bright light for 40 min</td>
     </tr><tr style="text-align:left">
       <td>Lightning Bolt (W3 Evoc): 120' bolt 4d6 HP (DC 15 Ref half)</td>
     </tr><tr style="text-align:left">
@@ -1603,29 +1605,29 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Liveoak (D6 Tran): Touched oak becomes treant guardian for 4 dy</td>
     </tr><tr style="text-align:left">
-      <td>Locate Creature (B4 Divi): R560' Sense direction of creature or kind for 40 min</td>
+      <td>Locate Creature (B4 Divi): Self sense direction of creature or kind in 560' radius for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Locate Creature (W4 Divi): R560' Sense direction of creature or kind for 40 min</td>
+      <td>Locate Creature (W4 Divi): Self sense direction of creature or kind in 560' radius for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Locate Object (B2 Divi): R560' Sense direction of object or type for 4 min</td>
+      <td>Locate Object (B2 Divi): Self sense direction of object or type in 560' radius for 4 min</td>
     </tr><tr style="text-align:left">
-      <td>Locate Object (C3 Divi): R560' Sense direction of object or type for 4 min</td>
+      <td>Locate Object (C3 Divi): Self sense direction of object or type in 560' radius for 4 min</td>
     </tr><tr style="text-align:left">
-      <td>Locate Object (W2 Divi): R560' Sense direction of object or type for 4 min</td>
+      <td>Locate Object (W2 Divi): Self sense direction of object or type in 560' radius for 4 min</td>
     </tr><tr style="text-align:left">
       <td>Longstrider (D1 Tran): Self +10' Speed for 4 hr</td>
     </tr><tr style="text-align:left">
-      <td>Lullaby (B0 Ench): R140' Targets in 10' radius -5 Listen and Spot, -2 Will saves vs. sleep for conc + 4 rd (DC 8 Will neg)</td>
+      <td>Lullaby (B0 Ench): R140' Targets in 10' radius -5 Listen and Spot, -2 Will vs. sleep for conc + 4 rd (DC 8 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Mage Armor (W1 Conj): Touched +4 AC for 4 hr</td>
     </tr><tr style="text-align:left">
-      <td>Mage Hand (B0 Tran): R35' Move target up to 5 lb 15'/rd</td>
+      <td>Mage Hand (B0 Tran): R35' Move target up to 5 lb 15'/rd for conc</td>
     </tr><tr style="text-align:left">
-      <td>Mage Hand (W0 Tran): R35' Move target up to 5 lb 15'/rd</td>
+      <td>Mage Hand (W0 Tran): R35' Move target up to 5 lb 15'/rd for conc</td>
     </tr><tr style="text-align:left">
       <td>Mage's Disjunction (W9 Abju): R35' 40' radius dispelled, magic items disenchanted, 4% chance to disenchant artifacts or destroy antimagic field (DC 21 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Mage's Faithful Hound (W5 Conj): R35' Invisible dog barks at intruders w/in 30', bites (+10 2d6+3) w/in 5' for 4 hr</td>
+      <td>Mage's Faithful Hound (W5 Conj): R35' Invisible dog barks at intruders w/in 30', bites (+10 2d6+3) w/in 5' for 4 hr or triggered + 4 rd</td>
     </tr><tr style="text-align:left">
       <td>Mage's Lucubration (W6 Tran): Recalls spell up to 5th level from past day</td>
     </tr><tr style="text-align:left">
@@ -1633,27 +1635,27 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mage's Private Sanctum (W5 Abju): R35' 4 30' cu shielded from scrying, vision, and hearing for 1 dy</td>
     </tr><tr style="text-align:left">
-      <td>Mage's Sword (W7 Evoc): R35' Unattended force blade attacks (+7+mod 4d6+3x2@19) for 4 rd</td>
+      <td>Mage's Sword (W7 Evoc): R35' Unattended force blade attacks (+7+mod 4d6+3 HP x2@19) for 4 rd</td>
     </tr><tr style="text-align:left">
       <td>Magic Aura (B1 Illu): Alters aura of target object up to 20 lb for 4 dy</td>
     </tr><tr style="text-align:left">
       <td>Magic Aura (W1 Illu): Alters aura of target object up to 20 lb for 4 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Chaos (C3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no contact by summoned creatures for 40 min</td>
+      <td>Magic Circle Against Chaos (C3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no entry by nonlawful summoned creatures for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Chaos (W3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no contact by summoned creatures for 40 min</td>
+      <td>Magic Circle Against Chaos (W3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no entry by nonlawful summoned creatures for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Evil (C3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no contact by summoned creatures for 40 min</td>
+      <td>Magic Circle Against Evil (C3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no entry by nongood summoned creatures for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Evil (W3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no contact by summoned creatures for 40 min</td>
+      <td>Magic Circle Against Evil (W3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no entry by nongood summoned creatures for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Good (C3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no contact by summoned creatures for 40 min</td>
+      <td>Magic Circle Against Good (C3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no entry by nonevil summoned creatures for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Good (W3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no contact by summoned creatures for 40 min</td>
+      <td>Magic Circle Against Good (W3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no entry by nonevil summoned creatures for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Law (C3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no contact by summoned creatures for 40 min</td>
+      <td>Magic Circle Against Law (C3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no entry by nonchaotic summoned creatures for 40 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Law (W3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no contact by summoned creatures for 40 min</td>
+      <td>Magic Circle Against Law (W3 Abju): 10' radius from touched +2 AC, +2 saves, suppress mental control, no entry by nonchaotic summoned creatures for 40 min</td>
     </tr><tr style="text-align:left">
       <td>Magic Fang (D1 Tran): Touched natural weapon +1 attack and damage for 4 min</td>
     </tr><tr style="text-align:left">
@@ -1739,7 +1741,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mass Fox's Cunning (W6 Tran): R35' 4 targets in 15' radius +4 Int for 4 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Heal (C9 Conj): R35' 4 targets in 15' radius heal 40 and remove negative conditions (damages undead)</td>
+      <td>Mass Heal (C9 Conj): R35' 4 targets in 15' radius regain 40 HP and remove negative conditions (damages undead)</td>
     </tr><tr style="text-align:left">
       <td>Mass Hold Monster (W9 Ench): R140' Targets in 30' radius immobile for 4 rd (DC 21 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -1785,13 +1787,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Message (W0 Tran): R140' 4 targets 40-min whispered dialogue</td>
     </tr><tr style="text-align:left">
-      <td>Meteor Swarm (W9 Evoc): R560' 4 spheres 6d6 HP fire 40' radius (DC 21 Ref half), ranged touch 2d6 HP bludgeoning</td>
+      <td>Meteor Swarm (W9 Evoc): R560' 4 spheres 6d6 HP fire 40' radius (DC 21 Ref half), ranged touch +2d6 HP bludgeoning</td>
     </tr><tr style="text-align:left">
       <td>Mind Blank (W8 Abju): R35' Target immune divination and mental effects for 1 dy</td>
     </tr><tr style="text-align:left">
-      <td>Mind Fog (B5 Ench): 20' fog cylinder -10 Wis and Will checks for 30 min (DC 13 Will neg)</td>
+      <td>Mind Fog (B5 Ench): R140' Fog in 20' radius causes -10 Wis and Will checks for 30 min (DC 13 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Mind Fog (W5 Ench): 20' fog cylinder -10 Wis and Will checks for 30 min (DC 17 Will neg)</td>
+      <td>Mind Fog (W5 Ench): R140' Fog in 20' radius causes -10 Wis and Will checks for 30 min (DC 17 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Minor Creation (W4 Conj): Create a 4' cu plant object lasting 4 hr</td>
     </tr><tr style="text-align:left">
@@ -1817,7 +1819,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mislead (W6 Illu): R35' Self invisible 4 rd, false double (DC 18 Will disbelieve) conc + 3 rd</td>
     </tr><tr style="text-align:left">
-      <td>Mnemonic Enhancer (W4 Tran): Know +3 spell levels or retain just-cast spell up to 3rd level for 1 dy</td>
+      <td>Mnemonic Enhancer (W4 Tran): Self know +3 spell levels or retain just-cast spell up to 3rd level for 1 dy</td>
     </tr><tr style="text-align:left">
       <td>Modify Memory (B4 Ench): R35' Change 5 min of target's memory (DC 12 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -1839,7 +1841,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Nightmare (W5 Illu): Target 1d10 HP and fatigue (DC 17 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Nondetection (W3 Abju): Touched SR 15 (self 19) (divination) for 4 hr</td>
+      <td>Nondetection (W3 Abju): Touched SR 15 (divination) (or self SR 19) for 4 hr</td>
     </tr><tr style="text-align:left">
       <td>Obscure Object (B1 Abju): Touched immune to divination for 8 hr (DC 9 Will neg)</td>
     </tr><tr style="text-align:left">
