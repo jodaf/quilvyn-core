@@ -176,25 +176,6 @@ Expr.prototype.eval = function(dict) {
         } else if (value == null) {
           console.log("Undefined reference " + right);
           return null;
-        } else if (op[op.length-1] == '=') {
-          if (op == '<?=') {
-            value = leftVal < value ? leftVal : value;
-          } else if (op == '>?=') {
-            value = leftVal > value ? leftVal : value;
-          } else if (op == '+=') {
-            value = Number(leftVal) + Number(value);
-          } else if (op == '-=') {
-            value = leftVal - value;
-          } else if (op == '..=') {
-            value = String(leftVal).concat(String(value));
-          } else if (op == '*=') {
-            value = leftVal * value;
-          } else if (op == '/=') {
-            value = leftVal / value;
-          } else if (op == '//=') {
-            value = Math.floor(leftVal / value);
-          }
-          dict[left.value] = value;
         } else if (op == '<') {
           value = leftVal < value;
         } else if (op == '<=') {
@@ -219,6 +200,25 @@ Expr.prototype.eval = function(dict) {
           value = leftVal / value;
         } else if (op == '//') {
           value = Math.floor(leftVal / value);
+        } else if (op[op.length-1] == '=') {
+          if (op == '<?=') {
+            value = leftVal < value ? leftVal : value;
+          } else if (op == '>?=') {
+            value = leftVal > value ? leftVal : value;
+          } else if (op == '+=') {
+            value = Number(leftVal) + Number(value);
+          } else if (op == '-=') {
+            value = leftVal - value;
+          } else if (op == '..=') {
+            value = String(leftVal).concat(String(value));
+          } else if (op == '*=') {
+            value = leftVal * value;
+          } else if (op == '/=') {
+            value = leftVal / value;
+          } else if (op == '//=') {
+            value = Math.floor(leftVal / value);
+          }
+          dict[left.value] = value;
         }
         stack.push({tipe: Expr.LITERAL_TYPE, value: value});
       }
