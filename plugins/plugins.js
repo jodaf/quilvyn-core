@@ -14,7 +14,7 @@
  *   group: The name of the rule set group to which this rule set belongs. This
  *     is used to title the sections of the plugin picker.
  *   require: Other rule sets that must be present for this rule set. May be a
- *     single string value or an array enclosed in [].
+ *     single string value or an array of strings enclosed in [].
  *   supplement: Used for rule sets that modify existing rule sets, rather than
  *     defining a new one. This names the modified rule set.
  *   autoload: Set to true for rule sets that must be loaded early, generally
@@ -23,7 +23,7 @@
  *     to the filename of the plugin.
  */
 RULESETS['v3.5 (SRD only)'] = {
-  url:'SRD35.js',
+  url:'plugins/SRD35.js',
   group:'v3.5',
   autoload:true,
 };
