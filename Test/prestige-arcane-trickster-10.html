@@ -160,7 +160,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Knowledge (Engineering) Synergy: +2 Search (secret doors)</td>
       </tr><tr style="text-align:center">
-        <td>Knowledge (Nature) Synergy: +2 Survial (outdoors)</td>
+        <td>Knowledge (Nature) Synergy: +2 Survival (outdoors)</td>
       </tr><tr style="text-align:center">
         <td>Spellcraft Synergy: +2 Use Magic Device (scroll)</td>
       </tr><tr style="text-align:center">
@@ -269,13 +269,13 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Spells</b>:     <table id="Spells" style="width:100%">
     <tr style="text-align:left">
-      <td>Alarm (W1 Abju): R65' 20' radius alarmed for 32 hr</td>
+      <td>Alarm (W1 Abju): R65' Entry into 20' radius triggers audible or mental alarm for 32 hr</td>
     </tr><tr style="text-align:left">
-      <td>Arcane Lock (W2 Abju): Magical lock on door portal or chest open DC +10 with lock, 20 otherwise</td>
+      <td>Arcane Lock (W2 Abju): Magical lock on touched door, portal, or chest DC +10 to open</td>
     </tr><tr style="text-align:left">
-      <td>Arcane Mark (W0 Univ): Permanent personal rune on object or creature</td>
+      <td>Arcane Mark (W0 Univ): Permanent personal rune inscribed on object or creature</td>
     </tr><tr style="text-align:left">
-      <td>Arcane Sight (W3 Divi): R120' See auras and spell abilities for 16 min, DC 15+level to know school</td>
+      <td>Arcane Sight (W3 Divi): R120' See auras and spell abilities for 16 min, DC 15+level Spellcraft to know school</td>
     </tr><tr style="text-align:left">
       <td>Bear's Endurance (W2 Tran): Touched +4 Con for 16 min</td>
     </tr><tr style="text-align:left">
@@ -283,83 +283,83 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Blur (W2 Illu): Touched foes 20% miss chance for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Circle Of Death (W6 Necr): R260' 16d4 HD of creatures w/up to 8 HD in 40' die (DC 16 Fort neg)</td>
+      <td>Circle Of Death (W6 Necr): R260' 16d4 HD of creatures w/up to 8 HD in 40' radius slain (DC 16 Fort neg)</td>
     </tr><tr style="text-align:left">
       <td>Comprehend Languages (W1 Divi): Self understands all languages for 160 min</td>
     </tr><tr style="text-align:left">
       <td>Continual Flame (W2 Evoc): Touched emits heatless torch flame permanently</td>
     </tr><tr style="text-align:left">
-      <td>Create Greater Undead (W8 Necr): Raise shadow/wraith/spectre/devourer from physical remains at level -/16/18/20</td>
+      <td>Create Greater Undead (W8 Necr): R65' Create shadow, wraith from physical remains</td>
     </tr><tr style="text-align:left">
-      <td>Dancing Lights (W0 Evoc): R260' 4 torch lights in 10' radius move 100' for 1 min</td>
+      <td>Dancing Lights (W0 Evoc): R260' 4 torch lights in 10' radius move 100'/rd for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Detect Magic (W0 Divi): R60' cone info on magical auras for 16 min</td>
+      <td>Detect Magic (W0 Divi): R60' cone info on magical auras for conc or 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Detect Undead (W1 Divi): R60' cone info on undead auras for 16 min</td>
+      <td>Detect Undead (W1 Divi): R60' cone info on undead auras for conc or 16 min</td>
     </tr><tr style="text-align:left">
       <td>Displacement (W3 Illu): Attacks on touched 50% miss for 16 rd</td>
     </tr><tr style="text-align:left">
       <td>Dominate Person (W5 Ench): R65' Target humanoid obey thoughts for 16 dy (DC 15 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Endure Elements (W1 Abju): Touched comfortable in at -50-140F for 1 dy</td>
+      <td>Endure Elements (W1 Abju): Touched comfortable at -50F-140F for 1 dy</td>
     </tr><tr style="text-align:left">
-      <td>Fabricate (W5 Tran): Create 160' cube (16' mineral cube) of finished items from raw materials</td>
+      <td>Fabricate (W5 Tran): R65' Create 160' cu (16' mineral cu) of finished items from raw materials</td>
     </tr><tr style="text-align:left">
-      <td>Feather Fall (W1 Tran): R65' 16 targets fall 60' for 16 rd (DC 11 Will neg)</td>
+      <td>Feather Fall (W1 Tran): R65' 16 targets in 10' radius fall 60'/rd for 16 rd (DC 11 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Greater Dispel Magic (W6 Abju): R260' d20+16 vs. 11+caster level cancels 4 spells or effects or all w/in 20' radius</td>
+      <td>Greater Dispel Magic (W6 Abju): R260' d20+16 vs. 11+caster level cancels spells or effects in 20' radius</td>
     </tr><tr style="text-align:left">
-      <td>Greater Planar Binding (W8 Conj): Extraplanar creature(s) w/up to 18 HD trapped until escape (DC cha+23) or performs a task (DC 18 Will neg)</td>
+      <td>Greater Planar Binding (W8 Conj): Extraplanar creature(s) w/up to 18 HD trapped (DC 18 Will neg) until escape (SR, dimensional travel, or 23 Cha) or performs a task (Opposed Cha neg)</td>
     </tr><tr style="text-align:left">
-      <td>Greater Prying Eyes (W8 Divi): 1d4+16 floating eyes (AC 18, 1 HP) with True Seeing scout 1 mi for 16 hr</td>
+      <td>Greater Prying Eyes (W8 Divi): 1d4+16 floating eyes (AC 18, 1 HP, +16 Hide, +16 Spot, Fly 30') with True Seeing scout 1 mile for 16 hr</td>
     </tr><tr style="text-align:left">
       <td>Jump (W1 Tran): Touched +30 jump for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Knock (W2 Tran): R260' +26 check to open stuck, barred, locked, or magically held door, chest, or shackle</td>
+      <td>Knock (W2 Tran): R260' Open stuck, barred, locked, or magically held door, chest, or shackle</td>
     </tr><tr style="text-align:left">
       <td>Lesser Geas (W4 Ench): R65' Target w/up to 7 HD must complete task (DC 14 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Mage Hand (W0 Tran): R65' Move target up to 5 lb 15'</td>
+      <td>Mage Hand (W0 Tran): R65' Move target up to 5 lb 15'/rd for conc</td>
     </tr><tr style="text-align:left">
       <td>Mage's Lucubration (W6 Tran): Recalls spell up to 5th level from past day</td>
     </tr><tr style="text-align:left">
       <td>Mage's Magnificent Mansion (W7 Conj): R65' Door to extradimensional mansion for 32 hr</td>
     </tr><tr style="text-align:left">
-      <td>Mage's Sword (W7 Evoc): R65' Unattended force blade attacks (+19+abil 4d6+3x2@19) for 16 rd</td>
+      <td>Mage's Sword (W7 Evoc): R65' Unattended force blade attacks (+19+mod 4d6+3 HP x2@19) for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Mass Enlarge Person (W4 Tran): R65' 16 target humanoid dbl size (+2 Str, -2 Dex, -1 attack, -1 AC) for 16 min (DC 14 Fort neg)</td>
+      <td>Mass Enlarge Person (W4 Tran): R65' 16 target humanoids in 15' radius dbl size (+2 Str, -2 Dex, -1 attack, -1 AC) for 16 min (DC 14 Fort neg)</td>
     </tr><tr style="text-align:left">
-      <td>Mass Hold Person (W7 Ench): R260' Targets in 30' radius immobile for 16 rd (DC 17 Will neg)</td>
+      <td>Mass Hold Person (W7 Ench): R260' Targets in 15' radius immobile for 16 rd (DC 17 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Mass Reduce Person (W4 Tran): R65' 16 target humanoid half size (-2 Str, +2 Dex, +1 attack, +1 AC) for 16 min (DC 14 Fort neg)</td>
+      <td>Mass Reduce Person (W4 Tran): R65' 16 target humanoids in 15' radius half size (-2 Str, +2 Dex, +1 attack, +1 AC) for 16 min (DC 14 Fort neg)</td>
     </tr><tr style="text-align:left">
-      <td>Mending (W0 Tran): R10' Repairs 1d4 HP to 16-lb object</td>
+      <td>Mending (W0 Tran): R10' Repairs minor damage to 1 lb object</td>
     </tr><tr style="text-align:left">
-      <td>Mirage Arcana (W5 Illu): R1040' 16 20' cube terrain or structure illusion (DC 15 Will disbelieve) for 16 hr</td>
+      <td>Mirage Arcana (W5 Illu): R1040' 16 20' cu terrain or structure illusion (DC 15 Will disbelieve) for conc + 16 hr</td>
     </tr><tr style="text-align:left">
       <td>Move Earth (W6 Tran): R1040' Slowly digs 7500' cu dirt</td>
     </tr><tr style="text-align:left">
-      <td>Nondetection (W3 Abju): Touched DC 27, spell resistance 31 to divination for 16 hr</td>
+      <td>Nondetection (W3 Abju): Touched SR 27 (divination) (or self SR 31) for 16 hr</td>
     </tr><tr style="text-align:left">
       <td>Open/Close (W0 Tran): R65' Target up to 30 lb opens or closes (DC 10 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Passwall (W5 Tran): 8'x5'x20' passage through wood, stone, or plaster lasts 16 hr</td>
+      <td>Passwall (W5 Tran): 8'x5'x20' passage through wood, stone, or plaster for 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Polymorph (W4 Tran): Willing target becomes animal or elemental for 16 min</td>
+      <td>Polymorph (W4 Tran): Touched willing target becomes different creature for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Prying Eyes (W5 Divi): 1d4+16 floating eyes (AC 18, 1 HP) scout 1 mi for 16 hr</td>
+      <td>Prying Eyes (W5 Divi): 1d4+16 floating eyes (AC 18, 1 HP, +16 Hide, +15 Spot, Fly 30') scout 1 mile for 16 hr</td>
     </tr><tr style="text-align:left">
       <td>Ray Of Exhaustion (W3 Necr): R65' Ranged touch causes exhaustion for 16 min (DC 13 Fort fatigued)</td>
     </tr><tr style="text-align:left">
       <td>Resilient Sphere (W4 Evoc): R65' Impassible and immobile 16'-diameter sphere surrounds target for 16 min (DC 14 Ref neg)</td>
     </tr><tr style="text-align:left">
-      <td>Reverse Gravity (W7 Tran): Objects in 160' cu fall upward for 16 rd</td>
+      <td>Reverse Gravity (W7 Tran): R260' Objects in 8 10' cu fall upward for 16 rd</td>
     </tr><tr style="text-align:left">
       <td>Scrying (W4 Divi): Target viewed for 16 min (DC 15 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Slow (W3 Tran): R65' 16 creatures single action per rd, -1 AC, attack, Ref, half Speed for 16 rd (DC 13 Will neg)</td>
+      <td>Slow (W3 Tran): R65' 16 creatures in 15' radius take single action per rd, -1 AC, attack, Reflex, half Speed for 16 rd (DC 13 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Suggestion (W3 Ench): R65' Target follow reasonable suggestion (DC 13 Will neg)</td>
+      <td>Suggestion (W3 Ench): R65' Target follow reasonable suggestion for 16 hr (DC 13 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Summon Monster V (W5 Conj): R65' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creature appears, fights foes for 16 rd</td>
     </tr><tr style="text-align:left">
@@ -367,11 +367,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Touch Of Fatigue (W0 Necr): Touch attack fatigues target for 16 rd (DC 10 Fort neg)</td>
     </tr><tr style="text-align:left">
-      <td>Transformation (W6 Tran): Self +4 Str, Dex, Con, and AC, +5 Fort, martial prof, no spells for 16 rd</td>
+      <td>Transformation (W6 Tran): Self +4 Str, Dex, Con, and AC, +5 Fortitude, martial weapon proficiency, BAB 16, no spells for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Undeath To Death (W6 Necr): R260' 16d4 HD of creatures w/up to 8 HD w/in 40' destroyed (DC 16 Will neg)</td>
+      <td>Undeath To Death (W6 Necr): R260' 16d4 HD of undead w/up to 8 HD in 40' radius destroyed (DC 16 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Vision (W7 Divi): Info about target person, place, or object</td>
+      <td>Vision (W7 Divi): Self learn answer about target person, place, or object</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">

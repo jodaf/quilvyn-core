@@ -240,13 +240,13 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Spells</b>:     <table id="Spells" style="width:100%">
     <tr style="text-align:left">
-      <td>Bless (P1 Ench): R50' Allies +1 attack and fear saves for 7 min</td>
+      <td>Bless (P1 Ench): Allies in 50' radius +1 attack and fear saves for 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Bless Water (P1 Tran): Makes 1 pint holy water (DC 15 Will neg)</td>
+      <td>Bless Water (P1 Tran): Touched 1 pint water made holy (DC 15 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Bless Weapon (P1 Tran): Weapon good aligned, +1 vs. evil foe DR for 7 min</td>
+      <td>Bless Weapon (P1 Tran): Weapon good aligned, magic and crit confirmed vs. evil foe for 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Break Enchantment (P4 Abju): R40' 7 targets freed from enchantments, transmutations, curses</td>
+      <td>Break Enchantment (P4 Abju): R40' +7 check to free 7 targets in 15' radius from enchantments, transmutations, curses</td>
     </tr><tr style="text-align:left">
       <td>Bull's Strength (P2 Tran): Touched +4 Str for 7 min</td>
     </tr><tr style="text-align:left">
@@ -258,69 +258,69 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Cure Serious Wounds (P4 Conj): Touched heal or damage undead 3d8+7 (DC 19 Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Daylight (P3 Evoc): Touched radiates 60'-radius illumination for 70 min</td>
+      <td>Daylight (P3 Evoc): Touched radiates daylight in 60' radius for 70 min</td>
     </tr><tr style="text-align:left">
       <td>Death Ward (P4 Necr): Touched immune death spells, death effects, energy drain, and negative energy effects for 7 min</td>
     </tr><tr style="text-align:left">
       <td>Delay Poison (P2 Conj): Touched immune to poison for 7 hr</td>
     </tr><tr style="text-align:left">
-      <td>Detect Poison (P1 Divi): R40' Detects poison in target, DC20 Alchemy check for type</td>
+      <td>Detect Poison (P1 Divi): R40' Detects poison in target, DC 20 Wis or Alchemy check for type</td>
     </tr><tr style="text-align:left">
-      <td>Detect Undead (P1 Divi): R60' cone info on undead auras for 7 min</td>
+      <td>Detect Undead (P1 Divi): R60' cone info on undead auras for conc or 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Discern Lies (P3 Divi): R40' Reveals lies from 7 creatures for 7 rd or conc (DC 17 Will neg)</td>
+      <td>Discern Lies (P3 Divi): R40' Reveals lies from 7 creatures in 15' radius for conc or 7 rd (DC 17 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Chaos (P4 Abju): Touched +4 AC vs. chaotic, touch to dismiss chaotic creature or spell (DC 18 Will neg)</td>
+      <td>Dispel Chaos (P4 Abju): Self +4 AC vs. chaotic, touch to dismiss chaotic creature (DC 18 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (P4 Abju): Touched +4 AC vs. evil, touch to dismiss evil creature or spell (DC 18 Will neg)</td>
+      <td>Dispel Evil (P4 Abju): Self +4 AC vs. evil, touch to dismiss evil creature (DC 18 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (P3 Abju): R170' d20+7 vs. 11+caster level cancels spell or effect</td>
+      <td>Dispel Magic (P3 Abju): R170' d20+7 vs. 11+caster level cancels spells or effects in 20' radius</td>
     </tr><tr style="text-align:left">
       <td>Divine Favor (P1 Evoc): Self +2 attack and damage for 1 min</td>
     </tr><tr style="text-align:left">
       <td>Eagle's Splendor (P2 Tran): Touched +4 Cha for 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Endure Elements (P1 Abju): Touched comfortable in at -50-140F for 1 dy</td>
+      <td>Endure Elements (P1 Abju): Touched comfortable at -50F-140F for 1 dy</td>
     </tr><tr style="text-align:left">
       <td>Greater Magic Weapon (P3 Tran): R40' target weapon +1 attack and damage for 7 hr</td>
     </tr><tr style="text-align:left">
-      <td>Heal Mount (P3 Conj): Mount heal 70, remove negative conditions</td>
+      <td>Heal Mount (P3 Conj): Touched mount regains 70 HP and removes negative conditions</td>
     </tr><tr style="text-align:left">
-      <td>Holy Sword (P4 Evoc): Touched weapon +5 attack and damage, vs. evil +2d6 damage, +2 AC and saves, extra save vs. enchantment, bars contact for 7 rd</td>
+      <td>Holy Sword (P4 Evoc): Touched weapon +5 attack and damage, +2d6 damage vs. evil, +2 AC and saves, suppresses mental control, bars contact by evil summoned for 7 rd</td>
     </tr><tr style="text-align:left">
-      <td>Lesser Restoration (P1 Conj): Touched remove 1 magical, 1d4 temporary ability harm, fatigue, exhaustion, and 1 negative level</td>
+      <td>Lesser Restoration (P1 Conj): Dispels magical ability harm from touched or heals 1d4 temporary ability damage, removes fatigue, reduces exhaustion</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Chaos (P3 Abju): 10' radius from touched +2 AC, +2 saves, extra save vs. mental control, no contact vs. chaotic creatures for 70 min</td>
+      <td>Magic Circle Against Chaos (P3 Abju): 10' radius from touched +2 AC, +2 saves, suppresses mental control, no contact and bar entry (SR neg) by nonlawful summoned creatures for 70 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Evil (P3 Abju): 10' radius from touched +2 AC, +2 saves, extra save vs. mental control, no contact vs. evil creatures for 70 min</td>
+      <td>Magic Circle Against Evil (P3 Abju): 10' radius from touched +2 AC, +2 saves, suppresses mental control, no contact and bar entry (SR neg) by nongood summoned creatures for 70 min</td>
     </tr><tr style="text-align:left">
       <td>Magic Weapon (P1 Tran): Touched weapon +1 attack and damage for 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Mark Of Justice (P4 Necr): Touched permanent -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action upon trigger</td>
+      <td>Mark Of Justice (P4 Necr): Touched upon trigger gains permanent -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action</td>
     </tr><tr style="text-align:left">
       <td>Neutralize Poison (P4 Conj): Touched neutralized 70 min, immunized, or detoxified</td>
     </tr><tr style="text-align:left">
       <td>Owl's Wisdom (P2 Tran): Touched +4 Wis for 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Prayer (P3 Ench): Allies w/in 40' +1 attack, damage, save, and skill, foes -1 for 7 rd</td>
+      <td>Prayer (P3 Ench): Allies in 40' radius +1 attack, damage, save, and skill, foes -1 for 7 rd</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Chaos (P1 Abju): Touched +2 AC, +2 saves, extra save vs. mental control, no contact by chaotic creatures for 7 min</td>
+      <td>Protection From Chaos (P1 Abju): Touched +2 AC, +2 saves, suppress mental control, no contact by nonlawful summoned creatures for 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Evil (P1 Abju): Touched +2 AC, +2 saves, extra save vs. mental control, no contact by evil creatures for 7 min</td>
+      <td>Protection From Evil (P1 Abju): Touched +2 AC, +2 saves, suppress mental control, no contact by nongood summoned creatures for 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Read Magic (P1 Divi): Self read magical writing</td>
+      <td>Read Magic (P1 Divi): Self read magical writing for 70 min</td>
     </tr><tr style="text-align:left">
-      <td>Remove Blindness/Deafness (P3 Conj): Restore target dead up to 1 week to new body</td>
+      <td>Remove Blindness/Deafness (P3 Conj): Touched healed of blindness or deafness</td>
     </tr><tr style="text-align:left">
       <td>Remove Curse (P3 Abju): Dispels all curses from touched</td>
     </tr><tr style="text-align:left">
-      <td>Remove Paralysis (P2 Conj): R40' Frees one target from paralysis, slow, 2/3/4 targets extra save at +4/+2/+2</td>
+      <td>Remove Paralysis (P2 Conj): R40' Frees one target from paralysis or slow, 2/3/4 targets extra save at +4/+2/+2</td>
     </tr><tr style="text-align:left">
       <td>Resist Energy (P2 Abju): Touched resistance 20 to chosen energy for 70 min</td>
     </tr><tr style="text-align:left">
       <td>Resistance (P1 Abju): Touched +1 saves for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Restoration (P4 Conj): Touched remove magical, temporary or 1 permanent ability harm, fatigue, exhaustion, and 1 negative level</td>
+      <td>Restoration (P4 Conj): Dispels magical ability harm from touched and heals all temporary ability damage, restores 1 drained ability, removes fatigue or exhaustion and temporary negative levels, and restores 1 drained level</td>
     </tr><tr style="text-align:left">
       <td>Shield Other (P2 Abju): R40' target +1 AC and saves, half damage transferred to you for 7 hr</td>
     </tr><tr style="text-align:left">
@@ -328,7 +328,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Virtue (P1 Tran): Touched +1 HP for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Zone Of Truth (P2 Ench): R40' Creatures w/in 20' radius cannot lie for 7 min (DC 16 Will neg)</td>
+      <td>Zone Of Truth (P2 Ench): R40' Creatures in 20' radius cannot lie for 7 min (DC 16 Will neg)</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">

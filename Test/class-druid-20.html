@@ -266,11 +266,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Animal Messenger (D2 Ench): R75' Tiny animal target goes to specified place for 20 dy</td>
     </tr><tr style="text-align:left">
-      <td>Animal Shapes (D8 Tran): R75' 20 allies in 30' area become chosen animal for 20 hr</td>
+      <td>Animal Shapes (D8 Tran): R75' 20 willing targets in 15' radius become chosen animal w/up to 20 HD for 20 hr</td>
     </tr><tr style="text-align:left">
-      <td>Antipathy (D9 Ench): Named kind or aligned creatures avoid 200' cube for 40 hr (DC 21 Will -4 dex)</td>
+      <td>Antipathy (D9 Ench): R75' Named creature kind or alignment avoids 20 x 10' cu for 40 hr (DC 21 Will -4 dex)</td>
     </tr><tr style="text-align:left">
-      <td>Atonement (D5 Abju): Restore alignment and holy powers</td>
+      <td>Atonement (D5 Abju): Touched restore alignment and holy powers</td>
     </tr><tr style="text-align:left">
       <td>Blight (D4 Necr): Touched plant 15d6 HP (DC 16 Fort half)</td>
     </tr><tr style="text-align:left">
@@ -278,23 +278,23 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Charm Animal (D1 Ench): R75' Target treats you as trusted friend for 20 hr (DC 13 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Control Water (D4 Tran): R1200' Raise or lower 8000 10'x10'x2' of water 40' for 200 min</td>
+      <td>Control Water (D4 Tran): R1200' Raise or lower 10'x10'x2'x20 of water 40' for 200 min</td>
     </tr><tr style="text-align:left">
       <td>Create Water (D0 Conj): R75' Creates 40 gallons of pure water</td>
     </tr><tr style="text-align:left">
-      <td>Detect Poison (D0 Divi): R75' Detects poison in target, DC20 Alchemy check for type</td>
+      <td>Detect Poison (D0 Divi): R75' Detects poison in target, DC 20 Wis or Alchemy check for type</td>
     </tr><tr style="text-align:left">
-      <td>Detect Snares And Pits (D1 Divi): R60' cone info on traps 200 min</td>
+      <td>Detect Snares And Pits (D1 Divi): R60' cone info on traps for conc or 200 min</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (D4 Abju): R300' d20+20 vs. 11+caster level cancels spell or effect</td>
+      <td>Dispel Magic (D4 Abju): R300' d20+10 vs. 11+caster level cancels spells or effects in 20' radius</td>
     </tr><tr style="text-align:left">
-      <td>Fire Seeds (D6 Conj): 4 acorn grenades 20d4 total or 8 berry bombs 1d8+20 (DC 18 Ref half) that detonate on command for 200 min</td>
+      <td>Fire Seeds (D6 Conj): Touched 4 acorn grenades 20d6 total or 8 berry bombs 1d8+20 in 5' radius (DC 18 Ref half) that detonate on command for 200 min</td>
     </tr><tr style="text-align:left">
-      <td>Flare (D0 Evoc): R75' Target dazzled 1 min (DC 12 Fort neg)</td>
+      <td>Flare (D0 Evoc): R75' Target dazzled for 1 min (DC 12 Fort neg)</td>
     </tr><tr style="text-align:left">
       <td>Guidance (D0 Divi): Touched +1 next attack, save, or skill check for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Heal (D7 Conj): Touched heal 150, remove negative conditions</td>
+      <td>Heal (D7 Conj): Touched regains 150 HP and removes negative conditions (damages undead)</td>
     </tr><tr style="text-align:left">
       <td>Hide From Animals (D1 Abju): 20 touched imperceptible to animals for 200 min</td>
     </tr><tr style="text-align:left">
@@ -302,59 +302,59 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Stone (D1 Tran): 3 touched stones +1 attack, 1d6+1 HP (2d6+2 vs. undead) for 30 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Cat's Grace (D6 Tran): R75' 20 targets +4 Dex for 20 min</td>
+      <td>Mass Cat's Grace (D6 Tran): R75' 20 targets in 15' radius +4 Dex for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Cure Moderate Wounds (D7 Conj): R75' 20 targets heal or damage undead 2d8+20 (DC 19 Will half)</td>
+      <td>Mass Cure Moderate Wounds (D7 Conj): R75' 20 targets in 15' radius heal or damage undead 2d8+20 (DC 19 Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Mass Cure Serious Wounds (D8 Conj): R75' 20 targets heal or damage undead 3d8+20 (DC 20 Will half)</td>
+      <td>Mass Cure Serious Wounds (D8 Conj): R75' 20 targets in 15' radius heal or damage undead 3d8+20 (DC 20 Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Mending (D0 Tran): R10' Repairs 1d4 HP to 20-lb object</td>
+      <td>Mending (D0 Tran): R10' Repairs minor damage to 1 lb object</td>
     </tr><tr style="text-align:left">
       <td>Neutralize Poison (D3 Conj): Touched neutralized 200 min, immunized, or detoxified</td>
     </tr><tr style="text-align:left">
-      <td>Poison (D3 Necr): Touched 1d3 Con/rd for 6 rd (DC 15 Fort neg)</td>
+      <td>Poison (D3 Necr): Touched 1d10 Con, +1d10 Con after 1 min (DC 22 Fort neg)</td>
     </tr><tr style="text-align:left">
       <td>Repel Wood (D6 Tran): Repels 60' line of unanchored wood for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Reverse Gravity (D8 Tran): Objects in 200' cu fall upward for 20 rd</td>
+      <td>Reverse Gravity (D8 Tran): R300' Objects in 10 10' cu fall upward for 20 rd</td>
     </tr><tr style="text-align:left">
-      <td>Shambler (D9 Conj): R300' 1d4+2 advanced shambling mounds fight for 7 dy, guard for 7 mo</td>
+      <td>Shambler (D9 Conj): R300' 1d4+2 11 HD shambling mounds in 15' radius fight for 7 dy, guard for 7 mo</td>
     </tr><tr style="text-align:left">
-      <td>Shapechange (D9 Tran): Become different animal 1/rd for 200 min</td>
+      <td>Shapechange (D9 Tran): Self become different animal of any size 1/rd for 200 min</td>
     </tr><tr style="text-align:left">
-      <td>Sleet Storm (D3 Conj): R1200' Blinding sleet in 40' area, creatures DC 10 Acrobatics to move for 20 rd</td>
+      <td>Sleet Storm (D3 Conj): R1200' Blinding sleet in 40' radius, creatures DC 10 Balance to move for 20 rd</td>
     </tr><tr style="text-align:left">
       <td>Soften Earth And Stone (D2 Tran): R75' 20 10'x4' squares of wet earth/dry earth/natural stone becomes mud/sand/clay</td>
     </tr><tr style="text-align:left">
       <td>Speak With Animals (D1 Divi): Self converse w/animals for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Spike Stones (D4 Tran): R300' Spikes on stony group in 20' sq 1d8 HP each 5' movement, slowed 1 dy to half speed (DC 16 Ref neg) for 20 hr</td>
+      <td>Spike Stones (D4 Tran): R300' Spikes on stony ground in 20' sq 1d8 HP each 5' movement, slowed 1 dy to half speed (DC 16 Ref neg) for 20 hr</td>
     </tr><tr style="text-align:left">
-      <td>Storm Of Vengeance (D9 Conj): R1200' 360' radius storm deafen 1d4x10 min (DC 21 Fort neg), then rain acid 1d6 HP, then 6 bolts lightning 10d6 (DC 21 Ref half), then hail 5d6 HP, then dark 6 rd</td>
+      <td>Storm Of Vengeance (D9 Conj): R1200' 360' radius storm deafens for 1d4x10 min (DC 21 Fort neg), then rain acid 1d6 HP, then 6 bolts lightning 10d6 (DC 21 Ref half), then hail 5d6 HP, then obscure vision for 6 rd</td>
     </tr><tr style="text-align:left">
       <td>Summon Nature's Ally III (D3 Conj): R75' 1 3rd-, 1d3 2nd-, or 1d4+1 1st-level creature appears, fights foes for 20 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Swarm (D2 Conj): R75' Swarm of bats, rats, or spiders obey for conc + 2 rd</td>
+      <td>Summon Swarm (D2 Conj): R75' Swarm of bats, rats, or spiders attack nearest creature for conc + 2 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sunburst (D8 Evoc): R1200' 80' radius blinds, 6d6 HP (undead 20d6) (DC 20 Ref unblind, half damage)</td>
+      <td>Sunburst (D8 Evoc): R1200' 80' radius blinds, 6d6 HP (undead and oozes 20d6) (DC 20 Ref half, not blind)</td>
     </tr><tr style="text-align:left">
-      <td>Transmute Metal To Wood (D7 Tran): R1200' Metal 40' radius becomes wood (-2 attack, damage, AC)</td>
+      <td>Transmute Metal To Wood (D7 Tran): R1200' Metal in 40' radius becomes wood (-2 attack, damage, AC)</td>
     </tr><tr style="text-align:left">
-      <td>Transmute Mud To Rock (D5 Tran): R300' 40 10' mud cubes become rock</td>
+      <td>Transmute Mud To Rock (D5 Tran): R300' 40 10' cu of mud become rock</td>
     </tr><tr style="text-align:left">
-      <td>Transmute Rock To Mud (D5 Tran): R300' 40 10' natural rock cubes become mud</td>
+      <td>Transmute Rock To Mud (D5 Tran): R300' 40 10' cu of natural rock become mud</td>
     </tr><tr style="text-align:left">
-      <td>Transport Via Plants (D6 Conj): Self and 6 willing targets teleport via like plants</td>
+      <td>Transport Via Plants (D6 Conj): Self and 6 willing targets teleport via like plants for 1 rd</td>
     </tr><tr style="text-align:left">
-      <td>Tree Shape (D2 Tran): Become tree for 20 hr</td>
+      <td>Tree Shape (D2 Tran): Self becomes tree for 20 hr</td>
     </tr><tr style="text-align:left">
-      <td>Unhallow (D5 Evoc): 40' radius warded against good, evokes bane spell</td>
+      <td>Unhallow (D5 Evoc): 40' radius from touched gives +2 AC and saves vs. good, suppresses mental control, bars contact by summoned good creatures, imposes -4 turn undead penalty, grants +4 rebuke undead bonus, and evokes bane spell</td>
     </tr><tr style="text-align:left">
       <td>Virtue (D0 Tran): Touched +1 HP for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Wall Of Thorns (D5 Conj): R300' 20 x 10' cube thorns (25-AC) HP/rd to transiters for 200 min</td>
+      <td>Wall Of Thorns (D5 Conj): R300' 20 10' cu thorns (25-AC) HP/rd transit for 200 min</td>
     </tr><tr style="text-align:left">
-      <td>Warp Wood (D2 Tran): R75' 20 wooden objects warped (DC 14 Will neg)</td>
+      <td>Warp Wood (D2 Tran): R75' 20 wooden objects in 20' radius warped (DC 14 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Wind Walk (D7 Tran): Self + 6 touched vaporize and move 60 mph for 20 hr</td>
     </tr><tr style="text-align:left">
