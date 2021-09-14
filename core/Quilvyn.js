@@ -66,6 +66,7 @@ var userOptions = {     // User-settable options
   extras: 1,            // Show extra attributes on sheet?
   hidden: 0,            // Show information marked "hidden" on sheet?
   italics: 1,           // Show italicized notes on sheet?
+  validation: 0,        // Show validation errors and warnings on sheet?
   separateEditor: 0,    // Display editor in separate window?
   spell: 'Slots',       // Display spell slots, points, or both
   style: 'Standard',    // Sheet style
@@ -346,6 +347,41 @@ Quilvyn.htmlBackgroundAttr = function() {
   }
   result += '; color:' + userOptions.textColor + '"';
   return result;
+};
+
+/*
+ * Returns #note#, rephrased and expanded using the dictionary #attrs#, into a
+ * more user-readable form.
+ */
+Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
+  note = note.split('').reverse().join('')
+             .replace('||', ' ro ')
+             .replace('/', ' dna ')
+             .split('').reverse().join('')
+             .replace(/\s*(\|\||\/)\s*/g, ', ')
+             .replaceAll('=~', ' matches ')
+             .replaceAll('!~', ' does not match ')
+             .replace(/\s+,\s*/g, ', ')
+             .replace(/\s\s+/g, ' ')
+             .replace('%V', attrs[name])
+             .replace(/\s*(>\s*0|>=\s*1)\b/g, '');
+  for(var i = 0; i < 9; i++)
+    note = note.replace('%' + i, attrs[name + '.' + i]);
+  var m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*)?/g);
+  if(m) {
+    for(var i = 0; i < m.length; i++) {
+      var ref = m[i];
+      var replacement = ref.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+      if(replacement.includes('.')) {
+        replacement = replacement.split('.');
+        replacement = replacement[1] + ' ' + replacement[0].replace(/s$/, '');
+      }
+      if(attrs[ref])
+        replacement += ' (currently ' + attrs[ref] + ')';
+      note = note.replace(ref, replacement);
+    }
+  }
+  return note;
 };
 
 /* Interacts with the user to add custom items to the current collection. */
@@ -879,6 +915,7 @@ Quilvyn.modifyOptions = function() {
       '<tr><td><b>Show Extras</b></td><td>' + InputHtml('extras', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Hidden</b></td><td>' + InputHtml('hidden', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Italic Notes</b></td><td>' + InputHtml('italics', 'checkbox', null) + '</td></tr>',
+      '<tr><td><b>Show Validation Notes</b></td><td>' + InputHtml('validation', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Spell</b></td><td>' + InputHtml('spell', 'select-one', ['Points', 'Slots', 'Both']) + '</td></tr>',
       '<tr><td><b>Sheet Style</b></td><td>' + InputHtml('style', 'select-one', ['Collected Notes', 'Compact', 'Standard']) + '</td></tr>',
       '<tr><td><b>Warn About Discard</b></td><td>' + InputHtml('warnAboutDiscard', 'checkbox', null) + '</td></tr>',
@@ -1440,34 +1477,8 @@ Quilvyn.refreshStatus = function(showDetail) {
       continue;
     var name = a.replace(/^.*Notes./, '');
     name = name.charAt(0).toUpperCase() + name.substring(1).replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
-    var note = notes[a] || computed[a];
-    note = note.split('').reverse().join('')
-               .replace('||', ' ro ')
-               .replace('/', ' dna ')
-               .split('').reverse().join('')
-               .replace(/\s*(\|\||\/)\s*/g, ', ')
-               .replaceAll('=~', ' matches ')
-               .replaceAll('!~', ' does not match ')
-               .replace(/\s+,\s*/g, ', ')
-               .replace(/\s\s+/g, ' ')
-               .replace('%V', computed[a])
-               .replace(/\s*(>\s*0|>=\s*1)\b/g, '');
-    for(var i = 0; i < 9; i++)
-      note = note.replace('%' + i, computed[a + '.' + i]);
-    var m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*)?/g);
-    if(m) {
-      for(var i = 0; i < m.length; i++) {
-        var ref = m[i];
-        var replacement = ref.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
-        if(replacement.includes('.')) {
-          replacement = replacement.split('.');
-          replacement = replacement[1] + ' ' + replacement[0].replace(/s$/, '');
-        }
-        if(computed[ref])
-          replacement += ' (currently ' + computed[ref] + ')';
-        note = note.replace(ref, replacement);
-      }
-    }
+    var note =
+      Quilvyn.clarifiedValidationNote(a, notes[a] || computed[a], computed);
     (a.startsWith('sanity') ? warnings : errors).push('<li>' + name + ': ' + note + '</li>');
   }
   htmlBits.push(differences.length + ' Changes');
@@ -1562,7 +1573,7 @@ Quilvyn.sheetHtml = function(attrs) {
   for(a in computedAttributes) {
     if(a.match(/\.\d+$/))
       continue; // Ignore format multi-values
-    if(a.match(/^sanity|^validation/))
+    if(a.match(/^sanity|^validation/) && !userOptions.validation)
       continue; // Sheet validation reporting replaced by editor status line
     var isNote = a.indexOf('Notes') > 0;
     var name = a.replace(/([a-z\)])([A-Z\(])/g, '$1 $2')
@@ -1597,6 +1608,9 @@ Quilvyn.sheetHtml = function(attrs) {
       sheetAttributes[name] = value;
     } else {
       var object = name.substring(0, i);
+      if(object == 'Validation Notes' || object == 'Sanity Notes')
+        value =
+          Quilvyn.clarifiedValidationNote(name, value, computedAttributes);
       name = name.substring(i + 1, i + 2).toUpperCase() + name.substring(i + 2);
       if((value + '').includes('%N'))
         value = value.replaceAll('%N', name);
@@ -1640,22 +1654,27 @@ Quilvyn.sheetHtml = function(attrs) {
   var versions =
     'Quilvyn version ' + VERSION + '; ' + [ruleSet.getName() + ' version ' + ruleSet.getVersion()].concat(ruleSet.getPlugins().map(x => x.name + ' version ' + x.VERSION)).join('; ');
 
-  return '<!DOCTYPE html>\n' +
-         '<' + '!' + '-- Generated ' + new Date().toString() +
-           ' by ' + versions + ' --' + '>\n' +
-         '<html lang="en">\n' +
-         '<head>\n' +
-         '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n' +
-         '  <title>' + sheetAttributes.Name + '</title>\n' +
-         '  <script>\n' +
-         attrImage +
-         // Careful: don't want to close quilvyn.html's script tag here!
-         '  </' + 'script>\n' +
-         '</head>\n' +
-         '<body>\n' +
-         ruleSet.getViewer(userOptions.style).getHtml(sheetAttributes, '_top') + '\n' +
-         '</body>\n' +
-         '</html>\n';
+  var result =
+    '<!DOCTYPE html>\n' +
+    '<' + '!' + '-- Generated ' + new Date().toString() +
+      ' by ' + versions + ' --' + '>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>\n' +
+    '  <title>' + sheetAttributes.Name + '</title>\n' +
+    '  <script>\n' +
+    attrImage +
+    // Careful: don't want to close quilvyn.html's script tag here!
+    '  </' + 'script>\n' +
+    '</head>\n' +
+    '<body>\n' +
+    ruleSet.getViewer(userOptions.style).getHtml(sheetAttributes, '_top') + '\n' +
+    '</body>\n' +
+    '</html>\n';
+
+  result = result.replace('Validation Notes', 'Validation Errors')
+                 .replace('Sanity Notes', 'Validation Warnings');
+  return result;
 
 };
 
