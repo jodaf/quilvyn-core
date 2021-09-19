@@ -56,7 +56,7 @@ if(window.location.search.indexOf('DEBUG') >= 0)
 for(var rs in RULESETS) {
   var urlMissing = false;
   for(var attr in RULESETS[rs]) {
-    if(!(['autoload', 'group', 'init', 'require', 'supplement', 'url'].includes(attr)))
+    if(!(['group', 'init', 'require', 'supplement', 'url'].includes(attr)))
       alert('Unknown attribute "' + attr + '" in definition of rule set "' + rs + '"');
     if(attr == 'url')
       urlMissing = false;
@@ -82,6 +82,10 @@ const LOGO_URL = QUILVYN_HOME + 'core/quilvynlogodrop.png';
 const LOGO_TAG =
   '<img src="' + LOGO_URL + '" style="height:75px; vertical-align:middle" alt="Quilvyn"/>';
 
+for(var i = 0; i < CORE_URLS.length; i++) {
+  document.write('<script src="' + CORE_URLS[i] + '">' + CLOSE_TAG);
+}
+
 // Work-around to support testing of Safari with local Quilvyn install
 var STORAGE = null;
 try {
@@ -97,62 +101,60 @@ if(STORAGE == null) {
   };
 }
 
-for(var i = 0; i < CORE_URLS.length; i++) {
-  document.write('<script src="' + CORE_URLS[i] + '">' + CLOSE_TAG);
-}
-
-for(var rs in RULESETS) {
-  if(!RULESETS[rs].autoload)
-    continue;
-  url = RULESETS[rs].url;
-  if(!url.includes('://'))
-    url = QUILVYN_HOME + url;
-  document.write('<script src="' + url + '">' + CLOSE_TAG);
-}
-
-function initRuleSet(funcName, ruleSet) {
-  window[funcName](ruleSet);
-  delete window.initRunning;
-}
-
 /*
- * Waits until the plugin for each rule set in #ruleSets# finishes loading,
- * then invokes its initialization function. After all have completed, invokes
- * the main Quilvyn function.
+ * Invokes the initialization function for each rule set in #ruleSets#, then
+ * invokes the main Quilvyn function.
  */
 function initializeRuleSets(ruleSets) {
-  if(window.initRunning) {
-    setTimeout
-      ('initializeRuleSets([' + ruleSets.map(x => '"' + x + '"') + '])', 1000);
-    return;
-  }
+  if(window.initRunning)
+    return setTimeout(() => {initializeRuleSets(ruleSets)}, 500);
   if(ruleSets.length == 0)
     return Quilvyn(mainWindow);
-  var rs = ruleSets[0];
+  var rs = ruleSets.shift();
+  mainWindow.document.body.innerHTML +=
+    '<p>Generating rules for ' + rs + '...</p>';
   var attrs = RULESETS[rs];
   var funcName = attrs.init || attrs.url.replace(/^.*\/|\.js$/g, '');
-  if(window[funcName]) {
-    ruleSets.shift();
-    mainWindow.document.body.innerHTML +=
-      '<p>Generating rules for ' + rs + '...</p>';
-    window.initRunning = true;
-    setTimeout('initRuleSet("' + funcName + '","' + rs + '")', 10);
+  window.initRunning = true;
+  setTimeout(() => {window[funcName](rs); delete window.initRunning}, 10);
+  setTimeout(() => {initializeRuleSets(ruleSets)}, 500);
+}
+
+/* Loads each plugin in #plugins# before calling initializeRuleSets. */
+function loadPlugins(plugins) {
+  if(window.pluginLoading)
+    return setTimeout(() => {loadPlugins(plugins)}, 500);
+  if(plugins.length == 0) {
+    var selectedRuleSets = [];
+    try {
+      selectedRuleSets = STORAGE.getItem('QuilvynSelectedRuleSets').split(',');
+    } catch(err) {
+      // empty
+    }
+    return initializeRuleSets(selectedRuleSets);
   }
-  setTimeout
-    ('initializeRuleSets([' + ruleSets.map(x => '"' + x + '"') + '])', 1000);
-};
+  window.pluginLoading = true;
+  var plugin = plugins.shift();
+  if(!plugin.includes('://'))
+    plugin = QUILVYN_HOME + plugin;
+  var script = document.createElement('script');
+  script.src = plugin;
+  script.type = 'text/javascript';
+  script.onload = () => {
+    delete window.pluginLoading;
+  }
+  document.body.appendChild(script);
+  setTimeout(() => {loadPlugins(plugins)}, 500);
+}
 
 /*
- * Waits for the user to press the Ok button, then loads the plugins for the
- * selected rule sets and any dependencies. Afterwards, calls initializeRuleSets
- * passing those the user selected.
+ * Waits for the user to press the Ok button, then calls loadPlugins with the
+ * set of plugins required for the selected rule sets.
  */
-function loadPlugins() {
+function waitForUserOkay() {
 
-  if(!mainWindow.userPressedOkay) {
-    setTimeout('loadPlugins()', 1000);
-    return;
-  }
+  if(!mainWindow.userPressedOkay)
+    return setTimeout(waitForUserOkay, 1000);
 
   var selectedRuleSets =
     Object.keys(RULESETS).filter(
@@ -160,43 +162,44 @@ function loadPlugins() {
     );
   if(selectedRuleSets.length == 0) {
     delete mainWindow.userPressedOkay;
-    setTimeout('loadPlugins()', 1000);
-    return;
+    return setTimeout(waitForUserOkay, 1000);
   }
 
-  mainWindow.document.body.innerHTML = '<p>Loading plugins...</p>';
-  var pluginsLoaded =
-    Object.keys(RULESETS).map(x => RULESETS[x].autoload ? RULESETS[x].url : '');
-  for(var i = 0; i < selectedRuleSets.length; i++) {
-    var rs = selectedRuleSets[i];
-    var require = [rs];
-    while(require.length > 0) {
-      rs = require.pop();
-      if(!pluginsLoaded.includes(RULESETS[rs].url)) {
-        var scriptTag = document.createElement('script');
-        var url = RULESETS[rs].url;
-        pluginsLoaded.push(url);
-        if(!url.includes('://'))
-          url = QUILVYN_HOME + url;
-        scriptTag.src = url;
-        scriptTag.type = 'text/javascript';
-        document.body.appendChild(scriptTag);
-      }
-      require = require.concat(RULESETS[rs].require || []);
-      var supplement = RULESETS[rs].supplement;
-      if(supplement && !selectedRuleSets.includes(supplement)) {
-        selectedRuleSets.splice(i, 0, supplement);
-        require.push(supplement);
+  selectedRuleSets.forEach(rs => {
+    if(rs.supplement && !selectedRuleSets.includes(rs.supplement))
+      selectedRuleSets.append(rs.supplement);
+  });
+
+  var pluginsToLoad = [];
+  selectedRuleSets.forEach(rs => {
+    var attrs = RULESETS[rs];
+    if(!pluginsToLoad.includes(attrs.url))
+      pluginsToLoad.push(attrs.url);
+    if(attrs.require) {
+      var pluginsToFind =
+        typeof(attrs.require) == 'string' ? [attrs.require] : attrs.require;
+      while(pluginsToFind.length > 0) {
+        var plugin = pluginsToFind.shift();
+        if(pluginsToLoad.filter(x => x.includes(plugin)).length > 0)
+          continue;
+        var providers = Object.keys(RULESETS).filter(
+          rs => RULESETS[rs].url.includes(plugin)
+        );
+        attrs = RULESETS[providers[0]];
+        pluginsToLoad.unshift(attrs.url);
+        if(attrs.require)
+          pluginsToFind = pluginsToFind.concat(attrs.require);
       }
     }
-  }
+  });
 
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
-  initializeRuleSets(selectedRuleSets);
+  mainWindow.document.body.innerHTML = '<p>Loading plugins...</p>';
+  loadPlugins(pluginsToLoad);
 
 }
 
-/* Displays the rule set selection window, then calls loadPlugins. */
+/* Displays the rule set selection window, then calls waitForUserOkay. */
 function pickRuleSets() {
 
   var selectedRuleSets = [];
@@ -238,7 +241,7 @@ function pickRuleSets() {
   mainWindow.document.write(htmlBits.join('\n'));
   mainWindow.document.close();
   mainWindow.document.getElementsByName('ok')[0].focus();
-  loadPlugins();
+  waitForUserOkay();
 
 }
 

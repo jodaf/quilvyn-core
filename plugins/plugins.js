@@ -17,13 +17,10 @@
  *     single string value or an array of strings enclosed in [].
  *   supplement: Used for rule sets that modify existing rule sets, rather than
  *     defining a new one. This names the modified rule set.
- *   autoload: Set to true for rule sets that must be loaded early, generally
- *     because other rule sets depend on variables defined by this rule set.
  *   init: The name of the initialization function for the rule set. Defaults
  *     to the filename of the plugin.
  */
 RULESETS['v3.5 (SRD only)'] = {
   url:'plugins/SRD35.js',
-  group:'v3.5',
-  autoload:true,
+  group:'v3.5'
 };
