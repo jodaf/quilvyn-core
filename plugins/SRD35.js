@@ -1628,19 +1628,19 @@ SRD35.SPELLS = {
   'Acid Arrow':
     'School=Conjuration ' +
     'Level=W2 ' +
-    'Description="R$RL\' Ranged touch 2d4 HP/rd for $Ldiv3plus1 rd"',
+    'Description="R$RL\' Ranged touch inflicts 2d4 HP/rd for $Ldiv3plus1 rd"',
   'Acid Fog':
     'School=Conjuration ' +
     'Level=W6,Water7 ' +
-    'Description="R$RM\' Fog in 20\' radius obscures vision and 5\' Speed, -2 damage and attack, 2d6 HP/rd for $L rd"',
+    'Description="R$RM\' Fog in 20\' radius obscures vision, slows to 5\'/rd, imposes -2 attack and damage, and inflicts 2d6 HP/rd while moving away 10\'/rd for $L rd"',
   'Acid Splash':
     'School=Conjuration ' +
     'Level=W0 ' +
-    'Description="R$RS\' Ranged touch 1d3 HP"',
+    'Description="R$RS\' Ranged touch inflicts 1d3 HP"',
   'Aid':
     'School=Enchantment ' +
     'Level=Adept2,C2,Good2,Luck2 ' +
-    'Description="Touched +1 attack and fear saves, +1d8+$Lmin10 HP for $L min"',
+    'Description="Touched gains +1 attack and fear saves and 1d8+$Lmin10 temporary HP for $L min"',
   'Air Walk':
     'School=Transmutation ' +
     'Level=Air4,C4,D4 ' +
@@ -1656,7 +1656,7 @@ SRD35.SPELLS = {
   'Alter Self':
     'School=Transmutation ' +
     'Level=Assassin2,B2,W2 ' +
-    'Description="Self become creature w/in 1 size category w/up to $Lmin5 HD for $L10 min"',
+    'Description="Self becomes creature w/in 1 size category w/up to $Lmin5 HD for $L10 min"',
   'Analyze Dweomer':
     'School=Divination ' +
     'Level=B6,W6 ' +
@@ -1664,7 +1664,7 @@ SRD35.SPELLS = {
   'Animal Growth':
     'School=Transmutation ' +
     'Level=D5,R4,W5 ' +
-    'Description="R$RM\' $Ldiv2 animal targets in 15\' radius dbl size, +8 Str, +4 Con, -2 Dex, +2 AC, DR 10/magic, +4 saves for $L min (Fort neg)"',
+    'Description="R$RM\' $Ldiv2 animal targets in 15\' radius dbl size (+8 Strength, +4 Constitution, +2 AC, DR 10/magic, +4 saves, -2 Dexterity) for $L min (Fort neg)"',
   'Animal Messenger':
     'School=Enchantment ' +
     'Level=B2,D2,R1 ' +
@@ -1680,7 +1680,7 @@ SRD35.SPELLS = {
   'Animate Dead':
     'School=Necromancy ' +
     'Level=Adept3,C3,Death3,W4 ' +
-    'Description="Touched corpses become up to $L2 HD of skeletons or zombies, obey commands"',
+    'Description="Touched corpses become up to $L2 HD of skeletons or zombies, obey self"',
   'Animate Objects':
     'School=Transmutation ' +
     'Level=B6,C6,Chaos6 ' +
@@ -1692,7 +1692,7 @@ SRD35.SPELLS = {
   'Animate Rope':
     'School=Transmutation ' +
     'Level=B1,W1 ' +
-    'Description="R$RM\' $L5plus50\' rope obeys commands for $L rd"',
+    'Description="R$RM\' $L5plus50\' rope obeys self for $L rd"',
   'Antilife Shell':
     'School=Abjuration ' +
     'Level=Animal6,C6,D6 ' +
@@ -1704,7 +1704,7 @@ SRD35.SPELLS = {
   'Antipathy':
     'School=Enchantment ' +
     'Level=D9,W8 ' +
-    'Description="R$RS\' Named creature kind or alignment avoids $L x 10\' cu for $L2 hr (Will -4 dex)"',
+    'Description="R$RS\' Named creature kind or alignment avoids $L 10\' cu for $L2 hr (Will -4 dex)"',
   'Antiplant Shell':
     'School=Abjuration ' +
     'Level=D4 ' +
@@ -1716,7 +1716,7 @@ SRD35.SPELLS = {
   'Arcane Lock':
     'School=Abjuration ' +
     'Level=W2 ' +
-    'Description="Magical lock on touched door, portal, or chest DC +10 to open"',
+    'Description="Magical lock on touched door, portal, or chest imposes +10 DC to open"',
   'Arcane Mark':
     // 'School=Universal ' +
     'Level=W0 ' +
@@ -1724,11 +1724,11 @@ SRD35.SPELLS = {
   'Arcane Sight':
     'School=Divination ' +
     'Level=W3 ' +
-    'Description="R120\' See auras and spell abilities for $L min, DC 15+level Spellcraft to know school"',
+    'Description="R120\' Self sees auras and spell abilities for $L min, DC 15+level Spellcraft to know school"',
   'Greater Arcane Sight':
     'School=Divination ' +
     'Level=W7 ' +
-    'Description="R120\' See auras and spell abilities and know spell for $L min"',
+    'Description="R120\' Self sees auras and spell abilities and knows spells for $L min"',
   'Astral Projection':
     'School=Necromancy ' +
     'Level=C9,Travel9,W9 ' +
@@ -1736,11 +1736,11 @@ SRD35.SPELLS = {
   'Atonement':
     'School=Abjuration ' +
     'Level=C5,D5 ' +
-    'Description="Touched restore alignment and holy powers"',
+    'Description="Touched recovers alignment and holy powers"',
   'Augury':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="Self $Lplus70min90% chance to know weal or woe of act proposed w/in 30 min"',
+    'Description="Self has $Lplus70min90% chance to learn weal or woe outcome of act up to 30 min in the future"',
   'Awaken':
     'School=Transmutation ' +
     'Level=D5 ' +
@@ -1753,7 +1753,7 @@ SRD35.SPELLS = {
   'Bane':
     'School=Enchantment ' +
     'Level=C1 ' +
-    'Description="Foes in 50\' radius -1 attack and fear saves for $L min (Will neg)"',
+    'Description="Foes in 50\' radius suffer -1 attack and fear saves for $L min (Will neg)"',
   'Banishment':
     'School=Abjuration ' +
     'Level=C6,W7 ' +
@@ -1761,19 +1761,19 @@ SRD35.SPELLS = {
   'Barkskin':
     'School=Transmutation ' +
     'Level=D2,Plant2,R2 ' +
-    'Description="Touched +$Lplus3div3min5 natural armor for $L10 min"',
+    'Description="Touched gains +$Lplus3div3min5 natural armor for $L10 min"',
   "Bear's Endurance":
     'School=Transmutation ' +
     'Level=Adept2,C2,D2,R2,W2 ' +
-    'Description="Touched +4 Con for $L min"',
+    'Description="Touched gains +4 Constitution for $L min"',
   "Mass Bear's Endurance":
     'School=Transmutation ' +
     'Level=C6,D6,W6 ' +
-    'Description="R$RS\' $L targets in 15\' radius +4 Con for $L min"',
+    'Description="R$RS\' $L targets in 15\' radius gain +4 Constitution for $L min"',
   'Bestow Curse':
     'School=Necromancy ' +
     'Level=Adept3,C3,W4 ' +
-    'Description="Touched permanent -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action (Will neg)"',
+    'Description="Touched permanently suffers self choice of -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action (Will neg)"',
   'Binding':
     'School=Enchantment ' +
     'Level=W8 ' +
@@ -1781,19 +1781,19 @@ SRD35.SPELLS = {
   'Black Tentacles':
     'School=Conjuration ' +
     'Level=W4 ' +
-    'Description="R$RM\' Tentacles in 20\' radius grapple (attack +$L, Str 19), 1d6+4/rd HP for $L rd"',
+    'Description="R$RM\' Tentacles in 20\' radius grapple (attack +$L, Strength 19) and inflict 1d6+4 HP/rd for $L rd"',
   'Blade Barrier':
     'School=Evocation ' +
     'Level=C6,Good6,War6 ' +
-    'Description="R$RM\' $L20\' blade wall ${Lmin15}d6 HP (Ref half) for $L min"',
+    'Description="R$RM\' $L20\' blade wall inflicts ${Lmin15}d6 HP/rd (Ref half) for $L min"',
   'Blasphemy':
     'School=Evocation ' +
     'Level=C7,Evil7 ' +
-    'Description="Nonevil creatures in 40\' radius with equal/-1/-5/-10 HD dazed for 1 rd/-2d6 Str for 2d4 rd/paralyzed for 1d10 min/killed and banished (Will -4 neg)"',
+    'Description="Nonevil creatures in 40\' radius with equal/-1/-5/-10 HD dazed for 1 rd/suffer -2d6 Strength for 2d4 rd/paralyzed for 1d10 min/killed and banished (Will -4 neg)"',
   'Bless':
     'School=Enchantment ' +
     'Level=Adept1,C1,P1 ' +
-    'Description="Allies in 50\' radius +1 attack and fear saves for $L min"',
+    'Description="Allies in 50\' radius gain +1 attack and fear saves for $L min"',
   'Bless Water':
     'School=Transmutation ' +
     'Level=C1,P1 ' +
@@ -1801,52 +1801,52 @@ SRD35.SPELLS = {
   'Bless Weapon':
     'School=Transmutation ' +
     'Level=P1 ' +
-    'Description="Weapon good aligned, magic and crit confirmed vs. evil foe for $L min"',
+    'Description="Touched weapon becomes good aligned and magic, crit vs. evil foes confirmed for $L min"',
   'Blight':
     'School=Necromancy ' +
     'Level=D4,W5 ' +
-    'Description="Touched plant ${Lmin15}d6 HP (Fort half)"',
+    'Description="Touched plant suffers ${Lmin15}d6 HP (Fort half)"',
   'Blindness/Deafness':
     'School=Necromancy ' +
     'Level=B2,C3,W2 ' +
-    'Description="R$RM\' target permanently blind or deaf (Fort neg)"',
+    'Description="R$RM\' Target permanently self choice of blind or deaf (Fort neg)"',
   'Blink':
     'School=Transmutation ' +
     'Level=B3,W3 ' +
-    'Description="Self randomly ethereal (foes 50% miss chance, half HP from area attacks and falling) for $L rd"',
+    'Description="Self becomes ethereal randomly (half damage from area attacks and falling, foes have 50% miss chance) for $L rd"',
   'Blur':
     'School=Illusion ' +
     'Level=B2,W2 ' +
-    'Description="Touched foes 20% miss chance for $L min"',
+    'Description="Foes attacking touched have 20% miss chance for $L min"',
   'Break Enchantment':
     'School=Abjuration ' +
     'Level=Adept5,B4,C5,Luck5,P4,W5 ' +
-    'Description="R$RS\' +$Lmin15 check to free $L targets in 15\' radius from enchantments, transmutations, curses"',
+    'Description="R$RS\' +$Lmin15 check to free $L targets in 15\' radius from enchantments, transmutations, and curses"',
   "Bull's Strength":
     'School=Transmutation ' +
     'Level=Adept2,Blackguard2,C2,D2,P2,Strength2,W2 ' +
-    'Description="Touched +4 Str for $L min"',
+    'Description="Touched gains +4 Strength for $L min"',
   "Mass Bull's Strength":
     'School=Transmutation ' +
     'Level=C6,D6,W6 ' +
-    'Description="R$RS\' $L targets in 15\' radius +4 Str for $L min"',
+    'Description="R$RS\' $L targets in 15\' radius gain +4 Strength for $L min"',
   'Burning Hands':
     'School=Evocation ' +
     'Level=Adept1,Fire1,W1 ' +
-    'Description="R15\' cone ${Lmin5}d4 HP (Ref half)"',
+    'Description="R15\' Cone inflicts ${Lmin5}d4 HP (Ref half)"',
 
   'Call Lightning':
     'School=Evocation ' +
     'Level=D3 ' +
-    'Description="R$RM\' $Lmin10 bolts 3d6 HP (Ref half), 1/rd for $L min"',
+    'Description="R$RM\' 1 bolt/rd inflicts 3d6 HP (Ref half) for $L min or $Lmin10 bolts"',
   'Call Lightning Storm':
     'School=Evocation ' +
     'Level=D5 ' +
-    'Description="R$RL\' $Lmin15 bolts 5d6 HP (Ref half), 1/rd for $L min"',
+    'Description="R$RL\' 1 bolt/rd inflicts 5d6 HP (Ref half) for $L min or $Lmin15 bolts"',
   'Calm Animals':
     'School=Enchantment ' +
     'Level=Animal1,D1,R1 ' +
-    'Description="R$RS\' 2d4+$L HD of animals in 15\' radius docile for $L min (Will neg)"',
+    'Description="R$RS\' 2d4+$L HD of animals in 15\' radius become docile for $L min (Will neg)"',
   'Calm Emotions':
     'School=Enchantment ' +
     'Level=B2,C2,Law2 ' +
@@ -1854,19 +1854,19 @@ SRD35.SPELLS = {
   "Cat's Grace":
     'School=Transmutation ' +
     'Level=Adept2,Assassin2,B2,D2,R2,W2 ' +
-    'Description="Touched +4 Dex for $L min"',
+    'Description="Touched gains +4 Dexterity for $L min"',
   "Mass Cat's Grace":
     'School=Transmutation ' +
     'Level=B6,D6,W6 ' +
-    'Description="R$RS\' $L targets in 15\' radius +4 Dex for $L min"',
+    'Description="R$RS\' $L targets in 15\' radius gain +4 Dexterity for $L min"',
   'Cause Fear':
     'School=Necromancy ' +
     'Level=Adept1,B1,Blackguard1,C1,Death1,W1 ' +
-    'Description="R$RS\' Target w/up to 5 HD flee for 1d4 rd (Will shaken for 1 rd)"',
+    'Description="R$RS\' Target w/up to 5 HD flees for 1d4 rd (Will shaken for 1 rd)"',
   'Chain Lightning':
     'School=Evocation ' +
     'Level=Air6,W6 ' +
-    'Description="R$RL\' ${Lmin20}d6 HP primary, half HP $Lmin20 secondary targets in 30\' radius (Ref half)"',
+    'Description="R$RL\' Bolt inflicts ${Lmin20}d6 HP to primary target, half HP to $Lmin20 secondary targets in 30\' radius (Ref half)"',
   'Changestaff':
     'School=Transmutation ' +
     'Level=D7 ' +
@@ -1874,31 +1874,31 @@ SRD35.SPELLS = {
   'Chaos Hammer':
     'School=Evocation ' +
     'Level=Chaos4 ' +
-    'Description="R$RM\' Lawful in 20\' radius ${Ldiv2min5}d8 HP and slowed for 1d6 rd (-2 AC, attack, damage, and Reflex), neutral half (Will half)"',
+    'Description="R$RM\' Lawful creatures in 20\' radius suffer ${Ldiv2min5}d8 HP and are slowed (-2 AC, attack, damage, and Reflex) for 1d6 rd, neutral half (Will half)"',
   'Charm Animal':
     'School=Enchantment ' +
     'Level=D1,R1 ' +
-    'Description="R$RS\' Target treats you as trusted friend for $L hr (Will neg)"',
+    'Description="R$RS\' Target treats self as trusted friend for $L hr (Will neg)"',
   'Charm Monster':
     'School=Enchantment ' +
     'Level=B3,W4 ' +
-    'Description="R$RS\' Target treats you as trusted friend for $L dy (Will neg)"',
+    'Description="R$RS\' Target treats self as trusted friend for $L dy (Will neg)"',
   'Mass Charm Monster':
     'School=Enchantment ' +
     'Level=B6,W8 ' +
-    'Description="R$RS\' $L2 HD targets treat you as trusted friend for $L dy (Will neg)"',
+    'Description="R$RS\' $L2 HD targets treat self as trusted friend for $L dy (Will neg)"',
   'Charm Person':
     'School=Enchantment ' +
     'Level=B1,W1 ' +
-    'Description="R$RS\' Target treats you as trusted friend for $L hr (Will neg)"',
+    'Description="R$RS\' Target treats self as trusted friend for $L hr (Will neg)"',
   'Chill Metal':
     'School=Transmutation ' +
     'Level=D2 ' +
-    'Description="R$RS\' Metal of $Ldiv2 creatures in 15\' radius 0/1/2/2/2/1/0d4 HP for 7 rd (Will neg)"',
+    'Description="R$RS\' Metal on $Ldiv2 creatures in 15\' radius inflicts 0d4/1d4/2d4/2d4/2d4/1d4/0d4 HP for 7 rd (Will neg)"',
   'Chill Touch':
     'School=Necromancy ' +
     'Level=W1 ' +
-    'Description="$L touched 1d6 HP, 1 Str (Fort neg), undead flee for 1d4+$L rd (Will neg)"',
+    'Description="$L touched living suffers 1d6 HP and -1 Strength (Fort neg); undead flee for 1d4+$L rd (Will neg)"',
   'Circle Of Death':
     'School=Necromancy ' +
     'Level=W6 ' +
@@ -1906,15 +1906,15 @@ SRD35.SPELLS = {
   'Clairaudience/Clairvoyance':
     'School=Divination ' +
     'Level=Assassin4,B3,Knowledge3,W3 ' +
-    'Description="$RL\' Remote sight or hearing for $L min"',
+    'Description="$RL\' Self gains choice of remote sight or hearing for $L min"',
   'Clenched Fist':
     'School=Evocation ' +
     'Level=Strength8,W8 ' +
-    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) cover (+4 AC), move 60\', hit (+$Lplus11+mod 1d8+11 HP, stun for 1 rd (Fort neg)), +15 bull rush for $L rd"',
+    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) moves 60\'/rd, gives +4 AC, and performs +15 bull rush and +$Lplus11+mod melee attack that inflicts 1d8+11 HP and stuns for 1 rd (Fort neg) for $L rd"',
   'Cloak Of Chaos':
     'School=Abjuration ' +
     'Level=C8,Chaos8 ' +
-    'Description="$L targets in 20\' radius +4 AC and saves, SR 25 (lawful), suppress mental control, successful lawful attacker confused for 1 rd for $L rd (Will neg)"',
+    'Description="$L creatures in 20\' radius gain +4 AC and saves and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker for $L rd (Will neg)"',
   'Clone':
     'School=Necromancy ' +
     'Level=W8 ' +
@@ -1922,27 +1922,27 @@ SRD35.SPELLS = {
   'Cloudkill':
     'School=Conjuration ' +
     'Level=W5 ' +
-    'Description="R$RM\' 20\' cylinder moves away 10\'/rd, 1-3 HD slain, 4-6 HD slain (Fort 1d4 Con), 6+ HD 1d4 Con (Fort half) for $L min"',
+    'Description="R$RM\' 20\' cylinder moves away 10\'/rd; all within w/1-3 HD slain, w/4-6 HD slain (Fort suffer -1d4 Constitution), w/6+ HD suffer -1d4 Constitution (Fort half) for $L min"',
   'Color Spray':
     'School=Illusion ' +
     'Level=W1 ' +
-    'Description="R15\' cone targets with 2/4/any HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (Will neg)"',
+    'Description="R15\' cone creatures with 2/4/any HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (Will neg)"',
   'Command':
     'School=Enchantment ' +
     'Level=Adept1,C1 ' +
-    'Description="R$RS\' Target approach, drop, fall, flee, or halt for 1 rd (Will neg)"',
+    'Description="R$RS\' Target obeys self commands to approach, drop, fall, flee, or halt for 1 rd (Will neg)"',
   'Greater Command':
     'School=Enchantment ' +
     'Level=C5 ' +
-    'Description="R$RS\' $L targets in 15\' radius approach, drop, fall, flee, or halt for $L rd (Will neg)"',
+    'Description="R$RS\' $L targets in 15\' radius obey self commands to approach, drop, fall, flee, or halt for $L rd (Will neg)"',
   'Command Plants':
     'School=Transmutation ' +
     'Level=D4,Plant4,R3 ' +
-    'Description="R$RS\' $L2 HD plant creatures in 15\' radius obey for $L dy (Will neg)"',
+    'Description="R$RS\' $L2 HD plant creatures in 15\' radius obey self for $L dy (Will neg)"',
   'Command Undead':
     'School=Necromancy ' +
     'Level=W2 ' +
-    'Description="R$RS\' Undead target obeys for $L dy (Will neg)"',
+    'Description="R$RS\' Undead target obeys self for $L dy (Will neg)"',
   'Commune':
     'School=Divination ' +
     'Level=Adept5,C5 ' +
@@ -1950,7 +1950,7 @@ SRD35.SPELLS = {
   'Commune With Nature':
     'School=Divination ' +
     'Level=Animal5,D5,R4 ' +
-    'Description="Self learn natural facts for $L mile radius outdoors, $L100\' radius underground"',
+    'Description="Self learns natural facts for $L mile radius outdoors, $L100\' radius underground"',
   'Comprehend Languages':
     'School=Divination ' +
     'Level=Adept1,B1,C1,W1 ' +
@@ -1958,7 +1958,7 @@ SRD35.SPELLS = {
   'Cone Of Cold':
     'School=Evocation ' +
     'Level=W5,Water6 ' +
-    'Description="R60\' cone ${Lmin15}d6 HP (Ref half)"',
+    'Description="R60\' cone inflicts ${Lmin15}d6 HP (Ref half)"',
   'Confusion':
     'School=Enchantment ' +
     'Level=B3,Trickery4,W4 ' +
@@ -1970,15 +1970,15 @@ SRD35.SPELLS = {
   'Consecrate':
     'School=Evocation ' +
     'Level=C2 ' +
-    'Description="R$RS\' 20\' radius gives +3 turn undead, undead -1 attack, damage, saves for $L2 hr"',
+    'Description="R$RS\' 20\' radius gives +3 turn undead, undead suffer -1 attack, damage, and saves for $L2 hr"',
   'Contact Other Plane':
     'School=Divination ' +
     'Level=W5 ' +
-    'Description="Ask $Ldiv2 questions of extraplanar entity"',
+    'Description="Self asks $Ldiv2 questions of extraplanar entity"',
   'Contagion':
     'School=Necromancy ' +
     'Level=Adept3,Blackguard3,C3,D3,Destruction3,W4 ' +
-    'Description="Touched diseased (Fort neg)"',
+    'Description="Touched contracts random disease (Fort neg)"',
   'Contingency':
     'School=Evocation ' +
     'Level=W6 ' +
@@ -1990,19 +1990,19 @@ SRD35.SPELLS = {
   'Control Plants':
     'School=Transmutation ' +
     'Level=D8,Plant8 ' +
-    'Description="R$RS\' $L2 HD plant creatures in 15\' radius obey for $L min (Will neg)"',
+    'Description="R$RS\' $L2 HD plant creatures in 15\' radius obey self for $L min (Will neg)"',
   'Control Undead':
     'School=Necromancy ' +
     'Level=W7 ' +
-    'Description="R$RS\' $L2 HD undead in 15\' radius obey for $L min (Will neg)"',
+    'Description="R$RS\' $L2 HD undead in 15\' radius obey self for $L min (Will neg)"',
   'Control Water':
     'School=Transmutation ' +
     'Level=C4,D4,W6,Water4 ' +
-    'Description="R$RL\' Raise or lower 10\'x10\'x2\'x$L of water $L2\' for $L10 min"',
+    'Description="R$RL\' Raise or lower $L 10\'x10\'x2\' of water $L2\' for $L10 min"',
   'Control Weather':
     'School=Transmutation ' +
     'Level=Air7,C7,D7,W7 ' +
-    'Description="Create seasonal weather in 2 mile radius for 4d12 hr"',
+    'Description="Modifies seasonal weather in 2 mile radius for 4d12 hr"',
   'Control Winds':
     'School=Transmutation ' +
     'Level=Air5,D5 ' +
@@ -2014,15 +2014,15 @@ SRD35.SPELLS = {
   'Create Food And Water':
     'School=Conjuration ' +
     'Level=C3 ' +
-    'Description="R$RS\' Daily food and water for $L3 humans or $L horses"',
+    'Description="R$RS\' Creates daily food and water for $L3 humans or $L horses"',
   'Create Greater Undead':
     'School=Necromancy ' +
     'Level=C8,Death8,W8 ' +
-    'Description="R$RS\' Create ${\'shadow\'+(lvl>=16?\', wraith\':\'\')+(lvl>=18?\', spectre\':\'\')+(lvl>=20?\', devourer\':\'\')} from physical remains"',
+    'Description="R$RS\' Creates ${\'shadow\'+(lvl>=16?\', wraith\':\'\')+(lvl>=18?\', spectre\':\'\')+(lvl>=20?\', devourer\':\'\')} from physical remains"',
   'Create Undead':
     'School=Necromancy ' +
     'Level=C6,Death6,Evil6,W6 ' +
-    'Description="R$RS\' Create ${\'ghoul\'+(lvl>=12?\', ghast\':\'\')+(lvl>=15?\', mummy\':\'\')+(lvl>=18?\', mohrg\':\'\')} from physical remains"',
+    'Description="R$RS\' Creates ${\'ghoul\'+(lvl>=12?\', ghast\':\'\')+(lvl>=15?\', mummy\':\'\')+(lvl>=18?\', mohrg\':\'\')} from physical remains"',
   'Create Water':
     'School=Conjuration ' +
     'Level=Adept0,C0,D0,P1 ' +
@@ -2031,51 +2031,51 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=D7 ' +
     // NOTE: damage unspecified, using Pathfinder's 4d6
-    'Description="R$RS\' $Ldiv2 centipede swarms 4d6 HP obey for $L rd"',
+    'Description="R$RS\' $Ldiv2 centipede swarms inflict 4d6 HP, obey self for $L rd"',
   'Crushing Despair':
     'School=Enchantment ' +
     'Level=B3,W4 ' +
-    'Description="R30\' cone -2 attack, damage, saves, checks for $L min (Will neg)"',
+    'Description="R30\' cone imposes -2 attack, damage, saves, and checks for $L min (Will neg)"',
   'Crushing Hand':
     'School=Evocation ' +
     'Level=Strength9,W9 ' +
-    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) cover (+4 AC), move 60\', grapple (+$Lplus16+mod for 2d6+12), +18 bull rush for $L rd"',
+    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) moves 60\'/rd, gives +4 AC, and performs +18 bull rush and +$Lplus16+mod grapple that inflicts 2d6+12 HP for $L rd"',
   'Cure Critical Wounds':
     'School=Conjuration ' +
     'Level=Adept4,B4,Blackguard4,C4,D5,Healing4 ' +
-    'Description="Touched heal or damage undead 4d8+$Lmin20 (Will half)"',
+    'Description="Touched heals (undead suffers) 4d8+$Lmin20 HP (Will half)"',
   'Mass Cure Critical Wounds':
     'School=Conjuration ' +
     'Level=C8,D9,Healing8 ' +
-    'Description="R$RS\' $L targets in 15\' radius heal or damage undead 4d8+$Lmin40 (Will half)"',
+    'Description="R$RS\' $L targets in 15\' radius heal (undead suffer) 4d8+$Lmin40 HP (Will half)"',
   'Cure Light Wounds':
     'School=Conjuration ' +
     'Level=Adept1,B1,Blackguard1,C1,D1,Healing1,P1,R2 ' +
-    'Description="Touched heal or damage undead 1d8+$Lmin5 (Will half)"',
+    'Description="Touched heals (undead suffers) 1d8+$Lmin5 HP (Will half)"',
   'Mass Cure Light Wounds':
     'School=Conjuration ' +
     'Level=B5,C5,D6,Healing5 ' +
-    'Description="R$RS\' $L targets in 15\' radius heal or damage undead 1d8+$Lmin25 (Will half)"',
+    'Description="R$RS\' $L targets in 15\' radius heal (undead suffer) 1d8+$Lmin25 HP (Will half)"',
   'Cure Minor Wounds':
     'School=Conjuration ' +
     'Level=Adept0,C0,D0 ' +
-    'Description="Touched heal or damage undead 1 HP (Will neg)"',
+    'Description="Touched heals (undead suffers) 1 HP (Will neg)"',
   'Cure Moderate Wounds':
     'School=Conjuration ' +
     'Level=Adept2,B2,Blackguard2,C2,D3,Healing2,P3,R3 ' +
-    'Description="Touched heal or damage undead 2d8+$Lmin10 (Will half)"',
+    'Description="Touched heals (undead suffers) 2d8+$Lmin10 HP (Will half)"',
   'Mass Cure Moderate Wounds':
     'School=Conjuration ' +
     'Level=B6,C6,D7 ' +
-    'Description="R$RS\' $L targets in 15\' radius heal or damage undead 2d8+$Lmin30 (Will half)"',
+    'Description="R$RS\' $L targets in 15\' radius heal (undead suffer) 2d8+$Lmin30 HP (Will half)"',
   'Cure Serious Wounds':
     'School=Conjuration ' +
     'Level=Adept3,B3,Blackguard3,C3,D4,Healing3,P4,R4 ' +
-    'Description="Touched heal or damage undead 3d8+$Lmin15 (Will half)"',
+    'Description="Touched heals (undead suffers) 3d8+$Lmin15 HP (Will half)"',
   'Mass Cure Serious Wounds':
     'School=Conjuration ' +
     'Level=C7,D8 ' +
-    'Description="R$RS\' $L targets in 15\' radius heal or damage undead 3d8+$Lmin35 (Will half)"',
+    'Description="R$RS\' $L targets in 15\' radius heal (undead suffers) 3d8+$Lmin35 HP (Will half)"',
   'Curse Water':
     'School=Necromancy ' +
     'Level=C1 ' +
@@ -2100,19 +2100,19 @@ SRD35.SPELLS = {
   'Daze':
     'School=Enchantment ' +
     'Level=B0,W0 ' +
-    'Description="R$RS\' Humanoid target w/up to 4 HD lose next action (Will neg)"',
+    'Description="R$RS\' Humanoid target w/up to 4 HD loses next action (Will neg)"',
   'Daze Monster':
     'School=Enchantment ' +
     'Level=B2,W2 ' +
-    'Description="R$RM\' Creature target w/up to 6 HD lose next action (Will neg)"',
+    'Description="R$RM\' Target w/up to 6 HD loses next action (Will neg)"',
   'Death Knell':
     'School=Necromancy ' +
     'Level=Blackguard2,C2,Death2 ' +
-    'Description="Touched w/negative HP dies, self gain 1d8 HP, +2 Str, +1 caster level for 10*target HD min (Will neg)"',
+    'Description="Touched w/negative HP dies, self gains 1d8 temporary HP, +2 Strength, and +1 caster level for 10*target HD min (Will neg)"',
   'Death Ward':
     'School=Necromancy ' +
     'Level=C4,D5,Death4,P4 ' +
-    'Description="Touched immune death spells, death effects, energy drain, and negative energy effects for $L min"',
+    'Description="Touched becomes immune to death spells, death effects, energy drain, and negative energy effects for $L min"',
   'Deathwatch':
     'School=Necromancy ' +
     'Level=C1 ' +
@@ -2132,15 +2132,15 @@ SRD35.SPELLS = {
   'Delayed Blast Fireball':
     'School=Evocation ' +
     'Level=W7 ' +
-    'Description="R$RL\' ${Lmin20}d6 HP (Ref half) in 20\' radius, delay up to 5 rd"',
+    'Description="R$RL\' Inflicts ${Lmin20}d6 HP (Ref half) in 20\' radius, may delay up to 5 rd"',
   'Demand':
     'School=Enchantment ' +
     'Level=W8 ' +
-    'Description="25-word message to target, carry out suggestion (Will neg)"',
+    'Description="Self sends 25-word message to target w/<i>Suggestion</i> (Will neg)"',
   'Desecrate':
     'School=Evocation ' +
     'Level=C2,Evil2 ' +
-    'Description="R$RS\' 20\' radius gives -3 turn undead, undead +1 attack, damage, saves, HP/HD for $L2 hr"',
+    'Description="R$RS\' 20\' radius imposes -3 turn undead, undead gain +1 attack, damage, saves, and 1 temporary HP/HD for $L2 hr"',
   'Destruction':
     'School=Necromancy ' +
     'Level=C7,Death7 ' +
@@ -2148,55 +2148,55 @@ SRD35.SPELLS = {
   'Detect Animals Or Plants':
     'School=Divination ' +
     'Level=D1,R1 ' +
-    'Description="R$RL\' cone info on animals and plants for conc or $L10 min"',
+    'Description="R$RL\' cone gives self info on animals and plants for conc or $L10 min"',
   'Detect Chaos':
     'School=Divination ' +
     'Level=Adept1,C1 ' +
-    'Description="R60\' cone info on chaotic auras for conc or $L10 min"',
+    'Description="R60\' cone gives self info on chaotic auras for conc or $L10 min"',
   'Detect Evil':
     'School=Divination ' +
     'Level=Adept1,C1 ' +
-    'Description="R60\' cone info on evil auras for conc or $L10 min"',
+    'Description="R60\' cone gives self info on evil auras for conc or $L10 min"',
   'Detect Good':
     'School=Divination ' +
     'Level=Adept1,Blackguard1,C1 ' +
-    'Description="R60\' cone info on good auras for conc or $L10 min"',
+    'Description="R60\' cone gives self info on good auras for conc or $L10 min"',
   'Detect Law':
     'School=Divination ' +
     'Level=Adept1,C1 ' +
-    'Description="R60\' cone info on lawful auras for conc or $L10 min"',
+    'Description="R60\' cone gives self info on lawful auras for conc or $L10 min"',
   'Detect Magic':
     'School=Divination ' +
     'Level=Adept0,B0,C0,D0,W0 ' +
-    'Description="R60\' cone info on magical auras for conc or $L min"',
+    'Description="R60\' cone gives self info on magical auras for conc or $L min"',
   'Detect Poison':
     'School=Divination ' +
     'Level=Assassin1,C0,D0,P1,R1,W0 ' +
-    'Description="R$RS\' Detects poison in target, DC 20 Wis or Alchemy check for type"',
+    'Description="R$RS\' Self detects poison in target, DC 20 Wis or Alchemy check for type"',
   'Detect Scrying':
     'School=Divination ' +
     'Level=B4,W4 ' +
-    'Description="R40\' Detects scrying, opposed caster check to see source for 1 dy"',
+    'Description="R40\' Self detects scrying and makes opposed caster check to see source for 1 dy"',
   'Detect Secret Doors':
     'School=Divination ' +
     'Level=B1,Knowledge1,W1 ' +
-    'Description="R60\' cone info on secret doors for conc or $L min"',
+    'Description="R60\' cone gives self info on secret doors for conc or $L min"',
   'Detect Snares And Pits':
     'School=Divination ' +
     'Level=D1,R1 ' +
-    'Description="R60\' cone info on traps for conc or $L10 min"',
+    'Description="R60\' cone gives self info on traps for conc or $L10 min"',
   'Detect Thoughts':
     'School=Divination ' +
     'Level=B2,Knowledge2,W2 ' +
-    'Description="R60\' cone info on thoughts for conc or $L min (Will neg)"',
+    'Description="R60\' cone gives self info on thoughts for conc or $L min (Will neg)"',
   'Detect Undead':
     'School=Divination ' +
     'Level=C1,P1,W1 ' +
-    'Description="R60\' cone info on undead auras for conc or $L min"',
+    'Description="R60\' cone gives self info on undead auras for conc or $L min"',
   'Dictum':
     'School=Evocation ' +
     'Level=C7,Law7 ' +
-    'Description="Nonlawful creatures in 40\' radius with equal/-1/-5/-10 HD deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed and banished (Will neg)"',
+    'Description="Nonlawful creatures in 40\' radius with equal/-1/-5/-10 HD deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed and banished (Will -4 neg)"',
   'Dimension Door':
     'School=Conjuration ' +
     'Level=Assassin4,B4,Travel4,W4 ' +
@@ -2208,7 +2208,7 @@ SRD35.SPELLS = {
   'Dimensional Lock':
     'School=Abjuration ' +
     'Level=C8,W8 ' +
-    'Description="R$RM\' Bar extradimensional travel in 20\' radius for $L dy"',
+    'Description="R$RM\' Bars extradimensional travel in 20\' radius for $L dy"',
   'Diminish Plants':
     'School=Transmutation ' +
     'Level=D3,R3 ' +
@@ -2216,19 +2216,19 @@ SRD35.SPELLS = {
   'Discern Lies':
     'School=Divination ' +
     'Level=C4,P3 ' +
-    'Description="R$RS\' Reveals lies from $L creatures in 15\' radius for conc or $L rd (Will neg)"',
+    'Description="R$RS\' Self detects lies from $L creatures in 15\' radius for conc or $L rd (Will neg)"',
   'Discern Location':
     'School=Divination ' +
     'Level=C8,Knowledge8,W8 ' +
-    'Description="Know exact location of creature or object at any distance"',
+    'Description="Self knows exact location of creature or object at any distance"',
   'Disguise Self':
     'School=Illusion ' +
     'Level=Assassin1,B1,Trickery1,W1 ' +
-    'Description="Self change appearance, +10 Disguise for $L10 min"',
+    'Description="Self changes appearance and gains +10 Disguise for $L10 min"',
   'Disintegrate':
     'School=Transmutation ' +
     'Level=Destruction7,W6 ' +
-    'Description="R$RM\' Ranged touch target ${L2min40}d6 HP (Fort 5d6), dust if slain"',
+    'Description="R$RM\' Ranged touch inflicts ${L2min40}d6 HP (Fort 5d6), dusts if target slain"',
   'Dismissal':
     'School=Abjuration ' +
     'Level=C4,W5 ' +
@@ -2236,35 +2236,35 @@ SRD35.SPELLS = {
   'Dispel Chaos':
     'School=Abjuration ' +
     'Level=C5,Law5,P4 ' +
-    'Description="Self +4 AC vs. chaotic, touch to dismiss chaotic creature (Will neg) or spell"',
+    'Description="Self gains +4 AC vs. chaotic and dismisses chaotic creature via touch (Will neg) or spell"',
   'Dispel Evil':
     'School=Abjuration ' +
     'Level=C5,Good5,P4 ' +
-    'Description="Self +4 AC vs. evil, touch to dismiss evil creature (Will neg) or spell"',
+    'Description="Self gains +4 AC vs. evil and dismisses evil creature via touch (Will neg) or spell"',
   'Dispel Good':
     'School=Abjuration ' +
     'Level=C5,Evil5 ' +
-    'Description="Self +4 AC vs. good, touch to dismiss good creature (Will neg) or spell"',
+    'Description="Self gains +4 AC vs. good and dismisses good creature via touch (Will neg) or spell"',
   'Dispel Law':
     'School=Abjuration ' +
     'Level=C5,Chaos5 ' +
-    'Description="Self +4 AC vs. lawful, touch to dismiss lawful creature (Will neg) or spell"',
+    'Description="Self gains +4 AC vs. lawful and dismisses lawful creature via touch (Will neg) or spell"',
   'Dispel Magic':
     'School=Abjuration ' +
     'Level=B3,C3,D4,Magic3,P3,W3 ' +
-    'Description="R$RM\' d20+$Lmin10 vs. 11+caster level cancels spells or effects in 20\' radius"',
+    'Description="R$RM\' Self d20+$Lmin10 check vs. 11+caster level cancels spells or effects in 20\' radius"',
   'Greater Dispel Magic':
     'School=Abjuration ' +
     'Level=B5,C6,D6,W6 ' +
-    'Description="R$RM\' d20+$Lmin20 vs. 11+caster level cancels spells or effects in 20\' radius"',
+    'Description="R$RM\' Self d20+$Lmin20 check vs. 11+caster level cancels spells or effects in 20\' radius"',
   'Displacement':
     'School=Illusion ' +
     'Level=B3,W3 ' +
-    'Description="Attacks on touched 50% miss for $L rd"',
+    'Description="Foes attacking touched suffer 50% miss chance for $L rd"',
   'Disrupt Undead':
     'School=Necromancy ' +
     'Level=W0 ' +
-    'Description="R$RS\' Ranged touched undead 1d6 HP"',
+    'Description="R$RS\' Ranged touched on undead target inflicts 1d6 HP"',
   'Disrupting Weapon':
     'School=Transmutation ' +
     'Level=C5 ' +
@@ -2272,31 +2272,31 @@ SRD35.SPELLS = {
   'Divination':
     'School=Divination ' +
     'Level=C4,Knowledge4 ' +
-    'Description="$Lplus70min90% chance for advice on act proposed w/in a week"',
+    'Description="Self has $Lplus70min90% chance to learn useful advice on act proposed up to 1 week in the future"',
   'Divine Favor':
     'School=Evocation ' +
     'Level=C1,P1 ' +
-    'Description="Self +$Ldiv3min3max1 attack and damage for 1 min"',
+    'Description="Self gains +$Ldiv3min3max1 attack and damage for 1 min"',
   'Divine Power':
     'School=Evocation ' +
     'Level=C4,War4 ' +
-    'Description="Self BAB $L, +6 Str, +$L HP for $L rd"',
+    'Description="Self gains BAB $L, +6 Strength, and $L temporary HP for $L rd"',
   'Dominate Animal':
     'School=Enchantment ' +
     'Level=Animal3,D3 ' +
-    'Description="R$RS\' Target animal obey thoughts for $L rd (Will neg)"',
+    'Description="R$RS\' Target animal obeys self thoughts for $L rd (Will neg)"',
   'Dominate Monster':
     'School=Enchantment ' +
     'Level=W9 ' +
-    'Description="R$RS\' Target obey thoughts for $L dy (Will neg)"',
+    'Description="R$RS\' Target obeys self thoughts for $L dy (Will neg)"',
   'Dominate Person':
     'School=Enchantment ' +
     'Level=B4,W5 ' +
-    'Description="R$RS\' Target humanoid obey thoughts for $L dy (Will neg)"',
+    'Description="R$RS\' Target humanoid obeys self thoughts for $L dy (Will neg)"',
   'Doom':
     'School=Necromancy ' +
     'Level=Blackguard1,C1 ' +
-    'Description="R$RM\' Target shaken (-2 attack, damage, saves, checks) for $L min (Will neg)"',
+    'Description="R$RM\' Target shaken (-2 attack, damage, saves, and checks) for $L min (Will neg)"',
   'Dream':
     'School=Illusion ' +
     'Level=B5,W5 ' +
@@ -2305,11 +2305,11 @@ SRD35.SPELLS = {
   "Eagle's Splendor":
     'School=Transmutation ' +
     'Level=B2,Blackguard2,C2,P2,W2 ' +
-    'Description="Touched +4 Cha for $L min"',
+    'Description="Touched gains +4 Charisma for $L min"',
   "Mass Eagle's Splendor":
     'School=Transmutation ' +
     'Level=B6,C6,W6 ' +
-    'Description="R$RS\' $L targets in 15\' radius +4 Cha for $L min"',
+    'Description="R$RS\' $L targets in 15\' radius gain +4 Charisma for $L min"',
   'Earthquake':
     'School=Evocation ' +
     'Level=C8,D8,Destruction8,Earth7 ' +
@@ -2321,23 +2321,23 @@ SRD35.SPELLS = {
   'Endure Elements':
     'School=Abjuration ' +
     'Level=Adept1,C1,D1,P1,R1,Sun1,W1 ' +
-    'Description="Touched comfortable at -50F-140F for 1 dy"',
+    'Description="Touched comfortable between -50F and 140F for 1 dy"',
   'Energy Drain':
     'School=Necromancy ' +
     'Level=C9,W9 ' +
-    'Description="R$RS\' Ranged touch 2d4 negative levels (Fort/level after 1 dy neg, permanent otherwise) (undead +2d4x5 HP for 1 hr)"',
+    'Description="R$RS\' Ranged touch inflicts 2d4 negative levels (Fort/level after 1 dy neg, permanent otherwise) (undead gains 2d4x5 HP for 1 hr)"',
   'Enervation':
     'School=Necromancy ' +
     'Level=W4 ' +
-    'Description="R$RS\' Ranged touch 1d4 negative levels for $L hr (undead +1d4x5 HP for 1 hr)"',
+    'Description="R$RS\' Ranged touch inflicts 1d4 negative levels for $L hr (undead gains 1d4x5 HP for 1 hr)"',
   'Enlarge Person':
     'School=Transmutation ' +
     'Level=Strength1,W1 ' +
-    'Description="R$RS\' Target humanoid dbl size (+2 Str, -2 Dex, -1 attack, -1 AC) for $L min (Fort neg)"',
+    'Description="R$RS\' Target humanoid dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 AC) for $L min (Fort neg)"',
   'Mass Enlarge Person':
     'School=Transmutation ' +
     'Level=W4 ' +
-    'Description="R$RS\' $L target humanoids in 15\' radius dbl size (+2 Str, -2 Dex, -1 attack, -1 AC) for $L min (Fort neg)"',
+    'Description="R$RS\' $L target humanoids in 15\' radius dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 AC) for $L min (Fort neg)"',
   'Entangle':
     'School=Transmutation ' +
     'Level=D1,Plant1,R1 ' +
@@ -2357,19 +2357,19 @@ SRD35.SPELLS = {
   'Ethereal Jaunt':
     'School=Transmutation ' +
     'Level=C7,W7 ' +
-    'Description="Self ethereal for $L rd"',
+    'Description="Self becomes ethereal for $L rd"',
   'Etherealness':
     'School=Transmutation ' +
     'Level=C9,W9 ' +
-    'Description="Self + $Ldiv3 others ethereal for $L min"',
+    'Description="Self and $Ldiv3 others become ethereal for $L min"',
   'Expeditious Retreat':
     'School=Transmutation ' +
     'Level=B1,W1 ' +
-    'Description="Self +30\' Speed for $L min"',
+    'Description="Self gains +30\' Speed for $L min"',
   'Explosive Runes':
     'School=Abjuration ' +
     'Level=W3 ' +
-    'Description="Runes 10\' radius 6d6 HP when read (Ref half, adjacent no save)"',
+    'Description="Runes 10\' radius inflict 6d6 HP when read (Ref half, adjacent no save)"',
   'Eyebite':
     'School=Necromancy ' +
     'Level=B6,W6 ' +
@@ -2378,7 +2378,7 @@ SRD35.SPELLS = {
   'Fabricate':
     'School=Transmutation ' +
     'Level=W5 ' +
-    'Description="R$RS\' Create $L10\' cu ($L\' mineral cu) of finished items from raw materials"',
+    'Description="R$RS\' Creates $L10\' cu ($L\' cu mineral) of finished items from raw materials"',
   'Faerie Fire':
     'School=Evocation ' +
     'Level=D1 ' +
@@ -2386,7 +2386,7 @@ SRD35.SPELLS = {
   'False Life':
     'School=Necromancy ' +
     'Level=Assassin3,W2 ' +
-    'Description="Self +1d10+$Lmin10 temporary HP for $L hr"',
+    'Description="Self gains 1d10+$Lmin10 temporary HP for $L hr"',
   'False Vision':
     'School=Illusion ' +
     'Level=B5,Trickery5,W5 ' +
@@ -2402,7 +2402,7 @@ SRD35.SPELLS = {
   'Feeblemind':
     'School=Enchantment ' +
     'Level=W5 ' +
-    'Description="R$RM\' Target Int and Cha permanently drop to 1 (Will (arcane at -4) neg)"',
+    'Description="R$RM\' Target Intelligence and Charisma permanently drop to 1 (Will (arcane at -4) neg)"',
   'Find The Path':
     'School=Divination ' +
     'Level=B6,C6,D6,Knowledge6,Travel6 ' +
@@ -2410,47 +2410,47 @@ SRD35.SPELLS = {
   'Find Traps':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="Self +$Ldiv2min10 Search to uncover traps for $L min"',
+    'Description="Self gains +$Ldiv2min10 Search to uncover traps for $L min"',
   'Finger Of Death':
     'School=Necromancy ' +
     'Level=D8,W7 ' +
-    'Description="R$RS\' Target slain (Fort 3d6+$L HP)"',
+    'Description="R$RS\' Target slain (Fort suffers 3d6+$L HP)"',
   'Fire Seeds':
     'School=Conjuration ' +
     'Level=D6,Fire6,Sun6 ' +
-    'Description="Touched 4 acorn grenades ${Lmin20}d6 total or 8 berry bombs 1d8+$L in 5\' radius (Ref half) that detonate on command for $L10 min"',
+    'Description="Touched 4 acorn grenades inflict ${Lmin20}d6 total or 8 berry bombs that detonate on command to inflict 1d8+$L in 5\' radius (Ref half) for $L10 min"',
   'Fire Shield':
     'School=Evocation ' +
     'Level=Fire5,Sun4,W4 ' +
-    'Description="Cold or hot flames enveloping self do 1d6+$Lmin15 HP upon foe hit, take half HP from heat or cold attacks (Ref no HP) for $L rd"',
+    'Description="Cold or hot flames enveloping self inflict 1d6+$Lmin15 HP upon foe hit, reduce heat or cold damage by half (Ref no HP) for $L rd"',
   'Fire Storm':
     'School=Evocation ' +
     'Level=C8,D7,Fire7 ' +
-    'Description="R$RM\' $L2 10\' cu ${Lmin20}d6 HP (Ref half)"',
+    'Description="R$RM\' $L2 10\' cu inflicts ${Lmin20}d6 HP (Ref half)"',
   'Fire Trap':
     'School=Abjuration ' +
     'Level=D2,W4 ' +
-    'Description="Touched object 1d4+$Lmin20 HP (Ref half) in 5\' radius when opened"',
+    'Description="Touched object inflicts 1d4+$Lmin20 HP (Ref half) in 5\' radius when opened"',
   'Fireball':
     'School=Evocation ' +
     'Level=W3 ' +
-    'Description="R$RL\' ${Lmin10}d6 HP (Ref half) in 20\' radius"',
+    'Description="R$RL\' Inflicts ${Lmin10}d6 HP (Ref half) in 20\' radius"',
   'Flame Arrow':
     'School=Transmutation ' +
     'Level=W3 ' +
-    'Description="R$RS\' 50 projectiles +1d6 HP for $L10 min"',
+    'Description="R$RS\' 50 projectiles inflict +1d6 HP for $L10 min"',
   'Flame Blade':
     'School=Evocation ' +
     'Level=D2 ' +
-    'Description="Fire melee weapon 1d8+$Ldiv2min10 HP for $L min"',
+    'Description="Fire melee weapon inflicts 1d8+$Ldiv2min10 HP for $L min"',
   'Flame Strike':
     'School=Evocation ' +
     'Level=C5,D4,Sun5,War5 ' +
-    'Description="R$RM\' 10\' radius x 40\' high ${Lmin15}d6 HP (Ref half)"',
+    'Description="R$RM\' 10\' radius x 40\' high inflicts ${Lmin15}d6 HP (Ref half)"',
   'Flaming Sphere':
     'School=Evocation ' +
     'Level=D2,W2 ' +
-    'Description="R$RM\' 5\' diameter sphere 2d6 HP (Ref neg) jump or move 30\' for $L rd"',
+    'Description="R$RM\' 5\' diameter sphere inflicts 2d6 HP (Ref neg), jumps or moves 30\'/rd for $L rd"',
   'Flare':
     'School=Evocation ' +
     'Level=B0,D0,W0 ' +
@@ -2466,7 +2466,7 @@ SRD35.SPELLS = {
   'Fly':
     'School=Transmutation ' +
     'Level=Travel3,W3 ' +
-    'Description="Touched 60\' fly speed for $L min"',
+    'Description="Touched gains 60\' fly speed for $L min"',
   'Fog Cloud':
     'School=Conjuration ' +
     'Level=D2,W2,Water2 ' +
@@ -2474,7 +2474,7 @@ SRD35.SPELLS = {
   'Forbiddance':
     'School=Abjuration ' +
     'Level=C6 ' +
-    'Description="R$RM\' $L 60\' cu bars planar travel, 6d6 or 12d6 HP on transit if alignment differs in 1 or 2 dimensions"',
+    'Description="R$RM\' $L 60\' cu bars planar travel, inflicts 6d6 HP or 12d6 HP on transit if alignment differs in 1 or 2 dimensions"',
   'Forcecage':
     'School=Evocation ' +
     'Level=W7 ' +
@@ -2482,19 +2482,19 @@ SRD35.SPELLS = {
   'Forceful Hand':
     'School=Evocation ' +
     'Level=W6 ' +
-    'Description="R$RM\' 10\' (AC 20, %{hitPoints} HP) hand cover (+4 AC), move 60\', +14 bull rush for $L rd"',
+    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) moves 60\'/rd, gives +4 AC, and performs +14 bull rush for $L rd"',
   'Foresight':
     'School=Divination ' +
     'Level=D9,Knowledge9,W9 ' +
-    'Description="Self sixth sense provides +2 AC, +2 Reflex, never surprised or flat-footed for $L10 min"',
+    'Description="Self gains +2 AC and Reflex and never surprised or flat-footed for $L10 min"',
   "Fox's Cunning":
     'School=Transmutation ' +
     'Level=Assassin2,B2,W2 ' +
-    'Description="Touched +4 Int for $L min"',
+    'Description="Touched gains +4 Intelligence for $L min"',
   "Mass Fox's Cunning":
     'School=Transmutation ' +
     'Level=B6,W6 ' +
-    'Description="R$RS\' $L targets in 15\' radius +4 Int for $L min"',
+    'Description="R$RS\' $L targets in 15\' radius gains +4 Intelligence for $L min"',
   'Freedom':
     'School=Abjuration ' +
     'Level=W9 ' +
@@ -2506,16 +2506,16 @@ SRD35.SPELLS = {
   'Freezing Sphere':
     'School=Evocation ' +
     'Level=W6 ' +
-    'Description="R$RL\' 10\' radius ${Lmin15}d6 HP (Ref half)"',
+    'Description="R$RL\' 10\' radius inflicts ${Lmin15}d6 HP (Ref half)"',
 
   'Gaseous Form':
     'School=Transmutation ' +
     'Level=Air3,B3,W3 ' +
-    'Description="Touched insubstantial (DR 10/magic, immune poison and critical hits, unable to use spell components, fly 10\') for $L2 min"',
+    'Description="Touched becomes insubstantial (DR 10/magic, immune to poison and critical hits, unable to use spell components, fly 10\') for $L2 min"',
   'Gate':
     'School=Conjuration ' +
     'Level=C9,W9 ' +
-    'Description="R$RM\' 5\'-20\' disk connects another plane for conc or $L rd, allows summoning of extraplanar creature"',
+    'Description="R$RM\' 5\' - 20\' disk connects to another plane for conc or $L rd, allows summoning of extraplanar creature"',
   'Geas/Quest':
     'School=Enchantment ' +
     'Level=B6,C6,W6 ' +
@@ -2539,11 +2539,11 @@ SRD35.SPELLS = {
   'Giant Vermin':
     'School=Transmutation ' +
     'Level=C4,D4 ' +
-    'Description="R$RS\' 3 centipedes, 2 spiders, or 1 scorpion in 15\' radius become giant and obey commands for $L min"',
+    'Description="R$RS\' 3 centipedes, 2 spiders, or 1 scorpion in 15\' radius become giant and obey self for $L min"',
   'Glibness':
     'School=Transmutation ' +
     'Level=Assassin4,B3 ' +
-    'Description="Self +30 Bluff, SR $Lplus15 (magical lie detection) for $L10 min"',
+    'Description="Self gains +30 Bluff, SR $Lplus15 (magical lie detection) for $L10 min"',
   'Glitterdust':
     'School=Conjuration ' +
     'Level=B2,W2 ' +
@@ -2551,35 +2551,35 @@ SRD35.SPELLS = {
   'Globe Of Invulnerability':
     'School=Abjuration ' +
     'Level=W6 ' +
-    'Description="Bars spell effects up to 4th level in 10\' radius for $L rd"',
+    'Description="10\' radius bars spell effects up to 4th level for $L rd"',
   'Lesser Globe Of Invulnerability':
     'School=Abjuration ' +
     'Level=W4 ' +
-    'Description="Bars spell effects up to 3rd level in 10\' radius for $L rd"',
+    'Description="10\' radius bars spell effects up to 3rd level for $L rd"',
   'Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C3 ' +
-    'Description="Proscribed creatures who transit $L5 sq\' area trigger ${Ldiv2min5}d8 5\' radius blast (Ref half) or harmful spell up to 3rd level"',
+    'Description="Proscribed creatures who transit $L5 sq\' area trigger ${Ldiv2min5}d8 HP blast in 5\' radius (Ref half) or harmful spell up to 3rd level"',
   'Greater Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C6 ' +
-    'Description="Proscribed creatures who transit $L5 sq\' area trigger ${Ldiv2min10}d8 blast (Ref half) or harmful spell up to 6th level"',
+    'Description="Proscribed creatures who transit $L5 sq\' area trigger ${Ldiv2min10}d8 HP blast in 5\' radius (Ref half) or harmful spell up to 6th level"',
   'Good Hope':
     'School=Enchantment ' +
     'Level=B3 ' +
-    'Description="R$RM\' $L targets in 15\' radius +2 attack, damage, saves, and checks for $L min"',
+    'Description="R$RM\' $L targets in 15\' radius gain +2 attack, damage, saves, and checks for $L min"',
   'Goodberry':
     'School=Transmutation ' +
     'Level=D1 ' +
-    'Description="2d4 berries provide meal and heal 1 HP for $L dy"',
+    'Description="2d4 berries provide a full meal and heal 1 HP for $L dy"',
   'Grasping Hand':
     'School=Evocation ' +
     'Level=Strength7,W7 ' +
-    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) cover (+4 AC), move 60\', +$Lplus14+mod grapple, +16 bull rush for $L rd"',
+    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) moves 60\'/rd, gives +4 AC, and performs +16 bull rush and +$Lplus14+mod grapple for $L rd"',
   'Grease':
     'School=Conjuration ' +
     'Level=B1,W1 ' +
-    'Description="R$RS\' Object or 10\' square slippery, causes falls (Ref DC 10 Balance for half speed) for $L rd"',
+    'Description="R$RS\' Object or 10\' sq becomes slippery, causing falls (Ref DC 10 Balance for half speed), for $L rd"',
   'Guards And Wards':
     'School=Abjuration ' +
     'Level=W6 ' +
@@ -2587,7 +2587,7 @@ SRD35.SPELLS = {
   'Guidance':
     'School=Divination ' +
     'Level=Adept0,C0,D0 ' +
-    'Description="Touched +1 next attack, save, or skill check for 1 min"',
+    'Description="Touched gains +1 next attack, save, or skill check for 1 min"',
   'Gust Of Wind':
     'School=Evocation ' +
     'Level=D2,W2 ' +
@@ -2596,31 +2596,31 @@ SRD35.SPELLS = {
   'Hallow':
     'School=Evocation ' +
     'Level=C5,D5 ' +
-    'Description="40\' radius from touched gives +2 AC and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, grants +4 turn undead bonus, and evokes boon spell"',
+    'Description="40\' radius from touched gives +2 AC and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 turn undead bonus, and evokes boon spell"',
   'Hallucinatory Terrain':
     'School=Illusion ' +
     'Level=B4,W4 ' +
-    'Description="R$RL\' $L 30\' cu terrain illusion (Will disbelieve) for $L2 hr"',
+    'Description="R$RL\' Creates $L 30\' cu terrain illusion (Will disbelieve) for $L2 hr"',
   'Halt Undead':
     'School=Necromancy ' +
     'Level=W3 ' +
-    'Description="R$RM\' 3 undead in 15\' radius immobilized for $L rd (Will neg)"',
+    'Description="R$RM\' Immobilizes 3 undead in 15\' radius for $L rd (Will neg)"',
   'Harm':
     'School=Necromancy ' +
     'Level=C6,Destruction6 ' +
-    'Description="Touched $L10min150 HP (Will half) (heals undead)"',
+    'Description="Touched suffers (undead heals) $L10min150 HP (Will half)"',
   'Haste':
     'School=Transmutation ' +
     'Level=B3,W3 ' +
-    'Description="R$RS\' $L targets in 15\' radius extra attack, +1 attack, AC, and Reflex, +30\' Speed for $L rd"',
+    'Description="R$RS\' $L targets in 15\' radius gain extra attack, +1 attack, AC, and Reflex, and +30\' Speed for $L rd"',
   'Heal':
     'School=Conjuration ' +
     'Level=Adept5,C6,D7,Healing6 ' +
-    'Description="Touched regains $L10min150 HP and removes negative conditions (damages undead)"',
+    'Description="Touched heals (undead suffers) $L10min150 HP and removes negative conditions"',
   'Mass Heal':
     'School=Conjuration ' +
     'Level=C9,Healing9 ' +
-    'Description="R$RS\' Targets in 15\' radius regain $L10min150 HP and remove negative conditions (damages undead)"',
+    'Description="R$RS\' Targets in 15\' radius heal (undead suffer) $L10min150 HP and remove negative conditions"',
   'Heal Mount':
     'School=Conjuration ' +
     'Level=P3 ' +
@@ -2628,31 +2628,31 @@ SRD35.SPELLS = {
   'Heat Metal':
     'School=Transmutation ' +
     'Level=D2,Sun2 ' +
-    'Description="R$RS\' Metal of $Ldiv2 creatures in 15\' radius 0/1/2/2/2/1/0d4 HP for 7 rd (Will neg)"',
+    'Description="R$RS\' Metal on $Ldiv2 creatures in 15\' radius inflicts 0d4/1d4/2d4/2d4/2d4/1d4/0d4 HP for 7 rd (Will neg)"',
   'Helping Hand':
     'School=Evocation ' +
     'Level=C3 ' +
-    'Description="R5 miles ghostly hand leads target to you for 4 hr"',
+    'Description="R5 miles Ghostly hand leads target to self for 4 hr"',
   "Heroes' Feast":
     'School=Conjuration ' +
     'Level=B6,C6 ' +
-    'Description="R$RS\' Food for $L creatures cures sickness and disease, 1d8+$Ldiv2min10 temporary HP, +1 attack and Will saves, immune poison and fear for 12 hr"',
+    'Description="R$RS\' Food for $L creatures cures sickness and disease, gives 1d8+$Ldiv2min10 temporary HP, +1 attack and Will saves and immunity to poison and fear for 12 hr"',
   'Heroism':
     'School=Enchantment ' +
     'Level=B2,W3 ' +
-    'Description="Touched +2 attack, saves, and skill checks for $L10 min"',
+    'Description="Touched gains +2 attack, saves, and skill checks for $L10 min"',
   'Greater Heroism':
     'School=Enchantment ' +
     'Level=B5,W6 ' +
-    'Description="Touched +4 attack, saves, and skill checks, +$Lmin20 HP, immune fear for $L10 min"',
+    'Description="Touched gains +4 attack, saves, and skill checks, +$Lmin20 temporary HP, and immunity to fear for $L10 min"',
   'Hide From Animals':
     'School=Abjuration ' +
     'Level=D1,R1 ' +
-    'Description="$L touched imperceptible to animals for $L10 min"',
+    'Description="$L touched become imperceptible to animals for $L10 min"',
   'Hide From Undead':
     'School=Abjuration ' +
     'Level=C1 ' +
-    'Description="$L touched imperceptible to undead for $L10 min (Will neg)"',
+    'Description="$L touched become imperceptible to undead for $L10 min (Will neg)"',
   'Hideous Laughter':
     'School=Enchantment ' +
     'Level=B1,W2 ' +
@@ -2660,23 +2660,23 @@ SRD35.SPELLS = {
   'Hold Animal':
     'School=Enchantment ' +
     'Level=Animal2,D2,R2 ' +
-    'Description="R$RM\' Target animal immobile for $L rd (Will neg)"',
+    'Description="R$RM\' Immobilizes target animal for $L rd (Will neg)"',
   'Hold Monster':
     'School=Enchantment ' +
     'Level=B4,Law6,W5 ' +
-    'Description="R$RM\' Target immobile for $L rd (Will neg)"',
+    'Description="R$RM\' Immobilizes target for $L rd (Will neg)"',
   'Mass Hold Monster':
     'School=Enchantment ' +
     'Level=W9 ' +
-    'Description="R$RM\' Targets in 15\' radius immobile for $L rd (Will neg)"',
+    'Description="R$RM\' Immobilizes targets in 15\' radius for $L rd (Will neg)"',
   'Hold Person':
     'School=Enchantment ' +
     'Level=B2,C2,W3 ' +
-    'Description="R$RM\' Target humanoid immobile for $L rd (Will neg)"',
+    'Description="R$RM\' Immobilizes target humanoid for $L rd (Will neg)"',
   'Mass Hold Person':
     'School=Enchantment ' +
     'Level=W7 ' +
-    'Description="R$RM\' Targets in 15\' radius immobile for $L rd (Will neg)"',
+    'Description="R$RM\' Immobilizes targets in 15\' radius for $L rd (Will neg)"',
   'Hold Portal':
     'School=Abjuration ' +
     'Level=W1 ' +
@@ -2684,15 +2684,15 @@ SRD35.SPELLS = {
   'Holy Aura':
     'School=Abjuration ' +
     'Level=C8,Good8 ' +
-    'Description="$L creatures in 20\' radius +4 AC and saves, SR 25 (evil), suppress mental control, and striking foes blinded (Fort neg) for $L rd"',
+    'Description="$L creatures in 20\' radius gain +4 AC and saves and SR 25 (evil), suppress mental control, and blind successful evil attacker (Fort neg) for $L rd"',
   'Holy Smite':
     'School=Evocation ' +
     'Level=Good4 ' +
-    'Description="R$RM\' Evil in 20\' radius ${Ldiv2min5}d8 HP and blinded for 1 rd, neutral half (Will half)"',
+    'Description="R$RM\' Evil creatures in 20\' radius suffer ${Ldiv2min5}d8 HP and blindness for 1 rd, neutral half (Will half)"',
   'Holy Sword':
     'School=Evocation ' +
     'Level=P4 ' +
-    'Description="Touched weapon +5 attack and damage, +2d6 damage vs. evil, +2 AC and saves, suppresses mental control, bars contact by evil summoned for $L rd"',
+    'Description="Touched weapon gains +5 attack and damage and +2d6 damage vs. evil, gives +2 AC and saves, suppresses mental control, and bars contact by evil summoned for $L rd"',
   'Holy Word':
     'School=Evocation ' +
     'Level=C7,Good7 ' +
@@ -2700,40 +2700,40 @@ SRD35.SPELLS = {
   'Horrid Wilting':
     'School=Necromancy ' +
     'Level=W8,Water8 ' +
-    'Description="R$RL\' ${Lmin20}d6 HP (${Lmin20}d8 plants or water elementals) in 30\' radius (Fort half)"',
+    'Description="R$RL\' Creatures in 30\' radius suffer ${Lmin20}d6 HP (plants or water elementals ${Lmin20}d8 HP) (Fort half)"',
   'Hypnotic Pattern':
     'School=Illusion ' +
     'Level=B2,W2 ' +
-    'Description="R$RM\' 2d4+$Lmin10 HD of creatures in 10\' radius fascinated for conc + 2 rd (Will neg)"',
+    'Description="R$RM\' Fascinates 2d4+$Lmin10 HD of creatures in 10\' radius for conc + 2 rd (Will neg)"',
   'Hypnotism':
     'School=Enchantment ' +
     'Level=B1,W1 ' +
-    'Description="R$RS\' 2d4 HD of creatures in 15\' radius fascinated and suggestible for 2d4 rd (Will neg, +2 during combat, -2 single target)"',
+    'Description="R$RS\' Fascinates and makes suggestible 2d4 HD of creatures in 15\' radius for 2d4 rd (Will neg, +2 during combat, -2 single target)"',
 
   'Ice Storm':
     'School=Evocation ' +
     'Level=D4,W4,Water5 ' +
-    'Description="R$RL\' Hail in 20\' radius 3d6 HP bludgeoning, 2d6 HP cold, -4 Listen for $L rd"',
+    'Description="R$RL\' Hail in 20\' radius inflicts 3d6 HP bludgeoning, 2d6 HP cold, -4 Listen for $L rd"',
   'Identify':
     'School=Divination ' +
     'Level=B1,Magic2,W1 ' +
-    'Description="Determine magic properties of touched"',
+    'Description="Self determines magic properties of touched"',
   'Illusory Script':
     'School=Illusion ' +
     'Level=Assassin2,B3,W3 ' +
-    'Description="Touched transmits suggestions (max 30 min) to unauthorized readers for $L dy (Will neg)"',
+    'Description="Touched transmits suggestions (30 min max) to unauthorized readers for $L dy (Will neg)"',
   'Illusory Wall':
     'School=Illusion ' +
     'Level=W4 ' +
-    'Description="R$RS\' Permanent illusionary 1\'x10\'x10\' surface (Will disbelieve)"',
+    'Description="R$RS\' Creates permanent illusionary 1\'x10\'x10\' surface (Will disbelieve)"',
   'Imbue With Spell Ability':
     'School=Evocation ' +
     'Level=C4,Magic4 ' +
-    'Description="Touched with 1/3/5 HD can cast specified 1st/2x1st/2x1st+2nd level spells"',
+    'Description="Grants to touched with 1/3/5 HD the ability to cast specified 1st/2x1st/2x1st+2nd level spells"',
   'Implosion':
     'School=Evocation ' +
     'Level=C9,Destruction9 ' +
-    'Description="R$RS\' 1 target/rd slain for conc or $Ldiv2 rd (Fort neg)"',
+    'Description="R$RS\' Slay 1 target/rd for conc or $Ldiv2 rd (Fort neg)"',
   'Imprisonment':
     'School=Abjuration ' +
     'Level=W9 ' +
@@ -2741,51 +2741,51 @@ SRD35.SPELLS = {
   'Incendiary Cloud':
     'School=Conjuration ' +
     'Level=Fire8,W8 ' +
-    'Description="R$RM\' 20\' radius moves away 10\'/rd, 4d6 HP (Ref half) for $L rd"',
+    'Description="R$RM\' Fire in 20\' radius inflicts 4d6 HP (Ref half) while moving away 10\'/rd for $L rd"',
   'Inflict Critical Wounds':
     'School=Necromancy ' +
     'Level=Blackguard4,C4,Destruction4 ' +
-    'Description="Touched damage or heal undead 4d8+$Lmin20 (Will half)"',
+    'Description="Touched suffer (undead heal) 4d8+$Lmin20 (Will half)"',
   'Mass Inflict Critical Wounds':
     'School=Necromancy ' +
     'Level=C8 ' +
-    'Description="R$RS\' $L targets in 15\' radius damage or heal undead 4d8+$Lmin40 (Will half)"',
+    'Description="R$RS\' $L targets in 15\' radius suffer (undead heal) 4d8+$Lmin40 (Will half)"',
   'Inflict Light Wounds':
     'School=Necromancy ' +
     'Level=Blackguard1,C1,Destruction1 ' +
-    'Description="Touched damage or heal undead 1d8+$Lmin5 (Will half)"',
+    'Description="Touched suffer (undead heal) 1d8+$Lmin5 (Will half)"',
   'Mass Inflict Light Wounds':
     'School=Necromancy ' +
     'Level=C5,Destruction5 ' +
-    'Description="R$RS\' $L targets in 15\' radius damage or heal undead 1d8+$Lmin25 (Will half)"',
+    'Description="R$RS\' $L targets in 15\' radius suffer (undead heal) 1d8+$Lmin25 (Will half)"',
   'Inflict Minor Wounds':
     'School=Necromancy ' +
     'Level=C0 ' +
-    'Description="Touched 1 HP (Will neg)"',
+    'Description="Touched suffer (undead heal) 1 HP (Will neg)"',
   'Inflict Moderate Wounds':
     'School=Necromancy ' +
     'Level=Blackguard2,C2 ' +
-    'Description="Touched damage or heal undead 2d8+$Lmin10 (Will half)"',
+    'Description="Touched suffer (undead heal) 2d8+$Lmin10 (Will half)"',
   'Mass Inflict Moderate Wounds':
     'School=Necromancy ' +
     'Level=C6 ' +
-    'Description="R$RS\' $L targets in 15\' radius damage or heal undead 2d8+$Lmin30 (Will half)"',
+    'Description="R$RS\' $L targets in 15\' radius suffer (undead heal) 2d8+$Lmin30 (Will half)"',
   'Inflict Serious Wounds':
     'School=Necromancy ' +
     'Level=Blackguard3,C3 ' +
-    'Description="Touched damage or heal undead 3d8+$Lmin15 (Will half)"',
+    'Description="Touched suffer (undead heal) 3d8+$Lmin15 (Will half)"',
   'Mass Inflict Serious Wounds':
     'School=Necromancy ' +
     'Level=C7 ' +
-    'Description="R$RS\' $L targets in 15\' radius damage or heal undead 3d8+$Lmin35 (Will half)"',
+    'Description="R$RS\' $L targets in 15\' radius suffer (undead heal) 3d8+$Lmin35 (Will half)"',
   'Insanity':
     'School=Enchantment ' +
     'Level=W7 ' +
-    'Description="R$RM\' Target randomly 10% attack caster/10% act normal/30% babble/20% flee/30% attack nearest permanently (Will neg)"',
+    'Description="R$RM\' Target permanently randomly 10% attacks caster/10% acts normal/30% babbles/20% flees/30% attacks nearest (Will neg)"',
   'Insect Plague':
     'School=Conjuration ' +
     'Level=C5,D5 ' +
-    'Description="R$RL\' $Ldiv3min6 locust swarms 2d6 HP for $L min"',
+    'Description="R$RL\' $Ldiv3min6 locust swarms inflict 2d6 HP for $L min"',
   'Instant Summons':
     'School=Conjuration ' +
     'Level=W7 ' +
@@ -2793,7 +2793,7 @@ SRD35.SPELLS = {
   'Interposing Hand':
     'School=Evocation ' +
     'Level=W5 ' +
-    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) cover (+4 AC) for $L rd"',
+    'Description="R$RM\' 10\' hand (AC 20, %{hitPoints} HP) gives +4 AC for $L rd"',
   'Invisibility':
     'School=Illusion ' +
     'Level=Adept2,Assassin2,B2,Trickery2,W2 ' +
@@ -2805,7 +2805,7 @@ SRD35.SPELLS = {
   'Mass Invisibility':
     'School=Illusion ' +
     'Level=W7 ' +
-    'Description="R$RL\' Targets in 90\' radius invisible for $L min or until attacks"',
+    'Description="R$RL\' Creatures in 90\' radius invisible for $L min or until attack"',
   'Invisibility Purge':
     'School=Evocation ' +
     'Level=C3 ' +
@@ -2813,29 +2813,29 @@ SRD35.SPELLS = {
   'Invisibility Sphere':
     'School=Illusion ' +
     'Level=B3,W3 ' +
-    'Description="Creatures in 10\' radius of touched invisible for $L min or until attacks or leave area"',
+    'Description="Creatures in 10\' radius of touched invisible for $L min or until attack or leave area"',
   'Iron Body':
     'School=Transmutation ' +
     'Level=Earth8,W8 ' +
-    'Description="Self becomes iron (+6 Str, -6 Dex, half Speed, 50% arcane failure, -8 skill, DR 15/adamantine, half damage acid and fire, immune other attacks and effects) for $L min"',
+    'Description="Self becomes iron (+6 Strength, -6 Dexterity, half Speed, 50% arcane failure, -8 skill, DR 15/adamantine, half damage from acid and fire, immunity to other attacks and effects) for $L min"',
   'Ironwood':
     'School=Transmutation ' +
     'Level=D6 ' +
-    'Description="Make $L5 lb wood object as strong as steel or $L5div2 lb object strong as steel and +1 magic for $L dy"',
+    'Description="Make $L5 lb wood object as strong as steel or $L5div2 lb object as strong as steel and +1 magic for $L dy"',
   'Irresistible Dance':
     'School=Enchantment ' +
     'Level=B6,W8 ' +
-    'Description="Touched dance (-4 AC, -10 Reflex) for d4+1 rd"',
+    'Description="Touched dances (-4 AC, -10 Reflex) for d4+1 rd"',
 
   'Jump':
     'School=Transmutation ' +
     'Level=Assassin1,D1,R1,W1 ' +
-    'Description="Touched +${lvl<5?10:lvl<9?20:30} jump for $L min"',
+    'Description="Touched +${lvl<5?10:lvl<9?20:30} Jump for $L min"',
 
   'Keen Edge':
     'School=Transmutation ' +
     'Level=W3 ' +
-    'Description="R$RS\' Target piercing or slashing weapon dbl threat range for $L10 min"',
+    'Description="R$RS\' Target piercing or slashing weapon has dbl threat range for $L10 min"',
   'Knock':
     'School=Transmutation ' +
     'Level=W2 ' +
@@ -2843,16 +2843,16 @@ SRD35.SPELLS = {
   'Know Direction':
     'School=Divination ' +
     'Level=B0,D0 ' +
-    'Description="Self determine north"',
+    'Description="Self learns direction of north"',
 
   'Legend Lore':
     'School=Divination ' +
     'Level=B4,Knowledge7,W6 ' +
-    'Description="Self learn legends about target person, place, or object"',
+    'Description="Self learns legends about target person, place, or object"',
   'Levitate':
     'School=Transmutation ' +
     'Level=W2 ' +
-    'Description="R$RS\' Move willing target up or down 20\'/rd for $L min"',
+    'Description="R$RS\' Self moves willing target up and down 20\'/rd for $L min"',
   'Light':
     'School=Evocation ' +
     'Level=Adept0,B0,C0,D0,W0 ' +
@@ -2860,7 +2860,7 @@ SRD35.SPELLS = {
   'Lightning Bolt':
     'School=Evocation ' +
     'Level=Adept3,W3 ' +
-    'Description="120\' bolt ${Lmin10}d6 HP (Ref half)"',
+    'Description="120\' bolt inflicts ${Lmin10}d6 HP (Ref half)"',
   'Limited Wish':
     // 'School=Universal ' +
     'Level=W7 ' +
@@ -2872,44 +2872,44 @@ SRD35.SPELLS = {
   'Locate Creature':
     'School=Divination ' +
     'Level=Assassin4,B4,W4 ' +
-    'Description="Self sense direction of creature or kind in $RL\' radius for $L10 min"',
+    'Description="Self senses direction of creature or kind in $RL\' radius for $L10 min"',
   'Locate Object':
     'School=Divination ' +
     'Level=B2,C3,Travel2,W2 ' +
-    'Description="Self sense direction of object or type in $RL\' radius for $L min"',
+    'Description="Self senses direction of object or type in $RL\' radius for $L min"',
   'Longstrider':
     'School=Transmutation ' +
     'Level=D1,R1,Travel1 ' +
-    'Description="Self +10\' Speed for $L hr"',
+    'Description="Self gains +10\' Speed for $L hr"',
   'Lullaby':
     'School=Enchantment ' +
     'Level=B0 ' +
-    'Description="R$RM\' Targets in 10\' radius -5 Listen and Spot, -2 Will vs. sleep for conc + $L rd (Will neg)"',
+    'Description="R$RM\' Creatures in 10\' radius suffer -5 Listen and Spot, -2 Will vs. sleep for conc + $L rd (Will neg)"',
 
   'Mage Armor':
     'School=Conjuration ' +
     'Level=W1 ' +
-    'Description="Touched +4 AC for $L hr"',
+    'Description="Touched gains +4 AC for $L hr"',
   'Mage Hand':
     'School=Transmutation ' +
     'Level=B0,W0 ' +
-    'Description="R$RS\' Move target up to 5 lb 15\'/rd for conc"',
+    'Description="R$RS\' Self moves up to 5 lb target 15\'/rd for conc"',
   "Mage's Disjunction":
     'School=Abjuration ' +
     'Level=Magic9,W9 ' +
-    'Description="R$RS\' 40\' radius dispelled, magic items disenchanted, $L% chance to disenchant artifacts or destroy antimagic field (Will neg)"',
+    'Description="R$RS\' Spells in 40\' radius dispelled, magic items disenchanted, $L% chance to disenchant artifacts or destroy antimagic field (Will neg)"',
   "Mage's Faithful Hound":
     'School=Conjuration ' +
     'Level=W5 ' +
-    'Description="R$RS\' Invisible dog barks at intruders w/in 30\', bites (+10 2d6+3) w/in 5\' for $L hr or triggered + $L rd"',
+    'Description="R$RS\' Invisible dog barks at intruders w/in 30\', bites (+10 2d6+3) those w/in 5\' for $L hr or until triggered + $L rd"',
   "Mage's Lucubration":
     'School=Transmutation ' +
     'Level=W6 ' +
-    'Description="Recalls spell up to 5th level from past day"',
+    'Description="Self recalls spell up to 5th level from past day"',
   "Mage's Magnificent Mansion":
     'School=Conjuration ' +
     'Level=W7 ' +
-    'Description="R$RS\' Door to extradimensional mansion for $L2 hr"',
+    'Description="R$RS\' Creates door to extradimensional mansion for $L2 hr"',
   "Mage's Private Sanctum":
     'School=Abjuration ' +
     'Level=W5 ' +
@@ -2917,71 +2917,71 @@ SRD35.SPELLS = {
   "Mage's Sword":
     'School=Evocation ' +
     'Level=W7 ' +
-    'Description="R$RS\' Unattended force blade attacks (+$Lplus3+mod 4d6+3 HP x2@19) for $L rd"',
+    'Description="R$RS\' Unattended force blade +$Lplus3+mod attack inflicts 4d6+3 HP x2@19 for $L rd"',
   'Magic Aura':
     'School=Illusion ' +
     'Level=B1,Magic1,W1 ' +
-    'Description="Alters aura of target object up to $L5 lb for $L dy"',
+    'Description="Alter aura of up to $L5 lb object for $L dy"',
   'Magic Circle Against Chaos':
     'School=Abjuration ' +
     'Level=C3,Law3,P3,W3 ' +
-    'Description="10\' radius from touched +2 AC, +2 saves, suppresses mental control, no contact and bar entry (SR neg) by nonlawful summoned creatures for $L10 min"',
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for $L10 min"',
   'Magic Circle Against Evil':
     'School=Abjuration ' +
     'Level=C3,Good3,P3,W3 ' +
-    'Description="10\' radius from touched +2 AC, +2 saves, suppresses mental control, no contact and bar entry (SR neg) by nongood summoned creatures for $L10 min"',
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for $L10 min"',
   'Magic Circle Against Good':
     'School=Abjuration ' +
     'Level=Assassin3,C3,Evil3,W3 ' +
-    'Description="10\' radius from touched +2 AC, +2 saves, suppresses mental control, no contact and bar entry (SR neg) by nonevil summoned creatures for $L10 min"',
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for $L10 min"',
   'Magic Circle Against Law':
     'School=Abjuration ' +
     'Level=C3,Chaos3,W3 ' +
-    'Description="10\' radius from touched +2 AC, +2 saves, suppresses mental control, no contact and bar entry (SR neg) by nonchaotic summoned creatures for $L10 min"',
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for $L10 min"',
   'Magic Fang':
     'School=Transmutation ' +
     'Level=D1,R1 ' +
-    'Description="Touched natural weapon +1 attack and damage for $L min"',
+    'Description="Touched natural weapon gains +1 attack and damage for $L min"',
   'Greater Magic Fang':
     'School=Transmutation ' +
     'Level=D3,R3 ' +
-    'Description="R$RS\' target natural weapon +$Ldiv4min4 attack and damage for $L hr"',
+    'Description="R$RS\' target natural weapon gains +$Ldiv4min4 attack and damage for $L hr"',
   'Magic Jar':
     'School=Necromancy ' +
     'Level=W5 ' +
-    'Description="R$RM\' Self possess target for $L hr (Will neg)"',
+    'Description="R$RM\' Self possesses target for $L hr (Will neg)"',
   'Magic Missile':
     'School=Evocation ' +
     'Level=W1 ' +
-    'Description="R$RM\' $Lplus1div2min5 missiles 1d4+1 HP in 15\' radius"',
+    'Description="R$RM\' $Lplus1div2min5 missiles inflict 1d4+1 HP each in 15\' radius"',
   'Magic Mouth':
     'School=Illusion ' +
     'Level=B1,W2 ' +
-    'Description="R$RS\' Mouth speaks 25 words upon trigger w/in $L15\' (Will neg)"',
+    'Description="R$RS\' Mouth appears and speaks 25 words upon trigger w/in $L15\' (Will neg)"',
   'Magic Stone':
     'School=Transmutation ' +
     'Level=C1,D1,Earth1 ' +
-    'Description="3 touched stones +1 attack, 1d6+1 HP (2d6+2 vs. undead) for 30 min"',
+    'Description="3 touched stones attack at +1, inflict 1d6+1 HP (2d6+2 HP vs. undead) for 30 min"',
   'Magic Vestment':
     'School=Transmutation ' +
     'Level=C3,Strength3,War3 ' +
-    'Description="Touched armor, shield, or clothing +$Ldiv4min5 AC for $L hr"',
+    'Description="Touched armor, shield, or clothing gives +$Ldiv4min5 AC for $L hr"',
   'Magic Weapon':
     'School=Transmutation ' +
     'Level=Blackguard1,C1,P1,W1,War1 ' +
-    'Description="Touched weapon +1 attack and damage for $L min"',
+    'Description="Touched weapon gains +1 attack and damage for $L min"',
   'Greater Magic Weapon':
     'School=Transmutation ' +
     'Level=C4,P3,W3 ' +
-    'Description="R$RS\' target weapon +$Ldiv4min4 attack and damage for $L hr"',
+    'Description="R$RS\' target weapon gains +$Ldiv4min4 attack and damage for $L hr"',
   'Major Creation':
     'School=Conjuration ' +
     'Level=Adept5,W5 ' +
-    'Description="R$RS\' Create $L\' cu plant or mineral object for up to $L2 hr"',
+    'Description="R$RS\' Creates $L\' cu plant or mineral object for up to $L2 hr"',
   'Major Image':
     'School=Illusion ' +
     'Level=B3,W3 ' +
-    'Description="R$RL\' $Lplus4 10\' cu image w/sound, smell, thermal (Will disbelieve) for conc + 3 rd"',
+    'Description="R$RL\' Creates $Lplus4 10\' cu image w/sound, smell, and thermal effects (Will disbelieve) for conc + 3 rd"',
   'Make Whole':
     'School=Transmutation ' +
     'Level=C2 ' +
@@ -2989,15 +2989,15 @@ SRD35.SPELLS = {
   'Mark Of Justice':
     'School=Necromancy ' +
     'Level=C5,P4 ' +
-    'Description="Touched upon trigger gains permanent -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action"',
+    'Description="Touched upon trigger permanently suffers self choice of -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action"',
   'Maze':
     'School=Conjuration ' +
     'Level=W8 ' +
-    'Description="R$RS\' Target in extradimensional maze for 10 min or until DC 20 Int check"',
+    'Description="R$RS\' Target becomes lost in extradimensional maze for 10 min or until DC 20 Int check"',
   'Meld Into Stone':
     'School=Transmutation ' +
     'Level=C3,D3 ' +
-    'Description="Self pass into stone for $L10 min"',
+    'Description="Self passes into stone for $L10 min"',
   'Mending':
     'School=Transmutation ' +
     'Level=Adept0,B0,C0,D0,W0 ' +
@@ -3005,59 +3005,59 @@ SRD35.SPELLS = {
   'Message':
     'School=Transmutation ' +
     'Level=B0,W0 ' +
-    'Description="R$RM\' $L targets $L10-min whispered dialogue"',
+    'Description="R$RM\' $L targets hold $L10-min whispered dialogue"',
   'Meteor Swarm':
     'School=Evocation ' +
     'Level=W9 ' +
-    'Description="R$RL\' 4 spheres 6d6 HP fire 40\' radius (Ref half), ranged touch +2d6 HP bludgeoning"',
+    'Description="R$RL\' 4 spheres inflict 6d6 HP fire in 40\' radius (Ref half), ranged touch +2d6 HP bludgeoning"',
   'Mind Blank':
     'School=Abjuration ' +
     'Level=Protection8,W8 ' +
-    'Description="R$RS\' Target immune divination and mental effects for 1 dy"',
+    'Description="R$RS\' Target gains immunity to divination and mental effects for 1 dy"',
   'Mind Fog':
     'School=Enchantment ' +
     'Level=B5,W5 ' +
-    'Description="R$RM\' Fog in 20\' radius causes -10 Wis and Will checks for 30 min (Will neg)"',
+    'Description="R$RM\' Fog in 20\' radius imposes -10 Wis and Will checks for 30 min (Will neg)"',
   'Minor Creation':
     'School=Conjuration ' +
     'Level=Adept4,W4 ' +
-    'Description="Create a $L\' cu plant object lasting $L hr"',
+    'Description="Creates a $L\' cu plant object lasting $L hr"',
   'Minor Image':
     'School=Illusion ' +
     'Level=B2,W2 ' +
-    'Description="R$RL\' $Lplus4 10\' cu image w/sound (Will disbelieve) for conc + 2 rd"',
+    'Description="R$RL\' Creates $Lplus4 10\' cu image w/sound (Will disbelieve) for conc + 2 rd"',
   'Miracle':
     'School=Evocation ' +
     'Level=C9,Luck9 ' +
-    'Description="Request deity intercession"',
+    'Description="Requests deity intercession"',
   'Mirage Arcana':
     'School=Illusion ' +
     'Level=B5,W5 ' +
-    'Description="R$RL\' $L 20\' cu terrain or structure illusion (Will disbelieve) for conc + $L hr"',
+    'Description="R$RL\' Creates $L 20\' cu terrain or structure illusion (Will disbelieve) for conc + $L hr"',
   'Mirror Image':
     'School=Illusion ' +
     'Level=Adept2,B2,W2 ' +
-    'Description="1d4+$Ldiv3min8 self decoys mislead attacks for $L min"',
+    'Description="Creates 1d4+$Ldiv3min8 self copies that mislead attacks for $L min"',
   'Misdirection':
     'School=Illusion ' +
     'Level=Assassin3,B2,W2 ' +
-    'Description="R$RS\' Divinations upon target redirected for $L hr"',
+    'Description="R$RS\' Redirects divinations upon target for $L hr"',
   'Mislead':
     'School=Illusion ' +
     'Level=B5,Luck6,Trickery6,W6 ' +
-    'Description="R$RS\' Self invisible $L rd, false double (Will disbelieve) for conc + 3 rd"',
+    'Description="R$RS\' Make self invisible for $L rd, creates false double (Will disbelieve) for conc + 3 rd"',
   'Mnemonic Enhancer':
     'School=Transmutation ' +
     'Level=W4 ' +
-    'Description="Self know +3 spell levels or retain just-cast spell up to 3rd level for 1 dy"',
+    'Description="Self memorizes +3 spell levels or retains just-cast spell up to 3rd level for 1 dy"',
   'Modify Memory':
     'School=Enchantment ' +
     'Level=Assassin4,B4 ' +
-    'Description="R$RS\' Change 5 min of target\'s memory (Will neg)"',
+    'Description="R$RS\' Changes 5 min of target\'s memory (Will neg)"',
   'Moment Of Prescience':
     'School=Divination ' +
     'Level=Luck8,W8 ' +
-    'Description="Self +$Lmin25 attack, check, save once w/in $L hr"',
+    'Description="Self gains +$Lmin25 attack, check, or save once w/in $L hr"',
   'Mount':
     'School=Conjuration ' +
     'Level=W1 ' +
@@ -3074,16 +3074,16 @@ SRD35.SPELLS = {
   'Nightmare':
     'School=Illusion ' +
     'Level=B5,W5 ' +
-    'Description="Target 1d10 HP and fatigue (Will neg (modified for familiarity w/target))"',
+    'Description="Target suffers 1d10 HP and fatigue (Will neg (modified for familiarity w/target))"',
   'Nondetection':
     'School=Abjuration ' +
     'Level=Assassin3,R4,Trickery3,W3 ' +
-    'Description="Touched SR $Lplus11 (divination) (or self SR $Lplus15) for $L hr"',
+    'Description="Touched gains SR $Lplus11 (divination) (or self gains SR $Lplus15) for $L hr"',
 
   'Obscure Object':
     'School=Abjuration ' +
     'Level=B1,C3,W2 ' +
-    'Description="Touched immune to divination for 8 hr (Will neg)"',
+    'Description="Touched gains immunity to divination for 8 hr (Will neg)"',
   'Obscuring Mist':
     'School=Conjuration ' +
     'Level=Adept1,Air1,Assassin1,C1,D1,W1,Water1 ' +
@@ -3095,19 +3095,19 @@ SRD35.SPELLS = {
   "Order's Wrath":
     'School=Evocation ' +
     'Level=Law4 ' +
-    'Description="R$RM\' Chaotic w/in 30\' cu ${Ldiv2min5}d8 HP and dazed for 1 rd, neutral half (Will half)"',
+    'Description="R$RM\' Chaotic w/in 30\' cu suffer ${Ldiv2min5}d8 HP and are dazed for 1 rd, neutral half (Will half)"',
   'Overland Flight':
     'School=Transmutation ' +
     'Level=W5 ' +
-    'Description="Self 40\' fly speed for $L hr"',
+    'Description="Self gains 40\' fly speed for $L hr"',
   "Owl's Wisdom":
     'School=Transmutation ' +
     'Level=C2,D2,P2,R2,W2 ' +
-    'Description="Touched +4 Wis for $L min"',
+    'Description="Touched gains +4 Wisdom for $L min"',
   "Mass Owl's Wisdom":
     'School=Transmutation ' +
     'Level=C6,D6,W6 ' +
-    'Description="R$RS\' $L targets in 15\' radius +4 Wis for $L min"',
+    'Description="R$RS\' $L targets in 15\' radius gain +4 Wisdom for $L min"',
 
   'Pass Without Trace':
     'School=Transmutation ' +
@@ -3116,27 +3116,27 @@ SRD35.SPELLS = {
   'Passwall':
     'School=Transmutation ' +
     'Level=W5 ' +
-    'Description="8\'x5\'x$Lminus9max0div3times5plus10\' passage through wood, stone, or plaster for $L hr"',
+    'Description="Creates 8\'x5\'x$Lminus9max0div3times5plus10\' passage through wood, stone, or plaster for $L hr"',
   'Permanency':
     // 'School=Universal ' +
     'Level=W5 ' +
-    'Description="Make certain spells permanent"',
+    'Description="Makes certain spells permanent"',
   'Permanent Image':
     'School=Illusion ' +
     'Level=B6,W6 ' +
-    'Description="R$RL\' $Lplus8 10\' cu image w/sound, smell, thermal (Will disbelieve)"',
+    'Description="R$RL\' Creates $Lplus8 10\' cu image w/sound, smell, and thermal effects (Will disbelieve)"',
   'Persistent Image':
     'School=Illusion ' +
     'Level=B5,W5 ' +
-    'Description="R$RL\' $Lplus4 10\' cu scripted image w/sound, smell, thermal (Will disbelieve) for $L min"',
+    'Description="R$RL\' Creates $Lplus4 10\' cu scripted image w/sound, smell, and thermal effects (Will disbelieve) for $L min"',
   'Phantasmal Killer':
     'School=Illusion ' +
     'Level=W4 ' +
-    'Description="R$RM\' Fears of target create creature (Will neg), touch kills (Fort 3d6 HP)"',
+    'Description="R$RM\' Fears of target create creature (Will neg) whose touch kills target (Fort suffers 3d6 HP)"',
   'Phantom Steed':
     'School=Conjuration ' +
     'Level=B3,W3 ' +
-    'Description="Create mount ($Lplus7 HP, AC 18, MV $L20min240\') for target for $L hr"',
+    'Description="Creates mount ($Lplus7 HP, AC 18, MV $L20min240\') that only target can ride for $L hr"',
   'Phantom Trap':
     'School=Illusion ' +
     'Level=W2 ' +
@@ -3144,31 +3144,31 @@ SRD35.SPELLS = {
   'Phase Door':
     'School=Conjuration ' +
     'Level=Travel8,W7 ' +
-    'Description="$Ldiv2 passes through 8\'x5\'x$Lminus9max0div3times5plus10\' wood, stone, or plaster $Ldiv2 times, adding another creature uses a pass"',
+    'Description="Allows $Ldiv2 passes through 8\'x5\'x$Lminus9max0div3times5plus10\' wood, stone, or plaster; adding another creature uses a pass"',
   'Planar Ally':
     'School=Conjuration ' +
     'Level=C6 ' +
-    'Description="Purchase service from extraplanar creature w/up to 12 HD"',
+    'Description="Self purchases service from extraplanar creature w/up to 12 HD"',
   'Greater Planar Ally':
     'School=Conjuration ' +
     'Level=C8 ' +
-    'Description="Purchase service from extraplanar creature w/up to 18 HD"',
+    'Description="Self purchases service from extraplanar creature w/up to 18 HD"',
   'Lesser Planar Ally':
     'School=Conjuration ' +
     'Level=C4 ' +
-    'Description="Purchase service from extraplanar creature w/up to 6 HD"',
+    'Description="Self purchases service from extraplanar creature w/up to 6 HD"',
   'Planar Binding':
     'School=Conjuration ' +
     'Level=W6 ' +
-    'Description="Extraplanar creature(s) w/up to 12 HD trapped (Will neg) until escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or performs a task (Opposed Cha neg)"',
+    'Description="Traps extraplanar creature(s) w/up to 12 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Cha neg)"',
   'Greater Planar Binding':
     'School=Conjuration ' +
     'Level=W8 ' +
-    'Description="Extraplanar creature(s) w/up to 18 HD trapped (Will neg) until escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or performs a task (Opposed Cha neg)"',
+    'Description="Traps extraplanar creature(s) w/up to 18 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Cha neg)"',
   'Lesser Planar Binding':
     'School=Conjuration ' +
     'Level=W5 ' +
-    'Description="Extraplanar creature(s) w/up to 6 HD trapped (Will neg) until escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or performs a task (Opposed Cha neg)"',
+    'Description="Traps extraplanar creature(s) w/up to 6 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Cha neg)"',
   'Plane Shift':
     'School=Conjuration ' +
     'Level=C5,W7 ' +
@@ -3180,11 +3180,11 @@ SRD35.SPELLS = {
   'Poison':
     'School=Necromancy ' +
     'Level=Assassin4,Blackguard4,C4,D3 ' +
-    'Description="Touched 1d10 Con, +1d10 Con after 1 min (DC %{10+casterLevel//2+wisdomModifier} Fort neg)"',
+    'Description="Touched suffers -1d10 Constitution immediately and again after 1 min (DC %{10+casterLevel//2+wisdomModifier} Fort neg)"',
   'Polar Ray':
     'School=Evocation ' +
     'Level=W8 ' +
-    'Description="R$RS\' Ranged touch ${Lmin25}d6 HP"',
+    'Description="R$RS\' Ranged touch inflicts ${Lmin25}d6 HP"',
   'Polymorph':
     'School=Transmutation ' +
     'Level=Adept4,W4 ' +
@@ -3200,7 +3200,7 @@ SRD35.SPELLS = {
   'Power Word Kill':
     'School=Enchantment ' +
     'Level=War9,W9 ' +
-    'Description="R$RS\' Slay one creature w/up to 100 HP"',
+    'Description="R$RS\' Slays one creature w/up to 100 HP"',
   'Power Word Stun':
     'School=Enchantment ' +
     'Level=W8,War8 ' +
@@ -3208,15 +3208,15 @@ SRD35.SPELLS = {
   'Prayer':
     'School=Enchantment ' +
     'Level=C3,P3 ' +
-    'Description="Allies in 40\' radius +1 attack, damage, save, and skill, foes -1 for $L rd"',
+    'Description="Allies in 40\' radius gain +1 attack, damage, save, and skill, foes suffer -1 for $L rd"',
   'Prestidigitation':
     // 'School=Universal ' +
     'Level=B0,Gnomish0,W0 ' +
-    'Description="R10\' Perform minor tricks for 1 hr"',
+    'Description="R10\' Self performs minor tricks for 1 hr"',
   'Prismatic Sphere':
     'School=Abjuration ' +
     'Level=Protection9,Sun9,W9 ' +
-    'Description="10\' sphere blocks attacks and harms attackers, blinds viewers w/up to 7 HD w/in 20\' for 2d4x10 min for $L10 min"',
+    'Description="10\' sphere blocks attacks and harms attackers, blinds viewers w/in 20\' w/up to 7 HD for 2d4x10 min for $L10 min"',
   'Prismatic Spray':
     'School=Evocation ' +
     'Level=W7 ' +
@@ -3224,47 +3224,47 @@ SRD35.SPELLS = {
   'Prismatic Wall':
     'School=Abjuration ' +
     'Level=W8 ' +
-    'Description="R$RS\' $L4\'x$L2\' wall blocks attacks and harms attackers, blinds viewers w/up to to 8 HD w/in 20\' for 2d4 rd for $L10 min"',
+    'Description="R$RS\' $L4\'x$L2\' wall blocks attacks and harms attackers, blinds viewers w/in 20\' w/up to to 8 HD for 2d4 rd for $L10 min"',
   'Produce Flame':
     'School=Evocation ' +
     'Level=D1,Fire2 ' +
-    'Description="Throwable torch flames 1d6+$Lmin5 HP for $L min"',
+    'Description="Create throwable torch flames that inflict 1d6+$Lmin5 HP for $L min"',
   'Programmed Image':
     'School=Illusion ' +
     'Level=B6,W6 ' +
-    'Description="R$RL\' $Lplus8 10\' cu image w/sound, smell, thermal (Will disbelieve) for $L rd once triggered"',
+    'Description="R$RL\' Create $Lplus8 10\' cu image w/sound, smell, and thermal effects (Will disbelieve) for $L rd once triggered"',
   'Project Image':
     'School=Illusion ' +
     'Level=B6,W7 ' +
-    'Description="R$RM\' See and cast through illusory double for $L rd (Will disbelieve)"',
+    'Description="R$RM\' Self sees and casts through illusory double for $L rd (Will disbelieve)"',
   'Protection From Arrows':
     'School=Abjuration ' +
     'Level=W2 ' +
-    'Description="Touched DR 10/magic vs. ranged for $L hr or $L10min100 HP"',
+    'Description="Touched gains DR 10/magic vs. ranged for $L hr or $L10min100 HP"',
   'Protection From Chaos':
     'School=Abjuration ' +
     'Level=Adept1,C1,Law1,P1,W1 ' +
-    'Description="Touched +2 AC, +2 saves, suppress mental control, no contact by nonlawful summoned creatures for $L min"',
+    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonlawful summoned creatures for $L min"',
   'Protection From Energy':
     'School=Abjuration ' +
     'Level=Blackguard3,C3,D3,Luck3,Protection3,R2,W3 ' +
-    'Description="Touched resistance $L12min120 to chosen energy for $L10 min"',
+    'Description="Touched gains resistance $L12min120 to chosen energy for $L10 min"',
   'Protection From Evil':
     'School=Abjuration ' +
     'Level=Adept1,C1,Good1,P1,W1 ' +
-    'Description="Touched +2 AC, +2 saves, suppress mental control, no contact by nongood summoned creatures for $L min"',
+    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nongood summoned creatures for $L min"',
   'Protection From Good':
     'School=Abjuration ' +
     'Level=Adept1,C1,Evil1,W1 ' +
-    'Description="Touched +2 AC, +2 saves, suppress mental control, no contact by nonevil summoned creatures for $L min"',
+    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonevil summoned creatures for $L min"',
   'Protection From Law':
     'School=Abjuration ' +
     'Level=Adept1,C1,Chaos1,W1 ' +
-    'Description="Touched +2 AC, +2 saves, suppress mental control, no contact by nonchaotic summoned creatures for $L min"',
+    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonchaotic summoned creatures for $L min"',
   'Protection From Spells':
     'School=Abjuration ' +
     'Level=Magic8,W8 ' +
-    'Description="Touched +8 spell saves for $L10 min"',
+    'Description="Touched gains +8 saves vs. spells for $L10 min"',
   'Prying Eyes':
     'School=Divination ' +
     'Level=W5 ' +
@@ -3276,57 +3276,57 @@ SRD35.SPELLS = {
   'Purify Food And Drink':
     'School=Transmutation ' +
     'Level=Adept0,C0,D0 ' +
-    'Description="R10\' Make $L\' cu food and water safe (Will neg)"',
+    'Description="R10\' Makes $L\' cu food and water safe (Will neg)"',
   'Pyrotechnics':
     'School=Transmutation ' +
     'Level=B2,W2 ' +
-    'Description="R$RL\' Fire becomes fireworks (120\' blinded for 1d4+1 rd (Will neg)) or choking smoke in 20\' radius (-4 Str and Dex for d4+1 rd (Fort neg)) for $L rd"',
+    'Description="R$RL\' Target fire becomes fireworks (R120\' blinded for 1d4+1 rd (Will neg)) or choking smoke in 20\' radius (suffer -4 Strength and Dexterity for d4+1 rd (Fort neg)) for $L rd"',
 
   'Quench':
     'School=Transmutation ' +
     'Level=D3 ' +
-    'Description="R$RM\' Extinguish fire, dispel fire magic, or ${Lmin10}d6 HP to fire creatures in $L 20\' cu"',
+    'Description="R$RM\' Extinguishes fire, dispels fire magic, or inflicts ${Lmin10}d6 HP to fire creatures in $L 20\' cu"',
 
   'Rage':
     'School=Enchantment ' +
     'Level=B2,W3 ' +
-    'Description="R$RM\' $Ldiv3 willing targets in 15\' radius +2 Str, +2 Con, +1 Will, -2 AC for conc + $L rd"',
+    'Description="R$RM\' $Ldiv3 willing targets in 15\' radius gain +2 Strength and Constitution, +1 Will, suffer -2 AC for conc + $L rd"',
   'Rainbow Pattern':
     'School=Illusion ' +
     'Level=B4,W4 ' +
-    'Description="R$RM\' 24 HD of creatures in 20\' radius fascinated for conc + $L rd (Will neg)"',
+    'Description="R$RM\' Fascinates 24 HD of creatures in 20\' radius for conc + $L rd (Will neg)"',
   'Raise Dead':
     'School=Conjuration ' +
     'Level=Adept5,C5 ' +
-    'Description="Restores willing target dead up to $L dy to its touched corpse"',
+    'Description="Restores willing soul, dead up to $L dy, to its touched corpse"',
   'Ray Of Enfeeblement':
     'School=Necromancy ' +
     'Level=W1 ' +
-    'Description="R$RS\' Ranged touch 1d6+$Ldiv2min5 Str for $L min"',
+    'Description="R$RS\' Ranged touch inflicts -1d6+$Ldiv2min5 Strength for $L min"',
   'Ray Of Exhaustion':
     'School=Necromancy ' +
     'Level=W3 ' +
-    'Description="R$RS\' Ranged touch causes exhaustion for $L min (Fort fatigued)"',
+    'Description="R$RS\' Ranged touch inflicts exhaustion for $L min (Fort fatigued)"',
   'Ray Of Frost':
     'School=Evocation ' +
     'Level=W0 ' +
-    'Description="R$RS\' Ranged touch 1d3 HP"',
+    'Description="R$RS\' Ranged touch inflicts 1d3 HP"',
   'Read Magic':
     'School=Divination ' +
     'Level=Adept0,B0,C0,D0,P1,R1,W0 ' +
-    'Description="Self read magical writing for $L10 min"',
+    'Description="Self reads magical writing for $L10 min"',
   'Reduce Animal':
     'School=Transmutation ' +
     'Level=D2,R3 ' +
-    'Description="Touched willing animal half size (-2 Str, +2 Dex, +1 attack, +1 AC) for $L hr"',
+    'Description="Touched willing animal becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) for $L hr"',
   'Reduce Person':
     'School=Transmutation ' +
     'Level=W1 ' +
-    'Description="R$RS\' Target humanoid half size (-2 Str, +2 Dex, +1 attack, +1 AC) for $L min (Fort neg) for $L min"',
+    'Description="R$RS\' Target humanoid becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) for $L min (Fort neg)"',
   'Mass Reduce Person':
     'School=Transmutation ' +
     'Level=W4 ' +
-    'Description="R$RS\' $L target humanoids in 15\' radius half size (-2 Str, +2 Dex, +1 attack, +1 AC) for $L min (Fort neg)"',
+    'Description="R$RS\' $L target humanoids in 15\' radius become half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) for $L min (Fort neg)"',
   'Refuge':
     'School=Conjuration ' +
     'Level=C7,W9 ' +
@@ -3334,11 +3334,11 @@ SRD35.SPELLS = {
   'Regenerate':
     'School=Conjuration ' +
     'Level=C7,D9,Healing7 ' +
-    'Description="Touched regrow maims, heal 4d8+$Lmin35 HP, eliminate fatigue, exhaustion, and nonlethal damage"',
+    'Description="Touched regrows maims, heals 4d8+$Lmin35 HP, eliminates fatigue, exhaustion, and nonlethal damage"',
   'Reincarnate':
     'School=Transmutation ' +
     'Level=D4 ' +
-    'Description="Restore willing target dead up to 1 week to full health in any touched body"',
+    'Description="Restores willing soul, dead up to 1 week, to full health in a generated body"',
   'Remove Blindness/Deafness':
     'School=Conjuration ' +
     'Level=C3,P3 ' +
@@ -3354,11 +3354,11 @@ SRD35.SPELLS = {
   'Remove Fear':
     'School=Abjuration ' +
     'Level=B1,C1 ' +
-    'Description="R$RS\' $Ldiv4plus1 targets in 15\' radius +4 vs. fear, existing fear suppressed for 10 min"',
+    'Description="R$RS\' $Ldiv4plus1 targets in 15\' radius gain +4 vs. fear, suppress existing fear for 10 min"',
   'Remove Paralysis':
     'School=Conjuration ' +
     'Level=C2,P2 ' +
-    'Description="R$RS\' Frees one target from paralysis or slow, 2/3/4 targets extra save at +4/+2/+2"',
+    'Description="R$RS\' Frees one target from paralysis or slow, 2/3/4 targets get extra save at +4/+2/+2"',
   'Repel Metal Or Stone':
     'School=Abjuration ' +
     'Level=D8 ' +
@@ -3366,7 +3366,7 @@ SRD35.SPELLS = {
   'Repel Vermin':
     'School=Abjuration ' +
     'Level=B4,C4,D4,R3 ' +
-    'Description="10\' radius bars vermin (Will neg for $Ldiv3 HD or more 2d6 HP) for $L10 min"',
+    'Description="10\' radius bars vermin (Will neg for $Ldiv3 HD or more suffers 2d6 HP) for $L10 min"',
   'Repel Wood':
     'School=Transmutation ' +
     'Level=D6,Plant6 ' +
@@ -3382,11 +3382,11 @@ SRD35.SPELLS = {
   'Resist Energy':
     'School=Abjuration ' +
     'Level=Adept2,C2,D2,Fire3,P2,R1,W2 ' +
-    'Description="Touched resistance ${lvl>10?30:lvl>6?20:10} to chosen energy for $L10 min"',
+    'Description="Touched gains resistance ${lvl>10?30:lvl>6?20:10} to chosen energy for $L10 min"',
   'Resistance':
     'School=Abjuration ' +
     'Level=B0,C0,D0,P1,W0 ' +
-    'Description="Touched +1 saves for 1 min"',
+    'Description="Touched gains +1 saves for 1 min"',
   'Restoration':
     'School=Conjuration ' +
     'Level=Adept4,C4,P4 ' +
@@ -3398,11 +3398,11 @@ SRD35.SPELLS = {
   'Lesser Restoration':
     'School=Conjuration ' +
     'Level=C2,D2,P1 ' +
-    'Description="Dispels magical ability harm from touched or heals 1d4 temporary ability damage, removes fatigue, reduces exhaustion"',
+    'Description="Dispels magical ability harm from touched or heals 1d4 temporary ability damage, removes fatigue, and reduces exhaustion"',
   'Resurrection':
     'School=Conjuration ' +
     'Level=C7 ' +
-    'Description="Fully restore touched target dead $L10 years w/loss of 1 level"',
+    'Description="Fully restores touched target dead $L10 years w/loss of 1 level"',
   'Reverse Gravity':
     'School=Transmutation ' +
     'Level=D8,W7 ' +
@@ -3410,15 +3410,15 @@ SRD35.SPELLS = {
   'Righteous Might':
     'School=Transmutation ' +
     'Level=C5,Strength5 ' +
-    'Description="Self dbl size (+4 Str, +2 Con, +2 AC) and DR ${lvl>14?9:lvl>11?6:3}/evil or DR ${lvl>14?9:lvl>11?6:3}/good for $L rd"',
+    'Description="Self dbl size (+4 Strength, +2 Constitution, +2 AC) and gains DR ${lvl>14?9:lvl>11?6:3}/evil or DR ${lvl>14?9:lvl>11?6:3}/good for $L rd"',
   'Rope Trick':
     'School=Transmutation ' +
     'Level=W2 ' +
-    'Description="Rope to extradimensional space for 8 creatures for $L hr"',
+    'Description="Rope leads to extradimensional space for 8 creatures for $L hr"',
   'Rusting Grasp':
     'School=Transmutation ' +
     'Level=D4 ' +
-    'Description="Touch corrodes 3\' radius"',
+    'Description="Touch corrodes iron in 3\' radius"',
 
   'Sanctuary':
     'School=Abjuration ' +
@@ -3435,7 +3435,7 @@ SRD35.SPELLS = {
   'Scorching Ray':
     'School=Evocation ' +
     'Level=Adept2,W2 ' +
-    'Description="R$RS\' ${lvl>10?3:lvl>6?2:1} rays in 15\' radius ranged touch 4d6 HP"',
+    'Description="R$RS\' Ranged touch w/${lvl>10?3:lvl>6?2:1} rays in 15\' radius inflicts 4d6 HP each"',
   'Screen':
     'School=Illusion ' +
     'Level=Trickery7,W8 ' +
@@ -3443,31 +3443,31 @@ SRD35.SPELLS = {
   'Scrying':
     'School=Divination ' +
     'Level=B3,C5,D4,W4 ' +
-    'Description="Target viewed for $L min (Will neg)"',
+    'Description="Self views target for $L min (Will neg)"',
   'Greater Scrying':
     'School=Divination ' +
     'Level=B6,C7,D7,W7 ' +
-    'Description="Target viewed, subject to detection and communication spells for $L hr (Will special neg)"',
+    'Description="Self views and cast detection and communication spells on target for $L hr (Will special neg)"',
   'Sculpt Sound':
     'School=Transmutation ' +
     'Level=B3 ' +
-    'Description="R$RS\' $L targets in 15\' radius sounds changed for $L hr (Will neg)"',
+    'Description="R$RS\' Sounds of $L targets in 15\' radius changed for $L hr (Will neg)"',
   'Searing Light':
     'School=Evocation ' +
     'Level=C3,Sun3 ' +
-    'Description="R$RM\' Range touch ${Ldiv2min5}d8 HP, undead ${Lmin10}d6, object ${Ldiv2min5}d6"',
+    'Description="R$RM\' Ranged touch inflicts ${Ldiv2min5}d8 HP (undead ${Lmin10}d6, object ${Ldiv2min5}d6)"',
   'Secret Chest':
     'School=Conjuration ' +
     'Level=W5 ' +
-    'Description="$L\' cu ethereal chest can be recalled at will for 60 dy"',
+    'Description="Self can summon $L\' cu ethereal chest at will for 60 dy"',
   'Secret Page':
     'School=Transmutation ' +
     'Level=B3,W3 ' +
-    'Description="Hide content of touched page permanently"',
+    'Description="Hides content of touched page permanently"',
   'Secure Shelter':
     'School=Conjuration ' +
     'Level=B4,W4 ' +
-    'Description="R$RS\' 20\'x20\' cottage lasts $L2 hr"',
+    'Description="R$RS\' Creates 20\'x20\' cottage that lasts $L2 hr"',
   'See Invisibility':
     'School=Divination ' +
     'Level=Adept2,B3,W2 ' +
@@ -3475,19 +3475,19 @@ SRD35.SPELLS = {
   'Seeming':
     'School=Illusion ' +
     'Level=B5,W5 ' +
-    'Description="R$RS\' Appearance of $Ldiv2 targets in 15\' radius changes, +10 disguise for 12 hr (Will disbelieve)"',
+    'Description="R$RS\' Appearance of $Ldiv2 targets in 15\' radius changes, gives +10 Disguise for 12 hr (Will disbelieve)"',
   'Sending':
     'School=Evocation ' +
     'Level=C4,W5 ' +
-    'Description="25-word exchange with target"',
+    'Description="Self has two-way, 25-word exchange with target"',
   'Sepia Snake Sigil':
     'School=Conjuration ' +
     'Level=B3,W3 ' +
-    'Description="Target reader immobile 1d4+$L dy (Ref neg)"',
+    'Description="Immobilizes reader for 1d4+$L dy (Ref neg)"',
   'Sequester':
     'School=Abjuration ' +
     'Level=W7 ' +
-    'Description="Willing touched invisible, unscryable, and comatose for $L dy"',
+    'Description="Willing touched becomes invisible, unscryable, and comatose for $L dy"',
   'Shades':
     'School=Illusion ' +
     'Level=W9 ' +
@@ -3515,51 +3515,51 @@ SRD35.SPELLS = {
   'Shambler':
     'School=Conjuration ' +
     'Level=D9,Plant9 ' +
-    'Description="R$RM\' 1d4+2 11 HD shambling mounds in 15\' radius fight for 7 dy, guard for 7 mo"',
+    'Description="R$RM\' Creates 1d4+2 11 HD shambling mounds in 15\' radius that fight for 7 dy or guard for 7 mo"',
   'Shapechange':
     'School=Transmutation ' +
     'Level=Animal9,D9,W9 ' +
-    'Description="Self become different animal of any size 1/rd for $L10 min"',
+    'Description="Self becomes different animal of any size 1/rd for $L10 min"',
   'Shatter':
     'School=Evocation ' +
     'Level=B2,Blackguard2,C2,Chaos2,Destruction2,W2 ' +
-    'Description="R$RS\' Breakables in 5\' radius shatter (Will neg), or target object ${Lmin10}d6 HP (Fort half)"',
+    'Description="R$RS\' Breakables in 5\' radius shatter (Will neg), or target object suffers ${Lmin10}d6 HP (Fort half)"',
   'Shield':
     'School=Abjuration ' +
     'Level=W1 ' +
-    'Description="Self +4 AC, immune to magic missile for $L min"',
+    'Description="Self gains +4 AC and immunity to <i>Magic Missile</i> for $L min"',
   'Shield Of Faith':
     'School=Abjuration ' +
     'Level=C1 ' +
-    'Description="Touched +$Ldiv6plus2min5 AC for $L min"',
+    'Description="Touched gains +$Ldiv6plus2min5 AC for $L min"',
   'Shield Of Law':
     'School=Abjuration ' +
     'Level=C8,Law8 ' +
-    'Description="$L creatures in 20\' radius +4 AC and saves, SR 25 (chaotic), suppress mental control, successful chaotic attacker slowed for $L rd (Will neg)"',
+    'Description="$L creatures in 20\' radius gain +4 AC and saves and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers for $L rd (Will neg)"',
   'Shield Other':
     'School=Abjuration ' +
     'Level=C2,P2,Protection2 ' +
-    'Description="R$RS\' target +1 AC and saves, half damage transferred to you for $L hr"',
+    'Description="R$RS\' target gains +1 AC and saves, half damage transferred to self for $L hr"',
   'Shillelagh':
     'School=Transmutation ' +
     'Level=D1 ' +
-    'Description="S/M/L staff +1 attack, 1d8%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/2d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/3d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} damage for $L min (Will neg)"',
+    'Description="S/M/L staff gains +1 attack, 1d8%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/2d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/3d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} damage for $L min (Will neg)"',
   'Shocking Grasp':
     'School=Evocation ' +
     'Level=W1 ' +
-    'Description="Touch ${Lmin5}d6 HP, +3 attack vs metal"',
+    'Description="Touch (+3 vs. metal) inflicts ${Lmin5}d6 HP"',
   'Shout':
     'School=Evocation ' +
     'Level=B4,W4 ' +
-    'Description="R30\' cone 5d6 HP, deafened for 2d6 rd (Fort half damage, not deafened)"',
+    'Description="R30\' cone inflicts 5d6 HP and deafness for 2d6 rd (Fort half damage, no deafness)"',
   'Greater Shout':
     'School=Evocation ' +
     'Level=B6,W8 ' +
-    'Description="R60\' cone 10d6 HP, deafened for 4d6 rd, stunned for 1 rd (Fort half damage and deafened, not stunned)"',
+    'Description="R60\' cone inflicts 10d6 HP, deafness for 4d6 rd, and stunning for 1 rd (Fort half damage and deafness, no stunning)"',
   'Shrink Item':
     'School=Transmutation ' +
     'Level=W3 ' +
-    'Description="Touched $L2\' cu object 1/16 size, becomes cloth for $L dy (Will neg)"',
+    'Description="Touched $L2\' cu object becomes 1/16 size cloth for $L dy (Will neg)"',
   'Silence':
     'School=Illusion ' +
     'Level=B2,C2 ' +
@@ -3571,11 +3571,11 @@ SRD35.SPELLS = {
   'Simulacrum':
     'School=Illusion ' +
     'Level=W7 ' +
-    'Description="Create permanent double of creature w/half HP and levels"',
+    'Description="Creates permanent double of creature w/half original\'s HP and levels"',
   'Slay Living':
     'School=Necromancy ' +
     'Level=C5,Death5 ' +
-    'Description="Touched slain (Fort 3d6+$L HP)"',
+    'Description="Touched slain (Fort suffers 3d6+$L HP)"',
   'Sleep':
     'School=Enchantment ' +
     'Level=Adept1,Assassin1,B1,W1 ' +
@@ -3583,11 +3583,11 @@ SRD35.SPELLS = {
   'Sleet Storm':
     'School=Conjuration ' +
     'Level=D3,W3 ' +
-    'Description="R$RL\' Blinding sleet in 40\' radius, creatures DC 10 Balance to move for $L rd"',
+    'Description="R$RL\' Sleet in 40\' radius blinds, requires DC 10 Balance to move for $L rd"',
   'Slow':
     'School=Transmutation ' +
     'Level=B3,W3 ' +
-    'Description="R$RS\' $L creatures in 15\' radius take single action per rd, -1 AC, attack, Reflex, half Speed for $L rd (Will neg)"',
+    'Description="R$RS\' $L creatures in 15\' radius take one action per rd, suffer -1 AC, attack, and Reflex, and slowed to half Speed for $L rd (Will neg)"',
   'Snare':
     'School=Transmutation ' +
     'Level=D3,R2 ' +
@@ -3599,11 +3599,11 @@ SRD35.SPELLS = {
   'Solid Fog':
     'School=Conjuration ' +
     'Level=W4 ' +
-    'Description="R$RM\' Fog in 20\' radius obscures vision, reduces Speed to 5\', and -2 attack and damage for $L min"',
+    'Description="R$RM\' Fog in 20\' radius obscures vision, slows to 5\'/rd, and imposes -2 attack and damage for $L min"',
   'Song Of Discord':
     'School=Enchantment ' +
     'Level=B5 ' +
-    'Description="R$RM\' Creatures in 20\' radius 50% chance each rd to attack neighbor for $L rd (Will neg)"',
+    'Description="R$RM\' Creatures in 20\' radius have 50% chance each rd of attacking neighbor for $L rd (Will neg)"',
   'Soul Bind':
     'School=Necromancy ' +
     'Level=C9,W9 ' +
@@ -3611,23 +3611,23 @@ SRD35.SPELLS = {
   'Sound Burst':
     'School=Evocation ' +
     'Level=B2,C2 ' +
-    'Description="R$RS\' 10\' radius 1d8 HP and stunned (Fort not stunned)"',
+    'Description="R$RS\' 10\' radius inflicts 1d8 HP and stuns (Fort not stunned)"',
   'Speak With Animals':
     'School=Divination ' +
     'Level=Animal1,B3,D1,Gnomish1,R1 ' +
-    'Description="Self converse w/animals for $L min"',
+    'Description="Self converses w/animals for $L min"',
   'Speak With Dead':
     'School=Necromancy ' +
     'Level=C3 ' +
-    'Description="R10\' Corpse answer $Ldiv2 questions (Will neg)"',
+    'Description="R10\' Self receives $Ldiv2 answers from corpse (Will neg)"',
   'Speak With Plants':
     'School=Divination ' +
     'Level=B4,D3,R2 ' +
-    'Description="Self converse w/plants for $L min"',
+    'Description="Self converses w/plants for $L min"',
   'Spectral Hand':
     'School=Necromancy ' +
     'Level=W2 ' +
-    'Description="R$RM\' Self yield 1d4 HP to glowing hand that delivers touch spells up to level 4 at +2 for $L min"',
+    'Description="R$RM\' Self yields 1d4 HP to glowing hand that delivers touch spells up to 4th level at +2 attack for $L min"',
   'Spell Immunity':
     'School=Abjuration ' +
     'Level=C4,Protection4,Strength4 ' +
@@ -3639,7 +3639,7 @@ SRD35.SPELLS = {
   'Spell Resistance':
     'School=Abjuration ' +
     'Level=C5,Magic5,Protection5 ' +
-    'Description="Touched SR $Lplus12 for $L min"',
+    'Description="Touched gains SR $Lplus12 for $L min"',
   'Spell Turning':
     'School=Abjuration ' +
     'Level=Luck7,Magic7,W7 ' +
@@ -3647,59 +3647,59 @@ SRD35.SPELLS = {
   'Spellstaff':
     'School=Transmutation ' +
     'Level=D6 ' +
-    'Description="Store 1 spell in wooden quarterstaff (Will neg)"',
+    'Description="Stores 1 spell in wooden quarterstaff (Will neg)"',
   'Spider Climb':
     'School=Transmutation ' +
     'Level=Assassin2,D2,W2 ' +
-    'Description="Touched 20\' climb speed, climb walls and ceilings for $L10 min"',
+    'Description="Touched gains 20\' climb speed and can climb walls and ceilings for $L10 min"',
   'Spike Growth':
     'School=Transmutation ' +
     'Level=D3,R2 ' +
-    'Description="R$RM\' Spikes on vegetation in 20\' sq 1d4 HP each 5\' movement, slowed 1 dy to half speed (Ref neg) for $L hr"',
+    'Description="R$RM\' Spikes on vegetation in 20\' sq inflict 1d4 HP each 5\' movement and slow to half speed for 1 dy (Ref neg) for $L hr"',
   'Spike Stones':
     'School=Transmutation ' +
     'Level=D4,Earth4 ' +
-    'Description="R$RM\' Spikes on stony ground in 20\' sq 1d8 HP each 5\' movement, slowed 1 dy to half speed (Ref neg) for $L hr"',
+    'Description="R$RM\' Spikes on stony ground in 20\' sq inflict 1d8 HP each 5\' movement and slow to half speed for 1 dy (Ref neg) for $L hr"',
   'Spiritual Weapon':
     'School=Evocation ' +
     'Level=C2,War2 ' +
-    'Description="R$RM\' Force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} 1d8+$Ldiv3min5 HP, crit same as physical weapon) attacks designated foes for $L rd"',
+    'Description="R$RM\' Force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attack, 1d8+$Ldiv3min5 HP damage, crit same as physical weapon) attacks designated foes for $L rd"',
   'Statue':
     'School=Transmutation ' +
     'Level=W7 ' +
-    'Description="Touched become statue at will for $L hr"',
+    'Description="Touched becomes statue at will for $L hr"',
   'Status':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="Monitor condition and position of $Ldiv3 touched allies for $L hr"',
+    'Description="Self monitors condition and position of $Ldiv3 touched allies for $L hr"',
   'Stinking Cloud':
     'School=Conjuration ' +
     'Level=W3 ' +
-    'Description="R$RM\' Fog in 20\' radius obscures vision, causes nausea for 1d4+1 rd (no attacks or spells) (Fort neg) for $L rd"',
+    'Description="R$RM\' Fog in 20\' radius obscures vision and causes nausea for 1d4+1 rd (no attacks or spells) (Fort neg) for $L rd"',
   'Stone Shape':
     'School=Transmutation ' +
     'Level=C3,D3,Earth3,W4 ' +
-    'Description="Shape $Lplus10\' cu of stone"',
+    'Description="Self reshapes $Lplus10\' cu of stone"',
   'Stone Tell':
     'School=Divination ' +
     'Level=D6 ' +
-    'Description="Self speak w/stone for $L min"',
+    'Description="Self speaks w/stone for $L min"',
   'Stone To Flesh':
     'School=Transmutation ' +
     'Level=W6 ' +
-    'Description="R$RM\' Restore stoned creature (DC 15 Fort to survive) or make 10\'x3\' stone cylinder flesh"',
+    'Description="R$RM\' Restores stoned creature (DC 15 Fort to survive) or makes 10\'x3\' stone cylinder flesh"',
   'Stoneskin':
     'School=Abjuration ' +
     'Level=Adept4,D5,Earth6,Strength6,W4 ' +
-    'Description="Touched DR 10/adamantine for $L10min150 HP or $L10 min"',
+    'Description="Touched gains DR 10/adamantine for $L10min150 HP or $L10 min"',
   'Storm Of Vengeance':
     'School=Conjuration ' +
     'Level=C9,D9 ' +
-    'Description="R$RL\' 360\' radius storm deafens for 1d4x10 min (Fort neg), then rain acid 1d6 HP, then 6 bolts lightning 10d6 (Ref half), then hail 5d6 HP, then obscure vision for 6 rd"',
+    'Description="R$RL\' 360\' radius storm deafens for 1d4x10 min (Fort neg), then rains acid inflicting 1d6 HP, then generates 6 bolts lightning that inflict 10d6 HP each (Ref half), then hail that inflicts 5d6 HP, then obscures vision for 6 rd"',
   'Suggestion':
     'School=Enchantment ' +
     'Level=B2,W3 ' +
-    'Description="R$RS\' Target follow reasonable suggestion for $L hr (Will neg)"',
+    'Description="R$RS\' Target follows reasonable suggestion for $L hr (Will neg)"',
   'Mass Suggestion':
     'School=Enchantment ' +
     'Level=B5,W6 ' +
@@ -3711,87 +3711,87 @@ SRD35.SPELLS = {
   'Summon Monster I':
     'School=Conjuration ' +
     'Level=B1,Blackguard1,C1,W1 ' +
-    'Description="R$RS\' 1 1st-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 1st-level creature appears and fights foes for $L rd"',
   'Summon Monster II':
     'School=Conjuration ' +
     'Level=B2,Blackguard2,C2,W2 ' +
-    'Description="R$RS\' 1 2nd- or 1d3 1st-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 2nd- or 1d3 1st-level creatures appear and fight foes for $L rd"',
   'Summon Monster III':
     'School=Conjuration ' +
     'Level=B3,Blackguard3,C3,W3 ' +
-    'Description="R$RS\' 1 3rd-, 1d3 2nd-, or 1d4+1 1st-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 3rd-, 1d3 2nd-, or 1d4+1 1st-level creatures appear and fight foes for $L rd"',
   'Summon Monster IV':
     'School=Conjuration ' +
     'Level=B4,Blackguard4,C4,W4 ' +
-    'Description="R$RS\' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   'Summon Monster V':
     'School=Conjuration ' +
     'Level=B5,C5,W5 ' +
-    'Description="R$RS\' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   'Summon Monster VI':
     'School=Conjuration ' +
     'Level=B6,C6,W6 ' +
-    'Description="R$RS\' 1 6th-, 1d3 5th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 6th-, 1d3 5th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   'Summon Monster VII':
     'School=Conjuration ' +
     'Level=C7,W7 ' +
-    'Description="R$RS\' 1 7th-, 1d3 6th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 7th-, 1d3 6th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   'Summon Monster VIII':
     'School=Conjuration ' +
     'Level=C8,W8 ' +
-    'Description="R$RS\' 1 8th-, 1d3 7th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 8th-, 1d3 7th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   'Summon Monster IX':
     'School=Conjuration ' +
     'Level=C9,Chaos9,Evil9,Good9,Law9,W9 ' +
-    'Description="R$RS\' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   "Summon Nature's Ally I":
     'School=Conjuration ' +
     'Level=D1,R1 ' +
-    'Description="R$RS\' 1 1st-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 1st-level creature appears and fights foes for $L rd"',
   "Summon Nature's Ally II":
     'School=Conjuration ' +
     'Level=D2,R2 ' +
-    'Description="R$RS\' 1 2nd- or 1d3 1st-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 2nd- or 1d3 1st-level creatures appear and fight foes for $L rd"',
   "Summon Nature's Ally III":
     'School=Conjuration ' +
     'Level=D3,R3 ' +
-    'Description="R$RS\' 1 3rd-, 1d3 2nd-, or 1d4+1 1st-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 3rd-, 1d3 2nd-, or 1d4+1 1st-level creatures appear and fight foes for $L rd"',
   "Summon Nature's Ally IV":
     'School=Conjuration ' +
     'Level=Animal4,D4,R4 ' +
-    'Description="R$RS\' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   "Summon Nature's Ally V":
     'School=Conjuration ' +
     'Level=D5 ' +
-    'Description="R$RS\' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   "Summon Nature's Ally VI":
     'School=Conjuration ' +
     'Level=D6 ' +
-    'Description="R$RS\' 1 6th-, 1d3 5th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 6th-, 1d3 5th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   "Summon Nature's Ally VII":
     'School=Conjuration ' +
     'Level=D7 ' +
-    'Description="R$RS\' 1 7th-, 1d3 6th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 7th-, 1d3 6th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   "Summon Nature's Ally VIII":
     'School=Conjuration ' +
     'Level=Animal8,D8 ' +
-    'Description="R$RS\' 1 8th-, 1d3 7th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 8th-, 1d3 7th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   "Summon Nature's Ally IX":
     'School=Conjuration ' +
     'Level=D9 ' +
-    'Description="R$RS\' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creature appears, fights foes for $L rd"',
+    'Description="R$RS\' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creatures appear and fight foes for $L rd"',
   'Summon Swarm':
     'School=Conjuration ' +
     'Level=B2,D2,W2 ' +
-    'Description="R$RS\' Swarm of bats, rats, or spiders attack nearest creature for conc + 2 rd"',
+    'Description="R$RS\' Swarm of bats, rats, or spiders attacks nearest creature for conc + 2 rd"',
   'Sunbeam':
     'School=Evocation ' +
     'Level=D7,Sun7 ' +
-    'Description="$Ldiv3 60\' beams blind, 4d6 HP (undead and oozes ${Lmin20}d6) (Ref half, not blinded) 1/rd for $L rd"',
+    'Description="$Ldiv3 60\' beams blind and inflict 4d6 HP (undead and oozes ${Lmin20}d6 HP) (Ref half, not blinded) 1/rd for $L rd"',
   'Sunburst':
     'School=Evocation ' +
     'Level=D8,Sun8,W8 ' +
-    'Description="R$RL\' 80\' radius blinds, 6d6 HP (undead and oozes ${Lmin25}d6) (Ref half, not blind)"',
+    'Description="R$RL\' 80\' radius blinds and inflicts 6d6 HP (undead and oozes ${Lmin25}d6 HP) (Ref half, not blind)"',
   'Symbol Of Death':
     'School=Necromancy ' +
     'Level=C8,W8 ' +
@@ -3807,7 +3807,7 @@ SRD35.SPELLS = {
   'Symbol Of Pain':
     'School=Necromancy ' +
     'Level=C5,W5 ' +
-    'Description="R60\' Rune causes pain (-4 attack, skill, ability) for 1 hr (Fort neg) in 60\' radius when triggered for $L10 min"',
+    'Description="R60\' Rune causes pain (-4 attack and skill and ability checks) for 1 hr (Fort neg) in 60\' radius when triggered for $L10 min"',
   'Symbol Of Persuasion':
     'School=Enchantment ' +
     'Level=C6,W6 ' +
@@ -3823,11 +3823,11 @@ SRD35.SPELLS = {
   'Symbol Of Weakness':
     'School=Necromancy ' +
     'Level=C7,W7 ' +
-    'Description="R60\' Rune weakens 3d6 Str (Fort neg) in 60\' radius when triggered for $L10 min"',
+    'Description="R60\' Rune inflicts -3d6 Strength (Fort neg) in 60\' radius when triggered for $L10 min"',
   'Sympathetic Vibration':
     'School=Evocation ' +
     'Level=B6 ' +
-    'Description="Touched structure 2d10 HP/rd for $L rd"',
+    'Description="Touched structure suffers 2d10 HP/rd for $L rd"',
   'Sympathy':
     'School=Enchantment ' +
     'Level=D9,W8 ' +
@@ -3836,11 +3836,11 @@ SRD35.SPELLS = {
   'Telekinesis':
     'School=Transmutation ' +
     'Level=W5 ' +
-    'Description="R$RL\' Move $L25min375 lb 20\' for conc or $L rd, combat maneuver $L rd, or hurl $Lmin15 objects $L25min375 lbs total (Will neg)"',
+    'Description="R$RL\' Self moves $L25min375 lb 20\'/rd for conc or $L rd, performs combat maneuver $L rd, or hurls $Lmin15 objects $L25min375 lbs total (Will neg)"',
   'Telekinetic Sphere':
     'School=Evocation ' +
     'Level=W8 ' +
-    'Description="R$RS\' Impassible $L\'-diameter sphere surrounds target, causes weightlessness, moves 30\'/rd for $L min"',
+    'Description="R$RS\' Impassible $L\'-diameter sphere surrounds target, causes weightlessness, and moves 30\'/rd for $L min"',
   'Telepathic Bond':
     'School=Divination ' +
     'Level=W5 ' +
@@ -3848,27 +3848,27 @@ SRD35.SPELLS = {
   'Teleport':
     'School=Conjuration ' +
     'Level=Travel5,W5 ' +
-    'Description="Transport self, $Ldiv3 others $L100 miles w/some error chance"',
+    'Description="Transports self and $Ldiv3 others $L100 miles w/some error chance"',
   'Greater Teleport':
     'School=Conjuration ' +
     'Level=Travel7,W7 ' +
-    'Description="Transport you, $Ldiv3 others anywhere w/no error chance"',
+    'Description="Transports self and $Ldiv3 others anywhere w/no error chance"',
   'Teleport Object':
     'School=Conjuration ' +
     'Level=W7 ' +
-    'Description="Transport touched object $L100 miles w/some error chance (Will neg)"',
+    'Description="Transports touched object $L100 miles w/some error chance (Will neg)"',
   'Teleportation Circle':
     'School=Conjuration ' +
     'Level=W9 ' +
-    'Description="Transport creatures in 5\' radius anywhere w/no error chance for $L10 min"',
+    'Description="Transports creatures in 5\' radius anywhere w/no error chance for $L10 min"',
   'Temporal Stasis':
     'School=Transmutation ' +
     'Level=W8 ' +
-    'Description="Touched in permanent stasis (Fort neg)"',
+    'Description="Touched placed in permanent stasis (Fort neg)"',
   'Time Stop':
     'School=Transmutation ' +
     'Level=Trickery9,W9 ' +
-    'Description="All others halt, invulnerable for 1d4+1 rd"',
+    'Description="All but self halt and become invulnerable for 1d4+1 rd"',
   'Tiny Hut':
     'School=Evocation ' +
     'Level=B3,W3 ' +
@@ -3884,11 +3884,11 @@ SRD35.SPELLS = {
   'Touch Of Idiocy':
     'School=Enchantment ' +
     'Level=W2 ' +
-    'Description="Touch attack 1d6 Int, Wis, and Cha for $L10 min"',
+    'Description="Touch attack inflicts -1d6 Intelligence, Wisdom, and Charisma for $L10 min"',
   'Transformation':
     'School=Transmutation ' +
     'Level=W6 ' +
-    'Description="Self +4 Str, Dex, Con, and AC, +5 Fortitude, martial weapon proficiency, BAB $L, no spells for $L rd"',
+    'Description="Self gains +4 Strength, Dexterity, Constitution, and AC, +5 Fortitude, martial weapon proficiency, and BAB $L, but cannot cast spells for $L rd"',
   'Transmute Metal To Wood':
     'School=Transmutation ' +
     'Level=D7 ' +
@@ -3896,11 +3896,11 @@ SRD35.SPELLS = {
   'Transmute Mud To Rock':
     'School=Transmutation ' +
     'Level=D5,W5 ' +
-    'Description="R$RM\' $L2 10\' cu of mud become rock"',
+    'Description="R$RM\' $L2 10\' cu of mud becomes rock"',
   'Transmute Rock To Mud':
     'School=Transmutation ' +
     'Level=D5,W5 ' +
-    'Description="R$RM\' $L2 10\' cu of natural rock become mud"',
+    'Description="R$RM\' $L2 10\' cu of natural rock becomes mud"',
   'Transport Via Plants':
     'School=Conjuration ' +
     'Level=D6 ' +
@@ -3916,65 +3916,65 @@ SRD35.SPELLS = {
   'Tree Stride':
     'School=Conjuration ' +
     'Level=D5,R4 ' +
-    'Description="Self teleport 3000\' via like trees $L times w/in $L hr"',
+    'Description="Self teleports 3000\' via like trees $L times w/in $L hr"',
   'True Resurrection':
     'School=Conjuration ' +
     'Level=C9 ' +
-    'Description="Fully restore target dead $L10 yr"',
+    'Description="Fully restores target dead up to $L10 yr"',
   'True Seeing':
     'School=Divination ' +
     'Level=Adept5,C5,D7,Knowledge5,W6 ' +
-    'Description="Touched sees through 120\' darkness, illusion, and invisible for $L min"',
+    'Description="Touched sees through 120\' darkness, illusion, and invisibility for $L min"',
   'True Strike':
     'School=Divination ' +
     'Level=Assassin1,W1 ' +
-    'Description="Self +20 next attack"',
+    'Description="Self gains +20 next attack"',
 
   'Undeath To Death':
     'School=Necromancy ' +
     'Level=C6,W6 ' +
-    'Description="R$RM\' ${Lmin20}d4 HD of undead w/up to 8 HD in 40\' radius destroyed (Will neg)"',
+    'Description="R$RM\' Destroys ${Lmin20}d4 HD of undead w/up to 8 HD in 40\' radius (Will neg)"',
   'Undetectable Alignment':
     'School=Abjuration ' +
     'Level=Assassin2,B1,C2,P2 ' +
-    'Description="R$RS\' Target alignment concealed for 1 dy (Will neg)"',
+    'Description="R$RS\' Conceals target alignment for 1 dy (Will neg)"',
   'Unhallow':
     'School=Evocation ' +
     'Level=C5,D5 ' +
-    'Description="40\' radius from touched gives +2 AC and saves vs. good, suppresses mental control, bars contact by summoned good creatures, imposes -4 turn undead penalty, grants +4 rebuke undead bonus, and evokes bane spell"',
+    'Description="40\' radius from touched gives +2 AC and saves vs. good, suppresses mental control, bars contact by summoned good creatures, imposes -4 turn undead penalty, gives +4 rebuke undead bonus, and evokes bane spell"',
   'Unholy Aura':
     'School=Abjuration ' +
     'Level=C8,Evil8 ' +
-    'Description="$L creatures in 20\' radius +4 AC and saves, SR 25 (good), suppress mental control , and striking foes take 1d6 Str (Fort neg) for $L rd"',
+    'Description="$L creatures in 20\' radius gain +4 AC and saves and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (Fort neg) for $L rd"',
   'Unholy Blight':
     'School=Evocation ' +
     'Level=Evil4 ' +
-    'Description="R$RM\' Good in 20\' radius ${Ldiv2min5}d8 HP and sickened for 1 rd, neutral half (Will half)"',
+    'Description="R$RM\' Good in 20\' radius suffer ${Ldiv2min5}d8 HP and sicken for 1 rd, neutral half (Will half)"',
   'Unseen Servant':
     'School=Conjuration ' +
     'Level=B1,W1 ' +
-    'Description="R$RS\' Invisible servant obey for $L hr"',
+    'Description="R$RS\' Invisible servant obeys self for $L hr"',
 
   'Vampiric Touch':
     'School=Necromancy ' +
     'Level=W3 ' +
-    'Description="Touched ${Ldiv2min10}d6 HP, self gain same as temporary HP for 1 hr"',
+    'Description="Touched suffers ${Ldiv2min10}d6 HP, self gains same as temporary HP for 1 hr"',
   'Veil':
     'School=Illusion ' +
     'Level=B6,W6 ' +
-    'Description="R$RL\' Targets in 30\' radius appear as other creatures for conc + $L hr (Will neg)"',
+    'Description="R$RL\' Creatures in 30\' radius appear to be other creatures for conc + $L hr (Will neg)"',
   'Ventriloquism':
     'School=Illusion ' +
     'Level=B1,W1 ' +
-    'Description="R$RS\' Self voice moves for $L min (Will disbelieve)"',
+    'Description="R$RS\' Self\'s voice moves for $L min (Will disbelieve)"',
   'Virtue':
     'School=Transmutation ' +
     'Level=C0,D0,P1 ' +
-    'Description="Touched +1 HP for 1 min"',
+    'Description="Touched gains +1 temporary HP for 1 min"',
   'Vision':
     'School=Divination ' +
     'Level=W7 ' +
-    'Description="Self learn answer about target person, place, or object"',
+    'Description="Self learns answer about target person, place, or object"',
 
   'Wail Of The Banshee':
     'School=Necromancy ' +
@@ -3983,39 +3983,39 @@ SRD35.SPELLS = {
   'Wall Of Fire':
     'School=Evocation ' +
     'Level=Adept4,D5,Fire4,W4 ' +
-    'Description="R$RM\' $L20\' wall 2d4 HP w/in 10\', 1d4 HP w/in 20\', 2d6+$L HP transit (undead dbl) for conc + $L rd"',
+    'Description="R$RM\' $L20\' wall inflicts 2d4 HP to creatures w/in 10\', 1d4 HP to creatures w/in 20\', 2d6+$L HP when passing through (undead dbl) for conc + $L rd"',
   'Wall Of Force':
     'School=Evocation ' +
     'Level=W5 ' +
-    'Description="R$RS\' Impassible and immobile $L x 10\' sq wall for $L rd"',
+    'Description="R$RS\' Creates impassible and immobile $L x 10\' sq wall for $L rd"',
   'Wall Of Ice':
     'School=Evocation ' +
     'Level=W4 ' +
-    'Description="R$RM\' $L x 10\' x $L inch thick ice wall or $Lplus3\' hemisphere for $L min"',
+    'Description="R$RM\' Creates $L 10\' x $L inch thick ice wall or $Lplus3\' hemisphere for $L min"',
   'Wall Of Iron':
     'School=Conjuration ' +
     'Level=W6 ' +
-    'Description="R$RM\' $L x 5\' $Ldiv4 inch thick permanent iron wall"',
+    'Description="R$RM\' Creates $L 5\' x $Ldiv4 inch thick permanent iron wall"',
   'Wall Of Stone':
     'School=Conjuration ' +
     'Level=Adept5,C5,D6,Earth5,W5 ' +
-    'Description="R$RM\' $L x 5\' $Ldiv4 inch thick permanent stone wall"',
+    'Description="R$RM\' Creates $L 5\' x $Ldiv4 inch thick permanent stone wall"',
   'Wall Of Thorns':
     'School=Conjuration ' +
     'Level=D5,Plant5 ' +
-    'Description="R$RM\' $L 10\' cu thorns (25-AC) HP/rd transit for $L10 min"',
+    'Description="R$RM\' $L 10\' cu thorns inflicts (25-AC) HP/rd when passing through for $L10 min"',
   'Warp Wood':
     'School=Transmutation ' +
     'Level=D2 ' +
-    'Description="R$RS\' $L wooden objects in 20\' radius warped (Will neg)"',
+    'Description="R$RS\' Warps $L wooden objects in 20\' radius (Will neg)"',
   'Water Breathing':
     'School=Transmutation ' +
     'Level=C3,D3,W3,Water3 ' +
-    'Description="Touched breathe underwater for $L2 hrs total"',
+    'Description="Touched can breathe underwater for $L2 hrs total"',
   'Water Walk':
     'School=Transmutation ' +
     'Level=C3,R3 ' +
-    'Description="$L touched tread on liquid as if solid for $L10 min"',
+    'Description="$L touched can walk on liquid as if it were a solid surface for $L10 min"',
   'Waves Of Exhaustion':
     'School=Necromancy ' +
     'Level=W7 ' +
@@ -4027,23 +4027,23 @@ SRD35.SPELLS = {
   'Web':
     'School=Conjuration ' +
     'Level=Adept2,W2 ' +
-    'Description="R$RM\' Webs in 20\' radius entangle (Ref neg, DC 20 Str or DC 25 Escape Artist break), burn for 2d4 HP for $L10 min"',
+    'Description="R$RM\' Webs in 20\' radius entangle (Ref neg, DC 20 Str or DC 25 Escape Artist break), burning inflicts 2d4 HP for $L10 min"',
   'Weird':
     'School=Illusion ' +
     'Level=W9 ' +
-    'Description="R$RM\' Fears of targets in 15\' radius create creatures (Will neg), touch kills (Fort 3d6 HP, 1d4 Str, stunned for 1 rd)"',
+    'Description="R$RM\' Fears of targets in 15\' radius create creatures (Will neg) whose touch kills targets (Fort suffer 3d6 HP, -1d4 Str, stunned for 1 rd)"',
   'Whirlwind':
     'School=Evocation ' +
     'Level=Air8,D8 ' +
-    'Description="R$RL\' Wind in 10\' radius 3d6 HP, then 1d8 HP/rd for $L rd (Ref neg)"',
+    'Description="R$RL\' Wind in 10\' radius inflicts 3d6 HP, then 1d8 HP/rd for $L rd (Ref neg)"',
   'Whispering Wind':
     'School=Transmutation ' +
     'Level=B2,W2 ' +
-    'Description="Send 25-word message $L miles to 10\' area"',
+    'Description="Transmits 25-word message $L miles to 10\' area"',
   'Wind Walk':
     'School=Transmutation ' +
     'Level=C6,D7 ' +
-    'Description="Self + $Ldiv3 touched vaporize and move 60 mph for $L hr"',
+    'Description="Self and $Ldiv3 touched vaporize and move 60 MPH for $L hr"',
   'Wind Wall':
     'School=Evocation ' +
     'Level=Air2,C3,D3,R2,W3 ' +
@@ -4055,7 +4055,7 @@ SRD35.SPELLS = {
   'Wood Shape':
     'School=Transmutation ' +
     'Level=D2 ' +
-    'Description="Shape $Lplus10\' cu of wood (Will neg)"',
+    'Description="Self shapes $Lplus10\' cu of wood (Will neg)"',
   'Word Of Chaos':
     'School=Evocation ' +
     'Level=C7,Chaos7 ' +
@@ -4063,7 +4063,7 @@ SRD35.SPELLS = {
   'Word Of Recall':
     'School=Conjuration ' +
     'Level=C6,D8 ' +
-    'Description="Self + $Ldiv3 willing targets return to designated place"',
+    'Description="Self and $Ldiv3 willing targets return to designated place"',
 
   'Zone Of Silence':
     'School=Illusion ' +
