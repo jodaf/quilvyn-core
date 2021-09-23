@@ -166,9 +166,11 @@ function waitForUserOkay() {
   }
 
   selectedRuleSets.forEach(rs => {
-    if(rs.supplement && !selectedRuleSets.includes(rs.supplement))
-      selectedRuleSets.append(rs.supplement);
+    var attrs = RULESETS[rs];
+    if(attrs.supplement && !selectedRuleSets.includes(attrs.supplement))
+      selectedRuleSets.unshift(attrs.supplement);
   });
+  console.log(selectedRuleSets);
 
   var pluginsToLoad = [];
   selectedRuleSets.forEach(rs => {
