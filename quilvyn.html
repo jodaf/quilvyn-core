@@ -170,7 +170,6 @@ function waitForUserOkay() {
     if(attrs.supplement && !selectedRuleSets.includes(attrs.supplement))
       selectedRuleSets.unshift(attrs.supplement);
   });
-  console.log(selectedRuleSets);
 
   var pluginsToLoad = [];
   selectedRuleSets.forEach(rs => {
