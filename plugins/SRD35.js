@@ -1066,7 +1066,8 @@ SRD35.FEATURES = {
   'Fiendish Summoning':
     'Section=magic Note="<i>Summon Monster I</i> as level %{levels.Blackguard*2} caster 1/dy"',
   'Gift Of The Divine':
-    'Section=feature Note="Transfer undead turn/rebuke to another 1-7 days"',
+    'Section=feature ' +
+    'Note="Transfer some daily uses of turn or rebuke undead to another for 1-7 dy"',
   'Grace':'Section=save Note="+2 Reflex when unarmored"',
   'Greater Lore':'Section=magic Note="<i>Identify</i> at will"',
   'Hail Of Arrows':
@@ -1104,7 +1105,7 @@ SRD35.FEATURES = {
   'Poison Use':
     'Section=feature Note="No chance of self-poisoning when applying to blade"',
   'Power Of Nature':
-    'Section=feature Note="Transfer druid feature to another 1-7 days"',
+    'Section=feature Note="Transfer druid feature to another for 1-7 days"',
   'Precise Strike':
     'Section=combat ' +
     'Note="+%{levels.Duelist//5}d6 HP damage with light or one-handed piercing weapon"',
