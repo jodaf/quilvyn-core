@@ -40,9 +40,9 @@ Quilvyn is a browser-based editor for RPG characters, particularly those
 generated using rules derived from the v3.5 System Reference Document from
 Wizards of the Coast. It allows you to enter and modify basic information about
 a character&mdash;race, class levels, attributes like strength, and so
-on&mdash;and applies the rules from SRD v3.5 and other rule sets to modify these
-basic attributes and to calculate computed attributes like saving throw bonuses
-and armor class. The program formats character attributes into a compact
+on&mdash;and applies the rules from the v3.5 SRD and other rule sets to modify
+these basic attributes and to calculate computed attributes like saving throw
+bonuses and armor class. The program formats character attributes into a compact
 (typically one page) character sheet web page that you can print for reference
 during game play. You can save character information and later reload it into
 Quilvyn to update the character's attributes.
@@ -69,7 +69,7 @@ Quilvyn has been successfully tested using these browsers
 </ul>
 </p><p>
 To run Quilvyn, simply use one of the web browsers listed above to open your
-local copy of quilvyn.html. If the program displays a list of rule sets, check
+local copy of quilvyn.html. When the program displays a list of rule sets, check
 those that you wish to use and press the Ok button to start the character
 editor. Quilvyn is written in JavaScript and makes extensive use of pop-up
 windows, so you must have both of these enabled in your browser. A reference
@@ -111,7 +111,7 @@ number (e.g., Hit Points) you can instead enter a '+' followed by a number, and
 Quilvyn will add the number to the existing value of the field. <i>Selection
 menus</i> are used with attributes like Alignment, Race, and abilities like
 Strength and Intelligence. These editing objects give you a pull-down menu that
-contains all the possible values. Simply select the correct one to change the
+contains all possible values. Simply select the correct one to change the
 attribute. <i>Set menus</i> are used for collections of related attributes like
 Skills, Feats, Weapons, and Class Levels. Along with a pull-down menu, these
 editing objects include either a checkbox or a small text field where you can
@@ -147,7 +147,7 @@ discussed in <a href='#open'>Generating and Loading Characters</a>. The Summary
 item in the character menu opens a window with a table that summarizes
 attributes from all characters that you've opened since starting Quilvyn. This
 is intended to assist in planning and running adventures by providing a compact
-summary of the abilities of all the characters in a party. The "Save", "Save
+summary of the abilities of all characters in a party. The "Save", "Save
 As...", "Delete...", and "HTML" items in the character menu are described in
 <a href='#save'>Saving Characters</a>.
 </p>
@@ -266,7 +266,7 @@ Sleight Of Hand skill by four, and their attack and damage with longswords by 1:
 Multiple items can be listed on a single line separated by semicolons, so the
 above three items can also be listed as:
 </p><p>
-* Ring of Strength +2; Cloak of Shielding (Sleight Of Hand skill +4); +1 Longsword
+* Ring of Strength +2; Cloak of Distraction (Sleight Of Hand skill +4); +1 Longsword
 </p><p>
 Along with bonuses (and negative values for harmful items), Quilvyn computes the
 modifiers for armor and weapons listed as having masterwork quality. You can
@@ -300,8 +300,8 @@ The "View/Export All" and "Import..." items in the Custom Items menu allow you
 to save and later reload your custom items. This can be useful for backup
 purposes and for copying custom items when you change browsers.
 </p><p>
-Selecting the "Add Items..." item in the Custom Items menu opens a dialog box
-where you can enter the attributes for new custom items. Begin by using the
+Selecting the "Add Items..." item in the Custom Items menu allows you to enter
+the attributes for new custom items. Begin by using the
 Type menu to select the type of item you want to add. Quilvyn displays a set
 of editing objects that allow you to enter attributes specific to that type of
 item. For example, if you select "Weapon", editing objects will appear that
@@ -311,11 +311,10 @@ threat threshold, critical damage multiplier, and (for ranged weapons) range
 increment. Once you have entered all the necessary information, press the Add
 button. Your new item is saved in the current collection.
 </p><p>
-The "Delete Item..." item in the Custom Items menu opens a dialog box that
-allows you to remove a previously-entered custom item from the current
-collection. Note that, once a collection has been applied to the current rule
-set, deleted items continue to appear in the editor menu until the next time
-you launch Quilvyn.
+The "Delete Item..." item in the Custom Items menu allows you to remove
+previously-entered custom items from the current collection. Note that, once a
+collection has been applied to the current rule set, deleted items continue to
+appear in the editor menu until the next time you launch Quilvyn.
 </p><p>
 Selecting the "Apply Collection..." item in the Custom Items menu allows you to
 add the custom items defined in the current collection to the current rule set.
