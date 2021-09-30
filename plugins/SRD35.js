@@ -8746,27 +8746,9 @@ SRD35.getPlugins = function() {
 /* Returns HTML body content for user notes associated with this rule set. */
 SRD35.ruleNotes = function() {
   return '' +
-    '<h2>SRD35 Quilvyn Plugin Notes</h2>\n' +
-    '<p>' +
-    'SRD35 Quilvyn Plugin Version ' + SRD35.VERSION + '\n' +
-    '</p><p>\n' +
-    'System Reference Document material is Open Game Content released by ' +
-    'Wizards of the Coast under the Open Game License. System Reference ' +
-    'Document Copyright 2000-2003, Wizards of the Coast, Inc.; Authors ' +
-    'Jonathan Tweet, Monte Cook, Skip Williams, Rich Baker, Andy Collins, ' +
-    'David Noonan, Rich Redman, Bruce R. Cordell, John D. Rateliff, Thomas ' +
-    'Reid, James Wyatt, based on original material by E. Gary Gygax and Dave ' +
-    'Arneson.\n' +
-    '</p><p>\n' +
-    'Open Game License v 1.0a Copyright 2000, Wizards of the Coast, LLC. You ' +
-    'should have received a copy of the Open Game License with this program; ' +
-    'if not, you can obtain one from ' +
-    'https://media.wizards.com/2016/downloads/SRD-OGL_V1.1.pdf. ' +
-    '<a href="plugins/ogl-srd35.txt">Click here</a> to see the license.<br/>\n'+
-    '</p><p>\n' +
-    'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions ' +
-    'of the materials used are property of Wizards of the Coast. ©Wizards of ' +
-    'the Coast LLC.\n' +
+    '<h2>Quilvyn SRD v3.5 Rule Set Notes</h2>\n' +
+    '<p>\n' +
+    'Quilvyn SRD v3.5 Rule Set Version ' + SRD35.VERSION + '\n' +
     '</p>\n' +
     '<h3>Usage Notes</h3>\n' +
     '<ul>\n' +
@@ -8822,5 +8804,25 @@ SRD35.ruleNotes = function() {
     '    Quilvyn gives multiclass characters quadruple skill points for the\n' +
     '    first level of each class, instead of just the first class.\n' +
     '  </li>\n' +
-    '</ul>\n';
+    '</ul>\n' +
+    '<h3>Copyrights and Licensing</h3>\n' +
+    '<p>\n' +
+    'System Reference Document material is Open Game Content released by ' +
+    'Wizards of the Coast under the Open Game License. System Reference ' +
+    'Document Copyright 2000-2003, Wizards of the Coast, Inc.; Authors ' +
+    'Jonathan Tweet, Monte Cook, Skip Williams, Rich Baker, Andy Collins, ' +
+    'David Noonan, Rich Redman, Bruce R. Cordell, John D. Rateliff, Thomas ' +
+    'Reid, James Wyatt, based on original material by E. Gary Gygax and Dave ' +
+    'Arneson.\n' +
+    '</p><p>\n' +
+    'Open Game License v 1.0a Copyright 2000, Wizards of the Coast, LLC. You ' +
+    'should have received a copy of the Open Game License with this program; ' +
+    'if not, you can obtain one from ' +
+    'https://media.wizards.com/2016/downloads/SRD-OGL_V1.1.pdf. ' +
+    '<a href="plugins/ogl-srd35.txt">Click here</a> to see the license.<br/>\n'+
+    '</p><p>\n' +
+    'Quilvyn is not approved or endorsed by Wizards of the Coast. Portions ' +
+    'of the materials used are property of Wizards of the Coast. ©Wizards of ' +
+    'the Coast LLC.\n' +
+    '</p>\n';
 };
