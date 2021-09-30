@@ -181,8 +181,8 @@ function waitForUserOkay() {
         typeof(attrs.require) == 'string' ? [attrs.require] : attrs.require;
       while(pluginsToFind.length > 0) {
         var plugin = pluginsToFind.shift();
-        if(pluginsToLoad.filter(x => x.includes(plugin)).length > 0)
-          continue;
+        // Remove any existing matching plugin, then push it onto the front
+        pluginsToLoad = pluginsToLoad.filter(x => !x.includes(plugin));
         var providers = Object.keys(RULESETS).filter(
           rs => RULESETS[rs].url.includes(plugin)
         );
