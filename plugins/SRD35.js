@@ -1721,7 +1721,7 @@ SRD35.SPELLS = {
   'Arcane Mark':
     // 'School=Universal ' +
     'Level=W0 ' +
-    'Description="Permanent personal rune inscribed on object or creature"',
+    'Description="Permanent personal rune inscribed on touched"',
   'Arcane Sight':
     'School=Divination ' +
     'Level=W3 ' +
@@ -3480,7 +3480,7 @@ SRD35.SPELLS = {
   'Sending':
     'School=Evocation ' +
     'Level=C4,W5 ' +
-    'Description="Self has two-way, 25-word exchange with target"',
+    'Description="Self has two-way, 25-word exchange familiar target"',
   'Sepia Snake Sigil':
     'School=Conjuration ' +
     'Level=B3,W3 ' +
@@ -4040,7 +4040,7 @@ SRD35.SPELLS = {
   'Whispering Wind':
     'School=Transmutation ' +
     'Level=B2,W2 ' +
-    'Description="Transmits 25-word message $L miles to 10\' area"',
+    'Description="R$L miles Self sends 25-word message or sound to 10\' area"',
   'Wind Walk':
     'School=Transmutation ' +
     'Level=C6,D7 ' +
