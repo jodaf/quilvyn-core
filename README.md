@@ -31,4 +31,4 @@ Unbundling the release package is the only step required to install Quilvyn.
 
 To run Quilvyn, simply use your browser to open quilvyn.html. A reference
 installation of Quilvyn using the latest sources is available at
-<a href="http://www.jodaf.com/quilvyn/quilvyn.html">http://www.jodaf.com/quilvyn/quilvyn.html</a>.
+<a href="https://www.jodaf.com/quilvyn/quilvyn.html">https://www.jodaf.com/quilvyn/quilvyn.html</a>.
