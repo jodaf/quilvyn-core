@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.0';
+var VERSION = '2.3.1';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -858,7 +858,8 @@ Quilvyn.importCharacters = function(attributes) {
     while((matchInfo = attributes.match(attrPat)) != null) {
       attributes = attributes.substring(matchInfo[0].length);
       var attr = matchInfo[1];
-      var value = matchInfo[3] || matchInfo[2];
+      var value =
+        typeof matchInfo[3] == "undefined" ? matchInfo[2] : matchInfo[3];
       value = value.replace(/\\"/g, '"').replace(/\\n/g, '\n');
       if(value == '{') {
         nesting += attr + '.';
@@ -1965,7 +1966,10 @@ Quilvyn.update = function(input) {
     Quilvyn.refreshSheet();
     Quilvyn.refreshStatus(false);
   } else if(name.indexOf('_filter') >= 0) {
-    character[name] = value;
+    if(!value)
+      delete character[name];
+    else
+      character[name] = value;
     Quilvyn.refreshEditor(false);
   } else if(name.indexOf('_sel') >= 0) {
     name = name.replace('_sel', '');
