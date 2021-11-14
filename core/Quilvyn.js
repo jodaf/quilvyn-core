@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.2';
+var VERSION = '2.3.3';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -304,37 +304,6 @@ Quilvyn.addRuleSet = function(rs) {
       pieces[3].replaceAll('%2E', '.'), STORAGE.getItem(path)
     );
   }
-};
-
-Quilvyn.applyV2Changes = function(character) {
-  var result = {};
-  var npcClasses = ruleSet.getChoices('npcs');
-  var prestigeClasses = ruleSet.getChoices('prestiges');
-  for(var attr in character) {
-    var value = character[attr];
-    if(attr == 'deity')
-      value = value.replace(/ \(.*/, '');
-    else if(attr.match(/^domains\./))
-      attr = attr.replace('domains.', 'selectableFeatures.Cleric - ') + ' Domain';
-    else if(attr.match(/^levels\./)) {
-      var clas = attr.replace('levels.', '');
-      if(npcClasses != null && clas in npcClasses)
-        attr = 'npc.' + clas;
-      else if(prestigeClasses != null && clas in prestigeClasses)
-        attr = 'prestige.' + clas;
-    } else if(attr.match(/^prohibit\./))
-      attr = attr.replace('prohibit.', 'selectableFeatures.Wizard - School Opposition (') + ')';
-    else if(attr.match(/^specialize\./))
-      attr = attr.replace('specialize.', 'selectableFeatures.Wizard - School Specialization (') + ')';
-    attr = attr.replace(/(half) ?(elf|orc)/i, '$1-$2');
-    attr = attr.replace(/(blind) ?(fight)/i, '$1-$2');
-    attr = attr.replace(/(point) ?(blank)/i, '$1-$2');
-    value = value.replace(/(half) ?(elf|orc)/i, '$1-$2');
-    value = value.replace(/(blind) ?(fight)/i, '$1-$2');
-    value = value.replace(/(point) ?(blank)/i, '$1-$2');
-    result[attr] = value;
-  }
-  return result;
 };
 
 /* Returns HTML attributes for Quilvyn's windows body tags. */
@@ -882,7 +851,7 @@ Quilvyn.importCharacters = function(attributes) {
       );
       return;
     }
-    character = Quilvyn.applyV2Changes(importedCharacter);
+    character = Object.assign({}, importedCharacter);
     characterPath = character['_path'] || '';
     characterUndo = [];
     characterCache[characterPath] = QuilvynUtils.clone(character);
@@ -982,7 +951,6 @@ Quilvyn.openCharacter = function(path) {
   }
   character =
     Quilvyn.retrieveCharacterFromStorage(PERSISTENT_CHARACTER_PREFIX + path);
-  character = Quilvyn.applyV2Changes(character);
   character['_path'] = path; // In case character saved before _path attr use
   characterPath = path;
   characterUndo = [];
