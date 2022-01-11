@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.3';
+var VERSION = '2.3.4';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -688,7 +688,6 @@ Quilvyn.editorHtml = function() {
     ['options', '', 'button', ['Options']],
     ['rules', 'Rules', 'select-one', []],
     ['rulesNotes', '', 'button', ['Notes']],
-    ['ruleRules', '', 'button', ['Rules']],
     ['custom', 'Custom Items', 'select-one', [
       'New Collection...', 'Delete Collections...', 'View/Export All',
       'Import...', 'Add Items...', 'Delete Items...', 'Apply Collection'
@@ -697,6 +696,9 @@ Quilvyn.editorHtml = function() {
     ['clear', 'Clear', 'select-one', 'bags'],
     ['randomize', 'Randomize', 'select-one', 'random']
   ];
+  if(window.location.href.includes('RulesButton')) {
+    quilvynElements.splice(5, 0, ['ruleRules', '', 'button', ['Rules']]);
+  }
   var elements = quilvynElements.concat(ruleSet.getEditorElements());
   var htmlBits = ['<form name="editor"><table>'];
   var i;
