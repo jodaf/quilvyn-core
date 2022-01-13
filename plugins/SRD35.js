@@ -6415,9 +6415,11 @@ SRD35.companionRules = function(
     'animalCompanion.' + name, '=', '"' + size + '"'
   );
   if(level != null && level > 1) {
+    rules.defineRule
+      ('animalCompanionStats.Level', 'animalCompanion.' + name, '=', level);
     QuilvynRules.prerequisiteRules
       (rules, 'validation', 'animalCompanion', 'animalCompanion.' + name,
-       'companionMasterLevel >= animalCompanionStats.level');
+       'companionMasterLevel >= animalCompanionStats.Level');
   }
   rules.defineRule('hasCompanion', 'animalCompanion.' + name, '=', '1');
 
@@ -8216,7 +8218,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       while(true) {
         pickAttrs(attributes, companionAttrs[attr] + '.', choices, 1, 1);
         attrs = this.applyRules(attributes);
-        if(attrs['validationNotes.familiar'] == null)
+        if(attrs['validationNotes.animalCompanion'] == null &&
+           attrs['validationNotes.familiar'] == null)
           break;
         for(var a in attributes) {
           if(a.startsWith(companionAttrs[attr] + '.'))
