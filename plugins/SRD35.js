@@ -8311,7 +8311,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
                      replace(/\(/g, '\\(').replace(/\)/g, '\\)');
           if(QuilvynUtils.sumMatching
                (validate,
-                new RegExp('^(sanity|validation)Notes.' + name)) != 0) {
+                new RegExp('^(sanity|validation)Notes.' + name + '.*\\D$')) != 0) {
             delete attributes[prefix + '.' + pick];
             debug[debug.length - 1] += ' ' + name;
           } else {
