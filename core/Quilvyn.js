@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.4';
+var VERSION = '2.3.5';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -440,7 +440,7 @@ Quilvyn.customAddItems = function() {
       continue;
     else {
       // Quote values that contain spaces.
-      var tokens = inputValue.match(/'[^']*'|"[^"]*"|[^,]+|,/g);
+      var tokens = (inputValue + '').match(/'[^']*'|"[^"]*"|[^,]+|,/g);
       if(tokens) {
         inputValue = '';
         for(var j = 0; j < tokens.length; j++) {
