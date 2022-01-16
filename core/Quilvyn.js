@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.5';
+var VERSION = '2.3.6';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -1151,7 +1151,8 @@ Quilvyn.redrawUI = function() {
       return false;
     }
     secondWindow.document.write(
-      '<html>\n' +
+      '<DOCTYPE html>\n' +
+      '<html lang="en">\n' +
       '<head>\n' +
       '  <title>Quilvyn</title>\n' +
       '  <style>\n' +
@@ -1184,7 +1185,8 @@ Quilvyn.redrawUI = function() {
     statusWindow = secondWindow.frames[1];
   } else {
     quilvynWindow.document.write(
-      '<html>\n' +
+      '<!DOCTYPE html>\n' +
+      '<html lang="en">\n' +
       '<head>\n' +
       '  <title>Quilvyn</title>\n' +
       '  <style>\n' +
@@ -1680,7 +1682,7 @@ Quilvyn.showHtml = function(html) {
   html = html.replace(/</g, '&lt;');
   html = html.replace(/>/g, '&gt;');
   Quilvyn.showHtml.htmlWindow.document.write(
-    '<html><head><title>HTML</title></head>\n' +
+    '<!DOCTYPE html><html lang="en"><head><title>HTML</title></head>\n' +
     '<body><pre>' + html + '</pre></body></html>\n'
   );
   Quilvyn.showHtml.htmlWindow.document.close();
