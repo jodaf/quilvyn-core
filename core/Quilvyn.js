@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.6';
+var VERSION = '2.3.7';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -1611,11 +1611,12 @@ Quilvyn.sheetHtml = function(attrs) {
     var attr = sheetAttributes[a];
     if(typeof(attr) == 'object') {
       attr.sort();
-      // If all values in the array are 1|true, assume that it's a set and
-      // suppress display of the values
-      if(attr.join(',').replace(/: (1|true)(,|$)/g, '').indexOf(':') < 0)
+      // If all values in the array are 1, assume that it's a set and suppress
+      // display of the values
+      if(a.indexOf('Note') < 0 &&
+         attr.join(',').replace(/: 1\b/g, '').indexOf(':') < 0)
         for(i = 0; i < attr.length; i++)
-          attr[i] = attr[i].replace(/:.*/, '');
+          attr[i] = attr[i].replace(/: 1/, '');
       sheetAttributes[a] = attr;
     }
   }
