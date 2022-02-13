@@ -16,6 +16,8 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*jshint esversion: 6 */
+/* jshint forin: false */
+/* globals ObjectViewer, Quilvyn, QuilvynRules, QuilvynUtils */
 "use strict";
 
 /*
@@ -6884,7 +6886,6 @@ SRD35.pathRules = function(
         console.log('Bad format for spell slot "' + spellSlots[i] + '"');
         continue;
       }
-      var spellLevel = matchInfo[2] * 1;
       var spellType = matchInfo[1];
       if(spellType != name)
         rules.defineRule
@@ -6991,7 +6992,6 @@ SRD35.raceRules = function(
         console.log('Bad format for spell slot "' + spellSlots[i] + '"');
         continue;
       }
-      var spellLevel = matchInfo[2] * 1;
       var spellType = matchInfo[1];
       if(spellType != name)
         rules.defineRule
@@ -7912,7 +7912,6 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   } else if(type == 'Armor' || type == 'Shield') {
     var zeroToFifty = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
-    var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     var weights = ['None', 'Light', 'Medium', 'Heavy'];
     if(type == 'Shield')
       weights.push('Tower');
