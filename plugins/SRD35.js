@@ -66,7 +66,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.1.0';
+SRD35.VERSION = '2.3.1.1';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -8049,14 +8049,14 @@ SRD35.initialEditorElements = function() {
     ['origin', 'Origin', 'text', [20]],
     ['player', 'Player', 'text', [20]],
     ['experience', 'Experience', 'text', [8, '(\\+?\\d+)?']],
-    ['feats', 'Feats', 'set', 'feats'],
+    ['feats', 'Feats', 'setbag', 'feats'],
     ['selectableFeatures', 'Selectable Features', 'set', 'selectableFeatures'],
     ['skills', 'Skills', 'bag', 'skills'],
     ['languages', 'Languages', 'set', 'languages'],
     ['hitPoints', 'Hit Points', 'text', [4, '(\\+?\\d+)?']],
     ['armor', 'Armor', 'select-one', 'armors'],
     ['shield', 'Shield', 'select-one', 'shields'],
-    ['weapons', 'Weapons', 'bag', 'weapons'],
+    ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['spells', 'Spells', 'fset', 'spells'],
     ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
     ['animalCompanionName', 'Name', 'text', [20]],
