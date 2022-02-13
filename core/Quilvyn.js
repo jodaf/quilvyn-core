@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.8';
+var VERSION = '2.3.9';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -355,16 +355,16 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
 };
 
 /* Interacts with the user to add custom items to the current collection. */
-Quilvyn.customAddItems = function() {
+Quilvyn.customAddRules = function() {
 
-  if(Quilvyn.customAddItems.win == null) {
+  if(Quilvyn.customAddRules.win == null) {
     // New custom add
     var choices = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
     var htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">',
       '<head>',
-      '<title>Add Custom Items</title></head>',
+      '<title>Add House Rules</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       LOGO_TAG + '<br/>',
       '<form onsubmit="return false"><table><tr>',
@@ -382,25 +382,25 @@ Quilvyn.customAddItems = function() {
       '</body>',
       '</html>'
     ];
-    Quilvyn.customAddItems.win = editWindow;
-    Quilvyn.customAddItems.win.document.write(htmlBits.join('\n') + '\n');
-    Quilvyn.customAddItems.win.document.close();
-    Quilvyn.customAddItems.win.canceled = false;
-    Quilvyn.customAddItems.win.done = false;
-    Quilvyn.customAddItems.win.update = true;
-    Quilvyn.customAddItems.win.document.getElementsByName('_type')[0].focus();
-    Quilvyn.customAddItems();
+    Quilvyn.customAddRules.win = editWindow;
+    Quilvyn.customAddRules.win.document.write(htmlBits.join('\n') + '\n');
+    Quilvyn.customAddRules.win.document.close();
+    Quilvyn.customAddRules.win.canceled = false;
+    Quilvyn.customAddRules.win.done = false;
+    Quilvyn.customAddRules.win.update = true;
+    Quilvyn.customAddRules.win.document.getElementsByName('_type')[0].focus();
+    Quilvyn.customAddRules();
     return;
-  } else if(Quilvyn.customAddItems.win.done) {
+  } else if(Quilvyn.customAddRules.win.done) {
     // User done making additions
-    Quilvyn.customAddItems.win = null;
+    Quilvyn.customAddRules.win = null;
     Quilvyn.refreshEditor(true);
     return;
-  } else if(!Quilvyn.customAddItems.win.okay) {
+  } else if(!Quilvyn.customAddRules.win.okay) {
     // Try again later, after updating the input fields as necessary
-    if(Quilvyn.customAddItems.win.update) {
+    if(Quilvyn.customAddRules.win.update) {
       var typeInput =
-        Quilvyn.customAddItems.win.document.getElementsByName('_type')[0];
+        Quilvyn.customAddRules.win.document.getElementsByName('_type')[0];
       var typeValue = InputGetValue(typeInput);
       var elements = ruleSet.choiceEditorElements(ruleSet, typeValue);
       var htmlBits = [];
@@ -415,15 +415,15 @@ Quilvyn.customAddItems = function() {
           InputHtml(name, type, params) + '</td></tr>'
         );
       }
-      Quilvyn.customAddItems.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
-      Quilvyn.customAddItems.win.update = false;
+      Quilvyn.customAddRules.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
+      Quilvyn.customAddRules.win.update = false;
     }
-    setTimeout('Quilvyn.customAddItems()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.customAddRules()', TIMEOUT_DELAY);
     return;
   }
 
   // Ready to add a custom item
-  var inputForm = Quilvyn.customAddItems.win.document.forms[0];
+  var inputForm = Quilvyn.customAddRules.win.document.forms[0];
   var attrs = [];
   var name = '';
   var type = '';
@@ -465,14 +465,14 @@ Quilvyn.customAddItems = function() {
     type.replaceAll('.', '%2E') + '.' +
     name.replaceAll('.', '%2E'), attrs
   );
-  Quilvyn.customAddItems.win.document.getElementById('message').innerHTML =
+  Quilvyn.customAddRules.win.document.getElementById('message').innerHTML =
     'Added ' + type + ' ' + name + ' to custom collection ' + customCollection;
 
-  Quilvyn.customAddItems.win.okay = false;
+  Quilvyn.customAddRules.win.okay = false;
   if(customCollection == ruleSet.getName()) {
     ruleSet.choiceRules(ruleSet, type, name, attrs);
   }
-  setTimeout('Quilvyn.customAddItems()', TIMEOUT_DELAY);
+  setTimeout('Quilvyn.customAddRules()', TIMEOUT_DELAY);
   return;
 
 };
@@ -525,7 +525,7 @@ Quilvyn.customDeleteCollections = function(collections) {
  * Interacts with the user to delete one or more custom items from the current
  * collection.
  */
-Quilvyn.customDeleteItems = function(items) {
+Quilvyn.customDeleteRules = function(items) {
 
   var path;
   var prefix =
@@ -539,7 +539,7 @@ Quilvyn.customDeleteItems = function(items) {
         items[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
     }
     Quilvyn.setDialog
-      ('Select items to delete', items, Quilvyn.customDeleteItems);
+      ('Select items to delete', items, Quilvyn.customDeleteRules);
     return;
   }
 
@@ -571,7 +571,7 @@ Quilvyn.customExportCollections = function() {
     '<!DOCTYPE html>',
     '<html lang="en">' +
     '<head>' +
-    '<title>Export Custom Items</title>' +
+    '<title>Export House Rules</title>' +
     '</head>',
     '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
     LOGO_TAG + '<br/>',
@@ -688,9 +688,9 @@ Quilvyn.editorHtml = function() {
     ['options', '', 'button', ['Options']],
     ['rules', 'Rules', 'select-one', []],
     ['rulesNotes', '', 'button', ['Notes']],
-    ['custom', 'Custom Items', 'select-one', [
+    ['custom', 'House Rules', 'select-one', [
       'New Collection...', 'Delete Collections...', 'View/Export All',
-      'Import...', 'Add Items...', 'Delete Items...', 'Apply Collection'
+      'Import...', 'Add Rules...', 'Delete Rules...', 'Apply Collection'
     ]],
     ['character', 'Character', 'select-one', []],
     ['clear', 'Clear', 'select-one', 'bags'],
@@ -1298,7 +1298,7 @@ Quilvyn.refreshEditor = function(redraw) {
   var customOpts = QuilvynUtils.getKeys(customCollections).sort();
   customOpts.unshift(
     'New Collection...', 'Delete Collections...', 'View/Export All',
-    'Import...', 'Add Items...', 'Delete Items...', 'Apply Collection'
+    'Import...', 'Add Rules...', 'Delete Rules...', 'Apply Collection'
   );
   InputSetOptions(editForm.rules, QuilvynUtils.getKeys(ruleSets));
   InputSetOptions(editForm.custom, customOpts);
@@ -1909,14 +1909,14 @@ Quilvyn.update = function(input) {
       Quilvyn.openCharacter(value);
   } else if(name == 'custom') {
     InputSetValue(input, customCollection);
-    if(value == 'Add Items...')
-      Quilvyn.customAddItems();
+    if(value == 'Add Rules...')
+      Quilvyn.customAddRules();
     else if(value == 'Apply Collection')
       Quilvyn.customApplyCollection();
     else if(value == 'Delete Collections...')
       Quilvyn.customDeleteCollections(null);
-    else if(value == 'Delete Items...')
-      Quilvyn.customDeleteItems(null);
+    else if(value == 'Delete Rules...')
+      Quilvyn.customDeleteRules(null);
     else if(value == 'Import...')
       Quilvyn.customImportCollections(null);
     else if(value == 'New Collection...')
