@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.7';
+var VERSION = '2.3.8';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -704,7 +704,7 @@ Quilvyn.editorHtml = function() {
   var i;
   var bagNames = [];
   for(i = 0; i < elements.length; i++)
-    if(elements[i][2].match(/^f?(bag|set)$/))
+    if(elements[i][2].match(/bag|set/))
       // Set options to combined attr and label; refreshEditor will split them
       // once the widget is created.
       bagNames.push(elements[i][0] + ',' + elements[i][1]);
@@ -737,8 +737,7 @@ Quilvyn.editorHtml = function() {
         htmlBits.push('<tr><td colspan=2><hr/></td></tr>');
       htmlBits.push('<tr><th>' + label + '</th><td>');
     }
-    if(type.match(/^f?(bag|set)$/)) {
-      // type = type.replace('f', ''); // Sub-menus largely supplant filters
+    if(type.match(/bag|set/)) {
       var widget = type.match(/bag/) ?
         InputHtml(name, 'text', [3, '(\\+?\\d+)?']) :
         InputHtml(name, 'checkbox', null);
@@ -750,9 +749,10 @@ Quilvyn.editorHtml = function() {
         '  <table><tr><td>' +
         InputHtml(name + '_sel', 'select-one', params) +
         (needSub ? '</td><td>' + InputHtml(name + '_sub', 'select-one', ['...']) : '') +
+        (type.match(/setbag/) ? InputHtml(name+'_chk', 'checkbox', null) : '') +
         '</td><td>' + widget + '</td></tr></table>' +
         (type.charAt(0)=='f' ? '</td></tr><tr><th>Filter</th><td>' + InputHtml(name + '_filter', 'text', [15]) : '')
-      );;
+      );
     } else {
       htmlBits.push('  ' + InputHtml(name, type, params));
     }
@@ -1315,6 +1315,7 @@ Quilvyn.refreshEditor = function(redraw) {
   for( ; i < editForm.elements.length; i++) {
     var input = editForm.elements[i];
     var name = input.name;
+    var chk = editForm[name + '_chk'];
     var sel = editForm[name + '_sel'];
     var value = null;
     if(name.match(/_sel|_sub/)) {
@@ -1363,6 +1364,8 @@ Quilvyn.refreshEditor = function(redraw) {
       value = character[attrName];
     }
     InputSetValue(input, value);
+    if(chk != null)
+      InputSetValue(chk, value);
   }
 
   InputSetValue(editForm.rules, ruleSet.getName());
@@ -1967,31 +1970,48 @@ Quilvyn.update = function(input) {
         sub.style.display = 'none';
       }
     }
+    value = character[name + '.' + value];
     if(editWindow.editor[name] != null)
-      InputSetValue(editWindow.editor[name], character[name + '.' + value]);
+      InputSetValue(editWindow.editor[name], value);
+    if(editWindow.editor[name + '_chk'] != null)
+      InputSetValue(editWindow.editor[name + '_chk'], value);
   } else if(name.indexOf('_sub') >= 0) {
     name = name.replace(/_sub/, '');
+    value = character[name + '.' + InputGetValue(editWindow.editor[name + '_sel']) + '(' + value + ')'];
     if(editWindow.editor[name] != null)
-      InputSetValue(editWindow.editor[name], character[name + '.' + InputGetValue(editWindow.editor[name + '_sel']) + '(' + value + ')']);
+      InputSetValue(editWindow.editor[name], value);
+    if(editWindow.editor[name + '_chk'] != null)
+      InputSetValue(editWindow.editor[name + '_chk'], value);
   } else {
+    if(name.indexOf('_chk') >= 0) {
+      name = name.replace('_chk', '');
+      input = editWindow.editor[name];
+      value = value ? 1 : '';
+      InputSetValue(input, value);
+    }
     var selector = editWindow.editor[name + '_sel'];
+    var attr = name;
     if(selector != null) {
       var subselector = editWindow.editor[name + '_sub'];
-      name += '.' + InputGetValue(selector) + (subselector && subselector.options.length > 0 ? '(' + InputGetValue(subselector) + ')' : '');
+      attr += '.' + InputGetValue(selector) + (subselector && subselector.options.length > 0 ? '(' + InputGetValue(subselector) + ')' : '');
     }
     characterUndo.push(QuilvynUtils.clone(character));
     if(!value && (value === '' || input.type == 'checkbox'))
-      delete character[name];
+      delete character[attr];
     else if(typeof(value) == 'string' &&
             value.match(/^\+-?\d+$/) &&
-            (typeof(character[name]) == 'number' ||
-             (typeof(character[name]) == 'string' &&
-              character[name].match(/^\d+$/)))) {
-      character[name] = (character[name] - 0) + (value.substring(1) - 0);
-      InputSetValue(input, character[name]);
+            (typeof(character[attr]) == 'number' ||
+             (typeof(character[attr]) == 'string' &&
+              character[attr].match(/^\d+$/)))) {
+      character[attr] = (character[attr] - 0) + (value.substring(1) - 0);
+      InputSetValue(input, character[attr]);
     }
     else
-      character[name] = value;
+      character[attr] = value;
+    if(editWindow.editor[name + '_chk'] != null) {
+      input = editWindow.editor[name + '_chk'];
+      InputSetValue(input, value);
+    }
     Quilvyn.refreshSheet();
     Quilvyn.refreshStatus(false);
   }

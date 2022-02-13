@@ -16,6 +16,8 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*jshint esversion: 6 */
+/* jshint forin: false */
+/* globals ObjectViewer, Quilvyn, QuilvynRules, QuilvynUtils */
 "use strict";
 
 /*
@@ -66,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.1.0';
+SRD35.VERSION = '2.3.1.1';
 
 /* List of items handled by choiceRules method. */
 SRD35.CHOICES = [
@@ -6884,7 +6886,6 @@ SRD35.pathRules = function(
         console.log('Bad format for spell slot "' + spellSlots[i] + '"');
         continue;
       }
-      var spellLevel = matchInfo[2] * 1;
       var spellType = matchInfo[1];
       if(spellType != name)
         rules.defineRule
@@ -6991,7 +6992,6 @@ SRD35.raceRules = function(
         console.log('Bad format for spell slot "' + spellSlots[i] + '"');
         continue;
       }
-      var spellLevel = matchInfo[2] * 1;
       var spellType = matchInfo[1];
       if(spellType != name)
         rules.defineRule
@@ -7912,7 +7912,6 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   } else if(type == 'Armor' || type == 'Shield') {
     var zeroToFifty = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
-    var zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     var weights = ['None', 'Light', 'Medium', 'Heavy'];
     if(type == 'Shield')
       weights.push('Tower');
@@ -8049,14 +8048,14 @@ SRD35.initialEditorElements = function() {
     ['origin', 'Origin', 'text', [20]],
     ['player', 'Player', 'text', [20]],
     ['experience', 'Experience', 'text', [8, '(\\+?\\d+)?']],
-    ['feats', 'Feats', 'set', 'feats'],
+    ['feats', 'Feats', 'setbag', 'feats'],
     ['selectableFeatures', 'Selectable Features', 'set', 'selectableFeatures'],
     ['skills', 'Skills', 'bag', 'skills'],
     ['languages', 'Languages', 'set', 'languages'],
     ['hitPoints', 'Hit Points', 'text', [4, '(\\+?\\d+)?']],
     ['armor', 'Armor', 'select-one', 'armors'],
     ['shield', 'Shield', 'select-one', 'shields'],
-    ['weapons', 'Weapons', 'bag', 'weapons'],
+    ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['spells', 'Spells', 'fset', 'spells'],
     ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
     ['animalCompanionName', 'Name', 'text', [20]],
