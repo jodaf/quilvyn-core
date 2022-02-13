@@ -30,7 +30,7 @@
   <li><a href="#sheet">The Character Sheet</a></li>
   <li><a href="#validation">Character Validation</a></li>
   <li><a href="#goodies">Magic Items and Special Possessions</a></li>
-  <li><a href="#custom">Adding Custom Items</a></li>
+  <li><a href="#house">Adding House Rules</a></li>
 </ul>
 </p>
 
@@ -144,14 +144,14 @@ allows you to change between different character-generation rule
 sets&mdash;Quilvyn comes with support for the v3.5 System Reference Document,
 and plug-ins for different game versions and particular campaign settings are
 available. The Notes button next to this pull-down opens a window with details
-about the particular rule set, and the Custom Items pull-down is discussed in
-<a href="#custom">Adding Custom Items</a>. The Character menu is discussed in
-<a href='#open'>Generating and Loading Characters</a>. The Summary item in the
+about the particular rule set, and the House Rules pull-down is discussed in
+<a href="#house">Adding House Rules</a>. The Character menu is discussed in
+<a href='#open'>Generating and Loading Characters</a>. The Summary option of the
 character menu opens a window with a table that summarizes attributes from all
 characters that you've opened since starting Quilvyn. This is intended to
 assist in planning and running adventures by providing a compact summary of the
 abilities of all characters in a party. The "Save", "Save As...", "Delete...",
-and "HTML" items in the character menu are described in
+and "HTML" options of the character menu are described in
 <a href='#save'>Saving Characters</a>.
 </p>
 
@@ -180,19 +180,19 @@ little creative editing.
 For security reasons, programs like Quilvyn are prohibited from writing files
 to your hard disk. Instead, character information is saved to your browser's
 persistent storage, where Quilvyn can access it later. The "Save" and "Save
-As..." items from the Character menu write information about the current
+As..." options of the Character menu write information about the current
 character to the browser's persistent storage. You can later retrieve a saved
 character by selecting the character from the Character menu. Use the
-"Delete..." item from the Character menu to remove a character's information
+"Delete..." option of the Character menu to remove a character's information
 from persistent storage.
 </p><p>
 If you want to cache a copy of your character sheet for viewing outside of
-Quilvyn, select the "HTML" item in the Character menu. Quilvyn opens a new
+Quilvyn, select the "HTML" option of the Character menu. Quilvyn opens a new
 window that contains HTML for the character sheet. Copy and paste the contents
 of this window into your favorite editor and save the result as a web page (a
 file with an extension of .html or .htm).
 </p><p>
-Selecting the "Export..." item from the character menu opens a new window that
+Selecting the "Export..." option of the character menu opens a new window that
 displays the attributes for all characters in your browser's persistent
 storage. You can copy the contents of this window to a file for backup, or you
 can paste them into a Quilvyn Import window in a different browser to transfer
@@ -279,78 +279,75 @@ also note effects that change a normally cross-class skill into a class skill.
 * Nomad background: Ride is a class skill<br/>
 </p>
 
-<a name="custom"><h3>Adding Custom Items</h3></a>
+<a name="house"><h3>Adding House Rules</h3></a>
 <p>
-You can add weapons, armor, familiars, and other items to Quilvyn's menus using
-the Custom Items pull-down menu. Custom items are grouped into named
-<i>collections</i> that you can apply to a rule set to make the items
-available. The Custom Items pull-down displays the name of the current
+You can add custom weapons, armor, familiars, and other items to Quilvyn's
+menus using the House Rules pull-down menu. Items defined by house rules are
+grouped into named <i>collections</i> that you can apply to a rule set to make
+the items available. The House Rules pull-down displays the name of the current
 collection. In addition to user-defined collections, Quilvyn predefines a
-custom item collection for each loaded rule set. Every time Quilvyn runs, it
-automatically adds items in each predefined collection to the corresponding
-rule set; there's no need to apply the collection to its rule set as a separate
-step.
+collection for each loaded rule set.
+
 </p><p>
-Selecting the "New Collection..." item in the Custom Items menu creates a new
+Selecting the "New Collection..." option of the House Rules menu creates a new
 collection with the name of your choice and makes it the current collection.
 </p><p>
-Selecting the "Delete Collection..." item in the Custom Items menu allows you
-to remove a user-defined collection and all the items in it. Deleting one of
-Quilvyn's predefined collections removes any items it contains but does not
+Selecting the "Delete Collection..." option of the House Rules menu allows you
+to remove a user-defined collection and all the rules in it. Deleting one of
+Quilvyn's predefined collections removes any rules it contains but does not
 delete the collection itself.
 </p><p>
-The "View/Export All" and "Import..." items in the Custom Items menu allow you
-to save and later reload your custom items. This can be useful for backup
-purposes and for copying custom items when you change browsers.
+The "View/Export All" and "Import..." options of the House Rules menu allow
+you to save and later reload your house rules. This can be useful for backup
+purposes and for copying house rules when you change browsers.
 </p><p>
-Selecting the "Add Items..." item in the Custom Items menu allows you to enter
-the attributes for new custom items. Begin by using the
-Type menu to select the type of item you want to add. Quilvyn displays a set
-of editing objects that allow you to enter attributes specific to that type of
-item. For example, if you select "Weapon", editing objects will appear that
-allow you to enter the new weapon's name, group (Simple, Martial, or Exotic),
-category (Unarmed, Light, One-Handed, Two-Handed, or Ranged), damage, critical
-threat threshold, critical damage multiplier, and (for ranged weapons) range
-increment. Once you have entered all the necessary information, press the Add
-button. Your new item is saved in the current collection.
+Selecting the "Add Rules..." option of the House Rules menu allows you to enter
+rules for new items. Begin by using the Type pull-down menu to select the type
+of item you want to add. Quilvyn displays a set of editing objects that allow
+you to enter attributes specific to that type of item. For example, if you
+select "Weapon", editing objects will appear that allow you to enter the new
+weapon's name, group (Simple, Martial, or Exotic), category (Unarmed, Light,
+One-Handed, Two-Handed, or Ranged), damage, critical threat threshold, critical
+damage multiplier, and (for ranged weapons) range increment. Once you have
+entered all the necessary attributes, press the Add button. A house rule for
+your new item is saved in the current collection.
 </p><p>
-The "Delete Item..." item in the Custom Items menu allows you to remove
-previously-entered custom items from the current collection. Note that, once a
-collection has been applied to the current rule set, deleted items continue to
-appear in the editor menu until the next time you launch Quilvyn.
+The "Delete Rule..." option of the House Rules menu allows you to remove
+previously-entered house rules from the current collection. Note that the
+item defined by a deleted rule continues to appear in the editor menu until the
+next time you launch Quilvyn.
 </p><p>
-Selecting the "Apply Collection..." item in the Custom Items menu allows you to
-add the custom items defined in the current collection to the current rule set.
-As mentioned above, Quilvyn automatically adds items in its predefined
-collections to the corresponding rule sets. The "Apply Collection..." item
-provides a way to make items from user-defined collections available in the
-editor menus.
+Selecting the "Apply Collection..." option of the House Rules menu allows you
+to add the house rules defined in the current collection to the current rule
+set. Note that, unlike user-defined rule sets, Quilvyn automatically applies
+each predefined collection to its corresponding rule set; there's no need to
+apply a predefined collection as a separate step.
 </p><p>
-For most custom item attributes, the values to enter into the Add Item dialog
-can be determined by looking at similar items from the core rule books. For
-example, for a new Animal Companion, Quilvyn prompts for the six basic
-abilities, hit dice, armor class, and damage, all of which are integer values.
-For Animal Companion damage, Quilvyn expects text in the format
+For most house rules, the values to enter into the Add Rule dialog can be
+determined by looking at similar items from the core rule books. For example,
+for a new Animal Companion, Quilvyn prompts for the six basic abilities, hit
+dice, armor class, and damage, all of which are integer values. For Animal
+Companion damage, Quilvyn expects text in the format
 int'd'int[+int][,int'd'int[+int]]. For an Ape, the value would be 1d6+5,1d6+2;
 for a Baboon, 1d6+3. Separate multiple values entered in a single box with
 commas. For example, when entering a new Deity, you might enter Light Mace
 in the Favored Weapon box and Good,Law,Strength in the Domain box.
 </p><p>
-In Quilvyn, Features describe the effects of both feats and class and racial
-features such as Darkvision and Bardic Knowledge. When adding a new feature,
-select the section of the character sheet where the note for the feature should
-appear, then enter the note text. Much like the starred notes discussed
-<a href="#goodies">above</a>, Quilvyn interprets the text of this note to
-update affected attributes. For example, if you add a feature named "Glib" with
-a note in the skill section that reads "+2 Bluff/+2 Perform (Oratory)", Quilvyn
-will update the skill modifier values for any character with that feature.
+In Quilvyn, Features describe the effects of feats, classes, and racial
+features. When adding a rule for a new Feature, select the section of the
+character sheet where the note for the Feature should appear, then enter the
+note text. Much like the starred notes discussed <a href="#goodies">above</a>,
+Quilvyn interprets the text of this note to update affected attributes. For
+example, if you add a feature named "Glib" with a note in the skill section
+that reads "+2 Bluff/+2 Perform (Oratory)", Quilvyn will update the skill
+modifier values for any character with that feature.
 </p><p>
 Many feats and classes have prerequisites that a character must meet in order
-to select them. In the customization dialog, these can be entered in the
+to select them. In the Add Rules dialog, these can be entered in the
 Prerequisite box for a new feat or class, with multiple prerequisites separated
 by commas. For example, taking a level in the Horizon Walker prestige class
 requires that the character have the Endurance feature and 8 ranks in Knowledge
-(Geography). This would be entered into the Prerequisite box for a custom
+(Geography). This would be entered into the Prerequisite box for a house rules
 class as follows.
 <pre>
   features.Endurance,skills.Knowledge (Geography) >= 8
