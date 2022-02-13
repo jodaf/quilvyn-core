@@ -8780,9 +8780,6 @@ SRD35.ruleNotes = function() {
     '<ul>\n' + '  <li>\n' +
     '    Racial favored class is not reported.\n' +
     '  </li><li>\n' +
-    '    You can only select each feat once. Multiple selections of feats\n' +
-    '    that allow it can be managed by defining custom feats.\n' +
-    '  </li><li>\n' +
     "    Quilvyn doesn't support double weapons where the two attacks have\n" +
     '    different critical multipliers. In the predefined weapons this\n' +
     '    affects only the Gnome Hooked Hammer, where Quilvyn displays a\n' +
