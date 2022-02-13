@@ -68,13 +68,13 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.1.1';
+SRD35.VERSION = '2.3.1.2';
 
-/* List of items handled by choiceRules method. */
+/* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
-  'Alignment', 'Animal Companion', 'Armor', 'Class', 'Deity', 'Familiar',
-  'Feat', 'Feature', 'Goody', 'Language', 'Npc', 'Path', 'Prestige', 'Race',
-  'School', 'Shield', 'Skill', 'Spell', 'Weapon'
+  'Animal Companion', 'Armor', 'Class', 'Deity', 'Familiar', 'Feat', 'Feature',
+  'Goody', 'Language', 'Npc', 'Path', 'Prestige', 'Race', 'School', 'Shield',
+  'Skill', 'Spell', 'Weapon'
 ];
 /*
  * List of items handled by randomizeOneAttribute method. The order handles
