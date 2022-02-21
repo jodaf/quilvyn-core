@@ -7346,7 +7346,7 @@ SRD35.spellRules = function(
   while((dc = description.match(/\((Fort\s|Ref\s|Will\s)/)) != null) {
     expr =
       domainSpell ? '(spellDifficultyClass.Domain||10)' :
-      casterGroup == 'W' ? '((spellDifficultyClass.W||10)>?(spellDifficultyClass.S||10))' :
+      casterGroup == 'W' ? '((spellDifficultyClass.W||0)>?(spellDifficultyClass.S||0)||10)' :
       '(spellDifficultyClass.' + casterGroup + '||10)';
     expr += ' + ' + level;
     if(school)
