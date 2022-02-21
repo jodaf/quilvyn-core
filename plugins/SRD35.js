@@ -7352,7 +7352,6 @@ SRD35.spellRules = function(
     if(school)
       expr += ' + (spellDCSchoolBonus.' + school + '||0)';
     description = description.replace(dc[0], '(DC %{' + expr + '} ' + dc[1]);
-    console.log(description);
   }
 
   var groupAndLevel = (domainSpell ? 'Domain' : casterGroup) + level;
