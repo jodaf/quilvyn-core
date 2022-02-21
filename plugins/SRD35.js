@@ -7349,8 +7349,19 @@ SRD35.spellRules = function(
       casterGroup == 'W' ? '((spellDifficultyClass.W||0)>?(spellDifficultyClass.S||0)||10)' :
       '(spellDifficultyClass.' + casterGroup + '||10)';
     expr += ' + ' + level;
-    if(school)
-      expr += ' + (spellDCSchoolBonus.' + school + '||0)';
+    if(school) {
+      if(school.includes(' ')) {
+        // Can't directly interpolate a variable that contains a space, so make
+        // a copy with spaces removed.
+        var noSpace = school.replaceAll(' ', '');
+        rules.defineRule('spellDCSchoolBonus.' + noSpace,
+          'spellDCSchoolBonus.' + school, '=', null
+        );
+        expr += ' + (spellDCSchoolBonus.' + noSpace + '||0)';
+      } else {
+        expr += ' + (spellDCSchoolBonus.' + school + '||0)';
+      }
+    }
     description = description.replace(dc[0], '(DC %{' + expr + '} ' + dc[1]);
   }
 
