@@ -4078,6 +4078,11 @@ SRD35.SPELLS = {
     'Description="R$RS\' Creatures in 20\' radius cannot lie for $L min (Will neg)"'
 
 };
+SRD35.MIN_CASTER_LEVEL = {
+  // Minimum caster level required to cast particular group/level spells.
+  // Filled in by classRules for later use by spellRules, e.g.,
+  // 'W4':7
+};
 SRD35.WEAPONS = {
   'Bastard Sword':'Level=3 Category=1h Damage=d10 Threat=19',
   'Battleaxe':'Level=2 Category=1h Damage=d8 Crit=3',
@@ -5683,6 +5688,11 @@ SRD35.classRules = function(
           note + '.1', '+', 'source.includes("' + spellType + spellLevel + '") ? 1 : null'
         );
       }
+      var spellTypeAndLevel = spellType + spellLevel;
+      var minLevel = spellSlots[i].split(':')[1].split('=')[0] * 1;
+      if(!(spellTypeAndLevel in SRD35.MIN_CASTER_LEVEL) ||
+         minLevel < SRD35.MIN_CASTER_LEVEL[spellTypeAndLevel])
+        SRD35.MIN_CASTER_LEVEL[spellTypeAndLevel] = minLevel;
     }
   }
 
@@ -7292,75 +7302,48 @@ SRD35.spellRules = function(
     console.log('Bad level "' + level + '" for spell ' + name);
     return;
   }
-
-  if(description == null)
-    description = '';
-
-  var inserts = description.match(/\$(\w+|\{[^}]+\})/g);
-  if(inserts != null) {
-    for(var i = 0; i < inserts.length; i++) {
-      description = description.replace(inserts[i], '%' + (i + 1));
-    }
+  if(description == null) {
+    console.log('Empty description for spell ' + name);
+    return;
   }
 
-  if(inserts != null) {
-    for(var i = 1; i <= inserts.length; i++) {
-      var insert = inserts[i - 1];
-      var expr = insert[1] == '{' ?
-          insert.substring(2, insert.length - 1) : insert.substring(1);
+  // Translate deprecated interpolation format
+  // ${?L\d*((div|max|min|minus|plus|times)\d+)*}?
+  // into %{} notation
+  var interpolations = description.match(/\$(\w+|\{[^}]+\})/g);
+  if(interpolations) {
+    for(var i = 0; i < interpolations.length; i++) {
+      var interpolation = interpolations[i];
+      var expr = interpolation[1] == '{' ?
+          interpolation.substring(2, interpolation.length - 1) :
+          interpolation.substring(1);
       if(SRD35.ABBREVIATIONS[expr])
         expr = SRD35.ABBREVIATIONS[expr];
-      var modifiers = expr.match(/L\d*|(plus|div|min|max|minus|times)\d+/g);
-      if(modifiers != null) {
-        for(var k = 0; k < modifiers.length; k++) {
-          var modifier = modifiers[k];
-          if(modifier.startsWith('L')) {
-            expr = 'source';
-            if(modifier.length > 1)
-              expr += ' * ' + modifier.substring(1);
-          } else if(modifier.startsWith('plus'))
-            expr += ' + ' + modifier.substring(4);
-          else if(modifier.startsWith('minus'))
-            expr += ' - ' + modifier.substring(5);
-          else if(modifier.startsWith('div')) {
-            if(expr == 'source')
-              expr = 'Math.floor(' + expr + ' / ' + modifier.substring(3) + ')';
-            else
-              expr = 'Math.floor((' + expr + ') / ' + modifier.substring(3) + ')';
-          } else if(modifier.startsWith('times')) {
-            if(expr == 'source')
-              expr = 'source * ' + modifier.substring(5);
-            else
-              expr = '(' + expr + ') * ' + modifier.substring(5);
-          } else if(modifier.startsWith('min'))
-            expr = 'Math.min(' + expr + ', ' + modifier.substring(3) + ')';
-          else if(modifier.startsWith('max'))
-            expr = 'Math.max(' + expr + ', ' + modifier.substring(3) + ')';
-        }
+      var term = expr.match(/^L(\d*)/);
+      if(term)
+        expr = expr.replace(term[0], 'lvl' + (term[1] ? '*' + term[1] : ''));
+      while((term = expr.match(/(div|max|min|minus|plus|times)(\d+)/))) {
+        if(term[1] == 'div')
+          expr = expr.replace(term[0], '//' + term[2]);
+        else if(term[1] == 'max')
+          expr = '(' + expr.replace(term[0], '>?' + term[2] + ')');
+        else if(term[1] == 'min')
+          expr = '(' + expr.replace(term[0], '<?' + term[2] + ')');
+        else if(term[1] == 'minus')
+          expr = '(' + expr.replace(term[0], '-' + term[2] + ')');
+        else if(term[1] == 'plus')
+          expr = '(' + expr.replace(term[0], '+' + term[2] + ')');
+        else // times
+          expr = expr.replace(term[0], '*' + term[2]);
       }
-      expr = expr.replace(/lvl|L/g, 'source');
-      rules.defineRule('spells.' + name + '.' + i,
-        'spells.' + name, '?', null,
-        'casterLevels.' + casterGroup, '=', expr
-      );
-      if(casterGroup == 'W') {
-        rules.defineRule('spells.' + name + '.' + i,
-          'casterLevels.S', '^=', expr
-        );
-      }
-      if(domainSpell) {
-        rules.defineRule
-          ('spells.' + name + '.' + i, 'casterLevels.Domain', '^=', expr);
-      }
+      description = description.replace(interpolations[i], '%{' + expr + '}');
     }
-
   }
 
   var dc;
   while((dc = description.match(/\((Fort\s|Ref\s|Will\s)/)) != null) {
-    var index = inserts != null ? inserts.length + 1 : 1;
-    description = description.replace(dc[0], '(DC %' + index + ' ' + dc[1]);
-    var dcRule = 'spells.' + name + '.' + index;
+    description = description.replace(dc[0], '(DC %1 ' + dc[1]);
+    var dcRule = 'spells.' + name + '.1';
     rules.defineRule(dcRule,
       'spells.' + name, '?', null,
       'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level
@@ -7377,7 +7360,14 @@ SRD35.spellRules = function(
       rules.defineRule(dcRule, 'spellDCSchoolBonus.' + school, '+', null);
   }
 
-  rules.defineChoice('notes', 'spells.' + name + ':' + description);
+  if(domainSpell)
+    casterGroup = 'Domain';
+  var groupAndLevel = casterGroup + level;
+  var minLevel = SRD35.MIN_CASTER_LEVEL[groupAndLevel] || 1;
+
+  rules.defineChoice('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(casterLevels.' + casterGroup + '||' + (casterGroup=='W' ? 'casterLevels.S||' : '') + minLevel + ')'));
+  rules.defineChoice('notes', 'potions.' + name + ':' + description.replaceAll('lvl', minLevel));
+  rules.defineChoice('notes', 'scrolls.' + name + ':' + description.replaceAll('lvl', minLevel));
 
 };
 
@@ -7679,6 +7669,8 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Spells', within: 'Section 2', separator: '; '},
             {name: 'Spell Difficulty Class', within: 'Section 2',
              separator: '; '},
+            {name: 'Potions', within: 'Section 2', separator: '; '},
+            {name: 'Scrolls', within: 'Section 2', separator: '; '},
             {name: 'Notes', within: 'Section 2'},
             {name: 'Hidden Notes', within: 'Section 2', format: '%V'}
       );
@@ -7814,7 +7806,9 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Spell Points', within: 'SpellStats'},
               {name: 'Spell Difficulty Class', within: 'SpellStats',
                format: '<b>Spell DC</b>: %V', separator: listSep},
-          {name: 'Spells', within: 'Magic', columns: '1L', separator: null}
+          {name: 'Spells', within: 'Magic', columns: '1L', separator: null},
+          {name: 'Potions', within: 'Magic', columns: '1L', separator: null},
+          {name: 'Scrolls', within: 'Magic', columns: '1L', separator: null}
       );
       if(name != 'Collected Notes') {
         viewer.addElements(
@@ -8057,6 +8051,8 @@ SRD35.initialEditorElements = function() {
     ['shield', 'Shield', 'select-one', 'shields'],
     ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['spells', 'Spells', 'fset', 'spells'],
+    ['potions', 'Potions', 'bag', 'spells'],
+    ['scrolls', 'Scrolls', 'bag', 'spells'],
     ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
     ['animalCompanionName', 'Name', 'text', [20]],
     ['familiar', 'Familiar', 'set', 'familiars'],
