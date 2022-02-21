@@ -7307,6 +7307,8 @@ SRD35.spellRules = function(
     return;
   }
 
+  var expr;
+
   // Translate deprecated interpolation format
   // ${?L\d*((div|max|min|minus|plus|times)\d+)*}?
   // into %{} notation
@@ -7314,9 +7316,9 @@ SRD35.spellRules = function(
   if(interpolations) {
     for(var i = 0; i < interpolations.length; i++) {
       var interpolation = interpolations[i];
-      var expr = interpolation[1] == '{' ?
-          interpolation.substring(2, interpolation.length - 1) :
-          interpolation.substring(1);
+      expr = interpolation[1] == '{' ?
+        interpolation.substring(2, interpolation.length - 1) :
+        interpolation.substring(1);
       if(SRD35.ABBREVIATIONS[expr])
         expr = SRD35.ABBREVIATIONS[expr];
       var term = expr.match(/^L(\d*)/);
@@ -7342,32 +7344,31 @@ SRD35.spellRules = function(
 
   var dc;
   while((dc = description.match(/\((Fort\s|Ref\s|Will\s)/)) != null) {
-    description = description.replace(dc[0], '(DC %1 ' + dc[1]);
-    var dcRule = 'spells.' + name + '.1';
-    rules.defineRule(dcRule,
-      'spells.' + name, '?', null,
-      'spellDifficultyClass.' + casterGroup, '=', 'source + ' + level
-    );
-    if(casterGroup == 'W') {
-      rules.defineRule
-        (dcRule, 'spellDifficultyClass.S', '^=', 'source + ' + level);
-    }
-    if(domainSpell) {
-      rules.defineRule
-        (dcRule, 'spellDifficultyClass.Domain', '^=', 'source + ' + level);
-    }
+    expr =
+      domainSpell ? '(spellDifficultyClass.Domain||10)' :
+      casterGroup == 'W' ? '((spellDifficultyClass.W||10)>?(spellDifficultyClass.S||10))' :
+      '(spellDifficultyClass.' + casterGroup + '||10)';
+    expr += ' + ' + level;
     if(school)
-      rules.defineRule(dcRule, 'spellDCSchoolBonus.' + school, '+', null);
+      expr += ' + (spellDCSchoolBonus.' + school + '||0)';
+    description = description.replace(dc[0], '(DC %{' + expr + '} ' + dc[1]);
+    console.log(description);
   }
 
-  if(domainSpell)
-    casterGroup = 'Domain';
-  var groupAndLevel = casterGroup + level;
+  var groupAndLevel = (domainSpell ? 'Domain' : casterGroup) + level;
   var minLevel = SRD35.MIN_CASTER_LEVEL[groupAndLevel] || 1;
 
-  rules.defineChoice('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(casterLevels.' + casterGroup + '||' + (casterGroup=='W' ? 'casterLevels.S||' : '') + minLevel + ')'));
-  rules.defineChoice('notes', 'potions.' + name + ':' + description.replaceAll('lvl', minLevel));
-  rules.defineChoice('notes', 'scrolls.' + name + ':' + description.replaceAll('lvl', minLevel));
+  expr =
+    domainSpell ? 'casterLevels.Domain' :
+    casterGroup=='W' ? '(casterLevels.W||casterLevels.S)' :
+    'casterLevels.' + casterGroup;
+  expr += '||' + minLevel;
+  rules.defineChoice
+    ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + ')'));
+  rules.defineChoice
+    ('notes', 'potions.' + name + ':' + description.replaceAll('lvl',minLevel));
+  rules.defineChoice
+    ('notes', 'scrolls.' + name + ':' + description.replaceAll('lvl',minLevel));
 
 };
 
@@ -8766,6 +8767,9 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    Quilvyn assumes that masterwork composite bows are specially built' +
     '    to allow a strength damage bonus to be applied.\n' +
+    '  </li><li>\n' +
+    '    Quilvyn uses the minimumm required caster level for computing\n' +
+    '    potion and scroll effects.\n' +
     '  </li><li>\n' +
     '    Quilvyn gives Commoners Simple Weapon Proficiency to account for' +
     "    the class's proficiency in a single simple weapon.\n" +
