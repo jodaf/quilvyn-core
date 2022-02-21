@@ -23,8 +23,8 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * parses an expression string which can afterward be evaluated by passing
  * a value dictionary to the eval method. In addition to the usual unary and
  * binary operators, Expr supports the binary operators // (integer division),
- * >? (returns the greater operand), <? (returns the lesser operand), and
- * .. (string catenation), along with their corresponding assignment ops.
+ * >? (returns the greater operand), and <? (returns the lesser operand),
+ * along with their corresponding assignment ops.
  */
 function Expr(str) {
 
@@ -97,11 +97,12 @@ Expr.LITERAL_TYPE = 1;
 Expr.OPERATOR_TYPE = 2;
 
 Expr.OPERATOR_PRECEDENCE = {
-  '(':0, '?':0,
-  '=':1, '<?=':1, '>?=':1, '+=':1, '-=':1, '..=':1, '*=':1, '/=':1, '//=':1,
+  '(':-1,
+  '?':0,
+  '=':1, '<?=':1, '>?=':1, '+=':1, '-=':1, '*=':1, '/=':1, '//=':1,
   '&&':2, '||':2,
   '==':3, '!=':3, '<':3, '<=':3, '>':3, '>=':3, '<?':3, '>?':3,
-  '+':5, '-':5, '..':5,
+  '+':5, '-':5,
   '*':7, '/':7, '//':7,
   'u+':8, 'u-':8, '!':8, 'u!':8
 }
@@ -110,8 +111,8 @@ Expr.TOKEN_PAT = new RegExp(
   '\\d+(\\.\\d+)?|"(\\\\"|[^"])*"|\'(\\\\\'|[^\'])*\'|' + /* literals */
   '[\\w\\.]+|' + /* identifiers */
   '==|!=|<\\?|<=|<|>\\?|>=|>|' + /* relops */
-  '(<\\?|>\\?|\\+|-|\\.|\\*|/|//)?=|' + /* assign ops */
-  '\\+|-|\\.|\\*|//|/|' + /* arith/concat ops */
+  '(<\\?|>\\?|\\+|-|\\*|/|//)?=|' + /* assign ops */
+  '\\+|-|\\*|//|/|' + /* arith ops */
   '&&|\\|\\||' + /* conjunction */
   '\\?|:|' + /* ternary op */
   '!|' + /* negation */
@@ -155,6 +156,7 @@ Expr.prototype.eval = function(dict) {
         var right = stack.pop();
         var left = stack.pop();
         var leftVal = left.tipe == Expr.IDENTIFIER_TYPE ? dict[left.value] : left.value;
+        var testPlus;
         var value = right.tipe == Expr.IDENTIFIER_TYPE ? dict[right.value] : right.value;
         if (op == '==') {
           value = leftVal == value;
@@ -189,11 +191,13 @@ Expr.prototype.eval = function(dict) {
         } else if (op == '>?') {
           value = leftVal > value ? leftVal : value;
         } else if (op == '+') {
-          value = Number(leftVal) + Number(value);
+          testPlus = Number(leftVal) + Number(value);
+          if (isNaN(testPlus))
+            value = String(leftVal).concat(String(value));
+          else
+            value = testPlus;
         } else if (op == '-') {
           value = leftVal - value;
-        } else if (op == '..') {
-          value = String(leftVal).concat(String(value));
         } else if (op == '*') {
           value = leftVal * value;
         } else if (op == '/') {
@@ -206,11 +210,13 @@ Expr.prototype.eval = function(dict) {
           } else if (op == '>?=') {
             value = leftVal > value ? leftVal : value;
           } else if (op == '+=') {
-            value = Number(leftVal) + Number(value);
+            testPlus = Number(leftVal) + Number(value);
+            if (isNaN(testPlus))
+              value = String(leftVal).concat(String(value));
+            else
+              value = testPlus;
           } else if (op == '-=') {
             value = leftVal - value;
-          } else if (op == '..=') {
-            value = String(leftVal).concat(String(value));
           } else if (op == '*=') {
             value = leftVal * value;
           } else if (op == '/=') {
