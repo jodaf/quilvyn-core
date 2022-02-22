@@ -1643,7 +1643,8 @@ SRD35.SPELLS = {
   'Aid':
     'School=Enchantment ' +
     'Level=Adept2,C2,Good2,Luck2 ' +
-    'Description="Touched gains +1 attack and fear saves and 1d8+$Lmin10 temporary HP for $L min"',
+    'Description="Touched gains +1 attack and fear saves and 1d8+$Lmin10 temporary HP for $L min" ' +
+    'Liquid=Potion',
   'Air Walk':
     'School=Transmutation ' +
     'Level=Air4,C4,D4 ' +
@@ -1764,11 +1765,13 @@ SRD35.SPELLS = {
   'Barkskin':
     'School=Transmutation ' +
     'Level=D2,Plant2,R2 ' +
-    'Description="Touched gains +$Lplus3div3min5 natural armor for $L10 min"',
+    'Description="Touched gains +$Lplus3div3min5 natural armor for $L10 min" ' +
+    'Liquid=Potion',
   "Bear's Endurance":
     'School=Transmutation ' +
     'Level=Adept2,C2,D2,R2,W2 ' +
-    'Description="Touched gains +4 Constitution for $L min"',
+    'Description="Touched gains +4 Constitution for $L min" ' +
+    'Liquid=Potion',
   "Mass Bear's Endurance":
     'School=Transmutation ' +
     'Level=C6,D6,W6 ' +
@@ -1804,7 +1807,8 @@ SRD35.SPELLS = {
   'Bless Weapon':
     'School=Transmutation ' +
     'Level=P1 ' +
-    'Description="Touched weapon becomes good aligned and magic, crit vs. evil foes confirmed for $L min"',
+    'Description="Touched weapon becomes good aligned and magic, crit vs. evil foes confirmed for $L min" ' +
+    'Liquid=Oil',
   'Blight':
     'School=Necromancy ' +
     'Level=D4,W5 ' +
@@ -1820,7 +1824,8 @@ SRD35.SPELLS = {
   'Blur':
     'School=Illusion ' +
     'Level=B2,W2 ' +
-    'Description="Foes attacking touched have 20% miss chance for $L min"',
+    'Description="Foes attacking touched have 20% miss chance for $L min" ' +
+    'Liquid=Potion',
   'Break Enchantment':
     'School=Abjuration ' +
     'Level=Adept5,B4,C5,Luck5,P4,W5 ' +
@@ -1828,7 +1833,8 @@ SRD35.SPELLS = {
   "Bull's Strength":
     'School=Transmutation ' +
     'Level=Adept2,Blackguard2,C2,D2,P2,Strength2,W2 ' +
-    'Description="Touched gains +4 Strength for $L min"',
+    'Description="Touched gains +4 Strength for $L min" ' +
+    'Liquid=Potion',
   "Mass Bull's Strength":
     'School=Transmutation ' +
     'Level=C6,D6,W6 ' +
@@ -1857,7 +1863,8 @@ SRD35.SPELLS = {
   "Cat's Grace":
     'School=Transmutation ' +
     'Level=Adept2,Assassin2,B2,D2,R2,W2 ' +
-    'Description="Touched gains +4 Dexterity for $L min"',
+    'Description="Touched gains +4 Dexterity for $L min" ' +
+    'Liquid=Potion',
   "Mass Cat's Grace":
     'School=Transmutation ' +
     'Level=B6,D6,W6 ' +
@@ -2054,7 +2061,8 @@ SRD35.SPELLS = {
   'Cure Light Wounds':
     'School=Conjuration ' +
     'Level=Adept1,B1,Blackguard1,C1,D1,Healing1,P1,R2 ' +
-    'Description="Touched heals (undead suffers) 1d8+$Lmin5 HP (Will half)"',
+    'Description="Touched heals (undead suffers) 1d8+$Lmin5 HP (Will half)" ' +
+    'Liquid=Potion',
   'Mass Cure Light Wounds':
     'School=Conjuration ' +
     'Level=B5,C5,D6,Healing5 ' +
@@ -2066,7 +2074,8 @@ SRD35.SPELLS = {
   'Cure Moderate Wounds':
     'School=Conjuration ' +
     'Level=Adept2,B2,Blackguard2,C2,D3,Healing2,P3,R3 ' +
-    'Description="Touched heals (undead suffers) 2d8+$Lmin10 HP (Will half)"',
+    'Description="Touched heals (undead suffers) 2d8+$Lmin10 HP (Will half)" ' +
+    'Liquid=Potion',
   'Mass Cure Moderate Wounds':
     'School=Conjuration ' +
     'Level=B6,C6,D7 ' +
@@ -2074,7 +2083,8 @@ SRD35.SPELLS = {
   'Cure Serious Wounds':
     'School=Conjuration ' +
     'Level=Adept3,B3,Blackguard3,C3,D4,Healing3,P4,R4 ' +
-    'Description="Touched heals (undead suffers) 3d8+$Lmin15 HP (Will half)"',
+    'Description="Touched heals (undead suffers) 3d8+$Lmin15 HP (Will half)" ' +
+    'Liquid=Potion',
   'Mass Cure Serious Wounds':
     'School=Conjuration ' +
     'Level=C7,D8 ' +
@@ -2091,15 +2101,18 @@ SRD35.SPELLS = {
   'Darkness':
     'School=Evocation ' +
     'Level=Adept2,Assassin2,B2,Blackguard2,C2,W2 ' +
-    'Description="Touched radiates dim light in 20\' radius for $L10 min"',
+    'Description="Touched radiates dim light in 20\' radius for $L10 min" ' +
+    'Liquid=Oil',
   'Darkvision':
     'School=Transmutation ' +
     'Level=R3,W2 ' +
-    'Description="Touched sees 60\' in total darkness for $L hr"',
+    'Description="Touched sees 60\' in total darkness for $L hr" ' +
+    'Liquid=Potion',
   'Daylight':
     'School=Evocation ' +
     'Level=Adept3,B3,C3,D3,P3,W3 ' +
-    'Description="Touched radiates daylight in 60\' radius for $L10 min"',
+    'Description="Touched radiates daylight in 60\' radius for $L10 min" ' +
+    'Liquid=Oil',
   'Daze':
     'School=Enchantment ' +
     'Level=B0,W0 ' +
@@ -2131,7 +2144,8 @@ SRD35.SPELLS = {
   'Delay Poison':
     'School=Conjuration ' +
     'Level=Adept2,B2,C2,D2,P2,R1 ' +
-    'Description="Touched gains immunity to poison for $L hr"',
+    'Description="Touched gains immunity to poison for $L hr" ' +
+    'Liquid=Potion',
   'Delayed Blast Fireball':
     'School=Evocation ' +
     'Level=W7 ' +
@@ -2263,7 +2277,8 @@ SRD35.SPELLS = {
   'Displacement':
     'School=Illusion ' +
     'Level=B3,W3 ' +
-    'Description="Foes attacking touched suffer 50% miss chance for $L rd"',
+    'Description="Foes attacking touched suffer 50% miss chance for $L rd" ' +
+    'Liquid=Potion',
   'Disrupt Undead':
     'School=Necromancy ' +
     'Level=W0 ' +
@@ -2308,7 +2323,8 @@ SRD35.SPELLS = {
   "Eagle's Splendor":
     'School=Transmutation ' +
     'Level=B2,Blackguard2,C2,P2,W2 ' +
-    'Description="Touched gains +4 Charisma for $L min"',
+    'Description="Touched gains +4 Charisma for $L min" ' +
+    'Liquid=Potion',
   "Mass Eagle's Splendor":
     'School=Transmutation ' +
     'Level=B6,C6,W6 ' +
@@ -2324,7 +2340,8 @@ SRD35.SPELLS = {
   'Endure Elements':
     'School=Abjuration ' +
     'Level=Adept1,C1,D1,P1,R1,Sun1,W1 ' +
-    'Description="Touched comfortable between -50F and 140F for 1 dy"',
+    'Description="Touched comfortable between -50F and 140F for 1 dy" ' +
+    'Liquid=Potion',
   'Energy Drain':
     'School=Necromancy ' +
     'Level=C9,W9 ' +
@@ -2336,7 +2353,8 @@ SRD35.SPELLS = {
   'Enlarge Person':
     'School=Transmutation ' +
     'Level=Strength1,W1 ' +
-    'Description="R$RS\' Target humanoid dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 AC) for $L min (Fort neg)"',
+    'Description="R$RS\' Target humanoid dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 AC) for $L min (Fort neg)" ' +
+    'Liquid=Potion',
   'Mass Enlarge Person':
     'School=Transmutation ' +
     'Level=W4 ' +
@@ -2441,7 +2459,8 @@ SRD35.SPELLS = {
   'Flame Arrow':
     'School=Transmutation ' +
     'Level=W3 ' +
-    'Description="R$RS\' 50 projectiles inflict +1d6 HP for $L10 min"',
+    'Description="R$RS\' 50 projectiles inflict +1d6 HP for $L10 min" ' +
+    'Liquid=Oil',
   'Flame Blade':
     'School=Evocation ' +
     'Level=D2 ' +
@@ -2469,7 +2488,8 @@ SRD35.SPELLS = {
   'Fly':
     'School=Transmutation ' +
     'Level=Travel3,W3 ' +
-    'Description="Touched gains 60\' fly speed for $L min"',
+    'Description="Touched gains 60\' fly speed for $L min" ' +
+    'Liquid=Potion',
   'Fog Cloud':
     'School=Conjuration ' +
     'Level=D2,W2,Water2 ' +
@@ -2493,7 +2513,8 @@ SRD35.SPELLS = {
   "Fox's Cunning":
     'School=Transmutation ' +
     'Level=Assassin2,B2,W2 ' +
-    'Description="Touched gains +4 Intelligence for $L min"',
+    'Description="Touched gains +4 Intelligence for $L min" ' +
+    'Liquid=Potion',
   "Mass Fox's Cunning":
     'School=Transmutation ' +
     'Level=B6,W6 ' +
@@ -2514,7 +2535,8 @@ SRD35.SPELLS = {
   'Gaseous Form':
     'School=Transmutation ' +
     'Level=Air3,B3,W3 ' +
-    'Description="Touched becomes insubstantial (DR 10/magic, immune to poison and critical hits, unable to use spell components, fly 10\') for $L2 min"',
+    'Description="Touched becomes insubstantial (DR 10/magic, immune to poison and critical hits, unable to use spell components, fly 10\') for $L2 min" ' +
+    'Liquid=Potion',
   'Gate':
     'School=Conjuration ' +
     'Level=C9,W9 ' +
@@ -2570,7 +2592,8 @@ SRD35.SPELLS = {
   'Good Hope':
     'School=Enchantment ' +
     'Level=B3 ' +
-    'Description="R$RM\' $L targets in 15\' radius gain +2 attack, damage, saves, and checks for $L min"',
+    'Description="R$RM\' $L targets in 15\' radius gain +2 attack, damage, saves, and checks for $L min" ' +
+    'Liquid=Potion',
   'Goodberry':
     'School=Transmutation ' +
     'Level=D1 ' +
@@ -2615,7 +2638,8 @@ SRD35.SPELLS = {
   'Haste':
     'School=Transmutation ' +
     'Level=B3,W3 ' +
-    'Description="R$RS\' $L targets in 15\' radius gain extra attack, +1 attack, AC, and Reflex, and +30\' Speed for $L rd"',
+    'Description="R$RS\' $L targets in 15\' radius gain extra attack, +1 attack, AC, and Reflex, and +30\' Speed for $L rd" ' +
+    'Liquid=Potion',
   'Heal':
     'School=Conjuration ' +
     'Level=Adept5,C6,D7,Healing6 ' +
@@ -2643,7 +2667,8 @@ SRD35.SPELLS = {
   'Heroism':
     'School=Enchantment ' +
     'Level=B2,W3 ' +
-    'Description="Touched gains +2 attack, saves, and skill checks for $L10 min"',
+    'Description="Touched gains +2 attack, saves, and skill checks for $L10 min" ' +
+    'Liquid=Potion',
   'Greater Heroism':
     'School=Enchantment ' +
     'Level=B5,W6 ' +
@@ -2651,11 +2676,13 @@ SRD35.SPELLS = {
   'Hide From Animals':
     'School=Abjuration ' +
     'Level=D1,R1 ' +
-    'Description="$L touched become imperceptible to animals for $L10 min"',
+    'Description="$L touched become imperceptible to animals for $L10 min" ' +
+    'Liquid=Potion',
   'Hide From Undead':
     'School=Abjuration ' +
     'Level=C1 ' +
-    'Description="$L touched become imperceptible to undead for $L10 min (Will neg)"',
+    'Description="$L touched become imperceptible to undead for $L10 min (Will neg)" ' +
+    'Liquid=Potion',
   'Hideous Laughter':
     'School=Enchantment ' +
     'Level=B1,W2 ' +
@@ -2800,7 +2827,8 @@ SRD35.SPELLS = {
   'Invisibility':
     'School=Illusion ' +
     'Level=Adept2,Assassin2,B2,Trickery2,W2 ' +
-    'Description="Touched becomes invisible for $L min or until attacks"',
+    'Description="Touched becomes invisible for $L min or until attacks" ' +
+    'Liquid=Oil,Potion',
   'Greater Invisibility':
     'School=Illusion ' +
     'Level=Assassin4,B4,W4 ' +
@@ -2833,12 +2861,14 @@ SRD35.SPELLS = {
   'Jump':
     'School=Transmutation ' +
     'Level=Assassin1,D1,R1,W1 ' +
-    'Description="Touched gains +${lvl<5?10:lvl<9?20:30} Jump for $L min"',
+    'Description="Touched gains +${lvl<5?10:lvl<9?20:30} Jump for $L min" ' +
+    'Liquid=Potion',
 
   'Keen Edge':
     'School=Transmutation ' +
     'Level=W3 ' +
-    'Description="R$RS\' Target piercing or slashing weapon has dbl threat range for $L10 min"',
+    'Description="R$RS\' Target piercing or slashing weapon has dbl threat range for $L10 min" ' +
+    'Liquid=Oil',
   'Knock':
     'School=Transmutation ' +
     'Level=W2 ' +
@@ -2855,7 +2885,8 @@ SRD35.SPELLS = {
   'Levitate':
     'School=Transmutation ' +
     'Level=W2 ' +
-    'Description="R$RS\' Self moves willing target up and down 20\'/rd for $L min"',
+    'Description="R$RS\' Self moves willing target up and down 20\'/rd for $L min" ' +
+    'Liquid=Oil,Potion',
   'Light':
     'School=Evocation ' +
     'Level=Adept0,B0,C0,D0,W0 ' +
@@ -2892,7 +2923,8 @@ SRD35.SPELLS = {
   'Mage Armor':
     'School=Conjuration ' +
     'Level=W1 ' +
-    'Description="Touched gains +4 AC for $L hr"',
+    'Description="Touched gains +4 AC for $L hr" ' +
+    'Liquid=Potion',
   'Mage Hand':
     'School=Transmutation ' +
     'Level=B0,W0 ' +
@@ -2928,27 +2960,33 @@ SRD35.SPELLS = {
   'Magic Circle Against Chaos':
     'School=Abjuration ' +
     'Level=C3,Law3,P3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for $L10 min"',
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for $L10 min" ' +
+    'Liquid=Potion',
   'Magic Circle Against Evil':
     'School=Abjuration ' +
     'Level=C3,Good3,P3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for $L10 min"',
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for $L10 min" ' +
+    'Liquid=Potion',
   'Magic Circle Against Good':
     'School=Abjuration ' +
     'Level=Assassin3,C3,Evil3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for $L10 min"',
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for $L10 min" ' +
+    'Liquid=Potion',
   'Magic Circle Against Law':
     'School=Abjuration ' +
     'Level=C3,Chaos3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for $L10 min"',
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for $L10 min" ' +
+    'Liquid=Potion',
   'Magic Fang':
     'School=Transmutation ' +
     'Level=D1,R1 ' +
-    'Description="Touched natural weapon gains +1 attack and damage for $L min"',
+    'Description="Touched natural weapon gains +1 attack and damage for $L min" ' +
+    'Liquid=Potion',
   'Greater Magic Fang':
     'School=Transmutation ' +
     'Level=D3,R3 ' +
-    'Description="R$RS\' target natural weapon gains +$Ldiv4min4 attack and damage for $L hr"',
+    'Description="R$RS\' target natural weapon gains +$Ldiv4min4 attack and damage for $L hr" ' +
+    'Liquid=Potion',
   'Magic Jar':
     'School=Necromancy ' +
     'Level=W5 ' +
@@ -2964,19 +3002,23 @@ SRD35.SPELLS = {
   'Magic Stone':
     'School=Transmutation ' +
     'Level=C1,D1,Earth1 ' +
-    'Description="3 touched stones attack at +1 and inflict 1d6+1 HP (2d6+2 HP vs. undead) for 30 min"',
+    'Description="3 touched stones attack at +1 and inflict 1d6+1 HP (2d6+2 HP vs. undead) for 30 min" ' +
+    'Liquid=Oil',
   'Magic Vestment':
     'School=Transmutation ' +
     'Level=C3,Strength3,War3 ' +
-    'Description="Touched armor, shield, or clothing gives +$Ldiv4min5 AC for $L hr"',
+    'Description="Touched armor, shield, or clothing gives +$Ldiv4min5 AC for $L hr" ' +
+    'Liquid=Oil',
   'Magic Weapon':
     'School=Transmutation ' +
     'Level=Blackguard1,C1,P1,W1,War1 ' +
-    'Description="Touched weapon gains +1 attack and damage for $L min"',
+    'Description="Touched weapon gains +1 attack and damage for $L min" ' +
+    'Liquid=Oil',
   'Greater Magic Weapon':
     'School=Transmutation ' +
     'Level=C4,P3,W3 ' +
-    'Description="R$RS\' target weapon gains +$Ldiv4min4 attack and damage for $L hr"',
+    'Description="R$RS\' target weapon gains +$Ldiv4min4 attack and damage for $L hr" ' +
+    'Liquid=Oil',
   'Major Creation':
     'School=Conjuration ' +
     'Level=Adept5,W5 ' +
@@ -3044,7 +3086,8 @@ SRD35.SPELLS = {
   'Misdirection':
     'School=Illusion ' +
     'Level=Assassin3,B2,W2 ' +
-    'Description="R$RS\' Redirects divinations upon target for $L hr"',
+    'Description="R$RS\' Redirects divinations upon target for $L hr" ' +
+    'Liquid=Potion',
   'Mislead':
     'School=Illusion ' +
     'Level=B5,Luck6,Trickery6,W6 ' +
@@ -3073,7 +3116,8 @@ SRD35.SPELLS = {
   'Neutralize Poison':
     'School=Conjuration ' +
     'Level=Adept3,B4,C4,D3,P4,R3 ' +
-    'Description="Touched neutralized $L10 min, immunized, or detoxified"',
+    'Description="Touched neutralized $L10 min, immunized, or detoxified" ' +
+    'Liquid=Potion',
   'Nightmare':
     'School=Illusion ' +
     'Level=B5,W5 ' +
@@ -3081,7 +3125,8 @@ SRD35.SPELLS = {
   'Nondetection':
     'School=Abjuration ' +
     'Level=Assassin3,R4,Trickery3,W3 ' +
-    'Description="Touched gains SR $Lplus11 (divination) (or self gains SR $Lplus15) for $L hr"',
+    'Description="Touched gains SR $Lplus11 (divination) (or self gains SR $Lplus15) for $L hr" ' +
+    'Liquid=Potion',
 
   'Obscure Object':
     'School=Abjuration ' +
@@ -3106,7 +3151,8 @@ SRD35.SPELLS = {
   "Owl's Wisdom":
     'School=Transmutation ' +
     'Level=C2,D2,P2,R2,W2 ' +
-    'Description="Touched gains +4 Wisdom for $L min"',
+    'Description="Touched gains +4 Wisdom for $L min" ' +
+    'Liquid=Potion',
   "Mass Owl's Wisdom":
     'School=Transmutation ' +
     'Level=C6,D6,W6 ' +
@@ -3115,7 +3161,8 @@ SRD35.SPELLS = {
   'Pass Without Trace':
     'School=Transmutation ' +
     'Level=Assassin2,D1,R1 ' +
-    'Description="$L touched leave no tracks or scent for $L hr"',
+    'Description="$L touched leave no tracks or scent for $L hr" ' +
+    'Liquid=Potion',
   'Passwall':
     'School=Transmutation ' +
     'Level=W5 ' +
@@ -3243,27 +3290,33 @@ SRD35.SPELLS = {
   'Protection From Arrows':
     'School=Abjuration ' +
     'Level=W2 ' +
-    'Description="Touched gains DR 10/magic vs. ranged for $L hr or $L10min100 HP"',
+    'Description="Touched gains DR 10/magic vs. ranged for $L hr or $L10min100 HP" ' +
+    'Liquid=Potion',
   'Protection From Chaos':
     'School=Abjuration ' +
     'Level=Adept1,C1,Law1,P1,W1 ' +
-    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonlawful summoned creatures for $L min"',
+    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonlawful summoned creatures for $L min" ' +
+    'Liquid=Potion',
   'Protection From Energy':
     'School=Abjuration ' +
     'Level=Blackguard3,C3,D3,Luck3,Protection3,R2,W3 ' +
-    'Description="Touched gains resistance $L12min120 to chosen energy for $L10 min"',
+    'Description="Touched gains resistance $L12min120 to chosen energy for $L10 min" ' +
+    'Liquid=Potion',
   'Protection From Evil':
     'School=Abjuration ' +
     'Level=Adept1,C1,Good1,P1,W1 ' +
-    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nongood summoned creatures for $L min"',
+    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nongood summoned creatures for $L min" ' +
+    'Liquid=Potion',
   'Protection From Good':
     'School=Abjuration ' +
     'Level=Adept1,C1,Evil1,W1 ' +
-    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonevil summoned creatures for $L min"',
+    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonevil summoned creatures for $L min" ' +
+    'Liquid=Potion',
   'Protection From Law':
     'School=Abjuration ' +
     'Level=Adept1,C1,Chaos1,W1 ' +
-    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonchaotic summoned creatures for $L min"',
+    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonchaotic summoned creatures for $L min" ' +
+    'Liquid=Potion',
   'Protection From Spells':
     'School=Abjuration ' +
     'Level=Magic8,W8 ' +
@@ -3293,7 +3346,8 @@ SRD35.SPELLS = {
   'Rage':
     'School=Enchantment ' +
     'Level=B2,W3 ' +
-    'Description="R$RM\' $Ldiv3 willing targets in 15\' radius gain +2 Strength and Constitution, +1 Will, suffer -2 AC for conc + $L rd"',
+    'Description="R$RM\' $Ldiv3 willing targets in 15\' radius gain +2 Strength and Constitution, +1 Will, suffer -2 AC for conc + $L rd" ' +
+    'Liquid=Potion',
   'Rainbow Pattern':
     'School=Illusion ' +
     'Level=B4,W4 ' +
@@ -3325,7 +3379,8 @@ SRD35.SPELLS = {
   'Reduce Person':
     'School=Transmutation ' +
     'Level=W1 ' +
-    'Description="R$RS\' Target humanoid becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) for $L min (Fort neg)"',
+    'Description="R$RS\' Target humanoid becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) for $L min (Fort neg)" ' +
+    'Liquid=Potion',
   'Mass Reduce Person':
     'School=Transmutation ' +
     'Level=W4 ' +
@@ -3345,23 +3400,28 @@ SRD35.SPELLS = {
   'Remove Blindness/Deafness':
     'School=Conjuration ' +
     'Level=C3,P3 ' +
-    'Description="Heals touched of blindness or deafness"',
+    'Description="Heals touched of blindness or deafness" ' +
+    'Liquid=Potion',
   'Remove Curse':
     'School=Abjuration ' +
     'Level=Adept3,B3,C3,P3,W4 ' +
-    'Description="Dispels all curses from touched"',
+    'Description="Dispels all curses from touched" ' +
+    'Liquid=Potion',
   'Remove Disease':
     'School=Conjuration ' +
     'Level=Adept3,C3,D3,R3 ' +
-    'Description="Cures touched of all diseases"',
+    'Description="Cures touched of all diseases" ' +
+    'Liquid=Potion',
   'Remove Fear':
     'School=Abjuration ' +
     'Level=B1,C1 ' +
-    'Description="R$RS\' $Ldiv4plus1 targets in 15\' radius gain +4 vs. fear, suppress existing fear for 10 min"',
+    'Description="R$RS\' $Ldiv4plus1 targets in 15\' radius gain +4 vs. fear, suppress existing fear for 10 min" ' +
+    'Liquid=Potion',
   'Remove Paralysis':
     'School=Conjuration ' +
     'Level=C2,P2 ' +
-    'Description="R$RS\' Frees one target from paralysis or slow, 2/3/4 targets get extra save at +4/+2/+2"',
+    'Description="R$RS\' Frees one target from paralysis or slow, 2/3/4 targets get extra save at +4/+2/+2" ' +
+    'Liquid=Potion',
   'Repel Metal Or Stone':
     'School=Abjuration ' +
     'Level=D8 ' +
@@ -3385,7 +3445,8 @@ SRD35.SPELLS = {
   'Resist Energy':
     'School=Abjuration ' +
     'Level=Adept2,C2,D2,Fire3,P2,R1,W2 ' +
-    'Description="Touched gains resistance ${lvl>10?30:lvl>6?20:10} to chosen energy for $L10 min"',
+    'Description="Touched gains resistance ${lvl>10?30:lvl>6?20:10} to chosen energy for $L10 min" ' +
+    'Liquid=Potion',
   'Resistance':
     'School=Abjuration ' +
     'Level=B0,C0,D0,P1,W0 ' +
@@ -3401,7 +3462,8 @@ SRD35.SPELLS = {
   'Lesser Restoration':
     'School=Conjuration ' +
     'Level=C2,D2,P1 ' +
-    'Description="Dispels magical ability harm from touched or heals 1d4 temporary ability damage, removes fatigue, and reduces exhaustion"',
+    'Description="Dispels magical ability harm from touched or heals 1d4 temporary ability damage, removes fatigue, and reduces exhaustion" ' +
+    'Liquid=Potion',
   'Resurrection':
     'School=Conjuration ' +
     'Level=C7 ' +
@@ -3426,7 +3488,8 @@ SRD35.SPELLS = {
   'Sanctuary':
     'School=Abjuration ' +
     'Level=C1,Protection1 ' +
-    'Description="Foes cannot attack touched for $L rd or until target attacks (Will neg)"',
+    'Description="Foes cannot attack touched for $L rd or until target attacks (Will neg)" ' +
+    'Liquid=Potion',
   'Scare':
     'School=Necromancy ' +
     'Level=B2,W2 ' +
@@ -3534,7 +3597,8 @@ SRD35.SPELLS = {
   'Shield Of Faith':
     'School=Abjuration ' +
     'Level=C1 ' +
-    'Description="Touched gains +$Ldiv6plus2min5 AC for $L min"',
+    'Description="Touched gains +$Ldiv6plus2min5 AC for $L min" ' +
+    'Liquid=Potion',
   'Shield Of Law':
     'School=Abjuration ' +
     'Level=C8,Law8 ' +
@@ -3546,7 +3610,8 @@ SRD35.SPELLS = {
   'Shillelagh':
     'School=Transmutation ' +
     'Level=D1 ' +
-    'Description="S/M/L staff gains +1 attack, 1d8%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/2d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/3d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} damage for $L min (Will neg)"',
+    'Description="S/M/L staff gains +1 attack, 1d8%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/2d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/3d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} damage for $L min (Will neg)" ' +
+    'Liquid=Oil',
   'Shocking Grasp':
     'School=Evocation ' +
     'Level=W1 ' +
@@ -3654,7 +3719,8 @@ SRD35.SPELLS = {
   'Spider Climb':
     'School=Transmutation ' +
     'Level=Assassin2,D2,W2 ' +
-    'Description="Touched gains 20\' climb speed and can climb walls and ceilings for $L10 min"',
+    'Description="Touched gains 20\' climb speed and can climb walls and ceilings for $L10 min" ' +
+    'Liquid=Potion',
   'Spike Growth':
     'School=Transmutation ' +
     'Level=D3,R2 ' +
@@ -3879,7 +3945,8 @@ SRD35.SPELLS = {
   'Tongues':
     'School=Divination ' +
     'Level=Adept3,B2,C4,W3 ' +
-    'Description="Touched communicate in any language for $L10 min"',
+    'Description="Touched communicate in any language for $L10 min" ' +
+    'Liquid=Potion',
   'Touch Of Fatigue':
     'School=Necromancy ' +
     'Level=Adept0,W0 ' +
@@ -3940,7 +4007,8 @@ SRD35.SPELLS = {
   'Undetectable Alignment':
     'School=Abjuration ' +
     'Level=Assassin2,B1,C2,P2 ' +
-    'Description="R$RS\' Conceals target alignment for 1 dy (Will neg)"',
+    'Description="R$RS\' Conceals target alignment for 1 dy (Will neg)" ' +
+    'Liquid=Potion',
   'Unhallow':
     'School=Evocation ' +
     'Level=C5,D5 ' +
@@ -4014,11 +4082,13 @@ SRD35.SPELLS = {
   'Water Breathing':
     'School=Transmutation ' +
     'Level=C3,D3,W3,Water3 ' +
-    'Description="Touched can breathe underwater for $L2 hrs total"',
+    'Description="Touched can breathe underwater for $L2 hrs total" ' +
+    'Liquid=Potion',
   'Water Walk':
     'School=Transmutation ' +
     'Level=C3,R3 ' +
-    'Description="$L touched can walk on liquid as if it were a solid surface for $L10 min"',
+    'Description="$L touched can walk on liquid as if it were a solid surface for $L10 min" ' +
+    'Liquid=Potion',
   'Waves Of Exhaustion':
     'School=Necromancy ' +
     'Level=W7 ' +
@@ -5105,7 +5175,8 @@ SRD35.identityRules = function(
 SRD35.magicRules = function(rules, schools, spells) {
 
   QuilvynUtils.checkAttrTable(schools, ['Features']);
-  QuilvynUtils.checkAttrTable(spells, ['School', 'Level', 'Description']);
+  QuilvynUtils.checkAttrTable
+    (spells, ['School', 'Level', 'Description', 'Liquid']);
 
   for(var school in schools) {
     rules.choiceRules(rules, 'School', school, schools[school]);
@@ -5351,6 +5422,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   } else if(type == 'Spell') {
     var description = QuilvynUtils.getAttrValue(attrs, 'Description');
     var groupLevels = QuilvynUtils.getAttrValueArray(attrs, 'Level');
+    var liquids = QuilvynUtils.getAttrValueArray(attrs, 'Liquid');
     var school = QuilvynUtils.getAttrValue(attrs, 'School');
     var schoolAbbr = (school || 'Universal').substring(0, 4);
     for(var i = 0; i < groupLevels.length; i++) {
@@ -5365,7 +5437,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       // TODO indicate domain spells in attributes?
       var domainSpell = SRD35.PATHS[group + ' Domain'] != null;
       SRD35.spellRules
-        (rules, fullName, school, group, level, description, domainSpell);
+        (rules, fullName, school, group, level, description, domainSpell,
+         level>3 ? [] : liquids);
       rules.addChoice('spells', fullName, attrs);
     }
   } else if(type == 'Weapon')
@@ -7280,10 +7353,11 @@ SRD35.skillRulesExtra = function(rules, name) {
  * Defines in #rules# the rules associated with spell #name#, which is from
  * magic school #school#. #casterGroup# and #level# are used to compute any
  * saving throw value required by the spell. #description# is a concise
- * description of the spell's effects.
+ * description of the spell's effects. #liquids# lists any liquid forms via
+ * which the spell can be applied.
  */
 SRD35.spellRules = function(
-  rules, name, school, casterGroup, level, description, domainSpell
+  rules, name, school, casterGroup, level, description, domainSpell, liquids
 ) {
 
   if(!name) {
@@ -7304,6 +7378,10 @@ SRD35.spellRules = function(
   }
   if(description == null) {
     console.log('Empty description for spell ' + name);
+    return;
+  }
+  if(!Array.isArray(liquids)) {
+    console.log('Bad liquids "' + liquids + '" for spell ' + name);
     return;
   }
 
@@ -7375,8 +7453,14 @@ SRD35.spellRules = function(
   expr += '||' + minLevel;
   rules.defineChoice
     ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + ')'));
-  rules.defineChoice
-    ('notes', 'potions.' + name + ':' + description.replaceAll('lvl',minLevel));
+  liquids.forEach(liquid => {
+    if(liquid != 'None') {
+      var liquidDesc = description.replaceAll('lvl', minLevel);
+      var liquidName = name.replace('(', ' ' + liquid + ' (');
+      rules.addChoice('potions', liquidName);
+      rules.defineChoice('notes', 'potions.' + liquidName + ':' + liquidDesc);
+    }
+  });
   rules.defineChoice
     ('notes', 'scrolls.' + name + ':' + description.replaceAll('lvl',minLevel));
 
@@ -7818,7 +7902,8 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Spell Difficulty Class', within: 'SpellStats',
                format: '<b>Spell DC</b>: %V', separator: listSep},
           {name: 'Spells', within: 'Magic', columns: '1L', separator: null},
-          {name: 'Potions', within: 'Magic', columns: '1L', separator: null},
+          {name: 'Potions', within: 'Magic', columns: '1L',
+           format: '<b>Potions/Oils</b>:<br/>%V', separator: null},
           {name: 'Scrolls', within: 'Magic', columns: '1L', separator: null}
       );
       if(name != 'Collected Notes') {
@@ -8008,7 +8093,8 @@ SRD35.choiceEditorElements = function(rules, type) {
     result.push(
       ['School', 'School', 'select-one', QuilvynUtils.getKeys(rules.getChoices('schools'))],
       ['Level', 'Caster Group and Level', 'text', [15]],
-      ['Description', 'Description', 'text', [60]]
+      ['Description', 'Description', 'text', [60]],
+      ['Liquid', 'Liquid', 'select-one', ['None', 'Oil', 'Potion']]
     );
   } else if(type == 'Weapon') {
     var twentyToSixteen = [20, 19, 18, 17, 16];
@@ -8062,8 +8148,8 @@ SRD35.initialEditorElements = function() {
     ['shield', 'Shield', 'select-one', 'shields'],
     ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['spells', 'Spells', 'fset', 'spells'],
-    ['potions', 'Potions', 'bag', 'spells'],
-    ['scrolls', 'Scrolls', 'bag', 'spells'],
+    ['potions', 'Potions/Oils', 'setbag', 'potions'],
+    ['scrolls', 'Scrolls', 'setbag', 'spells'],
     ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
     ['animalCompanionName', 'Name', 'text', [20]],
     ['familiar', 'Familiar', 'set', 'familiars'],
