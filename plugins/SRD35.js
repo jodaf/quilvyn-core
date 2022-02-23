@@ -7380,6 +7380,10 @@ SRD35.spellRules = function(
     console.log('Empty description for spell ' + name);
     return;
   }
+  // TODO: Backwards compatability for clients that don't pass a liquids param.
+  // Remove with next point release.
+  if(liquids == null)
+    liquids = [];
   if(!Array.isArray(liquids)) {
     console.log('Bad liquids "' + liquids + '" for spell ' + name);
     return;
