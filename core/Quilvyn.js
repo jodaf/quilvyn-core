@@ -1,7 +1,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.9';
+var VERSION = '2.3.10';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -749,7 +749,7 @@ Quilvyn.editorHtml = function() {
         '  <table><tr><td>' +
         InputHtml(name + '_sel', 'select-one', params) +
         (needSub ? '</td><td>' + InputHtml(name + '_sub', 'select-one', ['...']) : '') +
-        (type.match(/setbag/) ? InputHtml(name+'_chk', 'checkbox', null) : '') +
+        (type.match(/setbag/) ? '</td><td>' + InputHtml(name+'_chk', 'checkbox', null) : '') +
         '</td><td>' + widget + '</td></tr></table>' +
         (type.charAt(0)=='f' ? '</td></tr><tr><th>Filter</th><td>' + InputHtml(name + '_filter', 'text', [15]) : '')
       );
