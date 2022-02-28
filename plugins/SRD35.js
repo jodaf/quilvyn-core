@@ -1279,7 +1279,7 @@ SRD35.GOODIES = {
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
   'Speed':
-    'Pattern="([-+]\\d).*\\s+speed\\b|\\bspeed\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d+).*\\s+speed\\b|\\bspeed\\s+([-+]\\d+)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=speed ' +
