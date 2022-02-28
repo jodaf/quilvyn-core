@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.0';
+SRD35.VERSION = '2.3.2.1';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -1195,115 +1195,115 @@ SRD35.FEATURES = {
 };
 SRD35.GOODIES = {
   'Armor':
-    'Pattern="([-+]\\d).*(?:armor(?:\\s+class)?|AC)|(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d).*\\b(?:armor(?:\\s+class)?|AC)\\b|\\b(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
   'Charisma':
-    'Pattern="([-+]\\d)\\s+cha(?:risma)?|cha(?:risma)?\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+cha(?:risma)?\\b|\\bcha(?:risma)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=charisma ' +
     'Section=ability Note="%V Charisma"',
   'Constitution':
-    'Pattern="([-+]\\d)\\s+con(?:stitution)?|con(?:stitution)?\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+con(?:stitution)?\\b|\\bcon(?:stitution)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=constitution ' +
     'Section=ability Note="%V Constitution"',
   'Dexterity':
-    'Pattern="([-+]\\d)\\s+dex(?:terity)?|dex(?:terity)?\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+dex(?:terity)?\\b|\\bdex(?:terity)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=dexterity ' +
     'Section=ability Note="%V Dexterity"',
   'Fighter Feat Count':
-    'Pattern="([-+]\\d)\\s+fighter\\s+feat|fighter\\s+feat\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+fighter\\s+feat\\b|\\bfighter\\s+feat\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=featCount.Fighter ' +
     'Section=feature Note="%V Fighter Feat"',
   'Fortitude':
-    'Pattern="([-+]\\d)\\s+fortitude\\s+save|fortitude\\s+save\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+fortitude\\s+save\\b|\\bfortitude\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=save.Fortitude ' +
     'Section=save Note="%V Fortitude"',
   'General Feat Count':
-    'Pattern="([-+]\\d)\\s+general\\s+feat|general\\s+feat\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+general\\s+feat\\b|\\bgeneral\\s+feat\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=featCount.General ' +
     'Section=feature Note="%V General Feat"',
   'Initiative':
-    'Pattern="([-+]\\d)\\s+initiative|initiative\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+initiative\\b|\\binitiative\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=initiative ' +
     'Section=combat Note="%V Initiative"',
   'Intelligence':
-    'Pattern="([-+]\\d)\\s+int(?:elligence)?|int(?:elligence)?\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+int(?:elligence)?\\b|\\bint(?:elligence)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=intelligence ' +
     'Section=ability Note="%V Intelligence"',
   'Masterwork Armor':
-    'Pattern="masterwork.*\\s+armor|[-+]\\d.*armor|armor\\s+[-+]\\d" ' +
+    'Pattern="\\bmasterwork\\b.*\\s+armor\\b|[-+]\\d.*\\barmor\\b|\\barmor\\s+[-+]\\d" ' +
     'Effect=add ' +
     'Value=-1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduce skill check penalty by 1"',
   'Masterwork Shield':
-    'Pattern="masterwork.*\\s+shield|[-+]\\d.*shield|shield\\s+[-+]\\d" ' +
+    'Pattern="\\bmasterwork\\b.*\\s+shield|[-+]\\d.*\\bshield\\b|\\bshield\\s+[-+]\\d" ' +
     'Effect=add ' +
     'Value=-1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduce skill check penalty by 1"',
   'Protection':
-    'Pattern="([-+]\\d).*protection|protection\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d).*\\bprotection\\b|\\bprotection\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
   'Reflex':
-    'Pattern="([-+]\\d)\\s+reflex\\s+save|reflex\\s+save\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+reflex\\s+save\\b|\\breflex\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=save.Reflex ' +
     'Section=save Note="%V Reflex"',
   'Shield':
-    'Pattern="([-+]\\d).*\\s+shield|shield\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d).*\\s+shield\\b|\\bshield\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
   'Speed':
-    'Pattern="([-+]\\d).*\\s+speed|speed\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d).*\\s+speed\\b|\\bspeed\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=speed ' +
     'Section=ability Note="%V Speed"',
   'Strength':
-    'Pattern="([-+]\\d)\\s+str(?:ength)?|str(?:ength)?\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+str(?:ength)?\\b|\\bstr(?:ength)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=strength ' +
     'Section=ability Note="%V Strength"',
   'Will':
-    'Pattern="([-+]\\d)\\s+will\\s+save|will\\s+save\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+will\\s+save\\b|\\bwill\\s+save\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=save.Will ' +
     'Section=save Note="%V Will"',
   'Wisdom':
-    'Pattern="([-+]\\d)\\s+wis(?:dom)?|wis(?:dom)?\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+wis(?:dom)?\\b|\\bwis(?:dom)?\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=wisdom ' +
     'Section=ability Note="%V Wisdom"',
   'Wizard Feat Count':
-    'Pattern="([-+]\\d)\\s+wizard\\s+feat|wizard\\s+feat\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d)\\s+wizard\\s+feat\\b|\\bwizard\\s+feat\\s+([-+]\\d)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=featCount.Wizard ' +
