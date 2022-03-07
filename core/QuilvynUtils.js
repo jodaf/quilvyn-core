@@ -20,13 +20,16 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /* A placeholder for some generally useful utility functions. */
 function QuilvynUtils() {
 }
+QuilvynUtils.ATTR_VALUE_PAT =
+//  '-quote+escs    "-quote+escs    \s or , delimited
+   /'(?:\\'|[^'])*'|"(?:\\"|[^"])*"|[^'"\s][^\s,]*/.source;
 
 /*
  * Checks the values of #table# to ensure that the syntax is valid and that
  * they contain settings only for names included in the array #validNames#.
  */
 QuilvynUtils.checkAttrTable = function(table, validNames) {
-  var valuePat = /^'[^']*'|^"[^"]*"|^[^'"\s][^\s,]*/;
+  var valuePat = new RegExp('^(?:' + QuilvynUtils.ATTR_VALUE_PAT + ')');
   var validNamesLowered = {};
   for(var i = 0; i < validNames.length; i++)
     validNamesLowered[validNames[i].toLowerCase()] = '';
@@ -127,27 +130,25 @@ QuilvynUtils.getAttrValue = function(attrs, name) {
  */
 QuilvynUtils.getAttrValueArray = function(attrs, name) {
   var matchInfo;
-  var pat = new RegExp('\\b' + name + '=(\'[^\']*\'|"[^"]*"|[^\'"\\s][^\\s,]*)(,(\'[^\']*\'|"[^"]*"|[^\'"\\s][^\\s,]*))*', 'gi');
+  var pat = new RegExp('\\b' + name + '=(' + QuilvynUtils.ATTR_VALUE_PAT + ')(?:,(' + QuilvynUtils.ATTR_VALUE_PAT + '))*', 'gi');
   var result = [];
   if((matchInfo = attrs.match(pat))) {
-    var lastMatch = matchInfo.pop().substring(name.length + 1);
-    var pat = /^'[^']*',|^"[^"]*",|^[^'"\s][^\s,]*,/;
-    while((matchInfo = lastMatch.match(pat))) {
-      var value = matchInfo[0].substring(0, matchInfo[0].length - 1);
-      if(value.startsWith('"') || value.startsWith("'"))
-        result.push(value.substring(1, value.length - 1));
+    var values = matchInfo.pop().substring(name.length + 1);
+    pat = new RegExp('(' + QuilvynUtils.ATTR_VALUE_PAT + '),?');
+    while((matchInfo = values.match(pat))) {
+      var value = matchInfo[1];
+      if(value.startsWith("'"))
+        result.push
+          (value.substring(1, value.length-1).replaceAll("\\'", "'"));
+      else if(value.startsWith('"'))
+        result.push
+          (value.substring(1, value.length-1).replaceAll('\\"', '"'));
       else if(value.match(/^[-+]?\d+$/))
         result.push(value * 1); // Convert to number
       else
         result.push(value);
-      lastMatch = lastMatch.substring(matchInfo[0].length);
+      values = values.substring(matchInfo[0].length);
     }
-    if(lastMatch.endsWith('"') || lastMatch.endsWith("'"))
-      result.push(lastMatch.substring(1, lastMatch.length - 1));
-    else if(lastMatch.match(/^[-+]?\d+$/))
-      result.push(lastMatch * 1); // Convert to number
-    else
-      result.push(lastMatch);
   }
   return result;
 };
