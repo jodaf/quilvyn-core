@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.1';
+SRD35.VERSION = '2.3.2.2';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
