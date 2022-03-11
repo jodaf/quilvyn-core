@@ -4148,11 +4148,6 @@ SRD35.SPELLS = {
     'Description="R$RS\' Creatures in 20\' radius cannot lie for $L min (Will neg)"'
 
 };
-SRD35.MIN_CASTER_LEVEL = {
-  // Minimum caster level required to cast particular group/level spells.
-  // Filled in by classRules for later use by spellRules, e.g.,
-  // 'W4':7
-};
 SRD35.WEAPONS = {
   'Bastard Sword':'Level=3 Category=1h Damage=d10 Threat=19',
   'Battleaxe':'Level=2 Category=1h Damage=d8 Crit=3',
@@ -5761,12 +5756,28 @@ SRD35.classRules = function(
           note + '.1', '+', 'source.includes("' + spellType + spellLevel + '") ? 1 : null'
         );
       }
+      // Set caster level for potions + scrolls to the minimum needed to cast.
       var spellTypeAndLevel = spellType + spellLevel;
       var minLevel = spellSlots[i].split(':')[1].split('=')[0] * 1;
-      if(!(spellTypeAndLevel in SRD35.MIN_CASTER_LEVEL) ||
-         minLevel < SRD35.MIN_CASTER_LEVEL[spellTypeAndLevel])
-        SRD35.MIN_CASTER_LEVEL[spellTypeAndLevel] = minLevel;
+      var formats = rules.getChoices('notes');
+      for(var potion in rules.getChoices('potions')) {
+        if(potion.includes(spellTypeAndLevel) ||
+           (spellType == 'Domain' &&
+            potion.includes(spellLevel) &&
+            formats['potions.' + potion].includes('casterLevels.Domain'))) {
+          formats['potions.' + potion] = formats['potions.' + potion].replaceAll('casterLevels.' + spellType, minLevel);
+        }
+      }
+      for(var scroll in rules.getChoices('scrolls')) {
+        if(scroll.includes(spellTypeAndLevel) ||
+           (spellType == 'Domain' &&
+            scroll.includes(spellLevel) &&
+            formats['scrolls.' + scroll].includes('casterLevels.Domain'))) {
+          formats['scrolls.' + scroll] = formats['scrolls.' + scroll].replaceAll('casterLevels.' + spellType, minLevel);
+        }
+      }
     }
+
   }
 
 };
@@ -7425,11 +7436,13 @@ SRD35.spellRules = function(
   }
 
   var dc;
+  // minDC = 10 + modifier for min ability score required for this level spell
+  var minDC = 10 + Math.floor(level / 2);
   while((dc = description.match(/\((Fort\s|Ref\s|Will\s)/)) != null) {
     expr =
-      domainSpell ? '(spellDifficultyClass.Domain||10)' :
-      casterGroup == 'W' ? '((spellDifficultyClass.W||0)>?(spellDifficultyClass.S||0)||10)' :
-      '(spellDifficultyClass.' + casterGroup + '||10)';
+      domainSpell ? '(spellDifficultyClass.Domain||' + minDC + ')' :
+      casterGroup == 'W' ? '((spellDifficultyClass.W||0)>?(spellDifficultyClass.S||0)||' + minDC + ')' :
+      '(spellDifficultyClass.' + casterGroup + '||' + minDC + ')';
     expr += ' + ' + level;
     if(school) {
       if(school.includes(' ')) {
@@ -7447,26 +7460,28 @@ SRD35.spellRules = function(
     description = description.replace(dc[0], '(DC %{' + expr + '} ' + dc[1]);
   }
 
-  var groupAndLevel = (domainSpell ? 'Domain' : casterGroup) + level;
-  var minLevel = SRD35.MIN_CASTER_LEVEL[groupAndLevel] || 1;
-
   expr =
     domainSpell ? 'casterLevels.Domain' :
     casterGroup=='W' ? '(casterLevels.W||casterLevels.S)' :
     'casterLevels.' + casterGroup;
-  expr += '||' + minLevel;
   rules.defineChoice
     ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + ')'));
+  // Remove character spell DC--doesn't apply to potions and scrolls. classRules
+  // later replaces casterLevel with min caster.
+  description =
+    description.replaceAll(/(spellDifficultyClass|spellDCSchoolBonus).\w+\|\|/g, '');
   liquids.forEach(liquid => {
     if(liquid != 'None') {
-      var liquidDesc = description.replaceAll('lvl', minLevel);
+      var liquidDesc = description.replaceAll('lvl', expr);
       var liquidName = name.replace('(', ' ' + liquid + ' (');
       rules.addChoice('potions', liquidName);
-      rules.defineChoice('notes', 'potions.' + liquidName + ':' + liquidDesc);
+      rules.defineChoice
+        ('notes', 'potions.' + liquidName + ':%V ' + liquidDesc);
     }
   });
+  rules.addChoice('scrolls', name);
   rules.defineChoice
-    ('notes', 'scrolls.' + name + ':' + description.replaceAll('lvl',minLevel));
+    ('notes', 'scrolls.' + name + ':%V ' + description.replaceAll('lvl', expr));
 
 };
 
@@ -7908,7 +7923,8 @@ SRD35.createViewers = function(rules, viewers) {
           {name: 'Spells', within: 'Magic', columns: '1L', separator: null},
           {name: 'Potions', within: 'Magic', columns: '1L',
            format: '<b>Potions/Oils</b>:<br/>%V', separator: null},
-          {name: 'Scrolls', within: 'Magic', columns: '1L', separator: null}
+          {name: 'Scrolls', within: 'Magic', columns: '1L',
+           format: '<b>Scrolls</b>:<br/>%V', separator: null}
       );
       if(name != 'Collected Notes') {
         viewer.addElements(
@@ -8153,7 +8169,7 @@ SRD35.initialEditorElements = function() {
     ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['spells', 'Spells', 'fset', 'spells'],
     ['potions', 'Potions/Oils', 'setbag', 'potions'],
-    ['scrolls', 'Scrolls', 'setbag', 'spells'],
+    ['scrolls', 'Scrolls', 'setbag', 'scrolls'],
     ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
     ['animalCompanionName', 'Name', 'text', [20]],
     ['familiar', 'Familiar', 'set', 'familiars'],
