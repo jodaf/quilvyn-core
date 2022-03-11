@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /*jshint esversion: 6 */
 /* jshint forin: false */
-/* globals ObjectViewer, Quilvyn, QuilvynRules, QuilvynUtils */
+/* globals Expr, ObjectViewer, Quilvyn, QuilvynRules, QuilvynUtils */
 "use strict";
 
 /*
@@ -4437,7 +4437,7 @@ SRD35.NPC_CLASSES = {
     'Skills=' +
       'Concentration,Craft,"Handle Animal",Heal,Knowledge,Profession,' +
       'Spellcraft,Survival ' +
-    'CasterLevelDivine=Level ' +
+    'CasterLevelDivine=levels.Adept ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
       'Adept0:1=3,' +
@@ -5759,6 +5759,13 @@ SRD35.classRules = function(
       // Set caster level for potions + scrolls to the minimum needed to cast.
       var spellTypeAndLevel = spellType + spellLevel;
       var minLevel = spellSlots[i].split(':')[1].split('=')[0] * 1;
+      if(casterLevelExpr != classLevel) {
+        // Swap minLevel into casterLevelExpr and eval for the proper value.
+        // SRD35 seems to be the only plugin that uses Math.floor(); handling
+        // it here feels a bit brute-force.
+        minLevel = casterLevelExpr.replaceAll(classLevel, minLevel).replaceAll(/Math.floor\s*.(.+)\/([^\)]+)\)/g, '$1//$2');
+        minLevel = new Expr(minLevel).eval({});
+      }
       var formats = rules.getChoices('notes');
       for(var potion in rules.getChoices('potions')) {
         if(potion.includes(spellTypeAndLevel) ||
