@@ -7483,12 +7483,12 @@ SRD35.spellRules = function(
       var liquidName = name.replace('(', ' ' + liquid + ' (');
       rules.addChoice('potions', liquidName);
       rules.defineChoice
-        ('notes', 'potions.' + liquidName + ':%V ' + liquidDesc);
+        ('notes', 'potions.' + liquidName + ':%{%V!=1?"("+%V+") ":""}' + liquidDesc);
     }
   });
   rules.addChoice('scrolls', name);
   rules.defineChoice
-    ('notes', 'scrolls.' + name + ':%V ' + description.replaceAll('lvl', expr));
+    ('notes', 'scrolls.' + name + ':%{%V!=1?"("+%V+") ":""}' + description.replaceAll('lvl', expr));
 
 };
 
