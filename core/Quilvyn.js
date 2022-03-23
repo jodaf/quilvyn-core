@@ -37,8 +37,10 @@ var PERSISTENT_CUSTOM_PREFIX = 'QuilvynCustom.';
 var PERSISTENT_CUSTOM_PLACEHOLDER = '_user';
 var PERSISTENT_INFO_PREFIX = 'QuilvynInfo.';
 var TIMEOUT_DELAY = 1000; // One second
-// Use system dialog windows whenever possible? TODO: can we detect if the user
-// has disabled system dialogs?
+// Use system dialog windows whenever possible?
+// TODO: Googling indicates that user disable of system dialogs can be detected
+// by timing how quickly confirm and alert return, in response to which we
+// could fall back to using our generated dialogs.
 var USE_SYSTEM_DIALOGS = true;
 // HTML tags allowed in user input; 's' and 'u' allowed though HTML deprecated
 const ALLOWED_TAGS = [
@@ -1044,7 +1046,6 @@ Quilvyn.randomizeCharacter = function(prompted) {
           : pieces[1] == 'select-one' ?
             InputHtml(preset, 'select-one',
                       QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2])))
-          // TODO Moot? To date, all plugins use only bag and select-one
           : InputHtml(preset, pieces[1], [pieces[2]]);
       } else {
         console.log('No formatting specified for preset "' + preset + '"');
@@ -1594,9 +1595,9 @@ Quilvyn.sheetHtml = function(attrs) {
         value = value.replaceAll('%N', name);
       else
         value = name + ': ' + value;
-      // TODO: Pathfinder et al uses Infinity for characters who receive
-      // immunity at higher levels so that it can be numerically compared
-      // to resistance. Is there a better way to handle this?
+      // Some plugins use Infinity for characters who receive immunity at
+      // higher levels so that it can be numerically compared to resistance.
+      // It would be nice to replace this hard-coding with something elegant.
       value = value.replaceAll('Infinity', 'immune');
       if(isNote && ruleSet.isSource(a)) {
         if(userOptions.italics)
