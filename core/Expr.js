@@ -16,6 +16,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
 /*jshint esversion: 6 */
+/* jshint forin: false */
 "use strict";
 
 /*
@@ -106,7 +107,7 @@ Expr.OPERATOR_PRECEDENCE = {
   '+':5, '-':5,
   '*':7, '/':7, '//':7,
   'u+':8, 'u-':8, '!':8, 'u!':8
-}
+};
 Expr.TOKEN_PAT = new RegExp(
   '^(\\s*(' + /* leading whitespace */
   '\\d+(\\.\\d+)?|"(\\\\"|[^"])*"|\'(\\\\\'|[^\'])*\'|' + /* literals */
@@ -128,7 +129,7 @@ Expr.Token = function(tipe, value) {
 };
 Expr.Token.prototype.toString = function() {
   return "{" + this.tipe + "," + this.value + "}";
-}
+};
 
 Expr.prototype.eval = function(dict) {
 
@@ -154,7 +155,6 @@ Expr.prototype.eval = function(dict) {
         }
         stack.push({tipe: Expr.LITERAL_TYPE, value: value});
       } else {
-        var op = token.value;
         var right = stack.pop();
         var left = stack.pop();
         var leftVal = left.tipe == Expr.IDENTIFIER_TYPE ? dict[left.value] : left.value;
@@ -239,4 +239,4 @@ Expr.prototype.eval = function(dict) {
   var result = stack.pop();
   return result.tipe == Expr.IDENTIFIER_TYPE ? dict[result.value] : result.value;
 
-}
+};

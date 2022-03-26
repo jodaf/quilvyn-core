@@ -15,6 +15,8 @@ this program; if not, write to the Free Software Foundation, Inc., 59 Temple
 Place, Suite 330, Boston, MA 02111-1307 USA.
 */
 
+/*jshint esversion: 6 */
+/* jshint forin: false */
 "use strict";
 
 /*=== Convenience functions for the Input pseudo-class. ===*/
@@ -66,7 +68,7 @@ function InputHtml(name, type, params) {
       result += '<label for="' + name + '">' + params[0] + '</label>';
   }
   else if(type == 'select-one') {
-    var opts = new Array();
+    var opts = [];
     for(var i = 0; i < params.length; i++)
       opts[opts.length] =
         '<option value="' + params[i] + '">' + params[i] + '</option>';
@@ -87,7 +89,7 @@ function InputHtml(name, type, params) {
       '<textarea name="' + name + '" rows="' + params[1] + '" cols="' +
       params[0] + '"></textarea>';
   return result;
-};
+}
 
 /* Directs #input# to invoke #fn# when it is changed/pressed. */
 function InputSetCallback(input, fn) {
@@ -97,7 +99,7 @@ function InputSetCallback(input, fn) {
   if(input.pattern)
     method = 'onvalid';
   input[method] = fn;
-};
+}
 
 /* Replaces the options in a select #input# with the array #selections#. */
 function InputSetOptions(input, options) {
@@ -115,7 +117,7 @@ function InputSetOptions(input, options) {
   }
   if(options.length > 0)
     input.selectedIndex = 0;
-};
+}
 
 /* Sets the value of #input# to #value#. */
 function InputSetValue(input, value) {
@@ -137,4 +139,4 @@ function InputSetValue(input, value) {
   if(input.pattern)
     input.lastValue = value;
   return true;
-};
+}

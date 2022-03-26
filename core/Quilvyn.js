@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+/* jshint forin: false */
 "use strict";
 
 var COPYRIGHT = 'Copyright 2021 James J. Hayes';
