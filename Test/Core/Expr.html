@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>Expr.js Unit Tests</title>
+<script src="../../core/Expr.js"></script>
+<script>
+var passCount = 0;
+var testCount = 0;
+function runTest(dict, label, expr, expected) {
+  var actual = new Expr(expr).eval(dict);
+  label = label.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+  document.write(label + ' ... ');
+  if(expected == actual) {
+    document.write('<span style="color:green;">Pass</span>');
+    passCount++;
+  } else
+    document.write('<span style="color:red;">Fail</span> - expected ' + expected + ' got ' + actual);
+  document.writeln('<br/>');
+  testCount++;
+}
+</script>
+</head>
+<body>
+<h1>Expr.js Unit Tests</h1>
+<script>
+  var dictionary = {
+    'spring':3,
+    'summer':6,
+    'autumn':9,
+    'winter':12
+  };
+  runTest(dictionary, 'Double-quoted literal', '"goober"', 'goober');
+  runTest(dictionary, 'Single-quoted literal', "'goober'", 'goober');
+  runTest(dictionary, 'Int literal', '12', 12);
+  runTest(dictionary, 'Float literal', '34.5', 34.5);
+  runTest(dictionary, 'True literal', "true", true);
+  runTest(dictionary, 'False literal', "false", false);
+  runTest(dictionary, 'Unary +', '+7', 7);
+  runTest(dictionary, 'Unary -', '-7', -7);
+  runTest(dictionary, 'Unary !', '!true', false);
+  runTest(dictionary, 'Whitespace', '- 7 + 3', -4);
+  runTest(dictionary, 'Binary +', '3+7', 10);
+  runTest(dictionary, 'Binary -', '3-7', -4);
+  runTest(dictionary, 'Binary *', '3*7', 21);
+  runTest(dictionary, 'Binary /', '7/2', 3.5);
+  runTest(dictionary, 'Binary //', '7//2', 3);
+  runTest(dictionary, 'Binary ==', '7==2', false);
+  runTest(dictionary, 'Binary !=', '7!=2', true);
+  runTest(dictionary, 'Binary <', '7<2', false);
+  runTest(dictionary, 'Binary <=', '7<=2', false);
+  runTest(dictionary, 'Binary >', '7>2', true);
+  runTest(dictionary, 'Binary >=', '7>=2', true);
+  runTest(dictionary, 'Binary <?', '7<?2', 2);
+  runTest(dictionary, 'Binary >?', '7>?2', 7);
+  runTest(dictionary, 'Binary &&', 'false&&true', false);
+  runTest(dictionary, 'Binary ||', 'false||true', true);
+  runTest(dictionary, 'Binary concat', '"hello "+"world"', 'hello world');
+  runTest(dictionary, 'Ternary ?:', 'false?7:2', 2);
+  runTest(dictionary, 'Ternary ?:', 'true?7:2', 7);
+  runTest(dictionary, 'Identifier', 'summer', 6);
+  runTest(dictionary, '= assign', 'summer=15', 15);
+  runTest(dictionary, '<?= assign', 'summer<?=4', 4);
+  runTest(dictionary, '>?= assign', 'summer>?=18', 18);
+  runTest(dictionary, '+= assign', 'summer+=8', 26);
+  runTest(dictionary, '-= assign', 'summer-=20', 6);
+  runTest(dictionary, '*= assign', 'summer*=5', 30);
+  runTest(dictionary, '/= assign', 'summer/=4', 7.5);
+  runTest(dictionary, '//= assign', 'autumn//=4', 2);
+  runTest(dictionary, 'Concat assign', 'autumn+="woo!"', '2woo!');
+  runTest(dictionary, 'Parens', '-(2+15)', '-17');
+  runTest(dictionary, 'Precedence', '5-(3+1)*2+7', 4);
+  runTest(dictionary, 'Precedence', '-10/-5+2', 4);
+  runTest(dictionary, 'Precedence', '5-(3+1)*2+7==-10/-5+2', true);
+  runTest(dictionary, 'Doubled -', '5--3', 8);
+  runTest(dictionary, 'Doubled +', '5++3', 8);
+  document.writeln('  Passed ' + passCount + '/' + testCount + '<br/>');
+</script>
+</body>
+</html>

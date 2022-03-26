@@ -21,10 +21,11 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 /*
  * The Expr class implements an infix expression parser. The Expr function
  * parses an expression string which can afterward be evaluated by passing
- * a value dictionary to the eval method. In addition to the usual unary and
- * binary operators, Expr supports the binary operators // (integer division),
- * >? (returns the greater operand), and <? (returns the lesser operand),
- * along with their corresponding assignment ops.
+ * a value dictionary to the eval method. In addition to the usual unary,
+ * binary, and ternary operators, Expr supports the binary operators //
+ * (integer division), >? (returns the greater operand), and <? (returns the
+ * lesser operand), along with their corresponding assignment ops. The +
+ * operator performs string concatenation for non-numeric values.
  */
 function Expr(str) {
 
@@ -110,8 +111,9 @@ Expr.TOKEN_PAT = new RegExp(
   '^(\\s*(' + /* leading whitespace */
   '\\d+(\\.\\d+)?|"(\\\\"|[^"])*"|\'(\\\\\'|[^\'])*\'|' + /* literals */
   '[\\w\\.]+|' + /* identifiers */
-  '==|!=|<\\?|<=|<|>\\?|>=|>|' + /* relops */
+  '==|' + /* equals, placed so first = won't be taken for assignment */
   '(<\\?|>\\?|\\+|-|\\*|/|//)?=|' + /* assign ops */
+  '!=|<\\?|<=|<|>\\?|>=|>|' + /* relops */
   '\\+|-|\\*|//|/|' + /* arith ops */
   '&&|\\|\\||' + /* conjunction */
   '\\?|:|' + /* ternary op */

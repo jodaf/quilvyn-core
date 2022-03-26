@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>QuilvynUtils.js Unit Tests</title>
+<script src="../../core/QuilvynUtils.js"></script>
+<script>
+var passCount = 0;
+var testCount = 0;
+function runTest(label, actual, expected) {
+  label = label.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+  document.write(label + ' ... ');
+  if(expected == actual) {
+    document.write('<span style="color:green;">Pass</span>');
+    passCount++;
+  } else
+    document.write('<span style="color:red;">Fail</span> - expected ' + expected + ' got ' + actual);
+  document.writeln('<br/>');
+  testCount++;
+}
+</script>
+</head>
+<body>
+<h1>Expr.js Unit Tests</h1>
+<script>
+  var daysInMonth = {
+    january:31,
+    february:28,
+    march:31,
+    april:30,
+    may:31,
+    june:30,
+    july:31,
+    august:31,
+    september:30,
+    october:31,
+    november:30,
+    december:31
+  };
+  var seasons = {
+    spring:'march',
+    summer:'june',
+    autumn:'september',
+    winter:'november'
+  };
+  var animals = {
+    Badger:
+      'Str=8 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=1 AC=15 Attack=4 ' +
+      'Dam=2@1d2-1,1d3-1 Size=S',
+    Camel:
+      'Str=18 Dex=16 Con=14 Int=2 Wis=11 Cha=4 HD=3 AC=13 Attack=0 Dam=1d4+2 ' +
+      'Size="\\"Very Big\\""',
+    DireRat:
+      'Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4 HD=1 AC=15 Attack=4 Dam=1d4 ' +
+      'Str=14 Size=S',
+    Dog:
+      'Str=13 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=1 AC=15 Attack=2 Dam=1d4+1 ' +
+      'Size=S',
+    Eagle:
+      'Str=10 Dex=15 Con=12 Int=2 Wis=14 Cha=6 HD=1 AC=14 Attack=3 ' +
+      'Dam=2@1d4,1d4 Size=S'
+  };
+  var nested = [
+    1,
+    [2, 3, 4],
+    5, 6,
+    [7],
+    [8, 9]
+  ];
+
+// QuilvynUtils.checkAttrTable = function(table, validNames) {
+// QuilvynUtils.clone = function clone(o) {
+// QuilvynUtils.clones = function(o1, o2) {
+// QuilvynUtils.findElement = function(array, element) {
+// QuilvynUtils.dictLit = function(d) {
+// QuilvynUtils.flatten = function(array, start, end) {
+//QuilvynUtils.getAttrValue = function(attrs, name) {
+//QuilvynUtils.getAttrValueArray = function(attrs, name) {
+// QuilvynUtils.getKeys = function(o, pattern) {
+// QuilvynUtils.getValues = function(o, pattern) {
+// QuilvynUtils.signed = function(value) {
+// QuilvynUtils.sumMatching = function(attrs, pat) {
+  runTest('checkAttrTable ok', QuilvynUtils.checkAttrTable(animals, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Attack', 'Dam', 'Size']), true);
+  runTest('checkAttrTable not ok', QuilvynUtils.checkAttrTable(animals, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Dam', 'Size']), false);
+  runTest('clone/s', QuilvynUtils.clones(seasons, QuilvynUtils.clone(seasons)), true);
+  runTest('findElement found', QuilvynUtils.findElement(QuilvynUtils.getKeys(animals), 'Dog'), 3);
+  runTest('findElement missing', QuilvynUtils.findElement(QuilvynUtils.getKeys(animals), 'Dire Cat'), -1);
+  runTest('dictLit', QuilvynUtils.dictLit(seasons), '{"spring":"march", "summer":"june", "autumn":"september", "winter":"november"}');
+  runTest('flatten', QuilvynUtils.flatten(nested).join(''), '123456789');
+  runTest('getAttrValue', QuilvynUtils.getAttrValue(animals.Camel, 'AC'), 13);
+  runTest('getAttrValue missing', QuilvynUtils.getAttrValue(animals.Camel, 'XY'), null);
+  runTest('getAttrValue override', QuilvynUtils.getAttrValue(animals.DireRat, 'Str'), 14);
+  runTest('getAttrValue escaped quotes', QuilvynUtils.getAttrValue(animals.Camel, 'Size'), '"Very Big"');
+  runTest('getAttrValueArray length', QuilvynUtils.getAttrValueArray(animals.Eagle, 'Dam').length, 2);
+  runTest('getAttrValueArray content', QuilvynUtils.getAttrValueArray(animals.Eagle, 'Dam').length, 2);
+  runTest('getKeys', QuilvynUtils.getKeys(seasons).join(''), 'autumnspringsummerwinter');
+  runTest('getKeys filtered', QuilvynUtils.getKeys(seasons, /u/).join(''), 'autumnsummer');
+  runTest('getValues', QuilvynUtils.getValues(seasons).join(''), 'junemarchnovemberseptember');
+  runTest('getValues filtered', QuilvynUtils.getValues(seasons, /mb/).join(''), 'novemberseptember');
+  //QuilvynUtils.random = function(low, hi) {
+  //QuilvynUtils.randomKey = function(o) {
+  runTest('signed positive', QuilvynUtils.signed(6), '+6');
+  runTest('signed negative', QuilvynUtils.signed(-5), '-5');
+  runTest('SumMatching', QuilvynUtils.sumMatching(daysInMonth, /j/), 92);
+  document.writeln('  Passed ' + passCount + '/' + testCount + '<br/>');
+</script>
+</body>
+</html>

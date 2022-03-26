@@ -29,6 +29,7 @@ QuilvynUtils.ATTR_VALUE_PAT =
  * they contain settings only for names included in the array #validNames#.
  */
 QuilvynUtils.checkAttrTable = function(table, validNames) {
+  var result = true;
   var valuePat = new RegExp('^(?:' + QuilvynUtils.ATTR_VALUE_PAT + ')');
   var validNamesLowered = {};
   for(var i = 0; i < validNames.length; i++)
@@ -41,10 +42,12 @@ QuilvynUtils.checkAttrTable = function(table, validNames) {
       if(!matchInfo) {
         console.log(messagePrefix + 'No attr name found at start of string "' + attrs + '"');
         attrs = attrs.replace(/^\S*\s*/, '');
+        result = false;
         continue;
       }
       if(!(matchInfo[1].toLowerCase() in validNamesLowered)) {
         console.log(messagePrefix + 'Invalid attr name "' + matchInfo[1] + '"');
+        result = false;
       }
       attrs = attrs.substring(matchInfo[0].length);
       while(attrs.match(valuePat)) {
@@ -56,6 +59,7 @@ QuilvynUtils.checkAttrTable = function(table, validNames) {
       attrs = attrs.replace(/^\s*/, '');
     }
   }
+  return result;
 };
 
 /* Returns a recursively-copied clone of #o#. */
