@@ -2,8 +2,8 @@
 /* jshint forin: false */
 "use strict";
 
-var COPYRIGHT = 'Copyright 2021 James J. Hayes';
-var VERSION = '2.3.12';
+var COPYRIGHT = 'Copyright 2022 James J. Hayes';
+var VERSION = '2.3.13';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -24,6 +24,10 @@ var ABOUT_TEXT =
 'Parchment background from <a href="http://www.myfreetextures.com">myfreetextures.com</a>, ' +
 'used under the terms of the <a href="https://www.myfreetextures.com/use-license/">MyFreeTextures License</a>.\n' +
 'See the individual rule set notes for additional copyright information.\n' +
+'Quilvyn source files can be found on ' +
+'<a href="http://www.github.com/jodaf">the Quilvyn github repository</a>. ' +
+'Questions, bug reports, and change requests can be submitted on github or ' +
+'emailed to quilvyn' + '@' + 'jodaf.com.\n' +
 'Thanks to my dungeon crew, especially Rich Hakesley, Norm Jacobson, and ' +
 'Caroline Rider, for patient testing of Quilvyn and for suggestions that have '+
 'greatly improved it. Special thanks to Avalon Hayes for the name and logo artwork.';
