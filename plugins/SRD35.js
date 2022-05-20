@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.2';
+SRD35.VERSION = '2.3.2.3';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -7386,7 +7386,7 @@ SRD35.spellRules = function(
     console.log('Bad school "' + school + '" for spell ' + name);
     return;
   }
-  if(!casterGroup.match(/^[A-Z][A-Za-z]*$/)) {
+  if(!casterGroup.match(/^[A-Z][A-Za-z' ]*$/)) {
     console.log('Bad caster group "' + casterGroup + '" for spell ' + name);
     return;
   }
@@ -8589,7 +8589,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     for(attr in this.getChoices('spells')) {
       if(attrs['spells.' + attr] != null || attr.match(prohibitPat))
         continue;
-      groupAndLevel = attr.split('(')[1].split(' ')[0];
+      groupAndLevel = attr.match(/\((.*)\s+\S+\)/)[1];
       if(availableSpellsByLevel[groupAndLevel] == null)
         availableSpellsByLevel[groupAndLevel] = [];
       availableSpellsByLevel[groupAndLevel].push(attr);
