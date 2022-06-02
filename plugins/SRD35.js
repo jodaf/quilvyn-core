@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.3';
+SRD35.VERSION = '2.3.2.4';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -5756,31 +5756,24 @@ SRD35.classRules = function(
           note + '.1', '+', 'source.includes("' + spellType + spellLevel + '") ? 1 : null'
         );
       }
-      // Set caster level for potions + scrolls to the minimum needed to cast.
-      var spellTypeAndLevel = spellType + spellLevel;
+      // Replace caster level references in potion + scroll descriptions (see
+      // spellRules) with the minimum needed to cast the spell.
+      var casterLevelPat = new RegExp('casterLevels.' + spellType + '\\b', 'g');
+      var itemLevelPat = new RegExp('\\([A-Za-z ]*' + spellLevel + ' ');
       var minLevel = spellSlots[i].split(':')[1].split('=')[0] * 1;
-      if(casterLevelExpr != classLevel) {
-        // Swap minLevel into casterLevelExpr and eval for the proper value.
-        // SRD35 seems to be the only plugin that uses Math.floor(); handling
-        // it here feels a bit brute-force.
-        minLevel = casterLevelExpr.replaceAll(classLevel, minLevel).replaceAll(/Math.floor\s*.(.+)\/([^\)]+)\)/g, '$1//$2');
-        minLevel = new Expr(minLevel).eval({});
-      }
       var formats = rules.getChoices('notes');
       for(var potion in rules.getChoices('potions')) {
-        if(potion.includes(spellTypeAndLevel) ||
-           (spellType == 'Domain' &&
-            potion.includes(spellLevel) &&
-            formats['potions.' + potion].includes('casterLevels.Domain'))) {
-          formats['potions.' + potion] = formats['potions.' + potion].replaceAll('casterLevels.' + spellType, minLevel);
+        if(formats['potions.' + potion].match(casterLevelPat) &&
+           potion.match(itemLevelPat)) {
+          formats['potions.' + potion] =
+            formats['potions.' + potion].replaceAll(casterLevelPat, minLevel);
         }
       }
       for(var scroll in rules.getChoices('scrolls')) {
-        if(scroll.includes(spellTypeAndLevel) ||
-           (spellType == 'Domain' &&
-            scroll.includes(spellLevel) &&
-            formats['scrolls.' + scroll].includes('casterLevels.Domain'))) {
-          formats['scrolls.' + scroll] = formats['scrolls.' + scroll].replaceAll('casterLevels.' + spellType, minLevel);
+        if(formats['scrolls.' + scroll].match(casterLevelPat) &&
+           scroll.match(itemLevelPat)) {
+          formats['scrolls.' + scroll] =
+            formats['scrolls.' + scroll].replaceAll(casterLevelPat, minLevel);
         }
       }
     }
@@ -7472,11 +7465,22 @@ SRD35.spellRules = function(
     casterGroup=='W' ? '(casterLevels.W||casterLevels.S)' :
     'casterLevels.' + casterGroup;
   rules.defineChoice
-    ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + ')'));
-  // Remove character spell DC--doesn't apply to potions and scrolls. classRules
-  // later replaces casterLevel with min caster.
+    ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', expr));
+  // Remove character spell DC--doesn't apply to potions and scrolls.
   description =
     description.replaceAll(/(spellDifficultyClass|spellDCSchoolBonus).\w+\|\|/g, '');
+  // Try to replace caster level references in description with minimum caster
+  // level from existing classes. If none are defined yet, classRules will
+  // handle the replacement later.
+  var classes = rules.getChoices('levels');
+  var matchInfo;
+  if(classes != null) {
+    var pat = new RegExp(casterGroup + level + ':(\\d+)=');
+    for(var c in classes) {
+      if((matchInfo = classes[c].match(pat)))
+        expr = matchInfo[1];
+    }
+  }
   liquids.forEach(liquid => {
     if(liquid != 'None') {
       var liquidDesc = description.replaceAll('lvl', expr);
@@ -8175,8 +8179,8 @@ SRD35.initialEditorElements = function() {
     ['shield', 'Shield', 'select-one', 'shields'],
     ['weapons', 'Weapons', 'setbag', 'weapons'],
     ['spells', 'Spells', 'fset', 'spells'],
-    ['potions', 'Potions/Oils', 'setbag', 'potions'],
-    ['scrolls', 'Scrolls', 'setbag', 'scrolls'],
+    ['potions', 'Potions/Oils', 'fsetbag', 'potions'],
+    ['scrolls', 'Scrolls', 'fsetbag', 'scrolls'],
     ['animalCompanion', 'Animal Companion', 'set', 'animalCompanions'],
     ['animalCompanionName', 'Name', 'text', [20]],
     ['familiar', 'Familiar', 'set', 'familiars'],
