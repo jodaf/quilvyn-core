@@ -3,7 +3,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2022 James J. Hayes';
-var VERSION = '2.3.13';
+var VERSION = '2.3.14';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +

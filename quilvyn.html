@@ -31,6 +31,11 @@ Temple Place, Suite 330, Boston, MA 02111-1307 USA.
 <script>
 <!--
 
+/* jshint esversion: 6 */
+/* jshint forin: false */
+/* globals Quilvyn */
+"use strict";
+
 /*
  * If QUILVYN_HOME is the empty string, all Quilvyn sources are drawn from a
  * a local installation. Uncomment the second line below to draw the sources
@@ -107,7 +112,7 @@ if(STORAGE == null) {
  */
 function initializeRuleSets(ruleSets) {
   if(window.initRunning)
-    return setTimeout(() => {initializeRuleSets(ruleSets)}, 500);
+    return setTimeout(() => {initializeRuleSets(ruleSets);}, 500);
   if(ruleSets.length == 0)
     return Quilvyn(mainWindow);
   var rs = ruleSets.shift();
@@ -116,14 +121,14 @@ function initializeRuleSets(ruleSets) {
   var attrs = RULESETS[rs];
   var funcName = attrs.init || attrs.url.replace(/^.*\/|\.js$/g, '');
   window.initRunning = true;
-  setTimeout(() => {window[funcName](rs); delete window.initRunning}, 10);
-  setTimeout(() => {initializeRuleSets(ruleSets)}, 500);
+  setTimeout(() => {window[funcName](rs); delete window.initRunning;}, 10);
+  setTimeout(() => {initializeRuleSets(ruleSets);}, 500);
 }
 
 /* Loads each plugin in #plugins# before calling initializeRuleSets. */
 function loadPlugins(plugins) {
   if(window.pluginLoading)
-    return setTimeout(() => {loadPlugins(plugins)}, 500);
+    return setTimeout(() => {loadPlugins(plugins);}, 500);
   if(plugins.length == 0) {
     var selectedRuleSets = [];
     try {
@@ -140,11 +145,9 @@ function loadPlugins(plugins) {
   var script = document.createElement('script');
   script.src = plugin;
   script.type = 'text/javascript';
-  script.onload = () => {
-    delete window.pluginLoading;
-  }
+  script.onload = () => {delete window.pluginLoading;};
   document.body.appendChild(script);
-  setTimeout(() => {loadPlugins(plugins)}, 500);
+  setTimeout(() => {loadPlugins(plugins);}, 500);
 }
 
 /*
@@ -153,8 +156,18 @@ function loadPlugins(plugins) {
  */
 function waitForUserOkay() {
 
+  if(mainWindow.userPressedExpand) {
+    mainWindow.userPressedExpand = false;
+    for(var rs in RULESETS) {
+      var group = RULESETS[rs].group;
+      var hidden =
+        group && mainWindow.document.getElementsByName('reveal' + group)[0].value == '+';
+      mainWindow.document.getElementsByName('row' + rs)[0].hidden = hidden;
+    }
+  }
+
   if(!mainWindow.userPressedOkay)
-    return setTimeout(waitForUserOkay, 1000);
+    return setTimeout(waitForUserOkay, 500);
 
   var selectedRuleSets =
     Object.keys(RULESETS).filter(
@@ -162,7 +175,7 @@ function waitForUserOkay() {
     );
   if(selectedRuleSets.length == 0) {
     delete mainWindow.userPressedOkay;
-    return setTimeout(waitForUserOkay, 1000);
+    return setTimeout(waitForUserOkay, 500);
   }
 
   selectedRuleSets.forEach(rs => {
@@ -194,7 +207,17 @@ function waitForUserOkay() {
     }
   });
 
+  var revealedGroups = {};
+  Object.keys(RULESETS).forEach(rs => {
+    var group = RULESETS[rs].group;
+    if(group &&
+       mainWindow.document.getElementsByName('reveal' + group)[0].value == '-')
+      revealedGroups[group] = '';
+  });
+
   STORAGE.setItem('QuilvynSelectedRuleSets', selectedRuleSets.join(','));
+  STORAGE.setItem
+    ('QuilvynRevealedGroups', Object.keys(revealedGroups).join(','));
   mainWindow.document.body.innerHTML = '<p>Loading plugins...</p>';
   loadPlugins(pluginsToLoad);
 
@@ -203,7 +226,13 @@ function waitForUserOkay() {
 /* Displays the rule set selection window, then calls waitForUserOkay. */
 function pickRuleSets() {
 
+  var revealedGroups = [];
   var selectedRuleSets = [];
+  try {
+    revealedGroups = STORAGE.getItem('QuilvynRevealedGroups').split(',');
+  } catch(err) {
+    // empty
+  }
   try {
     selectedRuleSets = STORAGE.getItem('QuilvynSelectedRuleSets').split(',');
   } catch(err) {
@@ -221,14 +250,29 @@ function pickRuleSets() {
     '<form name="frm">',
     '<table>'
   ];
+  var hidden = false;
+  var options;
   for(var rs in RULESETS) {
     var group = RULESETS[rs].group;
     if(group && group != currentGroup) {
-      htmlBits.push('<tr><td>&nbsp;</td><th>' + group + '</th></tr>');
+      hidden = !revealedGroups.includes(group);
+      options = 'value=' + (hidden ? '"+"' : '"-"') + ' ' +
+                'onclick="window.userPressedExpand = true; this.value = this.value==\'+\' ? \'-\' : \'+\'"';
+      htmlBits.push(
+        '<tr>' +
+          '<td><input name="reveal' + group + '" type="button" ' + options + '</td>' +
+          '<td><b>' + group + '</b></th>' +
+        '</tr>'
+      );
       currentGroup = group;
     }
-    var options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked="checked"' : '');
-    htmlBits.push('<tr><td><input name="check' + rs + '" type="checkbox"' + options + '/></td><td>' + rs + (RULESETS[rs].comment || '') + '</td></tr>');
+    options = 'autocomplete="off"' + (selectedRuleSets.includes(rs) ? ' checked="checked"' : '');
+    htmlBits.push(
+      '<tr name="row' + rs + '"' + (hidden ? ' hidden="hidden"' : '') + '>' +
+        '<td><input name="check' + rs + '" type="checkbox"' + options + '/></td>' +
+        '<td>' + rs + (RULESETS[rs].comment || '') + '</td>' +
+      '</tr>'
+    );
   }
 
   htmlBits.push(
