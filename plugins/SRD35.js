@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.4';
+SRD35.VERSION = '2.3.2.5';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -4480,7 +4480,10 @@ SRD35.PRESTIGE_CLASSES = {
     'Require=' +
       '"baseAttack >= 6","casterLevelArcane >= 1",' +
       '"features.Point-Blank Shot","features.Precise Shot",' +
-      '"features.Weapon Focus (Longbow) || features.Weapon Focus (Shortbow)",' +
+      '"features.Weapon Focus (Longbow) || ' +
+      ' features.Weapon Focus (Composite Longbow) || ' +
+      ' features.Weapon Focus (Shortbow) || ' +
+      ' features.Weapon Focus (Composite Shortbow)",' +
       '"race =~ \'Elf\'" ' +
     'HitDie=d8 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Skills=' +
