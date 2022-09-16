@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /*jshint esversion: 6 */
 /* jshint forin: false */
-/* globals Expr, ObjectViewer, Quilvyn, QuilvynRules, QuilvynUtils */
+/* globals ObjectViewer, Quilvyn, QuilvynRules, QuilvynUtils */
 "use strict";
 
 /*
@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.5';
+SRD35.VERSION = '2.3.2.6';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -87,7 +87,7 @@ SRD35.RANDOMIZABLE_ATTRIBUTES = [
   'selectableFeatures', 'feats', 'skills', 'languages', 'hitPoints', 'armor',
   'shield', 'weapons', 'spells', 'companion'
 ];
-SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard'];
+SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard', 'Stat Block'];
 
 SRD35.ABILITIES = {
   'Charisma':'',
@@ -5027,6 +5027,16 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule
     ('armorClass', 'combatNotes.dexterityArmorClassAdjustment', '+', null);
+  rules.defineRule('armorClassFlatfooted',
+    'armorClass', '=', null,
+    'combatNotes.dexterityArmorClassAdjustment', '+', '-source'
+  );
+  rules.defineRule('armorClassTouch',
+    '', '=', '10',
+    'combatNotes.dexterityArmorClassAdjustment', '+', null,
+    'combatNotes.largeFeature', '+', '-1',
+    'combatNotes.smallFeature', '+', '1'
+  );
   rules.defineRule('armorProficiency',
     'armorProficiencyLevel', '=', 'SRD35.ARMOR_PROFICIENCY_NAMES[source]'
   );
@@ -5060,6 +5070,12 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineRule('combatNotes.two-HandedWieldDamageAdjustment',
     'shield', '?', 'source == "None"',
     'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? null : Math.floor(source * 0.5)'
+  );
+  rules.defineRule('grappleAttack',
+    'baseAttack', '=', null,
+    'strengthModifier', '+', null,
+    'features.Large', '+', '4',
+    'features.Small', '+', '-4'
   );
   rules.defineRule('hitPoints',
     'combatNotes.constitutionHitPointsAdjustment', '+', null,
@@ -5281,6 +5297,38 @@ SRD35.talentRules = function(
     'maxAllowedSkillAllocation', '=', null,
     'maxActualSkillAllocation', '+', '-source',
     '', 'v', '0'
+  );
+  // Define specific attributes for Stat Block character sheet format
+  rules.defineRule
+    ('alignmentAbbr', 'alignment', '=', 'source.replaceAll(/[a-z ]/g, "")');
+  rules.defineRule('dodgeFeatures.0',
+    'features.Dodge', '=', '1',
+    'features.Mobility', '+=', '2',
+    'features.Uncanny Dodge', '+=', '4'
+  );
+  rules.defineRule('dodgeFeatures',
+    'dodgeFeatures.0', '=', 'source==0 ? null : (source & 1 ? ["Dodge"] : []).concat(source & 2 ? ["Mobility"] : []).concat(source & 4 ? ["Uncanny Dodge"] : []).join(", ")'
+  );
+  rules.defineRule('evasion', 'features.Evasion', '=', '"Evasion"');
+  rules.defineRule('listen',
+    'wisdomModifier', '=', '(source>=0 ? "+" : "") + source',
+    'skillModifier.Listen', '=', '(source>=0 ? "+" : "") + source'
+  );
+  rules.defineRule('senseFeatures.0',
+    'features.Darkvision', '=', '1',
+    'features.Low-Light Vision', '+=', '2'
+  );
+  rules.defineRule('senseFeatures',
+    'senseFeatures.0', '=', 'source==0 ? null : (source & 1 ? ["darkvision 60 ft."] : []).concat(source & 2 ? ["low-light vision"] : []).join(", ")'
+  );
+  rules.defineRule('size',
+    '', '=', '"Medium"',
+    'features.Large', '=', '"Large"',
+    'features.Small', '=', '"Small"'
+  );
+  rules.defineRule('spot',
+    'wisdomModifier', '=', '(source>=0 ? "+" : "") + source',
+    'skillModifier.Spot', '=', '(source>=0 ? "+" : "") + source'
   );
 
 };
@@ -7744,6 +7792,22 @@ SRD35.getFormats = function(rules, viewer) {
       if(!format.startsWith('spells.'))
         result[format] = formats[format];
     }
+  } else if(viewer == 'Stat Block') {
+    result['baseAttack'] = '%S';
+    result['grappleAttack'] = '%S';
+    result['initiative'] = '%S';
+    ['Fortitude', 'Reflex', 'Will'].forEach(save => {
+      result['save.' + save] = '%S';
+    });
+    for(var s in rules.getChoices('skills')) {
+      result['skillModifier.' + s] = '%S';
+    }
+    for(var w in rules.getChoices('weapons')) {
+      var weapon = 'weapons.' + w;
+      result[weapon] = formats[weapon]
+        .replace('(%1 ', '%1 (').replace('/', ',')
+        .replace(/ x(\d)@%(\d)/, '%{($1>2 ? "/x$1" : "")}%{%$2<20 ? ($1>2 ? "@" : "/") + "%$2-20" : ""}');
+    }
   } else {
     result = formats;
   }
@@ -7981,6 +8045,56 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Sanity Notes', within: 'ValidationPart', separator:noteSep},
             {name: 'Validation Notes', within: 'ValidationPart',
              separator: noteSep}
+      );
+    } else if(name == 'Stat Block') {
+      viewer.addElements(
+        {name: '_top', separator: '\n', columns: '1L'},
+          {name: 'Name', within: '_top', format: '<div style="font-size:2em"><b>%V</b></div>'},
+          {name: 'GenderRaceAndLevels', within: '_top', separator: ' '},
+            {name: 'Gender', within: 'GenderRaceAndLevels', format: '%V'},
+            {name: 'Race', within: 'GenderRaceAndLevels', format: '%V'},
+            {name: 'Levels', within: 'GenderRaceAndLevels', format: '%V', separator: '/'},
+          {name: 'AlignAndSize', within: '_top', separator: ' '},
+            {name: 'Alignment Abbr', within: 'AlignAndSize', format: '%V'},
+            {name: 'Size', within: 'AlignAndSize', format: '%V humanoid'},
+          {name: 'InitAndSenses', within: '_top', separator: ''},
+            {name: 'Initiative', within: 'InitAndSenses', format: '<b>Init</b> %V; <b>Senses</b> '},
+            {name: 'Sense Features', within: 'InitAndSenses', format: '%V; '},
+            {name: 'Listen', within: 'InitAndSenses', format: 'Listen %V, '},
+            {name: 'Spot', within: 'InitAndSenses', format: 'Spot %V'},
+          {name: 'Languages', within: '_top', separator: ', ', format: '<b>%N</b> %V'},
+          {name: 'Sep1', within: '_top', format: '<hr/>'},
+          {name: 'ACs', within: '_top', separator: ''},
+            {name: 'Armor Class', within: 'ACs', format: '<b>AC</b> %V'},
+            {name: 'Armor Class Touch', within: 'ACs', format: ', touch %V'},
+            {name: 'Armor Class Flatfooted', within: 'ACs', format: ', flat-footed %V'},
+            {name: 'Dodge Features', within: 'ACs', format: '; %V'},
+          {name: 'HPandHD', within: '_top', separator: ' '},
+            {name: 'Hit Points', within: 'HPandHD', format: '<b>hp</b> %V'},
+            {name: 'Level', within: 'HPandHD', format: '(%V HD)'},
+          {name: 'Saves', within: '_top', separator: ''},
+            {name: 'Save', within: 'Saves', format: '<b>%N</b> %V',
+             separator: ', '},
+            {name: 'Evasion', within: 'Saves', format: '; %V'},
+          {name: 'Sep2', within: '_top', format: '<hr/>'},
+          {name: 'Speed', within: '_top', format: '<b>%N</b> %V ft.'},
+          {name: 'Weapons', within: '_top', separator: ', ', format: '<b>%N</b> %V'},
+          {name: 'Attack', within: '_top', separator: '; '},
+            {name: 'Base Attack', within: 'Attack', format: '<b>Base Atk</b> %V'},
+            {name: 'Grapple Attack', within: 'Attack', format: '<b>Grp</b> %V'},
+          {name: 'Spells', within: '_top', separator: ', ', format: '<b>%N</b> %V'},
+          {name: 'Sep3', within: '_top', format: '<hr/>'},
+          {name: 'Abilities', within: '_top', separator: ', ', format: '<b>%N</b> %V'},
+            {name: 'Strength', within: 'Abilities', format: 'Str %V'},
+            {name: 'Dexterity', within: 'Abilities', format: 'Dex %V'},
+            {name: 'Constitution', within: 'Abilities', format: 'Con %V'},
+            {name: 'Intelligence', within: 'Abilities', format: 'Int %V'},
+            {name: 'Wisdom', within: 'Abilities', format: 'Wis %V'},
+            {name: 'Charisma', within: 'Abilities', format: 'Cha %V'},
+          {name: 'Feats', within: '_top', separator: ', ', format: '<b>%N</b> %V'},
+          {name: 'Skill Modifier', within: '_top', separator: ', ', format: '<b>Skills</b> %V'},
+          {name: 'Sep4', within: '_top', format: '<hr/>'},
+          {name: 'Notes', within: '_top', format: '%V'}
       );
     } else
       continue;
