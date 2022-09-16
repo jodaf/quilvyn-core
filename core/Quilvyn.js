@@ -3,7 +3,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2022 James J. Hayes';
-var VERSION = '2.3.14';
+var VERSION = '2.3.15';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -899,7 +899,7 @@ Quilvyn.modifyOptions = function() {
       '<tr><td><b>Show Italic Notes</b></td><td>' + InputHtml('italics', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Validation Notes</b></td><td>' + InputHtml('validation', 'checkbox', null) + '</td></tr>',
       '<tr><td><b>Show Spell</b></td><td>' + InputHtml('spell', 'select-one', ['Points', 'Slots', 'Both']) + '</td></tr>',
-      '<tr><td><b>Sheet Style</b></td><td>' + InputHtml('style', 'select-one', ['Collected Notes', 'Compact', 'Standard']) + '</td></tr>',
+      '<tr><td><b>Sheet Style</b></td><td>' + InputHtml('style', 'select-one', ruleSet.getViewerNames()) + '</td></tr>',
       '<tr><td><b>Warn About Discard</b></td><td>' + InputHtml('warnAboutDiscard', 'checkbox', null) + '</td></tr>',
       '</table></form>',
       '<input type="button" name="ok" value="Ok" onclick="okay=true;"/>',
@@ -1571,7 +1571,8 @@ Quilvyn.sheetHtml = function(attrs) {
        (a == 'spellPoints' && userOptions.spell == 'Slots'))
       continue;
     if(formats[a] != null) {
-      value = formats[a].replace(/%V/g, value);
+      value = formats[a].replace(/%V/g, value)
+                        .replace(/%S/g, value>=0 ? '+' + value : value);
       for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {
         value = value.replace(new RegExp('%' + j, 'g'), computedAttributes[a + '.' + j]);
       }
@@ -1643,6 +1644,8 @@ Quilvyn.sheetHtml = function(attrs) {
   var bodyBackgroundAttr = userOptions.sheetImage ?
     ' style="background-image:url(' + userOptions.sheetImage +
     (userOptions.sheetImage.match(/\.\w+$/) ? '' : '.jpg') + ')"' : '';
+  var viewer = ruleSet.getViewer(userOptions.style) ||
+               ruleSet.getViewer('Standard');
   var result =
     '<!DOCTYPE html>\n' +
     '<' + '!' + '-- Generated ' + new Date().toString() +
@@ -1657,7 +1660,7 @@ Quilvyn.sheetHtml = function(attrs) {
     '  </' + 'script>\n' +
     '</head>\n' +
     '<body' + bodyBackgroundAttr + '>\n' +
-    ruleSet.getViewer(userOptions.style).getHtml(sheetAttributes, '_top') + '\n' +
+    viewer.getHtml(sheetAttributes, '_top') + '\n' +
     '</body>\n' +
     '</html>\n';
 
