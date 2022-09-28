@@ -47,6 +47,10 @@ function runTest(dict, label, expr, expected) {
   runTest(dictionary, 'Binary //', '7//2', 3);
   runTest(dictionary, 'Binary ==', '7==2', false);
   runTest(dictionary, 'Binary !=', '7!=2', true);
+  runTest(dictionary, 'Binary =~', '"hello"=~"el"', true);
+  runTest(dictionary, 'Binary !~', '"hello"!~"le"', true);
+  runTest(dictionary, 'Binary =~', '"hello"=~"le"', false);
+  runTest(dictionary, 'Binary !~', '"hello"!~"el"', false);
   runTest(dictionary, 'Binary <', '7<2', false);
   runTest(dictionary, 'Binary <=', '7<=2', false);
   runTest(dictionary, 'Binary >', '7>2', true);

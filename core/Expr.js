@@ -25,8 +25,9 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
  * a value dictionary to the eval method. In addition to the usual unary,
  * binary, and ternary operators, Expr supports the binary operators //
  * (integer division), >? (returns the greater operand), and <? (returns the
- * lesser operand), along with their corresponding assignment ops. The +
- * operator performs string concatenation for non-numeric values.
+ * lesser operand), along with their corresponding assignment ops, as well
+ * as pattern operators =~ and !~. The + operator performs string concatenation
+ * for non-numeric values.
  */
 function Expr(str) {
 
@@ -103,7 +104,7 @@ Expr.OPERATOR_PRECEDENCE = {
   '?':0,
   '=':1, '<?=':1, '>?=':1, '+=':1, '-=':1, '*=':1, '/=':1, '//=':1,
   '&&':2, '||':2,
-  '==':3, '!=':3, '<':3, '<=':3, '>':3, '>=':3, '<?':3, '>?':3,
+  '==':3, '!=':3, '<':3, '<=':3, '>':3, '>=':3, '<?':3, '>?':3, '=~':3, '!~':3,
   '+':5, '-':5,
   '*':7, '/':7, '//':7,
   'u+':8, 'u-':8, '!':8, 'u!':8
@@ -112,9 +113,9 @@ Expr.TOKEN_PAT = new RegExp(
   '^(\\s*(' + /* leading whitespace */
   '\\d+(\\.\\d+)?|"(\\\\"|[^"])*"|\'(\\\\\'|[^\'])*\'|' + /* literals */
   '[\\w\\.]+|' + /* identifiers */
-  '==|' + /* equals, placed so first = won't be taken for assignment */
+  '==|=~|' + /* equals, placed so first = won't be taken for assignment */
   '(<\\?|>\\?|\\+|-|\\*|/|//)?=|' + /* assign ops */
-  '!=|<\\?|<=|<|>\\?|>=|>|' + /* relops */
+  '!=|!~|<\\?|<=|<|>\\?|>=|>|' + /* relops */
   '\\+|-|\\*|//|/|' + /* arith ops */
   '&&|\\|\\||' + /* conjunction */
   '\\?|:|' + /* ternary op */
@@ -164,6 +165,10 @@ Expr.prototype.eval = function(dict) {
           value = leftVal == value;
         } else if (op == '!=') {
           value = leftVal != value;
+        } else if (op == '=~') {
+          value = (leftVal + '').match(new RegExp(value)) ? true : false;
+        } else if (op == '!~') {
+          value = (leftVal + '').match(new RegExp(value)) ? false : true;
         } else if (op == '&&') {
           value = leftVal ? value : leftVal;
         } else if (op == '||') {
