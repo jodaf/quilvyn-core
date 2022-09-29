@@ -40,7 +40,10 @@ function runTest(dict, label, expr, expected) {
   runTest(dictionary, 'Unary -', '-7', -7);
   runTest(dictionary, 'Unary !', '!true', false);
   runTest(dictionary, 'Whitespace', '- 7 + 3', -4);
-  runTest(dictionary, 'Binary +', '3+7', 10);
+  runTest(dictionary, 'Binary + (numbers)', '3+7', 10);
+  runTest(dictionary, 'Binary + (strings)', '"alo"+"ha"', "aloha");
+  runTest(dictionary, 'Binary + (mixed)', '3+" kings"', "3 kings");
+  runTest(dictionary, 'Binary + (numeric strings)', '"3"+"7"', "37");
   runTest(dictionary, 'Binary -', '3-7', -4);
   runTest(dictionary, 'Binary *', '3*7', 21);
   runTest(dictionary, 'Binary /', '7/2', 3.5);

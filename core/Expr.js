@@ -159,7 +159,6 @@ Expr.prototype.eval = function(dict) {
         var right = stack.pop();
         var left = stack.pop();
         var leftVal = left.tipe == Expr.IDENTIFIER_TYPE ? dict[left.value] : left.value;
-        var testPlus;
         var value = right.tipe == Expr.IDENTIFIER_TYPE ? dict[right.value] : right.value;
         if (op == '==') {
           value = leftVal == value;
@@ -198,11 +197,7 @@ Expr.prototype.eval = function(dict) {
         } else if (op == '>?') {
           value = leftVal > value ? leftVal : value;
         } else if (op == '+') {
-          testPlus = Number(leftVal) + Number(value);
-          if (isNaN(testPlus))
-            value = String(leftVal).concat(String(value));
-          else
-            value = testPlus;
+          value = leftVal + value;
         } else if (op == '-') {
           value = leftVal - value;
         } else if (op == '*') {
@@ -217,11 +212,7 @@ Expr.prototype.eval = function(dict) {
           } else if (op == '>?=') {
             value = leftVal > value ? leftVal : value;
           } else if (op == '+=') {
-            testPlus = Number(leftVal) + Number(value);
-            if (isNaN(testPlus))
-              value = String(leftVal).concat(String(value));
-            else
-              value = testPlus;
+            value = leftVal + value;
           } else if (op == '-=') {
             value = leftVal - value;
           } else if (op == '*=') {
