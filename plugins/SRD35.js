@@ -5018,6 +5018,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'combatNotes.nonproficientArmorPenalty:%V attack',
     'combatNotes.nonproficientShieldPenalty:%V attack',
+    'initiative:%S',
     'baseAttack:%S',
     'meleeAttack:%S',
     'rangedAttack:%S',
