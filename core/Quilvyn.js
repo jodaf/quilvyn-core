@@ -3,7 +3,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2022 James J. Hayes';
-var VERSION = '2.3.16';
+var VERSION = '2.3.17';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -1492,7 +1492,8 @@ Quilvyn.retrieveCharacterFromStorage = function(path) {
   for(var i = 0; i < attrs.length; i++) {
     var pieces = attrs[i].split('=', 2);
     if(pieces.length == 2)
-      result[pieces[0]] = pieces[1];
+      result[pieces[0]] =
+        pieces[1].match(/^[-+]?\d+$/) ? +pieces[1] : pieces[1];
   }
   return result;
 };
