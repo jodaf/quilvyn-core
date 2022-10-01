@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.6';
+SRD35.VERSION = '2.3.2.7';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -4763,7 +4763,9 @@ SRD35.abilityRules = function(rules) {
     rules.defineChoice('notes', ability + ':%V (%1)');
     rules.defineRule
       (ability + 'Modifier', ability, '=', 'Math.floor((source - 10) / 2)');
-    rules.defineRule(ability + '.1', ability + 'Modifier', '=', null);
+    rules.defineRule(ability + '.1',
+      ability + 'Modifier', '=', 'source>=0 ? "+" + source : source'
+    );
   }
   rules.defineRule('loadLight', 'loadMax', '=', 'Math.floor(source / 3)');
   rules.defineRule
@@ -5016,9 +5018,15 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'combatNotes.nonproficientArmorPenalty:%V attack',
     'combatNotes.nonproficientShieldPenalty:%V attack',
+    'baseAttack:%S',
+    'meleeAttack:%S',
+    'rangedAttack:%S',
     'damageReduction.-:%V/%N',
     'damageReduction.Magic:%V/%N',
-    'magicNotes.arcaneSpellFailure:%V%'
+    'magicNotes.arcaneSpellFailure:%V%',
+    'save.Fortitude:%S',
+    'save.Reflex:%S',
+    'save.Will:%S'
   );
 
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
@@ -7354,7 +7362,9 @@ SRD35.skillRules = function(
     '', '=', '";cc"',
     'classSkills.' + name, '=', '""'
   );
-  rules.defineRule('skills.' + name + '.3', 'skillModifier.' + name, '=', null);
+  rules.defineRule('skills.' + name + '.3',
+    'skillModifier.' + name, '=', 'source>=0 ? "+" + source : source'
+  );
 
   if(synergies.length > 0) {
     SRD35.featureRules
