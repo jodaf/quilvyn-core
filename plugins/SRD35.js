@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.7';
+SRD35.VERSION = '2.3.2.8';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -5018,6 +5018,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'combatNotes.nonproficientArmorPenalty:%V attack',
     'combatNotes.nonproficientShieldPenalty:%V attack',
+    'combatNotes.towerShieldPenalty:%V attack',
     'initiative:%S',
     'baseAttack:%S',
     'meleeAttack:%S',
@@ -7278,6 +7279,11 @@ SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
     'shieldProficiencyLevelShortfall', '?', 'source > 0',
     'shield', '=', '-' + QuilvynUtils.dictLit(rules.shieldStats.skill) + '[source]'
   );
+  if(name == 'Tower') {
+    rules.defineRule('combatNotes.towerShieldPenalty',
+      'shield', '=', 'source=="Tower" ? -2 : null'
+    );
+  }
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.spell) + '[source]'
   );
@@ -7742,7 +7748,8 @@ SRD35.weaponRules = function(
     'weapons.' + name, '?', null,
     'combatNotes.nonproficientArmorPenalty', '+', null,
     'combatNotes.nonproficientShieldPenalty', '+', null,
-    'combatNotes.nonproficientWeaponPenalty.' + name, '+', null
+    'combatNotes.nonproficientWeaponPenalty.' + name, '+', null,
+    'combatNotes.towerShieldPenalty', '+', null
   );
   rules.defineRule('weaponProficiencyLevelShortfall.' + name,
     'weapons.' + name, '=', profLevel,
