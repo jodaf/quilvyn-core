@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.8';
+SRD35.VERSION = '2.3.2.9';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -8016,7 +8016,8 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Spell Points', within: 'SpellStats'},
               {name: 'Spell Difficulty Class', within: 'SpellStats',
                format: '<b>Spell DC</b>: %V', separator: listSep},
-          {name: 'Spells', within: 'Magic', columns: '1L', separator: null},
+          {name: 'Spells', within: 'Magic', columns: '1L',
+           format: '<b>Spells</b>:<br/>%V', separator: null},
           {name: 'Potions', within: 'Magic', columns: '1L',
            format: '<b>Potions/Oils</b>:<br/>%V', separator: null},
           {name: 'Scrolls', within: 'Magic', columns: '1L',
