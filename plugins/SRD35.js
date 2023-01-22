@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.9';
+SRD35.VERSION = '2.3.2.10';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -4816,8 +4816,16 @@ SRD35.aideRules = function(rules, companions, familiars) {
   }
 
   rules.defineChoice('notes',
-    'animalCompanionStats.Melee:+%V %1%2%3%4',
-    'familiarStats.Melee:+%V %1'
+    'animalCompanionStats.Initiative:%S',
+    'animalCompanionStats.Melee:%S %1%2%3%4',
+    'animalCompanionStats.Save Fort:%S',
+    'animalCompanionStats.Save Ref:%S',
+    'animalCompanionStats.Save Will:%S',
+    'familiarStats.Initiative:%S',
+    'familiarStats.Melee:+%V %1',
+    'familiarStats.Save Fort:%S',
+    'familiarStats.Save Ref:%S',
+    'familiarStats.Save Will:%S'
   );
 
   var features = [
@@ -7459,7 +7467,7 @@ SRD35.spellRules = function(
     console.log('Empty description for spell ' + name);
     return;
   }
-  // TODO: Backwards compatability for clients that don't pass a liquids param.
+  // TODO: Backwards compatibility for clients that don't pass a liquids param.
   // Remove with next point release.
   if(liquids == null)
     liquids = [];
@@ -9031,7 +9039,7 @@ SRD35.ruleNotes = function() {
     '    Quilvyn assumes that masterwork composite bows are specially built' +
     '    to allow a strength damage bonus to be applied.\n' +
     '  </li><li>\n' +
-    '    Quilvyn uses the minimumm required caster level for computing\n' +
+    '    Quilvyn uses the minimum required caster level for computing\n' +
     '    potion and scroll effects.\n' +
     '  </li><li>\n' +
     '    Quilvyn gives Commoners Simple Weapon Proficiency to account for' +
