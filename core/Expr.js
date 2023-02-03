@@ -107,7 +107,7 @@ Expr.OPERATOR_PRECEDENCE = {
   '==':3, '!=':3, '<':3, '<=':3, '>':3, '>=':3, '<?':3, '>?':3, '=~':3, '!~':3,
   '+':5, '-':5,
   '*':7, '/':7, '//':7,
-  'u+':8, 'u-':8, '!':8, 'u!':8
+  'u+':8, 'u-':8, '!':8, 'u!':8, '$':8, 'u$':8
 };
 Expr.TOKEN_PAT = new RegExp(
   '^(\\s*(' + /* leading whitespace */
@@ -120,6 +120,7 @@ Expr.TOKEN_PAT = new RegExp(
   '&&|\\|\\||' + /* conjunction */
   '\\?|:|' + /* ternary op */
   '!|' + /* negation */
+  '\\$|' + /* convert to identifier */
   '\\(|\\)' + /* parens */
   '))'
 );
@@ -150,11 +151,14 @@ Expr.prototype.eval = function(dict) {
           return null;
         }
         if (op == 'u-') {
-          value = -value;
+          stack.push({tipe: Expr.LITERAL_TYPE, value: -value});
+        } else if (op == 'u+') {
+          stack.push({tipe: Expr.LITERAL_TYPE, value: value});
         } else if (op == 'u!') {
-          value = !value;
+          stack.push({tipe: Expr.LITERAL_TYPE, value: !value});
+        } else if (op == 'u$') {
+          stack.push({tipe: Expr.IDENTIFIER_TYPE, value: value});
         }
-        stack.push({tipe: Expr.LITERAL_TYPE, value: value});
       } else {
         var right = stack.pop();
         var left = stack.pop();

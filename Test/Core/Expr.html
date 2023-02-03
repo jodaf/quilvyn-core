@@ -28,7 +28,8 @@ function runTest(dict, label, expr, expected) {
     'spring':3,
     'summer':6,
     'autumn':9,
-    'winter':12
+    'winter':12,
+    'non-standard id': 15
   };
   runTest(dictionary, 'Double-quoted literal', '"goober"', 'goober');
   runTest(dictionary, 'Single-quoted literal', "'goober'", 'goober');
@@ -39,6 +40,7 @@ function runTest(dict, label, expr, expected) {
   runTest(dictionary, 'Unary +', '+7', 7);
   runTest(dictionary, 'Unary -', '-7', -7);
   runTest(dictionary, 'Unary !', '!true', false);
+  runTest(dictionary, 'Unary $', '$"non-standard id"', 15);
   runTest(dictionary, 'Whitespace', '- 7 + 3', -4);
   runTest(dictionary, 'Binary + (numbers)', '3+7', 10);
   runTest(dictionary, 'Binary + (strings)', '"alo"+"ha"', "aloha");
