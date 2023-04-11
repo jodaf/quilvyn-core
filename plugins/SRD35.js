@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.11';
+SRD35.VERSION = '2.3.2.12';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -113,183 +113,183 @@ SRD35.ANIMAL_COMPANIONS = {
   // Attack, Dam, AC include all modifiers
   'Badger':
     'Str=8 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=1 AC=15 Attack=4 ' +
-    'Dam=2@1d2-1,1d3-1 Size=S',
+    'Dam=2@1d2-1,1d3-1 Size=S Speed=30',
   'Camel':
     'Str=18 Dex=16 Con=14 Int=2 Wis=11 Cha=4 HD=3 AC=13 Attack=0 Dam=1d4+2 ' +
-    'Size=L',
+    'Size=L Speed=50',
   'Dire Rat':
     'Str=10 Dex=17 Con=12 Int=1 Wis=12 Cha=4 HD=1 AC=15 Attack=4 Dam=1d4 ' +
-    'Size=S',
+    'Size=S Speed=40',
   'Dog':
     'Str=13 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=1 AC=15 Attack=2 Dam=1d4+1 ' +
-    'Size=S',
+    'Size=S Speed=40',
   'Eagle':
     'Str=10 Dex=15 Con=12 Int=2 Wis=14 Cha=6 HD=1 AC=14 Attack=3 ' +
-    'Dam=2@1d4,1d4 Size=S',
+    'Dam=2@1d4,1d4 Size=S Speed=80',
   'Hawk':
     'Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6 HD=1 AC=17 Attack=5 ' +
-    'Dam=1d4-2 Size=T',
+    'Dam=1d4-2 Size=T Speed=60',
   'Heavy Horse':
     'Str=16 Dex=13 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=13 Attack=-1 Dam=1d6+1 ' +
-    'Size=L',
+    'Size=L Speed=50',
   'Light Horse':
     'Str=14 Dex=13 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=13 Attack=-2 Dam=1d4+1 ' +
-    'Size=L',
+    'Size=L Speed=60',
   'Medium Shark':
     'Str=13 Dex=15 Con=13 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=4 Dam=1d6+1 ' +
-    'Size=M',
+    'Size=M Speed=60',
   'Medium Viper':
     'Str=8 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=2 AC=16 Attack=4 Dam=1d4-1 ' +
-    'Size=M',
+    'Size=M Speed=20',
   'Owl':
     'Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=17 Attack=5 Dam=1d4-3 ' +
-    'Size=T',
+    'Size=T Speed=40',
   'Pony':
     'Str=13 Dex=13 Con=12 Int=2 Wis=11 Cha=4 HD=2 AC=13 Attack=-3 Dam=1d3 ' +
-    'Size=M',
+    'Size=M Speed=40',
   'Porpoise':
     'Str=11 Dex=17 Con=13 Int=2 Wis=12 Cha=6 HD=2 AC=15 Attack=4 Dam=2d4 ' +
-    'Size=M',
+    'Size=M Speed=80',
   'Riding Dog':
     'Str=15 Dex=15 Con=15 Int=2 Wis=12 Cha=6 HD=2 AC=16 Attack=3 Dam=1d6+3 ' +
-    'Size=M',
+    'Size=M Speed=40',
   'Small Viper':
     'Str=6 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=1 AC=17 Attack=4 Dam=1d2-2 ' +
-    'Size=S',
+    'Size=S Speed=20',
   'Squid':
     'Str=14 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=3 AC=16 Attack=4 Dam=0,1d6+1 ' +
-    'Size=M',
+    'Size=M Speed=60',
   'Wolf':
     'Str=13 Dex=15 Con=15 Int=2 Wis=12 Cha=6 HD=2 AC=14 Attack=3 Dam=1d6+1 ' +
-    'Size=M',
+    'Size=M Speed=50',
 
   'Ape':
     'Str=21 Dex=15 Con=14 Int=2 Wis=12 Cha=7 HD=4 AC=14 Attack=7 ' +
-    'Dam=1d6+5,1d6+2 Size=L Level=4',
+    'Dam=1d6+5,1d6+2 Size=L Speed=30 Level=4',
   'Bison':
     'Str=22 Dex=10 Con=16 Int=2 Wis=11 Cha=4 HD=5 AC=13 Attack=8 Dam=1d8+9 ' +
-    'Size=L Level=4',
+    'Size=L Speed=40 Level=4',
   'Black Bear':
     'Str=19 Dex=13 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=13 Attack=6 ' +
-    'Dam=2@1d4+4,1d6+2 Size=M Level=4',
+    'Dam=2@1d4+4,1d6+2 Size=M Speed=40 Level=4',
   'Boar':
     'Str=15 Dex=10 Con=17 Int=2 Wis=13 Cha=4 HD=3 AC=16 Attack=4 Dam=1d8+3 ' +
-    'Size=M Level=4',
+    'Size=M Speed=40 Level=4',
   'Cheetah':
     'Str=16 Dex=19 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=15 Attack=6 ' +
-    'Dam=2@1d2+1,1d6+3 Size=M Level=4',
+    'Dam=2@1d2+1,1d6+3 Size=M Speed=50 Level=4',
   'Constrictor':
     'Str=17 Dex=17 Con=13 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=5 Dam=1d3+4 ' +
-    'Size=M Level=4',
+    'Size=M Speed=20 Level=4',
   'Crocodile':
     'Str=19 Dex=12 Con=17 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=6 ' +
-    'Dam=1d8+6,1d12+6 Size=M Level=4',
+    'Dam=1d8+6,1d12+6 Size=M Speed=30 Level=4',
   'Dire Badger':
     'Str=14 Dex=17 Con=19 Int=2 Wis=12 Cha=10 HD=3 AC=16 Attack=4 ' +
-    'Dam=2@1d4+2,1d6+1 Size=M Level=4',
+    'Dam=2@1d4+2,1d6+1 Size=M Speed=30 Level=4',
   'Dire Bat':
     'Str=17 Dex=22 Con=17 Int=2 Wis=14 Cha=6 HD=4 AC=20 Attack=5 Dam=1d8+4 ' +
-    'Size=M Level=4',
+    'Size=M Speed=40 Level=4',
   'Dire Weasel':
     'Str=14 Dex=19 Con=10 Int=2 Wis=12 Cha=11 HD=3 AC=16 Attack=6 Dam=1d6+3 ' +
-    'Size=M Level=4',
+    'Size=M Speed=40 Level=4',
   'Large Shark':
     'Str=17 Dex=15 Con=13 Int=1 Wis=12 Cha=2 HD=7 AC=15 Attack=7 Dam=1d8+4 ' +
-    'Size=L Level=4',
+    'Size=L Speed=60 Level=4',
   'Large Viper':
     'Str=10 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=4 Dam=1d4 ' +
-    'Size=L Level=4',
+    'Size=L Speed=20 Level=4',
   'Leopard':
     'Str=16 Dex=19 Con=15 Int=2 Wis=12 Cha=6 HD=3 AC=15 Attack=6 ' +
-    'Size=M Dam=2@1d3+1,1d6+3 Level=4',
+    'Size=M Dam=2@1d3+1,1d6+3 Speed=40 Level=4',
   'Monitor Lizard':
     'Str=17 Dex=15 Con=17 Int=1 Wis=12 Cha=2 HD=3 AC=15 Attack=5 Dam=1d8+4 ' +
-    'Size=M Level=4',
+    'Size=M Speed=30 Level=4',
   'Wolverine':
     'Str=14 Dex=15 Con=19 Int=2 Wis=12 Cha=10 HD=3 AC=14 Attack=4 ' +
-    'Dam=2@1d4+2,1d6+1 Size=M Level=4',
+    'Dam=2@1d4+2,1d6+1 Size=M Speed=30 Level=4',
 
   'Brown Bear':
     'Str=27 Dex=13 Con=19 Int=2 Wis=12 Cha=6 HD=6 AC=15 Attack=11 ' +
-    'Dam=2@1d8+8,2d6+4 Size=L Level=7',
+    'Dam=2@1d8+8,2d6+4 Size=L Speed=40 Level=7',
   'Deinonychus':
     'Str=19 Dex=15 Con=19 Int=2 Wis=12 Cha=10 HD=4 AC=17 Attack=7 ' +
-    'Dam=1d8+4,2@1d3+2,2d4+2 Size=M Level=7',
+    'Dam=1d8+4,2@1d3+2,2d4+2 Size=M Speed=60 Level=7',
   'Dire Ape':
     'Str=22 Dex=15 Con=14 Int=2 Wis=12 Cha=7 HD=5 AC=15 Attack=8 ' +
-    'Dam=2@1d6+6,1d8+3 Size=L Level=7',
+    'Dam=2@1d6+6,1d8+3 Size=L Speed=30 Level=7',
   'Dire Boar':
     'Str=27 Dex=10 Con=17 Int=2 Wis=13 Cha=8 HD=7 AC=15 Attack=12 Dam=1d8+12 ' +
-    'Size=L Level=7',
+    'Size=L Speed=40 Level=7',
   'Dire Wolf':
     'Str=25 Dex=15 Con=17 Int=2 Wis=12 Cha=10 HD=6 AC=14 Attack=11 ' +
-    'Size=L Dam=1d8+10 Level=7',
+    'Size=L Dam=1d8+10 Speed=50 Level=7',
   'Dire Wolverine':
     'Str=22 Dex=17 Con=19 Int=2 Wis=12 Cha=10 HD=5 AC=16 Attack=8 ' +
-    'Dam=2@1d6+6,1d8+3 Size=L Level=7',
+    'Dam=2@1d6+6,1d8+3 Size=L Speed=30 Level=7',
   'Elasmosaurus':
     'Str=26 Dex=14 Con=22 Int=2 Wis=13 Cha=9 HD=10 AC=13 Attack=13 ' +
-    'Dam=2d8+12 Size=H Level=7',
+    'Dam=2d8+12 Size=H Speed=50 Level=7',
   'Giant Crocodile':
     'Str=27 Dex=12 Con=19 Int=1 Wis=12 Cha=2 HD=7 AC=16 Attack=11 ' +
-    'Dam=2d8+12,1d12+12 Size=H Level=7',
+    'Dam=2d8+12,1d12+12 Size=H Speed=30 Level=7',
   'Huge Viper':
     'Str=16 Dex=15 Con=13 Int=1 Wis=12 Cha=2 HD=6 AC=15 Attack=6 Dam=1d6+4 ' +
-    'Size=H Level=7',
+    'Size=H Speed=20 Level=7',
   'Lion':
     'Str=21 Dex=17 Con=15 Int=2 Wis=12 Cha=6 HD=5 AC=15 Attack=7 ' +
-    'Dam=2@1d4+5,1d8+2 Size=L Level=7',
+    'Dam=2@1d4+5,1d8+2 Size=L Speed=40 Level=7',
   'Rhinoceros':
     'Str=26 Dex=10 Con=21 Int=2 Wis=13 Cha=2 HD=8 AC=16 Attack=13 Dam=2d6+12 ' +
-    'Size=L Level=7',
+    'Size=L Speed=30 Level=7',
   'Tiger':
     'Str=23 Dex=15 Con=17 Int=2 Wis=12 Cha=6 HD=6 AC=14 Attack=9 ' +
-    'Dam=2@1d8+6,2d6+3 Size=L Level=7',
+    'Dam=2@1d8+6,2d6+3 Size=L Speed=40 Level=7',
 
   'Dire Lion':
     'Str=25 Dex=15 Con=17 Int=2 Wis=12 Cha=10 HD=8 AC=13 Attack=15 ' +
-    'Dam=2@1d6+7,1d8+3 Size=L Level=10',
+    'Dam=2@1d6+7,1d8+3 Size=L Speed=40 Level=10',
   'Giant Constrictor':
     'Str=25 Dex=17 Con=13 Int=1 Wis=12 Cha=2 HD=11 AC=12 Attack=15 ' +
-    'Dam=1d8+10 Size=H Level=10',
+    'Dam=1d8+10 Size=H Speed=20 Level=10',
   'Huge Shark':
     'Str=21 Dex=15 Con=15 Int=1 Wis=12 Cha=2 HD=10 AC=15 Attack=10 Dam=2d6+7 ' +
-    'Size=H Level=10',
+    'Size=H Speed=60 Level=10',
   'Megaraptor':
     'Str=21 Dex=15 Con=21 Int=2 Wis=15 Cha=10 HD=8 AC=17 Attack=10 ' +
-    'Dam=2d6+5,2@1d4+2,1d8+2 Size=L Level=10',
+    'Dam=2d6+5,2@1d4+2,1d8+2 Size=L Speed=60 Level=10',
   'Orca':
     'Str=27 Dex=15 Con=21 Int=2 Wis=14 Cha=6 HD=9 AC=16 Attack=12 Dam=2d6+12 ' +
-    'Size=H Level=10',
+    'Size=H Speed=50 Level=10',
   'Polar Bear':
     'Str=27 Dex=13 Con=19 Int=2 Wis=12 Cha=6 HD=8 AC=15 Attack=13 ' +
-    'Dam=2@1d8+8,2d6+4 Size=L Level=10',
+    'Dam=2@1d8+8,2d6+4 Size=L Speed=40 Level=10',
 
   'Dire Bear':
     'Str=31 Dex=13 Con=19 Int=2 Wis=12 Cha=10 HD=12 AC=17 Attack=19 ' +
-    'Size=L Dam=2@2d4+10,2d8+5 Level=13',
+    'Size=L Dam=2@2d4+10,2d8+5 Speed=40 Level=13',
   'Elephant':
     'Str=30 Dex=10 Con=21 Int=2 Wis=13 Cha=7 HD=11 AC=15 Attack=16 ' +
-    'Dam=2d6+10,2@2d6+5 Size=H Level=13',
+    'Dam=2d6+10,2@2d6+5 Size=H Speed=40 Level=13',
   'Giant Octopus':
     'Str=20 Dex=15 Con=13 Int=2 Wis=12 Cha=3 HD=8 AC=18 Attack=10 ' +
-    'Dam=8@1d4+5,1d8+2 Size=L Level=13',
+    'Dam=8@1d4+5,1d8+2 Size=L Speed=30 Level=13',
 
   'Dire Shark':
     'Str=23 Dex=15 Con=17 Int=1 Wis=12 Cha=10 HD=18 AC=17 Attack=18 ' +
-    'Dam=2d8+9 Size=H Level=16',
+    'Dam=2d8+9 Size=H Speed=60 Level=16',
   'Dire Tiger':
     'Str=27 Dex=15 Con=17 Int=2 Wis=12 Cha=10 HD=16 AC=17 Attack=20 ' +
-    'Dam=2@2d4+8,2d6+4 Size=L Level=16',
+    'Dam=2@2d4+8,2d6+4 Size=L Speed=40 Level=16',
   'Giant Squid':
     'Str=26 Dex=17 Con=13 Int=1 Wis=12 Cha=2 HD=12 AC=17 Attack=15 ' +
-    'Dam=10@1d6+8,2d8+4 Size=H Level=16',
+    'Dam=10@1d6+8,2d8+4 Size=H Speed=80 Level=16',
   'Triceratops':
     'Str=30 Dex=9 Con=25 Int=1 Wis=12 Cha=7 HD=16 AC=18 Attack=20 Dam=2d8+15 ' +
-    'Size=H Level=16',
+    'Size=H Speed=30 Level=16',
   'Tyrannosaurus':
     'Str=28 Dex=12 Con=21 Int=2 Wis=15 Cha=10 HD=18 AC=14 Attack=20 ' +
-    'Dam=3d6+13 Size=H Level=16'
+    'Dam=3d6+13 Size=H Speed=30 Level=16'
 
 };
 SRD35.ARMORS = {
@@ -311,96 +311,99 @@ SRD35.FAMILIARS = {
 
   // Attack, Dam, AC include all modifiers
   'Bat':
-    'Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=16 Attack=0 Dam=0 Size=D',
+    'Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=16 Attack=0 Dam=0 ' +
+    'Size=D Speed=40',
   'Cat':
     'Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7 HD=1 AC=14 Attack=4 ' +
-    'Dam=2@1d2-4,1d3-4 Size=T',
+    'Dam=2@1d2-4,1d3-4 Size=T Speed=30',
   'Hawk':
     'Str=6 Dex=17 Con=10 Int=2 Wis=14 Cha=6 HD=1 AC=17 Attack=5 Dam=1d4-2 ' +
-    'Size=T',
+    'Size=T Speed=60',
   'Lizard':
     'Str=3 Dex=15 Con=10 Int=1 Wis=12 Cha=2 HD=1 AC=14 Attack=4 Dam=1d4-4 ' +
-    'Size=T',
+    'Size=T Speed=20',
   'Owl':
     'Str=4 Dex=17 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=17 Attack=5 Dam=1d4-3 ' +
-    'Size=T',
+    'Size=T Speed=40',
   'Rat':
     'Str=2 Dex=15 Con=10 Int=2 Wis=12 Cha=2 HD=1 AC=14 Attack=4 Dam=1d3-4 ' +
-    'Size=T',
+    'Size=T Speed=15',
   'Raven':
     'Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6 HD=1 AC=14 Attack=4 Dam=1d2-5 ' +
-    'Size=T',
+    'Size=T Speed=40',
   'Tiny Viper':
-    'Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=1 AC=17 Attack=5 Dam=1 Size=T',
+    'Str=4 Dex=17 Con=11 Int=1 Wis=12 Cha=2 HD=1 AC=17 Attack=5 Dam=1 ' +
+    'Size=T Speed=15',
   'Toad':
-    'Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4 HD=1 AC=15 Attack=0 Dam=0 Size=D',
+    'Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4 HD=1 AC=15 Attack=0 Dam=0 ' +
+    'Size=D Speed=5',
   'Weasel':
     'Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=5 HD=1 AC=14 Dam=1d3-4 Attack=4 ' +
-    'Size=T',
+    'Size=T Speed=20',
 
   'Air Elemental':
     'Str=10 Dex=17 Con=10 Int=4 Wis=11 Cha=11 HD=2 AC=17 Attack=5 Dam=1d4 ' +
-    'Size=S Level=5',
+    'Size=S Speed=100 Level=5',
   'Air Mephit':
     'Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=17 Attack=4 Dam=2@1d3 ' +
-    'Size=S Level=7',
+    'Size=S Speed=60 Level=7',
   'Dust Mephit':
     'Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=17 Attack=4 Dam=2@1d3 ' +
-    'Size=S Level=7',
+    'Size=S Speed=50 Level=7',
   'Earth Elemental':
     'Str=17 Dex=8 Con=13 Int=4 Wis=11 Cha=11 HD=2 AC=17 Attack=5 Dam=1d6+4 ' +
-    'Size=S Level=5',
+    'Size=S Speed=20 Level=5',
   'Earth Mephit':
     'Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=7 Dam=2@1d3+3 ' +
-    'Size=S Level=7',
+    'Size=S Speed=40 Level=7',
   'Fire Elemental':
     'Str=10 Dex=13 Con=10 Int=4 Wis=11 Cha=11 HD=2 AC=15 Attack=3 ' +
-    'Dam=1d4,1d4 Size=S Level=5',
+    'Dam=1d4,1d4 Size=S Speed=50 Level=5',
   'Fire Mephit':
     'Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=4 ' +
-    'Dam=2@1d3,1d4 Size=S Level=7',
+    'Dam=2@1d3,1d4 Size=S Speed=50 Level=7',
   'Formian Worker':
     'Str=13 Dex=14 Con=13 Int=6 Wis=10 Cha=9 HD=1 AC=17 Attack=3 Dam=1d4+1 ' +
-    'Size=S Level=7',
+    'Size=S Speed=40 Level=7',
   'Homunculus':
     'Str=8 Dex=15 Con=0 Int=10 Wis=12 Cha=7 HD=2 AC=14 Attack=2 Dam=1d4-1 ' +
-    'Size=T Level=7',
+    'Size=T Speed=50 Level=7',
   'Ice Mephit':
     'Str=10 Dex=17 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=18 Attack=4 ' +
-    'Dam=2@1d3,1d4 Size=S Level=7',
+    'Dam=2@1d3,1d4 Size=S Speed=50 Level=7',
   'Imp':
     'Str=10 Dex=20 Con=10 Int=10 Wis=12 Cha=14 HD=3 AC=20 Attack=8 Dam=1d4 ' +
-    'Size=T Level=7',
+    'Size=T Speed=50 Level=7',
   'Magma Mephit':
     'Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=4 ' +
-    'Dam=2@1d3,1d4 Size=S Level=7',
+    'Dam=2@1d3,1d4 Size=S Speed=50 Level=7',
   'Ooze Mephit':
     'Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=6 ' +
-    'Dam=2@1d3+2 Size=S Level=7',
+    'Dam=2@1d3+2 Size=S Speed=40 Level=7',
   'Pseudodragon':
     'Str=6 Dex=15 Con=13 Int=10 Wis=12 Cha=10 HD=2 AC=18 Attack=6 Dam=1d3-2 ' +
-    'Size=T Level=7',
+    'Size=T Speed=60 Level=7',
   'Quasit':
     'Str=8 Dex=17 Con=10 Int=10 Wis=12 Cha=10 HD=3 AC=18 Attack=8 ' +
-    'Dam=1d3-1,1d4-1 Size=T Level=7',
+    'Dam=1d3-1,1d4-1 Size=T Speed=50 Level=7',
   'Salt Mephit':
     'Str=17 Dex=8 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=7 Dam=2@1d3+3 ' +
-    'Size=S Level=7',
+    'Size=S Speed=40 Level=7',
   'Shocker Lizard':
     'Str=10 Dex=15 Con=13 Int=2 Wis=12 Cha=6 HD=2 AC=16 Attack=3 Dam=1d4 ' +
-    'Size=S Level=5',
+    'Size=S Speed=40 Level=5',
   'Steam Mephit':
     'Str=10 Dex=13 Con=10 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=4 ' +
-    'Dam=2@1d3,1d4 Size=S Level=7',
+    'Dam=2@1d3,1d4 Size=S Speed=50 Level=7',
   'Stirge':
     'Str=3 Dex=19 Con=10 Int=1 Wis=12 Cha=6 HD=1 AC=16 Attack=7 Dam=0 Size=T ' +
-    'Level=5',
+    'Speed=40 Level=5',
   'Water Elemental':
     'Str=14 Dex=10 Con=13 Int=4 Wis=11 Cha=11 HD=2 AC=17 Attack=4 Dam=1d6+3 ' +
-    'Size=S Level=5',
+    'Size=S Speed=90 Level=5',
   'Water Mephit':
     'Str=14 Dex=10 Con=13 Int=6 Wis=11 Cha=15 HD=3 AC=16 Attack=6 ' +
-    'Dam=2@1d3+2 Size=S Level=7'
+    'Dam=2@1d3+2 Size=S Speed=40 Level=7'
 
 };
 SRD35.FEATS = {
@@ -4959,9 +4962,9 @@ SRD35.abilityRules = function(rules) {
 SRD35.aideRules = function(rules, companions, familiars) {
 
   QuilvynUtils.checkAttrTable
-    (companions, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Attack', 'Dam', 'Size', 'Level']);
+    (companions, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Attack', 'Dam', 'Size', 'Speed', 'Level']);
   QuilvynUtils.checkAttrTable
-    (familiars, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Attack', 'Dam', 'Size', 'Level']);
+    (familiars, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Attack', 'Dam', 'Size', 'Speed', 'Level']);
 
   for(let companion in companions) {
     rules.choiceRules
@@ -5138,6 +5141,19 @@ SRD35.aideRules = function(rules, companions, familiars) {
   QuilvynRules.prerequisiteRules
     (rules, 'validation', 'fiendishFamiliar', 'familiarFiendish',
      'familiarMasterLevel >= 3');
+
+  ['Cha', 'Con', 'Dex', 'Int', 'Str', 'Wis'].forEach(ability => {
+    rules.defineChoice('notes',
+      'animalCompanionStats.' + ability + ':%V (%1)',
+      'familiarStats.' + ability + ':%V (%1)'
+    );
+    rules.defineRule('animalCompanionStats.' + ability + '.1',
+      'animalCompanionStats.' + ability, '=', '(source>=10 ? "+" : "") + Math.floor((source - 10) / 2)'
+    );
+    rules.defineRule('familiarStats.' + ability + '.1',
+      'familiarStats.' + ability, '=', '(source>=10 ? "+" : "") + Math.floor((source - 10) / 2)'
+    );
+  });
 
 };
 
@@ -5527,6 +5543,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'Attack'),
       QuilvynUtils.getAttrValueArray(attrs, 'Dam'),
       QuilvynUtils.getAttrValue(attrs, 'Size'),
+      QuilvynUtils.getAttrValue(attrs, 'Speed'),
       QuilvynUtils.getAttrValue(attrs, 'Level')
     );
   else if(type == 'Armor')
@@ -5575,6 +5592,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'Attack'),
       QuilvynUtils.getAttrValueArray(attrs, 'Dam'),
       QuilvynUtils.getAttrValue(attrs, 'Size'),
+      QuilvynUtils.getAttrValue(attrs, 'Speed'),
       QuilvynUtils.getAttrValue(attrs, 'Level')
     );
   else if(type == 'Feat') {
@@ -6642,12 +6660,14 @@ SRD35.classRulesExtra = function(rules, name) {
  * Defines in #rules# the rules associated with animal companion #name#, which
  * has abilities #str#, #dex#, #con#, #intel#, #wis#, and #cha#, hit dice #hd#,
  * and armor class #ac#. The companion has attack bonus #attack#, does
- * #damage# damage, and is size #size#. If specified, #level# indicates the
- * minimum master level the character needs to have this animal as a companion.
+ * #damage# damage, moves at #speed# (which may be fly or swim speed for
+ * creatures who normally use that form of movement) and is size #size#. If
+ * specified, #level# indicates the minimum master level the character needs to
+ * have this animal as a companion.
  */
 SRD35.companionRules = function(
   rules, name, str, dex, con, intel, wis, cha, hd, ac, attack, damage, size,
-  level
+  speed, level
 ) {
 
   if(!name) {
@@ -6659,11 +6679,11 @@ SRD35.companionRules = function(
     return;
   }
   if(typeof dex != 'number') {
-    console.log('Bad dex "' + str + '" for companion ' + name);
+    console.log('Bad dex "' + dex + '" for companion ' + name);
     return;
   }
   if(typeof con != 'number') {
-    console.log('Bad con "' + str + '" for companion ' + name);
+    console.log('Bad con "' + con + '" for companion ' + name);
     return;
   }
   if(typeof intel != 'number') {
@@ -6675,7 +6695,7 @@ SRD35.companionRules = function(
     return;
   }
   if(typeof cha != 'number') {
-    console.log('Bad cha "' + str + '" for companion ' + name);
+    console.log('Bad cha "' + cha + '" for companion ' + name);
     return;
   }
   if(typeof hd != 'number') {
@@ -6687,7 +6707,7 @@ SRD35.companionRules = function(
     return;
   }
   if(typeof attack != 'number') {
-    console.log('Bad attack "' + ac + '" for companion ' + name);
+    console.log('Bad attack "' + attack + '" for companion ' + name);
     return;
   }
   if(!(damage + '').match(/^(\d+@)?(\d+d)?\d+([-+]\d+)?(,(\d+@)?(\d+d)?\d+([-+]\d+)?)*$/)) {
@@ -6700,8 +6720,13 @@ SRD35.companionRules = function(
   }
   if(size.length > 1)
     size = size.charAt(0);
+  // Allow null speed for backwards compatibility
+  if(speed && typeof speed != 'number') {
+    console.log('Bad speed "' + speed + '" for companion ' + name);
+    return;
+  }
   if(level && typeof level != 'number') {
-    console.log('Bad level "' + ac + '" for companion ' + name);
+    console.log('Bad level "' + level + '" for companion ' + name);
     return;
   }
 
@@ -6735,6 +6760,9 @@ SRD35.companionRules = function(
   rules.defineRule('animalCompanionStats.Size',
     'animalCompanion.' + name, '=', '"' + size + '"'
   );
+  if(speed != null)
+    rules.defineRule
+      ('animalCompanionStats.Speed', 'animalCompanion.' + name, '=', speed);
   if(level != null && level > 1) {
     rules.defineRule
       ('animalCompanionStats.Level', 'animalCompanion.' + name, '=', level);
@@ -6838,12 +6866,14 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
  * Defines in #rules# the rules associated with familiar #name#, which has
  * abilities #str#, #dex#, #con#, #intel#, #wis#, and #cha#, hit dice #hd#,
  * and armor class #ac#. The familiar has attack bonus #attack#, does
- * #damage# damage, and is size #size#. If specified, #level# indicates the
- * minimum master level the character needs to have this animal as a familiar.
+ * #damage# damage, moves at #speed# (which may be fly or swim speed for
+ * creatures who normally use that form of movement) and is size #size#. If
+ * specified, #level# indicates the minimum master level the character needs to
+ * have this animal as a familiar.
  */
 SRD35.familiarRules = function(
   rules, name, str, dex, con, intel, wis, cha, hd, ac, attack, damage, size,
-  level
+  speed, level
 ) {
 
   if(!name) {
@@ -6855,11 +6885,11 @@ SRD35.familiarRules = function(
     return;
   }
   if(typeof dex != 'number') {
-    console.log('Bad dex "' + str + '" for familiar ' + name);
+    console.log('Bad dex "' + dex + '" for familiar ' + name);
     return;
   }
   if(typeof con != 'number') {
-    console.log('Bad con "' + str + '" for familiar ' + name);
+    console.log('Bad con "' + con + '" for familiar ' + name);
     return;
   }
   if(typeof intel != 'number') {
@@ -6871,7 +6901,7 @@ SRD35.familiarRules = function(
     return;
   }
   if(typeof cha != 'number') {
-    console.log('Bad cha "' + str + '" for familiar ' + name);
+    console.log('Bad cha "' + cha + '" for familiar ' + name);
     return;
   }
   if(typeof hd != 'number') {
@@ -6883,7 +6913,7 @@ SRD35.familiarRules = function(
     return;
   }
   if(typeof attack != 'number') {
-    console.log('Bad attack "' + ac + '" for familiar ' + name);
+    console.log('Bad attack "' + attack + '" for familiar ' + name);
     return;
   }
   if(!(damage + '').match(/^(\d+@)?(\d+d)?\d+([-+]\d+)?(,(\d+@)?(\d+d)?\d+([-+]\d+)?)*$/)) {
@@ -6896,6 +6926,11 @@ SRD35.familiarRules = function(
   }
   if(size.length > 1)
     size = size.charAt(0);
+  // Allow null speed for backwards compatibility
+  if(speed && typeof speed != 'number') {
+    console.log('Bad speed "' + speed + '" for familiar ' + name);
+    return;
+  }
   if(level && typeof level != 'number') {
     console.log('Bad level "' + level + '" for familiar ' + name);
     return;
@@ -6915,6 +6950,8 @@ SRD35.familiarRules = function(
   );
   rules.defineRule
     ('familiarStats.Size', 'familiar.' + name, '=', '"' + size + '"');
+  if(speed != null)
+    rules.defineRule('familiarStats.Speed', 'familiar.' + name, '=', speed);
   rules.defineRule('features.Familiar ' + name, 'familiar.' + name, '=', '1');
   if(level != null && level > 1) {
     rules.defineRule('familiarStats.Level', 'familiar.' + name, '=', level);
@@ -8192,6 +8229,114 @@ SRD35.createViewers = function(rules, viewers) {
         );
       }
       viewer.addElements(
+        {name: 'Companion Area', within: '_top', separator: outerSep,
+         format: '<b>Companions</b><br/>%V'},
+          {name: 'CompanionPart', within: 'Companion Area', separator: '\n'},
+            {name: 'CompanionInfo', within: 'CompanionPart', separator: ' '},
+              {name: 'Animal Companion', within: 'CompanionInfo',
+               separator: ' '},
+              {name: 'Animal Companion Name', within: 'CompanionInfo',
+               format: '"%V"'},
+            {name: 'CompanionAbilities', within: 'CompanionPart',
+             separator: innerSep},
+              {name: 'Animal Companion Stats.Str', within: 'CompanionAbilities',
+               format: '<b>Str</b>: %V'},
+              {name: 'Animal Companion Stats.Dex', within: 'CompanionAbilities',
+               format: '<b>Dex</b>: %V'},
+              {name: 'Animal Companion Stats.Con', within: 'CompanionAbilities',
+               format: '<b>Con</b>: %V'},
+              {name: 'Animal Companion Stats.Int', within: 'CompanionAbilities',
+               format: '<b>Int</b>: %V'},
+              {name: 'Animal Companion Stats.Wis', within: 'CompanionAbilities',
+               format: '<b>Wis</b>: %V'},
+              {name: 'Animal Companion Stats.Cha', within: 'CompanionAbilities',
+               format: '<b>Cha</b>: %V'},
+              {name: 'Animal Companion Stats.Size', within:'CompanionAbilities',
+               format: '<b>Size</b>: %V'},
+              {name: 'Animal Companion Stats.Speed',within:'CompanionAbilities',
+               format: '<b>Speed</b>: %V'},
+              {name: 'Animal Companion Stats.Tricks', within:'CompanionAbilities',
+               format: '<b>Tricks</b>: %V'},
+            {name: 'CompanionCombat', within: 'CompanionPart',
+             separator: innerSep},
+              {name: 'CompanionHDandHP', within: 'CompanionCombat',
+               format: '<b>HD/HP</b>: %V', separator: '/'},
+                {name: 'Animal Companion Stats.HD', within: 'CompanionHDandHP',
+                 format: '%V'},
+                {name: 'Animal Companion Stats.HP', within: 'CompanionHDandHP',
+                 format: '%V'},
+              {name: 'Animal Companion Stats.Initiative',
+               within: 'CompanionCombat', format: '<b>Init</b>: %V'},
+              {name: 'Animal Companion Stats.AC', within: 'CompanionCombat',
+               format: '<b>AC</b>: %V'},
+              {name: 'Animal Companion Stats.Melee', within: 'CompanionCombat',
+               format: '<b>Attack</b>: %V'},
+              {name: 'CompanionSaves', within: 'CompanionCombat',
+               format: '<b>Fort/Ref/Will</b>: %V', separator: '/'},
+                {name: 'Animal Companion Stats.Save Fort',
+                 within: 'CompanionSaves', format: '%V'},
+                {name: 'Animal Companion Stats.Save Ref',
+                 within: 'CompanionSaves', format: '%V'},
+                {name: 'Animal Companion Stats.Save Will',
+                 within: 'CompanionSaves', format: '%V'},
+            {name: 'Animal Companion Features', within: 'CompanionPart',
+             separator: listSep},
+          {name: 'FamiliarPart', within: 'Companion Area', separator: '\n'},
+            {name: 'FamiliarInfo', within: 'FamiliarPart', separator: ' '},
+              {name: 'Familiar Enhancement', within: 'FamiliarInfo',
+               format: '<b>%V</b>'},
+              {name: 'Familiar', within: 'FamiliarInfo', separator: ' '},
+              {name: 'Familiar Name', within: 'FamiliarInfo', format: '"%V"'},
+            {name: 'FamiliarAbilities', within: 'FamiliarPart',
+             separator: innerSep},
+              {name: 'Familiar Stats.Str', within: 'FamiliarAbilities',
+               format: '<b>Str</b>: %V'},
+              {name: 'Familiar Stats.Dex', within: 'FamiliarAbilities',
+               format: '<b>Dex</b>: %V'},
+              {name: 'Familiar Stats.Con', within: 'FamiliarAbilities',
+               format: '<b>Con</b>: %V'},
+              {name: 'Familiar Stats.Int', within: 'FamiliarAbilities',
+               format: '<b>Int</b>: %V'},
+              {name: 'Familiar Stats.Wis', within: 'FamiliarAbilities',
+               format: '<b>Wis</b>: %V'},
+              {name: 'Familiar Stats.Cha', within: 'FamiliarAbilities',
+               format: '<b>Cha</b>: %V'},
+              {name: 'Familiar Stats.Size', within:'FamiliarAbilities',
+               format: '<b>Size</b>: %V'},
+              {name: 'Familiar Stats.Speed', within: 'FamiliarAbilities',
+               format: '<b>Speed</b>: %V'},
+            {name: 'FamiliarCombat', within: 'FamiliarPart',
+             separator: innerSep},
+              {name: 'FamiliarHDandHP', within: 'FamiliarCombat',
+               format: '<b>HD/HP</b>: %V', separator: '/'},
+                {name: 'Familiar Stats.HD', within: 'FamiliarHDandHP',
+                 format: '%V'},
+                {name: 'Familiar Stats.HP', within: 'FamiliarHDandHP',
+                 format: '%V'},
+              {name: 'Familiar Stats.Initiative', within: 'FamiliarCombat',
+               format: '<b>Init</b>: %V'},
+              {name: 'Familiar Stats.AC', within: 'FamiliarCombat',
+               format: '<b>AC</b>: %V'},
+              {name: 'Familiar Stats.Melee', within: 'FamiliarCombat',
+               format: '<b>Attack</b>: %V'},
+              {name: 'FamiliarSaves', within: 'FamiliarCombat',
+               format: '<b>Fort/Ref/Will</b>: %V', separator: '/'},
+                {name: 'Familiar Stats.Save Fort', within: 'FamiliarSaves',
+                 format: '%V'},
+                {name: 'Familiar Stats.Save Ref', within: 'FamiliarSaves',
+                 format: '%V'},
+                {name: 'Familiar Stats.Save Will', within: 'FamiliarSaves',
+                 format: '%V'},
+            {name: 'Familiar Features', within: 'FamiliarPart',
+             separator: listSep}
+      );
+      if(name != 'Collected Notes') {
+        viewer.addElements(
+            {name: 'Companion Notes', within: 'Companion Area',
+             separator: noteSep}
+        );
+      }
+      viewer.addElements(
         {name: 'Notes Area', within: '_top', separator: outerSep,
          format: '<b>Notes</b><br/>%V'},
           {name: 'NotesPart', within: 'Notes Area', separator: '\n'}
@@ -8205,22 +8350,11 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Combat Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
               {name: 'Save Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
               {name: 'Save Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
-              {name: 'Magic Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"}
+              {name: 'Magic Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"},
+              {name: 'Companion Notes', within: 'AllNotes', separator: null, columns: "1L", format: "%V"}
         );
       }
       viewer.addElements(
-            {name: 'CompanionInfo', within: 'NotesPart', separator: ' '},
-              {name: 'Animal Companion', within: 'CompanionInfo', separator: ' '},
-              {name: 'Animal Companion Name', within: 'CompanionInfo', format: '"%V"'},
-            {name: 'Animal Companion Features', within: 'NotesPart', separator: listSep},
-            {name: 'Animal Companion Stats', within: 'NotesPart', separator: listSep},
-            {name: 'FamiliarInfo', within: 'NotesPart', separator: ' '},
-              {name: 'Familiar Enhancement', within: 'FamiliarInfo', format: '<b>%V</b>'},
-              {name: 'Familiar', within: 'FamiliarInfo', separator: ' '},
-              {name: 'Familiar Name', within: 'FamiliarInfo', format: '"%V"'},
-            {name: 'Familiar Features', within: 'NotesPart', separator: listSep},
-            {name: 'Familiar Stats', within: 'NotesPart', separator: listSep},
-            {name: 'Companion Notes', within: 'NotesPart', separator: noteSep},
             {name: 'Notes', within: 'NotesPart', format: '%V'},
             {name: 'Hidden Notes', within: 'NotesPart', format: '%V'},
           {name: 'ValidationPart', within: 'Notes Area', separator: '\n'},
