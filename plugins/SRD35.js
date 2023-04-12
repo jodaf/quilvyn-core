@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.12';
+SRD35.VERSION = '2.3.2.13';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -5009,8 +5009,12 @@ SRD35.aideRules = function(rules, companions, familiars) {
   rules.defineRule('animalCompanionStats.Initiative',
     'animalCompanionStats.Dex', '=', 'Math.floor((source - 10) / 2)'
   );
-  rules.defineRule
-    ('animalCompanionStats.Melee', 'companionAttack', '=', 'source');
+  rules.defineRule('animalCompanionStats.Melee',
+    'companionBAB', '=', null,
+    'animalCompanionStats.Size', '+',
+      '{"C":-8, "G":-4, "H":-2, "L":-1, "S":1, "T":2, "D":4, "F":8}[source.charAt(0)]',
+    'companionMaxDexOrStr', '+', 'Math.floor((source - 10) / 2)'
+  );
   rules.defineRule('animalCompanionStats.Melee.2',
     'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source'
   );
@@ -5046,13 +5050,8 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'companionMasterLevel', '=', 'source / 6',
     'animalCompanionStats.Dex', '+', 'source % 2 == 0 ? 0.5 : 0'
   );
-  rules.defineRule('companionAttack',
-    'animalCompanionStats.HD', '=', 'Math.floor(source * 3 / 4)',
-    'companionAttackBoosts', '+', 'Math.floor(source)'
-  );
-  rules.defineRule('companionAttackBoosts',
-    'companionMasterLevel', '=', 'source / 6',
-    'companionMaxDexOrStr', '+', 'source % 2 == 0 ? 0.5 : 0'
+  rules.defineRule('companionBAB',
+    'animalCompanionStats.HD', '=', 'Math.floor(source * 3 / 4)'
   );
   rules.defineRule('companionDamAdj1',
     'animalCompanionStats.Str', '=', 'Math.floor((source - 10) / 2)',
@@ -6218,8 +6217,6 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('animalCompanionStats.SR',
       'levels.Paladin', '=', 'source >= 15 ? source + 5 : null'
     );
-    rules.defineRule
-      ('companionAttackBoosts', 'levels.Paladin', '=', '(source - 2) / 6');
     rules.defineRule('companionNotes.shareSavingThrows.1',
       // Use base note in calculation so Quilvyn displays it in italics
       'companionNotes.shareSavingThrows', '?', null,
@@ -6746,7 +6743,6 @@ SRD35.companionRules = function(
     ('animalCompanionStats.HD', 'animalCompanion.' + name, '=', hd);
   rules.defineRule
     ('animalCompanionStats.AC', 'animalCompanion.' + name, '=', ac);
-  rules.defineRule('companionAttack', 'animalCompanion.' + name, '+', attack);
   let matchInfo = (damage[0] + '').match(/([^-+]*)([-+]\d+)?/);
   rules.defineRule('animalCompanionStats.Melee.1',
     'animalCompanion.' + name, '=', '"' + matchInfo[1] + '"'
