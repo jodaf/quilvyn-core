@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.13';
+SRD35.VERSION = '2.3.2.14';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -635,9 +635,7 @@ SRD35.FEATURES = {
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
   'Deceptive Knowledge':
     'Section=skill ' +
-    'Note="Bluff is a class skill/' +
-          'Disguise is a class skill/' +
-          'Hide is a class skill"',
+    'Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
   'Defensive Roll':
     'Section=combat ' +
     'Note="DC damage Reflex save vs. lethal blow for half damage"',
@@ -7063,6 +7061,9 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     let effects = notes[i];
     let matchInfo;
     let note = section + 'Notes.' + prefix;
+    let priorInSection = sections.slice(0, i).filter(x => x == section).length;
+    if(priorInSection > 0)
+      note += '-' + priorInSection;
     let skillEffects = 0;
     let uniqueSkillsAffected = [];
 
