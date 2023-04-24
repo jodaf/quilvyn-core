@@ -3009,7 +3009,7 @@ SRD35.SPELLS = {
   'Ironwood':
     'School=Transmutation ' +
     'Level=D6 ' +
-    'Description="Make $L5 lb wood object as strong as steel or $L5div2 lb object as strong as steel and +1 magic for $L dy"',
+    'Description="Make $L5 lb wood object as strong as steel, or $L5div2 lb object as strong as steel and +1 magic, for $L dy"',
   'Irresistible Dance':
     'School=Enchantment ' +
     'Level=B6,W8 ' +
