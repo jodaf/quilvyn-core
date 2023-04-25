@@ -3,7 +3,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2022 James J. Hayes';
-var VERSION = '2.3.19';
+var VERSION = '2.3.20';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -1044,11 +1044,16 @@ Quilvyn.randomizeCharacter = function(prompted) {
         var pieces = presets[preset].split(',');
         label = pieces[0];
         presetHtml =
-          pieces[1].match(/bag|set/) ?
+          pieces[1].match(/bag/) ?
             InputHtml(preset + '_sel', 'select-one',
                       QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2]))) +
             '</td><td>' +
             InputHtml(preset, 'text', [2, '(\\+?\\d+)?'])
+          : pieces[1].match(/set/) ?
+            InputHtml(preset + '_sel', 'select-one',
+                      QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2]))) +
+            '</td><td>' +
+            InputHtml(preset, 'checkbox', null)
           : pieces[1] == 'select-one' ?
             InputHtml(preset, 'select-one',
                       QuilvynUtils.getKeys(ruleSet.getChoices(pieces[2])))
@@ -1123,7 +1128,7 @@ Quilvyn.randomizeCharacter = function(prompted) {
       if(typeof(value) == 'string' && value.match(/^[\+\-]?\d+$/))
         value -= 0;
       if(value)
-        fixedAttributes[a] = value;
+        fixedAttributes[a] = value === true ? 1 : value;
     }
     // Quilvyn.randomizeCharacter.win.close();
     Quilvyn.randomizeCharacter.win = null;
