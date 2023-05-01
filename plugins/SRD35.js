@@ -7054,6 +7054,8 @@ SRD35.featureRules = function(rules, name, sections, notes) {
 
   let prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
+  let skillPrereqPossible = true;
+  let skillsBoosted = [];
 
   for(let i = 0; i < sections.length; i++) {
 
@@ -7064,8 +7066,6 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     let priorInSection = sections.slice(0, i).filter(x => x == section).length;
     if(priorInSection > 0)
       note += '-' + priorInSection;
-    let skillEffects = 0;
-    let uniqueSkillsAffected = [];
 
     rules.defineChoice('notes', note + ':' + effects);
     rules.defineRule
@@ -7100,14 +7100,16 @@ SRD35.featureRules = function(rules, name, sections, notes) {
                   adjusted != 'Language Count' &&
                   adjusted != 'Skill Points' &&
                   adjusted.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*(\s\([A-Z][a-z]*(\s[A-Z][a-z]*)*\))?$/)) {
-          skillEffects++;
           let skillAttr = 'skills.' + adjusted;
-          if(uniqueSkillsAffected.indexOf(skillAttr) < 0)
-            uniqueSkillsAffected.push(skillAttr);
+          if(adjust.startsWith('-'))
+            skillPrereqPossible = false;
+          else if(!skillsBoosted.includes(skillAttr))
+            skillsBoosted.push(skillAttr);
           adjusted = 'skillModifier.' + adjusted;
         } else if(adjusted.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/)) {
           adjusted = adjusted.charAt(0).toLowerCase() + adjusted.substring(1).replaceAll(' ', '');
         } else {
+          skillPrereqPossible = false;
           continue;
         }
         rules.defineRule(adjusted,
@@ -7119,21 +7121,22 @@ SRD35.featureRules = function(rules, name, sections, notes) {
           pieces[j].replace(/^all\s|\s(is(\sa)?|are)?\sclass\sskill(s)?$/gi, '');
         if(skill.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*(\s\([A-Z][a-z]*(\s[A-Z][a-z]*)*\))?$/)) {
           rules.defineRule('classSkills.' + skill, note, '=', '1');
-          skillEffects++;
           let skillAttr = 'skills.' + skill;
-          if(uniqueSkillsAffected.indexOf(skillAttr) < 0)
-            uniqueSkillsAffected.push(skillAttr);
+          if(!skillsBoosted.includes(skillAttr))
+            skillsBoosted.push(skillAttr);
+        } else {
+          skillPrereqPossible = false;
         }
       }
 
     }
 
-    if(skillEffects == pieces.length && !effects.match(/^-|\/-/)) {
-      QuilvynRules.prerequisiteRules
-        (rules, 'sanity', prefix, 'features.' + name,
-         uniqueSkillsAffected.join(' > 0 || ') + ' > 0');
-    }
+  }
 
+  if(skillsBoosted.length > 0 && skillPrereqPossible) {
+    QuilvynRules.prerequisiteRules
+      (rules, 'sanity', prefix, 'features.' + name,
+       skillsBoosted.join(' > 0 || ') + ' > 0');
   }
 
 };
