@@ -2829,7 +2829,7 @@ SRD35.SPELLS = {
   'Greater Heroism':
     'School=Enchantment ' +
     'Level=B5,W6 ' +
-    'Description="Touched gains +4 attack, saves, and skill checks, +$Lmin20 temporary HP, and immunity to fear for $L10 min"',
+    'Description="Touched gains +4 attack, saves, and skill checks, +$Lmin20 temporary HP, and immunity to fear for $L min"',
   'Hide From Animals':
     'School=Abjuration ' +
     'Level=D1,R1 ' +
