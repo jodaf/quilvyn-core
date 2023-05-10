@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.14';
+SRD35.VERSION = '2.3.2.15';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -4190,7 +4190,7 @@ SRD35.SPELLS = {
   'Veil':
     'School=Illusion ' +
     'Level=B6,W6 ' +
-    'Description="R$RL\' Creatures in 30\' radius appear to be other creatures for conc + $L hr (Will neg)"',
+    'Description="R$RL\' Creatures in 15\' radius appear to be other creatures for conc + $L hr (Will neg)"',
   'Ventriloquism':
     'School=Illusion ' +
     'Level=B1,W1 ' +
