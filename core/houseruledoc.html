@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Adding House Rules to Quilvyn</title>
+  <style>
+    img {
+      align: left;
+    }
+  </style>
+</head>
+
+<body bgcolor="wheat" background="../Images/parchment.jpg">
+
+<script>
+  try {
+    document.write('<img src="' + window.opener.LOGO_URL + '" alt="Quilvyn"/>');
+  } catch(e) {
+    document.write('<img src="quilvynlogodrop.png" style="height:75px" alt="Quilvyn"/>');
+  }
+</script>
+
+<h1>Adding House Rules to Quilvyn</h1>
+
+<p>
+<ul>
+  <li><a href="#animal-companion">Animal Companions</a></li>
+  <li><a href="#armor">Armors</a></li>
+  <li><a href="#class">Classes</a></li>
+  <li><a href="#deity">Deities</a></li>
+  <li><a href="#animal-companion">Familiars</a></li>
+  <li><a href="#feat">Feats</a></li>
+  <li><a href="#feature">Features</a></li>
+  <li><a href="#goody">Goodies</a></li>
+  <li><a href="#language">Languages</a></li>
+  <li><a href="#class">NPC Classes</a></li>
+  <li><a href="#path">Paths</a></li>
+  <li><a href="#class">Prestige Classes</a></li>
+  <li><a href="#race">Races</a></li>
+  <li><a href="#school">Shields</a></li>
+  <li><a href="#skill">Skills</a></li>
+  <li><a href="#spell">Spells</a></li>
+  <li><a href="#weapon">Weapons</a></li>
+</ul>
+</p>
+
+<p>
+For most house rules, the values to enter into the Add Rule dialog can be
+determined by looking at similar items from the core rule books. Separate
+multiple values entered in a single box with commas.
+</p><p>
+Many feats and classes have prerequisites that a character must meet in order
+to select them. In the Add Rules dialog, these can be entered in the
+Prerequisite box for a new feat or class, with multiple prerequisites separated
+by commas. For example, taking a level in the Horizon Walker prestige class
+requires that the character have the Endurance feature and 8 ranks in Knowledge
+(Geography). This would be entered into the Prerequisite box for a house rules
+class as follows.
+</p>
+
+<pre>
+  features.Endurance,skills.Knowledge (Geography) >= 8
+</pre>
+The Feat entry includes a similar Implies box for testing whether selecting
+the feat makes sense for a character. For example, although legal, selecting
+the Track feat makes no sense for a character with no ranks in Survival, so the
+Implies box for this feat would read
+<table width="100%">
+
+<tr><td>
+<a name="animal-companion"><h3>Adding Animal Companions and Familiars</h3></a>
+<img src='../Images/hr-familiar.jpg' alt='House Rule Familiar'/>
+</td><td>
+<p>
+Identical information is required for adding an animal companion or familiar.
+Along with the creature's basic attributes, Quilvyn displays entries for Hit
+Dice, Armor Class, Attack Bonus, Damage, Size, and Min Master Level. Quilvyn
+expects the Damage value to indicate the number and type of damage dice,
+optionally followed by a bonus or penalty. For example, an Owlbear animal
+companion would have a Damage attribute of 1d6+5,1d6+5,1d8+2 (for two claws and
+a bite); while a Baboon's Damage would be 1d6+3. When entering Armor Class,
+Attack Bonus, and Damage, include any bonus or penalty from elements such as
+dexterity, natural armor, and strength. In the example shown, the monkey
+receives +2 size and +2 dexterity bonuses to Armor Class, resulting in an
+overall AC of 14, and the monkey's low strength gives a -4 penalty to damage.
+Min Master Level is used for alternative companions that require the character
+to be of higher level before they can be selected.
+</p>
+</td></tr><tr><td>
+<a name="armor"><h3>Adding Armors</h3></a>
+<img src='../Images/hr-armor.jpg' alt='House Rule Armor'/>
+</td></tr><tr><td>
+<a name="class"><h3>Adding Classes</h3></a>
+<img src='../Images/hr-npc.jpg' alt='House Rule Class'/>
+</td></tr><tr><td>
+<a name="deity"><h3>Adding Deities</h3></a>
+<img src='../Images/hr-deity.jpg' alt='House Rule Deity'/>
+</td></tr><tr><td>
+<a name="feat"><h3>Adding Feats</h3></a>
+<img src='../Images/hr-feat.jpg' alt='House Rule Feat'/>
+</td></tr><tr><td>
+<a name="feature"><h3>Adding Features</h3></a>
+<img src='../Images/hr-feature.jpg' alt='House Rule Feature'/>
+</td><td>
+<p>
+In Quilvyn, Features describe the effects of feats, classes, and racial
+features. When adding a rule for a new Feature, select the section of the
+character sheet where the note for the Feature should appear, then enter the
+note text. Much like the starred notes discussed <a href="#goodies">above</a>,
+Quilvyn interprets the text of this note to update affected attributes. In the
+example shown, Quilvyn will add 2 to the Bluff and Perform (Oratory) skill
+modifier values for any character with that feature.
+</p>
+</td></tr><tr><td>
+<a name="goody"><h3>Adding Goodies</h3></a>
+<img src='../Images/hr-goody.jpg' alt='House Rule Goody'/>
+</td></tr><tr><td>
+<a name="language"><h3>Adding Languages</h3></a>
+<img src='../Images/hr-language.jpg' alt='House Rule Language'/>
+</td><td>
+<p>
+Adding a new language requires only specifying the name. Once added, languages
+can be added to a character by selecting from the language list and can be
+included in the list of languages automatically known by custom races.
+</p>
+</td></tr><tr><td>
+<a name="path"><h3>Adding Paths</h3></a>
+<img src='../Images/hr-path.jpg' alt='House Rule Path'/>
+</td></tr><tr><td>
+<a name="race"><h3>Adding Races</h3></a>
+<img src='../Images/hr-race.jpg' alt='House Rule Race'/>
+</td></tr><tr><td>
+<a name="shield"><h3>Adding Shields</h3></a>
+<img src='../Images/hr-shield.jpg' alt='House Rule Shield'/>
+</td></tr><tr><td>
+<a name="skill"><h3>Adding Skills</h3></a>
+<img src='../Images/hr-skill.jpg' alt='House Rule Skill'/>
+</td></tr><tr><td>
+<a name="spell"><h3>Adding Spells</h3></a>
+<img src='../Images/hr-spell.jpg' alt='House Rule Spell'/>
+</td></tr><tr><td>
+<a name="weapon"><h3>Adding Weapons</h3></a>
+<img src='../Images/hr-weapon.jpg' alt='House Rule Weapon'/>
+</td></tr>
+</table>
+
+</body>
+</html>
