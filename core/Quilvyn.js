@@ -3,7 +3,7 @@
 "use strict";
 
 var COPYRIGHT = 'Copyright 2022 James J. Hayes';
-var VERSION = '2.3.20';
+var VERSION = '2.3.21';
 var ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -378,12 +378,12 @@ Quilvyn.customAddRules = function() {
       '<form onsubmit="return false"><table><tr>',
       '<th>Type</th><td>' + InputHtml('_type', 'select-one', choices).replace('>', ' onchange="update=true">') + '</td>',
       '</tr><tr>',
-      '<th>Name</th><td>' + InputHtml('_name', 'text', [30]) + '</td>',
+      '<th>Name</th><td>' + InputHtml('_name', 'text', [30]).replace('>', ' onchange="update=true">') + '</td>',
       '</tr></table>',
       '<hr style="width:25%;text-align:center"/>',
       '<table id="variableFields">',
       '</table>',
-      '<input type="button" name="Add" value="Add" onclick="okay=true;"/>',
+      '<input type="button" name="Save" value="Save" onclick="okay=true;"/>',
       '<input type="button" name="Close" value="Close" onclick="done=true;"/>',
       '<p id="message"> </p>',
       '</form>',
@@ -407,24 +407,46 @@ Quilvyn.customAddRules = function() {
   } else if(!Quilvyn.customAddRules.win.okay) {
     // Try again later, after updating the input fields as necessary
     if(Quilvyn.customAddRules.win.update) {
+      var nameInput =
+        Quilvyn.customAddRules.win.document.getElementsByName('_name')[0];
+      var nameValue = InputGetValue(nameInput);
       var typeInput =
         Quilvyn.customAddRules.win.document.getElementsByName('_type')[0];
       var typeValue = InputGetValue(typeInput);
       var elements = ruleSet.choiceEditorElements(ruleSet, typeValue);
       var htmlBits = [];
-      for(var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        var label = element[1];
-        var name = element[0];
-        var params = element[3];
-        var type = element[2];
+      elements.forEach(e => {
+        var label = e[1];
+        var name = e[0];
+        var params = e[3];
+        var type = e[2];
         htmlBits.push(
           '<tr><th>' + (label ? label : '&nbsp;') + '</th><td>' +
           InputHtml(name, type, params) + '</td></tr>'
         );
-      }
+      });
       Quilvyn.customAddRules.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
       Quilvyn.customAddRules.win.update = false;
+      var currentValues = STORAGE.getItem(
+        PERSISTENT_CUSTOM_PREFIX +
+        customCollection.replaceAll('.', '%2E') + '.' +
+        typeValue.replaceAll('.', '%2E') + '.' +
+        nameValue.replaceAll('.', '%2E')
+      );
+      if(currentValues) {
+        elements.forEach(e => {
+          let elementValues =
+            QuilvynUtils.getAttrValueArray(currentValues, e[0]);
+          if(elementValues.length > 0) {
+            let value = '';
+            elementValues.forEach(v => {
+              value += ',' + (String(v).includes(' ') ? '"' + v + '"' : v);
+            });
+            InputSetValue
+              (Quilvyn.customAddRules.win.document.getElementsByName(e[0])[0], value.substring(1));
+          }
+        });
+      }
     }
     setTimeout('Quilvyn.customAddRules()', TIMEOUT_DELAY);
     return;
@@ -444,7 +466,7 @@ Quilvyn.customAddRules = function() {
       name = inputValue.replace(/^(['"])(.*)\1$/, '$2');
     else if(inputName == '_type')
       type = inputValue;
-    else if(inputName == 'Add' || inputName == 'Close')
+    else if(inputName == 'Save' || inputName == 'Close')
       continue;
     else {
       // Quote values that contain spaces.
@@ -1310,7 +1332,7 @@ Quilvyn.refreshEditor = function(redraw) {
   var customOpts = QuilvynUtils.getKeys(customCollections).sort();
   customOpts.unshift(
     'New Collection...', 'Delete Collections...', 'View/Export All',
-    'Import...', 'Add Rules...', 'Delete Rules...', 'Apply Collection'
+    'Import...', 'Add/Edit Rules...', 'Delete Rules...', 'Apply Collection'
   );
   InputSetOptions(editForm.rules, QuilvynUtils.getKeys(ruleSets));
   InputSetOptions(editForm.custom, customOpts);
@@ -1924,7 +1946,7 @@ Quilvyn.update = function(input) {
       Quilvyn.openCharacter(value);
   } else if(name == 'custom') {
     InputSetValue(input, customCollection);
-    if(value == 'Add Rules...')
+    if(value == 'Add/Edit Rules...')
       Quilvyn.customAddRules();
     else if(value == 'Apply Collection')
       Quilvyn.customApplyCollection();
