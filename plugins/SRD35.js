@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.15';
+SRD35.VERSION = '2.3.2.16';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -8476,7 +8476,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Skill', 'Skill Penalty', 'select-one', zeroToTen],
       ['Spell', 'Spell Failure', 'select-one', zeroToFifty]
     );
-  } else if(type == 'Class') {
+  } else if(['Class', 'Npc', 'Prestige'].includes(type)) {
     result.push(
       ['Require', 'Prerequisite', 'text', [40]],
       ['HitDie', 'Hit Die', 'select-one', ['d4', 'd6', 'd8', 'd10', 'd12']],
