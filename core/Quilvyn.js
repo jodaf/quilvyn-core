@@ -383,7 +383,7 @@ Quilvyn.customAddRules = function() {
       '<hr style="width:25%;text-align:center"/>',
       '<table id="variableFields">',
       '</table>',
-      '<input type="button" name="Save" value="Save" onclick="okay=true;"/>',
+      '<input type="button" name="Save" value="Save" onclick="save=true;"/>',
       '<input type="button" name="Close" value="Close" onclick="done=true;"/>',
       '<p id="message"> </p>',
       '</form>',
@@ -395,6 +395,7 @@ Quilvyn.customAddRules = function() {
     Quilvyn.customAddRules.win.document.close();
     Quilvyn.customAddRules.win.canceled = false;
     Quilvyn.customAddRules.win.done = false;
+    Quilvyn.customAddRules.win.save = false;
     Quilvyn.customAddRules.win.update = true;
     Quilvyn.customAddRules.win.document.getElementsByName('_type')[0].focus();
     Quilvyn.customAddRules();
@@ -404,7 +405,7 @@ Quilvyn.customAddRules = function() {
     Quilvyn.customAddRules.win = null;
     Quilvyn.refreshEditor(true);
     return;
-  } else if(!Quilvyn.customAddRules.win.okay) {
+  } else if(!Quilvyn.customAddRules.win.save) {
     // Try again later, after updating the input fields as necessary
     if(Quilvyn.customAddRules.win.update) {
       var nameInput =
@@ -498,7 +499,7 @@ Quilvyn.customAddRules = function() {
   Quilvyn.customAddRules.win.document.getElementById('message').innerHTML =
     'Added ' + type + ' ' + name + ' to custom collection ' + customCollection;
 
-  Quilvyn.customAddRules.win.okay = false;
+  Quilvyn.customAddRules.win.save = false;
   if(customCollection == ruleSet.getName()) {
     ruleSet.choiceRules(ruleSet, type, name, attrs);
   }
