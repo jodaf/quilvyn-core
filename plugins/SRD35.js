@@ -9040,7 +9040,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       if((matchInfo = attr.match(/^spellSlots\.(.*)/)) == null)
         continue;
       howMany = attrs[attr];
-      groupAndLevel = matchInfo[1].replace(/^S(\d)/, 'W$1');
+      groupAndLevel = matchInfo[1];
       choices = [];
       if(groupAndLevel.startsWith('Domain')) {
         for(let x in attrs) {
