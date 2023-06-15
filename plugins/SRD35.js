@@ -420,18 +420,17 @@ SRD35.FEATS = {
   'Augment Summoning':
     'Type=General Require="features.Spell Focus (Conjuration)"',
   'Blind-Fight':'Type=Fighter',
-  'Brew Potion':'Type="Item Creation",Wizard Require="casterLevel >= 3"',
+  'Brew Potion':'Type="Item Creation" Require="casterLevel >= 3"',
   'Cleave':'Type=Fighter Require="features.Power Attack","strength >= 13"',
   'Combat Casting':'Type=General Imply="casterLevel >= 1"',
   'Combat Expertise':'Type=Fighter Require="intelligence >= 13"',
   'Combat Reflexes':'Type=Fighter',
   'Craft Magic Arms And Armor':
-    'Type="Item Creation",Wizard Require="casterLevel >= 5"',
-  'Craft Rod':'Type="Item Creation",Wizard Require="casterLevel >= 9"',
-  'Craft Staff':'Type="Item Creation",Wizard Require="casterLevel >= 12"',
-  'Craft Wand':'Type="Item Creation",Wizard Require="casterLevel >= 5"',
-  'Craft Wondrous Item':
-    'Type="Item Creation",Wizard Require="casterLevel >= 3"',
+    'Type="Item Creation" Require="casterLevel >= 5"',
+  'Craft Rod':'Type="Item Creation" Require="casterLevel >= 9"',
+  'Craft Staff':'Type="Item Creation" Require="casterLevel >= 12"',
+  'Craft Wand':'Type="Item Creation" Require="casterLevel >= 5"',
+  'Craft Wondrous Item':'Type="Item Creation" Require="casterLevel >= 3"',
   'Deceitful':'Type=General',
   'Deflect Arrows':
     'Type=Fighter Require="dexterity >= 13","features.Improved Unarmed Strike"',
@@ -439,16 +438,16 @@ SRD35.FEATS = {
   'Diehard':'Type=General Require="features.Endurance"',
   'Diligent':'Type=General',
   'Dodge':'Type=Fighter Require="dexterity >= 13"',
-  'Empower Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Empower Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Endurance':'Type=General',
-  'Enlarge Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Enlarge Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Eschew Materials':'Type=General Imply="casterLevel >= 1"',
   'Exotic Weapon Proficiency (%exoticWeapon)':
     'Type=General Require="baseAttack >= 1" Imply="weapons.%exoticWeapon"',
-  'Extend Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Extend Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Extra Turning':'Type=General Require="turningLevel >= 1"',
   'Far Shot':'Type=Fighter Require="features.Point-Blank Shot"',
-  'Forge Ring':'Type="Item Creation",Wizard Require="casterLevel >= 12"',
+  'Forge Ring':'Type="Item Creation" Require="casterLevel >= 12"',
   'Great Cleave':
     'Type=Fighter Require="strength >= 13","baseAttack >= 4","features.Cleave","features.Power Attack"',
   'Great Fortitude':'Type=General',
@@ -462,7 +461,7 @@ SRD35.FEATS = {
     'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 8" Imply="weapons.%weapon"',
   'Greater Weapon Specialization (%weapon)':
     'Type=Fighter Require="features.Weapon Focus (%weapon)","features.Greater Weapon Focus (%weapon)","features.Weapon Specialization (%weapon)","levels.Fighter >= 12" Imply="weapons.%weapon"',
-  'Heighten Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Heighten Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Improved Bull Rush':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Counterspell':'Type=General Imply="casterLevel >= 1"',
@@ -499,7 +498,7 @@ SRD35.FEATS = {
     'Type=Fighter Require="dexterity >= 17","baseAttack >= 6","features.Point-Blank Shot","features.Rapid Shot"',
   'Martial Weapon Proficiency (%martialWeapon)':
     'Type=General Imply="weapons.%martialWeapon"',
-  'Maximize Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Maximize Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Mobility':'Type=Fighter Require="dexterity >= 13",features.Dodge',
   'Mounted Archery':
     'Type=Fighter Require="features.Mounted Combat",skills.Ride',
@@ -512,7 +511,7 @@ SRD35.FEATS = {
   'Power Attack':'Type=Fighter Require="strength >= 13"',
   'Precise Shot':'Type=Fighter Require="features.Point-Blank Shot"',
   'Quick Draw':'Type=Fighter Require="baseAttack >= 1"',
-  'Quicken Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Quicken Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Rapid Reload (Hand)':'Type=Fighter Imply="weapons.Hand Crossbow"',
   'Rapid Reload (Heavy)':'Type=Fighter Imply="weapons.Heavy Crossbow"',
   'Rapid Reload (Light)':'Type=Fighter Imply="weapons.Light Crossbow"',
@@ -520,12 +519,12 @@ SRD35.FEATS = {
     'Type=Fighter Require="dexterity >= 13","features.Point-Blank Shot"',
   'Ride-By Attack':'Type=Fighter Require="features.Mounted Combat",skills.Ride',
   'Run':'Type=General',
-  'Scribe Scroll':'Type="Item Creation",Wizard Require="casterLevel >= 1"',
+  'Scribe Scroll':'Type="Item Creation" Require="casterLevel >= 1"',
   'Self-Sufficient':'Type=General',
   'Shield Proficiency':'Type=General',
   'Shot On The Run':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 4",features.Dodge,features.Mobility,"features.Point-Blank Shot"',
-  'Silent Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Silent Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Simple Weapon Proficiency':'Type=General',
   'Skill Focus (%skill)':'Type=General',
   'Snatch Arrows':
@@ -539,7 +538,7 @@ SRD35.FEATS = {
   'Spring Attack':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 4",features.Dodge,features.Mobility',
   'Stealthy':'Type=General',
-  'Still Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"',
+  'Still Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Stunning Fist':
     'Type=Fighter Require="dexterity >= 13","wisdom >= 13","baseAttack >= 8","features.Improved Unarmed Strike"',
   'Toughness':'Type=General',
@@ -558,7 +557,7 @@ SRD35.FEATS = {
     'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 4" Imply="weapons.%weapon"',
   'Whirlwind Attack':
     'Type=Fighter Require="dexterity >= 13","intelligence >= 13","baseAttack >= 4","features.Combat Expertise",features.Dodge,features.Mobility,"features.Spring Attack"',
-  'Widen Spell':'Type=Metamagic,Wizard Imply="casterLevel >= 1"'
+  'Widen Spell':'Type=Metamagic Imply="casterLevel >= 1"'
 };
 SRD35.FEATURES = {
   'A Thousand Faces':'Section=magic Note="<i>Disguise Self</i> at will"',
@@ -5754,6 +5753,11 @@ SRD35.armorRules = function(
   else if(weight.match(/^heavy$/i))
     weight = 3;
 
+  // We use positive values for skill penalty internally, but the customization
+  // dialog enters negative numbers
+  if(skillPenalty < 0)
+    skillPenalty = -skillPenalty;
+
   if(rules.armorStats == null) {
     rules.armorStats = {
       ac:{},
@@ -8426,8 +8430,6 @@ SRD35.choiceEditorElements = function(rules, type) {
   let abilities =
     QuilvynUtils.getKeys(SRD35.ABILITIES).map(x => x.toLowerCase());
   let result = [];
-  let sections =
-    ['ability', 'combat', 'companion', 'feature', 'magic', 'skill'];
   let zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   if(type == 'Alignment')
     result.push(
@@ -8465,16 +8467,17 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Level', 'Min Master Level', 'select-one', oneToTwenty]
     );
   } else if(type == 'Armor' || type == 'Shield') {
-    let zeroToFifty = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
     let weights = ['None', 'Light', 'Medium', 'Heavy'];
+    let zeroToFifty = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+    let zeroToNegativeTen = [0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10];
     if(type == 'Shield')
       weights.push('Tower');
     result.push(
       ['AC', 'AC Bonus', 'select-one', [0, 1, 2, 3, 4, 5]],
       ['Weight', 'Weight', 'select-one', weights],
-      ['Dex', 'Max Dex', 'select-one', zeroToTen],
-      ['Skill', 'Skill Penalty', 'select-one', zeroToTen],
-      ['Spell', 'Spell Failure', 'select-one', zeroToFifty]
+      ['Dex', 'Max Dex Bonus', 'select-one', zeroToTen],
+      ['Skill', 'Armor Check Penalty', 'select-one', zeroToNegativeTen],
+      ['Spell', 'Arcane Spell Failure %', 'select-one', zeroToFifty]
     );
   } else if(['Class', 'Npc', 'Prestige'].includes(type)) {
     result.push(
@@ -8508,7 +8511,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Feature')
     result.push(
-      ['Section', 'Section', 'select-one', sections],
+      ['Section', 'Section', 'text', [40]],
       ['Note', 'Note', 'text', [60]]
     );
   else if(type == 'Goody') {
@@ -8517,7 +8520,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Pattern', 'Pattern', 'text', [40]],
       ['Effect', 'Effect', 'select-one', effects],
       ['Value', 'Value', 'text', [20]],
-      ['Section', 'Section', 'select-one', sections],
+      ['Section', 'Section', 'text', [40]],
       ['Note', 'Note', 'text', [60]]
     );
   } else if(type == 'Language')
@@ -8825,6 +8828,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
       let types = QuilvynUtils.getAttrValueArray(allChoices[attr], 'Type');
       if(types.indexOf('General') < 0)
         types.push('General');
+      if(types.includes('Item Creation') || types.includes('Metamagic'))
+        types.push('Wizard');
       if(attrs[prefix + '.' + attr] != null) {
         for(i = 0; i < types.length; i++) {
           let t = types[i];
