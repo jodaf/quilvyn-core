@@ -51,30 +51,11 @@ put quotes before and after the value.
   <li><a href="#path">Paths</a></li>
   <li><a href="#class">Prestige Classes</a></li>
   <li><a href="#race">Races</a></li>
-  <li><a href="#school">Schools</a></li>
   <li><a href="#armor">Shields</a></li>
   <li><a href="#skill">Skills</a></li>
   <li><a href="#spell">Spells</a></li>
   <li><a href="#weapon">Weapons</a></li>
 </ul>
-
-<p>
-Many feats and classes have prerequisites that a character must meet in order
-to select them. In the Add Rules dialog, these can be entered in the
-Prerequisite box for a new feat or class, with multiple prerequisites separated
-by commas. For example, taking a level in the Horizon Walker prestige class
-requires that the character have the Endurance feature and 8 ranks in Knowledge
-(Geography). This would be entered into the Prerequisite box for a house rules
-class as follows.
-</p>
-
-<pre>
-  features.Endurance,skills.Knowledge (Geography) >= 8
-</pre>
-The Feat entry includes a similar Implies box for testing whether selecting
-the feat makes sense for a character. For example, although legal, selecting
-the Track feat makes no sense for a character with no ranks in Survival, so the
-Implies box for this feat would read
 
 <table width="100%">
 
@@ -142,8 +123,9 @@ FILL
 When adding a custom deity, Quilvyn displays fields to add the deity's
 alignment, favored weapon or weapons, and domains. Multiple domains entered
 in the Domains text box should be separated by commas. Similarly, if the
-deity's favored weapon includes multiple weapons (e.g., flails), the individual
-weapons should be listed in the Favored Weapons text box, separated by commas.
+deity's favored weapon includes multiple weapons (e.g., all flails),
+the individual weapons should be listed in the Favored Weapons text box,
+separated by commas.
 </p>
 </td></tr>
 
@@ -165,8 +147,8 @@ that, while not strictly required, make the feat useless if not met. For
 example, although the rules don't require a caster level to select it, the
 Combat Casting feat from the core rules is likely to be useful only to a spell
 caster. Quilvyn will generate a validation warning if the Implies requirements
-are not met. The description of the effects of a feat are entered separately as
-a feature, <a href="#feature">described below</a>.
+are not met. The effects of a feat are entered separately as a feature,
+<a href="#feature">described below</a>.
 </p><p>
 The example shows the entry for a general feat named Flail Expert that can be
 selected as a fighter bonus feat. The Prerequisite box note that it requires a
@@ -210,6 +192,9 @@ FILL
 Adding a new language requires only specifying the name. Once added, languages
 can be added to a character by selecting from the language list and can be
 included in the list of languages automatically known by custom races.
+</p><p>
+The example shows the entry for a language called Scaletongue, used
+<a href="#race">below</a> in the example for entering a custom race.
 </p>
 </td></tr>
 
@@ -235,21 +220,18 @@ FILL
 
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
-<a name="school"><h3>Adding Schools</h3></a>
-<img src='../Images/hr-school.jpg' alt='House Rule School'/>
-</td><td>
-<p>
-FILL
-</p>
-</td></tr>
-
-<tr><td colspan="2"><hr/></td></tr>
-<tr><td>
 <a name="skill"><h3>Adding Skills</h3></a>
 <img src='../Images/hr-skill.jpg' alt='House Rule Skill'/>
 </td><td>
 <p>
-FILL
+When adding a custom skill, Quilvyn displays fields that allow you to enter
+the skill's key ability, whether the skill can be used untrained, the list of
+classes for which the class skill, and any synergies that the custom skill has
+with other skills.
+</p><p>
+The example shows the entry for the Sailing skill, which is related to
+intelligence, requires training to use, and is a class skill for several core
+classes.
 </p>
 </td></tr>
 
@@ -259,7 +241,17 @@ FILL
 <img src='../Images/hr-spell.jpg' alt='House Rule Spell'/>
 </td><td>
 <p>
-FILL
+When adding a custom spell, Quilvyn displays fields that allow you to enter
+the spell's school, the list of classes and levels for the spell, the
+description of the spell, and whether or not the spell can be placed into a
+potion that can be drunk or an oil that can be applied. Spell descriptions can
+contain references to character attributes; see the discussion
+<a href=#expr>below</a> for how to include these.
+</p><p>
+The example shows the entry for the transmutation spell <i>Enhance Skill</i>,
+which is a level 3 spell for clerics, sorcerers, and druids. It can be invoked
+using an imbibed potion, and the description notes that spell can be cast over
+short range and lasts for a number of rounds equal to the caster level.
 </p>
 </td></tr>
 
@@ -269,11 +261,23 @@ FILL
 <img src='../Images/hr-weapon.jpg' alt='House Rule Weapon'/>
 </td><td>
 <p>
-FILL
+When adding a custom weapon, Quilvyn displays fields that allow you to enter
+the weapon's group (Simple, Martial, or Exotic), category (Unarmed, Light,
+One-Handed, Two-Handed, or Ranged), damage, critical threat range and
+multiplier, and (for ranged weapons) range increment.
+</p><p>
+The example shows the entry for a boomerang, an exotic ranged weapon with a
+40' range increment that inflicts d4 damage, with critical threat and damage
+of 19-20/x2.
 </p>
 </td></tr>
 
 </table>
+
+<a name="expr"><h2>Using Character Attributes</h2></a>
+<p>
+FILL
+</p>
 
 </body>
 </html>
