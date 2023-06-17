@@ -8541,9 +8541,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Require', 'Prerequisite', 'text', [40]],
       ['Features', 'Features', 'text', [40]],
       ['Selectables', 'Selectable Features', 'text', [40]],
-      ['Languages', 'Languages', 'text', [30]],
-      ['SpellAbility', 'Spell Ability', 'select-one', abilities],
-      ['SpellSlots', 'Spell Slots', 'text', [40]]
+      ['Languages', 'Languages', 'text', [30]]
     );
   else if(type == 'School')
     result.push(
@@ -8576,7 +8574,7 @@ SRD35.choiceEditorElements = function(rules, type) {
        QuilvynUtils.getKeys(SRD35.LARGE_DAMAGE)],
       ['Threat', 'Threat', 'select-one', twentyToSixteen],
       ['Crit', 'Crit Multiplier', 'select-one', twoToFive],
-      ['Range', 'Range in Feet', 'select-one', zeroToOneFifty]
+      ['Range', 'Range Increment', 'select-one', zeroToOneFifty]
     );
   }
   return result;
