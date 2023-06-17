@@ -5323,7 +5323,8 @@ SRD35.identityRules = function(
   QuilvynUtils.checkAttrTable(deities, ['Alignment', 'Domain', 'Weapon']);
   QuilvynUtils.checkAttrTable
     (paths, ['Group', 'Level', 'Features', 'Selectables', 'SpellAbility', 'SpellSlots']);
-  QuilvynUtils.checkAttrTable(races, ['Require', 'Features', 'Selectables', 'Languages', 'SpellAbility', 'SpellSlots']);
+  QuilvynUtils.checkAttrTable
+    (races, ['Require', 'Features', 'Selectables', 'Languages']);
 
   for(let alignment in alignments) {
     rules.choiceRules(rules, 'Alignment', alignment, alignments[alignment]);
