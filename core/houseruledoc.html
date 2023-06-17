@@ -147,8 +147,11 @@ that, while not strictly required, make the feat useless if not met. For
 example, although the rules don't require a caster level to select it, the
 Combat Casting feat from the core rules is likely to be useful only to a spell
 caster. Quilvyn will generate a validation warning if the Implies requirements
-are not met. The effects of a feat are entered separately as a feature,
-<a href="#feature">described below</a>.
+are not met. When specified, the Prerequisite and Implies fields will normally
+contain references to character attributes; see the discussion
+<a href=#expr>below</a> for how to include these. The effects of a feat are
+entered separately as a feature, as described in the
+<a href="#feature">next section</a>.
 </p><p>
 The example shows the entry for a general feat named Flail Expert that can be
 selected as a fighter bonus feat. The Prerequisite box note that it requires a
@@ -214,7 +217,25 @@ FILL
 <img src='../Images/hr-race.jpg' alt='House Rule Race'/>
 </td><td>
 <p>
-FILL
+When adding a custom language, Quilvyn displays fields that allow you to enter
+Prerequisites, Features, and Languages for the race. Although none of the core
+races have requirements, Quilvyn provides the Prerequisite entry to allow you
+to specify a race that has, for example, a minimum strength requirement. Most
+races will have fixed features, such as an ability adjustment. Quilvyn also
+allows entering selectable features to support variations such as sub-races.
+Each feature in these lists will require <a href="#feature">adding a feature</a>
+to describe its effects. The Languages list which languages characters of this
+race know automatically.
+</p><p>
+The example shows the entry for the Lizardfolk character race from the Monster
+Manual. Features for this race are: Lizardfolk Ability Adjustment (+2
+Strength/+2 Constitution/-2 Intelligence); Lizardfolk Skills (+4 Balance, Jump,
+and Swim, all of which are class skills); Bonus Feat (+1 General Feat); Scaly
+Hide (+5 Armor Class); Lizardfolk Weapons (2 Claws and Bite); Hold Breath (Can
+hold breath 4 * Constitution rds). (Except where the rule book specifies a name
+for a feature, these names are invented.) Scaletongue is included in the list
+of automatic languages to show the use of the language
+<a href="#language">added above</a>.
 </p>
 </td></tr>
 
