@@ -7341,17 +7341,17 @@ SRD35.raceRulesExtra = function(rules, name) {
         let level =
           QuilvynUtils.getAttrValue(attrs, 'Level').replace(/^\D/, '') - 0;
         let fullName =
-          s + '(Gnomish' + level + ' ' + (school ? school.substring(0, 4) : 'Univ') + ')';
+          s + '(GnomeMagic' + level + ' ' + (school ? school.substring(0, 4) : 'Univ') + ')';
         SRD35.spellRules
-          (rules, fullName, school, 'Gnomish', level, description, false, []);
+          (rules, fullName, school, 'GnomeMagic', level, description, false, []);
         rules.defineRule('spells.' + fullName, 'gnomeLevel', '=', '1');
         if(s != 'Speak With Animals')
           rules.defineRule('spells.' + fullName, 'charisma', '?', 'source>=10');
       }
     });
-    rules.defineRule('casterLevels.Gnomish', 'gnomeLevel', '=', null);
-    rules.defineRule('spellDifficultyClass.Gnomish',
-      'casterLevels.Gnomish', '?', null,
+    rules.defineRule('casterLevels.GnomeMagic', 'gnomeLevel', '=', null);
+    rules.defineRule('spellDifficultyClass.GnomeMagic',
+      'casterLevels.GnomeMagic', '?', null,
       'charismaModifier', '=', 'source + 10'
     );
   } else if(name.match(/Dwarf/)) {
