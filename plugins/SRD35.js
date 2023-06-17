@@ -68,7 +68,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.2.16';
+SRD35.VERSION = '2.3.3.0';
 
 /* List of choices that can be expanded by house rules. */
 SRD35.CHOICES = [
@@ -718,6 +718,7 @@ SRD35.FEATURES = {
   'Gnome Ability Adjustment':
     'Section=ability Note="+2 Constitution/-2 Strength"',
   'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
+  'Gnome Magic':'Section=magic Note="May cast <i>Speak With Animals</i> (burrowing mammals) for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>\' : \'\'} 1/dy"',
   'Good Fortune':'Section=feature Note="Reroll 1/dy"',
   'Great Cleave':'Section=combat Note="Cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
@@ -1618,13 +1619,9 @@ SRD35.RACES = {
     'Features=' +
       '"Gnome Ability Adjustment",' +
       '"Weapon Familiarity (Gnome Hooked Hammer)",' +
-      '"Dodge Giants","Gnome Enmity","Keen Ears","Keen Nose",' +
+      '"Dodge Giants","Gnome Enmity","Gnome Magic","Keen Ears","Keen Nose",' +
       '"Low-Light Vision","Natural Illusionist","Resist Illusion",Slow,Small ' +
-    'Languages=Common,Gnome ' +
-    'SpellAbility=charisma ' +
-    'SpellSlots=' +
-      '"Gnomish0:1=3",' +
-      '"Gnomish1:1=1"',
+    'Languages=Common,Gnome',
   'Half-Elf':
     'Features=' +
       '"Alert Senses","Elven Blood","Low-Light Vision","Resist Enchantment",' +
@@ -2252,7 +2249,7 @@ SRD35.SPELLS = {
 
   'Dancing Lights':
     'School=Evocation ' +
-    'Level=B0,Gnomish0,S0,W0 ' +
+    'Level=B0,S0,W0 ' +
     'Description="R$RM\' 4 torch lights in 10\' radius move 100\'/rd for 1 min"',
   'Darkness':
     'School=Evocation ' +
@@ -2711,7 +2708,7 @@ SRD35.SPELLS = {
     'Description="Touched corpse preserved $L dy (Will neg)"',
   'Ghost Sound':
     'School=Illusion ' +
-    'Level=Adept0,Assassin1,B0,Gnomish0,S0,W0 ' +
+    'Level=Adept0,Assassin1,B0,S0,W0 ' +
     'Description="R$RS\' Produces sound volume of $L4min20 humans (Will disbelieve) for $L rd"',
   'Ghoul Touch':
     'School=Necromancy ' +
@@ -3417,7 +3414,7 @@ SRD35.SPELLS = {
     'Description="Allies in 40\' radius gain +1 attack, damage, save, and skill, and foes suffer -1, for $L rd"',
   'Prestidigitation':
     // 'School=Universal ' +
-    'Level=B0,Gnomish0,S0,W0 ' +
+    'Level=B0,S0,W0 ' +
     'Description="R10\' Self performs minor tricks for 1 hr"',
   'Prismatic Sphere':
     'School=Abjuration ' +
@@ -3838,7 +3835,7 @@ SRD35.SPELLS = {
     'Description="R$RS\' 10\' radius inflicts 1d8 HP and stuns (Fort not stunned)"',
   'Speak With Animals':
     'School=Divination ' +
-    'Level=Animal1,B3,D1,Gnomish1,R1 ' +
+    'Level=Animal1,B3,D1,R1 ' +
     'Description="Self converses w/animals for $L min"',
   'Speak With Dead':
     'School=Necromancy ' +
@@ -5628,9 +5625,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
       QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
-      QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
-      QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots')
+      QuilvynUtils.getAttrValueArray(attrs, 'Languages')
     );
     SRD35.raceRulesExtra(rules, name);
   } else if(type == 'School')
@@ -7266,14 +7261,10 @@ SRD35.pathRules = function(
 /*
  * Defines in #rules# the rules associated with race #name#, which has the list
  * of hard prerequisites #requires#. #features# and #selectables# list
- * associated features and #languages# any automatic languages. If the race
- * grants spell slots, #spellAbility# names the ability for computing spell
- * difficulty class, and #spellSlots# lists the number of spells per level per
- * day granted.
+ * associated features and #languages# any automatic languages.
  */
 SRD35.raceRules = function(
-  rules, name, requires, features, selectables, languages, spellAbility,
-  spellSlots
+  rules, name, requires, features, selectables, languages
 ) {
 
   if(!name) {
@@ -7305,17 +7296,6 @@ SRD35.raceRules = function(
       }
     }
   }
-  if(spellAbility) {
-    spellAbility = spellAbility.toLowerCase();
-    if(!(spellAbility.charAt(0).toUpperCase() + spellAbility.substring(1) in SRD35.ABILITIES)) {
-      console.log('Bad spellAbility "' + spellAbility + '" for class ' + name);
-      return;
-    }
-  }
-  if(!Array.isArray(spellSlots)) {
-    console.log('Bad spellSlots list "' + spellSlots + '" for race ' + name);
-    return;
-  }
 
   let prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
@@ -7337,34 +7317,10 @@ SRD35.raceRules = function(
 
   if(languages.length > 0) {
     rules.defineRule('languageCount', raceLevel, '=', languages.length);
-    for(let i = 0; i < languages.length; i++) {
-      if(languages[i] != 'any')
-        rules.defineRule('languages.' + languages[i], raceLevel, '=', '1');
-    }
-  }
-
-  if(spellSlots.length > 0) {
-
-    rules.defineRule('casterLevels.' + name, raceLevel, '=', null);
-    rules.defineRule('casterLevel', 'casterLevels.' + name, '^=', '1');
-    QuilvynRules.spellSlotRules(rules, raceLevel, spellSlots);
-
-    for(let i = 0; i < spellSlots.length; i++) {
-      let matchInfo = spellSlots[i].match(/^(\D+)(\d):/);
-      if(!matchInfo) {
-        console.log('Bad format for spell slot "' + spellSlots[i] + '"');
-        continue;
-      }
-      let spellType = matchInfo[1];
-      if(spellType != name)
-        rules.defineRule
-          ('casterLevels.' + spellType, 'casterLevels.' + name, '^=', null);
-      rules.defineRule('spellDifficultyClass.' + spellType,
-        'casterLevels.' + spellType, '?', null,
-        spellAbility + 'Modifier', '=', '10 + source'
-      );
-    }
-
+    languages.forEach(l => {
+      if(l != 'any')
+        rules.defineRule('languages.' + l, raceLevel, '=', '1');
+    });
   }
 
 };
@@ -7375,7 +7331,28 @@ SRD35.raceRules = function(
  */
 SRD35.raceRulesExtra = function(rules, name) {
   if(name.match(/Gnome/)) {
-    rules.defineRule('spellSlots.Gnomish0', 'charisma', '?', 'source >= 10');
+    ['Dancing Lights', 'Ghost Sound', 'Prestidigitation',
+     'Speak With Animals'].forEach(s => {
+      let attrs = SRD35.SPELLS[s];
+      if(attrs) {
+        let description = QuilvynUtils.getAttrValue(attrs, 'Description');
+        let school = QuilvynUtils.getAttrValue(attrs, 'School');
+        let level =
+          QuilvynUtils.getAttrValue(attrs, 'Level').replace(/^\D/, '') - 0;
+        let fullName =
+          s + '(Gnomish' + level + ' ' + (school ? school.substring(0, 4) : 'Univ') + ')';
+        SRD35.spellRules
+          (rules, fullName, school, 'Gnomish', level, description, false, []);
+        rules.defineRule('spells.' + fullName, 'gnomeLevel', '=', '1');
+        if(s != 'Speak With Animals')
+          rules.defineRule('spells.' + fullName, 'charisma', '?', 'source>=10');
+      }
+    });
+    rules.defineRule('casterLevels.Gnomish', 'gnomeLevel', '=', null);
+    rules.defineRule('spellDifficultyClass.Gnomish',
+      'casterLevels.Gnomish', '?', null,
+      'charismaModifier', '=', 'source + 10'
+    );
   } else if(name.match(/Dwarf/)) {
     rules.defineRule
       ('abilityNotes.armorSpeedAdjustment', 'abilityNotes.steady', '^', '0');
