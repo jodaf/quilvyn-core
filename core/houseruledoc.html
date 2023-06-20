@@ -45,12 +45,12 @@ put quotes before and after the value.
   <li><a href="#animal-companion">Familiars</a></li>
   <li><a href="#feat">Feats</a></li>
   <li><a href="#feature">Features</a></li>
-  <li><a href="#goody">Goodies</a></li>
   <li><a href="#language">Languages</a></li>
   <li><a href="#class">NPC Classes</a></li>
   <li><a href="#path">Paths</a></li>
   <li><a href="#class">Prestige Classes</a></li>
   <li><a href="#race">Races</a></li>
+  <li><a href="#school">School</a></li>
   <li><a href="#armor">Shields</a></li>
   <li><a href="#skill">Skills</a></li>
   <li><a href="#spell">Spells</a></li>
@@ -109,7 +109,27 @@ penalty by 3 while increasing the maximum dexterity bonus by 2.
 <img src='../Images/hr-npc.jpg' alt='House Rule Class'/>
 </td><td>
 <p>
-FILL
+Identical information is required for adding a custom class, prestige class, or
+NPC class. Quilvyn displays fields that allow you to specify optional class
+prerequisites, the class hit dice, base attack and save progressions, skill
+points per level, class skills and features, any automatic languages known by
+characters with the class (e.g, druidic for druids), and information about
+class spellcasting.
+</p><p>
+The Base Attack entry gives a choice of 1/2 (increases by 1 every 2 levels, as
+with the Wizard class), 3/4 (increases by 3 every 4 levels, as with Clerics),
+or 1 (increases by 1 every level, as with Fighters). Save entries give a choice
+of 1/3 (sometimes referred to as "poor") or 1/2 ("good"). Features that are
+acquired after level 1 (for example, the Rogue Evasion feature is acquired at
+level 2) should be preceded by the level and a colon (so, 2:Evasion).
+</p><p>
+The example shows the entry for the Adept NPC class from the core rules. It has
+no prerequisites, d6 hit dice, and 2 skill points per level. Its base attack,
+fortitude save, and reflex save progressions are poor and its will save
+progression good. Class skills are Concentration, Craft, Handle Animal, Heal,
+all Knowledge, all Profession, Spellcraft, and Survival. The only class features
+are Weapon Proficiency (Simple) and Summon Familiar, with the latter acquired
+at level 2.
 </p>
 </td></tr>
 
@@ -169,20 +189,9 @@ Implies box notes that the feat is useless unless the character has a flail.
 In Quilvyn, Features describe the effects of feats, classes, and racial
 features. When adding a rule for a new Feature, select the section of the
 character sheet where the note for the Feature should appear, then enter the
-note text. Much like the starred notes discussed <a href="#goodies">above</a>,
-Quilvyn interprets the text of this note to update affected attributes. In the
-example shown, Quilvyn will add 2 to the Bluff and Perform (Oratory) skill
-modifier values for any character with that feature.
-</p>
-</td></tr>
-
-<tr><td colspan="2"><hr/></td></tr>
-<tr><td>
-<a name="goody"><h3>Adding Goodies</h3></a>
-<img src='../Images/hr-goody.jpg' alt='House Rule Goody'/>
-</td><td>
-<p>
-FILL
+note text.  Quilvyn interprets the text of this note to update affected
+attributes. In the example shown, Quilvyn will add 2 to the Bluff and Perform
+(Oratory) skill modifier values for any character with that feature.
 </p>
 </td></tr>
 
@@ -209,6 +218,20 @@ The example shows the entry for a language called Scaletongue, used
 <p>
 FILL
 </p>
+</td></tr>
+
+<tr><td colspan="2"><hr/></td>
+</tr><tr><td>
+<a name="path"><h3>Adding Schools</h3></a>
+<img src='../Images/hr-school.jpg' alt='House Rule School'/>
+</td><td>
+<p>
+Adding a new school of magic typically involves entering only the name,
+although Quilvyn also allows you to enter features that are acquired by a
+Wizard who specializes in the school.
+</p>
+<p></p>
+The example shows the entry for a school named Control that grants no features.
 </td></tr>
 
 <tr><td colspan="2"><hr/></td></tr>
