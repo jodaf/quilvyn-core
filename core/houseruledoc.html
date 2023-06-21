@@ -67,19 +67,19 @@ put quotes before and after the value.
 <p>
 Identical information is required for adding an animal companion or familiar.
 Along with the creature's basic attributes, Quilvyn displays fields for
-entering Hit Dice, Armor Class, Attack Bonus, Damage, Size, and Min Master
-Level. Quilvyn expects the Damage value to indicate the number and type of
+entering hit dice, armor class, attack bonus, damage, size, and minimum master
+level. Quilvyn expects the damage value to indicate the number and type of
 damage dice, optionally followed by a bonus or penalty. For example, an Owlbear
-animal companion would have a Damage attribute of 1d6+5,1d6+5,1d8+2 (two claws
-and a bite); while a Baboon's Damage would be 1d6+3. When entering Armor Class,
-Attack Bonus, and Damage, include any bonus or penalty from elements such as
-dexterity, natural armor, and strength. Min Master Level is used for
+animal companion would have a damage attribute of 1d6+5,1d6+5,1d8+2 (two claws
+and a bite); while a Baboon's damage would be 1d6+3. When entering armor class,
+attack bonus, and damage, include any bonus or penalty from elements such as
+dexterity, natural armor, and strength. Minimum master level is used for
 alternative companions that require the character to be of higher level before
 they can be selected.
 </p><p>
-The example shown is taken from the statistics for the monkey in the Monster
-Manual. Note that the monkey receives +2 size and +2 dexterity bonuses to Armor
-Class, resulting in an overall AC of 14, and that the monkey's low strength
+The example shown is taken from the statistics for the monkey from the Monster
+Manual. Note that the monkey receives +2 size and +2 dexterity bonuses to armor
+class, resulting in an overall AC of 14, and that the monkey's low strength
 gives a -4 penalty to damage.
 </p>
 </td></tr>
@@ -91,10 +91,11 @@ gives a -4 penalty to damage.
 </td><td>
 <p>
 Identical information is required for adding a custom type of armor or shield.
-Quilvyn displays fields for the boost in AC gained by using the armor or
-shield, the item's weight category, the maximum dexterity AC bonus allowed when
-using the item, the penalty applied to skills such as Escape Artist, and the
-percentage chance of failure when casting arcane spells while using the item.
+Quilvyn displays fields for the boost to armor class gained by using the armor
+or shield, the item's weight category, the maximum dexterity AC bonus allowed
+when using the item, the penalty applied to skills such as Escape Artist, and
+the percentage chance of failure when casting arcane spells while using the
+item.
 </p><p>
 The example shown gives the values for a breastplate made from mithril, as
 discussed in the Special Materials section of the SRD. Mithril items reduce
@@ -116,11 +117,11 @@ points per level, class skills and features, any automatic languages known by
 characters with the class (e.g, druidic for druids), and information about
 class spellcasting.
 </p><p>
-The Base Attack entry gives a choice of 1/2 (increases by 1 every 2 levels, as
-with the Wizard class), 3/4 (increases by 3 every 4 levels, as with Clerics),
-or 1 (increases by 1 every level, as with Fighters). Save entries give a choice
+The base attack entry gives a choice of 1/2 (increases by 1 every 2 levels, as
+with the wizard class), 3/4 (increases by 3 every 4 levels, as with clerics),
+or 1 (increases by 1 every level, as with fighters). Save entries give a choice
 of 1/3 (sometimes referred to as "poor") or 1/2 ("good"). Features that are
-acquired after level 1 (for example, the Rogue Evasion feature is acquired at
+acquired after level 1 (for example, the rogue Evasion feature acquired at
 level 2) should be preceded by the level and a colon (so, 2:Evasion).
 </p><p>
 The example shows the entry for the Adept NPC class from the core rules. It has
@@ -155,8 +156,8 @@ separated by commas.
 <img src='../Images/hr-feat.jpg' alt='House Rule Feat'/>
 </td><td>
 <p>
-When adding a custom feat, Quilvyn displays fields to note the feat type(s) and
-any requirements that should be met to select it. The feat type will typically
+When adding a custom feat, Quilvyn displays fields to note the feat type and
+any requirements that must be met to select it. The feat type will typically
 be one of General, Item Creation, or Metamagic; you can also include Fighter in
 the feat type box to indicate that this feat can be selected as a fighter bonus
 feat. Quilvyn allows you to specify two kinds of requirements for a feat. The
@@ -169,7 +170,7 @@ Combat Casting feat from the core rules is likely to be useful only to a spell
 caster. Quilvyn will generate a validation warning if the Implies requirements
 are not met. When specified, the Prerequisite and Implies fields will normally
 contain references to character attributes; see the discussion
-<a href=#expr>below</a> for how to include these. The effects of a feat are
+<a href="#expr">below</a> for how to include these. The effects of a feat are
 entered separately as a feature, as described in the
 <a href="#feature">next section</a>.
 </p><p>
@@ -187,11 +188,17 @@ Implies box notes that the feat is useless unless the character has a flail.
 </td><td>
 <p>
 In Quilvyn, Features describe the effects of feats, classes, and racial
-features. When adding a rule for a new Feature, select the section of the
-character sheet where the note for the Feature should appear, then enter the
-note text.  Quilvyn interprets the text of this note to update affected
-attributes. In the example shown, Quilvyn will add 2 to the Bluff and Perform
-(Oratory) skill modifier values for any character with that feature.
+features. When adding a rule for a new Feature, enter the section of the
+character sheet (one of attributes, combat, companion, feature, magic, save,
+or skill) where the note for the Feature should appear, then enter the
+note text. You can enter multiple sections and notes, but the number of
+sections entered must match the number of notes. Feature notes can both
+reference and modify character attributes; see the discussion
+<a href="#expr">below</a> for how to use this feature.
+</p><p>
+The example shows the entry for a feature name Glib with a note that appears
+in the skill section of the character sheet. It adds 2 to the skill modifiers
+of the Bluff and Perform (Oratory) skills.
 </p>
 </td></tr>
 
@@ -226,9 +233,10 @@ FILL
 <img src='../Images/hr-school.jpg' alt='House Rule School'/>
 </td><td>
 <p>
-Adding a new school of magic typically involves entering only the name,
+Adding a custom school of magic typically involves entering only the name,
 although Quilvyn also allows you to enter features that are acquired by a
-Wizard who specializes in the school.
+wizard who specializes in the school. Custom schools will normally be paired
+with custom spells that fall within the school.
 </p>
 <p></p>
 The example shows the entry for a school named Control that grants no features.
@@ -240,24 +248,24 @@ The example shows the entry for a school named Control that grants no features.
 <img src='../Images/hr-race.jpg' alt='House Rule Race'/>
 </td><td>
 <p>
-When adding a custom language, Quilvyn displays fields that allow you to enter
-Prerequisites, Features, and Languages for the race. Although none of the core
-races have requirements, Quilvyn provides the Prerequisite entry to allow you
+When adding a custom race, Quilvyn displays fields that allow you to enter
+prerequisites, features, and languages for the race. Although none of the core
+races have requirements, Quilvyn provides the prerequisite entry to allow you
 to specify a race that has, for example, a minimum strength requirement. Most
 races will have fixed features, such as an ability adjustment. Quilvyn also
 allows entering selectable features to support variations such as sub-races.
 Each feature in these lists will require <a href="#feature">adding a feature</a>
-to describe its effects. The Languages list which languages characters of this
-race know automatically.
+to describe its effects. The languages entry lists the languages that
+characters of this race know automatically.
 </p><p>
 The example shows the entry for the Lizardfolk character race from the Monster
 Manual. Features for this race are: Lizardfolk Ability Adjustment (+2
 Strength/+2 Constitution/-2 Intelligence); Lizardfolk Skills (+4 Balance, Jump,
 and Swim, all of which are class skills); Bonus Feat (+1 General Feat); Scaly
-Hide (+5 Armor Class); Lizardfolk Weapons (2 Claws and Bite); Hold Breath (Can
-hold breath 4 * Constitution rds). (Except where the rule book specifies a name
-for a feature, these names are invented.) Scaletongue is included in the list
-of automatic languages to show the use of the language
+Hide (+5 Armor Class); Lizardfolk Weapons (2 claws and a bite); Hold Breath
+(Can hold breath 4 * constitution rds). (Most of these feature names are
+invented for this example.) Scaletongue is included with the list of automatic
+languages to illustrate the use of the language
 <a href="#language">added above</a>.
 </p>
 </td></tr>
@@ -270,8 +278,8 @@ of automatic languages to show the use of the language
 <p>
 When adding a custom skill, Quilvyn displays fields that allow you to enter
 the skill's key ability, whether the skill can be used untrained, the list of
-classes for which the class skill, and any synergies that the custom skill has
-with other skills.
+classes for which the new skill is a class skill, and any synergies that the
+skill has with other skills.
 </p><p>
 The example shows the entry for the Sailing skill, which is related to
 intelligence, requires training to use, and is a class skill for several core
@@ -320,8 +328,111 @@ of 19-20/x2.
 
 <a name="expr"><h2>Using Character Attributes</h2></a>
 <p>
-FILL
+There are three types of entries where you might want to include references to
+character attributes: class, feat, and race prerequisites; feature notes and
+spell descriptions; and feature notes that modify character attributes.
+Attribute references appear somewhat differently in each of these contexts.
 </p>
+
+<h3>Using attributes in prerequsites</h3>
+
+<p>
+</p>
+
+<h3>Using attributes in features notes and spell descriptions</h3>
+
+<p>
+</p>
+
+<h3>Notes that modify character attributes</h3>
+
+<p>
+</p>
+
+<p>
+The table below lists the character attributes that are most likely to be
+useful in entering custom feats, classes, and races.
+</p>
+
+<table style="width:100%"><tr style="text-align:left">
+<th>Basic attributes</th>
+<th>Identity</th>
+<th>Combat</th>
+<th>Magic</th>
+<th>Skills and features</th>
+</tr><tr style="vertical-align:top">
+<td>
+<ul style="padding-left: 15px; margin-top: 0">
+<li>strength</li>
+<li>constitution</li>
+<li>dexterity</li>
+<li>intelligence</li>
+<li>wisdom</li>
+<li>charisma</li>
+<li>strengthModifier</li>
+<li>constitutionModifier</li>
+<li>dexterityModifier</li>
+<li>intelligenceModifier</li>
+<li>wisdomModifier</li>
+<li>charismaModifier</li>
+</ul>
+</td><td>
+<ul style="padding-left: 15px; margin-top: 0">
+<li>alignment</li>
+<li>deity</li>
+<li>deityDomains</li>
+<li>level</li>
+<li>levels.&lt;class&gt;, e.g.,<br/>
+  levels.Cleric<br/>
+  levels.Fighter</li>
+<li>race</li>
+</ul>
+</td><td>
+<ul style="padding-left: 15px; margin-top: 0">
+<li>armorClass</li>
+<li>baseAttack</li>
+<li>hitPoints</li>
+<li>meleeAttack</li>
+<li>rangedAttack</li>
+<li>initiative</li>
+<li>save.Fortitude</li>
+<li>save.Reflex</li>
+<li>save.Will</li>
+<li>sneakAttack</li>
+<li>speed</li>
+<li>turningLevel</li>
+<li>weapons.&lt;name&gt;, e.g.,<br/>
+  weapons.Longsword</br>
+  weapons.Light Crossbow</li>
+</ul>
+</td><td>
+<ul style="padding-left: 15px; margin-top: 0">
+<li>casterLevel</li>
+<li>casterLevelArcane</li>
+<li>casterLevelDivine</li>
+<li>casterLevels.&lt;class&gt;, e.g.,<br/>
+  casterLevels.Cleric<br/>
+  casterLevels.Wizard</li>
+<li>spellSlots.&lt;type&gt;</li>
+</ul>
+</td><td>
+<ul style="padding-left: 15px; margin-top: 0">
+<li>features.&lt;name&gt;, e.g.<br/>
+  features.Dodge<br/>
+  features.Precise Shot</li>
+<li>languageCount</li>
+<li>languages.&lt;name&gt;, e.g.,<br/>
+  languages.Abyssal<br/>
+  languages.Halfling</li>
+<li>skills.&lt;name&gt;, e.g.,<br/>
+  skills.Handle Animal<br/>
+  skills.Ride</li>
+<li>skillModifier.&lt;name&gt;, e.g.,<br/>
+  skillModifier.Intimidate<br/>
+  skillModifier.Survival</li>
+</ul>
+</td>
+</tr></table>
 
 </body>
 </html>
