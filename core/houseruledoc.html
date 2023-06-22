@@ -223,7 +223,17 @@ The example shows the entry for a language called Scaletongue, used
 <img src='../Images/hr-path.jpg' alt='House Rule Path'/>
 </td><td>
 <p>
-FILL
+A <i>path</i> is a choice a character makes, other than class and race, that
+provides features and distinguishes from characters with similar basic
+characteristics. In the SRD plugin, cleric domains are the most prominent
+example of paths. When adding a custom path, Quilvyn displays fields that
+allow you to enter the group associated with the path, the level attribute
+that tracks the character's level in the path, lists of features provided by
+the path, and information about spell slots granted by the path.
+</p><p>
+The example shown adds another choice, Shadow Domain, to the domains available
+to clerics. It provides a single feature, Summon Shadow, at level 1 and
+creates no new spell slots.
 </p>
 </td></tr>
 
@@ -328,18 +338,57 @@ of 19-20/x2.
 
 <a name="expr"><h2>Using Character Attributes</h2></a>
 <p>
-There are three types of entries where you might want to include references to
-character attributes: class, feat, and race prerequisites; feature notes and
-spell descriptions; and feature notes that modify character attributes.
-Attribute references appear somewhat differently in each of these contexts.
+There are three places where you might want to include references to character
+attributes: class, feat, and race prerequisites; embedding in feature notes and
+spell descriptions; and placed in feature notes that modify character
+attributes. Attribute references appear somewhat differently in each of these
+contexts.
 </p>
 
-<h3>Using attributes in prerequsites</h3>
+<h3>Using attributes in prerequisites</h3>
 
 <p>
+In the core rulebook, all prestige classes and many feats have
+prerequisites&mdash;attribute values that the character must have to take the
+feat or a level in the prestige class. Quilvyn allows you to specify similar
+prerequisites when entering a custom class, feat, or race. For example, suppose
+that a feat you're entering requires that the character has a dexterity of 13
+or higher. You can specify this in Quilvyn by entering this in the Prerequisite
+text box when defining the feat:
+</p>
+<code>dexterity &gt;= 13</code>
+<p>
+Quilvyn will generate tests for this requirement and will show a validation
+error if a character with dexterity of 12 or lower is given this feat. You can
+also specify that the character must have a specific feature as part of your
+prerequisites. For example, if your custom feat requires that the character
+have the Power Attack feature, you can specify it by entering this in the
+Prerequisite text box:
+</p>
+<code>features.Power Attack</code>
+<p>
+Multiple prerequisites that must all be met can be specified by listing them in
+the text box separated by commas:
+</p>
+<code>dexterity &gt;= 15,features.Point Blank Shot,baseAttack &gt;= 11</code>
+<p>
+Quilvyn recognizes the usual comparison operators (&lt;, &lt;=, &gt;, &gt;=,
+==, !=) in prerequisites, and you can use the OR operator (||) to require that
+at least one of a set of prerequisites is satisfied:
+</p>
+<code>intelligence &gt;= 15 || wisdom &gt;= 15</code>
+<p>
+When making a comparison to a text value rather than a number, surround the
+value with single or double quotes. Quilvyn also supports the pattern matching
+operators =~ (matches) and !~ (does not match) with strings. The first of these
+two prerequisites requires that the character have a Lawful Good alignement,
+while the second allows any good alignment:
 </p>
 
-<h3>Using attributes in features notes and spell descriptions</h3>
+<code>alignment == 'Lawful Good'</code><br/>
+<code>alignment =~ 'Good'</code>
+
+<h3>Embedding attributes in features notes and spell descriptions</h3>
 
 <p>
 </p>
@@ -351,7 +400,7 @@ Attribute references appear somewhat differently in each of these contexts.
 
 <p>
 The table below lists the character attributes that are most likely to be
-useful in entering custom feats, classes, and races.
+useful in entering custom feats, features, classes, and races.
 </p>
 
 <table style="width:100%"><tr style="text-align:left">
