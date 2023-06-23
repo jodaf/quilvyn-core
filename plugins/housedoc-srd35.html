@@ -424,7 +424,7 @@ like this:
 
 <p>
 As this note shows, individual notes and descriptions can contain multiple
-embedded references and that individual references can use multiple attributes.
+embedded references and individual references can use multiple attributes.
 Within embedded references, Quilvyn supports the usual comparison operators
 (&lt;, &lt;=, &gt;, &gt;=, ==, !=), the usual arithmetic operators
 (+, -, *, /, unary -), AND (&amp;&amp;), OR (||), pattern matching (=~, !~),
@@ -432,7 +432,7 @@ and integer division (//). It also supports the ternary if-then-else operator
 (?:) and the operators &lt;? and &gt;?, which return the smaller and larger
 of their two operands, respectively. Using these operators, we can define the
 note for the barbarian Rage feature as follows, which takes into account the
-fact that the larger constitution bonus of the Greater Rage and Mighty Rage
+fact that the larger constitution bonuses of the Greater Rage and Mighty Rage
 features extend the duration of the rage:
 </p>
 
@@ -455,7 +455,8 @@ reads:
 <p>
 When showing this description on the character sheet, Quilvyn will replace the
 references to lvl with the character's cleric, sorcerer, or wizard level, as
-appropriate. The description for a level 7 sorcerer, for example, will read:
+appropriate. For example, the description the S3 <i>Enhance Skill</i> spell for
+a level 7 sorcerer will read:
 </p>
 
 <code>R40' Target gains +4 on chosen skill for 7 rd</code>
@@ -482,7 +483,8 @@ modifications separated by slashes:
 
 <p>
 Notes in the save and skill sections can modify save bonuses and skill
-modifiers by referencing the save type or skill name:
+modifiers by referencing the save type or skill name directly; the saves. and
+skillModifiers. prefixes are not necessary:
 </p>
 
 <code>+1 Fortitude</code><br/>
