@@ -10,11 +10,7 @@
 <body bgcolor="wheat" background="../Images/parchment.jpg">
 
 <script>
-  try {
-    document.write('<img src="' + window.opener.LOGO_URL + '" alt="Quilvyn"/>');
-  } catch(e) {
-    document.write('<img src="quilvynlogodrop.png" style="height:75px" alt="Quilvyn"/>');
-  }
+  document.write('<img src="../Images/quilvynlogodrop.png" style="height:75px" alt="Quilvyn"/>');
 </script>
 
 <h1>Quilvyn RPG Character Editor</h1>
@@ -52,12 +48,11 @@ Quilvyn to update the character's attributes.
 <p>
 A tar and/or zip file containing the Quilvyn code can be obtained from
 <a href='https://github.com/jodaf/quilvyn-core/releases'>https://github.com/jodaf/quilvyn-core/releases</a>.
-The Quilvyn program consists of 14 files: README.md, index.html, quilvyn.html,
+The Quilvyn program consists of 13 files: README.md, index.html, quilvyn.html,
 core/Expr.js, core/Input.js, core/ObjectViewer.js, core/Quilvyn.js,
 core/QuilvynRules.js, core/QuilvynUtils.js, core/RuleEngine.js, core/gpl.txt,
-core/quilvyn.gif, plugins/SRD35.js, and plugins/ogl.txt. Documentation is
-provided by core/quilvyndoc.html, plugins/housedoc-srd35.html, and a set of
-image files.
+plugins/SRD35.js, and plugins/ogl.txt. Documentation is provided by
+core/quilvyndoc.html, plugins/housedoc-srd35.html, and a set of image files.
 </p><p>
 Quilvyn has been successfully tested using these browsers
 <ul>
