@@ -130,7 +130,10 @@ fortitude save, and reflex save progressions are poor and its will save
 progression good. Class skills are Concentration, Craft, Handle Animal, Heal,
 all Knowledge, all Profession, Spellcraft, and Survival. The only class features
 are Weapon Proficiency (Simple) and Summon Familiar, with the latter acquired
-at level 2.
+at level 2. The Adept casts divine spells with Wisdom as the relevant ability.
+An Adept receives 3 Adept0 spell slots at level 1 (and no additional slots
+thereafter), 1 Adept 1 spell slot at level 1, increasing to 2 at level 3 and 3
+at level 7, and so on.
 </p>
 </td></tr>
 
@@ -141,11 +144,11 @@ at level 2.
 <img src='../Images/hr-deity.jpg' alt='House Rule Deity'/>
 </td><td>
 <p>
-When adding a custom deity, Quilvyn displays fields to add the deity's
+When adding a custom deity, Quilvyn displays fields to specify the deity's
 alignment, favored weapon or weapons, and domains. Multiple domains entered
 in the Domains text box should be separated by commas. Similarly, if the
 deity's favored weapon includes multiple weapons (e.g., all flails),
-the individual weapons should be listed in the Favored Weapons text box,
+the individual weapons should be listed in the Favored Weapons text box
 separated by commas.
 </p>
 </td></tr>
@@ -175,9 +178,10 @@ entered separately as a feature, as described in the
 <a href="#feature">next section</a>.
 </p><p>
 The example shows the entry for a general feat named Flail Expert that can be
-selected as a fighter bonus feat. The Prerequisite box note that it requires a
+selected as a fighter bonus feat. The Prerequisite box notes that it requires a
 baseAttack value of at least 1 and Weapon Proficiency (Martial), and the
-Implies box notes that the feat is useless unless the character has a flail.
+Implies box notes that the feat is useless unless the character possesses a
+flail.
 </p>
 </td></tr>
 
@@ -192,11 +196,11 @@ features. When adding a rule for a new Feature, enter the section of the
 character sheet (one of attributes, combat, companion, feature, magic, save,
 or skill) where the note for the Feature should appear, then enter the
 note text. You can enter multiple sections and notes, but the number of
-sections entered must match the number of notes. Feature notes can both
+sections entered must equal the number of notes. Feature notes can both
 reference and modify character attributes; see the discussion
 <a href="#expr">below</a> for how to use this feature.
 </p><p>
-The example shows the entry for a feature name Glib with a note that appears
+The example shows the entry for a feature named Glib with a note that appears
 in the skill section of the character sheet. It adds 2 to the skill modifiers
 of the Bluff and Perform (Oratory) skills.
 </p>
@@ -233,7 +237,7 @@ the path, and information about spell slots granted by the path.
 </p><p>
 The example shown adds another choice, Shadow Domain, to the domains available
 to clerics. It provides a single feature, Summon Shadow, at level 1 and
-creates no new spell slots.
+grants no new spell slots.
 </p>
 </td></tr>
 
@@ -274,9 +278,9 @@ Strength/+2 Constitution/-2 Intelligence); Lizardfolk Skills (+4 Balance, Jump,
 and Swim, all of which are class skills); Bonus Feat (+1 General Feat); Scaly
 Hide (+5 Armor Class); Lizardfolk Weapons (2 claws and a bite); Hold Breath
 (Can hold breath 4 * constitution rds). (Most of these feature names are
-invented for this example.) Scaletongue is included with the list of automatic
-languages to illustrate the use of the language
-<a href="#language">added above</a>.
+invented for this example; the MM simply lists the effects.) Scaletongue is
+included with the list of automatic languages to illustrate the use of the
+language <a href="#language">added above</a>.
 </p>
 </td></tr>
 
@@ -307,11 +311,11 @@ When adding a custom spell, Quilvyn displays fields that allow you to enter
 the spell's school, the list of classes and levels for the spell, the
 description of the spell, and whether or not the spell can be placed into a
 potion that can be drunk or an oil that can be applied. Spell descriptions can
-contain references to character attributes; see the discussion
+embed references to character attributes; see the discussion
 <a href=#expr>below</a> for how to include these.
 </p><p>
 The example shows the entry for the transmutation spell <i>Enhance Skill</i>,
-which is a level 3 spell for clerics, sorcerers, and druids. It can be invoked
+which is a level 3 spell for clerics, sorcerers, and wizards. It can be invoked
 using an imbibed potion, and the description notes that spell can be cast over
 short range and lasts for a number of rounds equal to the caster level.
 </p>
@@ -333,16 +337,17 @@ The example shows the entry for a boomerang, an exotic ranged weapon with a
 of 19-20/x2.
 </p>
 </td></tr>
+<tr><td colspan="2"><hr/></td></tr>
 
 </table>
 
 <a name="expr"><h2>Using Character Attributes</h2></a>
 <p>
-There are three places where you might want to include references to character
-attributes: class, feat, and race prerequisites; embedding in feature notes and
-spell descriptions; and placed in feature notes that modify character
-attributes. Attribute references appear somewhat differently in each of these
-contexts.
+There are three places that you might want to use references to character
+attributes when adding custom items: prerequisites for custom classes, feats,
+and races; embedded in feature notes and spell descriptions; and placement
+in feature notes that modify character attributes. Attribute references appear
+somewhat differently in each of these contexts.
 </p>
 
 <h3>Using attributes in prerequisites</h3>
@@ -381,7 +386,7 @@ at least one of a set of prerequisites is satisfied:
 When making a comparison to a text value rather than a number, surround the
 value with single or double quotes. Quilvyn also supports the pattern matching
 operators =~ (matches) and !~ (does not match) with strings. The first of these
-two prerequisites requires that the character have a Lawful Good alignement,
+two prerequisites requires that the character have a Lawful Good alignment,
 while the second allows any good alignment:
 </p>
 
@@ -391,14 +396,105 @@ while the second allows any good alignment:
 <h3>Embedding attributes in features notes and spell descriptions</h3>
 
 <p>
+Some feats, many class features, and nearly all spells have effects that vary
+based on character attributes. For example: the Spell Mastery feat allows a
+wizard prepare a number of spells equal to their intelligence modifier without
+referring to their spellbook; an assassin's Death Attack can inflict paralysis
+for 1d6 rounds + 1 round per assassin level; and the <i>Acid Splash</i> spell
+has a range of 25' + 5'/2 levels.
+</p><p>
+You can embed references to character attributes in feature notes and spell
+descriptions by enclosing them within the characters %{}. Using this ability,
+the note for the Spell Mastery feat looks like this:
 </p>
 
-<h3>Notes that modify character attributes</h3>
+<code>May prepare %{intelligenceModifier} spells w/out spellbook</code>
 
 <p>
+When Quilvyn displays this note on the character sheet, it first replaces the
+reference to the character's intelligenceModifier attribute with its value, so
+the note might appear on the sheet as
 </p>
 
+<code>May prepare 2 spells w/out spellbook</code>
+
 <p>
+Beyond simple references, Quilvyn supports performing calculations with
+embedded references. The note for the assassin's Death Attack feature looks
+like this:
+</p>
+
+<code>Sneak attack after 3 rd of study causes death or paralysis for 1d6+%{levels.Assassin} rd (DC %{10 + levels.Assassin + intelligenceModifier} Fort neg)</code>
+
+<p>
+As this note shows, individual notes and descriptions can contain multiple
+embedded references and that individual references can use multiple attributes.
+Within embedded references, Quilvyn supports the usual comparison operators
+(&lt;, &lt;=, &gt;, &gt;=, ==, !=), the usual arithmetic operators
+(+, -, *, /, unary -), AND (&amp;&amp;), OR (||), pattern matching (=~, !~),
+and integer division (//). It also supports the ternary if-then-else operator
+(?:) and the operators &lt;? and &gt;?, which return the smaller and larger
+of their two operands, respectively. Using these operators, we can define the
+note for the barbarian Rage feature as follows, which takes into account the
+fact that the larger constitution bonus of the Greater Rage and Mighty Rage
+features extend the duration of the rage:
+</p>
+
+<code>+4 Str, +4 Con, +2 Will, -2 AC for %{constitutionModifier + 5 + (features.Greater Rage ? 1 : 0) + (features.Mighty Rage ? 1 : 0)} rd %{1 + levels.Barbarian // 4}/dy</code>
+
+<p>
+Within spell descriptions, in addition to the <a href="#attrs">usual character
+attributes</a>, Quilvyn makes available the special character attribute lvl.
+This varible refers to the caster level appropriate to the specific spell, so
+casterLevels.Cleric for the C1 spell <i>Bane</i>, casterLevels.Bard for the B0
+spell <i>Dancing Lights</i>, casterLevels.Sorcerer for the S2 spell <i>Arcane
+Lock</i>, and so on. Using the lvl attribute allows you to incorporate the
+caster level into a spell description that works for multiple classes. The
+description of the <i>Enhance Skill</i> spell <a href="#spell">shown above</a>
+reads:
+</p>
+
+<code>R%{25+lvl//2*5}' Target gains +4 on chosen skill for %{lvl} rd</code>
+
+<p>
+When showing this description on the character sheet, Quilvyn will replace the
+references to lvl with the character's cleric, sorcerer, or wizard level, as
+appropriate. The description for a level 7 sorcerer, for example, will read:
+</p>
+
+<code>R40' Target gains +4 on chosen skill for 7 rd</code>
+
+<h3>Features that modify character attributes</h3>
+
+<p>
+Quilvyn automatically generates rules from feature notes that modify simple
+character attributes. Given a feature note that reads
+</p>
+
+<code>+2 Armor Class</code>
+
+<p>
+Quilvyn will automatically generate a rule that adds two to the character's
+armor class value, and the note will appear in italics on the character sheet.
+For readability, character attributes in feature notes must appear with initial
+capital letters and spaces between words, as shown above. Single features can
+modify multiple attributes; in these cases, the note should list the individual
+modifications separated by slashes:
+</p>
+
+<code>+2 Wisdom/-2 Intelligence</code>
+
+<p>
+Notes in the save and skill sections can modify save bonuses and skill
+modifiers by referencing the save type or skill name:
+</p>
+
+<code>+1 Fortitude</code><br/>
+<code>+2 Ride/+2 Handle Animal</code>
+
+<hr style="width: 100%"/>
+
+<p name="attrs">
 The table below lists the character attributes that are most likely to be
 useful in entering custom feats, features, classes, and races.
 </p>
@@ -429,6 +525,7 @@ useful in entering custom feats, features, classes, and races.
 <ul style="padding-left: 15px; margin-top: 0">
 <li>alignment</li>
 <li>deity</li>
+<li>deityAlignment</li>
 <li>deityDomains</li>
 <li>level</li>
 <li>levels.&lt;class&gt;, e.g.,<br/>
@@ -462,7 +559,9 @@ useful in entering custom feats, features, classes, and races.
 <li>casterLevels.&lt;class&gt;, e.g.,<br/>
   casterLevels.Cleric<br/>
   casterLevels.Wizard</li>
-<li>spellSlots.&lt;type&gt;</li>
+<li>spellSlots.&lt;type&gt;, e.g.,<br>
+  spellSlots.C0<br/>
+  spellSlots.W3</li>
 </ul>
 </td><td>
 <ul style="padding-left: 15px; margin-top: 0">
@@ -479,6 +578,7 @@ useful in entering custom feats, features, classes, and races.
 <li>skillModifier.&lt;name&gt;, e.g.,<br/>
   skillModifier.Intimidate<br/>
   skillModifier.Survival</li>
+<li>skillPoints</li>
 </ul>
 </td>
 </tr></table>

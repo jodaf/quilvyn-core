@@ -56,8 +56,8 @@ The Quilvyn program consists of 14 files: README.md, index.html, quilvyn.html,
 core/Expr.js, core/Input.js, core/ObjectViewer.js, core/Quilvyn.js,
 core/QuilvynRules.js, core/QuilvynUtils.js, core/RuleEngine.js, core/gpl.txt,
 core/quilvyn.gif, plugins/SRD35.js, and plugins/ogl.txt. Documentation is
-provided by core/quilvyndoc.html and a pair of image files,
-core/editingobjects.gif and core/sheetfeatures.gif.
+provided by core/quilvyndoc.html, plugins/housedoc-srd35.html, and a set of
+image files.
 </p><p>
 Quilvyn has been successfully tested using these browsers
 <ul>
@@ -214,7 +214,7 @@ require explanation.
     In the Basic Attributes section, the computed modifier values for strength,
     wisdom, etc. are shown in parentheses after the attribute value.
   </li><li>
-    In the Skills section, the sheet shows the number of points allocated to
+    In the Skills section, the sheet shows the number of ranks allocated to
     each skill. Each skill modifier appears in parentheses after the skill
     rank value.
   </li><li>
@@ -322,42 +322,8 @@ set. Note that, unlike user-defined rule sets, Quilvyn automatically applies
 each predefined collection to its corresponding rule set; there's no need to
 apply a predefined collection as a separate step.
 </p><p>
-For most house rules, the values to enter into the Add Rule dialog can be
-determined by looking at similar items from the core rule books. For example,
-for a new Animal Companion, Quilvyn prompts for the six basic abilities, hit
-dice, armor class, and damage, all of which are integer values. For Animal
-Companion damage, Quilvyn expects text in the format
-int'd'int[+int][,int'd'int[+int]]. For an Ape, the value would be 1d6+5,1d6+2;
-for a Baboon, 1d6+3. Separate multiple values entered in a single box with
-commas. For example, when entering a new Deity, you might enter Light Mace
-in the Favored Weapon box and Good,Law,Strength in the Domain box.
-</p><p>
-In Quilvyn, Features describe the effects of feats, classes, and racial
-features. When adding a rule for a new Feature, select the section of the
-character sheet where the note for the Feature should appear, then enter the
-note text. Much like the starred notes discussed <a href="#goodies">above</a>,
-Quilvyn interprets the text of this note to update affected attributes. For
-example, if you add a feature named "Glib" with a note in the skill section
-that reads "+2 Bluff/+2 Perform (Oratory)", Quilvyn will update the skill
-modifier values for any character with that feature.
-</p><p>
-Many feats and classes have prerequisites that a character must meet in order
-to select them. In the Add Rules dialog, these can be entered in the
-Prerequisite box for a new feat or class, with multiple prerequisites separated
-by commas. For example, taking a level in the Horizon Walker prestige class
-requires that the character have the Endurance feature and 8 ranks in Knowledge
-(Geography). This would be entered into the Prerequisite box for a house rules
-class as follows.
-<pre>
-  features.Endurance,skills.Knowledge (Geography) >= 8
-</pre>
-The Feat entry includes a similar Implies box for testing whether selecting
-the feat makes sense for a character. For example, although legal, selecting
-the Track feat makes no sense for a character with no ranks in Survival, so the
-Implies box for this feat would read
-<pre>
-  skills.Survival > 0
-</pre>
+Examples and discussion of adding individual custom items is described in a
+<a href="core/housedoc-srd35.html">separate document</a>.
 </p>
 
 </body>
