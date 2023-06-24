@@ -7056,6 +7056,8 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     return;
   }
 
+  notes = notes.map(x => SRD35.wrapVarsContainingSpace(x));
+
   let prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
   let skillPrereqPossible = true;
@@ -7656,6 +7658,8 @@ SRD35.spellRules = function(
 
   let expr;
 
+  description = SRD35.wrapVarsContainingSpace(description);
+
   // Translate deprecated interpolation format
   // ${?L\d*((div|max|min|minus|plus|times)\d+)*}?
   // into %{} notation
@@ -7967,6 +7971,31 @@ SRD35.weaponRules = function(
   else if(profLevel == 3)
     rules.addChoice('exoticWeapons', name, '');
 
+};
+
+/*
+ * Quilvyn allows the user to enter expressions that include variables with one
+ * or more spaces, e.g., skills.Handle Animal. Rather than require the user to
+ * make these valid for the Expr module by wrapping them in $"", this function
+ * does the wrapping and returns the result.
+ */
+SRD35.wrapVarsContainingSpace = function(s) {
+  if(!s.match(/\w\.[A-Z]/))
+    return s; // Effeciency short-circuit; we know there are no space vars
+  let expressions = s.match(/%{[^}]*}/g);
+  if(expressions) {
+    expressions.forEach(e => {
+      let expr = ' ' + e;
+      let spaceVars = expr.match(/[^\w'"][a-z]\w*\.[A-Z]\w*( [\w()]+)+/g);
+      if(spaceVars) {
+        spaceVars.forEach(v => {
+          expr = expr.replace(v, v.charAt(0) + '$"' + v.substring(1) + '"');
+        });
+        s = s.replace(e, expr);
+      }
+    });
+  }
+  return s;
 };
 
 /*
