@@ -5900,6 +5900,15 @@ SRD35.classRules = function(
   let prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
 
+  // Interpret values from the custom class entry widget
+  if(casterLevelArcane == 'Arcane') {
+    casterLevelArcane = classLevel;
+    casterLevelDivine = null;
+  } else if(casterLevelArcane == 'Divine') {
+    casterLevelArcane = null;
+    casterLevelDivine = classLevel;
+  }
+
   if(requires.length > 0)
     QuilvynRules.prerequisiteRules
       (rules, 'validation', prefix + 'Class', classLevel, requires);
@@ -8499,8 +8508,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Features', 'Features', 'text', [40]],
       ['Selectables', 'Selectable Features', 'text', [40]],
       ['Languages', 'Languages', 'text', [30]],
-      ['CasterLevelArcane', 'Arcane Level', 'text', [10]],
-      ['CasterLevelDivine', 'Divine Level', 'text', [10]],
+      ['CasterLevelArcane', 'Spell Type', 'select-one', ['Arcane', 'Divine']],
       ['SpellAbility', 'Spell Ability', 'select-one', abilities],
       ['SpellSlots', 'Spell Slots', 'text', [40]]
     );

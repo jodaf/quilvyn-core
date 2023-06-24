@@ -15,7 +15,7 @@
 <body bgcolor="wheat" background="../Images/parchment.jpg">
 
 <script>
-  document.write('<img src="../core/quilvynlogodrop.png" style="height:75px" alt="Quilvyn"/>');
+  document.write('<img src="../Images/quilvynlogodrop.png" style="height:75px" alt="Quilvyn"/>');
 </script>
 
 <h2>Adding House Rules to Quilvyn's SRD v3.5 Rule Set</h2>
@@ -93,8 +93,8 @@ when using the item, the penalty applied to skills such as Escape Artist, and
 the percentage chance of failure when casting arcane spells while using the
 item.
 </p><p>
-The example shown gives the values for a breastplate made from mithril, as
-discussed in the Special Materials section of the SRD. Mithril items reduce
+The example shown gives the values for a breastplate made from mithral, as
+discussed in the Special Materials section of the SRD. Mithral items reduce
 the item's weight by 1 category, spell failure chances by 10%, and armor check
 penalty by 3 while increasing the maximum dexterity bonus by 2.
 </p>
@@ -118,18 +118,28 @@ with the wizard class), 3/4 (increases by 3 every 4 levels, as with clerics),
 or 1 (increases by 1 every level, as with fighters). Save entries give a choice
 of 1/3 (sometimes referred to as "poor") or 1/2 ("good"). Features that are
 acquired after level 1 (for example, the rogue Evasion feature acquired at
-level 2) should be preceded by the level and a colon (so, 2:Evasion).
+level 2) should be preceded by the level and a colon (so, 2:Evasion). For
+classes that cast spells, the spell type, spell ability, and spell slots fields
+provide places to enter the type of spells (Arcane or Divine), the basic
+ability used to calculate spell DCs, and the progression of spell slots
+available to the caster. Each item in the spell slot box gives a spell type and
+level followed by a colon, then by a semicolon-separated series of
+&lt;level&gt;=&lt;count&gt; terms, each of which indicates how many spell slots
+the class receives at the given level. For example, the spell slot entry for
+the cleric class would include C2:3=1;4=2;6=3;9=4;13=5, indicating that clerics
+acquire 1 C2 slot at level 3, 2 at level 4, 3 at level 6, 4 and level 9, and 5
+at level 13.
 </p><p>
 The example shows the entry for the Adept NPC class from the core rules. It has
 no prerequisites, d6 hit dice, and 2 skill points per level. Its base attack,
 fortitude save, and reflex save progressions are poor and its will save
-progression good. Class skills are Concentration, Craft, Handle Animal, Heal,
-all Knowledge, all Profession, Spellcraft, and Survival. The only class features
+progression good. Class skills are concentration, craft, handle animal, heal,
+all knowledge, all profession, spellcraft, and survival. The only class features
 are Weapon Proficiency (Simple) and Summon Familiar, with the latter acquired
-at level 2. The Adept casts divine spells with Wisdom as the relevant ability.
-An Adept receives 3 Adept0 spell slots at level 1 (and no additional slots
-thereafter), 1 Adept 1 spell slot at level 1, increasing to 2 at level 3 and 3
-at level 7, and so on.
+at level 2. The Adept casts divine spells with wisdom as the relevant ability.
+An Adept receives 3 Adept0 spell slots at level 1 (and no additional Adept0
+slots thereafter), 1 Adept 1 spell slot at level 1, increasing to 2 at level 3
+and 3 at level 7, and so on.
 </p>
 </td></tr>
 
