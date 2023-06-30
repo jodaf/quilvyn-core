@@ -100,11 +100,11 @@ penalty by 3 while increasing the maximum dexterity bonus by 2.
 
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
-<a name="class"><h2>Base, NPC, and Prestige Classes</h2></a>
+<a name="class"><h2>Base, Prestige, and NPC Classes</h2></a>
 <img src='../Images/hr-npc.jpg' alt='House Rule Class'/>
 </td><td>
 <p>
-When adding a custom class, prestige class, or NPC class, Quilvyn displays
+When adding a custom base class, prestige class, or NPC class, Quilvyn displays
 fields that allow you to specify optional class prerequisites, the class hit
 dice, base attack and save progressions, skill points per level, class skills
 and features, any automatic languages known by characters with the class (e.g,
@@ -299,8 +299,8 @@ skill has with other skills.
 </p><p>
 The example shows the entry for a Sailing skill, which is related to
 intelligence, requires training to use, and is a class skill for several core
-classes. It has a synergy with the Rope Use skill, so 5 ranks in Sailing gives
-a +2 to Rope Use checks.
+classes. It has a synergy with the Use Rope skill, so 5 ranks in Sailing gives
+a +2 to Use Rope checks.
 </p>
 </td></tr>
 
@@ -380,7 +380,7 @@ the text box separated by commas:
 </p>
 <code>dexterity &gt;= 15,features.Point Blank Shot,baseAttack &gt;= 11</code>
 <p>
-Quilvyn recognizes the usual comparison operators (&lt;, &lt;=, &gt;, &gt;=,
+Quilvyn recognizes the common comparison operators (&lt;, &lt;=, &gt;, &gt;=,
 ==, !=) in prerequisites, and you can use the OR operator (||) to require that
 at least one of a set of prerequisites is satisfied:
 </p>
@@ -432,8 +432,8 @@ like this:
 <p>
 As this note shows, individual notes and descriptions can contain multiple
 embedded references and individual references can use multiple attributes.
-Within embedded references, Quilvyn supports the usual comparison operators
-(&lt;, &lt;=, &gt;, &gt;=, ==, !=), the usual arithmetic operators
+Within embedded references, Quilvyn supports the common comparison operators
+(&lt;, &lt;=, &gt;, &gt;=, ==, !=), the common arithmetic operators
 (+, -, *, /, unary -), AND (&amp;&amp;), OR (||), pattern matching (=~, !~),
 and integer division (//). It also supports the ternary if-then-else operator
 (?:) and the operators &lt;? and &gt;?, which return the smaller and larger
@@ -446,7 +446,7 @@ features extend the duration of the rage:
 <code>+4 Str, +4 Con, +2 Will, -2 AC for %{constitutionModifier + 5 + (features.Greater Rage ? 1 : 0) + (features.Mighty Rage ? 1 : 0)} rd %{1 + levels.Barbarian // 4}/dy</code>
 
 <p>
-Within spell descriptions, in addition to the <a href="#attrs">usual character
+Within spell descriptions, in addition to the <a href="#attrs">common character
 attributes</a>, Quilvyn makes available the special character attribute lvl.
 This varible refers to the caster level appropriate to the specific spell, so
 casterLevels.Cleric for the C1 spell <i>Bane</i>, casterLevels.Bard for the B0
