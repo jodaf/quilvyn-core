@@ -759,7 +759,7 @@ Quilvyn.editorHtml = function() {
     ['rules', 'Rules', 'select-one', []],
     ['rulesNotes', '', 'button', ['Notes']],
     ['custom', 'House Rules', 'select-one', [
-      'New Collection...', 'Delete Collections...', 'View/Export All',
+      'New Collection...', 'Delete Collections...', 'Export All',
       'Import...', 'Add Rules...', 'Delete Rules...', 'Apply Collection'
     ]],
     ['character', 'Character', 'select-one', []],
@@ -1371,7 +1371,7 @@ Quilvyn.refreshEditor = function(redraw) {
   );
   let customOpts = QuilvynUtils.getKeys(customCollections).sort();
   customOpts.unshift(
-    'New Collection...', 'Delete Collections...', 'View/Export All',
+    'New Collection...', 'Delete Collections...', 'Export All',
     'Import...', 'Add/Edit Rules...', 'Delete Rules...', 'Apply Collection'
   );
   InputSetOptions(editForm.rules, QuilvynUtils.getKeys(ruleSets));
@@ -1998,7 +1998,7 @@ Quilvyn.update = function(input) {
       Quilvyn.customImportCollections(null);
     else if(value == 'New Collection...')
       Quilvyn.customNewCollection();
-    else if(value == 'View/Export All')
+    else if(value == 'Export All')
       Quilvyn.customExportCollections(null);
     else {
       customCollection = value;
