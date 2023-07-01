@@ -26,7 +26,7 @@
   <li><a href="#sheet">The Character Sheet</a></li>
   <li><a href="#validation">Character Validation</a></li>
   <li><a href="#goodies">Magic Items and Special Possessions</a></li>
-  <li><a href="#house">Adding House Rules</a></li>
+  <li><a href="#house">Adding Homebrew Choices</a></li>
 </ul>
 </p>
 
@@ -52,7 +52,7 @@ The Quilvyn program consists of 13 files: README.md, index.html, quilvyn.html,
 core/Expr.js, core/Input.js, core/ObjectViewer.js, core/Quilvyn.js,
 core/QuilvynRules.js, core/QuilvynUtils.js, core/RuleEngine.js, core/gpl.txt,
 plugins/SRD35.js, and plugins/ogl.txt. Documentation is provided by
-core/quilvyndoc.html, plugins/housedoc-srd35.html, and a set of image files.
+core/quilvyndoc.html, plugins/homebrew-srd35.html, and a set of image files.
 </p><p>
 Quilvyn has been successfully tested using these browsers
 <ul>
@@ -139,15 +139,15 @@ allows you to change between different character-generation rule
 sets&mdash;Quilvyn comes with support for the v3.5 System Reference Document,
 and plug-ins for different game versions and particular campaign settings are
 available. The Notes button next to this pull-down opens a window with details
-about the particular rule set, and the House Rules pull-down is discussed in
-<a href="#house">Adding House Rules</a>. The Character menu is discussed in
-<a href='#open'>Generating and Loading Characters</a>. The Summary option of the
-character menu opens a window with a table that summarizes attributes from all
-characters that you've opened since starting Quilvyn. This is intended to
-assist in planning and running adventures by providing a compact summary of the
-abilities of all characters in a party. The "Save", "Save As...", "Delete...",
-and "HTML" options of the character menu are described in
-<a href='#save'>Saving Characters</a>.
+about the particular rule set, and the Homebrew pull-down is discussed in
+<a href="#homebrew">Adding Homebrew Choices</a>. The Character menu is
+discussed in <a href='#open'>Generating and Loading Characters</a>. The Summary
+option of the character menu opens a window with a table that summarizes
+attributes from all characters that you've opened since starting Quilvyn. This
+is intended to assist in planning and running adventures by providing a compact
+summary of the abilities of all characters in a party. The "Save",
+"Save As...", "Delete...", and "HTML" options of the character menu are
+described in <a href='#save'>Saving Characters</a>.
 </p>
 
 <a name="random"><h3>Randomizing Attributes</h3></a>
@@ -274,48 +274,34 @@ also note effects that change a normally cross-class skill into a class skill.
 * Nomad background: Ride is a class skill<br/>
 </p>
 
-<a name="house"><h3>Adding House Rules</h3></a>
+<a name="homebrew"><h3>Adding Homebrew Choices</h3></a>
 <p>
 You can add custom weapons, armor, familiars, and other items to Quilvyn's
-menus using the House Rules pull-down menu. Items defined by house rules are
-grouped into named <i>collections</i> that you can apply to a rule set to make
-the items available in that rule set. The House Rules pull-down displays the
-name of the current collection. In addition to user-defined collections,
-Quilvyn predefines a collection for each loaded rule set.
+menus using the Homebrew pull-down menu.
 </p><p>
-Selecting the "New Collection..." option of the House Rules menu creates a new
-collection with the name of your choice and makes it the current collection.
+The "Export All" and "Import..." options of the Homebrew menu allow you to
+save and later reload your homebrew choices. This can be useful for backup
+purposes and for copying homebrew choices when you change browsers.
 </p><p>
-Selecting the "Delete Collection..." option of the House Rules menu allows you
-to remove a user-defined collection and all the rules in it. Deleting one of
-Quilvyn's predefined collections removes any rules it contains but does not
-delete the collection itself.
+Selecting the "Add Choices..." option of the Homebrew menu allows you to enter
+new choices. Begin by using the Type pull-down menu to select the type of
+choice you want to add. Quilvyn displays a set of editing objects that allow
+you to enter attributes specific to that type of choice. Once you have entered
+all the necessary attributes, press the Save button.
 </p><p>
-The "Export All" and "Import..." options of the House Rules menu allow you to
-save and later reload your house rules. This can be useful for backup purposes
-and for copying house rules when you change browsers.
+The "Delete Choices..." option of the Homebrew menu allows you to remove
+previously-entered homebrew choices. Note that the deleted choice continues to
+appear in Quilvyn's editor menu until the next time you launch Quilvyn.
 </p><p>
-Selecting the "Add Rules..." option of the House Rules menu allows you to enter
-rules for new items. Begin by using the Type pull-down menu to select the type
-of item you want to add. Quilvyn displays a set of editing objects that allow
-you to enter attributes specific to that type of item. Once you have entered
-all the necessary attributes, press the Save button. A house rule for your new
-item is saved in the current collection.
+Selecting the "Apply..." option of the Homebrew menu allows you
+to add the homebrew options defined in the current collection to the current
+rule set. Note that, unlike user-defined rule sets, Quilvyn automatically
+applies each predefined collection to its corresponding rule set; there's no
+need to apply a predefined collection as a separate step.
 </p><p>
-The "Delete Rule..." option of the House Rules menu allows you to remove
-previously-entered house rules from the current collection. Note that the
-item defined by a deleted rule continues to appear in Quilvyn's editor menu
-until the next time you launch Quilvyn.
-</p><p>
-Selecting the "Apply Collection..." option of the House Rules menu allows you
-to add the house rules defined in the current collection to the current rule
-set. Note that, unlike user-defined rule sets, Quilvyn automatically applies
-each predefined collection to its corresponding rule set; there's no need to
-apply a predefined collection as a separate step.
-</p><p>
-Examples and discussion of adding individual custom items to the SRD v3.5 rule
+Discussion of adding different types of homebrew options to the SRD v3.5 rule
 set can be found in a
-<a href="../plugins/housedoc-srd35.html">separate document</a>.
+<a href="../plugins/homebrew-srd35.html">separate document</a>.
 </p>
 
 </body>
