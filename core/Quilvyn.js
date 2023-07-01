@@ -1972,7 +1972,7 @@ Quilvyn.update = function(input) {
     else if(value == 'Summary')
       Quilvyn.summarizeCachedAttrs();
     else if(value == 'HTML') {
-      if('DEBUG' in homebrewCollections)
+      if(window.location.href.includes('GroupHTML'))
         Quilvyn.showGroupHtml(null);
       else
         Quilvyn.showHtml(Quilvyn.sheetHtml(character));
