@@ -865,11 +865,11 @@ Quilvyn.exportCharacters = function() {
 /* Interacts with the user to import characters from external sources. */
 Quilvyn.importCharacters = function(attributes) {
 
- if(attributes == null &&
-    userOptions.warnAboutDiscard &&
-    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+  if(attributes == null &&
+     userOptions.warnAboutDiscard &&
+     !QuilvynUtils.clones(character, characterCache[characterPath])) {
     Quilvyn.confirmDialog
-      ('Discard changes to character?', Quilvyn.importCharacters)
+      ('Discard changes to character?', Quilvyn.importCharacters);
     return;
   }
 
@@ -1013,9 +1013,8 @@ Quilvyn.modifyOptions = function() {
 Quilvyn.openCharacter = function(path) {
   if(path === true) {
     path = Quilvyn.openCharacter.savedPath;
-  } else if(
-    userOptions.warnAboutDiscard &&
-    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+  } else if(userOptions.warnAboutDiscard &&
+            !QuilvynUtils.clones(character, characterCache[characterPath])) {
     Quilvyn.openCharacter.savedPath = path;
     Quilvyn.confirmDialog
       ('Discard changes to character?', Quilvyn.openCharacter);
@@ -1034,10 +1033,11 @@ Quilvyn.openCharacter = function(path) {
 
 /* Replaces the current character with one with empty attributes. */
 Quilvyn.newCharacter = function(prompted) {
- if(prompted == null &&
-    userOptions.warnAboutDiscard &&
-    !QuilvynUtils.clones(character, characterCache[characterPath])) {
-    Quilvyn.confirmDialog('Discard changes to character?', Quilvyn.newCharacter)
+  if(prompted == null &&
+     userOptions.warnAboutDiscard &&
+     !QuilvynUtils.clones(character, characterCache[characterPath])) {
+    Quilvyn.confirmDialog
+      ('Discard changes to character?', Quilvyn.newCharacter);
     return;
   }
   let editForm = editWindow.editor;
@@ -1075,9 +1075,9 @@ Quilvyn.newCharacter = function(prompted) {
  */
 Quilvyn.randomizeCharacter = function(prompted) {
 
- if(prompted == null &&
-    userOptions.warnAboutDiscard &&
-    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+  if(prompted == null &&
+     userOptions.warnAboutDiscard &&
+     !QuilvynUtils.clones(character, characterCache[characterPath])) {
     Quilvyn.confirmDialog
       ('Discard changes to character?', Quilvyn.randomizeCharacter)
     return;
@@ -1851,6 +1851,30 @@ Quilvyn.summarizeCachedAttrs = function() {
   Quilvyn.summarizeCachedAttrs.win.focus();
 };
 
+/* Interacts with the user to change to a different rule set. */
+Quilvyn.switchRuleSet = function(prompted) {
+  let newSet =
+    Quilvyn.switchRuleSet.pending || InputGetValue(editWindow.editor.rules);
+  if(prompted == null &&
+     userOptions.warnAboutDiscard &&
+     !QuilvynUtils.clones(character, characterCache[characterPath])) {
+    Quilvyn.switchRuleSet.pending = newSet;
+    InputSetValue(editWindow.editor.rules, ruleSet.getName());
+    Quilvyn.confirmDialog
+      ('Discard changes to character?', Quilvyn.switchRuleSet);
+    return;
+  }
+  InputSetValue(editWindow.editor.rules, newSet);
+  if(homebrewCollection == ruleSet.getName()) {
+    homebrewCollection = newSet;
+    InputSetValue(editWindow.editor.homebrew, homebrewCollection);
+  }
+  ruleSet = ruleSets[newSet];
+  Quilvyn.switchRuleSet.pending = null;
+  Quilvyn.refreshEditor(true);
+  Quilvyn.newCharacter(true);
+};
+
 /* Undoes the most recent change to the the displayed character. */
 Quilvyn.undo = function() {
   if(characterUndo.length > 0) {
@@ -1906,14 +1930,7 @@ Quilvyn.update = function(input) {
   } else if(name == 'options') {
     Quilvyn.modifyOptions();
   } else if(name == 'rules') {
-    if(homebrewCollection == ruleSet.getName()) {
-      homebrewCollection = value;
-      InputSetValue(editWindow.editor.homebrew, homebrewCollection);
-    }
-    ruleSet = ruleSets[value];
-    Quilvyn.refreshEditor(true);
-    Quilvyn.refreshSheet();
-    Quilvyn.refreshStatus(false);
+    Quilvyn.switchRuleSet();
   } else if(name == 'rulesNotes') {
     if(Quilvyn.rulesNotesWindow == null || Quilvyn.rulesNotesWindow.closed) {
       Quilvyn.rulesNotesWindow = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
