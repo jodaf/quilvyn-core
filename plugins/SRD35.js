@@ -71,10 +71,12 @@ function SRD35() {
 SRD35.VERSION = '2.3.3.0';
 
 /* List of choices that can be expanded by house rules. */
+// TODO Left Goody out of this list for now because inclusion would require
+// documenting how to construct regular expressions
 SRD35.CHOICES = [
   'Animal Companion', 'Armor', 'Class', 'Deity', 'Familiar', 'Feat', 'Feature',
-  'Goody', 'Language', 'Npc', 'Path', 'Prestige', 'Race', 'School', 'Shield',
-  'Skill', 'Spell', 'Weapon'
+  'Language', 'Npc', 'Path', 'Prestige', 'Race', 'School', 'Shield', 'Skill',
+  'Spell', 'Weapon'
 ];
 /*
  * List of items handled by randomizeOneAttribute method. The order handles
