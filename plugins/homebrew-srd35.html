@@ -174,9 +174,10 @@ example, although the rules don't require a caster level to select it, the
 Combat Casting feat from the core rules is likely to be useful only to a spell
 caster. Quilvyn will generate a validation warning if the Implies requirements
 are not met. When specified, the Prerequisite and Implies fields will normally
-contain references to character attributes; see the discussion
-<a href="#expr">below</a> for how to include these. The effects of a feat are
-entered separately as a feature, as described in the next section.
+contain references to character attributes; see the discussion of
+<a href="#expr">using character attributes</a> for how to include these. The
+effects of a feat are entered separately as a feature, as described in the next
+section.
 </p><p>
 The example shows the entry for a general feat named Flail Expert that can be
 selected as a fighter bonus feat. The Prerequisite box notes that it requires a
@@ -198,8 +199,8 @@ character sheet (one of attributes, combat, companion, feature, magic, save,
 or skill) where the note for the Feature should appear, then enter the
 note text. You can enter multiple sections and notes, but the number of
 sections entered must equal the number of notes. Feature notes can both
-reference and modify character attributes; see the discussion
-<a href="#expr">below</a> for how to use this feature.
+reference and modify character attributes; see the discussion of
+<a href="#expr">using character attributes</a> for how to use this feature.
 </p><p>
 The example shows the entry for a feature named Glib with a note that appears
 in the skill section of the character sheet. It adds 2 to the skill modifiers
@@ -217,8 +218,8 @@ Adding a new language requires only specifying the name. Once added, languages
 can be added to a character by selecting from the language list and can be
 included in the list of languages automatically known by homebrew races.
 </p><p>
-The example shows the entry for a language called Scaletongue, used
-<a href="#race">below</a> in the example for entering a homebrew race.
+The example shows the entry for a language called Scaletongue, used in
+the example for <a href="#race">adding a race</a>.
 </p>
 </td></tr>
 
@@ -266,7 +267,7 @@ Hide (+5 Armor Class); Lizardfolk Weapons (2 claws and a bite); Hold Breath
 (Can hold breath 4 * constitution rds). (Most of these feature names are
 invented for this example; the MM simply lists the effects.) Scaletongue is
 included with the list of automatic languages to illustrate the use of the
-language <a href="#language">added above</a>.
+language shown in the <a href="#language">adding a language</a> example.
 </p>
 </td></tr>
 
@@ -313,8 +314,8 @@ When adding a homebrew spell, Quilvyn displays fields that allow you to enter
 the spell's school, the list of classes and levels for the spell, the
 description of the spell, and whether or not the spell can be placed into a
 potion that can be drunk or an oil that can be applied. Spell descriptions can
-embed references to character attributes; see the discussion
-<a href=#expr>below</a> for how to include these.
+embed references to character attributes; see the discussion of
+<a href=#expr>using character attributes</a> for how to include these.
 </p><p>
 The example shows the entry for the transmutation spell <i>Enhance Skill</i>,
 which is a level 3 spell for clerics, sorcerers, and wizards. It can be invoked
@@ -445,15 +446,15 @@ features extend the duration of the rage:
 <code>+4 Str, +4 Con, +2 Will, -2 AC for %{constitutionModifier + 5 + (features.Greater Rage ? 1 : 0) + (features.Mighty Rage ? 1 : 0)} rd %{1 + levels.Barbarian // 4}/dy</code>
 
 <p>
-Within spell descriptions, in addition to the <a href="#attrs">common character
+Within spell descriptions, in addition to <a href="#attrs">common character
 attributes</a>, Quilvyn makes available the special character attribute lvl.
 This varible refers to the caster level appropriate to the specific spell, so
 casterLevels.Cleric for the C1 spell <i>Bane</i>, casterLevels.Bard for the B0
 spell <i>Dancing Lights</i>, casterLevels.Sorcerer for the S2 spell <i>Arcane
 Lock</i>, and so on. Using the lvl attribute allows you to incorporate the
 caster level into a spell description that works for multiple classes. The
-description of the <i>Enhance Skill</i> spell <a href="#spell">shown above</a>
-reads:
+description of the <i>Enhance Skill</i> spell example from
+<a href="#spell">adding a spell</a> reads:
 </p>
 
 <code>R%{25+lvl//2*5}' Target gains +4 on chosen skill for %{lvl} rd</code>
@@ -498,7 +499,7 @@ skillModifiers. prefixes are not necessary:
 
 <hr style="width: 100%"/>
 
-<p name="attrs">
+<a name="attrs"><h2>Common Character Attributes</h2></a>
 The table below lists the character attributes that are most likely to be
 useful in entering homebrew feats, features, classes, and races.
 </p>
