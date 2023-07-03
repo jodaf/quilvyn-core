@@ -5757,9 +5757,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     console.log('Unknown choice type "' + type + '"');
     return;
   }
-  if(type != 'Feature' && type != 'Path' && type != 'Spell') {
+  if(type != 'Spell') {
     type = type == 'Class' ? 'levels' :
-    type = type == 'Deity' ? 'deities' :
     (type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
     rules.addChoice(type, name, attrs);
   }
@@ -8688,7 +8687,7 @@ SRD35.initialEditorElements = function() {
     ['prestige', 'Prestige Levels', 'bag', 'prestiges'],
     ['npc', 'NPC Levels', 'bag', 'npcs'],
     ['alignment', 'Alignment', 'select-one', 'alignments'],
-    ['deity', 'Deity', 'select-one', 'deities'],
+    ['deity', 'Deity', 'select-one', 'deitys'],
     ['origin', 'Origin', 'text', [20]],
     ['player', 'Player', 'text', [20]],
     ['experience', 'Experience', 'text', [8, '(\\+?\\d+)?']],
@@ -8886,10 +8885,10 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     else /* [LC]G or [LC]E */
       aliPat = aliInfo[1] + '[N' + aliInfo[2] + ']|N' + aliInfo[2];
     choices = [];
-    let deities = this.getChoices('deities');
-    for(attr in deities) {
+    let deitys = this.getChoices('deitys');
+    for(attr in deitys) {
       let deityAlignment =
-        QuilvynUtils.getAttrValue(deities[attr], 'Alignment');
+        QuilvynUtils.getAttrValue(deitys[attr], 'Alignment');
       if(!deityAlignment ||
          deityAlignment.replace(/(\w)\w+\s(\w)\w+/, '$1$2').match(aliPat))
         choices.push(attr);
