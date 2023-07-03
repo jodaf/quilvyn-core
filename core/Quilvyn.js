@@ -458,7 +458,7 @@ Quilvyn.homebrewAddChoices = function() {
           }
         }
       }
-      if(!newValues) {
+      if(newValues == null) {
         Quilvyn.homebrewAddChoices.win.search = '';
         setTimeout('Quilvyn.homebrewAddChoices()', TIMEOUT_DELAY);
         return;
