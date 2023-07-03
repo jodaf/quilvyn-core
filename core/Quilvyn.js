@@ -421,15 +421,16 @@ Quilvyn.homebrewAddChoices = function() {
       Quilvyn.homebrewAddChoices.win.document.getElementsByName('_name')[0];
     let typeInput =
       Quilvyn.homebrewAddChoices.win.document.getElementsByName('_type')[0];
-    let newPath = null;
-    let newType = InputGetValue(typeInput);
+    let newValues = null;
     if(Quilvyn.homebrewAddChoices.win.search) {
       let prefix =
-        PERSISTENT_HOMEBREW_PREFIX + homebrewCollection.replaceAll('.','%2E') + '.';
+        PERSISTENT_HOMEBREW_PREFIX +
+        homebrewCollection.replaceAll('.', '%2E') + '.';
       let currentPath =
         prefix +
         InputGetValue(typeInput).replaceAll('.', '%2E') + '.' +
         InputGetValue(nameInput).replaceAll('.', '%2E');
+      let newPath = null;
       let target = Quilvyn.homebrewAddChoices.win.search;
       let collectionPaths = QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix) && !x.includes('_user')).sort();
       collectionPaths.forEach(p => {
@@ -441,16 +442,30 @@ Quilvyn.homebrewAddChoices = function() {
       if(newPath == null && collectionPaths.length > 0 && '<>'.includes(target))
         newPath =
           collectionPaths[target == '<' ? collectionPaths.length - 1 : 0];
-      if(!newPath) {
+      if(newPath != null) {
+        newValues = STORAGE.getItem(newPath);
+        InputSetValue(nameInput, newPath.split('.')[3]);
+        InputSetValue(typeInput, newPath.split('.')[2]);
+      } else if(!('<>'.includes(target))) {
+        for(let t in ruleSet.getChoices('choices')) {
+          let c =
+            ruleSet.getChoices(t.charAt(0).toLowerCase() + t.substring(1).replaceAll(' ', '') + 's');
+          if(c && target in c) {
+            InputSetValue(nameInput, target);
+            InputSetValue(typeInput, t);
+            newValues = c[target];
+            break;
+          }
+        }
+      }
+      if(!newValues) {
         Quilvyn.homebrewAddChoices.win.search = '';
         setTimeout('Quilvyn.homebrewAddChoices()', TIMEOUT_DELAY);
         return;
       }
-      newType = newPath.split('.')[2];
-      InputSetValue(nameInput, newPath.split('.')[3]);
-      InputSetValue(typeInput, newType);
     }
-    let elements = ruleSet.choiceEditorElements(ruleSet, newType);
+    let elements =
+      ruleSet.choiceEditorElements(ruleSet, InputGetValue(typeInput));
     let htmlBits = [];
     elements.forEach(e => {
       let label = e[1];
@@ -463,9 +478,7 @@ Quilvyn.homebrewAddChoices = function() {
       );
     });
     Quilvyn.homebrewAddChoices.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
-    if(Quilvyn.homebrewAddChoices.win.search) {
-      let newValues = STORAGE.getItem(newPath);
-      let elements = ruleSet.choiceEditorElements(ruleSet, newType);
+    if(newValues) {
       elements.forEach(e => {
         let eValues = QuilvynUtils.getAttrValueArray(newValues, e[0]);
         if(eValues.length > 0) {
@@ -481,8 +494,6 @@ Quilvyn.homebrewAddChoices = function() {
     setTimeout('Quilvyn.homebrewAddChoices()', TIMEOUT_DELAY);
     return;
   } else if(Quilvyn.homebrewAddChoices.win.search) {
-    if(newPath) {
-    }
     Quilvyn.homebrewAddChoices.win.search = '';
     setTimeout('Quilvyn.homebrewAddChoices()', TIMEOUT_DELAY);
     return;
@@ -1372,7 +1383,8 @@ Quilvyn.refreshEditor = function(redraw) {
   let homebrewOpts = QuilvynUtils.getKeys(homebrewCollections).sort();
   homebrewOpts.unshift(
     'New Collection...', 'Delete Collections...', 'Export All',
-    'Import...', 'Add/Edit Choices...', 'Delete Choices...', 'Apply Collection'
+    'Import...', 'Create/Edit Choices...', 'Delete Choices...',
+    'Apply Collection'
   );
   InputSetOptions(editForm.rules, QuilvynUtils.getKeys(ruleSets));
   InputSetOptions(editForm.homebrew, homebrewOpts);
@@ -2003,7 +2015,7 @@ Quilvyn.update = function(input) {
       Quilvyn.openCharacter(value);
   } else if(name == 'homebrew') {
     InputSetValue(input, homebrewCollection);
-    if(value == 'Add/Edit Choices...')
+    if(value == 'Create/Edit Choices...')
       Quilvyn.homebrewAddChoices();
     else if(value == 'Apply Collection')
       Quilvyn.homebrewApplyCollection();
