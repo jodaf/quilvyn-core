@@ -25,12 +25,16 @@ The SRD35 rule set allows you to add homebrew choices to most of its
 selections: companions, weapons, races, and so on. The entry dialog for each
 type of choice includes fields for all the information particular to that
 type. For most choices, the values to enter into the dialog can be determined
-by looking at similar choices from the core rule books.
-</p>
-On occasions when you need to enter multiple values into a single text box
-(e.g., the list of domains for a homebrew deity), separate the values with
-commas. If you need to enter a value that contains a comma into a text box,
-put quotes before and after the value.
+by comparing with similar choices from the core rule books.
+</p><p>
+The input fields used to enter homebrew choices are similar to those used
+by the Quilvyn editor&mdash;text fields, selection menus, checkboxes, etc.
+One difference between the two is that some text boxes in the homebrew choices
+editor may contain multiple values. For example, when entering a homebrew
+deity, you will likely want to enter multiple values in the Domains text box.
+To do this, separate the individual values by commas: Good,Law,War. If you ever
+need to enter a single value that contains a comma into a text box, enclose the
+value in quotes: "May create and mend magic weapons, armor, and shields".
 </p>
 
 <ul>
@@ -63,14 +67,14 @@ put quotes before and after the value.
 <p>
 When adding an animal companion or familiar, Quilvyn displays fields for
 entering the creature's basic attributes, hit dice, armor class, attack bonus,
-damage, size, and minimum master level. Quilvyn expects the damage value to
-indicate the number and type of damage dice, optionally followed by a bonus or
-penalty. For example, an Owlbear animal companion would have a damage attribute
-of 1d6+5,1d6+5,1d8+2 (two claws and a bite); while a Baboon's damage would be
-1d6+3. When entering armor class, attack bonus, and damage, include any bonus
-or penalty from elements such as dexterity, natural armor, and strength.
-Minimum master level is used for alternative animal companions that require the
-character to be of higher level before they can be selected.
+damage, size, speed, and minimum master level. Quilvyn expects the damage value
+to indicate the number and type of damage dice, optionally followed by a bonus
+or penalty. For example, an Owlbear animal companion would have a damage
+attribute of 1d6+5,1d6+5,1d8+2 (two claws and a bite); while a Baboon's damage
+would be 1d6+3. When entering armor class, attack bonus, and damage, include
+any bonus or penalty from elements such as dexterity, natural armor, and
+strength. Minimum master level is used for alternative animal companions that
+require the character to be of higher level before they can be selected.
 </p><p>
 The example shown is taken from the statistics for the monkey from the Monster
 Manual. Note that the monkey receives +2 size and +2 dexterity bonuses to armor
@@ -85,10 +89,10 @@ gives a -4 penalty to damage.
 <img src='../Images/hr-armor.jpg' alt='Homebrew Armor'/>
 </td><td>
 <p>
-For homebrew armors and shields, Quilvyn displays fields for the boost to armor
-class gained by using the armor or shield, the weight category, the maximum
-dexterity AC bonus allowed, the penalty applied to skills such as Escape
-Artist, and the percentage chance of failure when casting arcane spells.
+For homebrew armors and shields, Quilvyn displays fields for entering the boost
+to armor class gained by using the armor or shield, the weight category, the
+maximum dexterity AC bonus allowed, the penalty applied to skills such as
+Escape Artist, and the percentage chance of failure when casting arcane spells.
 </p><p>
 The example shown gives the values for a breastplate made from mithral, as
 discussed in the Special Materials section of the SRD. Making armor or a shield
@@ -100,7 +104,7 @@ and armor check penalty by 3 while increasing the maximum dexterity bonus by 2.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="class"><h2>Base, Prestige, and NPC Classes</h2></a>
-<img src='../Images/hr-npc.jpg' alt='Homebrew Class'/>
+<img src='../Images/hr-npc.jpg' alt='Homebrew Class'/><br/>
 </td><td>
 <p>
 When adding a homebrew base class, prestige class, or NPC class, Quilvyn
@@ -115,11 +119,11 @@ or 1 (increases by 1 every level, as with fighters). Save entries give a choice
 of 1/3 (sometimes referred to as "poor") or 1/2 ("good"). Features that are
 acquired after level 1 (for example, the rogue Evasion feature acquired at
 level 2) should be preceded by the level and a colon (so, 2:Evasion). For
-classes that cast spells, the spell type, spell ability, and spell slots fields
-provide places to enter the type of spells (Arcane or Divine), the basic
+classes that cast spells, the spell type, spell ability, and spell slots input
+fields provide places to enter the type of spells (Arcane or Divine), the basic
 ability used to calculate spell DCs, and the progression of spell slots
-available to the caster. Each item in the spell slot box gives a spell type and
-level followed by a colon, then by a semicolon-separated series of
+available to the caster. Each item in the spell slot text box gives a spell
+type and level followed by a colon, then by a semicolon-separated series of
 &lt;level&gt;=&lt;count&gt; terms, each of which indicates how many spell slots
 the class receives at the given level. For example, the spell slot entry for
 the cleric class would include C2:3=1;4=2;6=3;9=4;13=5, indicating that clerics
@@ -147,11 +151,11 @@ and 3 at level 7, and so on.
 </td><td>
 <p>
 When adding a homebrew deity, Quilvyn displays fields to specify the deity's
-alignment, favored weapon or weapons, and domains. Multiple domains entered
-in the Domains text box should be separated by commas. Similarly, if the
-deity's favored weapon includes multiple weapons (e.g., all flails),
-the individual weapons should be listed in the Favored Weapons text box
-separated by commas.
+alignment, favored weapon or weapons, and domains. As discussed above, multiple
+domains entered in the Domains text box should be separated by commas.
+Similarly, if the deity's favored weapon includes multiple weapons (e.g., all
+flails), the individual weapons should be listed in the Favored Weapons text
+box separated by commas.
 </p>
 </td></tr>
 
@@ -161,7 +165,7 @@ separated by commas.
 <img src='../Images/hr-feat.jpg' alt='Homebrew Feat'/>
 </td><td>
 <p>
-When adding a homebrew feat, Quilvyn displays fields to note the feat type and
+For homebrew feats, Quilvyn displays fields to note the feat type and
 any requirements that must be met to select it. The feat type will typically
 be one of General, Item Creation, or Metamagic; you can also include Fighter in
 the feat type box to indicate that this feat can be selected as a fighter bonus
@@ -193,14 +197,14 @@ flail.
 <img src='../Images/hr-feature.jpg' alt='Homebrew Feature'/>
 </td><td>
 <p>
-In Quilvyn, Features describe the effects of feats, classes, and racial
-features. When adding a rule for a new Feature, enter the section of the
-character sheet (one of attributes, combat, companion, feature, magic, save,
-or skill) where the note for the Feature should appear, then enter the
-note text. You can enter multiple sections and notes, but the number of
-sections entered must equal the number of notes. Feature notes can both
-reference and modify character attributes; see the discussion of
-<a href="#expr">using character attributes</a> for how to use this feature.
+In Quilvyn, <i>features</i> describe the effects of feats, classes, and racial
+features. When adding a homebrew feature, enter the section of the character
+sheet (one of attributes, combat, companion, feature, magic, save, or skill)
+where the note for the feature should appear, then enter the note text. You can
+enter multiple sections and notes, but the number of sections entered must
+equal the number of notes. Feature notes can both reference and modify
+character attributes; see the discussion of
+<a href="#expr">using character attributes</a> for how to do this.
 </p><p>
 The example shows the entry for a feature named Glib with a note that appears
 in the skill section of the character sheet. It adds 2 to the skill modifiers
@@ -214,9 +218,9 @@ of the Bluff and Perform (Oratory) skills.
 <img src='../Images/hr-language.jpg' alt='Homebrew Language'/>
 </td><td>
 <p>
-Adding a new language requires only specifying the name. Once added, languages
-can be added to a character by selecting from the language list and can be
-included in the list of languages automatically known by homebrew races.
+Adding a homebrew language requires only specifying the name. Once added,
+languages can be added to a character by selecting from the language list and
+can be included in the list of languages automatically known by homebrew races.
 </p><p>
 The example shows the entry for a language called Scaletongue, used in
 the example for <a href="#race">adding a race</a>.
@@ -292,10 +296,10 @@ The example shows the entry for a school named Control that grants no features.
 <img src='../Images/hr-skill.jpg' alt='Homebrew Skill'/>
 </td><td>
 <p>
-When adding a homebrew skill, Quilvyn displays fields that allow you to enter
-the skill's key ability, whether the skill can be used untrained, the list of
-classes for which the new skill is a class skill, and any synergies that the
-skill has with other skills.
+When adding a homebrew skill, Quilvyn displays fields for the skill's key
+ability, whether the skill can be used untrained, the list of classes for which
+the new skill is a class skill, and any synergies that the skill has with other
+skills.
 </p><p>
 The example shows the entry for a Sailing skill, which is related to
 intelligence, requires training to use, and is a class skill for several core
