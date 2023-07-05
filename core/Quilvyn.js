@@ -426,43 +426,53 @@ Quilvyn.homebrewAddChoices = function() {
       let prefix =
         PERSISTENT_HOMEBREW_PREFIX +
         homebrewCollection.replaceAll('.', '%2E') + '.';
+      let searchSet =
+        QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix) && !x.includes('_user')).sort();
+      let target = Quilvyn.homebrewAddChoices.win.search;
       let currentPath =
         prefix +
         InputGetValue(typeInput).replaceAll('.', '%2E') + '.' +
         InputGetValue(nameInput).replaceAll('.', '%2E');
       let newPath = null;
-      let target = Quilvyn.homebrewAddChoices.win.search;
-      let collectionPaths = QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix) && !x.includes('_user')).sort();
-      collectionPaths.forEach(p => {
-        if((target == '<' && p < currentPath) ||
-           (target == '>' && newPath == null && p > currentPath) ||
-           (newPath == null && p.includes(target)))
-          newPath = p;
-      });
-      if(newPath == null && collectionPaths.length > 0 && '<>'.includes(target))
-        newPath =
-          collectionPaths[target == '<' ? collectionPaths.length - 1 : 0];
-      if(newPath != null) {
-        newValues = STORAGE.getItem(newPath);
-        InputSetValue(nameInput, newPath.split('.')[3]);
-        InputSetValue(typeInput, newPath.split('.')[2]);
-      } else if(!('<>'.includes(target))) {
-        for(let t in ruleSet.getChoices('choices')) {
-          let c =
-            ruleSet.getChoices(t.charAt(0).toLowerCase() + t.substring(1).replaceAll(' ', '') + 's');
-          if(c && target in c) {
-            InputSetValue(nameInput, target);
-            InputSetValue(typeInput, t);
-            newValues = c[target];
-            break;
-          }
-        }
+      if(currentPath in STORAGE ||
+         InputGetValue(nameInput) == '' ||
+         !('<>'.includes(target))) {
+        if(target == '<')
+          newPath =
+            searchSet.findLast(x => x < currentPath) ||
+            searchSet[searchSet.length - 1];
+        else if(target == '>')
+          newPath = searchSet.find(x => x > currentPath) || searchSet[0];
+        else
+          newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
       }
-      if(newValues == null) {
+      if(newPath == null) {
+        searchSet = [];
+        for(let type in ruleSet.getChoices('choices')) {
+          searchSet = searchSet.concat(QuilvynUtils.getKeys(ruleSet.getChoices(type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's')).map(x => prefix + type + '.' + x));
+        }
+        searchSet = searchSet.sort();
+        if(target == '<')
+          newPath =
+            searchSet.findLast(x => x < currentPath) ||
+            searchSet[searchSet.length - 1];
+        else if(target == '>')
+          newPath = searchSet.find(x => x > currentPath) || searchSet[0];
+        else
+          newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
+      }
+      if(newPath == null) {
         Quilvyn.homebrewAddChoices.win.search = '';
         setTimeout('Quilvyn.homebrewAddChoices()', TIMEOUT_DELAY);
         return;
       }
+      let newType = newPath.split('.')[2];
+      let newName = newPath.split('.')[3];
+      newValues =
+        STORAGE.getItem(newPath) ||
+        ruleSet.getChoices(newType.charAt(0).toLowerCase() + newType.substring(1).replaceAll(' ', '') + 's')[newName];
+      InputSetValue(nameInput, newName);
+      InputSetValue(typeInput, newType);
     }
     let elements =
       ruleSet.choiceEditorElements(ruleSet, InputGetValue(typeInput));
