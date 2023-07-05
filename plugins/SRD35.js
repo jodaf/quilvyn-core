@@ -75,20 +75,19 @@ SRD35.VERSION = '2.3.3.0';
 // TODO Left Goody out of this list for now because inclusion would require
 // documenting how to construct regular expressions
 SRD35.CHOICES = [
-  'Animal Companion', 'Armor', 'Class', 'Deity', 'Familiar', 'Feat', 'Feature',
-  'Language', 'Npc', 'Path', 'Prestige', 'Race', 'School', 'Shield', 'Skill',
-  'Spell', 'Weapon'
+  'Animal Companion', 'Armor', 'Class', 'Class Feature', 'Deity', 'Familiar',
+  'Feat', 'Feature', 'Language', 'Npc', 'Prestige', 'Race', 'Race Feature',
+  'School', 'Shield', 'Skill', 'Spell', 'Weapon'
 ];
 /*
  * List of items handled by randomizeOneAttribute method. The order handles
  * dependencies among attributes when generating random characters.
  */
 SRD35.RANDOMIZABLE_ATTRIBUTES = [
-  'abilities',
-  'charisma', 'constitution', 'dexterity', 'intelligence', 'strength', 'wisdom',
-  'name', 'race', 'gender', 'alignment', 'deity', 'levels',
-  'selectableFeatures', 'feats', 'skills', 'languages', 'hitPoints', 'armor',
-  'shield', 'weapons', 'spells', 'companion'
+  'abilities', 'charisma', 'constitution', 'dexterity', 'intelligence',
+  'strength', 'wisdom', 'name', 'race', 'gender', 'alignment', 'deity',
+  'levels', 'selectableFeatures', 'feats', 'skills', 'languages', 'hitPoints',
+  'armor', 'shield', 'weapons', 'spells', 'companion'
 ];
 SRD35.VIEWERS = ['Collected Notes', 'Compact', 'Standard', 'Stat Block'];
 
@@ -5645,6 +5644,19 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots')
     );
     SRD35.classRulesExtra(rules, name);
+  } else if(type == 'Class Feature') {
+    let clas = QuilvynUtils.getAttrValue(attrs, 'Class');
+    let clasLevel = 'levels.' + clas;
+    let isSelectable = QuilvynUtils.getAttrValue(attrs, 'Selectable');
+    if(isSelectable == 'false')
+      isSelectable = false;
+    let level = QuilvynUtils.getAttrValue(attrs, 'Level');
+    let prerequisite = QuilvynUtils.getAttrValueArray(attrs, 'Prerequisite');
+    let featureSpec = level + ':' + name;
+    if(prerequisite.length > 0)
+      featureSpec = '"' + featureSpec.join('","') + '" ? ';
+    QuilvynRules.featureListRules
+      (rules, [featureSpec], clas, clasLevel, isSelectable);
   } else if(type == 'Deity')
     SRD35.deityRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Alignment'),
@@ -5707,6 +5719,20 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Languages')
     );
     SRD35.raceRulesExtra(rules, name);
+  } else if(type == 'Race Feature') {
+    let race = QuilvynUtils.getAttrValue(attrs, 'Race');
+    let raceLevel =
+      race.charAt(0).toLowerCase() + race.substring(1).replaceAll(' ', '') + 'Level';
+    let isSelectable = QuilvynUtils.getAttrValue(attrs, 'Selectable');
+    if(isSelectable == 'false')
+      isSelectable = false;
+    let level = QuilvynUtils.getAttrValue(attrs, 'Level');
+    let prerequisite = QuilvynUtils.getAttrValueArray(attrs, 'Prerequisite');
+    let featureSpec = level + ':' + name;
+    if(prerequisite.length > 0)
+      featureSpec = '"' + featureSpec.join('","') + '" ? ';
+    QuilvynRules.featureListRules
+      (rules, [featureSpec], race, raceLevel, isSelectable);
   } else if(type == 'School')
     SRD35.schoolRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features')
@@ -8530,6 +8556,7 @@ SRD35.createViewers = function(rules, viewers) {
 SRD35.choiceEditorElements = function(rules, type) {
   let abilities =
     QuilvynUtils.getKeys(SRD35.ABILITIES).map(x => x.toLowerCase());
+  let oneToTwenty = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
   let result = [];
   let zeroToTen = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   if(type == 'Alignment')
@@ -8548,10 +8575,6 @@ SRD35.choiceEditorElements = function(rules, type) {
       21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
       31, 32, 33, 34, 35
     ];
-    let oneToTwenty = [
-      1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-      11, 12, 13, 14, 15, 16, 17, 18, 19, 20
-    ];
     let sizes = ['Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge'];
     result.push(
       ['Str', 'Str', 'select-one', oneToThirtyFive],
@@ -8563,9 +8586,9 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['HD', 'Hit Dice', 'select-one', oneToTwenty],
       ['AC', 'Armor Class', 'select-one', oneToTwenty],
       ['Attack', 'Attack Bonus', 'select-one', minusFiveToTwenty],
-      ['Dam', 'Damage', 'text', [10]],
+      ['Dam', 'Damage', 'text', [10, '\\d+d\\d+([-+]\\d+)?(,\\d+d\\d+([-+]\\d+)?)*']],
       ['Size', 'Size', 'select-one', sizes],
-      ['Speed', 'Speed', 'text', [5]],
+      ['Speed', 'Speed', 'text', [5, '\\d+']],
       ['Level', 'Min Master Level', 'select-one', oneToTwenty]
     );
   } else if(type == 'Armor' || type == 'Shield') {
@@ -8598,6 +8621,17 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['SpellAbility', 'Spell Ability', 'select-one', abilities],
       ['SpellSlots', 'Spell Slots', 'text', [40]]
     );
+  } else if(type == 'Class Feature') {
+    let classes =
+      QuilvynUtils.getKeys(this.getChoices('levels')).concat(
+      QuilvynUtils.getKeys(this.getChoices('prestiges'))).concat(
+      QuilvynUtils.getKeys(this.getChoices('npcs')));
+    result.push(
+      ['Class', 'Class', 'select-one', classes],
+      ['Level', 'Level', 'select-one', oneToTwenty],
+      ['Selectable', 'Selectable', 'checkbox', ['']],
+      ['Require', 'Prerequisite', 'text', [40]]
+    );
   } else if(type == 'Deity')
     result.push(
       ['Alignment', 'Alignment', 'select-one', QuilvynUtils.getKeys(SRD35.ALIGNMENTS)],
@@ -8628,21 +8662,19 @@ SRD35.choiceEditorElements = function(rules, type) {
     result.push(
       // empty
     );
-  else if(type == 'Path')
-    result.push(
-      ['Group', 'Group', 'text', [15]],
-      ['Level', 'Level', 'text', [15]],
-      ['Features', 'Features', 'text', [40]],
-      ['Selectables', 'Selectable Features', 'text', [40]],
-      ['SpellAbility', 'Spell Ability', 'select-one', abilities],
-      ['SpellSlots', 'Spell Slots', 'text', [40]]
-    );
   else if(type == 'Race')
     result.push(
       ['Require', 'Prerequisite', 'text', [40]],
       ['Features', 'Features', 'text', [40]],
       ['Selectables', 'Selectable Features', 'text', [40]],
       ['Languages', 'Languages', 'text', [30]]
+    );
+  else if(type == 'Race Feature')
+    result.push(
+      ['Race', 'Race', 'select-one', QuilvynUtils.getKeys(this.getChoices('races'))],
+      ['Level', 'Level', 'select-one', oneToTwenty],
+      ['Selectable', 'Selectable', 'checkbox', ['']],
+      ['Require', 'Prerequisite', 'text', [40]]
     );
   else if(type == 'School')
     result.push(
