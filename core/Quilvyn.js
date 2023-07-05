@@ -497,8 +497,10 @@ Quilvyn.homebrewAddChoices = function() {
         if(eValues.length > 0) {
           let value =
             eValues.map(x => String(x).includes(' ') ? '"' + x + '"' : x).join(',');
+          if(value == "false")
+            value = false;
           InputSetValue
-            (Quilvyn.homebrewAddChoices.win.document.getElementsByName(e[0])[0], eValues);
+            (Quilvyn.homebrewAddChoices.win.document.getElementsByName(e[0])[0], value);
         }
       });
     }
@@ -551,6 +553,12 @@ Quilvyn.homebrewAddChoices = function() {
       if(inputValue != '')
         attrs.push(inputName + '=' + inputValue);
     }
+  }
+  if(name == '') {
+    // Reject empty name
+    Quilvyn.homebrewAddChoices.win.save = false;
+    setTimeout('Quilvyn.homebrewAddChoices()', TIMEOUT_DELAY);
+    return;
   }
   attrs = attrs.join(' ');
   STORAGE.setItem(
