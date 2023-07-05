@@ -404,6 +404,7 @@ Quilvyn.homebrewAddChoices = function() {
     Quilvyn.homebrewAddChoices.win.document.close();
     Quilvyn.homebrewAddChoices.win.canceled = false;
     Quilvyn.homebrewAddChoices.win.done = false;
+    Quilvyn.homebrewAddChoices.win.flipRuleSet = false;
     Quilvyn.homebrewAddChoices.win.save = false;
     Quilvyn.homebrewAddChoices.win.search = '';
     Quilvyn.homebrewAddChoices.win.update = true;
@@ -434,9 +435,8 @@ Quilvyn.homebrewAddChoices = function() {
         InputGetValue(typeInput).replaceAll('.', '%2E') + '.' +
         InputGetValue(nameInput).replaceAll('.', '%2E');
       let newPath = null;
-      if(currentPath in STORAGE ||
-         InputGetValue(nameInput) == '' ||
-         !('<>'.includes(target))) {
+      if(!('<>'.includes(target)) ||
+         !Quilvyn.homebrewAddChoices.win.flipRuleSet) {
         if(target == '<')
           newPath =
             searchSet.findLast(x => x < currentPath) ||
@@ -445,6 +445,7 @@ Quilvyn.homebrewAddChoices = function() {
           newPath = searchSet.find(x => x > currentPath) || searchSet[0];
         else
           newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
+        Quilvyn.homebrewAddChoices.win.flipRuleSet = false;
       }
       if(newPath == null) {
         searchSet = [];
@@ -460,6 +461,8 @@ Quilvyn.homebrewAddChoices = function() {
           newPath = searchSet.find(x => x > currentPath) || searchSet[0];
         else
           newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
+        if(newPath != null)
+          Quilvyn.homebrewAddChoices.win.flipRuleSet = true;
       }
       if(newPath == null) {
         Quilvyn.homebrewAddChoices.win.search = '';
