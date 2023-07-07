@@ -546,7 +546,7 @@ Quilvyn.homebrewModifyChoices = function() {
       '</tr><tr>',
       '<th>Name</th><td>' + InputHtml('_name', 'text', [30]) + '</td>',
       '</tr><tr>',
-      '<th>Always add</th><td>' + InputHtml('_auto', 'checkbox', ['']).replace('>', ' checked="1">') + '</td>',
+      '<th>&nbsp;</th><td>' + InputHtml('_auto', 'checkbox', ['Always include with the ' + ruleSet.getName() + ' rule set']).replace('>', ' checked="1">') + '</td>',
       '</tr></table>',
       '<hr style="width:25%;text-align:center"/>',
       '<table id="variableFields">',
