@@ -169,13 +169,15 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       LOGO_TAG + '<br/>',
       '<h3>' + prmpt + '</h3>',
-      '<form onsubmit="return false"><table>'
+      '<form onsubmit="return false"><table>',
+      '<tr><td><b>Filter </b>' + InputHtml('_filter', 'text', [20]).replace('>', ' onchange="refilter=true">') + '</td></tr>',
+      '<tr><td>' + InputHtml('_all', 'checkbox', ['']).replace('>', ' onchange="reall=true"') + '</td></tr>'
     ];
     let keys = Object.keys(choices).sort();
     for(let i = 0; i < keys.length; i++) {
       let choice = keys[i];
       htmlBits.push(
-        '<tr><td>' + InputHtml(choices[choice], 'checkbox', [choice]) + '</td></tr>'
+        '<tr name="' + choice + 'Row"><td>' + InputHtml(choices[choice], 'checkbox', [choice]) + '</td></tr>'
       );
     }
     htmlBits.push(
@@ -189,6 +191,8 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
     Quilvyn.setDialog.win.document.close();
     Quilvyn.setDialog.win.canceled = false;
     Quilvyn.setDialog.win.okay = false;
+    Quilvyn.setDialog.win.reall = false;
+    Quilvyn.setDialog.win.refilter = false;
     Quilvyn.setDialog.win.callback = callback;
     Quilvyn.setDialog.win.document.getElementsByName('ok')[0].focus();
     setTimeout('Quilvyn.setDialog()', TIMEOUT_DELAY);
@@ -199,7 +203,26 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
     Quilvyn.refreshEditor(true);
     return;
   } else if(!Quilvyn.setDialog.win.okay) {
-    // Try again later
+    // Try again later, after redisplaying as necessary
+    if(Quilvyn.setDialog.win.reall || Quilvyn.setDialog.win.refilter) {
+      let form = Quilvyn.setDialog.win.document.forms[0];
+      let checkAll =
+        InputGetValue(Quilvyn.setDialog.win.document.getElementsByName('_all')[0]);
+      let filter =
+        InputGetValue(Quilvyn.setDialog.win.document.getElementsByName('_filter')[0]);
+      for(let i = 0; i < form.elements.length; i++) {
+        let value = form.elements[i].value;
+        let tr =
+          Quilvyn.setDialog.win.document.getElementsByName(value + 'Row')[0];
+        let hide = filter != '' && !value.includes(filter);
+        if(tr)
+          tr.hidden = hide;
+        if(!hide && Quilvyn.setDialog.win.reall)
+          form.elements[i].checked = checkAll;
+      }
+      Quilvyn.setDialog.win.reall = false;
+      Quilvyn.setDialog.win.refilter = false;
+    }
     setTimeout('Quilvyn.setDialog()', TIMEOUT_DELAY);
     return;
   }
@@ -361,8 +384,15 @@ Quilvyn.homebrewApplyChoices = function(items) {
     for(let path in STORAGE) {
       if(path.startsWith(prefix) &&
          path.split('.')[2] != PERSISTENT_HOMEBREW_PLACEHOLDER &&
-         !STORAGE.getItem(path).includes('_auto=true'))
-        items[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
+         !STORAGE.getItem(path).includes('_auto=true')) {
+        let item =
+          path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.');
+        let tags =
+          QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
+        if(tags.length > 0)
+          item += ' (' + tags.join(',') + ')';
+        items[item] = path;
+      }
     }
     Quilvyn.setDialog
       ('Select choices to apply', items, Quilvyn.homebrewApplyChoices);
@@ -546,6 +576,8 @@ Quilvyn.homebrewModifyChoices = function() {
       '</tr><tr>',
       '<th>Name</th><td>' + InputHtml('_name', 'text', [30]) + '</td>',
       '</tr><tr>',
+      '<th>Tags</th><td>' + InputHtml('_tags', 'text', [30]) + '</td>',
+      '</tr><tr>',
       '<th>&nbsp;</th><td>' + InputHtml('_auto', 'checkbox', ['Always include with the ' + ruleSet.getName() + ' rule set']).replace('>', ' checked="1">') + '</td>',
       '</tr></table>',
       '<hr style="width:25%;text-align:center"/>',
@@ -580,6 +612,8 @@ Quilvyn.homebrewModifyChoices = function() {
       Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_auto')[0];
     let nameInput =
       Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_name')[0];
+    let tagsInput =
+      Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_tags')[0];
     let typeInput =
       Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_type')[0];
     let newValues = null;
@@ -638,6 +672,7 @@ Quilvyn.homebrewModifyChoices = function() {
       InputSetValue(typeInput, newType);
     }
     InputSetValue(autoInput, true);
+    InputSetValue(tagsInput, '');
     let elements =
       ruleSet.choiceEditorElements(ruleSet, InputGetValue(typeInput));
     let htmlBits = [];
@@ -654,11 +689,12 @@ Quilvyn.homebrewModifyChoices = function() {
     Quilvyn.homebrewModifyChoices.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
     if(newValues) {
       InputSetValue(autoInput, newValues.includes('_auto=true'));
+      InputSetValue
+        (tagsInput, QuilvynUtils.getAttrValueArray(newValues, '_tags').join(','));
       elements.forEach(e => {
         let eValues = QuilvynUtils.getAttrValueArray(newValues, e[0]);
         if(eValues.length > 0) {
-          let value =
-            eValues.map(x => String(x).includes(' ') ? '"' + x + '"' : x).join(',');
+          let value = eValues.join(',');
           if(value == "false")
             value = false;
           InputSetValue
@@ -729,7 +765,7 @@ Quilvyn.homebrewModifyChoices = function() {
     attrs
   );
   Quilvyn.homebrewModifyChoices.win.document.getElementById('message').innerHTML =
-    'Added ' + type + ' ' + name + ' to homebrew collection ' + ruleSet.getName();
+    'Added ' + type + ' ' + name + ' to ' + ruleSet.getName() + ' homebrews';
 
   Quilvyn.homebrewModifyChoices.win.save = false;
   if(attrs.includes('_auto=true'))
