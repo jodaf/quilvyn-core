@@ -40,6 +40,15 @@ Although the widest text boxes Quilvyn uses show around 40 characters, you can
 enter longer text values. Only 40 characters will show at once, but you can use
 the cursor to move around the full text. Several examples below show only the
 beginning portion of longer values entered into text boxes.
+</p><p>
+When adding a homebrew choice, check the "Always include with the SRD v3.5 rule
+set" box if you'd like it automatically included whenever Quilvyn starts. If
+this box is not checked, you'll need to use the "Apply Choices..." selection
+from Quilvyn's Homebrew menu when you want to use it. Quilvyn also allows you
+to add tags to homebrew selections. This can be handy when running multiple
+campaigns that each have their own set of homebrew choices, since you can
+filter your homebrew choices by tag and apply only those that are available in
+the current campaign.
 </p>
 
 <ul>
@@ -68,7 +77,7 @@ beginning portion of longer values entered into text boxes.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="animal-companion"><h2>Animal Companions and Familiars</h2></a>
-<img src='../Images/hr-familiar.jpg' alt='Homebrew Familiar'/>
+<img src='../Images/hb-familiar.jpg' alt='Homebrew Familiar'/>
 </td><td>
 <p>
 When adding an animal companion or familiar, Quilvyn displays fields for
@@ -92,7 +101,7 @@ gives a -4 penalty to damage.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="armor"><h2>Armors and Shields</h2></a>
-<img src='../Images/hr-armor.jpg' alt='Homebrew Armor'/>
+<img src='../Images/hb-armor.jpg' alt='Homebrew Armor'/>
 </td><td>
 <p>
 For homebrew armors and shields, Quilvyn displays fields for entering the boost
@@ -110,7 +119,7 @@ and armor check penalty by 3, while increasing the maximum dexterity bonus by 2.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="class"><h2>Base, Prestige, and NPC Classes</h2></a>
-<img src='../Images/hr-npc.jpg' alt='Homebrew Class'/><br/>
+<img src='../Images/hb-npc.jpg' alt='Homebrew Class'/><br/>
 </td><td>
 <p>
 When adding a homebrew base class, prestige class, or NPC class, Quilvyn
@@ -152,7 +161,7 @@ and 3 at level 7, and so on.
 <tr><td colspan="2"><hr/></td>
 </tr><tr><td>
 <a name="classfeature"><h2>Class and Race Features</h2></a>
-<img src='../Images/hr-class-feature.jpg' alt='Homebrew Class Feature'/>
+<img src='../Images/hb-class-feature.jpg' alt='Homebrew Class Feature'/>
 </td><td>
 <p>
 FILL
@@ -167,7 +176,7 @@ deity has 'Smoke' in their list of domains.
 <tr><td>
 <a name="deity"><h2>Deities</h2></a>
 </td></tr><tr><td>
-<img src='../Images/hr-deity.jpg' alt='Homebrew Deity'/>
+<img src='../Images/hb-deity.jpg' alt='Homebrew Deity'/>
 </td><td>
 <p>
 When adding a homebrew deity, Quilvyn displays fields to specify the deity's
@@ -182,7 +191,9 @@ box separated by commas.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="feat"><h2>Feats</h2></a>
-<img src='../Images/hr-feat.jpg' alt='Homebrew Feat'/>
+<img src='../Images/hb-feat.jpg' alt='Homebrew Feat'/><br/>
+<hr style="width:50%"/><br/>
+<img src='../Images/hb-feat-feature.jpg' alt='Homebrew Feat'/>
 </td><td>
 <p>
 For homebrew feats, Quilvyn displays fields to note the feat type and
@@ -200,21 +211,21 @@ caster. Quilvyn will generate a validation warning if the Implies requirements
 are not met. When specified, the Prerequisite and Implies fields will normally
 contain references to character attributes; see the discussion of
 <a href="#expr">using character attributes</a> for how to include these. The
-effects of a feat are entered separately as a feature, as described in the next
-section.
+effects of a feat are entered separately as a feature.
 </p><p>
 The example shows the entry for a general feat named Flail Expert that can be
 selected as a fighter bonus feat. The Prerequisite box notes that it requires a
 baseAttack value of at least 1 and Weapon Proficiency (Martial), and the
 Implies box notes that the feat is useless unless the character possesses a
-flail.
+flail. The example also shows the accompanying feature that describes the
+effect of selecting the Flail Expert feat.
 </p>
 </td></tr>
 
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="feature"><h2>Features</h2></a>
-<img src='../Images/hr-feature.jpg' alt='Homebrew Feature'/>
+<img src='../Images/hb-feature.jpg' alt='Homebrew Feature'/>
 </td><td>
 <p>
 In Quilvyn, <i>features</i> describe the effects of feats, class features, and
@@ -235,7 +246,7 @@ of the Bluff and Perform (Oratory) skills.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="language"><h2>Languages</h2></a>
-<img src='../Images/hr-language.jpg' alt='Homebrew Language'/>
+<img src='../Images/hb-language.jpg' alt='Homebrew Language'/>
 </td><td>
 <p>
 Adding a homebrew language requires only specifying the name. Once added,
@@ -250,7 +261,7 @@ the example for <a href="#race">adding a race</a>.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="race"><h2>Races</h2></a>
-<img src='../Images/hr-race.jpg' alt='Homebrew Race'/>
+<img src='../Images/hb-race.jpg' alt='Homebrew Race'/>
 </td><td>
 <p>
 When adding a homebrew race, Quilvyn displays fields that allow you to enter
@@ -278,7 +289,7 @@ language shown in the <a href="#language">adding a language</a> example.
 <tr><td colspan="2"><hr/></td>
 </tr><tr><td>
 <a name="path"><h2>Schools</h2></a>
-<img src='../Images/hr-school.jpg' alt='Homebrew School'/>
+<img src='../Images/hb-school.jpg' alt='Homebrew School'/>
 </td><td>
 <p>
 Adding a homebrew school of magic typically involves entering only the name,
@@ -293,7 +304,7 @@ The example shows the entry for a school named Control that grants no features.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="skill"><h2>Skills</h2></a>
-<img src='../Images/hr-skill.jpg' alt='Homebrew Skill'/>
+<img src='../Images/hb-skill.jpg' alt='Homebrew Skill'/>
 </td><td>
 <p>
 When adding a homebrew skill, Quilvyn displays fields for the skill's key
@@ -311,7 +322,7 @@ a +2 to Use Rope checks.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="spell"><h2>Spells</h2></a>
-<img src='../Images/hr-spell.jpg' alt='Homebrew Spell'/>
+<img src='../Images/hb-spell.jpg' alt='Homebrew Spell'/>
 </td><td>
 <p>
 When adding a homebrew spell, Quilvyn displays fields that allow you to enter
@@ -331,7 +342,7 @@ over short range and lasts for a number of rounds equal to the caster level.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="weapon"><h2>Weapons</h2></a>
-<img src='../Images/hr-weapon.jpg' alt='Homebrew Weapon'/>
+<img src='../Images/hb-weapon.jpg' alt='Homebrew Weapon'/>
 </td><td>
 <p>
 When adding a homebrew weapon, Quilvyn displays fields that allow you to enter
