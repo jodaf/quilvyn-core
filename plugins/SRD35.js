@@ -5645,18 +5645,15 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
     SRD35.classRulesExtra(rules, name);
   } else if(type == 'Class Feature') {
-    let clas = QuilvynUtils.getAttrValue(attrs, 'Class');
-    let clasLevel = 'levels.' + clas;
-    let isSelectable = QuilvynUtils.getAttrValue(attrs, 'Selectable');
-    if(isSelectable == 'false')
-      isSelectable = false;
-    let level = QuilvynUtils.getAttrValue(attrs, 'Level');
-    let prerequisite = QuilvynUtils.getAttrValueArray(attrs, 'Prerequisite');
-    let featureSpec = level + ':' + name;
-    if(prerequisite.length > 0)
-      featureSpec = '"' + featureSpec.join('","') + '" ? ';
-    QuilvynRules.featureListRules
-      (rules, [featureSpec], clas, clasLevel, isSelectable);
+    let selectable = QuilvynUtils.getAttrValue(attrs, 'Selectable');
+    selectable = selectable != false && selectable != 'false';
+    SRD35.classFeatureRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Require'),
+      QuilvynUtils.getAttrValue(attrs, 'Class'),
+      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      selectable,
+      QuilvynUtils.getAttrValueArray(attrs, 'Replace')
+    );
   } else if(type == 'Deity')
     SRD35.deityRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Alignment'),
@@ -5720,19 +5717,15 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
     SRD35.raceRulesExtra(rules, name);
   } else if(type == 'Race Feature') {
-    let race = QuilvynUtils.getAttrValue(attrs, 'Race');
-    let raceLevel =
-      race.charAt(0).toLowerCase() + race.substring(1).replaceAll(' ', '') + 'Level';
-    let isSelectable = QuilvynUtils.getAttrValue(attrs, 'Selectable');
-    if(isSelectable == 'false')
-      isSelectable = false;
-    let level = QuilvynUtils.getAttrValue(attrs, 'Level');
-    let prerequisite = QuilvynUtils.getAttrValueArray(attrs, 'Prerequisite');
-    let featureSpec = level + ':' + name;
-    if(prerequisite.length > 0)
-      featureSpec = '"' + featureSpec.join('","') + '" ? ';
-    QuilvynRules.featureListRules
-      (rules, [featureSpec], race, raceLevel, isSelectable);
+    let selectable = QuilvynUtils.getAttrValue(attrs, 'Selectable');
+    selectable = selectable != false && selectable != 'false';
+    SRD35.raceFeatureRules(rules, name,
+      QuilvynUtils.getAttrValueArray(attrs, 'Require'),
+      QuilvynUtils.getAttrValue(attrs, 'Race'),
+      QuilvynUtils.getAttrValue(attrs, 'Level'),
+      selectable,
+      QuilvynUtils.getAttrValueArray(attrs, 'Replace')
+    );
   } else if(type == 'School')
     SRD35.schoolRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Features')
@@ -6768,6 +6761,61 @@ SRD35.classRulesExtra = function(rules, name) {
 };
 
 /*
+ * Defines in #rules# the rules required to give feature #name# to class
+ * #className# at level #level#. #require# lists any hard prerequisites for the
+ * feature, and #replace# lists any class features that this new one replaces.
+ */
+SRD35.classFeatureRules = function(
+  rules, name, require, className, level, selectable, replace
+) {
+
+  if(!name) {
+    console.log('Empty class feature name');
+    return;
+  }
+  if(!Array.isArray(require)) {
+    console.log('Bad require list "' + require + '" for class feature ' + name);
+    return;
+  }
+  if(!(className in rules.getChoices('levels')) &&
+     !(className in rules.getChoices('npcs')) &&
+     !(className in rules.getChoices('prestiges'))) {
+    console.log('Bad class "' + className + '" for class feature ' + name);
+    return;
+  }
+  if(typeof level != 'number') {
+    console.log('Bad level "' + level + '" for class feature ' + name);
+    return;
+  }
+  if(typeof selectable != 'boolean') {
+    console.log('Bad selectable "' + selectable + '" for class feature ' + name);
+    return;
+  }
+  if(!Array.isArray(replace)) {
+    console.log('Bad replace list "' + replace + '" for class feature ' + name);
+    return;
+  }
+
+  let classLevel = 'levels.' + className;
+  let featureSpec = level + ':' + name;
+  let prefix =
+    className.charAt(0).toLowerCase() + className.substring(1).replaceAll(' ', '');
+  if(require.length > 0)
+    featureSpec = require.join(',') + ' ? ' + featureSpec;
+  QuilvynRules.featureListRules
+    (rules, [featureSpec], className, classLevel, selectable);
+  replace.forEach(f => {
+    let hasVar = 'has' + f.replaceAll(' ', '');
+    rules.defineRule(prefix + 'Features.' + f, hasVar, '?', 'source==1');
+    rules.defineRule(hasVar,
+      classLevel, '=', '1',
+      prefix + 'Features.' + name, '=', '0'
+    );
+  });
+
+};
+
+/*
  * Defines in #rules# the rules associated with animal companion #name#, which
  * has abilities #str#, #dex#, #con#, #intel#, #wis#, and #cha#, hit dice #hd#,
  * and armor class #ac#. The companion has attack bonus #attack#, does
@@ -7474,6 +7522,59 @@ SRD35.raceRulesExtra = function(rules, name) {
   } else if(name == 'Human') {
     rules.defineRule('skillNotes.humanSkillBonus', 'level', '=', 'source + 3');
   }
+};
+
+/*
+ * Defines in #rules# the rules required to give feature #name# to race
+ * #raceName# at level #level#. #require# lists any hard prerequisites for the
+ * feature, and #replace# lists any class features that this new one replaces.
+ */
+SRD35.raceFeatureRules = function(
+  rules, name, require, raceName, level, selectable, replace
+) {
+
+  if(!name) {
+    console.log('Empty race feature name');
+    return;
+  }
+  if(!Array.isArray(require)) {
+    console.log('Bad require list "' + require + '" for race feature ' + name);
+    return;
+  }
+  if(!(raceName in rules.getChoices('races'))) {
+    console.log('Bad race "' + raceName + '" for race feature ' + name);
+    return;
+  }
+  if(typeof level != 'number') {
+    console.log('Bad level "' + level + '" for race feature ' + name);
+    return;
+  }
+  if(typeof selectable != 'boolean') {
+    console.log('Bad selectable "' + selectable + '" for race feature ' + name);
+    return;
+  }
+  if(!Array.isArray(replace)) {
+    console.log('Bad replace list "' + replace + '" for race feature ' + name);
+    return;
+  }
+
+  let prefix =
+    raceName.charAt(0).toLowerCase() + raceName.substring(1).replaceAll(' ','');
+  let raceLevel = prefix + 'Level';
+  let featureSpec = level + ':' + name;
+  if(require.length > 0)
+    featureSpec = require.join(',') + ' ? ' + featureSpec;
+  QuilvynRules.featureListRules
+    (rules, [featureSpec], raceName, raceLevel, selectable);
+  replace.forEach(f => {
+    let hasVar = 'has' + f.replaceAll(' ', '');
+    rules.defineRule(prefix + 'Features.' + f, hasVar, '?', 'source==1');
+    rules.defineRule(hasVar,
+      raceLevel, '=', '1',
+      prefix + 'Features.' + name, '=', '0'
+    );
+  });
+
 };
 
 /*
@@ -8630,7 +8731,8 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Class', 'Class', 'select-one', classes],
       ['Level', 'Level', 'select-one', oneToTwenty],
       ['Selectable', 'Selectable', 'checkbox', ['']],
-      ['Require', 'Prerequisite', 'text', [40]]
+      ['Require', 'Prerequisite', 'text', [40]],
+      ['Replace', 'Replace', 'text', [40]]
     );
   } else if(type == 'Deity')
     result.push(
@@ -8674,7 +8776,8 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Race', 'Race', 'select-one', QuilvynUtils.getKeys(this.getChoices('races'))],
       ['Level', 'Level', 'select-one', oneToTwenty],
       ['Selectable', 'Selectable', 'checkbox', ['']],
-      ['Require', 'Prerequisite', 'text', [40]]
+      ['Require', 'Prerequisite', 'text', [40]],
+      ['Replace', 'Replace', 'text', [40]]
     );
   else if(type == 'School')
     result.push(
