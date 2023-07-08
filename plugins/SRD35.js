@@ -69,7 +69,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.3.3.0';
+SRD35.VERSION = '2.4.1.0';
 
 /* List of choices that can be expanded by house rules. */
 // TODO Left Goody out of this list for now because inclusion would require
