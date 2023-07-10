@@ -283,7 +283,10 @@ QuilvynRules.featureListRules = function(
 
     pieces = level.split(/\s*\?\s*/);
     if(pieces.length == 2) {
-      conditions = pieces[0].split('/');
+      // Allow / instead of && for backwards compatibility. Note that splitting
+      // on && doesn't take into account any parentheses, which could lead to
+      // unexpected effects.
+      conditions = pieces[0].split(/\/|&&/);
       level = pieces[1];
     }
 
