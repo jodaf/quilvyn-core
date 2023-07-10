@@ -1742,7 +1742,7 @@ Quilvyn.sheetHtml = function(attrs) {
   let attrImage = 'var attributes = ' + ObjectViewer.toCode(attrs) + ';\n';
   if(attrs.notes && attrs.notes.indexOf('+COMPUTE') >= 0) {
     attrImage +=
-      'let computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
+      'var computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
   }
 
   let versions =
