@@ -641,7 +641,7 @@ SRD35.FEATURES = {
   'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
   'Deadly Touch':
     'Section=magic ' +
-    'Note="Touch kills target w/up to %{deathDomainLevel}d6 HP 1/dy"',
+    'Note="Touch kills target w/up to %{casterLevels.Death}d6 HP 1/dy"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
   'Deceptive Knowledge':
     'Section=skill ' +
@@ -888,7 +888,7 @@ SRD35.FEATURES = {
   'Precise Shot':'Section=combat Note="Suffers no penalty on shot into melee"',
   'Protective Touch':
     'Section=magic ' +
-    'Note="Touched gains +%{protectionDomainLevel} on next save w/in 1 hour 1/dy"',
+    'Note="Touched gains +%{casterLevels.Protection} on next save w/in 1 hour 1/dy"',
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
   'Quick Draw':'Section=combat Note="May draw weapon as free action"',
   'Quicken Spell':
@@ -961,7 +961,7 @@ SRD35.FEATURES = {
           '"+1 AC/+1 Melee Attack/+1 Ranged Attack/-4 special attacks",' +
           '"+4 Hide/-4 Intimidate"',
   'Smite':
-    'Section=combat Note="+4 attack, +%{destructionDomainLevel} damage 1/dy"',
+    'Section=combat Note="+4 attack, +%{casterLevels.Destruction} damage 1/dy"',
   'Smite Evil':
     'Section=combat ' +
     'Note="May gain +%1 attack and +%2 HP damage vs. evil foe %V/dy"',
@@ -1007,7 +1007,7 @@ SRD35.FEATURES = {
     'Section=skill Note="+2 Search (stone), automatic check w/in 10\'"',
   'Strength Burst':
     'Section=ability ' +
-    'Note="May gain +%{strengthDomainLevel} Strength for 1 rd/dy"',
+    'Note="May gain +%{casterLevels.Strength} Strength for 1 rd/dy"',
   'Stunning Fist':
     'Section=combat ' +
     'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
@@ -1042,7 +1042,7 @@ SRD35.FEATURES = {
   'Uncanny Dodge':'Section=combat Note="Always adds Dexterity modifier to AC"',
   'Unhindered':
     'Section=magic ' +
-    'Note="May use <i>Freedom Of Movement</i> effects %{travelDomainLevel} rd/dy"',
+    'Note="May use <i>Freedom Of Movement</i> effects %{casterLevels.Travel} rd/dy"',
   'Venom Immunity':'Section=save Note="Immune to poisons"',
   'Water Turning':
     'Section=combat Note="May turn fire creatures and rebuke water creatures"',
@@ -1562,116 +1562,6 @@ SRD35.LANGUAGES = {
   'Undercommon':''
 };
 SRD35.PATHS = {
-  'Air Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Air Turning"',
-  'Animal Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Animal Talk","1:Nature Knowledge"',
-  'Chaos Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Empowered Chaos"',
-  'Death Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Deadly Touch"',
-  'Destruction Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '1:Smite',
-  'Earth Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Earth Turning"',
-  'Evil Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Empowered Evil"',
-  'Fire Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Fire Turning"',
-  'Good Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Empowered Good"',
-  'Healing Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Empowered Healing"',
-  'Knowledge Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '1:All-Knowing,"1:Empowered Knowledge"',
-  'Law Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Empowered Law"',
-  'Luck Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Good Fortune"',
-  'Magic Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Arcane Adept"',
-  'Plant Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Nature Knowledge","1:Plant Turning"',
-  'Protection Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Protective Touch"',
-  'Strength Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Strength Burst"',
-  'Sun Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Destroy Undead"',
-  'Travel Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Outdoors Knowledge",1:Unhindered',
-  'Trickery Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Deceptive Knowledge"',
-  'War Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Weapon Of War"',
-  'Water Domain':
-    'Group=Cleric ' +
-    'Level=levels.Cleric ' +
-    'Features=' +
-      '"1:Water Turning"'
 };
 SRD35.RACES = {
   'Dwarf':
@@ -1732,7 +1622,7 @@ SRD35.SHIELDS = {
   'Light Steel':'AC=1 Weight=Light Skill=1 Spell=5',
   'Light Wooden':'AC=1 Weight=Light Skill=1 Spell=5',
   'None':'AC=0 Weight=None Skill=0 Spell=0',
-  'Tower':'AC=4 Weight=4 Skill=10 Spell=50'
+  'Tower':'AC=4 Weight=Tower Skill=10 Spell=50'
 };
 SRD35.SKILLS = {
   'Appraise':'Ability=intelligence Class=Bard,Rogue',
@@ -4496,9 +4386,60 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
       '"1:Weapon Proficiency (Simple)",' +
-      '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead" '+
+      '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead",'+
+      '"features.Air Domain ? 1:Air Turning",' +
+      '"features.Animal Domain ? 1:Animal Talk",' +
+      '"features.Animal Domain || features.Plant Domain ? 1:Nature Knowledge",'+
+      '"features.Chaos Domain ? 1:Empowered Chaos",' +
+      '"features.Death Domain ? 1:Deadly Touch",' +
+      '"features.Destruction Domain ? 1:Smite",' +
+      '"features.Earth Domain ? 1:Earth Turning",' +
+      '"features.Evil Domain ? 1:Empowered Evil",' +
+      '"features.Fire Domain ? 1:Fire Turning",' +
+      '"features.Good Domain ? 1:Empowered Good",' +
+      '"features.Healing Domain ? 1:Empowered Healing",' +
+      '"features.Knowledge Domain ? 1:All-Knowing",' +
+      '"features.Knowledge Domain ? 1:Empowered Knowledge",' +
+      '"features.Law Domain ? 1:Empowered Law",' +
+      '"features.Luck Domain ? 1:Good Fortune",' +
+      '"features.Magic Domain ? 1:Arcane Adept",' +
+      '"features.Plant Domain ? 1:Plant Turning",' +
+      '"features.Protection Domain ? 1:Protective Touch",' +
+      '"features.Strength Domain ? 1:Strength Burst",' +
+      '"features.Sun Domain ? 1:Destroy Undead",' +
+      '"features.Travel Domain ? 1:Outdoors Knowledge",' +
+      '"features.Travel Domain ? 1:Unhindered",' +
+      '"features.Trickery Domain ? 1:Deceptive Knowledge",' +
+      '"features.War Domain ? 1:Weapon Of War",' +
+      '"features.Water Domain ? 1:Water Turning" ' +
     'Selectables=' +
-      QuilvynUtils.getKeys(SRD35.PATHS).filter(x => x.match(/Domain$/)).map(x => '"deityDomains =~ \'' + x.replace(' Domain', '') + '\' ? 1:' + x + '"').join(',') + ' ' +
+      // Note: deity 'None' overrides domain match; handled by classRulesExtra
+      '"deityDomains =~ \'Air\' ? 1:Air Domain:Domain",' +
+      '"deityDomains =~ \'Animal\' ? 1:Animal Domain:Domain",' +
+      '"alignment =~ \'Chaotic\' && deityDomains =~ \'Chaos\' ? ' +
+        '1:Chaos Domain:Domain",' +
+      '"deityDomains =~ \'Death\' ? 1:Death Domain:Domain",' +
+      '"deityDomains =~ \'Destruction\' ? 1:Destruction Domain:Domain",' +
+      '"deityDomains =~ \'Earth\' ? 1:Earth Domain:Domain",' +
+      '"alignment =~ \'Evil\' && deityDomains =~ \'Evil\' ? ' +
+        '1:Evil Domain:Domain",' +
+      '"deityDomains =~ \'Fire\' ? 1:Fire Domain:Domain",' +
+      '"alignment =~ \'Good\' && deityDomains =~ \'Good\' ? ' +
+        '1:Good Domain:Domain",' +
+      '"deityDomains =~ \'Healing\' ? 1:Healing Domain:Domain",' +
+      '"deityDomains =~ \'Knowledge\' ? 1:Knowledge Domain:Domain",' +
+      '"alignment =~ \'Lawful\' && deityDomains =~ \'Law\' ? ' +
+        '1:Law Domain:Domain",' +
+      '"deityDomains =~ \'Luck\' ? 1:Luck Domain:Domain",' +
+      '"deityDomains =~ \'Magic\' ? 1:Magic Domain:Domain",' +
+      '"deityDomains =~ \'Plant\' ? 1:Plant Domain:Domain",' +
+      '"deityDomains =~ \'Protection\' ? 1:Protection Domain:Domain",' +
+      '"deityDomains =~ \'Strength\' ? 1:Strength Domain:Domain",' +
+      '"deityDomains =~ \'Sun\' ? 1:Sun Domain:Domain",' +
+      '"deityDomains =~ \'Travel\' ? 1:Travel Domain:Domain",' +
+      '"deityDomains =~ \'Trickery\' ? 1:Trickery Domain:Domain",' +
+      '"deityDomains =~ \'War\' ? 1:War Domain:Domain",' +
+      '"deityDomains =~ \'Water\' ? 1:Water Domain:Domain" ' +
     'CasterLevelDivine=levels.Cleric ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
@@ -4945,9 +4886,8 @@ SRD35.PRESTIGE_CLASSES = {
       '"3:Extended Summoning","4:Contingent Conjuration","5:Planar Cohort"'
 };
 SRD35.DEITIES = {
-  // SRD v3.5 defines no deities; they're in the Players Handbook. However,
-  // clerics with no deity still get two domains.
-  'None':'Domain=' + QuilvynUtils.getKeys(SRD35.PATHS).filter(x => x.match(/Domain$/)).map(x => x.replace(' Domain', '')).join(',')
+  // SRD v3.5 defines no deities; they're in the Players Handbook.
+  'None':''
 };
 
 SRD35.SAVE_BONUS_HALF = '2 + Math.floor(source / 2)';
@@ -5762,7 +5702,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       let level = matchInfo[2] * 1;
       let fullName = name + '(' + group + level + ' ' + schoolAbbr + ')';
       // TODO indicate domain spells in attributes?
-      let domainSpell = SRD35.PATHS[group + ' Domain'] != null;
+      let domainSpell =
+        (rules.getChoices('selectableFeatures') != null &&
+         ('Cleric - ' + group + ' Domain') in rules.getChoices('selectableFeatures')) ||
+        SRD35.CLASSES.Cleric.includes(group + ' Domain');
       SRD35.spellRules
         (rules, fullName, school, group, level, description, domainSpell,
          level>3 ? [] : liquids);
@@ -6203,8 +6146,25 @@ SRD35.classRulesExtra = function(rules, name) {
       'combatNotes.charismaTurningAdjustment', '+', null
     );
     rules.defineRule
-      ('selectableFeatureCount.Cleric', 'levels.Cleric', '=', '2');
+      ('selectableFeatureCount.Cleric (Domain)', 'levels.Cleric', '=', '2');
     rules.defineRule('turningLevel', 'levels.Cleric', '+=', null);
+
+    for(let s in rules.getChoices('selectableFeatures')) {
+      if(s.match(/Cleric - .* Domain/)) {
+        let domain = s.replace('Cleric - ', '').replace(' Domain', '');
+        rules.defineRule('clericDomainLevels.' + domain,
+          'clericFeatures.' + domain + ' Domain', '?', null,
+          'levels.Cleric', '=', null
+        );
+        rules.defineRule('casterLevels.' + domain,
+          'clericDomainLevels.' + domain, '^=', null
+        );
+        // Clerics w/no deity don't need to match deity domain
+        rules.defineRule('validationNotes.cleric-' + domain + 'DomainSelectableFeature',
+          'deity', '+', 'source == "None" ? 1 : null'
+        );
+      }
+    }
 
   } else if(name == 'Druid') {
 
@@ -6617,8 +6577,8 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Dragon Disciple', '+=',
         'source - (source == 10 ? 3 : source >= 7 ? 2 : source >= 3 ? 1 : 0)'
     );
-    rules.choiceRules(rules, 'Weapon', 'Bite', 'Level=1 Category=Un Damage=d6');
-    rules.choiceRules(rules, 'Weapon', 'Claw', 'Level=1 Category=Un Damage=d4');
+    SRD35.weaponRules(rules, 'Bite', 1, 'Un', 'd6', 20, 2, null);
+    SRD35.weaponRules(rules, 'Claw', 1, 'Un', 'd4', 20, 2, null);
     rules.defineRule('weapons.Bite', 'combatNotes.biteAttack', '=', '1');
     rules.defineRule('weapons.Claw', 'combatNotes.clawAttack', '=', '1');
 
@@ -7911,8 +7871,8 @@ SRD35.spellRules = function(
   let minDC = 10 + Math.floor(level / 2);
   while((dc = description.match(/\((Fort\s|Ref\s|Will\s)/)) != null) {
     expr =
-      domainSpell ? '(spellDifficultyClass.Domain||' + minDC + ')' :
-      '(spellDifficultyClass.' + casterGroup + '||' + minDC + ')';
+      '(spellDifficultyClass.' + (domainSpell ? 'Domain' : casterGroup) +
+      '||' + minDC + ')';
     expr += ' + ' + level;
     if(school) {
       if(school.includes(' ')) {
@@ -7930,7 +7890,7 @@ SRD35.spellRules = function(
     description = description.replace(dc[0], '(DC %{' + expr + '} ' + dc[1]);
   }
 
-  expr = domainSpell ? 'casterLevels.Domain' : 'casterLevels.' + casterGroup;
+  expr = 'casterLevels.' + casterGroup;
   rules.defineChoice
     ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', expr));
   // Remove character spell DC--doesn't apply to potions and scrolls.
@@ -8968,14 +8928,16 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
 
   if(attribute == 'armor') {
     attrs = this.applyRules(attributes);
-    let characterProfLevel = attrs.armorProficiencyLevel;
-    if(characterProfLevel == null)
-      characterProfLevel = '0';
+    let characterProfLevel = attrs.armorProficiencyLevel || '0';
     choices = [];
     let armors = this.getChoices('armors');
     for(attr in armors) {
       let weight = QuilvynUtils.getAttrValue(armors[attr], 'Weight');
-      if((weight != null && weight <= characterProfLevel) ||
+      weight =
+        !weight || weight.match(/none/i) ? 0 :
+        weight.match(/light/i) ? 1 :
+        weight.match(/medium/i) ? 2 : 3;
+      if(weight <= characterProfLevel ||
          attrs['armorProficiency.' + attr] != null) {
         choices.push(attr);
       }
@@ -9197,15 +9159,17 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     attributes.name = SRD35.randomName(attributes.race);
   } else if(attribute == 'shield') {
     attrs = this.applyRules(attributes);
-    let characterProfLevel = attrs.shieldProficiencyLevel;
-    if(characterProfLevel == null) {
-      characterProfLevel = '0';
-    }
+    let characterProfLevel = attrs.shieldProficiencyLevel || '0';
     choices = [];
     let shields = this.getChoices('shields');
     for(attr in shields) {
       let weight = QuilvynUtils.getAttrValue(shields[attr], 'Weight');
-      if((weight != null && weight <= characterProfLevel) ||
+      weight =
+        !weight || weight.match(/none/i) ? 0 :
+        weight.match(/light/i) ? 1 :
+        weight.match(/medium/i) ? 2 :
+        weight.match(/heavy/i) ? 3 : 4;
+      if(weight <= characterProfLevel ||
          attrs['shieldProficiency.' + attr] != null) {
         choices[choices.length] = attr;
       }
@@ -9296,16 +9260,16 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'weapons') {
     attrs = this.applyRules(attributes);
-    let characterProfLevel = attrs.weaponProficiencyLevel;
-    if(characterProfLevel == null) {
-      characterProfLevel = '0';
-    }
+    let characterProfLevel = attrs.weaponProficiencyLevel || '0';
     choices = [];
     let weapons = this.getChoices('weapons');
     for(attr in weapons) {
-      matchInfo = weapons[attr].match(/Level=(\d)/);
-      let requiredProfLevel = matchInfo ? matchInfo[1] : '3';
-      if(requiredProfLevel <= characterProfLevel ||
+      let level = QuilvynUtils.getAttrValue(weapons[attr], 'Level');
+      level =
+        !level || level.match(/unarmed/i) ? 0 :
+        level.match(/simple/i) ? 1 :
+        level.match(/martial/i) ? 2 : 3;
+      if(level <= characterProfLevel ||
          attrs['features.Weapon Proficiency (' + attr + ')'] != null) {
         choices[choices.length] = attr;
       }
