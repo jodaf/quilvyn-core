@@ -4508,8 +4508,9 @@ SRD35.CLASSES = {
       '"15:Quivering Palm","17:Timeless Body",' +
       '"17:Tongue Of The Sun And Moon","19:Empty Body","20:Perfect Self" ' +
     'Selectables=' +
-      '"1:Improved Grapple","1:Stunning Fist","2:Combat Reflexes",' +
-      '"2:Deflect Arrows","6:Improved Disarm","6:Improved Trip"',
+      '"1:Improved Grapple:Bonus Feat","1:Stunning Fist:Bonus Feat",' +
+      '"2:Combat Reflexes:Bonus Feat","2:Deflect Arrows:Bonus Feat",' +
+      '"6:Improved Disarm:Bonus Feat","6:Improved Trip:Bonus Feat"',
   'Paladin':
     'Require="alignment == \'Lawful Good\'" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
@@ -4541,7 +4542,8 @@ SRD35.CLASSES = {
       '"features.Combat Style (Two-Weapon Combat) ? 6:Improved Two-Weapon Fighting",' +
       '"features.Combat Style (Two-Weapon Combat) ? 11:Greater Two-Weapon Fighting" ' +
     'Selectables=' +
-      '"2:Combat Style (Archery)","2:Combat Style (Two-Weapon Combat)" ' +
+      '"2:Combat Style (Archery):Combat Style",' +
+      '"2:Combat Style (Two-Weapon Combat):Combat Style" ' +
     'CasterLevelDivine="levels.Ranger < 4 ? null : Math.floor(levels.Ranger/2)" ' +
     'SpellAbility=wisdom ' +
     'SpellSlots=' +
@@ -4557,9 +4559,13 @@ SRD35.CLASSES = {
       '"1:Sneak Attack",1:Trapfinding,2:Evasion,"3:Trap Sense",' +
       '"4:Uncanny Dodge","8:Improved Uncanny Dodge" ' +
     'Selectables=' +
-      '"10:Crippling Strike","10:Defensive Roll","10:Feat Bonus",' +
-      '"10:Improved Evasion",10:Opportunist,"10:Skill Mastery",' +
-      '"10:Slippery Mind"',
+      '"10:Crippling Strike:Special Ability",' +
+      '"10:Defensive Roll:Special Ability",' +
+      '"10:Feat Bonus:Special Ability",' +
+      '"10:Improved Evasion:Special Ability",' +
+      '"10:Opportunist:Special Ability",' +
+      '"10:Skill Mastery:Special Ability",' +
+      '"10:Slippery Mind:Special Ability"',
   'Sorcerer':
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
@@ -4694,9 +4700,14 @@ SRD35.PRESTIGE_CLASSES = {
     'Features=' +
       '"1:Caster Level Bonus","1:High Arcana" ' +
     'Selectables=' +
-      '"1:Arcane Fire","1:Arcane Reach","1:Improved Arcane Reach",' +
-      '"1:Mastery Of Counterspelling","1:Mastery Of Elements",' +
-      '"1:Mastery Of Shaping","1:Spell Power","1:Spell-Like Ability"',
+      '"1:Arcane Fire:High Arcana",' +
+      '"1:Arcane Reach:High Arcana",' +
+      '"1:Improved Arcane Reach:High Arcana",' +
+      '"1:Mastery Of Counterspelling:High Arcana",' +
+      '"1:Mastery Of Elements:High Arcana",' +
+      '"1:Mastery Of Shaping:High Arcana",' +
+      '"1:Spell Power:High Arcana",' +
+      '"1:Spell-Like Ability:High Arcana"',
   'Assassin':
     'Require=' +
       '"alignment =~ \'Evil\'","skills.Disguise >= 4","skills.Hide >= 8",' +
@@ -4805,12 +4816,16 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,Craft,Diplomacy,Heal,"Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,Spellcraft ' +
     'Selectables=' +
-      '"1:Blast Infidel","1:Divine Reach","1:Improved Divine Reach",' +
-      '"1:Faith Healing","1:Metamagic Feat","1:Spell Power",' +
-      '"1:Spell-Like Ability",' +
-      '"levels.Cleric > 0 ? 1:Mastery Of Energy",' +
-      '"levels.Cleric > 0 ? 1:Gift Of The Divine",' +
-      '"levels.Druid > 0 ? 1:Power Of Nature"',
+      '"1:Blast Infidel:Special Ability",' +
+      '"1:Divine Reach:Special Ability",' +
+      '"1:Improved Divine Reach:Special Ability",' +
+      '"1:Faith Healing:Special Ability",' +
+      '"1:Metamagic Feat:Special Ability",' +
+      '"1:Spell Power:Special Ability",' +
+      '"1:Spell-Like Ability:Special Ability",' +
+      '"levels.Cleric > 0 ? 1:Mastery Of Energy:Special Ability",' +
+      '"levels.Cleric > 0 ? 1:Gift Of The Divine:Special Ability",' +
+      '"levels.Druid > 0 ? 1:Power Of Nature:Special Ability"',
   'Horizon Walker':
     'Require=' +
       'features.Endurance,"skills.Knowledge (Geography) >= 8" ' +
@@ -4819,13 +4834,20 @@ SRD35.PRESTIGE_CLASSES = {
       'Balance,Climb,Diplomacy,"Handle Animal",Hide,"Knowledge (Geography)",' +
       'Listen,"Move Silently",Profession,Ride,"Speak Language",Spot,Survival ' +
     'Selectables=' +
-      '"1:Terrain Mastery (Aquatic)","1:Terrain Mastery (Desert)",' +
-      '"1:Terrain Mastery (Forest)","1:Terrain Mastery (Hills)",' +
-      '"1:Terrain Mastery (Marsh)","1:Terrain Mastery (Mountains)",' +
-      '"1:Terrain Mastery (Plains)","1:Terrain Mastery (Underground)",' +
-      '"6:Terrain Mastery (Aligned)","6:Terrain Mastery (Cavernous)",' +
-      '"6:Terrain Mastery (Cold)","6:Terrain Mastery (Fiery)",' +
-      '"6:Terrain Mastery (Shifting)","6:Terrain Mastery (Weightless)"',
+      '"1:Terrain Mastery (Aquatic):Terrain Mastery",' +
+      '"1:Terrain Mastery (Desert):Terrain Mastery",' +
+      '"1:Terrain Mastery (Forest):Terrain Mastery",' +
+      '"1:Terrain Mastery (Hills):Terrain Mastery",' +
+      '"1:Terrain Mastery (Marsh):Terrain Mastery",' +
+      '"1:Terrain Mastery (Mountains):Terrain Mastery",' +
+      '"1:Terrain Mastery (Plains):Terrain Mastery",' +
+      '"1:Terrain Mastery (Underground):Terrain Mastery",' +
+      '"6:Terrain Mastery (Aligned):Terrain Mastery",' +
+      '"6:Terrain Mastery (Cavernous):Terrain Mastery",' +
+      '"6:Terrain Mastery (Cold):Terrain Mastery",' +
+      '"6:Terrain Mastery (Fiery):Terrain Mastery",' +
+      '"6:Terrain Mastery (Shifting):Terrain Mastery",' +
+      '"6:Terrain Mastery (Weightless):Terrain Mastery"',
   'Loremaster':
     'Require=' +
       '"Sum \'^features\\.Skill Focus .Knowledge\' >= 1",' +
@@ -4841,10 +4863,16 @@ SRD35.PRESTIGE_CLASSES = {
       '"1:Caster Level Bonus",1:Secrets,2:Lore,"4:Bonus Language",' +
       '"6:Greater Lore","10:True Lore" ' +
     'Selectables=' +
-      '"1:Applicable Knowledge","1:Dodge Trick","1:Instant Mastery",' +
-      '"1:More Newfound Arcana","1:Newfound Arcana","1:Secret Health",' +
-      '"1:Secret Knowledge Of Avoidance","1:Secrets Of Inner Strength",' +
-      '"1:The Lore Of True Stamina","1:Weapon Trick"',
+      '"1:Applicable Knowledge:Secret",' +
+      '"1:Dodge Trick:Secret",' +
+      '"1:Instant Mastery:Secret",' +
+      '"1:More Newfound Arcana:Secret",' +
+      '"1:Newfound Arcana:Secret",' +
+      '"1:Secret Health:Secret",' +
+      '"1:Secret Knowledge Of Avoidance:Secret",' +
+      '"1:Secrets Of Inner Strength:Secret",' +
+      '"1:The Lore Of True Stamina:Secret",' +
+      '"1:Weapon Trick:Secret"',
   'Mystic Theurge':
     'Require=' +
       '"casterLevelArcane >= 2","casterLevelDivine >= 2",' +
@@ -6224,7 +6252,7 @@ SRD35.classRulesExtra = function(rules, name) {
       ('damageReduction.Magic', 'combatNotes.perfectSelf', '^=', '10');
     rules.defineRule
       ('saveNotes.diamondSoul', 'levels.Monk', '=', '10 + source');
-    rules.defineRule('selectableFeatureCount.Monk',
+    rules.defineRule('selectableFeatureCount.Monk (Bonus Feat)',
       'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
     );
     rules.defineRule('spellResistance', 'saveNotes.diamondSoul', '^=', null);
@@ -6312,7 +6340,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.favoredEnemy',
       'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
     );
-    rules.defineRule('selectableFeatureCount.Ranger',
+    rules.defineRule('selectableFeatureCount.Ranger (Combat Style)',
       'levels.Ranger', '=', 'source >= 2 ? 1 : null'
     );
     rules.defineRule('skillNotes.favoredEnemy',
@@ -6333,7 +6361,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('saveNotes.trapSense',
       'levels.Rogue', '+=', 'Math.floor(source / 3)'
     );
-    rules.defineRule('selectableFeatureCount.Rogue',
+    rules.defineRule('selectableFeatureCount.Rogue (Special Ability)',
       'levels.Rogue', '=', 'source>=10 ? Math.floor((source-7)/3) : null'
     );
     rules.defineRule('skillNotes.skillMastery',
@@ -6410,8 +6438,9 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('featureNotes.highArcana', 'levels.Archmage', '=', null);
     rules.defineRule
       ('magicNotes.casterLevelBonus', 'levels.Archmage', '+=', null);
-    rules.defineRule
-      ('selectableFeatureCount.Archmage', 'featureNotes.highArcana', '+=', null);
+    rules.defineRule('selectableFeatureCount.Archmage (High Arcana)',
+      'featureNotes.highArcana', '+=', null
+    );
     rules.defineRule('magicNotes.arcaneFire', 'levels.Archmage', '=', null);
     rules.defineRule('magicNotes.arcaneFire.1',
       'features.Arcane Fire', '?', null,
@@ -6644,8 +6673,9 @@ SRD35.classRulesExtra = function(rules, name) {
  
   } else if(name == 'Hierophant') {
 
-    rules.defineRule
-      ('selectableFeatureCount.Hierophant', 'levels.Hierophant', '=', null);
+    rules.defineRule('selectableFeatureCount.Hierophant (Special Ability)',
+      'levels.Hierophant', '=', null
+    );
     rules.defineRule('combatNotes.turnUndead.1',
       'combatNotes.masteryOfEnergy', '+', '4'
     );
@@ -6662,7 +6692,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('features.Tremorsense',
       'featureNotes.terrainMastery(Cavernous)', '=', '1'
     );
-    rules.defineRule('selectableFeatureCount.Horizon Walker',
+    rules.defineRule('selectableFeatureCount.Horizon Walker (Terrain Mastery)',
       'levels.Horizon Walker', '+=', null
     );
 
@@ -6677,8 +6707,9 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('magicNotes.casterLevelBonus', 'levels.Loremaster', '+=', null);
-    rules.defineRule
-      ('selectableFeatureCount.Loremaster', 'featureNotes.secrets', '+=', null);
+    rules.defineRule('selectableFeatureCount.Loremaster (Secret)',
+      'featureNotes.secrets', '+=', null
+    );
     rules.defineRule('sumWizardFeats',
       'sumItemCreationFeats', '+=', null,
       'sumMetamagicFeats', '+=', null
@@ -6761,7 +6792,7 @@ SRD35.classFeatureRules = function(
   let prefix =
     className.charAt(0).toLowerCase() + className.substring(1).replaceAll(' ', '');
   if(require.length > 0)
-    featureSpec = require.join(',') + ' ? ' + featureSpec;
+    featureSpec = require.join('/') + ' ? ' + featureSpec;
   QuilvynRules.featureListRules
     (rules, [featureSpec], className, classLevel, selectable);
   replace.forEach(f => {
@@ -8690,7 +8721,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     result.push(
       ['Class', 'Class', 'select-one', classes],
       ['Level', 'Level', 'select-one', oneToTwenty],
-      ['Selectable', 'Selectable', 'checkbox', ['']],
+      ['Selectable', 'Selectable Type', 'text', [20]],
       ['Require', 'Prerequisite', 'text', [40]],
       ['Replace', 'Replace', 'text', [40]]
     );
@@ -8735,7 +8766,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     result.push(
       ['Race', 'Race', 'select-one', QuilvynUtils.getKeys(this.getChoices('races'))],
       ['Level', 'Level', 'select-one', oneToTwenty],
-      ['Selectable', 'Selectable', 'checkbox', ['']],
+      ['Selectable', 'Selectable Type', 'text', [20]],
       ['Require', 'Prerequisite', 'text', [40]],
       ['Replace', 'Replace', 'text', [40]]
     );
