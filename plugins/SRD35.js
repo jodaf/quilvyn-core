@@ -5613,13 +5613,11 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
     SRD35.classRulesExtra(rules, name);
   } else if(type == 'Class Feature') {
-    let selectable = QuilvynUtils.getAttrValue(attrs, 'Selectable');
-    selectable = selectable != false && selectable != 'false';
     SRD35.classFeatureRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValue(attrs, 'Class'),
       QuilvynUtils.getAttrValue(attrs, 'Level'),
-      selectable,
+      QuilvynUtils.getAttrValue(attrs, 'Selectable'),
       QuilvynUtils.getAttrValueArray(attrs, 'Replace')
     );
   } else if(type == 'Deity')
@@ -5685,13 +5683,11 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
     SRD35.raceRulesExtra(rules, name);
   } else if(type == 'Race Feature') {
-    let selectable = QuilvynUtils.getAttrValue(attrs, 'Selectable');
-    selectable = selectable != false && selectable != 'false';
     SRD35.raceFeatureRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValue(attrs, 'Race'),
       QuilvynUtils.getAttrValue(attrs, 'Level'),
-      selectable,
+      QuilvynUtils.getAttrValue(attrs, 'Selectable'),
       QuilvynUtils.getAttrValueArray(attrs, 'Replace')
     );
   } else if(type == 'School')
@@ -6753,8 +6749,10 @@ SRD35.classRulesExtra = function(rules, name) {
 
 /*
  * Defines in #rules# the rules required to give feature #name# to class
- * #className# at level #level#. #require# lists any hard prerequisites for the
- * feature, and #replace# lists any class features that this new one replaces.
+ * #className# at level #level#. #selectable# gives the category if this feature
+ * is selectable; it is otherwise null. #require# lists any hard prerequisites
+ * for the feature, and #replace# lists any class features that this new one
+ * replaces.
  */
 SRD35.classFeatureRules = function(
   rules, name, require, className, level, selectable, replace
@@ -6778,7 +6776,7 @@ SRD35.classFeatureRules = function(
     console.log('Bad level "' + level + '" for class feature ' + name);
     return;
   }
-  if(typeof selectable != 'boolean') {
+  if(selectable && typeof selectable != 'string') {
     console.log('Bad selectable "' + selectable + '" for class feature ' + name);
     return;
   }
@@ -6791,10 +6789,12 @@ SRD35.classFeatureRules = function(
   let featureSpec = level + ':' + name;
   let prefix =
     className.charAt(0).toLowerCase() + className.substring(1).replaceAll(' ', '');
+  if(selectable)
+    featureSpec += ':' + selectable;
   if(require.length > 0)
     featureSpec = require.join('/') + ' ? ' + featureSpec;
   QuilvynRules.featureListRules
-    (rules, [featureSpec], className, classLevel, selectable);
+    (rules, [featureSpec], className, classLevel, selectable ? true : false);
   replace.forEach(f => {
     let hasVar = 'has' + f.replaceAll(' ', '');
     rules.defineRule(prefix + 'Features.' + f, hasVar, '?', 'source==1');
@@ -6803,6 +6803,21 @@ SRD35.classFeatureRules = function(
       prefix + 'Features.' + name, '=', '0'
     );
   });
+  // Need to calculate caster level for new domains, to be used in spells
+  if(className == 'Cleric' && selectable == 'Domain') {
+    let domain = name.replace(' Domain', '');
+    rules.defineRule('clericDomainLevels.' + domain,
+      'clericFeatures.' + domain + ' Domain', '?', null,
+      'levels.Cleric', '=', null
+    );
+    rules.defineRule('casterLevels.' + domain,
+      'clericDomainLevels.' + domain, '^=', null
+    );
+    // Clerics w/no deity don't need to match deity domain
+    rules.defineRule('validationNotes.cleric-' + domain + 'DomainSelectableFeature',
+      'deity', '+', 'source == "None" ? 1 : null'
+    );
+  }
 
 };
 
@@ -7517,8 +7532,10 @@ SRD35.raceRulesExtra = function(rules, name) {
 
 /*
  * Defines in #rules# the rules required to give feature #name# to race
- * #raceName# at level #level#. #require# lists any hard prerequisites for the
- * feature, and #replace# lists any class features that this new one replaces.
+ * #raceName# at level #level#. #selectable# gives the category if this feature
+ * is selectable; it is otherwise null. #require# lists any hard prerequisites
+ * for the feature, and #replace# lists any race features that this new one
+ * replaces.
  */
 SRD35.raceFeatureRules = function(
   rules, name, require, raceName, level, selectable, replace
@@ -7540,7 +7557,7 @@ SRD35.raceFeatureRules = function(
     console.log('Bad level "' + level + '" for race feature ' + name);
     return;
   }
-  if(typeof selectable != 'boolean') {
+  if(selectable && typeof selectable != 'string') {
     console.log('Bad selectable "' + selectable + '" for race feature ' + name);
     return;
   }
@@ -7553,10 +7570,12 @@ SRD35.raceFeatureRules = function(
     raceName.charAt(0).toLowerCase() + raceName.substring(1).replaceAll(' ','');
   let raceLevel = prefix + 'Level';
   let featureSpec = level + ':' + name;
+  if(selectable)
+    featureSpec += ':' + selectable;
   if(require.length > 0)
-    featureSpec = require.join(',') + ' ? ' + featureSpec;
+    featureSpec = require.join('/') + ' ? ' + featureSpec;
   QuilvynRules.featureListRules
-    (rules, [featureSpec], raceName, raceLevel, selectable);
+    (rules, [featureSpec], raceName, raceLevel, selectable ? true : false);
   replace.forEach(f => {
     let hasVar = 'has' + f.replaceAll(' ', '');
     rules.defineRule(prefix + 'Features.' + f, hasVar, '?', 'source==1');
@@ -8702,8 +8721,8 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['HitDie', 'Hit Die', 'select-one', ['d4', 'd6', 'd8', 'd10', 'd12']],
       ['Attack', 'Base Attack', 'select-one', ['1', '3/4', '1/2']],
       ['SkillPoints', 'Skill Points/Level', 'select-one', zeroToTen],
-      ['Fortitude', 'Fort Save', 'select-one', ['1/2', '1/3']],
-      ['Reflex', 'Ref Save', 'select-one', ['1/2', '1/3']],
+      ['Fortitude', 'Fortitude Save', 'select-one', ['1/2', '1/3']],
+      ['Reflex', 'Reflex Save', 'select-one', ['1/2', '1/3']],
       ['Will', 'Will Save', 'select-one', ['1/2', '1/3']],
       ['Skills', 'Class Skills', 'text', [40]],
       ['Features', 'Features', 'text', [40]],
