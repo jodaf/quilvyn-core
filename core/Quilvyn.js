@@ -358,7 +358,7 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
     note = note.replace('%' + i, attrs[name + '.' + i]);
   let m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*)?/g);
   if(m) {
-    for(let i = 0; i < m.length; i++) {
+    for(let i = 1; i < m.length; i++) {
       let ref = m[i];
       let replacement = ref.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
       if(replacement.includes('.')) {
@@ -386,7 +386,7 @@ Quilvyn.homebrewApplyChoices = function(items) {
          path.split('.')[2] != PERSISTENT_HOMEBREW_PLACEHOLDER &&
          !STORAGE.getItem(path).includes('_auto=true')) {
         let item =
-          path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.');
+          path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
         let tags =
           QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
         if(tags.length > 0)
@@ -422,8 +422,15 @@ Quilvyn.homebrewDeleteChoices = function(items) {
     items = {};
     for(path in STORAGE) {
       if(path.startsWith(prefix) &&
-         path.split('.')[2] != PERSISTENT_HOMEBREW_PLACEHOLDER)
-        items[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
+         path.split('.')[2] != PERSISTENT_HOMEBREW_PLACEHOLDER) {
+        let item =
+          path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
+        let tags =
+          QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
+        if(tags.length > 0)
+          item += ' (' + tags.join(',') + ')';
+        items[item] = path;
+      }
     }
     Quilvyn.setDialog
       ('Select choices to delete', items, Quilvyn.homebrewDeleteChoices);
@@ -468,7 +475,7 @@ Quilvyn.homebrewDeleteCollections = function(collections) {
 /*
  * Displays all homebrew choices in a format that can be imported into Quilvyn.
  */
-Quilvyn.homebrewExportCollections = function() {
+Quilvyn.homebrewExportChoices = function() {
   let htmlBits = [];
   for(let path in STORAGE) {
     if(!path.startsWith(PERSISTENT_HOMEBREW_PREFIX))
@@ -2046,7 +2053,7 @@ Quilvyn.update = function(input) {
     else if(value == 'Apply Choices...')
       Quilvyn.homebrewApplyChoices();
     else if(value == 'Export All')
-      Quilvyn.homebrewExportCollections(null);
+      Quilvyn.homebrewExportChoices(null);
     else if(value == 'Import...')
       Quilvyn.homebrewImportChoices(null);
     else if(value == 'Delete Collections...')
