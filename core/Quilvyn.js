@@ -2,7 +2,7 @@
 /* jshint forin: false */
 "use strict";
 
-let COPYRIGHT = 'Copyright 2022 James J. Hayes';
+let COPYRIGHT = 'Copyright 2023 James J. Hayes';
 let VERSION = '2.4.0';
 let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
@@ -40,7 +40,6 @@ let FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
 let PERSISTENT_CHARACTER_PREFIX = 'QuilvynCharacter.';
 let PERSISTENT_HOMEBREW_PREFIX = 'QuilvynCustom.';
-let PERSISTENT_HOMEBREW_PLACEHOLDER = '_user';
 let PERSISTENT_INFO_PREFIX = 'QuilvynInfo.';
 let TIMEOUT_DELAY = 1000; // One second
 // Use system dialog windows whenever possible?
@@ -103,6 +102,10 @@ function Quilvyn(win) {
 
 }
 
+/*
+ * Displays #prmpt# to the user, allowing a response of Ok or Cancel. Calls
+ * #callback#, passing true, if the user selects Ok.
+ */
 Quilvyn.confirmDialog = function(prmpt, callback) {
 
   if(USE_SYSTEM_DIALOGS) {
@@ -171,15 +174,13 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
       '<h3>' + prmpt + '</h3>',
       '<form onsubmit="return false"><table>',
       '<tr><td><b>Filter </b>' + InputHtml('_filter', 'text', [20]).replace('>', ' onchange="refilter=true">') + '</td></tr>',
-      '<tr><td>' + InputHtml('_all', 'checkbox', ['']).replace('>', ' onchange="reall=true"') + '</td></tr>'
+      '<tr><td>' + InputHtml('_all', 'checkbox', ['all shown']).replace('>', ' onchange="reall=true"') + '</td></tr>'
     ];
-    let keys = Object.keys(choices).sort();
-    for(let i = 0; i < keys.length; i++) {
-      let choice = keys[i];
+    Object.keys(choices).sort().forEach(c => {
       htmlBits.push(
-        '<tr name="' + choice + 'Row"><td>' + InputHtml(choices[choice], 'checkbox', [choice]) + '</td></tr>'
+        '<tr name="' + c + 'Row"><td>' + InputHtml(choices[c], 'checkbox', [c]) + '</td></tr>'
       );
-    }
+    });
     htmlBits.push(
       '</table></form>',
       '<input type="button" name="ok" value="Ok" onclick="okay=true;"/>',
@@ -234,6 +235,7 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
       choices[form.elements[i].value] = form.elements[i].name;
   }
 
+
   callback = Quilvyn.setDialog.win.callback;
   Quilvyn.setDialog.win = null;
   Quilvyn.refreshEditor(true);
@@ -242,7 +244,7 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
 };
 
 /*
- * Interacts with the user to input a single line of text. #prmpt# is used to
+ * Interacts with the user to enter a single line of text. #prmpt# is used to
  * label the dialog, #defaultValue# is displayed as the default value for
  * the text, and #error#, if specified, is shown as an error in the default
  * value. If true, multiline indicates that a text box should be used for
@@ -383,7 +385,6 @@ Quilvyn.homebrewApplyChoices = function(items) {
     items = {};
     for(let path in STORAGE) {
       if(path.startsWith(prefix) &&
-         path.split('.')[2] != PERSISTENT_HOMEBREW_PLACEHOLDER &&
          !STORAGE.getItem(path).includes('_auto=true')) {
         let item =
           path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
@@ -421,8 +422,7 @@ Quilvyn.homebrewDeleteChoices = function(items) {
   if(!items) {
     items = {};
     for(path in STORAGE) {
-      if(path.startsWith(prefix) &&
-         path.split('.')[2] != PERSISTENT_HOMEBREW_PLACEHOLDER) {
+      if(path.startsWith(prefix)) {
         let item =
           path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
         let tags =
@@ -507,9 +507,9 @@ Quilvyn.homebrewExportChoices = function() {
 };
 
 /* Interacts with the user to import a set of homebrew choices */
-Quilvyn.homebrewImportChoices = function(collections) {
+Quilvyn.homebrewImportChoices = function(choices) {
 
-  if(!collections) {
+  if(!choices) {
     Quilvyn.textDialog(
       'Enter choice definitions from export', true, '', '',
       Quilvyn.homebrewImportChoices
@@ -517,16 +517,16 @@ Quilvyn.homebrewImportChoices = function(collections) {
     return;
   }
 
-  let lines = collections.split('\n');
+  let lines = choices.split('\n');
 
   while(lines.length > 0) {
     let line = lines.pop();
     if(line.match(/^\s*$/))
       continue;
-    let collection = QuilvynUtils.getAttrValue(line, '_collection');
+    let ruleSet = QuilvynUtils.getAttrValue(line, '_collection');
     let name = QuilvynUtils.getAttrValue(line, '_name');
     let type = QuilvynUtils.getAttrValue(line, '_type');
-    if(!collection || !name || !type) {
+    if(!ruleSet || !name || !type) {
       Quilvyn.textDialog(
         'Enter choice definitions from export', true,
         line + '\n' + lines.join('\n'), 'Bad format for item "' + line + '"',
@@ -535,17 +535,17 @@ Quilvyn.homebrewImportChoices = function(collections) {
       return;
     }
     line = line.replace
-      (new RegExp('_collection=["\']?' + collection + '["\']?'), '');
+      (new RegExp('_collection=["\']?' + ruleSet + '["\']?'), '');
     line = line.replace(new RegExp('_name=["\']?' + name + '["\']?'), '');
     line = line.replace(new RegExp('_type=["\']?' + type + '["\']?'), '');
     line = line.replace(/^\s+|\s+$/g, '');
     STORAGE.setItem(
       PERSISTENT_HOMEBREW_PREFIX +
-      [collection, type, name].map(x=>x.replaceAll('.', '%2E')).join('.'),
+      [ruleSet, type, name].map(x=>x.replaceAll('.', '%2E')).join('.'),
       line
     );
-    if(collection in ruleSets && line.includes('_auto=true'))
-      ruleSets[collection].choiceRules(ruleSets[collection], type, name, line);
+    if(ruleSet in ruleSets && line.includes('_auto=true'))
+      ruleSets[ruleSet].choiceRules(ruleSets[ruleSet], type, name, line);
   }
 
   Quilvyn.refreshEditor(true);
@@ -559,8 +559,9 @@ Quilvyn.homebrewImportChoices = function(collections) {
 Quilvyn.homebrewModifyChoices = function() {
 
   if(Quilvyn.homebrewModifyChoices.win == null) {
+
     // New homebrew add
-    let choices = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
+    let types = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
     let htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">',
@@ -579,7 +580,7 @@ Quilvyn.homebrewModifyChoices = function() {
       '</tr></table>',
       LOGO_TAG + '<br/>',
       '<form onsubmit="return false"><table><tr>',
-      '<th>Type</th><td>' + InputHtml('_type', 'select-one', choices).replace('>', ' onchange="update=true">') + '</td>',
+      '<th>Type</th><td>' + InputHtml('_type', 'select-one', types).replace('>', ' onchange="update=true">') + '</td>',
       '</tr><tr>',
       '<th>Name</th><td>' + InputHtml('_name', 'text', [30]) + '</td>',
       '</tr><tr>',
@@ -601,20 +602,24 @@ Quilvyn.homebrewModifyChoices = function() {
     Quilvyn.homebrewModifyChoices.win.document.close();
     Quilvyn.homebrewModifyChoices.win.canceled = false;
     Quilvyn.homebrewModifyChoices.win.done = false;
-    Quilvyn.homebrewModifyChoices.win.flipRuleSet = false;
+    Quilvyn.homebrewModifyChoices.win.flipPredefined = false;
     Quilvyn.homebrewModifyChoices.win.save = false;
     Quilvyn.homebrewModifyChoices.win.search = '';
     Quilvyn.homebrewModifyChoices.win.update = true;
     Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_type')[0].focus();
     Quilvyn.homebrewModifyChoices();
     return;
+
   } else if(Quilvyn.homebrewModifyChoices.win.done) {
+
     // User done making additions
     Quilvyn.homebrewModifyChoices.win = null;
     Quilvyn.refreshEditor(true);
     return;
+
   } else if(Quilvyn.homebrewModifyChoices.win.search ||
             Quilvyn.homebrewModifyChoices.win.update) {
+
     let autoInput =
       Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_auto')[0];
     let nameInput =
@@ -624,20 +629,24 @@ Quilvyn.homebrewModifyChoices = function() {
     let typeInput =
       Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_type')[0];
     let newValues = null;
+
     if(Quilvyn.homebrewModifyChoices.win.search) {
+
       let prefix =
         PERSISTENT_HOMEBREW_PREFIX +
         ruleSet.getName().replaceAll('.', '%2E') + '.';
-      let searchSet =
-        QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix) && !x.includes('_user')).sort();
-      let target = Quilvyn.homebrewModifyChoices.win.search;
       let currentPath =
         prefix +
         InputGetValue(typeInput).replaceAll('.', '%2E') + '.' +
         InputGetValue(nameInput).replaceAll('.', '%2E');
+      let target = Quilvyn.homebrewModifyChoices.win.search;
       let newPath = null;
+
+      // First search homebrew choices, if appropriate
+      let searchSet =
+        QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix)).sort();
       if(!('<>'.includes(target)) ||
-         !Quilvyn.homebrewModifyChoices.win.flipRuleSet) {
+         !Quilvyn.homebrewModifyChoices.win.flipPredefined) {
         if(target == '<')
           newPath =
             searchSet.findLast(x => x < currentPath) ||
@@ -646,8 +655,10 @@ Quilvyn.homebrewModifyChoices = function() {
           newPath = searchSet.find(x => x > currentPath) || searchSet[0];
         else
           newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
-        Quilvyn.homebrewModifyChoices.win.flipRuleSet = false;
+        Quilvyn.homebrewModifyChoices.win.flipPredefined = false;
       }
+
+      // If that fails, move to predefined (ruleSet) choices
       if(newPath == null) {
         searchSet = [];
         for(let type in ruleSet.getChoices('choices')) {
@@ -663,13 +674,16 @@ Quilvyn.homebrewModifyChoices = function() {
         else
           newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
         if(newPath != null)
-          Quilvyn.homebrewModifyChoices.win.flipRuleSet = true;
+          Quilvyn.homebrewModifyChoices.win.flipPredefined = true;
       }
+
+      // If that also fails, give up
       if(newPath == null) {
         Quilvyn.homebrewModifyChoices.win.search = '';
         setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
         return;
       }
+
       let newType = newPath.split('.')[2];
       let newName = newPath.split('.')[3];
       newValues =
@@ -677,9 +691,13 @@ Quilvyn.homebrewModifyChoices = function() {
         ruleSet.getChoices(newType.charAt(0).toLowerCase() + newType.substring(1).replaceAll(' ', '') + 's')[newName];
       InputSetValue(nameInput, newName);
       InputSetValue(typeInput, newType);
+
     }
+
     InputSetValue(autoInput, true);
     InputSetValue(tagsInput, '');
+
+    // Display input fields appropriate to the chosen type
     let elements =
       ruleSet.choiceEditorElements(ruleSet, InputGetValue(typeInput));
     let htmlBits = [];
@@ -694,6 +712,7 @@ Quilvyn.homebrewModifyChoices = function() {
       );
     });
     Quilvyn.homebrewModifyChoices.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
+
     if(newValues) {
       InputSetValue(autoInput, newValues.includes('_auto=true'));
       InputSetValue
@@ -709,18 +728,18 @@ Quilvyn.homebrewModifyChoices = function() {
         }
       });
     }
+
     Quilvyn.homebrewModifyChoices.win.search = '';
     Quilvyn.homebrewModifyChoices.win.update = false;
     setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
     return;
-  } else if(Quilvyn.homebrewModifyChoices.win.search) {
-    Quilvyn.homebrewModifyChoices.win.search = '';
-    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
-    return;
+
   } else if(!Quilvyn.homebrewModifyChoices.win.save) {
+
     // Try again later
     setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
     return;
+
   }
 
   // Ready to add a homebrew choice
@@ -733,7 +752,7 @@ Quilvyn.homebrewModifyChoices = function() {
     let inputName = input.name;
     let inputValue = InputGetValue(input);
     if(inputName == '_name')
-      // For consistency with text attrs, allow optional quotes around name
+      // For consistency with text attrs, allow unnecessary quotes around name
       name = inputValue.replace(/^(['"])(.*)\1$/, '$2');
     else if(inputName == '_type')
       type = inputValue;
