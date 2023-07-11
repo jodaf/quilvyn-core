@@ -44,8 +44,8 @@ the beginning portion of longer values entered into text boxes.
 When adding a homebrew choice, check the "Always include with the SRD v3.5 rule
 set" box if you'd like it automatically included whenever Quilvyn starts. If
 this box is not checked, you'll need to use the "Apply Choices..." selection
-from Quilvyn's Homebrew menu when you want to use it. Quilvyn also allows you
-to add tags to homebrew selections. This can be handy when running multiple
+from Quilvyn's Homebrew menu every time you want to use it. Quilvyn also allows
+you to add tags to homebrew selections. This can be handy when running multiple
 campaigns that each have their own set of homebrew choices, since you can
 filter your homebrew choices by tag and apply only those that are available in
 the current campaign.
@@ -162,13 +162,26 @@ and 3 at level 7, and so on.
 </tr><tr><td>
 <a name="classfeature"><h2>Class and Race Features</h2></a>
 <img src='../Images/hb-class-feature.jpg' alt='Homebrew Class Feature'/>
+<hr style="width:75%"/>
+<img src='../Images/hb-race-feature.jpg' alt='Homebrew Race Feature'/>
 </td><td>
 <p>
-FILL
+Quilvyn allows you to give classes and races new features and to replace
+predefined features with homebrew ones. For homebrew features, Quilvyn displays
+entries for the name of the class or race that gains the feature and the level
+at which the feature is gained. If the feature is gained only if selected by
+the user (e.g, a Cleric domain), enter the type in the Selectable Type box
+("Domain"); otherwise, leave the box empty, indicating that all characters of
+the given class or race gain the feature. The Prerequisite box lists any
+requirements that must be met to gain the feature, and Replace lists any
+predefined features that this one replaces.
 </p><p>
-The example shown adds another choice, Smoke Domain, to the domains that can be
-selected by clerics at level 1. It's a valid selection only for a cleric whose
-deity has 'Smoke' in their list of domains.
+The first example shown adds another choice, Forge Domain, to the domains that
+can be selected by clerics at level 1. It's a valid selection only for a cleric
+whose deity has 'Forge' in their list of domains.
+</p><p>
+For all dwarves, the second example replaces the predefined Dodge Giants
+feature with a homebrew feature named Underground Warrior.
 </p>
 </td></tr>
 
@@ -191,8 +204,8 @@ box separated by commas.
 <tr><td colspan="2"><hr/></td></tr>
 <tr><td>
 <a name="feat"><h2>Feats</h2></a>
-<img src='../Images/hb-feat.jpg' alt='Homebrew Feat'/><br/>
-<hr style="width:50%"/><br/>
+<img src='../Images/hb-feat.jpg' alt='Homebrew Feat'/>
+<hr style="width:75%"/><br/>
 <img src='../Images/hb-feat-feature.jpg' alt='Homebrew Feat'/>
 </td><td>
 <p>
@@ -217,7 +230,7 @@ The example shows the entry for a general feat named Flail Expert that can be
 selected as a fighter bonus feat. The Prerequisite box notes that it requires a
 baseAttack value of at least 1 and Weapon Proficiency (Martial), and the
 Implies box notes that the feat is useless unless the character possesses a
-flail. The example also shows the accompanying feature that describes the
+flail. The example also shows the corresponding feature that describes the
 effect of selecting the Flail Expert feat.
 </p>
 </td></tr>
@@ -262,6 +275,10 @@ the example for <a href="#race">adding a race</a>.
 <tr><td>
 <a name="race"><h2>Races</h2></a>
 <img src='../Images/hb-race.jpg' alt='Homebrew Race'/>
+<hr style="width:75%"/><br/>
+<img src='../Images/hb-race-feature-1.jpg' alt='Homebrew Race Feature'/>
+<hr style="width:75%"/><br/>
+<img src='../Images/hb-race-feature-2.jpg' alt='Homebrew Race Feature'/>
 </td><td>
 <p>
 When adding a homebrew race, Quilvyn displays fields that allow you to enter
@@ -275,14 +292,13 @@ to describe its effects. The languages entry lists the languages that
 characters of this race know automatically.
 </p><p>
 The example shows the entry for the Lizardfolk character race from the Monster
-Manual. Features for this race are: Lizardfolk Ability Adjustment (+2
-Strength/+2 Constitution/-2 Intelligence); Lizardfolk Skills (+4 Balance, Jump,
-and Swim, all of which are class skills); Bonus Feat (+1 General Feat); Scaly
-Hide (+5 Armor Class); Lizardfolk Weapons (2 claws and a bite); Hold Breath
-(Can hold breath 4 * constitution rds). (Most of these feature names are
-invented for this example; the MM simply lists the effects.) Scaletongue is
-included with the list of automatic languages to illustrate the use of the
-language shown in the <a href="#language">adding a language</a> example.
+Manual. Features for this race are: Lizardfolk Ability Adjustment; Lizardfolk
+Skills; Bonus Feat; Scaly Hide; Lizardfolk Weapons; and Hold Breath. (Most of
+these feature names are created for this example; the MM simply lists the
+effects.) The corresponding feature entries for the first two of these are
+shown. Scaletongue is included with the list of automatic languages to
+illustrate the use of the language shown in the
+<a href="#language">adding a language</a> example.
 </p>
 </td></tr>
 
@@ -363,9 +379,9 @@ of 19-20/x2.
 <p>
 There are three places that you might want to use references to character
 attributes when adding homebrew choices: prerequisites for homebrew classes,
-feats, and races; embedded in feature notes and spell descriptions; and
-placement in feature notes that modify character attributes. Attribute
-references appear somewhat differently in each of these contexts.
+feats, class and race features, and races; embedded in feature notes and spell
+descriptions; and placement in feature notes that modify character attributes.
+Attribute references appear somewhat differently in each of these contexts.
 </p>
 
 <h2>Using attributes in prerequisites</h2>
