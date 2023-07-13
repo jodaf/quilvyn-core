@@ -286,7 +286,7 @@ QuilvynRules.featureListRules = function(
       // Allow / instead of && for backwards compatibility. Note that splitting
       // on && doesn't take into account any parentheses, which could lead to
       // unexpected effects.
-      conditions = pieces[0].split(/\/|&&/);
+      conditions = pieces[0].split(/\s*\/\s*|\s*&&\s*/);
       level = pieces[1];
     }
 
