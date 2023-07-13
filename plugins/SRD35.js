@@ -573,7 +573,7 @@ SRD35.FEATURES = {
     'Section=combat Note="May turn earth creatures and rebuke air creatures"',
   'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
   'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
-  'All-Knowing':'Section=skill Note="All Knowledge is a class skill"',
+  'All-Knowing':'Section=skill Note="All Knowledge skills are class skills"',
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
   'Animal Companion':'Section=feature Note="Special bond and abilities"',
   'Animal Talk':
@@ -5725,7 +5725,6 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       let group = matchInfo[1];
       let level = matchInfo[2] * 1;
       let fullName = name + '(' + group + level + ' ' + schoolAbbr + ')';
-      // TODO indicate domain spells in attributes?
       let domainSpell =
         (rules.getChoices('selectableFeatures') != null &&
          ('Cleric - ' + group + ' Domain') in rules.getChoices('selectableFeatures')) ||
@@ -6153,6 +6152,8 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Cleric') {
 
+    rules.defineRule
+      ('classSkills.Knowledge', 'skillNotes.all-Knowing', '=', '1');
     rules.defineRule('combatNotes.charismaTurningAdjustment',
       'turningLevel', '?', null,
       'charismaModifier', '=', null
