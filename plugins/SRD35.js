@@ -2452,7 +2452,7 @@ SRD35.SPELLS = {
   'Elemental Swarm':
     'School=Conjuration ' +
     'Level=Air9,D9,Earth9,Fire9,Water9 ' +
-    'Description="R%{lvl*10+100}\' Summons 2d4 large, then 1d4 huge, then 1 greater  elementals for %{lvl*10} min"',
+    'Description="R%{lvl*10+100}\' Summons 2d4 large, then 1d4 huge, then 1 greater elementals for %{lvl*10} min"',
   'Endure Elements':
     'School=Abjuration ' +
     'Level=Adept1,C1,D1,P1,R1,Sun1,S1,W1 ' +
@@ -3976,7 +3976,7 @@ SRD35.SPELLS = {
   'Sunburst':
     'School=Evocation ' +
     'Level=D8,Sun8,S8,W8 ' +
-    'Description="R%{lvl*40+400}\' 80\' radius blinds and inflicts 6d6 HP (undead and oozes ${Lmin25}d6 HP) (Ref half, not blind)"',
+    'Description="R%{lvl*40+400}\' 80\' radius blinds and inflicts 6d6 HP (undead and oozes ${Lmin25}d6 HP) (Ref half HP only)"',
   'Symbol Of Death':
     'School=Necromancy ' +
     'Level=C8,S8,W8 ' +
