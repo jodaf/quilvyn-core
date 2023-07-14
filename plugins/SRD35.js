@@ -8735,9 +8735,9 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   } else if(type == 'Class Feature') {
     let classes =
-      QuilvynUtils.getKeys(this.getChoices('levels')).concat(
-      QuilvynUtils.getKeys(this.getChoices('prestiges'))).concat(
-      QuilvynUtils.getKeys(this.getChoices('npcs')));
+      QuilvynUtils.getKeys(rules.getChoices('levels')).concat(
+      QuilvynUtils.getKeys(rules.getChoices('prestiges'))).concat(
+      QuilvynUtils.getKeys(rules.getChoices('npcs')));
     result.push(
       ['Class', 'Class', 'select-one', classes],
       ['Level', 'Level', 'select-one', oneToTwenty],
@@ -8784,7 +8784,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     );
   else if(type == 'Race Feature')
     result.push(
-      ['Race', 'Race', 'select-one', QuilvynUtils.getKeys(this.getChoices('races'))],
+      ['Race', 'Race', 'select-one', QuilvynUtils.getKeys(rules.getChoices('races'))],
       ['Level', 'Level', 'select-one', oneToTwenty],
       ['Selectable', 'Selectable Type', 'text', [20]],
       ['Require', 'Prerequisite', 'text', [40]],
