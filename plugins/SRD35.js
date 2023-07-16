@@ -7941,7 +7941,7 @@ SRD35.spellRules = function(
     description = description.replace(dc[0], '(DC %{' + expr + '} ' + dc[1]);
   }
 
-  expr = 'casterLevels.' + casterGroup;
+  expr = 'casterLevels.' + (domainSpell ? 'Domain' : casterGroup);
   rules.defineChoice
     ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', expr));
   // Remove character spell DC--doesn't apply to potions and scrolls.
@@ -8983,7 +8983,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     let armors = this.getChoices('armors');
     for(attr in armors) {
-      let weight = QuilvynUtils.getAttrValue(armors[attr], 'Weight');
+      let weight = QuilvynUtils.getAttrValue(armors[attr], 'Weight') + '';
       weight =
         !weight || weight.match(/none/i) ? 0 :
         weight.match(/light/i) ? 1 :
@@ -9214,7 +9214,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     choices = [];
     let shields = this.getChoices('shields');
     for(attr in shields) {
-      let weight = QuilvynUtils.getAttrValue(shields[attr], 'Weight');
+      let weight = QuilvynUtils.getAttrValue(shields[attr], 'Weight') + '';
       weight =
         !weight || weight.match(/none/i) ? 0 :
         weight.match(/light/i) ? 1 :
