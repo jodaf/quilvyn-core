@@ -25,12 +25,12 @@ The SRD v3.5 rule set allows you to add homebrew choices to most of its
 selections: companions, weapons, races, and so on. The entry dialog for each
 type of choice includes fields for all the information particular to that
 type. For most choices, the values to enter into the dialog can be determined
-by comparing with similar choices from the core rule books.
+by comparing them to similar choices from the core rule books.
 </p><p>
 The input fields used to enter homebrew choices are similar to those used
 by the Quilvyn editor&mdash;text fields, selection menus, checkboxes, etc.
-One difference between the two is that some text boxes in the homebrew choices
-editor may contain multiple values. For example, when entering a homebrew
+One difference between the two is that you can enter multiple values into some
+text boxes in the homebrew choices editor. For example, when entering a homebrew
 deity, you will likely want to enter multiple values in the Domains text box.
 To do this, separate the individual values by commas: Good,Law,War. If you ever
 need to enter a single value that contains a comma into a text box, enclose the
@@ -38,14 +38,14 @@ value in quotes: "May create and mend magic weapons, armor, and shields".
 </p><p>
 Although the widest text boxes that Quilvyn uses show around 40 characters, you
 can enter longer text values. Only 40 characters will show at once, but you can
-use the cursor to move around the full text. Several examples below show only
-the beginning portion of longer values entered into text boxes.
+use your arrow keys to move the cursor within the full text. Several examples
+below show only the beginning portion of longer values entered into text boxes.
 </p><p>
-When adding a homebrew choice, check the "Always include with the SRD v3.5 rule
+When saving a homebrew choice, check the "Always include with the SRD v3.5 rule
 set" box if you'd like it automatically included whenever Quilvyn starts. If
 this box is not checked, you'll need to use the "Apply Choices..." selection
 from Quilvyn's Homebrew menu every time you want to use it. Quilvyn also allows
-you to add tags to homebrew selections. This can be handy when running multiple
+you to add tags to each homebrew choice. This can be handy when running multiple
 campaigns that each have their own set of homebrew choices, since you can
 filter your homebrew choices by tag and apply only those that are available in
 the current campaign.
@@ -85,8 +85,8 @@ entering the creature's basic attributes, hit dice, armor class, attack bonus,
 damage, size, speed, and minimum master level. Quilvyn expects the damage value
 to indicate the number and type of damage dice, optionally followed by a bonus
 or penalty. For example, an Owlbear animal companion would have a damage
-attribute of 1d6+5,1d6+5,1d8+2 (two claws and a bite); while a Baboon's damage
-would be 1d6+3. When entering armor class, attack bonus, and damage, include
+attribute of 1d6+5,1d6+5,1d8+2 (two claws and a bite); while a Donkey's damage
+would be 1d2. When entering armor class, attack bonus, and damage, include
 any bonus or penalty from attributes such as dexterity, natural armor, and
 strength. Minimum master level is used for alternative animal companions that
 require the character to be of higher level before they can be selected.
@@ -177,11 +177,11 @@ requirements that must be met to gain the feature, and Replace lists any
 predefined features that this one replaces.
 </p><p>
 The first example shown adds another choice, Forge Domain, to the domains that
-can be selected by clerics at level 1. It's a valid selection only for a cleric
+can be selected by clerics at level 1. It's a valid choice only for a cleric
 whose deity has 'Forge' in their list of domains.
 </p><p>
-For all dwarves, the second example replaces the predefined Dodge Giants
-feature with a homebrew feature named Underground Warrior.
+The second example replaces the predefined Dodge Giants feature for all dwarves
+with a homebrew feature named Underground Warrior.
 </p>
 </td></tr>
 
@@ -479,7 +479,7 @@ features extend the duration of the rage:
 <p>
 Within spell descriptions, in addition to <a href="#attrs">common character
 attributes</a>, Quilvyn makes available the special character attribute lvl.
-This varible refers to the caster level appropriate to the specific spell, so
+This varaible refers to the caster level appropriate to the specific spell, so
 casterLevels.Cleric for the C1 spell <i>Bane</i>, casterLevels.Bard for the B0
 spell <i>Dancing Lights</i>, casterLevels.Sorcerer for the S2 spell <i>Arcane
 Lock</i>, and so on. Using the lvl attribute allows you to incorporate the
