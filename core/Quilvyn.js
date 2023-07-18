@@ -375,40 +375,6 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
   return note;
 };
 
-/* Interacts with the user to apply homebrew choices to the current rule set. */
-Quilvyn.homebrewApplyChoices = function(items) {
-
-  let prefix =
-    PERSISTENT_HOMEBREW_PREFIX + ruleSet.getName().replaceAll('.','%2E') + '.';
-
-  if(!items) {
-    items = {};
-    for(let path in STORAGE) {
-      if(path.startsWith(prefix) &&
-         !STORAGE.getItem(path).includes('_auto=true')) {
-        let item =
-          path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
-        let tags =
-          QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
-        if(tags.length > 0)
-          item += ' (' + tags.join(',') + ')';
-        items[item] = path;
-      }
-    }
-    Quilvyn.setDialog
-      ('Select choices to apply', items, Quilvyn.homebrewApplyChoices);
-    return;
-  }
-
-  Object.values(items).forEach(path => {
-    let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
-    ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
-  });
-
-  Quilvyn.refreshEditor(true);
-
-};
-
 /*
  * Interacts with the user to delete one or more homebrew choices from the
  * current rule set.
@@ -553,6 +519,43 @@ Quilvyn.homebrewImportChoices = function(choices) {
 };
 
 /*
+ * Interacts with the user to incorporate homebrew choices into the current
+ * rule set.
+ */
+Quilvyn.homebrewIncludeChoices = function(items) {
+
+  let prefix =
+    PERSISTENT_HOMEBREW_PREFIX + ruleSet.getName().replaceAll('.','%2E') + '.';
+
+  if(!items) {
+    items = {};
+    for(let path in STORAGE) {
+      if(path.startsWith(prefix) &&
+         !STORAGE.getItem(path).includes('_auto=true')) {
+        let item =
+          path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
+        let tags =
+          QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
+        if(tags.length > 0)
+          item += ' (' + tags.join(',') + ')';
+        items[item] = path;
+      }
+    }
+    Quilvyn.setDialog
+      ('Select choices to apply', items, Quilvyn.homebrewIncludeChoices);
+    return;
+  }
+
+  Object.values(items).forEach(path => {
+    let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
+    ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
+  });
+
+  Quilvyn.refreshEditor(true);
+
+};
+
+/*
  * Interacts with the user to add and edit homebrew choices in the current rule
  * set.
  */
@@ -586,11 +589,12 @@ Quilvyn.homebrewModifyChoices = function() {
       '</tr><tr>',
       '<th>Tags</th><td>' + InputHtml('_tags', 'text', [30]) + '</td>',
       '</tr><tr>',
-      '<th>&nbsp;</th><td>' + InputHtml('_auto', 'checkbox', ['Always include with the ' + ruleSet.getName() + ' rule set']).replace('>', ' checked="1">') + '</td>',
       '</tr></table>',
       '<hr style="width:25%;text-align:center"/>',
       '<table id="variableFields">',
       '</table>',
+      '<hr style="width:25%;text-align:center"/>',
+      InputHtml('_auto', 'checkbox', ['Always include this item with the ' + ruleSet.getName() + ' rule set']).replace('>', ' checked="1">') + '<br/><br/>',
       '<input type="button" name="Save" value="Save" onclick="save=true;"/>',
       '<p id="message"> </p>',
       '</form>',
@@ -643,36 +647,39 @@ Quilvyn.homebrewModifyChoices = function() {
       let newPath = null;
 
       // First search homebrew choices, if appropriate
-      let searchSet =
-        QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix)).sort();
       if(!('<>'.includes(target)) ||
          !Quilvyn.homebrewModifyChoices.win.flipPredefined) {
+        let searchSet =
+          QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix)).sort((a,b) => a.split('.')[3].localeCompare(b.split('.')[3]));
         if(target == '<')
           newPath =
-            searchSet.findLast(x => x < currentPath) ||
+            searchSet[searchSet.indexOf(currentPath) - 1] ||
             searchSet[searchSet.length - 1];
         else if(target == '>')
-          newPath = searchSet.find(x => x > currentPath) || searchSet[0];
+          newPath =
+            searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
         else
-          newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
+          newPath = searchSet.find(x => x.split('.')[3].includes(target));
         Quilvyn.homebrewModifyChoices.win.flipPredefined = false;
       }
 
       // If that fails, move to predefined (ruleSet) choices
       if(newPath == null) {
-        searchSet = [];
+        let searchSet = [];
         for(let type in ruleSet.getChoices('choices')) {
           searchSet = searchSet.concat(QuilvynUtils.getKeys(ruleSet.getChoices(type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's')).map(x => prefix + type + '.' + x));
         }
-        searchSet = searchSet.sort();
+        searchSet =
+          searchSet.sort((a,b)=>a.split('.')[3].localeCompare(b.split('.')[3]));
         if(target == '<')
           newPath =
-            searchSet.findLast(x => x < currentPath) ||
+            searchSet[searchSet.indexOf(currentPath) - 1] ||
             searchSet[searchSet.length - 1];
         else if(target == '>')
-          newPath = searchSet.find(x => x > currentPath) || searchSet[0];
+          newPath =
+            searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
         else
-          newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
+          newPath = searchSet.find(x => x.split('.')[3].includes(target));
         if(newPath != null)
           Quilvyn.homebrewModifyChoices.win.flipPredefined = true;
       }
@@ -684,18 +691,19 @@ Quilvyn.homebrewModifyChoices = function() {
         return;
       }
 
-      let newType = newPath.split('.')[2];
       let newName = newPath.split('.')[3];
+      let newType = newPath.split('.')[2];
       newValues =
         STORAGE.getItem(newPath) ||
         ruleSet.getChoices(newType.charAt(0).toLowerCase() + newType.substring(1).replaceAll(' ', '') + 's')[newName];
-      InputSetValue(nameInput, newName);
       InputSetValue(typeInput, newType);
-
+      newValues += ' _name="' + newName.replaceAll('%2E', '.') + '"';
     }
 
     InputSetValue(autoInput, true);
+    InputSetValue(nameInput, '');
     InputSetValue(tagsInput, '');
+    Quilvyn.homebrewModifyChoices.win.document.getElementById('message').innerHTML = '&nbsp;';
 
     // Display input fields appropriate to the chosen type
     let elements =
@@ -715,6 +723,7 @@ Quilvyn.homebrewModifyChoices = function() {
 
     if(newValues) {
       InputSetValue(autoInput, newValues.includes('_auto=true'));
+      InputSetValue(nameInput, QuilvynUtils.getAttrValue(newValues, '_name'));
       InputSetValue
         (tagsInput, QuilvynUtils.getAttrValueArray(newValues, '_tags').join(','));
       elements.forEach(e => {
@@ -764,10 +773,10 @@ Quilvyn.homebrewModifyChoices = function() {
       if(tokens) {
         inputValue = '';
         for(let j = 0; j < tokens.length; j++) {
-          let token = tokens[j];
+          let token = tokens[j].trim();
           if(token.charAt(0) == '"' || token.charAt(0) == "'" ||
              token.indexOf(' ') < 0)
-            inputValue += tokens[j];
+            inputValue += token;
           else if(token.indexOf('"') >= 0)
             inputValue += "'" + token + "'";
           else
@@ -833,7 +842,7 @@ Quilvyn.editorHtml = function() {
     ['rulesNotes', '', 'button', ['Notes']],
     ['homebrew', 'Homebrew', 'select-one', [
       '---choose one---', 'Create/Edit Choices...', 'Delete Choices...',
-      'Apply Choices...', 'Export All', 'Import...', 'Delete Collections...'
+      'Include Choices...', 'Export All', 'Import...', 'Delete Collections...'
     ]],
     ['character', 'Character', 'select-one', []],
     ['clear', 'Clear', 'select-one', 'bags'],
@@ -2069,8 +2078,8 @@ Quilvyn.update = function(input) {
       Quilvyn.homebrewModifyChoices();
     else if(value == 'Delete Choices...')
       Quilvyn.homebrewDeleteChoices(null);
-    else if(value == 'Apply Choices...')
-      Quilvyn.homebrewApplyChoices();
+    else if(value == 'Include Choices...')
+      Quilvyn.homebrewIncludeChoices();
     else if(value == 'Export All')
       Quilvyn.homebrewExportChoices(null);
     else if(value == 'Import...')
