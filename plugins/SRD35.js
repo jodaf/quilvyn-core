@@ -8198,6 +8198,83 @@ SRD35.weaponRules = function(
 };
 
 /*
+ * Defines in #rules# the rules to grant the spells listed in #spellList# when
+ * feature #feature# is acquired. #spellType# contains the spell group,
+ * #spellAbility# the associated ability, and #levelAttr# the related
+ * character level. If non-null, #spellDC# specifies the expression for
+ * computing the DC for the spell; an empty string indicates that standard
+ * DC computation (10 + ability modifier + spell level). Each element of
+ * #spellList# has the format "[min level:]spell name[,spell name...]". If min
+ * level is provided, the spells listed in that element are not acquired until
+ * the character's value of #levelAttr# reaches that level.
+ */
+SRD35.featureSpells = function(
+  rules, feature, spellType, spellAbility, levelAttr, spellDC, spellList
+) {
+
+  let allSpells = rules.getChoices('spells');
+
+  spellList.forEach(nameList => {
+    let minLevel = 1;
+    if(nameList.match(/^\d+:/)) {
+      minLevel = nameList.split(':')[0] - 0;
+      nameList = nameList.split(':')[1];
+    }
+    nameList.split(',').forEach(name => {
+      let spells = QuilvynUtils.getKeys(allSpells, '^' + name + '\\(');
+      if(spells.length == 0) {
+        console.log('Unknown spell "' + name + '" for feature ' + feature);
+      } else {
+        let spellAttrs = allSpells[spells[0]];
+        let spellDescription =
+          QuilvynUtils.getAttrValue(spellAttrs, 'Description');
+        // Spell level can vary for different classes, and we don't have the
+        // info here to determine which is correct. At this point, we just use
+        // whichever level appears most often in the original spell definition.
+        let spellLevels = spells.map(x => x.match(/\(\D+(\d)/)[1] - 0);
+        // Clever mode method from https://stackoverflow.com/questions/1053843/get-the-element-with-the-highest-occurrence-in-an-array
+        let spellLevel =
+          spellLevels.sort((a,b) =>
+            spellLevels.filter(v => v===a).length -
+            spellLevels.filter(v => v===b).length
+          ).pop();
+        let spellSchool = QuilvynUtils.getAttrValue(spellAttrs, 'School');
+        let schoolAbbr = (spellSchool || 'Universal').substring(0, 4);
+        let fullName =
+          name + '(' + spellType + spellLevel + ' ' + schoolAbbr + ')';
+        SRD35.spellRules(
+          rules, fullName, spellSchool, spellType, spellLevel, spellDescription,
+          false
+        );
+        rules.defineRule
+          ('spells.' + fullName, 'features.' + feature, '=', null);
+        if(minLevel > 1)
+          rules.defineRule
+            ('spells.' + fullName, levelAttr, '?', 'source>=' + minLevel);
+        if(spellDC != null) {
+          let dc = spellDC == '' ?
+            spellAbility + 'Modifier + 10 + ' + spellLevel +
+            ' + (spellDCSchoolBonus.' + spellSchool + '||0)' :
+            spellDC;
+          let allFormats = rules.getChoices('notes');
+          let s = 'spells.' + fullName;
+          if(s in allFormats)
+            allFormats[s] =
+              allFormats[s].replaceAll(/DC %{[^}]*} (Fort|Ref|Will)/g, 'DC %{' + dc + '} $1');
+          else
+            console.log('No format for spell ' + fullName);
+        }
+      }
+    });
+  });
+  rules.defineRule('casterLevels.' + spellType,
+    'features.' + feature, '?', null,
+    levelAttr, '=', null
+  );
+
+};
+
+/*
  * Quilvyn allows the user to enter expressions that include variables with one
  * or more spaces, e.g., skills.Handle Animal. Rather than require the user to
  * make these valid for the Expr module by wrapping them in $"", this function
