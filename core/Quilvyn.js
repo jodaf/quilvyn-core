@@ -1726,6 +1726,7 @@ Quilvyn.sheetHtml = function(attrs) {
           value = value.replace(interp, expr.eval(computedAttributes));
         }
       }
+      value = value.replaceAll('+-', '-');
     } else if(isNote && typeof(value) == 'number') {
       value = QuilvynUtils.signed(value);
     }
