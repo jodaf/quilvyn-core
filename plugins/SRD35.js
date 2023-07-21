@@ -1626,115 +1626,131 @@ SRD35.SHIELDS = {
   'Tower':'AC=4 Weight=Tower Skill=10 Spell=50'
 };
 SRD35.SKILLS = {
-  'Appraise':'Ability=intelligence Class=Bard,Rogue',
-  'Balance':'Ability=dexterity Class=Bard,Monk,Rogue',
+  'Appraise':'Ability=intelligence Untrained=true Class=Bard,Rogue',
+  'Balance':'Ability=dexterity Untrained=true Class=Bard,Monk,Rogue',
   'Bluff':
-    'Ability=charisma Class=Bard,Rogue,Sorcerer ' +
+    'Ability=charisma Untrained=true Class=Bard,Rogue,Sorcerer ' +
     'Synergy=Diplomacy,"Disguise (acting)",Intimidate,"Sleight Of Hand"',
-  'Climb':'Ability=strength Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue',
+  'Climb':
+    'Ability=strength Untrained=true ' +
+    'Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue',
   'Concentration':
-    'Ability=constitution ' +
+    'Ability=constitution Untrained=true ' +
     'Class=Bard,Cleric,Druid,Monk,Paladin,Ranger,Sorcerer,Wizard',
   'Craft (Alchemy)':
-    'Ability=intelligence ' +
+    'Ability=intelligence Untrained=true ' +
     'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
     'Synergy="Appraise (related)"',
   'Craft (Armor)':
-    'Ability=intelligence ' +
+    'Ability=intelligence Untrained=true ' +
     'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
     'Synergy="Appraise (related)"',
   'Craft (Bows)':
-    'Ability=intelligence ' +
+    'Ability=intelligence Untrained=true ' +
     'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
     'Synergy="Appraise (related)"',
   'Craft (Traps)':
-    'Ability=intelligence ' +
+    'Ability=intelligence Untrained=true ' +
     'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
     'Synergy="Appraise (related)"',
   'Craft (Weapons)':
-    'Ability=intelligence ' +
+    'Ability=intelligence Untrained=true ' +
     'Class=Barbarian,Bard,Cleric,Druid,Fighter,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard ' +
     'Synergy="Appraise (related)"',
   'Decipher Script':
-    'Ability=intelligence Untrained=false ' +
-    'Class=Bard,Rogue,Wizard Synergy="Use Magic Device (scrolls)"',
-  'Diplomacy':'Ability=charisma Class=Bard,Cleric,Druid,Monk,Paladin,Rogue',
+    'Ability=intelligence Untrained=false Class=Bard,Rogue,Wizard ' +
+    'Synergy="Use Magic Device (scrolls)"',
+  'Diplomacy':
+    'Ability=charisma Untrained=true ' +
+    'Class=Bard,Cleric,Druid,Monk,Paladin,Rogue',
   'Disable Device':'Ability=intelligence Untrained=false Class=Rogue',
-  'Disguise':'Ability=charisma Class=Bard,Rogue',
+  'Disguise':'Ability=charisma Untrained=true Class=Bard,Rogue',
   'Escape Artist':
-    'Ability=dexterity Class=Bard,Monk,Rogue Synergy="Use Rope (bindings)"',
-  'Forgery':'Ability=intelligence Class=Rogue',
-  'Gather Information':'Ability=charisma Class=Bard,Rogue',
+    'Ability=dexterity Untrained=true Class=Bard,Monk,Rogue ' +
+    'Synergy="Use Rope (bindings)"',
+  'Forgery':'Ability=intelligence Untrained=true Class=Rogue',
+  'Gather Information':'Ability=charisma Untrained=true Class=Bard,Rogue',
   'Handle Animal':
-    'Ability=charisma Class=Barbarian,Druid,Fighter,Paladin,Ranger '+
-    'Untrained=false Synergy="Diplomacy (animals)",Ride',
-  'Heal':'Ability=wisdom Class=Cleric,Druid,Paladin,Ranger',
-  'Hide':'Ability=dexterity Class=Bard,Monk,Ranger,Rogue',
-  'Intimidate':'Ability=charisma Class=Barbarian,Fighter,Rogue',
+    'Ability=charisma Untrained=false ' +
+    'Class=Barbarian,Druid,Fighter,Paladin,Ranger '+
+    'Synergy="Diplomacy (animals)",Ride',
+  'Heal':'Ability=wisdom Untrained=true Class=Cleric,Druid,Paladin,Ranger',
+  'Hide':'Ability=dexterity Untrained=true Class=Bard,Monk,Ranger,Rogue',
+  'Intimidate':'Ability=charisma Untrained=true Class=Barbarian,Fighter,Rogue',
   'Jump':
-    'Ability=strength Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue ' +
-    'Synergy=Tumble',
+    'Ability=strength Untrained=true ' +
+    'Class=Barbarian,Bard,Fighter,Monk,Ranger,Rogue Synergy=Tumble',
   'Knowledge (Arcana)':
-    'Ability=intelligence untrained=n ' +
+    'Ability=intelligence Untrained=false ' +
     'Class=Bard,Cleric,Monk,Sorcerer,Wizard Synergy=Spellcraft',
   'Knowledge (Dungeoneering)':
-    'Ability=intelligence untrained=n ' +
-    'Class=Bard,Ranger,Wizard Synergy="Survival (underground)"',
+    'Ability=intelligence Untrained=false Class=Bard,Ranger,Wizard ' +
+    'Synergy="Survival (underground)"',
   'Knowledge (Engineering)':
-    'Ability=intelligence untrained=n ' +
-    'Class=Bard,Wizard Synergy="Search (secret doors)"',
+    'Ability=intelligence Untrained=false Class=Bard,Wizard ' +
+    'Synergy="Search (secret doors)"',
   'Knowledge (Geography)':
-    'Ability=intelligence untrained=n ' +
+    'Ability=intelligence Untrained=false ' +
     'Class=Bard,Ranger,Wizard Synergy="Survival (lost and hazards)"',
   'Knowledge (History)':
-    'Ability=intelligence untrained=n ' +
-    'Class=Bard,Cleric,Wizard Synergy="Bardic knowledge"',
+    'Ability=intelligence Untrained=false Class=Bard,Cleric,Wizard ' +
+    'Synergy="Bardic knowledge"',
   'Knowledge (Local)':
-    'Ability=intelligence untrained=n ' +
-    'Class=Bard,Rogue,Wizard Synergy="Gather Information"',
+    'Ability=intelligence Untrained=false Class=Bard,Rogue,Wizard ' +
+    'Synergy="Gather Information"',
   'Knowledge (Nature)':
-    'Ability=intelligence untrained=n ' +
-    'Class=Bard,Druid,Ranger,Wizard Synergy="Survival (outdoors)"',
+    'Ability=intelligence Untrained=false Class=Bard,Druid,Ranger,Wizard ' +
+    'Synergy="Survival (outdoors)"',
   'Knowledge (Nobility)':
-    'Ability=intelligence untrained=n ' +
-    'Class=Bard,Paladin,Wizard Synergy=Diplomacy',
+    'Ability=intelligence Untrained=false Class=Bard,Paladin,Wizard ' +
+    'Synergy=Diplomacy',
   'Knowledge (Planes)':
-    'Ability=intelligence untrained=n ' +
-    'Class=Bard,Cleric,Wizard Synergy="Survival (other planes)"',
+    'Ability=intelligence Untrained=false Class=Bard,Cleric,Wizard ' +
+    'Synergy="Survival (other planes)"',
   'Knowledge (Religion)':
-    'Ability=intelligence untrained=n ' +
+    'Ability=intelligence Untrained=false ' +
     'Class=Bard,Cleric,Monk,Paladin,Wizard Synergy="Undead turning check"',
-  'Listen':'Ability=wisdom Class=Barbarian,Bard,Druid,Monk,Ranger,Rogue',
-  'Move Silently':'Ability=dexterity Class=Bard,Monk,Ranger,Rogue',
+  'Listen':
+    'Ability=wisdom Untrained=true ' +
+    'Class=Barbarian,Bard,Druid,Monk,Ranger,Rogue',
+  'Move Silently':
+    'Ability=dexterity Untrained=true Class=Bard,Monk,Ranger,Rogue',
   'Open Lock':'Ability=dexterity Untrained=false Class=Rogue',
-  'Perform (Act)':'Ability=charisma Class=Bard,Monk,Rogue',
-  'Perform (Comedy)':'Ability=charisma Class=Bard,Monk,Rogue',
-  'Perform (Dance)':'Ability=charisma Class=Bard,Monk,Rogue',
-  'Perform (Keyboard)':'Ability=charisma Class=Bard,Monk,Rogue',
-  'Perform (Oratory)':'Ability=charisma Class=Bard,Monk,Rogue',
-  'Perform (Percussion)':'Ability=charisma Class=Bard,Monk,Rogue',
-  'Perform (Sing)':'Ability=charisma Class=Bard,Monk,Rogue',
-  'Perform (String)':'Ability=charisma Class=Bard,Monk,Rogue',
-  'Perform (Wind)':'Ability=charisma Class=Bard,Monk,Rogue',
+  'Perform (Act)':'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
+  'Perform (Comedy)':'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
+  'Perform (Dance)':'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
+  'Perform (Keyboard)':'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
+  'Perform (Oratory)':'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
+  'Perform (Percussion)':
+    'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
+  'Perform (Sing)':'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
+  'Perform (String)':'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
+  'Perform (Wind)':'Ability=charisma Untrained=true Class=Bard,Monk,Rogue',
   'Profession (Tanner)':
     'Ability=wisdom Untrained=false ' +
     'Class=Bard,Cleric,Druid,Monk,Paladin,Ranger,Rogue,Sorcerer,Wizard',
-  'Ride':'Ability=dexterity Class=Barbarian,Druid,Fighter,Paladin,Ranger',
+  'Ride':
+    'Ability=dexterity Untrained=true ' +
+    'Class=Barbarian,Druid,Fighter,Paladin,Ranger',
   'Search':
-    'Ability=intelligence Class=Ranger,Rogue Synergy="Survival (tracking)"',
+    'Ability=intelligence Untrained=true ' +
+    'Class=Ranger,Rogue Synergy="Survival (tracking)"',
   'Sense Motive':
-    'Ability=wisdom Class=Bard,Monk,Paladin,Rogue Synergy=Diplomacy',
+    'Ability=wisdom Untrained=true ' +
+    'Class=Bard,Monk,Paladin,Rogue Synergy=Diplomacy',
   'Sleight Of Hand':'Ability=dexterity Untrained=false Class=Bard,Rogue',
   'Speak Language':'Untrained=false Class=Bard',
   'Spellcraft':
     'Ability=intelligence Untrained=false ' +
     'Class=Bard,Cleric,Druid,Sorcerer,Wizard '+
     'Synergy="Use Magic Device (scroll)"',
-  'Spot':'Ability=wisdom Class=Druid,Monk,Ranger,Rogue',
+  'Spot':'Ability=wisdom Untrained=true Class=Druid,Monk,Ranger,Rogue',
   'Survival':
-    'Ability=wisdom Class=Barbarian,Druid,Ranger Synergy="Knowledge (Nature)"',
+    'Ability=wisdom Untrained=true ' +
+    'Class=Barbarian,Druid,Ranger Synergy="Knowledge (Nature)"',
   'Swim':
-    'Ability=strength Class=Barbarian,Bard,Druid,Fighter,Monk,Ranger,Rogue',
+    'Ability=strength Untrained=true ' +
+    'Class=Barbarian,Bard,Druid,Fighter,Monk,Ranger,Rogue',
   'Tumble':
     'Ability=dexterity Untrained=false ' +
     'Class=Bard,Monk,Rogue Synergy=Balance,Jump',
@@ -1742,7 +1758,7 @@ SRD35.SKILLS = {
     'Ability=charisma Untrained=false Class=Bard,Rogue ' +
     'Synergy="Spellcraft (scroll)"',
   'Use Rope':
-    'Ability=dexterity Class=Ranger,Rogue ' +
+    'Ability=dexterity Untrained=true Class=Ranger,Rogue ' +
     'Synergy="Climb (rope)","Escape Artist (rope)"'
 };
 SRD35.SPELLS = {
@@ -5704,7 +5720,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     let untrained = QuilvynUtils.getAttrValue(attrs, 'Untrained');
     SRD35.skillRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Ability'),
-      untrained != 'n' && untrained != 'N',
+      untrained && !(untrained+'').match(/(^n|false)$/i),
       QuilvynUtils.getAttrValueArray(attrs, 'Class'),
       QuilvynUtils.getAttrValueArray(attrs, 'Synergy')
     );
@@ -7231,7 +7247,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
 
   for(let i = 0; i < sections.length; i++) {
 
-    let section = sections[i];
+    let section = sections[i].toLowerCase();
     let effects = notes[i];
     let matchInfo;
     let note = section + 'Notes.' + prefix;
@@ -8873,7 +8889,7 @@ SRD35.choiceEditorElements = function(rules, type) {
   else if(type == 'Skill')
     result.push(
       ['Ability', 'Ability', 'select-one', abilities],
-      ['Untrained', 'Untrained', 'select-one', ['Y', 'N']],
+      ['Untrained', 'Untrained', 'checkbox', ['']],
       ['Class', 'Class Skill', 'text', [30]],
       ['Synergy', 'Synergy', 'text', [30]]
     );
