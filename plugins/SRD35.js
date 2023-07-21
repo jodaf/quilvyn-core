@@ -4958,7 +4958,10 @@ SRD35.SMALL_DAMAGE = {
 // Abbreviations referenced in spell descriptions and feature notes
 SRD35.ABBREVIATIONS = {
   'AC':'Armor Class',
-  'HP':'Hit Points'
+  'HP':'Hit Points',
+  'RL':'L40plus400',
+  'RM':'L10plus100',
+  'RS':'Ldiv2times5plus25'
 };
 
 /* Defines rules related to character abilities. */
