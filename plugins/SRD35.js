@@ -7253,6 +7253,8 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     let section = sections[i].toLowerCase();
     let effects = notes[i];
     let matchInfo;
+    let maxVar =
+      section.includes('%1') ? section.match(/%\d/g).sort().pop().replace('%') - 0 : 0;
     let note = section + 'Notes.' + prefix;
     let priorInSection = sections.slice(0, i).filter(x => x == section).length;
     if(priorInSection > 0)
@@ -7266,10 +7268,26 @@ SRD35.featureRules = function(rules, name, sections, notes) {
 
     for(let j = 0; j < pieces.length; j++) {
 
-      if((matchInfo = pieces[j].match(/^([-+x](\d+(\.\d+)?|%[V1-9]))\s+(.*)$/)) != null) {
+      if((matchInfo = pieces[j].match(/^([-+x](\d+(\.\d+)?|%[V1-9]|%\{[^\}]*\}))\s+(.*)$/)) != null) {
 
         let adjust = matchInfo[1];
         let adjusted = matchInfo[4];
+
+        if(adjust.match(/%{/)) {
+          let expression = adjust.substring(3, adjust.length - 1);
+          let v = ++maxVar;
+          rules.defineRule(note + '.' + v, 'features.' + name, '?', null);
+          new Expr(expression).identifiers().forEach(id => {
+            if(expression.trim() == id)
+              rules.defineRule(note + '.' + v, id, '=', null);
+            else
+              rules.defineRule(note + '.' + v, id,
+                '=', 'new Expr("' + expression + '").eval(dict)'
+              );
+          });
+          adjust = '%' + v;
+        }
+
         let adjustor =
           adjust.match(/%\d/) ? note + '.' + adjust.replace(/.*%/, '') : note;
         let op = adjust.startsWith('x') ? '*' : '+';
@@ -7306,6 +7324,8 @@ SRD35.featureRules = function(rules, name, sections, notes) {
         rules.defineRule(adjusted,
           adjustor, op, !adjust.includes('%') ? adjust : adjust.startsWith('-') ? '-source' : 'source'
         );
+        if(adjust == '%1' && !pieces[j].includes(adjust))
+          rules.defineRule(adjustor, note, '?', '"noop for italics"');
 
       } else if(section == 'skill' && pieces[j].match(/\sclass\sskill(s)?$/)) {
         let skill =
