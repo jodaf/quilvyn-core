@@ -240,3 +240,7 @@ Expr.prototype.eval = function(dict) {
   return result.tipe == Expr.IDENTIFIER_TYPE ? dict[result.value] : result.value;
 
 };
+
+Expr.prototype.identifiers = function() {
+  return this.tokens.filter(t => t.tipe == Expr.IDENTIFIER_TYPE).map(t => t.value);
+};
