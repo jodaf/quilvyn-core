@@ -73,7 +73,7 @@ RuleEngine.prototype.addRules =
     if(source == null)
       source = '';
     if(expr != null && typeof(expr) != 'object' && typeof(expr) != 'function')
-      expr = new Function('source', 'return ' + expr + ';');
+      expr = new Function('source,dict', 'return ' + expr + ';');
     if(typeof source != 'string' || typeof target != 'string') {
       this.patterns[this.patterns.length] =
         {source:source, target:target, type:type, fn:expr, seq:0};
@@ -224,7 +224,7 @@ RuleEngine.prototype._recompute = function(initial, computed, attr) {
          !isNaN(sourceValue - 0))
         sourceValue -= 0; /* Convert string to number. */
       var amount = fn != null && (source == '' || sourceValue != null) ?
-        fn(sourceValue) : sourceValue;
+        fn(sourceValue, computed) : sourceValue;
       if(type == '?') {
         if(!amount) {
           computedValue = null;
