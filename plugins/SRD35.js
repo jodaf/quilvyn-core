@@ -17,7 +17,7 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 
 /*jshint esversion: 6 */
 /* jshint forin: false */
-/* globals ObjectViewer, Quilvyn, QuilvynRules, QuilvynUtils */
+/* globals Expr, ObjectViewer, Quilvyn, QuilvynRules, QuilvynUtils */
 "use strict";
 
 /*
@@ -1617,13 +1617,13 @@ SRD35.SCHOOLS = {
   'Transmutation':''
 };
 SRD35.SHIELDS = {
-  'Buckler':'AC=1 Weight=Light Skill=1 Spell=5',
-  'Heavy Steel':'AC=2 Weight=Heavy Skill=2 Spell=15',
-  'Heavy Wooden':'AC=2 Weight=Heavy Skill=2 Spell=15',
-  'Light Steel':'AC=1 Weight=Light Skill=1 Spell=5',
-  'Light Wooden':'AC=1 Weight=Light Skill=1 Spell=5',
-  'None':'AC=0 Weight=None Skill=0 Spell=0',
-  'Tower':'AC=4 Weight=Tower Skill=10 Spell=50'
+  'Buckler':'AC=1 Weight=Light Dex=10 Skill=1 Spell=5',
+  'Heavy Steel':'AC=2 Weight=Heavy Dex=10 Skill=2 Spell=15',
+  'Heavy Wooden':'AC=2 Weight=Heavy Dex=10 Skill=2 Spell=15',
+  'Light Steel':'AC=1 Weight=Light Dex=10 Skill=1 Spell=5',
+  'Light Wooden':'AC=1 Weight=Light Dex=10 Skill=1 Spell=5',
+  'None':'AC=0 Weight=None Dex=10 Skill=0 Spell=0',
+  'Tower':'AC=4 Weight=Tower Dex=2 Skill=10 Spell=50'
 };
 SRD35.SKILLS = {
   'Appraise':'Ability=intelligence Untrained=true Class=Bard,Rogue',
@@ -4967,13 +4967,6 @@ SRD35.ABBREVIATIONS = {
 /* Defines rules related to character abilities. */
 SRD35.abilityRules = function(rules) {
 
-  rules.defineChoice('notes',
-    'validationNotes.abilityMinimum:' +
-      'Requires charisma >= 14||constitution >= 14||dexterity >= 14||' +
-      'intelligence >= 14||strength >= 14||wisdom >= 14',
-    'validationNotes.abilityModifierSum:Requires ability modifier sum >= 1'
-  );
-
   for(let ability in SRD35.ABILITIES) {
     ability = ability.toLowerCase();
     rules.defineChoice('notes', ability + ':%V (%1)');
@@ -4995,6 +4988,14 @@ SRD35.abilityRules = function(rules) {
     '', '=', '30',
     'abilityNotes.armorSpeedAdjustment', '+', null
   );
+
+  rules.defineChoice('notes',
+    'validationNotes.abilityMinimum:' +
+      'Requires charisma >= 14||constitution >= 14||dexterity >= 14||' +
+      'intelligence >= 14||strength >= 14||wisdom >= 14',
+    'validationNotes.abilityModifierSum:Requires ability modifier sum >= 1'
+  );
+
   rules.defineRule('validationNotes.abilityMinimum',
     'charisma', '=', 'source >= 14 ? 0 : -1',
     'constitution', '^', 'source >= 14 ? 0 : null',
@@ -5023,13 +5024,10 @@ SRD35.aideRules = function(rules, companions, familiars) {
   QuilvynUtils.checkAttrTable
     (familiars, ['Str', 'Dex', 'Con', 'Int', 'Wis', 'Cha', 'HD', 'AC', 'Attack', 'Dam', 'Size', 'Speed', 'Level']);
 
-  for(let companion in companions) {
-    rules.choiceRules
-      (rules, 'Animal Companion', companion, companions[companion]);
-  }
-  for(let familiar in familiars) {
-    rules.choiceRules(rules, 'Familiar', familiar, familiars[familiar]);
-  }
+  for(let c in companions)
+    rules.choiceRules(rules, 'Animal Companion', c, companions[c]);
+  for(let f in familiars)
+    rules.choiceRules(rules, 'Familiar', f, familiars[f]);
 
   rules.defineChoice('notes',
     'animalCompanionStats.Initiative:%S',
@@ -5038,7 +5036,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'animalCompanionStats.Save Ref:%S',
     'animalCompanionStats.Save Will:%S',
     'familiarStats.Initiative:%S',
-    'familiarStats.Melee:+%V %1',
+    'familiarStats.Melee:%S %1',
     'familiarStats.Save Fort:%S',
     'familiarStats.Save Ref:%S',
     'familiarStats.Save Will:%S'
@@ -5073,7 +5071,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'companionMaxDexOrStr', '+', 'Math.floor((source - 10) / 2)'
   );
   rules.defineRule('animalCompanionStats.Melee.2',
-    'companionDamAdj1', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source'
+    'companionDamAdj1', '=', 'source == 0 ? "" : source >= 0 ? "+" + source : source'
   );
   // Default no second attack; overridden for specific animal companions
   rules.defineRule('animalCompanionStats.Melee.3',
@@ -5081,7 +5079,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
     "", '=', '""'
   );
   rules.defineRule('animalCompanionStats.Melee.4',
-    'companionDamAdj2', '=', 'source == 0 ? "" : source > 0 ? "+" + source : source',
+    'companionDamAdj2', '=', 'source == 0 ? "" : source >= 0 ? "+" + source : source',
     'animalCompanionStats.Melee.3', '=', 'source == "" ? "" : null'
   );
   rules.defineRule('animalCompanionStats.Save Fort',
@@ -5218,20 +5216,19 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
 
   QuilvynUtils.checkAttrTable
     (armors, ['AC', 'Weight', 'Dex', 'Skill', 'Spell']);
-  QuilvynUtils.checkAttrTable(shields, ['AC', 'Weight', 'Skill', 'Spell']);
+  QuilvynUtils.checkAttrTable
+    (shields, ['AC', 'Weight', 'Dex', 'Skill', 'Spell']);
   QuilvynUtils.checkAttrTable(weapons, ['Level', 'Category', 'Damage', 'Threat', 'Crit', 'Range']);
 
-  for(let armor in armors) {
-    rules.choiceRules(rules, 'Armor', armor, armors[armor]);
-  }
-  for(let shield in shields) {
-    rules.choiceRules(rules, 'Shield', shield, shields[shield]);
-  }
-  for(let weapon in weapons) {
-    let pattern = weapon.replace(/  */g, '\\s+');
-    let prefix =
-      weapon.charAt(0).toLowerCase() + weapon.substring(1).replaceAll(' ', '');
-    rules.choiceRules(rules, 'Goody', weapon,
+  for(let a in armors)
+    rules.choiceRules(rules, 'Armor', a, armors[a]);
+  for(let s in shields)
+    rules.choiceRules(rules, 'Shield', s, shields[s]);
+  for(let w in weapons) {
+    rules.choiceRules(rules, 'Weapon', w, weapons[w]);
+    let pattern = w.replace(/  */g, '\\s+');
+    let prefix = w.charAt(0).toLowerCase() + w.substring(1).replaceAll(' ', '');
+    rules.choiceRules(rules, 'Goody', w,
       // To avoid triggering additional weapons with a common suffix (e.g.,
       // "* punching dagger +2" also makes regular dagger +2), require that
       // weapon goodies with a trailing value have no preceding word or be
@@ -5242,13 +5239,12 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
       'Value="$1 || $2" ' +
       'Section=combat Note="%V Attack and damage"'
     );
-    rules.choiceRules(rules, 'Goody', 'Masterwork ' + weapon,
+    rules.choiceRules(rules, 'Goody', 'Masterwork ' + w,
       'Pattern="masterwork\\s+' + pattern + '" ' +
       'Effect=add ' +
       'Attribute=' + prefix + 'AttackModifier ' +
       'Section=combat Note="%V Attack"'
     );
-    rules.choiceRules(rules, 'Weapon', weapon, weapons[weapon]);
   }
 
   rules.defineChoice('notes',
@@ -5388,35 +5384,33 @@ SRD35.identityRules = function(
     (paths, ['Group', 'Level', 'Features', 'Selectables', 'SpellAbility', 'SpellSlots']);
   QuilvynUtils.checkAttrTable
     (races, ['Require', 'Features', 'Selectables', 'Languages']);
+  QuilvynUtils.checkAttrTable
+    (prestigeClasses, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots']);
+  QuilvynUtils.checkAttrTable
+    (npcClasses, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots']);
 
-  for(let alignment in alignments) {
-    rules.choiceRules(rules, 'Alignment', alignment, alignments[alignment]);
-  }
-  for(let clas in classes) {
-    rules.choiceRules(rules, 'Class', clas, classes[clas]);
-  }
+  for(let a in alignments)
+    rules.choiceRules(rules, 'Alignment', a, alignments[a]);
+  for(let c in classes)
+    rules.choiceRules(rules, 'Class', c, classes[c]);
   if(prestigeClasses) {
-    for(let pc in prestigeClasses) {
-      rules.choiceRules(rules, 'Prestige', pc, prestigeClasses[pc]);
-      rules.defineRule('levels.' + pc, 'prestige.' + pc, '=', null);
+    for(let c in prestigeClasses) {
+      rules.choiceRules(rules, 'Prestige', c, prestigeClasses[c]);
+      rules.defineRule('levels.' + c, 'prestige.' + c, '=', null);
     }
   }
   if(npcClasses) {
-    for(let nc in npcClasses) {
-      rules.choiceRules(rules, 'Npc', nc, npcClasses[nc]);
-      rules.defineRule('levels.' + nc, 'npc.' + nc, '=', null);
+    for(let c in npcClasses) {
+      rules.choiceRules(rules, 'Npc', c, npcClasses[c]);
+      rules.defineRule('levels.' + c, 'npc.' + c, '=', null);
     }
   }
-  // Process paths before deities for domain definitions
-  for(let path in paths) {
-    rules.choiceRules(rules, 'Path', path, paths[path]);
-  }
-  for(let deity in deities) {
-    rules.choiceRules(rules, 'Deity', deity, deities[deity]);
-  }
-  for(let race in races) {
-    rules.choiceRules(rules, 'Race', race, races[race]);
-  }
+  for(let p in paths)
+    rules.choiceRules(rules, 'Path', p, paths[p]);
+  for(let d in deities)
+    rules.choiceRules(rules, 'Deity', d, deities[d]);
+  for(let r in races)
+    rules.choiceRules(rules, 'Race', r, races[r]);
 
   rules.defineRule
     ('experienceNeeded', 'level', '=', '1000 * source * (source + 1) / 2');
@@ -5439,12 +5433,10 @@ SRD35.magicRules = function(rules, schools, spells) {
   QuilvynUtils.checkAttrTable
     (spells, ['School', 'Level', 'Description', 'Liquid']);
 
-  for(let school in schools) {
-    rules.choiceRules(rules, 'School', school, schools[school]);
-  }
-  for(let spell in spells) {
-    rules.choiceRules(rules, 'Spell', spell, spells[spell]);
-  }
+  for(let s in schools)
+    rules.choiceRules(rules, 'School', s, schools[s]);
+  for(let s in spells)
+    rules.choiceRules(rules, 'Spell', s, spells[s]);
 
 };
 
@@ -5462,57 +5454,49 @@ SRD35.talentRules = function(
   QuilvynUtils.checkAttrTable(languages, []);
   QuilvynUtils.checkAttrTable
     (skills, ['Ability', 'Untrained', 'Class', 'Synergy']);
-  QuilvynUtils.checkAttrTable
-   (goodies, ['Pattern', 'Effect', 'Value', 'Attribute', 'Section', 'Note']);
 
-  for(let goody in goodies) {
-    rules.choiceRules(rules, 'Goody', goody, goodies[goody]);
-  }
-  for(let language in languages) {
-    rules.choiceRules(rules, 'Language', language, languages[language]);
-  }
-  for(let skill in skills) {
-    rules.choiceRules(rules, 'Skill', skill, skills[skill]);
-    let pattern = skill.replaceAll('(', '\\(').replaceAll(')', '\\)').replace(/\s+/, '\\b\\s*');
-    rules.choiceRules(rules, 'Goody', skill,
+  for(let g in goodies)
+    rules.choiceRules(rules, 'Goody', g, goodies[g]);
+  for(let l in languages)
+    rules.choiceRules(rules, 'Language', l, languages[l]);
+  for(let s in skills) {
+    rules.choiceRules(rules, 'Skill', s, skills[s]);
+    let pattern =
+      s.replaceAll('(', '\\(').replaceAll(')', '\\)').replace(/\s+/, '\\b\\s*');
+    rules.choiceRules(rules, 'Goody', s,
       'Pattern="([-+]\\d).*\\s+' + pattern + '\\s+Skill|' + pattern + '\\s+skill\\s+([-+]\\d)"' +
       'Effect=add ' +
       'Value="$1 || $2" ' +
-      'Attribute="skillModifier.' + skill + '" ' +
-      'Section=skill Note="%V ' + skill + '"'
+      'Attribute="skillModifier.' + s + '" ' +
+      'Section=skill Note="%V ' + s + '"'
     );
-    rules.choiceRules(rules, 'Goody', skill + ' Class Skill',
+    rules.choiceRules(rules, 'Goody', s + ' Class Skill',
       'Pattern="' + pattern + '\\s+(?:is\\s+)?(?:a\\s+)?class\\s+skill" ' +
       'Effect=set ' +
-      'Attribute="classSkills.' + skill + '" ' +
-      'Section=skill Note="' + skill + ' is a class skill"'
+      'Attribute="classSkills.' + s + '" ' +
+      'Section=skill Note="' + s + ' is a class skill"'
     );
   }
-  for(let feat in feats) {
-    if((matchInfo = feat.match(/(%(\w+))/)) != null) {
+  for(let f in feats) {
+    if((matchInfo = f.match(/(%(\w+))/)) != null) {
       for(let c in rules.getChoices(matchInfo[2] + 's')) {
         rules.choiceRules
-          (rules, 'Feat', feat.replace(matchInfo[1], c), feats[feat].replaceAll(matchInfo[1], c));
+          (rules, 'Feat', f.replace(matchInfo[1], c), feats[f].replaceAll(matchInfo[1], c));
       }
     } else {
-      rules.choiceRules(rules, 'Feat', feat, feats[feat]);
+      rules.choiceRules(rules, 'Feat', f, feats[f]);
     }
   }
-  for(let feature in features) {
-    if((matchInfo = feature.match(/(%(\w+))/)) != null) {
+  for(let f in features) {
+    if((matchInfo = f.match(/(%(\w+))/)) != null) {
       for(let c in rules.getChoices(matchInfo[2] + 's')) {
         rules.choiceRules
-          (rules, 'Feature', feature.replace(matchInfo[1], c), features[feature].replaceAll(matchInfo[1], c));
+          (rules, 'Feature', f.replace(matchInfo[1], c), features[f].replaceAll(matchInfo[1], c));
       }
     } else {
-      rules.choiceRules(rules, 'Feature', feature, features[feature]);
+      rules.choiceRules(rules, 'Feature', f, features[f]);
     }
   }
-
-  rules.defineChoice('notes',
-    'validationNotes.skillMaximum:' +
-      'Points allocated to one or more skills exceed maximum'
-  );
 
   rules.defineRule
     ('featCount.General', 'level', '=', '1 + Math.floor(source / 3)');
@@ -5532,6 +5516,7 @@ SRD35.talentRules = function(
     'skillNotes.intelligenceSkillPointsAdjustment', '+', null,
     'level', '^', null
   );
+
   QuilvynRules.validAllocationRules
     (rules, 'feat', 'Sum "^featCount\\."', 'Sum "^feats\\."');
   QuilvynRules.validAllocationRules
@@ -5540,11 +5525,16 @@ SRD35.talentRules = function(
     (rules, 'selectableFeature', 'Sum "^selectableFeatureCount\\."', 'Sum "^selectableFeatures\\."');
   QuilvynRules.validAllocationRules
     (rules, 'skill', 'skillPoints', 'Sum "^skills\\.[^\\.]*$"');
+  rules.defineChoice('notes',
+    'validationNotes.skillMaximum:' +
+      'Points allocated to one or more skills exceed maximum'
+  );
   rules.defineRule('validationNotes.skillMaximum',
     'maxAllowedSkillAllocation', '=', null,
     'maxActualSkillAllocation', '+', '-source',
     '', 'v', '0'
   );
+
   // Define specific attributes for Stat Block character sheet format
   rules.defineRule
     ('alignmentAbbr', 'alignment', '=', 'source.replaceAll(/[a-z ]/g, "")');
@@ -5716,6 +5706,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     SRD35.shieldRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'AC'),
       QuilvynUtils.getAttrValue(attrs, 'Weight'),
+      QuilvynUtils.getAttrValue(attrs, 'Dex'),
       QuilvynUtils.getAttrValue(attrs, 'Skill'),
       QuilvynUtils.getAttrValue(attrs, 'Spell')
     );
@@ -5734,24 +5725,26 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     let liquids = QuilvynUtils.getAttrValueArray(attrs, 'Liquid');
     let school = QuilvynUtils.getAttrValue(attrs, 'School');
     let schoolAbbr = (school || 'Universal').substring(0, 4);
-    for(let i = 0; i < groupLevels.length; i++) {
-      let matchInfo = (groupLevels[i] + '').match(/^(\D+)(\d+)$/);
+    groupLevels.forEach(gl => {
+      let matchInfo = (gl + '').match(/^(\D+)(\d+)$/);
       if(!matchInfo) {
-        console.log('Bad level "' + groupLevels[i] + '" for spell ' + name);
-        continue;
+        console.log('Bad level "' + gl + '" for spell ' + name);
+      } else {
+        let group = matchInfo[1];
+        let level = matchInfo[2] * 1;
+        let fullName = name + '(' + group + level + ' ' + schoolAbbr + ')';
+        // If classes have already been processed, then domains will be listed
+        // in Cleric selectable feaatures; otherwise, look in SRD35.CLASSES
+        let domainSpell =
+          (rules.getChoices('selectableFeatures') != null &&
+           ('Cleric - ' + group + ' Domain') in rules.getChoices('selectableFeatures')) ||
+          SRD35.CLASSES.Cleric.includes(group + ' Domain');
+        SRD35.spellRules
+          (rules, fullName, school, group, level, description, domainSpell,
+           liquids);
+        rules.addChoice('spells', fullName, attrs);
       }
-      let group = matchInfo[1];
-      let level = matchInfo[2] * 1;
-      let fullName = name + '(' + group + level + ' ' + schoolAbbr + ')';
-      let domainSpell =
-        (rules.getChoices('selectableFeatures') != null &&
-         ('Cleric - ' + group + ' Domain') in rules.getChoices('selectableFeatures')) ||
-        SRD35.CLASSES.Cleric.includes(group + ' Domain');
-      SRD35.spellRules
-        (rules, fullName, school, group, level, description, domainSpell,
-         level>3 ? [] : liquids);
-      rules.addChoice('spells', fullName, attrs);
-    }
+    });
   } else if(type == 'Weapon')
     SRD35.weaponRules(rules, name,
       QuilvynUtils.getAttrValue(attrs, 'Level'),
@@ -5767,7 +5760,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   }
   if(type != 'Spell') {
     type = type == 'Class' ? 'levels' :
-    (type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
+    (type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ','') + 's');
     rules.addChoice(type, name, attrs);
   }
 };
@@ -5881,7 +5874,7 @@ SRD35.armorRules = function(
  * level advance. #attack# is one of '1', '1/2', or '3/4', indicating the base
  * attack progression for the class; similarly, #saveFort#, #saveRef#, and
  * #saveWill# are each one of '1/2' or '1/3', indicating the saving throw
- * progressions. #skills# indicate class skills for the class; see skillRules
+ * progressions. #skills# lists class skills for the class; see skillRules
  * for an alternate way these can be defined. #features# and #selectables# list
  * the fixed and selectable features acquired as the character advances in
  * class level, and #languages# lists any automatic languages for the class.
@@ -5910,23 +5903,23 @@ SRD35.classRules = function(
     console.log('Bad hitDie "' + hitDie + '" for class ' + name);
     return;
   }
-  if(!(attack + '').match(/^(1|1\/2|3\/4)$/)) {
-    console.log('Bad attack "' + hitDie + '" for class ' + name);
+  if(!['1', '1/2', '3/4'].includes(attack + '')) {
+    console.log('Bad attack "' + attack + '" for class ' + name);
     return;
   }
   if(typeof skillPoints != 'number') {
     console.log('Bad skillPoints "' + skillPoints + '" for class ' + name);
     return;
   }
-  if(!(saveFort + '').match(/^(1\/2|1\/3)$/)) {
+  if(!['1/2', '1/3'].includes(saveFort)) {
     console.log('Bad saveFort "' + saveFort + '" for class ' + name);
     return;
   }
-  if(!(saveRef + '').match(/^(1\/2|1\/3)$/)) {
+  if(!['1/2', '1/3'].includes(saveRef)) {
     console.log('Bad saveRef "' + saveRef + '" for class ' + name);
     return;
   }
-  if(!(saveWill + '').match(/^(1\/2|1\/3)$/)) {
+  if(!['1/2', '1/3'].includes(saveWill)) {
     console.log('Bad saveWill "' + saveWill + '" for class ' + name);
     return;
   }
@@ -5935,13 +5928,13 @@ SRD35.classRules = function(
     return;
   }
   if(rules.getChoices('skills')) {
-    for(let i = 0; i < skills.length; i++) {
-      if(!(skills[i] in rules.getChoices('skills')) &&
-         QuilvynUtils.getKeys(rules.getChoices('skills')).filter(skill => skill.startsWith(skills[i] + ' (')).length == 0) {
-        console.log('Bad skill "' + skills[i] + '" for class ' + name);
+    skills.forEach(s => {
+      if(!(s in rules.getChoices('skills')) &&
+         QuilvynUtils.getKeys(rules.getChoices('skills')).filter(skill => skill.startsWith(s + ' (')).length == 0) {
+        console.log('Bad skill "' + s + '" for class ' + name);
         // Warning only - not critical to definition
       }
-    }
+    });
   }
   if(!Array.isArray(features)) {
     console.log('Bad features list "' + features + '" for class ' + name);
@@ -5956,13 +5949,12 @@ SRD35.classRules = function(
     return;
   }
   if(rules.getChoices('languages')) {
-    for(let i = 0; i < languages.length; i++) {
-      if(languages[i] != 'any' &&
-         !(languages[i] in rules.getChoices('languages'))) {
-        console.log('Bad language "' + languages[i] + '" for class ' + name);
+    languages.forEach(l => {
+      if(l != 'any' && !(l in rules.getChoices('languages'))) {
+        console.log('Bad language "' + l + '" for class ' + name);
         // Warning only - not critical to definition
       }
-    }
+    });
   }
   if(spellAbility) {
     spellAbility = spellAbility.toLowerCase();
@@ -5980,7 +5972,7 @@ SRD35.classRules = function(
   let prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
 
-  // Interpret values from the custom class entry widget
+  // Interpret values from the homebrew class entry widget
   if(casterLevelArcane == 'Arcane') {
     casterLevelArcane = classLevel;
     casterLevelDivine = null;
@@ -6000,20 +5992,20 @@ SRD35.classRules = function(
   );
 
   let saves = {'Fortitude':saveFort, 'Reflex':saveRef, 'Will':saveWill};
-  for(let save in saves) {
-    rules.defineRule('class' + save + 'Bonus',
-      classLevel, '+=', saves[save] == '1/2' ? SRD35.SAVE_BONUS_HALF :
+  for(let s in saves) {
+    rules.defineRule('class' + s + 'Bonus',
+      classLevel, '+=', saves[s] == '1/2' ? SRD35.SAVE_BONUS_HALF :
                         SRD35.SAVE_BONUS_THIRD
     );
-    rules.defineRule('save.' + save, 'class' + save + 'Bonus', '+', null);
+    rules.defineRule('save.' + s, 'class' + s + 'Bonus', '+', null);
   }
 
   rules.defineRule
     ('skillPoints', classLevel, '+', '(source + 3) * ' + skillPoints);
 
-  for(let i = 0; i < skills.length; i++) {
-    rules.defineRule('classSkills.' + skills[i], classLevel, '=', '1');
-  }
+  skills.forEach(s => {
+    rules.defineRule('classSkills.' + s, classLevel, '=', '1');
+  });
 
   QuilvynRules.featureListRules(rules, features, name, classLevel, false);
   QuilvynRules.featureListRules(rules, selectables, name, classLevel, true);
@@ -6022,10 +6014,10 @@ SRD35.classRules = function(
 
   if(languages.length > 0) {
     rules.defineRule('languageCount', classLevel, '+', languages.length);
-    for(let i = 0; i < languages.length; i++) {
-      if(languages[i] != 'any')
-        rules.defineRule('languages.' + languages[i], classLevel, '=', '1');
-    }
+    languages.forEach(l => {
+      if(l != 'any')
+        rules.defineRule('languages.' + l, classLevel, '=', '1');
+    });
   }
 
   if(spellSlots.length > 0) {
@@ -6034,13 +6026,13 @@ SRD35.classRules = function(
     if(casterLevelExpr.match(new RegExp('\\b' + classLevel + '\\b', 'i'))) {
       rules.defineRule('casterLevels.' + name,
         classLevel, '=', casterLevelExpr.replace(new RegExp('\\b' + classLevel + '\\b', 'gi'), 'source'),
-      'magicNotes.casterLevelBonus', '+', null
+        'magicNotes.casterLevelBonus', '+', null
       );
     } else {
       rules.defineRule('casterLevels.' + name,
         classLevel, '?', null,
         'level', '=', casterLevelExpr.replace(new RegExp('\\blevel\\b', 'gi'), 'source'),
-      'magicNotes.casterLevelBonus', '+', null
+       'magicNotes.casterLevelBonus', '+', null
       );
     }
     if(casterLevelArcane)
@@ -6055,9 +6047,10 @@ SRD35.classRules = function(
     QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
 
     for(let i = 0; i < spellSlots.length; i++) {
-      let matchInfo = spellSlots[i].match(/^(\D+)(\d):/);
+      let s = spellSlots[i];
+      let matchInfo = s.match(/^(\D+)(\d):/);
       if(!matchInfo) {
-        console.log('Bad format for spell slot "' + spellSlots[i] + '"');
+        console.log('Bad format for spell slot "' + s + '"');
         continue;
       }
       let spellLevel = matchInfo[2] * 1;
@@ -6089,20 +6082,20 @@ SRD35.classRules = function(
       // spellRules) with the minimum needed to cast the spell.
       let casterLevelPat = new RegExp('casterLevels.' + spellType + '\\b', 'g');
       let itemLevelPat = new RegExp('\\([A-Za-z ]*' + spellLevel + ' ');
-      let minLevel = spellSlots[i].split(':')[1].split('=')[0] * 1;
+      let minLevel = s.split(':')[1].split('=')[0] * 1;
       let formats = rules.getChoices('notes');
-      for(let potion in rules.getChoices('potions')) {
-        if(formats['potions.' + potion].match(casterLevelPat) &&
-           potion.match(itemLevelPat)) {
-          formats['potions.' + potion] =
-            formats['potions.' + potion].replaceAll(casterLevelPat, minLevel);
+      for(let p in rules.getChoices('potions')) {
+        if(formats['potions.' + p].match(casterLevelPat) &&
+           p.match(itemLevelPat)) {
+          formats['potions.' + p] =
+            formats['potions.' + p].replaceAll(casterLevelPat, minLevel);
         }
       }
-      for(let scroll in rules.getChoices('scrolls')) {
-        if(formats['scrolls.' + scroll].match(casterLevelPat) &&
-           scroll.match(itemLevelPat)) {
-          formats['scrolls.' + scroll] =
-            formats['scrolls.' + scroll].replaceAll(casterLevelPat, minLevel);
+      for(let s in rules.getChoices('scrolls')) {
+        if(formats['scrolls.' + s].match(casterLevelPat) &&
+           s.match(itemLevelPat)) {
+          formats['scrolls.' + s] =
+            formats['scrolls.' + s].replaceAll(casterLevelPat, minLevel);
         }
       }
     }
@@ -6324,8 +6317,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Paladin', '=', 'source >= 15 ? source + 5 : null'
     );
     rules.defineRule('companionNotes.shareSavingThrows.1',
-      // Use base note in calculation so Quilvyn displays it in italics
-      'companionNotes.shareSavingThrows', '?', null,
+      'companionNotes.shareSavingThrows', '?', '"italics noop"',
       'classFortitudeBonus', '=', null,
       'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_HALF + ')',
       '', '^', '0'
@@ -6406,10 +6398,10 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('selectableFeatureCount.Wizard (Specialization)',
       'levels.Wizard', '=', '1'
     );
-    for(let school in rules.getChoices('schools')) {
+    for(let s in rules.getChoices('schools')) {
       rules.defineRule('selectableFeatureCount.Wizard (Opposition)',
-        'wizardFeatures.School Specialization (' + school + ')', '=',
-          school == 'Divination' ? '1' : '2'
+        'wizardFeatures.School Specialization (' + s + ')', '=',
+          s == 'Divination' ? '1' : '2'
       );
     }
 
@@ -6440,11 +6432,11 @@ SRD35.classRulesExtra = function(rules, name) {
 
     let allSpells = rules.getChoices('spells');
     let matchInfo;
-    for(let spell in allSpells) {
-      if((matchInfo = spell.match(/\(\w+5 (\w+)\)/)) != null) {
+    for(let s in allSpells) {
+      if((matchInfo = s.match(/\(\w+5 (\w+)\)/)) != null) {
         let school = matchInfo[1];
         rules.defineRule
-          ('level5' + school + 'Spells', 'spells.' + spell, '+=', '1');
+          ('level5' + school + 'Spells', 'spells.' + s, '+=', '1');
         rules.defineRule
           ('level5SpellSchools', 'level5' + school + 'Spells', '+=', '1');
       }
@@ -6964,8 +6956,6 @@ SRD35.companionRules = function(
  */
 SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
 
-  let i;
-
   if(!name) {
     console.log('Empty deity name');
     return;
@@ -6983,24 +6973,24 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
     return;
   }
   if(rules.getChoices('selectableFeatures')) {
-    for(i = 0; i < domains.length; i++) {
-      if(QuilvynUtils.getKeys(rules.getChoices('selectableFeatures'), domains[i] + ' Domain').length == 0) {
-        console.log('Bad domain "' + domains[i] + '" for deity ' + name);
+    domains.forEach(d => {
+      if(QuilvynUtils.getKeys(rules.getChoices('selectableFeatures'), d + ' Domain').length == 0) {
+        console.log('Bad domain "' + d + '" for deity ' + name);
         // Warning only - not critical to definition
       }
-    }
+    });
   }
   if(!Array.isArray(weapons)) {
     console.log('Bad weapons list "' + weapons + '" for deity ' + name);
     return;
   }
   if(rules.getChoices('weapons')) {
-    for(i = 0; i < weapons.length; i++) {
-      if(!(weapons[i] in rules.getChoices('weapons'))) {
-        console.log('Bad weapon "' + weapons[i] + '" for deity ' + name);
+    weapons.forEach(w => {
+      if(!(w in rules.getChoices('weapons'))) {
+        console.log('Bad weapon "' + w + '" for deity ' + name);
         // Warning only - not critical to definition
       }
-    }
+    });
   }
 
   if(rules.deityStats == null) {
@@ -7024,24 +7014,23 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
   rules.defineRule('deityFavoredWeapons',
     'deity', '=', QuilvynUtils.dictLit(rules.deityStats.weapons) + '[source]'
   );
-  for(let i = 0; i < weapons.length; i++) {
-    let weapon = weapons[i];
-    let focusFeature = 'Weapon Focus (' + weapon + ')';
-    let proficiencyFeature = 'Weapon Proficiency (' + weapon + ')';
+  weapons.forEach(w => {
+    let focusFeature = 'Weapon Focus (' + w + ')';
+    let proficiencyFeature = 'Weapon Proficiency (' + w + ')';
     rules.defineRule('clericFeatures.' + focusFeature,
       'featureNotes.weaponOfWar', '?', null,
-      'deityFavoredWeapons', '=', 'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
+      'deityFavoredWeapons', '=', 'source.indexOf("' + w + '") >= 0 ? 1 : null'
     );
     rules.defineRule('clericFeatures.' + proficiencyFeature,
       'featureNotes.weaponOfWar', '?', null,
-      'deityFavoredWeapons', '=', 'source.indexOf("' + weapon + '") >= 0 ? 1 : null'
+      'deityFavoredWeapons', '=', 'source.indexOf("' + w + '") >= 0 ? 1 : null'
     );
     rules.defineRule
       ('features.' + focusFeature, 'clericFeatures.' + focusFeature, '=', null);
     rules.defineRule('features.' + proficiencyFeature,
       'clericFeatures.' + proficiencyFeature, '=', null
     );
-  }
+  });
 
 };
 
@@ -7180,12 +7169,12 @@ SRD35.featRules = function(rules, name, requires, implies, types) {
     QuilvynRules.prerequisiteRules
       (rules, 'sanity', prefix + 'Feat', 'feats.' + name, implies);
   rules.defineRule('features.' + name, 'feats.' + name, '=', null);
-  for(let i = 0; i < types.length; i++) {
-    if(types[i] != 'General')
-      rules.defineRule('sum' + types[i].replaceAll(' ', '') + 'Feats',
+  types.forEach(t => {
+    if(t != 'General')
+      rules.defineRule('sum' + t.replaceAll(' ', '') + 'Feats',
         'feats.' + name, '+=', null
       );
-  }
+  });
 
 };
 
@@ -7253,7 +7242,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     let section = sections[i].toLowerCase();
     let effects = notes[i];
     let matchInfo;
-    let maxVar =
+    let maxSubnote =
       section.includes('%1') ? section.match(/%\d/g).sort().pop().replace('%') - 0 : 0;
     let note = section + 'Notes.' + prefix;
     let priorInSection = sections.slice(0, i).filter(x => x == section).length;
@@ -7273,19 +7262,20 @@ SRD35.featureRules = function(rules, name, sections, notes) {
         let adjust = matchInfo[1];
         let adjusted = matchInfo[4];
 
+        // Support +%{expr} by evaling expr for each id it contains
         if(adjust.match(/%{/)) {
           let expression = adjust.substring(3, adjust.length - 1);
-          let v = ++maxVar;
-          rules.defineRule(note + '.' + v, 'features.' + name, '?', null);
+          let sn = ++maxSubnote;
+          rules.defineRule(note + '.' + sn, 'features.' + name, '?', null);
           new Expr(expression).identifiers().forEach(id => {
             if(expression.trim() == id)
-              rules.defineRule(note + '.' + v, id, '=', null);
+              rules.defineRule(note + '.' + sn, id, '=', null);
             else
-              rules.defineRule(note + '.' + v, id,
+              rules.defineRule(note + '.' + sn, id,
                 '=', 'new Expr("' + expression + '").eval(dict)'
               );
           });
-          adjust = '%' + v;
+          adjust = '%' + sn;
         }
 
         let adjustor =
@@ -7325,7 +7315,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
           adjustor, op, !adjust.includes('%') ? adjust : adjust.startsWith('-') ? '-source' : 'source'
         );
         if(adjust == '%1' && !pieces[j].includes(adjust))
-          rules.defineRule(adjustor, note, '?', '"noop for italics"');
+          rules.defineRule(adjustor, note, '?', '"italics noop"');
 
       } else if(section == 'skill' && pieces[j].match(/\sclass\sskill(s)?$/)) {
         let skill =
@@ -7496,13 +7486,12 @@ SRD35.raceRules = function(
     return;
   }
   if(rules.getChoices('languages')) {
-    for(let i = 0; i < languages.length; i++) {
-      if(languages[i] != 'any' &&
-         !(languages[i] in rules.getChoices('languages'))) {
-        console.log('Bad language "' + languages[i] + '" for race ' + name);
+    languages.forEach(l => {
+      if(l != 'any' && !(l in rules.getChoices('languages'))) {
+        console.log('Bad language "' + l + '" for race ' + name);
         // Warning only - not critical to definition
       }
-    }
+    });
   }
 
   let prefix =
@@ -7539,27 +7528,18 @@ SRD35.raceRules = function(
  */
 SRD35.raceRulesExtra = function(rules, name) {
   if(name.match(/Gnome/)) {
-    ['Dancing Lights', 'Ghost Sound', 'Prestidigitation',
-     'Speak With Animals'].forEach(s => {
-      let attrs = SRD35.SPELLS[s];
-      if(attrs) {
-        let description = QuilvynUtils.getAttrValue(attrs, 'Description');
-        let school = QuilvynUtils.getAttrValue(attrs, 'School');
-        let level =
-          QuilvynUtils.getAttrValue(attrs, 'Level').replace(/^\D/, '') - 0;
-        let fullName =
-          s + '(GnomeMagic' + level + ' ' + (school ? school.substring(0, 4) : 'Univ') + ')';
-        SRD35.spellRules
-          (rules, fullName, school, 'GnomeMagic', level, description, false, []);
-        rules.defineRule('spells.' + fullName, 'gnomeLevel', '=', '1');
-        if(s != 'Speak With Animals')
-          rules.defineRule('spells.' + fullName, 'charisma', '?', 'source>=10');
-      }
-    });
-    rules.defineRule('casterLevels.GnomeMagic', 'gnomeLevel', '=', null);
-    rules.defineRule('spellDifficultyClass.GnomeMagic',
-      'casterLevels.GnomeMagic', '?', null,
-      'charismaModifier', '=', 'source + 10'
+    SRD35.featureSpells(
+      rules, 'Gnome Magic', 'GnomeMagic', 'charisma', 'gnomeLevel', '',
+      ['Dancing Lights','Ghost Sound','Prestidigitation','Speak With Animals']
+    );
+    rules.defineRule('spells.Dancing Lights(GnomeMagic0 Evoc)',
+      'charisma', '?', 'source>=10'
+    );
+    rules.defineRule('spells.Ghost Sound(GnomeMagic0 Illu)',
+      'charisma', '?', 'source>=10'
+    );
+    rules.defineRule('spells.Ghost Sound(Prestidigitation0 Univ)',
+      'charisma', '?', 'source>=10'
     );
   } else if(name.match(/Dwarf/)) {
     rules.defineRule
@@ -7670,10 +7650,20 @@ SRD35.schoolRules = function(rules, name, features) {
 /*
  * Defines in #rules# the rules associated with shield #name#, which adds #ac#
  * to the character's armor class, requires a #weight# proficiency level to
- * use effectively, imposes #skillPenalty# on specific skills and yields a
- * #spellFail# percent chance of arcane spell failure.
+ * use effectively, allows a maximum dex bonus to ac of #maxDex#, imposes
+ * #skillPenalty# on specific skills and yields a #spellFail# percent chance of
+ * arcane spell failure.
  */
-SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
+SRD35.shieldRules = function(
+  rules, name, ac, weight, maxDex, skillFail, spellFail
+) {
+
+  // Backwards compatibity--maxDex param was added in v2.4
+  if(spellFail == null) {
+    spellFail = skillFail;
+    skillFail = maxDex;
+    maxDex = 10;
+  }
 
   if(!name) {
     console.log('Empty shield name');
@@ -7686,6 +7676,10 @@ SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
   if(weight == null ||
      !(weight + '').match(/^([0-4]|none|light|medium|heavy|tower)$/i)) {
     console.log('Bad weight "' + weight + '" for shield ' + name);
+    return;
+  }
+  if(typeof maxDex != 'number') {
+    console.log('Bad max dex "' + maxDex + '" for armor ' + name);
     return;
   }
   if(typeof skillFail != 'number') {
@@ -7714,12 +7708,14 @@ SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
     rules.shieldStats = {
       ac:{},
       weight:{},
+      dex:{},
       skill:{},
       spell:{}
     };
   }
   rules.shieldStats.ac[name] = ac;
   rules.shieldStats.weight[name] = weight;
+  rules.shieldStats.dex[name] = maxDex;
   rules.shieldStats.skill[name] = skillFail;
   rules.shieldStats.spell[name] = spellFail;
 
@@ -7740,6 +7736,9 @@ SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
   rules.defineRule('shieldWeight',
     'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.weight) + '[source]'
   );
+  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
+    'shield', 'v', QuilvynUtils.dictLit(rules.shieldStats.dex) + '[source]'
+  );
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.skill) + '[source]'
   );
@@ -7748,12 +7747,11 @@ SRD35.shieldRules = function(rules, name, ac, weight, skillFail, spellFail) {
 
 /*
  * Defines in #rules# the rules associated with skill #name#, associated with
- * basic ability #ability#. #untrained#, if specified, is a boolean indicating
- * whether or not the skill can be used untrained; the default is true.
- * #classes# lists the classes for which this is a class skill; a value of
- * "all" indicates that this is a class skill for all classes. #synergies#
- * lists any synergies with other skills and abilities granted by high ranks in
- * this skill.
+ * basic ability #ability#. #untrained# is a boolean indicating whether or not
+ * the skill can be used untrained. #classes# lists the classes for which this
+ * is a class skill; a value of "all" indicates that this is a class skill for
+ * all classes. #synergies# lists any synergies with other skills and abilities
+ * granted by high ranks in this skill.
  */
 SRD35.skillRules = function(
   rules, name, ability, untrained, classes, synergies
@@ -7770,7 +7768,7 @@ SRD35.skillRules = function(
       return;
     }
   }
-  if(untrained != null && typeof untrained != 'boolean') {
+  if(typeof untrained != 'boolean') {
     console.log('Bad untrained "' + untrained + '" for skill ' + name);
   }
   if(!Array.isArray(classes)) {
@@ -7778,12 +7776,12 @@ SRD35.skillRules = function(
     return;
   }
   if(rules.getChoices('levels')) {
-    for(let i = 0; i < classes.length; i++) {
-      if(classes[i] != "all" && !(classes[i] in rules.getChoices('levels'))) {
-        console.log('Bad class "' + classes[i] + '" for skill ' + name);
+    classes.forEach(c => {
+      if(c != "all" && !(c in rules.getChoices('levels'))) {
+        console.log('Bad class "' + c + '" for skill ' + name);
         return;
       }
-    }
+    });
   }
   if(!Array.isArray(synergies)) {
     console.log('Bad synergies list "' + synergies + '" for skill ' + name);
@@ -7795,8 +7793,9 @@ SRD35.skillRules = function(
   if(classes.indexOf("all") >= 0) {
     rules.defineRule('classSkills.' + name, 'level', '=', '1');
   } else {
-    for(let i = 0; i < classes.length; i++)
-      rules.defineRule('classSkills.' + name, 'levels.' + classes[i], '=', '1');
+    classes.forEach(c => {
+      rules.defineRule('classSkills.' + name, 'levels.' + c, '=', '1');
+    });
   }
   if(name.indexOf(' (') >= 0) {
     rules.defineRule('classSkills.' + name,
@@ -7831,6 +7830,7 @@ SRD35.skillRules = function(
     );
   }
 
+  // For Loremaster; placed here because skills are defined after classes
   if(name.startsWith('Knowledge '))
     rules.defineRule('countKnowledgeSkillsGe10',
       'skills.' + name, '+=', 'source >= 10 ? 1 : null'
@@ -7854,8 +7854,7 @@ SRD35.skillRulesExtra = function(rules, name) {
       'skillNotes.knowledge(Religion)Synergy', '+', '2'
     );
   } else if(name == 'Speak Language') {
-    rules.defineRule
-      ('languageCount', 'skillModifier.Speak Language', '+', null);
+    rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
   } else if(name == 'Swim') {
     rules.defineChoice('notes', 'skillNotes.armorSwimCheckPenalty:-%V Swim');
     rules.defineRule('skillModifier.Swim',
@@ -7870,11 +7869,11 @@ SRD35.skillRulesExtra = function(rules, name) {
      'Sleight Of Hand', 'Tumble'
     ];
     rules.defineChoice('notes', 'skillNotes.armorSkillCheckPenalty:-%V ' + affected.join('/-%V '));
-    for(let i = 0; i < affected.length; i++) {
-      rules.defineRule('skillModifier.' + affected[i],
+    affected.forEach(a => {
+      rules.defineRule('skillModifier.' + a,
         'skillNotes.armorSkillCheckPenalty', '+', '-source'
       );
-    }
+    });
   }
 };
 
@@ -8313,10 +8312,10 @@ SRD35.featureSpells = function(
 };
 
 /*
- * Quilvyn allows the user to enter expressions that include variables with one
- * or more spaces, e.g., skills.Handle Animal. Rather than require the user to
- * make these valid for the Expr module by wrapping them in $"", this function
- * does the wrapping and returns the result.
+ * Quilvyn allows homebrew choices to include expressions that use variables
+ * with one or more spaces, e.g., skills.Handle Animal. Rather than require the
+ * user to make these valid for the Expr module by wrapping them in $"", this
+ * function does the wrapping and returns the result.
  */
 SRD35.wrapVarsContainingSpace = function(s) {
   if(!s.match(/\w\.[A-Z]/))
@@ -9256,10 +9255,10 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     let allClasses = Object.assign({}, this.getChoices('levels'), this.getChoices('prestiges'), this.getChoices('npcs'));
     attrs = this.applyRules(attributes);
     attributes.hitPoints = 0;
-    for(let clas in allClasses) {
-      if((attr = attrs['levels.' + clas]) == null)
+    for(let c in allClasses) {
+      if((attr = attrs['levels.' + c]) == null)
         continue;
-      matchInfo = QuilvynUtils.getAttrValue(allClasses[clas], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
+      matchInfo = QuilvynUtils.getAttrValue(allClasses[c], 'HitDie').match(/^((\d+)?d)?(\d+)$/);
       let number = matchInfo == null || matchInfo[2] == null ||
                    matchInfo[2] == '' ? 1 : matchInfo[2];
       let sides = matchInfo == null ? 6 : matchInfo[3];
