@@ -658,7 +658,7 @@ Quilvyn.homebrewModifyChoices = function() {
           newPath =
             searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
         else
-          newPath = searchSet.find(x => x.split('.')[3].includes(target));
+          newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
         Quilvyn.homebrewModifyChoices.win.flipPredefined = false;
       }
 
@@ -678,7 +678,7 @@ Quilvyn.homebrewModifyChoices = function() {
           newPath =
             searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
         else
-          newPath = searchSet.find(x => x.split('.')[3].includes(target));
+          newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
         if(newPath != null)
           Quilvyn.homebrewModifyChoices.win.flipPredefined = true;
       }
