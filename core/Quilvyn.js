@@ -160,7 +160,7 @@ Quilvyn.confirmDialog = function(prmpt, callback) {
  * are shown to the user for selection. Once the user has made selections, the
  * subset of #choices# selected by the user is passed to #callback#.
  */
-Quilvyn.setDialog = function(prmpt, choices, callback) {
+Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
 
   if(Quilvyn.setDialog.win == null) {
     let htmlBits = [
@@ -177,9 +177,12 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
       '<tr><td>' + InputHtml('_all', 'checkbox', ['all shown']).replace('>', ' onchange="reall=true"') + '</td></tr>'
     ];
     Object.keys(choices).sort().forEach(c => {
-      htmlBits.push(
-        '<tr name="' + c + 'Row"><td>' + InputHtml(choices[c], 'checkbox', [c]) + '</td></tr>'
-      );
+      let input = InputHtml(choices[c], 'checkbox', [c]);
+      if(selected != null && selected.includes(c))
+        input = input.replace('>', ' checked="1">');
+      if(selected != null && disabled.includes(c))
+        input = input.replace('>', ' disabled="disabled">');
+      htmlBits.push('<tr name="' + c + 'Row"><td>' + input + '</td></tr>');
     });
     htmlBits.push(
       '</table></form>',
@@ -526,12 +529,12 @@ Quilvyn.homebrewIncludeChoices = function(items) {
 
   let prefix =
     PERSISTENT_HOMEBREW_PREFIX + ruleSet.getName().replaceAll('.','%2E') + '.';
+  let auto = [];
 
   if(!items) {
     items = {};
     for(let path in STORAGE) {
-      if(path.startsWith(prefix) &&
-         !STORAGE.getItem(path).includes('_auto=true')) {
+      if(path.startsWith(prefix)) {
         let item =
           path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
         let tags =
@@ -539,16 +542,21 @@ Quilvyn.homebrewIncludeChoices = function(items) {
         if(tags.length > 0)
           item += ' (' + tags.join(',') + ')';
         items[item] = path;
+        if(STORAGE.getItem(path).includes('_auto=true'))
+          auto.push(item);
       }
     }
     Quilvyn.setDialog
-      ('Select choices to apply', items, Quilvyn.homebrewIncludeChoices);
+      ('Select choices to include', items, Quilvyn.homebrewIncludeChoices,
+       auto, auto);
     return;
   }
 
   Object.values(items).forEach(path => {
-    let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
-    ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
+    if(!STORAGE.getItem(path).includes('_auto=true')) {
+      let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
+      ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
+    }
   });
 
   Quilvyn.refreshEditor(true);
