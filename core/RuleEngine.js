@@ -223,22 +223,21 @@ RuleEngine.prototype._recompute = function(initial, computed, attr) {
          sourceValue != '' &&
          !isNaN(sourceValue - 0))
         sourceValue -= 0; /* Convert string to number. */
-      var amount = fn != null && (source == '' || sourceValue != null) ?
+      var amount = fn != null &&
+                   (type == '?' || source == '' || sourceValue != null) ?
         fn(sourceValue, computed) : sourceValue;
       if(type == '?') {
         if(!amount) {
           computedValue = null;
           break;
         }
-      }
-      else if(amount == null)
+      } else if(amount == null)
         continue;
       else if(type == '=') {
         // Apply default assignments only if no other has been applied.
         if(computedValue == null || source != '')
           computedValue = amount;
-      }
-      else if(assign && computedValue == null)
+      } else if(assign && computedValue == null)
         computedValue = amount;
       else if(type == '+')
         addition += amount - 0;
