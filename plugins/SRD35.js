@@ -51,7 +51,7 @@ function SRD35() {
   );
   rules.defineChoice('preset',
     'race:Race,select-one,races', 'levels:Class Levels,bag,levels',
-    'prestige:Prestige Levels,bag,prestiges', 'npc:NPC Levels,bag,npcs');
+    'prestige:Prestige Levels,bag,prestiges', 'npc:NPC Levels,bag,nPCs');
 
   SRD35.abilityRules(rules);
   SRD35.aideRules(rules, SRD35.ANIMAL_COMPANIONS, SRD35.FAMILIARS);
@@ -6778,7 +6778,7 @@ SRD35.classFeatureRules = function(
     return;
   }
   if(!(className in rules.getChoices('levels')) &&
-     !(className in rules.getChoices('npcs')) &&
+     !(className in rules.getChoices('nPCs')) &&
      !(className in rules.getChoices('prestiges'))) {
     console.log('Bad class "' + className + '" for class feature ' + name);
     return;
@@ -8850,7 +8850,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     let classes =
       QuilvynUtils.getKeys(rules.getChoices('levels')).concat(
       QuilvynUtils.getKeys(rules.getChoices('prestiges'))).concat(
-      QuilvynUtils.getKeys(rules.getChoices('npcs')));
+      QuilvynUtils.getKeys(rules.getChoices('nPCs')));
     result.push(
       ['Class', 'Class', 'select-one', classes],
       ['Level', 'Level', 'select-one', oneToTwenty],
@@ -8966,7 +8966,7 @@ SRD35.initialEditorElements = function() {
     ['race', 'Race', 'select-one', 'races'],
     ['levels', 'Class Levels', 'bag', 'levels'],
     ['prestige', 'Prestige Levels', 'bag', 'prestiges'],
-    ['npc', 'NPC Levels', 'bag', 'npcs'],
+    ['npc', 'NPC Levels', 'bag', 'nPCs'],
     ['alignment', 'Alignment', 'select-one', 'alignments'],
     ['deity', 'Deity', 'select-one', 'deitys'],
     ['origin', 'Origin', 'text', [20]],
@@ -9259,7 +9259,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   } else if(attribute == 'gender') {
     attributes.gender = QuilvynUtils.random(0, 99) < 50 ? 'Female' : 'Male';
   } else if(attribute == 'hitPoints') {
-    let allClasses = Object.assign({}, this.getChoices('levels'), this.getChoices('prestiges'), this.getChoices('npcs'));
+    let allClasses = Object.assign({}, this.getChoices('levels'), this.getChoices('prestiges'), this.getChoices('nPCs'));
     attrs = this.applyRules(attributes);
     attributes.hitPoints = 0;
     for(let c in allClasses) {
