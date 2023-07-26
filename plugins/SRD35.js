@@ -5075,7 +5075,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
   );
   // Default no second attack; overridden for specific animal companions
   rules.defineRule('animalCompanionStats.Melee.3',
-    'animalCompanionStats.Melee', '?', '1',
+    'animalCompanionStats.Melee', '?', null,
     "", '=', '""'
   );
   rules.defineRule('animalCompanionStats.Melee.4',
@@ -6317,7 +6317,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Paladin', '=', 'source >= 15 ? source + 5 : null'
     );
     rules.defineRule('companionNotes.shareSavingThrows.1',
-      'companionNotes.shareSavingThrows', '?', '"italics noop"',
+      'companionNotes.shareSavingThrows', '?', null,
       'classFortitudeBonus', '=', null,
       'animalCompanionStats.HD', '+', '-(' + SRD35.SAVE_BONUS_HALF + ')',
       '', '^', '0'
@@ -7315,7 +7315,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
           adjustor, op, !adjust.includes('%') ? adjust : adjust.startsWith('-') ? '-source' : 'source'
         );
         if(adjust == '%1' && !pieces[j].includes(adjust))
-          rules.defineRule(adjustor, note, '?', '"italics noop"');
+          rules.defineRule(adjustor, note, '?', null);
 
       } else if(section == 'skill' && pieces[j].match(/\sclass\sskill(s)?$/)) {
         let skill =
@@ -7814,7 +7814,7 @@ SRD35.skillRules = function(
     rules.defineRule('skills.' + name + '.1', 'skills.' + name, '=', '""');
   }
   rules.defineRule('skills.' + name + '.2',
-    'skills.' + name, '?', '1',
+    'skills.' + name, '?', null,
     '', '=', '";cc"',
     'classSkills.' + name, '=', '""'
   );
