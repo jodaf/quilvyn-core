@@ -78,6 +78,8 @@ function Expr(str) {
         token = token.substring(1, token.length-1).replace(/\\"/g, '"');
       } else if (token == "false" || token == "true") {
         token = token == "true";
+      } else if (token == "null") {
+        token = null;
       } else if (token.match(/^\d/)) {
         token = Number(token);
       } else {
@@ -137,25 +139,22 @@ Expr.prototype.eval = function(dict) {
 
   var stack = [];
 
-  for(var i = 0; i < this.tokens.length; i++) {
-
-    var token = this.tokens[i];
+  this.tokens.forEach(token => {
 
     if (token.tipe == Expr.OPERATOR_TYPE) {
       var op = token.value;
       if (op[0] == 'u') {
         var operand = stack.pop();
         var value = operand.tipe == Expr.IDENTIFIER_TYPE ? dict[operand.value] : operand.value;
-        if (value == null) {
+        if (op == 'u!') {
+          stack.push({tipe: Expr.LITERAL_TYPE, value: !value});
+        } else if (value == null) {
           console.log("Undefined reference " + operand);
-          return null;
-        }
-        if (op == 'u-') {
+          stack.push({tipe: Expr.LITERAL_TYPE, value: null});
+        } else if (op == 'u-') {
           stack.push({tipe: Expr.LITERAL_TYPE, value: -value});
         } else if (op == 'u+') {
           stack.push({tipe: Expr.LITERAL_TYPE, value: value});
-        } else if (op == 'u!') {
-          stack.push({tipe: Expr.LITERAL_TYPE, value: !value});
         } else if (op == 'u$') {
           stack.push({tipe: Expr.IDENTIFIER_TYPE, value: value});
         }
@@ -184,10 +183,10 @@ Expr.prototype.eval = function(dict) {
           value = testVal ? leftVal : value;
         } else if (leftVal == null) {
           console.log("Undefined reference " + left);
-          return null;
+          value = null;
         } else if (value == null) {
           console.log("Undefined reference " + right);
-          return null;
+          value = null;
         } else if (op == '<') {
           value = leftVal < value;
         } else if (op == '<=') {
@@ -234,7 +233,7 @@ Expr.prototype.eval = function(dict) {
       stack.push(token);
     }
 
-  }
+  });
 
   var result = stack.pop();
   return result.tipe == Expr.IDENTIFIER_TYPE ? dict[result.value] : result.value;
