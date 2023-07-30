@@ -554,7 +554,7 @@ Quilvyn.homebrewIncludeChoices = function(items) {
   }
 
   Object.values(items).forEach(path => {
-    if(QuilvynUtils.getAttrValueArray(STORAGE.getItem(path)).length > 0) {
+    if(QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags').length > 0) {
       let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
       ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
     }
