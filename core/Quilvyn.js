@@ -324,9 +324,10 @@ Quilvyn.addRuleSet = function(rs) {
   for(let path in STORAGE) {
     if(!path.startsWith(prefix))
       continue;
-    let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
-    if(STORAGE.getItem(path).includes('_auto=true'))
+    if(!QuilvynUtils.getAttrValue(STORAGE.getItem(path), '_tags')) {
+      let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
       ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
+    }
   }
 };
 
@@ -513,7 +514,7 @@ Quilvyn.homebrewImportChoices = function(choices) {
       [ruleSet, type, name].map(x=>x.replaceAll('.', '%2E')).join('.'),
       line
     );
-    if(ruleSet in ruleSets && line.includes('_auto=true'))
+    if(ruleSet in ruleSets && !QuilvynUtils.getAttrValue(line, '_tags'))
       ruleSets[ruleSet].choiceRules(ruleSets[ruleSet], type, name, line);
   }
 
@@ -534,17 +535,17 @@ Quilvyn.homebrewIncludeChoices = function(items) {
   if(!items) {
     items = {};
     for(let path in STORAGE) {
-      if(path.startsWith(prefix)) {
-        let item =
-          path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
-        let tags =
-          QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
-        if(tags.length > 0)
-          item += ' (' + tags.join(',') + ')';
-        items[item] = path;
-        if(STORAGE.getItem(path).includes('_auto=true'))
-          auto.push(item);
-      }
+      if(!path.startsWith(prefix))
+        continue;
+      let item =
+        path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
+      let tags =
+        QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
+      if(tags.length > 0)
+        item += ' (' + tags.join(',') + ')';
+      items[item] = path;
+      if(tags.length == 0)
+        auto.push(item);
     }
     Quilvyn.setDialog
       ('Select choices to include', items, Quilvyn.homebrewIncludeChoices,
@@ -553,7 +554,7 @@ Quilvyn.homebrewIncludeChoices = function(items) {
   }
 
   Object.values(items).forEach(path => {
-    if(!STORAGE.getItem(path).includes('_auto=true')) {
+    if(QuilvynUtils.getAttrValueArray(STORAGE.getItem(path)).length > 0) {
       let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
       ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
     }
@@ -601,7 +602,6 @@ Quilvyn.homebrewModifyChoices = function() {
       '<br/>',
       '<table id="variableFields">',
       '</table><br/>',
-      InputHtml('_auto', 'checkbox', ['Always include this item with the ' + ruleSet.getName() + ' rule set']).replace('>', ' checked="1">') + '<br/>',
       '<input type="button" name="Save" value="Save" onclick="save=true;"/>',
       '<p id="message"> </p>',
       '</form>',
@@ -631,8 +631,6 @@ Quilvyn.homebrewModifyChoices = function() {
   } else if(Quilvyn.homebrewModifyChoices.win.search ||
             Quilvyn.homebrewModifyChoices.win.update) {
 
-    let autoInput =
-      Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_auto')[0];
     let nameInput =
       Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_name')[0];
     let tagsInput =
@@ -707,7 +705,6 @@ Quilvyn.homebrewModifyChoices = function() {
       newValues += ' _name="' + newName.replaceAll('%2E', '.') + '"';
     }
 
-    InputSetValue(autoInput, true);
     InputSetValue(nameInput, '');
     InputSetValue(tagsInput, '');
     Quilvyn.homebrewModifyChoices.win.document.getElementById('message').innerHTML = '&nbsp;';
@@ -729,7 +726,6 @@ Quilvyn.homebrewModifyChoices = function() {
     Quilvyn.homebrewModifyChoices.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
 
     if(newValues) {
-      InputSetValue(autoInput, newValues.includes('_auto=true'));
       InputSetValue(nameInput, QuilvynUtils.getAttrValue(newValues, '_name'));
       InputSetValue
         (tagsInput, QuilvynUtils.getAttrValueArray(newValues, '_tags').join(','));
@@ -810,7 +806,7 @@ Quilvyn.homebrewModifyChoices = function() {
     'Added ' + type + ' ' + name + ' to ' + ruleSet.getName() + ' homebrews';
 
   Quilvyn.homebrewModifyChoices.win.save = false;
-  if(attrs.includes('_auto=true'))
+  if(!QuilvynUtils.getAttrValue(attrs, '_tags'))
     ruleSet.choiceRules(ruleSet, type, name, attrs);
   setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
   return;
