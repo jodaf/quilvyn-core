@@ -494,26 +494,53 @@ QuilvynRules.prerequisiteRules = function(
 /*
  * Defines in #rules# the rules required to allocate the list of spell slots
  * #spellSlots# to the character. #levelAttr# is the name of the attribute that
- * holds the character's level for acquiring these spells.
+ * holds the character's level for acquiring these spells. Each element of
+ * #spellSlots# has the format "type:count@level[;count@level...]", where type
+ * indicates the spell type and level (e.g., "C1") and each count/level pair
+ * gives the number of that type of spell acquired at the given level.
+ * "level=count" is accepted as an alternative to "count@level", and multiple
+ * spaces and/or semicolons can be used as separators.
  */
 QuilvynRules.spellSlotRules = function(rules, levelAttr, spellSlots) {
-  for(var i = 0; i < spellSlots.length; i++) {
-    var spellTypeAndLevel = spellSlots[i].split(/:/)[0];
-    var spellType = spellTypeAndLevel.replace(/\d+/, '');
-    var spellLevel = spellTypeAndLevel.replace(spellType, '');
-    var code = spellSlots[i].substring(spellTypeAndLevel.length + 1).
-               replace(/\=/g, ' ? ').
-               split(/;/).reverse().join(' : source >= ');
-    code = 'source >= ' + code + ' : null';
-    if(code.indexOf('source >= 1 ?') >= 0) {
-      code = code.replace(/source\s>=\s1\s./, '').replace(/\s:\snull/, '');
+  spellSlots.forEach(ss => {
+    let m = ss.match(/^([^:]+\d)\s*:(.*)$/);
+    if(!m) {
+      console.log('Bad spell slot spec "' + ss + '"');
+      return;
     }
+    let spellTypeAndLevel = m[1];
+    let spellType = spellTypeAndLevel.replace(/\d$/, '');
+    let spellLevel = spellTypeAndLevel.replace(spellType, '');
+    let pieces = m[2].split(/[\s;]+/);
+    let counts = {};
+    for(let i = 0; i < pieces.length; i++) {
+      let piece = pieces[i].trim();
+      if(piece == "")
+        continue;
+      let count, level;
+      if((m = piece.match(/^(\d+)=(\d+)$/))) {
+        count = m[2];
+        level = m[1];
+      } else if((m = piece.match(/^(\d+)@(\d+)$/))) {
+        count = m[1];
+        level = m[2];
+      } else {
+        console.log('Bad spell slot count "' + pieces + '"');
+        return;
+      }
+      counts[level - 0] = count - 0;
+    }
+    let code =
+      Object.keys(counts).sort((a,b) => b - a).map(
+        x => 'source>=' + x + ' ? ' + counts[x]
+      ).join(' : ') + ' : null';
+    code = code.replace(/source>=1\s*\?\s*(\d+)\s*:\s*null/, '$1');
     rules.defineRule('spellSlots.' + spellTypeAndLevel, levelAttr, '+=', code);
     if(spellLevel > 0)
       rules.defineRule('spellPoints',
         'spellSlots.' + spellTypeAndLevel, '+=', 'source * ' + spellLevel
       );
-  }
+  });
 };
 
 /*
