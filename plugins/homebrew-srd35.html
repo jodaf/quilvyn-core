@@ -97,8 +97,9 @@ gives a -4 penalty to damage.
 <p>
 For homebrew armors and shields, Quilvyn displays fields for entering the boost
 to armor class gained by using the armor or shield, the weight category, the
-maximum dexterity AC bonus allowed, the penalty applied to skills such as
-Escape Artist, and the percentage chance of failure when casting arcane spells.
+maximum dexterity armor class bonus allowed, the penalty applied to skills such
+as Escape Artist, and the percentage chance of failure when casting arcane
+spells.
 </p><p>
 The example shown gives the values for a breastplate made from mithral, as
 discussed in the Special Materials section of the SRD. Making armor or a shield
@@ -140,13 +141,12 @@ The example shows the entry for a Shaman NPC class that has the same features
 as the core rules' Adept NPC class. It has no prerequisites, d6 hit dice, and 2
 skill points per level. Its base attack, fortitude save, and reflex save
 progressions are poor and its will save progression good. Class skills are
-concentration, craft, handle animal, heal, all knowledge, all profession,
-spellcraft, and survival. The only class features are Weapon Proficiency
-(Simple) and Summon Familiar, with the latter acquired at level 2. The Shaman
-casts divine spells with wisdom as the relevant ability. A Shaman receives 3
-Adept0 spell slots at level 1 (and no additional Adept0 slots thereafter), 1
-Adept1 spell slot at level 1, increasing to 2 at level 3 and 3 at level 7, and
-so on.
+Concentration, Craft, Handle Animal, Heal, Knowledge, Profession, Spellcraft,
+and Survival. The only class features are Weapon Proficiency (Simple) and
+Summon Familiar, with the latter acquired at level 2. The Shaman casts divine
+spells with wisdom as the relevant ability. A Shaman receives 3 Adept0 spell
+slots at level 1 (and no additional Adept0 slots thereafter), 1 Adept1 spell
+slot at level 1, increasing to 2 at level 3 and 3 at level 7, and so on.
 </p>
 </td></tr>
 
@@ -203,18 +203,18 @@ box separated by commas.
 <p>
 For homebrew feats, Quilvyn displays fields to note the feat type and
 any requirements that must be met to select it. The feat type will typically
-be one of General, Item Creation, or Metamagic; you can also include Fighter in
-the feat type box to indicate that this feat can be selected as a fighter bonus
-feat. Quilvyn allows you to specify two kinds of requirements for a feat. The
-Prerequisite box lists any requirements that must be met to select the feat;
-Quilvyn generates a validation error if the feat is selected for a character
-who does not meet these requirements. The Implies box lists any requirements
-that, while not strictly required, make the feat useless if not met. For
-example, although the rules don't require a caster level to select it, the
-Combat Casting feat from the core rules is likely to be useful only to a spell
-caster. Quilvyn will generate a validation warning if the Implies requirements
-are not met. When specified, the Prerequisite and Implies fields will normally
-contain references to character attributes; see the discussion of
+be one of "General", "Item Creation", or "Metamagic"; you can also include
+"Fighter" in the feat type box to indicate that this feat can be selected as a
+fighter bonus feat. Quilvyn allows you to specify two kinds of requirements for
+a feat. The Prerequisite box lists any requirements that must be met to select
+the feat; Quilvyn generates a validation error if the feat is selected for a
+character who does not meet these requirements. The Implies box lists any
+requirements that, while not strictly required, make the feat useless if not
+met. For example, although the rules don't require a caster level to select it,
+the Combat Casting feat from the core rules is likely to be useful only to a
+spell caster. Quilvyn will generate a validation warning if the Implies
+requirements are not met. When specified, the Prerequisite and Implies fields
+will normally contain references to character attributes; see the discussion of
 <a href="#expr">using character attributes</a> for how to include these. The
 effects of a feat are entered separately as a feature.
 </p><p>
@@ -275,12 +275,12 @@ the example for <a href="#race">adding a race</a>.
 <p>
 When adding a homebrew race, Quilvyn displays fields that allow you to enter
 prerequisites, features, and languages for the race. Although none of the core
-races have requirements, Quilvyn provides the prerequisite entry to allow you
+races have requirements, Quilvyn provides the Prerequisite entry to allow you
 to specify a race that has, for example, a minimum strength requirement. Most
 races will have fixed features, such as an ability adjustment. Quilvyn also
 allows entering selectable features to support variations such as sub-races.
 Each feature in these lists will require <a href="#feature">adding a feature</a>
-to describe its effects. The languages entry lists the languages that
+to describe its effects. The Languages field lists the languages that
 characters of this race know automatically.
 </p><p>
 The example shows the entry for the Lizardfolk character race from the Monster
@@ -374,7 +374,13 @@ attributes when adding homebrew choices: prerequisites for homebrew classes,
 feats, class and race features, and races; embedded in feature notes and spell
 descriptions; and placement in feature notes that modify character attributes.
 Attribute references appear somewhat differently in each of these contexts.
+</p><p>
+The examples below develop a homebrew feat named Alert Dodger. Like the monk AC
+Bonus feature, this feat allows a character to add their (positive) wisdom
+modifier to their armor class. This will be a general feat that can be taken
+as a fighter bonus feat, so the initial entry for the feat looks like this:
 </p>
+<img src='../Images/hb-attr-0.jpg' alt='Alert Dodger feat'/>
 
 <h2>Using attributes in prerequisites</h2>
 
@@ -382,42 +388,80 @@ Attribute references appear somewhat differently in each of these contexts.
 In the core rulebook, all prestige classes and many feats have
 prerequisites&mdash;attribute values that the character must have to take the
 feat or a level in the prestige class. Quilvyn allows you to specify similar
-prerequisites when entering a homebrew class, feat, or race. For example,
-suppose that a feat you're entering requires that the character has a dexterity
-of 13 or higher. You can specify this in Quilvyn by entering this in the
-Prerequisite text box when defining the feat:
+prerequisites when entering a homebrew class, feat, or race.
+</p><p>
+Since the effects of the Alert Dodger feat come from battle experience, it
+makes sense to require a minimum base attack bonus&mdash;say, 3&mdash;to take
+the feat. This is represented by adding text to the feat Prerequisite field:
 </p>
-<code>dexterity &gt;= 13</code>
+<img src='../Images/hb-attr-1.jpg' alt='Alert Dodger feat'/>
+
 <p>
 Quilvyn will generate tests for this requirement and will show a validation
-error if a character with dexterity of 12 or lower is given this feat. You can
-also specify that the character must have a specific feature as part of your
-prerequisites. For example, if your homebrew feat requires that the character
-have the Power Attack feature, you can specify it by entering this in the
-Prerequisite text box:
+error if a character with a base attack bonus of 2 or lower is given this feat.
+You can also specify that the character must have a specific feature as part of
+your prerequisites. For the Alert Dodger feat, it makes sense to require that
+the character also have the Dodge feature:
 </p>
-<code>features.Power Attack</code>
+<img src='../Images/hb-attr-2.jpg' alt='Alert Dodger feat'/>
+
 <p>
-Multiple prerequisites that must all be met can be specified by listing them in
-the text box separated by commas:
+Finally, although a high wisdom might not be required to take this feat, it
+will make little sense to do so unless the character's wisdom is at least 12,
+giving a positive wisdom modifier. This can be specified by adding text to
+the Implies field:
 </p>
-<code>dexterity &gt;= 15,features.Point Blank Shot,baseAttack &gt;= 11</code>
+<img src='../Images/hb-attr-3.jpg' alt='Alert Dodger feat'/>
+
 <p>
-Quilvyn recognizes the common comparison operators (&lt;, &lt;=, &gt;, &gt;=,
-==, !=) in prerequisites, and you can use the OR operator (||) to require that
-at least one of a set of prerequisites is satisfied:
-</p>
+Within prerequisites, Quilvyn recognizes the common comparison operators
+(&lt;, &lt;=, &gt;, &gt;=, ==, !=), and you can use the OR operator (||) to
+require that at least one of a set of prerequisites is satisfied:
+</p><p>
 <code>intelligence &gt;= 15 || wisdom &gt;= 15</code>
-<p>
+</p><p>
 When making a comparison to a text value rather than a number, surround the
 value with single or double quotes. Quilvyn also supports the matching
 operators =~ (matches) and !~ (does not match) with strings. The first of these
 two prerequisites requires that the character have a Lawful Good alignment,
 while the second allows any good alignment:
-</p>
-
+</p><p>
 <code>alignment == 'Lawful Good'</code><br/>
 <code>alignment =~ 'Good'</code>
+</p><p>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions">Pattern Matching</a>
+</p>
+
+<h2>Using features to modify character attributes</h2>
+
+<img src='../Images/hb-attr-feature-0.jpg' alt='Alert Dodger feature'/>
+
+<p>
+Quilvyn automatically generates rules from feature notes that modify simple
+character attributes. Given a feature note that reads
+</p>
+
+<code>+2 Armor Class</code>
+
+<p>
+Quilvyn will automatically generate a rule that adds two to the character's
+armor class value, and the note will appear in italics on the character sheet.
+For readability, character attributes in feature notes must appear with initial
+capital letters and spaces between words, as shown above. Single features can
+modify multiple attributes; in these cases, the note should list the individual
+modifications separated by slashes:
+</p>
+
+<code>+2 Wisdom/-2 Intelligence</code>
+
+<p>
+Notes in the save and skill sections can modify save bonuses and skill
+modifiers by referencing the save type or skill name directly; the saves. and
+skillModifiers. prefixes are not necessary:
+</p>
+
+<code>+1 Fortitude</code><br/>
+<code>+2 Ride/+2 Handle Animal</code>
 
 <h2>Embedding attributes in features notes and spell descriptions</h2>
 
@@ -490,35 +534,6 @@ spell for a level 7 sorcerer will read:
 </p>
 
 <code>R40' Target gains +4 on chosen skill for 7 rd</code>
-
-<h2>Features that modify character attributes</h2>
-
-<p>
-Quilvyn automatically generates rules from feature notes that modify simple
-character attributes. Given a feature note that reads
-</p>
-
-<code>+2 Armor Class</code>
-
-<p>
-Quilvyn will automatically generate a rule that adds two to the character's
-armor class value, and the note will appear in italics on the character sheet.
-For readability, character attributes in feature notes must appear with initial
-capital letters and spaces between words, as shown above. Single features can
-modify multiple attributes; in these cases, the note should list the individual
-modifications separated by slashes:
-</p>
-
-<code>+2 Wisdom/-2 Intelligence</code>
-
-<p>
-Notes in the save and skill sections can modify save bonuses and skill
-modifiers by referencing the save type or skill name directly; the saves. and
-skillModifiers. prefixes are not necessary:
-</p>
-
-<code>+1 Fortitude</code><br/>
-<code>+2 Ride/+2 Handle Animal</code>
 
 <hr style="width: 100%"/>
 
