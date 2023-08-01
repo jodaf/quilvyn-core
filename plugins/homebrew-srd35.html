@@ -371,8 +371,8 @@ of 19-20/x2.
 <p>
 There are three places that you might want to use references to character
 attributes when adding homebrew choices: prerequisites for homebrew classes,
-feats, class and race features, and races; embedded in feature notes and spell
-descriptions; and placement in feature notes that modify character attributes.
+feats, class and race features, and races; in feature notes that modify
+character attributes; and embedded in feature notes and spell descriptions.
 Attribute references appear somewhat differently in each of these contexts.
 </p><p>
 The examples below develop a homebrew feat named Alert Dodger. Like the monk AC
@@ -385,23 +385,23 @@ as a fighter bonus feat, so the initial entry for the feat looks like this:
 <h2>Using attributes in prerequisites</h2>
 
 <p>
-In the core rulebook, all prestige classes and many feats have
+In the core rulebook, many feats and all prestige classes have
 prerequisites&mdash;attribute values that the character must have to take the
 feat or a level in the prestige class. Quilvyn allows you to specify similar
 prerequisites when entering a homebrew class, feat, or race.
 </p><p>
 Since the effects of the Alert Dodger feat come from battle experience, it
 makes sense to require a minimum base attack bonus&mdash;say, 3&mdash;to take
-the feat. This is represented by adding text to the feat Prerequisite field:
+the feat. This is represented by adding text to the feat's Prerequisite field:
 </p>
 <img src='../Images/hb-attr-1.jpg' alt='Alert Dodger feat'/>
 
 <p>
 Quilvyn will generate tests for this requirement and will show a validation
-error if a character with a base attack bonus of 2 or lower is given this feat.
+error if a character with a base attack bonus of 2 or less is given this feat.
 You can also specify that the character must have a specific feature as part of
-your prerequisites. For the Alert Dodger feat, it makes sense to require that
-the character also have the Dodge feature:
+your prerequisites. For the Alert Dodger feat, it seems reasonable to require
+that the character also have the Dodge feature:
 </p>
 <img src='../Images/hb-attr-2.jpg' alt='Alert Dodger feat'/>
 
@@ -429,19 +429,29 @@ while the second allows any good alignment:
 <code>alignment == 'Lawful Good'</code><br/>
 <code>alignment =~ 'Good'</code>
 </p><p>
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions">Pattern Matching</a>
+(You can think of the =~ and !~ operators as "contains" and "does not contain",
+but they actually perform a pattern match, treating their second operand as a
+regular expression. This means that certain characters, such as * and ?, have
+special meanings if they appear in the second operand. The Mozilla project
+provides a web page with
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_expressions">a detailed description of regular expressions</a>.)
 </p>
 
 <h2>Using features to modify character attributes</h2>
 
-<img src='../Images/hb-attr-feature-0.jpg' alt='Alert Dodger feature'/>
-
 <p>
-Quilvyn automatically generates rules from feature notes that modify simple
-character attributes. Given a feature note that reads
+With the Alert Dodger feat definition complete, the next step is to create the
+corresponding feature, also named Alert Dodger. This will add the description
+of the feat to the character sheet and allow Quilvyn to create rules to
+implement its effects. Since the feat affects a character's armor class, its
+note will fit best in the combat section.
+</p><p>
+To illustrate how Quilvyn processes feature notes, we'll initially define the
+Alert Dodger feat to add a fixed +2 to the character's armor class, switching
+later to adding the wisdom modifier instead.
 </p>
 
-<code>+2 Armor Class</code>
+<img src='../Images/hb-attr-feature-0.jpg' alt='Alert Dodger feature'/>
 
 <p>
 Quilvyn will automatically generate a rule that adds two to the character's
@@ -449,10 +459,12 @@ armor class value, and the note will appear in italics on the character sheet.
 For readability, character attributes in feature notes must appear with initial
 capital letters and spaces between words, as shown above. Single features can
 modify multiple attributes; in these cases, the note should list the individual
-modifications separated by slashes:
+modifications separated by slashes. This was shown above in the
+<a href="#race">race definition</a>, where the note for the Lizardfolk Ability
+Adjustment read:
 </p>
 
-<code>+2 Wisdom/-2 Intelligence</code>
+<code>+2 Strength/+2 Constitution/-2 Intelligence</code>
 
 <p>
 Notes in the save and skill sections can modify save bonuses and skill
@@ -471,7 +483,7 @@ based on character attributes. For example: the Spell Mastery feat allows a
 wizard to prepare a number of spells equal to their intelligence modifier
 without referring to their spellbook; an assassin's Death Attack can inflict
 paralysis for 1d6 rounds + 1 round per assassin level; and the
-<i>Acid Splash</i> spell has a range of 25' + 5'/2 levels.
+<i>Acid Splash</i> spell has a range of 25' + 5' per 2 caster levels.
 </p><p>
 You can embed references to character attributes in feature notes and spell
 descriptions by enclosing them within the characters %{}. Using this ability,
@@ -484,21 +496,30 @@ the note for the Spell Mastery feat looks like this:
 When Quilvyn displays this note on the character sheet, it first replaces the
 reference to the character's intelligenceModifier attribute with its value, so
 the note might appear on the sheet as
+</p><p>
+<code>May prepare 2 spells w/out spellbook</code>
+</p><p>
+We can use this ability to replace the fixed +2 entered earlier for the effects
+of the Alert Dodger feature with an amount equal to the character's wisdom
+modifier, giving us its final definition:
 </p>
 
-<code>May prepare 2 spells w/out spellbook</code>
+<img src='../Images/hb-attr-feature-1.jpg' alt='Alert Dodger feature'/>
 
 <p>
-Beyond simple references, Quilvyn supports performing calculations with
+Given this note, Quilvyn will automatically generate a rule to add the
+character's wisdom modifier to their armor class and will display the note in
+italics.
+</p><p>
+Beyond simple references, Quilvyn supports performing calculations within
 embedded references. The note for the assassin's Death Attack feature looks
 like this:
-</p>
-
+</p><p>
 <code>Sneak attack after 3 rd of study causes death or paralysis for 1d6+%{levels.Assassin} rd (DC %{10 + levels.Assassin + intelligenceModifier} Fort neg)</code>
-
-<p>
+</p><p>
 As this note shows, individual notes and descriptions can contain multiple
-embedded references and individual references can use multiple attributes.
+embedded references, and individual references can use multiple attributes.
+</p><p>
 Within embedded references, Quilvyn supports the common comparison operators
 (&lt;, &lt;=, &gt;, &gt;=, ==, !=), the common arithmetic operators
 (+, -, *, /, unary -), AND (&amp;&amp;), OR (||), matching (=~, !~),
@@ -515,7 +536,7 @@ features extend the duration of the rage:
 <p>
 Within spell descriptions, in addition to <a href="#attrs">common character
 attributes</a>, Quilvyn makes available the special character attribute lvl.
-This varaible refers to the caster level appropriate to the specific spell, so
+This variable refers to the caster level appropriate to the specific spell:
 casterLevels.Cleric for the C1 spell <i>Bane</i>, casterLevels.Bard for the B0
 spell <i>Dancing Lights</i>, casterLevels.Sorcerer for the S2 spell <i>Arcane
 Lock</i>, and so on. Using the lvl attribute allows you to incorporate the
