@@ -61,6 +61,7 @@ below show only the beginning portion of longer values entered into text boxes.
   <li><a href="#skill">Skills</a></li>
   <li><a href="#spell">Spells</a></li>
   <li><a href="#weapon">Weapons</a></li>
+  <li><a href="#attrs">Using Character Attributes in Prerequisites and Notes</a></li>
 </ul>
 
 <table width="100%">
@@ -215,7 +216,7 @@ the Combat Casting feat from the core rules is likely to be useful only to a
 spell caster. Quilvyn will generate a validation warning if the Implies
 requirements are not met. When specified, the Prerequisite and Implies fields
 will normally contain references to character attributes; see the discussion of
-<a href="#expr">using character attributes</a> for how to include these. The
+<a href="#attrs">using character attributes</a> for how to include these. The
 effects of a feat are entered separately as a feature.
 </p><p>
 The example shows the entry for a general feat named Flail Expert that can be
@@ -240,7 +241,7 @@ skill) where the note for the feature should appear, then enter the note text.
 You can enter multiple sections and notes, but the number of sections entered
 must equal the number of notes. Feature notes can both reference and modify
 character attributes; see the discussion of
-<a href="#expr">using character attributes</a> for how to do this.
+<a href="#attrs">using character attributes</a> for how to do this.
 </p><p>
 The example shows the entry for a feature named Glib with a note that appears
 in the skill section of the character sheet. It adds 2 to the skill modifiers
@@ -338,7 +339,7 @@ the spell's school, the list of classes and levels for the spell, the
 description of the spell, and whether or not the spell can be placed into a
 potion that can be drunk or an oil that can be applied. Spell descriptions can
 embed references to character attributes; see the discussion of
-<a href=#expr>using character attributes</a> for how to include these.
+<a href=#attrs>using character attributes</a> for how to include these.
 </p><p>
 The example shows the entry for the transmutation spell <i>Enhance Skill</i>,
 which is a level 3 spell for clerics, sorcerers, and wizards. It can be invoked
@@ -367,7 +368,7 @@ of 19-20/x2.
 
 </table>
 
-<a name="expr"><h2>Using Character Attributes</h2></a>
+<a name="attrs"><h2>Using Character Attributes in Prerequisites and Notes</h2></a>
 <p>
 There are three places that you might want to use references to character
 attributes when adding homebrew choices: prerequisites for homebrew classes,
@@ -444,7 +445,7 @@ With the Alert Dodger feat definition complete, the next step is to create the
 corresponding feature, also named Alert Dodger. This will add the description
 of the feat to the character sheet and allow Quilvyn to create rules to
 implement its effects. Since the feat affects a character's armor class, its
-note will fit best in the combat section.
+note will fit best in the combat section of the character sheet.
 </p><p>
 To illustrate how Quilvyn processes feature notes, we'll initially define the
 Alert Dodger feat to add a fixed +2 to the character's armor class, switching
@@ -454,14 +455,16 @@ later to adding the wisdom modifier instead.
 <img src='../Images/hb-attr-feature-0.jpg' alt='Alert Dodger feature'/>
 
 <p>
-Quilvyn will automatically generate a rule that adds two to the character's
-armor class value, and the note will appear in italics on the character sheet.
-For readability, character attributes in feature notes must appear with initial
-capital letters and spaces between words, as shown above. Single features can
-modify multiple attributes; in these cases, the note should list the individual
-modifications separated by slashes. This was shown above in the
-<a href="#race">race definition</a>, where the note for the Lizardfolk Ability
-Adjustment read:
+Given this definition, Quilvyn will automatically generate a rule that adds two
+to the character's armor class value, and the note will appear in italics on
+the character sheet. For readability, character attributes in feature notes
+must appear as shown above, with initial capital letters and spaces between
+words.
+</p><p>
+Single features can modify multiple attributes; in these cases, the note should
+list the individual modifications separated by slashes. This was shown above in
+the <a href="#race">race definition example</a>, where the note for the
+Lizardfolk Ability Adjustment read:
 </p>
 
 <code>+2 Strength/+2 Constitution/-2 Intelligence</code>
@@ -485,9 +488,9 @@ without referring to their spellbook; an assassin's Death Attack can inflict
 paralysis for 1d6 rounds + 1 round per assassin level; and the
 <i>Acid Splash</i> spell has a range of 25' + 5' per 2 caster levels.
 </p><p>
-You can embed references to character attributes in feature notes and spell
-descriptions by enclosing them within the characters %{}. Using this ability,
-the note for the Spell Mastery feat looks like this:
+You can embed references to character attributes in the text of feature notes
+and spell descriptions by enclosing them within the characters %{}. Using this
+ability, the note for the Spell Mastery feat looks like this:
 </p>
 
 <code>May prepare %{intelligenceModifier} spells w/out spellbook</code>
@@ -602,9 +605,9 @@ useful in entering homebrew feats, features, classes, and races.
 <ul style="padding-left: 15px; margin-top: 0">
 <li>armorClass</li>
 <li>baseAttack</li>
-<li>hitPoints</li>
 <li>meleeAttack</li>
 <li>rangedAttack</li>
+<li>hitPoints</li>
 <li>initiative</li>
 <li>save.Fortitude</li>
 <li>save.Reflex</li>
