@@ -810,6 +810,8 @@ Quilvyn.homebrewModifyChoices = function() {
     [ruleSet.getName(), type, name].map(x=>x.replaceAll('.', '%2E')).join('.'),
     attrs
   );
+  for(let i = 0; i < w.document.forms[0].elements.length; i++)
+    w.unmodified[i] = InputGetValue(w.document.forms[0].elements[i]);
   w.document.getElementById('message').innerHTML = '&nbsp;';
 
   w.save = false;
