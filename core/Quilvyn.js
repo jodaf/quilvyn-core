@@ -570,7 +570,9 @@ Quilvyn.homebrewIncludeChoices = function(items) {
  */
 Quilvyn.homebrewModifyChoices = function() {
 
-  if(Quilvyn.homebrewModifyChoices.win == null) {
+  let w = Quilvyn.homebrewModifyChoices.win;
+
+  if(w == null) {
 
     // New homebrew add
     let types = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
@@ -608,38 +610,35 @@ Quilvyn.homebrewModifyChoices = function() {
       '</body>',
       '</html>'
     ];
-    Quilvyn.homebrewModifyChoices.win = editWindow;
-    Quilvyn.homebrewModifyChoices.win.document.write(htmlBits.join('\n') + '\n');
-    Quilvyn.homebrewModifyChoices.win.document.close();
-    Quilvyn.homebrewModifyChoices.win.canceled = false;
-    Quilvyn.homebrewModifyChoices.win.done = false;
-    Quilvyn.homebrewModifyChoices.win.flipPredefined = false;
-    Quilvyn.homebrewModifyChoices.win.save = false;
-    Quilvyn.homebrewModifyChoices.win.search = '';
-    Quilvyn.homebrewModifyChoices.win.update = true;
-    Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_type')[0].focus();
+    w = editWindow;
+    w.document.write(htmlBits.join('\n') + '\n');
+    w.document.close();
+    w.canceled = false;
+    w.done = false;
+    w.flipPredefined = false;
+    w.save = false;
+    w.search = '';
+    w.update = true;
+    w.document.getElementsByName('_name')[0].focus();
+    Quilvyn.homebrewModifyChoices.win = w;
     Quilvyn.homebrewModifyChoices();
     return;
 
-  } else if(Quilvyn.homebrewModifyChoices.win.done) {
+  } else if(w.done) {
 
     // User done making additions
     Quilvyn.homebrewModifyChoices.win = null;
     Quilvyn.refreshEditor(true);
     return;
 
-  } else if(Quilvyn.homebrewModifyChoices.win.search ||
-            Quilvyn.homebrewModifyChoices.win.update) {
+  } else if(w.search || w.update) {
 
-    let nameInput =
-      Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_name')[0];
-    let tagsInput =
-      Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_tags')[0];
-    let typeInput =
-      Quilvyn.homebrewModifyChoices.win.document.getElementsByName('_type')[0];
+    let nameInput = w.document.getElementsByName('_name')[0];
+    let tagsInput = w.document.getElementsByName('_tags')[0];
+    let typeInput = w.document.getElementsByName('_type')[0];
     let newValues = null;
 
-    if(Quilvyn.homebrewModifyChoices.win.search) {
+    if(w.search) {
 
       let prefix =
         PERSISTENT_HOMEBREW_PREFIX +
@@ -648,12 +647,11 @@ Quilvyn.homebrewModifyChoices = function() {
         prefix +
         InputGetValue(typeInput).replaceAll('.', '%2E') + '.' +
         InputGetValue(nameInput).replaceAll('.', '%2E');
-      let target = Quilvyn.homebrewModifyChoices.win.search;
+      let target = w.search.toUpperCase();
       let newPath = null;
 
       // First search homebrew choices, if appropriate
-      if(!('<>'.includes(target)) ||
-         !Quilvyn.homebrewModifyChoices.win.flipPredefined) {
+      if(!('<>'.includes(target)) || !w.flipPredefined) {
         let searchSet =
           QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix)).sort((a,b) => a.split('.')[3].localeCompare(b.split('.')[3]));
         if(target == '<')
@@ -664,8 +662,9 @@ Quilvyn.homebrewModifyChoices = function() {
           newPath =
             searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
         else
-          newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
-        Quilvyn.homebrewModifyChoices.win.flipPredefined = false;
+          newPath =
+            searchSet.find(x=>x.split('.')[3].toUpperCase().startsWith(target));
+        w.flipPredefined = false;
       }
 
       // If that fails, move to predefined (ruleSet) choices
@@ -684,14 +683,15 @@ Quilvyn.homebrewModifyChoices = function() {
           newPath =
             searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
         else
-          newPath = searchSet.find(x => x.split('.')[3].startsWith(target));
+          newPath =
+            searchSet.find(x=>x.split('.')[3].toUpperCase().startsWith(target));
         if(newPath != null)
-          Quilvyn.homebrewModifyChoices.win.flipPredefined = true;
+          w.flipPredefined = true;
       }
 
       // If that also fails, give up
       if(newPath == null) {
-        Quilvyn.homebrewModifyChoices.win.search = '';
+        w.search = '';
         setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
         return;
       }
@@ -707,7 +707,7 @@ Quilvyn.homebrewModifyChoices = function() {
 
     InputSetValue(nameInput, '');
     InputSetValue(tagsInput, '');
-    Quilvyn.homebrewModifyChoices.win.document.getElementById('message').innerHTML = '&nbsp;';
+    w.document.getElementById('message').innerHTML = '&nbsp;';
 
     // Display input fields appropriate to the chosen type
     let elements =
@@ -723,7 +723,7 @@ Quilvyn.homebrewModifyChoices = function() {
         InputHtml(name, type, params) + '</td></tr>'
       );
     });
-    Quilvyn.homebrewModifyChoices.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
+    w.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
 
     if(newValues) {
       InputSetValue(nameInput, QuilvynUtils.getAttrValue(newValues, '_name'));
@@ -735,19 +735,27 @@ Quilvyn.homebrewModifyChoices = function() {
           let value = eValues.join(',');
           if(value == "false")
             value = false;
-          InputSetValue
-            (Quilvyn.homebrewModifyChoices.win.document.getElementsByName(e[0])[0], value);
+          InputSetValue(w.document.getElementsByName(e[0])[0], value);
         }
       });
     }
 
-    Quilvyn.homebrewModifyChoices.win.search = '';
-    Quilvyn.homebrewModifyChoices.win.update = false;
+    w.search = '';
+    w.unmodified = [];
+    for(let i = 0; i < w.document.forms[0].elements.length; i++)
+      w.unmodified[i] = InputGetValue(w.document.forms[0].elements[i]);
+    w.update = false;
     setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
     return;
 
-  } else if(!Quilvyn.homebrewModifyChoices.win.save) {
+  } else if(!w.save) {
 
+    let modified = false;
+    for(let i = 0; i < w.document.forms[0].elements.length; i++)
+      if(InputGetValue(w.document.forms[0].elements[i]) != w.unmodified[i])
+        modified = true;
+    w.document.getElementById('message').innerHTML =
+      modified ? '* Modified' : '&nbsp;';
     // Try again later
     setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
     return;
@@ -755,11 +763,11 @@ Quilvyn.homebrewModifyChoices = function() {
   }
 
   // Ready to add a homebrew choice
-  let inputForm = Quilvyn.homebrewModifyChoices.win.document.forms[0];
+  let inputForm = w.document.forms[0];
   let attrs = [];
   let name = '';
   let type = '';
-  for(i = 0; i < inputForm.elements.length; i++) {
+  for(let i = 0; i < inputForm.elements.length; i++) {
     let input = inputForm.elements[i];
     let inputName = input.name;
     let inputValue = InputGetValue(input);
@@ -792,7 +800,7 @@ Quilvyn.homebrewModifyChoices = function() {
   }
   if(name == '') {
     // Reject empty name
-    Quilvyn.homebrewModifyChoices.win.save = false;
+    w.save = false;
     setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
     return;
   }
@@ -802,10 +810,9 @@ Quilvyn.homebrewModifyChoices = function() {
     [ruleSet.getName(), type, name].map(x=>x.replaceAll('.', '%2E')).join('.'),
     attrs
   );
-  Quilvyn.homebrewModifyChoices.win.document.getElementById('message').innerHTML =
-    'Added ' + type + ' ' + name + ' to ' + ruleSet.getName() + ' homebrews';
+  w.document.getElementById('message').innerHTML = '&nbsp;';
 
-  Quilvyn.homebrewModifyChoices.win.save = false;
+  w.save = false;
   if(!QuilvynUtils.getAttrValue(attrs, '_tags'))
     ruleSet.choiceRules(ruleSet, type, name, attrs);
   setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
