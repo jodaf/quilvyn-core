@@ -414,34 +414,6 @@ Quilvyn.homebrewDeleteChoices = function(items) {
 
 };
 
-/* Interacts with the user to remove all choices from one or more rule sets. */
-Quilvyn.homebrewDeleteCollections = function(collections) {
-
-  if(!collections) {
-    collections = {};
-    for(let path in STORAGE) {
-      if(path.startsWith(PERSISTENT_HOMEBREW_PREFIX))
-        collections[path.split('.')[1].replaceAll('%2E', '.')] = '';
-    }
-    Quilvyn.setDialog(
-      'Select collections to delete', collections,
-       Quilvyn.homebrewDeleteCollections
-    );
-    return;
-  }
-
-  for(let c in collections) {
-    let prefix = PERSISTENT_HOMEBREW_PREFIX + c.replaceAll('.', '%2E') + '.';
-    for(let path in STORAGE) {
-      if(path.startsWith(prefix))
-        STORAGE.removeItem(path);
-    }
-  }
-
-  Quilvyn.refreshEditor(true);
-
-};
-
 /*
  * Displays all homebrew choices in a format that can be imported into Quilvyn.
  */
@@ -583,16 +555,17 @@ Quilvyn.homebrewModifyChoices = function() {
       '<title>Add Homebrew Choices</title></head>',
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       '<table style="width:100%"><tr>',
-      '<td style="text-align:center">',
-        '&#x1F50E<input type="text" name="_search" size="15" onchange="search=this.value">',
-        '<input type="button" name="_prior" value="&lt;" onclick="search=\'<\';"/>',
-        '<input type="button" name="_next" value="&gt;" onclick="search=\'>\';"/>',
-      '</td>',
-      '<td style="text-align:right">',
+      '<td style="text-align:left; width:15%">',
+        '<input type="button" name="_prior" value="&lt;" onclick="search=\'&lt;\';"/>',
+        '<input type="button" name="_next" value="&gt;" onclick="search=\'&gt;\';"/>',
+      '</td><td style="text-align:center; width=70%">',
+//        '&#x1F50E;&#xFE0E; <input type="text" name="_search" size="15" onchange="search=this.value">',
+        '<input type="text" name="_search" size="15" onchange="search=this.value"> Find name&#8617;',
+      '</td><td style="text-align:right; width:15%">',
         '<input type="button" name="Close" value="x" onclick="done=true;"/>',
       '</td>',
       '</tr></table>',
-      LOGO_TAG + '<br/><br/>',
+      '<br/>',
       '<form onsubmit="return false"><table><tr>',
       '<th>Type</th><td>' + InputHtml('_type', 'select-one', types).replace('>', ' onchange="update=true">') + '</td>',
       '</tr><tr>',
@@ -691,8 +664,10 @@ Quilvyn.homebrewModifyChoices = function() {
 
       // If that also fails, give up
       if(newPath == null) {
+        w.document.getElementById('message').innerHTML =
+          'Search for "' + w.search + '" failed';
         w.search = '';
-        setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
+        setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
         return;
       }
 
@@ -745,7 +720,7 @@ Quilvyn.homebrewModifyChoices = function() {
     for(let i = 0; i < w.document.forms[0].elements.length; i++)
       w.unmodified[i] = InputGetValue(w.document.forms[0].elements[i]);
     w.update = false;
-    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
     return;
 
   } else if(!w.save) {
@@ -754,10 +729,12 @@ Quilvyn.homebrewModifyChoices = function() {
     for(let i = 0; i < w.document.forms[0].elements.length; i++)
       if(InputGetValue(w.document.forms[0].elements[i]) != w.unmodified[i])
         modified = true;
-    w.document.getElementById('message').innerHTML =
-      modified ? '* Modified' : '&nbsp;';
+    if(modified)
+      w.document.getElementById('message').innerHTML = '* Modified';
+    else if(w.document.getElementById('message').innerHTML.includes('Modified'))
+      w.document.getElementById('message').innerHTML = '&nbsp';
     // Try again later
-    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
     return;
 
   }
@@ -770,17 +747,17 @@ Quilvyn.homebrewModifyChoices = function() {
   for(let i = 0; i < inputForm.elements.length; i++) {
     let input = inputForm.elements[i];
     let inputName = input.name;
-    let inputValue = InputGetValue(input);
+    let inputValue = (InputGetValue(input) + '').trim();
     if(inputName == '_name')
       // For consistency with text attrs, allow unnecessary quotes around name
-      name = inputValue.replace(/^(['"])(.*)\1$/, '$2');
+      name = inputValue.replace(/^(['"])(.*)\1$/, '$2').trim();
     else if(inputName == '_type')
       type = inputValue;
     else if(inputName == 'Save' || inputName == 'Close')
       continue;
     else {
       // Quote values that contain spaces.
-      let tokens = (inputValue + '').match(/'[^']*'|"[^"]*"|[^,]+|,/g);
+      let tokens = inputValue.match(/'[^']*'|"[^"]*"|[^,]+|,/g);
       if(tokens) {
         inputValue = '';
         for(let j = 0; j < tokens.length; j++) {
@@ -799,9 +776,9 @@ Quilvyn.homebrewModifyChoices = function() {
     }
   }
   if(name == '') {
-    // Reject empty name
+    w.document.getElementById('message').innerHTML = 'Empty name not allowed';
     w.save = false;
-    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
+    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
     return;
   }
   attrs = attrs.join(' ');
@@ -812,12 +789,13 @@ Quilvyn.homebrewModifyChoices = function() {
   );
   for(let i = 0; i < w.document.forms[0].elements.length; i++)
     w.unmodified[i] = InputGetValue(w.document.forms[0].elements[i]);
-  w.document.getElementById('message').innerHTML = '&nbsp;';
+  w.document.getElementById('message').innerHTML =
+    'Saved homebrew ' + type + ' ' + name;
 
   w.save = false;
   if(!QuilvynUtils.getAttrValue(attrs, '_tags'))
     ruleSet.choiceRules(ruleSet, type, name, attrs);
-  setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY);
+  setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
   return;
 
 };
@@ -854,7 +832,7 @@ Quilvyn.editorHtml = function() {
     ['rulesNotes', '', 'button', ['Notes']],
     ['homebrew', 'Homebrew', 'select-one', [
       '---choose one---', 'Create/Edit Choices...', 'Delete Choices...',
-      'Include Choices...', 'Export All', 'Import...', 'Delete Collections...'
+      'Include Choices...', 'Export All', 'Import...'
     ]],
     ['character', 'Character', 'select-one', []],
     ['clear', 'Clear', 'select-one', 'bags'],
@@ -2097,8 +2075,6 @@ Quilvyn.update = function(input) {
       Quilvyn.homebrewExportChoices(null);
     else if(value == 'Import...')
       Quilvyn.homebrewImportChoices(null);
-    else if(value == 'Delete Collections...')
-      Quilvyn.homebrewDeleteCollections(null);
   } else if(name == 'randomize') {
     value = input.attrs[input.selectedIndex]; // Get attr for selected label
     input.selectedIndex = 0;
