@@ -213,12 +213,12 @@ Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
       let checkAll =
         InputGetValue(Quilvyn.setDialog.win.document.getElementsByName('_all')[0]);
       let filter =
-        InputGetValue(Quilvyn.setDialog.win.document.getElementsByName('_filter')[0]);
+        InputGetValue(Quilvyn.setDialog.win.document.getElementsByName('_filter')[0]).toUpperCase();
       for(let i = 0; i < form.elements.length; i++) {
         let value = form.elements[i].value;
         let tr =
           Quilvyn.setDialog.win.document.getElementsByName(value + 'Row')[0];
-        let hide = filter != '' && !value.includes(filter);
+        let hide = filter != '' && !value.toUpperCase().includes(filter);
         if(tr)
           tr.hidden = hide;
         if(!hide && Quilvyn.setDialog.win.reall)
