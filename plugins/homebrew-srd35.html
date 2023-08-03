@@ -29,12 +29,13 @@ by comparing them to similar choices from the core rule books.
 </p><p>
 The input fields used to enter homebrew choices are similar to those used
 by the Quilvyn editor&mdash;text fields, selection menus, checkboxes, etc.
-One difference between the two is that you can enter multiple values into some
-text boxes in the homebrew choices editor. For example, when entering a homebrew
-deity, you will likely want to enter multiple values in the Domains text box.
-To do this, separate the individual values by commas: Good,Law,War. If you ever
-need to enter a single value that contains a comma into a text box, enclose the
-value in quotes: "May create and mend magic weapons, armor, and shields".
+One difference between the two is that you can enter multiple values into most
+text boxes in the homebrew choices editor. For example, when entering a
+homebrew deity, you will likely want to enter multiple values in the Domains
+text box. To do this, separate the individual values by commas: Good,Law,War.
+If you ever need to enter a single value that contains a comma into a text box,
+enclose the value in quotes: "May create and mend magic weapons, armor, and
+shields".
 </p><p>
 Although the widest text boxes that Quilvyn uses show around 40 characters, you
 can enter longer text values. Only 40 characters will show at once, but you can
@@ -165,8 +166,9 @@ entries for the name of the class or race that gains the feature and the level
 at which the feature is gained. If the feature is gained only if selected by
 the user (e.g, a Cleric domain), enter the type in the Selectable Type box
 ("Domain"); otherwise, leave the box empty, indicating that all characters of
-the given class or race gain the feature. The Prerequisite box lists any
-requirements that must be met to gain the feature, and Replace lists any
+the given class or race gain the feature. Unlike most text boxes, the
+Selectable Type field only accepts a single value. The Prerequisite box lists
+any requirements that must be met to gain the feature, and Replace lists any
 predefined features that this one replaces.
 </p><p>
 The first example shown adds another choice, Forge Domain, to the domains that
@@ -339,7 +341,9 @@ the spell's school, the list of classes and levels for the spell, the
 description of the spell, and whether or not the spell can be placed into a
 potion that can be drunk or an oil that can be applied. Spell descriptions can
 embed references to character attributes; see the discussion of
-<a href=#attrs>using character attributes</a> for how to include these.
+<a href=#attrs>using character attributes</a> for how to include these. Unlike
+most text boxes, the Description field only accepts a single value; if you
+enter multiple values, Quilvyn ignores all but the last.
 </p><p>
 The example shows the entry for the transmutation spell <i>Enhance Skill</i>,
 which is a level 3 spell for clerics, sorcerers, and wizards. It can be invoked
