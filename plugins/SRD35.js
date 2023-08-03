@@ -8801,6 +8801,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       31, 32, 33, 34, 35
     ];
     let sizes = ['Diminutive', 'Tiny', 'Small', 'Medium', 'Large', 'Huge'];
+    let speeds = [0, 5, 10, 15, 20, 30, 40, 50, 60, 70, 80, 90, 100];
     result.push(
       ['Str', 'Str', 'select-one', oneToThirtyFive],
       ['Dex', 'Dex', 'select-one', oneToThirtyFive],
@@ -8813,7 +8814,7 @@ SRD35.choiceEditorElements = function(rules, type) {
       ['Attack', 'Attack Bonus', 'select-one', minusFiveToTwenty],
       ['Dam', 'Damage', 'text', [10, '\\d+d\\d+([-+]\\d+)?(,\\d+d\\d+([-+]\\d+)?)*']],
       ['Size', 'Size', 'select-one', sizes],
-      ['Speed', 'Speed', 'text', [5, '\\d+']],
+      ['Speed', 'Speed', 'select-one', speeds],
       ['Level', 'Min Master Level', 'select-one', oneToTwenty]
     );
   } else if(type == 'Armor' || type == 'Shield') {
@@ -9035,43 +9036,49 @@ SRD35.randomName = function(race) {
     {'Dwarf': 'aeiou', 'Elf': 'aeioy', 'Gnome': 'aeiou',
      'Halfling': 'aeiou', 'Human': 'aeiou', 'Orc': 'aou'}[race];
   let diphthongs = {a:'wy', e:'aei', o: 'aiouy', u: 'ae'};
-  let syllables = QuilvynUtils.random(0, 99);
-  syllables = syllables < 50 ? 2 :
-              syllables < 75 ? 3 :
-              syllables < 90 ? 4 :
-              syllables < 95 ? 5 :
-              syllables < 99 ? 6 : 7;
   let result = '';
-  let vowel;
+  let words = QuilvynUtils.random(0, 99);
+  words = words < 65 ? 1 : words < 90 ? 2 : words < 99 ? 3 : 4;
 
-  for(let i = 0; i < syllables; i++) {
-    if(QuilvynUtils.random(0, 99) <= 80) {
-      endConsonant = randomChar(consonants).toUpperCase();
-      if(clusters[endConsonant] != null && QuilvynUtils.random(0, 99) < 15)
-        endConsonant += randomChar(clusters[endConsonant]);
-      result += endConsonant;
-      if(endConsonant == 'Q')
-        result += 'u';
+  for(let i = 0; i < words; i++) {
+    let syllables = QuilvynUtils.random(0, 99);
+    syllables = syllables < 10 ? 1 :
+                syllables < 50 ? 2 :
+                syllables < 75 ? 3 :
+                syllables < 90 ? 4 :
+                syllables < 95 ? 5 :
+                syllables < 99 ? 6 : 7;
+    for(let j = 0; j < syllables; j++) {
+      if(QuilvynUtils.random(0, 99) <= 80) {
+        endConsonant = randomChar(consonants).toUpperCase();
+        if(clusters[endConsonant] != null && QuilvynUtils.random(0, 99) < 15)
+          endConsonant += randomChar(clusters[endConsonant]);
+        result += endConsonant;
+        if(endConsonant == 'Q')
+          result += 'u';
+      }
+      else if(endConsonant.length == 1 && QuilvynUtils.random(0, 99) < 10) {
+        result += endConsonant;
+        endConsonant += endConsonant;
+      }
+      let vowel = randomChar(vowels);
+      if(endConsonant.length > 0 && diphthongs[vowel] != null &&
+         QuilvynUtils.random(0, 99) < 15)
+        vowel += randomChar(diphthongs[vowel]);
+      result += vowel;
+      endConsonant = '';
+      if(QuilvynUtils.random(0, 99) <= 60) {
+        while(leading.indexOf((endConsonant = randomChar(consonants))) >= 0)
+          ; /* empty */
+        if(clusters[endConsonant] != null && QuilvynUtils.random(0, 99) < 15)
+          endConsonant += randomChar(clusters[endConsonant]);
+        result += endConsonant;
+      }
     }
-    else if(endConsonant.length == 1 && QuilvynUtils.random(0, 99) < 10) {
-      result += endConsonant;
-      endConsonant += endConsonant;
-    }
-    vowel = randomChar(vowels);
-    if(endConsonant.length > 0 && diphthongs[vowel] != null &&
-       QuilvynUtils.random(0, 99) < 15)
-      vowel += randomChar(diphthongs[vowel]);
-    result += vowel;
-    endConsonant = '';
-    if(QuilvynUtils.random(0, 99) <= 60) {
-      while(leading.indexOf((endConsonant = randomChar(consonants))) >= 0)
-        ; /* empty */
-      if(clusters[endConsonant] != null && QuilvynUtils.random(0, 99) < 15)
-        endConsonant += randomChar(clusters[endConsonant]);
-      result += endConsonant;
-    }
+    if(i < words - 1)
+      result += ' ';
   }
-  return result.charAt(0).toUpperCase() + result.substring(1).toLowerCase();
+  return result.split(' ').map(x => x.charAt(0).toUpperCase() + x.substring(1).toLowerCase()).join(' ');
 
 };
 
