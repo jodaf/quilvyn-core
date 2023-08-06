@@ -502,7 +502,6 @@ Quilvyn.homebrewIncludeChoices = function(items) {
 
   let prefix =
     PERSISTENT_HOMEBREW_PREFIX + ruleSet.getName().replaceAll('.','%2E') + '.';
-  let auto = [];
 
   if(!items) {
     items = {};
@@ -515,13 +514,17 @@ Quilvyn.homebrewIncludeChoices = function(items) {
         QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
       if(tags.length > 0)
         item += ' (' + tags.join(',') + ')';
+      let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
+      let type = pieces[2].charAt(0).toLowerCase() +
+                 pieces[2].substring(1).replaceAll(' ', '') + 's';
+      let name = pieces[3];
+      if(ruleSet.getChoices(type) && name in ruleSet.getChoices(type))
+        item = '<i>' + item + '</i>';
       items[item] = path;
-      if(tags.length == 0)
-        auto.push(item);
     }
     Quilvyn.setDialog
-      ('Select choices to include', items, Quilvyn.homebrewIncludeChoices,
-       auto, auto);
+      ('Select choices to include (italicized choices already included)',
+       items, Quilvyn.homebrewIncludeChoices);
     return;
   }
 
