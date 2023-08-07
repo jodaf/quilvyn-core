@@ -519,11 +519,11 @@ Quilvyn.homebrewIncludeChoices = function(items) {
                  pieces[2].substring(1).replaceAll(' ', '') + 's';
       let name = pieces[3];
       if(ruleSet.getChoices(type) && name in ruleSet.getChoices(type))
-        item = '<i>' + item + '</i>';
+        item += ' &#8225;';
       items[item] = path;
     }
     Quilvyn.setDialog
-      ('Select choices to include (italicized choices already included)',
+      ('Select choices to include (&#8225; choice already included)',
        items, Quilvyn.homebrewIncludeChoices);
     return;
   }
@@ -559,13 +559,15 @@ Quilvyn.homebrewModifyChoices = function() {
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       '<table style="width:100%"><tr>',
       '<td style="text-align:left; width:15%">',
-        '<input type="button" name="_prior" value="&lt;" onclick="search=\'&lt;\';"/>',
-        '<input type="button" name="_next" value="&gt;" onclick="search=\'&gt;\';"/>',
+        '<input type="button" name="_previous" value="&lt;" onclick="search=\'&lt;\';" title="Previous name"/>',
+        '<input type="button" name="_next" value="&gt;" onclick="search=\'&gt;\';" title="Next name"/>',
       '</td><td style="text-align:center; width=70%">',
-//        '&#x1F50E;&#xFE0E; <input type="text" name="_search" size="15" onchange="search=this.value">',
-        '<input type="text" name="_search" size="15" onchange="search=this.value"> Find name&#8617;',
+        '&#x1F50E;&#xFE0E; <input type="button" name="_pmatch" value="&lt;" onclick="search=\'&lt;&lt;\';" title="Previous matching"/>',
+//        '&#x1F50E;&#xFE0E; <input type="text" name="_search" size="15" onchange="search=this.value"> Find name&#8617;',
+        '<input type="text" name="_search" size="15" onchange="search=this.value">',
+        '<input type="button" name="_nmatch" value="&gt;" onclick="search=\'&gt;&gt;\';" title="Next matching"/>',
       '</td><td style="text-align:right; width:15%">',
-        '<input type="button" name="Close" value="x" onclick="done=true;"/>',
+        '<input type="button" name="Close" value="x" onclick="done=true;" title="Close"/>',
       '</td>',
       '</tr></table>',
       '<br/>',
@@ -591,9 +593,9 @@ Quilvyn.homebrewModifyChoices = function() {
     w.document.close();
     w.canceled = false;
     w.done = false;
-    w.flipPredefined = false;
     w.save = false;
     w.search = '';
+    w.showingPredefined = false;
     w.update = true;
     w.document.getElementsByName('_name')[0].focus();
     Quilvyn.homebrewModifyChoices.win = w;
@@ -610,6 +612,8 @@ Quilvyn.homebrewModifyChoices = function() {
   } else if(w.search || w.update) {
 
     let nameInput = w.document.getElementsByName('_name')[0];
+    let searchInput = w.document.getElementsByName('_search')[0];
+    let searchText = InputGetValue(searchInput).toUpperCase();
     let tagsInput = w.document.getElementsByName('_tags')[0];
     let typeInput = w.document.getElementsByName('_type')[0];
     let newValues = null;
@@ -625,60 +629,68 @@ Quilvyn.homebrewModifyChoices = function() {
         InputGetValue(nameInput).replaceAll('.', '%2E');
       let target = w.search.toUpperCase();
       let newPath = null;
+      let predefValues = {};
 
       // First search homebrew choices, if appropriate
-      if(!('<>'.includes(target)) || !w.flipPredefined) {
+      if(!'<<>>'.includes(target) || !w.showingPredefined) {
         let searchSet =
           QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix)).sort((a,b) => a.split('.')[3].localeCompare(b.split('.')[3]));
-        if(target == '<')
+        if(target == '<<' || target == '>>')
+          searchSet =
+            searchSet.filter(x => (x + QuilvynUtils.getAttrValue(STORAGE.getItem(x), '_tags')).toUpperCase().includes(searchText));
+        if(target == '<' || target == '<<')
           newPath =
             searchSet[searchSet.indexOf(currentPath) - 1] ||
             searchSet[searchSet.length - 1];
-        else if(target == '>')
+        else if(target == '>' || target == '>>')
           newPath =
             searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
         else
-          newPath =
-            searchSet.find(x=>x.split('.')[3].toUpperCase().startsWith(target));
-        w.flipPredefined = false;
+          newPath = searchSet.find(x => (x + QuilvynUtils.getAttrValue(STORAGE.getItem(x), '_tags')).toUpperCase().includes(target));
+        w.showingPredefined = false;
       }
 
       // If that fails, move to predefined (ruleSet) choices
       if(newPath == null) {
         let searchSet = [];
         for(let type in ruleSet.getChoices('choices')) {
-          searchSet = searchSet.concat(QuilvynUtils.getKeys(ruleSet.getChoices(type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's')).map(x => prefix + type + '.' + x));
+          let choices = ruleSet.getChoices(type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
+          for(let c in choices) {
+            let key = prefix + type + '.' + c;
+            searchSet.push(key);
+            predefValues[key] = choices[c];
+          }
         }
         searchSet =
           searchSet.sort((a,b)=>a.split('.')[3].localeCompare(b.split('.')[3]));
-        if(target == '<')
+        if(target == '<<' || target == '>>')
+          searchSet =
+            searchSet.filter(x => x.toUpperCase().includes(searchText));
+        if(target == '<' || target == '<<')
           newPath =
             searchSet[searchSet.indexOf(currentPath) - 1] ||
             searchSet[searchSet.length - 1];
-        else if(target == '>')
+        else if(target == '>' || target == '>>')
           newPath =
             searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
         else
-          newPath =
-            searchSet.find(x=>x.split('.')[3].toUpperCase().startsWith(target));
+          newPath = searchSet.find(x => x.toUpperCase().includes(target));
         if(newPath != null)
-          w.flipPredefined = true;
+          w.showingPredefined = true;
       }
 
       // If that also fails, give up
       if(newPath == null) {
-        w.document.getElementById('message').innerHTML =
-          'Search for "' + w.search + '" failed';
+        w.document.getElementById('message').innerHTML = 'Search failed';
         w.search = '';
+        w.showingPredefined = false;
         setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
         return;
       }
 
       let newName = newPath.split('.')[3];
       let newType = newPath.split('.')[2];
-      newValues =
-        STORAGE.getItem(newPath) ||
-        ruleSet.getChoices(newType.charAt(0).toLowerCase() + newType.substring(1).replaceAll(' ', '') + 's')[newName];
+      newValues = STORAGE.getItem(newPath) || predefValues[newPath];
       InputSetValue(typeInput, newType);
       newValues += ' _name="' + newName.replaceAll('%2E', '.') + '"';
     }
