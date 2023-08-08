@@ -7230,7 +7230,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     return;
   }
 
-  notes = notes.map(x => SRD35.wrapVarsContainingSpace(x));
+  notes = notes.map(x => QuilvynRules.wrapVarsContainingSpace(x));
 
   let prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
@@ -7243,7 +7243,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     let effects = notes[i];
     let matchInfo;
     let maxSubnote =
-      section.includes('%1') ? section.match(/%\d/g).sort().pop().replace('%') - 0 : 0;
+      effects.includes('%1') ? effects.match(/%\d/g).sort().pop().replace('%') - 0 : 0;
     let note = section + 'Notes.' + prefix;
     let priorInSection = sections.slice(0, i).filter(x => x == section).length;
     if(priorInSection > 0)
@@ -7919,7 +7919,7 @@ SRD35.spellRules = function(
 
   let expr;
 
-  description = SRD35.wrapVarsContainingSpace(description);
+  description = QuilvynRules.wrapVarsContainingSpace(description);
 
   // Translate deprecated interpolation format
   // ${?L\d*((div|max|min|minus|plus|times)\d+)*}?
@@ -8309,31 +8309,6 @@ SRD35.featureSpells = function(
     levelAttr, '=', null
   );
 
-};
-
-/*
- * Quilvyn allows homebrew choices to include expressions that use variables
- * with one or more spaces, e.g., skills.Handle Animal. Rather than require the
- * user to make these valid for the Expr module by wrapping them in $"", this
- * function does the wrapping and returns the result.
- */
-SRD35.wrapVarsContainingSpace = function(s) {
-  if(!s.match(/\w\.[A-Z]/))
-    return s; // Efficiency short-circuit; we know there are no space vars
-  let expressions = s.match(/%{[^}]*}/g);
-  if(expressions) {
-    expressions.forEach(e => {
-      let expr = ' ' + e;
-      let spaceVars = expr.match(/[^\w'"][a-z]\w*\.[A-Z]\w*( [\w()]+)+/g);
-      if(spaceVars) {
-        spaceVars.forEach(v => {
-          expr = expr.replace(v, v.charAt(0) + '$"' + v.substring(1) + '"');
-        });
-        s = s.replace(e, expr);
-      }
-    });
-  }
-  return s;
 };
 
 /*

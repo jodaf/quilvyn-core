@@ -570,3 +570,28 @@ QuilvynRules.validAllocationRules = function(
     note + '.2', '+=', null
   );
 };
+
+/*
+ * Quilvyn allows homebrew choices to include expressions that use variables
+ * with one or more spaces, e.g., skills.Handle Animal. Rather than require the
+ * user to make these valid for the Expr module by wrapping them in $"", this
+ * function does the wrapping and returns the result.
+ */
+QuilvynRules.wrapVarsContainingSpace = function(s) {
+  if(!s.match(/\w\.[A-Z]/))
+    return s; // Efficiency short-circuit; we know there are no space vars
+  let expressions = s.match(/%{[^}]*}/g);
+  if(expressions) {
+    expressions.forEach(e => {
+      let expr = ' ' + e;
+      let spaceVars = expr.match(/[^\w'"][a-z]\w*\.[A-Z]\w*( [\w()]+)+/g);
+      if(spaceVars) {
+        spaceVars.forEach(v => {
+          expr = expr.replace(v, v.charAt(0) + '$"' + v.substring(1) + '"');
+        });
+        s = s.replace(e, expr);
+      }
+    });
+  }
+  return s;
+};
