@@ -428,7 +428,7 @@ Quilvyn.homebrewActivateChoices = function(items) {
       ruleSet.choiceRules(ruleSet, type, name, value);
     } else if(!(c in items) && currentlyActive) {
       if(ruleSet.removeChoice)
-        ruleSet.removeChoice(type, name);
+        ruleSet.removeChoice(ruleSet, type, name);
       else
         // Minimal fallback behavior for rule sets w/out removeChoice
         delete ruleSet.getChoices(group)[name];

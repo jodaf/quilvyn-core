@@ -31,11 +31,13 @@ Place, Suite 330, Boston, MA 02111-1307 USA.
 function SRD35() {
 
   let rules = new QuilvynRules('SRD v3.5', SRD35.VERSION);
+  rules.plugin = SRD35;
   SRD35.rules = rules;
 
   rules.defineChoice('choices', SRD35.CHOICES);
   rules.choiceEditorElements = SRD35.choiceEditorElements;
   rules.choiceRules = SRD35.choiceRules;
+  rules.removeChoice = SRD35.removeChoice;
   rules.editorElements = SRD35.initialEditorElements();
   rules.getFormats = SRD35.getFormats;
   rules.makeValid = SRD35.makeValid;
@@ -5765,6 +5767,22 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   }
 };
 
+/* Removes #name# as a possible user #type# choice. */
+SRD35.removeChoice = function(rules, type, name) {
+  let choiceGroup =
+    type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's';
+  let choices = rules.getChoices(choiceGroup);
+  if(choices && choices[name]) {
+    let currentAttrs = choices[name];
+    let constantName = type.toUpperCase().replaceAll(' ', '_') + 'S';
+    delete choices[name];
+    if(rules.plugin &&
+       rules.plugin[constantName] &&
+       rules.plugin[constantName][name] != currentAttrs)
+      rules.choiceRules(rules, type, name, rules.plugin[constantName][name]);
+  }
+};
+
 /* Defines in #rules# the rules associated with alignment #name#. */
 SRD35.alignmentRules = function(rules, name) {
   if(!name) {
@@ -8799,7 +8817,7 @@ SRD35.choiceEditorElements = function(rules, type) {
     if(type == 'Shield')
       weights.push('Tower');
     result.push(
-      ['AC', 'AC Bonus', 'select-one', [0, 1, 2, 3, 4, 5]],
+      ['AC', 'AC Bonus', 'select-one', zeroToTen],
       ['Weight', 'Weight', 'select-one', weights],
       ['Dex', 'Max Dex Bonus', 'select-one', zeroToTen],
       ['Skill', 'Armor Check Penalty', 'select-one', zeroToNegativeTen],
