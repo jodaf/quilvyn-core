@@ -174,7 +174,8 @@ Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
       '<h3>' + prmpt + '</h3>',
       '<form onsubmit="return false"><table>',
       '<tr><td><b>Filter </b>' + InputHtml('_filter', 'text', [20]).replace('>', ' onchange="refilter=true">') + '</td></tr>',
-      '<tr><td>' + InputHtml('_all', 'checkbox', ['all shown']).replace('>', ' onchange="reall=true"') + '</td></tr>'
+      '<tr><td>' + InputHtml('_all', 'checkbox', ['all shown']).replace('>', ' onchange="reall=true"') + '</td></tr>',
+      '<tr><td><hr></td></th>'
     ];
     Object.keys(choices).sort().forEach(c => {
       let input = InputHtml(choices[c], 'checkbox', [c]);
@@ -383,7 +384,7 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
  * Interacts with the user to incorporate homebrew choices into the current
  * rule set.
  */
-Quilvyn.homebrewActivateChoices = function(items) {
+Quilvyn.homebrewEnableChoices = function(items) {
 
   let prefix =
     PERSISTENT_HOMEBREW_PREFIX + ruleSet.getName().replaceAll('.','%2E') + '.';
@@ -410,7 +411,7 @@ Quilvyn.homebrewActivateChoices = function(items) {
   if(!items) {
     Quilvyn.setDialog
       ('Select choices to activate<br/>(those checked are currently active)',
-       homebrewChoices, Quilvyn.homebrewActivateChoices, checked);
+       homebrewChoices, Quilvyn.homebrewEnableChoices, checked);
     return;
   }
 
@@ -863,7 +864,7 @@ Quilvyn.editorHtml = function() {
     ['rulesNotes', '', 'button', ['Notes']],
     ['homebrew', 'Homebrew', 'select-one', [
       '---choose one---', 'Create/Edit Choices...', 'Delete Choices...',
-      'Activate/Deactivate Choices...', 'Export All', 'Import...'
+      'Enable/Disable Choices...', 'Export All', 'Import...'
     ]],
     ['character', 'Character', 'select-one', []],
     ['clear', 'Clear', 'select-one', 'bags'],
@@ -2100,8 +2101,8 @@ Quilvyn.update = function(input) {
       Quilvyn.homebrewModifyChoices();
     else if(value == 'Delete Choices...')
       Quilvyn.homebrewDeleteChoices(null);
-    else if(value == 'Activate/Deactivate Choices...')
-      Quilvyn.homebrewActivateChoices();
+    else if(value == 'Enable/Disable Choices...')
+      Quilvyn.homebrewEnableChoices();
     else if(value == 'Export All')
       Quilvyn.homebrewExportChoices(null);
     else if(value == 'Import...')
