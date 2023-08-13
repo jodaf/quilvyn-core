@@ -5767,18 +5767,37 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   }
 };
 
-/* Removes #name# as a possible user #type# choice. */
+/*
+ * Removes #name# from the set of user #type# choices, reversing the effects of
+ * choiceRules.
+ */
 SRD35.removeChoice = function(rules, type, name) {
   let choiceGroup =
     type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's';
   let choices = rules.getChoices(choiceGroup);
+  let constantName = type.toUpperCase().replaceAll(' ', '_') + 'S';
   if(choices && choices[name]) {
     let currentAttrs = choices[name];
-    let constantName = type.toUpperCase().replaceAll(' ', '_') + 'S';
     delete choices[name];
+    // TODO Remove rules based on this choice that affect character sheet
+    // Assume no rules exist: Language
+    // Assume rules ineffective after choice removed:
+    //   Animal Companion, Armor, Deity, Familiar, School, Shield, Skill,
+    //   Spell, Weapon
+    // Need addressing:
+    //   Class, Class Feature, Feat, Feature, NPC, Prestige, Race, Race Feature
     if(rules.plugin &&
        rules.plugin[constantName] &&
+       name in rules.plugin[constantName] &&
        rules.plugin[constantName][name] != currentAttrs)
+      rules.choiceRules(rules, type, name, rules.plugin[constantName][name]);
+  } else if(choices && type == 'Spell') {
+    QuilvynUtils.getKeys(choices, '^' + name + '\\(').forEach(s => {
+      delete choices[name];
+    });
+    if(rules.plugin &&
+       rules.plugin[constantName] &&
+       name in rules.plugin[constantName])
       rules.choiceRules(rules, type, name, rules.plugin[constantName][name]);
   }
 };
@@ -6824,6 +6843,14 @@ SRD35.classFeatureRules = function(
     featureSpec = require.join('/') + ' ? ' + featureSpec;
   QuilvynRules.featureListRules
     (rules, [featureSpec], className, classLevel, selectable ? true : false);
+  if(selectable) {
+    let countVar =
+      'selectableFeatureCount.' + className + ' (' + selectable + ')';
+    if(!rules.getSources(countVar))
+      rules.defineRule(countVar,
+        classLevel, '=', level>1 ? 'source>=' + level + ' ? 1 : null' : '1'
+      );
+  }
   replace.forEach(f => {
     let hasVar = 'has' + f.replaceAll(' ', '');
     rules.defineRule(prefix + 'Features.' + f, hasVar, '?', 'source==1');
@@ -7613,6 +7640,14 @@ SRD35.raceFeatureRules = function(
     featureSpec = require.join('/') + ' ? ' + featureSpec;
   QuilvynRules.featureListRules
     (rules, [featureSpec], raceName, raceLevel, selectable ? true : false);
+  if(selectable) {
+    let countVar =
+      'selectableFeatureCount.' + raceName + ' (' + selectable + ')';
+    if(!rules.getSources(countVar))
+      rules.defineRule(countVar,
+        raceLevel, '=', level>1 ? 'source>=' + level + ' ? 1 : null' : '1'
+      );
+  }
   replace.forEach(f => {
     let hasVar = 'has' + f.replaceAll(' ', '');
     rules.defineRule(prefix + 'Features.' + f, hasVar, '?', 'source==1');
