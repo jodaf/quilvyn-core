@@ -468,8 +468,9 @@ Quilvyn.homebrewDeleteChoices = function(items) {
     return;
   }
 
-  for(path in items) {
-    STORAGE.removeItem(items[path]);
+  for(let item in items) {
+    let path = items[item];
+    STORAGE.removeItem(path);
     let pieces = path.split('.');
     let type = pieces[2];
     let name = pieces[3];
