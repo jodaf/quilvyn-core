@@ -164,6 +164,16 @@ RuleEngine.prototype.deleteRule = function(target, source) {
   delete this.sources[target][source];
 };
 
+/* Returns an array of sources that affect #target#. */
+RuleEngine.prototype.getSources = function(target) {
+  return this.targets[source];
+};
+
+/* Returns an array of targets that #source# affects. */
+RuleEngine.prototype.getTargets = function(source) {
+  return this.targets[source];
+};
+
 /* Returns true iff the value of #attr# affects other attributes. */
 RuleEngine.prototype.isSource = function(attr) {
   return this.targets[attr] != null;
