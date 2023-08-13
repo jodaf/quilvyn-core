@@ -7832,7 +7832,7 @@ SRD35.skillRules = function(
     rules.defineRule('skills.' + name + '.1', 'skills.' + name, '=', '""');
   }
   rules.defineRule('skills.' + name + '.2',
-    'skills.' + name, '?', null,
+    'skills.' + name, '?', 'source != null',
     '', '=', '";cc"',
     'classSkills.' + name, '=', '""'
   );
