@@ -166,7 +166,7 @@ RuleEngine.prototype.deleteRule = function(target, source) {
 
 /* Returns an array of sources that affect #target#. */
 RuleEngine.prototype.getSources = function(target) {
-  return this.targets[source];
+  return this.sources[target];
 };
 
 /* Returns an array of targets that #source# affects. */
