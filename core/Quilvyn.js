@@ -199,7 +199,6 @@ Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
     Quilvyn.setDialog.win.reall = false;
     Quilvyn.setDialog.win.refilter = false;
     Quilvyn.setDialog.win.callback = callback;
-    Quilvyn.setDialog.win.document.getElementsByName('ok')[0].focus();
     setTimeout('Quilvyn.setDialog()', TIMEOUT_DELAY);
     return;
   } else if(Quilvyn.setDialog.win.canceled) {
@@ -410,7 +409,7 @@ Quilvyn.homebrewEnableChoices = function(items) {
 
   if(!items) {
     Quilvyn.setDialog
-      ('Select choices to activate<br/>(those checked are currently active)',
+      ('Select choices to enable<br/><small>(checked choices are currently enabled)</small>',
        homebrewChoices, Quilvyn.homebrewEnableChoices, checked);
     return;
   }
@@ -469,8 +468,17 @@ Quilvyn.homebrewDeleteChoices = function(items) {
     return;
   }
 
-  for(path in items)
+  for(path in items) {
     STORAGE.removeItem(items[path]);
+    let pieces = path.split('.');
+    let type = pieces[2];
+    let name = pieces[3];
+    if(ruleSet.removeChoice)
+      ruleSet.removeChoice(ruleSet, type, name);
+    else if(ruleset.getChoices(group))
+      // Minimal fallback behavior for rule sets w/out removeChoice
+      delete ruleSet.getChoices(group)[name];
+  }
 
   Quilvyn.refreshEditor(true);
 
@@ -827,6 +835,7 @@ Quilvyn.homebrewModifyChoices = function() {
   w.save = false;
   if(!QuilvynUtils.getAttrValue(attrs, '_tags'))
     ruleSet.choiceRules(ruleSet, type, name, attrs);
+  Quilvyn.refreshSheet();
   setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
   return;
 
