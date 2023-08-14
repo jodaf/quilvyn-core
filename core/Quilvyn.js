@@ -482,6 +482,7 @@ Quilvyn.homebrewDeleteChoices = function(items) {
   }
 
   Quilvyn.refreshEditor(true);
+  Quilvyn.refreshSheet();
 
 };
 
