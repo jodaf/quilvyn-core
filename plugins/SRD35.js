@@ -5779,13 +5779,53 @@ SRD35.removeChoice = function(rules, type, name) {
   if(choices && choices[name]) {
     let currentAttrs = choices[name];
     delete choices[name];
-    // TODO Remove rules based on this choice that affect character sheet
-    // Assume no rules exist: Language
-    // Assume rules ineffective after choice removed:
+    // Disable rules based on this choice that affect character sheet
+    // Assume there are no rules to disable:
+    //   Language
+    // Assume any rules are sufficiently disabled by choice removal:
     //   Animal Companion, Armor, Deity, Familiar, School, Shield, Skill,
     //   Spell, Weapon
-    // Need addressing:
+    // Need to take action to disable rules:
     //   Class, Class Feature, Feat, Feature, NPC, Prestige, Race, Race Feature
+    if(type.match(/^(Class|Class Feature|NPC|Prestige|Race|Race Feature)$/)) {
+      let classOrRace =
+        type=='Class Feature' ?
+          QuilvynUtils.getAttrValue(currentAttrs, 'Class') :
+        type=='Race Feature' ?
+          QuilvynUtils.getAttrValue(currentAttrs, 'Race') : name;
+      let features =
+        type.match(/^(Class|Race) Feature$/) ?
+          QuilvynUtils.getAttrValue(currentAttrs, 'Selectable') ? [] : [name] :
+        QuilvynUtils.getAttrValueArray(currentAttrs, 'Features');
+      let selectables =
+        type.match(/^(Class|Race) Feature$/) ?
+          !QuilvynUtils.getAttrValue(currentAttrs, 'Selectable') ? [name] : [] :
+        QuilvynUtils.getAttrValueArray(currentAttrs, 'Selectables');
+      if(classOrRace) {
+        let prefix =
+          classOrRace.charAt(0).toLowerCase() +
+          classOrRace.substring(1).replaceAll(' ', '');
+        let levelVar =
+          type.match(/Race/) ? prefix + 'Level' : ('levels.' + classOrRace);
+        features.forEach(f => {
+          rules.defineRule(prefix + 'Features.' + f, levelVar, '=', 'null');
+        });
+        selectables.forEach(s => {
+          let sfVar = 'selectableFeatures.' + classOrRace + ' - ' + s;
+          rules.defineRule(prefix + 'Features.' + s, sfVar, '=', 'null');
+        });
+      }
+    } else if(type == 'Feat') {
+      rules.defineRule('features.' + name, 'feats.' + name, '=', 'null');
+    } else if(type == 'Feature') {
+      let prefix =
+        name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
+      QuilvynUtils.getAttrValueArray(currentAttrs, 'Section').forEach(s => {
+        rules.defineRule(s.toLowerCase() + 'Notes.' + prefix,
+          'features.' + name, '=', 'null'
+        );
+      });
+    }
     if(rules.plugin &&
        rules.plugin[constantName] &&
        name in rules.plugin[constantName] &&
