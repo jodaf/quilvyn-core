@@ -362,7 +362,7 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
              .replace(/\s*(>\s*0|>=\s*1)\b/g, '');
   for(let i = 0; i < 9; i++)
     note = note.replace('%' + i, attrs[name + '.' + i]);
-  let m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*)?/g);
+  let m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*\+?)?/g);
   if(m) {
     for(let i = 1; i < m.length; i++) {
       let ref = m[i];
