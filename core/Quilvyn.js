@@ -215,6 +215,9 @@ Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
       let filter =
         InputGetValue(Quilvyn.setDialog.win.document.getElementsByName('_filter')[0]).toUpperCase();
       for(let i = 0; i < form.elements.length; i++) {
+        let name = form.elements[i].name;
+        if(name=='_filter' || name=='_all')
+          continue;
         let value = form.elements[i].value;
         let tr =
           Quilvyn.setDialog.win.document.getElementsByName(value + 'Row')[0];
@@ -234,7 +237,7 @@ Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
   let form = Quilvyn.setDialog.win.document.forms[0];
   choices = {};
   for(let i = 0; i < form.elements.length; i++) {
-    if(form.elements[i].checked)
+    if(form.elements[i].checked && form.elements[i].name != '_all')
       choices[form.elements[i].value] = form.elements[i].name;
   }
 
@@ -398,7 +401,7 @@ Quilvyn.homebrewEnableChoices = function(items) {
     let name = pieces[3];
     let tags = QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
     let display =
-      type + ' ' + name + (tags.length > 0 ? ' (' + tags.join(',') + ')' : '');
+      type + ': ' + name + (tags.length > 0 ? ' (' + tags.join(',') + ')' : '');
     homebrewChoices[display] = path;
     let group =
       type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ','') + 's';
@@ -455,7 +458,7 @@ Quilvyn.homebrewDeleteChoices = function(items) {
     for(path in STORAGE) {
       if(path.startsWith(prefix)) {
         let item =
-          path.substring(prefix.length).replace('.',' ').replaceAll('%2E','.');
+          path.substring(prefix.length).replace('.',': ').replaceAll('%2E','.');
         let tags =
           QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
         if(tags.length > 0)
