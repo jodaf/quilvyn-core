@@ -1666,13 +1666,9 @@ Quilvyn.refreshStatus = function(showDetail) {
 /* Creates and returns a character from the contents of a storage path. */
 Quilvyn.retrieveCharacterFromStorage = function(path) {
   let result = {};
-  let attrs = STORAGE.getItem(path).split('\t');
-  for(let i = 0; i < attrs.length; i++) {
-    let pieces = attrs[i].split('=', 2);
-    if(pieces.length == 2)
-      result[pieces[0]] =
-        pieces[1].match(/^[-+]?\d+$/) ? +pieces[1] : pieces[1];
-  }
+  STORAGE.getItem(path).split('\t').forEach(attr => {
+    result[attr.replace(/=.*/, '')] = attr.replace(/[^=]*=/, '');
+  });
   return result;
 };
 
