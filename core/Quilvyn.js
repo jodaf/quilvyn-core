@@ -1676,7 +1676,7 @@ Quilvyn.retrieveCharacterFromStorage = function(path) {
     if(attr.includes('=')) {
       let name = attr.split('=', 1)[0];
       let value = attr.substring(name.length + 1);
-      result[name] = value;
+      result[name] = value.match(/^[-+]?\d+$/) ? +value : value;
     }
   });
   return result;
