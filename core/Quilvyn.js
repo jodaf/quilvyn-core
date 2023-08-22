@@ -687,6 +687,12 @@ Quilvyn.homebrewModifyChoices = function() {
           let choices = ruleSet.getChoices(type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
           for(let c in choices) {
             let key = prefix + type + '.' + c;
+            // Small hack here--we have implicit knowledge that some plugins
+            // (e.g., SRD35) expand spell definitions into multiple entries by
+            // appending the level and school in parens to the name. We want to
+            // show the unexpanded base, so undo that step.
+            if(type=='Spell')
+              key = prefix + type + '.' + c.replace(/\([^\d]+\d [\w]+\)$/, '');
             searchSet.push(key);
             predefValues[key] = choices[c];
           }
@@ -1667,7 +1673,11 @@ Quilvyn.refreshStatus = function(showDetail) {
 Quilvyn.retrieveCharacterFromStorage = function(path) {
   let result = {};
   STORAGE.getItem(path).split('\t').forEach(attr => {
-    result[attr.replace(/=.*/, '')] = attr.replace(/[^=]*=/, '');
+    if(attr.includes('=')) {
+      let name = attr.split('=', 1)[0];
+      let value = attr.substring(name.length + 1);
+      result[name] = value;
+    }
   });
   return result;
 };
