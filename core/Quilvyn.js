@@ -691,8 +691,11 @@ Quilvyn.homebrewModifyChoices = function() {
             // (e.g., SRD35) expand spell definitions into multiple entries by
             // appending the level and school in parens to the name. We want to
             // show the unexpanded base, so undo that step.
-            if(type=='Spell')
+            if(type=='Spell') {
               key = prefix + type + '.' + c.replace(/\([^\d]+\d [\w]+\)$/, '');
+              if(searchSet.includes(key))
+                continue;
+            }
             searchSet.push(key);
             predefValues[key] = choices[c];
           }
