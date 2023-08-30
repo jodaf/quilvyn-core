@@ -589,13 +589,11 @@ Quilvyn.homebrewModifyChoices = function() {
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       '<table style="width:100%"><tr>',
       '<td style="text-align:left; width:15%">',
-        '<input type="button" name="_previous" value="&lt;" onclick="search=\'&lt;\';" title="Previous name"/>',
-        '<input type="button" name="_next" value="&gt;" onclick="search=\'&gt;\';" title="Next name"/>',
+        '<input type="button" name="_previous" value="&lt;" onclick="viewStep=\'&lt;\';" title="Previous name"/>',
+        '<input type="button" name="_next" value="&gt;" onclick="viewStep=\'&gt;\';" title="Next name"/>',
       '</td><td style="text-align:center; width=70%">',
-        '&#x1F50E;&#xFE0E; <input type="button" name="_pmatch" value="&lt;" onclick="search=\'&lt;&lt;\';" title="Previous matching"/>',
-//        '&#x1F50E;&#xFE0E; <input type="text" name="_search" size="15" onchange="search=this.value"> Find name&#8617;',
         '<input type="text" name="_search" size="15" onchange="search=this.value">',
-        '<input type="button" name="_nmatch" value="&gt;" onclick="search=\'&gt;&gt;\';" title="Next matching"/>',
+        '<input type="button" name="_searchb" value="&#x1F50D;&#xFE0E;" onclick="search=window.document.getElementsByName(\'_search\')[0].value;" title="Search"/>',
       '</td><td style="text-align:right; width:15%">',
         '<input type="button" name="Close" value="x" onclick="done=true;" title="Close"/>',
       '</td>',
@@ -614,6 +612,8 @@ Quilvyn.homebrewModifyChoices = function() {
       '</table><br/>',
       '<input type="button" name="Save" value="Save" onclick="save=true;"/>',
       '<p id="message"> </p>',
+      '<table id="matchNavigation">',
+      '</table><br/>',
       '</form>',
       '</body>',
       '</html>'
@@ -625,8 +625,9 @@ Quilvyn.homebrewModifyChoices = function() {
     w.done = false;
     w.save = false;
     w.search = '';
-    w.showingPredefined = false;
+    w.viewPredefined = false;
     w.update = true;
+    w.viewStep = '';
     w.document.getElementsByName('_name')[0].focus();
     Quilvyn.homebrewModifyChoices.win = w;
     Quilvyn.homebrewModifyChoices();
@@ -639,16 +640,16 @@ Quilvyn.homebrewModifyChoices = function() {
     Quilvyn.refreshEditor(true);
     return;
 
-  } else if(w.search || w.update) {
+  } else if(w.search || w.viewStep || w.update) {
 
     let nameInput = w.document.getElementsByName('_name')[0];
     let searchInput = w.document.getElementsByName('_search')[0];
-    let searchText = InputGetValue(searchInput).toUpperCase();
+    let searchUpper = InputGetValue(searchInput).toUpperCase();
     let tagsInput = w.document.getElementsByName('_tags')[0];
     let typeInput = w.document.getElementsByName('_type')[0];
-    let newValues = null;
+    let newPathAttrs = null;
 
-    if(w.search) {
+    if(w.search || w.viewStep) {
 
       let prefix =
         PERSISTENT_HOMEBREW_PREFIX +
@@ -657,81 +658,109 @@ Quilvyn.homebrewModifyChoices = function() {
         prefix +
         InputGetValue(typeInput).replaceAll('.', '%2E') + '.' +
         InputGetValue(nameInput).replaceAll('.', '%2E');
-      let target = w.search.toUpperCase();
       let newPath = null;
-      let predefValues = {};
+      let pathAttrs;
+      let searchSet;
 
-      // First search homebrew choices, if appropriate
-      if(!'<<>>'.includes(target) || !w.showingPredefined) {
-        let searchSet =
-          QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix)).sort((a,b) => a.split('.')[3].localeCompare(b.split('.')[3]));
-        if(target == '<<' || target == '>>')
+      // First search homebrew choices, if appropriate, then predefined
+      for(let pass = 0; pass < 2 && newPath == null; pass++) {
+        let homebrewPass = pass == 0;
+        if(homebrewPass && !w.search && w.viewPredefined)
+          continue;
+        if(homebrewPass) {
           searchSet =
-            searchSet.filter(x => (x + QuilvynUtils.getAttrValue(STORAGE.getItem(x), '_tags')).toUpperCase().includes(searchText));
-        if(target == '<' || target == '<<')
-          newPath =
-            searchSet[searchSet.indexOf(currentPath) - 1] ||
-            searchSet[searchSet.length - 1];
-        else if(target == '>' || target == '>>')
-          newPath =
-            searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
-        else
-          newPath = searchSet.find(x => (x + QuilvynUtils.getAttrValue(STORAGE.getItem(x), '_tags')).toUpperCase().includes(target));
-        w.showingPredefined = false;
-      }
-
-      // If that fails, move to predefined (ruleSet) choices
-      if(newPath == null) {
-        let searchSet = [];
-        for(let type in ruleSet.getChoices('choices')) {
-          let choices = ruleSet.getChoices(type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's');
-          for(let c in choices) {
-            let key = prefix + type + '.' + c;
-            // Small hack here--we have implicit knowledge that some plugins
-            // (e.g., SRD35) expand spell definitions into multiple entries by
-            // appending the level and school in parens to the name. We want to
-            // show the unexpanded base, so undo that step.
-            if(type=='Spell') {
-              key = prefix + type + '.' + c.replace(/\([^\d]+\d [\w]+\)$/, '');
-              if(searchSet.includes(key))
-                continue;
+            QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix)).
+            sort((a,b) => a.split('.')[3].localeCompare(b.split('.')[3]));
+          pathAttrs = STORAGE;
+        } else {
+          searchSet = [];
+          pathAttrs = {};
+          for(let type in ruleSet.getChoices('choices')) {
+            let choices =
+              ruleSet.getChoices(
+                type.charAt(0).toLowerCase() +
+                type.substring(1).replaceAll(' ', '') + 's'
+              );
+            for(let c in choices) {
+              let key = prefix + type + '.' + c;
+              if(type=='Spell') {
+                // Small hack here--we have implicit knowledge that some plugins
+                // (e.g., SRD35) expand spell definitions into multiple entries
+                // by appending the level and school in parens to the name. We
+                // want to show the unexpanded base, so undo that step.
+                key = prefix + type + '.' + c.replace(/\([^\d]+\d [\w]+\)$/,'');
+                if(searchSet.includes(key))
+                  continue;
+              }
+              searchSet.push(key);
+              pathAttrs[key] = choices[c];
             }
-            searchSet.push(key);
-            predefValues[key] = choices[c];
           }
         }
-        searchSet =
-          searchSet.sort((a,b)=>a.split('.')[3].localeCompare(b.split('.')[3]));
-        if(target == '<<' || target == '>>')
+        if(!w.viewStep.match(/^(<|>)$/))
           searchSet =
-            searchSet.filter(x => x.toUpperCase().includes(searchText));
-        if(target == '<' || target == '<<')
+            searchSet.filter(x => (x + QuilvynUtils.getAttrValue(pathAttrs[x], '_tags') || '').toUpperCase().includes(searchUpper));
+        if(w.viewStep == '<')
           newPath =
             searchSet[searchSet.indexOf(currentPath) - 1] ||
             searchSet[searchSet.length - 1];
-        else if(target == '>' || target == '>>')
+        else if(w.viewStep == '>')
           newPath =
             searchSet[searchSet.indexOf(currentPath) + 1] || searchSet[0];
+        else if(w.viewStep.match(/^\d+$/))
+          newPath = searchSet[+w.viewStep];
         else
-          newPath = searchSet.find(x => x.toUpperCase().includes(target));
-        if(newPath != null)
-          w.showingPredefined = true;
+          newPath = searchSet[0];
+        w.viewPredefined = !homebrewPass;
       }
 
-      // If that also fails, give up
+      // If that fails, give up
       if(newPath == null) {
-        w.document.getElementById('message').innerHTML = 'Search failed';
+        w.document.getElementById('message').innerHTML =
+          'Search for "' + w.search + '" failed';
+        w.document.getElementById('matchNavigation').innerHTML = '';
         w.search = '';
-        w.showingPredefined = false;
+        w.viewStep = '';
+        w.viewPredefined = false;
         setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
         return;
       }
 
       let newName = newPath.split('.')[3];
       let newType = newPath.split('.')[2];
-      newValues = STORAGE.getItem(newPath) || predefValues[newPath];
+      newPathAttrs = pathAttrs[newPath];
       InputSetValue(typeInput, newType);
-      newValues += ' _name="' + newName.replaceAll('%2E', '.') + '"';
+      newPathAttrs += ' _name="' + newName.replaceAll('%2E', '.') + '"';
+
+      if(searchSet.length < 2 || w.viewStep == '<' || w.viewStep == '>') {
+        w.document.getElementById('matchNavigation').innerHTML = '';
+      } else {
+        let newIndex = searchSet.indexOf(newPath);
+        let finalIndex = searchSet.length - 1;
+        let firstIndex = Math.max(newIndex - 2, 0);
+        let lastIndex = Math.min(firstIndex + 4, finalIndex);
+        firstIndex = Math.max(lastIndex - 4, 0);
+        let navBits = '<tr>';
+        if(newIndex > 0)
+          navBits +=
+            '<td><input type="button" name="_pmatch" value="< Previous" onclick="viewStep=\'' + (newIndex - 1) + '\'" title="Prior Match"/></td>';
+        if(firstIndex > 1)
+          navBits +=
+            '<td><input type="button" name="_match0" value="1" onclick="viewStep=\'0\'"/></td>' +
+            '<td>...</td>';
+        for(let i = firstIndex; i <= lastIndex; i++)
+          navBits +=
+            '<td><input type="button" name="_match' + i + '" value="' + (i + 1) + '" onclick="viewStep=\'' + i + '\'" ' + (i==newIndex ? ' disabled="disabled"' : '') + '/></td>';
+        if(lastIndex < finalIndex - 1)
+          navBits +=
+            '<td>...</td>' +
+            '<td><input type="button" name="_match' + finalIndex + '" value="' + searchSet.length + '" onclick="viewStep=\'' + finalIndex + '\'"/></td>';
+        if(newIndex < finalIndex)
+          navBits +=
+            '<td><input type="button" name="_nmatch" value="Next >" onclick="viewStep=\'' + (newIndex + 1) + '\'" title="Next Match"/></td>';
+        navBits += '</tr>';
+        w.document.getElementById('matchNavigation').innerHTML = navBits;
+      }
     }
 
     InputSetValue(nameInput, '');
@@ -754,15 +783,16 @@ Quilvyn.homebrewModifyChoices = function() {
     });
     w.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
 
-    if(newValues) {
-      InputSetValue(nameInput, QuilvynUtils.getAttrValue(newValues, '_name'));
+    if(newPathAttrs) {
       InputSetValue
-        (tagsInput, QuilvynUtils.getAttrValueArray(newValues, '_tags').join(','));
+        (nameInput, QuilvynUtils.getAttrValue(newPathAttrs, '_name'));
+      InputSetValue
+        (tagsInput, QuilvynUtils.getAttrValueArray(newPathAttrs, '_tags').join(','));
       elements.forEach(e => {
-        let eValues = QuilvynUtils.getAttrValueArray(newValues, e[0]);
+        let eValues = QuilvynUtils.getAttrValueArray(newPathAttrs, e[0]);
         if(eValues.length > 0) {
           let value = eValues.join(',');
-          if(value == "false")
+          if(value == 'false')
             value = false;
           InputSetValue(w.document.getElementsByName(e[0])[0], value);
         }
@@ -770,6 +800,7 @@ Quilvyn.homebrewModifyChoices = function() {
     }
 
     w.search = '';
+    w.viewStep = '';
     w.unmodified = [];
     for(let i = 0; i < w.document.forms[0].elements.length; i++)
       w.unmodified[i] = InputGetValue(w.document.forms[0].elements[i]);
