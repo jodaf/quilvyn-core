@@ -3767,7 +3767,7 @@ SRD35.SPELLS = {
   'Silence':
     'School=Illusion ' +
     'Level=B2,C2 ' +
-    'Description="R%{400+lvl*40}\' Bars sound in 20\' radius for %{lvl} min"',
+    'Description="R%{400+lvl*40}\' Bars sound in 20\' radius (Will neg if targeted) for %{lvl} min"',
   'Silent Image':
     'School=Illusion ' +
     'Level=B1,S1,W1 ' +
