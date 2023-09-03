@@ -703,6 +703,7 @@ Quilvyn.homebrewModifyChoices = function() {
       let searchText = pieces[pieces.length - 1].toUpperCase();
       let searchType =
         (pieces.length > 2 ? pieces[1] :
+         pieces.length == 1 ? '' :
          pieces[0].match(/^\s*rules$/i) ? '' : pieces[0]).toUpperCase();
 
       if(searchType)
