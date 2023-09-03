@@ -629,7 +629,7 @@ Quilvyn.homebrewModifyChoices = function() {
     htmlBits.push(...datalistOptions.sort());
     htmlBits.push(
         '</datalist>',
-        '<input type="button" name="_searchh" value="&#x1F50D;&#xFE0E;" onclick="searchStep=\'?\';" title="Search"/>',
+        '<input type="button" name="_searchh" value="&#x1F50D;&#xFE0E;" onclick="searchStep=\'H\';" title="Search"/>',
         '<input type="button" name="_nmatch" value=">" onclick="searchStep=\'+\'" title="Next match"/>',
       '</td>',
       '<td style="width:7%;text-align:center;font-size:11px"><input type="button" name="_searchr" value="&#x1F50D;&#xFE0E;" onclick="searchStep=\'R\'" title="Search rules"/><br/>Rules</td>',
@@ -694,17 +694,21 @@ Quilvyn.homebrewModifyChoices = function() {
         InputGetValue(nameInput).replaceAll('.', '%2E');
       let newPath = null;
 
+      if(w.searchStep == 'R' && !searchInput.value.match(/^\s*rules\s*:/i))
+        searchInput.value = 'Rules:' + searchInput.value;
+      else if(w.searchStep == 'H' && searchInput.value.match(/^\s*rules\s*:/i))
+        searchInput.value = searchInput.value.replace(/^[^:]*:/, '');
+
       let pieces = InputGetValue(searchInput).split(/\s*:\s*/);
-      let searchRules = pieces[0].match(/^\s*rules$/i) || w.searchStep == 'R';
-      if(searchRules && !pieces[0].match(/^\s*rules$/i))
-        InputSetValue(searchInput, 'Rules:' + InputGetValue(searchInput));
-      let searchChoices = searchRules ? w.rulesChoices : w.homebrewChoices;
+      let searchChoices =
+        pieces[0].match(/^\s*rules$/i) ? w.rulesChoices : w.homebrewChoices;
       let searchKeys = Object.keys(searchChoices);
       let searchText = pieces[pieces.length - 1].toUpperCase();
       let searchType =
-        (pieces.length > 2 ? pieces[1] :
-         pieces.length == 1 ? '' :
-         pieces[0].match(/^\s*rules$/i) ? '' : pieces[0]).toUpperCase();
+        pieces.length > 2 ? pieces[1].toUpperCase() :
+        pieces.length == 1 ? '' :
+        pieces[0].match(/^\s*rules$/i) ? '' :
+        pieces[0].toUpperCase();
 
       if(searchType)
         searchKeys =
