@@ -588,7 +588,6 @@ Quilvyn.homebrewModifyChoices = function() {
       if(key.startsWith(prefix))
         homebrewChoices[key] = STORAGE.getItem(key);
     }
-      QuilvynUtils.getKeys(STORAGE).filter(x => x.startsWith(prefix));
     let rulesChoices = [];
     for(let type in ruleSet.getChoices('choices')) {
       let choices =
@@ -704,7 +703,7 @@ Quilvyn.homebrewModifyChoices = function() {
       let searchText = pieces[pieces.length - 1].toUpperCase();
       let searchType =
         (pieces.length > 2 ? pieces[1] :
-         !searchRules && pieces.length == 2 ? pieces[0] : '').toUpperCase();
+         pieces[0].match(/^\s*rules$/i) ? '' : pieces[0]).toUpperCase();
 
       if(searchType)
         searchKeys =
@@ -858,6 +857,21 @@ Quilvyn.homebrewModifyChoices = function() {
     w.unmodified[i] = InputGetValue(w.document.forms[0].elements[i]);
   w.document.getElementById('message').innerHTML =
     'Saved homebrew ' + type + ' ' + name;
+  w.homebrewChoices = {};
+  for(let key in STORAGE) {
+    if(key.startsWith(prefix))
+      w.homebrewChoices[key] = STORAGE.getItem(key);
+  }
+  let datalistOptions = [];
+  for(let key in w.homebrewChoices) {
+    let pieces = key.split('.').map(x => x.replaceAll('%2E', '.'));
+    let tags = QuilvynUtils.getAttrValueArray(w.homebrewChoices[key], '_tags');
+    datalistOptions.push(
+      '  <option value="' + pieces[2] + ':' + pieces[3] + (tags ? ' (' + tags.join(',') + ')' : '') + '"></option>'
+    );
+  }
+  w.document.getElementById('homebrews').innerHTML =
+    datalistOptions.sort().join('');
 
   w.save = false;
   if(!QuilvynUtils.getAttrValue(attrs, '_tags'))
