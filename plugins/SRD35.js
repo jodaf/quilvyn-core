@@ -4361,7 +4361,7 @@ SRD35.WEAPONS = {
   'Throwing Axe':'Level=Martial Category=Light Damage=d6 Range=10',
   'Trident':'Level=Martial Category=One-Handed Damage=d8 Range=10',
   'Two-Bladed Sword':'Level=Exotic Category=Two-Handed Damage=d8/d8 Threat=19',
-  'Unarmed':'Level=Unarmed Category=Un Damage=d3',
+  'Unarmed':'Level=Unarmed Category=Unarmed Damage=d3',
   'Warhammer':'Level=Martial Category=One-Handed Damage=d8 Crit=3',
   'Whip':'Level=Exotic Category=One-Handed Damage=d3'
 };
@@ -5736,7 +5736,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
         let level = matchInfo[2] * 1;
         let fullName = name + '(' + group + level + ' ' + schoolAbbr + ')';
         // If classes have already been processed, then domains will be listed
-        // in Cleric selectable feaatures; otherwise, look in SRD35.CLASSES
+        // in Cleric selectable features; otherwise, look in SRD35.CLASSES
         let domainSpell =
           (rules.getChoices('selectableFeatures') != null &&
            ('Cleric - ' + group + ' Domain') in rules.getChoices('selectableFeatures')) ||
@@ -5870,8 +5870,8 @@ SRD35.armorRules = function(
     console.log('Bad ac "' + ac + '" for armor ' + name);
     return;
   }
-  if(weight == null ||
-     !(weight + '').match(/^([0-3]|none|light|medium|heavy)$/i)) {
+  if(typeof weight != 'string' ||
+     !weight.match(/^(none|light|medium|heavy)$/i)) {
     console.log('Bad weight "' + weight + '" for armor ' + name);
     return;
   }
@@ -5888,9 +5888,7 @@ SRD35.armorRules = function(
     return;
   }
 
-  if((weight + '').match(/^[0-3]$/))
-    ; // empty
-  else if(weight.match(/^none$/i))
+  if(weight.match(/^none$/i))
     weight = 0;
   else if(weight.match(/^light$/i))
     weight = 1;
@@ -6690,8 +6688,8 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Dragon Disciple', '+=',
         'source - (source == 10 ? 3 : source >= 7 ? 2 : source >= 3 ? 1 : 0)'
     );
-    SRD35.weaponRules(rules, 'Bite', 1, 'Un', 'd6', 20, 2, null);
-    SRD35.weaponRules(rules, 'Claw', 1, 'Un', 'd4', 20, 2, null);
+    SRD35.weaponRules(rules, 'Bite', 'Unarmed', 'Unarmed', 'd6', 20, 2, null);
+    SRD35.weaponRules(rules, 'Claw', 'Unarmed', 'Unarmed', 'd4', 20, 2, null);
     rules.defineRule('weapons.Bite', 'combatNotes.biteAttack', '=', '1');
     rules.defineRule('weapons.Claw', 'combatNotes.clawAttack', '=', '1');
 
@@ -7363,7 +7361,7 @@ SRD35.featureRules = function(rules, name, sections, notes) {
           adjust = '%' + sn;
         }
 
-        let adjustor =
+        let adjuster =
           adjust.match(/%\d/) ? note + '.' + adjust.replace(/.*%/, '') : note;
         let op = adjust.startsWith('x') ? '*' : '+';
         if(op == '*')
@@ -7397,10 +7395,10 @@ SRD35.featureRules = function(rules, name, sections, notes) {
           continue;
         }
         rules.defineRule(adjusted,
-          adjustor, op, !adjust.includes('%') ? adjust : adjust.startsWith('-') ? '-source' : 'source'
+          adjuster, op, !adjust.includes('%') ? adjust : adjust.startsWith('-') ? '-source' : 'source'
         );
         if(adjust == '%1' && !pieces[j].includes(adjust))
-          rules.defineRule(adjustor, note, '?', null);
+          rules.defineRule(adjuster, note, '?', null);
 
       } else if(section == 'skill' && pieces[j].match(/\sclass\sskill(s)?$/)) {
         let skill =
@@ -7751,7 +7749,7 @@ SRD35.shieldRules = function(
   rules, name, ac, weight, maxDex, skillFail, spellFail
 ) {
 
-  // Backwards compatibity--maxDex param was added in v2.4
+  // TODO Backwards compatibility--maxDex param was added in v2.4
   if(spellFail == null) {
     spellFail = skillFail;
     skillFail = maxDex;
@@ -7766,8 +7764,8 @@ SRD35.shieldRules = function(
     console.log('Bad ac "' + ac + '" for shield ' + name);
     return;
   }
-  if(weight == null ||
-     !(weight + '').match(/^([0-4]|none|light|medium|heavy|tower)$/i)) {
+  if(typeof weight != 'string' ||
+     !weight.match(/^(none|light|medium|heavy|tower)$/i)) {
     console.log('Bad weight "' + weight + '" for shield ' + name);
     return;
   }
@@ -7784,9 +7782,7 @@ SRD35.shieldRules = function(
     return;
   }
 
-  if((weight + '').match(/^[0-4]$/))
-    ; // empty
-  else if(weight.match(/^none$/i))
+  if(weight.match(/^none$/i))
     weight = 0;
   else if(weight.match(/^light$/i))
     weight = 1;
@@ -8121,13 +8117,13 @@ SRD35.weaponRules = function(
     console.log('Bad name for weapon  "' + name + '"');
     return;
   }
-  if(profLevel == null ||
-     !(profLevel + '').match(/^([0-3]|unarmed|simple|martial|exotic)$/i)) {
+  if(typeof profLevel != 'string' ||
+     !profLevel.match(/^(unarmed|simple|martial|exotic)$/i)) {
     console.log('Bad proficiency level "' + profLevel + '" for weapon ' + name);
     return;
   }
-  if(category == null ||
-     !(category + '').match(/^(1h|2h|Li|R|Un|one-handed|two-handed|light|ranged|unarmed)$/i)) {
+  if(typeof category != 'string' ||
+     !category.match(/^(one-handed|two-handed|light|ranged|unarmed)$/i)) {
     console.log('Bad category "' + category + '" for weapon ' + name);
     return;
   }
@@ -8147,9 +8143,7 @@ SRD35.weaponRules = function(
     console.log('Bad range "' + range + '" for weapon ' + name);
   }
 
-  if((profLevel + '').match(/^[0-3]$/))
-    ; // empty
-  else if(profLevel.match(/^unarmed$/i))
+  if(profLevel.match(/^unarmed$/i))
     profLevel = 0;
   else if(profLevel.match(/^simple$/i))
     profLevel = 1;
@@ -8157,16 +8151,7 @@ SRD35.weaponRules = function(
     profLevel = 2;
   else if(profLevel.match(/^exotic$/i))
     profLevel = 3;
-  if(category.match(/^one-handed$/i))
-    category = '1h';
-  else if(category.match(/^two-handed$/i))
-    category = '2h';
-  else if(category.match(/^light$/i))
-    category = 'Li';
-  else if(category.match(/^ranged$/i))
-    category = 'R';
-  else if(category.match(/^unarmed$/i))
-    category = 'Un';
+  category = category.toLowerCase();
   if(!threat)
     threat=20;
   if(!critMultiplier)
@@ -8177,7 +8162,7 @@ SRD35.weaponRules = function(
   let firstDamage = matchInfo ? matchInfo[1] : damage;
   let secondDamage = matchInfo ? matchInfo[6] : null;
   let weaponName = 'weapons.' + name;
-  let attackBase = category == 'R' ? 'rangedAttack' : 'meleeAttack';
+  let attackBase = category == 'ranged' ? 'rangedAttack' : 'meleeAttack';
 
   let rangeVar = !range ? null : secondDamage ? 7 : damage=='None' ? 4 : 5;
   let threatVar = secondDamage ? 6 : 4;
@@ -8214,7 +8199,7 @@ SRD35.weaponRules = function(
     rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
     );
-  else if(category.match(/[12]h/))
+  else if(category.match(/(one|two)-handed/))
     rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', null,
       'combatNotes.two-HandedWieldDamageAdjustment', '+', null
@@ -8269,7 +8254,7 @@ SRD35.weaponRules = function(
     rules.defineRule(weaponName + '.' + rangeVar, prefix + 'Range', '=', null);
   }
 
-  if(category == 'Li' || category == 'Un' ||
+  if(category == 'light' || category == 'unarmed' ||
      name.match(/^(rapier|whip|spiked\schain)$/i)) {
     rules.defineRule('finesseAttackBonus',
       'combatNotes.weaponFinesse', '?', null,
@@ -8301,7 +8286,7 @@ SRD35.weaponRules = function(
     'weapons.' + name, '=', '-4',
     'weaponProficiencyLevelShortfall.' + name, '?', 'source > 0'
   );
-  if(category == '2h') {
+  if(category == 'two-handed') {
     rules.defineChoice('notes',
       'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack and AC'
     );
