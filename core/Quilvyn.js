@@ -158,7 +158,9 @@ Quilvyn.confirmDialog = function(prmpt, callback) {
  * Interacts with the user to select a subset of available options. #prmpt#
  * labels the dialog and #choices# is a dictionary of items, the keys of which
  * are shown to the user for selection. Once the user has made selections, the
- * subset of #choices# selected by the user is passed to #callback#.
+ * subset of #choices# selected by the user is passed to #callback#. #selected#
+ * and #disabled#, if provided, are arrays of keys from #choices# that should
+ * be pre-checked and/or disabled.
  */
 Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
 
@@ -241,7 +243,6 @@ Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
       choices[form.elements[i].value] = form.elements[i].name;
   }
 
-
   callback = Quilvyn.setDialog.win.callback;
   Quilvyn.setDialog.win = null;
   Quilvyn.refreshEditor(true);
@@ -253,7 +254,7 @@ Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
  * Interacts with the user to enter a single line of text. #prmpt# is used to
  * label the dialog, #defaultValue# is displayed as the default value for
  * the text, and #error#, if specified, is shown as an error in the default
- * value. If true, multiline indicates that a text box should be used for
+ * value. If true, #multiline# indicates that a text box should be used for
  * the prompt rather than a single-line text input. Once the user has entered
  * text, it is passed as a parameter to #callback#.
  */
@@ -374,8 +375,7 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
         replacement = replacement.split('.');
         replacement = replacement[1] + ' ' + replacement[0].replace(/s$/, '');
       }
-      if(attrs[ref])
-        replacement += ' (currently ' + attrs[ref] + ')';
+      replacement += ' (currently ' + (attrs[ref] || 'missing') + ')';
       note = note.replace(ref, replacement);
     }
   }
@@ -616,7 +616,7 @@ Quilvyn.homebrewModifyChoices = function() {
       '<table style="width:100%"><tr style="vertical-align:top">',
       '<td style="text-align:right; width=50%">',
         '<input type="button" name="_pmatch" value="<" onclick="searchStep=\'-\'" title="Previous match"/>',
-        '<input type="text" list="homebrews" name="_search" size="15" onchange="searchStep=\'?\'"/>',
+        '<input type="text" list="homebrews" name="_search" size="20" onchange="searchStep=\'?\'"/>',
         '<datalist id="homebrews">'];
     let datalistOptions = [];
     for(let key in homebrewChoices) {
@@ -694,6 +694,7 @@ Quilvyn.homebrewModifyChoices = function() {
         InputGetValue(nameInput).replaceAll('.', '%2E');
       let newPath = null;
 
+      // Search button pair toggles whether "rules:" is included in search text
       if(w.searchStep == 'R' && !searchInput.value.match(/^\s*rules\s*:/i))
         searchInput.value = 'Rules:' + searchInput.value;
       else if(w.searchStep == 'H' && searchInput.value.match(/^\s*rules\s*:/i))
@@ -710,6 +711,8 @@ Quilvyn.homebrewModifyChoices = function() {
         pieces[0].match(/^\s*rules$/i) ? '' :
         pieces[0].toUpperCase();
 
+      // Filter by type, if specified, then by text, which may match name or
+      // tags. If type wasn't specified, text may also match type.
       if(searchType)
         searchKeys =
           searchKeys.filter(x => x.split('.')[2].toUpperCase() == searchType);
@@ -731,7 +734,6 @@ Quilvyn.homebrewModifyChoices = function() {
         w.document.getElementById('message').innerHTML =
           'Search for "' + InputGetValue(searchInput) + '" failed';
         w.document.getElementById('searchIndex').innerHTML = '&nbsp;';
-        w.search = '';
         w.searchStep = '';
         setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
         return;
@@ -785,7 +787,6 @@ Quilvyn.homebrewModifyChoices = function() {
       });
     }
 
-    w.search = '';
     w.searchStep = '';
     w.unmodified = [];
     for(let i = 0; i < w.document.forms[0].elements.length; i++)
@@ -833,8 +834,7 @@ Quilvyn.homebrewModifyChoices = function() {
         inputValue = '';
         for(let j = 0; j < tokens.length; j++) {
           let token = tokens[j].trim();
-          if(token.charAt(0) == '"' || token.charAt(0) == "'" ||
-             token.indexOf(' ') < 0)
+          if('"\''.includes(token.charAt(0)) || token.indexOf(' ') < 0)
             inputValue += token;
           else if(token.indexOf('"') >= 0)
             inputValue += "'" + token + "'";
@@ -971,7 +971,7 @@ Quilvyn.editorHtml = function() {
         InputHtml(name, 'text', [3, '(\\+?\\d+)?']) :
         InputHtml(name, 'checkbox', null);
       let needSub = params.filter(x => x.includes('(')).length > 0;
-      // Intially put full parameter list, including sub-options, into _sel.
+      // Initially put full parameter list, including sub-options, into _sel.
       // refreshEditor will handle splitting the values later.
       // Note: Inner table needed to prevent line break between _sel and _sub?!?
       htmlBits.push(
@@ -990,7 +990,7 @@ Quilvyn.editorHtml = function() {
   return htmlBits.join('\n');
 };
 
-/* Pops a window containing the attribues of all stored characters. */
+/* Pops a window containing the attributes of all stored characters. */
 Quilvyn.exportCharacters = function() {
   let htmlBits = [
     '<!DOCTYPE html>',
