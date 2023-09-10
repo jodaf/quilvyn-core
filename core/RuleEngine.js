@@ -73,7 +73,7 @@ RuleEngine.prototype.addRules =
     if(source == null)
       source = '';
     if(expr != null && typeof(expr) != 'object' && typeof(expr) != 'function')
-      expr = new Function('source', 'return ' + expr + ';');
+      expr = new Function('source,dict', 'return ' + expr + ';');
     if(typeof source != 'string' || typeof target != 'string') {
       this.patterns[this.patterns.length] =
         {source:source, target:target, type:type, fn:expr, seq:0};
@@ -164,6 +164,16 @@ RuleEngine.prototype.deleteRule = function(target, source) {
   delete this.sources[target][source];
 };
 
+/* Returns an array of sources that affect #target#. */
+RuleEngine.prototype.getSources = function(target) {
+  return this.sources[target];
+};
+
+/* Returns an array of targets that #source# affects. */
+RuleEngine.prototype.getTargets = function(source) {
+  return this.targets[source];
+};
+
 /* Returns true iff the value of #attr# affects other attributes. */
 RuleEngine.prototype.isSource = function(attr) {
   return this.targets[attr] != null;
@@ -223,22 +233,21 @@ RuleEngine.prototype._recompute = function(initial, computed, attr) {
          sourceValue != '' &&
          !isNaN(sourceValue - 0))
         sourceValue -= 0; /* Convert string to number. */
-      var amount = fn != null && (source == '' || sourceValue != null) ?
-        fn(sourceValue) : sourceValue;
+      var amount = fn != null &&
+                   (type == '?' || source == '' || sourceValue != null) ?
+        fn(sourceValue, computed) : sourceValue;
       if(type == '?') {
         if(!amount) {
           computedValue = null;
           break;
         }
-      }
-      else if(amount == null)
+      } else if(amount == null)
         continue;
       else if(type == '=') {
         // Apply default assignments only if no other has been applied.
         if(computedValue == null || source != '')
           computedValue = amount;
-      }
-      else if(assign && computedValue == null)
+      } else if(assign && computedValue == null)
         computedValue = amount;
       else if(type == '+')
         addition += amount - 0;

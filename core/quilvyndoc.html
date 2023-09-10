@@ -10,11 +10,7 @@
 <body bgcolor="wheat" background="../Images/parchment.jpg">
 
 <script>
-  try {
-    document.write('<img src="' + window.opener.LOGO_URL + '" alt="Quilvyn"/>');
-  } catch(e) {
-    document.write('<img src="quilvynlogodrop.png" style="height:75px" alt="Quilvyn"/>');
-  }
+  document.write('<img src="../Images/quilvynlogodrop.png" style="height:75px" alt="Quilvyn"/>');
 </script>
 
 <h1>Quilvyn RPG Character Editor</h1>
@@ -30,7 +26,10 @@
   <li><a href="#sheet">The Character Sheet</a></li>
   <li><a href="#validation">Character Validation</a></li>
   <li><a href="#goodies">Magic Items and Special Possessions</a></li>
-  <li><a href="#house">Adding House Rules</a></li>
+  <li><a href="#homebrew">Adding Homebrew Choices</a></li>
+  <ul>
+    <li><a href="../plugins/homebrew-srd35.html">SRD v3.5 Homebrew Examples</a></li>
+  </ul>
 </ul>
 </p>
 
@@ -52,12 +51,11 @@ Quilvyn to update the character's attributes.
 <p>
 A tar and/or zip file containing the Quilvyn code can be obtained from
 <a href='https://github.com/jodaf/quilvyn-core/releases'>https://github.com/jodaf/quilvyn-core/releases</a>.
-The Quilvyn program consists of 14 files: README.md, index.html, quilvyn.html,
+The Quilvyn program consists of 13 files: README.md, index.html, quilvyn.html,
 core/Expr.js, core/Input.js, core/ObjectViewer.js, core/Quilvyn.js,
 core/QuilvynRules.js, core/QuilvynUtils.js, core/RuleEngine.js, core/gpl.txt,
-core/quilvyn.gif, plugins/SRD35.js, and plugins/ogl.txt. Documentation is
-provided by core/quilvyndoc.html and a pair of image files,
-core/editingobjects.gif and core/sheetfeatures.gif.
+plugins/SRD35.js, and plugins/ogl.txt. Documentation is provided by
+core/quilvyndoc.html, plugins/homebrew-srd35.html, and a set of image files.
 </p><p>
 Quilvyn has been successfully tested using these browsers
 <ul>
@@ -89,47 +87,46 @@ such as Race and Class Levels. This helps in the generation of NPCs. You can
 either specify these attributes, or leave the form unchanged to have Quilvyn
 choose them randomly.
 </p><p>
-The Character menu's "Import" option allows you to transfer character
-information saved from another browser. In the Import pop-up window, paste the
-character attributes definition ("var attributes = { ... }") from the header of
-the saved character sheet, then press the OK button. Quilvyn displays the
-character sheet generated from these attributes and saves the character into
-your browser's persistent storage. If you paste the attributes of multiple
-characters into a single Import pop-up, Quilvyn saves all of them and displays
-the last.
+The Character menu's Import option allows you to transfer character information
+saved from another browser. In the Import pop-up window, paste the character
+attributes definition ("var attributes = { ... }") from the header of the saved
+character sheet, then press the OK button. Quilvyn displays the character sheet
+generated from these attributes and saves the character into your browser's
+persistent storage. If you paste the attributes of multiple characters into a
+single Import pop-up, Quilvyn saves all of them and displays the last.
 </p>
 
 <a name="edit"><h3>Editing Characters</h3></a>
 <p>
-<img src='editingobjects.gif' alt='Editing widgets' align='left'/>
-The Quilvyn editor contains editing objects that allow you to change basic
-character attributes. The editor uses three different types of editing objects.
+<img src='../Images/inputfields.gif' alt='Input Fields' align='left'/>
+The Quilvyn editor displays input fields that allow you to change basic
+character attributes. The editor uses three different types of input fields.
 <i>Text fields</i> are used for attributes, such as Name and Player, that have
 an infinite number of possible values. To modify one of these attributes,
 simply type the new value into the text field. In text fields that contain a
 number (e.g., Hit Points) you can instead enter a '+' followed by a number, and
 Quilvyn will add the number to the existing value of the field. <i>Selection
 menus</i> are used with attributes like Alignment, Race, and abilities like
-Strength and Intelligence. These editing objects give you a pull-down menu that
+Strength and Intelligence. These input fields give you a pull-down menu that
 contains all possible values. Simply select the correct one to change the
 attribute. <i>Set menus</i> are used for collections of related attributes like
 Skills, Feats, Weapons, and Class Levels. Along with a pull-down menu, these
-editing objects include either a checkbox or a small text field where you can
+input fields include either a checkbox or a small text field where you can
 enter a value. A checkbox is used for attributes such as Spells, where the
 character either has an attribute or not; the text field is used with
-attributes (e.g., Skills, Class Levels) where the character has a variable
-score associated with the attribute. To change one of these attributes, first
-use the pull-down menu to select a particular attribute, then click the
-checkbox or enter a value in the text field. A few sets (e.g., Weapons) show
-both a checkbox and a text field. With these, you can either use the checkbox
-to indicate a value of 1 for the attribute or enter the valeu directly into the
-text field. Set menu selections that have sub-selections, such as the Perform
-skill and the Improved Critical feat, display a second pull-down menu where you
-specify the sub-selection value. For example, to add the Improved Critical
-(Longsword) feat to a character, first select "Improved Critical" in the feat
-pull-down, then select "Longsword" in the feat sub-selection pull-down before
-checking the box to add the feat. The Clear menu near the top of the editor
-lets you clear all attributes in a set at once.
+attributes such as Skills, where the character has a variable score associated
+with the attribute. To change one of these attributes, first use the pull-down
+menu to select a particular attribute, then click the checkbox or enter a value
+in the text field. A few sets, such as Weapons, show both a checkbox and a text
+field. With these, you can either use the checkbox to indicate a value of 1 for
+the attribute or enter the value directly into the text field. Set menu
+selections that have sub-selections, such as the Perform skill and the Improved
+Critical feat, display a second pull-down menu where you specify the
+sub-selection value. For example, to add the Improved Critical (Longsword) feat
+to a character, first select Improved Critical in the feat pull-down, then
+select Longsword in the feat sub-selection pull-down before checking the box
+to add the feat. The Clear menu near the top of the editor lets you clear all
+attributes in a set at once.
 </p><p>
 In a separate browser frame or window, Quilvyn displays a character sheet based
 on the values of the editor. Every time you change a value in the editor,
@@ -139,19 +136,19 @@ character sheet to show you any computed changes.
 A few items in the editor window don't relate directly to the contents of the
 character sheet. The About button opens a window with text describing Quilvyn,
 the Help button opens one that contains this document, and the Options button
-opens a window that allows you to set some preferences. The Rules pull-down
+opens a dialog that allows you to set some preferences. The Rules pull-down
 allows you to change between different character-generation rule
 sets&mdash;Quilvyn comes with support for the v3.5 System Reference Document,
 and plug-ins for different game versions and particular campaign settings are
 available. The Notes button next to this pull-down opens a window with details
-about the particular rule set, and the House Rules pull-down is discussed in
-<a href="#house">Adding House Rules</a>. The Character menu is discussed in
-<a href='#open'>Generating and Loading Characters</a>. The Summary option of the
-character menu opens a window with a table that summarizes attributes from all
-characters that you've opened since starting Quilvyn. This is intended to
-assist in planning and running adventures by providing a compact summary of the
-abilities of all characters in a party. The "Save", "Save As...", "Delete...",
-and "HTML" options of the character menu are described in
+about the particular rule set, and the Homebrew pull-down is discussed in
+<a href="#homebrew">Adding Homebrew Choices</a>. The Character menu is
+discussed in <a href='#open'>Generating and Loading Characters</a>. The Summary
+option of the character menu opens a window with a table that summarizes
+attributes from all characters that you've opened since starting Quilvyn. This
+is intended to assist in planning and running adventures by providing a compact
+summary of the abilities of all characters in a party. The Save, Save As...,
+Delete..., and HTML options of the character menu are described in
 <a href='#save'>Saving Characters</a>.
 </p>
 
@@ -179,20 +176,20 @@ little creative editing.
 <p>
 For security reasons, programs like Quilvyn are prohibited from writing files
 to your hard disk. Instead, character information is saved to your browser's
-persistent storage, where Quilvyn can access it later. The "Save" and "Save
-As..." options of the Character menu write information about the current
+persistent storage, where Quilvyn can access it later. The Save and Save
+As... options of the Character menu write information about the current
 character to the browser's persistent storage. You can later retrieve a saved
 character by selecting the character from the Character menu. Use the
-"Delete..." option of the Character menu to remove a character's information
+Delete... option of the Character menu to remove a character's information
 from persistent storage.
 </p><p>
 If you want to cache a copy of your character sheet for viewing outside of
-Quilvyn, select the "HTML" option of the Character menu. Quilvyn opens a new
+Quilvyn, select the HTML option of the Character menu. Quilvyn opens a new
 window that contains HTML for the character sheet. Copy and paste the contents
-of this window into your favorite editor and save the result as a web page (a
-file with an extension of .html or .htm).
+of this window into your favorite editor and save the result as a web
+page&mdash;a file with an extension of .html or .htm.
 </p><p>
-Selecting the "Export..." option of the character menu opens a new window that
+Selecting the Export... option of the character menu opens a new window that
 displays the attributes for all characters in your browser's persistent
 storage. You can copy the contents of this window to a file for backup, or you
 can paste them into a Quilvyn Import window in a different browser to transfer
@@ -201,7 +198,7 @@ characters from one browser to another.
 
 <a name="sheet"><h3>The Character Sheet</h3></a>
 <p>
-<img src='sheetfeatures.gif' alt='Character sheet features' align='center'/>
+<img src='../Images/sheetfeatures.gif' alt='Character sheet features' align='center'/>
 </p><p>
 The standard character sheet format that Quilvyn produces contains up to seven
 sections: Header; Basic Attributes; Features and Skills; Combat; Magic;
@@ -214,7 +211,7 @@ require explanation.
     In the Basic Attributes section, the computed modifier values for strength,
     wisdom, etc. are shown in parentheses after the attribute value.
   </li><li>
-    In the Skills section, the sheet shows the number of points allocated to
+    In the Skills section, the sheet shows the number of ranks allocated to
     each skill. Each skill modifier appears in parentheses after the skill
     rank value.
   </li><li>
@@ -241,7 +238,7 @@ Many feats have prerequisites that the character must meet before selecting
 that feat. A few base classes have alignment restrictions, and all prestige
 classes have prerequisites. Quilvyn doesn't enforce these requirements; you're
 free to enter, say, a chaotic neutral monk if you want to. Quilvyn reports a
-count of unmet prerequisites (labelled "Errors") for the current character in
+count of unmet prerequisites (labeled "Errors") for the current character in
 a status bar below the editor. If you press the "..." button on the right end
 of this status bar, Quilvyn will pop up a window describing these errors. This
 list gives you the information you need to correct mistakes in the character
@@ -279,86 +276,44 @@ also note effects that change a normally cross-class skill into a class skill.
 * Nomad background: Ride is a class skill<br/>
 </p>
 
-<a name="house"><h3>Adding House Rules</h3></a>
+<a name="homebrew"><h3>Adding Homebrew Choices</h3></a>
 <p>
-You can add custom weapons, armor, familiars, and other items to Quilvyn's
-menus using the House Rules pull-down menu. Items defined by house rules are
-grouped into named <i>collections</i> that you can apply to a rule set to make
-the items available. The House Rules pull-down displays the name of the current
-collection. In addition to user-defined collections, Quilvyn predefines a
-collection for each loaded rule set.
-
+You can add custom weapons, armor, familiars, and other choices to Quilvyn's
+menus using the Homebrew pull-down menu.
 </p><p>
-Selecting the "New Collection..." option of the House Rules menu creates a new
-collection with the name of your choice and makes it the current collection.
+Selecting the Create/Edit Choices... option of the Homebrew menu allows you
+to enter new choices or change existing ones. Begin by using the Type pull-down
+menu to select the type of choice you want to add. Quilvyn displays a set of
+input fields that allow you to enter attributes specific to that type of
+choice. Once you have entered all the necessary attributes, press the Save
+button. You can retrieve and edit previously-saved choices either by entering
+the name of a homebrew choice in the search box or by stepping through your
+choices using the '&lt;' and '&gt;' buttons.
 </p><p>
-Selecting the "Delete Collection..." option of the House Rules menu allows you
-to remove a user-defined collection and all the rules in it. Deleting one of
-Quilvyn's predefined collections removes any rules it contains but does not
-delete the collection itself.
+Quilvyn allows you to include one or more tags with each homebrew choice;
+tagged choices are not made available in Quilvyn's menus until you use the
+Enable/Disable Choices... selection from Quilvyn's Homebrew menu to enable
+them. This can be handy when running multiple campaigns that each have their
+own set of homebrew choices, since you can filter your homebrew choices by tag
+and enable only those that are available in the current campaign. Untagged
+choices, on the other hand, are added to Quilvyn's menus automatically whenever
+Quilvyn starts.
 </p><p>
-The "View/Export All" and "Import..." options of the House Rules menu allow
-you to save and later reload your house rules. This can be useful for backup
-purposes and for copying house rules when you change browsers.
+The Delete Choices... option of the Homebrew menu allows you to remove
+previously-entered homebrew choices. Note that deleted choices that have been
+enabled continue to appear in Quilvyn's menus until the next time you launch
+Quilvyn.
 </p><p>
-Selecting the "Add Rules..." option of the House Rules menu allows you to enter
-rules for new items. Begin by using the Type pull-down menu to select the type
-of item you want to add. Quilvyn displays a set of editing objects that allow
-you to enter attributes specific to that type of item. For example, if you
-select "Weapon", editing objects will appear that allow you to enter the new
-weapon's name, group (Simple, Martial, or Exotic), category (Unarmed, Light,
-One-Handed, Two-Handed, or Ranged), damage, critical threat threshold, critical
-damage multiplier, and (for ranged weapons) range increment. Once you have
-entered all the necessary attributes, press the Add button. A house rule for
-your new item is saved in the current collection.
+Selecting the Enable/Disable Choices... option of the Homebrew menu allows you
+to select which homebrew options are available in Quilvyn's menus.
 </p><p>
-The "Delete Rule..." option of the House Rules menu allows you to remove
-previously-entered house rules from the current collection. Note that the
-item defined by a deleted rule continues to appear in the editor menu until the
-next time you launch Quilvyn.
+The Export All and Import... options of the Homebrew menu allow you to save and
+later reload your homebrew choices. This can be useful for backup purposes and
+for copying homebrew choices when you change browsers.
 </p><p>
-Selecting the "Apply Collection..." option of the House Rules menu allows you
-to add the house rules defined in the current collection to the current rule
-set. Note that, unlike user-defined rule sets, Quilvyn automatically applies
-each predefined collection to its corresponding rule set; there's no need to
-apply a predefined collection as a separate step.
-</p><p>
-For most house rules, the values to enter into the Add Rule dialog can be
-determined by looking at similar items from the core rule books. For example,
-for a new Animal Companion, Quilvyn prompts for the six basic abilities, hit
-dice, armor class, and damage, all of which are integer values. For Animal
-Companion damage, Quilvyn expects text in the format
-int'd'int[+int][,int'd'int[+int]]. For an Ape, the value would be 1d6+5,1d6+2;
-for a Baboon, 1d6+3. Separate multiple values entered in a single box with
-commas. For example, when entering a new Deity, you might enter Light Mace
-in the Favored Weapon box and Good,Law,Strength in the Domain box.
-</p><p>
-In Quilvyn, Features describe the effects of feats, classes, and racial
-features. When adding a rule for a new Feature, select the section of the
-character sheet where the note for the Feature should appear, then enter the
-note text. Much like the starred notes discussed <a href="#goodies">above</a>,
-Quilvyn interprets the text of this note to update affected attributes. For
-example, if you add a feature named "Glib" with a note in the skill section
-that reads "+2 Bluff/+2 Perform (Oratory)", Quilvyn will update the skill
-modifier values for any character with that feature.
-</p><p>
-Many feats and classes have prerequisites that a character must meet in order
-to select them. In the Add Rules dialog, these can be entered in the
-Prerequisite box for a new feat or class, with multiple prerequisites separated
-by commas. For example, taking a level in the Horizon Walker prestige class
-requires that the character have the Endurance feature and 8 ranks in Knowledge
-(Geography). This would be entered into the Prerequisite box for a house rules
-class as follows.
-<pre>
-  features.Endurance,skills.Knowledge (Geography) >= 8
-</pre>
-The Feat entry includes a similar Implies box for testing whether selecting
-the feat makes sense for a character. For example, although legal, selecting
-the Track feat makes no sense for a character with no ranks in Survival, so the
-Implies box for this feat would read
-<pre>
-  skills.Survival > 0
-</pre>
+Discussion of adding different types of homebrew choices to the SRD v3.5 rule
+set can be found in
+<a href="../plugins/homebrew-srd35.html">SRD v3.5 Homebrew Examples</a>.
 </p>
 
 </body>

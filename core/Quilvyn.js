@@ -2,9 +2,9 @@
 /* jshint forin: false */
 "use strict";
 
-var COPYRIGHT = 'Copyright 2022 James J. Hayes';
-var VERSION = '2.3.20';
-var ABOUT_TEXT =
+let COPYRIGHT = 'Copyright 2023 James J. Hayes';
+let VERSION = '2.4.0';
+let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
 'This program is free software; you can redistribute it and/or modify it ' +
@@ -32,42 +32,39 @@ var ABOUT_TEXT =
 'Caroline Rider, for patient testing of Quilvyn and for suggestions that have '+
 'greatly improved it. Special thanks to Avalon Hayes for the name and logo artwork.';
 
-var FEATURES_OF_EDIT_WINDOW =
+let FEATURES_OF_EDIT_WINDOW =
   'height=750,width=500,menubar,resizable,scrollbars';
-var FEATURES_OF_SHEET_WINDOW =
+let FEATURES_OF_SHEET_WINDOW =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
-var FEATURES_OF_OTHER_WINDOWS =
+let FEATURES_OF_OTHER_WINDOWS =
   'height=750,width=750,menubar,resizable,scrollbars,toolbar';
-var PERSISTENT_CHARACTER_PREFIX = 'QuilvynCharacter.';
-var PERSISTENT_CUSTOM_PREFIX = 'QuilvynCustom.';
-var PERSISTENT_CUSTOM_PLACEHOLDER = '_user';
-var PERSISTENT_INFO_PREFIX = 'QuilvynInfo.';
-var TIMEOUT_DELAY = 1000; // One second
+let PERSISTENT_CHARACTER_PREFIX = 'QuilvynCharacter.';
+let PERSISTENT_HOMEBREW_PREFIX = 'QuilvynCustom.';
+let PERSISTENT_INFO_PREFIX = 'QuilvynInfo.';
+let TIMEOUT_DELAY = 1000; // One second
 // Use system dialog windows whenever possible?
 // TODO: Googling indicates that user disable of system dialogs can be detected
 // by timing how quickly confirm and alert return, in response to which we
 // could fall back to using our generated dialogs.
-var USE_SYSTEM_DIALOGS = true;
+let USE_SYSTEM_DIALOGS = true;
 // HTML tags allowed in user input; 's' and 'u' allowed though HTML deprecated
 const ALLOWED_TAGS = [
   'b', 'div', 'i', 'li', 'ol', 'p', 'sub', 'sup', 'table', 'td', 'th', 'tr',
   'ul', 's', 'u'
 ];
 
-var character = {};     // Displayed character attrs
-var characterCache = {};// Attrs of all displayed characters, indexed by path
-var characterPath = ''; // Path to most-recently opened/generated character
-var characterUndo = []; // Stack of copies of character for undoing changes
-var customCollection = null; // Name of current custom item collection
-var customCollections = {}; // Defined custom collections, indexed by name
-var editWindow = null;  // iframe or window where editor is shown
-var ruleSet = null;     // The rule set currently in use
-var ruleSets = {};      // Registered rule sets, indexed by name
-var quilvynWindow = null; // Quilvyn container window
-var secondWindow = null;// Container window for separate editor
-var sheetWindow = null; // iframe or window where character sheet is shown
-var statusWindow = null;// iframe or window where character status is shown
-var userOptions = {     // User-settable options
+let character = {};     // Displayed character attrs
+let characterCache = {};// Attrs of all displayed characters, indexed by path
+let characterPath = ''; // Path to most-recently opened/generated character
+let characterUndo = []; // Stack of copies of character for undoing changes
+let editWindow = null;  // iframe or window where editor is shown
+let ruleSet = null;     // The rule set currently in use
+let ruleSets = {};      // Registered rule sets, indexed by name
+let quilvynWindow = null; // Quilvyn container window
+let secondWindow = null;// Container window for separate editor
+let sheetWindow = null; // iframe or window where character sheet is shown
+let statusWindow = null;// iframe or window where character status is shown
+let userOptions = {     // User-settable options
   bgColor: 'wheat',     // Window background color
   bgImage: 'Images/parchment.jpg', // URL for window background
   sheetImage: '',       // URL for character sheet background
@@ -91,16 +88,10 @@ function Quilvyn(win) {
     return;
   }
 
-  for(var a in userOptions) {
-    var stored = STORAGE.getItem(PERSISTENT_INFO_PREFIX + a);
+  for(let a in userOptions) {
+    let stored = STORAGE.getItem(PERSISTENT_INFO_PREFIX + a);
     if(stored)
       userOptions[a] = stored.match(/^\d+$/) ? stored - 0 : stored;
-  }
-
-  for(var path in STORAGE) {
-    if(!path.startsWith(PERSISTENT_CUSTOM_PREFIX))
-      continue;
-    customCollections[path.split('.')[1].replaceAll('%2E', '.')] = '';
   }
 
   quilvynWindow = win;
@@ -111,6 +102,10 @@ function Quilvyn(win) {
 
 }
 
+/*
+ * Displays #prmpt# to the user, allowing a response of Ok or Cancel. Calls
+ * #callback#, passing true, if the user selects Ok.
+ */
 Quilvyn.confirmDialog = function(prmpt, callback) {
 
   if(USE_SYSTEM_DIALOGS) {
@@ -119,7 +114,7 @@ Quilvyn.confirmDialog = function(prmpt, callback) {
     return;
   }
   if(Quilvyn.confirmDialog.win == null) {
-    var htmlBits = [
+    let htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">',
       '<head>',
@@ -163,12 +158,14 @@ Quilvyn.confirmDialog = function(prmpt, callback) {
  * Interacts with the user to select a subset of available options. #prmpt#
  * labels the dialog and #choices# is a dictionary of items, the keys of which
  * are shown to the user for selection. Once the user has made selections, the
- * subset of #choices# selected by the user is passed to #callback#.
+ * subset of #choices# selected by the user is passed to #callback#. #selected#
+ * and #disabled#, if provided, are arrays of keys from #choices# that should
+ * be pre-checked and/or disabled.
  */
-Quilvyn.setDialog = function(prmpt, choices, callback) {
+Quilvyn.setDialog = function(prmpt, choices, callback, selected, disabled) {
 
   if(Quilvyn.setDialog.win == null) {
-    var htmlBits = [
+    let htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">',
       '<head>',
@@ -177,15 +174,19 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
       '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
       LOGO_TAG + '<br/>',
       '<h3>' + prmpt + '</h3>',
-      '<form onsubmit="return false"><table>'
+      '<form onsubmit="return false"><table>',
+      '<tr><td><b>Filter </b>' + InputHtml('_filter', 'text', [20]).replace('>', ' onchange="refilter=true">') + '</td></tr>',
+      '<tr><td>' + InputHtml('_all', 'checkbox', ['all shown']).replace('>', ' onchange="reall=true"') + '</td></tr>',
+      '<tr><td><hr></td></th>'
     ];
-    var keys = Object.keys(choices).sort();
-    for(var i = 0; i < keys.length; i++) {
-      var choice = keys[i];
-      htmlBits.push(
-        '<tr><td>' + InputHtml(choices[choice], 'checkbox', [choice]) + '</td></tr>'
-      );
-    }
+    Object.keys(choices).sort().forEach(c => {
+      let input = InputHtml(choices[c], 'checkbox', [c]);
+      if(selected != null && selected.includes(c))
+        input = input.replace('>', ' checked="1">');
+      if(disabled != null && disabled.includes(c))
+        input = input.replace('>', ' disabled="disabled">');
+      htmlBits.push('<tr name="' + c + 'Row"><td>' + input + '</td></tr>');
+    });
     htmlBits.push(
       '</table></form>',
       '<input type="button" name="ok" value="Ok" onclick="okay=true;"/>',
@@ -197,8 +198,9 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
     Quilvyn.setDialog.win.document.close();
     Quilvyn.setDialog.win.canceled = false;
     Quilvyn.setDialog.win.okay = false;
+    Quilvyn.setDialog.win.reall = false;
+    Quilvyn.setDialog.win.refilter = false;
     Quilvyn.setDialog.win.callback = callback;
-    Quilvyn.setDialog.win.document.getElementsByName('ok')[0].focus();
     setTimeout('Quilvyn.setDialog()', TIMEOUT_DELAY);
     return;
   } else if(Quilvyn.setDialog.win.canceled) {
@@ -207,15 +209,37 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
     Quilvyn.refreshEditor(true);
     return;
   } else if(!Quilvyn.setDialog.win.okay) {
-    // Try again later
+    // Try again later, after redisplaying as necessary
+    if(Quilvyn.setDialog.win.reall || Quilvyn.setDialog.win.refilter) {
+      let form = Quilvyn.setDialog.win.document.forms[0];
+      let checkAll =
+        InputGetValue(Quilvyn.setDialog.win.document.getElementsByName('_all')[0]);
+      let filter =
+        InputGetValue(Quilvyn.setDialog.win.document.getElementsByName('_filter')[0]).toUpperCase();
+      for(let i = 0; i < form.elements.length; i++) {
+        let name = form.elements[i].name;
+        if(name=='_filter' || name=='_all')
+          continue;
+        let value = form.elements[i].value;
+        let tr =
+          Quilvyn.setDialog.win.document.getElementsByName(value + 'Row')[0];
+        let hide = filter != '' && !value.toUpperCase().includes(filter);
+        if(tr)
+          tr.hidden = hide;
+        if(!hide && Quilvyn.setDialog.win.reall)
+          form.elements[i].checked = checkAll;
+      }
+      Quilvyn.setDialog.win.reall = false;
+      Quilvyn.setDialog.win.refilter = false;
+    }
     setTimeout('Quilvyn.setDialog()', TIMEOUT_DELAY);
     return;
   }
 
-  var form = Quilvyn.setDialog.win.document.forms[0];
+  let form = Quilvyn.setDialog.win.document.forms[0];
   choices = {};
-  for(var i = 0; i < form.elements.length; i++) {
-    if(form.elements[i].checked)
+  for(let i = 0; i < form.elements.length; i++) {
+    if(form.elements[i].checked && form.elements[i].name != '_all')
       choices[form.elements[i].value] = form.elements[i].name;
   }
 
@@ -227,10 +251,10 @@ Quilvyn.setDialog = function(prmpt, choices, callback) {
 };
 
 /*
- * Interacts with the user to input a single line of text. #prmpt# is used to
+ * Interacts with the user to enter a single line of text. #prmpt# is used to
  * label the dialog, #defaultValue# is displayed as the default value for
  * the text, and #error#, if specified, is shown as an error in the default
- * value. If true, multiline indicates that a text box should be used for
+ * value. If true, #multiline# indicates that a text box should be used for
  * the prompt rather than a single-line text input. Once the user has entered
  * text, it is passed as a parameter to #callback#.
  */
@@ -239,13 +263,13 @@ Quilvyn.textDialog = function(prmpt, multiline, defaultValue, error, callback) {
   if(Quilvyn.textDialog.win == null && USE_SYSTEM_DIALOGS && !multiline) {
     if(error)
       alert(error);
-    var value = prompt(prmpt, defaultValue);
+    let value = prompt(prmpt, defaultValue);
     if(value != null)
       callback(value);
     return;
   }
   if(Quilvyn.textDialog.win == null) {
-    var htmlBits = [
+    let htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">' +
       '<head>' +
@@ -299,24 +323,21 @@ Quilvyn.addRuleSet = function(rs) {
   rs.defineRule('hiddenNotes', 'hidden', '?', null);
   ruleSets[rs.getName()] = rs;
   ruleSet = rs;
-  customCollection = rs.getName();
-  customCollections[customCollection] = '';
-  var prefix =
-    PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
-  for(var path in STORAGE) {
+  let prefix =
+    PERSISTENT_HOMEBREW_PREFIX + rs.getName().replaceAll('.','%2E') + '.';
+  for(let path in STORAGE) {
     if(!path.startsWith(prefix))
       continue;
-    var pieces = path.split('.');
-    ruleSet.choiceRules(
-      ruleSet, pieces[2].replaceAll('%2E', '.'),
-      pieces[3].replaceAll('%2E', '.'), STORAGE.getItem(path)
-    );
+    if(!QuilvynUtils.getAttrValue(STORAGE.getItem(path), '_tags')) {
+      let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
+      ruleSet.choiceRules(ruleSet, pieces[2], pieces[3], STORAGE.getItem(path));
+    }
   }
 };
 
 /* Returns HTML attributes for Quilvyn's windows body tags. */
 Quilvyn.htmlBackgroundAttr = function() {
-  var result = 'style="background-color:' + userOptions.bgColor;
+  let result = 'style="background-color:' + userOptions.bgColor;
   if(userOptions.bgImage) {
     result += '; background-image:url(' + userOptions.bgImage;
     if(!result.match(/\.\w+$/))
@@ -343,13 +364,13 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
              .replace(/\s\s+/g, ' ')
              .replace('%V', attrs[name])
              .replace(/\s*(>\s*0|>=\s*1)\b/g, '');
-  for(var i = 0; i < 9; i++)
+  for(let i = 0; i < 9; i++)
     note = note.replace('%' + i, attrs[name + '.' + i]);
-  var m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*)?/g);
+  let m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*\+?)?/g);
   if(m) {
-    for(var i = 0; i < m.length; i++) {
-      var ref = m[i];
-      var replacement = ref.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
+    for(let i = 1; i < m.length; i++) {
+      let ref = m[i];
+      let replacement = ref.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
       if(replacement.includes('.')) {
         replacement = replacement.split('.');
         replacement = replacement[1] + ' ' + replacement[0].replace(/s$/, '');
@@ -362,100 +383,460 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
   return note;
 };
 
-/* Interacts with the user to add custom items to the current collection. */
-Quilvyn.customAddRules = function() {
+/*
+ * Interacts with the user to incorporate homebrew choices into the current
+ * rule set.
+ */
+Quilvyn.homebrewEnableChoices = function(items) {
 
-  if(Quilvyn.customAddRules.win == null) {
-    // New custom add
-    var choices = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
-    var htmlBits = [
-      '<!DOCTYPE html>',
-      '<html lang="en">',
-      '<head>',
-      '<title>Add House Rules</title></head>',
-      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-      LOGO_TAG + '<br/>',
-      '<form onsubmit="return false"><table><tr>',
-      '<th>Type</th><td>' + InputHtml('_type', 'select-one', choices).replace('>', ' onchange="update=true">') + '</td>',
-      '</tr><tr>',
-      '<th>Name</th><td>' + InputHtml('_name', 'text', [30]) + '</td>',
-      '</tr></table>',
-      '<hr style="width:25%;text-align:center"/>',
-      '<table id="variableFields">',
-      '</table>',
-      '<input type="button" name="Add" value="Add" onclick="okay=true;"/>',
-      '<input type="button" name="Close" value="Close" onclick="done=true;"/>',
-      '<p id="message"> </p>',
-      '</form>',
-      '</body>',
-      '</html>'
-    ];
-    Quilvyn.customAddRules.win = editWindow;
-    Quilvyn.customAddRules.win.document.write(htmlBits.join('\n') + '\n');
-    Quilvyn.customAddRules.win.document.close();
-    Quilvyn.customAddRules.win.canceled = false;
-    Quilvyn.customAddRules.win.done = false;
-    Quilvyn.customAddRules.win.update = true;
-    Quilvyn.customAddRules.win.document.getElementsByName('_type')[0].focus();
-    Quilvyn.customAddRules();
-    return;
-  } else if(Quilvyn.customAddRules.win.done) {
-    // User done making additions
-    Quilvyn.customAddRules.win = null;
-    Quilvyn.refreshEditor(true);
-    return;
-  } else if(!Quilvyn.customAddRules.win.okay) {
-    // Try again later, after updating the input fields as necessary
-    if(Quilvyn.customAddRules.win.update) {
-      var typeInput =
-        Quilvyn.customAddRules.win.document.getElementsByName('_type')[0];
-      var typeValue = InputGetValue(typeInput);
-      var elements = ruleSet.choiceEditorElements(ruleSet, typeValue);
-      var htmlBits = [];
-      for(var i = 0; i < elements.length; i++) {
-        var element = elements[i];
-        var label = element[1];
-        var name = element[0];
-        var params = element[3];
-        var type = element[2];
-        htmlBits.push(
-          '<tr><th>' + (label ? label : '&nbsp;') + '</th><td>' +
-          InputHtml(name, type, params) + '</td></tr>'
-        );
-      }
-      Quilvyn.customAddRules.win.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
-      Quilvyn.customAddRules.win.update = false;
-    }
-    setTimeout('Quilvyn.customAddRules()', TIMEOUT_DELAY);
+  let prefix =
+    PERSISTENT_HOMEBREW_PREFIX + ruleSet.getName().replaceAll('.','%2E') + '.';
+  let homebrewChoices = {};
+  let checked = [];
+
+  for(let path in STORAGE) {
+    if(!path.startsWith(prefix))
+      continue;
+    let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
+    let type = pieces[2];
+    let name = pieces[3];
+    let tags = QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
+    let display =
+      type + ': ' + name + (tags.length > 0 ? ' (' + tags.join(',') + ')' : '');
+    homebrewChoices[display] = path;
+    let group =
+      type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ','') + 's';
+    if(ruleSet.getChoices(group) &&
+       ruleSet.getChoices(group)[name] == STORAGE.getItem(path))
+      checked.push(display);
+  }
+
+  if(!items) {
+    Quilvyn.setDialog
+      ('Select choices to enable<br/><small>(checked choices are currently enabled)</small>',
+       homebrewChoices, Quilvyn.homebrewEnableChoices, checked);
     return;
   }
 
-  // Ready to add a custom item
-  var inputForm = Quilvyn.customAddRules.win.document.forms[0];
-  var attrs = [];
-  var name = '';
-  var type = '';
-  for(i = 0; i < inputForm.elements.length; i++) {
-    var input = inputForm.elements[i];
-    var inputName = input.name;
-    var inputValue = InputGetValue(input);
+  for(let c in homebrewChoices) {
+    let path = homebrewChoices[c];
+    let pieces = path.split('.').map(x => x.replaceAll('%2E', '.'));
+    let type = pieces[2];
+    let group =
+      type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ','') + 's';
+    let name = pieces[3];
+    let value = STORAGE.getItem(path);
+    let currentlyActive =
+      ruleSet.getChoices(group) && ruleSet.getChoices(group)[name] == value;
+    if(c in items && !currentlyActive) {
+      ruleSet.choiceRules(ruleSet, type, name, value);
+    } else if(!(c in items) && currentlyActive) {
+      if(ruleSet.removeChoice)
+        ruleSet.removeChoice(ruleSet, type, name);
+      else
+        // Minimal fallback behavior for rule sets w/out removeChoice
+        delete ruleSet.getChoices(group)[name];
+    }
+  }
+
+  Quilvyn.refreshEditor(true);
+  Quilvyn.refreshSheet();
+
+};
+
+/*
+ * Interacts with the user to delete one or more homebrew choices from the
+ * current rule set.
+ */
+Quilvyn.homebrewDeleteChoices = function(items) {
+
+  let path;
+  let prefix =
+    PERSISTENT_HOMEBREW_PREFIX + ruleSet.getName().replaceAll('.','%2E') + '.';
+
+  if(!items) {
+    items = {};
+    for(path in STORAGE) {
+      if(path.startsWith(prefix)) {
+        let item =
+          path.substring(prefix.length).replace('.',': ').replaceAll('%2E','.');
+        let tags =
+          QuilvynUtils.getAttrValueArray(STORAGE.getItem(path), '_tags');
+        if(tags.length > 0)
+          item += ' (' + tags.join(',') + ')';
+        items[item] = path;
+      }
+    }
+    Quilvyn.setDialog
+      ('Select choices to delete', items, Quilvyn.homebrewDeleteChoices);
+    return;
+  }
+
+  for(let item in items) {
+    let path = items[item];
+    STORAGE.removeItem(path);
+    let pieces = path.split('.');
+    let type = pieces[2];
+    let name = pieces[3];
+    if(ruleSet.removeChoice)
+      ruleSet.removeChoice(ruleSet, type, name);
+    else if(ruleset.getChoices(group))
+      // Minimal fallback behavior for rule sets w/out removeChoice
+      delete ruleSet.getChoices(group)[name];
+  }
+
+  Quilvyn.refreshEditor(true);
+  Quilvyn.refreshSheet();
+
+};
+
+/*
+ * Displays all homebrew choices in a format that can be imported into Quilvyn.
+ */
+Quilvyn.homebrewExportChoices = function() {
+  let htmlBits = [];
+  for(let path in STORAGE) {
+    if(!path.startsWith(PERSISTENT_HOMEBREW_PREFIX))
+      continue;
+    let pieces = path.split('.');
+    for(let i = 1; i <= 3; i++) {
+      let quote = pieces[i].indexOf(' ') < 0 ? '' : pieces[i].indexOf('"') < 0 ? '"' : "'";
+      pieces[i] = quote + pieces[i].replaceAll('%2E', '.') + quote;
+    }
+    let text = '_collection=' + pieces[1] + ' _type=' + pieces[2] + ' _name=' + pieces[3] + ' ' + STORAGE.getItem(path).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    htmlBits.push(text);
+  }
+  htmlBits.sort();
+  htmlBits.unshift(
+    '<!DOCTYPE html>',
+    '<html lang="en">' +
+    '<head>' +
+    '<title>Export Homebrew Choices</title>' +
+    '</head>',
+    '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+    LOGO_TAG + '<br/>',
+    '<pre>'
+  );
+  htmlBits.push('</pre>', '</body>', '</html>');
+  let exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+  exportPopup.document.write(htmlBits.join('\n') + '\n');
+  exportPopup.document.close();
+  exportPopup.focus();
+};
+
+/* Interacts with the user to import a set of homebrew choices */
+Quilvyn.homebrewImportChoices = function(choices) {
+
+  if(!choices) {
+    Quilvyn.textDialog(
+      'Enter choice definitions from export', true, '', '',
+      Quilvyn.homebrewImportChoices
+    );
+    return;
+  }
+
+  let lines = choices.split('\n');
+
+  while(lines.length > 0) {
+    let line = lines.pop();
+    if(line.match(/^\s*$/))
+      continue;
+    let ruleSet = QuilvynUtils.getAttrValue(line, '_collection');
+    let name = QuilvynUtils.getAttrValue(line, '_name');
+    let type = QuilvynUtils.getAttrValue(line, '_type');
+    if(!ruleSet || !name || !type) {
+      Quilvyn.textDialog(
+        'Enter choice definitions from export', true,
+        line + '\n' + lines.join('\n'), 'Bad format for item "' + line + '"',
+        Quilvyn.homebrewImportChoices
+      );
+      return;
+    }
+    line = line.replace
+      (new RegExp('_collection=["\']?' + ruleSet + '["\']?'), '');
+    line = line.replace(new RegExp('_name=["\']?' + name + '["\']?'), '');
+    line = line.replace(new RegExp('_type=["\']?' + type + '["\']?'), '');
+    line = line.replace(/^\s+|\s+$/g, '');
+    STORAGE.setItem(
+      PERSISTENT_HOMEBREW_PREFIX +
+      [ruleSet, type, name].map(x=>x.replaceAll('.', '%2E')).join('.'),
+      line
+    );
+    if(ruleSet in ruleSets && !QuilvynUtils.getAttrValue(line, '_tags'))
+      ruleSets[ruleSet].choiceRules(ruleSets[ruleSet], type, name, line);
+  }
+
+  Quilvyn.refreshEditor(true);
+
+};
+
+/*
+ * Interacts with the user to add and edit homebrew choices in the current rule
+ * set.
+ */
+Quilvyn.homebrewModifyChoices = function() {
+
+  let prefix =
+    PERSISTENT_HOMEBREW_PREFIX + ruleSet.getName().replaceAll('.', '%2E') + '.';
+  let w = Quilvyn.homebrewModifyChoices.win;
+
+  if(w == null) {
+
+    // New homebrew add
+    let types = QuilvynUtils.getKeys(ruleSet.getChoices('choices'));
+    let homebrewChoices = {};
+    for(let key in STORAGE) {
+      if(key.startsWith(prefix))
+        homebrewChoices[key] = STORAGE.getItem(key);
+    }
+    let rulesChoices = [];
+    for(let type in ruleSet.getChoices('choices')) {
+      let choices =
+        ruleSet.getChoices(
+          type.charAt(0).toLowerCase() +
+          type.substring(1).replaceAll(' ', '') + 's'
+        );
+      for(let c in choices) {
+        let key = prefix + type + '.' + c;
+        if(type=='Spell')
+          // Small hack here--we have implicit knowledge that some plugins
+          // (e.g., SRD35) expand spell definitions into multiple entries
+          // by appending the level and school in parens to the name. We
+          // want to show the unexpanded base, so undo that step.
+          key = prefix + type + '.' + c.replace(/\([^\d]+\d [\w]+\)$/,'');
+        rulesChoices[key] = choices[c];
+      }
+    }
+
+    let htmlBits = [
+      '<!DOCTYPE html>',
+      '<html lang="en">',
+      '<head>',
+      '<title>Add Homebrew Choices</title></head>',
+      '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
+      '<table style="width:100%"><tr style="vertical-align:top">',
+      '<td style="text-align:right; width=50%">',
+        '<input type="button" name="_pmatch" value="<" onclick="searchStep=\'-\'" title="Previous match"/>',
+        '<input type="text" list="homebrews" name="_search" size="20" onchange="searchStep=\'?\'"/>',
+        '<datalist id="homebrews">'];
+    let datalistOptions = [];
+    for(let key in homebrewChoices) {
+      let pieces = key.split('.').map(x => x.replaceAll('%2E', '.'));
+      let tags = QuilvynUtils.getAttrValueArray(STORAGE.getItem(key), '_tags');
+      datalistOptions.push(
+        '  <option value="' + pieces[2] + ':' + pieces[3] + (tags ? ' (' + tags.join(',') + ')' : '') + '"></option>'
+      );
+    }
+    htmlBits.push(...datalistOptions.sort());
+    htmlBits.push(
+        '</datalist>',
+        '<input type="button" name="_searchh" value="&#x1F50D;&#xFE0E;" onclick="searchStep=\'H\';" title="Search"/>',
+        '<input type="button" name="_nmatch" value=">" onclick="searchStep=\'+\'" title="Next match"/>',
+      '</td>',
+      '<td style="width:7%;text-align:center;font-size:11px"><input type="button" name="_searchr" value="&#x1F50D;&#xFE0E;" onclick="searchStep=\'R\'" title="Search rules"/><br/>Rules</td>',
+      '<td style="width:21%"><span id="searchIndex">&nbsp;</span></td>',
+      '</td><td style="text-align:right; width:7%">',
+        '<input type="button" name="Close" value="x" onclick="done=true;" title="Close"/>',
+      '</td>',
+      '</tr></table>',
+      '<br/>',
+      '<form onsubmit="return false"><table><tr>',
+      '<th>Type</th><td>' + InputHtml('_type', 'select-one', types).replace('>', ' onchange="update=true">') + '</td>',
+      '</tr><tr>',
+      '<th>Name</th><td>' + InputHtml('_name', 'text', [30]) + '</td>',
+      '</tr><tr>',
+      '<th>Tags</th><td>' + InputHtml('_tags', 'text', [30]) + '</td>',
+      '</tr><tr>',
+      // Blank line
+      '</tr></table>',
+      '<br/>',
+      '<table id="variableFields">',
+      '</table><br/>',
+      '<input type="button" name="Save" value="Save" onclick="save=true;"/>',
+      '<p id="message">&nbsp;</p>',
+      '</form>',
+      '</body>',
+      '</html>'
+    );
+    w = editWindow;
+    w.document.write(htmlBits.join('\n') + '\n');
+    w.document.close();
+    w.done = false;
+    w.homebrewChoices = homebrewChoices;
+    w.rulesChoices = rulesChoices;
+    w.save = false;
+    w.searchStep = '';
+    w.update = true;
+    w.document.getElementsByName('_name')[0].focus();
+    Quilvyn.homebrewModifyChoices.win = w;
+    Quilvyn.homebrewModifyChoices();
+    return;
+
+  } else if(w.done) {
+
+    // User done making additions
+    Quilvyn.homebrewModifyChoices.win = null;
+    Quilvyn.refreshEditor(true);
+    return;
+
+  } else if(w.searchStep || w.update) {
+
+    let nameInput = w.document.getElementsByName('_name')[0];
+    let searchInput = w.document.getElementsByName('_search')[0];
+    let tagsInput = w.document.getElementsByName('_tags')[0];
+    let typeInput = w.document.getElementsByName('_type')[0];
+    let newPathAttrs = null;
+
+    if(w.searchStep) {
+
+      let currentPath =
+        prefix +
+        InputGetValue(typeInput).replaceAll('.', '%2E') + '.' +
+        InputGetValue(nameInput).replaceAll('.', '%2E');
+      let newPath = null;
+
+      // Search button pair toggles whether "rules:" is included in search text
+      if(w.searchStep == 'R' && !searchInput.value.match(/^\s*rules\s*:/i))
+        searchInput.value = 'Rules:' + searchInput.value;
+      else if(w.searchStep == 'H' && searchInput.value.match(/^\s*rules\s*:/i))
+        searchInput.value = searchInput.value.replace(/^[^:]*:/, '');
+
+      let pieces = InputGetValue(searchInput).split(/\s*:\s*/);
+      let searchChoices =
+        pieces[0].match(/^\s*rules$/i) ? w.rulesChoices : w.homebrewChoices;
+      let searchKeys = Object.keys(searchChoices);
+      let searchText = pieces[pieces.length - 1].toUpperCase();
+      let searchType =
+        pieces.length > 2 ? pieces[1].toUpperCase() :
+        pieces.length == 1 ? '' :
+        pieces[0].match(/^\s*rules$/i) ? '' :
+        pieces[0].toUpperCase();
+
+      // Filter by type, if specified, then by text, which may match name or
+      // tags. If type wasn't specified, text may also match type.
+      if(searchType)
+        searchKeys =
+          searchKeys.filter(x => x.split('.')[2].toUpperCase() == searchType);
+      searchKeys =
+        searchKeys.filter(x => searchText == '' || ((!searchType ? x.split('.')[2] + ' ' : '') + x.split('.')[3] + ' (' + (QuilvynUtils.getAttrValueArray(searchChoices[x], '_tags') || []).join(',') + ')').toUpperCase().includes(searchText));
+      searchKeys = searchKeys.sort((a,b) => a.localeCompare(b));
+      if(w.searchStep == '-')
+        newPath =
+          searchKeys[searchKeys.indexOf(currentPath) - 1] ||
+          searchKeys[searchKeys.length - 1];
+      else if(w.searchStep == '+')
+        newPath =
+          searchKeys[searchKeys.indexOf(currentPath) + 1] || searchKeys[0];
+      else
+        newPath = searchKeys[0];
+
+      // If that fails, give up
+      if(newPath == null) {
+        w.document.getElementById('message').innerHTML =
+          'Search for "' + InputGetValue(searchInput) + '" failed';
+        w.document.getElementById('searchIndex').innerHTML = '&nbsp;';
+        w.searchStep = '';
+        setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
+        return;
+      }
+
+      let newName = newPath.split('.')[3];
+      let newType = newPath.split('.')[2];
+      newPathAttrs = searchChoices[newPath];
+      InputSetValue(typeInput, newType);
+      newPathAttrs += ' _name="' + newName.replaceAll('%2E', '.') + '"';
+
+      let newIndex = searchKeys.indexOf(newPath);
+      w.document.getElementById('searchIndex').innerHTML =
+        '&nbsp;#' + (newIndex + 1) + ' of ' + searchKeys.length;
+
+    }
+
+    InputSetValue(nameInput, '');
+    InputSetValue(tagsInput, '');
+    w.document.getElementById('message').innerHTML = '&nbsp;';
+
+    // Display input fields appropriate to the chosen type
+    let elements =
+      ruleSet.choiceEditorElements(ruleSet, InputGetValue(typeInput));
+    let htmlBits = [];
+    elements.forEach(e => {
+      let label = e[1];
+      let name = e[0];
+      let params = e[3];
+      let type = e[2];
+      htmlBits.push(
+        '<tr><th>' + (label ? label : '&nbsp;') + '</th><td>' +
+        InputHtml(name, type, params) + '</td></tr>'
+      );
+    });
+    w.document.getElementById('variableFields').innerHTML = htmlBits.join('\n');
+
+    if(newPathAttrs) {
+      InputSetValue
+        (nameInput, QuilvynUtils.getAttrValue(newPathAttrs, '_name'));
+      InputSetValue
+        (tagsInput, QuilvynUtils.getAttrValueArray(newPathAttrs, '_tags').join(','));
+      elements.forEach(e => {
+        let eValues = QuilvynUtils.getAttrValueArray(newPathAttrs, e[0]);
+        if(eValues.length > 0) {
+          let value = eValues.join(',');
+          if(value == 'false')
+            value = false;
+          InputSetValue(w.document.getElementsByName(e[0])[0], value);
+        }
+      });
+    }
+
+    w.searchStep = '';
+    w.unmodified = [];
+    for(let i = 0; i < w.document.forms[0].elements.length; i++)
+      w.unmodified[i] = InputGetValue(w.document.forms[0].elements[i]);
+    w.update = false;
+    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
+    return;
+
+  } else if(!w.save) {
+
+    let modified = false;
+    for(let i = 0; i < w.document.forms[0].elements.length; i++)
+      if(InputGetValue(w.document.forms[0].elements[i]) != w.unmodified[i])
+        modified = true;
+    if(modified)
+      w.document.getElementById('message').innerHTML = '* Modified';
+    else if(w.document.getElementById('message').innerHTML.includes('Modified'))
+      w.document.getElementById('message').innerHTML = '&nbsp';
+    // Try again later
+    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
+    return;
+
+  }
+
+  // Ready to add a homebrew choice
+  let inputForm = w.document.forms[0];
+  let attrs = [];
+  let name = '';
+  let type = '';
+  for(let i = 0; i < inputForm.elements.length; i++) {
+    let input = inputForm.elements[i];
+    let inputName = input.name;
+    let inputValue = (InputGetValue(input) + '').trim();
     if(inputName == '_name')
-      // For consistency with text attrs, allow optional quotes around name
-      name = inputValue.replace(/^(['"])(.*)\1$/, '$2');
+      // For consistency with text attrs, allow unnecessary quotes around name
+      name = inputValue.replace(/^(['"])(.*)\1$/, '$2').trim();
     else if(inputName == '_type')
       type = inputValue;
-    else if(inputName == 'Add' || inputName == 'Close')
+    else if(inputName == 'Save' || inputName == 'Close')
       continue;
     else {
       // Quote values that contain spaces.
-      var tokens = (inputValue + '').match(/'[^']*'|"[^"]*"|[^,]+|,/g);
+      let tokens = inputValue.match(/'[^']*'|"[^"]*"|[^,]+|,/g);
       if(tokens) {
         inputValue = '';
-        for(var j = 0; j < tokens.length; j++) {
-          var token = tokens[j];
-          if(token.charAt(0) == '"' || token.charAt(0) == "'" ||
-             token.indexOf(' ') < 0)
-            inputValue += tokens[j];
+        for(let j = 0; j < tokens.length; j++) {
+          let token = tokens[j].trim();
+          if('"\''.includes(token.charAt(0)) || token.indexOf(' ') < 0)
+            inputValue += token;
           else if(token.indexOf('"') >= 0)
             inputValue += "'" + token + "'";
           else
@@ -466,214 +847,55 @@ Quilvyn.customAddRules = function() {
         attrs.push(inputName + '=' + inputValue);
     }
   }
+  if(name == '') {
+    w.document.getElementById('message').innerHTML = 'Empty name not allowed';
+    w.save = false;
+    setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
+    return;
+  }
   attrs = attrs.join(' ');
   STORAGE.setItem(
-    PERSISTENT_CUSTOM_PREFIX +
-    customCollection.replaceAll('.', '%2E') + '.' +
-    type.replaceAll('.', '%2E') + '.' +
-    name.replaceAll('.', '%2E'), attrs
+    PERSISTENT_HOMEBREW_PREFIX +
+    [ruleSet.getName(), type, name].map(x=>x.replaceAll('.', '%2E')).join('.'),
+    attrs
   );
-  Quilvyn.customAddRules.win.document.getElementById('message').innerHTML =
-    'Added ' + type + ' ' + name + ' to custom collection ' + customCollection;
+  for(let i = 0; i < w.document.forms[0].elements.length; i++)
+    w.unmodified[i] = InputGetValue(w.document.forms[0].elements[i]);
+  w.document.getElementById('message').innerHTML =
+    'Saved homebrew ' + type + ' ' + name;
+  w.homebrewChoices = {};
+  for(let key in STORAGE) {
+    if(key.startsWith(prefix))
+      w.homebrewChoices[key] = STORAGE.getItem(key);
+  }
+  let datalistOptions = [];
+  for(let key in w.homebrewChoices) {
+    let pieces = key.split('.').map(x => x.replaceAll('%2E', '.'));
+    let tags = QuilvynUtils.getAttrValueArray(w.homebrewChoices[key], '_tags');
+    datalistOptions.push(
+      '  <option value="' + pieces[2] + ':' + pieces[3] + (tags ? ' (' + tags.join(',') + ')' : '') + '"></option>'
+    );
+  }
+  w.document.getElementById('homebrews').innerHTML =
+    datalistOptions.sort().join('');
 
-  Quilvyn.customAddRules.win.okay = false;
-  if(customCollection == ruleSet.getName()) {
+  w.save = false;
+  if(!QuilvynUtils.getAttrValue(attrs, '_tags'))
     ruleSet.choiceRules(ruleSet, type, name, attrs);
-  }
-  setTimeout('Quilvyn.customAddRules()', TIMEOUT_DELAY);
+  Quilvyn.refreshSheet();
+  setTimeout('Quilvyn.homebrewModifyChoices()', TIMEOUT_DELAY / 2);
   return;
-
-};
-
-/* Applies the current custom collection to the current rule set. */
-Quilvyn.customApplyCollection = function() {
-  var prefix =
-    PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
-  for(var path in STORAGE) {
-    if(!path.startsWith(prefix))
-      continue;
-    var pieces = path.split('.');
-    if(pieces[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
-      ruleSet.choiceRules(ruleSet, pieces[2].replaceAll('%2E', '.'), pieces[3].replaceAll('%2E', '.'), STORAGE.getItem(path));
-  }
-  Quilvyn.refreshEditor(true);
-};
-
-/*
- * Interacts with the user to remove one or more custom collections and all
- * items in them.
- */
-Quilvyn.customDeleteCollections = function(collections) {
-
-  if(!collections) {
-    Quilvyn.setDialog(
-      'Select collections to delete', customCollections,
-       Quilvyn.customDeleteCollections
-    );
-    return;
-  }
-
-  for(var c in collections) {
-    var prefix = PERSISTENT_CUSTOM_PREFIX + c.replaceAll('.', '%2E') + '.';
-    for(var path in STORAGE) {
-      if(path.startsWith(prefix))
-        STORAGE.removeItem(path);
-    }
-    if(!(c in ruleSets))
-      delete customCollections[c];
-    if(customCollection == c)
-      customCollection = ruleSet.getName();
-  }
-
-  Quilvyn.refreshEditor(true);
-
-};
-
-/*
- * Interacts with the user to delete one or more custom items from the current
- * collection.
- */
-Quilvyn.customDeleteRules = function(items) {
-
-  var path;
-  var prefix =
-    PERSISTENT_CUSTOM_PREFIX + customCollection.replaceAll('.', '%2E') + '.';
-
-  if(!items) {
-    items = {};
-    for(path in STORAGE) {
-      if(path.startsWith(prefix) &&
-         path.split('.')[2] != PERSISTENT_CUSTOM_PLACEHOLDER)
-        items[path.substring(prefix.length).replace('.', ' ').replaceAll('%2E', '.')] = path;
-    }
-    Quilvyn.setDialog
-      ('Select items to delete', items, Quilvyn.customDeleteRules);
-    return;
-  }
-
-  for(path in items)
-    STORAGE.removeItem(items[path]);
-
-  Quilvyn.refreshEditor(true);
-
-};
-
-/*
- * Displays all custom items in a format that can be imported into Quilvyn.
- */
-Quilvyn.customExportCollections = function() {
-  var htmlBits = [];
-  for(var path in STORAGE) {
-    if(!path.startsWith(PERSISTENT_CUSTOM_PREFIX))
-      continue;
-    var pieces = path.split('.');
-    for(var i = 1; i <= 3; i++) {
-      var quote = pieces[i].indexOf(' ') < 0 ? '' : pieces[i].indexOf('"') < 0 ? '"' : "'";
-      pieces[i] = quote + pieces[i].replaceAll('%2E', '.') + quote;
-    }
-    var text = '_collection=' + pieces[1] + ' _type=' + pieces[2] + ' _name=' + pieces[3] + ' ' + STORAGE.getItem(path).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    htmlBits.push(text);
-  }
-  htmlBits.sort();
-  htmlBits.unshift(
-    '<!DOCTYPE html>',
-    '<html lang="en">' +
-    '<head>' +
-    '<title>Export House Rules</title>' +
-    '</head>',
-    '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
-    LOGO_TAG + '<br/>',
-    '<pre>'
-  );
-  htmlBits.push('</pre>', '</body>', '</html>');
-  var exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
-  exportPopup.document.write(htmlBits.join('\n') + '\n');
-  exportPopup.document.close();
-  exportPopup.focus();
-};
-
-/*
- * Interacts with the user to import a set of custom items into the current
- * collection.
- */
-Quilvyn.customImportCollections = function(collections) {
-
-  if(!collections) {
-    Quilvyn.textDialog(
-      'Enter item definitions from export', true, '', '',
-      Quilvyn.customImportCollections
-    );
-    return;
-  }
-
-  var lines = collections.split('\n');
-
-  while(lines.length > 0) {
-    var line = lines.pop();
-    if(line.match(/^\s*$/))
-      continue;
-    var collection = QuilvynUtils.getAttrValue(line, '_collection');
-    var name = QuilvynUtils.getAttrValue(line, '_name');
-    var type = QuilvynUtils.getAttrValue(line, '_type');
-    if(!collection || !name || !type) {
-      Quilvyn.textDialog(
-        'Enter item definitions from export', true,
-        line + '\n' + lines.join('\n'), 'Bad format for item "' + line + '"',
-        Quilvyn.customImportCollections
-      );
-      return;
-    }
-    line = line.replace
-      (new RegExp('_collection=["\']?' + collection + '["\']?'), '');
-    line = line.replace(new RegExp('_name=["\']?' + name + '["\']?'), '');
-    line = line.replace(new RegExp('_type=["\']?' + type + '["\']?'), '');
-    line = line.replace(/^\s+|\s+$/g, '');
-    STORAGE.setItem(
-      PERSISTENT_CUSTOM_PREFIX +
-      collection.replaceAll('.', '%2E') + '.' +
-      type.replaceAll('.', '%2E') + '.' +
-      name.replaceAll('.', '%2E'), line
-    );
-    customCollections[collection] = '';
-    if(collection in ruleSets)
-      ruleSets[collection].choiceRules(ruleSets[collection], type, name, line);
-  }
-
-  Quilvyn.refreshEditor(true);
-
-};
-
-/* Interacts with the user to define a new custom item collection. */
-Quilvyn.customNewCollection = function(name) {
-
-  if(!name) {
-    Quilvyn.textDialog
-      ('Enter new collection name', false ,'', '', Quilvyn.customNewCollection);
-    return;
-  }
-
-  if(!(name in customCollections)) {
-    customCollection = name;
-    customCollections[name] = '';
-    STORAGE.setItem(
-      PERSISTENT_CUSTOM_PREFIX +
-      name.replaceAll('.', '%2E') + '.' +
-      PERSISTENT_CUSTOM_PLACEHOLDER + '.' +
-      name.replaceAll('.', '%2E'), ''
-    );
-  }
-  Quilvyn.refreshEditor(true);
 
 };
 
 /* Interacts with the user to delete characters from persistent storage. */
 Quilvyn.deleteCharacters = function(characters) {
 
-  var path;
+  let path;
 
   if(!characters) {
     characters = {};
-    for(var path in STORAGE) {
+    for(let path in STORAGE) {
       if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
         characters[path.substring(PERSISTENT_CHARACTER_PREFIX.length)] = path;
     }
@@ -682,7 +904,7 @@ Quilvyn.deleteCharacters = function(characters) {
     return;
   }
 
-  for(var c in characters)
+  for(let c in characters)
     STORAGE.removeItem(PERSISTENT_CHARACTER_PREFIX + c);
   Quilvyn.refreshEditor(true);
 
@@ -690,15 +912,15 @@ Quilvyn.deleteCharacters = function(characters) {
 
 /* Returns HTML for the character editor form. */
 Quilvyn.editorHtml = function() {
-  var quilvynElements = [
+  let quilvynElements = [
     ['about', ' ', 'button', ['About']],
     ['help', '', 'button', ['Help']],
     ['options', '', 'button', ['Options']],
     ['rules', 'Rules', 'select-one', []],
     ['rulesNotes', '', 'button', ['Notes']],
-    ['custom', 'House Rules', 'select-one', [
-      'New Collection...', 'Delete Collections...', 'View/Export All',
-      'Import...', 'Add Rules...', 'Delete Rules...', 'Apply Collection'
+    ['homebrew', 'Homebrew', 'select-one', [
+      '---choose one---', 'Create/Edit Choices...', 'Delete Choices...',
+      'Enable/Disable Choices...', 'Export All', 'Import...'
     ]],
     ['character', 'Character', 'select-one', []],
     ['clear', 'Clear', 'select-one', 'bags'],
@@ -707,10 +929,10 @@ Quilvyn.editorHtml = function() {
   if(window.location.href.includes('RulesButton')) {
     quilvynElements.splice(5, 0, ['ruleRules', '', 'button', ['Rules']]);
   }
-  var elements = quilvynElements.concat(ruleSet.getEditorElements());
-  var htmlBits = ['<form name="editor"><table>'];
-  var i;
-  var bagNames = [];
+  let elements = quilvynElements.concat(ruleSet.getEditorElements());
+  let htmlBits = ['<form name="editor"><table>'];
+  let i;
+  let bagNames = [];
   for(i = 0; i < elements.length; i++)
     if(elements[i][2].match(/bag|set/))
       // Set options to combined attr and label; refreshEditor will split them
@@ -718,11 +940,11 @@ Quilvyn.editorHtml = function() {
       bagNames.push(elements[i][0] + ',' + elements[i][1]);
   bagNames.sort();
   for(i = 0; i < elements.length; i++) {
-    var element = elements[i];
-    var label = element[1];
-    var name = element[0];
-    var params = element[3];
-    var type = element[2];
+    let element = elements[i];
+    let label = element[1];
+    let name = element[0];
+    let params = element[3];
+    let type = element[2];
     if(params == 'bags') {
       params = ['---choose one---'].concat(bagNames);
     } else if(typeof(params) == 'string') {
@@ -732,7 +954,7 @@ Quilvyn.editorHtml = function() {
       if(name == 'randomize') {
         // Set options to combined attr and label; refreshEditor will split
         // them once the widget is created.
-        for(var j = 0; j < params.length; j++)
+        for(let j = 0; j < params.length; j++)
           params[j] += ',' + params[j].charAt(0).toUpperCase() + params[j].substring(1).replace(/([a-z])([A-Z])/g, '$1 $2');
         params = ['---choose one---'].concat(params);
       }
@@ -746,11 +968,11 @@ Quilvyn.editorHtml = function() {
       htmlBits.push('<tr><th>' + label + '</th><td>');
     }
     if(type.match(/bag|set/)) {
-      var widget = type.match(/bag/) ?
+      let widget = type.match(/bag/) ?
         InputHtml(name, 'text', [3, '(\\+?\\d+)?']) :
         InputHtml(name, 'checkbox', null);
-      var needSub = params.filter(x => x.includes('(')).length > 0;
-      // Intially put full parameter list, including sub-options, into _sel.
+      let needSub = params.filter(x => x.includes('(')).length > 0;
+      // Initially put full parameter list, including sub-options, into _sel.
       // refreshEditor will handle splitting the values later.
       // Note: Inner table needed to prevent line break between _sel and _sub?!?
       htmlBits.push(
@@ -769,9 +991,9 @@ Quilvyn.editorHtml = function() {
   return htmlBits.join('\n');
 };
 
-/* Pops a window containing the attribues of all stored characters. */
+/* Pops a window containing the attributes of all stored characters. */
 Quilvyn.exportCharacters = function() {
-  var htmlBits = [
+  let htmlBits = [
     '<!DOCTYPE html>',
     '<html lang="en">',
     '<head>',
@@ -783,18 +1005,18 @@ Quilvyn.exportCharacters = function() {
     '</head>',
     '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
     LOGO_TAG + '<br/>'];
-  for(var path in STORAGE) {
+  for(let path in STORAGE) {
     if(!path.startsWith(PERSISTENT_CHARACTER_PREFIX))
       continue;
-    var toExport = Quilvyn.retrieveCharacterFromStorage(path);
+    let toExport = Quilvyn.retrieveCharacterFromStorage(path);
     // In case character saved before _path attr use
     toExport['_path'] = path.substring(PERSISTENT_CHARACTER_PREFIX.length);
-    var text = ObjectViewer.toCode(toExport).
+    let text = ObjectViewer.toCode(toExport).
       replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     htmlBits.push('<pre>\n' + text + '\n</pre><br/>\n');
   }
   htmlBits.push('</body>', '</html>');
-  var exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+  let exportPopup = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
   exportPopup.document.write(htmlBits.join('\n') + '\n');
   exportPopup.document.close();
   exportPopup.focus();
@@ -803,11 +1025,11 @@ Quilvyn.exportCharacters = function() {
 /* Interacts with the user to import characters from external sources. */
 Quilvyn.importCharacters = function(attributes) {
 
- if(attributes == null &&
-    userOptions.warnAboutDiscard &&
-    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+  if(attributes == null &&
+     userOptions.warnAboutDiscard &&
+     !QuilvynUtils.clones(character, characterCache[characterPath])) {
     Quilvyn.confirmDialog
-      ('Discard changes to character?', Quilvyn.importCharacters)
+      ('Discard changes to character?', Quilvyn.importCharacters);
     return;
   }
 
@@ -819,7 +1041,7 @@ Quilvyn.importCharacters = function(attributes) {
     return;
   }
 
-  var index = attributes.indexOf('{');
+  let index = attributes.indexOf('{');
 
   if(index < 0) {
     Quilvyn.textDialog(
@@ -831,14 +1053,14 @@ Quilvyn.importCharacters = function(attributes) {
 
   while(index >= 0) {
     attributes = attributes.substring(index + 1);
-    var attrPat = /^\s*"((?:\\"|[^"])*)"\s*:\s*(\d+|"((?:\\"|[^"])*)"|\{)/;
-    var matchInfo;
-    var nesting = '';
-    var importedCharacter = {};
+    let attrPat = /^\s*"((?:\\"|[^"])*)"\s*:\s*(\d+|"((?:\\"|[^"])*)"|\{)/;
+    let matchInfo;
+    let nesting = '';
+    let importedCharacter = {};
     while((matchInfo = attributes.match(attrPat)) != null) {
       attributes = attributes.substring(matchInfo[0].length);
-      var attr = matchInfo[1];
-      var value =
+      let attr = matchInfo[1];
+      let value =
         typeof matchInfo[3] == "undefined" ? matchInfo[2] : matchInfo[3];
       value = value.replace(/\\"/g, '"').replace(/\\n/g, '\n');
       if(value == '{') {
@@ -880,7 +1102,7 @@ Quilvyn.modifyOptions = function() {
 
   if(Quilvyn.modifyOptions.win == null) {
     // New modify
-    var htmlBits = [
+    let htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">',
       '<head>',
@@ -913,7 +1135,7 @@ Quilvyn.modifyOptions = function() {
     Quilvyn.modifyOptions.win.canceled = false;
     Quilvyn.modifyOptions.win.okay = false;
     Quilvyn.modifyOptions.win.document.getElementsByName('ok')[0].focus();
-    for(var opt in userOptions) {
+    for(let opt in userOptions) {
       InputSetValue
         (Quilvyn.modifyOptions.win.document.frm[opt], userOptions[opt]);
     }
@@ -931,10 +1153,10 @@ Quilvyn.modifyOptions = function() {
   }
 
   // Ready to modify
-  var oldSeparateEditor = userOptions.separateEditor;
-  var form = Quilvyn.modifyOptions.win.document.frm;
-  for(var option in userOptions) {
-    var value = InputGetValue(form[option]);
+  let oldSeparateEditor = userOptions.separateEditor;
+  let form = Quilvyn.modifyOptions.win.document.frm;
+  for(let option in userOptions) {
+    let value = InputGetValue(form[option]);
     userOptions[option] = value === true ? 1 : value === false ? 0 : value;
   }
   Quilvyn.modifyOptions.win = null;
@@ -951,9 +1173,8 @@ Quilvyn.modifyOptions = function() {
 Quilvyn.openCharacter = function(path) {
   if(path === true) {
     path = Quilvyn.openCharacter.savedPath;
-  } else if(
-    userOptions.warnAboutDiscard &&
-    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+  } else if(userOptions.warnAboutDiscard &&
+            !QuilvynUtils.clones(character, characterCache[characterPath])) {
     Quilvyn.openCharacter.savedPath = path;
     Quilvyn.confirmDialog
       ('Discard changes to character?', Quilvyn.openCharacter);
@@ -972,29 +1193,30 @@ Quilvyn.openCharacter = function(path) {
 
 /* Replaces the current character with one with empty attributes. */
 Quilvyn.newCharacter = function(prompted) {
- if(prompted == null &&
-    userOptions.warnAboutDiscard &&
-    !QuilvynUtils.clones(character, characterCache[characterPath])) {
-    Quilvyn.confirmDialog('Discard changes to character?', Quilvyn.newCharacter)
+  if(prompted == null &&
+     userOptions.warnAboutDiscard &&
+     !QuilvynUtils.clones(character, characterCache[characterPath])) {
+    Quilvyn.confirmDialog
+      ('Discard changes to character?', Quilvyn.newCharacter);
     return;
   }
-  var editForm = editWindow.editor;
+  let editForm = editWindow.editor;
   character = {};
   characterPath = '';
   characterUndo = [];
-  var i;
+  let i;
   // Skip to first character-related editor input
   for(i = 0;
       i < editForm.elements.length && editForm.elements[i].name != 'name';
       i++)
     ; /* empty */
   for( ; i < editForm.elements.length; i++) {
-    var input = editForm.elements[i];
-    var name = input.name;
-    var type = input.type;
+    let input = editForm.elements[i];
+    let name = input.name;
+    let type = input.type;
     if(type == 'select-one' && !name.match(/_sel|_sub/)) {
       character[name] = input.options[0].text;
-      for(var j = 1; j < input.options.length; j++)
+      for(let j = 1; j < input.options.length; j++)
         if(input.options[j].text == 'None')
           character[name] = 'None';
     } else if(name == 'experience' || name == 'hitPoints') {
@@ -1013,21 +1235,21 @@ Quilvyn.newCharacter = function(prompted) {
  */
 Quilvyn.randomizeCharacter = function(prompted) {
 
- if(prompted == null &&
-    userOptions.warnAboutDiscard &&
-    !QuilvynUtils.clones(character, characterCache[characterPath])) {
+  if(prompted == null &&
+     userOptions.warnAboutDiscard &&
+     !QuilvynUtils.clones(character, characterCache[characterPath])) {
     Quilvyn.confirmDialog
       ('Discard changes to character?', Quilvyn.randomizeCharacter)
     return;
   }
 
-  var presets = ruleSet.getChoices('preset');
+  let presets = ruleSet.getChoices('preset');
 
   if(presets == null) {
     // No window needed
   } else if(Quilvyn.randomizeCharacter.win == null) {
     // New randomize
-    var htmlBits = [
+    let htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">',
       '<head>',
@@ -1037,11 +1259,11 @@ Quilvyn.randomizeCharacter = function(prompted) {
       LOGO_TAG + '<br/>',
       '<h2>Character Attributes</h2>',
       '<form name="frm" onsubmit="return false"><table>'];
-    for(var preset in presets) {
-      var label;
-      var presetHtml = '';
+    for(let preset in presets) {
+      let label;
+      let presetHtml = '';
       if(presets[preset]) {
-        var pieces = presets[preset].split(',');
+        let pieces = presets[preset].split(',');
         label = pieces[0];
         presetHtml =
           pieces[1].match(/bag/) ?
@@ -1078,21 +1300,21 @@ Quilvyn.randomizeCharacter = function(prompted) {
     Quilvyn.randomizeCharacter.win.document.close();
     // Add callbacks that store user input in a property named attrs for
     // retrieval once the user hits Ok.
-    var callbackForSetSel =
+    let callbackForSetSel =
       function() {InputSetValue(this.val, this.form.attrs[this.name.replace('_sel', '') + '.' + InputGetValue(this)])};
-    var callbackForSetVal =
+    let callbackForSetVal =
       function() {this.form.attrs[this.name + '.' + InputGetValue(this.sel)] = InputGetValue(this)};
-    var callbackForNonSet =
+    let callbackForNonSet =
       function() {this.form.attrs[this.name] = InputGetValue(this);};
-    var form = Quilvyn.randomizeCharacter.win.document.frm;
+    let form = Quilvyn.randomizeCharacter.win.document.frm;
     form.attrs = {};
-    for(var i = 0; i < form.elements.length; i++) {
-      var widget = form.elements[i];
+    for(let i = 0; i < form.elements.length; i++) {
+      let widget = form.elements[i];
       if(widget.name.match(/_sel/))
         continue; // Callback set at the same time as the value widget
       InputSetCallback(widget, callbackForNonSet);
       if(form[widget.name + '_sel'] != null) {
-        var selWidget = form[widget.name + '_sel'];
+        let selWidget = form[widget.name + '_sel'];
         InputSetCallback(widget, callbackForSetVal);
         InputSetCallback(selWidget, callbackForSetSel);
         // Give set widgets references to each other for callback use
@@ -1120,11 +1342,11 @@ Quilvyn.randomizeCharacter = function(prompted) {
   }
 
   // Ready to generate
-  var fixedAttributes = {};
+  let fixedAttributes = {};
   if(Quilvyn.randomizeCharacter.win != null) {
-    var form = Quilvyn.randomizeCharacter.win.document.frm;
-    for(var a in form.attrs) {
-      var value = form.attrs[a];
+    let form = Quilvyn.randomizeCharacter.win.document.frm;
+    for(let a in form.attrs) {
+      let value = form.attrs[a];
       if(typeof(value) == 'string' && value.match(/^[\+\-]?\d+$/))
         value -= 0;
       if(value)
@@ -1248,10 +1470,10 @@ Quilvyn.redrawUI = function() {
  */
 Quilvyn.refreshEditor = function(redraw) {
 
-  var i;
+  let i;
 
   if(redraw) {
-    var htmlBits = [
+    let htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">',
       '<head>',
@@ -1268,13 +1490,13 @@ Quilvyn.refreshEditor = function(redraw) {
     ];
     editWindow.document.write(htmlBits.join('\n') + '\n');
     editWindow.document.close();
-    var updateListener = function() {Quilvyn.update(this);};
-    var selectSpellsListener = function(e) {
+    let updateListener = function() {Quilvyn.update(this);};
+    let selectSpellsListener = function(e) {
       if(event.code == 'KeyY' && (event.ctrlKey || event.metaKey)) {
         Quilvyn.selectSpells();
       }
     }
-    var undoListener = function(e) {
+    let undoListener = function(e) {
       if(event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
         Quilvyn.undo();
       }
@@ -1286,7 +1508,7 @@ Quilvyn.refreshEditor = function(redraw) {
     editWindow.document.addEventListener('keydown', undoListener);
     // Split attr,label pairs editorHtml set as params for Clear and Randomize
     // menus, storing the attrs in a field of the widget
-    var widget = editWindow.editor.clear;
+    let widget = editWindow.editor.clear;
     widget.attrs = InputGetParams(widget).map(x=>x.replace(/,.*/, ''));
     InputSetOptions
       (widget, InputGetParams(widget).map(x => x.replace(/.*,/, '')));
@@ -1296,9 +1518,9 @@ Quilvyn.refreshEditor = function(redraw) {
       (widget, InputGetParams(widget).map(x=>x.replace(/.*,/, '')));
   }
 
-  var characterOpts = [];
-  var editForm = editWindow.editor;
-  for(var path in STORAGE) {
+  let characterOpts = [];
+  let editForm = editWindow.editor;
+  for(let path in STORAGE) {
     if(path.startsWith(PERSISTENT_CHARACTER_PREFIX))
       characterOpts.push(path.substring(PERSISTENT_CHARACTER_PREFIX.length));
   }
@@ -1307,14 +1529,7 @@ Quilvyn.refreshEditor = function(redraw) {
     '---choose one---', 'New', 'Random...', 'Save', 'Save As...', 'Print...',
     'Delete...', 'HTML', 'Import...', 'Export', 'Summary'
   );
-  var customOpts = QuilvynUtils.getKeys(customCollections).sort();
-  customOpts.unshift(
-    'New Collection...', 'Delete Collections...', 'View/Export All',
-    'Import...', 'Add Rules...', 'Delete Rules...', 'Apply Collection'
-  );
   InputSetOptions(editForm.rules, QuilvynUtils.getKeys(ruleSets));
-  InputSetOptions(editForm.custom, customOpts);
-  InputSetValue(editForm.custom, customCollection);
   InputSetOptions(editForm.character, characterOpts);
   if(characterPath)
     InputSetValue(editForm.character, characterPath);
@@ -1325,21 +1540,21 @@ Quilvyn.refreshEditor = function(redraw) {
       i++)
     ; /* empty */
   for( ; i < editForm.elements.length; i++) {
-    var input = editForm.elements[i];
-    var name = input.name;
-    var chk = editForm[name + '_chk'];
-    var sel = editForm[name + '_sel'];
-    var value = null;
+    let input = editForm.elements[i];
+    let name = input.name;
+    let chk = editForm[name + '_chk'];
+    let sel = editForm[name + '_sel'];
+    let value = null;
     if(name.match(/_sel|_sub/)) {
       if(name.includes('_sel') && !input.allOpts)
         // editorHtml gave us the full options in _sel; save for later filtering
         input.allOpts = InputGetParams(input);
-      var prefix = name.substring(0, name.indexOf('_s'));
+      let prefix = name.substring(0, name.indexOf('_s'));
       sel = name.includes('_sel') ? input : editForm[prefix + '_sel'];
-      var filter = character[prefix + '_filter'] || '';
-      var options = sel.allOpts.filter(x => x.includes(filter));
+      let filter = (character[prefix + '_filter'] || '').toUpperCase();
+      let options = sel.allOpts.filter(x => x.toUpperCase().includes(filter));
       // Seek an option for which character contains a non-null value
-      for(var a in character) {
+      for(let a in character) {
         if(a.startsWith(prefix) &&
            options.includes(a.replace(prefix + '.', ''))) {
           value = a;
@@ -1356,7 +1571,7 @@ Quilvyn.refreshEditor = function(redraw) {
         value = value ? value.replace(prefix + '.', '').replace(/\(.*\)$/, '') : options[0];
       } else {
         // Grab any sub-options of the current value of _sel
-        var selValue = InputGetValue(sel);
+        let selValue = InputGetValue(sel);
         options = options.filter(x => x.startsWith(selValue + '(')).map(x => x.replace(/^[^(]*\(|\)$/g, ''));
         InputSetOptions(input, options);
         if(options.length > 0) {
@@ -1370,9 +1585,9 @@ Quilvyn.refreshEditor = function(redraw) {
     } else if(sel == null) {
       value = character[name];
     } else {
-      var sub = editForm[name + '_sub'];
+      let sub = editForm[name + '_sub'];
       // Construct full attr name from the current sel value and any sub value
-      var attrName = name + '.' + InputGetValue(sel) + (sub && sub.options.length > 0 ? '(' + InputGetValue(sub) + ')' : '');
+      let attrName = name + '.' + InputGetValue(sel) + (sub && sub.options.length > 0 ? '(' + InputGetValue(sub) + ')' : '');
       value = character[attrName];
     }
     InputSetValue(input, value);
@@ -1400,17 +1615,17 @@ Quilvyn.refreshSheet = function() {
  */
 Quilvyn.refreshStatus = function(showDetail) {
 
-  var a;
-  var computed = ruleSet.applyRules(character);
-  var differences = [];
-  var errors = 0;
-  var original = characterCache[characterPath];
-  var warnings = 0;
+  let a;
+  let computed = ruleSet.applyRules(character);
+  let differences = [];
+  let errors = 0;
+  let original = characterCache[characterPath];
+  let warnings = 0;
 
   for(a in Object.assign({}, original, character)) {
     if(original[a] == character[a])
       continue;
-    var attr = a;
+    let attr = a;
     if(attr.includes('.')) {
       attr = attr.split('.');
       attr = attr[1] + ' ' + attr[0].replace(/s$/, '').replace(/([a-z])([A-Z])/g, '$1 ' + '$2'.toLowerCase());
@@ -1426,7 +1641,7 @@ Quilvyn.refreshStatus = function(showDetail) {
       warnings++;
   }
 
-  var htmlBits = [
+  let htmlBits = [
     '<!DOCTYPE html>',
     '<html lang="en">',
     '<head>',
@@ -1453,8 +1668,8 @@ Quilvyn.refreshStatus = function(showDetail) {
   errors = [];
   warnings = [];
 
-  var notes = ruleSet.getChoices('notes');
-  var htmlBits = [
+  let notes = ruleSet.getChoices('notes');
+  htmlBits = [
     '<!DOCTYPE html>',
     '<html lang="en">',
     '<head>',
@@ -1462,12 +1677,12 @@ Quilvyn.refreshStatus = function(showDetail) {
     '</head>' +
     '<body ' + Quilvyn.htmlBackgroundAttr() + '>',
   ];
-  for(var a in computed) {
+  for(let a in computed) {
     if(!a.match('^validation|^sanity') || !computed[a] || a.match(/\.\d+$/))
       continue;
-    var name = a.replace(/^.*Notes./, '');
+    let name = a.replace(/^.*Notes./, '');
     name = name.charAt(0).toUpperCase() + name.substring(1).replace(/([a-z\)])([A-Z\(])/g, '$1 $2');
-    var note =
+    let note =
       Quilvyn.clarifiedValidationNote(a, notes[a] || computed[a], computed);
     (a.startsWith('sanity') ? warnings : errors).push('<li>' + name + ': ' + note + '</li>');
   }
@@ -1492,14 +1707,14 @@ Quilvyn.refreshStatus = function(showDetail) {
 
 /* Creates and returns a character from the contents of a storage path. */
 Quilvyn.retrieveCharacterFromStorage = function(path) {
-  var result = {};
-  var attrs = STORAGE.getItem(path).split('\t');
-  for(var i = 0; i < attrs.length; i++) {
-    var pieces = attrs[i].split('=', 2);
-    if(pieces.length == 2)
-      result[pieces[0]] =
-        pieces[1].match(/^[-+]?\d+$/) ? +pieces[1] : pieces[1];
-  }
+  let result = {};
+  STORAGE.getItem(path).split('\t').forEach(attr => {
+    if(attr.includes('=')) {
+      let name = attr.split('=', 1)[0];
+      let value = attr.substring(name.length + 1);
+      result[name] = value.match(/^[-+]?\d+$/) ? +value : value;
+    }
+  });
   return result;
 };
 
@@ -1507,7 +1722,7 @@ Quilvyn.retrieveCharacterFromStorage = function(path) {
 Quilvyn.saveCharacter = function(path) {
 
   if(!path) {
-    var defaultPath = character['_path'] || character.name || 'Noname';
+    let defaultPath = character['_path'] || character.name || 'Noname';
     Quilvyn.textDialog(
       'Save ' + character.name + ' as', false, defaultPath, '',
       Quilvyn.saveCharacter
@@ -1517,8 +1732,8 @@ Quilvyn.saveCharacter = function(path) {
 
   character['_path'] = path;
   character['_timestamp'] = Date.now();
-  var stringified = '';
-  for(var attr in character) {
+  let stringified = '';
+  for(let attr in character) {
     stringified += attr + '=' + character[attr] + '\t';
   }
   STORAGE.setItem(PERSISTENT_CHARACTER_PREFIX + path, stringified);
@@ -1531,9 +1746,9 @@ Quilvyn.saveCharacter = function(path) {
 
 // Selects all spells that match the character's spell filter
 Quilvyn.selectSpells = function() {
-  var filter = character['spells_filter'] || '';
-  for(var spell in ruleSet.getChoices('spells')) {
-    if(spell.includes(filter))
+  let filter = (character['spells_filter'] || '').toUpperCase();
+  for(let spell in ruleSet.getChoices('spells')) {
+    if(spell.toUpperCase().includes(filter))
       character['spells.' + spell] = 1;
   }
   Quilvyn.refreshEditor(true);
@@ -1545,12 +1760,12 @@ Quilvyn.selectSpells = function() {
 /* Returns the character sheet HTML for the current character. */
 Quilvyn.sheetHtml = function(attrs) {
 
-  var a;
-  var computedAttributes;
-  var enteredAttributes = QuilvynUtils.clone(attrs);
-  var i;
-  var rulesExtras = ruleSet.getChoices('extras') || {};
-  var sheetAttributes = {};
+  let a;
+  let computedAttributes;
+  let enteredAttributes = QuilvynUtils.clone(attrs);
+  let i;
+  let rulesExtras = ruleSet.getChoices('extras') || {};
+  let sheetAttributes = {};
 
   enteredAttributes.hidden = userOptions.hidden;
   for(a in enteredAttributes) {
@@ -1560,17 +1775,17 @@ Quilvyn.sheetHtml = function(attrs) {
     }
   }
   computedAttributes = ruleSet.applyRules(enteredAttributes);
-  var formats = ruleSet.getFormats(ruleSet, userOptions.style);
+  let formats = ruleSet.getFormats(ruleSet, userOptions.style);
   for(a in computedAttributes) {
     if(a.match(/\.\d+$/))
       continue; // Ignore format multi-values
     if(a.match(/^sanity|^validation/) && !userOptions.validation)
       continue; // Sheet validation reporting replaced by editor status line
-    var isNote = a.indexOf('Notes') > 0;
-    var name = a.replace(/([a-z\)])([A-Z\(])/g, '$1 $2')
+    let isNote = a.indexOf('Notes') > 0;
+    let name = a.replace(/([a-z\)])([A-Z\(])/g, '$1 $2')
                 .replace(/([A-Z])\(/, '$1 (');
     name = name.substring(0, 1).toUpperCase() + name.substring(1);
-    var value = computedAttributes[a];
+    let value = computedAttributes[a];
     if(isNote && value == 0)
       continue; // Suppress notes with zero value
     if((a.match(/^spellSlots/) && userOptions.spell == 'Points') ||
@@ -1579,17 +1794,18 @@ Quilvyn.sheetHtml = function(attrs) {
     if(formats[a] != null) {
       value = formats[a].replace(/%V/g, value)
                         .replace(/%S/g, value>=0 ? '+' + value : value);
-      for(var j = 1; computedAttributes[a + '.' + j] != null; j++) {
+      for(let j = 1; computedAttributes[a + '.' + j] != null; j++) {
         value = value.replace(new RegExp('%' + j, 'g'), computedAttributes[a + '.' + j]);
       }
-      var interpolations = value.match(/%\{[^}]+\}/g);
+      let interpolations = value.match(/%\{[^}]+\}/g);
       if(interpolations) {
-        for(var i = 0; i < interpolations.length; i++) {
-          var interp = interpolations[i];
-          var expr = new Expr(interp.substring(2, interp.length - 1));
+        for(let i = 0; i < interpolations.length; i++) {
+          let interp = interpolations[i];
+          let expr = new Expr(interp.substring(2, interp.length - 1));
           value = value.replace(interp, expr.eval(computedAttributes));
         }
       }
+      value = value.replaceAll('+-', '-');
     } else if(isNote && typeof(value) == 'number') {
       value = QuilvynUtils.signed(value);
     }
@@ -1598,7 +1814,7 @@ Quilvyn.sheetHtml = function(attrs) {
       continue;
     sheetAttributes[name] = value;
     if((i = name.indexOf('.')) >= 0) {
-      var object = name.substring(0, i);
+      let object = name.substring(0, i);
       if(object == 'Validation Notes' || object == 'Sanity Notes')
         value =
           Quilvyn.clarifiedValidationNote(name, value, computedAttributes);
@@ -1624,7 +1840,7 @@ Quilvyn.sheetHtml = function(attrs) {
   }
 
   for(a in sheetAttributes) {
-    var attr = sheetAttributes[a];
+    let attr = sheetAttributes[a];
     if(typeof(attr) == 'object') {
       attr.sort();
       // If all values in the array are 1, assume that it's a set and suppress
@@ -1637,21 +1853,21 @@ Quilvyn.sheetHtml = function(attrs) {
     }
   }
 
-  var attrImage = 'var attributes = ' + ObjectViewer.toCode(attrs) + ';\n';
+  let attrImage = 'var attributes = ' + ObjectViewer.toCode(attrs) + ';\n';
   if(attrs.notes && attrs.notes.indexOf('+COMPUTE') >= 0) {
     attrImage +=
       'var computed = ' + ObjectViewer.toCode(computedAttributes) + ';\n';
   }
 
-  var versions =
+  let versions =
     'Quilvyn version ' + VERSION + '; ' + [ruleSet.getName() + ' version ' + ruleSet.getVersion()].concat(ruleSet.getPlugins().map(x => x.name + ' version ' + x.VERSION)).join('; ');
 
-  var bodyBackgroundAttr = userOptions.sheetImage ?
+  let bodyBackgroundAttr = userOptions.sheetImage ?
     ' style="background-image:url(' + userOptions.sheetImage +
     (userOptions.sheetImage.match(/\.\w+$/) ? '' : '.jpg') + ')"' : '';
-  var viewer = ruleSet.getViewer(userOptions.style) ||
+  let viewer = ruleSet.getViewer(userOptions.style) ||
                ruleSet.getViewer('Standard');
-  var result =
+  let result =
     '<!DOCTYPE html>\n' +
     '<' + '!' + '-- Generated ' + new Date().toString() +
       ' by ' + versions + ' --' + '>\n' +
@@ -1684,8 +1900,8 @@ Quilvyn.showGroupHtml = function(group) {
     Quilvyn.showHtml(Quilvyn.sheetHtml(character));
     return;
   }
-  var html = '';
-  for(var path in STORAGE) {
+  let html = '';
+  for(let path in STORAGE) {
     if(path.startsWith(PERSISTENT_CHARACTER_PREFIX) && path.includes(group))
       html += Quilvyn.sheetHtml(Quilvyn.retrieveCharacterFromStorage(path));
   }
@@ -1710,7 +1926,7 @@ Quilvyn.showHtml = function(html) {
 
 /* Stores the current values of options in the browser. */
 Quilvyn.storePersistentInfo = function() {
-  for(var a in userOptions) {
+  for(let a in userOptions) {
     STORAGE.setItem(PERSISTENT_INFO_PREFIX + a, userOptions[a] + '');
   }
 };
@@ -1720,8 +1936,8 @@ Quilvyn.storePersistentInfo = function() {
  * that have been loaded into the editor.
  */
 Quilvyn.summarizeCachedAttrs = function() {
-  var combinedAttrs = { };
-  var htmlBits = [
+  let combinedAttrs = { };
+  let htmlBits = [
     '<!DOCTYPE html>',
     '<html lang="en">',
     '<head>',
@@ -1734,37 +1950,37 @@ Quilvyn.summarizeCachedAttrs = function() {
     '<h1>Quilvyn Character Attribute Summary</h1>',
     '<table>'
   ];
-  var formats = ruleSet.getFormats(ruleSet, userOptions.style);
-  for(var character in characterCache) {
+  let formats = ruleSet.getFormats(ruleSet, userOptions.style);
+  for(let character in characterCache) {
     if(character == '')
       continue;
-    var attrs = ruleSet.applyRules(characterCache[character]);
-    for(var attr in attrs) {
+    let attrs = ruleSet.applyRules(characterCache[character]);
+    for(let attr in attrs) {
       if(ruleSet.isSource(attr) ||
          attr.indexOf('features.') >= 0 ||
          attr.match(/\.[0-9]+$/))
         continue;
-      var value = attrs[attr];
+      let value = attrs[attr];
       if(attr.indexOf('Notes.') >= 0 && value == 0)
         continue;
       if(combinedAttrs[attr] == null)
         combinedAttrs[attr] = [];
-      var format = formats[attr];
+      let format = formats[attr];
       if(format != null)
         value = format.replace(/%V/g, value);
       combinedAttrs[attr].push(value);
     }
   }
-  var keys = QuilvynUtils.getKeys(combinedAttrs);
+  let keys = QuilvynUtils.getKeys(combinedAttrs);
   keys.sort();
-  for(var i = 0; i < keys.length; i++) {
-    var attr = keys[i];
-    var values = combinedAttrs[attr];
+  for(let i = 0; i < keys.length; i++) {
+    let attr = keys[i];
+    let values = combinedAttrs[attr];
     values.sort();
-    var unique = [];
-    for(var j = 0; j < values.length; j++) {
-      var value = values[j];
-      var count = 1;
+    let unique = [];
+    for(let j = 0; j < values.length; j++) {
+      let value = values[j];
+      let count = 1;
       while(j < values.length && values[j + 1] == value) {
         count++;
         j++;
@@ -1789,6 +2005,26 @@ Quilvyn.summarizeCachedAttrs = function() {
   Quilvyn.summarizeCachedAttrs.win.focus();
 };
 
+/* Interacts with the user to change to a different rule set. */
+Quilvyn.switchRuleSet = function(prompted) {
+  let newSet =
+    Quilvyn.switchRuleSet.pending || InputGetValue(editWindow.editor.rules);
+  if(prompted == null &&
+     userOptions.warnAboutDiscard &&
+     !QuilvynUtils.clones(character, characterCache[characterPath])) {
+    Quilvyn.switchRuleSet.pending = newSet;
+    InputSetValue(editWindow.editor.rules, ruleSet.getName());
+    Quilvyn.confirmDialog
+      ('Discard changes to character?', Quilvyn.switchRuleSet);
+    return;
+  }
+  InputSetValue(editWindow.editor.rules, newSet);
+  ruleSet = ruleSets[newSet];
+  Quilvyn.switchRuleSet.pending = null;
+  Quilvyn.refreshEditor(true);
+  Quilvyn.newCharacter(true);
+};
+
 /* Undoes the most recent change to the the displayed character. */
 Quilvyn.undo = function() {
   if(characterUndo.length > 0) {
@@ -1803,9 +2039,9 @@ Quilvyn.undo = function() {
 /* Callback invoked when the user changes the editor value of Input #input#. */
 Quilvyn.update = function(input) {
 
-  var htmlBits;
-  var name = input.name;
-  var value = InputGetValue(input);
+  let htmlBits;
+  let name = input.name;
+  let value = InputGetValue(input);
   if(value === true)
     value = 1;
   else if(value === false)
@@ -1844,14 +2080,7 @@ Quilvyn.update = function(input) {
   } else if(name == 'options') {
     Quilvyn.modifyOptions();
   } else if(name == 'rules') {
-    if(customCollection == ruleSet.getName()) {
-      customCollection = value;
-      InputSetValue(editWindow.editor.custom, customCollection);
-    }
-    ruleSet = ruleSets[value];
-    Quilvyn.refreshEditor(true);
-    Quilvyn.refreshSheet();
-    Quilvyn.refreshStatus(false);
+    Quilvyn.switchRuleSet();
   } else if(name == 'rulesNotes') {
     if(Quilvyn.rulesNotesWindow == null || Quilvyn.rulesNotesWindow.closed) {
       Quilvyn.rulesNotesWindow = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
@@ -1874,7 +2103,7 @@ Quilvyn.update = function(input) {
     Quilvyn.rulesNotesWindow.document.close();
     Quilvyn.rulesNotesWindow.focus();
   } else if(name == 'ruleRules') {
-    var awin = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+    let awin = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
     htmlBits = [
       '<!DOCTYPE html>',
       '<html lang="en">',
@@ -1910,7 +2139,7 @@ Quilvyn.update = function(input) {
     else if(value == 'Summary')
       Quilvyn.summarizeCachedAttrs();
     else if(value == 'HTML') {
-      if('DEBUG' in customCollections)
+      if(window.location.href.includes('GroupHTML'))
         Quilvyn.showGroupHtml(null);
       else
         Quilvyn.showHtml(Quilvyn.sheetHtml(character));
@@ -1922,26 +2151,18 @@ Quilvyn.update = function(input) {
       Quilvyn.randomizeCharacter(null);
     else
       Quilvyn.openCharacter(value);
-  } else if(name == 'custom') {
-    InputSetValue(input, customCollection);
-    if(value == 'Add Rules...')
-      Quilvyn.customAddRules();
-    else if(value == 'Apply Collection')
-      Quilvyn.customApplyCollection();
-    else if(value == 'Delete Collections...')
-      Quilvyn.customDeleteCollections(null);
-    else if(value == 'Delete Rules...')
-      Quilvyn.customDeleteRules(null);
+  } else if(name == 'homebrew') {
+    input.selectedIndex = 0;
+    if(value == 'Create/Edit Choices...')
+      Quilvyn.homebrewModifyChoices();
+    else if(value == 'Delete Choices...')
+      Quilvyn.homebrewDeleteChoices(null);
+    else if(value == 'Enable/Disable Choices...')
+      Quilvyn.homebrewEnableChoices();
+    else if(value == 'Export All')
+      Quilvyn.homebrewExportChoices(null);
     else if(value == 'Import...')
-      Quilvyn.customImportCollections(null);
-    else if(value == 'New Collection...')
-      Quilvyn.customNewCollection();
-    else if(value == 'View/Export All')
-      Quilvyn.customExportCollections(null);
-    else {
-      customCollection = value;
-      InputSetValue(input, customCollection);
-    }
+      Quilvyn.homebrewImportChoices(null);
   } else if(name == 'randomize') {
     value = input.attrs[input.selectedIndex]; // Get attr for selected label
     input.selectedIndex = 0;
@@ -1954,7 +2175,7 @@ Quilvyn.update = function(input) {
     value = input.attrs[input.selectedIndex]; // Get attr for selected label
     input.selectedIndex = 0;
     characterUndo.push(QuilvynUtils.clone(character));
-    for(var a in character) {
+    for(let a in character) {
       if(a.indexOf(value + '.') == 0)
         delete character[a];
     }
@@ -1969,12 +2190,12 @@ Quilvyn.update = function(input) {
     Quilvyn.refreshEditor(false);
   } else if(name.indexOf('_sel') >= 0) {
     name = name.replace('_sel', '');
-    var sub = editWindow.editor[name + '_sub'];
+    let sub = editWindow.editor[name + '_sub'];
     if(sub) {
       // Update the sub-menu any suboptions of the new _sel value
-      var filter = character[name + '_filter'] || '';
-      var subOpts = input.allOpts
-          .filter(x => x.startsWith(value + '(') && x.includes(filter))
+      let filter = (character[name + '_filter'] || '').toUpperCase();
+      let subOpts = input.allOpts
+          .filter(x => x.startsWith(value + '(') && x.toUpperCase().includes(filter))
           .map(x => x.replace(/^[^(]*\(|\)$/g, ''));
       InputSetOptions(sub, subOpts);
       if(subOpts.length > 0) {
@@ -2004,10 +2225,10 @@ Quilvyn.update = function(input) {
       value = value ? 1 : '';
       InputSetValue(input, value);
     }
-    var selector = editWindow.editor[name + '_sel'];
-    var attr = name;
+    let selector = editWindow.editor[name + '_sel'];
+    let attr = name;
     if(selector != null) {
-      var subselector = editWindow.editor[name + '_sub'];
+      let subselector = editWindow.editor[name + '_sub'];
       attr += '.' + InputGetValue(selector) + (subselector && subselector.options.length > 0 ? '(' + InputGetValue(subselector) + ')' : '');
     }
     characterUndo.push(QuilvynUtils.clone(character));

@@ -37,9 +37,12 @@ function runTest(dict, label, expr, expected) {
   runTest(dictionary, 'Float literal', '34.5', 34.5);
   runTest(dictionary, 'True literal', "true", true);
   runTest(dictionary, 'False literal', "false", false);
+  runTest(dictionary, 'null literal', "null", null);
   runTest(dictionary, 'Unary +', '+7', 7);
   runTest(dictionary, 'Unary -', '-7', -7);
   runTest(dictionary, 'Unary !', '!true', false);
+  runTest(dictionary, '!null', '!null', true);
+  runTest(dictionary, '!undefined', '!mud', true);
   runTest(dictionary, 'Unary $', '$"non-standard id"', 15);
   runTest(dictionary, 'Whitespace', '- 7 + 3', -4);
   runTest(dictionary, 'Binary + (numbers)', '3+7', 10);
@@ -68,6 +71,11 @@ function runTest(dict, label, expr, expected) {
   runTest(dictionary, 'Ternary ?:', 'false?7:2', 2);
   runTest(dictionary, 'Ternary ?:', 'true?7:2', 7);
   runTest(dictionary, 'Identifier', 'summer', 6);
+  runTest(dictionary, 'Undefined identifier', 'mud', null);
+  runTest(dictionary, 'Undefined unary op', '-null', null);
+  runTest(dictionary, 'Undefined unary id', '-mud', null);
+  runTest(dictionary, 'Undefined left id', 'mud-3', null);
+  runTest(dictionary, 'Undefined right id', '3+mud', null);
   runTest(dictionary, '= assign', 'summer=15', 15);
   runTest(dictionary, '<?= assign', 'summer<?=4', 4);
   runTest(dictionary, '>?= assign', 'summer>?=18', 18);
