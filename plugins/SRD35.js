@@ -1059,7 +1059,7 @@ SRD35.FEATURES = {
     'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
   'Weapon Specialization (%weapon)':
     'Section=combat Note="+2 %weapon Damage Modifier"',
-  'Whirlwind Attack':'Section=combat Note="May attack all foes w/in reach"',
+  'Whirlwind Attack':'Section=combat Note="May attack all foes in reach"',
   'Wholeness Of Body':
     'Section=magic Note="May heal %{levels.Monk*2} HP to self/dy"',
   'Widen Spell':
@@ -1114,7 +1114,7 @@ SRD35.FEATURES = {
   'Defender Armor Class Bonus':'Section=combat Note="+%V AC"',
   'Defensive Stance':
      'Section=feature ' +
-    'Note="Gains +2 Strength, +4 Constitution, +2 saves, and +4 AC while unmoving %V rd %1/dy"',
+    'Note="Gains +2 Strength, +4 Constitution, +2 saves, and +4 AC while unmoving for %V rd %1/dy"',
   'Detect Good':
     'Section=magic Note="May use <i>Detect Good</i> effects at will"',
   'Divine Reach':
@@ -1962,7 +1962,7 @@ SRD35.SPELLS = {
   'Blindness/Deafness':
     'School=Necromancy ' +
     'Level=B2,C3,S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Target suffers permanent self choice of blindness or deafness (Fort neg)"',
+    'Description="R%{100+lvl*10}\' Target suffers self choice of blindness or deafness (Fort neg) permanently"',
   'Blink':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
@@ -2126,7 +2126,7 @@ SRD35.SPELLS = {
   'Consecrate':
     'School=Evocation ' +
     'Level=C2 ' +
-    'Description="R%{25+lvl//2*5}\' 20\' radius gives +3 turn undead, and undead suffer -1 attack, damage, and saves for %{lvl*2} hr"',
+    'Description="R%{25+lvl//2*5}\' 20\' radius gives +3 turn undead and inflicts on undead -1 attack, damage, and saves for %{lvl*2} hr"',
   'Contact Other Plane':
     'School=Divination ' +
     'Level=S5,W5 ' +
@@ -2302,7 +2302,7 @@ SRD35.SPELLS = {
   'Desecrate':
     'School=Evocation ' +
     'Level=C2,Evil2 ' +
-    'Description="R%{25+lvl//2*5}\' 20\' radius inflicts -3 turn undead, and undead gain +1 attack, damage, saves, and 1 temporary HP/HD for %{lvl*2} hr"',
+    'Description="R%{25+lvl//2*5}\' 20\' radius inflicts -3 turn undead and gives undead +1 attack, damage, saves, and 1 temporary HP/HD for %{lvl*2} hr"',
   'Destruction':
     'School=Necromancy ' +
     'Level=C7,Death7 ' +
@@ -3491,7 +3491,7 @@ SRD35.SPELLS = {
   'Rage':
     'School=Enchantment ' +
     'Level=B2,S3,W3 ' +
-    'Description="R%{100+lvl*10}\' %{lvl//3} willing targets in 15\' radius gain +2 Strength and Constitution, +1 Will, and suffer -2 AC for conc + %{lvl} rd" ' +
+    'Description="R%{100+lvl*10}\' %{lvl//3} willing targets in 15\' radius gain +2 Strength, +2 Constitution, and +1 Will and suffer -2 AC for conc + %{lvl} rd" ' +
     'Liquid=Potion',
   'Rainbow Pattern':
     'School=Illusion ' +
@@ -3751,7 +3751,7 @@ SRD35.SPELLS = {
   'Shield Other':
     'School=Abjuration ' +
     'Level=C2,P2,Protection2 ' +
-    'Description="R%{25+lvl//2*5}\' target gains +1 AC and saves, and half damage to target is transferred to self for %{lvl} hr"',
+    'Description="R%{25+lvl//2*5}\' target gains +1 AC and saves, and half of damage suffered by target is transferred to self for %{lvl} hr"',
   'Shillelagh':
     'School=Transmutation ' +
     'Level=D1 ' +
@@ -4135,7 +4135,7 @@ SRD35.SPELLS = {
   'True Resurrection':
     'School=Conjuration ' +
     'Level=C9 ' +
-    'Description="Fully restores chosen deceased dead up to %{lvl*10} yr"',
+    'Description="Fully restores chosen creature dead up to %{lvl*10} yr"',
   'True Seeing':
     'School=Divination ' +
     'Level=Adept5,C5,D7,Knowledge5,S6,W6 ' +
