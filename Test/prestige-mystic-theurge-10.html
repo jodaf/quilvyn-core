@@ -176,7 +176,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Combat Casting: +4 Concentration to cast spell while on defensive or grappling</td>
       </tr><tr style="text-align:center">
-        <td>Companion Alertness: +2 Listen and Spot when companion in reach</td>
+        <td>Companion Alertness: +2 Listen and Spot when companion is in reach</td>
       </tr><tr style="text-align:center">
         <td>Craft (Bows) Synergy: +2 Appraise (related)</td>
       </tr><tr style="text-align:center">
@@ -303,7 +303,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Daylight (W3 Evoc): Touched radiates daylight in 60' radius for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Desecrate (C2 Evoc): R60' 20' radius inflicts -3 turn undead and undead gain +1 attack, damage, saves, and 1 temporary HP/HD for 28 hr</td>
+      <td>Desecrate (C2 Evoc): R60' 20' radius inflicts -3 turn undead and gives undead +1 attack, damage, saves, and 1 temporary HP/HD for 28 hr</td>
     </tr><tr style="text-align:left">
       <td>Detect Good (C1 Divi): R60' Cone gives self info on good auras for conc or 140 min</td>
     </tr><tr style="text-align:left">
@@ -317,7 +317,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Doom (C1 Necr): R240' Target becomes shaken (-2 attack, damage, saves, and checks) (DC 13 Will neg) for 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Endure Elements (W1 Abju): Touched comfortable between -50F and 140F for 1 dy</td>
+      <td>Endure Elements (W1 Abju): Touched remains comfortable between -50F and 140F for 1 dy</td>
     </tr><tr style="text-align:left">
       <td>Ethereal Jaunt (W7 Tran): Self becomes ethereal for 14 rd</td>
     </tr><tr style="text-align:left">
@@ -333,7 +333,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Geas/Quest (C6 Ench): R60' Target must complete task</td>
     </tr><tr style="text-align:left">
-      <td>Greater Dispel Magic (W6 Abju): R240' Self d20+14 check vs. 11+caster level cancels spells or effects in 20' radius</td>
+      <td>Greater Dispel Magic (W6 Abju): R240' Successful d20+14 check vs. 11+caster level cancels targeted spell or 1 spell or curse on each creature in a 20' radius</td>
     </tr><tr style="text-align:left">
       <td>Gust Of Wind (W2 Evoc): 60' 50 MPH gust affects medium or smaller creatures (DC 14 Fort neg) for 1 rd</td>
     </tr><tr style="text-align:left">
@@ -367,7 +367,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mending (C0 Tran): R10' Repairs minor damage to 1 lb object</td>
     </tr><tr style="text-align:left">
-      <td>Nondetection (W3 Abju): Touched gains SR 25 (divination) (or self gains SR 29) for 14 hr</td>
+      <td>Nondetection (W3 Abju): Touched gains SR 25 (divination) (self SR 29) for 14 hr</td>
     </tr><tr style="text-align:left">
       <td>Open/Close (W0 Tran): R60' Target up to 30 lb opens or closes (DC 11 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -389,9 +389,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shatter (C2 Evoc): R60' Breakables in 5' radius shatter (DC 14 Will neg), or target object suffers 10d6 HP (DC 14 Fort half)</td>
     </tr><tr style="text-align:left">
-      <td>Shield Other (C2 Abju): R60' target gains +1 AC and saves, half damage transferred to self for 14 hr</td>
+      <td>Shield Other (C2 Abju): R60' target gains +1 AC and saves, and half damage to target is transferred to self for 14 hr</td>
     </tr><tr style="text-align:left">
-      <td>Sleep (W1 Ench): R240' 4 HD creatures in 10' radius sleep (DC 12 Will neg) for 14 min</td>
+      <td>Sleep (W1 Ench): R240' 4 HD of creatures in 10' radius sleep (DC 12 Will neg) for 14 min</td>
     </tr><tr style="text-align:left">
       <td>Spectral Hand (W2 Necr): R240' Self yields 1d4 HP to glowing hand that delivers touch spells up to 4th level at +2 attack for 14 min</td>
     </tr><tr style="text-align:left">
@@ -405,13 +405,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Symbol Of Pain (C5 Necr): R60' Rune causes pain (-4 attack and skill and ability checks) for 1 hr (DC 17 Fort neg) in 60' radius when triggered for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Sleep (W5 Ench): R60' Rune sleeps 10 HD or less for 3d6x10 min (DC 16 Will neg) in 60' radius when triggered for 140 min</td>
+      <td>Symbol Of Sleep (W5 Ench): R60' Rune sleeps creatures w/10 HD or less for 3d6x10 min (DC 16 Will neg) in 60' radius when triggered for 140 min</td>
     </tr><tr style="text-align:left">
       <td>Symbol Of Stunning (W7 Ench): R60' Rune stuns for 1d6 rd (DC 18 Will neg) in 60' radius when triggered for 140 min</td>
     </tr><tr style="text-align:left">
       <td>Telekinesis (W5 Tran): R960' Self moves 350 lb 20'/rd for conc or 14 rd, performs combat maneuver 14 rd, or hurls 14 objects 350 lbs total (DC 16 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Touch Of Fatigue (W0 Necr): Touch attack fatigues target for 14 rd (DC 12 Fort neg)</td>
+      <td>Touch Of Fatigue (W0 Necr): Touch inflicts fatigue for 14 rd (DC 12 Fort neg)</td>
     </tr><tr style="text-align:left">
       <td>Transmute Mud To Rock (W5 Tran): R240' 28 10' cu of mud becomes rock</td>
     </tr><tr style="text-align:left">
@@ -421,9 +421,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Water Walk (C3 Tran): 14 touched can walk on liquid as if it were a solid surface for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Wind Wall (W3 Evoc): R240' 140'x5' curtain of air scatters objects, deflects arrows and bolts for 14 rd</td>
+      <td>Wind Wall (W3 Evoc): R240' 140'x5' curtain of air scatters objects and deflects arrows and bolts for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Word Of Recall (C6 Conj): Self and 4 willing targets return to designated place</td>
+      <td>Word Of Recall (C6 Conj): Self and 4 willing targets return to a chosen sanctuary</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">

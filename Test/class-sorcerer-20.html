@@ -136,7 +136,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Skill Focus (Disable Device): +3 Disable Device</i></td>
       </tr><tr style="text-align:center">
-        <td>Companion Alertness: +2 Listen and Spot when companion in reach</td>
+        <td>Companion Alertness: +2 Listen and Spot when companion is in reach</td>
       </tr><tr style="text-align:center">
         <td>Craft (Traps) Synergy: +2 Appraise (related)</td>
       </tr><tr style="text-align:center">
@@ -237,7 +237,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Antipathy (S8 Ench): R75' Named creature kind or alignment avoids 20 10' cu (DC 19 Will -4 dex) for 40 hr</td>
     </tr><tr style="text-align:left">
-      <td>Arcane Mark (S0 Univ): Permanent personal rune inscribed on touched</td>
+      <td>Arcane Mark (S0 Univ): Inscribes permanent personal rune on touched</td>
     </tr><tr style="text-align:left">
       <td>Binding (S8 Ench): R75' Target magically imprisoned (DC 19 Will neg for 10 HD or more)</td>
     </tr><tr style="text-align:left">
@@ -249,7 +249,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Detect Magic (S0 Divi): R60' Cone gives self info on magical auras for conc or 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (S3 Abju): R300' Self d20+10 check vs. 11+caster level cancels spells or effects in 20' radius</td>
+      <td>Dispel Magic (S3 Abju): R300' Successful d20+10 check vs. 11+caster level cancels targeted spell or 1 spell on each creature in a 20' radius</td>
     </tr><tr style="text-align:left">
       <td>Fireball (S3 Evoc): R1200' Inflicts 10d6 HP (DC 14 Ref half) in 20' radius</td>
     </tr><tr style="text-align:left">
@@ -271,7 +271,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Iron Body (S8 Tran): Self becomes iron (+6 Strength, -6 Dexterity, half Speed, 50% arcane failure, -8 skill, DR 15/adamantine, half damage from acid and fire, immunity to other attacks and effects) for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Legend Lore (S6 Divi): Self learns legends about target person, place, or object</td>
+      <td>Legend Lore (S6 Divi): Self learns legends about specified person, place, or object</td>
     </tr><tr style="text-align:left">
       <td>Lesser Globe Of Invulnerability (S4 Abju): 10' radius bars spell effects up to 3rd level for 20 rd</td>
     </tr><tr style="text-align:left">
@@ -291,15 +291,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Meteor Swarm (S9 Evoc): R1200' 4 spheres inflict 6d6 HP fire in 40' radius (DC 20 Ref half), ranged touch +2d6 HP bludgeoning</td>
     </tr><tr style="text-align:left">
-      <td>Mind Fog (S5 Ench): R300' Fog in 20' radius inflicts -10 Wis and Will checks (DC 16 Will neg) for 30 min</td>
+      <td>Mind Fog (S5 Ench): R300' Fog in 20' radius inflicts -10 Wisdom and Will checks (DC 16 Will neg) for 30 min</td>
     </tr><tr style="text-align:left">
       <td>Mount (S1 Conj): R75' Summons riding horse for 40 hr</td>
     </tr><tr style="text-align:left">
-      <td>Nondetection (S3 Abju): Touched gains SR 31 (divination) (or self gains SR 35) for 20 hr</td>
+      <td>Nondetection (S3 Abju): Touched gains SR 31 (divination) (self SR 35) for 20 hr</td>
     </tr><tr style="text-align:left">
       <td>Phase Door (S7 Conj): Allows 10 passes through 8'x5'x25' wood, stone, or plaster; adding another creature uses a pass</td>
     </tr><tr style="text-align:left">
-      <td>Planar Binding (S6 Conj): Traps extraplanar creature(s) w/up to 12 HD (DC 17 Will neg) until they escape (SR, dimensional travel, or 26 Cha) or perform a task (Opposed Cha neg)</td>
+      <td>Planar Binding (S6 Conj): Traps extraplanar creature(s) w/up to 12 HD (DC 17 Will neg) until they escape (SR, dimensional travel, or 26 Cha) or perform a task (Opposed Charisma neg)</td>
     </tr><tr style="text-align:left">
       <td>Prestidigitation (S0 Univ): R10' Self performs minor tricks for 1 hr</td>
     </tr><tr style="text-align:left">
@@ -313,7 +313,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Ray Of Frost (S0 Evoc): R75' Ranged touch inflicts 1d3 HP</td>
     </tr><tr style="text-align:left">
-      <td>Read Magic (S0 Divi): Self reads magical writing for 200 min</td>
+      <td>Read Magic (S0 Divi): Self can read magical writing for 200 min</td>
     </tr><tr style="text-align:left">
       <td>Sequester (S7 Abju): Willing touched becomes invisible, unscryable, and comatose for 20 dy</td>
     </tr><tr style="text-align:left">
@@ -335,13 +335,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Telekinesis (S5 Tran): R1200' Self moves 375 lb 20'/rd for conc or 20 rd, performs combat maneuver 20 rd, or hurls 15 objects 375 lbs total (DC 16 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Teleportation Circle (S9 Conj): Transports creatures in 5' radius anywhere w/no error chance for 200 min</td>
+      <td>Teleportation Circle (S9 Conj): 5' radius transports creatures anywhere w/no error chance for 200 min</td>
     </tr><tr style="text-align:left">
       <td>Tongues (S3 Divi): Touched can communicate in any language for 200 min</td>
     </tr><tr style="text-align:left">
       <td>Transformation (S6 Tran): Self gains +4 Strength, Dexterity, Constitution, and AC, +5 Fortitude, martial weapon proficiency, and BAB 20, but cannot cast spells, for 20 rd</td>
     </tr><tr style="text-align:left">
-      <td>Undeath To Death (S6 Necr): R300' Destroys 20d4 HD of undead w/up to 8 HD in 40' radius (DC 17 Will neg)</td>
+      <td>Undeath To Death (S6 Necr): R300' Destroys 20d4 HD of undead w/up to 8 HD each in 40' radius (DC 17 Will neg)</td>
     </tr><tr style="text-align:left">
       <td>Unseen Servant (S1 Conj): R75' Invisible servant obeys self for 20 hr</td>
     </tr><tr style="text-align:left">
