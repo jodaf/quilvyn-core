@@ -1,5 +1,5 @@
 /*
-Copyright 2021, James J. Hayes
+Copyright 2023, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -74,7 +74,7 @@ function SRD35() {
 SRD35.VERSION = '2.4.1.0';
 
 /* List of choices that can be expanded by house rules. */
-// TODO Left Goody out of this list for now because inclusion would require
+// Note: Left Goody out of this list for now because inclusion would require
 // documenting how to construct regular expressions.
 SRD35.CHOICES = [
   'Animal Companion', 'Armor', 'Class', 'Class Feature', 'Deity', 'Familiar',
@@ -604,7 +604,7 @@ SRD35.FEATURES = {
   'Camouflage':'Section=skill Note="May use Hide in any natural terrain"',
   'Celestial Familiar':
     'Section=companion ' +
-    'Note="Smite Evil (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
+    'Note="May use Smite Evil (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Cleave':'Section=combat Note="May make extra attack when foe drops 1/rd"',
   'Combat Casting':
     'Section=skill ' +
@@ -617,10 +617,10 @@ SRD35.FEATURES = {
     'Note="May take AOO while flat-footed and %{dexterityModifier+1} AOO/rd"',
   'Command Like Creatures':
     'Section=companion ' +
-    'Note="May use <i>Command</i> effects vs. similar creatures (DC %{levels.Paladin//2 + charismaModifier + 10} Will neg) %{levels.Paladin//2}/dy"',
+    'Note="May use <i>Command</i> effects targeting similar creatures (DC %{levels.Paladin//2 + charismaModifier + 10} Will neg) %{levels.Paladin//2}/dy"',
   'Command Undead':'section=combat Note="May turn undead as level %V Cleric"',
   'Companion Alertness':
-    'Section=skill Note="+2 Listen and Spot when companion in reach"',
+    'Section=skill Note="+2 Listen and Spot when companion is in reach"',
   'Companion Evasion':
     'Section=companion Note="Reflex save yields no damage instead of half"',
   'Companion Improved Evasion':
@@ -681,7 +681,7 @@ SRD35.FEATURES = {
     'Note="May Wild Shape to elemental %{(levels.Druid-14)//2}/dy"',
   'Elf Ability Adjustment':
     'Section=ability Note="+2 Dexterity/-2 Constitution"',
-  'Elven Blood':'Section=feature Note="Counts as elf for racial effects"',
+  'Elven Blood':'Section=feature Note="Counts as an elf for racial effects"',
   'Empathic Link':'Section=companion Note="May share emotions up to 1 mile"',
   'Empower Spell':
     'Section=magic ' +
@@ -725,7 +725,7 @@ SRD35.FEATURES = {
   'Feat Bonus':'Section=feature Note="+1 General Feat"',
   'Fiendish Familiar':
     'Section=companion ' +
-    'Note="Smite Good (+%{familiarStats.HD} HP) 1/dy, 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
+    'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Fighter Feat Bonus':'Section=feature Note="+1 Fighter Feat"',
   'Fire Turning':
     'Section=combat Note="May turn water creatures and rebuke fire creatures"',
@@ -738,7 +738,7 @@ SRD35.FEATURES = {
     'Section=ability Note="+2 Constitution/-2 Strength"',
   'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
   'Gnome Magic':'Section=magic Note="May cast <i>Speak With Animals</i> (burrowing mammals) for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>\' : \'\'} 1/dy"',
-  'Good Fortune':'Section=feature Note="May reroll 1/dy"',
+  'Good Fortune':'Section=feature Note="May reroll any roll 1/dy"',
   'Great Cleave':'Section=combat Note="May cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
   'Greater Rage':
@@ -769,14 +769,14 @@ SRD35.FEATURES = {
     'Note="Bull Rush provokes no AOO/+4 Bull Rush Strength check"',
   'Improved Counterspell':
     'Section=magic ' +
-    'Note="May counterspell using a higher-level spell from same school"',
+    'Note="May counterspell using a higher-level spell from the same school"',
   'Improved Critical (%weapon)':'Section=combat Note="x2 %weapon Threat Range"',
   'Improved Disarm':
     'Section=combat Note="Disarm provokes no AOO/+4 Disarm attack"',
   'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Improved Familiar':'Section=feature Note="Has expanded familiar choices"',
   'Improved Feint':
-    'Section=combat Note="May make Bluff check to Feint as move action"',
+    'Section=combat Note="May make Bluff check to Feint as a move action"',
   'Improved Grapple':
     'Section=combat Note="Grapple provokes no AOO/+4 Grapple check"',
   'Improved Initiative':'Section=combat Note="+4 Initiative"',
@@ -787,7 +787,7 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Foe gains no AC bonus for partial cover/May attack grappling target"',
   'Improved Shield Bash':
-    'Section=combat Note="Suffers no AC penalty on Shield Bash"',
+    'Section=combat Note="Suffers no AC penalty when using Shield Bash"',
   'Improved Speed':'Section=companion Note="+10 companion Speed"',
   'Improved Sunder':
     'Section=combat Note="Sunder provokes no AOO/+4 Sunder attack"',
@@ -855,7 +855,8 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Gains +8 Strength, +8 Constitution, +4 Will during rage"',
   'Mobility':'Section=combat Note="+4 AC vs. movement AOO"',
-  'Mounted Archery':'Section=combat Note="Half mounted ranged penalty"',
+  'Mounted Archery':
+    'Section=combat Note="Suffers half normal mounted ranged weapon penalty"',
   'Mounted Combat':
     'Section=combat ' +
     'Note="Successful Ride skill check (DC foe attack roll) negates mount damage 1/rd"',
@@ -871,8 +872,9 @@ SRD35.FEATURES = {
   'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
   'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
-  'Opportunist':'Section=combat Note="May take AOO vs. foe struck by ally"',
-  'Orc Blood':'Section=feature Note="Counts as orc for racial effects"',
+  'Opportunist':
+    'Section=combat Note="May take an AOO targeting a foe struck by an ally"',
+  'Orc Blood':'Section=feature Note="Counts as an orc for racial effects"',
   'Outdoors Knowledge':'Section=skill Note="Survival is a class skill"',
   'Perfect Self':
     'Section=combat,save ' +
@@ -891,7 +893,7 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="Touched gains +%{casterLevels.Protection} on next save w/in 1 hour 1/dy"',
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
-  'Quick Draw':'Section=combat Note="May draw weapon as free action"',
+  'Quick Draw':'Section=combat Note="May draw a weapon as a free action"',
   'Quicken Spell':
     'Section=magic ' +
     'Note="May use +4 spell slot to cast chosen spell as a free action 1/rd"',
@@ -902,17 +904,17 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Gains +4 Strength, +4 Constitution, +2 Will and suffers -2 AC for %V rd %1/dy"',
   'Rapid Reload (Hand)':
-    'Section=combat Note="May reload Hand Crossbow as a free action"',
+    'Section=combat Note="May reload a hand crossbow as a free action"',
   'Rapid Reload (Heavy)':
-    'Section=combat Note="May reload Heavy Crossbow as a move action"',
+    'Section=combat Note="May reload a heavy crossbow as a move action"',
   'Rapid Reload (Light)':
-    'Section=combat Note="May reload Light Crossbow as a free action"',
+    'Section=combat Note="May reload a light crossbow as a free action"',
   'Rapid Shot':
     'Section=combat ' +
-    'Note="May make normal and extra ranged attacks at -2 penalty"',
+    'Note="May make normal and extra ranged attacks at a -2 penalty"',
   'Remove Disease':
     'Section=magic ' +
-    'Note="May use <i>Remove Disease</i> effects %{(levels.Paladin-3)//3}/week"',
+    'Note="May use <i>Remove Disease</i> effects %{(levels.Paladin-3)//3}/wk"',
   'Resist Enchantment':'Section=save Note="+2 vs. enchantment"',
   'Resist Fear':'Section=save Note="+2 vs. fear"',
   'Resist Illusion':'Section=save Note="+2 vs. illusions"',
@@ -968,7 +970,8 @@ SRD35.FEATURES = {
     'Note="May gain +%1 attack and +%2 HP damage vs. evil foe %V/dy"',
   'Snatch Arrows':'Section=combat Note="May catch ranged weapons"',
   'Sneak Attack':
-    'Section=combat Note="Hit inflicts +%Vd6 HP when foe surprised or flanked"',
+    'Section=combat ' +
+    'Note="Hit inflicts +%Vd6 HP when foe is surprised or flanked"',
   'Song Of Freedom':
     'Section=magic ' +
     'Note="R30\' May use <i>Break Enchantment</i> effects via 1 min performance"',
@@ -1008,7 +1011,7 @@ SRD35.FEATURES = {
     'Section=skill Note="+2 Search (stone), automatic check w/in 10\'"',
   'Strength Burst':
     'Section=ability ' +
-    'Note="May gain +%{casterLevels.Strength} Strength for 1 rd/dy"',
+    'Note="May gain +%{casterLevels.Strength} Strength for 1 rd 1/dy"',
   'Stunning Fist':
     'Section=combat ' +
     'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
@@ -1056,7 +1059,7 @@ SRD35.FEATURES = {
     'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
   'Weapon Specialization (%weapon)':
     'Section=combat Note="+2 %weapon Damage Modifier"',
-  'Whirlwind Attack':'Section=combat Note="May attack all foes in reach"',
+  'Whirlwind Attack':'Section=combat Note="May attack all foes w/in reach"',
   'Wholeness Of Body':
     'Section=magic Note="May heal %{levels.Monk*2} HP to self/dy"',
   'Widen Spell':
@@ -1103,7 +1106,7 @@ SRD35.FEATURES = {
   'Constitution Boost':'Section=ability Note="+2 Constitution"',
   'Contingent Conjuration':
     'Section=magic ' +
-    'Note="May use <i>Contingency</i> effects on summoning spell"',
+    'Note="May use <i>Contingency</i> effects on summoning spells"',
   'Dark Blessing':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Death Attack':
     'Section=combat ' +
@@ -1111,7 +1114,7 @@ SRD35.FEATURES = {
   'Defender Armor Class Bonus':'Section=combat Note="+%V AC"',
   'Defensive Stance':
      'Section=feature ' +
-    'Note="Gains +2 Strength, +4 Constitution, +2 saves, +4 AC while unmoving %V rd %1/dy"',
+    'Note="Gains +2 Strength, +4 Constitution, +2 saves, and +4 AC while unmoving %V rd %1/dy"',
   'Detect Good':
     'Section=magic Note="May use <i>Detect Good</i> effects at will"',
   'Divine Reach':
@@ -1129,10 +1132,10 @@ SRD35.FEATURES = {
   'Enhanced Mobility':
     'Section=combat Note="+4 AC vs. movement AOO when unarmored"',
   'Extended Summoning':
-    'Section=magic Note="Gains dbl summoning spell duration"',
+    'Section=magic Note="Summoning spells have dbl duration"',
   'Faith Healing':
     'Section=magic ' +
-    'Note="Healing spells on same-aligned creature have maximum effect"',
+    'Note="Healing spells on same-aligned creatures have maximum effect"',
   'Fiendish Servant':
     'Section=feature Note="Animal servant w/special abilities"',
   'Fiendish Summoning':
@@ -1158,7 +1161,9 @@ SRD35.FEATURES = {
   'Instant Mastery':
     'Section=skill Note="+4 ranks in choice of untrained skill"',
   'Intelligence Boost':'Section=ability Note="+2 Intelligence"',
-  'Lore':'Section=skill Note="+%{levels.Loremaster+intelligenceModifier} Knowledge (local history)"',
+  'Lore':
+    'Section=skill ' +
+    'Note="+%{levels.Loremaster+intelligenceModifier} Knowledge (local history)"',
   'Mastery Of Counterspelling':
     'Section=magic Note="Successful counterspell turns effect back on caster"',
   'Mastery Of Elements':'Section=magic Note="May change energy type of spell"',
@@ -1175,12 +1180,14 @@ SRD35.FEATURES = {
   'Phase Arrow':
     'Section=combat Note="Arrow passes through normal obstacles 1/dy"',
   'Planar Cohort':
-    'Section=magic Note="Summoned creature serves as loyal assistant"',
+    'Section=magic Note="Summoned creature serves as a loyal assistant"',
   'Poison Save Bonus':'Section=save Note="+%{levels.Assassin//2} vs. poison"',
   'Poison Use':
-    'Section=feature Note="No chance of self-poisoning when applying to blade"',
+    'Section=feature ' +
+    'Note="No chance of self-poisoning when applying to a weapon"',
   'Power Of Nature':
-    'Section=feature Note="May transfer druid feature to another for 1-7 days"',
+    'Section=feature ' +
+    'Note="May transfer a druid feature to another for 1-7 days"',
   'Precise Strike':
     'Section=combat ' +
     'Note="Light or one-handed piercing weapon inflicts +%{levels.Duelist//5}d6 HP damage"',
@@ -1200,7 +1207,9 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="May gain +%V attack and +%1 HP damage vs. good foe %2/dy"',
   'Spell Power':'Section=magic Note="+1 caster level for spell effects"',
-  'Spell-Like Ability':'Section=magic Note="May use spell as ability 2+/dy"',
+  'Spell-Like Ability':
+    'Section=magic ' +
+    'Note="May allocate a spell slot to use a chosen spell as a spell-like ability 2+/dy"',
   'Strength Boost':'Section=ability Note="+%V Strength"',
   'Summon Shadow':
     'Section=magic Note="May summon unturnable %{levels.Shadowdancer//3*2+1} HD Shadow companion"',
@@ -1239,7 +1248,8 @@ SRD35.FEATURES = {
          '"+4 Move Silently"',
   'Terrain Mastery (Mountains)':
     'Section=ability,combat,skill ' +
-    'Note="+10 climb Speed","+1 attack and damage vs. mountain creatures",' +
+    'Note="+10 climb Speed",' +
+         '"+1 attack and damage vs. mountain creatures",' +
          '"+4 Climb"',
   'Terrain Mastery (Plains)':
     'Section=combat,skill ' +
@@ -1259,7 +1269,7 @@ SRD35.FEATURES = {
          '"+1 attack and damage vs. astral, elemental air, and ethereal creatures"',
   'The Lore Of True Stamina':'Section=save Note="+2 Fortitude"',
   'Tremorsense':
-    'Section=feature Note="R30\' Detects creatures in contact w/ground"',
+    'Section=feature Note="R30\' Detects creatures via vibrations in ground"',
   'True Lore':
     'Section=magic ' +
     'Note="May use <i>Legend Lore</i> or <i>Analyze Dweomer</i> effects 1/dy"',
@@ -1563,9 +1573,8 @@ SRD35.LANGUAGES = {
   'Terran':'',
   'Undercommon':''
 };
-// Paths have been deprecated, with domains absorbed into the Cleric spec
-SRD35.PATHS = {
-};
+// Paths are deprecated, with domains absorbed into the Cleric spec
+SRD35.PATHS = {};
 SRD35.RACES = {
   'Dwarf':
     'Features=' +
@@ -1821,7 +1830,7 @@ SRD35.SPELLS = {
   'Animate Dead':
     'School=Necromancy ' +
     'Level=Adept3,C3,Death3,S4,W4 ' +
-    'Description="Touched corpses become up to %{lvl*2} HD of skeletons or zombies, obey self"',
+    'Description="Touched corpses become up to %{lvl*2} HD of obedient skeletons or zombies"',
   'Animate Objects':
     'School=Transmutation ' +
     'Level=B6,C6,Chaos6 ' +
@@ -1861,11 +1870,11 @@ SRD35.SPELLS = {
   'Arcane Mark':
     // 'School=Universal ' +
     'Level=S0,W0 ' +
-    'Description="Permanent personal rune inscribed on touched"',
+    'Description="Inscribes permanent personal rune on touched"',
   'Arcane Sight':
     'School=Divination ' +
     'Level=S3,W3 ' +
-    'Description="R120\' Self sees auras and spell abilities for %{lvl} min, DC 15+level Spellcraft to know school"',
+    'Description="R120\' Self sees auras and spell abilities for %{lvl} min; successful DC 15+level Spellcraft reveals school"',
   'Greater Arcane Sight':
     'School=Divination ' +
     'Level=S7,W7 ' +
@@ -1881,7 +1890,7 @@ SRD35.SPELLS = {
   'Augury':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="Self has %{(lvl+70)<?90}% chance to learn weal or woe outcome of act up to 30 min in the future"',
+    'Description="Self has %{(lvl+70)<?90}% chance to learn weal or woe outcome of a proposed action up to 30 min in the future"',
   'Awaken':
     'School=Transmutation ' +
     'Level=D5 ' +
@@ -1944,7 +1953,7 @@ SRD35.SPELLS = {
   'Bless Weapon':
     'School=Transmutation ' +
     'Level=P1 ' +
-    'Description="Touched weapon becomes good aligned and magic, crit vs. evil foes confirmed for %{lvl} min" ' +
+    'Description="Touched weapon becomes good-aligned and magic; crit vs. evil foes confirmed for %{lvl} min" ' +
     'Liquid=Oil',
   'Blight':
     'School=Necromancy ' +
@@ -1953,7 +1962,7 @@ SRD35.SPELLS = {
   'Blindness/Deafness':
     'School=Necromancy ' +
     'Level=B2,C3,S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Target permanently self choice of blind or deaf (Fort neg)"',
+    'Description="R%{100+lvl*10}\' Target suffers permanent self choice of blindness or deafness (Fort neg)"',
   'Blink':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
@@ -2061,7 +2070,7 @@ SRD35.SPELLS = {
   'Cloak Of Chaos':
     'School=Abjuration ' +
     'Level=C8,Chaos8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 AC and saves and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (Will neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures in 20\' radius gain +4 AC, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (Will neg) for %{lvl} rd"',
   'Clone':
     'School=Necromancy ' +
     'Level=S8,W8 ' +
@@ -2117,7 +2126,7 @@ SRD35.SPELLS = {
   'Consecrate':
     'School=Evocation ' +
     'Level=C2 ' +
-    'Description="R%{25+lvl//2*5}\' 20\' radius gives +3 turn undead, undead suffer -1 attack, damage, and saves for %{lvl*2} hr"',
+    'Description="R%{25+lvl//2*5}\' 20\' radius gives +3 turn undead, and undead suffer -1 attack, damage, and saves for %{lvl*2} hr"',
   'Contact Other Plane':
     'School=Divination ' +
     'Level=S5,W5 ' +
@@ -2157,7 +2166,7 @@ SRD35.SPELLS = {
   'Corrupt Weapon':
     'School=Transmutation ' +
     'Level=Blackguard1 ' +
-    'Description="Weapon evil aligned, +1 vs. good foe DR for %{lvl} min"',
+    'Description="Touched weapon becomes evil-aligned and gains +1 vs. good foe DR for %{lvl} min"',
   'Create Food And Water':
     'School=Conjuration ' +
     'Level=C3 ' +
@@ -2177,7 +2186,7 @@ SRD35.SPELLS = {
   'Creeping Doom':
     'School=Conjuration ' +
     'Level=D7 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl//2} centipede swarms inflict 2d6 HP plus poison, obey self for %{lvl} rd"',
+    'Description="R%{25+lvl//2*5}\' %{lvl//2} obedient centipede swarms inflict 2d6 HP plus poison for %{lvl} rd"',
   'Crushing Despair':
     'School=Enchantment ' +
     'Level=B3,S4,W4 ' +
@@ -2260,7 +2269,7 @@ SRD35.SPELLS = {
   'Death Knell':
     'School=Necromancy ' +
     'Level=Blackguard2,C2,Death2 ' +
-    'Description="Touched w/negative HP dies, self gains 1d8 temporary HP, +2 Strength, and +1 caster level for 10*target HD min (Will neg)"',
+    'Description="Touched w/negative HP dies, and self gains 1d8 temporary HP, +2 Strength, and +1 caster level for 10*target HD min (Will neg)"',
   'Death Ward':
     'School=Necromancy ' +
     'Level=C4,D5,Death4,P4 ' +
@@ -2272,7 +2281,7 @@ SRD35.SPELLS = {
   'Deep Slumber':
     'School=Enchantment ' +
     'Level=Assassin3,B3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' 10 HD creatures in 10\' radius sleep (Will neg) for %{lvl} min"',
+    'Description="R%{25+lvl//2*5}\' 10 HD of creatures in 10\' radius sleep (Will neg) for %{lvl} min"',
   'Deeper Darkness':
     'School=Evocation ' +
     'Level=Adept3,Assassin3,Blackguard3,C3 ' +
@@ -2285,7 +2294,7 @@ SRD35.SPELLS = {
   'Delayed Blast Fireball':
     'School=Evocation ' +
     'Level=S7,W7 ' +
-    'Description="R%{400+lvl*40}\' Inflicts ${lvl<?20}d6 HP (Ref half) in 20\' radius, may delay up to 5 rd"',
+    'Description="R%{400+lvl*40}\' Inflicts ${lvl<?20}d6 HP (Ref half) in 20\' radius; self may delay effects up to 5 rd"',
   'Demand':
     'School=Enchantment ' +
     'Level=S8,W8 ' +
@@ -2293,7 +2302,7 @@ SRD35.SPELLS = {
   'Desecrate':
     'School=Evocation ' +
     'Level=C2,Evil2 ' +
-    'Description="R%{25+lvl//2*5}\' 20\' radius inflicts -3 turn undead and undead gain +1 attack, damage, saves, and 1 temporary HP/HD for %{lvl*2} hr"',
+    'Description="R%{25+lvl//2*5}\' 20\' radius inflicts -3 turn undead, and undead gain +1 attack, damage, saves, and 1 temporary HP/HD for %{lvl*2} hr"',
   'Destruction':
     'School=Necromancy ' +
     'Level=C7,Death7 ' +
@@ -2329,7 +2338,7 @@ SRD35.SPELLS = {
   'Detect Scrying':
     'School=Divination ' +
     'Level=B4,S4,W4 ' +
-    'Description="R40\' Self detects scrying and makes opposed caster check to see source for 1 dy"',
+    'Description="R40\' Self detects scrying, and successful opposed caster check shows source, for 1 dy"',
   'Detect Secret Doors':
     'School=Divination ' +
     'Level=B1,Knowledge1,S1,W1 ' +
@@ -2381,7 +2390,7 @@ SRD35.SPELLS = {
   'Disintegrate':
     'School=Transmutation ' +
     'Level=Destruction7,S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Ranged touch inflicts ${lvl*2<?40}d6 HP (Fort 5d6), dusts if target slain"',
+    'Description="R%{100+lvl*10}\' Ranged touch inflicts ${lvl*2<?40}d6 HP (Fort 5d6); slain target turns to dust"',
   'Dismissal':
     'School=Abjuration ' +
     'Level=C4,S5,W5 ' +
@@ -2405,11 +2414,11 @@ SRD35.SPELLS = {
   'Dispel Magic':
     'School=Abjuration ' +
     'Level=B3,C3,D4,Magic3,P3,S3,W3 ' +
-    'Description="R%{100+lvl*10}\' Self d20+%{lvl<?10} check vs. 11+caster level cancels spells or effects in 20\' radius"',
+    'Description="R%{100+lvl*10}\' Successful d20+%{lvl<?10} check vs. 11+caster level cancels targeted spell or 1 spell on each creature in a 20\' radius"',
   'Greater Dispel Magic':
     'School=Abjuration ' +
     'Level=B5,C6,D6,S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Self d20+%{lvl<?20} check vs. 11+caster level cancels spells or effects in 20\' radius"',
+    'Description="R%{100+lvl*10}\' Successful d20+%{lvl<?20} check vs. 11+caster level cancels targeted spell or 1 spell or curse on each creature in a 20\' radius"',
   'Displacement':
     'School=Illusion ' +
     'Level=B3,S3,W3 ' +
@@ -2426,7 +2435,7 @@ SRD35.SPELLS = {
   'Divination':
     'School=Divination ' +
     'Level=C4,Knowledge4 ' +
-    'Description="Self has %{(lvl+70)<?90}% chance to learn useful advice on act proposed up to 1 week in the future"',
+    'Description="Self has %{(lvl+70)<?90}% chance to learn useful advice on a proposed action up to 1 week in the future"',
   'Divine Favor':
     'School=Evocation ' +
     'Level=C1,P1 ' +
@@ -2476,7 +2485,7 @@ SRD35.SPELLS = {
   'Endure Elements':
     'School=Abjuration ' +
     'Level=Adept1,C1,D1,P1,R1,Sun1,S1,W1 ' +
-    'Description="Touched comfortable between -50F and 140F for 1 dy" ' +
+    'Description="Touched remains comfortable between -50F and 140F for 1 dy" ' +
     'Liquid=Potion',
   'Energy Drain':
     'School=Necromancy ' +
@@ -2510,7 +2519,7 @@ SRD35.SPELLS = {
   'Erase':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Two pages of writing vanish (magical writing DC 15 caster check)"',
+    'Description="R%{25+lvl//2*5}\' Two pages of writing vanish (magical writing DC 15 caster check neg)"',
   'Ethereal Jaunt':
     'School=Transmutation ' +
     'Level=C7,S7,W7 ' +
@@ -2579,7 +2588,7 @@ SRD35.SPELLS = {
   'Fire Shield':
     'School=Evocation ' +
     'Level=Fire5,Sun4,S4,W4 ' +
-    'Description="Cold or hot flames enveloping self inflict 1d6+%{lvl<?15} HP upon foe hit, reduce heat or cold damage by half (Ref no HP) for %{lvl} rd"',
+    'Description="Cold or hot flames enveloping self inflict 1d6+%{lvl<?15} HP and reduce heat or cold damage by half upon foe hit (Ref no HP) for %{lvl} rd"',
   'Fire Storm':
     'School=Evocation ' +
     'Level=C8,D7,Fire7 ' +
@@ -2708,7 +2717,7 @@ SRD35.SPELLS = {
   'Glitterdust':
     'School=Conjuration ' +
     'Level=B2,S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Creatures in 10\' radius outlined and blind for %{lvl} rd (Will outlined only)"',
+    'Description="R%{100+lvl*10}\' Creatures in 10\' radius outlined and blinded for %{lvl} rd (Will outlined only)"',
   'Globe Of Invulnerability':
     'School=Abjuration ' +
     'Level=S6,W6 ' +
@@ -2787,7 +2796,7 @@ SRD35.SPELLS = {
   'Heal Mount':
     'School=Conjuration ' +
     'Level=P3 ' +
-    'Description="Touched mount regains %{lvl*10<?150} HP and removes negative conditions"',
+    'Description="Heals %{lvl*10<?150} HP and removes negative conditions from touched mount"',
   'Heat Metal':
     'School=Transmutation ' +
     'Level=D2,Sun2 ' +
@@ -2850,7 +2859,7 @@ SRD35.SPELLS = {
   'Holy Aura':
     'School=Abjuration ' +
     'Level=C8,Good8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 AC and saves and SR 25 (evil), suppress mental control, and blind successful evil attacker (Fort neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures in 20\' radius gain +4 AC, +4 saves, and SR 25 (evil), suppress mental control, and blind successful evil attacker (Fort neg) for %{lvl} rd"',
   'Holy Smite':
     'School=Evocation ' +
     'Level=Good4 ' +
@@ -2858,7 +2867,7 @@ SRD35.SPELLS = {
   'Holy Sword':
     'School=Evocation ' +
     'Level=P4 ' +
-    'Description="Touched weapon gains +5 attack and damage and +2d6 damage vs. evil, gives +2 AC and saves, suppresses mental control, and bars contact by evil summoned for %{lvl} rd"',
+    'Description="Touched weapon gains +5 attack and damage, additional +2d6 damage vs. evil, gives +2 AC and saves, suppresses mental control, and bars contact by evil summoned for %{lvl} rd"',
   'Holy Word':
     'School=Evocation ' +
     'Level=C7,Good7 ' +
@@ -2879,11 +2888,11 @@ SRD35.SPELLS = {
   'Ice Storm':
     'School=Evocation ' +
     'Level=D4,S4,W4,Water5 ' +
-    'Description="R%{400+lvl*40}\' Hail in 20\' radius inflicts 3d6 HP bludgeoning, 2d6 HP cold, -4 Listen for %{lvl} rd"',
+    'Description="R%{400+lvl*40}\' Hail in 20\' radius inflicts 3d6 HP bludgeoning, 2d6 HP cold, and -4 Listen for %{lvl} rd"',
   'Identify':
     'School=Divination ' +
     'Level=B1,Magic2,S1,W1 ' +
-    'Description="Self determines magic properties of touched"',
+    'Description="Self determines magic properties of touched object"',
   'Illusory Script':
     'School=Illusion ' +
     'Level=Assassin2,B3,S3,W3 ' +
@@ -2895,7 +2904,7 @@ SRD35.SPELLS = {
   'Imbue With Spell Ability':
     'School=Evocation ' +
     'Level=C4,Magic4 ' +
-    'Description="Grants to touched with 1/3/5 HD the ability to cast specified 1st/2x1st/2x1st+2nd level spells"',
+    'Description="Touched with 1/3/5 HD gains the ability to cast specified 1st/2x1st/2x1st+2nd level spells"',
   'Implosion':
     'School=Evocation ' +
     'Level=C9,Destruction9 ' +
@@ -3017,7 +3026,7 @@ SRD35.SPELLS = {
   'Legend Lore':
     'School=Divination ' +
     'Level=B4,Knowledge7,S6,W6 ' +
-    'Description="Self learns legends about target person, place, or object"',
+    'Description="Self learns legends about specified person, place, or object"',
   'Levitate':
     'School=Transmutation ' +
     'Level=S2,W2 ' +
@@ -3038,7 +3047,7 @@ SRD35.SPELLS = {
   'Liveoak':
     'School=Transmutation ' +
     'Level=D6 ' +
-    'Description="Touched oak becomes treant guardian for %{lvl} dy"',
+    'Description="Touched oak becomes a treant guardian for %{lvl} dy"',
   'Locate Creature':
     'School=Divination ' +
     'Level=Assassin4,B4,S4,W4 ' +
@@ -3096,22 +3105,22 @@ SRD35.SPELLS = {
   'Magic Circle Against Chaos':
     'School=Abjuration ' +
     'Level=C3,Law3,P3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for %{lvl*10} min" ' +
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for %{lvl*10} min or traps nonlawful summoned creatures (SR neg) for %{lvl} dy" ' +
     'Liquid=Potion',
   'Magic Circle Against Evil':
     'School=Abjuration ' +
     'Level=C3,Good3,P3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for %{lvl*10} min" ' +
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for %{lvl*10} min or traps nongood summoned creatures (SR neg) for %{lvl} dy" ' +
     'Liquid=Potion',
   'Magic Circle Against Good':
     'School=Abjuration ' +
     'Level=Assassin3,C3,Evil3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for %{lvl*10} min" ' +
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for %{lvl*10} min or traps nonevil summoned creatures (SR neg) for %{lvl} dy" ' +
     'Liquid=Potion',
   'Magic Circle Against Law':
     'School=Abjuration ' +
     'Level=C3,Chaos3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for %{lvl*10} min" ' +
+    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for %{lvl*10} min or traps nonchaotic summoned creatures (SR neg) for %{lvl} dy" ' +
     'Liquid=Potion',
   'Magic Fang':
     'School=Transmutation ' +
@@ -3170,11 +3179,11 @@ SRD35.SPELLS = {
   'Mark Of Justice':
     'School=Necromancy ' +
     'Level=C5,P4 ' +
-    'Description="Touched upon trigger permanently suffers self choice of -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action"',
+    'Description="Upon trigger, touched permanently suffers self choice of -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action"',
   'Maze':
     'School=Conjuration ' +
     'Level=S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Target becomes lost in extradimensional maze for 10 min or until successful DC 20 Int check"',
+    'Description="R%{25+lvl//2*5}\' Target becomes lost in extradimensional maze for 10 min or until successful DC 20 Intelligence check"',
   'Meld Into Stone':
     'School=Transmutation ' +
     'Level=C3,D3 ' +
@@ -3198,7 +3207,7 @@ SRD35.SPELLS = {
   'Mind Fog':
     'School=Enchantment ' +
     'Level=B5,S5,W5 ' +
-    'Description="R%{100+lvl*10}\' Fog in 20\' radius inflicts -10 Wis and Will checks (Will neg) for 30 min"',
+    'Description="R%{100+lvl*10}\' Fog in 20\' radius inflicts -10 Wisdom and Will checks (Will neg) for 30 min"',
   'Minor Creation':
     'School=Conjuration ' +
     'Level=Adept4,S4,W4 ' +
@@ -3261,7 +3270,7 @@ SRD35.SPELLS = {
   'Nondetection':
     'School=Abjuration ' +
     'Level=Assassin3,R4,Trickery3,S3,W3 ' +
-    'Description="Touched gains SR %{lvl+11} (divination) (or self gains SR %{lvl+15}) for %{lvl} hr" ' +
+    'Description="Touched gains SR %{lvl+11} (divination) (self SR %{lvl+15}) for %{lvl} hr" ' +
     'Liquid=Potion',
 
   'Obscure Object':
@@ -3279,7 +3288,7 @@ SRD35.SPELLS = {
   "Order's Wrath":
     'School=Evocation ' +
     'Level=Law4 ' +
-    'Description="R%{100+lvl*10}\' Chaotic in 30\' cu suffer ${lvl//2<?5}d8 HP and are dazed for 1 rd, neutral half (Will half)"',
+    'Description="R%{100+lvl*10}\' Chaotic creatures in 30\' cu suffer ${lvl//2<?5}d8 HP and are dazed for 1 rd, neutral half (Will half)"',
   'Overland Flight':
     'School=Transmutation ' +
     'Level=S5,W5 ' +
@@ -3322,7 +3331,7 @@ SRD35.SPELLS = {
   'Phantom Steed':
     'School=Conjuration ' +
     'Level=B3,S3,W3 ' +
-    'Description="Creates mount (%{lvl+7} HP, AC 18, MV %{lvl*20<?240}\') that only target can ride for %{lvl} hr"',
+    'Description="Creates mount (%{lvl+7} HP, AC 18, speed %{lvl*20<?240}\') that only target can ride for %{lvl} hr"',
   'Phantom Trap':
     'School=Illusion ' +
     'Level=S2,W2 ' +
@@ -3346,15 +3355,15 @@ SRD35.SPELLS = {
   'Planar Binding':
     'School=Conjuration ' +
     'Level=S6,W6 ' +
-    'Description="Traps extraplanar creature(s) w/up to 12 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Cha neg)"',
+    'Description="Traps extraplanar creature(s) w/up to 12 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Charisma neg)"',
   'Greater Planar Binding':
     'School=Conjuration ' +
     'Level=S8,W8 ' +
-    'Description="Traps extraplanar creature(s) w/up to 18 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Cha neg)"',
+    'Description="Traps extraplanar creature(s) w/up to 18 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Charisma neg)"',
   'Lesser Planar Binding':
     'School=Conjuration ' +
     'Level=S5,W5 ' +
-    'Description="Traps extraplanar creature(s) w/up to 6 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Cha neg)"',
+    'Description="Traps extraplanar creature(s) w/up to 6 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Charisma neg)"',
   'Plane Shift':
     'School=Conjuration ' +
     'Level=C5,S7,W7 ' +
@@ -3431,7 +3440,7 @@ SRD35.SPELLS = {
   'Protection From Chaos':
     'School=Abjuration ' +
     'Level=Adept1,C1,Law1,P1,S1,W1 ' +
-    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonlawful summoned creatures for %{lvl} min" ' +
+    'Description="Touched gains +2 AC and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for %{lvl} min" ' +
     'Liquid=Potion',
   'Protection From Energy':
     'School=Abjuration ' +
@@ -3441,17 +3450,17 @@ SRD35.SPELLS = {
   'Protection From Evil':
     'School=Abjuration ' +
     'Level=Adept1,C1,Good1,P1,S1,W1 ' +
-    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nongood summoned creatures for %{lvl} min" ' +
+    'Description="Touched gains +2 AC and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for %{lvl} min" ' +
     'Liquid=Potion',
   'Protection From Good':
     'School=Abjuration ' +
     'Level=Adept1,C1,Evil1,S1,W1 ' +
-    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonevil summoned creatures for %{lvl} min" ' +
+    'Description="Touched gains +2 AC and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for %{lvl} min" ' +
     'Liquid=Potion',
   'Protection From Law':
     'School=Abjuration ' +
     'Level=Adept1,C1,Chaos1,S1,W1 ' +
-    'Description="Touched gains +2 AC and saves, suppresses mental control, and bars contact by nonchaotic summoned creatures for %{lvl} min" ' +
+    'Description="Touched gains +2 AC and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for %{lvl} min" ' +
     'Liquid=Potion',
   'Protection From Spells':
     'School=Abjuration ' +
@@ -3477,12 +3486,12 @@ SRD35.SPELLS = {
   'Quench':
     'School=Transmutation ' +
     'Level=D3 ' +
-    'Description="R%{100+lvl*10}\' Extinguishes fire, dispels fire magic, or inflicts ${lvl<?10}d6 HP to fire creatures in %{lvl} 20\' cu"',
+    'Description="R%{100+lvl*10}\' Extinguishes fires, dispels magic fires, or inflicts ${lvl<?10}d6 HP to fire creatures in %{lvl} 20\' cu"',
 
   'Rage':
     'School=Enchantment ' +
     'Level=B2,S3,W3 ' +
-    'Description="R%{100+lvl*10}\' %{lvl//3} willing targets in 15\' radius gain +2 Strength and Constitution, +1 Will, suffer -2 AC for conc + %{lvl} rd" ' +
+    'Description="R%{100+lvl*10}\' %{lvl//3} willing targets in 15\' radius gain +2 Strength and Constitution, +1 Will, and suffer -2 AC for conc + %{lvl} rd" ' +
     'Liquid=Potion',
   'Rainbow Pattern':
     'School=Illusion ' +
@@ -3507,7 +3516,7 @@ SRD35.SPELLS = {
   'Read Magic':
     'School=Divination ' +
     'Level=Adept0,B0,C0,D0,P1,R1,S0,W0 ' +
-    'Description="Self reads magical writing for %{lvl*10} min"',
+    'Description="Self can read magical writing for %{lvl*10} min"',
   'Reduce Animal':
     'School=Transmutation ' +
     'Level=D2,R3 ' +
@@ -3528,7 +3537,7 @@ SRD35.SPELLS = {
   'Regenerate':
     'School=Conjuration ' +
     'Level=C7,D9,Healing7 ' +
-    'Description="Touched regrows maims, heals 4d8+%{lvl<?35} HP, eliminates fatigue, exhaustion, and nonlethal damage"',
+    'Description="Regrows maims, heals 4d8+%{lvl<?35} HP, and eliminates fatigue, exhaustion, and nonlethal damage from touched"',
   'Reincarnate':
     'School=Transmutation ' +
     'Level=D4 ' +
@@ -3603,7 +3612,7 @@ SRD35.SPELLS = {
   'Resurrection':
     'School=Conjuration ' +
     'Level=C7 ' +
-    'Description="Fully restores touched target dead %{lvl*10} years w/loss of 1 level"',
+    'Description="Fully restores touched target dead up to %{lvl*10} years w/loss of 1 level"',
   'Reverse Gravity':
     'School=Transmutation ' +
     'Level=D8,S7,W7 ' +
@@ -3615,7 +3624,7 @@ SRD35.SPELLS = {
   'Rope Trick':
     'School=Transmutation ' +
     'Level=S2,W2 ' +
-    'Description="Rope leads to extradimensional space for 8 creatures for %{lvl} hr"',
+    'Description="Rope leads to extradimensional space with room for 8 creatures for %{lvl} hr"',
   'Rusting Grasp':
     'School=Transmutation ' +
     'Level=D4 ' +
@@ -3649,7 +3658,7 @@ SRD35.SPELLS = {
   'Greater Scrying':
     'School=Divination ' +
     'Level=B6,C7,D7,S7,W7 ' +
-    'Description="Self views and casts detection and communication spells on target (Will special neg) for %{lvl} hr"',
+    'Description="Self views and may cast detection and communication spells on target (Will special neg) for %{lvl} hr"',
   'Sculpt Sound':
     'School=Transmutation ' +
     'Level=B3 ' +
@@ -3681,7 +3690,7 @@ SRD35.SPELLS = {
   'Sending':
     'School=Evocation ' +
     'Level=C4,S5,W5 ' +
-    'Description="Self has two-way, 25-word exchange familiar target"',
+    'Description="Self has two-way, 25-word exchange w/familiar target"',
   'Sepia Snake Sigil':
     'School=Conjuration ' +
     'Level=B3,S3,W3 ' +
@@ -3721,7 +3730,7 @@ SRD35.SPELLS = {
   'Shapechange':
     'School=Transmutation ' +
     'Level=Animal9,D9,S9,W9 ' +
-    'Description="Self becomes different animal of any size 1/rd for %{lvl*10} min"',
+    'Description="Self becomes nonunique creature of any size 1/rd for %{lvl*10} min"',
   'Shatter':
     'School=Evocation ' +
     'Level=B2,Blackguard2,C2,Chaos2,Destruction2,S2,W2 ' +
@@ -3738,11 +3747,11 @@ SRD35.SPELLS = {
   'Shield Of Law':
     'School=Abjuration ' +
     'Level=C8,Law8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 AC and saves and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (Will neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures in 20\' radius gain +4 AC, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (Will neg) for %{lvl} rd"',
   'Shield Other':
     'School=Abjuration ' +
     'Level=C2,P2,Protection2 ' +
-    'Description="R%{25+lvl//2*5}\' target gains +1 AC and saves, half damage transferred to self for %{lvl} hr"',
+    'Description="R%{25+lvl//2*5}\' target gains +1 AC and saves, and half damage to target is transferred to self for %{lvl} hr"',
   'Shillelagh':
     'School=Transmutation ' +
     'Level=D1 ' +
@@ -3783,15 +3792,15 @@ SRD35.SPELLS = {
   'Sleep':
     'School=Enchantment ' +
     'Level=Adept1,Assassin1,B1,S1,W1 ' +
-    'Description="R%{100+lvl*10}\' 4 HD creatures in 10\' radius sleep (Will neg) for %{lvl} min"',
+    'Description="R%{100+lvl*10}\' 4 HD of creatures in 10\' radius sleep (Will neg) for %{lvl} min"',
   'Sleet Storm':
     'School=Conjuration ' +
     'Level=D3,S3,W3 ' +
-    'Description="R%{400+lvl*40}\' Sleet in 40\' radius blinds, requires DC 10 Balance to move for %{lvl} rd"',
+    'Description="R%{400+lvl*40}\' Sleet in 40\' radius blinds, inflicts DC 10 Balance to move for %{lvl} rd"',
   'Slow':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} creatures in 15\' radius take one action per rd, suffer -1 AC, attack, and Reflex, and slowed to half Speed (Will neg) for %{lvl} rd"',
+    'Description="R%{25+lvl//2*5}\' %{lvl} creatures in 15\' radius take one action per rd, suffer -1 AC, attack, and Reflex, and slow to half Speed (Will neg) for %{lvl} rd"',
   'Snare':
     'School=Transmutation ' +
     'Level=D3,R2 ' +
@@ -4020,7 +4029,7 @@ SRD35.SPELLS = {
   'Symbol Of Sleep':
     'School=Enchantment ' +
     'Level=C5,S5,W5 ' +
-    'Description="R60\' Rune sleeps 10 HD or less for 3d6x10 min (Will neg) in 60\' radius when triggered for %{lvl*10} min"',
+    'Description="R60\' Rune sleeps creatures w/10 HD or less for 3d6x10 min (Will neg) in 60\' radius when triggered for %{lvl*10} min"',
   'Symbol Of Stunning':
     'School=Enchantment ' +
     'Level=C7,S7,W7 ' +
@@ -4053,11 +4062,11 @@ SRD35.SPELLS = {
   'Teleport':
     'School=Conjuration ' +
     'Level=Travel5,S5,W5 ' +
-    'Description="Transports self and %{lvl//3} others %{lvl*100} miles w/some error chance"',
+    'Description="Transports self and %{lvl//3} willing targets %{lvl*100} miles w/some error chance"',
   'Greater Teleport':
     'School=Conjuration ' +
     'Level=Travel7,S7,W7 ' +
-    'Description="Transports self and %{lvl//3} others anywhere w/no error chance"',
+    'Description="Transports self and %{lvl//3} willing targets anywhere w/no error chance"',
   'Teleport Object':
     'School=Conjuration ' +
     'Level=S7,W7 ' +
@@ -4065,7 +4074,7 @@ SRD35.SPELLS = {
   'Teleportation Circle':
     'School=Conjuration ' +
     'Level=S9,W9 ' +
-    'Description="Transports creatures in 5\' radius anywhere w/no error chance for %{lvl*10} min"',
+    'Description="5\' radius transports creatures anywhere w/no error chance for %{lvl*10} min"',
   'Temporal Stasis':
     'School=Transmutation ' +
     'Level=S8,W8 ' +
@@ -4086,11 +4095,11 @@ SRD35.SPELLS = {
   'Touch Of Fatigue':
     'School=Necromancy ' +
     'Level=Adept0,S0,W0 ' +
-    'Description="Touch attack fatigues target for %{lvl} rd (Fort neg)"',
+    'Description="Touch inflicts fatigue for %{lvl} rd (Fort neg)"',
   'Touch Of Idiocy':
     'School=Enchantment ' +
     'Level=S2,W2 ' +
-    'Description="Touch attack inflicts -1d6 Intelligence, Wisdom, and Charisma for %{lvl*10} min"',
+    'Description="Touch inflicts -1d6 Intelligence, Wisdom, and Charisma for %{lvl*10} min"',
   'Transformation':
     'School=Transmutation ' +
     'Level=S6,W6 ' +
@@ -4126,7 +4135,7 @@ SRD35.SPELLS = {
   'True Resurrection':
     'School=Conjuration ' +
     'Level=C9 ' +
-    'Description="Fully restores target dead up to %{lvl*10} yr"',
+    'Description="Fully restores chosen deceased dead up to %{lvl*10} yr"',
   'True Seeing':
     'School=Divination ' +
     'Level=Adept5,C5,D7,Knowledge5,S6,W6 ' +
@@ -4139,7 +4148,7 @@ SRD35.SPELLS = {
   'Undeath To Death':
     'School=Necromancy ' +
     'Level=C6,S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Destroys ${lvl<?20}d4 HD of undead w/up to 8 HD in 40\' radius (Will neg)"',
+    'Description="R%{100+lvl*10}\' Destroys ${lvl<?20}d4 HD of undead w/up to 8 HD each in 40\' radius (Will neg)"',
   'Undetectable Alignment':
     'School=Abjuration ' +
     'Level=Assassin2,B1,C2,P2 ' +
@@ -4152,11 +4161,11 @@ SRD35.SPELLS = {
   'Unholy Aura':
     'School=Abjuration ' +
     'Level=C8,Evil8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 AC and saves and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (Fort neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures in 20\' radius gain +4 AC, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (Fort neg) for %{lvl} rd"',
   'Unholy Blight':
     'School=Evocation ' +
     'Level=Evil4 ' +
-    'Description="R%{100+lvl*10}\' Good in 20\' radius suffer ${lvl//2<?5}d8 HP and sicken for 1 rd, neutral half (Will half)"',
+    'Description="R%{100+lvl*10}\' Good creatures in 20\' radius suffer ${lvl//2<?5}d8 HP and sicken for 1 rd, neutral half (Will half)"',
   'Unseen Servant':
     'School=Conjuration ' +
     'Level=B1,S1,W1 ' +
@@ -4173,7 +4182,7 @@ SRD35.SPELLS = {
   'Ventriloquism':
     'School=Illusion ' +
     'Level=B1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Self\'s voice moves (Will disbelieve) for %{lvl} min"',
+    'Description="R%{25+lvl//2*5}\' Self voice moves (Will disbelieve) for %{lvl} min"',
   'Virtue':
     'School=Transmutation ' +
     'Level=C0,D0,P1 ' +
@@ -4252,11 +4261,11 @@ SRD35.SPELLS = {
   'Wind Walk':
     'School=Transmutation ' +
     'Level=C6,D7 ' +
-    'Description="Self and %{lvl//3} touched vaporize and move 60 MPH for %{lvl} hr"',
+    'Description="Self and %{lvl//3} touched become vapor that can move 60 MPH for %{lvl} hr"',
   'Wind Wall':
     'School=Evocation ' +
     'Level=Air2,C3,D3,R2,S3,W3 ' +
-    'Description="R%{100+lvl*10}\' %{lvl*10}\'x5\' curtain of air scatters objects, deflects arrows and bolts for %{lvl} rd"',
+    'Description="R%{100+lvl*10}\' %{lvl*10}\'x5\' curtain of air scatters objects and deflects arrows and bolts for %{lvl} rd"',
   'Wish':
     // 'School=Universal ' +
     'Level=S9,W9 ' +
@@ -4264,7 +4273,7 @@ SRD35.SPELLS = {
   'Wood Shape':
     'School=Transmutation ' +
     'Level=D2 ' +
-    'Description="Self shapes %{lvl+10}\' cu of wood (Will neg)"',
+    'Description="Self reshapes %{lvl+10}\' cu of wood (Will neg)"',
   'Word Of Chaos':
     'School=Evocation ' +
     'Level=C7,Chaos7 ' +
@@ -4272,7 +4281,7 @@ SRD35.SPELLS = {
   'Word Of Recall':
     'School=Conjuration ' +
     'Level=C6,D8 ' +
-    'Description="Self and %{lvl//3} willing targets return to designated place"',
+    'Description="Self and %{lvl//3} willing targets return to a chosen sanctuary"',
 
   'Zone Of Silence':
     'School=Illusion ' +
@@ -5558,7 +5567,7 @@ SRD35.talentRules = function(
     'features.Low-Light Vision', '+=', '2'
   );
   rules.defineRule('senseFeatures',
-    'senseFeatures.0', '=', 'source==0 ? null : (source & 1 ? ["darkvision 60 ft."] : []).concat(source & 2 ? ["low-light vision"] : []).join(", ")'
+    'senseFeatures.0', '=', 'source==0 ? null : (source & 1 ? ["darkvision 60\'"] : []).concat(source & 2 ? ["low-light vision"] : []).join(", ")'
   );
   rules.defineRule('size',
     '', '=', '"Medium"',
