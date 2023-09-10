@@ -375,7 +375,8 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
         replacement = replacement.split('.');
         replacement = replacement[1] + ' ' + replacement[0].replace(/s$/, '');
       }
-      replacement += ' (currently ' + (attrs[ref] || 'missing') + ')';
+      if(attrs[ref])
+        replacement += ' (currently ' + attrs[ref] + ')';
       note = note.replace(ref, replacement);
     }
   }
