@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.0';
+SRD35.VERSION = '2.4.1.1';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -6280,7 +6280,7 @@ SRD35.classRulesExtra = function(rules, name) {
           'clericDomainLevels.' + domain, '^=', null
         );
         // Clerics w/no deity don't need to match deity domain
-        rules.defineRule('validationNotes.cleric-' + domain + 'DomainSelectableFeature',
+        rules.defineRule('validationNotes.cleric-' + domain.replaceAll(' ', '') + 'DomainSelectableFeature',
           'deity', '+', 'source == "None" ? 1 : null'
         );
       }
