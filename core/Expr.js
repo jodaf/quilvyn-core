@@ -33,6 +33,7 @@ function Expr(str) {
 
   var matchInfo;
   var operators = [];
+  this.text = str;
   this.tokens = [];
   var unary = true;
 
@@ -108,7 +109,7 @@ Expr.OPERATOR_PRECEDENCE = {
   '&&':2, '||':2,
   '==':3, '!=':3, '<':3, '<=':3, '>':3, '>=':3, '<?':3, '>?':3, '=~':3, '!~':3,
   '+':5, '-':5,
-  '*':7, '/':7, '//':7,
+  '*':7, '/':7, '//':7, '%':7,
   'u+':8, 'u-':8, '!':8, 'u!':8, '$':8, 'u$':8
 };
 Expr.TOKEN_PAT = new RegExp(
@@ -118,7 +119,7 @@ Expr.TOKEN_PAT = new RegExp(
   '==|=~|' + /* equals, placed so first = won't be taken for assignment */
   '(<\\?|>\\?|\\+|-|\\*|/|//)?=|' + /* assign ops */
   '!=|!~|<\\?|<=|<|>\\?|>=|>|' + /* relops */
-  '\\+|-|\\*|//|/|' + /* arith ops */
+  '\\+|-|\\*|//|/|%|' + /* arith ops */
   '&&|\\|\\||' + /* conjunction */
   '\\?|:|' + /* ternary op */
   '!|' + /* negation */
@@ -145,25 +146,31 @@ Expr.prototype.eval = function(dict) {
       var op = token.value;
       if (op[0] == 'u') {
         var operand = stack.pop();
-        var value = operand.tipe == Expr.IDENTIFIER_TYPE ? dict[operand.value] : operand.value;
-        if (op == 'u!') {
-          stack.push({tipe: Expr.LITERAL_TYPE, value: !value});
-        } else if (value == null) {
-          console.log("Undefined reference " + operand);
-          stack.push({tipe: Expr.LITERAL_TYPE, value: null});
+        var value = operand == null ? null :
+                    operand.tipe == Expr.IDENTIFIER_TYPE ? dict[operand.value] :
+                    operand.value;
+        if (operand == null) {
+          console.log('Operand missing in "' + this.text + '"');
+          value = null;
+        } else if (op == 'u!') {
+          value = !value;
         } else if (op == 'u-') {
-          stack.push({tipe: Expr.LITERAL_TYPE, value: -value});
-        } else if (op == 'u+') {
-          stack.push({tipe: Expr.LITERAL_TYPE, value: value});
-        } else if (op == 'u$') {
-          stack.push({tipe: Expr.IDENTIFIER_TYPE, value: value});
+          value = -value;
         }
+        stack.push({tipe: op == 'u$' ? Expr.IDENTIFIER_TYPE : Expr.LITERAL_TYPE, value: value});
       } else {
         var right = stack.pop();
         var left = stack.pop();
-        var leftVal = left.tipe == Expr.IDENTIFIER_TYPE ? dict[left.value] : left.value;
-        var value = right.tipe == Expr.IDENTIFIER_TYPE ? dict[right.value] : right.value;
-        if (op == '==') {
+        var leftVal = left == null ? null :
+                      left.tipe == Expr.IDENTIFIER_TYPE ? dict[left.value] :
+                      left.value;
+        var value = right == null ? null :
+                    right.tipe == Expr.IDENTIFIER_TYPE ? dict[right.value] :
+                    right.value;
+        if (left == null || right == null) {
+          console.log('Operand missing in "' + this.text + '"');
+          value = null;
+        } else if (op == '==') {
           value = leftVal == value;
         } else if (op == '!=') {
           value = leftVal != value;
@@ -179,14 +186,15 @@ Expr.prototype.eval = function(dict) {
           dict[left.value] = value;
         } else if (op == '?') {
           var test = stack.pop();
-          var testVal = test.tipe == Expr.IDENTIFIER_TYPE ? dict[test.value] : test.value;
-          value = testVal ? leftVal : value;
-        } else if (leftVal == null) {
-          console.log("Undefined reference " + left);
-          value = null;
-        } else if (value == null) {
-          console.log("Undefined reference " + right);
-          value = null;
+          var testVal = test == null ? null :
+                        test.tipe == Expr.IDENTIFIER_TYPE ? dict[test.value] :
+                        test.value;
+          if (test == null) {
+            console.log('Operand missing in "' + this.text + '"');
+            value = null;
+          } else {
+            value = testVal ? leftVal : value;
+          }
         } else if (op == '<') {
           value = leftVal < value;
         } else if (op == '<=') {
@@ -209,6 +217,8 @@ Expr.prototype.eval = function(dict) {
           value = leftVal / value;
         } else if (op == '//') {
           value = Math.floor(leftVal / value);
+        } else if (op == '%') {
+          value = leftVal % value;
         } else if (op[op.length-1] == '=') {
           if (op == '<?=') {
             value = leftVal < value ? leftVal : value;
