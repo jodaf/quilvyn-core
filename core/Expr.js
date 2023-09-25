@@ -251,5 +251,14 @@ Expr.prototype.eval = function(dict) {
 };
 
 Expr.prototype.identifiers = function() {
-  return this.tokens.filter(t => t.tipe == Expr.IDENTIFIER_TYPE).map(t => t.value);
+  let result = [];
+  for(let i = 0; i < this.tokens.length; i++) {
+    let t = this.tokens[i];
+    let next = this.tokens[i + 1];
+    if(t.tipe == Expr.IDENTIFIER_TYPE ||
+       (t.tipe == Expr.LITERAL_TYPE && next != null &&
+        next.tipe == Expr.OPERATOR_TYPE && next.value == 'u$'))
+      result.push(t.value);
+  }
+  return result;
 };
