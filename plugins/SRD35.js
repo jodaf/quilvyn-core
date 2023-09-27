@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.2';
+SRD35.VERSION = '2.4.1.3';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -293,7 +293,21 @@ SRD35.ANIMAL_COMPANIONS = {
     'Size=Huge Speed=30 Level=16',
   'Tyrannosaurus':
     'Str=28 Dex=12 Con=21 Int=2 Wis=15 Cha=10 HD=18 AC=14 Attack=20 ' +
-    'Dam=3d6+13 Size=Huge Speed=30 Level=16'
+    'Dam=3d6+13 Size=Huge Speed=30 Level=16',
+
+  // Blackguard fiendish servants
+  'Bat':
+    'Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=4 HD=1 AC=16 Attack=0 Dam=0 ' +
+    'Size=Diminutive Speed=40',
+  'Cat':
+    'Str=3 Dex=15 Con=10 Int=2 Wis=12 Cha=7 HD=1 AC=14 Attack=4 ' +
+    'Dam=2@1d2-4,1d3-4 Size=Tiny Speed=30',
+  'Raven':
+    'Str=1 Dex=15 Con=10 Int=2 Wis=14 Cha=6 HD=1 AC=14 Attack=4 Dam=1d2-5 ' +
+    'Size=Tiny Speed=40',
+  'Toad':
+    'Str=1 Dex=12 Con=11 Int=1 Wis=14 Cha=4 HD=1 AC=15 Attack=0 Dam=0 ' +
+    'Size=Diminutive Speed=5'
 
 };
 SRD35.ARMORS = {
@@ -6663,13 +6677,6 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Blackguard', '?', 'source < 5 ? null : source',
       'level', '=', null
     );
-    // Add fiendish servants choices not in the standard animal companion list
-    rules.choiceRules(rules, 'Animal Companion', 'Bat', SRD35.FAMILIARS.Bat);
-    rules.choiceRules(rules, 'Animal Companion', 'Cat', SRD35.FAMILIARS.Cat);
-    rules.choiceRules
-      (rules, 'Animal Companion', 'Raven', SRD35.FAMILIARS.Raven);
-    rules.choiceRules
-      (rules, 'Animal Companion', 'Toad', SRD35.FAMILIARS.Toad);
 
   } else if(name == 'Dragon Disciple') {
 
@@ -9785,6 +9792,10 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    Quilvyn gives Commoners Simple Weapon Proficiency to account for' +
     "    the class's proficiency in a single simple weapon.\n" +
+    '  </li><li>\n' +
+    '    Quilvyn includes four additional animals in the list of animal' +
+    '    companions for use as blackguard fiendish servants: bat, cat,' +
+    '    raven, and toad.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
