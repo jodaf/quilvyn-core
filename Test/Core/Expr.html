@@ -11,7 +11,7 @@ function runTest(dict, label, expr, expected) {
   var actual = new Expr(expr).eval(dict);
   label = label.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
   document.write(label + ' ... ');
-  if(expected == actual) {
+  if(isNaN(expected) && isNaN(actual) || expected == actual) {
     document.write('<span style="color:green;">Pass</span>');
     passCount++;
   } else
@@ -53,6 +53,7 @@ function runTest(dict, label, expr, expected) {
   runTest(dictionary, 'Binary *', '3*7', 21);
   runTest(dictionary, 'Binary /', '7/2', 3.5);
   runTest(dictionary, 'Binary //', '7//2', 3);
+  runTest(dictionary, 'Binary %', '7%2', 1);
   runTest(dictionary, 'Binary ==', '7==2', false);
   runTest(dictionary, 'Binary !=', '7!=2', true);
   runTest(dictionary, 'Binary =~', '"hello"=~"el"', true);
@@ -72,10 +73,10 @@ function runTest(dict, label, expr, expected) {
   runTest(dictionary, 'Ternary ?:', 'true?7:2', 7);
   runTest(dictionary, 'Identifier', 'summer', 6);
   runTest(dictionary, 'Undefined identifier', 'mud', null);
-  runTest(dictionary, 'Undefined unary op', '-null', null);
-  runTest(dictionary, 'Undefined unary id', '-mud', null);
-  runTest(dictionary, 'Undefined left id', 'mud-3', null);
-  runTest(dictionary, 'Undefined right id', '3+mud', null);
+  runTest(dictionary, 'Undefined unary op', '!null', true);
+  runTest(dictionary, 'Undefined unary id', '!mud', true);
+  runTest(dictionary, 'Undefined left id', 'mud-3', NaN);
+  runTest(dictionary, 'Undefined right id', '3+mud', NaN);
   runTest(dictionary, '= assign', 'summer=15', 15);
   runTest(dictionary, '<?= assign', 'summer<?=4', 4);
   runTest(dictionary, '>?= assign', 'summer>?=18', 18);

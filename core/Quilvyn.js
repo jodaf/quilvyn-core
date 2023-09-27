@@ -3,7 +3,7 @@
 "use strict";
 
 let COPYRIGHT = 'Copyright 2023 James J. Hayes';
-let VERSION = '2.4.0';
+let VERSION = '2.4.1';
 let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -1835,7 +1835,7 @@ Quilvyn.sheetHtml = function(attrs) {
       }
       if(sheetAttributes[object] == null)
         sheetAttributes[object] = [];
-      sheetAttributes[object][sheetAttributes[object].length] = value;
+      sheetAttributes[object].push(value);
     }
   }
 
