@@ -3,7 +3,7 @@
 "use strict";
 
 let COPYRIGHT = 'Copyright 2023 James J. Hayes';
-let VERSION = '2.4.1';
+let VERSION = '2.4.2';
 let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -409,6 +409,16 @@ Quilvyn.homebrewEnableChoices = function(items) {
     if(ruleSet.getChoices(group) &&
        ruleSet.getChoices(group)[name] == STORAGE.getItem(path))
       checked.push(display);
+    else if(type == 'Spell') {
+      // Check if any spell of the same name has matching attrs
+      let spells = QuilvynUtils.getKeys(ruleSet.getChoices(group), name+'\\(');
+      for(let i = 0; i < spells.length; i++) {
+        if(ruleSet.getChoices(group)[spells[i]] == STORAGE.getItem(path)) {
+          checked.push(display);
+          break;
+        }
+      }
+    }
   }
 
   if(!items) {
