@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.1';
+SRD35.VERSION = '2.4.1.2';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -7335,7 +7335,8 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     let effects = notes[i];
     let matchInfo;
     let maxSubnote =
-      effects.includes('%1') ? effects.match(/%\d/g).sort().pop().replace('%') - 0 : 0;
+      effects.includes('%1') ? +effects.match(/%\d/g).sort().pop().replace('%') :
+      effects.includes('%V') ? 0 : -1;
     let note = section + 'Notes.' + prefix;
     let priorInSection = sections.slice(0, i).filter(x => x == section).length;
     if(priorInSection > 0)
@@ -7345,29 +7346,36 @@ SRD35.featureRules = function(rules, name, sections, notes) {
     rules.defineRule
       (note, 'features.' + name, effects.indexOf('%V') >= 0 ? '?' : '=', null);
 
-    let pieces = effects.split('/');
+    while(effects.length > 0) {
 
-    for(let j = 0; j < pieces.length; j++) {
-
-      if((matchInfo = pieces[j].match(/^([-+x](\d+(\.\d+)?|%[V1-9]|%\{[^\}]*\}))\s+(.*)$/)) != null) {
+      let m = effects.match(/^((%\{[^\}]*\}|[^\/])*)\/?(.*)$/);
+      let effect = m[1];
+      effects = m[3];
+      if((matchInfo = effect.match(/^([-+x](\d+(\.\d+)?|%[V1-9]|%\{[^\}]*\}))\s+(.*)$/)) != null) {
 
         let adjust = matchInfo[1];
         let adjusted = matchInfo[4];
 
         // Support +%{expr} by evaling expr for each id it contains
-        if(adjust.match(/%{/)) {
+        if(adjust.match(/%{/) && !adjusted.match(/\b[a-z]/)) {
           let expression = adjust.substring(3, adjust.length - 1);
+          let ids = new Expr(expression).identifiers();
+          // TODO What if ids.length==0?
+          // TODO If only 1 id, we could use a normal rule w/out eval
           let sn = ++maxSubnote;
-          rules.defineRule(note + '.' + sn, 'features.' + name, '?', null);
-          new Expr(expression).identifiers().forEach(id => {
+          let target = sn>0 ? note + '.' + sn : note;
+          rules.defineRule(target, 'features.' + name, '?', null);
+          ids.forEach(id => {
             if(expression.trim() == id)
-              rules.defineRule(note + '.' + sn, id, '=', null);
+              rules.defineRule(target, id, '=', null);
             else
-              rules.defineRule(note + '.' + sn, id,
-                '=', 'new Expr("' + expression + '").eval(dict)'
-              );
+              rules.defineRule
+                (target, id, '=', 'new Expr("' + expression + '").eval(dict)');
           });
-          adjust = '%' + sn;
+          adjust = '%' + (sn==0 ? 'V' : sn);
+          if(sn == 0)
+            // Override '=' feature dependency rule created above
+            rules.defineRule(note, 'features.' + name, '?', null);
         }
 
         let adjuster =
@@ -7406,12 +7414,12 @@ SRD35.featureRules = function(rules, name, sections, notes) {
         rules.defineRule(adjusted,
           adjuster, op, !adjust.includes('%') ? adjust : adjust.startsWith('-') ? '-source' : 'source'
         );
-        if(adjust == '%1' && !pieces[j].includes(adjust))
+        if(adjust == '%1' && !effect.includes(adjust))
           rules.defineRule(adjuster, note, '?', null);
 
-      } else if(section == 'skill' && pieces[j].match(/\sclass\sskill(s)?$/)) {
+      } else if(section == 'skill' && effect.match(/\sclass\sskill(s)?$/)) {
         let skill =
-          pieces[j].replace(/^all\s|\s(is(\sa)?|are)?\sclass\sskill(s)?$/gi, '');
+          effect.replace(/^all\s|\s(is(\sa)?|are)?\sclass\sskill(s)?$/gi, '');
         if(skill.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*(\s\([A-Z][a-z]*(\s[A-Z][a-z]*)*\))?$/)) {
           rules.defineRule('classSkills.' + skill, note, '=', '1');
           let skillAttr = 'skills.' + skill;
