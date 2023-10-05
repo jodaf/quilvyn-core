@@ -3,7 +3,7 @@
 "use strict";
 
 let COPYRIGHT = 'Copyright 2023 James J. Hayes';
-let VERSION = '2.4.2';
+let VERSION = '2.4.3';
 let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -436,8 +436,13 @@ Quilvyn.homebrewEnableChoices = function(items) {
       type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ','') + 's';
     let name = pieces[3];
     let value = STORAGE.getItem(path);
-    let currentlyActive =
-      ruleSet.getChoices(group) && ruleSet.getChoices(group)[name] == value;
+    let choices = ruleSet.getChoices(group);
+    let currentlyActive = choices && choices[name] == value;
+    if(choices && type == 'Spell') {
+      let subspellNames = QuilvynUtils.getKeys(choices, '^' + name + '\\(');
+      if(subspellNames.length > 0 && choices[subspellNames[0]] == value)
+        currentlyActive = true;
+    }
     if(c in items && !currentlyActive) {
       ruleSet.choiceRules(ruleSet, type, name, value);
     } else if(!(c in items) && currentlyActive) {
@@ -2093,7 +2098,7 @@ Quilvyn.update = function(input) {
     Quilvyn.switchRuleSet();
   } else if(name == 'rulesNotes') {
     if(Quilvyn.rulesNotesWindow == null || Quilvyn.rulesNotesWindow.closed) {
-      Quilvyn.rulesNotesWindow = window.open('', '', FEATURES_OF_OTHER_WINDOWS);
+      Quilvyn.rulesNotesWindow = window.open('');
     }
     htmlBits = [
       '<!DOCTYPE html>',

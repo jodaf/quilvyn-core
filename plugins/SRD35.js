@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.3';
+SRD35.VERSION = '2.4.1.4';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -5856,7 +5856,7 @@ SRD35.removeChoice = function(rules, type, name) {
       rules.choiceRules(rules, type, name, rules.plugin[constantName][name]);
   } else if(choices && type == 'Spell') {
     QuilvynUtils.getKeys(choices, '^' + name + '\\(').forEach(s => {
-      delete choices[name];
+      delete choices[s];
     });
     if(rules.plugin &&
        rules.plugin[constantName] &&
