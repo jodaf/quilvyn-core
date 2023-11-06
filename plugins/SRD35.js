@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.4';
+SRD35.VERSION = '2.4.1.5';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -5855,8 +5855,19 @@ SRD35.removeChoice = function(rules, type, name) {
        rules.plugin[constantName][name] != currentAttrs)
       rules.choiceRules(rules, type, name, rules.plugin[constantName][name]);
   } else if(choices && type == 'Spell') {
+    let notes = rules.getChoices('notes');
+    let potions = rules.getChoices('potions');
+    let scrolls = rules.getChoices('scrolls');
     QuilvynUtils.getKeys(choices, '^' + name + '\\(').forEach(s => {
+      console.log('Deleting spell "' + name + '"');
       delete choices[s];
+      delete notes['spells.' + s];
+      delete potions[s.replace('(', ' Oil (')];
+      delete notes['potions.' + s.replace('(', ' Oil (')];
+      delete potions[s.replace('(', ' Potion (')];
+      delete notes['potions.' + s.replace('(', ' Potion (')];
+      delete scrolls[s];
+      delete notes['scrolls.' + s];
     });
     if(rules.plugin &&
        rules.plugin[constantName] &&
@@ -6180,7 +6191,7 @@ SRD35.classRules = function(
       // spellRules) with the minimum needed to cast the spell.
       let casterLevelPat = new RegExp('casterLevels.' + spellType + '\\b', 'g');
       let itemLevelPat = new RegExp('\\([A-Za-z ]*' + spellLevel + ' ');
-      let minLevel = s.split(':')[1].split('=')[0] * 1;
+      let minLevel = s.match(/:\d+@(\d+)/)[1] * 1;
       let formats = rules.getChoices('notes');
       for(let p in rules.getChoices('potions')) {
         if(formats['potions.' + p].match(casterLevelPat) &&
