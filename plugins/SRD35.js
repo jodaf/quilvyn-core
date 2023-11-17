@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.5';
+SRD35.VERSION = '2.4.1.6';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -6191,7 +6191,7 @@ SRD35.classRules = function(
       // spellRules) with the minimum needed to cast the spell.
       let casterLevelPat = new RegExp('casterLevels.' + spellType + '\\b', 'g');
       let itemLevelPat = new RegExp('\\([A-Za-z ]*' + spellLevel + ' ');
-      let minLevel = s.match(/:\d+@(\d+)/)[1] * 1;
+      let minLevel = (s.match(/:\d+@(\d+)/) || s.match(/:(\d+)=/))[1] * 1;
       let formats = rules.getChoices('notes');
       for(let p in rules.getChoices('potions')) {
         if(formats['potions.' + p].match(casterLevelPat) &&
