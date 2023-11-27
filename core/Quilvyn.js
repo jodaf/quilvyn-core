@@ -3,7 +3,7 @@
 "use strict";
 
 let COPYRIGHT = 'Copyright 2023 James J. Hayes';
-let VERSION = '2.4.4';
+let VERSION = '2.4.5';
 let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -1801,8 +1801,10 @@ Quilvyn.sheetHtml = function(attrs) {
     if(a.match(/^sanity|^validation/) && !userOptions.validation)
       continue; // Sheet validation reporting replaced by editor status line
     let isNote = a.indexOf('Notes') > 0;
-    let name = a.replace(/([a-z\)])([A-Z\(])/g, '$1 $2')
-                .replace(/([A-Z])\(/, '$1 (');
+    let name = a;
+    name = name.replaceAll(/\b(\w*[a-z]\w*)\b/g, x => x.charAt(0) + x.substring(1).replaceAll(/([A-Z])/g, ' $1'));
+    name = name.replaceAll(/\)([A-Z\(])/g, ') $1');
+    name = name.replaceAll(/([\w])\(/g, '$1 (');
     name = name.substring(0, 1).toUpperCase() + name.substring(1);
     let value = computedAttributes[a];
     if(isNote && value == 0)
