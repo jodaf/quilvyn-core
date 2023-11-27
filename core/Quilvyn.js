@@ -1802,6 +1802,9 @@ Quilvyn.sheetHtml = function(attrs) {
       continue; // Sheet validation reporting replaced by editor status line
     let isNote = a.indexOf('Notes') > 0;
     let name = a;
+    // For readability, add spaces before capital letters in mixed-case portions
+    // of the name, taking care not to split up trailing Roman numerals.
+    name = name.replace(/([^IXV\s])([IXV]+)$/, '$1 $2');
     name = name.replaceAll(/\b(\w*[a-z]\w*)\b/g, x => x.charAt(0) + x.substring(1).replaceAll(/([A-Z])/g, ' $1'));
     name = name.replaceAll(/\)([A-Z\(])/g, ') $1');
     name = name.replaceAll(/([\w])\(/g, '$1 (');
