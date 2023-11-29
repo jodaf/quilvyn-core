@@ -1838,6 +1838,12 @@ Quilvyn.sheetHtml = function(attrs) {
       continue;
     sheetAttributes[name] = value;
     if((i = name.indexOf('.')) >= 0) {
+      // For features that have multiple notes in a single section, remove
+      // the trailing -N from the name
+      if(isNote &&
+         name.match(/\S-\d+$/) &&
+         name.replace(/-\d+$/, '') in sheetAttributes)
+        name = name.replace(/-\d+$/, '');
       let object = name.substring(0, i);
       if(object == 'Validation Notes' || object == 'Sanity Notes')
         value =
