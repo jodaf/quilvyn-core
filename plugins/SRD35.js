@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.6';
+SRD35.VERSION = '2.4.1.7';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -7356,7 +7356,8 @@ SRD35.featureRules = function(rules, name, sections, notes) {
       effects.includes('%1') ? +effects.match(/%\d/g).sort().pop().replace('%') :
       effects.includes('%V') ? 0 : -1;
     let note = section + 'Notes.' + prefix;
-    let priorInSection = sections.slice(0, i).filter(x => x == section).length;
+    let priorInSection =
+      sections.slice(0, i).filter(x => x.toLowerCase() == section.toLowerCase()).length;
     if(priorInSection > 0)
       note += '-' + priorInSection;
 
