@@ -1842,7 +1842,7 @@ Quilvyn.sheetHtml = function(attrs) {
       // the trailing -N from the name
       if(isNote &&
          name.match(/\S-\d+$/) &&
-         name.replace(/-\d+$/, '') in sheetAttributes)
+         a.replace(/-\d+$/, '') in computedAttributes)
         name = name.replace(/-\d+$/, '');
       let object = name.substring(0, i);
       if(object == 'Validation Notes' || object == 'Sanity Notes')
