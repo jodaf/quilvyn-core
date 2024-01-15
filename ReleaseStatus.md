@@ -7,11 +7,11 @@
 | Eberron (3.5)           | v2.4 released 2023-09-12   |
 | Forgotten Realms (3.5)  | v2.4 released 2023-09-10   |
 | LastAge (Midnight 3.5)  | v2.4 completed pre-release |
-| Dark Sun (3.5)          | v2.3 partially completed   |
+| Dark Sun (3.5)          | v2.3 development dormant   |
 |-------------------------|----------------------------|
 | Pathfinder v1           | v2.4 released 2023-09-15   |
 | Pathfinder v1 APG       | v2.4 released 2023-09-15   |
-| Pathfinder v2           | v2.3 partially completed   |
+| Pathfinder v2           | v2.3 development dormant   |
 |-------------------------|----------------------------|
 | SRD5E                   | v2.4 completed pre-release |
 | PHB5E                   | v2.4 completed pre-release |
@@ -19,7 +19,7 @@
 | Volo                    | v2.4 completed pre-release |
 | Xanathar                | v2.4 completed pre-release |
 | Eberron (5E)            | v2.4 completed pre-release |
-| SwordCoast (5E)         | v2.4 in development        |
+| SwordCoast (5E)         | v2.4 completed pre-release |
 | Taldorei                | v2.4 completed pre-release |
 | TaldoreiReborn          | v2.4 completed pre-release |
 | Wildemount              | v2.4 completed pre-release |
@@ -40,6 +40,7 @@
 | OSPsionic (2E)          | v2.3                       |
 | Dark Sun (2E)           | v2.3                       |
 |-------------------------|----------------------------|
-| Dungeon Crawl Classics  | In consideration           |
-| Level Up 5E             | In consideration           |
+| Dungeon Crawl Classics  | Under consideration        |
+| Farland                 | Under consideration        |
+| Level Up 5E             | Under consideration        |
 |-------------------------|----------------------------|
