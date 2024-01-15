@@ -497,9 +497,11 @@ Quilvyn.homebrewDeleteChoices = function(items) {
     let pieces = path.split('.');
     let type = pieces[2];
     let name = pieces[3];
+    let group =
+      type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ','') + 's';
     if(ruleSet.removeChoice)
       ruleSet.removeChoice(ruleSet, type, name);
-    else if(ruleset.getChoices(group))
+    else if(ruleSet.getChoices(group))
       // Minimal fallback behavior for rule sets w/out removeChoice
       delete ruleSet.getChoices(group)[name];
   }
