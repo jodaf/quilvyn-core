@@ -13,17 +13,17 @@
 | Pathfinder v1 APG       | v2.4 released 2023-09-15   |
 | Pathfinder v2           | v2.3 development dormant   |
 |-------------------------|----------------------------|
-| SRD5E                   | v2.4 completed pre-release |
-| PHB5E                   | v2.4 completed pre-release |
-| Tasha                   | v2.4 completed pre-release |
-| Volo                    | v2.4 completed pre-release |
-| Xanathar                | v2.4 completed pre-release |
-| Eberron (5E)            | v2.4 completed pre-release |
-| SwordCoast (5E)         | v2.4 completed pre-release |
-| Taldorei                | v2.4 completed pre-release |
-| TaldoreiReborn          | v2.4 completed pre-release |
-| Wildemount              | v2.4 completed pre-release |
-| MidnightLegacy          | v2.4 completed pre-release |
+| SRD5E                   | v2.4 released 2024-01-16   |
+| PHB5E                   | v2.4 released 2024-01-16   |
+| Tasha                   | v2.4 released 2024-01-16   |
+| Volo                    | v2.4 released 2024-01-16   |
+| Xanathar                | v2.4 released 2024-01-16   |
+| Eberron (5E)            | v2.4 released 2024-01-16   |
+| SwordCoast (5E)         | v2.4 released 2024-01-16   |
+| Taldorei                | v2.4 released 2024-01-16   |
+| TaldoreiReborn          | v2.4 released 2024-01-16   |
+| Wildemount              | v2.4 released 2024-01-16   |
+| MidnightLegacy          | v2.4 released 2024-01-16   |
 |-------------------------|----------------------------|
 | SWD                     | v2.4 completed pre-release |
 | SWADE                   | v2.4 completed pre-release |
