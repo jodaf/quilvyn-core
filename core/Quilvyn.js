@@ -3,7 +3,7 @@
 "use strict";
 
 let COPYRIGHT = 'Copyright 2023 James J. Hayes';
-let VERSION = '2.4.5';
+let VERSION = '2.4.6';
 let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -1104,6 +1104,7 @@ Quilvyn.importCharacters = function(attributes) {
       );
       return;
     }
+    Quilvyn.removeCharacterHomebrew(character);
     character = Object.assign({}, importedCharacter);
     characterPath = character['_path'] || '';
     characterUndo = [];
@@ -1112,6 +1113,7 @@ Quilvyn.importCharacters = function(attributes) {
     index = attributes.indexOf('{');
   }
 
+  Quilvyn.addCharacterHomebrew(character);
   Quilvyn.refreshEditor(true);
   Quilvyn.refreshSheet();
   Quilvyn.refreshStatus(false);
@@ -1201,12 +1203,14 @@ Quilvyn.openCharacter = function(path) {
       ('Discard changes to character?', Quilvyn.openCharacter);
     return;
   }
+  Quilvyn.removeCharacterHomebrew(character);
   character =
     Quilvyn.retrieveCharacterFromStorage(PERSISTENT_CHARACTER_PREFIX + path);
   character['_path'] = path; // In case character saved before _path attr use
   characterPath = path;
   characterUndo = [];
   characterCache[characterPath] = QuilvynUtils.clone(character);
+  Quilvyn.addCharacterHomebrew(character);
   Quilvyn.refreshEditor(false);
   Quilvyn.refreshSheet();
   Quilvyn.refreshStatus(false);
@@ -1222,6 +1226,7 @@ Quilvyn.newCharacter = function(prompted) {
     return;
   }
   let editForm = editWindow.editor;
+  Quilvyn.removeCharacterHomebrew(character);
   character = {};
   characterPath = '';
   characterUndo = [];
@@ -1376,6 +1381,7 @@ Quilvyn.randomizeCharacter = function(prompted) {
     // Quilvyn.randomizeCharacter.win.close();
     Quilvyn.randomizeCharacter.win = null;
   }
+  Quilvyn.removeCharacterHomebrew(character);
   character = ruleSet.randomizeAllAttributes(fixedAttributes);
   characterPath = '';
   characterUndo = [];
@@ -1384,6 +1390,51 @@ Quilvyn.randomizeCharacter = function(prompted) {
   Quilvyn.refreshSheet();
   Quilvyn.refreshStatus(false);
 
+};
+
+/* Adds any homebrew definitions in #character# to the current rule set. */
+Quilvyn.addCharacterHomebrew = function(character) {
+  if(!character.notes)
+    return;
+  let homebrews = character.notes.match(/^\s*homebrew\s+.*/mig);
+  if(!homebrews)
+    return;
+  homebrews.forEach(h => {
+    let m =
+      h.match(/^\s*\w+\s+(\w+|"[^"]+"|'[^']+')\s+(\w+|"[^"]+"|'[^']+')/i);
+    let type = m ? m[1].replaceAll(/^['"]|["']$/g, '') : null;
+    let name = m ? m[2].replaceAll(/^['"]|["']$/g, '') : null;
+    if(!type)
+      console.log('Missing type in homebrew "' + h + '"');
+    else if(!name)
+      console.log('Missing name in homebrew "' + h + '"');
+    else
+      ruleSet.choiceRules(ruleSet, type, name, h);
+  });
+  if(homebrews.length > 0)
+    Quilvyn.refreshEditor(true);
+};
+
+/* Removes any homebrew definitions in #character# from the current rule set. */
+Quilvyn.removeCharacterHomebrew = function(character) {
+  if(!character.notes || !ruleSet.removeChoice)
+    return;
+  let homebrews = character.notes.match(/^\s*homebrew\s+.*/mig);
+  if(!homebrews)
+    return;
+  homebrews.forEach(h => {
+    let m =
+      h.match(/^\s*\w+\s+(\w+|"[^"]+"|'[^']+')\s+(\w+|"[^"]+"|'[^']+')/i);
+    let type = m ? m[1].replaceAll(/^['"]|["']$/g, '') : null;
+    let name = m ? m[2].replaceAll(/^['"]|["']$/g, '') : null;
+    if(!type)
+      console.log('Missing type in homebrew "' + h + '"');
+    else if(!name)
+      console.log('Missing name in homebrew "' + h + '"');
+    else
+      ruleSet.removeChoice(ruleSet, type, name);
+  });
+  Quilvyn.refreshEditor(true);
 };
 
 /*
