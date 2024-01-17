@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.7';
+SRD35.VERSION = '2.4.1.8';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -5419,16 +5419,12 @@ SRD35.identityRules = function(
   for(let c in classes)
     rules.choiceRules(rules, 'Class', c, classes[c]);
   if(prestigeClasses) {
-    for(let c in prestigeClasses) {
+    for(let c in prestigeClasses)
       rules.choiceRules(rules, 'Prestige', c, prestigeClasses[c]);
-      rules.defineRule('levels.' + c, 'prestige.' + c, '=', null);
-    }
   }
   if(npcClasses) {
-    for(let c in npcClasses) {
+    for(let c in npcClasses)
       rules.choiceRules(rules, 'NPC', c, npcClasses[c]);
-      rules.defineRule('levels.' + c, 'npc.' + c, '=', null);
-    }
   }
   for(let p in paths)
     rules.choiceRules(rules, 'Path', p, paths[p]);
@@ -5645,6 +5641,10 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots')
     );
     SRD35.classRulesExtra(rules, name);
+    if(type == 'Prestige')
+      rules.defineRule('levels.' + name, 'prestige.' + name, '=', null);
+    else if(type == 'NPC')
+      rules.defineRule('levels.' + name, 'npc.' + name, '=', null);
   } else if(type == 'Class Feature') {
     SRD35.classFeatureRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
@@ -5859,7 +5859,6 @@ SRD35.removeChoice = function(rules, type, name) {
     let potions = rules.getChoices('potions');
     let scrolls = rules.getChoices('scrolls');
     QuilvynUtils.getKeys(choices, '^' + name + '\\(').forEach(s => {
-      console.log('Deleting spell "' + name + '"');
       delete choices[s];
       delete notes['spells.' + s];
       delete potions[s.replace('(', ' Oil (')];
@@ -6191,7 +6190,7 @@ SRD35.classRules = function(
       // spellRules) with the minimum needed to cast the spell.
       let casterLevelPat = new RegExp('casterLevels.' + spellType + '\\b', 'g');
       let itemLevelPat = new RegExp('\\([A-Za-z ]*' + spellLevel + ' ');
-      let minLevel = (s.match(/:\d+@(\d+)/) || s.match(/:(\d+)=/))[1] * 1;
+      let minLevel = (s.match(/:\s*\d+@(\d+)/) || s.match(/:\s*(\d+)=/))[1] * 1;
       let formats = rules.getChoices('notes');
       for(let p in rules.getChoices('potions')) {
         if(formats['potions.' + p].match(casterLevelPat) &&
@@ -7778,7 +7777,7 @@ SRD35.schoolRules = function(rules, name, features) {
  * Defines in #rules# the rules associated with shield #name#, which adds #ac#
  * to the character's armor class, requires a #weight# proficiency level to
  * use effectively, allows a maximum dex bonus to ac of #maxDex#, imposes
- * #skillPenalty# on specific skills and yields a #spellFail# percent chance of
+ * #skillFail# on specific skills and yields a #spellFail# percent chance of
  * arcane spell failure.
  */
 SRD35.shieldRules = function(
