@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.8';
+SRD35.VERSION = '2.4.1.9';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -5795,60 +5795,59 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
  * choiceRules.
  */
 SRD35.removeChoice = function(rules, type, name) {
-  let choiceGroup =
+  let group =
     type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's';
-  let choices = rules.getChoices(choiceGroup);
+  let choices = rules.getChoices(group);
   let constantName = type.toUpperCase().replaceAll(' ', '_') + 'S';
   if(choices && choices[name]) {
     let currentAttrs = choices[name];
     delete choices[name];
-    // Disable rules based on this choice that affect character sheet
-    // Assume there are no rules to disable:
-    //   Language
-    // Assume any rules are sufficiently disabled by choice removal:
-    //   Animal Companion, Armor, Deity, Familiar, School, Shield, Skill,
-    //   Spell, Weapon
-    // Need to take action to disable rules:
-    //   Class, Class Feature, Feat, Feature, NPC, Prestige, Race, Race Feature
-    if(type.match(/^(Class|Class Feature|NPC|Prestige|Race|Race Feature)$/)) {
-      let classOrRace =
-        type=='Class Feature' ?
-          QuilvynUtils.getAttrValue(currentAttrs, 'Class') :
-        type=='Race Feature' ?
-          QuilvynUtils.getAttrValue(currentAttrs, 'Race') : name;
-      let features =
-        type.match(/^(Class|Race) Feature$/) ?
-          QuilvynUtils.getAttrValue(currentAttrs, 'Selectable') ? [] : [name] :
-        QuilvynUtils.getAttrValueArray(currentAttrs, 'Features');
-      let selectables =
-        type.match(/^(Class|Race) Feature$/) ?
-          !QuilvynUtils.getAttrValue(currentAttrs, 'Selectable') ? [name] : [] :
-        QuilvynUtils.getAttrValueArray(currentAttrs, 'Selectables');
-      if(classOrRace) {
-        let prefix =
-          classOrRace.charAt(0).toLowerCase() +
-          classOrRace.substring(1).replaceAll(' ', '');
-        let levelVar =
-          type.match(/Race/) ? prefix + 'Level' : ('levels.' + classOrRace);
-        features.forEach(f => {
-          rules.defineRule(prefix + 'Features.' + f, levelVar, '=', 'null');
-        });
-        selectables.forEach(s => {
-          let sfVar = 'selectableFeatures.' + classOrRace + ' - ' + s;
-          rules.defineRule(prefix + 'Features.' + s, sfVar, '=', 'null');
-        });
+    // Q defines no way to delete rules outright; instead, we override with a
+    // noop all rules that have the removed choice as their source
+    if(type.match(/^(Armor|Deity|Shield)$/)) {
+      // Remove this item from rules' cached item stats ...
+      let typelc = type.toLowerCase();
+      let stats = rules[typelc + 'Stats'];
+      if(stats) {
+        for(let s in stats)
+          delete stats[s][name];
       }
-    } else if(type == 'Feat') {
-      rules.defineRule('features.' + name, 'feats.' + name, '=', 'null');
-    } else if(type == 'Feature') {
+      // ... and force a recomputation of associated rules
+      let remaining = rules.getChoices(typelc + 's');
+      let first = Object.keys(remaining)[0];
+      if(first)
+        rules.choiceRules(rules, type, first, remaining[first]);
+    } else if(type.match(/^(Class|NPC|Prestige|Race)$/)) {
       let prefix =
         name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
-      QuilvynUtils.getAttrValueArray(currentAttrs, 'Section').forEach(s => {
-        rules.defineRule(s.toLowerCase() + 'Notes.' + prefix,
-          'features.' + name, '=', 'null'
-        );
+      let level = type == 'Race' ? prefix + 'Level' : ('levels.' + name);
+      let targets = rules.allTargets(level);
+      targets.forEach(x => {
+        rules.defineRule(x, level, '=', 'null');
       });
+    } else if(type.match(/^(Class|Race) Feature/)) {
+      let base = QuilvynUtils.getAttrValue(currentAttrs, 'Class') ||
+                 QuilvynUtils.getAttrValue(currentAttrs, 'Race');
+      let prefix =
+        base.charAt(0).toLowerCase() + base.substring(1).replaceAll(' ', '');
+      let source =
+        QuilvynUtils.getAttrValue(currentAttrs, 'Selectable') != null ?
+          'selectableFeatures.' + base + ' - ' + name :
+        type.includes('Class') ? 'levels.' + base : (prefix + 'Level');
+      rules.defineRule(prefix + 'Features.' + name, source, '=', 'null');
+    } else {
+      let source =
+        type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') +
+        (type.match(/^(Feat|Feature|Skill)$/) ? 's' : '') +
+        '.' + name;
+      let targets = rules.allTargets(source);
+      targets.forEach(x => {
+        rules.defineRule(x, source, '=', 'null');
+      });
+      delete rules.getChoices('notes')[group + '.' + name];
     }
+    // If this choice overloaded a plugin-defined one (e.g., a homebrew Fighter
+    // class), restore the plugin version
     if(rules.plugin &&
        rules.plugin[constantName] &&
        name in rules.plugin[constantName] &&
