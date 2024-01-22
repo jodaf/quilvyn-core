@@ -5798,25 +5798,24 @@ SRD35.removeChoice = function(rules, type, name) {
   let group =
     type.charAt(0).toLowerCase() + type.substring(1).replaceAll(' ', '') + 's';
   let choices = rules.getChoices(group);
-  let constantName = type.toUpperCase().replaceAll(' ', '_') + 'S';
-  if(choices && choices[name]) {
-    let currentAttrs = choices[name];
+  if(!choices)
+    return;
+  let currentAttrs = choices[name];
+  if(currentAttrs) {
     delete choices[name];
     // Q defines no way to delete rules outright; instead, we override with a
     // noop all rules that have the removed choice as their source
     if(type.match(/^(Armor|Deity|Shield)$/)) {
       // Remove this item from rules' cached item stats ...
-      let typelc = type.toLowerCase();
-      let stats = rules[typelc + 'Stats'];
+      let stats = rules[type.toLowerCase() + 'Stats'];
       if(stats) {
         for(let s in stats)
           delete stats[s][name];
       }
       // ... and force a recomputation of associated rules
-      let remaining = rules.getChoices(typelc + 's');
-      let first = Object.keys(remaining)[0];
+      let first = Object.keys(choices)[0];
       if(first)
-        rules.choiceRules(rules, type, first, remaining[first]);
+        rules.choiceRules(rules, type, first, choices[first]);
     } else if(type.match(/^(Class|NPC|Prestige|Race)$/)) {
       let prefix =
         name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
@@ -5846,13 +5845,6 @@ SRD35.removeChoice = function(rules, type, name) {
       });
       delete rules.getChoices('notes')[group + '.' + name];
     }
-    // If this choice overloaded a plugin-defined one (e.g., a homebrew Fighter
-    // class), restore the plugin version
-    if(rules.plugin &&
-       rules.plugin[constantName] &&
-       name in rules.plugin[constantName] &&
-       rules.plugin[constantName][name] != currentAttrs)
-      rules.choiceRules(rules, type, name, rules.plugin[constantName][name]);
   } else if(choices && type == 'Spell') {
     let notes = rules.getChoices('notes');
     let potions = rules.getChoices('potions');
@@ -5867,10 +5859,21 @@ SRD35.removeChoice = function(rules, type, name) {
       delete scrolls[s];
       delete notes['scrolls.' + s];
     });
-    if(rules.plugin &&
-       rules.plugin[constantName] &&
-       name in rules.plugin[constantName])
-      rules.choiceRules(rules, type, name, rules.plugin[constantName][name]);
+  }
+  // If this choice overloaded a plugin-defined one (e.g., a homebrew Fighter
+  // class), restore the plugin version
+  let constantName = type.toUpperCase().replaceAll(' ', '_') + 'S';
+  let plugins = rules.getPlugins();
+  if(rules.plugin)
+    plugins.push(rules.plugin);
+  for(let i = 0; i < plugins.length; i++) {
+    let p = plugins[i];
+    if(p[constantName] &&
+       name in p[constantName] &&
+       p[constantName][name] != currentAttrs) {
+      rules.choiceRules(rules, type, name, p[constantName][name]);
+      break;
+    }
   }
 };
 
