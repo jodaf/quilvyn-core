@@ -34,8 +34,8 @@
 | WeirdWest               | v2.4 completed pre-release |
 | Hellfrost               | v2.4 completed pre-release |
 |-------------------------|----------------------------|
-| OSRIC                   | v2.3                       |
-| OldSchool (AD&D 1E/2E)  | v2.3                       |
+| OSRIC                   | v2.4 in development        |
+| OldSchool (AD&D 1E/2E)  | v2.4 in development        |
 | UnearthedArcana (1E)    | v2.3                       |
 | OSPsionic (2E)          | v2.3                       |
 | Dark Sun (2E)           | v2.3                       |
@@ -43,4 +43,8 @@
 | Dungeon Crawl Classics  | Under consideration        |
 | Farland                 | Under consideration        |
 | Level Up 5E             | Under consideration        |
+| PF4SW APG               | Under consideration        |
+| Starfinder              | Under consideration        |
+| Symbaroum               | Under consideration:       |
+|                         | Copyright issues?          |
 |-------------------------|----------------------------|
