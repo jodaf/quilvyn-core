@@ -6,7 +6,7 @@
 | PHB35                   | v2.4 released 2023-09-10   |
 | Eberron (3.5)           | v2.4 released 2023-09-12   |
 | Forgotten Realms (3.5)  | v2.4 released 2023-09-10   |
-| LastAge (Midnight 3.5)  | v2.4 completed pre-release |
+| LastAge (Midnight 3.5)  | v2.4 released 2024-01-16   |
 | Dark Sun (3.5)          | v2.3 development dormant   |
 |-------------------------|----------------------------|
 | Pathfinder v1           | v2.4 released 2023-09-15   |
@@ -34,8 +34,8 @@
 | WeirdWest               | v2.4 completed pre-release |
 | Hellfrost               | v2.4 completed pre-release |
 |-------------------------|----------------------------|
-| OSRIC                   | v2.4 in development        |
-| OldSchool (AD&D 1E/2E)  | v2.4 in development        |
+| OSRIC                   | v2.4 completed pre-release |
+| OldSchool (AD&D 1E/2E)  | v2.4 completed pre-release |
 | UnearthedArcana (1E)    | v2.3                       |
 | OSPsionic (2E)          | v2.3                       |
 | Dark Sun (2E)           | v2.3                       |
