@@ -34,11 +34,11 @@
 | WeirdWest               | v2.4 completed pre-release |
 | Hellfrost               | v2.4 completed pre-release |
 |-------------------------|----------------------------|
-| OSRIC                   | v2.4 completed pre-release |
-| OldSchool (AD&D 1E/2E)  | v2.4 completed pre-release |
-| UnearthedArcana (1E)    | v2.3                       |
-| OSPsionic (2E)          | v2.3                       |
-| Dark Sun (2E)           | v2.3                       |
+| OSRIC                   | v2.4 released 2024-03-08   |
+| OldSchool (AD&D 1E/2E)  | v2.4 released 2024-03-08   |
+| UnearthedArcana (1E)    | v2.4 released 2024-03-08   |
+| OSPsionic (2E)          | v2.4 released 2024-03-08   |
+| Dark Sun (2E)           | v2.4 released 2024-03-08   |
 |-------------------------|----------------------------|
 | Dungeon Crawl Classics  | Under consideration        |
 | Farland                 | Under consideration        |
