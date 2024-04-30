@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.9';
+SRD35.VERSION = '2.4.1.10';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -5852,12 +5852,16 @@ SRD35.removeChoice = function(rules, type, name) {
     QuilvynUtils.getKeys(choices, '^' + name + '\\(').forEach(s => {
       delete choices[s];
       delete notes['spells.' + s];
-      delete potions[s.replace('(', ' Oil (')];
-      delete notes['potions.' + s.replace('(', ' Oil (')];
-      delete potions[s.replace('(', ' Potion (')];
-      delete notes['potions.' + s.replace('(', ' Potion (')];
-      delete scrolls[s];
-      delete notes['scrolls.' + s];
+      if(potions) {
+        delete potions[s.replace('(', ' Oil (')];
+        delete potions[s.replace('(', ' Potion (')];
+        delete notes['potions.' + s.replace('(', ' Oil (')];
+        delete notes['potions.' + s.replace('(', ' Potion (')];
+      }
+      if(scrolls) {
+        delete scrolls[s];
+        delete notes['scrolls.' + s];
+      }
     });
   }
   // If this choice overloaded a plugin-defined one (e.g., a homebrew Fighter
