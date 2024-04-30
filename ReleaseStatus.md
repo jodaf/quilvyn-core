@@ -40,11 +40,13 @@
 | OSPsionic (2E)          | v2.4 released 2024-03-08   |
 | Dark Sun (2E)           | v2.4 released 2024-03-08   |
 |-------------------------|----------------------------|
+| Symbaroum               | v2.4 in development:       |
+|                         | Copyright issues?          |
+| Symbaroum APG           | v2.4 planned               |
+|-------------------------|----------------------------|
 | Dungeon Crawl Classics  | Under consideration        |
 | Farland                 | Under consideration        |
 | Level Up 5E             | Under consideration        |
 | PF4SW APG               | Under consideration        |
 | Starfinder              | Under consideration        |
-| Symbaroum               | Under consideration:       |
-|                         | Copyright issues?          |
 |-------------------------|----------------------------|
