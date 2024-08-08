@@ -1535,13 +1535,14 @@ Quilvyn.redrawUI = function() {
     sheetWindow = quilvynWindow.frames[1];
     statusWindow = quilvynWindow.frames[2];
   }
-  controlWindow.addEventListener("beforeunload", (e) => {
+  controlWindow.onbeforeunload = (e) => {
     if(userOptions.warnAboutDiscard &&
        !QuilvynUtils.clones(character, characterCache[characterPath])) {
+      e.preventDefault();
       e.returnValue = "Changes will be discarded";
       return e.returnValue;
     }
-  });
+  };
   return true;
 };
 
