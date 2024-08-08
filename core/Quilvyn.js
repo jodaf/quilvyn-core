@@ -3,7 +3,7 @@
 "use strict";
 
 let COPYRIGHT = 'Copyright 2023 James J. Hayes';
-let VERSION = '2.4.6';
+let VERSION = '2.4.7';
 let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -1446,6 +1446,7 @@ Quilvyn.redrawUI = function() {
     secondWindow.close();
     secondWindow = null;
   }
+  let controlWindow = quilvynWindow;
   if(userOptions.separateEditor) {
     try {
       secondWindow = window.open('', '', FEATURES_OF_EDIT_WINDOW);
@@ -1489,6 +1490,7 @@ Quilvyn.redrawUI = function() {
     editWindow = secondWindow.frames[0];
     sheetWindow = quilvynWindow;
     statusWindow = secondWindow.frames[1];
+    controlWindow = secondWindow;
   } else {
     quilvynWindow.document.write(
       '<!DOCTYPE html>\n' +
@@ -1533,6 +1535,13 @@ Quilvyn.redrawUI = function() {
     sheetWindow = quilvynWindow.frames[1];
     statusWindow = quilvynWindow.frames[2];
   }
+  controlWindow.addEventListener("beforeunload", (e) => {
+    if(userOptions.warnAboutDiscard &&
+       !QuilvynUtils.clones(character, characterCache[characterPath])) {
+      e.returnValue = "Changes will be discarded";
+      return e.returnValue;
+    }
+  });
   return true;
 };
 
