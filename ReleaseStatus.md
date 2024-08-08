@@ -11,7 +11,7 @@
 |-------------------------|----------------------------|
 | Pathfinder v1           | v2.4 released 2023-09-15   |
 | Pathfinder v1 APG       | v2.4 released 2023-09-15   |
-| Pathfinder v2           | v2.3 development dormant   |
+| Pathfinder v2           | v2.4 in development        |
 |-------------------------|----------------------------|
 | SRD5E                   | v2.4 released 2024-01-16   |
 | PHB5E                   | v2.4 released 2024-01-16   |
@@ -48,5 +48,6 @@
 | Farland                 | Under consideration        |
 | Level Up 5E             | Under consideration        |
 | PF4SW APG               | Under consideration        |
+| Shadowdark              | Under consideration        |
 | Starfinder              | Under consideration        |
 |-------------------------|----------------------------|
