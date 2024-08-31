@@ -1,7 +1,7 @@
 ### Core
 | Module/Plugin           | Status                     |
 |-------------------------|----------------------------|
-| quilvyn-core            | ${\color{green}v2.4 \space released \space 2023-09-09}$   |
+| quilvyn-core            | v2.4 released 2023-09-09   |
 | SRD35                   | v2.4 released 2023-09-09   |
 | PHB35                   | v2.4 released 2023-09-10   |
 | Eberron (3.5)           | v2.4 released 2023-09-12   |
