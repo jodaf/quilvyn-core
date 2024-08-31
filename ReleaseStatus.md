@@ -30,9 +30,9 @@
 | SWADE Fantasy Comp.     | v2.4 completed pre-release |
 | SWADE Horror Comp.      | v2.4 completed pre-release |
 | SWADE Super Powers Comp.| v2.4 in development        |
+| Hellfrost               | v2.4 completed pre-release |
 | PF4SW                   | v2.4 completed pre-release |
 | WeirdWest               | v2.4 completed pre-release |
-| Hellfrost               | v2.4 completed pre-release |
 |-------------------------|----------------------------|
 | OSRIC                   | v2.4 released 2024-03-08   |
 | OldSchool (AD&D 1E/2E)  | v2.4 released 2024-03-08   |
@@ -44,6 +44,8 @@
 |                         | Copyright issues?          |
 | Symbaroum APG           | v2.4 planned               |
 |-------------------------|----------------------------|
+| Dragonheart (CritRole)  | Under consideration        |
+| Draw Steel (MCDM)       | Under consideration        |
 | Dungeon Crawl Classics  | Under consideration        |
 | Farland                 | Under consideration        |
 | Level Up 5E             | Under consideration        |
