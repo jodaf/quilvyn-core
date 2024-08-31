@@ -12,9 +12,11 @@
 | Pathfinder v1           | v2.4 released 2023-09-15   |
 | Pathfinder v1 APG       | v2.4 released 2023-09-15   |
 | Pathfinder v2           | v2.4 in development        |
+| 2023 Core Updates       | v2.4 planned               |
 |-------------------------|----------------------------|
 | SRD5E                   | v2.4 released 2024-01-16   |
 | PHB5E                   | v2.4 released 2024-01-16   |
+| 2024 PHB Updates        | v2.4 planned               |
 | Tasha                   | v2.4 released 2024-01-16   |
 | Volo                    | v2.4 released 2024-01-16   |
 | Xanathar                | v2.4 released 2024-01-16   |
