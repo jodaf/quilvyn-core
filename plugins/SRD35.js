@@ -1,5 +1,5 @@
 /*
-Copyright 2023, James J. Hayes
+Copyright 2024, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.10';
+SRD35.VERSION = '2.4.1.11';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -1385,7 +1385,7 @@ SRD35.GOODIES = {
     'Attribute=animalCompanionStats.Wis ' +
     'Section=companion Note="%V Wisdom"',
   'Constitution':
-    'Pattern="([-+]\\d+)\\s+con(?:stitution)?\\b|\\bcon(?:stitution+)?\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d+)\\s+con(?:stitution)?\\b|\\bcon(?:stitution+)?\\s+([-+]\\d+)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=constitution ' +
@@ -1469,7 +1469,7 @@ SRD35.GOODIES = {
     'Attribute=familiarStats.Wis ' +
     'Section=companion Note="%V Wisdom"',
   'Fighter Feat Count':
-    'Pattern="([-+]\\d)\\s+fighter\\s+feat\\b|\\bfighter\\s+feat\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d+)\\s+fighter\\s+feat\\b|\\bfighter\\s+feat\\s+([-+]\\d+)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=featCount.Fighter ' +
@@ -1487,7 +1487,7 @@ SRD35.GOODIES = {
     'Attribute=featCount.General ' +
     'Section=feature Note="%V General Feat"',
   'Initiative':
-    'Pattern="([-+]\\d)\\s+initiative\\b|\\binitiative\\s+([-+]\\d)" ' +
+    'Pattern="([-+]\\d+)\\s+initiative\\b|\\binitiative\\s+([-+]\\d+)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=initiative ' +
@@ -1505,13 +1505,13 @@ SRD35.GOODIES = {
     'Attribute=languageCount ' +
     'Section=skill Note="%V Languages"',
   'Masterwork Armor':
-    'Pattern="\\bmasterwork\\b.*\\s+armor\\b|[-+]\\d.*\\barmor\\b|\\barmor\\s+[-+]\\d" ' +
+    'Pattern="\\bmasterwork\\b.*\\s+armor\\b|[-+]\\d+.*\\barmor\\b|\\barmor\\s+[-+]\\d+" ' +
     'Effect=add ' +
     'Value=-1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduce skill check penalty by 1"',
   'Masterwork Shield':
-    'Pattern="\\bmasterwork\\b.*\\s+shield|[-+]\\d.*\\bshield\\b|\\bshield\\s+[-+]\\d" ' +
+    'Pattern="\\bmasterwork\\b.*\\s+shield|[-+]\\d+.*\\bshield\\b|\\bshield\\s+[-+]\\d+" ' +
     'Effect=add ' +
     'Value=-1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
@@ -5258,7 +5258,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
       // "* punching dagger +2" also makes regular dagger +2), require that
       // weapon goodies with a trailing value have no preceding word or be
       // enclosed in parentheses.
-      'Pattern="([-+]\\d)\\s+' + pattern + '|(?:^\\W*|\\()' + pattern + '\\s+([-+]\\d)" ' +
+      'Pattern="([-+]\\d+)\\s+' + pattern + '|(?:^\\W*|\\()' + pattern + '\\s+([-+]\\d+)" ' +
       'Effect=add ' +
       'Attribute=' + prefix + 'AttackModifier,' + prefix + 'DamageModifier ' +
       'Value="$1 || $2" ' +
@@ -5485,7 +5485,7 @@ SRD35.talentRules = function(
     let pattern =
       s.replaceAll('(', '\\(').replaceAll(')', '\\)').replace(/\s+/, '\\b\\s*');
     rules.choiceRules(rules, 'Goody', s,
-      'Pattern="([-+]\\d).*\\s+' + pattern + '\\s+Skill|' + pattern + '\\s+skill\\s+([-+]\\d)"' +
+      'Pattern="([-+]\\d+).*\\s+' + pattern + '\\s+Skill|' + pattern + '\\s+skill\\s+([-+]\\d+)"' +
       'Effect=add ' +
       'Value="$1 || $2" ' +
       'Attribute="skillModifier.' + s + '" ' +
@@ -8475,7 +8475,7 @@ SRD35.getFormats = function(rules, viewer) {
       let weapon = 'weapons.' + w;
       result[weapon] = formats[weapon]
         .replace('(%1 ', '%1 (').replace('/', ',')
-        .replace(/ x(\d)@%(\d)/, '%{($1>2 ? "/x$1" : "")}%{%$2<20 ? ($1>2 ? "@" : "/") + "%$2-20" : ""}');
+        .replace(/ x(\d+)@%(\d+)/, '%{($1>2 ? "/x$1" : "")}%{%$2<20 ? ($1>2 ? "@" : "/") + "%$2-20" : ""}');
     }
   } else {
     result = formats;
