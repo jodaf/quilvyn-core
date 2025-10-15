@@ -12,8 +12,8 @@
 |-------------------------|----------------------------|
 | Pathfinder v1           | v2.4 released 2023-09-15   |
 | Pathfinder v1 APG       | v2.4 released 2023-09-15   |
-| Pathfinder v2           | v2.4 in development        |
-| 2023 Core Updates       | v2.4 planned               |
+| Pathfinder v2           | v2.4 in beta testing       |
+| 2023 Core Updates       | v2.4 in development        |
 | Starfinder              | Under consideration        |
 |-------------------------|----------------------------|
 | SRD5E                   | v2.4 released 2024-01-16   |
@@ -38,6 +38,7 @@
 | SWADE Horror Comp.      | v2.4 completed pre-release |
 | Deadlands: Weird West   | v2.4 completed pre-release |
 | SWADE Super Powers Comp.| v2.4 in development        |
+| SWADE SciFi Comp.       | v2.4 planned               |
 | Hellfrost               | v2.4 completed pre-release |
 | PF4SW                   | v2.4 completed pre-release |
 | PF4SW APG               | Under consideration        |
@@ -53,6 +54,6 @@
 |                         | Copyright issues?          |
 | Symbaroum APG           | v2.4 planned               |
 |-------------------------|----------------------------|
-| Dragonheart (CritRole)  | Under consideration        |
+| Dragonheart (CritRole)  | v2.4 planned               |
 | Draw Steel (MCDM)       | Under consideration        |
 |-------------------------|----------------------------|
