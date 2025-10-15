@@ -3,7 +3,7 @@
 "use strict";
 
 let COPYRIGHT = 'Copyright 2023 James J. Hayes';
-let VERSION = '2.4.7';
+let VERSION = '2.4.8';
 let ABOUT_TEXT =
 'Quilvyn RPG Character Editor version ' + VERSION + '\n' +
 'The Quilvyn RPG Character Editor is ' + COPYRIGHT + '\n' +
@@ -366,7 +366,7 @@ Quilvyn.clarifiedValidationNote = function(name, note, attrs) {
              .replace(/\s*(>\s*0|>=\s*1)\b/g, '');
   for(let i = 0; i < 9; i++)
     note = note.replace('%' + i, attrs[name + '.' + i]);
-  let m = note.match(/[a-z]\w*(\.[A-Z]\w*([-\s]\(?[A-Z]\w+\)?)*\+?)?/g);
+  let m = note.match(/[a-z]\w*(\.[A-Z][\w']*([-\s]\(?[A-Z][\w']+\)?)*\+?)?/g);
   if(m) {
     for(let i = 1; i < m.length; i++) {
       let ref = m[i];

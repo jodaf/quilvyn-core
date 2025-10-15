@@ -194,10 +194,100 @@ QuilvynUtils.random = function(low, hi) {
   return Math.floor(Math.random() * (hi - low + 1) + low);
 };
 
+/* Returns a random character from the string #s#. */
+QuilvynUtils.randomChar = function(s) {
+  return s.charAt(QuilvynUtils.random(0, s.length - 1));
+};
+
+/* Returns a random element from the array #list#. */
+QuilvynUtils.randomElement = function(list) {
+  return list.length>0 ? list[QuilvynUtils.random(0, list.length - 1)] : '';
+}
+
 /* Returns a random key of the object #o#. */
 QuilvynUtils.randomKey = function(o) {
   var keys = QuilvynUtils.getKeys(o);
   return keys[QuilvynUtils.random(0, keys.length - 1)];
+};
+
+/*
+ * Returns a random string built using the string #format# as a guide and the
+ * contents of the object #components#. #format# contains literal text, which
+ * is copied verbatim to the result, interspersed with references enclosed in
+ * %{}. These references name keys of #components#, whose values are arrays of
+ * strings, and each reference is replaced in the result with a random element
+ * of the corresponding array. These replacements can also contain references,
+ * which are replaced in turn. Occurrences of the special reference %{Syllable}
+ * are each replaced by a randomly-generated syllable, and four elements of
+ * #components#--leading, trailing, vowels, and clusters--specify arrays of
+ * characters that are used to form random syllables.
+ */
+QuilvynUtils.randomString = function(format, components) {
+  let leading = components.leading || 'bcdfghjklmnpqrstvwxyz'.split('');
+  let trailing = components.trailing || 'bcdfgklmnprstxz'.split('');
+  let vowels = components.vowels || 'aeoiu'.split('');
+  let clusters = components.clusters || [
+    // Some common English vowel digraphs ...
+    'ai', 'au', 'aw', 'ay', 'ea', 'ee', 'ei', 'eu', 'ew', 'ie', 'oa', 'oi',
+    'oo', 'ou', 'ow', 'oy', 'ue', 'ui',
+    // ... consonant digraphs ...
+    'Ch', 'Ph', 'Sh', 'Th', 'Wh',
+    'ch', 'ck', 'lf', 'll', 'ng', 'ss', 'th',
+    // .. and consonant blends
+    'Bl', 'Br', 'Cl', 'Cr', 'Dr', 'Fl', 'Fr', 'Gl', 'Gr', 'Pl', 'Pr', 'Scr',
+    'Sl', 'Sm', 'Sp', 'St', 'Str', 'Thr', 'Tr',
+    'ct', 'lk', 'lm', 'ln', 'lp', 'lt', 'mp', 'nk', 'nt', 'rf', 'sk', 'sp', 'st'
+  ];
+  let matchInfo;
+  while((matchInfo = format.match(/%\{(\w+)\}/))) {
+    let ref = matchInfo[1];
+    let replacement;
+    if(components[ref])
+      replacement = QuilvynUtils.randomElement(components[ref]);
+    else if(ref == 'Syllable')
+      replacement =
+        QuilvynUtils.randomSyllable(leading, trailing, vowels, clusters);
+    else
+      replacement = '';
+    format = format.replace(matchInfo[0], replacement);
+  }
+  return format;
+};
+
+/*
+ * Returns a random syllable built from the parameters. #leading#, #trailing#,
+ * and #vowels# are arrays that contain the consonants and vowels of the
+ * language, and #clusters# is an array of valid multi-character clusters of
+ * vowels and consonants. Within this latter array, an element that begins with
+ * an upper-case consonant marks a run that can appear at the beginning of a
+ * syllable, while one that begins with a lower-case consonant can appear at
+ * the end.
+ */
+QuilvynUtils.randomSyllable = function(leading, trailing, vowels, clusters) {
+  let lead =
+    QuilvynUtils.random(0, 99) < 80 ?
+      QuilvynUtils.randomElement(leading).toUpperCase() : '';
+  if(lead != '' && QuilvynUtils.random(0, 99) < 15) {
+    let leadClusters = clusters.filter(e => e.startsWith(lead));
+    if(leadClusters.length > 0)
+      lead = QuilvynUtils.randomElement(leadClusters);
+  }
+  if(lead == 'Q')
+    lead += 'u';
+  let vowel = QuilvynUtils.randomElement(vowels);
+  if(QuilvynUtils.random(0, 99) < 15) {
+    let vowelClusters = clusters.filter(e => e.startsWith(vowel));
+    if(vowelClusters.length > 0)
+      vowel = QuilvynUtils.randomElement(vowelClusters);
+  }
+  let trail =
+    QuilvynUtils.random(0, 99) < 60 ? QuilvynUtils.randomElement(trailing) : '';
+  if(trail != '' && QuilvynUtils.random(0, 99) < 15) {
+    let trailClusters = clusters.filter(e => e.startsWith(trail));
+    if(trailClusters.length > 0)
+      trail = QuilvynUtils.randomElement(trailClusters);
+  }
+  return lead.toLowerCase() + vowel + trail;
 };
 
 /* Returns #value# with a leading sign. */
