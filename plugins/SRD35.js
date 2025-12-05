@@ -1,5 +1,5 @@
 /*
-Copyright 2024, James J. Hayes
+Copyright 2025, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.11';
+SRD35.VERSION = '2.4.1.12';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -8223,8 +8223,9 @@ SRD35.weaponRules = function(
     attackBase, '=', null
   );
   if(name.startsWith('Composite')) {
+   let m = name.match(/\+(\d+)\s+Str\s+bonus/);
     rules.defineRule(prefix + 'AttackModifier',
-      'strengthModifier', '+', 'source < 0 ? -2 : null'
+      'strengthModifier', '+', 'source < ' + (m ? m[1] : 0) + ' ? -2 : null'
     );
   }
   rules.defineRule(weaponName + '.1',
@@ -8236,7 +8237,12 @@ SRD35.weaponRules = function(
     rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', '0'
     );
-  else if(name.match(/Longbow|Shortbow/) && !name.startsWith('Composite'))
+  else if(name.startsWith('Composite')) {
+    let m = name.match(/\+(\d+)\s+Str\s+bonus/);
+    rules.defineRule(prefix + 'DamageModifier',
+      'combatNotes.strengthDamageAdjustment', '=', 'Math.min(source, ' + (m ? m[1] : 0)  + ')'
+    );
+  } else if(name.match(/Longbow|Shortbow/))
     rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? source : 0'
     );
@@ -8249,6 +8255,22 @@ SRD35.weaponRules = function(
     rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', null
     );
+  // Give specific weapons modifiers as the base weapon, e.g., "Composite
+  // Longbow (+3 Str bonus)" gets Composite Longbow modifiers
+  if(name.includes('(')) {
+    let wbase = name.replace(/\s*\(.*\)/, '').replaceAll(' ', '');
+    rules.defineRule(prefix + 'AttackModifier',
+      'combatNotes.goodies' + wbase, '+', null,
+      'combatNotes.goodiesMasterwork', '+', null,
+      'combatNotes.greaterWeaponFocus(' + wbase + ')', '+', '1',
+      'combatNotes.weaponFocus(' + wbase + ')', '+', '1'
+    );
+    rules.defineRule(prefix + 'DamageModifier',
+      'combatNotes.goodies' + wbase, '+', null,
+      'combatNotes.greaterWeaponSpecialization(' + wbase + ')', '+', '2',
+      'combatNotes.weaponSpecialization(' + wbase + ')', '+', '2'
+    );
+  }
   if(firstDamage.match(/[-+]/)) {
     let bump = firstDamage.replace(/^[^-+]*/, '');
     firstDamage = firstDamage.replace(bump, '');
@@ -8319,9 +8341,9 @@ SRD35.weaponRules = function(
   );
   rules.defineRule('weaponProficiencyLevelShortfall.' + name,
     'weapons.' + name, '=', profLevel,
-    'features.Weapon Familiarity (' + name + ')', '+', '-1',
+    'features.Weapon Familiarity (' + name.replace(/\s*\(.*/, '') + ')', '+', '-1',
     'weaponProficiencyLevel', '+', '-source',
-    'features.Weapon Proficiency (' + name + ')', '*', '0'
+    'features.Weapon Proficiency (' + name.replace(/\s*\(.*/, '') + ')', '*', '0'
   );
   rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + name,
     'weapons.' + name, '=', '-4',
@@ -9801,8 +9823,10 @@ SRD35.ruleNotes = function() {
     '    that characters with a buckler wield their weapons one-handed and' +
     '    that characters with no buckler or shield wield with both hands.\n' +
     '  </li><li>\n' +
-    '    Quilvyn assumes that masterwork composite bows are specially built' +
-    '    to allow a strength damage bonus to be applied.\n' +
+    '    Quilvyn assumes that composite bows have a +0 strength bonus. You' +
+    '    can define homebrew composite bows with higher strength bonuses by' +
+    '    following the naming convention used in the rulebook, e.g.,' +
+    '    Composite Shortbow (+3 Str bonus).\n' +
     '  </li><li>\n' +
     '    Quilvyn uses the minimum required caster level for computing\n' +
     '    potion and scroll effects.\n' +
