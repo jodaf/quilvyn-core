@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.12';
+SRD35.VERSION = '2.4.1.13';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -476,15 +476,15 @@ SRD35.FEATS = {
   'Greater Two-Weapon Fighting':
     'Type=Fighter Require="dexterity >= 12","baseAttack >= 11","features.Two-Weapon Fighting","features.Improved Two-Weapon Fighting"',
   'Greater Weapon Focus (%weapon)':
-    'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 8" Imply="weapons.%weapon"',
+    'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 8" Imply="ownedWeapons.%weapon"',
   'Greater Weapon Specialization (%weapon)':
-    'Type=Fighter Require="features.Weapon Focus (%weapon)","features.Greater Weapon Focus (%weapon)","features.Weapon Specialization (%weapon)","levels.Fighter >= 12" Imply="weapons.%weapon"',
+    'Type=Fighter Require="features.Weapon Focus (%weapon)","features.Greater Weapon Focus (%weapon)","features.Weapon Specialization (%weapon)","levels.Fighter >= 12" Imply="ownedWeapons.%weapon"',
   'Heighten Spell':'Type=Metamagic Imply="casterLevel >= 1"',
   'Improved Bull Rush':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Counterspell':'Type=General Imply="casterLevel >= 1"',
   'Improved Critical (%weapon)':
-    'Type=Fighter Require="baseAttack >= 8" Imply="weapons.%weapon"',
+    'Type=Fighter Require="baseAttack >= 8" Imply="ownedWeapons.%weapon"',
   'Improved Disarm':
     'Type=Fighter Require="intelligence >= 13","features.Combat Expertise"',
   'Improved Familiar':'Type=General Require="features.Summon Familiar"',
@@ -570,9 +570,9 @@ SRD35.FEATS = {
   'Weapon Finesse':
     'Type=Fighter Require="baseAttack >= 1" Imply="dexterityModifier > strengthModifier"',
   'Weapon Focus (%weapon)':
-    'Type=Fighter Require="baseAttack >= 1" Imply="weapons.%weapon"',
+    'Type=Fighter Require="baseAttack >= 1" Imply="ownedWeapons.%weapon"',
   'Weapon Specialization (%weapon)':
-    'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 4" Imply="weapons.%weapon"',
+    'Type=Fighter Require="features.Weapon Focus (%weapon)","levels.Fighter >= 4" Imply="ownedWeapons.%weapon"',
   'Whirlwind Attack':
     'Type=Fighter Require="dexterity >= 13","intelligence >= 13","baseAttack >= 4","features.Combat Expertise",features.Dodge,features.Mobility,"features.Spring Attack"',
   'Widen Spell':'Type=Metamagic Imply="casterLevel >= 1"'
@@ -8255,22 +8255,6 @@ SRD35.weaponRules = function(
     rules.defineRule(prefix + 'DamageModifier',
       'combatNotes.strengthDamageAdjustment', '=', null
     );
-  // Give specific weapons modifiers as the base weapon, e.g., "Composite
-  // Longbow (+3 Str bonus)" gets Composite Longbow modifiers
-  if(name.includes('(')) {
-    let wbase = name.replace(/\s*\(.*\)/, '').replaceAll(' ', '');
-    rules.defineRule(prefix + 'AttackModifier',
-      'combatNotes.goodies' + wbase, '+', null,
-      'combatNotes.goodiesMasterwork', '+', null,
-      'combatNotes.greaterWeaponFocus(' + wbase + ')', '+', '1',
-      'combatNotes.weaponFocus(' + wbase + ')', '+', '1'
-    );
-    rules.defineRule(prefix + 'DamageModifier',
-      'combatNotes.goodies' + wbase, '+', null,
-      'combatNotes.greaterWeaponSpecialization(' + wbase + ')', '+', '2',
-      'combatNotes.weaponSpecialization(' + wbase + ')', '+', '2'
-    );
-  }
   if(firstDamage.match(/[-+]/)) {
     let bump = firstDamage.replace(/^[^-+]*/, '');
     firstDamage = firstDamage.replace(bump, '');
@@ -8366,6 +8350,31 @@ SRD35.weaponRules = function(
     QuilvynRules.prerequisiteRules
       (rules, 'validation', 'two-handedWeapon', 'weapons.' + name,
        'shield =~ \'Buckler|None\'');
+  }
+
+  rules.defineRule('ownedWeapons.' + name, 'weapons.' + name, '=', '1');
+
+  // Give specific weapons modifiers as the base weapon, e.g., "Composite
+  // Longbow (+3 Str bonus)" gets Composite Longbow modifiers
+  if(name.includes('(')) {
+    let baseWeapon = name.replace(/\s*\(.*\)/, '');
+    let baseNoSpace = baseWeapon.replaceAll(' ', '');
+    rules.defineRule(prefix + 'AttackModifier',
+      'combatNotes.goodies' + baseNoSpace, '+', null,
+      'combatNotes.goodiesMasterwork' + baseNoSpace, '+', null,
+      'combatNotes.greaterWeaponFocus(' + baseNoSpace + ')', '+', '1',
+      'combatNotes.weaponFocus(' + baseNoSpace + ')', '+', '1'
+    );
+    rules.defineRule(prefix + 'DamageModifier',
+      'combatNotes.goodies' + baseNoSpace, '+', null,
+      'combatNotes.greaterWeaponSpecialization(' + baseNoSpace + ')', '+', '2',
+      'combatNotes.weaponSpecialization(' + baseNoSpace + ')', '+', '2'
+    );
+    rules.defineRule(prefix + 'ThreatRange',
+      'combatNotes.improvedCritical(' + baseNoSpace + ')', '*', '2'
+    );
+    rules.defineRule
+      ('ownedWeapons.' + baseWeapon, 'weapons.' + name, '=', null);
   }
 
   if(profLevel == 2)
