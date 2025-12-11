@@ -12,8 +12,8 @@
 |-------------------------|----------------------------|
 | Pathfinder v1           | v2.4 released 2023-09-15   |
 | Pathfinder v1 APG       | v2.4 released 2023-09-15   |
-| Pathfinder v2           | v2.4 in beta testing       |
-| 2023 Core Updates       | v2.4 in development        |
+| Pathfinder v2           | v2.4 released 2025-12-02   |
+| 2023 Core Updates       | v2.4 released 2025-12-02   |
 | Starfinder              | Under consideration        |
 |-------------------------|----------------------------|
 | SRD5E                   | v2.4 released 2024-01-16   |
