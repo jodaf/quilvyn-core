@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.13';
+SRD35.VERSION = '2.4.1.14';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -6176,20 +6176,26 @@ SRD35.classRules = function(
         'casterLevels.' + spellType, '?', null,
         spellAbility + 'Modifier', '=', '10 + source'
       );
-      if(spellLevel > 0 && spellLevel < 5 && spellType != 'Domain') {
+      if(spellLevel > 0 && spellType != 'Domain') {
         let note = 'magicNotes.' + spellAbility + name + 'SpellSlotBonus';
         rules.defineChoice('notes', note + ':%1');
         rules.defineRule(note,
           spellAbility + 'Modifier', '?', 'source >= 1',
           'spellSlots.' + spellType + '1', '=', '1'
         );
+        let expr = 'source<1 ? null : ["Spell level " + ';
+        for(let l = 1; l <= spellLevel; l++) {
+          expr += '"' + spellType + l + '" + (source>' + (l + 3) + ' ? "x" + Math.floor((source + 4 - ' + l + ') / 4) : "")';
+          if(l != spellLevel)
+            expr += ', ';
+        }
+        expr += '].slice(0, source).join(", ")';
         rules.defineRule(note + '.1',
           note, '?', null,
-          spellAbility + 'Modifier', '=',
-            'source>=1 ? ["Spell level ' + spellType + '1", "' + spellType + '2", "' + spellType + '3", "' + spellType + '4"].slice(0, source).join(", ") : null'
+          spellAbility + 'Modifier', '=', expr
         );
         rules.defineRule('spellSlots.' + spellType + spellLevel,
-          note + '.1', '+', 'source.includes("' + spellType + spellLevel + '") ? 1 : null'
+          note + '.1', '+', 'source.includes("' + spellType + spellLevel + '") ? source.match(/' + spellType + spellLevel + '(x(\\d+))?/)[2] || 1 : null'
         );
       }
       // Replace caster level references in potion + scroll descriptions (see
