@@ -16,18 +16,18 @@
 | 2023 Core Updates       | v2.4 released 2025-12-02   |
 | Starfinder              | Under consideration        |
 |-------------------------|----------------------------|
-| SRD5E                   | v2.4 released 2024-01-16   |
-| PHB5E                   | v2.4 released 2024-01-16   |
+| SRD5E                   | v2.4.2 released 2026-02-26 |
+| PHB5E                   | v2.4.2 released 2026-02-26 |
 | 2024 PHB Updates        | v2.4 planned               |
-| Tasha                   | v2.4 released 2024-01-16   |
-| Volo                    | v2.4 released 2024-01-16   |
-| Xanathar                | v2.4 released 2024-01-16   |
-| Eberron (5E)            | v2.4 released 2024-01-16   |
-| SwordCoast (5E)         | v2.4 released 2024-01-16   |
-| Taldorei                | v2.4 released 2024-01-16   |
-| TaldoreiReborn          | v2.4 released 2024-01-16   |
-| Wildemount              | v2.4 released 2024-01-16   |
-| MidnightLegacy          | v2.4 released 2024-01-16   |
+| Tasha                   | v2.4.2 released 2026-02-26 |
+| Volo                    | v2.4.2 released 2026-02-26 |
+| Xanathar                | v2.4.2 released 2026-02-26 |
+| Eberron (5E)            | v2.4.2 released 2026-02-26 |
+| SwordCoast (5E)         | v2.4.2 released 2026-02-26 |
+| Taldorei                | v2.4.2 released 2024-02-26 |
+| TaldoreiReborn          | v2.4.2 released 2026-02-26 |
+| Wildemount              | v2.4.2 released 2026-02-26 |
+| MidnightLegacy          | v2.4.2 released 2026-02-26 |
 | The Lost Citadel        | Under consideration        |
 | Level Up 5E             | Under consideration        |
 | Farland                 | Under consideration        |
