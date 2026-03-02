@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.14';
+SRD35.VERSION = '2.4.1.15';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -8132,6 +8132,12 @@ SRD35.spellRules = function(
         expr = matchInfo[1];
     }
   }
+  // Hack alert: potentially-fragile hard-coding of modification of caster
+  // level for paladin and ranger spells. Probably should be handled in
+  // classRules somehow, since the calculation of caster level is specified as
+  // part of the class, but this is simpler.
+  if(casterGroup == 'P' || casterGroup == 'R')
+    expr = '(' + expr + '//2)';
   liquids.forEach(liquid => {
     if(liquid != 'None') {
       let liquidDesc = description.replaceAll('lvl', expr);
