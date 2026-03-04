@@ -71,7 +71,7 @@ function SRD35() {
 
 }
 
-SRD35.VERSION = '2.4.1.15';
+SRD35.VERSION = '2.4.1.16';
 
 /* List of choices that can be expanded by house rules. */
 // Note: Left Goody out of this list for now because inclusion would require
@@ -1087,6 +1087,9 @@ SRD35.FEATURES = {
   // Prestige Classes
   'Acrobatic Charge':'Section=combat Note="May charge in difficult terrain"',
   'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
+  'Arcane Caster Level Bonus':
+    'Section=magic ' +
+    'Note="+%V arcane base class level for spells known and spells per day"',
   'Arcane Fire':
     'Section=magic ' +
     'Note="R%1\' May convert arcane spell into a ranged touch %Vd6 + 1d6 x spell level bolt of fire"',
@@ -1131,6 +1134,9 @@ SRD35.FEATURES = {
     'Note="Gains +2 Strength, +4 Constitution, +2 saves, and +4 AC while unmoving for %V rd %1/dy"',
   'Detect Good':
     'Section=magic Note="May use <i>Detect Good</i> effects at will"',
+  'Divine Caster Level Bonus':
+    'Section=magic ' +
+    'Note="+%V divine base class level for spells known and spells per day"',
   'Divine Reach':
     'Section=magic Note="R30\' May use touch spell w/ranged touch"',
   'Dodge Trick':'Section=combat Note="+1 AC"',
@@ -4741,7 +4747,7 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
     'Spellcraft ' +
     'Features=' +
-      '"1:Caster Level Bonus","1:High Arcana" ' +
+      '"1:Arcane Caster Level Bonus","1:High Arcana" ' +
     'Selectables=' +
       '"1:Arcane Fire:High Arcana",' +
       '"1:Arcane Reach:High Arcana",' +
@@ -4849,7 +4855,7 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,Craft,"Decipher Script",Jump,"Knowledge (Arcana)",' +
       '"Knowledge (Nobility)",Ride,"Sense Motive",Spellcraft,Swim ' +
     'Features=' +
-      '"1:Fighter Feat Bonus","2:Caster Level Bonus"',
+      '"1:Fighter Feat Bonus","2:Arcane Caster Level Bonus"',
   'Hierophant':
     'Require=' +
       '"skills.Knowledge (Religion) >= 15","spellSlots.C7||spellSlots.D7",' +
@@ -4925,7 +4931,7 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,Craft,"Decipher Script","Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,"Sense Motive",Spellcraft ' +
     'Features=' +
-      '"1:Caster Level Bonus"',
+      '"1:Arcane Caster Level Bonus","1:Divine Caster Level Bonus"',
   'Shadowdancer':
     'Require=' +
       '"features.Combat Reflexes",features.Dodge,features.Mobility,' +
@@ -6149,10 +6155,24 @@ SRD35.classRules = function(
        'magicNotes.casterLevelBonus', '+', null
       );
     }
-    if(casterLevelArcane)
+    if(casterLevelArcane) {
       rules.defineRule('casterLevelArcane', 'casterLevels.' + name, '+=', null);
-    if(casterLevelDivine)
+      rules.defineRule('casterLevels.' + name,
+        'magicNotes.arcaneCasterLevelBonus', '+', null
+      );
+      rules.defineRule('spellSlotLevel.' + name,
+        'magicNotes.arcaneCasterLevelBonus', '+', null
+      );
+    }
+    if(casterLevelDivine) {
       rules.defineRule('casterLevelDivine', 'casterLevels.' + name, '+=', null);
+      rules.defineRule('casterLevels.' + name,
+        'magicNotes.divineCasterLevelBonus', '+', null
+      );
+      rules.defineRule('spellSlotLevel.' + name,
+        'magicNotes.divineCasterLevelBonus', '+', null
+      );
+    }
 
     rules.defineRule('spellSlotLevel.' + name,
       classLevel, '=', null,
@@ -6564,7 +6584,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
     rules.defineRule('featureNotes.highArcana', 'levels.Archmage', '=', null);
     rules.defineRule
-      ('magicNotes.casterLevelBonus', 'levels.Archmage', '+=', null);
+      ('magicNotes.arcaneCasterLevelBonus', 'levels.Archmage', '+=', null);
     rules.defineRule('selectableFeatureCount.Archmage (High Arcana)',
       'featureNotes.highArcana', '+=', null
     );
@@ -6787,7 +6807,7 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Eldritch Knight') {
 
     rules.defineRule('featCount.Fighter', 'levels.Eldritch Knight', '^=','0');
-    rules.defineRule('magicNotes.casterLevelBonus',
+    rules.defineRule('magicNotes.arcaneCasterLevelBonus',
       'levels.Eldritch Knight', '+=', 'source - 1'
     );
  
@@ -6837,8 +6857,12 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Mystic Theurge') {
 
-    rules.defineRule
-      ('magicNotes.casterLevelBonus', 'levels.Mystic Theurge', '+=', null);
+    rules.defineRule('magicNotes.arcaneCasterLevelBonus',
+      'levels.Mystic Theurge', '+=', null
+    );
+    rules.defineRule('magicNotes.divineCasterLevelBonus',
+      'levels.Mystic Theurge', '+=', null
+    );
 
   } else if(name == 'Shadowdancer') {
 
@@ -9887,6 +9911,12 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     '    Quilvyn gives multiclass characters quadruple skill points for the\n' +
     '    first level of each class, instead of just the first class.\n' +
+    '  </li><li>\n' +
+    '    When a prestige class gives a bonus to base class spells per day, ' +
+    '    Quilvyn applies this bonus to all qualifying base classes, rather ' +
+    '    than to a single class. For example, for a ' +
+    '    Bard/Wizard/Thaumaturgist, Quilvyn will add the Thaumaturgist bonus ' +
+    '    to both the bard and wizard spells per day.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '<h3>Copyrights and Licensing</h3>\n' +
