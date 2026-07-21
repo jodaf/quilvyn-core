@@ -50,6 +50,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 140670/153000</td>
       <td><b>Level</b>: 17</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 66/133/200</td>
     </tr></table>
@@ -59,9 +60,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><i>Dwarf Ability Adjustment: +2 Constitution/-2 Charisma</i></td>
     </tr><tr style="text-align:center">
-      <td><i>Slow: -10 Speed</i></td>
-    </tr><tr style="text-align:center">
-      <td><i>Steady: Suffers no speed penalty in heavy armor or with heavy load</i></td>
+      <td><i>Steady: Suffers no speed penalty in heavy armor or with a heavy load</i></td>
     </tr></table>
 </td>
   </tr></table>
@@ -80,19 +79,17 @@ var attributes = {
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
         <td><b>Feats</b>: Acrobatic; Animal Affinity; Dodge; Endurance; Improved Bull Rush; Improved Overrun; Improved Unarmed Strike; Power Attack; Skill Focus (Spellcraft); Toughness</td>
-        <td><b>Dwarf Features</b>: Darkvision; Dodge Giants; Dwarf Ability Adjustment; Dwarf Enmity; Know Depth; Natural Smith; Resist Poison; Resist Spells; Slow; Stability; Steady; Stonecunning; Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)</td>
-        <td><b>Dwarven Defender Features</b>: Armor Proficiency (Heavy); Damage Reduction; Defender Armor Class Bonus; Defensive Stance; Improved Uncanny Dodge; Mobile Defense; Shield Proficiency; Trap Sense; Uncanny Dodge; Weapon Proficiency (Martial)</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Dwarf Features</b>: Darkvision; Dodge Giants; Dwarf Ability Adjustment; Dwarf Crafts; Dwarf Enmity; Know Depth; Resist Poison; Resist Spells; Stability; Steady; Stonecunning; Weapon Familiarity (Dwarven Urgosh; Dwarven Waraxe)</td>
+        <td><b>Dwarven Defender Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Damage Reduction; Defender Armor Class Bonus; Defensive Stance; Improved Uncanny Dodge; Mobile Defense; Trap Sense; Uncanny Dodge; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td><b>Feature Notes</b>:       <table id="FeatureNotes" style="width:100%">
       <tr style="text-align:center">
-        <td>Darkvision: 60' b/w vision in darkness</td>
+        <td>Darkvision: R60' Has black and white vision in complete darkness</td>
       </tr><tr style="text-align:center">
-        <td>Defensive Stance: Gains +2 Strength, +4 Constitution, +2 saves, and +4 AC while unmoving for 6 rd 5/dy</td>
-      </tr><tr style="text-align:center">
-        <td>Know Depth: May intuit approximate depth underground</td>
+        <td>Defensive Stance: Gains +2 Strength, +4 Constitution, +2 saves, and +4 Armor Class while unmoving for 6 rd 5/dy</td>
       </tr></table>
 </td>
     </tr></table>
@@ -147,11 +144,11 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Craft (Alchemy) Synergy: +2 Appraise (related)</td>
       </tr><tr style="text-align:center">
-        <td>Natural Smith: +2 Appraise (stone or metal)/+2 Craft (stone or metal)</td>
+        <td>Dwarf Crafts: +2 Appraise and Craft with stone and metal</td>
       </tr><tr style="text-align:center">
         <td>Search Synergy: +2 Survival (tracking)</td>
       </tr><tr style="text-align:center">
-        <td>Stonecunning: +2 Search (stone), automatic check w/in 10'</td>
+        <td>Stonecunning: +2 Search for unusual stonework and makes an automatic Search when within 10'/Can determine approximate depth underground</td>
       </tr></table>
 </td>
     </tr></table>
@@ -176,9 +173,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -186,7 +182,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Chain Shirt</td>
         <td><b>Shield</b>: Light Wooden</td>
-        <td><b>Weapons</b>: Club (+19 d6+2 x2@20 R10'); Longbow (+18 d8 x3@20 R100'); Throwing Axe (+19 d6+2 x2@20 R10'); Unarmed (+19 d3+2 x2@20)</td>
+        <td><b>Weapons</b>: Club (+19 d6+2 x2@20 R10'); Longbow (+18 d8 x3@20 R100'); Throwing Axe (+19 d6+2 x2@20 R10'); Unarmed Strike (+19 d3+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -194,15 +190,15 @@ var attributes = {
       <tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +17</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Damage Reduction: DR 6/-</i></td>
+        <td><i>Damage Reduction: Has DR 6/-</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Defender Armor Class Bonus: +4 AC</i></td>
+        <td><i>Defender Armor Class Bonus: +4 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Dexterity Armor Class Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Dodge: +1 AC</i></td>
+        <td><i>Dodge: +1 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
@@ -210,9 +206,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Toughness: +3 HP</i></td>
       </tr><tr style="text-align:center">
-        <td>Dodge Giants: +4 AC vs. giant creatures</td>
+        <td>Dodge Giants: +4 Armor Class vs. creatures with the giant type</td>
       </tr><tr style="text-align:center">
-        <td>Dwarf Enmity: +1 attack vs. goblinoid and orc</td>
+        <td>Dwarf Enmity: +1 attack vs. goblinoids and orcs</td>
       </tr><tr style="text-align:center">
         <td>Improved Bull Rush: Bull Rush provokes no AOO/+4 Bull Rush Strength check</td>
       </tr><tr style="text-align:center">
@@ -220,15 +216,15 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Improved Unarmed Strike: Unarmed attack provokes no AOO and may deal lethal damage</td>
       </tr><tr style="text-align:center">
-        <td>Improved Uncanny Dodge: Cannot be flanked, sneak attack only by rogue level 14+</td>
+        <td>Improved Uncanny Dodge: Cannot be flanked and can be sneak attacked only by rogue of level 14 or higher</td>
       </tr><tr style="text-align:center">
         <td>Mobile Defense: May take 5' step during Defensive Stance</td>
       </tr><tr style="text-align:center">
         <td>Power Attack: May suffer up to -17 attack for equal damage bonus</td>
       </tr><tr style="text-align:center">
-        <td>Stability: +4 vs. Bull Rush and Trip</td>
+        <td>Stability: +4 vs. Bull Rush and Trip when standing on ground</td>
       </tr><tr style="text-align:center">
-        <td>Uncanny Dodge: Always adds Dexterity modifier to AC</td>
+        <td>Uncanny Dodge: Always adds Dexterity modifier to Armor Class</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -252,7 +248,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Resist Spells: +2 vs. spells</td>
       </tr><tr style="text-align:center">
-        <td>Trap Sense: +2 Reflex and AC vs. traps</td>
+        <td>Trap Sense: +2 Reflex and Armor Class vs. traps</td>
       </tr></table>
 </td>
     </tr></table>

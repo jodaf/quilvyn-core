@@ -58,6 +58,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 115650/120000</td>
       <td><b>Level</b>: 15</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 76/153/230</td>
     </tr></table>
@@ -67,7 +68,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><i>Armor Speed Adjustment: -10</i></td>
     </tr><tr style="text-align:center">
-      <td><i>Fast Movement: +10 Speed</i></td>
+      <td><i>Fast Movement (Barbarian): +10 Speed; heavy armor or a heavy load negates</i></td>
     </tr><tr style="text-align:center">
       <td>Terrain Mastery (Aquatic): +10 swim Speed</td>
     </tr><tr style="text-align:center">
@@ -95,7 +96,7 @@ var attributes = {
         <td><b>Feats</b>: Alertness; Armor Proficiency (Heavy); Endurance; Power Attack; Quick Draw; Simple Weapon Proficiency; Stealthy</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
         <td><b>Horizon Walker Features</b>: Terrain Mastery (Aligned); Terrain Mastery (Aquatic); Terrain Mastery (Cavernous); Terrain Mastery (Cold); Terrain Mastery (Desert); Terrain Mastery (Fiery); Terrain Mastery (Forest); Terrain Mastery (Hills); Terrain Mastery (Marsh); Terrain Mastery (Mountains); Terrain Mastery (Plains); Terrain Mastery (Shifting); Terrain Mastery (Underground); Terrain Mastery (Weightless)</td>
-        <td><b>Barbarian Features</b>: Armor Proficiency (Medium); Fast Movement; Illiteracy; Improved Uncanny Dodge; Rage; Shield Proficiency; Trap Sense; Uncanny Dodge; Weapon Proficiency (Martial)</td>
+        <td><b>Barbarian Features</b>: Armor Proficiency (Light; Medium; Shield); Fast Movement (Barbarian); Illiteracy; Improved Uncanny Dodge; Rage; Trap Sense; Uncanny Dodge; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -208,9 +209,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -218,7 +218,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Hide</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Bite (+18 d6+3 x2@20); Composite Longbow (+15 d8 x3@20 R110'); Longbow (+15 d8 x3@20 R100'); Unarmed (+18 d3+3 x2@20)</td>
+        <td><b>Weapons</b>: Bite (+18 d6+3 x2@20); Composite Longbow (+15 d8 x3@20 R110'); Longbow (+15 d8 x3@20 R100'); Unarmed Strike (+18 d3+3 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -232,13 +232,13 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Two-Handed Wield Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td>Improved Uncanny Dodge: Cannot be flanked, sneak attack only by rogue level 9+</td>
+        <td>Improved Uncanny Dodge: Cannot be flanked and can be sneak attacked only by rogue of level 9 or higher</td>
       </tr><tr style="text-align:center">
         <td>Power Attack: May suffer up to -15 attack for equal damage bonus</td>
       </tr><tr style="text-align:center">
         <td>Quick Draw: May draw a weapon as a free action</td>
       </tr><tr style="text-align:center">
-        <td>Rage: Gains +4 Strength, +4 Constitution, +2 Will and suffers -2 AC for 4 rd 2/dy</td>
+        <td>Rage: Can gain +4 Strength, +4 Constitution, and +2 Will and suffer -2 Armor Class for 4 rd, becoming fatigued afterward until the end of the encounter, 2 times per day</td>
       </tr><tr style="text-align:center">
         <td>Terrain Mastery (Aquatic): +1 attack and damage vs. aquatic creatures</td>
       </tr><tr style="text-align:center">
@@ -264,7 +264,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Terrain Mastery (Weightless): +1 attack and damage vs. astral, elemental air, and ethereal creatures</td>
       </tr><tr style="text-align:center">
-        <td>Uncanny Dodge: Always adds Dexterity modifier to AC</td>
+        <td>Uncanny Dodge: Always adds Dexterity modifier to Armor Class</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -289,7 +289,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Terrain Mastery (Desert): Immune to fatigue, resists exhaustion</td>
       </tr><tr style="text-align:center">
-        <td>Trap Sense: +1 Reflex and AC vs. traps</td>
+        <td>Trap Sense: +1 Reflex and Armor Class vs. traps</td>
       </tr></table>
 </td>
     </tr></table>

@@ -55,6 +55,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 155274/171000</td>
       <td><b>Level</b>: 18</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 66/133/200</td>
     </tr></table>
@@ -77,10 +78,10 @@ var attributes = {
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
         <td><b>Feats</b>: Combat Reflexes; Empower Spell; Extend Spell; Improved Initiative; Maximize Spell; Point-Blank Shot; Power Attack; Precise Shot; Spell Focus (Enchantment); Stealthy; Weapon Focus (Longbow)</td>
-        <td><b>Half-Elf Features</b>: Alert Senses; Elven Blood; Low-Light Vision; Resist Enchantment; Sleep Immunity; Tolerance</td>
-        <td><b>Arcane Archer Features</b>: Armor Proficiency (Medium); Arrow Of Death; Enhance Arrow; Hail Of Arrows; Imbue Arrow; Phase Arrow; Seeker Arrow; Shield Proficiency; Weapon Proficiency (Martial)</td>
-        <td><b>Sorcerer Features</b>: Summon Familiar; Weapon Proficiency (Simple)</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Half-Elf Features</b>: Elf Resistances; Elven Blood; Keen Senses (Half-Elf); Low-Light Vision; Tolerance</td>
+        <td><b>Arcane Archer Features</b>: Armor Proficiency (Light; Medium; Shield); Arrow Of Death; Enhance Arrow; Hail Of Arrows; Imbue Arrow; Phase Arrow; Seeker Arrow; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
+        <td><b>Sorcerer Features</b>: Summon Familiar; Weapon Proficiency (Simple Weapons)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -88,7 +89,7 @@ var attributes = {
       <tr style="text-align:center">
         <td>Elven Blood: Counts as an elf for racial effects</td>
       </tr><tr style="text-align:center">
-        <td>Low-Light Vision: x2 normal distance in poor light</td>
+        <td>Low-Light Vision: Can see double the normal distance in poor light</td>
       </tr><tr style="text-align:center">
         <td>Summon Familiar: Special bond and abilities</td>
       </tr></table>
@@ -131,8 +132,6 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Skill Notes</b>:       <table id="SkillNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>Alert Senses: +1 Listen/+1 Search/+1 Spot</i></td>
-      </tr><tr style="text-align:center">
         <td><i>Armor Skill Check Penalty: -14 Balance/-14 Climb/-14 Escape Artist/-14 Hide/-14 Jump/-14 Move Silently/-14 Sleight Of Hand/-14 Tumble</i></td>
       </tr><tr style="text-align:center">
         <td><i>Armor Swim Check Penalty: -28 Swim</i></td>
@@ -146,6 +145,8 @@ var attributes = {
         <td><i>Intelligence Language Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
         <td><i>Intelligence Skill Points Adjustment: +21</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Keen Senses (Half-Elf): +1 Listen/+1 Search/+1 Spot</i></td>
       </tr><tr style="text-align:center">
         <td><i>Knowledge (Arcana) Synergy: +2 Spellcraft</i></td>
       </tr><tr style="text-align:center">
@@ -183,9 +184,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -193,7 +193,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Scale Mail</td>
         <td><b>Shield</b>: Tower</td>
-        <td><b>Weapons</b>: Heavy Pick (+17 d6+2 x4@20); Heavy Spiked Shield (+17 d6+2 x2@20); Longbow (+18 d8 x3@20 R100'); Shortspear (+17 d6+2 x2@20 R20'); Unarmed (+17 d3+2 x2@20)</td>
+        <td><b>Weapons</b>: Heavy Pick (+17 d6+2 x4@20); Heavy Spiked Shield (+17 d6+2 x2@20); Longbow (+18 d8 x3@20 R100'); Shortspear (+17 d6+2 x2@20 R20'); Unarmed Strike (+17 d3+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -211,7 +211,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Tower Shield Penalty: -2 attack</i></td>
+        <td><i>Tower Shield Penalty: -2 attacks</i></td>
       </tr><tr style="text-align:center">
         <td><i>Weapon Focus (Longbow): +1 Longbow Attack Modifier</i></td>
       </tr><tr style="text-align:center">
@@ -249,9 +249,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Wisdom Will Adjustment: +3</i></td>
       </tr><tr style="text-align:center">
-        <td>Resist Enchantment: +2 vs. enchantment</td>
-      </tr><tr style="text-align:center">
-        <td>Sleep Immunity: Immune to <i>Sleep</i></td>
+        <td>Elf Resistances: Has immunity to magical sleep/+2 vs. enchantment</td>
       </tr></table>
 </td>
     </tr></table>

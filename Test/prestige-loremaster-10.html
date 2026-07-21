@@ -80,6 +80,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 148369/153000</td>
       <td><b>Level</b>: 17</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/150</td>
       <td><b>Light/Med/Max Load:</b> 43/86/130</td>
     </tr></table>
@@ -105,7 +106,7 @@ var attributes = {
         <td><b>Feats</b>: Athletic; Craft Rod; Craft Wand; Empower Spell; Improved Familiar; Nimble Fingers; Quicken Spell; Run; Skill Focus (Knowledge (Arcana))</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
         <td><b>Loremaster Features</b>: Applicable Knowledge; Bonus Language; Caster Level Bonus; Dodge Trick; Greater Lore; Instant Mastery; Lore; More Newfound Arcana; Newfound Arcana; Secret Health; Secret Knowledge Of Avoidance; Secrets Of Inner Strength; Secrets; The Lore Of True Stamina; True Lore; Weapon Trick</td>
-        <td><b>Wizard Features</b>: School Opposition (Illusion); School Opposition (Transmutation); School Specialization (Conjuration); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
+        <td><b>Wizard Features</b>: School Opposition (Illusion); School Opposition (Transmutation); School Specialization (Conjuration); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -218,9 +219,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: None</td>
-        <td><b>Shield Proficiency</b>: None</td>
-        <td><b>Weapon Proficiency</b>: Limited</td>
+        <td><b>Weapon Proficiency</b>: Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -228,7 +227,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: None</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Dagger (+10 d4+1 x2@19 R10'); Gauntlet (+10 d3+1 x2@20); Quarterstaff (+10 d6+1/d6+1 x2@20); Unarmed (+10 d3+1 x2@20)</td>
+        <td><b>Weapons</b>: Dagger (+10 d4+1 x2@19 R10'); Gauntlet (+10 d3+1 x2@20); Quarterstaff (+10 d6+1/d6+1 x2@20); Unarmed Strike (+10 d3+1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -240,7 +239,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +3</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Dodge Trick: +1 AC</i></td>
+        <td><i>Dodge Trick: +1 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Secret Health: +3 HP</i></td>
       </tr><tr style="text-align:center">
@@ -250,7 +249,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Weapon Trick: +1 Melee Attack/+1 Ranged Attack</i></td>
       </tr><tr style="text-align:center">
-        <td>Run: Retains Dexterity bonus to AC while running</td>
+        <td>Run: Retains Dexterity bonus to Armor Class while running</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -319,7 +318,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Control Water (W6 Tran): R1080' Raises or lowers 17 10'x10'x2' of water 34' for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Crushing Hand (W9 Evoc): R270' 10' hand (AC 20, 40 HP) moves 60'/rd, gives +4 AC, and performs +18 bull rush and +33+mod grapple that inflicts 2d6+12 HP for 17 rd</td>
+      <td>Crushing Hand (W9 Evoc): R270' 10' hand (Armor Class 20, 40 HP) moves 60'/rd, gives +4 Armor Class, and performs +18 bull rush and +33+mod grapple that inflicts 2d6+12 HP for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Daze Monster (W2 Ench): R270' Target w/up to 6 HD loses next action (DC 14 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -359,7 +358,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Guards And Wards (W6 Abju): Multiple magic effects protect 3400' sq area for 34 hr</td>
     </tr><tr style="text-align:left">
-      <td>Haste (W3 Tran): R65' 17 targets in 15' radius gain extra attack, +1 attack, AC, and Reflex, and +30' Speed for 17 rd</td>
+      <td>Haste (W3 Tran): R65' 17 targets in 15' radius gain extra attack, +1 attack, Armor Class, and Reflex, and +30' Speed for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Hold Monster (W5 Ench): R270' Immobilizes target (DC 17 Will neg) for 17 rd</td>
     </tr><tr style="text-align:left">
@@ -367,7 +366,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Imprisonment (W9 Abju): Entombs touched (DC 21 Will neg)</td>
     </tr><tr style="text-align:left">
-      <td>Interposing Hand (W5 Evoc): R270' 10' hand (AC 20, 40 HP) gives +4 AC for 17 rd</td>
+      <td>Interposing Hand (W5 Evoc): R270' 10' hand (Armor Class 20, 40 HP) gives +4 Armor Class for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Knock (W2 Tran): R270' Opens stuck, barred, locked, or magically held door, chest, or shackle</td>
     </tr><tr style="text-align:left">

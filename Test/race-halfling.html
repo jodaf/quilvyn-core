@@ -47,6 +47,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 421/1000</td>
       <td><b>Level</b>: 1</td>
+      <td><b>Size</b>: Small</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 43/87/131.25</td>
     </tr></table>
@@ -55,8 +56,6 @@ var attributes = {
     <td><b>Ability Notes</b>:     <table id="AbilityNotes" style="width:100%">
     <tr style="text-align:center">
       <td><i>Halfling Ability Adjustment: +2 Dexterity/-2 Strength</i></td>
-    </tr><tr style="text-align:center">
-      <td><i>Slow: -10 Speed</i></td>
     </tr><tr style="text-align:center">
       <td><i>Small: x0.75 Load Max</i></td>
     </tr></table>
@@ -77,8 +76,8 @@ var attributes = {
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
         <td><b>Feats</b>: Agile; Power Attack</td>
-        <td><b>Halfling Features</b>: Accurate; Fortunate; Halfling Ability Adjustment; Keen Ears; Resist Fear; Slow; Small; Spry</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Halfling Features</b>: Accurate; Fortunate; Halfling Ability Adjustment; Keen Ears; Resist Fear; Surefooted</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr></table>
@@ -127,7 +126,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Speed Jump Modifier: -6</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Spry: +2 Climb/+2 Jump/+2 Move Silently</i></td>
+        <td><i>Surefooted: +2 Climb/+2 Jump/+2 Move Silently</i></td>
       </tr></table>
 </td>
     </tr></table>
@@ -151,9 +150,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -161,7 +159,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Leather</td>
         <td><b>Shield</b>: Buckler</td>
-        <td><b>Weapons</b>: Heavy Pick (+4 d4+2 x4@20); Javelin (+2 d4+2 x2@20 R30'); Lance (+3 d6+2 x3@20); Shortbow (+2 d4 x3@20 R60'); Sling (+2 d3+2 x2@20 R50'); Unarmed (+4 d2+2 x2@20)</td>
+        <td><b>Weapons</b>: Heavy Pick (+4 d4+2 x4@20); Javelin (+2 d4+2 x2@20 R30'); Lance (+3 d6+2 x3@20); Shortbow (+2 d4 x3@20 R60'); Sling (+2 d3+2 x2@20 R50'); Unarmed Strike (+4 d2+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -169,17 +167,19 @@ var attributes = {
       <tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Small: +1 AC/+1 Melee Attack/+1 Ranged Attack/-4 special attacks</i></td>
+        <td><i>Small: +1 Armor Class/+1 Melee Attack/+1 Ranged Attack</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Two-handed Weapon With Buckler Penalty: -1 attack and AC</i></td>
+        <td><i>Two-handed Weapon With Buckler Penalty: -1 attack and Armor Class</i></td>
       </tr><tr style="text-align:center">
-        <td>Accurate: +1 attack with slings and thrown</td>
+        <td>Accurate: +1 attack with slings and thrown weapons</td>
       </tr><tr style="text-align:center">
         <td>Power Attack: May suffer up to -1 attack for equal damage bonus</td>
+      </tr><tr style="text-align:center">
+        <td>Small: -4 special attacks</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">

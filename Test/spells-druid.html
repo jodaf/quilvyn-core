@@ -114,6 +114,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 137012/153000</td>
       <td><b>Level</b>: 17</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 43/86/130</td>
     </tr></table>
@@ -135,7 +136,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Acrobatic; Blind-Fight; Improved Counterspell; Natural Spell; Nimble Fingers; Spell Focus (Conjuration); Toughness</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Druid Features</b>: A Thousand Faces; Animal Companion; Armor Proficiency (Medium); Elemental Shape; Nature Sense; Resist Nature's Lure; Shield Proficiency; Spontaneous Druid Spell; Timeless Body; Trackless Step; Venom Immunity; Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Shortspear/Sling/Spear); Wild Empathy; Wild Shape; Woodland Stride</td>
+        <td><b>Druid Features</b>: A Thousand Faces; Animal Companion; Armor Proficiency (Light; Medium; Shield); Elemental Shape; Nature Sense; Resist Nature's Lure; Spontaneous Druid Spell; Timeless Body; Trackless Step; Venom Immunity; Weapon Proficiency (Club; Dagger; Dart; Quarterstaff; Scimitar; Sickle; Shortspear; Sling; Spear); Wild Empathy; Wild Shape; Woodland Stride</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -238,9 +239,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Medium</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Limited</td>
+        <td><b>Armor Proficiency</b>: Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Club; Dagger; Dart; Quarterstaff; Scimitar; Shortspear; Sickle; Sling; Spear</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -248,7 +248,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Padded</td>
         <td><b>Shield</b>: Heavy Wooden</td>
-        <td><b>Weapons</b>: Club (+13 d6+1 x2@20 R10'); Dagger (+13 d4+1 x2@19 R10'); Dart (+13 d4+1 x2@20 R20'); Unarmed (+13 d3+1 x2@20)</td>
+        <td><b>Weapons</b>: Club (+13 d6+1 x2@20 R10'); Dagger (+13 d4+1 x2@19 R10'); Dart (+13 d4+1 x2@20 R20'); Unarmed Strike (+13 d3+1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -311,7 +311,7 @@ var attributes = {
     <tr style="text-align:left">
       <td>Air Walk (D4 Tran): Touched walks on air for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Animal Growth (D5 Tran): R270' 8 animal targets in 15' radius dbl size (+8 Strength, +4 Constitution, +2 AC, DR 10/magic, +4 saves, -2 Dexterity) (DC 17 Fort neg) for 17 min</td>
+      <td>Animal Growth (D5 Tran): R270' 8 animal targets in 15' radius dbl size (+8 Strength, +4 Constitution, +2 Armor Class, DR 10/magic, +4 saves, -2 Dexterity) (DC 17 Fort neg) for 17 min</td>
     </tr><tr style="text-align:left">
       <td>Animal Messenger (D2 Ench): R65' Tiny animal target goes to specified place for 17 dy</td>
     </tr><tr style="text-align:left">
@@ -433,7 +433,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Fog Cloud (D2 Conj): R270' Fog in 20' radius obscures vision for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Foresight (D9 Divi): Self gains +2 AC and Reflex and never surprised or flat-footed for 170 min</td>
+      <td>Foresight (D9 Divi): Self gains +2 Armor Class and Reflex and never surprised or flat-footed for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Freedom Of Movement (D4 Abju): Touched moves freely for 170 min</td>
     </tr><tr style="text-align:left">
@@ -451,7 +451,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Gust Of Wind (D2 Evoc): 60' 50 MPH gust affects medium or smaller creatures (DC 14 Fort neg) for 1 rd</td>
     </tr><tr style="text-align:left">
-      <td>Hallow (D5 Evoc): 40' radius from touched gives +2 AC and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 turn undead bonus, and evokes boon spell</td>
+      <td>Hallow (D5 Evoc): 40' radius from touched gives +2 Armor Class and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 turn undead bonus, and evokes boon spell</td>
     </tr><tr style="text-align:left">
       <td>Heal (D7 Conj): Touched heals (undead suffers) 150 HP (DC 20 Will neg) and removes negative conditions</td>
     </tr><tr style="text-align:left">
@@ -527,7 +527,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Read Magic (D0 Divi): Self can read magical writing for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Reduce Animal (D2 Tran): Touched willing animal becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) for 17 hr</td>
+      <td>Reduce Animal (D2 Tran): Touched willing animal becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 Armor Class) for 17 hr</td>
     </tr><tr style="text-align:left">
       <td>Regenerate (D9 Conj): Regrows maims, heals 4d8+17 HP, and eliminates fatigue, exhaustion, and nonlethal damage from touched</td>
     </tr><tr style="text-align:left">
@@ -609,7 +609,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Sympathy (D9 Ench): R65' Named creature kind or alignment drawn to 170' cu (DC 21 Will neg) for 34 hr</td>
     </tr><tr style="text-align:left">
-      <td>Transmute Metal To Wood (D7 Tran): R1080' Metal in 40' radius becomes wood (-2 attack, damage, AC)</td>
+      <td>Transmute Metal To Wood (D7 Tran): R1080' Metal in 40' radius becomes wood (-2 attack, damage, Armor Class)</td>
     </tr><tr style="text-align:left">
       <td>Transmute Mud To Rock (D5 Tran): R270' 34 10' cu of mud becomes rock</td>
     </tr><tr style="text-align:left">
@@ -623,7 +623,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>True Seeing (D7 Divi): Touched sees through 120' darkness, illusion, and invisibility for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Unhallow (D5 Evoc): 40' radius from touched gives +2 AC and saves vs. good, suppresses mental control, bars contact by summoned good creatures, inflicts -4 turn undead penalty, gives +4 rebuke undead bonus, and evokes bane spell</td>
+      <td>Unhallow (D5 Evoc): 40' radius from touched gives +2 Armor Class and saves vs. good, suppresses mental control, bars contact by summoned good creatures, inflicts -4 turn undead penalty, gives +4 rebuke undead bonus, and evokes bane spell</td>
     </tr><tr style="text-align:left">
       <td>Virtue (D0 Tran): Touched gains +1 temporary HP for 1 min</td>
     </tr><tr style="text-align:left">
@@ -631,7 +631,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Wall Of Stone (D6 Conj): R270' Creates 17 5' x 4 inch thick permanent stone wall</td>
     </tr><tr style="text-align:left">
-      <td>Wall Of Thorns (D5 Conj): R270' 17 10' cu thorns inflict (25-AC) HP/rd when passing through for 170 min</td>
+      <td>Wall Of Thorns (D5 Conj): R270' 17 10' cu thorns inflict (25-Armor Class) HP/rd when passing through for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Warp Wood (D2 Tran): R65' Warps 17 wooden objects in 20' radius (DC 14 Will neg)</td>
     </tr><tr style="text-align:left">

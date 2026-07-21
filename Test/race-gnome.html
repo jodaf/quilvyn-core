@@ -48,6 +48,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 488/1000</td>
       <td><b>Level</b>: 1</td>
+      <td><b>Size</b>: Small</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 50/100/150</td>
     </tr></table>
@@ -56,8 +57,6 @@ var attributes = {
     <td><b>Ability Notes</b>:     <table id="AbilityNotes" style="width:100%">
     <tr style="text-align:center">
       <td><i>Gnome Ability Adjustment: +2 Constitution/-2 Strength</i></td>
-    </tr><tr style="text-align:center">
-      <td><i>Slow: -10 Speed</i></td>
     </tr><tr style="text-align:center">
       <td><i>Small: x0.75 Load Max</i></td>
     </tr></table>
@@ -78,12 +77,12 @@ var attributes = {
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
         <td><b>Feats</b>: Improved Unarmed Strike; Toughness</td>
-        <td><b>Gnome Features</b>: Dodge Giants; Gnome Ability Adjustment; Gnome Enmity; Gnome Magic; Keen Ears; Keen Nose; Low-Light Vision; Natural Illusionist; Resist Illusion; Slow; Small; Weapon Familiarity (Gnome Hooked Hammer)</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Gnome Features</b>: Dodge Giants; Gnome Ability Adjustment; Gnome Enmity; Gnome Magic; Keen Ears; Low-Light Vision; Natural Illusionist; Resist Illusion; Sensitive Nose; Weapon Familiarity (Gnome Hooked Hammer)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
-      <td><b>Feature Notes</b>: Low-Light Vision: x2 normal distance in poor light</td>
+      <td><b>Feature Notes</b>: Low-Light Vision: Can see double the normal distance in poor light</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">
@@ -124,7 +123,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Keen Ears: +2 Listen</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Keen Nose: +2 Craft (Alchemy)</i></td>
+        <td><i>Sensitive Nose: +2 Craft (Alchemy)</i></td>
       </tr><tr style="text-align:center">
         <td><i>Small: +4 Hide/-4 Intimidate</i></td>
       </tr><tr style="text-align:center">
@@ -152,9 +151,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -162,7 +160,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Leather</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Gnome Hooked Hammer (+4 d6+3/d4+3 x4@20); Morningstar (+4 d6+3 x2@20); Spear (+4 d6+3 x3@20 R20'); Unarmed (+4 d2+2 x2@20)</td>
+        <td><b>Weapons</b>: Gnome Hooked Hammer (+4 d6+3/d4+3 x4@20); Morningstar (+4 d6+3 x2@20); Spear (+4 d6+3 x3@20 R20'); Unarmed Strike (+4 d2+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -172,7 +170,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Small: +1 AC/+1 Melee Attack/+1 Ranged Attack/-4 special attacks</i></td>
+        <td><i>Small: +1 Armor Class/+1 Melee Attack/+1 Ranged Attack</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
@@ -182,11 +180,13 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Two-Handed Wield Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td>Dodge Giants: +4 AC vs. giant creatures</td>
+        <td>Dodge Giants: +4 Armor Class vs. creatures with the giant type</td>
       </tr><tr style="text-align:center">
         <td>Gnome Enmity: +1 attack vs. goblinoid and kobold</td>
       </tr><tr style="text-align:center">
         <td>Improved Unarmed Strike: Unarmed attack provokes no AOO and may deal lethal damage</td>
+      </tr><tr style="text-align:center">
+        <td>Small: -4 special attacks</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -224,9 +224,9 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Magic Notes</b>:     <table id="MagicNotes" style="width:100%">
     <tr style="text-align:center">
-      <td><i>Natural Illusionist: +1 Spell DC (Illusion)</i></td>
+      <td>Gnome Magic: Can cast <i>Speak With Animals</i> to communicate with burrowing mammals for 1 min, <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i> once per day</td>
     </tr><tr style="text-align:center">
-      <td>Gnome Magic: May cast <i>Speak With Animals</i> (burrowing mammals) for 1 min, <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i> 1/dy</td>
+      <td>Natural Illusionist: +1 Spell Difficulty Class with Illusion spells</td>
     </tr></table>
 </td>
   </tr></table>

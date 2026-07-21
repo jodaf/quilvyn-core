@@ -135,18 +135,17 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 149818/153000</td>
       <td><b>Level</b>: 17</td>
-      <td><b>Speed/Run</b>: 15/45</td>
+      <td><b>Size</b>: Small</td>
+      <td><b>Speed/Run</b>: 10/30</td>
       <td><b>Light/Med/Max Load:</b> 25/50/75</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">
     <td><b>Ability Notes</b>:     <table id="AbilityNotes" style="width:100%">
     <tr style="text-align:center">
-      <td><i>Armor Speed Adjustment: -5</i></td>
+      <td><i>Armor Speed Adjustment: -10</i></td>
     </tr><tr style="text-align:center">
       <td><i>Halfling Ability Adjustment: +2 Dexterity/-2 Strength</i></td>
-    </tr><tr style="text-align:center">
-      <td><i>Slow: -10 Speed</i></td>
     </tr><tr style="text-align:center">
       <td><i>Small: x0.75 Load Max</i></td>
     </tr></table>
@@ -168,8 +167,8 @@ var attributes = {
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
         <td><b>Feats</b>: Craft Staff; Quick Draw; Skill Focus (Disable Device); Spell Focus (Enchantment); Still Spell; Widen Spell</td>
-        <td><b>Halfling Features</b>: Accurate; Fortunate; Halfling Ability Adjustment; Keen Ears; Resist Fear; Slow; Small; Spry</td>
-        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Earth Domain; Earth Turning; Nature Knowledge; Plant Domain; Plant Turning; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; Weapon Proficiency (Simple)</td>
+        <td><b>Halfling Features</b>: Accurate; Fortunate; Halfling Ability Adjustment; Keen Ears; Resist Fear; Surefooted</td>
+        <td><b>Cleric Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Earth Domain; Earth Turning; Nature Knowledge; Plant Domain; Plant Turning; Spontaneous Cleric Spell; Turn Undead; Weapon Proficiency (Simple Weapons)</td>
       </tr></table>
 </td>
     </tr></table>
@@ -224,7 +223,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Speed Jump Modifier: -12</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Spry: +2 Climb/+2 Jump/+2 Move Silently</i></td>
+        <td><i>Surefooted: +2 Climb/+2 Jump/+2 Move Silently</i></td>
       </tr><tr style="text-align:center">
         <td>Craft (Alchemy) Synergy: +2 Appraise (related)</td>
       </tr><tr style="text-align:center">
@@ -256,9 +255,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Simple</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -266,7 +264,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Banded Mail</td>
         <td><b>Shield</b>: Heavy Wooden</td>
-        <td><b>Weapons</b>: Gauntlet (+13 d2 x2@20); Heavy Mace (+13 d6 x2@20); Sickle (+13 d4 x2@20); Unarmed (+13 d2 x2@20)</td>
+        <td><b>Weapons</b>: Gauntlet (+13 d2 x2@20); Heavy Mace (+13 d6 x2@20); Sickle (+13 d4 x2@20); Unarmed Strike (+13 d2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -280,15 +278,17 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Small: +1 AC/+1 Melee Attack/+1 Ranged Attack/-4 special attacks</i></td>
+        <td><i>Small: +1 Armor Class/+1 Melee Attack/+1 Ranged Attack</i></td>
       </tr><tr style="text-align:center">
-        <td>Accurate: +1 attack with slings and thrown</td>
+        <td>Accurate: +1 attack with slings and thrown weapons</td>
       </tr><tr style="text-align:center">
         <td>Earth Turning: May turn air creatures and rebuke earth creatures</td>
       </tr><tr style="text-align:center">
         <td>Plant Turning: May turn or rebuke Plant creatures</td>
       </tr><tr style="text-align:center">
         <td>Quick Draw: May draw a weapon as a free action</td>
+      </tr><tr style="text-align:center">
+        <td>Small: -4 special attacks</td>
       </tr><tr style="text-align:center">
         <td>Turn Undead: R60' May turn or rebuke 2d6+18 HD of undead creatures of up to (d20+42)/3 HD 4/dy</td>
       </tr></table>
@@ -377,7 +377,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Cause Fear (C1 Necr): R65' Target w/up to 5 HD flees for 1d4 rd (DC 11 Will shaken for 1 rd)</td>
     </tr><tr style="text-align:left">
-      <td>Cloak Of Chaos (C8 Abju): 17 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (DC 18 Will neg) for 17 rd</td>
+      <td>Cloak Of Chaos (C8 Abju): 17 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (DC 18 Will neg) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Command (C1 Ench): R65' Target obeys self commands to approach, drop, fall, flee, or halt (DC 12 Will neg) for 1 rd</td>
     </tr><tr style="text-align:left">
@@ -459,13 +459,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Dismissal (C4 Abju): R65' Returns target to native plane (DC 14 Will + 17 - target HD neg)</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Chaos (C5 Abju): Self gains +4 AC vs. chaotic and dismisses chaotic creature via touch (DC 15 Will neg) or spell</td>
+      <td>Dispel Chaos (C5 Abju): Self gains +4 Armor Class vs. chaotic and dismisses chaotic creature via touch (DC 15 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (C5 Abju): Self gains +4 AC vs. evil and dismisses evil creature via touch (DC 15 Will neg) or spell</td>
+      <td>Dispel Evil (C5 Abju): Self gains +4 Armor Class vs. evil and dismisses evil creature via touch (DC 15 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Good (C5 Abju): Self gains +4 AC vs. good and dismisses good creature via touch (DC 15 Will neg) or spell</td>
+      <td>Dispel Good (C5 Abju): Self gains +4 Armor Class vs. good and dismisses good creature via touch (DC 15 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Law (C5 Abju): Self gains +4 AC vs. lawful and dismisses lawful creature via touch (DC 15 Will neg) or spell</td>
+      <td>Dispel Law (C5 Abju): Self gains +4 Armor Class vs. lawful and dismisses lawful creature via touch (DC 15 Will neg) or spell</td>
     </tr><tr style="text-align:left">
       <td>Dispel Magic (C3 Abju): R270' Successful d20+10 check vs. 11+caster level cancels targeted spell or 1 spell on each creature in a 20' radius</td>
     </tr><tr style="text-align:left">
@@ -535,7 +535,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Guidance (C0 Divi): Touched gains +1 next attack, save, or skill check for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Hallow (C5 Evoc): 40' radius from touched gives +2 AC and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 turn undead bonus, and evokes boon spell</td>
+      <td>Hallow (C5 Evoc): 40' radius from touched gives +2 Armor Class and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 turn undead bonus, and evokes boon spell</td>
     </tr><tr style="text-align:left">
       <td>Harm (C6 Necr): Touched suffers (undead heals) 150 HP (DC 16 Will half)</td>
     </tr><tr style="text-align:left">
@@ -549,7 +549,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hold Person (C2 Ench): R270' Immobilizes target humanoid (DC 13 Will neg) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Aura (C8 Abju): 17 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (evil), suppress mental control, and blind successful evil attacker (DC 18 Fort neg) for 17 rd</td>
+      <td>Holy Aura (C8 Abju): 17 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (evil), suppress mental control, and blind successful evil attacker (DC 18 Fort neg) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Holy Word (C7 Evoc): Nongood creatures in 40' radius with equal/-1/-5/-10 HD deafened for 1d4 rd/blinded for 2d4 rd/paralyzed for 1d10 min/killed and banished (DC 17 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -579,17 +579,17 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Locate Object (C3 Divi): Self senses direction of object or type in 1080' radius for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Chaos (C3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for 170 min or traps nonlawful summoned creatures (SR neg) for 17 dy</td>
+      <td>Magic Circle Against Chaos (C3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for 170 min or traps nonlawful summoned creatures (SR neg) for 17 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Evil (C3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for 170 min or traps nongood summoned creatures (SR neg) for 17 dy</td>
+      <td>Magic Circle Against Evil (C3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for 170 min or traps nongood summoned creatures (SR neg) for 17 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Good (C3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 170 min or traps nonevil summoned creatures (SR neg) for 17 dy</td>
+      <td>Magic Circle Against Good (C3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 170 min or traps nonevil summoned creatures (SR neg) for 17 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Law (C3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for 170 min or traps nonchaotic summoned creatures (SR neg) for 17 dy</td>
+      <td>Magic Circle Against Law (C3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for 170 min or traps nonchaotic summoned creatures (SR neg) for 17 dy</td>
     </tr><tr style="text-align:left">
       <td>Magic Stone (C1 Tran): 3 touched stones attack at +1 and inflict 1d6+1 HP (2d6+2 HP vs. undead) for 30 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Vestment (C3 Tran): Touched armor, shield, or clothing gives +4 AC for 17 hr</td>
+      <td>Magic Vestment (C3 Tran): Touched armor, shield, or clothing gives +4 Armor Class for 17 hr</td>
     </tr><tr style="text-align:left">
       <td>Magic Weapon (C1 Tran): Touched weapon gains +1 attack and damage for 17 min</td>
     </tr><tr style="text-align:left">
@@ -645,15 +645,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Prayer (C3 Ench): Allies in 40' radius gain +1 attack, damage, save, and skill, and foes suffer -1, for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Chaos (C1 Abju): Touched gains +2 AC and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for 17 min</td>
+      <td>Protection From Chaos (C1 Abju): Touched gains +2 Armor Class and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for 17 min</td>
     </tr><tr style="text-align:left">
       <td>Protection From Energy (C3 Abju): Touched gains resistance 120 to chosen energy for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Evil (C1 Abju): Touched gains +2 AC and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for 17 min</td>
+      <td>Protection From Evil (C1 Abju): Touched gains +2 Armor Class and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Good (C1 Abju): Touched gains +2 AC and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for 17 min</td>
+      <td>Protection From Good (C1 Abju): Touched gains +2 Armor Class and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Law (C1 Abju): Touched gains +2 AC and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for 17 min</td>
+      <td>Protection From Law (C1 Abju): Touched gains +2 Armor Class and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for 17 min</td>
     </tr><tr style="text-align:left">
       <td>Purify Food And Drink (C0 Tran): R10' Makes 17' cu food and water safe (DC 10 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -687,7 +687,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Resurrection (C7 Conj): Fully restores touched target dead up to 170 years w/loss of 1 level</td>
     </tr><tr style="text-align:left">
-      <td>Righteous Might (C5 Tran): Self dbl size (+4 Strength, +2 Constitution, +2 AC) and gains DR 9/evil or DR 9/good for 17 rd</td>
+      <td>Righteous Might (C5 Tran): Self dbl size (+4 Strength, +2 Constitution, +2 Armor Class) and gains DR 9/evil or DR 9/good for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Sanctuary (C1 Abju): Foes cannot attack touched (DC 11 Will neg) for 17 rd or until target attacks</td>
     </tr><tr style="text-align:left">
@@ -699,11 +699,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shatter (C2 Evoc): R65' Breakables in 5' radius shatter (DC 12 Will neg), or target object suffers 10d6 HP (DC 12 Fort half)</td>
     </tr><tr style="text-align:left">
-      <td>Shield Of Faith (C1 Abju): Touched gains +4 AC for 17 min</td>
+      <td>Shield Of Faith (C1 Abju): Touched gains +4 Armor Class for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Shield Of Law (C8 Abju): 17 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (DC 18 Will neg) for 17 rd</td>
+      <td>Shield Of Law (C8 Abju): 17 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (DC 18 Will neg) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Shield Other (C2 Abju): R65' target gains +1 AC and saves, and half of damage suffered by target is transferred to self for 17 hr</td>
+      <td>Shield Other (C2 Abju): R65' target gains +1 Armor Class and saves, and half of damage suffered by target is transferred to self for 17 hr</td>
     </tr><tr style="text-align:left">
       <td>Silence (C2 Illu): R1080' Bars sound in 20' radius (DC 12 Will neg if targeted) for 17 min</td>
     </tr><tr style="text-align:left">
@@ -771,9 +771,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Undetectable Alignment (C2 Abju): R65' Conceals target alignment (DC 12 Will neg) for 1 dy</td>
     </tr><tr style="text-align:left">
-      <td>Unhallow (C5 Evoc): 40' radius from touched gives +2 AC and saves vs. good, suppresses mental control, bars contact by summoned good creatures, inflicts -4 turn undead penalty, gives +4 rebuke undead bonus, and evokes bane spell</td>
+      <td>Unhallow (C5 Evoc): 40' radius from touched gives +2 Armor Class and saves vs. good, suppresses mental control, bars contact by summoned good creatures, inflicts -4 turn undead penalty, gives +4 rebuke undead bonus, and evokes bane spell</td>
     </tr><tr style="text-align:left">
-      <td>Unholy Aura (C8 Abju): 17 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (DC 18 Fort neg) for 17 rd</td>
+      <td>Unholy Aura (C8 Abju): 17 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (DC 18 Fort neg) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Virtue (C0 Tran): Touched gains +1 temporary HP for 1 min</td>
     </tr><tr style="text-align:left">

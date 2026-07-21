@@ -58,6 +58,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 376/1000</td>
       <td><b>Level</b>: 1</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 58/116/175</td>
     </tr></table>
@@ -67,9 +68,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><i>Dwarf Ability Adjustment: +2 Constitution/-2 Charisma</i></td>
     </tr><tr style="text-align:center">
-      <td><i>Slow: -10 Speed</i></td>
-    </tr><tr style="text-align:center">
-      <td><i>Steady: Suffers no speed penalty in heavy armor or with heavy load</i></td>
+      <td><i>Steady: Suffers no speed penalty in heavy armor or with a heavy load</i></td>
     </tr></table>
 </td>
   </tr></table>
@@ -88,18 +87,16 @@ var attributes = {
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
         <td><b>Feats</b>: Great Fortitude</td>
-        <td><b>Dwarf Features</b>: Darkvision; Dodge Giants; Dwarf Ability Adjustment; Dwarf Enmity; Know Depth; Natural Smith; Resist Poison; Resist Spells; Slow; Stability; Steady; Stonecunning; Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)</td>
-        <td><b>Dwarven Defender Features</b>: Armor Proficiency (Heavy); Defender Armor Class Bonus; Defensive Stance; Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Dwarf Features</b>: Darkvision; Dodge Giants; Dwarf Ability Adjustment; Dwarf Crafts; Dwarf Enmity; Know Depth; Resist Poison; Resist Spells; Stability; Steady; Stonecunning; Weapon Familiarity (Dwarven Urgosh; Dwarven Waraxe)</td>
+        <td><b>Dwarven Defender Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Defender Armor Class Bonus; Defensive Stance; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td><b>Feature Notes</b>:       <table id="FeatureNotes" style="width:100%">
       <tr style="text-align:center">
-        <td>Darkvision: 60' b/w vision in darkness</td>
+        <td>Darkvision: R60' Has black and white vision in complete darkness</td>
       </tr><tr style="text-align:center">
-        <td>Defensive Stance: Gains +2 Strength, +4 Constitution, +2 saves, and +4 AC while unmoving for 7 rd 1/dy</td>
-      </tr><tr style="text-align:center">
-        <td>Know Depth: May intuit approximate depth underground</td>
+        <td>Defensive Stance: Gains +2 Strength, +4 Constitution, +2 saves, and +4 Armor Class while unmoving for 7 rd 1/dy</td>
       </tr></table>
 </td>
     </tr></table>
@@ -186,9 +183,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Speed Jump Modifier: -6</i></td>
       </tr><tr style="text-align:center">
-        <td>Natural Smith: +2 Appraise (stone or metal)/+2 Craft (stone or metal)</td>
+        <td>Dwarf Crafts: +2 Appraise and Craft with stone and metal</td>
       </tr><tr style="text-align:center">
-        <td>Stonecunning: +2 Search (stone), automatic check w/in 10'</td>
+        <td>Stonecunning: +2 Search for unusual stonework and makes an automatic Search when within 10'/Can determine approximate depth underground</td>
       </tr></table>
 </td>
     </tr></table>
@@ -212,9 +209,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -222,7 +218,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Leather</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Battleaxe (+3 d8+3 x3@20); Longbow (+1 d8 x3@20 R100'); Spiked Gauntlet (+3 d4+2 x2@20); Unarmed (+3 d3+2 x2@20)</td>
+        <td><b>Weapons</b>: Battleaxe (+3 d8+3 x3@20); Longbow (+1 d8 x3@20 R100'); Spiked Gauntlet (+3 d4+2 x2@20); Unarmed Strike (+3 d3+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -230,7 +226,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Defender Armor Class Bonus: +1 AC</i></td>
+        <td><i>Defender Armor Class Bonus: +1 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
@@ -238,11 +234,11 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Two-Handed Wield Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td>Dodge Giants: +4 AC vs. giant creatures</td>
+        <td>Dodge Giants: +4 Armor Class vs. creatures with the giant type</td>
       </tr><tr style="text-align:center">
-        <td>Dwarf Enmity: +1 attack vs. goblinoid and orc</td>
+        <td>Dwarf Enmity: +1 attack vs. goblinoids and orcs</td>
       </tr><tr style="text-align:center">
-        <td>Stability: +4 vs. Bull Rush and Trip</td>
+        <td>Stability: +4 vs. Bull Rush and Trip when standing on ground</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">

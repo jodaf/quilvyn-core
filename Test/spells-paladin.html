@@ -65,6 +65,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 97742/105000</td>
       <td><b>Level</b>: 14</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 50/100/150</td>
     </tr></table>
@@ -88,7 +89,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Combat Expertise; Combat Reflexes; Point-Blank Shot; Scribe Scroll; Spell Focus (Conjuration); Widen Spell</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Paladin Features</b>: Armor Proficiency (Heavy); Aura Of Courage; Aura; Detect Evil; Divine Grace; Divine Health; Remove Disease; Shield Proficiency; Smite Evil; Special Mount; Turn Undead; Weapon Proficiency (Martial)</td>
+        <td><b>Paladin Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura Of Courage; Aura; Detect Evil; Divine Grace; Divine Health; Remove Disease; Smite Evil; Special Mount; Turn Undead; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -169,9 +170,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -179,7 +179,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Scale Mail</td>
         <td><b>Shield</b>: Heavy Wooden</td>
-        <td><b>Weapons</b>: Light Crossbow (+14 d8 x2@19 R80'); Shortbow (+14 d6 x3@20 R60'); Spiked Gauntlet (+15 d4+1 x2@20); Unarmed (+15 d3+1 x2@20)</td>
+        <td><b>Weapons</b>: Light Crossbow (+14 d8 x2@19 R80'); Shortbow (+14 d6 x3@20 R60'); Spiked Gauntlet (+15 d4+1 x2@20); Unarmed Strike (+15 d3+1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -191,7 +191,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td>Combat Expertise: May suffer up to -5 attack to gain equal AC bonus</td>
+        <td>Combat Expertise: May suffer up to -5 attack to gain equal Armor Class bonus</td>
       </tr><tr style="text-align:center">
         <td>Combat Reflexes: May take AOO while flat-footed and 1 AOO/rd</td>
       </tr><tr style="text-align:center">
@@ -270,9 +270,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Discern Lies (P3 Divi): R40' Self detects lies from 7 creatures in 15' radius (DC 17 Will neg) for conc or 7 rd</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Chaos (P4 Abju): Self gains +4 AC vs. chaotic and dismisses chaotic creature via touch (DC 18 Will neg) or spell</td>
+      <td>Dispel Chaos (P4 Abju): Self gains +4 Armor Class vs. chaotic and dismisses chaotic creature via touch (DC 18 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (P4 Abju): Self gains +4 AC vs. evil and dismisses evil creature via touch (DC 18 Will neg) or spell</td>
+      <td>Dispel Evil (P4 Abju): Self gains +4 Armor Class vs. evil and dismisses evil creature via touch (DC 18 Will neg) or spell</td>
     </tr><tr style="text-align:left">
       <td>Dispel Magic (P3 Abju): R170' Successful d20+7 check vs. 11+caster level cancels targeted spell or 1 spell on each creature in a 20' radius</td>
     </tr><tr style="text-align:left">
@@ -286,13 +286,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Heal Mount (P3 Conj): Heals 70 HP and removes negative conditions from touched mount</td>
     </tr><tr style="text-align:left">
-      <td>Holy Sword (P4 Evoc): Touched weapon gains +5 attack and damage, additional +2d6 damage vs. evil, gives +2 AC and saves, suppresses mental control, and bars contact by evil summoned for 7 rd</td>
+      <td>Holy Sword (P4 Evoc): Touched weapon gains +5 attack and damage, additional +2d6 damage vs. evil, gives +2 Armor Class and saves, suppresses mental control, and bars contact by evil summoned for 7 rd</td>
     </tr><tr style="text-align:left">
       <td>Lesser Restoration (P1 Conj): Dispels magical ability harm from touched or heals 1d4 temporary ability damage, removes fatigue, and reduces exhaustion</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Chaos (P3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for 70 min or traps nonlawful summoned creatures (SR neg) for 7 dy</td>
+      <td>Magic Circle Against Chaos (P3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for 70 min or traps nonlawful summoned creatures (SR neg) for 7 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Evil (P3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for 70 min or traps nongood summoned creatures (SR neg) for 7 dy</td>
+      <td>Magic Circle Against Evil (P3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for 70 min or traps nongood summoned creatures (SR neg) for 7 dy</td>
     </tr><tr style="text-align:left">
       <td>Magic Weapon (P1 Tran): Touched weapon gains +1 attack and damage for 7 min</td>
     </tr><tr style="text-align:left">
@@ -304,9 +304,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Prayer (P3 Ench): Allies in 40' radius gain +1 attack, damage, save, and skill, and foes suffer -1, for 7 rd</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Chaos (P1 Abju): Touched gains +2 AC and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for 7 min</td>
+      <td>Protection From Chaos (P1 Abju): Touched gains +2 Armor Class and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for 7 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Evil (P1 Abju): Touched gains +2 AC and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for 7 min</td>
+      <td>Protection From Evil (P1 Abju): Touched gains +2 Armor Class and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for 7 min</td>
     </tr><tr style="text-align:left">
       <td>Read Magic (P1 Divi): Self can read magical writing for 70 min</td>
     </tr><tr style="text-align:left">
@@ -322,7 +322,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Restoration (P4 Conj): Dispels magical ability harm from touched and heals all temporary ability damage, restores 1 drained ability, removes fatigue or exhaustion and temporary negative levels, and restores 1 drained level</td>
     </tr><tr style="text-align:left">
-      <td>Shield Other (P2 Abju): R40' target gains +1 AC and saves, and half of damage suffered by target is transferred to self for 7 hr</td>
+      <td>Shield Other (P2 Abju): R40' target gains +1 Armor Class and saves, and half of damage suffered by target is transferred to self for 7 hr</td>
     </tr><tr style="text-align:left">
       <td>Undetectable Alignment (P2 Abju): R40' Conceals target alignment (DC 16 Will neg) for 1 dy</td>
     </tr><tr style="text-align:left">

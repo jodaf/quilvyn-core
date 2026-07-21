@@ -64,6 +64,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 485/1000</td>
       <td><b>Level</b>: 1</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 50/100/150</td>
     </tr></table>
@@ -85,7 +86,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Agile; Investigator; Weapon Finesse</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -150,9 +151,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -160,7 +160,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Studded Leather</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Bastard Sword (-2 d10+1 x2@19); Battleaxe (+2 d8+1 x3@20); Bolas (-1 d4+1 x2@20 R10'); Club (+2 d6+1 x2@20 R10'); Composite Longbow (+3 d8 x3@20 R110'); Composite Shortbow (+3 d6 x3@20 R70'); Dagger (+3 d4+1 x2@19 R10'); Dart (+3 d4+1 x2@20 R20'); Dire Flail (-2 d8+1/d8+1 x2@20); Dwarven Urgosh (-2 d8+1/d6+1 x3@20); Dwarven Waraxe (-2 d10+1 x3@20); Falchion (+2 2d4+1 x2@18); Flail (+2 d8+1 x2@20); Gauntlet (+3 d3+1 x2@20); Glaive (+2 d10+1 x3@20); Gnome Hooked Hammer (-2 d8+1/d6+1 x4@20); Greataxe (+2 d12+1 x3@20); Greatclub (+2 d10+1 x2@20); Greatsword (+2 2d6+1 x2@19); Guisarme (+2 2d4+1 x3@20); Halberd (+2 d10+1 x3@20); Hand Crossbow (-1 d4 x2@19 R30'); Handaxe (+3 d6+1 x3@20); Heavy Crossbow (+3 d10 x2@19 R120'); Heavy Flail (+2 d10+1 x2@19); Heavy Mace (+2 d8+1 x2@20); Heavy Pick (+2 d6+1 x4@20); Heavy Shield (+2 d4+1 x2@20); Heavy Spiked Shield (+2 d6+1 x2@20); Improvised (-1 d4+1 x2@20 R10'); Javelin (+3 d6+1 x2@20 R30'); Kama (-1 d6+1 x2@20); Kukri (+3 d4+1 x2@18); Lance (+2 d8+1 x3@20); Light Crossbow (+3 d8 x2@19 R80'); Light Hammer (+3 d4+1 x2@20 R20'); Light Mace (+3 d6+1 x2@20); Light Pick (+3 d4+1 x4@20); Light Shield (+3 d3+1 x2@20); Light Spiked Shield (+3 d4+1 x2@20); Longbow (+3 d8 x3@20 R100'); Longspear (+2 d8+1 x3@20); Longsword (+2 d8+1 x2@19); Morningstar (+2 d8+1 x2@20); Net (-1 None R10'); Nunchaku (-1 d6+1 x2@20); Orc Double Axe (-2 d8+1/d8+1 x3@20); Punching Dagger (+3 d4+1 x3@20); Quarterstaff (+2 d6+1/d6+1 x2@20); Ranseur (+2 2d4+1 x3@20); Rapier (+3 d6+1 x2@18); Repeating Heavy Crossbow (-1 d10 x2@19 R120'); Repeating Light Crossbow (-1 d8 x2@19 R80'); Sai (-1 d4+1 x2@20 R10'); Sap (+3 d6+1 x2@20); Scimitar (+2 d6+1 x2@18); Scythe (+2 2d4+1 x4@20); Short Sword (+3 d6+1 x2@19); Shortbow (+3 d6 x3@20 R60'); Shortspear (+2 d6+1 x2@20 R20'); Shuriken (-1 d2+1 x2@20 R10'); Siangham (-1 d6+1 x2@20); Sickle (+3 d6+1 x2@20); Sling (+3 d4+1 x2@20 R50'); Spear (+2 d8+1 x3@20 R20'); Spiked Armor (+3 d6+1 x2@20); Spiked Chain (-1 2d4+1 x2@20); Spiked Gauntlet (+3 d4+1 x2@20); Throwing Axe (+3 d6+1 x2@20 R10'); Trident (+2 d8+1 x2@20 R10'); Two-Bladed Sword (-2 d8+1/d8+1 x2@19); Unarmed (+3 d3+1 x2@20); Warhammer (+2 d8+1 x3@20); Whip (-1 d3+1 x2@20)</td>
+        <td><b>Weapons</b>: Bastard Sword (-2 d10+1 x2@19); Battleaxe (+2 d8+1 x3@20); Bolas (-1 d4+1 x2@20 R10'); Club (+2 d6+1 x2@20 R10'); Composite Longbow (+3 d8 x3@20 R110'); Composite Shortbow (+3 d6 x3@20 R70'); Dagger (+3 d4+1 x2@19 R10'); Dart (+3 d4+1 x2@20 R20'); Dire Flail (-2 d8+1/d8+1 x2@20); Dwarven Urgosh (-2 d8+1/d6+1 x3@20); Dwarven Waraxe (-2 d10+1 x3@20); Falchion (+2 2d4+1 x2@18); Flail (+2 d8+1 x2@20); Gauntlet (+3 d3+1 x2@20); Glaive (+2 d10+1 x3@20); Gnome Hooked Hammer (-2 d8+1/d6+1 x4@20); Greataxe (+2 d12+1 x3@20); Greatclub (+2 d10+1 x2@20); Greatsword (+2 2d6+1 x2@19); Guisarme (+2 2d4+1 x3@20); Halberd (+2 d10+1 x3@20); Hand Crossbow (-1 d4 x2@19 R30'); Handaxe (+3 d6+1 x3@20); Heavy Crossbow (+3 d10 x2@19 R120'); Heavy Flail (+2 d10+1 x2@19); Heavy Mace (+2 d8+1 x2@20); Heavy Pick (+2 d6+1 x4@20); Heavy Shield (+2 d4+1 x2@20); Heavy Spiked Shield (+2 d6+1 x2@20); Improvised (-1 d4+1 x2@20 R10'); Javelin (+3 d6+1 x2@20 R30'); Kama (-1 d6+1 x2@20); Kukri (+3 d4+1 x2@18); Lance (+2 d8+1 x3@20); Light Crossbow (+3 d8 x2@19 R80'); Light Hammer (+3 d4+1 x2@20 R20'); Light Mace (+3 d6+1 x2@20); Light Pick (+3 d4+1 x4@20); Light Shield (+3 d3+1 x2@20); Light Spiked Shield (+3 d4+1 x2@20); Longbow (+3 d8 x3@20 R100'); Longspear (+2 d8+1 x3@20); Longsword (+2 d8+1 x2@19); Morningstar (+2 d8+1 x2@20); Net (-1 None R10'); Nunchaku (-1 d6+1 x2@20); Orc Double Axe (-2 d8+1/d8+1 x3@20); Punching Dagger (+3 d4+1 x3@20); Quarterstaff (+2 d6+1/d6+1 x2@20); Ranseur (+2 2d4+1 x3@20); Rapier (+3 d6+1 x2@18); Repeating Heavy Crossbow (-1 d10 x2@19 R120'); Repeating Light Crossbow (-1 d8 x2@19 R80'); Sai (-1 d4+1 x2@20 R10'); Sap (+3 d6+1 x2@20); Scimitar (+2 d6+1 x2@18); Scythe (+2 2d4+1 x4@20); Short Sword (+3 d6+1 x2@19); Shortbow (+3 d6 x3@20 R60'); Shortspear (+2 d6+1 x2@20 R20'); Shuriken (-1 d2+1 x2@20 R10'); Siangham (-1 d6+1 x2@20); Sickle (+3 d6+1 x2@20); Sling (+3 d4+1 x2@20 R50'); Spear (+2 d8+1 x3@20 R20'); Spiked Armor (+3 d6+1 x2@20); Spiked Chain (-1 2d4+1 x2@20); Spiked Gauntlet (+3 d4+1 x2@20); Throwing Axe (+3 d6+1 x2@20 R10'); Trident (+2 d8+1 x2@20 R10'); Two-Bladed Sword (-2 d8+1/d8+1 x2@19); Unarmed Strike (+3 d3+1 x2@20); Unarmed; Warhammer (+2 d8+1 x3@20); Whip (-1 d3+1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -172,49 +172,49 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Bastard Sword: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Bolas: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Dire Flail: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Dwarven Urgosh: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Dwarven Waraxe: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Gnome Hooked Hammer: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Hand Crossbow: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Improvised: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Kama: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Net: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Nunchaku: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Orc Double Axe: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Repeating Heavy Crossbow: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Repeating Light Crossbow: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Sai: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Shuriken: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Siangham: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Spiked Chain: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Two-Bladed Sword: -4 attack</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Nonproficient Weapon Penalty.Whip: -4 attack</i></td>
-      </tr><tr style="text-align:center">
         <td><i>Strength Attack Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +1</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Bastard Sword: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Bolas: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Dire Flail: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Dwarven Urgosh: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Dwarven Waraxe: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Gnome Hooked Hammer: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Hand Crossbow: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Improvised: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Kama: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Net: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Nunchaku: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Orc Double Axe: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Repeating Heavy Crossbow: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Repeating Light Crossbow: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Sai: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Shuriken: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Siangham: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Spiked Chain: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Two-Bladed Sword: -4 attack</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Unproficient Weapon Penalty.Whip: -4 attack</i></td>
       </tr><tr style="text-align:center">
         <td><i>Weapon Finesse: +1 light melee weapon attack (Dexterity instead of Strength)</i></td>
       </tr></table>

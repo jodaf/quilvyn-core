@@ -79,6 +79,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 154497/171000</td>
       <td><b>Level</b>: 18</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 26/53/80</td>
     </tr></table>
@@ -104,8 +105,8 @@ var attributes = {
         <td><b>Feats</b>: Combat Casting; Great Fortitude; Improved Familiar; Maximize Spell; Point-Blank Shot; Self-Sufficient; Spell Focus (Evocation); Spell Focus (Necromancy)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
         <td><b>Mystic Theurge Features</b>: Arcane Caster Level Bonus; Divine Caster Level Bonus</td>
-        <td><b>Wizard Features</b>: School Opposition (Evocation); School Opposition (Illusion); School Specialization (Conjuration); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
-        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Empowered Evil; Evil Domain; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; War Domain; Weapon Of War; Weapon Proficiency (Simple)</td>
+        <td><b>Wizard Features</b>: School Opposition (Evocation); School Opposition (Illusion); School Specialization (Conjuration); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)</td>
+        <td><b>Cleric Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Empowered Evil; Evil Domain; Spontaneous Cleric Spell; Turn Undead; War Domain; Weapon Of War; Weapon Proficiency (Simple Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -208,9 +209,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Simple</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -218,7 +218,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Chainmail</td>
         <td><b>Shield</b>: Light Steel</td>
-        <td><b>Weapons</b>: Dart (+10 d4-1 x2@20 R20'); Heavy Mace (+9 d8-1 x2@20); Sickle (+9 d6-1 x2@20); Unarmed (+9 d3-1 x2@20)</td>
+        <td><b>Weapons</b>: Dart (+10 d4-1 x2@20 R20'); Heavy Mace (+9 d8-1 x2@20); Sickle (+9 d6-1 x2@20); Unarmed Strike (+9 d3-1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -355,13 +355,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Missile (W1 Evoc): R240' 5 missiles inflict 1d4+1 HP each in 15' radius</td>
     </tr><tr style="text-align:left">
-      <td>Magic Vestment (C3 Tran): Touched armor, shield, or clothing gives +3 AC for 14 hr</td>
+      <td>Magic Vestment (C3 Tran): Touched armor, shield, or clothing gives +3 Armor Class for 14 hr</td>
     </tr><tr style="text-align:left">
       <td>Magic Weapon (W1 Tran): Touched weapon gains +1 attack and damage for 14 min</td>
     </tr><tr style="text-align:left">
       <td>Mass Inflict Moderate Wounds (C6 Necr): R60' 14 targets in 15' radius suffer (undead heal) 2d8+14 HP (DC 18 Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Mass Reduce Person (W4 Tran): R60' 14 target humanoids in 15' radius become half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) (DC 15 Fort neg) for 14 min</td>
+      <td>Mass Reduce Person (W4 Tran): R60' 14 target humanoids in 15' radius become half size (-2 Strength, +2 Dexterity, +1 attack, +1 Armor Class) (DC 15 Fort neg) for 14 min</td>
     </tr><tr style="text-align:left">
       <td>Mass Suggestion (W6 Ench): R240' 14 targets in 15' radius follow reasonable suggestion (DC 17 Will neg) for 14 hr</td>
     </tr><tr style="text-align:left">
@@ -389,7 +389,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shatter (C2 Evoc): R60' Breakables in 5' radius shatter (DC 14 Will neg), or target object suffers 10d6 HP (DC 14 Fort half)</td>
     </tr><tr style="text-align:left">
-      <td>Shield Other (C2 Abju): R60' target gains +1 AC and saves, and half of damage suffered by target is transferred to self for 14 hr</td>
+      <td>Shield Other (C2 Abju): R60' target gains +1 Armor Class and saves, and half of damage suffered by target is transferred to self for 14 hr</td>
     </tr><tr style="text-align:left">
       <td>Sleep (W1 Ench): R240' 4 HD of creatures in 10' radius sleep (DC 12 Will neg) for 14 min</td>
     </tr><tr style="text-align:left">

@@ -111,6 +111,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 120019/136000</td>
       <td><b>Level</b>: 16</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 33/66/100</td>
     </tr></table>
@@ -132,7 +133,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Acrobatic; Greater Spell Focus (Necromancy); Improved Counterspell; Negotiator; Spell Focus (Enchantment); Spell Focus (Necromancy); Widen Spell</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Bard Features</b>: Armor Proficiency (Light); Bardic Knowledge; Bardic Music; Countersong; Fascinate; Inspire Competence; Inspire Courage; Shield Proficiency; Simple Somatics; Suggestion; Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Shortbow/Whip)</td>
+        <td><b>Bard Features</b>: Armor Proficiency (Light; Shield); Bardic Knowledge; Bardic Music; Countersong; Fascinate; Inspire Competence; Inspire Courage; Simple Somatics; Suggestion; Weapon Proficiency (Simple Weapons; Longsword; Rapier; Sap; Short Sword; Shortbow; Whip)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -235,9 +236,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Light</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Simple</td>
+        <td><b>Armor Proficiency</b>: Light; Shield</td>
+        <td><b>Weapon Proficiency</b>: Longsword; Rapier; Sap; Short Sword; Shortbow; Simple Weapons; Whip</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -245,7 +245,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Chain Shirt</td>
         <td><b>Shield</b>: Heavy Steel</td>
-        <td><b>Weapons</b>: Sling (+14 d4 x2@20 R50'); Unarmed (+12 d3 x2@20); Whip (+12 d3 x2@20)</td>
+        <td><b>Weapons</b>: Sling (+14 d4 x2@20 R50'); Unarmed Strike (+12 d3 x2@20); Unarmed; Whip (+12 d3 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -426,7 +426,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hallucinatory Terrain (B4 Illu): R1040' Creates 16 30' cu terrain illusion (DC 16 Will disbelieve) for 32 hr</td>
     </tr><tr style="text-align:left">
-      <td>Haste (B3 Tran): R65' 16 targets in 15' radius gain extra attack, +1 attack, AC, and Reflex, and +30' Speed for 16 rd</td>
+      <td>Haste (B3 Tran): R65' 16 targets in 15' radius gain extra attack, +1 attack, Armor Class, and Reflex, and +30' Speed for 16 rd</td>
     </tr><tr style="text-align:left">
       <td>Heroes' Feast (B6 Conj): R65' Food for 16 creatures cures sickness and disease, gives 1d8+8 temporary HP, +1 attack and Will saves and immunity to poison and fear for 12 hr</td>
     </tr><tr style="text-align:left">
@@ -450,7 +450,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Invisibility Sphere (B3 Illu): Creatures in 10' radius of touched become invisible for 16 min or until attack or leave area</td>
     </tr><tr style="text-align:left">
-      <td>Irresistible Dance (B6 Ench): Touched dances (-4 AC, -10 Reflex) for d4+1 rd</td>
+      <td>Irresistible Dance (B6 Ench): Touched dances (-4 Armor Class, -10 Reflex) for d4+1 rd</td>
     </tr><tr style="text-align:left">
       <td>Know Direction (B0 Divi): Self learns direction of north</td>
     </tr><tr style="text-align:left">
@@ -520,7 +520,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Persistent Image (B5 Illu): R1040' Creates 20 10' cu scripted image w/sound, smell, and thermal effects (DC 17 Will disbelieve) for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Phantom Steed (B3 Conj): Creates mount (23 HP, AC 18, speed 240') that only target can ride for 16 hr</td>
+      <td>Phantom Steed (B3 Conj): Creates mount (23 HP, Armor Class 18, speed 240') that only target can ride for 16 hr</td>
     </tr><tr style="text-align:left">
       <td>Prestidigitation (B0 Univ): R10' Self performs minor tricks for 1 hr</td>
     </tr><tr style="text-align:left">
@@ -530,7 +530,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Pyrotechnics (B2 Tran): R1040' Target fire becomes fireworks (R120' blinded for 1d4+1 rd (DC 14 Will neg)) or choking smoke in 20' radius (suffer -4 Strength and Dexterity for d4+1 rd (DC 14 Fort neg)) for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Rage (B2 Ench): R260' 5 willing targets in 15' radius gain +2 Strength, +2 Constitution, and +1 Will and suffer -2 AC for conc + 16 rd</td>
+      <td>Rage (B2 Ench): R260' 5 willing targets in 15' radius gain +2 Strength, +2 Constitution, and +1 Will and suffer -2 Armor Class for conc + 16 rd</td>
     </tr><tr style="text-align:left">
       <td>Rainbow Pattern (B4 Illu): R260' Fascinates 24 HD of creatures in 20' radius (DC 16 Will neg) for conc + 16 rd</td>
     </tr><tr style="text-align:left">
@@ -576,7 +576,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Sleep (B1 Ench): R260' 4 HD of creatures in 10' radius sleep (DC 14 Will neg) for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Slow (B3 Tran): R65' 16 creatures in 15' radius take one action per rd, suffer -1 AC, attack, and Reflex, and slow to half Speed (DC 15 Will neg) for 16 rd</td>
+      <td>Slow (B3 Tran): R65' 16 creatures in 15' radius take one action per rd, suffer -1 Armor Class, attack, and Reflex, and slow to half Speed (DC 15 Will neg) for 16 rd</td>
     </tr><tr style="text-align:left">
       <td>Song Of Discord (B5 Ench): R260' Creatures in 20' radius have 50% chance each rd of attacking neighbor (DC 18 Will neg) for 16 rd</td>
     </tr><tr style="text-align:left">

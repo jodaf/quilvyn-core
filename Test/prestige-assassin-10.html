@@ -57,6 +57,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 110215/120000</td>
       <td><b>Level</b>: 15</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 38/76/115</td>
     </tr></table>
@@ -78,8 +79,8 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Eschew Materials; Extend Spell; Greater Spell Penetration; Negotiator; Skill Focus (Disable Device); Spell Focus (Transmutation); Spell Penetration</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Assassin Features</b>: Armor Proficiency (Light); Death Attack; Hide In Plain Sight; Improved Uncanny Dodge; Poison Save Bonus; Poison Use; Sneak Attack; Uncanny Dodge; Weapon Proficiency (Composite Shortbow/Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Short Sword)</td>
-        <td><b>Rogue Features</b>: Armor Proficiency (Light); Evasion; Improved Uncanny Dodge; Sneak Attack; Trap Sense; Trapfinding; Uncanny Dodge; Weapon Proficiency (Simple/Hand Crossbow/Rapier/Sap/Shortbow/Short Sword)</td>
+        <td><b>Assassin Features</b>: Armor Proficiency (Light); Death Attack; Hide In Plain Sight; Improved Uncanny Dodge; Poison Save Bonus; Poison Use; Sneak Attack; Uncanny Dodge; Weapon Proficiency (Composite Shortbow; Dagger; Dart; Hand Crossbow; Heavy Crossbow; Light Crossbow; Punching Dagger; Rapier; Sap; Shortbow; Short Sword)</td>
+        <td><b>Rogue Features</b>: Armor Proficiency (Light); Evasion; Improved Uncanny Dodge; Sneak Attack; Trap Sense; Trapfinding; Uncanny Dodge; Weapon Proficiency (Simple Weapons; Hand Crossbow; Rapier; Sap; Shortbow; Short Sword)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -179,8 +180,7 @@ var attributes = {
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
         <td><b>Armor Proficiency</b>: Light</td>
-        <td><b>Shield Proficiency</b>: None</td>
-        <td><b>Weapon Proficiency</b>: Simple</td>
+        <td><b>Weapon Proficiency</b>: Composite Shortbow; Dagger; Dart; Hand Crossbow; Heavy Crossbow; Light Crossbow; Punching Dagger; Rapier; Sap; Short Sword; Shortbow; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -188,7 +188,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Chain Shirt</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Dart (+12 d4 x2@20 R20'); Morningstar (+10 d8 x2@20); Sap (+10 d6 x2@20); Unarmed (+10 d3 x2@20)</td>
+        <td><b>Weapons</b>: Dart (+12 d4 x2@20 R20'); Morningstar (+10 d8 x2@20); Sap (+10 d6 x2@20); Unarmed Strike (+10 d3 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -200,11 +200,11 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Death Attack: Sneak attack after 3 rd of study inflicts choice of death or paralysis for 1d6+10 rd (DC 21 Fort neg)</td>
       </tr><tr style="text-align:center">
-        <td>Improved Uncanny Dodge: Cannot be flanked, sneak attack only by rogue level 19+</td>
+        <td>Improved Uncanny Dodge: Cannot be flanked and can be sneak attacked only by rogue of level 19 or higher</td>
       </tr><tr style="text-align:center">
         <td>Sneak Attack: Hit inflicts +8d6 HP when foe is surprised or flanked</td>
       </tr><tr style="text-align:center">
-        <td>Uncanny Dodge: Always adds Dexterity modifier to AC</td>
+        <td>Uncanny Dodge: Always adds Dexterity modifier to Armor Class</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -224,7 +224,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Poison Save Bonus: +5 vs. poison</td>
       </tr><tr style="text-align:center">
-        <td>Trap Sense: +1 Reflex and AC vs. traps</td>
+        <td>Trap Sense: +1 Reflex and Armor Class vs. traps</td>
       </tr></table>
 </td>
     </tr></table>
@@ -261,7 +261,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Jump (Assassin1 Tran): Touched gains +30 Jump for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Good (Assassin3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 100 min or traps nonevil summoned creatures (SR neg) for 10 dy</td>
+      <td>Magic Circle Against Good (Assassin3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 100 min or traps nonevil summoned creatures (SR neg) for 10 dy</td>
     </tr><tr style="text-align:left">
       <td>Nondetection (Assassin3 Abju): Touched gains SR 21 (divination) (self SR 25) for 10 hr</td>
     </tr><tr style="text-align:left">

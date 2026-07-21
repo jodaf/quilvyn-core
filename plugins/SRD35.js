@@ -60,8 +60,8 @@ function SRD35() {
   SRD35.combatRules(rules, SRD35.ARMORS, SRD35.SHIELDS, SRD35.WEAPONS);
   SRD35.magicRules(rules, SRD35.SCHOOLS, SRD35.SPELLS);
   SRD35.identityRules(
-    rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.PATHS,
-    SRD35.RACES, SRD35.PRESTIGE_CLASSES, SRD35.NPC_CLASSES
+    rules, SRD35.ALIGNMENTS, SRD35.CLASSES, SRD35.DEITIES, SRD35.RACES,
+    SRD35.PRESTIGE_CLASSES, SRD35.NPC_CLASSES
   );
   SRD35.talentRules
     (rules, SRD35.FEATS, SRD35.FEATURES, SRD35.GOODIES, SRD35.LANGUAGES,
@@ -314,16 +314,16 @@ SRD35.ARMORS = {
   'None':'AC=0 Weight=None Dex=10 Skill=0 Spell=0',
   'Padded':'AC=1 Weight=Light Dex=8 Skill=0 Spell=5',
   'Leather':'AC=2 Weight=Light Dex=6 Skill=0 Spell=10',
-  'Studded Leather':'AC=3 Weight=Light Dex=5 Skill=1 Spell=15',
-  'Chain Shirt':'AC=4 Weight=Light Dex=4 Skill=2 Spell=20',
-  'Hide':'AC=3 Weight=Medium Dex=4 Skill=3 Spell=20',
-  'Scale Mail':'AC=4 Weight=Medium Dex=3 Skill=4 Spell=25',
-  'Chainmail':'AC=5 Weight=Medium Dex=2 Skill=5 Spell=30',
-  'Breastplate':'AC=5 Weight=Medium Dex=3 Skill=4 Spell=25',
-  'Splint Mail':'AC=6 Weight=Heavy Dex=0 Skill=7 Spell=40',
-  'Banded Mail':'AC=6 Weight=Heavy Dex=1 Skill=6 Spell=35',
-  'Half Plate':'AC=7 Weight=Heavy Dex=0 Skill=7 Spell=40',
-  'Full Plate':'AC=8 Weight=Heavy Dex=1 Skill=6 Spell=35'
+  'Studded Leather':'AC=3 Weight=Light Dex=5 Skill=-1 Spell=15',
+  'Chain Shirt':'AC=4 Weight=Light Dex=4 Skill=-2 Spell=20',
+  'Hide':'AC=3 Weight=Medium Dex=4 Skill=-3 Spell=20',
+  'Scale Mail':'AC=4 Weight=Medium Dex=3 Skill=-4 Spell=25',
+  'Chainmail':'AC=5 Weight=Medium Dex=2 Skill=-5 Spell=30',
+  'Breastplate':'AC=5 Weight=Medium Dex=3 Skill=-4 Spell=25',
+  'Splint Mail':'AC=6 Weight=Heavy Dex=0 Skill=-7 Spell=40',
+  'Banded Mail':'AC=6 Weight=Heavy Dex=1 Skill=-6 Spell=35',
+  'Half Plate':'AC=7 Weight=Heavy Dex=0 Skill=-7 Spell=40',
+  'Full Plate':'AC=8 Weight=Heavy Dex=1 Skill=-6 Spell=35'
 };
 SRD35.FAMILIARS = {
 
@@ -429,11 +429,9 @@ SRD35.FEATS = {
   'Agile':'Type=General',
   'Alertness':'Type=General',
   'Animal Affinity':'Type=General',
-  'Armor Proficiency (Heavy)':
-    'Type=General Require="features.Armor Proficiency (Medium)"',
+  'Armor Proficiency (Heavy)':'Type=General Require="armorProficiency.Medium"',
   'Armor Proficiency (Light)':'Type=General',
-  'Armor Proficiency (Medium)':
-    'Type=General Require="features.Armor Proficiency (Light)"',
+  'Armor Proficiency (Medium)':'Type=General Require="armorProficiency.Light"',
   'Athletic':'Type=General',
   'Augment Summoning':
     'Type=General Require="features.Spell Focus (Conjuration)"',
@@ -497,8 +495,7 @@ SRD35.FEATS = {
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Precise Shot':
     'Type=Fighter Require="dexterity >= 13","baseAttack >= 11","features.Point-Blank Shot","features.Precise Shot"',
-  'Improved Shield Bash':
-    'Type=Fighter Require="features.Shield Proficiency"',
+  'Improved Shield Bash':'Type=Fighter Require="armorProficiency.Shield"',
   'Improved Sunder':
     'Type=Fighter Require="strength >= 13","features.Power Attack"',
   'Improved Trip':
@@ -560,8 +557,7 @@ SRD35.FEATS = {
   'Stunning Fist':
     'Type=Fighter Require="dexterity >= 13","wisdom >= 13","baseAttack >= 8","features.Improved Unarmed Strike"',
   'Toughness':'Type=General',
-  'Tower Shield Proficiency':
-    'Require="features.Shield Proficiency" Type=General',
+  'Tower Shield Proficiency':'Require="armorProficiency.Shield" Type=General',
   'Track':'Type=General Imply=skills.Survival',
   'Trample':'Type=Fighter Require="features.Mounted Combat",skills.Ride',
   'Two-Weapon Defense':
@@ -578,11 +574,122 @@ SRD35.FEATS = {
   'Widen Spell':'Type=Metamagic Imply="casterLevel >= 1"'
 };
 SRD35.FEATURES = {
+
+  // Race
+
+  // Dwarf
+  'Darkvision':
+    'Section=feature ' +
+    'Note="R60\' Has black and white vision in complete darkness"',
+  'Dodge Giants':
+    'Section=combat Note="+4 Armor Class vs. creatures with the giant type"',
+  'Dwarf Ability Adjustment':
+    'Section=ability Note="+2 Constitution/-2 Charisma"',
+  'Dwarf Crafts':
+    'Section=skill Note="+2 Appraise and Craft with stone and metal"',
+  'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoids and orcs"',
+  'Resist Poison':'Section=save Note="+2 vs. poison"',
+  'Resist Spells':'Section=save Note="+2 vs. spells"',
+  'Stability':
+    'Section=combat Note="+4 vs. Bull Rush and Trip when standing on ground"',
+  'Steady':
+    'Section=ability ' +
+    'Note="Suffers no speed penalty in heavy armor or with a heavy load"',
+  'Stonecunning':
+    'Section=skill ' +
+    'Note="+2 Search for unusual stonework and makes an automatic Search when within 10\'/Can determine approximate depth underground"',
+
+  // Elf
+  'Elf Ability Adjustment':
+    'Section=ability Note="+2 Dexterity/-2 Constitution"',
+  'Elf Resistances':
+    'Section=save Note="Has immunity to magical sleep/+2 vs. enchantment"',
+  'Keen Senses (Elf)':
+    'Section=skill,skill ' +
+    'Note=' +
+      '"+2 Listen/+2 Search/+2 Spot",' +
+      '"Makes an automatic Search for secret doors within 5\'"',
+  'Low-Light Vision':
+    'Section=feature Note="Can see double the normal distance in poor light"',
+
+  // Gnome
+  // Dodge Giants as above
+  'Gnome Ability Adjustment':
+    'Section=ability Note="+2 Constitution/-2 Strength"',
+  'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
+  'Gnome Magic':
+    'Section=magic ' +
+    'Note="Can cast <i>Speak With Animals</i> to communicate with burrowing mammals for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>\' : \'\'} once per day"',
+  'Keen Ears':'Section=skill Note="+2 Listen"',
+  'Sensitive Nose':'Section=skill Note="+2 Craft (Alchemy)"',
+  // Low-Light Vision as above
+  'Natural Illusionist': // TODO: implement
+    'Section=magic Note="+1 Spell Difficulty Class with Illusion spells"',
+  'Resist Illusion':'Section=save Note="+2 vs. illusions"',
+  'Small':
+    'Section=ability,combat,combat,skill ' +
+    'Note=' +
+      '"x0.75 Load Max",' + // TODO: specifically "lifting and carrying limits"
+      '"+1 Armor Class/+1 Melee Attack/+1 Ranged Attack",' +
+      '"-4 special attacks",' +
+      '"+4 Hide/-4 Intimidate"',
+
+  // Half-Elf
+  // Elf Resistances as above
+  'Elven Blood':'Section=feature Note="Counts as an elf for racial effects"',
+  'Keen Senses (Half-Elf)':
+    'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
+  // Low-Light Vision as above
+  'Tolerance':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
+
+  // Half-Orc
+  // Darkvision as above
+  'Half-Orc Ability Adjustment':
+    'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
+  'Orc Blood':'Section=feature Note="Counts as an orc for racial effects"',
+
+  // Halfling
+  'Accurate':'Section=combat Note="+1 attack with slings and thrown weapons"',
+  'Fortunate':'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
+  'Halfling Ability Adjustment':
+    'Section=ability Note="+2 Dexterity/-2 Strength"',
+  // Keen Ears as above
+  'Resist Fear':'Section=save Note="+2 vs. fear"',
+  // Small as above
+  'Surefooted':'Section=skill Note="+2 Climb/+2 Jump/+2 Move Silently"',
+
+  // Human
+  'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
+  'Human Skill Bonus':'Section=skill Note="+%V Skill Points"',
+
+  // Class
+
+  // Barbarian
+  'Damage Reduction':'Section=combat Note="Has DR %V/-"',
+  'Fast Movement (Barbarian)':
+    'Section=ability Note="+10 Speed; heavy armor or a heavy load negates"',
+  'Greater Rage':'Section=combat Note="Has increased Rage effects"',
+  'Illiteracy':
+    'Section=skill Note="Must spend 2 skill points to read and write"',
+  'Improved Uncanny Dodge':
+    'Section=combat ' +
+    'Note="Cannot be flanked and can be sneak attacked only by rogue of level %V or higher"',
+  'Indomitable Will':'Section=save Note="+4 Will vs. enchantment during rage"',
+  'Mighty Rage':'Section=combat Note="Has increased Rage effects"',
+  'Rage':
+    'Section=combat ' +
+    'Note="Can gain +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Strength, +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Constitution, and +%{combatNotes.mightyRage?4:combatNotes.greaterRage?3:2} Will and suffer -2 Armor Class for %{(combatNotes.mightyRage?7:combatNotes.greaterRage?6:5)+constitutionModifier>?1} rd%{combatNotes.tirelessRage?\'\':\', becoming fatigued afterward until the end of the encounter,\'} %{levels.Barbarian>=4?(levels.Barbarian//4+1)+\' times\':\'once\'} per day"',
+  'Tireless Rage':'Section=combat Note="Suffers no fatigue after rage"',
+  'Trap Sense':'Section=save Note="+%V Reflex and Armor Class vs. traps"',
+  'Uncanny Dodge':
+    'Section=combat Note="Always adds Dexterity modifier to Armor Class"',
+
+  // Bard
+
   'A Thousand Faces':
     'Section=magic Note="May use <i>Disguise Self</i> effects at will"',
   'Abundant Step':
     'Section=magic Note="May teleport self %{levels.Monk//2*40+400}\' 1/dy"',
-  'Accurate':'Section=combat Note="+1 attack with slings and thrown"',
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
   'Air Turning':
@@ -597,7 +704,7 @@ SRD35.FEATURES = {
   'Arcane Adept':
     'Section=magic ' +
     'Note="May use magic device as W%{levels.Cleric//2>?1 + (levels.Wizard||0)}"',
-  'Armor Class Bonus':'Section=combat Note="+%V AC"',
+  'Armor Class Bonus':'Section=combat Note="+%V Armor Class"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':
     'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
@@ -625,7 +732,7 @@ SRD35.FEATURES = {
     'Note="+4 Concentration to cast spell while on defensive or grappling"',
   'Combat Expertise':
     'Section=combat ' +
-    'Note="May suffer up to -%{baseAttack<?5} attack to gain equal AC bonus"',
+    'Note="May suffer up to -%{baseAttack<?5} attack to gain equal Armor Class bonus"',
   'Combat Reflexes':
     'Section=combat ' +
     'Note="May take AOO while flat-footed and %{dexterityModifier+1} AOO/rd"',
@@ -653,8 +760,6 @@ SRD35.FEATURES = {
     'Section=magic Note="May create and mend miscellaneous magic items"',
   'Crippling Strike':
     'Section=combat Note="Sneak attack inflicts 2 points Strength damage"',
-  'Damage Reduction':'Section=combat Note="DR %V/-"',
-  'Darkvision':'Section=feature Note="60\' b/w vision in darkness"',
   'Deadly Touch':
     'Section=magic ' +
     'Note="Touch kills target w/up to %{casterLevels.Death}d6 HP 1/dy"',
@@ -683,19 +788,12 @@ SRD35.FEATURES = {
   'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
   'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Divine Health':'Section=save Note="Immune to disease"',
-  'Dodge':'Section=combat Note="+1 AC"',
-  'Dodge Giants':'Section=combat Note="+4 AC vs. giant creatures"',
-  'Dwarf Ability Adjustment':
-    'Section=ability Note="+2 Constitution/-2 Charisma"',
-  'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoid and orc"',
+  'Dodge':'Section=combat Note="+1 Armor Class"',
   'Earth Turning':
     'Section=combat Note="May turn air creatures and rebuke earth creatures"',
   'Elemental Shape':
     'Section=magic ' +
     'Note="May Wild Shape to elemental %{(levels.Druid-14)//2}/dy"',
-  'Elf Ability Adjustment':
-    'Section=ability Note="+2 Dexterity/-2 Constitution"',
-  'Elven Blood':'Section=feature Note="Counts as an elf for racial effects"',
   'Empathic Link':'Section=companion Note="May share emotions up to 1 mile"',
   'Empower Spell':
     'Section=magic ' +
@@ -730,7 +828,6 @@ SRD35.FEATURES = {
   'Fascinate':
     'Section=magic ' +
     'Note="R90\' May hold %{(levels.Bard+2)//3} creatures spellbound while performing for %{levels.Bard} rd (DC Perform Will neg)"',
-  'Fast Movement':'Section=ability Note="+10 Speed"',
   'Fast Movement (Monk)':'Section=ability Note="+%V Speed"',
   'Favored Enemy':
     'Section=combat,skill ' +
@@ -747,17 +844,9 @@ SRD35.FEATURES = {
      'Section=combat ' +
      'Note="May suffer -%{levels.Monk<5?2:levels.Monk<9?1:0} attack for %{levels.Monk<11?1:2} extra attack"',
   'Forge Ring':'Section=magic Note="May create and mend magic rings"',
-  'Fortunate':'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
-  'Gnome Ability Adjustment':
-    'Section=ability Note="+2 Constitution/-2 Strength"',
-  'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
-  'Gnome Magic':'Section=magic Note="May cast <i>Speak With Animals</i> (burrowing mammals) for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>\' : \'\'} 1/dy"',
   'Good Fortune':'Section=feature Note="May reroll any roll 1/dy"',
   'Great Cleave':'Section=combat Note="May cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
-  'Greater Rage':
-    'Section=combat ' +
-    'Note="Gains +6 Strength, +6 Constitution, +3 Will during rage"',
   'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
   'Greater Spell Penetration':
     'Section=magic Note="+2 checks to overcome spell resistance"',
@@ -767,17 +856,9 @@ SRD35.FEATURES = {
     'Section=combat Note="+1 %weapon Attack Modifier"',
   'Greater Weapon Specialization (%weapon)':
     'Section=combat Note="+2 %weapon Damage Modifier"',
-  'Half-Orc Ability Adjustment':
-    'Section=ability Note="+2 Strength/-2 Intelligence/-2 Charisma"',
-  'Halfling Ability Adjustment':
-    'Section=ability Note="+2 Dexterity/-2 Strength"',
   'Heighten Spell':
     'Section=magic Note="May cast chosen spell at a higher level"',
   'Hide In Plain Sight':'Section=skill Note="May hide even when observed"',
-  'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
-  'Human Skill Bonus':'Section=skill Note="+%V Skill Points"',
-  'Illiteracy':
-    'Section=skill Note="Must spend 2 skill points to read and write"',
   'Improved Bull Rush':
     'Section=combat ' +
     'Note="Bull Rush provokes no AOO/+4 Bull Rush Strength check"',
@@ -799,9 +880,10 @@ SRD35.FEATURES = {
     'Note="Gains +4 overrun Strength check/Foe cannot avoid overrun"',
   'Improved Precise Shot':
     'Section=combat ' +
-    'Note="Foe gains no AC bonus for partial cover/May attack grappling target"',
+    'Note="Foe gains no Armor Class bonus for partial cover/May attack grappling target"',
   'Improved Shield Bash':
-    'Section=combat Note="Suffers no AC penalty when using Shield Bash"',
+    'Section=combat ' +
+    'Note="Suffers no Armor Class penalty when using Shield Bash"',
   'Improved Speed':'Section=companion Note="+10 companion Speed"',
   'Improved Sunder':
     'Section=combat Note="Sunder provokes no AOO/+4 Sunder attack"',
@@ -814,11 +896,7 @@ SRD35.FEATURES = {
   'Improved Unarmed Strike':
     'Section=combat ' +
     'Note="Unarmed attack provokes no AOO and may deal lethal damage"',
-  'Improved Uncanny Dodge':
-    'Section=combat ' +
-    'Note="Cannot be flanked, sneak attack only by rogue level %V+"',
   'Increased Unarmed Damage':'Section=combat Note="%V"',
-  'Indomitable Will':'Section=save Note="+4 Will vs. enchantment during rage"',
   'Inspire Competence':
     'Section=magic ' +
     'Note="R30\' Allies gain +2 skill checks for 2 min while performing"',
@@ -830,22 +908,18 @@ SRD35.FEATURES = {
     'Note="R30\' %{(levels.Bard-6)//3} allies gain +2d10 HP, +2 attack, +1 Fortitude while performing + 5 rd"',
   'Inspire Heroics':
     'Section=magic ' +
-    'Note="R30\' %{(levels.Bard-12)//3} allies gain +4 AC and saves while performing + 5 rd"',
+    'Note="R30\' %{(levels.Bard-12)//3} allies gain +4 Armor Class and saves while performing + 5 rd"',
   'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
   'Iron Will':'Section=save Note="+2 Will"',
-  'Keen Ears':'Section=skill Note="+2 Listen"',
-  'Keen Nose':'Section=skill Note="+2 Craft (Alchemy)"',
-  'Keen Senses':'Section=skill Note="+2 Listen/+2 Search/+2 Spot"',
   'Ki Strike':
     'Section=combat ' +
     'Note="Unarmed attack is magic%{levels.Monk>15 ? \', lawful, and adamantine\' : levels.Monk>9 ? \' and lawful\' : \'\'}"',
-  'Know Depth':
-    'Section=feature Note="May intuit approximate depth underground"',
   'Large':
     'Section=ability,combat,skill ' +
-    'Note="x2 Load Max",' +
-         '"-1 AC/-1 Melee Attack/-1 Ranged Attack/+4 special attacks",' +
-         '"-4 Hide/+4 Intimidate"',
+    'Note=' +
+      '"x2 Load Max",' +
+      '"-1 Armor Class/-1 Melee Attack/-1 Ranged Attack/+4 special attacks",' +
+      '"-4 Hide/+4 Intimidate"',
   'Lay On Hands':
     'Section=magic ' +
     'Note="May harm undead or heal %{levels.Paladin * charismaModifier} HP/dy"',
@@ -854,7 +928,6 @@ SRD35.FEATURES = {
   'Link':
     'Section=skill ' +
     'Note="+4 Handle Animal (companion)/+4 Wild Empathy (companion)"',
-  'Low-Light Vision':'Section=feature Note="x2 normal distance in poor light"',
   'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
   'Manyshot':
     'Section=combat ' +
@@ -865,10 +938,7 @@ SRD35.FEATURES = {
   'Maximize Spell':
     'Section=magic ' +
     'Note="May use +3 spell slot to maximize all variable effects on chosen spell"',
-  'Mighty Rage':
-    'Section=combat ' +
-    'Note="Gains +8 Strength, +8 Constitution, +4 Will during rage"',
-  'Mobility':'Section=combat Note="+4 AC vs. movement AOO"',
+  'Mobility':'Section=combat Note="+4 Armor Class vs. movement AOO"',
   'Mounted Archery':
     'Section=combat Note="Suffers half normal mounted ranged weapon penalty"',
   'Mounted Combat':
@@ -877,10 +947,6 @@ SRD35.FEATURES = {
   'Multiattack':
     'Section=companion ' +
     'Note="Reduces additional attack penalty to -2 or gives second attack at -5"',
-  'Natural Illusionist':'Section=magic Note="+1 Spell DC (Illusion)"',
-  'Natural Smith':
-    'Section=skill ' +
-    'Note="+2 Appraise (stone or metal)/+2 Craft (stone or metal)"',
   'Natural Spell':'Section=magic Note="May cast spells during Wild Shape"',
   'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
   'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
@@ -888,7 +954,6 @@ SRD35.FEATURES = {
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
   'Opportunist':
     'Section=combat Note="May take an AOO targeting a foe struck by an ally"',
-  'Orc Blood':'Section=feature Note="Counts as an orc for racial effects"',
   'Outdoors Knowledge':'Section=skill Note="Survival is a class skill"',
   'Perfect Self':
     'Section=combat,save ' +
@@ -914,9 +979,6 @@ SRD35.FEATURES = {
   'Quivering Palm':
     'Section=combat ' +
     'Note="Struck foe dies 1/wk (DC %{10+levels.Monk//2+wisdomModifier} Fort neg)"',
-  'Rage':
-    'Section=combat ' +
-    'Note="Gains +4 Strength, +4 Constitution, +2 Will and suffers -2 AC for %V rd %1/dy"',
   'Rapid Reload (Hand)':
     'Section=combat Note="May reload a hand crossbow as a free action"',
   'Rapid Reload (Heavy)':
@@ -929,19 +991,14 @@ SRD35.FEATURES = {
   'Remove Disease':
     'Section=magic ' +
     'Note="May use <i>Remove Disease</i> effects %{(levels.Paladin-3)//3}/wk"',
-  'Resist Enchantment':'Section=save Note="+2 vs. enchantment"',
-  'Resist Fear':'Section=save Note="+2 vs. fear"',
-  'Resist Illusion':'Section=save Note="+2 vs. illusions"',
   "Resist Nature's Lure":'Section=save Note="+4 vs. spells of feys"',
-  'Resist Poison':'Section=save Note="+2 vs. poison"',
-  'Resist Spells':'Section=save Note="+2 vs. spells"',
   'Ride-By Attack':
     'Section=combat ' +
     'Note="May move before and after mounted attack w/out provoking AOO"',
   'Run':
     'Section=ability,combat,skill ' +
     'Note="+1 Run Speed Multiplier",' +
-         '"Retains Dexterity bonus to AC while running",' +
+         '"Retains Dexterity bonus to Armor Class while running",' +
          '"+4 running Jump"',
   'School Opposition (%school)':
     'Section=magic Note="Cannot learn or cast %school spells"',
@@ -952,7 +1009,6 @@ SRD35.FEATURES = {
   'Scribe Scroll':'Section=magic Note="May create scroll of any known spell"',
   'Scry On Familiar':'Section=companion Note="Master may view companion 1/dy"',
   'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
-  'Sense Secret Doors':'Section=feature Note="Automatic Search w/in 5\'"',
   'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
   'Share Spells':
     'Section=companion Note="Master may share self spell w/adjacent companion"',
@@ -966,17 +1022,11 @@ SRD35.FEATURES = {
   'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
   'Skill Mastery':
     'Section=skill Note="May take 10 despite distraction on %V chosen skills"',
-  'Sleep Immunity':'Section=save Note="Immune to <i>Sleep</i>"',
   'Slippery Mind':
     'Section=save Note="May attempt second save vs. enchantment in next rd"',
   'Slow Fall':
     'Section=save Note="Subtracts %{levels.Monk<20 ? levels.Monk//2*10 : \'all\'}\' from falling damage distance when near wall"',
   'Slow':'Section=ability Note="-10 Speed"',
-  'Small':
-    'Section=ability,combat,skill ' +
-    'Note="x0.75 Load Max",' +
-          '"+1 AC/+1 Melee Attack/+1 Ranged Attack/-4 special attacks",' +
-          '"+4 Hide/-4 Intimidate"',
   'Smite':
     'Section=combat Note="+4 attack, +%{casterLevels.Destruction} damage 1/dy"',
   'Smite Evil':
@@ -1011,18 +1061,11 @@ SRD35.FEATURES = {
   'Spring Attack':
     'Section=combat ' +
     'Note="May move before and after melee attack w/out provoking AOO"',
-  'Spry':'Section=skill Note="+2 Climb/+2 Jump/+2 Move Silently"',
-  'Stability':'Section=combat Note="+4 vs. Bull Rush and Trip"',
-  'Steady':
-    'Section=ability ' +
-    'Note="Suffers no speed penalty in heavy armor or with heavy load"',
   'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
   'Still Mind':'Section=save Note="+2 vs. enchantment"',
   'Still Spell':
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out movement"',
-  'Stonecunning':
-    'Section=skill Note="+2 Search (stone), automatic check w/in 10\'"',
   'Strength Burst':
     'Section=ability ' +
     'Note="May gain +%{casterLevels.Strength} Strength for 1 rd 1/dy"',
@@ -1035,8 +1078,6 @@ SRD35.FEATURES = {
   'Summon Familiar':'Section=feature Note="Special bond and abilities"',
   'Swift Tracker':'Section=skill Note="May track at full speed"',
   'Timeless Body':'Section=feature Note="Suffers no aging penalties"',
-  'Tireless Rage':'Section=combat Note="Suffers no fatigue after rage"',
-  'Tolerance':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
   'Tongue Of The Sun And Moon':
     'Section=feature Note="May speak w/any living creature"',
   'Toughness':'Section=combat Note="+%V HP"',
@@ -1045,7 +1086,6 @@ SRD35.FEATURES = {
   'Trample':
     'Section=combat ' +
     'Note="Foe cannot avoid mounted overrun/Mount gains bonus hoof attack"',
-  'Trap Sense':'Section=save Note="+%V Reflex and AC vs. traps"',
   'Trapfinding':
     'Section=skill ' +
     'Note="May use Search and Disable Device to find and remove DC 20+ traps"',
@@ -1054,10 +1094,9 @@ SRD35.FEATURES = {
     'Note="R60\' May turn or rebuke 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy"',
   'Two-Weapon Defense':
     'Section=combat ' +
-    'Note="+1 AC when wielding two weapons; +2 when fighting defensively"',
+    'Note="+1 Armor Class when wielding two weapons; +2 when fighting defensively"',
   'Two-Weapon Fighting':
     'Section=combat Note="Reduces on-hand penalty by 2 and off-hand by 6"',
-  'Uncanny Dodge':'Section=combat Note="Always adds Dexterity modifier to AC"',
   'Unhindered':
     'Section=magic ' +
     'Note="May use <i>Freedom Of Movement</i> effects %{casterLevels.Travel} rd/dy"',
@@ -1115,7 +1154,7 @@ SRD35.FEATURES = {
   'Bonus Spells':'Section=magic Note="%V"',
   'Breath Weapon':
     'Section=combat Note="Breath inflicts %Vd8 HP (DC %1 Ref half) 1/dy"',
-  'Canny Defense':'Section=combat Note="+%V AC when unarmored"',
+  'Canny Defense':'Section=combat Note="+%V Armor Class when unarmored"',
   'Caster Level Bonus':
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
@@ -1128,10 +1167,10 @@ SRD35.FEATURES = {
   'Death Attack':
     'Section=combat ' +
     'Note="Sneak attack after 3 rd of study inflicts choice of death or paralysis for 1d6+%{levels.Assassin} rd (DC %{levels.Assassin+intelligenceModifier+10} Fort neg)"',
-  'Defender Armor Class Bonus':'Section=combat Note="+%V AC"',
+  'Defender Armor Class Bonus':'Section=combat Note="+%V Armor Class"',
   'Defensive Stance':
-     'Section=feature ' +
-    'Note="Gains +2 Strength, +4 Constitution, +2 saves, and +4 AC while unmoving for %V rd %1/dy"',
+    'Section=feature ' +
+    'Note="Gains +2 Strength, +4 Constitution, +2 saves, and +4 Armor Class while unmoving for %V rd %1/dy"',
   'Detect Good':
     'Section=magic Note="May use <i>Detect Good</i> effects at will"',
   'Divine Caster Level Bonus':
@@ -1139,18 +1178,19 @@ SRD35.FEATURES = {
     'Note="+%V divine base class level for spells known and spells per day"',
   'Divine Reach':
     'Section=magic Note="R30\' May use touch spell w/ranged touch"',
-  'Dodge Trick':'Section=combat Note="+1 AC"',
+  'Dodge Trick':'Section=combat Note="+1 Armor Class"',
   'Dragon Apotheosis':
     'Section=ability,feature,save ' +
     'Note="+4 Strength/+2 Charisma",' +
          '"Has Darkvision and Low-Light Vision features",' +
          '"Immune to sleep, paralysis, and breath weapon energy"',
   'Elaborate Parry':
-    'Section=combat Note="+%{levels.Duelist} AC when fighting defensively"',
+    'Section=combat ' +
+    'Note="+%{levels.Duelist} Armor Class when fighting defensively"',
   'Enhance Arrow':
     'Section=combat Note="Arrows are treated as +%V magic weapons"',
   'Enhanced Mobility':
-    'Section=combat Note="+4 AC vs. movement AOO when unarmored"',
+    'Section=combat Note="+4 Armor Class vs. movement AOO when unarmored"',
   'Extended Summoning':
     'Section=magic Note="Summoning spells have dbl duration"',
   'Faith Healing':
@@ -1195,7 +1235,7 @@ SRD35.FEATURES = {
   'Mobile Defense':
     'Section=combat Note="May take 5\' step during Defensive Stance"',
   'More Newfound Arcana':'Section=magic Note="+1 level 2 spell"',
-  'Natural Armor':'Section=combat Note="+%V AC"',
+  'Natural Armor':'Section=combat Note="+%V Armor Class"',
   'Newfound Arcana':'Section=magic Note="+1 level 1 spell"',
   'Phase Arrow':
     'Section=combat Note="Arrow passes through normal obstacles 1/dy"',
@@ -1513,15 +1553,15 @@ SRD35.GOODIES = {
   'Masterwork Armor':
     'Pattern="\\bmasterwork\\b.*\\s+armor\\b|[-+]\\d+.*\\barmor\\b|\\barmor\\s+[-+]\\d+" ' +
     'Effect=add ' +
-    'Value=-1 ' +
+    'Value=1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
-    'Section=skill Note="Reduce skill check penalty by 1"',
+    'Section=skill Note="Reduces skill check penalty by 1"',
   'Masterwork Shield':
     'Pattern="\\bmasterwork\\b.*\\s+shield|[-+]\\d+.*\\bshield\\b|\\bshield\\s+[-+]\\d+" ' +
     'Effect=add ' +
-    'Value=-1 ' +
+    'Value=1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
-    'Section=skill Note="Reduce skill check penalty by 1"',
+    'Section=skill Note="Reduces skill check penalty by 1"',
   'Protection':
     'Pattern="([-+]\\d+).*\\bprotection\\b|\\bprotection\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -1540,6 +1580,12 @@ SRD35.GOODIES = {
     'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
     'Section=combat Note="%V Armor Class"',
+  'Skill Points':
+    'Pattern="([-+]\\d+)\\s+skill\\s+points?\\b|\\bskill\\s+points?\\s+([-+]\\d+)" ' +
+    'Effect=add ' +
+    'Value="$1 || $2" ' +
+    'Attribute=skillPoints ' +
+    'Section=skill Note="%V Skill Points"',
   'Speed':
     'Pattern="([-+]\\d+).*\\s+speed\\b|\\bspeed\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -1593,46 +1639,59 @@ SRD35.LANGUAGES = {
   'Terran':'',
   'Undercommon':''
 };
-// Paths are deprecated, with domains absorbed into the Cleric spec
-SRD35.PATHS = {};
 SRD35.RACES = {
   'Dwarf':
+    'Size=Medium ' +
+    'Speed=20 ' +
     'Features=' +
       '"Dwarf Ability Adjustment",' +
-      '"Weapon Familiarity (Dwarven Urgosh/Dwarven Waraxe)",' +
-      'Darkvision,"Dodge Giants","Dwarf Enmity","Know Depth","Natural Smith",' +
-      '"Resist Poison","Resist Spells",Slow,Stability,Steady,Stonecunning ' +
+      '"Weapon Familiarity (Dwarven Urgosh; Dwarven Waraxe)",' +
+      '"Darkvision","Dodge Giants","Dwarf Crafts","Dwarf Enmity",' +
+      '"Know Depth","Resist Poison","Resist Spells","Stability","Steady",' +
+      '"Stonecunning" ' +
     'Languages=Common,Dwarven',
   'Elf':
+    'Size=Medium ' +
+    'Speed=30 ' +
     'Features=' +
       '"Elf Ability Adjustment",' +
-      '"Weapon Proficiency (Composite Longbow/Composite Shortbow/Longsword/Rapier/Longbow/Shortbow)",' +
-      '"Keen Senses","Low-Light Vision","Resist Enchantment",' +
-      '"Sense Secret Doors","Sleep Immunity" ' +
+      '"Weapon Proficiency (Composite Longbow; Composite Shortbow; Longsword; Rapier; Longbow; Shortbow)",' +
+      '"Elf Resistances","Keen Senses (Elf)","Low-Light Vision" ' +
     'Languages=Common,Elven',
   'Gnome':
+    'Size=Small ' +
+    'Speed=20 ' +
     'Features=' +
       '"Gnome Ability Adjustment",' +
       '"Weapon Familiarity (Gnome Hooked Hammer)",' +
-      '"Dodge Giants","Gnome Enmity","Gnome Magic","Keen Ears","Keen Nose",' +
-      '"Low-Light Vision","Natural Illusionist","Resist Illusion",Slow,Small ' +
+      '"Dodge Giants","Gnome Enmity","Gnome Magic","Keen Ears",' +
+      '"Low-Light Vision","Natural Illusionist","Resist Illusion",' +
+      '"Sensitive Nose" ' +
     'Languages=Common,Gnome',
   'Half-Elf':
+    'Size=Medium ' +
+    'Speed=30 ' +
     'Features=' +
-      '"Alert Senses","Elven Blood","Low-Light Vision","Resist Enchantment",' +
-      '"Sleep Immunity",Tolerance ' +
+      '"Elf Resistances","Elven Blood","Keen Senses (Half-Elf)",' +
+      '"Low-Light Vision","Tolerance" ' +
     'Languages=Common,Elven',
   'Half-Orc':
+    'Size=Medium ' +
+    'Speed=30 ' +
     'Features=' +
        '"Half-Orc Ability Adjustment",' +
-       'Darkvision,"Orc Blood" ' +
+       '"Darkvision","Orc Blood" ' +
     'Languages=Common,Orc',
   'Halfling':
+    'Size=Small ' +
+    'Speed=20 ' +
     'Features=' +
       '"Halfling Ability Adjustment",' +
-      'Accurate,Fortunate,"Keen Ears","Resist Fear",Slow,Small,Spry ' +
+      '"Accurate","Fortunate","Keen Ears","Resist Fear","Surefooted" ' +
     'Languages=Common,Halfling',
   'Human':
+    'Size=Medium ' +
+    'Speed=30 ' +
     'Features=' +
       '"Human Feat Bonus","Human Skill Bonus" ' +
     'Languages=Common,any'
@@ -1648,13 +1707,13 @@ SRD35.SCHOOLS = {
   'Transmutation':''
 };
 SRD35.SHIELDS = {
-  'Buckler':'AC=1 Weight=Light Dex=10 Skill=1 Spell=5',
-  'Heavy Steel':'AC=2 Weight=Heavy Dex=10 Skill=2 Spell=15',
-  'Heavy Wooden':'AC=2 Weight=Heavy Dex=10 Skill=2 Spell=15',
-  'Light Steel':'AC=1 Weight=Light Dex=10 Skill=1 Spell=5',
-  'Light Wooden':'AC=1 Weight=Light Dex=10 Skill=1 Spell=5',
+  'Buckler':'AC=1 Weight=Light Dex=10 Skill=-1 Spell=5',
+  'Heavy Steel':'AC=2 Weight=Heavy Dex=10 Skill=-2 Spell=15',
+  'Heavy Wooden':'AC=2 Weight=Heavy Dex=10 Skill=-2 Spell=15',
+  'Light Steel':'AC=1 Weight=Light Dex=10 Skill=-1 Spell=5',
+  'Light Wooden':'AC=1 Weight=Light Dex=10 Skill=-1 Spell=5',
   'None':'AC=0 Weight=None Dex=10 Skill=0 Spell=0',
-  'Tower':'AC=4 Weight=Tower Dex=2 Skill=10 Spell=50'
+  'Tower':'AC=4 Weight=Tower Dex=2 Skill=-10 Spell=50'
 };
 SRD35.SKILLS = {
   'Appraise':'Ability=Intelligence Untrained=true Class=Bard,Rogue',
@@ -1834,7 +1893,7 @@ SRD35.SPELLS = {
   'Animal Growth':
     'School=Transmutation ' +
     'Level=D5,R4,S5,W5 ' +
-    'Description="R%{100+lvl*10}\' %{lvl//2} animal targets in 15\' radius dbl size (+8 Strength, +4 Constitution, +2 AC, DR 10/magic, +4 saves, -2 Dexterity) (Fort neg) for %{lvl} min"',
+    'Description="R%{100+lvl*10}\' %{lvl//2} animal targets in 15\' radius dbl size (+8 Strength, +4 Constitution, +2 Armor Class, DR 10/magic, +4 saves, -2 Dexterity) (Fort neg) for %{lvl} min"',
   'Animal Messenger':
     'School=Enchantment ' +
     'Level=B2,D2,R1 ' +
@@ -2050,7 +2109,7 @@ SRD35.SPELLS = {
   'Chaos Hammer':
     'School=Evocation ' +
     'Level=Chaos4 ' +
-    'Description="R%{100+lvl*10}\' Lawful creatures in 20\' radius suffer ${lvl//2<?5}d8 HP and are slowed (-2 AC, attack, damage, and Reflex) for 1d6 rd, neutral half (Will half)"',
+    'Description="R%{100+lvl*10}\' Lawful creatures in 20\' radius suffer ${lvl//2<?5}d8 HP and are slowed (-2 Armor Class, attack, damage, and Reflex) for 1d6 rd, neutral half (Will half)"',
   'Charm Animal':
     'School=Enchantment ' +
     'Level=D1,R1 ' +
@@ -2086,11 +2145,11 @@ SRD35.SPELLS = {
   'Clenched Fist':
     'School=Evocation ' +
     'Level=Strength8,S8,W8 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (AC 20, %{hitPoints} HP) moves 60\'/rd, gives +4 AC, and performs +15 bull rush and +%{lvl+11}+mod melee attack that inflicts 1d8+11 HP and stuns for 1 rd (Fort neg) for %{lvl} rd"',
+    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +15 bull rush and +%{lvl+11}+mod melee attack that inflicts 1d8+11 HP and stuns for 1 rd (Fort neg) for %{lvl} rd"',
   'Cloak Of Chaos':
     'School=Abjuration ' +
     'Level=C8,Chaos8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 AC, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (Will neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (Will neg) for %{lvl} rd"',
   'Clone':
     'School=Necromancy ' +
     'Level=S8,W8 ' +
@@ -2214,7 +2273,7 @@ SRD35.SPELLS = {
   'Crushing Hand':
     'School=Evocation ' +
     'Level=Strength9,S9,W9 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (AC 20, %{hitPoints} HP) moves 60\'/rd, gives +4 AC, and performs +18 bull rush and +%{lvl+16}+mod grapple that inflicts 2d6+12 HP for %{lvl} rd"',
+    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +18 bull rush and +%{lvl+16}+mod grapple that inflicts 2d6+12 HP for %{lvl} rd"',
   'Cure Critical Wounds':
     'School=Conjuration ' +
     'Level=Adept4,B4,Blackguard4,C4,D5,Healing4 ' +
@@ -2418,19 +2477,19 @@ SRD35.SPELLS = {
   'Dispel Chaos':
     'School=Abjuration ' +
     'Level=C5,Law5,P4 ' +
-    'Description="Self gains +4 AC vs. chaotic and dismisses chaotic creature via touch (Will neg) or spell"',
+    'Description="Self gains +4 Armor Class vs. chaotic and dismisses chaotic creature via touch (Will neg) or spell"',
   'Dispel Evil':
     'School=Abjuration ' +
     'Level=C5,Good5,P4 ' +
-    'Description="Self gains +4 AC vs. evil and dismisses evil creature via touch (Will neg) or spell"',
+    'Description="Self gains +4 Armor Class vs. evil and dismisses evil creature via touch (Will neg) or spell"',
   'Dispel Good':
     'School=Abjuration ' +
     'Level=C5,Evil5 ' +
-    'Description="Self gains +4 AC vs. good and dismisses good creature via touch (Will neg) or spell"',
+    'Description="Self gains +4 Armor Class vs. good and dismisses good creature via touch (Will neg) or spell"',
   'Dispel Law':
     'School=Abjuration ' +
     'Level=C5,Chaos5 ' +
-    'Description="Self gains +4 AC vs. lawful and dismisses lawful creature via touch (Will neg) or spell"',
+    'Description="Self gains +4 Armor Class vs. lawful and dismisses lawful creature via touch (Will neg) or spell"',
   'Dispel Magic':
     'School=Abjuration ' +
     'Level=B3,C3,D4,Magic3,P3,S3,W3 ' +
@@ -2518,12 +2577,12 @@ SRD35.SPELLS = {
   'Enlarge Person':
     'School=Transmutation ' +
     'Level=Strength1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Target humanoid dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 AC) (Fort neg) for %{lvl} min" ' +
+    'Description="R%{25+lvl//2*5}\' Target humanoid dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 Armor Class) (Fort neg) for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Enlarge Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} target humanoids in 15\' radius dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 AC) (Fort neg) for %{lvl} min"',
+    'Description="R%{25+lvl//2*5}\' %{lvl} target humanoids in 15\' radius dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 Armor Class) (Fort neg) for %{lvl} min"',
   'Entangle':
     'School=Transmutation ' +
     'Level=D1,Plant1,R1 ' +
@@ -2670,11 +2729,11 @@ SRD35.SPELLS = {
   'Forceful Hand':
     'School=Evocation ' +
     'Level=S6,W6 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (AC 20, %{hitPoints} HP) moves 60\'/rd, gives +4 AC, and performs +14 bull rush for %{lvl} rd"',
+    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +14 bull rush for %{lvl} rd"',
   'Foresight':
     'School=Divination ' +
     'Level=D9,Knowledge9,S9,W9 ' +
-    'Description="Self gains +2 AC and Reflex and never surprised or flat-footed for %{lvl*10} min"',
+    'Description="Self gains +2 Armor Class and Reflex and never surprised or flat-footed for %{lvl*10} min"',
   "Fox's Cunning":
     'School=Transmutation ' +
     'Level=Assassin2,B2,S2,W2 ' +
@@ -2766,7 +2825,7 @@ SRD35.SPELLS = {
   'Grasping Hand':
     'School=Evocation ' +
     'Level=Strength7,S7,W7 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (AC 20, %{hitPoints} HP) moves 60\'/rd, gives +4 AC, and performs +16 bull rush and +%{lvl+14}+mod grapple for %{lvl} rd"',
+    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +16 bull rush and +%{lvl+14}+mod grapple for %{lvl} rd"',
   'Grease':
     'School=Conjuration ' +
     'Level=B1,S1,W1 ' +
@@ -2787,7 +2846,7 @@ SRD35.SPELLS = {
   'Hallow':
     'School=Evocation ' +
     'Level=C5,D5 ' +
-    'Description="40\' radius from touched gives +2 AC and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 turn undead bonus, and evokes boon spell"',
+    'Description="40\' radius from touched gives +2 Armor Class and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 turn undead bonus, and evokes boon spell"',
   'Hallucinatory Terrain':
     'School=Illusion ' +
     'Level=B4,S4,W4 ' +
@@ -2803,7 +2862,7 @@ SRD35.SPELLS = {
   'Haste':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain extra attack, +1 attack, AC, and Reflex, and +30\' Speed for %{lvl} rd" ' +
+    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain extra attack, +1 attack, Armor Class, and Reflex, and +30\' Speed for %{lvl} rd" ' +
     'Liquid=Potion',
   'Heal':
     'School=Conjuration ' +
@@ -2879,7 +2938,7 @@ SRD35.SPELLS = {
   'Holy Aura':
     'School=Abjuration ' +
     'Level=C8,Good8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 AC, +4 saves, and SR 25 (evil), suppress mental control, and blind successful evil attacker (Fort neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 (evil), suppress mental control, and blind successful evil attacker (Fort neg) for %{lvl} rd"',
   'Holy Smite':
     'School=Evocation ' +
     'Level=Good4 ' +
@@ -2887,7 +2946,7 @@ SRD35.SPELLS = {
   'Holy Sword':
     'School=Evocation ' +
     'Level=P4 ' +
-    'Description="Touched weapon gains +5 attack and damage, additional +2d6 damage vs. evil, gives +2 AC and saves, suppresses mental control, and bars contact by evil summoned for %{lvl} rd"',
+    'Description="Touched weapon gains +5 attack and damage, additional +2d6 damage vs. evil, gives +2 Armor Class and saves, suppresses mental control, and bars contact by evil summoned for %{lvl} rd"',
   'Holy Word':
     'School=Evocation ' +
     'Level=C7,Good7 ' +
@@ -2988,7 +3047,7 @@ SRD35.SPELLS = {
   'Interposing Hand':
     'School=Evocation ' +
     'Level=S5,W5 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (AC 20, %{hitPoints} HP) gives +4 AC for %{lvl} rd"',
+    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) gives +4 Armor Class for %{lvl} rd"',
   'Invisibility':
     'School=Illusion ' +
     'Level=Adept2,Assassin2,B2,Trickery2,S2,W2 ' +
@@ -3021,7 +3080,7 @@ SRD35.SPELLS = {
   'Irresistible Dance':
     'School=Enchantment ' +
     'Level=B6,S8,W8 ' +
-    'Description="Touched dances (-4 AC, -10 Reflex) for d4+1 rd"',
+    'Description="Touched dances (-4 Armor Class, -10 Reflex) for d4+1 rd"',
 
   'Jump':
     'School=Transmutation ' +
@@ -3088,7 +3147,7 @@ SRD35.SPELLS = {
   'Mage Armor':
     'School=Conjuration ' +
     'Level=S1,W1 ' +
-    'Description="Touched gains +4 AC for %{lvl} hr" ' +
+    'Description="Touched gains +4 Armor Class for %{lvl} hr" ' +
     'Liquid=Potion',
   'Mage Hand':
     'School=Transmutation ' +
@@ -3125,22 +3184,22 @@ SRD35.SPELLS = {
   'Magic Circle Against Chaos':
     'School=Abjuration ' +
     'Level=C3,Law3,P3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for %{lvl*10} min or traps nonlawful summoned creatures (SR neg) for %{lvl} dy" ' +
+    'Description="10\' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for %{lvl*10} min or traps nonlawful summoned creatures (SR neg) for %{lvl} dy" ' +
     'Liquid=Potion',
   'Magic Circle Against Evil':
     'School=Abjuration ' +
     'Level=C3,Good3,P3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for %{lvl*10} min or traps nongood summoned creatures (SR neg) for %{lvl} dy" ' +
+    'Description="10\' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for %{lvl*10} min or traps nongood summoned creatures (SR neg) for %{lvl} dy" ' +
     'Liquid=Potion',
   'Magic Circle Against Good':
     'School=Abjuration ' +
     'Level=Assassin3,C3,Evil3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for %{lvl*10} min or traps nonevil summoned creatures (SR neg) for %{lvl} dy" ' +
+    'Description="10\' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for %{lvl*10} min or traps nonevil summoned creatures (SR neg) for %{lvl} dy" ' +
     'Liquid=Potion',
   'Magic Circle Against Law':
     'School=Abjuration ' +
     'Level=C3,Chaos3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for %{lvl*10} min or traps nonchaotic summoned creatures (SR neg) for %{lvl} dy" ' +
+    'Description="10\' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for %{lvl*10} min or traps nonchaotic summoned creatures (SR neg) for %{lvl} dy" ' +
     'Liquid=Potion',
   'Magic Fang':
     'School=Transmutation ' +
@@ -3172,7 +3231,7 @@ SRD35.SPELLS = {
   'Magic Vestment':
     'School=Transmutation ' +
     'Level=C3,Strength3,War3 ' +
-    'Description="Touched armor, shield, or clothing gives +%{lvl//4<?5} AC for %{lvl} hr" ' +
+    'Description="Touched armor, shield, or clothing gives +%{lvl//4<?5} Armor Class for %{lvl} hr" ' +
     'Liquid=Oil',
   'Magic Weapon':
     'School=Transmutation ' +
@@ -3351,7 +3410,7 @@ SRD35.SPELLS = {
   'Phantom Steed':
     'School=Conjuration ' +
     'Level=B3,S3,W3 ' +
-    'Description="Creates mount (%{lvl+7} HP, AC 18, speed %{lvl*20<?240}\') that only target can ride for %{lvl} hr"',
+    'Description="Creates mount (%{lvl+7} HP, Armor Class 18, speed %{lvl*20<?240}\') that only target can ride for %{lvl} hr"',
   'Phantom Trap':
     'School=Illusion ' +
     'Level=S2,W2 ' +
@@ -3460,7 +3519,7 @@ SRD35.SPELLS = {
   'Protection From Chaos':
     'School=Abjuration ' +
     'Level=Adept1,C1,Law1,P1,S1,W1 ' +
-    'Description="Touched gains +2 AC and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for %{lvl} min" ' +
+    'Description="Touched gains +2 Armor Class and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for %{lvl} min" ' +
     'Liquid=Potion',
   'Protection From Energy':
     'School=Abjuration ' +
@@ -3470,17 +3529,17 @@ SRD35.SPELLS = {
   'Protection From Evil':
     'School=Abjuration ' +
     'Level=Adept1,C1,Good1,P1,S1,W1 ' +
-    'Description="Touched gains +2 AC and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for %{lvl} min" ' +
+    'Description="Touched gains +2 Armor Class and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for %{lvl} min" ' +
     'Liquid=Potion',
   'Protection From Good':
     'School=Abjuration ' +
     'Level=Adept1,C1,Evil1,S1,W1 ' +
-    'Description="Touched gains +2 AC and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for %{lvl} min" ' +
+    'Description="Touched gains +2 Armor Class and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for %{lvl} min" ' +
     'Liquid=Potion',
   'Protection From Law':
     'School=Abjuration ' +
     'Level=Adept1,C1,Chaos1,S1,W1 ' +
-    'Description="Touched gains +2 AC and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for %{lvl} min" ' +
+    'Description="Touched gains +2 Armor Class and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for %{lvl} min" ' +
     'Liquid=Potion',
   'Protection From Spells':
     'School=Abjuration ' +
@@ -3489,11 +3548,11 @@ SRD35.SPELLS = {
   'Prying Eyes':
     'School=Divination ' +
     'Level=S5,W5 ' +
-    'Description="1d4+%{lvl} floating eyes (AC 18, 1 HP, +16 Hide, +%{lvl<?15} Spot, Fly 30\') scout 1 mile for %{lvl} hr"',
+    'Description="1d4+%{lvl} floating eyes (Armor Class 18, 1 HP, +16 Hide, +%{lvl<?15} Spot, Fly 30\') scout 1 mile for %{lvl} hr"',
   'Greater Prying Eyes':
     'School=Divination ' +
     'Level=S8,W8 ' +
-    'Description="1d4+%{lvl} floating eyes (AC 18, 1 HP, +16 Hide, +%{lvl<?25} Spot, Fly 30\') with True Seeing scout 1 mile for %{lvl} hr"',
+    'Description="1d4+%{lvl} floating eyes (Armor Class 18, 1 HP, +16 Hide, +%{lvl<?25} Spot, Fly 30\') with True Seeing scout 1 mile for %{lvl} hr"',
   'Purify Food And Drink':
     'School=Transmutation ' +
     'Level=Adept0,C0,D0 ' +
@@ -3511,7 +3570,7 @@ SRD35.SPELLS = {
   'Rage':
     'School=Enchantment ' +
     'Level=B2,S3,W3 ' +
-    'Description="R%{100+lvl*10}\' %{lvl//3} willing targets in 15\' radius gain +2 Strength, +2 Constitution, and +1 Will and suffer -2 AC for conc + %{lvl} rd" ' +
+    'Description="R%{100+lvl*10}\' %{lvl//3} willing targets in 15\' radius gain +2 Strength, +2 Constitution, and +1 Will and suffer -2 Armor Class for conc + %{lvl} rd" ' +
     'Liquid=Potion',
   'Rainbow Pattern':
     'School=Illusion ' +
@@ -3540,16 +3599,16 @@ SRD35.SPELLS = {
   'Reduce Animal':
     'School=Transmutation ' +
     'Level=D2,R3 ' +
-    'Description="Touched willing animal becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) for %{lvl} hr"',
+    'Description="Touched willing animal becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 Armor Class) for %{lvl} hr"',
   'Reduce Person':
     'School=Transmutation ' +
     'Level=S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Target humanoid becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) (Fort neg) for %{lvl} min" ' +
+    'Description="R%{25+lvl//2*5}\' Target humanoid becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 Armor Class) (Fort neg) for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Reduce Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} target humanoids in 15\' radius become half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) (Fort neg) for %{lvl} min"',
+    'Description="R%{25+lvl//2*5}\' %{lvl} target humanoids in 15\' radius become half size (-2 Strength, +2 Dexterity, +1 attack, +1 Armor Class) (Fort neg) for %{lvl} min"',
   'Refuge':
     'School=Conjuration ' +
     'Level=C7,S9,W9 ' +
@@ -3640,7 +3699,7 @@ SRD35.SPELLS = {
   'Righteous Might':
     'School=Transmutation ' +
     'Level=C5,Strength5 ' +
-    'Description="Self dbl size (+4 Strength, +2 Constitution, +2 AC) and gains DR ${lvl>14?9:lvl>11?6:3}/evil or DR ${lvl>14?9:lvl>11?6:3}/good for %{lvl} rd"',
+    'Description="Self dbl size (+4 Strength, +2 Constitution, +2 Armor Class) and gains DR ${lvl>14?9:lvl>11?6:3}/evil or DR ${lvl>14?9:lvl>11?6:3}/good for %{lvl} rd"',
   'Rope Trick':
     'School=Transmutation ' +
     'Level=S2,W2 ' +
@@ -3758,20 +3817,20 @@ SRD35.SPELLS = {
   'Shield':
     'School=Abjuration ' +
     'Level=S1,W1 ' +
-    'Description="Self gains +4 AC and immunity to <i>Magic Missile</i> for %{lvl} min"',
+    'Description="Self gains +4 Armor Class and immunity to <i>Magic Missile</i> for %{lvl} min"',
   'Shield Of Faith':
     'School=Abjuration ' +
     'Level=C1 ' +
-    'Description="Touched gains +%{lvl//6+2<?5} AC for %{lvl} min" ' +
+    'Description="Touched gains +%{lvl//6+2<?5} Armor Class for %{lvl} min" ' +
     'Liquid=Potion',
   'Shield Of Law':
     'School=Abjuration ' +
     'Level=C8,Law8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 AC, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (Will neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (Will neg) for %{lvl} rd"',
   'Shield Other':
     'School=Abjuration ' +
     'Level=C2,P2,Protection2 ' +
-    'Description="R%{25+lvl//2*5}\' target gains +1 AC and saves, and half of damage suffered by target is transferred to self for %{lvl} hr"',
+    'Description="R%{25+lvl//2*5}\' target gains +1 Armor Class and saves, and half of damage suffered by target is transferred to self for %{lvl} hr"',
   'Shillelagh':
     'School=Transmutation ' +
     'Level=D1 ' +
@@ -3820,7 +3879,7 @@ SRD35.SPELLS = {
   'Slow':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} creatures in 15\' radius take one action per rd, suffer -1 AC, attack, and Reflex, and slow to half Speed (Will neg) for %{lvl} rd"',
+    'Description="R%{25+lvl//2*5}\' %{lvl} creatures in 15\' radius take one action per rd, suffer -1 Armor Class, attack, and Reflex, and slow to half Speed (Will neg) for %{lvl} rd"',
   'Snare':
     'School=Transmutation ' +
     'Level=D3,R2 ' +
@@ -4123,11 +4182,11 @@ SRD35.SPELLS = {
   'Transformation':
     'School=Transmutation ' +
     'Level=S6,W6 ' +
-    'Description="Self gains +4 Strength, Dexterity, Constitution, and AC, +5 Fortitude, martial weapon proficiency, and BAB %{lvl}, but cannot cast spells, for %{lvl} rd"',
+    'Description="Self gains +4 Strength, Dexterity, Constitution, and Armor Class, +5 Fortitude, martial weapon proficiency, and BAB %{lvl}, but cannot cast spells, for %{lvl} rd"',
   'Transmute Metal To Wood':
     'School=Transmutation ' +
     'Level=D7 ' +
-    'Description="R%{400+lvl*40}\' Metal in 40\' radius becomes wood (-2 attack, damage, AC)"',
+    'Description="R%{400+lvl*40}\' Metal in 40\' radius becomes wood (-2 attack, damage, Armor Class)"',
   'Transmute Mud To Rock':
     'School=Transmutation ' +
     'Level=D5,S5,W5 ' +
@@ -4177,11 +4236,11 @@ SRD35.SPELLS = {
   'Unhallow':
     'School=Evocation ' +
     'Level=C5,D5 ' +
-    'Description="40\' radius from touched gives +2 AC and saves vs. good, suppresses mental control, bars contact by summoned good creatures, inflicts -4 turn undead penalty, gives +4 rebuke undead bonus, and evokes bane spell"',
+    'Description="40\' radius from touched gives +2 Armor Class and saves vs. good, suppresses mental control, bars contact by summoned good creatures, inflicts -4 turn undead penalty, gives +4 rebuke undead bonus, and evokes bane spell"',
   'Unholy Aura':
     'School=Abjuration ' +
     'Level=C8,Evil8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 AC, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (Fort neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (Fort neg) for %{lvl} rd"',
   'Unholy Blight':
     'School=Evocation ' +
     'Level=Evil4 ' +
@@ -4239,7 +4298,7 @@ SRD35.SPELLS = {
   'Wall Of Thorns':
     'School=Conjuration ' +
     'Level=D5,Plant5 ' +
-    'Description="R%{100+lvl*10}\' %{lvl} 10\' cu thorns inflict (25-AC) HP/rd when passing through for %{lvl*10} min"',
+    'Description="R%{100+lvl*10}\' %{lvl} 10\' cu thorns inflict (25-Armor Class) HP/rd when passing through for %{lvl*10} min"',
   'Warp Wood':
     'School=Transmutation ' +
     'Level=D2 ' +
@@ -4390,7 +4449,7 @@ SRD35.WEAPONS = {
   'Throwing Axe':'Level=Martial Category=Light Damage=d6 Range=10',
   'Trident':'Level=Martial Category=One-Handed Damage=d8 Range=10',
   'Two-Bladed Sword':'Level=Exotic Category=Two-Handed Damage=d8/d8 Threat=19',
-  'Unarmed':'Level=Unarmed Category=Unarmed Damage=d3',
+  'Unarmed Strike':'Level=Unarmed Category=Unarmed Damage=d3',
   'Warhammer':'Level=Martial Category=One-Handed Damage=d8 Crit=3',
   'Whip':'Level=Exotic Category=One-Handed Damage=d3'
 };
@@ -4399,17 +4458,18 @@ SRD35.CLASSES = {
     'Require="alignment !~ \'Lawful\'" ' +
     'HitDie=d12 Attack=1 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Medium)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)",' +
-      '"1:Fast Movement",1:Illiteracy,1:Rage,"2:Uncanny Dodge","3:Trap Sense",'+
-      '"5:Improved Uncanny Dodge","7:Damage Reduction","11:Greater Rage",' +
-      '"14:Indomitable Will","17:Tireless Rage","20:Mighty Rage"',
+      '"1:Armor Proficiency (Light; Medium; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
+      '"1:Fast Movement (Barbarian)","1:Illiteracy","1:Rage",' +
+      '"2:Uncanny Dodge","3:Trap Sense","5:Improved Uncanny Dodge",' +
+      '"7:Damage Reduction","11:Greater Rage","14:Indomitable Will",' +
+      '"17:Tireless Rage","20:Mighty Rage"',
   'Bard':
     'Require="alignment !~ \'Lawful\'" ' +
     'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/2 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Light)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Shortbow/Whip)",' +
+      '"1:Armor Proficiency (Light; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Longsword; Rapier; Sap; Short Sword; Shortbow; Whip)",' +
       '"1:Bardic Knowledge","1:Bardic Music","1:Simple Somatics",' +
       '"Max \'^skills.Perform\' >= 3 ? 1:Countersong",' +
       '"Max \'^skills.Perform\' >= 3 ? 1:Fascinate",' +
@@ -4433,8 +4493,8 @@ SRD35.CLASSES = {
   'Cleric':
     'HitDie=d8 Attack=3/4 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Simple)",' +
+      '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons)",' +
       '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead",'+
       '"features.Air Domain ? 1:Air Turning",' +
       '"features.Animal Domain ? 1:Animal Talk",' +
@@ -4518,8 +4578,8 @@ SRD35.CLASSES = {
       '"shield =~ \'None|Wooden\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Medium)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Shortspear/Sling/Spear)",' +
+      '"1:Armor Proficiency (Light; Medium; Shield)",' +
+      '"1:Weapon Proficiency (Club; Dagger; Dart; Quarterstaff; Scimitar; Sickle; Shortspear; Sling; Spear)",' +
       '"1:Animal Companion","1:Nature Sense","1:Spontaneous Druid Spell",' +
       '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
@@ -4541,14 +4601,14 @@ SRD35.CLASSES = {
   'Fighter':
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
+      '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
       '"1:Tower Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)"',
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)"',
   'Monk':
     'Require="alignment =~ \'Lawful\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Features=' +
-      '"1:Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling)",' +
+      '"1:Weapon Proficiency (Club; Dagger; Handaxe; Heavy Crossbow; Javelin; Kama; Light Crossbow; Nunchaku; Quarterstaff; Sai; Shuriken; Siangham; Sling)",' +
       '"1:Armor Class Bonus","1:Flurry Of Blows","1:Improved Unarmed Strike",' +
       '"1:Increased Unarmed Damage",2:Evasion,"3:Fast Movement (Monk)",' +
       '"3:Still Mind","4:Ki Strike","4:Slow Fall","5:Purity Of Body",' +
@@ -4564,8 +4624,8 @@ SRD35.CLASSES = {
     'Require="alignment == \'Lawful Good\'" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)",' +
+      '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
       '1:Aura,"1:Detect Evil","1:Smite Evil","2:Divine Grace",' +
       '"charisma >= 12 ? 2:Lay On Hands","3:Aura Of Courage",' +
       '"3:Divine Health","4:Turn Undead","5:Special Mount","6:Remove Disease" '+
@@ -4579,8 +4639,8 @@ SRD35.CLASSES = {
   'Ranger':
     'HitDie=d8 Attack=1 SkillPoints=6 Fortitude=1/2 Reflex=1/2 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Light)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)",' +
+      '"1:Armor Proficiency (Light; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
       '"1:Favored Enemy",1:Track,"1:Wild Empathy",3:Endurance,' +
       '"4:Animal Companion","7:Woodland Stride","8:Swift Tracker",9:Evasion,' +
       '13:Camouflage,"17:Hide In Plain Sight",' +
@@ -4604,7 +4664,7 @@ SRD35.CLASSES = {
     'HitDie=d6 Attack=3/4 SkillPoints=8 Fortitude=1/3 Reflex=1/2 Will=1/3 ' +
     'Features=' +
       '"1:Armor Proficiency (Light)",' +
-      '"1:Weapon Proficiency (Simple/Hand Crossbow/Rapier/Sap/Shortbow/Short Sword)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Hand Crossbow; Rapier; Sap; Shortbow; Short Sword)",' +
       '"1:Sneak Attack",1:Trapfinding,2:Evasion,"3:Trap Sense",' +
       '"4:Uncanny Dodge","8:Improved Uncanny Dodge" ' +
     'Selectables=' +
@@ -4618,7 +4678,7 @@ SRD35.CLASSES = {
   'Sorcerer':
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Weapon Proficiency (Simple)","1:Summon Familiar" ' +
+      '"1:Weapon Proficiency (Simple Weapons)","1:Summon Familiar" ' +
     'CasterLevelArcane=levels.Sorcerer ' +
     'SpellAbility=Charisma ' +
     'SpellSlots=' +
@@ -4635,7 +4695,7 @@ SRD35.CLASSES = {
   'Wizard':
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)",' +
+      '"1:Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)",' +
       '"1:Summon Familiar","1:Scribe Scroll" ' +
     'Selectables=' +
       '"1:School Specialization (None):Specialization",' +
@@ -4659,7 +4719,7 @@ SRD35.NPC_CLASSES = {
   'Adept':
     'HitDie=d6 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Weapon Proficiency (Simple)","2:Summon Familiar" ' +
+      '"1:Weapon Proficiency (Simple Weapons)","2:Summon Familiar" ' +
     'Skills=' +
       'Concentration,Craft,"Handle Animal",Heal,Knowledge,Profession,' +
       'Spellcraft,Survival ' +
@@ -4675,8 +4735,8 @@ SRD35.NPC_CLASSES = {
   'Aristocrat':
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)" ' +
+      '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)" ' +
     'Skills=' +
       'Appraise,Bluff,Diplomacy,Disguise,Forgery,"Gather Information",' +
       '"Handle Animal",Intimidate,Knowledge,Listen,Perform,Ride,' +
@@ -4684,20 +4744,20 @@ SRD35.NPC_CLASSES = {
   'Commoner':
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Weapon Proficiency (Simple)" ' +
+      '"1:Weapon Proficiency (Simple Weapons)" ' +
     'Skills=' +
       'Climb,Craft,"Handle Animal",Jump,Listen,Profession,Ride,Spot,Swim,' +
       '"Use Rope"',
   'Expert':
     'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Light)","1:Weapon Proficiency (Simple)"',
+      '"1:Armor Proficiency (Light)","1:Weapon Proficiency (Simple Weapons)"',
     // 10 skills of players choice
   'Warrior':
     'HitDie=d8 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)" ' +
+      '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)" ' +
     'Skills=' +
       'Climb,"Handle Animal",Intimidate,Jump,Ride,Swim'
 };
@@ -4715,8 +4775,8 @@ SRD35.PRESTIGE_CLASSES = {
     'Skills=' +
       'Craft,Hide,Listen,"Move Silently",Ride,Spot,Survival,"Use Rope" ' +
     'Features=' +
-      '"1:Armor Proficiency (Medium)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)",' +
+      '"1:Armor Proficiency (Light; Medium; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
       '"1:Enhance Arrow","2:Imbue Arrow","4:Seeker Arrow","6:Phase Arrow",' +
       '"8:Hail Of Arrows","10:Arrow Of Death"',
   'Arcane Trickster':
@@ -4770,7 +4830,7 @@ SRD35.PRESTIGE_CLASSES = {
       '"Use Magic Device","Use Rope" ' +
     'Features=' +
       '"1:Armor Proficiency (Light)",' +
-      '"1:Weapon Proficiency (Composite Shortbow/Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Punching Dagger/Rapier/Sap/Shortbow/Short Sword)",' +
+      '"1:Weapon Proficiency (Composite Shortbow; Dagger; Dart; Hand Crossbow; Heavy Crossbow; Light Crossbow; Punching Dagger; Rapier; Sap; Shortbow; Short Sword)",' +
       '"1:Death Attack","1:Poison Use","1:Sneak Attack",' +
       '"2:Poison Save Bonus","2:Uncanny Dodge","5:Improved Uncanny Dodge",' +
       '"8:Hide In Plain Sight" ' +
@@ -4791,8 +4851,8 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,Craft,Diplomacy,"Handle Animal",Heal,Hide,Intimidate,' +
       '"Knowledge (Religion)",Profession,Ride ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)",' +
+      '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
       '"1:Aura Of Evil","1:Blackguard Hands","1:Detect Good",' +
       '"1:Fiendish Summoning","1:Poison Use","2:Smite Good",' +
       '"2:Dark Blessing","3:Aura Of Despair","3:Command Undead",' +
@@ -4829,7 +4889,7 @@ SRD35.PRESTIGE_CLASSES = {
       'Balance,Bluff,"Escape Artist",Jump,Listen,Perform,"Sense Motive",' +
       'Spot,Tumble ' +
     'Features=' +
-      '"1:Weapon Proficiency (Martial)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
       '"1:Canny Defense","2:Improved Reaction","3:Enhanced Mobility",4:Grace,' +
       '"5:Precise Strike","6:Acrobatic Charge","7:Elaborate Parry",' +
       '"9:Deflect Arrows"',
@@ -4841,14 +4901,14 @@ SRD35.PRESTIGE_CLASSES = {
     'Skills=' +
       'Craft,Listen,"Sense Motive",Spot ' +
     'Features=' +
-      '"1:Armor Proficiency (Heavy)","1:Shield Proficiency",' +
-      '"1:Weapon Proficiency (Martial)",' +
+      '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
       '"1:Defender Armor Class Bonus","1:Defensive Stance","2:Uncanny Dodge",' +
       '"4:Trap Sense","6:Damage Reduction","6:Improved Uncanny Dodge",' +
       '"8:Mobile Defense"',
   'Eldritch Knight':
     'Require=' +
-      '"features.Weapon Proficiency (Martial)",' +
+      '"features.Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
       '"Sum \'^spells\\..*[BSW]3\' >= 1" ' +
     'HitDie=d6 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Skills=' +
@@ -4944,7 +5004,7 @@ SRD35.PRESTIGE_CLASSES = {
       '"Sleight Of Hand",Spot,Tumble,"Use Rope" ' +
     'Features=' +
       '"1:Armor Proficiency (Light)",' +
-      '"1:Weapon Proficiency (Club/Composite Shortbow/Dagger/Dart/Hand Crossbow/Heavy Crossbow/Light Crossbow/Mace/Morningstar/Punching Dagger/Quarterstaff/Rapier/Sap/Shortbow/Short Sword)",' +
+      '"1:Weapon Proficiency (Club; Composite Shortbow; Dagger; Dart; Hand Crossbow; Heavy Crossbow; Light Crossbow; Mace; Morningstar; Punching Dagger; Quarterstaff; Rapier; Sap; Shortbow; Short Sword)",' +
       '"1:Hide In Plain Sight",2:Darkvision,2:Evasion,"2:Uncanny Dodge",' +
       '"3:Shadow Illusion","3:Summon Shadow","4:Shadow Jump",' +
       '"5:Defensive Roll","5:Improved Uncanny Dodge","7:Slippery Mind",' +
@@ -4970,8 +5030,6 @@ SRD35.DEITIES = {
 SRD35.SAVE_BONUS_HALF = '2 + Math.floor(source / 2)';
 SRD35.SAVE_BONUS_THIRD = 'Math.floor(source / 3)';
 
-SRD35.ARMOR_PROFICIENCY_NAMES = ['None', 'Light', 'Medium', 'Heavy', 'Tower'];
-SRD35.WEAPON_PROFICIENCY_NAMES = ['Limited', 'Simple', 'Martial'];
 SRD35.STRENGTH_MAX_LOADS = [0,
   10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 115, 130, 150, 175, 200, 230, 260,
   300, 350, 400, 460, 520, 600, 700, 800, 920, 1040, 1200, 1400
@@ -5015,10 +5073,7 @@ SRD35.abilityRules = function(rules) {
     'speed', '=', null,
     'runSpeedMultiplier', '*', null
   );
-  rules.defineRule('speed',
-    '', '=', '30',
-    'abilityNotes.armorSpeedAdjustment', '+', null
-  );
+  rules.defineRule('speed', 'abilityNotes.armorSpeedAdjustment', '+', null);
 
   rules.defineChoice('notes',
     'validationNotes.abilityMinimum:' +
@@ -5077,7 +5132,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
     '1:Link', '1:Share Spells', '3:Companion Evasion', '6:Devotion',
     '9:Multiattack', '15:Companion Improved Evasion'
   ];
-  QuilvynRules.featureListRules
+  SRD35.featureListRules
     (rules, features, 'Animal Companion', 'companionMasterLevel', false);
 
   rules.defineRule('animalCompanionStats.AC',
@@ -5167,7 +5222,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
     '7:Speak With Like Animals', '11:Companion Spell Resistance',
     '13:Scry On Familiar'
   ];
-  QuilvynRules.featureListRules
+  SRD35.featureListRules
     (rules, features, 'Familiar', 'familiarMasterLevel', false);
 
   rules.defineRule('familiarAttack',
@@ -5279,11 +5334,11 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   }
 
   rules.defineChoice('notes',
-    'combatNotes.nonproficientArmorPenalty:%V attack',
-    'combatNotes.nonproficientShieldPenalty:%V attack',
-    'combatNotes.towerShieldPenalty:%V attack',
     'initiative:%S',
     'baseAttack:%S',
+    'combatNotes.towerShieldPenalty:%V attacks',
+    'combatNotes.unproficientArmorPenalty:%V attacks',
+    'combatNotes.unproficientShieldPenalty:%V attacks',
     'meleeAttack:%S',
     'rangedAttack:%S',
     'damageReduction.-:%V/%N',
@@ -5291,11 +5346,13 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'magicNotes.arcaneSpellFailure:%V%',
     'save.Fortitude:%S',
     'save.Reflex:%S',
-    'save.Will:%S'
+    'save.Will:%S',
+    'skillNotes.unproficientArmorPenalty:%V movement skill checks',
+    'skillNotes.unproficientShieldPenalty:%V movement skill checks'
   );
 
   rules.defineRule('abilityNotes.armorSpeedAdjustment',
-    'armorWeight', '=', 'source > 1 ? -10 : null',
+    'armorWeight', '=', '"MediumHeavy".includes(source) ? -10 : null',
     'abilityNotes.slow', '+', '5'
   );
   rules.defineRule
@@ -5309,19 +5366,6 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'combatNotes.dexterityArmorClassAdjustment', '+', null,
     'combatNotes.largeFeature', '+', '-1',
     'combatNotes.smallFeature', '+', '1'
-  );
-  rules.defineRule('armorProficiency',
-    'armorProficiencyLevel', '=', 'SRD35.ARMOR_PROFICIENCY_NAMES[source]'
-  );
-  rules.defineRule('armorProficiencyLevel',
-    '', '=', '0',
-    'features.Armor Proficiency (Heavy)', '^', '3',
-    'features.Armor Proficiency (Light)', '^', '1',
-    'features.Armor Proficiency (Medium)', '^', '2'
-  );
-  rules.defineRule('armorProficiencyLevelShortfall',
-    'armorWeight', '=', null,
-    'armorProficiencyLevel', '+', '-source'
   );
   rules.defineRule('attacksPerRound',
     'baseAttack', '=', 'Math.max(Math.floor((source + 4) / 5), 1)'
@@ -5344,11 +5388,39 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'shield', '?', 'source == "None"',
     'combatNotes.strengthDamageAdjustment', '=', 'source < 0 ? null : Math.floor(source * 0.5)'
   );
+  rules.defineRule('combatNotes.towerShieldPenalty',
+    'shield', '=', 'source=="Tower" ? -2 : null'
+  );
+  rules.defineRule('combatNotes.unproficientArmorPenalty',
+    'combatNotes.unproficientArmorPenalty.1', '?', 'source > 0',
+    'armorSkill', '=', null
+  );
+  rules.defineRule('combatNotes.unproficientArmorPenalty.1',
+    'armorWeight', '=', '{"Heavy":3, "Medium":2, "Light":1}[source] || 0',
+    'highestArmorProficiency', '+', '{"Heavy":-3, "Medium":-2, "Light":-1}[source] || null'
+  );
+  rules.defineRule('combatNotes.unproficientShieldPenalty',
+    'combatNotes.unproficientShieldPenalty.1', '?', 'source > 0',
+    'shieldSkill', '=', null
+  );
+  rules.defineRule('combatNotes.unproficientShieldPenalty.1',
+    'shieldWeight', '=', '{"Tower":4, "Heavy":3, "Medium":2, "Light":1}[source] || 0',
+    'highestShieldProficiency', '+', '{"Tower":-4, "Heavy":-3, "Medium":-2, "Light":-1}[source] || null'
+  );
   rules.defineRule('grappleAttack',
     'baseAttack', '=', null,
     'strengthModifier', '+', null,
     'features.Large', '+', '4',
     'features.Small', '+', '-4'
+  );
+  rules.defineRule('highestArmorProficiency',
+    'armorProficiency.Light', '=', '"Light"',
+    'armorProficiency.Medium', '=', '"Medium"',
+    'armorProficiency.Heavy', '=', '"Heavy"'
+  );
+  rules.defineRule('highestShieldProficiency',
+    'armorProficiency.Shield', '=', '"Heavy"',
+    'armorProficiency.Tower Shield', '=', '"Tower"'
   );
   rules.defineRule('hitPoints',
     'combatNotes.constitutionHitPointsAdjustment', '+', null,
@@ -5364,7 +5436,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'combatNotes.dexterityAttackAdjustment', '+', null
   );
   rules.defineRule
-    ('runSpeedMultiplier', 'armorWeight', '=', 'source == 3 ? 3 : 4');
+    ('runSpeedMultiplier', 'armorWeight', '=', 'source=="Heavy" ? 3 : 4');
   rules.defineRule
     ('save.Fortitude', 'saveNotes.constitutionFortitudeAdjustment', '=', null);
   rules.defineRule
@@ -5377,34 +5449,13 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     ('saveNotes.dexterityReflexAdjustment', 'dexterityModifier', '=', null);
   rules.defineRule
     ('saveNotes.wisdomWillAdjustment', 'wisdomModifier', '=', null);
-  rules.defineRule('shieldProficiency',
-    'shieldProficiencyLevel', '=', 'SRD35.ARMOR_PROFICIENCY_NAMES[source]'
-  );
-  rules.defineRule('shieldProficiencyLevel',
-    '', '=', '0',
-    'features.Shield Proficiency', '^', '3',
-    'features.Tower Shield Proficiency', '^', '4'
-  );
-  rules.defineRule('shieldProficiencyLevelShortfall',
-    'shieldWeight', '=', null,
-    'shieldProficiencyLevel', '+', '-source'
-  );
-  rules.defineRule('weaponProficiency',
-    'weaponProficiencyLevel', '=', 'SRD35.WEAPON_PROFICIENCY_NAMES[source]'
-  );
-  rules.defineRule('weaponProficiencyLevel',
-    '', '=', '0',
-    'features.Weapon Proficiency (Martial)', '^', '2',
-    'features.Weapon Proficiency (Simple)', '^', '1'
-  );
-  rules.defineRule('weapons.Unarmed', '', '=', '1');
+  rules.defineRule('weapons.Unarmed Strike', '', '=', '1');
 
 };
 
 /* Defines rules related to basic character identity. */
 SRD35.identityRules = function(
-  rules, alignments, classes, deities, paths, races, prestigeClasses,
-  npcClasses
+  rules, alignments, classes, deities, races, prestigeClasses, npcClasses
 ) {
 
   QuilvynUtils.checkAttrTable(alignments, []);
@@ -5412,9 +5463,7 @@ SRD35.identityRules = function(
     (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots']);
   QuilvynUtils.checkAttrTable(deities, ['Alignment', 'Domain', 'Weapon']);
   QuilvynUtils.checkAttrTable
-    (paths, ['Group', 'Level', 'Features', 'Selectables', 'SpellAbility', 'SpellSlots']);
-  QuilvynUtils.checkAttrTable
-    (races, ['Require', 'Features', 'Selectables', 'Languages']);
+    (races, ['Require', 'Features', 'Selectables', 'Languages', 'Size', 'Speed']);
   QuilvynUtils.checkAttrTable
     (prestigeClasses, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots']);
   QuilvynUtils.checkAttrTable
@@ -5432,8 +5481,6 @@ SRD35.identityRules = function(
     for(let c in npcClasses)
       rules.choiceRules(rules, 'NPC', c, npcClasses[c]);
   }
-  for(let p in paths)
-    rules.choiceRules(rules, 'Path', p, paths[p]);
   for(let d in deities)
     rules.choiceRules(rules, 'Deity', d, deities[d]);
   for(let r in races)
@@ -5448,6 +5495,8 @@ SRD35.identityRules = function(
     'casterLevelArcane', '=', null,
     'casterLevelDivine', '+=', null
   );
+  rules.defineRule('features.Large', 'size', '=', 'source=="Large" ? 1 : null');
+  rules.defineRule('features.Small', 'size', '=', 'source=="Small" ? 1 : null');
   QuilvynRules.validAllocationRules
     (rules, 'level', 'level', 'Sum "^levels\\."');
 
@@ -5585,11 +5634,6 @@ SRD35.talentRules = function(
   rules.defineRule('senseFeatures',
     'senseFeatures.0', '=', 'source==0 ? null : (source & 1 ? ["darkvision 60\'"] : []).concat(source & 2 ? ["low-light vision"] : []).join(", ")'
   );
-  rules.defineRule('size',
-    '', '=', '"Medium"',
-    'features.Large', '=', '"Large"',
-    'features.Small', '=', '"Small"'
-  );
   rules.defineRule('spot',
     'wisdomModifier', '=', '(source>=0 ? "+" : "") + source',
     'skillModifier.Spot', '=', '(source>=0 ? "+" : "") + source'
@@ -5704,21 +5748,14 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
     );
   else if(type == 'Language')
     SRD35.languageRules(rules, name);
-  else if(type == 'Path')
-    SRD35.pathRules(rules, name,
-      QuilvynUtils.getAttrValue(attrs, 'Group'),
-      QuilvynUtils.getAttrValue(attrs, 'Level'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Features'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
-      QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
-      QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots')
-    );
   else if(type == 'Race') {
     SRD35.raceRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Require'),
       QuilvynUtils.getAttrValueArray(attrs, 'Features'),
       QuilvynUtils.getAttrValueArray(attrs, 'Selectables'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Languages')
+      QuilvynUtils.getAttrValueArray(attrs, 'Languages'),
+      QuilvynUtils.getAttrValue(attrs, 'Size'),
+      QuilvynUtils.getAttrValue(attrs, 'Speed')
     );
     SRD35.raceRulesExtra(rules, name);
   } else if(type == 'Race Feature') {
@@ -5933,20 +5970,6 @@ SRD35.armorRules = function(
     return;
   }
 
-  if(weight.match(/^none$/i))
-    weight = 0;
-  else if(weight.match(/^light$/i))
-    weight = 1;
-  else if(weight.match(/^medium$/i))
-    weight = 2;
-  else if(weight.match(/^heavy$/i))
-    weight = 3;
-
-  // We use positive values for skill penalty internally, but the customization
-  // dialog enters negative numbers
-  if(skillPenalty < 0)
-    skillPenalty = -skillPenalty;
-
   if(rules.armorStats == null) {
     rules.armorStats = {
       ac:{},
@@ -5966,15 +5989,14 @@ SRD35.armorRules = function(
     '', '=', '10',
     'armor', '+', QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
   );
+  rules.defineRule('armorSkill',
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
+  );
   rules.defineRule('armorWeight',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.weight) + '[source]'
   );
   rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
     'armor', 'v', QuilvynUtils.dictLit(rules.armorStats.dex) + '[source]'
-  );
-  rules.defineRule('combatNotes.nonproficientArmorPenalty',
-    'armorProficiencyLevelShortfall', '?', 'source > 0',
-    'armor', '=', '-'+QuilvynUtils.dictLit(rules.armorStats.skill)+'[source]'
   );
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'casterLevelArcane', '?', null,
@@ -5982,7 +6004,7 @@ SRD35.armorRules = function(
   );
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]',
-    '', '^', '0'
+    '', 'v', '0'
   );
 
 };
@@ -6127,8 +6149,8 @@ SRD35.classRules = function(
     rules.defineRule('classSkills.' + s, classLevel, '=', '1');
   });
 
-  QuilvynRules.featureListRules(rules, features, name, classLevel, false);
-  QuilvynRules.featureListRules(rules, selectables, name, classLevel, true);
+  SRD35.featureListRules(rules, features, name, classLevel, false);
+  SRD35.featureListRules(rules, selectables, name, classLevel, true);
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
@@ -6252,6 +6274,10 @@ SRD35.classRulesExtra = function(rules, name) {
 
   if(name == 'Barbarian') {
 
+    rules.defineRule('abilityNotes.fastMovement(Barbarian).1',
+      'armorWeight', '?', 'source != "Heavy"',
+      'abilityNotes.fastMovement(Barbarian)', '=', '10'
+    );
     rules.defineRule('barbarianFeatures.Improved Uncanny Dodge',
       'barbarianFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
@@ -6263,23 +6289,13 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Barbarian', '+=', null,
       '', '+', '4'
     );
-    rules.defineRule('combatNotes.rage',
-      'constitutionModifier', '=', '5 + source',
-      'extraRages', '+', null
-    );
-    rules.defineRule('combatNotes.rage.1',
-      'features.Rage', '?', null,
-      'levels.Barbarian', '+=', '1 + Math.floor(source / 4)'
-    );
     rules.defineRule
       ('damageReduction.-', 'combatNotes.damageReduction', '^=', null);
-    rules.defineRule('extraRages',
-      'features.Greater Rage', '+=', '1',
-      'features.Mighty Rage', '+=', '1'
-    );
     rules.defineRule('saveNotes.trapSense',
       'levels.Barbarian', '+=', 'Math.floor(source / 3)'
     );
+    rules.defineRule
+      ('speed', 'abilityNotes.fastMovement(Barbarian).1', '+', null);
     rules.defineRule
       ('uncannyDodgeSources', 'barbarianFeatures.Uncanny Dodge', '+=', '1');
 
@@ -6293,7 +6309,7 @@ SRD35.classRulesExtra = function(rules, name) {
     // wearing heavy armor
     rules.defineRule('magicNotes.simpleSomatics.1',
       'magicNotes.simpleSomatics', '?', null,
-      'armorWeight', '=', 'source <= 1 ? 1 : null'
+      'armorWeight', '=', '"MediumHeavy".includes(source) ? null : 1'
     );
     rules.defineRule('skillNotes.bardicKnowledge',
       'levels.Bard', '=', null,
@@ -6430,7 +6446,7 @@ SRD35.classRulesExtra = function(rules, name) {
       '8:Improved Speed', '11:Command Like Creatures',
       '15:Companion Spell Resistance'
     ];
-    QuilvynRules.featureListRules
+    SRD35.featureListRules
       (rules, features, 'Animal Companion', 'mountMasterLevel', false);
     rules.defineRule('animalCompanionStats.AC',
       'levels.Paladin', '+', 'source<8 ? 4 : source<11 ? 6 : source<15 ? 8 : 10'
@@ -6693,7 +6709,7 @@ SRD35.classRulesExtra = function(rules, name) {
       '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',
       '13:Speak With Master', '16:Blood Bond', '19:Companion Spell Resistance'
     ];
-    QuilvynRules.featureListRules
+    SRD35.featureListRules
       (rules, features, 'Animal Companion', 'fiendishServantMasterLevel', false);
     rules.defineRule('animalCompanionStats.AC',
       'fiendishServantMasterLevel', '+',
@@ -6941,7 +6957,7 @@ SRD35.classFeatureRules = function(
     featureSpec += ':' + selectable;
   if(require.length > 0)
     featureSpec = require.join('/') + ' ? ' + featureSpec;
-  QuilvynRules.featureListRules
+  SRD35.featureListRules
     (rules, [featureSpec], className, classLevel, selectable ? true : false);
   if(selectable) {
     let countVar =
@@ -7331,24 +7347,58 @@ SRD35.featRulesExtra = function(rules, name) {
 
   let matchInfo;
 
-  if(name == 'Extra Turning') {
+  if((matchInfo = name.match(/^Armor Proficiency \((.*)\)$/)) != null) {
+    rules.defineRule
+      ('armorProficiency.' + matchInfo[1], 'features.' + name, '=', '1');
+  } else if(name == 'Extra Turning') {
     rules.defineRule
       ('combatNotes.extraTurning', 'feats.Extra Turning', '=', 'source * 4');
     rules.defineRule
       ('combatNotes.turnUndead.3', 'combatNotes.extraTurning', '+', null);
+  } else if((matchInfo = name.match(/^((Tower )?Shield) Proficiency$/)) != null) {
+    rules.defineRule
+      ('armorProficiency.' + matchInfo[1], 'features.' + name, '=', '1');
   } else if(name == 'Toughness') {
     rules.defineRule
       ('combatNotes.toughness', 'feats.Toughness', '=', 'source * 3');
   } else if(name == 'Simple Weapon Proficiency') {
-    rules.defineRule('features.Weapon Proficiency (Simple)',
+    rules.defineRule('features.Weapon Proficiency (Simple Weapons)',
       'features.' + name, '=', '1'
     );
   } else if((matchInfo = name.match(/^(Exotic|Martial)\sWeapon\sProficiency.\((.*)\)$/)) != null) {
-    rules.defineRule('features.Weapon Proficiency (' + matchInfo[2] + ')',
-      'features.' + name, '=', '1'
-    );
+    rules.defineRule
+      ('weaponProficiency.' + matchInfo[2], 'features.' + name, '=', '1');
   }
 
+};
+
+/*
+ * Defines in #rules# the rules associated with with the list #features#. Rules
+ * add each feature to #setName# if the value of #levelAttr# is at least equal
+ * to the value required for the feature. If #selectable# is true, the user is
+ * allowed to select these features for the character, rather than having them
+ * assigned automatically.
+ */
+SRD35.featureListRules = function(
+  rules, features, setName, levelAttr, selectable
+) {
+  QuilvynRules.featureListRules
+    (rules, features, setName, levelAttr, selectable);
+  setName = setName.charAt(0).toLowerCase() + setName.substring(1).replaceAll(' ', '') + 'Features';
+  for(let i = 0; i < features.length; i++) {
+    let feature = features[i].replace(/^(.*\?\s*)?\d+:/, '');
+    let matchInfo =
+      feature.match(/([A-Z]\w*)\s(Familiarity|Proficiency)\s\((([^\(]|\([^\)]*\))*)\)$/);
+    if(matchInfo) {
+      let group = matchInfo[1].toLowerCase();
+      let elements = matchInfo[3].split(/\/|;\s*/);
+      for(let j = 0; j < elements.length; j++) {
+        rules.defineRule(group + matchInfo[2] + '.' + elements[j],
+          setName + '.' + feature, '=', '1'
+        );
+      }
+    }
+  }
 };
 
 /*
@@ -7484,6 +7534,12 @@ SRD35.featureRules = function(rules, name, sections, notes) {
         }
       }
 
+      // Generate rules for common notes:
+
+      // Has increased ... effects
+      if(effect.match(/^Has increased .* effects$/))
+        rules.defineRule('italics', note, '=', 'null');
+
     }
 
   }
@@ -7525,98 +7581,12 @@ SRD35.languageRules = function(rules, name) {
 };
 
 /*
- * Defines in #rules# the rules associated with path #name#, which is a
- * selection for characters belonging to #group# and tracks path level via
- * #levelAttr#. The path grants the features listed in #features#. If the path
- * grants spell slots, #spellAbility# names the ability for computing spell
- * difficulty class, and #spellSlots# lists the number of spells per level per
- * day granted.
- */
-SRD35.pathRules = function(
-  rules, name, group, levelAttr, features, selectables, spellAbility, spellSlots
-) {
-
-  if(!name) {
-    console.log('Empty path name');
-    return;
-  }
-  if(!group) {
-    console.log('Bad group "' + group + '" for path ' + name);
-    return;
-  }
-  if(!(levelAttr + '').startsWith('level')) {
-    console.log('Bad level "' + levelAttr + '" for path ' + name);
-    return;
-  }
-  if(!Array.isArray(features)) {
-    console.log('Bad features list "' + features + '" for path ' + name);
-    return;
-  }
-  if(!Array.isArray(selectables)) {
-    console.log('Bad selectables list "' + selectables + '" for path ' + name);
-    return;
-  }
-  if(spellAbility) {
-    spellAbility = spellAbility.toLowerCase();
-    if(!(spellAbility.charAt(0).toUpperCase() + spellAbility.substring(1) in SRD35.ABILITIES)) {
-      console.log('Bad spell ability "' + spellAbility + '" for path ' + name);
-      return;
-    }
-  }
-  if(!Array.isArray(spellSlots)) {
-    console.log('Bad spellSlots list "' + spellSlots + '" for path ' + name);
-    return;
-  }
-
-  let pathLevel =
-    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
-
-  rules.defineRule(pathLevel,
-    'features.' + name, '?', null,
-    levelAttr, '=', null
-  );
-
-  QuilvynRules.featureListRules(rules, features, group, pathLevel, false);
-  QuilvynRules.featureListRules(rules, selectables, group, pathLevel, true);
-
-  if(spellSlots.length > 0) {
-
-    rules.defineRule('casterLevels.' + name,
-      pathLevel, '=', null,
-      'magicNotes.casterLevelBonus', '+', null
-    );
-    rules.defineRule('spellSlotLevel.' + name,
-      pathLevel, '=', null,
-      'magicNotes.casterLevelBonus', '+', null
-    );
-    QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
-
-    for(let i = 0; i < spellSlots.length; i++) {
-      let matchInfo = spellSlots[i].match(/^(\D+)(\d):/);
-      if(!matchInfo) {
-        console.log('Bad format for spell slot "' + spellSlots[i] + '"');
-        continue;
-      }
-      let spellType = matchInfo[1];
-      if(spellType != name)
-        rules.defineRule
-          ('casterLevels.' + spellType, 'casterLevels.' + name, '^=', null);
-      rules.defineRule('spellDifficultyClass.' + spellType,
-        'casterLevels.' + spellType, '?', null,
-        spellAbility + 'Modifier', '=', '10 + source'
-      );
-    }
-  }
-
-};
-
-/*
  * Defines in #rules# the rules associated with race #name#, which has the list
  * of hard prerequisites #requires#. #features# and #selectables# list
  * associated features and #languages# any automatic languages.
  */
 SRD35.raceRules = function(
-  rules, name, requires, features, selectables, languages
+  rules, name, requires, features, selectables, languages, size, speed
 ) {
 
   if(!name) {
@@ -7647,6 +7617,18 @@ SRD35.raceRules = function(
       }
     });
   }
+  if(size == null)
+    size = features.includes('Small') ? 'Small' : 'Medium'; // TODO remove
+  if(!(size+'').match(/^(Large|Medium|Small)$/)) {
+    console.log('Bad size "' + size + '" for race ' + name);
+    return;
+  }
+  if(speed == null)
+    speed = features.includes('Slow') ? 20 : 30; // TODO remove
+  if(typeof(speed) != 'number') {
+    console.log('Bad speed "' + speed + '" for race ' + name);
+    return;
+  }
 
   let prefix =
     name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '');
@@ -7661,8 +7643,8 @@ SRD35.raceRules = function(
     QuilvynRules.prerequisiteRules
       (rules, 'validation', prefix + 'Race', raceLevel, requires);
 
-  QuilvynRules.featureListRules(rules, features, name, raceLevel, false);
-  QuilvynRules.featureListRules(rules, selectables, name, raceLevel, true);
+  SRD35.featureListRules(rules, features, name, raceLevel, false);
+  SRD35.featureListRules(rules, selectables, name, raceLevel, true);
   rules.defineSheetElement(name + ' Features', 'Feats+', null, '; ');
   rules.defineChoice('extras', prefix + 'Features');
 
@@ -7673,6 +7655,9 @@ SRD35.raceRules = function(
         rules.defineRule('languages.' + l, raceLevel, '=', '1');
     });
   }
+
+  rules.defineRule('size', raceLevel, '=', '"' + size + '"');
+  rules.defineRule('speed', raceLevel, '=', speed);
 
 };
 
@@ -7747,7 +7732,7 @@ SRD35.raceFeatureRules = function(
     featureSpec += ':' + selectable;
   if(require.length > 0)
     featureSpec = require.join('/') + ' ? ' + featureSpec;
-  QuilvynRules.featureListRules
+  SRD35.featureListRules
     (rules, [featureSpec], raceName, raceLevel, selectable ? true : false);
   if(selectable) {
     let countVar =
@@ -7792,7 +7777,7 @@ SRD35.schoolRules = function(rules, name, features) {
     'levels.Wizard', '=', null
   );
   rules.defineRule('spellDCSchoolBonus.' + name, 'casterLevel', '=', '0');
-  QuilvynRules.featureListRules(rules, features, 'Wizard', schoolLevel, false);
+  SRD35.featureListRules(rules, features, 'Wizard', schoolLevel, false);
 
   for(let i = 1; i <= 9; i++) {
     rules.defineRule('spellSlots.W' + i,
@@ -7853,17 +7838,6 @@ SRD35.shieldRules = function(
     return;
   }
 
-  if(weight.match(/^none$/i))
-    weight = 0;
-  else if(weight.match(/^light$/i))
-    weight = 1;
-  else if(weight.match(/^medium$/i))
-    weight = 2;
-  else if(weight.match(/^heavy$/i))
-    weight = 3;
-  else if(weight.match(/^tower$/i))
-    weight = 4;
-
   if(rules.shieldStats == null) {
     rules.shieldStats = {
       ac:{},
@@ -7879,19 +7853,14 @@ SRD35.shieldRules = function(
   rules.shieldStats.skill[name] = skillFail;
   rules.shieldStats.spell[name] = spellFail;
 
-  rules.defineRule
-    ('armorClass', 'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]');
-  rules.defineRule('combatNotes.nonproficientShieldPenalty',
-    'shieldProficiencyLevelShortfall', '?', 'source > 0',
-    'shield', '=', '-' + QuilvynUtils.dictLit(rules.shieldStats.skill) + '[source]'
+  rules.defineRule('armorClass',
+    'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]'
   );
-  if(name == 'Tower') {
-    rules.defineRule('combatNotes.towerShieldPenalty',
-      'shield', '=', 'source=="Tower" ? -2 : null'
-    );
-  }
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.spell) + '[source]'
+  );
+  rules.defineRule('shieldSkill',
+    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.skill) + '[source]'
   );
   rules.defineRule('shieldWeight',
     'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.weight) + '[source]'
@@ -8016,10 +7985,9 @@ SRD35.skillRulesExtra = function(rules, name) {
   } else if(name == 'Speak Language') {
     rules.defineRule('languageCount', 'skills.Speak Language', '+', null);
   } else if(name == 'Swim') {
-    rules.defineChoice('notes', 'skillNotes.armorSwimCheckPenalty:-%V Swim');
-    rules.defineRule('skillModifier.Swim',
-      'skillNotes.armorSwimCheckPenalty', '+', '-source'
-    );
+    rules.defineChoice('notes', 'skillNotes.armorSwimCheckPenalty:%V Swim');
+    rules.defineRule
+      ('skillModifier.Swim', 'skillNotes.armorSwimCheckPenalty', '+', null);
     rules.defineRule('skillNotes.armorSwimCheckPenalty',
       'skillNotes.armorSkillCheckPenalty', '=', 'source * 2'
     );
@@ -8028,11 +7996,10 @@ SRD35.skillRulesExtra = function(rules, name) {
      'Balance', 'Climb', 'Escape Artist', 'Hide', 'Jump', 'Move Silently',
      'Sleight Of Hand', 'Tumble'
     ];
-    rules.defineChoice('notes', 'skillNotes.armorSkillCheckPenalty:-%V ' + affected.join('/-%V '));
+    rules.defineChoice('notes', 'skillNotes.armorSkillCheckPenalty:%V ' + affected.join('/%V '));
     affected.forEach(a => {
-      rules.defineRule('skillModifier.' + a,
-        'skillNotes.armorSkillCheckPenalty', '+', '-source'
-      );
+      rules.defineRule
+        ('skillModifier.' + a, 'skillNotes.armorSkillCheckPenalty', '+', null);
     });
   }
 };
@@ -8220,14 +8187,7 @@ SRD35.weaponRules = function(
     console.log('Bad range "' + range + '" for weapon ' + name);
   }
 
-  if(profLevel.match(/^unarmed$/i))
-    profLevel = 0;
-  else if(profLevel.match(/^simple$/i))
-    profLevel = 1;
-  else if(profLevel.match(/^martial$/i))
-    profLevel = 2;
-  else if(profLevel.match(/^exotic$/i))
-    profLevel = 3;
+  profLevel = profLevel.toLowerCase();
   category = category.toLowerCase();
   if(!threat)
     threat=20;
@@ -8302,9 +8262,9 @@ SRD35.weaponRules = function(
     'features.Small', '=', '"' + SRD35.SMALL_DAMAGE[firstDamage] + '"',
     'features.Large', '=', '"' + SRD35.LARGE_DAMAGE[firstDamage] + '"'
   );
-  if(name == 'Unarmed')
+  if(category == 'unarmed')
     rules.defineRule
-      ('unarmedDamageDice', 'combatNotes.increasedUnarmedDamage', '=', null);
+      (prefix + 'DamageDice', 'combatNotes.increasedUnarmedDamage', '=', null);
   rules.defineRule(weaponName + '.2', prefix + 'DamageDice', '=', null);
   rules.defineRule(weaponName + '.3',
     prefix + 'DamageModifier', '=', 'source>0 ? "+" + source : source==0 ? "" : source'
@@ -8349,29 +8309,51 @@ SRD35.weaponRules = function(
       (prefix + 'AttackModifier', 'finesseAttackBonus', '+=', null);
   }
 
-  rules.defineChoice('notes',
-    'combatNotes.nonproficientWeaponPenalty.' + name + ':%V attack'
-  );
   rules.defineRule(prefix + 'AttackModifier',
     'weapons.' + name, '?', null,
-    'combatNotes.nonproficientArmorPenalty', '+', null,
-    'combatNotes.nonproficientShieldPenalty', '+', null,
-    'combatNotes.nonproficientWeaponPenalty.' + name, '+', null,
-    'combatNotes.towerShieldPenalty', '+', null
+    'combatNotes.towerShieldPenalty', '+', null,
+    'combatNotes.unproficientArmorPenalty', '+', null,
+    'combatNotes.unproficientShieldPenalty', '+', null,
+    'combatNotes.unproficientWeaponPenalty.' + name, '+', null
   );
-  rules.defineRule('weaponProficiencyLevelShortfall.' + name,
-    'weapons.' + name, '=', profLevel,
-    'features.Weapon Familiarity (' + name.replace(/\s*\(.*/, '') + ')', '+', '-1',
-    'weaponProficiencyLevel', '+', '-source',
-    'features.Weapon Proficiency (' + name.replace(/\s*\(.*/, '') + ')', '*', '0'
+  rules.defineChoice('notes',
+    'combatNotes.unproficientWeaponPenalty.' + name + ':%V attack'
   );
-  rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + name,
-    'weapons.' + name, '=', '-4',
-    'weaponProficiencyLevelShortfall.' + name, '?', 'source > 0'
-  );
+  if(category != 'unarmed') {
+    rules.defineRule('combatNotes.unproficientWeaponPenalty.' + name,
+      'weapons.' + name, '=', '-4',
+      'weaponProficiency.' + name, '^', '0'
+    );
+    if(profLevel == 'martial')
+      rules.defineRule('combatNotes.unproficientWeaponPenalty.' + name,
+        'weaponProficiency.Martial Weapons', '^', '0'
+      );
+    else if(profLevel == 'simple')
+      rules.defineRule('combatNotes.unproficientWeaponPenalty.' + name,
+        'weaponProficiency.Simple Weapons', '^', '0'
+      );
+    if(profLevel == 'exotic') {
+      rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + name + '.1',
+        'weaponFamiliarity.' + name, '?', null,
+        'weaponProficiency.Martial Weapons', '=', '1'
+      );
+      rules.defineRule('combatNotes.unproficientWeaponPenalty.' + name,
+        'combatNotes.nonproficientWeaponPenalty.' + name + '.1', '^', '0'
+      );
+    } else if(profLevel == 'martial') {
+      rules.defineRule('combatNotes.nonproficientWeaponPenalty.' + name + '.1',
+        'weaponFamiliarity.' + name, '?', null,
+        'weaponProficiency.Simple Weapons', '=', '1'
+      );
+      rules.defineRule('combatNotes.unproficientWeaponPenalty.' + name,
+        'combatNotes.nonproficientWeaponPenalty.' + name + '.1', '^', '0'
+      );
+    }
+  }
+
   if(category == 'two-handed') {
     rules.defineChoice('notes',
-      'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack and AC'
+      'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack and Armor Class'
     );
     rules.defineRule('armorClass',
       'combatNotes.two-handedWeaponWithBucklerPenalty', '+', '-1'
@@ -8413,9 +8395,9 @@ SRD35.weaponRules = function(
       ('ownedWeapons.' + baseWeapon, 'weapons.' + name, '=', null);
   }
 
-  if(profLevel == 2)
+  if(profLevel == "martial")
     rules.addChoice('martialWeapons', name, '');
-  else if(profLevel == 3)
+  else if(profLevel == "exotic")
     rules.addChoice('exoticWeapons', name, '');
 
 };
@@ -8638,6 +8620,7 @@ SRD35.createViewers = function(rules, viewers) {
               {name: 'Experience Needed', within: 'ExperienceInfo',
                format: '/%V'},
             {name: 'Level', within: 'AbilityStats'},
+            {name: 'Size', within: 'AbilityStats'},
             {name: 'SpeedInfo', within: 'AbilityStats', separator: ''},
               {name: 'Speed', within: 'SpeedInfo',
                format: '<b>Speed/Run</b>: %V'},
@@ -8699,9 +8682,10 @@ SRD35.createViewers = function(rules, viewers) {
                 {name: 'Melee Attack', within: 'AttackInfo', format: '/%V'},
                 {name: 'Ranged Attack', within: 'AttackInfo', format: '/%V'},
             {name: 'Proficiencies', within: 'CombatPart', separator: innerSep},
-              {name: 'Armor Proficiency', within: 'Proficiencies'},
-              {name: 'Shield Proficiency', within: 'Proficiencies'},
-              {name: 'Weapon Proficiency', within: 'Proficiencies'},
+              {name: 'Armor Proficiency', within: 'Proficiencies',
+               separator: '; '},
+              {name: 'Weapon Proficiency', within: 'Proficiencies',
+               separator: '; '},
             {name: 'Gear', within: 'CombatPart', separator: innerSep},
               {name: 'Armor', within: 'Gear'},
               {name: 'Shield', within: 'Gear'},
@@ -9267,8 +9251,9 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   let matchInfo;
 
   if(attribute == 'armor') {
+    // TODO Fix
     attrs = this.applyRules(attributes);
-    let characterProfLevel = attrs.armorProficiencyLevel || '0';
+    let characterProfLevel = attrs.highestArmorProficiency || '0';
     choices = [];
     let armors = this.getChoices('armors');
     for(attr in armors) {
@@ -9882,6 +9867,13 @@ SRD35.ruleNotes = function() {
     '    Quilvyn includes four additional animals in the list of animal' +
     '    companions for use as blackguard fiendish servants: bat, cat,' +
     '    raven, and toad.\n' +
+    '  </li><li>\n' +
+    '    You can show that a barbarian character has spent 2 skill points' +
+    '    to become literate by including a line similar to this in notes:\n' +
+    '    * Literacy: -2 Skill Points\n' +
+    '  </li><li>\n' +
+    '    Quilvyn assumes that characters are proficient in unarmed' +
+    '    attacks&mdash;Unarmed Strike, Gauntlet, etc.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
