@@ -52,6 +52,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 5355/6000</td>
       <td><b>Level</b>: 3</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 30/60/90</td>
     </tr></table>
@@ -80,8 +81,8 @@ var attributes = {
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
         <td><b>Feats</b>: Lightning Reflexes; Skill Focus (Use Magic Device)</td>
-        <td><b>Half-Elf Features</b>: Alert Senses; Elven Blood; Low-Light Vision; Resist Enchantment; Sleep Immunity; Tolerance</td>
-        <td><b>Druid Features</b>: Animal Companion; Armor Proficiency (Medium); Nature Sense; Shield Proficiency; Spontaneous Druid Spell; Trackless Step; Weapon Proficiency (Club/Dagger/Dart/Quarterstaff/Scimitar/Sickle/Shortspear/Sling/Spear); Wild Empathy; Woodland Stride</td>
+        <td><b>Half-Elf Features</b>: Elf Resistances; Elven Blood; Keen Senses (Half-Elf); Low-Light Vision; Tolerance</td>
+        <td><b>Druid Features</b>: Animal Companion; Armor Proficiency (Light; Medium; Shield); Nature Sense; Spontaneous Druid Spell; Trackless Step; Weapon Proficiency (Club; Dagger; Dart; Quarterstaff; Scimitar; Sickle; Shortspear; Sling; Spear); Wild Empathy; Woodland Stride</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -91,7 +92,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Elven Blood: Counts as an elf for racial effects</td>
       </tr><tr style="text-align:center">
-        <td>Low-Light Vision: x2 normal distance in poor light</td>
+        <td>Low-Light Vision: Can see double the normal distance in poor light</td>
       </tr><tr style="text-align:center">
         <td>Trackless Step: Untrackable outdoors</td>
       </tr><tr style="text-align:center">
@@ -132,8 +133,6 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Skill Notes</b>:       <table id="SkillNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>Alert Senses: +1 Listen/+1 Search/+1 Spot</i></td>
-      </tr><tr style="text-align:center">
         <td><i>Armor Skill Check Penalty: -3 Balance/-3 Climb/-3 Escape Artist/-3 Hide/-3 Jump/-3 Move Silently/-3 Sleight Of Hand/-3 Tumble</i></td>
       </tr><tr style="text-align:center">
         <td><i>Armor Swim Check Penalty: -6 Swim</i></td>
@@ -141,6 +140,8 @@ var attributes = {
         <td><i>Intelligence Language Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
         <td><i>Intelligence Skill Points Adjustment: +12</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Keen Senses (Half-Elf): +1 Listen/+1 Search/+1 Spot</i></td>
       </tr><tr style="text-align:center">
         <td><i>Knowledge (History) Synergy: +2 Bardic knowledge</i></td>
       </tr><tr style="text-align:center">
@@ -178,9 +179,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Medium</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Limited</td>
+        <td><b>Armor Proficiency</b>: Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Club; Dagger; Dart; Quarterstaff; Scimitar; Shortspear; Sickle; Sling; Spear</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -188,7 +188,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Hide</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Dagger (+1 d4-1 x2@19 R10'); Sling (+4 d4-1 x2@20 R50'); Spear (+1 d8-1 x3@20 R20'); Unarmed (+1 d3-1 x2@20)</td>
+        <td><b>Weapons</b>: Dagger (+1 d4-1 x2@19 R10'); Sling (+4 d4-1 x2@20 R50'); Spear (+1 d8-1 x3@20 R20'); Unarmed Strike (+1 d3-1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -222,9 +222,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Wisdom Will Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td>Resist Enchantment: +2 vs. enchantment</td>
-      </tr><tr style="text-align:center">
-        <td>Sleep Immunity: Immune to <i>Sleep</i></td>
+        <td>Elf Resistances: Has immunity to magical sleep/+2 vs. enchantment</td>
       </tr></table>
 </td>
     </tr></table>
@@ -263,7 +261,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mending (D0 Tran): R10' Repairs minor damage to 1 lb object</td>
     </tr><tr style="text-align:left">
-      <td>Reduce Animal (D2 Tran): Touched willing animal becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 AC) for 3 hr</td>
+      <td>Reduce Animal (D2 Tran): Touched willing animal becomes half size (-2 Strength, +2 Dexterity, +1 attack, +1 Armor Class) for 3 hr</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">

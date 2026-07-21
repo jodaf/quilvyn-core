@@ -9,7 +9,7 @@ var attributes = {
   "_path":"ztest/srd35/goodies", 
   "alignment":"Neutral Good", "armor":"Chain Shirt", "charisma":7, "constitution":15, "deity":"None", 
   "dexterity":10, "experience":981, "feats.Power Attack":1, "feats.Quick Draw":1, 
-  "feats.Skill Focus (Knowledge (Dungeoneering))":1, "feats.Skill Focus (Ride)":1, "feats.Weapon Focus (Unarmed)":1, 
+  "feats.Skill Focus (Knowledge (Dungeoneering))":1, "feats.Skill Focus (Ride)":1, "feats.Weapon Focus (Unarmed Strike)":1, 
   "gender":"Male", "hitPoints":10, "intelligence":17, "languages.Abyssal":1, 
   "languages.Draconic":1, "languages.Druidic":1, "languages.Halfling":1, "languages.Undercommon":1, 
   "levels.Fighter":1, "name":"Goodies", 
@@ -50,6 +50,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 981/1000</td>
       <td><b>Level</b>: 1</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 40/160</td>
       <td><b>Light/Med/Max Load:</b> 66/133/200</td>
     </tr></table>
@@ -87,9 +88,9 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Feats</b>: Power Attack; Quick Draw; Skill Focus (Knowledge (Dungeoneering)); Skill Focus (Ride); Weapon Focus (Unarmed)</td>
+        <td><b>Feats</b>: Power Attack; Quick Draw; Skill Focus (Knowledge (Dungeoneering)); Skill Focus (Ride); Weapon Focus (Unarmed Strike)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -146,9 +147,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Goodies Language Count: +1 Languages</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Goodies Masterwork Armor: Reduce skill check penalty by 1</i></td>
+        <td><i>Goodies Masterwork Armor: Reduces skill check penalty by 1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Goodies Masterwork Shield: Reduce skill check penalty by 1</i></td>
+        <td><i>Goodies Masterwork Shield: Reduces skill check penalty by 1</i></td>
       </tr><tr style="text-align:center">
         <td><i>Human Skill Bonus: +4 Skill Points</i></td>
       </tr><tr style="text-align:center">
@@ -184,9 +185,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -194,7 +194,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Chain Shirt</td>
         <td><b>Shield</b>: Buckler</td>
-        <td><b>Weapons</b>: Bite (+3 d6+2 x2@20); Composite Shortbow (+1 d6 x3@20 R70'); Spear (+2 d8+2 x3@20 R20'); Unarmed (+4 d3+2 x2@20)</td>
+        <td><b>Weapons</b>: Bite (+3 d6+2 x2@20); Composite Shortbow (+1 d6 x3@20 R70'); Spear (+2 d8+2 x3@20 R20'); Unarmed Strike (+4 d3+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -208,9 +208,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Two-handed Weapon With Buckler Penalty: -1 attack and AC</i></td>
+        <td><i>Two-handed Weapon With Buckler Penalty: -1 attack and Armor Class</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Weapon Focus (Unarmed): +1 Unarmed Attack Modifier</i></td>
+        <td><i>Weapon Focus (Unarmed Strike): +1 Unarmed Strike Attack Modifier</i></td>
       </tr><tr style="text-align:center">
         <td>Power Attack: May suffer up to -1 attack for equal damage bonus</td>
       </tr><tr style="text-align:center">

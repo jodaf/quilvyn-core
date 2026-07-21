@@ -63,6 +63,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 28502/36000</td>
       <td><b>Level</b>: 8</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/150</td>
       <td><b>Light/Med/Max Load:</b> 50/100/150</td>
     </tr></table>
@@ -86,7 +87,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Acrobatic; Agile; Alertness; Animal Affinity; Armor Proficiency (Heavy); Armor Proficiency (Light); Armor Proficiency (Medium); Athletic; Blind-Fight; Combat Expertise; Combat Reflexes; Deceitful; Deft Hands; Diligent; Dodge; Endurance; Exotic Weapon Proficiency (Hand Crossbow); Great Fortitude; Improved Critical (Longsword); Improved Initiative; Improved Shield Bash; Improved Unarmed Strike; Investigator; Iron Will; Leadership; Lightning Reflexes; Magical Aptitude; Martial Weapon Proficiency (Longsword); Mounted Combat; Negotiator; Nimble Fingers; Persuasive; Point-Blank Shot; Power Attack; Quick Draw; Rapid Reload (Hand); Rapid Reload (Heavy); Rapid Reload (Light); Run; Self-Sufficient; Shield Proficiency; Simple Weapon Proficiency; Skill Focus (Survival); Stealthy; Toughness; Tower Shield Proficiency; Track; Two-Weapon Fighting; Weapon Finesse; Weapon Focus (Longsword)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -207,9 +208,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Hand Crossbow; Longsword; Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -217,7 +217,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Leather</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Hand Crossbow (+10 d4 x2@19 R30'); Heavy Crossbow (+10 d10 x2@19 R120'); Light Crossbow (+10 d8 x2@19 R80'); Longsword (+10 d8+1 x2@17); Unarmed (+10 d3+1 x2@20)</td>
+        <td><b>Weapons</b>: Hand Crossbow (+10 d4 x2@19 R30'); Heavy Crossbow (+10 d10 x2@19 R120'); Light Crossbow (+10 d8 x2@19 R80'); Longsword (+10 d8+1 x2@17); Unarmed Strike (+10 d3+1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -227,7 +227,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Dodge: +1 AC</i></td>
+        <td><i>Dodge: +1 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Improved Critical (Longsword): x2 Longsword Threat Range</i></td>
       </tr><tr style="text-align:center">
@@ -245,11 +245,11 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Blind-Fight: May reroll miss due to concealment/Invisible foe gains no melee bonus/Suffers half penalty for impaired vision</td>
       </tr><tr style="text-align:center">
-        <td>Combat Expertise: May suffer up to -5 attack to gain equal AC bonus</td>
+        <td>Combat Expertise: May suffer up to -5 attack to gain equal Armor Class bonus</td>
       </tr><tr style="text-align:center">
         <td>Combat Reflexes: May take AOO while flat-footed and 3 AOO/rd</td>
       </tr><tr style="text-align:center">
-        <td>Improved Shield Bash: Suffers no AC penalty when using Shield Bash</td>
+        <td>Improved Shield Bash: Suffers no Armor Class penalty when using Shield Bash</td>
       </tr><tr style="text-align:center">
         <td>Improved Unarmed Strike: Unarmed attack provokes no AOO and may deal lethal damage</td>
       </tr><tr style="text-align:center">
@@ -267,7 +267,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Rapid Reload (Light): May reload a light crossbow as a free action</td>
       </tr><tr style="text-align:center">
-        <td>Run: Retains Dexterity bonus to AC while running</td>
+        <td>Run: Retains Dexterity bonus to Armor Class while running</td>
       </tr><tr style="text-align:center">
         <td>Two-Weapon Fighting: Reduces on-hand penalty by 2 and off-hand by 6</td>
       </tr></table>

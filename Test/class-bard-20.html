@@ -61,6 +61,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 200033/210000</td>
       <td><b>Level</b>: 20</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 43/86/130</td>
     </tr></table>
@@ -82,7 +83,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Acrobatic; Athletic; Improved Shield Bash; Leadership; Scribe Scroll; Silent Spell; Spell Focus (Illusion); Still Spell</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Bard Features</b>: Armor Proficiency (Light); Bardic Knowledge; Bardic Music; Countersong; Fascinate; Inspire Competence; Inspire Courage; Inspire Greatness; Inspire Heroics; Mass Suggestion; Shield Proficiency; Simple Somatics; Song Of Freedom; Suggestion; Weapon Proficiency (Simple/Longsword/Rapier/Sap/Short Sword/Shortbow/Whip)</td>
+        <td><b>Bard Features</b>: Armor Proficiency (Light; Shield); Bardic Knowledge; Bardic Music; Countersong; Fascinate; Inspire Competence; Inspire Courage; Inspire Greatness; Inspire Heroics; Mass Suggestion; Simple Somatics; Song Of Freedom; Suggestion; Weapon Proficiency (Simple Weapons; Longsword; Rapier; Sap; Short Sword; Shortbow; Whip)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -185,9 +186,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Light</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Simple</td>
+        <td><b>Armor Proficiency</b>: Light; Shield</td>
+        <td><b>Weapon Proficiency</b>: Longsword; Rapier; Sap; Short Sword; Shortbow; Simple Weapons; Whip</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -195,7 +195,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Chain Shirt</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Club (+16 d6+1 x2@20 R10'); Heavy Mace (+16 d8+1 x2@20); Spear (+16 d8+1 x3@20 R20'); Unarmed (+16 d3+1 x2@20)</td>
+        <td><b>Weapons</b>: Club (+16 d6+1 x2@20 R10'); Heavy Mace (+16 d8+1 x2@20); Spear (+16 d8+1 x3@20 R20'); Unarmed Strike (+16 d3+1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -211,7 +211,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td>Improved Shield Bash: Suffers no AC penalty when using Shield Bash</td>
+        <td>Improved Shield Bash: Suffers no Armor Class penalty when using Shield Bash</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -288,7 +288,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Neutralize Poison (B4 Conj): Touched neutralized 200 min, immunized, or detoxified</td>
     </tr><tr style="text-align:left">
-      <td>Rage (B2 Ench): R300' 6 willing targets in 15' radius gain +2 Strength, +2 Constitution, and +1 Will and suffer -2 AC for conc + 20 rd</td>
+      <td>Rage (B2 Ench): R300' 6 willing targets in 15' radius gain +2 Strength, +2 Constitution, and +1 Will and suffer -2 Armor Class for conc + 20 rd</td>
     </tr><tr style="text-align:left">
       <td>Remove Curse (B3 Abju): Dispels all curses from touched</td>
     </tr><tr style="text-align:left">
@@ -328,7 +328,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>Inspire Greatness: R30' 4 allies gain +2d10 HP, +2 attack, +1 Fortitude while performing + 5 rd</td>
     </tr><tr style="text-align:center">
-      <td>Inspire Heroics: R30' 2 allies gain +4 AC and saves while performing + 5 rd</td>
+      <td>Inspire Heroics: R30' 2 allies gain +4 Armor Class and saves while performing + 5 rd</td>
     </tr><tr style="text-align:center">
       <td>Mass Suggestion: May use <i>Suggestion</i> effects on all fascinated creatures (DC 21 Will neg)</td>
     </tr><tr style="text-align:center">

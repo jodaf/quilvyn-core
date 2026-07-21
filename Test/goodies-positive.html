@@ -12,8 +12,8 @@ var attributes = {
   "feats.Animal Affinity":1, "feats.Brew Potion":1, "feats.Combat Expertise":1, "feats.Empower Spell":1, 
   "feats.Eschew Materials":1, "feats.Heighten Spell":1, "feats.Improved Familiar":1, 
   "feats.Quicken Spell":1, "feats.Silent Spell":1, "feats.Skill Focus (Knowledge (Nature))":1, 
-  "feats.Skill Focus (Ride)":1, "feats.Spell Focus (Transmutation)":1, "feats.Weapon Focus (Unarmed)":1, 
-  "gender":"Female", "hitPoints":22, "intelligence":12, "languages.Druidic":1, 
+  "feats.Skill Focus (Ride)":1, "feats.Spell Focus (Transmutation)":1, 
+  "feats.Weapon Focus (Unarmed Strike)":1, "gender":"Female", "hitPoints":22, "intelligence":12, "languages.Druidic":1, 
   "languages.Sylvan":1, "levels.Fighter":1, "levels.Wizard":5, "name":"Goodies-Positive", 
   "notes":"* +1 chain shirt armor\n* +2 charisma\n* +3 constitution\n* +2 dexterity\n* +1 fighter feat\n* +2 fortitude save\n* +3 general feat\n* +2 initiative\n* +1 intelligence\n* +2 ring of protection\n* +1 reflex save\n* +2 shield\n* +3 speed\n* +2 strength\n* +1 will save\n* +2 wisdom\n* +3 wizard feat\n* +4 ride skill\n* +2 flail\n", "race":"Human", 
   "selectableFeatures.Wizard - School Specialization (None)":1, "shield":"Buckler", "skills.Appraise":1, "skills.Concentration":2, 
@@ -57,6 +57,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 15245/21000</td>
       <td><b>Level</b>: 6</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 33/132</td>
       <td><b>Light/Med/Max Load:</b> 76/153/230</td>
     </tr></table>
@@ -95,10 +96,10 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Feats</b>: Animal Affinity; Brew Potion; Combat Expertise; Empower Spell; Eschew Materials; Heighten Spell; Improved Familiar; Quicken Spell; Silent Spell; Skill Focus (Knowledge (Nature)); Skill Focus (Ride); Spell Focus (Transmutation); Weapon Focus (Unarmed)</td>
+        <td><b>Feats</b>: Animal Affinity; Brew Potion; Combat Expertise; Empower Spell; Eschew Materials; Heighten Spell; Improved Familiar; Quicken Spell; Silent Spell; Skill Focus (Knowledge (Nature)); Skill Focus (Ride); Spell Focus (Transmutation); Weapon Focus (Unarmed Strike)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Wizard Features</b>: School Specialization (None); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club/Dagger/Heavy Crossbow/Light Crossbow/Quarterstaff)</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Wizard Features</b>: School Specialization (None); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -159,9 +160,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Familiar Raven: +3 Appraise</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Goodies Masterwork Armor: Reduce skill check penalty by 1</i></td>
+        <td><i>Goodies Masterwork Armor: Reduces skill check penalty by 1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Goodies Masterwork Shield: Reduce skill check penalty by 1</i></td>
+        <td><i>Goodies Masterwork Shield: Reduces skill check penalty by 1</i></td>
       </tr><tr style="text-align:center">
         <td><i>Goodies Ride: +4 Ride</i></td>
       </tr><tr style="text-align:center">
@@ -205,9 +206,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Club; Dagger; Heavy Crossbow; Light Crossbow; Martial Weapons; Quarterstaff; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -215,7 +215,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Chain Shirt</td>
         <td><b>Shield</b>: Buckler</td>
-        <td><b>Weapons</b>: Flail (+8 d8+5 x2@20); Gauntlet (+6 d3+3 x2@20); Javelin (+5 d6+3 x2@20 R30'); Unarmed (+7 d3+3 x2@20)</td>
+        <td><b>Weapons</b>: Flail (+8 d8+5 x2@20); Gauntlet (+6 d3+3 x2@20); Javelin (+5 d6+3 x2@20 R30'); Unarmed Strike (+7 d3+3 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -241,9 +241,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +3</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Weapon Focus (Unarmed): +1 Unarmed Attack Modifier</i></td>
+        <td><i>Weapon Focus (Unarmed Strike): +1 Unarmed Strike Attack Modifier</i></td>
       </tr><tr style="text-align:center">
-        <td>Combat Expertise: May suffer up to -3 attack to gain equal AC bonus</td>
+        <td>Combat Expertise: May suffer up to -3 attack to gain equal Armor Class bonus</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -304,7 +304,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Identify (W1 Divi): Self determines magic properties of touched object</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Chaos (W3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for 50 min or traps nonlawful summoned creatures (SR neg) for 5 dy</td>
+      <td>Magic Circle Against Chaos (W3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for 50 min or traps nonlawful summoned creatures (SR neg) for 5 dy</td>
     </tr><tr style="text-align:left">
       <td>Prestidigitation (W0 Univ): R10' Self performs minor tricks for 1 hr</td>
     </tr><tr style="text-align:left">

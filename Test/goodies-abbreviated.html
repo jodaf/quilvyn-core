@@ -10,7 +10,7 @@ var attributes = {
   "alignment":"Lawful Neutral", "armor":"Padded", "charisma":16, "constitution":10, "deity":"None", 
   "dexterity":6, "experience":1987, "feats.Point-Blank Shot":1, 
   "feats.Skill Focus (Concentration)":1, "feats.Skill Focus (Knowledge (Nature))":1, 
-  "feats.Weapon Focus (Unarmed)":1, "gender":"Male", "hitPoints":19, "intelligence":16, "languages.Auran":1, 
+  "feats.Weapon Focus (Unarmed Strike)":1, "gender":"Male", "hitPoints":19, "intelligence":16, "languages.Auran":1, 
   "languages.Elven":1, "languages.Halfling":1, "languages.Infernal":1, "languages.Undercommon":1, 
   "levels.Fighter":2, "name":"Goodies-Abbreviated", 
   "notes":"* +2 str; +1 dex; +3 con; +2 int; +1 wis; +3 cha; +2 ac", "race":"Human", "shield":"Heavy Wooden", "skills.Balance":2, 
@@ -50,6 +50,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 1987/3000</td>
       <td><b>Level</b>: 2</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 43/86/130</td>
     </tr></table>
@@ -85,9 +86,9 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Feats</b>: Point-Blank Shot; Skill Focus (Concentration); Skill Focus (Knowledge (Nature)); Weapon Focus (Unarmed)</td>
+        <td><b>Feats</b>: Point-Blank Shot; Skill Focus (Concentration); Skill Focus (Knowledge (Nature)); Weapon Focus (Unarmed Strike)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -168,9 +169,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -178,7 +178,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Padded</td>
         <td><b>Shield</b>: Heavy Wooden</td>
-        <td><b>Weapons</b>: Club (+3 d6+1 x2@20 R10'); Kukri (+3 d4+1 x2@18); Short Sword (+3 d6+1 x2@19); Unarmed (+4 d3+1 x2@20)</td>
+        <td><b>Weapons</b>: Club (+3 d6+1 x2@20 R10'); Kukri (+3 d4+1 x2@18); Short Sword (+3 d6+1 x2@19); Unarmed Strike (+4 d3+1 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -196,7 +196,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Weapon Focus (Unarmed): +1 Unarmed Attack Modifier</i></td>
+        <td><i>Weapon Focus (Unarmed Strike): +1 Unarmed Strike Attack Modifier</i></td>
       </tr><tr style="text-align:center">
         <td>Point-Blank Shot: +1 ranged attack and damage w/in 30'</td>
       </tr></table>

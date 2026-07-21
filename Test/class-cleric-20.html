@@ -36,7 +36,7 @@ var attributes = {
   "spells.Summon Monster VII(C7 Conj)":1, "spells.Symbol Of Fear(C6 Necr)":1, "spells.Symbol Of Insanity(C8 Ench)":1, 
   "spells.True Resurrection(C9 Conj)":1, "spells.Unholy Aura(Evil8 Abju)":1, "spells.Wall Of Stone(C5 Conj)":1, 
   "spells.Wind Wall(C3 Evoc)":1, "spells.Zone Of Truth(C2 Ench)":1, "strength":14, 
-  "weapons.Heavy Crossbow":1, "weapons.Punching Dagger":1, "weapons.Unarmed":1, "wisdom":15
+  "weapons.Heavy Crossbow":1, "weapons.Punching Dagger":1, "wisdom":15
 };
   </script>
 </head>
@@ -69,6 +69,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 202916/210000</td>
       <td><b>Level</b>: 20</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 20/80</td>
       <td><b>Light/Med/Max Load:</b> 58/116/175</td>
     </tr></table>
@@ -93,7 +94,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Craft Wand; Extra Turning; Improved Initiative; Investigator; Lightning Reflexes; Persuasive; Spell Focus (Illusion); Stealthy</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Cleric Features</b>: Armor Proficiency (Heavy); Aura; Empowered Evil; Evil Domain; Shield Proficiency; Spontaneous Cleric Spell; Turn Undead; War Domain; Weapon Of War; Weapon Proficiency (Simple)</td>
+        <td><b>Cleric Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Empowered Evil; Evil Domain; Spontaneous Cleric Spell; Turn Undead; War Domain; Weapon Of War; Weapon Proficiency (Simple Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -178,9 +179,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Simple</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -188,7 +188,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Scale Mail</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Heavy Crossbow (+17 d10 x2@19 R120'); Punching Dagger (+17 d4+2 x3@20); Unarmed (+17 d3+2 x2@20)</td>
+        <td><b>Weapons</b>: Heavy Crossbow (+17 d10 x2@19 R120'); Punching Dagger (+17 d4+2 x3@20); Unarmed Strike (+17 d3+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -261,7 +261,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Cause Fear (C1 Necr): R75' Target w/up to 5 HD flees for 1d4 rd (DC 13 Will shaken for 1 rd)</td>
     </tr><tr style="text-align:left">
-      <td>Cloak Of Chaos (C8 Abju): 20 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (DC 20 Will neg) for 20 rd</td>
+      <td>Cloak Of Chaos (C8 Abju): 20 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (DC 20 Will neg) for 20 rd</td>
     </tr><tr style="text-align:left">
       <td>Commune (C5 Divi): Deity answers 20 yes/no questions</td>
     </tr><tr style="text-align:left">
@@ -279,7 +279,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Discern Lies (C4 Divi): R75' Self detects lies from 20 creatures in 15' radius (DC 16 Will neg) for conc or 20 rd</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (C5 Abju): Self gains +4 AC vs. evil and dismisses evil creature via touch (DC 17 Will neg) or spell</td>
+      <td>Dispel Evil (C5 Abju): Self gains +4 Armor Class vs. evil and dismisses evil creature via touch (DC 17 Will neg) or spell</td>
     </tr><tr style="text-align:left">
       <td>Divine Favor (C1 Evoc): Self gains +3 attack and damage for 1 min</td>
     </tr><tr style="text-align:left">
@@ -309,9 +309,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Locate Object (C3 Divi): Self senses direction of object or type in 1200' radius for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Good (Evil3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 200 min or traps nonevil summoned creatures (SR neg) for 20 dy</td>
+      <td>Magic Circle Against Good (Evil3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 200 min or traps nonevil summoned creatures (SR neg) for 20 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Vestment (C3 Tran): Touched armor, shield, or clothing gives +5 AC for 20 hr</td>
+      <td>Magic Vestment (C3 Tran): Touched armor, shield, or clothing gives +5 Armor Class for 20 hr</td>
     </tr><tr style="text-align:left">
       <td>Magic Weapon (C1 Tran): Touched weapon gains +1 attack and damage for 20 min</td>
     </tr><tr style="text-align:left">
@@ -329,9 +329,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Prayer (C3 Ench): Allies in 40' radius gain +1 attack, damage, save, and skill, and foes suffer -1, for 20 rd</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Good (Evil1 Abju): Touched gains +2 AC and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for 20 min</td>
+      <td>Protection From Good (Evil1 Abju): Touched gains +2 Armor Class and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Law (C1 Abju): Touched gains +2 AC and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for 20 min</td>
+      <td>Protection From Law (C1 Abju): Touched gains +2 Armor Class and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for 20 min</td>
     </tr><tr style="text-align:left">
       <td>Purify Food And Drink (C0 Tran): R10' Makes 20' cu food and water safe (DC 12 Will neg)</td>
     </tr><tr style="text-align:left">
@@ -361,7 +361,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>True Resurrection (C9 Conj): Fully restores chosen creature dead up to 200 yr</td>
     </tr><tr style="text-align:left">
-      <td>Unholy Aura (Evil8 Abju): 20 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (DC 20 Fort neg) for 20 rd</td>
+      <td>Unholy Aura (Evil8 Abju): 20 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (DC 20 Fort neg) for 20 rd</td>
     </tr><tr style="text-align:left">
       <td>Wall Of Stone (C5 Conj): R300' Creates 20 5' x 5 inch thick permanent stone wall</td>
     </tr><tr style="text-align:left">

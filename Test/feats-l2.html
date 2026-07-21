@@ -60,6 +60,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 68606/78000</td>
       <td><b>Level</b>: 12</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 20/60</td>
       <td><b>Light/Med/Max Load:</b> 58/116/175</td>
     </tr></table>
@@ -83,7 +84,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Cleave; Combat Expertise; Deflect Arrows; Diehard; Dodge; Endurance; Far Shot; Great Cleave; Greater Two-Weapon Fighting; Greater Weapon Focus (Longsword); Greater Weapon Specialization (Longsword); Improved Bull Rush; Improved Disarm; Improved Feint; Improved Grapple; Improved Overrun; Improved Precise Shot; Improved Sunder; Improved Trip; Improved Two-Weapon Fighting; Improved Unarmed Strike; Manyshot; Mobility; Mounted Archery; Mounted Combat; Point-Blank Shot; Power Attack; Precise Shot; Rapid Shot; Ride-By Attack; Shot On The Run; Snatch Arrows; Spirited Charge; Spring Attack; Stunning Fist; Trample; Two-Weapon Defense; Two-Weapon Fighting; Weapon Focus (Longsword); Weapon Specialization (Longsword); Whirlwind Attack</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Fighter Features</b>: Armor Proficiency (Heavy); Shield Proficiency; Tower Shield Proficiency; Weapon Proficiency (Martial)</td>
+        <td><b>Fighter Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Tower Shield Proficiency; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -158,9 +159,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Tower</td>
-        <td><b>Weapon Proficiency</b>: Martial</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield; Tower Shield</td>
+        <td><b>Weapon Proficiency</b>: Martial Weapons; Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -168,7 +168,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Banded Mail</td>
         <td><b>Shield</b>: Buckler</td>
-        <td><b>Weapons</b>: Bite (+14 d6+2 x2@20); Javelin (+15 d6+2 x2@20 R60'); Longsword (+16 d8+6 x2@19); Morningstar (+14 d8+2 x2@20); Scythe (+13 2d4+2 x4@20); Shortbow (+15 d6 x3@20 R90'); Unarmed (+14 d3+2 x2@20)</td>
+        <td><b>Weapons</b>: Bite (+14 d6+2 x2@20); Javelin (+15 d6+2 x2@20 R60'); Longsword (+16 d8+6 x2@19); Morningstar (+14 d8+2 x2@20); Scythe (+13 2d4+2 x4@20); Shortbow (+15 d6 x3@20 R90'); Unarmed Strike (+14 d3+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -178,7 +178,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +3</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Dodge: +1 AC</i></td>
+        <td><i>Dodge: +1 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Greater Weapon Focus (Longsword): +1 Longsword Attack Modifier</i></td>
       </tr><tr style="text-align:center">
@@ -188,7 +188,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Strength Damage Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Two-handed Weapon With Buckler Penalty: -1 attack and AC</i></td>
+        <td><i>Two-handed Weapon With Buckler Penalty: -1 attack and Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Weapon Focus (Longsword): +1 Longsword Attack Modifier</i></td>
       </tr><tr style="text-align:center">
@@ -196,7 +196,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Cleave: May make extra attack when foe drops 1/rd</td>
       </tr><tr style="text-align:center">
-        <td>Combat Expertise: May suffer up to -5 attack to gain equal AC bonus</td>
+        <td>Combat Expertise: May suffer up to -5 attack to gain equal Armor Class bonus</td>
       </tr><tr style="text-align:center">
         <td>Deflect Arrows: Suffers no damage from ranged hit 1/rd</td>
       </tr><tr style="text-align:center">
@@ -218,7 +218,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Improved Overrun: Gains +4 overrun Strength check/Foe cannot avoid overrun</td>
       </tr><tr style="text-align:center">
-        <td>Improved Precise Shot: Foe gains no AC bonus for partial cover/May attack grappling target</td>
+        <td>Improved Precise Shot: Foe gains no Armor Class bonus for partial cover/May attack grappling target</td>
       </tr><tr style="text-align:center">
         <td>Improved Sunder: Sunder provokes no AOO/+4 Sunder attack</td>
       </tr><tr style="text-align:center">
@@ -230,7 +230,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Manyshot: R30' May fire up to 3 arrows simultaneously at -2 attack per arrow</td>
       </tr><tr style="text-align:center">
-        <td>Mobility: +4 AC vs. movement AOO</td>
+        <td>Mobility: +4 Armor Class vs. movement AOO</td>
       </tr><tr style="text-align:center">
         <td>Mounted Archery: Suffers half normal mounted ranged weapon penalty</td>
       </tr><tr style="text-align:center">
@@ -258,7 +258,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Trample: Foe cannot avoid mounted overrun/Mount gains bonus hoof attack</td>
       </tr><tr style="text-align:center">
-        <td>Two-Weapon Defense: +1 AC when wielding two weapons; +2 when fighting defensively</td>
+        <td>Two-Weapon Defense: +1 Armor Class when wielding two weapons; +2 when fighting defensively</td>
       </tr><tr style="text-align:center">
         <td>Two-Weapon Fighting: Reduces on-hand penalty by 2 and off-hand by 6</td>
       </tr><tr style="text-align:center">

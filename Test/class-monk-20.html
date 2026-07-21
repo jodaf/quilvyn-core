@@ -11,7 +11,7 @@ var attributes = {
   "dexterity":12, "experience":203645, "feats.Improved Critical (Handaxe)":1, 
   "feats.Persuasive":1, "feats.Self-Sufficient":1, "feats.Skill Focus (Ride)":1, 
   "feats.Skill Focus (Survival)":1, "feats.Skill Focus (Tumble)":1, "feats.Weapon Focus (Club)":1, 
-  "feats.Weapon Focus (Unarmed)":1, "gender":"Male", "hitPoints":98, "intelligence":13, "languages.Aquan":1, 
+  "feats.Weapon Focus (Unarmed Strike)":1, "gender":"Male", "hitPoints":98, "intelligence":13, "languages.Aquan":1, 
   "languages.Elven":1, "levels.Monk":20, "name":"Class-Monk 20", "race":"Human", 
   "selectableFeatures.Monk - Combat Reflexes":1, "selectableFeatures.Monk - Deflect Arrows":1, 
   "selectableFeatures.Monk - Improved Disarm":1, "selectableFeatures.Monk - Improved Grapple":1, 
@@ -53,6 +53,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 203645/210000</td>
       <td><b>Level</b>: 20</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 90/360</td>
       <td><b>Light/Med/Max Load:</b> 38/76/115</td>
     </tr></table>
@@ -75,9 +76,9 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="FeatLists" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Feats</b>: Improved Critical (Handaxe); Persuasive; Self-Sufficient; Skill Focus (Ride); Skill Focus (Survival); Skill Focus (Tumble); Weapon Focus (Club); Weapon Focus (Unarmed)</td>
+        <td><b>Feats</b>: Improved Critical (Handaxe); Persuasive; Self-Sufficient; Skill Focus (Ride); Skill Focus (Survival); Skill Focus (Tumble); Weapon Focus (Club); Weapon Focus (Unarmed Strike)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Monk Features</b>: Abundant Step; Armor Class Bonus; Combat Reflexes; Deflect Arrows; Diamond Body; Diamond Soul; Empty Body; Evasion; Fast Movement (Monk); Flurry Of Blows; Improved Disarm; Improved Evasion; Improved Grapple; Improved Trip; Improved Unarmed Strike; Increased Unarmed Damage; Ki Strike; Perfect Self; Purity Of Body; Quivering Palm; Slow Fall; Still Mind; Stunning Fist; Timeless Body; Tongue Of The Sun And Moon; Weapon Proficiency (Club/Dagger/Handaxe/Heavy Crossbow/Javelin/Kama/Light Crossbow/Nunchaku/Quarterstaff/Sai/Shuriken/Siangham/Sling); Wholeness Of Body</td>
+        <td><b>Monk Features</b>: Abundant Step; Armor Class Bonus; Combat Reflexes; Deflect Arrows; Diamond Body; Diamond Soul; Empty Body; Evasion; Fast Movement (Monk); Flurry Of Blows; Improved Disarm; Improved Evasion; Improved Grapple; Improved Trip; Improved Unarmed Strike; Increased Unarmed Damage; Ki Strike; Perfect Self; Purity Of Body; Quivering Palm; Slow Fall; Still Mind; Stunning Fist; Timeless Body; Tongue Of The Sun And Moon; Weapon Proficiency (Club; Dagger; Handaxe; Heavy Crossbow; Javelin; Kama; Light Crossbow; Nunchaku; Quarterstaff; Sai; Shuriken; Siangham; Sling); Wholeness Of Body</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -175,9 +176,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: None</td>
-        <td><b>Shield Proficiency</b>: None</td>
-        <td><b>Weapon Proficiency</b>: Limited</td>
+        <td><b>Weapon Proficiency</b>: Club; Dagger; Handaxe; Heavy Crossbow; Javelin; Kama; Light Crossbow; Nunchaku; Quarterstaff; Sai; Shuriken; Siangham; Sling</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -185,13 +184,13 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: None</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Club (+16 d6 x2@20 R10'); Handaxe (+15 d6 x3@19); Light Crossbow (+16 d8 x2@19 R80'); Unarmed (+16 2d10 x2@20)</td>
+        <td><b>Weapons</b>: Club (+16 d6 x2@20 R10'); Handaxe (+15 d6 x3@19); Light Crossbow (+16 d8 x2@19 R80'); Unarmed Strike (+16 2d10 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td><b>Combat Notes</b>:       <table id="CombatNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>Armor Class Bonus: +6 AC</i></td>
+        <td><i>Armor Class Bonus: +6 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +40</i></td>
       </tr><tr style="text-align:center">
@@ -207,7 +206,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Weapon Focus (Club): +1 Club Attack Modifier</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Weapon Focus (Unarmed): +1 Unarmed Attack Modifier</i></td>
+        <td><i>Weapon Focus (Unarmed Strike): +1 Unarmed Strike Attack Modifier</i></td>
       </tr><tr style="text-align:center">
         <td>Combat Reflexes: May take AOO while flat-footed and 2 AOO/rd</td>
       </tr><tr style="text-align:center">

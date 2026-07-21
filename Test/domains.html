@@ -142,6 +142,7 @@ var attributes = {
     <tr style="text-align:center">
       <td><b>Experience</b>: 47321/55000</td>
       <td><b>Level</b>: 10</td>
+      <td><b>Size</b>: Medium</td>
       <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 66/133/200</td>
     </tr></table>
@@ -166,7 +167,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Dodge; Empower Spell; Eschew Materials; Spell Focus (Divination); Spell Focus (Illusion)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Cleric Features</b>: Air Domain; Air Turning; All-Knowing; Animal Domain; Animal Talk; Arcane Adept; Armor Proficiency (Heavy); Aura; Chaos Domain; Deadly Touch; Death Domain; Deceptive Knowledge; Destroy Undead; Destruction Domain; Earth Domain; Earth Turning; Empowered Chaos; Empowered Evil; Empowered Good; Empowered Healing; Empowered Knowledge; Empowered Law; Evil Domain; Fire Domain; Fire Turning; Good Domain; Good Fortune; Healing Domain; Knowledge Domain; Law Domain; Luck Domain; Magic Domain; Nature Knowledge; Outdoors Knowledge; Plant Domain; Plant Turning; Protection Domain; Protective Touch; Shield Proficiency; Smite; Spontaneous Cleric Spell; Strength Burst; Strength Domain; Sun Domain; Travel Domain; Trickery Domain; Turn Undead; Unhindered; War Domain; Water Domain; Water Turning; Weapon Of War; Weapon Proficiency (Simple)</td>
+        <td><b>Cleric Features</b>: Air Domain; Air Turning; All-Knowing; Animal Domain; Animal Talk; Arcane Adept; Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Chaos Domain; Deadly Touch; Death Domain; Deceptive Knowledge; Destroy Undead; Destruction Domain; Earth Domain; Earth Turning; Empowered Chaos; Empowered Evil; Empowered Good; Empowered Healing; Empowered Knowledge; Empowered Law; Evil Domain; Fire Domain; Fire Turning; Good Domain; Good Fortune; Healing Domain; Knowledge Domain; Law Domain; Luck Domain; Magic Domain; Nature Knowledge; Outdoors Knowledge; Plant Domain; Plant Turning; Protection Domain; Protective Touch; Smite; Spontaneous Cleric Spell; Strength Burst; Strength Domain; Sun Domain; Travel Domain; Trickery Domain; Turn Undead; Unhindered; War Domain; Water Domain; Water Turning; Weapon Of War; Weapon Proficiency (Simple Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -249,9 +250,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Proficiencies" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor Proficiency</b>: Heavy</td>
-        <td><b>Shield Proficiency</b>: Heavy</td>
-        <td><b>Weapon Proficiency</b>: Simple</td>
+        <td><b>Armor Proficiency</b>: Heavy; Light; Medium; Shield</td>
+        <td><b>Weapon Proficiency</b>: Simple Weapons</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -259,7 +259,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Armor</b>: Leather</td>
         <td><b>Shield</b>: None</td>
-        <td><b>Weapons</b>: Bite (+9 d6+2 x2@20); Heavy Mace (+9 d8+3 x2@20); Quarterstaff (+9 d6+3/d6+3 x2@20); Unarmed (+9 d3+2 x2@20)</td>
+        <td><b>Weapons</b>: Bite (+9 d6+2 x2@20); Heavy Mace (+9 d8+3 x2@20); Quarterstaff (+9 d6+3/d6+3 x2@20); Unarmed Strike (+9 d3+2 x2@20)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -273,7 +273,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +3</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Dodge: +1 AC</i></td>
+        <td><i>Dodge: +1 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
@@ -380,13 +380,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Chain Lightning (Air6 Evoc): R800' Bolt inflicts 10d6 HP to primary target, half HP to 10 secondary targets in 30' radius (DC 15 Ref half)</td>
     </tr><tr style="text-align:left">
-      <td>Chaos Hammer (Chaos4 Evoc): R200' Lawful creatures in 20' radius suffer 5d8 HP and are slowed (-2 AC, attack, damage, and Reflex) for 1d6 rd, neutral half (DC 13 Will half)</td>
+      <td>Chaos Hammer (Chaos4 Evoc): R200' Lawful creatures in 20' radius suffer 5d8 HP and are slowed (-2 Armor Class, attack, damage, and Reflex) for 1d6 rd, neutral half (DC 13 Will half)</td>
     </tr><tr style="text-align:left">
       <td>Clairaudience/Clairvoyance (Knowledge3 Divi): 800' Self gains choice of remote sight or hearing for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Clenched Fist (Strength8 Evoc): R200' 10' hand (AC 20, 28 HP) moves 60'/rd, gives +4 AC, and performs +15 bull rush and +21+mod melee attack that inflicts 1d8+11 HP and stuns for 1 rd (DC 17 Fort neg) for 10 rd</td>
+      <td>Clenched Fist (Strength8 Evoc): R200' 10' hand (Armor Class 20, 28 HP) moves 60'/rd, gives +4 Armor Class, and performs +15 bull rush and +21+mod melee attack that inflicts 1d8+11 HP and stuns for 1 rd (DC 17 Fort neg) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Cloak Of Chaos (Chaos8 Abju): 10 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (DC 17 Will neg) for 10 rd</td>
+      <td>Cloak Of Chaos (Chaos8 Abju): 10 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (DC 17 Will neg) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Command Plants (Plant4 Tran): R50' 20 HD plant creatures in 15' radius obey self (DC 13 Will neg) for 10 dy</td>
     </tr><tr style="text-align:left">
@@ -412,7 +412,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Create Undead (Evil6 Necr): R50' Creates ghoul from physical remains</td>
     </tr><tr style="text-align:left">
-      <td>Crushing Hand (Strength9 Evoc): R200' 10' hand (AC 20, 28 HP) moves 60'/rd, gives +4 AC, and performs +18 bull rush and +26+mod grapple that inflicts 2d6+12 HP for 10 rd</td>
+      <td>Crushing Hand (Strength9 Evoc): R200' 10' hand (Armor Class 20, 28 HP) moves 60'/rd, gives +4 Armor Class, and performs +18 bull rush and +26+mod grapple that inflicts 2d6+12 HP for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Cure Critical Wounds (Healing4 Conj): Touched heals (undead suffers) 4d8+10 HP (DC 13 Will half)</td>
     </tr><tr style="text-align:left">
@@ -444,13 +444,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Disintegrate (Destruction7 Tran): R200' Ranged touch inflicts 20d6 HP (DC 16 Fort 5d6); slain target turns to dust</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Chaos (Law5 Abju): Self gains +4 AC vs. chaotic and dismisses chaotic creature via touch (DC 14 Will neg) or spell</td>
+      <td>Dispel Chaos (Law5 Abju): Self gains +4 Armor Class vs. chaotic and dismisses chaotic creature via touch (DC 14 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (Good5 Abju): Self gains +4 AC vs. evil and dismisses evil creature via touch (DC 14 Will neg) or spell</td>
+      <td>Dispel Evil (Good5 Abju): Self gains +4 Armor Class vs. evil and dismisses evil creature via touch (DC 14 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Good (Evil5 Abju): Self gains +4 AC vs. good and dismisses good creature via touch (DC 14 Will neg) or spell</td>
+      <td>Dispel Good (Evil5 Abju): Self gains +4 Armor Class vs. good and dismisses good creature via touch (DC 14 Will neg) or spell</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Law (Chaos5 Abju): Self gains +4 AC vs. lawful and dismisses lawful creature via touch (DC 14 Will neg) or spell</td>
+      <td>Dispel Law (Chaos5 Abju): Self gains +4 Armor Class vs. lawful and dismisses lawful creature via touch (DC 14 Will neg) or spell</td>
     </tr><tr style="text-align:left">
       <td>Dispel Magic (Magic3 Abju): R200' Successful d20+10 check vs. 11+caster level cancels targeted spell or 1 spell on each creature in a 20' radius</td>
     </tr><tr style="text-align:left">
@@ -474,7 +474,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Endure Elements (Sun1 Abju): Touched remains comfortable between -50F and 140F for 1 dy</td>
     </tr><tr style="text-align:left">
-      <td>Enlarge Person (Strength1 Tran): R50' Target humanoid dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 AC) (DC 10 Fort neg) for 10 min</td>
+      <td>Enlarge Person (Strength1 Tran): R50' Target humanoid dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 Armor Class) (DC 10 Fort neg) for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Entangle (Plant1 Tran): R800' Creatures in 40' radius entangled (DC 10 Ref half speed) for 10 min</td>
     </tr><tr style="text-align:left">
@@ -504,7 +504,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Fog Cloud (Water2 Conj): R200' Fog in 20' radius obscures vision for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Foresight (Knowledge9 Divi): Self gains +2 AC and Reflex and never surprised or flat-footed for 100 min</td>
+      <td>Foresight (Knowledge9 Divi): Self gains +2 Armor Class and Reflex and never surprised or flat-footed for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Freedom Of Movement (Luck4 Abju): Touched moves freely for 100 min</td>
     </tr><tr style="text-align:left">
@@ -512,7 +512,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Gaseous Form (Air3 Tran): Touched becomes insubstantial (DR 10/magic, immune to poison and critical hits, unable to use spell components, fly 10') for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Grasping Hand (Strength7 Evoc): R200' 10' hand (AC 20, 28 HP) moves 60'/rd, gives +4 AC, and performs +16 bull rush and +24+mod grapple for 10 rd</td>
+      <td>Grasping Hand (Strength7 Evoc): R200' 10' hand (Armor Class 20, 28 HP) moves 60'/rd, gives +4 Armor Class, and performs +16 bull rush and +24+mod grapple for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Greater Teleport (Travel7 Conj): Transports self and 3 willing targets anywhere w/no error chance</td>
     </tr><tr style="text-align:left">
@@ -526,7 +526,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hold Monster (Law6 Ench): R200' Immobilizes target (DC 15 Will neg) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Aura (Good8 Abju): 10 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (evil), suppress mental control, and blind successful evil attacker (DC 17 Fort neg) for 10 rd</td>
+      <td>Holy Aura (Good8 Abju): 10 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (evil), suppress mental control, and blind successful evil attacker (DC 17 Fort neg) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Holy Smite (Good4 Evoc): R200' Evil creatures in 20' radius suffer 5d8 HP and blindness for 1 rd, neutral half (DC 13 Will half)</td>
     </tr><tr style="text-align:left">
@@ -562,19 +562,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Aura (Magic1 Illu): Alters aura of up to 50 lb object for 10 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Chaos (Law3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for 100 min or traps nonlawful summoned creatures (SR neg) for 10 dy</td>
+      <td>Magic Circle Against Chaos (Law3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for 100 min or traps nonlawful summoned creatures (SR neg) for 10 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Evil (Good3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for 100 min or traps nongood summoned creatures (SR neg) for 10 dy</td>
+      <td>Magic Circle Against Evil (Good3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for 100 min or traps nongood summoned creatures (SR neg) for 10 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Good (Evil3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 100 min or traps nonevil summoned creatures (SR neg) for 10 dy</td>
+      <td>Magic Circle Against Good (Evil3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 100 min or traps nonevil summoned creatures (SR neg) for 10 dy</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Law (Chaos3 Abju): 10' radius from touched gives +2 AC and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for 100 min or traps nonchaotic summoned creatures (SR neg) for 10 dy</td>
+      <td>Magic Circle Against Law (Chaos3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for 100 min or traps nonchaotic summoned creatures (SR neg) for 10 dy</td>
     </tr><tr style="text-align:left">
       <td>Magic Stone (Earth1 Tran): 3 touched stones attack at +1 and inflict 1d6+1 HP (2d6+2 HP vs. undead) for 30 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Vestment (Strength3 Tran): Touched armor, shield, or clothing gives +2 AC for 10 hr</td>
+      <td>Magic Vestment (Strength3 Tran): Touched armor, shield, or clothing gives +2 Armor Class for 10 hr</td>
     </tr><tr style="text-align:left">
-      <td>Magic Vestment (War3 Tran): Touched armor, shield, or clothing gives +2 AC for 10 hr</td>
+      <td>Magic Vestment (War3 Tran): Touched armor, shield, or clothing gives +2 Armor Class for 10 hr</td>
     </tr><tr style="text-align:left">
       <td>Magic Weapon (War1 Tran): Touched weapon gains +1 attack and damage for 10 min</td>
     </tr><tr style="text-align:left">
@@ -622,17 +622,17 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Produce Flame (Fire2 Evoc): Creates throwable torch flames that inflict 1d6+5 HP for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Chaos (Law1 Abju): Touched gains +2 AC and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for 10 min</td>
+      <td>Protection From Chaos (Law1 Abju): Touched gains +2 Armor Class and saves vs. chaotic creatures, suppresses mental control, and bars contact by nonlawful summoned creatures for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Protection From Energy (Luck3 Abju): Touched gains resistance 120 to chosen energy for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Protection From Energy (Protection3 Abju): Touched gains resistance 120 to chosen energy for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Evil (Good1 Abju): Touched gains +2 AC and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for 10 min</td>
+      <td>Protection From Evil (Good1 Abju): Touched gains +2 Armor Class and saves vs. evil creatures, suppresses mental control, and bars contact by nongood summoned creatures for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Good (Evil1 Abju): Touched gains +2 AC and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for 10 min</td>
+      <td>Protection From Good (Evil1 Abju): Touched gains +2 Armor Class and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Law (Chaos1 Abju): Touched gains +2 AC and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for 10 min</td>
+      <td>Protection From Law (Chaos1 Abju): Touched gains +2 Armor Class and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Protection From Spells (Magic8 Abju): Touched gains +8 saves vs. spells for 100 min</td>
     </tr><tr style="text-align:left">
@@ -644,7 +644,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Resist Energy (Fire3 Abju): Touched gains resistance 20 to chosen energy for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Righteous Might (Strength5 Tran): Self dbl size (+4 Strength, +2 Constitution, +2 AC) and gains DR 3/evil or DR 3/good for 10 rd</td>
+      <td>Righteous Might (Strength5 Tran): Self dbl size (+4 Strength, +2 Constitution, +2 Armor Class) and gains DR 3/evil or DR 3/good for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Sanctuary (Protection1 Abju): Foes cannot attack touched (DC 10 Will neg) for 10 rd or until target attacks</td>
     </tr><tr style="text-align:left">
@@ -660,9 +660,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shatter (Destruction2 Evoc): R50' Breakables in 5' radius shatter (DC 11 Will neg), or target object suffers 10d6 HP (DC 11 Fort half)</td>
     </tr><tr style="text-align:left">
-      <td>Shield Of Law (Law8 Abju): 10 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (DC 17 Will neg) for 10 rd</td>
+      <td>Shield Of Law (Law8 Abju): 10 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (DC 17 Will neg) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Shield Other (Protection2 Abju): R50' target gains +1 AC and saves, and half of damage suffered by target is transferred to self for 10 hr</td>
+      <td>Shield Other (Protection2 Abju): R50' target gains +1 Armor Class and saves, and half of damage suffered by target is transferred to self for 10 hr</td>
     </tr><tr style="text-align:left">
       <td>Slay Living (Death5 Necr): Touched slain (DC 14 Fort suffers 3d6+10 HP)</td>
     </tr><tr style="text-align:left">
@@ -714,7 +714,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>True Seeing (Knowledge5 Divi): Touched sees through 120' darkness, illusion, and invisibility for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Unholy Aura (Evil8 Abju): 10 creatures in 20' radius gain +4 AC, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (DC 17 Fort neg) for 10 rd</td>
+      <td>Unholy Aura (Evil8 Abju): 10 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (DC 17 Fort neg) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Unholy Blight (Evil4 Evoc): R200' Good creatures in 20' radius suffer 5d8 HP and sicken for 1 rd, neutral half (DC 13 Will half)</td>
     </tr><tr style="text-align:left">
@@ -724,7 +724,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Wall Of Stone (Earth5 Conj): R200' Creates 10 5' x 2 inch thick permanent stone wall</td>
     </tr><tr style="text-align:left">
-      <td>Wall Of Thorns (Plant5 Conj): R200' 10 10' cu thorns inflict (25-AC) HP/rd when passing through for 100 min</td>
+      <td>Wall Of Thorns (Plant5 Conj): R200' 10 10' cu thorns inflict (25-Armor Class) HP/rd when passing through for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Water Breathing (Water3 Tran): Touched can breathe underwater for 20 hrs total</td>
     </tr><tr style="text-align:left">
