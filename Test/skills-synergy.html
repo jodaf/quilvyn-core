@@ -84,14 +84,14 @@ var attributes = {
         <td><b>Feats</b>: Armor Proficiency (Medium); Run; Skill Focus (Spot)</td>
         <td><b>Half-Elf Features</b>: Elf Resistances; Elven Blood; Keen Senses (Half-Elf); Low-Light Vision; Tolerance</td>
         <td><b>Rogue Features</b>: Armor Proficiency (Light); Evasion; Sneak Attack; Trap Sense; Trapfinding; Uncanny Dodge; Weapon Proficiency (Simple Weapons; Hand Crossbow; Rapier; Sap; Shortbow; Short Sword)</td>
-        <td><b>Cleric Features</b>: Arcane Adept; Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Deceptive Knowledge; Magic Domain; Spontaneous Cleric Spell; Trickery Domain; Turn Undead; Weapon Proficiency (Simple Weapons)</td>
+        <td><b>Cleric Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Deceptive Knowledge; Magic Domain; Spontaneous Casting (Cleric); Trickery Domain; Turn Undead; Use Wizard Devices; Weapon Proficiency (Simple Weapons)</td>
         <td><b>Bard Features</b>: Armor Proficiency (Light; Shield); Bardic Knowledge; Bardic Music; Simple Somatics; Weapon Proficiency (Simple Weapons; Longsword; Rapier; Sap; Short Sword; Shortbow; Whip)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td><b>Feature Notes</b>:       <table id="FeatureNotes" style="width:100%">
       <tr style="text-align:center">
-        <td>Bardic Music: May use Bardic Music effect 1/dy</td>
+        <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i>, depending on deity alignment and domains</td>
       </tr><tr style="text-align:center">
         <td>Elven Blood: Counts as an elf for racial effects</td>
       </tr><tr style="text-align:center">
@@ -196,7 +196,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Tumble Synergy: +2 Balance/+2 Jump</i></td>
       </tr><tr style="text-align:center">
-        <td>Bardic Knowledge: +6 check for knowledge of notable people, items, places</td>
+        <td>Bardic Knowledge: Can make a +6 check for knowledge of notable people, items, and places</td>
+      </tr><tr style="text-align:center">
+        <td>Bardic Music: Can use a Bardic Music effect 1 time per day</td>
       </tr><tr style="text-align:center">
         <td>Craft (Alchemy) Synergy: +2 Appraise (related)</td>
       </tr><tr style="text-align:center">
@@ -279,7 +281,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Sneak Attack: Hit inflicts +3d6 HP when foe is surprised or flanked</td>
       </tr><tr style="text-align:center">
-        <td>Turn Undead: R60' May turn or rebuke 2d6+4 HD of undead creatures of up to (d20-6)/3 HD 4/dy</td>
+        <td>Turn Undead: R60' Can turn or rebuke 2d6+4 HD of undead creatures of up to (d20-6)/3 HD 4 times per day</td>
       </tr><tr style="text-align:center">
         <td>Uncanny Dodge: Always adds Dexterity modifier to Armor Class</td>
       </tr></table>
@@ -317,6 +319,7 @@ var attributes = {
     <tr style="text-align:center">
       <td>      <table id="SpellStats" style="width:100%">
       <tr style="text-align:center">
+        <td><b>Spells Known/Prepared</b>: B0: 4</td>
         <td><b>Spell Slots</b>: B0: 2; C0: 3; C1: 1; Domain1: 1</td>
         <td><b>Spell DC</b>: B: 11; C: 9; Domain: 9</td>
       </tr></table>
@@ -344,13 +347,11 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Magic Notes</b>:     <table id="MagicNotes" style="width:100%">
     <tr style="text-align:center">
-      <td><i>Simple Somatics: Suffers no arcane spell failure in light armor</i></td>
+      <td><i>Simple Somatics: Suffers no arcane spell failure risk from wearing light armor</i></td>
     </tr><tr style="text-align:center">
-      <td>Arcane Adept: May use magic device as W1</td>
+      <td>Spontaneous Casting (Cleric): Can cast <i>Cure</i> or <i>Inflict</i> spells in place of prepared spells</td>
     </tr><tr style="text-align:center">
-      <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment</td>
-    </tr><tr style="text-align:center">
-      <td>Spontaneous Cleric Spell: May cast <i>Cure</i> or <i>Inflict</i> in place of known spell</td>
+      <td>Use Wizard Devices: Can use Wizard magic device as a level 1 Wizard</td>
     </tr></table>
 </td>
   </tr></table>

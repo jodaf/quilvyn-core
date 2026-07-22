@@ -430,7 +430,7 @@ var attributes = {
         <td><b>Wizard Features</b>: School Opposition (Enchantment); School Opposition (Necromancy); School Specialization (Conjuration); Scribe Scroll; Summon Familiar; Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)</td>
         <td><b>Paladin Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura Of Courage; Aura; Detect Evil; Divine Grace; Divine Health; Smite Evil; Turn Undead; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
         <td><b>Druid Features</b>: Animal Companion; Armor Proficiency (Light; Medium; Shield); Nature Sense; Resist Nature's Lure; Spontaneous Druid Spell; Trackless Step; Weapon Proficiency (Club; Dagger; Dart; Quarterstaff; Scimitar; Sickle; Shortspear; Sling; Spear); Wild Empathy; Woodland Stride</td>
-        <td><b>Cleric Features</b>: All-Knowing; Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Deceptive Knowledge; Empowered Knowledge; Knowledge Domain; Spontaneous Cleric Spell; Trickery Domain; Turn Undead; Weapon Proficiency (Simple Weapons)</td>
+        <td><b>Cleric Features</b>: All-Knowing; Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Deceptive Knowledge; Empowered Divination; Knowledge Domain; Spontaneous Casting (Cleric); Trickery Domain; Turn Undead; Weapon Proficiency (Simple Weapons)</td>
         <td><b>Bard Features</b>: Armor Proficiency (Light; Shield); Bardic Knowledge; Bardic Music; Countersong; Fascinate; Inspire Competence; Inspire Courage; Simple Somatics; Weapon Proficiency (Simple Weapons; Longsword; Rapier; Sap; Short Sword; Shortbow; Whip)</td>
       </tr></table>
 </td>
@@ -441,7 +441,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Animal Companion: Special bond and abilities</td>
       </tr><tr style="text-align:center">
-        <td>Bardic Music: May use Bardic Music effect 4/dy</td>
+        <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i>, depending on deity alignment and domains</td>
       </tr><tr style="text-align:center">
         <td>Summon Familiar: Special bond and abilities</td>
       </tr><tr style="text-align:center">
@@ -528,13 +528,23 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Survival Synergy: +2 Knowledge (Nature)</i></td>
       </tr><tr style="text-align:center">
-        <td>Bardic Knowledge: +6 check for knowledge of notable people, items, places</td>
+        <td>Bardic Knowledge: Can make a +6 check for knowledge of notable people, items, and places</td>
+      </tr><tr style="text-align:center">
+        <td>Bardic Music: Can use a Bardic Music effect 4 times per day</td>
       </tr><tr style="text-align:center">
         <td>Companion Alertness: +2 Listen and Spot when companion is in reach</td>
+      </tr><tr style="text-align:center">
+        <td>Countersong: R30' Can use Perform to allow creatures affected by sonic magic to make saves using the Perform check each rd for up to 10 rd</td>
       </tr><tr style="text-align:center">
         <td>Craft (Bows) Synergy: +2 Appraise (related)</td>
       </tr><tr style="text-align:center">
         <td>Craft (Traps) Synergy: +2 Appraise (related)</td>
+      </tr><tr style="text-align:center">
+        <td>Fascinate: R90' Can use Perform to hold 2 creatures spellbound (save Will vs. Perform check negates; potential threats allow another save) for 4 rd or until threatened</td>
+      </tr><tr style="text-align:center">
+        <td>Inspire Competence: R30' Can use Perform to give an ally +2 checks on a specified skill for up to 2 min</td>
+      </tr><tr style="text-align:center">
+        <td>Inspire Courage: Can use Perform to give allies +1 attack, damage, and charm and fear saves, lasting for 5 rd after the performance ends</td>
       </tr><tr style="text-align:center">
         <td>Knowledge (Engineering) Synergy: +2 Search (secret doors)</td>
       </tr><tr style="text-align:center">
@@ -607,7 +617,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Smite Evil: May gain +0 attack and +4 HP damage vs. evil foe 1/dy</td>
       </tr><tr style="text-align:center">
-        <td>Turn Undead: R60' May turn or rebuke 2d6+5 HD of undead creatures of up to (d20+3)/3 HD 1/dy</td>
+        <td>Turn Undead: R60' Can turn or rebuke 2d6+5 HD of undead creatures of up to (d20+3)/3 HD 1 times per day</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -647,6 +657,7 @@ var attributes = {
     <tr style="text-align:center">
       <td>      <table id="SpellStats" style="width:100%">
       <tr style="text-align:center">
+        <td><b>Spells Known/Prepared</b>: B0: 6; B1: 3; B2: 2</td>
         <td><b>Spell Slots</b>: B0: 3; B1: 2; B2: 0; C0: 5; C1: 4; C2: 2; D0: 5; D1: 4; D2: 2; Domain1: 1; Domain2: 1; P1: 1; W0: 4; W1: 5; W2: 4</td>
         <td><b>Spell DC</b>: B: 8; C: 11; D: 11; Domain: 11; P: 11; W: 12</td>
       </tr></table>
@@ -2554,7 +2565,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><i>School Specialization (Conjuration): +1 Conjuration spell/dy in each spell level</i></td>
     </tr><tr style="text-align:center">
-      <td><i>Simple Somatics: Suffers no arcane spell failure in light armor</i></td>
+      <td><i>Simple Somatics: Suffers no arcane spell failure risk from wearing light armor</i></td>
     </tr><tr style="text-align:center">
       <td><i>Wisdom Cleric Spell Slot Bonus: Spell level C1</i></td>
     </tr><tr style="text-align:center">
@@ -2562,21 +2573,11 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><i>Wisdom Paladin Spell Slot Bonus: Spell level P1</i></td>
     </tr><tr style="text-align:center">
-      <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment</td>
-    </tr><tr style="text-align:center">
-      <td>Countersong: R30' May make Perform check vs. sonic magic for 10 rd while performing</td>
-    </tr><tr style="text-align:center">
       <td>Detect Evil: May use <i>Detect Evil</i> effects at will</td>
     </tr><tr style="text-align:center">
       <td>Empower Spell: May use +2 spell slot to increase chosen spell variable effects by 50%</td>
     </tr><tr style="text-align:center">
-      <td>Empowered Knowledge: +1 caster level on Divination spells</td>
-    </tr><tr style="text-align:center">
-      <td>Fascinate: R90' May hold 2 creatures spellbound while performing for 4 rd (DC Perform Will neg)</td>
-    </tr><tr style="text-align:center">
-      <td>Inspire Competence: R30' Allies gain +2 skill checks for 2 min while performing</td>
-    </tr><tr style="text-align:center">
-      <td>Inspire Courage: Allies gain +1 attack, damage, charm and fear saves while performing + 5 rd</td>
+      <td>Empowered Divination: +1 caster level on Divination spells</td>
     </tr><tr style="text-align:center">
       <td>School Opposition (Enchantment): Cannot learn or cast Enchantment spells</td>
     </tr><tr style="text-align:center">
@@ -2584,7 +2585,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>Scribe Scroll: May create scroll of any known spell</td>
     </tr><tr style="text-align:center">
-      <td>Spontaneous Cleric Spell: May cast <i>Cure</i> or <i>Inflict</i> in place of known spell</td>
+      <td>Spontaneous Casting (Cleric): Can cast <i>Cure</i> or <i>Inflict</i> spells in place of prepared spells</td>
     </tr><tr style="text-align:center">
       <td>Spontaneous Druid Spell: May cast <i>Summon Nature's Ally</i> in place of known spell</td>
     </tr><tr style="text-align:center">

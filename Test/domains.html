@@ -148,7 +148,7 @@ var attributes = {
     </tr></table>
 </td>
   </tr><tr style="text-align:center">
-    <td><b>Ability Notes</b>: Strength Burst: May gain +10 Strength for 1 rd 1/dy</td>
+    <td><b>Ability Notes</b>: Feat Of Strength: Can gain +10 Strength for 1 rd once per day</td>
   </tr></table>
 </td>
 </tr><tr style="text-align:center">
@@ -167,7 +167,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Dodge; Empower Spell; Eschew Materials; Spell Focus (Divination); Spell Focus (Illusion)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Cleric Features</b>: Air Domain; Air Turning; All-Knowing; Animal Domain; Animal Talk; Arcane Adept; Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Chaos Domain; Deadly Touch; Death Domain; Deceptive Knowledge; Destroy Undead; Destruction Domain; Earth Domain; Earth Turning; Empowered Chaos; Empowered Evil; Empowered Good; Empowered Healing; Empowered Knowledge; Empowered Law; Evil Domain; Fire Domain; Fire Turning; Good Domain; Good Fortune; Healing Domain; Knowledge Domain; Law Domain; Luck Domain; Magic Domain; Nature Knowledge; Outdoors Knowledge; Plant Domain; Plant Turning; Protection Domain; Protective Touch; Smite; Spontaneous Cleric Spell; Strength Burst; Strength Domain; Sun Domain; Travel Domain; Trickery Domain; Turn Undead; Unhindered; War Domain; Water Domain; Water Turning; Weapon Of War; Weapon Proficiency (Simple Weapons)</td>
+        <td><b>Cleric Features</b>: Air Domain; Air Turning; All-Knowing; Animal Domain; Animal Talk; Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Chaos Domain; Death Domain; Death Touch; Deceptive Knowledge; Destruction Domain; Earth Domain; Earth Turning; Empowered Chaos; Empowered Divination; Empowered Evil; Empowered Good; Empowered Healing; Empowered Law; Evil Domain; Feat Of Strength; Fire Domain; Fire Turning; Free Movement; Good Domain; Good Fortune; Greater Turning; Healing Domain; Knowledge Domain; Law Domain; Luck Domain; Magic Domain; Nature Knowledge; Plant Domain; Plant Turning; Protection Domain; Protective Touch; Smite; Spontaneous Casting (Cleric); Strength Domain; Sun Domain; Survivalist; Travel Domain; Trickery Domain; Turn Undead; Use Wizard Devices; War Domain; Water Domain; Water Turning; Weapon Of War; Weapon Proficiency (Simple Weapons)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -177,7 +177,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Weapon Of War: Weapon Proficiency ()/Weapon Focus ()</i></td>
       </tr><tr style="text-align:center">
-        <td>Good Fortune: May reroll any roll 1/dy</td>
+        <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i>, depending on deity alignment and domains</td>
+      </tr><tr style="text-align:center">
+        <td>Good Fortune: Can reroll a roll once per day</td>
       </tr></table>
 </td>
     </tr></table>
@@ -224,7 +226,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Nature Knowledge: Knowledge (Nature) is a class skill</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Outdoors Knowledge: Survival is a class skill</i></td>
+        <td><i>Survivalist: Survival is a class skill</i></td>
       </tr><tr style="text-align:center">
         <td>Craft (Bows) Synergy: +2 Appraise (related)</td>
       </tr></table>
@@ -281,21 +283,21 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Two-Handed Wield Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td>Air Turning: May turn earth creatures and rebuke air creatures</td>
+        <td>Air Turning: Can turn earth creatures and rebuke air creatures</td>
       </tr><tr style="text-align:center">
-        <td>Destroy Undead: May destroy turned undead 1/dy</td>
+        <td>Earth Turning: Can turn air creatures and rebuke earth creatures</td>
       </tr><tr style="text-align:center">
-        <td>Earth Turning: May turn air creatures and rebuke earth creatures</td>
+        <td>Fire Turning: Can turn water creatures and rebuke fire creatures</td>
       </tr><tr style="text-align:center">
-        <td>Fire Turning: May turn water creatures and rebuke fire creatures</td>
+        <td>Greater Turning: Can destroy turned undead once per day</td>
       </tr><tr style="text-align:center">
-        <td>Plant Turning: May turn or rebuke Plant creatures</td>
+        <td>Plant Turning: Can rebuke Plant creatures</td>
       </tr><tr style="text-align:center">
-        <td>Smite: +4 attack, +10 damage 1/dy</td>
+        <td>Smite: Can gain +4 attack and +10 damage on an attack once per day</td>
       </tr><tr style="text-align:center">
-        <td>Turn Undead: R60' May turn or rebuke 2d6+13 HD of undead creatures of up to (d20+23)/3 HD 6/dy</td>
+        <td>Turn Undead: R60' Can turn or rebuke 2d6+13 HD of undead creatures of up to (d20+23)/3 HD 6 times per day</td>
       </tr><tr style="text-align:center">
-        <td>Water Turning: May turn fire creatures and rebuke water creatures</td>
+        <td>Water Turning: Can turn fire creatures and rebuke water creatures</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -742,17 +744,15 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><i>Spell Focus (Illusion): +1 Spell DC (Illusion)</i></td>
     </tr><tr style="text-align:center">
-      <td>Animal Talk: May use <i>Speak With Animals</i> effects 1/dy</td>
+      <td>Animal Talk: Can use <i>Speak With Animals</i> effects once per day</td>
     </tr><tr style="text-align:center">
-      <td>Arcane Adept: May use magic device as W5</td>
-    </tr><tr style="text-align:center">
-      <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment</td>
-    </tr><tr style="text-align:center">
-      <td>Deadly Touch: Touch kills target w/up to 10d6 HP 1/dy</td>
+      <td>Death Touch: Touch kills target with up to 10d6 hit points once per day</td>
     </tr><tr style="text-align:center">
       <td>Empower Spell: May use +2 spell slot to increase chosen spell variable effects by 50%</td>
     </tr><tr style="text-align:center">
       <td>Empowered Chaos: +1 caster level on Chaos spells</td>
+    </tr><tr style="text-align:center">
+      <td>Empowered Divination: +1 caster level on Divination spells</td>
     </tr><tr style="text-align:center">
       <td>Empowered Evil: +1 caster level on Evil spells</td>
     </tr><tr style="text-align:center">
@@ -760,17 +760,17 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>Empowered Healing: +1 caster level on Heal spells</td>
     </tr><tr style="text-align:center">
-      <td>Empowered Knowledge: +1 caster level on Divination spells</td>
-    </tr><tr style="text-align:center">
       <td>Empowered Law: +1 caster level on Law spells</td>
     </tr><tr style="text-align:center">
       <td>Eschew Materials: May cast spells w/out materials</td>
     </tr><tr style="text-align:center">
-      <td>Protective Touch: Touched gains +10 on next save w/in 1 hour 1/dy</td>
+      <td>Free Movement: Can use <i>Freedom Of Movement</i> effects for 10 rd per day</td>
     </tr><tr style="text-align:center">
-      <td>Spontaneous Cleric Spell: May cast <i>Cure</i> or <i>Inflict</i> in place of known spell</td>
+      <td>Protective Touch: Touched gains +10 on the next save within 1 hour once per day</td>
     </tr><tr style="text-align:center">
-      <td>Unhindered: May use <i>Freedom Of Movement</i> effects 10 rd/dy</td>
+      <td>Spontaneous Casting (Cleric): Can cast <i>Cure</i> or <i>Inflict</i> spells in place of prepared spells</td>
+    </tr><tr style="text-align:center">
+      <td>Use Wizard Devices: Can use Wizard magic device as a level 5 Wizard</td>
     </tr></table>
 </td>
   </tr></table>
@@ -786,7 +786,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Nature Knowledge: Implies knowledge (nature) skill</td>
       </tr><tr style="text-align:center">
-        <td>Outdoors Knowledge: Implies survival skill</td>
+        <td>Survivalist: Implies survival skill</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">

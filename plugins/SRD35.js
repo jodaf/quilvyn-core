@@ -685,6 +685,126 @@ SRD35.FEATURES = {
     'Section=combat Note="Always adds Dexterity modifier to Armor Class"',
 
   // Bard
+  'Bardic Knowledge':
+    'Section=skill ' +
+    'Note="Can make a +%V check for knowledge of notable people, items, and places"',
+  'Bardic Music':
+    'Section=skill ' +
+    'Note="Can use a Bardic Music effect %V time%{skillNotes.bardicMusic>1?\'s\':\'\'} per day"',
+  'Countersong':
+    'Section=skill ' +
+    'Note="R30\' Can use Perform to allow creatures affected by sonic magic to make saves using the Perform check each rd for up to 10 rd"',
+  'Fascinate':
+    'Section=skill ' +
+    'Note="R90\' Can use Perform to hold %{(levels.Bard+2)//3} creatures spellbound (save Will vs. Perform check negates; potential threats allow another save) for %{levels.Bard} rd or until threatened"',
+  'Inspire Competence':
+    'Section=skill ' +
+    'Note="R30\' Can use Perform to give an ally +2 checks on a specified skill for up to 2 min"',
+  'Inspire Courage':
+    'Section=skill ' +
+    'Note="Can use Perform to give allies +%{(levels.Bard+4)//6 >? 1} attack, damage, and charm and fear saves, lasting for 5 rd after the performance ends"',
+  'Inspire Greatness':
+    'Section=skill ' +
+    'Note="R30\' Can use Peform to give %{levels.Bard>11?((levels.Bard-6)//3)+\' allies\':\'an ally\'} 2d10 temporary hit points, +2 attacks, and +1 Fortitude saves, lasting for 5 rd after the performance ends"',
+  'Inspire Heroics':
+    'Section=skill ' +
+    'Note="R30\' Can use Perform to give %{levels.Bard>14?((levels.Bard-12)//3)+\' allies\':\'an ally\'} +4 Armor Class and saves, lasting for 5 rd after the performance ends"',
+  'Mass Suggestion':
+    'Section=magic ' +
+    'Note="Can use <i>Suggestion</i> effects on fascinated creatures (save Will DC %{10+levels.Bard//2+charismaModifier} negates)"',
+  'Simple Somatics':
+    'Section=magic ' +
+    'Note="Suffers no arcane spell failure risk from wearing light armor"',
+  // TODO: feature spell?
+  'Song Of Freedom':
+    'Section=magic ' +
+    'Note="R30\' Can Perform for 1 min to use <i>Break Enchantment</i> effects"',
+  // TODO: feature spell?
+  'Suggestion':
+    'Section=magic ' +
+    'Note="Can use <i>Suggestion</i> effects on 1 fascinated creature (save Will DC %{10+levels.Bard//2+charismaModifier} negates)"',
+
+  // Cleric
+  'Aura':'Section=feature Note="Visible to <i>Detect Chaos/Evil/Good/Law</i>, depending on deity alignment and domains"',
+  'Spontaneous Casting (Cleric)':
+    'Section=magic ' +
+    'Note="Can cast <i>Cure</i> or <i>Inflict</i> spells in place of prepared spells"',
+  'Turn Undead':
+    'Section=combat ' +
+    'Note="R60\' Can turn or rebuke 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3 times per day"',
+  // Air Domain
+  'Air Turning':
+    'Section=combat Note="Can turn earth creatures and rebuke air creatures"',
+  // Animal Domain
+  // TODO: feature spell?
+  'Animal Talk':
+    'Section=magic ' +
+    'Note="Can use <i>Speak With Animals</i> effects once per day"',
+  'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
+  // Chaos Domain
+  'Empowered Chaos':'Section=magic Note="+1 caster level on Chaos spells"',
+  // Death Domain
+  'Death Touch':
+    'Section=magic ' +
+    'Note="Touch kills target with up to %{levels.Cleric}d6 hit points once per day"',
+  // Destruction Domain
+  'Smite':
+    'Section=combat ' +
+    'Note="Can gain +4 attack and +%{levels.Cleric} damage on an attack once per day"',
+  // Earth Domain
+  'Earth Turning':
+    'Section=combat Note="Can turn air creatures and rebuke earth creatures"',
+  // Evil Domain
+  'Empowered Evil':'Section=magic Note="+1 caster level on Evil spells"',
+  // Fire Domain
+  'Fire Turning':
+    'Section=combat Note="Can turn water creatures and rebuke fire creatures"',
+  // Good Domain
+  'Empowered Good':'Section=magic Note="+1 caster level on Good spells"',
+  // Healing Domain
+  'Empowered Healing':'Section=magic Note="+1 caster level on Heal spells"',
+  // Knowledge Domain
+  'All-Knowing':'Section=skill Note="All Knowledge skills are class skills"',
+  'Empowered Divination':
+    'Section=magic Note="+1 caster level on Divination spells"',
+  // Law Domain
+  'Empowered Law':'Section=magic Note="+1 caster level on Law spells"',
+  // Luck Domain
+  'Good Fortune':'Section=feature Note="Can reroll a roll once per day"',
+  // Magic Domain
+  'Use Wizard Devices':
+    'Section=magic ' +
+    'Note="Can use Wizard magic device as a level %{levels.Cleric//2>?1 + (levels.Wizard||0)} Wizard"',
+  // Plant Domain
+  // Nature Knowledge as above
+  'Plant Turning':'Section=combat Note="Can rebuke Plant creatures"',
+  // Protection Domain
+  'Protective Touch':
+    'Section=magic ' +
+    'Note="Touched gains +%{levels.Cleric} on the next save within 1 hour once per day"',
+  // Strength Domain
+  'Feat Of Strength':
+    'Section=ability ' +
+    'Note="Can gain +%{levels.Cleric} Strength for 1 rd once per day"',
+  // Sun Domain
+  'Greater Turning':
+    'Section=combat Note="Can destroy turned undead once per day"',
+  // Travel Domain
+  'Free Movement':
+    'Section=magic ' +
+    'Note="Can use <i>Freedom Of Movement</i> effects for %{casterLevels.Travel} rd per day"',
+  'Survivalist':'Section=skill Note="Survival is a class skill"',
+  // Trickery Domain
+  'Deceptive Knowledge':
+    'Section=skill ' +
+    'Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
+  // War Domain
+  'Weapon Of War':
+    'Section=feature ' +
+    'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
+  // Water Domain
+  'Water Turning':
+    'Section=combat Note="Can turn fire creatures and rebuke water creatures"',
 
   'A Thousand Faces':
     'Section=magic Note="May use <i>Disguise Self</i> effects at will"',
@@ -692,31 +812,16 @@ SRD35.FEATURES = {
     'Section=magic Note="May teleport self %{levels.Monk//2*40+400}\' 1/dy"',
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
-  'Air Turning':
-    'Section=combat Note="May turn earth creatures and rebuke air creatures"',
   'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
   'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
-  'All-Knowing':'Section=skill Note="All Knowledge skills are class skills"',
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
   'Animal Companion':'Section=feature Note="Special bond and abilities"',
-  'Animal Talk':
-    'Section=magic Note="May use <i>Speak With Animals</i> effects 1/dy"',
-  'Arcane Adept':
-    'Section=magic ' +
-    'Note="May use magic device as W%{levels.Cleric//2>?1 + (levels.Wizard||0)}"',
   'Armor Class Bonus':'Section=combat Note="+%V Armor Class"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':
     'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
-  'Aura':
-    'Section=magic ' +
-    'Note="Visible to <i>Detect Chaos/Evil/Good/Law</i> based on deity alignment"',
   'Aura Of Courage':
     'Section=save Note="Immune to fear/R10\' Allies +4 vs. fear"',
-  'Bardic Knowledge':
-    'Section=skill ' +
-    'Note="+%V check for knowledge of notable people, items, places"',
-  'Bardic Music':'Section=feature Note="May use Bardic Music effect %V/dy"',
   'Blind-Fight':
     'Section=combat ' +
     'Note="May reroll miss due to concealment/Invisible foe gains no melee bonus/Suffers half penalty for impaired vision"',
@@ -746,9 +851,6 @@ SRD35.FEATURES = {
     'Section=companion Note="Reflex save yields no damage instead of half"',
   'Companion Improved Evasion':
     'Section=companion Note="Failed save yields half damage"',
-  'Countersong':
-    'Section=magic ' +
-    'Note="R30\' May make Perform check vs. sonic magic for 10 rd while performing"',
   'Craft Magic Arms And Armor':
     'Section=magic ' +
     'Note="May create and mend magic weapons, armor, and shields"',
@@ -760,13 +862,7 @@ SRD35.FEATURES = {
     'Section=magic Note="May create and mend miscellaneous magic items"',
   'Crippling Strike':
     'Section=combat Note="Sneak attack inflicts 2 points Strength damage"',
-  'Deadly Touch':
-    'Section=magic ' +
-    'Note="Touch kills target w/up to %{casterLevels.Death}d6 HP 1/dy"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
-  'Deceptive Knowledge':
-    'Section=skill ' +
-    'Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
   'Defensive Roll':
     'Section=combat ' +
     'Note="Successful Reflex (DC damage) vs. lethal blow reduces damage by half"',
@@ -776,7 +872,6 @@ SRD35.FEATURES = {
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="May deliver touch spells if in contact w/master when cast"',
-  'Destroy Undead':'Section=combat Note="May destroy turned undead 1/dy"',
   'Detect Evil':
     'Section=magic Note="May use <i>Detect Evil</i> effects at will"',
   'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
@@ -789,8 +884,6 @@ SRD35.FEATURES = {
   'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Divine Health':'Section=save Note="Immune to disease"',
   'Dodge':'Section=combat Note="+1 Armor Class"',
-  'Earth Turning':
-    'Section=combat Note="May turn air creatures and rebuke earth creatures"',
   'Elemental Shape':
     'Section=magic ' +
     'Note="May Wild Shape to elemental %{(levels.Druid-14)//2}/dy"',
@@ -798,13 +891,6 @@ SRD35.FEATURES = {
   'Empower Spell':
     'Section=magic ' +
     'Note="May use +2 spell slot to increase chosen spell variable effects by 50%"',
-  'Empowered Chaos':'Section=magic Note="+1 caster level on Chaos spells"',
-  'Empowered Evil':'Section=magic Note="+1 caster level on Evil spells"',
-  'Empowered Good':'Section=magic Note="+1 caster level on Good spells"',
-  'Empowered Healing':'Section=magic Note="+1 caster level on Heal spells"',
-  'Empowered Knowledge':
-    'Section=magic Note="+1 caster level on Divination spells"',
-  'Empowered Law':'Section=magic Note="+1 caster level on Law spells"',
   'Empty Body':'Section=magic Note="May become ethereal %{levels.Monk} rd/dy"',
   'Endurance':'Section=save Note="+4 extended physical action"',
   'Enlarge Spell':
@@ -825,9 +911,6 @@ SRD35.FEATURES = {
   'Familiar Toad':'Section=combat Note="+3 Hit Points"',
   'Familiar Weasel':'Section=save Note="+2 Reflex"',
   'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
-  'Fascinate':
-    'Section=magic ' +
-    'Note="R90\' May hold %{(levels.Bard+2)//3} creatures spellbound while performing for %{levels.Bard} rd (DC Perform Will neg)"',
   'Fast Movement (Monk)':'Section=ability Note="+%V Speed"',
   'Favored Enemy':
     'Section=combat,skill ' +
@@ -838,13 +921,10 @@ SRD35.FEATURES = {
     'Section=companion ' +
     'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Fighter Feat Bonus':'Section=feature Note="+1 Fighter Feat"',
-  'Fire Turning':
-    'Section=combat Note="May turn water creatures and rebuke fire creatures"',
   'Flurry Of Blows':
      'Section=combat ' +
      'Note="May suffer -%{levels.Monk<5?2:levels.Monk<9?1:0} attack for %{levels.Monk<11?1:2} extra attack"',
   'Forge Ring':'Section=magic Note="May create and mend magic rings"',
-  'Good Fortune':'Section=feature Note="May reroll any roll 1/dy"',
   'Great Cleave':'Section=combat Note="May cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
   'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
@@ -897,18 +977,6 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Unarmed attack provokes no AOO and may deal lethal damage"',
   'Increased Unarmed Damage':'Section=combat Note="%V"',
-  'Inspire Competence':
-    'Section=magic ' +
-    'Note="R30\' Allies gain +2 skill checks for 2 min while performing"',
-  'Inspire Courage':
-    'Section=magic ' +
-    'Note="Allies gain +%{(levels.Bard+4)//6 >? 1} attack, damage, charm and fear saves while performing + 5 rd"',
-  'Inspire Greatness':
-    'Section=magic ' +
-    'Note="R30\' %{(levels.Bard-6)//3} allies gain +2d10 HP, +2 attack, +1 Fortitude while performing + 5 rd"',
-  'Inspire Heroics':
-    'Section=magic ' +
-    'Note="R30\' %{(levels.Bard-12)//3} allies gain +4 Armor Class and saves while performing + 5 rd"',
   'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
   'Iron Will':'Section=save Note="+2 Will"',
   'Ki Strike':
@@ -932,9 +1000,6 @@ SRD35.FEATURES = {
   'Manyshot':
     'Section=combat ' +
     'Note="R30\' May fire up to %{(baseAttack+4)//5} arrows simultaneously at -2 attack per arrow"',
-  'Mass Suggestion':
-    'Section=magic ' +
-    'Note="May use <i>Suggestion</i> effects on all fascinated creatures (DC %{10+levels.Bard//2+charismaModifier} Will neg)"',
   'Maximize Spell':
     'Section=magic ' +
     'Note="May use +3 spell slot to maximize all variable effects on chosen spell"',
@@ -948,29 +1013,23 @@ SRD35.FEATURES = {
     'Section=companion ' +
     'Note="Reduces additional attack penalty to -2 or gives second attack at -5"',
   'Natural Spell':'Section=magic Note="May cast spells during Wild Shape"',
-  'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
   'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
   'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
   'Opportunist':
     'Section=combat Note="May take an AOO targeting a foe struck by an ally"',
-  'Outdoors Knowledge':'Section=skill Note="Survival is a class skill"',
   'Perfect Self':
     'Section=combat,save ' +
     'Note=' +
       '"DR 10/magic",' +
       '"Treated as outsider for magic saves"',
   'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
-  'Plant Turning':'Section=combat Note="May turn or rebuke Plant creatures"',
   'Point-Blank Shot':
     'Section=combat Note="+1 ranged attack and damage w/in 30\'"',
   'Power Attack':
     'Section=combat ' +
     'Note="May suffer up to -%{baseAttack} attack for equal damage bonus"',
   'Precise Shot':'Section=combat Note="Suffers no penalty on shot into melee"',
-  'Protective Touch':
-    'Section=magic ' +
-    'Note="Touched gains +%{casterLevels.Protection} on next save w/in 1 hour 1/dy"',
   'Purity Of Body':'Section=save Note="Immune to normal disease"',
   'Quick Draw':'Section=combat Note="May draw a weapon as a free action"',
   'Quicken Spell':
@@ -1017,8 +1076,6 @@ SRD35.FEATURES = {
   'Silent Spell':
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out speech"',
-  'Simple Somatics':
-    'Section=magic Note="Suffers no arcane spell failure in light armor"',
   'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
   'Skill Mastery':
     'Section=skill Note="May take 10 despite distraction on %V chosen skills"',
@@ -1027,8 +1084,6 @@ SRD35.FEATURES = {
   'Slow Fall':
     'Section=save Note="Subtracts %{levels.Monk<20 ? levels.Monk//2*10 : \'all\'}\' from falling damage distance when near wall"',
   'Slow':'Section=ability Note="-10 Speed"',
-  'Smite':
-    'Section=combat Note="+4 attack, +%{casterLevels.Destruction} damage 1/dy"',
   'Smite Evil':
     'Section=combat ' +
     'Note="May gain +%1 attack and +%2 HP damage vs. evil foe %V/dy"',
@@ -1036,9 +1091,6 @@ SRD35.FEATURES = {
   'Sneak Attack':
     'Section=combat ' +
     'Note="Hit inflicts +%Vd6 HP when foe is surprised or flanked"',
-  'Song Of Freedom':
-    'Section=magic ' +
-    'Note="R30\' May use <i>Break Enchantment</i> effects via 1 min performance"',
   'Speak With Like Animals':
     'Section=companion Note="May talk w/similar creatures"',
   'Speak With Master':
@@ -1052,9 +1104,6 @@ SRD35.FEATURES = {
     'Section=magic Note="+2 checks to overcome spell resistance"',
   'Spirited Charge':
     'Section=combat Note="x2 damage (lance x3) on mounted charge"',
-  'Spontaneous Cleric Spell':
-    'Section=magic ' +
-    'Note="May cast <i>Cure</i> or <i>Inflict</i> in place of known spell"',
   'Spontaneous Druid Spell':
     'Section=magic ' +
     'Note="May cast <i>Summon Nature\'s Ally</i> in place of known spell"',
@@ -1066,15 +1115,9 @@ SRD35.FEATURES = {
   'Still Spell':
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out movement"',
-  'Strength Burst':
-    'Section=ability ' +
-    'Note="May gain +%{casterLevels.Strength} Strength for 1 rd 1/dy"',
   'Stunning Fist':
     'Section=combat ' +
     'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
-  'Suggestion':
-    'Section=magic ' +
-    'Note="May use <i>Suggestion</i> effects on 1 fascinated creature (DC %{10+levels.Bard//2+charismaModifier} Will neg)"',
   'Summon Familiar':'Section=feature Note="Special bond and abilities"',
   'Swift Tracker':'Section=skill Note="May track at full speed"',
   'Timeless Body':'Section=feature Note="Suffers no aging penalties"',
@@ -1089,27 +1132,16 @@ SRD35.FEATURES = {
   'Trapfinding':
     'Section=skill ' +
     'Note="May use Search and Disable Device to find and remove DC 20+ traps"',
-  'Turn Undead':
-    'Section=combat ' +
-    'Note="R60\' May turn or rebuke 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3/dy"',
   'Two-Weapon Defense':
     'Section=combat ' +
     'Note="+1 Armor Class when wielding two weapons; +2 when fighting defensively"',
   'Two-Weapon Fighting':
     'Section=combat Note="Reduces on-hand penalty by 2 and off-hand by 6"',
-  'Unhindered':
-    'Section=magic ' +
-    'Note="May use <i>Freedom Of Movement</i> effects %{casterLevels.Travel} rd/dy"',
   'Venom Immunity':'Section=save Note="Immune to poisons"',
-  'Water Turning':
-    'Section=combat Note="May turn fire creatures and rebuke water creatures"',
   'Weapon Finesse':
     'Section=combat ' +
     'Note="+%{dexterityModifier-strengthModifier} light melee weapon attack (Dexterity instead of Strength)"',
   'Weapon Focus (%weapon)':'Section=combat Note="+1 %weapon Attack Modifier"',
-  'Weapon Of War':
-    'Section=feature ' +
-    'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
   'Weapon Specialization (%weapon)':
     'Section=combat Note="+2 %weapon Damage Modifier"',
   'Whirlwind Attack':'Section=combat Note="May attack all foes in reach"',
@@ -4482,6 +4514,14 @@ SRD35.CLASSES = {
       '"Max \'^skills.Perform\' >= 21 ? 18:Mass Suggestion" ' +
     'CasterLevelArcane=levels.Bard ' +
     'SpellAbility=Charisma ' +
+    'SpellsAvailable=' +
+      'B0:4@1;5@2;6@3,' +
+      'B1:2@2;3@3;4@5;5@15,' +
+      'B2:2@4;3@5;4@7;5@17,' +
+      'B3:2@7;3@8;4@10;5@18,' +
+      'B4:2@10;3@11;4@13;5@19,' +
+      'B5:2@13;3@14;4@16;5@20,' +
+      'B6:2@16;3@17;4@19 ' +
     'SpellSlots=' +
       'B0:2@1;3@2;4@14,' +
       'B1:0@2;1@3;2@4;3@5;4@15,' +
@@ -4495,12 +4535,12 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
       '"1:Weapon Proficiency (Simple Weapons)",' +
-      '1:Aura,"1:Spontaneous Cleric Spell","1:Turn Undead",'+
+      '"1:Aura","1:Spontaneous Casting (Cleric)","1:Turn Undead",'+
       '"features.Air Domain ? 1:Air Turning",' +
       '"features.Animal Domain ? 1:Animal Talk",' +
       '"features.Animal Domain || features.Plant Domain ? 1:Nature Knowledge",'+
       '"features.Chaos Domain ? 1:Empowered Chaos",' +
-      '"features.Death Domain ? 1:Deadly Touch",' +
+      '"features.Death Domain ? 1:Death Touch",' +
       '"features.Destruction Domain ? 1:Smite",' +
       '"features.Earth Domain ? 1:Earth Turning",' +
       '"features.Evil Domain ? 1:Empowered Evil",' +
@@ -4508,16 +4548,16 @@ SRD35.CLASSES = {
       '"features.Good Domain ? 1:Empowered Good",' +
       '"features.Healing Domain ? 1:Empowered Healing",' +
       '"features.Knowledge Domain ? 1:All-Knowing",' +
-      '"features.Knowledge Domain ? 1:Empowered Knowledge",' +
+      '"features.Knowledge Domain ? 1:Empowered Divination",' +
       '"features.Law Domain ? 1:Empowered Law",' +
       '"features.Luck Domain ? 1:Good Fortune",' +
-      '"features.Magic Domain ? 1:Arcane Adept",' +
+      '"features.Magic Domain ? 1:Use Wizard Devices",' +
       '"features.Plant Domain ? 1:Plant Turning",' +
       '"features.Protection Domain ? 1:Protective Touch",' +
-      '"features.Strength Domain ? 1:Strength Burst",' +
-      '"features.Sun Domain ? 1:Destroy Undead",' +
-      '"features.Travel Domain ? 1:Outdoors Knowledge",' +
-      '"features.Travel Domain ? 1:Unhindered",' +
+      '"features.Strength Domain ? 1:Feat Of Strength",' +
+      '"features.Sun Domain ? 1:Greater Turning",' +
+      '"features.Travel Domain ? 1:Survivalist",' +
+      '"features.Travel Domain ? 1:Free Movement",' +
       '"features.Trickery Domain ? 1:Deceptive Knowledge",' +
       '"features.War Domain ? 1:Weapon Of War",' +
       '"features.Water Domain ? 1:Water Turning" ' +
@@ -5460,7 +5500,7 @@ SRD35.identityRules = function(
 
   QuilvynUtils.checkAttrTable(alignments, []);
   QuilvynUtils.checkAttrTable
-    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots']);
+    (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'SpellsAvailable']);
   QuilvynUtils.checkAttrTable(deities, ['Alignment', 'Domain', 'Weapon']);
   QuilvynUtils.checkAttrTable
     (races, ['Require', 'Features', 'Selectables', 'Languages', 'Size', 'Speed']);
@@ -5688,7 +5728,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelArcane'),
       QuilvynUtils.getAttrValue(attrs, 'CasterLevelDivine'),
       QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
-      QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots')
+      QuilvynUtils.getAttrValueArray(attrs, 'SpellSlots'),
+      QuilvynUtils.getAttrValueArray(attrs, 'SpellsAvailable')
     );
     SRD35.classRulesExtra(rules, name);
     if(type == 'Prestige')
@@ -6030,7 +6071,7 @@ SRD35.armorRules = function(
 SRD35.classRules = function(
   rules, name, requires, hitDie, attack, skillPoints, saveFort, saveRef,
   saveWill, skills, features, selectables, languages, casterLevelArcane,
-  casterLevelDivine, spellAbility, spellSlots
+  casterLevelDivine, spellAbility, spellSlots, spellsAvailable
 ) {
 
   if(!name) {
@@ -6107,6 +6148,10 @@ SRD35.classRules = function(
   }
   if(!Array.isArray(spellSlots)) {
     console.log('Bad spellSlots list "' + spellSlots + '" for class ' + name);
+    return;
+  }
+  if(!Array.isArray(spellsAvailable)) {
+    console.log('Bad spellsAvailable list "' + spellsAvailable + '" for class ' + name);
     return;
   }
  
@@ -6264,6 +6309,9 @@ SRD35.classRules = function(
 
   }
 
+  if(spellsAvailable.length > 0)
+    SRD35.spellsAvailableRules(rules, classLevel, spellsAvailable);
+
 };
 
 /*
@@ -6301,7 +6349,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Bard') {
 
-    rules.defineRule('featureNotes.bardicMusic', 'levels.Bard', '=', null);
+    rules.defineRule('skillNotes.bardicMusic', 'levels.Bard', '=', null);
     rules.defineRule('magicNotes.arcaneSpellFailure',
       'magicNotes.simpleSomatics.1', 'v', '0'
     );
@@ -7362,12 +7410,13 @@ SRD35.featRulesExtra = function(rules, name) {
     rules.defineRule
       ('combatNotes.toughness', 'feats.Toughness', '=', 'source * 3');
   } else if(name == 'Simple Weapon Proficiency') {
-    rules.defineRule('features.Weapon Proficiency (Simple Weapons)',
+    rules.defineRule('weaponProficiency.Simple Weapons',
       'features.' + name, '=', '1'
     );
   } else if((matchInfo = name.match(/^(Exotic|Martial)\sWeapon\sProficiency.\((.*)\)$/)) != null) {
-    rules.defineRule
-      ('weaponProficiency.' + matchInfo[2], 'features.' + name, '=', '1');
+    rules.defineRule('weaponProficiency.' + matchInfo[2],
+      'features.' + name, '=', '1'
+    );
   }
 
 };
@@ -8480,6 +8529,39 @@ SRD35.featureSpells = function(
 };
 
 /*
+ * Parallel function to QuilvynRules.spellSlotRules that performs the same
+ * steps for spellsAvailable; should be merged when QuilvynRules is updated.
+ * Defines in #rules# the rules required to allocate the list of spells
+ * available #spellsAvailable# to the character. #levelAttr# is the name of the
+ * attribute that holds the character's level for acquiring these spells. Each
+ * element of #spellsAvailable# has the format
+ * "type:count@level[;count@level...]", where type indicates the spell type and
+ * level (e.g., "C0") and each count/level pair gives the number of that type
+ * of spell acquired at the given level.
+ */
+SRD35.spellsAvailableRules = function(rules, levelAttr, spellsAvailable) {
+  spellsAvailable.forEach(s => {
+    let pieces = s.split(/[:;]/);
+    for(let i = 1; i < pieces.length; i++) {
+      let matchInfo = pieces[i].match(/^(\d+)@(\d+)$/);
+      if(!matchInfo) {
+        console.log('Bad spells available "' + pieces[i] + '"');
+        pieces[i] = '';
+      } else {
+        pieces[i] = 'source>=' + matchInfo[2] + ' ? ' + matchInfo[1] + ' : ';
+      }
+    }
+    if(pieces[1].startsWith('source>=1 ?'))
+      pieces[1] = pieces[1].replace('source>=1 ? ', '').replace(' : ', '');
+    else
+      pieces[1] += 'null';
+    rules.defineRule('spellsAvailable.' + pieces.shift(),
+      levelAttr, '+=', pieces.reverse().join('')
+    );
+  });
+};
+
+/*
  * Returns an object that contains all the choices for #name# previously
  * defined for this rule set via addChoice.
  */
@@ -8714,6 +8796,8 @@ SRD35.createViewers = function(rules, viewers) {
          format: '<b>Magic</b><br/>%V'},
           {name: 'SpellPart', within: 'Magic', separator: '\n'},
             {name: 'SpellStats', within: 'SpellPart', separator: innerSep},
+              {name: 'Spells Available', within: 'SpellStats',
+               separator:listSep, format: '<b>Spells Known/Prepared</b>: %V'},
               {name: 'Spell Slots', within: 'SpellStats', separator:listSep},
               {name: 'Spell Points', within: 'SpellStats'},
               {name: 'Spell Difficulty Class', within: 'SpellStats',
@@ -9585,6 +9669,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'weapons') {
     attrs = this.applyRules(attributes);
+    // TODO
     let characterProfLevel = attrs.weaponProficiencyLevel || '0';
     choices = [];
     let weapons = this.getChoices('weapons');
@@ -9595,7 +9680,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         level.match(/simple/i) ? 1 :
         level.match(/martial/i) ? 2 : 3;
       if(level <= characterProfLevel ||
-         attrs['features.Weapon Proficiency (' + attr + ')'] != null) {
+         attrs['weaponProficiency.' + attr] != null) {
         choices[choices.length] = attr;
       }
     }
