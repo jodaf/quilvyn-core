@@ -806,8 +806,43 @@ SRD35.FEATURES = {
   'Water Turning':
     'Section=combat Note="Can turn fire creatures and rebuke water creatures"',
 
+  // Druid
+  // TODO: feature spell?
   'A Thousand Faces':
-    'Section=magic Note="May use <i>Disguise Self</i> effects at will"',
+    'Section=magic Note="Can use <i>Disguise Self</i> effects at will"',
+  'Animal Companion':
+    'Section=feature ' +
+    'Note="Can have a special bond with an animal that has expanded abilities"',
+  'Elemental Shape':
+    'Section=magic ' +
+    'Note="Can change into a small to %{levels.Druid<20?\'large\':\'huge\'} elemental %{levels.Druid>=20?\'3 times\':levels.Druid>=18?\'2 times\':\'once\'} per day"',
+  'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
+  "Resist Nature's Lure":
+    'Section=save Note="+4 vs. the spell-like abilities of fey creatures"',
+  'Spontaneous Casting (Druid)':
+    'Section=magic ' +
+    'Note="Can cast <i>Summon Nature\'s Ally</i> spells in place of prepared spells"',
+  'Timeless Body':
+    'Section=save ' +
+    'Note="Suffers no additional penalties from aging and has immunity to magical aging"',
+  'Trackless Step':
+    'Section=ability ' +
+    'Note="Can leave no traces of passage through natural surroundings"',
+  'Venom Immunity':'Section=save Note="Has immunity to poison"',
+  'Wild Empathy':
+    'Section=skill ' +
+    'Note="Can make a +%V check to use Diplomacy with animals and magical beasts with an Intelligence of 1 or 2"',
+  'Wild Shape':
+    'Section=magic ' +
+    'Note="Can change into a %V animal%{levels.Druid>=12?\' or plant creature\':\'\'} with up to %{levels.Druid} Hit Dice for %1 hr %2 time%{magicNotes.wildShape.2>1?\'s\':\'\'} per day"',
+  'Woodland Stride':
+    'Section=ability Note="Can move normally through natural undergrowth"',
+
+  // Fighter
+  'Bonus Feats (Fighter)':
+    'Section=feature ' +
+    'Note="+%V Fighter Feat%{$\'featureNotes.bonusFeats(Fighter)\'>1?\'s\':\'\'}"',
+
   'Abundant Step':
     'Section=magic Note="May teleport self %{levels.Monk//2*40+400}\' 1/dy"',
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
@@ -815,7 +850,6 @@ SRD35.FEATURES = {
   'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
   'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
-  'Animal Companion':'Section=feature Note="Special bond and abilities"',
   'Armor Class Bonus':'Section=combat Note="+%V Armor Class"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':
@@ -884,9 +918,6 @@ SRD35.FEATURES = {
   'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Divine Health':'Section=save Note="Immune to disease"',
   'Dodge':'Section=combat Note="+1 Armor Class"',
-  'Elemental Shape':
-    'Section=magic ' +
-    'Note="May Wild Shape to elemental %{(levels.Druid-14)//2}/dy"',
   'Empathic Link':'Section=companion Note="May share emotions up to 1 mile"',
   'Empower Spell':
     'Section=magic ' +
@@ -920,7 +951,6 @@ SRD35.FEATURES = {
   'Fiendish Familiar':
     'Section=companion ' +
     'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
-  'Fighter Feat Bonus':'Section=feature Note="+1 Fighter Feat"',
   'Flurry Of Blows':
      'Section=combat ' +
      'Note="May suffer -%{levels.Monk<5?2:levels.Monk<9?1:0} attack for %{levels.Monk<11?1:2} extra attack"',
@@ -1013,7 +1043,6 @@ SRD35.FEATURES = {
     'Section=companion ' +
     'Note="Reduces additional attack penalty to -2 or gives second attack at -5"',
   'Natural Spell':'Section=magic Note="May cast spells during Wild Shape"',
-  'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
   'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
   'Opportunist':
@@ -1050,7 +1079,6 @@ SRD35.FEATURES = {
   'Remove Disease':
     'Section=magic ' +
     'Note="May use <i>Remove Disease</i> effects %{(levels.Paladin-3)//3}/wk"',
-  "Resist Nature's Lure":'Section=save Note="+4 vs. spells of feys"',
   'Ride-By Attack':
     'Section=combat ' +
     'Note="May move before and after mounted attack w/out provoking AOO"',
@@ -1104,9 +1132,6 @@ SRD35.FEATURES = {
     'Section=magic Note="+2 checks to overcome spell resistance"',
   'Spirited Charge':
     'Section=combat Note="x2 damage (lance x3) on mounted charge"',
-  'Spontaneous Druid Spell':
-    'Section=magic ' +
-    'Note="May cast <i>Summon Nature\'s Ally</i> in place of known spell"',
   'Spring Attack':
     'Section=combat ' +
     'Note="May move before and after melee attack w/out provoking AOO"',
@@ -1120,12 +1145,10 @@ SRD35.FEATURES = {
     'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
   'Summon Familiar':'Section=feature Note="Special bond and abilities"',
   'Swift Tracker':'Section=skill Note="May track at full speed"',
-  'Timeless Body':'Section=feature Note="Suffers no aging penalties"',
   'Tongue Of The Sun And Moon':
     'Section=feature Note="May speak w/any living creature"',
   'Toughness':'Section=combat Note="+%V HP"',
   'Track':'Section=skill Note="May use Survival to follow creatures\' trails"',
-  'Trackless Step':'Section=feature Note="Untrackable outdoors"',
   'Trample':
     'Section=combat ' +
     'Note="Foe cannot avoid mounted overrun/Mount gains bonus hoof attack"',
@@ -1137,7 +1160,6 @@ SRD35.FEATURES = {
     'Note="+1 Armor Class when wielding two weapons; +2 when fighting defensively"',
   'Two-Weapon Fighting':
     'Section=combat Note="Reduces on-hand penalty by 2 and off-hand by 6"',
-  'Venom Immunity':'Section=save Note="Immune to poisons"',
   'Weapon Finesse':
     'Section=combat ' +
     'Note="+%{dexterityModifier-strengthModifier} light melee weapon attack (Dexterity instead of Strength)"',
@@ -1150,11 +1172,6 @@ SRD35.FEATURES = {
   'Widen Spell':
     'Section=magic ' +
     'Note="May use +3 spell slot to dbl chosen spell area of affect"',
-  'Wild Empathy':'Section=skill Note="+%V Diplomacy (animals)"',
-  'Wild Shape':
-    'Section=magic Note="May change into creature of size %V for %1 hr %2/dy"',
-  'Woodland Stride':
-    'Section=feature Note="May move normally through undergrowth"',
   // Prestige Classes
   'Acrobatic Charge':'Section=combat Note="May charge in difficult terrain"',
   'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
@@ -4620,7 +4637,7 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light; Medium; Shield)",' +
       '"1:Weapon Proficiency (Club; Dagger; Dart; Quarterstaff; Scimitar; Sickle; Shortspear; Sling; Spear)",' +
-      '"1:Animal Companion","1:Nature Sense","1:Spontaneous Druid Spell",' +
+      '"1:Animal Companion","1:Nature Sense","1:Spontaneous Casting (Druid)",' +
       '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
       '"13:A Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
@@ -4643,7 +4660,8 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
       '"1:Tower Shield Proficiency",' +
-      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)"',
+      '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
+      '"1:Bonus Feats (Fighter)"',
   'Monk':
     'Require="alignment =~ \'Lawful\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
@@ -6412,10 +6430,9 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.wildShape',
       'levels.Druid', '=',
         'source < 5 ? null : ' +
-        'source < 8 ? "small-medium" : ' +
-        'source < 11 ? "small-large" : ' +
-        'source == 11 ? "tiny-large" : ' +
-        'source < 15 ? "tiny-large/plant" : "tiny-huge/plant"'
+        'source < 8 ? "small to medium" : ' +
+        'source < 11 ? "small to large" : ' +
+        'source < 15 ? "tiny to large" : "tiny to huge"'
     );
     rules.defineRule('magicNotes.wildShape.1', 'levels.Druid', '=', null);
     rules.defineRule('magicNotes.wildShape.2',
@@ -6434,7 +6451,10 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Fighter') {
 
-    rules.defineRule('featCount.Fighter',
+    // Set featCount.Fighter to 0; featureRules will auto-generate the
+    // addition of featureNotes.bonusFeats(Fighter)
+    rules.defineRule('featCount.Fighter', 'levels.Fighter', '=', '0');
+    rules.defineRule('featureNotes.bonusFeats(Fighter)',
       'levels.Fighter', '=', '1 + Math.floor(source / 2)'
     );
 
@@ -6870,7 +6890,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Eldritch Knight') {
 
-    rules.defineRule('featCount.Fighter', 'levels.Eldritch Knight', '^=','0');
+    rules.defineRule('featCount.Fighter', 'levels.Eldritch Knight', '+=', '1');
     rules.defineRule('magicNotes.arcaneCasterLevelBonus',
       'levels.Eldritch Knight', '+=', 'source - 1'
     );
