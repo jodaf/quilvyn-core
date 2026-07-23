@@ -863,14 +863,13 @@ SRD35.FEATURES = {
     'Note="Can use <i>Etherealness</i> effects on self for %{levels.Monk} rd per day"',
   'Evasion':
     'Section=save ' +
-    'Note="Reflex saves yield no damage instead of half; medium or heavy armor negates"',
+    'Note="Successful Reflex saves yield no damage instead of half%{saveNotes.improvedEvasion?\', and failed Reflex saves yield half damage\':\'\'}; medium or heavy armor negates"',
   'Fast Movement (Monk)':
     'Section=ability Note="+%V Speed; encumbrance or armor negates"',
   'Flurry Of Blows':
      'Section=combat ' +
      'Note="Can take %{levels.Monk<11?\'an extra attack\':\'2 extra attacks\'} during a full attack action%{levels.Monk<9?\', taking a \'+(levels.Monk<5?-2:-1)+\' penalty on all attacks that rd\':\'\'}; wearing armor negates"',
-  'Improved Evasion':
-    'Section=save Note="Failed Reflex saves yield half damage"',
+  'Improved Evasion':'Section=save Note="Has increased Evasion effects"',
   'Improved Unarmed Strike':
     'Section=combat ' +
     'Note="Unarmed strikes provoke no AOO and can deal lethal damage"',
@@ -953,6 +952,36 @@ SRD35.FEATURES = {
   // Wild Empathy as above
   // Woodland Stride as above
 
+  // Rogue
+  'Bonus Feat (Rogue)':'Section=feature Note="+1 General Feat"',
+  'Crippling Strike':
+    'Section=combat Note="Sneak Attack inflicts 2 points of Strength damage"',
+  'Defensive Roll':
+    'Section=save ' +
+    'Note="Successful Reflex (DC damage) vs. a lethal blow reduces the damage by half once per day"',
+  // Evasion as above
+  // Improved Evasion as above
+  // Improved Uncanny Dodge as above
+  'Opportunist':
+    'Section=combat ' +
+    'Note="Can take an AOO targeting a foe struck by an ally once per rd"',
+  'Skill Mastery':
+    'Section=skill Note="Can take 10 despite distraction on %V chosen skills"',
+  'Slippery Mind':
+    'Section=save ' +
+    'Note="Can attempt a second save vs. enchantment in the next rd"',
+  'Sneak Attack':
+    'Section=combat ' +
+    'Note="R30\' Inflicts +%Vd6 HP when flanking and when a target is flat-footed or otherwise loses its Dexterity bonus to Armor Class"',
+  'Special Ability':
+    'Section=feature ' +
+    'Note="%V selection%{featureNotes.specialAbility>1?\'s\':\'\'}"',
+  // Trap Sense as above
+  'Trapfinding':
+    'Section=skill ' +
+    'Note="Can use Search and Disable Device to find and disable DC 20+ traps"',
+  // Uncanny Dodge as above
+
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
   'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
@@ -998,12 +1027,7 @@ SRD35.FEATURES = {
     'Section=magic Note="May create wands for up to 4th level spell"',
   'Craft Wondrous Item':
     'Section=magic Note="May create and mend miscellaneous magic items"',
-  'Crippling Strike':
-    'Section=combat Note="Sneak attack inflicts 2 points Strength damage"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
-  'Defensive Roll':
-    'Section=combat ' +
-    'Note="Successful Reflex (DC damage) vs. lethal blow reduces damage by half"',
   'Deflect Arrows':
      'Section=combat Note="Suffers no damage from ranged hit 1/rd"',
   'Deft Hands':'Section=skill Note="+2 Sleight Of Hand/+2 Use Rope"',
@@ -1038,7 +1062,6 @@ SRD35.FEATURES = {
   'Familiar Toad':'Section=combat Note="+3 Hit Points"',
   'Familiar Weasel':'Section=save Note="+2 Reflex"',
   'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
-  'Feat Bonus':'Section=feature Note="+1 General Feat"',
   'Fiendish Familiar':
     'Section=companion ' +
     'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
@@ -1121,8 +1144,6 @@ SRD35.FEATURES = {
   'Natural Spell':'Section=magic Note="May cast spells during Wild Shape"',
   'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
-  'Opportunist':
-    'Section=combat Note="May take an AOO targeting a foe struck by an ally"',
   'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
   'Point-Blank Shot':
     'Section=combat Note="+1 ranged attack and damage w/in 30\'"',
@@ -1169,15 +1190,8 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out speech"',
   'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
-  'Skill Mastery':
-    'Section=skill Note="May take 10 despite distraction on %V chosen skills"',
-  'Slippery Mind':
-    'Section=save Note="May attempt second save vs. enchantment in next rd"',
   'Slow':'Section=ability Note="-10 Speed"',
   'Snatch Arrows':'Section=combat Note="May catch ranged weapons"',
-  'Sneak Attack':
-    'Section=combat ' +
-    'Note="Hit inflicts +%Vd6 HP when foe is surprised or flanked"',
   'Speak With Like Animals':
     'Section=companion Note="May talk w/similar creatures"',
   'Speak With Master':
@@ -1206,9 +1220,6 @@ SRD35.FEATURES = {
   'Trample':
     'Section=combat ' +
     'Note="Foe cannot avoid mounted overrun/Mount gains bonus hoof attack"',
-  'Trapfinding':
-    'Section=skill ' +
-    'Note="May use Search and Disable Device to find and remove DC 20+ traps"',
   'Two-Weapon Defense':
     'Section=combat ' +
     'Note="+1 Armor Class when wielding two weapons; +2 when fighting defensively"',
@@ -4771,12 +4782,12 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light)",' +
       '"1:Weapon Proficiency (Simple Weapons; Hand Crossbow; Rapier; Sap; Shortbow; Short Sword)",' +
-      '"1:Sneak Attack",1:Trapfinding,2:Evasion,"3:Trap Sense",' +
-      '"4:Uncanny Dodge","8:Improved Uncanny Dodge" ' +
+      '"1:Sneak Attack","1:Trapfinding","2:Evasion","3:Trap Sense",' +
+      '"4:Uncanny Dodge","8:Improved Uncanny Dodge","10:Special Ability" ' +
     'Selectables=' +
+      '"10:Bonus Feat (Rogue):Special Ability",' +
       '"10:Crippling Strike:Special Ability",' +
       '"10:Defensive Roll:Special Ability",' +
-      '"10:Feat Bonus:Special Ability",' +
       '"10:Improved Evasion:Special Ability",' +
       '"10:Opportunist:Special Ability",' +
       '"10:Skill Mastery:Special Ability",' +
@@ -6692,25 +6703,28 @@ SRD35.classRulesExtra = function(rules, name) {
       '', '+', '4'
     );
     rules.defineRule('combatNotes.sneakAttack', 'sneakAttack', '=', null);
-    rules.defineRule('saveNotes.trapSense',
-      'levels.Rogue', '+=', 'Math.floor(source / 3)'
-    );
-    rules.defineRule('selectableFeatureCount.Rogue (Special Ability)',
-      'levels.Rogue', '=', 'source>=10 ? Math.floor((source-7)/3) : null'
-    );
-    rules.defineRule('skillNotes.skillMastery',
-      'intelligenceModifier', '=', 'source + 3',
-      'rogueFeatures.Skill Mastery', '*', null
+    rules.defineRule('featureNotes.specialAbility',
+      'levels.Rogue', '=', 'Math.floor((source-7)/3)'
     );
     rules.defineRule('rogueFeatures.Improved Uncanny Dodge',
       'rogueFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
     );
-    rules.defineRule
-      ('uncannyDodgeSources', 'rogueFeatures.Uncanny Dodge', '+=', '1');
+    rules.defineRule('saveNotes.trapSense',
+      'levels.Rogue', '+=', 'Math.floor(source / 3)'
+    );
+    rules.defineRule('selectableFeatureCount.Rogue (Special Ability)',
+      'featureNotes.specialAbility', '=', null
+    );
+    rules.defineRule('skillNotes.skillMastery',
+      'intelligenceModifier', '=', 'source + 3',
+      'rogueFeatures.Skill Mastery', '*', null
+    );
     rules.defineRule('sneakAttack',
       'levels.Rogue', '+=', 'Math.floor((source + 1) / 2)'
     );
+    rules.defineRule
+      ('uncannyDodgeSources', 'rogueFeatures.Uncanny Dodge', '+=', '1');
 
   } else if(name == 'Sorcerer') {
 

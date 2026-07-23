@@ -13,8 +13,8 @@ var attributes = {
   "feats.Point-Blank Shot":1, "feats.Self-Sufficient":1, "feats.Stealthy":1, "gender":"Female", 
   "hitPoints":79, "intelligence":12, "languages.Gnome":1, "languages.Goblin":1, 
   "levels.Rogue":20, "name":"Class-Rogue 20", "race":"Human", 
-  "selectableFeatures.Rogue - Crippling Strike":1, "selectableFeatures.Rogue - Defensive Roll":1, 
-  "selectableFeatures.Rogue - Feat Bonus":1, "selectableFeatures.Rogue - Improved Evasion":1, 
+  "selectableFeatures.Rogue - Bonus Feat (Rogue)":1, "selectableFeatures.Rogue - Crippling Strike":1, 
+  "selectableFeatures.Rogue - Defensive Roll":1, "selectableFeatures.Rogue - Improved Evasion":1, 
   "selectableFeatures.Rogue - Opportunist":1, "selectableFeatures.Rogue - Skill Mastery":1, 
   "selectableFeatures.Rogue - Slippery Mind":1, "shield":"None", "skills.Balance":1, "skills.Climb":23, 
   "skills.Craft (Weapons)":23, "skills.Diplomacy":23, "skills.Disable Device":2, "skills.Escape Artist":23, 
@@ -79,15 +79,17 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Agile; Animal Affinity; Dodge; Great Fortitude; Investigator; Leadership; Point-Blank Shot; Self-Sufficient; Stealthy</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Rogue Features</b>: Armor Proficiency (Light); Crippling Strike; Defensive Roll; Evasion; Feat Bonus; Improved Evasion; Improved Uncanny Dodge; Opportunist; Skill Mastery; Slippery Mind; Sneak Attack; Trap Sense; Trapfinding; Uncanny Dodge; Weapon Proficiency (Simple Weapons; Hand Crossbow; Rapier; Sap; Shortbow; Short Sword)</td>
+        <td><b>Rogue Features</b>: Armor Proficiency (Light); Bonus Feat (Rogue); Crippling Strike; Defensive Roll; Evasion; Improved Evasion; Improved Uncanny Dodge; Opportunist; Skill Mastery; Slippery Mind; Sneak Attack; Special Ability; Trap Sense; Trapfinding; Uncanny Dodge; Weapon Proficiency (Simple Weapons; Hand Crossbow; Rapier; Sap; Shortbow; Short Sword)</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td><b>Feature Notes</b>:       <table id="FeatureNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>Feat Bonus: +1 General Feat</i></td>
+        <td><i>Bonus Feat (Rogue): +1 General Feat</i></td>
       </tr><tr style="text-align:center">
         <td><i>Human Feat Bonus: +1 General Feat</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Special Ability: 4 selections</i></td>
       </tr><tr style="text-align:center">
         <td>Leadership: Attracts followers</td>
       </tr></table>
@@ -166,9 +168,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Escape Artist Synergy: +2 Use Rope (bindings)</td>
       </tr><tr style="text-align:center">
-        <td>Skill Mastery: May take 10 despite distraction on 4 chosen skills</td>
+        <td>Skill Mastery: Can take 10 despite distraction on 4 chosen skills</td>
       </tr><tr style="text-align:center">
-        <td>Trapfinding: May use Search and Disable Device to find and remove DC 20+ traps</td>
+        <td>Trapfinding: Can use Search and Disable Device to find and disable DC 20+ traps</td>
       </tr><tr style="text-align:center">
         <td>Use Magic Device Synergy: +2 Spellcraft (scroll)</td>
       </tr></table>
@@ -223,17 +225,15 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Two-Handed Wield Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td>Crippling Strike: Sneak attack inflicts 2 points Strength damage</td>
-      </tr><tr style="text-align:center">
-        <td>Defensive Roll: Successful Reflex (DC damage) vs. lethal blow reduces damage by half</td>
+        <td>Crippling Strike: Sneak Attack inflicts 2 points of Strength damage</td>
       </tr><tr style="text-align:center">
         <td>Improved Uncanny Dodge: Cannot be flanked and can be sneak attacked only by rogue of level 24 or higher</td>
       </tr><tr style="text-align:center">
-        <td>Opportunist: May take an AOO targeting a foe struck by an ally</td>
+        <td>Opportunist: Can take an AOO targeting a foe struck by an ally once per rd</td>
       </tr><tr style="text-align:center">
         <td>Point-Blank Shot: +1 ranged attack and damage w/in 30'</td>
       </tr><tr style="text-align:center">
-        <td>Sneak Attack: Hit inflicts +10d6 HP when foe is surprised or flanked</td>
+        <td>Sneak Attack: R30' Inflicts +10d6 HP when flanking and when a target is flat-footed or otherwise loses its Dexterity bonus to Armor Class</td>
       </tr><tr style="text-align:center">
         <td>Uncanny Dodge: Always adds Dexterity modifier to Armor Class</td>
       </tr></table>
@@ -253,13 +253,15 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Great Fortitude: +2 Fortitude</i></td>
       </tr><tr style="text-align:center">
+        <td><i>Improved Evasion: Has increased Evasion effects</i></td>
+      </tr><tr style="text-align:center">
         <td><i>Wisdom Will Adjustment: +3</i></td>
       </tr><tr style="text-align:center">
-        <td>Evasion: Reflex saves yield no damage instead of half; medium or heavy armor negates</td>
+        <td>Defensive Roll: Successful Reflex (DC damage) vs. a lethal blow reduces the damage by half once per day</td>
       </tr><tr style="text-align:center">
-        <td>Improved Evasion: Failed Reflex saves yield half damage</td>
+        <td>Evasion: Successful Reflex saves yield no damage instead of half, and failed Reflex saves yield half damage; medium or heavy armor negates</td>
       </tr><tr style="text-align:center">
-        <td>Slippery Mind: May attempt second save vs. enchantment in next rd</td>
+        <td>Slippery Mind: Can attempt a second save vs. enchantment in the next rd</td>
       </tr><tr style="text-align:center">
         <td>Trap Sense: +6 Reflex and Armor Class vs. traps</td>
       </tr></table>
