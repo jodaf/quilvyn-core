@@ -927,6 +927,32 @@ SRD35.FEATURES = {
     'Note="Can summon a celestial mount with expanded abilities for %{levels.Paladin*2} hr once per day; death of the mount inflicts -1 attack and damage for 30 days"',
   // Turn Undead as above
 
+  // Ranger
+  // Animal Companion as above
+  'Camouflage':'Section=skill Note="Can use Hide in any natural terrain"',
+  'Combat Style':'Section=feature Note="1 selection"',
+  'Combat Style (Archery)':
+    'Section=combat ' +
+    'Note="Has the Rapid Shot feature; medium or heavy armor negates"',
+  'Combat Style (Two-Weapon Combat)':
+    'Section=combat ' +
+    'Note="Has the Two-Weapon Fighting feature; medium or heavy armor negates"',
+  'Combat Style Mastery':
+    'Section=combat Note="Has the %V feature; medium or heavy armor negates"',
+  // Evasion as above
+  'Favored Enemy':
+    'Section=combat,skill ' +
+    'Note=' +
+      '"%{combatNotes.favoredEnemy>1?\'Has \'+(combatNotes.favoredEnemy*2-1)+\' +2 damage bonuses distributed among %V\':\'+2 damage vs. a\'} chosen creature type%{combatNotes.favoredEnemy>1?\'s\':\'\'}",' +
+      '"%{skillNotes.favoredEnemy>1?\'Has \'+(skillNotes.favoredEnemy*2-1)+\' +2 bonuses on\':\'+2\'} Bluff, Listen, Sense Motive, Spot, and Survival %{skillNotes.favoredEnemy>1?\'distributed among %V\':\'vs. a\'} chosen creature type%{skillNotes.favoredEnemy>1?\'s\':\'\'}"',
+  'Hide In Plain Sight':
+    'Section=skill Note="Can hide in natural terrain even when observed"',
+  'Improved Combat Style':
+    'Section=combat Note="Has the %V feature; medium or heavy armor negates"',
+  'Swift Tracker':'Section=skill Note="Can track at full speed"',
+  // Wild Empathy as above
+  // Woodland Stride as above
+
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
   'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
@@ -940,7 +966,6 @@ SRD35.FEATURES = {
     'Note="May reroll miss due to concealment/Invisible foe gains no melee bonus/Suffers half penalty for impaired vision"',
   'Brew Potion':
     'Section=magic Note="May create potion for up to 3rd level spell"',
-  'Camouflage':'Section=skill Note="May use Hide in any natural terrain"',
   'Celestial Familiar':
     'Section=companion ' +
     'Note="May use Smite Evil (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
@@ -1013,10 +1038,6 @@ SRD35.FEATURES = {
   'Familiar Toad':'Section=combat Note="+3 Hit Points"',
   'Familiar Weasel':'Section=save Note="+2 Reflex"',
   'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
-  'Favored Enemy':
-    'Section=combat,skill ' +
-    'Note="+2 or more damage vs. %V chosen creature type",' +
-         '"+2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. %V chosen creature type"',
   'Feat Bonus':'Section=feature Note="+1 General Feat"',
   'Fiendish Familiar':
     'Section=companion ' +
@@ -1035,7 +1056,6 @@ SRD35.FEATURES = {
     'Section=combat Note="+2 %weapon Damage Modifier"',
   'Heighten Spell':
     'Section=magic Note="May cast chosen spell at a higher level"',
-  'Hide In Plain Sight':'Section=skill Note="May hide even when observed"',
   'Improved Bull Rush':
     'Section=combat ' +
     'Note="Bull Rush provokes no AOO/+4 Bull Rush Strength check"',
@@ -1181,9 +1201,8 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
   'Summon Familiar':'Section=feature Note="Special bond and abilities"',
-  'Swift Tracker':'Section=skill Note="May track at full speed"',
   'Toughness':'Section=combat Note="+%V HP"',
-  'Track':'Section=skill Note="May use Survival to follow creatures\' trails"',
+  'Track':'Section=skill Note="Can use Survival to follow creatures\' trails"',
   'Trample':
     'Section=combat ' +
     'Note="Foe cannot avoid mounted overrun/Mount gains bonus hoof attack"',
@@ -4733,15 +4752,10 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light; Shield)",' +
       '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
-      '"1:Favored Enemy",1:Track,"1:Wild Empathy",3:Endurance,' +
-      '"4:Animal Companion","7:Woodland Stride","8:Swift Tracker",9:Evasion,' +
-      '13:Camouflage,"17:Hide In Plain Sight",' +
-      '"features.Combat Style (Archery) ? 2:Rapid Shot",' +
-      '"features.Combat Style (Archery) ? 6:Manyshot",' +
-      '"features.Combat Style (Archery) ? 11:Improved Precise Shot",' +
-      '"features.Combat Style (Two-Weapon Combat) ? 2:Two-Weapon Fighting",' +
-      '"features.Combat Style (Two-Weapon Combat) ? 6:Improved Two-Weapon Fighting",' +
-      '"features.Combat Style (Two-Weapon Combat) ? 11:Greater Two-Weapon Fighting" ' +
+      '"1:Favored Enemy","1:Track","1:Wild Empathy","2:Combat Style",' +
+      '"3:Endurance","4:Animal Companion","6:Improved Combat Style",' +
+      '"7:Woodland Stride","8:Swift Tracker","9:Evasion",' +
+      '"11:Combat Style Mastery","13:Camouflage","17:Hide In Plain Sight" ' +
     'Selectables=' +
       '"2:Combat Style (Archery):Combat Style",' +
       '"2:Combat Style (Two-Weapon Combat):Combat Style" ' +
@@ -6613,14 +6627,55 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Ranger') {
 
-    rules.defineRule('companionMasterLevel',
-      'levels.Ranger', '^=', 'source < 4 ? null : Math.floor(source / 2)'
-    );
     rules.defineRule('combatNotes.favoredEnemy',
       'levels.Ranger', '+=', '1 + Math.floor(source / 5)'
     );
+    rules.defineRule('combatNotes.combatStyle(Archery).1',
+      'armorWeight', '?', '!("MediumHeavy".includes(source))',
+      'combatNotes.combatStyle(Archery)', '=', null
+    );
+    rules.defineRule('combatNotes.combatStyle(Two-WeaponCombat).1',
+      'armorWeight', '?', '!("MediumHeavy".includes(source))',
+      'combatNotes.combatStyle(Two-WeaponCombat)', '=', null
+    );
+    rules.defineRule('combatNotes.combatStyleMastery',
+      'features.Combat Style (Archery)', '=', '"Improved Precise Shot"',
+      'features.Combat Style (Two-Weapon Combat)', '=', '"Greater Two-Weapon Fighting"'
+    );
+    rules.defineRule('combatNotes.combatStyleMastery.1',
+      'armorWeight', '?', '!("MediumHeavy".includes(source))',
+      'combatNotes.combatStyleMastery', '=', null
+    );
+    rules.defineRule('combatNotes.improvedCombatStyle',
+      'features.Combat Style (Archery)', '=', '"Manyshot"',
+      'features.Combat Style (Two-Weapon Combat)', '=', '"Improved Two-Weapon Fighting"'
+    );
+    rules.defineRule('combatNotes.improvedCombatStyle.1',
+      'armorWeight', '?', '!("MediumHeavy".includes(source))',
+      'combatNotes.improvedCombatStyle', '=', null
+    );
+    rules.defineRule('companionMasterLevel',
+      'levels.Ranger', '^=', 'source < 4 ? null : Math.floor(source / 2)'
+    );
+    rules.defineRule('features.Greater Two-Weapon Fighting',
+      'combatNotes.combatStyleMastery.1', '=', 'source=="Greater Two-Weapon Fighting" ? 1 : null'
+    );
+    rules.defineRule('features.Improved Precise Shot',
+      'combatNotes.combatStyleMastery.1', '=', 'source=="Improved Precise Shot" ? 1 : null'
+    );
+    rules.defineRule('features.Improved Two-Weapon Fighting',
+      'combatNotes.improvedCombatStyle.1', '=', 'source=="Improved Two-Weapon Fighting" ? 1 : null'
+    );
+    rules.defineRule('features.Manyshot',
+      'combatNotes.improvedCombatStyle.1', '=', 'source=="Manyshot" ? 1 : null'
+    );
+    rules.defineRule
+      ('features.Rapid Shot', 'combatNotes.combatStyle(Archery).1', '=', '1');
+    rules.defineRule('features.Two-Weapon Fighting',
+      'combatNotes.combatStyle(Two-WeaponCombat)', '=', '1'
+    );
     rules.defineRule('selectableFeatureCount.Ranger (Combat Style)',
-      'levels.Ranger', '=', 'source >= 2 ? 1 : null'
+      'featureNotes.combatStyle', '=', '1'
     );
     rules.defineRule('skillNotes.favoredEnemy',
       'levels.Ranger', '+=', '1 + Math.floor(source / 5)'

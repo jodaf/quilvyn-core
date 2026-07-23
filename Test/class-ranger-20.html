@@ -8,7 +8,7 @@
 var attributes = {
   "_path":"ztest/srd35/class/ranger 20", 
   "alignment":"Neutral Evil", "animalCompanion.Ape":1, "animalCompanionName":"Rufrasktrut", 
-  "armor":"Breastplate", "charisma":15, "constitution":14, "deity":"None", "dexterity":14, 
+  "armor":"Chain Shirt", "charisma":15, "constitution":14, "deity":"None", "dexterity":14, 
   "experience":195934, "feats.Armor Proficiency (Medium)":1, "feats.Deft Hands":1, 
   "feats.Magical Aptitude":1, "feats.Point-Blank Shot":1, "feats.Self-Sufficient":1, 
   "feats.Skill Focus (Survival)":1, "feats.Spell Focus (Enchantment)":1, "feats.Widen Spell":1, 
@@ -59,18 +59,12 @@ var attributes = {
       <td><b>Experience</b>: 195934/210000</td>
       <td><b>Level</b>: 20</td>
       <td><b>Size</b>: Medium</td>
-      <td><b>Speed/Run</b>: 20/80</td>
+      <td><b>Speed/Run</b>: 30/120</td>
       <td><b>Light/Med/Max Load:</b> 58/116/175</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">
-    <td><b>Ability Notes</b>:     <table id="AbilityNotes" style="width:100%">
-    <tr style="text-align:center">
-      <td><i>Armor Speed Adjustment: -10</i></td>
-    </tr><tr style="text-align:center">
-      <td>Woodland Stride: Can move normally through natural undergrowth</td>
-    </tr></table>
-</td>
+    <td><b>Ability Notes</b>: Woodland Stride: Can move normally through natural undergrowth</td>
   </tr></table>
 </td>
 </tr><tr style="text-align:center">
@@ -89,12 +83,14 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Armor Proficiency (Medium); Deft Hands; Magical Aptitude; Point-Blank Shot; Self-Sufficient; Skill Focus (Survival); Spell Focus (Enchantment); Widen Spell</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Ranger Features</b>: Animal Companion; Armor Proficiency (Light; Shield); Camouflage; Combat Style (Archery); Combat Style (Two-Weapon Combat); Endurance; Evasion; Favored Enemy; Greater Two-Weapon Fighting; Hide In Plain Sight; Improved Precise Shot; Improved Two-Weapon Fighting; Manyshot; Rapid Shot; Swift Tracker; Track; Two-Weapon Fighting; Weapon Proficiency (Simple Weapons; Martial Weapons); Wild Empathy; Woodland Stride</td>
+        <td><b>Ranger Features</b>: Animal Companion; Armor Proficiency (Light; Shield); Camouflage; Combat Style (Archery); Combat Style (Two-Weapon Combat); Combat Style Mastery; Combat Style; Endurance; Evasion; Favored Enemy; Hide In Plain Sight; Improved Combat Style; Swift Tracker; Track; Weapon Proficiency (Simple Weapons; Martial Weapons); Wild Empathy; Woodland Stride</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td><b>Feature Notes</b>:       <table id="FeatureNotes" style="width:100%">
       <tr style="text-align:center">
+        <td><i>Combat Style: 1 selection</i></td>
+      </tr><tr style="text-align:center">
         <td><i>Human Feat Bonus: +1 General Feat</i></td>
       </tr><tr style="text-align:center">
         <td>Animal Companion: Can have a special bond with an animal that has expanded abilities</td>
@@ -112,15 +108,15 @@ var attributes = {
       <col style="width:33%"/>
       <col style="width:34%"/>
       <tr style="text-align:left">
-        <td>Climb: (str) 2 (+0)</td>
-        <td>Jump: (str) 20 (+12)</td>
-        <td>Swim: (str) 23 (+17)</td>
+        <td>Climb: (str) 2 (+2)</td>
+        <td>Jump: (str) 20 (+20)</td>
+        <td>Swim: (str) 23 (+21)</td>
       </tr><tr style="text-align:left">
         <td>Craft (Alchemy): (int) 2 (+3)</td>
         <td>Knowledge (History): (int;cc) 2 (+2)</td>
-        <td>Tumble: (dex;cc) 1 (+0.5)</td>
+        <td>Tumble: (dex;cc) 1 (+2.5)</td>
       </tr><tr style="text-align:left">
-        <td>Escape Artist: (dex;cc) 2 (-1)</td>
+        <td>Escape Artist: (dex;cc) 2 (+1)</td>
         <td>Listen: (wis) 23 (+24)</td>
         <td>Use Magic Device: (cha;cc) 1 (+4.5)</td>
       </tr><tr style="text-align:left">
@@ -142,9 +138,9 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Skill Notes</b>:       <table id="SkillNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>Armor Skill Check Penalty: -4 Balance/-4 Climb/-4 Escape Artist/-4 Hide/-4 Jump/-4 Move Silently/-4 Sleight Of Hand/-4 Tumble</i></td>
+        <td><i>Armor Skill Check Penalty: -2 Balance/-2 Climb/-2 Escape Artist/-2 Hide/-2 Jump/-2 Move Silently/-2 Sleight Of Hand/-2 Tumble</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Armor Swim Check Penalty: -8 Swim</i></td>
+        <td><i>Armor Swim Check Penalty: -4 Swim</i></td>
       </tr><tr style="text-align:center">
         <td><i>Deft Hands: +2 Sleight Of Hand/+2 Use Rope</i></td>
       </tr><tr style="text-align:center">
@@ -164,19 +160,17 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Skill Focus (Survival): +3 Survival</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Speed Jump Modifier: -6</i></td>
+        <td>Camouflage: Can use Hide in any natural terrain</td>
       </tr><tr style="text-align:center">
-        <td>Camouflage: May use Hide in any natural terrain</td>
+        <td>Favored Enemy: Has 9 +2 bonuses on Bluff, Listen, Sense Motive, Spot, and Survival distributed among 5 chosen creature types</td>
       </tr><tr style="text-align:center">
-        <td>Favored Enemy: +2 or more Bluff, Listen, Sense Motive, Spot and Survival vs. 5 chosen creature type</td>
-      </tr><tr style="text-align:center">
-        <td>Hide In Plain Sight: May hide even when observed</td>
+        <td>Hide In Plain Sight: Can hide in natural terrain even when observed</td>
       </tr><tr style="text-align:center">
         <td>Link: +4 Handle Animal (companion)/+4 Wild Empathy (companion)</td>
       </tr><tr style="text-align:center">
-        <td>Swift Tracker: May track at full speed</td>
+        <td>Swift Tracker: Can track at full speed</td>
       </tr><tr style="text-align:center">
-        <td>Track: May use Survival to follow creatures' trails</td>
+        <td>Track: Can use Survival to follow creatures' trails</td>
       </tr><tr style="text-align:center">
         <td>Use Rope Synergy: +2 Climb (rope)/+2 Escape Artist (rope)</td>
       </tr><tr style="text-align:center">
@@ -196,7 +190,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Hit Points</b>: 144</td>
         <td><b>Initiative</b>: +2</td>
-        <td><b>Armor Class</b>: 17</td>
+        <td><b>Armor Class</b>: 16</td>
         <td><b>Attacks Per Round</b>: 4</td>
         <td><b>Base/Melee/Ranged Attack</b>: +20/+22/+22</td>
       </tr></table>
@@ -211,7 +205,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td>      <table id="Gear" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Armor</b>: Breastplate</td>
+        <td><b>Armor</b>: Chain Shirt</td>
         <td><b>Shield</b>: None</td>
         <td><b>Weapons</b>: Battleaxe (+22 d8+3 x3@20); Halberd (+22 d10+3 x3@20); Quarterstaff (+22 d6+3/d6+3 x2@20); Unarmed Strike (+22 d3+2 x2@20)</td>
       </tr></table>
@@ -219,11 +213,19 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Combat Notes</b>:       <table id="CombatNotes" style="width:100%">
       <tr style="text-align:center">
+        <td><i>Combat Style (Archery): Has the Rapid Shot feature; medium or heavy armor negates</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Combat Style (Two-Weapon Combat): Has the Two-Weapon Fighting feature; medium or heavy armor negates</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Combat Style Mastery: Has the Greater Two-Weapon Fighting feature; medium or heavy armor negates</i></td>
+      </tr><tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +40</i></td>
       </tr><tr style="text-align:center">
         <td><i>Dexterity Armor Class Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +2</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Improved Combat Style: Has the Improved Two-Weapon Fighting feature; medium or heavy armor negates</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
@@ -231,15 +233,11 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Two-Handed Wield Damage Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td>Favored Enemy: +2 or more damage vs. 5 chosen creature type</td>
+        <td>Favored Enemy: Has 9 +2 damage bonuses distributed among 5 chosen creature types</td>
       </tr><tr style="text-align:center">
         <td>Greater Two-Weapon Fighting: May make third off-hand attack at -10 penalty</td>
       </tr><tr style="text-align:center">
-        <td>Improved Precise Shot: Foe gains no Armor Class bonus for partial cover/May attack grappling target</td>
-      </tr><tr style="text-align:center">
         <td>Improved Two-Weapon Fighting: May make second off-hand attack at -5 penalty</td>
-      </tr><tr style="text-align:center">
-        <td>Manyshot: R30' May fire up to 4 arrows simultaneously at -2 attack per arrow</td>
       </tr><tr style="text-align:center">
         <td>Point-Blank Shot: +1 ranged attack and damage w/in 30'</td>
       </tr><tr style="text-align:center">
