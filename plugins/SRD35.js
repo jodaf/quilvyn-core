@@ -725,7 +725,9 @@ SRD35.FEATURES = {
     'Note="Can use <i>Suggestion</i> effects on 1 fascinated creature (save Will DC %{10+levels.Bard//2+charismaModifier} negates)"',
 
   // Cleric
-  'Aura':'Section=feature Note="Visible to <i>Detect Chaos/Evil/Good/Law</i>, depending on deity alignment and domains"',
+  'Aura':
+    'Section=feature ' +
+    'Note="Visible to <i>Detect Chaos/Evil/Good/Law</i>, depending on deity alignment and domains"',
   'Spontaneous Casting (Cleric)':
     'Section=magic ' +
     'Note="Can cast <i>Cure</i> or <i>Inflict</i> spells in place of prepared spells"',
@@ -899,6 +901,32 @@ SRD35.FEATURES = {
   'Wholeness Of Body':
     'Section=magic Note="Can heal %{levels.Monk*2} hit points to self per day"',
 
+  // Paladin
+  'Aura Of Courage':
+    'Section=save ' +
+    'Note="Has immunity to fear, and allies within 10\' gain +4 saves vs. fear"',
+  'Aura Of Good':'Section=feature Note="Visible to <i>Detect Good</i>"',
+  // TODO: feature spell?
+  'Detect Evil':
+    'Section=magic Note="Can use <i>Detect Evil</i> effects at will"',
+  'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
+  'Divine Health':
+    'Section=save Note="Has immunity to natural and supernatural diseases"',
+  'Lay On Hands':
+    'Section=combat ' +
+    'Note="Can use touch to heal %{levels.Paladin * charismaModifier} hit points per day or to damage undead"',
+  // TODO: feature spell?
+  'Remove Disease':
+    'Section=magic ' +
+    'Note="Can use <i>Remove Disease</i> effects %{levels.Paladin>8?((levels.Paladin-3)//3)+\' times\':\'once\'} per week"',
+  'Smite Evil':
+    'Section=combat ' +
+    'Note="Can gain +%1 attack and inflict +%2 HP vs. an evil foe %{%V>1?\'%V times\':\'once\'} per day"',
+  'Special Mount':
+    'Section=feature ' +
+    'Note="Can summon a celestial mount with expanded abilities for %{levels.Paladin*2} hr once per day; death of the mount inflicts -1 attack and damage for 30 days"',
+  // Turn Undead as above
+
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
   'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
@@ -907,8 +935,6 @@ SRD35.FEATURES = {
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':
     'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
-  'Aura Of Courage':
-    'Section=save Note="Immune to fear/R10\' Allies +4 vs. fear"',
   'Blind-Fight':
     'Section=combat ' +
     'Note="May reroll miss due to concealment/Invisible foe gains no melee bonus/Suffers half penalty for impaired vision"',
@@ -959,15 +985,11 @@ SRD35.FEATURES = {
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="May deliver touch spells if in contact w/master when cast"',
-  'Detect Evil':
-    'Section=magic Note="May use <i>Detect Evil</i> effects at will"',
   'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
   'Diehard':
     'Section=combat ' +
     'Note="Remains conscious, stable, and able to act with negative HP"',
   'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
-  'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
-  'Divine Health':'Section=save Note="Immune to disease"',
   'Dodge':'Section=combat Note="+1 Armor Class"',
   'Empathic Link':'Section=companion Note="May share emotions up to 1 mile"',
   'Empower Spell':
@@ -1055,9 +1077,6 @@ SRD35.FEATURES = {
       '"x2 Load Max",' +
       '"-1 Armor Class/-1 Melee Attack/-1 Ranged Attack/+4 special attacks",' +
       '"-4 Hide/+4 Intimidate"',
-  'Lay On Hands':
-    'Section=magic ' +
-    'Note="May harm undead or heal %{levels.Paladin * charismaModifier} HP/dy"',
   'Leadership':'Section=feature Note="Attracts followers"',
   'Lightning Reflexes':'Section=save Note="+2 Reflex"',
   'Link':
@@ -1104,9 +1123,6 @@ SRD35.FEATURES = {
   'Rapid Shot':
     'Section=combat ' +
     'Note="May make normal and extra ranged attacks at a -2 penalty"',
-  'Remove Disease':
-    'Section=magic ' +
-    'Note="May use <i>Remove Disease</i> effects %{(levels.Paladin-3)//3}/wk"',
   'Ride-By Attack':
     'Section=combat ' +
     'Note="May move before and after mounted attack w/out provoking AOO"',
@@ -1138,9 +1154,6 @@ SRD35.FEATURES = {
   'Slippery Mind':
     'Section=save Note="May attempt second save vs. enchantment in next rd"',
   'Slow':'Section=ability Note="-10 Speed"',
-  'Smite Evil':
-    'Section=combat ' +
-    'Note="May gain +%1 attack and +%2 HP damage vs. evil foe %V/dy"',
   'Snatch Arrows':'Section=combat Note="May catch ranged weapons"',
   'Sneak Attack':
     'Section=combat ' +
@@ -1149,7 +1162,6 @@ SRD35.FEATURES = {
     'Section=companion Note="May talk w/similar creatures"',
   'Speak With Master':
     'Section=companion Note="May talk w/master in secret language"',
-  'Special Mount':'Section=feature Note="Magical mount w/special abilities"',
   'Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
   'Spell Mastery':
     'Section=magic ' +
@@ -4705,9 +4717,10 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
       '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
-      '1:Aura,"1:Detect Evil","1:Smite Evil","2:Divine Grace",' +
+      '"1:Aura Of Good","1:Detect Evil","1:Smite Evil","2:Divine Grace",' +
       '"charisma >= 12 ? 2:Lay On Hands","3:Aura Of Courage",' +
-      '"3:Divine Health","4:Turn Undead","5:Special Mount","6:Remove Disease" '+
+      '"3:Divine Health","4:Turn Undead","5:Special Mount",' +
+      '"6:Remove Disease" ' +
     'CasterLevelDivine="levels.Paladin < 4 ? null : Math.floor(levels.Paladin/2)" ' +
     'SpellAbility=Wisdom ' +
     'SpellSlots=' +
