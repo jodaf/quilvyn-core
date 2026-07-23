@@ -839,18 +839,71 @@ SRD35.FEATURES = {
     'Section=ability Note="Can move normally through natural undergrowth"',
 
   // Fighter
-  'Bonus Feats (Fighter)':
+  'Bonus Feat (Fighter)':
     'Section=feature ' +
-    'Note="+%V Fighter Feat%{$\'featureNotes.bonusFeats(Fighter)\'>1?\'s\':\'\'}"',
+    'Note="+%V Fighter Feat%{$\'featureNotes.bonusFeat(Fighter)\'>1?\'s\':\'\'}"',
 
+  // Monk
+  // TODO: feature spell?
   'Abundant Step':
-    'Section=magic Note="May teleport self %{levels.Monk//2*40+400}\' 1/dy"',
+    'Section=magic ' +
+    'Note="Can use <i>Dimension Door</i> effects on self to teleport %{levels.Monk//2*40+400}\' once per day"',
+  'Armor Class Bonus':
+    'Section=combat Note="+%V Armor Class; encumbrance or armor negates"',
+  'Bonus Feat (Monk)':
+    'Section=feature ' +
+    'Note="%V selection%{$\'featureNotes.bonusFeat(Monk)\'>1?\'s\':\'\'}"',
+  'Diamond Body':'Section=save Note="Has immunity to poison"',
+  'Diamond Soul':'Section=save Note="Has spell resistance %V"',
+  // TODO: feature spell?
+  'Empty Body':
+    'Section=magic ' +
+    'Note="Can use <i>Etherealness</i> effects on self for %{levels.Monk} rd per day"',
+  'Evasion':
+    'Section=save ' +
+    'Note="Reflex saves yield no damage instead of half; medium or heavy armor negates"',
+  'Fast Movement (Monk)':
+    'Section=ability Note="+%V Speed; encumbrance or armor negates"',
+  'Flurry Of Blows':
+     'Section=combat ' +
+     'Note="Can take %{levels.Monk<11?\'an extra attack\':\'2 extra attacks\'} during a full attack action%{levels.Monk<9?\', taking a \'+(levels.Monk<5?-2:-1)+\' penalty on all attacks that rd\':\'\'}; wearing armor negates"',
+  'Improved Evasion':
+    'Section=save Note="Failed Reflex saves yield half damage"',
+  'Improved Unarmed Strike':
+    'Section=combat ' +
+    'Note="Unarmed strikes provoke no AOO and can deal lethal damage"',
+  'Ki Strike':
+    'Section=combat ' +
+    'Note="Unarmed attacks count as magic%{levels.Monk>15 ? \', lawful, and adamantine\' : levels.Monk>9 ? \' and lawful\' : \'\'} weapons"',
+  'Perfect Self':
+    'Section=combat,save ' +
+    'Note=' +
+      '"Has DR 10/magic",' +
+      '"Treated as an outsider for magic saves"',
+  'Purity Of Body':'Section=save Note="Has immunity to natural diseases"',
+  'Quivering Palm':
+    'Section=combat ' +
+    'Note="Can kill a struck foe within %{levels.Monk} days (save Fortitude DC %{10+levels.Monk//2+wisdomModifier} negates) once per week"',
+  'Slow Fall':
+    'Section=save ' +
+     'Note="%{levels.Monk<20?\'Subtracts \'+(levels.Monk//2*10)+\\"\' from falling damage distance\\" : \'Takes no falling damage\'} when adjacent to a wall"',
+  'Still Mind':'Section=save Note="+2 vs. enchantment"',
+  // Timeless Body as above
+  'Tongue Of The Sun And Moon':
+    'Section=skill Note="Can converse with any living creature"',
+  'Unarmed Strike (Monk)':
+    'Section=combat,combat ' +
+    'Note=' +
+      '"Unarmed Strike inflicts %V HP",' +
+      '"Adds full Strength modifier to all Unarmed Strike damage"',
+  'Wholeness Of Body':
+    'Section=magic Note="Can heal %{levels.Monk*2} hit points to self per day"',
+
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
   'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
   'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
-  'Armor Class Bonus':'Section=combat Note="+%V Armor Class"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':
     'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
@@ -909,8 +962,6 @@ SRD35.FEATURES = {
   'Detect Evil':
     'Section=magic Note="May use <i>Detect Evil</i> effects at will"',
   'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
-  'Diamond Body':'Section=save Note="Immune to poison"',
-  'Diamond Soul':'Section=save Note="Spell resistance %V"',
   'Diehard':
     'Section=combat ' +
     'Note="Remains conscious, stable, and able to act with negative HP"',
@@ -922,12 +973,10 @@ SRD35.FEATURES = {
   'Empower Spell':
     'Section=magic ' +
     'Note="May use +2 spell slot to increase chosen spell variable effects by 50%"',
-  'Empty Body':'Section=magic Note="May become ethereal %{levels.Monk} rd/dy"',
   'Endurance':'Section=save Note="+4 extended physical action"',
   'Enlarge Spell':
     'Section=magic Note="May use +1 spell slot to dbl chosen spell range"',
   'Eschew Materials':'Section=magic Note="May cast spells w/out materials"',
-  'Evasion':'Section=save Note="Reflex save yields no damage instead of half"',
   'Extend Spell':
     'Section=magic Note="May use +1 spell slot to dbl chosen spell duration"',
   'Extra Turning':'Section=combat Note="+%V turnings/dy"',
@@ -942,7 +991,6 @@ SRD35.FEATURES = {
   'Familiar Toad':'Section=combat Note="+3 Hit Points"',
   'Familiar Weasel':'Section=save Note="+2 Reflex"',
   'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
-  'Fast Movement (Monk)':'Section=ability Note="+%V Speed"',
   'Favored Enemy':
     'Section=combat,skill ' +
     'Note="+2 or more damage vs. %V chosen creature type",' +
@@ -951,9 +999,6 @@ SRD35.FEATURES = {
   'Fiendish Familiar':
     'Section=companion ' +
     'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
-  'Flurry Of Blows':
-     'Section=combat ' +
-     'Note="May suffer -%{levels.Monk<5?2:levels.Monk<9?1:0} attack for %{levels.Monk<11?1:2} extra attack"',
   'Forge Ring':'Section=magic Note="May create and mend magic rings"',
   'Great Cleave':'Section=combat Note="May cleave w/out limit"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
@@ -978,7 +1023,6 @@ SRD35.FEATURES = {
   'Improved Critical (%weapon)':'Section=combat Note="x2 %weapon Threat Range"',
   'Improved Disarm':
     'Section=combat Note="Disarm provokes no AOO/+4 Disarm attack"',
-  'Improved Evasion':'Section=save Note="Failed save yields half damage"',
   'Improved Familiar':'Section=feature Note="Has expanded familiar choices"',
   'Improved Feint':
     'Section=combat Note="May make Bluff check to Feint as a move action"',
@@ -1003,15 +1047,8 @@ SRD35.FEATURES = {
   'Improved Turning':'Section=combat Note="+1 Turning Level"',
   'Improved Two-Weapon Fighting':
     'Section=combat Note="May make second off-hand attack at -5 penalty"',
-  'Improved Unarmed Strike':
-    'Section=combat ' +
-    'Note="Unarmed attack provokes no AOO and may deal lethal damage"',
-  'Increased Unarmed Damage':'Section=combat Note="%V"',
   'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
   'Iron Will':'Section=save Note="+2 Will"',
-  'Ki Strike':
-    'Section=combat ' +
-    'Note="Unarmed attack is magic%{levels.Monk>15 ? \', lawful, and adamantine\' : levels.Monk>9 ? \' and lawful\' : \'\'}"',
   'Large':
     'Section=ability,combat,skill ' +
     'Note=' +
@@ -1047,11 +1084,6 @@ SRD35.FEATURES = {
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
   'Opportunist':
     'Section=combat Note="May take an AOO targeting a foe struck by an ally"',
-  'Perfect Self':
-    'Section=combat,save ' +
-    'Note=' +
-      '"DR 10/magic",' +
-      '"Treated as outsider for magic saves"',
   'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
   'Point-Blank Shot':
     'Section=combat Note="+1 ranged attack and damage w/in 30\'"',
@@ -1059,14 +1091,10 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="May suffer up to -%{baseAttack} attack for equal damage bonus"',
   'Precise Shot':'Section=combat Note="Suffers no penalty on shot into melee"',
-  'Purity Of Body':'Section=save Note="Immune to normal disease"',
   'Quick Draw':'Section=combat Note="May draw a weapon as a free action"',
   'Quicken Spell':
     'Section=magic ' +
     'Note="May use +4 spell slot to cast chosen spell as a free action 1/rd"',
-  'Quivering Palm':
-    'Section=combat ' +
-    'Note="Struck foe dies 1/wk (DC %{10+levels.Monk//2+wisdomModifier} Fort neg)"',
   'Rapid Reload (Hand)':
     'Section=combat Note="May reload a hand crossbow as a free action"',
   'Rapid Reload (Heavy)':
@@ -1109,8 +1137,6 @@ SRD35.FEATURES = {
     'Section=skill Note="May take 10 despite distraction on %V chosen skills"',
   'Slippery Mind':
     'Section=save Note="May attempt second save vs. enchantment in next rd"',
-  'Slow Fall':
-    'Section=save Note="Subtracts %{levels.Monk<20 ? levels.Monk//2*10 : \'all\'}\' from falling damage distance when near wall"',
   'Slow':'Section=ability Note="-10 Speed"',
   'Smite Evil':
     'Section=combat ' +
@@ -1136,7 +1162,6 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="May move before and after melee attack w/out provoking AOO"',
   'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
-  'Still Mind':'Section=save Note="+2 vs. enchantment"',
   'Still Spell':
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out movement"',
@@ -1145,8 +1170,6 @@ SRD35.FEATURES = {
     'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
   'Summon Familiar':'Section=feature Note="Special bond and abilities"',
   'Swift Tracker':'Section=skill Note="May track at full speed"',
-  'Tongue Of The Sun And Moon':
-    'Section=feature Note="May speak w/any living creature"',
   'Toughness':'Section=combat Note="+%V HP"',
   'Track':'Section=skill Note="May use Survival to follow creatures\' trails"',
   'Trample':
@@ -1167,8 +1190,6 @@ SRD35.FEATURES = {
   'Weapon Specialization (%weapon)':
     'Section=combat Note="+2 %weapon Damage Modifier"',
   'Whirlwind Attack':'Section=combat Note="May attack all foes in reach"',
-  'Wholeness Of Body':
-    'Section=magic Note="May heal %{levels.Monk*2} HP to self/dy"',
   'Widen Spell':
     'Section=magic ' +
     'Note="May use +3 spell slot to dbl chosen spell area of affect"',
@@ -4661,16 +4682,16 @@ SRD35.CLASSES = {
       '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
       '"1:Tower Shield Proficiency",' +
       '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
-      '"1:Bonus Feats (Fighter)"',
+      '"1:Bonus Feat (Fighter)"',
   'Monk':
     'Require="alignment =~ \'Lawful\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club; Dagger; Handaxe; Heavy Crossbow; Javelin; Kama; Light Crossbow; Nunchaku; Quarterstaff; Sai; Shuriken; Siangham; Sling)",' +
       '"1:Armor Class Bonus","1:Flurry Of Blows","1:Improved Unarmed Strike",' +
-      '"1:Increased Unarmed Damage",2:Evasion,"3:Fast Movement (Monk)",' +
-      '"3:Still Mind","4:Ki Strike","4:Slow Fall","5:Purity Of Body",' +
-      '"7:Wholeness Of Body","9:Improved Evasion",' +
+      '"1:Bonus Feat (Monk)","1:Unarmed Strike (Monk)","2:Evasion",' +
+      '"3:Fast Movement (Monk)","3:Still Mind","4:Ki Strike","4:Slow Fall",' +
+      '"5:Purity Of Body","7:Wholeness Of Body","9:Improved Evasion",' +
       '"11:Diamond Body","12:Abundant Step","13:Diamond Soul",' +
       '"15:Quivering Palm","17:Timeless Body",' +
       '"17:Tongue Of The Sun And Moon","19:Empty Body","20:Perfect Self" ' +
@@ -6452,26 +6473,36 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Fighter') {
 
     // Set featCount.Fighter to 0; featureRules will auto-generate the
-    // addition of featureNotes.bonusFeats(Fighter)
+    // addition of featureNotes.bonusFeat(Fighter)
     rules.defineRule('featCount.Fighter', 'levels.Fighter', '=', '0');
-    rules.defineRule('featureNotes.bonusFeats(Fighter)',
+    rules.defineRule('featureNotes.bonusFeat(Fighter)',
       'levels.Fighter', '=', '1 + Math.floor(source / 2)'
     );
 
   } else if(name == 'Monk') {
 
+    // Display the Fast Movement (Monk) note even when armored
     rules.defineRule('abilityNotes.fastMovement(Monk)',
-      'armor', '?', 'source == "None"',
       'levels.Monk', '=', 'Math.floor(source / 3) * 10'
     );
+    rules.defineRule('abilityNotes.fastMovement(Monk).1',
+      'armor', '?', 'source == "None"',
+      'abilityNotes.fastMovement(Monk)', '=', null
+    );
+    rules.defineRule('armorClass', 'combatNotes.armorClassBonus.1', '+', null);
+    // Display the Armor Class Bonus note even when armored
     rules.defineRule('combatNotes.armorClassBonus',
       'levels.Monk', '=', 'Math.floor(source / 5)',
       'wisdomModifier', '+', 'source > 0 ? source : null'
     );
+    rules.defineRule('combatNotes.armorClassBonus.1',
+      'armor', '?', 'source == "None"',
+      'combatNotes.armorClassBonus', '=', null
+    );
     // NOTE Our rule engine doesn't support modifying a value via indexing.
     // Here, we work around this limitation by defining rules that set global
     // values as a side effect, then use these values in our calculations.
-    rules.defineRule('combatNotes.increasedUnarmedDamage',
+    rules.defineRule('combatNotes.unarmedStrike(Monk)',
       'levels.Monk', '=',
         'SRD35.SMALL_DAMAGE["monk"] = ' +
         'SRD35.LARGE_DAMAGE["monk"] = ' +
@@ -6482,11 +6513,15 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('damageReduction.Magic', 'combatNotes.perfectSelf', '^=', '10');
+    rules.defineRule('featureNotes.bonusFeat(Monk)',
+      'levels.Monk', '=', 'source<2 ? 1 : source<6 ? 2 : 3'
+    );
     rules.defineRule
       ('saveNotes.diamondSoul', 'levels.Monk', '=', '10 + source');
     rules.defineRule('selectableFeatureCount.Monk (Bonus Feat)',
-      'levels.Monk', '=', 'source < 2 ? 1 : source < 6 ? 2 : 3'
+      'featureNotes.bonusFeat(Monk)', '=', null
     );
+    rules.defineRule('speed', 'abilityNotes.fastMovement(Monk).1', '+', null);
     rules.defineRule('spellResistance', 'saveNotes.diamondSoul', '^=', null);
 
   } else if(name == 'Paladin') {
@@ -8333,7 +8368,7 @@ SRD35.weaponRules = function(
   );
   if(category == 'unarmed')
     rules.defineRule
-      (prefix + 'DamageDice', 'combatNotes.increasedUnarmedDamage', '=', null);
+      (prefix + 'DamageDice', 'combatNotes.unarmedStrike(Monk)', '=', null);
   rules.defineRule(weaponName + '.2', prefix + 'DamageDice', '=', null);
   rules.defineRule(weaponName + '.3',
     prefix + 'DamageModifier', '=', 'source>0 ? "+" + source : source==0 ? "" : source'

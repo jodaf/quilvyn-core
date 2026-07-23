@@ -59,7 +59,7 @@ var attributes = {
     </tr></table>
 </td>
   </tr><tr style="text-align:center">
-    <td><b>Ability Notes</b>: <i>Fast Movement (Monk): +60 Speed</i></td>
+    <td><b>Ability Notes</b>: <i>Fast Movement (Monk): +60 Speed; encumbrance or armor negates</i></td>
   </tr></table>
 </td>
 </tr><tr style="text-align:center">
@@ -78,15 +78,15 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Improved Critical (Handaxe); Persuasive; Self-Sufficient; Skill Focus (Ride); Skill Focus (Survival); Skill Focus (Tumble); Weapon Focus (Club); Weapon Focus (Unarmed Strike)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Monk Features</b>: Abundant Step; Armor Class Bonus; Combat Reflexes; Deflect Arrows; Diamond Body; Diamond Soul; Empty Body; Evasion; Fast Movement (Monk); Flurry Of Blows; Improved Disarm; Improved Evasion; Improved Grapple; Improved Trip; Improved Unarmed Strike; Increased Unarmed Damage; Ki Strike; Perfect Self; Purity Of Body; Quivering Palm; Slow Fall; Still Mind; Stunning Fist; Timeless Body; Tongue Of The Sun And Moon; Weapon Proficiency (Club; Dagger; Handaxe; Heavy Crossbow; Javelin; Kama; Light Crossbow; Nunchaku; Quarterstaff; Sai; Shuriken; Siangham; Sling); Wholeness Of Body</td>
+        <td><b>Monk Features</b>: Abundant Step; Armor Class Bonus; Bonus Feat (Monk); Combat Reflexes; Deflect Arrows; Diamond Body; Diamond Soul; Empty Body; Evasion; Fast Movement (Monk); Flurry Of Blows; Improved Disarm; Improved Evasion; Improved Grapple; Improved Trip; Improved Unarmed Strike; Ki Strike; Perfect Self; Purity Of Body; Quivering Palm; Slow Fall; Still Mind; Stunning Fist; Timeless Body; Tongue Of The Sun And Moon; Unarmed Strike (Monk); Weapon Proficiency (Club; Dagger; Handaxe; Heavy Crossbow; Javelin; Kama; Light Crossbow; Nunchaku; Quarterstaff; Sai; Shuriken; Siangham; Sling); Wholeness Of Body</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
       <td><b>Feature Notes</b>:       <table id="FeatureNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>Human Feat Bonus: +1 General Feat</i></td>
+        <td><i>Bonus Feat (Monk): 3 selections</i></td>
       </tr><tr style="text-align:center">
-        <td>Tongue Of The Sun And Moon: May speak w/any living creature</td>
+        <td><i>Human Feat Bonus: +1 General Feat</i></td>
       </tr></table>
 </td>
     </tr></table>
@@ -150,6 +150,8 @@ var attributes = {
         <td><i>Speed Jump Modifier: +24</i></td>
       </tr><tr style="text-align:center">
         <td>Craft (Alchemy) Synergy: +2 Appraise (related)</td>
+      </tr><tr style="text-align:center">
+        <td>Tongue Of The Sun And Moon: Can converse with any living creature</td>
       </tr></table>
 </td>
     </tr></table>
@@ -188,7 +190,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Combat Notes</b>:       <table id="CombatNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>Armor Class Bonus: +6 Armor Class</i></td>
+        <td><i>Armor Class Bonus: +6 Armor Class; encumbrance or armor negates</i></td>
       </tr><tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +40</i></td>
       </tr><tr style="text-align:center">
@@ -198,9 +200,9 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Improved Critical (Handaxe): x2 Handaxe Threat Range</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Increased Unarmed Damage: 2d10</i></td>
+        <td><i>Perfect Self: Has DR 10/magic</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Perfect Self: DR 10/magic</i></td>
+        <td><i>Unarmed Strike (Monk): Unarmed Strike inflicts 2d10 HP</i></td>
       </tr><tr style="text-align:center">
         <td><i>Weapon Focus (Club): +1 Club Attack Modifier</i></td>
       </tr><tr style="text-align:center">
@@ -210,7 +212,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Deflect Arrows: Suffers no damage from ranged hit 1/rd</td>
       </tr><tr style="text-align:center">
-        <td>Flurry Of Blows: May suffer -0 attack for 2 extra attack</td>
+        <td>Flurry Of Blows: Can take 2 extra attacks during a full attack action; wearing armor negates</td>
       </tr><tr style="text-align:center">
         <td>Improved Disarm: Disarm provokes no AOO/+4 Disarm attack</td>
       </tr><tr style="text-align:center">
@@ -218,13 +220,15 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Improved Trip: Trip provokes no AOO/+4 trip Strength check/May attack after trip</td>
       </tr><tr style="text-align:center">
-        <td>Improved Unarmed Strike: Unarmed attack provokes no AOO and may deal lethal damage</td>
+        <td>Improved Unarmed Strike: Unarmed strikes provoke no AOO and can deal lethal damage</td>
       </tr><tr style="text-align:center">
-        <td>Ki Strike: Unarmed attack is magic, lawful, and adamantine</td>
+        <td>Ki Strike: Unarmed attacks count as magic, lawful, and adamantine weapons</td>
       </tr><tr style="text-align:center">
-        <td>Quivering Palm: Struck foe dies 1/wk (DC 22 Fort neg)</td>
+        <td>Quivering Palm: Can kill a struck foe within 20 days (save Fortitude DC 22 negates) once per week</td>
       </tr><tr style="text-align:center">
         <td>Stunning Fist: Unarmed strike inflicts stunned for 1 rd 20/dy (DC 22 Fort neg)</td>
+      </tr><tr style="text-align:center">
+        <td>Unarmed Strike (Monk): Adds full Strength modifier to all Unarmed Strike damage</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -241,21 +245,21 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Reflex Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Diamond Soul: Spell resistance 30</i></td>
+        <td><i>Diamond Soul: Has spell resistance 30</i></td>
       </tr><tr style="text-align:center">
         <td><i>Wisdom Will Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
-        <td>Diamond Body: Immune to poison</td>
+        <td>Diamond Body: Has immunity to poison</td>
       </tr><tr style="text-align:center">
-        <td>Evasion: Reflex save yields no damage instead of half</td>
+        <td>Evasion: Reflex saves yield no damage instead of half; medium or heavy armor negates</td>
       </tr><tr style="text-align:center">
-        <td>Improved Evasion: Failed save yields half damage</td>
+        <td>Improved Evasion: Failed Reflex saves yield half damage</td>
       </tr><tr style="text-align:center">
-        <td>Perfect Self: Treated as outsider for magic saves</td>
+        <td>Perfect Self: Treated as an outsider for magic saves</td>
       </tr><tr style="text-align:center">
-        <td>Purity Of Body: Immune to normal disease</td>
+        <td>Purity Of Body: Has immunity to natural diseases</td>
       </tr><tr style="text-align:center">
-        <td>Slow Fall: Subtracts all' from falling damage distance when near wall</td>
+        <td>Slow Fall: Takes no falling damage when adjacent to a wall</td>
       </tr><tr style="text-align:center">
         <td>Still Mind: +2 vs. enchantment</td>
       </tr><tr style="text-align:center">
@@ -271,11 +275,11 @@ var attributes = {
   <tr style="text-align:center">
     <td><b>Magic Notes</b>:     <table id="MagicNotes" style="width:100%">
     <tr style="text-align:center">
-      <td>Abundant Step: May teleport self 800' 1/dy</td>
+      <td>Abundant Step: Can use <i>Dimension Door</i> effects on self to teleport 800' once per day</td>
     </tr><tr style="text-align:center">
-      <td>Empty Body: May become ethereal 20 rd/dy</td>
+      <td>Empty Body: Can use <i>Etherealness</i> effects on self for 20 rd per day</td>
     </tr><tr style="text-align:center">
-      <td>Wholeness Of Body: May heal 40 HP to self/dy</td>
+      <td>Wholeness Of Body: Can heal 40 hit points to self per day</td>
     </tr></table>
 </td>
   </tr></table>
