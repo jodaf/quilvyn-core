@@ -617,19 +617,19 @@ SRD35.FEATURES = {
   'Gnome Ability Adjustment':
     'Section=ability Note="+2 Constitution/-2 Strength"',
   'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
+  // TODO: feature spell?
   'Gnome Magic':
     'Section=magic ' +
-    'Note="Can cast <i>Speak With Animals</i> to communicate with burrowing mammals for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>\' : \'\'} once per day"',
+    'Note="Can cast <i>Speak With Animals</i> to communicate with burrowing mammals for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>, each\' : \'\'} once per day"',
   'Keen Ears':'Section=skill Note="+2 Listen"',
   'Sensitive Nose':'Section=skill Note="+2 Craft (Alchemy)"',
   // Low-Light Vision as above
-  'Natural Illusionist': // TODO: implement
-    'Section=magic Note="+1 Spell Difficulty Class with Illusion spells"',
+  'Natural Illusionist':'Section=magic Note="+1 Spell DC (Illusion)"',
   'Resist Illusion':'Section=save Note="+2 vs. illusions"',
   'Small':
     'Section=ability,combat,combat,skill ' +
     'Note=' +
-      '"x0.75 Load Max",' + // TODO: specifically "lifting and carrying limits"
+      '"x0.75 Load Max",' +
       '"+1 Armor Class/+1 Melee Attack/+1 Ranged Attack",' +
       '"-4 special attacks",' +
       '"+4 Hide/-4 Intimidate"',
@@ -640,7 +640,7 @@ SRD35.FEATURES = {
   'Keen Senses (Half-Elf)':
     'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
   // Low-Light Vision as above
-  'Tolerance':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
+  'Sociable':'Section=skill Note="+2 Diplomacy/+2 Gather Information"',
 
   // Half-Orc
   // Darkvision as above
@@ -649,6 +649,7 @@ SRD35.FEATURES = {
   'Orc Blood':'Section=feature Note="Counts as an orc for racial effects"',
 
   // Halfling
+  // TODO: implement?
   'Accurate':'Section=combat Note="+1 attack with slings and thrown weapons"',
   'Fortunate':'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
   'Halfling Ability Adjustment':
@@ -679,7 +680,7 @@ SRD35.FEATURES = {
   'Rage':
     'Section=combat ' +
     'Note="Can gain +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Strength, +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Constitution, and +%{combatNotes.mightyRage?4:combatNotes.greaterRage?3:2} Will and suffer -2 Armor Class for %{(combatNotes.mightyRage?7:combatNotes.greaterRage?6:5)+constitutionModifier>?1} rd%{combatNotes.tirelessRage?\'\':\', becoming fatigued afterward until the end of the encounter,\'} %{levels.Barbarian>=4?(levels.Barbarian//4+1)+\' times\':\'once\'} per day"',
-  'Tireless Rage':'Section=combat Note="Suffers no fatigue after rage"',
+  'Tireless Rage':'Section=combat Note="Has increased rage effects"',
   'Trap Sense':'Section=save Note="+%V Reflex and Armor Class vs. traps"',
   'Uncanny Dodge':
     'Section=combat Note="Always adds Dexterity modifier to Armor Class"',
@@ -802,7 +803,7 @@ SRD35.FEATURES = {
     'Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
   // War Domain
   'Weapon Of War':
-    'Section=feature ' +
+    'Section=combat ' +
     'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
   // Water Domain
   'Water Turning':
@@ -813,7 +814,7 @@ SRD35.FEATURES = {
   'A Thousand Faces':
     'Section=magic Note="Can use <i>Disguise Self</i> effects at will"',
   'Animal Companion':
-    'Section=feature ' +
+    'Section=companion ' +
     'Note="Can have a special bond with an animal that has expanded abilities"',
   'Elemental Shape':
     'Section=magic ' +
@@ -898,7 +899,7 @@ SRD35.FEATURES = {
       '"Unarmed Strike inflicts %V HP",' +
       '"Adds full Strength modifier to all Unarmed Strike damage"',
   'Wholeness Of Body':
-    'Section=magic Note="Can heal %{levels.Monk*2} hit points to self per day"',
+    'Section=combat Note="Can heal %{levels.Monk*2} hit points to self per day"',
 
   // Paladin
   'Aura Of Courage':
@@ -922,7 +923,7 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Can gain +%1 attack and inflict +%2 HP vs. an evil foe %{%V>1?\'%V times\':\'once\'} per day"',
   'Special Mount':
-    'Section=feature ' +
+    'Section=companion ' +
     'Note="Can summon a celestial mount with expanded abilities for %{levels.Paladin*2} hr once per day; death of the mount inflicts -1 attack and damage for 30 days"',
   // Turn Undead as above
 
@@ -984,13 +985,24 @@ SRD35.FEATURES = {
 
   // Sorcerer
   'Summon Familiar':
-    'Section=feature ' +
+    'Section=companion ' +
     'Note="Can bond with a magical creature with expanded abilities; death of the creature inflicts a loss of %{levels.Sorcerer*200} experience points (save Fortitude DC 15 half), and a new familiar cannot be summoned for a year and a day"',
 
   // Wizard
   'Bonus Feat (Wizard)':
     'Section=feature ' +
     'Note="%V selection%{$\'featureNotes.bonusFeat(Wizard)\'>1?\'s\':\'\'}"',
+  'School Opposition (%school)':
+    'Section=magic Note="Cannot learn or cast %school spells"',
+  'School Opposition':
+    'Section=feature ' +
+    'Note="%V selection%{featureNotes.schoolOpposition>1?\'s\':\'\'}"',
+  'School Specialization':'Section=feature Note="1 selection"',
+  'School Specialization (%school)':
+    'Section=magic,skill ' +
+    'Note=' +
+      '"+1 %school spell slot in each spell level",' +
+      '"+2 Spellcraft (%school effects)"',
 
   // Feats
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
@@ -1183,12 +1195,6 @@ SRD35.FEATURES = {
     'Note="+1 Run Speed Multiplier",' +
          '"Retains Dexterity bonus to Armor Class while running",' +
          '"+4 running Jump"',
-  'School Opposition (%school)':
-    'Section=magic Note="Cannot learn or cast %school spells"',
-  'School Specialization (%school)':
-    'Section=magic,skill ' +
-    'Note="+1 %school spell/dy in each spell level",' +
-         '"+2 Spellcraft (%school effects)"',
   'Scribe Scroll':'Section=magic Note="May create scroll of any known spell"',
   'Scry On Familiar':'Section=companion Note="Master may view companion 1/dy"',
   'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
@@ -1771,8 +1777,7 @@ SRD35.RACES = {
       '"Dwarf Ability Adjustment",' +
       '"Weapon Familiarity (Dwarven Urgosh; Dwarven Waraxe)",' +
       '"Darkvision","Dodge Giants","Dwarf Crafts","Dwarf Enmity",' +
-      '"Know Depth","Resist Poison","Resist Spells","Stability","Steady",' +
-      '"Stonecunning" ' +
+      '"Resist Poison","Resist Spells","Stability","Steady","Stonecunning" ' +
     'Languages=Common,Dwarven',
   'Elf':
     'Size=Medium ' +
@@ -1797,7 +1802,7 @@ SRD35.RACES = {
     'Speed=30 ' +
     'Features=' +
       '"Elf Resistances","Elven Blood","Keen Senses (Half-Elf)",' +
-      '"Low-Light Vision","Tolerance" ' +
+      '"Low-Light Vision","Sociable" ' +
     'Languages=Common,Elven',
   'Half-Orc':
     'Size=Medium ' +
@@ -1923,7 +1928,8 @@ SRD35.SKILLS = {
     'Synergy="Survival (other planes)"',
   'Knowledge (Religion)':
     'Ability=Intelligence Untrained=false ' +
-    'Class=Bard,Cleric,Monk,Paladin,Wizard Synergy="Undead turning check"',
+    'Class=Bard,Cleric,Monk,Paladin,Wizard ' +
+    'Synergy="Undead turning checks"',
   'Listen':
     'Ability=Wisdom Untrained=true ' +
     'Class=Barbarian,Bard,Druid,Monk,Ranger,Rogue',
@@ -4733,8 +4739,7 @@ SRD35.CLASSES = {
   'Fighter':
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
-      '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
-      '"1:Tower Shield Proficiency",' +
+      '"1:Armor Proficiency (Light; Medium; Heavy; Shield; Tower Shield)",' +
       '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
       '"1:Bonus Feat (Fighter)"',
   'Monk':
@@ -4836,7 +4841,8 @@ SRD35.CLASSES = {
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)",' +
-      '"1:Summon Familiar","1:Scribe Scroll","5:Bonus Feat (Wizard)" ' +
+      '"1:Summon Familiar","1:Scribe Scroll","1:School Opposition",' +
+      '"1:School Specialization","5:Bonus Feat (Wizard)" ' +
     'Selectables=' +
       '"1:School Specialization (None):Specialization",' +
       QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + x + '):Specialization"').join(',') + ',' +
@@ -6763,14 +6769,17 @@ SRD35.classRulesExtra = function(rules, name) {
       'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
     );
     rules.defineRule('selectableFeatureCount.Wizard (Specialization)',
-      'levels.Wizard', '=', '1'
+      'featureNotes.schoolSpecialization', '=', '1'
     );
     for(let s in rules.getChoices('schools')) {
-      rules.defineRule('selectableFeatureCount.Wizard (Opposition)',
+      rules.defineRule('featureNotes.schoolOpposition',
         'wizardFeatures.School Specialization (' + s + ')', '=',
           s == 'Divination' ? '1' : '2'
       );
     }
+    rules.defineRule('selectableFeatureCount.Wizard (Opposition)',
+      'featureNotes.schoolOpposition', '=', null
+    );
 
   } else if(name == 'Arcane Archer') {
 
@@ -7390,11 +7399,11 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
     let focusFeature = 'Weapon Focus (' + w + ')';
     let proficiencyFeature = 'Weapon Proficiency (' + w + ')';
     rules.defineRule('clericFeatures.' + focusFeature,
-      'featureNotes.weaponOfWar', '?', null,
+      'combatNotes.weaponOfWar', '?', null,
       'deityFavoredWeapons', '=', 'source.indexOf("' + w + '") >= 0 ? 1 : null'
     );
     rules.defineRule('clericFeatures.' + proficiencyFeature,
-      'featureNotes.weaponOfWar', '?', null,
+      'combatNotes.weaponOfWar', '?', null,
       'deityFavoredWeapons', '=', 'source.indexOf("' + w + '") >= 0 ? 1 : null'
     );
     rules.defineRule
@@ -8191,7 +8200,7 @@ SRD35.skillRulesExtra = function(rules, name) {
     rules.defineRule
       ('skillModifier.Jump', 'skillNotes.speedJumpModifier', '+', null);
   } else if(name == 'Knowledge (Religion)') {
-    rules.defineRule('combatNotes.turnUndead.1',
+    rules.defineRule('combatNotes.turnUndead.2',
       'skillNotes.knowledge(Religion)Synergy', '+', '2'
     );
   } else if(name == 'Speak Language') {

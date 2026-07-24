@@ -16,11 +16,11 @@ var attributes = {
   "languages.Terran":1, "levels.Ranger":20, "name":"Class-Ranger 20", "race":"Human", 
   "selectableFeatures.Ranger - Combat Style (Archery)":1, "selectableFeatures.Ranger - Combat Style (Two-Weapon Combat)":1, 
   "shield":"None", "skills.Climb":2, "skills.Craft (Alchemy)":2, "skills.Escape Artist":2, 
-  "skills.Gather Information":23, "skills.Handle Animal":23, "skills.Heal":13, "skills.Jump":20, 
-  "skills.Knowledge (History)":2, "skills.Listen":23, "skills.Profession (Tanner)":2, "skills.Ride":23, 
-  "skills.Survival":1, "skills.Swim":23, "skills.Tumble":1, "skills.Use Magic Device":1, 
-  "skills.Use Rope":23, "spells.Alarm(R1 Abju)":1, "spells.Animal Growth(R4 Tran)":1, 
-  "spells.Bear's Endurance(R2 Tran)":1, "spells.Darkvision(R3 Tran)":1, 
+  "skills.Gather Information":23, "skills.Handle Animal":23, "skills.Heal":12, "skills.Hide":1, 
+  "skills.Jump":20, "skills.Knowledge (History)":2, "skills.Listen":23, 
+  "skills.Profession (Tanner)":2, "skills.Ride":23, "skills.Survival":1, "skills.Swim":23, "skills.Tumble":1, 
+  "skills.Use Magic Device":1, "skills.Use Rope":23, "spells.Alarm(R1 Abju)":1, 
+  "spells.Animal Growth(R4 Tran)":1, "spells.Bear's Endurance(R2 Tran)":1, "spells.Darkvision(R3 Tran)":1, 
   "spells.Detect Animals Or Plants(R1 Divi)":1, "spells.Diminish Plants(R3 Tran)":1, "spells.Entangle(R1 Tran)":1, 
   "spells.Freedom Of Movement(R4 Abju)":1, "spells.Neutralize Poison(R3 Conj)":1, 
   "spells.Protection From Energy(R2 Abju)":1, "spells.Resist Energy(R1 Abju)":1, 
@@ -92,8 +92,6 @@ var attributes = {
         <td><i>Combat Style: 1 selection</i></td>
       </tr><tr style="text-align:center">
         <td><i>Human Feat Bonus: +1 General Feat</i></td>
-      </tr><tr style="text-align:center">
-        <td>Animal Companion: Can have a special bond with an animal that has expanded abilities</td>
       </tr></table>
 </td>
     </tr></table>
@@ -109,27 +107,27 @@ var attributes = {
       <col style="width:34%"/>
       <tr style="text-align:left">
         <td>Climb: (str) 2 (+2)</td>
+        <td>Hide: (dex) 1 (+1)</td>
+        <td>Survival: (wis) 1 (+7)</td>
+      </tr><tr style="text-align:left">
+        <td>Craft (Alchemy): (int) 2 (+3)</td>
         <td>Jump: (str) 20 (+20)</td>
         <td>Swim: (str) 23 (+21)</td>
       </tr><tr style="text-align:left">
-        <td>Craft (Alchemy): (int) 2 (+3)</td>
+        <td>Escape Artist: (dex;cc) 2 (+1)</td>
         <td>Knowledge (History): (int;cc) 2 (+2)</td>
         <td>Tumble: (dex;cc) 1 (+2.5)</td>
       </tr><tr style="text-align:left">
-        <td>Escape Artist: (dex;cc) 2 (+1)</td>
+        <td>Gather Information: (cha;cc) 23 (+13.5)</td>
         <td>Listen: (wis) 23 (+24)</td>
         <td>Use Magic Device: (cha;cc) 1 (+4.5)</td>
       </tr><tr style="text-align:left">
-        <td>Gather Information: (cha;cc) 23 (+13.5)</td>
+        <td>Handle Animal: (cha) 23 (+25)</td>
         <td>Profession (Tanner): (wis) 2 (+3)</td>
         <td>Use Rope: (dex) 23 (+27)</td>
       </tr><tr style="text-align:left">
-        <td>Handle Animal: (cha) 23 (+25)</td>
+        <td>Heal: (wis) 12 (+15)</td>
         <td>Ride: (dex) 23 (+27)</td>
-        <td></td>
-      </tr><tr style="text-align:left">
-        <td>Heal: (wis) 13 (+16)</td>
-        <td>Survival: (wis) 1 (+7)</td>
         <td></td>
       </tr></table>
 </td>
@@ -362,6 +360,8 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Companion Notes</b>:     <table id="CompanionNotes" style="width:100%">
     <tr style="text-align:center">
+      <td>Animal Companion: Can have a special bond with an animal that has expanded abilities</td>
+    </tr><tr style="text-align:center">
       <td>Companion Evasion: Reflex save yields no damage instead of half</td>
     </tr><tr style="text-align:center">
       <td>Devotion: +4 Will vs. enchantment</td>
