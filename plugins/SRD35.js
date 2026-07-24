@@ -982,6 +982,17 @@ SRD35.FEATURES = {
     'Note="Can use Search and Disable Device to find and disable DC 20+ traps"',
   // Uncanny Dodge as above
 
+  // Sorcerer
+  'Summon Familiar':
+    'Section=feature ' +
+    'Note="Can bond with a magical creature with expanded abilities; death of the creature inflicts a loss of %{levels.Sorcerer*200} experience points (save Fortitude DC 15 half), and a new familiar cannot be summoned for a year and a day"',
+
+  // Wizard
+  'Bonus Feat (Wizard)':
+    'Section=feature ' +
+    'Note="%V selection%{$\'featureNotes.bonusFeat(Wizard)\'>1?\'s\':\'\'}"',
+
+  // Feats
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
   'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
@@ -1214,7 +1225,6 @@ SRD35.FEATURES = {
   'Stunning Fist':
     'Section=combat ' +
     'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
-  'Summon Familiar':'Section=feature Note="Special bond and abilities"',
   'Toughness':'Section=combat Note="+%V HP"',
   'Track':'Section=skill Note="Can use Survival to follow creatures\' trails"',
   'Trample':
@@ -1235,6 +1245,7 @@ SRD35.FEATURES = {
   'Widen Spell':
     'Section=magic ' +
     'Note="May use +3 spell slot to dbl chosen spell area of affect"',
+
   // Prestige Classes
   'Acrobatic Charge':'Section=combat Note="May charge in difficult terrain"',
   'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
@@ -1450,6 +1461,7 @@ SRD35.FEATURES = {
     'Note="Unturnable undead servant w/fiendish servant abilities"',
   'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"',
   'Wings':'Section=ability Note="%{speed} Fly speed"'
+
 };
 SRD35.GOODIES = {
   'Armor':
@@ -4798,6 +4810,17 @@ SRD35.CLASSES = {
       '"1:Weapon Proficiency (Simple Weapons)","1:Summon Familiar" ' +
     'CasterLevelArcane=levels.Sorcerer ' +
     'SpellAbility=Charisma ' +
+    'SpellsAvailable=' +
+      'S0:4@1;5@2;6@4;7@6;8@8;9@10,' +
+      'S1:2@1;3@3;4@5;5@7,' +
+      'S2:1@4;2@5;3@7;4@9;5@11,' +
+      'S3:1@6;2@7;3@9;4@11,' +
+      'S4:1@8;2@9;3@11;4@13,' +
+      'S5:1@10;2@11;3@13;4@15,' +
+      'S6:1@12;2@13;3@15,' +
+      'S7:1@14;2@15;3@17,' +
+      'S8:1@16;2@17;3@19,' +
+      'S9:1@18;2@19;3@20 ' +
     'SpellSlots=' +
       'S0:5@1;6@2,' +
       'S1:3@1;4@2;5@3;6@4,' +
@@ -4813,7 +4836,7 @@ SRD35.CLASSES = {
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)",' +
-      '"1:Summon Familiar","1:Scribe Scroll" ' +
+      '"1:Summon Familiar","1:Scribe Scroll","5:Bonus Feat (Wizard)" ' +
     'Selectables=' +
       '"1:School Specialization (None):Specialization",' +
       QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + x + '):Specialization"').join(',') + ',' +
@@ -6734,6 +6757,9 @@ SRD35.classRulesExtra = function(rules, name) {
 
     rules.defineRule('familiarMasterLevel', 'levels.Wizard', '^=', null);
     rules.defineRule('featCount.Wizard',
+      'featureNotes.bonusFeat(Wizard)', '=', null
+    );
+    rules.defineRule('featureNotes.bonusFeat(Wizard)',
       'levels.Wizard', '=', 'source >= 5 ? Math.floor(source / 5) : null'
     );
     rules.defineRule('selectableFeatureCount.Wizard (Specialization)',
