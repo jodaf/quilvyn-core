@@ -663,6 +663,14 @@ SRD35.FEATURES = {
   'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
   'Human Skill Bonus':'Section=skill Note="+%V Skill Points"',
 
+  'Large':
+    'Section=ability,combat,combat,skill ' +
+    'Note=' +
+      '"x2 Load Max",' +
+      '"-1 Armor Class/-1 Melee Attack/-1 Ranged Attack",' +
+      '"+4 special attacks",' +
+      '"-4 Hide/+4 Intimidate"',
+
   // Class
 
   // Barbarian
@@ -871,9 +879,6 @@ SRD35.FEATURES = {
      'Section=combat ' +
      'Note="Can take %{levels.Monk<11?\'an extra attack\':\'2 extra attacks\'} during a full attack action%{levels.Monk<9?\', taking a \'+(levels.Monk<5?-2:-1)+\' penalty on all attacks that rd\':\'\'}; wearing armor negates"',
   'Improved Evasion':'Section=save Note="Has increased Evasion effects"',
-  'Improved Unarmed Strike':
-    'Section=combat ' +
-    'Note="Unarmed strikes provoke no AOO and can deal lethal damage"',
   'Ki Strike':
     'Section=combat ' +
     'Note="Unarmed attacks count as magic%{levels.Monk>15 ? \', lawful, and adamantine\' : levels.Monk>9 ? \' and lawful\' : \'\'} weapons"',
@@ -1007,30 +1012,94 @@ SRD35.FEATURES = {
   // Feats
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
-  'Alert Senses':'Section=skill Note="+1 Listen/+1 Search/+1 Spot"',
   'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
+  'Blind-Fight':
+    'Section=ability,combat ' +
+    'Note=' +
+      '"Can move at 3/4 Speed in darkness or poor visibility",' +
+      '"Can reroll misses due to concealment, retains Dexterity bonus to Armor Class when fighting invisible attackers, and invisible attackers gain no melee bonus"',
+  'Combat Casting':
+    'Section=save ' +
+    'Note="+4 Concentration checks to cast spells while on the defensive, grappling, or pinned"',
+  'Combat Expertise':
+    'Section=combat ' +
+    'Note="Can suffer up to -%{baseAttack<?5} attack to gain an equal dodge bonus to Armor Class until the next action"',
+  'Combat Reflexes':
+    'Section=combat ' +
+    'Note="Can take AOOs while flat-footed%{dexterityModifier>0?\' and +\'+dexterityModifier+(dexterityModifier>1?\' AOOs\':\' AOO\')+\' per rd\':\'\'}"',
+  'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
+  'Deft Hands':'Section=skill Note="+2 Sleight Of Hand/+2 Use Rope"',
+  'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
+  'Dodge':'Section=combat Note="+1 Armor Class"',
+  'Endurance':
+    'Section=save ' +
+    'Note="+4 vs. damage from extended physical action, starvation, thirst, and suffocation/Can sleep in light or medium armor without becoming fatigued"',
+  'Extra Turning':'Section=combat Note="Can Turn Undead +%V times per day"',
+  'Great Fortitude':'Section=save Note="+2 Fortitude"',
+  'Improved Critical (%weapon)':'Section=combat Note="x2 %weapon Threat Range"',
+  'Improved Shield Bash':
+    'Section=combat ' +
+    'Note="Retains shield Armor Class benefit when using Shield Bash"',
+  'Improved Initiative':'Section=combat Note="+4 Initiative"',
+  'Improved Turning':'Section=combat Note="+1 Turning Level"',
+  'Improved Unarmed Strike':
+    'Section=combat ' +
+    'Note="Unarmed strikes provoke no AOO and can deal lethal damage"',
+  'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
+  'Iron Will':'Section=save Note="+2 Will"',
+  'Leadership':
+    'Section=feature Note="Can attract companions and devoted followers"',
+  'Lightning Reflexes':'Section=save Note="+2 Reflex"',
+  'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
+  'Mounted Combat':
+    'Section=combat ' +
+    'Note="Can use a reaction to negate damage to mount with a successful Ride skill check (DC foe attack roll) once per rd"',
+  'Natural Spell':'Section=magic Note="Can cast spells during Wild Shape"',
+  'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
+  'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
+  'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
+  'Point-Blank Shot':
+    'Section=combat Note="+1 ranged attack and damage within 30\'"',
+  'Power Attack':
+    'Section=combat ' +
+    'Note="Can suffer up to -%{baseAttack} attack for an equal damage bonus, or a x2 damage bonus when attacking two-handed, for 1 rd"',
+  'Quick Draw':
+    'Section=combat ' +
+    'Note="Can draw a weapon as a free action and throw weapons at the full attack rate"',
+  'Rapid Reload (Hand)':
+    'Section=combat Note="Can reload a hand crossbow as a free action"',
+  'Rapid Reload (Heavy)':
+    'Section=combat Note="Can reload a heavy crossbow as a move action"',
+  'Rapid Reload (Light)':
+    'Section=combat Note="Can reload a light crossbow as a free action"',
+  'Run':
+    'Section=ability,combat,skill ' +
+    'Note="+1 Run Speed Multiplier",' +
+         '"Retains Dexterity bonus to Armor Class while running",' +
+         '"+4 running Jump"',
+  'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
+  'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
+  'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
+  'Toughness':'Section=combat Note="+%V Hit Points"',
+  'Track':'Section=skill Note="Can use Survival to follow creatures\' trails"',
+  'Two-Weapon Fighting':
+    'Section=combat ' +
+    'Note="Reduces the attack penalty when fighting with a weapon in each hand by 2 for the primary hand and 6 for the off hand"',
+  'Weapon Finesse':
+    'Section=combat ' +
+    'Note="+%{dexterityModifier-strengthModifier} light melee weapon attacks (uses Dexterity instead of Strength)"',
+  'Weapon Focus (%weapon)':'Section=combat Note="+1 %weapon Attack Modifier"',
+
   'Augment Summoning':
     'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
-  'Blind-Fight':
-    'Section=combat ' +
-    'Note="May reroll miss due to concealment/Invisible foe gains no melee bonus/Suffers half penalty for impaired vision"',
   'Brew Potion':
     'Section=magic Note="May create potion for up to 3rd level spell"',
   'Celestial Familiar':
     'Section=companion ' +
     'Note="May use Smite Evil (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Cleave':'Section=combat Note="May make extra attack when foe drops 1/rd"',
-  'Combat Casting':
-    'Section=skill ' +
-    'Note="+4 Concentration to cast spell while on defensive or grappling"',
-  'Combat Expertise':
-    'Section=combat ' +
-    'Note="May suffer up to -%{baseAttack<?5} attack to gain equal Armor Class bonus"',
-  'Combat Reflexes':
-    'Section=combat ' +
-    'Note="May take AOO while flat-footed and %{dexterityModifier+1} AOO/rd"',
   'Command Like Creatures':
     'Section=companion ' +
     'Note="May use <i>Command</i> effects targeting similar creatures (DC %{levels.Paladin//2 + charismaModifier + 10} Will neg) %{levels.Paladin//2}/dy"',
@@ -1050,10 +1119,8 @@ SRD35.FEATURES = {
     'Section=magic Note="May create wands for up to 4th level spell"',
   'Craft Wondrous Item':
     'Section=magic Note="May create and mend miscellaneous magic items"',
-  'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
   'Deflect Arrows':
      'Section=combat Note="Suffers no damage from ranged hit 1/rd"',
-  'Deft Hands':'Section=skill Note="+2 Sleight Of Hand/+2 Use Rope"',
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="May deliver touch spells if in contact w/master when cast"',
@@ -1061,19 +1128,15 @@ SRD35.FEATURES = {
   'Diehard':
     'Section=combat ' +
     'Note="Remains conscious, stable, and able to act with negative HP"',
-  'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
-  'Dodge':'Section=combat Note="+1 Armor Class"',
   'Empathic Link':'Section=companion Note="May share emotions up to 1 mile"',
   'Empower Spell':
     'Section=magic ' +
     'Note="May use +2 spell slot to increase chosen spell variable effects by 50%"',
-  'Endurance':'Section=save Note="+4 extended physical action"',
   'Enlarge Spell':
     'Section=magic Note="May use +1 spell slot to dbl chosen spell range"',
   'Eschew Materials':'Section=magic Note="May cast spells w/out materials"',
   'Extend Spell':
     'Section=magic Note="May use +1 spell slot to dbl chosen spell duration"',
-  'Extra Turning':'Section=combat Note="+%V turnings/dy"',
   'Familiar Bat':'Section=skill Note="+3 Listen"',
   'Familiar Cat':'Section=skill Note="+3 Move Silently"',
   'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
@@ -1090,7 +1153,6 @@ SRD35.FEATURES = {
     'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Forge Ring':'Section=magic Note="May create and mend magic rings"',
   'Great Cleave':'Section=combat Note="May cleave w/out limit"',
-  'Great Fortitude':'Section=save Note="+2 Fortitude"',
   'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
   'Greater Spell Penetration':
     'Section=magic Note="+2 checks to overcome spell resistance"',
@@ -1108,7 +1170,6 @@ SRD35.FEATURES = {
   'Improved Counterspell':
     'Section=magic ' +
     'Note="May counterspell using a higher-level spell from the same school"',
-  'Improved Critical (%weapon)':'Section=combat Note="x2 %weapon Threat Range"',
   'Improved Disarm':
     'Section=combat Note="Disarm provokes no AOO/+4 Disarm attack"',
   'Improved Familiar':'Section=feature Note="Has expanded familiar choices"',
@@ -1116,39 +1177,23 @@ SRD35.FEATURES = {
     'Section=combat Note="May make Bluff check to Feint as a move action"',
   'Improved Grapple':
     'Section=combat Note="Grapple provokes no AOO/+4 Grapple check"',
-  'Improved Initiative':'Section=combat Note="+4 Initiative"',
   'Improved Overrun':
     'Section=combat ' +
     'Note="Gains +4 overrun Strength check/Foe cannot avoid overrun"',
   'Improved Precise Shot':
     'Section=combat ' +
     'Note="Foe gains no Armor Class bonus for partial cover/May attack grappling target"',
-  'Improved Shield Bash':
-    'Section=combat ' +
-    'Note="Suffers no Armor Class penalty when using Shield Bash"',
   'Improved Speed':'Section=companion Note="+10 companion Speed"',
   'Improved Sunder':
     'Section=combat Note="Sunder provokes no AOO/+4 Sunder attack"',
   'Improved Trip':
     'Section=combat ' +
     'Note="Trip provokes no AOO/+4 trip Strength check/May attack after trip"',
-  'Improved Turning':'Section=combat Note="+1 Turning Level"',
   'Improved Two-Weapon Fighting':
     'Section=combat Note="May make second off-hand attack at -5 penalty"',
-  'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
-  'Iron Will':'Section=save Note="+2 Will"',
-  'Large':
-    'Section=ability,combat,skill ' +
-    'Note=' +
-      '"x2 Load Max",' +
-      '"-1 Armor Class/-1 Melee Attack/-1 Ranged Attack/+4 special attacks",' +
-      '"-4 Hide/+4 Intimidate"',
-  'Leadership':'Section=feature Note="Attracts followers"',
-  'Lightning Reflexes':'Section=save Note="+2 Reflex"',
   'Link':
     'Section=skill ' +
     'Note="+4 Handle Animal (companion)/+4 Wild Empathy (companion)"',
-  'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
   'Manyshot':
     'Section=combat ' +
     'Note="R30\' May fire up to %{(baseAttack+4)//5} arrows simultaneously at -2 attack per arrow"',
@@ -1158,46 +1203,21 @@ SRD35.FEATURES = {
   'Mobility':'Section=combat Note="+4 Armor Class vs. movement AOO"',
   'Mounted Archery':
     'Section=combat Note="Suffers half normal mounted ranged weapon penalty"',
-  'Mounted Combat':
-    'Section=combat ' +
-    'Note="Successful Ride skill check (DC foe attack roll) negates mount damage 1/rd"',
   'Multiattack':
     'Section=companion ' +
     'Note="Reduces additional attack penalty to -2 or gives second attack at -5"',
-  'Natural Spell':'Section=magic Note="May cast spells during Wild Shape"',
-  'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
-  'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
-  'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
-  'Point-Blank Shot':
-    'Section=combat Note="+1 ranged attack and damage w/in 30\'"',
-  'Power Attack':
-    'Section=combat ' +
-    'Note="May suffer up to -%{baseAttack} attack for equal damage bonus"',
   'Precise Shot':'Section=combat Note="Suffers no penalty on shot into melee"',
-  'Quick Draw':'Section=combat Note="May draw a weapon as a free action"',
   'Quicken Spell':
     'Section=magic ' +
     'Note="May use +4 spell slot to cast chosen spell as a free action 1/rd"',
-  'Rapid Reload (Hand)':
-    'Section=combat Note="May reload a hand crossbow as a free action"',
-  'Rapid Reload (Heavy)':
-    'Section=combat Note="May reload a heavy crossbow as a move action"',
-  'Rapid Reload (Light)':
-    'Section=combat Note="May reload a light crossbow as a free action"',
   'Rapid Shot':
     'Section=combat ' +
     'Note="May make normal and extra ranged attacks at a -2 penalty"',
   'Ride-By Attack':
     'Section=combat ' +
     'Note="May move before and after mounted attack w/out provoking AOO"',
-  'Run':
-    'Section=ability,combat,skill ' +
-    'Note="+1 Run Speed Multiplier",' +
-         '"Retains Dexterity bonus to Armor Class while running",' +
-         '"+4 running Jump"',
   'Scribe Scroll':'Section=magic Note="May create scroll of any known spell"',
   'Scry On Familiar':'Section=companion Note="Master may view companion 1/dy"',
-  'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
   'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
   'Share Spells':
     'Section=companion Note="Master may share self spell w/adjacent companion"',
@@ -1206,7 +1226,6 @@ SRD35.FEATURES = {
   'Silent Spell':
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out speech"',
-  'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
   'Slow':'Section=ability Note="-10 Speed"',
   'Snatch Arrows':'Section=combat Note="May catch ranged weapons"',
   'Speak With Like Animals':
@@ -1224,27 +1243,18 @@ SRD35.FEATURES = {
   'Spring Attack':
     'Section=combat ' +
     'Note="May move before and after melee attack w/out provoking AOO"',
-  'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
   'Still Spell':
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out movement"',
   'Stunning Fist':
     'Section=combat ' +
     'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
-  'Toughness':'Section=combat Note="+%V HP"',
-  'Track':'Section=skill Note="Can use Survival to follow creatures\' trails"',
   'Trample':
     'Section=combat ' +
     'Note="Foe cannot avoid mounted overrun/Mount gains bonus hoof attack"',
   'Two-Weapon Defense':
     'Section=combat ' +
     'Note="+1 Armor Class when wielding two weapons; +2 when fighting defensively"',
-  'Two-Weapon Fighting':
-    'Section=combat Note="Reduces on-hand penalty by 2 and off-hand by 6"',
-  'Weapon Finesse':
-    'Section=combat ' +
-    'Note="+%{dexterityModifier-strengthModifier} light melee weapon attack (Dexterity instead of Strength)"',
-  'Weapon Focus (%weapon)':'Section=combat Note="+1 %weapon Attack Modifier"',
   'Weapon Specialization (%weapon)':
     'Section=combat Note="+2 %weapon Damage Modifier"',
   'Whirlwind Attack':'Section=combat Note="May attack all foes in reach"',
@@ -7575,6 +7585,10 @@ SRD35.featRulesExtra = function(rules, name) {
       ('combatNotes.extraTurning', 'feats.Extra Turning', '=', 'source * 4');
     rules.defineRule
       ('combatNotes.turnUndead.3', 'combatNotes.extraTurning', '+', null);
+  } else if((matchInfo = name.match(/^(Exotic|Martial)\sWeapon\sProficiency.\((.*)\)$/)) != null) {
+    rules.defineRule('weaponProficiency.' + matchInfo[2],
+      'features.' + name, '=', '1'
+    );
   } else if((matchInfo = name.match(/^((Tower )?Shield) Proficiency$/)) != null) {
     rules.defineRule
       ('armorProficiency.' + matchInfo[1], 'features.' + name, '=', '1');
@@ -7583,10 +7597,6 @@ SRD35.featRulesExtra = function(rules, name) {
       ('combatNotes.toughness', 'feats.Toughness', '=', 'source * 3');
   } else if(name == 'Simple Weapon Proficiency') {
     rules.defineRule('weaponProficiency.Simple Weapons',
-      'features.' + name, '=', '1'
-    );
-  } else if((matchInfo = name.match(/^(Exotic|Martial)\sWeapon\sProficiency.\((.*)\)$/)) != null) {
-    rules.defineRule('weaponProficiency.' + matchInfo[2],
       'features.' + name, '=', '1'
     );
   }
