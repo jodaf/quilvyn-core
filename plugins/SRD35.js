@@ -877,7 +877,7 @@ SRD35.FEATURES = {
     'Section=ability Note="+%V Speed; encumbrance or armor negates"',
   'Flurry Of Blows':
      'Section=combat ' +
-     'Note="Can take %{levels.Monk<11?\'an extra attack\':\'2 extra attacks\'} during a full attack action%{levels.Monk<9?\', taking a \'+(levels.Monk<5?-2:-1)+\' penalty on all attacks that rd\':\'\'}; wearing armor negates"',
+     'Note="Can make %{levels.Monk<11?\'an extra attack\':\'2 extra attacks\'} during a full attack action%{levels.Monk<9?\', taking a \'+(levels.Monk<5?-2:-1)+\' penalty on all attacks that rd\':\'\'}; wearing armor negates"',
   'Improved Evasion':'Section=save Note="Has increased Evasion effects"',
   'Ki Strike':
     'Section=combat ' +
@@ -970,7 +970,7 @@ SRD35.FEATURES = {
   // Improved Uncanny Dodge as above
   'Opportunist':
     'Section=combat ' +
-    'Note="Can take an AOO targeting a foe struck by an ally once per rd"',
+    'Note="Can make an AOO targeting a foe struck by an ally once per rd"',
   'Skill Mastery':
     'Section=skill Note="Can take 10 despite distraction on %V chosen skills"',
   'Slippery Mind':
@@ -997,6 +997,16 @@ SRD35.FEATURES = {
   'Bonus Feat (Wizard)':
     'Section=feature ' +
     'Note="%V selection%{$\'featureNotes.bonusFeat(Wizard)\'>1?\'s\':\'\'}"',
+  'Familiar Bat':'Section=skill Note="+3 Listen"',
+  'Familiar Cat':'Section=skill Note="+3 Move Silently"',
+  'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
+  'Familiar Lizard':'Section=skill Note="+3 Climb"',
+  'Familiar Owl':'Section=skill Note="+3 Spot in shadows and darkness"',
+  'Familiar Rat':'Section=save Note="+2 Fortitude"',
+  'Familiar Raven':'Section=skill Note="+3 Appraise"',
+  'Familiar Tiny Viper':'Section=skill Note="+3 Bluff"',
+  'Familiar Toad':'Section=combat Note="+3 Hit Points"',
+  'Familiar Weasel':'Section=save Note="+2 Reflex"',
   'School Opposition (%school)':
     'Section=magic Note="Cannot learn or cast %school spells"',
   'School Opposition':
@@ -1020,6 +1030,9 @@ SRD35.FEATURES = {
     'Note=' +
       '"Can move at 3/4 Speed in darkness or poor visibility",' +
       '"Can reroll misses due to concealment, retains Dexterity bonus to Armor Class when fighting invisible attackers, and invisible attackers gain no melee bonus"',
+  'Cleave':
+    'Section=combat ' +
+    'Note="Can make an extra attack after causing a foe to drop%{combatNotes.greatCleave?\'\':\' once per rd\'}"',
   'Combat Casting':
     'Section=save ' +
     'Note="+4 Concentration checks to cast spells while on the defensive, grappling, or pinned"',
@@ -1028,22 +1041,62 @@ SRD35.FEATURES = {
     'Note="Can suffer up to -%{baseAttack<?5} attack to gain an equal dodge bonus to Armor Class until the next action"',
   'Combat Reflexes':
     'Section=combat ' +
-    'Note="Can take AOOs while flat-footed%{dexterityModifier>0?\' and +\'+dexterityModifier+(dexterityModifier>1?\' AOOs\':\' AOO\')+\' per rd\':\'\'}"',
+    'Note="Can make an AOO while flat-footed%{dexterityModifier>0?\' and make +\'+dexterityModifier+\' AOO per rd\':\'\'}"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
+  'Deflect Arrows':
+     'Section=combat ' +
+     'Note="Can use a free hand to bat away a successful ranged attack, suffering no damage, once per rd"',
   'Deft Hands':'Section=skill Note="+2 Sleight Of Hand/+2 Use Rope"',
+  'Diehard':
+    'Section=combat ' +
+    'Note="Can remain conscious, stable, and able to act with negative hit points; taking a standard action inflicts 1 HP"',
   'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
   'Dodge':'Section=combat Note="+1 Armor Class"',
   'Endurance':
     'Section=save ' +
     'Note="+4 vs. damage from extended physical action, starvation, thirst, and suffocation/Can sleep in light or medium armor without becoming fatigued"',
   'Extra Turning':'Section=combat Note="Can Turn Undead +%V times per day"',
+  // TODO implement?
+  'Far Shot':
+    'Section=combat Note="x1.5 projectile range, x2 thrown weapon range"',
+  'Great Cleave':'Section=combat Note="Can use Cleave multiple times per rd"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
+  'Greater Two-Weapon Fighting':
+    'Section=combat ' +
+    'Note="Can make a third off-hand attack with a -10 attack penalty"',
+  'Greater Weapon Focus (%weapon)':
+    'Section=combat Note="+1 %weapon Attack Modifier"',
+  'Greater Weapon Specialization (%weapon)':
+    'Section=combat Note="+2 %weapon Damage Modifier"',
+  'Improved Bull Rush':
+    'Section=combat ' +
+    'Note="+4 on Bull Rush attempts, and they provoke no AOO from the target"',
   'Improved Critical (%weapon)':'Section=combat Note="x2 %weapon Threat Range"',
+  'Improved Disarm':
+    'Section=combat ' +
+    'Note="+4 on Disarm attempts, they provoke no AOO, and the target cannot attempt to disarm on failure"',
+  'Improved Feint':'Section=combat Note="Can Feint as a move action"',
+  'Improved Grapple':
+    'Section=combat ' +
+    'Note="+4 on Grapple checks, and Grapple attempts provoke no AOO"',
+  'Improved Overrun':
+    'Section=combat ' +
+    'Note="+4 on Overrun attempts, and the target cannot avoid them"',
+  'Improved Initiative':'Section=combat Note="+4 Initiative"',
+  'Improved Precise Shot':
+    'Section=combat ' +
+    'Note="Ranged attacks ignore partial cover or concealment, and ranged attacks on a grappled target never hit another in the grapple"',
   'Improved Shield Bash':
     'Section=combat ' +
     'Note="Retains shield Armor Class benefit when using Shield Bash"',
-  'Improved Initiative':'Section=combat Note="+4 Initiative"',
+  'Improved Sunder':
+    'Section=combat Note="+4 on Sunder attempts, and they provoke no AOO"',
+  'Improved Trip':
+    'Section=combat ' +
+    'Note="+4 on Trip attempts, they provoke no AOO, and a successful Trip allows an immediate attack on the target"',
   'Improved Turning':'Section=combat Note="+1 Turning Level"',
+  'Improved Two-Weapon Fighting':
+    'Section=combat Note="Can make a second off-hand attack with a -5 penalty"',
   'Improved Unarmed Strike':
     'Section=combat ' +
     'Note="Unarmed strikes provoke no AOO and can deal lethal damage"',
@@ -1053,6 +1106,13 @@ SRD35.FEATURES = {
     'Section=feature Note="Can attract companions and devoted followers"',
   'Lightning Reflexes':'Section=save Note="+2 Reflex"',
   'Magical Aptitude':'Section=skill Note="+2 Spellcraft/+2 Use Magic Device"',
+  'Manyshot':
+    'Section=combat ' +
+    'Note="R30\' Can fire up to %{(baseAttack+4)//5} arrows simultaneously at a single target with a -2 attack penalty per arrow"',
+  'Mobility':'Section=combat Note="+4 Armor Class vs. movement AOO"',
+  'Mounted Archery':
+    'Section=combat ' +
+    'Note="Reduces the mounted ranged weapon attack penalty to -2 during a double move and -4 during a run"',
   'Mounted Combat':
     'Section=combat ' +
     'Note="Can use a reaction to negate damage to mount with a successful Ride skill check (DC foe attack roll) once per rd"',
@@ -1065,6 +1125,8 @@ SRD35.FEATURES = {
   'Power Attack':
     'Section=combat ' +
     'Note="Can suffer up to -%{baseAttack} attack for an equal damage bonus, or a x2 damage bonus when attacking two-handed, for 1 rd"',
+  'Precise Shot':
+    'Section=combat Note="Suffers no penalty from shooting into a melee"',
   'Quick Draw':
     'Section=combat ' +
     'Note="Can draw a weapon as a free action and throw weapons at the full attack rate"',
@@ -1074,16 +1136,43 @@ SRD35.FEATURES = {
     'Section=combat Note="Can reload a heavy crossbow as a move action"',
   'Rapid Reload (Light)':
     'Section=combat Note="Can reload a light crossbow as a free action"',
+  'Rapid Shot':
+    'Section=combat ' +
+    'Note="Can make an extra ranged attack during a full attack, suffering a -2 penalty on all ranged attacks during the rd"',
+  'Ride-By Attack':
+    'Section=combat ' +
+    'Note="Can move before and after a mounted attack without provoking AOO, moving up to 2x mounted Speed total"',
   'Run':
     'Section=ability,combat,skill ' +
     'Note="+1 Run Speed Multiplier",' +
          '"Retains Dexterity bonus to Armor Class while running",' +
          '"+4 running Jump"',
   'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
+  'Shot On The Run':
+    'Section=combat ' +
+    'Note="Can move before and after a ranged attack, moving up to %{speed}\' total"',
   'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
+  'Snatch Arrows':
+    'Section=combat ' +
+    'Note="Can use Deflect Arrows to catch ranged weapons, and can make an immediate attack with a caught thrown weapon"',
+  'Spirited Charge':
+    'Section=combat ' +
+    'Note="Attacks during a charge inflict double damage, or triple damage with a lance"',
+  'Spring Attack':
+    'Section=combat ' +
+    'Note="Can move before and after a melee attack without provoking an AOO from the target, moving up to %{speed}\' total"',
   'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
+  'Stunning Fist':
+    'Section=combat ' +
+    'Note="Unarmed Strike can inflict stunned for 1 rd (save Fortitude DC %{10+level//2+wisdomModifier} negates) %V time%{combatNotes.stunningFist>1?\'s\':\'\'} per day"',
   'Toughness':'Section=combat Note="+%V Hit Points"',
   'Track':'Section=skill Note="Can use Survival to follow creatures\' trails"',
+  'Trample':
+    'Section=combat ' +
+    'Note="Mounted Overrun targets cannot avoid them, and a successful mounted Overrun allows the mount to make a hoof attack vs. the target"',
+  'Two-Weapon Defense':
+    'Section=combat ' +
+    'Note="+1 Armor Class when wielding two weapons, or +2 if fighting defensively"',
   'Two-Weapon Fighting':
     'Section=combat ' +
     'Note="Reduces the attack penalty when fighting with a weapon in each hand by 2 for the primary hand and 6 for the off hand"',
@@ -1091,6 +1180,11 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="+%{dexterityModifier-strengthModifier} light melee weapon attacks (uses Dexterity instead of Strength)"',
   'Weapon Focus (%weapon)':'Section=combat Note="+1 %weapon Attack Modifier"',
+  'Weapon Specialization (%weapon)':
+    'Section=combat Note="+2 %weapon Damage Modifier"',
+  'Whirlwind Attack':
+    'Section=combat ' +
+    'Note="Can use a full attack acion to make 1 attack vs. all foes within reach"',
 
   'Augment Summoning':
     'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
@@ -1099,7 +1193,6 @@ SRD35.FEATURES = {
   'Celestial Familiar':
     'Section=companion ' +
     'Note="May use Smite Evil (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
-  'Cleave':'Section=combat Note="May make extra attack when foe drops 1/rd"',
   'Command Like Creatures':
     'Section=companion ' +
     'Note="May use <i>Command</i> effects targeting similar creatures (DC %{levels.Paladin//2 + charismaModifier + 10} Will neg) %{levels.Paladin//2}/dy"',
@@ -1119,15 +1212,10 @@ SRD35.FEATURES = {
     'Section=magic Note="May create wands for up to 4th level spell"',
   'Craft Wondrous Item':
     'Section=magic Note="May create and mend miscellaneous magic items"',
-  'Deflect Arrows':
-     'Section=combat Note="Suffers no damage from ranged hit 1/rd"',
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="May deliver touch spells if in contact w/master when cast"',
   'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
-  'Diehard':
-    'Section=combat ' +
-    'Note="Remains conscious, stable, and able to act with negative HP"',
   'Empathic Link':'Section=companion Note="May share emotions up to 1 mile"',
   'Empower Spell':
     'Section=magic ' +
@@ -1137,97 +1225,41 @@ SRD35.FEATURES = {
   'Eschew Materials':'Section=magic Note="May cast spells w/out materials"',
   'Extend Spell':
     'Section=magic Note="May use +1 spell slot to dbl chosen spell duration"',
-  'Familiar Bat':'Section=skill Note="+3 Listen"',
-  'Familiar Cat':'Section=skill Note="+3 Move Silently"',
-  'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
-  'Familiar Lizard':'Section=skill Note="+3 Climb"',
-  'Familiar Owl':'Section=skill Note="+3 Spot in shadows and darkness"',
-  'Familiar Rat':'Section=save Note="+2 Fortitude"',
-  'Familiar Raven':'Section=skill Note="+3 Appraise"',
-  'Familiar Tiny Viper':'Section=skill Note="+3 Bluff"',
-  'Familiar Toad':'Section=combat Note="+3 Hit Points"',
-  'Familiar Weasel':'Section=save Note="+2 Reflex"',
-  'Far Shot':'Section=combat Note="x1.5 projectile range, x2 thrown"',
   'Fiendish Familiar':
     'Section=companion ' +
     'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
   'Forge Ring':'Section=magic Note="May create and mend magic rings"',
-  'Great Cleave':'Section=combat Note="May cleave w/out limit"',
   'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
   'Greater Spell Penetration':
     'Section=magic Note="+2 checks to overcome spell resistance"',
-  'Greater Two-Weapon Fighting':
-    'Section=combat Note="May make third off-hand attack at -10 penalty"',
-  'Greater Weapon Focus (%weapon)':
-    'Section=combat Note="+1 %weapon Attack Modifier"',
-  'Greater Weapon Specialization (%weapon)':
-    'Section=combat Note="+2 %weapon Damage Modifier"',
   'Heighten Spell':
     'Section=magic Note="May cast chosen spell at a higher level"',
-  'Improved Bull Rush':
-    'Section=combat ' +
-    'Note="Bull Rush provokes no AOO/+4 Bull Rush Strength check"',
   'Improved Counterspell':
     'Section=magic ' +
     'Note="May counterspell using a higher-level spell from the same school"',
-  'Improved Disarm':
-    'Section=combat Note="Disarm provokes no AOO/+4 Disarm attack"',
   'Improved Familiar':'Section=feature Note="Has expanded familiar choices"',
-  'Improved Feint':
-    'Section=combat Note="May make Bluff check to Feint as a move action"',
-  'Improved Grapple':
-    'Section=combat Note="Grapple provokes no AOO/+4 Grapple check"',
-  'Improved Overrun':
-    'Section=combat ' +
-    'Note="Gains +4 overrun Strength check/Foe cannot avoid overrun"',
-  'Improved Precise Shot':
-    'Section=combat ' +
-    'Note="Foe gains no Armor Class bonus for partial cover/May attack grappling target"',
   'Improved Speed':'Section=companion Note="+10 companion Speed"',
-  'Improved Sunder':
-    'Section=combat Note="Sunder provokes no AOO/+4 Sunder attack"',
-  'Improved Trip':
-    'Section=combat ' +
-    'Note="Trip provokes no AOO/+4 trip Strength check/May attack after trip"',
-  'Improved Two-Weapon Fighting':
-    'Section=combat Note="May make second off-hand attack at -5 penalty"',
   'Link':
     'Section=skill ' +
     'Note="+4 Handle Animal (companion)/+4 Wild Empathy (companion)"',
-  'Manyshot':
-    'Section=combat ' +
-    'Note="R30\' May fire up to %{(baseAttack+4)//5} arrows simultaneously at -2 attack per arrow"',
   'Maximize Spell':
     'Section=magic ' +
     'Note="May use +3 spell slot to maximize all variable effects on chosen spell"',
-  'Mobility':'Section=combat Note="+4 Armor Class vs. movement AOO"',
-  'Mounted Archery':
-    'Section=combat Note="Suffers half normal mounted ranged weapon penalty"',
   'Multiattack':
     'Section=companion ' +
     'Note="Reduces additional attack penalty to -2 or gives second attack at -5"',
-  'Precise Shot':'Section=combat Note="Suffers no penalty on shot into melee"',
   'Quicken Spell':
     'Section=magic ' +
     'Note="May use +4 spell slot to cast chosen spell as a free action 1/rd"',
-  'Rapid Shot':
-    'Section=combat ' +
-    'Note="May make normal and extra ranged attacks at a -2 penalty"',
-  'Ride-By Attack':
-    'Section=combat ' +
-    'Note="May move before and after mounted attack w/out provoking AOO"',
   'Scribe Scroll':'Section=magic Note="May create scroll of any known spell"',
   'Scry On Familiar':'Section=companion Note="Master may view companion 1/dy"',
   'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
   'Share Spells':
     'Section=companion Note="Master may share self spell w/adjacent companion"',
-  'Shot On The Run':
-    'Section=combat Note="May move before and after ranged attack"',
   'Silent Spell':
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out speech"',
   'Slow':'Section=ability Note="-10 Speed"',
-  'Snatch Arrows':'Section=combat Note="May catch ranged weapons"',
   'Speak With Like Animals':
     'Section=companion Note="May talk w/similar creatures"',
   'Speak With Master':
@@ -1238,26 +1270,9 @@ SRD35.FEATURES = {
     'Note="May prepare %{intelligenceModifier} spells w/out spellbook"',
   'Spell Penetration':
     'Section=magic Note="+2 checks to overcome spell resistance"',
-  'Spirited Charge':
-    'Section=combat Note="x2 damage (lance x3) on mounted charge"',
-  'Spring Attack':
-    'Section=combat ' +
-    'Note="May move before and after melee attack w/out provoking AOO"',
   'Still Spell':
     'Section=magic ' +
     'Note="May use +1 spell slot to cast chosen spell w/out movement"',
-  'Stunning Fist':
-    'Section=combat ' +
-    'Note="Unarmed strike inflicts stunned for 1 rd %{(levels.Monk||0)>?level//4}/dy (DC %{10+level//2+wisdomModifier} Fort neg)"',
-  'Trample':
-    'Section=combat ' +
-    'Note="Foe cannot avoid mounted overrun/Mount gains bonus hoof attack"',
-  'Two-Weapon Defense':
-    'Section=combat ' +
-    'Note="+1 Armor Class when wielding two weapons; +2 when fighting defensively"',
-  'Weapon Specialization (%weapon)':
-    'Section=combat Note="+2 %weapon Damage Modifier"',
-  'Whirlwind Attack':'Section=combat Note="May attack all foes in reach"',
   'Widen Spell':
     'Section=magic ' +
     'Note="May use +3 spell slot to dbl chosen spell area of affect"',
@@ -2156,7 +2171,7 @@ SRD35.SPELLS = {
   'Blade Barrier':
     'School=Evocation ' +
     'Level=C6,Good6,War6 ' +
-    'Description="R%{100+lvl*10}\' %{lvl*20}\' blade wall inflicts ${lvl<?15}d6 HP/rd (Ref half) for %{lvl} min"',
+    'Description="R%{100+lvl*10}\' %{lvl*20}\' blade wall inflicts %{lvl<?15}d6 HP/rd (Ref half) for %{lvl} min"',
   'Blasphemy':
     'School=Evocation ' +
     'Level=C7,Evil7 ' +
@@ -2177,7 +2192,7 @@ SRD35.SPELLS = {
   'Blight':
     'School=Necromancy ' +
     'Level=D4,S5,W5 ' +
-    'Description="Touched plant suffers ${lvl<?15}d6 HP (Fort half)"',
+    'Description="Touched plant suffers %{lvl<?15}d6 HP (Fort half)"',
   'Blindness/Deafness':
     'School=Necromancy ' +
     'Level=B2,C3,S2,W2 ' +
@@ -2207,7 +2222,7 @@ SRD35.SPELLS = {
   'Burning Hands':
     'School=Evocation ' +
     'Level=Adept1,Fire1,S1,W1 ' +
-    'Description="R15\' Cone inflicts ${lvl<?5}d4 HP (Ref half)"',
+    'Description="R15\' Cone inflicts %{lvl<?5}d4 HP (Ref half)"',
 
   'Call Lightning':
     'School=Evocation ' +
@@ -2241,7 +2256,7 @@ SRD35.SPELLS = {
   'Chain Lightning':
     'School=Evocation ' +
     'Level=Air6,S6,W6 ' +
-    'Description="R%{400+lvl*40}\' Bolt inflicts ${lvl<?20}d6 HP to primary target, half HP to %{lvl<?20} secondary targets in 30\' radius (Ref half)"',
+    'Description="R%{400+lvl*40}\' Bolt inflicts %{lvl<?20}d6 HP to primary target, half HP to %{lvl<?20} secondary targets in 30\' radius (Ref half)"',
   'Changestaff':
     'School=Transmutation ' +
     'Level=D7 ' +
@@ -2249,7 +2264,7 @@ SRD35.SPELLS = {
   'Chaos Hammer':
     'School=Evocation ' +
     'Level=Chaos4 ' +
-    'Description="R%{100+lvl*10}\' Lawful creatures in 20\' radius suffer ${lvl//2<?5}d8 HP and are slowed (-2 Armor Class, attack, damage, and Reflex) for 1d6 rd, neutral half (Will half)"',
+    'Description="R%{100+lvl*10}\' Lawful creatures in 20\' radius suffer %{lvl//2<?5}d8 HP and are slowed (-2 Armor Class, attack, damage, and Reflex) for 1d6 rd, neutral half (Will half)"',
   'Charm Animal':
     'School=Enchantment ' +
     'Level=D1,R1 ' +
@@ -2277,7 +2292,7 @@ SRD35.SPELLS = {
   'Circle Of Death':
     'School=Necromancy ' +
     'Level=S6,W6 ' +
-    'Description="R%{100+lvl*10}\' ${lvl<?20}d4 HD of creatures w/up to 8 HD in 40\' radius slain (Fort neg)"',
+    'Description="R%{100+lvl*10}\' %{lvl<?20}d4 HD of creatures w/up to 8 HD in 40\' radius slain (Fort neg)"',
   'Clairaudience/Clairvoyance':
     'School=Divination ' +
     'Level=Assassin4,B3,Knowledge3,S3,W3 ' +
@@ -2333,7 +2348,7 @@ SRD35.SPELLS = {
   'Cone Of Cold':
     'School=Evocation ' +
     'Level=S5,W5,Water6 ' +
-    'Description="R60\' Cone inflicts ${lvl<?15}d6 HP (Ref half)"',
+    'Description="R60\' Cone inflicts %{lvl<?15}d6 HP (Ref half)"',
   'Confusion':
     'School=Enchantment ' +
     'Level=B3,Trickery4,S4,W4 ' +
@@ -2393,11 +2408,11 @@ SRD35.SPELLS = {
   'Create Greater Undead':
     'School=Necromancy ' +
     'Level=C8,Death8,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Creates ${\'shadow\'+(lvl>=16?\', wraith\':\'\')+(lvl>=18?\', spectre\':\'\')+(lvl>=20?\', devourer\':\'\')} from physical remains"',
+    'Description="R%{25+lvl//2*5}\' Creates %{\'shadow\'+(lvl>=16?\', wraith\':\'\')+(lvl>=18?\', spectre\':\'\')+(lvl>=20?\', devourer\':\'\')} from physical remains"',
   'Create Undead':
     'School=Necromancy ' +
     'Level=C6,Death6,Evil6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' Creates ${\'ghoul\'+(lvl>=12?\', ghast\':\'\')+(lvl>=15?\', mummy\':\'\')+(lvl>=18?\', mohrg\':\'\')} from physical remains"',
+    'Description="R%{25+lvl//2*5}\' Creates %{\'ghoul\'+(lvl>=12?\', ghast\':\'\')+(lvl>=15?\', mummy\':\'\')+(lvl>=18?\', mohrg\':\'\')} from physical remains"',
   'Create Water':
     'School=Conjuration ' +
     'Level=Adept0,C0,D0,P1 ' +
@@ -2513,7 +2528,7 @@ SRD35.SPELLS = {
   'Delayed Blast Fireball':
     'School=Evocation ' +
     'Level=S7,W7 ' +
-    'Description="R%{400+lvl*40}\' Inflicts ${lvl<?20}d6 HP (Ref half) in 20\' radius; self may delay effects up to 5 rd"',
+    'Description="R%{400+lvl*40}\' Inflicts %{lvl<?20}d6 HP (Ref half) in 20\' radius; self may delay effects up to 5 rd"',
   'Demand':
     'School=Enchantment ' +
     'Level=S8,W8 ' +
@@ -2609,7 +2624,7 @@ SRD35.SPELLS = {
   'Disintegrate':
     'School=Transmutation ' +
     'Level=Destruction7,S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Ranged touch inflicts ${lvl*2<?40}d6 HP (Fort 5d6); slain target turns to dust"',
+    'Description="R%{100+lvl*10}\' Ranged touch inflicts %{lvl*2<?40}d6 HP (Fort 5d6); slain target turns to dust"',
   'Dismissal':
     'School=Abjuration ' +
     'Level=C4,S5,W5 ' +
@@ -2803,7 +2818,7 @@ SRD35.SPELLS = {
   'Fire Seeds':
     'School=Conjuration ' +
     'Level=D6,Fire6,Sun6 ' +
-    'Description="Touched 4 acorn grenades inflict ${lvl<?20}d6 total or 8 berry bombs detonate on command to inflict 1d8+%{lvl} in 5\' radius (Ref half) for %{lvl*10} min"',
+    'Description="Touched 4 acorn grenades inflict %{lvl<?20}d6 total or 8 berry bombs detonate on command to inflict 1d8+%{lvl} in 5\' radius (Ref half) for %{lvl*10} min"',
   'Fire Shield':
     'School=Evocation ' +
     'Level=Fire5,Sun4,S4,W4 ' +
@@ -2811,7 +2826,7 @@ SRD35.SPELLS = {
   'Fire Storm':
     'School=Evocation ' +
     'Level=C8,D7,Fire7 ' +
-    'Description="R%{100+lvl*10}\' %{lvl*2} 10\' cu inflicts ${lvl<?20}d6 HP (Ref half)"',
+    'Description="R%{100+lvl*10}\' %{lvl*2} 10\' cu inflicts %{lvl<?20}d6 HP (Ref half)"',
   'Fire Trap':
     'School=Abjuration ' +
     'Level=D2,S4,W4 ' +
@@ -2819,7 +2834,7 @@ SRD35.SPELLS = {
   'Fireball':
     'School=Evocation ' +
     'Level=S3,W3 ' +
-    'Description="R%{400+lvl*40}\' Inflicts ${lvl<?10}d6 HP (Ref half) in 20\' radius"',
+    'Description="R%{400+lvl*40}\' Inflicts %{lvl<?10}d6 HP (Ref half) in 20\' radius"',
   'Flame Arrow':
     'School=Transmutation ' +
     'Level=S3,W3 ' +
@@ -2832,7 +2847,7 @@ SRD35.SPELLS = {
   'Flame Strike':
     'School=Evocation ' +
     'Level=C5,D4,Sun5,War5 ' +
-    'Description="R%{100+lvl*10}\' 10\' radius x 40\' high inflicts ${lvl<?15}d6 HP (Ref half)"',
+    'Description="R%{100+lvl*10}\' 10\' radius x 40\' high inflicts %{lvl<?15}d6 HP (Ref half)"',
   'Flaming Sphere':
     'School=Evocation ' +
     'Level=D2,S2,W2 ' +
@@ -2894,7 +2909,7 @@ SRD35.SPELLS = {
   'Freezing Sphere':
     'School=Evocation ' +
     'Level=S6,W6 ' +
-    'Description="R%{400+lvl*40}\' 10\' radius inflicts ${lvl<?15}d6 HP (Ref half)"',
+    'Description="R%{400+lvl*40}\' 10\' radius inflicts %{lvl<?15}d6 HP (Ref half)"',
 
   'Gaseous Form':
     'School=Transmutation ' +
@@ -2948,11 +2963,11 @@ SRD35.SPELLS = {
   'Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C3 ' +
-    'Description="Proscribed creatures who transit %{lvl*5} sq\' area trigger ${lvl//2<?5}d8 HP blast in 5\' radius (Ref half) or harmful spell up to 3rd level"',
+    'Description="Proscribed creatures who transit %{lvl*5} sq\' area trigger %{lvl//2<?5}d8 HP blast in 5\' radius (Ref half) or harmful spell up to 3rd level"',
   'Greater Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C6 ' +
-    'Description="Proscribed creatures who transit %{lvl*5} sq\' area trigger ${lvl//2<?10}d8 HP blast in 5\' radius (Ref half) or harmful spell up to 6th level"',
+    'Description="Proscribed creatures who transit %{lvl*5} sq\' area trigger %{lvl//2<?10}d8 HP blast in 5\' radius (Ref half) or harmful spell up to 6th level"',
   'Good Hope':
     'School=Enchantment ' +
     'Level=B3 ' +
@@ -3082,7 +3097,7 @@ SRD35.SPELLS = {
   'Holy Smite':
     'School=Evocation ' +
     'Level=Good4 ' +
-    'Description="R%{100+lvl*10}\' Evil creatures in 20\' radius suffer ${lvl//2<?5}d8 HP and blindness for 1 rd, neutral half (Will half)"',
+    'Description="R%{100+lvl*10}\' Evil creatures in 20\' radius suffer %{lvl//2<?5}d8 HP and blindness for 1 rd, neutral half (Will half)"',
   'Holy Sword':
     'School=Evocation ' +
     'Level=P4 ' +
@@ -3094,7 +3109,7 @@ SRD35.SPELLS = {
   'Horrid Wilting':
     'School=Necromancy ' +
     'Level=S8,W8,Water8 ' +
-    'Description="R%{400+lvl*40}\' Creatures in 30\' radius suffer ${lvl<?20}d6 HP (plants or water elementals ${lvl<?20}d8 HP) (Fort half)"',
+    'Description="R%{400+lvl*40}\' Creatures in 30\' radius suffer %{lvl<?20}d6 HP (plants or water elementals %{lvl<?20}d8 HP) (Fort half)"',
   'Hypnotic Pattern':
     'School=Illusion ' +
     'Level=B2,S2,W2 ' +
@@ -3225,7 +3240,7 @@ SRD35.SPELLS = {
   'Jump':
     'School=Transmutation ' +
     'Level=Assassin1,D1,R1,S1,W1 ' +
-    'Description="Touched gains +${lvl<5?10:lvl<9?20:30} Jump for %{lvl} min" ' +
+    'Description="Touched gains +%{lvl<5?10:lvl<9?20:30} Jump for %{lvl} min" ' +
     'Liquid=Potion',
 
   'Keen Edge':
@@ -3258,7 +3273,7 @@ SRD35.SPELLS = {
   'Lightning Bolt':
     'School=Evocation ' +
     'Level=Adept3,S3,W3 ' +
-    'Description="120\' bolt inflicts ${lvl<?10}d6 HP (Ref half)"',
+    'Description="120\' bolt inflicts %{lvl<?10}d6 HP (Ref half)"',
   'Limited Wish':
     // 'School=Universal ' +
     'Level=S7,W7 ' +
@@ -3507,7 +3522,7 @@ SRD35.SPELLS = {
   "Order's Wrath":
     'School=Evocation ' +
     'Level=Law4 ' +
-    'Description="R%{100+lvl*10}\' Chaotic creatures in 30\' cu suffer ${lvl//2<?5}d8 HP and are dazed for 1 rd, neutral half (Will half)"',
+    'Description="R%{100+lvl*10}\' Chaotic creatures in 30\' cu suffer %{lvl//2<?5}d8 HP and are dazed for 1 rd, neutral half (Will half)"',
   'Overland Flight':
     'School=Transmutation ' +
     'Level=S5,W5 ' +
@@ -3598,7 +3613,7 @@ SRD35.SPELLS = {
   'Polar Ray':
     'School=Evocation ' +
     'Level=S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Ranged touch inflicts ${lvl<?25}d6 HP"',
+    'Description="R%{25+lvl//2*5}\' Ranged touch inflicts %{lvl<?25}d6 HP"',
   'Polymorph':
     'School=Transmutation ' +
     'Level=Adept4,S4,W4 ' +
@@ -3705,7 +3720,7 @@ SRD35.SPELLS = {
   'Quench':
     'School=Transmutation ' +
     'Level=D3 ' +
-    'Description="R%{100+lvl*10}\' Extinguishes fires, dispels magic fires, or inflicts ${lvl<?10}d6 HP to fire creatures in %{lvl} 20\' cu"',
+    'Description="R%{100+lvl*10}\' Extinguishes fires, dispels magic fires, or inflicts %{lvl<?10}d6 HP to fire creatures in %{lvl} 20\' cu"',
 
   'Rage':
     'School=Enchantment ' +
@@ -3809,7 +3824,7 @@ SRD35.SPELLS = {
   'Resist Energy':
     'School=Abjuration ' +
     'Level=Adept2,C2,D2,Fire3,P2,R1,S2,W2 ' +
-    'Description="Touched gains resistance ${lvl>10?30:lvl>6?20:10} to chosen energy for %{lvl*10} min" ' +
+    'Description="Touched gains resistance %{lvl>10?30:lvl>6?20:10} to chosen energy for %{lvl*10} min" ' +
     'Liquid=Potion',
   'Resistance':
     'School=Abjuration ' +
@@ -3839,7 +3854,7 @@ SRD35.SPELLS = {
   'Righteous Might':
     'School=Transmutation ' +
     'Level=C5,Strength5 ' +
-    'Description="Self dbl size (+4 Strength, +2 Constitution, +2 Armor Class) and gains DR ${lvl>14?9:lvl>11?6:3}/evil or DR ${lvl>14?9:lvl>11?6:3}/good for %{lvl} rd"',
+    'Description="Self dbl size (+4 Strength, +2 Constitution, +2 Armor Class) and gains DR %{lvl>14?9:lvl>11?6:3}/evil or DR %{lvl>14?9:lvl>11?6:3}/good for %{lvl} rd"',
   'Rope Trick':
     'School=Transmutation ' +
     'Level=S2,W2 ' +
@@ -3865,7 +3880,7 @@ SRD35.SPELLS = {
   'Scorching Ray':
     'School=Evocation ' +
     'Level=Adept2,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Ranged touch w/${lvl>10?3:lvl>6?2:1} rays in 15\' radius inflict 4d6 HP each"',
+    'Description="R%{25+lvl//2*5}\' Ranged touch w/%{lvl>10?3:lvl>6?2:1} rays in 15\' radius inflict 4d6 HP each"',
   'Screen':
     'School=Illusion ' +
     'Level=Trickery7,S8,W8 ' +
@@ -3885,7 +3900,7 @@ SRD35.SPELLS = {
   'Searing Light':
     'School=Evocation ' +
     'Level=C3,Sun3 ' +
-    'Description="R%{100+lvl*10}\' Ranged touch inflicts ${lvl//2<?5}d8 HP (undead ${lvl<?10}d6, object ${lvl//2<?5}d6)"',
+    'Description="R%{100+lvl*10}\' Ranged touch inflicts %{lvl//2<?5}d8 HP (undead %{lvl<?10}d6, object %{lvl//2<?5}d6)"',
   'Secret Chest':
     'School=Conjuration ' +
     'Level=S5,W5 ' +
@@ -3953,7 +3968,7 @@ SRD35.SPELLS = {
   'Shatter':
     'School=Evocation ' +
     'Level=B2,Blackguard2,C2,Chaos2,Destruction2,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Breakables in 5\' radius shatter (Will neg), or target object suffers ${lvl<?10}d6 HP (Fort half)"',
+    'Description="R%{25+lvl//2*5}\' Breakables in 5\' radius shatter (Will neg), or target object suffers %{lvl<?10}d6 HP (Fort half)"',
   'Shield':
     'School=Abjuration ' +
     'Level=S1,W1 ' +
@@ -3979,7 +3994,7 @@ SRD35.SPELLS = {
   'Shocking Grasp':
     'School=Evocation ' +
     'Level=S1,W1 ' +
-    'Description="Touch (+3 vs. metal) inflicts ${lvl<?5}d6 HP"',
+    'Description="Touch (+3 vs. metal) inflicts %{lvl<?5}d6 HP"',
   'Shout':
     'School=Evocation ' +
     'Level=B4,S4,W4 ' +
@@ -4220,11 +4235,11 @@ SRD35.SPELLS = {
   'Sunbeam':
     'School=Evocation ' +
     'Level=D7,Sun7 ' +
-    'Description="%{lvl//3} 60\' beams inflict 4d6 HP and blind (undead and oozes ${lvl<?20}d6 HP) (Ref half HP only) 1/rd for %{lvl} rd"',
+    'Description="%{lvl//3} 60\' beams inflict 4d6 HP and blind (undead and oozes %{lvl<?20}d6 HP) (Ref half HP only) 1/rd for %{lvl} rd"',
   'Sunburst':
     'School=Evocation ' +
     'Level=D8,Sun8,S8,W8 ' +
-    'Description="R%{400+lvl*40}\' 80\' radius inflicts 6d6 HP and blinds (undead and oozes ${lvl<?25}d6 HP) (Ref half HP only)"',
+    'Description="R%{400+lvl*40}\' 80\' radius inflicts 6d6 HP and blinds (undead and oozes %{lvl<?25}d6 HP) (Ref half HP only)"',
   'Symbol Of Death':
     'School=Necromancy ' +
     'Level=C8,S8,W8 ' +
@@ -4367,7 +4382,7 @@ SRD35.SPELLS = {
   'Undeath To Death':
     'School=Necromancy ' +
     'Level=C6,S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Destroys ${lvl<?20}d4 HD of undead w/up to 8 HD each in 40\' radius (Will neg)"',
+    'Description="R%{100+lvl*10}\' Destroys %{lvl<?20}d4 HD of undead w/up to 8 HD each in 40\' radius (Will neg)"',
   'Undetectable Alignment':
     'School=Abjuration ' +
     'Level=Assassin2,B1,C2,P2 ' +
@@ -4384,7 +4399,7 @@ SRD35.SPELLS = {
   'Unholy Blight':
     'School=Evocation ' +
     'Level=Evil4 ' +
-    'Description="R%{100+lvl*10}\' Good creatures in 20\' radius suffer ${lvl//2<?5}d8 HP and sicken for 1 rd, neutral half (Will half)"',
+    'Description="R%{100+lvl*10}\' Good creatures in 20\' radius suffer %{lvl//2<?5}d8 HP and sicken for 1 rd, neutral half (Will half)"',
   'Unseen Servant':
     'School=Conjuration ' +
     'Level=B1,S1,W1 ' +
@@ -4393,7 +4408,7 @@ SRD35.SPELLS = {
   'Vampiric Touch':
     'School=Necromancy ' +
     'Level=S3,W3 ' +
-    'Description="Touched suffers ${lvl//2<?10}d6 HP, self gains same as temporary HP for 1 hr"',
+    'Description="Touched suffers %{lvl//2<?10}d6 HP, self gains same as temporary HP for 1 hr"',
   'Veil':
     'School=Illusion ' +
     'Level=B6,S6,W6 ' +
@@ -7588,6 +7603,11 @@ SRD35.featRulesExtra = function(rules, name) {
   } else if((matchInfo = name.match(/^(Exotic|Martial)\sWeapon\sProficiency.\((.*)\)$/)) != null) {
     rules.defineRule('weaponProficiency.' + matchInfo[2],
       'features.' + name, '=', '1'
+    );
+  } else if(name == 'Stunning Fist') {
+    rules.defineRule('combatNotes.stunningFist',
+      'levels.Monk', '=', null,
+      'level', '+=', 'Math.floor( (source - (dict["levels.Monk"]||0)) / 4)'
     );
   } else if((matchInfo = name.match(/^((Tower )?Shield) Proficiency$/)) != null) {
     rules.defineRule
