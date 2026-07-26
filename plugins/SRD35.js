@@ -1025,11 +1025,16 @@ SRD35.FEATURES = {
   'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
+  'Augment Summoning':
+    'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
   'Blind-Fight':
     'Section=ability,combat ' +
     'Note=' +
       '"Can move at 3/4 Speed in darkness or poor visibility",' +
       '"Can reroll misses due to concealment, retains Dexterity bonus to Armor Class when fighting invisible attackers, and invisible attackers gain no melee bonus"',
+  'Brew Potion':
+    'Section=magic ' +
+    'Note="Can create potions for known, targeted spells of up to 3rd level"',
   'Cleave':
     'Section=combat ' +
     'Note="Can make an extra attack after causing a foe to drop%{combatNotes.greatCleave?\'\':\' once per rd\'}"',
@@ -1042,6 +1047,15 @@ SRD35.FEATURES = {
   'Combat Reflexes':
     'Section=combat ' +
     'Note="Can make an AOO while flat-footed%{dexterityModifier>0?\' and make +\'+dexterityModifier+\' AOO per rd\':\'\'}"',
+  'Craft Magic Arms And Armor':
+    'Section=magic ' +
+    'Note="Can create and mend magic weapons, armor, and shields"',
+  'Craft Rod':'Section=magic Note="May create magic rods"',
+  'Craft Staff':'Section=magic Note="May create magic staves"',
+  'Craft Wand':
+    'Section=magic Note="Can create wands for known spells of up to 4th level"',
+  'Craft Wondrous Item':
+    'Section=magic Note="Can create and mend miscellaneous magic items"',
   'Deceitful':'Section=skill Note="+2 Disguise/+2 Forgery"',
   'Deflect Arrows':
      'Section=combat ' +
@@ -1052,15 +1066,31 @@ SRD35.FEATURES = {
     'Note="Can remain conscious, stable, and able to act with negative hit points; taking a standard action inflicts 1 HP"',
   'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
   'Dodge':'Section=combat Note="+1 Armor Class"',
+  'Empower Spell':
+    'Section=magic ' +
+    'Note="Can cast a spell using a spell slot 2 levels higher than normal to increase its variable effects by 50%"',
   'Endurance':
     'Section=save ' +
     'Note="+4 vs. damage from extended physical action, starvation, thirst, and suffocation/Can sleep in light or medium armor without becoming fatigued"',
+  'Enlarge Spell':
+    'Section=magic ' +
+    'Note="Can cast a spell using a spell slot 1 level higher than normal to double its range"',
+  'Eschew Materials':
+    'Section=magic ' +
+    'Note="Can ignore inexpensive material component requirements when casting spells"',
+  'Extend Spell':
+    'Section=magic ' +
+    'Note="Can cast a spell using a spell slot 1 level higher than normal to double its duration"',
   'Extra Turning':'Section=combat Note="Can Turn Undead +%V times per day"',
   // TODO implement?
   'Far Shot':
     'Section=combat Note="x1.5 projectile range, x2 thrown weapon range"',
+  'Forge Ring':'Section=magic Note="Can create and mend magic rings"',
   'Great Cleave':'Section=combat Note="Can use Cleave multiple times per rd"',
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
+  'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
+  'Greater Spell Penetration':
+    'Section=magic Note="+2 checks to overcome spell resistance"',
   'Greater Two-Weapon Fighting':
     'Section=combat ' +
     'Note="Can make a third off-hand attack with a -10 attack penalty"',
@@ -1068,13 +1098,19 @@ SRD35.FEATURES = {
     'Section=combat Note="+1 %weapon Attack Modifier"',
   'Greater Weapon Specialization (%weapon)':
     'Section=combat Note="+2 %weapon Damage Modifier"',
+  'Heighten Spell':
+    'Section=magic Note="Can cast spells at a higher than normal level"',
   'Improved Bull Rush':
     'Section=combat ' +
     'Note="+4 on Bull Rush attempts, and they provoke no AOO from the target"',
+  'Improved Counterspell':
+    'Section=magic ' +
+    'Note="Can counterspell using a higher-level spell from the same school"',
   'Improved Critical (%weapon)':'Section=combat Note="x2 %weapon Threat Range"',
   'Improved Disarm':
     'Section=combat ' +
     'Note="+4 on Disarm attempts, they provoke no AOO, and the target cannot attempt to disarm on failure"',
+  'Improved Familiar':'Section=feature Note="Has expanded familiar choices"',
   'Improved Feint':'Section=combat Note="Can Feint as a move action"',
   'Improved Grapple':
     'Section=combat ' +
@@ -1109,6 +1145,9 @@ SRD35.FEATURES = {
   'Manyshot':
     'Section=combat ' +
     'Note="R30\' Can fire up to %{(baseAttack+4)//5} arrows simultaneously at a single target with a -2 attack penalty per arrow"',
+  'Maximize Spell':
+    'Section=magic ' +
+    'Note="Can cast a spell using a spell slot 3 levels higher than normal to maximize all of its variable effects"',
   'Mobility':'Section=combat Note="+4 Armor Class vs. movement AOO"',
   'Mounted Archery':
     'Section=combat ' +
@@ -1130,6 +1169,9 @@ SRD35.FEATURES = {
   'Quick Draw':
     'Section=combat ' +
     'Note="Can draw a weapon as a free action and throw weapons at the full attack rate"',
+  'Quicken Spell':
+    'Section=magic ' +
+    'Note="Once per rd, can cast a spell using a spell slot 4 levels higher than normal to cast it as a free action"',
   'Rapid Reload (Hand)':
     'Section=combat Note="Can reload a hand crossbow as a free action"',
   'Rapid Reload (Heavy)':
@@ -1147,14 +1189,24 @@ SRD35.FEATURES = {
     'Note="+1 Run Speed Multiplier",' +
          '"Retains Dexterity bonus to Armor Class while running",' +
          '"+4 running Jump"',
+  'Scribe Scroll':'Section=magic Note="Can create scrolls of known spells"',
   'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
   'Shot On The Run':
     'Section=combat ' +
     'Note="Can move before and after a ranged attack, moving up to %{speed}\' total"',
+  'Silent Spell':
+    'Section=magic ' +
+    'Note="Can cast a spell using a spell slot 1 level higher than normal to cast it without verbal components"',
   'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
   'Snatch Arrows':
     'Section=combat ' +
     'Note="Can use Deflect Arrows to catch ranged weapons, and can make an immediate attack with a caught thrown weapon"',
+  'Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
+  'Spell Mastery':
+    'Section=magic ' +
+    'Note="Can prepare %{$\'features.Spell Mastery\'*intelligenceModifier} chosen spell%{$\'features.Spell Mastery\'>1||intelligenceModifier>1?\'s\':\'\'} without using a spellbook"',
+  'Spell Penetration':
+    'Section=magic Note="+2 checks to overcome spell resistance"',
   'Spirited Charge':
     'Section=combat ' +
     'Note="Attacks during a charge inflict double damage, or triple damage with a lance"',
@@ -1162,6 +1214,9 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Can move before and after a melee attack without provoking an AOO from the target, moving up to %{speed}\' total"',
   'Stealthy':'Section=skill Note="+2 Hide/+2 Move Silently"',
+  'Still Spell':
+    'Section=magic ' +
+    'Note="Can cast a spell using a spell slot 1 level higher than normal to cast it without somatic components"',
   'Stunning Fist':
     'Section=combat ' +
     'Note="Unarmed Strike can inflict stunned for 1 rd (save Fortitude DC %{10+level//2+wisdomModifier} negates) %V time%{combatNotes.stunningFist>1?\'s\':\'\'} per day"',
@@ -1185,11 +1240,10 @@ SRD35.FEATURES = {
   'Whirlwind Attack':
     'Section=combat ' +
     'Note="Can use a full attack acion to make 1 attack vs. all foes within reach"',
+  'Widen Spell':
+    'Section=magic ' +
+    'Note="Can cast a spell using a spell slot 3 higher than norm to double is area of affect"',
 
-  'Augment Summoning':
-    'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
-  'Brew Potion':
-    'Section=magic Note="May create potion for up to 3rd level spell"',
   'Celestial Familiar':
     'Section=companion ' +
     'Note="May use Smite Evil (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
@@ -1203,79 +1257,30 @@ SRD35.FEATURES = {
     'Section=companion Note="Reflex save yields no damage instead of half"',
   'Companion Improved Evasion':
     'Section=companion Note="Failed save yields half damage"',
-  'Craft Magic Arms And Armor':
-    'Section=magic ' +
-    'Note="May create and mend magic weapons, armor, and shields"',
-  'Craft Rod':'Section=magic Note="May create magic rods"',
-  'Craft Staff':'Section=magic Note="May create magic staves"',
-  'Craft Wand':
-    'Section=magic Note="May create wands for up to 4th level spell"',
-  'Craft Wondrous Item':
-    'Section=magic Note="May create and mend miscellaneous magic items"',
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="May deliver touch spells if in contact w/master when cast"',
   'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
   'Empathic Link':'Section=companion Note="May share emotions up to 1 mile"',
-  'Empower Spell':
-    'Section=magic ' +
-    'Note="May use +2 spell slot to increase chosen spell variable effects by 50%"',
-  'Enlarge Spell':
-    'Section=magic Note="May use +1 spell slot to dbl chosen spell range"',
-  'Eschew Materials':'Section=magic Note="May cast spells w/out materials"',
-  'Extend Spell':
-    'Section=magic Note="May use +1 spell slot to dbl chosen spell duration"',
   'Fiendish Familiar':
     'Section=companion ' +
     'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
-  'Forge Ring':'Section=magic Note="May create and mend magic rings"',
-  'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
-  'Greater Spell Penetration':
-    'Section=magic Note="+2 checks to overcome spell resistance"',
-  'Heighten Spell':
-    'Section=magic Note="May cast chosen spell at a higher level"',
-  'Improved Counterspell':
-    'Section=magic ' +
-    'Note="May counterspell using a higher-level spell from the same school"',
-  'Improved Familiar':'Section=feature Note="Has expanded familiar choices"',
   'Improved Speed':'Section=companion Note="+10 companion Speed"',
   'Link':
     'Section=skill ' +
     'Note="+4 Handle Animal (companion)/+4 Wild Empathy (companion)"',
-  'Maximize Spell':
-    'Section=magic ' +
-    'Note="May use +3 spell slot to maximize all variable effects on chosen spell"',
   'Multiattack':
     'Section=companion ' +
     'Note="Reduces additional attack penalty to -2 or gives second attack at -5"',
-  'Quicken Spell':
-    'Section=magic ' +
-    'Note="May use +4 spell slot to cast chosen spell as a free action 1/rd"',
-  'Scribe Scroll':'Section=magic Note="May create scroll of any known spell"',
   'Scry On Familiar':'Section=companion Note="Master may view companion 1/dy"',
   'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
   'Share Spells':
     'Section=companion Note="Master may share self spell w/adjacent companion"',
-  'Silent Spell':
-    'Section=magic ' +
-    'Note="May use +1 spell slot to cast chosen spell w/out speech"',
   'Slow':'Section=ability Note="-10 Speed"',
   'Speak With Like Animals':
     'Section=companion Note="May talk w/similar creatures"',
   'Speak With Master':
     'Section=companion Note="May talk w/master in secret language"',
-  'Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
-  'Spell Mastery':
-    'Section=magic ' +
-    'Note="May prepare %{intelligenceModifier} spells w/out spellbook"',
-  'Spell Penetration':
-    'Section=magic Note="+2 checks to overcome spell resistance"',
-  'Still Spell':
-    'Section=magic ' +
-    'Note="May use +1 spell slot to cast chosen spell w/out movement"',
-  'Widen Spell':
-    'Section=magic ' +
-    'Note="May use +3 spell slot to dbl chosen spell area of affect"',
 
   // Prestige Classes
   'Acrobatic Charge':'Section=combat Note="May charge in difficult terrain"',
