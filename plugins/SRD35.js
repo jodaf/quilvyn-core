@@ -997,16 +997,6 @@ SRD35.FEATURES = {
   'Bonus Feat (Wizard)':
     'Section=feature ' +
     'Note="%V selection%{$\'featureNotes.bonusFeat(Wizard)\'>1?\'s\':\'\'}"',
-  'Familiar Bat':'Section=skill Note="+3 Listen"',
-  'Familiar Cat':'Section=skill Note="+3 Move Silently"',
-  'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
-  'Familiar Lizard':'Section=skill Note="+3 Climb"',
-  'Familiar Owl':'Section=skill Note="+3 Spot in shadows and darkness"',
-  'Familiar Rat':'Section=save Note="+2 Fortitude"',
-  'Familiar Raven':'Section=skill Note="+3 Appraise"',
-  'Familiar Tiny Viper':'Section=skill Note="+3 Bluff"',
-  'Familiar Toad':'Section=combat Note="+3 Hit Points"',
-  'Familiar Weasel':'Section=save Note="+2 Reflex"',
   'School Opposition (%school)':
     'Section=magic Note="Cannot learn or cast %school spells"',
   'School Opposition':
@@ -1031,7 +1021,7 @@ SRD35.FEATURES = {
     'Section=ability,combat ' +
     'Note=' +
       '"Can move at 3/4 Speed in darkness or poor visibility",' +
-      '"Can reroll misses due to concealment, retains Dexterity bonus to Armor Class when fighting invisible attackers, and invisible attackers gain no melee bonus"',
+      '"Can reroll misses due to concealment, retains Dexterity bonus to Armor Class when fighting invisible attackers, and invisible attackers gain no melee attack bonus"',
   'Brew Potion':
     'Section=magic ' +
     'Note="Can create potions for known, targeted spells of up to 3rd level"',
@@ -1050,8 +1040,8 @@ SRD35.FEATURES = {
   'Craft Magic Arms And Armor':
     'Section=magic ' +
     'Note="Can create and mend magic weapons, armor, and shields"',
-  'Craft Rod':'Section=magic Note="May create magic rods"',
-  'Craft Staff':'Section=magic Note="May create magic staves"',
+  'Craft Rod':'Section=magic Note="Can create magic rods"',
+  'Craft Staff':'Section=magic Note="Can create magic staves"',
   'Craft Wand':
     'Section=magic Note="Can create wands for known spells of up to 4th level"',
   'Craft Wondrous Item':
@@ -1110,7 +1100,7 @@ SRD35.FEATURES = {
   'Improved Disarm':
     'Section=combat ' +
     'Note="+4 on Disarm attempts, they provoke no AOO, and the target cannot attempt to disarm on failure"',
-  'Improved Familiar':'Section=feature Note="Has expanded familiar choices"',
+  'Improved Familiar':'Section=companion Note="Has expanded familiar choices"',
   'Improved Feint':'Section=combat Note="Can Feint as a move action"',
   'Improved Grapple':
     'Section=combat ' +
@@ -1154,7 +1144,7 @@ SRD35.FEATURES = {
     'Note="Reduces the mounted ranged weapon attack penalty to -2 during a double move and -4 during a run"',
   'Mounted Combat':
     'Section=combat ' +
-    'Note="Can use a reaction to negate damage to mount with a successful Ride skill check (DC foe attack roll) once per rd"',
+    'Note="Can use a reaction and a successful Ride skill check (DC foe attack roll) to negate damage to mount once per rd"',
   'Natural Spell':'Section=magic Note="Can cast spells during Wild Shape"',
   'Negotiator':'Section=skill Note="+2 Diplomacy/+2 Sense Motive"',
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
@@ -1163,7 +1153,7 @@ SRD35.FEATURES = {
     'Section=combat Note="+1 ranged attack and damage within 30\'"',
   'Power Attack':
     'Section=combat ' +
-    'Note="Can suffer up to -%{baseAttack} attack for an equal damage bonus, or a x2 damage bonus when attacking two-handed, for 1 rd"',
+    'Note="Can suffer up to -%{baseAttack} attack for an equal damage bonus for 1 rd; the damage bonus is doubled when attacking two-handed"',
   'Precise Shot':
     'Section=combat Note="Suffers no penalty from shooting into a melee"',
   'Quick Draw':
@@ -1171,7 +1161,7 @@ SRD35.FEATURES = {
     'Note="Can draw a weapon as a free action and throw weapons at the full attack rate"',
   'Quicken Spell':
     'Section=magic ' +
-    'Note="Once per rd, can cast a spell using a spell slot 4 levels higher than normal to cast it as a free action"',
+    'Note="Once per rd, can cast a spell with a casting time of up to 1 rd as a free action, using a spell slot 4 levels higher than normal"',
   'Rapid Reload (Hand)':
     'Section=combat Note="Can reload a hand crossbow as a free action"',
   'Rapid Reload (Heavy)':
@@ -1183,13 +1173,13 @@ SRD35.FEATURES = {
     'Note="Can make an extra ranged attack during a full attack, suffering a -2 penalty on all ranged attacks during the rd"',
   'Ride-By Attack':
     'Section=combat ' +
-    'Note="Can move before and after a mounted attack without provoking AOO, moving up to 2x mounted Speed total"',
+    'Note="Can move before and after a mounted attack without provoking AOO, moving in total up to double the normal mounted Speed"',
   'Run':
     'Section=ability,combat,skill ' +
     'Note="+1 Run Speed Multiplier",' +
          '"Retains Dexterity bonus to Armor Class while running",' +
          '"+4 running Jump"',
-  'Scribe Scroll':'Section=magic Note="Can create scrolls of known spells"',
+  'Scribe Scroll':'Section=magic Note="Can create scrolls for known spells"',
   'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
   'Shot On The Run':
     'Section=combat ' +
@@ -1230,7 +1220,7 @@ SRD35.FEATURES = {
     'Note="+1 Armor Class when wielding two weapons, or +2 if fighting defensively"',
   'Two-Weapon Fighting':
     'Section=combat ' +
-    'Note="Reduces the attack penalty when fighting with a weapon in each hand by 2 for the primary hand and 6 for the off hand"',
+    'Note="Reduces the attack penalties when fighting with a weapon in each hand by 2 for the primary hand and 6 for the off hand"',
   'Weapon Finesse':
     'Section=combat ' +
     'Note="+%{dexterityModifier-strengthModifier} light melee weapon attacks (uses Dexterity instead of Strength)"',
@@ -1242,7 +1232,42 @@ SRD35.FEATURES = {
     'Note="Can use a full attack acion to make 1 attack vs. all foes within reach"',
   'Widen Spell':
     'Section=magic ' +
-    'Note="Can cast a spell using a spell slot 3 higher than norm to double is area of affect"',
+    'Note="Can cast a spell using a spell slot 3 higher than normal to double its area of affect"',
+
+  // Companions and familiars
+  'Companion Alertness':
+    'Section=skill Note="+2 Listen and Spot when companion is in reach"',
+  'Companion Evasion':
+    'Section=companion ' +
+    'Note="Successful Reflex saves yield no damage instead of half%{companionNotes.companionImprovedEvasion?\', and failed Reflex saves yield half damage\':\'\'}"',
+  'Companion Improved Evasion':
+    'Section=companion Note="Has increased Companion Evasion effects"',
+  'Deliver Touch Spells':
+    'Section=companion ' +
+    'Note="Can use companion to deliver touch spells if in contact when the spell is cast"',
+  'Empathic Link':
+    'Section=companion ' +
+    'Note="Can communicate emotions with companion up to 1 mile"',
+  'Familiar Bat':'Section=skill Note="+3 Listen"',
+  'Familiar Cat':'Section=skill Note="+3 Move Silently"',
+  'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
+  'Familiar Lizard':'Section=skill Note="+3 Climb"',
+  // TODO: is "and darkness" in the book?
+  'Familiar Owl':'Section=skill Note="+3 Spot in shadows and darkness"',
+  'Familiar Rat':'Section=save Note="+2 Fortitude"',
+  'Familiar Raven':'Section=skill Note="+3 Appraise"',
+  'Familiar Tiny Viper':'Section=skill Note="+3 Bluff"',
+  'Familiar Toad':'Section=combat Note="+3 Hit Points"',
+  'Familiar Weasel':'Section=save Note="+2 Reflex"',
+  'Scry On Familiar':'Section=companion Note="Can view companion once per day"',
+  'Share Spells':
+    'Section=companion ' +
+    'Note="Can cast a personal spell on an adjacent companion and have a targeted spell cast on self also affect a companion while it is within 5\'"',
+  'Speak With Animals Of Its Kind':
+    'Section=companion Note="Companion can communicate with similar creatures"',
+  'Speak With Master':
+    'Section=companion ' +
+    'Note="Can talk with companion in a shared, secret language"',
 
   'Celestial Familiar':
     'Section=companion ' +
@@ -1250,18 +1275,7 @@ SRD35.FEATURES = {
   'Command Like Creatures':
     'Section=companion ' +
     'Note="May use <i>Command</i> effects targeting similar creatures (DC %{levels.Paladin//2 + charismaModifier + 10} Will neg) %{levels.Paladin//2}/dy"',
-  'Command Undead':'section=combat Note="May turn undead as level %V Cleric"',
-  'Companion Alertness':
-    'Section=skill Note="+2 Listen and Spot when companion is in reach"',
-  'Companion Evasion':
-    'Section=companion Note="Reflex save yields no damage instead of half"',
-  'Companion Improved Evasion':
-    'Section=companion Note="Failed save yields half damage"',
-  'Deliver Touch Spells':
-    'Section=companion ' +
-    'Note="May deliver touch spells if in contact w/master when cast"',
   'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
-  'Empathic Link':'Section=companion Note="May share emotions up to 1 mile"',
   'Fiendish Familiar':
     'Section=companion ' +
     'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
@@ -1272,15 +1286,7 @@ SRD35.FEATURES = {
   'Multiattack':
     'Section=companion ' +
     'Note="Reduces additional attack penalty to -2 or gives second attack at -5"',
-  'Scry On Familiar':'Section=companion Note="Master may view companion 1/dy"',
   'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
-  'Share Spells':
-    'Section=companion Note="Master may share self spell w/adjacent companion"',
-  'Slow':'Section=ability Note="-10 Speed"',
-  'Speak With Like Animals':
-    'Section=companion Note="May talk w/similar creatures"',
-  'Speak With Master':
-    'Section=companion Note="May talk w/master in secret language"',
 
   // Prestige Classes
   'Acrobatic Charge':'Section=combat Note="May charge in difficult terrain"',
@@ -1318,6 +1324,7 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
   'Claw Attack':'Section=combat Note="May attack with claws"',
+  'Command Undead':'section=combat Note="May turn undead as level %V Cleric"',
   'Constitution Boost':'Section=ability Note="+2 Constitution"',
   'Contingent Conjuration':
     'Section=magic ' +
@@ -5395,7 +5402,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
     '1:Companion Alertness', '1:Companion Evasion',
     '1:Companion Improved Evasion', '1:Empathic Link', '1:Share Spells',
     '3:Deliver Touch Spells', '5:Speak With Master',
-    '7:Speak With Like Animals', '11:Companion Spell Resistance',
+    '7:Speak With Animals Of Its Kind', '11:Companion Spell Resistance',
     '13:Scry On Familiar'
   ];
   SRD35.featureListRules
