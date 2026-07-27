@@ -1235,19 +1235,23 @@ SRD35.FEATURES = {
     'Note="Can cast a spell using a spell slot 3 higher than normal to double its area of affect"',
 
   // Companions and familiars
+  'Bonus Tricks':
+    'Section=companion ' +
+    'Note="Companion can learn %{companionMasterLevel//3+1} additional tricks, requiring no training time or Handle Animal checks"',
   'Celestial Familiar':
     'Section=companion ' +
     'Note="Companion can use Smite Evil (+%{familiarStats.HD} HP) once per day and has%{familiarStats.HD<4?\'\':\'DR 10/magic,\'} 60\' darkvision and resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity"',
   'Command Like Creatures':
     'Section=companion ' +
-    'Note="Can use <i>Command</i> effects targeting similar creatures (save Will DC %{levels.Paladin//2 + charismaModifier + 10} negates) %{levels.Paladin>3?levels.Paladin//2+\' times\':\'once\'} per day"',
+    'Note="Can use <i>Command</i> effects (requires a successful DC 21 Concentration check if being ridden) targeting similar creatures (save Will DC %{levels.Paladin//2 + charismaModifier + 10} negates) %{levels.Paladin>3?levels.Paladin//2+\' times\':\'once\'} per day"',
   'Companion Alertness':
-    'Section=skill Note="+2 Listen and Spot when companion is in reach"',
+    'Section=skill Note="+2 Listen and Spot when companion is within reach"',
   'Companion Evasion':
     'Section=companion ' +
-    'Note="Successful Reflex saves yield no damage instead of half%{companionNotes.companionImprovedEvasion?\', and failed Reflex saves yield half damage\':\'\'}"',
+    'Note="Successful Reflex saves by companion yield no damage instead of half%{companionNotes.companionImprovedEvasion?\', and failed Reflex saves yield half damage\':\'\'}"',
   'Companion Improved Evasion':
     'Section=companion Note="Has increased Companion Evasion effects"',
+  'Companion Spell Resistance':'Section=companion Note="Has SR %V"',
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="Can use companion to deliver touch spells if in contact when the spell is cast"',
@@ -5310,8 +5314,8 @@ SRD35.aideRules = function(rules, companions, familiars) {
   );
 
   let features = [
-    '1:Link', '1:Share Spells', '3:Companion Evasion', '6:Devotion',
-    '9:Multiattack', '15:Companion Improved Evasion'
+    '1:Bonus Tricks', '1:Link', '1:Share Spells', '3:Companion Evasion',
+    '6:Devotion', '9:Multiattack', '15:Companion Improved Evasion'
   ];
   SRD35.featureListRules
     (rules, features, 'Animal Companion', 'companionMasterLevel', false);
@@ -5361,6 +5365,10 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'animalCompanionStats.HD', '=', SRD35.SAVE_BONUS_THIRD,
     'animalCompanionStats.Wis', '+', 'Math.floor((source - 10) / 2)'
   );
+  rules.defineRule('animalCompanionStats.SR',
+    'animalCompanionFeatures.Companion Spell Resistance', '?', null,
+    'companionNotes.companionSpellResistance', '=', null
+  );
   rules.defineRule('animalCompanionStats.Str',
     'companionMasterLevel', '+', 'Math.floor(source / 3)'
   );
@@ -5406,9 +5414,17 @@ SRD35.aideRules = function(rules, companions, familiars) {
   SRD35.featureListRules
     (rules, features, 'Familiar', 'familiarMasterLevel', false);
 
+  rules.defineRule('companionNotes.companionSpellResistance',
+    'familiarMasterLevel', '=', 'source + 5'
+  );
   rules.defineRule('familiarAttack',
     'familiarMasterLevel', '?', null,
-    'baseAttack', '=', null
+    'baseAttack', '=', null,
+    'familiarBetterAttackModifier', '+', null
+  );
+  rules.defineRule('familiarBetterAttackModifier',
+    'familiarStats.Str.1', '=', null,
+    'familiarStats.Dex.1', '^', null
   );
   rules.defineRule('familiarEnhancement',
     'familiarCelestial', '=', '"Celestial"',
@@ -5450,7 +5466,7 @@ SRD35.aideRules = function(rules, companions, familiars) {
   );
   rules.defineRule('familiarStats.SR',
     'familiarFeatures.Companion Spell Resistance', '?', null,
-    'familiarMasterLevel', '=', 'source + 5'
+    'companionNotes.companionSpellResistance', '=', null
   );
   rules.defineRule
     ('features.Celestial Familiar', 'familiarCelestial', '=', '1');
@@ -6674,8 +6690,8 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('animalCompanionStats.Str',
       'levels.Paladin', '+', 'source<8 ? 1 : source<11 ? 2 : source<15 ? 3 : 4'
     );
-    rules.defineRule('animalCompanionStats.SR',
-      'levels.Paladin', '=', 'source >= 15 ? source + 5 : null'
+    rules.defineRule('companionNotes.companionSpellResistance',
+      'levels.Paladin', '=', 'source + 5'
     );
     rules.defineRule('companionNotes.shareSavingThrows.1',
       'companionNotes.shareSavingThrows', '?', null,
@@ -6982,8 +6998,8 @@ SRD35.classRulesExtra = function(rules, name) {
       'fiendishServantMasterLevel', '+',
       'Math.max(Math.floor((source - 7) / 3), 1)'
     );
-    rules.defineRule('animalCompanionStats.SR',
-      'fiendishServantMasterLevel', '=', 'source >= 19 ? source + 5 : null'
+    rules.defineRule('companionNotes.companionSpellResistance',
+      'fiendishServantMasterLevel', '=', null
     );
     rules.defineRule('fiendishServantMasterLevel',
       'hasCompanion', '?', null,
@@ -7352,8 +7368,10 @@ SRD35.companionRules = function(
     'animalCompanion.' + name, '=', '"' + size + '"'
   );
   if(speed != null)
-    rules.defineRule
-      ('animalCompanionStats.Speed', 'animalCompanion.' + name, '=', speed);
+    rules.defineRule('animalCompanionStats.Speed',
+      'animalCompanion.' + name, '=', speed,
+      'companionNotes.improvedSpeed', '+', '10'
+    );
   if(level != null && level > 1) {
     rules.defineRule
       ('animalCompanionStats.Level', 'animalCompanion.' + name, '=', level);
@@ -9077,6 +9095,8 @@ SRD35.createViewers = function(rules, viewers) {
                  within: 'CompanionSaves', format: '%V'},
                 {name: 'Animal Companion Stats.Save Will',
                  within: 'CompanionSaves', format: '%V'},
+              {name: 'Animal Companion Stats.SR', within: 'CompanionCombat',
+               format: '<b>SR</b>: %V'},
             {name: 'Animal Companion Features', within: 'CompanionPart',
              separator: listSep},
           {name: 'FamiliarPart', within: 'Companion Area', separator: '\n'},
@@ -9125,6 +9145,8 @@ SRD35.createViewers = function(rules, viewers) {
                  format: '%V'},
                 {name: 'Familiar Stats.Save Will', within: 'FamiliarSaves',
                  format: '%V'},
+              {name: 'Familiar Stats.SR', within: 'FamiliarCombat',
+               format: '<b>SR</b>: %V'},
             {name: 'Familiar Features', within: 'FamiliarPart',
              separator: listSep}
       );
