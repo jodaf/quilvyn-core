@@ -1235,6 +1235,12 @@ SRD35.FEATURES = {
     'Note="Can cast a spell using a spell slot 3 higher than normal to double its area of affect"',
 
   // Companions and familiars
+  'Celestial Familiar':
+    'Section=companion ' +
+    'Note="Companion can use Smite Evil (+%{familiarStats.HD} HP) once per day and has%{familiarStats.HD<4?\'\':\'DR 10/magic,\'} 60\' darkvision and resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity"',
+  'Command Like Creatures':
+    'Section=companion ' +
+    'Note="Can use <i>Command</i> effects targeting similar creatures (save Will DC %{levels.Paladin//2 + charismaModifier + 10} negates) %{levels.Paladin>3?levels.Paladin//2+\' times\':\'once\'} per day"',
   'Companion Alertness':
     'Section=skill Note="+2 Listen and Spot when companion is in reach"',
   'Companion Evasion':
@@ -1245,6 +1251,7 @@ SRD35.FEATURES = {
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="Can use companion to deliver touch spells if in contact when the spell is cast"',
+  'Devotion':'Section=companion Note="Companion has +4 Will vs. enchantment"',
   'Empathic Link':
     'Section=companion ' +
     'Note="Can communicate emotions with companion up to 1 mile"',
@@ -1252,14 +1259,24 @@ SRD35.FEATURES = {
   'Familiar Cat':'Section=skill Note="+3 Move Silently"',
   'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
   'Familiar Lizard':'Section=skill Note="+3 Climb"',
-  // TODO: is "and darkness" in the book?
-  'Familiar Owl':'Section=skill Note="+3 Spot in shadows and darkness"',
+  'Familiar Owl':'Section=skill Note="+3 Spot in shadows"',
   'Familiar Rat':'Section=save Note="+2 Fortitude"',
   'Familiar Raven':'Section=skill Note="+3 Appraise"',
   'Familiar Tiny Viper':'Section=skill Note="+3 Bluff"',
   'Familiar Toad':'Section=combat Note="+3 Hit Points"',
   'Familiar Weasel':'Section=save Note="+2 Reflex"',
+  'Fiendish Familiar':
+    'Section=companion ' +
+    'Note="Companion can use Smite Good (+%{familiarStats.HD} HP) once per day and has%{familiarStats.HD<4?\'\':\' DR 10/magic,\'} 60\' darkvision and resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity"',
+  'Improved Speed':'Section=companion Note="+10 companion Speed"',
+  'Link':
+    'Section=skill ' +
+    'Note="+4 Handle Animal and Wild Empathy with companion, and can command companion as a free action"',
+  'Multiattack':
+    'Section=companion ' +
+    'Note="Reduces the penalty for additional attacks to -2 or gives a second attack at -5"',
   'Scry On Familiar':'Section=companion Note="Can view companion once per day"',
+  'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
   'Share Spells':
     'Section=companion ' +
     'Note="Can cast a personal spell on an adjacent companion and have a targeted spell cast on self also affect a companion while it is within 5\'"',
@@ -1268,25 +1285,6 @@ SRD35.FEATURES = {
   'Speak With Master':
     'Section=companion ' +
     'Note="Can talk with companion in a shared, secret language"',
-
-  'Celestial Familiar':
-    'Section=companion ' +
-    'Note="May use Smite Evil (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
-  'Command Like Creatures':
-    'Section=companion ' +
-    'Note="May use <i>Command</i> effects targeting similar creatures (DC %{levels.Paladin//2 + charismaModifier + 10} Will neg) %{levels.Paladin//2}/dy"',
-  'Devotion':'Section=companion Note="+4 Will vs. enchantment"',
-  'Fiendish Familiar':
-    'Section=companion ' +
-    'Note="May use Smite Good (+%{familiarStats.HD} HP) 1/dy/Has 60\' darkvision, resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity, and DR %{familiarStats.HD<4 ? 0 : 10}/magic"',
-  'Improved Speed':'Section=companion Note="+10 companion Speed"',
-  'Link':
-    'Section=skill ' +
-    'Note="+4 Handle Animal (companion)/+4 Wild Empathy (companion)"',
-  'Multiattack':
-    'Section=companion ' +
-    'Note="Reduces additional attack penalty to -2 or gives second attack at -5"',
-  'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
 
   // Prestige Classes
   'Acrobatic Charge':'Section=combat Note="May charge in difficult terrain"',
