@@ -84,7 +84,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Alertness; Great Fortitude; Improved Unarmed Strike</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Loremaster Features</b>: Applicable Knowledge; Caster Level Bonus; Secret Health; Secrets Of Inner Strength; Secrets; The Lore Of True Stamina; Weapon Trick</td>
+        <td><b>Loremaster Features</b>: Applicable Knowledge; Caster Level Bonus; Secret Health; Secret; Secrets Of Inner Strength; The Lore Of True Stamina; Weapon Trick</td>
       </tr></table>
 </td>
     </tr><tr style="text-align:center">
@@ -94,7 +94,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Human Feat Bonus: +1 General Feat</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Secrets: 1 selections</i></td>
+        <td><i>Secret: 1 selection</i></td>
       </tr></table>
 </td>
     </tr></table>
@@ -215,7 +215,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Secret Health: +3 HP</i></td>
+        <td><i>Secret Health: +3 Hit Points</i></td>
       </tr><tr style="text-align:center">
         <td><i>Strength Attack Adjustment: +2</i></td>
       </tr><tr style="text-align:center">
@@ -278,6 +278,10 @@ var attributes = {
       <td><b>Validation Errors</b>:       <table id="ValidationNotes" style="width:100%">
       <tr style="text-align:center">
         <td>Loremaster Class: Requires Sum '^features\.Skill Focus .Knowledge', Sum '^spells\..*Divi' >= 7, Sum '^spells\..*3 Divi', Sum '^skills\.Knowledge' >= 20, sum wizard feats >= 3 and count knowledge skills ge10 >= 2</td>
+      </tr><tr style="text-align:center">
+        <td>Loremaster-Applicable Knowledge Selectable Feature: Requires loremaster level plus int (currently 5) >= 8 and loremaster level (currently 1)</td>
+      </tr><tr style="text-align:center">
+        <td>Loremaster-Weapon Trick Selectable Feature: Requires loremaster level plus int (currently 5) >= 6 and loremaster level (currently 1)</td>
       </tr><tr style="text-align:center">
         <td>Selectable Feature Allocation: 1 available vs. 5 allocated</td>
       </tr><tr style="text-align:center">

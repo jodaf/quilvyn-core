@@ -1449,7 +1449,8 @@ SRD35.FEATURES = {
   'Blast Infidel':
     'Section=magic ' +
     'Note="Negative energy spells cast on targets with an opposed alignment have the maximum effect"',
-  'Divine Power Bonus':'Section=magic Note="+%V Divine Caster Level"',
+  'Divine Power Bonus':
+    'Section=magic Note="+%V caster level for divine spell effects"',
   'Divine Reach':
     'Section=magic ' +
     'Note="Can cast touch spells using a R%{$\'features.Divine Reach\'>1?60:30}\' ranged touch"',
@@ -1473,53 +1474,30 @@ SRD35.FEATURES = {
 
   // Horizon Walker
   'Terrain Mastery':
-    'Section=feature ' +
-    'Note="%V selection%{featureNotes.terrainMastery>1?\'s\':\'\'}"',
+    'Section=combat,feature ' +
+    'Note=' +
+      '"+1 attack and damage vs. creatures native to selected terrains",' +
+      '"%V selection%{featureNotes.terrainMastery>1?\'s\':\'\'}"',
   'Terrain Mastery (Aligned)':
     'Section=feature Note="Can mimic the dominant alignment of any plane"',
   'Terrain Mastery (Aquatic)':
-    'Section=ability,combat,skill ' +
+    'Section=ability,skill ' +
     'Note=' +
       '"+10 swim Speed",' +
-      '"+1 attack and damage vs. aquatic creatures",' +
       '"+4 Swim"',
   'Terrain Mastery (Cavernous)':
     'Section=feature Note="Has the Tremorsense feature"',
-  'Terrain Mastery (Cold)':
-    'Section=combat,save ' +
-    'Note=' +
-      '"+1 attack and damage vs. cold elementals and outsiders",' +
-      '"Has resistance 20 to cold"',
+  'Terrain Mastery (Cold)':'Section=save Note="Has resistance 20 to cold"',
   'Terrain Mastery (Desert)':
-    'Section=combat,save ' +
-    'Note=' +
-      '"+1 attack and damage vs. desert creatures",' +
-      '"Has immunity to fatigue and resistance to exhaustion"',
-  'Terrain Mastery (Fiery)':
-    'Section=combat,save ' +
-    'Note=' +
-      '"+1 attack and damage vs. fire elementals and fire outsiders",' +
-      '"Has resistance 20 to fire"',
-  'Terrain Mastery (Forest)':
-    'Section=combat,skill ' +
-    'Note=' +
-      '"+1 attack and damage vs. forest creatures",' +
-      '"+4 Hide"',
-  'Terrain Mastery (Hills)':
-    'Section=combat,skill ' +
-    'Note=' +
-      '"+1 attack and damage vs. hill creatures",' +
-      '"+4 Listen"',
-  'Terrain Mastery (Marsh)':
-    'Section=combat,skill ' +
-    'Note=' +
-      '"+1 attack and damage vs. marsh creatures",' +
-      '"+4 Move Silently"',
+    'Section=save Note="Has immunity to fatigue and resistance to exhaustion"',
+  'Terrain Mastery (Fiery)':'Section=save Note="Has resistance 20 to fire"',
+  'Terrain Mastery (Forest)':'Section=skill Note="+4 Hide"',
+  'Terrain Mastery (Hills)':'Section=skill Note="+4 Listen"',
+  'Terrain Mastery (Marsh)':'Section=skill Note="+4 Move Silently"',
   'Terrain Mastery (Mountains)':
-    'Section=ability,combat,skill ' +
+    'Section=ability,skill ' +
     'Note=' +
       '"+10 climb Speed",' +
-      '"+1 attack and damage vs. mountain creatures",' +
       '"+4 Climb"',
   'Terrain Mastery (Plains)':
     'Section=combat,skill ' +
@@ -1528,19 +1506,12 @@ SRD35.FEATURES = {
       '"+4 Spot"',
   // TODO feature spell?
   'Terrain Mastery (Shifting)':
-    'Section=combat,magic ' +
-    'Note=' +
-      '"+1 attack and damage vs. shifting plane elementals and outsiders",' +
-      '"Can use <i>Dimension Door</i> effects every 1d4 rd"',
-  'Terrain Mastery (Underground)':
-    'Section=combat,feature ' +
-    'Note=' +
-      '"+1 attack and damage vs. underground creatures",' +
-      '"+60\' Darkvision"',
+    'Section=magic Note="Can use <i>Dimension Door</i> effects every 1d4 rd"',
+  'Terrain Mastery (Underground)':'Section=feature Note="+60\' Darkvision"',
   'Terrain Mastery (Weightless)':
     'Section=ability,combat ' +
     'Note=' +
-      '"+30\' fly speed on planes lacking gravity",' +
+      '"+30\' fly Speed on planes lacking gravity",' +
       '"+1 attack and damage vs. astral, elemental air, and ethereal creatures"',
   'Tremorsense':
     'Section=feature ' +
@@ -1553,23 +1524,25 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
   'Dodge Trick':'Section=combat Note="+1 Armor Class"',
-  'Greater Lore':'Section=magic Note="May use <i>Identify</i> effects at will"',
+  // Feature spell?
+  'Greater Lore':'Section=magic Note="Can use <i>Identify</i> effects at will"',
   'Instant Mastery':
-    'Section=skill Note="+4 ranks in choice of untrained skill"',
+    'Section=skill Note="+4 ranks in a choice of untrained skill"',
   'Lore':
     'Section=skill ' +
-    'Note="+%{levels.Loremaster+intelligenceModifier} Knowledge (local history)"',
-  'More Newfound Arcana':'Section=magic Note="+1 level 2 spell"',
-  'Newfound Arcana':'Section=magic Note="+1 level 1 spell"',
+    'Note="Can make a +%V check for knowledge of notable people, items, and places"',
+  'More Newfound Arcana':'Section=magic Note="+1 level 2 spell slot"',
+  'Newfound Arcana':'Section=magic Note="+1 level 1 spell slot"',
   'Secret':
-    'Section=feature Note="%V selection%{featureNotes.secret>1?\'s\'s:\'\'}"',
-  'Secret Health':'Section=combat Note="+3 HP"',
+    'Section=feature Note="%V selection%{featureNotes.secret>1?\'s\':\'\'}"',
+  'Secret Health':'Section=combat Note="+3 Hit Points"',
   'Secret Knowledge Of Avoidance':'Section=save Note="+2 Reflex"',
   'Secrets Of Inner Strength':'Section=save Note="+2 Will"',
   'The Lore Of True Stamina':'Section=save Note="+2 Fortitude"',
+  // Feature spell?
   'True Lore':
     'Section=magic ' +
-    'Note="May use <i>Legend Lore</i> or <i>Analyze Dweomer</i> effects 1/dy"',
+    'Note="Can use <i>Legend Lore</i> or <i>Analyze Dweomer</i> effects once per day"',
   'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"',
 
   // Mystic Theurge
@@ -1585,28 +1558,31 @@ SRD35.FEATURES = {
   // Hide In Plain Sight as above
   // Improved Evasion as above
   // Improved Uncanny Dodge as above
+  // TODO: Feature spell?
   'Shadow Illusion':
-    'Section=magic ' +
-    'Note="R%{levels.Shadowdancer*40+400}\' May create %{levels.Shadowdancer*10+40}\' cu image (DC %{11+charismaModifier} Will disbelieve) for conc 1/dy"',
-  'Shadow Jump':'Section=magic Note="May teleport between shadows %V\'/dy"',
+    'Section=magic Note="Can use <i>Silent Image</i> effects once per day"',
+  'Shadow Jump':
+    'Section=magic Note="Can teleport between shadows %V\' per day"',
   // Slippery Mind as above
   'Summon Shadow':
     'Section=magic ' +
-    'Note="May summon unturnable %{levels.Shadowdancer//3*2+1} HD Shadow companion"',
+    'Note="Can summon an unturnable %{levels.Shadowdancer//3*2+1} HD shadow companion; destruction of the creature inflicts a loss of %{levels.Shadowdancer*200} experience points (save Fortitude DC 15 half), and a new shadow cannot be summoned for 30 days"',
   // Uncanny Dodge as above
 
   // Thaumaturgist
   // Augment Summoning as above
+  // TODO: feature spell?
   'Contingent Conjuration':
     'Section=magic ' +
-    'Note="May use <i>Contingency</i> effects on summoning spells"',
+    'Note="Can use <i>Contingency</i> effects on summoning spells"',
   'Extended Summoning':
-    'Section=magic Note="Summoning spells have dbl duration"',
+    'Section=magic Note="Summoning spells have double their normal durations"',
   'Improved Ally':
     'Section=skill ' +
-    'Note="Successful Diplomacy check gives planar ally service at half usual cost"',
+    'Note="Successful Diplomacy check gives service from a co-aligned planar ally at half the usual cost"',
   'Planar Cohort':
-    'Section=magic Note="Summoned creature serves as a loyal assistant"'
+    'Section=magic ' +
+    'Note="Summoned creature serves as a loyal assistant to advance an important cause"'
 
 };
 SRD35.GOODIES = {
@@ -5261,16 +5237,16 @@ SRD35.PRESTIGE_CLASSES = {
       '"1:Caster Level Bonus","1:Secret","2:Lore","4:Bonus Language",' +
       '"6:Greater Lore","10:True Lore" ' +
     'Selectables=' +
-      '"1:Applicable Knowledge:Secret",' +
-      '"1:Dodge Trick:Secret",' +
-      '"1:Instant Mastery:Secret",' +
-      '"1:More Newfound Arcana:Secret",' +
-      '"1:Newfound Arcana:Secret",' +
-      '"1:Secret Health:Secret",' +
-      '"1:Secret Knowledge Of Avoidance:Secret",' +
-      '"1:Secrets Of Inner Strength:Secret",' +
-      '"1:The Lore Of True Stamina:Secret",' +
-      '"1:Weapon Trick:Secret"',
+      '"loremasterLevelPlusInt >= 8 ? 1:Applicable Knowledge:Secret",' +
+      '"loremasterLevelPlusInt >= 7 ? 1:Dodge Trick:Secret",' +
+      '"loremasterLevelPlusInt >= 1 ? 1:Instant Mastery:Secret",' +
+      '"loremasterLevelPlusInt >= 10 ? 1:More Newfound Arcana:Secret",' +
+      '"loremasterLevelPlusInt >= 9 ? 1:Newfound Arcana:Secret",' +
+      '"loremasterLevelPlusInt >= 2 ? 1:Secret Health:Secret",' +
+      '"loremasterLevelPlusInt >= 5 ? 1:Secret Knowledge Of Avoidance:Secret",' +
+      '"loremasterLevelPlusInt >= 3 ? 1:Secrets Of Inner Strength:Secret",' +
+      '"loremasterLevelPlusInt >= 4 ? 1:The Lore Of True Stamina:Secret",' +
+      '"loremasterLevelPlusInt >= 6 ? 1:Weapon Trick:Secret"',
   'Mystic Theurge':
     'Require=' +
       '"casterLevelArcane >= 2","casterLevelDivine >= 2",' +
@@ -7184,6 +7160,8 @@ SRD35.classRulesExtra = function(rules, name) {
  
   } else if(name == 'Hierophant') {
 
+    rules.defineRule
+      ('casterLevelDivine', 'magicNotes.divinePowerBonus', '+', null);
     rules.defineRule('combatNotes.turnUndead.1',
       'combatNotes.masteryOfEnergy', '+', '4'
     );
@@ -7219,13 +7197,22 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('featureNotes.bonusLanguage',
       classLevel, '+=', 'Math.floor(source / 4)'
     );
-    rules.defineRule('featureNotes.secrets',
+    rules.defineRule('featureNotes.secret',
       classLevel, '=', 'Math.floor((source + 1) / 2)'
+    );
+    rules.defineRule('loremasterLevelPlusInt',
+      classLevel, '=', null,
+      'intelligenceModifier', '+', null
     );
     rules.defineRule
       ('magicNotes.casterLevelBonus', classLevel, '+=', null);
     rules.defineRule('selectableFeatureCount.Loremaster (Secret)',
-      'featureNotes.secrets', '+=', null
+      'featureNotes.secret', '+=', null
+    );
+    rules.defineRule('skillNotes.lore',
+      classLevel, '=', null,
+      'intelligenceModifier', '+', null,
+      'skillNotes.knowledge(History)Synergy', '+', '2'
     );
     rules.defineRule('sumWizardFeats',
       'sumItemCreationFeats', '+=', null,
@@ -7243,17 +7230,16 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Shadowdancer') {
 
+    rules.defineRule('combatNotes.improvedUncannyDodge',
+      classLevel, '+=', 'source >= 2 ? source : null',
+      '', '+', '4'
+    );
     rules.defineRule('magicNotes.shadowJump',
-      classLevel, '=',
-         'source < 4 ? null : (10 * Math.pow(2, Math.floor((source-2)/2)))'
+      classLevel, '=', 'source<6 ? 20 : source<8 ? 40 : source<10 ? 80 : 160'
     );
     rules.defineRule('shadowdancerFeatures.Improved Uncanny Dodge',
       'shadowdancerFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
-    );
-    rules.defineRule('combatNotes.improvedUncannyDodge',
-      classLevel, '+=', 'source >= 2 ? source : null',
-      '', '+', '4'
     );
     rules.defineRule
       ('uncannyDodgeSources', 'shadowdancerFeatures.Uncanny Dodge', '+=', '1');
@@ -7357,7 +7343,7 @@ SRD35.classFeatureRules = function(
  * Defines in #rules# the rules associated with animal companion #name#, which
  * has abilities #str#, #dex#, #con#, #intel#, #wis#, and #cha#, hit dice #hd#,
  * and armor class #ac#. The companion has attack bonus #attack#, does
- * #damage# damage, moves at #speed# (which may be fly or swim speed for
+ * #damage# damage, moves at #speed# (which can be a fly or swim speed for
  * creatures who normally use that form of movement) and is size #size#. If
  * specified, #level# indicates the minimum master level the character needs to
  * have this animal as a companion.
@@ -7561,7 +7547,7 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
  * Defines in #rules# the rules associated with familiar #name#, which has
  * abilities #str#, #dex#, #con#, #intel#, #wis#, and #cha#, hit dice #hd#,
  * and armor class #ac#. The familiar has attack bonus #attack#, does
- * #damage# damage, moves at #speed# (which may be fly or swim speed for
+ * #damage# damage, moves at #speed# (which can be a fly or swim speed for
  * creatures who normally use that form of movement) and is size #size#. If
  * specified, #level# indicates the minimum master level the character needs to
  * have this animal as a familiar.
@@ -10286,6 +10272,10 @@ SRD35.ruleNotes = function() {
     '    Quilvyn assumes that Archmage characters choose to select a High' +
     '    Arcana feature at each level, sacrificing a spell slot of the' +
     '    minimum required level each time\n' +
+    '  </li><li>\n' +
+    '    Quilvyn assumes that high ranks in Knowledge (History) affects the' +
+    "    Loremaster's Lore feature identically to how it affects Bardic" +
+    '    Knowledge\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
