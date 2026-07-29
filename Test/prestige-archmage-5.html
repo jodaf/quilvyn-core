@@ -16,12 +16,12 @@ var attributes = {
   "languages.Draconic":1, "languages.Dwarven":1, "languages.Elven":1, "levels.Wizard":13, 
   "name":"Prestige-Archmage 5", "prestige.Archmage":5, "race":"Human", 
   "selectableFeatures.Archmage - Arcane Fire":1, "selectableFeatures.Archmage - Arcane Reach":1, 
-  "selectableFeatures.Archmage - Improved Arcane Reach":1, "selectableFeatures.Archmage - Mastery Of Counterspelling":1, 
-  "selectableFeatures.Archmage - Mastery Of Elements":1, "selectableFeatures.Archmage - Mastery Of Shaping":1, 
-  "selectableFeatures.Archmage - Spell Power":1, "selectableFeatures.Archmage - Spell-Like Ability":1, 
-  "selectableFeatures.Wizard - School Specialization (Conjuration)":1, "selectableFeatures.Wizard - School Specialization (Enchantment)":1, 
-  "selectableFeatures.Wizard - School Specialization (Transmutation)":1, "shield":"None", "skills.Climb":1, "skills.Disable Device":19, 
-  "skills.Gather Information":2, "skills.Heal":21, "skills.Jump":16, "skills.Knowledge (Arcana)":15, 
+  "selectableFeatures.Archmage - Mastery Of Counterspelling":1, "selectableFeatures.Archmage - Mastery Of Elements":1, 
+  "selectableFeatures.Archmage - Mastery Of Shaping":1, "selectableFeatures.Archmage - Spell Power":1, 
+  "selectableFeatures.Archmage - Spell-Like Ability":1, "selectableFeatures.Wizard - School Specialization (Conjuration)":1, 
+  "selectableFeatures.Wizard - School Specialization (Enchantment)":1, "selectableFeatures.Wizard - School Specialization (Transmutation)":1, 
+  "shield":"None", "skills.Climb":1, "skills.Disable Device":19, "skills.Gather Information":2, 
+  "skills.Heal":21, "skills.Jump":16, "skills.Knowledge (Arcana)":15, 
   "skills.Knowledge (Planes)":10, "skills.Move Silently":21, "skills.Perform (Keyboard)":10, 
   "skills.Spellcraft":15, "skills.Tumble":1, "skills.Use Rope":1, "spells.Animate Rope(W1 Tran)":1, 
   "spells.Astral Projection(W9 Necr)":1, "spells.Baleful Polymorph(W5 Tran)":1, 
@@ -105,7 +105,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Brew Potion; Craft Wondrous Item; Deft Hands; Forge Ring; Great Fortitude; Heighten Spell; Skill Focus (Disable Device); Skill Focus (Spellcraft); Spell Focus (Abjuration); Spell Focus (Divination)</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Archmage Features</b>: Arcane Caster Level Bonus; Arcane Fire; Arcane Reach; High Arcana; Improved Arcane Reach; Mastery Of Counterspelling; Mastery Of Elements; Mastery Of Shaping; Spell Power; Spell-Like Ability</td>
+        <td><b>Archmage Features</b>: Arcane Caster Level Bonus; Arcane Fire; Arcane Reach; High Arcana; Mastery Of Counterspelling; Mastery Of Elements; Mastery Of Shaping; Spell Power; Spell-Like Ability</td>
         <td><b>Wizard Features</b>: Bonus Feat (Wizard); School Opposition; School Specialization (Conjuration); School Specialization (Enchantment); School Specialization (Transmutation); School Specialization; Scribe Scroll; Summon Familiar; Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)</td>
       </tr></table>
 </td>
@@ -263,7 +263,7 @@ var attributes = {
     <tr style="text-align:center">
       <td>      <table id="SpellStats" style="width:100%">
       <tr style="text-align:center">
-        <td><b>Spell Slots</b>: W0: 4; W1: 8; W2: 8; W3: 8; W4: 7; W5: 5; W6: 6; W7: 3; W8: 5; W9: 4</td>
+        <td><b>Spell Slots</b>: W0: 4; W1: 8; W2: 8; W3: 8; W4: 7; W5: 5; W6: 6; W7: 4; W8: 5; W9: 4</td>
         <td><b>Spell DC</b>: W: 13</td>
       </tr></table>
 </td>
@@ -424,7 +424,7 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><i>Spell Focus (Divination): +1 Spell DC (Divination)</i></td>
     </tr><tr style="text-align:center">
-      <td>Arcane Fire: R600' Can expend a prepared arcane spell to make a ranged touch attack that inflicts 5d6 + 1d6 x spell level fire</td>
+      <td>Arcane Fire: R600' Can expend a prepared arcane spell to make a ranged touch attack that inflicts 5d6 HP fire + 1d6 HP fire per spell level</td>
     </tr><tr style="text-align:center">
       <td>Arcane Reach: Can cast touch spells using a R30' ranged touch</td>
     </tr><tr style="text-align:center">
@@ -516,7 +516,7 @@ var attributes = {
   <tr style="text-align:center">
     <td>    <table id="ValidationPart" style="width:100%">
     <tr style="text-align:center">
-      <td><b>Validation Errors</b>: Selectable Feature Allocation: 8 available vs. 11 allocated</td>
+      <td><b>Validation Errors</b>: Selectable Feature Allocation: 8 available vs. 10 allocated</td>
     </tr></table>
 </td>
   </tr></table>

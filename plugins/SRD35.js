@@ -1311,6 +1311,10 @@ SRD35.FEATURES = {
     'Note="Can shoot an arrow that maneuvers to a target, negating cover and concealment, once per day"',
 
   // Arcane Trickster
+  // Note: assume that the Arcane Trickster base class is arcane, not divine
+  'Arcane Caster Level Bonus':
+    'Section=magic ' +
+    'Note="+%V arcane base class level for spells known and spells per day"',
   'Impromptu Sneak Attack':
     'Section=combat ' +
     'Note="Can declare any melee attack or ranged attack within 30\' a sneak attack %{$\'levels.Arcane Trickster\'>7?\'2 times\':\'once\'} per day"',
@@ -1322,10 +1326,8 @@ SRD35.FEATURES = {
   // Archmage
   'Arcane Fire':
     'Section=magic ' +
-    'Note="R%{400+40*levels.Archmage}\' Can expend a prepared arcane spell to make a ranged touch attack that inflicts %{levels.Archmage}d6 + 1d6 x spell level fire"',
-  'Arcane Caster Level Bonus':
-    'Section=magic ' +
-    'Note="+%V arcane base class level for spells known and spells per day"',
+    'Note="R%{400+40*levels.Archmage}\' Can expend a prepared arcane spell to make a ranged touch attack that inflicts %{levels.Archmage}d6 HP fire + 1d6 HP fire per spell level"',
+  // Arcane Caster Level Bonus as above
   'Arcane Reach':
     'Section=magic ' +
     'Note="Can cast touch spells using a R%{$\'features.Arcane Reach\'>1?60:30}\' ranged touch"',
@@ -1432,7 +1434,7 @@ SRD35.FEATURES = {
     'Section=combat Note="+%V Armor Class"',
   // Damage Reduction as above
   'Defensive Stance':
-    'Section=feature ' +
+    'Section=combat ' +
     'Note="Can gain +2 Strength, +4 Constitution, +2 saves, and +4 Armor Class while unmoving for %{5+constitutionModifier} rd %{$\'levels.Dwarven Defender\'>2?($\'levels.Dwarven Defender\'+1)//2+\' times\':\'once\'} per day; suffers -2 Strength afterward until the end of the encounter"',
   'Mobile Defense':
     'Section=combat ' +
@@ -1458,13 +1460,13 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="Healing spells cast on targets with the same alignment have the maximum effect"',
   'Gift Of The Divine':
-    'Section=feature ' +
+    'Section=combat ' +
     'Note="Can transfer some daily uses of turn or rebuke undead to another for 1-7 days"',
   'Mastery Of Energy':
     'Section=combat Note="+4 undead turning checks and damage"',
   'Metamagic Feat':'Section=feature Note="+1 General Feat (Metamagic)"',
   'Power Of Nature':
-    'Section=feature ' +
+    'Section=magic ' +
     'Note="Can transfer a druid feature to another for 1-7 days"',
   'Special Ability (Hierophant)':
     'Section=feature ' +
@@ -1479,7 +1481,7 @@ SRD35.FEATURES = {
       '"+1 attack and damage vs. creatures native to selected terrains",' +
       '"%V selection%{featureNotes.terrainMastery>1?\'s\':\'\'}"',
   'Terrain Mastery (Aligned)':
-    'Section=feature Note="Can mimic the dominant alignment of any plane"',
+    'Section=ability Note="Can mimic the dominant alignment of any plane"',
   'Terrain Mastery (Aquatic)':
     'Section=ability,skill ' +
     'Note=' +
@@ -1499,11 +1501,7 @@ SRD35.FEATURES = {
     'Note=' +
       '"+10 climb Speed",' +
       '"+4 Climb"',
-  'Terrain Mastery (Plains)':
-    'Section=combat,skill ' +
-    'Note=' +
-      '"+1 attack and damage vs. plain creatures",' +
-      '"+4 Spot"',
+  'Terrain Mastery (Plains)':'Section=skill Note="+4 Spot"',
   // TODO feature spell?
   'Terrain Mastery (Shifting)':
     'Section=magic Note="Can use <i>Dimension Door</i> effects every 1d4 rd"',
@@ -1519,7 +1517,7 @@ SRD35.FEATURES = {
 
   // Loremaster
   'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
-  'Bonus Language':'Section=feature Note="+%V Language Count"',
+  'Bonus Language':'Section=skill Note="+%V Language Count"',
   'Caster Level Bonus':
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
@@ -5056,8 +5054,8 @@ SRD35.PRESTIGE_CLASSES = {
       '"Open Lock",Profession,"Sense Motive",Search,"Sleight Of Hand",' +
       '"Speak Language",Spellcraft,Spot,Swim,Tumble,"Use Rope" ' +
     'Features=' +
-       '"1:Ranged Legerdemain","1:Caster Level Bonus","2:Sneak Attack",' +
-       '"3:Impromptu Sneak Attack"',
+       '"1:Arcane Caster Level Bonus","1:Ranged Legerdemain",' +
+       '"2:Sneak Attack","3:Impromptu Sneak Attack"',
   'Archmage':
     'Require=' +
       '"features.Skill Focus (Spellcraft)",' +
@@ -5073,7 +5071,6 @@ SRD35.PRESTIGE_CLASSES = {
     'Selectables=' +
       '"1:Arcane Fire:High Arcana",' +
       '"1:Arcane Reach:High Arcana",' +
-      '"1:Improved Arcane Reach:High Arcana",' +
       '"1:Mastery Of Counterspelling:High Arcana",' +
       '"1:Mastery Of Elements:High Arcana",' +
       '"1:Mastery Of Shaping:High Arcana",' +
@@ -5190,7 +5187,6 @@ SRD35.PRESTIGE_CLASSES = {
     'Selectables=' +
       '"1:Blast Infidel:Special Ability",' +
       '"1:Divine Reach:Special Ability",' +
-      '"1:Improved Divine Reach:Special Ability",' +
       '"1:Faith Healing:Special Ability",' +
       '"1:Metamagic Feat:Special Ability",' +
       '"1:Spell Power:Special Ability",' +
@@ -6921,7 +6917,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
     rules.defineRule('combatNotes.sneakAttack', 'sneakAttack', '=', null);
     rules.defineRule
-      ('magicNotes.casterLevelBonus', classLevel, '+=', null);
+      ('magicNotes.arcaneCasterLevelBonus', classLevel, '+=', null);
     rules.defineRule('sneakAttack',
       classLevel, '+=', 'Math.floor(source / 2)'
     );
@@ -6944,7 +6940,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule
       ('magicNotes.arcaneCasterLevelBonus', classLevel, '+=', null);
     rules.defineRule
-      ('magicNotes.spellPower', 'archmageFeatures.Spell Power', '+=', '1');
+      ('magicNotes.spellPower', 'archmageFeatures.Spell Power', '+=', null);
     rules.defineRule('selectableFeatureCount.Archmage (High Arcana)',
       'featureNotes.highArcana', '+=', null
     );
@@ -6958,27 +6954,27 @@ SRD35.classRulesExtra = function(rules, name) {
       'archmageFeatures.Spell-Like Ability', '+', '-1'
     );
     rules.defineRule
-      ('spellSlots.S6', 'archmageFeatures.Mastery Of Shaping', '+', '-1');
+      ('spellSlots.S6', 'archmageFeatures.Mastery Of Shaping', '+', '-source');
     rules.defineRule
-      ('spellSlots.W6', 'archmageFeatures.Mastery Of Shaping', '+', '-1');
+      ('spellSlots.W6', 'archmageFeatures.Mastery Of Shaping', '+', '-source');
     rules.defineRule('spellSlots.S7',
-      'archmageFeatures.Arcane Reach', '+', '-1',
-      'archmageFeatures.Improved Arcane Reach', '+', '-1',
-      'archmageFeatures.Mastery Of Counterspelling', '+', '-1'
+      'archmageFeatures.Arcane Reach', '+', '-source',
+      'archmageFeatures.Improved Arcane Reach', '+', '-source',
+      'archmageFeatures.Mastery Of Counterspelling', '+', '-source'
     );
     rules.defineRule('spellSlots.W7',
-      'archmageFeatures.Arcane Reach', '+', '-1',
-      'archmageFeatures.Improved Arcane Reach', '+', '-1',
-      'archmageFeatures.Mastery Of Counterspelling', '+', '-1'
+      'archmageFeatures.Arcane Reach', '+', '-source',
+      'archmageFeatures.Improved Arcane Reach', '+', '-source',
+      'archmageFeatures.Mastery Of Counterspelling', '+', '-source'
     );
     rules.defineRule
-      ('spellSlots.S8', 'archmageFeatures.Mastery Of Elements', '+', '-1');
+      ('spellSlots.S8', 'archmageFeatures.Mastery Of Elements', '+', '-source');
     rules.defineRule
-      ('spellSlots.W8', 'archmageFeatures.Mastery Of Elements', '+', '-1');
+      ('spellSlots.W8', 'archmageFeatures.Mastery Of Elements', '+', '-source');
     rules.defineRule
-      ('spellSlots.S9', 'archmageFeatures.Arcane Fire', '+', '-1');
+      ('spellSlots.S9', 'archmageFeatures.Arcane Fire', '+', '-source');
     rules.defineRule
-      ('spellSlots.W9', 'archmageFeatures.Arcane Fire', '+', '-1');
+      ('spellSlots.W9', 'archmageFeatures.Arcane Fire', '+', '-source');
 
   } else if(name == 'Assassin') {
 
@@ -7168,6 +7164,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.turnUndead.2',
       'combatNotes.masteryOfEnergy', '+', '4'
     );
+    rules.defineRule('magicNotes.divinePowerBonus', classLevel, '+=', null);
     rules.defineRule
       ('magicNotes.spellPower', 'hierophantFeatures.Spell Power', '+=', null);
     rules.defineRule('featureNotes.specialAbility(Hierophant)',
@@ -7180,6 +7177,9 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Horizon Walker') {
 
     rules.defineRule('featureNotes.terrainMastery', classLevel, '+=', null);
+    rules.defineRule('features.Darkvision',
+      'features.Terrain Mastery (Underground)', '=', '1'
+    );
     rules.defineRule('features.Tremorsense',
       'featureNotes.terrainMastery(Cavernous)', '=', '1'
     );
@@ -7194,9 +7194,6 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Loremaster') {
 
     rules.defineRule('casterLevelArcane', classLevel, '+=', null);
-    rules.defineRule('featureNotes.bonusLanguage',
-      classLevel, '+=', 'Math.floor(source / 4)'
-    );
     rules.defineRule('featureNotes.secret',
       classLevel, '=', 'Math.floor((source + 1) / 2)'
     );
@@ -7208,6 +7205,9 @@ SRD35.classRulesExtra = function(rules, name) {
       ('magicNotes.casterLevelBonus', classLevel, '+=', null);
     rules.defineRule('selectableFeatureCount.Loremaster (Secret)',
       'featureNotes.secret', '+=', null
+    );
+    rules.defineRule('skillNotes.bonusLanguage',
+      classLevel, '+=', 'Math.floor(source / 4)'
     );
     rules.defineRule('skillNotes.lore',
       classLevel, '=', null,
@@ -7240,6 +7240,9 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('shadowdancerFeatures.Improved Uncanny Dodge',
       'shadowdancerFeatures.Uncanny Dodge', '?', null,
       'uncannyDodgeSources', '=', 'source >= 2 ? 1 : null'
+    );
+    rules.defineRule('skillNotes.hideInPlainSight',
+      'shadowdancerFeatures.Hide In Plain Sight', '=', '"within 10\' of shadows"'
     );
     rules.defineRule
       ('uncannyDodgeSources', 'shadowdancerFeatures.Uncanny Dodge', '+=', '1');
@@ -9512,7 +9515,7 @@ SRD35.initialEditorElements = function() {
     ['player', 'Player', 'text', [20]],
     ['experience', 'Experience', 'text', [8, '(\\+?\\d+)?']],
     ['feats', 'Feats', 'setbag', 'feats'],
-    ['selectableFeatures', 'Selectable Features', 'set', 'selectableFeatures'],
+    ['selectableFeatures', 'Selectable Features', 'setbag', 'selectableFeatures'],
     ['skills', 'Skills', 'bag', 'skills'],
     ['languages', 'Languages', 'set', 'languages'],
     ['hitPoints', 'Hit Points', 'text', [4, '(\\+?\\d+)?']],

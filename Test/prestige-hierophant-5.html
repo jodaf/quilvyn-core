@@ -16,14 +16,14 @@ var attributes = {
   "levels.Cleric":1, "levels.Druid":13, "name":"Prestige-Hierophant 5", "prestige.Hierophant":5, 
   "race":"Human", "selectableFeatures.Hierophant - Blast Infidel":1, 
   "selectableFeatures.Hierophant - Divine Reach":1, "selectableFeatures.Hierophant - Faith Healing":1, 
-  "selectableFeatures.Hierophant - Gift Of The Divine":1, "selectableFeatures.Hierophant - Improved Divine Reach":1, 
-  "selectableFeatures.Hierophant - Mastery Of Energy":1, "selectableFeatures.Hierophant - Metamagic Feat":1, 
-  "selectableFeatures.Hierophant - Power Of Nature":1, "selectableFeatures.Hierophant - Spell Power":1, 
-  "selectableFeatures.Hierophant - Spell-Like Ability":1, "shield":"None", "skills.Concentration":2, "skills.Craft (Alchemy)":2, 
-  "skills.Handle Animal":2, "skills.Heal":21, "skills.Hide":11, "skills.Knowledge (Nature)":1, 
-  "skills.Knowledge (Religion)":15, "skills.Listen":3, "skills.Open Lock":21, "skills.Perform (Sing)":8, 
-  "skills.Ride":12, "skills.Sense Motive":1, "skills.Spot":12, "skills.Survival":20, 
-  "skills.Swim":21, "skills.Use Rope":2, "spellSlots.C7":1, "spells.Antiplant Shell(D4 Abju)":1, 
+  "selectableFeatures.Hierophant - Gift Of The Divine":1, "selectableFeatures.Hierophant - Mastery Of Energy":1, 
+  "selectableFeatures.Hierophant - Metamagic Feat":1, "selectableFeatures.Hierophant - Power Of Nature":1, 
+  "selectableFeatures.Hierophant - Spell Power":1, "selectableFeatures.Hierophant - Spell-Like Ability":1, "shield":"None", 
+  "skills.Concentration":2, "skills.Craft (Alchemy)":2, "skills.Handle Animal":2, "skills.Heal":21, 
+  "skills.Hide":11, "skills.Knowledge (Nature)":1, "skills.Knowledge (Religion)":15, 
+  "skills.Listen":3, "skills.Open Lock":21, "skills.Perform (Sing)":8, "skills.Ride":12, 
+  "skills.Sense Motive":1, "skills.Spot":12, "skills.Survival":20, "skills.Swim":21, 
+  "skills.Use Rope":2, "spellSlots.C7":1, "spells.Antiplant Shell(D4 Abju)":1, 
   "spells.Barkskin(D2 Tran)":1, "spells.Blight(D4 Necr)":1, "spells.Call Lightning(D3 Evoc)":1, 
   "spells.Commune With Nature(D5 Divi)":1, "spells.Create Water(D0 Conj)":1, "spells.Creeping Doom(D7 Conj)":1, 
   "spells.Cure Light Wounds(D1 Conj)":1, "spells.Cure Minor Wounds(D0 Conj)":1, "spells.Detect Magic(D0 Divi)":1, 
@@ -99,7 +99,7 @@ var attributes = {
       <tr style="text-align:center">
         <td><b>Feats</b>: Animal Affinity; Combat Reflexes; Craft Staff; Lightning Reflexes; Negotiator; Quicken Spell; Silent Spell; Spell Focus (Illusion); Tower Shield Proficiency</td>
         <td><b>Human Features</b>: Human Feat Bonus; Human Skill Bonus</td>
-        <td><b>Hierophant Features</b>: Blast Infidel; Divine Power Bonus; Divine Reach; Faith Healing; Gift Of The Divine; Improved Divine Reach; Mastery Of Energy; Metamagic Feat; Power Of Nature; Special Ability (Hierophant); Spell Power; Spell-Like Ability</td>
+        <td><b>Hierophant Features</b>: Blast Infidel; Divine Power Bonus; Divine Reach; Faith Healing; Gift Of The Divine; Mastery Of Energy; Metamagic Feat; Power Of Nature; Special Ability (Hierophant); Spell Power; Spell-Like Ability</td>
         <td><b>Druid Features</b>: A Thousand Faces; Animal Companion; Armor Proficiency (Light; Medium; Shield); Nature Sense; Resist Nature's Lure; Spontaneous Casting (Druid); Trackless Step; Venom Immunity; Weapon Proficiency (Club; Dagger; Dart; Quarterstaff; Scimitar; Sickle; Shortspear; Sling; Spear); Wild Empathy; Wild Shape; Woodland Stride</td>
         <td><b>Cleric Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Spontaneous Casting (Cleric); Turn Undead; Weapon Proficiency (Simple Weapons)</td>
       </tr></table>
@@ -114,10 +114,6 @@ var attributes = {
         <td><i>Special Ability (Hierophant): 5 selections</i></td>
       </tr><tr style="text-align:center">
         <td>Aura: Visible to <i>Detect Chaos/Evil/Good/Law</i>, depending on deity alignment and domains</td>
-      </tr><tr style="text-align:center">
-        <td>Gift Of The Divine: Can transfer some daily uses of turn or rebuke undead to another for 1-7 days</td>
-      </tr><tr style="text-align:center">
-        <td>Power Of Nature: Can transfer a druid feature to another for 1-7 days</td>
       </tr></table>
 </td>
     </tr></table>
@@ -228,6 +224,8 @@ var attributes = {
         <td><i>Mastery Of Energy: +4 undead turning checks and damage</i></td>
       </tr><tr style="text-align:center">
         <td>Combat Reflexes: Can make an AOO while flat-footed</td>
+      </tr><tr style="text-align:center">
+        <td>Gift Of The Divine: Can transfer some daily uses of turn or rebuke undead to another for 1-7 days</td>
       </tr><tr style="text-align:center">
         <td>Turn Undead: R60' Can turn or rebuke 2d6+5 HD of undead creatures of up to (d20-1)/3 HD 3 times per day</td>
       </tr></table>
@@ -340,6 +338,8 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Magic Notes</b>:     <table id="MagicNotes" style="width:100%">
     <tr style="text-align:center">
+      <td><i>Divine Power Bonus: +5 caster level for divine spell effects</i></td>
+    </tr><tr style="text-align:center">
       <td><i>Spell Focus (Illusion): +1 Spell DC (Illusion)</i></td>
     </tr><tr style="text-align:center">
       <td><i>Wisdom Cleric Spell Slot Bonus: Spell level C1</i></td>
@@ -355,6 +355,8 @@ var attributes = {
       <td>Divine Reach: Can cast touch spells using a R30' ranged touch</td>
     </tr><tr style="text-align:center">
       <td>Faith Healing: Healing spells cast on targets with the same alignment have the maximum effect</td>
+    </tr><tr style="text-align:center">
+      <td>Power Of Nature: Can transfer a druid feature to another for 1-7 days</td>
     </tr><tr style="text-align:center">
       <td>Quicken Spell: Once per rd, can cast a spell with a casting time of up to 1 rd as a free action, using a spell slot 4 levels higher than normal</td>
     </tr><tr style="text-align:center">
@@ -430,7 +432,7 @@ var attributes = {
   <tr style="text-align:center">
     <td>    <table id="ValidationPart" style="width:100%">
     <tr style="text-align:center">
-      <td><b>Validation Errors</b>: Selectable Feature Allocation: 7 available vs. 10 allocated</td>
+      <td><b>Validation Errors</b>: Selectable Feature Allocation: 7 available vs. 9 allocated</td>
     </tr></table>
 </td>
   </tr></table>
