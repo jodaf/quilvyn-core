@@ -1323,6 +1323,9 @@ SRD35.FEATURES = {
   'Arcane Fire':
     'Section=magic ' +
     'Note="R%{400+40*levels.Archmage}\' Can expend a prepared arcane spell to make a ranged touch attack that inflicts %{levels.Archmage}d6 + 1d6 x spell level fire"',
+  'Arcane Caster Level Bonus':
+    'Section=magic ' +
+    'Note="+%V arcane base class level for spells known and spells per day"',
   'Arcane Reach':
     'Section=magic ' +
     'Note="Can cast touch spells using a R%{$\'features.Arcane Reach\'>1?60:30}\' ranged touch"',
@@ -1339,7 +1342,7 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="Can include 5\' cube or larger spaces in a spell effect area that are unaffected by it"',
   // TODO implement?
-  'Spell Power':'Section=magic Note="+1 caster level for spell effects"',
+  'Spell Power':'Section=magic Note="+%V caster level for spell effects"',
   'Spell-Like Ability':
     'Section=magic ' +
     'Note="Can sacrifice a spell slot to invoke a chosen spell as a spell-like ability 2 times per day, or 3 or 4 times per day by by sacrificing a spell slot 3 or 6 levels higher than the spell"',
@@ -1381,95 +1384,122 @@ SRD35.FEATURES = {
     'Section=feature ' +
     'Note="Has an unturnable undead servant with fiendish servant abilities"',
 
-  'Acrobatic Charge':'Section=combat Note="May charge in difficult terrain"',
-  'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
-  'Arcane Caster Level Bonus':
-    'Section=magic ' +
-    'Note="+%V arcane base class level for spells known and spells per day"',
-  'Bite Attack':'Section=combat Note="May attack with bite"',
-  'Blast Infidel':
-    'Section=magic ' +
-    'Note="Negative energy spells vs. opposed-alignment foe have maximum effect"',
+  // Dragon Disciple
+  'Ability Boost':
+    'Section=ability ' +
+    'Note="+%{$\'levels.Dragon Disciple\'>3?4:2} Strength%{$\'levels.Dragon Disciple\'>5?\'/+2 Constitution\':\'\'}%{$\'levels.Dragon Disciple\'>7?\'/+2 Intelligence\':\'\'}"',
   'Blindsense':
     'Section=feature ' +
-    'Note="R%V\' Other senses allow detection of unseen objects"',
-  'Blood Bond':
-    'Section=companion ' +
-    'Note="Gains +2 attack, checks, and saves when seeing master threatened"',
-  'Bonus Language':'Section=feature Note="+%V Language Count"',
-  'Bonus Spells':'Section=magic Note="%V"',
+    'Note="R%{$\'levels.Dragon Disciple\'<10?30:60}\' Other senses allow detection of unseen objects"',
+  'Bonus Spells':
+    'Section=magic Note="Has %V additional spell slots of a choice of levels"',
   'Breath Weapon':
-    'Section=combat Note="Breath inflicts %Vd8 HP (DC %1 Ref half) 1/dy"',
-  'Canny Defense':'Section=combat Note="+%V Armor Class when unarmored"',
-  'Caster Level Bonus':
-    'Section=magic ' +
-    'Note="+%V base class level for spells known and spells per day"',
-  'Claw Attack':'Section=combat Note="May attack with claws"',
-  'Constitution Boost':'Section=ability Note="+2 Constitution"',
-  'Contingent Conjuration':
-    'Section=magic ' +
-    'Note="May use <i>Contingency</i> effects on summoning spells"',
-  'Defender Armor Class Bonus':'Section=combat Note="+%V Armor Class"',
-  'Defensive Stance':
-    'Section=feature ' +
-    'Note="Gains +2 Strength, +4 Constitution, +2 saves, and +4 Armor Class while unmoving for %V rd %1/dy"',
-  'Divine Caster Level Bonus':
-    'Section=magic ' +
-    'Note="+%V divine base class level for spells known and spells per day"',
-  'Divine Reach':
-    'Section=magic Note="R30\' May use touch spell w/ranged touch"',
-  'Dodge Trick':'Section=combat Note="+1 Armor Class"',
+    'Section=combat ' +
+    'Note="Can use breath to inflict %{$\'levels.Dragon Disciple\'<7?2:$\'levels.Dragon Disciple\'<10?4:6}d8 HP (save Reflex DC %{$\'levels.Dragon Disciple\'+constitutionModifier+10} half) in a line or cone once per day"',
+  'Claws And Bite':'Section=combat Note="Can attack with claws and bite"',
   'Dragon Apotheosis':
     'Section=ability,feature,save ' +
     'Note="+4 Strength/+2 Charisma",' +
-         '"Has Darkvision and Low-Light Vision features",' +
+         '"Has the Darkvision and Low-Light Vision features",' +
          '"Immune to sleep, paralysis, and breath weapon energy"',
+  'Natural Armor Increase':'Section=combat Note="+%V Armor Class"',
+  'Wings':'Section=ability Note="Has a %{speed}\' fly Speed"',
+
+  // Duelist
+  'Acrobatic Charge':'Section=combat Note="Can charge in difficult terrain"',
+  'Canny Defense':'Section=combat Note="+%V Armor Class when unarmored"',
+  // Deflect Arrows as above
   'Elaborate Parry':
     'Section=combat ' +
     'Note="+%{levels.Duelist} Armor Class when fighting defensively"',
   'Enhanced Mobility':
     'Section=combat Note="+4 Armor Class vs. movement AOO when unarmored"',
-  'Extended Summoning':
-    'Section=magic Note="Summoning spells have dbl duration"',
+  'Grace':'Section=save Note="+2 Reflex when unarmored"',
+  'Improved Reaction':'Section=combat Note="+%V Initiative"',
+  // TODO implement?
+  'Precise Strike':
+    'Section=combat ' +
+    'Note="Light and one-handed piercing weapons inflict +%{levels.Duelist//5}d6 HP damage; holding a shield or a second weapon negates"',
+
+  // Dwarven Defender
+  'Armor Class Bonus (Dwarven Defender)':
+    'Section=combat Note="+%V Armor Class"',
+  // Damage Reduction as above
+  'Defensive Stance':
+    'Section=feature ' +
+    'Note="Can gain +2 Strength, +4 Constitution, +2 saves, and +4 Armor Class while unmoving for %{5+constitutionModifier} rd %{$\'levels.Dwarven Defender\'>2?($\'levels.Dwarven Defender\'+1)//2+\' times\':\'once\'} per day; suffers -2 Strength afterward until the end of the encounter"',
+  'Mobile Defense':
+    'Section=combat ' +
+    'Note="Can take a 5\' step each rd while using Defensive Stance"',
+  // Improved Uncanny Dodge as above
+  // Trap Sense as above
+  // Uncanny Dodge as above
+
+  // Eldritch Knight
+  // Arcane Caster Level Bonus as above
+  'Bonus Feat (Eldritch Knight)':'Section=feature Note="+1 Fighter Feat"',
+
+  // Hierophant
+  'Blast Infidel':
+    'Section=magic ' +
+    'Note="Negative energy spells cast on targets with an opposed alignment have the maximum effect"',
+  'Divine Power Bonus':'Section=magic Note="+%V Divine Caster Level"',
+  'Divine Reach':
+    'Section=magic ' +
+    'Note="Can cast touch spells using a R%{$\'features.Divine Reach\'>1?60:30}\' ranged touch"',
   'Faith Healing':
     'Section=magic ' +
-    'Note="Healing spells on same-aligned creatures have maximum effect"',
+    'Note="Healing spells cast on targets with the same alignment have the maximum effect"',
+  'Gift Of The Divine':
+    'Section=feature ' +
+    'Note="Can transfer some daily uses of turn or rebuke undead to another for 1-7 days"',
+  'Mastery Of Energy':
+    'Section=combat Note="+4 undead turning checks and damage"',
+  'Metamagic Feat':'Section=feature Note="+1 General Feat (Metamagic)"',
+  'Power Of Nature':
+    'Section=feature ' +
+    'Note="Can transfer a druid feature to another for 1-7 days"',
+  'Special Ability (Hierophant)':
+    'Section=feature ' +
+    'Note="%V selection%{$\'featureNotes.specialAbility(Hierophant)\'>1?\'s\':\'\'}"',
+  // Spell Power as above
+  // Spell-Like Ability as above
+
+  'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
+  'Blood Bond':
+    'Section=companion ' +
+    'Note="Gains +2 attack, checks, and saves when seeing master threatened"',
+  'Bonus Language':'Section=feature Note="+%V Language Count"',
+  'Caster Level Bonus':
+    'Section=magic ' +
+    'Note="+%V base class level for spells known and spells per day"',
+  'Contingent Conjuration':
+    'Section=magic ' +
+    'Note="May use <i>Contingency</i> effects on summoning spells"',
+  'Divine Caster Level Bonus':
+    'Section=magic ' +
+    'Note="+%V divine base class level for spells known and spells per day"',
+  'Dodge Trick':'Section=combat Note="+1 Armor Class"',
+  'Extended Summoning':
+    'Section=magic Note="Summoning spells have dbl duration"',
   'Fiendish Servant':
     'Section=companion ' +
     'Note="Can have a special bond with an animal that has expanded abilities"',
-  'Gift Of The Divine':
-    'Section=feature ' +
-    'Note="May transfer some daily uses of turn or rebuke undead to another for 1-7 dy"',
-  'Grace':'Section=save Note="+2 Reflex when unarmored"',
   'Greater Lore':'Section=magic Note="May use <i>Identify</i> effects at will"',
   'Improved Ally':
     'Section=skill ' +
     'Note="Successful Diplomacy check gives planar ally service at half usual cost"',
   'Improved Arcane Reach':'Section=magic Note="R60\' Arcane Reach"',
   'Improved Divine Reach':'Section=magic Note="R60\' Divine Reach"',
-  'Improved Reaction':'Section=combat Note="+%V Initiative"',
   'Instant Mastery':
     'Section=skill Note="+4 ranks in choice of untrained skill"',
-  'Intelligence Boost':'Section=ability Note="+2 Intelligence"',
   'Lore':
     'Section=skill ' +
     'Note="+%{levels.Loremaster+intelligenceModifier} Knowledge (local history)"',
-  'Mastery Of Energy':
-    'Section=combat Note="+4 undead turning checks and damage"',
-  'Metamagic Feat':'Section=feature Note="+1 General Feat (Metamagic)"',
-  'Mobile Defense':
-    'Section=combat Note="May take 5\' step during Defensive Stance"',
   'More Newfound Arcana':'Section=magic Note="+1 level 2 spell"',
-  'Natural Armor':'Section=combat Note="+%V Armor Class"',
   'Newfound Arcana':'Section=magic Note="+1 level 1 spell"',
   'Planar Cohort':
     'Section=magic Note="Summoned creature serves as a loyal assistant"',
-  'Power Of Nature':
-    'Section=feature ' +
-    'Note="May transfer a druid feature to another for 1-7 days"',
-  'Precise Strike':
-    'Section=combat ' +
-    'Note="Light or one-handed piercing weapon inflicts +%{levels.Duelist//5}d6 HP damage"',
   'Secrets':'Section=feature Note="%V selections"',
   'Secret Health':'Section=combat Note="+3 HP"',
   'Secret Knowledge Of Avoidance':'Section=save Note="+2 Reflex"',
@@ -1478,7 +1508,6 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="R%{levels.Shadowdancer*40+400}\' May create %{levels.Shadowdancer*10+40}\' cu image (DC %{11+charismaModifier} Will disbelieve) for conc 1/dy"',
   'Shadow Jump':'Section=magic Note="May teleport between shadows %V\'/dy"',
-  'Strength Boost':'Section=ability Note="+%V Strength"',
   'Summon Shadow':
     'Section=magic Note="May summon unturnable %{levels.Shadowdancer//3*2+1} HD Shadow companion"',
   'Terrain Mastery (Aligned)':
@@ -1541,8 +1570,7 @@ SRD35.FEATURES = {
   'True Lore':
     'Section=magic ' +
     'Note="May use <i>Legend Lore</i> or <i>Analyze Dweomer</i> effects 1/dy"',
-  'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"',
-  'Wings':'Section=ability Note="%{speed} Fly speed"'
+  'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"'
 
 };
 SRD35.GOODIES = {
@@ -5097,10 +5125,9 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,Craft,Diplomacy,"Escape Artist","Gather Information",' +
       'Knowledge,Listen,Profession,Search,"Speak Language",Spellcraft,Spot ' +
     'Features=' +
-      '"1:Bonus Spells","1:Natural Armor","2:Bite Attack","2:Claw Attack",' +
-      '"2:Strength Boost","3:Breath Weapon","5:Blindsense",' +
-      '"6:Constitution Boost","8:Intelligence Boost","9:Wings",' +
-      '"10:Darkvision","10:Dragon Apotheosis","10:Low-Light Vision"',
+      '"1:Bonus Spells","1:Natural Armor Increase","2:Claws And Bite",' +
+      '"2:Ability Boost","3:Breath Weapon","5:Blindsense",' +
+      '"9:Wings","10:Darkvision","10:Dragon Apotheosis","10:Low-Light Vision"',
   'Duelist':
     'Require=' +
       '"baseAttack >= 6",features.Dodge,features.Mobility,' +
@@ -5125,9 +5152,9 @@ SRD35.PRESTIGE_CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
       '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
-      '"1:Defender Armor Class Bonus","1:Defensive Stance","2:Uncanny Dodge",' +
-      '"4:Trap Sense","6:Damage Reduction","6:Improved Uncanny Dodge",' +
-      '"8:Mobile Defense"',
+      '"1:Armor Class Bonus (Dwarven Defender)","1:Defensive Stance",' +
+      '"2:Uncanny Dodge","4:Trap Sense","6:Damage Reduction",' +
+      '"6:Improved Uncanny Dodge","8:Mobile Defense"',
   'Eldritch Knight':
     'Require=' +
       '"features.Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
@@ -5137,7 +5164,7 @@ SRD35.PRESTIGE_CLASSES = {
       'Concentration,Craft,"Decipher Script",Jump,"Knowledge (Arcana)",' +
       '"Knowledge (Nobility)",Ride,"Sense Motive",Spellcraft,Swim ' +
     'Features=' +
-      '"1:Fighter Feat Bonus","2:Arcane Caster Level Bonus"',
+      '"1:Bonus Feat (Eldritch Knight)","2:Arcane Caster Level Bonus"',
   'Hierophant':
     'Require=' +
       '"skills.Knowledge (Religion) >= 15","spellSlots.C7||spellSlots.D7",' +
@@ -5146,6 +5173,8 @@ SRD35.PRESTIGE_CLASSES = {
     'Skills=' +
       'Concentration,Craft,Diplomacy,Heal,"Knowledge (Arcana)",' +
       '"Knowledge (Religion)",Profession,Spellcraft ' +
+    'Features=' +
+      '"1:Divine Power Bonus","1:Special Ability (Hierophant)" ' +
     'Selectables=' +
       '"1:Blast Infidel:Special Ability",' +
       '"1:Divine Reach:Special Ability",' +
@@ -6900,6 +6929,8 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('featureNotes.highArcana', classLevel, '=', null);
     rules.defineRule
       ('magicNotes.arcaneCasterLevelBonus', classLevel, '+=', null);
+    rules.defineRule
+      ('magicNotes.spellPower', 'archmageFeatures.Spell Power', '+=', '1');
     rules.defineRule('selectableFeatureCount.Archmage (High Arcana)',
       'featureNotes.highArcana', '+=', null
     );
@@ -7034,34 +7065,29 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Dragon Disciple') {
 
-    rules.defineRule('abilityNotes.strengthBoost',
-      classLevel, '+=', 'source>=4 ? 4 : source>=2 ? 2 : null'
-    );
-    rules.defineRule('combatNotes.breathWeapon',
-      classLevel, '=', 'source < 7 ? 2 : source < 10 ? 4 : 6'
-    );
-    rules.defineRule('combatNotes.breathWeapon.1',
-      classLevel, '=', '10 + source',
-      'constitutionModifier', '+', null
-    );
-    rules.defineRule('combatNotes.naturalArmor',
+    rules.defineRule('combatNotes.naturalArmorIncrease',
       classLevel, '+=', 'Math.floor((source + 2) / 3)'
     );
-    rules.defineRule('featureNotes.blindsense',
-      classLevel, '+=', 'source<5 ? null : source<10 ? 30 : 60'
-    );
+    rules.defineRule
+      ('constitution', 'levels.Dragon Disciple', '+', 'source>=6 ? 2 : null');
     rules.defineRule
       ('features.Darkvision', 'featureNotes.dragonApotheosis', '=', '1');
     rules.defineRule
       ('features.Low-Light Vision', 'featureNotes.dragonApotheosis', '=', '1');
+    rules.defineRule
+      ('intelligence', 'levels.Dragon Disciple', '+', 'source>=8 ? 2 : null');
     rules.defineRule('magicNotes.bonusSpells',
       classLevel, '+=',
         'source - (source == 10 ? 3 : source >= 7 ? 2 : source >= 3 ? 1 : 0)'
     );
+    rules.defineRule('strength',
+      'abilityNotes.abilityBoost', '+', 'null', // italics
+      'levels.Dragon Disciple', '+', 'source>=4 ? 4 : source>=2 ? 2 : null'
+    );
     SRD35.weaponRules(rules, 'Bite', 'Unarmed', 'Unarmed', 'd6', 20, 2, null);
     SRD35.weaponRules(rules, 'Claw', 'Unarmed', 'Unarmed', 'd4', 20, 2, null);
-    rules.defineRule('weapons.Bite', 'combatNotes.biteAttack', '=', '1');
-    rules.defineRule('weapons.Claw', 'combatNotes.clawAttack', '=', '1');
+    rules.defineRule('weapons.Bite', 'combatNotes.clawsAndBite', '=', '1');
+    rules.defineRule('weapons.Claw', 'combatNotes.clawsAndBite', '=', '1');
 
   } else if(name == 'Duelist') {
 
@@ -7075,9 +7101,8 @@ SRD35.classRulesExtra = function(rules, name) {
       'shield', '?', 'source == "None"',
       'combatNotes.cannyDefense', '=', null
     );
-    rules.defineRule('combatNotes.improvedReaction',
-      classLevel, '+=', 'source < 2 ? null : source < 8 ? 2 : 4'
-    );
+    rules.defineRule
+      ('combatNotes.improvedReaction', classLevel, '+=', 'source < 8 ? 2 : 4');
     rules.defineRule('saveNotes.grace.1',
       'armor', '?', 'source == "None"',
       'shield', '?', 'source == "None"',
@@ -7087,20 +7112,14 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Dwarven Defender') {
 
+    rules.defineRule('combatNotes.armorClassBonus(DwarvenDefender)',
+      classLevel, '+=', 'Math.floor((source + 2) / 3)'
+    );
     rules.defineRule('combatNotes.damageReduction',
       classLevel, '^=', 'source<6 ? null : source<10 ? 3 : 6'
     );
-    rules.defineRule('combatNotes.defenderArmorClassBonus',
-      classLevel, '+=', 'Math.floor((source + 2) / 3)'
-    );
     rules.defineRule
       ('damageReduction.-', 'combatNotes.damageReduction', '^=', null);
-    rules.defineRule('featureNotes.defensiveStance',
-      'constitutionModifier', '+=', 'source + 5'
-    );
-    rules.defineRule('featureNotes.defensiveStance.1',
-      classLevel, '+=', 'Math.floor((source + 1) / 2)'
-    );
     rules.defineRule('saveNotes.trapSense',
       classLevel, '+=', 'Math.floor(source / 4)'
     );
@@ -7118,21 +7137,28 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Eldritch Knight') {
 
-    rules.defineRule('featCount.Fighter', classLevel, '+=', '1');
+    // Set featCount.Fighter to 0; featureRules will auto-generate the
+    // addition of featureNotes.bonusFeat(EldritchKnight)
+    rules.defineRule('featCount.Fighter', classLevel, '+=', '0');
     rules.defineRule('magicNotes.arcaneCasterLevelBonus',
       classLevel, '+=', 'source - 1'
     );
  
   } else if(name == 'Hierophant') {
 
-    rules.defineRule('selectableFeatureCount.Hierophant (Special Ability)',
-      classLevel, '=', null
-    );
     rules.defineRule('combatNotes.turnUndead.1',
       'combatNotes.masteryOfEnergy', '+', '4'
     );
     rules.defineRule('combatNotes.turnUndead.2',
       'combatNotes.masteryOfEnergy', '+', '4'
+    );
+    rules.defineRule
+      ('magicNotes.spellPower', 'hierophantFeatures.Spell Power', '+=', null);
+    rules.defineRule('featureNotes.specialAbility(Hierophant)',
+      classLevel, '=', null
+    );
+    rules.defineRule('selectableFeatureCount.Hierophant (Special Ability)',
+      'featureNotes.specialAbility(Hierophant)', '=', null
     );
 
   } else if(name == 'Horizon Walker') {
