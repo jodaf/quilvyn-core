@@ -1364,11 +1364,17 @@ SRD35.FEATURES = {
   // Blackguard
   'Aura Of Despair':'Section=combat Note="R10\' Foes suffer -2 on all saves"',
   'Aura Of Evil':'Section=feature Note="Visible to <i>Detect Evil</i>"',
+  'Blood Bond':
+    'Section=companion ' +
+    'Note="Gains +2 attack, checks, and saves when seeing master threatened"',
   'Command Undead':
     'Section=combat Note="Can rebuke undead as a level %V Cleric"',
   'Dark Blessing':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Detect Good':
     'Section=magic Note="Can use <i>Detect Good</i> effects at will"',
+  'Fiendish Servant':
+    'Section=companion ' +
+    'Note="Can have a special bond with an animal that has expanded abilities"',
   // TODO: feature spell?
   'Fiendish Summoning':
     'Section=magic ' +
@@ -1465,32 +1471,89 @@ SRD35.FEATURES = {
   // Spell Power as above
   // Spell-Like Ability as above
 
+  // Horizon Walker
+  'Terrain Mastery':
+    'Section=feature ' +
+    'Note="%V selection%{featureNotes.terrainMastery>1?\'s\':\'\'}"',
+  'Terrain Mastery (Aligned)':
+    'Section=feature Note="Can mimic the dominant alignment of any plane"',
+  'Terrain Mastery (Aquatic)':
+    'Section=ability,combat,skill ' +
+    'Note=' +
+      '"+10 swim Speed",' +
+      '"+1 attack and damage vs. aquatic creatures",' +
+      '"+4 Swim"',
+  'Terrain Mastery (Cavernous)':
+    'Section=feature Note="Has the Tremorsense feature"',
+  'Terrain Mastery (Cold)':
+    'Section=combat,save ' +
+    'Note=' +
+      '"+1 attack and damage vs. cold elementals and outsiders",' +
+      '"Has resistance 20 to cold"',
+  'Terrain Mastery (Desert)':
+    'Section=combat,save ' +
+    'Note=' +
+      '"+1 attack and damage vs. desert creatures",' +
+      '"Has immunity to fatigue and resistance to exhaustion"',
+  'Terrain Mastery (Fiery)':
+    'Section=combat,save ' +
+    'Note=' +
+      '"+1 attack and damage vs. fire elementals and fire outsiders",' +
+      '"Has resistance 20 to fire"',
+  'Terrain Mastery (Forest)':
+    'Section=combat,skill ' +
+    'Note=' +
+      '"+1 attack and damage vs. forest creatures",' +
+      '"+4 Hide"',
+  'Terrain Mastery (Hills)':
+    'Section=combat,skill ' +
+    'Note=' +
+      '"+1 attack and damage vs. hill creatures",' +
+      '"+4 Listen"',
+  'Terrain Mastery (Marsh)':
+    'Section=combat,skill ' +
+    'Note=' +
+      '"+1 attack and damage vs. marsh creatures",' +
+      '"+4 Move Silently"',
+  'Terrain Mastery (Mountains)':
+    'Section=ability,combat,skill ' +
+    'Note=' +
+      '"+10 climb Speed",' +
+      '"+1 attack and damage vs. mountain creatures",' +
+      '"+4 Climb"',
+  'Terrain Mastery (Plains)':
+    'Section=combat,skill ' +
+    'Note=' +
+      '"+1 attack and damage vs. plain creatures",' +
+      '"+4 Spot"',
+  // TODO feature spell?
+  'Terrain Mastery (Shifting)':
+    'Section=combat,magic ' +
+    'Note=' +
+      '"+1 attack and damage vs. shifting plane elementals and outsiders",' +
+      '"Can use <i>Dimension Door</i> effects every 1d4 rd"',
+  'Terrain Mastery (Underground)':
+    'Section=combat,feature ' +
+    'Note=' +
+      '"+1 attack and damage vs. underground creatures",' +
+      '"+60\' Darkvision"',
+  'Terrain Mastery (Weightless)':
+    'Section=ability,combat ' +
+    'Note=' +
+      '"+30\' fly speed on planes lacking gravity",' +
+      '"+1 attack and damage vs. astral, elemental air, and ethereal creatures"',
+  'Tremorsense':
+    'Section=feature ' +
+    'Note="R30\' Can detect creatures via vibrations in the ground"',
+
+  // Loremaster
   'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
-  'Blood Bond':
-    'Section=companion ' +
-    'Note="Gains +2 attack, checks, and saves when seeing master threatened"',
   'Bonus Language':'Section=feature Note="+%V Language Count"',
   'Caster Level Bonus':
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
-  'Contingent Conjuration':
-    'Section=magic ' +
-    'Note="May use <i>Contingency</i> effects on summoning spells"',
-  'Divine Caster Level Bonus':
-    'Section=magic ' +
-    'Note="+%V divine base class level for spells known and spells per day"',
   'Dodge Trick':'Section=combat Note="+1 Armor Class"',
-  'Extended Summoning':
-    'Section=magic Note="Summoning spells have dbl duration"',
-  'Fiendish Servant':
-    'Section=companion ' +
-    'Note="Can have a special bond with an animal that has expanded abilities"',
   'Greater Lore':'Section=magic Note="May use <i>Identify</i> effects at will"',
-  'Improved Ally':
-    'Section=skill ' +
-    'Note="Successful Diplomacy check gives planar ally service at half usual cost"',
-  'Improved Arcane Reach':'Section=magic Note="R60\' Arcane Reach"',
-  'Improved Divine Reach':'Section=magic Note="R60\' Divine Reach"',
   'Instant Mastery':
     'Section=skill Note="+4 ranks in choice of untrained skill"',
   'Lore':
@@ -1498,79 +1561,52 @@ SRD35.FEATURES = {
     'Note="+%{levels.Loremaster+intelligenceModifier} Knowledge (local history)"',
   'More Newfound Arcana':'Section=magic Note="+1 level 2 spell"',
   'Newfound Arcana':'Section=magic Note="+1 level 1 spell"',
-  'Planar Cohort':
-    'Section=magic Note="Summoned creature serves as a loyal assistant"',
-  'Secrets':'Section=feature Note="%V selections"',
+  'Secret':
+    'Section=feature Note="%V selection%{featureNotes.secret>1?\'s\'s:\'\'}"',
   'Secret Health':'Section=combat Note="+3 HP"',
   'Secret Knowledge Of Avoidance':'Section=save Note="+2 Reflex"',
   'Secrets Of Inner Strength':'Section=save Note="+2 Will"',
+  'The Lore Of True Stamina':'Section=save Note="+2 Fortitude"',
+  'True Lore':
+    'Section=magic ' +
+    'Note="May use <i>Legend Lore</i> or <i>Analyze Dweomer</i> effects 1/dy"',
+  'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"',
+
+  // Mystic Theurge
+  // Arcane Caster Level Bonus as above
+  'Divine Caster Level Bonus':
+    'Section=magic ' +
+    'Note="+%V divine base class level for spells known and spells per day"',
+
+  // Shadowdancer
+  // Darkvision as above
+  // Defensive Roll as above
+  // Evasion as above
+  // Hide In Plain Sight as above
+  // Improved Evasion as above
+  // Improved Uncanny Dodge as above
   'Shadow Illusion':
     'Section=magic ' +
     'Note="R%{levels.Shadowdancer*40+400}\' May create %{levels.Shadowdancer*10+40}\' cu image (DC %{11+charismaModifier} Will disbelieve) for conc 1/dy"',
   'Shadow Jump':'Section=magic Note="May teleport between shadows %V\'/dy"',
+  // Slippery Mind as above
   'Summon Shadow':
-    'Section=magic Note="May summon unturnable %{levels.Shadowdancer//3*2+1} HD Shadow companion"',
-  'Terrain Mastery (Aligned)':
-    'Section=feature Note="May mimic dominant alignment of any plane"',
-  'Terrain Mastery (Aquatic)':
-    'Section=ability,combat,skill ' +
-    'Note="+10 swim Speed",' +
-         '"+1 attack and damage vs. aquatic creatures",' +
-         '"+4 Swim"',
-  'Terrain Mastery (Cavernous)':
-    'Section=feature Note="Has Tremorsense feature"',
-  'Terrain Mastery (Cold)':
-    'Section=combat,save ' +
-    'Note="+1 attack and damage vs. cold elementals and outsiders",' +
-         '"Resistance 20 to cold"',
-  'Terrain Mastery (Desert)':
-    'Section=combat,save ' +
-     'Note="+1 attack and damage vs. desert creatures",' +
-          '"Immune to fatigue, resists exhaustion"',
-  'Terrain Mastery (Fiery)':
-    'Section=combat,save ' +
-    'Note="+1 attack and damage vs. fire elementals and fire outsiders",' +
-         '"Resistance 20 to fire"',
-  'Terrain Mastery (Forest)':
-    'Section=combat,skill ' +
-    'Note="+1 attack and damage vs. forest creatures",' +
-         '"+4 Hide"',
-  'Terrain Mastery (Hills)':
-    'Section=combat,skill ' +
-    'Note="+1 attack and damage vs. hill creatures",' +
-         '"+4 Listen"',
-  'Terrain Mastery (Marsh)':
-    'Section=combat,skill ' +
-    'Note="+1 attack and damage vs. marsh creatures",' +
-         '"+4 Move Silently"',
-  'Terrain Mastery (Mountains)':
-    'Section=ability,combat,skill ' +
-    'Note="+10 climb Speed",' +
-         '"+1 attack and damage vs. mountain creatures",' +
-         '"+4 Climb"',
-  'Terrain Mastery (Plains)':
-    'Section=combat,skill ' +
-    'Note="+1 attack and damage vs. plain creatures",' +
-         '"+4 Spot"',
-  'Terrain Mastery (Shifting)':
-    'Section=combat,magic ' +
-    'Note="+1 attack and damage vs. shifting plane elementals and outsiders",' +
-         '"May use <i>Dimension Door</i> effects every 1d4 rd"',
-  'Terrain Mastery (Underground)':
-    'Section=combat,feature ' +
-    'Note="+1 attack and damage vs. underground creatures",' +
-         '"+60\' Darkvision"',
-  'Terrain Mastery (Weightless)':
-    'Section=ability,combat ' +
-    'Note="+30\' fly speed on planes lacking gravity",' +
-         '"+1 attack and damage vs. astral, elemental air, and ethereal creatures"',
-  'The Lore Of True Stamina':'Section=save Note="+2 Fortitude"',
-  'Tremorsense':
-    'Section=feature Note="R30\' Detects creatures via vibrations in ground"',
-  'True Lore':
     'Section=magic ' +
-    'Note="May use <i>Legend Lore</i> or <i>Analyze Dweomer</i> effects 1/dy"',
-  'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"'
+    'Note="May summon unturnable %{levels.Shadowdancer//3*2+1} HD Shadow companion"',
+  // Uncanny Dodge as above
+
+  // Thaumaturgist
+  // Augment Summoning as above
+  'Contingent Conjuration':
+    'Section=magic ' +
+    'Note="May use <i>Contingency</i> effects on summoning spells"',
+  'Extended Summoning':
+    'Section=magic Note="Summoning spells have dbl duration"',
+  'Improved Ally':
+    'Section=skill ' +
+    'Note="Successful Diplomacy check gives planar ally service at half usual cost"',
+  'Planar Cohort':
+    'Section=magic Note="Summoned creature serves as a loyal assistant"'
 
 };
 SRD35.GOODIES = {
@@ -5193,6 +5229,8 @@ SRD35.PRESTIGE_CLASSES = {
     'Skills=' +
       'Balance,Climb,Diplomacy,"Handle Animal",Hide,"Knowledge (Geography)",' +
       'Listen,"Move Silently",Profession,Ride,"Speak Language",Spot,Survival ' +
+    'Features=' +
+      '"1:Terrain Mastery" ' +
     'Selectables=' +
       '"1:Terrain Mastery (Aquatic):Terrain Mastery",' +
       '"1:Terrain Mastery (Desert):Terrain Mastery",' +
@@ -5220,7 +5258,7 @@ SRD35.PRESTIGE_CLASSES = {
       '"Gather Information","Handle Animal",Heal,Knowledge,Perform,' +
       'Profession,"Speak Language",Spellcraft,"Use Magic Device" ' +
     'Features=' +
-      '"1:Caster Level Bonus",1:Secrets,2:Lore,"4:Bonus Language",' +
+      '"1:Caster Level Bonus","1:Secret","2:Lore","4:Bonus Language",' +
       '"6:Greater Lore","10:True Lore" ' +
     'Selectables=' +
       '"1:Applicable Knowledge:Secret",' +
@@ -7163,15 +7201,16 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Horizon Walker') {
 
+    rules.defineRule('featureNotes.terrainMastery', classLevel, '+=', null);
+    rules.defineRule('features.Tremorsense',
+      'featureNotes.terrainMastery(Cavernous)', '=', '1'
+    );
     rules.defineRule
       ('resistance.Cold', 'saveNotes.terrainMastery(Cold)', '^=', '20');
     rules.defineRule
       ('resistance.Fire', 'saveNotes.terrainMastery(Fiery)', '^=', '20');
-    rules.defineRule('features.Tremorsense',
-      'featureNotes.terrainMastery(Cavernous)', '=', '1'
-    );
     rules.defineRule('selectableFeatureCount.Horizon Walker (Terrain Mastery)',
-      classLevel, '+=', null
+      'featureNotes.terrainMastery', '+=', null
     );
 
   } else if(name == 'Loremaster') {
