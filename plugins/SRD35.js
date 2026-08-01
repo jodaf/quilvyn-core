@@ -650,7 +650,6 @@ SRD35.FEATURES = {
   'Orc Blood':'Section=feature Note="Counts as an orc for racial effects"',
 
   // Halfling
-  // TODO: implement?
   'Accurate':'Section=combat Note="+1 attack with slings and thrown weapons"',
   'Fortunate':'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
   'Halfling Ability Adjustment':
@@ -1074,7 +1073,6 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="Can cast a spell using a spell slot 1 level higher than normal to double its duration"',
   'Extra Turning':'Section=combat Note="Can Turn Undead +%V times per day"',
-  // TODO implement?
   'Far Shot':
     'Section=combat Note="x1.5 projectile range, x2 thrown weapon range"',
   'Forge Ring':'Section=magic Note="Can create and mend magic rings"',
@@ -1435,7 +1433,6 @@ SRD35.FEATURES = {
     'Section=combat Note="+4 Armor Class vs. movement AOO when unarmored"',
   'Grace':'Section=save Note="+2 Reflex when unarmored"',
   'Improved Reaction':'Section=combat Note="+%V Initiative"',
-  // TODO implement?
   'Precise Strike':
     'Section=combat ' +
     'Note="Light and one-handed piercing weapons inflict +%{levels.Duelist//5}d6 HP damage; holding a shield or a second weapon negates"',
@@ -7897,22 +7894,27 @@ SRD35.featureRules = function(
         if(adjust.match(/%{/) && !adjusted.match(/\b[a-z]/)) {
           let expression = adjust.substring(3, adjust.length - 1);
           let ids = new Expr(expression).identifiers();
-          // TODO What if ids.length==0?
-          // TODO If only 1 id, we could use a normal rule w/out eval
           let sn = ++maxSubnote;
           let target = sn>0 ? note + '.' + sn : note;
+          // Make the expr evaluation dependent on the feature. Note that, in
+          // the case of sn==0, we're deliberately overriding the '=' rule for
+          // note that we defined above, before the while loop.
           rules.defineRule(target, 'features.' + name, '?', null);
-          ids.forEach(id => {
-            if(expression.trim() == id)
-              rules.defineRule(target, id, '=', null);
-            else
-              rules.defineRule
-                (target, id, '=', 'new Expr("' + expression + '").eval(dict)');
-          });
+          if(ids.length == 0) {
+            // Degenerate case where expr contains only constants--probably
+            // won't happen in practice, but handle it anyway
+            rules.defineRule
+              (target, '', '=', '"' + new Expr(expression).eval() + '"');
+          } else {
+            ids.forEach(id => {
+              if(expression.trim() == id)
+                rules.defineRule(target, id, '=', null);
+              else
+                rules.defineRule
+                  (target, id, '=', 'new Expr("' + expression + '").eval(dict)');
+            });
+          }
           adjust = '%' + (sn==0 ? 'V' : sn);
-          if(sn == 0)
-            // Override '=' feature dependency rule created above
-            rules.defineRule(note, 'features.' + name, '?', null);
         }
 
         let adjuster =
@@ -8642,13 +8644,13 @@ SRD35.weaponRules = function(
   }
   properties.forEach(p => {
     if(!(p+'').match(/^(Double|Projectile|Reach|Thrown)$/))
-      console.log('Bad property "' + p + '" for weapon ' + name);
+      console.log('Unrecognized property "' + p + '" for weapon ' + name);
   });
 
   profLevel = profLevel.toLowerCase();
   category = category.toLowerCase();
   if(!threat)
-    threat=20;
+    threat = 20;
   if(!critMultiplier)
     critMultiplier = 2;
 
@@ -8676,6 +8678,9 @@ SRD35.weaponRules = function(
     'weapons.' + name, '?', null,
     attackBase, '=', null
   );
+  if(name.includes('Sling') || properties.includes('Thrown'))
+    rules.defineRule
+      (prefix + 'AttackModifier', 'combatNotes.accurate', '+', '1');
   if(name.startsWith('Composite')) {
    let m = name.match(/\+(\d+)\s+Str\s+bonus/);
     rules.defineRule(prefix + 'AttackModifier',
@@ -8730,7 +8735,7 @@ SRD35.weaponRules = function(
 
   if(secondDamage) {
     secondDamage = secondDamage.replace(/[-+].*/, '');
-    // TODO Ignoring 2nd mod different from 1st, e.g. d6+2/d6
+    // NOTE: Ignoring 2nd mod different from 1st, e.g. d6+2/d6
     rules.defineRule(prefix + 'DamageDice2',
       'weapons.' + name, '?', null,
       '', '=', '"' + secondDamage + '"',
@@ -8750,7 +8755,7 @@ SRD35.weaponRules = function(
   if(range) {
     rules.defineRule(prefix + 'Range',
       'weapons.' + name, '=', range,
-      'features.Far Shot', '*', name.indexOf('bow') < 0 ? '2' : '1.5'
+      'combatNotes.farShot', '*', properties.includes('Projectile') ? '1.5' : '2'
     );
     rules.defineRule(weaponName + '.' + rangeVar, prefix + 'Range', '=', null);
   }
@@ -10079,7 +10084,7 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'weapons') {
     attrs = this.applyRules(attributes);
-    // TODO
+    // TODO Fix
     let characterProfLevel = attrs.weaponProficiencyLevel || '0';
     choices = [];
     let weapons = this.getChoices('weapons');
