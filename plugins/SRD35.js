@@ -4639,83 +4639,116 @@ SRD35.SPELLS = {
 SRD35.WEAPONS = {
   'Bastard Sword':'Level=Exotic Category=One-Handed Damage=d10 Threat=19',
   'Battleaxe':'Level=Martial Category=One-Handed Damage=d8 Crit=3',
-  'Bolas':'Level=Exotic Category=Ranged Damage=d4 Range=10',
-  'Club':'Level=Simple Category=One-Handed Damage=d6 Range=10',
+  'Bolas':'Level=Exotic Category=Ranged Damage=d4 Range=10 Properties=Thrown',
+  'Club':
+    'Level=Simple Category=One-Handed Damage=d6 Range=10 Properties=Thrown',
   'Composite Longbow':
-    'Level=Martial Category=Ranged Damage=d8 Crit=3 Range=110',
+    'Level=Martial Category=Ranged Damage=d8 Crit=3 Range=110 ' +
+    'Properties=Projectile',
   'Composite Shortbow':
-    'Level=Martial Category=Ranged Damage=d6 Crit=3 Range=70',
-  'Dagger':'Level=Simple Category=Light Damage=d4 Threat=19 Range=10',
-  'Dart':'Level=Simple Category=Ranged Damage=d4 Range=20',
-  'Dire Flail':'Level=Exotic Category=Two-Handed Damage=d8/d8',
-  'Dwarven Urgosh':'Level=Exotic Category=Two-Handed Damage=d8/d6 Crit=3',
+    'Level=Martial Category=Ranged Damage=d6 Crit=3 Range=70 ' +
+    'Properties=Projectile',
+  'Dagger':
+    'Level=Simple Category=Light Damage=d4 Threat=19 Range=10 Properties=Thrown',
+  'Dart':'Level=Simple Category=Ranged Damage=d4 Range=20 Properties=Thrown',
+  'Dire Flail':
+    'Level=Exotic Category=Two-Handed Damage=d8/d8 Properties=Double',
+  'Dwarven Urgosh':
+    'Level=Exotic Category=Two-Handed Damage=d8/d6 Crit=3 Properties=Double',
   'Dwarven Waraxe':'Level=Exotic Category=One-Handed Damage=d10 Crit=3',
   'Falchion':'Level=Martial Category=Two-Handed Damage=2d4 Threat=18',
   'Flail':'Level=Martial Category=One-Handed Damage=d8',
   'Gauntlet':'Level=Unarmed Category=Unarmed Damage=d3',
-  'Glaive':'Level=Martial Category=Two-Handed Damage=d10 Crit=3',
-  'Gnome Hooked Hammer':'Level=Exotic Category=Two-Handed Damage=d8/d6 Crit=4',
+  'Glaive':
+    'Level=Martial Category=Two-Handed Damage=d10 Crit=3 Properties=Reach',
+  'Gnome Hooked Hammer':
+    'Level=Exotic Category=Two-Handed Damage=d8/d6 Crit=4 Properties=Double',
   'Greataxe':'Level=Martial Category=Two-Handed Damage=d12 Crit=3',
   'Greatclub':'Level=Martial Category=Two-Handed Damage=d10',
   'Greatsword':'Level=Martial Category=Two-Handed Damage=2d6 Threat=19',
-  'Guisarme':'Level=Martial Category=Two-Handed Damage=2d4 Crit=3',
+  'Guisarme':
+    'Level=Martial Category=Two-Handed Damage=2d4 Crit=3 Properties=Reach',
   'Halberd':'Level=Martial Category=Two-Handed Damage=d10 Crit=3',
-  'Hand Crossbow':'Level=Exotic Category=Ranged Damage=d4 Threat=19 Range=30',
+  'Hand Crossbow':
+    'Level=Exotic Category=Ranged Damage=d4 Threat=19 Range=30 ' +
+    'Properties=Projectile',
   'Handaxe':'Level=Martial Damage=d6 Category=Light Crit=3',
   'Heavy Crossbow':
-    'Level=Simple Category=Ranged Damage=d10 Threat=19 Range=120',
+    'Level=Simple Category=Ranged Damage=d10 Threat=19 Range=120 ' +
+    'Properties=Projectile',
   'Heavy Flail':'Level=Martial Category=Two-Handed Damage=d10 Threat=19',
   'Heavy Mace':'Level=Simple Category=One-Handed Damage=d8',
   'Heavy Pick':'Level=Martial Category=One-Handed Damage=d6 Crit=4',
   'Heavy Shield':'Level=Martial Category=One-Handed Damage=d4',
   'Heavy Spiked Shield':'Level=Martial Category=One-Handed Damage=d6',
   'Improvised':'Level=Exotic Category=Ranged Damage=d4 Range=10',
-  'Javelin':'Level=Simple Category=Ranged Damage=d6 Range=30',
+  'Javelin':'Level=Simple Category=Ranged Damage=d6 Range=30 Properties=Thrown',
   'Kama':'Level=Exotic Category=Light Damage=d6',
   'Kukri':'Level=Martial Category=Light Damage=d4 Threat=18',
-  'Lance':'Level=Martial Category=Two-Handed Damage=d8 Crit=3',
-  'Light Crossbow':'Level=Simple Category=Ranged Damage=d8 Threat=19 Range=80',
-  'Light Hammer':'Level=Martial Category=Light Damage=d4 Range=20',
+  'Lance':'Level=Martial Category=Two-Handed Damage=d8 Crit=3 Properties=Reach',
+  'Light Crossbow':
+    'Level=Simple Category=Ranged Damage=d8 Threat=19 Range=80 ' +
+    'Properties=Projectile',
+  'Light Hammer':
+    'Level=Martial Category=Light Damage=d4 Range=20 Properties=Thrown',
   'Light Mace':'Level=Simple Category=Light Damage=d6',
   'Light Pick':'Level=Martial Category=Light Damage=d4 Crit=4',
   'Light Shield':'Level=Martial Category=Light Damage=d3',
   'Light Spiked Shield':'Level=Martial Category=Light Damage=d4',
-  'Longbow':'Level=Martial Category=Ranged Damage=d8 Crit=3 Range=100',
-  'Longspear':'Level=Simple Category=Two-Handed Damage=d8 Crit=3',
+  'Longbow':
+    'Level=Martial Category=Ranged Damage=d8 Crit=3 Range=100 ' +
+    'Properties=Projectile',
+  'Longspear':
+    'Level=Simple Category=Two-Handed Damage=d8 Crit=3 Properties=Reach',
   'Longsword':'Level=Martial Category=One-Handed Damage=d8 Threat=19',
   'Morningstar':'Level=Simple Category=One-Handed Damage=d8',
-  'Net':'Level=Exotic Category=Ranged Damage=None Range=10',
+  'Net':'Level=Exotic Category=Ranged Damage=None Range=10 Properties=Thrown',
   'Nunchaku':'Level=Exotic Category=Light Damage=d6',
-  'Orc Double Axe':'Level=Exotic Category=Two-Handed Damage=d8/d8 Crit=3',
+  'Orc Double Axe':
+    'Level=Exotic Category=Two-Handed Damage=d8/d8 Crit=3 Properties=Double',
   'Punching Dagger':'Level=Simple Category=Light Damage=d4 Crit=3',
-  'Quarterstaff':'Level=Simple Category=Two-Handed Damage=d6/d6',
-  'Ranseur':'Level=Martial Category=Two-Handed Damage=2d4 Crit=3',
+  'Quarterstaff':
+    'Level=Simple Category=Two-Handed Damage=d6/d6 Properties=Double',
+  'Ranseur':
+    'Level=Martial Category=Two-Handed Damage=2d4 Crit=3 Properties=Reach',
   'Rapier':'Level=Martial Category=One-Handed Damage=d6 Threat=18',
   'Repeating Heavy Crossbow':
-    'Level=Exotic Category=Ranged Damage=d10 Threat=19 Range=120',
+    'Level=Exotic Category=Ranged Damage=d10 Threat=19 Range=120 ' +
+    'Properties=Projectile',
   'Repeating Light Crossbow':
-    'Level=Exotic Category=Ranged Damage=d8 Threat=19 Range=80',
+    'Level=Exotic Category=Ranged Damage=d8 Threat=19 Range=80 ' +
+    'Properties=Projectile',
   'Sai':'Level=Exotic Category=Light Damage=d4 Range=10',
   'Sap':'Level=Martial Category=Light Damage=d6',
   'Scimitar':'Level=Martial Category=One-Handed Damage=d6 Threat=18',
   'Scythe':'Level=Martial Category=Two-Handed Damage=2d4 Crit=4',
   'Short Sword':'Level=Martial Category=Light Damage=d6 Threat=19',
-  'Shortbow':'Level=Martial Category=Ranged Damage=d6 Crit=3 Range=60',
-  'Shortspear':'Level=Simple Category=One-Handed Damage=d6 Range=20',
-  'Shuriken':'Level=Exotic Category=Ranged Damage=d2 Range=10',
+  'Shortbow':
+    'Level=Martial Category=Ranged Damage=d6 Crit=3 Range=60 ' +
+    'Properties=Projectile',
+  'Shortspear':
+    'Level=Simple Category=One-Handed Damage=d6 Range=20 Properties=Thrown',
+  'Shuriken':
+    'Level=Exotic Category=Ranged Damage=d2 Range=10 Properties=Thrown',
   'Siangham':'Level=Exotic Category=Light Damage=d6',
   'Sickle':'Level=Simple Category=Light Damage=d6',
-  'Sling':'Level=Simple Category=Ranged Damage=d4 Range=50',
-  'Spear':'Level=Simple Category=Two-Handed Damage=d8 Crit=3 Range=20',
+  'Sling':
+    'Level=Simple Category=Ranged Damage=d4 Range=50 Properties=Projectile',
+  'Spear':
+    'Level=Simple Category=Two-Handed Damage=d8 Crit=3 Range=20 ' +
+    'Properties=Thrown',
   'Spiked Armor':'Level=Martial Category=Light Damage=d6',
-  'Spiked Chain':'Level=Exotic Category=Two-Handed Damage=2d4',
+  'Spiked Chain':'Level=Exotic Category=Two-Handed Damage=2d4 Properties=Reach',
   'Spiked Gauntlet':'Level=Simple Category=Light Damage=d4',
-  'Throwing Axe':'Level=Martial Category=Light Damage=d6 Range=10',
-  'Trident':'Level=Martial Category=One-Handed Damage=d8 Range=10',
-  'Two-Bladed Sword':'Level=Exotic Category=Two-Handed Damage=d8/d8 Threat=19',
+  'Throwing Axe':
+    'Level=Martial Category=Light Damage=d6 Range=10 Properties=Thrown',
+  'Trident':
+    'Level=Martial Category=One-Handed Damage=d8 Range=10 Properties=Thrown',
+  'Two-Bladed Sword':
+    'Level=Exotic Category=Two-Handed Damage=d8/d8 Threat=19 Properties=Double',
   'Unarmed Strike':'Level=Unarmed Category=Unarmed Damage=d3',
   'Warhammer':'Level=Martial Category=One-Handed Damage=d8 Crit=3',
-  'Whip':'Level=Exotic Category=One-Handed Damage=d3'
+  'Whip':'Level=Exotic Category=One-Handed Damage=d3 Properties=Reach'
 };
 SRD35.CLASSES = {
   'Barbarian':
@@ -5597,7 +5630,8 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     (armors, ['AC', 'Weight', 'Dex', 'Skill', 'Spell']);
   QuilvynUtils.checkAttrTable
     (shields, ['AC', 'Weight', 'Dex', 'Skill', 'Spell']);
-  QuilvynUtils.checkAttrTable(weapons, ['Level', 'Category', 'Damage', 'Threat', 'Crit', 'Range']);
+  QuilvynUtils.checkAttrTable
+    (weapons, ['Level', 'Category', 'Damage', 'Threat', 'Crit', 'Range', 'Properties']);
 
   for(let a in armors)
     rules.choiceRules(rules, 'Armor', a, armors[a]);
@@ -6121,7 +6155,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValue(attrs, 'Damage'),
       QuilvynUtils.getAttrValue(attrs, 'Threat'),
       QuilvynUtils.getAttrValue(attrs, 'Crit'),
-      QuilvynUtils.getAttrValue(attrs, 'Range')
+      QuilvynUtils.getAttrValue(attrs, 'Range'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Properties')
     );
   else {
     console.log('Unknown choice type "' + type + '"');
@@ -7121,8 +7156,10 @@ SRD35.classRulesExtra = function(rules, name) {
       'abilityNotes.abilityBoost', '+', 'null', // italics
       'levels.Dragon Disciple', '+', 'source>=4 ? 4 : source>=2 ? 2 : null'
     );
-    SRD35.weaponRules(rules, 'Bite', 'Unarmed', 'Unarmed', 'd6', 20, 2, null);
-    SRD35.weaponRules(rules, 'Claw', 'Unarmed', 'Unarmed', 'd4', 20, 2, null);
+    SRD35.weaponRules
+      (rules, 'Bite', 'Unarmed', 'Unarmed', 'd6', 20, 2, null, []);
+    SRD35.weaponRules
+      (rules, 'Claw', 'Unarmed', 'Unarmed', 'd4', 20, 2, null, []);
     rules.defineRule('weapons.Bite', 'combatNotes.clawsAndBite', '=', '1');
     rules.defineRule('weapons.Claw', 'combatNotes.clawsAndBite', '=', '1');
 
@@ -8566,7 +8603,8 @@ SRD35.spellRules = function(
  * increment of #range# feet.
  */
 SRD35.weaponRules = function(
-  rules, name, profLevel, category, damage, threat, critMultiplier, range
+  rules, name, profLevel, category, damage, threat, critMultiplier, range,
+  properties
 ) {
 
   if(!name) {
@@ -8598,6 +8636,14 @@ SRD35.weaponRules = function(
   if(range && typeof range != 'number') {
     console.log('Bad range "' + range + '" for weapon ' + name);
   }
+  if(!Array.isArray(properties)) {
+    console.log('Bad properties "' + properties + '" for weapon ' + name);
+    properties = [];
+  }
+  properties.forEach(p => {
+    if(!(p+'').match(/^(Double|Projectile|Reach|Thrown)$/))
+      console.log('Bad property "' + p + '" for weapon ' + name);
+  });
 
   profLevel = profLevel.toLowerCase();
   category = category.toLowerCase();
@@ -9535,7 +9581,8 @@ SRD35.choiceEditorElements = function(rules, type) {
        })],
       ['Threat', 'Threat', 'select-one', twentyToSixteen],
       ['Crit', 'Crit Multiplier', 'select-one', twoToFive],
-      ['Range', 'Range Increment', 'select-one', zeroToOneFifty]
+      ['Range', 'Range Increment', 'select-one', zeroToOneFifty],
+      ['Properties', 'Properties', 'text', [20]]
     );
   }
   return result;
@@ -10330,6 +10377,9 @@ SRD35.ruleNotes = function() {
     '    Quilvyn assumes that high ranks in Knowledge (History) affects the' +
     "    Loremaster's Lore feature identically to how it affects Bardic" +
     '    Knowledge\n' +
+    '  </li><li>\n' +
+    "    Quilvyn considers bolas to be a thrown weapon, although it doesn't" +
+    '    appear in the list of thrown weapons in the SRD.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
