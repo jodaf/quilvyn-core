@@ -703,9 +703,9 @@ SRD35.FEATURES = {
   'Countersong':
     'Section=skill ' +
     'Note="R30\' Can use Perform to allow creatures affected by sonic magic to make saves using the Perform check each rd for up to 10 rd"',
-  'Fascinate': // TODO: Spell-like ability; what spell?
+  'Fascinate': // Spell-like ability; no corresponding spell
     'Section=skill ' +
-    'Note="R90\' Can use Perform to hold %{(levels.Bard+2)//3} creatures spellbound (save Will vs. Perform check negates; potential threats allow another save) for %{levels.Bard} rd or until threatened"',
+    'Note="R90\' Can use Perform to hold %{(levels.Bard+2)//3} creatures spellbound (save Will vs. Perform check negates for 24 hr; potential threats allow another save) and inflict -4 on reaction skill checks for %{levels.Bard} rd or until a target is threatened"',
   'Inspire Competence':
     'Section=skill ' +
     'Note="R30\' Can use Perform to give an ally +2 checks on a specified skill for up to 2 min"',
@@ -929,9 +929,9 @@ SRD35.FEATURES = {
   'Smite Evil':
     'Section=combat ' +
     'Note="Can gain +%1 attack and inflict +%2 HP vs. an evil foe %{%V>1?\'%V times\':\'once\'} per day"',
-  'Special Mount': // TODO: Spell-like ability; what spell?
+  'Special Mount': // Spell-like ability; no corresponding spell
     'Section=companion ' +
-    'Note="Can summon a celestial mount with expanded abilities for %{levels.Paladin*2} hr once per day; death of the mount inflicts -1 attack and damage for 30 days"',
+    'Note="Can call a celestial mount with expanded abilities and full hit points for %{levels.Paladin*2} hr once per day; death of the mount prevents another use and inflicts -1 attack and damage for 30 days"',
   // Turn Undead as above
 
   // Ranger
@@ -1348,7 +1348,6 @@ SRD35.FEATURES = {
   'Mastery Of Shaping':
     'Section=magic ' +
     'Note="Can include 5\' cube or larger spaces in a spell effect area that are unaffected by it"',
-  // TODO implement?
   'Spell Power':'Section=magic Note="+%V caster level for spell effects"',
   'Spell-Like Ability':
     'Section=magic ' +
@@ -5838,6 +5837,9 @@ SRD35.magicRules = function(rules, schools, spells) {
   for(let s in spells)
     rules.choiceRules(rules, 'Spell', s, spells[s]);
 
+  rules.defineRule
+    ('spellPoints', 'magicNotes.spellPower', '+', 'null'); // italics
+
 };
 
 /* Defines rules related to character aptitudes. */
@@ -8558,7 +8560,7 @@ SRD35.spellRules = function(
 
   expr = 'casterLevels.' + (domainSpell ? 'Domain' : casterGroup);
   rules.defineChoice
-    ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', expr));
+    ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + '+(magicNotes.spellPower||0))'));
   // Remove character spell DC--doesn't apply to potions and scrolls.
   description =
     description.replaceAll(/(spellDifficultyClass|spellDCSchoolBonus).\w+\|\|/g, '');
@@ -9750,9 +9752,11 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
   let matchInfo;
 
   if(attribute == 'armor') {
-    // TODO Fix
     attrs = this.applyRules(attributes);
-    let characterProfLevel = attrs.highestArmorProficiency || '0';
+    let characterProfLevel =
+      attrs.highestArmorProficiency == 'Heavy' ? 3 :
+      attrs.highestArmorProficiency == 'Medium' ? 2 :
+      attrs.highestArmorProficiency == 'Light' ? 1 : 0;
     choices = [];
     let armors = this.getChoices('armors');
     for(attr in armors) {
@@ -9761,10 +9765,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         !weight || weight.match(/none/i) ? 0 :
         weight.match(/light/i) ? 1 :
         weight.match(/medium/i) ? 2 : 3;
-      if(weight <= characterProfLevel ||
-         attrs['armorProficiency.' + attr] != null) {
+      if(weight <= characterProfLevel || attrs['armorProficiency.' + attr])
         choices.push(attr);
-      }
     }
     if(choices.length > 0)
       attributes.armor = choices[QuilvynUtils.random(0, choices.length - 1)];
@@ -9983,7 +9985,11 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     attributes.name = SRD35.randomName(attributes.race);
   } else if(attribute == 'shield') {
     attrs = this.applyRules(attributes);
-    let characterProfLevel = attrs.shieldProficiencyLevel || '0';
+    let characterProfLevel =
+      attrs['armorProficiency.Tower Shield'] ? 4 :
+      // The rules define no proficiency distinction between light, medium
+      // (hypothetical) and heavy shields
+      attrs['armorProficiency.Shield'] ? 3 : 0;
     choices = [];
     let shields = this.getChoices('shields');
     for(attr in shields) {
@@ -9993,10 +9999,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         weight.match(/light/i) ? 1 :
         weight.match(/medium/i) ? 2 :
         weight.match(/heavy/i) ? 3 : 4;
-      if(weight <= characterProfLevel ||
-         attrs['shieldProficiency.' + attr] != null) {
-        choices[choices.length] = attr;
-      }
+      if(weight <= characterProfLevel || attrs['shieldProficiency.' + attr])
+        choices.push(attr);
     }
     if(choices.length > 0)
       attributes.shield = choices[QuilvynUtils.random(0, choices.length - 1)];
@@ -10084,8 +10088,9 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
     }
   } else if(attribute == 'weapons') {
     attrs = this.applyRules(attributes);
-    // TODO Fix
-    let characterProfLevel = attrs.weaponProficiencyLevel || '0';
+    let characterProfLevel =
+      attrs['weaponProficiency.Martial Weapons'] ? 2 :
+      attrs['weaponProficiency.Simple Weapons'] ? 1 : 0;
     choices = [];
     let weapons = this.getChoices('weapons');
     for(attr in weapons) {
@@ -10094,10 +10099,8 @@ SRD35.randomizeOneAttribute = function(attributes, attribute) {
         !level || level.match(/unarmed/i) ? 0 :
         level.match(/simple/i) ? 1 :
         level.match(/martial/i) ? 2 : 3;
-      if(level <= characterProfLevel ||
-         attrs['weaponProficiency.' + attr] != null) {
-        choices[choices.length] = attr;
-      }
+      if(level <= characterProfLevel || attrs['weaponProficiency.' + attr])
+        choices.push(attr);
     }
     pickAttrs(attributes, 'weapons.', choices,
               3 - QuilvynUtils.sumMatching(attributes, /^weapons\./), 1);
