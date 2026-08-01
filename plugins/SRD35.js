@@ -617,10 +617,11 @@ SRD35.FEATURES = {
   'Gnome Ability Adjustment':
     'Section=ability Note="+2 Constitution/-2 Strength"',
   'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
-  // TODO: feature spell?
   'Gnome Magic':
     'Section=magic ' +
-    'Note="Can cast <i>Speak With Animals</i> to communicate with burrowing mammals for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>, each\' : \'\'} once per day"',
+    'Note="Can cast <i>Speak With Animals</i> to communicate with burrowing mammals for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>, each\' : \'\'} once per day" ' +
+    'Spells="Speak With Animals","Dancing Lights","Ghost Sound","Prestidigitation" ' +
+    'SpellAbility=Charisma',
   'Keen Ears':'Section=skill Note="+2 Listen"',
   'Sensitive Nose':'Section=skill Note="+2 Craft (Alchemy)"',
   // Low-Light Vision as above
@@ -703,7 +704,7 @@ SRD35.FEATURES = {
   'Countersong':
     'Section=skill ' +
     'Note="R30\' Can use Perform to allow creatures affected by sonic magic to make saves using the Perform check each rd for up to 10 rd"',
-  'Fascinate':
+  'Fascinate': // TODO: Spell-like ability; what spell?
     'Section=skill ' +
     'Note="R90\' Can use Perform to hold %{(levels.Bard+2)//3} creatures spellbound (save Will vs. Perform check negates; potential threats allow another save) for %{levels.Bard} rd or until threatened"',
   'Inspire Competence':
@@ -718,20 +719,20 @@ SRD35.FEATURES = {
   'Inspire Heroics':
     'Section=skill ' +
     'Note="R30\' Can use Perform to give %{levels.Bard>14?((levels.Bard-12)//3)+\' allies\':\'an ally\'} +4 Armor Class and saves, lasting for 5 rd after the performance ends"',
-  'Mass Suggestion':
-    'Section=magic ' +
-    'Note="Can use <i>Suggestion</i> effects on fascinated creatures (save Will DC %{10+levels.Bard//2+charismaModifier} negates)"',
+  'Mass Suggestion':'Section=magic Note="Has expanded Suggestion effects"',
   'Simple Somatics':
     'Section=magic ' +
     'Note="Suffers no arcane spell failure risk from wearing light armor"',
-  // TODO: feature spell?
   'Song Of Freedom':
     'Section=magic ' +
-    'Note="R30\' Can Perform for 1 min to use <i>Break Enchantment</i> effects"',
-  // TODO: feature spell?
+    'Note="R30\' Can Perform for 1 min to use <i>Break Enchantment</i> effects" ' +
+    'Spells="Break Enchantment" ' +
+    'SpellAbility=Charisma',
   'Suggestion':
     'Section=magic ' +
-    'Note="Can use <i>Suggestion</i> effects on 1 fascinated creature (save Will DC %{10+levels.Bard//2+charismaModifier} negates)"',
+    'Note="Can use <i>Suggestion</i> effects on %{magicNotes.massSuggestion?\'fascinated creatures\':\'1 fascinated creature\'}" ' +
+    'Spells=Suggestion ' +
+    'SpellAbility=Charisma',
 
   // Cleric
   'Aura':
@@ -747,10 +748,11 @@ SRD35.FEATURES = {
   'Air Turning':
     'Section=combat Note="Can turn earth creatures and rebuke air creatures"',
   // Animal Domain
-  // TODO: feature spell?
   'Animal Talk':
     'Section=magic ' +
-    'Note="Can use <i>Speak With Animals</i> effects once per day"',
+    'Note="Can use <i>Speak With Animals</i> effects once per day" ' +
+    'Spells="Speak With Animals" ' +
+    'SpellAbility=Charisma',
   'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
   // Chaos Domain
   'Empowered Chaos':'Section=magic Note="+1 caster level on Chaos spells"',
@@ -803,7 +805,7 @@ SRD35.FEATURES = {
   // Travel Domain
   'Free Movement':
     'Section=magic ' +
-    'Note="Can use <i>Freedom Of Movement</i> effects for %{casterLevels.Travel} rd per day"',
+    'Note="Can ignore magical impediments to movement for %{casterLevels.Travel} rd per day"',
   'Survivalist':'Section=skill Note="Survival is a class skill"',
   // Trickery Domain
   'Deceptive Knowledge':
@@ -818,9 +820,8 @@ SRD35.FEATURES = {
     'Section=combat Note="Can turn fire creatures and rebuke water creatures"',
 
   // Druid
-  // TODO: feature spell?
   'A Thousand Faces':
-    'Section=magic Note="Can use <i>Disguise Self</i> effects at will"',
+    'Section=magic Note="Can change appearance at will while in normal form"',
   'Animal Companion':
     'Section=companion ' +
     'Note="Can have a special bond with an animal that has expanded abilities"',
@@ -855,10 +856,9 @@ SRD35.FEATURES = {
     'Note="+%V Fighter Feat%{$\'featureNotes.bonusFeat(Fighter)\'>1?\'s\':\'\'}"',
 
   // Monk
-  // TODO: feature spell?
   'Abundant Step':
     'Section=magic ' +
-    'Note="Can use <i>Dimension Door</i> effects on self to teleport %{levels.Monk//2*40+400}\' once per day"',
+    'Note="Can teleport self %{levels.Monk//2*40+400}\' once per day"',
   'Armor Class Bonus':
     'Section=combat Note="+%V Armor Class; encumbrance or armor negates"',
   'Bonus Feat (Monk)':
@@ -866,10 +866,8 @@ SRD35.FEATURES = {
     'Note="%V selection%{$\'featureNotes.bonusFeat(Monk)\'>1?\'s\':\'\'}"',
   'Diamond Body':'Section=save Note="Has immunity to poison"',
   'Diamond Soul':'Section=save Note="Has spell resistance %V"',
-  // TODO: feature spell?
   'Empty Body':
-    'Section=magic ' +
-    'Note="Can use <i>Etherealness</i> effects on self for %{levels.Monk} rd per day"',
+    'Section=magic Note="Can become ethereal for %{levels.Monk} rd per day"',
   'Evasion':
     'Section=save ' +
     'Note="Successful Reflex saves yield no damage instead of half%{saveNotes.improvedEvasion?\', and failed Reflex saves yield half damage\':\'\'}; medium or heavy armor negates"',
@@ -911,23 +909,28 @@ SRD35.FEATURES = {
     'Section=save ' +
     'Note="Has immunity to fear, and allies within 10\' gain +4 saves vs. fear"',
   'Aura Of Good':'Section=feature Note="Visible to <i>Detect Good</i>"',
-  // TODO: feature spell?
+  // Passing spell to featureRule breaks because Paladins have no caster level
+  // until level 4
   'Detect Evil':
-    'Section=magic Note="Can use <i>Detect Evil</i> effects at will"',
+    'Section=magic ' +
+    'Note="Can use <i>Detect Evil</i> effects at will" ' +
+    'Spells="Detect Evil" ' +
+    'SpellAbility=Charisma',
   'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Divine Health':
     'Section=save Note="Has immunity to natural and supernatural diseases"',
   'Lay On Hands':
     'Section=combat ' +
     'Note="Can use touch to heal %{levels.Paladin*charismaModifier} hit points per day or to damage undead"',
-  // TODO: feature spell?
   'Remove Disease':
     'Section=magic ' +
-    'Note="Can use <i>Remove Disease</i> effects %{levels.Paladin>8?((levels.Paladin-3)//3)+\' times\':\'once\'} per week"',
+    'Note="Can use <i>Remove Disease</i> effects %{levels.Paladin>8?(levels.Paladin//3-1)+\' times\':\'once\'} per week" ' +
+    'Spells="Remove Disease" ' +
+    'SpellAbility=Charisma',
   'Smite Evil':
     'Section=combat ' +
     'Note="Can gain +%1 attack and inflict +%2 HP vs. an evil foe %{%V>1?\'%V times\':\'once\'} per day"',
-  'Special Mount':
+  'Special Mount': // TODO: Spell-like ability; what spell?
     'Section=companion ' +
     'Note="Can summon a celestial mount with expanded abilities for %{levels.Paladin*2} hr once per day; death of the mount inflicts -1 attack and damage for 30 days"',
   // Turn Undead as above
@@ -1278,7 +1281,11 @@ SRD35.FEATURES = {
   'Multiattack':
     'Section=companion ' +
     'Note="Reduces the penalty for additional attacks to -2 or gives a second attack at -5"',
-  'Scry On Familiar':'Section=companion Note="Can view companion once per day"',
+  'Scry On Familiar':
+    'Section=companion ' +
+    'Note="Can view companion once per day" ' +
+    'Spells=Scrying ' +
+    'SpellAbility=Charisma',
   'Share Saving Throws':'Section=companion Note="+%1 Fort/+%2 Ref/+%3 Will"',
   'Share Spells':
     'Section=companion ' +
@@ -1292,21 +1299,21 @@ SRD35.FEATURES = {
   // Prestige Classes
 
   // Arcane Archer
-  'Arrow Of Death':
+  'Arrow Of Death': // Spell-like ability; no corresponding spell
     'Section=combat ' +
     'Note="Can spend a day to create a special arrow that kills its target (save Fortitude DC 20 negates)"',
   'Enhance Arrow':
     'Section=combat ' +
     'Note="Arrows are +%{($\'levels.Arcane Archer\'+1)//2} magic weapons"',
-  'Imbue Arrow':
+  'Imbue Arrow': // Spell-like ability; no corresponding spell
     'Section=magic Note="Can shoot an arrow and center a spell where it lands"',
-  'Hail Of Arrows':
+  'Hail Of Arrows': // Spell-like ability; no corresponding spell
     'Section=combat ' +
     'Note="Can fire arrows at %{$\'levels.Arcane Archer\'} targets simultaneously once per day"',
-  'Phase Arrow':
+  'Phase Arrow': // Spell-like ability; no corresponding spell
     'Section=combat ' +
     'Note="Can shoot an arrow that passes through normal obstacles, negating cover, concealment, and armor, once per day"',
-  'Seeker Arrow':
+  'Seeker Arrow': // Spell-like ability; no corresponding spell
     'Section=combat ' +
     'Note="Can shoot an arrow that maneuvers to a target, negating cover and concealment, once per day"',
 
@@ -1373,14 +1380,18 @@ SRD35.FEATURES = {
     'Section=combat Note="Can rebuke undead as a level %V Cleric"',
   'Dark Blessing':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
   'Detect Good':
-    'Section=magic Note="Can use <i>Detect Good</i> effects at will"',
+    'Section=magic ' +
+    'Note="Can use <i>Detect Good</i> effects at will" ' +
+    'Spells="Detect Good" ' +
+    'SpellAbility=Charisma',
   'Fiendish Servant':
     'Section=companion ' +
     'Note="Can have a special bond with an animal that has expanded abilities"',
-  // TODO: feature spell?
   'Fiendish Summoning':
     'Section=magic ' +
-    'Note="Can use <i>Summon Monster I</i> effects as a level %{levels.Blackguard*2} caster once per day"',
+    'Note="Can use <i>Summon Monster I</i> as a level %{levels.Blackguard*2} caster to summon an evil creature once per day" ' +
+    'Spells="Summon Monster I" ' +
+    'SpellAbility=Charisma',
   'Lay On Hands (Blackguard)':
     'Section=magic ' +
     'Note="Can use touch to heal %{levels.Blackguard*charismaModifier} hit points per day to self or servant"',
@@ -1502,9 +1513,11 @@ SRD35.FEATURES = {
       '"+10 climb Speed",' +
       '"+4 Climb"',
   'Terrain Mastery (Plains)':'Section=skill Note="+4 Spot"',
-  // TODO feature spell?
   'Terrain Mastery (Shifting)':
-    'Section=magic Note="Can use <i>Dimension Door</i> effects every 1d4 rd"',
+    'Section=magic ' +
+    'Note="Can use <i>Dimension Door</i> effects every 1d4 rd" ' +
+    'Spells="Dimension Door" ' +
+    'SpellAbility=Charisma',
   'Terrain Mastery (Underground)':'Section=feature Note="+60\' Darkvision"',
   'Terrain Mastery (Weightless)':
     'Section=ability,combat ' +
@@ -1522,8 +1535,11 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
   'Dodge Trick':'Section=combat Note="+1 Armor Class"',
-  // Feature spell?
-  'Greater Lore':'Section=magic Note="Can use <i>Identify</i> effects at will"',
+  'Greater Lore':
+    'Section=magic ' +
+    'Note="Can use <i>Identify</i> effects at will" ' +
+    'Spells=Identify ' +
+    'SpellAbility=Charisma',
   'Instant Mastery':
     'Section=skill Note="+4 ranks in a choice of untrained skill"',
   'Lore':
@@ -1537,10 +1553,11 @@ SRD35.FEATURES = {
   'Secret Knowledge Of Avoidance':'Section=save Note="+2 Reflex"',
   'Secrets Of Inner Strength':'Section=save Note="+2 Will"',
   'The Lore Of True Stamina':'Section=save Note="+2 Fortitude"',
-  // Feature spell?
   'True Lore':
     'Section=magic ' +
-    'Note="Can use <i>Legend Lore</i> or <i>Analyze Dweomer</i> effects once per day"',
+    'Note="Can use <i>Legend Lore</i> or <i>Analyze Dweomer</i> effects once per day" ' +
+    'Spells="Legend Lore","Analyze Dweomer" ' +
+    'SpellAbility=Charisma',
   'Weapon Trick':'Section=combat Note="+1 Melee Attack/+1 Ranged Attack"',
 
   // Mystic Theurge
@@ -1556,9 +1573,11 @@ SRD35.FEATURES = {
   // Hide In Plain Sight as above
   // Improved Evasion as above
   // Improved Uncanny Dodge as above
-  // TODO: Feature spell?
   'Shadow Illusion':
-    'Section=magic Note="Can use <i>Silent Image</i> effects once per day"',
+    'Section=magic ' +
+    'Note="Can use <i>Silent Image</i> effects once per day" ' +
+    'Spells="Silent Image" ' +
+    'SpellAbility=Charisma',
   'Shadow Jump':
     'Section=magic Note="Can teleport between shadows %V\' per day"',
   // Slippery Mind as above
@@ -1569,10 +1588,11 @@ SRD35.FEATURES = {
 
   // Thaumaturgist
   // Augment Summoning as above
-  // TODO: feature spell?
   'Contingent Conjuration':
     'Section=magic ' +
-    'Note="Can use <i>Contingency</i> effects on summoning spells"',
+    'Note="Can use <i>Contingency</i> effects on summoning spells" ' +
+    'Spells=Contingency ' +
+    'SpellAbility=Charisma',
   'Extended Summoning':
     'Section=magic Note="Summoning spells have double their normal durations"',
   'Improved Ally':
@@ -4150,7 +4170,7 @@ SRD35.SPELLS = {
     'Description="R%{25+lvl//2*5}\' 10\' radius inflicts 1d8 HP and stuns (Fort HP only)"',
   'Speak With Animals':
     'School=Divination ' +
-    'Level=Animal1,B3,D1,R1 ' +
+    'Level=B3,D1,R1 ' +
     'Description="Self converses w/animals for %{lvl} min"',
   'Speak With Dead':
     'School=Necromancy ' +
@@ -5797,7 +5817,8 @@ SRD35.talentRules = function(
   let matchInfo;
 
   QuilvynUtils.checkAttrTable(feats, ['Require', 'Imply', 'Type']);
-  QuilvynUtils.checkAttrTable(features, ['Section', 'Note']);
+  QuilvynUtils.checkAttrTable
+    (features, ['Section', 'Note', 'Spells', 'SpellAbility']);
   QuilvynUtils.checkAttrTable
     (goodies, ['Pattern', 'Effect', 'Value', 'Attribute', 'Section', 'Note']);
   QuilvynUtils.checkAttrTable(languages, []);
@@ -5883,6 +5904,10 @@ SRD35.talentRules = function(
     'maxActualSkillAllocation', '+', '-source',
     '', 'v', '0'
   );
+
+  // Fix up feature spells with variant caster level
+  rules.defineRule
+    ('casterLevels.FiendishSummoning', 'levels.Blackguard', '=', 'source * 2');
 
   // Define specific attributes for Stat Block character sheet format
   rules.defineRule
@@ -6009,7 +6034,9 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
   } else if(type == 'Feature')
     SRD35.featureRules(rules, name,
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
-      QuilvynUtils.getAttrValueArray(attrs, 'Note')
+      QuilvynUtils.getAttrValueArray(attrs, 'Note'),
+      QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
+      QuilvynUtils.getAttrValue(attrs, 'SpellAbility')
     );
   else if(type == 'Goody')
     SRD35.goodyRules(rules, name,
@@ -7761,9 +7788,13 @@ SRD35.featureListRules = function(
 /*
  * Defines in #rules# the rules associated with feature #name#. #sections# lists
  * the sections of the notes related to the feature and #notes# the note texts;
- * the two must have the same number of elements.
+ * the two must have the same number of elements. #spells# lists any spells
+ * acquired as part of the feature, and #spellAbility# is the ability used to
+ * calculate attack and difficulty class for these spells.
  */
-SRD35.featureRules = function(rules, name, sections, notes) {
+SRD35.featureRules = function(
+  rules, name, sections, notes, spells, spellAbility
+) {
 
   if(!name) {
     console.log('Empty feature name');
@@ -7779,6 +7810,14 @@ SRD35.featureRules = function(rules, name, sections, notes) {
   }
   if(sections.length != notes.length) {
     console.log(sections.length + ' sections, ' + notes.length + ' notes for feature ' + name);
+    return;
+  }
+  if(spells != null && !Array.isArray(spells)) {
+    console.log('Bad spell list "' + spells + '" for feature ' + name);
+    return;
+  }
+  if(spellAbility != null && !(spellAbility in SRD35.ABILITIES)) {
+    console.log('Bad spell ability "' + spellAbility + '" for feature ' + name);
     return;
   }
 
@@ -7907,6 +7946,26 @@ SRD35.featureRules = function(rules, name, sections, notes) {
        skillsBoosted.join(' > 0 || ') + ' > 0');
   }
 
+  if(spells && spells.length > 0) {
+    spellAbility = !spellAbility ? 'charisma' : spellAbility.toLowerCase();
+    let spellType = name.replaceAll(/[- \(\)]/g, '');
+    // Display attack and DC values when this feature is acquired.
+    rules.defineRule('casterLevels.' + spellType,
+      'features.' + name, '?', null,
+      'level', '=', null
+    );
+    rules.defineRule('spellModifier.' + spellType,
+      'casterLevels.' + spellType, '?', null,
+      (spellAbility || 'charisma') + 'Modifier', '=', null
+    );
+    rules.defineRule('spellDifficultyClass.' + spellType,
+      'features.' + name, '=', '0',
+      'spellModifier.' + spellType, '+', '10 + source'
+    );
+    SRD35.featureSpells
+      (rules, name, spellType, spellAbility, 'level', '', spells);
+  }
+
 };
 
 /*
@@ -8024,10 +8083,6 @@ SRD35.raceRules = function(
  */
 SRD35.raceRulesExtra = function(rules, name) {
   if(name.match(/Gnome/)) {
-    SRD35.featureSpells(
-      rules, 'Gnome Magic', 'GnomeMagic', 'charisma', 'gnomeLevel', '',
-      ['Dancing Lights','Ghost Sound','Prestidigitation','Speak With Animals']
-    );
     rules.defineRule('spells.Dancing Lights(GnomeMagic0 Evoc)',
       'charisma', '?', 'source>=10'
     );
@@ -8776,13 +8831,13 @@ SRD35.featureSpells = function(
 
   let allSpells = rules.getChoices('spells');
 
-  spellList.forEach(nameList => {
+  spellList.forEach(spellNames => {
     let minLevel = 1;
-    if(nameList.match(/^\d+:/)) {
-      minLevel = nameList.split(':')[0] - 0;
-      nameList = nameList.split(':')[1];
+    if(spellNames.match(/^\d+:/)) {
+      minLevel = spellNames.split(':')[0] - 0;
+      spellNames = spellNames.split(':')[1];
     }
-    nameList.split(',').forEach(name => {
+    spellNames.split(',').forEach(name => {
       let spells = QuilvynUtils.getKeys(allSpells, '^' + name + '\\(');
       if(spells.length == 0) {
         console.log('Unknown spell "' + name + '" for feature ' + feature);
@@ -8822,17 +8877,13 @@ SRD35.featureSpells = function(
           let s = 'spells.' + fullName;
           if(s in allFormats)
             allFormats[s] =
-              allFormats[s].replaceAll(/DC %{[^}]*} (Fort|Ref|Will)/g, 'DC %{' + dc + '} $1');
+              allFormats[s].replaceAll(/DC %{[^}]*}/g, 'DC %{' + dc + '}');
           else
             console.log('No format for spell ' + fullName);
         }
       }
     });
   });
-  rules.defineRule('casterLevels.' + spellType,
-    'features.' + feature, '?', null,
-    levelAttr, '=', null
-  );
 
 };
 
