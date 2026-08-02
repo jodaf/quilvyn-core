@@ -2116,112 +2116,137 @@ SRD35.SPELLS = {
   'Acid Arrow':
     'School=Conjuration ' +
     'Level=S2,W2 ' +
-    'Description="R%{400+lvl*40}\' Ranged touch inflicts 2d4 HP/rd for %{lvl//3+1} rd"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Ranged touch inflicts 2d4 HP acid per rd for %{lvl//3+1} rd"',
   'Acid Fog':
     'School=Conjuration ' +
     'Level=S6,W6,Water7 ' +
-    'Description="R%{100+lvl*10}\' Fog in 20\' radius obscures vision, slows to 5\'/rd, inflicts -2 attack and damage, and inflicts 2d6 HP/rd while moving away 10\'/rd for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, slows to 5\', inflicts -2 attack and damage, inflicts 2d6 HP acid per rd, and moves away 10\' per rd for %{lvl} rd"',
   'Acid Splash':
     'School=Conjuration ' +
     'Level=S0,W0 ' +
-    'Description="R%{25+lvl//2*5}\' Ranged touch inflicts 1d3 HP"',
+    'Description="R%{25+lvl//2*5}\' Ranged touch inflicts 1d3 HP acid"',
   'Aid':
     'School=Enchantment ' +
     'Level=Adept2,C2,Good2,Luck2 ' +
-    'Description="Touched gains +1 attack and fear saves and 1d8+%{lvl<?10} temporary HP for %{lvl} min" ' +
+    'Description=' +
+      '"Touched gains +1 attack, +1 saves vs. fear, and 1d8+%{lvl<?10} temporary hit points for %{lvl} min" ' +
     'Liquid=Potion',
   'Air Walk':
     'School=Transmutation ' +
     'Level=Air4,C4,D4 ' +
-    'Description="Touched walks on air for %{lvl*10} min"',
+    'Description=' +
+      '"Touched can walk on air for %{lvl*10} min, then floads downward 60\' per rd for 1d6 rd; winds of over 20 MPH push the target 5\' per 5 MPH"',
   'Alarm':
     'School=Abjuration ' +
     'Level=B1,R1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Entry into 20\' radius triggers audible or mental alarm for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Entry into a 20\' radius by a Tiny or larger creature triggers a choice of an audible or mental alarm (password negates) for %{lvl*2} hr"',
   'Align Weapon':
     'School=Transmutation ' +
     'Level=C2 ' +
-    'Description="Touched weapon gains alignment (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"Touched weapon gains a choice of chaotic, evil, good, or lawful alignment (save Will negates) for %{lvl} min"',
   'Alter Self':
     'School=Transmutation ' +
     'Level=Assassin2,B2,S2,W2 ' +
-    'Description="Self becomes creature w/in 1 size category w/up to %{lvl<?5} HD for %{lvl*10} min"',
+    'Description=' +
+      '"Self becomes a choice of creature within 1 size category that has up to %{lvl<?5} HD for %{lvl*10} min; possessions can remain or meld into the form"',
   'Analyze Dweomer':
     'School=Divination ' +
     'Level=B6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' Targets reveal magical aspects (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Reveals spells affecting target creatures and objects and any magical fuctions of objects (save Will for creatures and attended objects negates) for %{lvl} rd"',
   'Animal Growth':
     'School=Transmutation ' +
     'Level=D5,R4,S5,W5 ' +
-    'Description="R%{100+lvl*10}\' %{lvl//2} animal targets in 15\' radius dbl size (+8 Strength, +4 Constitution, +2 Armor Class, DR 10/magic, +4 saves, -2 Dexterity) (Fort neg) for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' %{lvl//2} animal targets in a 15\' radius double in size (save Fortitude negates), gaining +8 Strength, +4 Constitution, +2 natural armor, DR 10/magic, and +4 saves and suffering -2 Dexterity for %{lvl} min"',
   'Animal Messenger':
     'School=Enchantment ' +
     'Level=B2,D2,R1 ' +
-    'Description="R%{25+lvl//2*5}\' Tiny animal target goes to specified place for %{lvl} dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Tiny animal target travels to a specified place for %{lvl} day%{lvl>1?\'s\':\'\'}"',
   'Animal Shapes':
     'School=Transmutation ' +
     'Level=Animal7,D8 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} willing targets in 15\' radius become chosen animal w/up to %{lvl} HD for %{lvl} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} willing targets in a 15\' radius become a chosen animal with up to %{lvl} HD for %{lvl} hr"',
   'Animal Trance':
     'School=Enchantment ' +
     'Level=Adept2,B2,D2 ' +
-    'Description="R%{25+lvl//2*5}\' 2d6 HD of animals fascinated (Will neg) for conc"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 2d6 HD of animals sit unmoving (save Will for trained, dire, or magical animals negates) for concentration"',
   'Animate Dead':
     'School=Necromancy ' +
     'Level=Adept3,C3,Death3,S4,W4 ' +
-    'Description="Touched corpses become up to %{lvl*2} HD of obedient skeletons or zombies"',
+    'Description=' +
+      '"Touched corpses become up to %{lvl*2} HD of obedient skeletons and zombies; no more than 4 HD of undead created by multiple castings can be controlled"',
   'Animate Objects':
     'School=Transmutation ' +
     'Level=B6,C6,Chaos6 ' +
-    'Description="R%{100+lvl*10}\' %{lvl} small objects attack foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' %{lvl} Small object targets attack foes for %{lvl} rd; larger objects reduce the number affected by half for each size level"',
   'Animate Plants':
     'School=Transmutation ' +
     'Level=D7,Plant7 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl//3} plants attack foes for %{lvl} rd or entwine for %{lvl} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl//3} Large plant targets attack foes for %{lvl} rd or entwine for %{lvl} hr; arger plants reduce the number affected by half for each size level"',
   'Animate Rope':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
-    'Description="R%{100+lvl*10}\' %{lvl*5+50}\' rope obeys self for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' %{lvl*5+50}\' rope obeys self for %{lvl} rd; can entangle a target within 1\' of it with a successful ranged touch attack (DC 20 Escape Artist ends, and DC 23 Strength breaks the rope)"',
   'Antilife Shell':
     'School=Abjuration ' +
     'Level=Animal6,C6,D6 ' +
-    'Description="10\' radius bars living for %{lvl*10} min"',
+    'Description=' +
+      '"10\' radius bars the entrance of living creatures for %{lvl*10} min"',
   'Antimagic Field':
     'School=Abjuration ' +
     'Level=C8,Magic6,Protection6,S6,W6 ' +
-    'Description="10\' radius suppresses magic for %{lvl*10} min"',
+    'Description=' +
+      '"10\' radius suppresses magic and summoned and undead creatures for %{lvl*10} min"',
   'Antipathy':
     'School=Enchantment ' +
     'Level=D9,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Named creature kind or alignment avoids %{lvl} 10\' cu (Will -4 dex) for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Specified intelligent creature kind or alignment avoids a target object or a %{lvl*10}\' cube area (save Will inflicts -4 Dexterity) for %{lvl*2} hr"',
   'Antiplant Shell':
     'School=Abjuration ' +
     'Level=D4 ' +
-    'Description="10\' radius bars animate plants for %{lvl*10} min"',
+    'Description=' +
+      '"10\' radius bars plant creatures and animated plants for %{lvl*10} min"',
   'Arcane Eye':
     'School=Divination ' +
     'Level=S4,W4 ' +
-    'Description="Invisible remote eye moves 30\'/rd for %{lvl} min"',
+    'Description=' +
+      '"Allows seeing through an invisible remote sensor that can be moved 30\' per rd for %{lvl} min"',
   'Arcane Lock':
     'School=Abjuration ' +
     'Level=S2,W2 ' +
-    'Description="Magical lock on touched door, portal, or chest inflicts +10 DC to open"',
+    'Description=' +
+      '"Increases by 10 the DC for others to open a touched door, portal, or chest"',
   'Arcane Mark':
     // 'School=Universal ' +
     'Level=S0,W0 ' +
-    'Description="Inscribes permanent personal rune on touched"',
+    'Description=' +
+      '"Inscribes a personal rune on touched, lasting a month on a creature or permanently on an object"',
   'Arcane Sight':
     'School=Divination ' +
     'Level=S3,W3 ' +
-    'Description="R120\' Self sees auras and spell abilities for %{lvl} min; successful DC 15+level Spellcraft reveals school"',
+    'Description=' +
+      '"R120\' Reveals auras and spell abilities for %{lvl} min; a successful DC 15+level Spellcraft reveals their schools"',
   'Greater Arcane Sight':
     'School=Divination ' +
     'Level=S7,W7 ' +
-    'Description="R120\' Self sees auras and spell abilities and knows spells for %{lvl} min"',
+    'Description=' +
+      '"R120\' Reveals auras, spell abilities, and spells affecting creatures and objects for %{lvl} min"',
   'Astral Projection':
     'School=Necromancy ' +
     'Level=C9,Travel9,S9,W9 ' +
-    'Description="Projects self and %{lvl//2} others to Astral Plane"',
+    'Description="Projects self and %{lvl//2} others to the Astral Plane"',
   'Atonement':
     'School=Abjuration ' +
     'Level=C5,D5 ' +
@@ -2229,12 +2254,15 @@ SRD35.SPELLS = {
   'Augury':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="Self has %{(lvl+70)<?90}% chance to learn weal or woe outcome of a proposed action up to 30 min in the future"',
+    'Description=' +
+      '"Gives a %{(lvl+70)<?90}% chance of learning the weal or woe outcome of a proposed action up to 30 min in the future"',
   'Awaken':
     'School=Transmutation ' +
     'Level=D5 ' +
-    'Description="Touched animal or tree gains human sentience (Will neg)"',
+    'Description=' +
+      '"Successful DC 10 + target HD Will save gives a touched animal or tree human sentience and makes it friendly; awakened animals have 3d6 Intelligence, +1d3 Charisma, and +2 HD, and awakened trees have 3d6 Intelligence, Wisdom, and Charisma"',
 
+  // HERE
   'Baleful Polymorph':
     'School=Transmutation ' +
     'Level=Adept5,D5,S5,W5 ' +
