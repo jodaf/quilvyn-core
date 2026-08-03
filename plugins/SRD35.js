@@ -2262,23 +2262,26 @@ SRD35.SPELLS = {
     'Description=' +
       '"Successful DC 10 + target HD Will save gives a touched animal or tree human sentience and makes it friendly; awakened animals have 3d6 Intelligence, +1d3 Charisma, and +2 HD, and awakened trees have 3d6 Intelligence, Wisdom, and Charisma"',
 
-  // HERE
   'Baleful Polymorph':
     'School=Transmutation ' +
     'Level=Adept5,D5,S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Target becomes 1 HD creature (Fort neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target becomes 1 HD creature (save Fortitude negates; Will after 24 hr allows retaining HD and memories)"',
   'Bane':
     'School=Enchantment ' +
     'Level=C1 ' +
-    'Description="Foes in 50\' radius suffer -1 attack and fear saves (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"Foes within 50\' suffer -1 attack and fear saves (save Will negates) for %{lvl} min"',
   'Banishment':
     'School=Abjuration ' +
     'Level=C6,S7,W7 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl*2} HD extraplanar creatures in 15\' radius banished from plane (Will neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Banishes %{lvl*2} HD of extraplanar creatures in a 15\' radius to their home planes (save Will negates; possession of an object that a target hates gives +2 DC and +1 vs. spell resistance)"',
   'Barkskin':
     'School=Transmutation ' +
     'Level=D2,Plant2,R2 ' +
-    'Description="Touched gains +%{(lvl+3)//3<?5} natural armor for %{lvl*10} min" ' +
+    'Description=' +
+      '"Touched gains +%{(lvl+3)//3<?5} natural armor for %{lvl*10} min" ' +
     'Liquid=Potion',
   "Bear's Endurance":
     'School=Transmutation ' +
@@ -2288,61 +2291,74 @@ SRD35.SPELLS = {
   "Mass Bear's Endurance":
     'School=Transmutation ' +
     'Level=C6,D6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain +4 Constitution for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Constitution for %{lvl} min"',
   'Bestow Curse':
     'School=Necromancy ' +
     'Level=Adept3,C3,S4,W4 ' +
-    'Description="Touched permanently suffers self choice of -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action (Will neg)"',
+    'Description=' +
+      '"Touched permanently suffers a choice of -6 to an ability, -4 attack, saves, and checks, or a 50% chance of losing its action each rd (save Will negates)"',
   'Binding':
     'School=Enchantment ' +
     'Level=S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Target magically imprisoned (Will neg for %{lvl//2} HD or more)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Magically imprisons the target (save Will negates for targets with %{lvl//2} HD or more; assistance from other casters raises the threshhold) with a choice of chains, sleep, confinement, metamorphasis, or reduction in size"',
   'Black Tentacles':
     'School=Conjuration ' +
     'Level=S4,W4 ' +
-    'Description="R%{100+lvl*10}\' Tentacles in 20\' radius grapple (attack +%{lvl}, Strength 19) and inflict 1d6+4 HP/rd for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Tentacles in 20\' radius restrain creatures (grapple +%{lvl+8}, Strength 19), and additional successful grapples on a held creature each rd inflict 1d6+4 HP bludgeoning, for %{lvl} rd"',
   'Blade Barrier':
     'School=Evocation ' +
     'Level=C6,Good6,War6 ' +
-    'Description="R%{100+lvl*10}\' %{lvl*20}\' blade wall inflicts %{lvl<?15}d6 HP/rd (Ref half) for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' %{lvl*20}\' blade wall inflicts %{lvl<?15}d6 HP initially (save Reflex negates) and each rd (save Reflex half) for %{lvl} min"',
   'Blasphemy':
     'School=Evocation ' +
     'Level=C7,Evil7 ' +
-    'Description="Nonevil creatures in 40\' radius with equal/-1/-5/-10 HD dazed for 1 rd/suffer -2d6 Strength for 2d4 rd/paralyzed for 1d10 min/killed and banished (Will -4 neg)"',
+    'Description=' +
+      '"Nonevil creatures within 40\' with up to %{lvl}/%{lvl-1}/%{lvl-5}/%{lvl-10} HD become dazed for 1 rd/suffer -2d6 Strength for 2d4 rd/become paralyzed for 1d10 min/are killed (save Will -4 negates); casting when on home plane also banishes outsiders for 24 hr"',
   'Bless':
     'School=Enchantment ' +
     'Level=Adept1,C1,P1 ' +
-    'Description="Allies in 50\' radius gain +1 attack and fear saves for %{lvl} min"',
+    'Description=' +
+      '"Allies within 50\' gain +1 attack and fear saves for %{lvl} min"',
   'Bless Water':
     'School=Transmutation ' +
     'Level=C1,P1 ' +
-    'Description="Makes touched 1 pint of water holy (Will neg)"',
+    'Description=' +
+      '"Makes touched 1 pint of water into holy water (save Will negates)"',
   'Bless Weapon':
     'School=Transmutation ' +
     'Level=P1 ' +
-    'Description="Touched weapon becomes good-aligned and magic; crit vs. evil foes confirmed for %{lvl} min" ' +
+    'Description=' +
+      '"Touched weapon becomes good-aligned and magic, and critical hits when using it vs. evil foes are automatically confirmed, for %{lvl} min" ' +
     'Liquid=Oil',
   'Blight':
     'School=Necromancy ' +
     'Level=D4,S5,W5 ' +
-    'Description="Touched plant suffers %{lvl<?15}d6 HP (Fort half)"',
+    'Description=' +
+      '"Touched plant dies, or touched plant creature suffers %{lvl<?15}d6 HP (save Fortitude half)"',
   'Blindness/Deafness':
     'School=Necromancy ' +
     'Level=B2,C3,S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Target suffers self choice of blindness or deafness (Fort neg) permanently"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Target suffers a choice of permanent blindness or deafness (save Fortitude negates)"',
   'Blink':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
-    'Description="Self becomes ethereal randomly (half damage from area attacks and falling, foes have 50% miss chance) for %{lvl} rd"',
+    'Description=' +
+      '"Self becomes ethereal randomly for %{lvl} rd, allowing passage through solid objects (50% chance per 5\' of being pushed out and taking 1d6 HP damage per 5\' travelled), reducing damage from falling and foe area attacks by half, inflicting a 50% miss chance on foe attacks and targeted spells (reduced to 20% if a foe can see invisible creatures), inflcting a 20% chance of misfire on self spells, and giving self attacks +2 to hit with a 20% miss chance"',
   'Blur':
     'School=Illusion ' +
     'Level=B2,S2,W2 ' +
-    'Description="Foes attacking touched have 20% miss chance for %{lvl} min" ' +
+    'Description="Attacks on touched have 20% miss chance for %{lvl} min" ' +
     'Liquid=Potion',
   'Break Enchantment':
     'School=Abjuration ' +
     'Level=Adept5,B4,C5,Luck5,P4,S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Self makes +%{lvl<?15} check to free %{lvl} targets in 15\' radius from enchantments, transmutations, and curses"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Self makes a +%{lvl<?15} check (DC 11 + the effect\'s caster level, or DC 25 for cursed items) to free %{lvl} targets in 15\' radius from enchantments, transmutations, and curses"',
   "Bull's Strength":
     'School=Transmutation ' +
     'Level=Adept2,Blackguard2,C2,D2,P2,Strength2,S2,W2 ' +
@@ -2351,11 +2367,12 @@ SRD35.SPELLS = {
   "Mass Bull's Strength":
     'School=Transmutation ' +
     'Level=C6,D6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain +4 Strength for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Strength for %{lvl} min"',
   'Burning Hands':
     'School=Evocation ' +
     'Level=Adept1,Fire1,S1,W1 ' +
-    'Description="R15\' Cone inflicts %{lvl<?5}d4 HP (Ref half)"',
+    'Description="15\' cone inflicts %{lvl<?5}d4 HP fire (save Reflex half)"',
 
   'Call Lightning':
     'School=Evocation ' +
