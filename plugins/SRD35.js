@@ -2487,103 +2487,125 @@ SRD35.SPELLS = {
   'Color Spray':
     'School=Illusion ' +
     'Level=S1,W1 ' +
-    'Description="R15\' Cone renders creatures with 2/4/any HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (Will neg)"',
+    'Description=' +
+      '"R15\' Cone renders creatures with 2/4/any HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (save Will negates)"',
   'Command':
     'School=Enchantment ' +
     'Level=Adept1,C1 ' +
-    'Description="R%{25+lvl//2*5}\' Target obeys self commands to approach, drop, fall, flee, or halt (Will neg) for 1 rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target obeys a command to approach, drop, fall, flee, or halt (save Will negates) for 1 rd"',
   'Greater Command':
     'School=Enchantment ' +
     'Level=C5 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius obey self commands to approach, drop, fall, flee, or halt (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius obey a command to approach, drop, fall, flee, or halt (save Will negates; additional saves each rd end) for %{lvl} rd"',
   'Command Plants':
     'School=Transmutation ' +
     'Level=D4,Plant4,R3 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl*2} HD plant creatures in 15\' radius obey self (Will neg) for %{lvl} dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl*2} HD of plant creatures in a 15\' radius consider self as a friend (save Will negates) for %{lvl} days, obeying commands only with successful opposed Charisma checks"',
   'Command Undead':
     'School=Necromancy ' +
     'Level=S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Undead target obeys self (Will neg) for %{lvl} dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Undead target considers self as a friend (save Will negates) for %{lvl} days, obeying commands onwith successful opposed Charisma checks"',
   'Commune':
     'School=Divination ' +
     'Level=Adept5,C5 ' +
-    'Description="Deity answers %{lvl} yes/no questions"',
+    'Description=' +
+      '"Agents of %{deity} respond to %{lvl} yes/no questions asked within 10 min"',
   'Commune With Nature':
     'School=Divination ' +
     'Level=Animal5,D5,R4 ' +
-    'Description="Self learns natural facts for %{lvl} mile radius outdoors, %{lvl*100}\' radius underground"',
+    'Description=' +
+      '"Reveals three nature facts about the surrounding %{lvl} miles outdoors or %{lvl*100}\' underground"',
   'Comprehend Languages':
     'School=Divination ' +
     'Level=Adept1,B1,C1,S1,W1 ' +
-    'Description="Self understands all languages for %{lvl*10} min"',
+    'Description=' +
+      '"Allow self to understand touched written text and words spoken in any language by a touched creature for %{lvl*10} min"',
   'Cone Of Cold':
     'School=Evocation ' +
     'Level=S5,W5,Water6 ' +
-    'Description="R60\' Cone inflicts %{lvl<?15}d6 HP (Ref half)"',
+    'Description="R60\' Cone inflicts %{lvl<?15}d6 HP (save Reflex half)"',
   'Confusion':
     'School=Enchantment ' +
     'Level=B3,Trickery4,S4,W4 ' +
-    'Description="R%{100+lvl*10}\' Creatures in 15\' radius randomly 10% attack caster/10% act normal/30% babble/20% flee/30% attack nearest (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Creatures in a 15\' radius randomly: 10% attack the caster/10% act normally/30% babble/20% flee/30% attack the nearest creature (save Will negates) for %{lvl} rd"',
   'Lesser Confusion':
     'School=Enchantment ' +
     'Level=B1 ' +
-    'Description="R%{100+lvl*10}\' Target randomly 10% attacks caster/10% acts normal/30% babbles/20% flees/30% attacks nearest (Will neg) for 1 rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Target randomly: 10% attacks the caster/10% acts normally/30% babbles/20% flees/30% attacks the nearest creature (save Will negates) for 1 rd"',
   'Consecrate':
     'School=Evocation ' +
     'Level=C2 ' +
-    'Description="R%{25+lvl//2*5}\' 20\' radius gives +3 turn undead and inflicts on undead -1 attack, damage, and saves for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 20\' radius gives +3 turn undead and inflicts on undead -1 attack, damage, and saves for %{lvl*2} hr; a shrine to %{deity} in the area doubles the spell\'s effects, while a shrine to a different deity negates the effects but renders the shrine inert"',
   'Contact Other Plane':
     'School=Divination ' +
     'Level=S5,W5 ' +
-    'Description="Self asks %{lvl//2} questions of extraplanar entity"',
+    'Description=' +
+      '"Contacts an extraplanar entity to ask up %{lvl//2} yes/no questions within 10 min; carries risks of receiving a lie and of suffering loss of Intelligence, Charisma, and arcane spellcasting for 1-5 weeks"',
   'Contagion':
     'School=Necromancy ' +
     'Level=Adept3,Blackguard3,C3,D3,Destruction3,S4,W4 ' +
-    'Description="Touched contracts random disease (Fort neg)"',
+    'Description="Touched contracts a random disease (save Fortitude negates)"',
   'Contingency':
     'School=Evocation ' +
     'Level=S6,W6 ' +
-    'Description="Sets trigger for level %{lvl//3<?6} spell for %{lvl} dy"',
+    'Description=' +
+      '"Sets the trigger for a spell of a level up to %{lvl//3<?6} for %{lvl} days"',
   'Continual Flame':
     'School=Evocation ' +
     'Level=Adept3,C3,S2,W2 ' +
-    'Description="Touched emits heatless torch flame permanently"',
+    'Description="Touched permanently emits a heatless torch flame"',
   'Control Plants':
     'School=Transmutation ' +
     'Level=D8,Plant8 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl*2} HD plant creatures in 15\' radius obey self (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl*2} HD of plant creatures in a 15\' radius obey self (save Will negates) for %{lvl} min"',
   'Control Undead':
     'School=Necromancy ' +
     'Level=S7,W7 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl*2} HD undead in 15\' radius obey self (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl*2} HD of undead in a 15\' radius obey self (save Will negates) for %{lvl} min"',
   'Control Water':
     'School=Transmutation ' +
     'Level=C4,D4,S6,W6,Water4 ' +
-    'Description="R%{400+lvl*40}\' Raises or lowers %{lvl} 10\'x10\'x2\' of water %{lvl*2}\' for %{lvl*10} min"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Raises or lowers a %{lvl} x 10\'x10\'x2\' area of water by %{lvl*2}\' for %{lvl*10} min"',
   'Control Weather':
     'School=Transmutation ' +
     'Level=Air7,C7,D7,S7,W7 ' +
-    'Description="Modifies seasonal weather in 2 mile radius for 4d12 hr"',
+    'Description="Modifies seasonal weather in a 2 mile radius for 4d12 hr"',
   'Control Winds':
     'School=Transmutation ' +
     'Level=Air5,D5 ' +
-    'Description="R%{lvl*40}\' Changes wind direction and speed %{lvl//3} levels in %{lvl*40}\'x40\' cylinder for %{lvl*10} min"',
+    'Description=' +
+      '"R%{lvl*40}\' Changes wind direction and speed by %{lvl//3} levels in a %{lvl*40}\'x40\' cylinder for %{lvl*10} min"',
   'Corrupt Weapon':
     'School=Transmutation ' +
     'Level=Blackguard1 ' +
-    'Description="Touched weapon becomes evil-aligned and gains +1 vs. good foe DR for %{lvl} min"',
+    'Description=' +
+      '"Touched weapon becomes evil-aligned and magic, and critical hits when using it vs. good foes are automatically confirmed, for %{lvl} min" ' +
+    'Liquid=Oil',
   'Create Food And Water':
     'School=Conjuration ' +
     'Level=C3 ' +
-    'Description="R%{25+lvl//2*5}\' Creates daily food and water for %{lvl*3} humans or %{lvl} horses"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Creates enough food and water to sustain %{lvl*3} humans or %{lvl} horses for 24 hr; the food remains edible for 24 hr"',
   'Create Greater Undead':
     'School=Necromancy ' +
     'Level=C8,Death8,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Creates %{\'shadow\'+(lvl>=16?\', wraith\':\'\')+(lvl>=18?\', spectre\':\'\')+(lvl>=20?\', devourer\':\'\')} from physical remains"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Creates a%{lvl>=20?\' devourer,\':\'\'}%{lvl>18?\' spectre, wraith, or\':level>16?\' wraith or\':\'\'} shadow from physical remains"',
   'Create Undead':
     'School=Necromancy ' +
     'Level=C6,Death6,Evil6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' Creates %{\'ghoul\'+(lvl>=12?\', ghast\':\'\')+(lvl>=15?\', mummy\':\'\')+(lvl>=18?\', mohrg\':\'\')} from physical remains"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Creates a%{lvl>=18?\' mohrg,\':\'\'}%{lvl>15?\' mummy, ghast, or\':level>12?\' ghast or\':\'\'} ghoul from physical remains"',
   'Create Water':
     'School=Conjuration ' +
     'Level=Adept0,C0,D0,P1 ' +
@@ -2591,58 +2613,71 @@ SRD35.SPELLS = {
   'Creeping Doom':
     'School=Conjuration ' +
     'Level=D7 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl//2} obedient centipede swarms inflict 2d6 HP plus poison for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl//2} centipede swarms inflict 2d6 HP plus 1d4 Dexterity damage from poison (save Fortitude HP only) for %{lvl} rd; swarms within 100\' can be moved 20\' each rd as a standard action"',
   'Crushing Despair':
     'School=Enchantment ' +
     'Level=B3,S4,W4 ' +
-    'Description="R30\' Cone inflicts -2 attack, damage, saves, and checks (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"R30\' Cone inflicts -2 attack, damage, saves, and checks (save Will negates) for %{lvl} min"',
   'Crushing Hand':
     'School=Evocation ' +
     'Level=Strength9,S9,W9 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +18 bull rush and +%{lvl+16}+mod grapple that inflicts 2d6+12 HP for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +18 bull rush and +%{lvl+16}+mod grapple that inflicts 2d6+12 HP for %{lvl} rd"',
   'Cure Critical Wounds':
     'School=Conjuration ' +
     'Level=Adept4,B4,Blackguard4,C4,D5,Healing4 ' +
-    'Description="Touched heals (undead suffers) 4d8+%{lvl<?20} HP (Will half)"',
+    'Description=' +
+      '"Touched regains 4d8+%{lvl<?20} hit points; undead instead suffer the same amount (save Will half)"',
   'Mass Cure Critical Wounds':
     'School=Conjuration ' +
     'Level=C8,D9,Healing8 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius heal (undead suffer) 4d8+%{lvl<?40} HP (Will half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius regain 4d8+%{lvl<?40} hit points; undead instead suffer the same amount (save Will half)"',
   'Cure Light Wounds':
     'School=Conjuration ' +
     'Level=Adept1,B1,Blackguard1,C1,D1,Healing1,P1,R2 ' +
-    'Description="Touched heals (undead suffers) 1d8+%{lvl<?5} HP (Will half)" ' +
+    'Description=' +
+      '"Touched regains 1d8+%{lvl<?5} hit points; undead instead suffer the same amount (save Will half)" ' +
     'Liquid=Potion',
   'Mass Cure Light Wounds':
     'School=Conjuration ' +
     'Level=B5,C5,D6,Healing5 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius heal (undead suffer) 1d8+%{lvl<?25} HP (Will half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius regain 1d8+%{lvl<?25} hit points; undead instead suffer the same amount (save Will half)"',
   'Cure Minor Wounds':
     'School=Conjuration ' +
     'Level=Adept0,C0,D0 ' +
-    'Description="Touched heals (undead suffers) 1 HP (Will neg)"',
+    'Description=' +
+      '"Touched regains 1 hit point; undead instead suffer the same amount (save Will negates)"',
   'Cure Moderate Wounds':
     'School=Conjuration ' +
     'Level=Adept2,B2,Blackguard2,C2,D3,Healing2,P3,R3 ' +
-    'Description="Touched heals (undead suffers) 2d8+%{lvl<?10} HP (Will half)" ' +
+    'Description=' +
+      '"Touched regains 2d8+%{lvl<?10} hit points; undead instead suffer the same amount (save Will half)" ' +
     'Liquid=Potion',
   'Mass Cure Moderate Wounds':
     'School=Conjuration ' +
     'Level=B6,C6,D7 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius heal (undead suffer) 2d8+%{lvl<?30} HP (Will half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius regain 2d8+%{lvl<?30} hit points; undead instead suffer the same amount (save Will half)"',
   'Cure Serious Wounds':
     'School=Conjuration ' +
     'Level=Adept3,B3,Blackguard3,C3,D4,Healing3,P4,R4 ' +
-    'Description="Touched heals (undead suffers) 3d8+%{lvl<?15} HP (Will half)" ' +
+    'Description=' +
+      '"Touched regains 3d8+%{lvl<?15} hit points; undead instead suffer the same amount (save Will half)" ' +
     'Liquid=Potion',
   'Mass Cure Serious Wounds':
     'School=Conjuration ' +
     'Level=C7,D8 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius heal (undead suffers) 3d8+%{lvl<?35} HP (Will half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius regain 3d8+%{lvl<?35} hit points; undead instead suffer the same amount (save Will half)"',
   'Curse Water':
     'School=Necromancy ' +
     'Level=C1 ' +
-    'Description="Makes touched 1 pint of water unholy (Will neg)"',
+    'Description=' +
+      '"Makes touched 1 pint of water into unholy water (save Will negates)"',
 
   'Dancing Lights':
     'School=Evocation ' +
