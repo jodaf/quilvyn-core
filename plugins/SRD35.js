@@ -2377,19 +2377,23 @@ SRD35.SPELLS = {
   'Call Lightning':
     'School=Evocation ' +
     'Level=D3 ' +
-    'Description="R%{100+lvl*10}\' 1 bolt/rd inflicts 3d6 HP (Ref half) for %{lvl} min or %{lvl<?10} bolts"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 1 bolt per rd inflicts 3d6 HP (or 3d10 HP during a storm) electricity (save Reflex half) for %{lvl} min or %{lvl<?10} bolts"',
   'Call Lightning Storm':
     'School=Evocation ' +
     'Level=D5 ' +
-    'Description="R%{400+lvl*40}\' 1 bolt/rd inflicts 5d6 HP (Ref half) for %{lvl} min or %{lvl<?15} bolts"',
+    'Description=' +
+      '"R%{400+lvl*40}\' 1 bolt per rd inflicts 5d6 HP (or 5d10 HP during a storm) electricty (save Reflex half) for %{lvl} min or %{lvl<?15} bolts"',
   'Calm Animals':
     'School=Enchantment ' +
     'Level=Animal1,D1,R1 ' +
-    'Description="R%{25+lvl//2*5}\' 2d4+%{lvl} HD of animals in 15\' radius become docile (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 2d4+%{lvl} HD of animals in a 15\' radius become docile (save Will negate) for %{lvl} min"',
   'Calm Emotions':
     'School=Enchantment ' +
     'Level=B2,C2,Law2 ' +
-    'Description="R%{100+lvl*10}\' Creatures in 20\' radius pacified (Will neg) for conc or %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Pacifies creatures in a 20\' radius (save Will negates), negating rage and morale bonuses, for concentraion up to %{lvl} rd or until any target is attacked"',
   "Cat's Grace":
     'School=Transmutation ' +
     'Level=Adept2,Assassin2,B2,D2,R2,S2,W2 ' +
@@ -2398,71 +2402,88 @@ SRD35.SPELLS = {
   "Mass Cat's Grace":
     'School=Transmutation ' +
     'Level=B6,D6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain +4 Dexterity for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Dexterity for %{lvl} min"',
   'Cause Fear':
     'School=Necromancy ' +
     'Level=Adept1,B1,Blackguard1,C1,Death1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Target w/up to 5 HD flees for 1d4 rd (Will shaken for 1 rd)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target with up to 5 HD becomes frightened and flees for 1d4 rd (save Will inflicts shaken for 1 rd)"',
   'Chain Lightning':
     'School=Evocation ' +
     'Level=Air6,S6,W6 ' +
-    'Description="R%{400+lvl*40}\' Bolt inflicts %{lvl<?20}d6 HP to primary target, half HP to %{lvl<?20} secondary targets in 30\' radius (Ref half)"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Bolt inflicts %{lvl<?20}d6 HP electricity to the primary target and half as much to %{lvl<?20} secondary targets in a 30\' radius (save Reflex half)"',
   'Changestaff':
     'School=Transmutation ' +
     'Level=D7 ' +
-    'Description="Touched staff becomes treant-like creature for %{lvl} hr"',
+    'Description=' +
+      '"Touched staff looks and fights like a 24\'-tall treant, obeying commands for %{lvl} hr"',
   'Chaos Hammer':
     'School=Evocation ' +
     'Level=Chaos4 ' +
-    'Description="R%{100+lvl*10}\' Lawful creatures in 20\' radius suffer %{lvl//2<?5}d8 HP and are slowed (-2 Armor Class, attack, damage, and Reflex) for 1d6 rd, neutral half (Will half)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Lawful creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP and are slowed (inflicts -2 Armor Class, attack, damage, and Reflex saves) for 1d6 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Charm Animal':
     'School=Enchantment ' +
     'Level=D1,R1 ' +
-    'Description="R%{25+lvl//2*5}\' Target treats self as trusted friend (Will neg) for %{lvl} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target animal treats self as a trusted friend (save Will negates; +5 if being threatened) for %{lvl} hr"',
   'Charm Monster':
     'School=Enchantment ' +
     'Level=B3,S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' Target treats self as trusted friend (Will neg) for %{lvl} dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target creature treats self as a trusted friend (save Will negates; +5 if being threatened) for %{lvl} days"',
   'Mass Charm Monster':
     'School=Enchantment ' +
     'Level=B6,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl*2} HD targets treat self as trusted friend (Will neg) for %{lvl} dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl*2} HD of targets treat self as trusted friend (save Will negates; +5 if being threatened) for %{lvl} days"',
   'Charm Person':
     'School=Enchantment ' +
     'Level=B1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Target treats self as trusted friend (Will neg) for %{lvl} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target humanoid treats self as a trusted friend (save Will negates; +5 if being threatened) for %{lvl} hr"',
   'Chill Metal':
     'School=Transmutation ' +
     'Level=D2 ' +
-    'Description="R%{25+lvl//2*5}\' Metal on %{lvl//2} creatures in 15\' radius inflicts 0/1d4/2d4/2d4/2d4/1d4/0 HP (Will neg) for 7 rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Metal on %{lvl//2} creatures in a 15\' radius inflicts 0/1d4/2d4/2d4/2d4/1d4/0 HP cold (save Will negates) over 7 rd"',
   'Chill Touch':
     'School=Necromancy ' +
     'Level=S1,W1 ' +
-    'Description="%{lvl} touched living suffer 1d6 HP and -1 Strength (Fort neg) or undead flee for 1d4+%{lvl} rd (Will neg)"',
+    'Description=' +
+      '"%{lvl} touched living suffer 1d6 HP negative energy and -1 Strength (save Fortitude HP only), or touched undead flee for 1d4+%{lvl} rd (save Will negates)"',
   'Circle Of Death':
     'School=Necromancy ' +
     'Level=S6,W6 ' +
-    'Description="R%{100+lvl*10}\' %{lvl<?20}d4 HD of creatures w/up to 8 HD in 40\' radius slain (Fort neg)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Kills %{lvl<?20}d4 HD of creatures with up to 8 HD in a 40\' radius (Fort neg), working upward from those with the fewest HD"',
   'Clairaudience/Clairvoyance':
     'School=Divination ' +
     'Level=Assassin4,B3,Knowledge3,S3,W3 ' +
-    'Description="%{400+lvl*40}\' Self gains choice of remote sight or hearing for %{lvl} min"',
+    'Description=' +
+      '"%{400+lvl*40}\' Self gains choice of remote sight or hearing of a known location for %{lvl} min"',
   'Clenched Fist':
     'School=Evocation ' +
     'Level=Strength8,S8,W8 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +15 bull rush and +%{lvl+11}+mod melee attack that inflicts 1d8+11 HP and stuns for 1 rd (Fort neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +15 bull rush and a +%{lvl+11}+mod melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for %{lvl} rd"',
   'Cloak Of Chaos':
     'School=Abjuration ' +
     'Level=C8,Chaos8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 (lawful), suppress mental control, and cause 1 rd confusion in successful lawful attacker (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for %{lvl} rd"',
   'Clone':
     'School=Necromancy ' +
     'Level=S8,W8 ' +
-    'Description="Soul enters duplicate if original dies"',
+    'Description=' +
+      '"Grows a duplicate from a piece of a creature that its soul can enter if the original has died or dies later"',
   'Cloudkill':
     'School=Conjuration ' +
     'Level=S5,W5 ' +
-    'Description="R%{100+lvl*10}\' 20\' cylinder moves away 10\'/rd; all within w/1-3 HD slain, w/4-6 HD slain (Fort suffer -1d4 Constitution), w/6+ HD suffer -1d4 Constitution (Fort half) for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 20\' fog cylinder moves away 10\' per rd, killing creatures within with 1-6 HD die (save Fortitude for those with 4-6 HD inflicts -1d4 Constitution) and inflicting -1d4 Constitution on those with more HD (save Fortitude half) for %{lvl} min"',
   'Color Spray':
     'School=Illusion ' +
     'Level=S1,W1 ' +
