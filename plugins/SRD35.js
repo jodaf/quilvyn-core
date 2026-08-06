@@ -2122,7 +2122,7 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=S6,W6,Water7 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, slows to 5\', inflicts -2 attack and damage, inflicts 2d6 HP acid per rd, and moves away 10\' per rd for %{lvl} rd"',
+      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, slows to 5\', inflicts -2 attacks and damage, inflicts 2d6 HP acid per rd, and moves away 10\' per rd for %{lvl} rd"',
   'Acid Splash':
     'School=Conjuration ' +
     'Level=S0,W0 ' +
@@ -2131,7 +2131,7 @@ SRD35.SPELLS = {
     'School=Enchantment ' +
     'Level=Adept2,C2,Good2,Luck2 ' +
     'Description=' +
-      '"Touched gains +1 attack, +1 saves vs. fear, and 1d8+%{lvl<?10} temporary hit points for %{lvl} min" ' +
+      '"Touched gains +1 attacks, +1 saves vs. fear, and 1d8+%{lvl<?10} temporary hit points for %{lvl} min" ' +
     'Liquid=Potion',
   'Air Walk':
     'School=Transmutation ' +
@@ -2192,7 +2192,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D7,Plant7 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl//3} Large plant targets attack foes for %{lvl} rd or entwine for %{lvl} hr; larger plants reduce the number affected by half for each size level"',
+      '"R%{25+lvl//2*5}\' %{lvl>5?lvl//3+\' Large plant targets attack\':\'Large plant target attacks\'} foes for %{lvl} rd or entwine for %{lvl} hr; larger plants reduce the number affected by half for each size level"',
   'Animate Rope':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
@@ -2266,12 +2266,12 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Adept5,D5,S5,W5 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target becomes 1 HD creature (save Fortitude negates; Will after 24 hr allows retaining HD and memories)"',
+      '"R%{25+lvl//2*5}\' Changes the target into a chosen 1 HD creature (save Fortitude negates; Will after 24 hr allows retaining HD and memories)"',
   'Bane':
     'School=Enchantment ' +
     'Level=C1 ' +
     'Description=' +
-      '"Foes within 50\' suffer -1 attack and fear saves (save Will negates) for %{lvl} min"',
+      '"Foes within 50\' suffer -1 attacks and fear saves (save Will negates) for %{lvl} min"',
   'Banishment':
     'School=Abjuration ' +
     'Level=C6,S7,W7 ' +
@@ -2297,7 +2297,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=Adept3,C3,S4,W4 ' +
     'Description=' +
-      '"Touched permanently suffers a choice of -6 to an ability, -4 attack, saves, and checks, or a 50% chance of losing its action each rd (save Will negates)"',
+      '"Touched permanently suffers a choice of -6 to an ability, -4 attacks, saves, and checks, or a 50% chance of losing its action each rd (save Will negates)"',
   'Binding':
     'School=Enchantment ' +
     'Level=S8,W8 ' +
@@ -2307,7 +2307,7 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Tentacles in 20\' radius restrain creatures (grapple +%{lvl+8}, Strength 19), and additional successful grapples on a held creature each rd inflict 1d6+4 HP bludgeoning, for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Tentacles in a 20\' radius restrain creatures (grapple +%{lvl+8}, Strength 19), and additional successful grapples on a held creature each rd inflict 1d6+4 HP bludgeoning, for %{lvl} rd"',
   'Blade Barrier':
     'School=Evocation ' +
     'Level=C6,Good6,War6 ' +
@@ -2322,12 +2322,12 @@ SRD35.SPELLS = {
     'School=Enchantment ' +
     'Level=Adept1,C1,P1 ' +
     'Description=' +
-      '"Allies within 50\' gain +1 attack and fear saves for %{lvl} min"',
+      '"Allies within 50\' gain +1 attacks and fear saves for %{lvl} min"',
   'Bless Water':
     'School=Transmutation ' +
     'Level=C1,P1 ' +
     'Description=' +
-      '"Makes touched 1 pint of water into holy water (save Will negates)"',
+      '"Changes touched 1 pint of water into holy water (save Will negates)"',
   'Bless Weapon':
     'School=Transmutation ' +
     'Level=P1 ' +
@@ -2348,17 +2348,17 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Self becomes ethereal randomly for %{lvl} rd, allowing passage through solid objects (50% chance per 5\' of being pushed out and taking 1d6 HP damage per 5\' traveled), reducing damage from falling and foe area attacks by half, inflicting a 50% miss chance on foe attacks and targeted spells (reduced to 20% if a foe can see invisible creatures), inflicting a 20% chance of misfire on self spells, and giving self attacks +2 to hit with a 20% miss chance"',
+      '"Self becomes ethereal randomly for %{lvl} rd, allowing passage through solid objects (50% chance per 5\' of being pushed out and taking 1d6 HP damage per 5\' traveled), reducing damage from falling and foe area attacks by half, inflicting a 50% miss chance on foe attacks and targeted spells (reduced to 20% if a foe can see invisible creatures), inflicting a 20% chance of misfire on self spells, and giving self attacks +2 to hit and a 20% miss chance"',
   'Blur':
     'School=Illusion ' +
     'Level=B2,S2,W2 ' +
-    'Description="Attacks on touched have 20% miss chance for %{lvl} min" ' +
+    'Description="Attacks on touched have a 20% miss chance for %{lvl} min" ' +
     'Liquid=Potion',
   'Break Enchantment':
     'School=Abjuration ' +
     'Level=Adept5,B4,C5,Luck5,P4,S5,W5 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Self makes a +%{lvl<?15} check (DC 11 + the effect\'s caster level, or DC 25 for cursed items) to free %{lvl} targets in 15\' radius from enchantments, transmutations, and curses"',
+      '"R%{25+lvl//2*5}\' Self makes a +%{lvl<?15} check (DC 11 + the effect\'s caster level, or DC 25 for cursed items) to free %{lvl} targets in a 15\' radius from enchantments, transmutations, and curses"',
   "Bull's Strength":
     'School=Transmutation ' +
     'Level=Adept2,Blackguard2,C2,D2,P2,Strength2,S2,W2 ' +
@@ -2388,7 +2388,7 @@ SRD35.SPELLS = {
     'School=Enchantment ' +
     'Level=Animal1,D1,R1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' 2d4+%{lvl} HD of animals in a 15\' radius become docile (save Will negate) for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' 2d4+%{lvl} HD of animals in a 15\' radius become docile (save Will negates) for %{lvl} min"',
   'Calm Emotions':
     'School=Enchantment ' +
     'Level=B2,C2,Law2 ' +
@@ -2423,7 +2423,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=Chaos4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Lawful creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP and are slowed (inflicts -2 Armor Class, attack, damage, and Reflex saves) for 1d6 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
+      '"R%{100+lvl*10}\' Lawful creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP and are slowed (inflicts -2 Armor Class, attacks, damage, and Reflex saves) for 1d6 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Charm Animal':
     'School=Enchantment ' +
     'Level=D1,R1 ' +
@@ -2463,17 +2463,17 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=Assassin4,B3,Knowledge3,S3,W3 ' +
     'Description=' +
-      '"%{400+lvl*40}\' Self gains choice of remote sight or hearing of a known location for %{lvl} min"',
+      '"%{400+lvl*40}\' Self gains a choice of remote sight or hearing of a known location for %{lvl} min"',
   'Clenched Fist':
     'School=Evocation ' +
     'Level=Strength8,S8,W8 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +15 bull rush and a +%{lvl+11}+mod melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for %{lvl} rd"',
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +15 bull rush and a +%{lvl+11}+modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for %{lvl} rd"',
   'Cloak Of Chaos':
     'School=Abjuration ' +
     'Level=C8,Chaos8 ' +
     'Description=' +
-      '"%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for %{lvl} rd"',
+      '"%{lvl} creatures in a 20\' radius gain +4 Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for %{lvl} rd"',
   'Clone':
     'School=Necromancy ' +
     'Level=S8,W8 ' +
@@ -2483,12 +2483,12 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' fog cylinder moves away 10\' per rd, killing creatures within with 1-6 HD die (save Fortitude for those with 4-6 HD inflicts -1d4 Constitution) and inflicting -1d4 Constitution on those with more HD (save Fortitude half) for %{lvl} min"',
+      '"R%{100+lvl*10}\' 20\' fog cylinder moves away 10\' per rd, killing creatures within with 1-6 HD (save Fortitude for those with 4-6 HD inflicts -1d4 Constitution) and inflicting -1d4 Constitution on those with more HD (save Fortitude half) for %{lvl} min"',
   'Color Spray':
     'School=Illusion ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"15\' cone renders creatures with 2/4/any HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (save Will negates)"',
+      '"15\' cone renders creatures with 2/4/5+ HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (save Will negates)"',
   'Command':
     'School=Enchantment ' +
     'Level=Adept1,C1 ' +
@@ -2523,31 +2523,31 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=Adept1,B1,C1,S1,W1 ' +
     'Description=' +
-      '"Allow self to understand touched written text and words spoken in any language by a touched creature for %{lvl*10} min"',
+      '"Allows self to understand touched written text and words spoken in any language by touched creatures for %{lvl*10} min"',
   'Cone Of Cold':
     'School=Evocation ' +
     'Level=S5,W5,Water6 ' +
-    'Description="60\' cone inflicts %{lvl<?15}d6 HP (save Reflex half)"',
+    'Description="60\' cone inflicts %{lvl<?15}d6 HP cold (save Reflex half)"',
   'Confusion':
     'School=Enchantment ' +
     'Level=B3,Trickery4,S4,W4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creatures in a 15\' radius randomly: 10% attack the caster/10% act normally/30% babble/20% flee/30% attack the nearest creature (save Will negates) for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creatures in a 15\' radius randomly: 10% attack the caster; 10% act normally; 30% babble; 20% flee; 30% attack the nearest creature (save Will negates), for %{lvl} rd"',
   'Lesser Confusion':
     'School=Enchantment ' +
     'Level=B1 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Target randomly: 10% attacks the caster/10% acts normally/30% babbles/20% flees/30% attacks the nearest creature (save Will negates) for 1 rd"',
+      '"R%{100+lvl*10}\' Target randomly: 10% attacks the caster; 10% acts normally; 30% babbles; 20% flees; 30% attacks the nearest creature (save Will negates), for 1 rd"',
   'Consecrate':
     'School=Evocation ' +
     'Level=C2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' 20\' radius gives +3 turn undead and inflicts on undead -1 attack, damage, and saves for %{lvl*2} hr; a shrine to %{deity} in the area doubles the spell\'s effects, while a shrine to a different deity negates the effects but renders the shrine inert"',
+      '"R%{25+lvl//2*5}\' 20\' radius gives +3 turn undead and inflicts on undead -1 attacks, damage, and saves for %{lvl*2} hr; a shrine to %{deity} in the area doubles the spell\'s effects, while a shrine to a different deity negates the effects but renders the shrine inert"',
   'Contact Other Plane':
     'School=Divination ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"Contacts an extraplanar entity to ask up %{lvl//2} yes/no questions within 10 min; carries risks of receiving a lie and of suffering loss of Intelligence, Charisma, and arcane spellcasting for 1-5 weeks"',
+      '"Contacts an extraplanar entity to ask %{lvl//2} yes/no questions within 10 min; carries the risks of receiving lies and of suffering loss of Intelligence, Charisma, and arcane spellcasting for 1-5 weeks"',
   'Contagion':
     'School=Necromancy ' +
     'Level=Adept3,Blackguard3,C3,D3,Destruction3,S4,W4 ' +
@@ -2584,7 +2584,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Air5,D5 ' +
     'Description=' +
-      '"R%{lvl*40}\' Changes wind direction and speed by %{lvl//3} levels in a %{lvl*40}\'x40\' cylinder for %{lvl*10} min"',
+      '"R%{lvl*40}\' Changes wind direction and speed by %{lvl>5?lvl//3+\' levels\':\'1 level\'} in a %{lvl*40}\'x40\' cylinder for %{lvl*10} min"',
   'Corrupt Weapon':
     'School=Transmutation ' +
     'Level=Blackguard1 ' +
@@ -2619,12 +2619,12 @@ SRD35.SPELLS = {
     'School=Enchantment ' +
     'Level=B3,S4,W4 ' +
     'Description=' +
-      '"30\' cone inflicts -2 attack, damage, saves, and checks (save Will negates) for %{lvl} min"',
+      '"30\' cone inflicts -2 attacks, damage, saves, and checks (save Will negates) for %{lvl} min"',
   'Crushing Hand':
     'School=Evocation ' +
     'Level=Strength9,S9,W9 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +18 bull rush and +%{lvl+16}+mod grapple that inflicts 2d6+12 HP for %{lvl} rd"',
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +18 bull rush and +%{lvl+16}+modifier grapple that inflicts 2d6+12 HP for %{lvl} rd"',
   'Cure Critical Wounds':
     'School=Conjuration ' +
     'Level=Adept4,B4,Blackguard4,C4,D5,Healing4 ' +
@@ -2677,7 +2677,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=C1 ' +
     'Description=' +
-      '"Makes touched 1 pint of water into unholy water (save Will negates)"',
+      '"Changes touched 1 pint of water into unholy water (save Will negates)"',
 
   'Dancing Lights':
     'School=Evocation ' +
@@ -2726,7 +2726,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=C1 ' +
     'Description=' +
-      '"30\' cone reveals whether creatures are dead, alive with up to 3 or more than 3 hit points, undead, or animated for %{lvl*10} min"',
+      '"30\' cone reveals whether creatures are dead, alive with up to 3 or more than 3 hit points, undead, or animated, for %{lvl*10} min"',
   'Deep Slumber':
     'School=Enchantment ' +
     'Level=Assassin3,B3,S3,W3 ' +
@@ -2756,17 +2756,17 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C2,Evil2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' 20\' radius inflicts -3 turn undead and gives undead +1 attack, damage, saves, and 1 temporary hit point per HD for %{lvl*2} hr; a shrine to %{deity} in the area doubles the spell\'s effects, while a shrine to a different deity negates the effects but renders the shrine inert"',
+      '"R%{25+lvl//2*5}\' 20\' radius inflicts -3 turn undead and gives undead +1 attacks, damage, saves, and 1 temporary hit point per HD for %{lvl*2} hr; a shrine to %{deity} in the area doubles the spell\'s effects, while a shrine to a different deity negates the effects but renders the shrine inert"',
   'Destruction':
     'School=Necromancy ' +
     'Level=C7,Death7 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Slays the target slain and consumes its remains (save Fortitude inflicts 10d6 HP)"',
+      '"R%{25+lvl//2*5}\' Slays the target and consumes its remains (save Fortitude inflicts 10d6 HP)"',
   'Detect Animals Or Plants':
     'School=Divination ' +
     'Level=D1,R1 ' +
     'Description=' +
-      '"%{400+lvl*40}\' cone reveals info about the presence and condition of a chosen kind of animal and plant for concentration up to %{lvl*10} min; can change the kind chosen each rd"',
+      '"%{400+lvl*40}\' cone reveals the presence and condition of a chosen kind of animal or plant for concentration up to %{lvl*10} min; can change the kind chosen each rd"',
   'Detect Chaos':
     'School=Divination ' +
     'Level=Adept1,C1 ' +
@@ -2791,7 +2791,7 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=Adept0,B0,C0,D0,S0,W0 ' +
     'Description=' +
-      '"60\' cone reveals the presence, power, and school of magical auras for concentration up to %{lvl} min"',
+      '"60\' cone reveals the presence, power, and schools of magical auras for concentration up to %{lvl} min"',
   'Detect Poison':
     'School=Divination ' +
     'Level=Assassin1,C0,D0,P1,R1,S0,W0 ' +
@@ -2825,12 +2825,12 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C7,Law7 ' +
     'Description=' +
-      '"Nonlawful creatures in a 40\' radius with equal/-1/-5/-10 HD are banished (save Will -4 negates) and become deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed"',
+      '"Nonlawful creatures in a 40\' radius with %{lvl}/%{lvl-1}/%{lvl-5}/%{lvl-10} HD are banished (save Will -4 negates) and become deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed"',
   'Dimension Door':
     'School=Conjuration ' +
     'Level=Assassin4,B4,Travel4,S4,W4 ' +
     'Description=' +
-      '"Teleports self and a touched object or %{lvl//3} willing creatures %{400+lvl*40}\'"',
+      '"Teleports self and a touched object or %{lvl//3} willing creature%{lvl>6?\'s\':\'\'} %{400+lvl*40}\'"',
   'Dimensional Anchor':
     'School=Abjuration ' +
     'Level=C4,S4,W4 ' +
@@ -2925,7 +2925,7 @@ SRD35.SPELLS = {
   'Divine Favor':
     'School=Evocation ' +
     'Level=C1,P1 ' +
-    'Description="Gives self +%{(lvl//3<?3)>?1} attack and damage for 1 min"',
+    'Description="Gives self +%{(lvl//3<?3)>?1} attacks and damage for 1 min"',
   'Divine Power':
     'School=Evocation ' +
     'Level=C4,War4 ' +
@@ -2950,7 +2950,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=Blackguard1,C1 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Makes the target shaken, inflicting -2 attack, damage, saves, and checks (save Will negates), for %{lvl} min"',
+      '"R%{100+lvl*10}\' Makes the target shaken, inflicting -2 attacks, damage, saves, and checks (save Will negates), for %{lvl} min"',
   'Dream':
     'School=Illusion ' +
     'Level=B5,S5,W5 ' +
@@ -2970,7 +2970,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C8,D8,Destruction8,Earth7 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Intense tremor shakes an 80\' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures, inflicting 8d6 HP (save Reflex DC 15 half) and pinning creatures in the rubble, knocking down creatures on open ground (save Reflex DC 15 negates) and opening fissures with a 25% chance to fall in (save Reflex DC 20 negates)"',
+      '"R%{400+lvl*40}\' Intense tremor shakes an 80\' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures that inflict 8d6 HP (save Reflex DC 15 half) and pin creatures in the rubble, knocking down creatures on open ground (save Reflex DC 15 negates) and opening fissures with a 25% chance to fall in (save Reflex DC 20 negates)"',
   'Elemental Swarm':
     'School=Conjuration ' +
     'Level=Air9,D9,Earth9,Fire9,Water9 ' +
@@ -2986,7 +2986,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=C9,S9,W9 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Ranged touch inflicts 2d4 negative levels (save Fortitude after 24 hr for each level negates; failure makes the loss permanent); an undead target instead gains 2d4x5 temporary hit points for 1 hr"',
+      '"R%{25+lvl//2*5}\' Ranged touch inflicts 2d4 negative levels (save Fortitude for each level after 24 hr negates; failure makes the loss permanent); an undead target instead gains 2d4x5 temporary hit points for 1 hr"',
   'Enervation':
     'School=Necromancy ' +
     'Level=S4,W4 ' +
@@ -2996,13 +2996,13 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Strength1,S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attack, and -1 Armor Class (save Fortitude negates), for %{lvl} min" ' +
+      '"R%{25+lvl//2*5}\' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and -1 Armor Class (save Fortitude negates), for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Enlarge Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} humanoid targets in a 15\' radius double in size, gaining +2 Strength and suffering -2 Dexterity, -1 attack, and -1 Armor Class (save Fortitude negates), for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' %{lvl} humanoid targets in a 15\' radius double in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and -1 Armor Class (save Fortitude negates), for %{lvl} min"',
   'Entangle':
     'School=Transmutation ' +
     'Level=D1,Plant1,R1 ' +
@@ -3251,7 +3251,7 @@ SRD35.SPELLS = {
   'Grasping Hand':
     'School=Evocation ' +
     'Level=Strength7,S7,W7 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +16 bull rush and +%{lvl+14}+mod grapple for %{lvl} rd"',
+    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +16 bull rush and +%{lvl+14}+modifier grapple for %{lvl} rd"',
   'Grease':
     'School=Conjuration ' +
     'Level=B1,S1,W1 ' +
@@ -3602,7 +3602,7 @@ SRD35.SPELLS = {
   "Mage's Sword":
     'School=Evocation ' +
     'Level=S7,W7 ' +
-    'Description="R%{25+lvl//2*5}\' Unattended force blade attacks at +%{lvl+3}+mod and inflicts 4d6+3 HP x2@19 for %{lvl} rd"',
+    'Description="R%{25+lvl//2*5}\' Unattended force blade attacks at +%{lvl+3}+modifier and inflicts 4d6+3 HP x2@19 for %{lvl} rd"',
   'Magic Aura':
     'School=Illusion ' +
     'Level=B1,Magic1,S1,W1 ' +
@@ -8745,7 +8745,7 @@ SRD35.spellRules = function(
   // Hack alert: potentially-fragile hard-coding of modification of caster
   // level for paladin and ranger spells. Probably should be handled in
   // classRules somehow, since the calculation of caster level is specified as
-  // part of the class, but this is simpler.
+  // part of the class, but placing it here seems simpler.
   if(casterGroup == 'P' || casterGroup == 'R')
     expr = '(' + expr + '//2)';
   liquids.forEach(liquid => {
