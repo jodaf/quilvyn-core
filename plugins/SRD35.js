@@ -2488,7 +2488,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R15\' Cone renders creatures with 2/4/any HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (save Will negates)"',
+      '"15\' cone renders creatures with 2/4/any HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (save Will negates)"',
   'Command':
     'School=Enchantment ' +
     'Level=Adept1,C1 ' +
@@ -2527,7 +2527,7 @@ SRD35.SPELLS = {
   'Cone Of Cold':
     'School=Evocation ' +
     'Level=S5,W5,Water6 ' +
-    'Description="R60\' Cone inflicts %{lvl<?15}d6 HP (save Reflex half)"',
+    'Description="60\' cone inflicts %{lvl<?15}d6 HP (save Reflex half)"',
   'Confusion':
     'School=Enchantment ' +
     'Level=B3,Trickery4,S4,W4 ' +
@@ -2619,7 +2619,7 @@ SRD35.SPELLS = {
     'School=Enchantment ' +
     'Level=B3,S4,W4 ' +
     'Description=' +
-      '"R30\' Cone inflicts -2 attack, damage, saves, and checks (save Will negates) for %{lvl} min"',
+      '"30\' cone inflicts -2 attack, damage, saves, and checks (save Will negates) for %{lvl} min"',
   'Crushing Hand':
     'School=Evocation ' +
     'Level=Strength9,S9,W9 ' +
@@ -2682,228 +2682,279 @@ SRD35.SPELLS = {
   'Dancing Lights':
     'School=Evocation ' +
     'Level=B0,S0,W0 ' +
-    'Description="R%{100+lvl*10}\' 4 torch lights in 10\' radius move 100\'/rd for 1 min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Creates a humanoid-shaped light, 4 torch lights, or 4 glowing spheres in a 10\' radius that can be moved 100\' each rd for 1 min"',
   'Darkness':
     'School=Evocation ' +
     'Level=Adept2,Assassin2,B2,Blackguard2,C2,S2,W2 ' +
-    'Description="Touched radiates dim light in 20\' radius for %{lvl*10} min" ' +
+    'Description=' +
+      '"Touched object radiates shadows, giving creatures concealment, in a 20\' radius for %{lvl*10} min" ' +
     'Liquid=Oil',
   'Darkvision':
     'School=Transmutation ' +
     'Level=R3,S2,W2 ' +
-    'Description="Touched sees 60\' in total darkness for %{lvl} hr" ' +
+    'Description=' +
+      '"Gives touched 60\' black and white vision in total darkness for %{lvl} hr" ' +
     'Liquid=Potion',
   'Daylight':
     'School=Evocation ' +
     'Level=Adept3,B3,C3,D3,P3,S3,W3 ' +
-    'Description="Touched radiates daylight in 60\' radius for %{lvl*10} min" ' +
+    'Description=' +
+      '"Touched object radiates bright light in a 60\' radius for %{lvl*10} min" ' +
     'Liquid=Oil',
   'Daze':
     'School=Enchantment ' +
     'Level=B0,S0,W0 ' +
-    'Description="R%{25+lvl//2*5}\' Humanoid target w/up to 4 HD loses next action (Will neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Humanoid target with up to 4 HD loses its actions for 1 rd (save Will negates)"',
   'Daze Monster':
     'School=Enchantment ' +
     'Level=B2,S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Target w/up to 6 HD loses next action (Will neg)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Target with up to 6 HD loses its actions for 1 rd (save Will negates)"',
   'Death Knell':
     'School=Necromancy ' +
     'Level=Blackguard2,C2,Death2 ' +
-    'Description="Touched w/negative HP dies, and self gains 1d8 temporary HP, +2 Strength, and +1 caster level for 10*target HD min (Will neg)"',
+    'Description=' +
+      '"Touched with negative hit points dies (save Will negates), giving self 1d8 temporary hit points, +2 Strength, and +1 caster level for 10 min per target HD"',
   'Death Ward':
     'School=Necromancy ' +
     'Level=C4,D5,Death4,P4 ' +
-    'Description="Touched becomes immune to death spells, death effects, energy drain, and negative energy effects for %{lvl} min"',
+    'Description=' +
+      '"Touched gains immunity to death spells, death effects, energy drain, and negative energy effects for %{lvl} min"',
   'Deathwatch':
     'School=Necromancy ' +
     'Level=C1 ' +
-    'Description="R30\' Cone reveals HP status of targets for %{lvl*10} min"',
+    'Description=' +
+      '"30\' cone reveals whether creatures are dead, alive with up to 3 or more than 3 hit points, undead, or animated for %{lvl*10} min"',
   'Deep Slumber':
     'School=Enchantment ' +
     'Level=Assassin3,B3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' 10 HD of creatures in 10\' radius sleep (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 10 HD of creatures in a 10\' radius sleep (save Will negates) for %{lvl} min"',
   'Deeper Darkness':
     'School=Evocation ' +
     'Level=Adept3,Assassin3,Blackguard3,C3 ' +
-    'Description="Touched radiates dim light in 60\' radius for %{lvl} dy"',
+    'Description=' +
+      '"Touched object radiates shadows, giving creatures concealment, in a 60\' radius for %{lvl} days"',
   'Delay Poison':
     'School=Conjuration ' +
     'Level=Adept2,B2,C2,D2,P2,R1 ' +
-    'Description="Touched gains immunity to poison for %{lvl} hr" ' +
+    'Description="Gives touched immunity to poison for %{lvl} hr" ' +
     'Liquid=Potion',
   'Delayed Blast Fireball':
     'School=Evocation ' +
     'Level=S7,W7 ' +
-    'Description="R%{400+lvl*40}\' Inflicts %{lvl<?20}d6 HP (Ref half) in 20\' radius; self may delay effects up to 5 rd"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Inflicts %{lvl<?20}d6 HP (save Reflex half) in a 20\' radius; can delay effects up to 5 rd"',
   'Demand':
     'School=Enchantment ' +
     'Level=S8,W8 ' +
-    'Description="Self sends 25-word message to target w/<i>Suggestion</i> (Will neg)"',
+    'Description=' +
+      '"Self communicates to the target a 25-word message that contains a <i>Suggestion</i> (save Will negates)"',
   'Desecrate':
     'School=Evocation ' +
     'Level=C2,Evil2 ' +
-    'Description="R%{25+lvl//2*5}\' 20\' radius inflicts -3 turn undead and gives undead +1 attack, damage, saves, and 1 temporary HP/HD for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 20\' radius inflicts -3 turn undead and gives undead +1 attack, damage, saves, and 1 temporary hit point per HD for %{lvl*2} hr; a shrine to %{deity} in the area doubles the spell\'s effects, while a shrine to a different deity negates the effects but renders the shrine inert"',
   'Destruction':
     'School=Necromancy ' +
     'Level=C7,Death7 ' +
-    'Description="R%{25+lvl//2*5}\' Target slain and consumed (Fort 10d6 HP)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Slays the target slain and consumes its remains (save Fortitude inflicts 10d6 HP)"',
   'Detect Animals Or Plants':
     'School=Divination ' +
     'Level=D1,R1 ' +
-    'Description="R%{400+lvl*40}\' Cone gives self info on animals and plants for conc or %{lvl*10} min"',
+    'Description=' +
+      '"%{400+lvl*40}\' cone reveals info about the presence and condition of a chosen kind of animal and plant for concentration up to %{lvl*10} min; can change the kind chosen each rd"',
   'Detect Chaos':
     'School=Divination ' +
     'Level=Adept1,C1 ' +
-    'Description="R60\' Cone gives self info on chaotic auras for conc or %{lvl*10} min"',
+    'Description=' +
+      '"60\' cone reveals the presence and power of chaotic auras for concentration up to %{lvl*10} min"',
   'Detect Evil':
     'School=Divination ' +
     'Level=Adept1,C1 ' +
-    'Description="R60\' Cone gives self info on evil auras for conc or %{lvl*10} min"',
+    'Description=' +
+      '"60\' cone reveals the presence and power of evil auras for concentration up to %{lvl*10} min"',
   'Detect Good':
     'School=Divination ' +
     'Level=Adept1,Blackguard1,C1 ' +
-    'Description="R60\' Cone gives self info on good auras for conc or %{lvl*10} min"',
+    'Description=' +
+      '"60\' cone reveals the presence and power of good auras for concentration up to %{lvl*10} min"',
   'Detect Law':
     'School=Divination ' +
     'Level=Adept1,C1 ' +
-    'Description="R60\' Cone gives self info on lawful auras for conc or %{lvl*10} min"',
+    'Description=' +
+      '"60\' cone reveals the presence and power of lawful auras for concentration up to %{lvl*10} min"',
   'Detect Magic':
     'School=Divination ' +
     'Level=Adept0,B0,C0,D0,S0,W0 ' +
-    'Description="R60\' Cone gives self info on magical auras for conc or %{lvl} min"',
+    'Description=' +
+      '"60\' cone reveals the presence, power, and school of magical auras for concentration up to %{lvl} min"',
   'Detect Poison':
     'School=Divination ' +
     'Level=Assassin1,C0,D0,P1,R1,S0,W0 ' +
-    'Description="R%{25+lvl//2*5}\' Self detects poison in target, DC 20 Wis or Alchemy check for type"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Reveals the presence of poison in the target; a successful DC 20 Wisdom or Craft (Alchemy) check reveals the type"',
   'Detect Scrying':
     'School=Divination ' +
     'Level=B4,S4,W4 ' +
-    'Description="R40\' Self detects scrying, and successful opposed caster check shows source, for 1 dy"',
+    'Description=' +
+      '"R40\' Reveals scrying attempts for 1 day; shows the source of scrying from within 40\' or with a successful opposed caster check"',
   'Detect Secret Doors':
     'School=Divination ' +
     'Level=B1,Knowledge1,S1,W1 ' +
-    'Description="R60\' Cone gives self info on secret doors for conc or %{lvl} min"',
+    'Description=' +
+      '"60\' cone reveals secret doors and their mechanisms for concentration up to %{lvl} min"',
   'Detect Snares And Pits':
     'School=Divination ' +
     'Level=D1,R1 ' +
-    'Description="R60\' Cone gives self info on traps for conc or %{lvl*10} min"',
+    'Description=' +
+      '"60\' cone reveals traps and their triggers for concentration up to %{lvl*10} min"',
   'Detect Thoughts':
     'School=Divination ' +
     'Level=B2,Knowledge2,S2,W2 ' +
-    'Description="R60\' Cone gives self info on thoughts (Will neg) for conc or %{lvl} min"',
+    'Description="60\' cone reveals the presence of minds and their surface thoughts (save Will presence only) for concentration up to %{lvl} min"',
   'Detect Undead':
     'School=Divination ' +
     'Level=C1,P1,S1,W1 ' +
-    'Description="R60\' Cone gives self info on undead auras for conc or %{lvl} min"',
+    'Description=' +
+      '"60\' cone reveals undead and their strengths for concentration up to %{lvl} min"',
   'Dictum':
     'School=Evocation ' +
     'Level=C7,Law7 ' +
-    'Description="Nonlawful creatures in 40\' radius with equal/-1/-5/-10 HD deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed and banished (Will -4 neg)"',
+    'Description=' +
+      '"Nonlawful creatures in a 40\' radius with equal/-1/-5/-10 HD are banished (save Will -4 negates) and become deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed"',
   'Dimension Door':
     'School=Conjuration ' +
     'Level=Assassin4,B4,Travel4,S4,W4 ' +
-    'Description="Teleports self and touched object or %{lvl//3} willing creatures %{400+lvl*40}\'"',
+    'Description=' +
+      '"Teleports self and a touched object or %{lvl//3} willing creatures %{400+lvl*40}\'"',
   'Dimensional Anchor':
     'School=Abjuration ' +
     'Level=C4,S4,W4 ' +
-    'Description="R%{100+lvl*10}\' Ranged touch bars extradimensional travel for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Ranged touch bars extradimensional travel for %{lvl} min"',
   'Dimensional Lock':
     'School=Abjuration ' +
     'Level=C8,S8,W8 ' +
-    'Description="R%{100+lvl*10}\' Bars extradimensional travel in 20\' radius for %{lvl} dy"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Bars extradimensional travel in a 20\' radius for %{lvl} days"',
   'Diminish Plants':
     'School=Transmutation ' +
     'Level=D3,R3 ' +
-    'Description="Prunes %{400+lvl*40}\' or stunts growth of normal plants in 1/2 mile radius"',
+    'Description=' +
+      '"Prunes normal vegetation in a %{400+lvl*40}\' radius or stunts the growth of normal plants in a 1/2 mile radius for 1 year"',
   'Discern Lies':
     'School=Divination ' +
     'Level=C4,P3 ' +
-    'Description="R%{25+lvl//2*5}\' Self detects lies from %{lvl} creatures in 15\' radius (Will neg) for conc or %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Reveals lies from %{lvl} creatures in a 15\' radius (save Will negates) for concentration up to %{lvl} rd"',
   'Discern Location':
     'School=Divination ' +
     'Level=C8,Knowledge8,S8,W8 ' +
-    'Description="Self knows exact location of creature or object at any distance"',
+    'Description=' +
+      '"Reveals the exact location of a familiar creature or object or of the past owner of a held item"',
   'Disguise Self':
     'School=Illusion ' +
     'Level=Assassin1,B1,Trickery1,S1,W1 ' +
-    'Description="Self changes appearance and gains +10 Disguise for %{lvl*10} min"',
+    'Description=' +
+      '"Self changes appearance, gaining +10 Disguise for %{lvl*10} min; interaction gives others a Will save to detect"',
   'Disintegrate':
     'School=Transmutation ' +
     'Level=Destruction7,S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Ranged touch inflicts %{lvl*2<?40}d6 HP (Fort 5d6); slain target turns to dust"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Ranged touch inflicts %{lvl*2<?40}d6 HP (save Fortitude inflicts 5d6 HP), turning a slain target to dust, or disintegrates a 10\' cube of matter"',
   'Dismissal':
     'School=Abjuration ' +
     'Level=C4,S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Returns target to native plane (Will + %{lvl} - target HD neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Sends the target to its native plane or (20%) to another random plane (save Will + %{lvl} - target HD negates)"',
   'Dispel Chaos':
     'School=Abjuration ' +
     'Level=C5,Law5,P4 ' +
-    'Description="Self gains +4 Armor Class vs. chaotic and dismisses chaotic creature via touch (Will neg) or spell"',
+    'Description=' +
+      '"Gives self +4 Armor Class vs. chaotic creatures for %{lvl} rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch"',
   'Dispel Evil':
     'School=Abjuration ' +
     'Level=C5,Good5,P4 ' +
-    'Description="Self gains +4 Armor Class vs. evil and dismisses evil creature via touch (Will neg) or spell"',
+    'Description=' +
+      '"Gives self +4 Armor Class vs. evil creatures for %{lvl} rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch"',
   'Dispel Good':
     'School=Abjuration ' +
     'Level=C5,Evil5 ' +
-    'Description="Self gains +4 Armor Class vs. good and dismisses good creature via touch (Will neg) or spell"',
+    'Description=' +
+      '"Gives self +4 Armor Class vs. good creatures for %{lvl} rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch"',
   'Dispel Law':
     'School=Abjuration ' +
     'Level=C5,Chaos5 ' +
-    'Description="Self gains +4 Armor Class vs. lawful and dismisses lawful creature via touch (Will neg) or spell"',
+    'Description=' +
+      '"Gives self +4 Armor Class vs. lawful creatures for %{lvl} rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch"',
   'Dispel Magic':
     'School=Abjuration ' +
     'Level=B3,C3,D4,Magic3,P3,S3,W3 ' +
-    'Description="R%{100+lvl*10}\' Successful d20+%{lvl<?10} check vs. 11+caster level cancels targeted spell or 1 spell on each creature in a 20\' radius"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Successful d20+%{lvl<?10} check vs. 11+caster level cancels an ongoing targeted spell, supresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
   'Greater Dispel Magic':
     'School=Abjuration ' +
     'Level=B5,C6,D6,S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Successful d20+%{lvl<?20} check vs. 11+caster level cancels targeted spell or 1 spell or curse on each creature in a 20\' radius"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Successful d20+%{lvl<?20} check vs. 11+caster level cancels an ongoing targeted spell, supresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
   'Displacement':
     'School=Illusion ' +
     'Level=B3,S3,W3 ' +
-    'Description="Foes attacking touched suffer 50% miss chance for %{lvl} rd" ' +
+    'Description=' +
+      '"Foes attacking touched suffer a 50% miss chance for %{lvl} rd" ' +
     'Liquid=Potion',
   'Disrupt Undead':
     'School=Necromancy ' +
     'Level=S0,W0 ' +
-    'Description="R%{25+lvl//2*5}\' Ranged touched on undead target inflicts 1d6 HP"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Ranged touched on an undead target inflicts 1d6 HP positive energy"',
   'Disrupting Weapon':
     'School=Transmutation ' +
     'Level=C5 ' +
-    'Description="Hit w/touched weapon destroys undead up to %{lvl} HD (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"Hits with the touched weapon destroy undead with up to %{lvl} HD (save Will negates) for %{lvl} rd"',
   'Divination':
     'School=Divination ' +
     'Level=C4,Knowledge4 ' +
-    'Description="Self has %{(lvl+70)<?90}% chance to learn useful advice on a proposed action up to 1 week in the future"',
+    'Description=' +
+      '"Gives a %{(lvl+70)<?90}% chance to learn useful advice on a proposed action up to 1 week in the future"',
   'Divine Favor':
     'School=Evocation ' +
     'Level=C1,P1 ' +
-    'Description="Self gains +%{(lvl//3<?3)>?1} attack and damage for 1 min"',
+    'Description="Gives self +%{(lvl//3<?3)>?1} attack and damage for 1 min"',
   'Divine Power':
     'School=Evocation ' +
     'Level=C4,War4 ' +
-    'Description="Self gains BAB %{lvl}, +6 Strength, and %{lvl} temporary HP for %{lvl} rd"',
+    'Description=' +
+      '"Gives self BAB %{lvl}, +6 Strength, and %{lvl} temporary hit points for %{lvl} rd"',
   'Dominate Animal':
     'School=Enchantment ' +
     'Level=Animal3,D3 ' +
-    'Description="R%{25+lvl//2*5}\' Target animal obeys self thoughts (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target animal obeys mental commands (save Will negates) for %{lvl} rd"',
   'Dominate Monster':
     'School=Enchantment ' +
     'Level=S9,W9 ' +
-    'Description="R%{25+lvl//2*5}\' Target obeys self thoughts (Will neg) for %{lvl} dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target creature obeys mental commands (save Will negates) for %{lvl} days"',
   'Dominate Person':
     'School=Enchantment ' +
     'Level=B4,S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Target humanoid obeys self thoughts (Will neg) for %{lvl} dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target humanoid obeys mental commands (save Will negates) for %{lvl} days; concentration allows receiving sensory info from the target"',
   'Doom':
     'School=Necromancy ' +
     'Level=Blackguard1,C1 ' +
-    'Description="R%{100+lvl*10}\' Target becomes shaken (-2 attack, damage, saves, and checks) (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Makes the target shaken, inflicting -2 attack, damage, saves, and checks (save Will negates), for %{lvl} min"',
   'Dream':
     'School=Illusion ' +
     'Level=B5,S5,W5 ' +
-    'Description="Touched sends message to sleeping target"',
+    'Description="Touched sends a message to a sleeping target"',
 
   "Eagle's Splendor":
     'School=Transmutation ' +
