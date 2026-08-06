@@ -714,7 +714,7 @@ SRD35.FEATURES = {
     'Note="Can use Perform to give allies +%{(levels.Bard+4)//6 >? 1} attack, damage, and charm and fear saves, lasting for 5 rd after the performance ends"',
   'Inspire Greatness':
     'Section=skill ' +
-    'Note="R30\' Can use Peform to give %{levels.Bard>11?((levels.Bard-6)//3)+\' allies\':\'an ally\'} 2d10 temporary hit points, +2 attacks, and +1 Fortitude saves, lasting for 5 rd after the performance ends"',
+    'Note="R30\' Can use Perform to give %{levels.Bard>11?((levels.Bard-6)//3)+\' allies\':\'an ally\'} 2d10 temporary hit points, +2 attacks, and +1 Fortitude saves, lasting for 5 rd after the performance ends"',
   'Inspire Heroics':
     'Section=skill ' +
     'Note="R30\' Can use Perform to give %{levels.Bard>14?((levels.Bard-12)//3)+\' allies\':\'an ally\'} +4 Armor Class and saves, lasting for 5 rd after the performance ends"',
@@ -1229,7 +1229,7 @@ SRD35.FEATURES = {
     'Section=combat Note="+2 %weapon Damage Modifier"',
   'Whirlwind Attack':
     'Section=combat ' +
-    'Note="Can use a full attack acion to make 1 attack vs. all foes within reach"',
+    'Note="Can use a full attack action to make 1 attack vs. all foes within reach"',
   'Widen Spell':
     'Section=magic ' +
     'Note="Can cast a spell using a spell slot 3 higher than normal to double its area of affect"',
@@ -2137,7 +2137,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Air4,C4,D4 ' +
     'Description=' +
-      '"Touched can walk on air for %{lvl*10} min, then floads downward 60\' per rd for 1d6 rd; winds of over 20 MPH push the target 5\' per 5 MPH"',
+      '"Touched can walk on air for %{lvl*10} min, then floats downward 60\' per rd for 1d6 rd; winds of over 20 MPH push the target 5\' per 5 MPH"',
   'Alarm':
     'School=Abjuration ' +
     'Level=B1,R1,S1,W1 ' +
@@ -2157,7 +2157,7 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=B6,S6,W6 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Reveals spells affecting target creatures and objects and any magical fuctions of objects (save Will for creatures and attended objects negates) for %{lvl} rd"',
+      '"R%{25+lvl//2*5}\' Reveals spells affecting target creatures and objects and any magical functions of objects (save Will for creatures and attended objects negates) for %{lvl} rd"',
   'Animal Growth':
     'School=Transmutation ' +
     'Level=D5,R4,S5,W5 ' +
@@ -2192,7 +2192,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D7,Plant7 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl//3} Large plant targets attack foes for %{lvl} rd or entwine for %{lvl} hr; arger plants reduce the number affected by half for each size level"',
+      '"R%{25+lvl//2*5}\' %{lvl//3} Large plant targets attack foes for %{lvl} rd or entwine for %{lvl} hr; larger plants reduce the number affected by half for each size level"',
   'Animate Rope':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
@@ -2348,7 +2348,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Self becomes ethereal randomly for %{lvl} rd, allowing passage through solid objects (50% chance per 5\' of being pushed out and taking 1d6 HP damage per 5\' travelled), reducing damage from falling and foe area attacks by half, inflicting a 50% miss chance on foe attacks and targeted spells (reduced to 20% if a foe can see invisible creatures), inflcting a 20% chance of misfire on self spells, and giving self attacks +2 to hit with a 20% miss chance"',
+      '"Self becomes ethereal randomly for %{lvl} rd, allowing passage through solid objects (50% chance per 5\' of being pushed out and taking 1d6 HP damage per 5\' traveled), reducing damage from falling and foe area attacks by half, inflicting a 50% miss chance on foe attacks and targeted spells (reduced to 20% if a foe can see invisible creatures), inflicting a 20% chance of misfire on self spells, and giving self attacks +2 to hit with a 20% miss chance"',
   'Blur':
     'School=Illusion ' +
     'Level=B2,S2,W2 ' +
@@ -2383,7 +2383,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=D5 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' 1 bolt per rd inflicts 5d6 HP (or 5d10 HP during a storm) electricty (save Reflex half) for %{lvl} min or %{lvl<?15} bolts"',
+      '"R%{400+lvl*40}\' 1 bolt per rd inflicts 5d6 HP (or 5d10 HP during a storm) electricity (save Reflex half) for %{lvl} min or %{lvl<?15} bolts"',
   'Calm Animals':
     'School=Enchantment ' +
     'Level=Animal1,D1,R1 ' +
@@ -2393,7 +2393,7 @@ SRD35.SPELLS = {
     'School=Enchantment ' +
     'Level=B2,C2,Law2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Pacifies creatures in a 20\' radius (save Will negates), negating rage and morale bonuses, for concentraion up to %{lvl} rd or until any target is attacked"',
+      '"R%{100+lvl*10}\' Pacifies creatures in a 20\' radius (save Will negates), negating rage and morale bonuses, for concentration up to %{lvl} rd or until any target is attacked"',
   "Cat's Grace":
     'School=Transmutation ' +
     'Level=Adept2,Assassin2,B2,D2,R2,S2,W2 ' +
@@ -2508,7 +2508,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S2,W2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Undead target considers self as a friend (save Will negates) for %{lvl} days, obeying commands onwith successful opposed Charisma checks"',
+      '"R%{25+lvl//2*5}\' Undead target considers self as a friend (save Will negates) for %{lvl} days; giving commands require opposed Charisma checks"',
   'Commune':
     'School=Divination ' +
     'Level=Adept5,C5 ' +
@@ -2895,12 +2895,12 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=B3,C3,D4,Magic3,P3,S3,W3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Successful d20+%{lvl<?10} check vs. 11+caster level cancels an ongoing targeted spell, supresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
+      '"R%{100+lvl*10}\' Successful d20+%{lvl<?10} check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
   'Greater Dispel Magic':
     'School=Abjuration ' +
     'Level=B5,C6,D6,S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Successful d20+%{lvl<?20} check vs. 11+caster level cancels an ongoing targeted spell, supresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
+      '"R%{100+lvl*10}\' Successful d20+%{lvl<?20} check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
   'Displacement':
     'School=Illusion ' +
     'Level=B3,S3,W3 ' +
@@ -2964,53 +2964,65 @@ SRD35.SPELLS = {
   "Mass Eagle's Splendor":
     'School=Transmutation ' +
     'Level=B6,C6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain +4 Charisma for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Charisma for %{lvl} min"',
   'Earthquake':
     'School=Evocation ' +
     'Level=C8,D8,Destruction8,Earth7 ' +
-    'Description="R%{400+lvl*40}\' Intense tremor shakes 80\' radius for 1 rd"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Intense tremor shakes an 80\' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures, inflicting 8d6 HP (save Reflex DC 15 half) and pinning creatures in the rubble, knocking down creatures on open ground (save Reflex DC 15 negates) and opening fissures with a 25% chance to fall in (save Reflex DC 20 negates)"',
   'Elemental Swarm':
     'School=Conjuration ' +
     'Level=Air9,D9,Earth9,Fire9,Water9 ' +
-    'Description="R%{100+lvl*10}\' Summons 2d4 large, then 1d4 huge, then 1 greater elementals for %{lvl*10} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Summons at 10-min intervals from a chosen elemental plane a series of obedient elementals: 2d4 large; 1d4 huge; 1 greater, for %{lvl*10} min"',
   'Endure Elements':
     'School=Abjuration ' +
     'Level=Adept1,C1,D1,P1,R1,Sun1,S1,W1 ' +
-    'Description="Touched remains comfortable between -50F and 140F for 1 dy" ' +
+    'Description=' +
+      '"Touched remains comfortable between -50F and 140F for 1 day" ' +
     'Liquid=Potion',
   'Energy Drain':
     'School=Necromancy ' +
     'Level=C9,S9,W9 ' +
-    'Description="R%{25+lvl//2*5}\' Ranged touch inflicts 2d4 negative levels (Fort/level after 1 dy neg, permanent otherwise); undead gains 2d4x5 HP for 1 hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Ranged touch inflicts 2d4 negative levels (save Fortitude after 24 hr for each level negates; failure makes the loss permanent); an undead target instead gains 2d4x5 temporary hit points for 1 hr"',
   'Enervation':
     'School=Necromancy ' +
     'Level=S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' Ranged touch inflicts 1d4 negative levels for %{lvl} hr; undead gains 1d4x5 HP for 1 hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Ranged touch inflicts 1d4 negative levels for %{lvl} hr; an undead target instead gains 1d4x5 temporary hit points for 1 hr"',
   'Enlarge Person':
     'School=Transmutation ' +
     'Level=Strength1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Target humanoid dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 Armor Class) (Fort neg) for %{lvl} min" ' +
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attack, and -1 Armor Class (save Fortitude negates), for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Enlarge Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} target humanoids in 15\' radius dbl size (+2 Strength, -2 Dexterity, -1 attack, -1 Armor Class) (Fort neg) for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} humanoid targets in a 15\' radius double in size, gaining +2 Strength and suffering -2 Dexterity, -1 attack, and -1 Armor Class (save Fortitude negates), for %{lvl} min"',
   'Entangle':
     'School=Transmutation ' +
     'Level=D1,Plant1,R1 ' +
-    'Description="R%{400+lvl*40}\' Creatures in 40\' radius entangled (Ref half speed) for %{lvl} min"',
+    'Description=' +
+      '"R%{400+lvl*40}\' 40\' radius entangles creatures (save Reflex inflicts half Speed; DC 20 Strength or Escape Artist ends) for %{lvl} min"',
   'Enthrall':
     'School=Enchantment ' +
     'Level=B2,C2 ' +
-    'Description="R%{100+lvl*10}\' Listeners become captivated (Will neg) for conc or 1 hr"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Captivates listeners (save Will negates) for concentration up to 1 hr"',
   'Entropic Shield':
     'School=Abjuration ' +
     'Level=C1,Luck1 ' +
-    'Description="Ranged attacks on self suffer 20% miss for %{lvl} min"',
+    'Description=' +
+      '"Ranged attacks on self suffer a 20% miss chance for %{lvl} min"',
   'Erase':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Two pages of writing vanish (magical writing DC 15 caster check neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Two pages of writing vanish; magical writing requires a successful 1d20+%{lvl} caster check with a DC of 15"',
   'Ethereal Jaunt':
     'School=Transmutation ' +
     'Level=C7,S7,W7 ' +
@@ -3022,15 +3034,17 @@ SRD35.SPELLS = {
   'Expeditious Retreat':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
-    'Description="Self gains +30\' Speed for %{lvl} min"',
+    'Description="Gives self +30\' Speed for %{lvl} min"',
   'Explosive Runes':
     'School=Abjuration ' +
     'Level=S3,W3 ' +
-    'Description="Runes inflict 6d6 HP in 10\' radius when read (Ref half, adjacent no save)"',
+    'Description=' +
+      '"Runes inflict 6d6 HP force in a 10\' radius when read by an unauthorized person (save Reflex half; adjacent creatures automatically fail)"',
   'Eyebite':
     'School=Necromancy ' +
     'Level=B6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' Renders 1 target/rd with 1/5/10 HD comatose %{lvl*10} min/panicked for 1d4 rd and shaken for %{lvl*10} min/sickened for %{lvl*10} min for %{lvl//3} rd (Fort neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Renders 1 target per rd with 1/5/10 HD comatose for %{lvl*10} min/panicked for 1d4 rd and shaken for %{lvl*10} min/sickened for %{lvl*10} min (save Fortitude negates), for %{lvl//3} rd"',
 
   'Fabricate':
     'School=Transmutation ' +
