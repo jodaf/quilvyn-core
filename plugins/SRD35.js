@@ -3049,117 +3049,144 @@ SRD35.SPELLS = {
   'Fabricate':
     'School=Transmutation ' +
     'Level=S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Creates %{lvl*10}\' cu (%{lvl}\' cu mineral) of finished items from raw materials"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Creates from raw materials %{lvl*10}\' cu (or %{lvl}\' cu if working with minerals) of finished items"',
   'Faerie Fire':
     'School=Evocation ' +
     'Level=D1 ' +
-    'Description="R%{400+lvl*40}\' Creatures in 5\' radius glow for %{lvl} min"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Creatures in a 5\' radius glow for %{lvl} min, negating concealment from darkness, blurring, displacement, and invisibility"',
   'False Life':
     'School=Necromancy ' +
     'Level=Assassin3,S2,W2 ' +
-    'Description="Self gains 1d10+%{lvl<?10} temporary HP for %{lvl} hr"',
+    'Description=' +
+      '"Gives self 1d10+%{lvl<?10} temporary hit points for %{lvl} hr"',
   'False Vision':
     'School=Illusion ' +
     'Level=B5,Trickery5,S5,W5 ' +
-    'Description="Scrying of touched 40\' radius shows illusion for %{lvl} hr"',
+    'Description=' +
+      '"Scrying of a touched 40\' radius shows a crafted illusion for %{lvl} hr"',
   'Fear':
     'School=Necromancy ' +
     'Level=B3,S4,W4 ' +
-    'Description="R30\' Cone causes creatures to flee for %{lvl} rd (Will shaken for 1 rd)"',
+    'Description=' +
+      '"R30\' Cone causes creatures to flee for %{lvl} rd (save Will inflicts shaken for 1 rd)"',
   'Feather Fall':
     'School=Transmutation ' +
     'Level=Assassin1,B1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 10\' radius fall 60\'/rd (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} falling targets in a 10\' radius slow to 60\' per rd (save Will negates) for %{lvl} rd"',
   'Feeblemind':
     'School=Enchantment ' +
     'Level=S5,W5 ' +
-    'Description="R%{100+lvl*10}\' Target Intelligence and Charisma permanently drop to 1 (Will (arcane at -4) neg)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Permanently lowers the target\'s Intelligence and Charisma to 1 (save Will negates; arcane casters have a -4 penalty)"',
   'Find The Path':
     'School=Divination ' +
     'Level=B6,C6,D6,Knowledge6,Travel6 ' +
-    'Description="Touched knows most direct route to location for %{lvl*10} min"',
+    'Description=' +
+      '"Touched knows the most direct route to a specified location, as well how to bypass any traps that would slow progress, for %{lvl*10} min"',
   'Find Traps':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="Self gains +%{lvl//2<?10} Search to uncover traps for %{lvl} min"',
+    'Description=' +
+      '"Self gains +%{lvl//2<?10} Search to uncover traps for %{lvl} min"',
   'Finger Of Death':
     'School=Necromancy ' +
     'Level=D8,S7,W7 ' +
-    'Description="R%{25+lvl//2*5}\' Target slain (Fort suffers 3d6+%{lvl} HP)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Slays the target (save Fortitude inflicts 3d6+%{lvl} HP)"',
   'Fire Seeds':
     'School=Conjuration ' +
     'Level=D6,Fire6,Sun6 ' +
-    'Description="Touched 4 acorn grenades inflict %{lvl<?20}d6 total or 8 berry bombs detonate on command to inflict 1d8+%{lvl} in 5\' radius (Ref half) for %{lvl*10} min"',
+    'Description=' +
+      '"Changes 4 touched acorns into grenades that inflict %{lvl<?20}d6 total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+%{lvl} in a 5\' radius (save Reflex half), for %{lvl*10} min"',
   'Fire Shield':
     'School=Evocation ' +
     'Level=Fire5,Sun4,S4,W4 ' +
-    'Description="Cold or hot flames enveloping self inflict 1d6+%{lvl<?15} HP and reduce heat or cold damage by half upon foe hit (Ref no HP) for %{lvl} rd"',
+    'Description=' +
+      '"Envelopes self in cold or hot flames that inflict 1d6+%{lvl<?15} HP cold or fire on melee attackers and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for %{lvl} rd"',
   'Fire Storm':
     'School=Evocation ' +
     'Level=C8,D7,Fire7 ' +
-    'Description="R%{100+lvl*10}\' %{lvl*2} 10\' cu inflicts %{lvl<?20}d6 HP (Ref half)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' %{lvl*2} 10\' cubes inflict %{lvl<?20}d6 HP fire (save Reflex half)"',
   'Fire Trap':
     'School=Abjuration ' +
     'Level=D2,S4,W4 ' +
-    'Description="Touched object inflicts 1d4+%{lvl<?20} HP (Ref half) in 5\' radius when opened"',
+    'Description=' +
+      '"Touched object inflicts 1d4+%{lvl<?20} HP fire (Ref half) in a 5\' radius when opened"',
   'Fireball':
     'School=Evocation ' +
     'Level=S3,W3 ' +
-    'Description="R%{400+lvl*40}\' Inflicts %{lvl<?10}d6 HP (Ref half) in 20\' radius"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Inflicts %{lvl<?10}d6 HP fire (save Reflex half) in a 20\' radius"',
   'Flame Arrow':
     'School=Transmutation ' +
     'Level=S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' 50 projectiles inflict +1d6 HP for %{lvl*10} min" ' +
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 50 projectiles each inflict +1d6 HP fire for %{lvl*10} min" ' +
     'Liquid=Oil',
   'Flame Blade':
     'School=Evocation ' +
     'Level=D2 ' +
-    'Description="Fire melee weapon inflicts 1d8+%{lvl//2<?10} HP for %{lvl} min"',
+    'Description=' +
+      '"Melee touch attacks with a conjured weapon inflict 1d8+%{lvl//2<?10} HP fire for %{lvl} min"',
   'Flame Strike':
     'School=Evocation ' +
     'Level=C5,D4,Sun5,War5 ' +
-    'Description="R%{100+lvl*10}\' 10\' radius x 40\' high inflicts %{lvl<?15}d6 HP (Ref half)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 10\' radius, 40\' high cylinder inflicts %{lvl<?15}d6 HP fire (save Reflex half)"',
   'Flaming Sphere':
     'School=Evocation ' +
     'Level=D2,S2,W2 ' +
-    'Description="R%{100+lvl*10}\' 5\' diameter sphere inflicts 2d6 HP (Ref neg), jumps or moves 30\'/rd for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 5\' diameter sphere inflicts 2d6 HP fire (save Reflex negates) for %{lvl} rd; can be directed to jump 30\' and move 30\' per rd"',
   'Flare':
     'School=Evocation ' +
     'Level=B0,D0,S0,W0 ' +
-    'Description="R%{25+lvl//2*5}\' Target dazzled (Fort neg) for 1 min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Dazzles the target (save Fortitude negates) for 1 min"',
   'Flesh To Stone':
     'School=Transmutation ' +
     'Level=S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Target becomes statue (Fort neg)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Permanently changes the target into a statue (save Fortitude negates)"',
   'Floating Disk':
     'School=Evocation ' +
     'Level=S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' 3\'-diameter x 1 inch thick force disk follows, holds %{lvl*100} lbs at 3\' for %{lvl} hr"',
+    'Description="R%{25+lvl//2*5}\' 3\'-diameter, 1\\" thick force disk can hold %{lvl*100} lbs and follows self at a 5\' distance, 3\' off the ground, for %{lvl} hr"',
   'Fly':
     'School=Transmutation ' +
     'Level=Travel3,S3,W3 ' +
-    'Description="Touched gains 60\' fly speed for %{lvl} min" ' +
+    'Description=' +
+      '"Touched gains a 60\' fly Speed for %{lvl} min, then floats downward 60\' per rd for 1d6 rd" ' +
     'Liquid=Potion',
   'Fog Cloud':
     'School=Conjuration ' +
     'Level=D2,S2,W2,Water2 ' +
-    'Description="R%{100+lvl*10}\' Fog in 20\' radius obscures vision for %{lvl*10} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 20\' radius fog obscures vision for %{lvl*10} min"',
   'Forbiddance':
     'School=Abjuration ' +
     'Level=C6 ' +
-    'Description="R%{100+lvl*10}\' %{lvl} 60\' cu bars planar travel, inflicts 6d6 HP or 12d6 HP on transit if alignment differs in 1 or 2 dimensions"',
+    'Description=' +
+      '"R%{100+lvl*10}\' %{lvl} 60\' cubes bar planar travel and inflict 6d6 HP or 12d6 HP on creatures who enter if their alignments differ in 1 or 2 dimensions"',
   'Forcecage':
     'School=Evocation ' +
     'Level=S7,W7 ' +
-    'Description="R%{25+lvl//2*5}\' Traps targets in 20\' cage or 10\' cube for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Traps targets in a 20\' cage or a 10\' windowless cell for %{lvl*2} hr"',
   'Forceful Hand':
     'School=Evocation ' +
     'Level=S6,W6 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +14 bull rush for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +14 bull rush for %{lvl} rd"',
   'Foresight':
     'School=Divination ' +
     'Level=D9,Knowledge9,S9,W9 ' +
-    'Description="Self gains +2 Armor Class and Reflex and never surprised or flat-footed for %{lvl*10} min"',
+    'Description=' +
+      '"Self receives warnings of impending danger to touched for %{lvl*10} min; casting on self also gives +2 Armor Class and negates surprise and flat-footed"',
   "Fox's Cunning":
     'School=Transmutation ' +
     'Level=Assassin2,B2,S2,W2 ' +
@@ -3168,106 +3195,131 @@ SRD35.SPELLS = {
   "Mass Fox's Cunning":
     'School=Transmutation ' +
     'Level=B6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain +4 Intelligence for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Intelligence for %{lvl} min"',
   'Freedom':
     'School=Abjuration ' +
     'Level=S9,W9 ' +
-    'Description="R%{25+lvl//2*5}\' Target released from movement restrictions"',
+    'Description='+
+      '"R%{25+lvl//2*5}\' Releases the target from movement restrictions"',
   'Freedom Of Movement':
     'School=Abjuration ' +
     'Level=Assassin4,B4,Blackguard4,C4,D4,Luck4,R4,Travel4 ' +
-    'Description="Touched moves freely for %{lvl*10} min"',
+    'Description=' +
+      '"Allows touched to ignore movement impediments for %{lvl*10} min"',
   'Freezing Sphere':
     'School=Evocation ' +
     'Level=S6,W6 ' +
-    'Description="R%{400+lvl*40}\' 10\' radius inflicts %{lvl<?15}d6 HP (Ref half)"',
+    'Description=' +
+      '"R%{400+lvl*40}\' 10\' radius inflicts %{lvl<?15}d6 HP cold, or %{lvl<?15}d8 HP cold to elemental water creatures (save Reflex half)"',
 
   'Gaseous Form':
     'School=Transmutation ' +
     'Level=Air3,B3,S3,W3 ' +
-    'Description="Touched becomes insubstantial (DR 10/magic, immune to poison and critical hits, unable to use spell components, fly 10\') for %{lvl*2} min" ' +
+    'Description=' +
+      '"Touched becomes insubstantial, losing its armor bonus to Armor Class, any supernatural abilities, ability to manipulate objects, and ability to cast spells with components, but gaining DR 10/magic, immunity to poison and critical hits, a 10\' fly Speed, and the ability to pass through small openings, for %{lvl*2} min" ' +
     'Liquid=Potion',
   'Gate':
     'School=Conjuration ' +
     'Level=C9,S9,W9 ' +
-    'Description="R%{100+lvl*10}\' 5\' - 20\' disk connects to another plane for conc or %{lvl} rd, allows summoning of extraplanar creature"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Creates a 5\'-20\' diameter disk passage to another plane for concentration up to %{lvl} rd, or, at the cost of 1000 XP, allows summoning extraplanar creatures&mdash;a named creature, a single creature of a named kind, or up to %{lvl*2} HD of a named kind"',
   'Geas/Quest':
     'School=Enchantment ' +
     'Level=B6,C6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' Target must complete task"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Compels a target to complete a specified task within %{lvl} days, suffering 3d6 HP and sickened (save Fortitude HP only) for each 24 hr spent without obeying; these inflictions end 24 hr after resuming the task"',
   'Lesser Geas':
     'School=Enchantment ' +
     'Level=B3,S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' Target w/up to 7 HD must complete task (Will neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Compels a target with up to 7 HD to complete a specified task (save Will negates) within %{lvl} days, suffering -2 to each ability score (maximum -8, and no score can drop below 1) for each 24 hr spent without obeying; this infliction ends 24 hr after resuming the task"',
   'Gentle Repose':
     'School=Necromancy ' +
     'Level=C2,S3,W3 ' +
-    'Description="Touched corpse preserved %{lvl} dy (Will neg)"',
+    'Description=' +
+      '"Preserves a touched corpse from decay (save Will negates) for %{lvl} days"',
   'Ghost Sound':
     'School=Illusion ' +
     'Level=Adept0,Assassin1,B0,S0,W0 ' +
-    'Description="R%{25+lvl//2*5}\' Produces sound volume of %{lvl*4<?20} humans (Will disbelieve) for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Produces the sound volume of %{lvl*4<?20} humans (save Will upon interaction disbelieves) for %{lvl} rd"',
   'Ghoul Touch':
     'School=Necromancy ' +
     'Level=S2,W2 ' +
-    'Description="Touched becomes paralyzed for 1d6+2 rd and stench sickens in 10\' radius (Fort neg)"',
+    'Description=' +
+      '"Melee touch inflicts paralyzed and a stench that sickens creatures other than self (save Fort negates) in a 10\' radius for 1d6+2 rd"',
   'Giant Vermin':
     'School=Transmutation ' +
     'Level=C4,D4 ' +
-    'Description="R%{25+lvl//2*5}\' 3 centipedes, 2 spiders, or 1 scorpion in 15\' radius become giant and obey self for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 3 centipedes, 2 spiders, or 1 scorpion in a 15\' radius grow to %{lvl<10?\'Medium\':lvl<14?\'Large\':lvl<18?\'Huge\':lvl<20?\'Gargantuan\':\'Colossal\'} size and obey simple commands for %{lvl} min"',
   'Glibness':
     'School=Transmutation ' +
     'Level=Assassin4,B3 ' +
-    'Description="Self gains +30 Bluff, SR %{lvl+15} (magical lie detection) for %{lvl*10} min"',
+    'Description=' +
+      '"Gives self +30 Bluff with lies and SR %{lvl+15} vs. magical lie detection for %{lvl*10} min"',
   'Glitterdust':
     'School=Conjuration ' +
     'Level=B2,S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Creatures in 10\' radius outlined and blinded for %{lvl} rd (Will outlined only)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Outlines and blinds creatures in a 10\' radius (save Will outlined only) for %{lvl} rd"',
   'Globe Of Invulnerability':
     'School=Abjuration ' +
     'Level=S6,W6 ' +
-    'Description="10\' radius bars spell effects up to 4th level for %{lvl} rd"',
+    'Description=' +
+      '"10\' radius around self bars the entry of spell effects up to 4th level for %{lvl} rd"',
   'Lesser Globe Of Invulnerability':
     'School=Abjuration ' +
     'Level=S4,W4 ' +
-    'Description="10\' radius bars spell effects up to 3rd level for %{lvl} rd"',
+    'Description=' +
+      '"10\' radius around self bars the entry of spell effects up to 3rd level for %{lvl} rd"',
   'Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C3 ' +
-    'Description="Proscribed creatures who transit %{lvl*5} sq\' area trigger %{lvl//2<?5}d8 HP blast in 5\' radius (Ref half) or harmful spell up to 3rd level"',
+    'Description=' +
+      '"Creatures with specified characteristics who enter a %{lvl*5} sq\' area trigger a blast that inflicts %{lvl//2<?5}d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5\' radius (save Reflex half; password negates) or a harmful spell of up to 3rd level"',
   'Greater Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C6 ' +
-    'Description="Proscribed creatures who transit %{lvl*5} sq\' area trigger %{lvl//2<?10}d8 HP blast in 5\' radius (Ref half) or harmful spell up to 6th level"',
+    'Description=' +
+      '"Creatures with specified characteristics who enter a %{lvl*5} sq\' area trigger a blast that inflicts %{lvl//2<?10}d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5\' radius (save Reflex half; password negates) or a harmful spell of up to 6th level"',
   'Good Hope':
     'School=Enchantment ' +
     'Level=B3 ' +
-    'Description="R%{100+lvl*10}\' %{lvl} targets in 15\' radius gain +2 attack, damage, saves, and checks for %{lvl} min" ' +
+    'Description=' +
+      '"R%{100+lvl*10}\' %{lvl} targets in a 15\' radius gain +2 attacks, damage, saves, and checks for %{lvl} min" ' +
     'Liquid=Potion',
   'Goodberry':
     'School=Transmutation ' +
     'Level=D1 ' +
-    'Description="2d4 berries provide a full meal and heal 1 HP for %{lvl} dy"',
+    'Description=' +
+      '"2d4 target berries each provide a full meal and restore 1 hit point for %{lvl} day%{lvl>1?\'s\':\'\'}"',
   'Grasping Hand':
     'School=Evocation ' +
     'Level=Strength7,S7,W7 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) moves 60\'/rd, gives +4 Armor Class, and performs +16 bull rush and +%{lvl+14}+modifier grapple for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +16 bull rush and +%{lvl+14}+modifier grapple for %{lvl} rd"',
   'Grease':
     'School=Conjuration ' +
     'Level=B1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Object or 10\' sq becomes slippery, causing falls (Ref DC 10 Balance for half speed), for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Coats a 10\' sq with grease, inflicting falls (save Reflex negates and allows a DC 10 Balance check to move at half speed), or coats a target object with grease (save Reflex negates for possessed items), causing them to be dropped (save Reflex negates each rd), for %{lvl} rd"',
   'Guards And Wards':
     'School=Abjuration ' +
     'Level=S6,W6 ' +
-    'Description="Multiple magic effects protect %{lvl*200}\' sq area for %{lvl*2} hr"',
+    'Description=' +
+      '"Multiple magic effects protect a %{lvl*200}\' sq area for %{lvl*2} hr"',
   'Guidance':
     'School=Divination ' +
     'Level=Adept0,C0,D0 ' +
-    'Description="Touched gains +1 next attack, save, or skill check for 1 min"',
+    'Description=' +
+      '"Touched gains +1 on an attack, save, or skill check within 1 min"',
   'Gust Of Wind':
     'School=Evocation ' +
     'Level=D2,S2,W2 ' +
-    'Description="60\' 50 MPH gust affects medium or smaller creatures (Fort neg) for 1 rd"',
+    'Description=' +
+      '"Creates a 60\' line of wind for 1 rd that moves objects, extinguishes unprotected flames, knocks down Small and smaller creatures, and halts Medium ones, Tiny creatures are also pushed 1d4x10\' suffer 1d4 HP nonlethal per 10\'; flying Medium, Small, or Tiny creatures are instead pushed 1d6x5\', 1d6x10\', or 2d6x10\', with Tiny flying creatures also suffering 2d6 HP nonlethal (save Fortitude negates)"',
 
   'Hallow':
     'School=Evocation ' +
@@ -6610,6 +6662,8 @@ SRD35.classRules = function(
     console.log('Bad spellSlots list "' + spellSlots + '" for class ' + name);
     return;
   }
+  if(spellsAvailable == null)
+    spellsAvailable = []; // TODO backward compatability; remove later
   if(!Array.isArray(spellsAvailable)) {
     console.log('Bad spellsAvailable list "' + spellsAvailable + '" for class ' + name);
     return;
@@ -8806,6 +8860,8 @@ SRD35.weaponRules = function(
   if(range && typeof range != 'number') {
     console.log('Bad range "' + range + '" for weapon ' + name);
   }
+  if(properties == null)
+    properties = []; // TODO backward compatability; remove later
   if(!Array.isArray(properties)) {
     console.log('Bad properties "' + properties + '" for weapon ' + name);
     properties = [];
