@@ -3324,123 +3324,151 @@ SRD35.SPELLS = {
   'Hallow':
     'School=Evocation ' +
     'Level=C5,D5 ' +
-    'Description="40\' radius from touched gives +2 Armor Class and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 turn undead bonus, and evokes boon spell"',
+    'Description=' +
+      '"40\' radius around touched gives +2 Armor Class and saves vs. evil, suppresses mental control, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures"',
   'Hallucinatory Terrain':
     'School=Illusion ' +
     'Level=B4,S4,W4 ' +
-    'Description="R%{400+lvl*40}\' Creates %{lvl} 30\' cu terrain illusion (Will disbelieve) for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Changes the look, sound, and smell of %{lvl} 30\' cubes of terrain (save Will disbelieves) for %{lvl*2} hr"',
   'Halt Undead':
     'School=Necromancy ' +
     'Level=S3,W3 ' +
-    'Description="R%{100+lvl*10}\' Immobilizes 3 undead in 15\' radius (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Immobilizes 3 undead (save Will for intelligent undead negates) in a 15\' radius for %{lvl} rd"',
   'Harm':
     'School=Necromancy ' +
     'Level=C6,Destruction6 ' +
-    'Description="Touched suffers (undead heals) %{lvl*10<?150} HP (Will half)"',
+    'Description=' +
+      '"Touch inflicts %{lvl*10<?150} HP (save Will half); undead instead regain the same amount"',
   'Haste':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain extra attack, +1 attack, Armor Class, and Reflex, and +30\' Speed for %{lvl} rd" ' +
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, +1 Armor Class, +1 Reflex saves, and +30\' Speed for %{lvl} rd" ' +
     'Liquid=Potion',
   'Heal':
     'School=Conjuration ' +
     'Level=Adept5,C6,D7,Healing6 ' +
-    'Description="Touched heals (undead suffers) %{lvl*10<?150} HP (Will neg) and removes negative conditions"',
+    'Description=' +
+      '"Touched regains %{lvl*10<?150} hit points and recovers from negative conditions; undead instead suffer the same amount (save Will negates)"',
   'Mass Heal':
     'School=Conjuration ' +
     'Level=C9,Healing9 ' +
-    'Description="R%{25+lvl//2*5}\' Targets in 15\' radius heal (undead suffer) %{lvl*10<?150} HP (Will neg) and remove negative conditions"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Targets in a 15\' radius regain %{lvl*10<?150} hit points and recover from negative conditions; undead instead suffer the same amount (save Will negates)"',
   'Heal Mount':
     'School=Conjuration ' +
     'Level=P3 ' +
-    'Description="Heals %{lvl*10<?150} HP and removes negative conditions from touched mount"',
+    'Description=' +
+      '"Touched mount regains %{lvl*10<?150} hit points and recovers from negative conditions"',
   'Heat Metal':
     'School=Transmutation ' +
     'Level=D2,Sun2 ' +
-    'Description="R%{25+lvl//2*5}\' Metal on %{lvl//2} creatures in 15\' radius inflicts 0/1d4/2d4/2d4/2d4/1d4/0 HP (Will neg) for 7 rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Metal on %{lvl//2} creatures in a 15\' radius inflicts 0/1d4/2d4/2d4/2d4/1d4/0 HP (save Will for magical metal negates) for 7 rd"',
   'Helping Hand':
     'School=Evocation ' +
     'Level=C3 ' +
-    'Description="R5 miles Ghostly hand leads target to self for 4 hr"',
+    'Description=' +
+      '"Creates a ghostly hand that leads a described target found within 5 miles to self for 4 hr"',
   "Heroes' Feast":
     'School=Conjuration ' +
     'Level=B6,C6 ' +
-    'Description="R%{25+lvl//2*5}\' Food for %{lvl} creatures cures sickness and disease, gives 1d8+%{lvl//2<?10} temporary HP, +1 attack and Will saves and immunity to poison and fear for 12 hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Creates food for %{lvl} creatures that cures sickness and disease and gives 1d8+%{lvl//2<?10} temporary hit points, +1 attacks and Will saves, and immunity to poison and fear for 12 hr"',
   'Heroism':
     'School=Enchantment ' +
     'Level=B2,S3,W3 ' +
-    'Description="Touched gains +2 attack, saves, and skill checks for %{lvl*10} min" ' +
+    'Description=' +
+      '"Touched gains +2 attacks, saves, and skill checks for %{lvl*10} min" ' +
     'Liquid=Potion',
   'Greater Heroism':
     'School=Enchantment ' +
     'Level=B5,S6,W6 ' +
-    'Description="Touched gains +4 attack, saves, and skill checks, +%{lvl<?20} temporary HP, and immunity to fear for %{lvl} min"',
+    'Description=' +
+      '"Touched gains +4 attacks, saves, and skill checks, +%{lvl<?20} temporary hit points, and immunity to fear for %{lvl} min"',
   'Hide From Animals':
     'School=Abjuration ' +
     'Level=D1,R1 ' +
-    'Description="%{lvl} touched become imperceptible to animals for %{lvl*10} min" ' +
+    'Description=' +
+      '"%{lvl} touched become imperceptible to animals for %{lvl*10} min" ' +
     'Liquid=Potion',
   'Hide From Undead':
     'School=Abjuration ' +
     'Level=C1 ' +
-    'Description="%{lvl} touched become imperceptible to undead (Will neg) for %{lvl*10} min" ' +
+    'Description=' +
+      '"%{lvl} touched become imperceptible to undead (save Will for intelligent undead negates) for %{lvl*10} min; turning or touching and undead or attacking any creature ends the spell for all" ' +
     'Liquid=Potion',
   'Hideous Laughter':
     'School=Enchantment ' +
     'Level=B1,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Target ROFL (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target falls into uncontrollable laughter (save Will negates, creatures of a different type than the caster gain +4) for %{lvl} rd"',
   'Hold Animal':
     'School=Enchantment ' +
     'Level=Animal2,D2,R2 ' +
-    'Description="R%{100+lvl*10}\' Immobilizes target animal (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Paralyzes the animal target (save Will negates; additional saves each rd end) for %{lvl} rd"',
   'Hold Monster':
     'School=Enchantment ' +
     'Level=B4,Law6,S5,W5 ' +
-    'Description="R%{100+lvl*10}\' Immobilizes target (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Paralyzes the target (save Will negates; additional saves each rd end) for %{lvl} rd"',
   'Mass Hold Monster':
     'School=Enchantment ' +
     'Level=S9,W9 ' +
-    'Description="R%{100+lvl*10}\' Immobilizes targets in 15\' radius (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Paralyzes targets in a 15\' radius (save Will negates; additional saves each rd end) for %{lvl} rd"',
   'Hold Person':
     'School=Enchantment ' +
     'Level=B2,C2,S3,W3 ' +
-    'Description="R%{100+lvl*10}\' Immobilizes target humanoid (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Paralyzes the humanoid target (save Will negates; additional saves each rd end) for %{lvl} rd"',
   'Mass Hold Person':
     'School=Enchantment ' +
     'Level=S7,W7 ' +
-    'Description="R%{100+lvl*10}\' Immobilizes targets in 15\' radius (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Paralyzes humanoid targets in a 15\' radius (save Will negates; additional saves each rd end) for %{lvl} rd"',
   'Hold Portal':
     'School=Abjuration ' +
     'Level=S1,W1 ' +
-    'Description="R%{100+lvl*10}\' Door, gate, or window magically held shut for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Holds shut a door, gate, or window, adding +5 to the DC to force it, for %{lvl} min"',
   'Holy Aura':
     'School=Abjuration ' +
     'Level=C8,Good8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 (evil), suppress mental control, and blind successful evil attacker (Fort neg) for %{lvl} rd"',
+    'Description="%{lvl} creatures within 20\' gain +4 Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for %{lvl} rd"',
   'Holy Smite':
     'School=Evocation ' +
     'Level=Good4 ' +
-    'Description="R%{100+lvl*10}\' Evil creatures in 20\' radius suffer %{lvl//2<?5}d8 HP and blindness for 1 rd, neutral half (Will half)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 20\' radius inflicts %{lvl//2<?5}d8 HP and blindness for 1 rd on evil creatures (save Will half HP only) and half as many HP on neutral ones (save Will half)"',
   'Holy Sword':
     'School=Evocation ' +
     'Level=P4 ' +
-    'Description="Touched weapon gains +5 attack and damage, additional +2d6 damage vs. evil, gives +2 Armor Class and saves, suppresses mental control, and bars contact by evil summoned for %{lvl} rd"',
+    'Description=' +
+      '"Touched weapon gains +5 attacks and damage and an additional +2d6 damage vs. evil foes, gives +2 Armor Class and saves, suppresses mental control, and bars contact by summoned evil creatures for %{lvl} rd"',
   'Holy Word':
     'School=Evocation ' +
     'Level=C7,Good7 ' +
-    'Description="Nongood creatures in 40\' radius with equal/-1/-5/-10 HD deafened for 1d4 rd/blinded for 2d4 rd/paralyzed for 1d10 min/killed and banished (Will neg)"',
+    'Description=' +
+      '"Nongood creatures within 40\' with %{lvl}/%{lvl-1}/%{lvl-5}/%{lvl-10} HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/blinded for 2d4 rd/paralyzed for 1d10 min/killed"',
   'Horrid Wilting':
     'School=Necromancy ' +
     'Level=S8,W8,Water8 ' +
-    'Description="R%{400+lvl*40}\' Creatures in 30\' radius suffer %{lvl<?20}d6 HP (plants or water elementals %{lvl<?20}d8 HP) (Fort half)"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Creatures in a 30\' radius suffer %{lvl<?20}d6 HP, or %{lvl<?20}d8 HP for plants or water elementals (save Fortitude half)"',
   'Hypnotic Pattern':
     'School=Illusion ' +
     'Level=B2,S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Fascinates 2d4+%{lvl<?10} HD of creatures in 10\' radius (Will neg) for conc + 2 rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Fascinates 2d4+%{lvl<?10} HD of creatures in a 10\' radius (save Will negates), working upward from those with the fewest HD, for concentration + 2 rd"',
   'Hypnotism':
     'School=Enchantment ' +
     'Level=B1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Fascinates and makes suggestible 2d4 HD of creatures in 15\' radius (Will neg, +2 during combat, -2 single target) for 2d4 rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Fascinates and makes suggestible 2d4 HD of creatures in a 15\' radius (save Will negates; +2 if combat and -2 if only 1 creature is targeted), working upward from those with the fewest HD, for 2d4 rd"',
 
   'Ice Storm':
     'School=Evocation ' +
