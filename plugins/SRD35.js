@@ -627,13 +627,6 @@ SRD35.FEATURES = {
   // Low-Light Vision as above
   'Natural Illusionist':'Section=magic Note="+1 Spell DC (Illusion)"',
   'Resist Illusion':'Section=save Note="+2 vs. illusions"',
-  'Small':
-    'Section=ability,combat,combat,skill ' +
-    'Note=' +
-      '"x0.75 Load Max",' +
-      '"+1 Armor Class/+1 Melee Attack/+1 Ranged Attack",' +
-      '"-4 special attacks",' +
-      '"+4 Hide/-4 Intimidate"',
 
   // Half-Elf
   // Elf Resistances as above
@@ -670,6 +663,13 @@ SRD35.FEATURES = {
       '"-1 Armor Class/-1 Melee Attack/-1 Ranged Attack",' +
       '"+4 special attacks",' +
       '"-4 Hide/+4 Intimidate"',
+  'Small':
+    'Section=ability,combat,combat,skill ' +
+    'Note=' +
+      '"x0.75 Load Max",' +
+      '"+1 Armor Class/+1 Melee Attack/+1 Ranged Attack",' +
+      '"-4 special attacks",' +
+      '"+4 Hide/-4 Intimidate"',
 
   // Class
 
@@ -1056,7 +1056,7 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Can remain conscious, stable, and able to act with negative hit points; taking a standard action inflicts 1 HP"',
   'Diligent':'Section=skill Note="+2 Appraise/+2 Decipher Script"',
-  'Dodge':'Section=combat Note="+1 Armor Class"',
+  'Dodge':'Section=combat Note="+1 dodge bonus to Armor Class"',
   'Empower Spell':
     'Section=magic ' +
     'Note="Can cast a spell using a spell slot 2 levels higher than normal to increase its variable effects by 50%"',
@@ -1601,6 +1601,7 @@ SRD35.FEATURES = {
 };
 SRD35.GOODIES = {
   'Armor':
+    // Note that this also matches, e.g., Amulet of Natural Armor
     'Pattern="([-+]\\d+).*\\b(?:armor(?:\\s+class)?|AC)\\b|\\b(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d+)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
@@ -1823,11 +1824,11 @@ SRD35.GOODIES = {
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduces skill check penalty by 1"',
   'Protection':
-    'Pattern="([-+]\\d+).*\\bprotection\\b|\\bprotection\\s+([-+]\\d+)" ' +
-    'Effect=add ' +
+    'Pattern="(\\+\\d+).*\\bprotection\\b|\\bprotection\\s+(\\+\\d+)" ' +
+    'Effect=raiseOrSet ' +
     'Value="$1 || $2" ' +
-    'Attribute=armorClass ' +
-    'Section=combat Note="%V Armor Class"',
+    'Attribute=combatNotes.deflectionBonus ' +
+    'Section=combat Note="%V deflection bonus"',
   'Reflex':
     'Pattern="([-+]\\d+)\\s+reflex\\s+save\\b|\\breflex\\s+save\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -5942,6 +5943,8 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'initiative:%S',
     'baseAttack:%S',
+    'combatNotes.deflectionBonus:%S Armor Class',
+    'combatNotes.dodgeBonus:%S Armor Class',
     'combatNotes.towerShieldPenalty:%V attacks',
     'combatNotes.unproficientArmorPenalty:%V attacks',
     'combatNotes.unproficientShieldPenalty:%V attacks',
@@ -5961,17 +5964,26 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'armorWeight', '=', '"MediumHeavy".includes(source) ? -10 : null',
     'abilityNotes.slow', '+', '5'
   );
-  rules.defineRule
-    ('armorClass', 'combatNotes.dexterityArmorClassAdjustment', '+', null);
-  rules.defineRule('armorClassFlatfooted',
+  rules.defineRule('armorClass',
+    '', '=', '10',
+    'combatNotes.deflectionBonus', '+', null,
+    'combatNotes.dexterityArmorClassAdjustment', '+', null,
+    'combatNotes.dodgeBonus', '+', null
+    // We don't break out any natural armor bonus, since it applies in exactly
+    // the same circumstances (flat-footed yes, touch no) as worn armor
+    // Size bonuses included automatically by featureRules
+  );
+  rules.defineRule('armorClassFlatFooted',
     'armorClass', '=', null,
-    'combatNotes.dexterityArmorClassAdjustment', '+', '-source'
+    'combatNotes.dexterityArmorClassAdjustment', '+', 'source<=0 ? null : -source',
+    'combatNotes.dodgeBonus', '+', '-source'
   );
   rules.defineRule('armorClassTouch',
-    '', '=', '10',
-    'combatNotes.dexterityArmorClassAdjustment', '+', null,
-    'combatNotes.largeFeature', '+', '-1',
-    'combatNotes.smallFeature', '+', '1'
+    'armorClass', '=', null,
+    'armor', '+', '-' + QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]',
+    'shield', '+', '-' + QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]',
+    'combatNotes.goodiesArmor', '+', '-source',
+    'combatNotes.goodiesShield', '+', '-source'
   );
   rules.defineRule('attacksPerRound',
     'baseAttack', '=', 'Math.max(Math.floor((source + 4) / 5), 1)'
@@ -6604,7 +6616,6 @@ SRD35.armorRules = function(
   rules.armorStats.spell[name] = spellFail;
 
   rules.defineRule('armorClass',
-    '', '=', '10',
     'armor', '+', QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
   );
   rules.defineRule('armorSkill',
@@ -7031,6 +7042,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'armor', '?', 'source == "None"',
       'abilityNotes.fastMovement(Monk)', '=', null
     );
+    // Note that this bonus applies to both flat-footed and touch
     rules.defineRule('armorClass', 'combatNotes.armorClassBonus.1', '+', null);
     // Display the Armor Class Bonus note even when armored
     rules.defineRule('combatNotes.armorClassBonus',
@@ -7450,6 +7462,9 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Duelist') {
 
     rules.defineRule('armorClass', 'combatNotes.cannyDefense.1', '+', null);
+    rules.defineRule
+      ('armorClassFlatFooted', 'combatNotes.cannyDefense.1', '+', '-source');
+    // Display the Canny Defense note even when armored
     rules.defineRule('combatNotes.cannyDefense',
       'intelligenceModifier', '+=', 'Math.max(source, 0)',
       classLevel, 'v', null
@@ -8049,6 +8064,8 @@ SRD35.featRulesExtra = function(rules, name) {
   if((matchInfo = name.match(/^Armor Proficiency \((.*)\)$/)) != null) {
     rules.defineRule
       ('armorProficiency.' + matchInfo[1], 'features.' + name, '=', '1');
+  } else if(name == 'Dodge') {
+    rules.defineRule('combatNotes.dodgeBonus', 'combatNotes.dodge', '+=', null);
   } else if(name == 'Extra Turning') {
     rules.defineRule
       ('combatNotes.extraTurning', 'feats.Extra Turning', '=', 'source * 4');
@@ -8298,7 +8315,7 @@ SRD35.featureRules = function(
  * Defines in #rules# the rules associated with goody #name#, triggered by
  * a starred line in the character notes that matches #pattern#. #effect#
  * specifies the effect of the goody on each attribute in list #attributes#.
- * This is one of "increment" (adds #value# to the attribute), "set" (replaces
+ * This is one of "add" (adds #value# to the attribute), "set" (replaces
  * the value of the attribute by #value#), "lower" (decreases the value to
  * #value#), or "raise" (increases the value to #value#). #value#, if null,
  * defaults to 1; occurrences of $1, $2, ... in #value# reference capture
@@ -8309,8 +8326,19 @@ SRD35.featureRules = function(
 SRD35.goodyRules = function(
   rules, name, pattern, effect, value, attributes, sections, notes
 ) {
+  // Hack to support OrSet effects by overriding the rules defined by
+  // QuilvynRules.goodyRules. Should move there when it's next modified.
+  let extendedEffect = effect.includes('OrSet');
+  effect = effect.replace('OrSet', '');
   QuilvynRules.goodyRules
     (rules, name, pattern, effect, value, attributes, sections, notes);
+  if(extendedEffect) {
+    let op = {'add':'+=', 'lower':'v=', 'raise':'^=', 'set':'='}[effect];
+    attributes.forEach(a => {
+      rules.defineRule
+        (a, sections[0] + 'Notes.goodies' + name.replaceAll(' ', ''), op, null);
+    });
+  }
 };
 
 /* Defines in #rules# the rules associated with language #name#. */
@@ -9108,14 +9136,14 @@ SRD35.weaponRules = function(
       'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack and Armor Class'
     );
     rules.defineRule('armorClass',
-      'combatNotes.two-handedWeaponWithBucklerPenalty', '+', '-1'
+      'combatNotes.two-handedWeaponWithBucklerPenalty', '+', null
     );
     rules.defineRule('combatNotes.two-handedWeaponWithBucklerPenalty',
       'shield', '?', 'source == "Buckler"',
       'weapons.' + name, '=', '-1'
     );
     rules.defineRule(prefix + 'AttackModifier',
-      'combatNotes.two-handedWeaponWithBucklerPenalty', '+', '-1'
+      'combatNotes.two-handedWeaponWithBucklerPenalty', '+', null
     );
     QuilvynRules.prerequisiteRules
       (rules, 'validation', 'two-handedWeapon', 'weapons.' + name,
@@ -9334,7 +9362,11 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'Speeds', within: 'Section 1', format: '%V', separator: ''},
               {name: 'Speed', within: 'Speeds', format: '<b>Speed</b> %V'},
               {name: 'Run Speed', within: 'Speeds', format: '/%V'},
-            {name: 'Armor Class', within: 'Section 1', format: '<b>AC</b> %V'},
+            {name: 'ACs', within: 'Section 1',
+             format: '<b>AC/Touch/Flat</b> %V', separator: '/'},
+              {name: 'Armor Class', within: 'ACs', format: '%V'},
+              {name: 'Armor Class Touch', within: 'ACs', format: '%V'},
+              {name: 'Armor Class Flat Footed', within: 'ACs', format: '%V'},
             {name: 'Damage Reduction', within: 'Section 1',
              format: '<b>DR</b> %V', separator:'; '},
             {name: 'Weapons', within: 'Section 1', format: '<b>%N</b> %V',
@@ -9453,7 +9485,11 @@ SRD35.createViewers = function(rules, viewers) {
             {name: 'CombatStats', within: 'CombatPart', separator: innerSep},
               {name: 'Hit Points', within: 'CombatStats'},
               {name: 'Initiative', within: 'CombatStats'},
-              {name: 'Armor Class', within: 'CombatStats'},
+              {name: 'ACs', within: 'CombatStats',
+               format: '<b>AC/Touch/Flat</b>: %V', separator: '/'},
+                {name: 'Armor Class', within: 'ACs', format: '%V'},
+                {name: 'Armor Class Touch', within: 'ACs', format: '%V'},
+                {name: 'Armor Class Flat Footed', within: 'ACs', format: '%V'},
               {name: 'Damage Reduction', within: 'CombatStats',
                separator: listSep},
               {name: 'Attacks Per Round', within: 'CombatStats'},
@@ -9672,7 +9708,8 @@ SRD35.createViewers = function(rules, viewers) {
           {name: 'ACs', within: '_top', separator: ''},
             {name: 'Armor Class', within: 'ACs', format: '<b>AC</b> %V'},
             {name: 'Armor Class Touch', within: 'ACs', format: ', touch %V'},
-            {name: 'Armor Class Flatfooted', within: 'ACs', format: ', flat-footed %V'},
+            {name: 'Armor Class Flat Footed', within: 'ACs',
+             format: ', flat-footed %V'},
             {name: 'Dodge Features', within: 'ACs', format: '; %V'},
           {name: 'HPandHD', within: '_top', separator: ' '},
             {name: 'Hit Points', within: 'HPandHD', format: '<b>hp</b> %V'},
@@ -10675,6 +10712,10 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     "    Quilvyn considers bolas to be a thrown weapon, although it doesn't" +
     '    appear in the list of thrown weapons in the SRD.\n' +
+    '  </li><li>\n' +
+    "    Quilvyn negates the buckler's +1 Armor Class bonus if a character's" +
+    '    weapons list includes a two-handed weapon; the bonus should be added' +
+    '    when the character is wielding a single, one-handed weapon.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
