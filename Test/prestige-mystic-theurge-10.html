@@ -275,7 +275,7 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Spells</b>:<br/>    <table id="Spells" style="width:100%">
     <tr style="text-align:left">
-      <td>Acid Fog (W6 Conj): R240' 20' radius fog obscures vision, slows to 5', inflicts -2 attacks and damage, inflicts 2d6 HP acid per rd, and moves away 10' per rd for 14 rd</td>
+      <td>Acid Fog (W6 Conj): R240' 20' radius fog obscures vision, slows to 5', and inflicts -2 attacks, -2 damage, and 2d6 HP acid per rd for 14 rd</td>
     </tr><tr style="text-align:left">
       <td>Atonement (C5 Abju): Touched recovers alignment and holy powers</td>
     </tr><tr style="text-align:left">
@@ -323,33 +323,33 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Ethereal Jaunt (W7 Tran): Self becomes ethereal for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Feather Fall (W1 Tran): R60' 14 targets in 10' radius fall 60'/rd (DC 12 Will neg) for 14 rd</td>
+      <td>Feather Fall (W1 Tran): R60' 14 falling targets in a 10' radius slow to 60' per rd (save Will negates) for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Fire Trap (W4 Abju): Touched object inflicts 1d4+14 HP (DC 15 Ref half) in 5' radius when opened</td>
+      <td>Fire Trap (W4 Abju): Touched object inflicts 1d4+14 HP fire (DC 15 Ref half) in a 5' radius when opened</td>
     </tr><tr style="text-align:left">
-      <td>Flaming Sphere (W2 Evoc): R240' 5' diameter sphere inflicts 2d6 HP (DC 14 Ref neg), jumps or moves 30'/rd for 14 rd</td>
+      <td>Flaming Sphere (W2 Evoc): R240' 5' diameter sphere inflicts 2d6 HP fire (save Reflex negates) for 14 rd; can be directed to jump 30' and move 30' per rd</td>
     </tr><tr style="text-align:left">
-      <td>Flare (W0 Evoc): R60' Target dazzled (DC 12 Fort neg) for 1 min</td>
+      <td>Flare (W0 Evoc): R60' Dazzles the target (save Fortitude negates) for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Freedom Of Movement (C4 Abju): Touched moves freely for 140 min</td>
+      <td>Freedom Of Movement (C4 Abju): Allows touched to ignore movement impediments for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Geas/Quest (C6 Ench): R60' Target must complete task</td>
+      <td>Geas/Quest (C6 Ench): R60' Compels a target to complete a specified task within 14 days, suffering 3d6 HP and sickened (save Fortitude HP only) for each 24 hr spent without obeying; these inflictions end 24 hr after resuming the task</td>
     </tr><tr style="text-align:left">
       <td>Greater Dispel Magic (W6 Abju): R240' Successful d20+14 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
-      <td>Gust Of Wind (W2 Evoc): 60' 50 MPH gust affects medium or smaller creatures (DC 14 Fort neg) for 1 rd</td>
+      <td>Gust Of Wind (W2 Evoc): Creates a 60' line of wind for 1 rd that moves objects, extinguishes unprotected flames, knocks down Small and smaller creatures, and halts Medium ones; Tiny creatures are also pushed 1d4x10', suffering 1d4 HP nonlethal per 10'; flying Medium, Small, or Tiny creatures are instead pushed 1d6x5', 1d6x10', or 2d6x10', with Tiny flying creatures also suffering 2d6 HP nonlethal (save Fortitude negates)</td>
     </tr><tr style="text-align:left">
-      <td>Halt Undead (W3 Necr): R240' Immobilizes 3 undead in 15' radius (DC 15 Will neg) for 14 rd</td>
+      <td>Halt Undead (W3 Necr): R240' Immobilizes 3 undead (save Will for intelligent undead negates) in a 15' radius for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Helping Hand (C3 Evoc): R5 miles Ghostly hand leads target to self for 4 hr</td>
+      <td>Helping Hand (C3 Evoc): Creates a ghostly hand that leads a described target found within 5 miles to self for 4 hr</td>
     </tr><tr style="text-align:left">
-      <td>Heroism (W3 Ench): Touched gains +2 attack, saves, and skill checks for 140 min</td>
+      <td>Heroism (W3 Ench): Touched gains +2 attacks, saves, and skill checks for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Hideous Laughter (W2 Ench): R60' Target ROFL (DC 13 Will neg) for 14 rd</td>
+      <td>Hideous Laughter (W2 Ench): R60' Target falls into uncontrollable laughter (save Will negates, creatures of a different type than the caster gain +4) for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Hold Monster (W5 Ench): R240' Immobilizes target (DC 16 Will neg) for 14 rd</td>
+      <td>Hold Monster (W5 Ench): R240' Paralyzes the target (save Will negates; additional saves each rd end) for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Inflict Minor Wounds (C0 Necr): Touched suffer (undead heal) 1 HP (DC 12 Will neg)</td>
+      <td>Inflict Minor Wounds (C0 Necr): Touched suffers 1 HP (save Will negates); undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
       <td>Lesser Planar Ally (C4 Conj): Self purchases service from extraplanar creature w/up to 6 HD</td>
     </tr><tr style="text-align:left">
@@ -361,7 +361,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Weapon (W1 Tran): Touched weapon gains +1 attack and damage for 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Inflict Moderate Wounds (C6 Necr): R60' 14 targets in 15' radius suffer (undead heal) 2d8+14 HP (DC 18 Will half)</td>
+      <td>Mass Inflict Moderate Wounds (C6 Necr): R60' 14 targets in a 15' radius suffer 2d8+14 HP (save Will half); undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
       <td>Mass Reduce Person (W4 Tran): R60' 14 target humanoids in 15' radius become half size (-2 Strength, +2 Dexterity, +1 attack, +1 Armor Class) (DC 15 Fort neg) for 14 min</td>
     </tr><tr style="text-align:left">

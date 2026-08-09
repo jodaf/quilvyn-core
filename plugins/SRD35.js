@@ -2122,7 +2122,7 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=S6,W6,Water7 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, slows to 5\', inflicts -2 attacks and damage, inflicts 2d6 HP acid per rd, and moves away 10\' per rd for %{lvl} rd"',
+      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, slows to 5\', and inflicts -2 attacks, -2 damage, and 2d6 HP acid per rd for %{lvl} rd"',
   'Acid Splash':
     'School=Conjuration ' +
     'Level=S0,W0 ' +
@@ -3050,7 +3050,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Creates from raw materials %{lvl*10}\' cu (or %{lvl}\' cu if working with minerals) of finished items"',
+      '"R%{25+lvl//2*5}\' Creates from raw materials a %{lvl*10}\' cube (or a %{lvl}\' cube if working with minerals) of finished items"',
   'Faerie Fire':
     'School=Evocation ' +
     'Level=D1 ' +
@@ -3100,7 +3100,7 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=D6,Fire6,Sun6 ' +
     'Description=' +
-      '"Changes 4 touched acorns into grenades that inflict %{lvl<?20}d6 total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+%{lvl} in a 5\' radius (save Reflex half), for %{lvl*10} min"',
+      '"Changes 4 touched acorns into grenades that inflict %{lvl<?20}d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+%{lvl} HP fire each in a 5\' radius (save Reflex half), for %{lvl*10} min"',
   'Fire Shield':
     'School=Evocation ' +
     'Level=Fire5,Sun4,S4,W4 ' +
@@ -3319,7 +3319,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=D2,S2,W2 ' +
     'Description=' +
-      '"Creates a 60\' line of wind for 1 rd that moves objects, extinguishes unprotected flames, knocks down Small and smaller creatures, and halts Medium ones, Tiny creatures are also pushed 1d4x10\' suffer 1d4 HP nonlethal per 10\'; flying Medium, Small, or Tiny creatures are instead pushed 1d6x5\', 1d6x10\', or 2d6x10\', with Tiny flying creatures also suffering 2d6 HP nonlethal (save Fortitude negates)"',
+      '"Creates a 60\' line of wind for 1 rd that moves objects, extinguishes unprotected flames, knocks down Small and smaller creatures, and halts Medium ones; Tiny creatures are also pushed 1d4x10\', suffering 1d4 HP nonlethal per 10\'; flying Medium, Small, or Tiny creatures are instead pushed 1d6x5\', 1d6x10\', or 2d6x10\', with Tiny flying creatures also suffering 2d6 HP nonlethal (save Fortitude negates)"',
 
   'Hallow':
     'School=Evocation ' +
@@ -3330,7 +3330,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=B4,S4,W4 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Changes the look, sound, and smell of %{lvl} 30\' cubes of terrain (save Will disbelieves) for %{lvl*2} hr"',
+      '"R%{400+lvl*40}\' Changes the look, sound, and smell of %{lvl} 30\' cubes of terrain (save Will upon interaction disbelieves) for %{lvl*2} hr"',
   'Halt Undead':
     'School=Necromancy ' +
     'Level=S3,W3 ' +
@@ -3398,7 +3398,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C1 ' +
     'Description=' +
-      '"%{lvl} touched become imperceptible to undead (save Will for intelligent undead negates) for %{lvl*10} min; turning or touching and undead or attacking any creature ends the spell for all" ' +
+      '"%{lvl} touched become imperceptible to undead (save Will for intelligent undead negates) for %{lvl*10} min; turning or touching an undead or attacking any creature ends the spell for all" ' +
     'Liquid=Potion',
   'Hideous Laughter':
     'School=Enchantment ' +
@@ -3468,96 +3468,117 @@ SRD35.SPELLS = {
     'School=Enchantment ' +
     'Level=B1,S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Fascinates and makes suggestible 2d4 HD of creatures in a 15\' radius (save Will negates; +2 if combat and -2 if only 1 creature is targeted), working upward from those with the fewest HD, for 2d4 rd"',
+      '"R%{25+lvl//2*5}\' Fascinates and makes suggestible 2d4 HD of creatures in a 15\' radius (save Will negates; +2 if in combat and -2 if only 1 creature is targeted), working upward from those with the fewest HD, for 2d4 rd"',
 
   'Ice Storm':
     'School=Evocation ' +
     'Level=D4,S4,W4,Water5 ' +
-    'Description="R%{400+lvl*40}\' Hail in 20\' radius inflicts 3d6 HP bludgeoning, 2d6 HP cold, and -4 Listen for %{lvl} rd"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Hail in a 20\'-radius, 40\'-high cylinder inflicts 3d6 HP bludgeoning, 2d6 HP cold, -4 Listen, and half Speed for %{lvl} rd"',
   'Identify':
     'School=Divination ' +
     'Level=B1,Magic2,S1,W1 ' +
-    'Description="Self determines magic properties of touched object"',
+    'Description=' +
+      '"Reveals the magic properties of a touched, non-artifact object"',
   'Illusory Script':
     'School=Illusion ' +
     'Level=Assassin2,B3,S3,W3 ' +
-    'Description="Touched transmits suggestions (30 min max) to unauthorized readers (Will neg) for %{lvl} dy"',
+    'Description=' +
+      '"Touched transmits a suggestion of up to 30 min duration to unauthorized readers (save Will negates) for %{lvl} dy"',
   'Illusory Wall':
     'School=Illusion ' +
     'Level=S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' Creates permanent illusionary 1\'x10\'x10\' surface (Will disbelieve)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Permanently creates an illusionary 1\'x10\'x10\' surface (save Will upon interaction disbelieves)"',
   'Imbue With Spell Ability':
     'School=Evocation ' +
     'Level=C4,Magic4 ' +
-    'Description="Touched with 1/3/5 HD gains the ability to cast specified 1st/2x1st/2x1st+2nd level spells"',
+    'Description=' +
+      '"Touched with an Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD gains the ability to cast chosen 1st, 2x1st, or 2x1st+2nd level spells from self prepared abjuration, divination, or healing spells; the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed"',
   'Implosion':
     'School=Evocation ' +
     'Level=C9,Destruction9 ' +
-    'Description="R%{25+lvl//2*5}\' Slays 1 target/rd (Fort neg) for conc or %{lvl//2} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Slays 1 target per rd (save Fort negates) for concentration up to 4 rd"',
   'Imprisonment':
     'School=Abjuration ' +
     'Level=S9,W9 ' +
-    'Description="Entombs touched (Will neg)"',
+    'Description=' +
+      '"Entombs touched deep within the ground (save Will negates; familiar creatures -4), locatable only via <i>Discern Location</i> or <i>Wish</i>, until a freedom spell is cast in the same locale"',
   'Incendiary Cloud':
     'School=Conjuration ' +
     'Level=Fire8,S8,W8 ' +
-    'Description="R%{100+lvl*10}\' Fire in 20\' radius inflicts 4d6 HP (Ref half) while moving away 10\'/rd for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Fire in a 20\'-radius, 20\'-high cylinder obscures vision, inflicts 4d6 HP fire (save Reflex half), and moves away 10\' per rd (or up to 60\' with concentration) for %{lvl} rd"',
   'Inflict Critical Wounds':
     'School=Necromancy ' +
     'Level=Blackguard4,C4,Destruction4 ' +
-    'Description="Touched suffer (undead heal) 4d8+%{lvl<?20} HP (Will half)"',
+    'Description=' +
+      '"Touched suffers 4d8+%{lvl<?20} HP (save Will half); undead instead regain the same amount"',
   'Mass Inflict Critical Wounds':
     'School=Necromancy ' +
     'Level=C8 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius suffer (undead heal) 4d8+%{lvl<?40} HP (Will half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius suffer 4d8+%{lvl<?40} HP (save Will half); undead instead regain the same amount"',
   'Inflict Light Wounds':
     'School=Necromancy ' +
     'Level=Blackguard1,C1,Destruction1 ' +
-    'Description="Touched suffer (undead heal) 1d8+%{lvl<?5} HP (Will half)"',
+    'Description=' +
+      '"Touched suffers 1d8+%{lvl<?5} HP (save Will half); undead instead regain the same amount"',
   'Mass Inflict Light Wounds':
     'School=Necromancy ' +
     'Level=C5,Destruction5 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius suffer (undead heal) 1d8+%{lvl<?25} HP (Will half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius suffer 1d8+%{lvl<?25} HP (save Will half); undead instead regain the same amount"',
   'Inflict Minor Wounds':
     'School=Necromancy ' +
     'Level=C0 ' +
-    'Description="Touched suffer (undead heal) 1 HP (Will neg)"',
+    'Description="Touched suffers 1 HP (save Will negates); undead instead regain the same amount"',
   'Inflict Moderate Wounds':
     'School=Necromancy ' +
     'Level=Blackguard2,C2 ' +
-    'Description="Touched suffer (undead heal) 2d8+%{lvl<?10} HP (Will half)"',
+    'Description=' +
+      '"Touched suffer 2d8+%{lvl<?10} HP (save Will half); undead instead regain the same amount"',
   'Mass Inflict Moderate Wounds':
     'School=Necromancy ' +
     'Level=C6 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius suffer (undead heal) 2d8+%{lvl<?30} HP (Will half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius suffer 2d8+%{lvl<?30} HP (save Will half); undead instead regain the same amount"',
   'Inflict Serious Wounds':
     'School=Necromancy ' +
     'Level=Blackguard3,C3 ' +
-    'Description="Touched suffer (undead heal) 3d8+%{lvl<?15} HP (Will half)"',
+    'Description=' +
+      '"Touched suffers 3d8+%{lvl<?15} HP (save Will half); undead instead regain the same amount"',
   'Mass Inflict Serious Wounds':
     'School=Necromancy ' +
     'Level=C7 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius suffer (undead heal) 3d8+%{lvl<?35} HP (Will half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius suffer 3d8+%{lvl<?35} HP (save Will half); undead instead regain the same amount"',
   'Insanity':
     'School=Enchantment ' +
     'Level=S7,W7 ' +
-    'Description="R%{100+lvl*10}\' Target permanently randomly 10% attacks caster/10% acts normal/30% babbles/20% flees/30% attacks nearest (Will neg)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Target permanently randomly: 10% attacks the caster; 10% acts normally; 30% babbles; 20% flees; 30% attacks the nearest creature (save Will negates)"',
   'Insect Plague':
     'School=Conjuration ' +
     'Level=C5,D5 ' +
-    'Description="R%{400+lvl*40}\' %{lvl//3<?6} locust swarms inflict 2d6 HP for %{lvl} min"',
+    'Description=' +
+      '"R%{400+lvl*40}\' %{lvl//3<?6} locust swarms inflict 2d6 HP for %{lvl} min"',
   'Instant Summons':
     'School=Conjuration ' +
     'Level=S7,W7 ' +
-    'Description="Prepared object appears in self hand"',
+    'Description=' +
+      '"Prepares an item weighing up to 10 lb and up to 6\' long to teleport to self when desired; if the item is held when summoned, the spell instead reveals the possessor"',
   'Interposing Hand':
     'School=Evocation ' +
     'Level=S5,W5 ' +
-    'Description="R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} HP) gives +4 Armor Class for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) gives +4 Armor Class vs. the target for %{lvl} rd; directing to another target uses a move action"',
   'Invisibility':
     'School=Illusion ' +
     'Level=Adept2,Assassin2,B2,Trickery2,S2,W2 ' +
-    'Description="Touched becomes invisible for %{lvl} min or until attacks" ' +
+    'Description=' +
+      '"Touched becomes invisible for %{lvl} min; target attacking ends" ' +
     'Liquid=Oil,Potion',
   'Greater Invisibility':
     'School=Illusion ' +
@@ -3566,89 +3587,105 @@ SRD35.SPELLS = {
   'Mass Invisibility':
     'School=Illusion ' +
     'Level=S7,W7 ' +
-    'Description="R%{400+lvl*40}\' Creatures in 90\' radius become invisible for %{lvl} min or until attack"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Creatures in a 90\' radius become invisible for %{lvl} min; moving out of the radius ends for that creature, and any affected creature attacking ends for all"',
   'Invisibility Purge':
     'School=Evocation ' +
     'Level=C3 ' +
-    'Description="Invisible in %{lvl*5}\' radius become visible for %{lvl} min"',
+    'Description=' +
+      '"Invisible objects and creatures within %{lvl*5}\' become visible for %{lvl} min"',
   'Invisibility Sphere':
     'School=Illusion ' +
     'Level=B3,S3,W3 ' +
-    'Description="Creatures in 10\' radius of touched become invisible for %{lvl} min or until attack or leave area"',
+    'Description=' +
+      '"Creatures within 10\' of touched become invisible for %{lvl} min; attacking or moving more than 10\' from the target ends for that creature, and the target attacking ends for all"',
   'Iron Body':
     'School=Transmutation ' +
     'Level=Earth8,S8,W8 ' +
-    'Description="Self becomes iron (+6 Strength, -6 Dexterity, half Speed, 50% arcane failure, -8 skill, DR 15/adamantine, half damage from acid and fire, immunity to other attacks and effects) for %{lvl} min"',
+    'Description=' +
+      '"Self becomes iron, gaining +6 Strength, DR 15/adamantine, half damage from acid and fire, immunity to physiology effects, and 1d%{size==\'Small\'?4:6} unarmed attacks, but suffering -6 Dexterity, half Speed, 50% arcane failure, an -8 armor skill check penalty, and 10x weight, for %{lvl} min"',
   'Ironwood':
     'School=Transmutation ' +
     'Level=D6 ' +
-    'Description="Makes %{lvl*5} lb wood object as strong as steel, or %{lvl*5//2} lb object as strong as steel and +1 magic, for %{lvl} dy"',
+    'Description=' +
+      '"Makes a %{lvl*5} lb wood object as strong as steel, or a %{lvl*5//2} lb object as strong as steel and +1 magic, for %{lvl} days"',
   'Irresistible Dance':
     'School=Enchantment ' +
     'Level=B6,S8,W8 ' +
-    'Description="Touched dances (-4 Armor Class, -10 Reflex) for d4+1 rd"',
+    'Description=' +
+      '"Touched dances in place, suffering -4 Armor Class, loss of shield bonus to Armor Class, and -10 Reflex saves, for 1d4+1 rd"',
 
   'Jump':
     'School=Transmutation ' +
     'Level=Assassin1,D1,R1,S1,W1 ' +
-    'Description="Touched gains +%{lvl<5?10:lvl<9?20:30} Jump for %{lvl} min" ' +
+    'Description=' +
+      '"Touched gains +%{lvl<5?10:lvl<9?20:30} Jump checks for %{lvl} min" ' +
     'Liquid=Potion',
 
   'Keen Edge':
     'School=Transmutation ' +
     'Level=S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' Target piercing or slashing weapon has dbl threat range for %{lvl*10} min" ' +
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Doubles the threat range of the target piercing or slashing weapon for %{lvl*10} min" ' +
     'Liquid=Oil',
   'Knock':
     'School=Transmutation ' +
     'Level=S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Opens stuck, barred, locked, or magically held door, chest, or shackle"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Opens a stuck, barred, locked, or magically held door, chest, or shackle and suppresses <i>Arcane Lock</i> for 10 min"',
   'Know Direction':
     'School=Divination ' +
     'Level=B0,D0 ' +
-    'Description="Self learns direction of north"',
+    'Description="Reveals the direction of north"',
 
   'Legend Lore':
     'School=Divination ' +
     'Level=B4,Knowledge7,S6,W6 ' +
-    'Description="Self learns legends about specified person, place, or object"',
+    'Description=' +
+      '"Reveals legends about a specified person, place, or object; requires minutes to weeks to cast depending on the familiarity of the target"',
   'Levitate':
     'School=Transmutation ' +
     'Level=S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Self moves willing target up and down 20\'/rd for %{lvl} min" ' +
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Allows using a move action each rd to raise or lower an object or a willing target 20\' for %{lvl} min" ' +
     'Liquid=Oil,Potion',
   'Light':
     'School=Evocation ' +
     'Level=Adept0,B0,C0,D0,S0,W0 ' +
-    'Description="Touched gives 20\' bright light for %{lvl*10} min"',
+    'Description="Touched object emits a 20\' bright light for %{lvl*10} min"',
   'Lightning Bolt':
     'School=Evocation ' +
     'Level=Adept3,S3,W3 ' +
-    'Description="120\' bolt inflicts %{lvl<?10}d6 HP (Ref half)"',
+    'Description=' +
+      '"120\' line inflicts %{lvl<?10}d6 HP electricity (save Reflex half)"',
   'Limited Wish':
     // 'School=Universal ' +
     'Level=S7,W7 ' +
-    'Description="Alters reality, within limits"',
+    'Description=' +
+      '"Alters reality, within limits; costs at least 300 XP to cast"',
   'Liveoak':
     'School=Transmutation ' +
     'Level=D6 ' +
-    'Description="Touched oak becomes a treant guardian for %{lvl} dy"',
+    'Description="Touched oak becomes a treant guardian for %{lvl} days"',
   'Locate Creature':
     'School=Divination ' +
     'Level=Assassin4,B4,S4,W4 ' +
-    'Description="Self senses direction of creature or kind in %{400+lvl*40}\' radius for %{lvl*10} min"',
+    'Description=' +
+      '"Reveals the direction of a visualized creature or kind of creature found within %{400+lvl*40}\' for %{lvl*10} min; a sheet of lead blocks the spell"',
   'Locate Object':
     'School=Divination ' +
     'Level=B2,C3,Travel2,S2,W2 ' +
-    'Description="Self senses direction of object or type in %{400+lvl*40}\' radius for %{lvl} min"',
+    'Description=' +
+      '"Reveals the direction of a visualized object or kind of object found within %{400+lvl*40}\' for %{lvl} min; a sheet of lead blocks the spell"',
   'Longstrider':
     'School=Transmutation ' +
     'Level=D1,R1,Travel1 ' +
-    'Description="Self gains +10\' Speed for %{lvl} hr"',
+    'Description="Gives self +10\' Speed for %{lvl} hr"',
   'Lullaby':
     'School=Enchantment ' +
     'Level=B0 ' +
-    'Description="R%{100+lvl*10}\' Creatures in 10\' radius suffer -5 Listen and Spot, -2 Will vs. sleep (Will neg) for conc + %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Creatures in a 10\' radius suffer -5 Listen, -5 Spot, and -2 Will vs. sleep (save Will negates) for concentration + %{lvl} rd"',
 
   'Mage Armor':
     'School=Conjuration ' +
