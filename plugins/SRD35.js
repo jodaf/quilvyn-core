@@ -2459,7 +2459,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Kills %{lvl<?20}d4 HD of creatures with up to 8 HD in a 40\' radius (Fort neg), working upward from those with the fewest HD"',
+      '"R%{100+lvl*10}\' Kills %{lvl<?20}d4 HD of creatures with up to 8 HD in a 40\' radius (save Fort negates), working upward from those with the fewest HD"',
   'Clairaudience/Clairvoyance':
     'School=Divination ' +
     'Level=Assassin4,B3,Knowledge3,S3,W3 ' +
@@ -3696,226 +3696,274 @@ SRD35.SPELLS = {
   'Mage Hand':
     'School=Transmutation ' +
     'Level=B0,S0,W0 ' +
-    'Description="R%{25+lvl//2*5}\' Self moves up to 5 lb target 15\'/rd for conc"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Allows self to use move actions to move a target object up to 5 lb 15\' per rd for concentration"',
   "Mage's Disjunction":
     'School=Abjuration ' +
     'Level=Magic9,S9,W9 ' +
-    'Description="R%{25+lvl//2*5}\' Spells in 40\' radius dispelled, magic items disenchanted, %{lvl}% chance to disenchant artifacts or destroy antimagic field (Will neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 40\' radius dispells spells and spell-like effects, disenchants magic items, and gives a %{lvl}% chance to destroy antimagic fields and disenchant artifacts (save Will negates); disenchanting an artifact permanently strips self spellcasting abilities (save Will DC 25 negates)"',
   "Mage's Faithful Hound":
     'School=Conjuration ' +
     'Level=S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Invisible dog barks at intruders w/in 30\', bites (+10 2d6+3) those w/in 5\' for %{lvl} hr or until triggered + %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Creates an invisible dog that barks at Small and larger intruders that enter a 30\' radius, including those invisible or ethereal, and bites those who come with 5\' (magical +10 attack once per rd inflics 2d6+3 HP piercing) for %{lvl} hr or until triggered + %{lvl} rd"',
   "Mage's Lucubration":
     'School=Transmutation ' +
     'Level=S6,W6 ' +
-    'Description="Self recalls spell up to 5th level from past day"',
+    'Description=' +
+      '"Restores a spell of up to 5th level cast within the past 24 hr"',
   "Mage's Magnificent Mansion":
     'School=Conjuration ' +
     'Level=S7,W7 ' +
-    'Description="R%{25+lvl//2*5}\' Creates door to extradimensional mansion for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Allows self and designated creatures to enter an extradimensional dwelling with provisions for %{lvl*12} for %{lvl*2} hr"',
   "Mage's Private Sanctum":
     'School=Abjuration ' +
     'Level=S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Shields %{lvl} 30\' cu from scrying, vision, and hearing for 1 dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Shields %{lvl} 30\' cubes from outside scrying, vision, and hearing for 24 hr"',
   "Mage's Sword":
     'School=Evocation ' +
     'Level=S7,W7 ' +
-    'Description="R%{25+lvl//2*5}\' Unattended force blade attacks at +%{lvl+3}+modifier and inflicts 4d6+3 HP x2@19 for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Unattended force makes +%{lvl+3}+modifier attacks on a designated foe, inflicting 4d6+3 HP force, x2@19, for %{lvl} rd; can use a standard action to change its targe"',
   'Magic Aura':
     'School=Illusion ' +
     'Level=B1,Magic1,S1,W1 ' +
-    'Description="Alters aura of up to %{lvl*5} lb object for %{lvl} dy"',
+    'Description=' +
+      '"Alters the magical aura of an object weighing up to %{lvl*5} lb for %{lvl} days"',
   'Magic Circle Against Chaos':
     'School=Abjuration ' +
     'Level=C3,Law3,P3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonlawful summoned creatures for %{lvl*10} min or traps nonlawful summoned creatures (SR neg) for %{lvl} dy" ' +
+    'Description=' +
+      '"10\' radius from touched either gives +2 Armor Class and saves vs. chaotic creatures, suppresses mental control, and bars contact and entry by nonlawful summoned creatures (SR negates) for %{lvl*10} min or traps a nonlawful summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Evil':
     'School=Abjuration ' +
     'Level=C3,Good3,P3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nongood summoned creatures for %{lvl*10} min or traps nongood summoned creatures (SR neg) for %{lvl} dy" ' +
+    'Description=' +
+      '"10\' radius from touched either gives +2 Armor Class and saves vs. evil creaures, suppresses mental control, and bars contact and entry by nongood summoned creatures (SR negates) for %{lvl*10} min or traps a nongood summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Good':
     'School=Abjuration ' +
     'Level=Assassin3,C3,Evil3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for %{lvl*10} min or traps nonevil summoned creatures (SR neg) for %{lvl} dy" ' +
+    'Description=' +
+      '"10\' radius from touched either gives +2 Armor Class and saves vs. good creaures, suppresses mental control, and bars contact and entry by nonevil summoned creatures (SR negates) for %{lvl*10} min or traps a nonevil summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Law':
     'School=Abjuration ' +
     'Level=C3,Chaos3,S3,W3 ' +
-    'Description="10\' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonchaotic summoned creatures for %{lvl*10} min or traps nonchaotic summoned creatures (SR neg) for %{lvl} dy" ' +
+    'Description=' +
+      '"10\' radius from touched either gives +2 Armor Class and saves vs. lawful creaures, suppresses mental control, and bars contact and entry by nonchaotic summoned creatures (SR negates) for %{lvl*10} min or traps a nonchaotic summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Fang':
     'School=Transmutation ' +
     'Level=D1,R1 ' +
-    'Description="Touched natural weapon gains +1 attack and damage for %{lvl} min" ' +
+    'Description=' +
+      '"Touched gains +1 attacks and damage when using a specified natural weapon for %{lvl} min" ' +
     'Liquid=Potion',
   'Greater Magic Fang':
     'School=Transmutation ' +
     'Level=D3,R3 ' +
-    'Description="R%{25+lvl//2*5}\' target natural weapon gains +%{lvl//4<?4} attack and damage for %{lvl} hr" ' +
+    'Description=' +
+      '"R%{25+lvl//2*5}\' target gains +%{lvl//4<?4} attacks and damage when using a specified magic weapon, or +1 attacks and damage when using any natural weapon, for %{lvl} hr" ' +
     'Liquid=Potion',
   'Magic Jar':
     'School=Necromancy ' +
     'Level=S5,W5 ' +
-    'Description="R%{100+lvl*10}\' Self possesses target (Will neg) for %{lvl} hr"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Self soul transfers to a gem or crystal from which it can detect life forces within %{lvl*10}\' and attempt to swap places with the soul of a target (save Will negates) for %{lvl} hr"',
   'Magic Missile':
     'School=Evocation ' +
     'Level=S1,W1 ' +
-    'Description="R%{100+lvl*10}\' %{(lvl+1)//2<?5} missiles inflict 1d4+1 HP each in 15\' radius"',
+    'Description=' +
+      '"R%{100+lvl*10}\' %{level<3?\'Missile inflicts\':((lvl+1)//2<?5)+\\" missiles in a 15\' radius each inflict\\"} 1d4+1 HP force"',
   'Magic Mouth':
     'School=Illusion ' +
     'Level=B1,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Mouth appears and speaks 25 words upon trigger w/in %{lvl*15}\' (Will neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Enspells the target object or creature (save Will negates) so that a mouth appears on it and speaks up to 25 words in response to a specified trigger within %{lvl*15}\'"',
   'Magic Stone':
     'School=Transmutation ' +
     'Level=C1,D1,Earth1 ' +
-    'Description="3 touched stones attack at +1 and inflict 1d6+1 HP (2d6+2 HP vs. undead) for 30 min" ' +
+    'Description=' +
+      '"3 touched stones attack at +1 and inflict 1d6+1 HP, or 2d6+2 HP vs. undead, within 30 min" ' +
     'Liquid=Oil',
   'Magic Vestment':
     'School=Transmutation ' +
     'Level=C3,Strength3,War3 ' +
-    'Description="Touched armor, shield, or clothing gives +%{lvl//4<?5} Armor Class for %{lvl} hr" ' +
+    'Description=' +
+      '"Touched armor, shield, or clothing gives a +%{lvl//4<?5} enhancement bonus to Armor Class for %{lvl} hr" ' +
     'Liquid=Oil',
   'Magic Weapon':
     'School=Transmutation ' +
     'Level=Blackguard1,C1,P1,S1,W1,War1 ' +
-    'Description="Touched weapon gains +1 attack and damage for %{lvl} min" ' +
+    'Description=' +
+      '"Touched weapon gains +1 attacks and damage for %{lvl} min" ' +
     'Liquid=Oil',
   'Greater Magic Weapon':
     'School=Transmutation ' +
     'Level=C4,P3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' target weapon gains +%{lvl//4<?4} attack and damage for %{lvl} hr" ' +
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target weapon or up to 50 projectiles in a container gain +%{lvl//4<?4} attacks and damage for %{lvl} hr" ' +
     'Liquid=Oil',
   'Major Creation':
     'School=Conjuration ' +
     'Level=Adept5,S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Creates %{lvl}\' cu plant or mineral object for up to %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Creates a %{lvl}\' cube plant or mineral object lasting %{lvl*2} hr (plant), %{lvl} hr (stone or metal), %{lvl*20} min (precious metal), %{lvl*10} min (gems), or %{lvl} rd (rare metal)"',
   'Major Image':
     'School=Illusion ' +
     'Level=B3,S3,W3 ' +
-    'Description="R%{400+lvl*40}\' Creates %{lvl+4} 10\' cu image w/sound, smell, and thermal effects (Will disbelieve) for conc + 3 rd"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Creates a %{lvl+4} 10\' cube image with sound, smell, and thermal effects (save Will disbelieves) for concentration + 3 rd"',
   'Make Whole':
     'School=Transmutation ' +
     'Level=C2 ' +
-    'Description="R%{25+lvl//2*5}\' Repairs damage to %{lvl} 10\' cu object"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Repairs damage to a %{lvl*10}\' cube object"',
   'Mark Of Justice':
     'School=Necromancy ' +
     'Level=C5,P4 ' +
-    'Description="Upon trigger, touched permanently suffers self choice of -6 ability, -4 attack, saves, and checks, or 50% chance/rd of losing action"',
+    'Description=' +
+      '"Upon trigger, touched permanently suffers a choice of -6 to an ability, -4 attacks, saves, and checks, or a 50% chance of losing its action each rd"',
   'Maze':
     'School=Conjuration ' +
     'Level=S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Target becomes lost in extradimensional maze for 10 min or until successful DC 20 Intelligence check"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target becomes lost in an extradimensional maze for 10 min; DC 20 Intelligence check ends"',
   'Meld Into Stone':
     'School=Transmutation ' +
     'Level=C3,D3 ' +
-    'Description="Self passes into stone for %{lvl*10} min"',
+    'Description=' +
+      '"Self enters a block of stone for %{lvl*10} min; allows casting spells on self and hearing, but not seeing, outside events"',
   'Mending':
     'School=Transmutation ' +
     'Level=Adept0,B0,C0,D0,S0,W0 ' +
-    'Description="R10\' Repairs minor damage to 1 lb object"',
+    'Description="R10\' Repairs minor damage to an object weighing up to 1 lb"',
   'Message':
     'School=Transmutation ' +
     'Level=B0,S0,W0 ' +
-    'Description="R%{100+lvl*10}\' %{lvl} targets hold whispered dialogue for %{lvl*10} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Allows self to exchange whispered messages with %{lvl} targets for %{lvl*10} min; messages can circumvent barriers, but 1\' of stone, 1\\" of metal, a thin sheet of lead, or 3\' of wood or dirt blocks the spell"',
   'Meteor Swarm':
     'School=Evocation ' +
     'Level=S9,W9 ' +
-    'Description="R%{400+lvl*40}\' 4 spheres inflict 6d6 HP fire in 40\' radius (Ref half), ranged touch +2d6 HP bludgeoning"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Ranged touch with each of 4 2\'-diameter spheres inflicts 2d6 HP bludgeoning, plus 6d6 HP fire in a 40\' radius (save Reflex half for creatures not hit by a meteor)"',
   'Mind Blank':
     'School=Abjuration ' +
     'Level=Protection8,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Target gains immunity to divination and mental effects for 1 dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Give the target immunity to divination, scrying, and mental effects for 24 hr"',
   'Mind Fog':
     'School=Enchantment ' +
     'Level=B5,S5,W5 ' +
-    'Description="R%{100+lvl*10}\' Fog in 20\' radius inflicts -10 Wisdom and Will checks (Will neg) for 30 min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Fog in a 20\' radius inflicts -10 Wisdom and Will checks (save Will negates), lasting for 2d6 rd after exiting, for 30 min"',
   'Minor Creation':
     'School=Conjuration ' +
     'Level=Adept4,S4,W4 ' +
-    'Description="Creates a %{lvl}\' cu plant object lasting %{lvl} hr"',
+    'Description=' +
+      '"Creates a %{lvl}\' cube plant object that lasts for %{lvl} hr"',
   'Minor Image':
     'School=Illusion ' +
     'Level=B2,S2,W2 ' +
-    'Description="R%{400+lvl*40}\' Creates %{lvl+4} 10\' cu image w/sound (Will disbelieve) for conc + 2 rd"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Creates a %{lvl+4} 10\' cube image with sound (save Will disbelieves) for concentration + 2 rd"',
   'Miracle':
     'School=Evocation ' +
     'Level=C9,Luck9 ' +
-    'Description="Requests deity intercession"',
+    'Description=' +
+      '"Requests deity intercession to duplicate the effects of a cleric spell of up to 8th level, duplicate the effecs of other spells up to 7th level, undo the harmful affects of spells, or create effects of similar power; more powerful effects cost 5,000 XP to request"',
   'Mirage Arcana':
     'School=Illusion ' +
     'Level=B5,S5,W5 ' +
-    'Description="R%{400+lvl*40}\' Creates %{lvl} 20\' cu terrain or structure illusion (Will disbelieve) for conc + %{lvl} hr"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Changes the look, sound, touch, and smell of %{lvl} 20\' cubes of terrain and structures (save Will disbelieves) for concentration + %{lvl} hr"',
   'Mirror Image':
     'School=Illusion ' +
     'Level=Adept2,B2,S2,W2 ' +
-    'Description="Creates 1d4+%{lvl//3<?8} self copies that mislead attacks for %{lvl} min"',
+    'Description=' +
+      '"Creates 1d4+%{lvl//3<?8} copies of self that randomly misdirect attacks for %{lvl} min; the duplicates have Armor Class %{10+dexterityModifier+(size==\'Large\'?-1:size==\'Small\'?1:0}, and any hit on one destroys it"',
   'Misdirection':
     'School=Illusion ' +
     'Level=Assassin3,B2,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Redirects divinations upon target for %{lvl} hr" ' +
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Divination spells cast upon a target show the auras of another selected object or creature (save Will by the diviner negates) for %{lvl} hr" ' +
     'Liquid=Potion',
   'Mislead':
     'School=Illusion ' +
     'Level=B5,Luck6,Trickery6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' Makes self invisible for %{lvl} rd and creates false double (Will disbelieve) for conc + 3 rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Makes self invisible for %{lvl} rd and creates a false double (save Will upon interaction disbelieves) for concentration + 3 rd"',
   'Mnemonic Enhancer':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
-    'Description="Self memorizes +3 spell levels or retains just-cast spell up to 3rd level for 1 dy"',
+    'Description=' +
+      '"Allows self to memorize 3 additional spell levels or to retain a just-cast spell of up to 3rd level for 24 hr"',
   'Modify Memory':
     'School=Enchantment ' +
     'Level=Assassin4,B4 ' +
-    'Description="R%{25+lvl//2*5}\' Changes 5 min of target\'s memory (Will neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Changes 5 min of the target\'s memory (save Will negates)"',
   'Moment Of Prescience':
     'School=Divination ' +
     'Level=Luck8,S8,W8 ' +
-    'Description="Self gains +%{lvl<?25} attack, check, or save once w/in %{lvl} hr"',
+    'Description=' +
+      '"Gives self +%{lvl<?25} on an attack, check, or save once within %{lvl} hr"',
   'Mount':
     'School=Conjuration ' +
     'Level=S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' Summons riding horse for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons a riding horse with bit, bridle, and saddle that serves self for %{lvl*2} hr"',
   'Move Earth':
     'School=Transmutation ' +
     'Level=D6,S6,W6 ' +
-    'Description="R%{400+lvl*40}\' Slowly digs 7500\' cu dirt"',
+    'Description="R%{400+lvl*40}\' Excavates 150\'x150\'x10\' of dirt every 10 min for up to 250 min"',
 
   'Neutralize Poison':
     'School=Conjuration ' +
     'Level=Adept3,B4,C4,D3,P4,R3 ' +
-    'Description="Touched neutralized %{lvl*10} min, immunized, or detoxified" ' +
+    'Description=' +
+      '"Touched gains immunity to poison or has its poison neutralized for %{lvl*10} min" ' +
     'Liquid=Potion',
   'Nightmare':
     'School=Illusion ' +
     'Level=B5,S5,W5 ' +
-    'Description="Target suffers 1d10 HP and fatigue (Will neg (modified for familiarity w/target))"',
+    'Description=' +
+      '"Target suffers 1d10 HP and fatigue (save Will negates, modified from +10 to -5 based on familiarity with the target)"',
   'Nondetection':
     'School=Abjuration ' +
     'Level=Assassin3,R4,Trickery3,S3,W3 ' +
-    'Description="Touched gains SR %{lvl+11} (divination) (self SR %{lvl+15}) for %{lvl} hr" ' +
+    'Description=' +
+      '"Touched gains SR %{lvl+11} vs. divination, or self or a possessed object gains SR %{lvl+15}, for %{lvl} hr" ' +
     'Liquid=Potion',
 
   'Obscure Object':
     'School=Abjuration ' +
     'Level=B1,C3,S2,W2 ' +
-    'Description="Touched gains immunity to divination (Will neg) for 8 hr"',
+    'Description=' +
+      '"Touched gains immunity to divination (save Will negates) for 8 hr"',
   'Obscuring Mist':
     'School=Conjuration ' +
     'Level=Adept1,Air1,Assassin1,C1,D1,S1,W1,Water1 ' +
-    'Description="Fog in 20\' radius obscures vision for %{lvl} min"',
+    'Description="Fog in a 20\' radius obscures vision for %{lvl} min"',
   'Open/Close':
     'School=Transmutation ' +
     'Level=B0,S0,W0 ' +
-    'Description="R%{25+lvl//2*5}\' Target up to 30 lb opens or closes (Will neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target object of up to 30 lb opens or closes (save Will negates)"',
   "Order's Wrath":
     'School=Evocation ' +
     'Level=Law4 ' +
-    'Description="R%{100+lvl*10}\' Chaotic creatures in 30\' cu suffer %{lvl//2<?5}d8 HP and are dazed for 1 rd, neutral half (Will half)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Chaotic creatures in a 30\' cube suffer %{lvl//2<?5}d8 HP, or %{lvl<10}d6 HP to chaotic outsiders, and are dazed for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Overland Flight':
     'School=Transmutation ' +
     'Level=S5,W5 ' +
-    'Description="Self gains 40\' fly speed for %{lvl} hr"',
+    'Description="Self gains a 40\' fly Speed for %{lvl} hr"',
   "Owl's Wisdom":
     'School=Transmutation ' +
     'Level=C2,D2,P2,R2,S2,W2 ' +
@@ -3924,7 +3972,8 @@ SRD35.SPELLS = {
   "Mass Owl's Wisdom":
     'School=Transmutation ' +
     'Level=C6,D6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} targets in 15\' radius gain +4 Wisdom for %{lvl} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Wisdom for %{lvl} min"',
 
   'Pass Without Trace':
     'School=Transmutation ' +
@@ -4400,7 +4449,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=B2,C2 ' +
     'Description="R%{400+lvl*40}\' Bars sound in 20\' radius (Will neg if targeted) for %{lvl} min"',
-  'Silent Image':
+  'Silent Image': // See Major Image
     'School=Illusion ' +
     'Level=B1,S1,W1 ' +
     'Description="R%{400+lvl*40}\' Creates %{lvl+4} 10\' cu visual illusion (Will disbelieve) for conc"',
