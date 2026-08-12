@@ -299,7 +299,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Gate (C9 Conj): R300' Creates a 5'-20' diameter disk passage to another plane for concentration up to 20 rd, or, at the cost of 1000 XP, allows summoning extraplanar creatures—a named creature, a single creature of a named kind, or up to 40 HD of a named kind</td>
     </tr><tr style="text-align:left">
-      <td>Geas/Quest (C6 Ench): R75' Compels a target to complete a specified task within 20 days, suffering 3d6 HP and sickened (save Fortitude HP only) for each 24 hr spent without obeying; these inflictions end 24 hr after resuming the task</td>
+      <td>Geas/Quest (C6 Ench): R75' Compels a target to complete a specified task within 20 days, suffering 3d6 HP and sickened (save Fortitude HP only) for each 24 hr spent without obeying; the sickness ends 24 hr after resuming the task</td>
     </tr><tr style="text-align:left">
       <td>Greater Command (C5 Ench): R75' 20 targets in a 15' radius obey a command to approach, drop, fall, flee, or halt (save Will negates; additional saves each rd end) for 20 rd</td>
     </tr><tr style="text-align:left">
@@ -311,11 +311,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Locate Object (C3 Divi): Reveals the direction of a visualized object or kind of object found within 1200' for 20 min; a sheet of lead blocks the spell</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Good (Evil3 Abju): 10' radius from touched gives +2 Armor Class and saves, suppresses mental control, bars contact and entry (SR neg) by nonevil summoned creatures for 200 min or traps nonevil summoned creatures (SR neg) for 20 dy</td>
+      <td>Magic Circle Against Good (Evil3 Abju): 10' radius from touched either gives +2 Armor Class and saves vs. good creatures, suppresses mental control, prevents possession, and bars contact and entry by nonevil summoned creatures (SR negates) for 200 min or traps a nonevil summoned creature (SR negates; additional tests each day end) for 480 hr</td>
     </tr><tr style="text-align:left">
-      <td>Magic Vestment (C3 Tran): Touched armor, shield, or clothing gives +5 Armor Class for 20 hr</td>
+      <td>Magic Vestment (C3 Tran): Touched armor, shield, or clothing gives a +5 enhancement bonus to Armor Class for 20 hr</td>
     </tr><tr style="text-align:left">
-      <td>Magic Weapon (C1 Tran): Touched weapon gains +1 attack and damage for 20 min</td>
+      <td>Magic Weapon (C1 Tran): Touched weapon gains +1 attacks and damage for 20 min</td>
     </tr><tr style="text-align:left">
       <td>Mass Bear's Endurance (C6 Tran): R75' 20 targets in a 15' radius gain +4 Constitution for 20 min</td>
     </tr><tr style="text-align:left">
@@ -323,29 +323,29 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mass Inflict Critical Wounds (C8 Necr): R75' 20 targets in a 15' radius suffer 4d8+20 HP (save Will half); undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
-      <td>Mending (C0 Tran): R10' Repairs minor damage to 1 lb object</td>
+      <td>Mending (C0 Tran): R10' Repairs minor damage to an object weighing up to 1 lb</td>
     </tr><tr style="text-align:left">
-      <td>Power Word Blind (War7 Ench): R75' Target w/ 1/51/101/201 HP blinded for ever/1d4+1 min/1d4+1 rd/unaffected</td>
+      <td>Power Word Blind (War7 Ench): R75' Blinds a target with up to 200 hit points; the duration is permanent if the target has 50 hit points or fewer, 1d4+1 min for up to 100 hit points, and 1d4+1 rd otherwise</td>
     </tr><tr style="text-align:left">
-      <td>Power Word Kill (War9 Ench): R75' Slays one creature w/up to 100 HP</td>
+      <td>Power Word Kill (War9 Ench): R75' Slays a target with up to 100 hit points</td>
     </tr><tr style="text-align:left">
-      <td>Prayer (C3 Ench): Allies in 40' radius gain +1 attack, damage, save, and skill, and foes suffer -1, for 20 rd</td>
+      <td>Prayer (C3 Ench): Allies within 40' gain +1 attacks, damage, saves, and skill checks, and foes suffer -1, for 20 rd</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Good (Evil1 Abju): Touched gains +2 Armor Class and saves vs. good creatures, suppresses mental control, and bars contact by nonevil summoned creatures for 20 min</td>
+      <td>Protection From Good (Evil1 Abju): Gives touched +2 Armor Class and saves vs. good creatures, suppresses mental control, prevents possession, and bars contact by nonevil summoned creatures for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Law (C1 Abju): Touched gains +2 Armor Class and saves vs. lawful creatures, suppresses mental control, and bars contact by nonchaotic summoned creatures for 20 min</td>
+      <td>Protection From Law (C1 Abju): Gives touched +2 Armor Class and saves vs. lawful creatures, suppresses mental control, prevents possession, and bars contact by nonchaotic summoned creatures for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Purify Food And Drink (C0 Tran): R10' Makes 20' cu food and water safe (DC 12 Will neg)</td>
+      <td>Purify Food And Drink (C0 Tran): R10' Makes 20 cubic feet of food and water safe to consume (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Read Magic (C0 Divi): Self can read magical writing for 200 min</td>
+      <td>Read Magic (C0 Divi): Allows self to read magical writing for 200 min</td>
     </tr><tr style="text-align:left">
       <td>Remove Blindness/Deafness (C3 Conj): Heals touched of blindness or deafness</td>
     </tr><tr style="text-align:left">
-      <td>Repel Vermin (C4 Abju): 10' radius bars vermin (DC 16 Will neg for 6 HD or more but inflicts 2d6 HP) for 200 min</td>
+      <td>Repel Vermin (C4 Abju): 10' radius bars vermin (save Will for vermin with at least 6 HD inflicts 2d6 HP) for 200 min</td>
     </tr><tr style="text-align:left">
-      <td>Repulsion (C7 Abju): Creatures stay 200' away (DC 19 Will neg) for 20 rd</td>
+      <td>Repulsion (C7 Abju): 200' radius bars creatures and prevents those within it from approaching (save Will negates) for 20 rd</td>
     </tr><tr style="text-align:left">
-      <td>Restoration (C4 Conj): Dispels magical ability harm from touched and heals all temporary ability damage, restores 1 drained ability, removes fatigue or exhaustion and temporary negative levels, and restores 1 drained level</td>
+      <td>Restoration (C4 Conj): Dispels magical ability harm from touched and cures all temporary ability damage, restores 1 drained ability, removes fatigue or exhaustion, removes temporary negative levels, and restores 1 drained level with the minimum necessary XP</td>
     </tr><tr style="text-align:left">
       <td>Shatter (C2 Evoc): R75' Breakables in 5' radius shatter (DC 14 Will neg), or target object suffers 10d6 HP (DC 14 Fort half)</td>
     </tr><tr style="text-align:left">
