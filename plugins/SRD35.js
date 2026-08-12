@@ -3975,15 +3975,17 @@ SRD35.SPELLS = {
     'Description=' +
       '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Wisdom for %{lvl} min"',
 
-  'Pass Without Trace':
-    'School=Transmutation ' +
-    'Level=Assassin2,D1,R1 ' +
-    'Description="%{lvl} touched leave no tracks or scent for %{lvl} hr" ' +
-    'Liquid=Potion',
   'Passwall':
     'School=Transmutation ' +
     'Level=S5,W5 ' +
-    'Description="Creates 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' passage through wood, stone, or plaster for %{lvl} hr"',
+    'Description=' +
+      '"Creates an 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' passage through wood, stone, or plaster for %{lvl} hr"',
+  'Pass Without Trace':
+    'School=Transmutation ' +
+    'Level=Assassin2,D1,R1 ' +
+    'Description=' +
+      '"%{lvl>1?lvl+\' touched leave\':\'Touched leaves\'} no tracks or scent for %{lvl} hr" ' +
+    'Liquid=Potion',
   'Permanency':
     // 'School=Universal ' +
     'Level=S5,W5 ' +
@@ -3991,107 +3993,130 @@ SRD35.SPELLS = {
   'Permanent Image':
     'School=Illusion ' +
     'Level=B6,S6,W6 ' +
-    'Description="R%{400+lvl*40}\' Creates %{lvl+8} 10\' cu image w/sound, smell, and thermal effects (Will disbelieve)"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Creates a %{lvl+8} 10\' cube image with sound, smell, and thermal effects (save Will upon interaction disbelieves)"',
   'Persistent Image':
     'School=Illusion ' +
     'Level=B5,S5,W5 ' +
-    'Description="R%{400+lvl*40}\' Creates %{lvl+4} 10\' cu scripted image w/sound, smell, and thermal effects (Will disbelieve) for %{lvl} min"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Creates a %{lvl+4} 10\' cube scripted moving image with sound, smell, and thermal effects (save Will upon interaction disbelieves) for %{lvl} min"',
   'Phantasmal Killer':
     'School=Illusion ' +
     'Level=S4,W4 ' +
-    'Description="R%{100+lvl*10}\' Fears of target create creature (Will neg) whose touch kills target (Fort suffers 3d6 HP)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Fears of the target create a creature (save Will negates) whose touch kills the target (save Fort inflicts 3d6 HP)"',
   'Phantom Steed':
     'School=Conjuration ' +
     'Level=B3,S3,W3 ' +
-    'Description="Creates mount (%{lvl+7} HP, Armor Class 18, speed %{lvl*20<?240}\') that only target can ride for %{lvl} hr"',
+    'Description=' +
+      '"Creates a mount with %{lvl+7} hit points, Armor Class 18, and %{lvl*20<?240}\' Speed that only the target can ride for %{lvl} hr%{lvl>7?\'; the mount can ride over sandy, muddy, and swampy ground at full speed\':\'\'}%{lvl>11?\', \':lvl>9?\' and \':\'\'}%{lvl>9?\'use <i>Water Walk</i> effects at will\':\'\'}%{lvl>13?\',\':lvl>11?\', and \':\'\'}%{lvl>11?use <i>Air Walk</i> effects for 1 rd at will\':\'\'}%{lvl>13?\', and fly at full Speed\':\'\'}"',
   'Phantom Trap':
     'School=Illusion ' +
     'Level=S2,W2 ' +
-    'Description="Touched object appears trapped"',
+    'Description="Makes the touched object appear trapped"',
   'Phase Door':
     'School=Conjuration ' +
     'Level=Travel8,S7,W7 ' +
-    'Description="Allows %{lvl//2} passes through 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' wood, stone, or plaster; adding another creature uses a pass"',
+    'Description=' +
+      '"Allows self or specified creatures to pass through an 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' section of wood, stone, or plaster %{lvl//2} times"',
   'Planar Ally':
     'School=Conjuration ' +
     'Level=C6 ' +
-    'Description="Self purchases service from extraplanar creature w/up to 12 HD"',
+    'Description=' +
+      '"Allows negotation the purchase of a service from an extraplanar creature with up to 12 HD"',
   'Greater Planar Ally':
     'School=Conjuration ' +
     'Level=C8 ' +
-    'Description="Self purchases service from extraplanar creature w/up to 18 HD"',
+    'Description=' +
+      '"Allows negotation the purchase of a service from an extraplanar creature with up to 18 HD"',
   'Lesser Planar Ally':
     'School=Conjuration ' +
     'Level=C4 ' +
-    'Description="Self purchases service from extraplanar creature w/up to 6 HD"',
+    'Description=' +
+      '"Allows negotation the purchase of a service from an extraplanar creature with up to 6 HD"',
   'Planar Binding':
     'School=Conjuration ' +
     'Level=S6,W6 ' +
-    'Description="Traps extraplanar creature(s) w/up to 12 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Charisma neg)"',
+    'Description=' +
+      '"Traps 1-3 extraplanar creatures with up to 12 HD total in a <i>Magic Circle</i> (save Will negates) until they perform a task (opposed Charisma allows refusal), escape via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
   'Greater Planar Binding':
     'School=Conjuration ' +
     'Level=S8,W8 ' +
-    'Description="Traps extraplanar creature(s) w/up to 18 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Charisma neg)"',
+    'Description=' +
+      '"Traps 1-3 extraplanar creatures with up to 18 HD total in a <i>Magic Circle</i> (save Will negates) until they perform a task (opposed Charisma allows refusal), escape via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
   'Lesser Planar Binding':
     'School=Conjuration ' +
     'Level=S5,W5 ' +
-    'Description="Traps extraplanar creature(s) w/up to 6 HD (Will neg) until they escape (SR, dimensional travel, or %{casterLevel//2+charismaModifier+15} Cha) or perform a task (Opposed Charisma neg)"',
+    'Description=' +
+      '"Traps an extraplanar creature with up to 6 HD in a <i>Magic Circle</i> (save Will negates) until it performs a task (opposed Charisma allows refusal), escapes via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
   'Plane Shift':
     'School=Conjuration ' +
     'Level=C5,S7,W7 ' +
-    'Description="Touched (Will neg) or 8 willing move to another plane"',
+    'Description=' +
+      '"Transports touched (save Will negates) or 8 willing persons joined in a circle to another plane"',
   'Plant Growth':
     'School=Transmutation ' +
     'Level=D3,Plant3,R3 ' +
-    'Description="Vegetation in %{400+lvl*40}\' radius becomes dense or 1/2 mile radius increases productivity"',
+    'Description=' +
+      '"Causes vegetation in a %{400+lvl*40}\' radius to become overgrown, slowing movement to 5\' (10\' for Large creatures), or increases the productivity of plants in a 1/2 mile radius for 1 year"',
   'Poison':
     'School=Necromancy ' +
     'Level=Assassin4,Blackguard4,C4,D3 ' +
-    'Description="Touched suffers -1d10 Constitution immediately and again after 1 min (DC %{10+casterLevel//2+wisdomModifier} Fort neg)"',
+    'Description=' +
+      '"Touched suffers -1d10 temporary Constitution damage immediately and again after 1 min (save Fortitude DC %{10+casterLevel//2+wisdomModifier} negates each)"',
   'Polar Ray':
     'School=Evocation ' +
     'Level=S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Ranged touch inflicts %{lvl<?25}d6 HP"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Ranged touch inflicts %{lvl<?25}d6 HP cold"',
   'Polymorph':
     'School=Transmutation ' +
     'Level=Adept4,S4,W4 ' +
-    'Description="Touched willing target becomes different creature for %{lvl} min"',
+    'Description=' +
+      '"Touched willing target becomes a different creature with up to %{lvl<15} HD for %{lvl} min"',
   'Polymorph Any Object':
     'School=Transmutation ' +
     'Level=Trickery8,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Target becomes something else (Fort neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target creature or object becomes a different creature or object (save Fortitude neg); the duration depends on the degree of change, from 20 min to permanent"',
   'Power Word Blind':
     'School=Enchantment ' +
     'Level=S7,W7,War7 ' +
-    'Description="R%{25+lvl//2*5}\' Target w/ 1/51/101/201 HP blinded for ever/1d4+1 min/1d4+1 rd/unaffected"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Blinds a target with up to 200 hit points; the duration is permanent if the target has 50 hit points or fewer, 1d4+1 min for up to 100 hit points, and 1d4+1 rd otherwise"',
   'Power Word Kill':
     'School=Enchantment ' +
     'Level=War9,S9,W9 ' +
-    'Description="R%{25+lvl//2*5}\' Slays one creature w/up to 100 HP"',
+    'Description="R%{25+lvl//2*5}\' Slays a target with up to 100 hit points"',
   'Power Word Stun':
     'School=Enchantment ' +
     'Level=S8,W8,War8 ' +
-    'Description="R%{25+lvl//2*5}\' Target w/ 1/51/101/151 HP stunned for 4d4 rd/2d4 rd/1d4 rd/unaffected"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Stuns a target with up to 150 hit points; the duration is 4d4 rd if the target has 50 hit points or fewer, 2d4 rd for up to 100 hit points, and 1d4 rd otherwise"',
   'Prayer':
     'School=Enchantment ' +
     'Level=C3,P3 ' +
-    'Description="Allies in 40\' radius gain +1 attack, damage, save, and skill, and foes suffer -1, for %{lvl} rd"',
+    'Description=' +
+      '"Allies within 40\' gain +1 attacks, damage, saves, and skill checks, and foes suffer -1, for %{lvl} rd"',
   'Prestidigitation':
     // 'School=Universal ' +
     'Level=B0,S0,W0 ' +
-    'Description="R10\' Self performs minor tricks for 1 hr"',
+    'Description="R10\' Allows performing minor magic effects for 1 hr"',
   'Prismatic Sphere':
     'School=Abjuration ' +
     'Level=Protection9,Sun9,S9,W9 ' +
-    'Description="10\' sphere blocks attacks and harms attackers, blinds viewers w/in 20\' w/up to 7 HD for 2d4x10 min for %{lvl*10} min"',
+    'Description=' +
+      '"10\' sphere lasting %{lvl*10} min blinds for 2d4x10 min creatures with up to 7 HD who look at it from within 20\', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save will negates)"',
   'Prismatic Spray':
     'School=Evocation ' +
     'Level=S7,W7 ' +
-    'Description="R60\' Cone blinds targets w/up to 8 HD for 2d4 rd, inflicts other harmful effects"',
+    'Description=' +
+      '"60\' cone blinds creatures with up to 8 HD and randomly inflicts on each creature one of: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex Half); slain by poison (save Fortitude inflicts 1d4 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates); 2 of the preceding effects"',
   'Prismatic Wall':
     'School=Abjuration ' +
     'Level=S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl*4}\'x%{lvl*2}\' wall blocks attacks and harms attackers, blinds viewers w/in 20\' w/up to to 8 HD for 2d4 rd for %{lvl*10} min"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl*4}\'x%{lvl*2}\' wall lasting %{lvl*10} min blinds for 2d4 rd creatures with up to 7 HD who look at it from within 20\', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save will negates)"',
   'Produce Flame':
     'School=Evocation ' +
     'Level=D1,Fire2 ' +
