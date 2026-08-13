@@ -2861,7 +2861,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=Assassin1,B1,Trickery1,S1,W1 ' +
     'Description=' +
-      '"Self changes appearance, gaining +10 Disguise for %{lvl*10} min; interaction gives others a Will save to detect"',
+      '"Changes the appearance of self (save Will upon interaction disbelieves) and gives +10 Disguise for %{lvl*10} min"',
   'Disintegrate':
     'School=Transmutation ' +
     'Level=Destruction7,S6,W6 ' +
@@ -3439,7 +3439,8 @@ SRD35.SPELLS = {
   'Holy Aura':
     'School=Abjuration ' +
     'Level=C8,Good8 ' +
-    'Description="%{lvl} creatures within 20\' gain +4 Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for %{lvl} rd"',
+    'Description=' +
+      '"%{lvl} creatures within 20\' gain +4 Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for %{lvl} rd"',
   'Holy Smite':
     'School=Evocation ' +
     'Level=Good4 ' +
@@ -3817,7 +3818,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot image with sound, smell, and thermal effects (save Will disbelieves) for concentration + 3 rd"',
+      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable image with sound, smell, and thermal effects (save Will disbelieves) for concentration + 3 rd"',
   'Make Whole':
     'School=Transmutation ' +
     'Level=C2 ' +
@@ -3871,7 +3872,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=B2,S2,W2 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot image with sound (save Will upon interaction disbelieves) for concentration + 2 rd"',
+      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable image with sound (save Will upon interaction disbelieves) for concentration + 2 rd"',
   'Miracle':
     'School=Evocation ' +
     'Level=C9,Luck9 ' +
@@ -3994,12 +3995,12 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=B6,S6,W6 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creates a %{(lvl+8)*10} cubic foot image with sound, smell, and thermal effects (save Will upon interaction disbelieves)"',
+      '"R%{400+lvl*40}\' Creates a %{(lvl+8)*10} cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves)"',
   'Persistent Image':
     'School=Illusion ' +
     'Level=B5,S5,W5 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot moving, scripted image with sound, smell, and thermal effects (save Will upon interaction disbelieves) for %{lvl} min"',
+      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable, scripted image with sound, smell, and thermal effects (save Will upon interaction disbelieves) for %{lvl} min"',
   'Phantasmal Killer':
     'School=Illusion ' +
     'Level=S4,W4 ' +
@@ -4126,7 +4127,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=B6,S6,W6 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot image with sound, smell, and thermal effects (save Will upon interaction disbelieves) that appears when triggered for %{lvl} rd"',
+      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves) that appears when triggered for %{lvl} rd"',
   'Project Image':
     'School=Illusion ' +
     'Level=B6,S7,W7 ' +
@@ -4369,158 +4370,196 @@ SRD35.SPELLS = {
   'Sanctuary':
     'School=Abjuration ' +
     'Level=C1,Protection1 ' +
-    'Description="Foes cannot attack touched (Will neg) for %{lvl} rd or until target attacks" ' +
+    'Description=' +
+      '"Foes cannot attack touched (save Will negates) for %{lvl} rd; target attacking ends the spell" ' +
     'Liquid=Potion',
   'Scare':
     'School=Necromancy ' +
     'Level=B2,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl//3} targets w/up to 5 HD in 30\' radius flee for %{lvl} rd (Will shaken for 1 rd)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target with up to 6 HD becomes frightened and flees for 1d4 rd (save Will inflicts shaken for 1 rd)"',
   'Scintillating Pattern':
     'School=Illusion ' +
     'Level=S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Renders %{lvl<?20} HD creatures in 20\' radius w/up to 6/12/20 HD unconscious for 1d4 rd/stunned for 1d4 rd/confused for 1d4 rd for conc + 2 rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Renders %{lvl<?20} HD of creatures in a 20\' radius with up to 6, 12, or 20 HD unconscious for 1d4 rd, stunned for 1d4 rd, or confused for 1d4 rd, working upward from those with the fewest HD, for concentration + 2 rd"',
   'Scorching Ray':
     'School=Evocation ' +
     'Level=Adept2,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Ranged touch w/%{lvl>10?3:lvl>6?2:1} rays in 15\' radius inflict 4d6 HP each"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl>6?(lvl+1)//4+\' ranged\':\'Ranged\'} touch attack%{lvl>6?\'s in a 15\' radius each inflict\':\'inflicts\'} 4d6 HP fire"',
   'Screen':
     'School=Illusion ' +
     'Level=Trickery7,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Illusion hides %{lvl} 30\' cu from vision and scrying (Will disbelieve) for 1 dy"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Illusion hides %{lvl*30} cubic feet from vision and scrying (save Will disbelieves) for 24 hr"',
   'Scrying':
     'School=Divination ' +
     'Level=B3,C5,D4,S4,W4 ' +
-    'Description="Self views target (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"Self sees and hears a 10\' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for %{lvl} min"',
   'Greater Scrying':
     'School=Divination ' +
     'Level=B6,C7,D7,S7,W7 ' +
-    'Description="Self views and may cast detection and communication spells on target (Will special neg) for %{lvl} hr"',
+    'Description=' +
+      '"Self sees, hears, and can cast detection and communication spells in a 10\' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for %{lvl} hr"',
   'Sculpt Sound':
     'School=Transmutation ' +
     'Level=B3 ' +
-    'Description="R%{25+lvl//2*5}\' Sounds of %{lvl} targets in 15\' radius changed (Will neg) for %{lvl} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Changes the sounds of %{lvl} targets in a 15\' radius (save Will negates) for %{lvl} hr"',
   'Searing Light':
     'School=Evocation ' +
     'Level=C3,Sun3 ' +
-    'Description="R%{100+lvl*10}\' Ranged touch inflicts %{lvl//2<?5}d8 HP (undead %{lvl<?10}d6, object %{lvl//2<?5}d6)"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Ranged touch inflicts %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 for undead, %{lvl//2<?5}d6 for a construct or object)"',
   'Secret Chest':
     'School=Conjuration ' +
     'Level=S5,W5 ' +
-    'Description="Self can summon %{lvl}\' cu ethereal chest at will for 60 dy"',
+    'Description=' +
+      '"Allows using a miniature replica of a well-crafted chest to teleport it and up to %{lvl} cubic feet of cotents to and from the ethereal plane at will for 60 dy"',
   'Secret Page':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
-    'Description="Hides content of touched page permanently"',
+    'Description=' +
+      '"Permanently alters the text on touched page so that a password is required to view it"',
   'Secure Shelter':
     'School=Conjuration ' +
     'Level=B4,S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' Creates 20\'x20\' cottage that lasts %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Creates 20\'x20\' cottage, strong as a stone building, with secured entrances, resistance to fire, immunity to normal missiles, and an unseen servant that can perform tasks, for %{lvl*2} hr"',
   'See Invisibility':
     'School=Divination ' +
     'Level=Adept2,B3,S2,W2 ' +
-    'Description="Self sees invisible and ethereal creatures and objects for %{lvl*10} min"',
+    'Description=' +
+      '"Allows self to see invisible and ethereal creatures and objects for %{lvl*10} min"',
   'Seeming':
     'School=Illusion ' +
     'Level=B5,S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' Appearance of %{lvl//2} targets in 15\' radius changes (Will disbelieve), gives +10 Disguise for 12 hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Changes the appearance of %{lvl//2} targets in a 15\' radius (save Will negates; save Will by others upon interaction disbelieves) and gives them +10 Disguise for 12 hr"',
   'Sending':
     'School=Evocation ' +
     'Level=C4,S5,W5 ' +
-    'Description="Self has two-way, 25-word exchange w/familiar target"',
+    'Description=' +
+      '"Allows self to have exchange 25-word messages with a familiar target"',
   'Sepia Snake Sigil':
     'School=Conjuration ' +
     'Level=B3,S3,W3 ' +
-    'Description="Immobilizes reader (Ref neg) for 1d4+%{lvl} dy"',
+    'Description=' +
+      '"Reading the target text puts the reader into suspended animation (save Reflex negates) for 1d4+%{lvl} dy"',
   'Sequester':
     'School=Abjuration ' +
     'Level=S7,W7 ' +
-    'Description="Willing touched becomes invisible, unscryable, and comatose for %{lvl} dy"',
+    'Description=' +
+      '"Touched object or willing creature becomes invisible, unscryable, and comatose for %{lvl} dy"',
   'Shades':
     'School=Illusion ' +
     'Level=S9,W9 ' +
-    'Description="Mimics conjuration (creation or summoning) spell up to 8th level (Will 80% effect)"',
+    'Description=' +
+      '"Mimics a creation or summoning conjuration spell of up to 8th level (save Will reduces the mimicked spell\'s effects by 20%); mimicked spells are subject to SR and have a save DC as a 9th-level spell, and creatures summoned by a mimicked spell have 20% of their normal hit points"',
   'Shadow Conjuration':
     'School=Illusion ' +
     'Level=B4,S4,W4 ' +
-    'Description="Mimics conjuration (creation or summoning) spell up to 3rd level (Will 20% effect)"',
+    'Description=' +
+      '"Mimics a creation or summoning conjuration spell of up to 3rd level (save Will reduces the mimicked spell\'s effects by 80%); mimicked spells are subject to SR and have a save DC as a 4th-level spell, and creatures summoned by a mimicked spell have 20% of their normal hit points"',
   'Greater Shadow Conjuration':
     'School=Illusion ' +
     'Level=S7,W7 ' +
-    'Description="Mimics conjuration (creation or summoning) spell up to 6th level (Will 60% effect)"',
+    'Description=' +
+      '"Mimics a creation or summoning conjuration spell of up to 6th level (save Will reduces the mimicked spell\'s effects by 40%); mimicked spells are subject to SR and have a save DC as a 7th-level spell, and creatures summoned by a mimicked spell have 20% of their normal hit points"',
   'Shadow Evocation':
     'School=Illusion ' +
     'Level=B5,S5,W5 ' +
-    'Description="Mimics evocation spell up to 4th level (Will 20% effect)"',
+    'Description=' +
+      '"Mimics an evocation spell of up to 4th level (save Will reduces the mimicked spell\'s effects by 80%); mimicked spells are subject to SR and have a save DC as a 5th-level spell"',
   'Greater Shadow Evocation':
     'School=Illusion ' +
     'Level=S8,W8 ' +
-    'Description="Mimics evocation spell up to 7th level (Will 60% effect)"',
+    'Description=' +
+      '"Mimics an evocation spell of up to 7th level (save Will reduces the mimicked spell\'s effects by 40%); mimicked spells are subject to SR and have a save DC as an 8th-level spell"',
   'Shadow Walk':
     'School=Illusion ' +
     'Level=B5,S6,W6 ' +
-    'Description="Self and %{lvl} touched travel quickly via Plane of Shadow (Will Neg) for %{lvl} hr"',
+    'Description=' +
+      '"Allows self and %{lvl} touched to travel at 50 MPH via the Plane of Shadow (save Will negates) for %{lvl} hr"',
   'Shambler':
     'School=Conjuration ' +
     'Level=D9,Plant9 ' +
-    'Description="R%{100+lvl*10}\' Creates 1d4+2 11 HD shambling mounds in 15\' radius that fight for 7 dy or guard for 7 mo"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Creates in a 15\' radius 1d4+2 11 HD shambling mounds that fight for 7 days or guard for 7 months"',
   'Shapechange':
     'School=Transmutation ' +
     'Level=Animal9,D9,S9,W9 ' +
-    'Description="Self becomes nonunique creature of any size 1/rd for %{lvl*10} min"',
+    'Description=' +
+      '"Allows self to becomes a nonunique creature of any size with up to %{lvl<?25} HD once per rd for %{lvl*10} min"',
   'Shatter':
     'School=Evocation ' +
     'Level=B2,Blackguard2,C2,Chaos2,Destruction2,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Breakables in 5\' radius shatter (Will neg), or target object suffers %{lvl<?10}d6 HP (Fort half)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Breakables weighing up to %{lvl} lb in a 5\' radius shatter (save Will negates), or target object weighing up to %{lvl*10} lb suffers %{lvl<?10}d6 HP sonic (save Fortitude half)"',
   'Shield':
     'School=Abjuration ' +
     'Level=S1,W1 ' +
-    'Description="Self gains +4 Armor Class and immunity to <i>Magic Missile</i> for %{lvl} min"',
+    'Description=' +
+      '"Creates a disk that gives self a +4 shield bonus to Armor Class and immunity to <i>Magic Missile</i> for %{lvl} min"',
   'Shield Of Faith':
     'School=Abjuration ' +
     'Level=C1 ' +
-    'Description="Touched gains +%{lvl//6+2<?5} Armor Class for %{lvl} min" ' +
+    'Description=' +
+      '"Touched gains a +%{lvl//6+2<?5} deflection bonus to Armor Class for %{lvl} min" ' +
     'Liquid=Potion',
   'Shield Of Law':
     'School=Abjuration ' +
     'Level=C8,Law8 ' +
-    'Description="%{lvl} creatures in 20\' radius gain +4 Armor Class, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"%{lvl} creatures within 20\' gain +4 Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for %{lvl} rd"',
   'Shield Other':
     'School=Abjuration ' +
     'Level=C2,P2,Protection2 ' +
-    'Description="R%{25+lvl//2*5}\' target gains +1 Armor Class and saves, and half of damage suffered by target is transferred to self for %{lvl} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any damage suffered by the target is transferred to self, for %{lvl} hr"',
   'Shillelagh':
     'School=Transmutation ' +
     'Level=D1 ' +
-    'Description="S/M/L staff gains +1 attack, 1d8%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/2d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1}/3d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} damage (Will neg) for %{lvl} min" ' +
+    'Description=' +
+      '"Touched small, medium, or large staff gains +1 attack and inflicts 1d8%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP, 2d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP, or 3d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP (save Will negates) when wielded by self for %{lvl} min" ' +
     'Liquid=Oil',
   'Shocking Grasp':
     'School=Evocation ' +
     'Level=S1,W1 ' +
-    'Description="Touch (+3 vs. metal) inflicts %{lvl<?5}d6 HP"',
+    'Description=' +
+      '"Melee touch attack (+3 vs. metal) inflicts %{lvl<?5}d6 HP"',
   'Shout':
     'School=Evocation ' +
     'Level=B4,S4,W4 ' +
-    'Description="R30\' Cone inflicts 5d6 HP and deafness for 2d6 rd (Fort half HP only)"',
+    'Description=' +
+      '"30\' cone inflicts 5d6 HP sonic (or %{lvl>?15}d6 HP sonic to crystalline creatures and objects) and deafness for 2d6 rd (save Fortitude half HP only; save Reflex negates damage to held objects)"',
   'Greater Shout':
     'School=Evocation ' +
     'Level=B6,S8,W8 ' +
-    'Description="R60\' Cone inflicts 10d6 HP, deafness for 4d6 rd, and stunning for 1 rd (Fort half HP and deafness only)"',
+    'Description=' +
+      '"60\' cone inflicts 10d6 HP sonic (or %{lvl?>20}d6 HP sonic to crystalline creatures and objects), deafness for 4d6 rd, and stunned for 1 rd (save Fortitude half HP and half deafness duration only; save Reflex negates damage to held objects)"',
   'Shrink Item':
     'School=Transmutation ' +
     'Level=S3,W3 ' +
-    'Description="Touched %{lvl*2}\' cu object becomes 1/16 size cloth (Will neg) for %{lvl} dy"',
+    'Description=' +
+      '"Reduces touched %{lvl*2} cubic foot object to a 1/16 size cloth (save Will negates) for %{lvl} days"',
   'Silence':
     'School=Illusion ' +
     'Level=B2,C2 ' +
-    'Description="R%{400+lvl*40}\' Bars sound in 20\' radius (Will neg if targeted) for %{lvl} min"',
-  'Silent Image': // See Major Image
+    'Description=' +
+      '"R%{400+lvl*40}\' Eliminates sound in a 20\' radius (save Will for a targeted creature negates) for %{lvl} min"',
+  'Silent Image':
     'School=Illusion ' +
     'Level=B1,S1,W1 ' +
-    'Description="R%{400+lvl*40}\' Creates %{lvl+4} 10\' cu visual illusion (Will disbelieve) for conc"',
+    'Description=' +
+      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable image (save Will disbelieve) for concentration"',
   'Simulacrum':
     'School=Illusion ' +
     'Level=S7,W7 ' +
-    'Description="Creates permanent double of creature w/half original\'s HP and levels"',
+    'Description=' +
+      '"Creates a permanent obedient double of a creature with half of the original\'s hit points and levels; suspicious creatures can detect the copy with a successful Spot vs. Disguise or a successful DC 20 Sense Motive"',
   'Slay Living':
     'School=Necromancy ' +
     'Level=C5,Death5 ' +
@@ -6189,6 +6228,14 @@ SRD35.identityRules = function(
   rules, alignments, classes, deities, races, prestigeClasses, npcClasses
 ) {
 
+  if(arguments[7] != null) { // TODO: Backwards compatibility; remove
+    let paths = races;
+    races = prestigeClasses;
+    prestigeClasses = npcClasses;
+    npcClasses = arguments[7];
+    for(let p in paths)
+      rules.choiceRules(rules, 'Path', p, paths[p]);
+  }
   QuilvynUtils.checkAttrTable(alignments, []);
   QuilvynUtils.checkAttrTable
     (classes, ['Require', 'HitDie', 'Attack', 'SkillPoints', 'Fortitude', 'Reflex', 'Will', 'Skills', 'Features', 'Selectables', 'Languages', 'CasterLevelArcane', 'CasterLevelDivine', 'SpellAbility', 'SpellSlots', 'SpellsAvailable']);
@@ -7972,6 +8019,8 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
     console.log('Bad weapons list "' + weapons + '" for deity ' + name);
     return;
   }
+  if(weapons[0] == 'Unarmed') // TODO: backwards compatibility - remove
+    weapons[0] = 'Unarmed Strike';
   if(rules.getChoices('weapons')) {
     weapons.forEach(w => {
       if(!(w in rules.getChoices('weapons'))) {
