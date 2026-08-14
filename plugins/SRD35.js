@@ -4563,96 +4563,116 @@ SRD35.SPELLS = {
   'Slay Living':
     'School=Necromancy ' +
     'Level=C5,Death5 ' +
-    'Description="Touched slain (Fort suffers 3d6+%{lvl} HP)"',
+    'Description=' +
+      '"Touch kills the target (save Fortitude inflicts 3d6+%{lvl} HP)"',
   'Sleep':
     'School=Enchantment ' +
     'Level=Adept1,Assassin1,B1,S1,W1 ' +
-    'Description="R%{100+lvl*10}\' 4 HD of creatures in 10\' radius sleep (Will neg) for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 4 HD of creatures in a 10\' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for %{lvl} min"',
   'Sleet Storm':
     'School=Conjuration ' +
     'Level=D3,S3,W3 ' +
-    'Description="R%{400+lvl*40}\' Sleet in 40\' radius blinds, inflicts DC 10 Balance to move for %{lvl} rd"',
+    'Description=' +
+      '"R%{400+lvl*40}\' 40\' radius, 20\' high cylinder blocks sight, extinguishes small fires, and inflicts a DC 10 Balance check to move at half speed (failure by 5 or more causes a fall) for %{lvl} rd"',
   'Slow':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} creatures in 15\' radius take one action per rd, suffer -1 Armor Class, attack, and Reflex, and slow to half Speed (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl} creatures in a 15\' radius can take no more than one action per turn, suffer -1 Armor Class, attacks, and Reflex saves, and slow to half Speed (save Will negates) for %{lvl} rd"',
   'Snare':
     'School=Transmutation ' +
     'Level=D3,R2 ' +
-    'Description="Touched vine, thong, or rope becomes DC 23 trap until triggered"',
+    'Description=' +
+      '"Touched vine, thong, or rope becomes a trap until triggered; a DC 23 Search check notices the trap, and a DC 23 Escape Artist or Strength check escapes from it"',
   'Soften Earth And Stone':
     'School=Transmutation ' +
     'Level=D2,Earth2 ' +
-    'Description="R%{25+lvl//2*5}\' %{lvl} 10\'x4\' squares of wet earth/dry earth/natural stone become mud/sand/clay"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' %{lvl*10} square feet of wet earth, dry earth, or natural stone becomes mud that traps creatures for 1d2 rd (save Reflex negates), sand that slows movement by half, or clay"',
   'Solid Fog':
     'School=Conjuration ' +
     'Level=S4,W4 ' +
-    'Description="R%{100+lvl*10}\' Fog in 20\' radius obscures vision, slows to 5\'/rd, and inflicts -2 attack and damage for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, slows movement to 5\'/rd, prevents ranged attacks, and inflicts -2 attacks and damage for %{lvl} min"',
   'Song Of Discord':
     'School=Enchantment ' +
     'Level=B5 ' +
-    'Description="R%{100+lvl*10}\' Creatures in 20\' radius have 50% chance each rd of attacking neighbor (Will neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Creatures in a 20\' radius have a 50% chance each rd of attacking the nearest creature (save Will negates) for %{lvl} rd"',
   'Soul Bind':
     'School=Necromancy ' +
     'Level=C9,S9,W9 ' +
-    'Description="R%{25+lvl//2*5}\' Imprisons soul from body dead up to %{lvl} rd to prevent resurrection (Will neg)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Imprisons the soul from a corpse dead up to %{lvl} rd (save Will negates), preventing resurrection"',
   'Sound Burst':
     'School=Evocation ' +
     'Level=B2,C2 ' +
-    'Description="R%{25+lvl//2*5}\' 10\' radius inflicts 1d8 HP and stuns (Fort HP only)"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' 10\' radius inflicts 1d8 HP sonic and stunned for 1 rd (save Fortitude HP only)"',
   'Speak With Animals':
     'School=Divination ' +
     'Level=B3,D1,R1 ' +
-    'Description="Self converses w/animals for %{lvl} min"',
+    'Description="Allows self to converse with animals for %{lvl} min"',
   'Speak With Dead':
     'School=Necromancy ' +
     'Level=C3 ' +
-    'Description="R10\' Self receives %{lvl//2} answers from corpse (Will neg)"',
+    'Description=' +
+      '"R10\' Target corpse answers %{lvl>3?lvl//2+\' question\':\'a question\'} (save Will negates) asked within %{lvl} min"',
   'Speak With Plants':
     'School=Divination ' +
     'Level=B4,D3,R2 ' +
-    'Description="Self converses w/plants for %{lvl} min"',
+    'Description=' +
+      '"Allows self to converse with plants and plant creatures for %{lvl} min"',
   'Spectral Hand':
     'School=Necromancy ' +
     'Level=S2,W2 ' +
-    'Description="R%{100+lvl*10}\' Self yields 1d4 HP to glowing hand that delivers touch spells up to 4th level at +2 attack for %{lvl} min"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Creates an incorporeal hand (1d4 hit points temporarily taken from self; Armor Class %{22+intelligenceModifier>0?intelligenceModifier:0}; improved evasion) that can make +2 melee touch attacks to deliver touch spells up to 4th level for %{lvl} min"',
   'Spell Immunity':
     'School=Abjuration ' +
     'Level=C4,Protection4,Strength4 ' +
-    'Description="Touched gains immunity to %{lvl//4} spells up to 4th level for %{lvl*10} min"',
+    'Description=' +
+      '"Gives touched immunity to %{lvl7?lvl//4+\' spells\':\'a spell\'} of up to 4th level that are subject to spell resistance for %{lvl*10} min"',
   'Greater Spell Immunity':
     'School=Abjuration ' +
     'Level=C8 ' +
-    'Description="Touched gains immunity to %{lvl//4} spells up to 8th level for %{lvl*10} min"',
+    'Description=' +
+      '"Gives touched immunity to %{lvl7?lvl//4+\' spells\':\'a spell\'} of up to 8th level that are subject to spell resistance for %{lvl*10} min"',
   'Spell Resistance':
     'School=Abjuration ' +
     'Level=C5,Magic5,Protection5 ' +
-    'Description="Touched gains SR %{lvl+12} for %{lvl} min"',
-  'Spell Turning':
-    'School=Abjuration ' +
-    'Level=Luck7,Magic7,S7,W7 ' +
-    'Description="1d4+6 levels of non-area, non-ranged-touch spells directed at self reflect onto caster for %{lvl*10} min"',
+    'Description="Gives touched SR %{lvl+12} for %{lvl} min"',
   'Spellstaff':
     'School=Transmutation ' +
     'Level=D6 ' +
-    'Description="Stores 1 spell in wooden quarterstaff (Will neg)"',
+    'Description="Stores 1 spell in a wooden quarterstaff (save Will negates)"',
+  'Spell Turning':
+    'School=Abjuration ' +
+    'Level=Luck7,Magic7,S7,W7 ' +
+    'Description=' +
+      '"1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within %{lvl*10} min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% disappate with no effect; 10% affect both casters; 17% disable both caster\'s <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane"',
   'Spider Climb':
     'School=Transmutation ' +
     'Level=Assassin2,D2,S2,W2 ' +
-    'Description="Touched gains 20\' climb speed and can climb walls and ceilings for %{lvl*10} min" ' +
+    'Description=' +
+      '"Gives touched a 20\' climb Speed and the ability to climb walls and ceilings for %{lvl*10} min; the target also retains its Dexterity bonus to Armor Class while climbing" ' +
     'Liquid=Potion',
   'Spike Growth':
     'School=Transmutation ' +
     'Level=D3,R2 ' +
-    'Description="R%{100+lvl*10}\' Spikes on vegetation in 20\' sq inflict 1d4 HP each 5\' movement and slow to half speed for 1 dy (Ref neg) for %{lvl} hr"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Vegetation in a %{lvl*20} square foot area inflicts 1d4 HP piercing for each 5\' of movement and slows creatures to half Speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed) for %{lvl} hr"',
   'Spike Stones':
     'School=Transmutation ' +
     'Level=D4,Earth4 ' +
-    'Description="R%{100+lvl*10}\' Spikes on stony ground in 20\' sq inflict 1d8 HP each 5\' movement and slow to half speed for 1 dy (Ref neg) for %{lvl} hr"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Stony ground in %{lvl*20} square foot area inflicts 1d8 HP piercing for each 5\' movement and slows creatures to half speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed) for %{lvl} hr"',
   'Spiritual Weapon':
     'School=Evocation ' +
     'Level=C2,War2 ' +
-    'Description="R%{100+lvl*10}\' Force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attack, 1d8+%{lvl//3<?5} HP damage, crit same as physical weapon) attacks designated foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' Creates a force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attack; 1d8+%{lvl//3<?5} HP force; crit same as the corresponding physical weapon) that attacks a designated foe for %{lvl} rd; can use move actions to redirect to different targets, and the first attack on each creature is subject to SR"',
   'Statue':
     'School=Transmutation ' +
     'Level=S7,W7 ' +
