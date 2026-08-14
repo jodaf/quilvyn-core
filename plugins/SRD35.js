@@ -2459,7 +2459,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Kills %{lvl<?20}d4 HD of creatures with up to 8 HD in a 40\' radius (save Fort negates), working upward from those with the fewest HD"',
+      '"R%{100+lvl*10}\' Kills %{lvl<?20}d4 HD of creatures with up to 8 HD in a 40\' radius (save Fortitude negates), working upward from those with the fewest HD"',
   'Clairaudience/Clairvoyance':
     'School=Divination ' +
     'Level=Assassin4,B3,Knowledge3,S3,W3 ' +
@@ -3116,7 +3116,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=D2,S4,W4 ' +
     'Description=' +
-      '"Touched object inflicts 1d4+%{lvl<?20} HP fire (Ref half) in a 5\' radius when opened"',
+      '"Touched object inflicts 1d4+%{lvl<?20} HP fire (save Reflex half) in a 5\' radius when opened"',
   'Fireball':
     'School=Evocation ' +
     'Level=S3,W3 ' +
@@ -3249,7 +3249,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S2,W2 ' +
     'Description=' +
-      '"Melee touch inflicts paralyzed and a stench that sickens creatures other than self (save Fort negates) in a 10\' radius for 1d6+2 rd"',
+      '"Melee touch inflicts paralyzed and a stench that sickens creatures other than self (save Fortitude negates) in a 10\' radius for 1d6+2 rd"',
   'Giant Vermin':
     'School=Transmutation ' +
     'Level=C4,D4 ' +
@@ -3501,7 +3501,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C9,Destruction9 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Slays 1 target per rd (save Fort negates) for concentration up to 4 rd"',
+      '"R%{25+lvl//2*5}\' Slays 1 target per rd (save Fortitude negates) for concentration up to 4 rd"',
   'Imprisonment':
     'School=Abjuration ' +
     'Level=S9,W9 ' +
@@ -4005,7 +4005,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Fears of the target create a creature (save Will negates) whose touch kills the target (save Fort inflicts 3d6 HP)"',
+      '"R%{100+lvl*10}\' Fears of the target create a creature (save Will negates) whose touch kills the target (save Fortitude inflicts 3d6 HP)"',
   'Phantom Steed':
     'School=Conjuration ' +
     'Level=B3,S3,W3 ' +
@@ -4079,7 +4079,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Trickery8,S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target creature or object becomes a different creature or object (save Fortitude neg); the duration depends on the degree of change, from 20 min to permanent"',
+      '"R%{25+lvl//2*5}\' Target creature or object becomes a different creature or object (save Fortitude negates); the duration depends on the degree of change, from 20 min to permanent"',
   'Power Word Blind':
     'School=Enchantment ' +
     'Level=S7,W7,War7 ' +
@@ -4198,7 +4198,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Extinguishes nonmagical fires, dispels magic fires with a successful +%{lvl<?15} check, and inflicts %{lvl<?10}d6 HP to fire creatures in a %{lvl*20} cubic foot area, or suppresses fire-based effects of a non-artifact magic item for 1d4 hr (save Will neg)"',
+      '"R%{100+lvl*10}\' Extinguishes nonmagical fires, dispels magic fires with a successful +%{lvl<?15} check, and inflicts %{lvl<?10}d6 HP to fire creatures in a %{lvl*20} cubic foot area, or suppresses fire-based effects of a non-artifact magic item for 1d4 hr (save Will negates)"',
 
   'Rage':
     'School=Enchantment ' +
@@ -4676,171 +4676,210 @@ SRD35.SPELLS = {
   'Statue':
     'School=Transmutation ' +
     'Level=S7,W7 ' +
-    'Description="Touched becomes statue at will for %{lvl} hr"',
+    'Description=' +
+      '"Touched can become a statue with hardness 8 at will for %{lvl} hr"',
   'Status':
     'School=Divination ' +
     'Level=C2 ' +
-    'Description="Self monitors condition and position of %{lvl//3} touched allies for %{lvl} hr"',
+    'Description=' +
+      '"Allows monitoring the condition and position of %{lvl>5?lvl//3+\' touched allies\':\'a touched ally\'} for %{lvl} hr"',
   'Stinking Cloud':
     'School=Conjuration ' +
     'Level=S3,W3 ' +
-    'Description="R%{100+lvl*10}\' Fog in 20\' radius obscures vision and causes nausea for 1d4+1 rd (no attacks or spells) (Fort neg) for %{lvl} rd"',
+    'Description=' +
+      '"R%{100+lvl*10}\' 20\' radius fog lasting %{lvl} rd obscures vision and causes nausea that prevents attacks and spellcasting for 1d4+1 rd (save Fortitude negates)"',
   'Stone Shape':
     'School=Transmutation ' +
     'Level=C3,D3,Earth3,S4,W4 ' +
-    'Description="Self reshapes %{lvl+10}\' cu of stone"',
-  'Stone Tell':
-    'School=Divination ' +
-    'Level=D6 ' +
-    'Description="Self speaks w/stone for %{lvl} min"',
-  'Stone To Flesh':
-    'School=Transmutation ' +
-    'Level=S6,W6 ' +
-    'Description="R%{100+lvl*10}\' Restores stoned creature (DC 15 Fort to survive) or makes 10\'x3\' stone cylinder flesh"',
+    'Description="Reshapes %{lvl+10} cubic feet of stone"',
   'Stoneskin':
     'School=Abjuration ' +
     'Level=Adept4,D5,Earth6,Strength6,S4,W4 ' +
-    'Description="Touched gains DR 10/adamantine for %{lvl*10<?150} HP or %{lvl*10} min"',
+    'Description=' +
+      '"Touched gains DR 10/adamantine for %{lvl*10} min or until %{lvl*10<?150} HP worth of damage has been prevented"',
+  'Stone Tell':
+    'School=Divination ' +
+    'Level=D6 ' +
+    'Description="Allows self to converse with stone for %{lvl} min"',
+  'Stone To Flesh':
+    'School=Transmutation ' +
+    'Level=S6,W6 ' +
+    'Description=' +
+      '"R%{100+lvl*10}\' Restores a petrified creature (save Fortitude DC 15 to survive) or changes a 3\' diameter, 10\' high cylinder of stone into flesh"',
   'Storm Of Vengeance':
     'School=Conjuration ' +
     'Level=C9,D9 ' +
-    'Description="R%{400+lvl*40}\' 360\' radius storm deafens for 1d4x10 min (Fort neg), then rains acid inflicting 1d6 HP, then generates 6 bolts lightning that inflict 10d6 HP each (Ref half), then hail that inflicts 5d6 HP, then obscures vision for 6 rd"',
+    'Description=' +
+      '"R%{400+lvl*40}\' 360\' radius storm deafens for 1d4x10 min (save Fortitude negates), then produces rain that inflicts 1d6 HP acid, then generates lightning bolts that inflict 10d6 HP electricity on 6 targets (save Reflex half), then creates hail that inflicts 5d6 HP bludgeoning, then obscures vision and reduces Speed by 3/4 for 6 rd; the storm also prevents ranged attacks and disrupts spellcasting (save Concentration negates; add the level of the spell to be cast to the DC)"',
   'Suggestion':
     'School=Enchantment ' +
     'Level=B2,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' Target follows reasonable suggestion (Will neg) for %{lvl} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Target follows a reasonable suggestion (save Will negates) for %{lvl} hr"',
   'Mass Suggestion':
     'School=Enchantment ' +
     'Level=B5,S6,W6 ' +
-    'Description="R%{100+lvl*10}\' %{lvl} targets in 15\' radius follow reasonable suggestion (Will neg) for %{lvl} hr"',
+    'Description=' +
+      '"R%{100+lvl*10}\' %{lvl} targets in a 15\' radius follow a reasonable suggestion (save Will negates) for %{lvl} hr"',
   'Summon Instrument':
     'School=Conjuration ' +
     'Level=B0 ' +
-    'Description="Musical instrument appears for %{lvl} min"',
+    'Description=' +
+      '"Summons a specified musical instrument, small enough to be held and playable only by self, for %{lvl} min"',
   'Summon Monster I':
     'School=Conjuration ' +
     'Level=B1,Blackguard1,C1,S1,W1 ' +
-    'Description="R%{25+lvl//2*5}\' 1 1st-level creature appears and fights foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons a 1st-level extraplanar creature that fights foes and obeys orders for %{lvl} rd"',
   'Summon Monster II':
     'School=Conjuration ' +
     'Level=B2,Blackguard2,C2,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' 1 2nd- or 1d3 1st-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 2nd-level or 1d3 1st-level creatures that fight foes and obey orders for %{lvl} rd"',
   'Summon Monster III':
     'School=Conjuration ' +
     'Level=B3,Blackguard3,C3,S3,W3 ' +
-    'Description="R%{25+lvl//2*5}\' 1 3rd-, 1d3 2nd-, or 1d4+1 1st-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 3rd-level, 1d3 2nd-level, or 1d4+1 1st-level creatures that fight foes and obey orders for %{lvl} rd"',
   'Summon Monster IV':
     'School=Conjuration ' +
     'Level=B4,Blackguard4,C4,S4,W4 ' +
-    'Description="R%{25+lvl//2*5}\' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 4th-level, 1d3 3rd-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   'Summon Monster V':
     'School=Conjuration ' +
     'Level=B5,C5,S5,W5 ' +
-    'Description="R%{25+lvl//2*5}\' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 5th-level, 1d3 4th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   'Summon Monster VI':
     'School=Conjuration ' +
     'Level=B6,C6,S6,W6 ' +
-    'Description="R%{25+lvl//2*5}\' 1 6th-, 1d3 5th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 6th-level, 1d3 5th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   'Summon Monster VII':
     'School=Conjuration ' +
     'Level=C7,S7,W7 ' +
-    'Description="R%{25+lvl//2*5}\' 1 7th-, 1d3 6th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 7th-level, 1d3 6th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   'Summon Monster VIII':
     'School=Conjuration ' +
     'Level=C8,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' 1 8th-, 1d3 7th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 8th-level, 1d3 7th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   'Summon Monster IX':
     'School=Conjuration ' +
     'Level=C9,Chaos9,Evil9,Good9,Law9,S9,W9 ' +
-    'Description="R%{25+lvl//2*5}\' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 9th-level, 1d3 8th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally I":
     'School=Conjuration ' +
     'Level=D1,R1 ' +
-    'Description="R%{25+lvl//2*5}\' 1 1st-level creature appears and fights foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons a 1st-level creature that fights foes and obeys orders for %{lvl} rd"',
   "Summon Nature's Ally II":
     'School=Conjuration ' +
     'Level=D2,R2 ' +
-    'Description="R%{25+lvl//2*5}\' 1 2nd- or 1d3 1st-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 2nd-level or 1d3 1st-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally III":
     'School=Conjuration ' +
     'Level=D3,R3 ' +
-    'Description="R%{25+lvl//2*5}\' 1 3rd-, 1d3 2nd-, or 1d4+1 1st-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 3rd-level, 1d3 2nd-level, or 1d4+1 1st-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally IV":
     'School=Conjuration ' +
     'Level=Animal4,D4,R4 ' +
-    'Description="R%{25+lvl//2*5}\' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 4th-level, 1d3 3rd-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally V":
     'School=Conjuration ' +
     'Level=D5 ' +
-    'Description="R%{25+lvl//2*5}\' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 5th-level, 1d3 4th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally VI":
     'School=Conjuration ' +
     'Level=D6 ' +
-    'Description="R%{25+lvl//2*5}\' 1 6th-, 1d3 5th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 6th-level, 1d3 5th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally VII":
     'School=Conjuration ' +
     'Level=D7 ' +
-    'Description="R%{25+lvl//2*5}\' 1 7th-, 1d3 6th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 7th-level, 1d3 6th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally VIII":
     'School=Conjuration ' +
     'Level=Animal8,D8 ' +
-    'Description="R%{25+lvl//2*5}\' 1 8th-, 1d3 7th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 8th-level, 1d3 7th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally IX":
     'School=Conjuration ' +
     'Level=D9 ' +
-    'Description="R%{25+lvl//2*5}\' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creatures appear and fight foes for %{lvl} rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons 1 9th-level, 1d3 8th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   'Summon Swarm':
     'School=Conjuration ' +
     'Level=B2,D2,S2,W2 ' +
-    'Description="R%{25+lvl//2*5}\' Swarm of bats, rats, or spiders attacks nearest creature for conc + 2 rd"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Summons a swarm of bats, rats, or spiders that attacks the nearest creature for concentration + 2 rd"',
   'Sunbeam':
     'School=Evocation ' +
     'Level=D7,Sun7 ' +
-    'Description="%{lvl//3} 60\' beams inflict 4d6 HP and blind (undead and oozes %{lvl<?20}d6 HP) (Ref half HP only) 1/rd for %{lvl} rd"',
+    'Description=' +
+      '"%{lvl//3} 60\' beam of line inflicts 4d6 HP (or %{lvl<?20}d6 HP to undead and oozes, destroying those with a weakness to bright light) and blinded (save Reflex half HP only) once per rd for %{lvl} rd"',
   'Sunburst':
     'School=Evocation ' +
     'Level=D8,Sun8,S8,W8 ' +
-    'Description="R%{400+lvl*40}\' 80\' radius inflicts 6d6 HP and blinds (undead and oozes %{lvl<?25}d6 HP) (Ref half HP only)"',
+    'Description="R%{400+lvl*40}\' 80\' radius inflicts 6d6 HP (or %{lvl<?25}d6 HP to undead and oozes, destroying those with a weakness to bright light) and blinded (save Reflex half HP only)"',
   'Symbol Of Death':
     'School=Necromancy ' +
     'Level=C8,S8,W8 ' +
-    'Description="R60\' Rune slays (Fort neg) in 60\' radius when triggered for %{lvl*10} min or 150 HP killed"',
+    'Description=' +
+      '"R60\' Rune slays creatures in a 60\' radius (save Fortitude negates) when triggered for %{lvl*10} min or until creatures with 150 HP total are killed"',
   'Symbol Of Fear':
     'School=Necromancy ' +
     'Level=C6,S6,W6 ' +
-    'Description="R60\' Rune panics %{lvl} rd (Will neg) in 60\' radius when triggered for %{lvl*10} min"',
+    'Description=' +
+      '"R60\' Rune panics creatures in a 60\' radius for %{lvl} rd (save Will negates) when triggered for %{lvl*10} min"',
   'Symbol Of Insanity':
     'School=Enchantment ' +
     'Level=C8,S8,W8 ' +
-    'Description="R60\' Rune causes insanity (Will neg) in 60\' radius when triggered for %{lvl*10} min"',
+    'Description=' +
+      '"R60\' Rune inflicts permanent insanity on creatures in a 60\' radius (sve Will negates) when triggered for %{lvl*10} min"',
   'Symbol Of Pain':
     'School=Necromancy ' +
     'Level=C5,S5,W5 ' +
-    'Description="R60\' Rune causes pain (-4 attack and skill and ability checks) for 1 hr (Fort neg) in 60\' radius when triggered for %{lvl*10} min"',
+    'Description=' +
+      '"R60\' Rune causes pain that inflicts -4 attacks and skill and ability checks for 1 hr on creatures in a 60\' radius (save Fortitude negates) when triggered for %{lvl*10} min"',
   'Symbol Of Persuasion':
     'School=Enchantment ' +
     'Level=C6,S6,W6 ' +
-    'Description="R60\' Rune charms for %{lvl} hrs (Will neg) in 60\' radius when triggered for %{lvl*10} min"',
+    'Description=' +
+      '"R60\' Rune charms creatures in a 60\' radius for %{lvl} hrs (save Will negates) when triggered for %{lvl*10} min"',
   'Symbol Of Sleep':
     'School=Enchantment ' +
     'Level=C5,S5,W5 ' +
-    'Description="R60\' Rune sleeps creatures w/10 HD or less for 3d6x10 min (Will neg) in 60\' radius when triggered for %{lvl*10} min"',
+    'Description=' +
+      '"R60\' Rune renders creatures in a 60\' radius with up to 10 HD catatonic for 3d6x10 min (save Will negates) when triggered for %{lvl*10} min"',
   'Symbol Of Stunning':
     'School=Enchantment ' +
     'Level=C7,S7,W7 ' +
-    'Description="R60\' Rune stuns for 1d6 rd (Will neg) in 60\' radius when triggered for %{lvl*10} min"',
+    'Description=' +
+      '"R60\' Rune stuns creatures in a 60\' radius for 1d6 rd (save Will negates) when triggered for %{lvl*10} min"',
   'Symbol Of Weakness':
     'School=Necromancy ' +
     'Level=C7,S7,W7 ' +
-    'Description="R60\' Rune inflicts -3d6 Strength (Fort neg) in 60\' radius when triggered for %{lvl*10} min"',
+    'Description=' +
+      '"R60\' Rune inflicts -3d6 Strength on creatures in a 60\' radius (save Fortitude negates) when triggered for %{lvl*10} min"',
   'Sympathetic Vibration':
     'School=Evocation ' +
     'Level=B6 ' +
-    'Description="Touched structure suffers 2d10 HP/rd for %{lvl} rd"',
+    'Description=' +
+      '"Touched structure suffers 2d10 HP each rd for up to %{lvl} rd"',
   'Sympathy':
     'School=Enchantment ' +
     'Level=D9,S8,W8 ' +
-    'Description="R%{25+lvl//2*5}\' Named creature kind or alignment drawn to %{lvl*10}\' cu (Will neg) for %{lvl*2} hr"',
+    'Description=' +
+      '"R%{25+lvl//2*5}\' Specified intelligent creature kind or alignment is drawn to a target object or a %{lvl*10} cubic foot area (save Will negates; requires another save 1d6x10 min later) for %{lvl*2} hr"',
 
   'Telekinesis':
     'School=Transmutation ' +
