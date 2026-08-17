@@ -444,7 +444,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Discern Location (Knowledge8 Divi): Reveals the exact location of a familiar creature or object or of the past owner of a held item</td>
     </tr><tr style="text-align:left">
-      <td>Disguise Self (Trickery1 Illu): Self changes appearance, gaining +10 Disguise for 100 min; interaction gives others a Will save to detect</td>
+      <td>Disguise Self (Trickery1 Illu): Changes the appearance of self (save Will upon interaction disbelieves) and gives +10 Disguise, for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Disintegrate (Destruction7 Tran): R200' Ranged touch inflicts 20d6 HP (save Fortitude inflicts 5d6 HP), turning a slain target to dust, or disintegrates a 10' cube of matter</td>
     </tr><tr style="text-align:left">
@@ -518,7 +518,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Grasping Hand (Strength7 Evoc): R200' 10' hand (Armor Class 20, 28 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +16 bull rush and +24+modifier grapple for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Greater Teleport (Travel7 Conj): Transports self and 3 willing targets anywhere w/no error chance</td>
+      <td>Greater Teleport (Travel7 Conj): Transports self and 3 willing targets any distance with no chance of error</td>
     </tr><tr style="text-align:left">
       <td>Harm (Destruction6 Necr): Touch inflicts 100 HP (save Will half); undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
@@ -532,7 +532,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Holy Aura (Good8 Abju): 10 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Smite (Good4 Evoc): R200' 20' radius inflicts 5d8 HP and blindness for 1 rd on evil creatures (save Will half HP only) and half as many HP on neutral ones (save Will half)</td>
+      <td>Holy Smite (Good4 Evoc): R200' 20' radius inflicts 5d8 HP (or 10d6 HP to outsiders) and blindness for 1 rd on evil creatures (save Will half HP only) and half as many HP on neutral ones (save Will half)</td>
     </tr><tr style="text-align:left">
       <td>Holy Word (Good7 Evoc): Nongood creatures within 40' with 10/9/5/0 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/blinded for 2d4 rd/paralyzed for 1d10 min/killed</td>
     </tr><tr style="text-align:left">
@@ -544,7 +544,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Imbue With Spell Ability (Magic4 Evoc): Touched with an Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD gains the ability to cast chosen 1st, 2x1st, or 2x1st+2nd level spells from self prepared abjuration, divination, or healing spells; the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed</td>
     </tr><tr style="text-align:left">
-      <td>Implosion (Destruction9 Evoc): R50' Slays 1 target per rd (save Fort negates) for concentration up to 4 rd</td>
+      <td>Implosion (Destruction9 Evoc): R50' Slays 1 target per rd (save Fortitude negates) for concentration up to 4 rd</td>
     </tr><tr style="text-align:left">
       <td>Incendiary Cloud (Fire8 Conj): R200' Fire in a 20'-radius, 20'-high cylinder obscures vision, inflicts 4d6 HP fire (save Reflex half), and moves away 10' per rd (or up to 60' with concentration) for 10 rd</td>
     </tr><tr style="text-align:left">
@@ -562,7 +562,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Longstrider (Travel1 Tran): Gives self +10' Speed for 10 hr</td>
     </tr><tr style="text-align:left">
-      <td>Mage's Disjunction (Magic9 Abju): R50' 40' radius dispells spells and spell-like effects, disenchants magic items, and gives a 10% chance to destroy antimagic fields and disenchant artifacts (save Will negates); disenchanting an artifact permanently strips self spellcasting abilities (save Will DC 25 negates)</td>
+      <td>Mage's Disjunction (Magic9 Abju): R50' 40' radius dispels spells and spell-like effects, disenchants magic items, and gives a 10% chance to destroy antimagic fields and disenchant artifacts (save Will negates); disenchanting an artifact permanently strips self spellcasting abilities (save Will DC 25 negates)</td>
     </tr><tr style="text-align:left">
       <td>Magic Aura (Magic1 Illu): Alters the magical aura of an object weighing up to 50 lb for 10 days</td>
     </tr><tr style="text-align:left">
@@ -612,7 +612,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Plant Growth (Plant3 Tran): Causes vegetation in a 800' radius to become overgrown, slowing movement to 5' (10' for Large creatures), or increases the productivity of plants in a 1/2 mile radius for 1 year</td>
     </tr><tr style="text-align:left">
-      <td>Polymorph Any Object (Trickery8 Tran): R50' Target creature or object becomes a different creature or object (save Fortitude neg); the duration depends on the degree of change, from 20 min to permanent</td>
+      <td>Polymorph Any Object (Trickery8 Tran): R50' Target creature or object becomes a different creature or object (save Fortitude negates); the duration depends on the degree of change, from 20 min to permanent</td>
     </tr><tr style="text-align:left">
       <td>Power Word Blind (War7 Ench): R50' Blinds a target with up to 200 hit points; the duration is permanent if the target has 50 hit points or fewer, 1d4+1 min for up to 100 hit points, and 1d4+1 rd otherwise</td>
     </tr><tr style="text-align:left">
@@ -650,93 +650,93 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Righteous Might (Strength5 Tran): Causes self and equipment to double in size, gaining a size category, +4 Strength, +2 Constitution, +2 Armor Class, and x8 weight, and gives DR 3/evil or DR 3/good, for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sanctuary (Protection1 Abju): Foes cannot attack touched (DC 10 Will neg) for 10 rd or until target attacks</td>
+      <td>Sanctuary (Protection1 Abju): Foes cannot attack touched (save Will negates) for 10 rd; target attacking ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Screen (Trickery7 Illu): R50' Illusion hides 10 30' cu from vision and scrying (DC 17 Will disbelieve) for 1 dy</td>
+      <td>Screen (Trickery7 Illu): R50' Illusion hides 300 cubic feet from vision and scrying (save Will disbelieves) for 24 hr</td>
     </tr><tr style="text-align:left">
-      <td>Searing Light (Sun3 Evoc): R200' Ranged touch inflicts 5d8 HP (undead 10d6, object 5d6)</td>
+      <td>Searing Light (Sun3 Evoc): R200' Ranged touch inflicts 5d8 HP (or 10d6 for undead, 5d6 for a construct or object)</td>
     </tr><tr style="text-align:left">
-      <td>Shambler (Plant9 Conj): R200' Creates 1d4+2 11 HD shambling mounds in 15' radius that fight for 7 dy or guard for 7 mo</td>
+      <td>Shambler (Plant9 Conj): R200' Creates in a 15' radius 1d4+2 11 HD shambling mounds that fight for 7 days or guard for 7 months</td>
     </tr><tr style="text-align:left">
-      <td>Shapechange (Animal9 Tran): Self becomes nonunique creature of any size 1/rd for 100 min</td>
+      <td>Shapechange (Animal9 Tran): Allows self to becomes a nonunique creature of any size with up to 10 HD once per rd for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Shatter (Chaos2 Evoc): R50' Breakables in 5' radius shatter (DC 11 Will neg), or target object suffers 10d6 HP (DC 11 Fort half)</td>
+      <td>Shatter (Chaos2 Evoc): R50' Breakables weighing up to 10 lb in a 5' radius shatter (save Will negates), or target object weighing up to 100 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Shatter (Destruction2 Evoc): R50' Breakables in 5' radius shatter (DC 11 Will neg), or target object suffers 10d6 HP (DC 11 Fort half)</td>
+      <td>Shatter (Destruction2 Evoc): R50' Breakables weighing up to 10 lb in a 5' radius shatter (save Will negates), or target object weighing up to 100 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Shield Of Law (Law8 Abju): 10 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (chaotic), suppress mental control, and slow successful chaotic attackers (DC 17 Will neg) for 10 rd</td>
+      <td>Shield Of Law (Law8 Abju): 10 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Shield Other (Protection2 Abju): R50' target gains +1 Armor Class and saves, and half of damage suffered by target is transferred to self for 10 hr</td>
+      <td>Shield Other (Protection2 Abju): R50' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any damage suffered by the target is transferred to self, for 10 hr</td>
     </tr><tr style="text-align:left">
-      <td>Slay Living (Death5 Necr): Touched slain (DC 14 Fort suffers 3d6+10 HP)</td>
+      <td>Slay Living (Death5 Necr): Touch kills the target (save Fortitude inflicts 3d6+10 HP)</td>
     </tr><tr style="text-align:left">
-      <td>Soften Earth And Stone (Earth2 Tran): R50' 10 10'x4' squares of wet earth/dry earth/natural stone become mud/sand/clay</td>
+      <td>Soften Earth And Stone (Earth2 Tran): R50' 100 square feet of wet earth, dry earth, or natural stone becomes mud that traps creatures for 1d2 rd (save Reflex negates), sand that slows movement by half, or clay</td>
     </tr><tr style="text-align:left">
-      <td>Speak With Animals (Animal Talk1 Divi): Self converses w/animals for 10 min</td>
+      <td>Speak With Animals (Animal Talk1 Divi): Allows self to converse with animals for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Spell Immunity (Protection4 Abju): Touched gains immunity to 2 spells up to 4th level for 100 min</td>
+      <td>Spell Immunity (Protection4 Abju): Gives touched immunity to 2 spells of up to 4th level that are subject to spell resistance for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Spell Immunity (Strength4 Abju): Touched gains immunity to 2 spells up to 4th level for 100 min</td>
+      <td>Spell Immunity (Strength4 Abju): Gives touched immunity to 2 spells of up to 4th level that are subject to spell resistance for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Spell Resistance (Magic5 Abju): Touched gains SR 22 for 10 min</td>
+      <td>Spell Resistance (Magic5 Abju): Gives touched SR 22 for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Spell Resistance (Protection5 Abju): Touched gains SR 22 for 10 min</td>
+      <td>Spell Resistance (Protection5 Abju): Gives touched SR 22 for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Spell Turning (Luck7 Abju): 1d4+6 levels of non-area, non-ranged-touch spells directed at self reflect onto caster for 100 min</td>
+      <td>Spell Turning (Luck7 Abju): 1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within 100 min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both caster's <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane</td>
     </tr><tr style="text-align:left">
-      <td>Spell Turning (Magic7 Abju): 1d4+6 levels of non-area, non-ranged-touch spells directed at self reflect onto caster for 100 min</td>
+      <td>Spell Turning (Magic7 Abju): 1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within 100 min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both caster's <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane</td>
     </tr><tr style="text-align:left">
-      <td>Spike Stones (Earth4 Tran): R200' Spikes on stony ground in 20' sq inflict 1d8 HP each 5' movement and slow to half speed for 1 dy (DC 13 Ref neg) for 10 hr</td>
+      <td>Spike Stones (Earth4 Tran): R200' Stony ground in a 200 square foot area inflicts 1d8 HP piercing for each 5' movement and slows creatures to half speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed), for 10 hr</td>
     </tr><tr style="text-align:left">
-      <td>Spiritual Weapon (War2 Evoc): R200' Force weapon (+6 attack, 1d8+3 HP damage, crit same as physical weapon) attacks designated foes for 10 rd</td>
+      <td>Spiritual Weapon (War2 Evoc): R200' Creates a force weapon (+6 attack; inflicts 1d8+3 HP force; crit same as the corresponding physical weapon) that attacks a designated foe for 10 rd; can use move actions to redirect to different targets, and the first attack on each creature is subject to SR</td>
     </tr><tr style="text-align:left">
-      <td>Stone Shape (Earth3 Tran): Self reshapes 20' cu of stone</td>
+      <td>Stone Shape (Earth3 Tran): Reshapes 20 cubic feet of stone</td>
     </tr><tr style="text-align:left">
-      <td>Stoneskin (Earth6 Abju): Touched gains DR 10/adamantine for 100 HP or 100 min</td>
+      <td>Stoneskin (Earth6 Abju): Touched gains DR 10/adamantine for 100 min or until 100 HP worth of damage has been prevented</td>
     </tr><tr style="text-align:left">
-      <td>Stoneskin (Strength6 Abju): Touched gains DR 10/adamantine for 100 HP or 100 min</td>
+      <td>Stoneskin (Strength6 Abju): Touched gains DR 10/adamantine for 100 min or until 100 HP worth of damage has been prevented</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster IX (Chaos9 Conj): R50' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creatures appear and fight foes for 10 rd</td>
+      <td>Summon Monster IX (Chaos9 Conj): R50' Summons 1 9th-level, 1d3 8th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster IX (Evil9 Conj): R50' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creatures appear and fight foes for 10 rd</td>
+      <td>Summon Monster IX (Evil9 Conj): R50' Summons 1 9th-level, 1d3 8th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster IX (Good9 Conj): R50' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creatures appear and fight foes for 10 rd</td>
+      <td>Summon Monster IX (Good9 Conj): R50' Summons 1 9th-level, 1d3 8th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster IX (Law9 Conj): R50' 1 9th-, 1d3 8th-, or 1d4+1 lower-level creatures appear and fight foes for 10 rd</td>
+      <td>Summon Monster IX (Law9 Conj): R50' Summons 1 9th-level, 1d3 8th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Nature's Ally IV (Animal4 Conj): R50' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creatures appear and fight foes for 10 rd</td>
+      <td>Summon Nature's Ally IV (Animal4 Conj): R50' Summons 1 4th-level, 1d3 3rd-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Nature's Ally VIII (Animal8 Conj): R50' 1 8th-, 1d3 7th-, or 1d4+1 lower-level creatures appear and fight foes for 10 rd</td>
+      <td>Summon Nature's Ally VIII (Animal8 Conj): R50' Summons 1 8th-level, 1d3 7th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sunbeam (Sun7 Evoc): 3 60' beams inflict 4d6 HP and blind (undead and oozes 10d6 HP) (DC 16 Ref half HP only) 1/rd for 10 rd</td>
+      <td>Sunbeam (Sun7 Evoc): 3 60' beam of light inflicts 4d6 HP (or 8d6 to creatures sensitive to sunlight and 10d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only) once per rd for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sunburst (Sun8 Evoc): R800' 80' radius inflicts 6d6 HP and blinds (undead and oozes 10d6 HP) (DC 17 Ref half HP only)</td>
+      <td>Sunburst (Sun8 Evoc): R800' 80' radius inflicts 6d6 HP (or 12d6 to creatures sensitive to sunlight and 10d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only)</td>
     </tr><tr style="text-align:left">
-      <td>Teleport (Travel5 Conj): Transports self and 3 willing targets 1000 miles w/some error chance</td>
+      <td>Teleport (Travel5 Conj): Transports self and 3 willing targets up to 1000 miles; greater familiarity with the destination improves accuracy</td>
     </tr><tr style="text-align:left">
-      <td>Time Stop (Trickery9 Tran): All but self halt and become invulnerable for 1d4+1 rd</td>
+      <td>Time Stop (Trickery9 Tran): Allows taking 1d4+1 turns while no time passes for others; cannot attack or cast spells on other creatures for the duration</td>
     </tr><tr style="text-align:left">
-      <td>True Seeing (Knowledge5 Divi): Touched sees through 120' darkness, illusion, and invisibility for 10 min</td>
+      <td>True Seeing (Knowledge5 Divi): Allows touched to see through 120' darkness, illusion, and invisibility, note secret doors, and see the true forms of polymorphed items for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Unholy Aura (Evil8 Abju): 10 creatures in 20' radius gain +4 Armor Class, +4 saves, and SR 25 (good), suppress mental control, and inflict -1d6 Strength on successful good attacker (DC 17 Fort neg) for 10 rd</td>
+      <td>Unholy Aura (Evil8 Abju): 10 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. good spells and casters, suppress mental control, and inflict -1d6 Strength on successful good attackers (save Fortitude negates) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Unholy Blight (Evil4 Evoc): R200' Good creatures in 20' radius suffer 5d8 HP and sicken for 1 rd, neutral half (DC 13 Will half)</td>
+      <td>Unholy Blight (Evil4 Evoc): R200' 20' radius inflicts 5d8 HP (or 10d6 HP to outsiders) and sickened for 1d4 rd on good creatures (save Will half HP only) and half as many HP on neutral ones (save Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Wail Of The Banshee (Death9 Necr): R50' Slays 10 targets in 40' radius (DC 18 Fort neg)</td>
+      <td>Wail Of The Banshee (Death9 Necr): R50' Slays 10 targets within 40' (save Fortitude negates)</td>
     </tr><tr style="text-align:left">
-      <td>Wall Of Fire (Fire4 Evoc): R200' 200' wall inflicts 2d4 HP to creatures w/in 10', 1d4 HP to creatures w/in 20', 2d6+10 HP when passing through (undead dbl) for conc + 10 rd</td>
+      <td>Wall Of Fire (Fire4 Evoc): R200' Creates a 200'x20' wall or a 25'x20' ring that inflicts 2d4 HP fire to creatures within 10', 1d4 HP fire to creatures within 20', and 2d6+10 HP fire when passing through (or double these damages to undead) for concentration + 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Wall Of Stone (Earth5 Conj): R200' Creates 10 5' x 2 inch thick permanent stone wall</td>
+      <td>Wall Of Stone (Earth5 Conj): R200' Creates a 50 square foot, 2"-thick permanent stone wall (the area can be doubled by halving the thickness); each 5' section has 30 hit points and hardness 8</td>
     </tr><tr style="text-align:left">
-      <td>Wall Of Thorns (Plant5 Conj): R200' 10 10' cu thorns inflict (25-Armor Class) HP/rd when passing through for 100 min</td>
+      <td>Wall Of Thorns (Plant5 Conj): R200' Creates 100 cubic feet of thorns that inflict (25-Armor Class) HP slashing, discounting Dexterity and dodge bonuses to AC, for 100 min; moving through the thorns requires a Strength check each rd, allowing 5' of movement for each 5 points that the check exceeds 20</td>
     </tr><tr style="text-align:left">
-      <td>Water Breathing (Water3 Tran): Touched can breathe underwater for 20 hrs total</td>
+      <td>Water Breathing (Water3 Tran): Allows touched creatures to breathe underwater for a total of 20 hrs</td>
     </tr><tr style="text-align:left">
-      <td>Whirlwind (Air8 Evoc): R800' Wind in 10' radius inflicts 3d6 HP, then 1d8 HP/rd for 10 rd (DC 17 Ref neg)</td>
+      <td>Whirlwind (Air8 Evoc): R800' 10' radius, 30' high cyclone moves 60' as directed each rd, inflicting 3d6 HP on Large and smaller creatures (save Reflex negates), for 10 rd; it traps Medium and smaller creatures (save Reflex negates), inflicting an additional 1d8 HP on each subsequent rd</td>
     </tr><tr style="text-align:left">
-      <td>Wind Wall (Air2 Evoc): R200' 100'x5' curtain of air scatters objects and deflects arrows and bolts for 10 rd</td>
+      <td>Wind Wall (Air2 Evoc): R200' Creates a 100'x50'x2' curtain of air that scatters objects, bars gasses and Small or smaller flying creatures, and deflects arrows and bolts for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Word Of Chaos (Chaos7 Evoc): Nonchaotic creatures in 40' radius with equal/-1/-5/-10 HD deafened for 1d4 rd/stunned for 1 rd/confused for 1d10 min/killed (DC 16 Will neg)</td>
+      <td>Word Of Chaos (Chaos7 Evoc): Nonchaotic creatures within 40' with 10/9/5/0 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/stunned for 1 rd/confused for 1d10 min/killed</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">

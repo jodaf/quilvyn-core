@@ -371,7 +371,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Dimension Door (B4 Conj): Teleports self and a touched object or 5 willing creatures 1040'</td>
     </tr><tr style="text-align:left">
-      <td>Disguise Self (B1 Illu): Self changes appearance, gaining +10 Disguise for 160 min; interaction gives others a Will save to detect</td>
+      <td>Disguise Self (B1 Illu): Changes the appearance of self (save Will upon interaction disbelieves) and gives +10 Disguise, for 160 min</td>
     </tr><tr style="text-align:left">
       <td>Dispel Magic (B3 Abju): R260' Successful d20+10 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
@@ -425,9 +425,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Greater Invisibility (B4 Illu): Touched becomes invisible for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Greater Scrying (B6 Divi): Self views and may cast detection and communication spells on target (DC 18 Will special neg) for 16 hr</td>
+      <td>Greater Scrying (B6 Divi): Self sees, hears, and can cast detection and communication spells in a 10' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Greater Shout (B6 Evoc): R60' Cone inflicts 10d6 HP, deafness for 4d6 rd, and stunning for 1 rd (DC 18 Fort half HP and deafness only)</td>
+      <td>Greater Shout (B6 Evoc): 60' cone inflicts 10d6 HP sonic (or 20d6 HP sonic to crystalline creatures and objects), deafness for 4d6 rd, and stunned for 1 rd (save Fortitude half HP and half deafness duration only; save Reflex negates damage to held objects)</td>
     </tr><tr style="text-align:left">
       <td>Hallucinatory Terrain (B4 Illu): R1040' Changes the look, sound, and smell of 480 cubic feet of terrain (save Will upon interaction disbelieves) for 32 hr</td>
     </tr><tr style="text-align:left">
@@ -479,7 +479,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Mouth (B1 Illu): R65' Enspells the target object or creature (save Will negates) so that a mouth appears on it and speaks up to 25 words in response to a specified trigger within 240'</td>
     </tr><tr style="text-align:left">
-      <td>Major Image (B3 Illu): R1040' Creates a 200 cubic foot image with sound, smell, and thermal effects (save Will disbelieves) for concentration + 3 rd</td>
+      <td>Major Image (B3 Illu): R1040' Creates a 200 cubic foot movable image with sound, smell, and thermal effects (save Will disbelieves) for concentration + 3 rd</td>
     </tr><tr style="text-align:left">
       <td>Mass Cat's Grace (B6 Tran): R65' 16 targets in a 15' radius gain +4 Dexterity for 16 min</td>
     </tr><tr style="text-align:left">
@@ -493,7 +493,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mass Fox's Cunning (B6 Tran): R65' 16 targets in a 15' radius gain +4 Intelligence for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Suggestion (B5 Ench): R260' 16 targets in 15' radius follow reasonable suggestion (DC 18 Will neg) for 16 hr</td>
+      <td>Mass Suggestion (B5 Ench): R260' 16 targets in a 15' radius follow a reasonable suggestion (save Will negates) for 16 hr</td>
     </tr><tr style="text-align:left">
       <td>Mending (B0 Tran): R10' Repairs minor damage to an object weighing up to 1 lb</td>
     </tr><tr style="text-align:left">
@@ -501,7 +501,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mind Fog (B5 Ench): R260' Fog in a 20' radius inflicts -10 Wisdom and Will checks (save Will negates), lasting for 2d6 rd after exiting, for 30 min</td>
     </tr><tr style="text-align:left">
-      <td>Minor Image (B2 Illu): R1040' Creates a 200 cubic foot image with sound (save Will upon interaction disbelieves) for concentration + 2 rd</td>
+      <td>Minor Image (B2 Illu): R1040' Creates a 200 cubic foot movable image with sound (save Will upon interaction disbelieves) for concentration + 2 rd</td>
     </tr><tr style="text-align:left">
       <td>Mirage Arcana (B5 Illu): R1040' Changes the look, sound, touch, and smell of 320 cubic feet of terrain and structures (save Will upon interaction disbelieves) for concentration + 16 hr</td>
     </tr><tr style="text-align:left">
@@ -521,15 +521,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Open/Close (B0 Tran): R65' Target object of up to 30 lb opens or closes (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Permanent Image (B6 Illu): R1040' Creates a 240 cubic foot image with sound, smell, and thermal effects (save Will upon interaction disbelieves)</td>
+      <td>Permanent Image (B6 Illu): R1040' Creates a 240 cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves)</td>
     </tr><tr style="text-align:left">
-      <td>Persistent Image (B5 Illu): R1040' Creates a 200 cubic foot moving, scripted image with sound, smell, and thermal effects (save Will upon interaction disbelieves) for 16 min</td>
+      <td>Persistent Image (B5 Illu): R1040' Creates a 200 cubic foot movable, scripted image with sound, smell, and thermal effects (save Will upon interaction disbelieves) for 16 min</td>
     </tr><tr style="text-align:left">
       <td>Phantom Steed (B3 Conj): Creates a mount with 23 hit points, Armor Class 18, and 240' Speed that only the target can ride for 16 hr; the mount can ride over sandy, muddy, and swampy ground at full speed, use <i>Water Walk</i> effects at will,use <i>Air Walk</i> effects for 1 rd at will, and fly at full Speed</td>
     </tr><tr style="text-align:left">
       <td>Prestidigitation (B0 Univ): R10' Allows performing minor magic effects for 1 hr</td>
     </tr><tr style="text-align:left">
-      <td>Programmed Image (B6 Illu): R1040' Creates a 200 cubic foot image with sound, smell, and thermal effects (save Will upon interaction disbelieves) that appears when triggered for 16 rd</td>
+      <td>Programmed Image (B6 Illu): R1040' Creates a 200 cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves) that appears when triggered for 16 rd</td>
     </tr><tr style="text-align:left">
       <td>Project Image (B6 Illu): R260' Allows self to see and cast through an intangible duplicate (save Will upon interaction disbelieves) for 16 rd; a break in line of effect to the duplicate ends the spell</td>
     </tr><tr style="text-align:left">
@@ -549,85 +549,85 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Resistance (B0 Abju): Touched gains +1 saves for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Scare (B2 Necr): R65' 5 targets w/up to 5 HD in 30' radius flee for 16 rd (DC 16 Will shaken for 1 rd)</td>
+      <td>Scare (B2 Necr): R65' Target with up to 6 HD becomes frightened and flees for 1d4 rd (save Will inflicts shaken for 1 rd)</td>
     </tr><tr style="text-align:left">
-      <td>Scrying (B3 Divi): Self views target (DC 15 Will neg) for 16 min</td>
+      <td>Scrying (B3 Divi): Self sees and hears a 10' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Sculpt Sound (B3 Tran): R65' Sounds of 16 targets in 15' radius changed (DC 15 Will neg) for 16 hr</td>
+      <td>Sculpt Sound (B3 Tran): R65' Changes the sounds of 16 targets in a 15' radius (save Will negates) for 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Secret Page (B3 Tran): Hides content of touched page permanently</td>
+      <td>Secret Page (B3 Tran): Permanently alters the text on a touched page so that a password is required to read it</td>
     </tr><tr style="text-align:left">
-      <td>Secure Shelter (B4 Conj): R65' Creates 20'x20' cottage that lasts 32 hr</td>
+      <td>Secure Shelter (B4 Conj): R65' Creates 20'x20' cottage, strong as a stone building, with secured entrances, resistance to fire, immunity to normal missiles, and an unseen servant that can perform tasks, for 32 hr</td>
     </tr><tr style="text-align:left">
-      <td>See Invisibility (B3 Divi): Self sees invisible and ethereal creatures and objects for 160 min</td>
+      <td>See Invisibility (B3 Divi): Allows self to see invisible and ethereal creatures and objects for 160 min</td>
     </tr><tr style="text-align:left">
-      <td>Seeming (B5 Illu): R65' Appearance of 8 targets in 15' radius changes (DC 17 Will disbelieve), gives +10 Disguise for 12 hr</td>
+      <td>Seeming (B5 Illu): R65' Changes the appearance of 8 targets in a 15' radius (save Will negates; save Will by others upon interaction disbelieves) and gives them +10 Disguise for 12 hr</td>
     </tr><tr style="text-align:left">
-      <td>Sepia Snake Sigil (B3 Conj): Immobilizes reader (DC 15 Ref neg) for 1d4+16 dy</td>
+      <td>Sepia Snake Sigil (B3 Conj): Reading the target text puts the reader into suspended animation (save Reflex negates) for 1d4+16 dy</td>
     </tr><tr style="text-align:left">
-      <td>Shadow Conjuration (B4 Illu): Mimics conjuration (creation or summoning) spell up to 3rd level (DC 16 Will 20% effect)</td>
+      <td>Shadow Conjuration (B4 Illu): Mimics a creation or summoning conjuration spell of up to 3rd level (save Will reduces the mimicked spell's effects by 80%); mimicked spells are subject to SR and have a save DC as a 4th-level spell, and creatures summoned by a mimicked spell have 20% of their normal hit points</td>
     </tr><tr style="text-align:left">
-      <td>Shadow Evocation (B5 Illu): Mimics evocation spell up to 4th level (DC 17 Will 20% effect)</td>
+      <td>Shadow Evocation (B5 Illu): Mimics an evocation spell of up to 4th level (save Will reduces the mimicked spell's effects by 80%); mimicked spells are subject to SR and have a save DC as a 5th-level spell</td>
     </tr><tr style="text-align:left">
-      <td>Shadow Walk (B5 Illu): Self and 16 touched travel quickly via Plane of Shadow (DC 17 Will Neg) for 16 hr</td>
+      <td>Shadow Walk (B5 Illu): Allows self and 16 touched to travel at 50 MPH via the Plane of Shadow (save Will negates) for 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Shatter (B2 Evoc): R65' Breakables in 5' radius shatter (DC 14 Will neg), or target object suffers 10d6 HP (DC 14 Fort half)</td>
+      <td>Shatter (B2 Evoc): R65' Breakables weighing up to 16 lb in a 5' radius shatter (save Will negates), or target object weighing up to 160 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Shout (B4 Evoc): R30' Cone inflicts 5d6 HP and deafness for 2d6 rd (DC 16 Fort half HP only)</td>
+      <td>Shout (B4 Evoc): 30' cone inflicts 5d6 HP sonic (or 16d6 HP sonic to crystalline creatures and objects) and deafness for 2d6 rd (save Fortitude half HP only; save Reflex negates damage to held objects)</td>
     </tr><tr style="text-align:left">
-      <td>Silence (B2 Illu): R1040' Bars sound in 20' radius (DC 14 Will neg if targeted) for 16 min</td>
+      <td>Silence (B2 Illu): R1040' Eliminates sound in a 20' radius (save Will for a targeted creature negates) for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Silent Image (B1 Illu): R1040' Creates 20 10' cu visual illusion (DC 13 Will disbelieve) for conc</td>
+      <td>Silent Image (B1 Illu): R1040' Creates a 200 cubic foot movable image (save Will disbelieve) for concentration</td>
     </tr><tr style="text-align:left">
-      <td>Sleep (B1 Ench): R260' 4 HD of creatures in 10' radius sleep (DC 14 Will neg) for 16 min</td>
+      <td>Sleep (B1 Ench): R260' 4 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Slow (B3 Tran): R65' 16 creatures in 15' radius take one action per rd, suffer -1 Armor Class, attack, and Reflex, and slow to half Speed (DC 15 Will neg) for 16 rd</td>
+      <td>Slow (B3 Tran): R65' 16 creatures in a 15' radius can take no more than one action per turn, suffer -1 Armor Class, attacks, and Reflex saves, and slow to half Speed (save Will negates) for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Song Of Discord (B5 Ench): R260' Creatures in 20' radius have 50% chance each rd of attacking neighbor (DC 18 Will neg) for 16 rd</td>
+      <td>Song Of Discord (B5 Ench): R260' Creatures in a 20' radius have a 50% chance each rd of attacking the nearest creature (save Will negates) for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sound Burst (B2 Evoc): R65' 10' radius inflicts 1d8 HP and stuns (DC 14 Fort HP only)</td>
+      <td>Sound Burst (B2 Evoc): R65' 10' radius inflicts 1d8 HP sonic and stunned for 1 rd (save Fortitude HP only)</td>
     </tr><tr style="text-align:left">
-      <td>Speak With Animals (B3 Divi): Self converses w/animals for 16 min</td>
+      <td>Speak With Animals (B3 Divi): Allows self to converse with animals for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Speak With Plants (B4 Divi): Self converses w/plants for 16 min</td>
+      <td>Speak With Plants (B4 Divi): Allows self to converse with plants and plant creatures for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Suggestion (B2 Ench): R65' Target follows reasonable suggestion (DC 15 Will neg) for 16 hr</td>
+      <td>Suggestion (B2 Ench): R65' Target follows a reasonable suggestion (save Will negates) for 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Suggestion (Suggestion3 Ench): R65' Target follows reasonable suggestion (DC 16 Will neg) for 16 hr</td>
+      <td>Suggestion (Suggestion3 Ench): R65' Target follows a reasonable suggestion (save Will negates) for 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Summon Instrument (B0 Conj): Musical instrument appears for 16 min</td>
+      <td>Summon Instrument (B0 Conj): Summons a specified musical instrument, small enough to be held and playable only by self, for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster I (B1 Conj): R65' 1 1st-level creature appears and fights foes for 16 rd</td>
+      <td>Summon Monster I (B1 Conj): R65' Summons a 1st-level extraplanar creature that fights foes and obeys orders for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster II (B2 Conj): R65' 1 2nd- or 1d3 1st-level creatures appear and fight foes for 16 rd</td>
+      <td>Summon Monster II (B2 Conj): R65' Summons 1 2nd-level or 1d3 1st-level creatures that fight foes and obey orders for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster III (B3 Conj): R65' 1 3rd-, 1d3 2nd-, or 1d4+1 1st-level creatures appear and fight foes for 16 rd</td>
+      <td>Summon Monster III (B3 Conj): R65' Summons 1 3rd-level, 1d3 2nd-level, or 1d4+1 1st-level creatures that fight foes and obey orders for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster IV (B4 Conj): R65' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creatures appear and fight foes for 16 rd</td>
+      <td>Summon Monster IV (B4 Conj): R65' Summons 1 4th-level, 1d3 3rd-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster V (B5 Conj): R65' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creatures appear and fight foes for 16 rd</td>
+      <td>Summon Monster V (B5 Conj): R65' Summons 1 5th-level, 1d3 4th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster VI (B6 Conj): R65' 1 6th-, 1d3 5th-, or 1d4+1 lower-level creatures appear and fight foes for 16 rd</td>
+      <td>Summon Monster VI (B6 Conj): R65' Summons 1 6th-level, 1d3 5th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Swarm (B2 Conj): R65' Swarm of bats, rats, or spiders attacks nearest creature for conc + 2 rd</td>
+      <td>Summon Swarm (B2 Conj): R65' Summons a swarm of bats, rats, or spiders that attacks the nearest creature for concentration + 2 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sympathetic Vibration (B6 Evoc): Touched structure suffers 2d10 HP/rd for 16 rd</td>
+      <td>Sympathetic Vibration (B6 Evoc): Touched structure suffers 2d10 HP each rd for up to 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Tiny Hut (B3 Evoc): 20' sphere resists elements for 32 hr</td>
+      <td>Tiny Hut (B3 Evoc): Creates a 20'-radius sphere that provides shelter for 10 Medium creatures, resisting heat, cold, and weather, for 32 hr</td>
     </tr><tr style="text-align:left">
-      <td>Tongues (B2 Divi): Touched can communicate in any language for 160 min</td>
+      <td>Tongues (B2 Divi): Allows touched to communicate in any language for 160 min</td>
     </tr><tr style="text-align:left">
-      <td>Undetectable Alignment (B1 Abju): R65' Conceals target alignment (DC 13 Will neg) for 1 dy</td>
+      <td>Undetectable Alignment (B1 Abju): R65' Conceals the target's alignment (save Will negates) from divination for 24 hr</td>
     </tr><tr style="text-align:left">
-      <td>Unseen Servant (B1 Conj): R65' Invisible servant obeys self for 16 hr</td>
+      <td>Unseen Servant (B1 Conj): R65' Creates an invisible servant with Strength 2 and a 15' Speed that can perform simple tasks for 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Veil (B6 Illu): R1040' Creatures in 15' radius appear to be other creatures (DC 18 Will neg) for conc + 16 hr</td>
+      <td>Veil (B6 Illu): R1040' Makes creatures in a 15' radius appear to be different creatures (save Will negates for targets; save Will upon interaction disbelieves for others) for concentration + 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Ventriloquism (B1 Illu): R65' Self voice moves (DC 13 Will disbelieve) for 16 min</td>
+      <td>Ventriloquism (B1 Illu): Allows speech to originate from a spot within 65' (save Will disbelieves) for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Whispering Wind (B2 Tran): R16 miles Self sends 25-word message or sound to 10' area</td>
+      <td>Whispering Wind (B2 Tran): R16 miles Allows sending a whispered 25-word message or sound to a familiar 10' area</td>
     </tr><tr style="text-align:left">
-      <td>Zone Of Silence (B4 Illu): No sound escapes 5' radius for 16 hr</td>
+      <td>Zone Of Silence (B4 Illu): Prevents sound from escaping a 5' radius for 16 hr</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">

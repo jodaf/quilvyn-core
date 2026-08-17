@@ -325,7 +325,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Feather Fall (W1 Tran): R60' 14 falling targets in a 10' radius slow to 60' per rd (save Will negates) for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Fire Trap (W4 Abju): Touched object inflicts 1d4+14 HP fire (DC 15 Ref half) in a 5' radius when opened</td>
+      <td>Fire Trap (W4 Abju): Touched object inflicts 1d4+14 HP fire (save Reflex half) in a 5' radius when opened</td>
     </tr><tr style="text-align:left">
       <td>Flaming Sphere (W2 Evoc): R240' 5' diameter sphere inflicts 2d6 HP fire (save Reflex negates) for 14 rd; can be directed to jump 30' and move 30' per rd</td>
     </tr><tr style="text-align:left">
@@ -365,7 +365,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mass Reduce Person (W4 Tran): R60' 14 target humanoids in a 15' radius become half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attack, and +1 Armor Class, for 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Suggestion (W6 Ench): R240' 14 targets in 15' radius follow reasonable suggestion (DC 17 Will neg) for 14 hr</td>
+      <td>Mass Suggestion (W6 Ench): R240' 14 targets in a 15' radius follow a reasonable suggestion (save Will negates) for 14 hr</td>
     </tr><tr style="text-align:left">
       <td>Mending (C0 Tran): R10' Repairs minor damage to an object weighing up to 1 lb</td>
     </tr><tr style="text-align:left">
@@ -387,45 +387,45 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Repulsion (C7 Abju): 140' radius bars creatures and prevents those within it from approaching (save Will negates) for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sanctuary (C1 Abju): Foes cannot attack touched (DC 12 Will neg) for 14 rd or until target attacks</td>
+      <td>Sanctuary (C1 Abju): Foes cannot attack touched (save Will negates) for 14 rd; target attacking ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Shatter (C2 Evoc): R60' Breakables in 5' radius shatter (DC 14 Will neg), or target object suffers 10d6 HP (DC 14 Fort half)</td>
+      <td>Shatter (C2 Evoc): R60' Breakables weighing up to 14 lb in a 5' radius shatter (save Will negates), or target object weighing up to 140 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Shield Other (C2 Abju): R60' target gains +1 Armor Class and saves, and half of damage suffered by target is transferred to self for 14 hr</td>
+      <td>Shield Other (C2 Abju): R60' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any damage suffered by the target is transferred to self, for 14 hr</td>
     </tr><tr style="text-align:left">
-      <td>Sleep (W1 Ench): R240' 4 HD of creatures in 10' radius sleep (DC 12 Will neg) for 14 min</td>
+      <td>Sleep (W1 Ench): R240' 4 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Spectral Hand (W2 Necr): R240' Self yields 1d4 HP to glowing hand that delivers touch spells up to 4th level at +2 attack for 14 min</td>
+      <td>Spectral Hand (W2 Necr): R240' Creates an incorporeal hand (1d4 hit points temporarily taken from self; Armor Class 1; improved evasion) that can make +2 melee touch attacks to deliver touch spells up to 4th level for 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Spell Resistance (C5 Abju): Touched gains SR 26 for 14 min</td>
+      <td>Spell Resistance (C5 Abju): Gives touched SR 26 for 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Spider Climb (W2 Tran): Touched gains 20' climb speed and can climb walls and ceilings for 140 min</td>
+      <td>Spider Climb (W2 Tran): Gives touched a 20' climb Speed and the ability to climb walls and ceilings for 140 min; the target also retains its Dexterity bonus to Armor Class while climbing</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster V (W5 Conj): R60' 1 5th-, 1d3 4th-, or 1d4+1 lower-level creatures appear and fight foes for 14 rd</td>
+      <td>Summon Monster V (W5 Conj): R60' Summons 1 5th-level, 1d3 4th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster VII (C7 Conj): R60' 1 7th-, 1d3 6th-, or 1d4+1 lower-level creatures appear and fight foes for 14 rd</td>
+      <td>Summon Monster VII (C7 Conj): R60' Summons 1 7th-level, 1d3 6th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Pain (C5 Necr): R60' Rune causes pain (-4 attack and skill and ability checks) for 1 hr (DC 17 Fort neg) in 60' radius when triggered for 140 min</td>
+      <td>Symbol Of Pain (C5 Necr): R60' Rune causes pain that inflicts -4 attacks and skill and ability checks for 1 hr on creatures in a 60' radius (save Fortitude negates) when triggered for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Sleep (W5 Ench): R60' Rune sleeps creatures w/10 HD or less for 3d6x10 min (DC 16 Will neg) in 60' radius when triggered for 140 min</td>
+      <td>Symbol Of Sleep (W5 Ench): R60' Rune renders creatures in a 60' radius with up to 10 HD catatonic for 3d6x10 min (save Will negates) when triggered for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Stunning (W7 Ench): R60' Rune stuns for 1d6 rd (DC 18 Will neg) in 60' radius when triggered for 140 min</td>
+      <td>Symbol Of Stunning (W7 Ench): R60' Rune stuns creatures in a 60' radius for 1d6 rd (save Will negates) when triggered for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Telekinesis (W5 Tran): R960' Self moves 350 lb 20'/rd for conc or 14 rd, performs combat maneuver 14 rd, or hurls 14 objects 350 lbs total (DC 16 Will neg)</td>
+      <td>Telekinesis (W5 Tran): R960' Allows self to move an object weighing up to 350 lb 20' per rd for concentration up to 14 rd (save Will for possessed items negates), to perform a +14 bull rush, disarm, grapple, or trip using Intelligence instead of Strength or Dexterity once per rd for concentration up to 14 rd, or to hurl 14 objects in a 10' radius weighing up to 350 lbs total at a target within 10' of the objects (save Will for creatures and possessed items negates)</td>
     </tr><tr style="text-align:left">
-      <td>Touch Of Fatigue (W0 Necr): Touch inflicts fatigue for 14 rd (DC 12 Fort neg)</td>
+      <td>Touch Of Fatigue (W0 Necr): Touch attack inflicts fatigue for 14 rd (save Fortitude negates)</td>
     </tr><tr style="text-align:left">
-      <td>Transmute Mud To Rock (W5 Tran): R240' 28 10' cu of mud becomes rock</td>
+      <td>Transmute Mud To Rock (W5 Tran): R240' Coverts 280 cubic feet of mud or quicksand to rock, trapping creatures within (save Reflex negates)</td>
     </tr><tr style="text-align:left">
-      <td>True Seeing (W6 Divi): Touched sees through 120' darkness, illusion, and invisibility for 14 min</td>
+      <td>True Seeing (W6 Divi): Allows touched to see through 120' darkness, illusion, and invisibility, note secret doors, and see the true forms of polymorphed items for 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Undetectable Alignment (C2 Abju): R60' Conceals target alignment (DC 13 Will neg) for 1 dy</td>
+      <td>Undetectable Alignment (C2 Abju): R60' Conceals the target's alignment (save Will negates) from divination for 24 hr</td>
     </tr><tr style="text-align:left">
-      <td>Water Walk (C3 Tran): 14 touched can walk on liquid as if it were a solid surface for 140 min</td>
+      <td>Water Walk (C3 Tran): Allows 14 touched creatures to walk on liquid as if it were a solid surface for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Wind Wall (W3 Evoc): R240' 140'x5' curtain of air scatters objects and deflects arrows and bolts for 14 rd</td>
+      <td>Wind Wall (W3 Evoc): R240' Creates a 140'x70'x2' curtain of air that scatters objects, bars gasses and Small or smaller flying creatures, and deflects arrows and bolts for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Word Of Recall (C6 Conj): Self and 4 willing targets return to a chosen sanctuary</td>
+      <td>Word Of Recall (C6 Conj): Self and 4 willing touched return to a chosen sanctuary</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">

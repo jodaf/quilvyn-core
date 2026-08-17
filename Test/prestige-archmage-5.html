@@ -282,7 +282,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Burning Hands (W1 Evoc): 15' cone inflicts 5d4 HP fire (save Reflex half)</td>
     </tr><tr style="text-align:left">
-      <td>Circle Of Death (W6 Necr): R290' Kills 19d4 HD of creatures with up to 8 HD in a 40' radius (save Fort negates), working upward from those with the fewest HD</td>
+      <td>Circle Of Death (W6 Necr): R290' Kills 19d4 HD of creatures with up to 8 HD in a 40' radius (save Fortitude negates), working upward from those with the fewest HD</td>
     </tr><tr style="text-align:left">
       <td>Cone Of Cold (W5 Evoc): 60' cone inflicts 15d6 HP cold (save Reflex half)</td>
     </tr><tr style="text-align:left">
@@ -316,13 +316,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Ghost Sound (W0 Illu): R70' Produces the sound volume of 20 humans (save Will upon interaction disbelieves) for 19 rd</td>
     </tr><tr style="text-align:left">
-      <td>Ghoul Touch (W2 Necr): Melee touch inflicts paralyzed and a stench that sickens creatures other than self (save Fort negates) in a 10' radius for 1d6+2 rd</td>
+      <td>Ghoul Touch (W2 Necr): Melee touch inflicts paralyzed and a stench that sickens creatures other than self (save Fortitude negates) in a 10' radius for 1d6+2 rd</td>
     </tr><tr style="text-align:left">
-      <td>Greater Scrying (W7 Divi): Self views and may cast detection and communication spells on target (DC 21 Will special neg) for 19 hr</td>
+      <td>Greater Scrying (W7 Divi): Self sees, hears, and can cast detection and communication spells in a 10' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for 19 hr</td>
     </tr><tr style="text-align:left">
-      <td>Greater Shadow Conjuration (W7 Illu): Mimics conjuration (creation or summoning) spell up to 6th level (DC 20 Will 60% effect)</td>
+      <td>Greater Shadow Conjuration (W7 Illu): Mimics a creation or summoning conjuration spell of up to 6th level (save Will reduces the mimicked spell's effects by 40%); mimicked spells are subject to SR and have a save DC as a 7th-level spell, and creatures summoned by a mimicked spell have 20% of their normal hit points</td>
     </tr><tr style="text-align:left">
-      <td>Greater Shout (W8 Evoc): R60' Cone inflicts 10d6 HP, deafness for 4d6 rd, and stunning for 1 rd (DC 21 Fort half HP and deafness only)</td>
+      <td>Greater Shout (W8 Evoc): 60' cone inflicts 10d6 HP sonic (or 20d6 HP sonic to crystalline creatures and objects), deafness for 4d6 rd, and stunned for 1 rd (save Fortitude half HP and half deafness duration only; save Reflex negates damage to held objects)</td>
     </tr><tr style="text-align:left">
       <td>Guards And Wards (W6 Abju): Multiple magic effects protect a 3800' sq area for 38 hr</td>
     </tr><tr style="text-align:left">
@@ -356,7 +356,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mass Reduce Person (W4 Tran): R70' 19 target humanoids in a 15' radius become half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attack, and +1 Armor Class, for 19 min</td>
     </tr><tr style="text-align:left">
-      <td>Minor Image (W2 Illu): R1160' Creates a 230 cubic foot image with sound (save Will upon interaction disbelieves) for concentration + 2 rd</td>
+      <td>Minor Image (W2 Illu): R1160' Creates a 230 cubic foot movable image with sound (save Will upon interaction disbelieves) for concentration + 2 rd</td>
     </tr><tr style="text-align:left">
       <td>Mount (W1 Conj): R70' Summons a riding horse with bit, bridle, and saddle that serves self for 38 hr</td>
     </tr><tr style="text-align:left">
@@ -368,45 +368,45 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Ray Of Enfeeblement (W1 Necr): R70' Ranged touch inflicts -1d6+5 Strength for 19 min</td>
     </tr><tr style="text-align:left">
-      <td>Scrying (Scry On Familiar4 Divi): Self views target (DC 16 Will neg) for 19 min</td>
+      <td>Scrying (Scry On Familiar4 Divi): Self sees and hears a 10' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for 19 min</td>
     </tr><tr style="text-align:left">
-      <td>Shadow Conjuration (W4 Illu): Mimics conjuration (creation or summoning) spell up to 3rd level (DC 17 Will 20% effect)</td>
+      <td>Shadow Conjuration (W4 Illu): Mimics a creation or summoning conjuration spell of up to 3rd level (save Will reduces the mimicked spell's effects by 80%); mimicked spells are subject to SR and have a save DC as a 4th-level spell, and creatures summoned by a mimicked spell have 20% of their normal hit points</td>
     </tr><tr style="text-align:left">
-      <td>Shatter (W2 Evoc): R70' Breakables in 5' radius shatter (DC 15 Will neg), or target object suffers 10d6 HP (DC 15 Fort half)</td>
+      <td>Shatter (W2 Evoc): R70' Breakables weighing up to 19 lb in a 5' radius shatter (save Will negates), or target object weighing up to 190 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Shrink Item (W3 Tran): Touched 38' cu object becomes 1/16 size cloth (DC 16 Will neg) for 19 dy</td>
+      <td>Shrink Item (W3 Tran): Reduces touched 38 cubic foot object to a 1/16-sized cloth (save Will negates) for 19 days</td>
     </tr><tr style="text-align:left">
-      <td>Sleep (W1 Ench): R290' 4 HD of creatures in 10' radius sleep (DC 14 Will neg) for 19 min</td>
+      <td>Sleep (W1 Ench): R290' 4 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 19 min</td>
     </tr><tr style="text-align:left">
-      <td>Spider Climb (W2 Tran): Touched gains 20' climb speed and can climb walls and ceilings for 190 min</td>
+      <td>Spider Climb (W2 Tran): Gives touched a 20' climb Speed and the ability to climb walls and ceilings for 190 min; the target also retains its Dexterity bonus to Armor Class while climbing</td>
     </tr><tr style="text-align:left">
-      <td>Stone To Flesh (W6 Tran): R290' Restores stoned creature (DC 15 Fort to survive) or makes 10'x3' stone cylinder flesh</td>
+      <td>Stone To Flesh (W6 Tran): R290' Restores a petrified creature (save Fortitude DC 15 to survive) or changes a 3' diameter, 10' high cylinder of stone into flesh</td>
     </tr><tr style="text-align:left">
-      <td>Suggestion (W3 Ench): R70' Target follows reasonable suggestion (DC 16 Will neg) for 19 hr</td>
+      <td>Suggestion (W3 Ench): R70' Target follows a reasonable suggestion (save Will negates) for 19 hr</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster II (W2 Conj): R70' 1 2nd- or 1d3 1st-level creatures appear and fight foes for 19 rd</td>
+      <td>Summon Monster II (W2 Conj): R70' Summons 1 2nd-level or 1d3 1st-level creatures that fight foes and obey orders for 19 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster IV (W4 Conj): R70' 1 4th-, 1d3 3rd-, or 1d4+1 lower-level creatures appear and fight foes for 19 rd</td>
+      <td>Summon Monster IV (W4 Conj): R70' Summons 1 4th-level, 1d3 3rd-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 19 rd</td>
     </tr><tr style="text-align:left">
-      <td>Summon Monster VIII (W8 Conj): R70' 1 8th-, 1d3 7th-, or 1d4+1 lower-level creatures appear and fight foes for 19 rd</td>
+      <td>Summon Monster VIII (W8 Conj): R70' Summons 1 8th-level, 1d3 7th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 19 rd</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Insanity (W8 Ench): R60' Rune causes insanity (DC 21 Will neg) in 60' radius when triggered for 190 min</td>
+      <td>Symbol Of Insanity (W8 Ench): R60' Rune inflicts permanent insanity on creatures in a 60' radius (save Will negates) when triggered for 190 min</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Sleep (W5 Ench): R60' Rune sleeps creatures w/10 HD or less for 3d6x10 min (DC 18 Will neg) in 60' radius when triggered for 190 min</td>
+      <td>Symbol Of Sleep (W5 Ench): R60' Rune renders creatures in a 60' radius with up to 10 HD catatonic for 3d6x10 min (save Will negates) when triggered for 190 min</td>
     </tr><tr style="text-align:left">
-      <td>Telekinesis (W5 Tran): R1160' Self moves 375 lb 20'/rd for conc or 19 rd, performs combat maneuver 19 rd, or hurls 15 objects 375 lbs total (DC 18 Will neg)</td>
+      <td>Telekinesis (W5 Tran): R1160' Allows self to move an object weighing up to 375 lb 20' per rd for concentration up to 19 rd (save Will for possessed items negates), to perform a +19 bull rush, disarm, grapple, or trip using Intelligence instead of Strength or Dexterity once per rd for concentration up to 19 rd, or to hurl 15 objects in a 10' radius weighing up to 375 lbs total at a target within 10' of the objects (save Will for creatures and possessed items negates)</td>
     </tr><tr style="text-align:left">
-      <td>Time Stop (W9 Tran): All but self halt and become invulnerable for 1d4+1 rd</td>
+      <td>Time Stop (W9 Tran): Allows taking 1d4+1 turns while no time passes for others; cannot attack or cast spells on other creatures for the duration</td>
     </tr><tr style="text-align:left">
-      <td>Touch Of Fatigue (W0 Necr): Touch inflicts fatigue for 19 rd (DC 13 Fort neg)</td>
+      <td>Touch Of Fatigue (W0 Necr): Touch attack inflicts fatigue for 19 rd (save Fortitude negates)</td>
     </tr><tr style="text-align:left">
-      <td>Transformation (W6 Tran): Self gains +4 Strength, Dexterity, Constitution, and Armor Class, +5 Fortitude, martial weapon proficiency, and BAB 19, but cannot cast spells, for 19 rd</td>
+      <td>Transformation (W6 Tran): Gives self +4 Strength, Dexterity, Constitution, and Armor Class, +5 Fortitude, simple and martial weapon proficiency, and a +19 BAB, but prevents the casting of spells, for 19 rd</td>
     </tr><tr style="text-align:left">
-      <td>Vision (W7 Divi): Self learns answer about target person, place, or object</td>
+      <td>Vision (W7 Divi): Allows a successful caster level check to answer a question about a specified person, place, or object; the DC varies from 20 to 30 depending on the familiarity of the subject</td>
     </tr><tr style="text-align:left">
-      <td>Water Breathing (W3 Tran): Touched can breathe underwater for 38 hrs total</td>
+      <td>Water Breathing (W3 Tran): Allows touched creatures to breathe underwater for a total of 38 hrs</td>
     </tr><tr style="text-align:left">
-      <td>Web (W2 Conj): R290' Webs in 20' radius entangle (DC 15 Ref neg, DC 20 Str or DC 25 Escape Artist break), burning inflicts 2d4 HP for 190 min</td>
+      <td>Web (W2 Conj): R290' Anchored web strands in a 20' radius immobilize creatures (save Reflex negates, and a DC 20 Strength or DC 25 Escape Artist breaks free) for 190 min; movement through the web requires a Strength or Escape Artist check each rd, allowing 5' of movement for each 5 points that the check exceeds 10; burning clears the web, inflicting 2d4 HP fire on those within</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">
