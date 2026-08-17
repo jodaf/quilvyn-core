@@ -8625,6 +8625,93 @@ SRD35.languageRules = function(rules, name) {
 };
 
 /*
+ * Defines in #rules# the rules associated with path #name#, which is a
+ * selection for characters belonging to #group# and tracks path level via
+ * #levelAttr#. The path grants the features listed in #features#. If the path
+ * grants spell slots, #spellAbility# names the ability for computing spell
+ * difficulty class, and #spellSlots# lists the number of spells per level per
+ * day granted.
+ */
+SRD35.pathRules = function(
+  rules, name, group, levelAttr, features, selectables, spellAbility, spellSlots
+) {
+
+  if(!name) {
+    console.log('Empty path name');
+    return;
+  }
+  if(!group) {
+    console.log('Bad group "' + group + '" for path ' + name);
+    return;
+  }
+  if(!(levelAttr + '').startsWith('level')) {
+    console.log('Bad level "' + levelAttr + '" for path ' + name);
+    return;
+  }
+  if(!Array.isArray(features)) {
+    console.log('Bad features list "' + features + '" for path ' + name);
+    return;
+  }
+  if(!Array.isArray(selectables)) {
+    console.log('Bad selectables list "' + selectables + '" for path ' + name);
+    return;
+  }
+  if(spellAbility) {
+    spellAbility = spellAbility.toLowerCase();
+    if(!(spellAbility.charAt(0).toUpperCase() + spellAbility.substring(1) in SRD35.ABILITIES)) {
+      console.log('Bad spell ability "' + spellAbility + '" for path ' + name);
+      return;
+    }
+  }
+  if(!Array.isArray(spellSlots)) {
+    console.log('Bad spellSlots list "' + spellSlots + '" for path ' + name);
+    return;
+  }
+
+  let pathLevel =
+    name.charAt(0).toLowerCase() + name.substring(1).replaceAll(' ', '') + 'Level';
+
+  rules.defineRule(pathLevel,
+    'features.' + name, '?', null,
+    levelAttr, '=', null
+  );
+
+  QuilvynRules.featureListRules(rules, features, group, pathLevel, false);
+  QuilvynRules.featureListRules(rules, selectables, group, pathLevel, true);
+
+  if(spellSlots.length > 0) {
+
+    rules.defineRule('casterLevels.' + name,
+      pathLevel, '=', null,
+      'magicNotes.casterLevelBonus', '+', null
+    );
+    rules.defineRule('spellSlotLevel.' + name,
+      pathLevel, '=', null,
+      'magicNotes.casterLevelBonus', '+', null
+    );
+    QuilvynRules.spellSlotRules(rules, 'spellSlotLevel.' + name, spellSlots);
+
+    for(let i = 0; i < spellSlots.length; i++) {
+      let matchInfo = spellSlots[i].match(/^(\D+)(\d):/);
+      if(!matchInfo) {
+        console.log('Bad format for spell slot "' + spellSlots[i] + '"');
+        continue;
+      }
+      let spellType = matchInfo[1];
+      if(spellType != name)
+        rules.defineRule
+          ('casterLevels.' + spellType, 'casterLevels.' + name, '^=', null);
+      rules.defineRule('spellDifficultyClass.' + spellType,
+        'casterLevels.' + spellType, '?', null,
+        spellAbility + 'Modifier', '=', '10 + source'
+      );
+    }
+  }
+
+};
+
+
+/*
  * Defines in #rules# the rules associated with race #name#, which has the list
  * of hard prerequisites #requires#. #features# and #selectables# list
  * associated features and #languages# any automatic languages.
