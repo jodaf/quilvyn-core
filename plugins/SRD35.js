@@ -992,7 +992,7 @@ SRD35.FEATURES = {
   // Sorcerer
   'Summon Familiar':
     'Section=companion ' +
-    'Note="Can bond with a magical creature with expanded abilities; death of the creature inflicts a loss of %{levels.Sorcerer*200} experience points (save Fortitude DC 15 half), and a new familiar cannot be summoned for a year and a day"',
+    'Note="Can bond with a magical creature with expanded abilities; death of the creature inflicts a loss of %{((levels.Sorcerer||0)+(levels.Wizard||0)+(levels.Adept||0))*200} experience points (save Fortitude DC 15 half), and a new familiar cannot be summoned for a year and a day"',
 
   // Wizard
   'Bonus Feat (Wizard)':
@@ -1009,6 +1009,7 @@ SRD35.FEATURES = {
     'Note=' +
       '"+1 %school spell slot in each spell level",' +
       '"+2 Spellcraft (%school effects)"',
+  // Summon Familiar as above
 
   // Feats
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
@@ -1295,6 +1296,9 @@ SRD35.FEATURES = {
     'Note="Can talk with companion in a shared, secret language"',
 
   // Prestige Classes
+
+  // Adept
+  // Summon Familiar as above
 
   // Arcane Archer
   'Arrow Of Death': // Spell-like ability; no corresponding spell
@@ -3450,7 +3454,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=P4 ' +
     'Description=' +
-      '"Touched weapon gains +5 attacks and damage and an additional +2d6 damage vs. evil foes, gives +2 Armor Class and saves, prevents possession, suppresses mental control, and bars contact by summoned evil creatures for %{lvl} rd"',
+      '"Touched weapon gains +5 attacks and damage and an additional +2d6 HP vs. evil foes, gives +2 Armor Class and saves, prevents possession, suppresses mental control, and bars contact by summoned evil creatures for %{lvl} rd"',
   'Holy Word':
     'School=Evocation ' +
     'Level=C7,Good7 ' +
@@ -3486,7 +3490,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=Assassin2,B3,S3,W3 ' +
     'Description=' +
-      '"Touched writing transmits a suggestion of up to 30 min duration to unauthorized readers (save Will negates) for %{lvl} dy"',
+      '"Touched writing transmits a suggestion of up to 30 min duration to unauthorized readers (save Will negates) for %{lvl} days"',
   'Illusory Wall':
     'School=Illusion ' +
     'Level=S4,W4 ' +
@@ -4412,12 +4416,12 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C3,Sun3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Ranged touch inflicts %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 for undead, %{lvl//2<?5}d6 for a construct or object)"',
+      '"R%{100+lvl*10}\' Ranged touch inflicts %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 HP for undead, %{lvl//2<?5}d6 HP for a construct or object)"',
   'Secret Chest':
     'School=Conjuration ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"Allows using a miniature replica of a well-crafted chest to teleport it and up to %{lvl} cubic feet of contents to and from the ethereal plane at will for 60 dy"',
+      '"Allows using a miniature replica of a well-crafted chest to teleport it and up to %{lvl} cubic feet of contents to and from the ethereal plane at will for 60 days"',
   'Secret Page':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
@@ -4427,7 +4431,7 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=B4,S4,W4 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Creates 20\'x20\' cottage, strong as a stone building, with secured entrances, resistance to fire, immunity to normal missiles, and an unseen servant that can perform tasks, for %{lvl*2} hr"',
+      '"R%{25+lvl//2*5}\' Creates a 20\'x20\' cottage, strong as a stone building, with secured entrances, resistance to fire, immunity to normal missiles, and an unseen servant that can perform tasks, for %{lvl*2} hr"',
   'See Invisibility':
     'School=Divination ' +
     'Level=Adept2,B3,S2,W2 ' +
@@ -4447,12 +4451,12 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Reading the target text puts the reader into suspended animation (save Reflex negates) for 1d4+%{lvl} dy"',
+      '"Reading the target text puts the reader into suspended animation (save Reflex negates) for 1d4+%{lvl} days"',
   'Sequester':
     'School=Abjuration ' +
     'Level=S7,W7 ' +
     'Description=' +
-      '"Touched object or willing creature becomes invisible, unscryable, and comatose for %{lvl} dy"',
+      '"Touched object or willing creature becomes invisible, unscryable, and comatose for %{lvl} days"',
   'Shades':
     'School=Illusion ' +
     'Level=S9,W9 ' +
@@ -4497,7 +4501,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=B2,Blackguard2,C2,Chaos2,Destruction2,S2,W2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Breakables weighing up to %{lvl} lb in a 5\' radius shatter (save Will negates), or target object weighing up to %{lvl*10} lb suffers %{lvl<?10}d6 HP sonic (save Fortitude half)"',
+      '"R%{25+lvl//2*5}\' Breakables weighing up to %{lvl} lb in a 5\' radius shatter (save Will negates), or a target object weighing up to %{lvl*10} lb suffers %{lvl<?10}d6 HP sonic (save Fortitude half)"',
   'Shield':
     'School=Abjuration ' +
     'Level=S1,W1 ' +
@@ -4574,7 +4578,7 @@ SRD35.SPELLS = {
     'School=Conjuration ' +
     'Level=D3,S3,W3 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' 40\' radius, 20\' high cylinder blocks sight, extinguishes small fires, and inflicts a DC 10 Balance check to move at half speed (failure by 5 or more causes a fall) for %{lvl} rd"',
+      '"R%{400+lvl*40}\' 40\' radius, 20\' high cylinder blocks sight, extinguishes small fires, and requires a DC 10 Balance check to move at half speed (failure by 5 or more causes a fall) for %{lvl} rd"',
   'Slow':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
@@ -4651,7 +4655,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Luck7,Magic7,S7,W7 ' +
     'Description=' +
-      '"1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within %{lvl*10} min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both caster\'s <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane"',
+      '"1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within %{lvl*10} min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both casters\' <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane"',
   'Spider Climb':
     'School=Transmutation ' +
     'Level=Assassin2,D2,S2,W2 ' +
@@ -4825,11 +4829,11 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=D7,Sun7 ' +
     'Description=' +
-      '"%{lvl//3} 60\' beam of light inflicts 4d6 HP (or 8d6 to creatures sensitive to sunlight and %{lvl<?20}d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only) once per rd for %{lvl} rd"',
+      '"%{lvl//3} 60\' beam of light inflicts 4d6 HP (or 8d6 HP to creatures sensitive to sunlight and %{lvl<?20}d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only) once per rd for %{lvl} rd"',
   'Sunburst':
     'School=Evocation ' +
     'Level=D8,Sun8,S8,W8 ' +
-    'Description="R%{400+lvl*40}\' 80\' radius inflicts 6d6 HP (or 12d6 to creatures sensitive to sunlight and %{lvl<?25}d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only)"',
+    'Description="R%{400+lvl*40}\' 80\' radius inflicts 6d6 HP (or 12d6 HP to creatures sensitive to sunlight and %{lvl<?25}d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only)"',
   'Symbol Of Death':
     'School=Necromancy ' +
     'Level=C8,S8,W8 ' +
@@ -5011,13 +5015,13 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Assassin2,B1,C2,P2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Conceals the target\'s alignment (save Will negates) from divination for 24 hr" ' +
+      '"R%{25+lvl//2*5}\' Conceals the target\'s alignment from divination (save Will negates) for 24 hr" ' +
     'Liquid=Potion',
   'Unhallow':
     'School=Evocation ' +
     'Level=C5,D5 ' +
     'Description=' +
-      '"40\' radius around touched gives +2 Armor Class and saves vs. good, suppresses mental control, prevents possession, bars contact by summoned good creatures, gives -4 on turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year"',
+      '"40\' radius around touched gives +2 Armor Class and saves vs. good, suppresses mental control, prevents possession, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year"',
   'Unholy Aura':
     'School=Abjuration ' +
     'Level=C8,Evil8 ' +
@@ -5051,7 +5055,7 @@ SRD35.SPELLS = {
   'Virtue':
     'School=Transmutation ' +
     'Level=C0,D0,P1 ' +
-    'Description="Touched gains +1 temporary HP for 1 min"',
+    'Description="Gives touched 1 temporary HP for 1 min"',
   'Vision':
     'School=Divination ' +
     'Level=S7,W7 ' +
@@ -5127,7 +5131,7 @@ SRD35.SPELLS = {
     'School=Illusion ' +
     'Level=S9,W9 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Fears of targets in a 15\' radius create creatures (save Will negates) whose touch kills its target (save Fortitude inflicts 3d6 HP, -1d4 Str, and stunned for 1 rd)"',
+      '"R%{100+lvl*10}\' Fears of targets in a 15\' radius create creatures (save Will negates) whose touch kills its target (save Fortitude inflicts 3d6 HP, -1d4 Strength, and stunned for 1 rd)"',
   'Whirlwind':
     'School=Evocation ' +
     'Level=Air8,D8 ' +

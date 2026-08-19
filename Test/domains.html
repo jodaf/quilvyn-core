@@ -368,7 +368,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Blade Barrier (War6 Evoc): R200' 200' blade wall inflicts 10d6 HP initially (save Reflex negates) and each rd (save Reflex half) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Blasphemy (Evil7 Evoc): Nonevil creatures within 40' with up to 10/9/5/0 HD become dazed for 1 rd/suffer -2d6 Strength for 2d4 rd/become paralyzed for 1d10 min/are killed (save Will -4 negates); casting when on home plane also banishes outsiders for 24 hr</td>
+      <td>Blasphemy (Evil7 Evoc): Nonevil creatures within 40' with 10/9/5/0 HD are banished to their home planes for 24 hr (save Will -4 negates) and become dazed for 1 rd/suffer -2d6 Strength for 2d4 rd/become paralyzed for 1d10 min/are killed</td>
     </tr><tr style="text-align:left">
       <td>Break Enchantment (Luck5 Abju): R50' Self makes a +10 check (DC 11 + the effect's caster level, or DC 25 for cursed items) to free 10 targets in a 15' radius from enchantments, transmutations, and curses</td>
     </tr><tr style="text-align:left">
@@ -404,7 +404,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Control Plants (Plant8 Tran): R50' 20 HD of plant creatures in a 15' radius obey self (save Will negates) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Control Water (Water4 Tran): R800' Raises or lowers a 10 x 10'x10'x2' area of water by 20' for 100 min</td>
+      <td>Control Water (Water4 Tran): R800' Raises or lowers a 100'x100'x20' area of water by 20' for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Control Weather (Air7 Tran): Modifies seasonal weather in a 2 mile radius for 4d12 hr</td>
     </tr><tr style="text-align:left">
@@ -438,7 +438,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Detect Thoughts (Knowledge2 Divi): 60' cone reveals the presence of minds and their surface thoughts (save Will presence only) for concentration up to 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Dictum (Law7 Evoc): Nonlawful creatures in a 40' radius with 10/9/5/0 HD are banished (save Will -4 negates) and become deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed</td>
+      <td>Dictum (Law7 Evoc): Nonlawful creatures within 40' with 10/9/5/0 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed</td>
     </tr><tr style="text-align:left">
       <td>Dimension Door (Travel4 Conj): Teleports self and a touched object or 3 willing creatures 800'</td>
     </tr><tr style="text-align:left">
@@ -460,7 +460,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Divination (Knowledge4 Divi): Gives a 80% chance to learn useful advice on a proposed action up to 1 week in the future</td>
     </tr><tr style="text-align:left">
-      <td>Divine Power (War4 Evoc): Gives self BAB 10, +6 Strength, and 10 temporary hit points for 10 rd</td>
+      <td>Divine Power (War4 Evoc): Gives self BAB +10, +6 Strength, and 10 temporary hit points for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Dominate Animal (Animal3 Ench): R50' Target animal obeys mental commands (save Will negates) for 10 rd</td>
     </tr><tr style="text-align:left">
@@ -490,9 +490,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Find The Path (Travel6 Divi): Touched knows the most direct route to a specified location, as well how to bypass any traps that would slow progress, for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Fire Seeds (Fire6 Conj): Changes 4 touched acorns into grenades that inflict 10d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire each in a 5' radius (save Reflex half), for 100 min</td>
+      <td>Fire Seeds (Fire6 Conj): Changes 4 touched acorns into grenades that inflict 10d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire in a 5' radius each (save Reflex half), for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Fire Seeds (Sun6 Conj): Changes 4 touched acorns into grenades that inflict 10d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire each in a 5' radius (save Reflex half), for 100 min</td>
+      <td>Fire Seeds (Sun6 Conj): Changes 4 touched acorns into grenades that inflict 10d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire in a 5' radius each (save Reflex half), for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Fire Shield (Fire5 Evoc): Envelopes self in cold or hot flames that inflict 1d6+10 HP cold or fire on melee attackers and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for 10 rd</td>
     </tr><tr style="text-align:left">
@@ -554,7 +554,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Invisibility (Trickery2 Illu): Touched becomes invisible for 10 min; target attacking ends</td>
     </tr><tr style="text-align:left">
-      <td>Iron Body (Earth8 Tran): Self becomes iron, gaining +6 Strength, DR 15/adamantine, half damage from acid and fire, immunity to physiology effects, and 1d6 unarmed attacks, but suffering -6 Dexterity, half Speed, 50% arcane failure, an -8 armor skill check penalty, and 10x weight, for 10 min</td>
+      <td>Iron Body (Earth8 Tran): Self becomes iron, gaining +6 Strength, DR 15/adamantine, half damage from acid and fire, immunity to physiology effects, and unarmed attacks that inflict 1d6 HP, but suffering -6 Dexterity, half Speed, 50% arcane failure, an -8 armor skill check penalty, and 10x weight, for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Legend Lore (Knowledge7 Divi): Reveals legends about a specified person, place, or object; requires minutes to weeks to cast depending on the familiarity of the target</td>
     </tr><tr style="text-align:left">
@@ -566,13 +566,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Aura (Magic1 Illu): Alters the magical aura of an object weighing up to 50 lb for 10 days</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Chaos (Law3 Abju): 10' radius from touched either gives +2 Armor Class and saves vs. chaotic creatures, suppresses mental control, prevents possession, and bars contact and entry by nonlawful summoned creatures (SR negates) for 100 min or traps a nonlawful summoned creature (SR negates; additional tests each day end) for 240 hr</td>
+      <td>Magic Circle Against Chaos (Law3 Abju): 10' radius from touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. chaotic creatures, suppresses mental control, prevents possession, and bars contact and entry by nonlawful summoned creatures (SR negates) for 100 min or traps a nonlawful summoned creature (SR negates; additional tests each day end) for 240 hr</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Evil (Good3 Abju): 10' radius from touched either gives +2 Armor Class and saves vs. evil creatures, suppresses mental control, prevents possession, and bars contact and entry by nongood summoned creatures (SR negates) for 100 min or traps a nongood summoned creature (SR negates; additional tests each day end) for 240 hr</td>
+      <td>Magic Circle Against Evil (Good3 Abju): 10' radius from touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. evil creatures, suppresses mental control, prevents possession, and bars contact and entry by nongood summoned creatures (SR negates) for 100 min or traps a nongood summoned creature (SR negates; additional tests each day end) for 240 hr</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Good (Evil3 Abju): 10' radius from touched either gives +2 Armor Class and saves vs. good creatures, suppresses mental control, prevents possession, and bars contact and entry by nonevil summoned creatures (SR negates) for 100 min or traps a nonevil summoned creature (SR negates; additional tests each day end) for 240 hr</td>
+      <td>Magic Circle Against Good (Evil3 Abju): 10' radius from touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. good creatures, suppresses mental control, prevents possession, and bars contact and entry by nonevil summoned creatures (SR negates) for 100 min or traps a nonevil summoned creature (SR negates; additional tests each day end) for 240 hr</td>
     </tr><tr style="text-align:left">
-      <td>Magic Circle Against Law (Chaos3 Abju): 10' radius from touched either gives +2 Armor Class and saves vs. lawful creatures, suppresses mental control, prevents possession, and bars contact and entry by nonchaotic summoned creatures (SR negates) for 100 min or traps a nonchaotic summoned creature (SR negates; additional tests each day end) for 240 hr</td>
+      <td>Magic Circle Against Law (Chaos3 Abju): 10' radius from touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. lawful creatures, suppresses mental control, prevents possession, and bars contact and entry by nonchaotic summoned creatures (SR negates) for 100 min or traps a nonchaotic summoned creature (SR negates; additional tests each day end) for 240 hr</td>
     </tr><tr style="text-align:left">
       <td>Magic Stone (Earth1 Tran): 3 touched stones attack at +1 and inflict 1d6+1 HP, or 2d6+2 HP vs. undead, within 30 min</td>
     </tr><tr style="text-align:left">
@@ -624,19 +624,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Prismatic Sphere (Sun9 Abju): 10' sphere lasting 100 min blinds for 2d4x10 min creatures with up to 7 HD who look at it from within 20', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Produce Flame (Fire2 Evoc): Creates throwable torch flames that inflict 1d6+5 HP for 10 min; attacking with a flame reduces the duration by 1 min</td>
+      <td>Produce Flame (Fire2 Evoc): Produces a torch flame in self hand for 10 min; can be used repeatedly for a ranged touch attack that inflicts 1d6+5 HP fire, reducing the duration by 1 min for each attack</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Chaos (Law1 Abju): Gives touched +2 Armor Class and saves vs. chaotic creatures, suppresses mental control, prevents possession, and bars contact by nonlawful summoned creatures for 10 min</td>
+      <td>Protection From Chaos (Law1 Abju): Gives touched a +2 deflection bonus to Armor Class and +2 saves vs. chaotic creatures, suppresses mental control, prevents possession, and bars contact by nonlawful summoned creatures for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Protection From Energy (Luck3 Abju): Touched gains immunity to a choice of acid, cold, electricity, fire, or sonic for 100 min or until 120 HP have been negated</td>
     </tr><tr style="text-align:left">
       <td>Protection From Energy (Protection3 Abju): Touched gains immunity to a choice of acid, cold, electricity, fire, or sonic for 100 min or until 120 HP have been negated</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Evil (Good1 Abju): Gives touched +2 Armor Class and saves vs. evil creatures, suppresses mental control, prevents possession, and bars contact by nongood summoned creatures for 10 min</td>
+      <td>Protection From Evil (Good1 Abju): Gives touched a +2 deflection bonus to Armor Class and +2 saves vs. evil creatures, suppresses mental control, prevents possession, and bars contact by nongood summoned creatures for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Good (Evil1 Abju): Gives touched +2 Armor Class and saves vs. good creatures, suppresses mental control, prevents possession, and bars contact by nonevil summoned creatures for 10 min</td>
+      <td>Protection From Good (Evil1 Abju): Gives touched a +2 deflection bonus to Armor Class and +2 saves vs. good creatures, suppresses mental control, prevents possession, and bars contact by nonevil summoned creatures for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Law (Chaos1 Abju): Gives touched +2 Armor Class and saves vs. lawful creatures, suppresses mental control, prevents possession, and bars contact by nonchaotic summoned creatures for 10 min</td>
+      <td>Protection From Law (Chaos1 Abju): Gives touched a +2 deflection bonus to Armor Class and +2 saves vs. lawful creatures, suppresses mental control, prevents possession, and bars contact by nonchaotic summoned creatures for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Protection From Spells (Magic8 Abju): Touched gains +8 saves vs. spells for 100 min</td>
     </tr><tr style="text-align:left">
@@ -654,15 +654,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Screen (Trickery7 Illu): R50' Illusion hides 300 cubic feet from vision and scrying (save Will disbelieves) for 24 hr</td>
     </tr><tr style="text-align:left">
-      <td>Searing Light (Sun3 Evoc): R200' Ranged touch inflicts 5d8 HP (or 10d6 for undead, 5d6 for a construct or object)</td>
+      <td>Searing Light (Sun3 Evoc): R200' Ranged touch inflicts 5d8 HP (or 10d6 HP for undead, 5d6 HP for a construct or object)</td>
     </tr><tr style="text-align:left">
       <td>Shambler (Plant9 Conj): R200' Creates in a 15' radius 1d4+2 11 HD shambling mounds that fight for 7 days or guard for 7 months</td>
     </tr><tr style="text-align:left">
       <td>Shapechange (Animal9 Tran): Allows self to becomes a nonunique creature of any size with up to 10 HD once per rd for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Shatter (Chaos2 Evoc): R50' Breakables weighing up to 10 lb in a 5' radius shatter (save Will negates), or target object weighing up to 100 lb suffers 10d6 HP sonic (save Fortitude half)</td>
+      <td>Shatter (Chaos2 Evoc): R50' Breakables weighing up to 10 lb in a 5' radius shatter (save Will negates), or a target object weighing up to 100 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Shatter (Destruction2 Evoc): R50' Breakables weighing up to 10 lb in a 5' radius shatter (save Will negates), or target object weighing up to 100 lb suffers 10d6 HP sonic (save Fortitude half)</td>
+      <td>Shatter (Destruction2 Evoc): R50' Breakables weighing up to 10 lb in a 5' radius shatter (save Will negates), or a target object weighing up to 100 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
       <td>Shield Of Law (Law8 Abju): 10 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for 10 rd</td>
     </tr><tr style="text-align:left">
@@ -682,9 +682,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Spell Resistance (Protection5 Abju): Gives touched SR 22 for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Spell Turning (Luck7 Abju): 1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within 100 min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both caster's <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane</td>
+      <td>Spell Turning (Luck7 Abju): 1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within 100 min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both casters' <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane</td>
     </tr><tr style="text-align:left">
-      <td>Spell Turning (Magic7 Abju): 1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within 100 min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both caster's <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane</td>
+      <td>Spell Turning (Magic7 Abju): 1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within 100 min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both casters' <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane</td>
     </tr><tr style="text-align:left">
       <td>Spike Stones (Earth4 Tran): R200' Stony ground in a 200 square foot area inflicts 1d8 HP piercing for each 5' movement and slows creatures to half speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed), for 10 hr</td>
     </tr><tr style="text-align:left">
@@ -708,9 +708,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Summon Nature's Ally VIII (Animal8 Conj): R50' Summons 1 8th-level, 1d3 7th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sunbeam (Sun7 Evoc): 3 60' beam of light inflicts 4d6 HP (or 8d6 to creatures sensitive to sunlight and 10d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only) once per rd for 10 rd</td>
+      <td>Sunbeam (Sun7 Evoc): 3 60' beam of light inflicts 4d6 HP (or 8d6 HP to creatures sensitive to sunlight and 10d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only) once per rd for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Sunburst (Sun8 Evoc): R800' 80' radius inflicts 6d6 HP (or 12d6 to creatures sensitive to sunlight and 10d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only)</td>
+      <td>Sunburst (Sun8 Evoc): R800' 80' radius inflicts 6d6 HP (or 12d6 HP to creatures sensitive to sunlight and 10d6 HP to undead and oozes, destroying undead and oozes with a weakness to bright light) and blinded (save Reflex half HP only)</td>
     </tr><tr style="text-align:left">
       <td>Teleport (Travel5 Conj): Transports self and 3 willing targets up to 1000 miles; greater familiarity with the destination improves accuracy</td>
     </tr><tr style="text-align:left">
