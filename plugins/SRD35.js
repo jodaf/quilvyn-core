@@ -6216,7 +6216,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'initiative:%S',
     'baseAttack:%S',
-    'combatNotes.armorClassBonuses:Deflection %1/Dodge %2/Natural Armor %3/Size %4',
+    'combatNotes.armorClassBonuses:Armor %1/Deflection %2/Dodge %3/Natural Armor %4/Shield %5/Size %6',
     'combatNotes.towerShieldPenalty:%V attacks',
     'combatNotes.unproficientArmorPenalty:%V attacks',
     'combatNotes.unproficientShieldPenalty:%V attacks',
@@ -6262,27 +6262,39 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule('baseAttack', '', '=', '0');
   rules.defineRule('combatNotes.armorClassBonuses',
+    'armorClassArmorBonus', '+=', 'source!=0 ? 1 : null',
     'armorClassDeflectionBonus', '+=', 'source!=0 ? 1 : null',
     'armorClassDodgeBonus', '+=', 'source!=0 ? 1 : null',
     'armorClassNaturalArmorBonus', '+=', 'source!=0 ? 1 : null',
+    'armorClassShieldBonus', '+=', 'source!=0 ? 1 : null',
     'armorClassSizeBonus', '+=', 'source!=0 ? 1 : null'
   );
   rules.defineRule('combatNotes.armorClassBonuses.1',
     'combatNotes.armorClassBonuses', '?', null,
     '', '=', '"+0"',
-    'armorClassDeflectionBonus', '=', 'QuilvynUtils.signed(source)'
+    'armorClassArmorBonus', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('combatNotes.armorClassBonuses.2',
     'combatNotes.armorClassBonuses', '?', null,
     '', '=', '"+0"',
-    'armorClassDodgeBonus', '=', 'QuilvynUtils.signed(source)'
+    'armorClassDeflectionBonus', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('combatNotes.armorClassBonuses.3',
     'combatNotes.armorClassBonuses', '?', null,
     '', '=', '"+0"',
-    'armorClassNaturalArmorBonus', '=', 'QuilvynUtils.signed(source)'
+    'armorClassDodgeBonus', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('combatNotes.armorClassBonuses.4',
+    'combatNotes.armorClassBonuses', '?', null,
+    '', '=', '"+0"',
+    'armorClassNaturalArmorBonus', '=', 'QuilvynUtils.signed(source)'
+  );
+  rules.defineRule('combatNotes.armorClassBonuses.5',
+    'combatNotes.armorClassBonuses', '?', null,
+    '', '=', '"+0"',
+    'armorClassShieldBonus', '=', 'QuilvynUtils.signed(source)'
+  );
+  rules.defineRule('combatNotes.armorClassBonuses.6',
     'combatNotes.armorClassBonuses', '?', null,
     '', '=', '"+0"',
     'armorClassSizeBonus', '=', 'QuilvynUtils.signed(source)'
