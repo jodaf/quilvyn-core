@@ -265,6 +265,8 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Combat Notes</b>:       <table id="CombatNotes" style="width:100%">
       <tr style="text-align:center">
+        <td><i>Armor Class Bonuses: Deflection +0/Dodge +1/Natural Armor +0/Size +0</i></td>
+      </tr><tr style="text-align:center">
         <td><i>Charisma Turning Adjustment: +3</i></td>
       </tr><tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: -10</i></td>
@@ -272,8 +274,6 @@ var attributes = {
         <td><i>Dexterity Armor Class Adjustment: +3</i></td>
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +3</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Dodge Bonus: +1 Armor Class</i></td>
       </tr><tr style="text-align:center">
         <td><i>Dodge: +1 dodge bonus to Armor Class</i></td>
       </tr><tr style="text-align:center">
@@ -390,7 +390,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Clenched Fist (Strength8 Evoc): R200' 10' hand (Armor Class 20, 28 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +15 bull rush and a +21+modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Cloak Of Chaos (Chaos8 Abju): 10 creatures in a 20' radius gain +4 Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for 10 rd</td>
+      <td>Cloak Of Chaos (Chaos8 Abju): 10 creatures in a 20' radius gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Command Plants (Plant4 Tran): R50' 20 HD of plant creatures in a 15' radius consider self as a friend (save Will negates) for 10 days, obeying commands only with successful opposed Charisma checks</td>
     </tr><tr style="text-align:left">
@@ -448,13 +448,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Disintegrate (Destruction7 Tran): R200' Ranged touch inflicts 20d6 HP (save Fortitude inflicts 5d6 HP), turning a slain target to dust, or disintegrates a 10' cube of matter</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Chaos (Law5 Abju): Gives self +4 Armor Class vs. chaotic creatures for 10 rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch</td>
+      <td>Dispel Chaos (Law5 Abju): Gives self a +4 deflection bonus to Armor Class vs. chaotic creatures for 10 rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (Good5 Abju): Gives self +4 Armor Class vs. evil creatures for 10 rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch</td>
+      <td>Dispel Evil (Good5 Abju): Gives self a +4 deflection bonus to Armor Class vs. evil creatures for 10 rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Good (Evil5 Abju): Gives self +4 Armor Class vs. good creatures for 10 rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch</td>
+      <td>Dispel Good (Evil5 Abju): Gives self a +4 deflection bonus to Armor Class vs. good creatures for 10 rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Law (Chaos5 Abju): Gives self +4 Armor Class vs. lawful creatures for 10 rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch</td>
+      <td>Dispel Law (Chaos5 Abju): Gives self a +4 deflection bonus to Armor Class vs. lawful creatures for 10 rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch</td>
     </tr><tr style="text-align:left">
       <td>Dispel Magic (Magic3 Abju): R200' Successful d20+10 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
@@ -478,7 +478,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Endure Elements (Sun1 Abju): Touched remains comfortable between -50F and 140F for 1 day</td>
     </tr><tr style="text-align:left">
-      <td>Enlarge Person (Strength1 Tran): R50' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and -1 Armor Class (save Fortitude negates), for 10 min</td>
+      <td>Enlarge Person (Strength1 Tran): R50' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class (save Fortitude negates), for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Entangle (Plant1 Tran): R800' 40' radius entangles creatures (save Reflex inflicts half Speed; DC 20 Strength or Escape Artist ends) for 10 min</td>
     </tr><tr style="text-align:left">
@@ -508,7 +508,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Fog Cloud (Water2 Conj): R200' 20' radius fog obscures vision for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Foresight (Knowledge9 Divi): Self receives warnings of impending danger to touched for 100 min; casting on self also gives +2 Armor Class and negates surprise and flat-footed</td>
+      <td>Foresight (Knowledge9 Divi): Self receives warnings of impending danger to touched for 100 min; casting on self also gives a +2 insight bonus to Armor Class and negates surprise and flat-footed</td>
     </tr><tr style="text-align:left">
       <td>Freedom Of Movement (Luck4 Abju): Allows touched to ignore movement impediments for 100 min</td>
     </tr><tr style="text-align:left">
@@ -530,7 +530,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hold Monster (Law6 Ench): R200' Paralyzes the target (save Will negates; additional saves each rd end) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Aura (Good8 Abju): 10 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for 10 rd</td>
+      <td>Holy Aura (Good8 Abju): 10 creatures within 20' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Holy Smite (Good4 Evoc): R200' 20' radius inflicts 5d8 HP (or 10d6 HP to outsiders) and blindness for 1 rd on evil creatures (save Will half HP only) and half as many HP on neutral ones (save Will half)</td>
     </tr><tr style="text-align:left">
@@ -648,7 +648,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Resist Energy (Fire3 Abju): Touched gains resistance 20 to a choice of acid, cold, electricity, fire, or sonic for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Righteous Might (Strength5 Tran): Causes self and equipment to double in size, gaining a size category, +4 Strength, +2 Constitution, +2 Armor Class, and x8 weight, and gives DR 3/evil or DR 3/good, for 10 rd</td>
+      <td>Righteous Might (Strength5 Tran): Causes self and equipment to double in size, gaining a size category, +4 Strength, +2 Constitution, a +2 enhanancement bonus to natural armor, and x8 weight, and gives DR 3/evil or DR 3/good, for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Sanctuary (Protection1 Abju): Foes cannot attack touched (save Will negates) for 10 rd; target attacking ends the spell</td>
     </tr><tr style="text-align:left">
@@ -664,7 +664,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shatter (Destruction2 Evoc): R50' Breakables weighing up to 10 lb in a 5' radius shatter (save Will negates), or a target object weighing up to 100 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Shield Of Law (Law8 Abju): 10 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for 10 rd</td>
+      <td>Shield Of Law (Law8 Abju): 10 creatures within 20' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Shield Other (Protection2 Abju): R50' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any damage suffered by the target is transferred to self, for 10 hr</td>
     </tr><tr style="text-align:left">
@@ -718,7 +718,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>True Seeing (Knowledge5 Divi): Allows touched to see through 120' darkness, illusion, and invisibility, note secret doors, and see the true forms of polymorphed items for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Unholy Aura (Evil8 Abju): 10 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. good spells and casters, suppress mental control, and inflict -1d6 Strength on successful good attackers (save Fortitude negates) for 10 rd</td>
+      <td>Unholy Aura (Evil8 Abju): 10 creatures within 20' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. good spells and casters, suppress mental control, and inflict -1d6 Strength on successful good attackers (save Fortitude negates) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Unholy Blight (Evil4 Evoc): R200' 20' radius inflicts 5d8 HP (or 10d6 HP to outsiders) and sickened for 1d4 rd on good creatures (save Will half HP only) and half as many HP on neutral ones (save Will half)</td>
     </tr><tr style="text-align:left">

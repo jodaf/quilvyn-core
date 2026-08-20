@@ -582,7 +582,8 @@ SRD35.FEATURES = {
     'Section=feature ' +
     'Note="R60\' Has black and white vision in complete darkness"',
   'Dodge Giants':
-    'Section=combat Note="+4 Armor Class vs. creatures with the giant type"',
+    'Section=combat ' +
+    'Note="+4 dodge bonus to Armor Class vs. creatures with the giant type"',
   'Dwarf Ability Adjustment':
     'Section=ability Note="+2 Constitution/-2 Charisma"',
   'Dwarf Crafts':
@@ -660,14 +661,14 @@ SRD35.FEATURES = {
     'Section=ability,combat,combat,skill ' +
     'Note=' +
       '"x2 Load Max",' +
-      '"-1 Armor Class/-1 Melee Attack/-1 Ranged Attack",' +
+      '"-1 size penalty to Armor Class/-1 Melee Attack/-1 Ranged Attack",' +
       '"+4 special attacks",' +
       '"-4 Hide/+4 Intimidate"',
   'Small':
     'Section=ability,combat,combat,skill ' +
     'Note=' +
       '"x0.75 Load Max",' +
-      '"+1 Armor Class/+1 Melee Attack/+1 Ranged Attack",' +
+      '"+1 size bonus to Armor Class/+1 Melee Attack/+1 Ranged Attack",' +
       '"-4 special attacks",' +
       '"+4 Hide/-4 Intimidate"',
 
@@ -689,9 +690,10 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Can gain +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Strength, +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Constitution, and +%{combatNotes.mightyRage?4:combatNotes.greaterRage?3:2} Will and suffer -2 Armor Class for %{(combatNotes.mightyRage?7:combatNotes.greaterRage?6:5)+constitutionModifier>?1} rd%{combatNotes.tirelessRage?\'\':\', becoming fatigued afterward until the end of the encounter,\'} %{levels.Barbarian>=4?(levels.Barbarian//4+1)+\' times\':\'once\'} per day"',
   'Tireless Rage':'Section=combat Note="Has increased rage effects"',
-  'Trap Sense':'Section=save Note="+%V Reflex and Armor Class vs. traps"',
+  'Trap Sense':
+    'Section=save Note="+%V Reflex and dodge bonus to Armor Class vs. traps"',
   'Uncanny Dodge':
-    'Section=combat Note="Always adds Dexterity modifier to Armor Class"',
+    'Section=combat Note="Always adds Dexterity bonus to Armor Class"',
 
   // Bard
   'Bardic Knowledge':
@@ -717,7 +719,7 @@ SRD35.FEATURES = {
     'Note="R30\' Can use Perform to give %{levels.Bard>11?((levels.Bard-6)//3)+\' allies\':\'an ally\'} 2d10 temporary hit points, +2 attacks, and +1 Fortitude saves, lasting for 5 rd after the performance ends"',
   'Inspire Heroics':
     'Section=skill ' +
-    'Note="R30\' Can use Perform to give %{levels.Bard>14?((levels.Bard-12)//3)+\' allies\':\'an ally\'} +4 Armor Class and saves, lasting for 5 rd after the performance ends"',
+    'Note="R30\' Can use Perform to give %{levels.Bard>14?((levels.Bard-12)//3)+\' allies\':\'an ally\'} +4 saves and a +4 dodge bonus to Armor Class, lasting for 5 rd after the performance ends"',
   'Mass Suggestion':'Section=magic Note="Has expanded Suggestion effects"',
   'Simple Somatics':
     'Section=magic ' +
@@ -1115,7 +1117,7 @@ SRD35.FEATURES = {
     'Note="Ranged attacks ignore partial cover or concealment, and ranged attacks on a grappled target never hit another in the grapple"',
   'Improved Shield Bash':
     'Section=combat ' +
-    'Note="Retains shield Armor Class benefit when using Shield Bash"',
+    'Note="Retains shield bonus to Armor Class when using Shield Bash"',
   'Improved Sunder':
     'Section=combat Note="+4 on Sunder attempts, and they provoke no AOO"',
   'Improved Trip':
@@ -1139,7 +1141,8 @@ SRD35.FEATURES = {
   'Maximize Spell':
     'Section=magic ' +
     'Note="Can cast a spell using a spell slot 3 levels higher than normal to maximize all of its variable effects"',
-  'Mobility':'Section=combat Note="+4 Armor Class vs. movement AOO"',
+  'Mobility':
+    'Section=combat Note="+4 dodge bonus to Armor Class vs. movement AOO"',
   'Mounted Archery':
     'Section=combat ' +
     'Note="Reduces the mounted ranged weapon attack penalty to -2 during a double move and -4 during a run"',
@@ -1218,7 +1221,7 @@ SRD35.FEATURES = {
     'Note="Mounted Overrun targets cannot avoid them, and a successful mounted Overrun allows the mount to make a hoof attack vs. the target"',
   'Two-Weapon Defense':
     'Section=combat ' +
-    'Note="+1 Armor Class when wielding two weapons, or +2 if fighting defensively"',
+    'Note="+1 shield bonus to Armor Class when wielding two weapons, or +2 if fighting defensively"',
   'Two-Weapon Fighting':
     'Section=combat ' +
     'Note="Reduces the attack penalties when fighting with a weapon in each hand by 2 for the primary hand and 6 for the off hand"',
@@ -1422,16 +1425,18 @@ SRD35.FEATURES = {
     'Note="+4 Strength/+2 Charisma",' +
          '"Has the Darkvision and Low-Light Vision features",' +
          '"Immune to sleep, paralysis, and breath weapon energy"',
-  'Natural Armor Increase':'Section=combat Note="+%V Armor Class"',
+  'Natural Armor Increase':
+    'Section=combat Note="+%V natural armor bonus to Armor Class"',
   'Wings':'Section=ability Note="Has a %{speed}\' fly Speed"',
 
   // Duelist
   'Acrobatic Charge':'Section=combat Note="Can charge in difficult terrain"',
-  'Canny Defense':'Section=combat Note="+%V Armor Class when unarmored"',
+  'Canny Defense':
+    'Section=combat Note="+%V Dexterity bonus to Armor Class when unarmored"',
   // Deflect Arrows as above
   'Elaborate Parry':
     'Section=combat ' +
-    'Note="+%{levels.Duelist} Armor Class when fighting defensively"',
+    'Note="+%{levels.Duelist} dodge bonus to Armor Class when fighting defensively"',
   'Enhanced Mobility':
     'Section=combat Note="+4 Armor Class vs. movement AOO when unarmored"',
   'Grace':'Section=save Note="+2 Reflex when unarmored"',
@@ -1442,11 +1447,11 @@ SRD35.FEATURES = {
 
   // Dwarven Defender
   'Armor Class Bonus (Dwarven Defender)':
-    'Section=combat Note="+%V Armor Class"',
+    'Section=combat Note="+%V dodge bonus to Armor Class"',
   // Damage Reduction as above
   'Defensive Stance':
     'Section=combat ' +
-    'Note="Can gain +2 Strength, +4 Constitution, +2 saves, and +4 Armor Class while unmoving for %{5+constitutionModifier} rd %{$\'levels.Dwarven Defender\'>2?($\'levels.Dwarven Defender\'+1)//2+\' times\':\'once\'} per day; suffers -2 Strength afterward until the end of the encounter"',
+    'Note="Can gain +2 Strength, +4 Constitution, +2 saves, and a +4 dodge bonus to Armor Class while unmoving for %{5+constitutionModifier} rd %{$\'levels.Dwarven Defender\'>2?($\'levels.Dwarven Defender\'+1)//2+\' times\':\'once\'} per day; suffers -2 Strength afterward until the end of the encounter"',
   'Mobile Defense':
     'Section=combat ' +
     'Note="Can take a 5\' step each rd while using Defensive Stance"',
@@ -1534,7 +1539,7 @@ SRD35.FEATURES = {
   'Caster Level Bonus':
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
-  'Dodge Trick':'Section=combat Note="+1 Armor Class"',
+  'Dodge Trick':'Section=combat Note="+1 dodge bonus to Armor Class"',
   'Greater Lore':
     'Section=magic ' +
     'Note="Can use <i>Identify</i> effects at will" ' +
@@ -1610,7 +1615,7 @@ SRD35.GOODIES = {
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
-    'Section=combat Note="%V Armor Class"',
+    'Section=combat Note="%V armor bonus to Armor Class"',
   'Charisma':
     'Pattern="([-+]\\d+)\\s+cha(?:risma)?\\b|\\bcha(?:risma)?\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -1831,7 +1836,7 @@ SRD35.GOODIES = {
     'Pattern="(\\+\\d+).*\\bprotection\\b|\\bprotection\\s+(\\+\\d+)" ' +
     'Effect=raiseOrSet ' +
     'Value="$1 || $2" ' +
-    'Attribute=combatNotes.deflectionBonus ' +
+    'Attribute=armorClassDeflectionBonus ' +
     'Section=combat Note="%V deflection bonus"',
   'Reflex':
     'Pattern="([-+]\\d+)\\s+reflex\\s+save\\b|\\breflex\\s+save\\s+([-+]\\d+)" ' +
@@ -1844,7 +1849,7 @@ SRD35.GOODIES = {
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=armorClass ' +
-    'Section=combat Note="%V Armor Class"',
+    'Section=combat Note="%V shield bonus to Armor Class"',
   'Skill Points':
     'Pattern="([-+]\\d+)\\s+skill\\s+points?\\b|\\bskill\\s+points?\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -2478,7 +2483,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C8,Chaos8 ' +
     'Description=' +
-      '"%{lvl} creatures in a 20\' radius gain +4 Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for %{lvl} rd"',
+      '"%{lvl} creatures in a 20\' radius gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for %{lvl} rd"',
   'Clone':
     'School=Necromancy ' +
     'Level=S8,W8 ' +
@@ -2880,22 +2885,22 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C5,Law5,P4 ' +
     'Description=' +
-      '"Gives self +4 Armor Class vs. chaotic creatures for %{lvl} rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch"',
+      '"Gives self a +4 deflection bonus to Armor Class vs. chaotic creatures for %{lvl} rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch"',
   'Dispel Evil':
     'School=Abjuration ' +
     'Level=C5,Good5,P4 ' +
     'Description=' +
-      '"Gives self +4 Armor Class vs. evil creatures for %{lvl} rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch"',
+      '"Gives self a +4 deflection bonus to Armor Class vs. evil creatures for %{lvl} rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch"',
   'Dispel Good':
     'School=Abjuration ' +
     'Level=C5,Evil5 ' +
     'Description=' +
-      '"Gives self +4 Armor Class vs. good creatures for %{lvl} rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch"',
+      '"Gives self a +4 deflection bonus to Armor Class vs. good creatures for %{lvl} rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch"',
   'Dispel Law':
     'School=Abjuration ' +
     'Level=C5,Chaos5 ' +
     'Description=' +
-      '"Gives self +4 Armor Class vs. lawful creatures for %{lvl} rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch"',
+      '"Gives self a +4 deflection bonus to Armor Class vs. lawful creatures for %{lvl} rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch"',
   'Dispel Magic':
     'School=Abjuration ' +
     'Level=B3,C3,D4,Magic3,P3,S3,W3 ' +
@@ -3001,13 +3006,13 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Strength1,S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and -1 Armor Class (save Fortitude negates), for %{lvl} min" ' +
+      '"R%{25+lvl//2*5}\' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class (save Fortitude negates), for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Enlarge Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} humanoid targets in a 15\' radius double in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and -1 Armor Class (save Fortitude negates), for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' %{lvl} humanoid targets in a 15\' radius double in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class (save Fortitude negates), for %{lvl} min"',
   'Entangle':
     'School=Transmutation ' +
     'Level=D1,Plant1,R1 ' +
@@ -3191,7 +3196,7 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=D9,Knowledge9,S9,W9 ' +
     'Description=' +
-      '"Self receives warnings of impending danger to touched for %{lvl*10} min; casting on self also gives +2 Armor Class and negates surprise and flat-footed"',
+      '"Self receives warnings of impending danger to touched for %{lvl*10} min; casting on self also gives a +2 insight bonus to Armor Class and negates surprise and flat-footed"',
   "Fox's Cunning":
     'School=Transmutation ' +
     'Level=Assassin2,B2,S2,W2 ' +
@@ -3330,7 +3335,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C5,D5 ' +
     'Description=' +
-      '"40\' radius around touched gives +2 Armor Class and saves vs. evil, suppresses mental control, prevents possession, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year"',
+      '"40\' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. evil, suppresses mental control, prevents possession, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year"',
   'Hallucinatory Terrain':
     'School=Illusion ' +
     'Level=B4,S4,W4 ' +
@@ -3350,7 +3355,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, +1 Armor Class, +1 Reflex saves, and +30\' Speed for %{lvl} rd" ' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, a +1 dodge bonus to Armor Class, +1 Reflex saves, and +30\' Speed for %{lvl} rd" ' +
     'Liquid=Potion',
   'Heal':
     'School=Conjuration ' +
@@ -3444,7 +3449,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C8,Good8 ' +
     'Description=' +
-      '"%{lvl} creatures within 20\' gain +4 Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for %{lvl} rd"',
+      '"%{lvl} creatures within 20\' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for %{lvl} rd"',
   'Holy Smite':
     'School=Evocation ' +
     'Level=Good4 ' +
@@ -3454,7 +3459,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=P4 ' +
     'Description=' +
-      '"Touched weapon gains +5 attacks and damage and an additional +2d6 HP vs. evil foes, gives +2 Armor Class and saves, prevents possession, suppresses mental control, and bars contact by summoned evil creatures for %{lvl} rd"',
+      '"Touched weapon gains +5 attacks and damage and an additional +2d6 HP vs. evil foes, gives a +2 deflection bonus to Armor Class, +2 saves, prevents possession, suppresses mental control, and bars contact by summoned evil creatures for %{lvl} rd"',
   'Holy Word':
     'School=Evocation ' +
     'Level=C7,Good7 ' +
@@ -4242,18 +4247,18 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D2,R3 ' +
     'Description=' +
-      '"Touched willing animal becomes half size, suffering -2 Strength and gaining +2 Dexterity, +1 attack, and +1 Armor Class, for %{lvl} hr"',
+      '"Touched willing animal becomes half size, suffering -2 Strength and gaining +2 Dexterity, +1 attack, and a +1 size bonus to Armor Class, for %{lvl} hr"',
   'Reduce Person':
     'School=Transmutation ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target humanoid becomes half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attack, and +1 Armor Class, for %{lvl} min" ' +
+      '"R%{25+lvl//2*5}\' Target humanoid becomes half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attack, and a +1 size bonus to Armor Class, for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Reduce Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} target humanoids in a 15\' radius become half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attack, and +1 Armor Class, for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' %{lvl} target humanoids in a 15\' radius become half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attack, and a +1 size bonus to Armor Class, for %{lvl} min"',
   'Refuge':
     'School=Conjuration ' +
     'Level=C7,S9,W9 ' +
@@ -4360,7 +4365,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=C5,Strength5 ' +
     'Description=' +
-      '"Causes self and equipment to double in size, gaining a size category, +4 Strength, +2 Constitution, +2 Armor Class, and x8 weight, and gives DR %{lvl>14?9:lvl>11?6:3}/evil or DR %{lvl>14?9:lvl>11?6:3}/good, for %{lvl} rd"',
+      '"Causes self and equipment to double in size, gaining a size category, +4 Strength, +2 Constitution, a +2 enhanancement bonus to natural armor, and x8 weight, and gives DR %{lvl>14?9:lvl>11?6:3}/evil or DR %{lvl>14?9:lvl>11?6:3}/good, for %{lvl} rd"',
   'Rope Trick':
     'School=Transmutation ' +
     'Level=S2,W2 ' +
@@ -4517,7 +4522,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C8,Law8 ' +
     'Description=' +
-      '"%{lvl} creatures within 20\' gain +4 Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for %{lvl} rd"',
+      '"%{lvl} creatures within 20\' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for %{lvl} rd"',
   'Shield Other':
     'School=Abjuration ' +
     'Level=C2,P2,Protection2 ' +
@@ -4955,7 +4960,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"Gives self +4 Strength, Dexterity, Constitution, and Armor Class, +5 Fortitude, simple and martial weapon proficiency, and a +%{lvl} BAB, but prevents the casting of spells, for %{lvl} rd"',
+      '"Gives self +4 Strength, Dexterity, Constitution, and natural armor bonus, +5 Fortitude, simple and martial weapon proficiency, and a +%{lvl} BAB, but prevents the casting of spells, for %{lvl} rd"',
   'Transmute Metal To Wood':
     'School=Transmutation ' +
     'Level=D7 ' +
@@ -5021,12 +5026,12 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C5,D5 ' +
     'Description=' +
-      '"40\' radius around touched gives +2 Armor Class and saves vs. good, suppresses mental control, prevents possession, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year"',
+      '"40\' radius around touched gives a +2 deflection bonus to Armor Class, +2 saves vs. good, suppresses mental control, prevents possession, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year"',
   'Unholy Aura':
     'School=Abjuration ' +
     'Level=C8,Evil8 ' +
     'Description=' +
-      '"%{lvl} creatures within 20\' gain +4 Armor Class, +4 saves, and SR 25 vs. good spells and casters, suppress mental control, and inflict -1d6 Strength on successful good attackers (save Fortitude negates) for %{lvl} rd"',
+      '"%{lvl} creatures within 20\' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. good spells and casters, suppress mental control, and inflict -1d6 Strength on successful good attackers (save Fortitude negates) for %{lvl} rd"',
   'Unholy Blight':
     'School=Evocation ' +
     'Level=Evil4 ' +
@@ -6211,8 +6216,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'initiative:%S',
     'baseAttack:%S',
-    'combatNotes.deflectionBonus:%S Armor Class',
-    'combatNotes.dodgeBonus:%S Armor Class',
+    'combatNotes.armorClassBonuses:Deflection %1/Dodge %2/Natural Armor %3/Size %4',
     'combatNotes.towerShieldPenalty:%V attacks',
     'combatNotes.unproficientArmorPenalty:%V attacks',
     'combatNotes.unproficientShieldPenalty:%V attacks',
@@ -6234,29 +6238,55 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule('armorClass',
     '', '=', '10',
-    'combatNotes.deflectionBonus', '+', null,
-    'combatNotes.dexterityArmorClassAdjustment', '+', null,
-    'combatNotes.dodgeBonus', '+', null
-    // We don't break out any natural armor bonus, since it applies in exactly
-    // the same circumstances (flat-footed yes, touch no) as worn armor
-    // Size bonuses included automatically by featureRules
+    'armorClassArmorBonus', '+', null,
+    'armorClassDeflectionBonus', '+', null,
+    'armorClassDodgeBonus', '+', null,
+    'armorClassNaturalArmorBonus', '+', null,
+    'armorClassShieldBonus', '+', null,
+    'armorClassSizeBonus', '+', null,
+    'combatNotes.dexterityArmorClassAdjustment', '+', null
   );
   rules.defineRule('armorClassFlatFooted',
     'armorClass', '=', null,
     'combatNotes.dexterityArmorClassAdjustment', '+', 'source<=0 ? null : -source',
-    'combatNotes.dodgeBonus', '+', '-source'
+    'armorClassDodgeBonus', '+', '-source'
   );
   rules.defineRule('armorClassTouch',
     'armorClass', '=', null,
-    'armor', '+', '-' + QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]',
-    'shield', '+', '-' + QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]',
-    'combatNotes.goodiesArmor', '+', '-source',
-    'combatNotes.goodiesShield', '+', '-source'
+    'armorClassArmorBonus', '+', '-source',
+    'armorClassNaturalArmorBonus', '+', '-source',
+    'armorClassShieldBonus', '+', '-source'
   );
   rules.defineRule('attacksPerRound',
     'baseAttack', '=', 'Math.max(Math.floor((source + 4) / 5), 1)'
   );
   rules.defineRule('baseAttack', '', '=', '0');
+  rules.defineRule('combatNotes.armorClassBonuses',
+    'armorClassDeflectionBonus', '+=', 'source!=0 ? 1 : null',
+    'armorClassDodgeBonus', '+=', 'source!=0 ? 1 : null',
+    'armorClassNaturalArmorBonus', '+=', 'source!=0 ? 1 : null',
+    'armorClassSizeBonus', '+=', 'source!=0 ? 1 : null'
+  );
+  rules.defineRule('combatNotes.armorClassBonuses.1',
+    'combatNotes.armorClassBonuses', '?', null,
+    '', '=', '"+0"',
+    'armorClassDeflectionBonus', '=', 'QuilvynUtils.signed(source)'
+  );
+  rules.defineRule('combatNotes.armorClassBonuses.2',
+    'combatNotes.armorClassBonuses', '?', null,
+    '', '=', '"+0"',
+    'armorClassDodgeBonus', '=', 'QuilvynUtils.signed(source)'
+  );
+  rules.defineRule('combatNotes.armorClassBonuses.3',
+    'combatNotes.armorClassBonuses', '?', null,
+    '', '=', '"+0"',
+    'armorClassNaturalArmorBonus', '=', 'QuilvynUtils.signed(source)'
+  );
+  rules.defineRule('combatNotes.armorClassBonuses.4',
+    'combatNotes.armorClassBonuses', '?', null,
+    '', '=', '"+0"',
+    'armorClassSizeBonus', '=', 'QuilvynUtils.signed(source)'
+  );
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
     'constitutionModifier', '=', null,
     'level', '*', null
@@ -6891,8 +6921,8 @@ SRD35.armorRules = function(
   rules.armorStats.skill[name] = skillPenalty;
   rules.armorStats.spell[name] = spellFail;
 
-  rules.defineRule('armorClass',
-    'armor', '+', QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
+  rules.defineRule('armorClassArmorBonus',
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
   );
   rules.defineRule('armorSkill',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
@@ -8343,7 +8373,7 @@ SRD35.featRulesExtra = function(rules, name) {
     rules.defineRule
       ('armorProficiency.' + matchInfo[1], 'features.' + name, '=', '1');
   } else if(name == 'Dodge') {
-    rules.defineRule('combatNotes.dodgeBonus', 'combatNotes.dodge', '+=', null);
+    rules.defineRule('armorClassDodgeBonus', 'combatNotes.dodge', '+=', null);
   } else if(name == 'Extra Turning') {
     rules.defineRule
       ('combatNotes.extraTurning', 'feats.Extra Turning', '=', 'source * 4');
@@ -8526,8 +8556,16 @@ SRD35.featureRules = function(
           else if(!skillsBoosted.includes(skillAttr))
             skillsBoosted.push(skillAttr);
           adjusted = 'skillModifier.' + adjusted;
+        } else if(adjusted.match(/^(deflection|dexterity|dodge|enhancement|insight|natural armor|size) (bonus|penalty) to Armor Class$/)) {
+          if(adjusted.startsWith('natural armor'))
+            adjusted = 'armorClassNaturalArmorBonus';
+          else
+            adjusted =
+              'armorClass' + adjusted.charAt(0).toUpperCase() + adjusted.substring(1).replace(/ .*/, '') + 'Bonus';
+          op = adjusted.startsWith('dodge') ? '+=' : '^=';
         } else if(adjusted.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/)) {
-          adjusted = adjusted.charAt(0).toLowerCase() + adjusted.substring(1).replaceAll(' ', '');
+          adjusted =
+            adjusted.charAt(0).toLowerCase() + adjusted.substring(1).replaceAll(' ', '');
         } else {
           skillPrereqPossible = false;
           continue;
@@ -8984,8 +9022,8 @@ SRD35.shieldRules = function(
   rules.shieldStats.skill[name] = skillFail;
   rules.shieldStats.spell[name] = spellFail;
 
-  rules.defineRule('armorClass',
-    'shield', '+', QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]'
+  rules.defineRule('armorClassShieldBonus',
+    'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]'
   );
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'shield', '+=', QuilvynUtils.dictLit(rules.shieldStats.spell) + '[source]'

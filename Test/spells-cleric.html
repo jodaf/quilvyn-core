@@ -274,6 +274,8 @@ var attributes = {
       <tr style="text-align:center">
         <td><i>Accurate: +1 attack with slings and thrown weapons</i></td>
       </tr><tr style="text-align:center">
+        <td><i>Armor Class Bonuses: Deflection +0/Dodge +0/Natural Armor +0/Size +1</i></td>
+      </tr><tr style="text-align:center">
         <td><i>Charisma Turning Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
         <td><i>Constitution Hit Points Adjustment: +17</i></td>
@@ -282,7 +284,7 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Dexterity Attack Adjustment: +1</i></td>
       </tr><tr style="text-align:center">
-        <td><i>Small: +1 Armor Class/+1 Melee Attack/+1 Ranged Attack</i></td>
+        <td><i>Small: +1 size bonus to Armor Class/+1 Melee Attack/+1 Ranged Attack</i></td>
       </tr><tr style="text-align:center">
         <td>Earth Turning: Can turn air creatures and rebuke earth creatures</td>
       </tr><tr style="text-align:center">
@@ -379,7 +381,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Cause Fear (C1 Necr): R65' Target with up to 5 HD becomes frightened and flees for 1d4 rd (save Will inflicts shaken for 1 rd)</td>
     </tr><tr style="text-align:left">
-      <td>Cloak Of Chaos (C8 Abju): 17 creatures in a 20' radius gain +4 Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for 17 rd</td>
+      <td>Cloak Of Chaos (C8 Abju): 17 creatures in a 20' radius gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Command (C1 Ench): R65' Target obeys a command to approach, drop, fall, flee, or halt (save Will negates) for 1 rd</td>
     </tr><tr style="text-align:left">
@@ -461,13 +463,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Dismissal (C4 Abju): R65' Sends the target to its native plane or (20%) to another random plane (save Will + 17 - target HD negates)</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Chaos (C5 Abju): Gives self +4 Armor Class vs. chaotic creatures for 17 rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch</td>
+      <td>Dispel Chaos (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. chaotic creatures for 17 rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (C5 Abju): Gives self +4 Armor Class vs. evil creatures for 17 rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch</td>
+      <td>Dispel Evil (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. evil creatures for 17 rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Good (C5 Abju): Gives self +4 Armor Class vs. good creatures for 17 rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch</td>
+      <td>Dispel Good (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. good creatures for 17 rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Law (C5 Abju): Gives self +4 Armor Class vs. lawful creatures for 17 rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch</td>
+      <td>Dispel Law (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. lawful creatures for 17 rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch</td>
     </tr><tr style="text-align:left">
       <td>Dispel Magic (C3 Abju): R270' Successful d20+10 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
@@ -537,7 +539,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Guidance (C0 Divi): Touched gains +1 on an attack, save, or skill check within 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Hallow (C5 Evoc): 40' radius around touched gives +2 Armor Class and saves vs. evil, suppresses mental control, prevents possession, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year</td>
+      <td>Hallow (C5 Evoc): 40' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. evil, suppresses mental control, prevents possession, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year</td>
     </tr><tr style="text-align:left">
       <td>Harm (C6 Necr): Touch inflicts 150 HP (save Will half); undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
@@ -551,7 +553,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hold Person (C2 Ench): R270' Paralyzes the humanoid target (save Will negates; additional saves each rd end) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Aura (C8 Abju): 17 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for 17 rd</td>
+      <td>Holy Aura (C8 Abju): 17 creatures within 20' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Holy Word (C7 Evoc): Nongood creatures within 40' with 17/16/12/7 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/blinded for 2d4 rd/paralyzed for 1d10 min/killed</td>
     </tr><tr style="text-align:left">
@@ -689,7 +691,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Resurrection (C7 Conj): Fully restores a target willing soul, dead up to 170 years, using a piece of its corpse; the target loses a level (level 1 targets instead lose 2 Constitution)</td>
     </tr><tr style="text-align:left">
-      <td>Righteous Might (C5 Tran): Causes self and equipment to double in size, gaining a size category, +4 Strength, +2 Constitution, +2 Armor Class, and x8 weight, and gives DR 9/evil or DR 9/good, for 17 rd</td>
+      <td>Righteous Might (C5 Tran): Causes self and equipment to double in size, gaining a size category, +4 Strength, +2 Constitution, a +2 enhanancement bonus to natural armor, and x8 weight, and gives DR 9/evil or DR 9/good, for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Sanctuary (C1 Abju): Foes cannot attack touched (save Will negates) for 17 rd; target attacking ends the spell</td>
     </tr><tr style="text-align:left">
@@ -703,7 +705,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shield Of Faith (C1 Abju): Touched gains a +4 deflection bonus to Armor Class for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Shield Of Law (C8 Abju): 17 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for 17 rd</td>
+      <td>Shield Of Law (C8 Abju): 17 creatures within 20' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. chaotic spells and casters, suppress mental control, and slow successful chaotic attackers (save Will negates) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Shield Other (C2 Abju): R65' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any damage suffered by the target is transferred to self, for 17 hr</td>
     </tr><tr style="text-align:left">
@@ -773,9 +775,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Undetectable Alignment (C2 Abju): R65' Conceals the target's alignment from divination (save Will negates) for 24 hr</td>
     </tr><tr style="text-align:left">
-      <td>Unhallow (C5 Evoc): 40' radius around touched gives +2 Armor Class and saves vs. good, suppresses mental control, prevents possession, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year</td>
+      <td>Unhallow (C5 Evoc): 40' radius around touched gives a +2 deflection bonus to Armor Class, +2 saves vs. good, suppresses mental control, prevents possession, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year</td>
     </tr><tr style="text-align:left">
-      <td>Unholy Aura (C8 Abju): 17 creatures within 20' gain +4 Armor Class, +4 saves, and SR 25 vs. good spells and casters, suppress mental control, and inflict -1d6 Strength on successful good attackers (save Fortitude negates) for 17 rd</td>
+      <td>Unholy Aura (C8 Abju): 17 creatures within 20' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. good spells and casters, suppress mental control, and inflict -1d6 Strength on successful good attackers (save Fortitude negates) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Virtue (C0 Tran): Gives touched 1 temporary HP for 1 min</td>
     </tr><tr style="text-align:left">
