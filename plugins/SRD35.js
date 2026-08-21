@@ -1836,7 +1836,7 @@ SRD35.GOODIES = {
     'Pattern="(\\+\\d+).*\\bprotection\\b|\\bprotection\\s+(\\+\\d+)" ' +
     'Effect=raiseOrSet ' +
     'Value="$1 || $2" ' +
-    'Attribute=armorClassDeflectionBonus ' +
+    'Attribute=armorClassDeflectionModifier ' +
     'Section=combat Note="%V deflection bonus"',
   'Reflex':
     'Pattern="([-+]\\d+)\\s+reflex\\s+save\\b|\\breflex\\s+save\\s+([-+]\\d+)" ' +
@@ -6216,7 +6216,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'initiative:%S',
     'baseAttack:%S',
-    'combatNotes.armorClassBonuses:Armor %1/Deflection %2/Dodge %3/Natural Armor %4/Shield %5/Size %6',
+    'combatNotes.armorClassModifiers:Armor %1/Deflection %2/Dexterity %3/Dodge %4/Natural Armor %5/Shield %6/Size %7',
     'combatNotes.towerShieldPenalty:%V attacks',
     'combatNotes.unproficientArmorPenalty:%V attacks',
     'combatNotes.unproficientShieldPenalty:%V attacks',
@@ -6238,74 +6238,61 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   );
   rules.defineRule('armorClass',
     '', '=', '10',
-    'armorClassArmorBonus', '+', null,
-    'armorClassDeflectionBonus', '+', null,
-    'armorClassDodgeBonus', '+', null,
-    'armorClassNaturalArmorBonus', '+', null,
-    'armorClassShieldBonus', '+', null,
-    'armorClassSizeBonus', '+', null,
-    'combatNotes.dexterityArmorClassAdjustment', '+', null
+    'armorClassArmorModifier', '+', null,
+    'armorClassDeflectionModifier', '+', null,
+    'armorClassDexterityModifier', '+', null,
+    'armorClassDodgeModifier', '+', null,
+    'armorClassNaturalArmorModifier', '+', null,
+    'armorClassShieldModifier', '+', null,
+    'armorClassSizeModifier', '+', null
   );
   rules.defineRule('armorClassFlatFooted',
     'armorClass', '=', null,
-    'combatNotes.dexterityArmorClassAdjustment', '+', 'source<=0 ? null : -source',
-    'armorClassDodgeBonus', '+', '-source'
+    'armorClassDexterityModifier', '+', 'source<=0 ? null : -source',
+    'armorClassDodgeModifier', '+', '-source'
   );
   rules.defineRule('armorClassTouch',
     'armorClass', '=', null,
-    'armorClassArmorBonus', '+', '-source',
-    'armorClassNaturalArmorBonus', '+', '-source',
-    'armorClassShieldBonus', '+', '-source'
+    'armorClassArmorModifier', '+', '-source',
+    'armorClassNaturalArmorModifier', '+', '-source',
+    'armorClassShieldModifier', '+', '-source'
   );
   rules.defineRule('attacksPerRound',
     'baseAttack', '=', 'Math.max(Math.floor((source + 4) / 5), 1)'
   );
   rules.defineRule('baseAttack', '', '=', '0');
-  rules.defineRule('combatNotes.armorClassBonuses',
-    'armorClassArmorBonus', '+=', 'source!=0 ? 1 : null',
-    'armorClassDeflectionBonus', '+=', 'source!=0 ? 1 : null',
-    'armorClassDodgeBonus', '+=', 'source!=0 ? 1 : null',
-    'armorClassNaturalArmorBonus', '+=', 'source!=0 ? 1 : null',
-    'armorClassShieldBonus', '+=', 'source!=0 ? 1 : null',
-    'armorClassSizeBonus', '+=', 'source!=0 ? 1 : null'
+  rules.defineRule('combatNotes.armorClassModifiers', '', '=', '1');
+  rules.defineRule('combatNotes.armorClassModifiers.1',
+    'armorClassArmorModifier', '=', 'QuilvynUtils.signed(source)'
   );
-  rules.defineRule('combatNotes.armorClassBonuses.1',
-    'combatNotes.armorClassBonuses', '?', null,
-    '', '=', '"+0"',
-    'armorClassArmorBonus', '=', 'QuilvynUtils.signed(source)'
+  rules.defineRule('combatNotes.armorClassModifiers.2',
+    'combatNotes.armorClassModifiers', '=', '"+0"',
+    'armorClassDeflectionModifier', '=', 'QuilvynUtils.signed(source)'
   );
-  rules.defineRule('combatNotes.armorClassBonuses.2',
-    'combatNotes.armorClassBonuses', '?', null,
-    '', '=', '"+0"',
-    'armorClassDeflectionBonus', '=', 'QuilvynUtils.signed(source)'
+  rules.defineRule('combatNotes.armorClassModifiers.3',
+    'dexterityModifier', '=', 'QuilvynUtils.signed(source)'
   );
-  rules.defineRule('combatNotes.armorClassBonuses.3',
-    'combatNotes.armorClassBonuses', '?', null,
-    '', '=', '"+0"',
-    'armorClassDodgeBonus', '=', 'QuilvynUtils.signed(source)'
+  rules.defineRule('combatNotes.armorClassModifiers.4',
+    'combatNotes.armorClassModifiers', '=', '"+0"',
+    'armorClassDodgeModifier', '=', 'QuilvynUtils.signed(source)'
   );
-  rules.defineRule('combatNotes.armorClassBonuses.4',
-    'combatNotes.armorClassBonuses', '?', null,
-    '', '=', '"+0"',
-    'armorClassNaturalArmorBonus', '=', 'QuilvynUtils.signed(source)'
+  rules.defineRule('combatNotes.armorClassModifiers.5',
+    'combatNotes.armorClassModifiers', '=', '"+0"',
+    'armorClassNaturalArmorModifier', '=', 'QuilvynUtils.signed(source)'
   );
-  rules.defineRule('combatNotes.armorClassBonuses.5',
-    'combatNotes.armorClassBonuses', '?', null,
-    '', '=', '"+0"',
-    'armorClassShieldBonus', '=', 'QuilvynUtils.signed(source)'
+  rules.defineRule('combatNotes.armorClassModifiers.6',
+    'armorClassShieldModifier', '=', 'QuilvynUtils.signed(source)'
   );
-  rules.defineRule('combatNotes.armorClassBonuses.6',
-    'combatNotes.armorClassBonuses', '?', null,
-    '', '=', '"+0"',
-    'armorClassSizeBonus', '=', 'QuilvynUtils.signed(source)'
+  rules.defineRule('combatNotes.armorClassModifiers.7',
+    'combatNotes.armorClassModifiers', '=', '"+0"',
+    'armorClassSizeModifier', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
     'constitutionModifier', '=', null,
     'level', '*', null
   );
-  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
-    'dexterityModifier', '=', null
-  );
+  rules.defineRule
+    ('armorClassDexterityModifier', 'dexterityModifier', '=', null);
   rules.defineRule
     ('combatNotes.dexterityAttackAdjustment', 'dexterityModifier', '=', null);
   rules.defineRule
@@ -6933,7 +6920,7 @@ SRD35.armorRules = function(
   rules.armorStats.skill[name] = skillPenalty;
   rules.armorStats.spell[name] = spellFail;
 
-  rules.defineRule('armorClassArmorBonus',
+  rules.defineRule('armorClassArmorModifier',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
   );
   rules.defineRule('armorSkill',
@@ -6942,7 +6929,7 @@ SRD35.armorRules = function(
   rules.defineRule('armorWeight',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.weight) + '[source]'
   );
-  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
+  rules.defineRule('armorClassDexterityModifier',
     'armor', 'v', QuilvynUtils.dictLit(rules.armorStats.dex) + '[source]'
   );
   rules.defineRule('magicNotes.arcaneSpellFailure',
@@ -8385,7 +8372,8 @@ SRD35.featRulesExtra = function(rules, name) {
     rules.defineRule
       ('armorProficiency.' + matchInfo[1], 'features.' + name, '=', '1');
   } else if(name == 'Dodge') {
-    rules.defineRule('armorClassDodgeBonus', 'combatNotes.dodge', '+=', null);
+    rules.defineRule
+      ('armorClassDodgeModifier', 'combatNotes.dodge', '+=', null);
   } else if(name == 'Extra Turning') {
     rules.defineRule
       ('combatNotes.extraTurning', 'feats.Extra Turning', '=', 'source * 4');
@@ -8570,10 +8558,10 @@ SRD35.featureRules = function(
           adjusted = 'skillModifier.' + adjusted;
         } else if(adjusted.match(/^(deflection|dexterity|dodge|enhancement|insight|natural armor|size) (bonus|penalty) to Armor Class$/)) {
           if(adjusted.startsWith('natural armor'))
-            adjusted = 'armorClassNaturalArmorBonus';
+            adjusted = 'armorClassNaturalArmorModifier';
           else
             adjusted =
-              'armorClass' + adjusted.charAt(0).toUpperCase() + adjusted.substring(1).replace(/ .*/, '') + 'Bonus';
+              'armorClass' + adjusted.charAt(0).toUpperCase() + adjusted.substring(1).replace(/ .*/, '') + 'Modifier';
           op = adjusted.startsWith('dodge') ? '+=' : '^=';
         } else if(adjusted.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/)) {
           adjusted =
@@ -9034,7 +9022,7 @@ SRD35.shieldRules = function(
   rules.shieldStats.skill[name] = skillFail;
   rules.shieldStats.spell[name] = spellFail;
 
-  rules.defineRule('armorClassShieldBonus',
+  rules.defineRule('armorClassShieldModifier',
     'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.ac) + '[source]'
   );
   rules.defineRule('magicNotes.arcaneSpellFailure',
@@ -9046,7 +9034,7 @@ SRD35.shieldRules = function(
   rules.defineRule('shieldWeight',
     'shield', '=', QuilvynUtils.dictLit(rules.shieldStats.weight) + '[source]'
   );
-  rules.defineRule('combatNotes.dexterityArmorClassAdjustment',
+  rules.defineRule('dexterityArmorClassModifier',
     'shield', 'v', QuilvynUtils.dictLit(rules.shieldStats.dex) + '[source]'
   );
   rules.defineRule('skillNotes.armorSkillCheckPenalty',
