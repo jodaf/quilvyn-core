@@ -693,7 +693,10 @@ SRD35.FEATURES = {
   'Trap Sense':
     'Section=save Note="+%V Reflex and dodge bonus to Armor Class vs. traps"',
   'Uncanny Dodge':
-    'Section=combat Note="Always adds Dexterity bonus to Armor Class"',
+    'Section=combat,combat ' +
+    'Note=' +
+      '"Retains Dexterity bonus to Armor Class when flat-footed",' +
+      '"Retains Dexterity bonus to Armor Class vs. invisible foes"',
 
   // Bard
   'Bardic Knowledge':
@@ -981,7 +984,7 @@ SRD35.FEATURES = {
     'Note="Can attempt a second save vs. enchantment in the next rd"',
   'Sneak Attack':
     'Section=combat ' +
-    'Note="R30\' Inflicts +%Vd6 HP when flanking and when a target is flat-footed or otherwise loses its Dexterity bonus to Armor Class"',
+    'Note="R30\' Inflicts +%Vd6 HP when flanking and when the target is flat-footed or otherwise loses its Dexterity bonus to Armor Class"',
   'Special Ability':
     'Section=feature ' +
     'Note="%V selection%{featureNotes.specialAbility>1?\'s\':\'\'}"',
@@ -1323,7 +1326,7 @@ SRD35.FEATURES = {
     'Note="Can shoot an arrow that maneuvers to a target, negating cover and concealment, once per day"',
 
   // Arcane Trickster
-  // Note: assume that the Arcane Trickster base class is arcane, not divine
+  // N.B.: assume that the Arcane Trickster base class is arcane, not divine
   'Arcane Caster Level Bonus':
     'Section=magic ' +
     'Note="+%V arcane base class level for spells known and spells per day"',
@@ -1432,7 +1435,8 @@ SRD35.FEATURES = {
   // Duelist
   'Acrobatic Charge':'Section=combat Note="Can charge in difficult terrain"',
   'Canny Defense':
-    'Section=combat Note="+%V Dexterity bonus to Armor Class when unarmored"',
+    'Section=combat ' +
+    'Note="+%{intelligenceModifier>?0<?levels.Duelist} Dexterity bonus to Armor Class when unarmored and wielding a melee weapon"',
   // Deflect Arrows as above
   'Elaborate Parry':
     'Section=combat ' +
@@ -1610,12 +1614,12 @@ SRD35.FEATURES = {
 };
 SRD35.GOODIES = {
   'Armor':
-    // Note that this also matches, e.g., Amulet of Natural Armor
+    // TODO: this also matches, e.g., Amulet of Natural Armor
     'Pattern="([-+]\\d+).*\\b(?:armor(?:\\s+class)?|AC)\\b|\\b(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d+)" ' +
-    'Effect=add ' +
+    'Effect=raiseOrSet ' +
     'Value="$1 || $2" ' +
-    'Attribute=armorClass ' +
-    'Section=combat Note="%V armor bonus to Armor Class"',
+    'Attribute=armorClassArmorEnhancementModifier ' +
+    'Section=combat Note="%V armor enhancement bonus to Armor Class"',
   'Charisma':
     'Pattern="([-+]\\d+)\\s+cha(?:risma)?\\b|\\bcha(?:risma)?\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -1846,10 +1850,10 @@ SRD35.GOODIES = {
     'Section=save Note="%V Reflex"',
   'Shield':
     'Pattern="([-+]\\d+).*\\s+shield\\b|\\bshield\\s+([-+]\\d+)" ' +
-    'Effect=add ' +
+    'Effect=raiseOrSet ' +
     'Value="$1 || $2" ' +
-    'Attribute=armorClass ' +
-    'Section=combat Note="%V shield bonus to Armor Class"',
+    'Attribute=armorClassShieldEnhancementModifier ' +
+    'Section=combat Note="%V shield enhancement bonus to Armor Class"',
   'Skill Points':
     'Pattern="([-+]\\d+)\\s+skill\\s+points?\\b|\\bskill\\s+points?\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -4516,7 +4520,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C1 ' +
     'Description=' +
-      '"Touched gains a +%{lvl//6+2<?5} deflection bonus to Armor Class for %{lvl} min" ' +
+      '"Gives touched a +%{lvl//6+2<?5} deflection bonus to Armor Class for %{lvl} min" ' +
     'Liquid=Potion',
   'Shield Of Law':
     'School=Abjuration ' +
@@ -6216,7 +6220,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'initiative:%S',
     'baseAttack:%S',
-    'combatNotes.armorClassModifiers:Armor %1/Deflection %2/Dexterity %3/Dodge %4/Natural Armor %5/Shield %6/Size %7',
+    'combatNotes.armorClassModifiers:Armor %1; Deflection %2; Dexterity %3; Dodge %4; Natural Armor %5; Shield %6; Size %7',
     'combatNotes.towerShieldPenalty:%V attacks',
     'combatNotes.unproficientArmorPenalty:%V attacks',
     'combatNotes.unproficientShieldPenalty:%V attacks',
@@ -6236,6 +6240,12 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'armorWeight', '=', '"MediumHeavy".includes(source) ? -10 : null',
     'abilityNotes.slow', '+', '5'
   );
+  rules.defineRule('armorClassArmorModifier',
+    'armorClassArmorEnhancementModifier', '+', null
+  );
+  rules.defineRule('armorClassShieldModifier',
+    'armorClassShieldEnhancementModifier', '+', null
+  );
   rules.defineRule('armorClass',
     '', '=', '10',
     'armorClassArmorModifier', '+', null,
@@ -6249,7 +6259,9 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineRule('armorClassFlatFooted',
     'armorClass', '=', null,
     'armorClassDexterityModifier', '+', 'source<=0 ? null : -source',
-    'armorClassDodgeModifier', '+', '-source'
+    'armorClassDodgeModifier', '+', '-source',
+    // Uncanny Dodge undoes the subtraction of dexterity modifier
+    'combatNotes.uncannyDodge', '+', 'dict.armorClassDexterityModifier<=0 ? null : dict.armorClassDexterityModifier'
   );
   rules.defineRule('armorClassTouch',
     'armorClass', '=', null,
@@ -7347,12 +7359,12 @@ SRD35.classRulesExtra = function(rules, name) {
       'armor', '?', 'source == "None"',
       'abilityNotes.fastMovement(Monk)', '=', null
     );
-    // Note that this bonus applies to both flat-footed and touch
+    // N.B.: this bonus applies to both flat-footed and touch
     rules.defineRule('armorClass', 'combatNotes.armorClassBonus.1', '+', null);
     // Display the Armor Class Bonus note even when armored
     rules.defineRule('combatNotes.armorClassBonus',
       classLevel, '=', 'Math.floor(source / 5)',
-      'wisdomModifier', '+', 'source > 0 ? source : null'
+      'wisdomModifier', '+', 'source>0 ? source : null'
     );
     rules.defineRule('combatNotes.armorClassBonus.1',
       'armor', '?', 'source == "None"',
@@ -7741,6 +7753,13 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.naturalArmorIncrease',
       classLevel, '+=', 'Math.floor((source + 2) / 3)'
     );
+    // Natural armor bonuses don't normally stack. However, the text for the
+    // Natural Armor Increase feature states that it gives "an increase to the
+    // character’s existing natural armor"--a rephrase of "it stacks"--so
+    // override the ^= rule generated by featureRules.
+    rules.defineRule('armorClassNaturalArmorModifier',
+      'combatNotes.naturalArmorIncrease', '+=', null
+    );
     rules.defineRule
       ('constitution', 'levels.Dragon Disciple', '+', 'source>=6 ? 2 : null');
     rules.defineRule
@@ -7766,19 +7785,6 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Duelist') {
 
-    rules.defineRule('armorClass', 'combatNotes.cannyDefense.1', '+', null);
-    rules.defineRule
-      ('armorClassFlatFooted', 'combatNotes.cannyDefense.1', '+', '-source');
-    // Display the Canny Defense note even when armored
-    rules.defineRule('combatNotes.cannyDefense',
-      'intelligenceModifier', '+=', 'Math.max(source, 0)',
-      classLevel, 'v', null
-    );
-    rules.defineRule('combatNotes.cannyDefense.1',
-      'armor', '?', 'source == "None"',
-      'shield', '?', 'source == "None"',
-      'combatNotes.cannyDefense', '=', null
-    );
     rules.defineRule
       ('combatNotes.improvedReaction', classLevel, '+=', 'source < 8 ? 2 : 4');
     rules.defineRule('saveNotes.grace.1',
@@ -8556,13 +8562,10 @@ SRD35.featureRules = function(
           else if(!skillsBoosted.includes(skillAttr))
             skillsBoosted.push(skillAttr);
           adjusted = 'skillModifier.' + adjusted;
-        } else if(adjusted.match(/^(deflection|dexterity|dodge|enhancement|insight|natural armor|size) (bonus|penalty) to Armor Class$/)) {
-          if(adjusted.startsWith('natural armor'))
-            adjusted = 'armorClassNaturalArmorModifier';
-          else
-            adjusted =
-              'armorClass' + adjusted.charAt(0).toUpperCase() + adjusted.substring(1).replace(/ .*/, '') + 'Modifier';
-          op = adjusted.startsWith('dodge') ? '+=' : '^=';
+        } else if((matchInfo = adjusted.match(/^(deflection|dexterity|dodge|enhancement|insight|natural armor|size)( enhancement)? (bonus|penalty) to Armor Class$/)) != null) {
+          adjusted =
+            'armorClass' + matchInfo[1].charAt(0).toUpperCase() + matchInfo[1].substring(1).replace(' armor', 'Armor') + (matchInfo[2] ? 'Enhancement' : '') + 'Modifier';
+          op = matchInfo[1] == 'dodge' ? '+=' : '^=';
         } else if(adjusted.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/)) {
           adjusted =
             adjusted.charAt(0).toLowerCase() + adjusted.substring(1).replaceAll(' ', '');
@@ -11076,7 +11079,7 @@ SRD35.ruleNotes = function() {
     '    any of these is thrown.\n' +
     '  </li><li>\n' +
     '    The armor class of characters with the Dodge feat includes a +1' +
-    '    bonus that applies only to one foe at a time.\n' +
+    '    dodge bonus that applies only to one foe at a time.\n' +
     '  </li><li>\n' +
     '    For purposes of computing strength damage bonuses, Quilvyn assumes' +
     '    that characters with a buckler wield their weapons one-handed and' +
@@ -11131,8 +11134,6 @@ SRD35.ruleNotes = function() {
     '    critical multiplier of x4 instead of x3/x4.\n' +
     '  </li><li>\n' +
     '    Quilvyn does not track companion feats, skills, and tricks.\n' +
-    '  </li><li>\n' +
-    '    Blackguard features of fallen Paladins are not reported.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
@@ -11151,7 +11152,7 @@ SRD35.ruleNotes = function() {
     '    When a prestige class gives a bonus to base class spells per day, ' +
     '    Quilvyn applies this bonus to all qualifying base classes, rather ' +
     '    than to a single class. For example, for a ' +
-    '    Bard/Wizard/Thaumaturgist, Quilvyn will add the Thaumaturgist bonus ' +
+    '    Bard/Wizard/Loremaster, Quilvyn will add the Loremaster bonus ' +
     '    to both the bard and wizard spells per day.\n' +
     '  </li>\n' +
     '</ul>\n' +
