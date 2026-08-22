@@ -6105,8 +6105,8 @@ SRD35.aideRules = function(rules, companions, familiars) {
   );
   rules.defineRule('familiarAttack',
     'familiarMasterLevel', '?', null,
-    'baseAttack', '=', null,
-    'familiarBetterAttackModifier', '+', null
+    'baseAttack', '=', null
+    // size and strength/dexterity modifier already included in animal stats
   );
   rules.defineRule('familiarBetterAttackModifier',
     'familiarStats.Str.1', '=', null,
