@@ -1,5 +1,5 @@
 /*
-Copyright 2025, James J. Hayes
+Copyright 2026, James J. Hayes
 
 This program is free software; you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -588,7 +588,7 @@ SRD35.FEATURES = {
     'Section=ability Note="+2 Constitution/-2 Charisma"',
   'Dwarf Crafts':
     'Section=skill Note="+2 Appraise and Craft with stone and metal"',
-  'Dwarf Enmity':'Section=combat Note="+1 attack vs. goblinoids and orcs"',
+  'Dwarf Enmity':'Section=combat Note="+1 attacks vs. goblinoids and orcs"',
   'Resist Poison':'Section=save Note="+2 vs. poison"',
   'Resist Spells':'Section=save Note="+2 vs. spells"',
   'Stability':
@@ -617,7 +617,7 @@ SRD35.FEATURES = {
   // Dodge Giants as above
   'Gnome Ability Adjustment':
     'Section=ability Note="+2 Constitution/-2 Strength"',
-  'Gnome Enmity':'Section=combat Note="+1 attack vs. goblinoid and kobold"',
+  'Gnome Enmity':'Section=combat Note="+1 attacks vs. goblinoid and kobold"',
   'Gnome Magic':
     'Section=magic ' +
     'Note="Can cast <i>Speak With Animals</i> to communicate with burrowing mammals for 1 min%{charisma>=10 ? \', <i>Dancing Lights</i>, <i>Ghost Sound</i>, and <i>Prestidigitation</i>, each\' : \'\'} once per day" ' +
@@ -644,7 +644,7 @@ SRD35.FEATURES = {
   'Orc Blood':'Section=feature Note="Counts as an orc for racial effects"',
 
   // Halfling
-  'Accurate':'Section=combat Note="+1 attack with slings and thrown weapons"',
+  'Accurate':'Section=combat Note="+1 attacks with slings and thrown weapons"',
   'Fortunate':'Section=save Note="+1 Fortitude/+1 Reflex/+1 Will"',
   'Halfling Ability Adjustment':
     'Section=ability Note="+2 Dexterity/-2 Strength"',
@@ -716,7 +716,7 @@ SRD35.FEATURES = {
     'Note="R30\' Can use Perform to give an ally +2 checks on a specified skill for up to 2 min"',
   'Inspire Courage':
     'Section=skill ' +
-    'Note="Can use Perform to give allies +%{(levels.Bard+4)//6 >? 1} attack, damage, and charm and fear saves, lasting for 5 rd after the performance ends"',
+    'Note="Can use Perform to give allies +%{(levels.Bard+4)//6 >? 1} attacks, damage, and charm and fear saves, lasting for 5 rd after the performance ends"',
   'Inspire Greatness':
     'Section=skill ' +
     'Note="R30\' Can use Perform to give %{levels.Bard>11?((levels.Bard-6)//3)+\' allies\':\'an ally\'} 2d10 temporary hit points, +2 attacks, and +1 Fortitude saves, lasting for 5 rd after the performance ends"',
@@ -936,7 +936,7 @@ SRD35.FEATURES = {
     'Note="Can gain +%1 attack and inflict +%2 HP vs. an evil foe %{%V>1?\'%V times\':\'once\'} per day"',
   'Special Mount': // Spell-like ability; no corresponding spell
     'Section=companion ' +
-    'Note="Can call a celestial mount with expanded abilities and full hit points for %{levels.Paladin*2} hr once per day; death of the mount prevents another use and inflicts -1 attack and damage for 30 days"',
+    'Note="Can call a celestial mount with expanded abilities and full hit points for %{levels.Paladin*2} hr once per day; death of the mount prevents another use and inflicts -1 attacks and damage for 30 days"',
   // Turn Undead as above
 
   // Ranger
@@ -1040,7 +1040,7 @@ SRD35.FEATURES = {
     'Note="+4 Concentration checks to cast spells while on the defensive, grappling, or pinned"',
   'Combat Expertise':
     'Section=combat ' +
-    'Note="Can suffer up to -%{baseAttack<?5} attack to gain an equal dodge bonus to Armor Class until the next action"',
+    'Note="Can suffer up to -%{baseAttack<?5} attacks to gain an equal dodge bonus to Armor Class until the next action"',
   'Combat Reflexes':
     'Section=combat ' +
     'Note="Can make an AOO while flat-footed%{dexterityModifier>0?\' and make +\'+dexterityModifier+\' AOO per rd\':\'\'}"',
@@ -1157,10 +1157,10 @@ SRD35.FEATURES = {
   'Nimble Fingers':'Section=skill Note="+2 Disable Device/+2 Open Lock"',
   'Persuasive':'Section=skill Note="+2 Bluff/+2 Intimidate"',
   'Point-Blank Shot':
-    'Section=combat Note="+1 ranged attack and damage within 30\'"',
+    'Section=combat Note="+1 ranged attacks and damage within 30\'"',
   'Power Attack':
     'Section=combat ' +
-    'Note="Can suffer up to -%{baseAttack} attack for an equal damage bonus for 1 rd; the damage bonus is doubled when attacking two-handed"',
+    'Note="Can suffer up to -%{baseAttack} attacks for an equal damage bonus for 1 rd; the damage bonus is doubled when attacking two-handed"',
   'Precise Shot':
     'Section=combat Note="Suffers no penalty from shooting into a melee"',
   'Quick Draw':
@@ -1239,7 +1239,7 @@ SRD35.FEATURES = {
     'Note="Can use a full attack action to make 1 attack vs. all foes within reach"',
   'Widen Spell':
     'Section=magic ' +
-    'Note="Can cast a spell using a spell slot 3 higher than normal to double its area of affect"',
+    'Note="Can cast a spell using a spell slot 3 levels higher than normal to double its area of affect"',
 
   // Companions and familiars
   'Bonus Tricks':
@@ -1341,27 +1341,29 @@ SRD35.FEATURES = {
   // Archmage
   'Arcane Fire':
     'Section=magic ' +
-    'Note="R%{400+40*levels.Archmage}\' Can expend a prepared arcane spell to make a ranged touch attack that inflicts %{levels.Archmage}d6 HP fire + 1d6 HP fire per spell level"',
+    'Note="R%{400+40*levels.Archmage}\' Can expend a prepared arcane spell to make a ranged touch attack that inflicts %{levels.Archmage}d6 HP fire + 1d6 HP fire per spell level; costs a 9th-level spell slot to acquire"',
   // Arcane Caster Level Bonus as above
   'Arcane Reach':
     'Section=magic ' +
-    'Note="Can cast touch spells using a R%{$\'features.Arcane Reach\'>1?60:30}\' ranged touch"',
+    'Note="Can cast touch spells using a R%{$\'features.Arcane Reach\'>1?60:30}\' ranged touch; costs a 7th-level spell slot to acquire"',
   'High Arcana':
     'Section=feature ' +
     'Note="%V selections; requires sacrificing an equal number of spell slots"',
   'Mastery Of Counterspelling':
     'Section=magic ' +
-    'Note="Successful counterspell turns the effect back on the caster"',
+    'Note="Successful counterspell turns the effect back on the caster; costs a 7th-level spell slot to acquire"',
   'Mastery Of Elements':
     'Section=magic ' +
-    'Note="Can change the energy type of acid, cold, fire, electricity, and sonic spells"',
+    'Note="Can change the energy type of acid, cold, fire, electricity, and sonic spells; costs an 8th-level spell slot to acquire"',
   'Mastery Of Shaping':
     'Section=magic ' +
-    'Note="Can include 5\' cube or larger spaces in a spell effect area that are unaffected by it"',
-  'Spell Power':'Section=magic Note="+%V caster level for spell effects"',
+    'Note="Can include 5\' cube or larger spaces in a spell effect area that are unaffected by it; costs a 6th-level spell slot to acquire"',
+  'Spell Power':
+    'Section=magic ' +
+    'Note="+%V caster level for spell effects; costs a 5th-level spell slot to acquire"',
   'Spell-Like Ability':
     'Section=magic ' +
-    'Note="Can sacrifice a spell slot to invoke a chosen spell as a spell-like ability 2 times per day, or 3 or 4 times per day by by sacrificing a spell slot 3 or 6 levels higher than the spell"',
+    'Note="Can sacrifice a spell slot to invoke a chosen spell as a spell-like ability 2 times per day, or 3 or 4 times per day by by sacrificing a spell slot 3 or 6 levels higher than the spell; costs a 5th-level spell slot to acquire"',
 
   // Assassin
   'Death Attack':
@@ -1382,7 +1384,7 @@ SRD35.FEATURES = {
   'Aura Of Evil':'Section=feature Note="Visible to <i>Detect Evil</i>"',
   'Blood Bond':
     'Section=companion ' +
-    'Note="Gains +2 attack, checks, and saves when seeing master threatened"',
+    'Note="Gains +2 attacks, checks, and saves when seeing master threatened"',
   'Command Undead':
     'Section=combat Note="Can rebuke undead as a level %V Cleric"',
   'Dark Blessing':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
@@ -1498,7 +1500,7 @@ SRD35.FEATURES = {
   'Terrain Mastery':
     'Section=combat,feature ' +
     'Note=' +
-      '"+1 attack and damage vs. creatures native to selected terrains",' +
+      '"+1 attacks and damage vs. creatures native to selected terrains",' +
       '"%V selection%{featureNotes.terrainMastery>1?\'s\':\'\'}"',
   'Terrain Mastery (Aligned)':
     'Section=ability Note="Can mimic the dominant alignment of any plane"',
@@ -1532,7 +1534,7 @@ SRD35.FEATURES = {
     'Section=ability,combat ' +
     'Note=' +
       '"+30\' fly Speed on planes lacking gravity",' +
-      '"+1 attack and damage vs. astral, elemental air, and ethereal creatures"',
+      '"+1 attacks and damage vs. astral, elemental air, and ethereal creatures"',
   'Tremorsense':
     'Section=feature ' +
     'Note="R30\' Can detect creatures via vibrations in the ground"',
@@ -3959,7 +3961,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=B1,C3,S2,W2 ' +
     'Description=' +
-      '"Touched gains immunity to divination (save Will negates) for 8 hr"',
+      '"Touched object gains immunity to divination (save Will negates) for 8 hr"',
   'Obscuring Mist':
     'School=Conjuration ' +
     'Level=Adept1,Air1,Assassin1,C1,D1,S1,W1,Water1 ' +
@@ -4251,18 +4253,18 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D2,R3 ' +
     'Description=' +
-      '"Touched willing animal becomes half size, suffering -2 Strength and gaining +2 Dexterity, +1 attack, and a +1 size bonus to Armor Class, for %{lvl} hr"',
+      '"Touched willing animal becomes half size, suffering -2 Strength and gaining +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} hr"',
   'Reduce Person':
     'School=Transmutation ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target humanoid becomes half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attack, and a +1 size bonus to Armor Class, for %{lvl} min" ' +
+      '"R%{25+lvl//2*5}\' Target humanoid becomes half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Reduce Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} target humanoids in a 15\' radius become half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attack, and a +1 size bonus to Armor Class, for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' %{lvl} target humanoids in a 15\' radius become half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} min"',
   'Refuge':
     'School=Conjuration ' +
     'Level=C7,S9,W9 ' +
@@ -4536,7 +4538,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D1 ' +
     'Description=' +
-      '"Touched small, medium, or large staff gains +1 attack and inflicts 1d8%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP, 2d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP, or 3d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP (save Will negates) when wielded by self for %{lvl} min" ' +
+      '"Touched small, medium, or large staff gains +1 attacks and inflicts 1d8%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP, 2d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP, or 3d6%{strengthModifier>-2?\'+\':\'\'}%{strengthModifier+1} HP (save Will negates) when wielded by self for %{lvl} min" ' +
     'Liquid=Oil',
   'Shocking Grasp':
     'School=Evocation ' +
@@ -4685,7 +4687,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C2,War2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attack; inflicts 1d8+%{lvl//3<?5} HP force; crit same as the corresponding physical weapon) that attacks a designated foe for %{lvl} rd; can use move actions to redirect to different targets, and the first attack on each creature is subject to SR"',
+      '"R%{100+lvl*10}\' Creates a force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attacks; inflicts 1d8+%{lvl//3<?5} HP force; crit same as the corresponding physical weapon) that attacks a designated foe for %{lvl} rd; can use move actions to redirect to different targets, and the first attack on each creature is subject to SR"',
   'Statue':
     'School=Transmutation ' +
     'Level=S7,W7 ' +
@@ -5675,7 +5677,7 @@ SRD35.PRESTIGE_CLASSES = {
     'HitDie=d4 Attack=1/2 SkillPoints=2 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Skills=' +
       'Concentration,"Craft (Alchemy)",Knowledge,Profession,Search,' +
-    'Spellcraft ' +
+      'Spellcraft ' +
     'Features=' +
       '"1:Arcane Caster Level Bonus","1:High Arcana" ' +
     'Selectables=' +
@@ -6970,8 +6972,9 @@ SRD35.armorRules = function(
  * Javascript expression for determining the caster level for the class; these
  * can incorporate a class level attribute (e.g., 'levels.Cleric') or the
  * character level attribute 'level'. If the class grants spell slots,
- * #spellAbility# names the ability for computing spell difficulty class, and
- * #spellSlots# lists the number of spells per level per day granted.
+ * #spellAbility# names the ability for computing spell difficulty class,
+ * #spellSlots# lists the number of spells per level per day granted, and
+ * #spellsAvailable# lists the number of spells known at each level.
  */
 SRD35.classRules = function(
   rules, name, requires, hitDie, attack, skillPoints, saveFort, saveRef,
@@ -7621,12 +7624,12 @@ SRD35.classRulesExtra = function(rules, name) {
     );
 
     rules.defineRule('spellSlots.S5',
-      'archmageFeatures.Spell Power', '+', '-1',
-      'archmageFeatures.Spell-Like Ability', '+', '-1'
+      'archmageFeatures.Spell Power', '+', '-source',
+      'archmageFeatures.Spell-Like Ability', '+', '-source'
     );
     rules.defineRule('spellSlots.W5',
-      'archmageFeatures.Spell Power', '+', '-1',
-      'archmageFeatures.Spell-Like Ability', '+', '-1'
+      'archmageFeatures.Spell Power', '+', '-source',
+      'archmageFeatures.Spell-Like Ability', '+', '-source'
     );
     rules.defineRule
       ('spellSlots.S6', 'archmageFeatures.Mastery Of Shaping', '+', '-source');
@@ -7634,12 +7637,10 @@ SRD35.classRulesExtra = function(rules, name) {
       ('spellSlots.W6', 'archmageFeatures.Mastery Of Shaping', '+', '-source');
     rules.defineRule('spellSlots.S7',
       'archmageFeatures.Arcane Reach', '+', '-source',
-      'archmageFeatures.Improved Arcane Reach', '+', '-source',
       'archmageFeatures.Mastery Of Counterspelling', '+', '-source'
     );
     rules.defineRule('spellSlots.W7',
       'archmageFeatures.Arcane Reach', '+', '-source',
-      'archmageFeatures.Improved Arcane Reach', '+', '-source',
       'archmageFeatures.Mastery Of Counterspelling', '+', '-source'
     );
     rules.defineRule
@@ -8080,7 +8081,7 @@ SRD35.companionRules = function(
   }
   if(size.length > 1)
     size = size.charAt(0);
-  // Allow null speed for backwards compatibility
+  // TODO: backwards compatibility - remove
   if(speed && typeof speed != 'number') {
     console.log('Bad speed "' + speed + '" for companion ' + name);
     return;
@@ -8286,7 +8287,7 @@ SRD35.familiarRules = function(
   }
   if(size.length > 1)
     size = size.charAt(0);
-  // Allow null speed for backwards compatibility
+  // TODO: backwards compatibility - remove
   if(speed && typeof speed != 'number') {
     console.log('Bad speed "' + speed + '" for familiar ' + name);
     return;
@@ -8598,6 +8599,20 @@ SRD35.featureRules = function(
       if(effect.match(/^Has increased .* effects$/))
         rules.defineRule('italics', note, '=', 'null');
 
+      // Weapon Familiarity or Proficiency (weapon[; weapon ...])
+      matchInfo =
+        effect.match(/([A-Z]\w*)\s(Familiarity|Proficiency)\s\((([^\(]|\([^\)]*\))*)\)$/);
+      if(matchInfo) {
+        let group = matchInfo[1].toLowerCase();
+        let elements = matchInfo[3].split(/\/|;\s*/);
+        for(let j = 0; j < elements.length; j++) {
+          if(!elements[j].match(/^%{.*}$/)) {
+            rules.defineRule
+              (group + matchInfo[2] + '.' + elements[j], note, '=', '1');
+          }
+        }
+      }
+
     }
 
   }
@@ -8759,7 +8774,8 @@ SRD35.pathRules = function(
 /*
  * Defines in #rules# the rules associated with race #name#, which has the list
  * of hard prerequisites #requires#. #features# and #selectables# list
- * associated features and #languages# any automatic languages.
+ * associated features and #languages# any automatic languages. #size# and
+ * #speed# give the race's size (one of Small, Medium, or Large) and speed.
  */
 SRD35.raceRules = function(
   rules, name, requires, features, selectables, languages, size, speed
@@ -9255,25 +9271,10 @@ SRD35.spellRules = function(
   let dc;
   // minDC = 10 + modifier for min ability score required for this level spell
   let minDC = 10 + Math.floor(level / 2);
-  while((dc = description.match(/\((Fort\s|Ref\s|Will\s)/)) != null) {
-    expr =
-      '(spellDifficultyClass.' + (domainSpell ? 'Domain' : casterGroup) +
-      '||' + minDC + ')';
-    expr += ' + ' + level;
-    if(school) {
-      if(school.includes(' ')) {
-        // Can't directly interpolate a variable that contains a space, so make
-        // a copy with spaces removed.
-        let noSpace = school.replaceAll(' ', '');
-        rules.defineRule('spellDCSchoolBonus.' + noSpace,
-          'spellDCSchoolBonus.' + school, '=', null
-        );
-        expr += ' + (spellDCSchoolBonus.' + noSpace + '||0)';
-      } else {
-        expr += ' + (spellDCSchoolBonus.' + school + '||0)';
-      }
-    }
-    description = description.replace(dc[0], '(DC %{' + expr + '} ' + dc[1]);
+  while((dc = description.match(/(.save Fortitude\s|Reflex\s|Will\s)([^%])/)) != null) {
+    expr = school ? school.includes(' ') ? '$"spellDCSchoolBonus.' + school + '"' : 'spellDCSchoolBonus.' + school : '0';
+    expr = expr + '?"(DC +"+' + expr + '+") ":""';
+    description = description.replace(dc[0], dc[1] + '%{' + expr + '}' + dc[2]);
   }
 
   expr = 'casterLevels.' + (domainSpell ? 'Domain' : casterGroup);
@@ -9322,7 +9323,8 @@ SRD35.spellRules = function(
  * equivalents). The weapon does #damage# HP on a successful attack and
  * threatens x#critMultiplier# (default 2) damage on a roll of #threat# (default
  * 20). If specified, the weapon can be used as a ranged weapon with a range
- * increment of #range# feet.
+ * increment of #range# feet. #properties# lists any additional properties of
+ * the weapon, such as "Thrown" or "Reach".
  */
 SRD35.weaponRules = function(
   rules, name, profLevel, category, damage, threat, critMultiplier, range,
@@ -9641,19 +9643,6 @@ SRD35.featureSpells = function(
         if(minLevel > 1)
           rules.defineRule
             ('spells.' + fullName, levelAttr, '?', 'source>=' + minLevel);
-        if(spellDC != null) {
-          let dc = spellDC == '' ?
-            spellAbility + 'Modifier + 10 + ' + spellLevel +
-            ' + (spellDCSchoolBonus.' + spellSchool + '||0)' :
-            spellDC;
-          let allFormats = rules.getChoices('notes');
-          let s = 'spells.' + fullName;
-          if(s in allFormats)
-            allFormats[s] =
-              allFormats[s].replaceAll(/DC %{[^}]*}/g, 'DC %{' + dc + '}');
-          else
-            console.log('No format for spell ' + fullName);
-        }
       }
     });
   });
