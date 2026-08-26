@@ -1086,7 +1086,7 @@ SRD35.FEATURES = {
   'Great Fortitude':'Section=save Note="+2 Fortitude"',
   'Greater Spell Focus (%school)':'Section=magic Note="+1 Spell DC (%school)"',
   'Greater Spell Penetration':
-    'Section=magic Note="+2 checks to overcome spell resistance"',
+    'Section=magic Note="+2 on checks to overcome spell resistance"',
   'Greater Two-Weapon Fighting':
     'Section=combat ' +
     'Note="Can make a third off-hand attack with a -10 attack penalty"',
@@ -1203,7 +1203,7 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="Can prepare %{$\'features.Spell Mastery\'*intelligenceModifier} chosen spell%{$\'features.Spell Mastery\'>1||intelligenceModifier>1?\'s\':\'\'} without using a spellbook"',
   'Spell Penetration':
-    'Section=magic Note="+2 checks to overcome spell resistance"',
+    'Section=magic Note="+2 on checks to overcome spell resistance"',
   'Spirited Charge':
     'Section=combat ' +
     'Note="Attacks during a charge inflict double damage, or triple damage with a lance"',
@@ -6451,9 +6451,6 @@ SRD35.magicRules = function(rules, schools, spells) {
   for(let s in spells)
     rules.choiceRules(rules, 'Spell', s, spells[s]);
 
-  rules.defineRule
-    ('spellPoints', 'magicNotes.spellPower', '+', 'null'); // italics
-
 };
 
 /* Defines rules related to character aptitudes. */
@@ -7622,6 +7619,8 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('selectableFeatureCount.Archmage (High Arcana)',
       'featureNotes.highArcana', '+=', null
     );
+    rules.defineRule
+     ('spellEffectsCasterLevelBonus', 'magicNotes.spellPower', '+=', null);
 
     rules.defineRule('spellSlots.S5',
       'archmageFeatures.Spell Power', '+', '-source',
@@ -7848,6 +7847,8 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('selectableFeatureCount.Hierophant (Special Ability)',
       'featureNotes.specialAbility(Hierophant)', '=', null
     );
+    rules.defineRule
+     ('spellEffectsCasterLevelBonus', 'magicNotes.spellPower', '+=', null);
 
   } else if(name == 'Horizon Walker') {
 
@@ -9279,7 +9280,7 @@ SRD35.spellRules = function(
 
   expr = 'casterLevels.' + (domainSpell ? 'Domain' : casterGroup);
   rules.defineChoice
-    ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + '+(magicNotes.spellPower||0))'));
+    ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + '+(spellEffectsCasterLevelBonus||0))'));
   // Remove character spell DC--doesn't apply to potions and scrolls.
   description =
     description.replaceAll(/(spellDifficultyClass|spellDCSchoolBonus).\w+\|\|/g, '');
