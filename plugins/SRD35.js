@@ -1363,7 +1363,7 @@ SRD35.FEATURES = {
     'Note="+%V caster level for spell effects; costs a 5th-level spell slot to acquire"',
   'Spell-Like Ability':
     'Section=magic ' +
-    'Note="Can sacrifice a spell slot to invoke a chosen spell as a spell-like ability 2 times per day, or 3 or 4 times per day by by sacrificing a spell slot 3 or 6 levels higher than the spell; costs a 5th-level spell slot to acquire"',
+    'Note="Can sacrifice a spell slot to invoke a chosen spell as a spell-like ability 2 times per day, or 3 or 4 times per day by by sacrificing a spell slot 3 or 6 levels higher than the spell%{levels.Archmage?\'; costs a 5th-level spell slot to acquire\':\'\'}"',
 
   // Assassin
   'Death Attack':
@@ -7217,7 +7217,8 @@ SRD35.classRules = function(
   }
 
   if(spellsAvailable.length > 0)
-    SRD35.spellsAvailableRules(rules, classLevel, spellsAvailable);
+    SRD35.spellsAvailableRules
+      (rules, 'spellSlotLevel.' + name, spellsAvailable);
 
 };
 
