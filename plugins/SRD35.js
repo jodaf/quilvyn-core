@@ -7831,8 +7831,6 @@ SRD35.classRulesExtra = function(rules, name) {
  
   } else if(name == 'Hierophant') {
 
-    rules.defineRule
-      ('casterLevelDivine', 'magicNotes.divinePowerBonus', '+', null);
     rules.defineRule('combatNotes.turnUndead.1',
       'combatNotes.masteryOfEnergy', '+', '4'
     );
@@ -7848,8 +7846,10 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('selectableFeatureCount.Hierophant (Special Ability)',
       'featureNotes.specialAbility(Hierophant)', '=', null
     );
-    rules.defineRule
-     ('spellEffectsCasterLevelBonus', 'magicNotes.spellPower', '+=', null);
+    rules.defineRule('spellEffectsCasterLevelBonus',
+      'magicNotes.divinePowerBonus', '+', null,
+      'magicNotes.spellPower', '+=', null
+    );
 
   } else if(name == 'Horizon Walker') {
 
