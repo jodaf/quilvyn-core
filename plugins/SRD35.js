@@ -40,6 +40,7 @@ function SRD35() {
   rules.removeChoice = SRD35.removeChoice;
   rules.editorElements = SRD35.initialEditorElements();
   rules.getFormats = SRD35.getFormats;
+  rules.getPlugins = SRD35.getPlugins;
   rules.makeValid = SRD35.makeValid;
   rules.randomizeOneAttribute = SRD35.randomizeOneAttribute;
   rules.defineChoice('random', SRD35.RANDOMIZABLE_ATTRIBUTES);
@@ -688,7 +689,7 @@ SRD35.FEATURES = {
   'Mighty Rage':'Section=combat Note="Has increased Rage effects"',
   'Rage':
     'Section=combat ' +
-    'Note="Can gain +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Strength, +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Constitution, and +%{combatNotes.mightyRage?4:combatNotes.greaterRage?3:2} Will and suffer -2 Armor Class for %{(combatNotes.mightyRage?7:combatNotes.greaterRage?6:5)+constitutionModifier>?1} rd%{combatNotes.tirelessRage?\'\':\', becoming fatigued afterward until the end of the encounter,\'} %{levels.Barbarian>=4?(levels.Barbarian//4+1)+\' times\':\'once\'} per day"',
+    'Note="Can gain +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Strength, +%{combatNotes.mightyRage?8:combatNotes.greaterRage?6:4} Constitution, and +%{combatNotes.mightyRage?4:combatNotes.greaterRage?3:2} Will and suffer -2 Armor Class for %V rd%{combatNotes.tirelessRage?\'\':\', becoming fatigued afterward until the end of the encounter,\'} %{levels.Barbarian>=4?(levels.Barbarian//4+1)+\' times\':\'once\'} per day"',
   'Tireless Rage':'Section=combat Note="Has increased rage effects"',
   'Trap Sense':
     'Section=save Note="+%V Reflex and dodge bonus to Armor Class vs. traps"',
@@ -6284,7 +6285,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'armorClassDeflectionModifier', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('combatNotes.armorClassModifiers.3',
-    'dexterityModifier', '=', 'QuilvynUtils.signed(source)'
+    'armorClassDexterityModifier', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('combatNotes.armorClassModifiers.4',
     'combatNotes.armorClassModifiers', '=', '"+0"',
@@ -7174,8 +7175,9 @@ SRD35.classRules = function(
         let note = 'magicNotes.' + spellAbility + name + 'SpellSlotBonus';
         rules.defineChoice('notes', note + ':%1');
         rules.defineRule(note,
-          spellAbility + 'Modifier', '?', 'source >= 1',
-          'spellSlots.' + spellType + '1', '=', '1'
+          'spellSlots.' + spellType + '1', '?', 'source != null',
+          spellAbility + 'Modifier', '=', null,
+          '', '^', '0'
         );
         let expr = 'source<1 ? null : ["Spell level " + ';
         for(let l = 1; l <= spellLevel; l++) {
@@ -7184,10 +7186,7 @@ SRD35.classRules = function(
             expr += ', ';
         }
         expr += '].slice(0, source).join(", ")';
-        rules.defineRule(note + '.1',
-          note, '?', null,
-          spellAbility + 'Modifier', '=', expr
-        );
+        rules.defineRule(note + '.1', note, '=', expr);
         rules.defineRule('spellSlots.' + spellType + spellLevel,
           note + '.1', '+', 'source.includes("' + spellType + spellLevel + '") ? source.match(/' + spellType + spellLevel + '(x(\\d+))?/)[2] || 1 : null'
         );
@@ -7246,6 +7245,11 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('combatNotes.improvedUncannyDodge',
       classLevel, '+=', null,
       '', '+', '4'
+    );
+    rules.defineRule('combatNotes.rage',
+      'constitutionModifier', '=', '5 + source',
+      'combatNotes.greaterRage', '+', '1',
+      'combatNotes.mightyRage', '+', '1'
     );
     rules.defineRule
       ('damageReduction.-', 'combatNotes.damageReduction', '^=', null);
@@ -9544,8 +9548,8 @@ SRD35.weaponRules = function(
     rules.defineChoice('notes',
       'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack and Armor Class'
     );
-    rules.defineRule('armorClass',
-      'combatNotes.two-handedWeaponWithBucklerPenalty', '+', null
+    rules.defineRule('armorClassShieldModifier',
+      'combatNotes.two-handedWeaponWithBucklerPenalty', 'v', '0'
     );
     rules.defineRule('combatNotes.two-handedWeaponWithBucklerPenalty',
       'shield', '?', 'source == "Buckler"',
