@@ -760,7 +760,7 @@ SRD35.FEATURES = {
     'SpellAbility=Charisma',
   'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
   // Chaos Domain
-  'Empowered Chaos':'Section=magic Note="+1 caster level on Chaos spells"',
+  'Empowered Chaos':'Section=magic Note="+1 caster level on Chaotic spells"',
   // Death Domain
   'Death Touch':
     'Section=magic ' +
@@ -780,13 +780,13 @@ SRD35.FEATURES = {
   // Good Domain
   'Empowered Good':'Section=magic Note="+1 caster level on Good spells"',
   // Healing Domain
-  'Empowered Healing':'Section=magic Note="+1 caster level on Heal spells"',
+  'Empowered Healing':'Section=magic Note="+1 caster level on Healing spells"',
   // Knowledge Domain
   'All-Knowing':'Section=skill Note="All Knowledge skills are class skills"',
   'Empowered Divination':
     'Section=magic Note="+1 caster level on Divination spells"',
   // Law Domain
-  'Empowered Law':'Section=magic Note="+1 caster level on Law spells"',
+  'Empowered Law':'Section=magic Note="+1 caster level on Lawful spells"',
   // Luck Domain
   'Good Fortune':'Section=feature Note="Can reroll a roll once per day"',
   // Magic Domain
@@ -7301,24 +7301,6 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('selectableFeatureCount.Cleric (Domain)', classLevel, '=', '2');
-    rules.defineRule('spellEffectsCasterLevelBonus.Chaotic',
-      'magicNotes.empoweredChaos', '+=', '1'
-    );
-    rules.defineRule('spellEffectsCasterLevelBonus.Divination',
-      'magicNotes.empoweredDivination', '+=', '1'
-    );
-    rules.defineRule('spellEffectsCasterLevelBonus.Evil',
-      'magicNotes.empoweredEvil', '+=', '1'
-    );
-    rules.defineRule('spellEffectsCasterLevelBonus.Good',
-      'magicNotes.empoweredGood', '+=', '1'
-    );
-    rules.defineRule('spellEffectsCasterLevelBonus.Healing',
-      'magicNotes.empoweredHealing', '+=', '1'
-    );
-    rules.defineRule('spellEffectsCasterLevelBonus.Law',
-      'magicNotes.empoweredLaw', '+=', '1'
-    );
     rules.defineRule('turningLevel', classLevel, '+=', null);
 
     for(let s in rules.getChoices('selectableFeatures')) {
@@ -8594,6 +8576,9 @@ SRD35.featureRules = function(
         } else if(adjusted.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*$/)) {
           adjusted =
             adjusted.charAt(0).toLowerCase() + adjusted.substring(1).replaceAll(' ', '');
+        } else if((matchInfo = adjusted.match(/^caster level on (.*) spells$/)) != null) {
+          adjusted = 'spellEffectsCasterLevelBonus.' + matchInfo[1];
+          op += '=';
         } else {
           skillPrereqPossible = false;
           continue;
@@ -9380,10 +9365,11 @@ SRD35.spellRules = function(
     ('notes', 'scrolls.' + name + ':%{%V!=1?"("+%V+") ":""}' + description.replaceAll('lvl', expr));
 
 };
+// N.B. FRCS uses Teleportation as a description; probably should be a subschool
 SRD35.spellRules.KNOWN_DESCRIPTORS = [
   'Acid', 'Air', 'Chaotic', 'Cold', 'Creation', 'Darkness', 'Death', 'Earth',
   'Electricity', 'Evil', 'Fear', 'Fire', 'Force', 'Good', 'Language-Dependent',
-  'Lawful', 'Light', 'Mind-Affecting', 'Sonic', 'Water'
+  'Lawful', 'Light', 'Mind-Affecting', 'Sonic', 'Teleportation', 'Water'
 ];
 SRD35.spellRules.KNOWN_SUBSCHOOLS = [
   'Calling', 'Charm', 'Compulsion', 'Creation', 'Figment', 'Glamer', 'Healing',
