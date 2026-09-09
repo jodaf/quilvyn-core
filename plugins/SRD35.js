@@ -2161,7 +2161,7 @@ SRD35.SPELLS = {
     'Description=' +
       '"R%{25+lvl//2*5}\' Entry into a 20\' radius by a Tiny or larger creature triggers a choice of an audible or mental alarm (password negates) for %{lvl*2} hr"',
   'Align Weapon':
-    'School=Transmutation ' +
+    'School=Transmutation ' + // NOTE: one of [Chaotic,Evil,Good,Lawful]
     'Level=C2 ' +
     'Description=' +
       '"Touched weapon gains a choice of chaotic, evil, good, or lawful alignment (save Will negates) for %{lvl} min"',
@@ -2196,7 +2196,7 @@ SRD35.SPELLS = {
     'Description=' +
       '"R%{25+lvl//2*5}\' 2d6 HD of animals sit unmoving (save Will for trained, dire, or magical animals negates) for concentration"',
   'Animate Dead':
-    'School=Necromancy ' +
+    'School="Necromancy [Evil]" ' +
     'Level=Adept3,C3,Death3,S4,W4 ' +
     'Description=' +
       '"Touched corpses become up to %{lvl*2} HD of obedient skeletons and zombies; no more than 4 HD of undead created by multiple castings can be controlled"',
@@ -2387,7 +2387,7 @@ SRD35.SPELLS = {
     'Description=' +
       '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Strength for %{lvl} min"',
   'Burning Hands':
-    'School=Evocation ' +
+    'School="Evocation [Fire]" ' +
     'Level=Adept1,Fire1,S1,W1 ' +
     'Description="15\' cone inflicts %{lvl<?5}d4 HP fire (save Reflex half)"',
 
@@ -2989,7 +2989,7 @@ SRD35.SPELLS = {
     'Description=' +
       '"R%{400+lvl*40}\' Intense tremor shakes an 80\' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures that inflict 8d6 HP (save Reflex DC 15 half) and pin creatures in the rubble, knocking down creatures on open ground (save Reflex DC 15 negates) and opening fissures with a 25% chance to fall in (save Reflex DC 20 negates)"',
   'Elemental Swarm':
-    'School="Conjuration (Summoning)" ' +
+    'School="Conjuration (Summoning)" ' + // NOTE: one of [Air,Earth,Fire,Water]
     'Level=Air9,D9,Earth9,Fire9,Water9 ' +
     'Description=' +
       '"R%{100+lvl*10}\' Summons at 10-min intervals from a chosen elemental plane a series of obedient elementals: 2d4 large; 1d4 huge; 1 greater, for %{lvl*10} min"',
@@ -3119,7 +3119,7 @@ SRD35.SPELLS = {
     'Description=' +
       '"Changes 4 touched acorns into grenades that inflict %{lvl<?20}d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+%{lvl} HP fire in a 5\' radius each (save Reflex half), for %{lvl*10} min"',
   'Fire Shield':
-    'School=Evocation ' +
+    'School=Evocation ' + // NOTE: one of [Cold,Fire]
     'Level=Fire5,Sun4,S4,W4 ' +
     'Description=' +
       '"Envelopes self in cold or hot flames that inflict 1d6+%{lvl<?15} HP cold or fire on melee attackers and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for %{lvl} rd"',
@@ -3237,7 +3237,7 @@ SRD35.SPELLS = {
       '"Touched becomes insubstantial, losing its armor bonus to Armor Class, any supernatural abilities, ability to manipulate objects, and ability to cast spells with components, but gaining DR 10/magic, immunity to poison and critical hits, a 10\' fly Speed, and the ability to pass through small openings, for %{lvl*2} min" ' +
     'Liquid=Potion',
   'Gate':
-    'School=Conjuration ' +
+    'School=Conjuration ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C9,S9,W9 ' +
     'Description=' +
       '"R%{100+lvl*10}\' Creates a 5\'-20\' diameter disk passage to another plane for concentration up to %{lvl} rd, or, at the cost of 1000 XP, allows summoning extraplanar creatures&mdash;a named creature, a single creature of a named kind, or up to %{lvl*2} HD of a named kind"',
@@ -4037,32 +4037,32 @@ SRD35.SPELLS = {
     'Description=' +
       '"Allows self and specified creatures to pass through an 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' section of wood, stone, or plaster a total of %{lvl//2} times"',
   'Planar Ally':
-    'School="Conjuration (Calling)" ' +
+    'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C6 ' +
     'Description=' +
       '"Allows negotiating the purchase of a service from an extraplanar creature with up to 12 HD"',
   'Greater Planar Ally':
-    'School="Conjuration (Calling)" ' +
+    'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C8 ' +
     'Description=' +
       '"Allows negotiating the purchase of a service from an extraplanar creature with up to 18 HD"',
   'Lesser Planar Ally':
-    'School="Conjuration (Calling)" ' +
+    'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C4 ' +
     'Description=' +
       '"Allows negotiating the purchase of a service from an extraplanar creature with up to 6 HD"',
   'Planar Binding':
-    'School="Conjuration (Calling)" ' +
+    'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=S6,W6 ' +
     'Description=' +
       '"Traps 1-3 extraplanar creatures with up to 12 HD total in a <i>Magic Circle</i> (save Will negates) until they perform a task (opposed Charisma allows refusal), escape via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
   'Greater Planar Binding':
-    'School="Conjuration (Calling)" ' +
+    'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=S8,W8 ' +
     'Description=' +
       '"Traps 1-3 extraplanar creatures with up to 18 HD total in a <i>Magic Circle</i> (save Will negates) until they perform a task (opposed Charisma allows refusal), escape via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
   'Lesser Planar Binding':
-    'School="Conjuration (Calling)" ' +
+    'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=S5,W5 ' +
     'Description=' +
       '"Traps an extraplanar creature with up to 6 HD in a <i>Magic Circle</i> (save Will negates) until it performs a task (opposed Charisma allows refusal), escapes via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
@@ -4798,37 +4798,37 @@ SRD35.SPELLS = {
     'Description=' +
       '"R%{25+lvl//2*5}\' Summons 1 2nd-level or 1d3 1st-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally III":
-    'School="Conjuration (Summoning)" ' +
+    'School="Conjuration (Summoning)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=D3,R3 ' +
     'Description=' +
       '"R%{25+lvl//2*5}\' Summons 1 3rd-level, 1d3 2nd-level, or 1d4+1 1st-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally IV":
-    'School="Conjuration (Summoning)" ' +
+    'School="Conjuration (Summoning)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=Animal4,D4,R4 ' +
     'Description=' +
       '"R%{25+lvl//2*5}\' Summons 1 4th-level, 1d3 3rd-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally V":
-    'School="Conjuration (Summoning)" ' +
+    'School="Conjuration (Summoning)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=D5 ' +
     'Description=' +
       '"R%{25+lvl//2*5}\' Summons 1 5th-level, 1d3 4th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally VI":
-    'School="Conjuration (Summoning)" ' +
+    'School="Conjuration (Summoning)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=D6 ' +
     'Description=' +
       '"R%{25+lvl//2*5}\' Summons 1 6th-level, 1d3 5th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally VII":
-    'School="Conjuration (Summoning)" ' +
+    'School="Conjuration (Summoning)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=D7 ' +
     'Description=' +
       '"R%{25+lvl//2*5}\' Summons 1 7th-level, 1d3 6th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally VIII":
-    'School="Conjuration (Summoning)" ' +
+    'School="Conjuration (Summoning)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=Animal8,D8 ' +
     'Description=' +
       '"R%{25+lvl//2*5}\' Summons 1 8th-level, 1d3 7th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
   "Summon Nature's Ally IX":
-    'School="Conjuration (Summoning)" ' +
+    'School="Conjuration (Summoning)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=D9 ' +
     'Description=' +
       '"R%{25+lvl//2*5}\' Summons 1 9th-level, 1d3 8th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for %{lvl} rd"',
@@ -9365,7 +9365,7 @@ SRD35.spellRules = function(
     ('notes', 'scrolls.' + name + ':%{%V!=1?"("+%V+") ":""}' + description.replaceAll('lvl', expr));
 
 };
-// N.B. FRCS uses Teleportation as a description; probably should be a subschool
+// N.B. FRCS uses Teleportation as a descriptor; probably should be a subschool
 SRD35.spellRules.KNOWN_DESCRIPTORS = [
   'Acid', 'Air', 'Chaotic', 'Cold', 'Creation', 'Darkness', 'Death', 'Earth',
   'Electricity', 'Evil', 'Fear', 'Fire', 'Force', 'Good', 'Language-Dependent',
@@ -11177,12 +11177,18 @@ SRD35.ruleNotes = function() {
     '<ul>\n' + '  <li>\n' +
     '    Racial favored class is not reported.\n' +
     '  </li><li>\n' +
-    "    Quilvyn doesn't support double weapons where the two attacks have\n" +
-    '    different critical multipliers. In the predefined weapons this\n' +
-    '    affects only the Gnome Hooked Hammer, where Quilvyn displays a\n' +
+    "    Quilvyn doesn't support double weapons where the two attacks have" +
+    '    different critical multipliers. In the predefined weapons this' +
+    '    affects only the Gnome Hooked Hammer, where Quilvyn displays a' +
     '    critical multiplier of x4 instead of x3/x4.\n' +
     '  </li><li>\n' +
     '    Quilvyn does not track companion feats, skills, and tricks.\n' +
+    '  </li><li>\n' +
+    '    Quilvyn does not include caster level bonuses with spells where the' +
+    '    descriptors can vary&mdash;for example, because <i>Align Weapon</i>' +
+    '    can be any one of [Chaotic], [Evil], [Good], or [Lawful] when cast,' +
+    '    the character sheet for a cleric with the Chaos domain does not' +
+    '    incorporate a caster level bonus in the duration of this spell.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
