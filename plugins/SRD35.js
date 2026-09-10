@@ -6935,15 +6935,17 @@ SRD35.armorRules = function(
   rules.defineRule('armorClassArmorModifier',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.ac) + '[source]'
   );
+  rules.defineRule('armorDexterityMaximum',
+    'armor', '=', QuilvynUtils.dictLit(rules.armorStats.dex) + '[source]'
+  );
   rules.defineRule('armorSkill',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.skill) + '[source]'
   );
   rules.defineRule('armorWeight',
     'armor', '=', QuilvynUtils.dictLit(rules.armorStats.weight) + '[source]'
   );
-  rules.defineRule('armorClassDexterityModifier',
-    'armor', 'v', QuilvynUtils.dictLit(rules.armorStats.dex) + '[source]'
-  );
+  rules.defineRule
+    ('armorClassDexterityModifier', 'armorDexterityMaximum', 'v', null);
   rules.defineRule('magicNotes.arcaneSpellFailure',
     'casterLevelArcane', '?', null,
     'armor', '+=', QuilvynUtils.dictLit(rules.armorStats.spell) + '[source]'
@@ -8569,7 +8571,7 @@ SRD35.featureRules = function(
           else if(!skillsBoosted.includes(skillAttr))
             skillsBoosted.push(skillAttr);
           adjusted = 'skillModifier.' + adjusted;
-        } else if((matchInfo = adjusted.match(/^(deflection|dexterity|dodge|enhancement|insight|natural armor|size)( enhancement)? (bonus|penalty) to Armor Class$/)) != null) {
+        } else if((matchInfo = adjusted.match(/^(deflection|dexterity|dodge|enhancement|insight|natural armor|shield|size)( enhancement)? (bonus|penalty) to Armor Class$/)) != null) {
           adjusted =
             'armorClass' + matchInfo[1].charAt(0).toUpperCase() + matchInfo[1].substring(1).replace(' armor', 'Armor') + (matchInfo[2] ? 'Enhancement' : '') + 'Modifier';
           op = matchInfo[1] == 'dodge' ? '+=' : '^=';
