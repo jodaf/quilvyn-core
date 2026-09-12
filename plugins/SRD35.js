@@ -591,7 +591,7 @@ SRD35.FEATURES = {
     'Section=skill Note="+2 Appraise and Craft with stone and metal"',
   'Dwarf Enmity':'Section=combat Note="+1 attacks vs. goblinoids and orcs"',
   'Resist Poison':'Section=save Note="+2 vs. poison"',
-  'Resist Spells':'Section=save Note="+2 vs. spells"',
+  'Resist Spells':'Section=save Note="+2 vs. spells and spell-like effects"',
   'Stability':
     'Section=combat Note="+4 vs. Bull Rush and Trip when standing on ground"',
   'Steady':
@@ -599,7 +599,7 @@ SRD35.FEATURES = {
     'Note="Suffers no speed penalty in heavy armor or with a heavy load"',
   'Stonecunning':
     'Section=skill ' +
-    'Note="+2 Search for unusual stonework and makes an automatic Search when within 10\'/Can determine approximate depth underground"',
+    'Note="+2 Search for unusual stonework and makes an automatic check when within 10\'/Can determine approximate depth underground"',
 
   // Elf
   'Elf Ability Adjustment':
@@ -708,22 +708,22 @@ SRD35.FEATURES = {
     'Note="Can use a Bardic Music effect %V time%{skillNotes.bardicMusic>1?\'s\':\'\'} per day"',
   'Countersong':
     'Section=skill ' +
-    'Note="R30\' Can use Perform to allow creatures affected by sonic magic to make saves using the Perform check each rd for up to 10 rd"',
+    'Note="R30\' Can use Bardic Music to allow creatures affected by sonic magic to make saves using the Perform check each rd for up to 10 rd"',
   'Fascinate': // Spell-like ability; no corresponding spell
     'Section=skill ' +
-    'Note="R90\' Can use Perform to hold %{(levels.Bard+2)//3} creatures spellbound (save Will vs. Perform check negates for 24 hr; potential threats allow another save) and inflict -4 on reaction skill checks for %{levels.Bard} rd or until a target is threatened"',
+    'Note="R90\' Can use Bardic Music to hold %{(levels.Bard+2)//3} creatures spellbound (save Will vs. Perform check negates for 24 hr; potential threats allow another save) and inflict -4 on reaction skill checks for %{levels.Bard} rd or until a target is threatened"',
   'Inspire Competence':
     'Section=skill ' +
-    'Note="R30\' Can use Perform to give an ally +2 checks on a specified skill for up to 2 min"',
+    'Note="R30\' Can use Bardic Music to give an ally +2 checks on a specified skill for up to 2 min"',
   'Inspire Courage':
     'Section=skill ' +
-    'Note="Can use Perform to give allies +%{(levels.Bard+4)//6 >? 1} attacks, damage, and charm and fear saves, lasting for 5 rd after the performance ends"',
+    'Note="Can use Bardic Music to give allies +%{(levels.Bard+4)//6>?1} attacks, damage, and charm and fear saves, lasting for 5 rd after the performance ends"',
   'Inspire Greatness':
     'Section=skill ' +
-    'Note="R30\' Can use Perform to give %{levels.Bard>11?((levels.Bard-6)//3)+\' allies\':\'an ally\'} 2d10 temporary hit points, +2 attacks, and +1 Fortitude saves, lasting for 5 rd after the performance ends"',
+    'Note="R30\' Can use Bardic Music to give %{levels.Bard>11?((levels.Bard-6)//3)+\' allies\':\'an ally\'} 2d10 temporary hit points, +2 attacks, and +1 Fortitude saves, lasting for 5 rd after the performance ends"',
   'Inspire Heroics':
     'Section=skill ' +
-    'Note="R30\' Can use Perform to give %{levels.Bard>14?((levels.Bard-12)//3)+\' allies\':\'an ally\'} +4 saves and a +4 dodge bonus to Armor Class, lasting for 5 rd after the performance ends"',
+    'Note="R30\' Can use Bardic Music to give %{levels.Bard>17?((levels.Bard-12)//3)+\' allies\':\'an ally\'} +4 saves and a +4 dodge bonus to Armor Class, lasting for 5 rd after the performance ends"',
   'Mass Suggestion':'Section=magic Note="Has expanded Suggestion effects"',
   'Simple Somatics':
     'Section=magic ' +
@@ -740,6 +740,9 @@ SRD35.FEATURES = {
     'SpellAbility=Charisma',
 
   // Cleric
+  'Aligned Spells':
+    'Section=magic ' +
+    'Note="Cannot cast spells with an alignment opposed to own or deity\'s alignment"',
   'Aura':
     'Section=feature ' +
     'Note="Visible to <i>Detect Chaos/Evil/Good/Law</i>, depending on deity alignment and domains"',
@@ -749,80 +752,68 @@ SRD35.FEATURES = {
   'Turn Undead':
     'Section=combat ' +
     'Note="R60\' Can turn or rebuke 2d6+%1 HD of undead creatures of up to (d20+%2)/3 HD %3 times per day"',
-  // Air Domain
-  'Air Turning':
-    'Section=combat Note="Can turn earth creatures and rebuke air creatures"',
-  // Animal Domain
-  'Animal Talk':
-    'Section=magic ' +
-    'Note="Can use <i>Speak With Animals</i> effects once per day" ' +
+  'Air Domain':
+    'Section=combat ' +
+    'Note="Can turn earth creatures and rebuke air creatures %{charismaModifier+3} times per day"',
+  'Animal Domain':
+    'Section=magic,skill ' +
+    'Note=' +
+      '"Can use <i>Speak With Animals</i> effects once per day",' +
+      '"Knowledge (Nature) is a class skill" ' +
     'Spells="Speak With Animals" ' +
     'SpellAbility=Charisma',
-  'Nature Knowledge':'Section=skill Note="Knowledge (Nature) is a class skill"',
-  // Chaos Domain
-  'Empowered Chaos':'Section=magic Note="+1 caster level on Chaotic spells"',
-  // Death Domain
-  'Death Touch':
-    'Section=magic ' +
-    'Note="Touch kills target with up to %{levels.Cleric}d6 hit points once per day"',
-  // Destruction Domain
-  'Smite':
+  'Chaos Domain':'Section=magic Note="+1 caster level on Chaotic spells"',
+  'Death Domain':
+    'Section=combat ' +
+    'Note="Touch kills a target with up to %{levels.Cleric}d6 hit points once per day"',
+  'Destruction Domain':
     'Section=combat ' +
     'Note="Can gain +4 attack and +%{levels.Cleric} damage on an attack once per day"',
-  // Earth Domain
-  'Earth Turning':
-    'Section=combat Note="Can turn air creatures and rebuke earth creatures"',
-  // Evil Domain
-  'Empowered Evil':'Section=magic Note="+1 caster level on Evil spells"',
-  // Fire Domain
-  'Fire Turning':
-    'Section=combat Note="Can turn water creatures and rebuke fire creatures"',
-  // Good Domain
-  'Empowered Good':'Section=magic Note="+1 caster level on Good spells"',
-  // Healing Domain
-  'Empowered Healing':'Section=magic Note="+1 caster level on Healing spells"',
-  // Knowledge Domain
-  'All-Knowing':'Section=skill Note="All Knowledge skills are class skills"',
-  'Empowered Divination':
-    'Section=magic Note="+1 caster level on Divination spells"',
-  // Law Domain
-  'Empowered Law':'Section=magic Note="+1 caster level on Lawful spells"',
-  // Luck Domain
-  'Good Fortune':'Section=feature Note="Can reroll a roll once per day"',
-  // Magic Domain
-  'Use Wizard Devices':
+  'Earth Domain':
+    'Section=combat ' +
+    'Note="Can turn air creatures and rebuke earth creatures %{charismaModifier+3} times per day"',
+  'Evil Domain':'Section=magic Note="+1 caster level on Evil spells"',
+  'Fire Domain':
+    'Section=combat ' +
+    'Note="Can turn water creatures and rebuke fire creatures %{charismaModifier+3} times per day"',
+  'Good Domain':'Section=magic Note="+1 caster level on Good spells"',
+  'Healing Domain':'Section=magic Note="+1 caster level on Healing spells"',
+  'Knowledge Domain':
+    'Section=magic,skill ' +
+    'Note=' +
+      '"+1 caster level on Divination spells",' +
+      '"All Knowledge skills are class skills"',
+  'Law Domain':'Section=magic Note="+1 caster level on Lawful spells"',
+  'Luck Domain':'Section=feature Note="Can reroll a roll once per day"',
+  'Magic Domain':
     'Section=magic ' +
-    'Note="Can use Wizard magic device as a level %{levels.Cleric//2>?1 + (levels.Wizard||0)} Wizard"',
-  // Plant Domain
-  // Nature Knowledge as above
-  'Plant Turning':'Section=combat Note="Can rebuke Plant creatures"',
-  // Protection Domain
-  'Protective Touch':
+    'Note="Can use Wizard magic devices as a level %{levels.Cleric//2>?1 + (levels.Wizard||0)} Wizard"',
+  'Plant Domain':
+    'Section=combat,skill ' +
+    'Note=' +
+      '"Can rebuke Plant creatures %{charismaModifier+3} times per day",' +
+      '"Knowledge (Nature) is a class skill"',
+  'Protection Domain':
     'Section=magic ' +
     'Note="Touched gains +%{levels.Cleric} on the next save within 1 hour once per day"',
-  // Strength Domain
-  'Feat Of Strength':
+  'Strength Domain':
     'Section=ability ' +
     'Note="Can gain +%{levels.Cleric} Strength for 1 rd once per day"',
-  // Sun Domain
-  'Greater Turning':
-    'Section=combat Note="Can destroy turned undead once per day"',
-  // Travel Domain
-  'Free Movement':
-    'Section=magic ' +
-    'Note="Can ignore magical impediments to movement for %{casterLevels.Travel} rd per day"',
-  'Survivalist':'Section=skill Note="Survival is a class skill"',
-  // Trickery Domain
-  'Deceptive Knowledge':
+  'Sun Domain':'Section=combat Note="Can destroy turned undead once per day"',
+  'Travel Domain':
+    'Section=ability,skill ' +
+    'Note=' +
+      '"Can ignore magical impediments to movement for %{casterLevels.Travel} rd per day",' +
+      '"Survival is a class skill"',
+  'Trickery Domain':
     'Section=skill ' +
     'Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
-  // War Domain
-  'Weapon Of War':
+  'War Domain':
     'Section=combat ' +
     'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
-  // Water Domain
-  'Water Turning':
-    'Section=combat Note="Can turn fire creatures and rebuke water creatures"',
+  'Water Domain':
+    'Section=combat ' +
+    'Note="Can turn fire creatures and rebuke water creatures %{charismaModifier+3} times per day"',
 
   // Druid
   'A Thousand Faces':
@@ -5360,32 +5351,7 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light; Medium; Heavy; Shield)",' +
       '"1:Weapon Proficiency (Simple Weapons)",' +
-      '"1:Aura","1:Spontaneous Casting (Cleric)","1:Turn Undead",'+
-      '"features.Air Domain ? 1:Air Turning",' +
-      '"features.Animal Domain ? 1:Animal Talk",' +
-      '"features.Animal Domain || features.Plant Domain ? 1:Nature Knowledge",'+
-      '"features.Chaos Domain ? 1:Empowered Chaos",' +
-      '"features.Death Domain ? 1:Death Touch",' +
-      '"features.Destruction Domain ? 1:Smite",' +
-      '"features.Earth Domain ? 1:Earth Turning",' +
-      '"features.Evil Domain ? 1:Empowered Evil",' +
-      '"features.Fire Domain ? 1:Fire Turning",' +
-      '"features.Good Domain ? 1:Empowered Good",' +
-      '"features.Healing Domain ? 1:Empowered Healing",' +
-      '"features.Knowledge Domain ? 1:All-Knowing",' +
-      '"features.Knowledge Domain ? 1:Empowered Divination",' +
-      '"features.Law Domain ? 1:Empowered Law",' +
-      '"features.Luck Domain ? 1:Good Fortune",' +
-      '"features.Magic Domain ? 1:Use Wizard Devices",' +
-      '"features.Plant Domain ? 1:Plant Turning",' +
-      '"features.Protection Domain ? 1:Protective Touch",' +
-      '"features.Strength Domain ? 1:Feat Of Strength",' +
-      '"features.Sun Domain ? 1:Greater Turning",' +
-      '"features.Travel Domain ? 1:Survivalist",' +
-      '"features.Travel Domain ? 1:Free Movement",' +
-      '"features.Trickery Domain ? 1:Deceptive Knowledge",' +
-      '"features.War Domain ? 1:Weapon Of War",' +
-      '"features.Water Domain ? 1:Water Turning" ' +
+      '"1:Aura","1:Spontaneous Casting (Cleric)","1:Turn Undead" '+
     'Selectables=' +
       // Note: deity 'None' overrides domain match; handled by classRulesExtra
       '"deityDomains =~ \'Air\' ? 1:Air Domain:Domain",' +
@@ -6272,6 +6238,7 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'armorClassNaturalArmorModifier', '+', '-source',
     'armorClassShieldModifier', '+', '-source'
   );
+  rules.defineRule('armorClassSizeModifier', '', '=', '0');
   rules.defineRule('attacksPerRound',
     'baseAttack', '=', 'Math.max(Math.floor((source + 4) / 5), 1)'
   );
@@ -6299,7 +6266,6 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'armorClassShieldModifier', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('combatNotes.armorClassModifiers.7',
-    'combatNotes.armorClassModifiers', '=', '"+0"',
     'armorClassSizeModifier', '=', 'QuilvynUtils.signed(source)'
   );
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
@@ -7283,8 +7249,6 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Cleric') {
 
-    rules.defineRule
-      ('classSkills.Knowledge', 'skillNotes.all-Knowing', '=', '1');
     rules.defineRule('combatNotes.charismaTurningAdjustment',
       'turningLevel', '?', null,
       'charismaModifier', '=', null
@@ -7366,7 +7330,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'armor', '?', 'source == "None"',
       'abilityNotes.fastMovement(Monk)', '=', null
     );
-    // N.B.: this bonus applies to both flat-footed and touch
+    // N.B.: this untyped bonus applies to both flat-footed and touch
     rules.defineRule('armorClass', 'combatNotes.armorClassBonus.1', '+', null);
     // Display the Armor Class Bonus note even when armored
     rules.defineRule('combatNotes.armorClassBonus',
@@ -8215,11 +8179,11 @@ SRD35.deityRules = function(rules, name, alignment, domains, weapons) {
     let focusFeature = 'Weapon Focus (' + w + ')';
     let proficiencyFeature = 'Weapon Proficiency (' + w + ')';
     rules.defineRule('clericFeatures.' + focusFeature,
-      'combatNotes.weaponOfWar', '?', null,
+      'combatNotes.warDomain', '?', null,
       'deityFavoredWeapons', '=', 'source.indexOf("' + w + '") >= 0 ? 1 : null'
     );
     rules.defineRule('clericFeatures.' + proficiencyFeature,
-      'combatNotes.weaponOfWar', '?', null,
+      'combatNotes.warDomain', '?', null,
       'deityFavoredWeapons', '=', 'source.indexOf("' + w + '") >= 0 ? 1 : null'
     );
     rules.defineRule
@@ -8876,7 +8840,7 @@ SRD35.raceRulesExtra = function(rules, name) {
     rules.defineRule('spells.Ghost Sound(GnomeMagic0 Illu)',
       'charisma', '?', 'source>=10'
     );
-    rules.defineRule('spells.Ghost Sound(Prestidigitation0 Univ)',
+    rules.defineRule('spells.Prestidigitation(GnomeMagic0 Univ)',
       'charisma', '?', 'source>=10'
     );
   } else if(name.match(/Dwarf/)) {
@@ -9161,11 +9125,14 @@ SRD35.skillRules = function(
     );
   }
 
-  // For Loremaster; placed here because skills are defined after classes
-  if(name.startsWith('Knowledge '))
+  if(name.startsWith('Knowledge ')) {
+    rules.defineRule
+      ('classSkills.' + name, 'skillNotes.knowledgeDomain', '=', '1');
+    // For Loremaster
     rules.defineRule('countKnowledgeSkillsGe10',
       'skills.' + name, '+=', 'source >= 10 ? 1 : null'
     );
+  }
 
 };
 

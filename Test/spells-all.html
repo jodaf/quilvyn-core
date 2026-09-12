@@ -438,7 +438,7 @@ var attributes = {
         <td><b>Wizard Features</b>: School Opposition (Enchantment); School Opposition (Necromancy); School Opposition; School Specialization (Conjuration); School Specialization; Scribe Scroll; Summon Familiar; Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)</td>
         <td><b>Paladin Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura Of Courage; Aura Of Good; Detect Evil; Divine Grace; Divine Health; Smite Evil; Turn Undead; Weapon Proficiency (Simple Weapons; Martial Weapons)</td>
         <td><b>Druid Features</b>: Animal Companion; Armor Proficiency (Light; Medium; Shield); Nature Sense; Resist Nature's Lure; Spontaneous Casting (Druid); Trackless Step; Weapon Proficiency (Club; Dagger; Dart; Quarterstaff; Scimitar; Sickle; Shortspear; Sling; Spear); Wild Empathy; Woodland Stride</td>
-        <td><b>Cleric Features</b>: All-Knowing; Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Deceptive Knowledge; Empowered Divination; Knowledge Domain; Spontaneous Casting (Cleric); Trickery Domain; Turn Undead; Weapon Proficiency (Simple Weapons)</td>
+        <td><b>Cleric Features</b>: Armor Proficiency (Light; Medium; Heavy; Shield); Aura; Knowledge Domain; Spontaneous Casting (Cleric); Trickery Domain; Turn Undead; Weapon Proficiency (Simple Weapons)</td>
         <td><b>Bard Features</b>: Armor Proficiency (Light; Shield); Bardic Knowledge; Bardic Music; Countersong; Fascinate; Inspire Competence; Inspire Courage; Simple Somatics; Weapon Proficiency (Simple Weapons; Longsword; Rapier; Sap; Short Sword; Shortbow; Whip)</td>
       </tr></table>
 </td>
@@ -510,15 +510,11 @@ var attributes = {
     </tr><tr style="text-align:center">
       <td><b>Skill Notes</b>:       <table id="SkillNotes" style="width:100%">
       <tr style="text-align:center">
-        <td><i>All-Knowing: All Knowledge skills are class skills</i></td>
-      </tr><tr style="text-align:center">
         <td><i>Armor Skill Check Penalty: -2 Balance/-2 Climb/-2 Escape Artist/-2 Hide/-2 Jump/-2 Move Silently/-2 Sleight Of Hand/-2 Tumble</i></td>
       </tr><tr style="text-align:center">
         <td><i>Armor Swim Check Penalty: -4 Swim</i></td>
       </tr><tr style="text-align:center">
         <td><i>Bluff Synergy: +2 Diplomacy/+2 Disguise (acting)/+2 Intimidate/+2 Sleight Of Hand</i></td>
-      </tr><tr style="text-align:center">
-        <td><i>Deceptive Knowledge: Bluff is a class skill/Disguise is a class skill/Hide is a class skill</i></td>
       </tr><tr style="text-align:center">
         <td><i>Familiar Cat: +3 Move Silently</i></td>
       </tr><tr style="text-align:center">
@@ -530,9 +526,13 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td><i>Knowledge (Religion) Synergy: +2 Undead turning checks</i></td>
       </tr><tr style="text-align:center">
+        <td><i>Knowledge Domain: All Knowledge skills are class skills</i></td>
+      </tr><tr style="text-align:center">
         <td><i>Nature Sense: +2 Knowledge (Nature)/+2 Survival</i></td>
       </tr><tr style="text-align:center">
         <td><i>Survival Synergy: +2 Knowledge (Nature)</i></td>
+      </tr><tr style="text-align:center">
+        <td><i>Trickery Domain: Bluff is a class skill/Disguise is a class skill/Hide is a class skill</i></td>
       </tr><tr style="text-align:center">
         <td>Bardic Knowledge: Can make a +6 check for knowledge of notable people, items, and places</td>
       </tr><tr style="text-align:center">
@@ -540,17 +540,17 @@ var attributes = {
       </tr><tr style="text-align:center">
         <td>Companion Alertness: +2 Listen and Spot when companion is within reach</td>
       </tr><tr style="text-align:center">
-        <td>Countersong: R30' Can use Perform to allow creatures affected by sonic magic to make saves using the Perform check each rd for up to 10 rd</td>
+        <td>Countersong: R30' Can use Bardic Music to allow creatures affected by sonic magic to make saves using the Perform check each rd for up to 10 rd</td>
       </tr><tr style="text-align:center">
         <td>Craft (Bows) Synergy: +2 Appraise (related)</td>
       </tr><tr style="text-align:center">
         <td>Craft (Traps) Synergy: +2 Appraise (related)</td>
       </tr><tr style="text-align:center">
-        <td>Fascinate: R90' Can use Perform to hold 2 creatures spellbound (save Will vs. Perform check negates for 24 hr; potential threats allow another save) and inflict -4 on reaction skill checks for 4 rd or until a target is threatened</td>
+        <td>Fascinate: R90' Can use Bardic Music to hold 2 creatures spellbound (save Will vs. Perform check negates for 24 hr; potential threats allow another save) and inflict -4 on reaction skill checks for 4 rd or until a target is threatened</td>
       </tr><tr style="text-align:center">
-        <td>Inspire Competence: R30' Can use Perform to give an ally +2 checks on a specified skill for up to 2 min</td>
+        <td>Inspire Competence: R30' Can use Bardic Music to give an ally +2 checks on a specified skill for up to 2 min</td>
       </tr><tr style="text-align:center">
-        <td>Inspire Courage: Can use Perform to give allies +1 attacks, damage, and charm and fear saves, lasting for 5 rd after the performance ends</td>
+        <td>Inspire Courage: Can use Bardic Music to give allies +1 attacks, damage, and charm and fear saves, lasting for 5 rd after the performance ends</td>
       </tr><tr style="text-align:center">
         <td>Knowledge (Engineering) Synergy: +2 Search (secret doors)</td>
       </tr><tr style="text-align:center">
@@ -2569,9 +2569,9 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Magic Notes</b>:     <table id="MagicNotes" style="width:100%">
     <tr style="text-align:center">
-      <td><i>Empowered Divination: +1 caster level on Divination spells</i></td>
-    </tr><tr style="text-align:center">
       <td><i>Intelligence Wizard Spell Slot Bonus: Spell level W1, W2</i></td>
+    </tr><tr style="text-align:center">
+      <td><i>Knowledge Domain: +1 caster level on Divination spells</i></td>
     </tr><tr style="text-align:center">
       <td><i>School Specialization (Conjuration): +1 Conjuration spell slot in each spell level</i></td>
     </tr><tr style="text-align:center">
