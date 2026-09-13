@@ -821,9 +821,6 @@ SRD35.FEATURES = {
   'Animal Companion':
     'Section=companion ' +
     'Note="Can have a special bond with an animal that has expanded abilities"',
-  'Elemental Shape':
-    'Section=magic ' +
-    'Note="Can change into a small to %{levels.Druid<20?\'large\':\'huge\'} elemental %{levels.Druid>=20?\'3 times\':levels.Druid>=18?\'2 times\':\'once\'} per day"',
   'Nature Sense':'Section=skill Note="+2 Knowledge (Nature)/+2 Survival"',
   "Resist Nature's Lure":
     'Section=save Note="+4 vs. the spell-like abilities of fey creatures"',
@@ -839,12 +836,13 @@ SRD35.FEATURES = {
   'Venom Immunity':'Section=save Note="Has immunity to poison"',
   'Wild Empathy':
     'Section=skill ' +
-    'Note="Can make a +%V check to use Diplomacy with animals and magical beasts with an Intelligence of 1 or 2"',
+    'Note="Can make a +%V check to use Diplomacy actions with animals; using Wild Empathy with magical beasts that have an Intelligence of 1 or 2 imposes a -4 penalty on the check"',
   'Wild Shape':
     'Section=magic ' +
-    'Note="Can change into a %V animal%{levels.Druid>=12?\' or plant creature\':\'\'} with up to %{levels.Druid} Hit Dice for %1 hr %2 time%{magicNotes.wildShape.2>1?\'s\':\'\'} per day"',
+    'Note="Can change into a %{levels.Druid<11?\'small\':\'tiny\'} to %{levels.Druid<8?\'medium\':levels.Druid<15?\'large\':\'huge\'} animal%{levels.Druid<12?\'\':\' or plant\'} with up to %{levels.Druid} HD, regaining %{level} hit points, for %{levels.Druid} hr %{levels.Druid>5?(levels.Druid<7?2:levels.Druid<10?3:levels.Druid<14?4:levels.Druid<18?5:6)+\' times\':\'once\'} per day%{levels.Druid>=16?\'; can assume an elemental shape \'+(levels.Druid<18?\'once\':levels.Druid<20?\'2 times\':\'3 times\')+\' per day\':\'\'}"',
   'Woodland Stride':
-    'Section=ability Note="Can move normally through natural undergrowth"',
+    'Section=ability ' +
+    'Note="Can move normally through natural undergrowth without damage or impairment"',
 
   // Fighter
   'Bonus Feat (Fighter)':
@@ -5414,7 +5412,7 @@ SRD35.CLASSES = {
       '"1:Animal Companion","1:Nature Sense","1:Spontaneous Casting (Druid)",' +
       '"1:Wild Empathy","2:Woodland Stride","3:Trackless Step",' +
       '"4:Resist Nature\'s Lure","5:Wild Shape","9:Venom Immunity",' +
-      '"13:A Thousand Faces","15:Timeless Body","16:Elemental Shape" ' +
+      '"13:A Thousand Faces","15:Timeless Body" ' +
     'Languages=Druidic ' +
     'CasterLevelDivine=levels.Druid ' +
     'SpellAbility=Wisdom ' +
@@ -7289,23 +7287,6 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Druid') {
 
     rules.defineRule('companionMasterLevel', classLevel, '^=', null);
-    rules.defineRule('magicNotes.wildShape',
-      classLevel, '=',
-        'source < 5 ? null : ' +
-        'source < 8 ? "small to medium" : ' +
-        'source < 11 ? "small to large" : ' +
-        'source < 15 ? "tiny to large" : "tiny to huge"'
-    );
-    rules.defineRule('magicNotes.wildShape.1', classLevel, '=', null);
-    rules.defineRule('magicNotes.wildShape.2',
-      classLevel, '=',
-         'source < 5 ? null : ' +
-         'source == 5 ? 1 : ' +
-         'source == 6 ? 2 : ' +
-         'source < 10 ? 3 : ' +
-         'source < 14 ? 4 : ' +
-         'source < 18 ? 5 : 6'
-    );
     rules.defineRule('skillNotes.wildEmpathy',
       classLevel, '+=', null,
       'charismaModifier', '+', null
@@ -8574,6 +8555,17 @@ SRD35.featureRules = function(
       if(effect.match(/^Has increased .* effects$/))
         rules.defineRule('italics', note, '=', 'null');
 
+      // Has the ... feature
+      matchInfo = effect.match(/^Has\s+the\s+(.*)\s+features?$/);
+      if(matchInfo) {
+        let features = matchInfo[1].split(/\s*,\s*|\s*\band\s+/);
+        features.forEach(f => {
+          f = f.trim();
+          if(f != '' && !f.includes('%'))
+            rules.defineRule('features.' + f, note, '=', '1');
+        });
+      }
+
       // Weapon Familiarity or Proficiency (weapon[; weapon ...])
       matchInfo =
         effect.match(/([A-Z]\w*)\s(Familiarity|Proficiency)\s\((([^\(]|\([^\)]*\))*)\)$/);
@@ -8600,7 +8592,7 @@ SRD35.featureRules = function(
 
   if(spells && spells.length > 0) {
     spellAbility = !spellAbility ? 'charisma' : spellAbility.toLowerCase();
-    let spellType = name.replaceAll(/[- \(\)]/g, '');
+    let spellType = name.replaceAll(/[-' \(\)]/g, '');
     // Display attack and DC values when this feature is acquired.
     rules.defineRule('casterLevels.' + spellType,
       'features.' + name, '?', null,
@@ -9291,7 +9283,7 @@ SRD35.spellRules = function(
       effectsBonus += '+(spellEffectsCasterLevelBonus.' + s + '||0)';
   });
   descriptors.forEach(d => {
-    if(d.match(/[-\s\(\)]/))
+    if(d.match(/[-'\s\(\)]/))
       // N.B. doubled $ because we'll use this in replaceAll()
       effectsBonus += "+($$'spellEffectsCasterLevelBonus." + d + "'||0)";
     else
