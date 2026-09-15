@@ -605,7 +605,10 @@ SRD35.FEATURES = {
   'Elf Ability Adjustment':
     'Section=ability Note="+2 Dexterity/-2 Constitution"',
   'Elf Resistances':
-    'Section=save Note="Has immunity to magical sleep/+2 vs. enchantment"',
+    'Section=save,save ' +
+    'Note=' +
+      '"Has immunity to sleep",' +
+      '"+2 vs. enchantment"',
   'Keen Senses (Elf)':
     'Section=skill,skill ' +
     'Note=' +
@@ -890,18 +893,21 @@ SRD35.FEATURES = {
   // Timeless Body as above
   'Tongue Of The Sun And Moon':
     'Section=skill Note="Can converse with any living creature"',
-  'Unarmed Strike (Monk)':
+  'Unarmed Strike':
     'Section=combat,combat ' +
     'Note=' +
-      '"Unarmed Strike inflicts %V HP",' +
-      '"Adds full Strength modifier to all Unarmed Strike damage"',
+      '"Unarmed Strike inflicts %V HP/Has the Improved Unarmed Strike feature",' +
+      '"Can make an Unarmed Strike when hands are full and adds full Strength modifier to all Unarmed Strike damage"',
   'Wholeness Of Body':
-    'Section=combat Note="Can heal %{levels.Monk*2} hit points to self per day"',
+    'Section=combat ' +
+    'Note="Can restore %{levels.Monk*2} hit points to self per day"',
 
   // Paladin
   'Aura Of Courage':
-    'Section=save ' +
-    'Note="Has immunity to fear, and allies within 10\' gain +4 saves vs. fear"',
+    'Section=save,save ' +
+    'Note=' +
+      '"Has immunity to fear",' +
+      '"Allies within 10\' gain +4 saves vs. fear"',
   'Aura Of Good':'Section=feature Note="Visible to <i>Detect Good</i>"',
   // Passing spell to featureRule breaks because Paladins have no caster level
   // until level 4
@@ -911,11 +917,10 @@ SRD35.FEATURES = {
     'Spells="Detect Evil" ' +
     'SpellAbility=Charisma',
   'Divine Grace':'Section=save Note="+%V Fortitude/+%V Reflex/+%V Will"',
-  'Divine Health':
-    'Section=save Note="Has immunity to natural and supernatural diseases"',
+  'Divine Health':'Section=save Note="Has immunity to disease"',
   'Lay On Hands':
     'Section=combat ' +
-    'Note="Can use touch to heal %{levels.Paladin*charismaModifier} hit points per day or to damage undead"',
+    'Note="Touch restores %{levels.Paladin*charismaModifier} hit points per day; use on undead instead inflicts HP"',
   'Remove Disease':
     'Section=magic ' +
     'Note="Can use <i>Remove Disease</i> effects %{levels.Paladin>8?(levels.Paladin//3-1)+\' times\':\'once\'} per week" ' +
@@ -923,7 +928,7 @@ SRD35.FEATURES = {
     'SpellAbility=Charisma',
   'Smite Evil':
     'Section=combat ' +
-    'Note="Can gain +%1 attack and inflict +%2 HP vs. an evil foe %{%V>1?\'%V times\':\'once\'} per day"',
+    'Note="Can gain +%{charismaModifier>?0} attack and inflict +%{levels.Paladin} HP vs. an evil foe %{levels.Paladin//5>1?levels.Paladin//5+1+\' times\':\'once\'} per day"',
   'Special Mount': // Spell-like ability; no corresponding spell
     'Section=companion ' +
     'Note="Can call a celestial mount with expanded abilities and full hit points for %{levels.Paladin*2} hr once per day; death of the mount prevents another use and inflicts -1 attacks and damage for 30 days"',
@@ -1206,7 +1211,7 @@ SRD35.FEATURES = {
     'Note="Can cast a spell using a spell slot 1 level higher than normal to cast it without somatic components"',
   'Stunning Fist':
     'Section=combat ' +
-    'Note="Unarmed Strike can inflict stunned for 1 rd (save Fortitude DC %{10+level//2+wisdomModifier} negates) %V time%{combatNotes.stunningFist>1?\'s\':\'\'} per day"',
+    'Note="Unarmed Strike can inflict stunned for 1 rd (save Fortitude DC %{10+level//2+wisdomModifier} negates) %{(levels.Monk||0)+(level-(levels.Monk||0))//4>1?(levels.Monk||0)+(level-(levels.Monk||0))//4+\' times\':\'once\'} per day"',
   'Toughness':'Section=combat Note="+%V Hit Points"',
   'Track':'Section=skill Note="Can use Survival to follow creatures\' trails"',
   'Trample':
@@ -1503,7 +1508,10 @@ SRD35.FEATURES = {
     'Section=feature Note="Has the Tremorsense feature"',
   'Terrain Mastery (Cold)':'Section=save Note="Has resistance 20 to cold"',
   'Terrain Mastery (Desert)':
-    'Section=save Note="Has immunity to fatigue and resistance to exhaustion"',
+    'Section=save,save ' +
+    'Note=' +
+      '"Has immunity to fatigue",' +
+      '"Exhaustion effects inflict fatigue instead"',
   'Terrain Mastery (Fiery)':'Section=save Note="Has resistance 20 to fire"',
   'Terrain Mastery (Forest)':'Section=skill Note="+4 Hide"',
   'Terrain Mastery (Hills)':'Section=skill Note="+4 Listen"',
@@ -5438,13 +5446,13 @@ SRD35.CLASSES = {
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club; Dagger; Handaxe; Heavy Crossbow; Javelin; Kama; Light Crossbow; Nunchaku; Quarterstaff; Sai; Shuriken; Siangham; Sling)",' +
-      '"1:Armor Class Bonus","1:Flurry Of Blows","1:Improved Unarmed Strike",' +
-      '"1:Bonus Feat (Monk)","1:Unarmed Strike (Monk)","2:Evasion",' +
-      '"3:Fast Movement (Monk)","3:Still Mind","4:Ki Strike","4:Slow Fall",' +
-      '"5:Purity Of Body","7:Wholeness Of Body","9:Improved Evasion",' +
-      '"11:Diamond Body","12:Abundant Step","13:Diamond Soul",' +
-      '"15:Quivering Palm","17:Timeless Body",' +
-      '"17:Tongue Of The Sun And Moon","19:Empty Body","20:Perfect Self" ' +
+      '"1:Armor Class Bonus","1:Flurry Of Blows","1:Bonus Feat (Monk)",' +
+      '"1:Unarmed Strike","2:Evasion","3:Fast Movement (Monk)",' +
+      '"3:Still Mind","4:Ki Strike","4:Slow Fall","5:Purity Of Body",' +
+      '"7:Wholeness Of Body","9:Improved Evasion","11:Diamond Body",' +
+      '"12:Abundant Step","13:Diamond Soul","15:Quivering Palm",' +
+      '"17:Timeless Body","17:Tongue Of The Sun And Moon","19:Empty Body",' +
+      '"20:Perfect Self" ' +
     'Selectables=' +
       '"1:Improved Grapple:Bonus Feat","1:Stunning Fist:Bonus Feat",' +
       '"2:Combat Reflexes:Bonus Feat","2:Deflect Arrows:Bonus Feat",' +
@@ -7325,7 +7333,7 @@ SRD35.classRulesExtra = function(rules, name) {
     // NOTE Our rule engine doesn't support modifying a value via indexing.
     // Here, we work around this limitation by defining rules that set global
     // values as a side effect, then use these values in our calculations.
-    rules.defineRule('combatNotes.unarmedStrike(Monk)',
+    rules.defineRule('combatNotes.unarmedStrike',
       classLevel, '=',
         'SRD35.SMALL_DAMAGE["monk"] = ' +
         'SRD35.LARGE_DAMAGE["monk"] = ' +
@@ -7349,17 +7357,6 @@ SRD35.classRulesExtra = function(rules, name) {
 
   } else if(name == 'Paladin') {
 
-    rules.defineRule('combatNotes.smiteEvil',
-      classLevel, '+=', '1 + Math.floor(source / 5)'
-    );
-    rules.defineRule('combatNotes.smiteEvil.1',
-      'features.Smite Evil', '?', null,
-      'charismaModifier', '=', 'Math.max(source, 0)'
-    );
-    rules.defineRule('combatNotes.smiteEvil.2',
-      'features.Smite Evil', '?', null,
-      classLevel, '+=', null
-    );
     rules.defineRule('saveNotes.divineGrace', 'charismaModifier', '=', null);
     rules.defineRule('turningLevel',
       classLevel, '+=', 'source > 3 ? source - 3 : null'
@@ -8343,11 +8340,6 @@ SRD35.featRulesExtra = function(rules, name) {
     rules.defineRule('weaponProficiency.' + matchInfo[2],
       'features.' + name, '=', '1'
     );
-  } else if(name == 'Stunning Fist') {
-    rules.defineRule('combatNotes.stunningFist',
-      'levels.Monk', '=', null,
-      'level', '+=', 'Math.floor( (source - (dict["levels.Monk"]||0)) / 4)'
-    );
   } else if((matchInfo = name.match(/^((Tower )?Shield) Proficiency$/)) != null) {
     rules.defineRule
       ('armorProficiency.' + matchInfo[1], 'features.' + name, '=', '1');
@@ -8551,13 +8543,18 @@ SRD35.featureRules = function(
 
       // Generate rules for common notes:
 
+      // Has immunity to ...
+      if((matchInfo = effect.match(/^Has immunity to (\w+)$/)))
+        rules.defineRule('resistance.' + matchInfo[1].charAt(0).toUpperCase() + matchInfo[1].substring(1),
+          note, '=', '"immune"'
+        );
+
       // Has increased ... effects
       if(effect.match(/^Has increased .* effects$/))
         rules.defineRule('italics', note, '=', 'null');
 
       // Has the ... feature
-      matchInfo = effect.match(/^Has\s+the\s+(.*)\s+features?$/);
-      if(matchInfo) {
+      if((matchInfo = effect.match(/^Has\s+the\s+(.*)\s+features?$/))) {
         let features = matchInfo[1].split(/\s*,\s*|\s*\band\s+/);
         features.forEach(f => {
           f = f.trim();
@@ -8565,6 +8562,13 @@ SRD35.featureRules = function(
             rules.defineRule('features.' + f, note, '=', '1');
         });
       }
+
+      // Has resistance D to ...
+      matchInfo = effect.match(/^Has resistance (\d+) to (\w+)$/);
+      if(matchInfo)
+        rules.defineRule('resistance.' + matchInfo[2].charAt(0).toUpperCase() + matchInfo[2].substring(1),
+          note, '=', matchInfo[1]
+        );
 
       // Weapon Familiarity or Proficiency (weapon[; weapon ...])
       matchInfo =
@@ -9472,7 +9476,7 @@ SRD35.weaponRules = function(
   );
   if(category == 'unarmed')
     rules.defineRule
-      (prefix + 'DamageDice', 'combatNotes.unarmedStrike(Monk)', '=', null);
+      (prefix + 'DamageDice', 'combatNotes.unarmedStrike', '=', null);
   rules.defineRule(weaponName + '.2', prefix + 'DamageDice', '=', null);
   rules.defineRule(weaponName + '.3',
     prefix + 'DamageModifier', '=', 'source>0 ? "+" + source : source==0 ? "" : source'
