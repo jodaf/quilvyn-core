@@ -1257,7 +1257,7 @@ SRD35.FEATURES = {
     'Note="Successful Reflex saves by companion yield no damage instead of half%{companionNotes.companionImprovedEvasion?\', and failed Reflex saves yield half damage\':\'\'}"',
   'Companion Improved Evasion':
     'Section=companion Note="Has increased Companion Evasion effects"',
-  'Companion Spell Resistance':'Section=companion Note="Has SR %V"',
+  'Companion Spell Resistance':'Section=companion Note="Companion has SR %V"',
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="Can use companion to deliver touch spells if in contact when the spell is cast"',
