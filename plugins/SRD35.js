@@ -955,28 +955,32 @@ SRD35.FEATURES = {
   'Hide In Plain Sight':'Section=skill Note="Can hide %V even when observed"',
   'Improved Combat Style':
     'Section=combat Note="Has the %V feature; medium or heavy armor negates"',
-  'Swift Tracker':'Section=skill Note="Can track at full speed"',
+  'Swift Tracker':
+    'Section=skill ' +
+    'Note="Can track at full speed with no penalty to Survival and at double speed at a -10 penalty"',
   // Wild Empathy as above
   // Woodland Stride as above
 
   // Rogue
   'Bonus Feat (Rogue)':'Section=feature Note="+1 General Feat"',
   'Crippling Strike':
-    'Section=combat Note="Sneak Attack inflicts 2 points of Strength damage"',
+    'Section=combat ' +
+    'Note="Sneak Attack also inflicts 2 points of Strength damage"',
   'Defensive Roll':
     'Section=save ' +
-    'Note="Successful Reflex (DC damage) vs. a lethal blow reduces the damage by half once per day"',
+    'Note="Successful Reflex (DC damage) vs. a blow that would reduce hit points to or below 0 reduces the damage by half; cannot be used vs. an attack that negates Dexterity bonus to Armor Class"',
   // Evasion as above
   // Improved Evasion as above
   // Improved Uncanny Dodge as above
   'Opportunist':
     'Section=combat ' +
-    'Note="Can make an AOO targeting a foe struck by an ally once per rd"',
+    'Note="Can make an AOO targeting a foe just struck by an ally once per rd"',
   'Skill Mastery':
-    'Section=skill Note="Can take 10 despite distraction on %V chosen skills"',
+    'Section=skill ' +
+    'Note="Can take 10 despite distraction on %{(intelligenceModifier+3)*$\'features.Skill Mastery\'} chosen skills"',
   'Slippery Mind':
     'Section=save ' +
-    'Note="Can attempt a second save vs. enchantment in the next rd"',
+    'Note="Can attempt a second save vs. enchantment in the following rd"',
   'Sneak Attack':
     'Section=combat ' +
     'Note="R30\' Inflicts +%Vd6 HP when flanking and when the target is flat-footed or otherwise loses its Dexterity bonus to Armor Class"',
@@ -7501,10 +7505,6 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('selectableFeatureCount.Rogue (Special Ability)',
       'featureNotes.specialAbility', '=', null
     );
-    rules.defineRule('skillNotes.skillMastery',
-      'intelligenceModifier', '=', 'source + 3',
-      'rogueFeatures.Skill Mastery', '*', null
-    );
     rules.defineRule('sneakAttack',
       classLevel, '+=', 'Math.floor((source + 1) / 2)'
     );
@@ -8563,11 +8563,11 @@ SRD35.featureRules = function(
         });
       }
 
-      // Has resistance D to ...
-      matchInfo = effect.match(/^Has resistance (\d+) to (\w+)$/);
+      // Has resistance D|%V to ...
+      matchInfo = effect.match(/^Has resistance (\d+|%V) to (\w+)$/);
       if(matchInfo)
         rules.defineRule('resistance.' + matchInfo[2].charAt(0).toUpperCase() + matchInfo[2].substring(1),
-          note, '=', matchInfo[1]
+          note, '=', matchInfo[1]=='%V' ? 'source' : matchInfo[1]
         );
 
       // Weapon Familiarity or Proficiency (weapon[; weapon ...])
