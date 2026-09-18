@@ -658,8 +658,8 @@ SRD35.FEATURES = {
   'Surefooted':'Section=skill Note="+2 Climb/+2 Jump/+2 Move Silently"',
 
   // Human
-  'Human Feat Bonus':'Section=feature Note="+1 General Feat"',
-  'Human Skill Bonus':'Section=skill Note="+%V Skill Points"',
+  'Bonus Feat (Human)':'Section=feature Note="+1 General Feat"',
+  'Skill Bonus (Human)':'Section=skill Note="+%V Skill Points"',
 
   'Large':
     'Section=ability,combat,combat,skill ' +
@@ -848,9 +848,9 @@ SRD35.FEATURES = {
     'Note="Can move normally through natural undergrowth without damage or impairment"',
 
   // Fighter
-  'Bonus Feat (Fighter)':
+  'Bonus Feats (Fighter)':
     'Section=feature ' +
-    'Note="+%V Fighter Feat%{$\'featureNotes.bonusFeat(Fighter)\'>1?\'s\':\'\'}"',
+    'Note="+%V Fighter Feat%{$\'featureNotes.bonusFeats(Fighter)\'>1?\'s\':\'\'}"',
 
   // Monk
   'Abundant Step':
@@ -858,9 +858,9 @@ SRD35.FEATURES = {
     'Note="Can teleport self %{levels.Monk//2*40+400}\' once per day"',
   'Armor Class Bonus':
     'Section=combat Note="+%V Armor Class; encumbrance or armor negates"',
-  'Bonus Feat (Monk)':
+  'Bonus Feats (Monk)':
     'Section=feature ' +
-    'Note="%V selection%{$\'featureNotes.bonusFeat(Monk)\'>1?\'s\':\'\'}"',
+    'Note="%V selection%{$\'featureNotes.bonusFeats(Monk)\'>1?\'s\':\'\'}"',
   'Diamond Body':'Section=save Note="Has immunity to poison"',
   'Diamond Soul':'Section=save Note="Has spell resistance %V"',
   'Empty Body':
@@ -962,7 +962,7 @@ SRD35.FEATURES = {
   // Woodland Stride as above
 
   // Rogue
-  'Bonus Feat (Rogue)':'Section=feature Note="+1 General Feat"',
+  'Feat (Rogue)':'Section=feature Note="+1 General Feat"',
   'Crippling Strike':
     'Section=combat ' +
     'Note="Sneak Attack also inflicts 2 points of Strength damage"',
@@ -999,9 +999,9 @@ SRD35.FEATURES = {
     'Note="Can bond with a magical creature with expanded abilities; death of the creature inflicts a loss of %{((levels.Sorcerer||0)+(levels.Wizard||0)+(levels.Adept||0))*200} experience points (save Fortitude DC 15 half), and a new familiar cannot be summoned for a year and a day"',
 
   // Wizard
-  'Bonus Feat (Wizard)':
+  'Bonus Feats (Wizard)':
     'Section=feature ' +
-    'Note="%V selection%{$\'featureNotes.bonusFeat(Wizard)\'>1?\'s\':\'\'}"',
+    'Note="%V selection%{$\'featureNotes.bonusFeats(Wizard)\'>1?\'s\':\'\'}"',
   'School Opposition (%school)':
     'Section=magic Note="Cannot learn or cast %school spells"',
   'School Opposition':
@@ -1970,7 +1970,7 @@ SRD35.RACES = {
     'Size=Medium ' +
     'Speed=30 ' +
     'Features=' +
-      '"Human Feat Bonus","Human Skill Bonus" ' +
+      '"Bonus Feat (Human)","Skill Bonus (Human)" ' +
     'Languages=Common,any'
 };
 SRD35.SCHOOLS = {
@@ -5444,13 +5444,13 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Armor Proficiency (Light; Medium; Heavy; Shield; Tower Shield)",' +
       '"1:Weapon Proficiency (Simple Weapons; Martial Weapons)",' +
-      '"1:Bonus Feat (Fighter)"',
+      '"1:Bonus Feats (Fighter)"',
   'Monk':
     'Require="alignment =~ \'Lawful\'" ' +
     'HitDie=d8 Attack=3/4 SkillPoints=4 Fortitude=1/2 Reflex=1/2 Will=1/2 ' +
     'Features=' +
       '"1:Weapon Proficiency (Club; Dagger; Handaxe; Heavy Crossbow; Javelin; Kama; Light Crossbow; Nunchaku; Quarterstaff; Sai; Shuriken; Siangham; Sling)",' +
-      '"1:Armor Class Bonus","1:Flurry Of Blows","1:Bonus Feat (Monk)",' +
+      '"1:Armor Class Bonus","1:Flurry Of Blows","1:Bonus Feats (Monk)",' +
       '"1:Unarmed Strike","2:Evasion","3:Fast Movement (Monk)",' +
       '"3:Still Mind","4:Ki Strike","4:Slow Fall","5:Purity Of Body",' +
       '"7:Wholeness Of Body","9:Improved Evasion","11:Diamond Body",' +
@@ -5458,9 +5458,9 @@ SRD35.CLASSES = {
       '"17:Timeless Body","17:Tongue Of The Sun And Moon","19:Empty Body",' +
       '"20:Perfect Self" ' +
     'Selectables=' +
-      '"1:Improved Grapple:Bonus Feat","1:Stunning Fist:Bonus Feat",' +
-      '"2:Combat Reflexes:Bonus Feat","2:Deflect Arrows:Bonus Feat",' +
-      '"6:Improved Disarm:Bonus Feat","6:Improved Trip:Bonus Feat"',
+      '"1:Improved Grapple:Bonus Feats","1:Stunning Fist:Bonus Feats",' +
+      '"2:Combat Reflexes:Bonus Feats","2:Deflect Arrows:Bonus Feats",' +
+      '"6:Improved Disarm:Bonus Feats","6:Improved Trip:Bonus Feats"',
   'Paladin':
     'Require="alignment == \'Lawful Good\'" ' +
     'HitDie=d10 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
@@ -5505,9 +5505,9 @@ SRD35.CLASSES = {
       '"1:Sneak Attack","1:Trapfinding","2:Evasion","3:Trap Sense",' +
       '"4:Uncanny Dodge","8:Improved Uncanny Dodge","10:Special Ability" ' +
     'Selectables=' +
-      '"10:Bonus Feat (Rogue):Special Ability",' +
       '"10:Crippling Strike:Special Ability",' +
       '"10:Defensive Roll:Special Ability",' +
+      '"10:Feat (Rogue):Special Ability",' +
       '"10:Improved Evasion:Special Ability",' +
       '"10:Opportunist:Special Ability",' +
       '"10:Skill Mastery:Special Ability",' +
@@ -5545,7 +5545,7 @@ SRD35.CLASSES = {
     'Features=' +
       '"1:Weapon Proficiency (Club; Dagger; Heavy Crossbow; Light Crossbow; Quarterstaff)",' +
       '"1:Summon Familiar","1:Scribe Scroll","1:School Opposition",' +
-      '"1:School Specialization","5:Bonus Feat (Wizard)" ' +
+      '"1:School Specialization","5:Bonus Feats (Wizard)" ' +
     'Selectables=' +
       '"1:School Specialization (None):Specialization",' +
       QuilvynUtils.getKeys(SRD35.SCHOOLS).map(x => '"1:School Specialization (' + x + '):Specialization"').join(',') + ',' +
@@ -7307,9 +7307,9 @@ SRD35.classRulesExtra = function(rules, name) {
   } else if(name == 'Fighter') {
 
     // Set featCount.Fighter to 0; featureRules will auto-generate the
-    // addition of featureNotes.bonusFeat(Fighter)
+    // addition of featureNotes.bonusFeats(Fighter)
     rules.defineRule('featCount.Fighter', classLevel, '=', '0');
-    rules.defineRule('featureNotes.bonusFeat(Fighter)',
+    rules.defineRule('featureNotes.bonusFeats(Fighter)',
       classLevel, '=', '1 + Math.floor(source / 2)'
     );
 
@@ -7348,13 +7348,13 @@ SRD35.classRulesExtra = function(rules, name) {
     );
     rules.defineRule
       ('damageReduction.Magic', 'combatNotes.perfectSelf', '^=', '10');
-    rules.defineRule('featureNotes.bonusFeat(Monk)',
+    rules.defineRule('featureNotes.bonusFeats(Monk)',
       classLevel, '=', 'source<2 ? 1 : source<6 ? 2 : 3'
     );
     rules.defineRule
       ('saveNotes.diamondSoul', classLevel, '=', '10 + source');
-    rules.defineRule('selectableFeatureCount.Monk (Bonus Feat)',
-      'featureNotes.bonusFeat(Monk)', '=', null
+    rules.defineRule('selectableFeatureCount.Monk (Bonus Feats)',
+      'featureNotes.bonusFeats(Monk)', '=', null
     );
     rules.defineRule('speed', 'abilityNotes.fastMovement(Monk).1', '+', null);
     rules.defineRule('spellResistance', 'saveNotes.diamondSoul', '^=', null);
@@ -7519,9 +7519,9 @@ SRD35.classRulesExtra = function(rules, name) {
 
     rules.defineRule('familiarMasterLevel', classLevel, '^=', null);
     rules.defineRule('featCount.Wizard',
-      'featureNotes.bonusFeat(Wizard)', '=', null
+      'featureNotes.bonusFeats(Wizard)', '=', null
     );
-    rules.defineRule('featureNotes.bonusFeat(Wizard)',
+    rules.defineRule('featureNotes.bonusFeats(Wizard)',
       classLevel, '=', 'source >= 5 ? Math.floor(source / 5) : null'
     );
     rules.defineRule('selectableFeatureCount.Wizard (Specialization)',
@@ -8843,7 +8843,8 @@ SRD35.raceRulesExtra = function(rules, name) {
     rules.defineRule
       ('abilityNotes.armorSpeedAdjustment', 'abilityNotes.steady', '^', '0');
   } else if(name == 'Human') {
-    rules.defineRule('skillNotes.humanSkillBonus', 'level', '=', 'source + 3');
+    rules.defineRule
+      ('skillNotes.skillBonus(Human)', 'level', '=', 'source + 3');
   }
 };
 
