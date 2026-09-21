@@ -1618,8 +1618,9 @@ SRD35.FEATURES = {
 };
 SRD35.GOODIES = {
   'Armor':
-    // TODO: this also matches, e.g., Amulet of Natural Armor
-    'Pattern="([-+]\\d+).*\\b(?:armor(?:\\s+class)?|AC)\\b|\\b(?:armor(?:\\s+class)?|AC)\\s+([-+]\\d+)" ' +
+    // N.B. Pattern uses a negative lookbehind to exclude "natural armor",
+    // since that has its own entry
+    'Pattern="([-+]\\d+).*\\b(?:(?<!natural\\s+)armor(?:\\s+class)?|AC)\\b|\\b(?:(?<!natural\\s+)armor(?:\\s+class)?|AC)\\s+([-+]\\d+)" ' +
     'Effect=raiseOrSet ' +
     'Value="$1 || $2" ' +
     'Attribute=armorClassArmorEnhancementModifier ' +
@@ -1840,12 +1841,18 @@ SRD35.GOODIES = {
     'Value=1 ' +
     'Attribute=skillNotes.armorSkillCheckPenalty ' +
     'Section=skill Note="Reduces skill check penalty by 1"',
+  'Natural Armor':
+    'Pattern="([-+]\\d+).*\\bnatural\\s+armor\\b|\\bnatural\\s+armor\\s+([-+]\\d+)" ' +
+    'Effect=raiseOrSet ' +
+    'Value="$1 || $2" ' +
+    'Attribute=armorClassNaturalArmorEnhancementModifier ' +
+    'Section=combat Note="%V natural armor enhancement bonus to Armor Class"',
   'Protection':
     'Pattern="(\\+\\d+).*\\bprotection\\b|\\bprotection\\s+(\\+\\d+)" ' +
     'Effect=raiseOrSet ' +
     'Value="$1 || $2" ' +
     'Attribute=armorClassDeflectionModifier ' +
-    'Section=combat Note="%V deflection bonus"',
+    'Section=combat Note="%V deflection bonus to Armor Class"',
   'Reflex':
     'Pattern="([-+]\\d+)\\s+reflex\\s+save\\b|\\breflex\\s+save\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -6220,10 +6227,13 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'abilityNotes.slow', '+', '5'
   );
   rules.defineRule('armorClassArmorModifier',
-    'armorClassArmorEnhancementModifier', '+', null
+    'armorClassArmorEnhancementModifier', '+=', null
   );
   rules.defineRule('armorClassShieldModifier',
-    'armorClassShieldEnhancementModifier', '+', null
+    'armorClassShieldEnhancementModifier', '+=', null
+  );
+  rules.defineRule('armorClassNaturalArmorModifier',
+    'armorClassNaturalArmorEnhancementModifier', '+=', null
   );
   rules.defineRule('armorClass',
     '', '=', '10',
