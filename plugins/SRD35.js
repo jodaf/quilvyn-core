@@ -596,7 +596,7 @@ SRD35.FEATURES = {
     'Section=combat Note="+4 vs. Bull Rush and Trip when standing on ground"',
   'Steady':
     'Section=ability ' +
-    'Note="Suffers no speed penalty in heavy armor or with a heavy load"',
+    'Note="Suffers no Speed penalty in heavy armor or with a heavy load"',
   'Stonecunning':
     'Section=skill ' +
     'Note="+2 Search for unusual stonework and makes an automatic check when within 10\'/Can determine approximate depth underground"',
@@ -687,7 +687,7 @@ SRD35.FEATURES = {
     'Section=skill Note="Must spend 2 skill points to read and write"',
   'Improved Uncanny Dodge':
     'Section=combat ' +
-    'Note="Cannot be flanked and can be sneak attacked only by rogue of level %V or higher"',
+    'Note="Cannot be flanked and can be Sneak Attacked only by rogue of level %V or higher"',
   'Indomitable Will':'Section=save Note="+4 Will vs. enchantment during rage"',
   'Mighty Rage':'Section=combat Note="Has increased Rage effects"',
   'Rage':
@@ -727,7 +727,7 @@ SRD35.FEATURES = {
   'Inspire Heroics':
     'Section=skill ' +
     'Note="R30\' Can use Bardic Music to give %{levels.Bard>17?((levels.Bard-12)//3)+\' allies\':\'an ally\'} +4 saves and a +4 dodge bonus to Armor Class, lasting for 5 rd after the performance ends"',
-  'Mass Suggestion':'Section=magic Note="Has expanded Suggestion effects"',
+  'Mass Suggestion':'Section=magic Note="Has increased Suggestion effects"',
   'Simple Somatics':
     'Section=magic ' +
     'Note="Suffers no arcane spell failure risk from wearing light armor"',
@@ -839,7 +839,7 @@ SRD35.FEATURES = {
   'Venom Immunity':'Section=save Note="Has immunity to poison"',
   'Wild Empathy':
     'Section=skill ' +
-    'Note="Can make a +%V check to use Diplomacy actions with animals; using Wild Empathy with magical beasts that have an Intelligence of 1 or 2 imposes a -4 penalty on the check"',
+    'Note="Can make a +%V check to use Diplomacy actions with animals; using Wild Empathy with magical beasts that have an Intelligence of 1 or 2 incurs a -4 penalty on the check"',
   'Wild Shape':
     'Section=magic ' +
     'Note="Can change into a %{levels.Druid<11?\'small\':\'tiny\'} to %{levels.Druid<8?\'medium\':levels.Druid<15?\'large\':\'huge\'} animal%{levels.Druid<12?\'\':\' or plant\'} with up to %{levels.Druid} HD, regaining %{level} hit points, for %{levels.Druid} hr %{levels.Druid>5?(levels.Druid<7?2:levels.Druid<10?3:levels.Druid<14?4:levels.Druid<18?5:6)+\' times\':\'once\'} per day%{levels.Druid>=16?\'; can assume an elemental shape \'+(levels.Druid<18?\'once\':levels.Druid<20?\'2 times\':\'3 times\')+\' per day\':\'\'}"',
@@ -862,7 +862,7 @@ SRD35.FEATURES = {
     'Section=feature ' +
     'Note="%V selection%{$\'featureNotes.bonusFeats(Monk)\'>1?\'s\':\'\'}"',
   'Diamond Body':'Section=save Note="Has immunity to poison"',
-  'Diamond Soul':'Section=save Note="Has spell resistance %V"',
+  'Diamond Soul':'Section=save Note="Has SR %V"',
   'Empty Body':
     'Section=magic Note="Can become ethereal for %{levels.Monk} rd per day"',
   'Evasion':
@@ -950,14 +950,14 @@ SRD35.FEATURES = {
   'Favored Enemy':
     'Section=combat,skill ' +
     'Note=' +
-      '"%{combatNotes.favoredEnemy>1?\'Has \'+(combatNotes.favoredEnemy*2-1)+\' +2 damage bonuses distributed among %V\':\'+2 damage vs. a\'} chosen creature type%{combatNotes.favoredEnemy>1?\'s\':\'\'}",' +
+      '"%{combatNotes.favoredEnemy>1?\'Has \'+(combatNotes.favoredEnemy*2-1)+\' +2 weapon damage bonuses distributed among %V\':\'+2 weapon damage vs. a\'} chosen creature type%{combatNotes.favoredEnemy>1?\'s\':\'\'}",' +
       '"%{skillNotes.favoredEnemy>1?\'Has \'+(skillNotes.favoredEnemy*2-1)+\' +2 bonuses on\':\'+2\'} Bluff, Listen, Sense Motive, Spot, and Survival %{skillNotes.favoredEnemy>1?\'distributed among %V\':\'vs. a\'} chosen creature type%{skillNotes.favoredEnemy>1?\'s\':\'\'}"',
   'Hide In Plain Sight':'Section=skill Note="Can hide %V even when observed"',
   'Improved Combat Style':
     'Section=combat Note="Has the %V feature; medium or heavy armor negates"',
   'Swift Tracker':
     'Section=skill ' +
-    'Note="Can track at full speed with no penalty to Survival and at double speed at a -10 penalty"',
+    'Note="Can track at full Speed with no penalty to Survival and at double Speed with a -10 penalty"',
   // Wild Empathy as above
   // Woodland Stride as above
 
@@ -999,9 +999,7 @@ SRD35.FEATURES = {
     'Note="Can bond with a magical creature with expanded abilities; death of the creature inflicts a loss of %{((levels.Sorcerer||0)+(levels.Wizard||0)+(levels.Adept||0))*200} experience points (save Fortitude DC 15 half), and a new familiar cannot be summoned for a year and a day"',
 
   // Wizard
-  'Bonus Feats (Wizard)':
-    'Section=feature ' +
-    'Note="%V selection%{$\'featureNotes.bonusFeats(Wizard)\'>1?\'s\':\'\'}"',
+  'Bonus Feats (Wizard)':'Section=feature Note="+%V Wizard Feats"',
   'School Opposition (%school)':
     'Section=magic Note="Cannot learn or cast %school spells"',
   'School Opposition':
@@ -1014,6 +1012,10 @@ SRD35.FEATURES = {
       '"+1 %school spell slot in each spell level",' +
       '"+2 Spellcraft (%school effects)"',
   // Summon Familiar as above
+
+  // Expert
+  'Expert Skills':
+    'Section=skill Note="Can choose 10 skills to be class skills"',
 
   // Feats
   'Acrobatic':'Section=skill Note="+2 Jump/+2 Tumble"',
@@ -1331,7 +1333,7 @@ SRD35.FEATURES = {
     'Note="+%V arcane base class level for spells known and spells per day"',
   'Impromptu Sneak Attack':
     'Section=combat ' +
-    'Note="Can declare any melee attack or ranged attack within 30\' a sneak attack %{$\'levels.Arcane Trickster\'>7?\'2 times\':\'once\'} per day"',
+    'Note="Can declare any melee attack or ranged attack within 30\' a Sneak Attack %{$\'levels.Arcane Trickster\'>7?\'2 times\':\'once\'} per day"',
   'Ranged Legerdemain':
     'Section=skill ' +
     'Note="Can use a choice of Disable Device, Open Lock, or Sleight Of Hand at a range of 30\', increasing the DC by 5, %{$\'levels.Arcane Trickster\'>8?\'3 times\':$\'levels.Arcane Trickster\'>4?\'2 times\':\'once\'} per day"',
@@ -1367,7 +1369,7 @@ SRD35.FEATURES = {
   // Assassin
   'Death Attack':
     'Section=combat ' +
-    'Note="Sneak attack after 3 rd of study inflicts a choice of death or paralysis for 1d6+%{levels.Assassin} rd (save Fortitude DC %{levels.Assassin+intelligenceModifier+10} negates)"',
+    'Note="Sneak Attack with a melee weapon after 3 rd of study inflicts a choice of death or paralysis for 1d6+%{levels.Assassin} rd (save Fortitude DC %{10+levels.Assassin+intelligenceModifier} negates)"',
   // Hide In Plain Sight as above
   // Improved Uncanny Dodge as above
   'Poison Use':
@@ -1415,9 +1417,7 @@ SRD35.FEATURES = {
   'Ability Boost':
     'Section=ability ' +
     'Note="+%{$\'levels.Dragon Disciple\'>3?4:2} Strength%{$\'levels.Dragon Disciple\'>5?\'/+2 Constitution\':\'\'}%{$\'levels.Dragon Disciple\'>7?\'/+2 Intelligence\':\'\'}"',
-  'Blindsense':
-    'Section=feature ' +
-    'Note="R%{$\'levels.Dragon Disciple\'<10?30:60}\' Other senses allow detection of unseen objects"',
+  'Blindsense':'Section=skill Note="R%V\' Can detect unseen creatures"',
   'Bonus Spells':
     'Section=magic Note="Has %V additional spell slots of a choice of levels"',
   'Breath Weapon':
@@ -1437,18 +1437,18 @@ SRD35.FEATURES = {
   'Acrobatic Charge':'Section=combat Note="Can charge in difficult terrain"',
   'Canny Defense':
     'Section=combat ' +
-    'Note="+%{intelligenceModifier>?0<?levels.Duelist} Dexterity bonus to Armor Class when unarmored and wielding a melee weapon"',
+    'Note="+%{intelligenceModifier>?0<?levels.Duelist} Dexterity bonus to Armor Class when unarmored with no shield and wielding a melee weapon"',
   // Deflect Arrows as above
   'Elaborate Parry':
     'Section=combat ' +
     'Note="+%{levels.Duelist} dodge bonus to Armor Class when fighting defensively"',
   'Enhanced Mobility':
-    'Section=combat Note="+4 Armor Class vs. movement AOO when unarmored"',
-  'Grace':'Section=save Note="+2 Reflex when unarmored"',
+    'Section=combat Note="+4 Armor Class vs. movement AOO when unarmored with no shield"',
+  'Grace':'Section=save Note="+2 Reflex when unarmored with no shield"',
   'Improved Reaction':'Section=combat Note="+%V Initiative"',
   'Precise Strike':
     'Section=combat ' +
-    'Note="Light and one-handed piercing weapons inflict +%{levels.Duelist//5}d6 HP damage; holding a shield or a second weapon negates"',
+    'Note="Light and one-handed piercing weapons inflict +%{levels.Duelist//5}d6 HP; holding a shield or a second weapon negates"',
 
   // Dwarven Defender
   'Armor Class Bonus (Dwarven Defender)':
@@ -1543,7 +1543,7 @@ SRD35.FEATURES = {
 
   // Loremaster
   'Applicable Knowledge':'Section=feature Note="+1 General Feat"',
-  'Bonus Language':'Section=skill Note="+%V Language Count"',
+  'Bonus Languages':'Section=skill Note="+%V Language Count"',
   'Caster Level Bonus':
     'Section=magic ' +
     'Note="+%V base class level for spells known and spells per day"',
@@ -3322,7 +3322,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=B1,S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Coats a 10\' square with grease, inflicting falls (save Reflex negates and allows a DC 10 Balance check to move at half speed), or coats a target object with grease (save Reflex negates for possessed items), causing them to be dropped (save Reflex negates each rd), for %{lvl} rd"',
+      '"R%{25+lvl//2*5}\' Coats a 10\' square with grease, inflicting falls (save Reflex negates and allows a DC 10 Balance check to move at half Speed), or coats a target object with grease (save Reflex negates for possessed items), causing them to be dropped (save Reflex negates each rd), for %{lvl} rd"',
   'Guards And Wards':
     'School=Abjuration ' +
     'Level=S6,W6 ' +
@@ -4027,7 +4027,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Creates a mount with %{lvl+7} hit points, Armor Class 18, and %{lvl*20<?240}\' Speed that only the target can ride for %{lvl} hr%{lvl>7?\'; the mount can ride over sandy, muddy, and swampy ground at full speed\':\'\'}%{lvl>11?\', \':lvl>9?\' and \':\'\'}%{lvl>9?\'use <i>Water Walk</i> effects at will\':\'\'}%{lvl>13?\',\':lvl>11?\', and \':\'\'}%{lvl>11?\'use <i>Air Walk</i> effects for 1 rd at will\':\'\'}%{lvl>13?\', and fly at full Speed\':\'\'}"',
+      '"Creates a mount with %{lvl+7} hit points, Armor Class 18, and %{lvl*20<?240}\' Speed that only the target can ride for %{lvl} hr%{lvl>7?\'; the mount can ride over sandy, muddy, and swampy ground at full Speed\':\'\'}%{lvl>11?\', \':lvl>9?\' and \':\'\'}%{lvl>9?\'use <i>Water Walk</i> effects at will\':\'\'}%{lvl>13?\',\':lvl>11?\', and \':\'\'}%{lvl>11?\'use <i>Air Walk</i> effects for 1 rd at will\':\'\'}%{lvl>13?\', and fly at full Speed\':\'\'}"',
   'Phantom Trap':
     'School="Illusion (Glamer)" ' +
     'Level=S2,W2 ' +
@@ -4591,7 +4591,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation) [Cold]" ' +
     'Level=D3,S3,W3 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' 40\' radius, 20\' high cylinder blocks sight, extinguishes small fires, and requires a DC 10 Balance check to move at half speed (failure by 5 or more causes a fall) for %{lvl} rd"',
+      '"R%{400+lvl*40}\' 40\' radius, 20\' high cylinder blocks sight, extinguishes small fires, and requires a DC 10 Balance check to move at half Speed (failure by 5 or more causes a fall) for %{lvl} rd"',
   'Slow':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
@@ -4684,7 +4684,7 @@ SRD35.SPELLS = {
     'School="Transmutation [Earth]" ' +
     'Level=D4,Earth4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Stony ground in a %{lvl*20} square foot area inflicts 1d8 HP piercing for each 5\' movement and slows creatures to half speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed), for %{lvl} hr"',
+      '"R%{100+lvl*10}\' Stony ground in a %{lvl*20} square foot area inflicts 1d8 HP piercing for each 5\' movement and slows creatures to half Speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed), for %{lvl} hr"',
   'Spiritual Weapon':
     'School="Evocation [Force]" ' +
     'Level=C2,War2 ' +
@@ -5600,8 +5600,8 @@ SRD35.NPC_CLASSES = {
   'Expert':
     'HitDie=d6 Attack=3/4 SkillPoints=6 Fortitude=1/3 Reflex=1/3 Will=1/2 ' +
     'Features=' +
-      '"1:Armor Proficiency (Light)","1:Weapon Proficiency (Simple Weapons)"',
-    // 10 skills of the players' choice are class skills
+      '"1:Armor Proficiency (Light)","1:Weapon Proficiency (Simple Weapons)",' +
+      '"1:Expert Skills"',
   'Warrior':
     'HitDie=d8 Attack=1 SkillPoints=2 Fortitude=1/2 Reflex=1/3 Will=1/3 ' +
     'Features=' +
@@ -5819,7 +5819,7 @@ SRD35.PRESTIGE_CLASSES = {
       '"Gather Information","Handle Animal",Heal,Knowledge,Perform,' +
       'Profession,"Speak Language",Spellcraft,"Use Magic Device" ' +
     'Features=' +
-      '"1:Caster Level Bonus","1:Secret","2:Lore","4:Bonus Language",' +
+      '"1:Caster Level Bonus","1:Secret","2:Lore","4:Bonus Languages",' +
       '"6:Greater Lore","10:True Lore" ' +
     'Selectables=' +
       '"loremasterLevelPlusInt >= 8 ? 1:Applicable Knowledge:Secret",' +
@@ -7168,6 +7168,12 @@ SRD35.classRules = function(
         rules.defineRule('spellSlots.' + spellType + spellLevel,
           note + '.1', '+', 'source.includes("' + spellType + spellLevel + '") ? source.match(/' + spellType + spellLevel + '(x(\\d+))?/)[2] || 1 : null'
         );
+        rules.defineRule('spellSlots.' + spellType + '1',
+          'magicNotes.newfoundArcana', '+', '1'
+        );
+        rules.defineRule('spellSlots.' + spellType + '2',
+          'magicNotes.moreNewfoundArcana', '+', '1'
+        );
       }
       // Replace caster level references in potion + scroll descriptions (see
       // spellRules) with the minimum needed to cast the spell.
@@ -7519,10 +7525,10 @@ SRD35.classRulesExtra = function(rules, name) {
 
     rules.defineRule('familiarMasterLevel', classLevel, '^=', null);
     rules.defineRule('featCount.Wizard',
-      'featureNotes.bonusFeats(Wizard)', '=', null
+      'featureNotes.bonusFeats(Wizard)', '+=', null
     );
     rules.defineRule('featureNotes.bonusFeats(Wizard)',
-      classLevel, '=', 'source >= 5 ? Math.floor(source / 5) : null'
+      classLevel, '=', 'Math.floor(source / 5)'
     );
     rules.defineRule('selectableFeatureCount.Wizard (Specialization)',
       'featureNotes.schoolSpecialization', '=', '1'
@@ -7658,7 +7664,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('sneakAttack',
       classLevel, '+=', 'source<4 ? null : Math.floor((source-1)/3)'
     );
-    // NOTE: Minor bug: this will also effect the sneak attack feature of
+    // NOTE: Minor bug: this will also effect the Sneak Attack feature of
     // some unlikely combinations, e.g., rogue/paladin
     rules.defineRule('sneakAttack',
       'levels.Paladin', '+', 'source >= 5 ? 1 : null'
@@ -7720,6 +7726,9 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('magicNotes.bonusSpells',
       classLevel, '+=',
         'source - (source == 10 ? 3 : source >= 7 ? 2 : source >= 3 ? 1 : 0)'
+    );
+    rules.defineRule('skillNotes.blindsense',
+      classLevel, '^=', 'source<5? null : source<10 ? 30 : 60'
     );
     rules.defineRule('strength',
       'abilityNotes.abilityBoost', '+', 'null', // italics
@@ -7831,7 +7840,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('selectableFeatureCount.Loremaster (Secret)',
       'featureNotes.secret', '+=', null
     );
-    rules.defineRule('skillNotes.bonusLanguage',
+    rules.defineRule('skillNotes.bonusLanguages',
       classLevel, '+=', 'Math.floor(source / 4)'
     );
     rules.defineRule('skillNotes.lore',
