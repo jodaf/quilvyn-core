@@ -1022,6 +1022,7 @@ SRD35.FEATURES = {
   'Agile':'Section=skill Note="+2 Balance/+2 Escape Artist"',
   'Alertness':'Section=skill Note="+2 Listen/+2 Spot"',
   'Animal Affinity':'Section=skill Note="+2 Handle Animal/+2 Ride"',
+  // No note for Heavy, Light, or Medium Armor Proficiency
   'Athletic':'Section=skill Note="+2 Climb/+2 Swim"',
   'Augment Summoning':
     'Section=magic Note="Summoned creatures gain +4 Strength and Constitution"',
@@ -1044,7 +1045,7 @@ SRD35.FEATURES = {
     'Note="Can suffer up to -%{baseAttack<?5} attacks to gain an equal dodge bonus to Armor Class until the next action"',
   'Combat Reflexes':
     'Section=combat ' +
-    'Note="Can make an AOO while flat-footed%{dexterityModifier>0?\' and make +\'+dexterityModifier+\' AOO per rd\':\'\'}"',
+    'Note="Can make an AOO while flat-footed%{dexterityModifier>0?\' and make \'+(dexterityModifier+1)+\' AOO per rd\':\'\'}"',
   'Craft Magic Arms And Armor':
     'Section=magic ' +
     'Note="Can create and mend magic weapons, armor, and shields"',
@@ -1076,6 +1077,7 @@ SRD35.FEATURES = {
   'Eschew Materials':
     'Section=magic ' +
     'Note="Can ignore inexpensive material component requirements when casting spells"',
+  // No note for Exotic Weapon Proficiency
   'Extend Spell':
     'Section=magic ' +
     'Note="Can cast a spell using a spell slot 1 level higher than normal to double its duration"',
@@ -1106,12 +1108,11 @@ SRD35.FEATURES = {
   'Improved Critical (%weapon)':'Section=combat Note="x2 %weapon Threat Range"',
   'Improved Disarm':
     'Section=combat ' +
-    'Note="+4 on Disarm attempts, they provoke no AOO, and the target cannot attempt to disarm on failure"',
+    'Note="+4 on Disarm attempts, they provoke no AOO, and the target cannot attempt to Disarm on failure"',
   'Improved Familiar':'Section=companion Note="Has expanded familiar choices"',
   'Improved Feint':'Section=combat Note="Can Feint as a move action"',
   'Improved Grapple':
-    'Section=combat ' +
-    'Note="+4 on Grapple checks, and Grapple attempts provoke no AOO"',
+    'Section=combat Note="+4 on Grapple attempts, and they provoke no AOO"',
   'Improved Overrun':
     'Section=combat ' +
     'Note="+4 on Overrun attempts, and the target cannot avoid them"',
@@ -1142,6 +1143,7 @@ SRD35.FEATURES = {
   'Manyshot':
     'Section=combat ' +
     'Note="R30\' Can fire up to %{(baseAttack+4)//5} arrows simultaneously at a single target with a -2 attack penalty per arrow"',
+  // No note for Martial Weapon Proficiency
   'Maximize Spell':
     'Section=magic ' +
     'Note="Can cast a spell using a spell slot 3 levels higher than normal to maximize all of its variable effects"',
@@ -1184,17 +1186,20 @@ SRD35.FEATURES = {
     'Note="Can move before and after a mounted attack without provoking AOO, moving in total up to double the normal mounted Speed"',
   'Run':
     'Section=ability,combat,skill ' +
-    'Note="+1 Run Speed Multiplier",' +
-         '"Retains Dexterity bonus to Armor Class while running",' +
-         '"+4 running Jump"',
+    'Note=' +
+      '"+1 Run Speed Multiplier",' +
+      '"Retains Dexterity bonus to Armor Class while running",' +
+      '"+4 running Jump"',
   'Scribe Scroll':'Section=magic Note="Can create scrolls for known spells"',
   'Self-Sufficient':'Section=skill Note="+2 Heal/+2 Survival"',
+  // No note for Shield Proficiency
   'Shot On The Run':
     'Section=combat ' +
     'Note="Can move before and after a ranged attack, moving up to %{speed}\' total"',
   'Silent Spell':
     'Section=magic ' +
     'Note="Can cast a spell using a spell slot 1 level higher than normal to cast it without verbal components"',
+  // No note for Simple Weapon Proficiency
   'Skill Focus (%skill)':'Section=skill Note="+3 %skill"',
   'Snatch Arrows':
     'Section=combat ' +
@@ -1219,6 +1224,7 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Unarmed Strike can inflict stunned for 1 rd (save Fortitude DC %{10+level//2+wisdomModifier} negates) %{(levels.Monk||0)+(level-(levels.Monk||0))//4>1?(levels.Monk||0)+(level-(levels.Monk||0))//4+\' times\':\'once\'} per day"',
   'Toughness':'Section=combat Note="+%V Hit Points"',
+  // No note for Tower Shield Proficiency
   'Track':'Section=skill Note="Can use Survival to follow creatures\' trails"',
   'Trample':
     'Section=combat ' +
@@ -1231,13 +1237,13 @@ SRD35.FEATURES = {
     'Note="Reduces the attack penalties when fighting with a weapon in each hand by 2 for the primary hand and 6 for the off hand"',
   'Weapon Finesse':
     'Section=combat ' +
-    'Note="+%{dexterityModifier-strengthModifier} light melee weapon attacks (uses Dexterity instead of Strength)"',
+    'Note="+%{dexterityModifier-strengthModifier} light melee weapon, rapier, whip, and spiked chain attacks (uses Dexterity instead of Strength)"',
   'Weapon Focus (%weapon)':'Section=combat Note="+1 %weapon Attack Modifier"',
   'Weapon Specialization (%weapon)':
     'Section=combat Note="+2 %weapon Damage Modifier"',
   'Whirlwind Attack':
     'Section=combat ' +
-    'Note="Can use a full attack action to make 1 attack vs. all foes within reach"',
+    'Note="Can use a full attack action to make 1 attack vs. each foe within reach"',
   'Widen Spell':
     'Section=magic ' +
     'Note="Can cast a spell using a spell slot 3 levels higher than normal to double its area of affect"',
@@ -9522,10 +9528,12 @@ SRD35.weaponRules = function(
     (weaponName + '.' + threatVar, prefix + 'ThreatRange', '=', '21 - source');
 
   if(range) {
-    rules.defineRule(prefix + 'Range',
-      'weapons.' + name, '=', range,
-      'combatNotes.farShot', '*', properties.includes('Projectile') ? '1.5' : '2'
-    );
+    rules.defineRule(prefix + 'Range', 'weapons.' + name, '=', range);
+    // Hack for Pathfinder, which has different effects of Far Shot
+    if(rules.plugin && rules.plugin.FEATURES && rules.plugin.FEATURES['Far Shot'] == SRD35.FEATURES['Far Shot'])
+      rules.defineRule(prefix + 'Range',
+        'combatNotes.farShot', '*', properties.includes('Projectile') ? '1.5' : '2'
+      );
     rules.defineRule(weaponName + '.' + rangeVar, prefix + 'Range', '=', null);
   }
 
@@ -9585,17 +9593,18 @@ SRD35.weaponRules = function(
 
   if(category == 'two-handed') {
     rules.defineChoice('notes',
-      'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack and Armor Class'
-    );
-    rules.defineRule('armorClassShieldModifier',
-      'combatNotes.two-handedWeaponWithBucklerPenalty', 'v', '0'
+      'combatNotes.two-handedWeaponWithBucklerPenalty:-1 attack',
+      'combatNotes.two-handedWeaponWithBucklerPenalty-1:Negates shield bonus to Armor Class'
     );
     rules.defineRule('combatNotes.two-handedWeaponWithBucklerPenalty',
       'shield', '?', 'source == "Buckler"',
-      'weapons.' + name, '=', '-1'
+      'weapons.' + name, '=', '1'
+    );
+    rules.defineRule('combatNotes.two-handedWeaponWithBucklerPenalty-1',
+      'combatNotes.two-handedWeaponWithBucklerPenalty', '=', '1'
     );
     rules.defineRule(prefix + 'AttackModifier',
-      'combatNotes.two-handedWeaponWithBucklerPenalty', '+', null
+      'combatNotes.two-handedWeaponWithBucklerPenalty', '+', '-1'
     );
     QuilvynRules.prerequisiteRules
       (rules, 'validation', 'two-handedWeapon', 'weapons.' + name,
@@ -11151,10 +11160,6 @@ SRD35.ruleNotes = function() {
     '  </li><li>\n' +
     "    Quilvyn considers bolas to be a thrown weapon, although it doesn't" +
     '    appear in the list of thrown weapons in the SRD.\n' +
-    '  </li><li>\n' +
-    "    Quilvyn negates the buckler's +1 Armor Class bonus if a character's" +
-    '    weapons list includes a two-handed weapon; the bonus should be added' +
-    '    when the character is wielding a single, one-handed weapon.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '\n' +
