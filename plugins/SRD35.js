@@ -1249,6 +1249,8 @@ SRD35.FEATURES = {
     'Note="Can cast a spell using a spell slot 3 levels higher than normal to double its area of affect"',
 
   // Companions and familiars
+  'Alertness (Companion)':
+    'Section=skill Note="+2 Listen and Spot when companion is within reach"',
   'Bonus Tricks':
     'Section=companion ' +
     'Note="Companion can learn %{companionMasterLevel//3+1} additional tricks, requiring no training time or Handle Animal checks"',
@@ -1258,9 +1260,7 @@ SRD35.FEATURES = {
   'Command Like Creatures':
     'Section=companion ' +
     'Note="Can use <i>Command</i> effects (requires a successful DC 21 Concentration check if being ridden) targeting similar creatures (save Will DC %{levels.Paladin//2 + charismaModifier + 10} negates) %{levels.Paladin>3?levels.Paladin//2+\' times\':\'once\'} per day"',
-  'Companion Alertness':
-    'Section=skill Note="+2 Listen and Spot when companion is within reach"',
-  'Companion Spell Resistance':'Section=companion Note="Companion has SR %V"',
+  'Spell Resistance (Companion)':'Section=companion Note="Companion has SR %V"',
   'Deliver Touch Spells':
     'Section=companion ' +
     'Note="Can use companion to deliver touch spells if in contact when the spell is cast"',
@@ -6044,8 +6044,8 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'animalCompanionStats.Wis', '+', 'Math.floor((source - 10) / 2)'
   );
   rules.defineRule('animalCompanionStats.SR',
-    'animalCompanionFeatures.Companion Spell Resistance', '?', null,
-    'companionNotes.companionSpellResistance', '=', null
+    'animalCompanionFeatures.Spell Resistance (Companion)', '?', null,
+    'companionNotes.spellResistance(Companion)', '=', null
   );
   rules.defineRule('animalCompanionStats.Str',
     'companionMasterLevel', '+', 'Math.floor(source / 3)'
@@ -6083,16 +6083,16 @@ SRD35.aideRules = function(rules, companions, familiars) {
   );
 
   features = [
-    '1:Companion Alertness', '1:Evasion (Companion)',
+    '1:Alertness (Companion)', '1:Evasion (Companion)',
     '1:Improved Evasion (Companion)', '1:Empathic Link', '1:Share Spells',
     '3:Deliver Touch Spells', '5:Speak With Master',
-    '7:Speak With Animals Of Its Kind', '11:Companion Spell Resistance',
+    '7:Speak With Animals Of Its Kind', '11:Spell Resistance (Companion)',
     '13:Scry On Familiar'
   ];
   SRD35.featureListRules
     (rules, features, 'Familiar', 'familiarMasterLevel', false);
 
-  rules.defineRule('companionNotes.companionSpellResistance',
+  rules.defineRule('companionNotes.spellResistance(Companion)',
     'familiarMasterLevel', '=', 'source + 5'
   );
   rules.defineRule('familiarAttack',
@@ -6143,8 +6143,8 @@ SRD35.aideRules = function(rules, companions, familiars) {
     'familiarStats.Wis', '+', 'Math.floor((source - 10) / 2)'
   );
   rules.defineRule('familiarStats.SR',
-    'familiarFeatures.Companion Spell Resistance', '?', null,
-    'companionNotes.companionSpellResistance', '=', null
+    'familiarFeatures.Spell Resistance (Companion)', '?', null,
+    'companionNotes.spellResistance(Companion)', '=', null
   );
   rules.defineRule
     ('features.Celestial Familiar', 'familiarCelestial', '=', '1');
@@ -7393,7 +7393,7 @@ SRD35.classRulesExtra = function(rules, name) {
       '5:Evasion (Companion)', '5:Improved Evasion (Companion)', 
       '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',
       '8:Improved Speed', '11:Command Like Creatures',
-      '15:Companion Spell Resistance'
+      '15:Spell Resistance (Companion)'
     ];
     SRD35.featureListRules
       (rules, features, 'Animal Companion', 'mountMasterLevel', false);
@@ -7418,7 +7418,7 @@ SRD35.classRulesExtra = function(rules, name) {
     rules.defineRule('animalCompanionStats.Str',
       classLevel, '+', 'source<8 ? 1 : source<11 ? 2 : source<15 ? 3 : 4'
     );
-    rules.defineRule('companionNotes.companionSpellResistance',
+    rules.defineRule('companionNotes.spellResistance(Companion)',
       classLevel, '=', 'source + 5'
     );
     rules.defineRule('companionNotes.shareSavingThrows.1',
@@ -7690,7 +7690,7 @@ SRD35.classRulesExtra = function(rules, name) {
     let features = [
       '5:Evasion (Companion)', '5:Improved Evasion (Companion)', 
       '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',
-      '13:Speak With Master', '16:Blood Bond', '19:Companion Spell Resistance'
+      '13:Speak With Master', '16:Blood Bond', '19:Spell Resistance (Companion)'
     ];
     SRD35.featureListRules
       (rules, features, 'Animal Companion', 'fiendishServantMasterLevel', false);
@@ -7710,7 +7710,7 @@ SRD35.classRulesExtra = function(rules, name) {
       'fiendishServantMasterLevel', '+',
       'Math.max(Math.floor((source - 7) / 3), 1)'
     );
-    rules.defineRule('companionNotes.companionSpellResistance',
+    rules.defineRule('companionNotes.spellResistance(Companion)',
       'fiendishServantMasterLevel', '=', null
     );
     rules.defineRule('fiendishServantMasterLevel',
