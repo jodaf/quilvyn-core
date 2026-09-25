@@ -1038,8 +1038,8 @@ SRD35.FEATURES = {
     'Section=combat ' +
     'Note="Can make an extra attack after causing a foe to drop%{combatNotes.greatCleave?\'\':\' once per rd\'}"',
   'Combat Casting':
-    'Section=save ' +
-    'Note="+4 Concentration checks to cast spells while on the defensive, grappling, or pinned"',
+    'Section=skill ' +
+    'Note="+4 Concentration to cast spells while on the defensive, grappling, or pinned"',
   'Combat Expertise':
     'Section=combat ' +
     'Note="Can suffer up to -%{baseAttack<?5} attacks to gain an equal dodge bonus to Armor Class until the next action"',
@@ -1260,11 +1260,6 @@ SRD35.FEATURES = {
     'Note="Can use <i>Command</i> effects (requires a successful DC 21 Concentration check if being ridden) targeting similar creatures (save Will DC %{levels.Paladin//2 + charismaModifier + 10} negates) %{levels.Paladin>3?levels.Paladin//2+\' times\':\'once\'} per day"',
   'Companion Alertness':
     'Section=skill Note="+2 Listen and Spot when companion is within reach"',
-  'Companion Evasion':
-    'Section=companion ' +
-    'Note="Successful Reflex saves by companion yield no damage instead of half%{companionNotes.companionImprovedEvasion?\', and failed Reflex saves yield half damage\':\'\'}"',
-  'Companion Improved Evasion':
-    'Section=companion Note="Has increased Companion Evasion effects"',
   'Companion Spell Resistance':'Section=companion Note="Companion has SR %V"',
   'Deliver Touch Spells':
     'Section=companion ' +
@@ -1273,6 +1268,9 @@ SRD35.FEATURES = {
   'Empathic Link':
     'Section=companion ' +
     'Note="Can communicate emotions with companion up to 1 mile"',
+  'Evasion (Companion)':
+    'Section=companion ' +
+    'Note="Successful Reflex saves by companion yield no damage instead of half%{$\'companionNotes.improvedEvasion(Companion)\'?\', and failed Reflex saves yield half damage\':\'\'}"',
   'Familiar Bat':'Section=skill Note="+3 Listen"',
   'Familiar Cat':'Section=skill Note="+3 Move Silently"',
   'Familiar Hawk':'Section=skill Note="+3 Spot in bright light"',
@@ -1286,6 +1284,8 @@ SRD35.FEATURES = {
   'Fiendish Familiar':
     'Section=companion ' +
     'Note="Companion can use Smite Good (+%{familiarStats.HD} HP) once per day and has%{familiarStats.HD<4?\'\':\' DR 10/magic,\'} 60\' darkvision and resistance %{((familiarStats.HD+7)//8)*5} to acid, cold, and electricity"',
+  'Improved Evasion (Companion)':
+    'Section=companion Note="Has increased Evasion (Companion) effects"',
   'Improved Speed':'Section=companion Note="+10 companion Speed"',
   'Link':
     'Section=skill ' +
@@ -5992,8 +5992,8 @@ SRD35.aideRules = function(rules, companions, familiars) {
   );
 
   let features = [
-    '1:Bonus Tricks', '1:Link', '1:Share Spells', '3:Companion Evasion',
-    '6:Devotion', '9:Multiattack', '15:Companion Improved Evasion'
+    '1:Bonus Tricks', '1:Link', '1:Share Spells', '3:Evasion (Companion)',
+    '6:Devotion', '9:Multiattack', '15:Improved Evasion (Companion)'
   ];
   SRD35.featureListRules
     (rules, features, 'Animal Companion', 'companionMasterLevel', false);
@@ -6083,8 +6083,8 @@ SRD35.aideRules = function(rules, companions, familiars) {
   );
 
   features = [
-    '1:Companion Alertness', '1:Companion Evasion',
-    '1:Companion Improved Evasion', '1:Empathic Link', '1:Share Spells',
+    '1:Companion Alertness', '1:Evasion (Companion)',
+    '1:Improved Evasion (Companion)', '1:Empathic Link', '1:Share Spells',
     '3:Deliver Touch Spells', '5:Speak With Master',
     '7:Speak With Animals Of Its Kind', '11:Companion Spell Resistance',
     '13:Scry On Familiar'
@@ -7390,7 +7390,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
     // Use animal companion stats and features for Paladin's mount abilities
     let features = [
-      '5:Companion Evasion', '5:Companion Improved Evasion', 
+      '5:Evasion (Companion)', '5:Improved Evasion (Companion)', 
       '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',
       '8:Improved Speed', '11:Command Like Creatures',
       '15:Companion Spell Resistance'
@@ -7688,7 +7688,7 @@ SRD35.classRulesExtra = function(rules, name) {
 
     // Use animal companion stats and features for fiendish servant abilities
     let features = [
-      '5:Companion Evasion', '5:Companion Improved Evasion', 
+      '5:Evasion (Companion)', '5:Improved Evasion (Companion)', 
       '5:Empathic Link', '5:Share Saving Throws', '5:Share Spells',
       '13:Speak With Master', '16:Blood Bond', '19:Companion Spell Resistance'
     ];
