@@ -373,7 +373,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Animate Rope (W1 Tran): R270' 135' rope obeys self for 17 rd; can entangle a target within 1' of it with a successful ranged touch attack (DC 20 Escape Artist ends, and DC 23 Strength breaks the rope)</td>
     </tr><tr style="text-align:left">
-      <td>Antimagic Field (W6 Abju): 10' radius suppresses magic and summoned and undead creatures for 170 min</td>
+      <td>Antimagic Field (W6 Abju): 10' radius suppresses magic and summoned and incorporeal undead creatures for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Antipathy (W8 Ench): R65' Specified intelligent creature kind or alignment avoids a target object or a 170 cubic foot area (save Will inflicts -4 Dexterity) for 34 hr</td>
     </tr><tr style="text-align:left">
@@ -383,11 +383,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Arcane Mark (W0 Univ): Inscribes a personal rune on touched, lasting a month on a creature or permanently on an object</td>
     </tr><tr style="text-align:left">
-      <td>Arcane Sight (W3 Divi): R120' Reveals auras and spell abilities for 17 min; a successful DC 15+level Spellcraft reveals their schools</td>
+      <td>Arcane Sight (W3 Divi): R120' Reveals auras and spell abilities for 17 min; a successful DC 15 + spell level Spellcraft reveals their schools</td>
     </tr><tr style="text-align:left">
       <td>Astral Projection (W9 Necr): Projects self and 8 others to the Astral Plane</td>
     </tr><tr style="text-align:left">
-      <td>Baleful Polymorph (W5 Tran): R65' Changes the target into a chosen 1 HD creature (save Fortitude negates; Will after 24 hr allows retaining HD and memories)</td>
+      <td>Baleful Polymorph (W5 Tran): R65' Changes the target into a chosen 1 HD creature (save Fortitude negates; Will 24 hr after a failure allows retaining HD and memories)</td>
     </tr><tr style="text-align:left">
       <td>Banishment (W7 Abju): R65' Banishes 34 HD of extraplanar creatures in a 15' radius to their home planes (save Will negates; possession of an object that a target hates gives +2 DC and +1 vs. spell resistance)</td>
     </tr><tr style="text-align:left">
@@ -395,7 +395,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Bestow Curse (W4 Necr): Touched permanently suffers a choice of -6 to an ability, -4 attacks, saves, and checks, or a 50% chance of losing its action each rd (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Binding (W8 Ench): R65' Magically imprisons the target (save Will negates for targets with 8 HD or more; assistance from other casters raises the threshold) with a choice of chains, sleep, confinement, metamorphosis, or reduction in size</td>
+      <td>Binding (W8 Ench): R65' Magically imprisons the target (save Will negates for targets with 8 HD or more; assistance from other casters raises the threshold by 1/2 HD per assistant, or by 1/3 the assistant's level if they cast <i>Binding</i> or an appropriate <i>Dominate</i> spells) with a choice of chains for 17 years, sleep for 17 years, chains and sleep for 17 months (-2 save DC), permanent confinement (-3 save DC), permanent gaseous form in a container (-4 save DC), or permanent reduction in size to 1" or less within a container (-4 save DC); the spell can also include triggering conditions that end it, increasing the save DC by 2</td>
     </tr><tr style="text-align:left">
       <td>Black Tentacles (W4 Conj): R270' Tentacles in a 20' radius restrain creatures (grapple +25, Strength 19), and additional successful grapples on a held creature each rd inflict 1d6+4 HP bludgeoning, for 17 rd</td>
     </tr><tr style="text-align:left">
@@ -429,15 +429,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Clairaudience/Clairvoyance (W3 Divi): 1080' Self gains a choice of remote sight or hearing of a known location for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Clenched Fist (W8 Evoc): R270' 10' hand (Armor Class 20, 62 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +15 bull rush and a +28+modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for 17 rd</td>
+      <td>Clenched Fist (W8 Evoc): R270' 10' hand (Armor Class 20, 62 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +15 Bull Rush and a +28 + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Clone (W8 Necr): Grows a duplicate from a piece of a creature that its soul can enter if the original has died or dies later</td>
     </tr><tr style="text-align:left">
       <td>Cloudkill (W5 Conj): R270' 20' fog cylinder moves away 10' per rd, killing creatures within with up to 6 HD (save Fortitude for those with 4-6 HD inflicts -1d4 Constitution) and inflicting -1d4 Constitution on those with more HD (save Fortitude half) for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Color Spray (W1 Illu): 15' cone renders creatures with 2/4/5+ HD unconscious for 2d4 rd/blind for 1d4 rd/stunned for 1 rd (save Will negates)</td>
+      <td>Color Spray (W1 Illu): 15' cone renders creatures with 2, 4, and 5+ HD unconscious for 2d4 rd, blind for 1d4 rd, and stunned for 1 rd (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Command Undead (W2 Necr): R65' Undead target considers self as a friend (save Will negates) for 17 days, obeying commands only with successful opposed Charisma checks</td>
+      <td>Command Undead (W2 Necr): R65' Undead target considers self as a friend (save Will for intelligent undead negates) for 17 days, obeying commands only with successful opposed Charisma checks</td>
     </tr><tr style="text-align:left">
       <td>Comprehend Languages (W1 Divi): Allows self to understand touched written text and words spoken in any language by touched creatures for 170 min</td>
     </tr><tr style="text-align:left">
@@ -459,13 +459,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Control Weather (W7 Tran): Modifies seasonal weather in a 2 mile radius for 4d12 hr</td>
     </tr><tr style="text-align:left">
-      <td>Create Greater Undead (W8 Necr): R65' Creates a wraith or shadow from physical remains</td>
+      <td>Create Greater Undead (W8 Necr): R65' Cast at night, creates a wraith or shadow from physical remains</td>
     </tr><tr style="text-align:left">
-      <td>Create Undead (W6 Necr): R65' Creates a mummy, ghast, or ghoul from physical remains</td>
+      <td>Create Undead (W6 Necr): R65' Cast at night, creates a mummy, ghast, or ghoul from physical remains</td>
     </tr><tr style="text-align:left">
       <td>Crushing Despair (W4 Ench): 30' cone inflicts -2 attacks, damage, saves, and checks (save Will negates) for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Crushing Hand (W9 Evoc): R270' 10' hand (Armor Class 20, 62 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +18 bull rush and +33+modifier grapple that inflicts 2d6+12 HP for 17 rd</td>
+      <td>Crushing Hand (W9 Evoc): R270' 10' hand (Armor Class 20, 62 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +33 + modifier Grapple that inflicts 2d6+12 HP for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Dancing Lights (W0 Evoc): R270' Creates a humanoid-shaped light, 4 torch lights, or 4 glowing spheres in a 10' radius that can be moved 100' each rd for 1 min</td>
     </tr><tr style="text-align:left">
@@ -475,13 +475,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Daylight (W3 Evoc): Touched object radiates bright light in a 60' radius for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Daze (W0 Ench): R65' Humanoid target with up to 4 HD loses its actions for 1 rd (save Will negates)</td>
+      <td>Daze (W0 Ench): R65' Target humanoid with up to 4 HD loses its actions for 1 rd (save Will negates)</td>
     </tr><tr style="text-align:left">
       <td>Daze Monster (W2 Ench): R270' Target with up to 6 HD loses its actions for 1 rd (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Deep Slumber (W3 Ench): R65' 10 HD of creatures in a 10' radius sleep (save Will negates) for 17 min</td>
+      <td>Deep Slumber (W3 Ench): R65' 10 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 17 min; shaking or wounding wakens an affected creature, but noise does not</td>
     </tr><tr style="text-align:left">
-      <td>Delayed Blast Fireball (W7 Evoc): R1080' Inflicts 17d6 HP fire (save Reflex half) in a 20' radius; can delay effects up to 5 rd</td>
+      <td>Delayed Blast Fireball (W7 Evoc): R1080' Inflicts 17d6 HP fire in a 20' radius (save Reflex half); can delay the effects up to 5 rd</td>
     </tr><tr style="text-align:left">
       <td>Demand (W8 Ench): Sends to a familiar target a 25-word message that contains a <i>Suggestion</i> (save Will negates); the target can send a 25-word reply</td>
     </tr><tr style="text-align:left">
@@ -489,7 +489,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Detect Poison (W0 Divi): R65' Reveals the presence of poison in the target; a successful DC 20 Wisdom or Craft (Alchemy) check reveals the type</td>
     </tr><tr style="text-align:left">
-      <td>Detect Scrying (W4 Divi): R40' Reveals scrying attempts for 1 day; shows the source of scrying from within 40' or with a successful opposed caster check</td>
+      <td>Detect Scrying (W4 Divi): R40' Reveals scrying attempts for 24 hr; shows the source of scrying from within 40' or with a successful opposed caster check</td>
     </tr><tr style="text-align:left">
       <td>Detect Secret Doors (W1 Divi): 60' cone reveals secret doors and their mechanisms for concentration up to 17 min</td>
     </tr><tr style="text-align:left">
@@ -497,7 +497,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Detect Undead (W1 Divi): 60' cone reveals undead and their strengths for concentration up to 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Dimension Door (W4 Conj): Teleports self and a touched object or 5 willing creatures 1080'</td>
+      <td>Dimension Door (W4 Conj): Teleports self, held objects, and 5 willing Medium creatures 1080'</td>
     </tr><tr style="text-align:left">
       <td>Dimensional Anchor (W4 Abju): R270' Ranged touch bars extradimensional travel for 17 min</td>
     </tr><tr style="text-align:left">
@@ -511,39 +511,39 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Dismissal (W5 Abju): R65' Sends the target to its native plane or (20%) to another random plane (save Will + 17 - target HD negates)</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (W3 Abju): R270' Successful d20+10 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Dispel Magic (W3 Abju): R270' Successful caster level check (+10 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Displacement (W3 Illu): Foes attacking touched suffer a 50% miss chance for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Disrupt Undead (W0 Necr): R65' Ranged touched on an undead target inflicts 1d6 HP positive energy</td>
     </tr><tr style="text-align:left">
-      <td>Dominate Monster (W9 Ench): R65' Target creature obeys mental commands (save Will negates) for 17 days</td>
+      <td>Dominate Monster (W9 Ench): R65' Target creature obeys mental commands (save Will negates) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Dominate Person (W5 Ench): R65' Target humanoid obeys mental commands (save Will negates) for 17 days; concentration allows receiving sensory info from the target</td>
     </tr><tr style="text-align:left">
-      <td>Dream (W5 Illu): Touched sends a message to a sleeping target</td>
+      <td>Dream (W5 Illu): Allows touched to send a message to a sleeping target</td>
     </tr><tr style="text-align:left">
       <td>Eagle's Splendor (W2 Tran): Touched gains +4 Charisma for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Endure Elements (W1 Abju): Touched remains comfortable between -50F and 140F for 1 day</td>
+      <td>Endure Elements (W1 Abju): Touched remains comfortable between -50F and 140F for 24 hr</td>
     </tr><tr style="text-align:left">
       <td>Energy Drain (W9 Necr): R65' Ranged touch inflicts 2d4 negative levels (save Fortitude for each level after 24 hr negates; failure makes the loss permanent); an undead target instead gains 2d4x5 temporary hit points for 1 hr</td>
     </tr><tr style="text-align:left">
-      <td>Enervation (W4 Necr): R65' Ranged touch inflicts 1d4 negative levels for 17 hr; an undead target instead gains 1d4x5 temporary hit points for 1 hr</td>
+      <td>Enervation (W4 Necr): R65' Ranged touch inflicts 1d4 negative levels for 15 hr; an undead target instead gains 1d4x5 temporary hit points for 1 hr</td>
     </tr><tr style="text-align:left">
       <td>Enlarge Person (W1 Tran): R65' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class (save Fortitude negates), for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Erase (W1 Tran): R65' Two pages of writing vanish; magical writing requires a successful 1d20+17 caster check with a DC of 15</td>
+      <td>Erase (W1 Tran): R65' Two pages of writing vanish; magical writing requires a successful DC 15 caster level check</td>
     </tr><tr style="text-align:left">
       <td>Ethereal Jaunt (W7 Tran): Self becomes ethereal for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Etherealness (W9 Tran): Self and 5 others become ethereal for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Expeditious Retreat (W1 Tran): Gives self +30' Speed for 17 min</td>
+      <td>Expeditious Retreat (W1 Tran): Gives self a +30' land Speed for 17 min</td>
     </tr><tr style="text-align:left">
       <td>Explosive Runes (W3 Abju): Runes inflict 6d6 HP force in a 10' radius when read by an unauthorized person (save Reflex half; adjacent creatures automatically fail)</td>
     </tr><tr style="text-align:left">
-      <td>Eyebite (W6 Necr): R65' Renders 1 target per rd with 1/5/10 HD comatose for 170 min/panicked for 1d4 rd and shaken for 170 min/sickened for 170 min (save Fortitude negates), for 5 rd</td>
+      <td>Eyebite (W6 Necr): R65' Renders 1 target per rd with 1, 5, and 10 HD comatose for 170 min, panicked for 1d4 rd and shaken for 170 min, and sickened for 170 min (save Fortitude negates), for 5 rd</td>
     </tr><tr style="text-align:left">
       <td>Fabricate (W5 Tran): R65' Creates finished items from 170 cubic feet of raw materials, or 17 cubic feet if working with minerals</td>
     </tr><tr style="text-align:left">
@@ -559,9 +559,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Finger Of Death (W7 Necr): R65' Slays the target (save Fortitude inflicts 3d6+17 HP)</td>
     </tr><tr style="text-align:left">
-      <td>Fire Shield (W4 Evoc): Envelopes self in cold or hot flames that inflict 1d6+15 HP cold or fire on melee attackers and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for 17 rd</td>
+      <td>Fire Shield (W4 Evoc): Envelopes self in cold or hot flames that inflict 1d6+15 HP cold or fire on melee attackers (SR may negate) and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Fire Trap (W4 Abju): Touched object inflicts 1d4+17 HP fire in a 5' radius (save Reflex half) when opened</td>
+      <td>Fire Trap (W4 Abju): Touched object inflicts 1d4+17 HP fire in a 5' radius (save Reflex half) when opened by an unauthorized creature</td>
     </tr><tr style="text-align:left">
       <td>Fireball (W3 Evoc): R1080' Inflicts 10d6 HP fire in a 20' radius (save Reflex half)</td>
     </tr><tr style="text-align:left">
@@ -577,19 +577,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Fly (W3 Tran): Touched gains a 60' fly Speed for 17 min, then floats downward 60' per rd for 1d6 rd</td>
     </tr><tr style="text-align:left">
-      <td>Fog Cloud (W2 Conj): R270' 20' radius fog obscures vision for 170 min</td>
+      <td>Fog Cloud (W2 Conj): R270' 20' radius fog obscures vision, giving a 20% miss chance on attacks within 5' and a 50% miss chance on more distant attacks, for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Forcecage (W7 Evoc): R65' Traps targets in a 20' cage or a 10' windowless cell for 34 hr</td>
     </tr><tr style="text-align:left">
       <td>Forceful Hand (W6 Evoc): R270' 10' hand (Armor Class 20, 62 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +14 bull rush for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Foresight (W9 Divi): Self receives warnings of impending danger to touched for 170 min; casting on self also gives a +2 insight bonus to Armor Class and negates surprise and flat-footed</td>
+      <td>Foresight (W9 Divi): Self receives warnings of impending danger to touched for 170 min; casting on self also gives a +2 insight bonus to Armor Class and Reflex saves and negates surprise and flat-footed</td>
     </tr><tr style="text-align:left">
       <td>Fox's Cunning (W2 Tran): Touched gains +4 Intelligence for 17 min</td>
     </tr><tr style="text-align:left">
       <td>Freedom (W9 Abju): R65' Releases the target from movement restrictions</td>
     </tr><tr style="text-align:left">
-      <td>Freezing Sphere (W6 Evoc): R1080' 10' radius inflicts 15d6 HP cold, or 15d8 HP cold to elemental water creatures (save Reflex half)</td>
+      <td>Freezing Sphere (W6 Evoc): R1080' 10' radius inflicts 15d6 HP cold, or 15d8 HP cold to elemental water creatures (save Reflex half), and freezes 1500 square feet of water to a depth of 6" for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Gaseous Form (W3 Tran): Touched becomes insubstantial, losing its armor bonus to Armor Class, any supernatural abilities, ability to manipulate objects, and ability to cast spells with components, but gaining DR 10/magic, immunity to poison and critical hits, a 10' fly Speed, and the ability to pass through small openings, for 34 min</td>
     </tr><tr style="text-align:left">
@@ -601,19 +601,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Ghost Sound (W0 Illu): R65' Produces the sound volume of 20 humans (save Will upon interaction disbelieves) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Ghoul Touch (W2 Necr): Melee touch inflicts paralyzed and a stench that sickens creatures other than self (save Fortitude negates) in a 10' radius for 1d6+2 rd</td>
+      <td>Ghoul Touch (W2 Necr): Melee touch inflicts paralyzed and a stench that sickens creatures other than self in a 10' radius (save Fortitude negates) for 1d6+2 rd</td>
     </tr><tr style="text-align:left">
       <td>Glitterdust (W2 Conj): R270' Outlines and blinds creatures in a 10' radius (save Will outlined only) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Globe Of Invulnerability (W6 Abju): 10' radius around self bars the entry of spell effects up to 4th level for 17 rd</td>
+      <td>Globe Of Invulnerability (W6 Abju): 10' radius around self bars the effects of spells of up to 4th level for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Grasping Hand (W7 Evoc): R270' 10' hand (Armor Class 20, 62 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +16 bull rush and +31+modifier grapple for 17 rd</td>
+      <td>Grasping Hand (W7 Evoc): R270' 10' hand (Armor Class 20, 62 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +16 Bull Rush and +31 + modifier Grapple for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Grease (W1 Conj): R65' Coats a 10' square with grease, inflicting falls (save Reflex negates and allows a DC 10 Balance check to move at half Speed), or coats a target object with grease (save Reflex negates for possessed items), causing them to be dropped (save Reflex negates each rd), for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Greater Arcane Sight (W7 Divi): R120' Reveals auras, spell abilities, and spells affecting creatures and objects for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Greater Dispel Magic (W6 Abju): R270' Successful d20+17 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Greater Dispel Magic (W6 Abju): R270' Successful caster level check (+20 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Greater Heroism (W6 Ench): Touched gains +4 attacks, saves, and skill checks, +17 temporary hit points, and immunity to fear for 17 min</td>
     </tr><tr style="text-align:left">
@@ -641,7 +641,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hallucinatory Terrain (W4 Illu): R1080' Changes the look, sound, and smell of 510 cubic feet of terrain (save Will upon interaction disbelieves) for 34 hr</td>
     </tr><tr style="text-align:left">
-      <td>Halt Undead (W3 Necr): R270' Immobilizes 3 undead in a 15' radius (save Will for intelligent undead negates) for 17 rd</td>
+      <td>Halt Undead (W3 Necr): R270' Immobilizes 3 undead in a 15' radius (save Will for intelligent undead negates) for 17 rd; attacking a held creature ends the spell</td>
     </tr><tr style="text-align:left">
       <td>Haste (W3 Tran): R65' 17 targets in a 15' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, a +1 dodge bonus to Armor Class, +1 Reflex saves, and +30' Speed for 17 rd</td>
     </tr><tr style="text-align:left">
@@ -661,7 +661,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hypnotism (W1 Ench): R65' Fascinates and makes suggestible 2d4 HD of creatures in a 15' radius (save Will negates; +2 if in combat and -2 if only 1 creature is targeted), working upward from those with the fewest HD, for 2d4 rd</td>
     </tr><tr style="text-align:left">
-      <td>Ice Storm (W4 Evoc): R1080' Hail in a 20'-radius, 40'-high cylinder inflicts 3d6 HP bludgeoning, 2d6 HP cold, -4 Listen, and half Speed for 17 rd</td>
+      <td>Ice Storm (W4 Evoc): R1080' Hail in a 20'-radius, 40'-high cylinder inflicts 3d6 HP bludgeoning and 2d6 HP cold for 1 rd, then -4 Listen and half Speed for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Identify (W1 Divi): Reveals the magic properties of a touched, non-artifact object</td>
     </tr><tr style="text-align:left">
@@ -669,7 +669,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Illusory Wall (W4 Illu): R65' Permanently creates an illusionary 1'x10'x10' surface (save Will upon interaction disbelieves)</td>
     </tr><tr style="text-align:left">
-      <td>Imprisonment (W9 Abju): Entombs touched deep within the ground (save Will negates; familiar creatures -4), locatable only via <i>Discern Location</i> or <i>Wish</i>, until a freedom spell is cast in the same locale</td>
+      <td>Imprisonment (W9 Abju): Entombs touched deep within the ground (save Will negates; familiar creatures -4), locatable only via <i>Discern Location</i> or <i>Wish</i>, until a <i>Freedom</i> spell is cast in the same locale</td>
     </tr><tr style="text-align:left">
       <td>Incendiary Cloud (W8 Conj): R270' Fire in a 20'-radius, 20'-high cylinder obscures vision, inflicts 4d6 HP fire (save Reflex half), and moves away 10' per rd (or up to 60' with concentration) for 17 rd</td>
     </tr><tr style="text-align:left">
@@ -679,11 +679,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Interposing Hand (W5 Evoc): R270' 10' hand (Armor Class 20, 62 hit points) gives +4 Armor Class vs. the target for 17 rd; directing to another target uses a move action</td>
     </tr><tr style="text-align:left">
-      <td>Invisibility (W2 Illu): Touched becomes invisible for 17 min; target attacking ends</td>
+      <td>Invisibility (W2 Illu): Touched becomes invisible for 17 min; target attacking ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Invisibility Sphere (W3 Illu): Creatures within 10' of touched become invisible for 17 min; attacking or moving more than 10' from the target ends for that creature, and the target attacking ends for all</td>
+      <td>Invisibility Sphere (W3 Illu): Creatures within 10' of touched become invisible for 17 min; attacking or moving more than 10' from the target ends the spell for that creature, and the target attacking ends the spell for all</td>
     </tr><tr style="text-align:left">
-      <td>Iron Body (W8 Tran): Self becomes iron, gaining +6 Strength, DR 15/adamantine, half damage from acid and fire, immunity to physiology effects, and unarmed attacks that inflict 1d6 HP, but suffering -6 Dexterity, half Speed, 50% arcane failure, an -8 armor skill check penalty, and 10x weight, for 17 min</td>
+      <td>Iron Body (W8 Tran): Self becomes living iron for 17 min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d6 HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulerability to special attacks that affect iron golems</td>
     </tr><tr style="text-align:left">
       <td>Irresistible Dance (W8 Ench): Touched dances in place, suffering -4 Armor Class, loss of shield bonus to Armor Class, and -10 Reflex saves, for 1d4+1 rd</td>
     </tr><tr style="text-align:left">
@@ -695,9 +695,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Legend Lore (W6 Divi): Reveals legends about a specified person, place, or object; requires minutes to weeks to cast depending on the familiarity of the target</td>
     </tr><tr style="text-align:left">
-      <td>Lesser Geas (W4 Ench): R65' Compels a target with up to 7 HD to complete a specified task (save Will negates) within 17 days, suffering -2 to each ability score (maximum -8, and no score can drop below 1) for each 24 hr spent without obeying; this infliction ends 24 hr after resuming the task</td>
+      <td>Lesser Geas (W4 Ench): R65' Compels a target with up to 7 HD to complete a specified task (save Will negates) within 17 days, suffering -2 to each ability score (maximum -8, and no score can drop below 1) for each 24 hr spent without obeying; this affliction ends 24 hr after resuming the task</td>
     </tr><tr style="text-align:left">
-      <td>Lesser Globe Of Invulnerability (W4 Abju): 10' radius around self bars the entry of spell effects up to 3rd level for 17 rd</td>
+      <td>Lesser Globe Of Invulnerability (W4 Abju): 10' radius around self bars the effects of spells of up to 3rd level for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Lesser Planar Binding (W5 Conj): Traps an extraplanar creature with up to 6 HD in a <i>Magic Circle</i> (save Will negates) until it performs a task (opposed Charisma allows refusal), escapes via SR, dimensional travel, or a 25 Charisma check, or 17 days pass</td>
     </tr><tr style="text-align:left">
@@ -757,7 +757,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mass Cat's Grace (W6 Tran): R65' 17 targets in a 15' radius gain +4 Dexterity for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Charm Monster (W8 Ench): R65' 34 HD of targets treat self as trusted friend (save Will negates; +5 if being threatened) for 17 days</td>
+      <td>Mass Charm Monster (W8 Ench): R65' 34 HD of targets, or 1 creature with any number of HD, treats self as a trusted friend (save Will negates; +5 if being threatened) for 17 days</td>
     </tr><tr style="text-align:left">
       <td>Mass Eagle's Splendor (W6 Tran): R65' 17 targets in a 15' radius gain +4 Charisma for 17 min</td>
     </tr><tr style="text-align:left">
@@ -769,7 +769,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mass Hold Person (W7 Ench): R270' Paralyzes humanoid targets in a 15' radius (save Will negates; additional saves each rd end) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Mass Invisibility (W7 Illu): R1080' Creatures in a 90' radius become invisible for 17 min; moving out of the radius ends for that creature, and any affected creature attacking ends for all</td>
+      <td>Mass Invisibility (W7 Illu): R1080' Creatures in a 90' radius become invisible for 17 min; moving out of the radius ends for that creature, and any affected creature attacking ends the spell for all</td>
     </tr><tr style="text-align:left">
       <td>Mass Owl's Wisdom (W6 Tran): R65' 17 targets in a 15' radius gain +4 Wisdom for 17 min</td>
     </tr><tr style="text-align:left">
@@ -967,7 +967,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Simulacrum (W7 Illu): Creates a permanent obedient double of a creature with half of the original's hit points and levels; suspicious creatures can detect the copy with a successful Spot vs. Disguise or a successful DC 20 Sense Motive</td>
     </tr><tr style="text-align:left">
-      <td>Sleep (W1 Ench): R270' 4 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 17 min</td>
+      <td>Sleep (W1 Ench): R270' 4 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 17 min; shaking or wounding wakens an affected creature, but noise does not</td>
     </tr><tr style="text-align:left">
       <td>Sleet Storm (W3 Conj): R1080' 40' radius, 20' high cylinder blocks sight, extinguishes small fires, and requires a DC 10 Balance check to move at half Speed (failure by 5 or more causes a fall) for 17 rd</td>
     </tr><tr style="text-align:left">

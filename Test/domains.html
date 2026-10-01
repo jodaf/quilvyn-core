@@ -352,7 +352,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Aid (Luck2 Ench): Touched gains +1 attacks, +1 saves vs. fear, and 1d8+10 temporary hit points for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Air Walk (Air4 Tran): Touched can walk on air for 100 min, then floats downward 60' per rd for 1d6 rd; winds of over 20 MPH push the target 5' per 5 MPH</td>
+      <td>Air Walk (Air4 Tran): Touched can walk on air for 100 min, then floats downward 60' per rd for 1d6 rd; winds of over 20 MPH push the target 5' per 5 MPH; training a mount to <i>Air Walk</i> requires a week of work and a DC 25 Handle Animal check</td>
     </tr><tr style="text-align:left">
       <td>Animal Shapes (Animal7 Tran): R50' 10 willing targets in a 15' radius become a chosen animal with up to 10 HD for 10 hr</td>
     </tr><tr style="text-align:left">
@@ -364,19 +364,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Antilife Shell (Animal6 Abju): 10' radius bars the entrance of living creatures for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Antimagic Field (Magic6 Abju): 10' radius suppresses magic and summoned and undead creatures for 100 min</td>
+      <td>Antimagic Field (Magic6 Abju): 10' radius suppresses magic and summoned and incorporeal undead creatures for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Antimagic Field (Protection6 Abju): 10' radius suppresses magic and summoned and undead creatures for 100 min</td>
+      <td>Antimagic Field (Protection6 Abju): 10' radius suppresses magic and summoned and incorporeal undead creatures for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Astral Projection (Travel9 Necr): Projects self and 5 others to the Astral Plane</td>
     </tr><tr style="text-align:left">
-      <td>Barkskin (Plant2 Tran): Touched gains +4 natural armor for 100 min</td>
+      <td>Barkskin (Plant2 Tran): Touched gains a +4 natural armor enhancement bonus to Armor Class for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Blade Barrier (Good6 Evoc): R200' 200' blade wall inflicts 10d6 HP initially (save Reflex negates) and each rd (save Reflex half) for 10 min</td>
+      <td>Blade Barrier (Good6 Evoc): R200' 200' blade wall provides cover and inflicts 10d6 HP initially (save Reflex negates) and each rd (save Reflex half) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Blade Barrier (War6 Evoc): R200' 200' blade wall inflicts 10d6 HP initially (save Reflex negates) and each rd (save Reflex half) for 10 min</td>
+      <td>Blade Barrier (War6 Evoc): R200' 200' blade wall provides cover and inflicts 10d6 HP initially (save Reflex negates) and each rd (save Reflex half) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Blasphemy (Evil7 Evoc): Nonevil creatures within 40' with 11/10/6/1 HD are banished to their home planes for 24 hr (save Will -4 negates) and become dazed for 1 rd/suffer -2d6 Strength for 2d4 rd/become paralyzed for 1d10 min/are killed</td>
+      <td>Blasphemy (Evil7 Evoc): Nonevil creatures within 40' with up to 11, 10, 6, and 1 HD are banished to their home planes for 24 hr (save Will -4 negates) and become dazed for 1 rd, suffer -2d6 Strength for 2d4 rd, become paralyzed for 1d10 min, and are killed</td>
     </tr><tr style="text-align:left">
       <td>Break Enchantment (Luck5 Abju): R50' Self makes a +10 check (DC 11 + the effect's caster level, or DC 25 for cursed items) to free 10 targets in a 15' radius from enchantments, transmutations, and curses</td>
     </tr><tr style="text-align:left">
@@ -392,13 +392,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Chain Lightning (Air6 Evoc): R800' Bolt inflicts 10d6 HP electricity to the primary target and half as much to 10 secondary targets in a 30' radius (save Reflex half)</td>
     </tr><tr style="text-align:left">
-      <td>Chaos Hammer (Chaos4 Evoc): R210' Lawful creatures in a 20' radius suffer 5d8 HP and are slowed (inflicts -2 Armor Class, attacks, damage, and Reflex saves) for 1d6 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)</td>
+      <td>Chaos Hammer (Chaos4 Evoc): R210' Lawful creatures in a 20' radius suffer 5d8 HP (or 10d6 to outsiders) and are slowed (inflicts -2 Armor Class, attacks, damage, and Reflex saves) for 1d6 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)</td>
     </tr><tr style="text-align:left">
       <td>Clairaudience/Clairvoyance (Knowledge3 Divi): 840' Self gains a choice of remote sight or hearing of a known location for 11 min</td>
     </tr><tr style="text-align:left">
-      <td>Clenched Fist (Strength8 Evoc): R200' 10' hand (Armor Class 20, 28 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +15 bull rush and a +21+modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for 10 rd</td>
+      <td>Clenched Fist (Strength8 Evoc): R200' 10' hand (Armor Class 20, 28 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +15 Bull Rush and a +21 + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Cloak Of Chaos (Chaos8 Abju): 11 creatures in a 20' radius gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for 11 rd</td>
+      <td>Cloak Of Chaos (Chaos8 Abju): 11 creatures within 20' inflict confusion on successful lawful attackers (save Will negates) for 1 rd and gain a +4 deflection bonus to Armor Class, +4 saves, SR 25 vs. lawful spells and casters, and suppression of possession and mental control, for 11 rd</td>
     </tr><tr style="text-align:left">
       <td>Command Plants (Plant4 Tran): R50' 20 HD of plant creatures in a 15' radius consider self as a friend (save Will negates) for 10 days, obeying commands only with successful opposed Charisma checks</td>
     </tr><tr style="text-align:left">
@@ -418,13 +418,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Control Winds (Air5 Tran): R400' Changes wind direction and speed by 3 levels in a 400'x40' cylinder for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Create Greater Undead (Death8 Necr): R50' Creates a shadow from physical remains</td>
+      <td>Create Greater Undead (Death8 Necr): R50' Cast at night, creates a shadow from physical remains</td>
     </tr><tr style="text-align:left">
-      <td>Create Undead (Death6 Necr): R50' Creates a ghoul from physical remains</td>
+      <td>Create Undead (Death6 Necr): R50' Cast at night, creates a ghoul from physical remains</td>
     </tr><tr style="text-align:left">
-      <td>Create Undead (Evil6 Necr): R50' Creates a ghoul from physical remains</td>
+      <td>Create Undead (Evil6 Necr): R50' Cast at night, creates a ghoul from physical remains</td>
     </tr><tr style="text-align:left">
-      <td>Crushing Hand (Strength9 Evoc): R200' 10' hand (Armor Class 20, 28 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +18 bull rush and +26+modifier grapple that inflicts 2d6+12 HP for 10 rd</td>
+      <td>Crushing Hand (Strength9 Evoc): R200' 10' hand (Armor Class 20, 28 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +26 + modifier Grapple that inflicts 2d6+12 HP for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Cure Critical Wounds (Healing4 Conj): Touched regains 4d8+11 hit points; undead instead suffer the same amount (save Will half)</td>
     </tr><tr style="text-align:left">
@@ -434,11 +434,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Cure Serious Wounds (Healing3 Conj): Touched regains 3d8+11 hit points; undead instead suffer the same amount (save Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Death Knell (Death2 Necr): Touched with negative hit points dies (save Will negates), giving self 1d8 temporary hit points, +2 Strength, and +1 caster level for 10 min per target HD</td>
+      <td>Death Knell (Death2 Necr): Touched creature with negative hit points dies, giving self 1d8 temporary hit points, +2 Strength, and +1 caster level for 10 min per target HD (save Will negates)</td>
     </tr><tr style="text-align:left">
       <td>Death Ward (Death4 Necr): Touched gains immunity to death spells, death effects, energy drain, and negative energy effects for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Desecrate (Evil2 Evoc): R50' 20' radius inflicts -3 turn undead and gives undead +1 attacks, damage, saves, and 1 temporary hit point per HD for 22 hr; a shrine to None in the area doubles the spell's effects, while a shrine to a different deity negates the effects but renders the shrine inert</td>
+      <td>Desecrate (Evil2 Evoc): R50' 20' radius inflicts -3 turn undead and gives undead +1 attacks, damage, and saves for 22 hr, and undead created or summoned within the area also gain +1 hit point per HD; a shrine to None in the area doubles the spell's effects, while a shrine to a different deity negates the effects but renders the shrine inert</td>
     </tr><tr style="text-align:left">
       <td>Destruction (Death7 Necr): R50' Slays the target and consumes its remains (save Fortitude inflicts 10d6 HP)</td>
     </tr><tr style="text-align:left">
@@ -446,9 +446,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Detect Thoughts (Knowledge2 Divi): 60' cone reveals the presence of minds and their surface thoughts (save Will (DC +1) presence only) for concentration up to 11 min</td>
     </tr><tr style="text-align:left">
-      <td>Dictum (Law7 Evoc): Nonlawful creatures within 40' with 11/10/6/1 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed</td>
+      <td>Dictum (Law7 Evoc): Nonlawful creatures within 40' with up to 11, 10, 6, and 1 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd, are slowed for 2d4 rd, suffer paralysis for 1d10 min, and are killed</td>
     </tr><tr style="text-align:left">
-      <td>Dimension Door (Travel4 Conj): Teleports self and a touched object or 3 willing creatures 800'</td>
+      <td>Dimension Door (Travel4 Conj): Teleports self, held objects, and 3 willing Medium creatures 800'</td>
     </tr><tr style="text-align:left">
       <td>Discern Location (Knowledge8 Divi): Reveals the exact location of a familiar creature or object or of the past owner of a held item</td>
     </tr><tr style="text-align:left">
@@ -456,15 +456,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Disintegrate (Destruction7 Tran): R200' Ranged touch inflicts 20d6 HP (save Fortitude inflicts 5d6 HP), turning a slain target to dust, or disintegrates a 10' cube of matter</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Chaos (Law5 Abju): Gives self a +4 deflection bonus to Armor Class vs. chaotic creatures for 11 rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch</td>
+      <td>Dispel Chaos (Law5 Abju): Gives self a +4 deflection bonus to Armor Class vs. chaotic creatures for 11 rd; can end the spell early with a touch that dismisses a chaotic creature (save Will negates), a chaotic spell, or a spell cast by a chaotic caster</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (Good5 Abju): Gives self a +4 deflection bonus to Armor Class vs. evil creatures for 11 rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch</td>
+      <td>Dispel Evil (Good5 Abju): Gives self a +4 deflection bonus to Armor Class vs. evil creatures for 11 rd; can end the spell early with a touch that dismisses an evil creature (save Will negates), an evil spell, or a spell cast by an evil caster</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Good (Evil5 Abju): Gives self a +4 deflection bonus to Armor Class vs. good creatures for 11 rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch</td>
+      <td>Dispel Good (Evil5 Abju): Gives self a +4 deflection bonus to Armor Class vs. good creatures for 11 rd; can end the spell early with a touch that dismisses a good creature (save Will negates), a good spell, or a spell cast by a good caster</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Law (Chaos5 Abju): Gives self a +4 deflection bonus to Armor Class vs. lawful creatures for 11 rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch</td>
+      <td>Dispel Law (Chaos5 Abju): Gives self a +4 deflection bonus to Armor Class vs. lawful creatures for 11 rd; can end the spell early with a touch that dismisses a lawful creature (save Will negates), a lawful spell, or a spell cast by a lawful caster</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (Magic3 Abju): R200' Successful d20+10 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Dispel Magic (Magic3 Abju): R200' Successful caster level check (+10 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Divination (Knowledge4 Divi): Gives a 81% chance to learn useful advice on a proposed action up to 1 week in the future</td>
     </tr><tr style="text-align:left">
@@ -484,11 +484,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Elemental Swarm (Water9 Conj): R200' Summons at 10-min intervals from a chosen elemental plane a series of obedient elementals: 2d4 large; 1d4 huge; 1 greater, for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Endure Elements (Sun1 Abju): Touched remains comfortable between -50F and 140F for 1 day</td>
+      <td>Endure Elements (Sun1 Abju): Touched remains comfortable between -50F and 140F for 24 hr</td>
     </tr><tr style="text-align:left">
       <td>Enlarge Person (Strength1 Tran): R50' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class (save Fortitude negates), for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Entangle (Plant1 Tran): R800' 40' radius entangles creatures (save Reflex inflicts half Speed; DC 20 Strength or Escape Artist ends) for 10 min</td>
+      <td>Entangle (Plant1 Tran): R800' 40' radius entangles creatures (save Reflex inflicts half Speed; DC 20 Strength or Escape Artist breaks an entanglement) for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Entropic Shield (Luck1 Abju): Ranged attacks on self suffer a 20% miss chance for 10 min</td>
     </tr><tr style="text-align:left">
@@ -498,55 +498,55 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Find The Path (Travel6 Divi): Touched knows the most direct route to a specified location, as well how to bypass any traps that would slow progress, for 110 min</td>
     </tr><tr style="text-align:left">
-      <td>Fire Seeds (Fire6 Conj): Changes 4 touched acorns into grenades that inflict 10d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire in a 5' radius each (save Reflex half), for 100 min</td>
+      <td>Fire Seeds (Fire6 Conj): Changes 4 touched acorns into grenades that can be thrown up to 100' for ranged touch attacks that inflict 10d6 HP fire in total, plus 1 HP of splash per die, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire in a 5' radius each (save Reflex half), for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Fire Seeds (Sun6 Conj): Changes 4 touched acorns into grenades that inflict 10d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire in a 5' radius each (save Reflex half), for 100 min</td>
+      <td>Fire Seeds (Sun6 Conj): Changes 4 touched acorns into grenades that can be thrown up to 100' for ranged touch attacks that inflict 10d6 HP fire in total, plus 1 HP of splash per die, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire in a 5' radius each (save Reflex half), for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Fire Shield (Fire5 Evoc): Envelopes self in cold or hot flames that inflict 1d6+10 HP cold or fire on melee attackers and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for 10 rd</td>
+      <td>Fire Shield (Fire5 Evoc): Envelopes self in cold or hot flames that inflict 1d6+10 HP cold or fire on melee attackers (SR may negate) and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Fire Shield (Sun4 Evoc): Envelopes self in cold or hot flames that inflict 1d6+10 HP cold or fire on melee attackers and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for 10 rd</td>
+      <td>Fire Shield (Sun4 Evoc): Envelopes self in cold or hot flames that inflict 1d6+10 HP cold or fire on melee attackers (SR may negate) and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Fire Storm (Fire7 Evoc): R200' 200 cubic foot area inflicts 10d6 HP fire (save Reflex half)</td>
     </tr><tr style="text-align:left">
-      <td>Flame Strike (Sun5 Evoc): R200' 10' radius, 40' high cylinder inflicts 10d6 HP fire (save Reflex half)</td>
+      <td>Flame Strike (Sun5 Evoc): R200' 10' radius, 40' high cylinder inflicts 10d6 HP (save Reflex half), half fire and half divine power</td>
     </tr><tr style="text-align:left">
-      <td>Flame Strike (War5 Evoc): R200' 10' radius, 40' high cylinder inflicts 10d6 HP fire (save Reflex half)</td>
+      <td>Flame Strike (War5 Evoc): R200' 10' radius, 40' high cylinder inflicts 10d6 HP (save Reflex half), half fire and half divine power</td>
     </tr><tr style="text-align:left">
       <td>Fly (Travel3 Tran): Touched gains a 60' fly Speed for 10 min, then floats downward 60' per rd for 1d6 rd</td>
     </tr><tr style="text-align:left">
-      <td>Fog Cloud (Water2 Conj): R200' 20' radius fog obscures vision for 100 min</td>
+      <td>Fog Cloud (Water2 Conj): R200' 20' radius fog obscures vision, giving a 20% miss chance on attacks within 5' and a 50% miss chance on more distant attacks, for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Foresight (Knowledge9 Divi): Self receives warnings of impending danger to touched for 110 min; casting on self also gives a +2 insight bonus to Armor Class and negates surprise and flat-footed</td>
+      <td>Foresight (Knowledge9 Divi): Self receives warnings of impending danger to touched for 110 min; casting on self also gives a +2 insight bonus to Armor Class and Reflex (DC +1) saves and negates surprise and flat-footed</td>
     </tr><tr style="text-align:left">
-      <td>Freedom Of Movement (Luck4 Abju): Allows touched to ignore movement impediments for 100 min</td>
+      <td>Freedom Of Movement (Luck4 Abju): Allows touched to ignore movement impediments, escape grapples, and move normally when underwater, for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Freedom Of Movement (Travel4 Abju): Allows touched to ignore movement impediments for 100 min</td>
+      <td>Freedom Of Movement (Travel4 Abju): Allows touched to ignore movement impediments, escape grapples, and move normally when underwater, for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Gaseous Form (Air3 Tran): Touched becomes insubstantial, losing its armor bonus to Armor Class, any supernatural abilities, ability to manipulate objects, and ability to cast spells with components, but gaining DR 10/magic, immunity to poison and critical hits, a 10' fly Speed, and the ability to pass through small openings, for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Grasping Hand (Strength7 Evoc): R200' 10' hand (Armor Class 20, 28 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +16 bull rush and +24+modifier grapple for 10 rd</td>
+      <td>Grasping Hand (Strength7 Evoc): R200' 10' hand (Armor Class 20, 28 hit points) can be moved 60' as a move action, gives +4 Armor Class, and performs a +16 Bull Rush and +24 + modifier Grapple for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Greater Teleport (Travel7 Conj): Transports self and 3 willing targets any distance with no chance of error</td>
     </tr><tr style="text-align:left">
-      <td>Harm (Destruction6 Necr): Touch inflicts 100 HP (save Will half); undead instead regain the same amount</td>
+      <td>Harm (Destruction6 Necr): Touch inflicts 100 HP (save Will half), leaving the target with at least 1 hit point; undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
       <td>Heal (Healing6 Conj): Touched regains 110 hit points and recovers from negative conditions; undead instead suffer the same amount (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Heat Metal (Sun2 Tran): R50' Metal on 5 creatures in a 15' radius inflicts 0/1d4/2d4/2d4/2d4/1d4/0 HP (save Will for magical metal negates) for 7 rd</td>
+      <td>Heat Metal (Sun2 Tran): R50' Inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP fire over 7 rd on 5 targets in a 15' radius (save Will negates); a target not in possession of metal instead takes 1 or 2 HP fire in the second through sixth rd</td>
     </tr><tr style="text-align:left">
       <td>Hold Animal (Animal2 Ench): R200' Paralyzes the animal target (save Will negates; additional saves each rd end) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Hold Monster (Law6 Ench): R200' Paralyzes the target (save Will negates; additional saves each rd end) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Aura (Good8 Abju): 11 creatures within 20' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for 11 rd</td>
+      <td>Holy Aura (Good8 Abju): 11 creatures within 20' blind successful evil attackers (save Fortitude negates) and gain a +4 deflection bonus to Armor Class, +4 saves, SR 25 vs. evil spells and casters, suppression of existing mental control or possession, and immunity to new attempts to control or possess, for 11 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Smite (Good4 Evoc): R210' 20' radius inflicts 5d8 HP (or 11d6 HP to outsiders) and blindness for 1 rd on evil creatures (save Will half HP only) and half as many HP on neutral ones (save Will half)</td>
+      <td>Holy Smite (Good4 Evoc): R210' Evil creatures in a 20' radius suffer 5d8 HP (or 10d6 HP to outsiders) and blindness for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)</td>
     </tr><tr style="text-align:left">
-      <td>Holy Word (Good7 Evoc): Nongood creatures within 40' with 11/10/6/1 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/blinded for 2d4 rd/paralyzed for 1d10 min/killed</td>
+      <td>Holy Word (Good7 Evoc): Nongood creatures within 40' with 11, 10, 6, and 1 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd, blinded for 2d4 rd, paralyzed for 1d10 min, and killed</td>
     </tr><tr style="text-align:left">
       <td>Horrid Wilting (Water8 Necr): R800' Creatures in a 30' radius suffer 10d6 HP, or 10d8 HP for plants or water elementals (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Ice Storm (Water5 Evoc): R800' Hail in a 20'-radius, 40'-high cylinder inflicts 3d6 HP bludgeoning, 2d6 HP cold, -4 Listen, and half Speed for 10 rd</td>
+      <td>Ice Storm (Water5 Evoc): R800' Hail in a 20'-radius, 40'-high cylinder inflicts 3d6 HP bludgeoning and 2d6 HP cold for 1 rd, then -4 Listen and half Speed for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Identify (Magic2 Divi): Reveals the magic properties of a touched, non-artifact object</td>
     </tr><tr style="text-align:left">
@@ -560,9 +560,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Inflict Light Wounds (Destruction1 Necr): Touched suffers 1d8+5 HP (save Will half); undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
-      <td>Invisibility (Trickery2 Illu): Touched becomes invisible for 10 min; target attacking ends</td>
+      <td>Invisibility (Trickery2 Illu): Touched becomes invisible for 10 min; target attacking ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Iron Body (Earth8 Tran): Self becomes iron, gaining +6 Strength, DR 15/adamantine, half damage from acid and fire, immunity to physiology effects, and unarmed attacks that inflict 1d6 HP, but suffering -6 Dexterity, half Speed, 50% arcane failure, an -8 armor skill check penalty, and 10x weight, for 10 min</td>
+      <td>Iron Body (Earth8 Tran): Self becomes living iron for 10 min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d6 HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulerability to special attacks that affect iron golems</td>
     </tr><tr style="text-align:left">
       <td>Legend Lore (Knowledge7 Divi): Reveals legends about a specified person, place, or object; requires minutes to weeks to cast depending on the familiarity of the target</td>
     </tr><tr style="text-align:left">

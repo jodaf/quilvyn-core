@@ -231,13 +231,13 @@ var attributes = {
     <tr style="text-align:left">
       <td>Acid Arrow (S2 Conj): R1200' Ranged touch inflicts 2d4 HP acid per rd for 7 rd</td>
     </tr><tr style="text-align:left">
-      <td>Antimagic Field (S6 Abju): 10' radius suppresses magic and summoned and undead creatures for 200 min</td>
+      <td>Antimagic Field (S6 Abju): 10' radius suppresses magic and summoned and incorporeal undead creatures for 200 min</td>
     </tr><tr style="text-align:left">
       <td>Antipathy (S8 Ench): R75' Specified intelligent creature kind or alignment avoids a target object or a 200 cubic foot area (save Will inflicts -4 Dexterity) for 40 hr</td>
     </tr><tr style="text-align:left">
       <td>Arcane Mark (S0 Univ): Inscribes a personal rune on touched, lasting a month on a creature or permanently on an object</td>
     </tr><tr style="text-align:left">
-      <td>Binding (S8 Ench): R75' Magically imprisons the target (save Will negates for targets with 10 HD or more; assistance from other casters raises the threshold) with a choice of chains, sleep, confinement, metamorphosis, or reduction in size</td>
+      <td>Binding (S8 Ench): R75' Magically imprisons the target (save Will negates for targets with 10 HD or more; assistance from other casters raises the threshold by 1/2 HD per assistant, or by 1/3 the assistant's level if they cast <i>Binding</i> or an appropriate <i>Dominate</i> spells) with a choice of chains for 20 years, sleep for 20 years, chains and sleep for 20 months (-2 save DC), permanent confinement (-3 save DC), permanent gaseous form in a container (-4 save DC), or permanent reduction in size to 1" or less within a container (-4 save DC); the spell can also include triggering conditions that end it, increasing the save DC by 2</td>
     </tr><tr style="text-align:left">
       <td>Black Tentacles (S4 Conj): R300' Tentacles in a 20' radius restrain creatures (grapple +28, Strength 19), and additional successful grapples on a held creature each rd inflict 1d6+4 HP bludgeoning, for 20 rd</td>
     </tr><tr style="text-align:left">
@@ -247,7 +247,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Detect Magic (S0 Divi): 60' cone reveals the presence, power, and schools of magical auras for concentration up to 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (S3 Abju): R300' Successful d20+10 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Dispel Magic (S3 Abju): R300' Successful caster level check (+10 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Fireball (S3 Evoc): R1200' Inflicts 10d6 HP fire in a 20' radius (save Reflex half)</td>
     </tr><tr style="text-align:left">
@@ -259,19 +259,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Greater Arcane Sight (S7 Divi): R120' Reveals auras, spell abilities, and spells affecting creatures and objects for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Halt Undead (S3 Necr): R300' Immobilizes 3 undead in a 15' radius (save Will for intelligent undead negates) for 20 rd</td>
+      <td>Halt Undead (S3 Necr): R300' Immobilizes 3 undead in a 15' radius (save Will for intelligent undead negates) for 20 rd; attacking a held creature ends the spell</td>
     </tr><tr style="text-align:left">
       <td>Haste (S3 Tran): R75' 20 targets in a 15' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, a +1 dodge bonus to Armor Class, +1 Reflex saves, and +30' Speed for 20 rd</td>
     </tr><tr style="text-align:left">
       <td>Horrid Wilting (S8 Necr): R1200' Creatures in a 30' radius suffer 20d6 HP, or 20d8 HP for plants or water elementals (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Invisibility (S2 Illu): Touched becomes invisible for 20 min; target attacking ends</td>
+      <td>Invisibility (S2 Illu): Touched becomes invisible for 20 min; target attacking ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Iron Body (S8 Tran): Self becomes iron, gaining +6 Strength, DR 15/adamantine, half damage from acid and fire, immunity to physiology effects, and unarmed attacks that inflict 1d6 HP, but suffering -6 Dexterity, half Speed, 50% arcane failure, an -8 armor skill check penalty, and 10x weight, for 20 min</td>
+      <td>Iron Body (S8 Tran): Self becomes living iron for 20 min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d6 HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulerability to special attacks that affect iron golems</td>
     </tr><tr style="text-align:left">
       <td>Legend Lore (S6 Divi): Reveals legends about a specified person, place, or object; requires minutes to weeks to cast depending on the familiarity of the target</td>
     </tr><tr style="text-align:left">
-      <td>Lesser Globe Of Invulnerability (S4 Abju): 10' radius around self bars the entry of spell effects up to 3rd level for 20 rd</td>
+      <td>Lesser Globe Of Invulnerability (S4 Abju): 10' radius around self bars the effects of spells of up to 3rd level for 20 rd</td>
     </tr><tr style="text-align:left">
       <td>Mage Hand (S0 Tran): R75' Allows self to use move actions to move a target object up to 5 lb 15' per rd for concentration</td>
     </tr><tr style="text-align:left">

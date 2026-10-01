@@ -299,7 +299,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Control Weather (W7 Tran): Modifies seasonal weather in a 2 mile radius for 4d12 hr</td>
     </tr><tr style="text-align:left">
-      <td>Create Undead (W6 Necr): R60' Creates a ghast or ghoul from physical remains</td>
+      <td>Create Undead (W6 Necr): R60' Cast at night, creates a ghast or ghoul from physical remains</td>
     </tr><tr style="text-align:left">
       <td>Cure Critical Wounds (C4 Conj): Touched regains 4d8+14 hit points; undead instead suffer the same amount (save Will half)</td>
     </tr><tr style="text-align:left">
@@ -307,7 +307,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Daylight (W3 Evoc): Touched object radiates bright light in a 60' radius for 140 min</td>
     </tr><tr style="text-align:left">
-      <td>Desecrate (C2 Evoc): R60' 20' radius inflicts -3 turn undead and gives undead +1 attacks, damage, saves, and 1 temporary hit point per HD for 30 hr; a shrine to None in the area doubles the spell's effects, while a shrine to a different deity negates the effects but renders the shrine inert</td>
+      <td>Desecrate (C2 Evoc): R60' 20' radius inflicts -3 turn undead and gives undead +1 attacks, damage, and saves for 30 hr, and undead created or summoned within the area also gain +1 hit point per HD; a shrine to None in the area doubles the spell's effects, while a shrine to a different deity negates the effects but renders the shrine inert</td>
     </tr><tr style="text-align:left">
       <td>Detect Good (C1 Divi): 60' cone reveals the presence and power of good auras for concentration up to 140 min</td>
     </tr><tr style="text-align:left">
@@ -317,33 +317,33 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Detect Undead (W1 Divi): 60' cone reveals undead and their strengths for concentration up to 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Dimension Door (W4 Conj): Teleports self and a touched object or 4 willing creatures 960'</td>
+      <td>Dimension Door (W4 Conj): Teleports self, held objects, and 4 willing Medium creatures 960'</td>
     </tr><tr style="text-align:left">
       <td>Doom (C1 Necr): R240' Makes the target shaken, inflicting -2 attacks, damage, saves, and checks (save Will (DC +1) negates), for 14 min</td>
     </tr><tr style="text-align:left">
-      <td>Endure Elements (W1 Abju): Touched remains comfortable between -50F and 140F for 1 day</td>
+      <td>Endure Elements (W1 Abju): Touched remains comfortable between -50F and 140F for 24 hr</td>
     </tr><tr style="text-align:left">
       <td>Ethereal Jaunt (W7 Tran): Self becomes ethereal for 14 rd</td>
     </tr><tr style="text-align:left">
       <td>Feather Fall (W1 Tran): R60' 14 falling targets in a 10' radius slow to 60' per rd (save Will negates) for 14 rd</td>
     </tr><tr style="text-align:left">
-      <td>Fire Trap (W4 Abju): Touched object inflicts 1d4+14 HP fire in a 5' radius (save Reflex half) when opened</td>
+      <td>Fire Trap (W4 Abju): Touched object inflicts 1d4+14 HP fire in a 5' radius (save Reflex half) when opened by an unauthorized creature</td>
     </tr><tr style="text-align:left">
       <td>Flaming Sphere (W2 Evoc): R240' 5' diameter sphere inflicts 2d6 HP fire (save Reflex (DC +1) negates) for 14 rd; can be directed to jump 30' and move 30' per rd</td>
     </tr><tr style="text-align:left">
       <td>Flare (W0 Evoc): R60' Dazzles the target (save Fortitude (DC +1) negates) for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Freedom Of Movement (C4 Abju): Allows touched to ignore movement impediments for 140 min</td>
+      <td>Freedom Of Movement (C4 Abju): Allows touched to ignore movement impediments, escape grapples, and move normally when underwater, for 140 min</td>
     </tr><tr style="text-align:left">
       <td>Geas/Quest (C6 Ench): R60' Compels a target to complete a specified task within 14 days, suffering 3d6 HP and sickened (save Fortitude HP only) for each 24 hr spent without obeying; the sickness ends 24 hr after resuming the task</td>
     </tr><tr style="text-align:left">
-      <td>Greater Dispel Magic (W6 Abju): R240' Successful d20+14 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Greater Dispel Magic (W6 Abju): R240' Successful caster level check (+20 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Gust Of Wind (W2 Evoc): Creates a 60' line of wind for 1 rd that moves objects, extinguishes unprotected flames, knocks down Small and smaller creatures, and halts Medium ones; Tiny creatures are also pushed 1d4x10', suffering 1d4 HP nonlethal per 10'; flying Medium, Small, or Tiny creatures are instead pushed 1d6x5', 1d6x10', or 2d6x10', with Tiny flying creatures also suffering 2d6 HP nonlethal (save Fortitude (DC +1) negates)</td>
     </tr><tr style="text-align:left">
-      <td>Halt Undead (W3 Necr): R240' Immobilizes 3 undead in a 15' radius (save Will (DC +1) for intelligent undead negates) for 14 rd</td>
+      <td>Halt Undead (W3 Necr): R240' Immobilizes 3 undead in a 15' radius (save Will (DC +1) for intelligent undead negates) for 14 rd; attacking a held creature ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Helping Hand (C3 Evoc): Creates a ghostly hand that leads a described target found within 5 miles to self for 4 hr</td>
+      <td>Helping Hand (C3 Evoc): Creates a ghostly hand that leads a described target found within 5 miles to self for 14 hr</td>
     </tr><tr style="text-align:left">
       <td>Heroism (W3 Ench): Touched gains +2 attacks, saves, and skill checks for 140 min</td>
     </tr><tr style="text-align:left">
@@ -395,7 +395,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shield Other (C2 Abju): R60' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any damage suffered by the target is transferred to self, for 14 hr</td>
     </tr><tr style="text-align:left">
-      <td>Sleep (W1 Ench): R240' 4 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 14 min</td>
+      <td>Sleep (W1 Ench): R240' 4 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 14 min; shaking or wounding wakens an affected creature, but noise does not</td>
     </tr><tr style="text-align:left">
       <td>Spectral Hand (W2 Necr): R240' Creates an incorporeal hand (1d4 hit points temporarily taken from self; Armor Class 1; improved evasion) that can make +2 melee touch attacks to deliver touch spells up to 4th level for 14 min</td>
     </tr><tr style="text-align:left">

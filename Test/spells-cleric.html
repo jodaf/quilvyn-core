@@ -335,7 +335,7 @@ var attributes = {
     <tr style="text-align:left">
       <td>Aid (C2 Ench): Touched gains +1 attacks, +1 saves vs. fear, and 1d8+10 temporary hit points for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Air Walk (C4 Tran): Touched can walk on air for 170 min, then floats downward 60' per rd for 1d6 rd; winds of over 20 MPH push the target 5' per 5 MPH</td>
+      <td>Air Walk (C4 Tran): Touched can walk on air for 170 min, then floats downward 60' per rd for 1d6 rd; winds of over 20 MPH push the target 5' per 5 MPH; training a mount to <i>Air Walk</i> requires a week of work and a DC 25 Handle Animal check</td>
     </tr><tr style="text-align:left">
       <td>Align Weapon (C2 Tran): Touched weapon gains a choice of chaotic, evil, good, or lawful alignment (save Will negates) for 17 min</td>
     </tr><tr style="text-align:left">
@@ -345,7 +345,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Antilife Shell (C6 Abju): 10' radius bars the entrance of living creatures for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Antimagic Field (C8 Abju): 10' radius suppresses magic and summoned and undead creatures for 170 min</td>
+      <td>Antimagic Field (C8 Abju): 10' radius suppresses magic and summoned and incorporeal undead creatures for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Astral Projection (C9 Necr): Projects self and 8 others to the Astral Plane</td>
     </tr><tr style="text-align:left">
@@ -361,9 +361,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Bestow Curse (C3 Necr): Touched permanently suffers a choice of -6 to an ability, -4 attacks, saves, and checks, or a 50% chance of losing its action each rd (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Blade Barrier (C6 Evoc): R270' 340' blade wall inflicts 15d6 HP initially (save Reflex negates) and each rd (save Reflex half) for 17 min</td>
+      <td>Blade Barrier (C6 Evoc): R270' 340' blade wall provides cover and inflicts 15d6 HP initially (save Reflex negates) and each rd (save Reflex half) for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Blasphemy (C7 Evoc): Nonevil creatures within 40' with 17/16/12/7 HD are banished to their home planes for 24 hr (save Will -4 negates) and become dazed for 1 rd/suffer -2d6 Strength for 2d4 rd/become paralyzed for 1d10 min/are killed</td>
+      <td>Blasphemy (C7 Evoc): Nonevil creatures within 40' with up to 17, 16, 12, and 7 HD are banished to their home planes for 24 hr (save Will -4 negates) and become dazed for 1 rd, suffer -2d6 Strength for 2d4 rd, become paralyzed for 1d10 min, and are killed</td>
     </tr><tr style="text-align:left">
       <td>Bless (C1 Ench): Allies within 50' gain +1 attacks and fear saves for 17 min</td>
     </tr><tr style="text-align:left">
@@ -379,11 +379,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Cause Fear (C1 Necr): R65' Target with up to 5 HD becomes frightened and flees for 1d4 rd (save Will inflicts shaken for 1 rd)</td>
     </tr><tr style="text-align:left">
-      <td>Cloak Of Chaos (C8 Abju): 17 creatures in a 20' radius gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 against lawful spells and casters; the spell suppresses mental control and inflicts confusion for 1 rd on successful lawful attackers (save Will negates) for 17 rd</td>
+      <td>Cloak Of Chaos (C8 Abju): 17 creatures within 20' inflict confusion on successful lawful attackers (save Will negates) for 1 rd and gain a +4 deflection bonus to Armor Class, +4 saves, SR 25 vs. lawful spells and casters, and suppression of possession and mental control, for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Command (C1 Ench): R65' Target obeys a command to approach, drop, fall, flee, or halt (save Will (DC +1) negates) for 1 rd</td>
     </tr><tr style="text-align:left">
-      <td>Commune (C5 Divi): Agents of None respond to 17 yes/no questions asked within 10 min</td>
+      <td>Commune (C5 Divi): Agents of None respond to 17 yes/no questions asked within 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Comprehend Languages (C1 Divi): Allows self to understand touched written text and words spoken in any language by touched creatures for 170 min</td>
     </tr><tr style="text-align:left">
@@ -399,9 +399,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Create Food And Water (C3 Conj): R65' Creates enough food and water to sustain 51 humans or 17 horses for 24 hr; the food remains edible for 24 hr</td>
     </tr><tr style="text-align:left">
-      <td>Create Greater Undead (C8 Necr): R65' Creates a wraith or shadow from physical remains</td>
+      <td>Create Greater Undead (C8 Necr): R65' Cast at night, creates a wraith or shadow from physical remains</td>
     </tr><tr style="text-align:left">
-      <td>Create Undead (C6 Necr): R65' Creates a mummy, ghast, or ghoul from physical remains</td>
+      <td>Create Undead (C6 Necr): R65' Cast at night, creates a mummy, ghast, or ghoul from physical remains</td>
     </tr><tr style="text-align:left">
       <td>Create Water (C0 Conj): R65' Creates 34 gallons of pure water</td>
     </tr><tr style="text-align:left">
@@ -421,7 +421,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Daylight (C3 Evoc): Touched object radiates bright light in a 60' radius for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Death Knell (C2 Necr): Touched with negative hit points dies (save Will negates), giving self 1d8 temporary hit points, +2 Strength, and +1 caster level for 10 min per target HD</td>
+      <td>Death Knell (C2 Necr): Touched creature with negative hit points dies, giving self 1d8 temporary hit points, +2 Strength, and +1 caster level for 10 min per target HD (save Will negates)</td>
     </tr><tr style="text-align:left">
       <td>Death Ward (C4 Necr): Touched gains immunity to death spells, death effects, energy drain, and negative energy effects for 17 min</td>
     </tr><tr style="text-align:left">
@@ -431,7 +431,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Delay Poison (C2 Conj): Touched gains immunity to poison for 17 hr</td>
     </tr><tr style="text-align:left">
-      <td>Desecrate (C2 Evoc): R65' 20' radius inflicts -3 turn undead and gives undead +1 attacks, damage, saves, and 1 temporary hit point per HD for 34 hr; a shrine to None in the area doubles the spell's effects, while a shrine to a different deity negates the effects but renders the shrine inert</td>
+      <td>Desecrate (C2 Evoc): R65' 20' radius inflicts -3 turn undead and gives undead +1 attacks, damage, and saves for 34 hr, and undead created or summoned within the area also gain +1 hit point per HD; a shrine to None in the area doubles the spell's effects, while a shrine to a different deity negates the effects but renders the shrine inert</td>
     </tr><tr style="text-align:left">
       <td>Destruction (C7 Necr): R65' Slays the target and consumes its remains (save Fortitude inflicts 10d6 HP)</td>
     </tr><tr style="text-align:left">
@@ -449,7 +449,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Detect Undead (C1 Divi): 60' cone reveals undead and their strengths for concentration up to 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Dictum (C7 Evoc): Nonlawful creatures within 40' with 17/16/12/7 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/slowed for 2d4 rd/staggered for 2d4 rd/paralyzed for 1d10 min/killed</td>
+      <td>Dictum (C7 Evoc): Nonlawful creatures within 40' with up to 17, 16, 12, and 7 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd, are slowed for 2d4 rd, suffer paralysis for 1d10 min, and are killed</td>
     </tr><tr style="text-align:left">
       <td>Dimensional Anchor (C4 Abju): R270' Ranged touch bars extradimensional travel for 17 min</td>
     </tr><tr style="text-align:left">
@@ -461,15 +461,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Dismissal (C4 Abju): R65' Sends the target to its native plane or (20%) to another random plane (save Will + 17 - target HD negates)</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Chaos (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. chaotic creatures for 17 rd; can end the spell early to dismiss a chaotic creature (save Will negates) or spell via touch</td>
+      <td>Dispel Chaos (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. chaotic creatures for 17 rd; can end the spell early with a touch that dismisses a chaotic creature (save Will negates), a chaotic spell, or a spell cast by a chaotic caster</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Evil (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. evil creatures for 17 rd; can end the spell early to dismiss an evil creature (save Will negates) or spell via touch</td>
+      <td>Dispel Evil (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. evil creatures for 17 rd; can end the spell early with a touch that dismisses an evil creature (save Will negates), an evil spell, or a spell cast by an evil caster</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Good (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. good creatures for 17 rd; can end the spell early to dismiss a good creature (save Will negates) or spell via touch</td>
+      <td>Dispel Good (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. good creatures for 17 rd; can end the spell early with a touch that dismisses a good creature (save Will negates), a good spell, or a spell cast by a good caster</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Law (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. lawful creatures for 17 rd; can end the spell early to dismiss a lawful creature (save Will negates) or spell via touch</td>
+      <td>Dispel Law (C5 Abju): Gives self a +4 deflection bonus to Armor Class vs. lawful creatures for 17 rd; can end the spell early with a touch that dismisses a lawful creature (save Will negates), a lawful spell, or a spell cast by a lawful caster</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (C3 Abju): R270' Successful d20+10 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Dispel Magic (C3 Abju): R270' Successful caster level check (+10 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Disrupting Weapon (C5 Tran): Hits with the touched weapon destroy undead with up to 17 HD (save Will negates) for 17 rd</td>
     </tr><tr style="text-align:left">
@@ -485,11 +485,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Earthquake (C8 Evoc): R1080' Intense tremor shakes an 80' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures that inflict 8d6 HP (save Reflex DC 15 half) and pin creatures in the rubble, knocking down creatures on open ground (save Reflex DC 15 negates) and opening fissures with a 25% chance to fall in (save Reflex DC 20 negates)</td>
     </tr><tr style="text-align:left">
-      <td>Endure Elements (C1 Abju): Touched remains comfortable between -50F and 140F for 1 day</td>
+      <td>Endure Elements (C1 Abju): Touched remains comfortable between -50F and 140F for 24 hr</td>
     </tr><tr style="text-align:left">
       <td>Energy Drain (C9 Necr): R65' Ranged touch inflicts 2d4 negative levels (save Fortitude for each level after 24 hr negates; failure makes the loss permanent); an undead target instead gains 2d4x5 temporary hit points for 1 hr</td>
     </tr><tr style="text-align:left">
-      <td>Enthrall (C2 Ench): R270' Captivates listeners (save Will (DC +1) negates) for concentration up to 1 hr</td>
+      <td>Enthrall (C2 Ench): R270' Captivates listeners (save Will (DC +1) negates) for concentration up to 1 hr plus 1d3 rd; attacking an enthralled creature ends the spell for all, and creatures who save can attempt a Charisma check to end it for others</td>
     </tr><tr style="text-align:left">
       <td>Entropic Shield (C1 Abju): Ranged attacks on self suffer a 20% miss chance for 17 min</td>
     </tr><tr style="text-align:left">
@@ -503,11 +503,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Fire Storm (C8 Evoc): R270' 340 cubic foot area inflicts 17d6 HP fire (save Reflex half)</td>
     </tr><tr style="text-align:left">
-      <td>Flame Strike (C5 Evoc): R270' 10' radius, 40' high cylinder inflicts 15d6 HP fire (save Reflex half)</td>
+      <td>Flame Strike (C5 Evoc): R270' 10' radius, 40' high cylinder inflicts 15d6 HP (save Reflex half), half fire and half divine power</td>
     </tr><tr style="text-align:left">
-      <td>Forbiddance (C6 Abju): R270' 1020 cubic foot area bars planar travel and inflicts 6d6 HP or 12d6 HP on creatures who enter if their alignments differ in 1 or 2 dimensions</td>
+      <td>Forbiddance (C6 Abju): R270' 1020 cubic foot area bars planar travel and inflicts 6d6 HP or 12d6 HP (save Will half; password negates) on creatures who enter if their alignments differ in 1 or 2 dimensions</td>
     </tr><tr style="text-align:left">
-      <td>Freedom Of Movement (C4 Abju): Allows touched to ignore movement impediments for 170 min</td>
+      <td>Freedom Of Movement (C4 Abju): Allows touched to ignore movement impediments, escape grapples, and move normally when underwater, for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Gate (C9 Conj): R270' Creates a 5'-20' diameter disk passage to another plane for concentration up to 17 rd, or, at the cost of 1000 XP, allows summoning extraplanar creatures—a named creature, a single creature of a named kind, or up to 34 HD of a named kind</td>
     </tr><tr style="text-align:left">
@@ -521,7 +521,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Greater Command (C5 Ench): R65' 17 targets in a 15' radius obey a command to approach, drop, fall, flee, or halt (save Will (DC +1) negates; additional saves each rd end) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Greater Dispel Magic (C6 Abju): R270' Successful d20+17 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Greater Dispel Magic (C6 Abju): R270' Successful caster level check (+20 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Greater Glyph Of Warding (C6 Abju): Creatures with specified characteristics who enter a 85 square foot area trigger a blast that inflicts 8d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5' radius (save Reflex half; password negates) or a harmful spell of up to 6th level</td>
     </tr><tr style="text-align:left">
@@ -537,13 +537,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Guidance (C0 Divi): Touched gains +1 on an attack, save, or skill check within 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Hallow (C5 Evoc): 40' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. evil, suppresses mental control, prevents possession, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year</td>
+      <td>Hallow (C5 Evoc): 40' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. evil, suppresses of existing mental control and possession, gives immunity to new attempts to control or possess, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year</td>
     </tr><tr style="text-align:left">
-      <td>Harm (C6 Necr): Touch inflicts 150 HP (save Will half); undead instead regain the same amount</td>
+      <td>Harm (C6 Necr): Touch inflicts 150 HP (save Will half), leaving the target with at least 1 hit point; undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
       <td>Heal (C6 Conj): Touched regains 150 hit points and recovers from negative conditions; undead instead suffer the same amount (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Helping Hand (C3 Evoc): Creates a ghostly hand that leads a described target found within 5 miles to self for 4 hr</td>
+      <td>Helping Hand (C3 Evoc): Creates a ghostly hand that leads a described target found within 5 miles to self for 17 hr</td>
     </tr><tr style="text-align:left">
       <td>Heroes' Feast (C6 Conj): R65' Creates food for 17 creatures that cures sickness and disease and gives 1d8+8 temporary hit points, +1 attacks and Will saves, and immunity to poison and fear for 12 hr</td>
     </tr><tr style="text-align:left">
@@ -551,9 +551,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Hold Person (C2 Ench): R270' Paralyzes the humanoid target (save Will (DC +1) negates; additional saves each rd end) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Aura (C8 Abju): 17 creatures within 20' gain a +4 deflection bonus to Armor Class, +4 saves, and SR 25 vs. evil spells and casters, suppress mental control, and blind successful evil attackers (save Fortitude negates) for 17 rd</td>
+      <td>Holy Aura (C8 Abju): 17 creatures within 20' blind successful evil attackers (save Fortitude negates) and gain a +4 deflection bonus to Armor Class, +4 saves, SR 25 vs. evil spells and casters, suppression of existing mental control or possession, and immunity to new attempts to control or possess, for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Holy Word (C7 Evoc): Nongood creatures within 40' with 17/16/12/7 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/blinded for 2d4 rd/paralyzed for 1d10 min/killed</td>
+      <td>Holy Word (C7 Evoc): Nongood creatures within 40' with 17, 16, 12, and 7 HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd, blinded for 2d4 rd, paralyzed for 1d10 min, and killed</td>
     </tr><tr style="text-align:left">
       <td>Imbue With Spell Ability (C4 Evoc): Touched with an Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD gains the ability to cast chosen 1st, 2x1st, or 2x1st+2nd level spells from self prepared abjuration, divination, or healing spells; the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed</td>
     </tr><tr style="text-align:left">
@@ -571,7 +571,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Insect Plague (C5 Conj): R1080' 5 locust swarms inflict 2d6 HP for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Invisibility Purge (C3 Evoc): Invisible objects and creatures within 85' become visible for 17 min</td>
+      <td>Invisibility Purge (C3 Evoc): Makes invisible objects and creatures within 85' visible for 17 min</td>
     </tr><tr style="text-align:left">
       <td>Lesser Planar Ally (C4 Conj): Allows negotiating the purchase of a service from an extraplanar creature with up to 6 HD</td>
     </tr><tr style="text-align:left">

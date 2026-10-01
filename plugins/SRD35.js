@@ -2224,7 +2224,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D7,Plant7 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl//3} Large plant targets attack foes for %{lvl} rd or entwine% for %{lvl} hr; larger plants reduce the number affected by half for each size level"',
+      '"R%{25+lvl//2*5}\' %{lvl//3} Large plant targets attack foes for %{lvl} rd or entwine for %{lvl} hr; larger plants reduce the number affected by half for each size level"',
   'Animate Rope':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
@@ -2345,6 +2345,7 @@ SRD35.SPELLS = {
     'Level=C6,Good6,War6 ' +
     'Description=' +
       '"R%{100+lvl*10}\' %{lvl*20}\' blade wall provides cover and inflicts %{lvl<?15}d6 HP initially (save Reflex negates) and each rd (save Reflex half) for %{lvl} min"',
+  // TODO: awkward phrasing
   'Blasphemy':
     'School="Evocation [Evil,Sonic]" ' +
     'Level=C7,Evil7 ' +
@@ -2480,7 +2481,7 @@ SRD35.SPELLS = {
     'School="Transmutation [Cold]" ' +
     'Level=D2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP cold over 7 rd on %{lvl>3?lvl//2+\\" targets in a 15\' radius\\":\'the target\'} (save Will negates) over 7 rd; a target not in possession of metal instead takes 1 or 2 HP cold in the second through sixth rd"',
+      '"R%{25+lvl//2*5}\' Inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP cold over 7 rd on %{lvl>3?lvl//2+\\" targets in a 15\' radius\\":\'the target\'} (save Will negates); a target not in possession of metal instead takes 1 or 2 HP cold in the second through sixth rd"',
   'Chill Touch':
     'School=Necromancy ' +
     'Level=S1,W1 ' +
@@ -2500,7 +2501,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=Strength8,S8,W8 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +15 bull rush and a +%{lvl+11+mdf} melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for %{lvl} rd"',
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +15 Bull Rush and a +%{lvl+11} + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for %{lvl} rd"',
   'Cloak Of Chaos':
     'School="Abjuration [Chaotic]" ' +
     'Level=C8,Chaos8 ' +
@@ -2656,7 +2657,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=Strength9,S9,W9 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +%{lvl+16+mdf} Grapple that inflicts 2d6+12 HP for %{lvl} rd"',
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +%{lvl+16} + modifier Grapple that inflicts 2d6+12 HP for %{lvl} rd"',
   'Cure Critical Wounds':
     'School="Conjuration (Healing)" ' +
     'Level=Adept4,B4,Blackguard4,C4,D5,Healing4 ' +
@@ -2854,6 +2855,7 @@ SRD35.SPELLS = {
     'Level=C1,P1,S1,W1 ' +
     'Description=' +
       '"60\' cone reveals undead and their strengths for concentration up to %{lvl} min"',
+  // TODO: awkward phrasing
   'Dictum':
     'School="Evocation [Lawful,Sonic]" ' +
     'Level=C7,Law7 ' +
@@ -2928,12 +2930,12 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=B3,C3,D4,Magic3,P3,S3,W3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Successful +%{lvl<?10} check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
+      '"R%{100+lvl*10}\' Successful caster level check (+10 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
   'Greater Dispel Magic':
     'School=Abjuration ' +
     'Level=B5,C6,D6,S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Successful +%{lvl<?20} check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
+      '"R%{100+lvl*10}\' Successful caster level check (+20 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
   'Displacement':
     'School="Illusion (Glamer)" ' +
     'Level=B3,S3,W3 ' +
@@ -3045,7 +3047,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Charm) [Language-Dependent,Mind-Affecting,Sonic]" ' +
     'Level=B2,C2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Captivates listeners (save Will negates) for concentration up to 1 hr plus 1d3 rd; attacking an enthralled creature ends the spell for all, and creature who save can attempt a Charisma check to end it"',
+      '"R%{100+lvl*10}\' Captivates listeners (save Will negates) for concentration up to 1 hr plus 1d3 rd; attacking an enthralled creature ends the spell for all, and creatures who save can attempt a Charisma check to end it for others"',
   'Entropic Shield':
     'School=Abjuration ' +
     'Level=C1,Luck1 ' +
@@ -3055,7 +3057,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Two pages of writing vanish; magical writing requires a successful DC 15 +%{lvl} caster check"',
+      '"R%{25+lvl//2*5}\' Two pages of writing vanish; magical writing requires a successful DC 15 caster level check"',
   'Ethereal Jaunt':
     'School=Transmutation ' +
     'Level=C7,S7,W7 ' +
@@ -3067,7 +3069,7 @@ SRD35.SPELLS = {
   'Expeditious Retreat':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
-    'Description="Gives self +30\' land Speed for %{lvl} min"',
+    'Description="Gives self a +30\' land Speed for %{lvl} min"',
   'Explosive Runes':
     'School="Abjuration [Force]" ' +
     'Level=S3,W3 ' +
@@ -3333,7 +3335,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=Strength7,S7,W7 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +16 Bull Rush and +%{lvl+14+mdf} Grapple for %{lvl} rd"',
+      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +16 Bull Rush and +%{lvl+14} + modifier Grapple for %{lvl} rd"',
   'Grease':
     'School="Conjuration (Creation)" ' +
     'Level=B1,S1,W1 ' +
@@ -3400,7 +3402,7 @@ SRD35.SPELLS = {
     'School="Transmutation [Fire]" ' +
     'Level=D2,Sun2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP fire over 7 rd on %{lvl>3?lvl//2+\\" targets in a 15\' radius\\":\'the target\'} (save Will negates) over 7 rd; a target not in possession of metal instead takes 1 or 2 HP fire in the second through sixth rd"',
+      '"R%{25+lvl//2*5}\' Inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP fire over 7 rd on %{lvl>3?lvl//2+\\" targets in a 15\' radius\\":\'the target\'} (save Will negates); a target not in possession of metal instead takes 1 or 2 HP fire in the second through sixth rd"',
   'Helping Hand':
     'School=Evocation ' +
     'Level=C3 ' +
@@ -3483,7 +3485,8 @@ SRD35.SPELLS = {
     'School="Evocation [Good]" ' +
     'Level=P4 ' +
     'Description=' +
-      '"Touched weapon gains +5 attacks and damage and an additional +2d6 HP vs. evil foes, gives a +2 deflection bonus to Armor Class, +2 saves, suppresses mental control or possession and negates new attempts to control or possess, and bars contact by summoned evil creatures for %{lvl} rd"',
+      '"Touched weapon gains +5 attacks and damage and an additional +2d6 HP vs. evil foes, gives a +2 deflection bonus to Armor Class, +2 saves, suppresses mental control and possession and negates new attempts to control or possess, and bars contact by summoned evil creatures for %{lvl} rd"',
+  // TODO: awkward phrasing
   'Holy Word':
     'School="Evocation [Good,Sonic]" ' +
     'Level=C7,Good7 ' +
@@ -3638,7 +3641,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Earth8,S8,W8 ' +
     'Description=' +
-      '"Self becomes living iron, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d%{size==\'Small\'?4:6} HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulerability to special attacks that affect iron golems, for %{lvl} min"',
+      '"Self becomes living iron for %{lvl} min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d%{size==\'Small\'?4:6} HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulerability to special attacks that affect iron golems"',
   'Ironwood':
     'School=Transmutation ' +
     'Level=D6 ' +

@@ -310,7 +310,7 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Spells</b>:<br/>    <table id="Spells" style="width:100%">
     <tr style="text-align:left">
-      <td>Air Walk (D4 Tran): Touched can walk on air for 170 min, then floats downward 60' per rd for 1d6 rd; winds of over 20 MPH push the target 5' per 5 MPH</td>
+      <td>Air Walk (D4 Tran): Touched can walk on air for 170 min, then floats downward 60' per rd for 1d6 rd; winds of over 20 MPH push the target 5' per 5 MPH; training a mount to <i>Air Walk</i> requires a week of work and a DC 25 Handle Animal check</td>
     </tr><tr style="text-align:left">
       <td>Animal Growth (D5 Tran): R270' 8 animal targets in a 15' radius double in size (save Fortitude negates), gaining +8 Strength, +4 Constitution, +2 natural armor, DR 10/magic, and +4 saves and suffering -2 Dexterity for 17 min</td>
     </tr><tr style="text-align:left">
@@ -318,7 +318,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Animal Shapes (D8 Tran): R65' 17 willing targets in a 15' radius become a chosen animal with up to 17 HD for 17 hr</td>
     </tr><tr style="text-align:left">
-      <td>Animal Trance (D2 Ench): R65' 2d6 HD of animals sit unmoving (save Will for trained, dire, or magical animals negates) for concentration</td>
+      <td>Animal Trance (D2 Ench): R65' 2d6 HD of animals with Intelligence 1 or 2 sit unmoving (save Will for trained, dire, or magical animals negates) for concentration</td>
     </tr><tr style="text-align:left">
       <td>Animate Plants (D7 Tran): R65' 5 Large plant targets attack foes for 17 rd or entwine for 17 hr; larger plants reduce the number affected by half for each size level</td>
     </tr><tr style="text-align:left">
@@ -332,9 +332,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Awaken (D5 Tran): Successful DC 10 + target HD Will save gives a touched animal or tree human sentience and makes it friendly; awakened animals have 3d6 Intelligence, +1d3 Charisma, and +2 HD, and awakened trees have 3d6 Intelligence, Wisdom, and Charisma</td>
     </tr><tr style="text-align:left">
-      <td>Baleful Polymorph (D5 Tran): R65' Changes the target into a chosen 1 HD creature (save Fortitude negates; Will after 24 hr allows retaining HD and memories)</td>
+      <td>Baleful Polymorph (D5 Tran): R65' Changes the target into a chosen 1 HD creature (save Fortitude negates; Will 24 hr after a failure allows retaining HD and memories)</td>
     </tr><tr style="text-align:left">
-      <td>Barkskin (D2 Tran): Touched gains +5 natural armor for 170 min</td>
+      <td>Barkskin (D2 Tran): Touched gains a +5 natural armor enhancement bonus to Armor Class for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Bear's Endurance (D2 Tran): Touched gains +4 Constitution for 17 min</td>
     </tr><tr style="text-align:left">
@@ -354,7 +354,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Charm Animal (D1 Ench): R65' Target animal treats self as a trusted friend (save Will negates; +5 if being threatened) for 17 hr</td>
     </tr><tr style="text-align:left">
-      <td>Chill Metal (D2 Tran): R65' Metal on 8 creatures in a 15' radius inflicts 0/1d4/2d4/2d4/2d4/1d4/0 HP cold (save Will negates) over 7 rd</td>
+      <td>Chill Metal (D2 Tran): R65' Inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP cold over 7 rd on 8 targets in a 15' radius (save Will negates); a target not in possession of metal instead takes 1 or 2 HP cold in the second through sixth rd</td>
     </tr><tr style="text-align:left">
       <td>Command Plants (D4 Tran): R65' 34 HD of plant creatures in a 15' radius consider self as a friend (save Will negates) for 17 days, obeying commands only with successful opposed Charisma checks</td>
     </tr><tr style="text-align:left">
@@ -400,7 +400,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Diminish Plants (D3 Tran): Prunes normal vegetation in a 1080' radius or stunts the growth of normal plants in a 1/2 mile radius for 1 year</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (D4 Abju): R270' Successful d20+10 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Dispel Magic (D4 Abju): R270' Successful caster level check (+10 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Dominate Animal (D3 Ench): R65' Target animal obeys mental commands (save Will negates) for 17 rd</td>
     </tr><tr style="text-align:left">
@@ -408,9 +408,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Elemental Swarm (D9 Conj): R270' Summons at 10-min intervals from a chosen elemental plane a series of obedient elementals: 2d4 large; 1d4 huge; 1 greater, for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Endure Elements (D1 Abju): Touched remains comfortable between -50F and 140F for 1 day</td>
+      <td>Endure Elements (D1 Abju): Touched remains comfortable between -50F and 140F for 24 hr</td>
     </tr><tr style="text-align:left">
-      <td>Entangle (D1 Tran): R1080' 40' radius entangles creatures (save Reflex inflicts half Speed; DC 20 Strength or Escape Artist ends) for 17 min</td>
+      <td>Entangle (D1 Tran): R1080' 40' radius entangles creatures (save Reflex inflicts half Speed; DC 20 Strength or Escape Artist breaks an entanglement) for 17 min</td>
     </tr><tr style="text-align:left">
       <td>Faerie Fire (D1 Evoc): R1080' Creatures in a 5' radius glow for 17 min, negating concealment from darkness, blurring, displacement, and invisibility</td>
     </tr><tr style="text-align:left">
@@ -418,31 +418,31 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Finger Of Death (D8 Necr): R65' Slays the target (save Fortitude inflicts 3d6+17 HP)</td>
     </tr><tr style="text-align:left">
-      <td>Fire Seeds (D6 Conj): Changes 4 touched acorns into grenades that inflict 17d6 HP fire in total, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+17 HP fire in a 5' radius each (save Reflex (DC +1) half), for 170 min</td>
+      <td>Fire Seeds (D6 Conj): Changes 4 touched acorns into grenades that can be thrown up to 100' for ranged touch attacks that inflict 17d6 HP fire in total, plus 1 HP of splash per die, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+17 HP fire in a 5' radius each (save Reflex (DC +1) half), for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Fire Storm (D7 Evoc): R270' 340 cubic foot area inflicts 17d6 HP fire (save Reflex half)</td>
     </tr><tr style="text-align:left">
-      <td>Fire Trap (D2 Abju): Touched object inflicts 1d4+17 HP fire in a 5' radius (save Reflex half) when opened</td>
+      <td>Fire Trap (D2 Abju): Touched object inflicts 1d4+17 HP fire in a 5' radius (save Reflex half) when opened by an unauthorized creature</td>
     </tr><tr style="text-align:left">
       <td>Flame Blade (D2 Evoc): Melee touch attacks with a conjured weapon inflict 1d8+8 HP fire for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Flame Strike (D4 Evoc): R270' 10' radius, 40' high cylinder inflicts 15d6 HP fire (save Reflex half)</td>
+      <td>Flame Strike (D4 Evoc): R270' 10' radius, 40' high cylinder inflicts 15d6 HP (save Reflex half), half fire and half divine power</td>
     </tr><tr style="text-align:left">
       <td>Flaming Sphere (D2 Evoc): R270' 5' diameter sphere inflicts 2d6 HP fire (save Reflex negates) for 17 rd; can be directed to jump 30' and move 30' per rd</td>
     </tr><tr style="text-align:left">
       <td>Flare (D0 Evoc): R65' Dazzles the target (save Fortitude negates) for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Fog Cloud (D2 Conj): R270' 20' radius fog obscures vision for 170 min</td>
+      <td>Fog Cloud (D2 Conj): R270' 20' radius fog obscures vision, giving a 20% miss chance on attacks within 5' and a 50% miss chance on more distant attacks, for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Foresight (D9 Divi): Self receives warnings of impending danger to touched for 170 min; casting on self also gives a +2 insight bonus to Armor Class and negates surprise and flat-footed</td>
+      <td>Foresight (D9 Divi): Self receives warnings of impending danger to touched for 170 min; casting on self also gives a +2 insight bonus to Armor Class and Reflex saves and negates surprise and flat-footed</td>
     </tr><tr style="text-align:left">
-      <td>Freedom Of Movement (D4 Abju): Allows touched to ignore movement impediments for 170 min</td>
+      <td>Freedom Of Movement (D4 Abju): Allows touched to ignore movement impediments, escape grapples, and move normally when underwater, for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Giant Vermin (D4 Tran): R65' 3 centipedes, 2 spiders, or 1 scorpion in a 15' radius grow to Huge size and obey simple commands for 17 min</td>
     </tr><tr style="text-align:left">
       <td>Goodberry (D1 Tran): 2d4 target berries each provide a full meal and restore 1 hit point for 17 days</td>
     </tr><tr style="text-align:left">
-      <td>Greater Dispel Magic (D6 Abju): R270' Successful d20+17 check vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Greater Dispel Magic (D6 Abju): R270' Successful caster level check (+20 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Greater Magic Fang (D3 Tran): R65' target gains +4 attacks and damage when using a specified magic weapon, or +1 attacks and damage when using any natural weapon, for 17 hr</td>
     </tr><tr style="text-align:left">
@@ -452,21 +452,21 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Gust Of Wind (D2 Evoc): Creates a 60' line of wind for 1 rd that moves objects, extinguishes unprotected flames, knocks down Small and smaller creatures, and halts Medium ones; Tiny creatures are also pushed 1d4x10', suffering 1d4 HP nonlethal per 10'; flying Medium, Small, or Tiny creatures are instead pushed 1d6x5', 1d6x10', or 2d6x10', with Tiny flying creatures also suffering 2d6 HP nonlethal (save Fortitude negates)</td>
     </tr><tr style="text-align:left">
-      <td>Hallow (D5 Evoc): 40' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. evil, suppresses mental control, prevents possession, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year</td>
+      <td>Hallow (D5 Evoc): 40' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. evil, suppresses of existing mental control and possession, gives immunity to new attempts to control or possess, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year</td>
     </tr><tr style="text-align:left">
       <td>Heal (D7 Conj): Touched regains 150 hit points and recovers from negative conditions; undead instead suffer the same amount (save Will (DC +1) negates)</td>
     </tr><tr style="text-align:left">
-      <td>Heat Metal (D2 Tran): R65' Metal on 8 creatures in a 15' radius inflicts 0/1d4/2d4/2d4/2d4/1d4/0 HP (save Will for magical metal negates) for 7 rd</td>
+      <td>Heat Metal (D2 Tran): R65' Inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP fire over 7 rd on 8 targets in a 15' radius (save Will negates); a target not in possession of metal instead takes 1 or 2 HP fire in the second through sixth rd</td>
     </tr><tr style="text-align:left">
-      <td>Hide From Animals (D1 Abju): 17 touched become imperceptible to animals for 170 min</td>
+      <td>Hide From Animals (D1 Abju): 17 touched become imperceptible to animals for 170 min; attacking any creature ends the spell for all</td>
     </tr><tr style="text-align:left">
       <td>Hold Animal (D2 Ench): R270' Paralyzes the animal target (save Will negates; additional saves each rd end) for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Ice Storm (D4 Evoc): R1080' Hail in a 20'-radius, 40'-high cylinder inflicts 3d6 HP bludgeoning, 2d6 HP cold, -4 Listen, and half Speed for 17 rd</td>
+      <td>Ice Storm (D4 Evoc): R1080' Hail in a 20'-radius, 40'-high cylinder inflicts 3d6 HP bludgeoning and 2d6 HP cold for 1 rd, then -4 Listen and half Speed for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Insect Plague (D5 Conj): R1080' 5 locust swarms inflict 2d6 HP for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Ironwood (D6 Tran): Makes a 85 lb wood object as strong as steel, or a 42 lb object as strong as steel and +1 magic, for 17 days</td>
+      <td>Ironwood (D6 Tran): Makes a 85 lb wooden object as strong as steel, or a 42 lb object as strong as steel and +1 magic, for 17 days</td>
     </tr><tr style="text-align:left">
       <td>Jump (D1 Tran): Touched gains +30 Jump checks for 17 min</td>
     </tr><tr style="text-align:left">
