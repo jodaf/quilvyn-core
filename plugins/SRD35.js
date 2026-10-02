@@ -6750,7 +6750,7 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
         console.log('Bad level "' + gl + '" for spell ' + name);
       } else {
         let group = matchInfo[1];
-        let level = matchInfo[2] * 1;
+        let level = +matchInfo[2];
         let fullName = name + '(' + group + level + ' ' + schoolAbbr + ')';
         // If classes have already been processed, then domains will be listed
         // in Cleric selectable features; otherwise, look in SRD35.CLASSES
@@ -7169,7 +7169,7 @@ SRD35.classRules = function(
         console.log('Bad format for spell slot "' + s + '"');
         continue;
       }
-      let spellLevel = matchInfo[2] * 1;
+      let spellLevel = +matchInfo[2];
       let spellType = matchInfo[1];
       if(spellType != name)
         rules.defineRule
@@ -7208,7 +7208,7 @@ SRD35.classRules = function(
       // spellRules) with the minimum needed to cast the spell.
       let casterLevelPat = new RegExp('casterLevels.' + spellType + '\\b', 'g');
       let itemLevelPat = new RegExp('\\([A-Za-z ]*' + spellLevel + ' ');
-      let minLevel = (s.match(/:\s*\d+@(\d+)/) || s.match(/:\s*(\d+)=/))[1] * 1;
+      let minLevel = (s.match(/:\s*\d+@(\d+)/) || +s.match(/:\s*(\d+)=/))[1];
       let formats = rules.getChoices('notes');
       for(let p in rules.getChoices('potions')) {
         if(formats['potions.' + p].match(casterLevelPat) &&
@@ -9275,6 +9275,7 @@ SRD35.spellRules = function(
   // Translate deprecated interpolation format
   // ${?L\d*((div|max|min|minus|plus|times)\d+)*}?
   // into %{} notation
+  // TODO: backwards compatibility - remove
   let interpolations = description.match(/\$(\w+|\{[^}]+\})/g);
   if(interpolations) {
     for(let i = 0; i < interpolations.length; i++) {
@@ -9678,7 +9679,7 @@ SRD35.featureSpells = function(
   spellList.forEach(spellNames => {
     let minLevel = 1;
     if(spellNames.match(/^\d+:/)) {
-      minLevel = spellNames.split(':')[0] - 0;
+      minLevel = +spellNames.split(':')[0];
       spellNames = spellNames.split(':')[1];
     }
     spellNames.split(',').forEach(name => {
@@ -9692,7 +9693,7 @@ SRD35.featureSpells = function(
         // Spell level can vary for different classes, and we don't have the
         // info here to determine which is correct. At this point, we just use
         // whichever level appears most often in the original spell definition.
-        let spellLevels = spells.map(x => x.match(/\(\D+(\d)/)[1] - 0);
+        let spellLevels = spells.map(x => +x.match(/\(\D+(\d)/)[1]);
         // Clever mode method from https://stackoverflow.com/questions/1053843/get-the-element-with-the-highest-occurrence-in-an-array
         let spellLevel =
           spellLevels.sort((a,b) =>
@@ -10365,8 +10366,8 @@ SRD35.choiceEditorElements = function(rules, type) {
        ['Unarmed', 'Light', 'One-Handed', 'Two-Handed', 'Ranged']],
       ['Damage', 'Damage', 'select-one',
        QuilvynUtils.getKeys(SRD35.LARGE_DAMAGE).sort((a,b) => {
-         let aCount = a.charAt(0) != 'd' ? a.charAt(0) - 0 : 1;
-         let bCount = b.charAt(0) != 'd' ? b.charAt(0) - 0 : 1;
+         let aCount = a.charAt(0) != 'd' ? +a.charAt(0) : 1;
+         let bCount = b.charAt(0) != 'd' ? +b.charAt(0) : 1;
          let aFaces = a.split('d')[1];
          let bFaces = b.split('d')[1];
          return a=='None' ? -1 :
@@ -11042,10 +11043,10 @@ SRD35.makeValid = function(attributes) {
             targetValue = applied[targetValue];
           if(targetOp == '>') {
             targetOp = '>=';
-            targetValue = targetValue * 1 + 1;
+            targetValue = +targetValue + 1;
           } else if(targetOp == '<') {
             targetOp = '<=';
-            targetValue = targetValue * 1 - 1;
+            targetValue = +targetValue - 1;
           }
 
           // Allow features to come from, e.g. class as well as feats
