@@ -2517,6 +2517,7 @@ SRD35.SPELLS = {
     'Level=S5,W5 ' +
     'Description=' +
       '"R%{100+lvl*10}\' 20\' fog cylinder moves away 10\' per rd, killing creatures within with up to 6 HD (save Fortitude for those with 4-6 HD inflicts -1d4 Constitution) and inflicting -1d4 Constitution on those with more HD (save Fortitude half) for %{lvl} min"',
+  // TODO: awkward phrasing
   'Color Spray':
     'School="Illusion (Pattern) [Mind-Affecting]" ' +
     'Level=S1,W1 ' +
@@ -2749,7 +2750,7 @@ SRD35.SPELLS = {
     'School="Necromancy [Death,Evil]" ' +
     'Level=Blackguard2,C2,Death2 ' +
     'Description=' +
-      '"Touched creature with negative hit points dies, giving self 1d8 temporary hit points, +2 Strength, and +1 caster level for 10 min per target HD (save Will negates)"',
+      '"Touched creature with negative hit points dies (save Will negates), giving self 1d8 temporary hit points, +2 Strength, and +1 caster level for 10 min per target HD"',
   'Death Ward':
     'School=Necromancy ' +
     'Level=C4,D5,Death4,P4 ' +
@@ -2759,7 +2760,7 @@ SRD35.SPELLS = {
     'School="Necromancy [Evil]" ' +
     'Level=C1 ' +
     'Description=' +
-      '"30\' cone reveals whether creatures are dead, alive with up to 3 or more than 3 hit points, undead, or animated, for %{lvl*10} min"',
+      '"30\' cone reveals whether creatures are dead, alive with up to 3 hit points, alive with more than 3 hit points, undead, or animated, for %{lvl*10} min"',
   'Deep Slumber':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=Assassin3,B3,S3,W3 ' +
@@ -2834,7 +2835,7 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=B4,S4,W4 ' +
     'Description=' +
-      '"R40\' Reveals scrying attempts for 24 hr; shows the source of scrying from within 40\' or with a successful opposed caster check"',
+      '"R40\' Reveals scrying attempts for 24 hr; shows the source of scrying from within 40\' or with a successful opposed caster level check"',
   'Detect Secret Doors':
     'School=Divination ' +
     'Level=B1,Knowledge1,S1,W1 ' +
@@ -2975,7 +2976,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=S9,W9 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target creature obeys mental commands (save Will negates) for %{lvl} rd"',
+      '"R%{25+lvl//2*5}\' Target creature obeys mental commands (save Will negates) for %{lvl} days"',
   'Dominate Person':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B4,S5,W5 ' +
@@ -3075,6 +3076,7 @@ SRD35.SPELLS = {
     'Level=S3,W3 ' +
     'Description=' +
       '"Runes inflict 6d6 HP force in a 10\' radius when read by an unauthorized person (save Reflex half; adjacent creatures automatically fail)"',
+  // TODO: awkward phrasing
   'Eyebite':
     'School="Necromancy [Evil]" ' +
     'Level=B6,S6,W6 ' +
@@ -3542,7 +3544,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=S9,W9 ' +
     'Description=' +
-      '"Entombs touched deep within the ground (save Will negates; familiar creatures -4), locatable only via <i>Discern Location</i> or <i>Wish</i>, until a <i>Freedom</i> spell is cast in the same locale"',
+      '"Entombs touched deep within the ground (save Will negates; familiar creatures have a -4 penalty on the save), locatable only via <i>Discern Location</i> or <i>Wish</i>, until a <i>Freedom</i> spell is cast in the same locale"',
   'Incendiary Cloud':
     'School="Conjuration (Creation) [Fire]" ' +
     'Level=Fire8,S8,W8 ' +
@@ -9306,7 +9308,7 @@ SRD35.spellRules = function(
   let dc;
   // minDC = 10 + modifier for min ability score required for this level spell
   let minDC = 10 + Math.floor(level / 2);
-  while((dc = description.match(/(.save Fortitude\s|Reflex\s|Will\s)([^%])/)) != null) {
+  while((dc = description.match(/(.save Fortitude\s|.save Reflex\s|.save Will\s)([^%])/)) != null) {
     expr = school ? school.includes(' ') ? '$"spellDCSchoolBonus.' + school + '"' : 'spellDCSchoolBonus.' + school : '0';
     expr = expr + '?"(DC +"+' + expr + '+") ":""';
     description = description.replace(dc[0], dc[1] + '%{' + expr + '}' + dc[2]);
