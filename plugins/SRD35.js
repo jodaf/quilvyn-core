@@ -2142,7 +2142,6 @@ SRD35.SKILLS = {
     'Ability=Dexterity Untrained=true Class=Ranger,Rogue ' +
     'Synergy="Climb (rope)","Escape Artist (rope)"'
 };
-// TODO recheck Liquids
 SRD35.SPELLS = {
 
   'Acid Arrow':
@@ -3741,7 +3740,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Magic9,S9,W9 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' 40\' radius dispels spells and spell-like effects, disenchants magic items, and gives a %{lvl}% chance to destroy antimagic fields and disenchant artifacts (save Will negates); disenchanting an artifact permanently strips self spellcasting abilities (save Will DC 25 negates)"',
+      '"R%{25+lvl//2*5}\' 40\' radius dispels spells and spell-like effects, disenchants magic items (save Will negates), and gives a %{lvl}% chance to destroy antimagic fields and disenchant artifacts; disenchanting an artifact permanently strips self spellcasting abilities (save Will DC 25 negates)"',
   "Mage's Faithful Hound":
     'School="Conjuration (Creation)" ' +
     'Level=S5,W5 ' +
@@ -3766,35 +3765,35 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=S7,W7 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Unattended force makes +%{lvl+3}+modifier attacks that inflict 4d6+3 HP force (potential critical on a 19) on a designated foe for %{lvl} rd; can use standard actions to change its target"',
+      '"R%{25+lvl//2*5}\' Unattended force makes +%{lvl+3}+modifier attacks that inflict 4d6+3 HP force x2@19 on a designated foe for %{lvl} rd; the first attack on a target is subject to SR, and the spell ends if the attack fails to overcome it; can use standard actions to change its target"',
   'Magic Aura':
     'School="Illusion (Glamer)" ' +
     'Level=B1,Magic1,S1,W1 ' +
     'Description=' +
-      '"Alters the magical aura of an object weighing up to %{lvl*5} lb for %{lvl} days"',
+      '"Alters the magical aura of an object weighing up to %{lvl*5} lb for %{lvl} days; <i>Identify</i> reveals the false aura"',
   'Magic Circle Against Chaos':
     'School="Abjuration [Lawful]" ' +
     'Level=C3,Law3,P3,S3,W3 ' +
     'Description=' +
-      '"10\' radius from touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. chaotic creatures, suppresses mental control, prevents possession, and bars contact and entry by nonlawful summoned creatures (SR negates) for %{lvl*10} min or traps a nonlawful summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
+      '"10\' radius around touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. chaotic creatures, suppresses mental control, prevents possession, and bars contact and entry by nonlawful summoned creatures (SR negates) for %{lvl*10} min or traps a nonlawful summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Evil':
     'School="Abjuration [Good]" ' +
     'Level=C3,Good3,P3,S3,W3 ' +
     'Description=' +
-      '"10\' radius from touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. evil creatures, suppresses mental control, prevents possession, and bars contact and entry by nongood summoned creatures (SR negates) for %{lvl*10} min or traps a nongood summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
+      '"10\' radius around touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. evil creatures, suppresses mental control, prevents possession, and bars contact and entry by nongood summoned creatures (SR negates) for %{lvl*10} min or traps a nongood summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Good':
     'School="Abjuration [Evil]" ' +
     'Level=Assassin3,C3,Evil3,S3,W3 ' +
     'Description=' +
-      '"10\' radius from touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. good creatures, suppresses mental control, prevents possession, and bars contact and entry by nonevil summoned creatures (SR negates) for %{lvl*10} min or traps a nonevil summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
+      '"10\' radius around touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. good creatures, suppresses mental control, prevents possession, and bars contact and entry by nonevil summoned creatures (SR negates) for %{lvl*10} min or traps a nonevil summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Law':
     'School="Abjuration [Chaotic]" ' +
     'Level=C3,Chaos3,S3,W3 ' +
     'Description=' +
-      '"10\' radius from touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. lawful creatures, suppresses mental control, prevents possession, and bars contact and entry by nonchaotic summoned creatures (SR negates) for %{lvl*10} min or traps a nonchaotic summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
+      '"10\' radius around touched either gives a +2 deflection bonus to Armor Class and +2 saves vs. lawful creatures, suppresses mental control, prevents possession, and bars contact and entry by nonchaotic summoned creatures (SR negates) for %{lvl*10} min or traps a nonchaotic summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Fang':
     'School=Transmutation ' +
@@ -3812,7 +3811,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Transfers self soul into a gem or crystal from which it can detect life forces within %{lvl*10}\' and attempt to swap places with the soul of a target (save Will negates) for %{lvl} hr"',
+      '"R%{100+lvl*10}\' Transfers self soul into a gem or crystal from which it can detect life forces within %{lvl*10}\' and swap places with the soul of a target (save Will negates) for %{lvl} hr"',
   'Magic Missile':
     'School="Evocation [Force]" ' +
     'Level=S1,W1 ' +
@@ -3856,7 +3855,7 @@ SRD35.SPELLS = {
     'School="Illusion (Figment)" ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable image with sound, smell, and thermal effects (save Will disbelieves) for concentration + 3 rd"',
+      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves) for concentration + 3 rd"',
   'Make Whole':
     'School=Transmutation ' +
     'Level=C2 ' +
@@ -3866,17 +3865,17 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=C5,P4 ' +
     'Description=' +
-      '"Upon a specified trigger trigger, permanently inflicts on touched a choice of -6 to an ability, -4 attacks, saves, and checks, or a 50% chance of losing its action each rd"',
+      '"Upon a specified trigger, permanently inflicts on touched a choice of -6 to an ability, -4 attacks, saves, and checks, or a 50% chance of losing its action each rd"',
   'Maze':
     'School="Conjuration (Teleportation)" ' +
     'Level=S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target becomes lost in an extradimensional maze for 10 min; DC 20 Intelligence check ends"',
+      '"R%{25+lvl//2*5}\' Target becomes lost in an extradimensional maze for 10 min; DC 20 Intelligence check ends, and minotaurs are immune to this spell"',
   'Meld Into Stone':
     'School="Transmutation [Earth]" ' +
     'Level=C3,D3 ' +
     'Description=' +
-      '"Self enters a block of stone for %{lvl*10} min; allows casting spells on self and hearing, but not seeing, outside events"',
+      '"Allows self to enter a block of stone for up to %{lvl*10} min, which permits hearing, but not seeing, outside events and casting spells on self; <i>Passwall</i> cast on the stone ends the spell; <i>Stone Shape</i> inflicts 3d6 HP without ending the spell; significant damage to the stone, <i>Stone To Flesh</i>, or expiration of the duration ends the spell and inflicts 5d6 HP; destruction of the stone or <i>Transmute Rock To Mud</i> ends the spell and inflicts death (save Fortitude DC 18 inflicts 5d6 HP for destruction and no damage for <i>Transmute Rock To Mud</i>)"',
   'Mending':
     'School=Transmutation ' +
     'Level=Adept0,B0,C0,D0,S0,W0 ' +
@@ -3925,7 +3924,7 @@ SRD35.SPELLS = {
     'School="Illusion (Figment)" ' +
     'Level=Adept2,B2,S2,W2 ' +
     'Description=' +
-      '"Creates 1d4+%{lvl//3<?8} copies of self that randomly misdirect attacks for %{lvl} min; the duplicates have Armor Class %{10+dexterityModifier+(size==\'Large\'?-1:size==\'Small\'?1:0)}, and any hit on one destroys it"',
+      '"Creates 1d4+%{lvl//3<?8} (maximum 8) copies of self that randomly misdirect attacks for %{lvl} min; the duplicates have Armor Class %{10+dexterityModifier+(size==\'Large\'?-1:size==\'Small\'?1:0)}, and any hit on one destroys it"',
   'Misdirection':
     'School="Illusion (Glamer)" ' +
     'Level=Assassin3,B2,S2,W2 ' +
@@ -3939,7 +3938,7 @@ SRD35.SPELLS = {
       '"R%{25+lvl//2*5}\' Makes self invisible for %{lvl} rd and creates a false double (save Will upon interaction disbelieves) for concentration + 3 rd"',
   'Mnemonic Enhancer':
     'School=Transmutation ' +
-    'Level=S4,W4 ' +
+    'Level=W4 ' +
     'Description=' +
       '"Allows self to memorize 3 additional spell levels or to retain a just-cast spell of up to 3rd level for 24 hr"',
   'Modify Memory':
@@ -3951,7 +3950,7 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=Luck8,S8,W8 ' +
     'Description=' +
-      '"Gives self +%{lvl<?25} on an attack, check, or save once within %{lvl} hr"',
+      '"Gives self +%{lvl<?25} on Armor Class or an attack, check, or save once within %{lvl} hr"',
   'Mount':
     'School="Conjuration (Summoning)" ' +
     'Level=S1,W1 ' +
@@ -3966,13 +3965,13 @@ SRD35.SPELLS = {
     'School="Conjuration (Healing)" ' +
     'Level=Adept3,B4,C4,D3,P4,R3 ' +
     'Description=' +
-      '"Touched gains immunity to poison or has its poison neutralized for %{lvl*10} min" ' +
+      '"Neutralizes each poison affecting touched and gives it immunity to poison for %{lvl*10} min or neutralizes a poisonous creature or object for %{lvl*10} min (save Will negates)" ' +
     'Liquid=Potion',
   'Nightmare':
     'School="Illusion (Phantasm) [Mind-Affecting,Evil]" ' +
     'Level=B5,S5,W5 ' +
     'Description=' +
-      '"Target suffers 1d10 HP and fatigue (save Will negates, modified from +10 to -5 based on familiarity with the target)"',
+      '"Specified sleeping target suffers 1d10 HP, fatigue, and inability to regain arcane spells for 24 hr (save Will negates, modified from +10 to -5 based on familiarity with the target)"',
   'Nondetection':
     'School=Abjuration ' +
     'Level=Assassin3,R4,Trickery3,S3,W3 ' +
@@ -3988,7 +3987,8 @@ SRD35.SPELLS = {
   'Obscuring Mist':
     'School="Conjuration (Creation)" ' +
     'Level=Adept1,Air1,Assassin1,C1,D1,S1,W1,Water1 ' +
-    'Description="Fog in a 20\' radius obscures vision for %{lvl} min"',
+    'Description=' +
+      '"Fog in a 20\'-radius, 20\'-high cylinder obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% chance on more distant attacks, for %{lvl} min"',
   'Open/Close':
     'School=Transmutation ' +
     'Level=B0,S0,W0 ' +
@@ -3998,7 +3998,7 @@ SRD35.SPELLS = {
     'School="Evocation [Lawful]" ' +
     'Level=Law4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Chaotic creatures in a 30\' cube suffer %{lvl//2<?5}d8 HP, or %{lvl<10}d6 HP to chaotic outsiders, and are dazed for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
+      '"R%{100+lvl*10}\' Chaotic creatures in a 30\' cube suffer %{lvl//2<?5}d8 HP (or %{lvl<10}d6 HP to outsiders) and are dazed for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Overland Flight':
     'School=Transmutation ' +
     'Level=S5,W5 ' +
@@ -4014,17 +4014,17 @@ SRD35.SPELLS = {
     'Description=' +
       '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain +4 Wisdom for %{lvl} min"',
 
-  'Passwall':
-    'School=Transmutation ' +
-    'Level=S5,W5 ' +
-    'Description=' +
-      '"Creates an 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' passage through wood, stone, or plaster for %{lvl} hr"',
   'Pass Without Trace':
     'School=Transmutation ' +
     'Level=Assassin2,D1,R1 ' +
     'Description=' +
       '"%{lvl>1?lvl+\' touched leave\':\'Touched leaves\'} no tracks or scent for %{lvl} hr" ' +
     'Liquid=Potion',
+  'Passwall':
+    'School=Transmutation ' +
+    'Level=S5,W5 ' +
+    'Description=' +
+      '"Creates an 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' passage through wood, stone, or plaster for %{lvl} hr"',
   'Permanency':
     // 'School=Universal ' +
     'Level=S5,W5 ' +
@@ -4592,7 +4592,7 @@ SRD35.SPELLS = {
     'School="Illusion (Figment)" ' +
     'Level=B1,S1,W1 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable image (save Will disbelieve) for concentration"',
+      '"R%{400+lvl*40}\' Creates a %{(lvl+4)*10} cubic foot movable image (save Will upon interaction disbelieves) for concentration"',
   'Simulacrum':
     'School="Illusion (Shadow)" ' +
     'Level=S7,W7 ' +
@@ -7208,7 +7208,7 @@ SRD35.classRules = function(
       // spellRules) with the minimum needed to cast the spell.
       let casterLevelPat = new RegExp('casterLevels.' + spellType + '\\b', 'g');
       let itemLevelPat = new RegExp('\\([A-Za-z ]*' + spellLevel + ' ');
-      let minLevel = (s.match(/:\s*\d+@(\d+)/) || +s.match(/:\s*(\d+)=/))[1];
+      let minLevel = +(s.match(/:\s*\d+@(\d+)/) || s.match(/:\s*(\d+)=/))[1];
       let formats = rules.getChoices('notes');
       for(let p in rules.getChoices('potions')) {
         if(formats['potions.' + p].match(casterLevelPat) &&
