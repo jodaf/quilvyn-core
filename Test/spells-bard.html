@@ -373,7 +373,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Disguise Self (B1 Illu): Changes the appearance of self (save Will upon interaction disbelieves) and gives +10 Disguise, for 160 min</td>
     </tr><tr style="text-align:left">
-      <td>Dispel Magic (B3 Abju): R260' Successful caster level check (+10 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Dispel Magic (B3 Abju): R260' Successful caster level check (maximum +10) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Displacement (B3 Illu): Foes attacking touched suffer a 50% miss chance for 16 rd</td>
     </tr><tr style="text-align:left">
@@ -419,7 +419,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Grease (B1 Conj): R65' Coats a 10' square with grease, inflicting falls (save Reflex negates and allows a DC 10 Balance check to move at half Speed), or coats a target object with grease (save Reflex negates for possessed items), causing them to be dropped (save Reflex negates each rd), for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Greater Dispel Magic (B5 Abju): R260' Successful caster level check (+20 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
+      <td>Greater Dispel Magic (B5 Abju): R260' Successful caster level check (maximum +20) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
       <td>Greater Heroism (B5 Ench): Touched gains +4 attacks, saves, and skill checks, +16 temporary hit points, and immunity to fear for 16 min</td>
     </tr><tr style="text-align:left">
@@ -475,11 +475,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mage Hand (B0 Tran): R65' Allows self to use move actions to move a target object up to 5 lb 15' per rd for concentration</td>
     </tr><tr style="text-align:left">
-      <td>Magic Aura (B1 Illu): Alters the magical aura of an object weighing up to 80 lb for 16 days</td>
+      <td>Magic Aura (B1 Illu): Alters the magical aura of an object weighing up to 80 lb for 16 days; <i>Identify</i> reveals the false aura</td>
     </tr><tr style="text-align:left">
       <td>Magic Mouth (B1 Illu): R65' Enspells the target object or creature (save Will negates) so that a mouth appears on it and speaks up to 25 words in response to a specified trigger within 240'</td>
     </tr><tr style="text-align:left">
-      <td>Major Image (B3 Illu): R1040' Creates a 200 cubic foot movable image with sound, smell, and thermal effects (save Will disbelieves) for concentration + 3 rd</td>
+      <td>Major Image (B3 Illu): R1040' Creates a 200 cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves) for concentration + 3 rd</td>
     </tr><tr style="text-align:left">
       <td>Mass Cat's Grace (B6 Tran): R65' 16 targets in a 15' radius gain +4 Dexterity for 16 min</td>
     </tr><tr style="text-align:left">
@@ -505,7 +505,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mirage Arcana (B5 Illu): R1040' Changes the look, sound, touch, and smell of 320 cubic feet of terrain and structures (save Will upon interaction disbelieves) for concentration + 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Mirror Image (B2 Illu): Creates 1d4+5 copies of self that randomly misdirect attacks for 16 min; the duplicates have Armor Class 12, and any hit on one destroys it</td>
+      <td>Mirror Image (B2 Illu): Creates 1d4+5 (maximum 8) copies of self that randomly misdirect attacks for 16 min; the duplicates have Armor Class 12, and any hit on one destroys it</td>
     </tr><tr style="text-align:left">
       <td>Misdirection (B2 Illu): R65' Divination spells cast upon a target show the auras of another selected object or creature (save Will by the diviner negates) for 16 hr</td>
     </tr><tr style="text-align:left">
@@ -513,15 +513,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Modify Memory (B4 Ench): R65' Changes 5 min of the target's memory (save Will (DC +1) negates)</td>
     </tr><tr style="text-align:left">
-      <td>Neutralize Poison (B4 Conj): Touched gains immunity to poison or has its poison neutralized for 160 min</td>
+      <td>Neutralize Poison (B4 Conj): Neutralizes each poison affecting touched and gives it immunity to poison for 160 min or neutralizes a poisonous creature or object for 160 min (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Nightmare (B5 Illu): Target suffers 1d10 HP and fatigue (save Will negates, modified from +10 to -5 based on familiarity with the target)</td>
+      <td>Nightmare (B5 Illu): Specified sleeping target suffers 1d10 HP, fatigue, and inability to regain arcane spells for 24 hr (save Will negates, modified from +10 to -5 based on familiarity with the target)</td>
     </tr><tr style="text-align:left">
       <td>Obscure Object (B1 Abju): Touched object gains immunity to divination (save Will negates) for 8 hr</td>
     </tr><tr style="text-align:left">
       <td>Open/Close (B0 Tran): R65' Target object of up to 30 lb opens or closes (save Will negates)</td>
     </tr><tr style="text-align:left">
-      <td>Permanent Image (B6 Illu): R1040' Creates a 240 cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves)</td>
+      <td>Permanent Image (B6 Illu): R1040' Creates a 180 cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves)</td>
     </tr><tr style="text-align:left">
       <td>Persistent Image (B5 Illu): R1040' Creates a 200 cubic foot movable, scripted image with sound, smell, and thermal effects (save Will upon interaction disbelieves) for 16 min</td>
     </tr><tr style="text-align:left">
@@ -539,13 +539,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Rainbow Pattern (B4 Illu): R260' Fascinates 24 HD of creatures in a 20' radius (save Will negates), working upward from those with the fewest HD, for concentration + 16 rd; can move the effect 30' as a free action, and affected creatures will follow it, gaining another save if the move leads them into danger</td>
     </tr><tr style="text-align:left">
-      <td>Read Magic (B0 Divi): Allows self to read magical writing for 160 min</td>
+      <td>Read Magic (B0 Divi): Allows self to read magical writing and identify <i>Glyphs</i> and <i>Symbols</i> with a successful Spellcraft check for 160 min</td>
     </tr><tr style="text-align:left">
       <td>Remove Curse (B3 Abju): Dispels all curses from touched</td>
     </tr><tr style="text-align:left">
       <td>Remove Fear (B1 Abju): R65' Suppresses fear in 5 targets in a 15' radius and gives them +4 vs. fear for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Repel Vermin (B4 Abju): 10' radius bars vermin (save Will for vermin with at least 5 HD inflicts 2d6 HP) for 160 min</td>
+      <td>Repel Vermin (B4 Abju): 10' radius bars vermin (save Will for vermin with at least 5 HD allows entry but inflicts 2d6 HP) for 160 min</td>
     </tr><tr style="text-align:left">
       <td>Resistance (B0 Abju): Touched gains +1 saves for 1 min</td>
     </tr><tr style="text-align:left">
@@ -577,7 +577,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Silence (B2 Illu): R1040' Eliminates sound in a 20' radius (save Will for a targeted creature negates) for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Silent Image (B1 Illu): R1040' Creates a 200 cubic foot movable image (save Will disbelieve) for concentration</td>
+      <td>Silent Image (B1 Illu): R1040' Creates a 200 cubic foot movable image (save Will upon interaction disbelieves) for concentration</td>
     </tr><tr style="text-align:left">
       <td>Sleep (B1 Ench): R260' 4 HD of creatures in a 10' radius fall asleep (save Will (DC +1) negates), moving upward from those with the lowest HD, for 16 min; shaking or wounding wakens an affected creature, but noise does not</td>
     </tr><tr style="text-align:left">

@@ -2930,12 +2930,12 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=B3,C3,D4,Magic3,P3,S3,W3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Successful caster level check (+10 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
+      '"R%{100+lvl*10}\' Successful caster level check (maximum +10) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
   'Greater Dispel Magic':
     'School=Abjuration ' +
     'Level=B5,C6,D6,S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Successful caster level check (+20 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
+      '"R%{100+lvl*10}\' Successful caster level check (maximum +20) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20\' radius, or disrupts a foe\'s spell casting"',
   'Displacement':
     'School="Illusion (Glamer)" ' +
     'Level=B3,S3,W3 ' +
@@ -3740,7 +3740,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Magic9,S9,W9 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' 40\' radius dispels spells and spell-like effects, disenchants magic items (save Will negates), and gives a %{lvl}% chance to destroy antimagic fields and disenchant artifacts; disenchanting an artifact permanently strips self spellcasting abilities (save Will DC 25 negates)"',
+      '"R%{25+lvl//2*5}\' 40\' radius dispels spells and spell-like effects, disenchants magic items (save Will negates), and gives a %{lvl}% chance to destroy antimagic fields and disenchant artifacts; disenchanting an artifact permanently strips self of spellcasting abilities (save Will DC 25 negates)"',
   "Mage's Faithful Hound":
     'School="Conjuration (Creation)" ' +
     'Level=S5,W5 ' +
@@ -3805,7 +3805,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D3,R3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' target gains +%{lvl//4<?4} attacks and damage when using a specified magic weapon, or +1 attacks and damage when using any natural weapon, for %{lvl} hr" ' +
+      '"R%{25+lvl//2*5}\' target gains +%{lvl//4<?4} attacks and damage when using a specified natural weapon, or +1 attacks and damage when using any natural weapon, for %{lvl} hr" ' +
     'Liquid=Potion',
   'Magic Jar':
     'School=Necromancy ' +
@@ -3924,7 +3924,7 @@ SRD35.SPELLS = {
     'School="Illusion (Figment)" ' +
     'Level=Adept2,B2,S2,W2 ' +
     'Description=' +
-      '"Creates 1d4+%{lvl//3<?8} (maximum 8) copies of self that randomly misdirect attacks for %{lvl} min; the duplicates have Armor Class %{10+dexterityModifier+(size==\'Large\'?-1:size==\'Small\'?1:0)}, and any hit on one destroys it"',
+      '"Creates 1d4+%{lvl//3} (maximum 8) copies of self that randomly misdirect attacks for %{lvl} min; the duplicates have Armor Class %{10+dexterityModifier+(size==\'Large\'?-1:size==\'Small\'?1:0)}, and any hit on one destroys it"',
   'Misdirection':
     'School="Illusion (Glamer)" ' +
     'Level=Assassin3,B2,S2,W2 ' +
@@ -3998,7 +3998,7 @@ SRD35.SPELLS = {
     'School="Evocation [Lawful]" ' +
     'Level=Law4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Chaotic creatures in a 30\' cube suffer %{lvl//2<?5}d8 HP (or %{lvl<10}d6 HP to outsiders) and are dazed for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
+      '"R%{100+lvl*10}\' Chaotic creatures in a 30\' cube suffer %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 HP to outsiders) and are dazed for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Overland Flight':
     'School=Transmutation ' +
     'Level=S5,W5 ' +
@@ -4024,16 +4024,16 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"Creates an 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' passage through wood, stone, or plaster for %{lvl} hr"',
+      '"Creates a 5\'x8\'x%{((lvl-9)>?0)//3*5+10}\' passage through wood, stone, or plaster for %{lvl} hr"',
   'Permanency':
     // 'School=Universal ' +
     'Level=S5,W5 ' +
-    'Description="Makes certain spells permanent"',
+    'Description="Makes certain spells permanent, at a cost of 500-4,000 XP"',
   'Permanent Image':
     'School="Illusion (Figment)" ' +
     'Level=B6,S6,W6 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creates a %{(lvl+8)*10} cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves)"',
+      '"R%{400+lvl*40}\' Creates a %{20+lvl*10} cubic foot movable image with sound, smell, and thermal effects (save Will upon interaction disbelieves)"',
   'Persistent Image':
     'School="Illusion (Figment)" ' +
     'Level=B5,S5,W5 ' +
@@ -4057,17 +4057,17 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=Travel8,S7,W7 ' +
     'Description=' +
-      '"Allows self and specified creatures to pass through an 8\'x5\'x%{((lvl-9)>?0)//3*5+10}\' section of wood, stone, or plaster a total of %{lvl//2} times"',
+      '"Allows self and specified creatures to pass through a 5\'x8\'x%{lvl//3*5+10}\' section of wood, stone, or plaster a total of %{lvl//2} times"',
   'Planar Ally':
     'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C6 ' +
     'Description=' +
-      '"Allows negotiating the purchase of a service from an extraplanar creature with up to 12 HD"',
+      '"Allows negotiating the purchase of a service from 1-2 extraplanar creatures with a total of up to 12 HD"',
   'Greater Planar Ally':
     'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C8 ' +
     'Description=' +
-      '"Allows negotiating the purchase of a service from an extraplanar creature with up to 18 HD"',
+      '"Allows negotiating the purchase of a service from 1-3 extraplanar creatures with a total of up to 18 HD"',
   'Lesser Planar Ally':
     'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C4 ' +
@@ -4077,17 +4077,17 @@ SRD35.SPELLS = {
     'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=S6,W6 ' +
     'Description=' +
-      '"Traps 1-3 extraplanar creatures with up to 12 HD total in a <i>Magic Circle</i> (save Will negates) until they perform a task (opposed Charisma allows refusal), escape via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
+      '"Traps 1-3 extraplanar creatures with up to 12 HD total in a <i>Magic Circle</i> (save Will negates) until they perform a task (opposed Charisma allows refusal), or escape via SR, dimensional travel, or a DC %{casterLevel//2+charismaModifier+15} Charisma check"',
   'Greater Planar Binding':
     'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=S8,W8 ' +
     'Description=' +
-      '"Traps 1-3 extraplanar creatures with up to 18 HD total in a <i>Magic Circle</i> (save Will negates) until they perform a task (opposed Charisma allows refusal), escape via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
+      '"Traps 1-3 extraplanar creatures with up to 18 HD total in a <i>Magic Circle</i> (save Will negates) until they perform a task (opposed Charisma allows refusal), or escape via SR, dimensional travel, or a DC %{casterLevel//2+charismaModifier+15} Charisma check"',
   'Lesser Planar Binding':
     'School="Conjuration (Calling)" ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=S5,W5 ' +
     'Description=' +
-      '"Traps an extraplanar creature with up to 6 HD in a <i>Magic Circle</i> (save Will negates) until it performs a task (opposed Charisma allows refusal), escapes via SR, dimensional travel, or a %{casterLevel//2+charismaModifier+15} Charisma check, or %{lvl} days pass"',
+      '"Traps an extraplanar creature with up to 6 HD in a <i>Magic Circle</i> (save Will negates) until it performs a task (opposed Charisma allows refusal), or escapes via SR, dimensional travel, or a DC %{casterLevel//2+charismaModifier+15} Charisma check"',
   'Plane Shift':
     'School="Conjuration (Teleportation)" ' +
     'Level=C5,S7,W7 ' +
@@ -4097,7 +4097,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D3,Plant3,R3 ' +
     'Description=' +
-      '"Causes vegetation in a %{400+lvl*40}\' radius to become overgrown, slowing movement to 5\' (10\' for Large creatures), or increases the productivity of plants in a 1/2 mile radius for 1 year"',
+      '"Causes vegetation in a 100\' radius to become overgrown, slowing movement to 5\' (10\' for Large creatures), or increases the productivity of plants in a 1/2 mile radius for 1 year"',
   'Poison':
     'School=Necromancy ' +
     'Level=Assassin4,Blackguard4,C4,D3 ' +
@@ -4136,7 +4136,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=C3,P3 ' +
     'Description=' +
-      '"Allies within 40\' gain +1 attacks, damage, saves, and skill checks, and foes suffer -1, for %{lvl} rd"',
+      '"Allies within 40\' gain +1 attacks, weapon damage, saves, and skill checks, and foes suffer -1, for %{lvl} rd"',
   'Prestidigitation':
     // 'School=Universal ' +
     'Level=B0,S0,W0 ' +
@@ -4150,7 +4150,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=S7,W7 ' +
     'Description=' +
-      '"60\' cone blinds creatures with up to 8 HD and randomly inflicts on each creature one of: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex Half); slain by poison (save Fortitude inflicts 1d4 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates); 2 of the preceding effects"',
+      '"60\' cone blinds creatures with up to 8 HD for 2d4 rd and randomly inflicts on each creature one of: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex Half); slain by poison (save Fortitude inflicts 1d4 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates); 2 of the preceding effects"',
   'Prismatic Wall':
     'School=Abjuration ' +
     'Level=S8,W8 ' +
@@ -4160,7 +4160,7 @@ SRD35.SPELLS = {
     'School="Evocation [Fire]" ' +
     'Level=D1,Fire2 ' +
     'Description=' +
-      '"Produces a torch flame in self hand for %{lvl} min; can be used repeatedly for a ranged touch attack that inflicts 1d6+%{lvl<?5} HP fire, reducing the duration by 1 min for each attack"',
+      '"Produces a torch flame in self hand for %{lvl} min; can be used repeatedly for a R120\' ranged touch attack that inflicts 1d6+%{lvl<?5} HP fire, reducing the duration by 1 min for each attack"',
   'Programmed Image':
     'School="Illusion (Figment)" ' +
     'Level=B6,S6,W6 ' +
@@ -4210,7 +4210,8 @@ SRD35.SPELLS = {
   'Protection From Spells':
     'School=Abjuration ' +
     'Level=Magic8,S8,W8 ' +
-    'Description="Touched gains +8 saves vs. spells for %{lvl*10} min"',
+    'Description=' +
+      '"Touched gains +8 saves vs. spells and spell-like abilities for %{lvl*10} min"',
   'Prying Eyes':
     'School=Divination ' +
     'Level=S5,W5 ' +
@@ -4236,7 +4237,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Extinguishes nonmagical fires, dispels magic fires with a successful +%{lvl<?15} check, and inflicts %{lvl<?10}d6 HP to fire creatures in a %{lvl*20} cubic foot area, or suppresses fire-based effects of a non-artifact magic item for 1d4 hr (save Will negates)"',
+      '"R%{100+lvl*10}\' Extinguishes nonmagical fires, dispels magic fires with a successful caster level check (maximum +15), and inflicts %{lvl<?15}d6 HP to fire creatures in a %{lvl*20} cubic foot area, or suppresses fire-based effects of a non-artifact magic item for 1d4 hr (save Will negates)"',
 
   'Rage':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
@@ -4253,12 +4254,12 @@ SRD35.SPELLS = {
     'School="Conjuration (Healing)" ' +
     'Level=Adept5,C5 ' +
     'Description=' +
-      '"Restores a willing soul, dead up to %{lvl} days, to its touched corpse; the target regains 1 hit point per HD, loses a level (level 1 targets instead lose 2 Constitution), and has a 50% chance of losing each prepared spell or unused spell slot"',
+      '"Restores a willing soul, dead up to %{lvl} days, to its touched corpse; the target regains 1 hit point per HD, irreversably loses a level (level 1 targets instead irreversably lose 2 Constitution), and has a 50% chance of losing each prepared spell or unused spell slot"',
   'Ray Of Enfeeblement':
     'School=Necromancy ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Ranged touch inflicts -1d6+%{lvl//2<?5} Strength for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' Ranged touch inflicts -1d6+%{lvl//2<?5} Strength (save Fortitude half; will not lower Strength below 1) for %{lvl} min"',
   'Ray Of Exhaustion':
     'School=Necromancy ' +
     'Level=S3,W3 ' +
@@ -4271,7 +4272,7 @@ SRD35.SPELLS = {
   'Read Magic':
     'School=Divination ' +
     'Level=Adept0,B0,C0,D0,P1,R1,S0,W0 ' +
-    'Description="Allows self to read magical writing for %{lvl*10} min"',
+    'Description="Allows self to read magical writing and identify <i>Glyphs</i> and <i>Symbols</i> with a successful Spellcraft check for %{lvl*10} min"',
   'Reduce Animal':
     'School=Transmutation ' +
     'Level=D2,R3 ' +
@@ -4306,7 +4307,7 @@ SRD35.SPELLS = {
   'Remove Blindness/Deafness':
     'School="Conjuration (Healing)" ' +
     'Level=C3,P3 ' +
-    'Description="Heals touched of blindness or deafness" ' +
+    'Description="Heals touched of a choice of blindness or deafness" ' +
     'Liquid=Potion',
   'Remove Curse':
     'School=Abjuration ' +
@@ -4334,16 +4335,16 @@ SRD35.SPELLS = {
     'School="Abjuration [Earth]" ' +
     'Level=D8 ' +
     'Description=' +
-      '"60\' line pushes away unanchored metal and stone objects weighing up to 500 lb for %{lvl} rd"',
+      '"60\' line pushes away unanchored metal and stone objects weighing up to 500 lb and bends or breaks fixed objects up to 3\\" in diameter for %{lvl} rd"',
   'Repel Vermin':
     'School=Abjuration ' +
     'Level=B4,C4,D4,R3 ' +
     'Description=' +
-      '"10\' radius bars vermin (save Will for vermin with at least %{lvl//3} HD inflicts 2d6 HP) for %{lvl*10} min"',
+      '"10\' radius bars vermin (save Will for vermin with at least %{lvl//3} HD allows entry but inflicts 2d6 HP) for %{lvl*10} min"',
   'Repel Wood':
     'School=Transmutation ' +
     'Level=D6,Plant6 ' +
-    'Description="60\' line pushes away unanchored wood for %{lvl} min"',
+    'Description="60\' line pushes away unanchored wooden objects and splinters fixed objects up to 3\\" in diameter for %{lvl} min"',
   'Repulsion':
     'School=Abjuration ' +
     'Level=C7,Protection7,S6,W6 ' +
@@ -4354,16 +4355,16 @@ SRD35.SPELLS = {
     'Level=S4,W4 ' +
     'Description=' +
       '"R%{25+lvl//2*5}\' Creates an impassible and immobile %{lvl}\'-diameter sphere that surrounds the target (save Reflex negates) for %{lvl} min"',
-  'Resistance':
-    'School=Abjuration ' +
-    'Level=B0,C0,D0,P1,S0,W0 ' +
-    'Description="Touched gains +1 saves for 1 min"',
   'Resist Energy':
     'School=Abjuration ' +
     'Level=Adept2,C2,D2,Fire3,P2,R1,S2,W2 ' +
     'Description=' +
       '"Touched gains resistance %{lvl>10?30:lvl>6?20:10} to a choice of acid, cold, electricity, fire, or sonic for %{lvl*10} min" ' +
     'Liquid=Potion',
+  'Resistance':
+    'School=Abjuration ' +
+    'Level=B0,C0,D0,P1,S0,W0 ' +
+    'Description="Touched gains +1 saves for 1 min"',
   'Restoration':
     'School="Conjuration (Healing)" ' +
     'Level=Adept4,C4,P4 ' +
@@ -4384,7 +4385,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Healing)" ' +
     'Level=C7 ' +
     'Description=' +
-      '"Fully restores a target willing soul, dead up to %{lvl*10} years, using a piece of its corpse; the target loses a level (level 1 targets instead lose 2 Constitution)"',
+      '"Fully restores a target willing soul, dead up to %{lvl*10} years, using a piece of its corpse; the target irreversably loses a level (level 1 targets instead irreversably lose 2 Constitution)"',
   'Reverse Gravity':
     'School=Transmutation ' +
     'Level=D8,S7,W7 ' +
@@ -4398,12 +4399,13 @@ SRD35.SPELLS = {
   'Rope Trick':
     'School=Transmutation ' +
     'Level=S2,W2 ' +
-    'Description="Causes a 5\'-30\' rope to stretch upward, leading to extradimensional space with room for 8 creatures, for %{lvl} hr"',
+    'Description=' +
+      '"Causes a 5\'-30\' rope to stretch upward, leading to an extradimensional space with room for 8 creatures, for %{lvl} hr"',
   'Rusting Grasp':
     'School=Transmutation ' +
     'Level=D4 ' +
     'Description=' +
-      '"Melee touch attack destroys a non-magical iron object of up to a 3\' radius or reduces the Armor Class bonus of a set of armor by 1d6"',
+      '"Melee touch attack destroys a non-magical iron object of up to a 3\' radius, reduces the Armor Class bonus of a set of armor by 1d6, or inflicts 3d6+%{lvl<?15} HP on a ferrous creature, once per rd for %{lvl} rd"',
 
   'Sanctuary':
     'School=Abjuration ' +
