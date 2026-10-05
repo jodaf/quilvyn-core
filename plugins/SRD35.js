@@ -4417,7 +4417,8 @@ SRD35.SPELLS = {
     'School="Necromancy [Fear,Mind-Affecting]" ' +
     'Level=B2,S2,W2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target with up to 6 HD becomes frightened and flees for 1d4 rd (save Will inflicts shaken for 1 rd)"',
+      '"R%{100+lvl*10}\' %{lvl>5?lvl//3+\\" targets in a 15\' radius\\":\'Target\'} with up to 6 HD %{lvl>5?\'become frightened and flee\':\'becomes frightened and flees\'} for %{lvl} rd (save Will inflicts shaken for 1 rd)"',
+  // TODO: awkward phrasing
   'Scintillating Pattern':
     'School="Illusion (Pattern) [Mind-Affecting]" ' +
     'Level=S8,W8 ' +
@@ -4427,12 +4428,12 @@ SRD35.SPELLS = {
     'School="Evocation [Fire]" ' +
     'Level=Adept2,S2,W2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl>6?(lvl+1)//4+\' ranged\':\'Ranged\'} touch attack%{lvl>6?\\"s in a 15\' radius each inflict\\":\' inflicts\'} 4d6 HP fire"',
+      '"R%{25+lvl//2*5}\' %{lvl>6?(lvl+1)//4<?3+\' ranged\':\'Ranged\'} touch attack%{lvl>6?\\"s in a 15\' radius each inflict\\":\' inflicts\'} 4d6 HP fire"',
   'Screen':
     'School="Illusion (Glamer)" ' +
     'Level=Trickery7,S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Illusion hides %{lvl*30} cubic feet from vision and scrying (save Will disbelieves) for 24 hr"',
+      '"R%{25+lvl//2*5}\' Illusion hides %{lvl*30} cubic feet from vision and scrying (save Will if interacted with disbelieves) for 24 hr"',
   'Scrying':
     'School="Divination (Scrying)" ' +
     'Level=B3,C5,D4,S4,W4 ' +
@@ -4452,7 +4453,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C3,Sun3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Ranged touch inflicts %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 HP for undead, %{lvl//2<?5}d6 HP for a construct or object)"',
+      '"R%{100+lvl*10}\' Ranged touch inflicts %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 HP for undead, %{lvl<?10}d8 HP for vulnerable undead, and %{lvl//2<?5}d6 HP for a construct or object)"',
   'Secret Chest':
     'School="Conjuration (Summoning)" ' +
     'Level=S5,W5 ' +
@@ -4462,7 +4463,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Permanently alters the text on a touched page so that a password is required to read it"',
+      '"Permanently alters the text on a touched page so that a password is required to read the original"',
   'Secure Shelter':
     'School="Conjuration (Creation)" ' +
     'Level=B4,S4,W4 ' +
@@ -4492,7 +4493,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=S7,W7 ' +
     'Description=' +
-      '"Touched object or willing creature becomes invisible, unscryable, and comatose for %{lvl} days"',
+      '"Touched object (save Will negates) or willing creature becomes invisible, unscryable, and comatose for %{lvl} days"',
   'Shades':
     'School="Illusion (Shadow)" ' +
     'Level=S9,W9 ' +
@@ -4532,7 +4533,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Animal9,D9,S9,W9 ' +
     'Description=' +
-      '"Allows self to becomes a nonunique creature of any size with up to %{lvl<?25} HD once per rd for %{lvl*10} min"',
+      '"Allows self to become a nonunique creature of any size with up to %{lvl<?25} HD once per rd for %{lvl*10} min"',
   'Shatter':
     'School="Evocation [Sonic]" ' +
     'Level=B2,Blackguard2,C2,Chaos2,Destruction2,S2,W2 ' +
@@ -4558,7 +4559,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C2,P2,Protection2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any damage suffered by the target is transferred to self, for %{lvl} hr"',
+      '"R%{25+lvl//2*5}\' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any HP damage suffered by the target is transferred to self, for %{lvl} hr"',
   'Shillelagh':
     'School=Transmutation ' +
     'Level=D1 ' +
@@ -4574,17 +4575,17 @@ SRD35.SPELLS = {
     'School="Evocation [Sonic]" ' +
     'Level=B4,S4,W4 ' +
     'Description=' +
-      '"30\' cone inflicts 5d6 HP sonic (or %{lvl>?15}d6 HP sonic to crystalline creatures and objects) and deafness for 2d6 rd (save Fortitude half HP only; save Reflex negates damage to held objects)"',
+      '"30\' cone inflicts 5d6 HP sonic (or %{lvl>?15}d6 HP sonic to crystalline creatures and objects) and deafened for 2d6 rd (save Fortitude half HP only; save Reflex negates damage to held objects)"',
   'Greater Shout':
     'School="Evocation [Sonic]" ' +
     'Level=B6,S8,W8 ' +
     'Description=' +
-      '"60\' cone inflicts 10d6 HP sonic (or %{lvl>?20}d6 HP sonic to crystalline creatures and objects), deafness for 4d6 rd, and stunned for 1 rd (save Fortitude half HP and half deafness duration only; save Reflex negates damage to held objects)"',
+      '"60\' cone inflicts 10d6 HP sonic (or %{lvl>?20}d6 HP sonic to crystalline creatures and objects), deafened for 4d6 rd, and stunned for 1 rd (save Fortitude half HP and half deafness duration only; save Reflex negates damage to held objects)"',
   'Shrink Item':
     'School=Transmutation ' +
     'Level=S3,W3 ' +
     'Description=' +
-      '"Reduces touched %{lvl*2} cubic foot object to a 1/16-sized cloth (save Will negates) for %{lvl} days"',
+      '"Reduces touched %{lvl*2} cubic foot object to 1/16 its size, optionally transforming it into a piece of cloth (save Will negates), for %{lvl} days"',
   'Silence':
     'School="Illusion (Glamer)" ' +
     'Level=B2,C2 ' +
@@ -4604,7 +4605,7 @@ SRD35.SPELLS = {
     'School="Necromancy [Death]" ' +
     'Level=C5,Death5 ' +
     'Description=' +
-      '"Touch kills the target (save Fortitude inflicts 3d6+%{lvl} HP)"',
+      '"Melee touch attack kills the target (save Fortitude inflicts 3d6+%{lvl} HP)"',
   'Sleep':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=Adept1,Assassin1,B1,S1,W1 ' +
@@ -4624,7 +4625,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D3,R2 ' +
     'Description=' +
-      '"Touched vine, thong, or rope becomes a trap until triggered; a DC 23 Search check notices the trap, and a DC 23 Escape Artist or Strength check escapes from it"',
+      '"Touched vine, thong, or rope becomes a trap until triggered, inflicting 1d6 HP while lifting the creature; a DC 23 Search check notices the trap, and a DC 23 Escape Artist or Strength check escapes from it"',
   'Soften Earth And Stone':
     'School="Transmutation [Earth]" ' +
     'Level=D2,Earth2 ' +
@@ -4634,7 +4635,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, slows movement to 5\', prevents ranged attacks, and inflicts -2 attacks and damage for %{lvl} min"',
+      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, slows movement to 5\', prevents ranged attacks, and inflicts -2 attacks and damage for %{lvl} min"',
   'Song Of Discord':
     'School="Enchantment (Compulsion) [Mind-Affecting,Sonic]" ' +
     'Level=B5 ' +
@@ -4644,7 +4645,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=C9,S9,W9 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Imprisons the soul from a corpse dead up to %{lvl} rd (save Will negates), preventing resurrection"',
+      '"R%{25+lvl//2*5}\' Imprisons the soul from a corpse dead up to %{lvl} rd in a black sapphire (save Will negates), preventing resurrection"',
   'Sound Burst':
     'School="Evocation [Sonic]" ' +
     'Level=B2,C2 ' +
@@ -4658,7 +4659,7 @@ SRD35.SPELLS = {
     'School="Necromancy [Language-Dependent]" ' +
     'Level=C3 ' +
     'Description=' +
-      '"R10\' Target corpse answers %{lvl>3?lvl//2+\' questions\':\'a question\'} (save Will negates) asked within %{lvl} min"',
+      '"R10\' Target corpse answers %{lvl>3?lvl//2+\' questions\':\'a question\'} (save Will for creatures with a different alignment negates; corpses who have been targeted by <i>Speak With Dead</i> within the past week are immune) asked within %{lvl} min"',
   'Speak With Plants':
     'School=Divination ' +
     'Level=B4,D3,R2 ' +
@@ -4673,25 +4674,26 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C4,Protection4,Strength4 ' +
     'Description=' +
-      '"Gives touched immunity to %{lvl>7?lvl//4+\' spells\':\'a spell\'} of up to 4th level that %{lvl>7?\'are\':\'is\'} subject to spell resistance for %{lvl*10} min"',
+      '"Gives touched immunity to %{lvl>7?lvl//4+\' spells\':\'a spell\'} of up to 4th level that %{lvl>7?\'are\':\'is\'} subject to spell resistance for %{lvl*10} min; a target can benefit from only one <i>Spell Immunity</i> or <i>Greater Spell Immunity</i> at a time"',
   'Greater Spell Immunity':
     'School=Abjuration ' +
     'Level=C8 ' +
     'Description=' +
-      '"Gives touched immunity to %{lvl>7?lvl//4+\' spells\':\'a spell\'} of up to 8th level that %{lvl>7?\'are\':\'is\'} subject to spell resistance for %{lvl*10} min"',
+      '"Gives touched immunity to %{lvl>7?lvl//4+\' spells\':\'a spell\'} of up to 8th level that %{lvl>7?\'are\':\'is\'} subject to spell resistance for %{lvl*10} min; a target can benefit from only one <i>Spell Immunity</i> or <i>Greater Spell Immunity</i> at a time"',
   'Spell Resistance':
     'School=Abjuration ' +
     'Level=C5,Magic5,Protection5 ' +
     'Description="Gives touched SR %{lvl+12} for %{lvl} min"',
-  'Spellstaff':
-    'School=Transmutation ' +
-    'Level=D6 ' +
-    'Description="Stores 1 spell in a wooden quarterstaff (save Will negates)"',
   'Spell Turning':
     'School=Abjuration ' +
     'Level=Luck7,Magic7,S7,W7 ' +
     'Description=' +
-      '"1d4+6 levels of spells, excluding area and ranged touch spells, directed at self within %{lvl*10} min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both casters\' <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane"',
+      '"1d4+6 levels of targeted, non-ranged-touch spells directed at self within %{lvl*10} min reflect onto their caster; spells between casters who both have <i>Spell Turning</i> produce one of these effects: 70% dissipate with no effect; 10% affect both casters; 17% disable both casters\' <i>Spell Turning</i> for 1d4 min; 3% send both casters to another plane"',
+  'Spellstaff':
+    'School=Transmutation ' +
+    'Level=D6 ' +
+    'Description=' +
+      '"Stores 1 spell at a time in a wooden quarterstaff (save Will negates) that can be used later to cast it"',
   'Spider Climb':
     'School=Transmutation ' +
     'Level=Assassin2,D2,S2,W2 ' +
@@ -4712,7 +4714,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=C2,War2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attacks; inflicts 1d8+%{lvl//3<?5} HP force; crit same as the corresponding physical weapon) that attacks a designated foe for %{lvl} rd; can use move actions to redirect to different targets, and the first attack on each creature is subject to SR"',
+      '"R%{100+lvl*10}\' Creates a force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attacks; inflicts 1d8+%{lvl//3<?5} HP force; crit same as the corresponding physical weapon) that attacks a designated foe for %{lvl} rd; can use move actions to redirect to different targets; the first attack on each creature is subject to SR, and the spell ends if the attack fails to overcome it"',
   'Statue':
     'School=Transmutation ' +
     'Level=S7,W7 ' +
