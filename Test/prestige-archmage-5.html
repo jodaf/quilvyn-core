@@ -322,7 +322,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Greater Shadow Conjuration (W7 Illu): Mimics a creation or summoning conjuration spell of up to 6th level (save Will reduces the mimicked spell's effects by 40%); mimicked spells are subject to SR and have a save DC as a 7th-level spell, and creatures summoned by a mimicked spell have 20% of their normal hit points</td>
     </tr><tr style="text-align:left">
-      <td>Greater Shout (W8 Evoc): 60' cone inflicts 10d6 HP sonic (or 20d6 HP sonic to crystalline creatures and objects), deafness for 4d6 rd, and stunned for 1 rd (save Fortitude half HP and half deafness duration only; save Reflex negates damage to held objects)</td>
+      <td>Greater Shout (W8 Evoc): 60' cone inflicts 10d6 HP sonic (or 20d6 HP sonic to crystalline creatures and objects), deafened for 4d6 rd, and stunned for 1 rd (save Fortitude half HP and half deafness duration only; save Reflex negates damage to held objects)</td>
     </tr><tr style="text-align:left">
       <td>Guards And Wards (W6 Abju): Multiple magic effects protect a 3800' sq area for 38 hr</td>
     </tr><tr style="text-align:left">
@@ -374,7 +374,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shatter (W2 Evoc): R70' Breakables weighing up to 19 lb in a 5' radius shatter (save Will negates), or a target object weighing up to 190 lb suffers 10d6 HP sonic (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Shrink Item (W3 Tran): Reduces touched 38 cubic foot object to a 1/16-sized cloth (save Will negates) for 19 days</td>
+      <td>Shrink Item (W3 Tran): Reduces touched 38 cubic foot object to 1/16 its size, optionally transforming it into a piece of cloth (save Will negates), for 19 days</td>
     </tr><tr style="text-align:left">
       <td>Sleep (W1 Ench): R290' 4 HD of creatures in a 10' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for 19 min; shaking or wounding wakens an affected creature, but noise does not</td>
     </tr><tr style="text-align:left">
@@ -382,7 +382,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Stone To Flesh (W6 Tran): R290' Restores a petrified creature (save Fortitude DC 15 to survive) or changes a 3' diameter, 10' high cylinder of stone into flesh</td>
     </tr><tr style="text-align:left">
-      <td>Suggestion (W3 Ench): R70' Target follows a reasonable suggestion (save Will negates) for 19 hr</td>
+      <td>Suggestion (W3 Ench): R70' Target follows a reasonable suggestion (save Will negates) for up to 19 hr</td>
     </tr><tr style="text-align:left">
       <td>Summon Monster II (W2 Conj): R70' Summons 1 2nd-level or 1d3 1st-level creatures that fight foes and obey orders for 19 rd</td>
     </tr><tr style="text-align:left">
@@ -392,21 +392,21 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Symbol Of Insanity (W8 Ench): R60' Rune inflicts permanent insanity on creatures in a 60' radius (save Will negates) when triggered for 190 min</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Sleep (W5 Ench): R60' Rune renders creatures in a 60' radius with up to 10 HD catatonic for 3d6x10 min (save Will negates) when triggered for 190 min</td>
+      <td>Symbol Of Sleep (W5 Ench): Rune renders creatures in a 60' radius with up to 10 HD catatonic for 3d6x10 min (save Will negates) when triggered for 190 min</td>
     </tr><tr style="text-align:left">
-      <td>Telekinesis (W5 Tran): R1160' Allows self to move an object weighing up to 375 lb 20' per rd for concentration up to 19 rd (save Will for possessed items negates), to perform a +19 bull rush, disarm, grapple, or trip using Intelligence instead of Strength or Dexterity once per rd for concentration up to 19 rd, or to hurl 15 objects in a 10' radius weighing up to 375 lbs total at a target within 10' of the objects (save Will for creatures and possessed items negates)</td>
+      <td>Telekinesis (W5 Tran): R1160' Allows self to move an object weighing up to 375 lb 20' per rd for concentration up to 19 rd (save Will for possessed items negates), to perform a +19 Bull Rush, Disarm, Grapple, or Trip using Charisma instead of Strength or Dexterity once per rd for concentration up to 19 rd, or to hurl 15 objects or creatures in a 5' radius weighing up to 375 lbs total (save Will for creatures and possessed items negates) up to 10'</td>
     </tr><tr style="text-align:left">
       <td>Time Stop (W9 Tran): Allows taking 1d4+1 turns while no time passes for others; cannot attack or cast spells on other creatures for the duration</td>
     </tr><tr style="text-align:left">
-      <td>Touch Of Fatigue (W0 Necr): Touch attack inflicts fatigue for 19 rd (save Fortitude negates)</td>
+      <td>Touch Of Fatigue (W0 Necr): Melee touch inflicts fatigue for 19 rd (save Fortitude negates)</td>
     </tr><tr style="text-align:left">
-      <td>Transformation (W6 Tran): Gives self +4 Strength, Dexterity, Constitution, and natural armor bonus, +5 Fortitude, simple and martial weapon proficiency, and a +19 BAB, but prevents the casting of spells, for 19 rd</td>
+      <td>Transformation (W6 Tran): Gives self +4 Strength, Dexterity, Constitution, a +4 natural armor bonus, +5 Fortitude, simple and martial weapon proficiency, and a +19 BAB, but prevents the casting of spells, for 19 rd</td>
     </tr><tr style="text-align:left">
-      <td>Vision (W7 Divi): Allows a successful caster level check to answer a question about a specified person, place, or object; the DC varies from 20 to 30 depending on the familiarity of the subject</td>
+      <td>Vision (W7 Divi): Allows a successful caster level check (+25 maximum) to answer a question about a specified person, place, or object; the DC varies from 20 to 30 depending on the familiarity of the subject</td>
     </tr><tr style="text-align:left">
-      <td>Water Breathing (W3 Tran): Allows touched creatures to breathe underwater for a total of 38 hrs</td>
+      <td>Water Breathing (W3 Tran): Allows touched creatures to breathe underwater for a total of 38 hrs divided among them</td>
     </tr><tr style="text-align:left">
-      <td>Web (W2 Conj): R290' Anchored web strands in a 20' radius immobilize creatures (save Reflex negates, and a DC 20 Strength or DC 25 Escape Artist breaks free) for 190 min; movement through the web requires a Strength or Escape Artist check each rd, allowing 5' of movement for each 5 points that the check exceeds 10; burning clears the web, inflicting 2d4 HP fire on those within</td>
+      <td>Web (W2 Conj): R290' Anchored web strands in a 20' radius entangle creatures (save Reflex negates, and a DC 20 Strength or DC 25 Escape Artist breaks free) for 190 min; movement through the web requires a Strength or Escape Artist check each rd, allowing 5' of movement for each 5 points that the check exceeds 10; burning clears the web, inflicting 2d4 HP fire on those within</td>
     </tr></table>
 </td>
   </tr><tr style="text-align:center">
