@@ -5111,12 +5111,12 @@ SRD35.SPELLS = {
     'School="Evocation [Fire]" ' +
     'Level=Adept4,D5,Fire4,S4,W4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a %{lvl*20}\'x20\' wall or a %{lvl//2*5}\'x20\' ring that inflicts 2d4 HP fire to creatures within 10\', 1d4 HP fire to creatures within 20\', and 2d6+%{lvl<?20} HP fire when passing through (or double these damages to undead) for concentration + %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a %{lvl*20}\'x20\' wall or a %{lvl//2*5}\'x20\' ring that inflicts 2d4 HP fire to creatures within 10\' of a chosen side, 1d4 HP fire to creatures within 20\', and 2d6+%{lvl<?20} HP fire when passing through (or double these damages to undead) for concentration + %{lvl} rd"',
   'Wall Of Force':
     'School="Evocation [Force]" ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Creates an invisible, impassible, and immobile %{lvl*10} square foot wall for %{lvl} rd; the wall can be damaged only by <i>Disintegrate</i>, <i>Mage\'s Disjunction</i>, a rod of cancellation, or a sphere of annihilation"',
+      '"R%{25+lvl//2*5}\' Creates an invisible, impassible, and immobile %{lvl*10} square foot wall for %{lvl} rd; the wall can be damaged only by <i>Disintegrate</i>, <i>Mage\'s Disjunction</i>, a rod of cancellation, or a sphere of annihilation, each of which destroys it"',
   'Wall Of Ice':
     'School="Evocation [Cold]" ' +
     'Level=S4,W4 ' +
@@ -5146,7 +5146,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=C3,D3,S3,W3,Water3 ' +
     'Description=' +
-      '"Allows touched creatures to breathe underwater for a total of %{lvl*2} hrs" ' +
+      '"Allows touched creatures to breathe underwater for a total of %{lvl*2} hrs divided among them" ' +
     'Liquid=Potion',
   'Water Walk':
     'School="Transmutation [Water]" ' +
@@ -5166,7 +5166,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=Adept2,S2,W2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Anchored web strands in a 20\' radius immobilize creatures (save Reflex negates, and a DC 20 Strength or DC 25 Escape Artist breaks free) for %{lvl*10} min; movement through the web requires a Strength or Escape Artist check each rd, allowing 5\' of movement for each 5 points that the check exceeds 10; burning clears the web, inflicting 2d4 HP fire on those within"',
+      '"R%{100+lvl*10}\' Anchored web strands in a 20\' radius entangle creatures (save Reflex negates, and a DC 20 Strength or DC 25 Escape Artist breaks free) for %{lvl*10} min; movement through the web requires a Strength or Escape Artist check each rd, allowing 5\' of movement for each 5 points that the check exceeds 10; burning clears the web, inflicting 2d4 HP fire on those within"',
   'Weird':
     'School="Illusion (Phantasm) [Fear,Mind-Affecting]" ' +
     'Level=S9,W9 ' +
@@ -5202,6 +5202,7 @@ SRD35.SPELLS = {
     'Level=D2 ' +
     'Description=' +
       '"Reshapes a %{lvl+10} cubic feet piece of wood (save Will negates)"',
+  // TODO: awkward phrasing
   'Word Of Chaos':
     'School="Evocation [Chaotic,Sonic]" ' +
     'Level=C7,Chaos7 ' +
