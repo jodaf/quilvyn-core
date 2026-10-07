@@ -3642,7 +3642,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Earth8,S8,W8 ' +
     'Description=' +
-      '"Self becomes living iron for %{lvl} min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d%{size==\'Small\'?4:6} HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulerability to special attacks that affect iron golems"',
+      '"Self becomes living iron for %{lvl} min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d%{size==\'Small\'?4:6} HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulnerability to special attacks that affect iron golems"',
   'Ironwood':
     'School=Transmutation ' +
     'Level=D6 ' +
@@ -4254,7 +4254,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Healing)" ' +
     'Level=Adept5,C5 ' +
     'Description=' +
-      '"Restores a willing soul, dead up to %{lvl} days, to its touched corpse; the target regains 1 hit point per HD, irreversably loses a level (level 1 targets instead irreversably lose 2 Constitution), and has a 50% chance of losing each prepared spell or unused spell slot"',
+      '"Restores a willing soul, dead up to %{lvl} days, to its touched corpse; the target regains 1 hit point per HD, irreversibly loses a level (level 1 targets instead irreversibly lose 2 Constitution), and has a 50% chance of losing each prepared spell or unused spell slot"',
   'Ray Of Enfeeblement':
     'School=Necromancy ' +
     'Level=S1,W1 ' +
@@ -4385,7 +4385,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Healing)" ' +
     'Level=C7 ' +
     'Description=' +
-      '"Fully restores a target willing soul, dead up to %{lvl*10} years, using a piece of its corpse; the target irreversably loses a level (level 1 targets instead irreversably lose 2 Constitution)"',
+      '"Fully restores a target willing soul, dead up to %{lvl*10} years, using a piece of its corpse; the target irreversibly loses a level (level 1 targets instead irreversibly lose 2 Constitution)"',
   'Reverse Gravity':
     'School=Transmutation ' +
     'Level=D8,S7,W7 ' +
@@ -4922,7 +4922,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=D9,S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Attacts a specified intelligent creature kind or alignment to a target object or a %{lvl*10} cubic foot area (save Will negates; requires another save 1d6x10 min later) for %{lvl*2} hr"',
+      '"R%{25+lvl//2*5}\' Attracts a specified intelligent creature kind or alignment to a target object or a %{lvl*10} cubic foot area (save Will negates; requires another save 1d6x10 min later) for %{lvl*2} hr"',
 
   'Telekinesis':
     'School=Transmutation ' +
@@ -5060,7 +5060,7 @@ SRD35.SPELLS = {
     'School="Evocation [Evil]" ' +
     'Level=C5,D5 ' +
     'Description=' +
-      '"40\' radius around touched gives a +2 deflection bonus to Armor Class, +2 saves vs. good, suppresses existing mental control and possession, gives immunity to new attempts to control or possess, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year"',
+      '"40\' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. good, suppresses existing mental control and possession, gives immunity to new attempts to control or possess, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year"',
   'Unholy Aura':
     'School="Abjuration [Evil]" ' +
     'Level=C8,Evil8 ' +
