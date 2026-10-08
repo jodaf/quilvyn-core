@@ -2344,12 +2344,11 @@ SRD35.SPELLS = {
     'Level=C6,Good6,War6 ' +
     'Description=' +
       '"R%{100+lvl*10}\' %{lvl*20}\' blade wall provides cover and inflicts %{lvl<?15}d6 HP initially (save Reflex negates) and each rd (save Reflex half) for %{lvl} min"',
-  // TODO: awkward phrasing
   'Blasphemy':
     'School="Evocation [Evil,Sonic]" ' +
     'Level=C7,Evil7 ' +
     'Description=' +
-      '"Nonevil creatures within 40\' with up to %{lvl}, %{lvl-1}, %{lvl-5}, and %{lvl-10} HD are banished to their home planes for 24 hr (save Will -4 negates) and become dazed for 1 rd, suffer -2d6 Strength for 2d4 rd, become paralyzed for 1d10 min, and are killed"',
+      '"Inflicts on nonevil creatures within 40\' a set of effects: banishment for 24 hr (save Will -4 negates) on extraplanar creatures; killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; -2d6 Strength for 2d4 rd on creatures with up to %{lvl-1} HD; dazed for 1 rd on creatures with up to %{lvl} HD"',
   'Bless':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=Adept1,C1,P1 ' +
@@ -2516,12 +2515,11 @@ SRD35.SPELLS = {
     'Level=S5,W5 ' +
     'Description=' +
       '"R%{100+lvl*10}\' 20\' fog cylinder moves away 10\' per rd, killing creatures within with up to 6 HD (save Fortitude for those with 4-6 HD inflicts -1d4 Constitution) and inflicting -1d4 Constitution on those with more HD (save Fortitude half) for %{lvl} min"',
-  // TODO: awkward phrasing
   'Color Spray':
     'School="Illusion (Pattern) [Mind-Affecting]" ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"15\' cone renders creatures with 2, 4, and 5+ HD unconscious for 2d4 rd, blind for 1d4 rd, and stunned for 1 rd (save Will negates)"',
+      '"15\' cone inflicts a sequence of effects: unconscious (living creatures only), blinded, and stunned for 2d4 rd on creatures with up to 2 HD; blinded and stunned for 1d4 rd on creatures with up to 4 HD; stunned for 1 rd"',
   'Command':
     'School="Enchantment (Compulsion) [Language-Dependent,Mind-Affecting]" ' +
     'Level=Adept1,C1 ' +
@@ -2855,12 +2853,11 @@ SRD35.SPELLS = {
     'Level=C1,P1,S1,W1 ' +
     'Description=' +
       '"60\' cone reveals undead and their strengths for concentration up to %{lvl} min"',
-  // TODO: awkward phrasing
   'Dictum':
     'School="Evocation [Lawful,Sonic]" ' +
     'Level=C7,Law7 ' +
     'Description=' +
-      '"Nonlawful creatures within 40\' with up to %{lvl}, %{lvl-1}, %{lvl-5}, and %{lvl-10} HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd, are slowed for 2d4 rd, suffer paralysis for 1d10 min, and are killed"',
+      '"Inflicts on nonlawful creatures within 40\' a set of effects: banishment for 24 hr (save Will -4 negates) on extraplanar creatures; killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; slowed for 2d4 rd on creatures with up to %{lvl-1} HD; deafened for 1d4 rd on creatures with up to %{lvl} HD"',
   'Dimension Door':
     'School="Conjuration (Teleportation)" ' +
     'Level=Assassin4,B4,Travel4,S4,W4 ' +
@@ -3075,12 +3072,11 @@ SRD35.SPELLS = {
     'Level=S3,W3 ' +
     'Description=' +
       '"Runes inflict 6d6 HP force in a 10\' radius when read by an unauthorized person (save Reflex half; adjacent creatures automatically fail)"',
-  // TODO: awkward phrasing
   'Eyebite':
     'School="Necromancy [Evil]" ' +
     'Level=B6,S6,W6 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Renders 1 target per rd with 1, 5, and 10 HD comatose for %{lvl*10} min, panicked for 1d4 rd and shaken for %{lvl*10} min, and sickened for %{lvl*10} min (save Fortitude negates), for %{lvl//3} rd"',
+      '"Inflicts on 1 target per rd for %{lvl//3} rd a set of effects (save Fortitude negates): sickened for %{lvl*10} min; panicked for 1d4 rd and shaken for %{lvl*10} min on creatures with up to 9 HD; comatose for %{lvl*10} min on creatures with up to 4 HD"',
 
   'Fabricate':
     'School=Transmutation ' +
@@ -3487,12 +3483,11 @@ SRD35.SPELLS = {
     'Level=P4 ' +
     'Description=' +
       '"Touched weapon gains +5 attacks and damage and an additional +2d6 HP vs. evil foes, gives a +2 deflection bonus to Armor Class, +2 saves, suppresses mental control and possession and negates new attempts to control or possess, and bars contact by summoned evil creatures for %{lvl} rd"',
-  // TODO: awkward phrasing
   'Holy Word':
     'School="Evocation [Good,Sonic]" ' +
     'Level=C7,Good7 ' +
     'Description=' +
-      '"Nongood creatures within 40\' with %{lvl}, %{lvl-1}, %{lvl-5}, and %{lvl-10} HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd, blinded for 2d4 rd, paralyzed for 1d10 min, and killed"',
+      '"Inflicts on nongood creatures within 40\' a set of effects: banishment for 24 hr (save Will -4 negates) on extraplanar creatures; killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; blinded for 2d4 rd on creatures with up to %{lvl-1} HD; deafened for 1d4 rd on creatures with up to %{lvl} HD"',
   'Horrid Wilting':
     'School=Necromancy ' +
     'Level=S8,W8,Water8 ' +
@@ -4418,12 +4413,11 @@ SRD35.SPELLS = {
     'Level=B2,S2,W2 ' +
     'Description=' +
       '"R%{100+lvl*10}\' %{lvl>5?lvl//3+\\" targets in a 15\' radius\\":\'Target\'} with up to 6 HD %{lvl>5?\'become frightened and flee\':\'becomes frightened and flees\'} for %{lvl} rd (save Will inflicts shaken for 1 rd)"',
-  // TODO: awkward phrasing
   'Scintillating Pattern':
     'School="Illusion (Pattern) [Mind-Affecting]" ' +
     'Level=S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Renders %{lvl<?20} HD of creatures in a 20\' radius with up to 6, 12, and 20 HD unconscious for 1d4 rd, stunned for 1d4 rd, and confused for 1d4 rd, working upward from those with the fewest HD, for concentration + 2 rd"',
+      '"R%{25+lvl//2*5}\' Creates a moving pattern of colors for concentration + 2 rd that inflicts a sequence of effects on %{lvl<?20} HD of creatures in a 20\' radius, working upward from those with the fewest HD: unconscious for 1d4 rd on creatures with up to 6 HD; stunned for 1d4 rd on creatures with up to 12 HD; confused for 1d4 rd"',
   'Scorching Ray':
     'School="Evocation [Fire]" ' +
     'Level=Adept2,S2,W2 ' +
@@ -5081,7 +5075,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S3,W3 ' +
     'Description=' +
-      '"Melee touch inflicts %{lvl//2<?10}d6 HP and gives self the same number of temporary HP for 1 hr"',
+      '"Melee touch inflicts %{lvl//2<?10}d6 HP and gives self the same number of temporary hit points for 1 hr"',
   'Veil':
     'School="Illusion (Glamer)" ' +
     'Level=B6,S6,W6 ' +
@@ -5202,12 +5196,11 @@ SRD35.SPELLS = {
     'Level=D2 ' +
     'Description=' +
       '"Reshapes a %{lvl+10} cubic feet piece of wood (save Will negates)"',
-  // TODO: awkward phrasing
   'Word Of Chaos':
     'School="Evocation [Chaotic,Sonic]" ' +
     'Level=C7,Chaos7 ' +
     'Description=' +
-      '"Nonchaotic creatures within 40\' with %{lvl}/%{lvl-1}/%{lvl-5}/%{lvl-10} HD are banished to their home planes for 24 hr (save Will -4 negates) and become deafened for 1d4 rd/stunned for 1 rd/confused for 1d10 min/killed"',
+      '"Inflicts on nonchaotic creatures within 40\' a set of effects: banishment for 24 hr (save Will -4 negates) on extraplanar creatures; killed or destroyed on creatures with up to %{lvl-10} HD; confused for 1d10 min on creatures with up to %{lvl-5} HD; stunned for rd on creatures with up to %{lvl-1} HD; deafend for 1d4 rd on creatures with up to %{lvl} HD"',
   'Word Of Recall':
     'School="Conjuration (Teleportation)" ' +
     'Level=C6,D8 ' +
