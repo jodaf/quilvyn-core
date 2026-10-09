@@ -6220,8 +6220,6 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
   rules.defineChoice('notes',
     'initiative:%S',
     'baseAttack:%S',
-    // TODO: only show non-zero values, adding insight, luck, profane, sacred
-    'combatNotes.armorClassModifiers:Armor %1; Deflection %2; Dexterity %3; Dodge %4; Natural Armor %5; Shield %6; Size %7',
     'combatNotes.towerShieldPenalty:%V attacks',
     'combatNotes.unproficientArmorPenalty:%V attacks',
     'combatNotes.unproficientShieldPenalty:%V attacks',
@@ -6262,7 +6260,8 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'armorClassProfaneModifier', '+', null,
     'armorClassSacredModifier', '+', null,
     'armorClassShieldModifier', '+', null,
-    'armorClassSizeModifier', '+', null
+    'armorClassSizeModifier', '+', null,
+    'combatNotes.armorClassModifiers', '+', 'null' // italics
   );
   rules.defineRule('armorClassFlatFooted',
     'armorClass', '=', null,
@@ -6282,30 +6281,31 @@ SRD35.combatRules = function(rules, armors, shields, weapons) {
     'baseAttack', '=', 'Math.max(Math.floor((source + 4) / 5), 1)'
   );
   rules.defineRule('baseAttack', '', '=', '0');
-  rules.defineRule('combatNotes.armorClassModifiers', '', '=', '1');
-  rules.defineRule('combatNotes.armorClassModifiers.1',
-    'armorClassArmorModifier', '=', 'QuilvynUtils.signed(source)'
-  );
-  rules.defineRule('combatNotes.armorClassModifiers.2',
-    'combatNotes.armorClassModifiers', '=', '"+0"',
-    'armorClassDeflectionModifier', '=', 'QuilvynUtils.signed(source)'
-  );
-  rules.defineRule('combatNotes.armorClassModifiers.3',
-    'armorClassDexterityModifier', '=', 'QuilvynUtils.signed(source)'
-  );
-  rules.defineRule('combatNotes.armorClassModifiers.4',
-    'combatNotes.armorClassModifiers', '=', '"+0"',
-    'armorClassDodgeModifier', '=', 'QuilvynUtils.signed(source)'
-  );
-  rules.defineRule('combatNotes.armorClassModifiers.5',
-    'combatNotes.armorClassModifiers', '=', '"+0"',
-    'armorClassNaturalArmorModifier', '=', 'QuilvynUtils.signed(source)'
-  );
-  rules.defineRule('combatNotes.armorClassModifiers.6',
-    'armorClassShieldModifier', '=', 'QuilvynUtils.signed(source)'
-  );
-  rules.defineRule('combatNotes.armorClassModifiers.7',
-    'armorClassSizeModifier', '=', 'QuilvynUtils.signed(source)'
+  rules.defineRule('combatNotes.armorClassModifiers',
+    'armorClassArmorModifier', '=', 'null',        // recomputation trigger
+    'armorClassDeflectionModifier', '=', 'null',   // "
+    'armorClassDexterityModifier', '=', 'null',    // "
+    'armorClassDodgeModifier', '=', 'null',        // "
+    'armorClassInsightModifier', '=', 'null',      // "
+    'armorClassLuckModifier', '=', 'null',         // "
+    'armorClassNaturalArmorModifier', '=', 'null', // "
+    'armorClassProfaneModifier', '=', 'null',      // "
+    'armorClassSacredModifier', '=', 'null',       // "
+    'armorClassShielddModifier', '=', 'null',      // "
+    'armorClassSizeModifier', '=',
+      '[' +
+        '"Armor: "+QuilvynUtils.signed(dict.armorClassArmorModifier||0),' +
+        '"Deflection: "+QuilvynUtils.signed(dict.armorClassDeflectionModifier||0),' +
+        '"Dexterity: "+QuilvynUtils.signed(dict.armorClassDexterityModifier||0),' +
+        '"Dodge: "+QuilvynUtils.signed(dict.armorClassDodgeModifier||0),' +
+        '"Insight: "+QuilvynUtils.signed(dict.armorClassInsightModifier||0),' +
+        '"Luck: "+QuilvynUtils.signed(dict.armorClassLuckModifier||0),' +
+        '"Natural Armor: "+QuilvynUtils.signed(dict.armorClassNaturalArmorModifier||0),' +
+        '"Profane: "+QuilvynUtils.signed(dict.armorClassProfaneModifier||0),' +
+        '"Sacred: "+QuilvynUtils.signed(dict.armorClassSacredModifier||0),' +
+        '"Shield: "+QuilvynUtils.signed(dict.armorClassShieldModifier||0),' +
+        '"Size: "+QuilvynUtils.signed(dict.armorClassSizeModifier||0)' +
+      '].filter(x => !x.endsWith("+0")).join("; ")'
   );
   rules.defineRule('combatNotes.constitutionHitPointsAdjustment',
     'constitutionModifier', '=', null,
