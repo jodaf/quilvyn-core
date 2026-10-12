@@ -6468,7 +6468,7 @@ SRD35.talentRules = function(
 
   QuilvynUtils.checkAttrTable(feats, ['Require', 'Imply', 'Type']);
   QuilvynUtils.checkAttrTable
-    (features, ['Section', 'Note', 'Spells', 'SpellAbility']);
+    (features, ['Section', 'Note', 'Spells', 'SpellAbility', 'SpellLevel']);
   QuilvynUtils.checkAttrTable
     (goodies, ['Pattern', 'Effect', 'Value', 'Attribute', 'Section', 'Note']);
   QuilvynUtils.checkAttrTable(languages, []);
@@ -6686,7 +6686,8 @@ SRD35.choiceRules = function(rules, type, name, attrs) {
       QuilvynUtils.getAttrValueArray(attrs, 'Section'),
       QuilvynUtils.getAttrValueArray(attrs, 'Note'),
       QuilvynUtils.getAttrValueArray(attrs, 'Spells'),
-      QuilvynUtils.getAttrValue(attrs, 'SpellAbility')
+      QuilvynUtils.getAttrValue(attrs, 'SpellAbility'),
+      QuilvynUtils.getAttrValue(attrs, 'SpellLevel')
     );
   else if(type == 'Goody')
     SRD35.goodyRules(rules, name,
@@ -8425,11 +8426,12 @@ SRD35.featureListRules = function(
  * Defines in #rules# the rules associated with feature #name#. #sections# lists
  * the sections of the notes related to the feature and #notes# the note texts;
  * the two must have the same number of elements. #spells# lists any spells
- * acquired as part of the feature, and #spellAbility# is the ability used to
- * calculate attack and difficulty class for these spells.
+ * acquired as part of the feature, #spellAbility# is the ability used to
+ * calculate attack and difficulty class for these spells, and #spellLevel# is
+ * the level variable (defaults to 'level') used when computing spell effects.
  */
 SRD35.featureRules = function(
-  rules, name, sections, notes, spells, spellAbility
+  rules, name, sections, notes, spells, spellAbility, spellLevel
 ) {
 
   if(!name) {
@@ -8454,6 +8456,10 @@ SRD35.featureRules = function(
   }
   if(spellAbility != null && !(spellAbility in SRD35.ABILITIES)) {
     console.log('Bad spell ability "' + spellAbility + '" for feature ' + name);
+    return;
+  }
+  if(spellLevel != null && typeof spellLevel != 'string') {
+    console.log('Bad spell level "' + spellLevel + '" for feature ' + name);
     return;
   }
 
@@ -8649,7 +8655,7 @@ SRD35.featureRules = function(
       'spellModifier.' + spellType, '+', '10 + source'
     );
     SRD35.featureSpells
-      (rules, name, spellType, spellAbility, 'level', '', spells);
+      (rules, name, spellType, spellAbility, spellLevel || 'level', '', spells);
   }
 
 };
