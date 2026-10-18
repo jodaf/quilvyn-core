@@ -229,7 +229,7 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Spells</b>:<br/>    <table id="Spells" style="width:100%">
     <tr style="text-align:left">
-      <td>Acid Arrow (S2 Conj): R1200' Ranged touch inflicts 2d4 HP acid per rd for 7 rd</td>
+      <td>Acid Arrow (S2 Conj): R1200' Ranged touch attack inflicts 2d4 HP acid per rd for 7 rd</td>
     </tr><tr style="text-align:left">
       <td>Antimagic Field (S6 Abju): 10' radius suppresses magic and summoned and incorporeal undead creatures for 200 min</td>
     </tr><tr style="text-align:left">
@@ -241,7 +241,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Black Tentacles (S4 Conj): R300' Tentacles in a 20' radius restrain creatures (grapple +28, Strength 19), and additional successful grapples on a held creature each rd inflict 1d6+4 HP bludgeoning, for 20 rd</td>
     </tr><tr style="text-align:left">
-      <td>Cat's Grace (S2 Tran): Touched gains +4 Dexterity for 20 min</td>
+      <td>Cat's Grace (S2 Tran): Touched gains +4 Dexterity (save Will negates) for 20 min</td>
     </tr><tr style="text-align:left">
       <td>Darkness (S2 Evoc): Touched object radiates shadows, giving creatures concealment, in a 20' radius for 200 min</td>
     </tr><tr style="text-align:left">
@@ -253,7 +253,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Floating Disk (S1 Evoc): R75' 3'-diameter, 1" thick force disk can hold 2000 lbs and follows self at a 5' distance, 3' off the ground, for 20 hr</td>
     </tr><tr style="text-align:left">
-      <td>Freedom (S9 Abju): R75' Releases the target from movement restrictions</td>
+      <td>Freedom (S9 Abju): R75' Releases the target from movement restrictions (save Will negates)</td>
     </tr><tr style="text-align:left">
       <td>Gate (S9 Conj): R300' Creates a 5'-20' diameter disk passage to another plane for concentration up to 20 rd, or, at the cost of 1000 XP, allows summoning extraplanar creatures—a named creature, a single creature of a named kind, or up to 40 HD of a named kind</td>
     </tr><tr style="text-align:left">
@@ -261,11 +261,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Halt Undead (S3 Necr): R300' Immobilizes 3 undead in a 15' radius (save Will for intelligent undead negates) for 20 rd; attacking a held creature ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Haste (S3 Tran): R75' 20 targets in a 15' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, a +1 dodge bonus to Armor Class, +1 Reflex saves, and +30' Speed for 20 rd</td>
+      <td>Haste (S3 Tran): R75' 20 targets in a 15' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, a +1 dodge bonus to Armor Class, +1 Reflex saves, and +30' Speed (save Fortitude negates) for 20 rd</td>
     </tr><tr style="text-align:left">
       <td>Horrid Wilting (S8 Necr): R1200' Creatures in a 30' radius suffer 20d6 HP, or 20d8 HP for plants or water elementals (save Fortitude half)</td>
     </tr><tr style="text-align:left">
-      <td>Invisibility (S2 Illu): Touched becomes invisible for 20 min; target attacking ends the spell</td>
+      <td>Invisibility (S2 Illu): Touched becomes invisible (save Will negates) for 20 min; target attacking ends the spell</td>
     </tr><tr style="text-align:left">
       <td>Iron Body (S8 Tran): Self becomes living iron for 20 min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d6 HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulnerability to special attacks that affect iron golems</td>
     </tr><tr style="text-align:left">
@@ -281,19 +281,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Aura (S1 Illu): Alters the magical aura of an object weighing up to 100 lb for 20 days; <i>Identify</i> reveals the false aura</td>
     </tr><tr style="text-align:left">
-      <td>Magic Weapon (S1 Tran): Touched weapon gains +1 attacks and damage for 20 min</td>
+      <td>Magic Weapon (S1 Tran): Touched weapon (save Will negates) gains +1 attacks and damage for 20 min</td>
     </tr><tr style="text-align:left">
       <td>Mass Enlarge Person (S4 Tran): R75' 20 humanoid targets in a 15' radius double in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class (save Fortitude negates), for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Fox's Cunning (S6 Tran): R75' 20 targets in a 15' radius gain +4 Intelligence for 20 min</td>
+      <td>Mass Fox's Cunning (S6 Tran): R75' 20 targets in a 15' radius gain +4 Intelligence (save Will negates) for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Meteor Swarm (S9 Evoc): R1200' Ranged touch with each of 4 2'-diameter spheres inflicts 2d6 HP bludgeoning, plus 6d6 HP fire in a 40' radius (save Reflex half for creatures not hit by a meteor)</td>
+      <td>Meteor Swarm (S9 Evoc): R1200' Ranged touch attack with each of 4 2'-diameter spheres inflicts 2d6 HP bludgeoning, plus 6d6 HP fire in a 40' radius (save Reflex half for creatures not hit by a meteor)</td>
     </tr><tr style="text-align:left">
       <td>Mind Fog (S5 Ench): R300' Fog in a 20' radius inflicts -10 Wisdom and Will checks (save Will negates), lasting for 2d6 rd after exiting, for 30 min</td>
     </tr><tr style="text-align:left">
       <td>Mount (S1 Conj): R75' Summons a riding horse with bit, bridle, and saddle that serves self for 40 hr</td>
     </tr><tr style="text-align:left">
-      <td>Nondetection (S3 Abju): Touched gains SR 31 vs. divination, or self or a possession gains SR 35, for 20 hr</td>
+      <td>Nondetection (S3 Abju): Touched gains SR 31 vs. divination (save Will negates), or self or a possession gains SR 35, for 20 hr</td>
     </tr><tr style="text-align:left">
       <td>Phase Door (S7 Conj): Allows self and specified creatures to pass through a 5'x8'x40' section of wood, stone, or plaster a total of 10 times</td>
     </tr><tr style="text-align:left">
@@ -301,15 +301,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Prestidigitation (S0 Univ): R10' Allows performing minor magic effects for 1 hr</td>
     </tr><tr style="text-align:left">
-      <td>Prismatic Wall (S8 Abju): R75' 80'x40' wall lasting 200 min blinds for 2d4 rd creatures with up to 7 HD who look at it from within 20', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save will negates)</td>
+      <td>Prismatic Wall (S8 Abju): R75' 80'x40' wall lasting 200 min blinds for 2d4 rd creatures with up to 7 HD who look at it from within 20', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates)</td>
     </tr><tr style="text-align:left">
       <td>Project Image (S7 Illu): R300' Allows self to see and cast through an intangible duplicate (save Will upon interaction disbelieves) for 20 rd; a break in line of effect to the duplicate ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Arrows (S2 Abju): Touched gains DR 10/magic vs. ranged weapons for 20 hr or until 100 HP have been negated</td>
+      <td>Protection From Arrows (S2 Abju): Touched gains DR 10/magic vs. ranged weapons (save Will negates) for 20 hr or until 100 HP have been negated</td>
     </tr><tr style="text-align:left">
-      <td>Protection From Spells (S8 Abju): Touched gains +8 saves vs. spells and spell-like abilities for 200 min</td>
+      <td>Protection From Spells (S8 Abju): Touched gains +8 saves vs. spells and spell-like abilities (save Will negates) for 200 min</td>
     </tr><tr style="text-align:left">
-      <td>Ray Of Frost (S0 Evoc): R75' Ranged touch inflicts 1d3 HP cold</td>
+      <td>Ray Of Frost (S0 Evoc): R75' Ranged touch attack inflicts 1d3 HP cold</td>
     </tr><tr style="text-align:left">
       <td>Read Magic (S0 Divi): Allows self to read magical writing and identify <i>Glyphs</i> and <i>Symbols</i> with a successful Spellcraft check for 200 min</td>
     </tr><tr style="text-align:left">
@@ -325,7 +325,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Shocking Grasp (S1 Evoc): Melee touch attack (+3 vs. metal) inflicts 5d6 HP electricity</td>
     </tr><tr style="text-align:left">
-      <td>Statue (S7 Tran): Allows touched to become a statue with hardness 8 at will for 20 hr</td>
+      <td>Statue (S7 Tran): Allows touched to become a statue with hardness 8 at will (save Will negates) for 20 hr</td>
     </tr><tr style="text-align:left">
       <td>Summon Monster IV (S4 Conj): R75' Summons 1 4th-level, 1d3 3rd-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 20 rd</td>
     </tr><tr style="text-align:left">
@@ -333,11 +333,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Symbol Of Stunning (S7 Ench): Rune stuns creatures in a 60' radius for 1d6 rd (save Will negates) when triggered for 200 min</td>
     </tr><tr style="text-align:left">
-      <td>Telekinesis (S5 Tran): R1200' Allows self to move an object weighing up to 375 lb 20' per rd for concentration up to 20 rd (save Will for possessed items negates), to perform a +20 Bull Rush, Disarm, Grapple, or Trip using Charisma instead of Strength or Dexterity once per rd for concentration up to 20 rd, or to hurl 15 objects or creatures in a 5' radius weighing up to 375 lbs total (save Will for creatures and possessed items negates) up to 10'</td>
+      <td>Telekinesis (S5 Tran): R1200' Allows self to move an object or creature weighing up to 375 lb 20' per rd for concentration up to 20 rd (save Will negates), to perform a +20 Bull Rush, Disarm, Grapple, or Trip using Charisma instead of Strength or Dexterity once per rd for concentration up to 20 rd, or to hurl 15 objects or creatures in a 5' radius weighing up to 375 lbs total up to 10' (save Will negates)</td>
     </tr><tr style="text-align:left">
       <td>Teleportation Circle (S9 Conj): 5' radius transports creatures any distance with no chance of error for 200 min</td>
     </tr><tr style="text-align:left">
-      <td>Tongues (S3 Divi): Allows touched to communicate in any language for 200 min</td>
+      <td>Tongues (S3 Divi): Allows touched to communicate in any language (save Will negates) for 200 min</td>
     </tr><tr style="text-align:left">
       <td>Transformation (S6 Tran): Gives self +4 Strength, Dexterity, Constitution, a +4 natural armor bonus, +5 Fortitude, simple and martial weapon proficiency, and a +20 BAB, but prevents the casting of spells, for 20 rd</td>
     </tr><tr style="text-align:left">
@@ -345,11 +345,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Unseen Servant (S1 Conj): R75' Creates an invisible servant with Strength 2 and a 15' Speed that can perform simple tasks for 20 hr</td>
     </tr><tr style="text-align:left">
-      <td>Wall Of Ice (S4 Evoc): R300' Creates a 200 square foot wall or a 23' radius hemisphere of 20"-thick ice for 20 min; each 10' section has 60 hit points, and passing through a broken section of the wall inflicts 1d6+20 HP cold</td>
+      <td>Wall Of Ice (S4 Evoc): R300' Creates a 200 square foot wall or a 23' radius hemisphere of 20"-thick ice for 20 min (save Reflex by adjacent creatures causes the spell to fail); each 10' section has 60 hit points, and passing through a broken section of the wall inflicts 1d6+20 HP cold</td>
     </tr><tr style="text-align:left">
       <td>Waves Of Fatigue (S5 Necr): 30' cone inflicts fatigued</td>
     </tr><tr style="text-align:left">
-      <td>Weird (S9 Illu): R300' Fears of targets in a 15' radius create creatures (save Will negates) whose touch kills its target (save Fortitude inflicts 3d6 HP, -1d4 Strength, and stunned for 1 rd)</td>
+      <td>Weird (S9 Illu): R300' Fears of targets in a 15' radius create creatures (save Will upon interaction disbelieves) whose touch kills its target (save Fortitude inflicts 3d6 HP, -1d4 Strength, and stunned for 1 rd)</td>
     </tr><tr style="text-align:left">
       <td>Whispering Wind (S2 Tran): R20 miles Allows sending a whispered 25-word message or sound to a familiar 10' area</td>
     </tr></table>

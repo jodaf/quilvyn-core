@@ -1624,9 +1624,9 @@ SRD35.FEATURES = {
 };
 SRD35.GOODIES = {
   'Armor':
-    // N.B. Pattern uses a negative lookbehind to exclude "natural armor",
-    // since that has its own entry
-    'Pattern="([-+]\\d+).*\\b(?:(?<!natural\\s+)armor(?:\\s+class)?|AC)\\b|\\b(?:(?<!natural\\s+)armor(?:\\s+class)?|AC)\\s+([-+]\\d+)" ' +
+    // N.B. Pattern uses a negative lookbehind to exclude "natural armor" and
+    // "bonus to armor", since those has their own entries
+    'Pattern="([-+]\\d+).*\\b(?:(?<!(natural|bonus to)\\s+)armor(?:\\s+class)?|AC)\\b|\\b(?:(?<!natural\\s+)armor(?:\\s+class)?|AC)\\s+([-+]\\d+)" ' +
     'Effect=raiseOrSet ' +
     'Value="$1 || $2" ' +
     'Attribute=armorClassArmorEnhancementModifier ' +
@@ -1721,12 +1721,24 @@ SRD35.GOODIES = {
     'Value="$1 || $2" ' +
     'Attribute=constitution ' +
     'Section=ability Note="%V Constitution"',
+  'Deflection':
+    'Pattern="([-+]\\d+)\\s+deflection\\s+bonus\\s+to\\s+armor" ' +
+    'Effect=raiseOrSet ' +
+    'Value="$1 || $2" ' +
+    'Attribute=armorClassDeflectionModifier ' +
+    'Section=combat Note="%V deflection bonus to Armor Class"',
   'Dexterity':
     'Pattern="([-+]\\d+)\\s+dex(?:terity)?\\b|\\bdex(?:terity)?\\s+([-+]\\d+)" ' +
     'Effect=add ' +
     'Value="$1 || $2" ' +
     'Attribute=dexterity ' +
     'Section=ability Note="%V Dexterity"',
+  'Dodge':
+    'Pattern="([-+]\\d+)\\s+dodge\\s+bonus\\s+to\\s+armor" ' +
+    'Effect=addOrSet ' +
+    'Value="$1 || $2" ' +
+    'Attribute=armorClassDodgeModifier ' +
+    'Section=combat Note="%V dodge bonus to Armor Class"',
   'Familiar Armor':
     'Pattern="\\b(?:armor(?:\\s+class)?|AC)\\s*\\(familiar\\)\\s*([-+]\\d+)" ' +
     'Effect=add ' +
@@ -1823,6 +1835,12 @@ SRD35.GOODIES = {
     'Value="$1 || $2" ' +
     'Attribute=initiative ' +
     'Section=combat Note="%V Initiative"',
+  'Insight':
+    'Pattern="([-+]\\d+)\\s+insight\\s+bonus\\s+to\\s+armor" ' +
+    'Effect=raiseOrSet ' +
+    'Value="$1 || $2" ' +
+    'Attribute=armorClassInsightModifier ' +
+    'Section=combat Note="%V insight bonus to Armor Class"',
   'Intelligence':
     'Pattern="([-+]\\d+)\\s+int(?:elligence)?\\b|\\bint(?:elligence)?\\s+([-+]\\d+)" ' +
     'Effect=add ' +
@@ -1835,6 +1853,12 @@ SRD35.GOODIES = {
     'Value="$1 || $2" ' +
     'Attribute=languageCount ' +
     'Section=skill Note="%V Languages"',
+  'Luck':
+    'Pattern="([-+]\\d+)\\s+luck\\s+bonus\\s+to\\s+armor" ' +
+    'Effect=raiseOrSet ' +
+    'Value="$1 || $2" ' +
+    'Attribute=armorClassLuckModifier ' +
+    'Section=combat Note="%V luck bonus to Armor Class"',
   'Masterwork Armor':
     'Pattern="\\bmasterwork\\b.*\\s+armor\\b|[-+]\\d+.*\\barmor\\b|\\barmor\\s+[-+]\\d+" ' +
     'Effect=add ' +
@@ -1853,6 +1877,12 @@ SRD35.GOODIES = {
     'Value="$1 || $2" ' +
     'Attribute=armorClassNaturalArmorEnhancementModifier ' +
     'Section=combat Note="%V natural armor enhancement bonus to Armor Class"',
+  'Profane':
+    'Pattern="([-+]\\d+)\\s+profane\\s+bonus\\s+to\\s+armor" ' +
+    'Effect=raiseOrSet ' +
+    'Value="$1 || $2" ' +
+    'Attribute=armorClassProfaneModifier ' +
+    'Section=combat Note="%V profane bonus to Armor Class"',
   'Protection':
     'Pattern="(\\+\\d+).*\\bprotection\\b|\\bprotection\\s+(\\+\\d+)" ' +
     'Effect=raiseOrSet ' +
@@ -1865,6 +1895,12 @@ SRD35.GOODIES = {
     'Value="$1 || $2" ' +
     'Attribute=save.Reflex ' +
     'Section=save Note="%V Reflex"',
+  'Sacred':
+    'Pattern="([-+]\\d+)\\s+sacred\\s+bonus\\s+to\\s+armor" ' +
+    'Effect=raiseOrSet ' +
+    'Value="$1 || $2" ' +
+    'Attribute=armorClassSacredModifier ' +
+    'Section=combat Note="%V sacred bonus to Armor Class"',
   'Shield':
     'Pattern="([-+]\\d+).*\\s+shield\\b|\\bshield\\s+([-+]\\d+)" ' +
     'Effect=raiseOrSet ' +
@@ -11230,6 +11266,17 @@ SRD35.ruleNotes = function() {
     '    than to a single class. For example, for a ' +
     '    Bard/Wizard/Loremaster, Quilvyn will add the Loremaster bonus ' +
     '    to both the bard and wizard spells per day.\n' +
+    '  </li><li>\n' +
+    '    Quilvyn allows the benefits of multiple goodies that affect the ' +
+    '    same armor class modifier to stack. For example, if the notes for ' +
+    '    a character contains the lines<br/>' +
+    '    * +1 Ring Of Protection<br/>' +
+    '    * +2 Ring Of Protection<br/>' +
+    '    then Quilvyn will give the character a +3 deflection bonus to ' +
+    '    armor class. The easiest work-around for this is to remove the ' +
+    '    asterisk before items that have a lesser bonus (the +1 ring in ' +
+    "    this example), so that Quilvyn doesn't include the item in its " +
+    '    armor class calculations.\n' +
     '  </li>\n' +
     '</ul>\n' +
     '<h3>Copyrights and Licensing</h3>\n' +
