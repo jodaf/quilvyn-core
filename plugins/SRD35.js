@@ -798,7 +798,7 @@ SRD35.FEATURES = {
       '"Knowledge (Nature) is a class skill"',
   'Protection Domain':
     'Section=magic ' +
-    'Note="Touched gains +%{levels.Cleric} on the next save within 1 hour once per day"',
+    'Note="Gives touched +%{levels.Cleric} on the next save within 1 hour once per day"',
   'Strength Domain':
     'Section=ability ' +
     'Note="Can gain +%{levels.Cleric} Strength for 1 rd once per day"',
@@ -2189,7 +2189,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation) [Acid]" ' +
     'Level=S6,W6,Water7 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, slows to 5\', and inflicts -2 attacks, -2 damage, and 2d6 HP acid per rd for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 20\' radius fog that obscures vision, slows to 5\', and inflicts -2 attacks, -2 damage, and 2d6 HP acid per rd for %{lvl} rd"',
   'Acid Splash':
     'School="Conjuration (Creation) [Acid]" ' +
     'Level=S0,W0 ' +
@@ -2198,7 +2198,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=Adept2,C2,Good2,Luck2 ' +
     'Description=' +
-      '"Touched gains +1 attacks, +1 saves vs. fear, and 1d8+%{lvl<?10} temporary hit points for %{lvl} min" ' +
+      '"Gives touched +1 attacks, +1 saves vs. fear, and 1d8+%{lvl<?10} temporary hit points for %{lvl} min" ' +
     'Liquid=Potion',
   'Air Walk':
     'School="Transmutation [Air]" ' +
@@ -2219,7 +2219,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Assassin2,B2,S2,W2 ' +
     'Description=' +
-      '"Self becomes a choice of creature within 1 size category that has up to %{lvl<?5} HD for %{lvl*10} min; possessions can remain or meld into the form"',
+      '"Transforms self into a choice of creature within 1 size category that has up to %{lvl<?5} HD for %{lvl*10} min; possessions can remain or meld into the form"',
   'Analyze Dweomer':
     'School=Divination ' +
     'Level=B6,S6,W6 ' +
@@ -2239,7 +2239,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Animal7,D8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} willing targets in a 15\' radius become a chosen animal with up to %{lvl} HD for %{lvl} hr"',
+      '"R%{25+lvl//2*5}\' Transforms %{lvl} willing targets in a 15\' radius into a chosen animal with up to %{lvl} HD for %{lvl} hr"',
   'Animal Trance':
     'School="Enchantment (Compulsion) [Mind-Affecting,Sonic]" ' +
     'Level=Adept2,B2,D2 ' +
@@ -2249,7 +2249,7 @@ SRD35.SPELLS = {
     'School="Necromancy [Evil]" ' +
     'Level=Adept3,C3,Death3,S4,W4 ' +
     'Description=' +
-      '"Touched corpses become up to %{lvl*2} HD of obedient skeletons and zombies; no more than 4 HD of undead created by multiple castings can be controlled"',
+      '"Transforms touched corpses into up to %{lvl*2} HD of obedient skeletons and zombies; no more than 4 HD of undead created by multiple castings can be controlled"',
   'Animate Objects':
     'School=Transmutation ' +
     'Level=B6,C6,Chaos6 ' +
@@ -2289,7 +2289,7 @@ SRD35.SPELLS = {
     'School="Divination (Scrying)" ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"Allows seeing through an invisible remote sensor that can be moved 30\' per rd for %{lvl} min"',
+      '"Allows self to see through an invisible remote sensor that can be moved 30\' per rd for %{lvl} min"',
   'Arcane Lock':
     'School=Abjuration ' +
     'Level=S2,W2 ' +
@@ -2349,12 +2349,12 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D2,Plant2,R2 ' +
     'Description=' +
-      '"Touched gains a +%{(lvl+3)//3<?5} natural armor enhancement bonus to Armor Class for %{lvl*10} min" ' +
+      '"Gives touched a +%{(lvl+3)//3<?5} natural armor enhancement bonus to Armor Class for %{lvl*10} min" ' +
     'Liquid=Potion',
   "Bear's Endurance":
     'School=Transmutation ' +
     'Level=Adept2,C2,D2,R2,S2,W2 ' +
-    'Description="Touched gains +4 Constitution (save Will negates) for %{lvl} min" ' +
+    'Description="Gives touched +4 Constitution (save Will negates) for %{lvl} min" ' +
     'Liquid=Potion',
   "Mass Bear's Endurance":
     'School=Transmutation ' +
@@ -2370,7 +2370,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Magically imprisons the target (save Will negates for targets with %{lvl//2}%{lvl/2-lvl//2==1?\' 1/2\':\'\'} HD or more; assistance from other casters raises the threshold by 1/2 HD per assistant, or by 1/3 the assistant\'s level if they cast <i>Binding</i> or an appropriate <i>Dominate</i> spells) with a choice of chains for %{lvl} years, sleep for %{lvl} years, chains and sleep for %{lvl} months (-2 save DC), permanent confinement (-3 save DC), permanent gaseous form in a container (-4 save DC), or permanent reduction in size to 1\\" or less within a container (-4 save DC); the spell can also include triggering conditions that end it, increasing the save DC by 2"',
+      '"R%{25+lvl//2*5}\' Magically imprisons the target (save Will negates for targets with %{lvl//2}%{lvl/2-lvl//2==1?\' 1/2\':\'\'} HD or more; assistance from other casters raises the threshold by 1/2 HD per assistant, or by 1/3 the assistant\'s level if they cast <i>Binding</i> or an appropriate <i>Dominate</i> spell) with a choice of chains for %{lvl} years, sleep for %{lvl} years, chains and sleep for %{lvl} months (-2 save DC), permanent confinement (-3 save DC), permanent gaseous form in a container (-4 save DC), or permanent reduction in size to 1\\" or less within a container (-4 save DC); the spell can also include triggering conditions that end it, increasing the save DC by 2"',
   'Black Tentacles':
     'School="Conjuration (Creation)" ' +
     'Level=S4,W4 ' +
@@ -2385,7 +2385,7 @@ SRD35.SPELLS = {
     'School="Evocation [Evil,Sonic]" ' +
     'Level=C7,Evil7 ' +
     'Description=' +
-      '"Inflicts on nonevil creatures within 40\' a set of effects: banishment for 24 hr (save Will -4 negates) on extraplanar creatures; killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; -2d6 Strength for 2d4 rd on creatures with up to %{lvl-1} HD; dazed for 1 rd on creatures with up to %{lvl} HD"',
+      '"Inflicts on nonevil creatures within 40\' a set of effects: banishment for 24 hr on extraplanar creatures (save Will -4 negates); killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; -2d6 Strength for 2d4 rd on creatures with up to %{lvl-1} HD; dazed for 1 rd on creatures with up to %{lvl} HD"',
   'Bless':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=Adept1,C1,P1 ' +
@@ -2400,7 +2400,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=P1 ' +
     'Description=' +
-      '"Touched weapon becomes good-aligned and magic, and critical threats when using it vs. evil foes are automatically confirmed, for %{lvl} min" ' +
+      '"Makes the touched weapon good-aligned and magic, and critical threats when using it vs. evil foes are automatically confirmed, for %{lvl} min" ' +
     'Liquid=Oil',
   'Blight':
     'School=Necromancy ' +
@@ -2416,12 +2416,12 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Self becomes ethereal randomly for %{lvl} rd, allowing passage through solid objects (50% chance per 5\' of being pushed out and taking 1d6 HP damage per 5\' traveled), reducing damage from falling and foe area attacks by half, inflicting a 50% miss chance on foe attacks and targeted spells (reduced to 20% if a foe can see invisible creatures), inflicting a 20% chance of misfire on self spells, and giving self attacks +2 to hit and a 20% miss chance"',
+      '"Causes self to become ethereal randomly for %{lvl} rd, allowing passage through solid objects (50% chance per 5\' of being pushed out, taking 1d6 HP damage per 5\' traveled), reducing damage from falling and foe area attacks by half, inflicting a 50% miss chance on foe attacks and targeted spells (reduced to 20% if an attacker can see invisible creatures), inflicting a 20% chance of misfire on self spells, and giving self attacks +2 to hit and a 20% miss chance"',
   'Blur':
     'School="Illusion (Glamer)" ' +
     'Level=B2,S2,W2 ' +
     'Description=' +
-      '"Touched gains concealment (save Will negates), inflicting a 20% miss chance on foe attacks, for %{lvl} min" ' +
+      '"Gives touched concealment (save Will negates), inflicting a 20% miss chance on foe attacks, for %{lvl} min" ' +
     'Liquid=Potion',
   'Break Enchantment':
     'School=Abjuration ' +
@@ -2432,7 +2432,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Adept2,Blackguard2,C2,D2,P2,Strength2,S2,W2 ' +
     'Description=' +
-      '"Touched gains +4 Strength (save Will negates) for %{lvl} min" ' +
+      '"Gives touched +4 Strength (save Will negates) for %{lvl} min" ' +
     'Liquid=Potion',
   "Mass Bull's Strength":
     'School=Transmutation ' +
@@ -2448,17 +2448,17 @@ SRD35.SPELLS = {
     'School="Evocation [Electricity]" ' +
     'Level=D3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 1 bolt per rd inflicts 3d6 HP electricity, or 3d10 HP during a storm, (save Reflex half) for %{lvl} min or %{lvl<?10} bolts"',
+      '"R%{100+lvl*10}\' 1 bolt per rd inflicts 3d6 HP electricity, or 3d10 HP during a storm, (save Reflex half) for %{lvl<?10} bolts within %{lvl} min"',
   'Call Lightning Storm':
     'School="Evocation [Electricity]" ' +
     'Level=D5 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' 1 bolt per rd inflicts 5d6 HP electricity, or 5d10 HP during a storm, (save Reflex half) for %{lvl} min or %{lvl<?15} bolts"',
+      '"R%{400+lvl*40}\' 1 bolt per rd inflicts 5d6 HP electricity, or 5d10 HP during a storm, (save Reflex half) for %{lvl<?15} bolts within %{lvl} min"',
   'Calm Animals':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=Animal1,D1,R1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' 2d4+%{lvl} HD of animals in a 15\' radius become docile (save Will negates) for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' Makes 2d4+%{lvl} HD of animals in a 15\' radius docile (save Will negates) for %{lvl} min"',
   'Calm Emotions':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B2,C2,Law2 ' +
@@ -2468,7 +2468,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Adept2,Assassin2,B2,D2,R2,S2,W2 ' +
     'Description=' +
-      '"Touched gains +4 Dexterity (save Will negates) for %{lvl} min" ' +
+      '"Gives touched +4 Dexterity (save Will negates) for %{lvl} min" ' +
     'Liquid=Potion',
   "Mass Cat's Grace":
     'School=Transmutation ' +
@@ -2479,12 +2479,12 @@ SRD35.SPELLS = {
     'School="Necromancy [Fear,Mind-Affecting]" ' +
     'Level=Adept1,B1,Blackguard1,C1,Death1,S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target with up to 5 HD becomes frightened and flees for 1d4 rd (save Will inflicts shaken for 1 rd)"',
+      '"R%{25+lvl//2*5}\' Causes a target with up to 5 HD to become frightened and flee for 1d4 rd (save Will inflicts shaken for 1 rd)"',
   'Chain Lightning':
     'School="Evocation [Electricity]" ' +
     'Level=Air6,S6,W6 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Bolt inflicts %{lvl<?20}d6 HP electricity to the primary target and half as much to %{lvl<?20} secondary targets in a 30\' radius (save Reflex half)"',
+      '"R%{400+lvl*40}\' Bolt inflicts %{lvl<?20}d6 HP electricity to the primary target and half as much to %{lvl<?20} secondary targets within 30\' of the primary (save Reflex half)"',
   'Changestaff':
     'School=Transmutation ' +
     'Level=D7 ' +
@@ -2494,7 +2494,7 @@ SRD35.SPELLS = {
     'School="Evocation [Chaotic]" ' +
     'Level=Chaos4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Lawful creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP, or %{lvl<?10}d6 HP to outsiders, and are slowed (inflicts -2 Armor Class, attacks, damage, and Reflex saves) for 1d6 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
+      '"R%{100+lvl*10}\' Lawful creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP, or %{lvl<?10}d6 HP if they are outsiders, and are slowed (inflicts -2 Armor Class, attacks, damage, and Reflex saves) for 1d6 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Charm Animal':
     'School="Enchantment (Charm) [Mind-Affecting]" ' +
     'Level=D1,R1 ' +
@@ -2524,7 +2524,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"%{lvl} touched living suffer 1d6 HP negative energy and -1 Strength (save Fortitude HP only), or touched undead flee for 1d4+%{lvl} rd (save Will negates)"',
+      '"%{lvl} touched living suffer 1d6 HP negative energy and 1 point of Strength damage (save Fortitude HP only), or touched undead flee for 1d4+%{lvl} rd (save Will negates)"',
   'Circle Of Death':
     'School="Necromancy [Death]" ' +
     'Level=S6,W6 ' +
@@ -2534,12 +2534,12 @@ SRD35.SPELLS = {
     'School="Divination (Scrying)" ' +
     'Level=Assassin4,B3,Knowledge3,S3,W3 ' +
     'Description=' +
-      '"%{400+lvl*40}\' Self gains a choice of remote sight or hearing of a known location for %{lvl} min"',
+      '"%{400+lvl*40}\' Gives self a choice of remote sight or hearing of a known location for %{lvl} min"',
   'Clenched Fist':
     'School="Evocation [Force]" ' +
     'Level=Strength8,S8,W8 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +15 Bull Rush and a +%{lvl+11} + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that can be moved 60\' as a move action, gives +4 Armor Class, and performs a +15 Bull Rush and a +%{lvl+11} + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for %{lvl} rd"',
   'Cloak Of Chaos':
     'School="Abjuration [Chaotic]" ' +
     'Level=C8,Chaos8 ' +
@@ -2554,7 +2554,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' fog cylinder moves away 10\' per rd, killing creatures within with up to 6 HD (save Fortitude for those with 4-6 HD inflicts -1d4 Constitution) and inflicting -1d4 Constitution on those with more HD (save Fortitude half) for %{lvl} min"',
+      '"R%{100+lvl*10}\' Creates a 20\' fog cylinder that moves away 10\' per rd, killing creatures within with up to 6 HD (save Fortitude for those with 4-6 HD inflicts 1d4 points of Constitution damage) and inflicting 1d4 points of Constitution damage on those with more HD (save Fortitude half) for %{lvl} min"',
   'Color Spray':
     'School="Illusion (Pattern) [Mind-Affecting]" ' +
     'Level=S1,W1 ' +
@@ -2603,12 +2603,12 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B3,Trickery4,S4,W4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creatures in a 15\' radius randomly: 10% attack the caster; 10% act normally; 30% babble; 20% flee; 30% attack the nearest creature (save Will negates), for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creatures in a 15\' radius randomly: 10% attack the caster; 10% act normally; 30% babble; 20% flee; 30% attack the nearest creature, (save Will negates) for %{lvl} rd"',
   'Lesser Confusion':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B1 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Target randomly: 10% attacks the caster; 10% acts normally; 30% babbles; 20% flees; 30% attacks the nearest creature (save Will negates), for 1 rd"',
+      '"R%{100+lvl*10}\' Target randomly: 10% attacks the caster; 10% acts normally; 30% babbles; 20% flees; 30% attacks the nearest creature, (save Will negates) for 1 rd"',
   'Consecrate':
     'School="Evocation [Good]" ' +
     'Level=C2 ' +
@@ -2627,7 +2627,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"Sets the trigger for a spell of a level up to %{lvl//3<?6} for %{lvl} days"',
+      '"Sets the trigger for a spell of up to level %{lvl//3<?6} for %{lvl} days"',
   'Continual Flame':
     'School="Evocation [Light]" ' +
     'Level=Adept3,C3,S2,W2 ' +
@@ -2660,7 +2660,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Blackguard1 ' +
     'Description=' +
-      '"Touched weapon becomes evil-aligned and magic, and critical hits when using it vs. good foes are automatically confirmed, for %{lvl} min" ' +
+      '"Makes the touched weapon evil-aligned and magic, and critical hits when using it vs. good foes are automatically confirmed, for %{lvl} min" ' +
     'Liquid=Oil',
   'Create Food And Water':
     'School="Conjuration (Creation)" ' +
@@ -2685,7 +2685,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Summoning)" ' +
     'Level=D7 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl//2} centipede swarms inflict 2d6 HP plus 1d4 Dexterity damage from poison (save Fortitude HP only) for %{lvl} rd; swarms within 100\' can be moved 20\' each rd as a standard action"',
+      '"R%{25+lvl//2*5}\' %{lvl//2} centipede swarms inflict 2d6 HP plus 1d4 points of Dexterity damage from poison (save Fortitude HP only) for %{lvl} rd; swarms within 100\' can be moved 20\' each rd as a standard action"',
   'Crushing Despair':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B3,S4,W4 ' +
@@ -2695,7 +2695,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=Strength9,S9,W9 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +%{lvl+16} + modifier Grapple that inflicts 2d6+12 HP for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that can be moved 60\' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +%{lvl+16} + modifier Grapple that inflicts 2d6+12 HP for %{lvl} rd"',
   'Cure Critical Wounds':
     'School="Conjuration (Healing)" ' +
     'Level=Adept4,B4,Blackguard4,C4,D5,Healing4 ' +
@@ -2759,7 +2759,7 @@ SRD35.SPELLS = {
     'School="Evocation [Darkness]" ' +
     'Level=Adept2,Assassin2,B2,Blackguard2,C2,S2,W2 ' +
     'Description=' +
-      '"Touched object radiates shadows, giving creatures concealment, in a 20\' radius for %{lvl*10} min" ' +
+      '"Touched object radiates shadows in a 20\' radius, giving creatures concealment, for %{lvl*10} min" ' +
     'Liquid=Oil',
   'Darkvision':
     'School=Transmutation ' +
@@ -2792,7 +2792,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=C4,D5,Death4,P4 ' +
     'Description=' +
-      '"Touched gains immunity to death spells, death effects, energy drain, and negative energy effects (save Will negates) for %{lvl} min"',
+      '"Gives touched immunity to death spells, death effects, energy drain, and negative energy effects (save Will negates) for %{lvl} min"',
   'Deathwatch':
     'School="Necromancy [Evil]" ' +
     'Level=C1 ' +
@@ -2807,12 +2807,12 @@ SRD35.SPELLS = {
     'School="Evocation [Darkness]" ' +
     'Level=Adept3,Assassin3,Blackguard3,C3 ' +
     'Description=' +
-      '"Touched object radiates shadows, giving creatures concealment, in a 60\' radius for %{lvl} days"',
+      '"Touched object radiates shadows in a 60\' radius, giving creatures concealment, for %{lvl} days"',
   'Delay Poison':
     'School="Conjuration (Healing)" ' +
     'Level=Adept2,B2,C2,D2,P2,R1 ' +
     'Description=' +
-      '"Touched gains immunity to poison (save Fortitude negates) for %{lvl} hr" ' +
+      '"Gives touched immunity to poison (save Fortitude negates) for %{lvl} hr" ' +
     'Liquid=Potion',
   'Delayed Blast Fireball':
     'School="Evocation [Fire]" ' +
@@ -2898,7 +2898,7 @@ SRD35.SPELLS = {
     'School="Evocation [Lawful,Sonic]" ' +
     'Level=C7,Law7 ' +
     'Description=' +
-      '"Inflicts on nonlawful creatures within 40\' a set of effects: banishment for 24 hr (save Will -4 negates) on extraplanar creatures; killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; slowed for 2d4 rd on creatures with up to %{lvl-1} HD; deafened for 1d4 rd on creatures with up to %{lvl} HD"',
+      '"Inflicts on nonlawful creatures within 40\' a set of effects: banishment for 24 hr on extraplanar creatures (save Will -4 negates); killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; slowed for 2d4 rd on creatures with up to %{lvl-1} HD; deafened for 1d4 rd on creatures with up to %{lvl} HD"',
   'Dimension Door':
     'School="Conjuration (Teleportation)" ' +
     'Level=Assassin4,B4,Travel4,S4,W4 ' +
@@ -2943,7 +2943,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C4,S5,W5 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Sends the target to its native plane or (20%) to another random plane (save Will + %{lvl} - target HD negates)"',
+      '"R%{25+lvl//2*5}\' Sends the target to its native plane or (20% chance) to another random plane (save Will + %{lvl} - target HD negates)"',
   'Dispel Chaos':
     'School="Abjuration [Lawful]" ' +
     'Level=C5,Law5,P4 ' +
@@ -2978,7 +2978,7 @@ SRD35.SPELLS = {
     'School="Illusion (Glamer)" ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Makes touched creature\'s location appear to be shifted (save Will negates), inflicting a 50% miss chance on foe attacks, for %{lvl} rd" ' +
+      '"Makes the touched creature\'s location appear to be shifted (save Will negates), inflicting a 50% miss chance on foe attacks, for %{lvl} rd" ' +
     'Liquid=Potion',
   'Disrupt Undead':
     'School=Necromancy ' +
@@ -3023,7 +3023,7 @@ SRD35.SPELLS = {
     'School="Necromancy [Fear,Mind-Affecting]" ' +
     'Level=Blackguard1,C1 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Makes the target shaken, inflicting -2 attacks, damage, saves, and checks (save Will negates), for %{lvl} min"',
+      '"R%{100+lvl*10}\' Makes the target shaken (save Will negates), inflicting -2 attacks, damage, saves, and checks, for %{lvl} min"',
   'Dream':
     'School="Illusion (Phantasm) [Mind-Affecting]" ' +
     'Level=B5,S5,W5 ' +
@@ -3033,7 +3033,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B2,Blackguard2,C2,P2,S2,W2 ' +
     'Description=' +
-      '"Touched gains +4 Charisma (save Will negates) for %{lvl} min" ' +
+      '"Gives touched +4 Charisma (save Will negates) for %{lvl} min" ' +
     'Liquid=Potion',
   "Mass Eagle's Splendor":
     'School=Transmutation ' +
@@ -3070,13 +3070,13 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Strength1,S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target humanoid doubles in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class (save Fortitude negates), for %{lvl} min" ' +
+      '"R%{25+lvl//2*5}\' Target humanoid doubles in size (save Fortitude negates), gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class, for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Enlarge Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} humanoid targets in a 15\' radius double in size, gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class (save Fortitude negates), for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' %{lvl} humanoid targets in a 15\' radius double in size (save Fortitude negates), gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class, for %{lvl} min"',
   'Entangle':
     'School=Transmutation ' +
     'Level=D1,Plant1,R1 ' +
@@ -3091,29 +3091,29 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C1,Luck1 ' +
     'Description=' +
-      '"Ranged attacks on self suffer a 20% miss chance for %{lvl} min"',
+      '"Causes ranged attacks on self to suffer a 20% miss chance for %{lvl} min"',
   'Erase':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Two pages of writing vanish; magical writing requires a successful DC 15 caster level check"',
+      '"R%{25+lvl//2*5}\' Causes 2 pages of writing to vanish; magical writing requires a successful DC 15 caster level check"',
   'Ethereal Jaunt':
     'School=Transmutation ' +
     'Level=C7,S7,W7 ' +
-    'Description="Self becomes ethereal for %{lvl} rd"',
+    'Description="Makes self ethereal for %{lvl} rd"',
   'Etherealness':
     'School=Transmutation ' +
     'Level=C9,S9,W9 ' +
-    'Description="Self and %{lvl//3} willing creatures become ethereal for %{lvl} min"',
+    'Description="Makes self and %{lvl//3} willing creatures ethereal for %{lvl} min"',
   'Expeditious Retreat':
     'School=Transmutation ' +
     'Level=B1,S1,W1 ' +
-    'Description="Gives self a +30\' land Speed for %{lvl} min"',
+    'Description="Gives self a +30 land Speed for %{lvl} min"',
   'Explosive Runes':
     'School="Abjuration [Force]" ' +
     'Level=S3,W3 ' +
     'Description=' +
-      '"Runes inflict 6d6 HP force in a 10\' radius when read by an unauthorized person (save Reflex half; adjacent creatures automatically fail)"',
+      '"Creates runes that inflict 6d6 HP force in a 10\' radius when read by an unauthorized person (save Reflex half; adjacent creatures automatically fail)"',
   'Eyebite':
     'School="Necromancy [Evil]" ' +
     'Level=B6,S6,W6 ' +
@@ -3159,12 +3159,12 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=B6,C6,D6,Knowledge6,Travel6 ' +
     'Description=' +
-      '"Touched knows the most direct route to a specified location, as well how to bypass any traps that would slow progress, (save Will negates) for %{lvl*10} min"',
+      '"Reveals to the touched creature the most direct route to a specified location, as well how to bypass any traps that would slow progress, (save Will negates) for %{lvl*10} min"',
   'Find Traps':
     'School=Divination ' +
     'Level=C2 ' +
     'Description=' +
-      '"Self gains +%{lvl//2<?10} Search to uncover traps for %{lvl} min"',
+      '"Gives self +%{lvl//2<?10} Search to uncover traps for %{lvl} min"',
   'Finger Of Death':
     'School="Necromancy [Death]" ' +
     'Level=D8,S7,W7 ' +
@@ -3174,12 +3174,12 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation) [Fire]" ' +
     'Level=D6,Fire6,Sun6 ' +
     'Description=' +
-      '"Changes 4 touched acorns into grenades that can be thrown up to 100\' for ranged touch attacks that inflict %{lvl<?20}d6 HP fire in total, plus 1 HP of splash per die, or 8 touched holly berries into bombs that detonate on command to inflict 1d8+%{lvl} HP fire in a 5\' radius each (save Reflex half), for %{lvl*10} min"',
+      '"Changes 4 touched acorns into grenades that can be thrown up to 100\' for ranged touch attacks that inflict %{lvl<?20}d6 HP fire in total, plus 1 HP of splash per die (save Reflex half for splash), or 8 touched holly berries into bombs that detonate on command to inflict 1d8+%{lvl} HP fire in a 5\' radius each (save Reflex half), for %{lvl*10} min"',
   'Fire Shield':
     'School=Evocation ' + // NOTE: one of [Cold,Fire]
     'Level=Fire5,Sun4,S4,W4 ' +
     'Description=' +
-      '"Envelopes self in cold or hot flames that inflict 1d6+%{lvl<?15} HP cold or fire on melee attackers (SR may negate) and reduce heat or cold damage taken by half, or negate it entirely with a successful allowed Reflex save, for %{lvl} rd"',
+      '"Envelopes self in cold or hot flames that inflict 1d6+%{lvl<?15} HP cold or fire on melee attackers (SR may negate) and either reduce heat or cold damage taken by half or negate it entirely with a successful allowed Reflex save, for %{lvl} rd"',
   'Fire Storm':
     'School="Evocation [Fire]" ' +
     'Level=C8,D7,Fire7 ' +
@@ -3194,7 +3194,7 @@ SRD35.SPELLS = {
     'School="Evocation [Fire]"' +
     'Level=S3,W3 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Inflicts %{lvl<?10}d6 HP fire in a 20\' radius (save Reflex half)"',
+      '"R%{400+lvl*40}\' 20\' radius inflicts %{lvl<?10}d6 HP fire (save Reflex half)"',
   'Flame Arrow':
     'School="Transmutation [Fire]" ' +
     'Level=S3,W3 ' +
@@ -3230,18 +3230,18 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' 3\'-diameter, 1\\" thick force disk can hold %{lvl*100} lbs and follows self at a 5\' distance, 3\' off the ground, for %{lvl} hr"',
+      '"R%{25+lvl//2*5}\' Creates a 3\'-diameter, 1\\" thick force disk that can hold %{lvl*100} lbs and follows self at a 5\' distance, 3\' off the ground, for %{lvl} hr"',
   'Fly':
     'School=Transmutation ' +
     'Level=Travel3,S3,W3 ' +
     'Description=' +
-      '"Touched gains a 60\' fly Speed for %{lvl} min, then floats downward 60\' per rd for 1d6 rd (save Will negates)" ' +
+      '"Gives touched a 60\' fly Speed (save Will negates) for %{lvl} min, after which it floats downward 60\' per rd for 1d6 rd" ' +
     'Liquid=Potion',
   'Fog Cloud':
     'School="Conjuration (Creation)" ' +
     'Level=D2,S2,W2,Water2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, for %{lvl*10} min"',
+      '"R%{100+lvl*10}\' Creates a 20\' radius fog that obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, for %{lvl*10} min"',
   'Forbiddance':
     'School=Abjuration ' +
     'Level=C6 ' +
@@ -3256,17 +3256,17 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +14 bull rush for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that can be moved 60\' as a move action, gives +4 Armor Class, and performs a +14 bull rush for %{lvl} rd"',
   'Foresight':
     'School=Divination ' +
     'Level=D9,Knowledge9,S9,W9 ' +
     'Description=' +
-      '"Self receives warnings of impending danger to touched (save Will negates) for %{lvl*10} min; casting on self also gives a +2 insight bonus to Armor Class and Reflex saves and negates surprise and flat-footed"',
+      '"Gives self warnings of impending danger to the touched creature (save Will negates) for %{lvl*10} min; casting on self also gives a +2 insight bonus to Armor Class and Reflex saves and negates surprise and flat-footed"',
   "Fox's Cunning":
     'School=Transmutation ' +
     'Level=Assassin2,B2,S2,W2 ' +
     'Description=' +
-      '"Touched gains +4 Intelligence (save Will negates) for %{lvl} min" ' +
+      '"Gives touched +4 Intelligence (save Will negates) for %{lvl} min" ' +
     'Liquid=Potion',
   "Mass Fox's Cunning":
     'School=Transmutation ' +
@@ -3287,24 +3287,24 @@ SRD35.SPELLS = {
     'School="Evocation [Cold]" ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' 10\' radius inflicts %{lvl<?15}d6 HP cold, or %{lvl<?15}d8 HP cold to elemental water creatures (save Reflex half), and freezes %{(lvl<?15)*100} square feet of water to a depth of 6\\" for %{lvl} rd"',
+      '"R%{400+lvl*40}\' 10\' radius inflicts %{lvl<?15}d6 HP cold, or %{lvl<?15}d8 HP cold to elemental water creatures, (save Reflex half) and freezes %{(lvl<?15)*100} square feet of water to a depth of 6\\" for %{lvl} rd"',
 
   'Gaseous Form':
     'School=Transmutation ' +
     'Level=Air3,B3,S3,W3 ' +
     'Description=' +
-      '"Willing touched corporeal creature becomes insubstantial, losing its armor bonus to Armor Class, any supernatural abilities, ability to manipulate objects, and ability to cast spells with components, but gaining DR 10/magic, immunity to poison and critical hits, a 10\' fly Speed, and the ability to pass through small openings, for %{lvl*2} min" ' +
+      '"Causes the willing touched corporeal creature to become insubstantial, losing its armor bonus to Armor Class, any supernatural abilities, ability to manipulate objects, and ability to cast spells with components, but gaining DR 10/magic, immunity to poison and critical hits, a 10\' fly Speed, and the ability to pass through small openings, for %{lvl*2} min" ' +
     'Liquid=Potion',
   'Gate':
     'School=Conjuration ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C9,S9,W9 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a 5\'-20\' diameter disk passage to another plane for concentration up to %{lvl} rd, or, at the cost of 1000 XP, allows summoning extraplanar creatures&mdash;a named creature, a single creature of a named kind, or up to %{lvl*2} HD of a named kind"',
+      '"R%{100+lvl*10}\' Creates a 5\'-20\' diameter disk passage to another plane for concentration up to %{lvl} rd and, at the cost of 1000 XP, allows summoning extraplanar creatures&mdash;a named creature, a single creature of a named kind, or up to %{lvl*2} HD of a named kind"',
   'Geas/Quest':
     'School="Enchantment (Compulsion) [Language-Dependent,Mind-Affecting]"  ' +
     'Level=B6,C6,S6,W6 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Compels a target to complete a specified task within %{lvl} days, suffering 3d6 HP and sickened (save Fortitude HP only) for each 24 hr spent without obeying; the sickness ends 24 hr after resuming the task"',
+      '"R%{25+lvl//2*5}\' Compels the target to complete a specified task within %{lvl} days, suffering 3d6 HP and sickened (save Fortitude HP only) for each 24 hr spent without obeying; the sickness ends 24 hr after resuming the task"',
   'Lesser Geas':
     'School="Enchantment (Compulsion) [Language-Dependent,Mind-Affecting]"  ' +
     'Level=B3,S4,W4 ' +
@@ -3364,7 +3364,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' %{lvl} targets in a 15\' radius gain +2 attacks, weapon damage, saves, and checks (save Will negates) for %{lvl} min" ' +
+      '"R%{100+lvl*10}\' Gives %{lvl} targets in a 15\' radius +2 attacks, weapon damage, saves, and checks (save Will negates) for %{lvl} min" ' +
     'Liquid=Potion',
   'Goodberry':
     'School=Transmutation ' +
@@ -3375,7 +3375,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=Strength7,S7,W7 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) can be moved 60\' as a move action, gives +4 Armor Class, and performs a +16 Bull Rush and +%{lvl+14} + modifier Grapple for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that can be moved 60\' as a move action, gives +4 Armor Class, and performs a +16 Bull Rush and +%{lvl+14} + modifier Grapple for %{lvl} rd"',
   'Grease':
     'School="Conjuration (Creation)" ' +
     'Level=B1,S1,W1 ' +
@@ -3391,7 +3391,7 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=Adept0,C0,D0 ' +
     'Description=' +
-      '"Touched gains +1 on an attack, save, or skill check within 1 min (save Will negates)"',
+      '"Gives touched +1 on an attack, save, or skill check within 1 min (save Will negates)"',
   'Gust Of Wind':
     'School="Evocation [Air]" ' +
     'Level=D2,S2,W2 ' +
@@ -3402,7 +3402,7 @@ SRD35.SPELLS = {
     'School="Evocation [Good]" ' +
     'Level=C5,D5 ' +
     'Description=' +
-      '"40\' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. evil, suppresses existing mental control and possession, gives immunity to new attempts to control or possess, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year"',
+      '"40\' radius around the touched structure or site gives a +2 deflection bonus to Armor Class and +2 saves vs. evil, suppresses existing mental control and possession, gives immunity to new attempts to control or possess, bars contact by summoned evil creatures, prevents undead creation, gives +4 to turn and -4 to control undead, and evokes a chosen spell upon specified creatures for 1 year"',
   'Hallucinatory Terrain':
     'School="Illusion (Glamer)" ' +
     'Level=B4,S4,W4 ' +
@@ -3422,7 +3422,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, a +1 dodge bonus to Armor Class, +1 Reflex saves, and +30\' Speed (save Fortitude negates) for %{lvl} rd" ' +
+      '"R%{25+lvl//2*5}\' %{lvl} targets in a 15\' radius gain an extra attack at full BAB during a full-attack action, +1 attacks, a +1 dodge bonus to Armor Class, +1 Reflex saves, and +30 Speed (save Fortitude negates) for %{lvl} rd" ' +
     'Liquid=Potion',
   'Heal':
     'School="Conjuration (Healing)" ' +
@@ -3458,24 +3458,24 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B2,S3,W3 ' +
     'Description=' +
-      '"Touched gains +2 attacks, saves, and skill checks (save Will negates) for %{lvl*10} min" ' +
+      '"Gives touched +2 attacks, saves, and skill checks (save Will negates) for %{lvl*10} min" ' +
     'Liquid=Potion',
   'Greater Heroism':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B5,S6,W6 ' +
     'Description=' +
-      '"Touched gains +4 attacks, saves, and skill checks, +%{lvl<?20} temporary hit points, and immunity to fear (save Will negates) for %{lvl} min"',
+      '"Gives touched +4 attacks, saves, and skill checks, %{lvl<?20} temporary hit points, and immunity to fear (save Will negates) for %{lvl} min"',
   'Hide From Animals':
     'School=Abjuration ' +
     'Level=D1,R1 ' +
     'Description=' +
-      '"%{lvl} touched become imperceptible to animals for %{lvl*10} min (save Will negates); attacking any creature ends the spell for all" ' +
+      '"Makes %{lvl} touched imperceptible to animals for %{lvl*10} min (save Will negates); attacking any creature ends the spell for all" ' +
     'Liquid=Potion',
   'Hide From Undead':
     'School=Abjuration ' +
     'Level=C1 ' +
     'Description=' +
-      '"%{lvl} touched become imperceptible to undead (save Will negates; intelligent undead can perceive the target with a successful Will save) for %{lvl*10} min; turning or touching an undead or attacking any creature ends the spell for all" ' +
+      '"Makes %{lvl} touched imperceptible to undead (save Will negates; intelligent undead can perceive the target with a successful Will save) for %{lvl*10} min; turning or touching an undead or attacking any creature ends the spell for all" ' +
     'Liquid=Potion',
   'Hideous Laughter':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
@@ -3521,7 +3521,7 @@ SRD35.SPELLS = {
     'School="Evocation [Good]" ' +
     'Level=Good4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Evil creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 HP to outsiders) and blindness for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
+      '"R%{100+lvl*10}\' Evil creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP, or %{lvl<?10}d6 HP if they are outsiders, and are blinded for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Holy Sword':
     'School="Evocation [Good]" ' +
     'Level=P4 ' +
@@ -3531,7 +3531,7 @@ SRD35.SPELLS = {
     'School="Evocation [Good,Sonic]" ' +
     'Level=C7,Good7 ' +
     'Description=' +
-      '"Inflicts on nongood creatures within 40\' a set of effects: banishment for 24 hr (save Will -4 negates) on extraplanar creatures; killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; blinded for 2d4 rd on creatures with up to %{lvl-1} HD; deafened for 1d4 rd on creatures with up to %{lvl} HD"',
+      '"Inflicts on nongood creatures within 40\' a set of effects: banishment for 24 hr on extraplanar creatures (save Will -4 negates); killed or destroyed on creatures with up to %{lvl-10} HD; paralyzed for 1d10 min on creatures with up to %{lvl-5} HD; blinded for 2d4 rd on creatures with up to %{lvl-1} HD; deafened for 1d4 rd on creatures with up to %{lvl} HD"',
   'Horrid Wilting':
     'School=Necromancy ' +
     'Level=S8,W8,Water8 ' +
@@ -3572,7 +3572,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C4,Magic4 ' +
     'Description=' +
-      '"Touched with an Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD gains the ability to cast chosen 1st, 2x1st, or 2x1st+2nd level spells from self prepared abjuration, divination, or healing spells (save Will negates); the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed"',
+      '"Touched with Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD gains the ability to cast chosen 1st, 2x1st, or 2x1st+2nd level spells from self prepared abjuration, divination, or healing spells (save Will negates); the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed"',
   'Implosion':
     'School=Evocation ' +
     'Level=C9,Destruction9 ' +
@@ -3582,7 +3582,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=S9,W9 ' +
     'Description=' +
-      '"Entombs touched deep within the ground (save Will negates; familiar creatures have a -4 penalty on the save), locatable only via <i>Discern Location</i> or <i>Wish</i>, until a <i>Freedom</i> spell is cast in the same locale"',
+      '"Entombs the touched creature deep within the ground (save Will negates; familiar creatures have a -4 penalty on the save), locatable only via <i>Discern Location</i> or <i>Wish</i>, until a <i>Freedom</i> spell is cast in the same locale"',
   'Incendiary Cloud':
     'School="Conjuration (Creation) [Fire]" ' +
     'Level=Fire8,S8,W8 ' +
@@ -3651,22 +3651,22 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 10\' hand (Armor Class 20, %{hitPoints} hit points) gives +4 Armor Class vs. the target for %{lvl} rd; directing to another target uses a move action"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that gives +4 Armor Class vs. the target for %{lvl} rd; can use a move action to redirect to another target"',
   'Invisibility':
     'School="Illusion (Glamer)" ' +
     'Level=Adept2,Assassin2,B2,Trickery2,S2,W2 ' +
     'Description=' +
-      '"Touched becomes invisible (save Will negates) for %{lvl} min; target attacking ends the spell" ' +
+      '"Makes touched invisible (save Will negates) for %{lvl} min; target attacking ends the spell" ' +
     'Liquid=Oil,Potion',
   'Greater Invisibility':
     'School="Illusion (Glamer)" ' +
     'Level=Assassin4,B4,S4,W4 ' +
-    'Description="Touched becomes invisible (save Will negates) for %{lvl} rd"',
+    'Description="Makes touched invisible (save Will negates) for %{lvl} rd"',
   'Mass Invisibility':
     'School="Illusion (Glamer)" ' +
     'Level=S7,W7 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creatures in a 90\' radius become invisible (save Will negates) for %{lvl} min; moving out of the radius ends for that creature, and any affected creature attacking ends the spell for all"',
+      '"R%{400+lvl*40}\' Makes creatures in a 90\' radius invisible (save Will negates) for %{lvl} min; a creature moving more than 180\' from the nearest other member of the group ends the spell for that creature, and any affected creature attacking ends the spell for all"',
   'Invisibility Purge':
     'School=Evocation ' +
     'Level=C3 ' +
@@ -3676,12 +3676,12 @@ SRD35.SPELLS = {
     'School="Illusion (Glamer)" ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Creatures within 10\' of touched become invisible (save Will negates) for %{lvl} min; attacking or moving more than 10\' from the target ends the spell for that creature, and the target attacking ends the spell for all"',
+      '"Makes creatures within 10\' of touched invisible (save Will negates) for %{lvl} min; attacking or moving more than 10\' from the target ends the spell for that creature, and the target attacking ends the spell for all"',
   'Iron Body':
     'School=Transmutation ' +
     'Level=Earth8,S8,W8 ' +
     'Description=' +
-      '"Self becomes living iron for %{lvl} min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d%{size==\'Small\'?4:6} HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulnerability to special attacks that affect iron golems"',
+      '"Transforms self into living iron for %{lvl} min, gaining DR 15/adamantine, immunity to critical hits, electricity, stunning, and physiology and respiration effects, half damage from acid and fire, +6 Strength, and unarmed attacks that inflict 1d%{size==\'Small\'?4:6} HP, but suffering -6 Dexterity, half Speed, 50% arcane spell failure, an -8 armor skill check penalty, 10x weight, inability to use potions or wind instruments, and vulnerability to special attacks that affect iron golems"',
   'Ironwood':
     'School=Transmutation ' +
     'Level=D6 ' +
@@ -3697,7 +3697,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Assassin1,D1,R1,S1,W1 ' +
     'Description=' +
-      '"Touched gains +%{lvl<5?10:lvl<9?20:30} Jump checks (save Will negates) for %{lvl} min" ' +
+      '"Gives touched +%{lvl<5?10:lvl<9?20:30} Jump (save Will negates) for %{lvl} min" ' +
     'Liquid=Potion',
 
   'Keen Edge':
@@ -3725,7 +3725,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=S2,W2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Allows using a move action each rd to raise or lower an object or a willing target 20\' each rd for %{lvl} min" ' +
+      '"R%{25+lvl//2*5}\' Allows using a move action each rd to raise or lower an unattended object or willing creature 20\' each rd for %{lvl} min" ' +
     'Liquid=Oil,Potion',
   'Light':
     'School="Evocation [Light]" ' +
@@ -3745,7 +3745,8 @@ SRD35.SPELLS = {
   'Liveoak':
     'School=Transmutation ' +
     'Level=D6 ' +
-    'Description="Touched oak becomes a treant guardian for %{lvl} days"',
+    'Description=' +
+      '"Transforms a touched oak into a treant guardian for %{lvl} days"',
   'Locate Creature':
     'School=Divination ' +
     'Level=Assassin4,B4,S4,W4 ' +
@@ -3759,12 +3760,12 @@ SRD35.SPELLS = {
   'Longstrider':
     'School=Transmutation ' +
     'Level=D1,R1,Travel1 ' +
-    'Description="Gives self +10\' Speed for %{lvl} hr"',
+    'Description="Gives self +10 Speed for %{lvl} hr"',
   'Lullaby':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B0 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creatures in a 10\' radius suffer -5 Listen, -5 Spot, and -2 Will vs. sleep (save Will negates) for concentration + %{lvl} rd"',
+      '"R%{100+lvl*10}\' 10\' radius inflicts -5 Listen, -5 Spot, and -2 Will vs. sleep (save Will negates) for concentration + %{lvl} rd"',
 
   'Mage Armor':
     'School="Conjuration (Creation) [Force]" ' +
@@ -3776,7 +3777,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B0,S0,W0 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Allows self to use move actions to move a target object up to 5 lb 15\' per rd for concentration"',
+      '"R%{25+lvl//2*5}\' Allows self to use move actions to move an unattended object weighing up to 5 lb 15\' per rd for concentration"',
   "Mage's Disjunction":
     'School=Abjuration ' +
     'Level=Magic9,S9,W9 ' +
@@ -3816,37 +3817,37 @@ SRD35.SPELLS = {
     'School="Abjuration [Lawful]" ' +
     'Level=C3,Law3,P3,S3,W3 ' +
     'Description=' +
-      '"10\' radius around touched either suppresses mental control, prevents possession, gives a +2 deflection bonus to Armor Class and +2 saves vs. chaotic creatures (save Will negates), and bars contact and entry by nonlawful summoned creatures (SR negates) for %{lvl*10} min or traps a nonlawful summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
+      '"Either creates a a 10\' emanation from the touched creature that suppresses mental control, prevents possession, gives a +2 deflection bonus to Armor Class and +2 saves vs. chaotic creatures (save Will negates), and bars contact and entry by nonlawful summoned creatures (SR negates) for %{lvl*10} min or traps a nonlawful summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Evil':
     'School="Abjuration [Good]" ' +
     'Level=C3,Good3,P3,S3,W3 ' +
     'Description=' +
-      '"10\' radius around touched either suppresses mental control, prevents possession, gives a +2 deflection bonus to Armor Class and +2 saves vs. evil creatures (save Will negates), and bars contact and entry by nongood summoned creatures (SR negates) for %{lvl*10} min or traps a nongood summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
+      '"Either creates a 10\' emanation from the touched creature that suppresses mental control, prevents possession, gives a +2 deflection bonus to Armor Class and +2 saves vs. evil creatures (save Will negates), and bars contact and entry by nongood summoned creatures (SR negates) for %{lvl*10} min or traps a nongood summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Good':
     'School="Abjuration [Evil]" ' +
     'Level=Assassin3,C3,Evil3,S3,W3 ' +
     'Description=' +
-      '"10\' radius around touched either suppresses mental control, prevents possession, gives a +2 deflection bonus to Armor Class and +2 saves vs. good creatures (save Will negates), and bars contact and entry by nonevil summoned creatures (SR negates) for %{lvl*10} min or traps a nonevil summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
+      '"Either creates a 10\' emanation from the touched creature that suppresses mental control, prevents possession, gives a +2 deflection bonus to Armor Class and +2 saves vs. good creatures (save Will negates), and bars contact and entry by nonevil summoned creatures (SR negates) for %{lvl*10} min or traps a nonevil summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Circle Against Law':
     'School="Abjuration [Chaotic]" ' +
     'Level=C3,Chaos3,S3,W3 ' +
     'Description=' +
-      '"10\' radius around touched either suppresses mental control, prevents possession, gives a +2 deflection bonus to Armor Class and +2 saves vs. lawful creatures (save Will negates), and bars contact and entry by nonchaotic summoned creatures (SR negates) for %{lvl*10} min or traps a nonchaotic summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
+      '"Either creates a 10\' emanation from the touched creature that suppresses mental control, prevents possession, gives a +2 deflection bonus to Armor Class and +2 saves vs. lawful creatures (save Will negates), and bars contact and entry by nonchaotic summoned creatures (SR negates) for %{lvl*10} min or traps a nonchaotic summoned creature (SR negates; additional tests each day end) for %{lvl*24} hr" ' +
     'Liquid=Potion',
   'Magic Fang':
     'School=Transmutation ' +
     'Level=D1,R1 ' +
     'Description=' +
-      '"Touched gains +1 attacks and damage when using a specified natural weapon (save Will negates) for %{lvl} min" ' +
+      '"Gives touched +1 attacks and damage when using a specified natural weapon (save Will negates) for %{lvl} min" ' +
     'Liquid=Potion',
   'Greater Magic Fang':
     'School=Transmutation ' +
     'Level=D3,R3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' target gains +%{lvl//4<?4} attacks and damage when using a specified natural weapon, or +1 attacks and damage when using any natural weapon, (save Will negates) for %{lvl} hr" ' +
+      '"R%{25+lvl//2*5}\' Gives the target +%{lvl//4<?4} attacks and damage when using a specified natural weapon, or +1 attacks and damage when using any natural weapon, (save Will negates) for %{lvl} hr" ' +
     'Liquid=Potion',
   'Magic Jar':
     'School=Necromancy ' +
@@ -3867,25 +3868,25 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=C1,D1,Earth1 ' +
     'Description=' +
-      '"3 touched stones (save Will negates) attack at +1 and inflict 1d6+1 HP, or 2d6+2 HP vs. undead, within 30 min" ' +
+      '"Enhances 3 touched stones (save Will negates) to attack at +1 and inflict 1d6+1 HP, or 2d6+2 HP vs. undead, within 30 min" ' +
     'Liquid=Oil',
   'Magic Vestment':
     'School=Transmutation ' +
     'Level=C3,Strength3,War3 ' +
     'Description=' +
-      '"Touched armor, shield, or clothing (save Will negates) gives a +%{lvl//4<?5} enhancement bonus to Armor Class for %{lvl} hr" ' +
+      '"Enhances the touched armor, shield, or clothing to give a +%{lvl//4<?5} bonus to Armor Class (save Will negates) for %{lvl} hr" ' +
     'Liquid=Oil',
   'Magic Weapon':
     'School=Transmutation ' +
     'Level=Blackguard1,C1,P1,S1,W1,War1 ' +
     'Description=' +
-      '"Touched weapon (save Will negates) gains +1 attacks and damage for %{lvl} min" ' +
+      '"Enhances the touched weapon to make +1 attacks and inflict +1 HP (save Will negates) for %{lvl} min" ' +
     'Liquid=Oil',
   'Greater Magic Weapon':
     'School=Transmutation ' +
     'Level=C4,P3,S3,W3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target weapon or up to 50 projectiles in a container (save Will negates) gain +%{lvl//4<?4} attacks and damage for %{lvl} hr" ' +
+      '"R%{25+lvl//2*5}\' Enhances the target weapon or up to 50 projectiles in a container to make +%{lvl//4<?4} attacks and inflict +%{lvl//4<?4} HP (save Will negates) for %{lvl} hr" ' +
     'Liquid=Oil',
   'Major Creation':
     'School="Conjuration (Creation)" ' +
@@ -3911,7 +3912,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Teleportation)" ' +
     'Level=S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target becomes lost in an extradimensional maze for 10 min; DC 20 Intelligence check ends, and minotaurs are immune to this spell"',
+      '"R%{25+lvl//2*5}\' Transports the target to an extradimensional maze (minotaurs are immune) for 10 min; a DC 20 Intelligence check ends"',
   'Meld Into Stone':
     'School="Transmutation [Earth]" ' +
     'Level=C3,D3 ' +
@@ -3941,7 +3942,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B5,S5,W5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Fog in a 20\' radius inflicts -10 Wisdom and Will checks (save Will negates), lasting for 2d6 rd after exiting, for 30 min"',
+      '"R%{100+lvl*10}\' Creates a 20\' radius fog that inflicts -10 Wisdom and Will checks (save Will negates), lasting for 2d6 rd after exiting, for 30 min"',
   'Minor Creation':
     'School="Conjuration (Creation)" ' +
     'Level=Adept4,S4,W4 ' +
@@ -3956,7 +3957,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C9,Luck9 ' +
     'Description=' +
-      '"Requests deity intercession to duplicate the effects of a cleric spell of up to 8th level, duplicate the effects of other spells up to 7th level, undo the harmful affects of spells, or create effects of similar power; more powerful effects cost 5,000 XP to request"',
+      '"Requests deity intercession to duplicate the effects of a cleric spell of up to 8th level, duplicate the effects of other spells of up to 7th level, undo the harmful affects of spells, or create effects of similar power; more powerful effects cost 5,000 XP to request"',
   'Mirage Arcana':
     'School="Illusion (Glamer)" ' +
     'Level=B5,S5,W5 ' +
@@ -3992,12 +3993,12 @@ SRD35.SPELLS = {
     'School=Divination ' +
     'Level=Luck8,S8,W8 ' +
     'Description=' +
-      '"Gives self +%{lvl<?25} on Armor Class or an attack, check, or save once within %{lvl} hr"',
+      '"Gives self a +%{lvl<?25} insight bonus to Armor Class or to an attack, check, or save once within %{lvl} hr"',
   'Mount':
     'School="Conjuration (Summoning)" ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Summons a riding horse with bit, bridle, and saddle that serves self for %{lvl*2} hr"',
+      '"R%{25+lvl//2*5}\' Summons a riding horse with a bit, bridle, and saddle that serves self for %{lvl*2} hr"',
   'Move Earth':
     'School="Transmutation [Earth]" ' +
     'Level=D6,S6,W6 ' +
@@ -4007,49 +4008,49 @@ SRD35.SPELLS = {
     'School="Conjuration (Healing)" ' +
     'Level=Adept3,B4,C4,D3,P4,R3 ' +
     'Description=' +
-      '"Neutralizes each poison affecting touched and gives it immunity to poison for %{lvl*10} min or neutralizes a poisonous creature or object for %{lvl*10} min (save Will negates)" ' +
+      '"Neutralizes each poison affecting touched and gives it immunity to poison, or neutralizes a poisonous creature or object, (save Will negates) for %{lvl*10} min" ' +
     'Liquid=Potion',
   'Nightmare':
     'School="Illusion (Phantasm) [Mind-Affecting,Evil]" ' +
     'Level=B5,S5,W5 ' +
     'Description=' +
-      '"Specified sleeping target suffers 1d10 HP, fatigue, and inability to regain arcane spells for 24 hr (save Will negates, modified from +10 to -5 based on familiarity with the target)"',
+      '"Inflicts on a specified sleeping target 1d10 HP, fatigue, and an inability to regain arcane spells for 24 hr (save Will negates, modified from +10 to -5 based on familiarity with the target)"',
   'Nondetection':
     'School=Abjuration ' +
     'Level=Assassin3,R4,Trickery3,S3,W3 ' +
     'Description=' +
-      '"Touched gains SR %{lvl+11} vs. divination (save Will negates), or self or a possession gains SR %{lvl+15}, for %{lvl} hr" ' +
+      '"Gives touched SR %{lvl+11} vs. divination (save Will negates), or self or a possession SR %{lvl+15}, for %{lvl} hr" ' +
     'Liquid=Potion',
 
   'Obscure Object':
     'School=Abjuration ' +
     'Level=B1,C3,S2,W2 ' +
     'Description=' +
-      '"Touched object gains immunity to divination (save Will negates) for 8 hr"',
+      '"Gives a touched object immunity to divination (save Will negates) for 8 hr"',
   'Obscuring Mist':
     'School="Conjuration (Creation)" ' +
     'Level=Adept1,Air1,Assassin1,C1,D1,S1,W1,Water1 ' +
     'Description=' +
-      '"Fog in a 20\'-radius, 20\'-high cylinder obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% chance on more distant attacks, for %{lvl} min"',
+      '"Creates a 20\'-radius, 20\'-high cylinder fog that obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% chance on more distant attacks, for %{lvl} min"',
   'Open/Close':
     'School=Transmutation ' +
     'Level=B0,S0,W0 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target object of up to 30 lb opens or closes (save Will negates)"',
+      '"R%{25+lvl//2*5}\' Opens or closes an object weighing up to 30 lb (save Will negates)"',
   "Order's Wrath":
     'School="Evocation [Lawful]" ' +
     'Level=Law4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Chaotic creatures in a 30\' cube suffer %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 HP to outsiders) and are dazed for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
+      '"R%{100+lvl*10}\' Chaotic creatures in a 30\' cube suffer %{lvl//2<?5}d8 HP, or %{lvl<?10}d6 HP if they are outsiders, and are dazed for 1 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Overland Flight':
     'School=Transmutation ' +
     'Level=S5,W5 ' +
-    'Description="Self gains a 40\' fly Speed for %{lvl} hr"',
+    'Description="Gives self a 40\' fly Speed for %{lvl} hr"',
   "Owl's Wisdom":
     'School=Transmutation ' +
     'Level=C2,D2,P2,R2,S2,W2 ' +
     'Description=' +
-      '"Touched gains +4 Wisdom (save Will Negates) for %{lvl} min" ' +
+      '"Gives touched +4 Wisdom (save Will Negates) for %{lvl} min" ' +
     'Liquid=Potion',
   "Mass Owl's Wisdom":
     'School=Transmutation ' +
@@ -4145,7 +4146,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=Assassin4,Blackguard4,C4,D3 ' +
     'Description=' +
-      '"Touched suffers -1d10 temporary Constitution damage immediately and again after 1 min (save Fortitude DC %{10+casterLevel//2+wisdomModifier} negates each)"',
+      '"Touched suffers 1d10 points of temporary Constitution damage immediately and again after 1 min (save Fortitude DC %{10+casterLevel//2+wisdomModifier} negates each)"',
   'Polar Ray':
     'School="Evocation [Cold]" ' +
     'Level=S8,W8 ' +
@@ -4155,12 +4156,12 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Adept4,S4,W4 ' +
     'Description=' +
-      '"Touched willing creature becomes a different creature with up to %{lvl<?15} HD for %{lvl} min"',
+      '"Transforms the touched willing creature into a different creature with up to %{lvl<?15} HD for %{lvl} min"',
   'Polymorph Any Object':
     'School=Transmutation ' +
     'Level=Trickery8,S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target creature or object becomes a different creature or object (save Fortitude negates); the duration depends on the degree of change, from 20 min to permanent"',
+      '"R%{25+lvl//2*5}\' Transforms the target creature or object into a different creature or object (save Fortitude negates); the duration depends on the degree of change, from 20 min to permanent"',
   'Power Word Blind':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=S7,W7,War7 ' +
@@ -4179,7 +4180,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=C3,P3 ' +
     'Description=' +
-      '"Allies within 40\' gain +1 attacks, weapon damage, saves, and skill checks, and foes suffer -1, for %{lvl} rd"',
+      '"Gives allies within 40\' +1 attacks, weapon damage, saves, and skill checks, and inflicts -1 of the same on foes, for %{lvl} rd"',
   'Prestidigitation':
     // 'School=Universal ' +
     'Level=B0,S0,W0 ' +
@@ -4188,22 +4189,22 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Protection9,Sun9,S9,W9 ' +
     'Description=' +
-      '"10\' sphere lasting %{lvl*10} min blinds for 2d4x10 min creatures with up to 7 HD who look at it from within 20\', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates)"',
+      '"10\' sphere lasting %{lvl*10} min blinds for 2d4x10 min creatures with up to 7 HD who look at it from within 20\', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 points of Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates)"',
   'Prismatic Spray':
     'School=Evocation ' +
     'Level=S7,W7 ' +
     'Description=' +
-      '"60\' cone blinds creatures with up to 8 HD for 2d4 rd and randomly inflicts on each creature one of: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex Half); slain by poison (save Fortitude inflicts 1d4 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates); 2 of the preceding effects"',
+      '"60\' cone blinds creatures with up to 8 HD for 2d4 rd and randomly inflicts on each creature one of: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex Half); slain by poison (save Fortitude inflicts 1d4 points of Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates); 2 of the preceding effects"',
   'Prismatic Wall':
     'School=Abjuration ' +
     'Level=S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl*4}\'x%{lvl*2}\' wall lasting %{lvl*10} min blinds for 2d4 rd creatures with up to 7 HD who look at it from within 20\', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates)"',
+      '"R%{25+lvl//2*5}\' %{lvl*4}\'x%{lvl*2}\' wall lasting %{lvl*10} min blinds for 2d4 rd creatures with up to 7 HD who look at it from within 20\', blocks magical and nonmagical ranged attacks, poisons, gasses, petrification, breath weapons, divination, mental attacks, spells, objects, and effects, and inflicts on creatures other than self who pass through all of these effects: 20 HP fire (save Reflex half); 40 HP acid (save Reflex half); 80 HP electricity (save Reflex half); slain by poison (save Fortitude inflicts 1d6 points of Constitution damage); turned to stone (save Fortitude negates); insanity (save Will negates); sent to another plane (save Will negates)"',
   'Produce Flame':
     'School="Evocation [Fire]" ' +
     'Level=D1,Fire2 ' +
     'Description=' +
-      '"Produces a torch flame in self hand for %{lvl} min; can be used repeatedly for a R120\' ranged touch attack that inflicts 1d6+%{lvl<?5} HP fire, reducing the duration by 1 min for each attack"',
+      '"Creates a torch flame in self hand for %{lvl} min; it can be used repeatedly for R120\' ranged touch attacks that inflict 1d6+%{lvl<?5} HP fire, reducing the remaining duration by 1 min each time"',
   'Programmed Image':
     'School="Illusion (Figment)" ' +
     'Level=B6,S6,W6 ' +
@@ -4218,7 +4219,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=S2,W2 ' +
     'Description=' +
-      '"Touched gains DR 10/magic vs. ranged weapons (save Will negates) for %{lvl} hr or until %{lvl*10<?100} HP have been negated" ' +
+      '"Gives touched DR 10/magic vs. ranged weapons (save Will negates) for %{lvl} hr or until %{lvl*10<?100} HP have been negated" ' +
     'Liquid=Potion',
   'Protection From Chaos':
     'School="Abjuration [Lawful]" ' +
@@ -4230,7 +4231,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Blackguard3,C3,D3,Luck3,Protection3,R2,S3,W3 ' +
     'Description=' +
-      '"Touched gains immunity to a choice of acid, cold, electricity, fire, or sonic (save Fortitude negates) for %{lvl*10} min or until %{lvl*12<?120} HP have been negated" ' +
+      '"Gives touched immunity to a choice of acid, cold, electricity, fire, or sonic (save Fortitude negates) for %{lvl*10} min or until %{lvl*12<?120} HP have been negated" ' +
     'Liquid=Potion',
   'Protection From Evil':
     'School="Abjuration [Good]" ' +
@@ -4254,17 +4255,17 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Magic8,S8,W8 ' +
     'Description=' +
-      '"Touched gains +8 saves vs. spells and spell-like abilities (save Will negates) for %{lvl*10} min"',
+      '"Gives touched +8 saves vs. spells and spell-like abilities (save Will negates) for %{lvl*10} min"',
   'Prying Eyes':
     'School=Divination ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"1d4+%{lvl} floating eyes (Armor Class 18, 1 HP, +16 Hide, +%{lvl<?15} Spot, 30\' fly Speed) scout up to 1 mile and return to show observations within %{lvl} hr"',
+      '"Creates 1d4+%{lvl} floating eyes (Armor Class 18, 1 hit point, +16 Hide, +%{lvl<?15} Spot, 30\' fly Speed) that scout up to 1 mile and return to show observations within %{lvl} hr"',
   'Greater Prying Eyes':
     'School=Divination ' +
     'Level=S8,W8 ' +
     'Description=' +
-      '"1d4+%{lvl} floating eyes (Armor Class 18, 1 HP, +16 Hide, +%{lvl<?25} Spot, Fly 30\') with True Seeing scout up to 1 mile and return to show observations within %{lvl} hr"',
+      '"Creates 1d4+%{lvl} floating eyes (Armor Class 18, 1 hit point, +16 Hide, +%{lvl<?25} Spot, Fly 30\') with True Seeing that scout up to 1 mile and return to show observations within %{lvl} hr"',
   'Purify Food And Drink':
     'School=Transmutation ' +
     'Level=Adept0,C0,D0 ' +
@@ -4280,13 +4281,13 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Extinguishes nonmagical fires, dispels magic fires with a successful caster level check (+15 maximum), and inflicts %{lvl<?15}d6 HP to fire creatures in a %{lvl*20} cubic foot area, or suppresses fire-based effects of a non-artifact magic item for 1d4 hr (save Will negates)"',
+      '"R%{100+lvl*10}\' Extinguishes nonmagical fires, dispels magic fires with a successful caster level check (+15 maximum), and inflicts %{lvl<?15}d6 HP on fire creatures in a %{lvl*20} cubic foot area, or suppresses fire-based effects of a non-artifact magic item for 1d4 hr (save Will negates)"',
 
   'Rage':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B2,S3,W3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' %{lvl>6?lvl//3+\\" willing targets in a 15\' radius gain\\":\'Willing target gains\'} +2 Strength, +2 Constitution, and +1 Will and suffer%{lvl>6?\'\':\'s\'} -2 Armor Class for concentration + %{lvl} rd" ' +
+      '"R%{100+lvl*10}\' Gives %{lvl>6?lvl//3+\\" willing targets in a 15\' radius\\":\'the willing target\'} +2 Strength, +2 Constitution, +1 Will, and -2 Armor Class for concentration + %{lvl} rd" ' +
     'Liquid=Potion',
   'Rainbow Pattern':
     'School="Illusion (Pattern) [Mind-Affecting]" ' +
@@ -4302,7 +4303,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Ranged touch attack inflicts -1d6+%{lvl//2<?5} Strength (save Fortitude half; will not lower Strength below 1) for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' Ranged touch attack inflicts 1d6+%{lvl//2<?5} points of Strength damage (save Fortitude half; will not lower Strength below 1) for %{lvl} min"',
   'Ray Of Exhaustion':
     'School=Necromancy ' +
     'Level=S3,W3 ' +
@@ -4320,18 +4321,18 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D2,R3 ' +
     'Description=' +
-      '"Touched willing animal becomes half size, suffering -2 Strength and gaining +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} hr"',
+      '"Reduces the touched willing animal to half size, giving -2 Strength, +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} hr"',
   'Reduce Person':
     'School=Transmutation ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target humanoid becomes half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} min" ' +
+      '"R%{25+lvl//2*5}\' Reduces the target humanoid to half size (save Fortitude negates), giving -2 Strength, +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} min" ' +
     'Liquid=Potion',
   'Mass Reduce Person':
     'School=Transmutation ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} target humanoids in a 15\' radius become half size (save Fortitude negates), suffering -2 Strength and gaining +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' Reduces %{lvl} target humanoids in a 15\' radius to half size (save Fortitude negates), giving -2 Strength, +2 Dexterity, +1 attacks, and a +1 size bonus to Armor Class, for %{lvl} min"',
   'Refuge':
     'School="Conjuration (Teleportation)" ' +
     'Level=C7,S9,W9 ' +
@@ -4403,12 +4404,12 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Adept2,C2,D2,Fire3,P2,R1,S2,W2 ' +
     'Description=' +
-      '"Touched gains resistance %{lvl>10?30:lvl>6?20:10} to a choice of acid, cold, electricity, fire, or sonic (save Fortitude negates) for %{lvl*10} min" ' +
+      '"Gives touched resistance %{lvl>10?30:lvl>6?20:10} to a choice of acid, cold, electricity, fire, or sonic (save Fortitude negates) for %{lvl*10} min" ' +
     'Liquid=Potion',
   'Resistance':
     'School=Abjuration ' +
     'Level=B0,C0,D0,P1,S0,W0 ' +
-    'Description="Touched gains +1 saves (save Will negates) for 1 min"',
+    'Description="Gives touched +1 saves (save Will negates) for 1 min"',
   'Restoration':
     'School="Conjuration (Healing)" ' +
     'Level=Adept4,C4,P4 ' +
@@ -4434,7 +4435,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D8,S7,W7 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Objects in a %{lvl//2*10} cubic foot area fall upward for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Causes objects in a %{lvl//2*10} cubic foot area to fall upward for %{lvl} rd"',
   'Righteous Might':
     'School=Transmutation ' +
     'Level=C5,Strength5 ' +
@@ -4455,13 +4456,13 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C1,Protection1 ' +
     'Description=' +
-      '"Foes cannot attack touched (save Will negates) for %{lvl} rd; target attacking ends the spell" ' +
+      '"Prevents foes from attacking touched (save Will negates) for %{lvl} rd; target attacking ends the spell" ' +
     'Liquid=Potion',
   'Scare':
     'School="Necromancy [Fear,Mind-Affecting]" ' +
     'Level=B2,S2,W2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' %{lvl>5?lvl//3+\\" targets in a 15\' radius\\":\'Target\'} with up to 6 HD %{lvl>5?\'become frightened and flee\':\'becomes frightened and flees\'} for %{lvl} rd (save Will inflicts shaken for 1 rd)"',
+      '"R%{100+lvl*10}\' Causes %{lvl>5?lvl//3+\\" targets in a 15\' radius\\":\'a target\'} with up to 6 HD to become frightened and flee for %{lvl} rd (save Will inflicts shaken for 1 rd)"',
   'Scintillating Pattern':
     'School="Illusion (Pattern) [Mind-Affecting]" ' +
     'Level=S8,W8 ' +
@@ -4481,12 +4482,12 @@ SRD35.SPELLS = {
     'School="Divination (Scrying)" ' +
     'Level=B3,C5,D4,S4,W4 ' +
     'Description=' +
-      '"Self sees and hears a 10\' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for %{lvl} min"',
+      '"Allows self to see and hear a 10\' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for %{lvl} min"',
   'Greater Scrying':
     'School="Divination (Scrying)" ' +
     'Level=B6,C7,D7,S7,W7 ' +
     'Description=' +
-      '"Self sees, hears, and can cast detection and communication spells in a 10\' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for %{lvl} hr"',
+      '"Allows self to see, hear, and cast detection and communication spells in a 10\' radius around the target (save Will, modified by familiarity and connection with the target, negates for 24 hr) for %{lvl} hr"',
   'Sculpt Sound':
     'School=Transmutation ' +
     'Level=B3 ' +
@@ -4531,12 +4532,12 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation) [Force]" ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Reading the target text puts the reader into suspended animation (save Reflex negates) for 1d4+%{lvl} days"',
+      '"Traps the target text so that reading it puts the reader into suspended animation (save Reflex negates) for 1d4+%{lvl} days"',
   'Sequester':
     'School=Abjuration ' +
     'Level=S7,W7 ' +
     'Description=' +
-      '"Touched object (save Will negates) or willing creature becomes invisible, unscryable, and comatose for %{lvl} days"',
+      '"Makes the touched object (save Will negates) or willing creature invisible, unscryable, and comatose for %{lvl} days"',
   'Shades':
     'School="Illusion (Shadow)" ' +
     'Level=S9,W9 ' +
@@ -4566,7 +4567,7 @@ SRD35.SPELLS = {
     'School="Illusion (Shadow)" ' +
     'Level=B5,S6,W6 ' +
     'Description=' +
-      '"Allows self and %{lvl} touched to travel at 50 MPH via the Plane of Shadow (save Will negates) for %{lvl} hr"',
+      '"Allows self and %{lvl} touched to travel via the Plane of Shadow at 50 MPH (save Will negates) for %{lvl} hr"',
   'Shambler':
     'School="Conjuration (Creation)" ' +
     'Level=D9,Plant9 ' +
@@ -4576,12 +4577,12 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Animal9,D9,S9,W9 ' +
     'Description=' +
-      '"Allows self to become a nonunique creature of any size with up to %{lvl<?25} HD once per rd for %{lvl*10} min"',
+      '"Allows self to transform into a nonunique creature of any size with up to %{lvl<?25} HD once per rd for %{lvl*10} min"',
   'Shatter':
     'School="Evocation [Sonic]" ' +
     'Level=B2,Blackguard2,C2,Chaos2,Destruction2,S2,W2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Breakables weighing up to %{lvl} lb in a 5\' radius shatter (save Will negates), or a target object weighing up to %{lvl*10} lb suffers %{lvl<?10}d6 HP sonic (save Fortitude half)"',
+      '"R%{25+lvl//2*5}\' Shatters breakables weighing up to %{lvl} lb in a 5\' radius (save Will negates), or inflicts %{lvl<?10}d6 HP sonic on a target object weighing up to %{lvl*10} lb (save Fortitude half)"',
   'Shield':
     'School="Abjuration [Force]" ' +
     'Level=S1,W1 ' +
@@ -4602,7 +4603,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C2,P2,Protection2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target gains a +1 deflection bonus to Armor Class and +1 saves, and half of any HP damage suffered by the target is transferred to self, (save Will negates) for %{lvl} hr"',
+      '"R%{25+lvl//2*5}\' Gives the target a +1 deflection bonus to Armor Class and +1 saves, and transfers half of any HP damage suffered by the target to self, (save Will negates) for %{lvl} hr"',
   'Shillelagh':
     'School=Transmutation ' +
     'Level=D1 ' +
@@ -4653,7 +4654,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=Adept1,Assassin1,B1,S1,W1 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 4 HD of creatures in a 10\' radius fall asleep (save Will negates), moving upward from those with the lowest HD, for %{lvl} min; shaking or wounding wakens an affected creature, but noise does not"',
+      '"R%{100+lvl*10}\' Causes 4 HD of creatures in a 10\' radius to fall asleep (save Will negates), moving upward from those with the lowest HD, for %{lvl} min; shaking or wounding wakens an affected creature, but noise does not"',
   'Sleet Storm':
     'School="Conjuration (Creation) [Cold]" ' +
     'Level=D3,S3,W3 ' +
@@ -4663,27 +4664,27 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl} creatures in a 15\' radius can take no more than one action per turn, suffer -1 Armor Class, attacks, and Reflex saves, and slow to half Speed (save Will negates) for %{lvl} rd"',
+      '"R%{25+lvl//2*5}\' Causes %{lvl} creatures in a 15\' radius to take no more than one action per turn, suffer -1 Armor Class, attacks, and Reflex saves, and slow to half Speed (save Will negates) for %{lvl} rd"',
   'Snare':
     'School=Transmutation ' +
     'Level=D3,R2 ' +
     'Description=' +
-      '"Touched vine, thong, or rope becomes a trap until triggered, inflicting 1d6 HP while lifting the creature; a DC 23 Search check notices the trap, and a DC 23 Escape Artist or Strength check escapes from it"',
+      '"Makes the touched vine, thong, or rope into a trap until triggered, inflicting 1d6 HP while lifting the creature; a DC 23 Search check notices the trap, and a DC 23 Escape Artist or Strength check escapes from it"',
   'Soften Earth And Stone':
     'School="Transmutation [Earth]" ' +
     'Level=D2,Earth2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' %{lvl*10} square feet of wet earth becomes mud that traps creatures for 1d2 rd (save Reflex negates), dry earth becomes sand that slows movement by half, or natural stone becomes clay"',
+      '"R%{25+lvl//2*5}\' Makes %{lvl*10} square feet of wet earth into mud that traps creatures for 1d2 rd (save Reflex negates), dry earth into sand that slows movement by half, or natural stone into clay"',
   'Solid Fog':
     'School="Conjuration (Creation)" ' +
     'Level=S4,W4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' radius fog obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, slows movement to 5\', prevents ranged attacks, and inflicts -2 attacks and damage for %{lvl} min"',
+      '"R%{100+lvl*10}\' Creates a 20\' radius fog that obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, slows movement to 5\', prevents ranged attacks, and inflicts -2 attacks and damage for %{lvl} min"',
   'Song Of Discord':
     'School="Enchantment (Compulsion) [Mind-Affecting,Sonic]" ' +
     'Level=B5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creatures in a 20\' radius have a 50% chance each rd of attacking the nearest creature (save Will negates) for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Causes creatures in a 20\' radius to have a 50% chance each rd of attacking the nearest creature (save Will negates) for %{lvl} rd"',
   'Soul Bind':
     'School=Necromancy ' +
     'Level=C9,S9,W9 ' +
@@ -4702,7 +4703,7 @@ SRD35.SPELLS = {
     'School="Necromancy [Language-Dependent]" ' +
     'Level=C3 ' +
     'Description=' +
-      '"R10\' Target corpse answers %{lvl>3?lvl//2+\' questions\':\'a question\'} (save Will for creatures with a different alignment negates; corpses who have been targeted by <i>Speak With Dead</i> within the past week are immune) asked within %{lvl} min"',
+      '"R10\' Causes the target corpse to answer %{lvl>3?lvl//2+\' questions\':\'a question\'} asked within %{lvl} min (save Will for creatures with a different alignment negates; corpses who have been targeted by <i>Speak With Dead</i> within the past week are immune)"',
   'Speak With Plants':
     'School=Divination ' +
     'Level=B4,D3,R2 ' +
@@ -4712,7 +4713,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S2,W2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates an incorporeal hand (1d4 hit points temporarily taken from self; Armor Class %{22+intelligenceModifier>0?intelligenceModifier:0}; improved evasion) that can make +2 melee touch attacks to deliver touch spells up to 4th level for %{lvl} min"',
+      '"R%{100+lvl*10}\' Creates an incorporeal hand (1d4 hit points temporarily taken from self; Armor Class %{22+intelligenceModifier>0?intelligenceModifier:0}; improved evasion) that can make +2 melee touch attacks to deliver touch spells of up to 4th level for %{lvl} min"',
   'Spell Immunity':
     'School=Abjuration ' +
     'Level=C4,Protection4,Strength4 ' +
@@ -4747,22 +4748,22 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D3,R2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Vegetation in a %{lvl*20} square foot area inflicts 1d4 HP piercing for each 5\' of movement and slows creatures to half Speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed), for %{lvl} hr"',
+      '"R%{100+lvl*10}\' Causes vegetation in a %{lvl*20} square foot area to inflict 1d4 HP piercing for each 5\' of movement, slowing creatures to half Speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed), for %{lvl} hr"',
   'Spike Stones':
     'School="Transmutation [Earth]" ' +
     'Level=D4,Earth4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Stony ground in a %{lvl*20} square foot area inflicts 1d8 HP piercing for each 5\' movement and slows creatures to half Speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed), for %{lvl} hr"',
+      '"R%{100+lvl*10}\' Causes stony ground in a %{lvl*20} square foot area to inflict 1d8 HP piercing for each 5\' movement, slowing creatures to half Speed for 24 hr (save Reflex HP only; a healing spell or successful Heal check restores full Speed), for %{lvl} hr"',
   'Spiritual Weapon':
     'School="Evocation [Force]" ' +
     'Level=C2,War2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attacks; inflicts 1d8+%{lvl//3<?5} HP force; crit same as the corresponding physical weapon) that attacks a designated foe for %{lvl} rd; can use move actions to redirect to different targets; the first attack on each creature is subject to SR, and the spell ends if the attack fails to overcome it"',
+      '"R%{100+lvl*10}\' Creates a force weapon (%{baseAttack+wisdomModifier<0?\'\':\'+\'}%{baseAttack+wisdomModifier} attacks; inflicts 1d8+%{lvl//3<?5} HP force; critical hits as the corresponding physical weapon) that attacks a designated foe for %{lvl} rd; can use move actions to redirect to different targets; the first attack on each creature is subject to SR, and the spell ends if the attack fails to overcome it"',
   'Statue':
     'School=Transmutation ' +
     'Level=S7,W7 ' +
     'Description=' +
-      '"Allows touched to become a statue with hardness 8 at will (save Will negates) for %{lvl} hr"',
+      '"Allows touched to transform into a statue with hardness 8 at will (save Will negates) for %{lvl} hr"',
   'Status':
     'School=Divination ' +
     'Level=C2 ' +
@@ -4772,7 +4773,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=S3,W3 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' 20\' radius fog lasting %{lvl} rd obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, and causes nausea for 1d4+1 rd (save Fortitude negates) that prevents attacks and spellcasting"',
+      '"R%{100+lvl*10}\' Creates a 20\' radius fog, lasting %{lvl} rd, that obscures vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, and causes nausea for 1d4+1 rd (save Fortitude negates) that prevents attacks and spellcasting"',
   'Stone Shape':
     'School="Transmutation [Earth]" ' +
     'Level=C3,D3,Earth3,S4,W4 ' +
@@ -4790,22 +4791,22 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=Adept4,D5,Earth6,Strength6,S4,W4 ' +
     'Description=' +
-      '"Touched gains DR 10/adamantine (save Will negates) for %{lvl*10} min or until %{lvl*10<?150} HP have been negated"',
+      '"Gives touched DR 10/adamantine (save Will negates) for %{lvl*10} min or until %{lvl*10<?150} HP have been negated"',
   'Storm Of Vengeance':
     'School="Conjuration (Summoning)" ' +
     'Level=C9,D9 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' 360\' radius storm inflicts deafened for 1d4x10 min (save Fortitude negates), then produces rain that inflicts 1d6 HP acid, then generates lightning bolts that inflict 10d6 HP electricity on 6 targets (save Reflex half), then creates hail that inflicts 5d6 HP bludgeoning, then produces violent wind and rain that reduce Speed by 3/4 and obscure vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, for 6 rd; the storm also prevents ranged attacks and disrupts spellcasting (save Concentration negates; add the level of the spell to be cast to the DC)"',
+      '"R%{400+lvl*40}\' Creates a 360\' radius storm that inflicts deafened for 1d4x10 min (save Fortitude negates), then produces rain that inflicts 1d6 HP acid, then generates lightning bolts that inflict 10d6 HP electricity on 6 targets (save Reflex half), then creates hail that inflicts 5d6 HP bludgeoning, then produces violent wind and rain that reduce Speed by 3/4 and obscure vision, giving a 20% miss chance on attacks within 5\' and a 50% miss chance on more distant attacks, for 6 rd; the storm also prevents ranged attacks and disrupts spellcasting (save Concentration negates; add the level of the spell to be cast to the DC)"',
   'Suggestion':
     'School="Enchantment (Compulsion) [Language-Dependent,Mind-Affecting]" ' +
     'Level=B2,S3,W3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target follows a reasonable suggestion (save Will negates) for up to %{lvl} hr"',
+      '"R%{25+lvl//2*5}\' Causes the target to follow a reasonable suggestion (save Will negates) for up to %{lvl} hr"',
   'Mass Suggestion':
     'School="Enchantment (Compulsion) [Language-Dependent,Mind-Affecting]" ' +
     'Level=B5,S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' %{lvl} targets in a 15\' radius follow a reasonable suggestion (save Will negates) for up to %{lvl} hr"',
+      '"R%{100+lvl*10}\' Causes %{lvl} targets in a 15\' radius to follow a reasonable suggestion (save Will negates) for up to %{lvl} hr"',
   'Summon Instrument':
     'School="Conjuration (Summoning)" ' +
     'Level=B0 ' +
@@ -4920,47 +4921,47 @@ SRD35.SPELLS = {
     'School="Necromancy [Death]" ' +
     'Level=C8,S8,W8 ' +
     'Description=' +
-      '"Rune slays creatures in a 60\' radius (save Fortitude negates) when triggered, working outward from the closest creatures, for %{lvl*10} min or until creatures with 150 HP total have been killed"',
+      '"Creates a rune that slays creatures in a 60\' radius when triggered (save Fortitude negates), working outward from the closest creatures, for %{lvl*10} min or until creatures with 150 hit points total have been killed"',
   'Symbol Of Fear':
     'School="Necromancy [Fear,Mind-Affecting]" ' +
     'Level=C6,S6,W6 ' +
     'Description=' +
-      '"Rune panics creatures in a 60\' radius for %{lvl} rd (save Will negates) when triggered for %{lvl*10} min"',
+      '"Creates a rune that panics creatures in a 60\' radius for %{lvl} rd when triggered (save Will negates) for %{lvl*10} min"',
   'Symbol Of Insanity':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=C8,S8,W8 ' +
     'Description=' +
-      '"R60\' Rune inflicts permanent insanity on creatures in a 60\' radius (save Will negates) when triggered for %{lvl*10} min"',
+      '"Creates a rune that inflicts permanent insanity on creatures in a 60\' radius when triggered (save Will negates) for %{lvl*10} min"',
   'Symbol Of Pain':
     'School="Necromancy [Evil]" ' +
     'Level=C5,S5,W5 ' +
     'Description=' +
-      '"Rune causes pain that inflicts -4 attacks and skill and ability checks for 1 hr on creatures in a 60\' radius (save Fortitude negates) when triggered for %{lvl*10} min"',
+      '"Creates a rune that causes pain that inflicts -4 attacks and skill and ability checks for 1 hr on creatures in a 60\' radius when triggered (save Fortitude negates) for %{lvl*10} min"',
   'Symbol Of Persuasion':
     'School="Enchantment (Charm) [Mind-Affecting]" ' +
     'Level=C6,S6,W6 ' +
     'Description=' +
-      '"Rune charms creatures in a 60\' radius for %{lvl} hrs (save Will negates) when triggered for %{lvl*10} min"',
+      '"Creates a rune that charms creatures in a 60\' radius for %{lvl} hrs when triggered (save Will negates) for %{lvl*10} min"',
   'Symbol Of Sleep':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=C5,S5,W5 ' +
     'Description=' +
-      '"Rune renders creatures in a 60\' radius with up to 10 HD catatonic for 3d6x10 min (save Will negates) when triggered for %{lvl*10} min"',
+      '"Creates a rune that renders creatures in a 60\' radius with up to 10 HD catatonic for 3d6x10 min when triggered (save Will negates) for %{lvl*10} min"',
   'Symbol Of Stunning':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=C7,S7,W7 ' +
     'Description=' +
-      '"Rune stuns creatures in a 60\' radius for 1d6 rd (save Will negates) when triggered for %{lvl*10} min"',
+      '"Creates a rune that stuns creatures in a 60\' radius for 1d6 rd when triggered (save Will negates) for %{lvl*10} min"',
   'Symbol Of Weakness':
     'School=Necromancy ' +
     'Level=C7,S7,W7 ' +
     'Description=' +
-      '"Rune inflicts -3d6 Strength on creatures in a 60\' radius (save Fortitude negates) when triggered for %{lvl*10} min"',
+      '"Creates a rune that inflicts 3d6 points of Strength damage on creatures in a 60\' radius when triggered (save Fortitude negates) for %{lvl*10} min"',
   'Sympathetic Vibration':
     'School="Evocation [Sonic]" ' +
     'Level=B6 ' +
     'Description=' +
-      '"Touched structure suffers 2d10 HP each rd, bypassing hardness, for up to %{lvl} rd"',
+      '"Inflicts 2d10 HP each rd on the touched structure, bypassing hardness, for up to %{lvl} rd"',
   'Sympathy':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=D9,S8,W8 ' +
@@ -5027,12 +5028,12 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=Adept0,S0,W0 ' +
     'Description=' +
-      '"Melee touch inflicts fatigue for %{lvl} rd (save Fortitude negates)"',
+      '"Melee touch inflicts fatigue (save Fortitude negates) for %{lvl} rd"',
   'Touch Of Idiocy':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=S2,W2 ' +
     'Description=' +
-      '"Melee touch inflicts -1d6 Intelligence, Wisdom, and Charisma for %{lvl*10} min"',
+      '"Melee touch inflicts 1d6 points of Intelligence, Wisdom, and Charisma damage for %{lvl*10} min"',
   'Transformation':
     'School=Transmutation ' +
     'Level=S6,W6 ' +
@@ -5057,7 +5058,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Teleportation)" ' +
     'Level=D6 ' +
     'Description=' +
-      '"Uses a Medium or larger plant to transport self and %{lvl//3} willing creatures to another plant of the same kind"',
+      '"Allows self and %{lvl//3} willing creatures to use a Medium or larger plant to teleport to another plant of the same kind"',
   'Trap The Soul':
     'School="Conjuration (Summoning)" ' +
     'Level=S8,W8 ' +
@@ -5103,17 +5104,17 @@ SRD35.SPELLS = {
     'School="Evocation [Evil]" ' +
     'Level=C5,D5 ' +
     'Description=' +
-      '"40\' radius around touched gives a +2 deflection bonus to Armor Class and +2 saves vs. good, suppresses existing mental control and possession, gives immunity to new attempts to control or possess, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year"',
+      '"40\' radius around the touched structure or site gives a +2 deflection bonus to Armor Class and +2 saves vs. good, suppresses existing mental control and possession, gives immunity to new attempts to control or possess, bars contact by summoned good creatures, gives -4 to turn and +4 to rebuke undead, and evokes a chosen spell upon specified creatures for 1 year"',
   'Unholy Aura':
     'School="Abjuration [Evil]" ' +
     'Level=C8,Evil8 ' +
     'Description=' +
-      '"%{lvl} creatures within 20\' inflict -1d6 Strength on successful good attackers (save Fortitude negates) and gain a +4 deflection bonus to Armor Class, +4 saves, SR 25 vs. good spells and casters, suppression of existing mental control or possession, and immunity to new attempts to control or possess, for %{lvl} rd"',
+      '"%{lvl} creatures within 20\' inflict 1d6 points of Strength damage on successful good attackers (save Fortitude negates) and gain a +4 deflection bonus to Armor Class, +4 saves, SR 25 vs. good spells and casters, suppression of existing mental control or possession, and immunity to new attempts to control or possess, for %{lvl} rd"',
   'Unholy Blight':
     'School="Evocation [Evil]" ' +
     'Level=Evil4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Good creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP (or %{lvl<?10}d6 HP to outsiders) and are sickened for 1d4 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
+      '"R%{100+lvl*10}\' Good creatures in a 20\' radius suffer %{lvl//2<?5}d8 HP, or %{lvl<?10}d6 HP if they are outsiders, and are sickened for 1d4 rd (save Will half HP only); neutral creatures suffer half HP only (save Will half)"',
   'Unseen Servant':
     'School="Conjuration (Creation)" ' +
     'Level=B1,S1,W1 ' +
@@ -5155,7 +5156,7 @@ SRD35.SPELLS = {
     'School="Evocation [Fire]" ' +
     'Level=Adept4,D5,Fire4,S4,W4 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a %{lvl*20}\'x20\' wall or a %{lvl//2*5}\'x20\' ring that inflicts 2d4 HP fire to creatures within 10\' of a chosen side, 1d4 HP fire to creatures within 20\', and 2d6+%{lvl<?20} HP fire when passing through (or double these damages to undead) for concentration + %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a %{lvl*20}\'x20\' wall or a %{lvl//2*5}\'x20\' ring that inflicts 2d4 HP fire to creatures within 10\' of a chosen side, 1d4 HP fire to creatures within 20\', and 2d6+%{lvl<?20} HP fire when passing through, or double these damages to undead, for concentration + %{lvl} rd"',
   'Wall Of Force':
     'School="Evocation [Force]" ' +
     'Level=S5,W5 ' +
@@ -5180,7 +5181,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=D5,Plant5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates %{lvl*10} cubic feet of thorns that inflict (25-Armor Class) HP slashing, discounting Dexterity and dodge bonuses to AC, for %{lvl*10} min; moving through the thorns requires a Strength check each rd, allowing 5\' of movement for each 5 points that the check exceeds 20"',
+      '"R%{100+lvl*10}\' Creates %{lvl*10} cubic feet of thorns that inflict (25-Armor Class) HP slashing, discounting Dexterity and dodge bonuses to Armor Class, for %{lvl*10} min; moving through the thorns requires a Strength check each rd, allowing 5\' of movement for each 5 points that the check exceeds 20"',
   'Warp Wood':
     'School=Transmutation ' +
     'Level=D2 ' +
@@ -5210,17 +5211,17 @@ SRD35.SPELLS = {
     'School="Conjuration (Creation)" ' +
     'Level=Adept2,S2,W2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Anchored web strands in a 20\' radius entangle creatures (save Reflex negates, and a DC 20 Strength or DC 25 Escape Artist breaks free) for %{lvl*10} min; movement through the web requires a Strength or Escape Artist check each rd, allowing 5\' of movement for each 5 points that the check exceeds 10; burning clears the web, inflicting 2d4 HP fire on those within"',
+      '"R%{100+lvl*10}\' Creates anchored web strands in a 20\' radius that entangle creatures (save Reflex negates, and a DC 20 Strength or DC 25 Escape Artist breaks free) for %{lvl*10} min; movement through the web requires a Strength or Escape Artist check each rd, allowing 5\' of movement for each 5 points that the check exceeds 10; burning clears the web, inflicting 2d4 HP fire on those within"',
   'Weird':
     'School="Illusion (Phantasm) [Fear,Mind-Affecting]" ' +
     'Level=S9,W9 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Fears of targets in a 15\' radius create creatures (save Will upon interaction disbelieves) whose touch kills its target (save Fortitude inflicts 3d6 HP, -1d4 Strength, and stunned for 1 rd)"',
+      '"R%{100+lvl*10}\' Fears of targets in a 15\' radius create creatures (save Will upon interaction disbelieves) whose touch kills its target (save Fortitude inflicts 3d6 HP, 1d4 points of Strength damage, and stunned for 1 rd)"',
   'Whirlwind':
     'School="Evocation [Air]" ' +
     'Level=Air8,D8 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' 10\' radius, 30\' high cyclone moves 60\' as directed each rd, inflicting 3d6 HP on Large and smaller creatures (save Reflex negates), for %{lvl} rd; it traps Medium and smaller creatures (save Reflex negates), inflicting an additional 1d8 HP on each subsequent rd"',
+      '"R%{400+lvl*40}\' Creates a 10\' radius, 30\' high cyclone that moves 60\' as directed each rd, inflicting 3d6 HP on Large and smaller creatures (save Reflex negates), for %{lvl} rd; it traps Medium and smaller creatures (save Reflex negates), inflicting an additional 1d8 HP on each subsequent rd"',
   'Whispering Wind':
     'School="Transmutation [Air]" ' +
     'Level=B2,S2,W2 ' +
@@ -5240,6 +5241,7 @@ SRD35.SPELLS = {
     // 'School=Universal ' +
     'Level=S9,W9 ' +
     'Description=' +
+      // TODO: elaborate?
       '"Alters reality, with few limits; costs at least 5,000 XP to cast"',
   'Wood Shape':
     'School=Transmutation ' +
@@ -5250,7 +5252,7 @@ SRD35.SPELLS = {
     'School="Evocation [Chaotic,Sonic]" ' +
     'Level=C7,Chaos7 ' +
     'Description=' +
-      '"Inflicts on nonchaotic creatures within 40\' a set of effects: banishment for 24 hr (save Will -4 negates) on extraplanar creatures; killed or destroyed on creatures with up to %{lvl-10} HD; confused for 1d10 min on creatures with up to %{lvl-5} HD; stunned for rd on creatures with up to %{lvl-1} HD; deafened for 1d4 rd on creatures with up to %{lvl} HD"',
+      '"Inflicts on nonchaotic creatures within 40\' a set of effects: banishment for 24 hr on extraplanar creatures (save Will -4 negates); killed or destroyed on creatures with up to %{lvl-10} HD; confused for 1d10 min on creatures with up to %{lvl-5} HD; stunned for 1 rd on creatures with up to %{lvl-1} HD; deafened for 1d4 rd on creatures with up to %{lvl} HD"',
   'Word Of Recall':
     'School="Conjuration (Teleportation)" ' +
     'Level=C6,D8 ' +
