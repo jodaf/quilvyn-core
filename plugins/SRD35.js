@@ -3469,7 +3469,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=D1,R1 ' +
     'Description=' +
-      '"Makes %{lvl} touched imperceptible to animals for %{lvl*10} min (save Will negates); attacking any creature ends the spell for all" ' +
+      '"Makes %{lvl} touched imperceptible to animals (save Will negates) for %{lvl*10} min; attacking any creature ends the spell for all" ' +
     'Liquid=Potion',
   'Hide From Undead':
     'School=Abjuration ' +
@@ -4161,7 +4161,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=Trickery8,S8,W8 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Transforms the target creature or object into a different creature or object (save Fortitude negates); the duration depends on the degree of change, from 20 min to permanent"',
+      '"R%{25+lvl//2*5}\' Transforms the target creature or nonmagical object into a different creature or object (save Fortitude negates); the duration depends on the degree of change, from 20 min to permanent"',
   'Power Word Blind':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=S7,W7,War7 ' +
@@ -4303,7 +4303,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Ranged touch attack inflicts 1d6+%{lvl//2<?5} points of Strength damage (save Fortitude half; will not lower Strength below 1) for %{lvl} min"',
+      '"R%{25+lvl//2*5}\' Ranged touch attack reduces Strength by 1d6+%{lvl//2<?5} (save Fortitude half; will not lower Strength below 1) for %{lvl} min"',
   'Ray Of Exhaustion':
     'School=Necromancy ' +
     'Level=S3,W3 ' +
@@ -8624,20 +8624,25 @@ SRD35.featureRules = function(
         if(adjust == '%1' && !effect.includes(adjust))
           rules.defineRule(adjuster, note, '?', null);
 
-      } else if(section == 'skill' && effect.match(/\sclass\sskill(s)?$/)) {
-        let skill =
-          effect.replace(/^all\s|\s(is(\sa)?|are)?\sclass\sskill(s)?$/gi, '');
-        if(skill.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*(\s\([A-Z][a-z]*(\s[A-Z][a-z]*)*\))?$/)) {
-          rules.defineRule('classSkills.' + skill, note, '=', '1');
-          let skillAttr = 'skills.' + skill;
-          if(!skillsBoosted.includes(skillAttr))
-            skillsBoosted.push(skillAttr);
-        } else {
-          skillPrereqPossible = false;
-        }
       }
 
       // Generate rules for common notes:
+
+      // ... are/is a class skill/skills
+      if(section == 'skill' && effect.match(/\sclass\sskills?$/)) {
+        let skills =
+          effect.replace(/^all\s|\s(is(\sa)?|are)?\sclass\sskill(s)?$/gi, '');
+        skills.split(/,\s+and\s+|,\s*|\s+and\s+/).forEach(s => {
+          if(s.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*(\s\([A-Z][a-z]*(\s[A-Z][a-z]*)*\))?$/)) {
+            rules.defineRule('classSkills.' + s, note, '=', '1');
+            let skillAttr = 'skills.' + s;
+            if(!skillsBoosted.includes(skillAttr))
+              skillsBoosted.push(skillAttr);
+          } else {
+            skillPrereqPossible = false;
+          }
+        });
+      }
 
       // Has immunity to ...
       if((matchInfo = effect.match(/^Has immunity to (\w+)$/)))
