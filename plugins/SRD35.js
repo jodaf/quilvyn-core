@@ -809,8 +809,7 @@ SRD35.FEATURES = {
       '"Can ignore magical impediments to movement for %{casterLevels.Travel} rd per day",' +
       '"Survival is a class skill"',
   'Trickery Domain':
-    'Section=skill ' +
-    'Note="Bluff is a class skill/Disguise is a class skill/Hide is a class skill"',
+    'Section=skill Note="Bluff, Disguise, and Hide are class skills"',
   'War Domain':
     'Section=combat ' +
     'Note="Weapon Proficiency (%{deityFavoredWeapons})/Weapon Focus (%{deityFavoredWeapons})"',
@@ -8629,10 +8628,16 @@ SRD35.featureRules = function(
       // Generate rules for common notes:
 
       // ... are/is a class skill/skills
-      if(section == 'skill' && effect.match(/\sclass\sskills?$/)) {
-        let skills =
-          effect.replace(/^all\s|\s(is(\sa)?|are)?\sclass\sskill(s)?$/gi, '');
-        skills.split(/,\s+and\s+|,\s*|\s+and\s+/).forEach(s => {
+      if(section == 'skill' &&
+         // matches "X is a class skill", "X and Y are class skills", and
+         // "X, Y, and Z are class skills" (final comma optional), where each
+         // skill may have multiple words and a subskill in parens, with each
+         // word starting with a capital letter; each skill may begin with
+         // "all" to indicate a set of skills, e.g., all Knowledge skills
+         effect.match(/^[A-Z]\w+(\s+\(?[A-Z]\w+\)?)*((,\s*and\s+|,\s*|\s+and\s+)(all\s+)?[A-Z]\w+(\s+\(?[A-Z]\w+\)?)*)*\s+(is\sa|are)\sclass\sskills?$/)) {
+        let skills = effect.replace(/\s+(is\sa|are)\sclass\sskills?$/, '');
+        skills.split(/,\s*and\s+|,\s*|\s+and\s+/).forEach(s => {
+          s = s.replace(/^[Aa]ll\s+/, '');
           if(s.match(/^[A-Z][a-z]*(\s[A-Z][a-z]*)*(\s\([A-Z][a-z]*(\s[A-Z][a-z]*)*\))?$/)) {
             rules.defineRule('classSkills.' + s, note, '=', '1');
             let skillAttr = 'skills.' + s;
