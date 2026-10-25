@@ -740,7 +740,8 @@ SRD35.FEATURES = {
     'Section=magic ' +
     'Note="Can use <i>Suggestion</i> effects on %{magicNotes.massSuggestion?\'fascinated creatures\':\'1 fascinated creature\'}" ' +
     'Spells=Suggestion ' +
-    'SpellAbility=Charisma',
+    'SpellAbility=Charisma ' +
+    'SpellLevel=levels.Bard',
 
   // Cleric
   'Aligned Spells':
@@ -1132,7 +1133,7 @@ SRD35.FEATURES = {
     'Section=combat Note="Can make a second off-hand attack with a -5 penalty"',
   'Improved Unarmed Strike':
     'Section=combat ' +
-    'Note="Unarmed strikes provoke no AOO and can deal lethal damage"',
+    'Note="Unarmed strikes provoke no AOO and can inflict lethal damage"',
   'Investigator':'Section=skill Note="+2 Gather Information/+2 Search"',
   'Iron Will':'Section=save Note="+2 Will"',
   'Leadership':
@@ -3857,7 +3858,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=S1,W1 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' %{level<3?\'Missile inflicts\':((lvl+1)//2<?5)+\\" missiles in a 15\' radius each inflict\\"} 1d4+1 HP force"',
+      '"R%{100+lvl*10}\' %{lvl<3?\'Missile inflicts\':((lvl+1)//2<?5)+\\" missiles in a 15\' radius each inflict\\"} 1d4+1 HP force"',
   'Magic Mouth':
     'School="Illusion (Glamer)" ' +
     'Level=B1,S2,W2 ' +
@@ -3926,7 +3927,7 @@ SRD35.SPELLS = {
     'School="Transmutation [Language-Dependent]" ' +
     'Level=B0,S0,W0 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Allows self to exchange whispered messages with %{lvl} targets for %{lvl*10} min; messages can circumvent barriers, but 1\' of stone, 1\\" of metal, a thin sheet of lead, or 3\' of wood or dirt blocks the spell"',
+      '"R%{100+lvl*10}\' Allows self to exchange whispered messages with %{lvl} target%{lvl>1?\'s\':\'\'} for %{lvl*10} min; messages can circumvent barriers, but 1\' of stone, 1\\" of metal, a thin sheet of lead, or 3\' of wood or dirt blocks the spell"',
   'Meteor Swarm':
     'School="Evocation [Fire]" ' +
     'Level=S9,W9 ' +
@@ -8706,7 +8707,7 @@ SRD35.featureRules = function(
     // Display attack and DC values when this feature is acquired.
     rules.defineRule('casterLevels.' + spellType,
       'features.' + name, '?', null,
-      'level', '=', null
+      spellLevel || 'level', '=', null
     );
     rules.defineRule('spellModifier.' + spellType,
       'casterLevels.' + spellType, '?', null,
