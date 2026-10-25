@@ -8536,7 +8536,8 @@ SRD35.featureRules = function(
     if(priorInSection > 0)
       note += '-' + priorInSection;
 
-    rules.defineChoice('notes', note + ':' + effects);
+    rules.defineChoice
+      ('notes', note + ':' + effects.replaceAll(/\(save ([A-Z]\w+)/g, '(<b>save $1</b>'));
     rules.defineRule
       (note, 'features.' + name, effects.indexOf('%V') >= 0 ? '?' : '=', null);
 
@@ -9400,6 +9401,7 @@ SRD35.spellRules = function(
     else
       effectsBonus += '+(spellEffectsCasterLevelBonus.' + d + '||0)';
   });
+  description = description.replaceAll(/\(save ([A-Z]\w+)/g, '(<b>save $1</b>');
   rules.defineChoice
     ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + '+' + effectsBonus + ')'));
   // Remove character spell DC--doesn't apply to potions and scrolls.
