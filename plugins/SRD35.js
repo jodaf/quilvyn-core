@@ -9376,11 +9376,27 @@ SRD35.spellRules = function(
     }
   }
 
-  let dc;
-  while((dc = description.match(/(.save Fortitude\s|.save Reflex\s|.save Will\s)([^%])/)) != null) {
-    expr = school ? school.includes(' ') ? '$"spellDCSchoolBonus.' + school + '"' : 'spellDCSchoolBonus.' + school : '0';
-    expr = expr + '?"(DC +"+' + expr + '+") ":""';
-    description = description.replace(dc[0], dc[1] + '%{' + expr + '}' + dc[2]);
+  let save;
+  let spellDescription = description;
+  let itemDescription = description;
+  while((save=spellDescription.match(/(\(save\s+([A-Z]\w+))(.*)\)/)) != null) {
+    if(save[3].match(/\bDC\b/)) {
+      spellDescription =
+        spellDescription.replace(save[1], '(<b>save ' + save[2] + '</b>');
+      itemDescription =
+        itemDescription.replace(save[1], '(<b>save ' + save[2] + '</b>');
+    } else {
+      let minDC = 10 + Math.floor(level / 2);
+      expr =
+        '(spellDifficultyClass.' + (domainSpell ? 'Domain' : casterGroup) +
+        '||' + minDC + ')+' + level;
+      if(school)
+        expr += '+(' + (school.includes(' ') ? '$"' : '') + 'spellDCSchoolBonus.' + school + (school.includes(' ') ? '"' : '') + '||0)';
+      spellDescription =
+        spellDescription.replace(save[1], '(<b>save ' + save[2] + '</b> DC %{' + expr + '}');
+      itemDescription =
+        itemDescription.replace(save[1], '(<b>save ' + save[2] + '</b> DC ' + (minDC + level));
+    }
   }
 
   expr = 'casterLevels.' + (domainSpell ? 'Domain' : casterGroup);
@@ -9401,12 +9417,9 @@ SRD35.spellRules = function(
     else
       effectsBonus += '+(spellEffectsCasterLevelBonus.' + d + '||0)';
   });
-  description = description.replaceAll(/\(save ([A-Z]\w+)/g, '(<b>save $1</b>');
   rules.defineChoice
-    ('notes', 'spells.' + name + ':' + description.replaceAll('lvl', '(' + expr + '+' + effectsBonus + ')'));
-  // Remove character spell DC--doesn't apply to potions and scrolls.
-  description =
-    description.replaceAll(/(spellDifficultyClass|spellDCSchoolBonus).\w+\|\|/g, '');
+    ('notes', 'spells.' + name + ':' + spellDescription.replaceAll('lvl', '(' + expr + '+' + effectsBonus + ')'));
+
   // Try to replace caster level references in description with minimum caster
   // level from existing classes. If none are defined yet, classRules will
   // handle the replacement later.
@@ -9419,24 +9432,27 @@ SRD35.spellRules = function(
         expr = matchInfo[1];
     }
   }
+
   // Hack alert: potentially-fragile hard-coding of modification of caster
   // level for paladin and ranger spells. Probably should be handled in
   // classRules somehow, since the calculation of caster level is specified as
   // part of the class, but placing it here seems simpler.
   if(casterGroup == 'P' || casterGroup == 'R')
     expr = '(' + expr + '//2)';
+
   liquids.forEach(liquid => {
     if(liquid != 'None') {
-      let liquidDesc = description.replaceAll('lvl', expr);
+      let liquidDesc = itemDescription.replaceAll('lvl', expr);
       let liquidName = name.replace('(', ' ' + liquid + ' (');
       rules.addChoice('potions', liquidName);
       rules.defineChoice
         ('notes', 'potions.' + liquidName + ':%{%V!=1?"("+%V+") ":""}' + liquidDesc);
     }
   });
+
   rules.addChoice('scrolls', name);
   rules.defineChoice
-    ('notes', 'scrolls.' + name + ':%{%V!=1?"("+%V+") ":""}' + description.replaceAll('lvl', expr));
+    ('notes', 'scrolls.' + name + ':%{%V!=1?"("+%V+") ":""}' + itemDescription.replaceAll('lvl', expr));
 
 };
 // N.B. FRCS uses Teleportation as a descriptor; probably should be a subschool
