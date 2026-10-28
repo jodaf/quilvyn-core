@@ -346,13 +346,13 @@ var attributes = {
   </tr><tr style="text-align:center">
     <td><b>Spells</b>:<br/>    <table id="Spells" style="width:100%">
     <tr style="text-align:left">
-      <td>Acid Fog (Water7 Conj): R200' Creates a 20' radius fog that obscures vision, slows to 5', and inflicts -2 attacks, -2 damage, and 2d6 HP acid per rd for 10 rd</td>
+      <td>Acid Fog (Water7 Conj): R200' Creates a 20' radius, 20' high cylinder of fog that obscures vision, giving a 20% miss chance on attacks within 5' and a 50% miss chance on more distant attacks, slows to 5', and inflicts -2 attacks, -2 damage, and 2d6 HP acid per rd for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Aid (Good2 Ench): Gives touched +1 attacks, +1 saves vs. fear, and 1d8+10 temporary hit points for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Aid (Luck2 Ench): Gives touched +1 attacks, +1 saves vs. fear, and 1d8+10 temporary hit points for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Air Walk (Air4 Tran): Touched can walk on air for 100 min, then floats downward 60' per rd for 1d6 rd; winds of over 20 MPH push the target 5' per 5 MPH; training a mount to <i>Air Walk</i> requires a week of work and a DC 25 Handle Animal check</td>
+      <td>Air Walk (Air4 Tran): Allows touched to walk on air for 100 min, then float downward 60' per rd for 1d6 rd; winds of over 20 MPH push the target 5' per 5 MPH; training a mount to <i>Air Walk</i> requires a week of work and a DC 25 Handle Animal check</td>
     </tr><tr style="text-align:left">
       <td>Animal Shapes (Animal7 Tran): R50' Transforms 10 willing targets in a 15' radius into a chosen animal with up to 10 HD for 10 hr</td>
     </tr><tr style="text-align:left">
@@ -360,21 +360,21 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Animate Objects (Chaos6 Tran): R200' 10 Small object targets attack foes for 10 rd; larger objects reduce the number affected by half for each size level</td>
     </tr><tr style="text-align:left">
-      <td>Animate Plants (Plant7 Tran): R50' 3 Large plant targets attack foes for 10 rd or entwine for 10 hr; larger plants reduce the number affected by half for each size level</td>
+      <td>Animate Plants (Plant7 Tran): R50' Plants within range entangle for 10 hr, or 3 Large plant targets attack foes for 10 rd; larger plants reduce the number affected by half for each size level</td>
     </tr><tr style="text-align:left">
-      <td>Antilife Shell (Animal6 Abju): 10' radius bars the entrance of living creatures for 100 min</td>
+      <td>Antilife Shell (Animal6 Abju): 10' radius bars the entrance of living creatures for 100 min; does not affect constructs, elementals, outsiders, and undead</td>
     </tr><tr style="text-align:left">
       <td>Antimagic Field (Magic6 Abju): 10' radius suppresses magic and summoned and incorporeal undead creatures for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Antimagic Field (Protection6 Abju): 10' radius suppresses magic and summoned and incorporeal undead creatures for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Astral Projection (Travel9 Necr): Projects self and 5 willing creatures to the Astral Plane</td>
+      <td>Astral Projection (Travel9 Necr): Projects self and 5 willing creatures to the Astral Plane; physical bodies are left behind in a state of suspended animation</td>
     </tr><tr style="text-align:left">
       <td>Barkskin (Plant2 Tran): Gives touched a +4 natural armor enhancement bonus to Armor Class for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Blade Barrier (Good6 Evoc): R200' 200' blade wall or a 25' radius ring provides cover and inflicts 10d6 HP initially (<b>save Reflex</b> DC 15 negates) and each rd (<b>save Reflex</b> DC 15 half) for 10 min</td>
+      <td>Blade Barrier (Good6 Evoc): R200' 200'x20' blade wall or a 25' radius, 20' high ring provides cover and inflicts 10d6 HP initially (<b>save Reflex</b> DC 15 negates) and each rd (<b>save Reflex</b> DC 15 half) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Blade Barrier (War6 Evoc): R200' 200' blade wall or a 25' radius ring provides cover and inflicts 10d6 HP initially (<b>save Reflex</b> DC 15 negates) and each rd (<b>save Reflex</b> DC 15 half) for 10 min</td>
+      <td>Blade Barrier (War6 Evoc): R200' 200'x20' blade wall or a 25' radius, 20' high ring provides cover and inflicts 10d6 HP initially (<b>save Reflex</b> DC 15 negates) and each rd (<b>save Reflex</b> DC 15 half) for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Blasphemy (Evil7 Evoc): Inflicts on nonevil creatures within 40' a set of effects: banishment for 24 hr on extraplanar creatures (<b>save Will</b> DC 16 -4 negates); killed or destroyed on creatures with up to 1 HD; paralyzed for 1d10 min on creatures with up to 6 HD; -2d6 Strength for 2d4 rd on creatures with up to 10 HD; dazed for 1 rd on creatures with up to 11 HD</td>
     </tr><tr style="text-align:left">
@@ -384,7 +384,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Burning Hands (Fire1 Evoc): 15' cone inflicts 5d4 HP fire (<b>save Reflex</b> DC 10 half)</td>
     </tr><tr style="text-align:left">
-      <td>Calm Animals (Animal1 Ench): R50' Makes 2d4+10 HD of animals in a 15' radius docile (<b>save Will</b> DC 10 negates) for 10 min</td>
+      <td>Calm Animals (Animal1 Ench): R50' Makes 2d4+10 HD of animals of the same kind in a 15' radius docile (<b>save Will</b> DC 10 negates) for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Calm Emotions (Law2 Ench): R200' Pacifies creatures in a 20' radius (<b>save Will</b> DC 11 negates), negating rage and morale bonuses, for concentration up to 10 rd or until any target is attacked</td>
     </tr><tr style="text-align:left">
@@ -396,11 +396,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Clairaudience/Clairvoyance (Knowledge3 Divi): 840' Gives self a choice of remote sight or hearing of a known location for 11 min</td>
     </tr><tr style="text-align:left">
-      <td>Clenched Fist (Strength8 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that can be moved 60' as a move action, gives +4 Armor Class, and performs a +15 Bull Rush and a +21 + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (<b>save Fortitude</b> DC 17 HP only), for 10 rd</td>
+      <td>Clenched Fist (Strength8 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that can be moved 60' as a move action, gives +4 Armor Class, slows those pushing past to half Speed, and performs a +15 Bull Rush and a +20 + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (<b>save Fortitude</b> DC 17 HP only), for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Cloak Of Chaos (Chaos8 Abju): 11 creatures within 20' inflict confusion on successful lawful attackers (<b>save Will</b> DC 17 negates) for 1 rd and gain a +4 deflection bonus to Armor Class, +4 saves, SR 25 vs. lawful spells and casters, and suppression of possession and mental control, for 11 rd</td>
     </tr><tr style="text-align:left">
-      <td>Command Plants (Plant4 Tran): R50' 20 HD of plant creatures in a 15' radius consider self as a friend (<b>save Will</b> DC 13 negates) for 10 days, obeying commands only with successful opposed Charisma checks</td>
+      <td>Command Plants (Plant4 Tran): R50' 20 HD of plant creatures in a 15' radius consider self as a friend (<b>save Will</b> DC 13 negates) for 10 days and can be persuaded to obey commands to perform actions outside of their normal behavior with successful opposed Charisma checks</td>
     </tr><tr style="text-align:left">
       <td>Commune With Nature (Animal5 Divi): Reveals three nature facts about the surrounding 11 miles outdoors or 1100' underground</td>
     </tr><tr style="text-align:left">
@@ -410,13 +410,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Contagion (Destruction3 Necr): Touched contracts a random disease (<b>save Fortitude</b> DC 12 negates)</td>
     </tr><tr style="text-align:left">
-      <td>Control Plants (Plant8 Tran): R50' 20 HD of plant creatures in a 15' radius obey self (<b>save Will</b> DC 17 negates) for 10 min</td>
+      <td>Control Plants (Plant8 Tran): R50' Causes 20 HD of plant creatures in a 15' radius to obey self (<b>save Will</b> DC 17 negates) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Control Water (Water4 Tran): R800' Raises or lowers a 100'x100'x20' area of water by 20' for 100 min</td>
+      <td>Control Water (Water4 Tran): R800' Raises or lowers a 100'x100'x20' area of water by 20', or slows a water elemental or similar creature (<b>save Will</b> DC 13 negates), for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Control Weather (Air7 Tran): Modifies seasonal weather in a 2 mile radius for 4d12 hr</td>
+      <td>Control Weather (Air7 Tran): Modifies seasonal weather within a 2 mile radius for 4d12 hr</td>
     </tr><tr style="text-align:left">
-      <td>Control Winds (Air5 Tran): R400' Changes the wind direction and speed by 3 levels in a 400'x40' cylinder for 100 min (<b>save Fortitude</b> DC 14 each rd negates wind effects on a creature for 1 rd)</td>
+      <td>Control Winds (Air5 Tran): R400' Changes the wind direction and speed by 3 levels in a 400' radius, 40' high cylinder for 100 min (<b>save Fortitude</b> DC 14 each rd negates wind effects on a creature for 1 rd)</td>
     </tr><tr style="text-align:left">
       <td>Create Greater Undead (Death8 Necr): R50' Cast at night, creates a shadow from physical remains</td>
     </tr><tr style="text-align:left">
@@ -426,19 +426,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Crushing Hand (Strength9 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that can be moved 60' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +26 + modifier Grapple that inflicts 2d6+12 HP for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Cure Critical Wounds (Healing4 Conj): Touched regains 4d8+11 hit points; undead instead suffer the same amount (<b>save Will</b> DC 13 half)</td>
+      <td>Cure Critical Wounds (Healing4 Conj): Touched regains 4d8+11 hit points (<b>save Will</b> DC 13 negates); undead instead suffer the same amount (<b>save Will</b> DC 13 half)</td>
     </tr><tr style="text-align:left">
-      <td>Cure Light Wounds (Healing1 Conj): Touched regains 1d8+5 hit points; undead instead suffer the same amount (<b>save Will</b> DC 10 half)</td>
+      <td>Cure Light Wounds (Healing1 Conj): Touched regains 1d8+5 hit points (<b>save Will</b> DC 10 negates); undead instead suffer the same amount (<b>save Will</b> DC 10 half)</td>
     </tr><tr style="text-align:left">
-      <td>Cure Moderate Wounds (Healing2 Conj): Touched regains 2d8+10 hit points; undead instead suffer the same amount (<b>save Will</b> DC 11 half)</td>
+      <td>Cure Moderate Wounds (Healing2 Conj): Touched regains 2d8+10 hit points (<b>save Will</b> DC 11 negates); undead instead suffer the same amount (<b>save Will</b> DC 11 half)</td>
     </tr><tr style="text-align:left">
-      <td>Cure Serious Wounds (Healing3 Conj): Touched regains 3d8+11 hit points; undead instead suffer the same amount (<b>save Will</b> DC 12 half)</td>
+      <td>Cure Serious Wounds (Healing3 Conj): Touched regains 3d8+11 hit points (<b>save Will</b> DC 12 negates); undead instead suffer the same amount (<b>save Will</b> DC 12 half)</td>
     </tr><tr style="text-align:left">
       <td>Death Knell (Death2 Necr): Touched creature with negative hit points dies (<b>save Will</b> DC 11 negates), giving self 1d8 temporary hit points, +2 Strength, and +1 caster level for 10 min per target HD</td>
     </tr><tr style="text-align:left">
       <td>Death Ward (Death4 Necr): Gives touched immunity to death spells, death effects, energy drain, and negative energy effects (<b>save Will</b> DC 13 negates) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Desecrate (Evil2 Evoc): R50' 20' radius inflicts -3 turn undead and gives undead +1 attacks, damage, and saves for 22 hr, and undead created or summoned within the area also gain +1 hit point per HD; a shrine to None in the area doubles the spell's effects, while a shrine to a different deity negates the effects but renders the shrine inert</td>
+      <td>Desecrate (Evil2 Evoc): R50' 20' radius inflicts -3 turn undead, gives undead +1 attacks, damage, and saves for 22 hr, gives undead created or summoned within the area +1 hit point per HD, and doubles the number of undead created by <i>Animate Dead</i>; a shrine to None in the area doubles the spell's effects other than the change to <i>Animate Dead</i>, while a shrine to a different deity negates the effects but renders the shrine inert</td>
     </tr><tr style="text-align:left">
       <td>Destruction (Death7 Necr): R50' Slays the target and consumes its remains (<b>save Fortitude</b> DC 16 inflicts 10d6 HP)</td>
     </tr><tr style="text-align:left">
@@ -454,7 +454,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Disguise Self (Trickery1 Illu): Changes the appearance of self (<b>save Will</b> DC 11 upon interaction disbelieves) and gives +10 Disguise, for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Disintegrate (Destruction7 Tran): R200' Ranged touch attack inflicts 20d6 HP (<b>save Fortitude</b> DC 16 inflicts 5d6 HP), turning a slain target to dust, or disintegrates a 10' cube of matter</td>
+      <td>Disintegrate (Destruction7 Tran): R200' Ranged touch attack inflicts 20d6 HP, turning a slain target to dust, or disintegrates a 10' cube of matter (<b>save Fortitude</b> DC 16 inflicts 5d6 HP)</td>
     </tr><tr style="text-align:left">
       <td>Dispel Chaos (Law5 Abju): Gives self a +4 deflection bonus to Armor Class vs. chaotic creatures for 11 rd; can end the spell early with a touch that dismisses a chaotic creature (<b>save Will</b> DC 14 negates), a chaotic spell, or a spell cast by a chaotic caster</td>
     </tr><tr style="text-align:left">
@@ -472,9 +472,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Dominate Animal (Animal3 Ench): R50' Target animal obeys mental commands (<b>save Will</b> DC 12 negates) for 10 rd</td>
     </tr><tr style="text-align:left">
-      <td>Earthquake (Destruction8 Evoc): R800' Intense tremor shakes an 80' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures that inflict 8d6 HP (<b>save Reflex</b> DC 15 half) and pin creatures in the rubble, knocking down creatures on open ground (<b>save Reflex</b> DC 15 negates) and opening fissures with a 25% chance to fall in (<b>save Reflex</b> DC 20 negates)</td>
+      <td>Earthquake (Destruction8 Evoc): R800' Causes an intense tremor to shake an 80' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures that inflict 8d6 HP (<b>save Reflex</b> DC 15 half) and pin creatures in the rubble, knocking down creatures on open ground (<b>save Reflex</b> DC 15 negates) and opening fissures with a 25% chance to fall in (<b>save Reflex</b> DC 20 negates); pinned creatures suffer 1d6 HP nonlethal each min until unconscious, then 1d6 HP lethal each min (<b>save Constitution</b> DC 15 negates)</td>
     </tr><tr style="text-align:left">
-      <td>Earthquake (Earth7 Evoc): R800' Intense tremor shakes an 80' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures that inflict 8d6 HP (<b>save Reflex</b> DC 15 half) and pin creatures in the rubble, knocking down creatures on open ground (<b>save Reflex</b> DC 15 negates) and opening fissures with a 25% chance to fall in (<b>save Reflex</b> DC 20 negates)</td>
+      <td>Earthquake (Earth7 Evoc): R800' Causes an intense tremor to shake an 80' radius for 1 rd, prohibiting movement, breaking spell concentration (DC 20 + spell level concentration negates), collapsing caverns, cliffs, and structures that inflict 8d6 HP (<b>save Reflex</b> DC 15 half) and pin creatures in the rubble, knocking down creatures on open ground (<b>save Reflex</b> DC 15 negates) and opening fissures with a 25% chance to fall in (<b>save Reflex</b> DC 20 negates); pinned creatures suffer 1d6 HP nonlethal each min until unconscious, then 1d6 HP lethal each min (<b>save Constitution</b> DC 15 negates)</td>
     </tr><tr style="text-align:left">
       <td>Elemental Swarm (Air9 Conj): R200' Summons at 10-min intervals from a chosen elemental plane a series of obedient elementals: 2d4 large; 1d4 huge; 1 greater, for 100 min</td>
     </tr><tr style="text-align:left">
@@ -486,7 +486,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Endure Elements (Sun1 Abju): Touched remains comfortable between -50F and 140F (<b>save Will</b> DC 10 negates) for 24 hr</td>
     </tr><tr style="text-align:left">
-      <td>Enlarge Person (Strength1 Tran): R50' Target humanoid doubles in size (<b>save Fortitude</b> DC 10 negates), gaining +2 Strength and suffering -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class, for 10 min</td>
+      <td>Enlarge Person (Strength1 Tran): R50' Target humanoid doubles in size (<b>save Fortitude</b> DC 10 negates), gaining 8x weight, +2 Strength, -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class, for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Entangle (Plant1 Tran): R800' 40' radius entangles creatures (<b>save Reflex</b> inflicts half Speed; DC 20 Strength or Escape Artist breaks an entanglement) for 10 min</td>
     </tr><tr style="text-align:left">
@@ -514,7 +514,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Fly (Travel3 Tran): Gives touched a 60' fly Speed (<b>save Will</b> DC 12 negates) for 10 min, after which it floats downward 60' per rd for 1d6 rd</td>
     </tr><tr style="text-align:left">
-      <td>Fog Cloud (Water2 Conj): R200' Creates a 20' radius fog that obscures vision, giving a 20% miss chance on attacks within 5' and a 50% miss chance on more distant attacks, for 100 min</td>
+      <td>Fog Cloud (Water2 Conj): R200' Creates a 20' radius, 20' high cylinder of fog that obscures vision, giving a 20% miss chance on attacks within 5' and a 50% miss chance on more distant attacks, for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Foresight (Knowledge9 Divi): Gives self warnings of impending danger to the touched creature (<b>save Will</b> DC 19 negates) for 110 min; casting on self also gives a +2 insight bonus to Armor Class and Reflex saves and negates surprise and flat-footed</td>
     </tr><tr style="text-align:left">
@@ -530,9 +530,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Harm (Destruction6 Necr): Melee touch inflicts 100 HP (<b>save Will</b> DC 15 half), leaving the target with at least 1 hit point; undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
-      <td>Heal (Healing6 Conj): Touched regains 110 hit points and recovers from negative conditions; undead instead suffer the same amount (<b>save Will</b> DC 15 negates)</td>
+      <td>Heal (Healing6 Conj): Touched regains 110 hit points and recovers from ability damage, blinded, confused, dazed, dazzled, deafened, diseased, exhausted, fatigued, feebleminded, insanity, nauseated, poisoned, sickened, and stunned conditions; undead instead suffer the same amount (<b>save Will</b> DC 15 negates)</td>
     </tr><tr style="text-align:left">
-      <td>Heat Metal (Sun2 Tran): R50' Inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP fire over 7 rd on 5 targets in a 15' radius (<b>save Will</b> DC 11 negates); a target not in possession of metal instead takes 1 or 2 HP fire in the second through sixth rd</td>
+      <td>Heat Metal (Sun2 Tran): R50' Metal on 5 targets in a 15' radius, or 250 lb of metal in a 15' radius, inflicts 0, 1d4, 2d4, 2d4, 2d4, 1d4, and 0 HP fire over 7 rd (<b>save Will</b> DC 11 negates); a target not in contact with metal instead takes 1 or 2 HP fire in the second through sixth rd</td>
     </tr><tr style="text-align:left">
       <td>Hold Animal (Animal2 Ench): R200' Paralyzes the animal target (<b>save Will</b> DC 11 negates; additional saves each rd end) for 10 rd</td>
     </tr><tr style="text-align:left">
@@ -546,7 +546,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Horrid Wilting (Water8 Necr): R800' Creatures in a 30' radius suffer 10d6 HP, or 10d8 HP for plants or water elementals (<b>save Fortitude</b> DC 17 half)</td>
     </tr><tr style="text-align:left">
-      <td>Ice Storm (Water5 Evoc): R800' Hail in a 20'-radius, 40'-high cylinder inflicts 3d6 HP bludgeoning and 2d6 HP cold for 1 rd, then -4 Listen and half Speed for 10 rd</td>
+      <td>Ice Storm (Water5 Evoc): R800' Hail in a 20'-radius, 40' high cylinder inflicts 3d6 HP bludgeoning and 2d6 HP cold for 1 rd, then -4 Listen and half Speed for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Identify (Magic2 Divi): Reveals the magic properties of a touched, non-artifact object</td>
     </tr><tr style="text-align:left">
@@ -554,7 +554,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Implosion (Destruction9 Evoc): R50' Slays 1 target per rd (<b>save Fortitude</b> DC 18 negates) for concentration up to 4 rd</td>
     </tr><tr style="text-align:left">
-      <td>Incendiary Cloud (Fire8 Conj): R200' Fire in a 20'-radius, 20'-high cylinder obscures vision, inflicts 4d6 HP fire (<b>save Reflex</b> DC 17 half), and moves away 10' per rd (or up to 60' with concentration) for 10 rd</td>
+      <td>Incendiary Cloud (Fire8 Conj): R200' Fire in a 20'-radius, 20' high cylinder obscures vision, inflicts 4d6 HP fire (<b>save Reflex</b> DC 17 half), and moves away 10' per rd (or up to 60' with concentration) for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Inflict Critical Wounds (Destruction4 Necr): Touched suffers 4d8+10 HP (<b>save Will</b> DC 13 half); undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
@@ -590,11 +590,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Weapon (War1 Tran): Enhances the touched weapon to make +1 attacks and inflict +1 HP (<b>save Will</b> DC 10 negates) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Mass Cure Critical Wounds (Healing8 Conj): R50' 11 targets in a 15' radius regain 4d8+11 hit points; undead instead suffer the same amount (<b>save Will</b> DC 17 half)</td>
+      <td>Mass Cure Critical Wounds (Healing8 Conj): R50' 11 targets in a 15' radius regain 4d8+11 hit points (<b>save Will</b> DC 17 negates); undead instead suffer the same amount (<b>save Will</b> DC 17 half)</td>
     </tr><tr style="text-align:left">
-      <td>Mass Cure Light Wounds (Healing5 Conj): R50' 11 targets in a 15' radius regain 1d8+11 hit points; undead instead suffer the same amount (<b>save Will</b> DC 14 half)</td>
+      <td>Mass Cure Light Wounds (Healing5 Conj): R50' 11 targets in a 15' radius regain 1d8+11 hit points (<b>save Will</b> DC 14 negates); undead instead suffer the same amount (<b>save Will</b> DC 14 half)</td>
     </tr><tr style="text-align:left">
-      <td>Mass Heal (Healing9 Conj): R50' Targets in a 15' radius regain 110 hit points and recover from negative conditions; undead instead suffer the same amount (<b>save Will</b> DC 18 negates)</td>
+      <td>Mass Heal (Healing9 Conj): R50' Targets in a 15' radius regain 110 hit points and recover from ability damage, blinded, confused, dazed, dazzled, deafened, diseased, exhausted, fatigued, feebleminded, insanity, nauseated, poisoned, sickened, and stunned conditions; undead instead suffer the same amount (<b>save Will</b> DC 18 negates)</td>
     </tr><tr style="text-align:left">
       <td>Mass Inflict Light Wounds (Destruction5 Necr): R50' 10 targets in a 15' radius suffer 1d8+10 HP (<b>save Will</b> DC 14 half); undead instead regain the same amount</td>
     </tr><tr style="text-align:left">
@@ -610,9 +610,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Nondetection (Trickery3 Abju): Gives touched SR 21 vs. divination (<b>save Will</b> DC 12 negates), or self or a possession SR 25, for 10 hr</td>
     </tr><tr style="text-align:left">
-      <td>Obscuring Mist (Air1 Conj): Creates a 20'-radius, 20'-high cylinder fog that obscures vision, giving a 20% miss chance on attacks within 5' and a 50% chance on more distant attacks, for 10 min</td>
+      <td>Obscuring Mist (Air1 Conj): Creates a 20'-radius, 20' high cylinder fog that obscures vision, giving a 20% miss chance on attacks within 5' and a 50% chance on more distant attacks, for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Obscuring Mist (Water1 Conj): Creates a 20'-radius, 20'-high cylinder fog that obscures vision, giving a 20% miss chance on attacks within 5' and a 50% chance on more distant attacks, for 10 min</td>
+      <td>Obscuring Mist (Water1 Conj): Creates a 20'-radius, 20' high cylinder fog that obscures vision, giving a 20% miss chance on attacks within 5' and a 50% chance on more distant attacks, for 10 min</td>
     </tr><tr style="text-align:left">
       <td>Order's Wrath (Law4 Evoc): R210' Chaotic creatures in a 30' cube suffer 5d8 HP, or 10d6 HP if they are outsiders, and are dazed for 1 rd (<b>save Will</b> DC 13 half HP only); neutral creatures suffer half HP only (<b>save Will</b> DC 13 half)</td>
     </tr><tr style="text-align:left">
