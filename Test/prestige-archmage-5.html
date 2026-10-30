@@ -286,9 +286,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Cone Of Cold (W5 Evoc): 60' cone inflicts 15d6 HP cold (<b>save Reflex</b> DC 18 half)</td>
     </tr><tr style="text-align:left">
-      <td>Control Water (W6 Tran): R1160' Raises or lowers a 190'x190'x38' area of water by 38', or slows a water elemental or similar creature (<b>save Will</b> DC 19 negates), for 190 min</td>
+      <td>Control Water (W6 Tran): R1160' Raises or lowers a 190'x190'x38' area of water by 38', or slows an elemental water creature (<b>save Will</b> DC 19 negates), for 190 min</td>
     </tr><tr style="text-align:left">
-      <td>Crushing Hand (W9 Evoc): R290' Creates a 10' hand (Armor Class 20, 59 hit points) that can be moved 60' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +35 + modifier Grapple that inflicts 2d6+12 HP for 19 rd</td>
+      <td>Crushing Hand (W9 Evoc): R290' Creates a 10' hand (Armor Class 20, 59 hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, can perform a +18 Bull Rush and a +35 + modifier Grapple that inflicts 2d6+12 HP, and can be redirected between targets as a move action, for 19 rd</td>
     </tr><tr style="text-align:left">
       <td>Demand (W8 Ench): Sends to a familiar target a 25-word message that contains a <i>Suggestion</i> (<b>save Will</b> DC 21 negates); the target can send a 25-word reply</td>
     </tr><tr style="text-align:left">
@@ -300,7 +300,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Enlarge Person (W1 Tran): R70' Target humanoid doubles in size (<b>save Fortitude</b> DC 14 negates), gaining 8x weight, +2 Strength, -2 Dexterity, -1 attacks, and a -1 size penalty to Armor Class, for 19 min</td>
     </tr><tr style="text-align:left">
-      <td>Feeblemind (W5 Ench): R290' Permanently lowers the target's Intelligence and Charisma to 1 (<b>save Will</b> DC 18 negates; arcane casters have a -4 penalty)</td>
+      <td>Feeblemind (W5 Ench): R290' Permanently lowers the target's Intelligence and Charisma to 1 (<b>save Will</b> DC 18 negates; arcane casters have a -4 penalty on the save)</td>
     </tr><tr style="text-align:left">
       <td>Fireball (W3 Evoc): R1160' 20' radius inflicts 10d6 HP fire (<b>save Reflex</b> DC 16 half)</td>
     </tr><tr style="text-align:left">
@@ -310,9 +310,9 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Forcecage (W7 Evoc): R70' Traps targets in a 20' cage or a 10' windowless cell for 38 hr</td>
     </tr><tr style="text-align:left">
-      <td>Freezing Sphere (W6 Evoc): R1160' 10' radius inflicts 15d6 HP cold, or 15d8 HP cold to elemental water creatures, (<b>save Reflex</b> DC 19 half) and freezes 1500 square feet of water to a depth of 6" for 19 rd</td>
+      <td>Freezing Sphere (W6 Evoc): R1160' 10' radius inflicts 15d6 HP cold, or 15d8 HP cold to elemental water creatures, (<b>save Reflex</b> DC 19 half) and freezes 1500 square feet of water to a depth of 6" for 19 rd; can delay the effects of the spell for up to 19 rd</td>
     </tr><tr style="text-align:left">
-      <td>Gate (W9 Conj): R290' Creates a 5'-20' diameter disk passage to another plane for concentration up to 19 rd and, at the cost of 1000 XP, allows summoning extraplanar creatures—a named creature, a single creature of a named kind, or up to 38 HD of a named kind</td>
+      <td>Gate (W9 Conj): R290' Creates a 5'-20' diameter disk passage to another plane for concentration up to 19 rd and, at the cost of 1000 XP, allows summoning extraplanar creatures—a named creature, a single creature of a named kind, or up to 38 HD of a named kind; a single creature with up to 38 HD or multiple creatures with up to 19 HD total can be compelled to perform a service</td>
     </tr><tr style="text-align:left">
       <td>Ghost Sound (W0 Illu): R70' Produces the sound volume of 20 humans (<b>save Will</b> DC 13 upon interaction disbelieves) for 19 rd</td>
     </tr><tr style="text-align:left">
@@ -326,13 +326,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Guards And Wards (W6 Abju): Multiple magic effects protect a 3800' sq area for 38 hr</td>
     </tr><tr style="text-align:left">
-      <td>Horrid Wilting (W8 Necr): R1160' Creatures in a 30' radius suffer 19d6 HP, or 19d8 HP for plants or water elementals (<b>save Fortitude</b> DC 21 half)</td>
+      <td>Horrid Wilting (W8 Necr): R1160' Living creatures in a 30' radius suffer 19d6 HP, or 19d8 HP for plants or water elementals (<b>save Fortitude</b> DC 21 half)</td>
     </tr><tr style="text-align:left">
       <td>Ice Storm (W4 Evoc): R1160' Hail in a 20'-radius, 40' high cylinder inflicts 3d6 HP bludgeoning and 2d6 HP cold for 1 rd, then -4 Listen and half Speed for 19 rd</td>
     </tr><tr style="text-align:left">
       <td>Illusory Wall (W4 Illu): R70' Permanently creates an illusionary 1'x10'x10' surface (<b>save Will</b> DC 17 upon interaction disbelieves)</td>
     </tr><tr style="text-align:left">
-      <td>Invisibility Sphere (W3 Illu): Makes creatures within 10' of touched invisible (<b>save Will</b> DC 16 negates) for 19 min; attacking or moving more than 10' from the target ends the spell for that creature, and the target attacking ends the spell for all</td>
+      <td>Invisibility Sphere (W3 Illu): Makes creatures within 10' of touched invisible to others (<b>save Will</b> DC 16 negates) for 19 min; attacking or moving more than 10' from the target ends the spell for that creature, and the target attacking ends the spell for all</td>
     </tr><tr style="text-align:left">
       <td>Lesser Planar Binding (W5 Conj): Traps an extraplanar creature with up to 6 HD in a <i>Magic Circle</i> (<b>save Will</b> DC 18 negates) until it performs a task (opposed Charisma allows refusal), or escapes via SR, dimensional travel, or a DC 25 Charisma check</td>
     </tr><tr style="text-align:left">
@@ -340,7 +340,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Limited Wish (W7 Univ): Alters reality, within limits; costs at least 300 XP to cast</td>
     </tr><tr style="text-align:left">
-      <td>Locate Creature (W4 Divi): Reveals the direction of a visualized creature or kind of creature found within 1160' for 190 min; a sheet of lead blocks the spell</td>
+      <td>Locate Creature (W4 Divi): Reveals the direction of a visualized creature or kind of creature found within 1160' for 190 min; running water blocks the spell</td>
     </tr><tr style="text-align:left">
       <td>Mage Armor (W1 Conj): Gives touched a +4 armor bonus (<b>save Will</b> DC 14 negates) for 19 hr</td>
     </tr><tr style="text-align:left">

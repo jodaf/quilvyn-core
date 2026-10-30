@@ -2539,7 +2539,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=Strength8,S8,W8 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that can be moved 60\' as a move action, gives +4 Armor Class, slows those pushing past to half Speed, and performs a +15 Bull Rush and a +%{lvl+10} + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, can perform a +15 Bull Rush, can make a +%{lvl+10} + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (save Fortitude HP only), and can be redirected between targets as a move action, for %{lvl} rd"',
   'Cloak Of Chaos':
     'School="Abjuration [Chaotic]" ' +
     'Level=C8,Chaos8 ' +
@@ -2646,7 +2646,7 @@ SRD35.SPELLS = {
     'School="Transmutation [Water]" ' +
     'Level=C4,D4,S6,W6,Water4 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Raises or lowers a %{10*lvl}\'x%{10*lvl}\'x%{2*lvl}\' area of water by %{lvl*2}\', or slows a water elemental or similar creature (save Will negates), for %{lvl*10} min"',
+      '"R%{400+lvl*40}\' Raises or lowers a %{10*lvl}\'x%{10*lvl}\'x%{2*lvl}\' area of water by %{lvl*2}\', or slows an elemental water creature (save Will negates), for %{lvl*10} min"',
   'Control Weather':
     'School=Transmutation ' +
     'Level=Air7,C7,D7,S7,W7 ' +
@@ -2695,7 +2695,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=Strength9,S9,W9 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that can be moved 60\' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +%{lvl+16} + modifier Grapple that inflicts 2d6+12 HP for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, can perform a +18 Bull Rush and a +%{lvl+16} + modifier Grapple that inflicts 2d6+12 HP, and can be redirected between targets as a move action, for %{lvl} rd"',
   'Cure Critical Wounds':
     'School="Conjuration (Healing)" ' +
     'Level=Adept4,B4,Blackguard4,C4,D5,Healing4 ' +
@@ -3154,7 +3154,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Permanently lowers the target\'s Intelligence and Charisma to 1 (save Will negates; arcane casters have a -4 penalty)"',
+      '"R%{100+lvl*10}\' Permanently lowers the target\'s Intelligence and Charisma to 1 (save Will negates; arcane casters have a -4 penalty on the save)"',
   'Find The Path':
     'School=Divination ' +
     'Level=B6,C6,D6,Knowledge6,Travel6 ' +
@@ -3179,12 +3179,12 @@ SRD35.SPELLS = {
     'School=Evocation ' + // NOTE: one of [Cold,Fire]
     'Level=Fire5,Sun4,S4,W4 ' +
     'Description=' +
-      '"Envelopes self in cold or hot flames that inflict 1d6+%{lvl<?15} HP cold or fire on melee attackers (SR may negate) and either reduce heat or cold damage taken by half or negate it entirely with a successful allowed Reflex save, for %{lvl} rd"',
+      '"Envelopes self in cold or hot flames for %{lvl} rd; they inflict 1d6+%{lvl<?15} HP cold or fire on non-reach melee attackers (SR may negate) and either reduce heat or cold damage taken by half or negate it entirely with success on an allowed Reflex save"',
   'Fire Storm':
     'School="Evocation [Fire]" ' +
     'Level=C8,D7,Fire7 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' %{lvl*20} cubic foot area inflicts %{lvl<?20}d6 HP fire (save Reflex half)"',
+      '"R%{100+lvl*10}\' %{lvl*20} cubic foot area inflicts %{lvl<?20}d6 HP fire (save Reflex half; the fire does not harm vegetation or chosen plant creatures)"',
   'Fire Trap':
     'School="Abjuration [Fire]" ' +
     'Level=D2,S4,W4 ' +
@@ -3199,13 +3199,13 @@ SRD35.SPELLS = {
     'School="Transmutation [Fire]" ' +
     'Level=S3,W3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' 50 projectiles each inflict +1d6 HP fire for %{lvl*10} min" ' +
+      '"R%{25+lvl//2*5}\' Causes each projectile in a collection of up to 50 to inflict +1d6 HP fire for %{lvl*10} min" ' +
     'Liquid=Oil',
   'Flame Blade':
     'School="Evocation [Fire]" ' +
     'Level=D2 ' +
     'Description=' +
-      '"Melee touch attacks with a conjured weapon inflict 1d8+%{lvl//2<?10} HP fire for %{lvl} min"',
+      '"Allows self to make melee touch attacks with a conjured weapon that inflicts 1d8+%{lvl//2<?10} HP fire for %{lvl} min"',
   'Flame Strike':
     'School="Evocation [Fire]" ' +
     'Level=C5,D4,Sun5,War5 ' +
@@ -3225,7 +3225,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Permanently changes the target into a statue (save Fortitude negates)"',
+      '"R%{100+lvl*10}\' Permanently changes the target creature into a statue (save Fortitude negates)"',
   'Floating Disk':
     'School="Evocation [Force]" ' +
     'Level=S1,W1 ' +
@@ -3256,7 +3256,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that can be moved 60\' as a move action, gives +4 Armor Class, and performs a +14 bull rush for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, can perform a +14 Bull Rush, and can be redirected between targets as a move action, for %{lvl} rd"',
   'Foresight':
     'School=Divination ' +
     'Level=D9,Knowledge9,S9,W9 ' +
@@ -3287,7 +3287,7 @@ SRD35.SPELLS = {
     'School="Evocation [Cold]" ' +
     'Level=S6,W6 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' 10\' radius inflicts %{lvl<?15}d6 HP cold, or %{lvl<?15}d8 HP cold to elemental water creatures, (save Reflex half) and freezes %{(lvl<?15)*100} square feet of water to a depth of 6\\" for %{lvl} rd"',
+      '"R%{400+lvl*40}\' 10\' radius inflicts %{lvl<?15}d6 HP cold, or %{lvl<?15}d8 HP cold to elemental water creatures, (save Reflex half) and freezes %{(lvl<?15)*100} square feet of water to a depth of 6\\" for %{lvl} rd; can delay the effects of the spell for up to %{lvl} rd"',
 
   'Gaseous Form':
     'School=Transmutation ' +
@@ -3299,7 +3299,7 @@ SRD35.SPELLS = {
     'School=Conjuration ' + // NOTE: one of [Air,Chaotic,Earth,Evil,Fire,Good,Lawful,Water]
     'Level=C9,S9,W9 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a 5\'-20\' diameter disk passage to another plane for concentration up to %{lvl} rd and, at the cost of 1000 XP, allows summoning extraplanar creatures&mdash;a named creature, a single creature of a named kind, or up to %{lvl*2} HD of a named kind"',
+      '"R%{100+lvl*10}\' Creates a 5\'-20\' diameter disk passage to another plane for concentration up to %{lvl} rd and, at the cost of 1000 XP, allows summoning extraplanar creatures&mdash;a named creature, a single creature of a named kind, or up to %{lvl*2} HD of a named kind; a single creature with up to %{lvl*2} HD or multiple creatures with up to %{lvl} HD total can be compelled to perform a service"',
   'Geas/Quest':
     'School="Enchantment (Compulsion) [Language-Dependent,Mind-Affecting]"  ' +
     'Level=B6,C6,S6,W6 ' +
@@ -3354,12 +3354,12 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=C3 ' +
     'Description=' +
-      '"Creatures with specified characteristics who enter a %{lvl*5} square foot area trigger a blast that inflicts %{lvl//2<?5}d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5\' radius (save Reflex half; password negates) or a harmful spell of up to 3rd level"',
+      '"Creatures with specified characteristics who enter a %{lvl*5} square foot area or open a warded object trigger a blast that inflicts %{lvl//2<?5}d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5\' radius (save Reflex half; password negates) or a harmful spell of up to 3rd level"',
   'Greater Glyph Of Warding':
     'School=Abjuration ' +
     'Level=C6 ' +
     'Description=' +
-      '"Creatures with specified characteristics who enter a %{lvl*5} square foot area trigger a blast that inflicts %{lvl//2<?10}d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5\' radius (save Reflex half; password negates) or a harmful spell of up to 6th level"',
+      '"Creatures with specified characteristics who enter a %{lvl*5} square foot area or open a warded object trigger a blast that inflicts %{lvl//2<?10}d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5\' radius (save Reflex half; password negates) or a harmful spell of up to 6th level"',
   'Good Hope':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B3 ' +
@@ -3375,7 +3375,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=Strength7,S7,W7 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that can be moved 60\' as a move action, gives +4 Armor Class, and performs a +16 Bull Rush and +%{lvl+14} + modifier Grapple for %{lvl} rd"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, can perform a +16 Bull Rush and a +%{lvl+14} Grapple, and can be redirected between targets as a move action, for %{lvl} rd"',
   'Grease':
     'School="Conjuration (Creation)" ' +
     'Level=B1,S1,W1 ' +
@@ -3438,7 +3438,7 @@ SRD35.SPELLS = {
     'School="Conjuration (Healing)" ' +
     'Level=P3 ' +
     'Description=' +
-      '"Touched mount regains %{lvl*10<?150} hit points and recovers from negative conditions (save Will negates)"',
+      '"Touched mount regains %{lvl*10<?150} hit points and recovers from ability damage, blinded, confused, dazed, dazzled, deafened, diseased, exhausted, fatigued, feebleminded, insanity, nauseated, poisoned, sickened, and stunned conditions"',
   'Heat Metal':
     'School="Transmutation [Fire]" ' +
     'Level=D2,Sun2 ' +
@@ -3481,7 +3481,7 @@ SRD35.SPELLS = {
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=B1,S2,W2 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Target falls into uncontrollable laughter (save Will negates, creatures of a different type than the caster gain +4) for %{lvl} rd"',
+      '"R%{25+lvl//2*5}\' Target with an Intelligence of at least 3 falls into uncontrollable laughter (save Will negates, creatures of a different type than the caster have +4 on the save) for %{lvl} rd"',
   'Hold Animal':
     'School="Enchantment (Compulsion) [Mind-Affecting]" ' +
     'Level=Animal2,D2,R2 ' +
@@ -3526,7 +3526,7 @@ SRD35.SPELLS = {
     'School="Evocation [Good]" ' +
     'Level=P4 ' +
     'Description=' +
-      '"Touched weapon gains +5 attacks and damage and an additional +2d6 HP vs. evil foes, gives a +2 deflection bonus to Armor Class, +2 saves, suppresses mental control and possession and negates new attempts to control or possess, and bars contact by summoned evil creatures for %{lvl} rd"',
+      '"Touched weapon gains +5 attacks and damage and an additional +2d6 HP vs. evil foes, gives a +2 deflection bonus to Armor Class, +2 saves vs. evil creatures, suppresses mental control and possession and negates new attempts to control or possess, and bars contact by summoned evil creatures for %{lvl} rd"',
   'Holy Word':
     'School="Evocation [Good,Sonic]" ' +
     'Level=C7,Good7 ' +
@@ -3536,7 +3536,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=S8,W8,Water8 ' +
     'Description=' +
-      '"R%{400+lvl*40}\' Creatures in a 30\' radius suffer %{lvl<?20}d6 HP, or %{lvl<?20}d8 HP for plants or water elementals (save Fortitude half)"',
+      '"R%{400+lvl*40}\' Living creatures in a 30\' radius suffer %{lvl<?20}d6 HP, or %{lvl<?20}d8 HP for plants or water elementals (save Fortitude half)"',
   'Hypnotic Pattern':
     'School="Illusion (Pattern) [Mind-Affecting]" ' +
     'Level=B2,S2,W2 ' +
@@ -3572,7 +3572,7 @@ SRD35.SPELLS = {
     'School=Evocation ' +
     'Level=C4,Magic4 ' +
     'Description=' +
-      '"Touched with Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD gains the ability to cast chosen 1st, 2x1st, or 2x1st+2nd level spells from self prepared abjuration, divination, or healing spells (save Will negates); the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed"',
+      '"Gives the touched creature with Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD the ability to cast 1st, 2x1st, or 2x1st+2nd level spells chosen from self prepared abjuration, divination, and healing spells (save Will negates); the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed"',
   'Implosion':
     'School=Evocation ' +
     'Level=C9,Destruction9 ' +
@@ -3651,7 +3651,7 @@ SRD35.SPELLS = {
     'School="Evocation [Force]" ' +
     'Level=S5,W5 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that gives +4 Armor Class vs. the target for %{lvl} rd; can use a move action to redirect to another target"',
+      '"R%{100+lvl*10}\' Creates a 10\' hand (Armor Class 20, %{hitPoints} hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, and can be redirected between targets as a move action, for %{lvl} rd"',
   'Invisibility':
     'School="Illusion (Glamer)" ' +
     'Level=Adept2,Assassin2,B2,Trickery2,S2,W2 ' +
@@ -3676,7 +3676,7 @@ SRD35.SPELLS = {
     'School="Illusion (Glamer)" ' +
     'Level=B3,S3,W3 ' +
     'Description=' +
-      '"Makes creatures within 10\' of touched invisible (save Will negates) for %{lvl} min; attacking or moving more than 10\' from the target ends the spell for that creature, and the target attacking ends the spell for all"',
+      '"Makes creatures within 10\' of touched invisible to others (save Will negates) for %{lvl} min; attacking or moving more than 10\' from the target ends the spell for that creature, and the target attacking ends the spell for all"',
   'Iron Body':
     'School=Transmutation ' +
     'Level=Earth8,S8,W8 ' +
@@ -3704,7 +3704,7 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=S3,W3 ' +
     'Description=' +
-      '"R%{25+lvl//2*5}\' Doubles the threat range of the target piercing or slashing weapon (save Will negates) for %{lvl*10} min" ' +
+      '"R%{25+lvl//2*5}\' Doubles the threat range of the target piercing or slashing weapon or collection of up to 50 projectiles (save Will negates) for %{lvl*10} min" ' +
     'Liquid=Oil',
   'Knock':
     'School=Transmutation ' +
@@ -3746,12 +3746,12 @@ SRD35.SPELLS = {
     'School=Transmutation ' +
     'Level=D6 ' +
     'Description=' +
-      '"Transforms a touched oak into a treant guardian for %{lvl} days"',
+      '"Transforms a touched oak into a treant guardian for %{lvl} days; only one casting of <i>Liveoak</i> can be active at a time"',
   'Locate Creature':
     'School=Divination ' +
     'Level=Assassin4,B4,S4,W4 ' +
     'Description=' +
-      '"Reveals the direction of a visualized creature or kind of creature found within %{400+lvl*40}\' for %{lvl*10} min; a sheet of lead blocks the spell"',
+      '"Reveals the direction of a visualized creature or kind of creature found within %{400+lvl*40}\' for %{lvl*10} min; running water blocks the spell"',
   'Locate Object':
     'School=Divination ' +
     'Level=B2,C3,Travel2,S2,W2 ' +

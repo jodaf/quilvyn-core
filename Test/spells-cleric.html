@@ -393,7 +393,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Continual Flame (C3 Evoc): Touched object permanently emits a heatless torch flame</td>
     </tr><tr style="text-align:left">
-      <td>Control Water (C4 Tran): R1080' Raises or lowers a 170'x170'x34' area of water by 34', or slows a water elemental or similar creature (<b>save Will</b> DC 14 negates), for 170 min</td>
+      <td>Control Water (C4 Tran): R1080' Raises or lowers a 170'x170'x34' area of water by 34', or slows an elemental water creature (<b>save Will</b> DC 14 negates), for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Control Weather (C7 Tran): Modifies seasonal weather within a 2 mile radius for 4d12 hr</td>
     </tr><tr style="text-align:left">
@@ -501,7 +501,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Find Traps (C2 Divi): Gives self +8 Search to uncover traps for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Fire Storm (C8 Evoc): R270' 340 cubic foot area inflicts 17d6 HP fire (<b>save Reflex</b> DC 18 half)</td>
+      <td>Fire Storm (C8 Evoc): R270' 340 cubic foot area inflicts 17d6 HP fire (<b>save Reflex</b> DC 18 half; the fire does not harm vegetation or chosen plant creatures)</td>
     </tr><tr style="text-align:left">
       <td>Flame Strike (C5 Evoc): R270' 10' radius, 40' high cylinder inflicts 15d6 HP (<b>save Reflex</b> DC 15 half), half fire and half divine power</td>
     </tr><tr style="text-align:left">
@@ -509,7 +509,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Freedom Of Movement (C4 Abju): Allows touched to ignore movement impediments, escape grapples, and move normally when underwater, (<b>save Will</b> DC 14 negates) for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Gate (C9 Conj): R270' Creates a 5'-20' diameter disk passage to another plane for concentration up to 17 rd and, at the cost of 1000 XP, allows summoning extraplanar creatures—a named creature, a single creature of a named kind, or up to 34 HD of a named kind</td>
+      <td>Gate (C9 Conj): R270' Creates a 5'-20' diameter disk passage to another plane for concentration up to 17 rd and, at the cost of 1000 XP, allows summoning extraplanar creatures—a named creature, a single creature of a named kind, or up to 34 HD of a named kind; a single creature with up to 34 HD or multiple creatures with up to 17 HD total can be compelled to perform a service</td>
     </tr><tr style="text-align:left">
       <td>Geas/Quest (C6 Ench): R65' Compels the target to complete a specified task within 17 days, suffering 3d6 HP and sickened (<b>save Fortitude</b> DC 17 HP only) for each 24 hr spent without obeying; the sickness ends 24 hr after resuming the task</td>
     </tr><tr style="text-align:left">
@@ -517,13 +517,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Giant Vermin (C4 Tran): R65' 3 centipedes, 2 spiders, or 1 scorpion in a 15' radius grow to Huge size and obey simple commands for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Glyph Of Warding (C3 Abju): Creatures with specified characteristics who enter a 85 square foot area trigger a blast that inflicts 5d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5' radius (<b>save Reflex</b> DC 13 half; password negates) or a harmful spell of up to 3rd level</td>
+      <td>Glyph Of Warding (C3 Abju): Creatures with specified characteristics who enter a 85 square foot area or open a warded object trigger a blast that inflicts 5d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5' radius (<b>save Reflex</b> DC 13 half; password negates) or a harmful spell of up to 3rd level</td>
     </tr><tr style="text-align:left">
       <td>Greater Command (C5 Ench): R65' 17 targets in a 15' radius obey a command to approach, drop, fall, flee, or halt (<b>save Will</b> DC 16 negates; additional saves each rd end) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Greater Dispel Magic (C6 Abju): R270' Successful caster level check (+20 maximum) vs. 11+caster level cancels an ongoing targeted spell, suppresses a magic item for 1d4 rd, cancels 1 spell on each creature in a 20' radius, or disrupts a foe's spell casting</td>
     </tr><tr style="text-align:left">
-      <td>Greater Glyph Of Warding (C6 Abju): Creatures with specified characteristics who enter a 85 square foot area trigger a blast that inflicts 8d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5' radius (<b>save Reflex</b> DC 16 half; password negates) or a harmful spell of up to 6th level</td>
+      <td>Greater Glyph Of Warding (C6 Abju): Creatures with specified characteristics who enter a 85 square foot area or open a warded object trigger a blast that inflicts 8d8 HP of a choice of acid, cold, fire, electricity, or sonic in a 5' radius (<b>save Reflex</b> DC 16 half; password negates) or a harmful spell of up to 6th level</td>
     </tr><tr style="text-align:left">
       <td>Greater Magic Weapon (C4 Tran): R65' Enhances the target weapon or up to 50 projectiles in a container to make +4 attacks and inflict +4 HP (<b>save Will</b> DC 14 negates) for 17 hr</td>
     </tr><tr style="text-align:left">
@@ -555,7 +555,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Holy Word (C7 Evoc): Inflicts on nongood creatures within 40' a set of effects: banishment for 24 hr on extraplanar creatures (<b>save Will</b> DC 17 -4 negates); killed or destroyed on creatures with up to 7 HD; paralyzed for 1d10 min on creatures with up to 12 HD; blinded for 2d4 rd on creatures with up to 16 HD; deafened for 1d4 rd on creatures with up to 17 HD</td>
     </tr><tr style="text-align:left">
-      <td>Imbue With Spell Ability (C4 Evoc): Touched with Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD gains the ability to cast chosen 1st, 2x1st, or 2x1st+2nd level spells from self prepared abjuration, divination, or healing spells (<b>save Will</b> DC 14 negates); the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed</td>
+      <td>Imbue With Spell Ability (C4 Evoc): Gives the touched creature with Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD the ability to cast 1st, 2x1st, or 2x1st+2nd level spells chosen from self prepared abjuration, divination, and healing spells (<b>save Will</b> DC 14 negates); the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed</td>
     </tr><tr style="text-align:left">
       <td>Implosion (C9 Evoc): R65' Slays 1 target per rd (<b>save Fortitude</b> DC 19 negates) for concentration up to 4 rd</td>
     </tr><tr style="text-align:left">

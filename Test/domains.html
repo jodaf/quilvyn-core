@@ -396,7 +396,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Clairaudience/Clairvoyance (Knowledge3 Divi): 840' Gives self a choice of remote sight or hearing of a known location for 11 min</td>
     </tr><tr style="text-align:left">
-      <td>Clenched Fist (Strength8 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that can be moved 60' as a move action, gives +4 Armor Class, slows those pushing past to half Speed, and performs a +15 Bull Rush and a +20 + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (<b>save Fortitude</b> DC 17 HP only), for 10 rd</td>
+      <td>Clenched Fist (Strength8 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, can perform a +15 Bull Rush, can make a +20 + modifier melee attack that inflicts 1d8+11 HP and stunned for 1 rd (<b>save Fortitude</b> DC 17 HP only), and can be redirected between targets as a move action, for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Cloak Of Chaos (Chaos8 Abju): 11 creatures within 20' inflict confusion on successful lawful attackers (<b>save Will</b> DC 17 negates) for 1 rd and gain a +4 deflection bonus to Armor Class, +4 saves, SR 25 vs. lawful spells and casters, and suppression of possession and mental control, for 11 rd</td>
     </tr><tr style="text-align:left">
@@ -412,7 +412,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Control Plants (Plant8 Tran): R50' Causes 20 HD of plant creatures in a 15' radius to obey self (<b>save Will</b> DC 17 negates) for 10 min</td>
     </tr><tr style="text-align:left">
-      <td>Control Water (Water4 Tran): R800' Raises or lowers a 100'x100'x20' area of water by 20', or slows a water elemental or similar creature (<b>save Will</b> DC 13 negates), for 100 min</td>
+      <td>Control Water (Water4 Tran): R800' Raises or lowers a 100'x100'x20' area of water by 20', or slows an elemental water creature (<b>save Will</b> DC 13 negates), for 100 min</td>
     </tr><tr style="text-align:left">
       <td>Control Weather (Air7 Tran): Modifies seasonal weather within a 2 mile radius for 4d12 hr</td>
     </tr><tr style="text-align:left">
@@ -424,7 +424,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Create Undead (Evil6 Necr): R50' Cast at night, creates a ghoul from physical remains</td>
     </tr><tr style="text-align:left">
-      <td>Crushing Hand (Strength9 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that can be moved 60' as a move action, gives +4 Armor Class, and performs a +18 Bull Rush and a +26 + modifier Grapple that inflicts 2d6+12 HP for 10 rd</td>
+      <td>Crushing Hand (Strength9 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, can perform a +18 Bull Rush and a +26 + modifier Grapple that inflicts 2d6+12 HP, and can be redirected between targets as a move action, for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Cure Critical Wounds (Healing4 Conj): Touched regains 4d8+11 hit points (<b>save Will</b> DC 13 negates); undead instead suffer the same amount (<b>save Will</b> DC 13 half)</td>
     </tr><tr style="text-align:left">
@@ -502,11 +502,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Fire Seeds (Sun6 Conj): Changes 4 touched acorns into grenades that can be thrown up to 100' for ranged touch attacks that inflict 10d6 HP fire in total, plus 1 HP of splash per die (<b>save Reflex</b> DC 15 half for splash), or 8 touched holly berries into bombs that detonate on command to inflict 1d8+10 HP fire in a 5' radius each (<b>save Reflex</b> DC 15 half), for 100 min</td>
     </tr><tr style="text-align:left">
-      <td>Fire Shield (Fire5 Evoc): Envelopes self in cold or hot flames that inflict 1d6+10 HP cold or fire on melee attackers (SR may negate) and either reduce heat or cold damage taken by half or negate it entirely with a successful allowed Reflex save, for 10 rd</td>
+      <td>Fire Shield (Fire5 Evoc): Envelopes self in cold or hot flames for 10 rd; they inflict 1d6+10 HP cold or fire on non-reach melee attackers (SR may negate) and either reduce heat or cold damage taken by half or negate it entirely with success on an allowed Reflex save</td>
     </tr><tr style="text-align:left">
-      <td>Fire Shield (Sun4 Evoc): Envelopes self in cold or hot flames that inflict 1d6+10 HP cold or fire on melee attackers (SR may negate) and either reduce heat or cold damage taken by half or negate it entirely with a successful allowed Reflex save, for 10 rd</td>
+      <td>Fire Shield (Sun4 Evoc): Envelopes self in cold or hot flames for 10 rd; they inflict 1d6+10 HP cold or fire on non-reach melee attackers (SR may negate) and either reduce heat or cold damage taken by half or negate it entirely with success on an allowed Reflex save</td>
     </tr><tr style="text-align:left">
-      <td>Fire Storm (Fire7 Evoc): R200' 200 cubic foot area inflicts 10d6 HP fire (<b>save Reflex</b> DC 16 half)</td>
+      <td>Fire Storm (Fire7 Evoc): R200' 200 cubic foot area inflicts 10d6 HP fire (<b>save Reflex</b> DC 16 half; the fire does not harm vegetation or chosen plant creatures)</td>
     </tr><tr style="text-align:left">
       <td>Flame Strike (Sun5 Evoc): R200' 10' radius, 40' high cylinder inflicts 10d6 HP (<b>save Reflex</b> DC 14 half), half fire and half divine power</td>
     </tr><tr style="text-align:left">
@@ -524,7 +524,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Gaseous Form (Air3 Tran): Causes the willing touched corporeal creature to become insubstantial, losing its armor bonus to Armor Class, any supernatural abilities, ability to manipulate objects, and ability to cast spells with components, but gaining DR 10/magic, immunity to poison and critical hits, a 10' fly Speed, and the ability to pass through small openings, for 20 min</td>
     </tr><tr style="text-align:left">
-      <td>Grasping Hand (Strength7 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that can be moved 60' as a move action, gives +4 Armor Class, and performs a +16 Bull Rush and +24 + modifier Grapple for 10 rd</td>
+      <td>Grasping Hand (Strength7 Evoc): R200' Creates a 10' hand (Armor Class 20, 28 hit points) that gives +4 Armor Class vs. a target, slows creatures weighing up to 2,000 lbs who push past it to half Speed, can perform a +16 Bull Rush and a +24 Grapple, and can be redirected between targets as a move action, for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Greater Teleport (Travel7 Conj): Transports self, touched objects (<b>save Will</b> DC 16 negates), and 3 willing targets any distance with no chance of error</td>
     </tr><tr style="text-align:left">
@@ -544,13 +544,13 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Holy Word (Good7 Evoc): Inflicts on nongood creatures within 40' a set of effects: banishment for 24 hr on extraplanar creatures (<b>save Will</b> DC 16 -4 negates); killed or destroyed on creatures with up to 1 HD; paralyzed for 1d10 min on creatures with up to 6 HD; blinded for 2d4 rd on creatures with up to 10 HD; deafened for 1d4 rd on creatures with up to 11 HD</td>
     </tr><tr style="text-align:left">
-      <td>Horrid Wilting (Water8 Necr): R800' Creatures in a 30' radius suffer 10d6 HP, or 10d8 HP for plants or water elementals (<b>save Fortitude</b> DC 17 half)</td>
+      <td>Horrid Wilting (Water8 Necr): R800' Living creatures in a 30' radius suffer 10d6 HP, or 10d8 HP for plants or water elementals (<b>save Fortitude</b> DC 17 half)</td>
     </tr><tr style="text-align:left">
       <td>Ice Storm (Water5 Evoc): R800' Hail in a 20'-radius, 40' high cylinder inflicts 3d6 HP bludgeoning and 2d6 HP cold for 1 rd, then -4 Listen and half Speed for 10 rd</td>
     </tr><tr style="text-align:left">
       <td>Identify (Magic2 Divi): Reveals the magic properties of a touched, non-artifact object</td>
     </tr><tr style="text-align:left">
-      <td>Imbue With Spell Ability (Magic4 Evoc): Touched with Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD gains the ability to cast chosen 1st, 2x1st, or 2x1st+2nd level spells from self prepared abjuration, divination, or healing spells (<b>save Will</b> DC 13 negates); the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed</td>
+      <td>Imbue With Spell Ability (Magic4 Evoc): Gives the touched creature with Intelligence of at least 5, Wisdom of at least 9, and 1, 3, or 5 HD the ability to cast 1st, 2x1st, or 2x1st+2nd level spells chosen from self prepared abjuration, divination, and healing spells (<b>save Will</b> DC 13 negates); the <i>Imbue With Spell Ability</i> spell slot cannot be recovered until these spells are cast or dismissed</td>
     </tr><tr style="text-align:left">
       <td>Implosion (Destruction9 Evoc): R50' Slays 1 target per rd (<b>save Fortitude</b> DC 18 negates) for concentration up to 4 rd</td>
     </tr><tr style="text-align:left">
