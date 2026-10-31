@@ -529,7 +529,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Greater Planar Ally (C8 Conj): Allows negotiating the purchase of a service from 1-3 extraplanar creatures with a total of up to 18 HD</td>
     </tr><tr style="text-align:left">
-      <td>Greater Restoration (C7 Conj): Dispels magical ability harm from touched and cures all temporary ability damage, restores all drained abilities, removes fatigue or exhaustion, removes temporary negative levels, restores all levels drained within the past 17 weeks, and removes insanity, confusion, and similar mental effects (<b>save Will</b> DC 17 negates)</td>
+      <td>Greater Restoration (C7 Conj): Dispels magical harm affecting the ability scores of touched, cures all temporary ability damage, restores all drained abilities, removes fatigue and exhaustion, removes temporary negative levels, restores all levels drained within the past 17 weeks, and removes insanity, confusion, and similar mental effects (<b>save Will</b> DC 17 negates)</td>
     </tr><tr style="text-align:left">
       <td>Greater Scrying (C7 Divi): Allows self to see, hear, and cast detection and communication spells in a 10' radius around the target (<b>save Will</b> DC 17, modified by familiarity and connection with the target, negates for 24 hr) for 17 hr</td>
     </tr><tr style="text-align:left">
@@ -575,7 +575,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Lesser Planar Ally (C4 Conj): Allows negotiating the purchase of a service from an extraplanar creature with up to 6 HD</td>
     </tr><tr style="text-align:left">
-      <td>Lesser Restoration (C2 Conj): Dispels magical ability harm from touched or cures 1d4 temporary ability damage, removes fatigue, and reduces exhaustion (<b>save Will</b> DC 12 negates)</td>
+      <td>Lesser Restoration (C2 Conj): Dispels magical harm affecting an ability score of touched or cures 1d4 temporary ability damage, removes fatigue, and reduces exhaustion (<b>save Will</b> DC 12 negates)</td>
     </tr><tr style="text-align:left">
       <td>Light (C0 Evoc): Touched object emits a 20' bright light for 170 min</td>
     </tr><tr style="text-align:left">
@@ -591,7 +591,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Magic Stone (C1 Tran): Enhances 3 touched stones (<b>save Will</b> DC 11 negates) to attack at +1 and inflict 1d6+1 HP, or 2d6+2 HP vs. undead, within 30 min</td>
     </tr><tr style="text-align:left">
-      <td>Magic Vestment (C3 Tran): Enhances the touched armor, shield, or clothing to give a +4 bonus to Armor Class (<b>save Will</b> DC 13 negates) for 17 hr</td>
+      <td>Magic Vestment (C3 Tran): Enchants the touched armor, shield, or clothing to give a +4 enhancement bonus to Armor Class (<b>save Will</b> DC 13 negates) for 17 hr</td>
     </tr><tr style="text-align:left">
       <td>Magic Weapon (C1 Tran): Enhances the touched weapon to make +1 attacks and inflict +1 HP (<b>save Will</b> DC 11 negates) for 17 min</td>
     </tr><tr style="text-align:left">
@@ -659,11 +659,11 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Purify Food And Drink (C0 Tran): R10' Makes 17 cubic feet of food and water safe to consume (<b>save Will</b> DC 10 negates)</td>
     </tr><tr style="text-align:left">
-      <td>Raise Dead (C5 Conj): Restores a willing soul, dead up to 17 days, to its touched corpse; the target regains 1 hit point per HD, irreversibly loses a level (level 1 targets instead irreversibly lose 2 Constitution), and has a 50% chance of losing each prepared spell or unused spell slot</td>
+      <td>Raise Dead (C5 Conj): Restores a willing soul, dead up to 17 days, to its touched corpse; the target regains 1 hit point per HD, regains 1 point of each ability score taken to 0 before death, becomes cured of nonmagical poison and diseases, irreversibly loses a level (level 1 targets instead irreversibly lose 2 Constitution), and has a 50% chance of losing each prepared spell or unused spell slot</td>
     </tr><tr style="text-align:left">
-      <td>Read Magic (C0 Divi): Allows self to read magical writing and identify <i>Glyphs</i> and <i>Symbols</i> with a successful Spellcraft check for 170 min</td>
+      <td>Read Magic (C0 Divi): Allows self to read magical writing and identify <i>Glyphs</i> and <i>Symbols</i> with a successful DC 10 + spell level Spellcraft check for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Refuge (C7 Conj): Breaking a prepared object and speaking a command word transports the possessor to self home or transports self to possessor</td>
+      <td>Refuge (C7 Conj): Breaking a prepared object and speaking a command word transports the possessor to self home or transports self to the possessor</td>
     </tr><tr style="text-align:left">
       <td>Regenerate (C7 Conj): Touched living creature regrows missing body parts, regains 4d8+17 hit points, and recovers from fatigue, exhaustion, and nonlethal damage (<b>save Fortitude</b> DC 17 negates)</td>
     </tr><tr style="text-align:left">
@@ -677,15 +677,15 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Remove Paralysis (C2 Conj): R65' Frees one target from paralysis or the effects of a <i>Slow</i> spell; 2, 3, or 4 targets instead get an extra save at +4, +2, or +2 (<b>save Will</b> DC 12 negates)</td>
     </tr><tr style="text-align:left">
-      <td>Repel Vermin (C4 Abju): 10' radius bars vermin (<b>save Will</b> DC 14 for vermin with at least 5 HD allows entry but inflicts 2d6 HP) for 170 min</td>
+      <td>Repel Vermin (C4 Abju): 10' radius bars vermin (<b>save Will</b> DC 14 for vermin with at least 6 HD allows entry but inflicts 2d6 HP) for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Repulsion (C7 Abju): 170' radius bars creatures and prevents those within it from approaching (<b>save Will</b> DC 17 negates) for 17 rd</td>
+      <td>Repulsion (C7 Abju): Radius of up to 170' bars creatures and prevents those within it from approaching (<b>save Will</b> DC 17 negates) for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Resist Energy (C2 Abju): Gives touched resistance 30 to a choice of acid, cold, electricity, fire, or sonic (<b>save Fortitude</b> DC 12 negates) for 170 min</td>
     </tr><tr style="text-align:left">
       <td>Resistance (C0 Abju): Gives touched +1 saves (<b>save Will</b> DC 10 negates) for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Restoration (C4 Conj): Dispels magical ability harm from touched and cures all temporary ability damage, restores 1 drained ability, removes fatigue or exhaustion, removes temporary negative levels, and restores 1 drained level with the minimum necessary XP (<b>save Will</b> DC 14 negates)</td>
+      <td>Restoration (C4 Conj): Dispels magical harm affecting an ability score of touched, cures all temporary ability damage, restores 1 drained ability, removes fatigue and exhaustion, removes temporary negative levels, and restores 1 drained level suffered within the past 17 days with the minimum necessary XP (<b>save Will</b> DC 14 negates)</td>
     </tr><tr style="text-align:left">
       <td>Resurrection (C7 Conj): Fully restores a target willing soul, dead up to 170 years, using a piece of its corpse; the target irreversibly loses a level (level 1 targets instead irreversibly lose 2 Constitution)</td>
     </tr><tr style="text-align:left">

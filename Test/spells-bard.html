@@ -475,7 +475,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Mage Hand (B0 Tran): R65' Allows self to use move actions to move an unattended object weighing up to 5 lb 15' per rd for concentration</td>
     </tr><tr style="text-align:left">
-      <td>Magic Aura (B1 Illu): Alters the magical aura of an object weighing up to 80 lb for 16 days; <i>Identify</i> reveals the false aura</td>
+      <td>Magic Aura (B1 Illu): Alters the magical aura of an object weighing up to 80 lb for 16 days; <i>Identify</i> and a successful Will save reveals the true aura</td>
     </tr><tr style="text-align:left">
       <td>Magic Mouth (B1 Illu): R65' Enspells the target object or creature (<b>save Will</b> DC 13 negates) so that a mouth appears on it and speaks up to 25 words in response to a specified trigger within 240'</td>
     </tr><tr style="text-align:left">
@@ -499,23 +499,23 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Message (B0 Tran): R260' Allows self to exchange whispered messages with 16 targets for 160 min; messages can circumvent barriers, but 1' of stone, 1" of metal, a thin sheet of lead, or 3' of wood or dirt blocks the spell</td>
     </tr><tr style="text-align:left">
-      <td>Mind Fog (B5 Ench): R260' Creates a 20' radius fog that inflicts -10 Wisdom and Will checks (<b>save Will</b> DC 18 negates), lasting for 2d6 rd after exiting, for 30 min</td>
+      <td>Mind Fog (B5 Ench): R260' Creates a 20' radius, 20' high cylinder of fog that inflicts -10 Wisdom and Will checks (<b>save Will</b> DC 18 negates), lasting for 2d6 rd after exiting, for 30 min</td>
     </tr><tr style="text-align:left">
       <td>Minor Image (B2 Illu): R1040' Creates a 200 cubic foot movable image with sound (<b>save Will</b> DC 14 upon interaction disbelieves) for concentration + 2 rd</td>
     </tr><tr style="text-align:left">
       <td>Mirage Arcana (B5 Illu): R1040' Changes the look, sound, touch, and smell of 320 cubic feet of terrain and structures (<b>save Will</b> DC 17 upon interaction disbelieves) for concentration + 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Mirror Image (B2 Illu): Creates 1d4+5 (8 maximum) copies of self that randomly misdirect attacks for 16 min; the duplicates have Armor Class 12, and any hit on one destroys it</td>
+      <td>Mirror Image (B2 Illu): Creates 1d4+5 (8 maximum) copies of self that randomly misdirect attacks for 16 min; the duplicates have Armor Class 12, and an attack on one that hits destroys it</td>
     </tr><tr style="text-align:left">
       <td>Misdirection (B2 Illu): R65' Divination spells cast upon a target show the auras of another selected object or creature (<b>save Will</b> DC 14 by the diviner negates) for 16 hr</td>
     </tr><tr style="text-align:left">
-      <td>Mislead (B5 Illu): R65' Makes self invisible for 16 rd and creates a false double (<b>save Will</b> DC 17 upon interaction disbelieves) for concentration + 3 rd</td>
+      <td>Mislead (B5 Illu): R65' Makes self invisible for 16 rd and creates an illusory double (<b>save Will</b> DC 17 upon interaction disbelieves) for concentration + 3 rd</td>
     </tr><tr style="text-align:left">
-      <td>Modify Memory (B4 Ench): R65' Changes 5 min of the target's memory (<b>save Will</b> DC 17 negates)</td>
+      <td>Modify Memory (B4 Ench): R65' Erases, enhances, or changes 5 min of the target's memory (<b>save Will</b> DC 17 negates)</td>
     </tr><tr style="text-align:left">
       <td>Neutralize Poison (B4 Conj): Neutralizes each poison affecting touched and gives it immunity to poison, or neutralizes a poisonous creature or object, (<b>save Will</b> DC 16 negates) for 160 min</td>
     </tr><tr style="text-align:left">
-      <td>Nightmare (B5 Illu): Inflicts on a specified sleeping target 1d10 HP, fatigue, and an inability to regain arcane spells for 24 hr (<b>save Will</b> DC 17 negates, modified from +10 to -5 based on familiarity with the target)</td>
+      <td>Nightmare (B5 Illu): Inflicts on a specified sleeping target 1d10 HP, fatigue, and an inability to regain arcane spells for 24 hr (<b>save Will</b> DC 17 negates, modified from +10 to -10 depending on familiarity and connection with the target)</td>
     </tr><tr style="text-align:left">
       <td>Obscure Object (B1 Abju): Gives a touched object immunity to divination (<b>save Will</b> DC 13 negates) for 8 hr</td>
     </tr><tr style="text-align:left">
@@ -525,27 +525,27 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Persistent Image (B5 Illu): R1040' Creates a 200 cubic foot movable, scripted image with sound, smell, and thermal effects (<b>save Will</b> DC 17 upon interaction disbelieves) for 16 min</td>
     </tr><tr style="text-align:left">
-      <td>Phantom Steed (B3 Conj): Creates a mount with 23 hit points, Armor Class 18, and 240' Speed that only the target can ride for 16 hr; the mount can ride over sandy, muddy, and swampy ground at full Speed, use <i>Water Walk</i> effects at will,use <i>Air Walk</i> effects for 1 rd at will, and fly at full Speed</td>
+      <td>Phantom Steed (B3 Conj): Creates a mount with 23 hit points, Armor Class 18, and 240' Speed that only the target can ride, along with up to 160 lbs of cargo, for 16 hr; the mount can ride over sandy, muddy, and swampy ground at full Speed, use <i>Water Walk</i> effects at will,use <i>Air Walk</i> effects for 1 rd at will, and fly at full Speed</td>
     </tr><tr style="text-align:left">
       <td>Prestidigitation (B0 Univ): R10' Allows performing minor magic effects for 1 hr</td>
     </tr><tr style="text-align:left">
       <td>Programmed Image (B6 Illu): R1040' Creates a 200 cubic foot movable image with sound, smell, and thermal effects (<b>save Will</b> DC 18 upon interaction disbelieves) that appears when triggered for 16 rd</td>
     </tr><tr style="text-align:left">
-      <td>Project Image (B6 Illu): R260' Allows self to see and cast through an intangible duplicate (<b>save Will</b> DC 18 upon interaction disbelieves) for 16 rd; a break in line of effect to the duplicate ends the spell</td>
+      <td>Project Image (B6 Illu): R260' Allows self to see, hear, and cast spells through an intangible duplicate (<b>save Will</b> DC 18 upon interaction disbelieves) for 16 rd; a break in line of effect to the duplicate ends the spell</td>
     </tr><tr style="text-align:left">
-      <td>Pyrotechnics (B2 Tran): R1040' Target fire shoots fireworks, blinding creatures within 120' for 1d4+1 rd (<b>save Will</b> DC 14 negates), or emits a 20' radius of choking smoke for 16 rd, inflicting -4 Strength and Dexterity for 1d4+1 rd (<b>save Fortitude</b> DC 14 negates)</td>
+      <td>Pyrotechnics (B2 Tran): R1040' Causes the target fire to shoot fireworks, blinding creatures within 120' for 1d4+1 rd (<b>save Will</b> DC 14 negates), or to emit a 20' radius of choking smoke for 16 rd, inflicting -4 Strength and Dexterity for 1d4+1 rd (<b>save Fortitude</b> DC 14 negates); the spell extinguishes up to a 20' cube of a nonmagical target fire and inflicts 16 HP on a targeted fire creature</td>
     </tr><tr style="text-align:left">
       <td>Rage (B2 Ench): R260' Gives 5 willing targets in a 15' radius +2 Strength, +2 Constitution, +1 Will, and -2 Armor Class for concentration + 16 rd</td>
     </tr><tr style="text-align:left">
       <td>Rainbow Pattern (B4 Illu): R260' Fascinates 24 HD of creatures in a 20' radius (<b>save Will</b> DC 16 negates), working upward from those with the fewest HD, for concentration + 16 rd; can move the effect 30' as a free action, and affected creatures will follow it, gaining another save if the move leads them into danger</td>
     </tr><tr style="text-align:left">
-      <td>Read Magic (B0 Divi): Allows self to read magical writing and identify <i>Glyphs</i> and <i>Symbols</i> with a successful Spellcraft check for 160 min</td>
+      <td>Read Magic (B0 Divi): Allows self to read magical writing and identify <i>Glyphs</i> and <i>Symbols</i> with a successful DC 10 + spell level Spellcraft check for 160 min</td>
     </tr><tr style="text-align:left">
       <td>Remove Curse (B3 Abju): Dispels all curses from touched (<b>save Will</b> DC 15 negates)</td>
     </tr><tr style="text-align:left">
       <td>Remove Fear (B1 Abju): R65' Suppresses fear in 5 targets in a 15' radius and gives them +4 vs. fear for 10 min (<b>save Will</b> DC 13 negates)</td>
     </tr><tr style="text-align:left">
-      <td>Repel Vermin (B4 Abju): 10' radius bars vermin (<b>save Will</b> DC 16 for vermin with at least 5 HD allows entry but inflicts 2d6 HP) for 160 min</td>
+      <td>Repel Vermin (B4 Abju): 10' radius bars vermin (<b>save Will</b> DC 16 for vermin with at least 6 HD allows entry but inflicts 2d6 HP) for 160 min</td>
     </tr><tr style="text-align:left">
       <td>Resistance (B0 Abju): Gives touched +1 saves (<b>save Will</b> DC 12 negates) for 1 min</td>
     </tr><tr style="text-align:left">
