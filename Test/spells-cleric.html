@@ -341,7 +341,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Animate Dead (C3 Necr): Transforms touched corpses into up to 34 HD of obedient skeletons and zombies; no more than 4 HD of undead created by multiple castings can be controlled</td>
     </tr><tr style="text-align:left">
-      <td>Animate Objects (C6 Tran): R270' 17 Small object targets attack foes for 17 rd; larger objects reduce the number affected by half for each size level</td>
+      <td>Animate Objects (C6 Tran): R270' 17 Small object targets attack foes for 17 rd; larger objects reduce the number affected by half for each size category</td>
     </tr><tr style="text-align:left">
       <td>Antilife Shell (C6 Abju): 10' radius bars the entrance of living creatures for 170 min; does not affect constructs, elementals, outsiders, and undead</td>
     </tr><tr style="text-align:left">
@@ -721,7 +721,7 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Spell Resistance (C5 Abju): Gives touched SR 29 (<b>save Will</b> DC 15 negates) for 17 min</td>
     </tr><tr style="text-align:left">
-      <td>Spiritual Weapon (C2 Evoc): R270' Creates a force weapon (+12 attacks; inflicts 1d8+5 HP force; critical hits as the corresponding physical weapon) that attacks a designated foe for 17 rd; can use move actions to redirect to different targets; the first attack on each creature is subject to SR, and the spell ends if the attack fails to overcome it</td>
+      <td>Spiritual Weapon (C2 Evoc): R270' Creates a force weapon that attacks a designated foe (+12 attacks as a spell inflict 1d8+5 HP force and crit as the corresponding physical weapon) for 17 rd; can be redirected between targets as a move action; the first attack on each creature is subject to SR that ends the spell if the attack fails to overcome it, and the weapon makes 3 attacks with the normal penalties on each subsequent rd</td>
     </tr><tr style="text-align:left">
       <td>Status (C2 Divi): Allows monitoring the condition and position of 5 touched creatures (<b>save Will</b> DC 12 negates) for 17 hr</td>
     </tr><tr style="text-align:left">
@@ -747,21 +747,21 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Summon Monster VIII (C8 Conj): R65' Summons 1 8th-level, 1d3 7th-level, or 1d4+1 lower-level creatures that fight foes and obey orders for 17 rd</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Death (C8 Necr): Creates a rune that slays creatures in a 60' radius when triggered (<b>save Fortitude</b> DC 18 negates), working outward from the closest creatures, for 170 min or until creatures with 150 hit points total have been killed</td>
+      <td>Symbol Of Death (C8 Necr): Creates a rune that slays creatures in a 60' radius (<b>save Fortitude</b> DC 18 negates), working outward from the closest creatures, for 170 min after it is triggered or until creatures with 150 hit points total have been killed</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Fear (C6 Necr): Creates a rune that panics creatures in a 60' radius for 17 rd when triggered (<b>save Will</b> DC 16 negates) for 170 min</td>
+      <td>Symbol Of Fear (C6 Necr): Creates a rune that panics creatures in a 60' radius for 17 rd (<b>save Will</b> DC 16 negates) for 170 min after it is triggered</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Insanity (C8 Ench): Creates a rune that inflicts permanent insanity on creatures in a 60' radius when triggered (<b>save Will</b> DC 19 negates) for 170 min</td>
+      <td>Symbol Of Insanity (C8 Ench): Creates a rune that inflicts permanent insanity on creatures in a 60' radius (<b>save Will</b> DC 19 negates) for 170 min after it is triggered</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Pain (C5 Necr): Creates a rune that causes pain that inflicts -4 attacks and skill and ability checks for 1 hr on creatures in a 60' radius when triggered (<b>save Fortitude</b> DC 15 negates) for 170 min</td>
+      <td>Symbol Of Pain (C5 Necr): Creates a rune that causes pain that inflicts -4 attacks and skill and ability checks on creatures in a 60' radius, lasting for 1 hr after exiting, (<b>save Fortitude</b> DC 15 negates) for 170 min after it is triggered</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Persuasion (C6 Ench): Creates a rune that charms creatures in a 60' radius for 17 hrs when triggered (<b>save Will</b> DC 17 negates) for 170 min</td>
+      <td>Symbol Of Persuasion (C6 Ench): Creates a rune that charms creatures in a 60' radius for 17 hrs (<b>save Will</b> DC 17 negates) for 170 min after it is triggered</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Sleep (C5 Ench): Creates a rune that renders creatures in a 60' radius with up to 10 HD catatonic for 3d6x10 min when triggered (<b>save Will</b> DC 16 negates) for 170 min</td>
+      <td>Symbol Of Sleep (C5 Ench): Creates a rune that renders creatures in a 60' radius with up to 10 HD catatonic for 3d6x10 min (<b>save Will</b> DC 16 negates) for 170 min after it is triggered</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Stunning (C7 Ench): Creates a rune that stuns creatures in a 60' radius for 1d6 rd when triggered (<b>save Will</b> DC 18 negates) for 170 min</td>
+      <td>Symbol Of Stunning (C7 Ench): Creates a rune that stuns creatures in a 60' radius for 1d6 rd (<b>save Will</b> DC 18 negates) for 170 min after it is triggered</td>
     </tr><tr style="text-align:left">
-      <td>Symbol Of Weakness (C7 Necr): Creates a rune that inflicts 3d6 points of Strength damage on creatures in a 60' radius when triggered (<b>save Fortitude</b> DC 17 negates) for 170 min</td>
+      <td>Symbol Of Weakness (C7 Necr): Creates a rune that inflicts 3d6 points of Strength damage on creatures in a 60' radius (<b>save Fortitude</b> DC 17 negates) for 170 min after it is triggered</td>
     </tr><tr style="text-align:left">
       <td>Tongues (C4 Divi): Allows touched to communicate in any language (<b>save Will</b> DC 14 negates) for 170 min</td>
     </tr><tr style="text-align:left">
@@ -779,19 +779,19 @@ var attributes = {
     </tr><tr style="text-align:left">
       <td>Virtue (C0 Tran): Gives touched 1 temporary HP (<b>save Fortitude</b> DC 10 negates) for 1 min</td>
     </tr><tr style="text-align:left">
-      <td>Wall Of Stone (C5 Conj): R270' Creates a 85 square foot, 4"-thick permanent stone wall (the area can be doubled by halving the thickness); each 5' section has 60 hit points and hardness 8 (<b>save Reflex</b> DC 15 avoids entrapment)</td>
+      <td>Wall Of Stone (C5 Conj): R270' Creates a 85 square foot, 4"-thick permanent stone wall (the area can be doubled by halving the thickness) supported by existing stone; each 5' section has 60 hit points and hardness 8 (<b>save Reflex</b> DC 15 avoids entrapment)</td>
     </tr><tr style="text-align:left">
       <td>Water Breathing (C3 Tran): Allows touched creatures to breathe underwater (<b>save Will</b> DC 13 negates) for a total of 34 hrs divided among them</td>
     </tr><tr style="text-align:left">
       <td>Water Walk (C3 Tran): Allows 17 touched creatures to walk on liquid as if it were a solid surface (<b>save Will</b> DC 13 negates) for 170 min</td>
     </tr><tr style="text-align:left">
-      <td>Wind Walk (C6 Tran): Allows self and 5 touched (<b>save Will</b> DC 16 negates) to spend 5 rd changing to and from a translucent vapor that can move 60 MPH, for 17 hr</td>
+      <td>Wind Walk (C6 Tran): Allows self and 5 touched creatures (<b>save Will</b> DC 16 negates) to spend 5 rd changing to and from a translucent vapor that can move 60 MPH, for 17 hr</td>
     </tr><tr style="text-align:left">
       <td>Wind Wall (C3 Evoc): R270' Creates a 170'x85'x2' curtain of air that scatters objects, bars gasses and Small or smaller flying creatures, and deflects arrows and bolts for 17 rd</td>
     </tr><tr style="text-align:left">
       <td>Word Of Chaos (C7 Evoc): Inflicts on nonchaotic creatures within 40' a set of effects: banishment for 24 hr on extraplanar creatures (<b>save Will</b> DC 17 -4 negates); killed or destroyed on creatures with up to 7 HD; confused for 1d10 min on creatures with up to 12 HD; stunned for 1 rd on creatures with up to 16 HD; deafened for 1d4 rd on creatures with up to 17 HD</td>
     </tr><tr style="text-align:left">
-      <td>Word Of Recall (C6 Conj): Teleports self, touched objects (<b>save Will</b> DC 16 negates), and 5 touched willing creatures to a chosen sanctuary</td>
+      <td>Word Of Recall (C6 Conj): Teleports self, touched objects (<b>save Will</b> DC 16 negates), and 5 Medium or smaller touched willing creatures (larger creatures reduce the number that can accompany by half for each size category) to a chosen sanctuary</td>
     </tr><tr style="text-align:left">
       <td>Zone Of Truth (C2 Ench): R65' Prevents creatures in a 20' radius from lying (<b>save Will</b> DC 13 negates) for 17 min</td>
     </tr></table>
