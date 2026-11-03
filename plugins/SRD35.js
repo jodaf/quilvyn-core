@@ -3392,8 +3392,7 @@ SRD35.SPELLS = {
     'School=Abjuration ' +
     'Level=S6,W6 ' +
     'Description=' +
-      // TODO: elaborate?
-      '"Multiple magic effects protect a %{lvl*200}\' sq area for %{lvl*2} hr"',
+      '"Protects a %{lvl*200}\' sq area with foggy corridors, <i>Arcane Lock</i> on all doors, stairs clogged with webs that reappear 10 min after burning, intersections that inflict confused choices 50% of the time, %{lvl} concealed doors (save Will disbelieves if interacted with), and a choice of 4 instances of <i>Dancing Lights</i>, 2 instances of <i>Magic Mouth</i>, 2 instances of <i>Stinking Cloud</i>, one instance of <i>Gust Of Wind</i>, or one instance of <i>Suggestion</i>, for %{lvl*2} hr"',
   'Guidance':
     'School=Divination ' +
     'Level=Adept0,C0,D0 ' +
@@ -3747,8 +3746,7 @@ SRD35.SPELLS = {
     // 'School=Universal ' +
     'Level=S7,W7 ' +
     'Description=' +
-      // TODO: elaborate?
-      '"Alters reality, within limits; costs at least 300 XP to cast"',
+      '"Replicates a Sorcerer/Wizard spell of up 6th level or a spell from a different class of up to 5th level%{$\'features.School Specialization\'?\' (-1 level if from an opposition school)\':\'\'}, undoes the harmful effects of a spell, or produces another effect of similar power"',
   'Liveoak':
     'School=Transmutation ' +
     'Level=D6 ' +
@@ -5250,7 +5248,6 @@ SRD35.SPELLS = {
     // 'School=Universal ' +
     'Level=S9,W9 ' +
     'Description=' +
-      // TODO: elaborate?
       '"Alters reality, with few limits; costs at least 5,000 XP to cast"',
   'Wood Shape':
     'School=Transmutation ' +
