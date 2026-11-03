@@ -2411,7 +2411,7 @@ SRD35.SPELLS = {
     'School=Necromancy ' +
     'Level=B2,C3,S2,W2 ' +
     'Description=' +
-      '"R%{100+lvl*10}\' Target suffers a choice of permanent blindness or deafness (save Fortitude negates)"',
+      '"R%{100+lvl*10}\' Inflicts a choice of permanent blindness or deafness (save Fortitude negates)"',
   'Blink':
     'School=Transmutation ' +
     'Level=B3,S3,W3 ' +
@@ -9385,7 +9385,7 @@ SRD35.spellRules = function(
   let save;
   let spellDescription = description;
   let itemDescription = description;
-  while((save=spellDescription.match(/(\(save\s+([A-Z]\w+))(.*)\)/)) != null) {
+  while((save=spellDescription.match(/(\(save\s+([A-Z]\w+))([^\)]*)\)/)) != null) {
     if(save[3].match(/\bDC\b/)) {
       spellDescription =
         spellDescription.replace(save[1], '(<b>save ' + save[2] + '</b>');
