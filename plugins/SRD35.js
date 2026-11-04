@@ -2539,7 +2539,7 @@ SRD35.SPELLS = {
   // descriptions that incorporate the ability modifier related to the spell
   // group. Although we don't have a direct way to select the appropriate
   // modifier, we can select between possibilities by examining the name of the
-  // associated caster level that spellRules plugs into occurrances of lvl in
+  // associated caster level that spellRules plugs into occurrences of lvl in
   // the description, e.g., casterLevel.S for sorcerer => charismaModifier.
   'Clenched Fist':
     'School="Evocation [Force]" ' +
